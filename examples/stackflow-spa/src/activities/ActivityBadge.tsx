@@ -3,14 +3,14 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState } from "react";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Badge, type BadgeProps } from "seed-design/ui/badge";
 import {
@@ -79,19 +79,19 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
   const { push } = useFlow();
 
   return (
-    <AppScreen layerOffsetBottom="safeArea">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Badge</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Badge</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x8" px="spacingX.globalGutter" py="x4">
           {badgeVariantMap.size.map((size) => (
             <VStack key={size} gap="x4">
@@ -199,8 +199,8 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
             </VStack>
           ))}
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

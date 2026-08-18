@@ -1,14 +1,14 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
 declare module "@stackflow/config" {
@@ -21,20 +21,20 @@ const ActivityNotFound: StaticActivityComponentType<"ActivityNotFound"> = () => 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Error</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Error</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>404 Not Found</AppScreenContent>
-    </AppScreen>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>404 Not Found</NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

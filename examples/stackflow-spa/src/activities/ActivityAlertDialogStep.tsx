@@ -8,8 +8,13 @@ import {
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarMain, AppBarIconButton, AppBarRight } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarMain,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import {
   AlertDialogContent,
@@ -53,16 +58,16 @@ const ActivityAlertDialogStep: StaticActivityComponentType<"ActivityAlertDialogS
   };
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain title="Step" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain title="Step" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <AlertDialogRoot open={open} onOpenChange={onOpenChange}>
           <AlertDialogTrigger asChild>
             <VStack p="x5" justify="center" gap="x4">
@@ -104,8 +109,8 @@ const ActivityAlertDialogStep: StaticActivityComponentType<"ActivityAlertDialogS
             </AlertDialogContent>
           </Portal>
         </AlertDialogRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
