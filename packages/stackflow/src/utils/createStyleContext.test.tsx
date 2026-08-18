@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
-import { createStyleContext } from "./createStyleContext";
+import { createStyleContext, mergeContextProps } from "./createStyleContext";
 
 type TestRecipeProps = {
   active?: boolean;
@@ -71,5 +71,19 @@ describe("createStyleContext", () => {
     render(<Root active={false} />);
 
     expect(receivedProps).toMatchObject({ active: false });
+  });
+});
+
+describe("mergeContextProps", () => {
+  it("keeps a context value that props forward as an explicit undefined", () => {
+    expect(mergeContextProps<TestRecipeProps>({ active: true }, { active: undefined })).toEqual({
+      active: true,
+    });
+  });
+
+  it("lets a defined prop win over the context value", () => {
+    expect(mergeContextProps<TestRecipeProps>({ active: true }, { active: false })).toEqual({
+      active: false,
+    });
   });
 });
