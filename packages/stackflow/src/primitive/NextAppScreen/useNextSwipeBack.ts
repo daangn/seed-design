@@ -3,9 +3,9 @@ import { useStack } from "@stackflow/react";
 import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useEffect, useRef } from "react";
 import { cancelAll, waitAll } from "../private/waapi";
-import { playSwipeRelease, SWIPE_RELEASE } from "./animation";
+import { playSwipeRelease, readSwipeDisplacement } from "./animation";
 import { useNextScreenRegistry } from "./registry";
-import type { NextScreenState, NextSwipeBackArea } from "./types";
+import type { NextAppScreenTransitionStyle, NextScreenState, NextSwipeBackArea } from "./types";
 
 const DEFAULT_DISPLACEMENT_RATIO_THRESHOLD = 0.4;
 const DEFAULT_VELOCITY_THRESHOLD = 1;
@@ -64,26 +64,6 @@ function clearSwipeVars(el: HTMLElement | null) {
 }
 
 /**
- * Read the current translateX from the computed transform — used to rebase a
- * re-grab during release, where the value being read is the output of the
- * release animation. Must therefore run before that animation is cancelled.
- * Returns null when unavailable (e.g. happy-dom).
- */
-function readTranslateX(el: HTMLElement | null): number | null {
-  if (!el || typeof window === "undefined") return null;
-
-  const { transform } = window.getComputedStyle(el);
-  if (!transform || transform === "none") return null;
-
-  const match = /^matrix(3d)?\(([^)]+)\)$/.exec(transform);
-  if (!match) return null;
-
-  const parts = match[2].split(",").map((value) => Number.parseFloat(value));
-  const translateX = match[1] === "3d" ? parts[12] : parts[4];
-  return Number.isFinite(translateX) ? translateX : null;
-}
-
-/**
  * Full mode yields to content: any ancestor of the touch target (up to the
  * layer) that is horizontally scrollable or carries `data-swipe-back-block`
  * wins over the gesture.
@@ -119,8 +99,9 @@ export interface UseNextSwipeBackProps {
    *   gesture.
    * - `"none"`: nothing rendered, no listeners.
    *
-   * The gesture is only possible when the screen's transitionStyle at gesture
-   * start is `horizontalSlide` — other styles get no gesture at all.
+   * Independent of `transitionStyle`: the area decides where the gesture is
+   * picked up, the style decides what it looks like. Whichever style the screen
+   * runs, the drag scrubs that style's own exit.
    *
    * @default "edge"
    */
@@ -156,6 +137,7 @@ export interface UseNextSwipeBackProps {
 }
 
 export interface UseNextSwipeBackArgs extends UseNextSwipeBackProps {
+  transitionStyle: NextAppScreenTransitionStyle;
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
   dimRef: React.RefObject<HTMLElement | null>;
@@ -171,6 +153,11 @@ interface SwipeTargets {
 }
 
 interface GestureContext {
+  /**
+   * Snapshotted at gesture start: a screen that re-renders into another style
+   * mid-drag must still finish on the path the finger has been scrubbing.
+   */
+  transitionStyle: NextAppScreenTransitionStyle;
   x0: number;
   y0: number;
   t0: number;
@@ -213,6 +200,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     swipeBackArea = "edge",
     swipeBackDisplacementRatioThreshold = DEFAULT_DISPLACEMENT_RATIO_THRESHOLD,
     swipeBackVelocityThreshold = DEFAULT_VELOCITY_THRESHOLD,
+    transitionStyle,
     rootRef,
     layerRef,
     dimRef,
@@ -289,15 +277,17 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
    * re-grab or a newer gesture can never be finished by the old one.
    */
   function playRelease(
-    targets: SwipeTargets,
+    context: GestureContext,
     displacement: number,
     mode: "cancel" | "complete",
     onSettle: () => void,
   ) {
     stopRelease();
 
-    const animations = playSwipeRelease(
+    const { targets } = context;
+    const { animations, duration } = playSwipeRelease(
       { layer: targets.topLayer, dim: targets.topDim, behindLayer: targets.behindLayer },
+      context.transitionStyle,
       displacement,
       mode,
     );
@@ -305,8 +295,8 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
     const settled =
       animations.length > 0
-        ? waitAll(animations, SWIPE_RELEASE.duration)
-        : new Promise<void>((resolve) => setTimeout(resolve, SWIPE_RELEASE.duration));
+        ? waitAll(animations, duration)
+        : new Promise<void>((resolve) => setTimeout(resolve, duration));
 
     settled.then(() => {
       if (releaseAnimsRef.current !== animations) return;
@@ -342,16 +332,17 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     const rootEl = rootRef.current;
     if (!rootEl) return;
 
-    // Gate: gesture-start transitionStyle must be horizontalSlide, on the
-    // resting top screen. Other styles get no gesture at all.
-    if (rootEl.dataset["screenTransitionStyle"] !== "horizontalSlide") return;
+    // Gate: only the resting top screen is draggable. Every transitionStyle
+    // takes the gesture — each one scrubs its own exit.
     if (rootEl.dataset["screenIsTop"] === undefined) return;
     if (rootEl.dataset["screenState"] !== "idle") return;
 
-    // Re-grab during release: rebase the origin from the current transform.
+    // Re-grab during release: rebase the origin from the current position.
     if (phaseRef.current === "releasing" && contextRef.current) {
       const context = contextRef.current;
-      const currentDisplacement = readTranslateX(context.targets.topLayer) ?? context.displacement;
+      const currentDisplacement =
+        readSwipeDisplacement(context.transitionStyle, context.targets.topLayer) ??
+        context.displacement;
       stopRelease();
 
       context.x0 = touch.clientX;
@@ -374,6 +365,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
     const behind = resolveBehind();
     const context: GestureContext = {
+      transitionStyle,
       x0: touch.clientX,
       y0: touch.clientY,
       t0: Date.now(),
@@ -475,16 +467,17 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     setSwipeState(context.targets, swiped ? "completing" : "canceling");
 
     if (swiped) {
-      playRelease(context.targets, context.displacement, "complete", () => {
+      playRelease(context, context.displacement, "complete", () => {
         const currentContext = contextRef.current;
         if (!currentContext) return;
 
         const { targets } = currentContext;
         if (targets.topRoot.dataset["screenState"] === "idle") {
           // Exit-guard: the consumer decided not to pop — glide back from the
-          // offscreen position, then clean up like a canceled gesture.
+          // completed position, then clean up like a canceled gesture. A full
+          // screen width is where every style's exit has finished (ratio 1).
           setSwipeState(targets, "canceling");
-          playRelease(targets, window.innerWidth, "cancel", () => finishGesture(targets));
+          playRelease(currentContext, window.innerWidth, "cancel", () => finishGesture(targets));
           return;
         }
 
@@ -495,7 +488,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
         contextRef.current = null;
       });
     } else {
-      playRelease(context.targets, context.displacement, "cancel", () => {
+      playRelease(context, context.displacement, "cancel", () => {
         const currentContext = contextRef.current;
         if (!currentContext) return;
 

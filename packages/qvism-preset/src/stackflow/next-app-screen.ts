@@ -11,6 +11,13 @@ import { topNavigation as navVars } from "../vars/component";
  */
 const BEHIND_TRANSLATE_X = "-30%";
 
+/**
+ * verticalSlide enter/exit offsets — layer and dim travel in opposite
+ * directions. Mirrored by the same WAAPI keyframes.
+ */
+const VERTICAL_LAYER_TRANSLATE_Y = "8vh";
+const VERTICAL_DIM_TRANSLATE_Y = "-8vh";
+
 // ─── State selectors ─────────────────────────────────────────────────────────
 //
 // `data-screen-state` and `data-swipe-back-state` live on the screen root
@@ -51,17 +58,28 @@ const completingBehind = `[data-swipe-back-state="completing"]${isBehindScreen}:
 
 const transitioning =
   '[data-screen-state]:not([data-screen-state="idle"]):not([data-screen-state="idle-behind"]) > &';
-const swipeBackActive = "[data-swipe-back-state] > &";
+
+// Clipping follows movement, so the swiping screen always qualifies but the one
+// behind only does under horizontalSlide — the other styles leave it parked,
+// and rounding the corners of a screen that isn't going anywhere would show.
+const swipeBackActive = `[data-swipe-back-state]${isTopScreen} > &`;
+const swipeBackActiveBehind = `[data-swipe-back-state]${isBehindScreen} > &`;
 
 // ─── Swipe-driven values ─────────────────────────────────────────────────────
 //
-// During the gesture the transform is pure CSS, driven by variables written
+// During the gesture the position is pure CSS, driven by variables written
 // directly on the consuming elements (top layer, behind layer, dim) — never on
-// the stack root.
+// the stack root. Every style reads the same ratio, each into its own exit:
+// horizontalSlide travels with the finger 1:1 in px, the rest interpolate the
+// offset and opacity their `pop` rests at.
+
+const SWIPE_RATIO = "var(--seed-swipe-back-displacement-ratio, 0)";
 
 const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px), 0, 0)";
-const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0)`;
-const SWIPE_DIM_OPACITY = "calc(1 - var(--seed-swipe-back-displacement-ratio, 0))";
+const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + ${SWIPE_RATIO} * 30%), 0, 0)`;
+const SWIPE_FADE_OPACITY = `calc(1 - ${SWIPE_RATIO})`;
+const SWIPE_VERTICAL_LAYER_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_LAYER_TRANSLATE_Y}), 0)`;
+const SWIPE_VERTICAL_DIM_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_DIM_TRANSLATE_Y}), 0)`;
 
 // A mask rather than border-radius + overflow: no scroll-container or
 // containing-block side effects on the layer, and no dependence on
@@ -171,11 +189,13 @@ export const nextAppScreen = defineSlotRecipe({
           [pushStart]: { opacity: "0" },
           [pop]: { opacity: "0" },
 
-          [swiping]: { opacity: SWIPE_DIM_OPACITY },
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
           [canceling]: { opacity: "1" },
           [completing]: { opacity: "0" },
         },
         layer: {
+          [swipeBackActiveBehind]: CLIP_STYLES,
+
           // top
           [pushStart]: { transform: "translate3d(100%, 0, 0)" },
           [pop]: { transform: "translate3d(100%, 0, 0)" },
@@ -202,20 +222,41 @@ export const nextAppScreen = defineSlotRecipe({
           [completingBehind]: { transform: "translate3d(0, 0, 0)" },
         },
       },
+      // The swipe rules below scrub the exit above: `swiping` interpolates
+      // towards the `pop` position by the gesture ratio, and `completing` is
+      // that same position reached. The screen behind stays parked in both
+      // styles, so it gets no rule of its own.
       verticalSlide: {
         dim: {
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
 
-          [pushStart]: { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
-          [pop]: { opacity: "0", transform: "translate3d(0, -8vh, 0)" },
+          [pushStart]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)`,
+          },
+          [pop]: { opacity: "0", transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)` },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY, transform: SWIPE_VERTICAL_DIM_TRANSFORM },
+          [canceling]: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+          [completing]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)`,
+          },
         },
         layer: {
-          [pushStart]: { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
-          [pop]: { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
-        },
-        edge: {
-          display: "none",
+          [pushStart]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)`,
+          },
+          [pop]: { opacity: "0", transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)` },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY, transform: SWIPE_VERTICAL_LAYER_TRANSFORM },
+          [canceling]: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+          [completing]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)`,
+          },
         },
       },
       crossfade: {
@@ -225,9 +266,10 @@ export const nextAppScreen = defineSlotRecipe({
         layer: {
           [pushStart]: { opacity: "0" },
           [pop]: { opacity: "0" },
-        },
-        edge: {
-          display: "none",
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
         },
       },
     },

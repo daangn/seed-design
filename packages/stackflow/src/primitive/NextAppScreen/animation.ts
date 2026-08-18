@@ -25,8 +25,10 @@ const OFFSCREEN_X = "translate3d(100%, 0, 0)";
 const BEHIND_OFFSET_PERCENT = -30;
 const BEHIND_X = `translate3d(${BEHIND_OFFSET_PERCENT}%, 0, 0)`;
 
-const VERTICAL_LAYER_Y = "translate3d(0, 8vh, 0)";
-const VERTICAL_DIM_Y = "translate3d(0, -8vh, 0)";
+const VERTICAL_LAYER_OFFSET = "8vh";
+const VERTICAL_DIM_OFFSET = "-8vh";
+const VERTICAL_LAYER_Y = `translate3d(0, ${VERTICAL_LAYER_OFFSET}, 0)`;
+const VERTICAL_DIM_Y = `translate3d(0, ${VERTICAL_DIM_OFFSET}, 0)`;
 
 // ─── Timings ────────────────────────────────────────────────────────────────
 
@@ -39,12 +41,6 @@ const VERTICAL_EXIT = { duration: 150, easing: "linear" };
 
 const CROSSFADE_ENTER = { duration: 300, easing: "ease-out" };
 const CROSSFADE_EXIT = { duration: 150, easing: "ease-in" };
-
-/**
- * The release leg of a swipe back always follows the horizontalSlide curve —
- * the gesture only exists for that style.
- */
-export const SWIPE_RELEASE = HORIZONTAL;
 
 export interface ScreenMotion {
   duration: number;
@@ -186,51 +182,155 @@ export interface SwipeElements extends ScreenElements {
 }
 
 /**
+ * One slot's part in a gesture. `start` is a mirror of the recipe's `swiping`
+ * rule with the ratio the CSS variable was carrying substituted in, so a
+ * release departs from exactly the value the drag left on screen; `cancel` and
+ * `complete` are the resting positions of the two states it can release into.
+ */
+interface SwipeSlotMotion {
+  start: (ratio: number, displacement: number) => Keyframe;
+  cancel: Keyframe;
+  complete: Keyframe;
+}
+
+interface SwipeMotion {
+  /**
+   * A completed gesture finishes the screen's exit, a cancelled one undoes it —
+   * so each leg borrows the timing of the transition it stands in for.
+   */
+  timing: Record<"cancel" | "complete", { duration: number; easing: string }>;
+  layer: SwipeSlotMotion | null;
+  dim: SwipeSlotMotion | null;
+  behindLayer: SwipeSlotMotion | null;
+}
+
+const fadeOut = (ratio: number) => ({ opacity: `${1 - ratio}` });
+
+/**
+ * The gesture drives the same path the style's own exit takes, scrubbed by how
+ * far the finger has travelled. `null` marks a slot the style leaves alone, so
+ * a release never animates an element the CSS holds still — crossfade's dim is
+ * `display: none`, and only horizontalSlide moves the screen behind.
+ */
+const SWIPE_MOTION = {
+  horizontalSlide: {
+    timing: { cancel: HORIZONTAL, complete: HORIZONTAL },
+    layer: {
+      // px rather than a ratio: the top layer tracks the finger 1:1.
+      start: (_ratio, displacement) => ({
+        transform: `translate3d(${displacement}px, 0, 0)`,
+      }),
+      cancel: { transform: RESTING },
+      complete: { transform: OFFSCREEN_X },
+    },
+    dim: {
+      start: fadeOut,
+      cancel: { opacity: "1" },
+      complete: { opacity: "0" },
+    },
+    behindLayer: {
+      start: (ratio) => ({
+        transform: `translate3d(calc(${BEHIND_OFFSET_PERCENT}% + ${ratio} * ${-BEHIND_OFFSET_PERCENT}%), 0, 0)`,
+      }),
+      cancel: { transform: BEHIND_X },
+      complete: { transform: RESTING },
+    },
+  },
+  verticalSlide: {
+    timing: { cancel: VERTICAL_ENTER, complete: VERTICAL_EXIT },
+    layer: {
+      start: (ratio) => ({
+        opacity: `${1 - ratio}`,
+        transform: `translate3d(0, calc(${ratio} * ${VERTICAL_LAYER_OFFSET}), 0)`,
+      }),
+      cancel: { opacity: "1", transform: RESTING },
+      complete: { opacity: "0", transform: VERTICAL_LAYER_Y },
+    },
+    dim: {
+      start: (ratio) => ({
+        opacity: `${1 - ratio}`,
+        transform: `translate3d(0, calc(${ratio} * ${VERTICAL_DIM_OFFSET}), 0)`,
+      }),
+      cancel: { opacity: "1", transform: RESTING },
+      complete: { opacity: "0", transform: VERTICAL_DIM_Y },
+    },
+    behindLayer: null,
+  },
+  crossfade: {
+    timing: { cancel: CROSSFADE_ENTER, complete: CROSSFADE_EXIT },
+    layer: {
+      start: fadeOut,
+      cancel: { opacity: "1" },
+      complete: { opacity: "0" },
+    },
+    dim: null,
+    behindLayer: null,
+  },
+} as const satisfies Record<NextAppScreenTransitionStyle, SwipeMotion>;
+
+/**
  * Animate a released gesture from wherever the finger left it to the resting
- * position of the state it releases into — `completing` (top offscreen, behind
- * onscreen) or `canceling` (top back onscreen, behind parked again).
+ * position of the state it releases into — `completing` (the screen's exit,
+ * finished) or `canceling` (the screen back where it started).
  *
- * The start keyframes are computed from `displacement` rather than sampled,
- * because they are the exact values the drag was writing through the CSS
- * variables up to this very frame.
+ * Returns the duration alongside the animations so the caller can time the
+ * settle without looking the style's timing up a second time.
  */
 export function playSwipeRelease(
   elements: SwipeElements,
+  style: NextAppScreenTransitionStyle,
   displacement: number,
   mode: "cancel" | "complete",
 ) {
+  const motion = SWIPE_MOTION[style];
+  const { duration, easing } = motion.timing[mode];
   const ratio = displacement / window.innerWidth;
-  const options: KeyframeAnimationOptions = {
-    duration: SWIPE_RELEASE.duration,
-    easing: SWIPE_RELEASE.easing,
-    fill: "none",
+
+  const play = (el: HTMLElement | null, slot: SwipeSlotMotion | null) =>
+    slot &&
+    safeAnimate(el, [slot.start(ratio, displacement), slot[mode]], {
+      duration,
+      easing,
+      fill: "none",
+    });
+
+  return {
+    duration,
+    animations: [
+      play(elements.layer, motion.layer),
+      play(elements.dim, motion.dim),
+      play(elements.behindLayer, motion.behindLayer),
+    ].filter((a): a is Animation => !!a),
   };
+}
 
-  const completing = mode === "complete";
+/**
+ * How far along a gesture the top layer currently looks, in the px displacement
+ * the gesture itself speaks — the inverse of `start` above.
+ *
+ * Used to rebase a re-grab, where the value being read is the output of the
+ * release animation, so it must run before that animation is cancelled.
+ * Returns null when the environment reports nothing usable (e.g. happy-dom,
+ * which resolves no layout).
+ */
+export function readSwipeDisplacement(
+  style: NextAppScreenTransitionStyle,
+  el: HTMLElement | null,
+): number | null {
+  if (!el || typeof window === "undefined") return null;
 
-  return [
-    safeAnimate(
-      elements.layer,
-      [
-        { transform: `translate3d(${displacement}px, 0, 0)` },
-        { transform: completing ? OFFSCREEN_X : RESTING },
-      ],
-      options,
-    ),
-    safeAnimate(
-      elements.dim,
-      [{ opacity: `${1 - ratio}` }, { opacity: completing ? "0" : "1" }],
-      options,
-    ),
-    safeAnimate(
-      elements.behindLayer,
-      [
-        {
-          transform: `translate3d(calc(${BEHIND_OFFSET_PERCENT}% + ${ratio} * ${-BEHIND_OFFSET_PERCENT}%), 0, 0)`,
-        },
-        { transform: completing ? RESTING : BEHIND_X },
-      ],
-      options,
-    ),
-  ].filter((a): a is Animation => a !== null);
+  const computed = window.getComputedStyle(el);
+
+  if (style === "horizontalSlide") {
+    const match = /^matrix(3d)?\(([^)]+)\)$/.exec(computed.transform);
+    if (!match) return null;
+
+    const parts = match[2].split(",").map((value) => Number.parseFloat(value));
+    const translateX = match[1] === "3d" ? parts[12] : parts[4];
+    return Number.isFinite(translateX) ? translateX : null;
+  }
+
+  // Every other style fades the layer out, so opacity is what carries progress.
+  const opacity = Number.parseFloat(computed.opacity);
+  return Number.isFinite(opacity) ? (1 - opacity) * window.innerWidth : null;
 }
