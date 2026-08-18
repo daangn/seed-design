@@ -276,12 +276,22 @@ describe("swipe back release WAAPI", () => {
    * so the release is judged on displacement alone — an unmeasured elapsed
    * time reads as an arbitrarily fast flick and always crosses velocity.
    */
-  async function swipeTo(x: number, { popOnSwiped = false } = {}) {
+  async function swipeTo(
+    x: number,
+    {
+      popOnSwiped = false,
+      transitionStyle,
+    }: {
+      popOnSwiped?: boolean;
+      transitionStyle?: "horizontalSlide" | "verticalSlide" | "crossfade";
+    } = {},
+  ) {
     const stack = renderStack({
       activities: {
         A: makeActivity({ testId: "a" }),
         B: makeActivity({
           testId: "b",
+          transitionStyle,
           ...(popOnSwiped && {
             onSwipeBackEnd: ({ swiped }: { swiped: boolean }) => {
               if (swiped) stack.actions.pop();
@@ -334,6 +344,44 @@ describe("swipe back release WAAPI", () => {
       transform: "translate3d(0, 0, 0)",
     });
     expect(latestAnimation(dimOf(container, "b")).keyframes[1]).toEqual({ opacity: "0" });
+
+    finishAnimations();
+  });
+
+  it("verticalSlide 완료 릴리즈는 그 스타일의 exit 위치·타이밍으로 마무리한다", async () => {
+    const { container } = await swipeTo(610, { transitionStyle: "verticalSlide" });
+    const ratio = 600 / 1024;
+
+    expect(latestAnimation(layerOf(container, "b"))).toEqual({
+      keyframes: [
+        { opacity: `${1 - ratio}`, transform: `translate3d(0, calc(${ratio} * 8vh), 0)` },
+        { opacity: "0", transform: "translate3d(0, 8vh, 0)" },
+      ],
+      duration: 150,
+      easing: "linear",
+      fill: "none",
+    });
+    expect(latestAnimation(dimOf(container, "b")).keyframes[1]).toEqual({
+      opacity: "0",
+      transform: "translate3d(0, -8vh, 0)",
+    });
+    // 이 스타일의 behind 화면은 제자리에 있으므로 릴리즈 대상도 아니다
+    expect(animationsOn(layerOf(container, "a"))).toHaveLength(0);
+
+    finishAnimations();
+  });
+
+  it("crossfade 취소 릴리즈는 opacity만 enter 타이밍으로 되돌린다", async () => {
+    const { container } = await swipeTo(110, { transitionStyle: "crossfade" });
+    const ratio = 100 / 1024;
+
+    expect(latestAnimation(layerOf(container, "b"))).toEqual({
+      keyframes: [{ opacity: `${1 - ratio}` }, { opacity: "1" }],
+      duration: 300,
+      easing: "ease-out",
+      fill: "none",
+    });
+    expect(animationsOn(dimOf(container, "b"))).toHaveLength(0);
 
     finishAnimations();
   });
