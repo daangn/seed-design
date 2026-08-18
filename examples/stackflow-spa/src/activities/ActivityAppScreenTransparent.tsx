@@ -17,6 +17,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextAppScreenTransparent
 const ActivityAppScreenTransparent: StaticActivityComponentType<
   "ActivityAppScreenTransparent"
 > = () => {
@@ -26,7 +28,7 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
         <AppBarLeft>
           <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
+        <AppBarMain>Transparent (Legacy)</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Notification">
             <IconBellFill />

@@ -83,6 +83,8 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextAnimateFalseTest
 const ActivityAnimateFalseTest: StaticActivityComponentType<"ActivityAnimateFalseTest"> = () => {
   const { push, pop } = useFlow();
   const stack = useStack();
@@ -104,7 +106,7 @@ const ActivityAnimateFalseTest: StaticActivityComponentType<"ActivityAnimateFals
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain>animate: false Test</AppBarMain>
+        <AppBarMain>animate: false Test (Legacy)</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />

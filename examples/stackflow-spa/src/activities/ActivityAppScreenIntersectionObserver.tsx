@@ -19,6 +19,8 @@ declare module "@stackflow/config" {
   }
 }
 
+// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
+// NextAppScreen 짝: ActivityNextAppScreenIntersectionObserver
 const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   "ActivityAppScreenIntersectionObserver"
 > = () => {
@@ -59,7 +61,7 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
         <AppBarLeft>
           <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
+        <AppBarMain>Preview (Legacy)</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Notification">
             <IconBellFill />
