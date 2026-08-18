@@ -1,4 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
+import { SQUIRCLE_CORNER_SPAN_RATIO, SQUIRCLE_MASK_IMAGE, SQUIRCLE_SLICE } from "../utils/squircle";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
 
@@ -62,11 +63,28 @@ const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px
 const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0)`;
 const SWIPE_DIM_OPACITY = "calc(1 - var(--seed-swipe-back-displacement-ratio, 0))";
 
-// clip-path over border-radius + overflow: no scroll-container or
-// containing-block side effects on the layer, and it degrades further back
-// than `overflow: clip` (Chrome 90+/Safari 16+).
+// A mask rather than border-radius + overflow: no scroll-container or
+// containing-block side effects on the layer, and no dependence on
+// `overflow: clip` (Chrome 90+/Safari 16+). A squircle rather than a circular
+// arc, because the radius being matched is a physical display corner, which on
+// iOS is a continuous curve — and the transition is exactly when that shows,
+// since a sliding screen carries its corners off the bezel and into the middle
+// of the display.
+//
+// `-webkit-mask-box-image` is written unguarded because it is the only spelling
+// any engine takes: neither WebKit (back to iOS 15) nor Blink accepts the
+// standard `mask-border` today, and Gecko implements neither, so there is no
+// second spelling to pair it with and nothing for an `@supports` to switch
+// between. Firefox therefore runs these transitions unclipped — it is outside
+// the preset's targets, and `clipRadius` is a native-shell affordance.
+//
+// The radius var is read WITHOUT a fallback, so a stack that sets no
+// `clipRadius` leaves the whole shorthand invalid at computed-value time —
+// mask-border falls back to `none` and no full-screen mask layer is
+// rasterized. Giving it a `0px` fallback would mask every transition on every
+// stack instead.
 const CLIP_STYLES = {
-  clipPath: "inset(0 round var(--seed-next-app-screen-clip-radius, 0px))",
+  WebkitMaskBoxImage: `${SQUIRCLE_MASK_IMAGE} ${SQUIRCLE_SLICE} fill / calc(var(--seed-next-app-screen-clip-radius) * ${SQUIRCLE_CORNER_SPAN_RATIO}) stretch`,
 };
 
 export const nextAppScreen = defineSlotRecipe({
