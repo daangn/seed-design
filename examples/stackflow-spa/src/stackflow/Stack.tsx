@@ -7,6 +7,7 @@ import { stackflow, lazy } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
+import { isIos } from "../platform";
 import { theme } from "./theme";
 import ActivityDemoArticleDetail from "../activities/ActivityDemoArticleDetail";
 import ActivityDemoHome from "../activities/ActivityDemoHome";
@@ -22,7 +23,7 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({ theme }),
-    seedPlugin({ theme }),
+    seedPlugin({ theme, ...(isIos && { swipeBackArea: "full" as const, clipRadius: 55 }) }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
@@ -135,12 +136,18 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
     ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
     ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
+    ActivityNextAppScreenPreview: lazy(() => import("../activities/ActivityNextAppScreenPreview")),
     ActivityNextAppScreenTransparent: lazy(
       () => import("../activities/ActivityNextAppScreenTransparent"),
     ),
     ActivityAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityAppScreenIntersectionObserver"),
     ),
+    ActivityNextAppScreenIntersectionObserver: lazy(
+      () => import("../activities/ActivityNextAppScreenIntersectionObserver"),
+    ),
+    ActivityNextAnimateFalseTest: lazy(() => import("../activities/ActivityNextAnimateFalseTest")),
+    ActivityNextTransitionStyle: lazy(() => import("../activities/ActivityNextTransitionStyle")),
     ActivityAppScreenAppBarCustomization: lazy(
       () => import("../activities/ActivityAppScreenAppBarCustomization"),
     ),
