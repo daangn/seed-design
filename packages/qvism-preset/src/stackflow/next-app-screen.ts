@@ -12,11 +12,12 @@ import { topNavigation as navVars } from "../vars/component";
 const BEHIND_TRANSLATE_X = "-30%";
 
 /**
- * verticalSlide enter/exit offsets — layer and dim travel in opposite
- * directions. Mirrored by the same WAAPI keyframes.
+ * verticalSlide enter/exit offset. Mirrored by the same WAAPI keyframes.
+ *
+ * The layer alone travels: the dim is a full-viewport scrim, so translating it
+ * would carry its edge into the screen and leave the strip beyond it undimmed.
  */
 const VERTICAL_LAYER_TRANSLATE_Y = "8vh";
-const VERTICAL_DIM_TRANSLATE_Y = "-8vh";
 
 // ─── State selectors ─────────────────────────────────────────────────────────
 //
@@ -79,7 +80,6 @@ const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px
 const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + ${SWIPE_RATIO} * 30%), 0, 0)`;
 const SWIPE_FADE_OPACITY = `calc(1 - ${SWIPE_RATIO})`;
 const SWIPE_VERTICAL_LAYER_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_LAYER_TRANSLATE_Y}), 0)`;
-const SWIPE_VERTICAL_DIM_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_DIM_TRANSLATE_Y}), 0)`;
 
 // A mask rather than border-radius + overflow: no scroll-container or
 // containing-block side effects on the layer, and no dependence on
@@ -238,18 +238,12 @@ export const nextAppScreen = defineSlotRecipe({
           height: "100%",
           background: vars.$color.palette.staticBlackAlpha400,
 
-          [pushStart]: {
-            opacity: "0",
-            transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)`,
-          },
-          [pop]: { opacity: "0", transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)` },
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
 
-          [swiping]: { opacity: SWIPE_FADE_OPACITY, transform: SWIPE_VERTICAL_DIM_TRANSFORM },
-          [canceling]: { opacity: "1", transform: "translate3d(0, 0, 0)" },
-          [completing]: {
-            opacity: "0",
-            transform: `translate3d(0, ${VERTICAL_DIM_TRANSLATE_Y}, 0)`,
-          },
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
         },
         layer: {
           [pushStart]: {
