@@ -2,14 +2,14 @@ import { VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {
@@ -22,19 +22,19 @@ const ActivityMenuSheetActivity: StaticActivityComponentType<"ActivityMenuSheetA
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Activity" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Activity" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack p="x5" justify="center" gap="x4">
           <ActionButton
             variant="neutralSolid"
@@ -51,8 +51,8 @@ const ActivityMenuSheetActivity: StaticActivityComponentType<"ActivityMenuSheetA
             지금 열린 이 Activity를 Push
           </ActionButton>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

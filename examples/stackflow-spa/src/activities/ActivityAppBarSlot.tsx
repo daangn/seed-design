@@ -1,13 +1,13 @@
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarRight,
-  AppBarIconButton,
-  AppBarSlot,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarRight,
+  NextAppBarIconButton,
+  NextAppBarSlot,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import { Flex, Text, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -43,39 +43,39 @@ const ActivityAppBarSlot: StaticActivityComponentType<"ActivityAppBarSlot"> = ()
   const { push } = useFlow();
 
   return (
-    <AppScreen theme="cupertino">
-      <AppBar>
+    <NextAppScreen theme="cupertino">
+      <NextAppBar>
         {!isRoot && (
-          <AppBarLeft>
-            <AppBarBackButton />
-          </AppBarLeft>
+          <NextAppBarLeft>
+            <NextAppBarBackButton />
+          </NextAppBarLeft>
         )}
 
-        <AppBarSlot>
+        <NextAppBarSlot>
           <FakeSearchBar />
-        </AppBarSlot>
+        </NextAppBarSlot>
 
-        <AppBarRight>
-          <AppBarIconButton aria-label="알림">
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="알림">
             <IconBellLine />
-          </AppBarIconButton>
-          <AppBarIconButton aria-label="알림">
+          </NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="알림">
             <IconBellLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="spacingY.componentDefault" px="spacingX.globalGutter" py="x4">
           <Text as="p" textStyle="articleBody" color="fg.neutral">
-            AppBar.Slot은 커스텀 요소에 stackflow 트랜지션 애니메이션을 적용합니다. 이 페이지에서
-            뒤로 swipe하면 검색바가 IconButton과 동일하게 fade 트랜지션됩니다.
+            NextAppBar.Slot은 커스텀 요소에 stackflow 트랜지션 애니메이션을 적용합니다. 이
+            페이지에서 뒤로 swipe하면 검색바가 IconButton과 동일하게 fade 트랜지션됩니다.
           </Text>
           <ActionButton onClick={() => push("ActivityAppBarSlot", {})} variant="neutralSolid">
             이 액티비티 다시 열기
           </ActionButton>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

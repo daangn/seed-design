@@ -14,14 +14,18 @@ import { useActivity, useFlow, type StaticActivityComponentType } from "@stackfl
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import {
+  NextAppScreen,
+  NextAppScreenContent,
+  type NextAppScreenProps,
+} from "seed-design/ui/next-app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -40,6 +44,7 @@ import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
+import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 import {
   IconBellLine,
@@ -83,7 +88,7 @@ type NavigationSection = {
 declare module "@stackflow/config" {
   interface Register {
     ActivityHome: {
-      transitionStyle?: AppScreenProps["transitionStyle"];
+      transitionStyle?: NextAppScreenProps["transitionStyle"];
     };
   }
 }
@@ -104,7 +109,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   const navigationSections: NavigationSection[] = [
     {
-      title: "AppScreen",
+      title: "NextAppScreen",
       icon: LayersIcon,
       items: [
         { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
@@ -114,8 +119,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
         { title: "스와이프백 키보드", ...to("ActivitySwipeBackKeyboard", {}) },
         { title: "animate: false 밀림 버그 [Legacy]", ...to("ActivityAnimateFalseTest", {}) },
-        { title: "AppScreen 미리보기 [Legacy]", ...to("ActivityAppScreenPreview", {}) },
-        { title: "투명 AppScreen [Legacy]", ...to("ActivityAppScreenTransparent", {}) },
+        { title: "NextAppScreen 미리보기 [Legacy]", ...to("ActivityAppScreenPreview", {}) },
+        { title: "투명 NextAppScreen [Legacy]", ...to("ActivityAppScreenTransparent", {}) },
         {
           title: "IntersectionObserver [Legacy]",
           ...to("ActivityAppScreenIntersectionObserver", {}),
@@ -133,6 +138,16 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "기본", ...to("ActivityNextAppScreen", {}) },
         { title: "투명", ...to("ActivityNextAppScreenTransparent", {}) },
+        { title: "미리보기", ...to("ActivityNextAppScreenPreview", {}) },
+        {
+          title: "IntersectionObserver",
+          ...to("ActivityNextAppScreenIntersectionObserver", {}),
+        },
+        { title: "animate: false 밀림 버그", ...to("ActivityNextAnimateFalseTest", {}) },
+        ...nextAppScreenVariantMap.transitionStyle.map((transitionStyle) => ({
+          title: `전환: ${transitionStyle}`,
+          ...to("ActivityNextTransitionStyle", { transitionStyle }),
+        })),
       ],
     },
     {
@@ -522,21 +537,21 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   }
 
   return (
-    <AppScreen transitionStyle={params.transitionStyle} layerOffsetBottom="safeArea">
-      <AppBar bg="bg.layerBasement">
+    <NextAppScreen transitionStyle={params.transitionStyle}>
+      <NextAppBar bg="bg.layerBasement">
         {activityIndex > 0 && (
-          <AppBarLeft>
-            <AppBarBackButton />
-          </AppBarLeft>
+          <NextAppBarLeft>
+            <NextAppBarBackButton />
+          </NextAppBarLeft>
         )}
-        <AppBarMain title="Home" />
-        <AppBarRight>
-          <AppBarIconButton>
+        <NextAppBarMain title="Home" />
+        <NextAppBarRight>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent
         ref={scrollContainerRef}
         ptr
         // layer의 배경색은 recipe가 layerDefault로 고정하고 style prop을 받지 않는다.
@@ -658,8 +673,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             ))}
           </Grid>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

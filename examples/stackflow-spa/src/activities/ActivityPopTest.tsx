@@ -2,14 +2,14 @@ import { VStack } from "@seed-design/react";
 import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
@@ -42,19 +42,19 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
   );
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Pop Test</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Pop Test</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x6" p="x5">
           <VStack gap="x1">
             <div style={{ fontSize: 56, fontWeight: 700, lineHeight: 1 }}>깊이 {depth}</div>
@@ -94,8 +94,8 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
             동시 pop·백버튼 연타로 전환이 겹쳐도 화면이 1/3 왼쪽으로 밀리지 않으면 정상입니다.
           </div>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

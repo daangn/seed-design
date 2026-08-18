@@ -1,8 +1,13 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useState, type CSSProperties } from "react";
 
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   IconStarLine,
   IconHeartLine,
@@ -40,14 +45,14 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Select</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Select</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x6" style={{ padding: 16 }}>
           <VStack gap="x3">
             <SectionTitle>Size</SectionTitle>
@@ -410,8 +415,8 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
             </BottomSheetRoot>
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

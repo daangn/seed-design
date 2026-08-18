@@ -4,14 +4,14 @@ import { useFlow, type StaticActivityComponentType } from "@stackflow/react/futu
 import type * as React from "react";
 import { LeakCase } from "../components/IacvtProbe";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -53,19 +53,19 @@ const ActivityIacvtLeak: StaticActivityComponentType<"ActivityIacvtLeak"> = () =
   const breakpoint = useBreakpoint();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>IACVT Leak Check</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>IACVT Leak Check</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Box p="x4" bg="palette.gray25">
           <Box
             mb="x6"
@@ -295,8 +295,8 @@ const ActivityIacvtLeak: StaticActivityComponentType<"ActivityIacvtLeak"> = () =
             </LeakCase>
           </Section>
         </Box>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

@@ -1,7 +1,7 @@
 import { VStack, Icon, Text, Article, Divider, Tabs } from "@seed-design/react";
 import { type StaticActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { PageBanner } from "seed-design/ui/page-banner";
@@ -16,11 +16,11 @@ const ActivityArticlePreventDrag: StaticActivityComponentType<
   "ActivityArticlePreventDrag"
 > = () => {
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain>Tabs</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain>Tabs</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <TabsRoot defaultValue="1" contentLayout="fill">
           <TabsList>
             <TabsTrigger value="1">Tab 1</TabsTrigger>
@@ -66,8 +66,8 @@ const ActivityArticlePreventDrag: StaticActivityComponentType<
             </TabsContent>
           </TabsCarousel>
         </TabsRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

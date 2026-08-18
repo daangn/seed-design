@@ -4,14 +4,14 @@ import { useFlow } from "@stackflow/react/future";
 import { Suspense, useEffect, useState } from "react";
 import * as React from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 
@@ -67,19 +67,19 @@ const ActivityTabsAutoHeightLazy: StaticActivityComponentType<
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Tabs AutoHeight + LazyMount" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Tabs AutoHeight + LazyMount" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Box p="x4" color="fg.neutralMuted">
           Bug: Tab 2/4 content loads after delay but carousel height stays fixed.
         </Box>
@@ -130,8 +130,8 @@ const ActivityTabsAutoHeightLazy: StaticActivityComponentType<
             </TabsContent>
           </TabsCarousel>
         </TabsRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
