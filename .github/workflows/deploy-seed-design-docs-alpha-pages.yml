@@ -4,10 +4,18 @@ on:
       - "**"
       - "!main"
       - "!dev" # V3 deployment; remove this when V3 is stable
-    # paths 필터는 두지 않는다. 필터는 "이번 push가 docs를 건드렸나"에만 답하는데,
-    # 그 답이 no여도 브랜치는 docs를 건드렸을 수 있다. 그러면 워크플로가 아예 돌지
-    # 않아 head SHA에 `Validate docs links` status가 붙지 않는다. 대신 아래 detect
-    # job이 항상 돌면서 두 질문을 따로 판정한다.
+    paths:
+      - "docs/**"
+      - "packages/css/**"
+      - "packages/react-headless/**"
+      - "packages/react/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
+      - "packages/stackflow/**"
+      - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
+      - ".github/actions/setup/action.yml"
+      - ".github/actions/nextjs-cache/**"
+      - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -29,7 +37,6 @@ on:
 permissions:
   contents: read
   pull-requests: write
-  statuses: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -42,158 +49,13 @@ env:
 name: deploy-seed-design-docs-alpha-pages
 
 jobs:
-  # 두 질문을 따로 판정한다. status를 올려도 되는지는 브랜치 전체 diff가, 다시
-  # 빌드할 필요가 있는지는 이번 push의 diff가 정한다. 하나로 묶으면 둘 중 하나가
-  # 틀린다. 브랜치 축만 보면 changeset 커밋 하나가 같은 산출물을 30분 걸려 다시
-  # 만들고, push 축만 보면 그 커밋의 head SHA에 status가 영영 붙지 않는다.
-  detect:
-    name: detect-docs-changes
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    outputs:
-      build: ${{ steps.resolve.outputs.build }}
-
-    steps:
-      # blob 없이 받는다. 파일 이름만 필요하고 이 저장소는 전체 히스토리가 크다.
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          filter: blob:none
-
-      - name: Scope this push against the docs site
-        id: scope
-        env:
-          BEFORE: ${{ github.event.before }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          EVENT_NAME: ${{ github.event_name }}
-          HEAD_SHA: ${{ github.sha }}
-        run: |
-          set -eu
-
-          docs_paths='^(docs/|packages/css/|packages/react-headless/|packages/react/|packages/lynx-react/|packages/lynx-css/|packages/stackflow/|\.github/workflows/deploy-seed-design-docs-alpha-pages\.yml|\.github/actions/setup/action\.yml|\.github/actions/(nextjs-cache|check-docs-links)/)'
-
-          touches_docs() {
-            git diff --name-only --no-renames "$1" "$2" | grep -qE "$docs_paths"
-          }
-
-          # 수동 실행은 캐시·벤치마크 확인용이라 diff와 무관하게 항상 빌드한다.
-          if [ "$EVENT_NAME" != "push" ]; then
-            echo "mode=build" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # 아래 세 갈래 모두, 판단할 수 없으면 빌드로 보낸다. 검사 없이 통과시키는
-          # 쪽이 헛빌드보다 위험하다.
-          if ! merge_base="$(git merge-base "origin/$DEFAULT_BRANCH" "$HEAD_SHA")"; then
-            echo "mode=build" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if ! touches_docs "$merge_base" "$HEAD_SHA"; then
-            echo "mode=skip" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          # 브랜치 첫 push이거나 force push면 직전 head의 판정을 물려받을 수 없다.
-          if ! git merge-base --is-ancestor "$BEFORE" "$HEAD_SHA" 2>/dev/null; then
-            echo "mode=build" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if touches_docs "$BEFORE" "$HEAD_SHA"; then
-            echo "mode=build" >> "$GITHUB_OUTPUT"
-          else
-            echo "mode=inherit" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Resolve docs link validation for this commit
-        id: resolve
-        uses: actions/github-script@v9
-        env:
-          BEFORE: ${{ github.event.before }}
-          MODE: ${{ steps.scope.outputs.mode }}
-        with:
-          script: |
-            const mode = process.env.MODE;
-            if (mode === 'build') {
-              core.setOutput('build', 'true');
-              return;
-            }
-
-            const { owner, repo } = context.repo;
-            const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
-
-            if (mode === 'skip') {
-              await github.rest.repos.createCommitStatus({
-                owner,
-                repo,
-                sha: context.sha,
-                state: 'success',
-                context: 'Validate docs links',
-                description: 'No change reaches the docs site, so there is nothing to check',
-                target_url: runUrl,
-              });
-              core.setOutput('build', 'false');
-              return;
-            }
-
-            // 이번 push는 docs 산출물을 바꾸지 않았다. 다시 빌드해봐야 직전 head와 같은
-            // 사이트를 같은 방식으로 검사하게 되므로, 그 판정을 이 SHA로 옮긴다.
-            const before = process.env.BEFORE;
-            const combined = await github.rest.repos.getCombinedStatusForRef({
-              owner,
-              repo,
-              ref: before,
-            });
-            const previous = combined.data.statuses.find(
-              (status) => status.context === 'Validate docs links',
-            );
-
-            // success와 failure만 옮긴다. pending은 아직 검사 중이고, error는 빌드가
-            // 죽어 검사 자체를 못 한 것이라 물려받을 판정이 없다.
-            if (previous?.state !== 'success' && previous?.state !== 'failure') {
-              core.setOutput('build', 'true');
-              return;
-            }
-
-            await github.rest.repos.createCommitStatus({
-              owner,
-              repo,
-              sha: context.sha,
-              state: previous.state,
-              context: 'Validate docs links',
-              description: `Carried over from ${before.slice(0, 7)}; nothing in this push reaches the docs site`,
-              target_url: previous.target_url || runUrl,
-            });
-            core.setOutput('build', 'false');
-
   deploy:
     name: deploy-seed-design-docs-alpha-pages
-    needs: detect
-    if: ${{ needs.detect.outputs.build == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v6
-
-      # 링크 검사 결과는 job 성패가 아니라 commit status로 알린다. 브랜치 보호는 이
-      # context를 요구하고, 되돌려야 할 때는 같은 context에 success를 덮어써서 푼다.
-      # 빌드 없이 결론이 나는 경우에는 위 detect job이 같은 context를 올린다.
-      - name: Mark docs link validation pending
-        uses: actions/github-script@v9
-        with:
-          script: |
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
-              state: 'pending',
-              context: 'Validate docs links',
-              description: 'Building docs before checking links',
-              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-            });
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -380,42 +242,8 @@ jobs:
             }
 
       # 프리뷰 배포와 PR 코멘트 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지
-      # 막히면 손해가 더 크다. 머지는 아래 commit status가 막는다.
+      # 막히면 손해가 더 크다. 실제 차단은 prod 워크플로가 배포 전에 한다.
       - name: Validate docs links
-        id: links
-        continue-on-error: true
         uses: ./.github/actions/check-docs-links
         with:
           out-dir: ${{ github.workspace }}/docs/out
-
-      - name: Record docs link validation result
-        if: ${{ always() }}
-        uses: actions/github-script@v9
-        env:
-          LINKS_OUTCOME: ${{ steps.links.outcome }}
-        with:
-          script: |
-            // 링크가 깨진 것(failure)과 빌드가 죽어 검사 자체를 못 한 것(error)을 구분한다.
-            // 이 저장소의 docs 빌드는 컴포넌트 페이지마다 Sanity를 조회해서 네트워크로
-            // 간헐 실패하므로, 둘을 뭉치면 엉뚱한 곳을 파게 된다.
-            const outcome = process.env.LINKS_OUTCOME;
-            const [state, description] =
-              outcome === 'success'
-                ? ['success', 'No broken links in the exported docs site']
-                : outcome === 'failure'
-                  ? ['failure', 'Broken links found in the exported docs site']
-                  : ['error', 'Docs build failed, so links were never checked'];
-
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
-              state,
-              context: 'Validate docs links',
-              description,
-              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
-            });
-
-      - name: Fail when docs links are broken
-        if: ${{ steps.links.outcome == 'failure' }}
-        run: exit 1
