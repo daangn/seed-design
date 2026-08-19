@@ -14,9 +14,9 @@ export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
    * default (cupertino → horizontalSlide, android → verticalSlide) and passes
    * the result down.
    *
-   * NOTE: the motion durations are fixed (350ms for horizontalSlide, 300ms
-   * enter / 150ms exit for verticalSlide and crossfade) while stackflow's
-   * configured `transitionDuration` governs unmount timing. Enter tolerates
+   * NOTE: the motion durations are fixed (350ms for horizontalSlide and
+   * experimental_scaleSlide, 300ms enter / 150ms exit for the rest) while
+   * stackflow's configured `transitionDuration` governs unmount timing. Enter tolerates
    * any mismatch (a resting state leaves the animation running, and it ends
    * on the position that state holds anyway), but an exit gets cut off by
    * unmount — keep `transitionDuration` at or above the largest exit duration
@@ -39,6 +39,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
   const dimRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Register this screen (style + elements) into the per-stack registry.
   // Runs in a layout effect and cleans up symmetrically, so it is re-entrant
@@ -77,6 +78,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     rootRef,
     layerRef,
     dimRef,
+    contentRef,
     screenState,
   });
 
@@ -86,6 +88,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     rootRef,
     layerRef,
     dimRef,
+    contentRef,
   });
 
   const zIndexBase = useActivityZIndexBase();
@@ -110,6 +113,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
         root: rootRef,
         layer: layerRef,
         dim: dimRef,
+        content: contentRef,
       },
       rootProps: elementProps({
         "data-part": nextAppScreenAnatomy.root,

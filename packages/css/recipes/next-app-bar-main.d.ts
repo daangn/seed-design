@@ -10,7 +10,7 @@ declare interface NextAppBarMainVariant {
 /**
   * @default "horizontalSlide"
   */
-  transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade";
+  transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade" | "experimental_scaleSlide";
 /**
   * @default "layer"
   */

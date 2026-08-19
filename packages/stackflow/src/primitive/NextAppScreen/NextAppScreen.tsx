@@ -115,9 +115,11 @@ export interface NextAppScreenContentProps
 
 export const NextAppScreenContent = forwardRef<HTMLDivElement, NextAppScreenContentProps>(
   (props, ref) => {
-    const { contentProps } = useNextAppScreenContext();
+    const { contentProps, refs } = useNextAppScreenContext();
 
-    return <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
+    return (
+      <Primitive.div ref={composeRefs(refs.content, ref)} {...mergeProps(contentProps, props)} />
+    );
   },
 );
 NextAppScreenContent.displayName = "NextAppScreenContent";
