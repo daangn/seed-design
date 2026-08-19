@@ -5,6 +5,15 @@ description: 한 줄 텍스트를 입력받고 Field의 레이블·설명·오�
 
 <AvailableSince packages="@seed-design/lynx-react@0.4.0, @seed-design/lynx-css@0.7.0" />
 
+<LynxComponentExample name="lynx/text-field-input/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -23,42 +32,61 @@ npx @seed-design/cli add ui:text-field
 
 <react-type-table path="./registry/lynx/ui/text-field.tsx" name="TextFieldInputProps" />
 
-## Usage
+## Examples
 
-Snippet의 `TextField`가 label, description, required indicator와 한 줄 입력 영역을 조합합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 함께 지정합니다.
+### Listening to Value Changes
 
-```tsx
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+`TextField.Root`에 `value`와 `onValueChange`를 전달하면 입력값을 직접 관리할 수 있습니다. Lynx native 입력에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
 
-export function TitleField() {
-  return (
-    <TextField label="제목" required showRequiredIndicator name="title">
-      <TextFieldInput accessibility-label="제목" placeholder="제목을 입력해 주세요" />
-    </TextField>
-  );
-}
-```
+<LynxComponentExample name="lynx/text-field-input/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
-### Controlled value
+### State
 
-`value`와 `onValueChange`를 전달하면 controlled mode로 동작합니다. Lynx native 입력에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
+`Field.Root`의 `disabled`, `readOnly`, `invalid` 상태는 내부 `TextField.Root`와 `TextField.Input`에 전달됩니다.
 
-```tsx
-import { useState } from "@lynx-js/react";
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+<LynxComponentExample name="lynx/text-field-input/states" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/states.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
-export function ControlledTitle() {
-  const [value, setValue] = useState("");
+### Prefix and Suffix
 
-  return (
-    <TextField value={value} onValueChange={({ value }) => setValue(value)}>
-      <TextFieldInput accessibility-label="제목" />
-    </TextField>
-  );
-}
-```
+`TextField.PrefixText`와 `TextField.SuffixText`를 입력 앞뒤에 조합할 수 있습니다.
 
-### Grapheme limit
+<LynxComponentExample name="lynx/text-field-input/affixes" height={360}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Composing with Field
+
+`Field`와 조합하면 레이블, 설명, 필수 표시, 오류 메시지를 함께 제공합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 직접 지정합니다.
+
+<LynxComponentExample name="lynx/text-field-input/field-composition" height={420}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/field-composition.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Grapheme Limit
 
 이모지·조합 문자를 사용자에게 보이는 한 글자로 계산하려면 snippet의 `maxGraphemeCount`와 `onValueChange`를 사용합니다.
 
