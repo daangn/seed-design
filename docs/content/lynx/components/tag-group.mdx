@@ -5,6 +5,15 @@ description: 텍스트 태그를 수평으로 나열해 여러 속성·상태·�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
+<LynxComponentExample name="lynx/tag-group/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -31,26 +40,13 @@ export function App() {
 }
 ```
 
-`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
+`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `"·"`이고 `separator` prop으로 바꿀 수 있습니다.
 
 `TagGroupItem`은 `flexShrink`를 지원합니다. 긴 태그가 있는 레이아웃에서 item의 축소 우선순위를 조정해야 할 때 사용하세요.
 
-### Tone / Separator
+### 상호작용
 
-`TagGroupRoot`의 `tone`, `weight`, `separator`는 그룹 기본값으로 전달되고, 개별 `TagGroupItem`에서 필요한 값만 덮어쓸 수 있습니다.
-
-```tsx
-import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
-
-export function TagGroupVariants() {
-  return (
-    <TagGroupRoot size="t2" tone="neutralSubtle" separator=" / ">
-      <TagGroupItem tone="brand" weight="bold" label="NEW" />
-      <TagGroupItem label="무료 나눔" />
-    </TagGroupRoot>
-  );
-}
-```
+`TagGroup`은 정보를 읽기 전용으로 나열하는 컴포넌트입니다. 단일·다중 선택, 선택 값 변경, 비활성화 상태를 위한 API는 제공하지 않습니다. 사용자가 값을 선택해야 한다면 단일 선택에는 `RadioGroup`, 다중 선택에는 `Checkbox`를 사용하세요.
 
 ## Props
 
@@ -67,6 +63,82 @@ export function TagGroupVariants() {
   path="./registry/lynx/ui/tag-group.tsx"
   name="TagGroupItemProps"
 />
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/tag-group/sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Weights
+
+<LynxComponentExample name="lynx/tag-group/weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/weights.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones
+
+<LynxComponentExample name="lynx/tag-group/tones">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/tones.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Customizing `TagGroupItem`
+
+`TagGroupRoot`의 `tone`과 `weight`은 그룹 기본값으로 전달됩니다. 개별 `TagGroupItem`에서 필요한 값만 덮어쓸 수 있습니다.
+
+<LynxComponentExample name="lynx/tag-group/customizing-item">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/customizing-item.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Customizing Separators
+
+`TagGroupRoot`의 `separator`로 구분 기호를 바꿀 수 있습니다. 의미가 있는 정보는 구분자 대신 `TagGroupItem`으로 표현하세요.
+
+문자열 구분자의 앞뒤 공백은 Lynx에서 제거됩니다. 예를 들어 `separator=" / "`와 `separator="/"`는 동일하게 렌더링되며, 항목과 구분자 사이의 간격은 컴포넌트가 일관되게 적용합니다.
+
+<LynxComponentExample name="lynx/tag-group/customizing-separators">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/customizing-separators.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Wrapping Behavior
+
+컨테이너 너비를 초과하면 구분자와 뒤따르는 item이 하나의 단위로 다음 줄에 배치됩니다.
+
+<LynxComponentExample name="lynx/tag-group/wrapping-behavior">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/wrapping-behavior.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ## 웹 버전과의 차이
 
@@ -88,6 +160,10 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 - **웹**: `display: inline` 기반 text flow. 컨테이너가 좁으면 마지막 item 내부 label text가 word 단위로 자연스럽게 wrap됩니다 (예: `"Ut minim laboris enim"` → `"Ut minim"` / `"laboris enim"` 두 줄로 쪼개짐).
 - **Lynx**: flex 기반 item 단위 wrap. item은 content-size를 유지하고, 한 줄에 들어가지 않으면 item 전체가 다음 줄로 이동합니다. item 내부 text가 item 경계를 넘어 word-break되는 동작은 재현할 수 없습니다. Lynx `TagGroupRoot`는 이를 자연스럽게 보이도록 separator를 뒤따르는 item과 하나의 wrap 단위로 묶어 다음 줄로 함께 이동시킵니다.
 
+### 구분자 공백 처리
+
+웹은 `white-space: pre`로 문자열 구분자의 앞뒤 공백을 보존합니다. Lynx는 `white-space: pre`를 지원하지 않고 브라우저 프리뷰와 네이티브 Lynx의 기본 공백 계측도 서로 다릅니다. 두 실행 환경에서 같은 간격을 만들기 위해 Lynx `TagGroup`은 문자열 구분자의 앞뒤 공백을 제거하고 컴포넌트 스타일의 간격을 적용합니다. 문자열이 아닌 `ReactNode` 구분자는 변경하지 않습니다.
+
 ### 미지원 prop
 
 | prop | 웹 동작 | Lynx 미지원 사유 |
@@ -98,5 +174,5 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 
 ### 이벤트·ref
 
-- 이벤트: Lynx는 `onClick`이 없고 `bindtap` / `main-thread:bindtap`을 사용합니다. TagGroup은 기본적으로 정적 표시라 인터랙션 prop이 노출되지는 않지만, `TagGroupItem`을 눌러야 한다면 호출부에서 직접 view 속성으로 처리하세요.
+- 이벤트: Lynx는 `onClick` 대신 `bindtap` / `main-thread:bindtap`을 사용합니다. `TagGroup`은 정적 표시 컴포넌트이므로 선택 값이나 비활성화 상태를 관리하는 인터랙션 prop은 노출하지 않습니다.
 - ref: `React.forwardRef`로 ref가 전달됩니다 (`SVGViewElement` 타입으로 캐스트됨).

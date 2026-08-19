@@ -31,7 +31,8 @@ export interface TagGroupRootProps
     TagGroupItemVariantProps,
     LynxStyledElementProps {
   /**
-   * children 사이에 삽입되는 구분자. 기본값 `" · "`.
+   * children 사이에 삽입되는 구분자. 기본값 `"·"`.
+   * 문자열을 전달하면 앞뒤 공백을 제거합니다.
    */
   separator?: React.ReactNode;
 }
@@ -41,6 +42,7 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
     splitMultipleVariantsProps(props, { tagGroup, tagGroupItem });
   const { children, className, separator = " · ", ...nativeProps } = otherProps;
   const classes = tagGroup(tagGroupVariantProps);
+  const normalizedSeparator = typeof separator === "string" ? separator.trim() : separator;
 
   const visibleChildren = toArray(children);
 
@@ -61,7 +63,7 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
               key={(child as React.ReactElement).key ?? index}
               className={classes.separatorWrapper}
             >
-              <text className={classes.separator}>{separator}</text>
+              <text className={classes.separator}>{normalizedSeparator}</text>
               {child}
             </view>
           );
