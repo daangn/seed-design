@@ -1,10 +1,9 @@
 import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 import {
   Box,
-  DatePicker,
+  ContinuousDatePicker,
   HStack,
   Portal,
-  ScrollFog,
   Text,
   TimePicker,
   VStack,
@@ -12,7 +11,7 @@ import {
 } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -41,6 +40,7 @@ import {
   NextAppScreenContent,
   type NextAppScreenProps,
 } from "seed-design/ui/next-app-screen";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import {
   SelectContent,
   SelectGroup,
@@ -55,15 +55,15 @@ import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed
 /**
  * 화면 전체의 제스처 조건을 바꾸는 케이스들: `ptr`은 content를 PullToRefresh로
  * 감싸고, `overflowX`는 content 자체를 가로로 넘치게 만든다. 섹션 안에 끼워넣을
- * 수 없어 params로 화면을 다시 push한다.
+ * 수 없어 params로 화면을 다시 push한다. `bare`는 반대 방향으로, 케이스를 전부
+ * 걷어내 무거운 콘텐츠 없이 전환 자체만 보게 한다.
  */
-const CONTENT_MODES = ["ptr", "overflowX"] as const;
+const CONTENT_MODES = ["bare", "ptr", "overflowX"] as const;
 
 declare module "@stackflow/config" {
   interface Register {
     ActivityNextAppScreen: {
       transitionStyle?: NonNullable<NextAppScreenProps["transitionStyle"]>;
-      swipeBackArea?: NonNullable<NextAppScreenProps["swipeBackArea"]>;
       contentMode?: (typeof CONTENT_MODES)[number];
       "bottom-sheet"?: "open";
     };
@@ -73,6 +73,9 @@ declare module "@stackflow/config" {
 const SWIPE_BACK_AREAS = ["edge", "full", "none"] as const satisfies ReadonlyArray<
   NonNullable<NextAppScreenProps["swipeBackArea"]>
 >;
+
+/** `off` 는 prop 을 넘기지 않는 것 — 손을 떼는 시점에 판정하는 기본 동작이다. */
+const COMMIT_RATIOS = ["off", "0.1", "0.2", "0.4"] as const;
 
 const OVERFLOWING_TABS = [
   "전체",
@@ -89,10 +92,7 @@ const OVERFLOWING_TABS = [
 
 const SWATCHES = [1, 2, 3, 4, 5, 6];
 
-/**
- * 화면을 덮는 오버레이들. 넷 다 화면 없이 오버레이만 렌더하는 activity라,
- * push하면 이 화면이 top 자리를 내주고 스와이프백 게이트가 닫힌다.
- */
+/** 화면 없이 오버레이만 렌더하는 activity들. */
 const OVERLAY_ACTIVITIES = [
   { name: "ActivityBottomSheet", label: "BottomSheet" },
   { name: "ActivitySwipeableMenuSheet", label: "SwipeableMenuSheet" },
@@ -100,33 +100,12 @@ const OVERLAY_ACTIVITIES = [
   { name: "ActivitySidePanel", label: "SidePanel" },
 ] as const;
 
-function Section({ title, note, children }: { title: string; note: string; children: ReactNode }) {
-  return (
-    <VStack gap="x3" py="x4">
-      <VStack gap="x1">
-        <Text textStyle="t5Bold" color="fg.neutral">
-          {title}
-        </Text>
-        <Text textStyle="t3Regular" color="fg.neutralMuted">
-          {note}
-        </Text>
-      </VStack>
-      {children}
-    </VStack>
-  );
-}
-
-function Case({ label, note, children }: { label: string; note: string; children: ReactNode }) {
+function Case({ label, children }: { label: string; children: ReactNode }) {
   return (
     <VStack gap="x3" p="x3" borderRadius="r3" bg="bg.neutralWeak">
-      <VStack gap="x1">
-        <Text textStyle="t4Bold" color="fg.neutral">
-          {label}
-        </Text>
-        <Text textStyle="t3Regular" color="fg.neutralMuted">
-          {note}
-        </Text>
-      </VStack>
+      <Text textStyle="t4Bold" color="fg.neutral">
+        {label}
+      </Text>
       {children}
     </VStack>
   );
@@ -141,11 +120,37 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
   const [sliderValues, setSliderValues] = useState([40]);
   const [time, setTime] = useState<TimePickerValue>({ hour: 13, minute: 10 });
 
+  const [swipeBackArea, setSwipeBackArea] = useState<(typeof SWIPE_BACK_AREAS)[number]>("edge");
+  const [commitRatio, setCommitRatio] = useState<(typeof COMMIT_RATIOS)[number]>("off");
+
+  // 제스처 진행 중에는 ref 에만 적어 프레임마다 리렌더가 걸리지 않게 한다.
+  const peakRatioRef = useRef(0);
+
   const stepSheet = useStepOverlay({ key: "bottom-sheet" });
   const stepLayerIndex = useActivityZIndexBase({ activityOffset: 1 });
 
+  const showCases = params.contentMode !== "bare";
+
   return (
-    <NextAppScreen transitionStyle={params.transitionStyle} swipeBackArea={params.swipeBackArea}>
+    <NextAppScreen
+      transitionStyle={params.transitionStyle}
+      swipeBackArea={swipeBackArea}
+      {...(commitRatio !== "off" && { swipeBackCommitRatio: Number(commitRatio) })}
+      onSwipeBackStart={() => {
+        peakRatioRef.current = 0;
+        snackbar.create({ render: () => <Snackbar message="Started swiping" />, timeout: 500 });
+      }}
+      onSwipeBackMove={({ displacementRatio }) => {
+        peakRatioRef.current = Math.max(peakRatioRef.current, displacementRatio);
+      }}
+      onSwipeBackEnd={({ swiped }) => {
+        const peak = peakRatioRef.current.toFixed(2);
+        snackbar.create({
+          render: () => <Snackbar message={`Swiped: ${swiped} (peak ratio ${peak})`} />,
+          timeout: 1000,
+        });
+      }}
+    >
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />
@@ -157,18 +162,9 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
         onPtrRefresh={() => new Promise((resolve) => setTimeout(resolve, 1500))}
       >
         <VStack px="spacingX.globalGutter" py="x3" gap="x2">
-          <Section
-            title="설정"
-            note="swipeBackArea를 지정하지 않으면 seedPlugin 기본값을 따릅니다. 이 예제 앱은 iOS에서만 full입니다."
-          >
+          <Case label="transitionStyle">
             {params.transitionStyle && (
               <Text textStyle="articleBody">transitionStyle: {params.transitionStyle}</Text>
-            )}
-            {params.swipeBackArea && (
-              <Text textStyle="articleBody">swipeBackArea: {params.swipeBackArea}</Text>
-            )}
-            {params.contentMode && (
-              <Text textStyle="articleBody">contentMode: {params.contentMode}</Text>
             )}
             {nextAppScreenVariantMap.transitionStyle.map((style) => (
               <ActionButton
@@ -179,281 +175,133 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
                 push transitionStyle: {style}
               </ActionButton>
             ))}
-            {SWIPE_BACK_AREAS.map((area) => (
-              <ActionButton
-                key={area}
-                variant={params.swipeBackArea === area ? "neutralWeak" : "neutralSolid"}
-                onClick={() => push("ActivityNextAppScreen", { swipeBackArea: area })}
-              >
-                push swipeBackArea: {area}
-              </ActionButton>
-            ))}
             <ActionButton onClick={() => push("ActivityNextAppScreenTransparent", {})}>
               push transparent tone
             </ActionButton>
-          </Section>
+          </Case>
 
-          <Section
-            title="A. 가로 제스처 — 정면 충돌"
-            note="full 모드는 touch 이벤트만 듣고 defaultPrevented도 보지 않습니다. pointer 기반 제스처나 embla는 자동으로 걸러지지 않아, 오른쪽으로 끄는 한 번의 동작이 두 제스처를 동시에 굴립니다."
-          >
-            <Case
-              label="Slider"
-              note="pointer 드래그 + setPointerCapture + touch-action: none. 셋 다 touch 리스너를 막지 못합니다. 썸을 오른쪽으로 끌어보세요."
-            >
-              <Slider
-                label="가격"
-                min={0}
-                max={100}
-                values={sliderValues}
-                onValuesChange={setSliderValues}
-              />
-            </Case>
-
-            <Case
-              label="Tabs (carousel)"
-              note="embla가 첫 touchmove에서 가로로 판정하면 이후 move를 preventDefault 하지만, swipe-back은 그 플래그를 읽지 않습니다. 본문을 오른쪽으로 쓸면(= 이전 탭) 겹칩니다. 트리거는 셋뿐이라 탭바 자체는 넘치지 않습니다 — 넘칠 때의 충돌은 D에 있습니다."
-            >
-              <TabsRoot defaultValue="a">
-                <TabsList>
-                  <TabsTrigger value="a">탭 A</TabsTrigger>
-                  <TabsTrigger value="b">탭 B</TabsTrigger>
-                  <TabsTrigger value="c">탭 C</TabsTrigger>
-                </TabsList>
-                <TabsCarousel swipeable>
-                  <TabsContent value="a">
-                    <Box p="x4">탭 A 본문</Box>
-                  </TabsContent>
-                  <TabsContent value="b">
-                    <Box p="x4">탭 B 본문</Box>
-                  </TabsContent>
-                  <TabsContent value="c">
-                    <Box p="x4">탭 C 본문</Box>
-                  </TabsContent>
-                </TabsCarousel>
-              </TabsRoot>
-            </Case>
-
-            <Case
-              label="ChipTabs (carousel)"
-              note="Tabs와 같은 embla 경로입니다. carousel 슬롯이 overflow: hidden이라 findBlockingAncestor의 양보 대상도 아닙니다."
-            >
-              <ChipTabsRoot defaultValue="a">
-                <ChipTabsList>
-                  <ChipTabsTrigger value="a">칩 A</ChipTabsTrigger>
-                  <ChipTabsTrigger value="b">칩 B</ChipTabsTrigger>
-                  <ChipTabsTrigger value="c">칩 C</ChipTabsTrigger>
-                </ChipTabsList>
-                <ChipTabsCarousel swipeable>
-                  <ChipTabsContent value="a">
-                    <Box p="x4">칩 A 본문</Box>
-                  </ChipTabsContent>
-                  <ChipTabsContent value="b">
-                    <Box p="x4">칩 B 본문</Box>
-                  </ChipTabsContent>
-                  <ChipTabsContent value="c">
-                    <Box p="x4">칩 C 본문</Box>
-                  </ChipTabsContent>
-                </ChipTabsCarousel>
-              </ChipTabsRoot>
-            </Case>
-          </Section>
-
-          <Section
-            title="B. 오버레이 — 제스처가 없어도 뒤 화면이 밀림"
-            note="swipe-back에는 모달 인지 로직이 없습니다. 게이트는 isTop과 screenState뿐이라, 화면 안에서 연 오버레이가 떠 있어도 그 위에서 오른쪽으로 쓸면 뒤 화면이 스와이프백됩니다. step으로 띄워도 같은 activity라 마찬가지고, activity로 띄운 것만 게이트가 막습니다 — 세 패턴을 아래에서 차례로 봅니다."
-          >
-            <Case
-              label="Menu (Portal)"
-              note="FloatingPortal로 document.body에 붙지만 이벤트는 React 트리를 타고 올라옵니다. DOM 워크는 layer에 닿지 못해 blocker를 영영 찾지 못합니다. pressBehavior=drag라 10px 이동만으로 dismiss까지 겹칩니다."
-            >
-              <MenuRoot size="medium">
-                <MenuTrigger asChild>
-                  <ActionButton variant="neutralSolid">Menu 열기</ActionButton>
-                </MenuTrigger>
-                <MenuContent>
-                  <MenuGroup>
-                    <MenuItem label="첫 번째" />
-                    <MenuItem label="두 번째" />
-                    <MenuItem label="세 번째" />
-                  </MenuGroup>
-                </MenuContent>
-              </MenuRoot>
-            </Case>
-
-            <Case
-              label="Select (Portal)"
-              note="Menu와 같은 Portal + pressBehavior=drag 조합입니다."
-            >
-              <Box width="200px">
-                <SelectRoot label="과일" defaultValue={["apple"]}>
-                  <SelectTrigger placeholder="과일 선택" />
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="apple" label="사과" />
-                      <SelectItem value="banana" label="바나나" />
-                      <SelectItem value="cherry" label="체리" />
-                    </SelectGroup>
-                  </SelectContent>
-                </SelectRoot>
-              </Box>
-            </Case>
-
-            <Case
-              label="HelpBubble (Portal)"
-              note="말풍선도 Portal로 빠지므로 같은 경로를 탑니다. 말풍선 위 오른쪽 스와이프를 확인하세요."
-            >
-              <HelpBubbleTrigger
-                title="도움말"
-                description="이 말풍선 위에서 오른쪽으로 쓸어보세요."
-                showCloseButton
+          <Case label="스와이프백">
+            <VStack gap="x2" align="center">
+              <Text textStyle="t5Bold" aria-hidden>
+                Swipe Back Area
+              </Text>
+              <SegmentedControl
+                value={swipeBackArea}
+                onValueChange={(value) => {
+                  const next = SWIPE_BACK_AREAS.find((area) => area === value);
+                  if (next) setSwipeBackArea(next);
+                }}
+                aria-label="Swipe Back Area"
               >
-                <ActionButton variant="neutralSolid">HelpBubble 열기</ActionButton>
-              </HelpBubbleTrigger>
-            </Case>
-
-            <Case
-              label="Snackbar"
-              note="Portal 없이 position: fixed로 뜹니다. 스낵바 위 오른쪽 스와이프도 그대로 통과합니다."
-            >
-              <ActionButton
-                variant="neutralSolid"
-                onClick={() =>
-                  snackbar.create({
-                    render: () => (
-                      <Snackbar variant="positive" message="이 위에서 오른쪽으로 쓸어보세요." />
-                    ),
-                  })
-                }
+                {SWIPE_BACK_AREAS.map((area) => (
+                  <SegmentedControlItem key={area} value={area}>
+                    {area}
+                  </SegmentedControlItem>
+                ))}
+              </SegmentedControl>
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                {swipeBackArea === "none"
+                  ? "이 영역 설정에서는 제스처를 받지 않습니다."
+                  : "제스처는 위 transitionStyle 의 exit 를 그대로 되감습니다. 스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
+              </Text>
+            </VStack>
+            <VStack gap="x2" align="center">
+              <Text textStyle="t5Bold" aria-hidden>
+                Swipe Back Commit Ratio
+              </Text>
+              <SegmentedControl
+                value={commitRatio}
+                onValueChange={(value) => {
+                  const next = COMMIT_RATIOS.find((ratio) => ratio === value);
+                  if (next) setCommitRatio(next);
+                }}
+                aria-label="Swipe Back Commit Ratio"
               >
-                Snackbar 띄우기
-              </ActionButton>
-            </Case>
+                {COMMIT_RATIOS.map((ratio) => (
+                  <SegmentedControlItem key={ratio} value={ratio}>
+                    {ratio}
+                  </SegmentedControlItem>
+                ))}
+              </SegmentedControl>
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                {commitRatio === "off"
+                  ? "손을 떼는 시점에 판정합니다. 임계를 넘겨 끌었어도 되돌려 놓으면 취소됩니다."
+                  : `ratio 가 ${commitRatio} 보다 커지는 순간, 손을 떼지 않아도 확정됩니다. 그 뒤로는 되돌릴 수 없고 Snackbar 도 그 시점에 뜹니다.`}
+              </Text>
+            </VStack>
+          </Case>
 
-            <Case
-              label="Step으로 띄운 BottomSheet"
-              note="useStepOverlay는 오버레이를 같은 activity의 step에 묶습니다. activity가 바뀌지 않으니 isTop도 그대로고, 게이트는 열린 채입니다. 게다가 완료했을 때 소비자가 부르는 pop()은 step이 있든 없든 Popped를 보내므로, 닫혔어야 할 step을 건너뛰고 화면이 통째로 사라집니다."
-            >
-              <BottomSheetRoot {...stepSheet.overlayProps}>
-                <BottomSheetTrigger asChild>
-                  <ActionButton variant="neutralSolid">BottomSheet 열기 (step)</ActionButton>
-                </BottomSheetTrigger>
-                <Portal>
-                  <BottomSheetContent
-                    showHandle
-                    title="Step BottomSheet"
-                    description="시트 위에서 오른쪽으로 쓸어보세요. 뒤 화면이 밀리고, 끝까지 가면 시트만 닫히는 게 아니라 이 화면이 함께 사라집니다."
-                    layerIndex={stepLayerIndex}
-                  >
-                    <BottomSheetFooter>
-                      <ActionButton
-                        flexGrow
-                        variant="neutralSolid"
-                        onClick={() => stepSheet.setOpen(false)}
-                      >
-                        닫기
-                      </ActionButton>
-                    </BottomSheetFooter>
-                  </BottomSheetContent>
-                </Portal>
-              </BottomSheetRoot>
-            </Case>
-
-            <Case
-              label="Activity로 띄운 오버레이 (대조군)"
-              note="같은 오버레이라도 activity로 push하면 이 화면이 top 자리를 내주고, handleTouchStart의 첫 게이트(data-screen-is-top)에서 제스처가 시작조차 하지 않습니다. 위가 NextAppScreen이 아니라 screenState도 idle에 머물러 뒤 화면은 제자리입니다. 띄운 뒤 오버레이 위에서 쓸어보세요 — 아무 일도 없어야 정상입니다."
-            >
-              {OVERLAY_ACTIVITIES.map(({ name, label }) => (
-                <ActionButton key={name} variant="neutralSolid" onClick={() => push(name, {})}>
-                  {label} activity push
-                </ActionButton>
-              ))}
-            </Case>
-          </Section>
-
-          <Section
-            title="C. 세로 제스처 — 대각선 밴드에서 동시 발화"
-            note="claim 조건이 |dy| ≤ dx·tan(10°)라 순수 세로는 안전합니다. 다만 0 < dy ≤ 0.176·dx 구간은 양쪽 다 시작합니다."
-          >
-            <Case
-              label="PullToRefresh"
-              note={
-                params.contentMode === "ptr"
-                  ? "지금 화면의 content가 PullToRefresh입니다. 오른쪽 아래로 비스듬히 당겨보세요."
-                  : "content 전체를 감싸므로 params로 다시 push해야 합니다."
-              }
-            >
-              <ActionButton
-                variant={params.contentMode === "ptr" ? "neutralWeak" : "neutralSolid"}
-                onClick={() => push("ActivityNextAppScreen", { contentMode: "ptr" })}
-              >
-                push contentMode: ptr
-              </ActionButton>
-            </Case>
-
-            <Case
-              label="TimePicker (wheel-picker)"
-              note="터치는 네이티브 스크롤에 맡기고 column은 touch-action: pan-y입니다. 휠 위에서 가로로 끌면 swipe-back만 반응합니다."
-            >
-              <TimePicker
-                value={time}
-                minuteStep={10}
-                onValueChange={setTime}
-                aria-label="약속 시간"
-              />
-            </Case>
-
-            <Case
-              label="DatePicker"
-              note="같은 wheel-picker와 연속 스크롤을 씁니다. 달력 격자 위 가로 스와이프를 확인하세요."
-            >
-              <Box width="100%" maxWidth="358px">
-                <DatePicker
-                  today={{ year: 2026, month: 8, day: 18 }}
-                  defaultValue={{ year: 2026, month: 8, day: 18 }}
+          {showCases && (
+            <>
+              <Case label="Slider">
+                <Slider
+                  label="가격"
+                  min={0}
+                  max={100}
+                  values={sliderValues}
+                  onValuesChange={setSliderValues}
                 />
-              </Box>
-            </Case>
-          </Section>
+              </Case>
 
-          <Section
-            title="D. 가로 스크롤 — 자동 양보하지만 시작 엣지에서도 막힘"
-            note="findBlockingAncestor는 overflow-x가 auto|scroll이고 scrollWidth > clientWidth면 양보합니다. 스크롤 위치는 보지 않으므로, 이미 맨 왼쪽인 스크롤러 위에서도 뒤로가기가 안 됩니다."
-          >
-            <Case
-              label="Tabs list (트리거 넘침)"
-              note="triggerLayout=hug라 트리거가 가로로 넘칩니다(fill은 늘려 맞추므로 몇 개든 넘치지 않습니다). 넘치는 동안에는 탭바 위 스와이프백이 통째로 막힙니다. iOS 네이티브는 시작 엣지에서 허용하는 동작이라 체감 차이가 큽니다."
-            >
-              <TabsRoot defaultValue={OVERFLOWING_TABS[0]} triggerLayout="hug">
-                <TabsList>
-                  {OVERFLOWING_TABS.map((label) => (
-                    <TabsTrigger key={label} value={label}>
-                      {label}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </TabsRoot>
-            </Case>
+              <Case label="Tabs">
+                <TabsRoot defaultValue={OVERFLOWING_TABS[0]} triggerLayout="hug">
+                  <TabsList>
+                    {OVERFLOWING_TABS.map((label) => (
+                      <TabsTrigger key={label} value={label}>
+                        {label}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                  <TabsCarousel swipeable>
+                    {OVERFLOWING_TABS.map((label) => (
+                      <TabsContent key={label} value={label}>
+                        <Box p="x4">{label}</Box>
+                      </TabsContent>
+                    ))}
+                  </TabsCarousel>
+                </TabsRoot>
+              </Case>
 
-            <Case
-              label="순수 overflow-x 컨테이너"
-              note="Box의 overflowX prop만으로도 같은 차단이 걸립니다. 넘치지 않으면 blocker가 아닙니다."
-            >
-              <Box overflowX="auto" borderRadius="r2" bg="bg.neutral">
-                <HStack gap="x2" p="x2" width="900px">
-                  {SWATCHES.map((n) => (
-                    <Box key={n} width="140px" height="72px" borderRadius="r2" bg="bg.brandSolid" />
-                  ))}
-                </HStack>
-              </Box>
-            </Case>
+              <Case label="ChipTabs">
+                <ChipTabsRoot defaultValue={OVERFLOWING_TABS[0]}>
+                  <ChipTabsList>
+                    {OVERFLOWING_TABS.map((label) => (
+                      <ChipTabsTrigger key={label} value={label}>
+                        {label}
+                      </ChipTabsTrigger>
+                    ))}
+                  </ChipTabsList>
+                  <ChipTabsCarousel swipeable>
+                    {OVERFLOWING_TABS.map((label) => (
+                      <ChipTabsContent key={label} value={label}>
+                        <Box p="x4">{label}</Box>
+                      </ChipTabsContent>
+                    ))}
+                  </ChipTabsCarousel>
+                </ChipTabsRoot>
+              </Case>
 
-            <Case
-              label="ScrollFog"
-              note="root가 양축 overflow: auto입니다. 가로로 넘치는 순간 blocker가 됩니다."
-            >
-              <Box height="100px">
-                <ScrollFog>
+              <Case label="TimePicker">
+                <TimePicker
+                  value={time}
+                  minuteStep={10}
+                  onValueChange={setTime}
+                  aria-label="시간"
+                />
+              </Case>
+
+              <Case label="DatePicker (continuous)">
+                <Box width="100%" maxWidth="358px">
+                  <ContinuousDatePicker
+                    height="320px"
+                    today={{ year: 2026, month: 8, day: 18 }}
+                    defaultValue={{ year: 2026, month: 8, day: 18 }}
+                  />
+                </Box>
+              </Case>
+
+              <Case label="Box (overflowX)">
+                <Box overflowX="auto" borderRadius="r2" bg="bg.neutral">
                   <HStack gap="x2" p="x2" width="900px">
                     {SWATCHES.map((n) => (
                       <Box
@@ -461,30 +309,101 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
                         width="140px"
                         height="72px"
                         borderRadius="r2"
-                        bg="bg.neutralSolid"
+                        bg="bg.brandSolid"
                       />
                     ))}
                   </HStack>
-                </ScrollFog>
-              </Box>
-            </Case>
+                </Box>
+              </Case>
 
-            <Case
-              label="content 자체가 가로로 넘칠 때"
-              note={
-                params.contentMode === "overflowX"
-                  ? "지금 화면의 content가 가로로 넘칩니다. 화면 어디에서도 full 스와이프백이 시작되지 않습니다."
-                  : "content는 overflowY: scroll만 지정하지만 CSS 계산상 overflow-x가 auto가 됩니다. 1px만 넘쳐도 그 화면의 full 스와이프백이 통째로 죽습니다."
-              }
-            >
+              <Case label="Portal 팝오버">
+                <MenuRoot size="medium">
+                  <MenuTrigger asChild>
+                    <ActionButton variant="neutralSolid">Menu 열기</ActionButton>
+                  </MenuTrigger>
+                  <MenuContent>
+                    <MenuGroup>
+                      <MenuItem label="첫 번째" />
+                      <MenuItem label="두 번째" />
+                      <MenuItem label="세 번째" />
+                    </MenuGroup>
+                  </MenuContent>
+                </MenuRoot>
+                <Box width="200px">
+                  <SelectRoot label="과일" defaultValue={["apple"]}>
+                    <SelectTrigger placeholder="과일 선택" />
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="apple" label="사과" />
+                        <SelectItem value="banana" label="바나나" />
+                        <SelectItem value="cherry" label="체리" />
+                      </SelectGroup>
+                    </SelectContent>
+                  </SelectRoot>
+                </Box>
+                <HelpBubbleTrigger title="HelpBubble" description="HelpBubble" showCloseButton>
+                  <ActionButton variant="neutralSolid">HelpBubble 열기</ActionButton>
+                </HelpBubbleTrigger>
+              </Case>
+
+              <Case label="Snackbar">
+                <ActionButton
+                  variant="neutralSolid"
+                  onClick={() =>
+                    snackbar.create({
+                      render: () => <Snackbar variant="positive" message="Snackbar" />,
+                    })
+                  }
+                >
+                  Snackbar 띄우기
+                </ActionButton>
+              </Case>
+
+              <Case label="BottomSheet (step)">
+                <BottomSheetRoot {...stepSheet.overlayProps}>
+                  <BottomSheetTrigger asChild>
+                    <ActionButton variant="neutralSolid">BottomSheet 열기</ActionButton>
+                  </BottomSheetTrigger>
+                  <Portal>
+                    <BottomSheetContent showHandle title="BottomSheet" layerIndex={stepLayerIndex}>
+                      <BottomSheetFooter>
+                        <ActionButton
+                          flexGrow
+                          variant="neutralSolid"
+                          onClick={() => stepSheet.setOpen(false)}
+                        >
+                          닫기
+                        </ActionButton>
+                      </BottomSheetFooter>
+                    </BottomSheetContent>
+                  </Portal>
+                </BottomSheetRoot>
+              </Case>
+
+              <Case label="오버레이 activity">
+                {OVERLAY_ACTIVITIES.map(({ name, label }) => (
+                  <ActionButton key={name} variant="neutralSolid" onClick={() => push(name, {})}>
+                    push {label}
+                  </ActionButton>
+                ))}
+              </Case>
+            </>
+          )}
+
+          <Case label="contentMode">
+            {params.contentMode && (
+              <Text textStyle="articleBody">contentMode: {params.contentMode}</Text>
+            )}
+            {CONTENT_MODES.map((mode) => (
               <ActionButton
-                variant={params.contentMode === "overflowX" ? "neutralWeak" : "neutralSolid"}
-                onClick={() => push("ActivityNextAppScreen", { contentMode: "overflowX" })}
+                key={mode}
+                variant={params.contentMode === mode ? "neutralWeak" : "neutralSolid"}
+                onClick={() => push("ActivityNextAppScreen", { contentMode: mode })}
               >
-                push contentMode: overflowX
+                push contentMode: {mode}
               </ActionButton>
-            </Case>
-          </Section>
+            ))}
+          </Case>
 
           {params.contentMode === "overflowX" && <Box width="200%" height="1px" />}
         </VStack>
