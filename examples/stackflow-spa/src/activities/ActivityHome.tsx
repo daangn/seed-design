@@ -41,7 +41,6 @@ import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
-import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 import {
   IconHandPointUpLine,
@@ -130,10 +129,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "animate: false Test (밀림 버그)",
           onClick: () => push("ActivityNextAnimateFalseTest", {}),
         },
-        ...nextAppScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `ActivityNextTransitionStyle (${transitionStyle})`,
-          onClick: () => push("ActivityNextTransitionStyle", { transitionStyle }),
-        })),
       ],
     },
     {
