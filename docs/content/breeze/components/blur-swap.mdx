@@ -19,7 +19,7 @@ description: 두 콘텐츠를 blur crossfade로 교차하는 컴포넌트
 Dependency:
 
 ```package-install
-npm install motion
+npm install @seed-design/react-presence @radix-ui/react-compose-refs
 ```
 
 Snippet:
@@ -29,37 +29,6 @@ npx @seed-design/cli@latest add breeze:blur-swap
 ```
 
 <BreezeManualInstallation name="blur-swap" />
-
-## Configuration
-
-blur-swap 컴포넌트는 motion의 `m.` 컴포넌트를 사용합니다. lazy loading을 위해 프로젝트에 MotionProvider를 설정해야 합니다.
-
-자세한 내용은 [Motion Lazy Motion 문서](https://motion.dev/docs/react-lazy-motion)를 참고하세요.
-
-```tsx title="MotionProvider.tsx"
-"use client";
-
-import { LazyMotion } from "motion/react";
-import type { ReactNode } from "react";
-
-const loadFeatures = () => import("motion/react").then((res) => res.domAnimation);
-
-export function MotionProvider({ children }: { children: ReactNode }) {
-  return <LazyMotion features={loadFeatures}>{children}</LazyMotion>;
-}
-```
-
-```tsx title="index.tsx"
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import { MotionProvider } from './MotionProvider.tsx'
-
-createRoot(document.getElementById('root')!).render(
-  <MotionProvider>
-    <App />
-  </MotionProvider>
-)
-```
 
 ## Usage
 
@@ -105,13 +74,25 @@ return (
   ```
 </ComponentExample>
 
+세 값 모두 CSS 커스텀 프로퍼티로 내려가므로, prop 대신 스타일시트에서 한 번에 정해도 됩니다.
+
+```css
+.my-swap {
+  --blur-swap-blur: 12px;
+  --blur-swap-offset: 20px;
+  --blur-swap-duration: 450ms;
+  --blur-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+```
+
 ## 동작과 스타일
 
-- 나가는 콘텐츠와 들어오는 콘텐츠의 `opacity`, blur, 이동이 하나의 전환으로 함께 움직입니다. 두 콘텐츠가 동시에 화면에 있는 구간이 곧 crossfade입니다.
-- 나가는 콘텐츠는 `AnimatePresence`의 `popLayout`이 흐름 밖으로 빼내므로, 들어오는 콘텐츠가 곧바로 자리를 차지합니다. 그래서 컨테이너 크기는 항상 들어오는 쪽을 기준으로 계산됩니다.
+- 나가는 콘텐츠와 들어오는 콘텐츠가 `opacity`, blur, 이동을 하나의 `@keyframes`로 함께 움직입니다. 셋이 같은 timing function을 공유하므로 blur는 저절로 crossfade 진행도에 묶입니다.
+- 퇴장은 `@seed-design/react-presence`의 `usePresence`가 붙잡습니다. `data-state`가 `closed`로 바뀌면서 `animation-name`이 달라지는 것을 감지해, 애니메이션이 끝날 때까지 DOM에 남겨둡니다. 그래서 **퇴장 애니메이션을 지우면 나가는 콘텐츠가 사라지지 않습니다.** 전환을 없애고 싶다면 애니메이션을 지우는 대신 `duration`을 `0`으로 두세요.
+- 나가는 콘텐츠는 `position: absolute`로 흐름 밖에 놓입니다. 들어오는 콘텐츠가 곧바로 자리를 차지하므로, 컨테이너 크기는 항상 들어오는 쪽을 기준으로 계산됩니다.
 - 루트에 `overflow: hidden`이 걸려 있습니다. `offset`만큼의 이동이 가장자리 밖에서 시작하고 끝나는 대신, 콘텐츠 밖으로 넘치는 그림자나 포커스 링은 잘립니다.
-- 크기는 스프링으로 따라갑니다. `activeKey`가 그대로인 채 콘텐츠 자체가 커지거나 작아지는 경우에도 `ResizeObserver`로 같은 스프링을 태웁니다.
-- 모션 감소 설정에서는 blur와 이동을 빼고 crossfade만 남기며, 크기는 애니메이션 없이 즉시 맞춥니다.
+- 크기는 `ResizeObserver`로 실측한 값을 루트에 적고 CSS `transition`으로 따라갑니다. `activeKey`가 그대로인 채 콘텐츠 자체가 커지거나 작아지는 경우에도 같은 전환을 탑니다.
+- 모션 감소 설정에서는 blur와 이동을 뺀 keyframes로 바뀌어 crossfade만 남고, 크기는 전환 없이 즉시 맞춰집니다. JavaScript는 관여하지 않습니다.
 - 나가는 콘텐츠에는 `inert`가 걸립니다. 전환 중 같은 내용이 두 번 읽히거나, 사라지는 쪽이 포인터를 가로채지 않습니다.
 - `filter`는 새로운 stacking context를 만듭니다. 콘텐츠가 컨테이너 밖으로 겹쳐 나와야 한다면 `BlurSwap` 바깥에서 처리합니다.
 

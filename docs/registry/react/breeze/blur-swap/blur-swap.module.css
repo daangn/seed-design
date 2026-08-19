@@ -1,7 +1,15 @@
 .root {
+  --blur-swap-blur: 4px;
+  --blur-swap-offset: 8px;
+  --blur-swap-duration: 300ms;
+  --blur-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
   position: relative;
   display: block;
   overflow: hidden;
+  transition:
+    width var(--blur-swap-duration) var(--blur-swap-ease),
+    height var(--blur-swap-duration) var(--blur-swap-ease);
 }
 
 .inline {
@@ -10,13 +18,105 @@
 }
 
 .content {
+  position: relative;
   width: 100%;
 }
 
 /*
- * 컨테이너 너비가 스프링으로 움직이는 동안 콘텐츠까지 같이 좁아지면 줄바꿈이 바뀌고,
- * 그 높이 변화가 다시 스프링에 되먹임된다. 콘텐츠를 max-content로 고정해 그 고리를 끊는다.
+ * 컨테이너 너비가 움직이는 동안 콘텐츠까지 같이 좁아지면 줄바꿈이 바뀌고, 그 높이 변화가
+ * 다시 컨테이너로 되먹임된다. 콘텐츠를 max-content로 고정해 그 고리를 끊는다.
  */
 .contentAuto {
   width: max-content;
+}
+
+/*
+ * opacity·blur·이동이 한 keyframe·한 timing function을 공유한다. blur가 opacity progress에
+ * 묶이는 건 그 결과이고, 값을 따로 보간해줄 필요가 없는 이유이기도 하다.
+ */
+.layer[data-state="open"] {
+  animation: blurSwapEnter var(--blur-swap-duration) var(--blur-swap-ease) both;
+}
+
+/*
+ * 나가는 레이어를 흐름 밖으로 빼야 들어오는 레이어가 곧바로 자리를 차지하고,
+ * 컨테이너 크기가 들어오는 쪽 기준으로 계산된다.
+ */
+.layer[data-state="closed"] {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  animation: blurSwapExit var(--blur-swap-duration) var(--blur-swap-ease) both;
+}
+
+.contentAuto .layer[data-state="closed"] {
+  width: max-content;
+}
+
+/* 마운트 때 처음 놓이는 레이어는 등장 애니메이션 없이 그대로 둔다. */
+.layer[data-initial][data-state="open"] {
+  animation: none;
+}
+
+@keyframes blurSwapEnter {
+  from {
+    opacity: 0;
+    filter: blur(var(--blur-swap-blur));
+    transform: translateY(var(--blur-swap-offset));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes blurSwapExit {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(var(--blur-swap-blur));
+    transform: translateY(calc(-1 * var(--blur-swap-offset)));
+  }
+}
+
+@keyframes blurSwapEnterReduced {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blurSwapExitReduced {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * 애니메이션을 끄지 않고 이름만 바꾼다. 나가는 레이어를 언제 DOM에서 뗄지는 animationend로
+ * 판단하므로, 애니메이션이 사라지면 잔상이 그대로 남는다.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .layer[data-state="open"] {
+    animation-name: blurSwapEnterReduced;
+  }
+
+  .layer[data-state="closed"] {
+    animation-name: blurSwapExitReduced;
+  }
 }
