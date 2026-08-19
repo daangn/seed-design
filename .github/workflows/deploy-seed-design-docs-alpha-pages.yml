@@ -227,7 +227,7 @@ jobs:
               `- Commit: \`${context.sha.slice(0, 7)}\``,
               // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
               // 줄이 없다는 것 자체가 통과를 뜻한다.
-              ...(linksBroken ? [`- Docs links: broken, see the [run log](${runUrl})`] : []),
+              ...(linksBroken ? [`- ❌ Docs links: broken, see the [run log](${runUrl})`] : []),
             ].join('\n');
 
             const comments = await github.paginate(github.rest.issues.listComments, {
