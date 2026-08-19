@@ -12,6 +12,7 @@ import {
 } from "fumadocs-core/source";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { fileGenerator } from "fumadocs-docgen";
+import { defaultHandlers } from "mdast-util-to-markdown";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
@@ -87,35 +88,10 @@ const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
-  // `remarkLlms`의 기본 heading 핸들러는 `#` 마커를 붙이지 않고 텍스트만 돌려주므로, 출력은
-  // 첫 줄 제목 말고는 heading이 하나도 없는 평문이 된다. 마커가 없으면 llms.txt를 읽는 쪽도
-  // 프래그먼트를 검사하는 링크 체커도 섹션을 짚을 수 없다.
-  //
-  // `mdast-util-to-markdown`의 이스케이프 규칙은 `state.stack`에 쌓인 construct로만 범위가
-  // 정해진다(`unsafe.js`의 `inConstruct`). 두 scope를 열지 않으면 `Foo #`로 끝나는 heading이
-  // `## Foo #`로 나가고, 파서가 뒤 `#`를 닫는 ATX 마커로 읽어 slug가 달라진다.
-  handlers: {
-    heading(node, _parent, state, info) {
-      const sequence = "#".repeat(node.depth);
-      const tracker = state.createTracker(info);
-      const exitHeading = state.enter("headingAtx");
-      const exitPhrasing = state.enter("phrasing");
-
-      tracker.move(`${sequence} `);
-      const value = state.containerPhrasing(node, {
-        before: "# ",
-        after: "\n",
-        ...tracker.current(),
-      });
-
-      exitPhrasing();
-      exitHeading();
-
-      return value ? `${sequence} ${value}` : sequence;
-    },
-  },
-  // heading 뒤에 `[#id]`를 덧붙이면 그 문자열까지 heading 텍스트로 읽혀 slug가 달라진다.
-  // 마커를 되살린 이상 slug는 heading 텍스트에서 그대로 나오므로 id를 적을 이유가 없다.
+  // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
+  // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
+  handlers: { heading: defaultHandlers.heading },
+  // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
   headingIds: false,
   filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
