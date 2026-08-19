@@ -44,7 +44,6 @@ import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
-import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 import {
   IconBellLine,
@@ -142,10 +141,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           ...to("ActivityNextAppScreenIntersectionObserver", {}),
         },
         { title: "animate: false 밀림 버그", ...to("ActivityNextAnimateFalseTest", {}) },
-        ...nextAppScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `전환: ${transitionStyle}`,
-          ...to("ActivityNextTransitionStyle", { transitionStyle }),
-        })),
       ],
     },
     {

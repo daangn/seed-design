@@ -101,7 +101,6 @@ export const config = defineConfig({
       name: "ActivityNextAppScreenIntersectionObserver",
     },
     { route: "/next-animate-false-test", name: "ActivityNextAnimateFalseTest" },
-    { route: "/next-transition-style", name: "ActivityNextTransitionStyle" },
     { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
     {

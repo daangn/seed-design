@@ -145,7 +145,6 @@ export const { Stack, actions, stepActions } = stackflow({
       () => import("../activities/ActivityNextAppScreenIntersectionObserver"),
     ),
     ActivityNextAnimateFalseTest: lazy(() => import("../activities/ActivityNextAnimateFalseTest")),
-    ActivityNextTransitionStyle: lazy(() => import("../activities/ActivityNextTransitionStyle")),
     ActivityAppScreenAppBarCustomization: lazy(
       () => import("../activities/ActivityAppScreenAppBarCustomization"),
     ),
