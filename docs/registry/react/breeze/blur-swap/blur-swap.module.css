@@ -6,8 +6,8 @@
 .root {
   --blur-swap-blur: 4px;
   --blur-swap-offset: 8px;
-  --blur-swap-duration: 300ms;
-  --blur-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --blur-swap-duration: 400ms;
+  --blur-swap-ease: var(--seed-timing-function-easing, cubic-bezier(0.35, 0, 0.35, 1));
   --blur-swap-grow-ease: var(--seed-timing-function-enter, cubic-bezier(0, 0, 0.15, 1));
   --blur-swap-shrink-ease: var(--seed-timing-function-exit, cubic-bezier(0.35, 0, 1, 1));
 

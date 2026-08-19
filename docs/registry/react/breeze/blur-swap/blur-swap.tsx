@@ -7,7 +7,7 @@ import styles from "./blur-swap.module.css";
 
 const DEFAULT_BLUR = 4;
 const DEFAULT_OFFSET = 8;
-const DEFAULT_DURATION_MS = 300;
+const DEFAULT_DURATION_MS = 400;
 
 const useIsomorphicLayoutEffect =
   typeof document === "undefined" ? React.useEffect : React.useLayoutEffect;
@@ -90,7 +90,7 @@ export interface BlurSwapProps {
 
   /**
    * 전환 길이 (ms)
-   * @default 300
+   * @default 400
    */
   duration?: number;
 
