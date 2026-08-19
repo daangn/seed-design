@@ -14,6 +14,9 @@ export interface ComponentData {
   reactStatus: PlatformStatus;
   reactUrl?: string;
   reactNote?: string;
+  lynxStatus: PlatformStatus;
+  lynxUrl?: string;
+  lynxNote?: string;
   figmaStatus: PlatformStatus;
   figmaUrl?: string;
   figmaNote?: string;
