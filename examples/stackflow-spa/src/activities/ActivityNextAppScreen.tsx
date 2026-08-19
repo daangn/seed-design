@@ -3,15 +3,24 @@ import {
   Box,
   DatePicker,
   HStack,
+  Portal,
   ScrollFog,
   Text,
   TimePicker,
   VStack,
   type TimePickerValue,
 } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState, type ReactNode } from "react";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { ActionButton } from "seed-design/ui/action-button";
+import {
+  BottomSheetContent,
+  BottomSheetFooter,
+  BottomSheetRoot,
+  BottomSheetTrigger,
+} from "seed-design/ui/bottom-sheet";
 import {
   ChipTabsCarousel,
   ChipTabsContent,
@@ -56,6 +65,7 @@ declare module "@stackflow/config" {
       transitionStyle?: NonNullable<NextAppScreenProps["transitionStyle"]>;
       swipeBackArea?: NonNullable<NextAppScreenProps["swipeBackArea"]>;
       contentMode?: (typeof CONTENT_MODES)[number];
+      "bottom-sheet"?: "open";
     };
   }
 }
@@ -130,6 +140,9 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
 
   const [sliderValues, setSliderValues] = useState([40]);
   const [time, setTime] = useState<TimePickerValue>({ hour: 13, minute: 10 });
+
+  const stepSheet = useStepOverlay({ key: "bottom-sheet" });
+  const stepLayerIndex = useActivityZIndexBase({ activityOffset: 1 });
 
   return (
     <NextAppScreen transitionStyle={params.transitionStyle} swipeBackArea={params.swipeBackArea}>
@@ -248,7 +261,7 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
 
           <Section
             title="B. 오버레이 — 제스처가 없어도 뒤 화면이 밀림"
-            note="swipe-back에는 모달 인지 로직이 없습니다. 게이트는 isTop과 screenState뿐이라, 화면 안에서 연 오버레이가 떠 있어도 그 위에서 오른쪽으로 쓸면 뒤 화면이 스와이프백됩니다. 오버레이 자체가 activity면 얘기가 달라지는데, 그건 맨 아래 대조군에서 봅니다."
+            note="swipe-back에는 모달 인지 로직이 없습니다. 게이트는 isTop과 screenState뿐이라, 화면 안에서 연 오버레이가 떠 있어도 그 위에서 오른쪽으로 쓸면 뒤 화면이 스와이프백됩니다. step으로 띄워도 같은 activity라 마찬가지고, activity로 띄운 것만 게이트가 막습니다 — 세 패턴을 아래에서 차례로 봅니다."
           >
             <Case
               label="Menu (Portal)"
@@ -315,6 +328,35 @@ const ActivityNextAppScreen: StaticActivityComponentType<"ActivityNextAppScreen"
               >
                 Snackbar 띄우기
               </ActionButton>
+            </Case>
+
+            <Case
+              label="Step으로 띄운 BottomSheet"
+              note="useStepOverlay는 오버레이를 같은 activity의 step에 묶습니다. activity가 바뀌지 않으니 isTop도 그대로고, 게이트는 열린 채입니다. 게다가 완료했을 때 소비자가 부르는 pop()은 step이 있든 없든 Popped를 보내므로, 닫혔어야 할 step을 건너뛰고 화면이 통째로 사라집니다."
+            >
+              <BottomSheetRoot {...stepSheet.overlayProps}>
+                <BottomSheetTrigger asChild>
+                  <ActionButton variant="neutralSolid">BottomSheet 열기 (step)</ActionButton>
+                </BottomSheetTrigger>
+                <Portal>
+                  <BottomSheetContent
+                    showHandle
+                    title="Step BottomSheet"
+                    description="시트 위에서 오른쪽으로 쓸어보세요. 뒤 화면이 밀리고, 끝까지 가면 시트만 닫히는 게 아니라 이 화면이 함께 사라집니다."
+                    layerIndex={stepLayerIndex}
+                  >
+                    <BottomSheetFooter>
+                      <ActionButton
+                        flexGrow
+                        variant="neutralSolid"
+                        onClick={() => stepSheet.setOpen(false)}
+                      >
+                        닫기
+                      </ActionButton>
+                    </BottomSheetFooter>
+                  </BottomSheetContent>
+                </Portal>
+              </BottomSheetRoot>
             </Case>
 
             <Case
