@@ -1,4 +1,14 @@
-export type NextAppScreenTransitionStyle = "horizontalSlide" | "verticalSlide" | "crossfade";
+export type NextAppScreenTransitionStyle =
+  | "horizontalSlide"
+  | "verticalSlide"
+  | "crossfade"
+  /**
+   * Two-legged variant of horizontalSlide: the leaving screen shrinks in place
+   * first and only then travels off to the right. `experimental_` because the
+   * shape of the motion is still being tried out — it can change or be dropped
+   * without a major bump.
+   */
+  | "experimental_scaleSlide";
 
 /**
  * Per-screen transition state, derived in React from the activity's own

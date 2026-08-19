@@ -12,6 +12,7 @@ import {
   settle,
   touchInit,
 } from "./harness";
+import type { NextAppScreenTransitionStyle } from "../src/primitive/NextAppScreen/types";
 import { finishAnimations, runningAnimationsOn } from "./waapi";
 
 const DISPLACEMENT_VAR = "--seed-swipe-back-displacement";
@@ -21,7 +22,7 @@ interface SwipeSetupOptions {
   swipeBackArea?: "edge" | "full" | "none";
   /** seedPlugin이 stack 전체에 거는 기본값 */
   pluginSwipeBackArea?: "edge" | "full" | "none";
-  transitionStyle?: "horizontalSlide" | "verticalSlide" | "crossfade";
+  transitionStyle?: NextAppScreenTransitionStyle;
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
   onSwipeBackEnd?: (props: { swiped: boolean }) => void;
@@ -282,7 +283,11 @@ describe("swipe back — edge 모드", () => {
 });
 
 describe("swipe back — transitionStyle 독립", () => {
-  for (const transitionStyle of ["verticalSlide", "crossfade"] as const) {
+  for (const transitionStyle of [
+    "verticalSlide",
+    "crossfade",
+    "experimental_scaleSlide",
+  ] as const) {
     it(`${transitionStyle}에서도 edge 제스처가 끝까지 동작한다`, async () => {
       const clock = createClock();
       const onSwipeBackStart = mock(() => {});
