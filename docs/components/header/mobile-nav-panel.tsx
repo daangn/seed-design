@@ -4,7 +4,8 @@ import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochro
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   type SidebarFolderItem,
@@ -212,29 +213,21 @@ function PanelCloseButton({ onClose }: { onClose: () => void }) {
   );
 }
 
-function MainMenuView({
-  pathname,
-  onNavigate,
-  onClose,
-}: {
-  pathname: string;
-  onNavigate: (href: string) => void;
-  onClose: () => void;
-}) {
+function MainMenuView({ pathname, onClose }: { pathname: string; onClose: () => void }) {
   return (
     <>
       <SeedSidePanel.Header className={clsx(PANEL_HEADER_CLASS, "justify-between")}>
         <SeedSidePanel.Title className="min-w-0 flex-1">
-          <button
-            type="button"
+          <Link
+            href="/"
             aria-label="SEED 홈으로 이동"
             className={PANEL_LOGO_BUTTON_CLASS}
-            onClick={() => onNavigate("/")}
+            onClick={onClose}
           >
             <span className="sr-only">SEED</span>
             <SeedMark className="h-10 w-auto shrink-0" />
             <SeedWordmark className="ml-2 h-10 w-auto" />
-          </button>
+          </Link>
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
@@ -303,7 +296,6 @@ function SectionView({
 
 export function MobileNavPanel({ open, onOpenChange, section }: MobileNavPanelProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const initialView: MobileNavView = section?.title ? "section" : "menu";
   const [view, setView] = useState<MobileNavView>(initialView);
 
@@ -311,11 +303,6 @@ export function MobileNavPanel({ open, onOpenChange, section }: MobileNavPanelPr
     if (!open) return;
     setView(initialView);
   }, [open, initialView]);
-
-  const navigate = (href: string) => {
-    onOpenChange(false);
-    router.push(href);
-  };
 
   const shouldShowSection = view === "section" && section;
 
@@ -335,11 +322,7 @@ export function MobileNavPanel({ open, onOpenChange, section }: MobileNavPanelPr
                 onClose={() => onOpenChange(false)}
               />
             ) : (
-              <MainMenuView
-                pathname={pathname}
-                onNavigate={navigate}
-                onClose={() => onOpenChange(false)}
-              />
+              <MainMenuView pathname={pathname} onClose={() => onOpenChange(false)} />
             )}
           </SeedSidePanel.Content>
         </SeedSidePanel.Positioner>
