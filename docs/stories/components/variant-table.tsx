@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type VariantMap = Record<string, string[] | boolean[]>;
 type ConditionMap = Record<string, Record<string, Record<string, unknown>>>;
 
@@ -6,6 +8,7 @@ interface Props {
   conditionMap?: ConditionMap;
   Component: React.ComponentType | React.ElementType;
   children?: React.ReactNode;
+  layout?: "table" | "grid";
 }
 
 const Boolish = {
@@ -45,23 +48,38 @@ const generateCombinations = (variantMap: VariantMap, conditionMap: ConditionMap
 };
 
 export const VariantTable = (props: Props) => {
-  const { variantMap, conditionMap = {}, Component, ...rest } = props;
+  const { variantMap, conditionMap = {}, Component, layout = "table", ...rest } = props;
 
   const combinations = generateCombinations(variantMap, conditionMap);
   const keys = [...new Set([...Object.keys(variantMap), ...Object.keys(conditionMap)])];
+  const sectionStyle: CSSProperties | undefined =
+    layout === "grid" ? { display: "block" } : undefined;
+  const rowStyle: CSSProperties | undefined =
+    layout === "grid"
+      ? {
+          display: "grid",
+          gridTemplateColumns: `repeat(${keys.length}, 10%) minmax(0, 1fr)`,
+        }
+      : undefined;
 
   return (
     <div>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead data-chromatic="ignore">
-          <tr style={{ fontSize: "14px" }}>
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          ...(layout === "grid" && { display: "block" }),
+        }}
+      >
+        <thead data-chromatic="ignore" style={sectionStyle}>
+          <tr style={{ fontSize: "14px", ...rowStyle }}>
             {keys.map((key) => (
               <th key={key}>{key}</th>
             ))}
             <th>Component</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={sectionStyle}>
           {combinations.map((combination) => {
             const conditionedProps = Object.entries(combination).reduce(
               (acc, [key, value]) => {
@@ -86,9 +104,13 @@ export const VariantTable = (props: Props) => {
 
             const combinationKey = Object.values(combination).join("-");
             return (
-              <tr key={combinationKey}>
+              <tr key={combinationKey} style={rowStyle}>
                 {keys.map((key) => (
-                  <td data-chromatic="ignore" key={key} style={{ width: "10%" }}>
+                  <td
+                    data-chromatic="ignore"
+                    key={key}
+                    style={layout === "table" ? { width: "10%" } : undefined}
+                  >
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <span
                         style={{

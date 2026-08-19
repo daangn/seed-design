@@ -36,11 +36,6 @@ const BottomSheetPreview = ({
         html {
           overflow: auto !important;
         }
-        /* 컴포넌트 셀을 표 레이아웃에 포함하면서 기존 flex 셀 높이를 유지합니다. */
-        .bottom-sheet-variant-table tbody > tr > td:last-child {
-          display: table-cell !important;
-          padding-bottom: 17px !important;
-        }
         .seed-bottom-sheet__positioner {
           position: relative !important;
           inset: unset !important;
@@ -112,14 +107,13 @@ const conditionMap = {
 
 const CommonStoryTemplate = meta.story({
   render: (args, { component }) => (
-    <div className="bottom-sheet-variant-table">
-      <VariantTable
-        Component={component!}
-        variantMap={restVariantMap}
-        conditionMap={conditionMap}
-        {...args}
-      />
-    </div>
+    <VariantTable
+      Component={component!}
+      variantMap={restVariantMap}
+      conditionMap={conditionMap}
+      layout="grid"
+      {...args}
+    />
   ),
 });
 
