@@ -33,9 +33,6 @@ const BottomSheetPreview = ({
   return (
     <Box width="400px" p="x4">
       <style>{`
-        html {
-          overflow: auto !important;
-        }
         .seed-bottom-sheet__positioner {
           position: relative !important;
           inset: unset !important;
@@ -50,7 +47,15 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open autoFocus={false} headerAlign={headerAlign}>
+      <BottomSheetRoot
+        open
+        modal={false}
+        autoFocus={false}
+        lazyMount={false}
+        unmountOnExit={false}
+        skipAnimation
+        headerAlign={headerAlign}
+      >
         <BottomSheetContent
           title={title}
           description={description}
@@ -111,7 +116,6 @@ const CommonStoryTemplate = meta.story({
       Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
-      rowLayout="grid"
       {...args}
     />
   ),
