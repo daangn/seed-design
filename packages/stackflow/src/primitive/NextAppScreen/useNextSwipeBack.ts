@@ -119,13 +119,31 @@ export interface UseNextSwipeBackProps {
    */
   swipeBackVelocityThreshold?: number;
 
+  /**
+   * When set, the gesture completes the moment the drag crosses this ratio,
+   * without waiting for the finger to lift.
+   *
+   * Separate from `swipeBackDisplacementRatioThreshold`, which is only ever
+   * read on release: this one takes the decision away from the user, so it
+   * wants a value far enough along that the swipe is unmistakable. Velocity
+   * has no say in it — a flick still has to be released to count.
+   *
+   * Past the commit there is no taking it back. The finger stays down but is
+   * no longer tracked, so the drag can no longer be pulled back to cancel, and
+   * the touchend that eventually arrives does nothing.
+   *
+   * Unset, the gesture is decided on release.
+   */
+  swipeBackCommitRatio?: number;
+
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
 
   /**
-   * Called when the gesture is released. `swiped: true` means the gesture
-   * crossed the displacement-ratio or velocity threshold and the screen has
-   * visually completed the swipe — the component itself never pops.
+   * Called once the gesture is decided — when the finger lifts, or, where
+   * `swipeBackCommitRatio` is set, the moment the drag crosses it.
+   * `swiped: true` means the screen has visually completed the swipe — the
+   * component itself never pops.
    *
    * Exit-guard pattern: the consumer decides whether to pop on `swiped: true`.
    * Pop immediately for the default behavior; to guard the exit (e.g. show a
@@ -204,6 +222,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     swipeBackArea = "edge",
     swipeBackDisplacementRatioThreshold = DEFAULT_DISPLACEMENT_RATIO_THRESHOLD,
     swipeBackVelocityThreshold = DEFAULT_VELOCITY_THRESHOLD,
+    swipeBackCommitRatio,
     transitionStyle,
     rootRef,
     layerRef,
@@ -334,6 +353,51 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     onSwipeStart();
   }
 
+  /**
+   * Decide the gesture and play its release. Moving the phase to `releasing`
+   * up front is what makes a mid-drag commit safe: the finger is still down,
+   * and every move that follows — plus the touchend that eventually arrives —
+   * finds the gesture already over and returns.
+   */
+  function releaseGesture(context: GestureContext, swiped: boolean) {
+    cancelPendingMove();
+    phaseRef.current = "releasing";
+
+    setSwipeState(context.targets, swiped ? "completing" : "canceling");
+
+    if (swiped) {
+      playRelease(context, context.displacement, "complete", () => {
+        const currentContext = contextRef.current;
+        if (!currentContext) return;
+
+        const { targets } = currentContext;
+        if (targets.topRoot.dataset["screenState"] === "idle") {
+          // Exit-guard: the consumer decided not to pop — glide back from the
+          // completed position, then clean up like a canceled gesture. A full
+          // screen width is where every style's exit has finished (ratio 1).
+          setSwipeState(targets, "canceling");
+          playRelease(currentContext, window.innerWidth, "cancel", () => finishGesture(targets));
+          return;
+        }
+
+        // The consumer popped. Keep `completing` on both roots so the
+        // redundant exit animation stays suppressed: the exiting top unmounts
+        // with the attribute, and the behind screen self-cleans once idle.
+        phaseRef.current = "idle";
+        contextRef.current = null;
+      });
+    } else {
+      playRelease(context, context.displacement, "cancel", () => {
+        const currentContext = contextRef.current;
+        if (!currentContext) return;
+
+        finishGesture(currentContext.targets);
+      });
+    }
+
+    onSwipeEnd({ swiped });
+  }
+
   function handleTouchStart(event: React.TouchEvent, options: { claimImmediately: boolean }) {
     const touch = event.touches[0];
     if (!touch) return;
@@ -457,6 +521,12 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
       applyDisplacement(currentContext.targets, displacement, displacementRatio);
       onSwipeMove({ displacement, displacementRatio });
+
+      // Ordered after the move so the last `onSwipeBackMove` a consumer hears
+      // is the position the release departs from.
+      if (swipeBackCommitRatio !== undefined && displacementRatio > swipeBackCommitRatio) {
+        releaseGesture(currentContext, true);
+      }
     });
   }
 
@@ -470,46 +540,11 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
       return;
     }
 
-    cancelPendingMove();
-    phaseRef.current = "releasing";
-
-    const swiped =
+    releaseGesture(
+      context,
       context.displacementRatio > swipeBackDisplacementRatioThreshold ||
-      context.velocity > swipeBackVelocityThreshold;
-
-    setSwipeState(context.targets, swiped ? "completing" : "canceling");
-
-    if (swiped) {
-      playRelease(context, context.displacement, "complete", () => {
-        const currentContext = contextRef.current;
-        if (!currentContext) return;
-
-        const { targets } = currentContext;
-        if (targets.topRoot.dataset["screenState"] === "idle") {
-          // Exit-guard: the consumer decided not to pop — glide back from the
-          // completed position, then clean up like a canceled gesture. A full
-          // screen width is where every style's exit has finished (ratio 1).
-          setSwipeState(targets, "canceling");
-          playRelease(currentContext, window.innerWidth, "cancel", () => finishGesture(targets));
-          return;
-        }
-
-        // The consumer popped. Keep `completing` on both roots so the
-        // redundant exit animation stays suppressed: the exiting top unmounts
-        // with the attribute, and the behind screen self-cleans once idle.
-        phaseRef.current = "idle";
-        contextRef.current = null;
-      });
-    } else {
-      playRelease(context, context.displacement, "cancel", () => {
-        const currentContext = contextRef.current;
-        if (!currentContext) return;
-
-        finishGesture(currentContext.targets);
-      });
-    }
-
-    onSwipeEnd({ swiped });
+        context.velocity > swipeBackVelocityThreshold,
+    );
   }
 
   // Self-clean: a screen resting as top must carry no leftover swipe state
