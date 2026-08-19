@@ -5,6 +5,7 @@ import type { LynxViewElement } from "@lynx-js/web-core/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   getLynxErrorMessage,
+  getLynxPreviewSizing,
   initializeLynxView,
   isLynxPageReady,
   loadLynxWebCoreStyleRules,
@@ -13,8 +14,9 @@ import {
 const INITIALIZE_MARGIN = "200px";
 const LOAD_TIMEOUT_MS = 15_000;
 
-export function LynxComponentPreview({ url, height }: { url: string; height: number }) {
+export function LynxComponentPreview({ url, height }: { url: string; height?: number }) {
   const { userColorScheme } = useTheme();
+  const sizing = getLynxPreviewSizing(height);
   const containerRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<LynxViewElement | null>(null);
   const themeRef = useRef(userColorScheme);
@@ -123,11 +125,16 @@ export function LynxComponentPreview({ url, height }: { url: string; height: num
   }, [retryKey, url, visible]);
 
   return (
-    <div ref={containerRef} className="relative w-full" style={{ height }}>
+    <div
+      ref={containerRef}
+      className="relative flex w-full items-center"
+      style={sizing.containerStyle}
+    >
       <lynx-view
         key={retryKey}
         ref={setElementRef}
-        style={{ display: "block", width: "100%", height }}
+        height={sizing.autoHeight ? "auto" : undefined}
+        style={{ display: "block", width: "100%", ...sizing.viewStyle }}
       />
       {status !== "ready" ? (
         <div className="absolute inset-0 flex items-center justify-center bg-fd-card text-sm text-fd-muted-foreground">

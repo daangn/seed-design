@@ -10,6 +10,23 @@ interface ConfigurableLynxView {
 }
 
 const LYNX_WEB_RUNTIME_SDK_VERSION = "3.5";
+export const DEFAULT_LYNX_PREVIEW_MIN_HEIGHT = 320;
+
+export function getLynxPreviewSizing(height?: number) {
+  if (height !== undefined) {
+    return {
+      autoHeight: false,
+      containerStyle: { height },
+      viewStyle: { height },
+    } as const;
+  }
+
+  return {
+    autoHeight: true,
+    containerStyle: { minHeight: DEFAULT_LYNX_PREVIEW_MIN_HEIGHT },
+    viewStyle: { height: "auto" },
+  } as const;
+}
 
 export function configureLynxView(element: ConfigurableLynxView, theme: string) {
   element.globalProps = { theme };
