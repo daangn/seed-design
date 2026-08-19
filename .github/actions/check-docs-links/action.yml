@@ -1,0 +1,32 @@
+name: Check docs links
+description: Validate internal links in the exported docs site with lychee.
+
+inputs:
+  out-dir:
+    description: "Absolute path to the exported docs site (Next static export output)"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # `--format`은 넘기지 않는다. 액션의 failIfEmpty가 markdown 출력의 `Total | 0`을
+    # grep해서 판정하므로, 다른 포맷을 주면 링크를 하나도 못 찾은 상황이 통과로 넘어간다.
+    # `--output`도 넘기지 않는다. 액션이 직접 지정하며 중복되면 에러로 막는다.
+    #
+    # `--remap` 값은 작은따옴표로 감싼다. 액션 진입점이 `eval lychee ... ${ARGS}`로
+    # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
+    - uses: lycheeverse/lychee-action@v2
+      with:
+        lycheeVersion: v0.24.2
+        fail: true
+        args: >-
+          --offline
+          --no-ignore
+          --no-progress
+          --extensions html
+          --root-dir ${{ inputs.out-dir }}
+          --fallback-extensions html
+          --include-fragments=anchor-only
+          --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
+          --
+          ${{ inputs.out-dir }}

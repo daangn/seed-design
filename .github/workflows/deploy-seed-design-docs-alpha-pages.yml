@@ -15,6 +15,7 @@ on:
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".github/actions/nextjs-cache/**"
+      - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -36,6 +37,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  statuses: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -55,6 +57,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+
+      # 링크 검사 결과는 job 성패가 아니라 commit status로 알린다. 브랜치 보호는 이
+      # context를 요구하고, 되돌려야 할 때는 같은 context에 success를 덮어써서 푼다.
+      # `docs-links-status.yml`이 docs를 건드리지 않은 PR에 같은 context를 올린다.
+      - name: Mark docs link validation pending
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'pending',
+              context: 'Validate docs links',
+              description: 'Building docs before checking links',
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -239,3 +258,44 @@ jobs:
                 body,
               });
             }
+
+      # 프리뷰 배포와 PR 코멘트 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지
+      # 막히면 손해가 더 크다. 머지는 아래 commit status가 막는다.
+      - name: Validate docs links
+        id: links
+        continue-on-error: true
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
+
+      - name: Record docs link validation result
+        if: ${{ always() }}
+        uses: actions/github-script@v9
+        env:
+          LINKS_OUTCOME: ${{ steps.links.outcome }}
+        with:
+          script: |
+            // 링크가 깨진 것(failure)과 빌드가 죽어 검사 자체를 못 한 것(error)을 구분한다.
+            // 이 저장소의 docs 빌드는 컴포넌트 페이지마다 Sanity를 조회해서 네트워크로
+            // 간헐 실패하므로, 둘을 뭉치면 엉뚱한 곳을 파게 된다.
+            const outcome = process.env.LINKS_OUTCOME;
+            const [state, description] =
+              outcome === 'success'
+                ? ['success', 'No broken links in the exported docs site']
+                : outcome === 'failure'
+                  ? ['failure', 'Broken links found in the exported docs site']
+                  : ['error', 'Docs build failed, so links were never checked'];
+
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state,
+              context: 'Validate docs links',
+              description,
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+
+      - name: Fail when docs links are broken
+        if: ${{ steps.links.outcome == 'failure' }}
+        run: exit 1
