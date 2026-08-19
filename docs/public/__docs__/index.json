@@ -804,6 +804,12 @@
               "title": "디자인 시스템에도 브랜딩이 필요할까",
               "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
               "docUrl": "/updates/why-design-system-needs-branding"
+            },
+            {
+              "id": "why-we-hired-a-design-engineer",
+              "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
+              "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
+              "docUrl": "/updates/why-we-hired-a-design-engineer"
             }
           ]
         },
