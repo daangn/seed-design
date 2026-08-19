@@ -32,6 +32,9 @@ const SWIPE_BACK_AREAS = ["edge", "full", "none"] as const satisfies ReadonlyArr
   NonNullable<NextAppScreenProps["swipeBackArea"]>
 >;
 
+/** `off` 는 prop 을 넘기지 않는 것 — 손을 떼는 시점에 판정하는 기본 동작이다. */
+const COMMIT_RATIOS = ["off", "0.1", "0.2", "0.4"] as const;
+
 const ActivityNextTransitionStyle: StaticActivityComponentType<"ActivityNextTransitionStyle"> = ({
   params: { transitionStyle },
 }) => {
@@ -39,6 +42,7 @@ const ActivityNextTransitionStyle: StaticActivityComponentType<"ActivityNextTran
   const { create } = useSnackbarAdapter();
 
   const [swipeBackArea, setSwipeBackArea] = useState<(typeof SWIPE_BACK_AREAS)[number]>("edge");
+  const [commitRatio, setCommitRatio] = useState<(typeof COMMIT_RATIOS)[number]>("off");
 
   // 제스처 진행 중에는 ref 에만 적어 프레임마다 리렌더가 걸리지 않게 한다.
   const peakRatioRef = useRef(0);
@@ -47,6 +51,7 @@ const ActivityNextTransitionStyle: StaticActivityComponentType<"ActivityNextTran
     <NextAppScreen
       transitionStyle={transitionStyle}
       swipeBackArea={swipeBackArea}
+      {...(commitRatio !== "off" && { swipeBackCommitRatio: Number(commitRatio) })}
       onSwipeBackStart={() => {
         peakRatioRef.current = 0;
         create({ render: () => <Snackbar message="Started swiping" />, timeout: 500 });
@@ -109,6 +114,30 @@ const ActivityNextTransitionStyle: StaticActivityComponentType<"ActivityNextTran
               {swipeBackArea === "none"
                 ? "이 영역 설정에서는 제스처를 받지 않습니다."
                 : "제스처는 위 transitionStyle 의 exit 를 그대로 되감습니다. 스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
+            </Text>
+          </VStack>
+          <VStack gap="x2" align="center">
+            <Text textStyle="t3Bold" aria-hidden>
+              Swipe Back Commit Ratio
+            </Text>
+            <SegmentedControl
+              value={commitRatio}
+              onValueChange={(value) => {
+                const next = COMMIT_RATIOS.find((ratio) => ratio === value);
+                if (next) setCommitRatio(next);
+              }}
+              aria-label="Swipe Back Commit Ratio"
+            >
+              {COMMIT_RATIOS.map((ratio) => (
+                <SegmentedControlItem key={ratio} value={ratio}>
+                  {ratio}
+                </SegmentedControlItem>
+              ))}
+            </SegmentedControl>
+            <Text textStyle="t6Regular" color="fg.neutralMuted">
+              {commitRatio === "off"
+                ? "손을 떼는 시점에 판정합니다. 임계를 넘겨 끌었어도 되돌려 놓으면 취소됩니다."
+                : `ratio 가 ${commitRatio} 보다 커지는 순간, 손을 떼지 않아도 확정됩니다. 그 뒤로는 되돌릴 수 없고 Snackbar 도 그 시점에 뜹니다.`}
             </Text>
           </VStack>
         </VStack>
