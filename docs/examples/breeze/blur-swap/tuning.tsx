@@ -6,9 +6,10 @@ import { BlurSwap } from "seed-design/breeze/blur-swap/blur-swap";
 import { ActionButton } from "seed-design/ui/action-button";
 
 const PRESETS = [
-  { id: "flat", label: "blur 0 / offset 8", blur: 0, offset: 8 },
+  { id: "no-blur", label: "blur 0 / offset 8", blur: 0, offset: 8 },
+  { id: "no-offset", label: "blur 4 / offset 0", blur: 4, offset: 0 },
   { id: "default", label: "blur 4 / offset 8", blur: 4, offset: 8 },
-  { id: "soft", label: "blur 12 / offset 20", blur: 12, offset: 20 },
+  { id: "strong", label: "blur 12 / offset 20", blur: 12, offset: 20 },
 ];
 
 export default function BlurSwapTuning() {
@@ -16,7 +17,7 @@ export default function BlurSwapTuning() {
 
   return (
     <VStack gap="x6" align="center">
-      <HStack gap="x8" align="center">
+      <HStack gap="x6" align="center">
         {PRESETS.map((preset) => (
           <VStack key={preset.id} gap="x2" align="center">
             <BlurSwap activeKey={count} blur={preset.blur} offset={preset.offset}>

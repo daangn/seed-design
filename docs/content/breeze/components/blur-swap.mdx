@@ -44,6 +44,32 @@ return (
 );
 ```
 
+### 나가는 콘텐츠와 들어오는 콘텐츠
+
+전환이 시작되면 두 콘텐츠가 잠깐 같은 자리에 겹칩니다. 둘은 같은 시간 동안 서로 반대 방향으로 움직입니다. 나가는 쪽은 제자리에서 위로 밀리며 흐려지고, 들어오는 쪽은 아래에서 올라오며 선명해집니다.
+
+|             | 나가는 콘텐츠                       | 들어오는 콘텐츠                       |
+| ----------- | ----------------------------------- | ------------------------------------- |
+| 투명도      | `1` → `0`                           | `0` → `1`                             |
+| 흐림        | `0` → `blur`                        | `blur` → `0`                          |
+| 이동        | 제자리 → `offset`만큼 위로          | `offset`만큼 아래 → 제자리            |
+| 배치        | `position: absolute`로 흐름 밖      | 흐름 안. 컨테이너 크기의 기준이 됩니다 |
+| 상호작용    | `inert`. 포커스·포인터·스크린리더에서 모두 빠집니다 | 평소와 같습니다        |
+| 수명        | 퇴장 애니메이션이 끝나면 DOM에서 제거 | `activeKey`가 다시 바뀔 때까지 유지    |
+
+투명도·흐림·이동 세 가지가 하나의 `@keyframes`에 함께 들어 있어 같은 타이밍 함수를 공유합니다. 그래서 흐림 정도는 crossfade 진행도를 그대로 따라갑니다 — 반쯤 사라진 콘텐츠는 반쯤 흐려져 있습니다.
+
+느린 속도로 돌려보면 두 콘텐츠가 겹치는 구간이 보입니다.
+
+<ComponentExample name="breeze/blur-swap/anatomy">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/blur-swap/anatomy.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### 크기 애니메이션 범위
 
 `size`로 컨테이너가 어느 축을 따라갈지 정합니다.
@@ -51,6 +77,8 @@ return (
 - `"auto"` (기본값): 너비와 높이 모두 따라갑니다. 콘텐츠 너비를 그대로 쓰기 때문에 줄바꿈이 일어나지 않습니다. 라벨, 뱃지, 숫자처럼 한 줄짜리 콘텐츠에 씁니다.
 - `"height"`: 높이만 따라가고 너비는 부모를 채웁니다. 카드나 패널처럼 폭이 정해진 콘텐츠에 씁니다.
 - `"none"`: 크기를 건드리지 않습니다. 바깥에서 크기를 이미 정해둔 경우에 씁니다.
+
+크기가 움직이면 주변 레이아웃도 함께 밀립니다. 전환을 일으키는 컨트롤이 그 영향권에 있으면 방금 누른 버튼이 손끝에서 달아나므로, 컨테이너가 한쪽으로만 자라도록 배치합니다.
 
 <ComponentExample name="breeze/blur-swap/panel">
   ```json doc-gen:file
@@ -61,9 +89,24 @@ return (
   ```
 </ComponentExample>
 
+### 빈 상태에서 등장하기
+
+`children`이 비어 있는 키도 하나의 상태입니다. 빈 쪽에서 콘텐츠 쪽으로 넘어가면 등장이 되고, 반대로 넘어가면 퇴장이 됩니다. 컨테이너도 0에서부터 자라고 0으로 돌아갑니다.
+
+여기서는 `size="height"`를 씁니다. `"auto"`는 너비도 0에서 시작하는데, 콘텐츠는 컨테이너의 시작 모서리에 붙어 있으므로 가운데 정렬된 자리에서는 상자가 자라는 동안 콘텐츠가 옆으로 밀립니다. 빈 상태를 오가는 경우에는 그 폭이 콘텐츠 너비의 절반이나 되어 눈에 걸립니다.
+
+<ComponentExample name="breeze/blur-swap/appear">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/blur-swap/appear.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### 전환 세기 조절
 
-`blur`는 전환 중 최대 blur 반경(px), `offset`은 콘텐츠가 흐르는 거리(px)입니다. `offset`이 양수면 아래에서 위로, 음수면 위에서 아래로 흐릅니다. 둘 다 `0`이면 제자리 crossfade가 됩니다.
+`blur`는 전환 중 최대 blur 반경(px), `offset`은 콘텐츠가 흐르는 거리(px)입니다. `offset`이 양수면 아래에서 위로, 음수면 위에서 아래로 흐릅니다. 한쪽을 `0`으로 두면 그 축만 빠집니다 — `offset`이 `0`이면 제자리에서 흐려지기만 하고, `blur`가 `0`이면 흐림 없이 밀려나기만 합니다.
 
 <ComponentExample name="breeze/blur-swap/tuning">
   ```json doc-gen:file
@@ -74,24 +117,33 @@ return (
   ```
 </ComponentExample>
 
-세 값 모두 CSS 커스텀 프로퍼티로 내려가므로, prop 대신 스타일시트에서 한 번에 정해도 됩니다.
+`duration`은 전환 길이(ms)로 기본값은 `400`입니다. blur는 반쯤 흐려진 중간 상태가 보여야 효과가 읽히기 때문에, 여느 상태 전환보다 길게 잡혀 있습니다. 짧게 줄이면 crossfade만 남고 blur는 눈에 걸리지 않습니다.
+
+값은 모두 CSS 커스텀 프로퍼티로 내려가므로, prop 대신 스타일시트에서 한 번에 정해도 됩니다.
 
 ```css
 .my-swap {
   --blur-swap-blur: 12px;
   --blur-swap-offset: 20px;
-  --blur-swap-duration: 450ms;
-  --blur-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --blur-swap-duration: 600ms;
+  --blur-swap-ease: cubic-bezier(0.35, 0, 0.35, 1);
+  --blur-swap-grow-ease: cubic-bezier(0, 0, 0.15, 1);
+  --blur-swap-shrink-ease: cubic-bezier(0.35, 0, 1, 1);
 }
 ```
 
+타이밍 함수는 셋으로 나뉘어 있고, 기본값은 각각 SEED의 `$timing-function.easing`, `$timing-function.enter`, `$timing-function.exit`입니다.
+
+- `--blur-swap-ease`: 두 콘텐츠의 crossfade. 중간 구간이 보여야 하므로 가운데에서 절반을 지나는 S자 곡선을 씁니다.
+- `--blur-swap-grow-ease`: 컨테이너가 커질 때. 들어오는 콘텐츠는 첫 프레임부터 최종 크기로 그려지므로, 컨테이너가 앞서 자리를 만들어야 합니다.
+- `--blur-swap-shrink-ease`: 컨테이너가 작아질 때. 나가는 콘텐츠는 끝까지 원래 크기를 지키므로, 컨테이너는 그쪽이 다 사라질 때까지 버티다 뒤늦게 줄어듭니다.
+
 ## 동작과 스타일
 
-- 나가는 콘텐츠와 들어오는 콘텐츠가 `opacity`, blur, 이동을 하나의 `@keyframes`로 함께 움직입니다. 셋이 같은 timing function을 공유하므로 blur는 저절로 crossfade 진행도에 묶입니다.
 - 퇴장은 `@seed-design/react-presence`의 `usePresence`가 붙잡습니다. `data-state`가 `closed`로 바뀌면서 `animation-name`이 달라지는 것을 감지해, 애니메이션이 끝날 때까지 DOM에 남겨둡니다. 그래서 **퇴장 애니메이션을 지우면 나가는 콘텐츠가 사라지지 않습니다.** 전환을 없애고 싶다면 애니메이션을 지우는 대신 `duration`을 `0`으로 두세요.
 - 나가는 콘텐츠는 `position: absolute`로 흐름 밖에 놓입니다. 들어오는 콘텐츠가 곧바로 자리를 차지하므로, 컨테이너 크기는 항상 들어오는 쪽을 기준으로 계산됩니다.
-- 루트에 `overflow: hidden`이 걸려 있습니다. `offset`만큼의 이동이 가장자리 밖에서 시작하고 끝나는 대신, 콘텐츠 밖으로 넘치는 그림자나 포커스 링은 잘립니다.
-- 크기는 `ResizeObserver`로 실측한 값을 루트에 적고 CSS `transition`으로 따라갑니다. `activeKey`가 그대로인 채 콘텐츠 자체가 커지거나 작아지는 경우에도 같은 전환을 탑니다.
+- 루트는 콘텐츠를 **자르지 않습니다.** 컨테이너 크기는 전환이 끝나야 새 콘텐츠에 닿기 때문에, 자르면 그동안 넘치는 만큼이 계속 잘려 나갑니다. blur도 반경만큼 상자 밖으로 번지므로 가장자리가 흐려지는 대신 직선으로 끊깁니다. 대신 전환 중에는 콘텐츠가 컨테이너 밖으로 잠깐 비어져 나올 수 있으니, 빽빽한 자리에 놓을 때는 가장 큰 콘텐츠를 기준으로 여백을 잡아 둡니다.
+- 크기는 `ResizeObserver`로 실측한 값을 루트에 적고 CSS `transition`으로 따라갑니다. `activeKey`가 그대로인 채 콘텐츠 자체가 커지거나 작아지는 경우에도 같은 전환을 탑니다. 커지는 중인지 작아지는 중인지는 루트의 `data-resize`에 적혀 타이밍 함수를 고릅니다.
 - 모션 감소 설정에서는 blur와 이동을 뺀 keyframes로 바뀌어 crossfade만 남고, 크기는 전환 없이 즉시 맞춰집니다. JavaScript는 관여하지 않습니다.
 - 나가는 콘텐츠에는 `inert`가 걸립니다. 전환 중 같은 내용이 두 번 읽히거나, 사라지는 쪽이 포인터를 가로채지 않습니다.
 - `filter`는 새로운 stacking context를 만듭니다. 콘텐츠가 컨테이너 밖으로 겹쳐 나와야 한다면 `BlurSwap` 바깥에서 처리합니다.
