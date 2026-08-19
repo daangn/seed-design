@@ -1,0 +1,22 @@
+.root {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.inline {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.content {
+  width: 100%;
+}
+
+/*
+ * 컨테이너 너비가 스프링으로 움직이는 동안 콘텐츠까지 같이 좁아지면 줄바꿈이 바뀌고,
+ * 그 높이 변화가 다시 스프링에 되먹임된다. 콘텐츠를 max-content로 고정해 그 고리를 끊는다.
+ */
+.contentAuto {
+  width: max-content;
+}

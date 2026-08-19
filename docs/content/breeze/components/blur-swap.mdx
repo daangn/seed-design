@@ -1,0 +1,120 @@
+---
+title: Blur Swap
+description: 두 콘텐츠를 blur crossfade로 교차하는 컴포넌트
+---
+
+`BlurSwap`은 `activeKey`가 바뀔 때 이전 콘텐츠와 새 콘텐츠를 같은 자리에 겹쳐두고 교차시킵니다. 나가는 쪽은 흐려지며 밀려나고 들어오는 쪽은 선명해지며 자리를 잡습니다. 컨테이너 크기는 들어오는 콘텐츠에 맞춰 함께 움직입니다.
+
+<ComponentExample name="breeze/blur-swap/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/blur-swap/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+Dependency:
+
+```package-install
+npm install motion
+```
+
+Snippet:
+
+```package-install
+npx @seed-design/cli@latest add breeze:blur-swap
+```
+
+<BreezeManualInstallation name="blur-swap" />
+
+## Configuration
+
+blur-swap 컴포넌트는 motion의 `m.` 컴포넌트를 사용합니다. lazy loading을 위해 프로젝트에 MotionProvider를 설정해야 합니다.
+
+자세한 내용은 [Motion Lazy Motion 문서](https://motion.dev/docs/react-lazy-motion)를 참고하세요.
+
+```tsx title="MotionProvider.tsx"
+"use client";
+
+import { LazyMotion } from "motion/react";
+import type { ReactNode } from "react";
+
+const loadFeatures = () => import("motion/react").then((res) => res.domAnimation);
+
+export function MotionProvider({ children }: { children: ReactNode }) {
+  return <LazyMotion features={loadFeatures}>{children}</LazyMotion>;
+}
+```
+
+```tsx title="index.tsx"
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'
+import { MotionProvider } from './MotionProvider.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <MotionProvider>
+    <App />
+  </MotionProvider>
+)
+```
+
+## Usage
+
+지금 보여줄 콘텐츠와, 그 콘텐츠를 식별하는 `activeKey`를 함께 전달합니다. `activeKey`가 바뀔 때만 전환이 일어나므로, 콘텐츠 안쪽이 바뀌어도 키가 같으면 그대로 둡니다.
+
+```tsx
+const [status, setStatus] = useState("ready");
+
+return (
+  <BlurSwap activeKey={status}>
+    <span>{STATUS_LABEL[status]}</span>
+  </BlurSwap>
+);
+```
+
+### 크기 애니메이션 범위
+
+`size`로 컨테이너가 어느 축을 따라갈지 정합니다.
+
+- `"auto"` (기본값): 너비와 높이 모두 따라갑니다. 콘텐츠 너비를 그대로 쓰기 때문에 줄바꿈이 일어나지 않습니다. 라벨, 뱃지, 숫자처럼 한 줄짜리 콘텐츠에 씁니다.
+- `"height"`: 높이만 따라가고 너비는 부모를 채웁니다. 카드나 패널처럼 폭이 정해진 콘텐츠에 씁니다.
+- `"none"`: 크기를 건드리지 않습니다. 바깥에서 크기를 이미 정해둔 경우에 씁니다.
+
+<ComponentExample name="breeze/blur-swap/panel">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/blur-swap/panel.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 전환 세기 조절
+
+`blur`는 전환 중 최대 blur 반경(px), `offset`은 콘텐츠가 흐르는 거리(px)입니다. `offset`이 양수면 아래에서 위로, 음수면 위에서 아래로 흐릅니다. 둘 다 `0`이면 제자리 crossfade가 됩니다.
+
+<ComponentExample name="breeze/blur-swap/tuning">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/blur-swap/tuning.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## 동작과 스타일
+
+- 나가는 콘텐츠와 들어오는 콘텐츠의 `opacity`, blur, 이동이 하나의 전환으로 함께 움직입니다. 두 콘텐츠가 동시에 화면에 있는 구간이 곧 crossfade입니다.
+- 나가는 콘텐츠는 `AnimatePresence`의 `popLayout`이 흐름 밖으로 빼내므로, 들어오는 콘텐츠가 곧바로 자리를 차지합니다. 그래서 컨테이너 크기는 항상 들어오는 쪽을 기준으로 계산됩니다.
+- 루트에 `overflow: hidden`이 걸려 있습니다. `offset`만큼의 이동이 가장자리 밖에서 시작하고 끝나는 대신, 콘텐츠 밖으로 넘치는 그림자나 포커스 링은 잘립니다.
+- 크기는 스프링으로 따라갑니다. `activeKey`가 그대로인 채 콘텐츠 자체가 커지거나 작아지는 경우에도 `ResizeObserver`로 같은 스프링을 태웁니다.
+- 모션 감소 설정에서는 blur와 이동을 빼고 crossfade만 남기며, 크기는 애니메이션 없이 즉시 맞춥니다.
+- 나가는 콘텐츠에는 `inert`가 걸립니다. 전환 중 같은 내용이 두 번 읽히거나, 사라지는 쪽이 포인터를 가로채지 않습니다.
+- `filter`는 새로운 stacking context를 만듭니다. 콘텐츠가 컨테이너 밖으로 겹쳐 나와야 한다면 `BlurSwap` 바깥에서 처리합니다.
+
+## Props
+
+<react-type-table path="./registry/react/breeze/blur-swap/blur-swap.tsx" name="BlurSwapProps" />
