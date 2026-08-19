@@ -87,6 +87,16 @@ const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
+  // `remarkLlms`의 기본 heading 핸들러는 `#` 마커를 붙이지 않고 텍스트만 돌려주므로, 출력은
+  // 첫 줄 제목 말고는 heading이 하나도 없는 평문이 된다. 마커가 없으면 llms.txt를 읽는 쪽도
+  // 프래그먼트를 검사하는 링크 체커도 섹션을 짚을 수 없다.
+  handlers: {
+    heading: (node, _parent, state, info) =>
+      `${"#".repeat(node.depth)} ${state.containerPhrasing(node, info)}`,
+  },
+  // heading 뒤에 `[#id]`를 덧붙이면 그 문자열까지 heading 텍스트로 읽혀 slug가 달라진다.
+  // 마커를 되살린 이상 slug는 heading 텍스트에서 그대로 나오므로 id를 적을 이유가 없다.
+  headingIds: false,
   filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
 };
