@@ -12,6 +12,7 @@ import {
 } from "fumadocs-core/source";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { fileGenerator } from "fumadocs-docgen";
+import { defaultHandlers } from "mdast-util-to-markdown";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
@@ -87,6 +88,11 @@ const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
+  // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
+  // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
+  handlers: { heading: defaultHandlers.heading },
+  // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
+  headingIds: false,
   filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
 };

@@ -98,8 +98,9 @@ runs:
 
         echo "Mirrored $count llms text outputs to $MIRROR_DIR ($excluded excluded)"
 
-    # `--include-fragments`는 켜지 않는다. llms 사본에는 앵커가 없어서 페이지에 멀쩡히
-    # 있는 `#heading`까지 전부 깨진 걸로 잡힌다. 프래그먼트는 위 HTML 단계가 본다.
+    # 사본 안 `#heading` 링크는 사본 자신을 가리키므로, 이 단계의 프래그먼트 검사는 사본이
+    # 실제 heading을 담고 있어야만 성립한다. heading을 잃은 채로 켜면 페이지에 멀쩡히 있는
+    # 앵커가 전부 깨진 걸로 잡힌다.
     - name: Check links in the llms text outputs
       uses: lycheeverse/lychee-action@v2
       with:
@@ -112,6 +113,7 @@ runs:
           --extensions md
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
+          --include-fragments=anchor-only
           --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
           --
           ${{ runner.temp }}/docs-llms-markdown
