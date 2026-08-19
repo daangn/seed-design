@@ -40,7 +40,7 @@ export function App() {
 }
 ```
 
-`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `" · "`이고 `separator` prop으로 바꿀 수 있습니다.
+`TagGroupRoot`의 `size`·`weight`·`tone`은 Context로 하위 `TagGroupItem`에 전파되며, 개별 `TagGroupItem`에서 prop으로 덮어쓸 수 있습니다. 구분자는 기본 `"·"`이고 `separator` prop으로 바꿀 수 있습니다.
 
 `TagGroupItem`은 `flexShrink`를 지원합니다. 긴 태그가 있는 레이아웃에서 item의 축소 우선순위를 조정해야 할 때 사용하세요.
 
@@ -116,6 +116,8 @@ export function App() {
 
 `TagGroupRoot`의 `separator`로 구분 기호를 바꿀 수 있습니다. 의미가 있는 정보는 구분자 대신 `TagGroupItem`으로 표현하세요.
 
+문자열 구분자의 앞뒤 공백은 Lynx에서 제거됩니다. 예를 들어 `separator=" / "`와 `separator="/"`는 동일하게 렌더링되며, 항목과 구분자 사이의 간격은 컴포넌트가 일관되게 적용합니다.
+
 <LynxComponentExample name="lynx/tag-group/customizing-separators">
   ```json doc-gen:file
   {
@@ -157,6 +159,10 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 
 - **웹**: `display: inline` 기반 text flow. 컨테이너가 좁으면 마지막 item 내부 label text가 word 단위로 자연스럽게 wrap됩니다 (예: `"Ut minim laboris enim"` → `"Ut minim"` / `"laboris enim"` 두 줄로 쪼개짐).
 - **Lynx**: flex 기반 item 단위 wrap. item은 content-size를 유지하고, 한 줄에 들어가지 않으면 item 전체가 다음 줄로 이동합니다. item 내부 text가 item 경계를 넘어 word-break되는 동작은 재현할 수 없습니다. Lynx `TagGroupRoot`는 이를 자연스럽게 보이도록 separator를 뒤따르는 item과 하나의 wrap 단위로 묶어 다음 줄로 함께 이동시킵니다.
+
+### 구분자 공백 처리
+
+웹은 `white-space: pre`로 문자열 구분자의 앞뒤 공백을 보존합니다. Lynx는 `white-space: pre`를 지원하지 않고 브라우저 프리뷰와 네이티브 Lynx의 기본 공백 계측도 서로 다릅니다. 두 실행 환경에서 같은 간격을 만들기 위해 Lynx `TagGroup`은 문자열 구분자의 앞뒤 공백을 제거하고 컴포넌트 스타일의 간격을 적용합니다. 문자열이 아닌 `ReactNode` 구분자는 변경하지 않습니다.
 
 ### 미지원 prop
 
