@@ -15,7 +15,7 @@
  * property back as the environment left it (in happy-dom: `undefined`) keeps
  * that branch intact everywhere except on our own parts.
  */
-const STUBBED_PARTS = new Set(["screen-layer", "screen-dim"]);
+const STUBBED_PARTS = new Set(["screen-layer", "screen-dim", "screen-content"]);
 
 let environmentAnimate = Element.prototype.animate;
 

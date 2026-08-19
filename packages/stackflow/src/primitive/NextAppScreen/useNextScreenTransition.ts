@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { cancelAll } from "../private/waapi";
-import { getScreenMotion, NO_ANIMATIONS, playScreenMotion } from "./animation";
+import { allAnimations, getScreenMotion, NO_ANIMATIONS, playScreenMotion } from "./animation";
 import type { NextAppScreenTransitionStyle, NextScreenState } from "./types";
 
 export interface UseNextScreenTransitionArgs {
@@ -9,6 +9,7 @@ export interface UseNextScreenTransitionArgs {
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
   dimRef: React.RefObject<HTMLElement | null>;
+  contentRef: React.RefObject<HTMLElement | null>;
 }
 
 /**
@@ -26,6 +27,7 @@ export function useNextScreenTransition({
   rootRef,
   layerRef,
   dimRef,
+  contentRef,
 }: UseNextScreenTransitionArgs) {
   const runningRef = useRef(NO_ANIMATIONS);
 
@@ -50,14 +52,14 @@ export function useNextScreenTransition({
     // style reports, and cancelling drops it back to the declared position.
     const previous = runningRef.current;
     const animations = playScreenMotion(
-      { layer: layerRef.current, dim: dimRef.current },
+      { layer: layerRef.current, dim: dimRef.current, content: contentRef.current },
       motion,
       previous,
     );
-    cancelAll(Object.values(previous));
+    cancelAll(allAnimations(previous));
     runningRef.current = animations;
-  }, [screenState, transitionStyle, rootRef, layerRef, dimRef]);
+  }, [screenState, transitionStyle, rootRef, layerRef, dimRef, contentRef]);
 
   // Never leave an animation running against a torn-down screen.
-  useEffect(() => () => cancelAll(Object.values(runningRef.current)), []);
+  useEffect(() => () => cancelAll(allAnimations(runningRef.current)), []);
 }
