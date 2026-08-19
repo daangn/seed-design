@@ -11,11 +11,7 @@ export interface LynxComponentExampleProps {
   children: ReactNode;
 }
 
-export async function LynxComponentExample({
-  name,
-  height = 320,
-  children,
-}: LynxComponentExampleProps) {
+export async function LynxComponentExample({ name, height, children }: LynxComponentExampleProps) {
   if (!children) throw new Error(`${name}의 LynxComponentExample에는 코드 children이 필요합니다.`);
   const entry = await loadLynxExample(name);
 

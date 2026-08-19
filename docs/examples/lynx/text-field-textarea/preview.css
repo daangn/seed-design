@@ -1,0 +1,7 @@
+/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
+page {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
