@@ -1,5 +1,57 @@
 # 문서와 예제 작성 규칙
 
+## 목차
+
+- [React 문서를 기준으로 삼기](#react-문서를-기준으로-삼기)
+- [문서 페이지](#문서-페이지)
+- [실행 예제 연결](#실행-예제-연결)
+- [엔트리 구성](#엔트리-구성)
+- [예제 설계](#예제-설계)
+- [이벤트 핸들러 선택](#이벤트-핸들러-선택)
+- [네이티브 전용 안내](#네이티브-전용-안내)
+- [이미지 자산](#이미지-자산)
+
+## React 문서를 기준으로 삼기
+
+Lynx 문서와 예제를 처음부터 새로 설계하지 않는다. 같은 컴포넌트의 React 문서와 예제를 먼저 읽고, 사용자가 배워야 할 기능과 시나리오를 기준점으로 삼는다.
+
+```text
+docs/content/react/components/<component>.mdx
+docs/examples/react/<component>/*.tsx
+```
+
+다음 순서로 비교한다.
+
+1. React 문서의 섹션 순서, 예제 제목, 시나리오 파일 목록을 수집한다.
+2. 각 시나리오가 Lynx 공개 API와 런타임에서 지원되는지 확인한다.
+3. 지원되는 시나리오는 목적과 화면 결과를 유지한 채 ReactLynx 코드로 옮긴다.
+4. API나 렌더링 방식이 다르면 Lynx 사용법으로 바꾸고 차이를 설명한다.
+5. 지원되지 않는 시나리오는 작동하는 것처럼 흉내 내지 않고 `Lynx 미지원 기능`에 이유와 대안을 적는다.
+
+시나리오를 다음 셋으로 분류하면 누락과 무리한 이식을 줄일 수 있다.
+
+| 분류 | 처리 |
+| --- | --- |
+| 동일 지원 | React 예제의 목적, 문구, 상태를 유지하고 Lynx 엔트리 형식으로 변환한다. |
+| Lynx식 변환 필요 | 컴파운드 구조, 이벤트 prop, 이미지·CSS 차이를 Lynx 공개 API에 맞게 바꾼다. |
+| 미지원 | 실행 예제를 만들지 않고 문서의 차이·미지원 섹션에 기록한다. |
+
+코드를 기계적으로 복사하지 않는다. React의 `onClick`, DOM 요소, 브라우저 API, SVG, CSS가 Lynx에서도 같은 의미라고 가정하지 않는다. 다음 항목은 반드시 다시 결정한다.
+
+- import 출처와 컴포넌트의 공개 export
+- 단일 컴포넌트와 compound component 구조 차이
+- `onClick` 같은 React 이벤트와 `bindtap` 같은 Lynx 이벤트의 대응
+- background thread와 main thread 경계
+- HTML·SVG 요소와 Lynx element의 대응
+- CSS 속성, 단위, 이미지 형식의 Lynx·WebLynx 지원 여부
+- `<page>`, 테마 className, `root.render()`를 포함한 독립 엔트리 구성
+
+예를 들어 React `ActionButton`의 Loading 예제는 “탭하면 잠시 loading 상태가 된다”는 목적과 문구를 유지한다. Lynx에서는 `onClick`을 `bindtap`으로 바꾸고, 사용자 정의 컴포넌트 경계를 통과하는 상태 변경 핸들러에 `"background only"`를 둔다.
+
+React `Switch`의 Listening to Value Changes 예제는 같은 count와 last value를 보여주되 Lynx compound API를 사용한다. `false`가 텍스트 자식으로 사라지지 않도록 출력 값은 `JSON.stringify(lastValue)`로 표시한다.
+
+React에 대응 문서가 없으면 가까운 Lynx 컴포넌트의 문서 구조를 참고한다. 이 경우에도 대상 컴포넌트의 공개 API와 실제 런타임 동작을 기준으로 시나리오를 결정한다.
+
 ## 문서 페이지
 
 `docs/content/lynx/components/<component>.mdx`에 컴포넌트 문서를 둔다. 새 문서는 `docs/AGENTS.md`의 frontmatter 규칙을 따른다. 본문은 한국어로 작성하고 API 이름과 코드 식별자는 원문 표기를 유지한다.
@@ -14,6 +66,8 @@
 6. 지원하지 않는 기능
 
 차이가 없는 섹션을 억지로 만들지 않는다. 웹 버전과 다르거나 Lynx에서 지원하지 않는 동작은 명시적으로 적는다.
+
+지원 범위가 같으면 React 문서의 예제 제목, 순서, 시나리오 파일명을 유지한다. 다르게 구성할 때는 Lynx API 차이 또는 미지원 사유가 문서에 드러나야 한다. Lynx에만 필요한 설치, 실행, 플랫폼 차이 안내는 별도 섹션으로 추가한다.
 
 ## 실행 예제 연결
 
