@@ -5,6 +5,12 @@ description: 화면 하단에서 올라오는 시트 컴포넌트로, 드래그�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
+<LynxComponentExample name="lynx/bottom-sheet/preview">
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -101,6 +107,46 @@ export function App() {
 
 <react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetFooterProps" />
 
+## Examples
+
+### Trigger
+
+`BottomSheet.Trigger`를 탭하면 Bottom Sheet가 열립니다. Lynx에서는 `asChild`를 지원하지 않으므로 Trigger가 자식 요소를 감싸는 `<view>`를 렌더링합니다.
+
+Footer의 버튼, 배경 탭, 아래 방향 드래그로 Bottom Sheet를 닫을 수 있습니다. 예제 위쪽의 상태 값에서 `onOpenChange` 결과를 확인할 수 있습니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/preview">
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpenChange`로 상태를 제어합니다. 배경 탭이나 드래그로 닫을 때도 `onOpenChange`가 호출되므로 전달받은 값을 `open`에 반영해야 합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/controlled">
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Snap Points
+
+`snapPoints`에는 픽셀 숫자, 화면 높이 기준 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
+
+`onSnapChange`에서는 현재 index와 픽셀로 계산된 높이를 받을 수 있습니다. ref의 `snapTo` 메서드를 사용하면 원하는 높이로 이동할 수 있습니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/snap-points">
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/snap-points.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+<Callout type="info">
+드래그와 snap 애니메이션의 최종 동작은 QR 코드 탭에서 Lynx Explorer로 확인하세요. WebLynx 미리보기에서는 기기와 제스처 처리 결과가 다를 수 있습니다.
+</Callout>
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
@@ -114,10 +160,11 @@ Lynx `BottomSheet`는 React `BottomSheet`와 다음과 같은 차이가 있습�
 | 항목 | 웹 | Lynx |
 |---|---|---|
 | 상태 prop | `open`/`defaultOpen`/`onOpenChange` | 동일 (내부에서 lynx-ui-sheet의 `show`/`defaultShow`/`onShowChange`로 매핑) |
+| `onOpenChange`의 `details.reason` | 지원 | **미지원** — 변경된 `open` 값만 전달 |
 | 마운트 제어 | `lazyMount`, `unmountOnExit` | **미지원** — `forceMount`로 대체 |
 | `BottomSheetPositioner` | 존재 | 동일 (lynx-ui-sheet의 `SheetView` 래핑) — 첫 open 전까지 Backdrop/Content 마운트 지연 |
 | `BottomSheetCloseButton` | 존재 | **미포함** — Tier B (SVG 지원 후 추가 예정) |
-| `snapPoints` | 없음 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
+| `snapPoints` | 지원 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
 | `BottomSheetTrigger`의 `asChild` | 지원 | **미지원** (기본 `<view>`로만 렌더링) |
 | imperative ref API | — | `BottomSheetRootRef.{open, close, snapTo, expand, collapse}` |
 
