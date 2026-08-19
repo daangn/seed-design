@@ -5,6 +5,17 @@ import { LYNX_WEB_CORE_STYLES_FILENAME } from "./constants.js";
 
 const require = createRequire(import.meta.url);
 
+const SEED_LYNX_WEB_PREVIEW_OVERRIDES = `
+/* WebLynx는 flex item인 text를 상단에 배치하므로 Radio label의 첫 줄만 중앙에 맞춥니다. */
+.seed-radio__label--size_medium {
+  margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
+}
+
+.seed-radio__label--size_large {
+  margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
+}
+`;
+
 function resolveCssImport(specifier: string, originatingFile: string) {
   if (specifier.startsWith(".")) return resolve(dirname(originatingFile), specifier);
   return require.resolve(specifier, { paths: [dirname(originatingFile)] });
@@ -44,7 +55,7 @@ export async function bundleLynxWebCoreStyles() {
     throw new Error("Lynx Web Shadow DOM CSS에 필수 layout 규칙이 없습니다.");
   }
 
-  return css;
+  return `${css}\n${SEED_LYNX_WEB_PREVIEW_OVERRIDES}`;
 }
 
 export async function writeLynxWebCoreStyles(directory: string) {

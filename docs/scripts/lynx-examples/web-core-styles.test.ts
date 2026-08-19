@@ -9,5 +9,7 @@ describe("Lynx Web Shadow DOM CSS", () => {
     expect(css).toContain("box-sizing: border-box");
     expect(css).toContain("var(--flex-direction)");
     expect(css).toContain('lynx-default-display-linear="false"');
+    expect(css).toContain(".seed-radio__label--size_medium");
+    expect(css).toContain(".seed-radio__label--size_large");
   });
 });

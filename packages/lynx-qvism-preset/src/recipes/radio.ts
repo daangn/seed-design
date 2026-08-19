@@ -4,9 +4,10 @@ import { defineSlotRecipe } from "../utils/define";
 /**
  * Lynx-전용 radio wrapper recipe.
  *
- * root 는 top-align 하고, mark 와 label 첫 줄은 각 size 의 터치 영역 안에서
- * margin 으로 수직 보정한다. 긴 label 이 2줄 이상으로 래핑되어도 radiomark 가
- * 전체 label 높이의 가운데로 내려가지 않는다.
+ * Checkbox 와 동일하게 root 는 top-align 하고, mark 는 각 size 의 터치 영역
+ * 안에서만 margin 으로 수직 보정한다. 긴 label 이 2줄 이상으로 래핑되어도
+ * radiomark 가 전체 label 높이의 가운데로 내려가지 않고, 한 줄 label 은 Lynx
+ * text 렌더링 기준으로 자연 정렬되도록 label 자체는 별도 보정하지 않는다.
  */
 const radioRecipe = defineSlotRecipe({
   name: "radio",
@@ -40,7 +41,6 @@ const radioRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
-          marginTop: `calc(${vars.sizeMedium.enabled.root.minHeight} / 2 - ${vars.sizeMedium.enabled.label.lineHeight} / 2)`,
         },
       },
       large: {
@@ -51,7 +51,6 @@ const radioRecipe = defineSlotRecipe({
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-          marginTop: `calc(${vars.sizeLarge.enabled.root.minHeight} / 2 - ${vars.sizeLarge.enabled.label.lineHeight} / 2)`,
         },
       },
     },
