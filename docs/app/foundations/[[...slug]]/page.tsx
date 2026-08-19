@@ -60,6 +60,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       toc={toc}
       lastUpdate={lastModified}
       showPageActions={page.slugs.length > 0}
+      section="foundations"
       markdownUrl={markdownUrl}
     >
       {body}

@@ -62,6 +62,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       lastUpdate={lastModified}
       tableOfContent={isChangelog ? { enabled: false } : { single: false }}
       showPageActions={page.slugs.length > 0}
+      section="react"
       markdownUrl={markdownUrl}
       llmOptions={isChangelog ? <ChangelogLLMOptions fallbackUrl={markdownUrl} /> : undefined}
     >

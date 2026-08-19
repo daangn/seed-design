@@ -99,12 +99,24 @@ export async function ProgressBoardTable() {
           {components.map((component) => (
             <tr key={component.id} className="group">
               <td className="sticky left-0 bg-bg-layer-default font-medium transition-colors">
-                <Link
-                  href={`/components/${component.id}`}
-                  className="text-fd-primary hover:underline"
-                >
-                  {component.name}
-                </Link>
+                {component.url ? (
+                  isExternalUrl(component.url) ? (
+                    <a
+                      href={component.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-fd-primary hover:underline"
+                    >
+                      {component.name}
+                    </a>
+                  ) : (
+                    <Link href={component.url} className="text-fd-primary hover:underline">
+                      {component.name}
+                    </Link>
+                  )
+                ) : (
+                  component.name
+                )}
               </td>
               {PLATFORM_CONFIG.map(({ key: platform }) => {
                 const statusKey = `${platform}Status` as keyof ComponentData;

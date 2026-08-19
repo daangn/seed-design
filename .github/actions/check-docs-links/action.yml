@@ -1,0 +1,117 @@
+name: Check docs links
+description: Validate internal links in the exported docs site with lychee.
+
+inputs:
+  out-dir:
+    description: "Absolute path to the exported docs site (Next static export output)"
+    required: true
+  llms-exclude:
+    description: >-
+      Newline-separated glob patterns, relative to out-dir, naming llms text outputs to leave
+      unchecked. The default is the outputs that render the published changelog: its body comes
+      from `packages/*/CHANGELOG.md`, so a link that rots there cannot be fixed at the source, and
+      its older URLs are served through the site's `_redirects`, which lychee cannot see offline.
+    required: false
+    # `react/llms-full.txt`는 changelog 전용이 아닌데도 통째로 뺀다. 이 파일에만 있는 링크는
+    # 전부 `# Changelog` 섹션 안이고, 그 앞부분은 `llms/react/**`가 그대로 담고 있어서
+    # 빼도 검사 범위가 줄지 않는다.
+    default: |
+      react/llms-full.txt
+      llms/react/updates/changelog.txt
+      llms/react/updates/changelog/*
+
+runs:
+  using: composite
+  steps:
+    # `--format`은 넘기지 않는다. 액션의 failIfEmpty가 markdown 출력의 `Total | 0`을
+    # grep해서 판정하므로, 다른 포맷을 주면 링크를 하나도 못 찾은 상황이 통과로 넘어간다.
+    # `--output`도 넘기지 않는다. 액션이 직접 지정하며 중복되면 에러로 막는다.
+    #
+    # `--remap` 값은 작은따옴표로 감싼다. 액션 진입점이 `eval lychee ... ${ARGS}`로
+    # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
+    - name: Check links in the exported HTML
+      uses: lycheeverse/lychee-action@v2
+      with:
+        lycheeVersion: v0.24.2
+        fail: true
+        args: >-
+          --offline
+          --no-ignore
+          --no-progress
+          --extensions html
+          --root-dir ${{ inputs.out-dir }}
+          --fallback-extensions html
+          --include-fragments=anchor-only
+          --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
+          --
+          ${{ inputs.out-dir }}
+
+    # lychee는 확장자로 파서를 고른다. llms 산출물은 내용이 마크다운인데 `.txt`로 서빙돼서,
+    # 그대로 넘기면 plaintext 파서가 붙는다. 그 파서는 URL 모양 문자열만 줍기 때문에
+    # `[label](/components/button)` 같은 상대 링크는 통째로 안 보인다. 검사 전용 사본을
+    # `.md`로 떠서 마크다운 파서를 태운다.
+    - name: Mirror the llms text outputs as markdown
+      shell: bash
+      env:
+        OUT_DIR: ${{ inputs.out-dir }}
+        MIRROR_DIR: ${{ runner.temp }}/docs-llms-markdown
+        LLMS_EXCLUDE: ${{ inputs.llms-exclude }}
+      run: |
+        set -euo pipefail
+
+        is_excluded() {
+          local rel="$1" pattern
+          while IFS= read -r pattern; do
+            [ -n "$pattern" ] || continue
+            if [[ "$rel" == $pattern ]]; then
+              return 0
+            fi
+          done <<< "$LLMS_EXCLUDE"
+          return 1
+        }
+
+        rm -rf "$MIRROR_DIR"
+        mkdir -p "$MIRROR_DIR"
+        cd "$OUT_DIR"
+
+        count=0
+        excluded=0
+        while IFS= read -r file; do
+          rel="${file#./}"
+          if is_excluded "$rel"; then
+            excluded=$((excluded + 1))
+            continue
+          fi
+          mkdir -p "$MIRROR_DIR/$(dirname "$rel")"
+          cp "$file" "$MIRROR_DIR/${rel%.txt}.md"
+          count=$((count + 1))
+        done < <(find . \( \( -path './llms/*' -a -name '*.txt' \) -o -name 'llms.txt' -o -name 'llms-full.txt' \) )
+
+        # 라우트가 사라지거나 파일 이름 규칙이 바뀌면 사본이 비고, 그러면 링크를 하나도
+        # 보지 않은 채로 통과한다. 아래 lychee 단계의 failIfEmpty가 걸러주긴 하지만
+        # 원인이 사본 쪽이라는 걸 여기서 말해주는 편이 낫다.
+        if [ "$count" -eq 0 ]; then
+          echo "No llms text output found under $OUT_DIR." >&2
+          echo "The llms routes were renamed or dropped, so their links would go unchecked." >&2
+          exit 1
+        fi
+
+        echo "Mirrored $count llms text outputs to $MIRROR_DIR ($excluded excluded)"
+
+    # `--include-fragments`는 켜지 않는다. llms 사본에는 앵커가 없어서 페이지에 멀쩡히
+    # 있는 `#heading`까지 전부 깨진 걸로 잡힌다. 프래그먼트는 위 HTML 단계가 본다.
+    - name: Check links in the llms text outputs
+      uses: lycheeverse/lychee-action@v2
+      with:
+        lycheeVersion: v0.24.2
+        fail: true
+        args: >-
+          --offline
+          --no-ignore
+          --no-progress
+          --extensions md
+          --root-dir ${{ inputs.out-dir }}
+          --fallback-extensions html
+          --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
+          --
+          ${{ runner.temp }}/docs-llms-markdown

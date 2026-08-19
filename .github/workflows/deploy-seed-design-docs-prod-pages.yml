@@ -13,6 +13,7 @@ on:
       - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".github/actions/nextjs-cache/**"
+      - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -86,6 +87,12 @@ jobs:
         run: |
           bun run build
 
+      # 배포 전에 둔다. 깨진 링크가 프로덕션에 나가는 것보다 배포가 멈추는 편이 낫다.
+      - name: Validate docs links
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
+
       - name: Save Next.js cache
         if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v5
@@ -111,3 +118,40 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
           CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
           bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      # 이 워크플로는 Sanity webhook으로도 돌아간다. 그때는 PR도 없고 실패 알림이 닿을
+      # 사람도 없어서, 편집한 URL이 링크 검사에 걸리면 사이트가 조용히 갱신되지 않는다.
+      - name: 실패하면 Slack payload를 빌드해요
+        if: failure()
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          REF_NAME: ${{ github.ref_name }}
+          TRIGGER: ${{ github.event_name }}
+        run: |
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg run_url "$RUN_URL" \
+            --arg ref "$REF_NAME" \
+            --arg trigger "$TRIGGER" \
+            '{
+              channel: $channel,
+              text: "SEED Docs 프로덕션 배포가 실패했어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "SEED Docs 프로덕션 배포가 실패했어요"}},
+                {type: "section", fields: [
+                  {type: "mrkdwn", text: ("*브랜치*\n`" + $ref + "`")},
+                  {type: "mrkdwn", text: ("*트리거*\n`" + $trigger + "`")}
+                ]},
+                {type: "section", text: {type: "mrkdwn", text: "사이트는 이전 배포 상태로 남아 있어요. 링크 검사에 걸린 경우 Sanity에서 편집한 URL을 확인해주세요."}},
+                {type: "actions", elements: [{type: "button", style: "danger", text: {type: "plain_text", text: "로그 보기"}, url: $run_url}]}
+              ]
+            }' > /tmp/slack-failure-payload.json
+
+      - name: 실패를 Slack에 알려요
+        if: failure()
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload-file-path: /tmp/slack-failure-payload.json

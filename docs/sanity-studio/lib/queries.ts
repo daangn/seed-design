@@ -1,6 +1,7 @@
 export const COMPONENT_QUERY = `*[_type == "component" && id == $id][0] {
   id,
   name,
+  url,
   deprecated,
   deprecatedMessage,
   iosStatus,
@@ -23,6 +24,7 @@ export const COMPONENT_QUERY = `*[_type == "component" && id == $id][0] {
 export const ALL_COMPONENTS_QUERY = `*[_type == "component"] | order(name asc) {
   id,
   name,
+  url,
   deprecated,
   deprecatedMessage,
   iosStatus,
