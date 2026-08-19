@@ -1,8 +1,10 @@
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getGetStartedSource } from "@/app/source";
 import { ProsePage } from "@/components/layout/prose-page";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { getComponentStatus } from "@/lib/rootage";
 import { JsonLd } from "@/components/json-ld";
+import { LlmsLinkRels } from "@/components/llms-link-rels";
 import {
   buildDocsPageJsonLd,
   buildDocsPageMetadata,
@@ -33,6 +35,10 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <ProsePage title={displayTitle} description={page.data.description}>
+      <LlmsLinkRels
+        section="get-started"
+        markdownUrl={getLLMMarkdownUrl("get-started", params.slug ?? [])}
+      />
       <JsonLd data={buildDocsPageJsonLd(page)} />
       {cover ? (
         <div className="not-prose mb-8 md:mb-10">
