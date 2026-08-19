@@ -32,15 +32,18 @@ Lynx 컴포넌트 문서와 실행 가능한 예제를 저장소 규칙에 맞�
 
 1. 같은 컴포넌트의 React 문서·예제와 Lynx 공개 API를 함께 확인한다.
 2. [작성 규칙](references/authoring.md)에 따라 MDX와 예제 엔트리를 작성한다.
-3. 웹과 네이티브 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 원인을 분류한다.
-4. 네이티브 전용 동작은 실제 Lynx Explorer 또는 PlayLynx에서 확인한다.
-5. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제약을 보고한다.
+3. WebLynx는 실제 문서 개발 서버와 `docs/out`의 `LynxComponentExample`에서만 확인한다.
+4. 웹과 네이티브 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 원인을 분류한다.
+5. 네이티브 전용 동작은 가능한 경우 Lynx Explorer 또는 PlayLynx에서 확인한다. 기기나 세션이 없으면 우회 구현 없이 환경 차단으로 보고한다.
+6. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제약을 보고한다.
 
 ## 핵심 원칙
 
 - 예제는 실제 호스트 앱에서 권장하는 사용 패턴을 그대로 보여준다.
 - `@seed-design/lynx-react`의 공개 export만 사용한다.
 - 지원하지 않는 기능을 문서 예제에서 흉내 내지 않는다.
+- 일반적인 문서 작성에서 독립 HTML, 별도 Vite 앱, 임시 React 페이지로 WebLynx 예제를 옮기지 않는다.
+- 독립 재현 환경은 사용자가 문서 런타임 진단을 요청했거나 프로덕션 문서에서도 재현되는 경우에만 고려한다. 시작 전에 작업 범위가 넓어짐을 알린다.
 - 웹 미리보기에서 표현할 수 없는 네이티브 동작은 짧은 콜아웃으로 안내한다.
 - QR 코드에는 직접 접근 가능한 `.lynx.bundle` HTTP(S) 주소를 넣는다. `lynx://` 딥 링크는 Explorer 실행 버튼에만 사용한다.
 - 상태 출력에서 `false`, `null`, `0`처럼 JSX가 그대로 표시하지 않을 수 있는 값은 `JSON.stringify`로 직렬화한다.
