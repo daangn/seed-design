@@ -141,6 +141,7 @@ export interface UseNextSwipeBackArgs extends UseNextSwipeBackProps {
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
   dimRef: React.RefObject<HTMLElement | null>;
+  contentRef: React.RefObject<HTMLElement | null>;
   screenState: NextScreenState;
 }
 
@@ -148,6 +149,7 @@ interface SwipeTargets {
   topRoot: HTMLElement;
   topLayer: HTMLElement | null;
   topDim: HTMLElement | null;
+  topContent: HTMLElement | null;
   behindRoot: HTMLElement | null;
   behindLayer: HTMLElement | null;
 }
@@ -186,12 +188,14 @@ function clearSwipeState(targets: SwipeTargets) {
 function clearAllSwipeVars(targets: SwipeTargets) {
   clearSwipeVars(targets.topLayer);
   clearSwipeVars(targets.topDim);
+  clearSwipeVars(targets.topContent);
   clearSwipeVars(targets.behindLayer);
 }
 
 function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: number) {
   writeSwipeVars(targets.topLayer, displacement, ratio);
   writeSwipeVars(targets.topDim, displacement, ratio);
+  writeSwipeVars(targets.topContent, displacement, ratio);
   writeSwipeVars(targets.behindLayer, displacement, ratio);
 }
 
@@ -204,6 +208,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     rootRef,
     layerRef,
     dimRef,
+    contentRef,
     screenState,
   } = args;
 
@@ -286,7 +291,12 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
     const { targets } = context;
     const { animations, duration } = playSwipeRelease(
-      { layer: targets.topLayer, dim: targets.topDim, behindLayer: targets.behindLayer },
+      {
+        layer: targets.topLayer,
+        dim: targets.topDim,
+        content: targets.topContent,
+        behindLayer: targets.behindLayer,
+      },
       context.transitionStyle,
       displacement,
       mode,
@@ -341,8 +351,10 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     if (phaseRef.current === "releasing" && contextRef.current) {
       const context = contextRef.current;
       const currentDisplacement =
-        readSwipeDisplacement(context.transitionStyle, context.targets.topLayer) ??
-        context.displacement;
+        readSwipeDisplacement(context.transitionStyle, {
+          layer: context.targets.topLayer,
+          content: context.targets.topContent,
+        }) ?? context.displacement;
       stopRelease();
 
       context.x0 = touch.clientX;
@@ -379,6 +391,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
         topRoot: rootEl,
         topLayer: layerRef.current,
         topDim: dimRef.current,
+        topContent: contentRef.current,
         behindRoot: behind.rootEl,
         behindLayer: behind.layerEl,
       },
@@ -512,7 +525,8 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     clearSwipeVars(rootEl);
     clearSwipeVars(layerRef.current);
     clearSwipeVars(dimRef.current);
-  }, [screenState, rootRef, layerRef, dimRef]);
+    clearSwipeVars(contentRef.current);
+  }, [screenState, rootRef, layerRef, dimRef, contentRef]);
 
   // Abort on unmount: never leave attributes on the (still mounted) behind
   // screen or timers running against a torn-down screen. Touches only stable

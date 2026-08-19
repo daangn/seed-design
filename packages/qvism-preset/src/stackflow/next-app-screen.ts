@@ -19,11 +19,32 @@ const BEHIND_TRANSLATE_X = "-30%";
  */
 const VERTICAL_LAYER_TRANSLATE_Y = "8vh";
 
+/**
+ * experimental_scaleSlide shrinks the screen's CONTENT, not its layer — the
+ * layer carries the background, and shrinking that would open a gap around the
+ * screen and show whatever busy thing sits behind it.
+ *
+ * The three parts run over deliberately overlapping stretches of the gesture,
+ * so none of them ever waits at a standstill for the one before it. The scale
+ * is spelled out rather than derived from the span, because in binary floating
+ * point `1 - 0.9` is 0.09999999999999998 and that would land verbatim in the
+ * generated CSS.
+ *
+ * Mirrored by the same WAAPI keyframes as the constants above.
+ */
+const SCALE_SLIDE_SCALE = 0.9;
+const SCALE_SLIDE_SHRINK_SPAN = 0.1;
+
+const SCALE_SLIDE_SHRINK = [0, 0.4] as const;
+const SCALE_SLIDE_TRAVEL = [0.3, 1] as const;
+const SCALE_SLIDE_FADE = [0.4, 1] as const;
+
 // ─── State selectors ─────────────────────────────────────────────────────────
 //
 // `data-screen-state` and `data-swipe-back-state` live on the screen root
-// (data-part="screen"); every animated slot is a direct child of the root, so
-// `[state] > &` scopes each rule to its own screen.
+// (data-part="screen"); every animated slot but the content is a direct child
+// of the root, so `[state] > &` scopes each rule to its own screen. The
+// content gets its own set below.
 //
 // These rules declare where each state RESTS, never how it travels there. The
 // travel is played with WAAPI from
@@ -66,11 +87,22 @@ const transitioning =
 const swipeBackActive = `[data-swipe-back-state]${isTopScreen} > &`;
 const swipeBackActiveBehind = `[data-swipe-back-state]${isBehindScreen} > &`;
 
+// The content is the one animated slot that is NOT a direct child of the root
+// — it sits inside the layer, and consumers are free to wrap it further — so
+// its rules are scoped by descent. Screens sit side by side in the stack, so
+// the only way one of these reaches a content that isn't its own is a stack
+// rendered inside a screen, which stackflow has no notion of.
+const contentPushStart = '[data-screen-state="push"]:not([data-screen-ready]) &';
+const contentPop = '[data-screen-state="pop"] &';
+const contentSwiping = `[data-swipe-back-state="swiping"]${isTopScreen}:not(#\\#) &`;
+const contentCanceling = `[data-swipe-back-state="canceling"]${isTopScreen}:not(#\\#) &`;
+const contentCompleting = `[data-swipe-back-state="completing"]${isTopScreen}:not(#\\#) &`;
+
 // ─── Swipe-driven values ─────────────────────────────────────────────────────
 //
 // During the gesture the position is pure CSS, driven by variables written
-// directly on the consuming elements (top layer, behind layer, dim) — never on
-// the stack root. Every style reads the same ratio, each into its own exit:
+// directly on the consuming elements (top layer, top content, behind layer,
+// dim) — never on the stack root. Every style reads the same ratio, each into its own exit:
 // horizontalSlide travels with the finger 1:1 in px, the rest interpolate the
 // offset and opacity their `pop` rests at.
 
@@ -80,6 +112,15 @@ const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px
 const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + ${SWIPE_RATIO} * 30%), 0, 0)`;
 const SWIPE_FADE_OPACITY = `calc(1 - ${SWIPE_RATIO})`;
 const SWIPE_VERTICAL_LAYER_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_LAYER_TRANSLATE_Y}), 0)`;
+
+// experimental_scaleSlide reads the same ratio three times, once per span, so
+// the drag traces the shape the transition does.
+const swipeSpanProgress = ([from, to]: readonly [number, number]) =>
+  `clamp(0, (${SWIPE_RATIO} - ${from}) / ${to - from}, 1)`;
+
+const SWIPE_SCALE_SLIDE_TOP_TRANSFORM = `translate3d(calc(${swipeSpanProgress(SCALE_SLIDE_TRAVEL)} * 100%), 0, 0)`;
+const SWIPE_SCALE_SLIDE_FADE_OPACITY = `calc(1 - ${swipeSpanProgress(SCALE_SLIDE_FADE)})`;
+const SWIPE_SCALE_SLIDE_CONTENT_TRANSFORM = `scale(calc(1 - ${swipeSpanProgress(SCALE_SLIDE_SHRINK)} * ${SCALE_SLIDE_SHRINK_SPAN}))`;
 
 // A mask rather than border-radius + overflow: no scroll-container or
 // containing-block side effects on the layer, and no dependence on
@@ -271,6 +312,59 @@ export const nextAppScreen = defineSlotRecipe({
           [swiping]: { opacity: SWIPE_FADE_OPACITY },
           [canceling]: { opacity: "1" },
           [completing]: { opacity: "0" },
+        },
+      },
+      // horizontalSlide's layer and behind screen, with the top screen's
+      // content shrinking ahead of the travel and the layer fading behind it.
+      experimental_scaleSlide: {
+        dim: {
+          height: "100%",
+          background: vars.$color.palette.staticBlackAlpha400,
+
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
+        },
+        layer: {
+          [swipeBackActiveBehind]: CLIP_STYLES,
+
+          // top
+          [pushStart]: { opacity: "0", transform: "translate3d(100%, 0, 0)" },
+          [pop]: { opacity: "0", transform: "translate3d(100%, 0, 0)" },
+
+          // behind (`pop-behind` rests at the default position — no rule)
+          [pushBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+          [idleBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+
+          [swiping]: {
+            opacity: SWIPE_SCALE_SLIDE_FADE_OPACITY,
+            transform: SWIPE_SCALE_SLIDE_TOP_TRANSFORM,
+          },
+          [swipingBehind]: { transform: SWIPE_BEHIND_TRANSFORM },
+
+          [canceling]: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+          [cancelingBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+          [completing]: { opacity: "0", transform: "translate3d(100%, 0, 0)" },
+          [completingBehind]: { transform: "translate3d(0, 0, 0)" },
+        },
+        // The content's box is the layer's, so the default origin already
+        // scales it about the middle of the screen.
+        content: {
+          [contentPushStart]: { transform: `scale(${SCALE_SLIDE_SCALE})` },
+          [contentPop]: { transform: `scale(${SCALE_SLIDE_SCALE})` },
+
+          [contentSwiping]: { transform: SWIPE_SCALE_SLIDE_CONTENT_TRANSFORM },
+          [contentCanceling]: { transform: "scale(1)" },
+          [contentCompleting]: { transform: `scale(${SCALE_SLIDE_SCALE})` },
         },
       },
     },

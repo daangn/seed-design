@@ -8439,6 +8439,83 @@
   opacity: 0;
 }
 
+.seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide {
+  background: var(--seed-color-palette-static-black-alpha-400);
+  height: 100%;
+}
+
+[data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide, [data-screen-state="pop"] > .seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide {
+  opacity: 0;
+}
+
+[data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide {
+  opacity: calc(1 - var(--seed-swipe-back-displacement-ratio, 0));
+}
+
+[data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide {
+  opacity: 1;
+}
+
+[data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__dim--transitionStyle_experimental_scaleSlide {
+  opacity: 0;
+}
+
+[data-swipe-back-state][data-screen-state$="-behind"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cpath fill='white' d='M300,0 c35.0033,0 52.5049,0 65.8744,6.8121 a62.5,62.5 0 0 1 27.3135,27.3135 c6.8121,13.3695 6.8121,30.8711 6.8121,65.8744 l0,200 c0,35.0033 0,52.5049 -6.8121,65.8744 a62.5,62.5 0 0 1 -27.3135,27.3135 c-13.3695,6.8121 -30.8711,6.8121 -65.8744,6.8121 l-200,0 c-35.0033,0 -52.5049,0 -65.8744,-6.8121 a62.5,62.5 0 0 1 -27.3135,-27.3135 c-6.8121,-13.3695 -6.8121,-30.8711 -6.8121,-65.8744 l0,-200 c0,-35.0033 0,-52.5049 6.8121,-65.8744 a62.5,62.5 0 0 1 27.3135,-27.3135 c13.3695,-6.8121 30.8711,-6.8121 65.8744,-6.8121 l200,0 Z'/%3E%3C/svg%3E") 25% fill / calc(var(--seed-next-app-screen-clip-radius) * 1.6) stretch;
+}
+
+[data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide, [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+[data-screen-state="push-behind"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide, [data-screen-state="idle-behind"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  transform: translate3d(-30%, 0, 0);
+}
+
+[data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  opacity: calc(1 - clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - .4) / .6, 1));
+  transform: translate3d(calc(clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - .3) / .7, 1) * 100%), 0, 0);
+}
+
+[data-swipe-back-state="swiping"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  transform: translate3d(calc(-30% + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0);
+}
+
+[data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+[data-swipe-back-state="canceling"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  transform: translate3d(-30%, 0, 0);
+}
+
+[data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+[data-swipe-back-state="completing"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
+  transform: translate3d(0, 0, 0);
+}
+
+[data-screen-state="push"]:not([data-screen-ready]) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide, [data-screen-state="pop"] .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
+  transform: scale(.9);
+}
+
+[data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
+  transform: scale(calc(1 - clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0) / .4, 1) * .1));
+}
+
+[data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
+  transform: scale(1);
+}
+
+[data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
+  transform: scale(.9);
+}
+
 .seed-next-app-screen__content--contentOffsetTop_safeArea {
   padding-top: var(--seed-safe-area-top);
 }
