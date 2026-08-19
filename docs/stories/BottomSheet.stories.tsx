@@ -36,26 +36,22 @@ const BottomSheetPreview = ({
         .seed-bottom-sheet__positioner {
           position: relative !important;
           inset: unset !important;
+          display: block !important;
         }
         .seed-bottom-sheet__backdrop {
           display: none !important;
         }
         .seed-bottom-sheet__content {
           animation: none !important;
+          width: 100% !important;
+          height: auto !important;
+          flex: none !important;
         }
         .seed-bottom-sheet__content::after {
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot
-        open
-        modal={false}
-        autoFocus={false}
-        lazyMount={false}
-        unmountOnExit={false}
-        skipAnimation
-        headerAlign={headerAlign}
-      >
+      <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
         <BottomSheetContent
           title={title}
           description={description}
