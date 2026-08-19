@@ -309,8 +309,8 @@ describe("swipe back — swipeBackCommitRatio", () => {
       expect(top.dataset["swipeBackState"]).toBe("completing");
       expect(behind.dataset["swipeBackState"]).toBe("completing");
 
-      // 릴리즈가 실제로 출발했다: scaleSlide의 layer는 이동·페이드 두 leg를 받는다
-      expect(runningAnimationsOn(topLayer)).toHaveLength(2);
+      // 릴리즈가 실제로 출발했다: scaleSlide의 layer는 이동·페이드·축소 세 leg를 받는다
+      expect(runningAnimationsOn(topLayer)).toHaveLength(3);
     } finally {
       clock.restore();
     }

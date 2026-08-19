@@ -415,10 +415,8 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     if (phaseRef.current === "releasing" && contextRef.current) {
       const context = contextRef.current;
       const currentDisplacement =
-        readSwipeDisplacement(context.transitionStyle, {
-          layer: context.targets.topLayer,
-          content: context.targets.topContent,
-        }) ?? context.displacement;
+        readSwipeDisplacement(context.transitionStyle, { layer: context.targets.topLayer }) ??
+        context.displacement;
       stopRelease();
 
       context.x0 = touch.clientX;
