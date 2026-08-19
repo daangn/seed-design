@@ -20,7 +20,8 @@ export function createLynxExampleUrls(bundlePath: string, origin: string) {
   native.searchParams.set("fullscreen", "true");
   return {
     native: native.href,
-    explorer: `lynx://open?url=${native.href}`,
+    qr: native.href,
+    explorer: `lynx://open?url=${encodeURIComponent(native.href)}`,
     loopback: isLoopbackUrl(native),
   };
 }

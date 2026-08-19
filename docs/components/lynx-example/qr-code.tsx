@@ -26,7 +26,7 @@ export function LynxComponentQRCode({ bundlePath }: { bundlePath: string }) {
     let cancelled = false;
     if (!urls) return;
     setQrError(false);
-    void QRCode.toDataURL(urls.explorer, { width: 240, margin: 1, errorCorrectionLevel: "M" })
+    void QRCode.toDataURL(urls.qr, { width: 240, margin: 1, errorCorrectionLevel: "M" })
       .then((value) => {
         if (!cancelled) setQrDataUrl(value);
       })

@@ -9,7 +9,7 @@ describe("Lynx 예제 URL", () => {
     expect(configuredLynxBundleOrigin("lynx://open")).toBeUndefined();
   });
 
-  it("native URL에는 fullscreen을, Explorer URL에는 인코딩하지 않은 native URL을 넣는다", () => {
+  it("native URL에는 fullscreen을, Explorer URL에는 인코딩한 native URL을 넣는다", () => {
     const urls = createLynxExampleUrls(
       "/__lynx__/badge/preview.12345678.lynx.bundle",
       "http://192.168.0.10:3000",
@@ -17,7 +17,8 @@ describe("Lynx 예제 URL", () => {
     expect(urls.native).toBe(
       "http://192.168.0.10:3000/__lynx__/badge/preview.12345678.lynx.bundle?fullscreen=true",
     );
-    expect(urls.explorer).toBe(`lynx://open?url=${urls.native}`);
+    expect(urls.qr).toBe(urls.native);
+    expect(urls.explorer).toBe(`lynx://open?url=${encodeURIComponent(urls.native)}`);
     expect(urls.loopback).toBe(false);
   });
 
