@@ -20,7 +20,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
 import { Switch } from "seed-design/ui/switch";
-import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
+import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -88,14 +88,14 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
             >
               ActivityPluginBasicUI
             </ActionButton>
-            {appScreenVariantMap.transitionStyle.map((transitionStyle) => (
+            {nextAppScreenVariantMap.transitionStyle.map((transitionStyle) => (
               <ActionButton
                 key={transitionStyle}
                 variant="neutralSolid"
                 flexGrow
-                onClick={() => push("ActivityTransitionStyle", { transitionStyle })}
+                onClick={() => push("ActivityNextAppScreen", { transitionStyle })}
               >
-                ActivityTransitionStyle ({transitionStyle})
+                ActivityNextAppScreen ({transitionStyle})
               </ActionButton>
             ))}
           </VStack>
