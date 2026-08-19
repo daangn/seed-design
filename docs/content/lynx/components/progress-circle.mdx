@@ -5,6 +5,15 @@ description: 작업이 진행 중임을 알리거나 작업 시간을 시각적�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
+<LynxComponentExample name="lynx/progress-circle/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -13,49 +22,110 @@ npx @seed-design/cli add ui:progress-circle
 
 <LynxManualInstallation name="progress-circle" />
 
-## Usage
+## Props
 
-```tsx
-import { ProgressCircle } from "@/components/ui/progress-circle";
+<react-type-table
+  path="../packages/lynx-react/src/components/ProgressCircle/ProgressCircle.tsx"
+  name="ProgressCircleRootProps"
+/>
 
-export function App() {
-  return <ProgressCircle tone="brand" size="40" />;
-}
-```
+## Examples
+
+### Neutral
+
+<LynxComponentExample name="lynx/progress-circle/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Brand
+
+<LynxComponentExample name="lynx/progress-circle/brand">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/brand.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Static White
+
+`staticWhite`는 어두운 배경 위에서 사용합니다.
+
+<LynxComponentExample name="lynx/progress-circle/static-white">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/static-white.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Size=40
+
+<LynxComponentExample name="lynx/progress-circle/40">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/40.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Size=24
+
+<LynxComponentExample name="lynx/progress-circle/24">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/24.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ### Determinate
 
-`minValue`, `maxValue`, `value`를 지정하면 determinate 모드로 동작합니다.
+`minValue`, `maxValue`, `value`를 모두 지정하면 정해진 진행률을 표시합니다.
 
-```tsx
-import { ProgressCircle } from "@/components/ui/progress-circle";
+<LynxComponentExample name="lynx/progress-circle/determinate">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/determinate.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
-export function App() {
-  return (
-    <ProgressCircle tone="brand" size="40" minValue={0} maxValue={1} value={0.5} />
-  );
-}
-```
+### Indeterminate
 
-## Props
+`value`를 생략하면 완료 시점을 알 수 없는 작업의 진행 상태를 표시합니다.
 
-<react-type-table path="./registry/lynx/ui/progress-circle.tsx" name="ProgressCircleProps" />
+<LynxComponentExample name="lynx/progress-circle/indeterminate">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/progress-circle/indeterminate.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ## 웹 버전과의 차이
 
-Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과 내부 구현이 다릅니다. API는 동일하게 유지되지만, 아래 차이점을 참고하세요.
+Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과 내부 구현이 다릅니다. 공개 variant와 진행률 API는 같지만 조합 방식과 렌더링 방식에 차이가 있습니다.
 
 | | 웹 (React) | Lynx |
 |---|---|---|
-| **렌더링** | SVG `<circle>` + `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
-| **애니메이션** | CSS `@keyframes` + `animation` | Main thread `requestAnimationFrame` + `setStyleProperty` |
-| **Determinate 전환** | CSS `transition` (stroke-dashoffset) | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
-| **Headless 레이어** | `@seed-design/react-headless` 사용 | 자체 구현 (headless 미사용) |
-| **Track** | `<ProgressCircle.Track />` SVG circle 렌더링 | Root의 CSS `background` + `clip-path`로 대체 (Track 컴포넌트 없음) |
-| **다중 인스턴스** | CSS 기반 (GPU 가속) | 인스턴스별 독립 RAF 루프 |
+| **조합 방식** | 단일 `ProgressCircle` 컴포넌트 | `ProgressCircle.Root`와 `ProgressCircle.Range` 조합 |
+| **렌더링** | SVG `<circle>`과 `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
+| **애니메이션** | CSS `@keyframes`와 `animation` | Main thread `requestAnimationFrame`과 `setStyleProperty` |
+| **Determinate 전환** | CSS `transition` | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
+| **Track** | `<ProgressCircle.Track />` SVG circle | Root의 CSS `background`와 `clip-path`로 렌더링하며 별도 Track 컴포넌트 없음 |
 
 <Callout type="warn">
-**성능 주의:** Lynx에서 `clip-path`가 animatable property가 아니므로 JS로 매 프레임 SVG path 문자열을 생성합니다.
-다수의 Indeterminate 인스턴스를 동시에 렌더링하면 성능 저하가 발생할 수 있습니다.
-Lynx에서 SVG + `stroke-dasharray` 지원이 추가되면 CSS-only 애니메이션으로 전환될 예정입니다.
+Lynx에서는 `clip-path`가 애니메이션 속성이 아니어서 매 프레임 path 문자열을 만듭니다. Indeterminate 인스턴스를 한 화면에 많이 렌더링하면 성능이 저하될 수 있습니다.
 </Callout>
