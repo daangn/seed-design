@@ -21,7 +21,7 @@ function Root() {
           <Switch.Label>Click me</Switch.Label>
         </Switch.Root>
         <text className="switch-preview__status">
-          onCheckedChange called: {count} times, last value: {`${lastValue ?? "-"}`}
+          onCheckedChange called: {count} times, last value: {JSON.stringify(lastValue)}
         </text>
       </VStack>
     </page>
