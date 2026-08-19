@@ -420,10 +420,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: PaletteIcon,
       items: [
         { title: "Box margin prop", ...to("ActivityMarginPlayground", {}) },
-        { title: "IACVT 상속 누수 (구형 iOS)", ...to("ActivityIacvtLeak", {}) },
-        { title: "Side Panel IACVT (구형 iOS)", ...to("ActivityIacvtSidePanel", {}) },
-        { title: "오버레이 IACVT (구형 iOS)", ...to("ActivityIacvtOverlay", {}) },
-        { title: "margin·bleed IACVT (구형 iOS)", ...to("ActivityIacvtMargin", {}) },
+        { title: "IACVT (구형 iOS)", ...to("ActivityIacvt", {}) },
         { title: "IACVT: initial 폴백 가설 (순수 CSS)", ...to("ActivityIacvtExperiment", {}) },
         { title: "폰트 배율 레이아웃", ...to("ActivityFontMultiplierLayout", {}) },
         { title: "타이포그래피 스케일", ...to("ActivityTypographyScale", {}) },
