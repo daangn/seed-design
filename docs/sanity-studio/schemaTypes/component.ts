@@ -12,6 +12,7 @@ const statusOptions = [
 const platforms = [
   { key: "figma", title: "Figma", urlLabel: "File URL or Internal Link" },
   { key: "react", title: "React", urlLabel: "Repository URL or Internal Link" },
+  { key: "lynx", title: "Lynx", urlLabel: "Repository URL or Internal Link" },
   { key: "ios", title: "iOS", urlLabel: "Repository URL or Internal Link" },
   { key: "android", title: "Android", urlLabel: "Repository URL or Internal Link" },
 ] as const;

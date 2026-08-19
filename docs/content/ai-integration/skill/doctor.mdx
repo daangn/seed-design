@@ -1,0 +1,286 @@
+---
+title: Doctor
+description: 저장소 맥락에 맞춰 SEED 설정, 호환성, 셋업, Foundations, 컴포넌트, 라이브러리 계약을 읽기 전용으로 진단합니다.
+---
+
+Doctor는 SEED를 쓰는 워크스페이스를 찾아 **그 맥락에 적용되는 건강검진을 선택 실행**합니다. 컴포넌트 린터가 아니라 설정·패키지·앱 셋업·토큰 공개 계약·컴포넌트 가이드라인·라이브러리 배포 계약을 공식 문서와 실제 코드 증거로 연결하는 가이드입니다.
+
+진단은 읽기 전용입니다. 코드를 고치거나 패키지를 설치하지 않고, schema v2 YAML과 사람이 읽는 HTML 리포트를 임시 디렉토리에 함께 기록합니다. 실제 수정은 사용자가 별도로 지시할 때만 합니다.
+
+## 문서와 스킬의 관계
+
+지원 범위와 문서 목록은 스킬에 복사하지 않습니다. Doctor는 실행할 때마다 다음 인덱스를 읽습니다.
+
+- [SEED 전체 문서 인덱스](https://seed-design.io/llms.txt)
+- [React 문서 인덱스](https://seed-design.io/react/llms.txt)
+- [Lynx 문서 인덱스](https://seed-design.io/lynx/llms.txt)
+
+전체 인덱스에서 공통 Components·Foundations 문서를 찾고, 선택된 플랫폼 인덱스에서 설치·업그레이드·컴포넌트·저자 문서처럼 이번 진단에 필요한 현재 leaf 문서를 찾습니다. 인덱스를 정상적으로 읽었는데 계약 문서가 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
+
+Doctor 요청 하나는 URL 기준 문서 풀 하나를 사용합니다. 전체·플랫폼 인덱스와 leaf 문서는 URL마다 한 번만 읽고 같은 실행의 workspace와 rule이 재사용합니다. 결과의 `references`에 같은 URL이 반복되어도 출처를 표시하는 것이며 문서를 다시 요청한다는 뜻은 아닙니다.
+
+## 사용법
+
+스킬을 로드한 상태에서 자연어로 요청하면 됩니다.
+
+```text
+SEED 잘 쓰고 있나 봐줘
+셋업만 진단해줘
+공유 React 패키지의 Library Authors 계약을 검사해줘
+이 모노레포의 SEED 워크스페이스를 전부 진단해줘
+```
+
+Quick/Deep 모드는 없습니다. 일반 진단은 적용 가능한 룰 전체를, 범주가 지정된 요청은 해당 범주만 실행합니다.
+
+## 결과물
+
+워크스페이스마다 `doctor-report.yaml`과 `doctor-report.html`을 함께 만듭니다. YAML은 판정과 근거의 단일 원천이고, HTML은 검증을 통과한 YAML을 `report-template.html`에 렌더링한 읽기용 결과입니다. 두 파일 모두 대상 프로젝트가 아닌 같은 임시 디렉토리에 저장합니다. 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
+
+## 탐색 순서
+
+1. 사용자가 지정한 경로
+2. `node_modules`, `.git`, `.claude/worktrees`를 제외한 `seed-design.json`
+3. 설정 발견 여부와 관계없이 workspace별 직접 `@seed-design/*` 의존성
+4. 두 후보를 package 경계로 중복 제거
+5. 사용자 명시 → `framework` → 직접 의존성 순의 플랫폼 확정
+6. 앱 entry와 공개 진입점·library build 증거로 `app`·`library` 역할을 비배타적으로 판정
+
+여러 워크스페이스가 발견되면 대상을 확인합니다. "전체" 요청은 워크스페이스별 리포트를 따로 만들며 서로 다른 `meta`를 하나로 합치지 않습니다. `seed-design.json`이 없더라도 직접 패키지 사용은 계속 진단하고, 설정이 필요한 스니펫 룰만 적용 제외합니다.
+
+## Rules
+
+| 룰 | 범주 | 판단하는 것 |
+| --- | --- | --- |
+| `project-config` | config | 현재 CLI 설정 계약, framework 충돌, snippet path·alias 연결 |
+| `package-compatibility` | compatibility | 설치본 peer 또는 현재 공식 호환 문서와 패키지 조합 대조 |
+| `project-setup` | setup | 현재 플랫폼 설치·스타일 문서와 앱 연결 대조 |
+| `snippet-compatibility` | compatibility | 현재 공식 CLI 호환 검사 결과 |
+| `foundation-contract` | foundations | 토큰 존재·공개성·제거·내부 스타일 API 의존 |
+| `library-authors` | library | 현재 공식 저자 문서가 있는 플랫폼의 배포 계약 |
+| `outdated-version` | compatibility | 설치 패키지의 최신 세대 격차만 |
+| `snippet-generation` | compatibility | 설치 스니펫과 최신 registry의 세대 차이만 |
+| `no-deprecated-component` | components | 플랫폼에 유효한 출처가 있는 deprecated 사용 |
+| `component-guidelines` | components | 현재 공통 가이드라인과 플랫폼 인덱스로 연결한 구현의 대조 |
+
+실제 호환 오류·필수 셋업 누락은 `error`, deprecated·내부 API·배포 위험은 `warn`, 최신 세대 격차는 `info`입니다. Foundations에서는 하드코딩이나 semantic token 선택의 적절성을 추론하지 않고 계약 위반만 판정합니다.
+
+`component-guidelines`의 기준은 룰 파일에 고정돼 있지 않습니다. 각 [컴포넌트 가이드라인](/components)에서 실행 시점에 도출하므로 문서의 Do/Don't가 바뀌면 판정 기준도 함께 바뀝니다.
+
+### project-config.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/project-config.md",
+  "codeblock": true
+}
+```
+
+### package-compatibility.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/package-compatibility.md",
+  "codeblock": true
+}
+```
+
+### project-setup.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/project-setup.md",
+  "codeblock": true
+}
+```
+
+### snippet-compatibility.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/snippet-compatibility.md",
+  "codeblock": true
+}
+```
+
+### foundation-contract.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/foundation-contract.md",
+  "codeblock": true
+}
+```
+
+### library-authors.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/library-authors.md",
+  "codeblock": true
+}
+```
+
+### outdated-version.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/outdated-version.md",
+  "codeblock": true
+}
+```
+
+### snippet-generation.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/snippet-generation.md",
+  "codeblock": true
+}
+```
+
+### no-deprecated-component.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/no-deprecated-component.md",
+  "codeblock": true
+}
+```
+
+### component-guidelines.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/rules/component-guidelines.md",
+  "codeblock": true
+}
+```
+
+## 결과 형식
+
+YAML은 진단 결과의 단일 원천입니다. 채팅 요약과 기본으로 함께 만드는 HTML 리포트는 이 파일에서 파생됩니다.
+예시의 `{...LeafUrlResolvedFromIndex}`는 실행 시 선택한 플랫폼 인덱스에서 찾은 실제 leaf URL로 바꿉니다.
+
+```yaml
+schemaVersion: 2
+meta:
+  target: /path/to/project
+  workspace: packages/ui
+  framework: react
+  projectKinds: [app, library]
+  date: "2026-08-16"
+  seed:
+    installed: { "@seed-design/react": 2.3.0, "@seed-design/css": 2.5.0 }
+summary: { error: 0, warn: 1, info: 0 }
+checks:
+  - rule: seed/project-config
+    category: config
+    status: pass
+    evidence: framework·path와 TypeScript alias가 일치함
+    references:
+      - https://seed-design.io/react/llms.txt
+      - "{configurationLeafUrlResolvedFromIndex}"
+  - rule: seed/library-authors
+    category: library
+    status: fail
+    evidence: 소비 진입점이 있지만 @seed-design/react가 dependencies에 있음
+    references:
+      - https://seed-design.io/react/llms.txt
+      - "{libraryAuthorsLeafUrlResolvedFromIndex}"
+  - rule: seed/snippet-generation
+    category: compatibility
+    status: not-applicable
+    reason: 설치 스니펫이 없음
+    references:
+      - https://seed-design.io/react/llms.txt
+findings:
+  - rule: seed/library-authors
+    severity: warn
+    message: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
+    file: packages/ui/package.json
+    references:
+      - https://seed-design.io/react/llms.txt
+      - "{libraryAuthorsLeafUrlResolvedFromIndex}"
+    remediation: |-
+      다음 SEED Doctor finding을 수정해 주세요.
+
+      대상 프로젝트: /path/to/project
+      대상 파일: packages/ui/package.json
+      문제: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
+
+      요구사항:
+      - 공식 Library Authors 문서에서 현재 설치본과 호환되는 peer 범위를 확인해 @seed-design/react 선언을 옮겨 주세요.
+      - 번들러 external 설정과 소비자의 CSS import 계약도 같은 문서 기준으로 맞춰 주세요.
+      - 공개 API와 관련 없는 파일은 변경하지 마세요.
+
+      근거:
+      - https://seed-design.io/react/llms.txt
+      - {libraryAuthorsLeafUrlResolvedFromIndex}
+
+      먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.
+verdicts: []
+coverage: []
+rejected: []
+```
+
+### 필드
+
+| 키 | 무엇 | 왜 |
+| --- | --- | --- |
+| `meta.projectKinds` | `app`·`library` 역할 배열 | 역할이 비배타적이며, 역할 증거가 없으면 빈 배열일 수 있습니다 |
+| `checks` | 요청 범위의 모든 룰 상태 | pass/fail뿐 아니라 적용 제외·미검증 이유까지 실제 검사 범위를 보여 줍니다 |
+| `summary` | findings의 severity별 개수 | 점수나 등급을 만들지 않습니다 |
+| `findings` | 고칠 것만 | 공식 근거와 복사 가능한 수정 프롬프트를 함께 둡니다 |
+| `verdicts` | 컴포넌트 기준별 판정 전체 | 통과와 `unknown`·`not-verified`를 숨기지 않습니다 |
+| `coverage` | 기계 수집 기준과 실제 판정 수 | component-guidelines의 기준 건너뛰기를 드러냅니다 |
+| `rejected` | 검토했지만 기각한 후보 | 보지 않은 것과 보고 뺀 것을 구분합니다 |
+
+check status는 `pass | fail | not-applicable | not-verified`, category는 `config | compatibility | setup | foundations | components | library`입니다. `pass`·`fail`에는 `evidence`, 적용 제외·미검증에는 `reason`, 모든 check에는 공식 `references`가 필요합니다.
+
+각 `check.rule`은 리포트 안에서 유일하고, finding은 같은 rule의 `fail` check에서만 나와야 합니다. JSON Schema 구조 검증과 별개로, 저장 전에 모든 finding에 실패 check가 있는지·모든 실패 check에 finding이 있는지·`summary`와 `coverage`가 일치하는지를 의미 검증합니다.
+
+`verdicts.unknownReason`은 문서 임계값 부재(`no-threshold`), 런타임 의존(`runtime-dependent`), 코드 밖 정보(`not-in-code`), 공식 문서 충돌(`doc-conflict`)을 구분합니다. `rejected`에는 실제로 검토했지만 공식 기준이 허용하거나 증거가 부족해 뺀 후보만 적습니다.
+
+`findings[].remediation`은 설명문이 아니라 해당 finding만 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. 대상 프로젝트와 파일, 확인된 문제, 구체적인 요구사항, 변경 제약, 공식 근거 전체, 저장소 지침과 package scripts를 확인한 뒤 적절한 검증을 실행하라는 요청을 포함합니다. Doctor는 프롬프트를 생성만 하며 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
+
+### 스키마
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/assets/doctor-report.schema.json",
+  "codeblock": true
+}
+```
+
+## HTML 리포트
+
+HTML은 검증된 YAML과 같은 임시 디렉토리에 기본으로 만듭니다. 사용자가 "YAML만"을 요청한 경우에만 생략합니다. "먼저 할 것" 다음에 프로젝트 역할·범주별 검사 범위·coverage를 보여 주고, `not-applicable`·`not-verified` 이유를 접어서 볼 수 있습니다. finding마다 공식 근거와 접어 둔 "수정 프롬프트"를 제공하며, 판정 표에는 `pass | fail | unknown | not-verified` 실제 상태와 근거를 보존합니다. 외부 CDN·JavaScript 없이 한 파일로 열립니다.
+
+## Doctor references
+
+### doctor.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/doctor.md",
+  "codeblock": true
+}
+```
+
+### doctor-react.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/doctor-react.md",
+  "codeblock": true
+}
+```
+
+### doctor-lynx.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/doctor-lynx.md",
+  "codeblock": true
+}
+```

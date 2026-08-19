@@ -37,7 +37,7 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimi
   defaultProps: {
     placement: "top",
     gutter: 4, // TODO: get value from rootage spec
-    overflowPadding: 16,
+    overflowPadding: 16, // TODO: get value from rootage spec
     arrowPadding: 14,
   },
 });

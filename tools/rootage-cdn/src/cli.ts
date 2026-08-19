@@ -56,6 +56,10 @@ const store = new R2ObjectStore({
   accessKeyId: required("ROOTAGE_R2_ACCESS_KEY_ID"),
   secretAccessKey: required("ROOTAGE_R2_SECRET_ACCESS_KEY"),
   endpoint: `https://${accountId}.r2.cloudflarestorage.com/${bucket}`,
+  diagnostic:
+    process.env.ROOTAGE_R2_DIAGNOSTICS === "true"
+      ? (entry) => console.error(JSON.stringify(entry))
+      : undefined,
 });
 if (command === "set-stable") {
   const version = argument("version");

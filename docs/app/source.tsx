@@ -3,7 +3,6 @@ import { localMd, type SatteriLocalMarkdown } from "@fumadocs/satteri/local-md";
 import { watchWithDevServer } from "@fumadocs/satteri/local-md/dev/ws";
 import { remarkAutoTypeTable } from "@fumadocs/satteri/remark-auto-type-table";
 import { remarkLlms, type LLMsOptions } from "@fumadocs/satteri/remark-llms";
-import type { StructureOptions } from "@fumadocs/satteri/remark-structure";
 import type { SatteriPresetOptions } from "@fumadocs/satteri/preset";
 import { dynamicLoader } from "fumadocs-core/source/dynamic";
 import {
@@ -16,6 +15,7 @@ import { fileGenerator } from "fumadocs-docgen";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
+import { preserveRuleElements } from "@/app/_llms/rule-elements";
 import { readFigmaImageManifest } from "@/components/figma-image/figma-image-manifest";
 import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { filteredTypeTableGenerator } from "@/components/type-table/generator";
@@ -23,6 +23,11 @@ import { markFeatured } from "@/lib/featured";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
+import {
+  filterStructureElement,
+  structureOptions,
+  structureStringify,
+} from "@/lib/satteri/search-structure";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
 import { updatesFrontmatterSchema } from "@/lib/updates-frontmatter";
 
@@ -77,62 +82,8 @@ const designSchema = baseDocsSchema.extend({
   ...headingSchema,
 });
 
-const filterStructureElement: NonNullable<LLMsOptions["filterElement"]> = (node) => {
-  if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") return true;
-
-  switch (node.name) {
-    case "File":
-    case "Callout":
-    case "Card":
-    case "FigmaImage":
-    case "DoImage":
-    case "DontImage":
-      return true;
-    default:
-      // TypeTable의 거대한 type 속성과 UI 전용 컴포넌트 태그는 검색 본문에서 제외합니다.
-      return "children-only";
-  }
-};
-
-const filterLlmsElement: NonNullable<LLMsOptions["filterElement"]> = (node) => {
-  if (
-    (node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement") &&
-    (node.name === "ComponentExample" || node.name === "LynxComponentExample")
-  ) {
-    return true;
-  }
-  return filterStructureElement(node);
-};
-
-const structureStringify: NonNullable<StructureOptions["stringify"]> = {
-  filterElement: filterStructureElement,
-  filterMdxAttributes(node, attribute) {
-    if (attribute.type !== "mdxJsxAttribute") return false;
-
-    if (node.name === "FigmaImage" || node.name === "DoImage" || node.name === "DontImage") {
-      return attribute.name !== "src";
-    }
-
-    return true;
-  },
-};
-
-const structureOptions: StructureOptions = {
-  mdxTypes(node) {
-    if (!("children" in node) || node.children.length === 0) return true;
-    if (!("name" in node)) return false;
-
-    switch (node.name) {
-      case "TypeTable":
-      case "Callout":
-      case "Card":
-        return true;
-      default:
-        return false;
-    }
-  },
-  stringify: structureStringify,
-};
+/** 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다. */
+const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
@@ -212,7 +163,12 @@ const foundationsDocs = localMd({
 
 const componentsDocs = localMd({
   dir: "content/components",
-  frontmatterSchema: designSchema.extend({ componentIds: z.array(z.string()).optional() }),
+  frontmatterSchema: designSchema.extend({
+    componentIds: z.array(z.string()).optional(),
+    // 영문 이름과 한글 검색어가 다른 컴포넌트를 검색 다이얼로그의 컴포넌트 카드에서 찾을 수
+    // 있게 하는 별칭입니다 (`메뉴` → Menu). 문서 본문 검색에는 반영되지 않습니다.
+    keywords: z.array(z.string()).optional(),
+  }),
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,
 });

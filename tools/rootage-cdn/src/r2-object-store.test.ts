@@ -3,12 +3,14 @@ import { R2ObjectStore } from "./r2-object-store";
 
 function storeWith(
   fetchImplementation: (...args: Parameters<typeof fetch>) => ReturnType<typeof fetch>,
+  diagnostic?: (entry: Record<string, unknown>) => void,
 ): R2ObjectStore {
   return new R2ObjectStore({
     accessKeyId: "test-access-key",
     secretAccessKey: "test-secret-key",
     endpoint: "https://example.invalid/rootage",
     fetch: fetchImplementation,
+    diagnostic,
   });
 }
 
@@ -34,5 +36,62 @@ describe("R2 조건부 쓰기 어댑터", () => {
       "a".repeat(64),
     );
     expect(result).toEqual({ status: "precondition-failed" });
+  });
+
+  test("stable 포인터 조건부 쓰기의 ETag 형식과 412 상세를 진단한다", async () => {
+    const diagnostics: Record<string, unknown>[] = [];
+    let putHeaders: Headers | undefined;
+    const store = storeWith(
+      async (_input, init) => {
+        if (init?.method === "GET") {
+          return new Response("{}", {
+            status: 200,
+            headers: { etag: 'W/"old"', "x-amz-meta-sha256": "a".repeat(64) },
+          });
+        }
+        putHeaders = new Headers(init?.headers);
+        return new Response("Precondition Failed", { status: 412 });
+      },
+      (entry) => diagnostics.push(entry),
+    );
+
+    await store.get("pointers/stable.json");
+    await store.putIfMatch(
+      "pointers/stable.json",
+      new TextEncoder().encode("{}"),
+      "b".repeat(64),
+      'W/"old"',
+    );
+
+    expect(diagnostics[0]).toMatchObject({
+      event: "r2-get",
+      outcome: "found",
+      etag: { value: 'W/"old"', length: 7, quoted: true, weak: true },
+      metadataSha256: "a".repeat(64),
+    });
+    expect(putHeaders?.get("if-match")).toBe('"old"');
+    expect(diagnostics[1]).toMatchObject({
+      event: "r2-conditional-put",
+      outcome: "precondition-failed",
+      condition: {
+        "if-match": { value: '"old"', length: 5, quoted: true, weak: false },
+      },
+      observedCondition: {
+        "if-match": { value: 'W/"old"', length: 7, quoted: true, weak: true },
+      },
+      error: { status: 412 },
+    });
+  });
+
+  test("잘못된 weak ETag는 조건부 PUT 전에 거부한다", () => {
+    const store = storeWith(async () => new Response(null, { status: 200 }));
+    expect(() =>
+      store.putIfMatch(
+        "pointers/stable.json",
+        new TextEncoder().encode("{}"),
+        "b".repeat(64),
+        "W/invalid",
+      ),
+    ).toThrow("잘못된 weak ETag");
   });
 });

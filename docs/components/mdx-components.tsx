@@ -42,6 +42,7 @@ import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
 import { IconComponent, IconTerminal } from "./icons";
 import { IconLibrary } from "./iconography/icon-library-lazy";
+import { InlineCode } from "./inline-code";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { IconographyMigrationIndex, V2Icon, V2IconColor, V3Icon } from "./migration/lazy";
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
@@ -51,6 +52,8 @@ import { TableRoot } from "./table";
 
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
+
+  code: InlineCode,
 
   // All fenced code blocks (```) render as the SEED "Codeblock" (Shiki colors preserved).
   // Inside a tabbed code card (`CodeBlockTabs`), SeedCodeBlockAuto renders the code bare.

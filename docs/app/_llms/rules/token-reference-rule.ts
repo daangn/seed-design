@@ -121,12 +121,12 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
-type ArtifactValue =
+export type ArtifactValue =
   | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
   | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
   | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
 
-type ArtifactTokensModel = {
+export type ArtifactTokensModel = {
   kind: "Tokens";
   metadata: Exchange.TokensModel["metadata"];
   data: {
@@ -138,7 +138,7 @@ type ArtifactTokensModel = {
   };
 };
 
-function formatTokenValue(entry: ArtifactValue): string {
+export function formatTokenValue(entry: ArtifactValue): string {
   return (
     match(entry)
       .with({ type: "number" }, ({ value }) => String(value))
@@ -168,7 +168,7 @@ function formatTokenValue(entry: ArtifactValue): string {
   rootage 토큰 데이터에서 마크다운 테이블을 생성합니다.
   groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
 */
-function generateMarkdownTable(
+export function generateMarkdownTable(
   tokens: ArtifactTokensModel["data"]["tokens"],
   groups: string[],
 ): string {
@@ -195,10 +195,78 @@ function generateMarkdownTable(
 }
 
 /*
+  룰이 참조할 토큰 아티팩트를 인자로 받습니다.
+  테스트는 합성 아티팩트로 룰을 만들어 실제 토큰 값에 묶이지 않게 합니다.
+*/
+export function createTokenReferenceRule(
+  tokenData: readonly ArtifactTokensModel[],
+): Rule<MdxJsxFlowElement> {
+  return {
+    name: "TokenReference",
+    match: (node): node is MdxJsxFlowElement =>
+      node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
+    transform: (node) => {
+      const regex = getRegexFromNode(node);
+      const groups = getGroupsFromNode(node);
+
+      if (regex) {
+        const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
+        for (const data of tokenData) {
+          for (const [id, entry] of Object.entries(data.data.tokens)) {
+            regex.lastIndex = 0;
+            if (regex.test(id)) matched.push({ id, entry });
+          }
+        }
+
+        if (matched.length === 0) return [node];
+
+        const themeNames = Object.keys(matched[0].entry.values);
+        const headers = ["Token", ...themeNames];
+        const separator = headers.map(() => "---");
+        const rows = matched.map(({ id, entry }) => {
+          const values = themeNames.map((theme) => {
+            const val = entry.values[theme];
+            return val ? formatTokenValue(val) : "";
+          });
+          return [id, ...values];
+        });
+
+        const tableMarkdown = [
+          markdownRow(headers),
+          markdownRow(separator),
+          ...rows.map(markdownRow),
+        ].join("\n");
+
+        return [{ type: "html", value: tableMarkdown }];
+      }
+
+      if (groups.length === 0) {
+        const sections: string[] = [];
+        for (const data of tokenData) {
+          const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
+          if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
+        }
+        const allTables = sections.join("\n\n");
+        if (!allTables) return [node];
+        return [{ type: "html", value: allTables }];
+      }
+
+      const data = tokenData.find(({ metadata }) => metadata.id === groups[0]);
+      if (!data) return [node];
+
+      const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
+      if (!tableMarkdown) return [node];
+
+      return [{ type: "html", value: tableMarkdown }];
+    },
+  };
+}
+
+/*
   TokenReference에서 사용하는 모든 rootage 토큰 데이터를 정적으로 포함합니다.
   Turbopack이 런타임 파일 탐색 없이 의존성을 추적할 수 있습니다.
 */
-const tokenData = [
+export const tokenReferenceRule = createTokenReferenceRule([
   color,
   dimension,
   duration,
@@ -210,64 +278,4 @@ const tokenData = [
   scale,
   shadow,
   timingFunction,
-] satisfies readonly ArtifactTokensModel[];
-
-export const tokenReferenceRule: Rule<MdxJsxFlowElement> = {
-  name: "TokenReference",
-  match: (node): node is MdxJsxFlowElement =>
-    node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
-  transform: (node) => {
-    const regex = getRegexFromNode(node);
-    const groups = getGroupsFromNode(node);
-
-    if (regex) {
-      const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
-      for (const data of tokenData) {
-        for (const [id, entry] of Object.entries(data.data.tokens)) {
-          regex.lastIndex = 0;
-          if (regex.test(id)) matched.push({ id, entry });
-        }
-      }
-
-      if (matched.length === 0) return [node];
-
-      const themeNames = Object.keys(matched[0].entry.values);
-      const headers = ["Token", ...themeNames];
-      const separator = headers.map(() => "---");
-      const rows = matched.map(({ id, entry }) => {
-        const values = themeNames.map((theme) => {
-          const val = entry.values[theme];
-          return val ? formatTokenValue(val) : "";
-        });
-        return [id, ...values];
-      });
-
-      const tableMarkdown = [
-        markdownRow(headers),
-        markdownRow(separator),
-        ...rows.map(markdownRow),
-      ].join("\n");
-
-      return [{ type: "html", value: tableMarkdown }];
-    }
-
-    if (groups.length === 0) {
-      const sections: string[] = [];
-      for (const data of tokenData) {
-        const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
-        if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
-      }
-      const allTables = sections.join("\n\n");
-      if (!allTables) return [node];
-      return [{ type: "html", value: allTables }];
-    }
-
-    const data = tokenData.find(({ metadata }) => metadata.id === groups[0]);
-    if (!data) return [node];
-
-    const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
-    if (!tableMarkdown) return [node];
-
-    return [{ type: "html", value: tableMarkdown }];
-  },
-};
+]);

@@ -13,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { twMerge as cn } from "tailwind-merge";
+import { renderInlineCode } from "./inline-code";
 import {
   buildTocTrackGeometry,
   getActiveTrackClip,
@@ -196,7 +197,7 @@ function TocList({ list, onItemClick, variant }: TocListProps) {
                 {item._step}
               </span>
             ) : null}
-            {item.title}
+            {renderInlineCode(item.title)}
           </TOCItem>
         );
       })}

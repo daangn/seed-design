@@ -26,6 +26,7 @@ perl -pe 's/\e\[[0-9;?]*[a-zA-Z]//g' /tmp/changeset-detect.txt \
 
 1. 추출된 `changed packages`를 **후보 목록**으로 삼는다. 포함 여부와 bump는 Phase 2에서 패키지별로 확정한다.
    - `bun changeset`은 **private 패키지를 이미 제외**하므로 따로 거를 필요 없다.
+   - **`packages/archive/*`는 버전을 올리지 않는다.** 파일을 고치는 것은 괜찮지만 changeset에는 넣지 않는다. private이 아닌 것들이 있어 CLI 후보에 올라오므로 여기서 걸러야 한다. `@seed-design/react-theming`이 archive에 있어 이름만 보면 현역처럼 보이는 것이 함정이다.
    - grep 결과가 비거나 잘려 보이면 `/tmp/changeset-detect.txt`를 직접 읽어 `changed packages` 블록을 눈으로 확인한다 (긴 목록은 터미널 폭에 맞춰 잘려 보일 수 있다).
 2. 이미 존재하는 `.changeset/*.md` 파일을 읽어 이미 커버된 패키지가 있는지 확인한다.
    - 이미 커버된 패키지가 있다면 사용자에게 알리고, 추가 changeset이 필요한지 확인한다.

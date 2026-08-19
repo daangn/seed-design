@@ -290,8 +290,6 @@ REP ...을 ...로 변경했지만, 변경된 아이콘이 적절한지 확인이
 - codemod 스크립트를 `--log` flag와 함께 사용 시, 사용된 내역이 `migrate-icons-warnings.log`에 기록돼요.
 - 다음을 활용하여 코드를 직접 검색할 수 있어요.
 
-<Tabs items={["정규 표현식", "git grep"]}>
-
 ```regex tab="정규 표현식"
 (IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thin|Regular|Fill)|(IconTUppercaseSerif|IconShoppingbag2Stacked|IconTruck|IconLightbulbDot5|IconHorizline2VerticalChatbubbleRight)(Line|Fill)
 ```
@@ -299,8 +297,6 @@ REP ...을 ...로 변경했지만, 변경된 아이콘이 적절한지 확인이
 ```shell tab="git grep"
 git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thin|Regular|Fill)|(IconTUppercaseSerif|IconShoppingbag2Stacked|IconTruck|IconLightbulbDot5|IconHorizline2VerticalChatbubbleRight)(Line|Fill)'
 ```
-
-</Tabs>
 
 </Callout>
 

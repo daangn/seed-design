@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "@lynx-js/types": "^3.7.0",
-    "@seed-design/rootage-artifacts": "2.4.0"
+    "@seed-design/rootage-artifacts": "2.6.0"
   }
 }

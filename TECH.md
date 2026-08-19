@@ -19,6 +19,13 @@
 - 타입 import는 항상 `type` 키워드 사용
 - 동적 import보다 정적 import 우선
 
+### 테스트 작성
+
+- 생성기·변환기가 만든 문자열은 조각(`toContain`)이 아니라 전체 일치로 검증한다. 조각 단언은 헤더가 빠지거나 행이 누락돼도 통과한다.
+- 배열 멤버십(`expect(ids).toContain(id)`)은 `toContain`이 올바른 매처다. 위 규칙은 문자열 부분 일치에만 적용된다.
+- 생성물이나 외부 패키지 데이터를 유닛 테스트의 입력으로 쓰지 않는다. 그 데이터가 바뀌면 검증 대상이 멀쩡해도 테스트가 깨진다. 순수 함수를 export해 합성 입력으로 검증하고, 실데이터를 지나는 테스트는 데이터에 묶이지 않는 파생값(섹션 목록 등)만 전체 일치로 본다.
+- 유닛 테스트에서 네트워크를 타지 않는다. 모듈 스코프에서 비동기 초기화를 발사하면 그 모듈을 import하는 모든 테스트가 함께 요청을 보낸다.
+
 ### 패키지 관리
 
 - 항상 `bun` 사용 (`npm`/`yarn` 금지)
@@ -232,6 +239,13 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 각 패키지의 `package.json`·`CHANGELOG.md`, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
 - `bun release` - 패키지 빌드 및 npm 배포
 - PR에서 `/snapshot` - `pkg.pr.new` 패키지 snapshot을 게시하고 `packages/rootage/**` 변경이 있으면 exact PR head용 Rootage CDN URL도 생성. snapshot은 stable 포인터를 변경하지 않으며 PR 종료 30일 뒤 정리
+
+### 릴리스 브랜치 Fast-forward
+
+- `minor → dev`, `major → dev` PR에서 저장소 쓰기 권한이 있는 사용자가 `/ff-merge` 댓글을 남기면 `dev`를 PR head로 fast-forward한다.
+- GitHub의 rebase merge를 사용하지 않는다. 기존 커밋과 SHA를 유지한 채 `dev` ref만 `force: false`로 갱신한다.
+- PR이 열려 있고 초안이 아니며 두 브랜치가 갈라지지 않은 경우에만 실행한다. 실행 중 SHA가 바뀌면 병합하지 않고 최신 상태에서 다시 실행하도록 안내한다.
+- 실행 결과와 이전·이후 SHA는 GitHub Actions Summary에서 확인한다. 실패한 경우 명령 댓글의 👎 반응과 PR 댓글에서도 원인을 확인할 수 있다.
 
 ---
 

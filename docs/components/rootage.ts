@@ -35,6 +35,35 @@ export function stringifyTokenLit(token: AST.TokenLit): AST.TokenRef {
   return `$${[...token.group, token.key].join(".")}`;
 }
 
+/**
+ * A stop/layer colour that is still a token reference after resolution points at the
+ * CSS variable `@seed-design/css` emits for it, so the browser applies the live value.
+ */
+function stringifyColor(color: AST.ColorHexLit | AST.TokenLit): string {
+  if (color.kind === "ColorHexLit") return color.value;
+
+  return `var(--seed-${[...color.group, color.key].join("-")})`;
+}
+
+const stringifyDimension = (dimension: AST.DimensionLit) => `${dimension.value}${dimension.unit}`;
+
+export function gradientToCss(gradient: AST.GradientLit): string {
+  const stops = gradient.stops
+    .map((stop) => `${stringifyColor(stop.color)} ${(stop.position.value * 100).toFixed(1)}%`)
+    .join(", ");
+
+  return `linear-gradient(to right, ${stops})`;
+}
+
+export function shadowToCss(shadow: AST.ShadowLit): string {
+  return shadow.layers
+    .map(
+      (layer) =>
+        `${stringifyDimension(layer.offsetX)} ${stringifyDimension(layer.offsetY)} ${stringifyDimension(layer.blur)} ${stringifyDimension(layer.spread)} ${stringifyColor(layer.color)}`,
+    )
+    .join(", ");
+}
+
 export function stringifyValueLit(lit: AST.ValueLit): string {
   const tokenReference = (token: AST.TokenLit) => stringifyTokenLit(token);
 
