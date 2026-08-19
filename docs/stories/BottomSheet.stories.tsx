@@ -111,7 +111,7 @@ const CommonStoryTemplate = meta.story({
       Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
-      layout="grid"
+      rowLayout="grid"
       {...args}
     />
   ),

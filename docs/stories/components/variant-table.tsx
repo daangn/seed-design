@@ -8,7 +8,7 @@ interface Props {
   conditionMap?: ConditionMap;
   Component: React.ComponentType | React.ElementType;
   children?: React.ReactNode;
-  layout?: "table" | "grid";
+  rowLayout?: "table" | "grid";
 }
 
 const Boolish = {
@@ -48,14 +48,14 @@ const generateCombinations = (variantMap: VariantMap, conditionMap: ConditionMap
 };
 
 export const VariantTable = (props: Props) => {
-  const { variantMap, conditionMap = {}, Component, layout = "table", ...rest } = props;
+  const { variantMap, conditionMap = {}, Component, rowLayout = "table", ...rest } = props;
 
   const combinations = generateCombinations(variantMap, conditionMap);
   const keys = [...new Set([...Object.keys(variantMap), ...Object.keys(conditionMap)])];
   const sectionStyle: CSSProperties | undefined =
-    layout === "grid" ? { display: "block" } : undefined;
+    rowLayout === "grid" ? { display: "block" } : undefined;
   const rowStyle: CSSProperties | undefined =
-    layout === "grid"
+    rowLayout === "grid"
       ? {
           display: "grid",
           gridTemplateColumns: `repeat(${keys.length}, 10%) minmax(0, 1fr)`,
@@ -68,7 +68,7 @@ export const VariantTable = (props: Props) => {
         style={{
           width: "100%",
           borderCollapse: "collapse",
-          ...(layout === "grid" && { display: "block" }),
+          ...(rowLayout === "grid" && { display: "block" }),
         }}
       >
         <thead data-chromatic="ignore" style={sectionStyle}>
@@ -109,7 +109,7 @@ export const VariantTable = (props: Props) => {
                   <td
                     data-chromatic="ignore"
                     key={key}
-                    style={layout === "table" ? { width: "10%" } : undefined}
+                    style={rowLayout === "table" ? { width: "10%" } : undefined}
                   >
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <span
