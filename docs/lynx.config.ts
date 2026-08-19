@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
 import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
 import {
   CACHE_DIRECTORY,
   DEVELOPMENT_DIRECTORY,
@@ -19,6 +20,9 @@ export default defineConfig(async () => {
   return {
     source: { entry: toRspeedyEntries(entries) },
     plugins: [
+      pluginLynxIcon({
+        include: /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//,
+      }),
       pluginReactLynx({
         targetSdkVersion: "3.9",
         globalPropsMode: "reactive",
