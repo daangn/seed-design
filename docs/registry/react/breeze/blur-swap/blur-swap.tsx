@@ -172,6 +172,7 @@ export const BlurSwap = React.forwardRef<HTMLDivElement, BlurSwapProps>(function
     if (size === "none") {
       root.style.width = "";
       root.style.height = "";
+      delete root.dataset.resize;
       return;
     }
 
@@ -180,8 +181,16 @@ export const BlurSwap = React.forwardRef<HTMLDivElement, BlurSwapProps>(function
      * 곧 들어오는 레이어의 크기고, 마운트 첫 측정은 계산된 값과 같아 transition이 걸리지 않는다.
      */
     const sync = () => {
-      root.style.width = size === "auto" ? `${content.offsetWidth}px` : "";
-      root.style.height = `${content.offsetHeight}px`;
+      const width = size === "auto" ? content.offsetWidth : root.offsetWidth;
+      const height = content.offsetHeight;
+
+      // 어느 방향으로 가는지는 지금 그려진 컨테이너와 비교해서만 알 수 있다. 전환 도중에
+      // 다시 불려도 남은 거리 기준으로 판단이 다시 선다.
+      root.dataset.resize =
+        width > root.offsetWidth || height > root.offsetHeight ? "grow" : "shrink";
+
+      root.style.width = size === "auto" ? `${width}px` : "";
+      root.style.height = `${height}px`;
     };
 
     sync();

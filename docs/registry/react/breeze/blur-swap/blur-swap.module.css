@@ -1,15 +1,30 @@
+/*
+ * 자르지 않는 건 의도다. 컨테이너 크기는 전환이 끝나야 새 콘텐츠에 닿으므로, 자르면 그동안
+ * 두 콘텐츠가 상자를 넘긴 만큼이 계속 잘려 나간다. blur도 반경만큼 상자 밖으로 번지기 때문에
+ * 가장자리가 흐려지는 대신 직선으로 끊긴다.
+ */
 .root {
   --blur-swap-blur: 4px;
   --blur-swap-offset: 8px;
   --blur-swap-duration: 300ms;
   --blur-swap-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --blur-swap-grow-ease: var(--seed-timing-function-enter, cubic-bezier(0, 0, 0.15, 1));
+  --blur-swap-shrink-ease: var(--seed-timing-function-exit, cubic-bezier(0.35, 0, 1, 1));
 
   position: relative;
   display: block;
-  overflow: hidden;
   transition:
-    width var(--blur-swap-duration) var(--blur-swap-ease),
-    height var(--blur-swap-duration) var(--blur-swap-ease);
+    width var(--blur-swap-duration) var(--blur-swap-grow-ease),
+    height var(--blur-swap-duration) var(--blur-swap-grow-ease);
+}
+
+/*
+ * 커질 때는 컨테이너가 앞서 나가고, 작아질 때는 버틴다. 들어오는 콘텐츠는 첫 프레임부터
+ * 최종 크기로 그려지고 나가는 콘텐츠는 끝까지 원래 크기를 지키므로, 컨테이너가 어느 쪽으로
+ * 가든 큰 쪽을 늦게 놓아줘야 상자 밖에 콘텐츠가 나와 있는 시간이 짧아진다.
+ */
+.root[data-resize="shrink"] {
+  transition-timing-function: var(--blur-swap-shrink-ease);
 }
 
 .inline {
