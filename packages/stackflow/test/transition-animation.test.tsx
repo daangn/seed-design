@@ -25,7 +25,10 @@ const ANDROID_ENTER_EASING = "cubic-bezier(0.23, 0.1, 0.32, 1)";
 const SCALE_SLIDE_SHRINK_EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 const RESTING = "translate3d(0, 0, 0)";
-const OFFSCREEN_X = "translate3d(100%, 0, 0)";
+
+/** scaleSlide alone spells the top screen with the individual properties. */
+const SCALE_SLIDE_RESTING = "0% 0 0";
+const SCALE_SLIDE_OFFSCREEN_X = "100% 0 0";
 
 /** 350ms 중 각 구간이 차지하는 몫 — shrink [0,.4] / travel [.3,1] / fade [.4,1] */
 const SHRINK_MS = 140;
@@ -247,19 +250,11 @@ describe("experimental_scaleSlide WAAPI", () => {
     await settle(container);
     await pop();
 
-    // 축소는 content가 지고, 이동/페이드는 layer가 진다 — 서로 다른 element라
-    // 각자 자기 지연과 길이를 갖는다
-    expect(recentAnimations(contentOf(container, "b"), 1)).toEqual([
+    // 카드째 줄어든다 — 축소·이동·페이드가 모두 layer 하나에 걸리고, 서로 다른
+    // property라 덮어쓰지 않고 각자 자기 지연과 길이를 갖는다
+    expect(recentAnimations(layerOf(container, "b"), 3)).toEqual([
       {
-        keyframes: [{ transform: "scale(1)" }, { transform: "scale(0.9)" }],
-        duration: SHRINK_MS,
-        easing: SCALE_SLIDE_SHRINK_EASING,
-        fill: "none",
-      },
-    ]);
-    expect(recentAnimations(layerOf(container, "b"), 2)).toEqual([
-      {
-        keyframes: [{ transform: RESTING }, { transform: OFFSCREEN_X }],
+        keyframes: [{ translate: SCALE_SLIDE_RESTING }, { translate: SCALE_SLIDE_OFFSCREEN_X }],
         // 축소(0~140ms)가 끝나기 전인 105ms에 출발한다
         delay: TRAVEL_DELAY_MS,
         duration: TRAVEL_MS,
@@ -274,7 +269,15 @@ describe("experimental_scaleSlide WAAPI", () => {
         easing: "linear",
         fill: "backwards",
       },
+      {
+        keyframes: [{ scale: "1" }, { scale: "0.9" }],
+        duration: SHRINK_MS,
+        easing: SCALE_SLIDE_SHRINK_EASING,
+        fill: "none",
+      },
     ]);
+    // content는 더 이상 자기 모션을 갖지 않는다 — 앱바와 함께 카드에 실려 간다
+    expect(animationsOn(contentOf(container, "b"))).toHaveLength(0);
   });
 
   it("push: pop의 모든 구간을 뒤집어 쓴다", async () => {
@@ -282,18 +285,9 @@ describe("experimental_scaleSlide WAAPI", () => {
     await settle(container);
     await push("B");
 
-    expect(recentAnimations(contentOf(container, "b"), 1)).toEqual([
+    expect(recentAnimations(layerOf(container, "b"), 3)).toEqual([
       {
-        keyframes: [{ transform: "scale(0.9)" }, { transform: "scale(1)" }],
-        delay: 350 - SHRINK_MS,
-        duration: SHRINK_MS,
-        easing: SCALE_SLIDE_SHRINK_EASING,
-        fill: "backwards",
-      },
-    ]);
-    expect(recentAnimations(layerOf(container, "b"), 2)).toEqual([
-      {
-        keyframes: [{ transform: OFFSCREEN_X }, { transform: RESTING }],
+        keyframes: [{ translate: SCALE_SLIDE_OFFSCREEN_X }, { translate: SCALE_SLIDE_RESTING }],
         duration: TRAVEL_MS,
         easing: HORIZONTAL_EASING,
         fill: "none",
@@ -303,6 +297,13 @@ describe("experimental_scaleSlide WAAPI", () => {
         duration: FADE_MS,
         easing: "linear",
         fill: "none",
+      },
+      {
+        keyframes: [{ scale: "0.9" }, { scale: "1" }],
+        delay: 350 - SHRINK_MS,
+        duration: SHRINK_MS,
+        easing: SCALE_SLIDE_SHRINK_EASING,
+        fill: "backwards",
       },
     ]);
   });
@@ -335,13 +336,13 @@ describe("experimental_scaleSlide WAAPI", () => {
     const layer = layerOf(container, "b");
     await pop();
 
-    expect(animationsOn(layer)).toHaveLength(4);
+    expect(animationsOn(layer)).toHaveLength(6);
     expect(
       animationsOn(layer)
-        .slice(0, 2)
+        .slice(0, 3)
         .map((record) => record.cancelled),
-    ).toEqual([true, true]);
-    expect(runningAnimationsOn(layer)).toHaveLength(2);
+    ).toEqual([true, true, true]);
+    expect(runningAnimationsOn(layer)).toHaveLength(3);
   });
 });
 
@@ -521,18 +522,15 @@ describe("swipe back release WAAPI", () => {
   });
 
   describe("experimental_scaleSlide", () => {
-    const contentOf = (container: HTMLElement, testId: string) =>
-      getPart(getScreen(container, testId), "screen-content") as HTMLElement;
-
     it("축소가 끝난 뒤 완료하면 이동/페이드만 남은 만큼 달리고 축소는 할 일이 없다", async () => {
       const { container } = await swipeTo(610, { transitionStyle: "experimental_scaleSlide" });
       const ratio = 600 / 1024;
 
-      expect(recentAnimations(layerOf(container, "b"), 2)).toEqual([
+      expect(recentAnimations(layerOf(container, "b"), 3)).toEqual([
         {
           keyframes: [
-            { transform: `translate3d(${((ratio - 0.3) / 0.7) * 100}%, 0, 0)` },
-            { transform: OFFSCREEN_X },
+            { translate: `${((ratio - 0.3) / 0.7) * 100}% 0 0` },
+            { translate: SCALE_SLIDE_OFFSCREEN_X },
           ],
           duration: 350,
           easing: HORIZONTAL_EASING,
@@ -544,11 +542,9 @@ describe("swipe back release WAAPI", () => {
           easing: HORIZONTAL_EASING,
           fill: "none",
         },
-      ]);
-      // 손가락이 이미 지나온 구간은 0ms로 접힌다 — 되감지 않는다
-      expect(recentAnimations(contentOf(container, "b"), 1)).toEqual([
+        // 손가락이 이미 지나온 구간은 0ms로 접힌다 — 되감지 않는다
         {
-          keyframes: [{ transform: "scale(0.9)" }, { transform: "scale(0.9)" }],
+          keyframes: [{ scale: "0.9" }, { scale: "0.9" }],
           duration: 0,
           easing: HORIZONTAL_EASING,
           fill: "none",
@@ -562,18 +558,14 @@ describe("swipe back release WAAPI", () => {
       const { container } = await swipeTo(110, { transitionStyle: "experimental_scaleSlide" });
       const ratio = 100 / 1024;
 
-      expect(recentAnimations(contentOf(container, "b"), 1)).toEqual([
-        {
-          keyframes: [
-            { transform: `scale(${1 - (ratio / 0.4) * 0.1})` },
-            { transform: "scale(1)" },
-          ],
-          duration: 350,
-          easing: HORIZONTAL_EASING,
-          fill: "none",
-        },
-      ]);
-      expect(recentAnimations(layerOf(container, "b"), 2).map((a) => a.duration)).toEqual([0, 0]);
+      const legs = recentAnimations(layerOf(container, "b"), 3);
+      expect(legs.map((leg) => leg.duration)).toEqual([0, 0, 350]);
+      expect(legs[2]).toEqual({
+        keyframes: [{ scale: `${1 - (ratio / 0.4) * 0.1}` }, { scale: "1" }],
+        duration: 350,
+        easing: HORIZONTAL_EASING,
+        fill: "none",
+      });
 
       finishAnimations();
     });
@@ -591,17 +583,12 @@ describe("swipe back release WAAPI", () => {
 
       // 이동이 먼저 제자리로, 페이드가 그 뒤를 따르고, 축소 복귀는 마지막에 — 나갈 때의 역순
       expect(
-        recentAnimations(layer, 2).map(({ delay, duration }) => ({ delay, duration })),
+        recentAnimations(layer, 3).map(({ delay, duration }) => ({ delay, duration })),
       ).toEqual([
         { delay: undefined, duration: TRAVEL_MS },
         { delay: undefined, duration: FADE_MS },
+        { delay: 350 - SHRINK_MS, duration: SHRINK_MS },
       ]);
-      expect(
-        recentAnimations(contentOf(container, "b"), 1).map(({ delay, duration }) => ({
-          delay,
-          duration,
-        })),
-      ).toEqual([{ delay: 350 - SHRINK_MS, duration: SHRINK_MS }]);
 
       finishAnimations();
     });

@@ -29,12 +29,16 @@ const VERTICAL_LAYER_OFFSET = "8vh";
 const VERTICAL_LAYER_Y = `translate3d(0, ${VERTICAL_LAYER_OFFSET}, 0)`;
 
 /**
- * experimental_scaleSlide shrinks the screen's CONTENT, not its layer. The
- * layer carries the background, so shrinking that would open a gap around the
- * screen and show whatever busy thing sits behind it; shrinking what is inside
- * keeps the card full-bleed. It also puts the scale on its own element, which
- * is what lets the scale and the travel keep separate schedules without either
- * one having to be spelled as a waypoint of the other.
+ * experimental_scaleSlide shrinks the whole card: the layer, and with it the
+ * background, the squircle clip, the app bar and the content, as one piece.
+ *
+ * Shrinking only what sits inside the layer leaves the background running out
+ * to the screen edge, and with no edge to read the inset content against the
+ * eye takes it for content chopped off at an arbitrary line rather than a card
+ * that got smaller — the more so where the content is a scroller, whose own
+ * clip pulls inward with it and leaves whatever it was already cutting off cut
+ * off in mid-air. Shrinking the layer is what gives the card an edge. The
+ * margin it opens shows the dim over the screen behind, and that is the trade.
  *
  * The scale is spelled out rather than derived from the span: in binary
  * floating point `1 - 0.9` is 0.09999999999999998, and that would land verbatim
@@ -43,8 +47,29 @@ const VERTICAL_LAYER_Y = `translate3d(0, ${VERTICAL_LAYER_OFFSET}, 0)`;
 const SCALE_SLIDE_SCALE = 0.9;
 const SCALE_SLIDE_SHRINK_SPAN = 0.1;
 
-const SCALE_SLIDE_SHRUNK = `scale(${SCALE_SLIDE_SCALE})`;
-const SCALE_SLIDE_UNSCALED = "scale(1)";
+/**
+ * Alone among the styles, scaleSlide spells the top screen's motion with the
+ * individual transform properties. Travel, fade and scale all run on the one
+ * layer element now, and two animations naming different properties compose
+ * where two naming `transform` would have the later one replace the earlier —
+ * so each of the three keeps a schedule of its own without being spelled as a
+ * waypoint of another.
+ *
+ * The behind layer is excluded and stays on `transform`, because it belongs to
+ * a different screen: `SWIPE_MOTION` reaches it through the TOP screen's style,
+ * so a scaleSlide top drives a behind layer whose own style — and whose CSS
+ * resting position — may be any of the others. `translate` would compose with
+ * that `transform` instead of replacing it, parking the screen at twice the
+ * offset.
+ *
+ * Three values, so the z component of the `translate3d` the rest of this file
+ * uses survives into the individual property.
+ */
+const SCALE_SLIDE_RESTING = "0% 0 0";
+const SCALE_SLIDE_OFFSCREEN_X = "100% 0 0";
+
+const SCALE_SLIDE_SHRUNK = `${SCALE_SLIDE_SCALE}`;
+const SCALE_SLIDE_UNSCALED = "1";
 
 // ─── Timings ────────────────────────────────────────────────────────────────
 
@@ -172,47 +197,43 @@ const SCREEN_MOTION = {
     idle: null,
     "idle-behind": null,
   },
-  // horizontalSlide's travel and behind layer, with the content shrinking ahead
-  // of it and the layer fading behind it. Each of the three runs its own span,
-  // and a push runs every one of them reversed.
+  // horizontalSlide's travel and behind layer, with the card shrinking ahead of
+  // the travel and fading behind it. Each of the three runs its own span on the
+  // one layer element, and a push runs every one of them reversed.
   experimental_scaleSlide: {
     push: {
       layer: [
         {
           ...scaleSlideLeg(reverseSpan(SCALE_SLIDE_TRAVEL), HORIZONTAL.easing),
-          keyframes: [{ transform: OFFSCREEN_X }, { transform: RESTING }],
+          keyframes: [{ translate: SCALE_SLIDE_OFFSCREEN_X }, { translate: SCALE_SLIDE_RESTING }],
         },
         {
           ...scaleSlideLeg(reverseSpan(SCALE_SLIDE_FADE), SCALE_SLIDE_FADE_EASING),
           keyframes: [{ opacity: "0" }, { opacity: "1" }],
         },
-      ],
-      dim: [{ ...HORIZONTAL, keyframes: [{ opacity: "0" }, { opacity: "1" }] }],
-      content: [
         {
           ...scaleSlideLeg(reverseSpan(SCALE_SLIDE_SHRINK), SCALE_SLIDE_SHRINK_EASING),
-          keyframes: [{ transform: SCALE_SLIDE_SHRUNK }, { transform: SCALE_SLIDE_UNSCALED }],
+          keyframes: [{ scale: SCALE_SLIDE_SHRUNK }, { scale: SCALE_SLIDE_UNSCALED }],
         },
       ],
+      dim: [{ ...HORIZONTAL, keyframes: [{ opacity: "0" }, { opacity: "1" }] }],
     },
     pop: {
       layer: [
         {
           ...scaleSlideLeg(SCALE_SLIDE_TRAVEL, HORIZONTAL.easing),
-          keyframes: [{ transform: RESTING }, { transform: OFFSCREEN_X }],
+          keyframes: [{ translate: SCALE_SLIDE_RESTING }, { translate: SCALE_SLIDE_OFFSCREEN_X }],
         },
         {
           ...scaleSlideLeg(SCALE_SLIDE_FADE, SCALE_SLIDE_FADE_EASING),
           keyframes: [{ opacity: "1" }, { opacity: "0" }],
         },
-      ],
-      dim: [{ ...HORIZONTAL, keyframes: [{ opacity: "1" }, { opacity: "0" }] }],
-      content: [
         {
           ...scaleSlideLeg(SCALE_SLIDE_SHRINK, SCALE_SLIDE_SHRINK_EASING),
-          keyframes: [{ transform: SCALE_SLIDE_UNSCALED }, { transform: SCALE_SLIDE_SHRUNK }],
+          keyframes: [{ scale: SCALE_SLIDE_UNSCALED }, { scale: SCALE_SLIDE_SHRUNK }],
         },
       ],
+      dim: [{ ...HORIZONTAL, keyframes: [{ opacity: "1" }, { opacity: "0" }] }],
     },
     "push-behind": {
       layer: [{ ...HORIZONTAL, keyframes: [{ transform: RESTING }, { transform: BEHIND_X }] }],
@@ -425,16 +446,24 @@ const SWIPE_MOTION = {
       {
         span: SCALE_SLIDE_TRAVEL,
         at: (ratio) => ({
-          transform: `translate3d(${spanProgress(ratio, SCALE_SLIDE_TRAVEL) * 100}%, 0, 0)`,
+          translate: `${spanProgress(ratio, SCALE_SLIDE_TRAVEL) * 100}% 0 0`,
         }),
-        cancel: { transform: RESTING },
-        complete: { transform: OFFSCREEN_X },
+        cancel: { translate: SCALE_SLIDE_RESTING },
+        complete: { translate: SCALE_SLIDE_OFFSCREEN_X },
       },
       {
         span: SCALE_SLIDE_FADE,
         at: (ratio) => ({ opacity: `${1 - spanProgress(ratio, SCALE_SLIDE_FADE)}` }),
         cancel: { opacity: "1" },
         complete: { opacity: "0" },
+      },
+      {
+        span: SCALE_SLIDE_SHRINK,
+        at: (ratio) => ({
+          scale: `${1 - spanProgress(ratio, SCALE_SLIDE_SHRINK) * SCALE_SLIDE_SHRINK_SPAN}`,
+        }),
+        cancel: { scale: SCALE_SLIDE_UNSCALED },
+        complete: { scale: SCALE_SLIDE_SHRUNK },
       },
     ],
     dim: [
@@ -444,16 +473,7 @@ const SWIPE_MOTION = {
         complete: { opacity: "0" },
       },
     ],
-    content: [
-      {
-        span: SCALE_SLIDE_SHRINK,
-        at: (ratio) => ({
-          transform: `scale(${1 - spanProgress(ratio, SCALE_SLIDE_SHRINK) * SCALE_SLIDE_SHRINK_SPAN})`,
-        }),
-        cancel: { transform: SCALE_SLIDE_UNSCALED },
-        complete: { transform: SCALE_SLIDE_SHRUNK },
-      },
-    ],
+    content: [],
     behindLayer: [
       {
         at: (ratio) => ({
@@ -552,28 +572,35 @@ function readTranslateX(value: string): number | null {
  */
 export function readSwipeDisplacement(
   style: NextAppScreenTransitionStyle,
-  elements: Pick<ScreenElements, "layer" | "content">,
+  elements: Pick<ScreenElements, "layer">,
 ): number | null {
   if (typeof window === "undefined") return null;
 
-  const { layer, content } = elements;
+  const { layer } = elements;
 
   if (style === "horizontalSlide") {
     return layer ? readTranslateX(window.getComputedStyle(layer).transform) : null;
   }
 
   if (style === "experimental_scaleSlide") {
-    const translateX = layer ? readTranslateX(window.getComputedStyle(layer).transform) : null;
-    if (translateX === null) return null;
+    if (!layer) return null;
+
+    // Read off `translate` and `scale`, never `transform`: this style animates
+    // the individual properties, and they do not compose into the `transform`
+    // the other branches decompose — an engine mid-animation still reports it
+    // as `none`.
+    const computed = window.getComputedStyle(layer);
+    const travelled = readTravelledSpan(computed.translate);
+    if (travelled === null) return null;
 
     // Before the travel starts there is nothing in the translation to read, so
     // the lead-in is recovered from the one thing moving during it: the scale.
-    if (translateX > 0) {
+    if (travelled > 0) {
       const [from, to] = SCALE_SLIDE_TRAVEL;
-      return (from + clamp01(translateX / window.innerWidth) * (to - from)) * window.innerWidth;
+      return (from + clamp01(travelled) * (to - from)) * window.innerWidth;
     }
 
-    const scaleX = content ? readMatrixScaleX(window.getComputedStyle(content).transform) : null;
+    const scaleX = readScale(computed.scale);
     if (scaleX === null) return 0;
 
     const shrunk = clamp01((1 - scaleX) / SCALE_SLIDE_SHRINK_SPAN);
@@ -590,10 +617,42 @@ export function readSwipeDisplacement(
   return Number.isFinite(opacity) ? (1 - opacity) * window.innerWidth : null;
 }
 
-function readMatrixScaleX(value: string): number | null {
-  const match = /^matrix(3d)?\(([^)]+)\)$/.exec(value);
-  if (!match) return null;
+/**
+ * How far the top layer has travelled, as the fraction of its own width the
+ * computed `translate` reports. scaleSlide spells that translation as a
+ * percentage at every end of every leg, so the engine has no length to resolve
+ * against and hands a plain percentage back, mid-animation as much as at rest
+ * — a value in any other unit is one this cannot convert without the width,
+ * and is reported as unreadable rather than guessed at.
+ *
+ * `none` is zero rather than null, because it is what an untranslated layer
+ * reports and the caller reads that as the travel not having started. Null is
+ * for a value that cannot be read at all.
+ *
+ * Typed wider than the CSSOM declares, because happy-dom implements neither
+ * individual property and hands back `undefined` where the DOM types promise a
+ * string — for `transform` it at least returns `""`.
+ */
+function readTravelledSpan(value: string | undefined): number | null {
+  const first = value?.trim().split(" ")[0];
+  if (!first) return null;
+  if (first === "none") return 0;
+  if (!first.endsWith("%")) return null;
 
-  const scaleX = Number.parseFloat(match[2].split(",")[0]);
-  return Number.isFinite(scaleX) ? scaleX : null;
+  const percent = Number.parseFloat(first);
+  return Number.isFinite(percent) ? percent / 100 : null;
+}
+
+/**
+ * The scale factor of a computed `scale`, reported by the engine as bare
+ * numbers. `none` is the unscaled 1, and the argument is widened for the same
+ * reason as above.
+ */
+function readScale(value: string | undefined): number | null {
+  const first = value?.trim().split(" ")[0];
+  if (!first) return null;
+  if (first === "none") return 1;
+
+  const scale = Number.parseFloat(first);
+  return Number.isFinite(scale) ? scale : null;
 }
