@@ -1,4 +1,5 @@
 import { env } from "@/app/env";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getUpdatesSource } from "@/app/source";
 import {
   createFigmaClient,
@@ -6,6 +7,7 @@ import {
 } from "@/components/figma-image/fetch-figma-image-urls";
 import { BLOG_POSTS } from "@/components/landing/lib/landing-content";
 import { ProsePage } from "@/components/layout/prose-page";
+import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { formatPublishedDate } from "@/lib/format-date";
 import { buildSeoMetadata, resolveCoverImage } from "@/lib/seo";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
@@ -164,6 +166,7 @@ export default async function Page() {
 
   return (
     <ProsePage title={UPDATES_TITLE} description={UPDATES_DESCRIPTION}>
+      <LlmsLinkRels section="updates" markdownUrl={getLLMMarkdownUrl("updates", [])} />
       <div className="not-prose mb-8 md:mb-10">
         <img
           src={cover.thumbnail}
