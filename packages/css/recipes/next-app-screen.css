@@ -188,11 +188,13 @@
 }
 [data-screen-state="push"]:not([data-screen-ready]) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     opacity: 0;
-    transform: translate3d(100%, 0, 0);
+    translate: 100% 0 0;
+    scale: 0.9;
 }
 [data-screen-state="pop"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     opacity: 0;
-    transform: translate3d(100%, 0, 0);
+    translate: 100% 0 0;
+    scale: 0.9;
 }
 [data-screen-state="push-behind"] > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     transform: translate3d(-30%, 0, 0);
@@ -202,39 +204,27 @@
 }
 [data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     opacity: calc(1 - clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0.4) / 0.6, 1));
-    transform: translate3d(calc(clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0.3) / 0.7, 1) * 100%), 0, 0);
+    translate: calc(clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0.3) / 0.7, 1) * 100%) 0 0;
+    scale: calc(1 - clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0) / 0.4, 1) * 0.1);
 }
 [data-swipe-back-state="swiping"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     transform: translate3d(calc(-30% + var(--seed-swipe-back-displacement-ratio, 0) * 30%), 0, 0);
 }
 [data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    translate: 0% 0 0;
+    scale: 1;
 }
 [data-swipe-back-state="canceling"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     transform: translate3d(-30%, 0, 0);
 }
 [data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     opacity: 0;
-    transform: translate3d(100%, 0, 0);
+    translate: 100% 0 0;
+    scale: 0.9;
 }
 [data-swipe-back-state="completing"][data-screen-state$="-behind"]:not(#\#) > .seed-next-app-screen__layer--transitionStyle_experimental_scaleSlide {
     transform: translate3d(0, 0, 0);
-}
-[data-screen-state="push"]:not([data-screen-ready]) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
-    transform: scale(0.9);
-}
-[data-screen-state="pop"] .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
-    transform: scale(0.9);
-}
-[data-swipe-back-state="swiping"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
-    transform: scale(calc(1 - clamp(0, (var(--seed-swipe-back-displacement-ratio, 0) - 0) / 0.4, 1) * 0.1));
-}
-[data-swipe-back-state="canceling"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
-    transform: scale(1);
-}
-[data-swipe-back-state="completing"]:not([data-screen-state$="-behind"]):not(#\#) .seed-next-app-screen__content--transitionStyle_experimental_scaleSlide {
-    transform: scale(0.9);
 }
 .seed-next-app-screen__content--contentOffsetTop_safeArea {
     padding-top: var(--seed-safe-area-top);
