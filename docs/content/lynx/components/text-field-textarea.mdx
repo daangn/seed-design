@@ -5,6 +5,15 @@ description: 여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 
 
 <AvailableSince packages="@seed-design/lynx-react@0.4.0, @seed-design/lynx-css@0.7.0" />
 
+<LynxComponentExample name="lynx/text-field-textarea/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-textarea/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -112,6 +121,62 @@ export function Form() {
   );
 }
 ```
+
+## Examples
+
+### State
+
+#### Enabled
+
+기본 상태와 오류 상태를 `Field`의 label, description, error message와 함께 구성합니다.
+
+<LynxComponentExample name="lynx/text-field-textarea/enabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-textarea/enabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Disabled
+
+`disabled`는 입력과 이를 감싸는 `Field`의 상태를 함께 비활성화합니다.
+
+<LynxComponentExample name="lynx/text-field-textarea/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-textarea/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Read Only
+
+`readOnly`는 값을 편집할 수 없는 텍스트로 표시합니다. 비활성 상태와 달리 내용을 읽는 용도로 사용합니다.
+
+<LynxComponentExample name="lynx/text-field-textarea/read-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-textarea/read-only.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Grapheme Count
+
+`maxGraphemeCount`를 지정하면 현재 글자 수와 최대 글자 수를 표시합니다. 이모지와 조합 문자는 화면에 보이는 grapheme 단위로 계산합니다.
+
+<LynxComponentExample name="lynx/text-field-textarea/grapheme-count">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-textarea/grapheme-count.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ## Web Version Differences
 
