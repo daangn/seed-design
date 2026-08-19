@@ -55,6 +55,14 @@ export default defineType({
       group: "basic",
     }),
     defineField({
+      name: "url",
+      title: "문서 URL",
+      description:
+        "Progress Board에서 컴포넌트 이름에 걸리는 링크입니다. 예: /components/action-button. 비워두면 이름이 링크 없이 표시됩니다.",
+      type: "string",
+      group: "basic",
+    }),
+    defineField({
       name: "deprecated",
       title: "사용 중단 여부",
       type: "boolean",

@@ -3,6 +3,7 @@ export type PlatformStatus = "ready" | "not-ready" | "in-progress" | "deprecated
 export interface ComponentData {
   id: string;
   name: string;
+  url?: string;
   deprecated?: boolean;
   deprecatedMessage?: string;
   iosStatus: PlatformStatus;
