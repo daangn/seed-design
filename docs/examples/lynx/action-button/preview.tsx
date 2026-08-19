@@ -1,6 +1,6 @@
+import "./styles";
 import { root, useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
-import "./styles";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
