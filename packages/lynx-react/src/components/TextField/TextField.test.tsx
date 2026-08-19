@@ -171,7 +171,9 @@ describe("TextField", () => {
     expect(input).toHaveAttribute("name", "title");
     expect(input).toHaveAttribute("placeholder", "제목");
     expect(input).toHaveAttribute("default-value", "초기값");
-    expect(input).not.toHaveAttribute("android-set-soft-input-mode");
+    expect(input).toHaveAttribute("show-soft-input-on-focus", "true");
+    expect(input).toHaveAttribute("android-set-soft-input-mode", "unspecified");
+    expect(input).not.toHaveAttribute("maxlength");
 
     rerender(renderTextField());
 
@@ -194,6 +196,31 @@ describe("TextField", () => {
     if (!input) throw new Error("Expected native input to exist.");
 
     expect(input).toHaveAttribute("default-value", "");
+  });
+
+  it("passes safe soft keyboard defaults and preserves explicit overrides", () => {
+    const { rerender } = render(
+      <TextField.Root>
+        <TextField.Input />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    expect(input).toHaveAttribute("show-soft-input-on-focus", "true");
+    expect(input).toHaveAttribute("android-set-soft-input-mode", "unspecified");
+
+    rerender(
+      <TextField.Root>
+        <TextField.Textarea
+          show-soft-input-on-focus={false}
+          android-set-soft-input-mode="resize"
+        />
+      </TextField.Root>,
+    );
+
+    const textarea = getRenderedRoot().querySelector("textarea");
+    expect(textarea).toHaveAttribute("show-soft-input-on-focus", "false");
+    expect(textarea).toHaveAttribute("android-set-soft-input-mode", "resize");
   });
 
   it("initializes a non-empty value without invoking a native UI method", () => {
@@ -543,8 +570,9 @@ describe("TextField", () => {
     );
 
     if (!inputRef.current) throw new Error("Expected native input ref to exist.");
-    expect(getRenderedRoot().querySelector("input")).not.toHaveAttribute(
+    expect(getRenderedRoot().querySelector("input")).toHaveAttribute(
       "android-set-soft-input-mode",
+      "unspecified",
     );
 
     // ReactLynx Testing Library runtime accepts NodesRef, but its public fireEvent type
@@ -627,8 +655,9 @@ describe("TextField", () => {
     expect(getRenderedQueries().queryByText("secret")).toBeNull();
   });
 
-  it("uses native intrinsic autoresize inside a padded sizing wrapper", () => {
+  it("uses native intrinsic autoresize without a sizing wrapper", () => {
     const textareaRef = createRef<NodesRef>();
+    const bindlayoutchange = vi.fn();
     const actions = {
       focus: vi.fn(),
       blur: vi.fn(),
@@ -642,6 +671,7 @@ describe("TextField", () => {
             ref={textareaRef}
             placeholder="내용"
             android-set-soft-input-mode="nothing"
+            bindlayoutchange={bindlayoutchange}
           />
         </TextField.Root>
       </KeyboardAvoidanceActionsContext.Provider>,
@@ -649,38 +679,27 @@ describe("TextField", () => {
 
     const root = getRenderedRoot();
     const textarea = root.querySelector("textarea");
-    const textareaRoot = root.querySelector(".seed-text-input__textareaRoot");
     if (!textarea) throw new Error("Expected native textarea to exist.");
-    if (!textareaRoot) throw new Error("Expected textarea sizing wrapper to exist.");
     if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
 
-    expect(textareaRoot).toHaveClass("seed-text-input__textareaAutoresizeRoot--size_large");
-    expect(textareaRoot).toHaveAttribute("ignore-focus", "true");
-    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
-    expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
     expect(textarea).toHaveClass("seed-text-input__textareaValue");
     expect(textarea).not.toHaveClass("seed-text-input__textareaFixed");
     expect(textarea).toHaveAttribute("bounces", "false");
+    expect(textarea).toHaveAttribute("show-soft-input-on-focus", "true");
     expect(textarea).toHaveAttribute("default-value", "첫 줄\n둘째 줄\n");
     expect(textarea).toHaveAttribute("android-fullscreen-mode", "false");
     expect(textarea).toHaveAttribute("android-set-soft-input-mode", "nothing");
-    expect(textareaRoot.querySelector("text")).toBeNull();
+    expect(textarea).not.toHaveAttribute("maxlength");
+    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
 
-    fireNativeEvent(textareaRoot as unknown as NodesRef, textareaRoot, "layoutchange", {
+    fireNativeEvent(textareaRef.current, textarea, "layoutchange", {
       width: 200,
       height: 120,
     });
     expect(actions.layoutChanged).toHaveBeenCalledOnce();
-
-    const exec = vi.fn();
-    const invoke = vi.fn(() => ({ exec }));
-    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
-    fireEvent.tap(textareaRef.current as unknown as Element);
-    expect(invoke).not.toHaveBeenCalled();
-
-    fireEvent.tap(textareaRoot);
-    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
-    expect(exec).toHaveBeenCalledOnce();
+    expect(bindlayoutchange).toHaveBeenCalledOnce();
   });
 
   it("uses native intrinsic autoresize with the Android-only line-spacing correction", () => {
@@ -696,7 +715,7 @@ describe("TextField", () => {
     const textarea = root.querySelector("textarea");
     if (!textarea) throw new Error("Expected native textarea to exist.");
 
-    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
     expect(textarea).toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
     expect(textarea).toHaveAttribute("line-spacing", "3.2px");
     expect(root.querySelector(".seed-text-input__textareaAutoresizeRoot--size_large")).toBeNull();
@@ -757,13 +776,10 @@ describe("TextField", () => {
     const textarea = root.querySelector("textarea");
     if (!textarea) throw new Error("Expected native textarea to exist.");
 
-    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
-    expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
     expect(textarea).not.toHaveAttribute("line-spacing");
-    expect(
-      root.querySelector(".seed-text-input__textareaAutoresizeRoot--size_large"),
-    ).not.toBeNull();
-    expect(root.querySelector(".seed-text-input__textareaRoot text")).toBeNull();
+    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
   });
 
   it("does not restore the previous value after an accepted controlled textarea newline", async () => {
@@ -795,8 +811,8 @@ describe("TextField", () => {
       throw new Error("Expected native textarea to exist.");
     }
 
-    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
-    expect(root.querySelector(".seed-text-input__textareaRoot")).not.toBeNull();
+    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
 
     const invoke = vi.fn(() => ({ exec: vi.fn() }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];

@@ -18,6 +18,11 @@ function Root() {
           >
             <TextFieldTextarea accessibility-label="소개" placeholder="소개를 입력해 주세요" />
           </TextField>
+          <textarea
+            className="pure-textarea"
+            accessibility-label="Pure textarea"
+            placeholder="Pure textarea에 입력해 주세요"
+          />
         </VStack>
       </VStack>
     </page>

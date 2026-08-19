@@ -461,19 +461,6 @@ function useNativeTextControl({
     keyboardAvoidance?.layoutChanged(ownerRef.current);
   }, [keyboardAvoidance]);
 
-  const focusNativeControl = React.useCallback(() => {
-    "background only";
-
-    const node = nativeRef.current;
-    if (!node || typeof node.invoke !== "function") return;
-
-    try {
-      node.invoke({ method: "focus" }).exec();
-    } catch {
-      // Native node가 아직 commit되지 않았으면 실제 textarea 탭이 focus를 처리한다.
-    }
-  }, []);
-
   return {
     context: textFieldContext,
     disabled,
@@ -484,7 +471,6 @@ function useNativeTextControl({
     handleFocus,
     handleBlur,
     notifyLayoutChanged,
-    focusNativeControl,
     handleSelectionChange,
     nativeInsertionMaxLength:
       wasInsertionMaxLengthManaged &&
@@ -562,13 +548,14 @@ export interface TextFieldInputProps extends NativeTextControlProps {
   maxlength?: NativeInputProps["maxlength"];
   readonly?: NativeInputProps["readonly"];
   disabled?: NativeInputProps["disabled"];
+  /** 포커스할 때 시스템 키보드를 표시한다. @defaultValue true */
   "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
   "input-filter"?: NativeInputProps["input-filter"];
   type?: NativeInputProps["type"];
   "ios-auto-correct"?: NativeInputProps["ios-auto-correct"];
   "ios-spell-check"?: NativeInputProps["ios-spell-check"];
   "android-fullscreen-mode"?: NativeInputProps["android-fullscreen-mode"];
-  /** Android host window의 soft input mode를 지정한다. */
+  /** Android host window의 soft input mode를 지정한다. @defaultValue "unspecified" */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
   bindfocus?: NativeInputProps["bindfocus"];
   bindblur?: NativeInputProps["bindblur"];
@@ -651,10 +638,10 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
       className={clsx(classes.value, className)}
       disabled={control.disabled}
       readonly={control.readOnly}
-      show-soft-input-on-focus={control.readOnly ? false : showSoftInputOnFocus}
-      android-set-soft-input-mode={androidSetSoftInputMode}
+      show-soft-input-on-focus={showSoftInputOnFocus ?? true}
+      android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
       name={name ?? control.context.name}
-      maxlength={resolvedMaxLength}
+      {...(resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength })}
       bindinput={control.handleInput}
       bindselection={handleSelection}
       bindfocus={control.handleFocus}
@@ -686,6 +673,7 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
   "line-spacing"?: NativeTextareaProps["line-spacing"];
   readonly?: NativeTextareaProps["readonly"];
   disabled?: NativeTextareaProps["disabled"];
+  /** 포커스할 때 시스템 키보드를 표시한다. @defaultValue true */
   "show-soft-input-on-focus"?: NativeTextareaProps["show-soft-input-on-focus"];
   "input-filter"?: NativeTextareaProps["input-filter"];
   "enable-scroll-bar"?: NativeTextareaProps["enable-scroll-bar"];
@@ -694,7 +682,7 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
   "ios-spell-check"?: NativeTextareaProps["ios-spell-check"];
   /** Android의 fullscreen extract input을 활성화한다. @defaultValue false */
   "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
-  /** Android host window의 soft input mode를 지정한다. */
+  /** Android host window의 soft input mode를 지정한다. @defaultValue "unspecified" */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
   bindfocus?: NativeTextareaProps["bindfocus"];
   bindblur?: NativeTextareaProps["bindblur"];
@@ -756,16 +744,18 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       },
       [bindselection, control.handleSelectionChange],
     );
-    const handleTextareaRootTap = React.useCallback<
-      NonNullable<IntrinsicElements["view"]["bindtap"]>
+    const handleLayoutChange = React.useCallback<
+      NonNullable<NativeTextareaProps["bindlayoutchange"]>
     >(
       (event) => {
         "background only";
 
-        if (event.target.uid !== event.currentTarget.uid) return;
-        control.focusNativeControl();
+        if (autoresize) {
+          control.notifyLayoutChanged();
+        }
+        bindlayoutchange?.(event);
       },
-      [control.focusNativeControl],
+      [autoresize, bindlayoutchange, control.notifyLayoutChanged],
     );
 
     if (control.readOnly) {
@@ -795,48 +785,35 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       );
     }
 
-    // Android EditText는 자체 canvas 경계 안에서 text와 scroll offset을 먼저 자른다.
-    // autoresize 시 세로 padding을 wrapper가 아니라 native가 소유해야 첫 줄 여유가 유효하다.
-    const textarea = (
+    // Lynx native textarea가 내용 높이를 측정하고 shadow node를 다시 배치한다.
+    // 높이를 고정하지 않는 autoresize 모드에서는 별도 sizing wrapper를 두지 않는다.
+    return (
       <textarea
         {...control.defaultValueProps}
         ref={control.mergedRef}
         className={clsx(
           classes.value,
           classes.textareaValue,
-          autoresize ? classes.textareaNativeAutoresize : classes.textareaFixed,
-          autoresize && isAndroid && classes.textareaAndroidAutoresize,
+          !autoresize && classes.textareaFixed,
+          autoresize && classes.textareaAndroidAutoresize,
           className,
         )}
         disabled={control.disabled}
         readonly={control.readOnly}
-        show-soft-input-on-focus={control.readOnly ? false : showSoftInputOnFocus}
+        show-soft-input-on-focus={showSoftInputOnFocus ?? true}
         bounces={bounces ?? (autoresize ? false : undefined)}
         line-spacing={resolvedLineSpacing}
         android-fullscreen-mode={androidFullscreenMode ?? false}
-        android-set-soft-input-mode={androidSetSoftInputMode}
+        android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
         name={name ?? control.context.name}
-        maxlength={resolvedMaxLength}
+        {...(resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength })}
         bindinput={control.handleInput}
         bindselection={handleSelection}
         bindfocus={control.handleFocus}
         bindblur={control.handleBlur}
-        bindlayoutchange={bindlayoutchange}
+        bindlayoutchange={handleLayoutChange}
         {...nativeProps}
       />
-    );
-
-    if (!autoresize) return textarea;
-
-    return (
-      <view
-        ignore-focus={true}
-        className={clsx(classes.textareaRoot, !isAndroid && classes.textareaAutoresizeRoot)}
-        bindtap={handleTextareaRootTap}
-        bindlayoutchange={control.notifyLayoutChanged}
-      >
-        {textarea}
-      </view>
     );
   },
 );
