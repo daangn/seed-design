@@ -4,18 +4,10 @@ on:
       - "**"
       - "!main"
       - "!dev" # V3 deployment; remove this when V3 is stable
-    paths:
-      - "docs/**"
-      - "packages/css/**"
-      - "packages/react-headless/**"
-      - "packages/react/**"
-      - "packages/lynx-react/**"
-      - "packages/lynx-css/**"
-      - "packages/stackflow/**"
-      - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
-      - ".github/actions/setup/action.yml"
-      - ".github/actions/nextjs-cache/**"
-      - ".github/actions/check-docs-links/**"
+    # paths 필터는 두지 않는다. 필터는 "이번 push가 docs를 건드렸나"에만 답하므로,
+    # docs를 건드린 브랜치의 마지막 커밋이 changeset이나 루트 설정뿐이면 워크플로가
+    # 아예 돌지 않아 head SHA에 `Validate docs links` status가 붙지 않는다. 대신
+    # 아래 detect job이 브랜치 전체 diff를 보고 빌드 여부를 정한다.
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -50,8 +42,70 @@ env:
 name: deploy-seed-design-docs-alpha-pages
 
 jobs:
+  # 판정은 브랜치 전체 diff로 한다. push 단위 비교는 브랜치가 docs를 건드렸는지와
+  # 다른 질문이라, 마지막 커밋만 docs 밖이면 검사 없이 통과시키게 된다.
+  detect:
+    name: detect-docs-changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    outputs:
+      docs-affected: ${{ steps.detect.outputs.docs-affected }}
+
+    steps:
+      # blob 없이 받는다. 파일 이름만 필요하고 이 저장소는 전체 히스토리가 크다.
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Detect whether this branch can change the docs site
+        id: detect
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -eu
+
+          # 수동 실행은 캐시·벤치마크 확인용이라 diff와 무관하게 항상 빌드한다.
+          if [ "$EVENT_NAME" != "push" ]; then
+            echo "docs-affected=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # merge-base를 못 구하면 빌드로 보낸다. 검사 없이 통과시키는 쪽이 더 위험하다.
+          if ! merge_base="$(git merge-base "origin/$DEFAULT_BRANCH" "$HEAD_SHA")"; then
+            echo "docs-affected=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changed_files="$(git diff --name-only --no-renames "$merge_base" "$HEAD_SHA")"
+          if grep -qE '^(docs/|packages/css/|packages/react-headless/|packages/react/|packages/lynx-react/|packages/lynx-css/|packages/stackflow/|\.github/workflows/deploy-seed-design-docs-alpha-pages\.yml|\.github/actions/setup/action\.yml|\.github/actions/(nextjs-cache|check-docs-links)/)' <<< "$changed_files"; then
+            echo "docs-affected=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "docs-affected=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pass docs link validation when nothing reaches the docs site
+        if: ${{ steps.detect.outputs.docs-affected == 'false' }}
+        uses: actions/github-script@v9
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              context: 'Validate docs links',
+              description: 'No change reaches the docs site, so there is nothing to check',
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
+
   deploy:
     name: deploy-seed-design-docs-alpha-pages
+    needs: detect
+    if: ${{ needs.detect.outputs.docs-affected == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -60,7 +114,7 @@ jobs:
 
       # 링크 검사 결과는 job 성패가 아니라 commit status로 알린다. 브랜치 보호는 이
       # context를 요구하고, 되돌려야 할 때는 같은 context에 success를 덮어써서 푼다.
-      # `docs-links-status.yml`이 docs를 건드리지 않은 PR에 같은 context를 올린다.
+      # docs에 닿지 않는 브랜치에는 위 detect job이 같은 context를 올린다.
       - name: Mark docs link validation pending
         uses: actions/github-script@v9
         with:
