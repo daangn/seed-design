@@ -23,6 +23,7 @@ interface SwipeSetupOptions {
   /** seedPlugin이 stack 전체에 거는 기본값 */
   pluginSwipeBackArea?: "edge" | "full" | "none";
   transitionStyle?: NextAppScreenTransitionStyle;
+  swipeBackCommitRatio?: number;
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
   onSwipeBackEnd?: (props: { swiped: boolean }) => void;
@@ -276,6 +277,129 @@ describe("swipe back — edge 모드", () => {
       await nextFrame();
       fireEvent.touchEnd(edge as HTMLElement, touchInit(80, 300));
       expect(top.dataset["swipeBackState"]).toBe("canceling");
+    } finally {
+      clock.restore();
+    }
+  });
+});
+
+describe("swipe back — swipeBackCommitRatio", () => {
+  it("commit ratio를 넘는 순간, 손을 떼지 않아도 completing으로 확정된다", async () => {
+    const clock = createClock();
+    const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
+    try {
+      const { edge, top, behind, topLayer } = await setupSwipe({
+        transitionStyle: "experimental_scaleSlide",
+        swipeBackCommitRatio: 0.5,
+        onSwipeBackEnd,
+      });
+
+      fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+      clock.advance(1000);
+      fireEvent.touchMove(edge as HTMLElement, touchInit(410, 300)); // ratio 0.39
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("swiping");
+      expect(onSwipeBackEnd).not.toHaveBeenCalled();
+
+      fireEvent.touchMove(edge as HTMLElement, touchInit(610, 300)); // ratio 0.586 > 0.5
+      await nextFrame();
+
+      expect(onSwipeBackEnd).toHaveBeenCalledWith({ swiped: true });
+      expect(top.dataset["swipeBackState"]).toBe("completing");
+      expect(behind.dataset["swipeBackState"]).toBe("completing");
+
+      // 릴리즈가 실제로 출발했다: scaleSlide의 layer는 이동·페이드 두 leg를 받는다
+      expect(runningAnimationsOn(topLayer)).toHaveLength(2);
+    } finally {
+      clock.restore();
+    }
+  });
+
+  it("커밋한 뒤에는 손가락이 남아 있어도 되돌릴 수 없다 (이후 move·touchend 무시)", async () => {
+    const clock = createClock();
+    const onSwipeBackMove = mock((_: { displacement: number; displacementRatio: number }) => {});
+    const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
+    try {
+      const { edge, top } = await setupSwipe({
+        transitionStyle: "horizontalSlide",
+        swipeBackCommitRatio: 0.5,
+        onSwipeBackMove,
+        onSwipeBackEnd,
+      });
+
+      fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+      clock.advance(1000);
+      fireEvent.touchMove(edge as HTMLElement, touchInit(410, 300));
+      await nextFrame();
+      fireEvent.touchMove(edge as HTMLElement, touchInit(610, 300)); // 커밋
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("completing");
+
+      // 시작점까지 되돌려 끌었다가 떼도 completing 그대로, 콜백도 더 늘지 않는다
+      fireEvent.touchMove(edge as HTMLElement, touchInit(20, 300));
+      await nextFrame();
+      fireEvent.touchEnd(edge as HTMLElement, touchInit(20, 300));
+
+      expect(top.dataset["swipeBackState"]).toBe("completing");
+      expect(onSwipeBackMove).toHaveBeenCalledTimes(2);
+      expect(onSwipeBackEnd).toHaveBeenCalledTimes(1);
+    } finally {
+      clock.restore();
+    }
+  });
+
+  it("commit ratio에 못 미치면 릴리즈 임계를 넘겨도 드래그 중에는 확정하지 않는다", async () => {
+    const clock = createClock();
+    const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
+    try {
+      const { edge, top } = await setupSwipe({
+        transitionStyle: "horizontalSlide",
+        swipeBackCommitRatio: 0.7,
+        onSwipeBackEnd,
+      });
+
+      fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+      clock.advance(1000);
+      fireEvent.touchMove(edge as HTMLElement, touchInit(610, 300)); // ratio 0.586: 0.4 초과, 0.7 미만
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("swiping");
+      expect(onSwipeBackEnd).not.toHaveBeenCalled();
+
+      // 판정은 손을 떼는 시점의 릴리즈 임계가 그대로 맡는다
+      fireEvent.touchEnd(edge as HTMLElement, touchInit(610, 300));
+
+      expect(onSwipeBackEnd).toHaveBeenCalledWith({ swiped: true });
+      expect(top.dataset["swipeBackState"]).toBe("completing");
+    } finally {
+      clock.restore();
+    }
+  });
+
+  it("velocity는 커밋에 관여하지 않는다 — 빠른 플릭도 ratio에 닿아야 확정된다", async () => {
+    const clock = createClock();
+    const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
+    try {
+      const { edge, top } = await setupSwipe({
+        transitionStyle: "horizontalSlide",
+        swipeBackCommitRatio: 0.5,
+        onSwipeBackEnd,
+      });
+
+      fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+      clock.advance(50);
+      fireEvent.touchMove(edge as HTMLElement, touchInit(210, 300)); // 4 px/ms, ratio 0.195
+      await nextFrame();
+
+      expect(top.dataset["swipeBackState"]).toBe("swiping");
+      expect(onSwipeBackEnd).not.toHaveBeenCalled();
+
+      // 릴리즈에서는 velocity가 여전히 판정에 든다
+      fireEvent.touchEnd(edge as HTMLElement, touchInit(210, 300));
+
+      expect(onSwipeBackEnd).toHaveBeenCalledWith({ swiped: true });
     } finally {
       clock.restore();
     }
