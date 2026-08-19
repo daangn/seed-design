@@ -86,12 +86,10 @@ export const config = defineConfig({
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
-    { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
     { route: "/typography-scale", name: "ActivityTypographyScale" },
 
-    { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
-    { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
+    { route: "/app-screen", name: "ActivityAppScreen" },
     { route: "/next-app-screen", name: "ActivityNextAppScreen" },
     { route: "/next-app-screen-preview", name: "ActivityNextAppScreenPreview" },
     { route: "/next-app-screen-transparent", name: "ActivityNextAppScreenTransparent" },

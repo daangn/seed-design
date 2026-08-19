@@ -127,12 +127,10 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityForm: lazy(() => import("../activities/ActivityForm")),
     ActivityCategorySheet: lazy(() => import("../activities/ActivityCategorySheet")),
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
-    ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
     ActivityTypographyScale: lazy(() => import("../activities/ActivityTypographyScale")),
 
-    ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
-    ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
+    ActivityAppScreen: lazy(() => import("../activities/ActivityAppScreen")),
     ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
     ActivityNextAppScreenPreview: lazy(() => import("../activities/ActivityNextAppScreenPreview")),
     ActivityNextAppScreenTransparent: lazy(

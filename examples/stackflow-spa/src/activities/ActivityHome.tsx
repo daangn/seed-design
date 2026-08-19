@@ -40,7 +40,6 @@ import { menuSheetCallback } from "./ActivityMenuSheet";
 import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
-import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import {
   IconHandPointUpLine,
@@ -85,34 +84,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
-      title: "AppScreen",
-      items: [
-        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
-        {
-          title: "animate: false Test (밀림 버그) [Legacy]",
-          onClick: () => push("ActivityAnimateFalseTest", {}),
-        },
-        { title: "Preview [Legacy]", onClick: () => push("ActivityAppScreenPreview", {}) },
-        {
-          title: "Transparent [Legacy]",
-          onClick: () => push("ActivityAppScreenTransparent", {}),
-        },
-        {
-          title: "IntersectionObserver [Legacy]",
-          onClick: () => push("ActivityAppScreenIntersectionObserver", {}),
-        },
-        {
-          title: `Push to here (current activityIndex: ${activityIndex})`,
-          onClick: () => push("ActivityHome", {}),
-        },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
-        ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `ActivityTransitionStyle (${transitionStyle}) [Legacy]`,
-          onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
-        })),
-      ],
-    },
-    {
       title: "NextAppScreen",
       items: [
         { title: "NextAppScreen", onClick: () => push("ActivityNextAppScreen", {}) },
@@ -128,6 +99,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         {
           title: "animate: false Test (밀림 버그)",
           onClick: () => push("ActivityNextAnimateFalseTest", {}),
+        },
+        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
+        {
+          title: `Push to here (current activityIndex: ${activityIndex})`,
+          onClick: () => push("ActivityHome", {}),
         },
       ],
     },
@@ -451,6 +427,22 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Scale Feedback", onClick: () => push("ActivityScaleFeedback", {}) },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
+      ],
+    },
+    // 구형 AppScreen 화면 모음. 표식을 섹션 제목이 대신 지므로 항목마다 [Legacy] 를 붙이지 않는다.
+    {
+      title: "AppScreen (Legacy)",
+      items: [
+        { title: "AppScreen", onClick: () => push("ActivityAppScreen", {}) },
+        {
+          title: "IntersectionObserver",
+          onClick: () => push("ActivityAppScreenIntersectionObserver", {}),
+        },
+        {
+          title: "animate: false Test (밀림 버그)",
+          onClick: () => push("ActivityAnimateFalseTest", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
   ];

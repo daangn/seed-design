@@ -14,7 +14,7 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 
 - Activity 컴포넌트는 `StaticActivityComponentType<"ActivityName">` 타입.
 - 모든 activity는 `NextAppScreen` + `NextAppBar` 구조를 기본으로 쓴다 (기존 activity 참고).
-- 신규 activity는 NAS만 쓴다. 구형 화면은 아래 8개뿐이고, 전부 AppBar title과 `ActivityHome` 링크에 `Legacy` 표식이 붙어 있다. 표식 없는 항목은 NAS라는 뜻이므로, 구형을 새로 추가하거나 옮길 때 표식도 같이 옮긴다.
+- 신규 activity는 NAS만 쓴다. 구형 화면은 아래 6개뿐이고 전부 AppBar title에 `Legacy` 표식이 붙어 있다. `ActivityHome` 에서는 AppScreen 계보가 목록 맨 아래 `AppScreen (Legacy)` 섹션에 모여 있어 섹션 제목이 표식을 대신하고, 그 밖의 섹션에 섞여 있는 구형 항목(PullToRefresh)만 링크 제목에 `[Legacy]` 를 단다. 표식 없는 항목은 NAS라는 뜻이므로, 구형을 새로 추가하거나 옮길 때 표식도 같이 옮긴다.
 - 한 화면 안에서 두 세대를 섞지 않는다. legacy `AppBar`는 `useAppScreenContext()`를 호출하므로 `NextAppScreen` 안에서 렌더하면 throw한다.
 
 ### 구형 AppScreen이 남아 있는 곳
@@ -23,7 +23,7 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 
 | 계보 | import 출처 | activity | 남은 이유 |
 | --- | --- | --- | --- |
-| A | `seed-design/ui/app-screen` (vendored snippet) | `ActivityAnimateFalseTest`, `ActivityTransitionStyle`, `ActivityAppScreenPreview`, `ActivityAppScreenTransparent`, `ActivityAppScreenIntersectionObserver` | 회귀 검증용. 각각 `Next` 접두 NAS 짝이 있다 |
+| A | `seed-design/ui/app-screen` (vendored snippet) | `ActivityAppScreen`, `ActivityAnimateFalseTest`, `ActivityAppScreenIntersectionObserver` | 회귀 검증용. `ActivityAppScreen` 이 화면·AppBar 표면을 한 화면에서 전부 토글하고, 나머지 둘은 거기 담을 수 없는 케이스만 남긴다. NAS 짝은 각각 `ActivityNextAppScreen`, `ActivityNextAnimateFalseTest`, `ActivityNextAppScreenIntersectionObserver` |
 | B | `@seed-design/stackflow` 직접 import | `ActivityPullToRefreshPreview`, `ActivityPullToRefreshPreventPull` | snippet `AppScreenContent`가 PTR을 이미 통합하고 있어서, 수동 조합을 보여주려고 snippet을 우회한다. NAS 짝은 `ActivityNextPullToRefreshPreview` / `ActivityNextPullToRefreshPreventPull`이며 snippet의 `ptr` prop을 쓴다 |
 | C | `@stackflow/plugin-basic-ui` | `ActivityPluginBasicUI` | SEED가 아니라 stackflow가 제공하는 AppScreen. 비교 대상으로 남긴다 |
 - Stackflow params가 없는 activity는 `declare module "@stackflow/config"` 블록에서 `{}`로 선언.
