@@ -655,6 +655,7 @@ describe("TextField", () => {
     if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
 
     expect(textareaRoot).toHaveClass("seed-text-input__textareaAutoresizeRoot--size_large");
+    expect(textareaRoot).toHaveAttribute("ignore-focus", "true");
     expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
     expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
     expect(textarea).toHaveClass("seed-text-input__textareaValue");

@@ -830,6 +830,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
 
     return (
       <view
+        ignore-focus={true}
         className={clsx(classes.textareaRoot, !isAndroid && classes.textareaAutoresizeRoot)}
         bindtap={handleTextareaRootTap}
         bindlayoutchange={control.notifyLayoutChanged}
