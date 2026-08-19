@@ -47,7 +47,7 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open headerAlign={headerAlign}>
+      <BottomSheetRoot open modal={false} headerAlign={headerAlign}>
         <BottomSheetContent
           title={title}
           description={description}
