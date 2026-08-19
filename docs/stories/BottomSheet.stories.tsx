@@ -33,6 +33,9 @@ const BottomSheetPreview = ({
   return (
     <Box width="400px" p="x4">
       <style>{`
+        html {
+          overflow: auto !important;
+        }
         .seed-bottom-sheet__positioner {
           position: relative !important;
           inset: unset !important;
@@ -47,7 +50,7 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
+      <BottomSheetRoot open autoFocus={false} headerAlign={headerAlign}>
         <BottomSheetContent
           title={title}
           description={description}
