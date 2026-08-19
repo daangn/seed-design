@@ -8,32 +8,32 @@ function Root() {
   return (
     <page className={seedClassName}>
       <VStack className="radio-group-preview" gap="x5">
-        <RadioGroup.Root defaultValue="regular" size="large" tone="neutral" weight="regular">
-          <RadioGroup.Item value="regular">
+        <RadioGroup.Root defaultValue="regular-1" size="large" tone="neutral" weight="regular">
+          <RadioGroup.Item value="regular-1">
             <RadioGroup.ItemControl>
               <RadioGroup.ItemIndicator />
             </RadioGroup.ItemControl>
             <RadioGroup.ItemLabel>Regular</RadioGroup.ItemLabel>
           </RadioGroup.Item>
-          <RadioGroup.Item value="medium">
+          <RadioGroup.Item value="regular-2">
             <RadioGroup.ItemControl>
               <RadioGroup.ItemIndicator />
             </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Medium</RadioGroup.ItemLabel>
+            <RadioGroup.ItemLabel>Regular</RadioGroup.ItemLabel>
           </RadioGroup.Item>
         </RadioGroup.Root>
-        <RadioGroup.Root defaultValue="bold" size="large" tone="neutral" weight="bold">
-          <RadioGroup.Item value="bold">
+        <RadioGroup.Root defaultValue="bold-1" size="large" tone="neutral" weight="bold">
+          <RadioGroup.Item value="bold-1">
             <RadioGroup.ItemControl>
               <RadioGroup.ItemIndicator />
             </RadioGroup.ItemControl>
             <RadioGroup.ItemLabel>Bold</RadioGroup.ItemLabel>
           </RadioGroup.Item>
-          <RadioGroup.Item value="heavy">
+          <RadioGroup.Item value="bold-2">
             <RadioGroup.ItemControl>
               <RadioGroup.ItemIndicator />
             </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Heavy</RadioGroup.ItemLabel>
+            <RadioGroup.ItemLabel>Bold</RadioGroup.ItemLabel>
           </RadioGroup.Item>
         </RadioGroup.Root>
       </VStack>
