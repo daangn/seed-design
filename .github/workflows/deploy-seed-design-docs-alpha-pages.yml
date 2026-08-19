@@ -167,6 +167,16 @@ jobs:
           wranglerVersion: "4.45.3"
           command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
 
+      # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
+      # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
+      # 차단은 prod 워크플로가 배포 전에 한다.
+      - name: Validate docs links
+        id: links
+        continue-on-error: true
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
+
       - name: Find related PR
         id: pr
         uses: actions/github-script@v9
@@ -194,6 +204,7 @@ jobs:
         uses: actions/github-script@v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
+          LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
         with:
@@ -204,6 +215,9 @@ jobs:
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
 
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const linksBroken = process.env.LINKS_OUTCOME === 'failure';
+
             const body = [
               marker,
               '## Alpha Preview (Docs)',
@@ -211,6 +225,9 @@ jobs:
               `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
               `- Preview URL: ${deploymentUrl || '(not available)'}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
+              // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
+              // 줄이 없다는 것 자체가 통과를 뜻한다.
+              ...(linksBroken ? [`- Docs links: broken, see the [run log](${runUrl})`] : []),
             ].join('\n');
 
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -241,9 +258,6 @@ jobs:
               });
             }
 
-      # 프리뷰 배포와 PR 코멘트 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지
-      # 막히면 손해가 더 크다. 실제 차단은 prod 워크플로가 배포 전에 한다.
-      - name: Validate docs links
-        uses: ./.github/actions/check-docs-links
-        with:
-          out-dir: ${{ github.workspace }}/docs/out
+      - name: Fail when docs links are broken
+        if: ${{ steps.links.outcome == 'failure' }}
+        run: exit 1
