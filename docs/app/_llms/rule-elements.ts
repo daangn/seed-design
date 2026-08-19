@@ -20,6 +20,7 @@ export const RULE_ELEMENT_NAMES = [
   "CodeBlockTab",
   "CodeBlockTabs",
   "ComponentExample",
+  "LynxComponentExample",
   "ComponentSpecBlock",
   "IconLibrary",
   "ProgressBoardTable",

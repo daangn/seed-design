@@ -1,0 +1,13 @@
+import { describe, expect, it } from "bun:test";
+import { bundleLynxWebCoreStyles } from "./web-core-styles.js";
+
+describe("Lynx Web Shadow DOM CSS", () => {
+  it("web-core와 web-elements의 layout 규칙을 하나의 CSS로 묶는다", async () => {
+    const css = await bundleLynxWebCoreStyles();
+
+    expect(css).not.toContain("@import");
+    expect(css).toContain("box-sizing: border-box");
+    expect(css).toContain("var(--flex-direction)");
+    expect(css).toContain('lynx-default-display-linear="false"');
+  });
+});

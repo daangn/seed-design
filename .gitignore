@@ -15,6 +15,7 @@ lib
 docs/.next
 docs/.source
 docs/out
+docs/public/__lynx__
 
 scripts/data
 

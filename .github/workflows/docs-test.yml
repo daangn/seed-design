@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - "docs/**/*"
+      - "packages/css/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - ".github/workflows/docs-test.yml"
 
 env:

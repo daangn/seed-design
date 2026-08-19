@@ -9,6 +9,8 @@ on:
       - "packages/css/**"
       - "packages/react-headless/**"
       - "packages/react/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
@@ -26,7 +28,7 @@ on:
         type: string
         default: ""
       benchmark-cache-key:
-        description: "Optional identifier for a reproducible cold/warm Turbopack benchmark"
+        description: "Optional identifier for a reproducible cold/warm Docs benchmark"
         required: false
         type: string
         default: ""
@@ -94,33 +96,11 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=6144
         run: |
           build_started_at="$(date +%s)"
-          turbopack_duration_seconds="not-run"
-          status=0
-
-          # Keep the package build sequence, while measuring only `next build --turbopack`.
           set +e
-          bun run prepare:figma-images
+          bun run build
           status=$?
-
-          if [ "$status" -eq 0 ]; then
-            bun run typecheck
-            status=$?
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            turbopack_started_at="$(date +%s)"
-            bun run build:turbopack
-            status=$?
-            turbopack_duration_seconds="$(( $(date +%s) - turbopack_started_at ))"
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            bun run generate:changelog-llms
-            status=$?
-          fi
-
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
-          echo "turbopack-duration-seconds=$turbopack_duration_seconds" >> "$GITHUB_OUTPUT"
+          echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
           echo "exit-code=$status" >> "$GITHUB_OUTPUT"
           exit "$status"
 
@@ -132,7 +112,7 @@ jobs:
           NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-matched-key }}
           NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
           BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
-          TURBOPACK_DURATION_SECONDS: ${{ steps.build-docs.outputs.turbopack-duration-seconds }}
+          LYNX_CACHE_SIZE_KIB: ${{ steps.build-docs.outputs.lynx-cache-size-kib }}
           BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
         run: |
           cache_result="miss"
@@ -152,8 +132,8 @@ jobs:
             echo "| Next.js cache exact hit | ${NEXTJS_CACHE_HIT:-false} |"
             echo "| Next.js cache matched key | ${NEXTJS_CACHE_MATCHED_KEY:-none} |"
             echo "| Next.js cache primary key | ${NEXTJS_CACHE_PRIMARY_KEY:-unknown} |"
-            echo "| Turbopack build time (seconds) | ${TURBOPACK_DURATION_SECONDS:-not-recorded} |"
             echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
+            echo "| Lynx Rspeedy cache size (KiB) | ${LYNX_CACHE_SIZE_KIB:-not-recorded} |"
             echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
           } >> "$GITHUB_STEP_SUMMARY"
 

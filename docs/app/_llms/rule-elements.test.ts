@@ -110,6 +110,7 @@ describe("activeRules", () => {
         "AvailableSince",
         "Badge",
         "ComponentExample",
+        "LynxComponentExample",
         "CodeBlockTabs",
         "TypeTable",
         "TokenReference",

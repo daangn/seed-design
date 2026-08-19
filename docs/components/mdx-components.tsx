@@ -36,6 +36,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { LynxManualInstallation } from "./lynx-manual-installation";
+import { LynxComponentExample } from "./lynx-example";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
@@ -104,6 +105,7 @@ export const mdxComponents: MDXComponents = {
   ComponentSpecBlock,
   BreezeManualInstallation,
   LynxManualInstallation,
+  LynxComponentExample,
   Tab,
   Tabs,
   Step,
