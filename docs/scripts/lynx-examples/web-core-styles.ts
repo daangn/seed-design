@@ -6,12 +6,14 @@ import { LYNX_WEB_CORE_STYLES_FILENAME } from "./constants.js";
 const require = createRequire(import.meta.url);
 
 const SEED_LYNX_WEB_PREVIEW_OVERRIDES = `
-/* WebLynx는 flex item인 text를 상단에 배치하므로 Radio label의 첫 줄만 중앙에 맞춥니다. */
-.seed-radio__label--size_medium {
+/* WebLynx는 flex item인 text를 상단에 배치하므로 선택 컴포넌트 label의 첫 줄만 중앙에 맞춥니다. */
+.seed-radio__label--size_medium,
+.seed-checkbox__label--size_medium {
   margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
 }
 
-.seed-radio__label--size_large {
+.seed-radio__label--size_large,
+.seed-checkbox__label--size_large {
   margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
 }
 `;

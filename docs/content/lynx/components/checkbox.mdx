@@ -5,6 +5,19 @@ description: 사용자가 여러 옵션 중 하나 이상을 선택할 수 있�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
+<LynxComponentExample name="lynx/checkbox/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout>
+문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
+</Callout>
+
 ## Installation
 
 ```package-install
@@ -128,6 +141,43 @@ export function CheckboxVariants() {
 ### `CheckboxGroup`
 
 <react-type-table path="./registry/lynx/ui/checkbox.tsx" name="CheckboxGroupProps" />
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/checkbox/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/checkbox/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`onCheckedChange`로 체크박스의 선택 상태 변경을 감지할 수 있습니다.
+
+<LynxComponentExample name="lynx/checkbox/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ## 웹 버전과의 차이
 
