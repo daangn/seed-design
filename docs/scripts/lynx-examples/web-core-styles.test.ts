@@ -9,6 +9,7 @@ describe("Lynx Web Shadow DOM CSS", () => {
     expect(css).toContain("box-sizing: border-box");
     expect(css).toContain("var(--flex-direction)");
     expect(css).toContain('lynx-default-display-linear="false"');
+    expect(css).toContain("x-textarea:defined::part(textarea) {\n  padding: 0;\n}");
     expect(css).toContain(".seed-radio__label--size_medium");
     expect(css).toContain(".seed-radio__label--size_large");
     expect(css).toContain(".seed-checkbox__label--size_medium");
