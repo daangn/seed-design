@@ -8423,7 +8423,6 @@
   z-index: -1;
   border-radius: inherit;
   background-color: var(--seed-color-bg-transparent);
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
   position: absolute;
   inset: 0;
 }

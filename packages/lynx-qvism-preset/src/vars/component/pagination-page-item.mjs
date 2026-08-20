@@ -3,8 +3,6 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
         "scaleDuration": "var(--seed-duration-pressed-scale)",
         "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "size": "var(--seed-dimension-x10)",

@@ -45,7 +45,6 @@ const paginationPageItem = defineRecipe({
       zIndex: -1,
       borderRadius: "inherit",
       backgroundColor: vars.base.enabled.root.color,
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
 
     "& > [data-pagination-page-item-label]": {

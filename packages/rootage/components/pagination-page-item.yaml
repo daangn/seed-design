@@ -10,10 +10,6 @@ data:
         properties:
           color:
             type: color
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
           scale:
             type: number
           scaleDuration:
@@ -39,8 +35,6 @@ data:
       enabled:
         root:
           color: $color.bg.transparent
-          colorDuration: $duration.color-transition
-          colorTimingFunction: $timing-function.easing
           scaleDuration: $duration.pressed-scale
           scaleTimingFunction: $timing-function.pressed-scale
           size: $dimension.x10
