@@ -57,7 +57,7 @@ npx @seed-design/cli@latest add ui:wheel-picker
 
 ### React Element Label
 
-문자열 label은 그대로 접근성 이름으로 사용됩니다. 아이콘과 텍스트를 조합한 React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. 내부 요소는 `currentColor`를 상속해야 하며 버튼, 링크, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
+문자열 label은 그대로 접근성 이름으로 사용됩니다. Registry `WheelPicker`에서 React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. `@seed-design/react`의 `WheelPicker.Column`을 직접 사용할 때는 `getAriaValueText`로 각 값의 접근성 텍스트를 반환하세요. 내부 요소는 `currentColor`를 상속해야 하며 버튼, 링크, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
 
 <ComponentExample name="react/wheel-picker/react-element-label">
   ```json doc-gen:file
