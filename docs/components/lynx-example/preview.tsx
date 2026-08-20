@@ -92,7 +92,12 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
         element.addEventListener("error", handleError);
         const styleRules = await loadLynxWebCoreStyleRules(undefined, styleAbortController.signal);
         if (cancelled) return;
-        initializeLynxView(element, { theme: themeRef.current, styleRules, url });
+        initializeLynxView(element, {
+          theme: themeRef.current,
+          styleRules,
+          transformVH: !sizing.autoHeight,
+          url,
+        });
         const shadowRoot = element.shadowRoot;
         if (!shadowRoot) throw new Error("lynx-view shadow root가 준비되지 않았습니다.");
         observer = new MutationObserver(markReady);
@@ -122,7 +127,7 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
       if (timer) clearTimeout(timer);
       element?.removeEventListener("error", handleError);
     };
-  }, [retryKey, url, visible]);
+  }, [retryKey, sizing.autoHeight, url, visible]);
 
   return (
     <div
