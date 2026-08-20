@@ -1,8 +1,42 @@
 import "@testing-library/jest-dom";
+import * as React from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
+import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it, vi } from "vitest";
 
+import type { LynxIconElementProps } from "../../types";
 import * as Checkbox from "./Checkbox.namespace";
+
+const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => {
+  return <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />;
+});
+TestIcon.displayName = "TestIcon";
+
+function ControlledGhostCheckbox({
+  onCheckedChange,
+}: {
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <Checkbox.Root
+      variant="ghost"
+      checked={checked}
+      onCheckedChange={(nextChecked) => {
+        setChecked(nextChecked);
+        onCheckedChange(nextChecked);
+      }}
+    >
+      <Checkbox.Control>
+        <Checkbox.Indicator
+          checked={<TestIcon className="checked-test-icon" />}
+          unchecked={<TestIcon className="unchecked-test-icon" />}
+        />
+      </Checkbox.Control>
+    </Checkbox.Root>
+  );
+}
 
 function getCheckboxRoot() {
   const root = elementTree.root;
@@ -34,60 +68,109 @@ function getCheckboxControl() {
   return control;
 }
 
+function getCheckboxBackground() {
+  const background = getCheckboxControl().querySelector<HTMLElement>(".seed-checkmark__background");
+
+  if (!background) {
+    throw new Error("Expected Checkbox background to exist.");
+  }
+
+  return background;
+}
+
 describe("Checkbox", () => {
-  it("keeps the released ghost root class stable when tap changes checked state", () => {
+  it("keeps each ghost press color stable through release in both toggle directions", () => {
     const onCheckedChange = vi.fn();
 
-    render(
-      <Checkbox.Root variant="ghost" onCheckedChange={onCheckedChange}>
-        <Checkbox.Control />
-      </Checkbox.Root>,
-    );
+    render(<ControlledGhostCheckbox onCheckedChange={onCheckedChange} />);
 
     const root = getCheckboxRoot();
+    const idleRootClassName = getCheckboxControl().className;
 
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_false");
+    expect(getCheckboxRoot().querySelector(".unchecked-test-icon")).not.toBeNull();
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
 
     fireEvent.touchstart(root, {});
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_true");
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_false");
+    expect(getCheckboxControl().className).toBe(idleRootClassName);
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
 
     fireEvent.touchend(root, {});
-    const releasedClassName = getCheckboxControl().className;
+    const uncheckedReleaseRootClassName = getCheckboxControl().className;
+    const uncheckedReleaseClassName = getCheckboxBackground().className;
 
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_false");
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_false");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
 
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_false");
-    expect(getCheckboxControl().className).toBe(releasedClassName);
+    expect(getCheckboxRoot().querySelector(".checked-test-icon")).not.toBeNull();
+    expect(getCheckboxControl().className).toBe(uncheckedReleaseRootClassName);
+    expect(getCheckboxBackground().className).toBe(uncheckedReleaseClassName);
 
     fireEvent.touchstart(root, {});
 
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_true");
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_true");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
+    expect(getCheckboxBackground()).toHaveClass(
+      "seed-checkmark__background--variant_ghost-tone_brand-checked_true",
+    );
+
+    fireEvent.touchend(root, {});
+    const checkedReleaseRootClassName = getCheckboxControl().className;
+    const checkedReleaseClassName = getCheckboxBackground().className;
+
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
+
+    fireEvent.tap(root);
+
+    expect(onCheckedChange.mock.calls).toEqual([[true], [false]]);
+    expect(getCheckboxRoot().querySelector(".unchecked-test-icon")).not.toBeNull();
+    expect(getCheckboxControl().className).toBe(checkedReleaseRootClassName);
+    expect(getCheckboxBackground().className).toBe(checkedReleaseClassName);
+
+    fireEvent.touchstart(root, {});
+
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
+
+    fireEvent.touchcancel(root, {});
+
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
   });
 
-  it("does not overlap the checked and pressed color states when tap precedes touchend", () => {
-    render(
-      <Checkbox.Root variant="ghost">
+  it("keeps the touchstart selection while controlled state changes during a press", () => {
+    const renderCheckbox = (checked: boolean) => (
+      <Checkbox.Root variant="ghost" checked={checked}>
         <Checkbox.Control />
-      </Checkbox.Root>,
+      </Checkbox.Root>
     );
+    const { rerender } = render(renderCheckbox(true));
 
     const root = getCheckboxRoot();
 
     fireEvent.touchstart(root, {});
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_true");
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_false");
+    const checkedPressClassName = getCheckboxBackground().className;
 
-    fireEvent.tap(root);
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--pressed_false");
-    expect(getCheckboxControl()).toHaveClass("seed-checkmark__root--checked_false");
-    expect(getCheckboxControl()).not.toHaveClass(
-      "seed-checkmark__root--variant_ghost-tone_brand-pressed_true-checked_true-disabled_false",
-    );
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
+
+    rerender(renderCheckbox(false));
+
+    expect(getCheckboxBackground().className).toBe(checkedPressClassName);
+
+    fireEvent.touchend(root, {});
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
+
+    fireEvent.touchstart(root, {});
+    const uncheckedPressClassName = getCheckboxBackground().className;
+
+    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
+
+    rerender(renderCheckbox(true));
+
+    expect(getCheckboxBackground().className).toBe(uncheckedPressClassName);
   });
 });

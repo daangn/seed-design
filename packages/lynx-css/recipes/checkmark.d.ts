@@ -35,7 +35,7 @@ declare type CheckmarkVariantMap = {
 
 export declare type CheckmarkVariantProps = Partial<CheckmarkVariant>;
 
-export declare type CheckmarkSlotName = "root" | "icon";
+export declare type CheckmarkSlotName = "root" | "background" | "icon";
 
 export declare const checkmarkVariantMap: CheckmarkVariantMap;
 
