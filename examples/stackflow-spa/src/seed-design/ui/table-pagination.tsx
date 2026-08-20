@@ -1,5 +1,3 @@
-"use client";
-
 import { IconChevronLeftLine, IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
 import { HStack, type HStackProps, Text } from "@seed-design/react";
 import { useTablePagination, type UseTablePaginationProps } from "@seed-design/react-pagination";
