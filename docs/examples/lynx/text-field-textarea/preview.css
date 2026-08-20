@@ -5,3 +5,14 @@ page {
   padding: 24px;
   background-color: var(--seed-color-bg-layer-default);
 }
+
+.pure-textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 14px 12px;
+  border: 1px solid var(--seed-color-stroke-neutral-muted);
+  border-radius: 12px;
+  background-color: var(--seed-color-bg-layer-default);
+  color: var(--seed-color-fg-neutral);
+  font-size: 16px;
+}
