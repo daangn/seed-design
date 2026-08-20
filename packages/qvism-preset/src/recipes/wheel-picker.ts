@@ -3,6 +3,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -105,7 +106,34 @@ const wheelPicker = defineSlotRecipe({
       pointerEvents: "none",
     },
   },
-  variants: {},
+  variants: {
+    appearance: {
+      neutral: {
+        root: {
+          width: "100%",
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: tokens.$color.fg.neutral,
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]: tokens.$radius.r2,
+        },
+        columns: {
+          width: "100%",
+        },
+        column: {
+          flex: "1 1 0",
+          minWidth: 0,
+        },
+        item: {
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: tokens.$color.fg.neutralMuted,
+          fontSize: tokens.$fontSize.t5,
+          lineHeight: tokens.$lineHeight.t5,
+          fontWeight: tokens.$fontWeight.regular,
+        },
+        selectionIndicator: {
+          borderRadius: tokens.$radius.r2,
+          backgroundColor: tokens.$color.bg.neutralWeak,
+        },
+      },
+    },
+  },
   defaultVariants: {},
 });
 

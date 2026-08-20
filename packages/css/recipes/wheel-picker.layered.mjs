@@ -32,7 +32,11 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const wheelPickerVariantMap = {};
+export const wheelPickerVariantMap = {
+  "appearance": [
+    "neutral"
+  ]
+};
 
 export const wheelPickerVariantKeys = Object.keys(wheelPickerVariantMap);
 

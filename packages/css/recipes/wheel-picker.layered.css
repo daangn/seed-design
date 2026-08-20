@@ -97,4 +97,31 @@
     top: 50%;
     transform: translateY(-50%);
   }
+
+  .seed-wheel-picker__root--appearance_neutral {
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
+    --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
+    width: 100%;
+  }
+
+  .seed-wheel-picker__columns--appearance_neutral {
+    width: 100%;
+  }
+
+  .seed-wheel-picker__column--appearance_neutral {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .seed-wheel-picker__item--appearance_neutral {
+    --seed-wheel-picker-item-color: var(--seed-color-fg-neutral-muted);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+  .seed-wheel-picker__selectionIndicator--appearance_neutral {
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-neutral-weak);
+  }
 }

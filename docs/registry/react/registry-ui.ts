@@ -399,6 +399,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0", "@seed-design/css": "^2.6.0" },
+        },
+      ],
+    },
+    {
       id: "radio-group",
       snippets: [
         {
