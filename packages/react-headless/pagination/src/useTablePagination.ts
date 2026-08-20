@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 const DEFAULT_VALUE: TablePaginationValue = { page: 1, pageSize: 10 };
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 25, 50] as const;
 const EMPTY_PAGE_RANGE_OPTIONS: readonly [] = [];
-const MAX_AUTO_PAGE_OPTIONS = 10_000;
+const MAX_AUTO_PAGE_OPTIONS = 200;
 
 export interface TablePaginationValue {
   /** 1부터 시작하는 현재 페이지입니다. */
@@ -50,7 +50,7 @@ interface UseTablePaginationBaseProps {
 export interface UseTablePaginationKnownProps extends UseTablePaginationBaseProps {
   /** 전체 항목 수입니다. */
   totalItems: number;
-  /** 페이지 범위 선택기에 노출할 페이지입니다. 페이지 수가 10,000개 이하면 기본적으로 모든 페이지를 노출합니다. */
+  /** 페이지 범위 선택기에 노출할 페이지입니다. 생략하면 200페이지까지는 전체를, 그보다 많으면 첫·마지막·현재 주변 페이지를 자동으로 노출합니다. */
   pageOptions?: readonly number[];
   hasPreviousPage?: never;
   hasNextPage?: never;
@@ -93,6 +93,7 @@ export interface UseTablePaginationKnownReturn extends UseTablePaginationCommonR
   isTotalKnown: true;
   totalItems: number;
   totalPages: number;
+  /** 페이지 수가 많으면 첫·마지막·현재 주변 페이지로 축약될 수 있습니다. */
   pageRangeOptions: readonly TablePaginationPageRangeOption[];
 }
 
@@ -171,6 +172,18 @@ function createKnownRange(page: number, pageSize: number, totalItems: number) {
     );
   }
   return createRange(page, pageSize, Math.min(pageSize, totalItems - offset));
+}
+
+function createAutoPageOptions(page: number, totalPages: number) {
+  if (totalPages <= MAX_AUTO_PAGE_OPTIONS) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  const windowSize = MAX_AUTO_PAGE_OPTIONS - 2;
+  const centeredStart = page - Math.floor((windowSize - 1) / 2);
+  const windowStart = Math.min(Math.max(centeredStart, 2), totalPages - windowSize);
+
+  return [1, ...Array.from({ length: windowSize }, (_, index) => windowStart + index), totalPages];
 }
 
 function validateProps(props: UseTablePaginationProps) {
@@ -263,14 +276,7 @@ export function useTablePagination(props: UseTablePaginationProps): UseTablePagi
   const pageRangeOptions = useMemo(() => {
     if (totalItems === undefined || totalPages === undefined) return EMPTY_PAGE_RANGE_OPTIONS;
 
-    if (props.pageOptions === undefined && totalPages > MAX_AUTO_PAGE_OPTIONS) {
-      throw new RangeError(
-        `TablePagination: 페이지 수가 ${MAX_AUTO_PAGE_OPTIONS.toLocaleString("en-US")}개를 넘으면 pageOptions를 전달해야 합니다.`,
-      );
-    }
-
-    const pageOptions =
-      props.pageOptions ?? Array.from({ length: totalPages }, (_, index) => index + 1);
+    const pageOptions = props.pageOptions ?? createAutoPageOptions(page, totalPages);
     const pages = new Set(pageOptions.filter((option) => option <= totalPages));
     pages.add(page);
     return [...pages]

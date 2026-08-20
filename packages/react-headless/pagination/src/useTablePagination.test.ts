@@ -87,20 +87,64 @@ describe("useTablePagination", () => {
     expect(result.current.pageSizeOptions).toEqual([10, 25, 50]);
   });
 
-  it("페이지가 매우 많으면 pageOptions로 렌더링할 범위를 제한하도록 안내한다", () => {
-    expect(() => renderHook(() => useTablePagination({ totalItems: 100_010 }))).toThrow(
-      /pageOptions/,
+  it("200페이지까지는 전체를, 201페이지부터는 200개 옵션을 자동 생성한다", () => {
+    const { result, rerender } = renderHook(
+      ({ totalItems }) => useTablePagination({ totalItems }),
+      { initialProps: { totalItems: 2_000 } },
     );
 
+    expect(result.current.pageRangeOptions).toHaveLength(200);
+    expect(result.current.pageRangeOptions.at(0)?.page).toBe(1);
+    expect(result.current.pageRangeOptions.at(-1)?.page).toBe(200);
+
+    rerender({ totalItems: 2_010 });
+    expect(result.current.pageRangeOptions).toHaveLength(200);
+    expect(result.current.pageRangeOptions.at(0)?.page).toBe(1);
+    expect(result.current.pageRangeOptions.at(-1)?.page).toBe(201);
+    expect(result.current.pageRangeOptions.some((option) => option.page === 200)).toBe(false);
+  });
+
+  it("200페이지를 넘으면 첫·마지막·현재 주변의 200개 옵션으로 축약한다", () => {
+    const { result, rerender } = renderHook(
+      ({ page }) =>
+        useTablePagination({
+          totalItems: 10_000,
+          value: { page, pageSize: 10 },
+        }),
+      { initialProps: { page: 1 } },
+    );
+
+    expect(result.current.pageRangeOptions.map((option) => option.page)).toEqual([
+      ...Array.from({ length: 199 }, (_, index) => index + 1),
+      1_000,
+    ]);
+
+    rerender({ page: 500 });
+    expect(result.current.pageRangeOptions.map((option) => option.page)).toEqual([
+      1,
+      ...Array.from({ length: 198 }, (_, index) => index + 402),
+      1_000,
+    ]);
+
+    rerender({ page: 1_000 });
+    expect(result.current.pageRangeOptions.map((option) => option.page)).toEqual([
+      1,
+      ...Array.from({ length: 199 }, (_, index) => index + 802),
+    ]);
+  });
+
+  it("페이지 수가 안전한 정수 한계에 가까워도 옵션을 200개만 생성한다", () => {
     const { result } = renderHook(() =>
       useTablePagination({
         totalItems: Number.MAX_SAFE_INTEGER,
         value: { page: 123_456, pageSize: 10 },
-        pageOptions: [1, 123_456],
       }),
     );
 
-    expect(result.current.pageRangeOptions.map((option) => option.page)).toEqual([1, 123_456]);
+    expect(result.current.pageRangeOptions).toHaveLength(200);
+    expect(result.current.pageRangeOptions.at(0)?.page).toBe(1);
+    expect(result.current.pageRangeOptions.some((option) => option.page === 123_456)).toBe(true);
+    expect(result.current.pageRangeOptions.at(-1)?.page).toBe(result.current.totalPages);
   });
 
   it("known total이 0이면 page 1과 0-0 범위를 canonical 값으로 반환한다", () => {
