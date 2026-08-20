@@ -44,7 +44,7 @@ BottomSheet처럼 화면 전체를 기준으로 배치되는 오버레이 예제
 
 오버레이가 Lynx Explorer에서는 정상인데 문서 미리보기에서만 넘친다면 다음 순서로 확인한다.
 
-1. `lynx-view`의 `transformVW`와 `transformVH`가 bundle URL을 설정하기 전에 활성화됐는지 확인한다.
+1. 고정 높이 미리보기에서는 `transformVW`와 `transformVH`, 자동 높이 미리보기에서는 `transformVW`가 bundle URL을 설정하기 전에 활성화됐는지 확인한다.
 2. 열린 Content의 너비가 `lynx-view` 너비와 같은지 확인한다.
 3. 작은 문서 폭에서도 Content의 좌우 경계가 `lynx-view` 경계 안에 있는지 확인한다.
 
