@@ -6,6 +6,13 @@ import { LYNX_WEB_CORE_STYLES_FILENAME } from "./constants.js";
 const require = createRequire(import.meta.url);
 
 const SEED_LYNX_WEB_PREVIEW_OVERRIDES = `
+/* 문서 사이트와 같은 방식으로 Lynx 미리보기의 글꼴을 렌더링합니다. */
+:host {
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* 브라우저 기본 textarea padding이 TextField의 내부 여백과 겹치지 않도록 제거합니다. */
 x-textarea:defined::part(textarea) {
   padding: 0;
