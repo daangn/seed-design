@@ -5,7 +5,7 @@ description: 화면 하단에서 올라오는 시트 컴포넌트로, 드래그�
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
 
-<LynxComponentExample name="lynx/bottom-sheet/preview">
+<LynxComponentExample name="lynx/bottom-sheet/preview" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/preview.tsx","codeblock":true}
   ```
@@ -115,7 +115,7 @@ export function App() {
 
 Footer의 버튼, 배경 탭, 아래 방향 드래그로 Bottom Sheet를 닫을 수 있습니다. 예제 위쪽의 상태 값에서 `onOpenChange` 결과를 확인할 수 있습니다.
 
-<LynxComponentExample name="lynx/bottom-sheet/preview">
+<LynxComponentExample name="lynx/bottom-sheet/preview" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/preview.tsx","codeblock":true}
   ```
@@ -125,7 +125,7 @@ Footer의 버튼, 배경 탭, 아래 방향 드래그로 Bottom Sheet를 닫을 
 
 Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpenChange`로 상태를 제어합니다. 배경 탭이나 드래그로 닫을 때도 `onOpenChange`가 호출되므로 전달받은 값을 `open`에 반영해야 합니다.
 
-<LynxComponentExample name="lynx/bottom-sheet/controlled">
+<LynxComponentExample name="lynx/bottom-sheet/controlled" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/controlled.tsx","codeblock":true}
   ```
@@ -137,7 +137,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 `onSnapChange`에서는 현재 index와 픽셀로 계산된 높이를 받을 수 있습니다. ref의 `snapTo` 메서드를 사용하면 원하는 높이로 이동할 수 있습니다.
 
-<LynxComponentExample name="lynx/bottom-sheet/snap-points">
+<LynxComponentExample name="lynx/bottom-sheet/snap-points" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/snap-points.tsx","codeblock":true}
   ```
