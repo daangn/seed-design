@@ -26,6 +26,10 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "maxWidth": {
+              "type": "dimension";
+              "description": "말풍선의 최대 너비를 정의합니다.";
+            };
             "enterScale": {
               "type": "number";
             };
@@ -174,6 +178,13 @@ declare const artifact: {
                 "gap": {
                   "type": "dimension";
                   "value": "$dimension.x1";
+                };
+                "maxWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 280;
+                    "unit": "px";
+                  };
                 };
                 "enterScale": {
                   "type": "number";
