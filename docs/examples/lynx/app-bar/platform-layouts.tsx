@@ -10,33 +10,42 @@ function Root() {
 
   return (
     <page className={seedClassName}>
-      <view className="app-bar-preview app-bar-preview__group">
-        <text className="app-bar-preview__label">Cupertino</text>
-        <AppBar.Root theme="cupertino">
-          <AppBar.Left>
-            <AppBar.IconButton accessibility-label="뒤로" icon={<IconChevronLeftLine />} />
-          </AppBar.Left>
-          <AppBar.Main>
-            <AppBar.Title>가운데 제목</AppBar.Title>
-          </AppBar.Main>
-          <AppBar.Right>
-            <AppBar.IconButton accessibility-label="닫기" icon={<IconXmarkLine />} />
-          </AppBar.Right>
-        </AppBar.Root>
+      <view className="app-bar-preview__platforms">
+        <view className="app-bar-preview__platform">
+          <text className="app-bar-preview__label">Cupertino</text>
+          <view className="app-bar-preview app-bar-preview--platform">
+            <AppBar.Root theme="cupertino">
+              <AppBar.Left>
+                <AppBar.IconButton accessibility-label="뒤로" icon={<IconChevronLeftLine />} />
+              </AppBar.Left>
+              <AppBar.Main layout="withSubtitle">
+                <AppBar.Title>화면 제목</AppBar.Title>
+                <AppBar.Subtitle>보조 제목</AppBar.Subtitle>
+              </AppBar.Main>
+              <AppBar.Right>
+                <AppBar.IconButton accessibility-label="닫기" icon={<IconXmarkLine />} />
+              </AppBar.Right>
+            </AppBar.Root>
+          </view>
+        </view>
 
-        <text className="app-bar-preview__label">Android</text>
-        <AppBar.Root theme="android">
-          <AppBar.Left>
-            <AppBar.IconButton accessibility-label="뒤로" icon={<IconChevronLeftLine />} />
-          </AppBar.Left>
-          <AppBar.Main layout="withSubtitle">
-            <AppBar.Title>왼쪽 제목</AppBar.Title>
-            <AppBar.Subtitle>부제목</AppBar.Subtitle>
-          </AppBar.Main>
-          <AppBar.Right>
-            <AppBar.IconButton accessibility-label="닫기" icon={<IconXmarkLine />} />
-          </AppBar.Right>
-        </AppBar.Root>
+        <view className="app-bar-preview__platform">
+          <text className="app-bar-preview__label">Android</text>
+          <view className="app-bar-preview app-bar-preview--platform">
+            <AppBar.Root theme="android">
+              <AppBar.Left>
+                <AppBar.IconButton accessibility-label="뒤로" icon={<IconChevronLeftLine />} />
+              </AppBar.Left>
+              <AppBar.Main layout="withSubtitle">
+                <AppBar.Title>화면 제목</AppBar.Title>
+                <AppBar.Subtitle>보조 제목</AppBar.Subtitle>
+              </AppBar.Main>
+              <AppBar.Right>
+                <AppBar.IconButton accessibility-label="닫기" icon={<IconXmarkLine />} />
+              </AppBar.Right>
+            </AppBar.Root>
+          </view>
+        </view>
       </view>
     </page>
   );
