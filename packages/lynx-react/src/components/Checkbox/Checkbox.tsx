@@ -166,13 +166,24 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   };
   const classes = checkmark(checkmarkVariantProps);
 
+  // ReactLynx는 계산된 스타일이 같아도 className 문자열이 바뀌면 네이티브 클래스를 다시 적용한다.
+  // 배경이 투명한 ghost 기본 상태에서는 선택 클래스 변경이 누름 해제 전환을 재시작하지 않도록 고정한다.
+  const rootClassName =
+    checkmarkVariantProps.variant === "ghost"
+      ? checkmark({
+          ...checkmarkVariantProps,
+          checked: context.pressed && context.checked,
+          indeterminate: context.pressed && context.indeterminate,
+        }).root
+      : classes.root;
+
   return (
     <CheckmarkControlContext.Provider
       value={{ iconClassName: classes.icon, checkmarkVariantProps }}
     >
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
-        className={clsx(classes.root, className)}
+        className={clsx(rootClassName, className)}
         {...nativeProps}
       >
         {children}
