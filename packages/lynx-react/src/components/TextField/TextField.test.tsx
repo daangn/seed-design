@@ -198,10 +198,13 @@ describe("TextField", () => {
     expect(input).toHaveAttribute("default-value", "");
   });
 
-  it("passes safe soft keyboard defaults and preserves explicit overrides", () => {
+  it("replaces undefined soft keyboard props with safe native defaults", () => {
     const { rerender } = render(
       <TextField.Root>
-        <TextField.Input />
+        <TextField.Input
+          show-soft-input-on-focus={undefined}
+          android-set-soft-input-mode={undefined}
+        />
       </TextField.Root>,
     );
 
@@ -212,9 +215,31 @@ describe("TextField", () => {
     rerender(
       <TextField.Root>
         <TextField.Textarea
-          show-soft-input-on-focus={false}
-          android-set-soft-input-mode="resize"
+          show-soft-input-on-focus={undefined}
+          android-set-soft-input-mode={undefined}
         />
+      </TextField.Root>,
+    );
+
+    const textarea = getRenderedRoot().querySelector("textarea");
+    expect(textarea).toHaveAttribute("show-soft-input-on-focus", "true");
+    expect(textarea).toHaveAttribute("android-set-soft-input-mode", "unspecified");
+  });
+
+  it("preserves explicit soft keyboard overrides", () => {
+    const { rerender } = render(
+      <TextField.Root>
+        <TextField.Input show-soft-input-on-focus={false} android-set-soft-input-mode="nothing" />
+      </TextField.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    expect(input).toHaveAttribute("show-soft-input-on-focus", "false");
+    expect(input).toHaveAttribute("android-set-soft-input-mode", "nothing");
+
+    rerender(
+      <TextField.Root>
+        <TextField.Textarea show-soft-input-on-focus={false} android-set-soft-input-mode="resize" />
       </TextField.Root>,
     );
 

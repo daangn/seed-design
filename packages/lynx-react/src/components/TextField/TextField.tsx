@@ -548,14 +548,22 @@ export interface TextFieldInputProps extends NativeTextControlProps {
   maxlength?: NativeInputProps["maxlength"];
   readonly?: NativeInputProps["readonly"];
   disabled?: NativeInputProps["disabled"];
-  /** 포커스할 때 시스템 키보드를 표시한다. @defaultValue true */
+  /**
+   * 포커스할 때 시스템 키보드를 표시한다.
+   * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
+   * @defaultValue true
+   */
   "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
   "input-filter"?: NativeInputProps["input-filter"];
   type?: NativeInputProps["type"];
   "ios-auto-correct"?: NativeInputProps["ios-auto-correct"];
   "ios-spell-check"?: NativeInputProps["ios-spell-check"];
   "android-fullscreen-mode"?: NativeInputProps["android-fullscreen-mode"];
-  /** Android host window의 soft input mode를 지정한다. @defaultValue "unspecified" */
+  /**
+   * Android host window의 soft input mode를 지정한다.
+   * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
+   * @defaultValue "unspecified"
+   */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
   bindfocus?: NativeInputProps["bindfocus"];
   bindblur?: NativeInputProps["bindblur"];
@@ -673,7 +681,11 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
   "line-spacing"?: NativeTextareaProps["line-spacing"];
   readonly?: NativeTextareaProps["readonly"];
   disabled?: NativeTextareaProps["disabled"];
-  /** 포커스할 때 시스템 키보드를 표시한다. @defaultValue true */
+  /**
+   * 포커스할 때 시스템 키보드를 표시한다.
+   * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
+   * @defaultValue true
+   */
   "show-soft-input-on-focus"?: NativeTextareaProps["show-soft-input-on-focus"];
   "input-filter"?: NativeTextareaProps["input-filter"];
   "enable-scroll-bar"?: NativeTextareaProps["enable-scroll-bar"];
@@ -682,7 +694,11 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
   "ios-spell-check"?: NativeTextareaProps["ios-spell-check"];
   /** Android의 fullscreen extract input을 활성화한다. @defaultValue false */
   "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
-  /** Android host window의 soft input mode를 지정한다. @defaultValue "unspecified" */
+  /**
+   * Android host window의 soft input mode를 지정한다.
+   * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
+   * @defaultValue "unspecified"
+   */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
   bindfocus?: NativeTextareaProps["bindfocus"];
   bindblur?: NativeTextareaProps["bindblur"];
