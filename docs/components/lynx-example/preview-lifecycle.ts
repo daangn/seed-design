@@ -57,11 +57,11 @@ export async function loadLynxWebCoreStyleRules(
 
 export function initializeLynxView(
   element: ConfigurableLynxView,
-  options: { theme: string; styleRules: string[]; url: string },
+  options: { theme: string; styleRules: string[]; transformVH: boolean; url: string },
 ) {
   element.browserConfig = { lynxSdkVersion: LYNX_WEB_RUNTIME_SDK_VERSION };
   element.transformVW = true;
-  element.transformVH = true;
+  element.transformVH = options.transformVH;
   configureLynxView(element, options.theme);
   element.injectStyleRules = options.styleRules;
   element.url = options.url;

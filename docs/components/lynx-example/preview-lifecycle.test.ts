@@ -41,7 +41,7 @@ describe("Lynx 미리보기 lifecycle", () => {
     ).toBe(true);
   });
 
-  it("스타일 규칙을 설정한 다음 url을 설정해 shadow root 생성을 시작한다", () => {
+  it("자동 높이에서는 transformVH를 비활성화한 다음 url을 설정한다", () => {
     const assignments: string[] = [];
     const element = {
       set browserConfig(value: Record<string, unknown>) {
@@ -67,6 +67,47 @@ describe("Lynx 미리보기 lifecycle", () => {
     initializeLynxView(element, {
       theme: "light",
       styleRules: ["* { box-sizing: border-box; }"],
+      transformVH: false,
+      url: "/preview.web.bundle",
+    });
+
+    expect(assignments).toEqual([
+      "browserConfig:3.5",
+      "transformVW:true",
+      "transformVH:false",
+      "globalProps",
+      "injectStyleRules",
+      "url",
+    ]);
+  });
+
+  it("고정 높이에서는 transformVH를 활성화한 다음 url을 설정한다", () => {
+    const assignments: string[] = [];
+    const element = {
+      set browserConfig(value: Record<string, unknown>) {
+        assignments.push(`browserConfig:${value.lynxSdkVersion}`);
+      },
+      set transformVH(value: boolean) {
+        assignments.push(`transformVH:${value}`);
+      },
+      set transformVW(value: boolean) {
+        assignments.push(`transformVW:${value}`);
+      },
+      set globalProps(_value: unknown) {
+        assignments.push("globalProps");
+      },
+      set injectStyleRules(_value: string[]) {
+        assignments.push("injectStyleRules");
+      },
+      set url(_value: string) {
+        assignments.push("url");
+      },
+    };
+
+    initializeLynxView(element, {
+      theme: "light",
+      styleRules: ["* { box-sizing: border-box; }"],
+      transformVH: true,
       url: "/preview.web.bundle",
     });
 
