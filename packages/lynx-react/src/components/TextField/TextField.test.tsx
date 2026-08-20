@@ -63,11 +63,17 @@ function getTextFieldRoot() {
   return textFieldRoot;
 }
 
-function fireNativeEvent(nativeRef: NodesRef, element: Element, eventName: string, detail: object) {
+function fireNativeEvent(
+  nativeRef: NodesRef,
+  element: Element,
+  eventName: string,
+  detail: object,
+  bubbles = true,
+) {
   const EventConstructor = element.ownerDocument.defaultView?.CustomEvent;
   if (!EventConstructor) throw new Error("Expected CustomEvent constructor to exist.");
 
-  const event = new EventConstructor(`bindEvent:${eventName}`, { bubbles: true, detail });
+  const event = new EventConstructor(`bindEvent:${eventName}`, { bubbles, detail });
   Object.assign(event, { eventType: "bindEvent", eventName });
   fireEvent(nativeRef as unknown as Element, event);
 }
@@ -680,7 +686,9 @@ describe("TextField", () => {
     expect(getRenderedQueries().queryByText("secret")).toBeNull();
   });
 
-  it("uses native intrinsic autoresize without a sizing wrapper", () => {
+  it("uses direct native autoresize on Android", () => {
+    setSystemInfo({ platform: "Android" });
+
     const textareaRef = createRef<NodesRef>();
     const bindlayoutchange = vi.fn();
     const actions = {
@@ -788,26 +796,98 @@ describe("TextField", () => {
     expect(uncorrectedTextarea).toHaveAttribute("line-spacing", "0");
   });
 
-  it("keeps iOS native autoresize without the Android line-spacing correction", () => {
+  it("uses an iOS-only sizing wrapper without intercepting native textarea taps", () => {
     setSystemInfo({ platform: "iOS" });
 
+    const textareaRef = createRef<NodesRef>();
+    const bindlayoutchange = vi.fn();
+    const actions = {
+      focus: vi.fn(),
+      blur: vi.fn(),
+      layoutChanged: vi.fn(),
+      unregister: vi.fn(),
+    };
     render(
-      <TextField.Root defaultValue={"첫 줄\n"}>
-        <TextField.Textarea />
-      </TextField.Root>,
+      <KeyboardAvoidanceActionsContext.Provider value={actions}>
+        <TextField.Root defaultValue={"첫 줄\n"}>
+          <TextField.Textarea ref={textareaRef} bindlayoutchange={bindlayoutchange} />
+        </TextField.Root>
+      </KeyboardAvoidanceActionsContext.Provider>,
     );
 
     const root = getRenderedRoot();
     const textarea = root.querySelector("textarea");
-    if (!textarea) throw new Error("Expected native textarea to exist.");
+    const textareaRoot = root.querySelector(".seed-text-input__textareaRoot");
+    if (!textarea || !textareaRoot || !textareaRef.current) {
+      throw new Error("Expected native textarea and its iOS sizing wrapper to exist.");
+    }
 
-    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
-    expect(textarea).toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
+    expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+    expect(textarea).not.toHaveClass("seed-text-input__textareaAndroidAutoresize--size_large");
     expect(textarea).not.toHaveAttribute("line-spacing");
-    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
+    expect(textareaRoot).toHaveClass("seed-text-input__textareaAutoresizeRoot--size_large");
+    expect(textareaRoot).toHaveAttribute("ignore-focus", "true");
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireEvent.tap(textareaRef.current as unknown as Element);
+    expect(invoke).not.toHaveBeenCalled();
+
+    fireEvent.tap(textareaRoot);
+    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
+    expect(exec).toHaveBeenCalledOnce();
+
+    actions.layoutChanged.mockClear();
+    fireNativeEvent(
+      textareaRef.current,
+      textarea,
+      "layoutchange",
+      {
+        width: 200,
+        height: 80,
+      },
+      false,
+    );
+    expect(bindlayoutchange).toHaveBeenCalledOnce();
+    expect(actions.layoutChanged).not.toHaveBeenCalled();
+
+    fireNativeEvent(textareaRoot as unknown as NodesRef, textareaRoot, "layoutchange", {
+      width: 200,
+      height: 94,
+    });
+    expect(actions.layoutChanged).toHaveBeenCalledOnce();
   });
 
-  it("does not restore the previous value after an accepted controlled textarea newline", async () => {
+  it("does not invoke focus from disabled iOS textarea wrapper padding", () => {
+    setSystemInfo({ platform: "iOS" });
+
+    const textareaRef = createRef<NodesRef>();
+    render(
+      <TextField.Root disabled>
+        <TextField.Textarea ref={textareaRef} />
+      </TextField.Root>,
+    );
+
+    const textareaRoot = getRenderedRoot().querySelector(".seed-text-input__textareaRoot");
+    if (!textareaRoot || !textareaRef.current) {
+      throw new Error("Expected disabled native textarea and its iOS sizing wrapper to exist.");
+    }
+
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireEvent.tap(textareaRoot);
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    "Android",
+    "iOS",
+  ] as const)("does not restore the previous value after an accepted controlled textarea newline on %s", async (platform) => {
+    setSystemInfo({ platform });
+
     const textareaRef = createRef<NodesRef>();
     const onValueChange = vi.fn();
     const bindinput = vi.fn();
@@ -836,8 +916,13 @@ describe("TextField", () => {
       throw new Error("Expected native textarea to exist.");
     }
 
-    expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
-    expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
+    if (platform === "iOS") {
+      expect(textarea).toHaveClass("seed-text-input__textareaNativeAutoresize");
+      expect(root.querySelector(".seed-text-input__textareaRoot")).not.toBeNull();
+    } else {
+      expect(textarea).not.toHaveClass("seed-text-input__textareaNativeAutoresize");
+      expect(root.querySelector(".seed-text-input__textareaRoot")).toBeNull();
+    }
 
     const invoke = vi.fn(() => ({ exec: vi.fn() }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
@@ -853,6 +938,7 @@ describe("TextField", () => {
     expect(invoke).not.toHaveBeenCalled();
 
     await flushControlledReconciliation();
+    expect(getRenderedRoot().querySelector("textarea")).toBe(textarea);
     expect(invoke).not.toHaveBeenCalled();
   });
 

@@ -69,7 +69,7 @@ export function ControlledIntroduction() {
 
 ### Autoresizing
 
-`TextFieldTextarea`는 기본적으로 Lynx native textarea의 측정 기능을 사용해 내용에 맞춰 높이가 늘어납니다. 별도 측정 요소나 wrapper를 만들지 않습니다. native textarea의 실제 높이가 달라지면 Keyboard Avoiding 위치를 다시 계산합니다. 고정 높이가 필요하면 `autoresize={false}`와 명시적인 `height`를 함께 사용합니다.
+`TextFieldTextarea`는 기본적으로 Lynx native textarea의 측정 기능을 사용해 내용에 맞춰 높이가 늘어납니다. iOS에서는 크기 측정용 래퍼가 최소 높이와 세로 여백을 맡고, Android에서는 native textarea가 직접 맡습니다. 실제 영역의 높이가 달라지면 `KeyboardAvoidingScrollView`의 회피 위치를 다시 계산합니다. 고정 높이가 필요하면 `autoresize={false}`와 명시적인 `height`를 함께 사용합니다.
 
 Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본 적용합니다. `line-spacing`을 명시하면 모든 플랫폼에서 해당 값이 우선하며, Android의 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다. `fontSize`나 `lineHeight`를 직접 변경한다면 이에 맞는 `line-spacing`도 함께 지정해야 합니다.
 
@@ -185,7 +185,7 @@ export function Form() {
 - `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
 - native `bindinput`은 `TextFieldTextarea`에 추가로 전달할 수 있습니다.
 - `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
-- autoresize는 DOM `scrollHeight` 대신 native intrinsic height를 사용합니다. 별도 wrapper 없이 native textarea가 세로 여백과 최소 높이를 함께 소유합니다.
+- autoresize는 DOM `scrollHeight` 대신 native intrinsic height를 사용합니다. iOS에서는 크기 측정용 래퍼가 세로 여백과 최소 높이를 소유해 첫 입력 시 native content size에 여백이 중복되지 않게 합니다. Android에서는 native textarea가 세로 여백과 최소 높이를 직접 소유합니다.
 - Android에서는 CSS `line-height`가 native textarea에 적용되지 않아 `line-spacing="3.2px"`를 기본 적용합니다. 명시적인 `line-spacing` 값이 이 기본값보다 우선합니다.
 - controlled textarea도 native 입력 이벤트를 그대로 유지하고, 외부에서 값이 달라진 경우에만 `setValue`로 동기화합니다. 입력마다 `readonly`를 토글하지 않아 줄 추가 시 native scroll offset과 높이 측정이 초기화되지 않습니다.
 - 포커스 시 키보드가 나타나도록 `show-soft-input-on-focus`의 기본값은 `true`입니다. `undefined`가 native attribute로 전달되지 않도록 컴포넌트가 이 기본값을 명시적으로 적용합니다. 커스텀 키보드를 사용하는 경우에는 `false`로 재정의할 수 있습니다.

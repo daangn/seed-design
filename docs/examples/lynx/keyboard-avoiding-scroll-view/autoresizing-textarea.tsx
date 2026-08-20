@@ -1,7 +1,8 @@
 import "./styles";
 
 import { root } from "@lynx-js/react";
-import { KeyboardAvoidingScrollView, TextField, useSeedClassName } from "@seed-design/lynx-react";
+import { KeyboardAvoidingScrollView, useSeedClassName } from "@seed-design/lynx-react";
+import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -26,15 +27,14 @@ function Root() {
           </view>
 
           <view className="keyboard-avoiding-scroll-view-preview__field">
-            <text className="keyboard-avoiding-scroll-view-preview__field-label">자기소개</text>
-            <TextField.Root>
-              <TextField.Textarea
+            <TextField label="자기소개">
+              <TextFieldTextarea
                 accessibility-label="자기소개"
                 android-set-soft-input-mode="nothing"
                 maxlength={300}
                 placeholder="여러 줄을 입력해 보세요"
               />
-            </TextField.Root>
+            </TextField>
           </view>
 
           <view className="keyboard-avoiding-scroll-view-preview__footer-space" />

@@ -17,13 +17,21 @@ declare const SystemInfo: LynxSystemInfo | undefined;
 
 const ANDROID_TEXTAREA_DEFAULT_LINE_SPACING = "3.2px" as const;
 
-function isAndroidRuntime(): boolean {
+function getRuntimePlatform(): string | undefined {
   const globalSystemInfo = (globalThis as typeof globalThis & { SystemInfo?: LynxSystemInfo })
     .SystemInfo;
   const systemInfo =
     globalSystemInfo ?? (typeof SystemInfo === "undefined" ? undefined : SystemInfo);
 
-  return systemInfo?.platform === "Android";
+  return systemInfo?.platform;
+}
+
+function isAndroidRuntime(): boolean {
+  return getRuntimePlatform() === "Android";
+}
+
+function isIOSRuntime(): boolean {
+  return getRuntimePlatform() === "iOS";
 }
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput);
@@ -461,6 +469,19 @@ function useNativeTextControl({
     keyboardAvoidance?.layoutChanged(ownerRef.current);
   }, [keyboardAvoidance]);
 
+  const focusNativeControl = React.useCallback(() => {
+    "background only";
+
+    const node = nativeRef.current;
+    if (!node || typeof node.invoke !== "function") return;
+
+    try {
+      node.invoke({ method: "focus" }).exec();
+    } catch {
+      // Native node가 아직 commit되지 않았으면 실제 textarea 탭이 focus를 처리한다.
+    }
+  }, []);
+
   return {
     context: textFieldContext,
     disabled,
@@ -471,6 +492,7 @@ function useNativeTextControl({
     handleFocus,
     handleBlur,
     notifyLayoutChanged,
+    focusNativeControl,
     handleSelectionChange,
     nativeInsertionMaxLength:
       wasInsertionMaxLengthManaged &&
@@ -742,6 +764,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       control.nativeInsertionMaxLength,
     );
     const isAndroid = isAndroidRuntime();
+    const usesIOSAutoresizeWrapper = autoresize && isIOSRuntime();
     // Android native textarea는 CSS line-height를 무시한다. 실기기에서 관측한
     // native font metrics와 SEED line box의 차이를 line-spacing으로 보정한다.
     // 명시적인 값(0 포함)은 내부 기본값보다 우선한다.
@@ -773,6 +796,17 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       },
       [autoresize, bindlayoutchange, control.notifyLayoutChanged],
     );
+    const handleTextareaRootTap = React.useCallback<
+      NonNullable<IntrinsicElements["view"]["bindtap"]>
+    >(
+      (event) => {
+        "background only";
+
+        if (control.disabled || event.target.uid !== event.currentTarget.uid) return;
+        control.focusNativeControl();
+      },
+      [control.disabled, control.focusNativeControl],
+    );
 
     if (control.readOnly) {
       const value = control.context.value;
@@ -801,9 +835,9 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       );
     }
 
-    // Lynx native textarea가 내용 높이를 측정하고 shadow node를 다시 배치한다.
-    // 높이를 고정하지 않는 autoresize 모드에서는 별도 sizing wrapper를 두지 않는다.
-    return (
+    // iOS textarea는 첫 편집에서 native contentSize를 높이에 반영한다.
+    // 디자인 padding을 wrapper로 분리해 이때 padding만큼 높이가 중복되지 않게 한다.
+    const textarea = (
       <textarea
         {...control.defaultValueProps}
         ref={control.mergedRef}
@@ -811,7 +845,8 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
           classes.value,
           classes.textareaValue,
           !autoresize && classes.textareaFixed,
-          autoresize && classes.textareaAndroidAutoresize,
+          usesIOSAutoresizeWrapper && classes.textareaNativeAutoresize,
+          autoresize && !usesIOSAutoresizeWrapper && classes.textareaAndroidAutoresize,
           className,
         )}
         disabled={control.disabled}
@@ -827,9 +862,22 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         bindselection={handleSelection}
         bindfocus={control.handleFocus}
         bindblur={control.handleBlur}
-        bindlayoutchange={handleLayoutChange}
+        bindlayoutchange={usesIOSAutoresizeWrapper ? bindlayoutchange : handleLayoutChange}
         {...nativeProps}
       />
+    );
+
+    if (!usesIOSAutoresizeWrapper) return textarea;
+
+    return (
+      <view
+        ignore-focus={true}
+        className={clsx(classes.textareaRoot, classes.textareaAutoresizeRoot)}
+        bindtap={handleTextareaRootTap}
+        bindlayoutchange={control.notifyLayoutChanged}
+      >
+        {textarea}
+      </view>
     );
   },
 );

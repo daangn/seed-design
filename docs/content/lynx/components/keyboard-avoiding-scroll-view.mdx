@@ -11,6 +11,12 @@ description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 
 @seed-design/lynx-react
 ```
 
+아래 예제에서 사용하는 Text Field 레지스트리 스니펫도 추가합니다.
+
+```package-install
+npx @seed-design/cli add ui:text-field
+```
+
 ## Props
 
 <react-type-table path="../packages/lynx-react/src/components/KeyboardAvoidingScrollView/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewProps" />
@@ -19,7 +25,7 @@ description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 
 
 세로로 스크롤되는 입력 화면의 가장 바깥 영역에 배치합니다. `keyboardGap`은 키보드와 활성 입력 영역 사이의 간격입니다. `scrollBehavior`는 회피 위치로 이동하는 방식을 정합니다.
 
-`TextField.Input`과 `TextField.Textarea`가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
+Text Field Input과 Text Field Textarea의 레지스트리 스니펫이 제공하는 `TextField` 안에 입력 요소를 배치합니다. 이 `TextField`가 내부에 만드는 Field 경계를 기준으로 입력 영역과 하단을 추적합니다. 입력 요소가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
 
 Android에서 이 컴포넌트가 키보드 회피를 전담한다면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정합니다. host window의 별도 pan이나 resize와 회피 동작이 겹치지 않게 합니다.
 
