@@ -65,6 +65,7 @@ export const config = defineConfig({
     { route: "/perf-check", name: "ActivityPerfCheck" },
     { route: "/plugin-basic-ui", name: "ActivityPluginBasicUI" },
     { route: "/quantity-picker", name: "ActivityQuantityPicker" },
+    { route: "/pagination", name: "ActivityPagination" },
     { route: "/radio-group", name: "ActivityRadioGroup" },
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/responsive-dialog", name: "ActivityResponsiveDialog" },

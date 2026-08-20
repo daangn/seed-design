@@ -1,0 +1,110 @@
+---
+title: Table Pagination
+description: 데이터 표의 페이지와 페이지당 표시 행 수를 함께 제어하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/react-pagination@1.0.0, @seed-design/css@2.6.0" />
+
+<ComponentExample name="react/table-pagination/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/table-pagination/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:table-pagination
+```
+
+<ManualInstallation name="table-pagination" />
+
+## Usage
+
+```tsx
+import { TablePagination } from "seed-design/ui/table-pagination";
+```
+
+전체 데이터 개수를 알면 `totalItems`를 전달하세요. 현재 범위, 전체 개수, 이동 가능 여부를 컴포넌트가 계산합니다.
+
+Table Pagination은 항상 한 줄로 표시됩니다. 좁은 화면에서는 표와 Table Pagination을 같은 `overflow-x: auto` 컨테이너 안에 두어 가로 스크롤을 제공하세요.
+
+데이터 표의 아래쪽에서만 사용하세요. 일반 목록의 페이지를 이동할 때는 [Pagination](/react/components/pagination)을 사용합니다. 기본 페이지당 행 수 옵션은 10개, 25개, 50개이며, 선택지는 3~4개 정도로 유지하는 것을 권장합니다.
+
+## Localization
+
+스니펫 파일 상단의 `numberFormatter`와 `tablePaginationText`를 앱의 언어에 맞게 수정하세요. 범위, 전체 개수, 페이지당 행 수와 각 컨트롤의 접근성 이름을 한곳에서 바꿀 수 있습니다.
+
+## Props
+
+<react-type-table path="./registry/react/ui/table-pagination.tsx" name="TablePaginationProps" />
+
+## Examples
+
+### Controlled
+
+`value`는 `page`와 `pageSize`를 하나의 값으로 관리합니다. 페이지당 행 수를 바꾸면 페이지가 1로 초기화되고 `onValueChange`가 한 번 호출됩니다.
+
+<ComponentExample name="react/table-pagination/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/table-pagination/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### onValueChange Details
+
+`onValueChange`의 두 번째 인자는 변경 원인을 나타내는 `reason`과 변경 전 값인 `previousValue`를 제공합니다.
+
+| reason | 발생 조건 |
+| --- | --- |
+| `previous` | 이전 페이지 버튼을 선택했을 때 |
+| `next` | 다음 페이지 버튼을 선택했을 때 |
+| `page-range` | 표시 범위를 선택했을 때 |
+| `page-size` | 페이지당 행 수를 바꿨을 때 |
+| `constraint` | 외부에서 전달한 페이지가 유효 범위를 벗어나 보정됐을 때 |
+
+외부 페이지가 범위를 벗어나면 보정된 값을 먼저 렌더링하고, 이후 `constraint` 변경을 한 번 알립니다.
+
+### Unknown Total
+
+전체 개수를 아직 알 수 없다면 `totalItems`를 생략하고 `hasPreviousPage`, `hasNextPage`를 전달하세요. 이 모드에서는 현재 범위를 텍스트로 표시하며 전체 개수와 페이지 범위 선택기는 표시하지 않습니다.
+
+`currentPageItemCount`를 전달하면 마지막 페이지처럼 행 수가 적은 범위를 정확히 표시합니다. 생략하면 `pageSize`만큼 있다고 가정합니다.
+
+<ComponentExample name="react/table-pagination/unknown-total">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/table-pagination/unknown-total.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Empty
+
+데이터가 없으면 `0-0 / 총 0개`를 표시합니다. 페이지 범위 선택기와 이전·다음 버튼은 비활성화되지만 페이지당 행 수는 바꿀 수 있습니다.
+
+<ComponentExample name="react/table-pagination/empty">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/table-pagination/empty.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Large Data Sets
+
+알려진 페이지 수가 10,000개를 넘으면 `pageOptions`로 페이지 범위 선택기에 표시할 페이지를 제한해야 합니다. 현재 페이지는 옵션에 없더라도 자동으로 포함됩니다.
+
+## Accessibility
+
+루트는 페이지당 행 수 설정과 페이지 이동을 묶는 group으로 렌더링됩니다. 기본 접근성 이름은 `표 페이지 탐색`이며, 같은 화면에 표가 여러 개 있으면 `aria-label`이나 `aria-labelledby`로 대상을 구분하세요.
+
+페이지를 바꾼 뒤의 로딩 상태와 결과 안내는 Table Pagination이 아니라 연결된 데이터 표 영역에서 제공하세요.

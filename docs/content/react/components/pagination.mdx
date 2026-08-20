@@ -1,0 +1,77 @@
+---
+title: Pagination
+description: 여러 페이지로 나뉜 목록에서 원하는 페이지로 이동할 때 사용하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/react-pagination@1.0.0, @seed-design/css@2.6.0" />
+
+<ComponentExample name="react/pagination/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/pagination/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:pagination
+```
+
+<ManualInstallation name="pagination" />
+
+## Usage
+
+```tsx
+import { Pagination } from "seed-design/ui/pagination";
+```
+
+`totalPages`는 0 이상의 전체 페이지 수입니다. 페이지가 0개 또는 1개면 Pagination을 표시하지 않습니다.
+
+화면 너비가 480px 이상이면 이전·다음 버튼과 생략 표시를 포함해 최대 9개 슬롯을, 그보다 좁으면 최대 7개 슬롯을 표시합니다. 첫 페이지에서는 이전 버튼을, 마지막 페이지에서는 다음 버튼을 숨깁니다.
+
+여러 페이지로 나뉜 일반 목록이나 검색 결과의 아래쪽 중앙에 배치하세요. 데이터 표에서 페이지당 행 수와 표시 범위를 함께 제어해야 한다면 [Table Pagination](/react/components/table-pagination)을 사용하세요.
+
+## Localization
+
+스니펫 파일 상단의 `numberFormatter`와 `paginationText`를 앱의 언어에 맞게 수정하세요. 숫자 형식뿐 아니라 루트, 이전·다음 버튼, 개별 페이지의 접근성 이름도 이곳에서 바꿀 수 있습니다.
+
+## Props
+
+<react-type-table path="./registry/react/ui/pagination.tsx" name="PaginationProps" />
+
+## Examples
+
+### Controlled
+
+`page`와 `onPageChange`를 사용하면 페이지 상태를 외부에서 제어할 수 있습니다. 변경된 목록의 로딩, 포커스 이동, 결과 안내는 Pagination이 아니라 목록 영역에서 처리하세요.
+
+<ComponentExample name="react/pagination/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/pagination/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### onPageChange Details
+
+`onPageChange`의 두 번째 인자는 변경 원인을 나타내는 `reason`과 변경 전 페이지인 `previousPage`를 제공합니다.
+
+| reason | 발생 조건 |
+| --- | --- |
+| `page-item` | 페이지 번호를 선택했을 때 |
+| `previous` | 이전 페이지 버튼을 선택했을 때 |
+| `next` | 다음 페이지 버튼을 선택했을 때 |
+| `constraint` | 외부에서 전달한 페이지가 유효 범위를 벗어나 보정됐을 때 |
+
+외부 페이지가 범위를 벗어나면 보정된 페이지를 먼저 렌더링하고, 이후 `constraint` 변경을 한 번 알립니다.
+
+## Accessibility
+
+루트는 `nav`로 렌더링되며 기본 접근성 이름은 `페이지 탐색`입니다. 같은 화면에 Pagination이 여러 개 있으면 `aria-label`이나 `aria-labelledby`로 대상을 구분하세요.
+
+현재 페이지 버튼에는 `aria-current="page"`가 적용됩니다. 키보드 사용자는 Tab으로 버튼 사이를 이동하고 Enter 또는 Space로 페이지를 선택할 수 있습니다.
