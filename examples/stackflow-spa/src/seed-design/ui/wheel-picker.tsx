@@ -23,7 +23,9 @@ function getAriaValueText(options: readonly WheelPickerOption[], value: string) 
 
   if (!option) return value;
   if (option.ariaLabel) return option.ariaLabel;
-  if (typeof option.label === "string") return option.label;
+  if (typeof option.label === "string" || typeof option.label === "number") {
+    return String(option.label);
+  }
   return value;
 }
 

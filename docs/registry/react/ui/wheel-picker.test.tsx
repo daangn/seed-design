@@ -52,6 +52,23 @@ describe("WheelPicker registry snippet", () => {
     expect(getByRole("spinbutton", { name: "배지" }).getAttribute("aria-valuetext")).toBe("인기");
   });
 
+  it("숫자 label을 접근성 문자열로 변환한다", () => {
+    const { getByRole } = render(
+      <WheelPicker
+        aria-label="수량 선택"
+        columns={[
+          {
+            id: "quantity",
+            "aria-label": "수량",
+            options: [{ value: "one", label: 1 }],
+          },
+        ]}
+      />,
+    );
+
+    expect(getByRole("spinbutton", { name: "수량" }).getAttribute("aria-valuetext")).toBe("1");
+  });
+
   it("React 요소 label에 ariaLabel이 없으면 개발 환경에서 경고한다", () => {
     const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
 
