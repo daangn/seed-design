@@ -6,6 +6,11 @@ import { LYNX_WEB_CORE_STYLES_FILENAME } from "./constants.js";
 const require = createRequire(import.meta.url);
 
 const SEED_LYNX_WEB_PREVIEW_OVERRIDES = `
+/* 브라우저 기본 textarea padding이 TextField의 내부 여백과 겹치지 않도록 제거합니다. */
+x-textarea:defined::part(textarea) {
+  padding: 0;
+}
+
 /* WebLynx는 flex item인 text를 상단에 배치하므로 선택 컴포넌트 label의 첫 줄만 중앙에 맞춥니다. */
 .seed-radio__label--size_medium,
 .seed-checkbox__label--size_medium {
