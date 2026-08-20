@@ -47,6 +47,12 @@ describe("Lynx 미리보기 lifecycle", () => {
       set browserConfig(value: Record<string, unknown>) {
         assignments.push(`browserConfig:${value.lynxSdkVersion}`);
       },
+      set transformVH(value: boolean) {
+        assignments.push(`transformVH:${value}`);
+      },
+      set transformVW(value: boolean) {
+        assignments.push(`transformVW:${value}`);
+      },
       set globalProps(_value: unknown) {
         assignments.push("globalProps");
       },
@@ -64,6 +70,13 @@ describe("Lynx 미리보기 lifecycle", () => {
       url: "/preview.web.bundle",
     });
 
-    expect(assignments).toEqual(["browserConfig:3.5", "globalProps", "injectStyleRules", "url"]);
+    expect(assignments).toEqual([
+      "browserConfig:3.5",
+      "transformVW:true",
+      "transformVH:true",
+      "globalProps",
+      "injectStyleRules",
+      "url",
+    ]);
   });
 });

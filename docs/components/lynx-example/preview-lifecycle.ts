@@ -2,10 +2,15 @@ export interface QueryableShadowRoot {
   querySelector(selectors: string): unknown;
 }
 
-interface ConfigurableLynxView {
-  browserConfig?: Record<string, unknown>;
+interface ThemeConfigurableLynxView {
   globalProps: unknown;
+}
+
+interface ConfigurableLynxView extends ThemeConfigurableLynxView {
+  browserConfig?: Record<string, unknown>;
   injectStyleRules?: string[];
+  transformVH: boolean;
+  transformVW: boolean;
   url?: string;
 }
 
@@ -28,7 +33,7 @@ export function getLynxPreviewSizing(height?: number) {
   } as const;
 }
 
-export function configureLynxView(element: ConfigurableLynxView, theme: string) {
+export function configureLynxView(element: ThemeConfigurableLynxView, theme: string) {
   element.globalProps = { theme };
 }
 
@@ -55,6 +60,8 @@ export function initializeLynxView(
   options: { theme: string; styleRules: string[]; url: string },
 ) {
   element.browserConfig = { lynxSdkVersion: LYNX_WEB_RUNTIME_SDK_VERSION };
+  element.transformVW = true;
+  element.transformVH = true;
   configureLynxView(element, options.theme);
   element.injectStyleRules = options.styleRules;
   element.url = options.url;
