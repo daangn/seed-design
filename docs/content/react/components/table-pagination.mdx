@@ -75,7 +75,7 @@ Table Pagination은 항상 한 줄로 표시됩니다. 좁은 화면에서는 �
 
 전체 개수를 아직 알 수 없다면 `totalItems`를 생략하고 `hasPreviousPage`, `hasNextPage`를 전달하세요. 이 모드에서는 현재 범위를 텍스트로 표시하며 전체 개수와 페이지 범위 선택기는 표시하지 않습니다.
 
-`currentPageItemCount`를 전달하면 마지막 페이지처럼 행 수가 적은 범위를 정확히 표시합니다. 생략하면 `pageSize`만큼 있다고 가정합니다.
+`currentPageItemCount`를 전달하면 마지막 페이지처럼 행 수가 적은 범위를 정확히 표시합니다. 생략하면 `pageSize`만큼 있다고 가정하며, 일시적으로 `pageSize`보다 큰 값이 들어오면 `pageSize`로 보정합니다.
 
 <ComponentExample name="react/table-pagination/unknown-total">
   ```json doc-gen:file

@@ -198,6 +198,8 @@ describe("useTablePagination", () => {
     );
 
     expect(result.current.range).toEqual({ start: 21, end: 23 });
+    rerender({ count: 11 });
+    expect(result.current.range).toEqual({ start: 21, end: 30 });
     rerender({ count: 0 });
     expect(result.current.range).toEqual({ start: 0, end: 0 });
   });
@@ -282,15 +284,6 @@ describe("useTablePagination", () => {
     ).toThrow(RangeError);
     expect(() =>
       renderHook(() => useTablePagination({ totalItems: 10, pageSizeOptions: Array(2) })),
-    ).toThrow(RangeError);
-    expect(() =>
-      renderHook(() =>
-        useTablePagination({
-          hasPreviousPage: false,
-          hasNextPage: false,
-          currentPageItemCount: 11,
-        }),
-      ),
     ).toThrow(RangeError);
   });
 

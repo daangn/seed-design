@@ -64,7 +64,7 @@ export interface UseTablePaginationUnknownProps extends UseTablePaginationBasePr
   hasPreviousPage: boolean;
   /** 다음 페이지가 있는지 서버가 알려주는 값입니다. */
   hasNextPage: boolean;
-  /** 현재 페이지에 실제로 포함된 항목 수입니다. 없으면 pageSize를 사용합니다. */
+  /** 현재 페이지에 실제로 포함된 항목 수입니다. 없으면 pageSize를 사용하며, pageSize보다 크면 pageSize로 보정합니다. */
   currentPageItemCount?: number;
 }
 
@@ -291,12 +291,7 @@ export function useTablePagination(props: UseTablePaginationProps): UseTablePagi
     hasNextPage = totalItems > 0 && page < totalPages;
   } else {
     const unknownProps = props as UseTablePaginationUnknownProps;
-    const currentPageItemCount = unknownProps.currentPageItemCount ?? pageSize;
-    if (currentPageItemCount > pageSize) {
-      throw new RangeError(
-        "TablePagination: currentPageItemCount는 현재 pageSize보다 클 수 없습니다.",
-      );
-    }
+    const currentPageItemCount = Math.min(unknownProps.currentPageItemCount ?? pageSize, pageSize);
     range = createRange(page, pageSize, currentPageItemCount);
     hasPreviousPage = page > 1 && unknownProps.hasPreviousPage;
     hasNextPage = unknownProps.hasNextPage;
