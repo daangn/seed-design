@@ -31,11 +31,22 @@ const paginationPageItem = defineRecipe({
     width: vars.base.enabled.root.size,
     height: vars.base.enabled.root.size,
     borderRadius: vars.base.enabled.root.cornerRadius,
-    background: vars.base.enabled.root.color,
+    background: "transparent",
+    isolation: "isolate",
     color: vars.base.enabled.label.color,
     fontSize: vars.base.enabled.label.fontSize,
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
+
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      borderRadius: "inherit",
+      backgroundColor: vars.base.enabled.root.color,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    },
 
     "& > [data-pagination-page-item-label]": {
       display: "block",
@@ -51,30 +62,36 @@ const paginationPageItem = defineRecipe({
 
     scale: "1",
 
-    [pseudo(engaged, not(disabled))]: {
-      background: vars.base.pressed.root.color,
+    [pseudo(engaged, not(disabled), "::before")]: {
+      backgroundColor: vars.base.pressed.root.color,
     },
     [pseudo(not(disabled), active)]: {
       scale: vars.base.pressed.root.scale,
     },
     [pseudo(selected)]: {
-      background: vars.base.selected.root.color,
       color: vars.base.selected.label.color,
     },
-    [pseudo(selected, engaged, not(disabled))]: {
-      background: vars.base.selectedPressed.root.color,
+    [pseudo(selected, "::before")]: {
+      backgroundColor: vars.base.selected.root.color,
+    },
+    [pseudo(selected, engaged, not(disabled), "::before")]: {
+      backgroundColor: vars.base.selectedPressed.root.color,
     },
     [pseudo(disabled)]: {
       cursor: "not-allowed",
-      background: vars.base.disabled.root.color,
       color: vars.base.disabled.label.color,
     },
+    [pseudo(disabled, "::before")]: {
+      backgroundColor: vars.base.disabled.root.color,
+    },
     [pseudo(selected, disabled)]: {
-      background: vars.base.selectedDisabled.root.color,
       color: vars.base.selectedDisabled.label.color,
     },
+    [pseudo(selected, disabled, "::before")]: {
+      backgroundColor: vars.base.selectedDisabled.root.color,
+    },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {},
   defaultVariants: {},

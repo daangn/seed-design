@@ -32,7 +32,18 @@ const paginationButton = defineRecipe({
     width: vars.base.enabled.root.size,
     height: vars.base.enabled.root.size,
     borderRadius: vars.base.enabled.root.cornerRadius,
-    background: vars.base.enabled.root.color,
+    background: "transparent",
+    isolation: "isolate",
+
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      borderRadius: "inherit",
+      backgroundColor: vars.base.enabled.root.color,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    },
 
     ...onlyIcon({
       color: vars.base.enabled.icon.color,
@@ -44,21 +55,23 @@ const paginationButton = defineRecipe({
 
     scale: "1",
 
-    [pseudo(engaged, not(disabled))]: {
-      background: vars.base.pressed.root.color,
+    [pseudo(engaged, not(disabled), "::before")]: {
+      backgroundColor: vars.base.pressed.root.color,
     },
     [pseudo(not(disabled), active)]: {
       scale: vars.base.pressed.root.scale,
     },
     [pseudo(disabled)]: {
       cursor: "not-allowed",
-      background: vars.base.disabled.root.color,
       ...onlyIcon({
         color: vars.base.disabled.icon.color,
       }),
     },
+    [pseudo(disabled, "::before")]: {
+      backgroundColor: vars.base.disabled.root.color,
+    },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {},
   defaultVariants: {},
