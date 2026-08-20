@@ -192,6 +192,6 @@ data:
     variant=separated:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
           cornerRadius: $radius.r3
