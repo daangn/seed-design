@@ -118,7 +118,7 @@ pressed 상태를 가지는 요소를 새로 만들 때는 다음 두 가지를 
   />
 </Grid>
 
-Text Button이 여기 해당합니다. 여백과 모서리 반경은 가지고 있지만 칠해진 배경이 없어, 눌린 동안 글자 색만 바뀝니다. 판단 기준은 여백이나 모서리를 가졌는지가 아니라 **줄어들 배경이 있는지**입니다.
+Link Text Button이 여기 해당합니다. 여백과 모서리 반경은 가지고 있지만 칠해진 배경이 없어, 눌린 동안 글자 색만 바뀝니다. 판단 기준은 여백이나 모서리를 가졌는지가 아니라 **줄어들 배경이 있는지**입니다.
 
 **단일 동작을 수행하는가.** 요소 전체를 눌렀을 때 결과가 하나로 정해지는 요소에 적용합니다. [List Item](/components/list)과 Select Box Item은 안에 Switch나 Checkbox 같은 요소를 포함하더라도 행 어디를 눌렀을 때의 결과가 하나로 수렴하므로 적용합니다.
 
@@ -138,7 +138,7 @@ Text Button이 여기 해당합니다. 여백과 모서리 반경은 가지고 �
 ### 2. 축소 대상이 전체인지 콘텐츠인지 결정합니다
 
 <Grid>
-  <FigmaImage id="2499:657" alt="Scale — Switch 전체가 함께 작아진다" />
+  <FigmaImage id="2499:657" alt="Root Scale — Switch 전체가 함께 작아진다" />
   <FigmaImage
     id="2499:661"
     alt="Content Scale — Accordion 배경은 그대로이고 안쪽 콘텐츠만 작아진다"
@@ -147,7 +147,7 @@ Text Button이 여기 해당합니다. 여백과 모서리 반경은 가지고 �
 
 판단 기준은 하나입니다. **요소 전체를 줄였을 때 정렬·여백·모서리가 어긋나 보이는가?**
 
-- 어긋나지 않는다 → **Scale**. 요소 전체가 함께 줄어듭니다. [Action Button](/components/action-button)처럼 배경과 콘텐츠가 하나의 표면으로 인식되는 요소가 여기 해당합니다. 전체가 함께 줄어도 내부 관계가 그대로 유지됩니다.
+- 어긋나지 않는다 → **Root Scale**. 요소 전체가 함께 줄어듭니다. [Action Button](/components/action-button)처럼 배경과 콘텐츠가 하나의 표면으로 인식되는 요소가 여기 해당합니다. 전체가 함께 줄어도 내부 관계가 그대로 유지됩니다.
 - 어긋나 보인다 → **Content Scale**. 배경은 그대로 두고 안쪽 콘텐츠만 줄어듭니다. [List Item](/components/list), [Accordion](/components/accordion), Select Box Item처럼 배경이 화면 폭을 가득 채우고 그 안에 여러 요소가 정렬된 구조가 여기 해당합니다.
 
 이런 구조를 통째로 줄이면 세 가지가 한꺼번에 어긋나 보입니다.
