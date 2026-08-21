@@ -65,20 +65,17 @@ export const VariantTable = (props: Props) => {
           {combinations.map((combination) => {
             const conditionedProps = Object.entries(combination).reduce(
               (acc, [key, value]) => {
-                acc[key] = Boolish.asUnion(value);
-
                 const condition = conditionMap[key];
                 if (!condition) {
+                  acc[key] = Boolish.asUnion(value);
                   return acc;
                 }
 
                 const conditionValue = condition[Boolish.asString(value)];
-                if (!conditionValue) {
-                  return acc;
-                }
-
-                for (const [key, value] of Object.entries(conditionValue)) {
-                  acc[key] = value;
+                if (conditionValue) {
+                  for (const [key, value] of Object.entries(conditionValue)) {
+                    acc[key] = value;
+                  }
                 }
 
                 return acc;

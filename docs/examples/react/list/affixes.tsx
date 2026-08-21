@@ -1,5 +1,5 @@
 import {
-  IconArrowUpBracketDownLine,
+  IconArrowUpBracketDownFill,
   IconILowercaseSerifCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
@@ -48,7 +48,7 @@ export default function ListAffixes() {
         detail="Deserunt nulla elit est."
         suffix={
           <ActionButton size="small" variant="ghost" layout="iconOnly" aria-label="공유">
-            <Icon svg={<IconArrowUpBracketDownLine />} />
+            <Icon svg={<IconArrowUpBracketDownFill />} />
           </ActionButton>
         }
       />

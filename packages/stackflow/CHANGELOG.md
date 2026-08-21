@@ -1,5 +1,137 @@
 # @seed-design/stackflow
 
+## 2.0.3
+
+### Patch Changes
+
+- 9714c01: `pop({ animate: false })` 로 화면을 닫았을 때 다시 드러난 화면이 왼쪽으로 밀린 채 고정되던 문제를 수정합니다.
+
+## 2.0.2
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-primitive@2.0.1
+
+## 2.0.1
+
+### Patch Changes
+
+- a805de9: `AppScreen`이 화면 진입 애니메이션 완료 후 포커스를 이동할 때 `preventScroll`을 적용해, 스크롤 가능한 컨테이너(예: iframe)에 임베드된 경우 발생하던 원치 않는 스크롤 점프를 방지합니다.
+
+## 2.0.0
+
+### Major Changes
+
+- 7a6847e: `AppScreen` 관련 키보드 동작을 개선합니다.
+
+  - `AppScreen` 액티비티 push 시, 해당 `AppScreen`으로 키보드 포커스가 이동하도록 수정합니다.
+  - `AlertDialog` 등 모달 컴포넌트 위에 `AppScreen`을 push하는 경우에도 `AlertDialog`에 포커스가 남아 있는 문제를 수정합니다.
+  - 가장 마지막에 등장한 `AppScreen` 안에서만 포커스가 유지되도록 수정합니다.
+
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
+## 1.1.24
+
+### Patch Changes
+
+- 9eb5f67: 전환 애니메이션이 겹칠 때 발생하던 렌더링 깨짐을 수정합니다.
+
+  - 동시 `pop()`, 빠른 백버튼, swipe-back이 겹치면 착지 화면이 약 1/3 왼쪽으로 밀리거나 AppBar가 보이지 않던 문제를 수정합니다.
+  - `pop(2)`, `pop(); pop();` 등 한 번에 여러 화면을 닫는 동작은 기존과 동일하게 동작합니다.
+
+## 1.1.23
+
+### Patch Changes
+
+- 9cacf29: AppBar 하단에 구분선을 표시하는 `divider` 옵션을 deprecated 처리합니다. SEED React 1.3에서 제거될 예정이며, 제거 이후에는 AppBar 하단 구분선이 표시되지 않습니다.
+
+## 1.1.22
+
+### Patch Changes
+
+- 09882f6: `@seed-design/css`에 대한 `peerDependencies` 호환 범위를 정확하게 명시합니다.
+
+  WAAPI 기반 AppScreen 전환(1.1.21에 도입)은 css 패키지의 transition selector 제거 + AppBar background slot 추가 변경과 짝을 이루어야 정상 동작합니다. 이전 표현(`>=1.1.19`)은 호환되지 않는 구버전 css도 허용하여 잘못된 조합 시 화면 전환 깨짐/AppBar 배경 사라짐 등의 문제가 발생할 수 있었습니다.
+
+  새 표현 `>=1.1.25 <1.2.0 || >=1.2.11`은 다음을 보장합니다:
+
+  - 1.1.x: css 1.1.25 이상 (백포팅된 WAAPI-호환 css)
+  - 1.2.x: css 1.2.11 이상 (PR #1444가 머지된 css)
+
+## 1.1.21
+
+### Patch Changes
+
+- be7022a: AppScreen 전환 애니메이션의 성능을 개선하고 스와이프 백 관련 버그를 수정합니다.
+
+  - 스와이프 중 CSS variable cascade로 인한 스타일 재계산 병목을 제거하고, 개별 요소에 직접 inline style을 적용하는 방식으로 변경합니다.
+  - 스와이프 종료 시 발생하던 플리커(CSS 핸드오프 gap)를 WAAPI(Web Animations API)로 대체하여 해결합니다.
+  - 스와이프 complete 후 CSS `[pop]` animation이 재트리거되는 이중 애니메이션 문제를 해결합니다.
+  - 제스처 중 `useState` 기반 상태 관리를 `useRef`로 변경하여 불필요한 React 리렌더를 제거합니다.
+  - `slideFromRightIOS`, `fadeFromBottomAndroid`, `fadeIn` 세 가지 transition style 모두 지원합니다.
+  - 프로덕션에서 무거운 activity를 push/pop 할 때 애니메이션이 경로 중간부터 시작되던 jank를 수정합니다. (`requestAnimationFrame` 대기 구간 제거)
+  - `Animation.finished`를 지원하지 않는 구형 WebView(Chrome < 84)에서 push → pop 시 화면이 비어버리던 문제를 `onfinish`/`oncancel` 기반 폴백과 setTimeout race 안전망으로 해결합니다.
+  - AppBar 배경을 pseudo-element에서 일반 DOM slot으로 옮겨, `pseudoElement` WAAPI 옵션을 지원하지 않는 브라우저(Chrome < 82)에서도 swipe back 중 AppBar 전환이 정상 동작하도록 합니다.
+
+## 1.1.20
+
+### Patch Changes
+
+- 846036b: `AppBarSlot` 컴포넌트를 추가합니다. `AppBar` 내에 `AppBarLeft`, `AppBarMain`, `AppBarRight`에 대응되지 않는 커스텀 요소를 배치하는 경우, 다른 요소와 동일한 화면 전환 트랜지션을 적용하기 위해 사용할 수 있습니다.
+
+## 1.1.19
+
+### Patch Changes
+
+- da4c6d4: AppScreen 스와이프 백 제스처가 좌→우 단방향으로만 동작하도록 수정합니다.
+
+  - 스와이프 백 중 초기 위치보다 왼쪽(역방향)으로 드래그할 수 없도록 수정합니다.
+  - `onSwipeBackMove` 콜백의 `displacement` 및 `displacementRatio` 값이 항상 0 이상으로 전달되도록 수정합니다.
+
+- 9eb86f4: Stackflow 플러그인 `seedPlugin`이 콜백 형태의 옵션을 지원하도록 수정합니다. Stack에 제공하는 `initialContext`를 통해 theme을 동적으로 결정할 수 있습니다.
+
+## 1.1.18
+
+### Patch Changes
+
+- af9256e: AppScreen에 `layerOffsetTop` 또는 `layerOffsetBottom` 사용 시 해당 속성이 AppBar DOM에 attribute로 설정되는 문제를 수정합니다.
+
 ## 1.1.17
 
 ### Patch Changes

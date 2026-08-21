@@ -1,21 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
 import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { VIEWPORT_MODES, withChromaticParameters } from "@/stories/utils/parameters";
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 
-const meta = {
+const meta = preview.meta({
   component: FieldButton,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof FieldButton>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   disabled: {
     false: {
@@ -48,10 +42,16 @@ const conditionMap = {
     value: {
       children: <FieldButtonValue>선택된 값</FieldButtonValue>,
     },
+    valueWithClear: {
+      children: <FieldButtonValue>선택된 값</FieldButtonValue>,
+      showClearButton: true,
+      values: ["선택된 값"],
+      onValuesChange: () => {},
+    },
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     prefixIcon: <IconPaperplaneLine />,
     suffix: "Suffix",
@@ -64,29 +64,30 @@ const CommonStoryTemplate: Story = {
       "aria-label": "버튼",
     },
   },
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={inputButtonVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
+});
+
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

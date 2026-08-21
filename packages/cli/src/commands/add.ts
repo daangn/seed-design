@@ -9,6 +9,7 @@ import { z } from "zod";
 import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
 import { highlight } from "../utils/color";
+import { readRawOptionValue, resolveSeedVersion } from "../utils/registry-source";
 import { installDependencies } from "../utils/install";
 import { analytics } from "../utils/analytics";
 import {
@@ -31,7 +32,9 @@ const addOptionsSchema = z.object({
    */
   all: z.boolean(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
+  seedReactVersion: z.string().optional(),
+  framework: z.enum(["react", "lynx"]).optional(),
   onDiff: z.enum(["overwrite", "backup"]).optional(),
 });
 
@@ -49,16 +52,21 @@ export const addCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
+    .option("--seed-react-version <version>", "지정한 SEED React 버전의 레지스트리 사용 (예: 1.2)")
+    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .option("--on-diff <mode>", "Action when file differs: overwrite or backup")
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
     .action(async (itemIds, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design add");
 
       try {
-        const parsed = addOptionsSchema.safeParse({ itemIds, ...opts });
+        // CAC가 --seed-react-version 값을 숫자로 뭉개므로 rawArgs에서 원본 문자열을 읽어 덮어쓴다.
+        const seedReactVersion = readRawOptionValue(cli.rawArgs, "--seed-react-version");
+        const parsed = addOptionsSchema.safeParse({ itemIds, ...opts, seedReactVersion });
         if (!parsed.success) {
           throw parsed.error;
         }
@@ -75,8 +83,10 @@ export const addCommand = (cli: CAC) => {
         }
 
         const cwd = options.cwd;
-        const baseUrl = options.baseUrl;
+        const versionSource = resolveSeedVersion(options);
+        const baseUrl = versionSource?.baseUrl ?? options.baseUrl;
         const config = await getConfig(cwd);
+        const framework = versionSource?.framework ?? options.framework ?? config.framework;
         const rootPath = path.resolve(cwd, config.path);
 
         const { start, stop } = p.spinner();
@@ -85,8 +95,8 @@ export const addCommand = (cli: CAC) => {
         const publicRegistries = await (async () => {
           try {
             const registries = await Promise.all(
-              (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
-                fetchRegistry({ baseUrl, registryId: id }),
+              (await fetchAvailableRegistries({ baseUrl, framework })).map(async ({ id }) =>
+                fetchRegistry({ baseUrl, framework, registryId: id }),
               ),
             );
             stop("Registry를 가져왔어요.");
@@ -193,12 +203,14 @@ export const addCommand = (cli: CAC) => {
           itemKeys: registryItemsToAdd.flatMap(({ registryId, items }) =>
             items.map((item) => `${registryId}:${item.id}`),
           ),
-          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd),
+          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd, framework),
+          framework,
         });
 
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않을 수 있는 스니펫이 있어요.",
+          framework,
         });
 
         p.log.info(
@@ -212,6 +224,7 @@ export const addCommand = (cli: CAC) => {
           rootPath,
           cwd,
           baseUrl,
+          framework,
           config,
           onDiff: options.onDiff,
         });
@@ -248,8 +261,9 @@ export const addCommand = (cli: CAC) => {
         });
 
         try {
-          await analytics.track(options.cwd, {
-            event: "add",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "add",
+            status: "completed",
             properties: {
               items_count: filteredItemKeys.length,
               registries: Array.from(uniqueRegistries),
@@ -260,13 +274,40 @@ export const addCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] add tracking failed:", telemetryError);
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "add",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "add",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] add 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         handleCliError(error, {

@@ -5,6 +5,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import type { AST } from "@seed-design/rootage-core";
 import { Fragment } from "react";
+import { CopyValue } from "./copy-value";
 import { TokenLink } from "./token-link";
 import { TypeIndicator } from "./type-indicator";
 
@@ -84,7 +85,7 @@ export function TokenCell(props: TokenCellProps) {
                 ) : item.ref.startsWith("$") ? (
                   <TokenLink id={item.ref} description={item.description} />
                 ) : (
-                  item.ref
+                  <CopyValue value={item.ref} />
                 )}
               </div>
               {index < values.length - 1 ? (
@@ -104,7 +105,7 @@ export function TokenCell(props: TokenCellProps) {
             ) : values[0].ref.startsWith("$") ? (
               <TokenLink id={values[0].ref} description={values[0].description} />
             ) : (
-              values[0].ref
+              <CopyValue value={values[0].ref} />
             )}
           </div>
         )}

@@ -2,6 +2,7 @@ export const brandSolid = "var(--seed-color-stroke-brand-solid)";
 export const brandWeak = "var(--seed-color-stroke-brand-weak)";
 export const criticalSolid = "var(--seed-color-stroke-critical-solid)";
 export const criticalWeak = "var(--seed-color-stroke-critical-weak)";
+export const focusRing = "var(--seed-color-stroke-focus-ring)";
 export const informativeSolid = "var(--seed-color-stroke-informative-solid)";
 export const informativeWeak = "var(--seed-color-stroke-informative-weak)";
 export const neutralContrast = "var(--seed-color-stroke-neutral-contrast)";

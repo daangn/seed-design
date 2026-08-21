@@ -1,28 +1,54 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RootProvider } from "fumadocs-ui/provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
+import { ActionButton } from "seed-design/ui/action-button";
+import { baseOptions } from "./layout.config";
+import { getDocsSource } from "./source";
+import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
+import DefaultSearchDialog from "@/components/search/search";
+import { TAGS } from "@/app/api/search/constants";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const docsSource = await getDocsSource();
   return (
-    <RootProvider>
-      <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-fd-background text-fd-foreground px-4">
-        <Image src="/favicon.svg" alt="" width={36} height={32} aria-hidden />
+    <RootProvider
+      search={{
+        SearchDialog: DefaultSearchDialog,
+        options: {
+          tags: Object.values(TAGS),
+        },
+      }}
+    >
+      {/* Header stays (shared DocsHeader via baseOptions); the sidebar column is
+          removed by NoSidebarDocsLayout so the 404 content centers full-width.
+          DocsPage is intentionally omitted: its internal padding pushes content
+          off-center and past 100dvh. The box spans every grid column
+          ([grid-column:1/-1]) so it fills the viewport width instead of being
+          trapped in the narrow main column, and is sized to exactly
+          viewport-minus-header (--fd-header-height) so it fits the row below the
+          header with no vertical scroll. */}
+      <NoSidebarDocsLayout {...baseOptions} tree={docsSource.pageTree}>
+        <div className="flex h-[calc(100dvh-var(--fd-header-height,56px))] w-full flex-col items-center justify-center gap-10 overflow-hidden px-4 [grid-column:1/-1]">
+          <div className="flex -translate-y-[20px] flex-col items-center gap-10">
+            <Image
+              src="/404.png"
+              alt="404"
+              width={300}
+              height={106}
+              priority
+              className="h-auto w-[216px] md:w-[300px]"
+            />
 
-        <div className="flex flex-col items-center gap-2 text-center">
-          <p className="text-sm font-medium text-fd-muted-foreground">404</p>
-          <h1 className="text-2xl font-bold tracking-tight">페이지를 찾을 수 없어요</h1>
-          <p className="text-sm text-fd-muted-foreground">
-            요청하신 페이지가 존재하지 않거나 이동됐어요.
-          </p>
+            <h1 className="text-2xl font-medium tracking-tight text-center">
+              페이지를 찾을 수 없습니다.
+            </h1>
+
+            <ActionButton variant="neutralSolid" size="large" asChild>
+              <Link href="/">홈으로</Link>
+            </ActionButton>
+          </div>
         </div>
-
-        <Link
-          href="/docs"
-          className="rounded-md bg-fd-primary px-4 py-2 text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-80"
-        >
-          홈으로 돌아가기
-        </Link>
-      </div>
+      </NoSidebarDocsLayout>
     </RootProvider>
   );
 }

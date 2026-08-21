@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 26-01-15
+  lastUpdated: 26-06-15
 data:
   collection: color
   tokens:
@@ -525,32 +525,32 @@ data:
         theme-light: $color.palette.blue-200
         theme-dark: $color.palette.blue-200
     $color.bg.layer-basement:
-      description: 가장 낮은 0단계의 '대지'입니다. 앱의 가장 깊은 곳에 위치하는 전체 배경색입니다.
+      description: 가장 낮은 0단계의 '대지'입니다. 화면 가장 깊은 곳에 위치하는 전체 배경색입니다.
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-00
     $color.bg.layer-default:
-      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다.
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-100
     $color.bg.layer-default-pressed:
-      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠가 이 레이어 위에서 표현됩니다. (pressed)
+      description: basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed)
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
     $color.bg.layer-fill:
-      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
+      description: "@deprecated @seed-design/css@3.0.0에서 새 이름 토큰으로 대체·제거될 예정입니다."
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-200
     $color.bg.layer-floating:
-      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다.
+      description: 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다.
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-200
     $color.bg.layer-floating-pressed:
-      description: 앱의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 모달성 요소들이 여기에 속합니다. (pressed)
+      description: 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. (pressed)
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
@@ -575,11 +575,13 @@ data:
         theme-dark: $color.palette.gray-300
     $color.bg.neutral-solid-muted:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)
+      excludeFromExchange: true
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-400
     $color.bg.neutral-solid-muted-pressed:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed)
+      excludeFromExchange: true
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-500
@@ -639,6 +641,14 @@ data:
       values:
         theme-light: $color.palette.static-black-alpha-100
         theme-dark: $color.palette.static-white-alpha-50
+    $color.bg.transparent-selected:
+      values:
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-100
+    $color.bg.transparent-selected-pressed:
+      values:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-200
     $color.bg.warning-solid:
       description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
@@ -679,6 +689,10 @@ data:
       values:
         theme-light: $color.palette.red-300
         theme-dark: $color.palette.red-300
+    $color.stroke.focus-ring:
+      values:
+        theme-light: $color.palette.blue-600
+        theme-dark: $color.palette.blue-600
     $color.stroke.informative-solid:
       description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:

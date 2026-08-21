@@ -28,11 +28,15 @@ data:
             type: color
           cornerRadius:
             type: dimension
-          marginX:
-            type: dimension
-          marginY:
-            type: dimension
           maxWidth:
+            type: dimension
+          widthFraction:
+            type: number
+            description: viewport width 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다.
+          maxHeightFraction:
+            type: number
+            description: viewport height 또는 parent height에 대한 최대 비율입니다.
+          marginX:
             type: dimension
           enterDuration:
             type: duration
@@ -56,10 +60,30 @@ data:
             type: dimension
           paddingTop:
             type: dimension
+          paddingBottom:
+            type: dimension
+          closeButtonGap:
+            type: dimension
+            description: closeButton이 표시되는 경우 paddingRight에 추가되는 여백입니다.
+      body:
+        properties:
+          paddingX:
+            type: dimension
+          paddingBottom:
+            type: dimension
+            description: body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다.
+          strokeWidth:
+            type: dimension
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 두께입니다.
+          strokeColor:
+            type: color
+            description: 본문이 스크롤된(scrolled) 상태에서 body 상단에 나타나는 divider의 색상입니다.
+          strokeDuration:
+            type: duration
+          strokeTimingFunction:
+            type: cubicBezier
       footer:
         properties:
-          gap:
-            type: dimension
           paddingX:
             type: dimension
           paddingTop:
@@ -86,6 +110,12 @@ data:
             type: dimension
           fontWeight:
             type: number
+      closeButton:
+        properties:
+          fromTop:
+            type: dimension
+          fromRight:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -100,9 +130,9 @@ data:
         content:
           color: $color.bg.layer-floating
           cornerRadius: $radius.r5
-          marginX: $dimension.x8
-          marginY: $dimension.x16
-          maxWidth: 272px
+          widthFraction: 0.9
+          maxHeightFraction: 0.8
+          marginX: $dimension.x5
           enterDuration: $duration.d4
           enterTimingFunction: $timing-function.enter-expressive
           enterOpacity: 0
@@ -112,20 +142,41 @@ data:
           exitOpacity: 0
         header:
           gap: $dimension.x1_5
-          paddingX: $dimension.x5
-          paddingTop: $dimension.x5
+          paddingX: $dimension.x6
+          paddingTop: $dimension.x6
+          paddingBottom: $dimension.x4
+          closeButtonGap: $dimension.x1_5
+        body:
+          paddingX: $dimension.x6
+          paddingBottom: $dimension.x12
+          strokeDuration: $duration.color-transition
+          strokeTimingFunction: $timing-function.easing
         footer:
-          gap: $dimension.x2
-          paddingX: $dimension.x5
+          paddingX: $dimension.x6
           paddingTop: $dimension.x4
-          paddingBottom: $dimension.x5
+          paddingBottom: $dimension.x6
         title:
           color: $color.fg.neutral
-          fontSize: $font-size.t7
-          lineHeight: $line-height.t7
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
           fontWeight: $font-weight.bold
         description:
-          color: $color.fg.neutral
+          color: $color.fg.neutral-muted
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
+        closeButton:
+          fromTop: $dimension.x7
+          fromRight: $dimension.x6
+      scrolled:
+        body:
+          strokeColor: $color.stroke.neutral-muted
+          strokeWidth: 1px
+    size=medium:
+      enabled:
+        content:
+          maxWidth: 480px
+    size=large:
+      enabled:
+        content:
+          maxWidth: 800px

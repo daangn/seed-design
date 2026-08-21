@@ -18,38 +18,15 @@ const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @deprecated Use `16` or `32` instead of `small` or `medium`.
- */
-type SwitchVariantDeprecatedSizeProps = "small" | "medium";
-
 export interface SwitchRootProps
-  extends Omit<SwitchVariantProps, "size">,
+  extends SwitchVariantProps,
     Omit<SwitchmarkVariantProps, "size">,
-    SwitchPrimitive.RootProps {
-  size?: SwitchVariantProps["size"] | SwitchVariantDeprecatedSizeProps;
-}
+    SwitchPrimitive.RootProps {}
 
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => {
-    if (
-      process.env.NODE_ENV !== "production" &&
-      (props.size === "small" || props.size === "medium")
-    ) {
-      console.warn(
-        `[SEED Design System] Switch size='${props.size}' is deprecated and will be removed in @seed-design/react@1.3.0. Use size='${props.size === "small" ? "16" : "32"}' instead.`,
-      );
-    }
-
     const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, otherProps] =
-      splitMultipleVariantsProps(
-        {
-          ...props,
-          // TODO: replace this mapping completely
-          size: props.size === "small" ? "16" : props.size === "medium" ? "32" : props.size,
-        },
-        { switchmark, switch: switchStyle },
-      );
+      splitMultipleVariantsProps(props, { switchmark, switch: switchStyle });
 
     const classNames = switchStyle(switchVariantProps);
 

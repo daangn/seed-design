@@ -266,17 +266,15 @@ describe("resolveReferences", () => {
           },
           data: {
             schema: {
-              slots: [
-                {
-                  name: "root",
-                  properties: [
-                    {
-                      name: "color",
+              slots: {
+                root: {
+                  properties: {
+                    color: {
                       type: "color",
                     },
-                  ],
+                  },
                 },
-              ],
+              },
             },
             definitions: {
               base: {
@@ -324,7 +322,7 @@ describe("getTypeResolvedSourceFile", () => {
           data: [
             {
               name: "color",
-              modes: ["light", "dark"],
+              modes: [{ id: "light" }, { id: "dark" }],
             },
           ],
         }),
@@ -377,7 +375,7 @@ describe("getTypeResolvedSourceFile", () => {
           data: [
             {
               name: "color",
-              modes: ["light", "dark"],
+              modes: [{ id: "light" }, { id: "dark" }],
             },
           ],
         }),
@@ -419,17 +417,15 @@ describe("getTypeResolvedSourceFile", () => {
           },
           data: {
             schema: {
-              slots: [
-                {
-                  name: "root",
-                  properties: [
-                    {
-                      name: "color",
+              slots: {
+                root: {
+                  properties: {
+                    color: {
                       type: "color",
                     },
-                  ],
+                  },
                 },
-              ],
+              },
             },
             definitions: {
               base: {

@@ -30,7 +30,7 @@ const identityPlaceholder = defineSlotRecipe({
   variants: {
     identity: {
       person: {},
-      // business: {},
+      business: {},
     },
   },
   defaultVariants: {

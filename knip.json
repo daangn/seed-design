@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "$schema": "https://unpkg.com/knip@6/schema.json",
   "ignoreExportsUsedInFile": true,
   "ignore": [
     "**/__testfixtures__/**",
@@ -66,6 +66,17 @@
         "widget-src/**/*.{ts,tsx,js,jsx}",
         "**/*.main.{ts,tsx,js,jsx}",
         "**/*.ui.{ts,tsx,js,jsx}"
+      ]
+    },
+    "tools/rootage-cdn": {
+      "entry": [
+        "src/cli.ts",
+        "src/deployment-guard.ts",
+        "src/release-input.ts",
+        "src/validate-operation.ts",
+        "src/version-change-policy.ts",
+        "src/verify-deployment.ts",
+        "src/worker.ts"
       ]
     },
     "examples/*": {

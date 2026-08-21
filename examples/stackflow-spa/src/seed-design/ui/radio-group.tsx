@@ -149,11 +149,11 @@ export const Radiomark = React.forwardRef<HTMLDivElement, RadiomarkProps>((props
 Radiomark.displayName = "Radiomark";
 
 /**
- * @deprecated Use `Radiomark` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `Radiomark` instead. Will be removed in @seed-design/react@2.0.0.
  */
 export const RadioMark = Radiomark;
 
 /**
- * @deprecated Use `RadiomarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `RadiomarkProps` instead. Will be removed in @seed-design/react@2.0.0.
  */
 export type RadioMarkProps = RadiomarkProps;

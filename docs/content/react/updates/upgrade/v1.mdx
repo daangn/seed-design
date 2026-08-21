@@ -1,0 +1,502 @@
+---
+title: SEED React 1 and older
+description: SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.
+---
+
+SEED React 2 이전 버전 간 업그레이드 방법을 안내합니다. SEED React 1.2에서 2로 업그레이드하려면 [SEED React 2 업그레이드](/react/updates/upgrade/v2) 문서를 참고할 수 있으며, 신규 기능 등 전체 변경사항은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.
+
+<Callout type="warn">
+  SEED React 1은 마이너 버전에 breaking change를 포함합니다.
+</Callout>
+
+---
+
+## 패키지 간 버전 호환성
+
+SEED React 1에서는 `@seed-design/react`와 `@seed-design/css`가 별도 버전으로 배포되면서도 서로 맞물려 있었고, 이 시기의 `peerDependencies` 선언은 상한이 없거나 아예 누락된 경우가 있었습니다. 선언만 보면 통과하지만 실제로는 마크업과 스타일이 어긋나는 조합이 존재하므로, 1.x를 쓰고 있다면 업그레이드에 앞서 아래 규칙으로 현재 조합을 먼저 확인하세요.
+
+<Callout type="info" title="SEED React 2부터는 이 표가 필요 없습니다">
+  2.0.0부터 strict SemVer를 따르고 `peerDependencies` 선언이 정확합니다. 2.x를
+  사용 중이라면 패키지의 peer 선언을 그대로 신뢰하면 됩니다. 아래 내용은 1.x
+  구간에 한정된 기록입니다.
+</Callout>
+
+### 판정 규칙
+
+**`@seed-design/css`는 `@seed-design/react`와 같은 마이너 라인이어야 하고, 아래 표의 하한 이상이어야 합니다.**
+
+라인이 다르면(예: react 1.1.x + css 1.2.x) 호환되지 않습니다. 1.2.0에서 Help Bubble·Radio Group의 내부 구조가 바뀌었기 때문에, 1.1 라인의 마크업에 1.2 라인의 스타일을 얹으면 화면이 깨집니다. 1.2.0 이후에도 1.1 라인은 백포트로 계속 릴리즈됐고 같은 수정이 1.2 라인에는 별도 버전으로 반영됐으므로, 라인을 섞으면 "수정이 아직 없는 버전"에 걸릴 수 있습니다.
+
+### `@seed-design/react` ↔ `@seed-design/css`
+
+행이 설치된 react 버전, 열이 설치된 css 버전입니다. ✅ 호환 · ⬇️ css가 낮음(css를 올리세요) · ⬆️ css가 높음(react를 올리세요).
+
+| react \ css | &lt; 1.1.0 | 1.1.0 ~ | 1.1.10 ~ | 1.1.12 ~ | 1.1.13 ~ | 1.1.16 ~ | 1.1.17 ~ | 1.1.23 ~ | 1.1.24 ~ | 1.2.0 ~ | ≥ 2.0.0 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **&lt; 1.1.0** | ✅ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ |
+| **1.1.0 ~ 1.1.9** | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.10 ~ 1.1.11** | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.12** | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.13 ~ 1.1.15** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.16** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.17 ~ 1.1.22** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.23** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ⬆️ | ⬆️ |
+| **1.1.24 ~ 1.1.28** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ⬆️ | ⬆️ |
+| **1.2.0 ~ 1.2.15** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ⬆️ |
+| **≥ 2.0.0** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ |
+
+열 머리글의 `1.1.10 ~`은 `>= 1.1.10 < 1.1.12`처럼 다음 열 직전까지를 뜻합니다.
+
+### `@seed-design/stackflow` ↔ `@seed-design/css`
+
+`@seed-design/stackflow`에는 1.2 라인이 없어서, 1.1 라인이 css 1.1과 1.2를 함께 지원합니다. 그래서 react와 달리 라인을 섞어도 됩니다. 대신 AppScreen 화면 전환이 WAAPI 기반으로 바뀐 경계(css 1.1.25 / 1.2.11, stackflow 1.1.22)를 넘나들면 깨집니다.
+
+기호는 위 표와 같고, 🚫는 알려진 비호환 조합, ❌는 WAAPI 대응이 아직 반영되지 않은 css 구간입니다.
+
+| stackflow \ css | &lt; 1.0.5 | 1.0.5 ~ | 1.0.7 ~ | 1.1.0 ~ | 1.1.5 ~ | 1.1.9 ~ | 1.1.10 ~ | 1.1.15 ~ | 1.1.16 ~ | 1.1.19 ~ | 1.1.25 ~ | 1.2.0 ~ | 1.2.11 ~ | ≥ 2.0.0 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **1.0.0** | ✅ | ✅ | ✅ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | 🚫 |
+| **1.0.5** | ⬇️ | ✅ | ✅ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | 🚫 |
+| **1.0.9** | ⬇️ | ⬇️ | ✅ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | ⬆️ | 🚫 |
+| **1.1.0 ~ 1.1.4** | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.5 ~ 1.1.8** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.9 ~ 1.1.10** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.11 ~ 1.1.14** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.15** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.16** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.17 ~ 1.1.21** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | 🚫 | ✅ | 🚫 | 🚫 |
+| **1.1.22 ~ 1.1.25** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ | ❌ | ✅ | 🚫 |
+| **≥ 2.0.0** | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ✅ |
+
+stackflow 1.1.22 이상과 css 1.2.0 ~ 1.2.10 조합(❌)은 WAAPI 대응이 css 1.2.11부터 들어갔기 때문에 맞지 않습니다. css를 1.2.11 이상으로 올리거나, css 1.1 라인(1.1.25 이상)을 쓰세요.
+
+### 알려진 비호환 조합
+
+| 조합 | 증상 | 해결 |
+| --- | --- | --- |
+| `stackflow < 1.1.22` + `css >= 1.1.25`(1.1 라인) 또는 `css >= 1.2.11` | AppScreen 화면 전환 애니메이션과 AppBar 배경이 깨짐 | stackflow를 1.1.22 이상으로 함께 업그레이드 |
+| `stackflow 1.x` + `css 2.x` | 메이저 경계를 넘은 조합 | stackflow도 2.x로 함께 업그레이드 |
+
+첫 번째 항목은 AppScreen 전환이 WAAPI 기반으로 바뀌면서 css와 stackflow 양쪽이 함께 바뀐 변경입니다. css 쪽 변경은 1.1.25(1.1 라인 백포트)와 1.2.11(1.2 라인)에 들어갔고, 짝이 되는 stackflow 변경은 1.1.22에 들어갔습니다.
+
+### 표에 없는 버전을 만났다면
+
+표는 이 문서 작성 시점까지 배포된 1.x 버전을 기준으로 합니다. 이후에 배포된 버전이라면 설치된 패키지의 peer 선언을 직접 확인하세요.
+
+```bash
+cat node_modules/@seed-design/react/package.json | grep -A5 peerDependencies
+```
+
+<Accordions type="single">
+  <Accordion title="구간별 실제 배포 버전 목록">
+
+버전 번호에는 결번이 있습니다. 아래는 실제로 npm에 배포된 버전만 나열한 것입니다.
+
+**`@seed-design/react`**
+
+| 구간 | 배포된 버전 |
+| --- | --- |
+| &lt; 1.1.0 | 1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6, 1.0.7, 1.0.8 |
+| 1.1.0 ~ | 1.1.0, 1.1.1, 1.1.3, 1.1.4, 1.1.5, 1.1.7, 1.1.8 |
+| 1.1.10 ~ | 1.1.10 |
+| 1.1.12 ~ | 1.1.12 |
+| 1.1.13 ~ | 1.1.13 |
+| 1.1.16 ~ | 1.1.16 |
+| 1.1.17 ~ | 1.1.17, 1.1.18, 1.1.19, 1.1.20, 1.1.21, 1.1.22 |
+| 1.1.23 ~ | 1.1.23 |
+| 1.1.24 ~ | 1.1.24, 1.1.25, 1.1.26, 1.1.27, 1.1.28 |
+| 1.2.0 ~ | 1.2.0 ~ 1.2.15 (전체) |
+
+**`@seed-design/css`**
+
+| 구간 | 배포된 버전 |
+| --- | --- |
+| &lt; 1.1.0 | 1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.5, 1.0.6, 1.0.7 |
+| 1.1.0 ~ | 1.1.0, 1.1.3, 1.1.4, 1.1.5, 1.1.6, 1.1.7, 1.1.8, 1.1.9 |
+| 1.1.10 ~ | 1.1.10 |
+| 1.1.12 ~ | 1.1.12 |
+| 1.1.13 ~ | 1.1.13, 1.1.15 |
+| 1.1.16 ~ | 1.1.16 |
+| 1.1.17 ~ | 1.1.17, 1.1.19 |
+| 1.1.23 ~ | 1.1.23 |
+| 1.1.24 ~ | 1.1.24, 1.1.25, 1.1.26, 1.1.27 |
+| 1.2.0 ~ | 1.2.0 ~ 1.2.16 (전체) |
+
+**`@seed-design/stackflow`**
+
+| 구간 | 배포된 버전 |
+| --- | --- |
+| 1.0.x | 1.0.0, 1.0.5, 1.0.9 |
+| 1.1.x | 1.1.0, 1.1.5, 1.1.9, 1.1.11, 1.1.15, 1.1.16, 1.1.17, 1.1.18, 1.1.19, 1.1.20, 1.1.21, 1.1.22, 1.1.23, 1.1.24, 1.1.25 |
+
+  </Accordion>
+</Accordions>
+
+---
+
+## 0.2.0 Stroke 시맨틱 토큰 이름 개편
+
+<Badge tone="critical">직접 판단 및 코드 수정 필요</Badge>
+
+0.2 이전 버전에서 업그레이드하는 경우 아래 항목을 참고하여 사용하고 있는 stroke 색상 시맨틱 토큰을 사용하는 코드를 업데이트합니다. codemod로 일괄 변경하거나 표를 참고하여 직접 치환할 수 있습니다.
+
+```package-install
+npx @seed-design/codemod@latest replace-semantic-stroke-color <target_path>
+```
+
+| 0.2.0 이전 토큰               | 0.2.0 이후 토큰                  | 비고                                                |
+| ----------------------------- | -------------------------------- | --------------------------------------------------- |
+| `$color.stroke.neutral-muted` | `$color.stroke.neutral-subtle`   | 순서상 이 항목을 가장 먼저 마이그레이션해야 합니다. |
+| `$color.stroke.on-image`      | `$color.stroke.neutral-subtle`   |                                                     |
+| `$color.stroke.neutral`       | `$color.stroke.neutral-muted`    |                                                     |
+| `$color.stroke.field-focused` | `$color.stroke.neutral-contrast` |                                                     |
+| `$color.stroke.control`       | `$color.stroke.neutral-weak`     |                                                     |
+| `$color.stroke.field`         | `$color.stroke.neutral-weak`     |                                                     |
+| `$color.stroke.brand`         | `$color.stroke.brand-weak`       |                                                     |
+| `$color.stroke.positive`      | `$color.stroke.positive-weak`    |                                                     |
+| `$color.stroke.informative`   | `$color.stroke.informative-weak` |                                                     |
+| `$color.stroke.warning`       | `$color.stroke.warning-weak`     |                                                     |
+| `$color.stroke.critical`      | `$color.stroke.critical-weak`    |                                                     |
+
+자세한 내용은 [Available Transforms](/react/developer-tools/codemods/available-transforms)를 참고해주세요.
+
+---
+
+## 1.0으로 업그레이드하기
+
+<Card title="SEED React v1.0 문서" href="https://v1-0.seed-design.io/react">
+  1.0 버전 기준의 SEED React 문서입니다.
+</Card>
+
+아래 컴포넌트의 snippet(권장 조합) 변경사항이 있으며, 이외 필요한 코드 변경은 없습니다.
+
+<Badge tone="informative">snippet 업데이트 필요</Badge>
+
+```package-install
+npx @seed-design/cli@latest add-all --seed-react-version 1.0 --on-diff backup ui
+```
+
+- **Snackbar**: 레이아웃 변경
+  - `add ui:snackbar`
+- **MannerTemp / MannerTempBadge**: 신규 10단계 온도 범위를 반영합니다.
+  - `add ui:manner-temp ui:manner-temp-badge`
+  - `level`을 직접 지정하여 사용하는 코드가 있다면 온도별 범위가 의도에 맞게 표시되는지 확인이 필요합니다.
+- **SwitchMark / List Header** 추가
+  - `add ui:switch`, `add ui:list`
+
+Snackbar/MannerTemp/MannerTempBadge를 `@seed-design/react`에서 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+---
+
+## 1.0에서 1.1로 업그레이드하기
+
+<Card title="SEED React v1.1 문서" href="https://v1-1.seed-design.io/react">
+  1.1 버전 기준의 SEED React 문서입니다.
+</Card>
+
+### 1. Page Banner 구성 변경
+
+<Badge tone="informative">snippet 업데이트 필요</Badge>
+
+`PageBanner.TextContent`가 `PageBanner.Content`로 이름이 변경되었으며, Box로 스타일링하던 레이아웃을 `PageBanner.Body`로 교체합니다.
+
+snippet 변경사항이 있어 다시 추가가 필요합니다. snippet 컴포넌트를 사용하는 코드의 변경은 불필요합니다. `@seed-design/react`에서 `PageBanner`를 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.1 --on-diff backup ui:page-banner
+```
+
+### 2. Text Field `size="xlarge"` 제거 및 Field 기반 snippet 제공
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+Text Field snippet 컴포넌트가 내부적으로 Field 컴포넌트를 사용하도록 정리합니다. `onValueChange` 시그니처를 `((value: string) => void) | undefined`에서 `((values: { value: string; graphemes: string[]; slicedValue: string; slicedGraphemes: string[]; }) => void) | undefined`로 변경합니다. snippet 변경사항이 있어 다시 추가가 필요합니다. `@seed-design/react`에서 `TextField`를 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.1 --on-diff backup ui:text-field
+```
+
+`size="xlarge"`가 제거되었습니다. `size="large"`(기본값)를 사용해주세요.
+
+### 3. Bottom Sheet를 Drawer 기반으로 전환
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+Dialog 기반의 Bottom Sheet를 Drawer 기반으로 전환하여 swipe to dismiss 및 snap point 등의 기능을 추가합니다. snippet 변경사항이 있어 다시 추가가 필요합니다. `@seed-design/react`에서 `BottomSheet`를 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.1 --on-diff backup ui:bottom-sheet
+```
+
+snippet 컴포넌트 `BottomSheetContent`의 `hideCloseButton`(기본값: `false`)은 `showCloseButton`(기본값: `true`)으로 인터페이스가 변경되었습니다.
+
+```tsx
+<BottomSheetContent hideCloseButton /> // [!code --]
+<BottomSheetContent showCloseButton={false} /> // [!code ++]
+```
+
+### 4. Error State snippet 변경
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+Error State snippet이 내부적으로 Action Button(`variant="ghost"`)을 사용하도록 변경되어 다시 추가가 필요합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.1 --on-diff backup ui:error-state
+```
+
+snippet 컴포넌트 `ErrorState`의 `secondaryActionProps` 타입이 `React.ButtonHTMLAttributes<HTMLButtonElement>`에서 `ActionButtonProps`로 변경되었습니다. `secondaryActionProps`를 사용하는 코드가 있다면 신규 타입에 맞게 수정합니다.
+
+---
+
+## 1.1에서 1.2로 업그레이드하기
+
+<Card title="SEED React v1.2 문서" href="https://v1-2.seed-design.io/react">
+  1.2 버전 기준의 SEED React 문서입니다.
+</Card>
+
+<Callout type="info">
+  아래 6개 h3 항목들은 서로 독립적이므로 병렬로 진행할 수 있습니다.
+</Callout>
+
+### 1. Help Bubble 레이아웃 변경
+
+<Badge tone="informative">snippet 업데이트 필요</Badge>
+
+신규 `HelpBubble.Body`가 `HelpBubble.Title`과 `HelpBubble.Description`을 감싸도록 snippet이 업데이트되었습니다. `HelpBubbleTrigger`, `HelpBubbleAnchor` 등 snippet에서 export되는 컴포넌트를 사용하는 코드는 snippet을 다시 받는 것 외에 변경이 불필요합니다. `@seed-design/react`에서 `HelpBubble`을 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:help-bubble
+```
+
+### 2. MenuSheetItem 레이아웃 변경
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+`MenuSheetItem` snippet 컴포넌트에 `description`을 추가할 수 있도록 개선하며 레이아웃이 변경되었습니다. snippet 변경사항이 있어 다시 추가가 필요합니다. `@seed-design/react`에서 `MenuSheetItem`을 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:menu-sheet
+```
+
+snippet 컴포넌트 `MenuSheetItem`을 사용하는 코드에서 `children` 대신 `label`, `<PrefixIcon />` 대신 `prefixIcon` prop을 사용해주세요.
+
+```diff
+-<MenuSheetItem>
+-  <PrefixIcon svg={<IconHouseLine />} />
+-  메뉴 항목
+-</MenuSheetItem>;
++<MenuSheetItem prefixIcon={<IconHouseLine />} label="메뉴 항목" />;
+```
+
+### 3. Bottom Sheet 및 Menu Sheet가 기본적으로 safe area를 갖도록 수정
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+`BottomSheet.Content`와 `MenuSheet.Content`가 기본적으로 하단 safe area만큼 padding을 갖도록 수정합니다. 시트에 직접 safe area padding을 넣고 있었던 경우 제거합니다.
+
+```tsx
+<BottomSheet.Content>
+  {/* [!code --] */}
+  <VStack paddingBottom="safeArea">...</VStack>
+  {/* [!code ++] */}
+  <VStack>...</VStack>
+</BottomSheet.Content>
+```
+
+### 4. Tag Group 레이아웃 변경
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+Tag Group Item의 레이아웃을 위해 snippet 컴포넌트를 신규로 제공합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:tag-group
+```
+
+`@seed-design/react`에서 import하는 Tag Group을 snippet(`seed-design/ui/tag-group`)에서 import하도록 교체하고, `children` 대신 `label`, `PrefixIcon`/`SuffixIcon` 대신 `prefixIcon`/`suffixIcon` prop을 사용해주세요.
+
+```tsx
+import { TagGroupRoot, TagGroupItem } from "@seed-design/react"; // [!code --]
+import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group"; // [!code ++]
+
+<TagGroupRoot>
+  {/* [!code --] */}
+  <TagGroupItem>
+    {/* [!code --] */}
+    <PrefixIcon svg={<IconLocationpinFill />} />
+    {/* [!code --] */}
+    서초4동
+    {/* [!code --] */}
+  </TagGroupItem>
+  {/* [!code ++] */}
+  <TagGroupItem label="서초4동" prefixIcon={<IconLocationpinFill />} />
+</TagGroupRoot>;
+```
+
+아이콘에만 다른 색상을 지정하는 등 커스터마이징이 필요한 경우 `@seed-design/react`의 `TagGroup.Item`과 `TagGroup.ItemLabel`을 병행해서 사용할 수 있습니다.
+
+```tsx
+import { TagGroupRoot } from "seed-design/ui/tag-group";
+import { TagGroup as SeedTagGroup } from "@seed-design/react";
+
+<TagGroupRoot>
+  {/* ... */}
+  <SeedTagGroup.Item>
+    <Icon svg={<IconMegaphoneFill />} color="fg.brand" />
+    <SeedTagGroup.ItemLabel>광고</SeedTagGroup.ItemLabel>
+  </SeedTagGroup.Item>
+</TagGroupRoot>;
+```
+
+### 5. Select Box 레이아웃 변경
+
+<Badge tone="critical">snippet 업데이트 및 코드 수정 필요</Badge>
+
+snippet 변경사항이 있어 다시 추가가 필요합니다. `@seed-design/react`에서 Select Box 관련 컴포넌트를 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:select-box
+```
+
+- `CheckSelectBoxGroup` / `RadioSelectBoxRoot` 컴포넌트를 기본적으로 gap이 포함된 그리드 레이아웃으로 변경합니다.
+  - 자식을 묶던 `VStack`을 제거하여 `CheckSelectBoxGroup` 및 `RadioSelectBoxRoot`가 직접 아이템들을 감싸도록 변경합니다.
+  - `VStack`에 `gap` 외 스타일이 있다면 `VStack`을 `CheckSelectBoxGroup` / `RadioSelectBoxRoot` 바깥에 남겨두어 레이아웃을 유지할 수 있습니다.
+  - `<VStack asChild><CheckSelectBoxGroup>...</CheckSelectBoxGroup></VStack>`처럼 `asChild`로 `VStack`을 래핑하고 있을 수도 있으니 함께 확인합니다.
+- Select Box 내부 Checkmark 또는 Radiomark가 자동으로 표시되지 않도록 변경됩니다.
+  - `CheckSelectBox` / `RadioSelectBoxItem`에 `suffix={<CheckSelectBoxCheckmark />}` / `suffix={<RadioSelectBoxRadiomark />}`를 추가합니다.
+
+```tsx
+import { VStack } from "@seed-design/react"; // [!code --]
+import { CheckSelectBoxGroup, CheckSelectBox } from "seed-design/ui/select-box"; // [!code --]
+// [!code ++]
+import {
+  // [!code ++]
+  CheckSelectBoxGroup, // [!code ++]
+  CheckSelectBox, // [!code ++]
+  CheckSelectBoxCheckmark, // [!code ++]
+} from "seed-design/ui/select-box"; // [!code ++]
+
+<CheckSelectBoxGroup>
+  {/* [!code --] */}
+  <VStack gap="spacingY.componentDefault">
+    {/* [!code --] */}
+    <CheckSelectBox label="옵션 1" />
+    {/* [!code --] */}
+    <CheckSelectBox label="옵션 2" />
+    {/* [!code --] */}
+  </VStack>
+  {/* [!code ++] */}
+  <CheckSelectBox label="옵션 1" suffix={<CheckSelectBoxCheckmark />} /> //
+  {/* [!code ++] */}
+  <CheckSelectBox label="옵션 2" suffix={<CheckSelectBoxCheckmark />} /> //
+</CheckSelectBoxGroup>;
+```
+
+```tsx
+import { VStack } from "@seed-design/react"; // [!code --]
+// [!code --]
+import {
+  RadioSelectBoxRoot, // [!code --]
+  RadioSelectBoxItem, // [!code --]
+} from "seed-design/ui/select-box"; // [!code --]
+// [!code ++]
+import {
+  RadioSelectBoxRoot, // [!code ++]
+  RadioSelectBoxItem, // [!code ++]
+  RadioSelectBoxRadiomark, // [!code ++]
+} from "seed-design/ui/select-box"; // [!code ++]
+
+<RadioSelectBoxRoot defaultValue="option1" aria-label="옵션 선택">
+  {/* [!code --] */}
+  <VStack gap="spacingY.componentDefault">
+    {/* [!code --] */}
+    <RadioSelectBoxItem value="option1" label="옵션 1" />
+    {/* [!code --] */}
+    <RadioSelectBoxItem value="option2" label="옵션 2" />
+    {/* [!code --] */}
+  </VStack>
+  {/* [!code ++] */}
+  <RadioSelectBoxItem
+    // [!code ++]
+    value="option1"
+    // [!code ++]
+    label="옵션 1"
+    // [!code ++]
+    suffix={<RadioSelectBoxRadiomark />}
+    // [!code ++]
+  />
+  {/* [!code ++] */}
+  <RadioSelectBoxItem
+    // [!code ++]
+    value="option2"
+    // [!code ++]
+    label="옵션 2"
+    // [!code ++]
+    suffix={<RadioSelectBoxRadiomark />}
+    // [!code ++]
+  />
+</RadioSelectBoxRoot>;
+```
+
+### 6. Radio Group / Item 관련 변경사항
+
+아래 3개 항목은 서로 영향을 줄 수 있으므로 순서대로 진행합니다.
+
+#### Radio Item `invalid` prop 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`RadioGroupItem`, `RadioChipItem`, `RadioSelectBoxItem`, `ListRadioItem`에서 `invalid` prop을 제거합니다. `data-invalid` 기반으로 스타일링하는 코드가 있다면 확인이 필요합니다.
+
+#### `SwitchMark` 및 `RadioMark`의 컴포넌트 이름 변경
+
+<Badge tone="positive">snippet 업데이트 권장</Badge>
+
+snippet에서 export되는 이름이 변경되었습니다. snippet을 다시 받아 업데이트할 수 있습니다.
+
+```package-install
+npx @seed-design/cli@latest add --on-diff backup ui:switch ui:radio-group
+```
+
+```tsx
+import { SwitchMark } from "seed-design/ui/switch"; // [!code --]
+import { Switchmark } from "seed-design/ui/switch"; // [!code ++]
+import { RadioMark } from "seed-design/ui/radio-group"; // [!code --]
+import { Radiomark } from "seed-design/ui/radio-group"; // [!code ++]
+```
+
+#### RadioGroup 레이아웃 정리
+
+<Badge tone="critical">직접 판단 및 코드 수정 필요</Badge>
+
+RadioGroup 관련 snippet 컴포넌트의 레이아웃이 변경되어 다시 추가가 필요합니다. `@seed-design/react`에서 Radio Group 관련 컴포넌트를 직접 import해서 사용하는 코드가 있다면 신규 snippet 구성에 맞게 수정합니다.
+
+```package-install
+npx @seed-design/cli@latest add --seed-react-version 1.2 --on-diff backup ui:radio-group
+```
+
+- snippet 컴포넌트 `RadioGroup`이 자체적으로 gap과 100% width를 갖도록 수정합니다.
+  - 자식을 묶던 `VStack`을 제거해주세요.
+  - `VStack`에 `gap` 외 스타일이 있다면 `VStack`을 `RadioGroup` 바깥에 남겨두어 레이아웃을 유지할 수 있습니다.
+  - `<VStack asChild><RadioGroup>...</RadioGroup></VStack>`처럼 `asChild`로 `VStack`을 래핑하고 있을 수도 있으니 함께 확인합니다.
+- `@seed-design/react` 컴포넌트 `RadioGroup.Root`가 radio 관련 동작을 다루지 않도록 수정하고, 자체 스타일이 추가되었습니다.
+  - radio 관련 헤드리스 동작이 필요한 경우 `@seed-design/react/primitive`의 `RadioGroup.Root`를 사용합니다.
+
+```tsx
+import { RadioGroup } from "@seed-design/react"; // [!code --]
+import { RadioGroup } from "@seed-design/react/primitive"; // [!code ++]
+```
+
+<Callout
+  type="info"
+  title="SEED React 1.3에서 제거 예정으로 안내된 항목은 2에서 제거되었습니다"
+>
+  1.2 릴리즈에서 "1.3에서 제거 예정"으로 안내했던 토큰 및
+  옵션(`$gradient.fade-layer-*`, Chip Tabs `brandSolid`, Checkbox `weight`,
+  Switch `size`, 레이아웃 camelCase 값)은 SEED React 2에서 실제로
+  제거되었습니다. `$color.bg.layer-fill`은 2.0.0에서 제거되었다가 2.1.0에서 다시
+  추가되어 그대로 사용할 수 있습니다. 자세한 내용은 [v2
+  업그레이드](/react/updates/upgrade/v2) 가이드를 참고해주세요. SEED React 1.3은
+  릴리즈되지 않았습니다.
+</Callout>

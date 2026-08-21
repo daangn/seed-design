@@ -1,9 +1,14 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
+import type { McpServer } from "@modelcontextprotocol/server";
+import {
+  createRestNormalizer,
+  figma,
+  getFigmaColorVariableNames,
+  react,
+  type NormalizedSceneNode,
+} from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import { parseFigmaUrl } from "./figma-rest-client";
-import { formatError } from "./logger";
 import {
   formatErrorResponse,
   formatImageResponse,
@@ -14,11 +19,22 @@ import type { FigmaRestClient } from "./figma-rest-client";
 import {
   createToolContext,
   fetchMultipleNodesData,
+  fetchNodeAnnotations,
   fetchNodeData,
+  fetchNodeImage,
+  fetchNodeSvg,
+  IMAGE_FORMATS,
   requireWebSocket,
+  type ImageFormat,
   type ToolMode,
 } from "./tools-helpers";
 import type { FigmaWebSocketClient } from "./websocket";
+
+/**
+ * The codegen pipeline lives in `@seed-design/figma`, so a version skew there surfaces here as an
+ * otherwise unexplained generation failure.
+ */
+const FIGMA_LIBRARY_HINT = "⚠️ Please make sure you have the latest version of the Figma library.";
 
 const singleNodeBaseSchema = z.object({
   figmaUrl: z
@@ -107,6 +123,17 @@ function getSingleNodeDescription(baseDescription: string, mode: ToolMode): stri
     case "all":
       return `${baseDescription} Provide either: (1) figmaUrl (e.g., https://www.figma.com/design/ABC/Name?node-id=0-1), (2) fileKey + nodeId, or (3) nodeId only for WebSocket mode.`;
   }
+}
+
+function getAnnotationsDescription(mode: ToolMode): string {
+  const description = getSingleNodeDescription(
+    "Get annotations on a node and on every node under it in Figma. Each result carries the annotated node's `name` and `type`, plus `path`: the `{ id, name }` of every ancestor between the queried node and it, outermost first.",
+    mode,
+  );
+
+  if (mode === "websocket") return description;
+
+  return `${description} Annotations read over REST carry only \`label\`, the plain-text rendering — markdown authored in Figma is flattened. \`labelMarkdown\`, holding the authored source, and \`category\` are only present on the WebSocket path.`;
 }
 
 function getMultiNodeDescription(baseDescription: string, mode: ToolMode): string {
@@ -216,9 +243,7 @@ export function registerTools(
           inferred: { data: inferred, description: "AutoLayout Inferred Figma node info" },
         });
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_node_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
-        );
+        return formatErrorResponse("get_node_info", error, FIGMA_LIBRARY_HINT);
       }
     },
   );
@@ -277,9 +302,7 @@ export function registerTools(
 
         return formatObjectResponse(results);
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_nodes_info: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
-        );
+        return formatErrorResponse("get_nodes_info", error, FIGMA_LIBRARY_HINT);
       }
     },
   );
@@ -289,7 +312,7 @@ export function registerTools(
     "get_node_react_code",
     {
       description: getSingleNodeDescription(
-        "Get the React code for a specific node in Figma.",
+        "Get the React code for a specific node in Figma. Vectors that match the Karrot icon packs come back as React icon component names.",
         mode,
       ),
       inputSchema: singleNodeParamsSchema,
@@ -309,17 +332,126 @@ export function registerTools(
           shouldPrintSource: false,
         });
 
-        if (!generated) {
-          return formatTextResponse(
-            "Failed to generate code\n\n⚠️ Please make sure you have the latest version of the Figma library.",
+        if (!generated)
+          return formatErrorResponse(
+            "get_node_react_code",
+            new Error("Failed to generate code"),
+            FIGMA_LIBRARY_HINT,
           );
-        }
 
         return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
-        return formatTextResponse(
-          `Error in get_node_react_code: ${formatError(error)}\n\n⚠️ Please make sure you have the latest version of the Figma library.`,
+        return formatErrorResponse("get_node_react_code", error, FIGMA_LIBRARY_HINT);
+      }
+    },
+  );
+
+  // Find Layers Tool (REST API + WebSocket)
+  server.registerTool(
+    "find_nodes",
+    {
+      description: getSingleNodeDescription(
+        "Find layers by name within a Figma node's subtree. Returns a flat array of matching nodes with their IDs.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema.extend({
+        name: z.string().describe("Regex pattern to match layer names (e.g., 'Usage', 'Do$')."),
+      }),
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema> & { name: string }) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const result = await fetchNodeData({ fileKey, nodeId, personalAccessToken }, context);
+
+        const normalizer = createRestNormalizer(result);
+        const node = normalizer(result.document);
+
+        let pattern: RegExp;
+        try {
+          pattern = new RegExp(params.name);
+        } catch {
+          return formatErrorResponse(
+            "find_nodes",
+            new Error(`Invalid regex pattern: ${params.name}`),
+          );
+        }
+        const matches = collectMatchingNodes(node, pattern);
+
+        return formatObjectResponse(matches);
+      } catch (error) {
+        return formatErrorResponse("find_nodes", error);
+      }
+    },
+  );
+
+  // Export Node as Image Tool (REST API + WebSocket)
+  server.registerTool(
+    "export_node_as_image",
+    {
+      description: getSingleNodeDescription(
+        "Render a Figma node as an image and return it inline. Use it to see what a node actually looks like, e.g. to compare generated UI against the design.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema.extend({
+        format: z.enum(IMAGE_FORMATS).default("PNG").describe("Export format"),
+        scale: z.number().min(0.01).max(4).default(1).describe("Render scale between 0.01 and 4"),
+      }),
+    },
+    async (
+      params: z.infer<typeof singleNodeBaseSchema> & { format: ImageFormat; scale: number },
+    ) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const { base64, mimeType } = await fetchNodeImage(
+          { fileKey, nodeId, personalAccessToken, format: params.format, scale: params.scale },
+          context,
         );
+
+        return formatImageResponse(base64, mimeType);
+      } catch (error) {
+        return formatErrorResponse("export_node_as_image", error);
+      }
+    },
+  );
+
+  // Export Node as SVG Tool (REST API + WebSocket)
+  server.registerTool(
+    "export_node_as_svg",
+    {
+      description: getSingleNodeDescription(
+        "Export a Figma node as SVG markup and return it as text. Use it when you need the vector source itself — path data, viewBox, fill — to put into code. A whole screen frame runs to tens of thousands of tokens and may be cut short by the client, so target the smallest node that holds the artwork.",
+        mode,
+      ),
+      inputSchema: singleNodeParamsSchema.extend({
+        outlineText: z
+          .boolean()
+          .default(false)
+          .describe(
+            "Render text as vector paths instead of <text> elements. Figma defaults this to true; this tool defaults to false so the text stays readable and the output stays small. Set it to true only when the SVG has to match Figma exactly regardless of the viewer's font rendering.",
+          ),
+      }),
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema> & { outlineText: boolean }) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const svg = await fetchNodeSvg(
+          { fileKey, nodeId, personalAccessToken, outlineText: params.outlineText },
+          context,
+        );
+
+        return formatTextResponse(svg);
+      } catch (error) {
+        // Plugin builds that predate this command reject with `Unknown command`, which reads as a
+        // server bug unless the stale plugin is named as the cause.
+        if (error instanceof Error && error.message.includes("Unknown command"))
+          return formatErrorResponse(
+            "export_node_as_svg",
+            new Error(
+              `${error.message}. The connected Figma plugin is too old for this tool — update it, or pass fileKey + personalAccessToken to go through the REST API instead.`,
+            ),
+          );
+
+        return formatErrorResponse("export_node_as_svg", error);
       }
     },
   );
@@ -454,56 +586,45 @@ export function registerTools(
         }
       },
     );
-
-    // Get Annotations Tool
-    server.registerTool(
-      "get_annotations",
-      {
-        description: "Get annotations for a specific node in Figma (WebSocket mode only)",
-        inputSchema: z.object({
-          nodeId: z.string().describe("The ID of the node to get annotations for"),
-        }),
-      },
-      async ({ nodeId }) => {
-        try {
-          requireWebSocket(context);
-          const result = await context.sendCommandToFigma("get_annotations", { nodeId });
-
-          return formatObjectResponse(result);
-        } catch (error) {
-          return formatErrorResponse("get_annotations", error);
-        }
-      },
-    );
-
-    // Export Node as Image Tool
-    server.registerTool(
-      "export_node_as_image",
-      {
-        description: "Export a node as an image from Figma (WebSocket mode only)",
-        inputSchema: z.object({
-          nodeId: z.string().describe("The ID of the node to export"),
-          format: z.enum(["PNG", "JPG", "SVG", "PDF"]).optional().describe("Export format"),
-          scale: z.number().positive().optional().describe("Export scale"),
-        }),
-      },
-      async ({ nodeId, format, scale }) => {
-        try {
-          requireWebSocket(context);
-          const result = await context.sendCommandToFigma("export_node_as_image", {
-            nodeId,
-            format: format || "PNG",
-            scale: scale || 1,
-          });
-
-          const typedResult = result as { base64: string; mimeType: string };
-          return formatImageResponse(typedResult.base64, typedResult.mimeType || "image/png");
-        } catch (error) {
-          return formatErrorResponse("export_node_as_image", error);
-        }
-      },
-    );
   }
+
+  // Get Annotations Tool (REST API + WebSocket)
+  server.registerTool(
+    "get_annotations",
+    {
+      description: getAnnotationsDescription(mode),
+      inputSchema: singleNodeParamsSchema,
+    },
+    async (params: z.infer<typeof singleNodeBaseSchema>) => {
+      try {
+        const { fileKey, nodeId, personalAccessToken } = resolveSingleNodeParams(params);
+        const nodes = await fetchNodeAnnotations({ fileKey, nodeId, personalAccessToken }, context);
+
+        return formatObjectResponse({ nodes });
+      } catch (error) {
+        return formatErrorResponse("get_annotations", error);
+      }
+    },
+  );
+}
+
+function collectMatchingNodes(
+  node: NormalizedSceneNode,
+  pattern: RegExp,
+): Array<{ id: string; name: string; type: string }> {
+  const results: Array<{ id: string; name: string; type: string }> = [];
+
+  if ("name" in node && pattern.test(node.name)) {
+    results.push({ id: node.id, name: node.name, type: node.type });
+  }
+
+  if ("children" in node && node.children) {
+    for (const child of node.children) {
+      results.push(...collectMatchingNodes(child, pattern));
+    }
+  }
+
+  return results;
 }
 
 // editing tools require WebSocket client

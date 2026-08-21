@@ -1,0 +1,92 @@
+---
+title: Time Picker
+description: 휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.
+keywords: ["타임 피커"]
+coverImage: /og/components/time-picker
+featured: true
+---
+
+<AvailableSince packages="@seed-design/react@2.2.0, @seed-design/css@2.4.0" />
+
+## Anatomy
+
+Time Picker는 선택 상태를 관리하는 root 아래에, 휠 UI를 담는 surface를 둡니다.
+
+- **Period Column:** 오전·오후를 고르는 휠입니다. 12시간제의 첫 칼럼이며, 한국어 표기 순서대로 시·분보다 앞에 둡니다.
+- **Hour Column:** 시를 고르는 휠입니다. 12시간제에서는 12·1·2…11을 보여줍니다.
+- **Minute Column:** 분을 고르는 휠입니다. Minute Step에 맞춰 선택지가 정해집니다.
+- **Selection Indicator:** 휠 가운데의 강조된 선택 행입니다. 옅은 배경의 띠로 세 칼럼을 가로질러 현재 선택된 값의 위치를 알려줍니다.
+
+시·분 휠은 시·분 같은 단위 접미사 없이 숫자만 보여주고, 단위는 오전·오후 칼럼과 선택 위치로 전달됩니다(예: 오전 10 00 = 오전 10시 00분).
+
+<FigmaImage
+  id="2391:18134"
+  alt="Time Picker의 Anatomy 이미지. Period Column, Hour Column, Minute Column, Selection Indicator로 구성됩니다."
+/>
+
+## Properties
+
+### Minute Step
+
+분 휠의 선택 간격을 정합니다.
+
+- **1:** 00·01·02…59 (60칸) — 알람·타이머처럼 정확한 분이 필요할 때
+- **5 (기본):** 00·05·10…55 (12칸) — 모임·약속 시간 등 대부분
+- **10:** 00·10·20…50 (6칸) — 느슨한 시간대 선택
+- **15:** 00·15·30·45 (4칸) — 예약 슬롯(15분 단위)
+- **30:** 00·30 (2칸) — 영업시간·예약 슬롯(30분 단위)
+
+간격이 넓을수록 고를 수 있는 분이 줄어 빠르게 선택할 수 있고, 좁을수록 정밀해집니다. 현재 시각으로 진입할 때는 선택된 분을 Minute Step에 맞춰 가까운 값으로 반올림합니다(예: Minute Step=5에서 9시 13분 → 9시 15분).
+
+<FigmaImage
+  id="2391:18151"
+  alt="Minute Step을 1, 5, 10, 15, 30으로 설정한 Time Picker 예시"
+/>
+
+## Guidelines
+
+### Layout 선택하기
+
+Time Picker가 화면에서 차지하는 비중과 플랫폼에 따라 Layout을 정합니다.
+
+- **Inline:** 화면 흐름 안에 휠이 바로 펼쳐집니다. — 글쓰기·설정 플로우의 시간 단계
+- **Popover:** 트리거를 누르면 트리거에 anchor된 패널로 떠오릅니다. — 데스크탑 폼의 시간 입력 필드
+- **Sheet:** 트리거를 누르면 화면 하단 시트로 올라옵니다. — 모바일 폼의 시간 입력 필드
+
+Popover와 Sheet는 surface를 여는 trigger가 필요하며, 트리거는 [Input Button](/components/input-button)이나 [Field](/components/field)를 합성해 만듭니다. 시간 선택이 화면의 주된 작업이면 Inline, 모바일 폼에서는 Sheet, 데스크탑 폼에서는 Popover를 기본으로 검토합니다. Inline의 확정은 화면의 액션 영역(다음·완료 등)이, Popover·Sheet의 확정은 confirmButton이 담당합니다.
+
+<FigmaImage
+  id="2391:18176"
+  alt="모바일 화면에서 Inline과 Sheet Layout으로 Time Picker를 사용한 예시"
+/>
+
+<FigmaImage
+  id="2391:18284"
+  alt="데스크탑 화면에서 Popover Layout으로 Time Picker를 사용한 예시"
+/>
+
+### 진입 시 보여줄 시간
+
+휠을 처음 열면 이미 선택된 시간이 있으면 그 값을, 없으면 `00:00`을 가운데에 두고 엽니다. 현재 시각에서 시작하려면 현재 시각을 Minute Step에 맞춰 반올림한 값을 `defaultValue`로 전달합니다.
+
+<FigmaImage
+  id="2391:18456"
+  alt="선택된 시간과 현재 시각을 기준으로 Time Picker를 처음 연 예시"
+/>
+
+### Date Picker와 함께 쓰기
+
+날짜와 시간을 모두 받아야 할 때는 Date Picker와 Time Picker를 함께 배치합니다. 두 컴포넌트는 Layout 어휘(Inline·Popover·Sheet)를 공유하므로 함께 두기 좋습니다.
+
+꼭 같은 형태일 필요는 없고, 각자 화면에서의 비중에 맞는 Layout을 고릅니다 — 날짜가 핵심 단계면 Date Picker를 Inline으로 펼치고, 시간은 보조 필드로 두어 Time Picker를 Sheet로 띄우는 식입니다.
+
+날짜 선택의 동작·가이드는 Date Picker가 담당하고, Time Picker는 시간 선택만 책임집니다.
+
+<FigmaImage
+  id="2391:18475"
+  alt="Date Picker를 Inline으로 펼치고 Time Picker를 Sheet로 함께 사용한 예시"
+/>
+
+## Specification
+
+<ComponentSpecBlock id="time-picker" />

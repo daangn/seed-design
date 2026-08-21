@@ -4,7 +4,12 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
@@ -37,8 +42,7 @@ const segmentedControl = defineSlotRecipe({
       willChange: "transform",
       transform: "translateX(calc(var(--segment-index) * 100%))",
 
-      top: vars.base.enabled.root.padding,
-      bottom: vars.base.enabled.root.padding,
+      insetBlock: vars.base.enabled.root.padding,
       left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
@@ -67,10 +71,8 @@ const segmentedControl = defineSlotRecipe({
       // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
       height: "100%",
 
-      paddingLeft: itemVars.base.enabled.root.paddingX,
-      paddingRight: itemVars.base.enabled.root.paddingX,
-      paddingTop: itemVars.base.enabled.root.paddingY,
-      paddingBottom: itemVars.base.enabled.root.paddingY,
+      paddingInline: itemVars.base.enabled.root.paddingX,
+      paddingBlock: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,
@@ -78,11 +80,14 @@ const segmentedControl = defineSlotRecipe({
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
-      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}, box-shadow ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
       },
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
@@ -97,12 +102,12 @@ const segmentedControl = defineSlotRecipe({
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), checked, active)]: {
+      [pseudo(not(disabled), checked, engaged)]: {
         backgroundColor: indicatorVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
-      [pseudo(not(disabled), not(checked), active)]: {
+      [pseudo(not(disabled), not(checked), engaged)]: {
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },

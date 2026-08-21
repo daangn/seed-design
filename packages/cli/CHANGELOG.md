@@ -1,5 +1,108 @@
 # @seed-design/cli
 
+## 1.6.1
+
+### Patch Changes
+
+- faabf6f: `compat`이 모노레포에서 seed 패키지를 "미설치"로 오판하던 문제를 고칩니다.
+
+  의존성 선언이 상위 워크스페이스 package.json에 있으면 현재 패키지에서는 선언이 잡히지 않아, 실제로는 설치돼 있는데도 스니펫 호환성 검사가 실패했습니다. 선언이 없을 때만 node_modules에 해소된 설치본 버전을 대신 사용합니다. 선언이 있으면 기존과 동일하게 선언을 그대로 씁니다.
+
+## 1.6.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 1.5.1
+
+### Patch Changes
+
+- 304b0c9: `--seed-react-version` 옵션에 `1.0`과 같은 버전 값을 넘길 때 파싱 에러가 발생하던 문제를 수정합니다.
+
+## 1.5.0
+
+### Minor Changes
+
+- b9a2956: `add`, `add-all` 명령어에 `--seed-react-version` 옵션을 추가합니다.
+
+  - 설치한 `@seed-design/react` 버전에 맞는 스니펫 레지스트리를 CLI가 자동으로 찾아줍니다. 정확한 `--baseUrl`을 직접 지정할 필요가 없습니다.
+  - `--baseUrl`, `--framework`보다 우선 적용됩니다.
+
+  ```sh
+  npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
+  ```
+
+## 1.4.0
+
+### Minor Changes
+
+- 699af2c: SEED Design Lynx의 첫 stable 버전을 릴리즈합니다.
+
+  - `@seed-design/lynx-css`: Lynx 환경에서 사용할 수 있는 SEED 디자인 토큰, base CSS, component recipe CSS를 제공합니다.
+  - `@seed-design/lynx-react`: Lynx용 SEED React 컴포넌트와 hook을 제공합니다.
+    - 컴포넌트: `ActionButton`, `BottomSheet`, `Box`, `Checkbox`, `HStack`, `ProgressCircle`, `RadioGroup`, `Switch`, `TagGroup`, `Text`, `VStack`
+    - Hook: `useControllableState`, `useIconColor`, `usePressTap`, `useSafeArea`
+    - Safe Area: `useSafeArea` API로 `env(safe-area-inset-*)`와 host 앱의 `lynx.__globalProps` fallback을 함께 지원합니다.
+  - `@seed-design/cli`: Lynx framework 감지, registry snippet 추가, compatibility check, docs lookup 흐름을 지원합니다.
+
+## 1.3.5
+
+### Patch Changes
+
+- 91f2e12: CLI 기반 도구의 `cac` 의존성을 v7로 업데이트합니다.
+
+  - `@seed-design/cli`와 `@seed-design/codemod`의 Node.js 요구사항을 `>=20.19.0`으로 맞춥니다.
+  - `@seed-design/mcp`와 `@seed-design/figma-extractor`에서도 최신 `cac` 런타임을 사용합니다.
+
+## 1.3.4
+
+### Patch Changes
+
+- c5012d1: @seed-design/cli 옵션 스키마 정합성을 개선합니다.
+
+## 1.3.3
+
+### Patch Changes
+
+- abada1c: CLI 텔레메트리 수집을 개선합니다.
+
+  - `add`, `add-all`, `compat`, `docs`, `init` 명령어의 실행 결과를 `completed`, `cancelled`, `failed`로 구분해 수집합니다.
+  - `compat` 명령어는 `compatible`, `incompatible`, `empty` 결과를 추가로 구분해 수집합니다.
+  - 텔레메트리 실패 테스트를 보강하고, 실패 시에는 상세 메시지 대신 안전한 에러 타입만 전송하도록 정리합니다.
+
+## 1.3.2
+
+### Patch Changes
+
+- 1e91bf6: `docs` 명령에 `--raw` 옵션을 추가합니다. llms.txt 내용을 순수 마크다운으로 출력하여 LLM 파이프나 스크립트에서 활용할 수 있습니다. `upgrade` 명령을 제거하고 `docs --raw` + 스킬 조합으로 대체합니다.
+
+## 1.3.1
+
+### Patch Changes
+
+- 8f37e56: `docs` 명령어에서 경로를 잘못 입력했을 때 유사한 항목을 제안합니다.
+
+  - 오타가 포함된 경로를 입력하면 가장 가까운 유효 경로를 알려줍니다. (예: `react/component/action-buton` → `react/components/action-button`)
+  - 카테고리, 섹션, 아이템 각 단계에서 유사 후보를 자동 검색합니다.
+
+- 0471a92: `upgrade` 명령어를 추가합니다.
+  - 프로젝트에 설치된 `@seed-design/*` 패키지의 현재 버전과 최신 버전을 비교하고, 그 사이의 변경사항(changelog)을 확인할 수 있습니다.
+  - `--raw` 플래그를 사용하면 UI 없이 순수 마크다운으로 출력되어 LLM 에이전트에 전달하기 적합합니다.
+  - 패키지명은 shorthand(`react`) 또는 full name(`@seed-design/react`) 모두 지원합니다.
+
+## 1.3.0
+
+### Minor Changes
+
+- d25a0d6: LLM 친화적 문서 링크를 위한 `docs` 명령어 추가
+  - 컴포넌트 및 파운데이션에 대한 문서 URL, llms.txt URL, GitHub raw 스니펫 URL을 출력하는 `seed-design docs [query]` 명령어를 추가합니다.
+  - 섹션/항목의 인터랙티브 선택과 쿼리를 통한 직접 검색을 모두 지원합니다.
+
 ## 1.2.2
 
 ### Patch Changes

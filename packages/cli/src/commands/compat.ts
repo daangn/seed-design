@@ -11,6 +11,7 @@ import { highlight } from "../utils/color";
 import {
   analyzeRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
+  getCompatPackageNames,
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
@@ -22,7 +23,8 @@ const compatOptionsSchema = z.object({
   all: z.boolean(),
   registry: z.string().optional(),
   cwd: z.string(),
-  baseUrl: z.string().optional(),
+  baseUrl: z.string().default(BASE_URL),
+  framework: z.enum(["react", "lynx"]).optional(),
 });
 
 function parseTargetInputs({
@@ -116,6 +118,7 @@ export const compatCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
+    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .example("seed-design compat")
     .example("seed-design compat -c action-button")
     .example("seed-design compat ui:action-button ui:alert-dialog")
@@ -123,6 +126,7 @@ export const compatCommand = (cli: CAC) => {
     .action(async (itemIds, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
+      const trackCwd = typeof opts?.cwd === "string" ? opts.cwd : process.cwd();
       p.intro("seed-design compat");
 
       try {
@@ -132,14 +136,17 @@ export const compatCommand = (cli: CAC) => {
         }
 
         const { data: options } = parsed;
+        const rawConfig = await getRawConfig(options.cwd);
+        const framework = options.framework ?? rawConfig?.framework ?? "react";
         const { start, stop } = p.spinner();
 
         start("Registry를 가져오고 있어요...");
         const publicRegistries = await (async () => {
           try {
             const registries = await Promise.all(
-              (await fetchAvailableRegistries({ baseUrl: options.baseUrl })).map(async ({ id }) =>
-                fetchRegistry({ baseUrl: options.baseUrl, registryId: id }),
+              (await fetchAvailableRegistries({ baseUrl: options.baseUrl, framework })).map(
+                async ({ id }) =>
+                  fetchRegistry({ baseUrl: options.baseUrl, framework, registryId: id }),
               ),
             );
             stop("Registry를 가져왔어요.");
@@ -202,25 +209,43 @@ export const compatCommand = (cli: CAC) => {
             })();
 
         if (!resolvedTargetItemKeys.length) {
+          try {
+            await analytics.trackCommandOutcome(options.cwd, {
+              command: "compat",
+              status: "completed",
+              result: "empty",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro("검사할 스니펫이 없어요.");
           process.exit(0);
         }
 
-        const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd);
+        const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd, framework);
         const compatibilityReport = analyzeRegistryItemCompatibility({
           publicRegistries,
           itemKeys: resolvedTargetItemKeys,
           projectPackageVersions,
+          framework,
         });
 
         p.log.info(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
 
         if (!compatibilityReport.issues.length) {
-          p.outro("모든 스니펫이 현재 @seed-design/react, @seed-design/css와 호환돼요.");
+          const compatPkgNames = getCompatPackageNames(framework);
+          p.outro(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
 
           try {
-            await analytics.track(options.cwd, {
-              event: "compat",
+            await analytics.trackCommandOutcome(options.cwd, {
+              command: "compat",
+              status: "completed",
+              result: "compatible",
               properties: {
                 checked_items_count: compatibilityReport.checkedItemKeys.length,
                 incompatible_items_count: 0,
@@ -229,7 +254,7 @@ export const compatCommand = (cli: CAC) => {
             });
           } catch (telemetryError) {
             if (verbose) {
-              console.error("[Telemetry] compat tracking failed:", telemetryError);
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
             }
           }
 
@@ -239,15 +264,17 @@ export const compatCommand = (cli: CAC) => {
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
+          framework,
         });
-        p.log.info(
-          "필요한 버전으로 @seed-design/react 또는 @seed-design/css를 맞춘 뒤 다시 실행해보세요.",
-        );
+        const compatPkgList = getCompatPackageNames(framework);
+        p.log.info(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
         p.outro("호환성 이슈가 있어요.");
 
         try {
-          await analytics.track(options.cwd, {
-            event: "compat",
+          await analytics.trackCommandOutcome(options.cwd, {
+            command: "compat",
+            status: "completed",
+            result: "incompatible",
             properties: {
               checked_items_count: compatibilityReport.checkedItemKeys.length,
               incompatible_items_count: new Set(
@@ -259,15 +286,42 @@ export const compatCommand = (cli: CAC) => {
           });
         } catch (telemetryError) {
           if (verbose) {
-            console.error("[Telemetry] compat tracking failed:", telemetryError);
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
 
         process.exit(1);
       } catch (error) {
         if (isCliCancelError(error)) {
+          try {
+            await analytics.trackCommandOutcome(trackCwd, {
+              command: "compat",
+              status: "cancelled",
+              properties: {
+                duration_ms: Date.now() - startTime,
+              },
+            });
+          } catch (telemetryError) {
+            if (verbose) {
+              console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+            }
+          }
           p.outro(highlight(error.message));
           process.exit(0);
+        }
+
+        try {
+          await analytics.trackCommandFailure(trackCwd, {
+            command: "compat",
+            error,
+            properties: {
+              duration_ms: Date.now() - startTime,
+            },
+          });
+        } catch (telemetryError) {
+          if (verbose) {
+            console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
+          }
         }
 
         handleCliError(error, {

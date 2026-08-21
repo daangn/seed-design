@@ -1,4 +1,4 @@
-import type { Decorator } from "@storybook/nextjs";
+import type { Decorator } from "@storybook/nextjs-vite";
 import { useEffect } from "react";
 
 import { FONT_SCALE_MAP, type FontScales } from "@/stories/utils/parameters";

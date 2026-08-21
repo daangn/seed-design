@@ -1,5 +1,101 @@
 # @seed-design/tailwind4-theme
 
+## 2.3.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 2.2.0
+
+### Minor Changes
+
+- f523979: Action Button의 pressed 상태에 scale 모션을 추가합니다.
+
+  pressed 상태에 적절한 모션 피드백을 제공하기 위해 사용하는 `$scale.s95`, `$scale.s97`, `$scale.s98` 토큰을 추가합니다.
+
+  - `scale` 토큰은 플랫폼 별 동작 줄이기 설정에 따라 값이 `1`로 동작합니다.
+  - 웹 CSS 환경에서는 `(prefers-reduced-motion: reduce)` 미디어 쿼리가 매치되는 환경에서 `1`로 동작합니다.
+  - Tailwind 유틸리티 클래스 `scale-s*`를 통해 scale 토큰을 사용할 수 있습니다. 신규 토큰을 사용할 수 있도록 Tailwind 패키지의 `@seed-design/css` peerDependency 범위를 `^2.1.0`에서 `^2.2.0`으로 올립니다.
+
+## 2.1.0
+
+### Minor Changes
+
+- f2b198d: `$color.bg.layer-fill` 토큰을 다시 추가합니다.
+
+  `2.0.0`에서 제거했으나 마땅한 대체 토큰이 없어 deprecated 상태로 되살립니다. 값은 제거 이전과 동일합니다. 추후 동일한 값의 새 이름 토큰으로 대체된 뒤 `3.0.0`에서 제거될 예정입니다.
+
+  `@seed-design/tailwind3-plugin`과 `@seed-design/tailwind4-theme`의 `@seed-design/css` peer dependency 버전 범위를 `^2.1.0`으로 올립니다.
+
+## 2.0.0
+
+### Major Changes
+
+- d1a8d7c: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+## 1.1.19
+
+### Patch Changes
+
+- 7588e59: 신규 pressed 상태 스타일링을 위한 `$duration.pressed-scale` 및 `$timing-function.pressed-scale` 토큰을 추가합니다. (컴포넌트 변경사항 없음)
+
+## 1.1.18
+
+### Patch Changes
+
+- 751e952: `$color.stroke.focus-ring` 색상 토큰을 추가합니다.
+
 ## 1.1.17
 
 ### Patch Changes

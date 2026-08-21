@@ -7,17 +7,30 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { useClassNames, withProvider } = createSlotRecipeContext(identityPlaceholder);
+const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
+  createSlotRecipeContext(identityPlaceholder);
 
 export interface IdentityPlaceholderRootProps
   extends IdentityPlaceholderVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const IdentityPlaceholderRoot = withProvider<HTMLDivElement, IdentityPlaceholderRootProps>(
-  Primitive.div,
-  "root",
-);
+export const IdentityPlaceholderRoot = React.forwardRef<
+  HTMLDivElement,
+  IdentityPlaceholderRootProps
+>((props, ref) => {
+  const [variantProps, restProps] = identityPlaceholder.splitVariantProps(props);
+  const classNames = identityPlaceholder(variantProps);
+
+  return (
+    <PropsProvider value={variantProps}>
+      <ClassNamesProvider value={classNames}>
+        <Primitive.div ref={ref} {...mergeProps({ className: classNames.root }, restProps)} />
+      </ClassNamesProvider>
+    </PropsProvider>
+  );
+});
+IdentityPlaceholderRoot.displayName = "IdentityPlaceholderRoot";
 
 export interface IdentityPlaceholderImageProps extends React.SVGProps<SVGSVGElement> {}
 
@@ -26,22 +39,39 @@ export const IdentityPlaceholderImage = React.forwardRef<
   IdentityPlaceholderImageProps
 >((props, ref) => {
   const classNames = useClassNames();
-  return (
-    <svg
-      ref={ref}
-      viewBox="0 0 640 640"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="Identity placeholder"
-      {...mergeProps({ className: classNames.image }, props)}
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M481 301c0 56-29 106-72 135a264 264 0 0 1 175 248c0 18-118 38-264 38S56 702 56 684c0-114 73-211 174-248a162 162 0 1 1 251-135Zm-203-1c8 0 14-9 14-20s-6-20-14-20-15 9-15 20 7 20 15 20Zm83 0c8 0 15-9 15-20s-7-20-15-20-15 9-15 20 7 20 15 20Zm-88 25c4-2 9-1 11 4 4 7 15 19 36 19s32-12 36-19a8 8 0 1 1 15 8c-7 12-23 27-51 27s-44-15-50-27c-3-5-1-10 3-12Z"
-      />
-    </svg>
-  );
+  const parentProps = useProps();
+
+  switch (parentProps?.identity) {
+    case "business":
+      return (
+        <svg
+          ref={ref}
+          viewBox="0 0 640 640"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Identity placeholder"
+          {...mergeProps({ className: classNames.image }, props)}
+        >
+          <path d="m512 250-29-73c-7-17-24-29-42-29H200c-18 0-35 12-42 29l-29 73q-3 7 2 14c17 23 42 41 71 41q35-2 59-26 25 24 59 26 35-2 59-26 25 24 59 26c28 0 56-18 72-41 2-3 3-11 2-14M439 340c-28 0-47-12-59-23a86 86 0 0 1-59 23c-28 0-48-12-59-23a86 86 0 0 1-60 23q-33-2-53-17v119c0 27 22 49 49 49h138l107 1c27 0 49-22 49-50V323q-20 15-53 17m-143 72q-1 11-12 12h-18q-11-2-12-12v-19q1-10 12-11h18q11 1 12 11zm91 0q-1 11-11 12h-19q-11-2-12-12v-19q1-10 12-11h19q10 1 11 11z" />
+        </svg>
+      );
+
+    case "person":
+    case undefined:
+      return (
+        <svg
+          ref={ref}
+          viewBox="0 0 640 640"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Identity placeholder"
+          {...mergeProps({ className: classNames.image }, props)}
+        >
+          <path d="M496 460q4 5 0 11c-42 52-97 81-176 81s-134-29-176-81q-3-5-1-10c33-50 104-74 177-74s144 23 176 73M222 251a98 98 0 0 1 196 0c0 54-44 97-98 97s-98-43-98-97" />
+        </svg>
+      );
+  }
 });
 IdentityPlaceholderImage.displayName = "IdentityPlaceholderImage";

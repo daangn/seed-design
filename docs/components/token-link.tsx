@@ -1,20 +1,36 @@
 "use client";
 
-import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
+import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { tokenReferenceHref } from "@/lib/token-search";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
-export const TokenLink = ({ id, description }: { id: string; description?: string }) => {
+export const TokenLink = ({
+  id,
+  description,
+  trailing,
+}: {
+  id: string;
+  description?: string;
+  trailing?: ReactNode;
+}) => {
   return (
     <div>
-      <Link
-        target="_blank"
-        onClick={(e) => e.stopPropagation()}
-        className="inline"
-        href={`/docs/foundation/design-token/${encodeURIComponent(id)}`}
-      >
-        <span>{id}</span>
-        <IconArrowUpRightFill size={10} className="flex-none text-current/60 ml-1 mb-0.5 inline" />
-      </Link>
+      <div className="flex items-center gap-1">
+        <Link
+          target="_blank"
+          onClick={(e) => e.stopPropagation()}
+          className="inline no-underline hover:underline"
+          href={tokenReferenceHref(id)}
+        >
+          <span>{id}</span>
+          <IconSeedArrow
+            external
+            className="size-2.5 flex-none text-current/60 ml-1 mb-0.5 inline"
+          />
+        </Link>
+        {trailing}
+      </div>
       {description && (
         <div className="text-fd-muted-foreground text-xs text-pretty break-keep mt-1">
           {description}

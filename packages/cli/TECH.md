@@ -14,7 +14,9 @@
 src/index.ts
   ├─ commands/init.ts
   ├─ commands/add.ts
-  └─ commands/add-all.ts
+  ├─ commands/add-all.ts
+  ├─ commands/compat.ts
+  └─ commands/docs.ts
 
 src/utils/*
   ├─ get-config.ts / init-config.ts
@@ -41,7 +43,7 @@ src/utils/*
 ### 3) 명령 성공 경로에서 telemetry는 비핵심(Non-blocking)
 
 - 파일: `src/utils/analytics.ts`, `src/commands/*.ts`
-- `init`, `add`, `add-all` 이벤트를 전송한다.
+- `init`, `add`, `add-all`, `compat`, `docs` 이벤트를 전송한다.
 - telemetry 실패는 명령 성공/실패 판정에 영향을 주지 않는다(실패는 무시 또는 verbose 로그).
 
 ### 4) telemetry opt-out 우선순위 고정

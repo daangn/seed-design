@@ -13,6 +13,7 @@ const snapPoints = ["200px", "400px", 1];
 export default function BottomSheetOnOpenChangeReason() {
   const [open, setOpen] = useState(false);
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
+  const [openReason, setOpenReason] = useState<string | null>(null);
   const [closeReason, setCloseReason] = useState<string | null>(null);
 
   return (
@@ -22,9 +23,7 @@ export default function BottomSheetOnOpenChangeReason() {
         onOpenChange={(open, details) => {
           setOpen(open);
 
-          if (open) return;
-
-          setCloseReason(details?.reason ?? null);
+          (open ? setOpenReason : setCloseReason)(details?.reason ?? null);
         }}
         snapPoints={snapPoints}
         activeSnapPoint={snap}
@@ -44,6 +43,9 @@ export default function BottomSheetOnOpenChangeReason() {
       </BottomSheetRoot>
 
       <HStack gap="x4">
+        <Text fontSize="t3" color="fg.neutralMuted">
+          마지막 열림 이유: {openReason ?? "-"}
+        </Text>
         <Text fontSize="t3" color="fg.neutralMuted">
           마지막 닫힘 이유: {closeReason ?? "-"}
         </Text>

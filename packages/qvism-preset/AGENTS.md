@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-**CSS Recipe를 정의**하는 패키지. `rootage`에서 생성된 토큰(`src/vars/`)을 사용하여 컴포넌트별 스타일을 정의한다. `bun qvism:generate`로 `css/recipes`에 CSS를 생성한다.
+**웹 CSS Recipe를 정의**하는 패키지. `rootage`에서 생성된 토큰(`src/vars/`)을 사용하여 컴포넌트별 스타일을 정의한다. `bun qvism:generate`로 `css/recipes`에 CSS를 생성한다.
 
 ## 파일 작성 컨벤션
 
@@ -12,5 +12,41 @@
 ## 코드 작성 컨벤션
 
 - Recipe 이름: kebab-case (예: `action-button`)
-- Pseudo 선택자: `active` (hover 대신, 모바일 우선), `disabled`, `focus`, `checked` 등
+- interactive affordance는 기본적으로 `engaged`를 먼저 검토한다. `engaged`는 hover 가능한 환경에서는 hover, 터치 환경에서는 active 계열 상호작용으로 풀린다.
+- `active`는 "눌린 순간만 표현해야 하는 press-only semantics" 같은 좁은 경우에만 사용하고, 기본 interactive 상태 설명에는 쓰지 않는다.
+- 그 외 Pseudo 선택자: `disabled`, `focus`, `checked` 등.
+- Engaged 배경 패턴: `::before` pseudo element로 배경 생성 (list-item 참조). inline variant에서는 `inset-inline`/`borderRadius` 트랜지션 포함. `[pseudo(not(disabled), engaged, "::before")]` 형태로 disabled 제외.
 - 토큰 참조: `vars.{variant}.{state}.{slot}.{property}`
+- arbitrary content slot에는 근거 없이 `display: flex`, `flexDirection`, `gap` 같은 구조 강제를 넣지 않는다. 실제 contract가 block 구조일 때만 추가한다.
+- base에는 여러 variant가 공유하는 affordance를 두고, variant에는 geometry나 specialization만 올린다.
+
+## 상태 기반 선택자 작성 규칙
+
+같은 headless 훅을 사용하는 recipe 간에는 CSS 선택자 전략을 통일한다.
+
+- 새로운 상태 기반 선택자를 추가할 때, 동일 훅을 사용하는 다른 recipe의 선택자 패턴을 먼저 확인한다.
+- HTML 속성(`hidden`, `disabled`)보다 `data-*` 상태 속성(`data-loading-state` 등)을 우선 사용한다. HTML 속성은 프레임워크 레이어에서 override될 수 있어 불안정하다.
+- 예시: `useImage` 훅을 사용하는 Avatar와 ImageFrame은 모두 `data-loading-state` 기반 선택자를 사용한다.
+- 다만 **로딩 중 상태에 `display: none`을 걸지 않는다.** 레이아웃 박스가 사라지면 `loading="lazy"` 이미지가 뷰포트 교차를 감지받지 못해 영원히 로드되지 않고, 페인트되지 않아 LCP가 하이드레이션 시각까지 밀린다. 로딩 중 플레이스홀더가 필요하면 숨기는 대신 뒤에 깔 것 (`#1258` → `#1428` → `#1791`).
+
+## defineRecipe vs defineSlotRecipe
+
+| 기준 | `defineRecipe` | `defineSlotRecipe` |
+|------|---------------|-------------------|
+| 슬롯 수 | 1개 (root만) | 2개 이상 |
+| 예시 | ActionButton, Badge | Avatar, TextField, Chip |
+| CSS 클래스명 | `.seed-{name}` | `.seed-{name}__{slot}` |
+
+### defineSlotRecipe 사용법
+
+`defineSlotRecipe`는 `name`, `slots` 배열, `base`, `variants` 등을 인자로 받는다. `base.slotName` 형태로 슬롯별 기본 스타일을 작성하고, `variants.variantName.variantValue.slotName` 형태로 슬롯별 variants를 적용한다.
+
+### ⚠️ defineRecipe ↔ defineSlotRecipe 전환 시 주의사항
+
+1. **반드시 `bun generate:all` 실행**: Recipe 타입을 변경한 후 generate를 실행하지 않으면 CSS와 소스가 불일치해 빌드가 깨집니다.
+2. **CSS 클래스명 패턴이 변경됨**: `defineRecipe`의 `.seed-{name}` → `defineSlotRecipe`의 `.seed-{name}__root`로 변경되므로 React 컴포넌트에서 사용하는 import도 업데이트 필요.
+3. **올바른 순서**: Recipe 수정 → `bun generate:all` → React 코드 수정
+
+## Lynx preset 분리
+
+Lynx 전용 recipe와 preset은 `packages/lynx-qvism-preset`에서 관리한다. 웹 recipe를 수정할 때 Lynx 동작도 함께 바뀌어야 하는지 확인하고, 필요한 경우 해당 패키지의 recipe도 별도로 수정한다.

@@ -1,17 +1,9 @@
-export interface SanityImageType {
-  _type: "image";
-  _key: string;
-  asset: {
-    _ref: string;
-    _type: "reference";
-  };
-}
-
 export type PlatformStatus = "ready" | "not-ready" | "in-progress" | "deprecated" | "not-planned";
 
 export interface ComponentData {
   id: string;
   name: string;
+  url?: string;
   deprecated?: boolean;
   deprecatedMessage?: string;
   iosStatus: PlatformStatus;
@@ -23,6 +15,9 @@ export interface ComponentData {
   reactStatus: PlatformStatus;
   reactUrl?: string;
   reactNote?: string;
+  lynxStatus: PlatformStatus;
+  lynxUrl?: string;
+  lynxNote?: string;
   figmaStatus: PlatformStatus;
   figmaUrl?: string;
   figmaNote?: string;

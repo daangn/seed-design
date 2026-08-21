@@ -1,0 +1,265 @@
+import clsx from "clsx";
+
+import "../styles/css-selector-test.css";
+
+/**
+ * CSS Selector 지원 검증 페이지
+ *
+ * enableCSSSelector: true 환경에서 Lynx 엔진이
+ * 어떤 CSS selector를 실제로 지원하는지 시각적으로 검증합니다.
+ *
+ * 초록색 배경 = 해당 selector가 동작함
+ * 빨간색 배경 = 해당 selector가 동작하지 않음 (fallback)
+ * 파란색 배경 = 인터랙션 테스트 대기 상태
+ */
+
+function SectionTitle({ children }: { children: string }) {
+  return <text className="t5-bold mt-x5 mb-x2 text-fg-neutral">{children}</text>;
+}
+
+function TestCase({
+  id,
+  label,
+  expected,
+  children,
+}: {
+  id: string;
+  label: string;
+  expected: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <view className="mb-x2 border border-stroke-neutral-muted rounded-r2 overflow-hidden">
+      <view className="py-x2 px-x3 bg-bg-neutral-weak">
+        <text className="t3-bold text-fg-neutral">
+          {id}. {label}
+        </text>
+        <text className="t1-regular text-fg-neutral-subtle mt-x0_5">기대: {expected}</text>
+      </view>
+      <view className="py-x2 px-x3">{children}</view>
+    </view>
+  );
+}
+
+function ResultBox({
+  children,
+  className,
+  ...rest
+}: { children?: React.ReactNode; className?: string } & Record<string, unknown>) {
+  return (
+    <view
+      className={clsx(
+        "py-x2_5 px-x3 rounded-r1_5 min-h-[var(--seed-dimension-x10)] flex justify-center items-center",
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </view>
+  );
+}
+
+function ResultText({ children }: { children: string }) {
+  return <text className="t3-bold text-fg-neutral-inverted">{children}</text>;
+}
+
+export function CSSSelectorTestPage() {
+  return (
+    <scroll-view scroll-y className="flex flex-col gap-x1 flex-1">
+      <text className="t7-bold text-fg-neutral">CSS Selector Test</text>
+      <text className="t3-regular text-fg-neutral-subtle mb-x2">
+        enableCSSSelector: true 환경에서 CSS selector 지원 검증
+      </text>
+
+      {/* ── 1. Data-attribute selectors ── */}
+      <SectionTitle>1. Data-attribute Selectors</SectionTitle>
+
+      <TestCase id="1-1" label="[data-active] 존재 여부" expected="초록색 = 지원">
+        <ResultBox data-sel-test="1-1" data-active>
+          <ResultText>[data-active] 존재 → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="1-2" label='[data-variant="primary"] 값 매칭' expected="초록색 = 지원">
+        <ResultBox data-sel-test="1-2" data-variant="primary">
+          <ResultText>[data-variant=primary] → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="1-3" label="[data-size] 다른 값 분기" expected="파란=small, 주황=large">
+        <view className="flex flex-row gap-x2">
+          <ResultBox data-sel-test="1-3a" data-size="small" className="flex-1">
+            <ResultText>small → 파란</ResultText>
+          </ResultBox>
+          <ResultBox data-sel-test="1-3b" data-size="large" className="flex-1">
+            <ResultText>large → 주황</ResultText>
+          </ResultBox>
+        </view>
+      </TestCase>
+
+      {/* ── 2. Attribute 연산자 ── */}
+      <SectionTitle>2. Attribute Selector 연산자</SectionTitle>
+
+      <TestCase id="2-1" label='[data-text*="partial"] contains' expected="초록색 = 지원">
+        <ResultBox data-sel-test="2-1" data-text="this-has-partial-in-it">
+          <ResultText>*= contains → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="2-2" label='[data-text^="hello"] starts with' expected="초록색 = 지원">
+        <ResultBox data-sel-test="2-2" data-text="hello-world">
+          <ResultText>^= starts with → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="2-3" label='[data-text$="world"] ends with' expected="초록색 = 지원">
+        <ResultBox data-sel-test="2-3" data-text="hello-world">
+          <ResultText>$= ends with → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      {/* ── 3. Pseudo-classes (지원 예상) ── */}
+      <SectionTitle>3. Pseudo-classes (지원 예상)</SectionTitle>
+
+      <TestCase id="3-1" label=":active (터치 시)" expected="터치하면 파란→초록">
+        <ResultBox data-sel-test="3-1">
+          <ResultText>터치하면 파란→초록으로 변경</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="3-2" label=":not([data-excluded]) - excluded 없음" expected="초록색 = 지원">
+        <ResultBox data-sel-test="3-2">
+          <ResultText>:not() 매칭 → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase
+        id="3-3"
+        label=":not([data-excluded]) - excluded 있음"
+        expected="빨간색 = :not() 정확"
+      >
+        <ResultBox data-sel-test="3-3" data-excluded>
+          <ResultText>excluded → 빨간이면 :not() 정확</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      {/* ── 4. Pseudo-classes (미지원 예상) ── */}
+      <SectionTitle>4. Pseudo-classes (미지원 예상)</SectionTitle>
+
+      <TestCase
+        id="4-1"
+        label=":disabled"
+        expected="빨간색 유지 = 미지원 확인 (PseudoState 미정의)"
+      >
+        <ResultBox data-sel-test="4-1">
+          <ResultText>빨간 유지 = :disabled 미지원 확인</ResultText>
+        </ResultBox>
+        <text className="t1-regular text-fg-neutral-subtle mt-x1">
+          참고: CSS에 view[data-sel-test=4-1]:disabled 룰이 없어 기본 빨간색. Lynx 엔진에 :disabled
+          PseudoState가 없으므로 설령 CSS에 있어도 적용 안 됨
+        </text>
+      </TestCase>
+
+      <TestCase id="4-2" label=":checked, :is() 등" expected="recipe source에서는 사용하지 않음">
+        <view className="p-x2 bg-bg-neutral-weak rounded-r1_5">
+          <text className="t2-regular text-fg-neutral-subtle">
+            :checked → Lynx recipe에서는 boolean variant/className으로 모델링{"\n"}
+            :is() → Lynx preset source에서는 사용하지 않음{"\n"}→ 필요한 경우 qvism core가 아니라
+            preset source에서 명시적으로 작성
+          </text>
+        </view>
+      </TestCase>
+
+      {/* ── 5. Combinators ── */}
+      <SectionTitle>5. Combinators</SectionTitle>
+
+      <TestCase id="5-1" label="> 자식 선택자" expected="초록색 = 지원">
+        <view data-sel-test="5-1">
+          <ResultBox>
+            <ResultText>직접 자식 → 초록이면 OK</ResultText>
+          </ResultBox>
+        </view>
+      </TestCase>
+
+      <TestCase id="5-2" label="(공백) 자손 선택자" expected="초록색 텍스트 = 지원">
+        <view data-sel-test="5-2">
+          <view>
+            <text className="t3-bold text-fg-neutral">자손 텍스트 → 초록이면 OK</text>
+          </view>
+        </view>
+      </TestCase>
+
+      <TestCase id="5-3" label="+ 인접 형제 선택자" expected="두 번째 박스 초록 = 지원">
+        <view className="flex flex-row gap-x2">
+          <view
+            data-sel-test="5-3-trigger"
+            className="flex-1 p-x2_5 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
+          >
+            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
+          </view>
+          <ResultBox data-sel-test="5-3-target" className="flex-1">
+            <ResultText>+ 인접 → 초록이면 OK</ResultText>
+          </ResultBox>
+        </view>
+      </TestCase>
+
+      <TestCase id="5-4" label="~ 일반 형제 선택자" expected="세 번째 박스 초록 = 지원">
+        <view className="flex flex-col gap-x1">
+          <view
+            data-sel-test="5-4-trigger"
+            className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
+          >
+            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
+          </view>
+          <view className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center">
+            <text className="t3-bold text-fg-neutral-inverted">중간 형제</text>
+          </view>
+          <ResultBox data-sel-test="5-4-target">
+            <ResultText>~ 일반형제 → 초록이면 OK</ResultText>
+          </ResultBox>
+        </view>
+      </TestCase>
+
+      {/* ── 6. 복합 선택자 ── */}
+      <SectionTitle>6. Compound Selectors</SectionTitle>
+
+      <TestCase id="6-1" label='[data-compound][data-state="active"] 복합' expected="초록색 = 지원">
+        <ResultBox data-compound="true" data-state="active">
+          <ResultText>[data-compound][data-state] → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      <TestCase id="6-2" label="다중 data-attr [data-a][data-b]" expected="초록색 = 지원">
+        <ResultBox data-sel-test="6-2" data-a="1" data-b="2">
+          <ResultText>다중 [data-a][data-b] → 초록이면 OK</ResultText>
+        </ResultBox>
+      </TestCase>
+
+      {/* ── 7. :root 변수 ── */}
+      <SectionTitle>7. :root (page) 선택자</SectionTitle>
+
+      <TestCase id="7-1" label=":root에서 정의한 CSS 변수" expected="초록색 텍스트 = 지원">
+        <text
+          className="t4-bold"
+          style={{
+            color: "var(--css-sel-test-root-color)",
+          }}
+        >
+          이 텍스트가 초록이면 :root CSS 변수 동작
+        </text>
+      </TestCase>
+
+      {/* ── 요약 ── */}
+      <SectionTitle>검증 요약</SectionTitle>
+      <view className="p-x3 bg-bg-neutral-weak rounded-r2 mb-x10">
+        <text className="t2-regular text-fg-neutral-subtle">
+          {"[data-*] selector가 직접 동작하면:\n"}
+          {"→ Lynx source에서 class/data selector를 직접 선택 가능\n"}
+          {"→ qvism core 후처리 없이 preset source에서 구조를 명시\n\n"}
+          {":is() / unsupported pseudo가 필요하면:\n"}
+          {"→ CSS 후처리보다 recipe variant/className으로 모델링"}
+        </text>
+      </view>
+    </scroll-view>
+  );
+}

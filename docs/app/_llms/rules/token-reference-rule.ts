@@ -1,11 +1,21 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
   MdxJsxFlowElement,
 } from "mdast-util-mdx-jsx";
+import { match, P } from "ts-pattern";
 import type { Exchange } from "@seed-design/rootage-core";
+import color from "@seed-design/rootage-artifacts/color";
+import dimension from "@seed-design/rootage-artifacts/dimension";
+import duration from "@seed-design/rootage-artifacts/duration";
+import fontSize from "@seed-design/rootage-artifacts/font-size";
+import fontWeight from "@seed-design/rootage-artifacts/font-weight";
+import gradient from "@seed-design/rootage-artifacts/gradient";
+import lineHeight from "@seed-design/rootage-artifacts/line-height";
+import radius from "@seed-design/rootage-artifacts/radius";
+import scale from "@seed-design/rootage-artifacts/scale";
+import shadow from "@seed-design/rootage-artifacts/shadow";
+import timingFunction from "@seed-design/rootage-artifacts/timing-function";
 import type { Rule } from "./types";
 import { markdownRow } from "./markdown-utils";
 import {
@@ -13,17 +23,46 @@ import {
   type ExpressionStatementNode,
   type LiteralNode,
   isProgramNode,
+  isRegexLiteral,
   isStringLiteral,
 } from "./estree-utils";
 
 /*
+  fumadocs processed text에서 HTML entity로 escape된 문자열을 디코딩합니다.
+  예: `[&#x22;color&#x22;, &#x22;palette&#x22;]` → `["color", "palette"]`
+*/
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&#x22;/g, '"')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+/*
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
 */
 function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
   const attr = node.attributes.find(
     (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "groups",
   );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return [];
+  if (!attr) return [];
+
+  // fumadocs processed text: groups="[&#x22;color&#x22;, &#x22;palette&#x22;]"
+  if (typeof attr.value === "string") {
+    try {
+      const decoded = decodeHtmlEntities(attr.value);
+      const parsed: unknown = JSON.parse(decoded);
+      if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === "string");
+    } catch {
+      // JSON 파싱 실패 시 빈 배열 반환
+    }
+    return [];
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return [];
 
   const attrValue = attr.value as MdxJsxAttributeValueExpression;
   const estree = attrValue.data?.estree;
@@ -40,46 +79,97 @@ function getGroupsFromNode(node: MdxJsxFlowElement): string[] {
     .map((el) => el.value);
 }
 
-interface RootageIndex {
-  resources: { path: string }[];
+/*
+  <TokenReference regex={/\$color\..*-pressed$/} /> 에서 regex를 파싱합니다.
+  fumadocs processed text에서 속성이 HTML-escaped string으로 변환된 경우도 처리합니다.
+*/
+function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
+  const attr = node.attributes.find(
+    (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "regex",
+  );
+  if (!attr) return null;
+
+  // fumadocs processed text: regex="/\$color\..*-pressed$/"
+  if (typeof attr.value === "string") {
+    const decoded = decodeHtmlEntities(attr.value);
+    const match = decoded.match(/^\/(.+)\/([dgimsuvy]*)$/);
+    if (match) {
+      try {
+        return new RegExp(match[1], match[2]);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  if (typeof attr.value !== "object" || !attr.value) return null;
+
+  const attrValue = attr.value as MdxJsxAttributeValueExpression;
+  const estree = attrValue.data?.estree;
+  if (!isProgramNode(estree)) return null;
+
+  const stmt = estree.body[0];
+  if (!stmt || stmt.type !== "ExpressionStatement") return null;
+
+  const expr = (stmt as ExpressionStatementNode).expression;
+  if (!isRegexLiteral(expr)) return null;
+
+  return new RegExp(expr.regex.pattern, expr.regex.flags);
 }
 
 /*
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
-function formatTokenValue(entry: Exchange.Value): string {
-  switch (entry.type) {
-    case "color":
-      return entry.value; // ColorLit | TokenRef - 모두 string
-    case "dimension": {
-      if (typeof entry.value === "string") return entry.value;
-      const { value, unit } = entry.value;
-      if (unit === "rem") return `${value}rem (${Math.round(value * 16)}px)`;
-      return `${value}${unit}`;
-    }
-    case "duration": {
-      if (typeof entry.value === "string") return entry.value;
-      return `${entry.value.value}${entry.value.unit}`;
-    }
-    case "number":
-      return String(entry.value);
-    case "cubicBezier": {
-      if (typeof entry.value === "string") return entry.value;
-      return `cubic-bezier(${entry.value.join(", ")})`;
-    }
-    case "shadow":
-    case "gradient":
-      if (typeof entry.value === "string") return entry.value;
-      return JSON.stringify(entry.value);
-  }
+export type ArtifactValue =
+  | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
+  | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
+  | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
+
+export type ArtifactTokensModel = {
+  kind: "Tokens";
+  metadata: Exchange.TokensModel["metadata"];
+  data: {
+    collection: string;
+    tokens: Record<
+      Exchange.TokenRef,
+      { values: Record<string, ArtifactValue>; description?: string }
+    >;
+  };
+};
+
+export function formatTokenValue(entry: ArtifactValue): string {
+  return (
+    match(entry)
+      .with({ type: "number" }, ({ value }) => String(value))
+      .with(
+        { type: "dimension", value: { unit: "rem" } },
+        ({ value }) => `${value.value}rem (${Math.round(value.value * 16)}px)`,
+      )
+      .with({ type: "dimension", value: { unit: "px" } }, ({ value }) => `${value.value}px`)
+      .with(
+        { type: "duration", value: { unit: P.union("ms", "s") } },
+        ({ value }) => `${value.value}${value.unit}`,
+      )
+      .with(
+        { type: "cubicBezier", value: P.array(P.number) },
+        ({ value }) => `cubic-bezier(${value.join(", ")})`,
+      )
+      .with({ type: P.union("shadow", "gradient"), value: P.array() }, ({ value }) =>
+        JSON.stringify(value),
+      )
+      // 남은 건 전부 문자열 그대로 출력한다 — TokenRef, ColorLit, enum 값.
+      .with({ value: P.string }, ({ value }) => value)
+      .exhaustive()
+  );
 }
 
 /*
   rootage 토큰 데이터에서 마크다운 테이블을 생성합니다.
   groups가 ["radius"]이면 "$radius." 로 시작하는 토큰만 포함합니다.
 */
-function generateMarkdownTable(
-  tokens: Exchange.TokensModel["data"]["tokens"],
+export function generateMarkdownTable(
+  tokens: ArtifactTokensModel["data"]["tokens"],
   groups: string[],
 ): string {
   const prefix = `$${groups.join(".")}.`;
@@ -105,66 +195,87 @@ function generateMarkdownTable(
 }
 
 /*
-  rootage 토큰 파일을 경로를 키로 캐싱합니다.
-  첫 번째 호출 시 readFileSync로 로드하고 이후에는 캐시를 재사용합니다.
+  룰이 참조할 토큰 아티팩트를 인자로 받습니다.
+  테스트는 합성 아티팩트로 룰을 만들어 실제 토큰 값에 묶이지 않게 합니다.
 */
-let tokenDataCache: Map<string, Exchange.TokensModel> | null = null;
+export function createTokenReferenceRule(
+  tokenData: readonly ArtifactTokensModel[],
+): Rule<MdxJsxFlowElement> {
+  return {
+    name: "TokenReference",
+    match: (node): node is MdxJsxFlowElement =>
+      node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
+    transform: (node) => {
+      const regex = getRegexFromNode(node);
+      const groups = getGroupsFromNode(node);
 
-function loadTokenData(): Map<string, Exchange.TokensModel> {
-  if (tokenDataCache) return tokenDataCache;
+      if (regex) {
+        const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
+        for (const data of tokenData) {
+          for (const [id, entry] of Object.entries(data.data.tokens)) {
+            regex.lastIndex = 0;
+            if (regex.test(id)) matched.push({ id, entry });
+          }
+        }
 
-  tokenDataCache = new Map();
-  const rootageDir = join(process.cwd(), "public/rootage");
+        if (matched.length === 0) return [node];
 
-  try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
-    const index = JSON.parse(indexContent) as RootageIndex;
+        const themeNames = Object.keys(matched[0].entry.values);
+        const headers = ["Token", ...themeNames];
+        const separator = headers.map(() => "---");
+        const rows = matched.map(({ id, entry }) => {
+          const values = themeNames.map((theme) => {
+            const val = entry.values[theme];
+            return val ? formatTokenValue(val) : "";
+          });
+          return [id, ...values];
+        });
 
-    for (const resource of index.resources) {
-      const { path } = resource;
-      if (path.startsWith("/components/") || path === "/collections.json") continue;
+        const tableMarkdown = [
+          markdownRow(headers),
+          markdownRow(separator),
+          ...rows.map(markdownRow),
+        ].join("\n");
 
-      try {
-        const filePath = join(rootageDir, path.slice(1));
-        const content = readFileSync(filePath, "utf-8");
-        tokenDataCache.set(path, JSON.parse(content) as Exchange.TokensModel);
-      } catch {
-        // 읽지 못한 파일은 건너뜀
+        return [{ type: "html", value: tableMarkdown }];
       }
-    }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
-  }
 
-  return tokenDataCache;
+      if (groups.length === 0) {
+        const sections: string[] = [];
+        for (const data of tokenData) {
+          const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
+          if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
+        }
+        const allTables = sections.join("\n\n");
+        if (!allTables) return [node];
+        return [{ type: "html", value: allTables }];
+      }
+
+      const data = tokenData.find(({ metadata }) => metadata.id === groups[0]);
+      if (!data) return [node];
+
+      const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
+      if (!tableMarkdown) return [node];
+
+      return [{ type: "html", value: tableMarkdown }];
+    },
+  };
 }
 
-export const tokenReferenceRule: Rule = {
-  name: "TokenReference",
-  match: (node): node is MdxJsxFlowElement =>
-    node.type === "mdxJsxFlowElement" && node.name === "TokenReference",
-  transform: (node) => {
-    const groups = getGroupsFromNode(node);
-    const tokenData = loadTokenData();
-
-    if (groups.length === 0) {
-      const sections: string[] = [];
-      for (const data of tokenData.values()) {
-        const table = generateMarkdownTable(data.data.tokens, [data.metadata.id]);
-        if (table) sections.push(`## ${data.metadata.name}\n\n${table}`);
-      }
-      const allTables = sections.join("\n\n");
-      if (!allTables) throw new Error("No token tables generated");
-      return [{ type: "html", value: allTables }];
-    }
-
-    const tokenPath = `/${groups[0]}.json`;
-    const data = tokenData.get(tokenPath);
-    if (!data) throw new Error(`Token file not found: ${tokenPath}`);
-
-    const tableMarkdown = generateMarkdownTable(data.data.tokens, groups);
-    if (!tableMarkdown) throw new Error(`No table generated for groups: ${groups.join(".")}`);
-
-    return [{ type: "html", value: tableMarkdown }];
-  },
-};
+/*
+  TokenReference에서 사용하는 모든 rootage 토큰 데이터를 정적으로 포함합니다.
+  Turbopack이 런타임 파일 탐색 없이 의존성을 추적할 수 있습니다.
+*/
+export const tokenReferenceRule = createTokenReferenceRule([
+  color,
+  dimension,
+  duration,
+  fontSize,
+  fontWeight,
+  gradient,
+  lineHeight,
+  radius,
+  scale,
+  shadow,
+  timingFunction,
+]);

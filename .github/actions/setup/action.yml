@@ -1,5 +1,5 @@
 name: 'Setup Seed Design'
-description: 'Setup Bun, install dependencies, and optionally build packages'
+description: 'Setup Bun, install dependencies, build ecosystem tools, and optionally build packages'
 
 inputs:
   build-packages:
@@ -11,13 +11,18 @@ inputs:
     required: false
     default: 'false'
 
+outputs:
+  build-cache-key-suffix:
+    description: 'OS-independent suffix used for the build output cache key'
+    value: ${{ steps.build-cache-key.outputs.suffix }}
+
 runs:
   using: 'composite'
   steps:
     - name: Setup Bun
       uses: oven-sh/setup-bun@v2
       with:
-        bun-version: "1.3.10"
+        bun-version: "1.3.13"
 
     - name: Cache Bun dependencies
       uses: actions/cache@v5
@@ -27,9 +32,13 @@ runs:
         restore-keys: |
           ${{ runner.os }}-bun-
 
-    - name: Install Dependencies
+    - name: Generate build cache key
+      id: build-cache-key
+      if: ${{ inputs.build-packages == 'true' }}
       shell: bash
-      run: bun install --frozen-lockfile
+      env:
+        BUILD_CACHE_KEY_SUFFIX: rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'package.json', 'bunfig.toml', 'tsconfig*.json', 'bun.lock', 'bun.lockb', '.ultraignore', '!packages/**/dist/**', '!packages/**/build/**', '!packages/**/lib/**', '!ecosystem/**/dist/**', '!ecosystem/**/build/**', '!ecosystem/**/lib/**') }}
+      run: echo "suffix=$BUILD_CACHE_KEY_SUFFIX" >> "$GITHUB_OUTPUT"
 
     - name: Cache build outputs
       if: ${{ inputs.build-packages == 'true' }}
@@ -40,12 +49,26 @@ runs:
           packages/**/dist
           packages/**/build
           packages/**/lib
+          packages/**/.ultra.cache.json
           ecosystem/**/dist
           ecosystem/**/build
           ecosystem/**/lib
-        key: ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-${{ hashFiles('packages/**', 'ecosystem/**', 'bun.lock', 'bun.lockb') }}
+          ecosystem/**/.ultra.cache.json
+        key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
         restore-keys: |
           ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
+
+    - name: Install Dependencies
+      if: ${{ inputs.build-packages != 'true' || steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: bun install --frozen-lockfile
+
+    - name: Build Ecosystem Tools and Relink Workspace
+      if: ${{ inputs.build-packages != 'true' || steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: |
+        bun ecosystem:build
+        bun install --frozen-lockfile
 
     - name: Relink workspace after cache restore
       if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit == 'true' }}
@@ -53,17 +76,20 @@ runs:
       run: |
         echo "✓ Cache hit - relinking workspace packages..."
         PACKAGE_ARTIFACT_DIR="packages/react/lib"
+        LYNX_REACT_JS="packages/lynx-react/lib/index.js"
+        LYNX_REACT_TYPES="packages/lynx-react/lib/index.d.ts"
         ROOTAGE_ARTIFACT_FILE="ecosystem/rootage/core/lib/index.js"
 
         echo "Checking restored build artifacts..."
         ls -la "$PACKAGE_ARTIFACT_DIR" || echo "packages/react/lib not found"
+        ls -la "$LYNX_REACT_JS" "$LYNX_REACT_TYPES" || echo "packages/lynx-react public artifacts not found"
         ls -la "$ROOTAGE_ARTIFACT_FILE" || echo "$ROOTAGE_ARTIFACT_FILE not found"
 
-        if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+        if [ ! -d "$PACKAGE_ARTIFACT_DIR" ] || [ ! -f "$LYNX_REACT_JS" ] || [ ! -f "$LYNX_REACT_TYPES" ]; then
           echo "Package build artifacts are missing. Rebuilding packages..."
           bun packages:build
 
-          if [ ! -d "$PACKAGE_ARTIFACT_DIR" ]; then
+          if [ ! -d "$PACKAGE_ARTIFACT_DIR" ] || [ ! -f "$LYNX_REACT_JS" ] || [ ! -f "$LYNX_REACT_TYPES" ]; then
             echo "Package artifacts are still missing after recovery build."
             exit 1
           fi
@@ -75,6 +101,11 @@ runs:
         fi
 
         bun install --frozen-lockfile
+
+        if [ ! -f "$LYNX_REACT_JS" ] || [ ! -f "$LYNX_REACT_TYPES" ]; then
+          echo "Lynx React artifacts are missing after recovery build."
+          exit 1
+        fi
 
         if [ "${{ inputs.build-rootage }}" == "true" ] && [ ! -f "$ROOTAGE_ARTIFACT_FILE" ]; then
           echo "Rootage artifact is still missing after recovery build."
@@ -96,4 +127,9 @@ runs:
         else
           echo "Building packages only..."
           bun packages:build
+        fi
+
+        if [ ! -f packages/lynx-react/lib/index.js ] || [ ! -f packages/lynx-react/lib/index.d.ts ]; then
+          echo "Lynx React artifacts are missing after package build."
+          exit 1
         fi

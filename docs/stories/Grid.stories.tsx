@@ -1,0 +1,91 @@
+import preview from "../.storybook/preview";
+
+import { Grid, GridItem } from "@seed-design/react";
+import { VariantTable } from "./components/variant-table";
+import { SeedThemeDecorator } from "./components/decorator";
+import { VIEWPORT_MODES } from "./utils/parameters";
+
+const meta = preview.meta({
+  component: Grid,
+  decorators: [SeedThemeDecorator],
+});
+
+const Swatch = ({ label }: { label?: string }) => (
+  <div
+    style={{
+      minWidth: 48,
+      minHeight: 48,
+      background: "skyblue",
+      borderRadius: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "blue",
+      fontSize: 12,
+    }}
+  >
+    {label}
+  </div>
+);
+
+const children = (
+  <>
+    <Swatch label="1" />
+    <Swatch label="2" />
+    <Swatch label="3" />
+    <Swatch label="4" />
+    <Swatch label="5" />
+    <Swatch label="6" />
+  </>
+);
+
+const conditionMap = {
+  condition: {
+    bare: {},
+    // not tested here: alignItems, justifyItems, autoFlow
+    "columns number": { columns: 3 },
+    "columns string": { columns: "1fr 2fr" },
+    "rows number": { rows: 2 },
+    "rows string": { rows: "100px auto" },
+    gap: { columns: 3, gap: "x4" },
+    autoRows: { columns: 3, autoRows: "80px" },
+    autoColumns: { autoFlow: "column", autoColumns: "120px" },
+    "display none": { display: "none" },
+    "responsive columns": { columns: { base: 1, md: 3 } },
+    "responsive gap": { columns: 3, gap: { base: "x2", md: "x6" } },
+  },
+};
+
+export const LightTheme = meta.story({
+  args: { children },
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
+  ),
+  parameters: {
+    chromatic: { modes: VIEWPORT_MODES },
+  },
+});
+
+/** GridItem: colSpan, rowSpan, colStart/colEnd */
+export const GridItemSpan = meta.story({
+  render: () => (
+    <Grid columns={3} gap="8px" width="400px">
+      <GridItem colSpan={2}>
+        <Swatch label="col×2" />
+      </GridItem>
+      <Swatch label="1" />
+      <GridItem colSpan="full">
+        <Swatch label="full" />
+      </GridItem>
+      <GridItem colStart={2} colEnd={4}>
+        <Swatch label="2→4" />
+      </GridItem>
+      <GridItem rowSpan={2}>
+        <Swatch label="row×2" />
+      </GridItem>
+      <Swatch label="1" />
+      <Swatch label="1" />
+      <Swatch label="1" />
+    </Grid>
+  ),
+});

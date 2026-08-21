@@ -1,6 +1,6 @@
 ## 디렉토리 개요
 
-`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화하고, 기술 상세는 이 폴더의 `TECH.md`를 우선 참고한다.
+`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat/docs` 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화하고, 기술 상세는 이 폴더의 `TECH.md`를 우선 참고한다.
 
 ## 파일 작성 컨벤션
 
@@ -9,6 +9,8 @@
 - CLI 옵션/동작 변경 시 아래 문서를 함께 갱신한다.
   - `docs/content/react/getting-started/cli/commands.mdx`
   - `docs/content/react/getting-started/cli/configuration.mdx`
+  - `.agents/skills/seed-design-cli/SKILL.md`
+  - `.agents/skills/seed-design-cli/references/usage.md`
 - 배포 가능한 변경은 `.changeset/*.md`를 함께 추가한다.
 
 ## 코드 작성 컨벤션

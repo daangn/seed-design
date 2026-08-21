@@ -1,7 +1,13 @@
 import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { active, not, open, pseudo } from "../utils/pseudo";
+import { engaged, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 
 const menuSheet = defineSlotRecipe({
   name: "menu-sheet",
@@ -23,10 +29,7 @@ const menuSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -34,15 +37,15 @@ const menuSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
     },
     content: {
       position: "relative",
+      // The role="dialog" container receives focus on open (a programmatic focus
+      // target, not interactive), so it must never render a focus ring.
+      outline: "none",
       display: "flex",
       flex: 1,
       flexDirection: "column",
@@ -51,12 +54,40 @@ const menuSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
-      paddingLeft: vars.base.enabled.content.paddingX,
-      paddingRight: vars.base.enabled.content.paddingX,
-      paddingTop: vars.base.enabled.content.paddingY,
-      paddingBottom: `calc(${vars.base.enabled.content.paddingY} + var(--seed-safe-area-bottom))`,
+      paddingInline: vars.base.enabled.content.paddingX,
+
+      // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
+      // but currently React menu sheet doesn't have a handle in the header
+      paddingTop: `var(--menu-sheet-header-padding-top, ${tokens.$dimension.x4})`,
+
+      paddingBottom: `calc(${vars.base.enabled.content.paddingBottom} + var(--seed-safe-area-bottom))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      "&[data-drawer]": {
+        // Performance and interaction
+        touchAction: "none",
+        willChange: "transform",
+
+        // When wrapped by Drawer (SwipeableMenuSheet), expose header padding-top
+        // so the Handle has room above the header.
+        "--menu-sheet-header-padding-top": vars.base.enabled.content.paddingTop,
+
+        // Expand Content Background
+        "&::after": {
+          top: "100%",
+          height: "200vh",
+          content: '""',
+          position: "absolute",
+          insetInline: 0,
+          background: "inherit",
+          zIndex: -1,
+        },
+      },
     },
     header: {
       display: "flex",
@@ -114,24 +145,26 @@ const menuSheet = defineSlotRecipe({
 
       backgroundColor: closeVars.base.enabled.root.color,
       minHeight: closeVars.base.enabled.root.minHeight,
-      paddingLeft: closeVars.base.enabled.root.paddingX,
-      paddingRight: closeVars.base.enabled.root.paddingX,
-      paddingTop: closeVars.base.enabled.root.paddingY,
-      paddingBottom: closeVars.base.enabled.root.paddingY,
+      paddingInline: closeVars.base.enabled.root.paddingX,
+      paddingBlock: closeVars.base.enabled.root.paddingY,
       borderRadius: closeVars.base.enabled.root.cornerRadius,
 
       border: "none",
       fontFamily: "inherit",
-      outline: "none",
 
       color: closeVars.base.enabled.label.color,
       fontSize: closeVars.base.enabled.label.fontSize,
       lineHeight: closeVars.base.enabled.label.lineHeight,
       fontWeight: closeVars.base.enabled.label.fontWeight,
 
-      [pseudo(active)]: {
+      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(engaged)]: {
         backgroundColor: closeVars.base.pressed.root.color,
       },
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   variants: {

@@ -154,7 +154,7 @@ export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
 export const createAppBarPresetHandler = (ctx: ComponentHandlerDeps) => {
   const appBarHandler = createAppBarHandler(ctx);
 
-  return defineComponentHandler(metadata.templateTopNavigationPreset.key, (node, traverse) => {
+  return defineComponentHandler(metadata.componentTopNavigationPreset.key, (node, traverse) => {
     const [appBarNode] = findAllInstances<AppBarProperties>({
       node,
       key: metadata.componentTopNavigation.key,

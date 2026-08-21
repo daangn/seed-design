@@ -1,0 +1,22 @@
+{
+  "id": "lib",
+  "hideFromCLICatalog": true,
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "format-bytes.ts"
+        }
+      ],
+      "id": "format-bytes"
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-level.ts"
+        }
+      ],
+      "id": "manner-temp-level"
+    }
+  ]
+}

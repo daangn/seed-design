@@ -3,7 +3,9 @@ export declare const vars: {
     "enabled": {
       "root": {
         "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "scaleDuration": "var(--seed-duration-pressed-scale)",
+        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
@@ -442,6 +444,11 @@ export declare const vars: {
         "size": "14px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s95)"
+      }
     }
   },
   /**
@@ -498,6 +505,11 @@ export declare const vars: {
       "progressCircle": {
         "size": "14px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
       }
     }
   },
@@ -556,6 +568,11 @@ export declare const vars: {
         "size": "16px",
         "thickness": "2px"
       }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s97)"
+      }
     }
   },
   /**
@@ -612,6 +629,11 @@ export declare const vars: {
       "progressCircle": {
         "size": "18px",
         "thickness": "2px"
+      }
+    },
+    "pressed": {
+      "root": {
+        "scale": "var(--seed-scale-s98)"
       }
     }
   },

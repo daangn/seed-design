@@ -4,7 +4,6 @@ import {
   Authoring,
   buildContext,
   css,
-  runGenerator,
   exchange,
   getComponentSpecDeclarations,
   getSourceFiles,
@@ -16,6 +15,7 @@ import {
   tailwind4,
   validate,
 } from "@seed-design/rootage-core";
+import { runGenerator } from "@seed-design/rootage-core/generator";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -46,7 +46,15 @@ function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
-function writeFileSync({ filename, writePath, code }) {
+function writeFileSync({
+  filename,
+  writePath,
+  code,
+}: {
+  filename: string;
+  writePath: string;
+  code: string;
+}) {
   console.log("Writing", filename, "to", writePath);
 
   if (!fs.existsSync(path.dirname(writePath))) {
@@ -215,35 +223,49 @@ async function writeJsonSchema() {
   });
 }
 
-async function writeJson() {
+// The `.mjs` re-exports its sibling `.json` and the `.d.ts` describes it, so all three
+// are written together: split across commands, one could be generated without the others.
+function writeExchange(withoutExt: string, value: unknown) {
+  const jsonName = `${withoutExt}.json`;
+
+  writeFileSync({
+    filename: jsonName,
+    code: JSON.stringify(value, null, 2),
+    writePath: path.join(process.cwd(), dir, jsonName),
+  });
+
+  const dtsName = `${withoutExt}.d.ts`;
+
+  writeFileSync({
+    filename: dtsName,
+    code: typescript.getExchangeDts(value),
+    writePath: path.join(process.cwd(), dir, dtsName),
+  });
+
+  const mjsName = `${withoutExt}.mjs`;
+
+  writeFileSync({
+    filename: mjsName,
+    code: typescript.getExchangeMjs(`${path.basename(withoutExt)}.json`),
+    writePath: path.join(process.cwd(), dir, mjsName),
+  });
+}
+
+async function writeJsonTs() {
   const { ctx, models } = await prepare();
 
   for (const { fileName, ast } of getSourceFiles(ctx)) {
-    const content = exchange.getModel(ast);
-    const code = JSON.stringify(content, null, 2);
     const relativePath = path.relative(artifactsDir, fileName);
     const withoutExt = relativePath.replace(path.extname(relativePath), "");
-    const writePath = path.join(process.cwd(), dir, `${withoutExt}.json`);
 
-    writeFileSync({
-      filename: `${withoutExt}.json`,
-      code,
-      writePath: writePath,
-    });
+    writeExchange(withoutExt, exchange.getModel(ast));
   }
 
-  // Generate and write index.json
   const artifactsPkg = JSON.parse(
     fs.readFileSync(path.join(artifactsDir, "package.json"), "utf-8"),
   );
-  const indexContent = exchange.getIndex(models, { version: artifactsPkg.version });
-  const indexPath = path.join(process.cwd(), dir, "index.json");
 
-  writeFileSync({
-    filename: "index.json",
-    code: JSON.stringify(indexContent, null, 2),
-    writePath: indexPath,
-  });
+  writeExchange("index", exchange.getIndex(models, { version: artifactsPkg.version }));
 }
 
 async function writeFile(filePath: string, content: string) {
@@ -387,8 +409,8 @@ yargs(process.argv.slice(2))
     },
   )
   .command(
-    "json <dir>",
-    "Generate JSON",
+    "json-ts <dir>",
+    "Generate JSON artifacts with their typed declarations",
     (yargs) => {
       return yargs.positional("dir", {
         describe: "Output directory",
@@ -398,7 +420,7 @@ yargs(process.argv.slice(2))
     },
     async () => {
       console.log("Start");
-      await writeJson();
+      await writeJsonTs();
       console.log("Done");
     },
   )
@@ -444,6 +466,87 @@ yargs(process.argv.slice(2))
       console.log("Start");
       await writeTailwind4(argv.prefix);
       console.log("Done");
+    },
+  )
+  .command(
+    "validate",
+    "Validate YAML files and auto-fix unused schema properties",
+    () => {},
+    async () => {
+      const filePaths = readYAMLFilesSync(artifactsDir);
+      const fileContents = await Promise.all(filePaths.map((name) => fs.readFile(name, "utf-8")));
+      const models = fileContents.map((content) => YAML.parse(content) as Authoring.Model);
+
+      // Auto-fix: remove unused schema properties from ComponentSpec models
+      let fixed = false;
+      for (let i = 0; i < models.length; i++) {
+        const model = models[i];
+        if (model.kind !== "ComponentSpec") continue;
+        if (!model.data.schema?.slots) continue;
+
+        // Collect used properties from definitions
+        const usedProperties = new Map<string, Set<string>>();
+        for (const slotName of Object.keys(model.data.schema.slots)) {
+          usedProperties.set(slotName, new Set());
+        }
+
+        for (const variantExpr of Object.values(model.data.definitions)) {
+          for (const stateBody of Object.values(variantExpr)) {
+            for (const [slotName, slotBody] of Object.entries(stateBody)) {
+              if (!usedProperties.has(slotName)) continue;
+              for (const propName of Object.keys(slotBody)) {
+                usedProperties.get(slotName)!.add(propName);
+              }
+            }
+          }
+        }
+
+        // Remove unused properties from schema
+        let modelFixed = false;
+        for (const [slotName, slotSchema] of Object.entries(model.data.schema.slots)) {
+          const used = usedProperties.get(slotName) ?? new Set();
+          for (const propName of Object.keys(slotSchema.properties)) {
+            if (!used.has(propName)) {
+              console.log(
+                `Removing unused property "${propName}" from slot "${slotName}" in ${path.basename(filePaths[i])}`,
+              );
+              delete slotSchema.properties[propName];
+              modelFixed = true;
+            }
+          }
+        }
+
+        if (modelFixed) {
+          fs.writeFileSync(filePaths[i], YAML.stringify(model));
+          fixed = true;
+        }
+      }
+
+      if (fixed) {
+        console.log("Auto-fixed unused schema properties. Re-validating...");
+        const updatedContents = await Promise.all(
+          filePaths.map((name) => fs.readFile(name, "utf-8")),
+        );
+        const updatedModels = updatedContents.map(
+          (content) => YAML.parse(content) as Authoring.Model,
+        );
+        models.splice(0, models.length, ...updatedModels);
+      }
+
+      const ctx = buildContext(
+        models.map((model, i) => ({
+          fileName: filePaths[i],
+          ast: Authoring.fromObject(model),
+          kind: model.kind,
+        })),
+      );
+      const result = validate(ctx);
+      if (!result.valid) {
+        console.error(result.message);
+        process.exit(1);
+      }
+
+      console.log("Validation passed.");
     },
   )
   .help().argv;

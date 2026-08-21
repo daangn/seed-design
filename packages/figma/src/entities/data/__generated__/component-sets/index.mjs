@@ -1,42 +1,6 @@
-export const privateTemplateAttachmentField = {
-  "name": "privateTemplateAttachmentField",
-  "key": "5ba20e248e9cd0292fc285488b2ed3b3145d37b0",
-  "componentPropertyDefinitions": {
-    "Show Header#40606:8": {
-      "type": "BOOLEAN"
-    },
-    "Show Footer#40606:9": {
-      "type": "BOOLEAN"
-    },
-    "Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Media",
-        "File"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Error",
-        "Disabled",
-        "Read Only"
-      ]
-    },
-    "Has Value": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "False",
-        "True"
-      ]
-    }
-  }
-};
-
-export const privateTemplateChipGroupField = {
-  "name": "privateTemplateChipGroupField",
-  "key": "b6e9378d9ac76f812121d6aa7264cc38d2310e39",
+export const privateComponentChipGroupField = {
+  "name": "privateComponentChipGroupField",
+  "key": "3b202396b4eb4486b5f2181c97d6576ebae94250",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -56,9 +20,9 @@ export const privateTemplateChipGroupField = {
   }
 };
 
-export const privateTemplatePhoneNumberField = {
-  "name": "privateTemplatePhoneNumberField",
-  "key": "b9c5726a5d6d25938fcc2b84281a3a0f513c7495",
+export const privateComponentPhoneNumberField = {
+  "name": "privateComponentPhoneNumberField",
+  "key": "1aa9cf6ca847087540f16568c9ca86a07fafaf9b",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -86,9 +50,9 @@ export const privateTemplatePhoneNumberField = {
   }
 };
 
-export const privateTemplatePinField = {
-  "name": "privateTemplatePinField",
-  "key": "0abee679553f912b4cbe9839d048cc64494a3b51",
+export const privateComponentPinField = {
+  "name": "privateComponentPinField",
+  "key": "7e11c6342399819db16b85e947c6d1aae4e8a442",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -156,15 +120,42 @@ export const privateComponentBottomSheetHandle = {
   }
 };
 
-export const privateTemplateChipGroup = {
-  "name": "privateTemplateChipGroup",
-  "key": "a6819019971fb8f472a4c07f6952014393da1859",
+export const privateComponentChipGroup = {
+  "name": "privateComponentChipGroup",
+  "key": "3838d772ac3c7504d976b2f386ce521efe69d08f",
   "componentPropertyDefinitions": {
+    "Chip Group#12261:81": {
+      "type": "SLOT"
+    },
     "Layout": {
       "type": "VARIANT",
       "variantOptions": [
         "Overflow",
         "Scrollable"
+      ]
+    }
+  }
+};
+
+export const privateComponentContentPlaceholder = {
+  "name": "privateComponentContentPlaceholder",
+  "key": "49e110c31e4a7e6e9872d369f889dc48c0f5cef4",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Coupon",
+        "Realty",
+        "Car",
+        "Jobs",
+        "Buy-sell",
+        "Business",
+        "Post",
+        "Group",
+        "Image",
+        "Food",
+        "Commerce"
       ]
     }
   }
@@ -223,12 +214,47 @@ export const privateComponentFieldHeaderSuffix = {
   }
 };
 
+export const privateComponentIdentityPlaceholder = {
+  "name": "privateComponentIdentityPlaceholder",
+  "key": "7d7ae18cabac6ebad19934516de8e7e256854eba",
+  "componentPropertyDefinitions": {
+    "Identity": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Person",
+        "Business"
+      ]
+    }
+  }
+};
+
+export const privateComponentIdentityPlaceholderStatic = {
+  "name": "privateComponentIdentityPlaceholderStatic",
+  "key": "628e8010084e94e426edf97021ddaadff1c9e008",
+  "componentPropertyDefinitions": {
+    "Identity": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Person",
+        "Business"
+      ]
+    }
+  }
+};
+
 export const privateComponentInputButtonPrefix = {
   "name": "privateComponentInputButtonPrefix",
   "key": "c7d12be4056a8171f6857ec4ef15d81bd18d8cae",
   "componentPropertyDefinitions": {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type": {
       "type": "VARIANT",
@@ -249,6 +275,13 @@ export const privateComponentInputButtonSuffix = {
     },
     "Icon#37963:0": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -274,6 +307,13 @@ export const privateComponentInputButtonValue = {
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    },
     "Value": {
       "type": "VARIANT",
       "variantOptions": [
@@ -294,11 +334,15 @@ export const privateComponentInputButtonValueDisabled = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Value": {
       "type": "VARIANT",
@@ -320,20 +364,24 @@ export const privateComponentInputButtonValueReadOnly = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Value": {
       "type": "VARIANT",
       "variantOptions": [
-        "Custom (Figma Only)",
-        "Chips-Overflow (Figma Only)",
-        "Chips-Scrollable (Figma Only)",
+        "Empty",
         "Text",
-        "Empty"
+        "Chips-Scrollable (Figma Only)",
+        "Chips-Overflow (Figma Only)",
+        "Custom (Figma Only)"
       ]
     }
   }
@@ -361,6 +409,26 @@ export const privateComponentItemButtonType = {
       "variantOptions": [
         "True",
         "False"
+      ]
+    }
+  }
+};
+
+export const privateComponentItemMenuItem = {
+  "name": "privateComponentItemMenuItem",
+  "key": "f0587a7a1d313f5be38d87fe386ab1f7b89e7953",
+  "componentPropertyDefinitions": {
+    "Icon#52689:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#52689:4": {
+      "type": "TEXT"
+    },
+    "\bState": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
       ]
     }
   }
@@ -442,6 +510,119 @@ export const privateComponentItemTag = {
       "variantOptions": [
         "Regular",
         "Bold"
+      ]
+    }
+  }
+};
+
+export const privateComponentItemLiveActivityTagGroup = {
+  "name": "privateComponentItemLiveActivityTagGroup",
+  "key": "9322629a723642968dc8b89abf31f93eaaea96cb",
+  "componentPropertyDefinitions": {
+    "Tag 1 Text#7703:15": {
+      "type": "TEXT"
+    },
+    "Tag 2 Text#7703:18": {
+      "type": "TEXT"
+    },
+    "Tag Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuGroup = {
+  "name": "privateComponentMenuGroup",
+  "key": "09a4fa7ba8b01cb0912f1d95c4e5ee67563a9562",
+  "componentPropertyDefinitions": {
+    "Items#2013:7": {
+      "type": "SLOT"
+    },
+    "Has Header#2013:10": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuGroupLabel = {
+  "name": "privateComponentMenuGroupLabel",
+  "key": "07a04219faec33ebd988f9883b314a7c4f1dcafe",
+  "componentPropertyDefinitions": {
+    "Label#2125:0": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export const privateComponentMenuItem = {
+  "name": "privateComponentMenuItem",
+  "key": "adb610a300212eac49e2b86908ad9712e6c67e21",
+  "componentPropertyDefinitions": {
+    "Has Description#1995:9": {
+      "type": "BOOLEAN"
+    },
+    "Suffix Slot#1995:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Prefix Icon#1995:11": {
+      "type": "BOOLEAN"
+    },
+    "Title Sub Slot#1995:12": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Title#1995:13": {
+      "type": "TEXT"
+    },
+    "Description#1995:14": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#1995:15": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Title Sub Slot#1995:16": {
+      "type": "BOOLEAN"
+    },
+    "Has Suffix#2013:0": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "Critical"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
       ]
     }
   }
@@ -558,9 +739,9 @@ export const privateComponentRootTopNavigationIconButton = {
   }
 };
 
-export const privateTemplateRootTopNavigationPreset = {
-  "name": "privateTemplateRootTopNavigationPreset",
-  "key": "524bbc05ea9fb5910d36618720ea82d96d8f211f",
+export const privateComponentRootTopNavigationPreset = {
+  "name": "privateComponentRootTopNavigationPreset",
+  "key": "26e1de69cbbed91a577b0c962a92ebab2621bf5f",
   "componentPropertyDefinitions": {
     "Tab": {
       "type": "VARIANT",
@@ -612,6 +793,124 @@ export const privateComponentSelectBoxItemCheckmark = {
         "Enabled",
         "Pressed",
         "Selected",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export const privateTemplateShareSheetMenuGroup = {
+  "name": "privateTemplateShareSheetMenuGroup",
+  "key": "ab02952328ca4705ee94355b69675055c67fa1ef",
+  "componentPropertyDefinitions": {
+    "Action Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    }
+  }
+};
+
+export const privateTemplateShareSheetMenuItem = {
+  "name": "privateTemplateShareSheetMenuItem",
+  "key": "8f94361b6329f78eecb4656f0533080166b4b037",
+  "componentPropertyDefinitions": {
+    "Show Prefix Icon#17043:5": {
+      "type": "BOOLEAN"
+    },
+    "Sub Text#51411:0": {
+      "type": "TEXT"
+    },
+    "Show Item Description#51411:19": {
+      "type": "BOOLEAN"
+    },
+    "Label#55905:8": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#55948:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    }
+  }
+};
+
+export const privateComponentSidebarMenuItem = {
+  "name": "privateComponentSidebarMenuItem",
+  "key": "0c241e8cf55c66565835dc6d124ceedf32f96567",
+  "componentPropertyDefinitions": {
+    "Expanded#308:0": {
+      "type": "BOOLEAN"
+    },
+    "Collapsible Items Container#3329:0": {
+      "type": "SLOT"
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Default",
+        "Collapsible"
+      ]
+    }
+  }
+};
+
+export const privateComponentSidebarMenuItemPremitive = {
+  "name": "privateComponentSidebarMenuItemPremitive",
+  "key": "e291d4e534433a1115ad041adf28b4b9ac61b4d3",
+  "componentPropertyDefinitions": {
+    "Has Suffix Icon#5:0": {
+      "type": "BOOLEAN"
+    },
+    "Prefix Icon#5:5": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Icon#5:10": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Label#5:24": {
+      "type": "TEXT"
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Icon First",
+        "Text Only",
+        "Icon Only"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Hover",
         "Disabled"
       ]
     }
@@ -807,8 +1106,8 @@ export const privateComponentTabsChip = {
   "name": "privateComponentTabsChip",
   "key": "16bd9efbd95f4b5fa3dfe31c2e1acf4e8a88f6a5",
   "componentPropertyDefinitions": {
-    "Show Scroll Fog(Figma Only)#53171:9": {
-      "type": "BOOLEAN"
+    "Container#12286:101": {
+      "type": "SLOT"
     },
     "Size": {
       "type": "VARIANT",
@@ -831,8 +1130,8 @@ export const privateComponentTabsLine = {
   "name": "privateComponentTabsLine",
   "key": "e5bf0d2582100280b410415b9d8742202edbb45c",
   "componentPropertyDefinitions": {
-    "Show Scroll Fog(Figma Only)#53171:14": {
-      "type": "BOOLEAN"
+    "Container#12286:96": {
+      "type": "SLOT"
     },
     "Size": {
       "type": "VARIANT",
@@ -854,24 +1153,7 @@ export const privateComponentTabsLine = {
 export const privateComponentTextInputCardNumberInput = {
   "name": "privateComponentTextInputCardNumberInput",
   "key": "60888e1eba691721f0ec6a41df43c1c075e5beac",
-  "componentPropertyDefinitions": {
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
-    "Has Value": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "false",
-        "true"
-      ]
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Plain Text"
-      ]
-    }
-  }
+  "componentPropertyDefinitions": {}
 };
 
 export const privateComponentTextInputIdNumberInput = {
@@ -883,6 +1165,13 @@ export const privateComponentTextInputIdNumberInput = {
     },
     "Clear Button#34067:1": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -904,17 +1193,24 @@ export const privateComponentTextInputInput = {
   "name": "privateComponentTextInputInput",
   "key": "c030fb7107795ad42b4b2eea454b05fb4b4c9ac7",
   "componentPropertyDefinitions": {
+    "Show Clear Button#11049:0": {
+      "type": "BOOLEAN"
+    },
     "Value Text#34067:0": {
       "type": "TEXT"
-    },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
     },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
     "Show Cursor (Figma Only)#53584:0": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -933,11 +1229,15 @@ export const privateComponentTextInputInputDisabled = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -956,11 +1256,15 @@ export const privateComponentTextInputInputReadOnly = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -978,6 +1282,13 @@ export const privateComponentTextInputPrefix = {
   "componentPropertyDefinitions": {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
     },
     "Type": {
       "type": "VARIANT",
@@ -998,6 +1309,13 @@ export const privateComponentTextInputSuffix = {
     },
     "Icon#45391:0": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -1021,6 +1339,13 @@ export const privateComponentTextareaInput = {
     "Placeholder Text#34067:2": {
       "type": "TEXT"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
+    },
     "Has Value": {
       "type": "VARIANT",
       "variantOptions": [
@@ -1038,11 +1363,15 @@ export const privateComponentTextareaInputDisabled = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1061,11 +1390,15 @@ export const privateComponentTextareaInputReadOnly = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1151,7 +1484,7 @@ export const privateComponentTopNavigationTitleLeft = {
       "variantOptions": [
         "Avatar",
         "Custom",
-        "Cutom Icon"
+        "Custom Icon"
       ]
     }
   }
@@ -1180,6 +1513,9 @@ export const privateComponentUnderlineTextInputInput = {
   "name": "privateComponentUnderlineTextInputInput",
   "key": "a8a39cf124e7b4c3b873429e81b4278639a7031b",
   "componentPropertyDefinitions": {
+    "Show Clear Button#10972:0": {
+      "type": "BOOLEAN"
+    },
     "Value Text#34067:0": {
       "type": "TEXT"
     },
@@ -1188,6 +1524,13 @@ export const privateComponentUnderlineTextInputInput = {
     },
     "Show Cursor (Figma Only)#53584:3": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1206,11 +1549,15 @@ export const privateComponentUnderlineTextInputInputDisabled = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1229,11 +1576,15 @@ export const privateComponentUnderlineTextInputInputReadOnly = {
     "Value Text#34067:0": {
       "type": "TEXT"
     },
-    "Clear Button#34067:1": {
-      "type": "BOOLEAN"
-    },
     "Placeholder Text#34067:2": {
       "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Has Value": {
       "type": "VARIANT",
@@ -1251,6 +1602,13 @@ export const privateComponentUnderlineTextInputPrefix = {
   "componentPropertyDefinitions": {
     "Icon#34021:2": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type": {
       "type": "VARIANT",
@@ -1271,6 +1629,13 @@ export const privateComponentUnderlineTextInputSuffix = {
     },
     "Icon#45391:5": {
       "type": "INSTANCE_SWAP"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium"
+      ]
     },
     "Type (Figma Only)": {
       "type": "VARIANT",
@@ -1360,9 +1725,68 @@ export const componentDeprecatedActionSheet = {
   }
 };
 
-export const templateDeprecatedChipGroup = {
-  "name": "templateDeprecatedChipGroup",
-  "key": "c6b8406eed754f43da93e17a1887ea331d168bdc",
+export const componentDeprecatedChip = {
+  "name": "componentDeprecatedChip",
+  "key": "c947a926605cfd181998ddbb46554da84eebaab2",
+  "componentPropertyDefinitions": {
+    "Label#7185:0": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#8722:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Type#32538:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Suffix#32538:181": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium",
+        "Small"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Prefix Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "None",
+        "Icon",
+        "Avatar",
+        "Image"
+      ]
+    }
+  }
+};
+
+export const componentDeprecatedChipGroup = {
+  "name": "componentDeprecatedChipGroup",
+  "key": "0f2bfd4ee01f2bce58ebd7f4cc9332d0420e50fd",
   "componentPropertyDefinitions": {
     "Refresh Button#15888:2": {
       "type": "BOOLEAN"
@@ -1571,38 +1995,6 @@ export const componentDeprecatedMultilineTextField = {
   }
 };
 
-export const componentDeprecatedRangeSlider = {
-  "name": "componentDeprecatedRangeSlider",
-  "key": "acd9b25dba649748699d0a67f900857629d62e64",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
-      ]
-    }
-  }
-};
-
 export const componentDeprecatedSelectBox = {
   "name": "componentDeprecatedSelectBox",
   "key": "83d4bbb026d432c35f0b2c7b7b273eafdd28e1a1",
@@ -1660,38 +2052,6 @@ export const componentDeprecatedSelectBoxGroup = {
         "4",
         "5",
         "6"
-      ]
-    }
-  }
-};
-
-export const componentDeprecatedSlider = {
-  "name": "componentDeprecatedSlider",
-  "key": "c103c0a6ec25de57bb41eb820648a467afc5788e",
-  "componentPropertyDefinitions": {
-    "Steps": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "0",
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Enabled",
-        "Disabled"
-      ]
-    },
-    "Marker": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Min Max",
-        "All"
       ]
     }
   }
@@ -1825,6 +2185,30 @@ export const componentDerpecatedTopNavigation = {
   }
 };
 
+export const componentAccordion = {
+  "name": "componentAccordion",
+  "key": "0686a42b92941f42561f73e95ecff0699b86e3a9",
+  "componentPropertyDefinitions": {
+    "Accordion Group#10588:0": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large (Desktop)"
+      ]
+    },
+    "Variants": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Inline",
+        "Separated"
+      ]
+    }
+  }
+};
+
 export const componentActionButton = {
   "name": "componentActionButton",
   "key": "cd70496145efd7f5ffdb5413fb4db8e918561ffa",
@@ -1909,6 +2293,57 @@ export const componentAlertDialog = {
   }
 };
 
+export const componentAndroidNowBarScreen = {
+  "name": "componentAndroidNowBarScreen",
+  "key": "735019feaa75b4e71618a8b0bc21a7a1985c2978",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Status bar chip",
+        "Expanded view",
+        "Collapsed view"
+      ]
+    }
+  }
+};
+
+export const componentAttachmentField = {
+  "name": "componentAttachmentField",
+  "key": "7a1711f401793fb33ca9ceb599916a7440ef60b4",
+  "componentPropertyDefinitions": {
+    "Show Header#11576:30": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#11576:47": {
+      "type": "BOOLEAN"
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Media",
+        "File"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    }
+  }
+};
+
 export const componentAvatar = {
   "name": "componentAvatar",
   "key": "f17031afc2c71f35e5a147f6937a2b918029d334",
@@ -1924,6 +2359,7 @@ export const componentAvatar = {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -1942,6 +2378,31 @@ export const componentAvatar = {
   }
 };
 
+export const componentAvatarPreset = {
+  "name": "componentAvatarPreset",
+  "key": "539a0546169fb966bed1b07aa98db4b070206fc1",
+  "componentPropertyDefinitions": {
+    "Image": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "010",
+        "011",
+        "012",
+        "013"
+      ]
+    }
+  }
+};
+
 export const componentAvatarStack = {
   "name": "componentAvatarStack",
   "key": "99d74f36d2989b450cc0c7f15eb6495888bb1cec",
@@ -1954,6 +2415,7 @@ export const componentAvatarStack = {
         "36",
         "42",
         "48",
+        "56",
         "64",
         "80",
         "96",
@@ -2049,6 +2511,9 @@ export const componentBottomSheet = {
   "name": "componentBottomSheet",
   "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
   "componentPropertyDefinitions": {
+    "Contents Slot#6752:0": {
+      "type": "SLOT"
+    },
     "Title#19787:3": {
       "type": "TEXT"
     },
@@ -2063,9 +2528,6 @@ export const componentBottomSheet = {
     },
     "Show Description#25192:0": {
       "type": "BOOLEAN"
-    },
-    "Contents#25320:0": {
-      "type": "INSTANCE_SWAP"
     },
     "Show Safe Area#25488:8": {
       "type": "BOOLEAN"
@@ -2089,9 +2551,9 @@ export const componentBottomSheet = {
   }
 };
 
-export const templateButtonGroup = {
-  "name": "templateButtonGroup",
-  "key": "c36b74a90e2321ac498f59ed8bf9ce4b365a5547",
+export const componentButtonGroup = {
+  "name": "componentButtonGroup",
+  "key": "2acf5a3240876b2b82e3e42f267856b8582c07f6",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",
@@ -2182,7 +2644,8 @@ export const templateChatScreenPreset = {
         "비즈프로필(고객 뷰)",
         "비즈프로필 (사장님 뷰)",
         "알바 (구인자 뷰)",
-        "알바 (구직자 뷰)"
+        "알바 (구직자 뷰)",
+        "Service11"
       ]
     }
   }
@@ -2206,7 +2669,7 @@ export const componentCheckbox = {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Shape": {
@@ -2242,10 +2705,13 @@ export const componentCheckbox = {
   }
 };
 
-export const templateCheckboxField = {
-  "name": "templateCheckboxField",
-  "key": "214dd0fc8a3c5bc1e0c90cce29936f1ec6a26c3c",
+export const componentCheckboxField = {
+  "name": "componentCheckboxField",
+  "key": "c157db7fe8d812716f2ed3f520b8bacfb9fb8416",
   "componentPropertyDefinitions": {
+    "Checkbox Group#12261:0": {
+      "type": "SLOT"
+    },
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
@@ -2278,8 +2744,8 @@ export const componentCheckmark = {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "🚫[Deprecated]Brand",
-        "Neutral"
+        "Neutral",
+        "Brand"
       ]
     },
     "Shape": {
@@ -2310,27 +2776,34 @@ export const componentCheckmark = {
 
 export const componentChip = {
   "name": "componentChip",
-  "key": "c947a926605cfd181998ddbb46554da84eebaab2",
+  "key": "f23dfd7f48dd6fc6fbbdae95a091fd7a06a942e1",
   "componentPropertyDefinitions": {
-    "Label#7185:0": {
+    "Has Prefix#9822:0": {
+      "type": "BOOLEAN"
+    },
+    "Prefix Type#9965:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Type#9965:109": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Suffix Type Small#9981:218": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Prefix Type Small#9981:327": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Icon#10111:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "Has Notification#10111:109": {
+      "type": "BOOLEAN"
+    },
+    "Label#12217:0": {
       "type": "TEXT"
-    },
-    "Prefix Icon#8722:0": {
-      "type": "INSTANCE_SWAP"
-    },
-    "Suffix Type#32538:0": {
-      "type": "INSTANCE_SWAP"
     },
     "Has Suffix#32538:181": {
       "type": "BOOLEAN"
-    },
-    "Variant": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Solid",
-        "Outline Strong",
-        "Outline Weak"
-      ]
     },
     "Size": {
       "type": "VARIANT",
@@ -2338,6 +2811,21 @@ export const componentChip = {
         "Large",
         "Medium",
         "Small"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "With Text",
+        "Icon Only"
+      ]
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
       ]
     },
     "Selected": {
@@ -2354,23 +2842,17 @@ export const componentChip = {
         "Pressed",
         "Disabled"
       ]
-    },
-    "Prefix Type": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "None",
-        "Icon",
-        "Avatar",
-        "Image"
-      ]
     }
   }
 };
 
-export const templateChipGroup = {
-  "name": "templateChipGroup",
-  "key": "cb2a0fa6e04cf2099baeced91ee74f9d93d36069",
+export const componentChipGroup = {
+  "name": "componentChipGroup",
+  "key": "dbef4539572f056c6a90c332299d9b9febd212de",
   "componentPropertyDefinitions": {
+    "Chip Group#12261:62": {
+      "type": "SLOT"
+    },
     "Variant": {
       "type": "VARIANT",
       "variantOptions": [
@@ -2401,6 +2883,9 @@ export const componentChlid = {
   "name": "componentChlid",
   "key": "ef79a21a39ceb4ce24b2fb93c9b430c1980a3e71",
   "componentPropertyDefinitions": {
+    "Slot#6081:0": {
+      "type": "SLOT"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
@@ -2448,9 +2933,9 @@ export const componentContextualFloatingButton = {
   }
 };
 
-export const templateDisclaimer = {
-  "name": "templateDisclaimer",
-  "key": "c56cb5f18959ad92f6638b588e8d248335dcc03b",
+export const componentDisclaimer = {
+  "name": "componentDisclaimer",
+  "key": "9532514879fc59d5b221b8cc4b85a569ed15d265",
   "componentPropertyDefinitions": {
     "Show Title#54910:2": {
       "type": "BOOLEAN"
@@ -2511,15 +2996,22 @@ export const componentEditorToolbarFigmaOnly = {
   }
 };
 
-export const templateFieldButton = {
-  "name": "templateFieldButton",
-  "key": "e706abd7be0d1a2ea0aeeb656b47d3b03aa5cda8",
+export const componentFieldButton = {
+  "name": "componentFieldButton",
+  "key": "a9f6a5ee2d52881b87e22ef1a18fac67e92558f4",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
     "Show Footer#40606:9": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     },
     "State": {
       "type": "VARIANT",
@@ -2661,8 +3153,8 @@ export const componentImageFrame = {
   }
 };
 
-export const componentIOsLiveAcitivityScreenFigmaOnly = {
-  "name": "componentIOsLiveAcitivityScreenFigmaOnly",
+export const componentIOsLiveActivityScreen = {
+  "name": "componentIOsLiveActivityScreen",
   "key": "3d7ff6cf68e769096237bcc0122be08caf8b6ce4",
   "componentPropertyDefinitions": {
     "Type": {
@@ -2773,11 +3265,11 @@ export const componentListItem = {
         "Disabled"
       ]
     },
-    "Variants": {
+    "Align": {
       "type": "VARIANT",
       "variantOptions": [
-        "Single Line",
-        "Multi Line"
+        "Center",
+        "Top"
       ]
     },
     "Highlighted": {
@@ -2834,6 +3326,23 @@ export const componentMannerTempBadge = {
   }
 };
 
+export const componentMenu = {
+  "name": "componentMenu",
+  "key": "fa09812bfb6ba24fc6367636032f14a2b2931ee9",
+  "componentPropertyDefinitions": {
+    "Slot#2013:6": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
 export const componentMenuSheet = {
   "name": "componentMenuSheet",
   "key": "0e0597f2ea3f9dde6c17bf0e4d8eebe3a95e3942",
@@ -2866,6 +3375,38 @@ export const componentMenuSheet = {
       "variantOptions": [
         "Text Only",
         "Text with Icon"
+      ]
+    }
+  }
+};
+
+export const componentMultilineTextField = {
+  "name": "componentMultilineTextField",
+  "key": "e1b7b5bfa5ff6a633cecc5110b958520a9e79ddf",
+  "componentPropertyDefinitions": {
+    "Show Header#11576:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#11576:15": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "AI Loading (Figma Only)",
+        "Disabled",
+        "Read Only",
+        "Error Focused",
+        "Error",
+        "Focused",
+        "Enabled"
       ]
     }
   }
@@ -3041,7 +3582,7 @@ export const componentRadio = {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Weight": {
@@ -3069,10 +3610,13 @@ export const componentRadio = {
   }
 };
 
-export const templateRadioField = {
-  "name": "templateRadioField",
-  "key": "a3f159c223e3a0888fc48098c1580793297f82e9",
+export const componentRadioField = {
+  "name": "componentRadioField",
+  "key": "7a1c06315434813d0c4256366e2f478954cd6f14",
   "componentPropertyDefinitions": {
+    "Radio Group#12285:87": {
+      "type": "SLOT"
+    },
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
@@ -3106,7 +3650,7 @@ export const componentRadiomark = {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated]Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -3312,9 +3856,9 @@ export const componentSegmentedControl = {
   }
 };
 
-export const templateSelectBoxField = {
-  "name": "templateSelectBoxField",
-  "key": "cddac54129eed15830319d1e30480f42ea80d4d3",
+export const componentSelectBoxField = {
+  "name": "componentSelectBoxField",
+  "key": "a4202b1d4bbb185f25f937dd6a71cfc580e58cb5",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -3338,6 +3882,9 @@ export const componentSelectBoxGroup = {
   "name": "componentSelectBoxGroup",
   "key": "cbf6ddeb6d6f889e983399291ec8b60ee3390177",
   "componentPropertyDefinitions": {
+    "Select Box Group#12285:92": {
+      "type": "SLOT"
+    },
     "Column": {
       "type": "VARIANT",
       "variantOptions": [
@@ -3358,6 +3905,65 @@ export const componentShareModalFigmaOnly = {
       "variantOptions": [
         "iOS",
         "Android"
+      ]
+    }
+  }
+};
+
+export const componentSideNavigation = {
+  "name": "componentSideNavigation",
+  "key": "72906d8fc24bdd5905bef1fc967193f88aa3e6b7",
+  "componentPropertyDefinitions": {
+    "Is Scrolled#1072:7": {
+      "type": "BOOLEAN"
+    },
+    "Show Scroll Fog#1881:0": {
+      "type": "BOOLEAN"
+    },
+    "Body Slot#3329:6": {
+      "type": "SLOT"
+    },
+    "Header Slot#3329:11": {
+      "type": "SLOT"
+    },
+    "Footer Slot#3329:14": {
+      "type": "SLOT"
+    },
+    "Has Header#3333:17": {
+      "type": "BOOLEAN"
+    },
+    "Has Footer#3333:20": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "Transparent"
+      ]
+    }
+  }
+};
+
+export const componentSideNavigationPreset = {
+  "name": "componentSideNavigationPreset",
+  "key": "4aa3ac505361b0099c29d3bf910ebf9e0620b261",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "커머스",
+        "알바 - 본사",
+        "알바 - 지점",
+        "비즈프로필",
+        "광고 - 전문가모드"
+      ]
+    },
+    "Collapsed": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }
@@ -3386,9 +3992,9 @@ export const componentSkeleton = {
   }
 };
 
-export const templateSkeletonPreset = {
-  "name": "templateSkeletonPreset",
-  "key": "6ef44f7c25caf577c58486f7dd9a6d2dbccdbae2",
+export const componentSkeletonPreset = {
+  "name": "componentSkeletonPreset",
+  "key": "f59d479beaf5d5d73da2ff8984778a40dd2e65bd",
   "componentPropertyDefinitions": {
     "Preset (Figma-Only)": {
       "type": "VARIANT",
@@ -3436,9 +4042,9 @@ export const componentSlider = {
   }
 };
 
-export const templateSliderField = {
-  "name": "templateSliderField",
-  "key": "28779a6663ce9d43b08050f128a925513e36a2e6",
+export const componentSliderField = {
+  "name": "componentSliderField",
+  "key": "a0d06d2084b3ab2d0dc4a9dc23fa3500043dddc4",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
@@ -3520,7 +4126,7 @@ export const componentSwitch = {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated] Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -3563,7 +4169,7 @@ export const componentSwitchmark = {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral",
-        "🚫[Deprecated] Brand"
+        "Brand"
       ]
     },
     "Selected": {
@@ -3621,15 +4227,22 @@ export const componentTagGroup = {
   }
 };
 
-export const templateTextField = {
-  "name": "templateTextField",
-  "key": "d23c5e730ba19fe6ba3c376a5abbf3df7a54672e",
+export const componentTextField = {
+  "name": "componentTextField",
+  "key": "8b134244cb1038a13e6365aa9664a3fcb8b7e352",
   "componentPropertyDefinitions": {
     "Show Header#40606:8": {
       "type": "BOOLEAN"
     },
     "Show Footer#40606:9": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     },
     "Variant": {
       "type": "VARIANT",
@@ -3648,25 +4261,6 @@ export const templateTextField = {
         "Disabled",
         "Read Only",
         "AI Loading (Figma Only)"
-      ]
-    }
-  }
-};
-
-export const templateTextareaField = {
-  "name": "templateTextareaField",
-  "key": "1e0375ed8a5dc490008d6e0dcc20b812b6e39114",
-  "componentPropertyDefinitions": {
-    "State": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "AI Loading (Figma Only)",
-        "Disabled",
-        "Read Only",
-        "Error Focused",
-        "Error",
-        "Focused",
-        "Enabled"
       ]
     }
   }
@@ -3767,9 +4361,9 @@ export const componentTopNavigation = {
   }
 };
 
-export const templateTopNavigationPreset = {
-  "name": "templateTopNavigationPreset",
-  "key": "392ae70c701b8f657d3114498801c5672decc547",
+export const componentTopNavigationPreset = {
+  "name": "componentTopNavigationPreset",
+  "key": "0dd628c49a9e02b1a5f3208a0b870b567cff59a7",
   "componentPropertyDefinitions": {
     "Action Button#17406:0": {
       "type": "BOOLEAN"
@@ -3805,6 +4399,41 @@ export const componentUserSelectionFigmaOnly = {
       "variantOptions": [
         "iOS",
         "Android"
+      ]
+    }
+  }
+};
+
+export const componentAttachmentInput = {
+  "name": "componentAttachmentInput",
+  "key": "912d312b7a25ab698708e196a7d3f2f91d2bd2f5",
+  "componentPropertyDefinitions": {
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Media",
+        "File"
+      ]
+    },
+    "Trigger Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Button",
+        "Dropzone"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Disabled"
+      ]
+    },
+    "Has Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }
@@ -3854,6 +4483,13 @@ export const componentFieldHeader = {
     "Has Suffix#34796:2": {
       "type": "BOOLEAN"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "Weight": {
       "type": "VARIANT",
       "variantOptions": [
@@ -3874,15 +4510,22 @@ export const componentInputButton = {
     "Has Suffix#32865:68": {
       "type": "BOOLEAN"
     },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
-        "Error",
-        "Disabled",
-        "Read Only",
         "Pressed",
-        "Error Pressed"
+        "Error",
+        "Error Pressed",
+        "Disabled",
+        "Read Only"
       ]
     }
   }
@@ -3900,6 +4543,13 @@ export const componentTextInput = {
     },
     "Has Suffix#32865:68": {
       "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
     },
     "State": {
       "type": "VARIANT",
@@ -3920,6 +4570,13 @@ export const componentTextarea = {
   "name": "componentTextarea",
   "key": "e20ec5b725e0fdbaca728cecdc72b0c485728b4d",
   "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
     "Auto Size (Figma Only)": {
       "type": "VARIANT",
       "variantOptions": [
@@ -3963,6 +4620,13 @@ export const componentUnderlineTextInput = {
         "Read Only",
         "AI Loading (Figma Only)"
       ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium (Desktop Only)",
+        "Large"
+      ]
     }
   }
 };
@@ -3993,7 +4657,7 @@ export const componentActionButtonGhostButton = {
     "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "Xsmall",
+        "XSmall",
         "Small",
         "Medium",
         "Large"
@@ -4056,6 +4720,52 @@ export const componentBottomNavigationKr = {
       "variantOptions": [
         "\biOS",
         "Android"
+      ]
+    }
+  }
+};
+
+export const templateEmbedViewType = {
+  "name": "templateEmbedViewType",
+  "key": "6913a0eb2ae6a5e704ee862cb2294046274bcaae",
+  "componentPropertyDefinitions": {
+    "Title#2602:0": {
+      "type": "TEXT"
+    },
+    "Description#2602:1": {
+      "type": "TEXT"
+    },
+    "Show Thumbnail#2602:2": {
+      "type": "BOOLEAN"
+    },
+    "Show Delete Button#2614:4": {
+      "type": "BOOLEAN"
+    },
+    "Show Title#2727:0": {
+      "type": "BOOLEAN"
+    },
+    "Show Description#2727:7": {
+      "type": "BOOLEAN"
+    },
+    "Show Tag Group#3562:0": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled",
+        "Loading",
+        "Forbidden",
+        "Not Found"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Title First",
+        "Description First"
       ]
     }
   }
@@ -4154,6 +4864,9 @@ export const componentSelectBoxItemHorizontal = {
   "name": "componentSelectBoxItemHorizontal",
   "key": "8174af8ef3654dad996723883f5b84f44f791513",
   "componentPropertyDefinitions": {
+    "Contents Slot#6752:6": {
+      "type": "SLOT"
+    },
     "Title#28452:21": {
       "type": "TEXT"
     },
@@ -4202,6 +4915,9 @@ export const componentSelectBoxItemVertical = {
   "name": "componentSelectBoxItemVertical",
   "key": "ccc88f0aae500c64e7d43be63c4f1a70baf76bfe",
   "componentPropertyDefinitions": {
+    "Content Slot#6765:0": {
+      "type": "SLOT"
+    },
     "Title#58766:114": {
       "type": "TEXT"
     },
@@ -4241,6 +4957,48 @@ export const componentSelectBoxItemVertical = {
         "Enabled",
         "Pressed",
         "Disabled"
+      ]
+    }
+  }
+};
+
+export const templateShareSheet = {
+  "name": "templateShareSheet",
+  "key": "1dadeec71d6ddcac198ed197366e5c4b5a114ef9",
+  "componentPropertyDefinitions": {
+    "Share Sheet Slot#2497:0": {
+      "type": "SLOT"
+    },
+    "Show Slot#2497:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Header#4926:7": {
+      "type": "BOOLEAN"
+    },
+    "Title Text#14599:0": {
+      "type": "TEXT"
+    },
+    "Description Text#21827:0": {
+      "type": "TEXT"
+    },
+    "Show Safe Area#25531:15": {
+      "type": "BOOLEAN"
+    },
+    "Show Header Description#32984:0": {
+      "type": "BOOLEAN"
+    },
+    "Menu Group Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only"
       ]
     }
   }

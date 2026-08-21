@@ -13,6 +13,7 @@ interface TokenCollections {
   duration: Record<string, string>;
   timingFunction: Record<string, string>;
   boxShadow: Record<string, string>;
+  scale: Record<string, string>;
   typography: Record<string, Record<string, string>>;
 }
 
@@ -60,6 +61,7 @@ function processFoundationTokens(
     duration: {},
     timingFunction: {},
     boxShadow: {},
+    scale: {},
     typography: {},
   };
 
@@ -130,6 +132,8 @@ function processFoundationTokens(
       collections.timingFunction[tokenKey.substring(16)] = cssVarValue;
     } else if (tokenKey.startsWith("shadow-")) {
       collections.boxShadow[tokenKey.substring(7)] = cssVarValue;
+    } else if (tokenKey.startsWith("scale-")) {
+      collections.scale[tokenKey.substring(6)] = cssVarValue;
     }
   }
 
@@ -321,6 +325,7 @@ export default plugin(
         transitionDuration: ${serializeJson(collections.duration)},
         transitionTimingFunction: ${serializeJson(collections.timingFunction)},
         boxShadow: ${serializeJson(collections.boxShadow)},
+        scale: ${serializeJson(collections.scale)},
       },
     },
   },

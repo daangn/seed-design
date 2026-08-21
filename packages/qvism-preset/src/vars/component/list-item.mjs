@@ -10,9 +10,11 @@ export const vars = {
         "marginDuration": "var(--seed-duration-d3)",
         "marginTimingFunction": "var(--seed-timing-function-easing)",
         "borderRadiusDuration": "var(--seed-duration-d3)",
-        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
+        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)",
+        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
+        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
       },
-      "content": {
+      "body": {
         "gap": "var(--seed-dimension-x0_5)",
         "paddingRight": "var(--seed-dimension-x2_5)"
       },
@@ -53,7 +55,8 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)",
         "marginX": "var(--seed-dimension-x1_5)",
-        "cornerRadius": "var(--seed-dimension-x2_5)"
+        "cornerRadius": "var(--seed-dimension-x2_5)",
+        "contentScale": "var(--seed-scale-s97)"
       }
     },
     "highlighted": {

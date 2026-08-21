@@ -1,27 +1,15 @@
-import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { createClient } from "@sanity/client";
 import { apiVersion, dataset, projectId } from "../../../sanity-studio/env";
 import { ALL_COMPONENTS_QUERY } from "../../../sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
-import type { Rule } from "./types";
+import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "../../../lib/platform-status";
 import { escapeCell, markdownRow } from "./markdown-utils";
 
+// 컴포넌트 문서 페이지엔 본문 <PlatformStatusTable> 노드가 없다(플랫폼 상태를 헤더에서 렌더).
+// 그래서 이 파일은 llms.txt 조립 시 상태 테이블을 주입하기 위한 마크다운 헬퍼만 제공한다
+// (get-llm-text.ts에서 호출). MDX 노드를 변환하던 규칙은 더 이상 매칭 대상이 없어 제거했다.
+
 const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
-
-const platformConfig = [
-  { key: "figma" as const, label: "Figma" },
-  { key: "react" as const, label: "React" },
-  { key: "ios" as const, label: "iOS" },
-  { key: "android" as const, label: "Android" },
-] as const;
-
-const statusLabel: Record<PlatformStatus, string> = {
-  ready: "Done",
-  "in-progress": "In Progress",
-  "not-ready": "Not Ready",
-  deprecated: "Deprecated",
-  "not-planned": "Not Planned",
-};
 
 type Row = Record<string, string>;
 
@@ -31,15 +19,18 @@ const columnDefs: { key: string; header: string }[] = [
   { key: "note", header: "Note" },
 ];
 
-function generateMarkdownTable(component: ComponentData): string {
-  const rows: Row[] = platformConfig.map(({ key, label }) => {
+/**
+ * 컴포넌트 하나의 플랫폼 상태 테이블을 만든다. Note 열은 어느 플랫폼에도 note가 없으면 통째로 빠진다.
+ */
+export function generateMarkdownTable(component: ComponentData): string {
+  const rows: Row[] = PLATFORM_CONFIG.map(({ key, label }) => {
     const status = component[`${key}Status`] as PlatformStatus;
     const url = component[`${key}Url`] as string | undefined;
     const note = component[`${key}Note`] as string | undefined;
 
     return {
       platform: url ? `[${label}](${escapeCell(url)})` : label,
-      status: statusLabel[status] ?? "Not Ready",
+      status: PLATFORM_STATUS_LABELS[status] ?? "Not Ready",
       note: note ? escapeCell(note) : "",
     };
   });
@@ -76,20 +67,21 @@ async function init(): Promise<void> {
   await initPromise;
 }
 
-export const platformStatusRule: Rule = {
-  name: "PlatformStatusTable",
-  init,
-  match: (node): node is MdxJsxFlowElement =>
-    node.type === "mdxJsxFlowElement" && node.name === "PlatformStatusTable",
-  transform: (node, { getStringAttribute }) => {
-    const componentId = getStringAttribute(node, "componentId");
-    if (!componentId) return [node];
-
-    if (!componentDataCache) return [node];
-
-    const component = componentDataCache.get(componentId);
-    if (!component) return [node];
-
-    return [{ type: "html", value: generateMarkdownTable(component) }];
-  },
-};
+/**
+ * componentIds의 각 컴포넌트에 대한 플랫폼 상태 마크다운 테이블을 만든다.
+ * 2개 이상이면 각 테이블 앞에 `### 컴포넌트이름` 헤딩을 붙여 구분한다(list, manner-temp).
+ * 문서가 없는 id는 건너뛰고, 하나도 없으면 빈 문자열을 반환한다.
+ */
+export async function getPlatformStatusMarkdown(componentIds: string[]): Promise<string> {
+  await init();
+  const showHeading = componentIds.length > 1;
+  const parts = componentIds
+    .map((id) => componentDataCache?.get(id))
+    .filter((component): component is ComponentData => Boolean(component))
+    .map((component) =>
+      showHeading
+        ? `### ${component.name}\n\n${generateMarkdownTable(component)}`
+        : generateMarkdownTable(component),
+    );
+  return parts.join("\n\n");
+}

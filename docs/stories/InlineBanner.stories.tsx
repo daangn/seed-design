@@ -1,47 +1,38 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { InlineBanner } from "seed-design/ui/inline-banner";
 
 import { inlineBannerVariantMap } from "@seed-design/css/recipes/inline-banner";
 import { VariantTable } from "./components/variant-table";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: InlineBanner,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof InlineBanner>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   args: {
     title: "enim consectetur",
     description:
       "Ex do aliqua est non ea adipisicing nostrud. Exercitation ea mollit sunt magna quis quis exercitation.",
     prefixIcon: <IconBellFill />,
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={inlineBannerVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={inlineBannerVariantMap} {...args} />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

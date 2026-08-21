@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/tailwind3-plugin",
-  "version": "1.1.17",
+  "version": "2.3.0",
   "description": "Tailwind3 CSS plugin for Seed Design tokens",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
     "directory": "packages/tailwind3-plugin"
   },
   "author": "Daangn",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "exports": {
     ".": {
@@ -28,7 +28,9 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
@@ -46,6 +48,7 @@
     "tailwindcss": "3"
   },
   "peerDependencies": {
+    "@seed-design/css": "^2.2.0",
     "tailwindcss": "3"
   },
   "publishConfig": {

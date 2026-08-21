@@ -17,7 +17,7 @@ export const COLOR_MAPPING: ColorMapping = {
   "$semantic/paper-sheet": [],
   "$semantic/paper-dialog": ["bg/layer-floating"],
   "$semantic/paper-floating": ["bg/layer-floating"],
-  "$semantic/paper-contents": ["bg/layer-fill"],
+  "$semantic/paper-contents": ["bg/neutral-weak"],
   "$semantic/paper-default": ["bg/layer-default"],
   "$semantic/paper-background": ["bg/layer-basement"],
   "$semantic/paper-accent": [],

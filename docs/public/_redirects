@@ -1,2 +1,40 @@
 /docs/design/* /docs/:splat 301
 /docs/react/* /react/:splat 301
+# 토큰 상세는 `design-token/reference/` 아래로 옮겼다. 아래 `/docs/foundation/*`보다 먼저 와야
+# `$id`가 `/foundations/design-token/<id>`(존재하지 않음)로 떨어지지 않는다.
+/docs/foundation/design-token/* /foundations/design-token/reference/:splat 301
+/docs/foundation/* /foundations/:splat 301
+# splat 규칙은 부모 경로 자체(`/docs/components`)를 매치하지 않아 목록 페이지가 따로 필요하다.
+/docs/components /components 301
+/docs/components/* /components/:splat 301
+/docs/guidelines/* /patterns/:splat 301
+/docs/progress-board /components/progress-board 301
+/docs/resources/* /get-started 301
+/docs /get-started 301
+/docs/ /get-started 301
+
+# Blog → Updates 개편
+/blog/* /updates/:splat 301
+
+# Foundations IA restructure: design-token/iconography → tabs, typography → single page
+/foundations/design-token-reference /foundations/design-token/reference 301
+/foundations/iconography/overview /foundations/iconography 301
+/foundations/typography/overview /foundations/typography 301
+
+# AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
+# `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
+/react/ai-integration/llms-txt /llms.txt 301
+/docs/ai-integration/llms-txt /llms.txt 301
+/breeze/ai-integration/llms-txt /llms.txt 301
+/react/ai-integration/mcp /ai-integration/figma-mcp 301
+
+# Library Authors: 별도 섹션 → Getting Started 마지막 문서로 이동
+/react/library-authors /react/getting-started/library-authors 301
+/react/develop-with-seed /react/getting-started/library-authors 301
+
+# 아래 세 경로는 `redirect()`를 호출하는 page.tsx로 처리했었다. static export에서 그건
+# 리다이렉트가 아니라 `__next_error__` 셸을 만든다 — 목적지가 flight payload 안에만 있어서
+# JS가 돌기 전에는 아무 데도 가지 않고, 크롤러와 링크 검사기는 200을 받는다.
+/react/components/check-select-box /react/components/select-box 301
+/react/components/radio-select-box /react/components/select-box 301
+/react/guides/theming /react/getting-started/styling/theming 301

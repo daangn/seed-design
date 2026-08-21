@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "src"
+    "types": ["@figma/plugin-typings"],
+    "skipLibCheck": true,
+    "paths": {
+      "*": ["./src/*"]
+    }
   }
 }

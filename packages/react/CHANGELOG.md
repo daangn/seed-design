@@ -1,5 +1,528 @@
 # @seed-design/react
 
+## 2.3.0
+
+### Minor Changes
+
+- ebb4eae: Date Picker에서 시작일을 유지하고 종료일만 변경할 수 있는 기능을 추가합니다.
+
+  - `selectionMode="range"`에서 `rangeStartReadOnly` prop을 사용할 수 있습니다.
+  - 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+  - 읽기 전용 시작일의 시각적 상태와 접근성 이름을 제공합니다.
+
+  ```tsx
+  <DatePicker
+    selectionMode="range"
+    rangeStartReadOnly
+    value={{
+      start: { year: 2026, month: 8, day: 7 },
+      end: { year: 2026, month: 8, day: 9 },
+    }}
+  />
+  ```
+
+### Patch Changes
+
+- 80e0e33: `unicode-segmenter` 의존성 버전을 업데이트하여 자모 개수 계산 속도를 개선합니다.
+- Updated dependencies [ebb4eae]
+- Updated dependencies [ebb4eae]
+  - @seed-design/react-date-picker@1.1.0
+  - @seed-design/react-drawer@2.0.6
+
+## 2.2.2
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+- Updated dependencies [225496c]
+  - @seed-design/react-drawer@2.0.5
+
+## 2.2.1
+
+### Patch Changes
+
+- 4e5fe66: `@seed-design/react-dismissible-layer`의 최소 요구 버전을 올려 Chrome 92 / iOS Safari 15.4 이전 버전에서 시트나 다이얼로그를 열 때 발생하던 `TypeError: layers.at is not a function` 크래시 수정이 반드시 설치되도록 합니다.
+- Updated dependencies [4e5fe66]
+  - @seed-design/react-dialog@2.0.3
+  - @seed-design/react-drawer@2.0.4
+  - @seed-design/react-menu@2.0.2
+  - @seed-design/react-select@1.0.1
+
+## 2.2.0
+
+### Minor Changes
+
+- c9acaa6: Time Picker와 Date Picker에서 재사용할 수 있는 Wheel Picker 기반을 추가합니다.
+
+  - 스크롤과 키보드로 값을 선택할 수 있는 headless Wheel Picker를 제공합니다.
+  - React 컴포넌트 내부에서 Scroll Fog와 Selection Indicator를 조합할 수 있는 기반을 추가합니다.
+
+- c9acaa6: Quantity Picker에 부모 Flex 레이아웃의 여유 공간을 채우는 `layout="fill"` 옵션을 추가합니다.
+
+  - 기본값 `layout="hug"`는 기존 크기를 유지합니다.
+  - `layout="fill"`에서는 양쪽 버튼 크기를 유지하고 Value Display 영역만 늘어납니다.
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.
+
+- c9acaa6: `TimePicker` 컴포넌트를 추가합니다.
+
+  - 12시간제 시간 선택 UI와 locale에 따른 컬럼 순서를 지원합니다.
+  - `minuteStep`으로 선택 가능한 분 간격을 설정할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [c9acaa6]
+- Updated dependencies [c9acaa6]
+- Updated dependencies [c9acaa6]
+  - @seed-design/react-wheel-picker@1.0.0
+  - @seed-design/react-date-picker@1.0.0
+  - @seed-design/react-time-picker@1.0.0
+
+## 2.1.1
+
+### Patch Changes
+
+- f9456d6: ImageFrame과 Avatar가 로딩 중에 이미지를 숨기지 않습니다.
+
+  - `loading="lazy"` 이미지가 화면에 들어와도 끝내 로드되지 않던 문제를 수정합니다.
+  - 이미지가 LCP 요소일 때 측정값이 실제 도착 시각으로 잡힙니다. `loading="eager"`에도 해당됩니다.
+  - `src` 없이 `srcSet`만 지정한 반응형 이미지를 지원합니다.
+
+  로딩 중 플레이스홀더가 보이고 완료 시 이미지가 보이는 동작은 그대로입니다. 다만 로딩 중에는 이미지가 화면에 남아 있으므로, 스크린리더가 플레이스홀더와 함께 이미지의 `alt`도 읽습니다.
+
+- Updated dependencies [bd5eda2]
+- Updated dependencies [3d5ecf4]
+- Updated dependencies [f9456d6]
+  - @seed-design/react-pull-to-refresh@2.0.2
+  - @seed-design/react-drawer@2.0.3
+  - @seed-design/react-image@1.1.0
+
+## 2.1.0
+
+### Minor Changes
+
+- 4dad2e9: 트리거를 눌러 열리는 목록에서 값을 선택하는 Select 컴포넌트를 추가합니다.
+
+  - `multiple`로 다중 선택을, `SelectGroup`으로 옵션 그룹과 그룹 라벨을 지원합니다.
+  - 키보드 탐색을 지원하며, `size`·`disabled`·`readOnly`·`invalid` 상태를 제공합니다.
+  - `label`, `description`, `errorMessage`로 Field와 연동되고, `name`으로 폼 제출 값의 키를 지정합니다.
+
+  ```tsx
+  <SelectRoot label="과일" defaultValue={["apple"]} name="fruit">
+    <SelectTrigger placeholder="과일을 선택하세요" />
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem value="apple" label="사과" />
+        <SelectItem value="banana" label="바나나" />
+      </SelectGroup>
+    </SelectContent>
+  </SelectRoot>
+  ```
+
+- dbad313: Select, QuantityPicker, Dialog의 스타일을 사용할 수 있도록 `@seed-design/react`의 `@seed-design/css` peerDependency의 floor를 `^2.0.0`에서 `^2.3.0`으로 올립니다.
+- 6ba7292: 기존 Alert Dialog와 별개로, 범용 Dialog와 ResponsiveDialog를 추가합니다.
+
+  - `Dialog`: `medium`, `large` size를 지원하며, 본문이 길면 Body가 스크롤되고 상단에 divider와 하단 fade가 나타납니다.
+  - `ResponsiveDialog`: `md` 이상에서는 Dialog로, 그 아래에서는 Bottom Sheet로 렌더링합니다.
+  - `ui:dialog`, `ui:responsive-dialog` snippet으로 설치할 수 있습니다.
+
+  ```tsx
+  <DialogRoot size="medium">
+    <DialogTrigger asChild>
+      <ActionButton>열기</ActionButton>
+    </DialogTrigger>
+    <DialogContent title="제목" description="설명">
+      <DialogBody>{/* ... */}</DialogBody>
+      <DialogFooter>
+        <HStack gap="x2" justify="flex-end">
+          <DialogAction variant="neutralWeak">취소</DialogAction>
+          <DialogAction variant="neutralSolid">확인</DialogAction>
+        </HStack>
+      </DialogFooter>
+    </DialogContent>
+  </DialogRoot>
+  ```
+
+- 19f07f5: QuantityPicker 컴포넌트를 추가합니다.
+
+  - 지정한 최소·최대 수량 범위에서 값을 증감할 수 있으며, 최소 수량에서 제거 동작을 지원합니다.
+  - `size`, `disabled`, `readOnly`, `invalid`, 증감 중 loading 상태를 지원합니다.
+  - 폼 제출에 사용할 수 있는 `QuantityPicker.HiddenInput`을 제공합니다.
+  - `ui:quantity-picker` snippet으로 설치할 수 있으며, `@seed-design/css@^2.3.0`을 사용합니다.
+
+  ```tsx
+  <QuantityPicker.Root min={0} max={99} defaultValue={1}>
+    <QuantityPicker.DecrementButton icon={<IconMinusLine />} />
+    <QuantityPicker.ValueDisplay />
+    <QuantityPicker.IncrementButton icon={<IconPlusLine />} />
+    <QuantityPicker.HiddenInput name="quantity" />
+  </QuantityPicker.Root>
+  ```
+
+### Patch Changes
+
+- Updated dependencies [4dad2e9]
+- Updated dependencies [19f07f5]
+  - @seed-design/dom-utils@2.1.0
+  - @seed-design/react-select@1.0.0
+  - @seed-design/react-quantity-picker@1.0.0
+
+## 2.0.5
+
+### Patch Changes
+
+- 26c8fac: `DialogActionProps`가 `DialogAction`이 실제로 받는 props를 나타내도록 수정합니다. `type`, `disabled`, `form`, `value` 등 button 전용 속성이 포함됩니다.
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+- Updated dependencies [fb6f9c4]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-accordion@1.0.1
+  - @seed-design/react-attachment-display@1.0.1
+  - @seed-design/react-avatar@2.0.1
+  - @seed-design/react-checkbox@2.0.1
+  - @seed-design/react-collapsible@1.0.1
+  - @seed-design/react-dialog@2.0.2
+  - @seed-design/react-drawer@2.0.2
+  - @seed-design/react-field@2.0.1
+  - @seed-design/react-field-button@2.0.1
+  - @seed-design/react-fieldset@1.0.1
+  - @seed-design/react-file-upload@1.0.1
+  - @seed-design/react-image@1.0.1
+  - @seed-design/react-menu@2.0.1
+  - @seed-design/react-middle-truncate@1.0.1
+  - @seed-design/react-navigation-menu@2.0.1
+  - @seed-design/react-popover@2.0.1
+  - @seed-design/react-portal@2.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-progress@2.0.1
+  - @seed-design/react-pull-to-refresh@2.0.1
+  - @seed-design/react-radio-group@2.0.1
+  - @seed-design/react-segmented-control@2.0.2
+  - @seed-design/react-side-navigation@1.0.1
+  - @seed-design/react-slider@2.0.1
+  - @seed-design/react-snackbar@2.0.1
+  - @seed-design/react-switch@2.0.1
+  - @seed-design/react-tabs@2.0.1
+  - @seed-design/react-text-field@2.0.1
+  - @seed-design/react-toggle@2.0.1
+  - @seed-design/react-tooltip@1.0.1
+
+## 2.0.4
+
+### Patch Changes
+
+- 001f539: `DialogRoot` 등 컴포넌트에 `undefined` prop을 전달했을 때 각 컴포넌트의 기본값이 적용되지 않는 문제를 수정합니다.
+
+## 2.0.3
+
+### Patch Changes
+
+- fb4459e: `DialogTitle`/`DialogDescription`을 시맨틱 요소(`h2`/`p`)로 렌더하고, 렌더된 경우 `DialogContent`에 `aria-labelledby`/`aria-describedby`로 연결되도록 수정합니다.
+- Updated dependencies [34586b6]
+- Updated dependencies [34586b6]
+- Updated dependencies [73cd380]
+- Updated dependencies [1d3e8c6]
+- Updated dependencies [176ff81]
+  - @seed-design/react-navigation-menu@2.0.0
+  - @seed-design/react-dialog@2.0.1
+  - @seed-design/react-menu@2.0.0
+  - @seed-design/react-drawer@2.0.1
+  - @seed-design/react-segmented-control@2.0.1
+
+## 2.0.2
+
+### Patch Changes
+
+- d71f402: 구형 iOS Safari(16.4 미만)에서 중첩된 `Box` 및 일부 컴포넌트가 상위 요소의 레이아웃 값을 잘못 상속하던 문제를 수정합니다.
+
+  - 값을 지정하지 않은 자식 `Box`가 상위의 `width`, `height`, `gap`, `margin` 등을 물려받아 의도와 다르게 렌더링되던 문제를 해결합니다. 모던 브라우저의 동작에는 변화가 없습니다.
+  - `SidePanel`, `BottomSheet`, `Skeleton`, `HelpBubble`에서도 동일한 상속 문제를 바로잡습니다.
+  - `bleed`를 지정한 요소가 구형 Safari에서도 정상 동작하도록 개선합니다.
+
+## 2.0.1
+
+### Patch Changes
+
+- e97a89c: `@seed-design/react`에서 `@seed-design/css/vars/component` 의존을 제거하여 ImageFrame `offsetX` `offsetY` 및 ScrollFog `size`의 기본값을 기존과 동일한 값으로 하드코딩합니다.
+- 7224b94: ImageFrameReactionButton root에 반투명 배경색과 그림자를 추가하여 밝은 이미지 위에서의 가시성을 개선합니다.
+
+## 2.0.0
+
+### Major Changes
+
+- 4ad24cc: Box, Flex, Grid, VStack, HStack 등 레이아웃 컴포넌트에 margin 관련 프로퍼티를 추가합니다.
+
+  - `margin`/`m`, `marginX`/`mx`, `marginY`/`my`, `marginTop`/`mt`, `marginRight`/`mr`, `marginBottom`/`mb`, `marginLeft`/`ml`
+  - `"auto"` 리터럴 및 breakpoint 기반 반응형 스타일링을 지원합니다.
+  - `margin*`과 `bleed*`를 동시에 사용할 수 없도록 타입 레벨 제약(discriminated union)을 추가합니다.
+    - @seed-design/react를 통해 제공되는 다음 인터페이스가 `interface`에서 `type`으로 전환됩니다.
+      - `BoxProps`, `FlexProps`, `GridProps`, `StackProps`, `VStackProps`, `HStackProps`, `ArticleProps`, `AspectRatioProps`, `ColumnsProps`, `ColumnProps`, `GridItemProps`, `ImageFrameProps`, `InlineProps`, `ResponsivePairProps`.
+    - 위 인터페이스를 `extend`하는 타입은 `type X = BoxProps & {...}`처럼 전환할 수 있습니다.
+
+  Box, Flex, Grid, VStack, HStack 등 레이아웃 컴포넌트에 4개 방향 모두에 negative margin을 적용하는 `bleed` 프로퍼티를 추가합니다.
+
+- 555525a: Attachment Field 관련 컴포넌트를 추가합니다.
+
+  - Attachment Field: 파일을 선택하거나 드래그 앤 드롭으로 직접 업로드할 때 사용합니다.
+  - Attachment Display Field: 외부 소스에서 URL로 제공된 미디어를 표시·관리할 때 사용합니다.
+
+- 029d052: Help Bubble Tooltip 컴포넌트를 추가합니다.
+- 54a2ff8: Layout 컴포넌트를 추가합니다.
+- 69e3b97: Menu 컴포넌트를 추가합니다.
+
+  Drawer를 연 뒤 Drawer 뒤 요소에 포커스가 남아 있는 문제를 수정합니다. Drawer가 열리는 경우 `Drawer.Content`에 자동으로 포커스가 이동합니다.
+
+  - `Drawer.RootProps`의 `autoFocus` 기본값을 `false`에서 `true`로 변경합니다.
+  - 스크린 리더가 `modal=true` (기본값)인 Dialog 및 Drawer 뒤 요소를 읽을 수 있는 문제를 수정합니다.
+
+  Dialog(AlertDialog, MenuSheet)와 Drawer(BottomSheet)를 `@radix-ui/react-dismissable-layer`에서 자체 `useDismissibleLayer` 훅 기반으로 리팩터링하고 불필요하게 외부로 노출되던 내부 옵션들을 제거합니다.
+
+  - `DialogRoot` 및 `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details.reason`이 `interactOutside`인 경우 `details.event`의 타입을 `PointerEvent | FocusEvent`에서 `PointerEvent | TouchEvent | FocusEvent`로 변경합니다.
+  - `DialogRoot` 및 `DrawerRoot` 두 번째 인자 `details`의 `reason`으로 `cascadeDismiss`를 추가합니다. 두 개 이상의 오버레이 컴포넌트를 표시한 상황에서 하위 컴포넌트가 dismiss되는 경우 상위 컴포넌트는 `cascadeDismiss`와 함께 `onOpenChange`가 호출됩니다.
+  - `@seed-design/react` 패키지에서 `@radix-ui/react-dialog` 의존성을 제거합니다.
+
+- 2abd3ed: Side Navigation에서 내부적으로 사용되는 `NavigationMenu` 컴포넌트를 추가합니다.
+- 9369ff9: Breakpoint 기반 반응형 스타일링을 지원합니다.
+
+  - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
+
+  ```tsx
+  <Box padding={{ base: "x3", md: "x6" }} />
+  <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
+  ```
+
+  - `@seed-design/react`에서 `useBreakpoint` 훅과 `useBreakpointValue` 훅을 제공합니다.
+    - `useBreakpoint()` — 현재 활성 breakpoint 이름을 반환합니다. (`"base"` | `"sm"` | `"md"` | `"lg"` | `"xl"`)
+    - `useBreakpointValue(values)` — 반응형 객체에서 현재 breakpoint에 해당하는 값을 반환합니다.
+
+  ```tsx
+  const actionButtonProps = useBreakpointValue<ActionButtonProps>({
+    base: { variant: "neutralWeak" },
+    lg: { variant: "brandSolid" },
+  });
+  ```
+
+  `<Grid display="none">`으로 Grid를 숨길 수 없던 문제를 수정합니다.
+
+- 4839a64: `selectBoxCheckmark` recipe의 생성 클래스명과 import 경로를 다른 recipe와 동일하게 kebab-case로 정정합니다.
+
+  - 클래스명: `seed-selectBoxCheckmark__*` → `seed-select-box-checkmark__*`
+  - import 경로: `@seed-design/css/recipes/selectBoxCheckmark` → `@seed-design/css/recipes/select-box-checkmark`
+
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+- ec33023: Side Navigation 컴포넌트를 추가합니다.
+- 98b52a7: Side Panel 컴포넌트를 추가합니다.
+
+  - 화면 좌/우 가장자리에서 슬라이드해 보조 콘텐츠, 상세 정보, 설정 흐름을 표시할 수 있습니다.
+
+- afb77c5: Snackbar 내부 액션 버튼 클릭 시 `onAction` 핸들러 호출 이후 스낵바가 닫히는 동작을 기본값으로 제공합니다.
+
+  - snippet에 존재하던 deprecate된 `shouldCloseOnAction` 옵션(default: `true`)을 제거합니다.
+  - 해당 동작을 React 컴포넌트로 이전하여 항상 `true`처럼 동작하도록 변경합니다.
+
+- f982d61: `SwipeableMenuSheet` 컴포넌트를 추가하고, 기존 `MenuSheet` 관련 API를 deprecate합니다.
+
+  **`SwipeableMenuSheet` 추가**
+
+  - Drawer 기반의 `SwipeableMenuSheet` 관련 컴포넌트를 추가합니다.
+  - 전체 영역을 스와이프하여 시트를 닫을 수 있으며, 해당 동작의 힌트로 상단에 드래그 핸들이 표시됩니다.
+  - `MenuSheet`에서는 항상 표시되었던 닫기 버튼을 기본적으로 UI에 표시하지 않습니다. `showCloseButton` prop을 통해 닫기 버튼의 노출 여부를 제어할 수 있습니다.
+
+  **`MenuSheet` 관련 컴포넌트 및 API Deprecate**
+
+  - Dialog 기반의 `MenuSheet` 관련 컴포넌트 및 API를 deprecate합니다. 신규로 Menu Sheet 사용이 필요한 경우 `SwipeableMenuSheet`를 사용합니다.
+  - `open`/`defaultOpen`/`onOpenChange`등 기본적인 `MenuSheet`의 API는 `SwipeableMenuSheet`에서 동일하게 유지됩니다.
+
+- 7f1dbe3: `Footer.LinkText` 컴포넌트 및 `Footer` Block 예시를 추가합니다.
+- c0fd999: Text Input(Text Field)과 Input Button(Field Button)에 `size="medium"` variant를 추가합니다.
+- 31bf164: Accordion 컴포넌트를 추가합니다.
+
+  - 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+
+### Patch Changes
+
+- Updated dependencies [555525a]
+- Updated dependencies [029d052]
+- Updated dependencies [69e3b97]
+- Updated dependencies [2abd3ed]
+- Updated dependencies [60d1a82]
+- Updated dependencies [ec33023]
+- Updated dependencies [afb77c5]
+- Updated dependencies [31bf164]
+  - @seed-design/react-attachment-display@1.0.0
+  - @seed-design/react-middle-truncate@1.0.0
+  - @seed-design/react-file-upload@1.0.0
+  - @seed-design/react-tooltip@1.0.0
+  - @seed-design/react-popover@2.0.0
+  - @seed-design/react-dialog@2.0.0
+  - @seed-design/react-drawer@2.0.0
+  - @seed-design/react-menu@1.0.0
+  - @seed-design/react-navigation-menu@1.0.0
+  - @seed-design/react-side-navigation@1.0.0
+  - @seed-design/react-primitive@2.0.0
+  - @seed-design/react-snackbar@2.0.0
+  - @seed-design/react-accordion@1.0.0
+  - @seed-design/react-avatar@1.0.1
+  - @seed-design/react-checkbox@1.0.2
+  - @seed-design/react-collapsible@0.1.1
+  - @seed-design/react-field@1.0.2
+  - @seed-design/react-field-button@1.0.3
+  - @seed-design/react-fieldset@0.1.1
+  - @seed-design/react-image@0.1.2
+  - @seed-design/react-progress@1.0.1
+  - @seed-design/react-pull-to-refresh@1.0.2
+  - @seed-design/react-radio-group@1.1.1
+  - @seed-design/react-segmented-control@1.0.2
+  - @seed-design/react-slider@1.0.3
+  - @seed-design/react-switch@1.0.2
+  - @seed-design/react-tabs@1.0.6
+  - @seed-design/react-text-field@1.1.2
+  - @seed-design/react-toggle@1.0.2
+
+## 1.2.15
+
+### Patch Changes
+
+- 47690e2: SEED React 2.0.0에서 제거될 예정인 BottomSheet의 `direction` 옵션을 deprecated 처리합니다. 2.0.0부터 BottomSheet는 항상 아래에서 올라오며 `direction`을 받지 않습니다.
+- Updated dependencies [306673a]
+  - @seed-design/react-drawer@1.0.11
+
+## 1.2.14
+
+### Patch Changes
+
+- 234e8c7: deprecated 항목의 제거 예정 버전 안내를 1.3.0에서 2.0.0으로 변경합니다.
+
+  - `ImageFrame`의 `rounded` 옵션, `Switch`/`Checkbox`/`ChipTabs`의 deprecated 옵션, 유틸리티 스타일 prop(`display`, `flexDirection`, `justifyContent`, `alignItems`)의 deprecated 값의 제거 예정 버전을 2.0.0으로 안내합니다.
+  - `$color.bg.layer-fill`, `$gradient.fade-layer-floating`, `$gradient.fade-layer-default` 토큰의 제거 예정 버전을 2.0.0으로 안내합니다.
+  - 2.0.0부터 deprecated 항목 제거를 포함한 breaking change는 메이저 릴리스에서만 수행됩니다.
+
+- Updated dependencies [59887b7]
+  - @seed-design/react-drawer@1.0.10
+
+## 1.2.13
+
+### Patch Changes
+
+- Updated dependencies [26b1de5]
+  - @seed-design/react-dialog@1.0.3
+
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [e48f021]
+  - @seed-design/react-popover@1.0.4
+
+## 1.2.11
+
+### Patch Changes
+
+- 81ec9f5: lazyMount를 사용하는 Tabs · ChipTabs에서 멀리 떨어진 탭을 선택하면 다른 탭이 열리던 문제를 해결합니다. lazyMount 및 TabsCarousel 사용 시 TabsContent 자체를 항상 렌더하고, TabsContent의 children만 lazy mount하도록 변경합니다.
+- 136a150: iOS 환경에서 ChipTabs + ScrollFog 사용 시 가로 스크롤이 동작하지 않는 문제를 해결합니다.
+- Updated dependencies [81ec9f5]
+- Updated dependencies [136a150]
+  - @seed-design/react-tabs@1.0.5
+
+## 1.2.10
+
+### Patch Changes
+
+- 840f5d5: Snackbar가 표시된 상태에서 새 Snackbar를 create할 때의 동작을 정의하는 `strategy` 옵션을 추가합니다. 기본값은 `immediate`로, 새 Snackbar가 기존 Snackbar를 즉시 교체합니다.
+
+  - 기존 스낵바에 할당된 시간이 모두 지난 뒤 새 Snackbar가 표시되는 이전 버전의 기존 동작을 선호하는 경우 `SnackbarProvider` 또는 `useSnackbarAdapter` 옵션으로 `queued`를 사용할 수 있습니다.
+  - `immediate` 옵션을 모방하기 위해 `dismiss()` 후 `setTimeout(() => create(...), 0)`하던 workaround와 함께 사용해도 정상 동작하지만, 동작이 동일하므로 workaround는 제거하는 것을 권장합니다.
+
+- 934a0ba: Snackbar의 `timeout` 기본값을 5초에서 4초로 변경합니다. `timeout`을 명시적으로 지정한 경우에는 기존 동작이 유지됩니다.
+- Updated dependencies [840f5d5]
+- Updated dependencies [934a0ba]
+  - @seed-design/react-snackbar@1.0.2
+
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies [db6ea04]
+  - @seed-design/react-tabs@1.0.4
+
+## 1.2.8
+
+### Patch Changes
+
+- 67a7780: Content Placeholder 컴포넌트를 추가합니다.
+- 9d9b891: ImageFrame 컴포넌트 개선
+
+  - `fallback` prop이 이미지 로딩 실패 시 대체 콘텐츠를 올바르게 표시하도록 개선합니다.
+  - Reaction Button이 iOS에서 렌더링되지 않는 문제를 수정합니다.
+  - Reaction Button uncontrolled 상태에서 클릭 시 상태가 변경되지 않는 문제를 수정합니다.
+
+## 1.2.7
+
+### Patch Changes
+
+- e903fac: TagGroupRoot 내부에서 `""`, 0 등 falsy한 값으로 조건부 렌더링 시 불필요한 separator가 표시될 수 있는 문제를 수정합니다.
+
+  ```tsx
+  <TagGroupRoot>
+    {/* distance === 0인 경우  separator 표시되는 문제 수정*/}
+    {distance && <TagGroupItem label={`${distance}m`} />}
+    {/* label === ""인 경우 separator  표시되는 문제 수정 */}
+    {label && <TagGroupItem label={label} />}
+  </TagGroupRoot>
+  ```
+
+- c9fb0c5: Box의 배경 색상을 class 기반으로 지정하는 경우 `:active` 스타일 선언이 배경 색상을 덮어쓰는 문제를 수정합니다.
+- Updated dependencies [2552b1d]
+- Updated dependencies [a465d74]
+  - @seed-design/react-tabs@1.0.3
+
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+- Updated dependencies [fe1cdb3]
+- Updated dependencies [751e952]
+- Updated dependencies [7e0728a]
+  - @seed-design/react-slider@1.0.2
+  - @seed-design/react-field-button@1.0.2
+  - @seed-design/react-toggle@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes
@@ -25,7 +548,7 @@
 - Updated dependencies [acae645]
   - @seed-design/react-snackbar@1.0.1
 
-## 1.3.0
+## 1.2.2
 
 ### Patch Changes
 

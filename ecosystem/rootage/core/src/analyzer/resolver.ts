@@ -110,14 +110,20 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
         }
       }) as AST.TokenDeclaration["values"];
 
-      return factory.createTokenDeclaration(node.collection, node.token, values, node.description);
+      return factory.createTokenDeclaration(
+        node.collection,
+        node.token,
+        values,
+        node.description,
+        node.excludeFromExchange,
+      );
     }
 
     if (node.kind === "UnresolvedPropertyDeclaration") {
       const resolved = resolveToken(ctx, node.value.identifier, {
         [ctx.dependencyGraph[node.value.identifier]!.collection]:
           ctx.tokenCollectionEntities[ctx.dependencyGraph[node.value.identifier]!.collection]!
-            .modes[0]!,
+            .modes[0]!.id,
       });
       switch (resolved.value.kind) {
         case "ColorHexLit":

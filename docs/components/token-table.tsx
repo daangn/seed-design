@@ -1,9 +1,16 @@
 "use client";
 
+import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
 import { AST } from "@seed-design/rootage-core";
+import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
 import { useState } from "react";
+import { TableRoot } from "./table";
 import { TokenCell, TokenValue } from "./token-cell";
 import { TokenLink } from "./token-link";
+
+function toCssVar(tokenId: string): string {
+  return `--seed-${tokenId.replace(/^\$/, "").replace(/\./g, "-")}`;
+}
 
 export interface TokenTableItem {
   id: string;
@@ -20,7 +27,7 @@ export function TokenTable(props: TokenTableProps) {
   const { items } = props;
 
   return (
-    <table>
+    <TableRoot>
       <thead>
         <tr>
           <th>이름</th>
@@ -32,7 +39,7 @@ export function TokenTable(props: TokenTableProps) {
           return <TokenRow key={item.id} item={item} />;
         })}
       </tbody>
-    </table>
+    </TableRoot>
   );
 }
 
@@ -43,15 +50,42 @@ function TokenRow(props: { item: TokenTableItem }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const canExpand = values.length > 1;
 
+  const [copied, onCopyClick] = useCopyButton(() => {
+    navigator.clipboard.writeText(toCssVar(id));
+  });
+
+  function handleCopy(e: React.MouseEvent) {
+    e.stopPropagation();
+    onCopyClick(e);
+  }
+
   return (
     <tr
       key={id}
-      className={`hover:bg-fd-muted ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
+      className={`group ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
       onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
     >
       <td>
-        <div className="flex flex-col gap-1">
-          <TokenLink id={id} description={description} />
+        <div className="flex flex-col gap-1 min-w-0">
+          <TokenLink
+            id={id}
+            description={description}
+            trailing={
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="flex-none opacity-0 group-hover:opacity-100 transition-opacity text-fd-muted-foreground hover:text-fd-foreground"
+                title={`CSS 변수 복사: ${toCssVar(id)}`}
+                aria-label={`${toCssVar(id)} 복사`}
+              >
+                {copied ? (
+                  <IconCheckmarkFill size={14} className="flex-none" />
+                ) : (
+                  <IconCheckmarkClipboardLine size={14} />
+                )}
+              </button>
+            }
+          />
         </div>
       </td>
       <td className="align-middle">

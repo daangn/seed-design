@@ -1,4 +1,4 @@
-import type { Parameters, StoryObj } from "@storybook/nextjs";
+import { breakpointNames } from "@seed-design/css/breakpoints";
 
 export const FONT_SCALE_MAP = {
   "Extra Small": "14px",
@@ -12,7 +12,16 @@ export const FONT_SCALE_MAP = {
 
 export type FontScales = keyof typeof FONT_SCALE_MAP;
 
-export const CHROMATIC_PARAMETERS = {
+export type StoryParameters = {
+  theme?: "light" | "dark";
+  fontScale?: FontScales;
+};
+
+export const VIEWPORT_MODES = Object.fromEntries(
+  breakpointNames.map((name) => [name, { viewport: name }]),
+);
+
+const CHROMATIC_PARAMETERS = {
   chromatic: {
     diffThreshold: 0.2, // 20% 미만의 픽셀 차이는 무시
     delay: 300, // 렌더링 안정화를 위한 딜레이 (ms)
@@ -20,16 +29,9 @@ export const CHROMATIC_PARAMETERS = {
   },
 };
 
-export function createStoryWithParameters<T>(
-  story: StoryObj<T> & {
-    parameters?: Parameters & { theme?: "light" | "dark"; fontScale?: FontScales };
-  },
-): StoryObj<T> {
+export function withChromaticParameters<R>(parameters: R): R {
   return {
-    ...story,
-    parameters: {
-      ...CHROMATIC_PARAMETERS,
-      ...story.parameters,
-    },
+    ...CHROMATIC_PARAMETERS,
+    ...parameters,
   };
 }

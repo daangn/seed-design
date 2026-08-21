@@ -1,5 +1,6 @@
 import { skeleton as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
+import spec from "@seed-design/rootage-artifacts/components/skeleton";
 
 const skeleton = defineRecipe({
   name: "skeleton",
@@ -8,8 +9,9 @@ const skeleton = defineRecipe({
     boxSizing: "border-box",
     overflow: "hidden",
 
-    "--seed-box-width": "initial",
-    "--seed-box-height": "initial",
+    // real values, not `initial` — see https://webkit.org/b/241433
+    "--seed-box-width--responsive": "auto",
+    "--seed-box-height--responsive": "auto",
     width: "var(--seed-box-width)",
     height: "var(--seed-box-height)",
 
@@ -63,6 +65,12 @@ const skeleton = defineRecipe({
   defaultVariants: {
     radius: 8,
     tone: "neutral",
+  },
+  metadata: {
+    variants: {
+      radius: spec.data.schema.variants.radius,
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

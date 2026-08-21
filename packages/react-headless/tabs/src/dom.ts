@@ -8,6 +8,10 @@ export const getContentId = (value: string, id: string) => `tabs:${value}:${id}:
 /* Query -----------------------------------------------------------------------
 -------------------------------------------------------------------------------- */
 
+export const getTriggerByValue = (listEl: HTMLElement, value: string): HTMLElement | null => {
+  return listEl.querySelector(`[data-value="${value}"]`);
+};
+
 export const getEnabledValues = (el: HTMLElement) => {
   if (!el) return [];
   return Array.from(el.children)

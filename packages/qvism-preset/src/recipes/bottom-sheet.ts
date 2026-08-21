@@ -1,7 +1,13 @@
 import { defineSlotRecipe } from "../utils/define";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { not, open, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
+import { vars as tokens } from "../vars";
 
 const bottomSheet = defineSlotRecipe({
   name: "bottom-sheet",
@@ -22,10 +28,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "flex-end",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--sheet-z-index": "2",
@@ -33,10 +36,7 @@ const bottomSheet = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
@@ -84,14 +84,17 @@ const bottomSheet = defineSlotRecipe({
         transform: "translate3d(0, var(--snap-point-height, 0), 0)",
       },
 
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
       /** Expand Content Background */
       "&::after": {
         top: "100%",
         height: "200vh",
         content: '""',
         position: "absolute",
-        left: 0,
-        right: 0,
+        insetInline: 0,
         background: "inherit",
         zIndex: -1,
       },
@@ -119,8 +122,7 @@ const bottomSheet = defineSlotRecipe({
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
 
-      paddingLeft: vars.base.enabled.description.paddingX,
-      paddingRight: vars.base.enabled.description.paddingX,
+      paddingInline: vars.base.enabled.description.paddingX,
 
       margin: 0,
       whiteSpace: "pre-wrap",
@@ -129,14 +131,14 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      "--seed-box-padding-x": vars.base.enabled.body.paddingX,
-      "--seed-box-height": "initial",
-      "--seed-box-min-height": "initial",
-      "--seed-box-max-height": "initial",
+      "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
+      // real values, not `initial` — see https://webkit.org/b/241433
+      "--seed-box-height--responsive": "auto",
+      "--seed-box-min-height--responsive": "auto",
+      "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
-      paddingLeft: "var(--seed-box-padding-x)",
-      paddingRight: "var(--seed-box-padding-x)",
+      paddingInline: "var(--seed-box-padding-x)",
       height: "var(--seed-box-height)",
       minHeight: "var(--seed-box-min-height)",
       maxHeight: "var(--seed-box-max-height)",
@@ -147,8 +149,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
 
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
@@ -175,11 +176,24 @@ const bottomSheet = defineSlotRecipe({
 
       "&:after": {
         content: '""',
+
         position: "absolute",
-        top: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        right: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        bottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
-        left: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+        inset: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
+
+        borderRadius: tokens.$radius.r1,
+
+        ...createFocusRingRestStyles({ position: "inside" }),
+        transition: FOCUS_RING_TRANSITION,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(focusVisible)]: {
+        "&:after": {
+          ...createFocusRingStyles({ position: "inside" }),
+        },
       },
     },
   },
@@ -225,6 +239,7 @@ const bottomSheet = defineSlotRecipe({
             animationName: "fade-out",
             animationDuration: vars.base.enabled.backdrop.exitDuration,
             animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+            animationFillMode: "forwards",
           },
           [pseudo(
             open,
@@ -249,6 +264,7 @@ const bottomSheet = defineSlotRecipe({
             animationName: "drawer-slide-to-bottom",
             animationDuration: vars.base.enabled.content.exitDuration,
             animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
+            animationFillMode: "forwards",
           },
           [pseudo(open, "[data-delayed-snap-points='true']", not("[data-animation-done='true']"))]:
             {

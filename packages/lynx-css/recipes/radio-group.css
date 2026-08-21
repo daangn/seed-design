@@ -1,0 +1,5 @@
+.seed-radio-group__root {
+    display: flex;
+    flex-direction: column;
+    gap: var(--seed-dimension-x1)
+}

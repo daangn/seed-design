@@ -24,7 +24,7 @@ export function getTokenCollectionsModel(
     metadata,
     data: ast.data.map((tc) => ({
       name: tc.name,
-      modes: tc.modes,
+      modes: tc.modes.map(({ kind, ...rest }) => rest),
     })),
   };
 }
@@ -125,6 +125,8 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
   }
 
   for (const decl of ast.data) {
+    if (decl.excludeFromExchange) continue;
+
     const tokenRef = decl.token.identifier;
     const description = decl.description;
     const valueMap = buildValues(decl);
@@ -169,6 +171,11 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
             prop.value.kind === "DurationLit"
               ? { value: prop.value.value, unit: prop.value.unit }
               : prop.value.identifier,
+        };
+      case "EnumPropertyDeclaration":
+        return {
+          type: "enum",
+          value: prop.value.value,
         };
       case "CubicBezierPropertyDeclaration":
         return {
@@ -225,6 +232,22 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
     return { variants, definitions };
   }
 
+  // Narrowed rather than spread wholesale: `type` and `values` only travel
+  // together while the declaration is still one of the two concrete shapes.
+  function buildPropertySchema(
+    prop: AST.PropertySchemaDeclaration,
+  ): Exchange.ComponentSpecPropertySchema[string] {
+    if (prop.type === "enum") {
+      return compactObject({
+        type: prop.type,
+        values: prop.values,
+        description: prop.description,
+      });
+    }
+
+    return compactObject({ type: prop.type, description: prop.description });
+  }
+
   function buildSchema(schema: AST.SchemaDeclaration): Exchange.ComponentSpecSchema {
     return {
       slots: Object.fromEntries(
@@ -232,13 +255,7 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
           slot.name,
           compactObject({
             properties: Object.fromEntries(
-              slot.properties.map((prop) => [
-                prop.name,
-                compactObject({
-                  type: prop.type,
-                  description: prop.description,
-                }),
-              ]),
+              slot.properties.map((prop) => [prop.name, buildPropertySchema(prop)]),
             ),
             description: slot.description,
           }),

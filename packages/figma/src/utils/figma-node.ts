@@ -2,6 +2,7 @@ import type {
   NormalizedHasGeometryTrait,
   NormalizedInstanceNode,
   NormalizedSceneNode,
+  NormalizedSlotNode,
   NormalizedSolidPaint,
 } from "../normalizer";
 
@@ -55,11 +56,19 @@ export function findAllInstances<T>({ node, key }: { node: NormalizedSceneNode; 
   ) as (Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T })[];
 }
 
+export function findSlotNode<T extends NormalizedInstanceNode["componentProperties"]>(
+  node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
+  slotPropertyKey: { [K in keyof T]: T[K] extends { type: "SLOT" } ? K : never }[keyof T] & string,
+): NormalizedSlotNode | undefined {
+  return findOne(
+    node,
+    (child) =>
+      child.type === "SLOT" && child.componentPropertyReferences?.slotContentId === slotPropertyKey,
+  ) as NormalizedSlotNode | undefined;
+}
+
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {
-  const fills = node.fills.filter(
-    (fill): fill is NormalizedSolidPaint =>
-      fill.type === "SOLID" && (!("visible" in fill) || fill.visible === true),
-  );
+  const fills = node.fills.filter((fill): fill is NormalizedSolidPaint => fill.type === "SOLID");
 
   if (fills.length === 0) {
     return undefined;
@@ -76,10 +85,7 @@ export function getFirstFillVariable(node: NormalizedHasGeometryTrait) {
 
 export function getFirstStroke(node: NormalizedHasGeometryTrait) {
   const strokes =
-    node.strokes?.filter(
-      (stroke): stroke is NormalizedSolidPaint =>
-        stroke.type === "SOLID" && (!("visible" in stroke) || stroke.visible === true),
-    ) ?? [];
+    node.strokes?.filter((stroke): stroke is NormalizedSolidPaint => stroke.type === "SOLID") ?? [];
 
   if (strokes.length === 0) {
     return undefined;

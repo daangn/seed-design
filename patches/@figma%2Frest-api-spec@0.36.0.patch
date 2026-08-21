@@ -1,0 +1,125 @@
+diff --git a/dist/api_types.ts b/dist/api_types.ts
+index 77e3e617772cd586c26cee2d3ab1e788a98c78eb..61ccdbed54549914532e964d5f846d1e9bc08ed4 100644
+--- a/dist/api_types.ts
++++ b/dist/api_types.ts
+@@ -797,7 +797,61 @@ export type DevStatusTrait = {
+   }
+ }
+ 
+-export type AnnotationsTrait = object
++export type AnnotationsTrait = {
++  /**
++   * An array of annotations displaying notes and pinned properties of nodes. Figma's REST docs cap
++   * this at one, but the endpoint does serialize every annotation a node carries.
++   */
++  annotations?: Annotation[]
++}
++
++/**
++ * A note and pinned properties left on a node.
++ */
++export type Annotation = {
++  /**
++   * Plain text only. The Plugin API stores the authored markdown separately as `labelMarkdown`,
++   * which this endpoint does not return, so formatting is flattened to newlines here.
++   */
++  label?: string
++
++  properties?: AnnotationProperty[]
++}
++
++/**
++ * A pinned property in an Annotation.
++ */
++export type AnnotationProperty = {
++  /**
++   * The type of the property, as a string enum.
++   */
++  type:
++    | 'width'
++    | 'height'
++    | 'maxWidth'
++    | 'minWidth'
++    | 'maxHeight'
++    | 'minHeight'
++    | 'fills'
++    | 'strokes'
++    | 'effects'
++    | 'strokeWeight'
++    | 'cornerRadius'
++    | 'textStyleId'
++    | 'textAlignHorizontal'
++    | 'fontFamily'
++    | 'fontStyle'
++    | 'fontSize'
++    | 'fontWeight'
++    | 'lineHeight'
++    | 'letterSpacing'
++    | 'itemSpacing'
++    | 'padding'
++    | 'layoutMode'
++    | 'alignItems'
++    | 'opacity'
++    | 'mainComponent'
++}
+ 
+ export type TransformModifiersTrait = object
+ 
+@@ -853,6 +907,7 @@ export type Node =
+   | SectionNode
+   | ShapeWithTextNode
+   | SliceNode
++  | SlotNode
+   | StarNode
+   | StickyNode
+   | TableNode
+@@ -926,6 +981,7 @@ export type SubcanvasNode =
+   | SectionNode
+   | ShapeWithTextNode
+   | SliceNode
++  | SlotNode
+   | StarNode
+   | StickyNode
+   | TableNode
+@@ -1141,6 +1197,14 @@ export type InstanceNode = {
+   overrides: Overrides[]
+ } & FrameTraits
+ 
++
++export type SlotNode = {
++  /**
++   * The type of this node, represented by the string literal "SLOT"
++   */
++  type: 'SLOT'
++} & FrameTraits
++
+ export type EmbedNode = {
+   /**
+    * The type of this node, represented by the string literal "EMBED"
+@@ -2407,7 +2471,7 @@ export type TextPathTypeStyle = {
+ /**
+  * Component property type.
+  */
+-export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'TEXT' | 'VARIANT'
++export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'SLOT' | 'TEXT' | 'VARIANT'
+ 
+ /**
+  * Instance swap preferred value.
+@@ -2436,7 +2500,7 @@ export type ComponentPropertyDefinition = {
+   /**
+    * Initial value of this property for instances.
+    */
+-  defaultValue: boolean | string
++  defaultValue: boolean | string // NOTE: SLOT type has no defaultValue
+ 
+   /**
+    * All possible values for this property. Only exists on VARIANT properties.
+@@ -2461,7 +2525,7 @@ export type ComponentProperty = {
+   /**
+    * Value of the property for this component instance.
+    */
+-  value: boolean | string
++  value: boolean | string // NOTE: SLOT type returns { guid: { sessionID, localID } } — do not use directly
+ 
+   /**
+    * Preferred values for this property. Only applicable if type is `INSTANCE_SWAP`.

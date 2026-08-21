@@ -11,6 +11,7 @@ import type {
   NormalizedTextNode,
   NormalizedComponentNode,
   NormalizedInstanceNode,
+  NormalizedSlotNode,
   NormalizedVectorNode,
   NormalizedBooleanOperationNode,
   NormalizedHasEffectsTrait,
@@ -41,6 +42,8 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
         return normalizeComponentNode(node);
       case "INSTANCE":
         return normalizeInstanceNode(node);
+      case "SLOT":
+        return normalizeSlotNode(node);
       case "VECTOR":
         return normalizeVectorNode(node);
       case "BOOLEAN_OPERATION":
@@ -148,7 +151,7 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
       return [];
     }
 
-    return fills.map(normalizePaint);
+    return fills.filter((paint) => paint.visible !== false).map(normalizePaint);
   }
 
   function normalizeRadiusProps(
@@ -286,6 +289,36 @@ export function createPluginNormalizer(): (node: SceneNode) => Promise<Normalize
 
       // NormalizedHasChildrenTrait
       children: await normalizeNodes(node.children),
+    };
+  }
+
+  async function normalizeSlotNode(node: SlotNode): Promise<NormalizedSlotNode> {
+    return {
+      // NormalizedIsLayerTrait
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: normalizeBoundVariables(node),
+
+      // NormalizedHasLayoutTrait, NormalizedHasGeometryTrait, NormalizedHasEffectsTrait
+      ...(await normalizeShapeProps(node)),
+
+      // NormalizedCornerTrait
+      ...normalizeRadiusProps(node),
+
+      // NormalizedHasFramePropertiesTrait
+      ...(await normalizeAutolayoutProps(node)),
+
+      // NormalizedHasChildrenTrait
+      children: await normalizeNodes(node.children),
+
+      // NormalizedSlotNode specific
+      // Plugin API types don't include "slotContentId" in componentPropertyReferences yet
+      ...((node.componentPropertyReferences as Record<string, string> | null)?.[
+        "slotContentId"
+      ] && {
+        componentPropertyReferences: node.componentPropertyReferences as Record<string, string>,
+      }),
     };
   }
 

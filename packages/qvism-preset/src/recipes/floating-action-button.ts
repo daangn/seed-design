@@ -1,7 +1,13 @@
 import { floatingActionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, focus, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/floating-action-button";
 
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -19,9 +25,8 @@ const floatingActionButton = defineSlotRecipe({
       MozOsxFontSmoothing: "grayscale",
       textDecoration: "none",
       fontFamily: "inherit",
-      [pseudo(focus)]: {
-        outline: "none",
-      },
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
@@ -42,9 +47,10 @@ const floatingActionButton = defineSlotRecipe({
         `max-width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
+        FOCUS_RING_TRANSITION,
       ].join(", "),
 
-      [pseudo(active)]: {
+      [pseudo(engaged)]: {
         background: vars.base.pressed.root.color,
       },
     },
@@ -70,8 +76,7 @@ const floatingActionButton = defineSlotRecipe({
     extended: {
       true: {
         root: {
-          paddingLeft: vars.extendedTrue.enabled.root.paddingX,
-          paddingRight: vars.extendedTrue.enabled.root.paddingX,
+          paddingInline: vars.extendedTrue.enabled.root.paddingX,
           height: vars.extendedTrue.enabled.root.minHeight,
 
           // trick for width transition
@@ -111,6 +116,9 @@ const floatingActionButton = defineSlotRecipe({
   },
   defaultVariants: {
     extended: true,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

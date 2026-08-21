@@ -46,6 +46,7 @@ export const tokens = {
   --seed-duration-d5: 250ms;
   --seed-duration-d6: 300ms;
   --seed-duration-color-transition: var(--seed-duration-d3);
+  --seed-duration-pressed-scale: var(--seed-duration-d3);
   --seed-font-size-t1: clamp(calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t2: clamp(calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t3: clamp(calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-min, 0.8)), calc(0.8125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-max, 1.5)));
@@ -56,6 +57,10 @@ export const tokens = {
   --seed-font-size-t8: clamp(calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t9: clamp(calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t10: clamp(calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-max, 1.5)));
+  --seed-font-size-t11: clamp(calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-min, 0.8)), calc(1.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-max, 1.5)));
+  --seed-font-size-t12: clamp(calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-min, 0.8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-max, 1.5)));
+  --seed-font-size-t13: clamp(calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-min, 0.8)), calc(2.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-max, 1.5)));
+  --seed-font-size-t14: clamp(calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-min, 0.8)), calc(3rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-max, 1.5)));
   --seed-font-size-t1-static: 11px;
   --seed-font-size-t2-static: 12px;
   --seed-font-size-t3-static: 13px;
@@ -66,6 +71,10 @@ export const tokens = {
   --seed-font-size-t8-static: 22px;
   --seed-font-size-t9-static: 24px;
   --seed-font-size-t10-static: 26px;
+  --seed-font-size-t11-static: 28px;
+  --seed-font-size-t12-static: 32px;
+  --seed-font-size-t13-static: 40px;
+  --seed-font-size-t14-static: 48px;
   --seed-font-weight-regular: 400;
   --seed-font-weight-medium: 500;
   --seed-font-weight-bold: 700;
@@ -79,6 +88,10 @@ export const tokens = {
   --seed-line-height-t8: clamp(calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-min, 0.8)), calc(1.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-max, 1.5)));
   --seed-line-height-t9: clamp(calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-min, 0.8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-max, 1.5)));
   --seed-line-height-t10: clamp(calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-min, 0.8)), calc(2.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-max, 1.5)));
+  --seed-line-height-t11: clamp(calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-min, 0.8)), calc(2.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-max, 1.5)));
+  --seed-line-height-t12: clamp(calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-min, 0.8)), calc(2.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-max, 1.5)));
+  --seed-line-height-t13: clamp(calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-min, 0.8)), calc(3.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-max, 1.5)));
+  --seed-line-height-t14: clamp(calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-min, 0.8)), calc(3.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-max, 1.5)));
   --seed-line-height-t1-static: 15px;
   --seed-line-height-t2-static: 16px;
   --seed-line-height-t3-static: 18px;
@@ -89,6 +102,10 @@ export const tokens = {
   --seed-line-height-t8-static: 30px;
   --seed-line-height-t9-static: 32px;
   --seed-line-height-t10-static: 35px;
+  --seed-line-height-t11-static: 38px;
+  --seed-line-height-t12-static: 42px;
+  --seed-line-height-t13-static: 52px;
+  --seed-line-height-t14-static: 60px;
   --seed-radius-r0_5: 2px;
   --seed-radius-r1: 4px;
   --seed-radius-r1_5: 6px;
@@ -106,6 +123,7 @@ export const tokens = {
   --seed-timing-function-exit: cubic-bezier(0.35, 0, 1, 1);
   --seed-timing-function-enter-expressive: cubic-bezier(0.03, 0.4, 0.1, 1);
   --seed-timing-function-exit-expressive: cubic-bezier(0.35, 0, 0.95, 0.55);
+  --seed-timing-function-pressed-scale: cubic-bezier(0, 0, 0.15, 1);
 }
 
 :root,
@@ -259,6 +277,8 @@ export const tokens = {
   --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
   --seed-color-bg-transparent: #00000000;
   --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-black-alpha-100);
+  --seed-color-bg-transparent-selected: var(--seed-color-palette-static-black-alpha-200);
+  --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-black-alpha-300);
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
   --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -267,6 +287,7 @@ export const tokens = {
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
   --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
   --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -308,8 +329,6 @@ export const tokens = {
   --seed-color-banner-teal: #e6faf6;
   --seed-color-banner-warm-gray: #f2f0ee;
   --seed-color-banner-yellow: #fffae1;
-  --seed-gradient-fade-layer-floating: #ffffff00 0%, #000000 100%;
-  --seed-gradient-fade-layer-default: #000000 0%, #ffffff00 100%;
   --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
@@ -471,6 +490,8 @@ export const tokens = {
   --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
   --seed-color-bg-transparent: #ffffff00;
   --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-50);
+  --seed-color-bg-transparent-selected: var(--seed-color-palette-static-white-alpha-100);
+  --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-white-alpha-200);
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-800);
   --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
   --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -479,6 +500,7 @@ export const tokens = {
   --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
   --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+  --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
   --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
   --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
   --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -520,8 +542,6 @@ export const tokens = {
   --seed-color-banner-teal: #143633;
   --seed-color-banner-warm-gray: #2f2b27;
   --seed-color-banner-yellow: #3e2b00;
-  --seed-gradient-fade-layer-floating: #1d202500 0%, #000000 100%;
-  --seed-gradient-fade-layer-default: #000000 0%, #16171b00 100%;
   --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
@@ -531,5 +551,19 @@ export const tokens = {
   --seed-shadow-s1: 0px 1px 4px 0px #00000080;
   --seed-shadow-s2: 0px 2px 10px 0px #000000ad;
   --seed-shadow-s3: 0px 4px 16px 0px #000000cc;
+}
+
+:root {
+  --seed-scale-s95: 0.95;
+  --seed-scale-s97: 0.97;
+  --seed-scale-s98: 0.98;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --seed-scale-s95: 1;
+    --seed-scale-s97: 1;
+    --seed-scale-s98: 1;
+  }
 }`
 };

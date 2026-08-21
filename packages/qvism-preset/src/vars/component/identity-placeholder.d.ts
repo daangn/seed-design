@@ -2,10 +2,10 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-400)"
+        "color": "var(--seed-color-palette-gray-500)"
       },
       "image": {
-        "color": "#f7f8fa"
+        "color": "var(--seed-color-palette-static-white-alpha-800)"
       }
     }
   }

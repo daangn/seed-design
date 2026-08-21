@@ -1,7 +1,14 @@
 import { callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, pseudo } from "../utils/pseudo";
+import { engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
+import spec from "@seed-design/rootage-artifacts/components/callout";
 
 const callout = defineSlotRecipe({
   name: "callout",
@@ -23,10 +30,8 @@ const callout = defineSlotRecipe({
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
 
       gap: vars.base.enabled.root.gap,
 
@@ -43,6 +48,10 @@ const callout = defineSlotRecipe({
 
       [pseudo(":is(button, a)")]: {
         cursor: "pointer",
+        transition: FOCUS_RING_TRANSITION,
+
+        ...createFocusRingRestStyles(),
+        [pseudo(focusVisible)]: createFocusRingStyles(),
       },
     },
     content: {
@@ -85,6 +94,11 @@ const callout = defineSlotRecipe({
       fontWeight: vars.base.enabled.link.fontWeight,
       textDecoration: "underline",
       textUnderlineOffset: "2px",
+
+      transition: FOCUS_RING_TRANSITION,
+      borderRadius: tokens.$radius.r1,
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
     closeButton: {
       border: "none",
@@ -102,6 +116,11 @@ const callout = defineSlotRecipe({
       height: vars.base.enabled.suffixIcon.targetSize,
 
       margin: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
+
+      borderRadius: vars.base.enabled.root.cornerRadius,
+      transition: FOCUS_RING_TRANSITION,
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   defaultVariants: {
@@ -120,7 +139,7 @@ const callout = defineSlotRecipe({
             color: vars.toneNeutral.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneNeutral.pressed.root.color,
           },
         },
@@ -145,7 +164,7 @@ const callout = defineSlotRecipe({
             color: vars.toneInformative.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneInformative.pressed.root.color,
           },
         },
@@ -170,7 +189,7 @@ const callout = defineSlotRecipe({
             color: vars.tonePositive.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.tonePositive.pressed.root.color,
           },
         },
@@ -195,7 +214,7 @@ const callout = defineSlotRecipe({
             color: vars.toneWarning.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneWarning.pressed.root.color,
           },
         },
@@ -220,7 +239,7 @@ const callout = defineSlotRecipe({
             color: vars.toneCritical.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundColor: vars.toneCritical.pressed.root.color,
           },
         },
@@ -245,7 +264,7 @@ const callout = defineSlotRecipe({
             color: vars.toneMagic.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button, a)", active)]: {
+          [pseudo(":is(button, a)", engaged)]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
           },
         },
@@ -260,6 +279,9 @@ const callout = defineSlotRecipe({
         },
       },
     },
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

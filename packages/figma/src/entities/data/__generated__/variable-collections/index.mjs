@@ -22,7 +22,6 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:1:130",
       "VariableID:1:131",
       "VariableID:1:132",
-      "VariableID:1:133",
       "VariableID:1:134",
       "VariableID:1:135",
       "VariableID:1:136",
@@ -289,6 +288,7 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:576:22878",
       "VariableID:59176:2",
       "VariableID:59176:3",
+      "VariableID:61337:3",
       "VariableID:654:20851",
       "VariableID:670:2700",
       "VariableID:6782:76317",
@@ -351,6 +351,8 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:20511:74381",
       "VariableID:22526:14486",
       "VariableID:607:10228",
+      "VariableID:62396:299",
+      "VariableID:62423:2",
       "VariableID:6421:24605"
     ]
   },
@@ -365,20 +367,24 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
         "name": "iOS"
       },
       {
-        "modeId": "1:6",
-        "name": "iOS-xxxlarge"
+        "modeId": "1:7",
+        "name": "iOS (80%)"
       },
       {
-        "modeId": "1:7",
-        "name": "iOS-xsmall"
+        "modeId": "1:6",
+        "name": "iOS (135%)"
       },
       {
         "modeId": "1:8",
         "name": "Android"
       },
       {
+        "modeId": "62468:0",
+        "name": "Android (80%)"
+      },
+      {
         "modeId": "51907:0",
-        "name": "Android-xlarge"
+        "name": "Android (150%)"
       }
     ],
     "key": "75a9a164e0f9d49ba07e82176cbc7240569928a5",
@@ -444,6 +450,22 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:58766:15457",
       "VariableID:58766:15458",
       "VariableID:58766:15459",
+      "VariableID:62466:5",
+      "VariableID:62472:10",
+      "VariableID:62472:11",
+      "VariableID:62472:12",
+      "VariableID:62472:6",
+      "VariableID:62472:7",
+      "VariableID:62472:8",
+      "VariableID:62472:9",
+      "VariableID:62476:13",
+      "VariableID:62476:14",
+      "VariableID:62476:15",
+      "VariableID:62476:16",
+      "VariableID:62476:17",
+      "VariableID:62476:18",
+      "VariableID:62476:19",
+      "VariableID:62476:20",
       "VariableID:796:4448"
     ]
   },

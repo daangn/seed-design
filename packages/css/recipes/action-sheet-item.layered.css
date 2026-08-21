@@ -1,0 +1,38 @@
+@layer seed-components {
+  .seed-action-sheet-item {
+    background-color: var(--seed-color-bg-layer-floating);
+    min-height: 50px;
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    padding-block: var(--seed-dimension-x3_5);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+  }
+
+  .seed-action-sheet-item:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-floating-pressed);
+  }
+
+  .seed-action-sheet-item:after {
+    content: "";
+    left: var(--seed-dimension-spacing-x-global-gutter);
+    right: var(--seed-dimension-spacing-x-global-gutter);
+    background: var(--seed-color-stroke-neutral-muted);
+    height: 1px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .seed-action-sheet-item--tone_neutral {
+    color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-action-sheet-item--tone_critical {
+    color: var(--seed-color-fg-critical);
+  }
+}

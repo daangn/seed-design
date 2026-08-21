@@ -64,6 +64,15 @@ const avatarStack = defineSlotRecipe({
           boxShadow: `0 0 0 ${vars.size48.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
         },
       },
+      56: {
+        item: {
+          [pseudo(not(":first-child"))]: {
+            marginLeft: vars.size56.enabled.root.gap,
+          },
+          clipPath: `inset(-${vars.size56.enabled.item.strokeWidth})`,
+          boxShadow: `0 0 0 ${vars.size56.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
+        },
+      },
       64: {
         item: {
           [pseudo(not(":first-child"))]: {

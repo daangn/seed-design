@@ -26,19 +26,16 @@ export function isProgramNode(node: unknown): node is ProgramNode {
   return Boolean(node) && typeof node === "object" && (node as EstreeNode).type === "Program";
 }
 
-export function isExpressionStatementNode(node: unknown): node is ExpressionStatementNode {
-  return (
-    Boolean(node) &&
-    typeof node === "object" &&
-    (node as EstreeNode).type === "ExpressionStatement" &&
-    "expression" in (node as ExpressionStatementNode)
-  );
-}
-
-export function isLiteralNode(node: unknown): node is LiteralNode {
+function isLiteralNode(node: unknown): node is LiteralNode {
   return Boolean(node) && typeof node === "object" && (node as EstreeNode).type === "Literal";
 }
 
 export function isStringLiteral(node: unknown): node is LiteralNode & { value: string } {
   return isLiteralNode(node) && typeof (node as LiteralNode).value === "string";
+}
+
+export function isRegexLiteral(
+  node: unknown,
+): node is LiteralNode & { regex: { pattern: string; flags: string } } {
+  return isLiteralNode(node) && "regex" in (node as LiteralNode);
 }

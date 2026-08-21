@@ -20,7 +20,8 @@ const compoundVariants = [];
 
 export const identityPlaceholderVariantMap = {
   "identity": [
-    "person"
+    "person",
+    "business"
   ]
 };
 

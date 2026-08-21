@@ -1,24 +1,27 @@
 import type { ReactNode } from "react";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
-import { breezeOptions } from "../layout.config";
-import { RootProvider } from "fumadocs-ui/provider";
+import { baseOptions } from "../layout.config";
+import { getBreezeSource } from "../source";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
 import { MotionProvider } from "@/components/MotionProvider";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
+  const breezeSource = await getBreezeSource();
   return (
     <MotionProvider>
       <RootProvider
         search={{
           SearchDialog: DefaultSearchDialog,
           options: {
-            defaultTag: TAGS.breeze.value,
             tags: Object.values(TAGS),
           },
         }}
       >
-        <DocsLayout {...breezeOptions}>{children}</DocsLayout>
+        <DocsLayout {...baseOptions} tree={breezeSource.pageTree}>
+          {children}
+        </DocsLayout>
       </RootProvider>
     </MotionProvider>
   );

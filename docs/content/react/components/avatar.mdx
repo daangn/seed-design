@@ -3,6 +3,8 @@ title: Avatar
 description: 사용자의 프로필 이미지를 표시하는 컴포넌트입니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
 <ComponentExample name="react/avatar/preview">
   ```json doc-gen:file
   {
@@ -24,16 +26,15 @@ npx @seed-design/cli@latest add ui:avatar
 
 ### `Avatar`
 
-<react-type-table path="./registry/ui/avatar.tsx" name="AvatarProps" />
+<react-type-table path="./registry/react/ui/avatar.tsx" name="AvatarProps" />
 
 ### `AvatarBadge`
 
-<react-type-table path="./registry/ui/avatar.tsx" name="AvatarBadgeProps" />
+<react-type-table path="./registry/react/ui/avatar.tsx" name="AvatarBadgeProps" />
 
 ### `AvatarStack`
 
-<react-type-table path="./registry/ui/avatar.tsx" name="AvatarStackProps" />
-
+<react-type-table path="./registry/react/ui/avatar.tsx" name="AvatarStackProps" />
 
 ## Examples
 
@@ -65,6 +66,19 @@ npx @seed-design/cli@latest add ui:avatar
   ```json doc-gen:file
   {
     "file": "examples/react/avatar/stack.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Fallback Image
+
+`fallback` prop으로 이미지가 로드되지 않았을 때 보여질 요소를 지정할 수 있습니다. 주로 [IdentityPlaceholder](/react/components/identity-placeholder)를 사용합니다.
+
+<ComponentExample name="react/avatar/fallback">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/avatar/fallback.tsx",
     "codeblock": true
   }
   ```

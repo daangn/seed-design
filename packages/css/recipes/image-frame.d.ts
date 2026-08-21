@@ -3,10 +3,6 @@ declare interface ImageFrameVariant {
   * @default false
   */
   stroke: boolean;
-/**
-  * @default false
-  */
-  rounded: boolean;
 }
 
 declare type ImageFrameVariantMap = {
@@ -15,11 +11,13 @@ declare type ImageFrameVariantMap = {
 
 export declare type ImageFrameVariantProps = Partial<ImageFrameVariant>;
 
+export declare type ImageFrameSlotName = "root" | "content" | "fallback";
+
 export declare const imageFrameVariantMap: ImageFrameVariantMap;
 
 export declare const imageFrame: ((
   props?: ImageFrameVariantProps,
-) => string) & {
+) => Record<ImageFrameSlotName, string>) & {
   splitVariantProps: <T extends ImageFrameVariantProps>(
     props: T,
   ) => [ImageFrameVariantProps, Omit<T, keyof ImageFrameVariantProps>];

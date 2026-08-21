@@ -1,5 +1,44 @@
 # @seed-design/docs-mcp
 
+## 0.7.0
+
+### Minor Changes
+
+- 56f57da: MCP TypeScript SDK를 v1(`@modelcontextprotocol/sdk`)에서 v2(`@modelcontextprotocol/server`)로 마이그레이션합니다.
+
+  - 두 패키지를 MCP 서버로만 사용하는 경우(`bunx @seed-design/mcp`, `npx @seed-design/docs-mcp` 등) 달라지는 것은 없습니다.
+  - 패키지를 직접 import해서 커스텀 MCP 서버에 통합하는 경우 아래 영향이 있습니다.
+    - `registerTools`(`@seed-design/mcp`)와 `initializeTools`, `server`(`@seed-design/docs-mcp`)가 다루는 `McpServer`의 출처가 `@modelcontextprotocol/sdk`에서 `@modelcontextprotocol/server`로 변경됩니다. v1으로 만든 `McpServer`는 더 이상 넘길 수 없으므로, 함께 v2로 옮겨야 합니다.
+    - `@modelcontextprotocol/server`를 직접 설치해야 합니다. 마이그레이션은 [공식 가이드](https://github.com/modelcontextprotocol/typescript-sdk/blob/main/docs/migration/upgrade-to-v2.md)의 codemod로 대부분 자동 처리됩니다.
+
+## 0.6.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 0.5.4
+
+### Patch Changes
+
+- 78a01b2: 아이콘 정보를 최신으로 업데이트합니다.
+
+## 0.5.3
+
+### Patch Changes
+
+- c5012d1: @seed-design/docs-mcp가 MCP SDK의 신규 API를 사용하도록 업데이트합니다.
+
+## 0.5.2
+
+### Patch Changes
+
+- 41cd943: 아이콘 데이터 및 Figma Codegen 컴포넌트 핸들러를 최신 버전으로 업데이트합니다.
+
 ## 0.5.1
 
 ### Patch Changes

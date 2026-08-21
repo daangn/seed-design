@@ -3,6 +3,8 @@ title: Menu Sheet
 description: Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
+<AvailableSince packages="@seed-design/stackflow@1.1.5, @seed-design/css@1.1.5" />
+
 <Card title="Menu Sheet" href="/react/components/menu-sheet">
 
 Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
@@ -95,6 +97,7 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 Menu Sheet Activity 위에 다른 Activity를 push할 때 Menu Sheet가 unmount되는 것을 방지하려면,
 
 - `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
+- `modal` prop을 `isActive`로 설정하고
 - `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
 
 이 패턴은 Menu Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우 유용합니다.
@@ -109,12 +112,18 @@ return (
       transitionState === "enter-active" || transitionState === "enter-done"
     }
     // [!code highlight]
+    modal={isActive}
+    // [!code highlight]
     onOpenChange={(open) => !open && isActive && pop()}
   >
     {/* ... */}
   </MenuSheetRoot>
 );
 ```
+
+1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Menu Sheet가 unmount되지 않도록 합니다.
+1. `modal={isActive}`로 Menu Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스 및 스크린 리더 접근이 동작하지 않습니다.
+1. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
 
 ## Syncing Menu Sheet State with a Step
 
@@ -359,7 +368,7 @@ const MyActivity: ActivityComponentType = () => {
 </Accordion>
 <Accordion title="@stackflow/react-ui-core useZIndexBase와 @seed-design/stackflow useActivityZIndexBase는 어떻게 다른가요?">
 
-- 두 훅 모두 현재 Activity가 enter된 Activity 중 **몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.**
+- 두 훅 모두 현재 Activity가 enter된 Activity 중 몇 번째 Activity인지를 바탕으로 z-index 스타일링에 필요한 값을 반환하는 훅입니다.
 - 두 훅이 반환하는 값은 같으나, [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui)가 아닌, SEED 컴포넌트를 사용하는 경우 SEED가 관리하는 `@seed-design/stackflow` 패키지의 `useActivityZIndexBase` 훅을 사용하는 것을 권장합니다.
 - `@stackflow/react-ui-core` 패키지의 `useActivityZIndexBase`는 `activityOffset` 옵션을 제공하지 않습니다.
 - `@seed-design/stackflow@1.1.1`부터 `useActivityZIndexBase` 훅이 제공됩니다.

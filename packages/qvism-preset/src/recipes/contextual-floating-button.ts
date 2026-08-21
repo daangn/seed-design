@@ -2,7 +2,13 @@ import { contextualFloatingButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon } from "../utils/icon";
-import { active, disabled, focus, loading, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button";
 
 const contextualFloatingButton = defineRecipe({
   name: "contextual-floating-button",
@@ -18,9 +24,8 @@ const contextualFloatingButton = defineRecipe({
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",
     fontFamily: "inherit",
-    [pseudo(focus)]: {
-      outline: "none",
-    },
+    ...createFocusRingRestStyles(),
+    [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },
@@ -54,7 +59,7 @@ const contextualFloatingButton = defineRecipe({
     "--size": vars.base.enabled.progressCircle.size,
     "--thickness": vars.base.enabled.progressCircle.thickness,
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -70,7 +75,7 @@ const contextualFloatingButton = defineRecipe({
         "--track-color": vars.variantSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantSolid.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -100,7 +105,7 @@ const contextualFloatingButton = defineRecipe({
         "--track-color": vars.variantLayer.enabled.progressCircle.trackColor,
         "--range-color": vars.variantLayer.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantLayer.pressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -122,10 +127,8 @@ const contextualFloatingButton = defineRecipe({
     layout: {
       withText: {
         minHeight: vars.layoutWithText.enabled.root.minHeight,
-        paddingLeft: vars.layoutWithText.enabled.root.paddingX,
-        paddingRight: vars.layoutWithText.enabled.root.paddingX,
-        paddingTop: vars.layoutWithText.enabled.root.paddingY,
-        paddingBottom: vars.layoutWithText.enabled.root.paddingY,
+        paddingInline: vars.layoutWithText.enabled.root.paddingX,
+        paddingBlock: vars.layoutWithText.enabled.root.paddingY,
         gap: vars.layoutWithText.enabled.root.gap,
 
         ...prefixIcon({
@@ -145,6 +148,9 @@ const contextualFloatingButton = defineRecipe({
   defaultVariants: {
     variant: "solid",
     layout: "withText",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

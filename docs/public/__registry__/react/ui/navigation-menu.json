@@ -1,0 +1,16 @@
+{
+  "id": "navigation-menu",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "navigation-menu.tsx",
+      "content": "/**\n * @file ui:navigation-menu\n * @requires @seed-design/react@^2.0.0\n * @requires @seed-design/css@^2.0.0\n **/\n\n\"use client\";\n\nimport { NavigationMenu as SeedNavigationMenu, PrefixIcon, SuffixIcon } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface NavigationMenuProviderProps extends SeedNavigationMenu.ProviderProps {}\n\nexport const NavigationMenuProvider = SeedNavigationMenu.Provider;\n\nexport interface NavigationMenuRootProps extends SeedNavigationMenu.RootProps {}\n\nexport const NavigationMenuRoot = SeedNavigationMenu.Root;\n\nexport interface NavigationMenuTriggerProps extends SeedNavigationMenu.TriggerProps {}\n\nexport const NavigationMenuTrigger = SeedNavigationMenu.Trigger;\n\nexport interface NavigationMenuContentProps extends SeedNavigationMenu.ContentProps {\n  positionerContainer?: SeedNavigationMenu.PositionerProps[\"container\"];\n}\n\nexport const NavigationMenuContent = React.forwardRef<HTMLDivElement, NavigationMenuContentProps>(\n  ({ children, positionerContainer, ...props }, ref) => {\n    return (\n      <SeedNavigationMenu.Positioner container={positionerContainer}>\n        <SeedNavigationMenu.Content ref={ref} {...props}>\n          <SeedNavigationMenu.ScrollArea>{children}</SeedNavigationMenu.ScrollArea>\n        </SeedNavigationMenu.Content>\n      </SeedNavigationMenu.Positioner>\n    );\n  },\n);\nNavigationMenuContent.displayName = \"NavigationMenuContent\";\n\nexport interface NavigationMenuGroupProps extends SeedNavigationMenu.GroupProps {}\n\nexport const NavigationMenuGroup = SeedNavigationMenu.Group;\n\nexport interface NavigationMenuGroupLabelProps extends SeedNavigationMenu.GroupLabelProps {}\n\nexport const NavigationMenuGroupLabel = SeedNavigationMenu.GroupLabel;\n\nexport interface NavigationMenuItemProps extends Omit<SeedNavigationMenu.ItemProps, \"children\"> {\n  prefixIcon?: React.ReactNode;\n\n  label: React.ReactNode;\n\n  description?: React.ReactNode;\n\n  suffixIcon?: React.ReactNode;\n}\n\nexport const NavigationMenuItem = React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(\n  ({ prefixIcon, label, description, suffixIcon, ...props }, ref) => {\n    return (\n      <SeedNavigationMenu.Item ref={ref} {...props}>\n        {prefixIcon && <PrefixIcon svg={prefixIcon} />}\n        <SeedNavigationMenu.ItemBody>\n          <SeedNavigationMenu.ItemLabel>{label}</SeedNavigationMenu.ItemLabel>\n          {description && (\n            <SeedNavigationMenu.ItemDescription>{description}</SeedNavigationMenu.ItemDescription>\n          )}\n        </SeedNavigationMenu.ItemBody>\n        {suffixIcon && <SuffixIcon svg={suffixIcon} />}\n      </SeedNavigationMenu.Item>\n    );\n  },\n);\nNavigationMenuItem.displayName = \"NavigationMenuItem\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^2.0.0",
+        "@seed-design/css": "^2.0.0"
+      }
+    }
+  ]
+}

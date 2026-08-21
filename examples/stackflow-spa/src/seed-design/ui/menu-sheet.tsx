@@ -2,10 +2,14 @@ import { PrefixIcon, MenuSheet as SeedMenuSheet } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export interface MenuSheetRootProps extends SeedMenuSheet.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/menu-sheet
+ * @deprecated Use swipeable-menu-sheet instead.
  */
 export const MenuSheetRoot = (props: MenuSheetRootProps) => {
   const { children, ...otherProps } = props;
@@ -16,10 +20,19 @@ export const MenuSheetRoot = (props: MenuSheetRootProps) => {
   );
 };
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export interface MenuSheetTriggerProps extends SeedMenuSheet.TriggerProps {}
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export const MenuSheetTrigger = SeedMenuSheet.Trigger;
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, "title"> {
   title?: React.ReactNode;
 
@@ -28,6 +41,9 @@ export interface MenuSheetContentProps extends Omit<SeedMenuSheet.ContentProps, 
   layerIndex?: number;
 }
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps>(
   ({ children, title, description, layerIndex, ...otherProps }, ref) => {
     if (
@@ -54,7 +70,7 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
           <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
           <SeedMenuSheet.Footer>
             {/* You may implement your own i18n for dismiss label */}
-            <SeedMenuSheet.CloseButton>취소</SeedMenuSheet.CloseButton>
+            <SeedMenuSheet.CloseButton>닫기</SeedMenuSheet.CloseButton>
           </SeedMenuSheet.Footer>
         </SeedMenuSheet.Content>
       </SeedMenuSheet.Positioner>
@@ -62,10 +78,19 @@ export const MenuSheetContent = forwardRef<HTMLDivElement, MenuSheetContentProps
   },
 );
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export interface MenuSheetGroupProps extends SeedMenuSheet.GroupProps {}
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export const MenuSheetGroup = SeedMenuSheet.Group;
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "children"> {
   prefixIcon?: React.ReactNode;
 
@@ -74,6 +99,9 @@ export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "child
   description?: React.ReactNode;
 }
 
+/**
+ * @deprecated Use swipeable-menu-sheet instead.
+ */
 export const MenuSheetItem = forwardRef<HTMLButtonElement, MenuSheetItemProps>(
   ({ prefixIcon, label, description, ...props }, ref) => {
     return (

@@ -1,5 +1,47 @@
 # @seed-design/react-tabs
 
+## 2.0.1
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-supports@1.0.1
+
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [ec33023]
+  - @seed-design/react-primitive@2.0.0
+
+## 1.0.5
+
+### Patch Changes
+
+- 81ec9f5: lazyMount를 사용하는 Tabs · ChipTabs에서 멀리 떨어진 탭을 선택하면 다른 탭이 열리던 문제를 해결합니다. lazyMount 및 TabsCarousel 사용 시 TabsContent 자체를 항상 렌더하고, TabsContent의 children만 lazy mount하도록 변경합니다.
+- 136a150: iOS 환경에서 ChipTabs + ScrollFog 사용 시 가로 스크롤이 동작하지 않는 문제를 해결합니다.
+
+## 1.0.4
+
+### Patch Changes
+
+- db6ea04: `TabsCarousel`의 `autoHeight`와 `lazyMount`를 함께 사용할 때 lazy content 마운트 후 높이가 갱신되지 않는 문제를 수정합니다.
+
+  - Embla v8 AutoHeight 플러그인이 slide 내부 content의 높이 변화를 감지하지 못하는 알려진 이슈에 대해 `watchResize` workaround를 적용합니다.
+
+## 1.0.3
+
+### Patch Changes
+
+- 2552b1d: Tabs trigger에 포커스 후 키보드 조작으로 탭 변경 시 탭은 변경되지만 포커스가 이동하지 않는 문제를 수정합니다.
+- a465d74: Tabs trigger에 포커스된 상태에서 키보드 조작 시 스크롤 등 브라우저 기본 동작이 발생하지 않도록 수정합니다.
+
 ## 1.0.2
 
 ### Patch Changes

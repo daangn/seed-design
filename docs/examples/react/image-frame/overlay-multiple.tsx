@@ -4,6 +4,7 @@ import {
   ImageFrameBadge,
   ImageFrameReactionButton,
 } from "@seed-design/react";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 import { useState } from "react";
 
 export default function ImageFrameOverlayMultipleExample() {
@@ -17,6 +18,7 @@ export default function ImageFrameOverlayMultipleExample() {
       src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
       alt="Landscape with multiple overlays"
       style={{ width: 200 }}
+      fallback={<ContentPlaceholder type="coupon" />}
     >
       <ImageFrameFloater placement="top-start">
         <ImageFrameBadge tone="brand" variant="solid">

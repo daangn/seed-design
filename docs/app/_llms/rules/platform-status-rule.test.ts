@@ -1,49 +1,66 @@
-import { beforeAll, describe, expect, it } from "bun:test";
-import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
-import { platformStatusRule } from "./platform-status-rule";
+import { describe, expect, it } from "bun:test";
+import type { ComponentData } from "../../../sanity-studio/lib/types";
+import { generateMarkdownTable } from "./platform-status-rule";
 
-describe("platformStatusRule", () => {
-  describe("with Sanity data", () => {
-    beforeAll(async () => {
-      await platformStatusRule.init?.();
-    });
+const base: ComponentData = {
+  id: "button",
+  name: "Button",
+  figmaStatus: "ready",
+  reactStatus: "in-progress",
+  lynxStatus: "ready",
+  iosStatus: "not-ready",
+  androidStatus: "not-planned",
+};
 
-    it("converts PlatformStatusTable to a markdown table", () => {
-      const input = `<PlatformStatusTable componentId="action-button" />`;
-
-      const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
-
-      expect(actual).toContain("| Platform |");
-      expect(actual).toContain("| --- |");
-      expect(actual).toContain("Figma");
-      expect(actual).toContain("React");
-      expect(actual).toContain("iOS");
-      expect(actual).toContain("Android");
-    });
-
-    it("includes status labels in the table", () => {
-      const input = `<PlatformStatusTable componentId="action-button" />`;
-
-      const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
-
-      const validStatuses = ["Done", "In Progress", "Not Ready", "Deprecated", "Not Planned"];
-      expect(validStatuses.some((s) => actual.includes(s))).toBe(true);
-    });
+describe("generateMarkdownTable", () => {
+  it("renders one row per platform with its status label, dropping the Note column", () => {
+    expect(generateMarkdownTable(base)).toBe(
+      [
+        "| Platform | Status |",
+        "| --- | --- |",
+        "| Figma | Done |",
+        "| React | In Progress |",
+        "| Lynx | Done |",
+        "| iOS | Not Ready |",
+        "| Android | Not Planned |",
+      ].join("\n"),
+    );
   });
 
-  it("keeps the original node when componentId is missing", () => {
-    const input = "<PlatformStatusTable />";
+  it("links the platform when a url is set and keeps the Note column once any platform has a note", () => {
+    const component: ComponentData = {
+      ...base,
+      figmaStatus: "deprecated",
+      figmaNote: "Use NewTab",
+      reactStatus: "ready",
+      reactUrl: "https://example.com/tab",
+      reactNote: "see migration",
+    };
 
-    const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
-
-    expect(actual).toContain("PlatformStatusTable");
+    expect(generateMarkdownTable(component)).toBe(
+      [
+        "| Platform | Status | Note |",
+        "| --- | --- | --- |",
+        "| Figma | Deprecated | Use NewTab |",
+        "| [React](https://example.com/tab) | Done | see migration |",
+        "| Lynx | Done |  |",
+        "| iOS | Not Ready |  |",
+        "| Android | Not Planned |  |",
+      ].join("\n"),
+    );
   });
 
-  it("keeps the original node when component is not found", () => {
-    const input = `<PlatformStatusTable componentId="nonexistent-component" />`;
-
-    const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
-
-    expect(actual).toContain("PlatformStatusTable");
+  it("escapes pipes and flattens newlines so a note cannot break the table", () => {
+    expect(generateMarkdownTable({ ...base, figmaNote: "a | b\nc" })).toBe(
+      [
+        "| Platform | Status | Note |",
+        "| --- | --- | --- |",
+        "| Figma | Done | a \\| b c |",
+        "| React | In Progress |  |",
+        "| Lynx | Done |  |",
+        "| iOS | Not Ready |  |",
+        "| Android | Not Planned |  |",
+      ].join("\n"),
+    );
   });
 });

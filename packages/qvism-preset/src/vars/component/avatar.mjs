@@ -79,6 +79,22 @@ export const vars = {
       }
     }
   },
+  "size56": {
+    "enabled": {
+      "root": {
+        "size": "56px",
+        "strokeWidth": "1px"
+      },
+      "badgeMask": {
+        "offset": "34px",
+        "size": "24px"
+      },
+      "badge": {
+        "offset": "36px",
+        "size": "20px"
+      }
+    }
+  },
   "size64": {
     "enabled": {
       "root": {

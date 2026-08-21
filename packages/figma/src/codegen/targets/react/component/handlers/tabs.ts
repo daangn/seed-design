@@ -1,7 +1,7 @@
 import { createLocalSnippetHelper } from "../../element-factories";
 import type {
-  ChipProperties,
   ChipTabsTriggerProperties,
+  LegacyChipProperties,
   TabsChipWrapperProperties,
   TabsLineTriggerFillProperties,
   TabsLineTriggerHugProperties,
@@ -217,7 +217,10 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
 
       const triggers = nodes.map((node) => {
         // this is redundant; can this be better?
-        const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
+        const [chip] = findAllInstances<LegacyChipProperties>({
+          node,
+          key: metadata.componentDeprecatedChip.key,
+        });
         if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
         return {
@@ -230,9 +233,9 @@ const createChipTabsHandler = (_ctx: ComponentHandlerDeps) => {
         (node) => node.componentProperties.State.value === "Selected",
       );
       const [selectedChip] = selectedTrigger
-        ? findAllInstances<ChipProperties>({
+        ? findAllInstances<LegacyChipProperties>({
             node: selectedTrigger,
-            key: metadata.componentChip.key,
+            key: metadata.componentDeprecatedChip.key,
           })
         : [undefined];
       if (!selectedChip) throw new Error("Chip not found in ChipTabsTrigger");
@@ -273,7 +276,10 @@ const createChipTabsTriggerHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ChipTabsTriggerProperties>(
     metadata.privateComponentTabItemChip.key,
     (node) => {
-      const [chip] = findAllInstances<ChipProperties>({ node, key: metadata.componentChip.key });
+      const [chip] = findAllInstances<LegacyChipProperties>({
+        node,
+        key: metadata.componentDeprecatedChip.key,
+      });
       if (!chip) throw new Error("Chip not found in ChipTabsTrigger");
 
       const props = node.componentProperties;

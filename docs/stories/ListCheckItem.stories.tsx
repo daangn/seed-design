@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 import { Fragment } from "react";
 
 import { List, ListCheckItem, ListDivider } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -16,15 +16,14 @@ import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { ListHeader } from "seed-design/ui/list-header";
 
-const meta = {
+const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
+)}`;
+
+const meta = preview.meta({
   component: ListCheckItem,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ListCheckItem>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const positionVariants = [
   { key: "prefix", position: "prefix" },
   { key: "suffix", position: "suffix" },
@@ -40,13 +39,7 @@ const prefixVariants = [
   { key: "icon", element: <Icon svg={<IconPersonCircleLine />} /> },
   {
     key: "avatar",
-    element: (
-      <Avatar
-        size="48"
-        src="https://avatars.githubusercontent.com/u/54893898?v=4"
-        fallback={<IdentityPlaceholder />}
-      />
-    ),
+    element: <Avatar size="48" src={SAMPLE_IMAGE} fallback={<IdentityPlaceholder />} />,
   },
 ];
 
@@ -171,7 +164,7 @@ const stateVariants = [
   },
 ] as const;
 
-const CommonTemplate: Story = {
+const CommonTemplate = meta.story({
   args: {
     title: "List Check Item",
   },
@@ -241,21 +234,18 @@ const CommonTemplate: Story = {
       ))}
     </>
   ),
-};
-
-export const LightTheme = CommonTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonTemplate.extend({});
+
+export const DarkTheme = CommonTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

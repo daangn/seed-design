@@ -1,10 +1,37 @@
 // import Seed Design
+import { definePreview } from "@storybook/nextjs-vite";
+
 import "@seed-design/css/all.css";
 
-import type { Preview } from "@storybook/nextjs";
+import { breakpoints } from "@seed-design/css/breakpoints";
+import { ViewportMap } from "storybook/viewport";
+import type { StoryParameters } from "../stories/utils/parameters";
 
-const preview: Preview = {
+const breakpointValues = Object.values(breakpoints);
+
+const viewportMap: ViewportMap = Object.fromEntries(
+  Object.entries(breakpoints).map(([key, value], i) => {
+    const nextValue = breakpointValues[i + 1];
+    const w = nextValue != null ? nextValue - 10 : value + 150;
+
+    return [
+      key,
+      {
+        name: `${w}px (>= ${key} (${value}px))`,
+        styles: {
+          width: `${w}px`,
+          height: `${Math.round(w > 768 ? (w * 9) / 16 : (w * 18.5) / 9)}px`,
+        },
+      },
+    ];
+  }),
+);
+
+export default definePreview({
   parameters: {
+    viewport: {
+      options: viewportMap,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -12,6 +39,6 @@ const preview: Preview = {
       },
     },
   },
-};
 
-export default preview;
+  addons: [],
+}).type<{ parameters: StoryParameters }>();

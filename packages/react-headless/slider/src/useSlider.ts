@@ -13,6 +13,7 @@ import {
   type RefCallback,
 } from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { useSupports } from "@seed-design/react-supports";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
 import { useElementSizesMap } from "./useElementSizesMap";
@@ -110,6 +111,8 @@ function useSliderState({
   const [openThumbIndex, setOpenThumbIndex] = useState<number | null>(null);
   const [activeThumbIndex, setActiveThumbIndex] = useState<number | null>(null);
   const [shownIndicators, setShownIndicators] = useState<Set<number>>(new Set());
+  const [focusVisibleThumbIndex, setFocusVisibleThumbIndex] = useState<number | null>(null);
+  const pointerInteractingRef = useRef(false);
 
   const updateValues = useCallback(
     (value: number, atIndex: number, options?: { commit?: boolean }) => {
@@ -144,7 +147,11 @@ function useSliderState({
         // This ensures only one value indicator is shown
         if (isDragging || isPointerDown) {
           setActiveThumbIndex(newIndex);
-          // Also update openThumbIndex for hover mode to prevent both indicators from showing
+        }
+        // Only update openThumbIndex during actual drag — setting it on a
+        // track click (isPointerDown && !isDragging) causes hover-mode
+        // indicator to flash because openThumbIndex triggers visibility.
+        if (isDragging) {
           setOpenThumbIndex(newIndex);
         }
 
@@ -155,7 +162,9 @@ function useSliderState({
           uncommittedValuesRef.current = nextValues;
         }
 
-        thumbRefsMap.current.get(valueIndexToChangeRef.current)?.focus();
+        thumbRefsMap.current.get(valueIndexToChangeRef.current)?.focus({
+          focusVisible: !pointerInteractingRef.current,
+        } as FocusOptions);
 
         return nextValues;
       });
@@ -311,6 +320,9 @@ function useSliderState({
     setActiveThumbIndex,
     shownIndicators,
     setShownIndicators,
+    focusVisibleThumbIndex,
+    setFocusVisibleThumbIndex,
+    pointerInteractingRef,
 
     getValueFromPointer,
 
@@ -355,9 +367,9 @@ export interface UseSliderProps extends UseSliderStateProps {
   getValueIndicatorLabel?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
 
   /**
-   * @default "active"
+   * @default "auto"
    */
-  valueIndicatorTrigger?: "active" | "hover";
+  valueIndicatorTrigger?: "active" | "hover" | "auto";
 
   /**
    * @default 150
@@ -378,7 +390,7 @@ export function useSlider({
   getAriaLabel,
   getAriaLabelledby,
   getValueIndicatorLabel = ({ value }) => value,
-  valueIndicatorTrigger = "active",
+  valueIndicatorTrigger = "auto",
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -386,8 +398,59 @@ export function useSlider({
   const api = useSliderState(props);
   const isSSR = useIsSSR();
   const id = useId();
+  const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+
+  const resolvedTrigger = useMemo((): "active" | "hover" => {
+    if (valueIndicatorTrigger !== "auto") return valueIndicatorTrigger;
+    if (typeof window === "undefined") return "active";
+    return window.matchMedia("(hover: hover)").matches ? "hover" : "active";
+  }, [valueIndicatorTrigger]);
 
   const isLtr = api.dir === "ltr";
+
+  const visibleIndicatorIndices = useMemo(() => {
+    const indices = new Set<number>();
+    for (let i = 0; i < api.values.length; i++) {
+      if (api.focusVisibleThumbIndex === i) {
+        indices.add(i);
+        continue;
+      }
+      switch (resolvedTrigger) {
+        case "hover":
+          if (
+            api.openThumbIndex === i ||
+            (api.isDragging && api.valueIndexToChangeRef.current === i)
+          ) {
+            indices.add(i);
+          }
+          break;
+        case "active":
+          if (api.isDragging && api.valueIndexToChangeRef.current === i) {
+            indices.add(i);
+          }
+          break;
+      }
+    }
+    return indices;
+  }, [
+    api.values.length,
+    api.focusVisibleThumbIndex,
+    api.openThumbIndex,
+    api.isDragging,
+    resolvedTrigger,
+  ]);
+
+  useEffect(() => {
+    if (visibleIndicatorIndices.size === 0) return;
+
+    api.setShownIndicators((prev) => {
+      const next = new Set(prev);
+      for (const index of visibleIndicatorIndices) {
+        next.add(index);
+      }
+      return next.size === prev.size ? prev : next;
+    });
+  }, [visibleIndicatorIndices, api.setShownIndicators]);
 
   const stateProps = useMemo(
     () =>
@@ -420,9 +483,12 @@ export function useSlider({
         onPointerLeave: () => {
           api.setIsHovered(false);
           api.setIsActive(false);
+          api.setOpenThumbIndex(null);
         },
         onPointerDown: (event) => {
           api.setIsActive(true);
+          api.setFocusVisibleThumbIndex(null);
+          api.pointerInteractingRef.current = true;
 
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
@@ -440,7 +506,7 @@ export function useSlider({
           // away from target (sliding). We want thumb to focus regardless.
           if (event.target.getAttribute("role") === "slider") {
             // target is thumb
-            event.target.focus();
+            event.target.focus({ focusVisible: false } as FocusOptions);
 
             const thumbIndex = getClosestValueIndex(
               api.values,
@@ -463,7 +529,9 @@ export function useSlider({
               api.values,
               api.getValueFromPointer(event.clientX),
             );
-            api.thumbRefsMap.current.get(closestIndex)?.focus();
+            api.thumbRefsMap.current
+              .get(closestIndex)
+              ?.focus({ focusVisible: false } as FocusOptions);
 
             return;
           }
@@ -532,6 +600,8 @@ export function useSlider({
               if (isOverThumb) {
                 // Keep open state when transitioning from drag to hover
                 api.setOpenThumbIndex(api.activeThumbIndex);
+              } else {
+                api.setOpenThumbIndex(null);
               }
             }
           }
@@ -556,6 +626,28 @@ export function useSlider({
           if (disabled || readOnly) return;
 
           const atIndex = api.valueIndexToChangeRef.current;
+
+          const isSliderKey =
+            event.key === "Home" ||
+            event.key === "End" ||
+            event.key === "PageUp" ||
+            event.key === "PageDown" ||
+            event.key === "ArrowUp" ||
+            event.key === "ArrowDown" ||
+            event.key === "ArrowLeft" ||
+            event.key === "ArrowRight";
+
+          if (isSliderKey) {
+            // Re-focus to show focus ring when switching from pointer to keyboard.
+            // .focus() on already-focused element is a no-op, so blur first (hacky).
+            const thumb = api.thumbRefsMap.current.get(atIndex);
+            thumb?.blur();
+            thumb?.focus();
+
+            // Set after blur/focus so this is the last queued update,
+            // overriding onBlur's conditional setFocusVisibleThumbIndex(null).
+            api.setFocusVisibleThumbIndex(atIndex);
+          }
 
           switch (event.key) {
             case "Home": {
@@ -618,6 +710,7 @@ export function useSlider({
       api.handleSlideStart,
       api.isDragging,
       api.setActiveThumbIndex,
+      api.setFocusVisibleThumbIndex,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
@@ -697,8 +790,21 @@ export function useSlider({
           "--thumb-position": percent,
           "--thumb-offset": `${thumbInBoundsOffset}px`,
         } as CSSProperties,
-        onFocus: () => {
+        onFocus: (event) => {
           api.valueIndexToChangeRef.current = index;
+          // Use ref (synchronous) instead of state to reliably detect
+          // pointer interactions — state updates are batched and may not
+          // be flushed when focus fires synchronously from .focus() calls
+          if (api.pointerInteractingRef.current) return;
+          if (isFocusVisibleSupported && event.target.matches(":focus-visible")) {
+            api.setFocusVisibleThumbIndex(index);
+          }
+        },
+        onBlur: () => {
+          api.pointerInteractingRef.current = false;
+          if (api.focusVisibleThumbIndex === index) {
+            api.setFocusVisibleThumbIndex(null);
+          }
         },
         onMouseEnter: () => {
           if (disabled) return;
@@ -719,12 +825,15 @@ export function useSlider({
       api.isDragging,
       api.max,
       api.min,
+      api.focusVisibleThumbIndex,
+      api.setFocusVisibleThumbIndex,
       api.setOpenThumbIndex,
       api.values,
       disabled,
       getAriaLabel,
       getAriaLabelledby,
       getAriaValuetext,
+      isFocusVisibleSupported,
       invalid,
       isLtr,
       readOnly,
@@ -838,26 +947,8 @@ export function useSlider({
         1,
       );
 
-      // Visibility logic by trigger mode:
-      // - 'active' (default): ONLY show when dragging
-      // - 'hover': Show when hovering OR dragging
-      const isShown = (() => {
-        switch (valueIndicatorTrigger) {
-          case "hover":
-            return (
-              api.openThumbIndex === index ||
-              (api.isDragging && api.valueIndexToChangeRef.current === index)
-            );
-          case "active":
-            return api.isDragging && api.valueIndexToChangeRef.current === index;
-        }
-      })();
-
+      const isShown = visibleIndicatorIndices.has(index);
       const hasEverBeenShown = getHasEverBeenShown(index);
-
-      if (isShown && !hasEverBeenShown) {
-        setTimeout(() => api.setShownIndicators((prev) => new Set(prev).add(index)), 0);
-      }
 
       return {
         rootProps: elementProps({
@@ -888,16 +979,14 @@ export function useSlider({
       api.isDragging,
       api.max,
       api.min,
-      api.openThumbIndex,
-      api.setShownIndicators,
       api.values,
       api.valueIndicatorRootSizes,
       api.valueIndexToChangeRef,
       api.rootSize?.width,
       api.firstThumbSize?.width,
+      visibleIndicatorIndices,
       getValueIndicatorLabel,
       stateProps,
-      valueIndicatorTrigger,
       getHasEverBeenShown,
     ],
   );

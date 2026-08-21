@@ -105,7 +105,7 @@ export const createMenuSheetHandler = (ctx: ComponentHandlerDeps) => {
         createLocalSnippetElementTrigger("ActionButton", {}, "MenuSheet 열기"),
       );
 
-      return createLocalSnippetElement("MenuSheet", undefined, [trigger, content]);
+      return createLocalSnippetElement("MenuSheetRoot", undefined, [trigger, content]);
     },
   );
 };

@@ -83,9 +83,17 @@
     height: 2px;
     background-color: var(--seed-color-fg-neutral);
 }
+.seed-tabs__trigger {
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+.seed-tabs__trigger:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
 .seed-tabs__list--triggerLayout_fill {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-inline: 0px;
     justify-content: space-around;
 }
 .seed-tabs__indicator--triggerLayout_fill {
@@ -96,12 +104,10 @@
     flex: 1;
 }
 .seed-tabs__trigger--triggerLayout_fill:is([aria-selected=true], [data-selected])[data-ssr]:after {
-    left: var(--seed-dimension-spacing-x-global-gutter);
-    right: var(--seed-dimension-spacing-x-global-gutter);
+    inset-inline: var(--seed-dimension-spacing-x-global-gutter);
 }
 .seed-tabs__list--triggerLayout_hug {
-    padding-left: var(--seed-dimension-spacing-x-global-gutter);
-    padding-right: var(--seed-dimension-spacing-x-global-gutter);
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     justify-content: flex-start;
 }
 .seed-tabs__indicator--triggerLayout_hug {
@@ -109,8 +115,7 @@
     width: calc(var(--indicator-width, 0px) - 2 * 0px);
 }
 .seed-tabs__trigger--triggerLayout_hug:is([aria-selected=true], [data-selected])[data-ssr]:after {
-    left: 0;
-    right: 0;
+    inset-inline: 0;
 }
 .seed-tabs__root--contentLayout_fill {
     display: flex;
@@ -135,10 +140,8 @@
 }
 .seed-tabs__trigger--size_small {
     min-height: 40px;
-    padding-left: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x2_5);
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x2_5);
+    padding-block: var(--seed-dimension-x2_5);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
@@ -151,10 +154,8 @@
 }
 .seed-tabs__trigger--size_medium {
     min-height: 44px;
-    padding-left: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x2_5);
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x2_5);
+    padding-block: var(--seed-dimension-x2_5);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);

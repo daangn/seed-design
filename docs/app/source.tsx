@@ -1,168 +1,328 @@
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
-import { docs, reactDocs, breezeDocs, lynxDocs, aiIntegrationDocs } from "@/.source/server";
-import { getRootageMetadata } from "@/components/rootage";
-import type { Node, Root } from "fumadocs-core/page-tree";
-import { loader } from "fumadocs-core/source";
-import type { Source, SourceConfig } from "fumadocs-core/source";
+import { localMd, type SatteriLocalMarkdown } from "@fumadocs/satteri/local-md";
+import { watchWithDevServer } from "@fumadocs/satteri/local-md/dev/ws";
+import { remarkAutoTypeTable } from "@fumadocs/satteri/remark-auto-type-table";
+import { remarkLlms, type LLMsOptions } from "@fumadocs/satteri/remark-llms";
+import type { SatteriPresetOptions } from "@fumadocs/satteri/preset";
+import { dynamicLoader } from "fumadocs-core/source/dynamic";
+import {
+  type ContentStorage,
+  type DynamicSource,
+  type PageTreeTransformer,
+} from "fumadocs-core/source";
+import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
+import { fileGenerator } from "fumadocs-docgen";
+import { defaultHandlers } from "mdast-util-to-markdown";
 import type { ComponentType, SVGProps } from "react";
+import z from "zod";
+import { env } from "@/app/env";
+import { preserveRuleElements } from "@/app/_llms/rule-elements";
+import { readFigmaImageManifest } from "@/components/figma-image/figma-image-manifest";
+import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
+import { filteredTypeTableGenerator } from "@/components/type-table/generator";
+import { markFeatured } from "@/lib/featured";
+import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
+import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
+import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
+import {
+  filterStructureElement,
+  structureOptions,
+  structureStringify,
+} from "@/lib/satteri/search-structure";
+import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
+import { updatesFrontmatterSchema } from "@/lib/updates-frontmatter";
+
+interface SatteriExports extends Record<string, unknown> {
+  processed?: string;
+}
 
 const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   Lock: IconLockLine,
 };
 
-const DeprecatedBadge = () => {
-  return (
-    <span className="px-1.5 py-0.5 text-xs bg-red-100 text-red-800 rounded ml-1 flex-none">
-      Deprecated
-    </span>
-  );
-};
-
-function getComponentIdFromUrl(url: string): string | null {
-  const urlParts = url.split("/");
-  const isComponentPage = urlParts.includes("components");
-  return isComponentPage ? urlParts[urlParts.length - 1] : null;
-}
-
-async function transformPageTreeWithBadges(
-  tree: Root,
-  sourceLoader: typeof baseDocsSource,
-): Promise<Root> {
-  try {
-    async function transformNode(node: Node): Promise<Node> {
-      if (node.type === "page") {
-        const componentId = getComponentIdFromUrl(node.url);
-        const page = sourceLoader.getNodePage(node);
-        if (!componentId) return node;
-
-        // 1. Check frontmatter deprecated (priority 1)
-        const frontmatterDeprecated = page?.data?.deprecated;
-        // 2. Get rootage metadata once if needed
-        const metadata = frontmatterDeprecated ? null : await getRootageMetadata(componentId);
-        // Determine deprecated status and message
-        const deprecated = frontmatterDeprecated ? true : Boolean(metadata?.deprecated);
-        // 3. Check updated status (priority 3) - only if not deprecated
-        if (deprecated) {
-          return {
-            ...node,
-            name: (
-              <span className="flex items-center" key={node.$id}>
-                <span>{node.name}</span>
-                <DeprecatedBadge />
-              </span>
-            ),
-          };
-        }
-
-        return node;
-      }
-
-      if (node.type === "folder" && node.children) {
-        return {
-          ...node,
-          children: await Promise.all(node.children.map(transformNode)),
-        };
-      }
-
-      return node;
-    }
-
-    return {
-      ...tree,
-      children: await Promise.all(tree.children.map(transformNode)),
-    };
-  } catch (error) {
-    console.warn("Failed to transform page tree with labels:", error);
-    return tree;
-  }
-}
-
 const iconHandler = (icon: string | undefined) => {
-  if (!icon || !(icon in iconMap)) {
-    return undefined;
-  }
+  if (!icon || !(icon in iconMap)) return undefined;
 
   const Icon = iconMap[icon];
   return <Icon />;
 };
 
-type SourceConfigFromSource<TSource extends { files: Array<{ type: string; data: unknown }> }> = {
-  pageData: Extract<TSource["files"][number], { type: "page" }>["data"];
-  metaData: Extract<TSource["files"][number], { type: "meta" }>["data"];
-} & SourceConfig;
+/**
+ * 모든 문서 컬렉션이 공유하는 frontmatter 베이스입니다.
+ *
+ * - `deprecated`: 페이지나 컴포넌트의 지원 중단 표시
+ * - `layout`: 표준 문서와 자체 overview 레이아웃 구분
+ * - `featured`: 사이드바 라벨 뒤의 강조 점 표시
+ */
+const baseDocsSchema = pageSchema.extend({
+  deprecated: z.boolean().optional(),
+  layout: z.enum(["docs", "overview"]).default("docs"),
+  featured: z.boolean().optional(),
+});
 
-function createTypedLoader<TSource extends { files: Array<{ type: string; data: unknown }> }>(
-  baseUrl: string,
-  source: TSource,
-) {
-  type Config = SourceConfigFromSource<TSource>;
+const staticCoverImageSchema = {
+  coverImage: z
+    .string()
+    .refine(isValidCoverImagePath, { message: COVER_IMAGE_PATH_ERROR_MESSAGE })
+    .optional(),
+};
 
-  return loader<Config>({
+const headingSchema = {
+  heading: z.string().optional(),
+};
+
+/** `layout: "tabs"`인 meta.json의 고정 헤더 데이터를 보존합니다. */
+const docsMetaSchema = metaSchema.extend({
+  layout: z.enum(["tabs"]).optional(),
+  ...staticCoverImageSchema,
+});
+
+const designSchema = baseDocsSchema.extend({
+  coverImageFigmaId: z.string().optional(),
+  ...staticCoverImageSchema,
+  ...headingSchema,
+});
+
+/** 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다. */
+const filterLlmsElement = preserveRuleElements(filterStructureElement);
+
+const llmsOptions: LLMsOptions = {
+  as: "processed",
+  // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
+  // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
+  handlers: { heading: defaultHandlers.heading },
+  // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
+  headingIds: false,
+  filterElement: filterLlmsElement,
+  filterMdxAttributes: structureStringify.filterMdxAttributes,
+};
+
+const figmaImageManifest = readFigmaImageManifest();
+const customMdastPlugins = [
+  remarkDocGen({ generators: [fileGenerator()] }),
+  remarkAutoTypeTable({
+    generator: filteredTypeTableGenerator,
+    name: "react-type-table",
+    options: { basePath: process.cwd() },
+  }),
+  remarkFigmaImage({
+    fileKey: env.figmaFileKey,
+    accessToken: env.figmaPersonalAccessToken,
+    manifest: figmaImageManifest,
+    fetchUrlsOptions: {
+      format: "png",
+      scale: 2,
+    },
+  }),
+  remarkApplyLlmsFilter(filterLlmsElement),
+  remarkLlms(llmsOptions),
+];
+
+function createSatteriOptions(): SatteriPresetOptions {
+  return {
+    // 문서에서 directive 문법을 쓰지 않습니다. 켜 두면 한국어의 `2:1로` 같은 비율을
+    // textDirective로 해석해 LLM용 Markdown 직렬화가 실패합니다.
+    features: { directive: false },
+    // Local Markdown는 런타임 함수 본문으로 컴파일하므로 이미지 import 식별자를 만들지 않습니다.
+    // public 경로는 그대로 유지하고 크기만 읽어 레이아웃 이동을 방지합니다.
+    remarkImageOptions: { useImport: false },
+    remarkStructureOptions: structureOptions,
+    remarkNpmOptions: {
+      persist: {
+        id: "package-manager",
+      },
+    },
+    // 컬렉션 사이에서 같은 플러그인을 공유해 Figma URL 요청 상태를 재사용합니다.
+    mdastPlugins: customMdastPlugins,
+    rehypeCodeOptions: {
+      lazy: true,
+      langs: ["ts", "js", "html", "tsx", "mdx"],
+      inline: "tailing-curly-colon",
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+    },
+  };
+}
+
+const docs = localMd({
+  dir: "content/docs",
+  frontmatterSchema: baseDocsSchema.extend({ coverImageFigmaId: z.string().optional() }),
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const getStartedDocs = localMd({
+  dir: "content/get-started",
+  frontmatterSchema: designSchema,
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const foundationsDocs = localMd({
+  dir: "content/foundations",
+  frontmatterSchema: designSchema,
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const componentsDocs = localMd({
+  dir: "content/components",
+  frontmatterSchema: designSchema.extend({
+    componentIds: z.array(z.string()).optional(),
+    // 영문 이름과 한글 검색어가 다른 컴포넌트를 검색 다이얼로그의 컴포넌트 카드에서 찾을 수
+    // 있게 하는 별칭입니다 (`메뉴` → Menu). 문서 본문 검색에는 반영되지 않습니다.
+    keywords: z.array(z.string()).optional(),
+  }),
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const patternsDocs = localMd({
+  dir: "content/patterns",
+  frontmatterSchema: designSchema,
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const reactDocs = localMd({
+  dir: "content/react",
+  frontmatterSchema: baseDocsSchema.extend({ ...staticCoverImageSchema, ...headingSchema }),
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const breezeDocs = localMd({
+  dir: "content/breeze",
+  frontmatterSchema: baseDocsSchema,
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const lynxDocs = localMd({
+  dir: "content/lynx",
+  frontmatterSchema: baseDocsSchema.extend({ ...staticCoverImageSchema, ...headingSchema }),
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const aiIntegrationDocs = localMd({
+  dir: "content/ai-integration",
+  frontmatterSchema: baseDocsSchema.extend({ ...staticCoverImageSchema, ...headingSchema }),
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+const updatesDocs = localMd({
+  dir: "content/updates",
+  frontmatterSchema: updatesFrontmatterSchema,
+  metaSchema: docsMetaSchema,
+  satteriOptions: createSatteriOptions,
+});
+
+// meta.json `layout: "tabs"`를 폴더 노드에 기록해 탭형 헤더와 사이드바가 함께 사용합니다.
+function createTabbedFolderTransformer<S extends ContentStorage>(): PageTreeTransformer<S> {
+  return {
+    folder(node, _folderPath, metaPath) {
+      if (!metaPath || !node.index) return node;
+      const meta = this.storage.read(metaPath);
+      const data =
+        meta?.format === "meta"
+          ? (meta.data as { layout?: string; description?: string; coverImage?: string })
+          : undefined;
+      if (data?.layout !== "tabs") return node;
+
+      markTabbedFolder(node);
+      const tabbed = node as TabbedFolderNode;
+      if (data.description) tabbed.description = data.description;
+      if (data.coverImage) tabbed.coverImage = data.coverImage;
+      return node;
+    },
+  };
+}
+
+// Local Markdown는 커스텀 frontmatter를 `data.frontmatter`에 보관합니다.
+function createFeaturedTransformer<S extends ContentStorage>(): PageTreeTransformer<S> {
+  return {
+    file(node, filePath) {
+      if (!filePath) return node;
+      const file = this.storage.read(filePath);
+      if (
+        file?.format === "page" &&
+        (file.data as { frontmatter?: { featured?: boolean } }).frontmatter?.featured === true
+      ) {
+        markFeatured(node);
+      }
+      return node;
+    },
+  };
+}
+
+function createSourceLoader<TSource extends DynamicSource>(source: TSource, baseUrl: string) {
+  return dynamicLoader(source, {
     baseUrl,
-    source: source as unknown as Source<Config>,
     icon: iconHandler,
+    pageTree: { transformers: [createTabbedFolderTransformer(), createFeaturedTransformer()] },
   });
 }
 
-const baseDocsSource = createTypedLoader("/docs", docs.toFumadocsSource());
+function registerDevWatcher(source: SatteriLocalMarkdown<z.ZodType, z.ZodType>): void {
+  if (process.env.NODE_ENV !== "development") return;
 
-const baseReactSource = createTypedLoader("/react", reactDocs.toFumadocsSource());
+  void watchWithDevServer(source).catch((error) => {
+    console.error(`Failed to register Satteri dev watcher for ${source.dir}:`, error);
+  });
+}
 
-const baseBreezeSource = createTypedLoader("/breeze", breezeDocs.toFumadocsSource());
+const localSources = [
+  docs,
+  getStartedDocs,
+  foundationsDocs,
+  componentsDocs,
+  patternsDocs,
+  reactDocs,
+  breezeDocs,
+  lynxDocs,
+  aiIntegrationDocs,
+  updatesDocs,
+] as const;
 
-const baseLynxSource = createTypedLoader("/lynx", lynxDocs.toFumadocsSource());
+for (const source of localSources) registerDevWatcher(source);
 
-const baseAiIntegrationSource = createTypedLoader(
-  "/ai-integration",
-  aiIntegrationDocs.toFumadocsSource(),
+const docsLoader = createSourceLoader(docs.dynamicSource<SatteriExports>(), "/docs");
+const getStartedLoader = createSourceLoader(
+  getStartedDocs.dynamicSource<SatteriExports>(),
+  "/get-started",
 );
+const foundationsLoader = createSourceLoader(
+  foundationsDocs.dynamicSource<SatteriExports>(),
+  "/foundations",
+);
+const componentsLoader = createSourceLoader(
+  componentsDocs.dynamicSource<SatteriExports>(),
+  "/components",
+);
+const patternsLoader = createSourceLoader(
+  patternsDocs.dynamicSource<SatteriExports>(),
+  "/patterns",
+);
+const reactLoader = createSourceLoader(reactDocs.dynamicSource<SatteriExports>(), "/react");
+const breezeLoader = createSourceLoader(breezeDocs.dynamicSource<SatteriExports>(), "/breeze");
+const lynxLoader = createSourceLoader(lynxDocs.dynamicSource<SatteriExports>(), "/lynx");
+const aiIntegrationLoader = createSourceLoader(
+  aiIntegrationDocs.dynamicSource<SatteriExports>(),
+  "/ai-integration",
+);
+const updatesLoader = createSourceLoader(updatesDocs.dynamicSource<SatteriExports>(), "/updates");
 
-// Transform page trees with badges
-async function getTransformedPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseDocsSource.pageTree, baseDocsSource);
-}
-
-async function getTransformedReactPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource);
-}
-
-async function getTransformedBreezePageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource);
-}
-
-async function getTransformedLynxPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(baseLynxSource.pageTree, baseLynxSource);
-}
-
-async function getTransformedAiIntegrationPageTree(): Promise<Root> {
-  return await transformPageTreeWithBadges(
-    baseAiIntegrationSource.pageTree,
-    baseAiIntegrationSource,
-  );
-}
-
-// Export sources with lazy-loaded transformed page trees
-export const docsSource = {
-  ...baseDocsSource,
-  getTransformedPageTree,
-};
-
-export const reactSource = {
-  ...baseReactSource,
-  getTransformedReactPageTree,
-};
-
-export const breezeSource = {
-  ...baseBreezeSource,
-  getTransformedBreezePageTree,
-};
-
-export const lynxSource = {
-  ...baseLynxSource,
-  getTransformedLynxPageTree,
-};
-
-export const aiIntegrationSource = {
-  ...baseAiIntegrationSource,
-  getTransformedAiIntegrationPageTree,
-};
+export const getDocsSource = docsLoader.get;
+export const getGetStartedSource = getStartedLoader.get;
+export const getFoundationsSource = foundationsLoader.get;
+export const getComponentsSource = componentsLoader.get;
+export const getPatternsSource = patternsLoader.get;
+export const getReactSource = reactLoader.get;
+export const getBreezeSource = breezeLoader.get;
+export const getLynxSource = lynxLoader.get;
+export const getAiIntegrationSource = aiIntegrationLoader.get;
+export const getUpdatesSource = updatesLoader.get;

@@ -3,7 +3,7 @@
 import { cac } from "cac";
 import { cosmiconfig } from "cosmiconfig";
 import pkg from "../../package.json" with { type: "json" };
-import fs from "fs-extra";
+import fs from "node:fs";
 import path from "node:path";
 import {
   generateAllBundle,
@@ -15,7 +15,12 @@ import {
   type Config,
 } from "@seed-design/qvism-core";
 
+function resolveGenerateLayeredCss(config: Partial<Config>, cliLayered?: boolean): boolean {
+  return cliLayered ?? config.generateLayeredCss ?? true;
+}
+
 async function writeBundles(outputDir: string, config: Config) {
+  const generateLayeredCss = config.generateLayeredCss ?? true;
   const allCss = await generateAllBundle(config);
   console.log("Writing css bundle to", path.join(outputDir, "all.css"));
   fs.writeFileSync(path.join(outputDir, "all.css"), allCss);
@@ -31,15 +36,46 @@ async function writeBundles(outputDir: string, config: Config) {
   const minifiedBaseCss = await generateBaseBundle(config, { minify: true });
   console.log("Writing minified base css bundle to", path.join(outputDir, "base.min.css"));
   fs.writeFileSync(path.join(outputDir, "base.min.css"), minifiedBaseCss);
+
+  if (!generateLayeredCss) return;
+
+  const layeredBundles = [
+    {
+      name: "layered css bundle",
+      path: path.join(outputDir, "all.layered.css"),
+      css: await generateAllBundle(config, { layer: true }),
+    },
+    {
+      name: "minified layered css bundle",
+      path: path.join(outputDir, "all.layered.min.css"),
+      css: await generateAllBundle(config, { minify: true, layer: true }),
+    },
+    {
+      name: "layered base css bundle",
+      path: path.join(outputDir, "base.layered.css"),
+      css: await generateBaseBundle(config, { layer: true }),
+    },
+    {
+      name: "minified layered base css bundle",
+      path: path.join(outputDir, "base.layered.min.css"),
+      css: await generateBaseBundle(config, { minify: true, layer: true }),
+    },
+  ];
+
+  for (const bundle of layeredBundles) {
+    console.log("Writing", bundle.name, "to", bundle.path);
+    fs.writeFileSync(bundle.path, bundle.css);
+  }
 }
 
 async function writeRecipes(recipesDir: string, config: Config) {
+  const generateLayeredCss = config.generateLayeredCss ?? true;
   // Prepare shared JS
   const sharedJs = generateSharedJs();
   console.log("Writing shared to", path.join(recipesDir, "shared.mjs"));
   fs.writeFileSync(path.join(recipesDir, "shared.mjs"), sharedJs);
 
-  // Write each recipe .mjs + .d.ts
+  // Write each recipe .mjs + .d.ts, and optionally layered .mjs
   const options = { prefix: config.prefix };
   await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
@@ -52,14 +88,34 @@ async function writeRecipes(recipesDir: string, config: Config) {
 
       console.log("Writing", name, "to", path.join(recipesDir, `${name}.d.ts`));
       fs.writeFileSync(path.join(recipesDir, `${name}.d.ts`), dtsCode);
+
+      if (!generateLayeredCss) return;
+
+      const layeredJsPath = path.join(recipesDir, `${name}.layered.mjs`);
+      const layeredJsCode = generateJs(definition, {
+        ...options,
+        cssImportPath: `./${name}.layered.css`,
+      });
+      console.log("Writing", name, "to", layeredJsPath);
+      fs.writeFileSync(layeredJsPath, layeredJsCode);
     }),
   );
 
-  // Write each recipe .css
-  const recipes = await generateEachRecipe(config);
-  for (const { name, css } of recipes) {
+  // Write each recipe .css, and optionally layered .css
+  const recipes = await generateEachRecipe(config, { generateLayeredCss });
+  for (const { name, css, layeredCss } of recipes) {
     console.log("Writing", name, "to", path.join(recipesDir, `${name}.css`));
     fs.writeFileSync(path.join(recipesDir, `${name}.css`), css);
+
+    if (!generateLayeredCss) continue;
+
+    if (layeredCss == null) {
+      throw new Error(`Layered CSS was not generated for ${name}.`);
+    }
+
+    const layeredCssPath = path.join(recipesDir, `${name}.layered.css`);
+    console.log("Writing", name, "to", layeredCssPath);
+    fs.writeFileSync(layeredCssPath, layeredCss);
   }
 }
 
@@ -73,13 +129,14 @@ async function main() {
     .option("--recipesDir <dir>", "Output directory for generated recipe files", {
       default: "./recipes",
     })
+    .option("--layered", "Generate layered CSS variants")
     .option("--config <path>", "Path to a custom config file (if needed)");
 
   cli.help();
   cli.version(pkg.version);
 
   const parsed = cli.parse();
-  const { dir, recipesDir, config: configPath } = parsed.options;
+  const { dir, recipesDir, config: configPath, layered } = parsed.options;
 
   const explorer = cosmiconfig("qvism");
   const searchResult = configPath
@@ -92,8 +149,13 @@ async function main() {
   }
 
   // TODO: validate userConfig with zod
-  await writeBundles(path.resolve(process.cwd(), dir), userConfig as Config);
-  await writeRecipes(path.resolve(process.cwd(), recipesDir), userConfig as Config);
+  const config: Config = {
+    ...userConfig,
+    generateLayeredCss: resolveGenerateLayeredCss(userConfig, layered),
+  };
+
+  await writeBundles(path.resolve(process.cwd(), dir), config);
+  await writeRecipes(path.resolve(process.cwd(), recipesDir), config);
 
   console.log("Done");
 }

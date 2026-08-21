@@ -12,9 +12,6 @@
   "access": "public",
   "baseBranch": "dev",
   "updateInternalDependencies": "patch",
-  "snapshot": {
-    "useCalculatedVersion": true
-  },
   "privatePackages": {
     "tag": false,
     "version": false

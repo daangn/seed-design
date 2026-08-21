@@ -1,22 +1,24 @@
 {
   "name": "@seed-design/cli",
-  "version": "1.2.2",
+  "version": "1.6.1",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/cli"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "seed-design": "./bin/index.mjs"
   },
   "files": [
     "bin",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "build": "ENV=prod bun ./build.mjs",
@@ -30,7 +32,7 @@
     "@babel/plugin-transform-typescript": "^7.27.0",
     "@clack/prompts": "^1.0.0",
     "@npmcli/disparity-colors": "^3.0.1",
-    "cac": "^6.7.14",
+    "cac": "^7.0.0",
     "cosmiconfig": "^9.0.0",
     "dedent": "^1.7.0",
     "diff": "^8.0.3",
@@ -45,11 +47,13 @@
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
+    "@types/findup-sync": "^4.0.5",
     "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.0.0",
     "dotenv": "^17.2.3",
     "esbuild": "^0.27.0",
     "type-fest": "^5.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^7.0.2"
   },
   "publishConfig": {
     "access": "public"

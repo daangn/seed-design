@@ -43,19 +43,23 @@ export type CheckboxProperties = InferComponentDefinition<
 >;
 
 export type CheckboxGroupFieldProperties = InferComponentDefinition<
-  typeof sets.templateCheckboxField.componentPropertyDefinitions
+  typeof sets.componentCheckboxField.componentPropertyDefinitions
 >;
 
 export type CheckmarkProperties = InferComponentDefinition<
   typeof sets.componentCheckmark.componentPropertyDefinitions
 >;
 
-export type ChipProperties = InferComponentDefinition<
-  typeof sets.componentChip.componentPropertyDefinitions
+export type LegacyChipProperties = InferComponentDefinition<
+  typeof sets.componentDeprecatedChip.componentPropertyDefinitions
 >;
 
 export type ChipIconSuffixProperties = InferComponentDefinition<
   typeof components.componentChipSuffixIcon.componentPropertyDefinitions
+>;
+
+export type ContentPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentContentPlaceholder.componentPropertyDefinitions
 >;
 
 export type ContextualFloatingButtonProperties = InferComponentDefinition<
@@ -108,6 +112,10 @@ export type FloatingActionButtonMenuItemProperties = InferComponentDefinition<
 
 export type HelpBubbleProperties = InferComponentDefinition<
   typeof sets.componentHelpBubble.componentPropertyDefinitions
+>;
+
+export type IdentityPlaceholderProperties = InferComponentDefinition<
+  typeof sets.privateComponentIdentityPlaceholder.componentPropertyDefinitions
 >;
 
 export type ImageFrameProperties = InferComponentDefinition<
@@ -167,7 +175,7 @@ export type RadioProperties = InferComponentDefinition<
 >;
 
 export type RadioGroupFieldProperties = InferComponentDefinition<
-  typeof sets.templateRadioField.componentPropertyDefinitions
+  typeof sets.componentRadioField.componentPropertyDefinitions
 >;
 
 export type RadiomarkProperties = InferComponentDefinition<
@@ -191,7 +199,7 @@ export type SegmentedControlItemProperties = InferComponentDefinition<
 >;
 
 export type SelectBoxGroupFieldProperties = InferComponentDefinition<
-  typeof sets.templateSelectBoxField.componentPropertyDefinitions
+  typeof sets.componentSelectBoxField.componentPropertyDefinitions
 >;
 
 export type SelectBoxGroupProperties = InferComponentDefinition<
@@ -223,7 +231,7 @@ export type SliderTicksProperties = InferComponentDefinition<
 >;
 
 export type SliderFieldProperties = InferComponentDefinition<
-  typeof sets.templateSliderField.componentPropertyDefinitions
+  typeof sets.componentSliderField.componentPropertyDefinitions
 >;
 
 export type SnackbarProperties = InferComponentDefinition<
@@ -291,7 +299,7 @@ export type TagGroupItemProperties = InferComponentDefinition<
 >;
 
 export type TextInputFieldProperties = InferComponentDefinition<
-  typeof sets.templateTextField.componentPropertyDefinitions
+  typeof sets.componentTextField.componentPropertyDefinitions
 >;
 
 export type TextInputOutlineProperties = InferComponentDefinition<
@@ -319,7 +327,7 @@ export type TextInputUnderlineProperties = InferComponentDefinition<
 >;
 
 export type TextareaFieldProperties = InferComponentDefinition<
-  typeof sets.templateTextareaField.componentPropertyDefinitions
+  typeof sets.componentMultilineTextField.componentPropertyDefinitions
 >;
 
 export type TextareaProperties = InferComponentDefinition<
@@ -327,7 +335,7 @@ export type TextareaProperties = InferComponentDefinition<
 >;
 
 export type FieldButtonProperties = InferComponentDefinition<
-  typeof sets.templateFieldButton.componentPropertyDefinitions
+  typeof sets.componentFieldButton.componentPropertyDefinitions
 >;
 
 export type InputButtonProperties = InferComponentDefinition<

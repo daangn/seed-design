@@ -15,10 +15,16 @@ lib
 docs/.next
 docs/.source
 docs/out
+docs/public/__lynx__
 
 scripts/data
 
 .env
 .sisyphus/*
+.claude-pr/
+.claude/worktrees/*
 
 .codex
+
+docs/superpowers/
+skills/*-workspace/

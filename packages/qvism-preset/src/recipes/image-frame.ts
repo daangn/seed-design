@@ -1,48 +1,67 @@
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/image-frame";
 
-const imageFrame = defineRecipe({
+const imageFrame = defineSlotRecipe({
   name: "image-frame",
+  slots: ["root", "content", "fallback"],
   base: {
-    position: "relative",
-    overflow: "hidden",
-    borderRadius: "inherit",
-
-    "& > img, & > video": {
+    root: {
+      position: "relative",
+      overflow: "hidden",
+      borderRadius: "inherit",
+      isolation: "isolate",
+    },
+    content: {
       display: "block",
       width: "100%",
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
+      [pseudo("[data-loading-state='error']")]: {
+        display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
+      },
+    },
+    fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      width: "100%",
+      height: "100%",
+      [pseudo("[data-loading-state='loaded']")]: {
+        display: "none",
+      },
     },
   },
   variants: {
     stroke: {
       true: {
-        "&::after": {
-          content: "''",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          pointerEvents: "none",
-          borderRadius: "inherit",
-          boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
+        root: {
+          "&::after": {
+            content: "''",
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            borderRadius: "inherit",
+            boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
+          },
         },
-      },
-      false: {},
-    },
-    rounded: {
-      true: {
-        borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
       },
       false: {},
     },
   },
   defaultVariants: {
     stroke: false,
-    rounded: false,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

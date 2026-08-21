@@ -1,7 +1,6 @@
 import {
   Box,
   Divider,
-  Icon,
   Portal,
   PullToRefresh,
   VStack,
@@ -34,11 +33,18 @@ import {
 import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
+import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
+import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
-import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
-import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconHandPointUpLine,
+  IconBellLine,
+  IconPlusLine,
+  IconPencilLine,
+  IconTrashcanLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { receive } from "@stackflow/compat-await-push";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 
@@ -60,7 +66,7 @@ declare module "@stackflow/config" {
 }
 
 const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) => {
-  const { push } = useFlow();
+  const { push, replace } = useFlow();
   const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
   const snackbarAdapter = useSnackbarAdapter();
 
@@ -77,6 +83,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     {
       title: "AppScreen",
       items: [
+        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
+        {
+          title: "animate: false Test (밀림 버그)",
+          onClick: () => push("ActivityAnimateFalseTest", {}),
+        },
         {
           title: `Push to here (current activityIndex: ${activityIndex})`,
           onClick: () => push("ActivityHome", {}),
@@ -93,6 +104,20 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
         { title: "Avatar", onClick: () => push("ActivityAvatar", {}) },
+      ],
+    },
+    {
+      title: "Box",
+      items: [
+        { title: "Margin Playground", onClick: () => push("ActivityMarginPlayground", {}) },
+        { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
+        { title: "SidePanel IACVT (구형 iOS)", onClick: () => push("ActivityIacvtSidePanel", {}) },
+        { title: "Overlay IACVT (구형 iOS)", onClick: () => push("ActivityIacvtOverlay", {}) },
+        { title: "Margin/Bleed IACVT (구형 iOS)", onClick: () => push("ActivityIacvtMargin", {}) },
+        {
+          title: "IACVT initial-fallback 실험 (구형 iOS)",
+          onClick: () => push("ActivityIacvtExperiment", {}),
+        },
       ],
     },
     {
@@ -150,12 +175,57 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
+      title: "Menu",
+      items: [
+        { title: "Menu", onClick: () => push("ActivityMenu", {}) },
+        {
+          title: "Menu from ListButtonItem",
+          component: (
+            <MenuRoot size="medium" matchReferenceWidth>
+              <MenuTrigger asChild>
+                <ListButtonItem title="Menu from ListButtonItem" />
+              </MenuTrigger>
+              <MenuContent>
+                <MenuGroup>
+                  <MenuItem label="추가" prefixIcon={<IconPlusLine />} />
+                  <MenuItem label="수정" prefixIcon={<IconPencilLine />} />
+                </MenuGroup>
+                <MenuGroup>
+                  <MenuItem label="삭제" tone="critical" prefixIcon={<IconTrashcanLine />} />
+                </MenuGroup>
+              </MenuContent>
+            </MenuRoot>
+          ),
+        },
+      ],
+    },
+    {
       title: "BottomSheets",
       items: [
         { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
         {
           title: "BottomSheet Modal Test",
           onClick: () => push("ActivityBottomSheetModalTest", {}),
+        },
+        {
+          title: "BottomSheet (TextField only)",
+          onClick: () => push("ActivityBottomSheetTextField", {}),
+        },
+        {
+          title: "BottomSheet Share (snapPoints)",
+          onClick: () => push("ActivityBottomSheetInputFocus", {}),
+        },
+        {
+          title: "BottomSheet Keyboard Playground",
+          onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (Step)",
+          onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (Activity)",
+          onClick: () => push("ActivityNestedBottomSheet", {}),
         },
         {
           title: "MenuSheet",
@@ -168,6 +238,20 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
               }}
             >
               <ListButtonItem title="MenuSheet" />
+            </DialogPushTrigger>
+          ),
+        },
+        {
+          title: "SwipeableMenuSheet",
+          component: (
+            <DialogPushTrigger
+              callbackActivity={swipeableMenuSheetCallback}
+              params={{}}
+              onPop={(result) => {
+                console.log(result?.action);
+              }}
+            >
+              <ListButtonItem title="SwipeableMenuSheet" />
             </DialogPushTrigger>
           ),
         },
@@ -190,6 +274,21 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ListSwitchItem", onClick: () => push("ActivityListSwitchItem", {}) },
         { title: "ListCheckItem", onClick: () => push("ActivityListCheckItem", {}) },
         { title: "ListRadioItem", onClick: () => push("ActivityListRadioItem", {}) },
+      ],
+    },
+    {
+      title: "PullToRefresh",
+      items: [
+        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
+        {
+          title: "PullToRefresh (preventPull)",
+          onClick: () => push("ActivityPullToRefreshPreventPull", {}),
+        },
+        {
+          title: "Article (preventPull)",
+          onClick: () => push("ActivityArticlePreventPull", {}),
+        },
       ],
     },
     {
@@ -220,6 +319,28 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
               ),
             }),
         },
+        {
+          title: "Snackbar (queued)",
+          onClick: () =>
+            snackbarAdapter.create({
+              strategy: "queued",
+              render: () => <Snackbar message="Queued Snackbar" />,
+            }),
+        },
+        {
+          // 기존 스낵바를 먼저 닫고 다음 tick에 새 스낵바를 띄우는 패턴.
+          // dismiss 상태 전이가 적용된 뒤에 create가 실행되므로
+          // 항상 새 스낵바부터 활성화되는 것을 보장한다.
+          title: "Snackbar (dismiss+setTimeout workaround)",
+          onClick: () => {
+            snackbarAdapter.dismiss();
+            setTimeout(() => {
+              snackbarAdapter.create({
+                render: () => <Snackbar message="Workaround Snackbar" />,
+              });
+            }, 0);
+          },
+        },
       ],
     },
     {
@@ -228,18 +349,53 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
         { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
         { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        {
+          title: "TabsAutoHeightLazy",
+          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+        },
+        {
+          title: "ChipTabsScrollFog",
+          onClick: () => push("ActivityChipTabsScrollFog", {}),
+        },
+      ],
+    },
+    {
+      title: "Forms",
+      items: [
+        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
+        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "Quantity Picker", onClick: () => push("ActivityQuantityPicker", {}) },
+        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
+        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Select", onClick: () => push("ActivitySelect", {}) },
+        { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
+        { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
+        {
+          title: "AttachmentDisplayField",
+          onClick: () => push("ActivityAttachmentDisplayField", {}),
+        },
+        { title: "Form", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
       title: "Other Components",
       items: [
+        { title: "Accordion", onClick: () => push("ActivityAccordion", {}) },
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
         { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "Form", onClick: () => push("ActivityForm", {}) },
+        { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
+        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
+        {
+          title: "ResponsiveSidePanel",
+          onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
+        {
+          title: "ResponsiveDialog",
+          onClick: () => push("ActivityResponsiveDialog", {}),
+        },
       ],
     },
     {

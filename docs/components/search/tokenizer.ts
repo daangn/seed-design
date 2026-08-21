@@ -1,13 +1,13 @@
-import { tokenizer } from "@orama/orama/components";
+import { components, type Tokenizer } from "zbsearch";
 
 // it should be cached forever
 export const revalidate = false;
 
-const defaultTokenizer = tokenizer.createTokenizer({
+const defaultTokenizer = components.tokenizer.createTokenizer({
   language: "english",
 });
 
-const normalizeToken = tokenizer.normalizeToken.bind(defaultTokenizer, "");
+const normalizeToken = defaultTokenizer.normalizeToken.bind(defaultTokenizer);
 
 function trim(text: string[]): string[] {
   while (text[text.length - 1] === "") {
@@ -19,7 +19,12 @@ function trim(text: string[]): string[] {
   return text;
 }
 
-export function tokenize(input: string): string[] {
+export function tokenize(
+  input: string,
+  _language?: string,
+  property = "",
+  withCache = true,
+): string[] {
   if (typeof input !== "string") {
     return [input];
   }
@@ -28,10 +33,15 @@ export function tokenize(input: string): string[] {
   const tokens = input
     .toLowerCase()
     .split(splitRule)
-    .map((t) => normalizeToken(t))
+    .map((token) => normalizeToken(property, token, withCache))
     .filter(Boolean);
 
   const trimTokens = trim(tokens);
 
   return Array.from(new Set(trimTokens));
 }
+
+export const koreanTokenizer: Tokenizer = {
+  ...defaultTokenizer,
+  tokenize,
+};

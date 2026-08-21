@@ -1,0 +1,27 @@
+export {
+  BottomSheetBackdrop,
+  type BottomSheetBackdropProps,
+  BottomSheetBody,
+  type BottomSheetBodyProps,
+  BottomSheetContent,
+  type BottomSheetContentProps,
+  BottomSheetDescription,
+  type BottomSheetDescriptionProps,
+  BottomSheetFooter,
+  type BottomSheetFooterProps,
+  BottomSheetHandle,
+  type BottomSheetHandleProps,
+  BottomSheetHeader,
+  type BottomSheetHeaderProps,
+  BottomSheetPositioner,
+  type BottomSheetPositionerProps,
+  BottomSheetRoot,
+  type BottomSheetRootProps,
+  type BottomSheetRootRef,
+  BottomSheetTitle,
+  type BottomSheetTitleProps,
+  BottomSheetTrigger,
+  type BottomSheetTriggerProps,
+} from "./BottomSheet";
+
+export * as BottomSheet from "./BottomSheet.namespace";

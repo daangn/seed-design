@@ -7,12 +7,19 @@ export interface SeedPluginOptions {
 }
 
 export const seedPlugin =
-  (options: SeedPluginOptions): StackflowReactPlugin =>
+  (
+    options:
+      | SeedPluginOptions
+      // biome-ignore lint/suspicious/noExplicitAny: matches upstream @stackflow/react's `initialContext: any`
+      | ((args: { initialContext?: any }) => SeedPluginOptions),
+  ): StackflowReactPlugin =>
   () => ({
     key: "seed-design",
-    wrapStack({ stack }) {
+    wrapStack({ stack, initialContext }) {
+      const resolved = typeof options === "function" ? options({ initialContext }) : options;
+
       return (
-        <AppScreenPropsProvider value={options}>
+        <AppScreenPropsProvider value={resolved}>
           <GlobalInteraction>{stack.render()}</GlobalInteraction>
         </AppScreenPropsProvider>
       );

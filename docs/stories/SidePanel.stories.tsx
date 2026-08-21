@@ -1,0 +1,123 @@
+import preview from "../.storybook/preview";
+import { withChromaticParameters } from "@/stories/utils/parameters";
+import {
+  sidePanelVariantMap,
+  type SidePanelVariantProps,
+} from "@seed-design/css/recipes/side-panel";
+import { Box, Text, VStack } from "@seed-design/react";
+import type { ReactNode } from "react";
+import { ActionButton } from "seed-design/ui/action-button";
+import {
+  SidePanelBody,
+  SidePanelContent,
+  SidePanelFooter,
+  SidePanelRoot,
+} from "seed-design/ui/side-panel";
+import { SeedThemeDecorator } from "./components/decorator";
+import { VariantTable } from "./components/variant-table";
+
+const SidePanelPreview = ({
+  size,
+  title,
+  description,
+  showCloseButton,
+  showFooter,
+}: Pick<SidePanelVariantProps, "size"> & {
+  title?: ReactNode;
+  description?: ReactNode;
+  showCloseButton?: boolean;
+  showFooter?: boolean;
+}) => {
+  return (
+    <Box width="400px" p="x4">
+      <style>{`
+        .seed-side-panel__positioner {
+          position: relative !important;
+          inset: unset !important;
+        }
+        .seed-side-panel__backdrop {
+          display: none !important;
+        }
+        .seed-side-panel__content {
+          position: relative !important;
+          inset: unset !important;
+          animation: none !important;
+          height: auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+        .seed-side-panel__content::after {
+          display: none !important;
+        }
+      `}</style>
+      <SidePanelRoot open direction="right" size={size}>
+        <SidePanelContent title={title} description={description} showCloseButton={showCloseButton}>
+          <SidePanelBody minHeight="x16" paddingX="x6">
+            <Text>Body content area</Text>
+          </SidePanelBody>
+          {showFooter && (
+            <SidePanelFooter>
+              <VStack gap="x2">
+                <ActionButton variant="neutralSolid">Confirm</ActionButton>
+                <ActionButton variant="neutralWeak">Cancel</ActionButton>
+              </VStack>
+            </SidePanelFooter>
+          )}
+        </SidePanelContent>
+      </SidePanelRoot>
+    </Box>
+  );
+};
+
+const meta = preview.meta({
+  component: SidePanelPreview,
+  decorators: [SeedThemeDecorator],
+});
+const conditionMap = {
+  showCloseButton: {
+    true: { showCloseButton: true },
+    false: { showCloseButton: false },
+  },
+  title: {
+    true: {
+      title: "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.",
+    },
+    false: { title: undefined },
+  },
+  description: {
+    true: {
+      description:
+        "이것은 매우 긴 설명 텍스트입니다. Deserunt id enim quis nisi est tempor officia.",
+    },
+    false: { description: undefined },
+  },
+  showFooter: {
+    true: { showFooter: true },
+    false: { showFooter: false },
+  },
+};
+
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
+    <VariantTable
+      Component={component!}
+      variantMap={sidePanelVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
+  ),
+});
+
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
+});
+
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+});

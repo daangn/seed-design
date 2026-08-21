@@ -1,0 +1,127 @@
+{
+  "id": "ui",
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "app-bar.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "app-bar",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "bottom-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "bottom-sheet",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "checkbox.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "checkbox",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "progress-circle.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "progress-circle",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "radio-group.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "radio-group",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "switch.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "switch",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "tag-group.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "tag-group",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "text-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "text-field",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    }
+  ]
+}

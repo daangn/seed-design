@@ -5,6 +5,7 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { getHelpBubbleArrowTipPath } from "../../utils/getHelpBubbleArrowTipPath";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 
@@ -36,7 +37,7 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimi
   defaultProps: {
     placement: "top",
     gutter: 4, // TODO: get value from rootage spec
-    overflowPadding: 16,
+    overflowPadding: 16, // TODO: get value from rootage spec
     arrowPadding: 14,
   },
 });
@@ -114,11 +115,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
     const width = api.rects.arrowTip?.width || 0;
     const height = api.rects.arrowTip?.height || 0;
 
-    const pathData = `M0,0
-      H${width}
-      L${width / 2 + tipRadius},${height - tipRadius}
-      Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
-      Z`;
+    const pathData = getHelpBubbleArrowTipPath(width, height, tipRadius);
 
     // TODO: mergeProps with api.stateProps
     return (

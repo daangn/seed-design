@@ -1,8 +1,14 @@
+import spec from "@seed-design/rootage-artifacts/components/toggle-button";
 import { toggleButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { active, disabled, focus, loading, pressed, pseudo } from "../utils/pseudo";
+import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -23,14 +29,13 @@ const toggleButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
-    [pseudo(focus)]: {
-      outline: "none",
-    },
+    ...createFocusRingRestStyles(),
+    [pseudo(focusVisible)]: createFocusRingStyles(),
     [pseudo(disabled)]: {
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
     fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {
@@ -42,7 +47,7 @@ const toggleButton = defineRecipe({
         "--track-color": vars.variantBrandSolid.enabled.progressCircle.trackColor,
         "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantBrandSolid.pressed.root.color,
         },
         [pseudo(pressed)]: {
@@ -59,7 +64,7 @@ const toggleButton = defineRecipe({
             color: vars.variantBrandSolid.selected.suffixIcon.color,
           }),
         },
-        [pseudo(pressed, active)]: {
+        [pseudo(pressed, engaged)]: {
           background: vars.variantBrandSolid.selectedPressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -94,7 +99,7 @@ const toggleButton = defineRecipe({
         "--track-color": vars.variantNeutralWeak.enabled.progressCircle.trackColor,
         "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
 
-        [pseudo(active)]: {
+        [pseudo(engaged)]: {
           background: vars.variantNeutralWeak.pressed.root.color,
         },
         [pseudo(pressed)]: {
@@ -111,7 +116,7 @@ const toggleButton = defineRecipe({
             color: vars.variantNeutralWeak.selected.suffixIcon.color,
           }),
         },
-        [pseudo(pressed, active)]: {
+        [pseudo(pressed, engaged)]: {
           background: vars.variantNeutralWeak.selectedPressed.root.color,
         },
         [pseudo(disabled)]: {
@@ -145,10 +150,8 @@ const toggleButton = defineRecipe({
         height: vars.sizeXsmall.enabled.root.minHeight,
         borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
         gap: vars.sizeXsmall.enabled.root.gap,
-        paddingLeft: vars.sizeXsmall.enabled.root.paddingX,
-        paddingRight: vars.sizeXsmall.enabled.root.paddingX,
-        paddingTop: vars.sizeXsmall.enabled.root.paddingY,
-        paddingBottom: vars.sizeXsmall.enabled.root.paddingY,
+        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
+        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
         fontSize: vars.sizeXsmall.enabled.label.fontSize,
         lineHeight: vars.sizeXsmall.enabled.label.lineHeight,
 
@@ -166,10 +169,8 @@ const toggleButton = defineRecipe({
         height: vars.sizeSmall.enabled.root.minHeight,
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
         gap: vars.sizeSmall.enabled.root.gap,
-        paddingLeft: vars.sizeSmall.enabled.root.paddingX,
-        paddingRight: vars.sizeSmall.enabled.root.paddingX,
-        paddingTop: vars.sizeSmall.enabled.root.paddingY,
-        paddingBottom: vars.sizeSmall.enabled.root.paddingY,
+        paddingInline: vars.sizeSmall.enabled.root.paddingX,
+        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
         fontSize: vars.sizeSmall.enabled.label.fontSize,
         lineHeight: vars.sizeSmall.enabled.label.lineHeight,
 
@@ -188,6 +189,11 @@ const toggleButton = defineRecipe({
   defaultVariants: {
     variant: "brandSolid",
     size: "small",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+    },
   },
 });
 

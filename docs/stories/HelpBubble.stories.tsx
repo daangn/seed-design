@@ -1,47 +1,67 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { helpBubbleVariantMap } from "@seed-design/css/recipes/help-bubble";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
-const meta = {
+const meta = preview.meta({
   component: HelpBubbleTrigger,
-  decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof HelpBubbleTrigger>;
+  decorators: [
+    (Story) => (
+      <>
+        <style>{`
+          .help-bubble-story td {
+            padding: 40px 16px !important;
+          }
+        `}</style>
+        <div className="help-bubble-story">
+          <Story />
+        </div>
+      </>
+    ),
+    SeedThemeDecorator,
+  ],
+});
+const conditionMap = {
+  description: {
+    true: { description: "Description" },
+    false: { description: undefined },
+  },
+  showCloseButton: {
+    true: { showCloseButton: true },
+    false: { showCloseButton: false },
+  },
+};
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {
     children: <IconBellFill />,
     title: "Title",
-    description: "Description",
     open: true,
-    showCloseButton: true,
+    placement: "bottom",
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={helpBubbleVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable
+      Component={component!}
+      variantMap={helpBubbleVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

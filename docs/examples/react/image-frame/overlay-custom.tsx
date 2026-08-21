@@ -1,4 +1,5 @@
 import { ImageFrame, ImageFrameFloater } from "@seed-design/react";
+import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
 export default function ImageFrameOverlayCustomExample() {
   return (
@@ -9,6 +10,7 @@ export default function ImageFrameOverlayCustomExample() {
       src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
       alt="Landscape with custom overlay"
       style={{ width: 200 }}
+      fallback={<ContentPlaceholder type="business" />}
     >
       <ImageFrameFloater placement="bottom-end">
         <div

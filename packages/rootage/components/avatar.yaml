@@ -5,6 +5,25 @@ metadata:
   name: Avatar
 data:
   schema:
+    variants:
+      size:
+        values:
+          20:
+            description: "대표 사용처: 댓글을 남긴 사용자"
+          24:
+            description: "대표 사용처: 답글 프로필"
+          36:
+            description: "대표 사용처: 댓글 프로필"
+          42:
+            description: "대표 사용처: 게시글 상세 내 프로필"
+          48:
+            description: "대표 사용처: 작은 리스트"
+          56:
+            description: "대표 사용처: 큰 리스트"
+          64:
+            description: "대표 사용처: 프로필 상세, 캐러셀"
+          108:
+            description: "대표 사용처: 프로필 수정"
     slots:
       root:
         properties:
@@ -85,6 +104,17 @@ data:
         badge:
           offset: 30px
           size: 18px
+    size=56:
+      enabled:
+        root:
+          size: 56px
+          strokeWidth: 1px
+        badgeMask:
+          offset: 34px
+          size: 24px
+        badge:
+          offset: 36px
+          size: 20px
     size=64:
       enabled:
         root:

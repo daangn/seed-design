@@ -30,8 +30,6 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          gap:
-            type: dimension
           enterOpacity:
             type: number
           enterScale:

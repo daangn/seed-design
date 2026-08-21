@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,15 +12,12 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
+    "types": ["bun", "node"],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "seed-design/*": [
-        "registry/*"
-      ]
+      "@/*": ["./*"],
+      "seed-design/*": ["./registry/react/*"]
     },
     "plugins": [
       {
@@ -40,7 +32,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "examples/lynx/**", "lynx.config.ts", "scripts/lynx-examples/**"]
 }

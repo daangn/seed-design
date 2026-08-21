@@ -379,6 +379,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "7b59d2394b5e4f4afe8cd878b8c34eda0290a909": {
+    "name": "icon_bluetooth",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "cffdf70fc348cda9519485fddadeea73109472eb": {
+    "name": "icon_bluetooth",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "7ac64253cb58d2586e1bf5dc16cc0248a85d453a": {
     "name": "icon_book",
     "type": "monochrome",
@@ -436,6 +446,16 @@ export const FIGMA_ICONS = {
   },
   "c6ff5102a093d0be000c2e713687e68115430283": {
     "name": "icon_building2",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "c0ca1bc45d70e9e6d45c107f19a488b4550f4a35": {
+    "name": "icon_building2_twosize",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "7b4c6f3b3626b280ac3b50968b94f4271a4d8e4d": {
+    "name": "icon_building2_twosize",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -999,6 +1019,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "a3521e42bb1fa701e873483e992d1866e4441e5e": {
+    "name": "icon_document_tray",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "1dd922b43ab2bc137bf9a7b0b4223c058070a65b": {
+    "name": "icon_document_tray",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "9f45d12a768e4e2e3d351b305af8c995456cd70a": {
     "name": "icon_dollar_circle_arrow_right",
     "type": "monochrome",
@@ -1489,6 +1519,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "d9df3fa27527b9c54f7d464b6e324838afd7a543": {
+    "name": "icon_headphone",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "a3c1df4ac30f85c205750829c7deaa66feb52303": {
+    "name": "icon_headphone",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "25134d14cd8f834beb122b97b15368e45d2fb46b": {
     "name": "icon_headset",
     "type": "monochrome",
@@ -1599,6 +1639,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "919dd621ff599b66929ea7cbaef462359e756304": {
+    "name": "icon_hospitalcross_shield",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "0cfa81f9264814aeae13a81266539dd2f57c86eb": {
+    "name": "icon_hospitalcross_shield",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "aff5ba9298b12d5090002f5ef2bce35c31d377dd": {
     "name": "icon_hospitalcross_square",
     "type": "monochrome",
@@ -1606,6 +1656,16 @@ export const FIGMA_ICONS = {
   },
   "4f4d4d322176863a25e6073f4ef4f23c9c48e03f": {
     "name": "icon_hospitalcross_square",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "cafd8deff46ff81b4de508caff7cac5a2680a2ae": {
+    "name": "icon_house_card",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "7a72f879fdbc3da6023476fa67f05aba8a7ca440": {
+    "name": "icon_house_card",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -1776,6 +1836,16 @@ export const FIGMA_ICONS = {
   },
   "9f4bbe484f725e50fb1109333c01ff3f1f40052e": {
     "name": "icon_malesymbol_femalesymbol",
+    "type": "monochrome",
+    "weight": "Line"
+  },
+  "dc015c59783f44e084809cc62404a93493842bb2": {
+    "name": "icon_map",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "3724666f033ddb53644d75d196f55c076cd7ae12": {
+    "name": "icon_map",
     "type": "monochrome",
     "weight": "Line"
   },
@@ -2619,6 +2689,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "223debab61daa1aafd381a078e32b18f46ccbd59": {
+    "name": "icon_square_splited_vertical_left",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "3e9e65a307d3ce3135bf5db67ca987a791294a70": {
+    "name": "icon_square_splited_vertical_left",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "dba88cf915454127856088f2523c40ff5f4d21df": {
     "name": "icon_square2_stacked",
     "type": "monochrome",
@@ -3009,6 +3089,16 @@ export const FIGMA_ICONS = {
     "type": "monochrome",
     "weight": "Line"
   },
+  "6ff0cf0bf12ac4667cec8798f5171f514e85a168": {
+    "name": "icon_wand_plus_circle",
+    "type": "monochrome",
+    "weight": "Fill"
+  },
+  "f6c709faea19968faa15079b935ba533ea72c1eb": {
+    "name": "icon_wand_plus_circle",
+    "type": "monochrome",
+    "weight": "Line"
+  },
   "2747dd7daf6035c6b5c39951651db705797e9d9c": {
     "name": "icon_washingmachine",
     "type": "monochrome",
@@ -3185,6 +3275,10 @@ export const FIGMA_ICONS = {
     "name": "icon_asterisk_horizrectangle_coolwave3",
     "type": "multicolor"
   },
+  "66c144646951f969436426357da8791f78d8f057": {
+    "name": "icon_book",
+    "type": "multicolor"
+  },
   "38dda34eb04fba2f3239bcc93b870db61901f720": {
     "name": "icon_box_flap",
     "type": "multicolor"
@@ -3203,6 +3297,10 @@ export const FIGMA_ICONS = {
   },
   "bde8708ac51d316810d03776eea76faee04a8044": {
     "name": "icon_car_frontside",
+    "type": "multicolor"
+  },
+  "3591ea6c06e913f34881b9a873f8d7de8db47aa0": {
+    "name": "icon_car_frontside_bubble",
     "type": "multicolor"
   },
   "dce1bb113c685af444682183176ec0cb583d114f": {
@@ -3233,8 +3331,20 @@ export const FIGMA_ICONS = {
     "name": "icon_cup_heatwave",
     "type": "multicolor"
   },
+  "3e2768bd7d80eb4cda3caa1e03f1e77d759cca2d": {
+    "name": "icon_cup_takeout",
+    "type": "multicolor"
+  },
+  "38d387c42aa89b278faa9ec18df32d3951b32dbd": {
+    "name": "icon_cupcake",
+    "type": "multicolor"
+  },
   "057604252532151ab4a009b24c2b6135fb1c1f2f": {
     "name": "icon_diamond",
+    "type": "multicolor"
+  },
+  "ccae6dba7646071e1caf16fd9d88cb9990205f86": {
+    "name": "icon_document_seal",
     "type": "multicolor"
   },
   "808918e0da41b715bb7d1bb2885a7818bbd492bc": {
@@ -3257,6 +3367,10 @@ export const FIGMA_ICONS = {
     "name": "icon_envelope",
     "type": "multicolor"
   },
+  "a000f8385a64e8123a04f9c2d39fbbfc1c5b42a5": {
+    "name": "icon_eyebrow",
+    "type": "multicolor"
+  },
   "c848c902c8493a7d0199c779217cb2f3331b55c5": {
     "name": "icon_face_smile_circle",
     "type": "multicolor"
@@ -3267,6 +3381,10 @@ export const FIGMA_ICONS = {
   },
   "bfb3fa82c3642bd55ae5ab9da241fd4a6a593736": {
     "name": "icon_fish_wave2",
+    "type": "multicolor"
+  },
+  "d5b7d0efa3d85021bd831c5141a43cd4a0fde530": {
+    "name": "icon_flower",
     "type": "multicolor"
   },
   "fe769cca256bb3fc7fa70682e1d85169ba104f53": {
@@ -3293,12 +3411,20 @@ export const FIGMA_ICONS = {
     "name": "icon_grid_dot5",
     "type": "multicolor"
   },
+  "d0e0382283523704f1efe66dc6d2d8386fe78739": {
+    "name": "icon_hand_drop",
+    "type": "multicolor"
+  },
   "9d3511905b35064003bf689e7f536f120e1fa5ad": {
     "name": "icon_horizline_viewfinder",
     "type": "multicolor"
   },
   "32526400d33c2be2d0d16c3fd27fc1fe053fd9c6": {
     "name": "icon_hospital",
+    "type": "multicolor"
+  },
+  "67ff44c9c9449d4f473c684f89e08cbbf7f61b7d": {
+    "name": "icon_house_card",
     "type": "multicolor"
   },
   "36ad8a52bf4592709d964d81510dd73476cfe147": {
@@ -3339,6 +3465,10 @@ export const FIGMA_ICONS = {
   },
   "baf0b42a1d9f90ba613145076e71d94513485097": {
     "name": "icon_pencil",
+    "type": "multicolor"
+  },
+  "3581ba15610f8e9765be1d359802595907d4aaf4": {
+    "name": "icon_percent_arrowshape_down",
     "type": "multicolor"
   },
   "eaa087227f156444a7ce10fa2fb9276bd0f0c262": {
@@ -3397,6 +3527,10 @@ export const FIGMA_ICONS = {
     "name": "icon_spraybottle_sponge",
     "type": "multicolor"
   },
+  "53729bb72150963fd5a7dd04aa6c8569a81f7e5e": {
+    "name": "icon_star_calendar",
+    "type": "multicolor"
+  },
   "86bfe331ab4d3a5bf29019345e208ce7b73371bd": {
     "name": "icon_tree",
     "type": "multicolor"
@@ -3413,8 +3547,16 @@ export const FIGMA_ICONS = {
     "name": "icon_tshirt_bubble2",
     "type": "multicolor"
   },
+  "054c908bd177d6ff85ff90b7ab3887fa17a6c3fb": {
+    "name": "icon_vertrectangle_tiltedstacked",
+    "type": "multicolor"
+  },
   "ab66ee11be5539d340a87f1e9ca021fef1db3ef8": {
     "name": "icon_vest_horizstripe",
+    "type": "multicolor"
+  },
+  "d8579af735e0f286ddefdffc811b12469d9bb24b": {
+    "name": "icon_wand_plus_circle",
     "type": "multicolor"
   },
   "7ddb6f0f63708485a75cb21a25fae01671a34562": {

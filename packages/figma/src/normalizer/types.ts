@@ -178,6 +178,13 @@ export interface NormalizedInstanceNode extends NormalizedFrameTrait {
   children: NormalizedSceneNode[];
 }
 
+export interface NormalizedSlotNode extends NormalizedFrameTrait {
+  type: FigmaRestSpec.SlotNode["type"];
+  componentPropertyReferences?: FigmaRestSpec.IsLayerTrait["componentPropertyReferences"] & {
+    slotContentId?: string;
+  };
+}
+
 export interface NormalizedVectorNode extends NormalizedDefaultShapeTrait, NormalizedCornerTrait {
   type: FigmaRestSpec.VectorNode["type"];
 }
@@ -203,6 +210,7 @@ export type NormalizedSceneNode =
   | NormalizedTextNode
   | NormalizedComponentNode
   | NormalizedInstanceNode
+  | NormalizedSlotNode
   | NormalizedVectorNode
   | NormalizedBooleanOperationNode
   | NormalizedUnhandledNode;
