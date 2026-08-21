@@ -5,10 +5,14 @@ import { parseArgs } from "node:util";
 const CSS_PACKAGE = "@seed-design/css";
 const CSS_MANIFEST_PATH = "packages/css/package.json";
 const REACT_MANIFEST_PATH = "packages/react/package.json";
+const LYNX_CSS_PACKAGE = "@seed-design/lynx-css";
+const LYNX_CSS_MANIFEST_PATH = "packages/lynx-css/package.json";
+const LYNX_REACT_MANIFEST_PATH = "packages/lynx-react/package.json";
 const LOCKFILE_PATH = "bun.lock";
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 const STABLE_VERSION_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const CARET_STABLE_RANGE_PATTERN = /^\^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+const LYNX_RANGE_PATTERN = /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.0 <1\.0\.0$/;
 
 type JsonRecord = Record<string, unknown>;
 
@@ -19,6 +23,12 @@ interface SyncResult {
   desiredRange: string;
   reactManifest: string;
   lockfile: string;
+}
+
+interface WorkflowResult {
+  changed: boolean;
+  reactChanged: boolean;
+  lynxReactChanged: boolean;
 }
 
 function isRecord(value: unknown): value is JsonRecord {
@@ -80,6 +90,7 @@ function findWorkspaceBlock(lockfile: string, workspacePath: string): [number, n
 function updateLockfilePeerRange(
   lockfile: string,
   workspacePath: string,
+  dependencyName: string,
   currentRange: string,
   desiredRange: string,
 ): string {
@@ -97,13 +108,13 @@ function updateLockfilePeerRange(
   }
 
   const peerDependencies = workspace.slice(peerDependenciesStart, peerDependenciesEnd);
-  const currentEntry = `        "${CSS_PACKAGE}": "${currentRange}",`;
-  const desiredEntry = `        "${CSS_PACKAGE}": "${desiredRange}",`;
+  const currentEntry = `        "${dependencyName}": "${currentRange}",`;
+  const desiredEntry = `        "${dependencyName}": "${desiredRange}",`;
   const entryCount = peerDependencies.split(currentEntry).length - 1;
 
   if (entryCount !== 1) {
     throw new Error(
-      `bun.lock의 ${workspacePath} peerDependencies에서 ${CSS_PACKAGE}@${currentRange} 항목을 정확히 하나 찾지 못했습니다.`,
+      `bun.lock의 ${workspacePath} peerDependencies에서 ${dependencyName}@${currentRange} 항목을 정확히 하나 찾지 못했습니다.`,
     );
   }
 
@@ -146,6 +157,7 @@ export function synchronizePeerDependencyText(input: {
   const nextLockfile = updateLockfilePeerRange(
     input.lockfile,
     REACT_MANIFEST_PATH.replace("/package.json", ""),
+    CSS_PACKAGE,
     previousRange,
     desiredRange,
   );
@@ -179,6 +191,76 @@ export function synchronizePeerDependencyText(input: {
   };
 }
 
+export function synchronizeLynxPeerDependencyText(input: {
+  lynxCssManifest: string;
+  lynxReactManifest: string;
+  lockfile: string;
+}): SyncResult {
+  const lynxCssManifest = readManifest(input.lynxCssManifest, LYNX_CSS_MANIFEST_PATH);
+  const lynxReactManifest = readManifest(input.lynxReactManifest, LYNX_REACT_MANIFEST_PATH);
+  const lynxCssVersion = lynxCssManifest.version;
+
+  if (typeof lynxCssVersion !== "string") {
+    throw new Error(`${LYNX_CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
+  }
+
+  const [major, minor] = parseStableVersion(lynxCssVersion);
+  if (major !== 0) {
+    throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${lynxCssVersion}`);
+  }
+
+  if (!isRecord(lynxReactManifest.peerDependencies)) {
+    throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 peerDependencies가 없습니다.`);
+  }
+
+  const previousRange = lynxReactManifest.peerDependencies[LYNX_CSS_PACKAGE];
+  if (typeof previousRange !== "string") {
+    throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 ${LYNX_CSS_PACKAGE} peerDependency가 없습니다.`);
+  }
+  if (!LYNX_RANGE_PATTERN.test(previousRange)) {
+    throw new Error(
+      `${LYNX_CSS_PACKAGE} peerDependency 범위가 올바르지 않습니다: ${previousRange}`,
+    );
+  }
+
+  const desiredRange = `0.0.0 || >=0.${minor}.0 <1.0.0`;
+  const nextLockfile = updateLockfilePeerRange(
+    input.lockfile,
+    LYNX_REACT_MANIFEST_PATH.replace("/package.json", ""),
+    LYNX_CSS_PACKAGE,
+    previousRange,
+    desiredRange,
+  );
+
+  if (previousRange === desiredRange) {
+    return {
+      changed: false,
+      cssVersion: lynxCssVersion,
+      previousRange,
+      desiredRange,
+      reactManifest: input.lynxReactManifest,
+      lockfile: input.lockfile,
+    };
+  }
+
+  const nextLynxReactManifest = {
+    ...lynxReactManifest,
+    peerDependencies: {
+      ...lynxReactManifest.peerDependencies,
+      [LYNX_CSS_PACKAGE]: desiredRange,
+    },
+  };
+
+  return {
+    changed: true,
+    cssVersion: lynxCssVersion,
+    previousRange,
+    desiredRange,
+    reactManifest: `${JSON.stringify(nextLynxReactManifest, null, 2)}\n`,
+    lockfile: nextLockfile,
+  };
+}
+
 async function runGit(root: string, args: string[]): Promise<string> {
   const process = Bun.spawn(["git", "-C", root, ...args], {
     stdout: "pipe",
@@ -197,12 +279,11 @@ async function runGit(root: string, args: string[]): Promise<string> {
   return stdout;
 }
 
-async function writeOutputs(result: SyncResult): Promise<void> {
+async function writeOutputs(result: WorkflowResult): Promise<void> {
   const output = [
     `changed=${result.changed}`,
-    `css-version=${result.cssVersion}`,
-    `previous-range=${result.previousRange}`,
-    `desired-range=${result.desiredRange}`,
+    `react-changed=${result.reactChanged}`,
+    `lynx-react-changed=${result.lynxReactChanged}`,
     "",
   ].join("\n");
   const githubOutput = process.env.GITHUB_OUTPUT;
@@ -244,7 +325,7 @@ async function main(): Promise<void> {
     throw new Error("PR base와 head의 공통 조상을 찾지 못했습니다.");
   }
 
-  const changedCssFiles = (
+  const changedDependencyManifests = (
     await runGit(root, [
       "diff",
       "--name-only",
@@ -253,47 +334,92 @@ async function main(): Promise<void> {
       sourceSha,
       "--",
       CSS_MANIFEST_PATH,
+      LYNX_CSS_MANIFEST_PATH,
     ])
   )
     .split("\n")
     .filter(Boolean);
 
-  if (changedCssFiles.length !== 1 || changedCssFiles[0] !== CSS_MANIFEST_PATH) {
-    throw new Error(`${CSS_MANIFEST_PATH} 버전 변경이 포함된 PR에서만 실행할 수 있습니다.`);
-  }
-
-  const baseCssManifest = readManifest(
-    await runGit(root, ["show", `${mergeBaseSha}:${CSS_MANIFEST_PATH}`]),
-    `${mergeBaseSha}:${CSS_MANIFEST_PATH}`,
-  );
-  const baseCssVersion = baseCssManifest.version;
-  if (typeof baseCssVersion !== "string") {
-    throw new Error(`base의 ${CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
+  if (changedDependencyManifests.length === 0) {
+    throw new Error(
+      `${CSS_MANIFEST_PATH} 또는 ${LYNX_CSS_MANIFEST_PATH} 버전 변경이 포함된 PR에서만 실행할 수 있습니다.`,
+    );
   }
 
   const cssManifestPath = resolve(root, CSS_MANIFEST_PATH);
   const reactManifestPath = resolve(root, REACT_MANIFEST_PATH);
+  const lynxCssManifestPath = resolve(root, LYNX_CSS_MANIFEST_PATH);
+  const lynxReactManifestPath = resolve(root, LYNX_REACT_MANIFEST_PATH);
   const lockfilePath = resolve(root, LOCKFILE_PATH);
-  const result = synchronizePeerDependencyText({
-    cssManifest: await Bun.file(cssManifestPath).text(),
-    reactManifest: await Bun.file(reactManifestPath).text(),
-    lockfile: await Bun.file(lockfilePath).text(),
-  });
+  let lockfile = await Bun.file(lockfilePath).text();
+  let nextReactManifest: string | undefined;
+  let nextLynxReactManifest: string | undefined;
+  let reactChanged = false;
+  let lynxReactChanged = false;
 
-  if (compareStableVersions(result.cssVersion, baseCssVersion) <= 0) {
-    throw new Error(
-      `${CSS_PACKAGE} 버전이 올라가지 않았습니다: ${baseCssVersion} -> ${result.cssVersion}`,
+  if (changedDependencyManifests.includes(CSS_MANIFEST_PATH)) {
+    const baseManifest = readManifest(
+      await runGit(root, ["show", `${mergeBaseSha}:${CSS_MANIFEST_PATH}`]),
+      `${mergeBaseSha}:${CSS_MANIFEST_PATH}`,
     );
+    const baseVersion = baseManifest.version;
+    const result = synchronizePeerDependencyText({
+      cssManifest: await Bun.file(cssManifestPath).text(),
+      reactManifest: await Bun.file(reactManifestPath).text(),
+      lockfile,
+    });
+
+    if (typeof baseVersion !== "string") {
+      throw new Error(`base의 ${CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
+    }
+    if (compareStableVersions(result.cssVersion, baseVersion) <= 0) {
+      throw new Error(
+        `${CSS_PACKAGE} 버전이 올라가지 않았습니다: ${baseVersion} -> ${result.cssVersion}`,
+      );
+    }
+
+    reactChanged = result.changed;
+    lockfile = result.lockfile;
+    if (result.changed) nextReactManifest = result.reactManifest;
   }
 
-  if (result.changed) {
-    await Promise.all([
-      Bun.write(reactManifestPath, result.reactManifest),
-      Bun.write(lockfilePath, result.lockfile),
-    ]);
+  if (changedDependencyManifests.includes(LYNX_CSS_MANIFEST_PATH)) {
+    const baseManifest = readManifest(
+      await runGit(root, ["show", `${mergeBaseSha}:${LYNX_CSS_MANIFEST_PATH}`]),
+      `${mergeBaseSha}:${LYNX_CSS_MANIFEST_PATH}`,
+    );
+    const baseVersion = baseManifest.version;
+    const result = synchronizeLynxPeerDependencyText({
+      lynxCssManifest: await Bun.file(lynxCssManifestPath).text(),
+      lynxReactManifest: await Bun.file(lynxReactManifestPath).text(),
+      lockfile,
+    });
+
+    if (typeof baseVersion !== "string") {
+      throw new Error(`base의 ${LYNX_CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
+    }
+    if (compareStableVersions(result.cssVersion, baseVersion) <= 0) {
+      throw new Error(
+        `${LYNX_CSS_PACKAGE} 버전이 올라가지 않았습니다: ${baseVersion} -> ${result.cssVersion}`,
+      );
+    }
+
+    lynxReactChanged = result.changed;
+    lockfile = result.lockfile;
+    if (result.changed) nextLynxReactManifest = result.reactManifest;
   }
 
-  await writeOutputs(result);
+  const changed = reactChanged || lynxReactChanged;
+  if (changed) {
+    const writes = [Bun.write(lockfilePath, lockfile)];
+    if (nextReactManifest) writes.push(Bun.write(reactManifestPath, nextReactManifest));
+    if (nextLynxReactManifest) {
+      writes.push(Bun.write(lynxReactManifestPath, nextLynxReactManifest));
+    }
+    await Promise.all(writes);
+  }
+
+  await writeOutputs({ changed, reactChanged, lynxReactChanged });
 }
 
 if (import.meta.main) {
