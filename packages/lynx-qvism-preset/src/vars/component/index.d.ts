@@ -59,6 +59,8 @@ export { vars as menuSheet } from "./menu-sheet";
 export { vars as menu } from "./menu";
 export { vars as notificationBadge } from "./notification-badge";
 export { vars as pageBanner } from "./page-banner";
+export { vars as paginationButton } from "./pagination-button";
+export { vars as paginationPageItem } from "./pagination-page-item";
 export { vars as progressCircle } from "./progress-circle";
 export { vars as quantityPickerButton } from "./quantity-picker-button";
 export { vars as quantityPicker } from "./quantity-picker";

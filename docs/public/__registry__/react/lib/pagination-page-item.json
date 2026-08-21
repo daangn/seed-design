@@ -1,0 +1,16 @@
+{
+  "id": "pagination-page-item",
+  "dependencies": [
+    "@seed-design/css",
+    "clsx"
+  ],
+  "snippets": [
+    {
+      "path": "pagination-page-item.tsx",
+      "content": "/**\n * @file lib:pagination-page-item\n * @requires @seed-design/css@^2.6.0\n **/\n\n\"use client\";\n\nimport { paginationPageItem } from \"@seed-design/css/recipes/pagination-page-item\";\nimport clsx from \"clsx\";\nimport * as React from \"react\";\n\nexport interface PaginationPageItemProps\n  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, \"color\"> {\n  selected?: boolean;\n}\n\nexport const PaginationPageItem = React.forwardRef<HTMLButtonElement, PaginationPageItemProps>(\n  ({ children, className, selected, ...buttonProps }, ref) => (\n    <button\n      ref={ref}\n      type=\"button\"\n      {...buttonProps}\n      className={clsx(paginationPageItem(), className)}\n      data-selected={selected ? \"\" : undefined}\n    >\n      <span data-pagination-page-item-label=\"\">{children}</span>\n    </button>\n  ),\n);\nPaginationPageItem.displayName = \"PaginationPageItem\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/css": "^2.6.0"
+      }
+    }
+  ]
+}

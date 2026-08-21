@@ -62,6 +62,7 @@
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "2.3.0",
         "@seed-design/react-icon": "^0.7.4",
+        "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "2.0.3",
@@ -334,6 +335,7 @@
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "2.5.0",
         "@seed-design/react": "2.3.0",
+        "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.0.3",
         "@seed-design/stylesheet": "1.1.2",
@@ -982,6 +984,23 @@
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@seed-design/dom-utils": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
+        "@seed-design/react-use-controllable-state": "^2.0.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/pagination": {
+      "name": "@seed-design/react-pagination",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/dom-utils": "^2.1.0",
         "@seed-design/react-use-controllable-state": "^2.0.1",
       },
       "devDependencies": {
@@ -3274,6 +3293,8 @@
     "@seed-design/react-middle-truncate": ["@seed-design/react-middle-truncate@workspace:packages/react-headless/middle-truncate"],
 
     "@seed-design/react-navigation-menu": ["@seed-design/react-navigation-menu@workspace:packages/react-headless/navigation-menu"],
+
+    "@seed-design/react-pagination": ["@seed-design/react-pagination@workspace:packages/react-headless/pagination"],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
 
