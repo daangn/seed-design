@@ -6,8 +6,17 @@ import { describe, expect, it } from "vitest";
 import type { LynxIconElementProps } from "../../types";
 import { InternalIcon } from "./Icon";
 
-const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => {
-  return <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />;
+const TestIcon = React.forwardRef<
+  MainThread.Element,
+  LynxIconElementProps & { children?: React.ReactNode }
+>((props, ref) => {
+  const { children, ...nativeProps } = props;
+
+  return (
+    <image {...nativeProps} {...(ref ? { "main-thread:ref": ref } : {})}>
+      {children}
+    </image>
+  );
 });
 TestIcon.displayName = "TestIcon";
 
