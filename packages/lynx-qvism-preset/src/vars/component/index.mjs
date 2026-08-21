@@ -59,6 +59,8 @@ export { vars as menuSheet } from "./menu-sheet.mjs";
 export { vars as menu } from "./menu.mjs";
 export { vars as notificationBadge } from "./notification-badge.mjs";
 export { vars as pageBanner } from "./page-banner.mjs";
+export { vars as paginationButton } from "./pagination-button.mjs";
+export { vars as paginationPageItem } from "./pagination-page-item.mjs";
 export { vars as progressCircle } from "./progress-circle.mjs";
 export { vars as quantityPickerButton } from "./quantity-picker-button.mjs";
 export { vars as quantityPicker } from "./quantity-picker.mjs";

@@ -1,0 +1,18 @@
+{
+  "id": "pagination-button",
+  "dependencies": [
+    "@seed-design/css",
+    "@seed-design/react",
+    "clsx"
+  ],
+  "snippets": [
+    {
+      "path": "pagination-button.tsx",
+      "content": "/**\n * @file lib:pagination-button\n * @requires @seed-design/react@^2.3.0\n * @requires @seed-design/css@^2.6.0\n **/\n\n\"use client\";\n\nimport { paginationButton } from \"@seed-design/css/recipes/pagination-button\";\nimport { Icon } from \"@seed-design/react\";\nimport clsx from \"clsx\";\nimport * as React from \"react\";\n\nexport interface PaginationButtonProps\n  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, \"color\"> {}\n\nexport const PaginationButton = React.forwardRef<HTMLButtonElement, PaginationButtonProps>(\n  (props, ref) => {\n    const { children, className, ...buttonProps } = props;\n\n    return (\n      <button\n        ref={ref}\n        type=\"button\"\n        {...buttonProps}\n        className={clsx(paginationButton(), className)}\n      >\n        <Icon svg={children} />\n      </button>\n    );\n  },\n);\nPaginationButton.displayName = \"PaginationButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^2.3.0",
+        "@seed-design/css": "^2.6.0"
+      }
+    }
+  ]
+}
