@@ -1,7 +1,7 @@
 "use client";
 
 import { wheelPickerPublic } from "@seed-design/css/recipes/wheel-picker-public";
-import { Primitive } from "@seed-design/react-primitive";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   WheelPicker as WheelPickerPrimitive,
   type WheelPickerOption,
@@ -102,6 +102,27 @@ export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootP
 );
 WheelPickerRoot.displayName = "WheelPickerRoot";
 
+export interface WheelPickerItemLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+/** Wheel Picker 항목의 기본 여백과 타이포그래피를 적용합니다. */
+export const WheelPickerItemLabel = React.forwardRef<HTMLDivElement, WheelPickerItemLabelProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+
+    return (
+      <Primitive.div
+        ref={ref}
+        className={clsx(classNames.itemLabel, className)}
+        {...props}
+        data-wheel-picker-item-label=""
+      />
+    );
+  },
+);
+WheelPickerItemLabel.displayName = "WheelPickerItemLabel";
+
 export interface WheelPickerColumnProps
   extends Omit<
     WheelPickerPrimitive.ColumnProps,
@@ -141,10 +162,16 @@ export interface WheelPickerColumnProps
 
   /** 현재 값에 대응하는 접근성 텍스트를 반환합니다. */
   getAriaValueText?: (value: string) => string;
+
+  /**
+   * 기본 `ItemLabel` 대신 항목에 표시할 요소를 반환합니다.
+   * 반환한 요소는 항목의 선택·비활성 색상을 적용할 수 있도록 `currentColor`를 상속해야 합니다.
+   */
+  renderLabel?: (option: WheelPickerOption) => React.ReactNode;
 }
 
 export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerColumnProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, renderLabel, ...props }, ref) => {
     const classNames = useClassNames();
 
     return (
@@ -154,9 +181,11 @@ export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerCol
         {...props}
         renderOption={(option, optionProps) => (
           <Primitive.div className={classNames.item} {...optionProps}>
-            <Primitive.div className={classNames.itemLabel} data-wheel-picker-item-label="">
-              {option.label}
-            </Primitive.div>
+            {renderLabel ? (
+              renderLabel(option)
+            ) : (
+              <WheelPickerItemLabel>{option.label}</WheelPickerItemLabel>
+            )}
           </Primitive.div>
         )}
       />

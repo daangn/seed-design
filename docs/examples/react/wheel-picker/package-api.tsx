@@ -11,12 +11,19 @@ export default function WheelPickerPackageApi() {
   return (
     <VStack width="320px" maxWidth="100%" gap="x3" align="center">
       <Box width="full">
-        <WheelPicker.Root aria-label="글자 크기 선택">
+        <WheelPicker.Root aria-label="글자 크기 선택" itemSize={56}>
           <WheelPicker.Column
             aria-label="글자 크기"
             options={options}
             value={value}
             onValueChange={setValue}
+            renderLabel={(option) => (
+              <WheelPicker.ItemLabel>
+                <Text fontSize="t5" fontWeight="medium">
+                  {option.label}
+                </Text>
+              </WheelPicker.ItemLabel>
+            )}
           />
         </WheelPicker.Root>
       </Box>

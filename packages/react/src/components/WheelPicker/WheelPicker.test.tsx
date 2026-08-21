@@ -57,6 +57,40 @@ describe("WheelPicker", () => {
     expect(getByRole("spinbutton")).toHaveClass("custom-column");
   });
 
+  it("renderLabel로 기본 ItemLabel을 대체한다", () => {
+    const { container, getByText } = render(
+      <WheelPicker.Root aria-label="휠 피커" itemSize={56}>
+        <WheelPicker.Column
+          aria-label="문자"
+          options={options}
+          renderLabel={(option) => <span data-custom-label="">{option.label}</span>}
+        />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByText("A")).toHaveAttribute("data-custom-label");
+    expect(getByText("A").parentElement).toHaveClass("seed-wheel-picker-public__item");
+    expect(container.querySelector("[data-wheel-picker-item-label]")).not.toBeInTheDocument();
+  });
+
+  it("renderLabel에서 공개 ItemLabel을 재사용한다", () => {
+    const { getByText } = render(
+      <WheelPicker.Root aria-label="휠 피커">
+        <WheelPicker.Column
+          aria-label="문자"
+          options={options}
+          renderLabel={(option) => (
+            <WheelPicker.ItemLabel data-reused-label="">{option.label}</WheelPicker.ItemLabel>
+          )}
+        />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByText("A")).toHaveClass("seed-wheel-picker-public__itemLabel");
+    expect(getByText("A")).toHaveAttribute("data-wheel-picker-item-label");
+    expect(getByText("A")).toHaveAttribute("data-reused-label");
+  });
+
   it("Root의 disabled 상태를 Column과 Item에 전파한다", () => {
     const { container, getByRole } = render(
       <WheelPicker.Root aria-label="비활성 휠 피커" disabled>
