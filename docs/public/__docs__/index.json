@@ -1360,6 +1360,19 @@
               ]
             },
             {
+              "id": "pagination",
+              "title": "Pagination",
+              "description": "여러 페이지로 나뉜 목록에서 원하는 페이지로 이동할 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/react/components/pagination",
+              "snippetKey": "react/ui:pagination",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "pagination.tsx"
+                }
+              ]
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
@@ -1569,6 +1582,19 @@
                 {
                   "label": "react",
                   "path": "switch.tsx"
+                }
+              ]
+            },
+            {
+              "id": "table-pagination",
+              "title": "Table Pagination",
+              "description": "데이터 표의 페이지와 페이지당 표시 행 수를 함께 제어하는 컴포넌트입니다.",
+              "docUrl": "/react/components/table-pagination",
+              "snippetKey": "react/ui:table-pagination",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "table-pagination.tsx"
                 }
               ]
             },

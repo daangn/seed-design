@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: pagination-page-item
+  name: Pagination Page Item
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
+          size: $dimension.x10
+          cornerRadius: $radius.r2
+        label:
+          color: $color.fg.neutral
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.bold
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scale: $scale.s97
+      selected:
+        root:
+          color: $color.bg.neutral-inverted
+        label:
+          color: $color.fg.neutral-inverted
+      selected, pressed:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+      disabled:
+        root:
+          color: $color.bg.transparent
+        label:
+          color: $color.fg.disabled
+      selected, disabled:
+        root:
+          color: $color.bg.disabled
+        label:
+          color: $color.fg.disabled
