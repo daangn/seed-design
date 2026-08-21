@@ -7,6 +7,10 @@ const checkmarkSlotNames = [
     "seed-checkmark__root"
   ],
   [
+    "background",
+    "seed-checkmark__background"
+  ],
+  [
     "icon",
     "seed-checkmark__icon"
   ]
@@ -95,6 +99,26 @@ const compoundVariants = [
   {
     "variant": "ghost",
     "tone": "brand",
+    "checked": true
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral",
+    "checked": true
+  },
+  {
+    "variant": "ghost",
+    "tone": "brand",
+    "indeterminate": true
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral",
+    "indeterminate": true
+  },
+  {
+    "variant": "ghost",
+    "tone": "brand",
     "checked": true,
     "disabled": false
   },
@@ -106,12 +130,34 @@ const compoundVariants = [
   },
   {
     "variant": "ghost",
+    "tone": "brand",
+    "indeterminate": true,
+    "disabled": false
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral",
+    "indeterminate": true,
+    "disabled": false
+  },
+  {
+    "variant": "ghost",
     "disabled": true
   },
   {
     "variant": "ghost",
     "checked": true,
     "disabled": true
+  },
+  {
+    "variant": "ghost",
+    "indeterminate": true,
+    "disabled": true
+  },
+  {
+    "variant": "ghost",
+    "pressed": true,
+    "disabled": false
   },
   {
     "variant": "square",
@@ -146,27 +192,6 @@ const compoundVariants = [
     "tone": "neutral",
     "pressed": true,
     "indeterminate": true,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "pressed": true,
-    "checked": false,
-    "indeterminate": false,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "tone": "brand",
-    "pressed": true,
-    "checked": true,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "tone": "neutral",
-    "pressed": true,
-    "checked": true,
     "disabled": false
   }
 ];
