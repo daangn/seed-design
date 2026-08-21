@@ -41,7 +41,7 @@
     "@fumadocs/satteri": "^0.3.1",
     "@gsap/react": "^2.1.2",
     "@karrotmarket/icon-data": "^1.34.0",
-    "@karrotmarket/lynx-monochrome-icon": "1.10.0",
+    "@karrotmarket/lynx-monochrome-icon": "1.20.0",
     "@karrotmarket/react-monochrome-icon": "^1.17.0",
     "@karrotmarket/react-multicolor-icon": "^1.17.0",
     "@lottiefiles/react-lottie-player": "^3.6.0",
@@ -119,7 +119,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
     "@figma/rest-api-spec": "^0.36.0",
-    "@karrotmarket/lynx-multicolor-icon": "1.13.0",
+    "@karrotmarket/lynx-multicolor-icon": "1.25.0",
     "@lynx-js/config-rsbuild-plugin": "0.2.2",
     "@lynx-js/react": "0.123.3",
     "@lynx-js/react-rsbuild-plugin": "0.18.3",
