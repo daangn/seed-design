@@ -22,7 +22,6 @@ page {
 }
 
 .keyboard-avoiding-scroll-view-preview__description,
-.keyboard-avoiding-scroll-view-preview__field-label,
 .keyboard-avoiding-scroll-view-preview__spacer-label {
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;
@@ -30,9 +29,6 @@ page {
 }
 
 .keyboard-avoiding-scroll-view-preview__field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   flex-shrink: 0;
 }
 
