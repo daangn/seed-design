@@ -1,7 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":preserveSemverRanges", "group:allNonMajor"],
-  "baseBranches": ["dev"],
+  "extends": [
+    "config:recommended",
+    ":preserveSemverRanges",
+    "security:minimumReleaseAgeNpm"
+  ],
+  "baseBranchPatterns": ["dev"],
   "ignorePaths": ["packages/archive/**"],
   "packageRules": [
     {
@@ -27,6 +31,7 @@
       ],
       "groupName": "karrot-icon-updates",
       "groupSlug": "karrot-icon-updates",
+      "minimumReleaseAge": "0 days",
       "allowedVersions": "*"
     },
     {
