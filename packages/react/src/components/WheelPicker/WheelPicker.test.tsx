@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
+import type * as React from "react";
 import { WheelPicker } from "./index";
 
 const options = [
@@ -37,5 +38,19 @@ describe("WheelPicker", () => {
 
     expect(getByRole("group")).toHaveClass("custom-root");
     expect(getByRole("spinbutton")).toHaveClass("custom-column");
+  });
+
+  it("지원하지 않는 readOnly 값이 런타임에 전달되어도 읽기 전용으로 동작하지 않는다", () => {
+    const RootWithLegacyReadOnly = WheelPicker.Root as React.ComponentType<
+      WheelPicker.RootProps & { readOnly?: boolean }
+    >;
+    const { getByRole } = render(
+      <RootWithLegacyReadOnly aria-label="휠 피커" readOnly>
+        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
+      </RootWithLegacyReadOnly>,
+    );
+
+    expect(getByRole("group")).not.toHaveAttribute("data-readonly");
+    expect(getByRole("spinbutton")).not.toHaveAttribute("aria-readonly");
   });
 });

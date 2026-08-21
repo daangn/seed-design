@@ -17,7 +17,6 @@ interface WheelPickerCaseProps {
   label: string;
   columns: ColumnCase[];
   disabled?: boolean;
-  readOnly?: boolean;
 }
 
 const createNumberOptions = (start: number, end: number, padStart = 0): WheelPickerOption[] =>
@@ -249,22 +248,10 @@ const conditionMap = {
         },
       ],
     },
-    "Read only": {
-      label: "읽기 전용 선택",
-      readOnly: true,
-      columns: [
-        {
-          label: "상태",
-          options: createTextOptions("대기", "진행", "완료"),
-          loop: false,
-          defaultValue: "진행",
-        },
-      ],
-    },
   },
 } satisfies Record<string, Record<string, WheelPickerCaseProps>>;
 
-function WheelPickerCase({ label, columns, disabled, readOnly }: WheelPickerCaseProps) {
+function WheelPickerCase({ label, columns, disabled }: WheelPickerCaseProps) {
   const [values, setValues] = React.useState(() =>
     columns.map(
       (column) =>
@@ -300,7 +287,7 @@ function WheelPickerCase({ label, columns, disabled, readOnly }: WheelPickerCase
         ))}
       </Grid>
       <Box width="320px">
-        <WheelPicker.Root aria-label={label} disabled={disabled} readOnly={readOnly}>
+        <WheelPicker.Root aria-label={label} disabled={disabled}>
           {columns.map((column, columnIndex) => (
             <WheelPicker.Column
               key={column.label}

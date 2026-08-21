@@ -2,19 +2,27 @@ import { WheelPicker as SeedWheelPicker } from "@seed-design/react";
 import * as React from "react";
 
 export interface WheelPickerOption {
+  /** 항목을 식별하고 선택 상태로 주고받는 고유 값입니다. */
   value: string;
+
+  /** 항목에 표시할 내용입니다. */
   label: React.ReactNode;
+
   /** React 요소 label을 스크린 리더에서 읽을 문자열입니다. */
   ariaLabel?: string;
 }
 
 export interface WheelPickerColumn
   extends Omit<SeedWheelPicker.ColumnProps, "getAriaValueText" | "options"> {
+  /** 컬럼을 식별하는 고유 값입니다. */
   id: string;
+
+  /** 컬럼에 표시할 선택 항목입니다. 하나 이상의 항목을 제공해야 합니다. */
   options: readonly WheelPickerOption[];
 }
 
 export interface WheelPickerProps extends Omit<SeedWheelPicker.RootProps, "children"> {
+  /** Wheel Picker를 구성하는 컬럼 목록입니다. */
   columns: readonly WheelPickerColumn[];
 }
 
