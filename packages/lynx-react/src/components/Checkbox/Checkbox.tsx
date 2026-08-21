@@ -38,6 +38,8 @@ interface CheckboxContextValue {
   indeterminate: boolean;
   disabled: boolean;
   pressed: boolean;
+  pressStartChecked: boolean;
+  pressStartIndeterminate: boolean;
   checkboxVariantProps: CheckboxVariantProps;
   checkmarkVariantProps: CheckmarkVariantProps;
   toggle: () => void;
@@ -103,10 +105,18 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
 
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
-  const { pressed, ...pressHandlers } = usePressTap({
+  const pressSelectionRef = React.useRef({ checked, indeterminate });
+  const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
   });
+  const handleTouchStart = React.useCallback(
+    (...args: Parameters<typeof bindtouchstart>) => {
+      pressSelectionRef.current = { checked, indeterminate };
+      bindtouchstart(...args);
+    },
+    [bindtouchstart, checked, indeterminate],
+  );
 
   const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 
@@ -116,6 +126,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       indeterminate,
       disabled,
       pressed,
+      pressStartChecked: pressSelectionRef.current.checked,
+      pressStartIndeterminate: pressSelectionRef.current.indeterminate,
       checkboxVariantProps,
       checkmarkVariantProps,
       toggle,
@@ -136,6 +148,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
+        bindtouchstart={handleTouchStart}
         {...pressHandlers}
         {...nativeProps}
       >
@@ -166,15 +179,36 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   };
   const classes = checkmark(checkmarkVariantProps);
 
+  // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
+  // 중간 RGB가 검게 탁해진다. ghost root는 투명 상태로 고정하고 별도 배경의
+  // opacity만 전환한다.
+  const pressStartClasses = checkmark({
+    ...checkmarkVariantProps,
+    checked: context.pressStartChecked,
+    indeterminate: context.pressStartIndeterminate,
+    pressed: context.pressed,
+  });
+  const isGhost = checkmarkVariantProps.variant === "ghost";
+  // ghost root 상태를 고정하고 overlay opacity만 전환한다.
+  const rootClassName = isGhost
+    ? checkmark({
+        ...checkmarkVariantProps,
+        checked: false,
+        indeterminate: false,
+        pressed: false,
+      }).root
+    : classes.root;
+
   return (
     <CheckmarkControlContext.Provider
       value={{ iconClassName: classes.icon, checkmarkVariantProps }}
     >
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
-        className={clsx(classes.root, className)}
+        className={clsx(rootClassName, className)}
         {...nativeProps}
       >
+        {isGhost ? <view className={pressStartClasses.background} /> : null}
         {children}
       </view>
     </CheckmarkControlContext.Provider>
