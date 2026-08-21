@@ -34,7 +34,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.0.0",
     "@types/yargs": "^17.0.33",
-    "esbuild": "^0.27.0",
+    "esbuild": "^0.28.0",
     "typescript": "^7.0.2"
   },
   "publishConfig": {

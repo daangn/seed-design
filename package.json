@@ -62,7 +62,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
     "@changesets/cli": "^2.29.2",
-    "@figma/rest-api-spec": "^0.36.0",
+    "@figma/rest-api-spec": "^0.42.0",
     "@happy-dom/global-registrator": "^20.4.0",
     "@seed-design/figma-extractor": "workspace:*",
     "@seed-design/rootage-cli": "workspace:*",
@@ -82,7 +82,7 @@
     "yaml": "^2.8.2"
   },
   "overrides": {
-    "esbuild": "0.27.4"
+    "esbuild": "0.28.2"
   },
   "patchedDependencies": {
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch"
