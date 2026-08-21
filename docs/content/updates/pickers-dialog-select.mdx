@@ -1,0 +1,193 @@
+---
+title: 선택하고, 확인하고, 탐색하는 경험을 더 쉽게
+description: Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.
+publishedAt: 2026-08-13T00:00:00+09:00
+category: release
+---
+
+당근의 여러 서비스에는 사용자가 무언가를 선택하고, 결정을 확인하고, 화면을 탐색하는 순간이 반복해서 등장해요. 익숙한 상호작용도 실제 제품에 적용하려면 선택 범위와 예외 상태, 화면 크기와 접근성까지 함께 살펴야 해요.
+
+서비스마다 같은 문제를 따로 풀지 않고 더 일관된 경험을 만들 수 있도록, SEED에 여섯 가지 구성 요소를 새로 더했어요. 이번 글에서는 선택하고, 확인하고, 탐색하는 흐름에 따라 하나씩 소개할게요.
+
+## 선택하는 경험
+
+수량, 날짜, 시간, 목록에서 값을 고르는 경험은 서비스 곳곳에서 자주 쓰여요. 새로 추가한 구성 요소는 제품마다 필요한 조건을 담으면서도, 사용자가 익숙한 방식으로 선택하도록 도와줘요.
+
+### Quantity Picker
+
+장바구니에 담을 물건의 수량이나 예약 인원을 정할 때는 보통 `+`와 `-` 버튼을 사용해요. 여기에 최소·최대 수량, 항목 삭제, 로딩 상태까지 더해지면 화면마다 챙겨야 할 조건이 많아져요.
+
+Quantity Picker는 이런 조건을 일관된 방식으로 다뤄요. 최소·최대 범위를 정하고, 값을 제품에서 직접 관리하거나 Quantity Picker에 맡길 수 있어요. 값 텍스트와 버튼의 배치를 바꾸고 로딩 상태를 표시할 수도 있어요. 화면에 보이지 않는 input을 통해 선택한 값을 네이티브 폼으로 제출할 수 있고요. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 사용할 수 있어요.
+
+<ComponentExample name="react/quantity-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+최소 수량에서는 감소 버튼을 삭제 버튼으로 바꿀 수 있어요. 사용자는 같은 자리에서 항목을 삭제하고, 필요하다면 다시 되돌릴 수 있어요.
+
+<ComponentExample name="react/quantity-picker/removable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/quantity-picker/removable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Quantity Picker 디자인 가이드](/components/quantity-picker) · [React 문서](/react/components/quantity-picker)
+
+### Time Picker
+
+시간을 고르는 방식은 사용자의 언어·지역 설정과 제품의 목적에 따라 달라져요. 오전·오후를 먼저 보여줄지, 시와 분을 어떤 순서로 놓을지, 몇 분 단위로 선택하게 할지 함께 정해야 하죠.
+
+Time Picker는 사용자의 언어·지역 설정(locale)에 맞춰 오전·오후와 시·분 칼럼의 순서와 레이블을 바꿔줘요. `minuteStep`으로 선택 간격을 정하거나 필요하지 않은 칼럼을 비활성화할 수 있고, 제품에서 관리하는 값이나 JavaScript `Date` 객체와도 연결할 수 있어요. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 사용할 수 있어요.
+
+<ComponentExample name="react/time-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+화면 안에 바로 배치할 수도 있지만, 작은 화면에서는 Bottom Sheet 안에서 시간을 고른 뒤 확정하는 흐름이 더 자연스러울 수 있어요. 제품의 화면 구성에 맞춰 두 방식을 선택할 수 있어요.
+
+<ComponentExample name="react/time-picker/bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/time-picker/bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Time Picker 디자인 가이드](/components/time-picker) · [React 문서](/react/components/time-picker)
+
+### Date Picker
+
+날짜를 고르는 경험은 달력 하나를 보여주는 것만으로 완성되지 않아요. 하나의 날짜만 고를 때도 있지만 여행이나 예약에서는 범위를 선택해야 하고, 어떤 날짜는 선택할 수 없거나 가격과 예약 상태를 함께 보여줘야 하죠.
+
+Date Picker는 하나의 날짜와 날짜 범위, 여러 날짜를 선택하는 방식을 모두 제공해요. 한 달·두 달·한 주·연속 스크롤 레이아웃 가운데 화면과 탐색 맥락에 맞는 형태를 고를 수 있고, 최소·최대 기간이나 예약이 마감된 날짜처럼 선택을 제한하는 조건도 조합할 수 있어요. `@seed-design/react@2.2.0`, `@seed-design/css@2.4.0`부터 사용할 수 있어요.
+
+<ComponentExample name="react/date-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+날짜 셀에는 가격이나 예약 상태처럼 선택에 필요한 정보를 더할 수 있어요. Time Picker와 함께 사용하면 날짜를 고른 뒤 시간까지 이어서 선택하는 흐름도 만들 수 있어요.
+
+<ComponentExample name="react/date-picker/reservation">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/date-picker/reservation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Date Picker 디자인 가이드](/components/date-picker) · [React 문서](/react/components/date-picker)
+
+### Select
+
+정해진 목록에서 하나를 고르는 Select도 제품에 따라 필요한 기능이 달라져요. 여러 값을 함께 선택하거나 항목을 그룹으로 나누고, 설명과 아이콘을 더하거나, 선택한 값을 폼 검증과 연결해야 할 수도 있죠.
+
+Select는 하나 또는 여러 값을 선택하고, 선택된 값을 제품에 필요한 형식으로 표시할 수 있어요. 항목을 그룹으로 나누거나 설명, 아이콘, 커스텀 레이블을 더할 수 있고, 긴 목록의 스크롤과 팝오버의 위치·크기, 비활성 상태도 설정할 수 있어요. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 사용할 수 있어요.
+
+<ComponentExample name="react/select/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+Field와 네이티브 폼은 물론 React Hook Form과도 연결할 수 있어요. 열림 상태와 값이 변경된 이유를 제품에서 관리할 수 있어, 검증 흐름에 맞게 동작을 세밀하게 구성할 수 있어요.
+
+<ComponentExample name="react/select/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/select/react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Select 디자인 가이드](/components/select) · [React 문서](/react/components/select)
+
+## 확인하는 경험
+
+사용자에게 중요한 정보를 보여주거나 결정을 확인받아야 하는 순간이 있어요. 이때는 내용이 잘 읽히는지뿐 아니라, 작성한 내용을 잃지 않도록 닫힘 동작을 제어하고 화면 크기에 맞는 형태를 제공해야 해요.
+
+### Dialog
+
+Dialog는 화면 중앙에 제목과 본문, 푸터를 배치해 사용자가 중요한 정보와 다음 행동에 집중하도록 도와줘요. 간단한 확인 메시지뿐 아니라 폼이나 스크롤되는 콘텐츠도 담을 수 있고, 콘텐츠에 맞춰 크기와 닫기 버튼, 본문 높이와 패딩, 푸터 액션의 배치를 조절할 수 있어요. `@seed-design/react@2.1.0`, `@seed-design/css@2.3.0`부터 사용할 수 있어요.
+
+<ComponentExample name="react/dialog/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+열림 상태를 제품에서 직접 관리하고, Portal을 사용해 Dialog가 렌더링될 위치를 정할 수 있어요. 바깥 영역 클릭이나 ESC 입력으로 닫히지 않도록 설정해 사용자가 작성한 내용을 보호할 수 있어요. 닫으려는 이유에 따라 확인 Dialog를 한 번 더 보여줄 수도 있고요.
+
+ResponsiveDialog를 사용하면 같은 콘텐츠를 넓은 화면에서는 Dialog로, 작은 화면에서는 Bottom Sheet로 보여줘요. 화면마다 두 가지 UI를 따로 구현하지 않아도 각 환경에 어울리는 확인 경험을 제공할 수 있어요.
+
+<ComponentExample name="react/dialog/responsive">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/dialog/responsive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+[Dialog 디자인 가이드](/components/dialog) · [Dialog·ResponsiveDialog React 문서](/react/components/dialog)
+
+## 탐색하는 경험
+
+콘텐츠가 긴 화면에서는 필터나 탭처럼 고정된 영역이 탐색을 돕기도 하지만, 작은 화면을 계속 차지해 정작 봐야 할 내용을 가리기도 해요. 사용자가 읽는 동안에는 공간을 내어주고, 다시 필요할 때 자연스럽게 나타나도록 만드는 것이 중요해요.
+
+### ScrollAutoHide
+
+ScrollAutoHide는 스크롤 방향에 따라 필터, 탭, 보조 헤더 같은 고정 영역을 숨기고 드러내요. 아래로 스크롤하면 콘텐츠에 집중할 수 있도록 영역을 감추고, 위로 올리면 이동한 거리만큼 다시 보여줘요. 스크롤이 끝났을 때는 SEED의 모션 곡선(easing)을 사용해 영역을 완전히 숨기거나 드러내요.
+
+<ComponentExample name="breeze/scroll-auto-hide/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/breeze/scroll-auto-hide/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+터치와 트랙패드 스크롤을 모두 지원하고, Safari의 상·하단 탄성 스크롤이 잘못된 노출로 이어지지 않도록 처리했어요. 키보드로 숨겨진 영역에 이동하면 바로 다시 보여줘요. 기기에서 모션 줄이기를 켠 사용자를 위해 자동 숨김 동작도 비활성화해요.
+
+ScrollAutoHide는 Breeze 스니펫으로 제공해요. 아래 명령어로 프로젝트에 추가할 수 있어요.
+
+```package-install
+npx @seed-design/cli@latest add breeze:scroll-auto-hide
+```
+
+[Breeze 문서](/breeze/components/scroll-auto-hide)
+
+<Cards>
+  <Card
+    href="/react/updates/changelog"
+    title="전체 변경사항"
+    description="패키지·버전별 changelog"
+  />
+</Cards>

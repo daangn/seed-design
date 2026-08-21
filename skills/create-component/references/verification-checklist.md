@@ -30,7 +30,7 @@
 - [ ] Styled UI 컴포넌트가 빌드되는가? (`bun packages:build`)
 - [ ] 문서가 실제 API와 일치하는가?
 - [ ] 예제가 동작하는가?
-- [ ] React 작업이면 Storybook 스토리가 테마별로 정상인가?
+- [ ] React 작업이면 Storybook 스토리가 `references/storybook.md`의 CSF Next 패턴을 따르고 테마별로 정상인가?
 - [ ] Lynx 작업이면 `examples/lynx-spa` page/catalog가 정상인가?
 - [ ] generated registry output이 최신인가? (`docs/public/__registry__/` 확인)
 - [ ] vendored snippet consumer가 있으면 함께 동기화했는가? (React: `examples/stackflow-spa/src/seed-design/ui/`, Lynx: `examples/lynx-spa/src/seed-design/ui/`)
@@ -44,6 +44,9 @@
 ## Phase 2: 검증 (모든 카테고리 필수)
 
 - [ ] React: Storybook 4종 테마/스케일 확인? (Light, Dark, FontScaling ExtraSmall, ExtraExtraExtraLarge)
+- [ ] React: custom render가 meta component를 사용한다면 render context의 `component`를 전달했는가? wrapper/동적 component 예외는 보존했는가?
+- [ ] React: `withChromaticParameters` 적용 범위가 기존 시각 테스트 정책을 넓히거나 줄이지 않는가?
+- [ ] React: docs typecheck와 `bun storybook:build`가 통과하는가?
 - [ ] Lynx: `examples/lynx-spa`의 유사 page/catalog 확인?
 - [ ] docs 사이트의 컴포넌트 페이지 렌더링 확인?
 - [ ] React: **`examples/stackflow-spa`의 유사 Activity 확인 (없으면 신설 검토)** — snippet 레이어 유무와 무관하게 실 사용 환경 검증

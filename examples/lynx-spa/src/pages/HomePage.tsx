@@ -49,6 +49,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
       <ListItem title="Switch" onTap={() => navigate("switch")} />
       <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
+      <ListItem title="TextField" onTap={() => navigate("text-field")} />
 
       <SectionHeader>Hooks</SectionHeader>
       <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />

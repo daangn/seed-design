@@ -54,11 +54,25 @@ function getStackProps(props: StackProps) {
 }
 
 function useStackStyleProps(props: StackProps, flexDirection: "column" | "row") {
-  return useStyleProps({
+  const stackStyleProps = useStyleProps({
     display: "flex",
     flexDirection,
     ...getStackProps(props),
   });
+  // Lynx의 gap 단축 속성 파서는 var(...)를 0px로 확정하므로 축별 longhand를 사용합니다.
+  const { gap, ...style } = stackStyleProps.style;
+
+  if (gap == null) {
+    return stackStyleProps;
+  }
+
+  return {
+    ...stackStyleProps,
+    style: {
+      [flexDirection === "column" ? "rowGap" : "columnGap"]: gap,
+      ...style,
+    },
+  };
 }
 
 function renderStackView(

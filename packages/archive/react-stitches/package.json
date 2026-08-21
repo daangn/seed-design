@@ -18,6 +18,7 @@
     "url": "git+https://github.com/daangn/karrot-ui",
     "directory": "packages/react-stitches"
   },
+  "license": "Apache-2.0",
   "maintainers": [
     {
       "name": "Tim Kim",
@@ -43,7 +44,9 @@
     "colors.d.ts",
     "config.js",
     "config.mjs",
-    "config.d.ts"
+    "config.d.ts",
+    "LICENSE",
+    "NOTICE"
   ],
   "peerDependencies": {
     "@stitches/react": "^0.1.0 || ^0.2.0"

@@ -1,18 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { Flex } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VIEWPORT_MODES } from "./utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: Flex,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Flex>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const Swatch = ({ label }: { label?: string }) => (
   <div
@@ -67,17 +63,12 @@ const conditionMap = {
   },
 };
 
-export const LightTheme: Story = {
+export const LightTheme = meta.story({
   args: { children },
-  render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
+});

@@ -1,7 +1,5 @@
-import menuSpec from "@seed-design/rootage-artifacts/components/menu.json" with { type: "json" };
-import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item.json" with {
-  type: "json",
-};
+import menuSpec from "@seed-design/rootage-artifacts/components/menu";
+import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item";
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {

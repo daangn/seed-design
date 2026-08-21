@@ -1,5 +1,151 @@
 # @seed-design/css
 
+## 2.5.0
+
+### Minor Changes
+
+- ebb4eae: Date Picker에서 시작일을 유지하고 종료일만 변경할 수 있는 기능을 추가합니다.
+
+  - `selectionMode="range"`에서 `rangeStartReadOnly` prop을 사용할 수 있습니다.
+  - 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+  - 읽기 전용 시작일의 시각적 상태와 접근성 이름을 제공합니다.
+
+  ```tsx
+  <DatePicker
+    selectionMode="range"
+    rangeStartReadOnly
+    value={{
+      start: { year: 2026, month: 8, day: 7 },
+      end: { year: 2026, month: 8, day: 9 },
+    }}
+  />
+  ```
+
+## 2.4.2
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+
+## 2.4.1
+
+### Patch Changes
+
+- 29b6684: Chrome 104 / Safari 16.4 미만 버전에서 `@media (width >= npx)` 미디어 쿼리를 `(min-width: npx)`로 교체하여 미디어 쿼리가 의도대로 작동하도록 수정합니다.
+
+  Chrome 108 / Safari 15.4 미만 버전에서 Dialog(`ContentDialog`)의 `dvh` `max-height`가 `vh`로 폴백되도록 수정합니다.
+
+## 2.4.0
+
+### Minor Changes
+
+- c9acaa6: Quantity Picker에 부모 Flex 레이아웃의 여유 공간을 채우는 `layout="fill"` 옵션을 추가합니다.
+
+  - 기본값 `layout="hug"`는 기존 크기를 유지합니다.
+  - `layout="fill"`에서는 양쪽 버튼 크기를 유지하고 Value Display 영역만 늘어납니다.
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.
+
+- c9acaa6: `TimePicker` 컴포넌트를 추가합니다.
+
+  - 12시간제 시간 선택 UI와 locale에 따른 컬럼 순서를 지원합니다.
+  - `minuteStep`으로 선택 가능한 분 간격을 설정할 수 있습니다.
+
+## 2.3.1
+
+### Patch Changes
+
+- 3d5ecf4: 소프트웨어 키보드가 열릴 때 BottomSheet가 움직이는 방식을 개선합니다.
+
+  - iOS에서 시트가 한 프레임에 점프하지 않고 새 위치까지 애니메이션합니다.
+  - Android에서 입력 필드에 포커스하면 시트가 화면을 덮을 만큼 커지던 문제를 수정합니다.
+
+- f9456d6: ImageFrame과 Avatar가 로딩 중에 이미지를 숨기지 않습니다.
+
+  - `loading="lazy"` 이미지가 화면에 들어와도 끝내 로드되지 않던 문제를 수정합니다.
+  - 이미지가 LCP 요소일 때 측정값이 실제 도착 시각으로 잡힙니다. `loading="eager"`에도 해당됩니다.
+  - `src` 없이 `srcSet`만 지정한 반응형 이미지를 지원합니다.
+
+  로딩 중 플레이스홀더가 보이고 완료 시 이미지가 보이는 동작은 그대로입니다. 다만 로딩 중에는 이미지가 화면에 남아 있으므로, 스크린리더가 플레이스홀더와 함께 이미지의 `alt`도 읽습니다.
+
+## 2.3.0
+
+### Minor Changes
+
+- 4dad2e9: 트리거를 눌러 열리는 목록에서 값을 선택하는 Select 컴포넌트를 추가합니다.
+
+  - `multiple`로 다중 선택을, `SelectGroup`으로 옵션 그룹과 그룹 라벨을 지원합니다.
+  - 키보드 탐색을 지원하며, `size`·`disabled`·`readOnly`·`invalid` 상태를 제공합니다.
+  - `label`, `description`, `errorMessage`로 Field와 연동되고, `name`으로 폼 제출 값의 키를 지정합니다.
+
+  ```tsx
+  <SelectRoot label="과일" defaultValue={["apple"]} name="fruit">
+    <SelectTrigger placeholder="과일을 선택하세요" />
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem value="apple" label="사과" />
+        <SelectItem value="banana" label="바나나" />
+      </SelectGroup>
+    </SelectContent>
+  </SelectRoot>
+  ```
+
+- 6ba7292: 기존 Alert Dialog와 별개로, 범용 Dialog와 ResponsiveDialog를 추가합니다.
+
+  - `Dialog`: `medium`, `large` size를 지원하며, 본문이 길면 Body가 스크롤되고 상단에 divider와 하단 fade가 나타납니다.
+  - `ResponsiveDialog`: `md` 이상에서는 Dialog로, 그 아래에서는 Bottom Sheet로 렌더링합니다.
+  - `ui:dialog`, `ui:responsive-dialog` snippet으로 설치할 수 있습니다.
+
+  ```tsx
+  <DialogRoot size="medium">
+    <DialogTrigger asChild>
+      <ActionButton>열기</ActionButton>
+    </DialogTrigger>
+    <DialogContent title="제목" description="설명">
+      <DialogBody>{/* ... */}</DialogBody>
+      <DialogFooter>
+        <HStack gap="x2" justify="flex-end">
+          <DialogAction variant="neutralWeak">취소</DialogAction>
+          <DialogAction variant="neutralSolid">확인</DialogAction>
+        </HStack>
+      </DialogFooter>
+    </DialogContent>
+  </DialogRoot>
+  ```
+
+- 19f07f5: QuantityPicker 컴포넌트를 추가합니다.
+
+  - 지정한 최소·최대 수량 범위에서 값을 증감할 수 있으며, 최소 수량에서 제거 동작을 지원합니다.
+  - `size`, `disabled`, `readOnly`, `invalid`, 증감 중 loading 상태를 지원합니다.
+  - 폼 제출에 사용할 수 있는 `QuantityPicker.HiddenInput`을 제공합니다.
+  - `ui:quantity-picker` snippet으로 설치할 수 있으며, `@seed-design/css@^2.3.0`을 사용합니다.
+
+  ```tsx
+  <QuantityPicker.Root min={0} max={99} defaultValue={1}>
+    <QuantityPicker.DecrementButton icon={<IconMinusLine />} />
+    <QuantityPicker.ValueDisplay />
+    <QuantityPicker.IncrementButton icon={<IconPlusLine />} />
+    <QuantityPicker.HiddenInput name="quantity" />
+  </QuantityPicker.Root>
+  ```
+
+## 2.2.2
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- 09e28ef: (사용자 변경사항 없음) Side Panel 닫기 버튼 spec에서 사용되지 않던 pressed 상태의 icon 색상 정의를 제거합니다.
+- 6963994: Slider `disabled` 상태에서 track(비활성 구간) 색상을 `bg.disabled`로 지정해, range(활성 구간)와의 색상 대비가 명확히 보이도록 수정합니다.
+
 ## 2.2.1
 
 ### Patch Changes

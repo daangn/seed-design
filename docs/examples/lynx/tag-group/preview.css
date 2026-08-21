@@ -1,0 +1,27 @@
+/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
+page {
+  height: 100%;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.tag-group-preview {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-group-preview__group {
+  max-width: 280px;
+  justify-content: center;
+}
+
+.tag-group-preview__wrapping-container {
+  width: 220px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--seed-color-bg-neutral-weak);
+}
+
+.tag-group-preview__wrapping-group {
+  justify-content: flex-start;
+}

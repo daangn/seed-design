@@ -1,4 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 import { SECTIONS, SECTION_IDS } from "../config.js";
 
 export function registerDiscoverSeedDocsTool(server: McpServer): void {

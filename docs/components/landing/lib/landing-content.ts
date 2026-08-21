@@ -262,34 +262,24 @@ export const LOTTIE = {
   intro: "/landing/intro-parallax.json",
 } as const;
 
-/**
- * A video asset at multiple sizes plus a poster frame. The renderer picks a
- * `<source>` by viewport; `mid` is optional (some clips ship only high/low).
- */
+/** A video asset plus its poster frame. */
 export interface VideoSet {
-  high: string;
-  mid?: string;
-  low: string;
+  src: string;
   poster: string;
 }
 
-/** Bento (section 2) slot assets. Videos are multi-tier; lotties are single json. */
+/** Bento (section 2) slot assets. Lotties are single json. */
 export const BENTO = {
   manner: {
-    high: "/landing/bento/manner/high.mp4",
-    mid: "/landing/bento/manner/mid.mp4",
-    low: "/landing/bento/manner/low.mp4",
+    src: "/landing/bento/manner/desktop.mp4",
     poster: "/landing/bento/manner/poster.webp",
   },
   homeService: {
-    high: "/landing/bento/home-service/high.mp4",
-    low: "/landing/bento/home-service/low.mp4",
+    src: "/landing/bento/home-service/desktop.mp4",
     poster: "/landing/bento/home-service/poster.webp",
   },
   icon: {
-    high: "/landing/bento/icon/high.mp4",
-    mid: "/landing/bento/icon/mid.mp4",
-    low: "/landing/bento/icon/low.mp4",
+    src: "/landing/bento/icon/desktop.mp4",
     poster: "/landing/bento/icon/poster.webp",
   },
   tabLottie: "/landing/bento/tab.json",

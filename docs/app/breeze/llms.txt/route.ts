@@ -1,9 +1,10 @@
 import { baseUrl } from "@/app/metadata";
-import { breezeSource } from "@/app/source";
+import { getBreezeSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const breezeSource = await getBreezeSource();
   const pages = breezeSource.getPages().filter((page) => page.slugs.length > 0);
 
   const pageList = pages
@@ -26,13 +27,6 @@ export async function GET() {
 ## Components
 
 ${pageList}
-
-## Usage
-
-개별 페이지는 /llms/breeze/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/breeze/components/animate-number.txt", baseUrl)}
 
 ## Related Sections
 

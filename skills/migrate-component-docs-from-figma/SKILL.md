@@ -1,6 +1,6 @@
 ---
 name: migrate-component-docs-from-figma
-description: Write or rewrite SEED Design component guideline docs (MDX) by extracting content and images from Figma documentation layers. Use this skill whenever the user wants to create, update, or migrate component documentation from Figma into docs/content/docs/components/, provides a Figma node URL for documentation, or asks to write/update a component guideline page. Also triggers for "write the docs for X component", "create guideline from Figma", "update the MDX for [component]", "가이드라인 문서 작성", or "피그마에서 문서 가져오기".
+description: Write or rewrite SEED Design component guideline docs (MDX) by extracting content and images from Figma documentation layers. Use this skill whenever the user wants to create, update, or migrate component documentation from Figma into docs/content/components/, provides a Figma node URL for documentation, or asks to write/update a component guideline page. Also triggers for "write the docs for X component", "create guideline from Figma", "update the MDX for [component]", "가이드라인 문서 작성", or "피그마에서 문서 가져오기".
 ---
 
 # Migrate Docs from Figma
@@ -14,9 +14,8 @@ Two inputs are required:
 1. **Figma node URL(s)**: The URL(s) of the Figma layer(s) to document. Ask the user if not provided.
 2. **File name**: The MDX file name (e.g., `radio`, `action-button`).
 
-Infer the category by listing the subdirectories under `docs/content/docs/components/` and checking which existing components live where. If the component doesn't clearly fit an existing category, ask the user.
-
-Target file: `docs/content/docs/components/{category}/{file-name}.mdx`
+Target file: `docs/content/components/{file-name}.mdx` — the directory is flat and listed
+alphabetically (category subfolders were removed in #1712).
 
 ## Step 1: Extract content from Figma
 
@@ -37,7 +36,7 @@ Key principles:
 - **Never add content that is not present in the Figma source in this phase.** All body text — descriptions, guidelines, table entries — must come directly from the extracted Figma content. Do not paraphrase, interpret, or add supplementary explanations.
 - **Bold** text from Figma becomes `**bold**` in markdown.
 - Use markdown tables where the content fits a tabular format.
-- Always hyperlink other components when mentioned: `[Bottom Sheet](/docs/components/bottom-sheet)`
+- Always hyperlink other components when mentioned: `[Bottom Sheet](/components/bottom-sheet)`
 - **Place `FigmaImage` after body text, not directly under headings.** The correct order within each section is: heading → body text → image. This lets readers understand the context before seeing the visual.
 - Follow the standard heading order: Anatomy → Properties → Guidelines → Comparison → V3 Changes → Specification (include only applicable sections).
 - Write in Korean. Use official English names for component names and technical terms.
@@ -75,7 +74,7 @@ Run through this checklist:
 
 - [ ] Other components are hyperlinked when mentioned
 - [ ] Design tokens are properly referenced (hyperlink to foundation page, or `TokenReference` component)
-- [ ] All internal links are valid — verify that `href` targets in `Card`, component links (`/docs/components/...`), and token links (`/docs/foundation/design-token/...`) point to pages that actually exist by checking the corresponding MDX files under `docs/content/`
+- [ ] All internal links are valid — verify that `href` targets in `Card`, component links (`/components/...`), and token links (`/docs/foundation/design-token/...`) point to pages that actually exist by checking the corresponding MDX files under `docs/content/`
 
 ### Platform references
 
@@ -85,5 +84,5 @@ Run through this checklist:
 
 Use these as examples of well-written docs:
 
-- `docs/content/docs/components/(controls)/radio.mdx` — Do/Don't, Grid, Card patterns
-- `docs/content/docs/components/(buttons)/action-button.mdx` — Properties, Guidelines, Comparison patterns
+- `docs/content/components/radio.mdx` — Do/Don't, Grid, Card patterns
+- `docs/content/components/action-button.mdx` — Properties, Guidelines, Comparison patterns

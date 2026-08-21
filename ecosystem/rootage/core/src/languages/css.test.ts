@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { factory, Authoring } from "../parser";
 import { createStringifier, getTokenCss } from "./css";
 
-const { value, tokenReference } = createStringifier({
+const { value, tokenReference, valueOrToken } = createStringifier({
   prefix: "test",
 });
 
@@ -39,6 +39,47 @@ test("stringifier.value should stringify gradient expression", () => {
   const result = value(gradient);
 
   expect(result).toEqual("#000000 0%, #ffffff 100%");
+});
+
+test("stringifier.value should stringify enum expression", () => {
+  const result = value(factory.createEnumLit("content"));
+
+  expect(result).toEqual("content");
+});
+
+test("stringifier.value should stringify an enum parsed from a component spec", () => {
+  const spec: Authoring.ComponentSpecModel = {
+    kind: "ComponentSpec",
+    metadata: { id: "test", name: "test" },
+    data: {
+      schema: {
+        slots: {
+          root: {
+            properties: {
+              scaleScope: { type: "enum", values: ["self", "content"] },
+            },
+          },
+        },
+      },
+      definitions: {
+        base: { pressed: { root: { scaleScope: "content" } } },
+      },
+    },
+  };
+
+  const propertyDecl =
+    Authoring.parseComponentSpecDocument(spec).data.body[0]?.body[0]?.body[0]?.body[0];
+  if (propertyDecl?.kind !== "EnumPropertyDeclaration") {
+    throw new Error("expected the spec to parse into an enum property");
+  }
+
+  expect(value(propertyDecl.value)).toEqual("content");
+});
+
+test("stringifier.valueOrToken should reject an enum", () => {
+  expect(() => valueOrToken(factory.createEnumLit("content"))).toThrow(
+    "Enum values cannot be emitted as CSS",
+  );
 });
 
 test("getTokenCss should generate css code", () => {

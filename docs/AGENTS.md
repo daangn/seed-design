@@ -46,3 +46,13 @@ Lynx 컴포넌트 문서를 작성할 때는 **웹 버전과의 차이점을 반
 - **렌더링 방식 차이**: Lynx에서 지원하지 않는 웹 기능(SVG, 특정 CSS 속성 등)으로 인한 대체 구현
 - **API 차이**: props 차이, 컴파운드 컴포넌트 구조 차이, 이벤트 핸들링(`bindtap` 등)
 - **누락 기능**: 웹에는 있지만 Lynx에서 미지원인 기능
+
+## 콘텐츠 작성 룰 (`content/`)
+
+- 컴포넌트/훅 문서를 신설하면 frontmatter 직후에 `<AvailableSince />`를 넣는다.
+  - 형식: `<AvailableSince packages="@seed-design/react@2.1.0, @seed-design/css@2.3.0" />` (콤마로 구분)
+  - 패키지 매핑: react components → react + css / react stackflow → stackflow + css / lynx components → lynx-react + lynx-css / lynx hooks → lynx-react
+  - 버전은 **그 항목이 처음 사용 가능해진 버전**이다. 새로 만드는 컴포넌트/훅이면 그게 곧 문서와 함께 나갈 다음 릴리스(현재 버전 + changeset bump)이고, 이미 릴리스된 항목의 문서를 뒤늦게 추가하는 경우에는 문서가 나갈 버전이 아니라 그 항목이 실제로 나갔던 버전을 적는다.
+- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 룰과 fixture를 함께 추가한다 ([app/\_llms/AGENTS.md](app/_llms/AGENTS.md) 참조). 룰이 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
+- "SEED"는 "SEED Design System"의 줄임말이다. 풀어 쓰거나 "SEED"로 줄여 쓰고, 중간 표기인 "SEED Design"은 산문에서 쓰지 않는다 (패키지명·저장소명은 예외).
+- `featured: true`(사이드바 강조 dot)는 동시에 3개 안팎으로 유지하고 오래된 것부터 뗀다. 개수가 늘면 강조가 의미를 잃는다.

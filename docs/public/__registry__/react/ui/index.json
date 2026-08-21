@@ -406,6 +406,30 @@
     {
       "snippets": [
         {
+          "path": "dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "error-state.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -734,6 +758,30 @@
     {
       "snippets": [
         {
+          "path": "quantity-picker.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "quantity-picker",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "radio-group.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -767,6 +815,30 @@
           "registryId": "ui",
           "itemIds": [
             "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "responsive-dialog.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "responsive-dialog",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
           ]
         }
       ]
@@ -822,6 +894,23 @@
       ],
       "id": "segmented-control",
       "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "select.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.1.0",
+            "@seed-design/css": "^2.3.0"
+          }
+        }
+      ],
+      "id": "select",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },

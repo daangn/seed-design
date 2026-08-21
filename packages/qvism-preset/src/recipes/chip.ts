@@ -4,7 +4,7 @@ import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
 import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
-import spec from "@seed-design/rootage-artifacts/components/chip.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/chip";
 
 const chip = defineSlotRecipe({
   name: "chip",

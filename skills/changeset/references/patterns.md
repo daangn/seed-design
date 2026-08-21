@@ -2,6 +2,8 @@
 
 SEED Design CHANGELOG 분석에서 추출한 메시지 작성 규칙과 예시.
 
+> bump 타입(major/minor/patch)을 정하기 전에 **먼저 `version-matrix.md`의 전파 매트릭스**로 "이 패키지와 그것을 의존하는 패키지들이 각각 어떤 bump를 받아야 하는지"를 확인한다. 이 문서는 그렇게 정한 타입에 맞는 **메시지를 어떻게 쓰는지**를 다룬다.
+
 ## 언어 규칙
 
 - **언어**: 한국어 (기술 용어, 컴포넌트명, prop명, CSS 속성명은 영어 유지)
@@ -12,39 +14,19 @@ SEED Design CHANGELOG 분석에서 추출한 메시지 작성 규칙과 예시.
 
 ## 타입 분류 기준
 
-### patch
+SEED는 **2.0부터 strict semver**를 따른다. breaking change는 **major에서만** 낸다 (1.x처럼 minor에 breaking을 싣지 않는다).
 
-- 버그 수정 (기존 동작이 의도와 달랐던 것을 바로잡음)
-- 스타일/레이아웃 미세 조정 (padding, margin, font-weight 등)
-- 기존 컴포넌트에 variant 값 추가 (새 API가 아닌 기존 옵션의 확장)
-- 의존성 업데이트 (peerDependencies 범위 확장 등)
-- 내부 리팩토링 (사용자 API 변경 없음)
-- 성능 개선 (API 변경 없음)
-- 접근성 개선 (기존 동작 유지)
+분류의 단일 기준은 **`version-matrix.md`의 "1단계. 분류"**다 (세 줄 규칙 + 케이스 표). 여기 옮겨 적지 않는다. 요지만 옮기면:
 
-### minor
+- 소비자가 코드를 안 고쳤는데 **깨지거나 결과가 달라진다** → `major`
+- 기존 동작은 그대로 두고 **새로 추가**했다 → `minor`
+- 원래 **틀렸던 것을 고쳤다** → `patch`
 
-- 새 컴포넌트 추가
-- 새 기능/훅 추가
-- 기존 컴포넌트에 새 prop/API 추가 (기존 API 하위 호환 유지)
-- 새 CSS recipe 추가
-- snippet 업데이트가 필요한 내부 구조 변경 (하위 호환은 됨)
-- 기존 prop/API 제거 또는 이름 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
-- 기존 동작의 breaking change (**breaking change** — BREAKING CHANGE 접두사 사용)
-- 컴포넌트 이름 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
-- snippet 재설치가 필요한 변경 (**breaking change** — BREAKING CHANGE 접두사 사용)
-
-### major
-
-거의 사용하지 않는다. 판단이 어려우면 사용자에게 확인한다.
-
-- 패키지 전체 구조 변경 (예: 패키지 분리/통합)
-- 전체 API 표면의 근본적 재설계
-- 런타임/프레임워크 요구사항 변경 (예: React 버전 요구 변경)
+**의도적인 시각 변경(색상 값·재디자인)은 `major`다.** minor는 `^` 범위에서 자동으로 설치되므로 보호가 되지 않는다. 메시지를 쓰기 전에 매트릭스에서 타입을 확정하고, 아래 구조를 그 타입에 맞춰 고른다.
 
 ## BREAKING CHANGE 접두사
 
-minor에 breaking change가 포함될 때, 메시지 첫 줄 앞에 `(BREAKING CHANGE: {사용자가 해야 할 마이그레이션 액션})` 접두사를 붙인다.
+`(BREAKING CHANGE: {사용자가 해야 할 마이그레이션 액션})`은 **major changeset의 첫 줄에만** 붙인다. CHANGELOG에서 소비자가 무엇을 해야 하는지 바로 보이게 하기 위함이다. **minor/patch에는 붙이지 않는다.**
 
 ### 형식
 
@@ -55,33 +37,35 @@ minor에 breaking change가 포함될 때, 메시지 첫 줄 앞에 `(BREAKING C
 ### 예시
 
 ```text
-(BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+(BREAKING CHANGE: `PageBanner.TextContent`를 `PageBanner.Content`로 변경해야 합니다.) Page Banner의 슬롯 구조를 정리합니다.
 
-  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
-  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
-  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
-```
-
-```text
-(BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
-
-  - 스타일 업데이트
-  - size 통일 및 variant (underline) 추가
-  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
-```
-
-```text
-(BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
-
-  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
   - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+  - Box로 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `npx @seed-design/cli@latest add ui:page-banner`로 snippet을 다시 설치한 뒤 사용처를 수정하세요.
+```
+
+```text
+(BREAKING CHANGE: `size` 토큰 이름이 바뀌어 의존 패키지를 함께 올려야 합니다.) Color/Size 토큰 일부를 재명명합니다.
+
+  - `$color.legacy.*` 토큰을 제거합니다.
+  - css 소비 패키지는 peer/deps를 `^N+1`로 올려야 합니다.
 ```
 
 ### 규칙
 
-- 접두사의 마이그레이션 액션은 사용자가 **무엇을 해야 하는지** 명시한다 (예: "snippet을 다시 설치해야 합니다", "`prop명`을 `새이름`으로 변경해야 합니다")
+- 접두사의 마이그레이션 액션은 사용자가 **무엇을 해야 하는지** 명시한다 (예: "`prop명`을 `새이름`으로 변경해야 합니다", "snippet을 다시 설치해야 합니다")
 - 접두사 뒤의 설명은 **무엇이 바뀌었는지** 서술한다
 - 불릿 리스트로 세부 변경사항과 마이그레이션 방법을 안내한다
+
+## snippet 변경 분류
+
+snippet은 사용자가 자기 코드베이스로 **복사해간 코드**라 npm 공개 표면이 아니다. snippet 자체엔 버전이 없고, snippet이 `dependencies`로 가리키는 npm 패키지(`@seed-design/react`·`@seed-design/css`)의 changeset으로 추적된다. 분류는 `version-matrix.md`의 "기준은 내 공개 표면"을 따른다.
+
+판단 기준 한 줄: **"재설치 안 하면 기존 코드가 깨지나?"**
+
+- **안 깨짐** (새 기능/스타일을 받으려면 재설치만 하면 됨) → **`minor`**, 접두사 **없음**.
+  - "`npx @seed-design/cli@latest add ui:x`로 최신화하면 ~를 사용할 수 있습니다." 톤.
+- **깨짐** (재설치 강제, 사용처 수정 필요) → **`major`**, `(BREAKING CHANGE: x snippet을 다시 설치해야 합니다.)` 접두사.
 
 ## 메시지 구조
 
@@ -97,10 +81,6 @@ BottomSheet title 영역의 padding을 수정합니다.
 iOS의 폰트 스케일링 max limit을 135%에서 160%로 늘립니다.
 ```
 
-```text
-Avatar 및 Avatar Stack의 `size=56` variant를 추가합니다.
-```
-
 ### patch — 1줄 제목 + 불릿 리스트
 
 여러 변경이 하나의 맥락에 묶일 때:
@@ -110,7 +90,6 @@ ImageFrame 컴포넌트 개선
 
 - `fallback` prop이 이미지 로딩 실패 시 대체 콘텐츠를 올바르게 표시하도록 개선합니다.
 - Reaction Button이 iOS에서 렌더링되지 않는 문제를 수정합니다.
-- Reaction Button uncontrolled 상태에서 클릭 시 상태가 변경되지 않는 문제를 수정합니다.
 ```
 
 ### patch — 사용자 영향 없음
@@ -128,63 +107,55 @@ Breakpoint 기반 반응형 스타일링을 지원합니다.
 
 - Box, Flex, Grid, VStack 등 유틸리티 컴포넌트의 레이아웃 관련 프로퍼티에 breakpoint 기반 반응형 객체를 사용할 수 있습니다.
 
-```tsx
+​```tsx
 <Box padding={{ base: "x3", md: "x6" }} />
 <Grid columns={{ base: 1, md: 2, lg: 4 }} gap="x4" />
+​```
 ```
-```text
 
+### minor — snippet 새 기능 (additive, 접두사 없음)
+
+기존 snippet은 안 깨지고, 새 기능을 쓰려면 최신화만 하면 되는 경우:
+
+```text
+BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+- vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+- snap-points, fade-from-index 등 vaul과 동일한 인터페이스를 제공합니다.
+- `npx @seed-design/cli@latest add ui:bottom-sheet`로 최신화하면 사용할 수 있습니다.
 ```
-Content Placeholder 컴포넌트를 추가합니다.
-```text
-
-```
-Footer Block을 추가합니다.
-
-- `Footer.LinkText`: 푸터에서 사용하는 링크 텍스트 컴포넌트
-- 4가지 푸터 블록 예제와 소셜 미디어 아이콘 컴포넌트 포함
-```text
 
 ### major — 제목 + 설명 + 마이그레이션 가이드
 
-```
-`AlertDialogRoot`, `MenuSheetRoot` 및 `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`를 제공합니다. `details.reason`과 `details.event`를 사용할 수 있습니다.
-
-`DialogAction`을 `DialogPrimitive.CloseButton`으로 교체합니다. `AlertDialogAction` `onClick` 핸들러에서 `event.preventDefault()`를 호출하여 닫기 동작을 방지할 수 있습니다.
 ```text
+(BREAKING CHANGE: `DialogAction`을 `DialogPrimitive.CloseButton`으로 교체해야 합니다.) Dialog 닫기 동작 제어 방식을 변경합니다.
 
-```
-**`add` 명령어 사용 방식을 변경합니다.**
-
-- 항목 추가
-
-```sh
-seed-design add ui:action-button breeze:animate-number
-```text
-
-- 기존 `seed-design add action-button` 형식은 더 이상 지원되지 않습니다.
-- `seed-design add-all ui lib breeze`로 레지스트리별 일괄 추가가 가능합니다.
+- `AlertDialogRoot`, `MenuSheetRoot`, `BottomSheetRoot`의 `onOpenChange` 두 번째 인자로 `details`(`details.reason`, `details.event`)를 제공합니다.
+- `AlertDialogAction` `onClick`에서 `event.preventDefault()`를 호출해 닫기를 막을 수 있습니다.
 ```
 
 ## 다수 패키지 포함
 
-하나의 changeset에 여러 패키지를 포함할 수 있다.
+하나의 changeset에 여러 패키지를 포함할 수 있다. 어떤 패키지를 함께 올려야 하는지는 `version-matrix.md`의 전파 매트릭스로 정한다.
 
-### 동일 맥락 — 하나의 changeset으로 통합
+### 전파에 따른 동반 bump — 하나의 changeset으로 통합
+
+예: 새 컴포넌트를 추가하면 css(recipe 추가)와 react(컴포넌트 추가)가 함께 minor.
 
 ```text
 ---
-"@seed-design/react": patch
-"@seed-design/css": patch
-"@seed-design/rootage-artifacts": patch
+"@seed-design/css": minor
+"@seed-design/react": minor
 ---
 
-IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="business"` variant를 추가합니다.
+Content Placeholder 컴포넌트를 추가합니다.
 ```
+
+> ⚠️ 위처럼 css가 minor 오를 때 **css 소비자의 peer floor(`^N.M.0`)는 changeset이 자동으로 안 올린다** (`onlyUpdatePeerDependentsWhenOutOfRange`). 같은 PR에서 해당 `package.json`을 손수 올려야 한다. 소비자는 `react` 하나가 아니다 — 새 토큰이면 `tailwind3-plugin`·`tailwind4-theme`도 걸린다. `version-matrix.md`의 "실제로 쓰는"의 판정 표와 "peer floor 수동 bump 함정" 참조.
 
 ### 독립적 변경 — 별도 changeset으로 분리
 
-패키지 A의 버그 수정과 패키지 B의 새 기능 추가처럼 맥락이 다르면 별도 파일로 분리한다.
+패키지 A의 버그 수정과 패키지 B의 새 기능처럼 맥락이 다르면 별도 파일로 분리한다.
 
 ### 패키지별 다른 타입
 
@@ -215,7 +186,9 @@ IdentityPlaceholder의 스타일과 글리프를 업데이트하고, `identity="
 
 ## 안티패턴
 
-- 내부 구현 디테일을 나열하지 않는다 (예: "파일명 변경", "import 경로 수정" 등)
-- 커밋 메시지를 그대로 복사하지 않는다 — changeset은 CHANGELOG용 유저향 텍스트다
-- 영어로 작성하지 않는다 (기술 용어 제외)
-- `~해요` 체와 `~합니다` 체를 하나의 changeset 내에서 섞지 않는다
+- **breaking change를 minor로 내지 않는다** (2.0부터 공개 표면 breaking은 `major`).
+- **의존성이 올랐다는 이유만으로 버전을 올리지 않는다** — 그 변경이 내 공개 표면으로 새어나갈 때만 전파한다 (observable contract).
+- 내부 구현 디테일을 나열하지 않는다 (예: "파일명 변경", "import 경로 수정").
+- 커밋 메시지를 그대로 복사하지 않는다 — changeset은 CHANGELOG용 유저향 텍스트다.
+- 영어로 작성하지 않는다 (기술 용어 제외).
+- `~해요` 체와 `~합니다` 체를 하나의 changeset 내에서 섞지 않는다.

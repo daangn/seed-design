@@ -199,7 +199,7 @@
     }
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-list-item__prefix {
       --seed-box-padding-right: var(--seed-box-padding-right-sm, initial);
     }
@@ -214,7 +214,7 @@
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-list-item__prefix {
       --seed-box-padding-right: var(--seed-box-padding-right-md, initial);
     }
@@ -229,7 +229,7 @@
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-list-item__prefix {
       --seed-box-padding-right: var(--seed-box-padding-right-lg, initial);
     }
@@ -244,7 +244,7 @@
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-list-item__prefix {
       --seed-box-padding-right: var(--seed-box-padding-right-xl, initial);
     }

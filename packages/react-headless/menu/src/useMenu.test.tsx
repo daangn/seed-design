@@ -1,3 +1,4 @@
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { render, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, jest } from "bun:test";
@@ -28,6 +29,21 @@ const waitForFocus = () =>
   act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
   });
+
+/**
+ * Stands in for a modal ancestor (Dialog, Drawer, AppScreen). Those are all thin
+ * wrappers over exactly this scope, and what the menu owes them is entry in Radix's
+ * focusScopesStack — so the raw scope is the mechanism under test, not a stand-in
+ * for one. Using it directly also keeps the ancestor free of the scroll locking,
+ * aria-hidden and presence gating those components would drag in.
+ */
+function TrappedAncestor({ children }: { children: React.ReactNode }) {
+  return (
+    <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+      {children}
+    </FocusScope>
+  );
+}
 
 function BasicMenu(props: UseMenuProps) {
   return (
@@ -904,6 +920,87 @@ describe("useMenu", () => {
       await waitForPositioning();
       await user.click(getByText("Open Menu"));
       expect(getByText("Item 2 (disabled)")).toHaveAttribute("data-disabled");
+    });
+  });
+
+  // The content stays mounted while closing so the exit transition can play, and it
+  // has to keep the very same DOM nodes: a remount hands that transition a fresh
+  // scroll container starting at scrollTop 0, so a long menu visibly snaps back to
+  // the top the moment it starts closing. Both tests assert on DOM state React never
+  // renders — exactly what a remount throws away.
+  describe("close transition", () => {
+    it("preserves the content's scroll position through a close", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByRole } = render(<BasicMenu />);
+      await waitForPositioning();
+
+      const trigger = getByText("Open Menu");
+      await user.click(trigger);
+      getByRole("menu").scrollTop = 120;
+
+      await user.click(trigger);
+      expect(getByRole("menu")).not.toHaveAttribute("data-open");
+      expect(getByRole("menu").scrollTop).toBe(120);
+    });
+
+    it("keeps the same item elements when closing by clicking an item", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByRole, getAllByRole } = render(<BasicMenu />);
+      await waitForPositioning();
+
+      await user.click(getByText("Open Menu"));
+      getAllByRole("menuitem").forEach((item, index) =>
+        item.setAttribute("data-probe", String(index)),
+      );
+
+      await user.click(getByText("Item 2"));
+      expect(getByRole("menu")).not.toHaveAttribute("data-open");
+
+      const probes = getAllByRole("menuitem").map((item) => item.getAttribute("data-probe"));
+      expect(probes).toEqual(["0", "1", "2"]);
+    });
+  });
+
+  describe("focus scope participation", () => {
+    it("pauses a trapped ancestor while open", async () => {
+      const user = userEvent.setup();
+      const { getByText, getAllByRole } = render(
+        <TrappedAncestor>
+          <BasicMenu />
+        </TrappedAncestor>,
+      );
+      await waitForPositioning();
+
+      getByText("Open Menu").focus();
+      await user.keyboard("{ArrowDown}");
+      await waitForFocus();
+
+      expect(getAllByRole("menuitem")[0]).toHaveFocus();
+    });
+
+    // Pause and resume are one contract: the scope has to leave the stack when the
+    // menu closes, or the ancestor stays paused forever and its trap never comes back.
+    it("lets a trapped ancestor resume once closed", async () => {
+      const user = userEvent.setup();
+      const { getByText } = render(
+        <>
+          <button type="button">Outside</button>
+          <TrappedAncestor>
+            <BasicMenu />
+          </TrappedAncestor>
+        </>,
+      );
+      await waitForPositioning();
+
+      const trigger = getByText("Open Menu");
+      trigger.focus();
+      await user.click(trigger);
+      await user.click(trigger);
+      await waitForFocus();
+
+      // With the ancestor trap active again, focus cannot settle outside its container.
+      act(() => getByText("Outside").focus());
+      expect(getByText("Outside")).not.toHaveFocus();
     });
   });
 });

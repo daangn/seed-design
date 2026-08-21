@@ -1,9 +1,10 @@
 import { baseUrl } from "@/app/metadata";
-import { lynxSource } from "@/app/source";
+import { getLynxSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const lynxSource = await getLynxSource();
   const pages = lynxSource.getPages().filter((page) => page.slugs.length > 0);
 
   const pageList = pages
@@ -26,13 +27,6 @@ Lynx 프레임워크 문서입니다.
 ## Documents
 
 ${pageList}
-
-## Usage
-
-개별 페이지는 /llms/lynx/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/lynx/icon.txt", baseUrl)}
 
 ## Related Sections
 

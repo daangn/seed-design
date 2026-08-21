@@ -26,6 +26,14 @@ export type Duration = {
   type: "duration";
   value: DurationLit | TokenRef;
 };
+/**
+ * No `TokenRef` alternative: no token collection has an enum type, so an alias can
+ * never resolve to one.
+ */
+export type Enum = {
+  type: "enum";
+  value: string;
+};
 export type CubicBezier = {
   type: "cubicBezier";
   value: readonly [number, number, number, number] | TokenRef;
@@ -50,7 +58,7 @@ export type Gradient = {
   value: Array<GradientStop> | TokenRef;
 };
 
-export type Value = Color | Dimension | Number | Duration | CubicBezier | Shadow | Gradient;
+export type Value = Color | Dimension | Number | Duration | Enum | CubicBezier | Shadow | Gradient;
 
 export interface ComponentSpecModel {
   kind: "ComponentSpec";
@@ -81,12 +89,15 @@ export interface ComponentSpecData {
   definitions: VariantDeclaration[];
 }
 
-export interface ComponentSpecPropertySchema {
-  [name: string]: {
-    type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
-    description?: string;
-  };
-}
+export type ComponentSpecPropertySchema = Record<
+  string,
+  | {
+      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      values?: never;
+      description?: string;
+    }
+  | { type: "enum"; values: string[]; description?: string }
+>;
 
 export interface ComponentSpecSlotSchema {
   [name: string]: {

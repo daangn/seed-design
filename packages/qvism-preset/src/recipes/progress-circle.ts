@@ -1,6 +1,4 @@
-import spec from "@seed-design/rootage-artifacts/components/progress-circle.json" with {
-  type: "json",
-};
+import spec from "@seed-design/rootage-artifacts/components/progress-circle";
 import { progressCircle as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 

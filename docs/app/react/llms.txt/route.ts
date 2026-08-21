@@ -1,7 +1,7 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
-import { reactSource } from "@/app/source";
+import { getReactSource } from "@/app/source";
 
 export const revalidate = false;
 
@@ -26,6 +26,7 @@ const categoryDescriptions: Record<string, string> = {
 };
 
 export async function GET() {
+  const reactSource = await getReactSource();
   const pages = reactSource.getPages();
 
   const categories = new Map<string, LLMPage[]>();
@@ -48,7 +49,7 @@ export async function GET() {
           );
           const llmsUrl = new URL(`/llms/react/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
-          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          const deprecatedLabel = page.data.frontmatter.deprecated ? " (Deprecated)" : "";
           return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
         })
         .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))
@@ -73,13 +74,5 @@ React 컴포넌트 라이브러리 문서입니다.
 ## Categories
 
 ${categoryList}
-
-## Usage
-
-개별 페이지는 /llms/react/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/react/components/button.txt", baseUrl)}
-- ${new URL("/llms/react/getting-started/installation.txt", baseUrl)}
 `);
 }

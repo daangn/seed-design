@@ -1,12 +1,12 @@
 {
   "name": "@seed-design/rsbuild-plugin-lynx-icon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/rsbuild-plugin-lynx-icon"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "exports": {
     ".": {
@@ -35,7 +35,9 @@
   "sideEffects": false,
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",

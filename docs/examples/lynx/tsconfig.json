@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@lynx-js/react",
+    "strict": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["@lynx-js/rspeedy/client"],
+    "paths": {
+      "@/components/ui/*": ["../../registry/lynx/ui/*"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "./rspeedy-env.d.ts"]
+}

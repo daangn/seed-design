@@ -72,6 +72,10 @@ const slider = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.track.cornerRadius,
       overflow: "hidden",
+
+      [pseudo(disabled)]: {
+        backgroundColor: vars.base.disabled.track.color,
+      },
     },
     range: {
       position: "absolute",
