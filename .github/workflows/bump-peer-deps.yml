@@ -113,7 +113,7 @@ jobs:
         with:
           bun-version: "1.3.13"
 
-      - name: Align React's CSS peer dependency
+      - name: Align CSS peer dependencies
         id: sync
         working-directory: source
         env:
@@ -130,25 +130,47 @@ jobs:
         working-directory: source
         env:
           HEAD_REF: ${{ steps.pull.outputs.head-ref }}
+          REACT_CHANGED: ${{ steps.sync.outputs.react-changed }}
+          LYNX_REACT_CHANGED: ${{ steps.sync.outputs.lynx-react-changed }}
         run: |
           git diff --check
 
-          UNEXPECTED_FILES="$(git status --porcelain | awk '{print $2}' | grep -vE '^(bun.lock|packages/react/package.json)$' || true)"
+          UNEXPECTED_FILES="$(git status --porcelain | awk '{print $2}' | grep -vE '^(bun.lock|packages/react/package.json|packages/lynx-react/package.json)$' || true)"
           if [ -n "$UNEXPECTED_FILES" ]; then
             echo "예상하지 않은 파일이 변경되었습니다:"
             echo "$UNEXPECTED_FILES"
             exit 1
           fi
 
-          if git diff --quiet -- bun.lock || git diff --quiet -- packages/react/package.json; then
-            echo "bun.lock과 packages/react/package.json이 모두 변경되어야 합니다."
+          if git diff --quiet -- bun.lock; then
+            echo "bun.lock이 변경되어야 합니다."
+            exit 1
+          fi
+
+          CHANGED_MANIFESTS=()
+          if [ "$REACT_CHANGED" = "true" ]; then
+            if git diff --quiet -- packages/react/package.json; then
+              echo "packages/react/package.json이 변경되어야 합니다."
+              exit 1
+            fi
+            CHANGED_MANIFESTS+=(packages/react/package.json)
+          fi
+          if [ "$LYNX_REACT_CHANGED" = "true" ]; then
+            if git diff --quiet -- packages/lynx-react/package.json; then
+              echo "packages/lynx-react/package.json이 변경되어야 합니다."
+              exit 1
+            fi
+            CHANGED_MANIFESTS+=(packages/lynx-react/package.json)
+          fi
+          if [ "${#CHANGED_MANIFESTS[@]}" -eq 0 ]; then
+            echo "변경할 peer dependency manifest가 없습니다."
             exit 1
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bun.lock packages/react/package.json
-          git commit -m "chore(react): bump @seed-design/css peer dependency"
+          git add bun.lock "${CHANGED_MANIFESTS[@]}"
+          git commit -m "chore: bump peer dependencies"
           git push origin "HEAD:${HEAD_REF}"
 
       - name: Mark command success
