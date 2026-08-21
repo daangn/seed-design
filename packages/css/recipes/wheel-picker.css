@@ -77,7 +77,7 @@
 .seed-wheel-picker__selectionIndicator {
     position: absolute;
     z-index: 0;
-    inset-inline: 0;
+    inset-inline: var(--seed-dimension-x4);
     top: 50%;
     height: var(--seed-wheel-picker-item-size);
     transform: translateY(-50%);

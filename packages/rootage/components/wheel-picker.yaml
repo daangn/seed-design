@@ -16,6 +16,8 @@ data:
         properties:
           height:
             type: dimension
+          insetX:
+            type: dimension
           cornerRadius:
             type: dimension
           color:
@@ -48,6 +50,7 @@ data:
           color: $color.bg.layer-floating
         selectionIndicator:
           height: 44px
+          insetX: $dimension.x4
           cornerRadius: $radius.r2
           color: $color.bg.neutral-weak
         scrollFog:

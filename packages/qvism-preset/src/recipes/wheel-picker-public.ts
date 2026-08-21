@@ -117,7 +117,7 @@ const wheelPickerPublic = defineSlotRecipe({
     selectionIndicator: {
       position: "absolute",
       zIndex: 0,
-      insetInline: 0,
+      insetInline: vars.base.enabled.selectionIndicator.insetX,
       top: "50%",
       height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize}, ${vars.base.enabled.selectionIndicator.height})`,
       transform: "translateY(-50%)",
