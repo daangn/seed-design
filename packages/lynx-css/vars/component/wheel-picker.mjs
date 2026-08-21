@@ -7,7 +7,6 @@ export const vars = {
       },
       "selectionIndicator": {
         "height": "44px",
-        "insetX": "var(--seed-dimension-x4)",
         "cornerRadius": "var(--seed-radius-r2)",
         "color": "var(--seed-color-bg-neutral-weak)"
       },

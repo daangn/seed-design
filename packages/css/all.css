@@ -13108,7 +13108,7 @@
 
 .seed-wheel-picker__selectionIndicator {
   z-index: 0;
-  inset-inline: var(--seed-dimension-x4);
+  inset-inline: 0;
   height: var(--seed-wheel-picker-item-size);
   pointer-events: none;
   position: absolute;
@@ -13253,7 +13253,7 @@
 
 .seed-wheel-picker-public__selectionIndicator {
   z-index: 0;
-  inset-inline: var(--seed-dimension-x4);
+  inset-inline: 0;
   height: var(--seed-wheel-picker-public-item-size, 44px);
   border-radius: var(--seed-radius-r2);
   background-color: var(--seed-color-bg-neutral-weak);

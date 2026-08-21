@@ -24,9 +24,6 @@ declare const artifact: {
             "height": {
               "type": "dimension";
             };
-            "insetX": {
-              "type": "dimension";
-            };
             "cornerRadius": {
               "type": "dimension";
             };
@@ -100,10 +97,6 @@ declare const artifact: {
                     "value": 44;
                     "unit": "px";
                   };
-                };
-                "insetX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
                 };
                 "cornerRadius": {
                   "type": "dimension";
