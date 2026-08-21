@@ -17,16 +17,33 @@ describe("WheelPicker", () => {
     );
 
     expect(getByRole("group")).toHaveStyle({
-      "--seed-wheel-picker-item-size": "44px",
-      "--seed-wheel-picker-visible-item-count": "5",
-      "--seed-wheel-picker-viewport-size": "220px",
-      "--seed-wheel-picker-center-offset": "88px",
+      "--seed-wheel-picker-public-item-size": "44px",
+      "--seed-wheel-picker-public-visible-item-count": "5",
+      "--seed-wheel-picker-public-viewport-size": "220px",
+      "--seed-wheel-picker-public-center-offset": "88px",
     });
-    expect(getByRole("group")).toHaveClass("seed-wheel-picker__root--appearance_neutral");
-    expect(getByRole("spinbutton")).toHaveClass("seed-wheel-picker__column--appearance_neutral");
-    expect(container.querySelector("[data-wheel-picker-indicator]")).toHaveClass(
-      "seed-wheel-picker__selectionIndicator--appearance_neutral",
+    expect(getByRole("group")).toHaveClass("seed-wheel-picker-public__root");
+    expect(getByRole("group")).not.toHaveClass("seed-wheel-picker__root");
+    expect(container.querySelector("[data-wheel-picker-scroll-fog]")).toHaveClass(
+      "seed-wheel-picker-public__scrollFog",
     );
+    expect(container.querySelector("[data-wheel-picker-columns]")).toHaveClass(
+      "seed-wheel-picker-public__columns",
+    );
+    expect(getByRole("spinbutton")).toHaveClass("seed-wheel-picker-public__column");
+    expect(container.querySelector('[data-wheel-picker-value="a"]')).toHaveClass(
+      "seed-wheel-picker-public__item",
+    );
+    expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
+      "seed-wheel-picker-public__itemLabel",
+    );
+    expect(container.querySelector("[data-wheel-picker-indicator]")).toHaveClass(
+      "seed-wheel-picker-public__selectionIndicator",
+    );
+    expect(container.querySelector("[data-wheel-picker-scroll-fog]")).toHaveStyle({
+      "--scroll-fog-size-top": "88px",
+      "--scroll-fog-size-bottom": "88px",
+    });
   });
 
   it("Root와 Column의 className을 허용한다", () => {
@@ -38,6 +55,21 @@ describe("WheelPicker", () => {
 
     expect(getByRole("group")).toHaveClass("custom-root");
     expect(getByRole("spinbutton")).toHaveClass("custom-column");
+  });
+
+  it("Root의 disabled 상태를 Column과 Item에 전파한다", () => {
+    const { container, getByRole } = render(
+      <WheelPicker.Root aria-label="비활성 휠 피커" disabled>
+        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("group")).toHaveAttribute("data-disabled");
+    expect(getByRole("spinbutton")).toHaveAttribute("data-disabled");
+    expect(getByRole("spinbutton")).toHaveAttribute("aria-disabled", "true");
+    expect(container.querySelector('[data-wheel-picker-value="a"]')).toHaveAttribute(
+      "data-selected",
+    );
   });
 
   it("지원하지 않는 readOnly 값이 런타임에 전달되어도 읽기 전용으로 동작하지 않는다", () => {

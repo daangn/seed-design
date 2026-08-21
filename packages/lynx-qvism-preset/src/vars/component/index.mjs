@@ -99,3 +99,4 @@ export { vars as topNavigationIconButton } from "./top-navigation-icon-button.mj
 export { vars as topNavigationTextButton } from "./top-navigation-text-button.mjs";
 export { vars as topNavigation } from "./top-navigation.mjs";
 export { vars as typography } from "./typography.mjs";
+export { vars as wheelPicker } from "./wheel-picker.mjs";

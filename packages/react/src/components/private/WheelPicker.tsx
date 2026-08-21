@@ -2,7 +2,7 @@
 
 import { wheelPicker, type WheelPickerVariantProps } from "@seed-design/css/recipes/wheel-picker";
 import { Primitive } from "@seed-design/react-primitive";
-import * as HeadlessWheelPicker from "@seed-design/react-wheel-picker";
+import { WheelPicker as WheelPickerPrimitive } from "@seed-design/react-wheel-picker";
 import clsx from "clsx";
 import * as React from "react";
 import { ScrollFog, type ScrollFogProps } from "../ScrollFog/ScrollFog";
@@ -15,7 +15,7 @@ type WheelPickerCssProperties = React.CSSProperties & {
 };
 
 export interface InternalWheelPickerRootProps
-  extends Omit<HeadlessWheelPicker.WheelPickerRootProps, "asChild" | "children"> {
+  extends Omit<WheelPickerPrimitive.RootProps, "asChild" | "children"> {
   children: React.ReactNode;
   columnsClassName?: string;
   scrollFogClassName?: string;
@@ -55,7 +55,7 @@ export const InternalWheelPickerRoot = React.forwardRef<
     };
 
     return (
-      <HeadlessWheelPicker.WheelPickerRoot
+      <WheelPickerPrimitive.Root
         ref={ref}
         itemSize={itemSize}
         visibleItemCount={visibleItemCount}
@@ -82,14 +82,14 @@ export const InternalWheelPickerRoot = React.forwardRef<
             {children}
           </Primitive.div>
         </ScrollFog>
-      </HeadlessWheelPicker.WheelPickerRoot>
+      </WheelPickerPrimitive.Root>
     );
   },
 );
 InternalWheelPickerRoot.displayName = "InternalWheelPickerRoot";
 
 export interface InternalWheelPickerColumnProps
-  extends Omit<HeadlessWheelPicker.WheelPickerColumnProps, "asChild" | "renderOption"> {
+  extends Omit<WheelPickerPrimitive.ColumnProps, "asChild" | "renderOption"> {
   itemClassName?: string;
   appearance?: WheelPickerVariantProps["appearance"];
 }
@@ -101,7 +101,7 @@ export const InternalWheelPickerColumn = React.forwardRef<
   const classNames = wheelPicker({ appearance });
 
   return (
-    <HeadlessWheelPicker.WheelPickerColumn
+    <WheelPickerPrimitive.Column
       ref={ref}
       className={clsx(classNames.column, className)}
       renderOption={(option, optionProps) => (

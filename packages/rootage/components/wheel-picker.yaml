@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: wheel-picker
+  name: Wheel Picker
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          color:
+            type: color
+      selectionIndicator:
+        properties:
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+      scrollFog:
+        properties:
+          height:
+            type: dimension
+      item:
+        properties:
+          height:
+            type: dimension
+      itemLabel:
+        properties:
+          paddingX:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 220px
+          color: $color.bg.layer-floating
+        selectionIndicator:
+          height: 44px
+          cornerRadius: $radius.r2
+          color: $color.bg.neutral-weak
+        scrollFog:
+          height: 88px
+        item:
+          height: 44px
+        itemLabel:
+          paddingX: $dimension.x4
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static
+          fontWeight: $font-weight.medium
+          color: $color.fg.neutral-muted
+      selected:
+        itemLabel:
+          color: $color.fg.neutral
+      disabled:
+        itemLabel:
+          color: $color.fg.disabled

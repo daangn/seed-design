@@ -1,19 +1,30 @@
 "use client";
 
-import type {
-  WheelPickerColumnProps as HeadlessWheelPickerColumnProps,
-  WheelPickerOption,
-  WheelPickerRootProps as HeadlessWheelPickerRootProps,
+import { wheelPickerPublic } from "@seed-design/css/recipes/wheel-picker-public";
+import { Primitive } from "@seed-design/react-primitive";
+import {
+  WheelPicker as WheelPickerPrimitive,
+  type WheelPickerOption,
 } from "@seed-design/react-wheel-picker";
+import clsx from "clsx";
 import * as React from "react";
-import { InternalWheelPickerColumn, InternalWheelPickerRoot } from "../private/WheelPicker";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { ScrollFog } from "../ScrollFog/ScrollFog";
 
 const DEFAULT_ITEM_SIZE = 44;
 const DEFAULT_VISIBLE_ITEM_COUNT = 5;
+const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(wheelPickerPublic);
+
+type WheelPickerCssProperties = React.CSSProperties & {
+  "--seed-wheel-picker-public-item-size"?: string;
+  "--seed-wheel-picker-public-visible-item-count"?: number;
+  "--seed-wheel-picker-public-viewport-size"?: string;
+  "--seed-wheel-picker-public-center-offset"?: string;
+};
 
 export interface WheelPickerRootProps
   extends Omit<
-    HeadlessWheelPickerRootProps,
+    WheelPickerPrimitive.RootProps,
     "asChild" | "children" | "disabled" | "itemSize" | "readOnly" | "visibleItemCount"
   > {
   /** Wheel Picker를 구성하는 `WheelPicker.Column` 목록입니다. */
@@ -37,24 +48,63 @@ export interface WheelPickerRootProps
 
 export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootProps>(
   (
-    { itemSize = DEFAULT_ITEM_SIZE, visibleItemCount = DEFAULT_VISIBLE_ITEM_COUNT, ...props },
+    {
+      children,
+      className,
+      itemSize = DEFAULT_ITEM_SIZE,
+      style,
+      visibleItemCount = DEFAULT_VISIBLE_ITEM_COUNT,
+      ...props
+    },
     ref,
-  ) => (
-    <InternalWheelPickerRoot
-      ref={ref}
-      {...props}
-      appearance="neutral"
-      itemSize={itemSize}
-      visibleItemCount={visibleItemCount}
-      readOnly={false}
-    />
-  ),
+  ) => {
+    const centerOffset = ((visibleItemCount - 1) / 2) * itemSize;
+    const classNames = wheelPickerPublic();
+    const wheelPickerStyle: WheelPickerCssProperties = {
+      ...style,
+      "--seed-wheel-picker-public-item-size": `${itemSize}px`,
+      "--seed-wheel-picker-public-visible-item-count": visibleItemCount,
+      "--seed-wheel-picker-public-viewport-size": `${itemSize * visibleItemCount}px`,
+      "--seed-wheel-picker-public-center-offset": `${centerOffset}px`,
+    };
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <WheelPickerPrimitive.Root
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          itemSize={itemSize}
+          style={wheelPickerStyle}
+          visibleItemCount={visibleItemCount}
+          {...props}
+          readOnly={false}
+        >
+          <Primitive.div
+            aria-hidden
+            className={classNames.selectionIndicator}
+            data-wheel-picker-indicator=""
+          />
+          <ScrollFog
+            className={classNames.scrollFog}
+            placement={["top", "bottom"]}
+            size={centerOffset}
+            hideScrollBar
+            data-wheel-picker-scroll-fog=""
+          >
+            <Primitive.div className={classNames.columns} data-wheel-picker-columns="">
+              {children}
+            </Primitive.div>
+          </ScrollFog>
+        </WheelPickerPrimitive.Root>
+      </ClassNamesProvider>
+    );
+  },
 );
 WheelPickerRoot.displayName = "WheelPickerRoot";
 
 export interface WheelPickerColumnProps
   extends Omit<
-    HeadlessWheelPickerColumnProps,
+    WheelPickerPrimitive.ColumnProps,
     | "asChild"
     | "defaultValue"
     | "getAriaValueText"
@@ -75,7 +125,7 @@ export interface WheelPickerColumnProps
   defaultValue?: string;
 
   /** 선택 값이 바뀔 때 호출됩니다. */
-  onValueChange?: HeadlessWheelPickerColumnProps["onValueChange"];
+  onValueChange?: WheelPickerPrimitive.ColumnProps["onValueChange"];
 
   /**
    * 마지막 항목과 첫 항목을 이어 반복해서 탐색할지 여부입니다.
@@ -94,7 +144,24 @@ export interface WheelPickerColumnProps
 }
 
 export const WheelPickerColumn = React.forwardRef<HTMLDivElement, WheelPickerColumnProps>(
-  (props, ref) => <InternalWheelPickerColumn ref={ref} appearance="neutral" {...props} />,
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+
+    return (
+      <WheelPickerPrimitive.Column
+        ref={ref}
+        className={clsx(classNames.column, className)}
+        {...props}
+        renderOption={(option, optionProps) => (
+          <Primitive.div className={classNames.item} {...optionProps}>
+            <Primitive.div className={classNames.itemLabel} data-wheel-picker-item-label="">
+              {option.label}
+            </Primitive.div>
+          </Primitive.div>
+        )}
+      />
+    );
+  },
 );
 WheelPickerColumn.displayName = "WheelPickerColumn";
 

@@ -13392,6 +13392,126 @@
     background-color: var(--seed-color-bg-neutral-weak);
   }
 
+  .seed-wheel-picker-public__root {
+    width: 100%;
+    height: var(--seed-wheel-picker-public-viewport-size, 220px);
+    background-color: var(--seed-color-bg-layer-floating);
+    --seed-wheel-picker-public-item-color: var(--seed-color-fg-neutral-muted);
+    --seed-wheel-picker-public-selected-item-color: var(--seed-color-fg-neutral);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seed-wheel-picker-public__scrollFog {
+    z-index: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seed-wheel-picker-public__columns {
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+
+  .seed-wheel-picker-public__column {
+    box-sizing: border-box;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-y;
+    cursor: grab;
+    width: max-content;
+    min-width: 0;
+    height: 100%;
+    padding-block: var(--seed-wheel-picker-public-center-offset);
+    outline: none;
+    flex: 1 1 0;
+    overflow: hidden auto;
+  }
+
+  .seed-wheel-picker-public__column:is(:disabled, [disabled], [data-disabled]) {
+    cursor: default;
+    --seed-wheel-picker-public-item-color: var(--seed-color-fg-disabled);
+    --seed-wheel-picker-public-selected-item-color: var(--seed-color-fg-disabled);
+    overflow-y: hidden;
+  }
+
+  .seed-wheel-picker-public__column[data-wheel-picker-dragging] {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  .seed-wheel-picker-public__column[data-wheel-picker-scrolling] {
+    scroll-snap-type: none;
+  }
+
+  .seed-wheel-picker-public__column::-webkit-scrollbar {
+    display: none;
+  }
+
+  .seed-wheel-picker-public__column :is([aria-selected="true"], [data-selected]) {
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    border-radius: var(--seed-radius-r2);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  }
+
+  .seed-wheel-picker-public__column.seed-wheel-picker-public__column:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected="true"], [data-selected]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-wheel-picker-public__item {
+    height: var(--seed-wheel-picker-public-item-size, 44px);
+    min-height: var(--seed-wheel-picker-public-item-size, 44px);
+    color: var(--seed-wheel-picker-public-item-color);
+    scroll-snap-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .seed-wheel-picker-public__item[data-wheel-picker-indicator-overlap] {
+    color: #0000;
+    background-image: linear-gradient(to bottom, var(--seed-wheel-picker-public-item-color) 0%, var(--seed-wheel-picker-public-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-public-selected-item-color) var(--seed-wheel-picker-indicator-overlap-start), var(--seed-wheel-picker-public-selected-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-public-item-color) var(--seed-wheel-picker-indicator-overlap-end), var(--seed-wheel-picker-public-item-color) 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .seed-wheel-picker-public__itemLabel {
+    box-sizing: border-box;
+    height: 100%;
+    padding-inline: var(--seed-dimension-x4);
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-medium);
+    white-space: nowrap;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .seed-wheel-picker-public__selectionIndicator {
+    z-index: 0;
+    inset-inline: 0;
+    height: var(--seed-wheel-picker-public-item-size, 44px);
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-neutral-weak);
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   @media (min-width: 480px) {
     .seed-action-button {
       --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-sm, initial);
