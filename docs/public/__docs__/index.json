@@ -632,6 +632,19 @@
               "title": "Top Navigation",
               "description": "화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.",
               "docUrl": "/components/top-navigation"
+            },
+            {
+              "id": "wheel-picker",
+              "title": "Wheel Picker",
+              "description": "여러 값을 세로로 스크롤해 하나 이상의 열에서 선택하는 입력 컴포넌트입니다.",
+              "docUrl": "/components/wheel-picker",
+              "snippetKey": "react/ui:wheel-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "wheel-picker.tsx"
+                }
+              ]
             }
           ]
         },
