@@ -1,102 +1,138 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 프로젝트 셋업, 컴포넌트 탐색/사용, 파운데이션(색상·타이포·스페이싱) 활용, 테마/스타일링, CLI 워크플로우(init/add/add-all/compat/docs/upgrade), 스니펫 버전 호환성, 업그레이드 진단까지 커버. SEED Design 관련 질문이면 이 스킬을 사용한다. 사용자가 "SEED 어떻게 써?", "컴포넌트 뭐 있어?", "색상 토큰 쓰는 법", "디자인시스템 셋업" 같은 질문을 하면 반드시 이 스킬을 로드한다.
+description: SEED Design 통합 가이드. 공통 컴포넌트 스펙과 파운데이션을 공식 문서에서 찾고, React·Lynx 프로젝트의 구현·설치·CLI·마이그레이션을 대상 플랫폼에 맞게 안내하며, 지원되는 플랫폼의 사용 상태를 Doctor로 진단한다. SEED Design 관련 질문, 컴포넌트 사용법, 색상·타이포·스페이싱, 셋업, 스니펫, 업그레이드, "잘 쓰고 있나?", "뭘 고쳐야 하나?" 같은 요청이면 이 스킬을 사용한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
 
 # SEED Design
 
-당근의 디자인 시스템 SEED Design을 프로젝트에 도입하고 활용할 때 사용하는 통합 가이드입니다. 처음 셋업부터 컴포넌트 사용, 파운데이션 활용, CLI 운영까지 모든 단계를 안내합니다.
+SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 스킬에는 문서 내용을 복사하지 않고, **공통 디자인 지식 → 플랫폼 구현 → 플랫폼별 Doctor**로 이어지는 탐색·판정 절차만 둡니다.
 
-## 동작 방식
+## 1. 요청을 먼저 분류
 
-이 스킬이 호출되면 아래 순서로 동작합니다.
+프로젝트를 조사하기 전에 요청을 다음 중 하나로 분류합니다.
 
-### 1단계: 프로젝트 상태 파악
+| 분류 | 예 | 플랫폼 판별 |
+|---|---|---|
+| 공통 컴포넌트 스펙·Foundations | Anatomy, Properties, Guidelines, 색상, 타이포그래피, 스페이싱 | 불필요 |
+| 플랫폼 구현 | 사용법, Props, 설치, 셋업, 스니펫, 코드 작성, CLI 실행 | 필요 |
+| Doctor·마이그레이션 | 사용 상태 진단, deprecated, 호환성, 업그레이드 | 필요 |
 
-사용자의 프로젝트를 분석하여 현재 상태를 파악합니다.
+공통 스펙이나 Foundations만 묻는다면 프로젝트가 없어도 바로 공통 문서를 읽습니다. 구현 코드까지 함께 묻는다면 공통 문서를 먼저 읽은 다음, 플랫폼을 판별하고 해당 플랫폼 문서를 결합합니다.
 
-- `seed-design.json` 존재 여부 → 초기 설정 완료 여부
-- `package.json`에서 `@seed-design/react`, `@seed-design/css` 설치 여부와 버전
-- 번들러 종류 감지 (`vite.config`, `rsbuild.config`, `webpack.config` 등)
-- `seed-design/` 디렉토리 존재 여부 → 스니펫 설치 여부
-- 패키지 매니저 감지 (lock 파일 기준):
-  - `bun.lockb` / `bun.lock` → bun
-  - `pnpm-lock.yaml` → pnpm
-  - `yarn.lock` → yarn
-  - `package-lock.json` 또는 기본 → npm
+## 2. 플랫폼 판별
 
-이후 모든 패키지 설치/실행 명령어는 감지된 패키지 매니저에 맞춰 안내합니다.
+플랫폼에 따라 결과가 달라지는 요청에만 아래 순서를 적용합니다.
 
-### 2단계: 상황 분류 및 분기
+1. **사용자가 명시한 플랫폼**: React 또는 Lynx
+2. **대상 워크스페이스의 설정**: `seed-design.json.framework`
+3. **대상 워크스페이스의 직접 의존성**
+   - React: `@seed-design/react`, `@seed-design/css`
+   - Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css` 또는 `@lynx-js/react`
 
-파악한 상태와 사용자의 질문에 따라 적절한 가이드로 분기합니다.
+높은 순위의 명확한 단서를 낮은 순위의 단서로 덮어쓰지 않습니다. 단, 같은 대상 안에서 설정과 의존성이 충돌한다면 설정이 낡았을 수 있으므로 사용자에게 확인합니다.
 
-| 상황 | 참조 |
-|------|------|
-| `seed-design.json` 없음 → 처음 셋업이 필요 | `references/getting-started.md` |
-| 컴포넌트 관련 질문 (어떤 컴포넌트 있어?, 버튼 쓰고 싶은데) | `references/components.md` |
-| 파운데이션/토큰 질문 (색상, 타이포, 스페이싱, 테마) | `references/foundation.md` |
-| CLI 명령어 관련 (init, add, docs 등) | `references/usage.md` |
-| 버전 호환/마이그레이션 | `references/migration.md` |
-| 패키지 업그레이드 진단 | `references/upgrade.md` |
+모노레포에서는 루트 `package.json`만 보지 말고 요청 대상 워크스페이스를 먼저 찾습니다. 루트 요청에서 React와 Lynx 워크스페이스가 함께 발견되거나 대상 경로가 불명확하면, 구현·설치·Doctor를 시작하기 전에 어느 워크스페이스 또는 플랫폼인지 묻습니다.
 
-사용자가 명시적으로 주제를 말한 경우 프로젝트 분석을 건너뛰고 해당 시나리오로 직행해도 됩니다.
+단서가 없거나 한 단계에서 여러 플랫폼이 동시에 잡혀도 사용자에게 묻습니다. **불확실한 상황에서 React를 기본값으로 사용하지 않습니다.** 이는 에이전트의 문서 라우팅 규칙이며, 기존 CLI의 공개 동작이나 `seed-design.json` 기본값을 바꾸는 규칙이 아닙니다.
 
-### 3단계: 안내 + 실행
+플랫폼 판별 뒤에는 다음 프로젝트 정보도 필요할 때만 수집합니다.
 
-- 기존 문서 링크 제공: `https://seed-design.io/react/components/{component-name}`
-- llms.txt URL로 상세 정보 참조: `https://seed-design.io/llms/react/components/{component-name}.txt`
-- CLI `docs` 명령어로 문서/llms.txt/스니펫 링크 한 번에 조회:
-  ```bash
-  npx @seed-design/cli@latest docs {component-name}
-  ```
-- 사용자가 원하면 CLI 명령어를 직접 실행 (init, add 등)
+- `seed-design.json`의 `path`와 해당 디렉토리의 `@file` 헤더 파일 → 스니펫 설치 여부
+- 설치된 `@seed-design/*` 버전
+- 번들러 설정 (`vite.config`, `rsbuild.config`, `webpack.config` 등)
+- lock 파일로 판별한 패키지 매니저 (`bun` → `pnpm` → `yarn` → `npm`)
 
-### 4단계: 다음 단계 제안
+## 3. 공식 문서 라우팅
 
-현재 작업이 끝나면 자연스럽게 다음 단계를 안내합니다.
+문서 목록과 지원 범위를 스킬에 복사하지 않습니다. 요청할 때마다 아래 인덱스를 먼저 읽고, 인덱스가 제공한 링크를 그대로 따라갑니다.
 
-- 셋업 완료 → "이제 컴포넌트를 추가해볼까요?"
-- 컴포넌트 추가 → "테마 설정이나 다른 컴포넌트도 필요하신가요?"
-- 파운데이션 안내 → "실제 코드에서 이렇게 사용하면 됩니다"
+- 전체 문서 인덱스: `https://seed-design.io/llms.txt`
+- React 문서 인덱스: `https://seed-design.io/react/llms.txt`
+- Lynx 문서 인덱스: `https://seed-design.io/lynx/llms.txt`
 
-## 정보 조회 도구
+한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 전체 인덱스, 선택된 플랫폼 인덱스, 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
 
-SEED Design의 모든 문서에는 llms.txt 형태의 LLM 최적화 문서가 있습니다. 컴포넌트 목록, 파운데이션 가이드 등 최신 정보가 필요하면 llms.txt를 WebFetch로 읽어옵니다.
+다음 순서를 지킵니다.
 
-### llms.txt 인덱스
+1. 전체 문서 인덱스에서 공통 Components·Foundations·Patterns 또는 선택된 플랫폼의 현재 진입점을 찾습니다.
+2. 플랫폼 구현 요청이면 선택된 플랫폼 인덱스를 읽고, 제목·category·설명으로 필요한 문서를 찾습니다.
+3. 인덱스가 제공한 leaf URL을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
+4. 인덱스를 정상적으로 읽었는데 관련 항목이 없으면 현재 공식 문서가 없다고 판단합니다. 인덱스 자체를 읽지 못했으면 부재로 확정하지 않습니다.
 
-| 영역 | 인덱스 URL | 용도 |
-|------|-----------|------|
-| React | https://seed-design.io/react/llms.txt | 컴포넌트 목록, 설치/스타일링 가이드 |
-| Design | https://seed-design.io/docs/llms.txt | 파운데이션(색상, 타이포, 스페이싱 등) |
+CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 id를 확인합니다. URL 경로와 CLI id가 같다고 가정하지 말고, id를 확정할 수 없으면 인덱스의 URL을 직접 읽습니다.
 
-### 개별 문서 조회
+### 컴포넌트 답변 순서
+
+1. 스펙 질문이면 공통 컴포넌트 문서만 읽습니다.
+2. 구현 질문이면 플랫폼을 판별하고 해당 플랫폼 문서를 읽습니다.
+3. 스펙과 구현을 함께 묻는다면 공통 문서를 먼저 읽고, 판별된 플랫폼 문서를 이어서 읽습니다.
+4. 공통 문서 id와 구현 문서 id가 다르면 공통 문서의 Platform 표와 선택된 플랫폼 인덱스로 실제 id를 찾습니다.
+5. 선택한 플랫폼 문서나 registry 항목이 없으면 그 플랫폼의 구현·문서가 없다고 알립니다. 다른 플랫폼 문서로 대체하지 않습니다.
+
+스니펫이 필요하면 선택한 플랫폼 registry만 사용합니다.
 
 ```text
-https://seed-design.io/llms/react/components/{component-name}.txt
-https://seed-design.io/llms/docs/foundation/color/color-system.txt
+https://seed-design.io/__registry__/{react|lynx}/{registryId}/index.json
+https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 ```
 
-### CLI docs 명령어
+개별 스니펫 경로는 `{itemId}/index.json`이 아니라 `{itemId}.json`입니다.
 
-```bash
-npx @seed-design/cli@latest docs {component-name}
-# 출력:
-# - docs: https://seed-design.io/react/components/action-button
-# - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
-# - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/ui/action-button.tsx
-```
+### CLI 문서
 
-## Reference Files
+전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
 
-| 파일 | 용도 | 읽는 시점 |
-|------|------|-----------|
-| `references/getting-started.md` | 처음 셋업 가이드 | seed-design.json이 없거나 셋업 질문 시 |
-| `references/components.md` | 컴포넌트 탐색/추가 방법 | 컴포넌트 관련 질문 시 |
-| `references/foundation.md` | 파운데이션 llms.txt 인덱스 | 색상, 타이포, 스페이싱, 테마 질문 시 |
-| `references/usage.md` | CLI 명령어 상세 | CLI 사용법 질문 시 |
-| `references/migration.md` | 스니펫 버전 호환/마이그레이션 | 버전 불일치 또는 마이그레이션 시 |
-| `references/upgrade.md` | 패키지 업그레이드 진단 | 업그레이드 질문 시 |
+## 4. 판단이 필요한 절차
+
+| 요청 | 읽을 참조 |
+|---|---|
+| 스니펫 버전 맞추기, 파일 충돌, 패키지 호환 | [migration.md](references/migration.md) |
+| changelog 해석과 업그레이드 경로 | [upgrade.md](references/upgrade.md) |
+| 코드 사용 상태 진단 | [doctor.md](references/doctor.md) |
+
+마이그레이션과 업그레이드도 플랫폼을 먼저 판별합니다. 참조 파일의 React 전용 옵션이나 호환표를 Lynx에 적용하지 말고, 선택된 플랫폼의 패키지와 changelog만 대조합니다.
+
+Doctor 요청은 [doctor.md](references/doctor.md)의 적응형 탐색 절차를 먼저 따릅니다.
+
+1. 사용자 지정 경로
+2. `node_modules`, `.git`, `.claude/worktrees`를 제외한 `seed-design.json`
+3. 설정 발견 여부와 관계없이 직접 `@seed-design/*` 의존성이 있는 workspace
+4. 두 후보를 package 경계로 중복 제거
+5. 사용자 명시 → `framework` → 직접 의존성 순의 플랫폼 확정
+6. 공개 진입점과 앱·라이브러리 빌드 증거에 따른 비배타적 역할 판정
+
+- React Doctor: [doctor-react.md](references/doctor-react.md)를 함께 읽습니다.
+- Lynx Doctor: [doctor-lynx.md](references/doctor-lynx.md)를 함께 읽습니다.
+
+플랫폼 프로필은 문서 지원 현황을 복제하지 않고 인덱스·패키지·registry 탐색의 시작점만 제공합니다. 일반 진단은 공통 룰 전체를 scope에 넣고, 현재 인덱스에서 발견한 공식 계약과 각 룰의 적용 조건으로 검사 여부를 정합니다. 사용자가 config·setup·foundations·components·compatibility·library 중 범주를 지정했다면 그 범주만 실행합니다. 여러 workspace의 전체 진단은 리포트를 workspace별로 따로 만듭니다.
+
+Doctor는 문제를 찾는 진단이고, `upgrade.md`는 실제로 버전을 올리는 절차입니다. 진단이 버전 격차를 알려도 사용자가 수정을 요청하기 전에는 업그레이드를 실행하지 않습니다.
+
+## 5. 코드 작성과 기존 코드 진단
+
+`rules/`의 룰은 SEED 코드를 작성할 때 지키는 계약이자 Doctor의 판정 기준입니다. Doctor에서는 선택된 플랫폼 프로필과 각 룰의 적용 조건을 함께 사용합니다.
+
+- [project-config](rules/project-config.md): 현재 CLI 설정 계약, framework 충돌, snippet path·alias 연결
+- [package-compatibility](rules/package-compatibility.md): 플랫폼 패키지 설치본 조합
+- [project-setup](rules/project-setup.md): 선택된 플랫폼 문서가 요구하는 앱 설치·스타일 연결
+- [snippet-compatibility](rules/snippet-compatibility.md): 현재 패키지와 설치 스니펫의 CLI `compat` 결과
+- [foundation-contract](rules/foundation-contract.md): 토큰 존재·공개성·내부 스타일 API 의존
+- [library-authors](rules/library-authors.md): 공식 저자 문서가 있는 플랫폼의 peer·external·CSS·배포 계약
+- [outdated-version](rules/outdated-version.md): 직접 설치한 패키지의 최신 세대 격차만
+- [snippet-generation](rules/snippet-generation.md): 설치 스니펫과 registry의 최신 세대 차이만
+- [no-deprecated-component](rules/no-deprecated-component.md): 플랫폼에 유효한 출처가 있는 deprecated 항목만
+- [component-guidelines](rules/component-guidelines.md): 공통 디자인 문서와 매핑 가능한 플랫폼 구현의 대조
+
+토큰은 문서·CSS·플랫폼 API에서 표기가 달라질 수 있습니다. 공통 Foundations 문서에서 의미와 토큰을 확인한 뒤, 코드 표기는 선택된 플랫폼 구현 문서에서 확인합니다. 한 플랫폼의 코드 표기를 다른 플랫폼에 복사하지 않습니다.
+
+## 6. 응답과 실행 원칙
+
+- 공식 문서를 실제로 읽고 근거 링크와 함께 답합니다.
+- 설치·실행 명령은 대상 프로젝트의 패키지 매니저에 맞춥니다.
+- read-only 진단과 실제 수정 요청을 구분합니다.
+- Doctor 결과는 schema v2 YAML을 단일 원천으로 임시 디렉토리에 기록하고, 사용자가 "YAML만"을 명시하지 않으면 같은 디렉토리에 HTML 리포트도 함께 생성합니다. 대상 프로젝트에는 쓰지 않습니다.
+- 각 finding의 `remediation`에는 대상·문제·요구사항·제약·근거·검증을 포함한 복사 가능한 수정 프롬프트를 기록합니다. 프롬프트를 만드는 것은 진단이며, 사용자가 별도로 수정을 요청하기 전에는 실행하지 않습니다.
+- 없는 경로나 API를 추측하지 않습니다.
+- 작업이 끝나면 현재 맥락에 맞는 다음 단계만 짧게 제안합니다.

@@ -1,11 +1,12 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/lynx-react"
   },
+  "license": "Apache-2.0",
   "sideEffects": [
     "*.css"
   ],
@@ -19,7 +20,9 @@
   },
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
@@ -36,9 +39,10 @@
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.7.0",
-    "@seed-design/lynx-css": "0.5.0",
+    "@seed-design/lynx-css": "0.8.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
+    "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
     "vite": "^8.0.0",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
@@ -47,8 +51,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "clsx": "^2.1.1"
+    "@lynx-js/lynx-ui-sheet": "^3.130.1",
+    "clsx": "^2.1.1",
+    "unicode-segmenter": "^0.14.4"
   }
 }

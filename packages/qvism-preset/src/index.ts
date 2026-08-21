@@ -11,6 +11,19 @@ import { engaged, hover, active } from "./utils/pseudo";
 
 export default definePreset({
   prefix: "seed",
+  lightningcssOptions: {
+    // Without `targets`, Lightning CSS emits the newest syntax it knows: `@media`
+    // conditions become range syntax (dropped wholesale below Chrome 104 / Safari
+    // 16.4) and fallback declaration pairs collapse to the modern half alone.
+    // Versions are encoded as `major << 16 | minor << 8 | patch`.
+    // The unused `--lightningcss-light`/`--lightningcss-dark` vars in the output arm the
+    // `light-dark()` downlevel, so the first use of it is covered rather than shipped raw.
+    targets: {
+      chrome: 88 << 16,
+      safari: 15 << 16,
+      ios_saf: 15 << 16,
+    },
+  },
   postcssPlugins: [
     postcssResponsive({
       breakpoints: Object.entries(breakpointValues).map(([name, minWidth]) => ({

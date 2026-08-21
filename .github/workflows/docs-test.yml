@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - "docs/**/*"
+      - "packages/css/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - ".github/workflows/docs-test.yml"
 
 env:
@@ -22,7 +25,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - name: Build dependencies
-        run: bun ecosystem:build && bun install && bun packages:build
+        run: bun packages:build
 
       - name: Run tests
         run: bun docs:test

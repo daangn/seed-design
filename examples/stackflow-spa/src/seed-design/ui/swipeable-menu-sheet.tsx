@@ -11,10 +11,7 @@ export interface SwipeableMenuSheetRootProps extends SeedSwipeableMenuSheet.Root
 /**
  * @see https://seed-design.io/react/components/swipeable-menu-sheet
  */
-export const SwipeableMenuSheetRoot = (props: SwipeableMenuSheetRootProps) => {
-  const { children, ...otherProps } = props;
-  return <SeedSwipeableMenuSheet.Root {...otherProps}>{children}</SeedSwipeableMenuSheet.Root>;
-};
+export const SwipeableMenuSheetRoot = SeedSwipeableMenuSheet.Root;
 
 export interface SwipeableMenuSheetTriggerProps extends SeedSwipeableMenuSheet.TriggerProps {}
 

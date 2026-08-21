@@ -11,6 +11,10 @@ export interface UseImageProps {
 
 export type UseImageReturn = ReturnType<typeof useImage>;
 
+function hasSource(src?: string, srcSet?: string) {
+  return Boolean(src) || Boolean(srcSet);
+}
+
 export function useImage(props: UseImageProps) {
   const onLoadingStatusChange = useCallbackRef(props.onLoadingStatusChange);
   const [loadingStatus, setLoadingStatus] = useState<ImageLoadingStatus>("loading");
@@ -41,8 +45,8 @@ export function useImage(props: UseImageProps) {
   );
 
   const setSrc = useCallback(
-    (src: string | undefined) => {
-      if (src === undefined || src === null) {
+    (src: string | undefined, srcSet?: string) => {
+      if (!hasSource(src, srcSet)) {
         setLoadingStatus("error");
         onLoadingStatusChange?.("error");
       } else {
@@ -54,15 +58,16 @@ export function useImage(props: UseImageProps) {
   );
 
   const getContentProps = useCallback(
-    ({ src }: { src?: string }) => {
+    ({ src, srcSet }: { src?: string; srcSet?: string }) => {
       return imgProps({
-        hidden: !isLoaded,
+        hidden: loadingStatus === "error" || (!isLoaded && !hasSource(src, srcSet)),
         "data-visible": dataAttr(isLoaded),
         src,
+        srcSet,
         ...stateProps,
       });
     },
-    [isLoaded, stateProps],
+    [isLoaded, loadingStatus, stateProps],
   );
 
   const handleLoad = useCallback(() => {

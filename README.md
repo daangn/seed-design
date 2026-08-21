@@ -10,7 +10,7 @@ SEED는 당근 제품을 위한 통합된 디자인 언어입니다. 하나의 �
 
 **Definitions** — 토큰·레시피 소스
 
-- [@seed-design/rootage](./packages/rootage) — 디자인 토큰·컴포넌트 스키마 정의
+- [@seed-design/rootage-artifacts](./packages/rootage) — 디자인 토큰·컴포넌트 스키마 정의
 - [@seed-design/qvism-preset](./packages/qvism-preset) — 스타일 레시피 정의
 
 **Base Libraries** — 스타일 생성물

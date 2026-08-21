@@ -68,6 +68,17 @@
         "**/*.ui.{ts,tsx,js,jsx}"
       ]
     },
+    "tools/rootage-cdn": {
+      "entry": [
+        "src/cli.ts",
+        "src/deployment-guard.ts",
+        "src/release-input.ts",
+        "src/validate-operation.ts",
+        "src/version-change-policy.ts",
+        "src/verify-deployment.ts",
+        "src/worker.ts"
+      ]
+    },
     "examples/*": {
       "entry": [
         "index.{ts,tsx,js,jsx}",

@@ -223,14 +223,14 @@ export const BLOG_HEADING = "SEED가 자라나는 과정";
 // 1·2번은 내부 /updates 글(→), 3번만 외부 팀블로그(↗). slug를 바꾸면 href도 함께 고친다.
 export const BLOG_POSTS: BlogPost[] = [
   {
-    title: "디자인 시스템에도 브랜드가 필요할까?",
+    title: "디자인 시스템에도 브랜딩이 필요할까",
     description: "SEED 리브랜딩을 시작한 이유",
     image: "/landing/blog/branding.webp",
     href: "/updates/why-design-system-needs-branding",
     external: false,
   },
   {
-    title: "더 당근답게 : SEED는 어떻게 진화했나",
+    title: "더 당근답게: SEED는 어떻게 진화했나",
     description: "'당근스러움'을 시스템에 담는 법",
     image: "/landing/blog/v2-to-v3.webp",
     href: "/updates/how-seed-evolved",
@@ -262,34 +262,24 @@ export const LOTTIE = {
   intro: "/landing/intro-parallax.json",
 } as const;
 
-/**
- * A video asset at multiple sizes plus a poster frame. The renderer picks a
- * `<source>` by viewport; `mid` is optional (some clips ship only high/low).
- */
+/** A video asset plus its poster frame. */
 export interface VideoSet {
-  high: string;
-  mid?: string;
-  low: string;
+  src: string;
   poster: string;
 }
 
-/** Bento (section 2) slot assets. Videos are multi-tier; lotties are single json. */
+/** Bento (section 2) slot assets. Lotties are single json. */
 export const BENTO = {
   manner: {
-    high: "/landing/bento/manner/high.mp4",
-    mid: "/landing/bento/manner/mid.mp4",
-    low: "/landing/bento/manner/low.mp4",
+    src: "/landing/bento/manner/desktop.mp4",
     poster: "/landing/bento/manner/poster.webp",
   },
   homeService: {
-    high: "/landing/bento/home-service/high.mp4",
-    low: "/landing/bento/home-service/low.mp4",
+    src: "/landing/bento/home-service/desktop.mp4",
     poster: "/landing/bento/home-service/poster.webp",
   },
   icon: {
-    high: "/landing/bento/icon/high.mp4",
-    mid: "/landing/bento/icon/mid.mp4",
-    low: "/landing/bento/icon/low.mp4",
+    src: "/landing/bento/icon/desktop.mp4",
     poster: "/landing/bento/icon/poster.webp",
   },
   tabLottie: "/landing/bento/tab.json",

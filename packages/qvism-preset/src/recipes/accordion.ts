@@ -8,7 +8,7 @@ import {
 import { onlyIcon, suffixIcon } from "../utils/icon";
 import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { breakpoints } from "../utils/breakpoint";
-import spec from "@seed-design/rootage-artifacts/components/accordion.json" with { type: "json" };
+import spec from "@seed-design/rootage-artifacts/components/accordion";
 
 const accordion = defineSlotRecipe({
   name: "accordion",

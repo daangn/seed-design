@@ -1,3 +1,4 @@
+import { availableSinceRule } from "./available-since-rule";
 import { badgeRule } from "./badge-rule";
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
@@ -8,11 +9,14 @@ import { typeTableRule } from "./type-table-rule";
 import { tokenReferenceRule } from "./token-reference-rule";
 import { componentSpecBlockRule } from "./component-spec-block-rule";
 import { iconLibraryRule } from "./icon-library-rule";
+import { lynxComponentExampleRule } from "./lynx-component-example-rule";
 import type { AnyRule } from "./types";
 
 export const activeRules: AnyRule[] = [
+  availableSinceRule,
   badgeRule,
   componentExampleRule,
+  lynxComponentExampleRule,
   codeBlockTabsRule,
   typeTableRule,
   tokenReferenceRule,
@@ -24,6 +28,7 @@ export const activeRules: AnyRule[] = [
 ];
 
 export {
+  availableSinceRule,
   badgeRule,
   changelogPageRule,
   codeBlockTabsRule,
@@ -34,4 +39,5 @@ export {
   componentSpecBlockRule,
   progressBoardRule,
   iconLibraryRule,
+  lynxComponentExampleRule,
 };

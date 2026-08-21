@@ -66,6 +66,12 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
     return `${expr.value}`;
   }
 
+  // Enums never reach CSS output — `valueOrToken` rejects them. This branch serves
+  // `staticStringifier`, whose only consumer renders literals as documentation text.
+  if (expr.kind === "EnumLit") {
+    return expr.value;
+  }
+
   if (expr.kind === "CubicBezierLit") {
     return stringifyCubicBezierLit(expr);
   }
@@ -113,9 +119,18 @@ export function createStringifier(
   }
 
   function valueOrToken(value: ValueLit | TokenLit): string {
-    return value.kind === "TokenLit"
-      ? tokenReference(value)
-      : stringifyValueLit(value, tokenReference);
+    if (value.kind === "TokenLit") {
+      return tokenReference(value);
+    }
+
+    // Callers drop enum properties before emitting declarations (see languages/
+    // typescript.ts), so one arriving here is a caller bug: it would publish a
+    // design decision as a custom property.
+    if (value.kind === "EnumLit") {
+      throw new Error("Enum values cannot be emitted as CSS");
+    }
+
+    return stringifyValueLit(value, tokenReference);
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {

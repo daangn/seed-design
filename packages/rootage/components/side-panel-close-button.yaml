@@ -45,5 +45,3 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
-        icon:
-          color: $color.fg.neutral

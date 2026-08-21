@@ -37,6 +37,7 @@ export type FigmaCommand =
   | "get_node_info"
   | "get_nodes_info"
   | "export_node_as_image"
+  | "export_node_as_svg"
   | "join"
   | "clone_node"
   | "add_annotations"

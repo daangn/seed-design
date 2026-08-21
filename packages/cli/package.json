@@ -1,19 +1,21 @@
 {
   "name": "@seed-design/cli",
-  "version": "1.5.1",
+  "version": "1.6.1",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/cli"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "seed-design": "./bin/index.mjs"
   },
   "files": [
     "bin",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "engines": {
     "node": ">=20.19.0"
@@ -51,7 +53,7 @@
     "dotenv": "^17.2.3",
     "esbuild": "^0.27.0",
     "type-fest": "^5.0.0",
-    "typescript": "^6.0.0"
+    "typescript": "^7.0.2"
   },
   "publishConfig": {
     "access": "public"

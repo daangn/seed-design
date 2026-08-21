@@ -1,5 +1,33 @@
 # @seed-design/lynx-react
 
+## 0.4.0
+
+### Minor Changes
+
+- ebb4eae: Lynx 입력 폼 컴포넌트를 추가합니다.
+
+  - `Field`, `TextField`, `KeyboardAvoidingScrollView`를 제공합니다.
+  - `TextField.Input`과 `TextField.Textarea`에서 native 입력, controlled value, grapheme 단위 글자 수 제한을 지원합니다.
+  - `TextField.Textarea`는 내용에 따른 자동 높이 조절을 지원합니다.
+  - `KeyboardAvoidingScrollView`는 focus된 입력과 Field footer가 키보드에 가려지지 않도록 스크롤합니다.
+  - `npx @seed-design/cli@latest add ui:text-field`로 조합된 snippet을 설치할 수 있습니다.
+
+  ```tsx
+  <KeyboardAvoidingScrollView>
+    <TextField label="소개" maxGraphemeCount={80}>
+      <TextFieldTextarea accessibility-label="소개" />
+    </TextField>
+  </KeyboardAvoidingScrollView>
+  ```
+
+## 0.3.1
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
 ## 0.3.0
 
 ### Minor Changes

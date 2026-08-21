@@ -1,5 +1,51 @@
 # @seed-design/react-drawer
 
+## 2.0.6
+
+### Patch Changes
+
+- ebb4eae: iOS에서 Drawer 내부 Input과 키보드 전환 동작을 개선합니다.
+
+  - Input 포커스·해제 중 Drawer 높이와 위치가 일시적으로 흔들리거나 복원되지 않는 문제를 수정합니다.
+  - 키보드에 가려진 Input이 Drawer 내부의 가장 가까운 스크롤 영역에서 부드럽게 보이도록 이동합니다.
+
+## 2.0.5
+
+### Patch Changes
+
+- 225496c: `@seed-design/react-drawer@2.0.3`, `@seed-design/css@2.3.1`에서 추가된 키보드 리포지션 애니메이션과 높이 보정 동작을 제거합니다.
+
+## 2.0.4
+
+### Patch Changes
+
+- 4e5fe66: `@seed-design/react-dismissible-layer`의 최소 요구 버전을 올려 Chrome 92 / iOS Safari 15.4 이전 버전에서 시트나 다이얼로그를 열 때 발생하던 `TypeError: layers.at is not a function` 크래시 수정이 반드시 설치되도록 합니다.
+
+## 2.0.3
+
+### Patch Changes
+
+- 3d5ecf4: 소프트웨어 키보드가 열릴 때 BottomSheet가 움직이는 방식을 개선합니다.
+
+  - iOS에서 시트가 한 프레임에 점프하지 않고 새 위치까지 애니메이션합니다.
+  - Android에서 입력 필드에 포커스하면 시트가 화면을 덮을 만큼 커지던 문제를 수정합니다.
+
+## 2.0.2
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-dismissible-layer@1.0.1
+  - @seed-design/react-presence@1.0.1
+  - @seed-design/react-prevent-scroll@1.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-use-controllable-state@2.0.1
+
 ## 2.0.1
 
 ### Patch Changes

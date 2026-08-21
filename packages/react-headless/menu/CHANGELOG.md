@@ -1,5 +1,30 @@
 # @seed-design/react-menu
 
+## 2.0.2
+
+### Patch Changes
+
+- 4e5fe66: `@seed-design/react-dismissible-layer`의 최소 요구 버전을 올려 Chrome 92 / iOS Safari 15.4 이전 버전에서 시트나 다이얼로그를 열 때 발생하던 `TypeError: layers.at is not a function` 크래시 수정이 반드시 설치되도록 합니다.
+
+## 2.0.1
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- fb6f9c4: 메뉴가 닫힐 때 목록이 맨 위로 튀는 문제를 수정합니다.
+
+  - `MenuContent`가 열림/닫힘이 바뀔 때마다 리마운트되어, 스크롤한 메뉴를 닫으면 닫힘 애니메이션이 맨 위로 되돌아간 상태로 재생됐습니다.
+  - 이제 열고 닫아도 content의 DOM이 그대로 유지되어 스크롤 위치가 보존되고, 메뉴를 여닫을 때마다 항목 전체를 다시 만들지 않습니다.
+
+- Updated dependencies [270c93d]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-dismissible-layer@1.0.1
+  - @seed-design/react-primitive@2.0.1
+  - @seed-design/react-use-controllable-state@2.0.1
+
 ## 2.0.0
 
 ### Major Changes

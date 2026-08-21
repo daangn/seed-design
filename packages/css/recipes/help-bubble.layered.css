@@ -112,25 +112,25 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-help-bubble__content {
       --seed-box-max-width: var(--seed-box-max-width-sm, initial);
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-help-bubble__content {
       --seed-box-max-width: var(--seed-box-max-width-md, initial);
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-help-bubble__content {
       --seed-box-max-width: var(--seed-box-max-width-lg, initial);
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-help-bubble__content {
       --seed-box-max-width: var(--seed-box-max-width-xl, initial);
     }

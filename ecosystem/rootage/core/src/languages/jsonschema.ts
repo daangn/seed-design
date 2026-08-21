@@ -146,13 +146,30 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["color", "dimension", "number", "duration", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
+            "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
           },
           "description": {
             "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
           }
         },
         "required": ["type"],
+        "if": {
+          "properties": { "type": { "const": "enum" } },
+          "required": ["type"]
+        },
+        "then": {
+          "required": ["values"]
+        },
+        "else": {
+          "not": { "required": ["values"] }
+        },
         "additionalProperties": false
       },
       "variantsSchema": {
@@ -235,6 +252,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
             "$ref": "#/definitions/numberShorthand"
           },
           {
+            "$ref": "#/definitions/enumShorthand"
+          },
+          {
             "$ref": "#/definitions/cubicBezier"
           },
           {
@@ -262,6 +282,15 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       },
       "numberShorthand": {
         "type": "number"
+      },${
+        "" /* An enum value is a bare word with no shape of its own, so the pattern can
+              only exclude the leading characters another type claims — "#", "$", a
+              digit, or a negative dimension's "-". Without that, a malformed color or
+              dimension would match this branch of the anyOf instead of being flagged. */
+      }
+      "enumShorthand": {
+        "type": "string",
+        "pattern": "^[^#$0-9-].*$"
       },
       "cubicBezier": {
         "type": "object",

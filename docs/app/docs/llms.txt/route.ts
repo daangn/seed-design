@@ -1,30 +1,26 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
-import { docsSource } from "@/app/source";
+import { getDocsSource } from "@/app/source";
 
 export const revalidate = false;
 
-const excludedCategories = new Set(["progress-board"]);
-
-const categoryOrder = ["foundation", "components", "guidelines", "migration", "resources"];
+// IA 개편으로 foundation/components/guidelines/resources는 각자 최상위 섹션으로 빠져나갔고
+// (`/foundations`, `/components`, `/patterns`) `/docs`에는 migration만 남았다.
+const categoryOrder = ["migration"];
 
 const categoryDescriptions: Record<string, string> = {
-  components: "컴포넌트 디자인 가이드라인",
-  foundation: "색상, 타이포그래피, 간격 등 기초 토큰",
-  guidelines: "디자인 가이드라인 및 원칙",
   migration: "마이그레이션 가이드",
-  resources: "디자인 리소스",
 };
 
 export async function GET() {
+  const docsSource = await getDocsSource();
   const pages = docsSource.getPages();
 
   const categories = new Map<string, LLMPage[]>();
   for (const page of pages) {
     if (page.slugs.length === 0) continue;
     const category = page.slugs[0];
-    if (excludedCategories.has(category)) continue;
     if (!categories.has(category)) {
       categories.set(category, []);
     }
@@ -41,7 +37,7 @@ export async function GET() {
           );
           const llmsUrl = new URL(`/llms/docs/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
-          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          const deprecatedLabel = page.data.frontmatter.deprecated ? " (Deprecated)" : "";
           return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
         })
         .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))
@@ -57,22 +53,19 @@ ${pageList}`;
 
   return new Response(`# SEED Guidelines - LLM Reference
 
-디자인 가이드라인 문서입니다.
+마이그레이션 등 디자인 참고 문서입니다.
 
 ## Quick Access
 
-- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 디자인 문서를 하나의 파일로
+- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 참고 문서를 하나의 파일로
 
 ## Categories
 
 ${categoryList}
 
-## Usage
+## Related Sections
 
-개별 페이지는 /llms/docs/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/components/button.txt", baseUrl)}
-- ${new URL("/llms/foundations/color.txt", baseUrl)}
+- [Foundations](${new URL("/foundations/llms.txt", baseUrl)}): 색상, 타이포그래피 등 디자인 파운데이션
+- [Components](${new URL("/components/llms.txt", baseUrl)}): 컴포넌트 디자인 스펙
 `);
 }

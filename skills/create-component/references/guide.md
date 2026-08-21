@@ -109,6 +109,7 @@ Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML �
 
 각 단계의 상세 내용은 `references/` 폴더 참조:
 - `references/implementation-steps.md` - 각 단계별 구현 상세
+- `references/storybook.md` - React Storybook CSF Next 작성·리팩터링 규칙
 - `references/visual-testing.md` - Visual Test 방법
 - `references/verification-checklist.md` - 완료 전 체크리스트
 

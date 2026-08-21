@@ -2,12 +2,11 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "@seed-design/tailwind4-theme";
-
-@source ".";
-@source "../components";
-@source "../content";
-@source "../examples";
-@source "../sanity";
+@source "./**/*.{js,jsx,ts,tsx,mdx}";
+@source "../components/**/*.{js,jsx,ts,tsx,mdx}";
+@source "../content/**/*.mdx";
+@source "../examples/**/*.{js,jsx,ts,tsx,mdx}";
+@source "../sanity/**/*.{js,jsx,ts,tsx,mdx}";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
 
 .react {
@@ -105,7 +104,7 @@ html {
    font-medium / t*-medium directly; this rule matches in-content prose headings to the
    page title (fumadocs defaults them to 600, which would otherwise outweigh the title).
    :is() lifts specificity over fumadocs' :where() typography. */
-.prose :is(h1, h2, h3, h4, h5, h6) {
+.prose :is(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   font-weight: 500;
 }
 
@@ -132,8 +131,8 @@ article .prose {
 pre,
 code,
 pre code {
-  user-select: text !important;
-  -webkit-user-select: text !important;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 /* Rebrand: SEED Callout은 MDX children(코드블록/Tabs/문단)을 인라인 description(span)으로 받는데,
@@ -159,30 +158,16 @@ pre code {
   align-items: flex-start;
 }
 
-/* Rebrand: brand-tinted text selection — the same lime highlight everywhere so light
-   and dark modes read as one brand. Lime is a light color, so on light surfaces the
-   inherited dark text sits on it fine (background only). Unlayered so it wins over
-   fumadocs/Tailwind. The colors live on :root so the search-result <mark> highlight can
-   reuse the same lime — and, as :root vars, they resolve inside the portaled search dialog
-   (where the surface-scoped selection selectors below never match). */
+/* Rebrand: brand-tinted text selection — the same dark-on-lime treatment everywhere so
+   light and dark surfaces read as one brand. Setting both colors also keeps links and
+   inline code from carrying their resting text color into the selected state. Unlayered
+   so it wins over fumadocs/Tailwind. The colors live on :root so the search-result <mark>
+   highlight can reuse the same lime, including inside the portaled search dialog. */
 :root {
   --selection-bg: #ccffa3;
   --selection-fg: #212124;
 }
 ::selection {
-  background-color: var(--selection-bg);
-}
-
-/* Dark surfaces — docs dark mode + the landing's dark sections (both carry light text).
-   Keep the lime highlight but flip the SELECTED text dark, mirroring light mode's
-   dark-on-lime, so the lime stays legible instead of light-on-light. Landing dark
-   sections are enumerated by the section ids the landing already uses for scroll/tone
-   logic; hero/bento and the orange footer (dark text) fall through to the base above. */
-.dark ::selection,
-#intro ::selection,
-#values ::selection,
-#showcase ::selection,
-#blog ::selection {
   background-color: var(--selection-bg);
   color: var(--selection-fg);
 }
@@ -197,6 +182,10 @@ pre code {
 html:has(main[data-landing="true"]),
 body:has(main[data-landing="true"]) {
   background-color: #ffffff;
+  /* The landing's own `light-only` scope starts at <main>, so it never reaches what the browser
+     paints for the document itself — the viewport scrollbar would stay dark on a dark OS, since
+     :root is `data-seed-color-mode="system"` and resolves to `light dark`. */
+  color-scheme: light;
   overscroll-behavior: none;
   /* Mobile syncs body bg to the section tone (landing-experience) so the iOS Safari edge
      tint matches the page; ease the flip so it tracks the header tone change smoothly. */

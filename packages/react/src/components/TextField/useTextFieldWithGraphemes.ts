@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { splitGraphemes } from "unicode-segmenter/grapheme";
-import { memoize } from "./memoize";
+import { collectGraphemes } from "unicode-segmenter/grapheme";
 
 export interface UseTextFieldWithGraphemesParams {
   maxGraphemeCount?: number;
@@ -14,9 +13,6 @@ export interface UseTextFieldWithGraphemesParams {
   }) => void;
 }
 
-const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
-const memoizedGetGraphemes = memoize(getGraphemes);
-
 export function useTextFieldWithGraphemes({
   maxGraphemeCount,
   value: controlledValue,
@@ -27,11 +23,11 @@ export function useTextFieldWithGraphemes({
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
 
-  const graphemes = useMemo(() => memoizedGetGraphemes(value), [value]);
+  const graphemes = useMemo(() => collectGraphemes(value), [value]);
 
   const handleValueChange = useCallback(
     (newValue: string) => {
-      const newGraphemes = memoizedGetGraphemes(newValue);
+      const newGraphemes = collectGraphemes(newValue);
       const newSlicedGraphemes =
         maxGraphemeCount === undefined ? newGraphemes : newGraphemes.slice(0, maxGraphemeCount);
       const newSlicedValue = newSlicedGraphemes.join("");

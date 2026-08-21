@@ -3,6 +3,8 @@ title: Alert Dialog
 description: 사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
 <ComponentExample name="react/alert-dialog/preview">
   ```json doc-gen:file
   {
@@ -191,6 +193,7 @@ Trigger 외의 방식으로 AlertDialog를 열고 닫을 수 있습니다. 이 �
 - `"escapeKeyDown"`: <kbd>ESC</kbd> 키 사용
 - `"interactOutside"`: 외부 영역 클릭
   - `AlertDialogRoot`는 기본적으로 `closeOnInteractOutside={false}`입니다. `interactOutside`는 이 옵션을 `true`로 설정한 경우에만 발생할 수 있습니다.
+- `"cascadeDismiss"`: 상위 레이어 닫힘으로 인한 연쇄 닫힘
 
 <ComponentExample name="react/alert-dialog/open-change-reason">
   ```json doc-gen:file

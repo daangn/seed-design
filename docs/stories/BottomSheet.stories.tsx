@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
@@ -37,18 +36,22 @@ const BottomSheetPreview = ({
         .seed-bottom-sheet__positioner {
           position: relative !important;
           inset: unset !important;
+          display: block !important;
         }
         .seed-bottom-sheet__backdrop {
           display: none !important;
         }
         .seed-bottom-sheet__content {
           animation: none !important;
+          width: 100% !important;
+          height: auto !important;
+          flex: none !important;
         }
         .seed-bottom-sheet__content::after {
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open headerAlign={headerAlign}>
+      <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
         <BottomSheetContent
           title={title}
           description={description}
@@ -69,15 +72,10 @@ const BottomSheetPreview = ({
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: BottomSheetPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof BottomSheetPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const { skipAnimation: _skipAnimation, ...restVariantMap } = bottomSheetVariantMap;
 
 const conditionMap = {
@@ -108,30 +106,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

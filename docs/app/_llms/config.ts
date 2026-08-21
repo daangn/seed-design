@@ -61,7 +61,7 @@ export const sectionConfigs: Record<Section, SectionConfig> = {
   updates: {
     contentDir: "updates",
     baseUrl: "/updates",
-    description: "SEED 업데이트 소식과 릴리스 노트",
+    description: "SEED 업데이트 소식과 릴리즈 노트",
   },
 };
 

@@ -1,6 +1,7 @@
 @layer seed-components {
   .seed-image-frame__root {
     border-radius: inherit;
+    isolation: isolate;
     position: relative;
     overflow: hidden;
   }
@@ -13,13 +14,20 @@
     display: block;
   }
 
-  .seed-image-frame__content:not([data-loading-state="loaded"]) {
+  .seed-image-frame__content[data-loading-state="error"], .seed-image-frame__content:is([hidden], [data-hidden]) {
     display: none;
   }
 
+  .seed-image-frame__content:not([data-loading-state="loaded"]) {
+    pointer-events: none;
+  }
+
   .seed-image-frame__fallback {
+    z-index: -1;
     width: 100%;
     height: 100%;
+    position: absolute;
+    inset: 0;
   }
 
   .seed-image-frame__fallback[data-loading-state="loaded"] {

@@ -1,5 +1,5 @@
 import { env } from "@/app/env";
-import { componentsSource, foundationsSource, patternsSource } from "@/app/source";
+import { getComponentsSource, getFoundationsSource, getPatternsSource } from "@/app/source";
 import { CatalogCard } from "@/components/catalog/card";
 import {
   createFigmaClient,
@@ -12,17 +12,20 @@ const client = env.figmaPersonalAccessToken
   ? createFigmaClient(env.figmaPersonalAccessToken)
   : undefined;
 
-type CatalogSource = typeof componentsSource | typeof foundationsSource | typeof patternsSource;
+type CatalogSource =
+  | Awaited<ReturnType<typeof getComponentsSource>>
+  | Awaited<ReturnType<typeof getFoundationsSource>>
+  | Awaited<ReturnType<typeof getPatternsSource>>;
 type TreeNode = CatalogSource["pageTree"]["children"][number];
 type FolderNode = Extract<TreeNode, { type: "folder" }>;
 
 /** Progress Board is surfaced in the section overview header, not as a catalog card. */
 const PROGRESS_BOARD_URL = "/components/progress-board";
 
-function getCatalogSource(pathPrefix: string): CatalogSource | undefined {
-  if (pathPrefix.startsWith("/components/")) return componentsSource;
-  if (pathPrefix.startsWith("/foundations/")) return foundationsSource;
-  if (pathPrefix.startsWith("/patterns/")) return patternsSource;
+async function getCatalogSource(pathPrefix: string): Promise<CatalogSource | undefined> {
+  if (pathPrefix.startsWith("/components/")) return getComponentsSource();
+  if (pathPrefix.startsWith("/foundations/")) return getFoundationsSource();
+  if (pathPrefix.startsWith("/patterns/")) return getPatternsSource();
   return undefined;
 }
 
@@ -57,7 +60,7 @@ export interface CatalogGridProps {
  * pageTree 기준이라 하위 폴더(color 등)는 대표 카드 1개로 접힌다.
  */
 export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
-  const catalogSource = getCatalogSource(pathPrefix);
+  const catalogSource = await getCatalogSource(pathPrefix);
   if (!catalogSource) return null;
 
   const isFoundations = pathPrefix.startsWith("/foundations/");
@@ -66,16 +69,16 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
 
   const items: CatalogItem[] = [];
   if (pathPrefix.startsWith("/components/")) {
-    for (const page of componentsSource.getPages()) {
+    for (const page of catalogSource.getPages()) {
       if (page.slugs.length !== 1) continue;
       if (page.url === base || page.url === PROGRESS_BOARD_URL) continue;
-      if (page.data.deprecated) continue;
+      if (page.data.frontmatter.deprecated) continue;
       items.push({
         key: page.url,
         title: page.data.title,
         url: page.url,
-        coverImage: page.data.coverImage,
-        coverImageFigmaId: page.data.coverImageFigmaId,
+        coverImage: page.data.frontmatter.coverImage,
+        coverImageFigmaId: page.data.frontmatter.coverImageFigmaId,
       });
     }
   }
@@ -90,13 +93,13 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
       if (!url) continue;
       // 대표 페이지는 deprecated 판별과 cover 이미지에만 쓰고, 제목은 폴더명을 쓴다.
       const repPage = pageByUrl.get(node.index?.url ?? url);
-      if (repPage?.data.deprecated) continue;
+      if (repPage?.data.frontmatter.deprecated) continue;
       items.push({
         key: url,
         title: node.name as ReactNode,
         url,
-        coverImage: repPage?.data.coverImage,
-        coverImageFigmaId: repPage?.data.coverImageFigmaId,
+        coverImage: repPage?.data.frontmatter.coverImage,
+        coverImageFigmaId: repPage?.data.frontmatter.coverImageFigmaId,
       });
       continue;
     }
@@ -105,13 +108,13 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
     if (items.some((item) => item.url === node.url)) continue;
 
     const page = pageByUrl.get(node.url);
-    if (!page || page.data.deprecated) continue;
+    if (!page || page.data.frontmatter.deprecated) continue;
     items.push({
       key: node.url,
       title: page.data.title,
       url: node.url,
-      coverImage: page.data.coverImage,
-      coverImageFigmaId: page.data.coverImageFigmaId,
+      coverImage: page.data.frontmatter.coverImage,
+      coverImageFigmaId: page.data.frontmatter.coverImageFigmaId,
     });
   }
 

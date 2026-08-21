@@ -341,13 +341,22 @@ export function useGlobalInteraction() {
   // top must always be in a clean default state. Wipe all leftover inline
   // styles from the top activity — the behind is left untouched (stays at
   // -30%), this only runs at idle, and it's a no-op if already clean.
+  //
+  // Keyed on the top activity too, not just globalTransitionState: an
+  // `animate: false` navigation makes the core skip the enter-active /
+  // exit-active phase entirely, so globalTransitionState never leaves "idle"
+  // and a state-only dependency would never re-run. That is how a behind
+  // layer became the top while still pinned at -30%.
+  const topActivityId = stack?.activities.find((activity) => activity.isTop)?.id;
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: topActivityId is a trigger, not a value read here — clearTopActivityStyles re-queries the DOM
   useLayoutEffect(() => {
     if (stack?.globalTransitionState !== "idle") return;
     const stackEl = stackRef.current;
     if (stackEl) {
       clearTopActivityStyles(stackEl);
     }
-  }, [stack?.globalTransitionState]);
+  }, [stack?.globalTransitionState, topActivityId]);
 
   // Cancel any pending push rAF and running animations on unmount so
   // late-firing finished handlers can't run against a torn-down stack.

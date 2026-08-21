@@ -19,7 +19,14 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   const { name, isolate } = props;
 
   const Preview = React.useMemo(() => {
-    const Component = React.lazy(() => import(`../examples/${name}.tsx`));
+    const [platform, ...pathSegments] = name.split("/");
+    const examplePath = pathSegments.join("/");
+    const Component =
+      platform === "react"
+        ? React.lazy(() => import(`../examples/react/${examplePath}.tsx`))
+        : platform === "breeze"
+          ? React.lazy(() => import(`../examples/breeze/${examplePath}.tsx`))
+          : undefined;
 
     if (!Component) {
       return <div>컴포넌트가 존재하지 않습니다.</div>;

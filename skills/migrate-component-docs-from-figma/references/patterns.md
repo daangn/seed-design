@@ -141,7 +141,7 @@ Container for side-by-side images. Most commonly used to pair Do/Don't images, b
 Links to a related component with a brief explanation. Place near the top of the document, below PlatformStatusTable.
 
 ```tsx
-<Card href="/docs/components/{related-component}" title="{Related Component Name}">
+<Card href="/components/{related-component}" title="{Related Component Name}">
   {Korean explanation of how the two components relate}
 </Card>
 ```
@@ -149,7 +149,7 @@ Links to a related component with a brief explanation. Place near the top of the
 Example from radio.mdx:
 
 ```tsx
-<Card href="/docs/components/field" title="Field">
+<Card href="/components/field" title="Field">
   Radio Group을 Field 내부에서 사용하여 Radio Group Field로 활용할 수 있습니다.
 </Card>
 ```
@@ -189,12 +189,31 @@ Used when you want to display a group of tokens as a table, typically in foundat
 When mentioning another component in body text, always link to it:
 
 ```markdown
-[Bottom Sheet](/docs/components/bottom-sheet)
-[Checkbox](/docs/components/checkbox)
-[Alert Dialog](/docs/components/alert-dialog)
+[Bottom Sheet](/components/bottom-sheet)
+[Checkbox](/components/checkbox)
+[Alert Dialog](/components/alert-dialog)
 ```
 
-The link path is always `/docs/components/{component-id}` — no category subfolder in the URL.
+The link path is always `/components/{component-id}` — no category subfolder in the URL.
+
+## Writing Guidelines that tools can check
+
+The `Guidelines` section is not just prose for humans — the `seed-design` skill's diagnosis
+reads this section as the **source of its review criteria** (it derives them from the published
+`/llms/components/{id}.txt`, not from a hardcoded list), so writing a guideline is what turns on
+review for that component. Write it so each rule can be judged pass/fail:
+
+- **State the rule, not the background.** "Snap Point를 추가하는 경우 Handle을 반드시 표시해야
+  합니다." is checkable; "Handle은 시트를 확장하거나 축소할 수 있게 해줍니다." is not. Both can
+  appear, but a section with only the latter produces no criteria.
+- **Keep the violating condition inside the sentence.** A reader (or agent) should know what
+  counts as breaking the rule without needing the image.
+- **Use `**bold**` for required rules only.** Do not bold Figma tips, sub-headings, or
+  statements of fact — bold is the signal that something is mandatory.
+- **`DoImage`/`DontImage` `body` is a first-class rule.** Each `body` is read as one criterion,
+  so write it as a complete, self-contained sentence that holds up without the image.
+- Use the section heading `## Guidelines`. If usage guidance lives under a different heading
+  (`## Usage`, or nested at `###`), tools that look for `## Guidelines` will miss it.
 
 ## Standard heading order
 

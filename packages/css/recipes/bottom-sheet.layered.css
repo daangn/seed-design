@@ -244,7 +244,7 @@
     animation-timing-function: var(--seed-timing-function-enter-expressive);
   }
 
-  @media (width >= 480px) {
+  @media (min-width: 480px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
       --seed-box-height: var(--seed-box-height-sm, initial);
@@ -253,7 +253,7 @@
     }
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
       --seed-box-height: var(--seed-box-height-md, initial);
@@ -262,7 +262,7 @@
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
       --seed-box-height: var(--seed-box-height-lg, initial);
@@ -271,7 +271,7 @@
     }
   }
 
-  @media (width >= 1440px) {
+  @media (min-width: 1440px) {
     .seed-bottom-sheet__body {
       --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
       --seed-box-height: var(--seed-box-height-xl, initial);

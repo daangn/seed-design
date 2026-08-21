@@ -1,6 +1,6 @@
 ---
 name: create-component
-description: End-to-end SEED component implementation guide for React Web, Lynx, and cross-platform component work. Starts by deciding the target platform, then clarifies requirements, makes architecture decisions, follows the platform/category-specific pattern, and runs verification. Use this whenever the user is adding a new component, changing behavior across component layers, extending a snippet, or touching component docs — even if they don't explicitly say "create component". Always invoke before touching rootage YAML, qvism or lynx-qvism recipes, react/lynx-react/lynx-react-headless packages, docs registry snippets, or component docs. Covers all 5 component categories and refuses to skip platform gating or requirements brainstorming.
+description: End-to-end SEED component implementation guide for React Web, Lynx, and cross-platform work. Use when adding or changing components across rootage, qvism, react/lynx packages, registry snippets, docs, examples, or when writing/refactoring docs/stories Storybook files. Story-only work follows a CSF Next fast path; component implementation follows platform, requirements, architecture, implementation, and verification gates.
 ---
 
 # Create Component
@@ -15,6 +15,19 @@ Platform Gate  →  Delivery Surface Gate  →  Phase 0 Pre (Brainstorm)  →  P
 ```
 
 각 Phase 사이에 **게이트**가 있다. 게이트 통과 전까지 다음 Phase로 가지 않는다. 흐름이 깨지면 빠진 요구사항·어긋난 아키텍처·우회된 검증이 누적되어 다른 컴포넌트까지 흔든다.
+
+---
+
+## Storybook-only fast path
+
+요청이 `docs/stories/*.stories.tsx`, `docs/.storybook/*`의 작성·리팩터링·검증에만 한정되고 컴포넌트 API나 동작을 바꾸지 않으면 Platform/Delivery Surface/Phase 0 게이트를 적용하지 않는다.
+
+1. `references/storybook.md`를 읽는다.
+2. `docs/.storybook/preview.ts`, `docs/stories/utils/parameters.ts`, 가까운 기존 story를 확인한다.
+3. CSF Next factory 패턴으로 작성하고 story별 동작 범위를 보존한다.
+4. `references/storybook.md`의 검증 명령과 `references/visual-testing.md`의 Storybook 항목을 실행한다.
+
+컴포넌트 API·상태·recipe까지 바뀌면 fast path를 중단하고 일반 핵심 흐름으로 돌아간다.
 
 ---
 
@@ -101,6 +114,7 @@ Phase 0 Pre의 합의를 입력으로 받아 컴포넌트 카테고리(A~E), Hea
 | Styled UI 작성 | React는 `references/react-patterns.md`, Lynx는 `references/lynx-patterns.md` |
 | Snippet 레이어 설계 | `references/api-design.md` |
 | Headless 훅/primitive 설계 (카테고리 C/D) | React는 `references/external-references.md`, Lynx는 `references/lynx-patterns.md` |
+| Storybook 작성 (React) | `references/storybook.md` |
 
 ### 🔒 게이트 1 → 2
 자동 검증 4개 명령이 모두 통과해야 Phase 2 진입:
@@ -155,6 +169,7 @@ Lynx 작업에서 필수:
 | 1 | `references/recipe-patterns.md` | Recipe 작성 단계 |
 | 1 | `references/react-patterns.md` | React Styled UI 단계 |
 | 1 | `references/api-design.md` | Snippet 레이어 단계 |
+| 1 | `references/storybook.md` | React Storybook 작성·리팩터링 시 |
 | 2 | `references/verification-checklist.md` | Phase 2 진입 시 |
 | 2 | `references/visual-testing.md` | Phase 2 진입 시 |
 | 유지보수 | `references/review-prompts.md` | 이 스킬 자체를 수정한 뒤 문서 리뷰할 때 |

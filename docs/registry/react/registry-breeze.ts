@@ -11,5 +11,13 @@ export const registryBreeze: Registry = {
         { path: "animate-number/animate-number.module.css" },
       ],
     },
+    {
+      id: "scroll-auto-hide",
+      description: "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
+      snippets: [
+        { path: "scroll-auto-hide/scroll-auto-hide.tsx" },
+        { path: "scroll-auto-hide/scroll-auto-hide.module.css" },
+      ],
+    },
   ],
 };

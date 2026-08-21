@@ -72,6 +72,24 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+        },
+      ],
+    },
+    {
+      id: "responsive-dialog",
+      snippets: [
+        {
+          path: "responsive-dialog.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {
@@ -359,11 +377,29 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "quantity-picker",
+      snippets: [
+        {
+          path: "quantity-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+        },
+      ],
+    },
+    {
       id: "radio-group",
       snippets: [
         {
           path: "radio-group.tsx",
           dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+        },
+      ],
+    },
+    {
+      id: "select",
+      snippets: [
+        {
+          path: "select.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
         },
       ],
     },

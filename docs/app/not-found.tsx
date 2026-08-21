@@ -3,12 +3,13 @@ import Link from "next/link";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { ActionButton } from "seed-design/ui/action-button";
 import { baseOptions } from "./layout.config";
-import { docsSource } from "./source";
+import { getDocsSource } from "./source";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const docsSource = await getDocsSource();
   return (
     <RootProvider
       search={{

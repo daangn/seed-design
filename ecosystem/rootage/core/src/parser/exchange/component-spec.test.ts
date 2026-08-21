@@ -49,7 +49,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [],
@@ -146,7 +146,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [
@@ -240,7 +240,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [],
@@ -344,7 +344,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("color", "color"),
+            factory.createPropertySchemaDeclaration("color", { type: "color" }),
           ]),
         ],
         [
@@ -485,7 +485,7 @@ describe("parseComponentSpecData", () => {
       factory.createSchemaDeclaration(
         [
           factory.createSlotSchemaDeclaration("root", [
-            factory.createPropertySchemaDeclaration("shadow", "shadow"),
+            factory.createPropertySchemaDeclaration("shadow", { type: "shadow" }),
           ]),
         ],
         [],

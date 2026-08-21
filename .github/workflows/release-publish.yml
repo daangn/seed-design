@@ -1,0 +1,227 @@
+name: Release publish
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "packages/**"
+      - "docs/**"
+      - ".changeset/**"
+      - ".github/workflows/release-publish.yml"
+      - ".github/actions/setup/action.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: release-publish
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release Seed Design Packages
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      published-packages: ${{ steps.changesets.outputs.publishedPackages }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Bind release execution to the protected dev commit
+        env:
+          RELEASE_SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$RELEASE_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_REF" = "refs/heads/dev"
+          test "$(git rev-parse HEAD)" = "$RELEASE_SOURCE_SHA"
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - uses: ./.github/actions/setup
+
+      - name: Create or update the Version Packages PR, or publish packages
+        id: changesets
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        with:
+          publish: bun release
+          version: bun version
+          title: "release: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
+
+  prepare-rootage:
+    name: Reconcile the exact published Rootage release
+    needs: release
+    if: >-
+      always() &&
+      github.ref == 'refs/heads/dev' &&
+      needs.release.result != 'cancelled' &&
+      needs.release.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      found: ${{ steps.rootage.outputs.found }}
+      version: ${{ steps.rootage.outputs.version }}
+      integrity: ${{ steps.rootage.outputs.integrity }}
+      stable: ${{ steps.rootage.outputs.stable }}
+      source-sha: ${{ steps.identity.outputs.sourceSha }}
+      control-sha: ${{ steps.identity.outputs.controlSha }}
+    steps:
+      - name: Checkout the exact release source without credentials
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Bind source and control identity before reconciliation
+        id: identity
+        env:
+          RELEASE_SOURCE_SHA: ${{ github.sha }}
+        run: |
+          [[ "$RELEASE_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_REF" = "refs/heads/dev"
+          test "$(git rev-parse HEAD)" = "$RELEASE_SOURCE_SHA"
+          git merge-base --is-ancestor "$RELEASE_SOURCE_SHA" refs/remotes/origin/dev
+          echo "sourceSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
+          echo "controlSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Resolve or replay the exact Rootage release input
+        id: rootage
+        env:
+          PUBLISHED_PACKAGES: ${{ needs.release.outputs.published-packages }}
+          ROOTAGE_SOURCE_SHA: ${{ steps.identity.outputs.sourceSha }}
+        run: bun tools/rootage-cdn/src/release-input.ts
+
+  publish-rootage:
+    name: Publish immutable Rootage artifacts
+    needs: prepare-rootage
+    if: >-
+      always() &&
+      needs.prepare-rootage.result == 'success' &&
+      needs.prepare-rootage.outputs.found == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: rootage-production
+    concurrency:
+      group: rootage-cdn-production-mutation
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    outputs:
+      manifest-sha: ${{ steps.publish.outputs.manifest-sha }}
+      file-count: ${{ steps.publish.outputs.file-count }}
+      pointer-before: ${{ steps.publish.outputs.pointer-before }}
+      pointer-after: ${{ steps.publish.outputs.pointer-after }}
+    steps:
+      - name: Resolve current trusted dev head
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Record trusted dev head
+        id: dev
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout immutable trusted control plane
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare-rootage.outputs.control-sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify control commit belongs to trusted dev history
+        env:
+          ROOTAGE_CONTROL_SHA: ${{ needs.prepare-rootage.outputs.control-sha }}
+          ROOTAGE_DEV_SHA: ${{ steps.dev.outputs.sha }}
+        run: |
+          [[ "$ROOTAGE_CONTROL_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$ROOTAGE_CONTROL_SHA"
+          git merge-base --is-ancestor "$ROOTAGE_CONTROL_SHA" "$ROOTAGE_DEV_SHA"
+
+      - uses: ./.github/actions/setup
+
+      - name: Publish, read back and verify Rootage
+        id: publish
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          ROOTAGE_R2_ACCESS_KEY_ID: ${{ secrets.ROOTAGE_R2_ACCESS_KEY_ID }}
+          ROOTAGE_R2_SECRET_ACCESS_KEY: ${{ secrets.ROOTAGE_R2_SECRET_ACCESS_KEY }}
+          ROOTAGE_R2_BUCKET: seed-design-rootage-artifacts
+          ROOTAGE_PUBLIC_BASE_URL: https://seed-design.io
+          ROOTAGE_VERSION: ${{ needs.prepare-rootage.outputs.version }}
+          ROOTAGE_NPM_INTEGRITY: ${{ needs.prepare-rootage.outputs.integrity }}
+          ROOTAGE_SOURCE_SHA: ${{ needs.prepare-rootage.outputs.source-sha }}
+          ROOTAGE_STABLE: ${{ needs.prepare-rootage.outputs.stable }}
+        run: >-
+          bun tools/rootage-cdn/src/cli.ts publish
+          --version "$ROOTAGE_VERSION"
+          --npm-integrity "$ROOTAGE_NPM_INTEGRITY"
+          --source-sha "$ROOTAGE_SOURCE_SHA"
+          --stable "$ROOTAGE_STABLE"
+
+  notify-rootage:
+    name: Notify published Rootage package
+    needs: release
+    if: >-
+      needs.release.result == 'success' &&
+      needs.release.outputs.published == 'true' &&
+      contains(fromJson(needs.release.outputs.published-packages || '[]').*.name, '@seed-design/rootage-artifacts')
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions: {}
+    steps:
+      - name: Collect published package versions
+        id: versions
+        env:
+          PUBLISHED_PACKAGES: ${{ needs.release.outputs.published-packages }}
+        run: |
+          PACKAGE_VERSIONS="$(jq -cn --argjson packages "$PUBLISHED_PACKAGES" '$packages | map({name: .name, value: .version}) | from_entries')"
+          echo "packageVersions=$PACKAGE_VERSIONS" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "새 Rootage 버전이 배포되었어요."
+            blocks:
+              - type: "header"
+                text:
+                  type: "plain_text"
+                  text: "새 Rootage 버전이 배포되었어요: v${{ fromJson(steps.versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
+              - type: "section"
+                text:
+                  type: "plain_text"
+                  text: "문서 빌드까지는 시간이 조금 더 걸릴 수 있어요."
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    style: "primary"
+                    text:
+                      type: "plain_text"
+                      text: "Changelog"
+                    url: "https://seed-design.io/react/updates/changelog"

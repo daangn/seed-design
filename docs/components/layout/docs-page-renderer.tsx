@@ -1,3 +1,6 @@
+import type { Section } from "@/app/_llms/types";
+import { JsonLd } from "@/components/json-ld";
+import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { LLMOptions } from "@/components/page-actions";
 import { HiddenTocPopover, SeedTableOfContents } from "@/components/table-of-contents";
 import clsx from "clsx";
@@ -65,6 +68,8 @@ export interface DocsPageRendererProps {
   lastUpdate?: DocsPageProps["lastUpdate"];
   /** TOC 활성화/단일 항목 및 header/footer 설정. */
   tableOfContent?: DocsPageProps["tableOfContent"];
+  /** 이 페이지가 속한 llms 섹션. `markdownUrl`과 짝이 되어 llms.txt 링크 릴레이션을 만든다. */
+  section: Section;
   markdownUrl: string;
   /** 제목/설명 바로 아래(커버 이미지 위)에 렌더할 노드. 예: 컴포넌트 플랫폼 상태 스트립. */
   platformStatus?: ReactNode;
@@ -96,6 +101,11 @@ export interface DocsPageRendererProps {
    * 제외되므로, Updates 글의 소제목·본문 크기/색을 CSS 파일 없이 이 prop으로 스코프한다.
    */
   bodyClassName?: string;
+  /**
+   * schema.org 구조화 데이터. `lib/seo.ts`의 `buildDocsPageJsonLd(page)` 결과를 넘긴다.
+   * Next `metadata` API로는 `ld+json`을 못 내보내서 여기서 script 태그로 렌더한다.
+   */
+  jsonLd?: object;
   /** 렌더된 MDX 본문 (`<MDX components={mdxComponents} />`) */
   children: ReactNode;
 }
@@ -115,6 +125,7 @@ export function DocsPageRenderer({
   toc,
   lastUpdate,
   tableOfContent,
+  section,
   markdownUrl,
   platformStatus,
   showPageActions = true,
@@ -124,11 +135,14 @@ export function DocsPageRenderer({
   articleClassName,
   titleClassName,
   bodyClassName,
+  jsonLd,
   children,
 }: DocsPageRendererProps) {
   if (layout === "overview") {
     return (
       <>
+        {jsonLd ? <JsonLd data={jsonLd} /> : null}
+        <LlmsLinkRels section={section} markdownUrl={markdownUrl} />
         <OverviewLayout title={title} description={description} coverImage={coverImage} full={full}>
           {children}
         </OverviewLayout>
@@ -139,6 +153,8 @@ export function DocsPageRenderer({
 
   return (
     <>
+      {jsonLd ? <JsonLd data={jsonLd} /> : null}
+      <LlmsLinkRels section={section} markdownUrl={markdownUrl} />
       <DocsPage
         // articleClassName은 전달된 라우트(예: Updates)에서만 붙어, 그 라우트 전용 스코프 CSS의
         // 진입점이 된다. 미전달 시 클래스가 붙지 않아 다른 docs 페이지엔 영향이 없다.
