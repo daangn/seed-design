@@ -1,6 +1,8 @@
 # React 컴포넌트 작성 패턴
 
-`packages/react/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 전체 73개 컴포넌트에서 추출한 공통 패턴을 보충한다.
+`packages/react/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 React Web 컴포넌트 공통 패턴을 보충한다.
+
+target platform이 `lynx` 또는 `cross-platform`의 Lynx 구현이면 이 문서를 API/semantic 비교용으로만 사용하고, 실제 구현 패턴은 `references/lynx-patterns.md`와 `packages/lynx-react/AGENTS.md`를 따른다.
 
 ## 필수 규칙 (모든 카테고리)
 
@@ -87,6 +89,15 @@ export interface ComponentItemProps
 - hook props를 component props에 다시 손으로 선언하지 않는다.
 - hook props가 union이면 component props도 union/type alias로 surface를 유지한다.
 - wrapper가 hook props를 재조합해야 할 때는 mode별 branch를 만들어 불가능한 조합이 섞이지 않게 한다.
+
+### Headless primitive wrapper의 props source
+
+styled React 컴포넌트가 headless primitive를 감싸는 경우, subcomponent props는 headless primitive props를 source of truth로 삼는다. `PrimitiveProps + React.HTMLAttributes`를 다시 선언하면 headless가 제공하는 전용 prop, ARIA contract, event signature가 styled wrapper에서 누락될 수 있다.
+
+- `Drawer.Trigger`를 감싸면 `ComponentTriggerProps extends Drawer.TriggerProps`처럼 선언한다.
+- `Drawer.Content`, `Drawer.Title`, `Drawer.CloseButton` 등도 각각 대응하는 `Drawer.*Props`를 따른다.
+- styled layer에서 추가하는 recipe/style prop만 별도로 교차한다. 예: `Drawer.ContentProps & Pick<StyleProps, "width" | "maxWidth">`.
+- 새 wrapper를 만들기 전에 같은 headless를 쓰는 패턴 컴포넌트(BottomSheet 등)의 props 선언을 먼저 확인한다.
 
 ## Form/Field 통합 패턴
 

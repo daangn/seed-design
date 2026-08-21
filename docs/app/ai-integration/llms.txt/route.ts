@@ -1,19 +1,20 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { sortCategories } from "@/app/_llms/utils";
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/source";
 
 export const revalidate = false;
 
 const categoryOrder = ["docs-mcp", "figma-mcp", "cli"];
 
 const categoryDescriptions: Record<string, string> = {
-  "docs-mcp": "SEED Design MCP 서버 연동",
+  "docs-mcp": "SEED MCP 서버 연동",
   "figma-mcp": "Figma MCP 서버 연동",
   cli: "CLI 스킬 및 도구",
 };
 
 export async function GET() {
+  const aiIntegrationSource = await getAiIntegrationSource();
   const pages = aiIntegrationSource.getPages() as LLMPage[];
 
   const categories = new Map<string, LLMPage[]>();
@@ -47,7 +48,7 @@ ${pageList}`;
     })
     .join("\n\n");
 
-  return new Response(`# SEED Design AI Integration - LLM Reference
+  return new Response(`# SEED AI Integration - LLM Reference
 
 AI 도구 연동 가이드 문서입니다.
 
@@ -58,13 +59,5 @@ AI 도구 연동 가이드 문서입니다.
 ## Categories
 
 ${categoryList}
-
-## Usage
-
-개별 페이지는 /llms/ai-integration/{path}.txt 형태로 접근할 수 있습니다.
-
-예시:
-- ${new URL("/llms/ai-integration/docs-mcp.txt", baseUrl)}
-- ${new URL("/llms/ai-integration/figma-mcp.txt", baseUrl)}
 `);
 }

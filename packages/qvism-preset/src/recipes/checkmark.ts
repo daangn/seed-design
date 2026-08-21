@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/checkmark";
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
@@ -35,10 +36,7 @@ const checkmark = defineSlotRecipe({
       content: '""',
       position: "absolute",
       margin: "auto",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
+      inset: 0,
       textAlign: "center",
       overflow: "initial",
     },
@@ -229,6 +227,12 @@ const checkmark = defineSlotRecipe({
     variant: "square",
     tone: "brand",
     size: "medium",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

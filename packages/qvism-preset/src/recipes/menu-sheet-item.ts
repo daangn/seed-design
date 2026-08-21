@@ -7,6 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/menu-sheet-item";
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -18,10 +19,8 @@ const menuSheetItem = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
       minHeight: vars.base.enabled.root.minHeight,
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
       gap: vars.base.enabled.root.gap,
       boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
 
@@ -117,6 +116,9 @@ const menuSheetItem = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     labelAlign: "left",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

@@ -4,7 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { focus, focusVisible, pressed, pseudo } from "../utils/pseudo";
+import { focus, focusVisible, pseudo } from "../utils/pseudo";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -30,10 +30,7 @@ export default defineSlotRecipe({
       "&::before": {
         content: "''",
         position: "absolute",
-        top: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
-        right: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
-        bottom: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
-        left: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
+        inset: `calc((${reactionButtonVars.base.enabled.root.targetSize} - ${reactionButtonVars.base.enabled.root.size}) / 2 * -1)`,
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
       },
@@ -66,9 +63,9 @@ export default defineSlotRecipe({
       color: reactionButtonVars.base.enabled.lineIcon.color,
       pointerEvents: "none",
 
-      [pseudo(pressed)]: {
-        color: reactionButtonVars.base.selected.lineIcon.color,
-      },
+      // reactionButtonVars.base.enabled.fillIcon.shadow but without the unsupported spread value
+      // NOTE: the blur value of filter: drop-shadow() is -2x blurrier than box-shadow's same value so halve the value to match of the original design
+      filter: "drop-shadow(0px 2px 2px #00000026)",
     },
   },
   variants: {},

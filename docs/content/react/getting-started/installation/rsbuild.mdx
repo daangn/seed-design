@@ -1,6 +1,6 @@
 ---
 title: Rsbuild
-description: Rsbuild 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
+description: Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.
 ---
 
 <Steps>
@@ -131,6 +131,24 @@ export default defineConfig({
   ],
 });
 ```
+
+#### 플러그인 옵션
+
+옵션 없이 쓰면 색상 모드가 사용자의 시스템 설정을 따라갑니다. 항상 라이트나 다크로 고정하려면 `colorMode`를 지정하세요.
+
+| 옵션 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `colorMode` | `"system" \| "light-only" \| "dark-only"` | `"system"` | 전역 색상 모드. `system`은 사용자의 OS 설정을 따릅니다 |
+| `injectColorSchemeTag` | `boolean` | `true` | `color-scheme` 메타 태그를 주입할지 여부 |
+| `fontScaling` | `boolean` | `false` | iOS에서 사용자의 시스템 글자 크기 설정에 따라 텍스트를 확대·축소할지 여부 |
+
+```ts title="rsbuild.config.ts"
+seedDesignPlugin({
+  colorMode: "light-only",
+});
+```
+
+색상 모드가 어떻게 동작하는지는 [Theming](/react/getting-started/styling/theming)에서 다룹니다.
 
 </Step>
 

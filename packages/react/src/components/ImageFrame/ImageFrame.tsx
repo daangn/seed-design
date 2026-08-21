@@ -11,13 +11,13 @@ import {
   type ImageFrameIndicatorVariantProps,
 } from "@seed-design/css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
-import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import type { DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { Badge, type BadgeProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
@@ -26,28 +26,21 @@ import { InternalIcon } from "../private/Icon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameProps
-  extends Omit<AspectRatioProps, "children">,
-    ImageFrameVariantProps {
-  /**
-   * @deprecated Deprecated in `@seed-design/react@1.2.x`; will be removed in 1.3.0.
-   * Use borderRadius="r2" instead.
-   * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
-   */
-  rounded?: ImageFrameVariantProps["rounded"];
-  src: string;
-  alt: string;
-  fallback?: React.ReactNode;
-  loading?: "eager" | "lazy";
-  decoding?: "async" | "auto" | "sync";
-  crossOrigin?: "anonymous" | "use-credentials" | "";
-  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-  sizes?: string;
-  srcSet?: string;
-  onLoad?: React.ReactEventHandler<HTMLImageElement>;
-  onError?: React.ReactEventHandler<HTMLImageElement>;
-  children?: React.ReactNode;
-}
+export type ImageFrameProps = DistributiveOmit<AspectRatioProps, "children"> &
+  ImageFrameVariantProps & {
+    src: string;
+    alt: string;
+    fallback?: React.ReactNode;
+    loading?: "eager" | "lazy";
+    decoding?: "async" | "auto" | "sync";
+    crossOrigin?: "anonymous" | "use-credentials" | "";
+    referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+    sizes?: string;
+    srcSet?: string;
+    onLoad?: React.ReactEventHandler<HTMLImageElement>;
+    onError?: React.ReactEventHandler<HTMLImageElement>;
+    children?: React.ReactNode;
+  };
 
 export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   (
@@ -65,6 +58,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
       srcSet,
       onLoad,
       onError,
+      borderRadius = "r2",
       children,
       ...rest
     },
@@ -74,7 +68,14 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const classNames = imageFrameRecipe(variantProps);
 
     return (
-      <AspectRatio ref={ref} ratio={ratio} className={className} {...restProps}>
+      <AspectRatio
+        ref={ref}
+        ratio={ratio}
+        className={className}
+        borderRadius={borderRadius}
+        // splitVariantProps collapses the margin/bleed union; re-assert the shape.
+        {...(restProps as AspectRatioProps)}
+      >
         <Image.Root className={classNames.root}>
           <Image.Content
             className={classNames.content}
@@ -105,19 +106,9 @@ export interface ImageFrameFloaterProps extends FloatProps {}
 
 /**
  * ImageFrame 내에서 오버레이 요소를 배치하기 위한 컴포넌트
- *
- * @remarks
- * offsetX, offsetY 기본값은 rootage 스펙(image-frame-floater)에서 가져옵니다.
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
-  (
-    {
-      offsetX = floaterVars.base.enabled.root.offset,
-      offsetY = floaterVars.base.enabled.root.offset,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => {
     return <Float ref={ref} offsetX={offsetX} offsetY={offsetY} {...rest} />;
   },
 );
@@ -215,6 +206,7 @@ const HeartFillSvg = (props: React.SVGAttributes<SVGSVGElement>) => {
           y2="10.5391"
           gradientUnits="userSpaceOnUse"
         >
+          {/* NOTE: see image-frame-reaction-button.yaml for the colors */}
           <stop stopColor="#FF9A56" />
           <stop offset="1" stopColor="#FF6600" />
         </linearGradient>
@@ -233,6 +225,8 @@ const HeartLineSvg = (props: React.SVGAttributes<SVGSVGElement>) => (
     aria-hidden="true"
     {...props}
   >
+    {/* NOTE: see image-frame-reaction-button.yaml for the color */}
+    <path d={HeartFillPath} fill="#0000004c" />
     <path fillRule="evenodd" clipRule="evenodd" d={HeartOutlineStrokePath} fill="currentColor" />
   </svg>
 );

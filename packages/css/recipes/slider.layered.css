@@ -2,6 +2,7 @@
   .seed-slider__root {
     align-items: stretch;
     gap: var(--seed-dimension-x0_5);
+    -webkit-user-select: none;
     user-select: none;
     touch-action: none;
     flex-direction: column;
@@ -31,6 +32,10 @@
     flex-grow: 1;
     position: relative;
     overflow: hidden;
+  }
+
+  .seed-slider__track:is(:disabled, [disabled], [data-disabled]) {
+    background-color: var(--seed-color-bg-disabled);
   }
 
   .seed-slider__range {
@@ -126,10 +131,8 @@
     transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
     will-change: left, right;
     background: var(--seed-color-bg-neutral-inverted);
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
-    padding-top: var(--seed-dimension-x1);
-    padding-bottom: var(--seed-dimension-x1);
+    padding-inline: var(--seed-dimension-x2);
+    padding-block: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-r1_5);
     color: var(--seed-color-fg-neutral-inverted);
     font-size: var(--seed-font-size-t3);

@@ -1,6 +1,6 @@
 # Phase 0 Pre: 요구사항 Brainstorming
 
-컴포넌트를 만들기 전에 사용자와 **5개 영역**을 합의한다. 합의 없이 Phase 0(아키텍처 분석)으로 넘어가지 않는다.
+컴포넌트를 만들기 전에 Platform Gate를 완료하고, 사용자와 **5개 영역**을 합의한다. 합의 없이 Phase 0(아키텍처 분석)으로 넘어가지 않는다.
 
 이 단계가 빠지면 다음 통증이 누적된다:
 - 구현 후에 "사실 이게 필요한 게 아니었다"는 재작업
@@ -96,15 +96,21 @@
 | **대체** | 기존 컴포넌트의 deprecation 대상 | 마이그레이션 경로, deprecation 일정 |
 
 ### 유사 컴포넌트 매트릭스
-패턴 참조용으로 다음 4개 경로를 함께 합의:
+패턴 참조용으로 target platform에 맞는 경로를 함께 합의:
 
-- Headless ref: `packages/react-headless/<name>` 중 어느 것?
-- Styled ref: `packages/react/src/components/<Name>` 중 어느 것?
-- Snippet ref: `docs/registry/ui/<name>.tsx` 중 어느 것? (or N/A)
+- Headless ref:
+  - React: `packages/react-headless/<name>` 중 어느 것?
+  - Lynx: `packages/lynx-react-headless/<name>` 또는 local hook/context 중 어느 것?
+- Styled ref:
+  - React: `packages/react/src/components/<Name>` 중 어느 것?
+  - Lynx: `packages/lynx-react/src/components/<Name>` 중 어느 것?
+- Snippet ref:
+  - React: `docs/registry/react/ui/<name>.tsx` 중 어느 것? (or N/A)
+  - Lynx: `docs/registry/lynx/ui/<name>.tsx` 중 어느 것? (or N/A)
 - Rootage ref: `packages/rootage/components/<name>.yaml` 중 어느 것?
 
 ### 합의 확인
-"_[유형]_으로 가고, 패턴 참조는 Headless=_[X]_, Styled=_[Y]_, Snippet=_[Z]_, Rootage=_[W]_야, 맞지?"
+"_[유형]_으로 가고, Platform=_[react/lynx/cross-platform]_, 패턴 참조는 Headless=_[X]_, Styled=_[Y]_, Snippet=_[Z]_, Rootage=_[W]_야, 맞지?"
 
 ---
 
@@ -208,6 +214,13 @@ Phase 0 Pre가 끝나면 다음 템플릿을 채워 메모(또는 PR description
 
 ```markdown
 ## 컴포넌트: <Name>
+
+### Platform
+- Target: react / lynx / cross-platform
+- 이유: <요청/경로/import/docs 근거>
+- Lynx support delta: <웹 대비 차이 또는 N/A>
+- Headless ownership: React headless / Lynx headless / styled-local / 없음
+- Docs/registry target: <docs/content/... + docs/registry/... 경로>
 
 ### Purpose
 - 1차 사용자/사용 사례: <한 문장>

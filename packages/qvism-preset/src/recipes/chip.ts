@@ -4,6 +4,7 @@ import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
 import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/chip";
 
 const chip = defineSlotRecipe({
   name: "chip",
@@ -42,8 +43,7 @@ const chip = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       fontWeight: vars.base.enabled.label.fontWeight,
-      paddingLeft: vars.base.enabled.label.paddingX,
-      paddingRight: vars.base.enabled.label.paddingX,
+      paddingInline: vars.base.enabled.label.paddingX,
     },
     prefixIcon: {
       display: "inline-flex",
@@ -182,8 +182,7 @@ const chip = defineSlotRecipe({
       large: {
         root: {
           height: vars.sizeLarge.enabled.root.height,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
 
           ...onlyIcon({
             size: vars.sizeLarge.enabled.icon.size,
@@ -207,8 +206,7 @@ const chip = defineSlotRecipe({
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.height,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          paddingInline: vars.sizeMedium.enabled.root.paddingX,
 
           ...onlyIcon({
             size: vars.sizeMedium.enabled.icon.size,
@@ -232,8 +230,7 @@ const chip = defineSlotRecipe({
       small: {
         root: {
           height: vars.sizeSmall.enabled.root.height,
-          paddingLeft: vars.sizeSmall.enabled.root.paddingX,
-          paddingRight: vars.sizeSmall.enabled.root.paddingX,
+          paddingInline: vars.sizeSmall.enabled.root.paddingX,
 
           ...onlyIcon({
             size: vars.sizeSmall.enabled.icon.size,
@@ -320,6 +317,11 @@ const chip = defineSlotRecipe({
     variant: "solid",
     size: "medium",
     layout: "withText",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+    },
   },
 });
 

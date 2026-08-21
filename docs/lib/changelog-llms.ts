@@ -1,10 +1,28 @@
 import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
-import { loadChangelogSources, parseChangelogSources } from "./parse-changelog";
+import {
+  loadChangelogSources,
+  parseChangelogSources,
+  splitVersionSections,
+} from "./parse-changelog";
 
 export type { EntryLookup };
 
 const SCOPE = "@seed-design/";
+
+export interface ChangelogLlmPackageData {
+  packageName: string;
+  versions: string[];
+  versionIndex: ReadonlyMap<string, number>;
+  renderedBlocks: string[];
+}
+
+export interface ChangelogLlmData {
+  sources: ChangelogSource[];
+  entries: ChangelogEntry[];
+  lookup: EntryLookup;
+  packages: ReadonlyMap<string, ChangelogLlmPackageData>;
+}
 
 export function toSlug(packageName: string): string {
   return packageName.replace(SCOPE, "");
@@ -18,13 +36,11 @@ export function toVersionSlug(version: string): string {
   return encodeURIComponent(version);
 }
 
-let sourcesCache: Awaited<ReturnType<typeof loadChangelogSources>> | null = null;
+let sourcesPromise: Promise<ChangelogSource[]> | null = null;
 
 export async function getSources(): Promise<ChangelogSource[]> {
-  if (!sourcesCache) {
-    sourcesCache = await loadChangelogSources(process.cwd());
-  }
-  return sourcesCache;
+  sourcesPromise ??= loadChangelogSources(process.cwd());
+  return sourcesPromise;
 }
 
 export async function buildLookupFromSources(sources: ChangelogSource[]): Promise<{
@@ -35,6 +51,43 @@ export async function buildLookupFromSources(sources: ChangelogSource[]): Promis
   const lookup = buildEntryLookup(entries);
   return { entries, lookup };
 }
+
+export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise<ChangelogLlmData> {
+  const { entries, lookup } = await buildLookupFromSources(sources);
+  const packages = new Map<string, ChangelogLlmPackageData>();
+
+  for (const source of sources) {
+    const versions = splitVersionSections(source.raw).map(({ version }) => version);
+    const versionGroups = groupEntriesByVersion(entries, source.packageName);
+    const renderedBlocks = versions.map((version) => {
+      const group = versionGroups.get(version);
+      if (!group) return `## ${version}\n\n(no entries)`;
+      return renderVersionMarkdown(version, group, lookup);
+    });
+
+    packages.set(source.packageName, {
+      packageName: source.packageName,
+      versions,
+      versionIndex: new Map(versions.map((version, index) => [version, index])),
+      renderedBlocks,
+    });
+  }
+
+  return { sources, entries, lookup, packages };
+}
+
+export function createChangelogLlmDataLoader(
+  loadSources: () => Promise<ChangelogSource[]> = getSources,
+): () => Promise<ChangelogLlmData> {
+  let dataPromise: Promise<ChangelogLlmData> | null = null;
+
+  return () => {
+    dataPromise ??= loadSources().then(buildChangelogLlmData);
+    return dataPromise;
+  };
+}
+
+export const getChangelogLlmData = createChangelogLlmDataLoader();
 
 function entryPlainText(entry: ChangelogEntry): string {
   return entry.contentBlocks
@@ -55,7 +108,6 @@ function formatListItem(text: string, indent = ""): string {
 }
 
 export function renderVersionMarkdown(
-  packageName: string,
   version: string,
   entries: ChangelogEntry[],
   lookup: EntryLookup,

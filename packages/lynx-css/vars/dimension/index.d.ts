@@ -1,0 +1,22 @@
+export declare const x0_5 = "var(--seed-dimension-x0_5)";
+export declare const x1 = "var(--seed-dimension-x1)";
+export declare const x1_5 = "var(--seed-dimension-x1_5)";
+export declare const x2 = "var(--seed-dimension-x2)";
+export declare const x2_5 = "var(--seed-dimension-x2_5)";
+export declare const x3 = "var(--seed-dimension-x3)";
+export declare const x3_5 = "var(--seed-dimension-x3_5)";
+export declare const x4 = "var(--seed-dimension-x4)";
+export declare const x4_5 = "var(--seed-dimension-x4_5)";
+export declare const x5 = "var(--seed-dimension-x5)";
+export declare const x6 = "var(--seed-dimension-x6)";
+export declare const x7 = "var(--seed-dimension-x7)";
+export declare const x8 = "var(--seed-dimension-x8)";
+export declare const x9 = "var(--seed-dimension-x9)";
+export declare const x10 = "var(--seed-dimension-x10)";
+export declare const x12 = "var(--seed-dimension-x12)";
+export declare const x13 = "var(--seed-dimension-x13)";
+export declare const x14 = "var(--seed-dimension-x14)";
+export declare const x16 = "var(--seed-dimension-x16)";
+
+export * as spacingX from "./spacing-x";
+export * as spacingY from "./spacing-y";

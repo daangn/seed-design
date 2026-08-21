@@ -7,6 +7,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/floating-action-button";
 
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -75,8 +76,7 @@ const floatingActionButton = defineSlotRecipe({
     extended: {
       true: {
         root: {
-          paddingLeft: vars.extendedTrue.enabled.root.paddingX,
-          paddingRight: vars.extendedTrue.enabled.root.paddingX,
+          paddingInline: vars.extendedTrue.enabled.root.paddingX,
           height: vars.extendedTrue.enabled.root.minHeight,
 
           // trick for width transition
@@ -116,6 +116,9 @@ const floatingActionButton = defineSlotRecipe({
   },
   defaultVariants: {
     extended: true,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

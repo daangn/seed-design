@@ -1,4 +1,5 @@
-import { getRootage, stringifyValueLit } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
+import { getDefaultModes, stringifyValueLit } from "@/components/rootage";
 import { TokenValue } from "@/components/token-cell";
 import {
   scaleColorMappings,
@@ -24,6 +25,7 @@ export interface TokenMappingItem {
 
 export async function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) {
   const rootage = await getRootage();
+  const defaultModes = getDefaultModes(rootage);
   const mappings = {
     semantic: semanticColorMappings,
     scale: scaleColorMappings,
@@ -34,7 +36,7 @@ export async function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) 
     previousTokenId: mapping.previous,
     newTokens: mapping.next.map((newId) => {
       const { path, value } = resolveToken(rootage, newId as `$${string}`, {
-        global: "default",
+        ...defaultModes,
         color: "theme-light",
       });
 

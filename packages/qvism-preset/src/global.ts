@@ -112,33 +112,54 @@ export const globalCss = defineGlobalCss({
     borderLeftWidth: "var(--seed-box-border-left-width)",
     borderRightWidth: "var(--seed-box-border-right-width)",
 
-    "--seed-box-padding": "0",
-    "--seed-box-padding-y": "var(--seed-box-padding)",
-    "--seed-box-padding-x": "var(--seed-box-padding)",
-    "--seed-box-padding-bottom": "var(--seed-box-padding-y)",
-    "--seed-box-padding-top": "var(--seed-box-padding-y)",
-    "--seed-box-padding-left": "var(--seed-box-padding-x)",
-    "--seed-box-padding-right": "var(--seed-box-padding-x)",
+    "--seed-box-padding--responsive": "0",
+    "--seed-box-padding-y--responsive": "var(--seed-box-padding)",
+    "--seed-box-padding-x--responsive": "var(--seed-box-padding)",
+    "--seed-box-padding-bottom--responsive": "var(--seed-box-padding-y)",
+    "--seed-box-padding-top--responsive": "var(--seed-box-padding-y)",
+    "--seed-box-padding-left--responsive": "var(--seed-box-padding-x)",
+    "--seed-box-padding-right--responsive": "var(--seed-box-padding-x)",
     paddingTop: "var(--seed-box-padding-top)",
     paddingBottom: "var(--seed-box-padding-bottom)",
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "0px",
-    "--seed-box-bleed-top": "0px",
-    "--seed-box-bleed-left": "0px",
-    "--seed-box-bleed-right": "0px",
-    marginTop: "calc(var(--seed-box-bleed-top) * -1)",
-    marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
-    marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
-    marginRight: "calc(var(--seed-box-bleed-right) * -1)",
+    "--seed-box-bleed-bottom--responsive": "0px",
+    "--seed-box-bleed-top--responsive": "0px",
+    "--seed-box-bleed-left--responsive": "0px",
+    "--seed-box-bleed-right--responsive": "0px",
 
-    "--seed-box-min-height": "initial",
-    "--seed-box-max-height": "initial",
-    "--seed-box-height": "initial",
-    "--seed-box-min-width": "initial",
-    "--seed-box-max-width": "initial",
-    "--seed-box-width": "initial",
+    // margin stays guaranteed-invalid when unset (so the `var(--margin, calc(bleed * -1))`
+    // fallback below resolves to bleed), but every cross-property reference carries a
+    // `, initial` fallback. On WebKit before the guaranteed-invalid fix (Safari <16.4 /
+    // iOS 15–16.3, webkit.org/b/241433) that turns "unset" into an explicit
+    // non-inheriting value instead of an IACVT that inherits an ancestor's margin.
+    // Bleed is preserved by the runtime emitting it as a real negative margin (see
+    // styled.tsx), which the consumer fallback here can't do under old WebKit.
+    "--seed-box-margin--responsive": "initial",
+    "--seed-box-margin-y--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-x--responsive": "var(--seed-box-margin, initial)",
+    "--seed-box-margin-top--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-bottom--responsive": "var(--seed-box-margin-y, initial)",
+    "--seed-box-margin-left--responsive": "var(--seed-box-margin-x, initial)",
+    "--seed-box-margin-right--responsive": "var(--seed-box-margin-x, initial)",
+
+    marginTop: "var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1))",
+    marginBottom: "var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1))",
+    marginLeft: "var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1))",
+    marginRight: "var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1))",
+
+    // Real initial-value keywords, not `initial`. WebKit before the
+    // guaranteed-invalid fix (Safari <16.4, incl. iOS 16.0.x) treats a custom
+    // property resolving to a guaranteed-invalid var() as `unset`, so it
+    // inherits the ancestor value instead of resetting. See
+    // https://webkit.org/b/241433.
+    "--seed-box-min-height--responsive": "auto",
+    "--seed-box-max-height--responsive": "none",
+    "--seed-box-height--responsive": "auto",
+    "--seed-box-min-width--responsive": "auto",
+    "--seed-box-max-width--responsive": "none",
+    "--seed-box-width--responsive": "auto",
     minHeight: "var(--seed-box-min-height)",
     maxHeight: "var(--seed-box-max-height)",
     height: "var(--seed-box-height)",
@@ -168,7 +189,7 @@ export const globalCss = defineGlobalCss({
     "--seed-box-box-shadow": "initial",
     boxShadow: "var(--seed-box-box-shadow)",
 
-    "--seed-box-display": "block",
+    "--seed-box-display--responsive": "block",
     "--seed-box-position": "initial",
     display: "var(--seed-box-display)",
     position: "var(--seed-box-position)",
@@ -190,14 +211,16 @@ export const globalCss = defineGlobalCss({
     flexGrow: "var(--seed-box-flex-grow)",
     flexShrink: "var(--seed-box-flex-shrink)",
 
-    "--seed-box-flex-direction": "initial",
+    "--seed-box-flex-direction--responsive": "row",
     "--seed-box-flex-wrap": "initial",
     "--seed-box-justify-content": "initial",
     "--seed-box-justify-self": "auto",
     "--seed-box-align-items": "stretch",
     "--seed-box-align-content": "stretch",
     "--seed-box-align-self": "auto",
-    "--seed-box-gap": "initial",
+    // 0px, not `normal`/`initial`: ResponsivePair divides var(--seed-box-gap, 0px)
+    // inside a calc(), which needs a length. See the WebKit note above.
+    "--seed-box-gap--responsive": "0px",
     flexDirection: "var(--seed-box-flex-direction)",
     flexWrap: "var(--seed-box-flex-wrap)",
     justifyContent: "var(--seed-box-justify-content)",
@@ -221,11 +244,9 @@ export const globalCss = defineGlobalCss({
     },
   },
   ".seed-grid": {
-    display: "grid",
-
-    "--seed-grid-columns": "initial",
+    "--seed-grid-columns--responsive": "none",
     gridTemplateColumns: "var(--seed-grid-columns)",
-    "--seed-grid-rows": "initial",
+    "--seed-grid-rows--responsive": "none",
     gridTemplateRows: "var(--seed-grid-rows)",
     "--seed-grid-auto-flow": "initial",
     gridAutoFlow: "var(--seed-grid-auto-flow)",

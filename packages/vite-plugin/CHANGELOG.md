@@ -1,5 +1,40 @@
 # @seed-design/vite-plugin
 
+## 2.1.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [4ad24cc]
+- Updated dependencies [555525a]
+- Updated dependencies [7a6847e]
+- Updated dependencies [029d052]
+- Updated dependencies [54a2ff8]
+- Updated dependencies [d1a8d7c]
+- Updated dependencies [69e3b97]
+- Updated dependencies [57e4f1a]
+- Updated dependencies [2abd3ed]
+- Updated dependencies [270b277]
+- Updated dependencies [9369ff9]
+- Updated dependencies [4839a64]
+- Updated dependencies [60d1a82]
+- Updated dependencies [ec33023]
+- Updated dependencies [98b52a7]
+- Updated dependencies [f982d61]
+- Updated dependencies [7f1dbe3]
+- Updated dependencies [c0fd999]
+- Updated dependencies [31bf164]
+  - @seed-design/css@2.0.0
+
 ## 1.1.1
 
 ### Patch Changes

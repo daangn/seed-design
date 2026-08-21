@@ -29,8 +29,8 @@
 | 토큰 누락 | 필요한 토큰이 rootage에 없음, 새 토큰 추가 필요 |
 | ARIA 패턴 충돌 | APG 패턴이 모호하거나 SEED 기존 패턴(`useControllableState`, namespace 등)과 충돌 |
 | 외부 레퍼런스 갈림 | Base UI / Radix / Chakra / shadcn 사이에서 인터페이스가 다르고 1순위 룰로도 정해지지 않음 |
-| 자동 검증 실패 | `bun generate:all` / `bun test:all` / `bun packages:build` / `bun docs:test` 중 어느 하나라도 실패 |
-| Visual 회귀 | Storybook 또는 stackflow-spa에서 기존 컴포넌트에 시각적 영향 발견 |
+| 자동 검증 실패 | `bun generate:all` / `bun test:all` / `bun packages:build` / `bun docs:test` / platform-specific build 중 어느 하나라도 실패 |
+| Visual 회귀 | Storybook, stackflow-spa, lynx-spa에서 기존 컴포넌트에 시각적 영향 발견 |
 
 ## 통증 메모 템플릿
 

@@ -32,10 +32,8 @@ const listItem = defineSlotRecipe({
       width: "100%",
       isolation: "isolate",
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
@@ -45,7 +43,7 @@ const listItem = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
 
-      "--seed-box-padding-right": vars.base.enabled.prefix.paddingRight,
+      "--seed-box-padding-right--responsive": vars.base.enabled.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
@@ -68,7 +66,7 @@ const listItem = defineSlotRecipe({
 
       "--seed-box-position": "initial",
       position: "var(--seed-box-position)",
-      "--seed-box-gap": vars.base.enabled.suffix.gap,
+      "--seed-box-gap--responsive": vars.base.enabled.suffix.gap,
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
@@ -101,9 +99,9 @@ const listItem = defineSlotRecipe({
       backgroundColor: "transparent",
       border: "none",
       fontFamily: "inherit",
-      "--seed-box-gap": vars.base.enabled.body.gap,
+      "--seed-box-gap--responsive": vars.base.enabled.body.gap,
       gap: "var(--seed-box-gap)",
-      "--seed-box-padding-right": vars.base.enabled.body.paddingRight,
+      "--seed-box-padding-right--responsive": vars.base.enabled.body.paddingRight,
       padding: "0 var(--seed-box-padding-right) 0 0",
 
       textDecoration: "none",
@@ -112,10 +110,7 @@ const listItem = defineSlotRecipe({
       "&::after": {
         content: "''",
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         ...createFocusRingRestStyles({ position: "inside" }),
         transition: FOCUS_RING_TRANSITION,
       },
@@ -132,13 +127,10 @@ const listItem = defineSlotRecipe({
       [pseudo("::before")]: {
         content: "''",
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         zIndex: -1,
 
-        transitionProperty: "background-color, left, right, border-radius",
+        transitionProperty: "background-color, inset-inline, border-radius",
         transitionDuration: vars.base.enabled.root.colorDuration,
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
@@ -147,8 +139,7 @@ const listItem = defineSlotRecipe({
       [pseudo(":is(button, a)", not(disabled), engaged, "::before")]: {
         backgroundColor: vars.base.pressed.root.color,
 
-        left: vars.base.pressed.root.marginX,
-        right: vars.base.pressed.root.marginX,
+        insetInline: vars.base.pressed.root.marginX,
 
         borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
       },
@@ -160,8 +151,7 @@ const listItem = defineSlotRecipe({
         [pseudo(not(disabled), "[data-hover]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
-          left: vars.base.pressed.root.marginX,
-          right: vars.base.pressed.root.marginX,
+          insetInline: vars.base.pressed.root.marginX,
 
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },
@@ -170,8 +160,7 @@ const listItem = defineSlotRecipe({
         [pseudo(not(disabled), "[data-active]", "::before")]: {
           backgroundColor: vars.base.pressed.root.color,
 
-          left: vars.base.pressed.root.marginX,
-          right: vars.base.pressed.root.marginX,
+          insetInline: vars.base.pressed.root.marginX,
 
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },

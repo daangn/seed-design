@@ -1,14 +1,24 @@
 import { Api as Figma } from "figma-api";
-import * as FigmaRestAPI from "@figma/rest-api-spec";
 import { FlatCache } from "flat-cache";
 import path from "node:path";
 import { env } from "@/app/env";
+import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
+
+export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 const LOG_PREFIX = "\n[remark-figma-image]";
-const MAX_RETRIES = 7;
+const DEFAULT_MAX_RETRIES = 100;
 const MAX_CONCURRENCY = 1;
 const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const CACHE_ID = "urls";
+
+// Figma answers 429 with `Retry-After` in seconds, so that header decides how long to wait. The
+// fallback covers the retryable errors that carry no header.
+const FALLBACK_RETRY_DELAY_MS = 1000;
+const MAX_RETRY_DELAY_MS = 60_000;
+const MAX_TOTAL_RETRY_MS = 8 * 60 * 1000;
+
+const RETRY_JITTER_MS = 1000;
 
 // Simple semaphore to limit concurrent Figma API requests
 let activeRequests = 0;
@@ -42,9 +52,11 @@ const imageUrlCache = new FlatCache({
   ttl: CACHE_TTL_MS,
 });
 
-// Figma API
+// 캐시 우회 대상도 한 프로세스에서는 한 번만 새로 받는다. 빌드 전 manifest 생성기는
+// 모든 ID를 한 프로세스에서 처리하므로 동일한 MDX가 다시 컴파일돼도 API를 재호출하지 않는다.
+const refreshedCacheKeys = new Set<string>();
 
-export type FetchFigmaImageUrlsOptions = Omit<FigmaRestAPI.GetImagesQueryParams, "ids" | "version">;
+// Figma API
 
 export function createFigmaClient(accessToken: string): Figma {
   if (!accessToken) throw new Error("FIGMA_PERSONAL_ACCESS_TOKEN is required");
@@ -57,11 +69,13 @@ export async function fetchFigmaImageUrls({
   fileKey,
   nodeIds,
   options = {},
+  maxRetries = DEFAULT_MAX_RETRIES,
 }: {
   client: Figma;
   fileKey: string;
   nodeIds: string[];
   options?: FetchFigmaImageUrlsOptions;
+  maxRetries?: number;
 }): Promise<Map<string, string>> {
   if (nodeIds.length === 0) return new Map();
 
@@ -73,9 +87,9 @@ export async function fetchFigmaImageUrls({
   imageUrlCache.load(CACHE_ID, cacheDir);
 
   for (const nodeId of nodeIds) {
-    const cached = env.figmaCacheDisabled
+    const cached = shouldBypassCache(nodeId, options)
       ? undefined
-      : imageUrlCache.get<string>(getCacheKey(nodeId, options));
+      : imageUrlCache.get<string>(getFigmaImageCacheKey(nodeId, options));
 
     if (cached) {
       result.set(nodeId, cached);
@@ -92,21 +106,15 @@ export async function fetchFigmaImageUrls({
     return result;
   }
 
-  console.log(
-    `${LOG_PREFIX} Fetching ${uncachedIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
-  );
-
   await acquireSemaphore();
-
-  let lastError: Error | null = null;
 
   try {
     // Recheck cache after acquiring semaphore — earlier calls may have populated it while we waited
     imageUrlCache.load(CACHE_ID, cacheDir);
     const pendingIds = uncachedIds.filter((nodeId) => {
-      const cached = env.figmaCacheDisabled
+      const cached = shouldBypassCache(nodeId, options)
         ? undefined
-        : imageUrlCache.get<string>(getCacheKey(nodeId, options));
+        : imageUrlCache.get<string>(getFigmaImageCacheKey(nodeId, options));
 
       if (cached) {
         result.set(nodeId, cached);
@@ -118,7 +126,13 @@ export async function fetchFigmaImageUrls({
 
     if (pendingIds.length === 0) return result;
 
-    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    console.log(
+      `${LOG_PREFIX} Fetching ${pendingIds.length} image(s) from Figma API... (options: ${JSON.stringify(options)})`,
+    );
+
+    const retryDeadline = Date.now() + MAX_TOTAL_RETRY_MS;
+
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
         const response = await client.getImages(
           { file_key: fileKey },
@@ -133,28 +147,33 @@ export async function fetchFigmaImageUrls({
           if (!url) continue;
 
           result.set(nodeId, url);
-          imageUrlCache.set(getCacheKey(nodeId, options), url);
+          const cacheKey = getFigmaImageCacheKey(nodeId, options);
+          imageUrlCache.set(cacheKey, url);
+          if (isCacheBypassRequested(nodeId)) refreshedCacheKeys.add(cacheKey);
         }
 
         imageUrlCache.save();
 
         return result;
       } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
+        const waitTime = getRetryDelayMs(error);
 
-        if (!isRetryableError(error)) throw error;
-
-        const waitTime = 2 ** attempt * 3000; // 3s, 6s, 12s
+        if (
+          waitTime === null ||
+          attempt === maxRetries - 1 ||
+          Date.now() + waitTime > retryDeadline
+        )
+          throw error;
 
         console.log(
-          `${LOG_PREFIX} ${lastError.message}, waiting ${waitTime}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`,
+          `${LOG_PREFIX} ${error instanceof Error ? error.message : String(error)}, waiting ${waitTime}ms (attempt ${attempt + 1}/${maxRetries})...`,
         );
 
         await delay(waitTime);
       }
     }
 
-    throw lastError ?? new Error("Failed to fetch Figma images after retries");
+    throw new Error("Failed to fetch Figma images after retries");
   } finally {
     releaseSemaphore();
   }
@@ -162,13 +181,50 @@ export async function fetchFigmaImageUrls({
 
 // Helpers
 
-function getCacheKey(nodeId: string, options: FetchFigmaImageUrlsOptions): string {
-  const optionsKey = JSON.stringify(options, Object.keys(options).sort());
-  return `${nodeId}:${optionsKey}`;
+/**
+ * figma-api hangs the underlying axios error off `ApiError.error` and exports neither type, so the
+ * single field read here is declared locally.
+ */
+interface FigmaApiError {
+  error?: { response?: { headers?: Record<string, string | undefined> } };
+}
+
+function isCacheBypassRequested(nodeId: string): boolean {
+  return env.figmaCacheDisabled || env.figmaBypassCacheNodeIds.includes(nodeId);
+}
+
+function shouldBypassCache(nodeId: string, options: FetchFigmaImageUrlsOptions): boolean {
+  return (
+    isCacheBypassRequested(nodeId) &&
+    !refreshedCacheKeys.has(getFigmaImageCacheKey(nodeId, options))
+  );
 }
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * How long to wait before retrying, or `null` when the request should not be retried at all.
+ */
+export function getRetryDelayMs(error: unknown): number | null {
+  if (!isRetryableError(error)) return null;
+
+  const retryAfterMs = getRetryAfterMs(error) ?? FALLBACK_RETRY_DELAY_MS;
+
+  // Figma has been observed handing out multi-day Retry-After values when it misclassifies a token's
+  // seat type. Waiting one out would outlast the build itself, so surface the 429 instead.
+  if (retryAfterMs > MAX_RETRY_DELAY_MS) return null;
+
+  return retryAfterMs + Math.floor(Math.random() * RETRY_JITTER_MS);
+}
+
+function getRetryAfterMs(error: unknown): number | null {
+  const seconds = Number((error as FigmaApiError).error?.response?.headers?.["retry-after"]);
+
+  if (!Number.isFinite(seconds) || seconds < 0) return null;
+
+  return seconds * 1000;
 }
 
 function isRetryableError(error: unknown): boolean {

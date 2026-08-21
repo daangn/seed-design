@@ -1,0 +1,25 @@
+{
+  "id": "quantity-picker",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "progress-circle"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "quantity-picker.tsx",
+      "content": "/**\n * @file ui:quantity-picker\n * @requires @seed-design/react@^2.1.0\n * @requires @seed-design/css@^2.3.0\n **/\n\n\"use client\";\n\nimport { IconMinusLine, IconPlusLine, IconTrashcanLine } from \"@karrotmarket/react-monochrome-icon\";\nimport { QuantityPicker as SeedQuantityPicker } from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface QuantityPickerProps\n  extends Omit<SeedQuantityPicker.RootProps, \"children\" | \"removeAriaLabel\"> {\n  /**\n   * Remove 버튼의 접근성 이름입니다.\n   * @default \"상품 삭제\"\n   */\n  removeAriaLabel?: SeedQuantityPicker.RootProps[\"removeAriaLabel\"];\n\n  /**\n   * Decrement 버튼의 접근성 이름입니다.\n   * @default \"수량 줄이기\"\n   */\n  decrementAriaLabel?: string;\n  /**\n   * Increment 버튼의 접근성 이름입니다.\n   * @default \"수량 늘리기\"\n   */\n  incrementAriaLabel?: string;\n\n  /**\n   * Decrement 버튼에 표시할 아이콘입니다.\n   * @default <IconMinusLine />\n   */\n  decrementIcon?: React.ReactNode;\n  /**\n   * Increment 버튼에 표시할 아이콘입니다.\n   * @default <IconPlusLine />\n   */\n  incrementIcon?: React.ReactNode;\n  /**\n   * Remove 버튼에 표시할 아이콘입니다.\n   * @default <IconTrashcanLine />\n   */\n  removeIcon?: React.ReactNode;\n  /**\n   * loading 상태일 때 버튼에 표시할 요소입니다.\n   * @default <ProgressCircle size=\"inherit\" tone=\"inherit\" />\n   */\n  loadingIndicator?: React.ReactNode;\n\n  /** 현재 수량을 form으로 제출할 때 hidden input에 전달할 속성입니다. */\n  inputProps?: SeedQuantityPicker.HiddenInputProps;\n}\n\n/**\n * @see https://seed-design.io/react/components/quantity-picker\n */\nexport const QuantityPicker = React.forwardRef<\n  React.ElementRef<typeof SeedQuantityPicker.Root>,\n  QuantityPickerProps\n>(\n  (\n    {\n      decrementAriaLabel = \"수량 줄이기\",\n      incrementAriaLabel = \"수량 늘리기\",\n      removeAriaLabel = \"상품 삭제\",\n      decrementIcon = <IconMinusLine />,\n      incrementIcon = <IconPlusLine />,\n      removeIcon = <IconTrashcanLine />,\n      loadingIndicator = <ProgressCircle size=\"inherit\" tone=\"inherit\" />,\n      inputProps,\n      ...rootProps\n    },\n    ref,\n  ) => {\n    return (\n      <SeedQuantityPicker.Root ref={ref} removeAriaLabel={removeAriaLabel} {...rootProps}>\n        <SeedQuantityPicker.DecrementButton\n          aria-label={decrementAriaLabel}\n          icon={decrementIcon}\n          loadingIndicator={loadingIndicator}\n          removeIcon={removeIcon}\n        />\n        <SeedQuantityPicker.ValueDisplay />\n        <SeedQuantityPicker.IncrementButton\n          aria-label={incrementAriaLabel}\n          icon={incrementIcon}\n          loadingIndicator={loadingIndicator}\n        />\n        <SeedQuantityPicker.HiddenInput {...inputProps} />\n      </SeedQuantityPicker.Root>\n    );\n  },\n);\nQuantityPicker.displayName = \"QuantityPicker\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^2.1.0",
+        "@seed-design/css": "^2.3.0"
+      }
+    }
+  ]
+}

@@ -14,10 +14,6 @@ data:
             type: dimension
           color:
             type: color
-          strokeColor:
-            type: color
-          strokeWidth:
-            type: dimension
           gradient:
             type: gradient
           bleedBottom:
@@ -33,7 +29,8 @@ data:
         description: title과 subtitle을 포함하는 영역입니다.
       right:
         properties: {}
-        description: 오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text
+        description:
+          오른쪽 영역입니다. 일반적으로 Top Navigation Icon Button 또는 Top Navigation Text
           Button이 위치합니다.
       title:
         properties:
@@ -80,7 +77,8 @@ data:
         description: tone=transparent일 때만 동작합니다.
         values:
           "false":
-            description: false로 사용하는 것을 권장하지 않습니다. gradient 없이 사용하면 Top Navigation의 콘텐츠 가독성을
+            description:
+              false로 사용하는 것을 권장하지 않습니다. gradient 없이 사용하면 Top Navigation의 콘텐츠 가독성을
               직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를
               사용하세요.
   definitions:
@@ -127,12 +125,6 @@ data:
               - color: "#00000000"
                 position: 1
           bleedBottom: $dimension.x5
-    divider=true:
-      enabled:
-        root:
-          strokeColor: $color.stroke.neutral-subtle
-          strokeWidth: 1px
-    divider=false: {}
     titleLayout=titleOnly:
       enabled:
         title:

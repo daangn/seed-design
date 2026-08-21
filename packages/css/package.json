@@ -1,11 +1,12 @@
 {
   "name": "@seed-design/css",
-  "version": "1.2.12",
+  "version": "2.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/css"
   },
+  "license": "Apache-2.0",
   "scripts": {
     "generate": "bun rootage:generate && bun qvism:generate",
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
@@ -57,6 +58,10 @@
       "import": "./theming/index.mjs",
       "require": "./theming/index.cjs"
     },
+    "./breakpoints": {
+      "types": "./breakpoints/index.d.ts",
+      "import": "./breakpoints/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -64,8 +69,11 @@
     "recipes",
     "vars",
     "theming",
+    "breakpoints",
     "utils",
-    "*.css"
+    "*.css",
+    "LICENSE",
+    "NOTICE"
   ],
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",

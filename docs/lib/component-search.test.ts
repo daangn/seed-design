@@ -1,0 +1,95 @@
+import { describe, expect, it } from "bun:test";
+import { type ComponentSearchEntry, matchComponents } from "./component-search";
+
+function entry(title: string, overrides: Partial<ComponentSearchEntry> = {}): ComponentSearchEntry {
+  const slug = title.toLowerCase().replace(/\s+/g, "-");
+  return {
+    slug,
+    title,
+    url: `/components/${slug}`,
+    thumbnail: `/og/components/${slug}.webp`,
+    ...overrides,
+  };
+}
+
+const ENTRIES = [
+  entry("Action Button", {
+    description: "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+    keywords: ["액션 버튼"],
+  }),
+  entry("Bottom Sheet", { keywords: ["바텀 시트"] }),
+  entry("Callout", { description: "사용자에게 중요한 안내를 전달하는 컴포넌트입니다." }),
+  entry("Floating Action Button", { keywords: ["플로팅 액션 버튼"] }),
+  entry("Input Button", { keywords: ["인풋 버튼"] }),
+  entry("List", { slug: "list", url: "/components/list", keywords: ["리스트"] }),
+  entry("Menu Sheet", { keywords: ["메뉴 시트"] }),
+  entry("Menu", { keywords: ["메뉴"] }),
+];
+
+const titles = (search: string) => matchComponents(ENTRIES, search).map(({ title }) => title);
+
+describe("matchComponents", () => {
+  it("returns nothing for a blank query", () => {
+    expect(matchComponents(ENTRIES, "   ")).toEqual([]);
+  });
+
+  it("puts an exact name first, however the separators were typed", () => {
+    expect(titles("Action Button")[0]).toBe("Action Button");
+    expect(titles("action-button")[0]).toBe("Action Button");
+  });
+
+  it("ranks a component the query names ahead of one that only ends in it", () => {
+    // "action" opens Action Button but merely qualifies Floating Action Button.
+    expect(titles("action")).toEqual(["Action Button", "Floating Action Button"]);
+  });
+
+  it("gathers every component named after the same word", () => {
+    expect(titles("button")).toEqual(["Input Button", "Action Button", "Floating Action Button"]);
+  });
+
+  it("matches a name typed as one word", () => {
+    expect(titles("bottomsheet")).toEqual(["Bottom Sheet"]);
+  });
+
+  it("matches terms in any order", () => {
+    expect(titles("button floating")).toEqual(["Floating Action Button"]);
+  });
+
+  it("matches a keyword the page's own words never spell out", () => {
+    // The whole of Menu's keyword, and the opening word of Menu Sheet's.
+    expect(titles("메뉴")).toEqual(["Menu", "Menu Sheet"]);
+  });
+
+  it("matches a keyword typed without its space", () => {
+    expect(titles("메뉴시트")).toEqual(["Menu Sheet"]);
+  });
+
+  it("matches a query naming a later word of a keyword", () => {
+    expect(titles("시트")).toEqual(["Menu Sheet", "Bottom Sheet"]);
+  });
+
+  it("ignores a query buried inside a word of a keyword", () => {
+    // `리액션` spells out `액션`, so matching mid-word would file Reaction Button under a
+    // query naming the Action Button family.
+    expect(
+      matchComponents([entry("Reaction Button", { keywords: ["리액션 버튼"] })], "액션"),
+    ).toEqual([]);
+  });
+
+  it("gathers every component whose keyword ends in the same word", () => {
+    expect(titles("버튼")).toEqual(["Input Button", "Action Button", "Floating Action Button"]);
+  });
+
+  it("falls back to the Korean description", () => {
+    expect(titles("안내")).toEqual(["Callout"]);
+  });
+
+  it("prefers the name over the description when both match", () => {
+    expect(titles("액션")[0]).toBe("Action Button");
+    expect(titles("list")[0]).toBe("List");
+  });
+
+  it("ignores components nothing in the query points at", () => {
+    expect(titles("carousel")).toEqual([]);
+  });
+});

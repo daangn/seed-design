@@ -1,0 +1,121 @@
+---
+title: Iconography
+description: Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.
+---
+
+## Installation
+
+Monochrome
+
+```package-install
+npm install @karrotmarket/lynx-monochrome-icon
+```
+
+Multicolor
+
+```package-install
+npm install @karrotmarket/lynx-multicolor-icon
+```
+
+## Rsbuild Plugin Configuration
+
+Lynx 아이콘 SVG를 WebP data URL로 변환하는 Rsbuild 플러그인을 설정해야 합니다.
+
+<Callout>
+  `@karrotmarket/lynx-*-icon` 패키지는 내부적으로
+  `karrotmarket/assets-*` 패키지의 SVG asset을 사용합니다. 아래 플러그인은 해당
+  package asset을 Lynx에서 안정적으로 표시할 수 있도록 빌드 시 `sharp`로 WebP
+  data URL 모듈로 변환합니다.
+</Callout>
+
+```package-install
+npm install -D @seed-design/rsbuild-plugin-lynx-icon
+```
+
+<Files>
+  <File name="package.json" />
+  <File name="lynx.config.ts" />
+</Files>
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+
+import { pluginQRCode } from "@lynx-js/qrcode-rsbuild-plugin";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
+import { pluginTypeCheck } from "@rsbuild/plugin-type-check";
+
+export default defineConfig({
+  plugins: [
+    pluginQRCode({
+      schema(url) {
+        // We use `?fullscreen=true` to open the page in LynxExplorer in full screen mode
+        return `${url}?fullscreen=true`;
+      },
+    }),
+    pluginReactLynx(),
+    pluginTypeCheck(),
+    pluginLynxIcon({
+      include:
+        /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//,
+    }),
+  ],
+});
+```
+
+## Icon Library
+
+전체 아이콘 목록은 [Icon Library](/foundations/iconography/library) 페이지에서 확인할 수 있습니다.
+
+## Usage
+
+아이콘 패키지 설치 및 로더 설정을 완료한 후, 프로젝트에서 아이콘을 사용할 수 있습니다.
+
+```tsx
+import {
+  IconArrow2ClockwiseCircularFill,
+  IconArrow2ClockwiseCircularLine,
+} from "@karrotmarket/lynx-monochrome-icon";
+import { IconCamera } from "@karrotmarket/lynx-multicolor-icon";
+
+export function App() {
+  return (
+    <view>
+      <text>모노크롬 아이콘은 color가 필수입니다.</text>
+      <IconArrow2ClockwiseCircularLine size={24} color="gray" />
+      <IconArrow2ClockwiseCircularFill size={30} color="gray" />
+
+      <text>멀티컬러 아이콘은 color가 없습니다.</text>
+      <IconCamera size={30} />
+    </view>
+  );
+}
+```
+
+## SEED Component Slots
+
+일반 화면에서 아이콘만 직접 렌더할 때는 위 예시처럼 `@karrotmarket/lynx-*-icon` 컴포넌트를 그대로 사용합니다.
+
+SEED 컴포넌트의 monochrome icon slot 안에서는 `@seed-design/lynx-react`의 `Icon`, `PrefixIcon`, `SuffixIcon` wrapper를 사용하세요. wrapper가 recipe className에서 계산된 color를 Lynx `<image>`의 `tint-color`로 동기화하고, slot size를 icon image에 전달합니다.
+
+```tsx
+import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+import { ActionButton, Icon, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <view>
+      <ActionButton>
+        <PrefixIcon icon={<IconPlusFill />} />
+        추가
+        <SuffixIcon icon={<IconChevronDownFill />} />
+      </ActionButton>
+
+      <ActionButton layout="iconOnly" accessibility-label="추가">
+        <Icon icon={<IconPlusFill />} />
+      </ActionButton>
+    </view>
+  );
+}
+```

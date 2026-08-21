@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/docs-mcp",
-  "version": "0.5.4",
+  "version": "0.7.0",
   "description": "The official MCP server for SEED Design documentation",
   "repository": {
     "type": "git",
@@ -8,12 +8,14 @@
     "directory": "packages/docs-mcp"
   },
   "homepage": "https://seed-design.io/",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
   "files": [
     "dist",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "bin": {
     "seed-docs-mcp": "./dist/stdio.js"
@@ -35,6 +37,9 @@
       "import": "./dist/stdio.js"
     }
   },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "build": "bunchee",
@@ -46,14 +51,14 @@
   },
   "dependencies": {
     "@karrotmarket/icon-data": "^1.34.0",
-    "@modelcontextprotocol/sdk": "^1.15.0",
+    "@modelcontextprotocol/server": "^2.0.0",
     "lru-cache": "^11.0.2",
     "zod": "^4.3.5"
   },
   "devDependencies": {
     "@types/node": "^25.0.0",
     "bunchee": "^6.3.2",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.3"
   },
   "keywords": [
     "seed-design",

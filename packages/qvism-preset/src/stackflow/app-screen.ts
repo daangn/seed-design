@@ -12,8 +12,7 @@ export const appScreen = defineSlotRecipe({
       position: "absolute",
       width: "100%",
       height: "100%",
-      left: 0,
-      right: 0,
+      insetInline: 0,
       overflow: "hidden",
 
       "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
@@ -23,8 +22,7 @@ export const appScreen = defineSlotRecipe({
       position: "absolute",
       width: "100%",
       top: 0,
-      left: 0,
-      right: 0,
+      insetInline: 0,
     },
     layer: {
       zIndex: "var(--z-index-layer)",
@@ -32,12 +30,14 @@ export const appScreen = defineSlotRecipe({
       position: "absolute",
       width: "100%",
       height: "100%",
-      left: 0,
-      right: 0,
+      insetInline: 0,
       overflowY: "scroll",
       WebkitOverflowScrolling: "touch",
       "&::-webkit-scrollbar": {
         display: "none",
+      },
+      "&:focus": {
+        outline: "none",
       },
 
       backgroundColor: vars.$color.bg.layerDefault,
@@ -47,8 +47,7 @@ export const appScreen = defineSlotRecipe({
       position: "absolute",
       width: "20px",
       height: "100%",
-      left: 0,
-      right: 0,
+      insetInline: 0,
     },
   },
   variants: {
@@ -151,8 +150,7 @@ export const appScreen = defineSlotRecipe({
             content: "''",
             display: "block",
             position: "sticky",
-            left: 0,
-            right: 0,
+            insetInline: 0,
             top: 0,
             marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
             height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,

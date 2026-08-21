@@ -8,6 +8,7 @@ on:
     paths:
       - "docs/**"
       - "packages/css/**"
+      - "packages/react-headless/**"
       - "packages/react/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-storybook-alpha-pages.yml"
@@ -37,7 +38,7 @@ jobs:
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-storybook` project (Alpha)
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}

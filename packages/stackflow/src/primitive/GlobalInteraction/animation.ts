@@ -138,10 +138,13 @@ function collectAnimations(anims: (Animation | null)[], durationMs: number): Ani
 
 // ─── iOS Slide ──────────────────────────────────────────────────────────────
 
-interface TitleKeyframe {
+// Intersect with the DOM `Keyframe` so values of this type satisfy the
+// `[property: string]` index signature `el.animate()` expects, while still
+// guaranteeing `opacity` and `transform` are present.
+type TitleKeyframe = Keyframe & {
   opacity: string;
   transform: string;
-}
+};
 
 interface IosPositions {
   topLayer: string;

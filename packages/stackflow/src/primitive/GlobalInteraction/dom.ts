@@ -128,6 +128,35 @@ export function clearAllStyles(t: TransitionTargets) {
 }
 
 /**
+ * Remove all leftover inline styles from the top activity once the
+ * transition has settled (globalTransitionState === "idle").
+ *
+ * The top + behind pair model only handles the single immediately adjacent
+ * behind layer. When transitions overlap (concurrent pop, swipe-back race,
+ * etc.) the landing screen can get stuck with the temporary styles of a
+ * "behind" or an "exiting top" — the layer stays at -30% and shifts by 1/3,
+ * or the appBar root stays at opacity 0 (setPostExitPositions) and the whole
+ * app bar disappears.
+ *
+ * At idle the top must always be in a clean default state (setIdlePositions
+ * only clears the top and styles the behind), so wipe any leftover inline
+ * back to the CSS defaults (layer 0%, appBar visible). The behind is left
+ * untouched, and it's a no-op if already clean.
+ */
+export function clearTopActivityStyles(stackEl: HTMLElement) {
+  const t = findTransitionTargets(stackEl);
+  const topParts = [
+    t.topLayer,
+    t.topDim,
+    t.topTitle,
+    t.topAppBarRoot,
+    t.topAppBarBackground,
+    ...t.topIcons,
+  ];
+  for (const el of topParts) clearStyles(el);
+}
+
+/**
  * Set idle positions after push completes.
  * Pattern: clear everything first, then set only non-default positions.
  */

@@ -6,6 +6,7 @@ import type { PublicRegistry } from "@/src/schema";
 import {
   analyzeRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
+  getProjectSeedPackageVersionSpecs,
 } from "../utils/compatibility";
 
 const registries: PublicRegistry[] = [
@@ -144,5 +145,43 @@ describe("findInstalledSnippetItemKeys", () => {
     });
 
     expect(installed).toEqual(["ui:action-button"]);
+  });
+});
+
+describe("getProjectSeedPackageVersionSpecs", () => {
+  const tempDirs: string[] = [];
+
+  afterEach(async () => {
+    while (tempDirs.length > 0) {
+      const dir = tempDirs.pop();
+      if (dir) await fs.remove(dir);
+    }
+  });
+
+  async function makeProject(packageJson: object) {
+    const rootPath = await fs.mkdtemp(path.join(os.tmpdir(), "seed-cli-specs-"));
+    tempDirs.push(rootPath);
+    await fs.writeJSON(path.join(rootPath, "package.json"), packageJson);
+    await fs.ensureDir(path.join(rootPath, "node_modules", "@seed-design", "react"));
+    await fs.writeJSON(
+      path.join(rootPath, "node_modules", "@seed-design", "react", "package.json"),
+      { name: "@seed-design/react", version: "2.0.4" },
+    );
+    return rootPath;
+  }
+
+  it("package.json 선언이 있으면 선언을 그대로 쓴다", async () => {
+    const rootPath = await makeProject({
+      name: "app",
+      dependencies: { "@seed-design/react": "^2.0.0" },
+    });
+
+    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("^2.0.0");
+  });
+
+  it("선언이 없어도 설치본이 있으면 미설치로 보지 않는다 (모노레포 호이스팅)", async () => {
+    const rootPath = await makeProject({ name: "app" });
+
+    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("2.0.4");
   });
 });

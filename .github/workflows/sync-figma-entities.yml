@@ -136,6 +136,17 @@ jobs:
             echo "file_count=$FILE_COUNT" >> $GITHUB_OUTPUT
           fi
 
+      - name: changeset을 작성해요
+        if: steps.check-diff.outputs.has_changes == 'true'
+        run: |
+          cat > .changeset/figma-entity-sync.md <<'EOF'
+          ---
+          "@seed-design/figma": patch
+          ---
+
+          Figma 엔티티를 최신 버전으로 업데이트합니다.
+          EOF
+
       - name: 변경사항이 있으면 브랜치에 커밋해요
         if: steps.check-diff.outputs.has_changes == 'true'
         run: |
@@ -143,7 +154,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH_NAME"
-          git add packages/figma/src/entities/data/__generated__
+          git add packages/figma/src/entities/data/__generated__ .changeset/figma-entity-sync.md
           # Claude가 수정한 소스 파일도 스테이징
           if [ "${{ steps.rebuild.outcome }}" == "success" ]; then
             git add packages/figma/src/
@@ -263,3 +274,30 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-payload.json
+
+      - name: 실패하면 Slack payload를 빌드해요
+        if: failure()
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          jq -n \
+            --arg channel "$SLACK_CHANNEL_ID" \
+            --arg run_url "$RUN_URL" \
+            '{
+              channel: $channel,
+              text: "Figma Entity 동기화가 실패했어요.",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Figma Entity 동기화가 실패했어요"}},
+                {type: "section", text: {type: "mrkdwn", text: "실패 원인은 실행 로그를 확인해주세요."}},
+                {type: "actions", elements: [{type: "button", style: "danger", text: {type: "plain_text", text: "로그 보기"}, url: $run_url}]}
+              ]
+            }' > /tmp/slack-failure-payload.json
+
+      - name: 실패를 Slack에 알려요
+        if: failure()
+        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload-file-path: /tmp/slack-failure-payload.json

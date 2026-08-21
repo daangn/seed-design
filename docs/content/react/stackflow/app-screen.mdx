@@ -3,10 +3,12 @@ title: App Screen
 description: Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.
 ---
 
-<StackflowExample names={["react/app-screen/preview"]}>
+<AvailableSince packages="@seed-design/stackflow@0.0.1, @seed-design/css@0.0.1" />
+
+<StackflowExample path="/app-screen-preview">
   ```json doc-gen:file
   {
-    "file": "examples/react/app-screen/preview.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenPreview.tsx",
     "codeblock": true
   }
   ```
@@ -54,12 +56,12 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 #### `AppScreen`
 
-<react-type-table path="./registry/ui/app-screen.tsx" name="AppScreenProps" />
+<react-type-table path="./registry/react/ui/app-screen.tsx" name="AppScreenProps" />
 
 #### `AppScreenContent`
 
 <react-type-table
-  path="./registry/ui/app-screen.tsx"
+  path="./registry/react/ui/app-screen.tsx"
   name="AppScreenContentProps"
 />
 
@@ -67,24 +69,24 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 #### `AppBar`
 
-<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarProps" />
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarProps" />
 
 #### `AppBarLeft`
 
-<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarLeftProps" />
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarLeftProps" />
 
 #### `AppBarMain`
 
-<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarMainProps" />
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarMainProps" />
 
 #### `AppBarRight`
 
-<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarRightProps" />
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarRightProps" />
 
 #### `AppBarIconButton`, `AppBarBackButton`, `AppBarCloseButton`
 
 <react-type-table
-  path="./registry/ui/app-bar.tsx"
+  path="./registry/react/ui/app-bar.tsx"
   name="AppBarIconButtonProps"
 />
 
@@ -98,10 +100,10 @@ AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 
 - 모바일 OS 상태바를 포함한 `AppScreen` 상단에 그라디언트가 표시됩니다.
   - `gradient` 속성을 `false`로 설정하여 숨길 수 있습니다.
 
-<StackflowExample names={["react/app-screen/transparent"]}>
+<StackflowExample path="/app-screen-transparent">
   ```json doc-gen:file
   {
-    "file": "examples/react/app-screen/transparent.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenTransparent.tsx",
     "codeblock": true
   }
   ```
@@ -111,10 +113,10 @@ AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 
 
 Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변경할 수 있습니다.
 
-<StackflowExample names={["react/app-screen/with-intersection-observer"]}>
+<StackflowExample path="/app-screen-intersection-observer">
   ```json doc-gen:file
   {
-    "file": "examples/react/app-screen/with-intersection-observer.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenIntersectionObserver.tsx",
     "codeblock": true
   }
   ```
@@ -161,10 +163,10 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 </Card>
 
-<StackflowExample names={["react/app-screen/app-bar-customization"]}>
+<StackflowExample path="/app-screen-app-bar-customization">
   ```json doc-gen:file
   {
-    "file": "examples/react/app-screen/app-bar-customization.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenAppBarCustomization.tsx",
     "codeblock": true
   }
   ```
@@ -211,14 +213,14 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 **`@seed-design/stackflow@1.1.15`까지**
 
-최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **각 AppScreen의 고유한 `transitionStyle`을 재생합니다**.
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 각 AppScreen의 고유한 `transitionStyle`을 재생합니다.
 
 - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `fadeFromBottomAndroid` 트랜지션을 재생합니다.
   - 0번 AppScreen이 위치 변화 없이 그대로 유지된 상태에서(`fadeFromBottomAndroid`) 1번 AppScreen이 우측에서 슬라이드 인(`slideFromLeftIOS`)
 
 **이후 버전**
 
-최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 **최상위 AppScreen의 `transitionStyle`을 재생합니다**.
+최상위 AppScreen이 push/pop될 때, 최상위가 아닌 AppScreen은 최상위 AppScreen의 `transitionStyle`을 재생합니다.
 
 - 같은 스택 내에 여러 `transitionStyle`이 공존할 때 자연스러운 트랜지션을 제공합니다.
 - 예를 들면, `transitionStyle="fadeFromBottomAndroid"`인 0번 AppScreen 위에 `transitionStyle="slideFromLeftIOS"`인 1번 AppScreen이 push되는 경우, 0번 AppScreen은 `slideFromLeftIOS` 트랜지션을 재생합니다.

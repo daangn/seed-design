@@ -4,50 +4,54 @@
 
 ## Quick Start
 
-1. **Phase 0**: `references/architecture-decisions.md`를 완성하여 카테고리와 패턴을 확정합니다.
-2. **Phase 1**: Rootage → Recipe → React → Snippet → Storybook → Docs 순서로 구현합니다.
-3. **Phase 2**: `bun generate:all`, `bun test:all`, `bun docs:test`와 필요한 개별 build를 완료합니다.
-4. 상세 구현은 `references/implementation-steps.md`와 `references/verification-checklist.md`를 사용합니다.
+1. **Platform Gate**: `references/platform-gate.md`로 target platform을 `react` / `lynx` / `cross-platform` 중 하나로 확정합니다.
+2. **Phase 0**: `references/architecture-decisions.md`를 완성하여 카테고리와 플랫폼별 패턴을 확정합니다.
+3. **Phase 1**: Rootage → platform recipe → styled UI → snippet/docs/example 순서로 구현합니다.
+4. **Phase 2**: `bun generate:all`, `bun test:all`, `bun docs:test`와 필요한 개별 build를 완료합니다.
+5. 상세 구현은 `references/implementation-steps.md`와 `references/verification-checklist.md`를 사용합니다.
 
 ## 핵심 흐름
 
 ```text
-Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:all → Recipe → React → Snippet → Storybook → Docs → Visual Test
+Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:all → Recipe → Styled UI → Snippet → Docs/Examples → Visual Test
 ```
 
 ## 카테고리별 Quick Reference
 
-| 카테고리 | Recipe | React 패턴 | Namespace | 참조 |
-|----------|--------|-----------|-----------|------|
-| A. Simple | defineRecipe | splitVariantProps | 없음 | Badge |
-| B. Compound (Stateless) | defineSlotRecipe | createSlotRecipeContext | 있음 | Avatar |
-| C. Compound (Stateful) | defineSlotRecipe | + createWithStateProps | 있음 | TextField |
-| D. Multi-Recipe | defineSlotRecipe ×2 | splitMultipleVariantsProps | 있음 | Checkbox |
-| E. Layout | 없음 | Box 확장 | 없음 | Flex |
+| 카테고리 | Recipe | Styled UI 패턴 | Namespace | React 참조 | Lynx 참조 |
+|----------|--------|----------------|-----------|-----------|-----------|
+| A. Simple | defineRecipe | splitVariantProps | 없음 | Badge | ActionButton/Text |
+| B. Compound (Stateless) | defineSlotRecipe | slot context | 있음 | Avatar | TagGroup |
+| C. Compound (Stateful) | defineSlotRecipe | headless + styled wrapper | 있음 | TextField | BottomSheet |
+| D. Multi-Recipe | defineSlotRecipe ×2 | splitMultipleVariantsProps | 있음 | Checkbox | Checkbox/Switch |
+| E. Layout | 없음 | Box 확장 | 없음 | Flex | Box/Stack |
 
 카테고리 결정 방법은 `references/architecture-decisions.md`를 참조합니다.
 
 ## 수정 진입점
 
-| 수정 대상 | 시작 위치 | 명령어 |
-|----------|----------|--------|
-| 토큰/스타일 변수 | `packages/rootage/` | `bun generate:all` |
-| CSS Recipe | `packages/qvism-preset/src/recipes/` | `bun qvism:generate` |
-| 컴포넌트 로직 | `packages/react-headless/` | 직접 수정 |
-| 컴포넌트 UI | `packages/react/` | `bun packages:build` |
-| 문서 | `docs/content/` | 직접 수정 |
+| 수정 대상 | React 시작 위치 | Lynx 시작 위치 | 명령어 |
+|----------|----------------|---------------|--------|
+| 토큰/스타일 변수 | `packages/rootage/` | `packages/rootage/` | `bun generate:all` |
+| Recipe source | `packages/qvism-preset/src/recipes/` | `packages/lynx-qvism-preset/src/recipes/` | `bun qvism:generate` |
+| Headless/state | `packages/react-headless/` | `packages/lynx-react-headless/` 또는 styled-local | package build/test |
+| Styled UI | `packages/react/src/components/` | `packages/lynx-react/src/components/` | `bun packages:build` |
+| Snippet | `docs/registry/react/ui/` | `docs/registry/lynx/ui/` | docs registry generate |
+| 문서 | `docs/content/react/` | `docs/content/lynx/` | `bun docs:test` |
 
 ## 생성 파일 (수정 금지)
 
 - `packages/css/**` ← rootage에서 생성
 - `packages/qvism-preset/src/vars/**` ← rootage에서 생성
+- `packages/lynx-css/**` ← rootage/lynx-qvism에서 생성
+- `packages/lynx-qvism-preset/src/vars/**` ← rootage에서 생성
 - `docs/public/__registry__/**` ← docs registry script에서 생성
 
 ## 전체 파이프라인
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│  1. HEADLESS (Optional) - packages/react-headless/          │
+│  1. HEADLESS (Optional) - react-headless or lynx-react-headless   │
 └─────────────────────────────────────────────────────────────┘
                            │
                            ▼
@@ -57,17 +61,17 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
                            │ bun generate:all
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  3. RECIPE - packages/qvism-preset/src/recipes/             │
+│  3. RECIPE - qvism-preset or lynx-qvism-preset              │
 └─────────────────────────────────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  4. UI - packages/react/src/components/[ComponentName]/     │
+│  4. UI - packages/react or packages/lynx-react              │
 └─────────────────────────────────────────────────────────────┘
                            │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  5. STORYBOOK - docs/stories/[ComponentName].stories.tsx    │
+│  5. EXAMPLE - Storybook or examples/lynx-spa                │
 └─────────────────────────────────────────────────────────────┘
                            │
                            ▼
@@ -85,18 +89,19 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 
 ### 새 컴포넌트 추가 시
 
-1. `packages/rootage/components/[name].yaml` 작성
-2. `bun generate:all` 실행
-3. `packages/qvism-preset/src/recipes/[name].ts` 작성
-4. `packages/qvism-preset/src/recipes/index.ts`에 export 추가
-5. `packages/react/src/components/[Name]/` 구현
-6. `docs/stories/[Name].stories.tsx` 작성
-7. `docs/content/react/components/[name].mdx` 작성
-8. Visual Test 실행
+1. target platform 확정 (`react` / `lynx` / `cross-platform`)
+2. `packages/rootage/components/[name].yaml` 작성
+3. `bun generate:all` 실행
+4. React는 `packages/qvism-preset/src/recipes/[name].ts`, Lynx는 `packages/lynx-qvism-preset/src/recipes/[name].ts` 작성
+5. target preset entry에 recipe export 추가
+6. React는 `packages/react/src/components/[Name]/`, Lynx는 `packages/lynx-react/src/components/[Name]/` 구현
+7. stateful Lynx에서 필요하면 `packages/lynx-react-headless/[name]/`를 먼저 설계하고 사용자 확인 후 추가
+8. platform snippet/docs/example 작성
+9. Visual Test 실행
 
 ### 스타일 수정 시
 
-1. `packages/rootage/` 또는 `packages/qvism-preset/src/recipes/` 수정
+1. `packages/rootage/`, React `packages/qvism-preset/src/recipes/`, Lynx `packages/lynx-qvism-preset/src/recipes/` 중 source 수정
 2. `bun generate:all` 실행
 3. Visual Test로 확인
 
@@ -104,6 +109,7 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 
 각 단계의 상세 내용은 `references/` 폴더 참조:
 - `references/implementation-steps.md` - 각 단계별 구현 상세
+- `references/storybook.md` - React Storybook CSF Next 작성·리팩터링 규칙
 - `references/visual-testing.md` - Visual Test 방법
 - `references/verification-checklist.md` - 완료 전 체크리스트
 
@@ -115,5 +121,8 @@ Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:al
 - [ ] `bun docs:test` 성공
 - [ ] 변경 범위에 해당하는 build 성공
   - React 패키지 변경: `bun --filter @seed-design/react build` 또는 여러 패키지 변경 시 `bun packages:build`
-  - Snippet/example 변경: vendored consumer build (예: `bun --cwd examples/stackflow-spa build`)
-- [ ] Storybook 테마별 확인 (Light, Dark, Font Scaling)
+  - Lynx 패키지 변경: `bun --filter @seed-design/lynx-react typecheck`와 `bun --filter @seed-design/lynx-react test`가 있으면 실행
+  - React snippet/example 변경: vendored consumer build (예: `bun --cwd examples/stackflow-spa build`)
+  - Lynx snippet/example 변경: `bun --filter lynx-spa build`
+- [ ] React: Storybook 테마별 확인 (Light, Dark, Font Scaling)
+- [ ] Lynx: `examples/lynx-spa` page/catalog 확인

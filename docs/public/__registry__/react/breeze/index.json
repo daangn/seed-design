@@ -1,0 +1,37 @@
+{
+  "id": "breeze",
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "animate-number/animate-number.tsx"
+        },
+        {
+          "path": "animate-number/animate-number.module.css"
+        }
+      ],
+      "id": "animate-number",
+      "description": "숫자를 부드럽게 애니메이션하는 컴포넌트",
+      "dependencies": [
+        "motion"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "scroll-auto-hide/scroll-auto-hide.tsx"
+        },
+        {
+          "path": "scroll-auto-hide/scroll-auto-hide.module.css"
+        }
+      ],
+      "id": "scroll-auto-hide",
+      "description": "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
+      "dependencies": [
+        "@radix-ui/react-compose-refs",
+        "@radix-ui/react-slot",
+        "@seed-design/css"
+      ]
+    }
+  ]
+}

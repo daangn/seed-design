@@ -19,6 +19,13 @@
 - 타입 import는 항상 `type` 키워드 사용
 - 동적 import보다 정적 import 우선
 
+### 테스트 작성
+
+- 생성기·변환기가 만든 문자열은 조각(`toContain`)이 아니라 전체 일치로 검증한다. 조각 단언은 헤더가 빠지거나 행이 누락돼도 통과한다.
+- 배열 멤버십(`expect(ids).toContain(id)`)은 `toContain`이 올바른 매처다. 위 규칙은 문자열 부분 일치에만 적용된다.
+- 생성물이나 외부 패키지 데이터를 유닛 테스트의 입력으로 쓰지 않는다. 그 데이터가 바뀌면 검증 대상이 멀쩡해도 테스트가 깨진다. 순수 함수를 export해 합성 입력으로 검증하고, 실데이터를 지나는 테스트는 데이터에 묶이지 않는 파생값(섹션 목록 등)만 전체 일치로 본다.
+- 유닛 테스트에서 네트워크를 타지 않는다. 모듈 스코프에서 비동기 초기화를 발사하면 그 모듈을 import하는 모든 테스트가 함께 요청을 보낸다.
+
 ### 패키지 관리
 
 - 항상 `bun` 사용 (`npm`/`yarn` 금지)
@@ -89,11 +96,23 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 ### 테스트
 
-| 명령어 | 설명 |
-|--------|------|
-| `bun headless:test` | react-headless 테스트 |
-| `bun react:test` | react 패키지 테스트 |
-| `bun test:all` | 전체 테스트 |
+수정한 경로에 해당하는 테스트만 돌린다. 전체 실행은 커밋 직전 한 번이면 충분하다.
+
+| 수정 경로 | 명령어 |
+|-----------|--------|
+| `packages/react-headless/` | `bun headless:test` |
+| `packages/react/` | `bun react:test` |
+| `packages/lynx-react/` | `bun test:lynx-react` |
+| `packages/cli/` | `bun test packages/cli` |
+| `packages/rootage/`, `ecosystem/rootage/` | `bun rootage:test` |
+| `tools/rootage-cdn/` | `bun --filter @seed-design/rootage-cdn test && bun --filter @seed-design/rootage-cdn typecheck && WRANGLER_LOG_PATH=/tmp/wrangler-rootage-dry-run.log bun --filter @seed-design/rootage-cdn wrangler:dry-run` |
+| `ecosystem/qvism/` | `bun test ecosystem/qvism` |
+| `docs/` | `bun docs:test` |
+| 전체 | `bun test:all` |
+
+`bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친 것이다. `bun rootage:test`가 함께 실행하는 `bun rootage:validate`는 여기 포함되지 않으므로, rootage YAML을 수정했으면 `bun rootage:test`를 따로 돌린다. 이 validator는 미사용 schema property를 정리할 수 있으므로 실행 뒤 `git diff`로 의도한 변경만 남았는지 확인한다.
+
+**테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
 
 ### 개발
 
@@ -217,8 +236,16 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 
 - **Changesets** 사용: `.changeset/` 디렉토리
 - `bun changeset` - 변경사항 기록
-- `bun version` - 버전 업데이트
-- `bun release` - 배포
+- `bun version` - 버전·잠금파일을 업데이트하고 같은 Version Packages commit에 Rootage JSON 생성. Rootage package 범위만 생성하며 각 패키지의 `package.json`·`CHANGELOG.md`, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 변경은 거부
+- `bun release` - 패키지 빌드 및 npm 배포
+- PR에서 `/snapshot` - `pkg.pr.new` 패키지 snapshot을 게시하고 `packages/rootage/**` 변경이 있으면 exact PR head용 Rootage CDN URL도 생성. snapshot은 stable 포인터를 변경하지 않으며 PR 종료 30일 뒤 정리
+
+### 릴리스 브랜치 Fast-forward
+
+- `minor → dev`, `major → dev` PR에서 저장소 쓰기 권한이 있는 사용자가 `/ff-merge` 댓글을 남기면 `dev`를 PR head로 fast-forward한다.
+- GitHub의 rebase merge를 사용하지 않는다. 기존 커밋과 SHA를 유지한 채 `dev` ref만 `force: false`로 갱신한다.
+- PR이 열려 있고 초안이 아니며 두 브랜치가 갈라지지 않은 경우에만 실행한다. 실행 중 SHA가 바뀌면 병합하지 않고 최신 상태에서 다시 실행하도록 안내한다.
+- 실행 결과와 이전·이후 SHA는 GitHub Actions Summary에서 확인한다. 실패한 경우 명령 댓글의 👎 반응과 PR 댓글에서도 원인을 확인할 수 있다.
 
 ---
 

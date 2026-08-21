@@ -5,10 +5,8 @@
     border-radius: var(--seed-radius-r2);
     width: 100%;
     max-width: 560px;
-    padding-left: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x2_5);
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
+    padding-inline: var(--seed-dimension-x2_5);
+    padding-block: var(--seed-dimension-x2_5);
     min-height: 44px;
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
@@ -44,8 +42,7 @@
   }
 
   .seed-snackbar__content {
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x1_5);
     justify-content: space-between;
     align-items: center;
     gap: var(--seed-dimension-x2_5);
@@ -91,8 +88,7 @@
   .seed-snackbar__actionButton:after {
     content: "";
     top: 50%;
-    left: calc(-1 * var(--seed-dimension-x2));
-    right: calc(-1 * var(--seed-dimension-x2));
+    inset-inline: calc(-1 * var(--seed-dimension-x2));
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     min-height: 44px;

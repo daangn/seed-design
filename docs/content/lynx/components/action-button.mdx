@@ -1,0 +1,169 @@
+---
+title: Action Button
+description: 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `ActionButton`은 별도 `ui:action-button` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+<LynxComponentExample name="lynx/action-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/action-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/ActionButton/ActionButton.tsx" name="ActionButtonProps" />
+
+## Examples
+
+### Brand Solid
+
+<LynxComponentExample name="lynx/action-button/brand-solid">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/brand-solid.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Neutral Solid
+
+<LynxComponentExample name="lynx/action-button/neutral-solid">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/neutral-solid.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Neutral Weak
+
+<LynxComponentExample name="lynx/action-button/neutral-weak">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/neutral-weak.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Critical Solid
+
+<LynxComponentExample name="lynx/action-button/critical-solid">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/critical-solid.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Brand Outline
+
+<LynxComponentExample name="lynx/action-button/brand-outline">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/brand-outline.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Neutral Outline
+
+<LynxComponentExample name="lynx/action-button/neutral-outline">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/neutral-outline.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Ghost
+
+Lynx에서는 기본 Ghost 스타일을 지원합니다. 웹의 `color`, `fontWeight` 사용자 지정은 지원하지 않습니다.
+
+<LynxComponentExample name="lynx/action-button/ghost">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/ghost.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Icon Only
+
+<LynxComponentExample name="lynx/action-button/icon-only">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/icon-only.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+<Callout>
+문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
+</Callout>
+
+### Prefix Icon
+
+<LynxComponentExample name="lynx/action-button/prefix-icon">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/prefix-icon.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+<Callout>
+문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
+</Callout>
+
+### Suffix Icon
+
+<LynxComponentExample name="lynx/action-button/suffix-icon">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/suffix-icon.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+<Callout>
+문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
+</Callout>
+
+### Disabled
+
+<LynxComponentExample name="lynx/action-button/disabled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/disabled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Loading
+
+<LynxComponentExample name="lynx/action-button/loading">
+  ```json doc-gen:file
+  { "file": "examples/lynx/action-button/loading.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습니다.
+
+- **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
+- **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
+- **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
+- **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
+- **아이콘 렌더링 방식**: 웹의 SVG `currentColor` 대신 Lynx `<image>`의 `tint-color`를 사용합니다. `Icon` / `PrefixIcon` / `SuffixIcon`이 recipe color를 native tint로 동기화합니다.
+- **호환 아이콘 prop**: 기존 `prefixIcon` / `suffixIcon` / `icon` prop도 계속 지원하지만, 기본 예시는 child slot API를 사용합니다.
+- **Loading 상태**: 웹과 동일하게 spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `color` | StyleProps | CSS variable 동적 주입 제한 |
+| `fontWeight` | StyleProps | CSS variable 동적 주입 제한 |
+| `bleedX` / `bleedY` | StyleProps | CSS variable 동적 주입 제한 |
+
+React 문서의 **Bleed** 예제는 `bleedX`와 `bleedY`가 필요하므로 Lynx Examples에서 제외했습니다.

@@ -1,0 +1,108 @@
+---
+title: Skill
+description: SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.
+---
+
+`seed-design` 스킬은 AI 에이전트가 SEED를 쓰는 프로젝트를 도울 때 로드하는 가이드입니다.
+
+**문서에 이미 있는 것은 스킬에 옮겨 적지 않습니다.** 셋업 절차나 컴포넌트 목록, 토큰 이름은 공식 문서와 `docs` CLI가 원본이고 복사본은 원본보다 먼저 낡습니다. 스킬은 질문을 다음 세 층으로 나눠 필요한 원본을 찾습니다.
+
+1. **공통 디자인 지식** — 컴포넌트 Anatomy·Properties·Guidelines와 색상·타이포그래피·스페이싱 같은 Foundations
+2. **플랫폼 구현** — React 또는 Lynx의 API, 설치, 스니펫, 코드 작성
+3. **적응형 Doctor** — `seed-design.json`과 직접 의존성으로 워크스페이스 맥락을 찾고, 설정·호환·셋업·Foundations·컴포넌트·라이브러리 중 적용 가능한 건강검진을 실행
+
+공통 컴포넌트 스펙과 Foundations는 프로젝트나 플랫폼을 확인하지 않고 바로 조회합니다. 구현·설치·Doctor처럼 결과가 달라지는 요청만 **사용자 명시 → 대상 워크스페이스의 `seed-design.json.framework` → 직접 의존성** 순으로 플랫폼을 판별합니다. 모노레포에서 React와 Lynx가 함께 발견되거나 단서가 없으면 에이전트가 React를 추측하지 않고 사용자에게 확인합니다.
+
+## Documentation routing
+
+스킬은 문서 목록이나 플랫폼 지원표를 갖지 않고 아래 인덱스를 현재 상태의 단일 원천으로 사용합니다.
+
+- [SEED 전체 문서 인덱스](https://seed-design.io/llms.txt)
+- [React 문서 인덱스](https://seed-design.io/react/llms.txt)
+- [Lynx 문서 인덱스](https://seed-design.io/lynx/llms.txt)
+
+전체 인덱스에서 공통 Components·Foundations와 플랫폼 진입점을 찾고, 선택된 플랫폼 인덱스에서 필요한 leaf 문서를 찾습니다. 경로·CLI id·지원 capability를 기억으로 조합하지 않습니다. 문서나 registry 항목이 없으면 다른 플랫폼으로 대체하지 않고 현재 인덱스에서 확인한 부재를 안내합니다.
+
+Doctor도 같은 관계를 사용합니다. 공통 룰은 고정하되 현재 인덱스가 공식 계약을 제공하는지에 따라 실행 시점에 `pass | fail | not-applicable | not-verified`를 정합니다. 자세한 내용은 [Doctor](/ai-integration/skill/doctor)를 참고하세요.
+
+## Installation
+
+`seed-design` 스킬을 설치하려면 다음 명령어를 사용하세요.
+
+```package-install
+npx skills add https://github.com/daangn/seed-design --skill seed-design
+```
+
+## File Structure
+
+<Files>
+  <Folder name="seed-design" defaultOpen>
+    <File name="SKILL.md" />
+    <Folder name="references" defaultOpen>
+      <File name="migration.md" />
+      <File name="upgrade.md" />
+      <File name="doctor.md" />
+      <File name="doctor-react.md" />
+      <File name="doctor-lynx.md" />
+    </Folder>
+    <Folder name="rules">
+      <File name="project-config.md" />
+      <File name="package-compatibility.md" />
+      <File name="project-setup.md" />
+      <File name="snippet-compatibility.md" />
+      <File name="foundation-contract.md" />
+      <File name="library-authors.md" />
+      <File name="outdated-version.md" />
+      <File name="snippet-generation.md" />
+      <File name="no-deprecated-component.md" />
+      <File name="component-guidelines.md" />
+    </Folder>
+    <Folder name="assets">
+      <File name="doctor-report.schema.json" />
+      <File name="report-template.html" />
+    </Folder>
+  </Folder>
+</Files>
+
+| 파일 | 언제 읽는가 |
+| --- | --- |
+| `SKILL.md` | 진입점. 프로젝트 상태를 파악하고 아래로 분기합니다 |
+| `references/migration.md` | 현재 인덱스의 CLI 문서로 스니펫 호환·파일 충돌 절차를 구성 |
+| `references/upgrade.md` | 현재 인덱스의 upgrade·changelog로 마이그레이션 경로를 구성 |
+| `references/doctor.md` | 플랫폼 판별, 인덱스 기반 capability 발견, 공통 실행 절차와 리포트 계약 |
+| `references/doctor-react.md` | React 인덱스·패키지·registry 탐색 시작점 |
+| `references/doctor-lynx.md` | Lynx 인덱스·패키지·registry 탐색 시작점 |
+| `rules/*.md` | 선택된 Doctor 프로필과 적용 조건으로 실행되는 공통 판정 기준이자 코드 작성 가이드 |
+
+## SKILL.md
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/SKILL.md",
+  "codeblock": true
+}
+```
+
+## References
+
+### migration.md
+
+스니펫이 요구하는 버전과 설치된 패키지가 맞는지, 현재 CLI 문서가 제공하는 방식으로 커스터마이징을 어떻게 보존할지 다룹니다.
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/migration.md",
+  "codeblock": true
+}
+```
+
+### upgrade.md
+
+현재 버전에서 목표 버전까지의 변경사항을 읽고 마이그레이션 경로를 제시합니다. CLI는 데이터를 가져오기만 하고 해석과 판단은 스킬이 합니다.
+
+```json doc-gen:file
+{
+  "file": "../skills/seed-design/references/upgrade.md",
+  "codeblock": true
+}
+```

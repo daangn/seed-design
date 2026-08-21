@@ -1,18 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { Grid, GridItem } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VIEWPORT_MODES } from "./utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: Grid,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Grid>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const Swatch = ({ label }: { label?: string }) => (
   <div
@@ -55,26 +51,23 @@ const conditionMap = {
     autoRows: { columns: 3, autoRows: "80px" },
     autoColumns: { autoFlow: "column", autoColumns: "120px" },
     "display none": { display: "none" },
+    "responsive columns": { columns: { base: 1, md: 3 } },
+    "responsive gap": { columns: 3, gap: { base: "x2", md: "x6" } },
   },
 };
 
-export const LightTheme: Story = {
+export const LightTheme = meta.story({
   args: { children },
-  render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
     chromatic: { modes: VIEWPORT_MODES },
   },
-};
+});
 
 /** GridItem: colSpan, rowSpan, colStart/colEnd */
-export const GridItemSpan: Story = {
+export const GridItemSpan = meta.story({
   render: () => (
     <Grid columns={3} gap="8px" width="400px">
       <GridItem colSpan={2}>
@@ -95,4 +88,4 @@ export const GridItemSpan: Story = {
       <Swatch label="1" />
     </Grid>
   ),
-};
+});

@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring } from "../parser";
-import { createStringifier } from "./typescript";
+import { createStringifier, getExchangeDts, getExchangeMjs } from "./typescript";
 
 const { getComponentSpecDts, getComponentSpecMjs, getTokenDts, getTokenMjs } = createStringifier({
   prefix: "test",
@@ -287,9 +287,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -334,9 +334,9 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
   definitions:
     base:
@@ -528,4 +528,143 @@ test("getTokenDts should generate JSDoc for token descriptions", () => {
       },
     ]
   `);
+});
+
+test("getComponentSpecMjs should omit enum properties and anything left empty by them", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
+  definitions:
+    base:
+      enabled:
+        root:
+          color: "#ffffff"
+      pressed:
+        root:
+          scaleScope: content
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const result = getComponentSpecMjs(model.data);
+
+  // `pressed` disappears entirely: its only property is an enum, which leaves the
+  // slot empty, which leaves the state empty.
+  expect(result).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "enabled": {
+          "root": {
+            "color": "#ffffff"
+          }
+        }
+      }
+    }"
+  `);
+});
+
+describe("getExchangeDts", () => {
+  it("should keep token references, enum values and unlike array entries narrow", () => {
+    const result = getExchangeDts({
+      schema: {
+        slots: {
+          label: {
+            properties: { textAlign: { type: "enum", values: ["leading", "center"] } },
+          },
+        },
+      },
+      definitions: [
+        { variants: {}, slots: { root: { color: { type: "color", value: "$color.bg.neutral" } } } },
+        {
+          variants: { labelAlign: "center" },
+          slots: { label: { textAlign: { type: "enum", value: "center" } } },
+        },
+      ],
+    });
+
+    expect(result).toMatchInlineSnapshot(`
+      "declare const artifact: {
+        "schema": {
+          "slots": {
+            "label": {
+              "properties": {
+                "textAlign": {
+                  "type": "enum";
+                  "values": readonly [
+                    "leading",
+                    "center",
+                  ];
+                };
+              };
+            };
+          };
+        };
+        "definitions": readonly [
+          {
+            "variants": {};
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "variants": {
+              "labelAlign": "center";
+            };
+            "slots": {
+              "label": {
+                "textAlign": {
+                  "type": "enum";
+                  "value": "center";
+                };
+              };
+            };
+          },
+        ];
+      };
+      export default artifact;
+      "
+    `);
+  });
+
+  it("should drop undefined-valued keys, as JSON.stringify does", () => {
+    expect(getExchangeDts({ type: "color", description: undefined })).toBe(
+      'declare const artifact: {\n  "type": "color";\n};\nexport default artifact;\n',
+    );
+  });
+
+  it("should write non-finite numbers as null, as JSON.stringify does", () => {
+    expect(getExchangeDts({ value: Number.POSITIVE_INFINITY })).toBe(
+      'declare const artifact: {\n  "value": null;\n};\nexport default artifact;\n',
+    );
+  });
+
+  it("should render empty containers", () => {
+    expect(getExchangeDts({ variants: {}, states: [] })).toBe(
+      'declare const artifact: {\n  "variants": {};\n  "states": readonly [];\n};\nexport default artifact;\n',
+    );
+  });
+});
+
+describe("getExchangeMjs", () => {
+  it("should re-export the sibling JSON", () => {
+    expect(getExchangeMjs("menu-sheet-item.json")).toBe(
+      'import artifact from "./menu-sheet-item.json" with { type: "json" };\nexport default artifact;\n',
+    );
+  });
 });

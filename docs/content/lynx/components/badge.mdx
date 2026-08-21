@@ -1,0 +1,126 @@
+---
+title: Badge
+description: 상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.2.0, @seed-design/lynx-css@0.2.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `Badge`는 별도 `ui:badge` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+<LynxComponentExample name="lynx/badge/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Badge/Badge.tsx" name="BadgeProps" />
+
+## Examples
+
+### Truncating Behavior
+
+Badge는 긴 텍스트를 잘라내고 생략 부호를 표시합니다.
+
+<LynxComponentExample name="lynx/badge/truncating">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/truncating.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones and Variants
+
+#### Neutral
+
+<LynxComponentExample name="lynx/badge/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Brand
+
+<LynxComponentExample name="lynx/badge/brand">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/brand.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Informative
+
+<LynxComponentExample name="lynx/badge/informative">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/informative.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Positive
+
+<LynxComponentExample name="lynx/badge/positive">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/positive.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Warning
+
+<LynxComponentExample name="lynx/badge/warning">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/warning.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Critical
+
+<LynxComponentExample name="lynx/badge/critical">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/critical.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Badge`는 React `Badge`와 같은 `size`, `variant`, `tone` variant surface를 사용하지만, 렌더링 플랫폼 차이로 다음과 같은 차이가 있습니다.
+
+- **렌더링 요소**: HTML `<span>` 대신 네이티브 `<view>` root와 `<text>` label을 렌더링합니다.
+- **공개 표면**: React와 동일하게 package export로 제공하며, Lynx 전용 `ui:badge` snippet은 제공하지 않습니다.
+- **ref forwarding**: `React.forwardRef`로 root `<view>`에 ref를 전달할 수 있습니다.
+- **이벤트 핸들링**: Badge는 정적 정보 표시용 컴포넌트라 별도 interaction prop을 추가하지 않습니다.
+- **다형 렌더링**: 웹의 `asChild` / HTML span attribute 표면은 Lynx에서 제공하지 않습니다.
+</Callout>

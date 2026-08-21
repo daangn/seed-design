@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/badge";
 import { badge as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -30,10 +31,8 @@ const badge = defineSlotRecipe({
           // NOTE: when updating vars.sizeMedium.enabled.root.maxWidth, update 108px accordingly
           maxWidth: `clamp(calc(108px * var(--seed-font-size-limit-min)), ${vars.sizeMedium.enabled.root.maxWidth}, calc(108px * var(--seed-font-size-limit-max)))`,
           minHeight: vars.sizeMedium.enabled.root.minHeight,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
-          paddingTop: vars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: vars.sizeMedium.enabled.root.paddingY,
+          paddingInline: vars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
 
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -46,10 +45,8 @@ const badge = defineSlotRecipe({
           // NOTE: when updating vars.sizeLarge.enabled.root.maxWidth, update 120px accordingly
           maxWidth: `clamp(calc(120px * var(--seed-font-size-limit-min)), ${vars.sizeLarge.enabled.root.maxWidth}, calc(120px * var(--seed-font-size-limit-max)))`,
           minHeight: vars.sizeLarge.enabled.root.minHeight,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
-          paddingTop: vars.sizeLarge.enabled.root.paddingY,
-          paddingBottom: vars.sizeLarge.enabled.root.paddingY,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          paddingBlock: vars.sizeLarge.enabled.root.paddingY,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -269,6 +266,12 @@ const badge = defineSlotRecipe({
     size: "medium",
     variant: "solid",
     tone: "neutral",
+  },
+  metadata: {
+    variants: {
+      variant: spec.data.schema.variants.variant,
+      tone: spec.data.schema.variants.tone,
+    },
   },
 });
 

@@ -1,4 +1,23 @@
-import { AST, buildContext, css, Exchange } from "@seed-design/rootage-core";
+import { AST, css, type RootageCtx } from "@seed-design/rootage-core";
+
+/**
+ * Build a modes map covering every token collection, using each collection's
+ * first mode as the default (global → default, color → theme-light, motion →
+ * preferred, ...). Use this when resolving arbitrary tokens whose collection
+ * isn't known ahead of time, so a newly added collection can't break the build.
+ */
+export function getDefaultModes(
+  rootage: Pick<RootageCtx, "tokenCollectionEntities">,
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(rootage.tokenCollectionEntities).map(([collection, entity]) => {
+      const mode = entity.modes[0];
+      if (!mode) throw new Error(`Collection ${collection} has no modes`);
+
+      return [collection, mode.id];
+    }),
+  );
+}
 
 export function stringifyVariants(variants: AST.VariantExpression[]) {
   if (variants.length === 0) {
@@ -16,6 +35,35 @@ export function stringifyTokenLit(token: AST.TokenLit): AST.TokenRef {
   return `$${[...token.group, token.key].join(".")}`;
 }
 
+/**
+ * A stop/layer colour that is still a token reference after resolution points at the
+ * CSS variable `@seed-design/css` emits for it, so the browser applies the live value.
+ */
+function stringifyColor(color: AST.ColorHexLit | AST.TokenLit): string {
+  if (color.kind === "ColorHexLit") return color.value;
+
+  return `var(--seed-${[...color.group, color.key].join("-")})`;
+}
+
+const stringifyDimension = (dimension: AST.DimensionLit) => `${dimension.value}${dimension.unit}`;
+
+export function gradientToCss(gradient: AST.GradientLit): string {
+  const stops = gradient.stops
+    .map((stop) => `${stringifyColor(stop.color)} ${(stop.position.value * 100).toFixed(1)}%`)
+    .join(", ");
+
+  return `linear-gradient(to right, ${stops})`;
+}
+
+export function shadowToCss(shadow: AST.ShadowLit): string {
+  return shadow.layers
+    .map(
+      (layer) =>
+        `${stringifyDimension(layer.offsetX)} ${stringifyDimension(layer.offsetY)} ${stringifyDimension(layer.blur)} ${stringifyDimension(layer.spread)} ${stringifyColor(layer.color)}`,
+    )
+    .join(", ");
+}
+
 export function stringifyValueLit(lit: AST.ValueLit): string {
   const tokenReference = (token: AST.TokenLit) => stringifyTokenLit(token);
 
@@ -27,60 +75,4 @@ export function stringifyValueLit(lit: AST.ValueLit): string {
     default:
       return css.staticStringifier.value(lit, tokenReference);
   }
-}
-
-export const getRootage = async () => {
-  const index: { resources: { path: string }[] } = await import("@/public/rootage/index.json").then(
-    (module) => {
-      return module.default;
-    },
-  );
-  const sourceFiles = await Promise.all(
-    index.resources.map((resource) =>
-      import(`@/public/rootage${resource.path}`).then((res: Exchange.Model) => ({
-        fileName: resource.path,
-        ast: Exchange.fromObject(res),
-      })),
-    ),
-  );
-  return buildContext(sourceFiles);
-};
-
-/**
- * Get rootage metadata for a specific component
- */
-export async function getRootageMetadata(componentId: string) {
-  const rootage = await getRootage();
-  const sourceFile = rootage.sourceFiles.find(
-    (f) => f.ast.kind === "ComponentSpecDocument" && f.ast.data.id === componentId,
-  );
-
-  if (!sourceFile?.ast.metadata) return null;
-
-  const deprecatedField = sourceFile.ast.metadata.fields.find(
-    (field) => field.key === "deprecated",
-  );
-
-  return {
-    deprecated: Boolean(deprecatedField?.value),
-  };
-}
-
-export async function getComponentStatus(
-  params: { slug?: string[] },
-  pageData?: { deprecated?: boolean },
-): Promise<{ deprecated: boolean }> {
-  if (pageData?.deprecated) {
-    return { deprecated: true };
-  }
-
-  const componentId = params.slug?.[1];
-  if (componentId && params.slug?.[0] === "components") {
-    const metadata = await getRootageMetadata(componentId);
-    if (metadata?.deprecated) {
-      return { deprecated: true };
-    }
-  }
-
-  return { deprecated: false };
 }

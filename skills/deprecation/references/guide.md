@@ -25,14 +25,15 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 
 ## Deprecation Policy
 
-- 기본 정책: **1.2.x 패치에서 deprecated → 다음 마이너(1.3.0)에서 제거**
-- 호환성 영향이 큰 경우: 다음 메이저 릴리스로 미룸
+- 기본 정책: **마이너/패치 릴리스에서 deprecated 선언 → 다음 메이저 릴리스에서 제거**
+- 2.0.0부터 breaking change(deprecated 항목 제거 포함)는 메이저 릴리스에서만 수행합니다.
+- (레거시) 1.x에서는 마이너 릴리스에서 제거했습니다.
 
 ## Required Inputs
 
 - **Target**: deprecated 대상 (컴포넌트/옵션/토큰)
-- **Deprecated In**: 적용 버전 (예: 1.2.x)
-- **Remove In**: 제거 예정 버전 (예: 1.3.0)
+- **Deprecated In**: 적용 버전 (deprecated를 선언하는 현재 버전)
+- **Remove In**: 제거 예정 버전 (다음 메이저 릴리스)
 - **Replacement**: 대체안 (예: `borderRadius="r2"`)
 - **Reason**: deprecated 이유
 
@@ -54,7 +55,7 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 
 ```ts
 /**
- * @deprecated Deprecated in @seed-design/react@1.2.x; will be removed in 1.3.0.
+ * @deprecated Deprecated in @seed-design/react@<current-version>; will be removed in <next-major>.
  * Use borderRadius="r2" instead.
  * Reason: Rounded 옵션을 borderRadius로 통일합니다.
  */
@@ -65,7 +66,7 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 ```yaml
 description: |
   모서리를 둥글게 처리합니다.
-  @deprecated `rounded` 옵션은 @seed-design/react@1.3.0에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
+  @deprecated `rounded` 옵션은 @seed-design/react@<next-major>에서 제거될 예정입니다. `borderRadius="r2"`를 사용하세요.
   Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
 ```
 

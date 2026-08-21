@@ -1,0 +1,284 @@
+---
+title: Installation
+description: Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.
+---
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css @seed-design/tailwind3-plugin tailwindcss@3
+```
+
+<Callout type="warning">
+  Lynx는 현재 Tailwind CSS v3만 지원합니다. Tailwind v4는 Rsbuild에서 아직
+  미지원이므로 반드시 `tailwindcss@3`을 설치하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
+### Tailwind CSS 설정하기
+
+Lynx에서 SEED 디자인 토큰을 사용하려면 Tailwind CSS v3와 `@seed-design/tailwind3-plugin`을 설정해야 해요.
+
+자세한 내용은 [`@seed-design/tailwind3-plugin` README](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)를 참고하세요.
+
+```ts title="tailwind.config.ts"
+import type { Config } from "tailwindcss";
+import seedDesignPlugin from "@seed-design/tailwind3-plugin";
+
+export default {
+  content: ["./src/**/*.{jsx,tsx}"],
+  corePlugins: { preflight: false },
+  plugins: [seedDesignPlugin],
+} satisfies Config;
+```
+
+```js title="postcss.config.js"
+export default {
+  plugins: {
+    tailwindcss: {},
+  },
+};
+```
+
+</Step>
+
+<Step>
+
+### base.css와 Tailwind import하기
+
+앱 entry에서는 전역 CSS 파일을 import하고, CSS 파일 안에서 SEED `base.css`와 Tailwind 디렉티브를 함께 불러와요.
+
+```ts title="src/index.tsx"
+import "./styles/global.css";
+```
+
+```css title="src/styles/global.css"
+@import "@seed-design/lynx-css/base.css";
+
+@tailwind components;
+@tailwind utilities;
+```
+
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+
+```package-install
+npx @seed-design/cli init
+```
+
+<Step>
+
+### seed-design 설정
+
+`@lynx-js/react`가 설치되어 있으면 프레임워크가 자동으로 Lynx로 감지돼요.
+
+```sh
+◇  TypeScript를 사용중이신가요?
+│  Yes
+│
+◇  어떤 프레임워크를 사용하시나요?
+│  Lynx
+│
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+│  ./seed-design
+│
+◇  개선을 위해 익명 사용 데이터를 수집할까요?
+│  Yes
+```
+
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "tsx": true,
+  "framework": "lynx",
+  "path": "./seed-design"
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### seed-design path alias 설정하기
+
+<Callout>
+
+위에서 설정한 [seed-design.json path](/react/getting-started/cli/configuration#path)의 경로와 동일해야 해요.
+
+</Callout>
+
+TypeScript가 snippet import를 해석할 수 있도록 루트 `tsconfig.json`에 path alias를 추가해요.
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // ... your options
+    "baseUrl": ".",
+    "paths": {
+      // [!code highlight]
+      "seed-design/*": [
+        // [!code highlight]
+        "./seed-design/*"
+      ]
+    }
+  }
+}
+```
+
+Lynx 템플릿처럼 `src/tsconfig.json`이 별도로 있고 `composite` 프로젝트를 사용하는 경우, 생성된 snippet 경로도 include에 추가해야 해요.
+
+```json title="src/tsconfig.json"
+{
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../seed-design/**/*.ts",
+    "../seed-design/**/*.tsx"
+  ]
+}
+```
+
+Rspeedy/Rspack도 같은 alias를 알아야 런타임 빌드에서 `seed-design/*` import를 해석할 수 있어요.
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { fileURLToPath } from "node:url";
+
+const seedDesignDir = fileURLToPath(new URL("./seed-design", import.meta.url));
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "seed-design": seedDesignDir,
+    },
+  },
+});
+```
+
+<Callout>
+  `@karrotmarket/lynx-*-icon` 아이콘 패키지를 사용하는 경우 SVG asset을
+  Lynx에서 표시할 수 있도록 `@seed-design/rsbuild-plugin-lynx-icon`도
+  설정해야 해요. 자세한 설정은 [Iconography](/lynx/foundation/iconography#rsbuild-plugin-configuration)에서 확인하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
+### Lynx 피쳐 플래그 설정하기
+
+SEED 컴포넌트가 Lynx에서 정상 동작하려면 `pluginLynxConfig`로 피쳐 플래그를 설정해야 해요.
+
+```package-install
+@lynx-js/config-rsbuild-plugin
+```
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
+
+export default defineConfig({
+  plugins: [
+    // ... 기존 플러그인들
+    pluginLynxConfig({
+      enableCSSSelector: true,
+      enableCSSInvalidation: true,
+      enableCSSInheritance: true,
+      enableCSSInlineVariables: true,
+      enableCSSStrictMode: false,
+      enableTextRefactor: true,
+      fontScaleEffectiveOnlyOnSp: true,
+      enableFixedNew: true,
+    }),
+  ],
+});
+```
+
+<Callout>
+  각 플래그의 역할과 상황별 추가 설정은 [Feature
+  Flags](/lynx/getting-started/feature-flags)에서 확인하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```package-install
+npx @seed-design/cli add ui:switch
+```
+
+</Step>
+
+<Step>
+
+### (선택) lynx-console 설치하기
+
+[lynx-console](https://github.com/daangn/lynx-console)은 Lynx 앱 안에서 콘솔 로그, 네트워크, 성능 지표를 확인할 수 있는 개발자 도구예요.
+
+```package-install
+lynx-console
+```
+
+앱 entry에서 초기화하고 컴포넌트를 추가해주세요.
+
+```tsx title="src/App.tsx"
+import {
+  initLogMonitor,
+  initMainThreadConsole,
+  initNetworkMonitor,
+  initPerformanceMonitor,
+} from "lynx-console/setup";
+import LynxConsole from "lynx-console";
+
+initLogMonitor();
+initMainThreadConsole();
+initNetworkMonitor();
+initPerformanceMonitor();
+
+function App() {
+  return (
+    <view>
+      {/* your app */}
+      <LynxConsole />
+    </view>
+  );
+}
+```
+
+자세한 사용법은 [lynx-console GitHub](https://github.com/daangn/lynx-console)을 참고하세요.
+
+</Step>
+
+</Steps>

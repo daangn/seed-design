@@ -1,0 +1,69 @@
+---
+title: VStack
+description: VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.
+---
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+```tsx
+import { Box, Text, VStack } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <VStack gap="x2" bg="bg.neutralWeak" borderRadius="r3" p="x3" align="stretch">
+      <Box bg="bg.layerDefault" borderRadius="r2" p="x3">
+        <Text textStyle="t4Medium">첫 번째 항목</Text>
+      </Box>
+      <Box bg="bg.layerDefault" borderRadius="r2" p="x3">
+        <Text textStyle="t4Medium">두 번째 항목</Text>
+      </Box>
+    </VStack>
+  );
+}
+```
+
+`VStack`은 Lynx 네이티브 `<view>`를 직접 렌더링하며 `display="flex"`와 `flexDirection="column"`을 기본 적용합니다. `Box`를 내부에서 합성하지 않아 반복 렌더링에서 primitive 컴포넌트 단계를 줄입니다.
+
+<Callout type="warning">
+성능에 민감한 반복 레이아웃을 앱 코드에서 구성할 때는 native `<view>`/`<text>`에 Tailwind utility className을 직접 사용하는 방식을 우선 고려하세요. 패키지 컴포넌트 내부에서는 native tag와 recipe className을 사용하고, inline style은 런타임 값이 필요한 경우에만 제한적으로 사용합니다.
+</Callout>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Stack/Stack.tsx" name="VStackProps" />
+
+## Layout Aliases
+
+`VStack`은 자주 쓰는 flex 속성을 짧은 alias로 제공합니다.
+
+| Prop | 적용되는 style |
+|------|----------------|
+| `align` | `alignItems` |
+| `justify` | `justifyContent` |
+| `wrap` | `flexWrap` |
+| `grow` | `flexGrow` |
+| `shrink` | `flexShrink` |
+
+나머지 스타일 prop은 `Box`와 동일한 범위에서 사용할 수 있습니다.
+
+```tsx
+<VStack gap="x3" align="center" justify="center">
+  <Text>세로 정렬</Text>
+</VStack>
+```
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `VStack`은 React `VStack`과 다음과 같은 차이가 있습니다.
+
+- `as`, `asChild`를 지원하지 않습니다. 항상 Lynx 네이티브 `<view>`를 렌더링합니다.
+- `Stack`이라는 deprecated alias는 제공하지 않습니다. Lynx에서는 `VStack` / `HStack`을 명시적으로 사용합니다.
+- 지원하지 않는 StyleProps는 `Box`와 동일하게 열지 않습니다.
+</Callout>

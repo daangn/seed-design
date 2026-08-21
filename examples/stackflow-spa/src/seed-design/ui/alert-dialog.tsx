@@ -5,6 +5,10 @@ import type * as React from "react";
 
 export interface AlertDialogRootProps extends Dialog.RootProps {
   /**
+   * @default "alertdialog"
+   */
+  role?: Dialog.RootProps["role"];
+  /**
    * @default false
    */
   closeOnInteractOutside?: Dialog.RootProps["closeOnInteractOutside"];

@@ -1,0 +1,124 @@
+import { useState } from "@lynx-js/react";
+import { switchVariantMap } from "@seed-design/lynx-css/recipes/switch";
+import { switchmarkVariantMap } from "@seed-design/lynx-css/recipes/switchmark";
+import { SwitchControl, SwitchLabel, SwitchRoot, SwitchThumb } from "@seed-design/lynx-react";
+
+import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
+import {
+  definePreviewStates,
+  defineVariantAxes,
+  type SetVariantValue,
+  VariantCatalog,
+  type VariantCatalogValues,
+} from "../components/variant-catalog.jsx";
+import { Switch, Switchmark } from "../seed-design/ui/switch";
+
+const variants = defineVariantAxes([
+  {
+    key: "size",
+    options: switchVariantMap.size,
+    defaultValue: "32",
+  },
+  {
+    key: "tone",
+    options: switchmarkVariantMap.tone,
+    defaultValue: "brand",
+  },
+  {
+    key: "checked",
+    options: switchmarkVariantMap.checked,
+    defaultValue: false,
+  },
+  {
+    key: "disabled",
+    options: switchVariantMap.disabled,
+    defaultValue: false,
+  },
+]);
+
+const previewStates = definePreviewStates([
+  { key: "checked", defaultValue: false },
+  { key: "disabled", defaultValue: false },
+]);
+
+type SwitchValues = VariantCatalogValues<typeof variants, typeof previewStates>;
+
+function renderSwitch(values: SwitchValues, setValue: SetVariantValue<SwitchValues>) {
+  const checked = Boolean(values.checked);
+  return (
+    <Switch
+      label={checked ? "On" : "Off"}
+      size={values.size}
+      tone={values.tone}
+      checked={checked}
+      disabled={Boolean(values.disabled)}
+      onCheckedChange={(next) => setValue("checked", next)}
+    />
+  );
+}
+
+function SwitchExamples() {
+  const [controlled, setControlled] = useState(false);
+
+  return (
+    <CatalogExamples title="Switch" gap="12px">
+      <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
+      <view className="flex flex-row gap-x4 items-center">
+        <Switchmark />
+        <Switchmark defaultChecked />
+      </view>
+
+      <CatalogSectionTitle>With Label</CatalogSectionTitle>
+      <view className="flex flex-col gap-x2">
+        <Switch label="알림 받기" defaultChecked />
+        <Switch label="자동 로그인" />
+      </view>
+
+      <CatalogSectionTitle>Controlled</CatalogSectionTitle>
+      <view className="flex flex-row gap-x4 items-center">
+        <Switch
+          label={controlled ? "On" : "Off"}
+          checked={controlled}
+          onCheckedChange={setControlled}
+        />
+      </view>
+
+      <CatalogSectionTitle>Sizes</CatalogSectionTitle>
+      <view className="flex flex-row gap-x4 items-center">
+        <Switchmark size="16" defaultChecked />
+        <Switchmark size="24" defaultChecked />
+        <Switchmark size="32" defaultChecked />
+      </view>
+
+      <CatalogSectionTitle>Tones</CatalogSectionTitle>
+      <view className="flex flex-row gap-x4 items-center">
+        <Switch label="Brand" tone="brand" defaultChecked />
+        <Switch label="Neutral" tone="neutral" defaultChecked />
+      </view>
+
+      <CatalogSectionTitle>Disabled</CatalogSectionTitle>
+      <view className="flex flex-col gap-x2">
+        <Switch label="Disabled Off" disabled />
+        <Switch label="Disabled On" disabled defaultChecked />
+      </view>
+
+      <CatalogSectionTitle>Compound: Control override</CatalogSectionTitle>
+      <view className="flex flex-row gap-x4 items-center">
+        <SwitchRoot tone="brand" defaultChecked>
+          <SwitchControl tone="neutral">
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchLabel>Override</SwitchLabel>
+        </SwitchRoot>
+      </view>
+    </CatalogExamples>
+  );
+}
+
+export function SwitchPage() {
+  return (
+    <VariantCatalog variants={variants} previewStates={previewStates} examples={<SwitchExamples />}>
+      {(values, setValue) => renderSwitch(values, setValue)}
+    </VariantCatalog>
+  );
+}
