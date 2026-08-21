@@ -35,43 +35,15 @@ export const CheckboxGroup = withGroupContext<HTMLDivElement, CheckboxGroupProps
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @deprecated Use `regular` or `bold` instead of `default` or `stronger`
- */
-type CheckboxVariantDeprecatedWeightProps = "default" | "stronger";
-
 export interface CheckboxRootProps
-  extends Omit<CheckboxVariantProps, "weight">,
+  extends CheckboxVariantProps,
     CheckmarkVariantProps,
-    CheckboxPrimitive.RootProps {
-  weight?: CheckboxVariantProps["weight"] | CheckboxVariantDeprecatedWeightProps;
-}
+    CheckboxPrimitive.RootProps {}
 
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
-    if (
-      process.env.NODE_ENV !== "production" &&
-      (props.weight === "default" || props.weight === "stronger")
-    ) {
-      console.warn(
-        `[SEED Design System] Checkbox weight='${props.weight}' is deprecated and will be removed in @seed-design/react@1.3.0. Use weight='${props.weight === "default" ? "regular" : "bold"}' instead.`,
-      );
-    }
-
     const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, otherProps] =
-      splitMultipleVariantsProps(
-        {
-          ...props,
-          // TODO: replace this mapping completely
-          weight:
-            props.weight === "stronger"
-              ? "bold"
-              : props.weight === "default"
-                ? "regular"
-                : props.weight,
-        },
-        { checkbox, checkmark },
-      );
+      splitMultipleVariantsProps(props, { checkbox, checkmark });
 
     const classNames = checkbox(checkboxVariantProps);
 

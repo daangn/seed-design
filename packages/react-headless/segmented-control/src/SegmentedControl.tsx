@@ -48,21 +48,20 @@ export interface SegmentedControlItemProps
     PrimitiveProps,
     Omit<React.InputHTMLAttributes<HTMLLabelElement>, "value"> {}
 
-export const SegmentedControlItem = React.forwardRef<
-  HTMLLabelElement,
-  UseSegmentedControlItemProps
->((props, ref) => {
-  const { value, invalid, disabled, ...otherProps } = props;
-  const { getItemProps } = useSegmentedControlContext();
-  const itemProps = getItemProps({ value, disabled, invalid });
-  const mergedProps = mergeProps(itemProps.rootProps, otherProps);
+export const SegmentedControlItem = React.forwardRef<HTMLLabelElement, SegmentedControlItemProps>(
+  (props, ref) => {
+    const { value, invalid, disabled, ...otherProps } = props;
+    const { getItemProps } = useSegmentedControlContext();
+    const itemProps = getItemProps({ value, disabled, invalid });
+    const mergedProps = mergeProps(itemProps.rootProps, otherProps);
 
-  return (
-    <SegmentedControlItemProvider value={itemProps}>
-      <Primitive.label ref={ref} {...mergedProps} />
-    </SegmentedControlItemProvider>
-  );
-});
+    return (
+      <SegmentedControlItemProvider value={itemProps}>
+        <Primitive.label ref={ref} {...mergedProps} />
+      </SegmentedControlItemProvider>
+    );
+  },
+);
 SegmentedControlItem.displayName = "SegmentedControlItem";
 
 export interface SegmentedControlItemHiddenInputProps

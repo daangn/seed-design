@@ -1,0 +1,278 @@
+@layer seed-components {
+  .seed-quantity-picker__root {
+    box-sizing: border-box;
+    background-color: var(--seed-color-bg-layer-default);
+    width: fit-content;
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
+    align-items: center;
+    display: inline-flex;
+  }
+
+  .seed-quantity-picker__root:is(:invalid, [data-invalid]) {
+    box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
+  }
+
+  .seed-quantity-picker__decrementButton {
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    border: none;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    display: inline-flex;
+  }
+
+  .seed-quantity-picker__decrementButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .seed-quantity-picker__decrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media not all and (hover: hover) and (pointer: fine) {
+    .seed-quantity-picker__decrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  .seed-quantity-picker__decrementButton:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+  }
+
+  .seed-quantity-picker__decrementButton[data-loading] {
+    background-color: var(--seed-color-bg-transparent-pressed);
+  }
+
+  .seed-quantity-picker__decrementIcon {
+    color: var(--seed-color-fg-neutral);
+    --track-color: var(--seed-color-palette-gray-500);
+    --range-color: var(--seed-color-fg-neutral);
+    flex-shrink: 0;
+  }
+
+  .seed-quantity-picker__decrementIcon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-quantity-picker__valueDisplay {
+    box-sizing: border-box;
+    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-color-fg-neutral);
+    flex-grow: 1;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+  }
+
+  .seed-quantity-picker__valueDisplay:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-quantity-picker__valueDisplayPlaceholder {
+    visibility: hidden;
+    font-variant-numeric: tabular-nums;
+    grid-area: 1 / 1;
+  }
+
+  .seed-quantity-picker__valueDisplayText {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    grid-area: 1 / 1;
+  }
+
+  .seed-quantity-picker__divider {
+    background-color: var(--seed-color-stroke-neutral-subtle);
+    flex-shrink: 0;
+  }
+
+  .seed-quantity-picker__incrementButton {
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+    border: none;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    display: inline-flex;
+  }
+
+  .seed-quantity-picker__incrementButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .seed-quantity-picker__incrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:hover, [data-hover]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  @media not all and (hover: hover) and (pointer: fine) {
+    .seed-quantity-picker__incrementButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+      background-color: var(--seed-color-bg-transparent-pressed);
+    }
+  }
+
+  .seed-quantity-picker__incrementButton:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+  }
+
+  .seed-quantity-picker__incrementButton[data-loading] {
+    background-color: var(--seed-color-bg-transparent-pressed);
+  }
+
+  .seed-quantity-picker__incrementIcon {
+    color: var(--seed-color-fg-neutral);
+    --track-color: var(--seed-color-palette-gray-500);
+    --range-color: var(--seed-color-fg-neutral);
+    flex-shrink: 0;
+  }
+
+  .seed-quantity-picker__incrementIcon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+  }
+
+  .seed-quantity-picker__root--layout_fill {
+    flex-grow: 1;
+  }
+
+  .seed-quantity-picker__root--size_small {
+    height: var(--seed-dimension-x9);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__decrementButton--size_small {
+    width: var(--seed-dimension-x9);
+    height: var(--seed-dimension-x9);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__decrementIcon--size_small {
+    --size: 16px;
+    --thickness: 2px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .seed-quantity-picker__valueDisplay--size_small {
+    padding-inline: var(--seed-dimension-x2);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  .seed-quantity-picker__divider--size_small {
+    width: 1px;
+    height: var(--seed-dimension-x4);
+  }
+
+  .seed-quantity-picker__incrementButton--size_small {
+    width: var(--seed-dimension-x9);
+    height: var(--seed-dimension-x9);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__incrementIcon--size_small {
+    --size: 16px;
+    --thickness: 2px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .seed-quantity-picker__root--size_medium {
+    height: var(--seed-dimension-x10);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__decrementButton--size_medium {
+    width: var(--seed-dimension-x10);
+    height: var(--seed-dimension-x10);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__decrementIcon--size_medium {
+    --size: 18px;
+    --thickness: 2px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .seed-quantity-picker__valueDisplay--size_medium {
+    padding-inline: var(--seed-dimension-x2);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+  }
+
+  .seed-quantity-picker__divider--size_medium {
+    width: 1px;
+    height: var(--seed-dimension-x4);
+  }
+
+  .seed-quantity-picker__incrementButton--size_medium {
+    width: var(--seed-dimension-x10);
+    height: var(--seed-dimension-x10);
+    border-radius: var(--seed-radius-r2);
+  }
+
+  .seed-quantity-picker__incrementIcon--size_medium {
+    --size: 18px;
+    --thickness: 2px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .seed-quantity-picker__root--size_large {
+    height: var(--seed-dimension-x13);
+    border-radius: var(--seed-radius-r3);
+  }
+
+  .seed-quantity-picker__decrementButton--size_large {
+    width: var(--seed-dimension-x13);
+    height: var(--seed-dimension-x13);
+    border-radius: var(--seed-radius-r3);
+  }
+
+  .seed-quantity-picker__decrementIcon--size_large {
+    --size: 22px;
+    --thickness: 2px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .seed-quantity-picker__valueDisplay--size_large {
+    padding-inline: var(--seed-dimension-x2);
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+  }
+
+  .seed-quantity-picker__divider--size_large {
+    width: 1px;
+    height: var(--seed-dimension-x4);
+  }
+
+  .seed-quantity-picker__incrementButton--size_large {
+    width: var(--seed-dimension-x13);
+    height: var(--seed-dimension-x13);
+    border-radius: var(--seed-radius-r3);
+  }
+
+  .seed-quantity-picker__incrementIcon--size_large {
+    --size: 22px;
+    --thickness: 2px;
+    width: 22px;
+    height: 22px;
+  }
+}

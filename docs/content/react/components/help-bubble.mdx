@@ -3,7 +3,9 @@ title: Help Bubble
 description: 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.
 ---
 
-<ComponentExample name="react/help-bubble/preview">
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
+<ComponentExample name="react/help-bubble/preview" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/preview.tsx",
@@ -50,7 +52,9 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
 
-<ComponentExample name="react/help-bubble/trigger">
+`<HelpBubbleTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, Help Bubble의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/help-bubble/trigger" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/trigger.tsx",
@@ -65,7 +69,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `defaultOpen`과 `showCloseButton`을 사용하여 적절하게 열리고 닫히도록 하거나, `open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리할 수 있습니다.
 
-<ComponentExample name="react/help-bubble/anchor">
+<ComponentExample name="react/help-bubble/anchor" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/anchor.tsx",
@@ -78,7 +82,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
 
-<ComponentExample name="react/help-bubble/close-on-interact-outside">
+<ComponentExample name="react/help-bubble/close-on-interact-outside" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/close-on-interact-outside.tsx",
@@ -89,7 +93,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Placement
 
-<ComponentExample name="react/help-bubble/placement">
+<ComponentExample name="react/help-bubble/placement" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/placement.tsx",
@@ -100,7 +104,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Flip
 
-<ComponentExample name="react/help-bubble/flip">
+<ComponentExample name="react/help-bubble/flip" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/flip.tsx",
@@ -111,7 +115,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Close Button
 
-<ComponentExample name="react/help-bubble/close-button">
+<ComponentExample name="react/help-bubble/close-button" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/close-button.tsx",
@@ -120,9 +124,22 @@ npx @seed-design/cli@latest add ui:help-bubble
   ```
 </ComponentExample>
 
+### Description
+
+`description`을 사용하여 `title` 아래에 설명을 추가할 수 있습니다.
+
+<ComponentExample name="react/help-bubble/description" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Title Only
 
-<ComponentExample name="react/help-bubble/title-only">
+<ComponentExample name="react/help-bubble/title-only" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/title-only.tsx",
@@ -135,7 +152,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `contentProps`에 인라인 스타일로 `maxWidth`나 `width`를 설정하여 너비를 조절할 수 있습니다.
 
-<ComponentExample name="react/help-bubble/width">
+<ComponentExample name="react/help-bubble/width" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/width.tsx",
@@ -146,7 +163,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Line Breaks
 
-<ComponentExample name="react/help-bubble/line-breaks">
+<ComponentExample name="react/help-bubble/line-breaks" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/line-breaks.tsx",
@@ -157,7 +174,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### `z-index` Offset
 
-<ComponentExample name="react/help-bubble/z-index-offset">
+<ComponentExample name="react/help-bubble/z-index-offset" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/z-index-offset.tsx",

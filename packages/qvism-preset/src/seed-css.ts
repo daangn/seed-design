@@ -1,8 +1,20 @@
+import type collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
+import { breakpoints } from "./utils/breakpoint";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
 type ValueLit = AST.ValueLit;
+
+/**
+ * Every collection rootage declares, mapped to the selector or at-rule each of
+ * its modes is emitted under.
+ */
+type Selectors = {
+  [C in (typeof collections.data)[number] as C["name"]]: {
+    [M in C["modes"][number]["id"]]: string | null;
+  };
+};
 
 /**
  * Creates a SEED-specific declaration function with platform-aware font scaling
@@ -98,7 +110,18 @@ export default function generateSeedCss(
 :root[data-seed-color-mode="dark-only"],
 :root [data-seed-color-mode="dark-only"]`,
       },
-    },
+      "viewport-width": {
+        base: ":root",
+        sm: breakpoints.up("sm"),
+        md: breakpoints.up("md"),
+        lg: breakpoints.up("lg"),
+        xl: breakpoints.up("xl"),
+      },
+      motion: {
+        preferred: ":root",
+        reduced: "@media (prefers-reduced-motion: reduce)",
+      },
+    } satisfies Selectors,
     customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
   };
 

@@ -4,18 +4,16 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     overflow: hidden;
   }
 
   .seed-app-screen__dim {
     z-index: var(--z-index-dim);
+    top: 0;
     width: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
   }
 
   .seed-app-screen__layer {
@@ -25,13 +23,16 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     overflow-y: scroll;
   }
 
   .seed-app-screen__layer::-webkit-scrollbar {
     display: none;
+  }
+
+  .seed-app-screen__layer:focus {
+    outline: none;
   }
 
   .seed-app-screen__layer {
@@ -43,8 +44,7 @@
     width: 20px;
     height: 100%;
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline: 0;
   }
 
   .seed-app-screen__root--theme_cupertino {
@@ -116,6 +116,7 @@
 
   .seed-app-screen__layer--tone_transparent-gradient_true:before {
     content: "";
+    inset-inline: 0;
     margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
     height: calc(66px + 400px + var(--seed-safe-area-top));
     pointer-events: none;
@@ -124,8 +125,6 @@
     display: block;
     position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
   }
 
   .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetBottom_none:before {

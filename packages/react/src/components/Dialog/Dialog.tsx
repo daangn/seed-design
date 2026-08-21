@@ -1,11 +1,9 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
+import { Dialog as DialogPrimitive } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { createWithStateProps } from "../../utils/createWithStateProps";
 
 const { withRootProvider, withContext } = createSlotRecipeContext(dialog);
-const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,25 +66,19 @@ export const DialogHeader = withContext<HTMLDivElement, DialogHeaderProps>(Primi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// NOTE: uses DialogPrimitive.TitleProps,
-// but actual rendered component is a Primitive.span rather than a DialogPrimitive.Title
-// find out why later; misses h2 and some a11y features
 export interface DialogTitleProps extends DialogPrimitive.TitleProps {}
 
 export const DialogTitle = withContext<HTMLHeadingElement, DialogTitleProps>(
-  withStateProps(Primitive.span),
+  DialogPrimitive.Title,
   "title",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// NOTE: uses DialogPrimitive.DescriptionProps,
-// but actual rendered component is a Primitive.div rather than a DialogPrimitive.Description
-// find out why later; misses p and some a11y features
 export interface DialogDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
 export const DialogDescription = withContext<HTMLParagraphElement, DialogDescriptionProps>(
-  withStateProps(Primitive.div),
+  DialogPrimitive.Description,
   "description",
 );
 
@@ -98,8 +90,6 @@ export const DialogFooter = withContext<HTMLDivElement, DialogFooterProps>(Primi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogActionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+export interface DialogActionProps extends DialogPrimitive.CloseButtonProps {}
 
 export const DialogAction = DialogPrimitive.CloseButton;

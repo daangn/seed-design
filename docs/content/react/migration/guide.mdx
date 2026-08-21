@@ -78,8 +78,8 @@ SEED 스타일시트 사용법은 [Installation의 css import](/react/getting-st
 <html data-seed data-seed-color-mode="system" data-seed-user-color-scheme="light" />
 ```
 
-- `data-seed`: Seed Design 전역 테마 적용 (SEED에서 그대로 유지)
-- `data-seed-color-mode`: Seed Design 테마 강제 적용
+- `data-seed`: SEED 전역 테마 적용 (SEED에서 그대로 유지)
+- `data-seed-color-mode`: SEED 테마 강제 적용
   - `light-only`, `dark-only`, `system` 중 하나를 선택할 수 있습니다.
 - `data-seed-user-color-scheme`: 유저 기기의 설정
   - `light`, `dark` 중 하나의 값을 가집니다.
@@ -213,12 +213,12 @@ import { generateThemingScript } from "@seed-design/css/theming";
 아래의 프롬프트를 이용해서 현재 프로젝트에서 사용중인 용례를 분석할 수도 있습니다.
 
 ```text title="prompt"
-Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이션
+SEED의 디자인 토큰을 새로운 토큰으로 마이그레이션
 할건데 코드 어디 부분들을 변경해야 하는지 보고서를 써줘.
 
 1. `@seed-design/design-token` 패키지의 vars 변수를 사용하는 용례
 2. `@seed-design/design-token` 패키지의 vars 변수를 확장해서 사용하는 컴포넌트
-3. 2번 컴포넌트를 사용중인 코드 용례 
+3. 2번 컴포넌트를 사용중인 코드 용례
 4. `@seed-design/styleesheet` 패키지를 사용하는 용례
 5. `--seed-` prefix로 시작하는 CSS Variable을 사용하는 용례
 6. 사용중인 CSS 라이브러리와 `@seed-design/design-token` 패키지와 결합해서 사용하는 용례
@@ -246,7 +246,7 @@ import type { TextVariant } from '@seed-design/css/recipes/text';
 import { vars as typographyVars } from '@seed-design/css/vars/component/typography';
 
 /**
- * @see https://seed-design.io/docs/foundation/typography/overview
+ * @see https://seed-design.io/foundations/typography
  * @example
  * typography.t1Bold
  * typography.t2Regular

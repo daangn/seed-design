@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design",
     "directory": "packages/react-theming"
   },
+  "license": "Apache-2.0",
   "maintainers": [
     {
       "name": "Hyeonsu Jung",
@@ -28,7 +29,9 @@
   },
   "files": [
     "src",
-    "lib"
+    "lib",
+    "LICENSE",
+    "NOTICE"
   ],
   "browserslist": [
     "defaults",

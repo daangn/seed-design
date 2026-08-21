@@ -14,10 +14,7 @@
 .seed-image-frame-reaction-button__root::before {
     content: '';
     position: absolute;
-    top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
-    right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
-    bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
-    left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
+    inset: calc((var(--seed-dimension-x10) - var(--seed-dimension-x6)) / 2 * -1);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -46,7 +43,5 @@
     height: var(--seed-dimension-x6);
     color: var(--seed-color-palette-static-white);
     pointer-events: none;
-}
-.seed-image-frame-reaction-button__lineIcon:is([aria-pressed=true], [data-pressed]) {
-    color: var(--seed-color-bg-transparent);
+    filter: drop-shadow(0px 2px 2px #00000026);
 }

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import type { ComponentData } from "../../../sanity-studio/lib/types";
 import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
 import { normalizeForAssert, readFixture } from "../test-utils";
@@ -10,6 +10,7 @@ const mockComponents: ComponentData[] = [
     name: "Button",
     figmaStatus: "ready",
     reactStatus: "ready",
+    lynxStatus: "ready",
     iosStatus: "ready",
     androidStatus: "ready",
   },
@@ -19,6 +20,7 @@ const mockComponents: ComponentData[] = [
     figmaStatus: "ready",
     figmaUrl: "https://figma.com/card",
     reactStatus: "in-progress",
+    lynxStatus: "in-progress",
     iosStatus: "not-ready",
     androidStatus: "not-planned",
   },
@@ -30,6 +32,7 @@ const mockComponents: ComponentData[] = [
     reactStatus: "ready",
     reactUrl: "https://example.com/tab",
     reactNote: "see migration",
+    lynxStatus: "not-planned",
     iosStatus: "not-planned",
     androidStatus: "not-planned",
   },
@@ -41,10 +44,17 @@ const edgeCaseComponents: ComponentData[] = [
     name: "AllNotPlanned",
     figmaStatus: "not-planned",
     reactStatus: "not-planned",
+    lynxStatus: "not-planned",
     iosStatus: "not-planned",
     androidStatus: "not-planned",
   },
 ];
+
+// componentsCache는 모듈 스코프라 한 프로세스에서 도는 다른 테스트 파일과 공유된다.
+// "빈 캐시" 테스트가 남의 상태에 물리지 않도록 매 테스트 전후로 비운다.
+beforeEach(() => {
+  __setComponentsCacheForTests(null);
+});
 
 afterEach(() => {
   __setComponentsCacheForTests(null);
@@ -56,7 +66,7 @@ describe("progressBoardRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [progressBoardRule]);
 
-    expect(actual).toContain("ProgressBoardTable");
+    expect(actual).toBe("<ProgressBoardTable />");
   });
 
   it("renders summary and component tables for typical data", () => {

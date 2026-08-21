@@ -10,10 +10,7 @@
 .seed-app-bar__background {
     position: absolute;
     pointer-events: none;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: -1;
 }
 .seed-app-bar__left {
@@ -50,8 +47,7 @@
 }
 .seed-app-bar__root--theme_cupertino {
     height: calc(44px + var(--seed-safe-area-top));
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     padding-top: var(--seed-safe-area-top);
 }
 .seed-app-bar__iconButton--theme_cupertino {
@@ -70,8 +66,7 @@
 }
 .seed-app-bar__root--theme_android {
     height: calc(56px + var(--seed-safe-area-top));
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x4);
     padding-top: var(--seed-safe-area-top);
 }
 .seed-app-bar__iconButton--theme_android {
@@ -102,7 +97,4 @@
 }
 .seed-app-bar__icon--tone_transparent {
     color: var(--seed-icon-color, var(--seed-color-palette-static-white));
-}
-.seed-app-bar__background--divider_true {
-    box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);
 }

@@ -1,22 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { contentPlaceholderVariantMap } from "@seed-design/css/recipes/content-placeholder";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { IconSparkle2Fill } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconBuilding2Fill,
+  IconCupHeatwaveFill,
+  IconSparkle2Fill,
+} from "@karrotmarket/react-monochrome-icon";
 
-const meta = {
+const meta = preview.meta({
   component: ContentPlaceholder,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ContentPlaceholder>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const { type: _type, ...variantMap } = contentPlaceholderVariantMap;
 
 const conditionMap = {
@@ -57,34 +55,33 @@ const conditionMap = {
       contentPlaceholderVariantMap.type.map((value) => [value, { type: value }]),
     ),
     custom: { children: <IconSparkle2Fill /> },
+    cafe: { children: <IconCupHeatwaveFill style={{ stroke: "none" }} /> },
+    apartment: { children: <IconBuilding2Fill style={{ stroke: "none" }} /> },
   },
 };
 
-const CommonStoryTemplate: Story = {
+const CommonStoryTemplate = meta.story({
   args: {},
-  render: (args) => (
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={variantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters<typeof meta>({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters<typeof meta>({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters<typeof meta>({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

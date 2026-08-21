@@ -1,5 +1,5 @@
 import type { PublicRegistry } from "@/src/schema";
-import { getPackageInfo } from "@/src/utils/get-package-info";
+import { getInstalledPackageJson, getPackageInfo } from "@/src/utils/get-package-info";
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
@@ -53,6 +53,13 @@ export function getProjectSeedPackageVersionSpecs(
       const value = packageDeps[packageName];
       if (typeof value === "string") {
         result[packageName] = value;
+        continue;
+      }
+      // 모노레포처럼 선언이 상위 package.json에 있으면 여기선 안 잡혀요.
+      // 실제로 해소된 설치본이 있으면 그걸 쓰지 않으면 "미설치"로 오판해요.
+      const installed = getInstalledPackageJson(packageName, cwd)?.version;
+      if (typeof installed === "string") {
+        result[packageName] = installed;
       }
     }
 

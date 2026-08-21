@@ -1,180 +1,45 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import type {
-  MdxJsxAttribute,
-  MdxJsxAttributeValueExpression,
-  MdxJsxFlowElement,
-} from "mdast-util-mdx-jsx";
-import type { Exchange } from "@seed-design/rootage-core";
+import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import index from "@seed-design/rootage-artifacts/index.json";
 import type { Rule } from "./types";
-import {
-  type ArrayExpressionNode,
-  type ExpressionStatementNode,
-  type LiteralNode,
-  isProgramNode,
-  isStringLiteral,
-} from "./estree-utils";
 
-/*
-  <ComponentSpecBlock id="action-button" variants={["variant=brandSolid"]} /> 에서
-  variants 배열을 파싱합니다.
-*/
-function getVariantsFromNode(node: MdxJsxFlowElement): string[] {
-  const attr = node.attributes.find(
-    (a): a is MdxJsxAttribute => a.type === "mdxJsxAttribute" && a.name === "variants",
-  );
-  if (!attr || typeof attr.value !== "object" || !attr.value) return [];
-
-  const attrValue = attr.value as MdxJsxAttributeValueExpression;
-  const estree = attrValue.data?.estree;
-  if (!isProgramNode(estree)) return [];
-
-  const stmt = estree.body[0];
-  if (!stmt || stmt.type !== "ExpressionStatement") return [];
-
-  const expr = (stmt as ExpressionStatementNode).expression;
-  if (expr.type !== "ArrayExpression") return [];
-
-  return (expr as ArrayExpressionNode).elements
-    .filter((el): el is LiteralNode & { value: string } => isStringLiteral(el))
-    .map((el) => el.value);
-}
-
-interface RootageIndex {
-  resources: { path: string }[];
+export interface SpecResource {
+  path: string;
 }
 
 /*
-  MDX의 variants prop ["variant=brandSolid"] 형식과
-  JSON의 variants 객체 { "variant": "brandSolid" }를 비교합니다.
+  id에 해당하는 컴포넌트 스펙 리소스를 찾아 llms.txt에 실을 URL로 바꿉니다.
+  목록에 없으면 null이고, 호출부는 원본 노드를 그대로 둡니다.
 */
-function matchesVariantFilter(
-  defVariants: Record<string, string>,
-  filterVariants: string[],
-): boolean {
-  if (filterVariants.length === 0) return true;
+export function findSpecUrl(resources: readonly SpecResource[], id: string): string | null {
+  const resourcePath = `/components/${id}.json`;
+  if (!resources.some((resource) => resource.path === resourcePath)) return null;
 
-  const filterMap: Record<string, string> = {};
-  for (const f of filterVariants) {
-    const eqIdx = f.indexOf("=");
-    if (eqIdx < 0) continue;
-    filterMap[f.slice(0, eqIdx)] = f.slice(eqIdx + 1);
-  }
-
-  // filterMap의 모든 키/값이 defVariants와 일치해야 함
-  for (const [k, v] of Object.entries(filterMap)) {
-    if (defVariants[k] !== v) return false;
-  }
-  return true;
-}
-
-function stringifyVariants(variants: Record<string, string>): string {
-  const entries = Object.entries(variants);
-  if (entries.length === 0) return "Base";
-  return entries.map(([k, v]) => `${k}=${v}`).join(", ");
-}
-
-function formatPropertyValue(prop: Exchange.Value): string {
-  // 토큰 참조 ($color.bg.brand-solid 등)는 그대로 표시
-  if (typeof prop.value === "string") return prop.value;
-  return JSON.stringify(prop.value);
+  return `/rootage${resourcePath}`;
 }
 
 /*
-  ComponentSpec 데이터를 마크다운 테이블로 변환합니다.
-  filterVariants가 비어있으면 모든 definition을 포함합니다.
+  마크다운 테이블을 생성하는 대신 rootage exchange JSON URL을 안내합니다.
+  테이블 생성은 번들된 빌드에서 조용히 실패했고(스펙 JSON fs 접근 불가),
+  스펙 전문은 JSON이 소스 오브 트루스이므로 URL 참조가 더 정확합니다.
+  variants prop은 llms.txt 출력에서는 무시합니다.
 */
-function generateMarkdown(spec: Exchange.ComponentSpecModel, filterVariants: string[]): string {
-  const sections: string[] = [];
-
-  for (const defEntry of spec.data.definitions) {
-    if (!matchesVariantFilter(defEntry.variants, filterVariants)) continue;
-
-    const variantLabel = stringifyVariants(defEntry.variants);
-    const rows: string[] = [];
-
-    for (const stateDef of defEntry.definitions) {
-      const stateStr = stateDef.states.join(", ");
-      for (const [slotName, slotProps] of Object.entries(stateDef.slots)) {
-        for (const [propName, propValue] of Object.entries(slotProps)) {
-          rows.push(
-            `| ${stateStr} | ${slotName} | ${propName} | ${formatPropertyValue(propValue)} |`,
-          );
-        }
-      }
-    }
-
-    if (rows.length === 0) continue;
-
-    const table = [
-      "| State | Slot | Property | Value |",
-      "| --- | --- | --- | --- |",
-      ...rows,
-    ].join("\n");
-
-    sections.push(`### ${variantLabel}\n\n${table}`);
-  }
-
-  return sections.join("\n\n");
-}
-
-/*
-  rootage component spec 파일을 id를 키로 캐싱합니다.
-*/
-let specDataCache: Map<string, Exchange.ComponentSpecModel> | null = null;
-
-function loadComponentSpecData(): Map<string, Exchange.ComponentSpecModel> {
-  if (specDataCache) return specDataCache;
-
-  specDataCache = new Map();
-  const rootageDir = join(process.cwd(), "public/rootage");
-
-  try {
-    const indexContent = readFileSync(join(rootageDir, "index.json"), "utf-8");
-    const index = JSON.parse(indexContent) as RootageIndex;
-
-    for (const resource of index.resources) {
-      const { path } = resource;
-      if (!path.startsWith("/components/")) continue;
-
-      try {
-        const filePath = join(rootageDir, path.slice(1));
-        const content = readFileSync(filePath, "utf-8");
-        const data = JSON.parse(content) as Exchange.ComponentSpecModel;
-        const id = data.metadata?.id ?? path.replace("/components/", "").replace(".json", "");
-        specDataCache.set(id, data);
-      } catch {
-        // 읽지 못한 파일은 건너뜀
-      }
-    }
-  } catch {
-    // index.json 읽기 실패 시 빈 캐시 반환
-  }
-
-  return specDataCache;
-}
-
-export const componentSpecBlockRule: Rule = {
+export const componentSpecBlockRule: Rule<MdxJsxFlowElement> = {
   name: "ComponentSpecBlock",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "ComponentSpecBlock",
   transform: (node, context) => {
-    try {
-      const id = context.getStringAttribute(node, "id");
-      if (!id) throw new Error("ComponentSpecBlock: id prop is required");
-
-      const filterVariants = getVariantsFromNode(node);
-      const specData = loadComponentSpecData();
-      const spec = specData.get(id);
-      if (!spec) throw new Error(`ComponentSpecBlock: spec not found for id="${id}"`);
-
-      const markdown = generateMarkdown(spec, filterVariants);
-      if (!markdown) throw new Error(`ComponentSpecBlock: no definitions for id="${id}"`);
-
-      return [{ type: "html", value: markdown }];
-    } catch (e) {
-      console.warn(`[ComponentSpecBlock] 변환 실패, 노드 스킵: ${e}`);
-      return [];
+    const id = context.getStringAttribute(node, "id");
+    if (!id) {
+      console.warn("[ComponentSpecBlock] id prop이 없어 원본 노드를 유지합니다.");
+      return [node];
     }
+
+    const url = findSpecUrl(index.resources, id);
+    if (!url) {
+      console.warn(`[ComponentSpecBlock] id="${id}"의 스펙 리소스가 없어 원본 노드를 유지합니다.`);
+      return [node];
+    }
+
+    return [{ type: "html", value: `Component spec (JSON): ${url}` }];
   },
 };

@@ -1,20 +1,6 @@
-import { IconHashLine, IconTimerLine } from "@karrotmarket/react-monochrome-icon";
-import { AST } from "@seed-design/rootage-core";
-import { IconLayers, IconRuler, IconSpline } from "./icons";
-
-// Gradient를 CSS linear-gradient로 변환하는 유틸리티 함수
-function gradientToCss(gradient: AST.GradientLit): string {
-  const stops = gradient.stops
-    .map((stop) => {
-      const color =
-        stop.color.kind === "ColorHexLit"
-          ? stop.color.value
-          : `var(--seed-${stop.color.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-      return `${color} ${(stop.position.value * 100).toFixed(1)}%`;
-    })
-    .join(", ");
-  return `linear-gradient(to right, ${stops})`;
-}
+import type { AST } from "@seed-design/rootage-core";
+import { gradientToCss } from "./rootage";
+import { TOKEN_KIND_ICON } from "./token-kind-icon";
 
 // Gradient 정보를 텍스트로 변환하는 함수
 function gradientToText(gradient: AST.GradientLit): string {
@@ -55,49 +41,16 @@ export function TypeIndicator(props: { value: AST.ValueLit }) {
     );
   }
 
-  if (value.kind === "DimensionLit") {
-    return (
-      <div>
-        <IconRuler className="w-4 h-4 flex-none" />
-      </div>
-    );
-  }
-
-  if (value.kind === "DurationLit") {
-    return (
-      <div>
-        <IconTimerLine className="w-4 h-4 flex-none" />
-      </div>
-    );
-  }
-
-  if (value.kind === "NumberLit") {
-    return (
-      <div>
-        <IconHashLine className="w-4 h-4 flex-none" />
-      </div>
-    );
-  }
-
-  if (value.kind === "ShadowLit") {
-    return (
-      <div>
-        <IconLayers className="w-4 h-4 flex-none" />
-      </div>
-    );
-  }
-
-  if (value.kind === "CubicBezierLit") {
-    return (
-      <div>
-        <IconSpline className="w-4 h-4 flex-none" />
-      </div>
-    );
-  }
-
   if (value.kind === "GradientLit") {
     return <GradientSwatch gradient={value} />;
   }
 
-  return null;
+  const Icon = TOKEN_KIND_ICON[value.kind];
+  if (!Icon) return null;
+
+  return (
+    <div>
+      <Icon className="w-4 h-4 flex-none" />
+    </div>
+  );
 }

@@ -1,0 +1,7 @@
+{
+  "title": "Iconography",
+  "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
+  "coverImage": "/og/foundations/iconography",
+  "layout": "tabs",
+  "pages": ["usage", "library"]
+}

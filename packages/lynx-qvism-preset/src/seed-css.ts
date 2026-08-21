@@ -1,8 +1,19 @@
+import type collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
 type ValueLit = AST.ValueLit;
+
+/**
+ * Every collection rootage declares, mapped to the selector or at-rule each of
+ * its modes is emitted under.
+ */
+type Selectors = {
+  [C in (typeof collections.data)[number] as C["name"]]: {
+    [M in C["modes"][number]["id"]]: string | null;
+  };
+};
 
 /**
  * Creates a SEED-specific declaration function with Lynx font units.
@@ -86,7 +97,16 @@ export default function generateSeedCss(
 :root.seed-color-mode-dark-only,
 .seed-color-mode-dark-only`,
       },
-    },
+      // Lynx has no responsive support, so every viewport mode opts out.
+      "viewport-width": { base: null, sm: null, md: null, lg: null, xl: null },
+      motion: {
+        preferred: ":root",
+        // Lynx does not evaluate `@media (prefers-reduced-motion: reduce)`, so a
+        // reduced-motion guard would never apply on-device. `null` opts the mode
+        // out of emission entirely, so motion scales always apply under `:root`.
+        reduced: null,
+      },
+    } satisfies Selectors,
     customDeclaration: createSeedDeclaration(),
   };
 

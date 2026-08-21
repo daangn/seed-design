@@ -3,6 +3,7 @@ import type {
   DimensionLit,
   DurationLit,
   NumberLit,
+  EnumLit,
   CubicBezierLit,
   ShadowLayerLit,
   ShadowLit,
@@ -12,6 +13,7 @@ import type {
   ColorPropertyDeclaration,
   DimensionPropertyDeclaration,
   NumberPropertyDeclaration,
+  EnumPropertyDeclaration,
   DurationPropertyDeclaration,
   CubicBezierPropertyDeclaration,
   ShadowPropertyDeclaration,
@@ -48,10 +50,12 @@ import type {
   UnresolvedTokenValueDeclaration,
   UnresolvedPropertyDeclaration,
   SchemaDeclaration,
+  PropertySchema,
   PropertySchemaDeclaration,
   SlotSchemaDeclaration,
   VariantSchemaDeclaration,
   VariantValueSchemaDeclaration,
+  ModeDeclaration,
 } from "./ast";
 
 /**
@@ -92,6 +96,16 @@ export function createDurationLit(value: number, unit: "ms" | "s"): DurationLit 
 export function createNumberLit(value: number): NumberLit {
   return {
     kind: "NumberLit",
+    value,
+  };
+}
+
+/**
+ * EnumLit factory
+ */
+export function createEnumLit(value: string): EnumLit {
+  return {
+    kind: "EnumLit",
     value,
   };
 }
@@ -231,6 +245,20 @@ export function createNumberPropertyDeclaration(
 ): NumberPropertyDeclaration {
   return {
     kind: "NumberPropertyDeclaration",
+    property,
+    value,
+  };
+}
+
+/**
+ * EnumPropertyDeclaration factory
+ */
+export function createEnumPropertyDeclaration(
+  property: string,
+  value: EnumLit,
+): EnumPropertyDeclaration {
+  return {
+    kind: "EnumPropertyDeclaration",
     property,
     value,
   };
@@ -414,18 +442,16 @@ export function createSlotSchemaDeclaration(
 
 /**
  * PropertySchemaDeclaration factory
+ *
+ * Takes the declaration as one object so the `enum`/`values` correlation survives
+ * the call.
  */
-export function createPropertySchemaDeclaration(
-  name: string,
-  type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient",
-  description?: string,
-): PropertySchemaDeclaration {
+export function createPropertySchemaDeclaration<T extends PropertySchema>(name: string, schema: T) {
   return {
     kind: "PropertySchemaDeclaration",
     name,
-    type,
-    description,
-  };
+    ...schema,
+  } satisfies { kind: "PropertySchemaDeclaration"; name: string } & PropertySchema;
 }
 
 /**
@@ -494,6 +520,7 @@ export function createColorTokenDeclaration(
   token: TokenLit,
   values: ColorTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): ColorTokenDeclaration {
   return {
     kind: "ColorTokenDeclaration",
@@ -501,6 +528,7 @@ export function createColorTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -512,6 +540,7 @@ export function createDimensionTokenDeclaration(
   token: TokenLit,
   values: DimensionTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): DimensionTokenDeclaration {
   return {
     kind: "DimensionTokenDeclaration",
@@ -519,6 +548,7 @@ export function createDimensionTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -530,6 +560,7 @@ export function createNumberTokenDeclaration(
   token: TokenLit,
   values: NumberTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): NumberTokenDeclaration {
   return {
     kind: "NumberTokenDeclaration",
@@ -537,6 +568,7 @@ export function createNumberTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -548,6 +580,7 @@ export function createDurationTokenDeclaration(
   token: TokenLit,
   values: DurationTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): DurationTokenDeclaration {
   return {
     kind: "DurationTokenDeclaration",
@@ -555,6 +588,7 @@ export function createDurationTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -566,6 +600,7 @@ export function createCubicBezierTokenDeclaration(
   token: TokenLit,
   values: CubicBezierTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): CubicBezierTokenDeclaration {
   return {
     kind: "CubicBezierTokenDeclaration",
@@ -573,6 +608,7 @@ export function createCubicBezierTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -584,6 +620,7 @@ export function createShadowTokenDeclaration(
   token: TokenLit,
   values: ShadowTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): ShadowTokenDeclaration {
   return {
     kind: "ShadowTokenDeclaration",
@@ -591,6 +628,7 @@ export function createShadowTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -602,6 +640,7 @@ export function createGradientTokenDeclaration(
   token: TokenLit,
   values: GradientTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): GradientTokenDeclaration {
   return {
     kind: "GradientTokenDeclaration",
@@ -609,6 +648,7 @@ export function createGradientTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -620,6 +660,7 @@ export function createUnresolvedTokenDeclaration(
   token: TokenLit,
   values: UnresolvedTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): UnresolvedTokenDeclaration {
   return {
     kind: "UnresolvedTokenDeclaration",
@@ -627,6 +668,7 @@ export function createUnresolvedTokenDeclaration(
     token,
     values,
     description,
+    excludeFromExchange,
   };
 }
 
@@ -646,6 +688,7 @@ export function createTokenDeclaration(
     | GradientTokenValueDeclaration[]
     | UnresolvedTokenValueDeclaration[],
   description?: string,
+  excludeFromExchange?: boolean,
 ): TokenDeclaration {
   switch (values[0]!.kind) {
     case "ColorTokenValueDeclaration":
@@ -654,6 +697,7 @@ export function createTokenDeclaration(
         token,
         values as ColorTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "DimensionTokenValueDeclaration":
       return createDimensionTokenDeclaration(
@@ -661,6 +705,7 @@ export function createTokenDeclaration(
         token,
         values as DimensionTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "NumberTokenValueDeclaration":
       return createNumberTokenDeclaration(
@@ -668,6 +713,7 @@ export function createTokenDeclaration(
         token,
         values as NumberTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "DurationTokenValueDeclaration":
       return createDurationTokenDeclaration(
@@ -675,6 +721,7 @@ export function createTokenDeclaration(
         token,
         values as DurationTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "CubicBezierTokenValueDeclaration":
       return createCubicBezierTokenDeclaration(
@@ -682,6 +729,7 @@ export function createTokenDeclaration(
         token,
         values as CubicBezierTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "ShadowTokenValueDeclaration":
       return createShadowTokenDeclaration(
@@ -689,6 +737,7 @@ export function createTokenDeclaration(
         token,
         values as ShadowTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "GradientTokenValueDeclaration":
       return createGradientTokenDeclaration(
@@ -696,6 +745,7 @@ export function createTokenDeclaration(
         token,
         values as GradientTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
     case "UnresolvedTokenValueDeclaration":
       return createUnresolvedTokenDeclaration(
@@ -703,6 +753,7 @@ export function createTokenDeclaration(
         token,
         values as UnresolvedTokenValueDeclaration[],
         description,
+        excludeFromExchange,
       );
   }
 }
@@ -832,12 +883,23 @@ export function createUnresolvedTokenValueDeclaration(
  */
 export function createTokenCollectionDeclaration(
   name: string,
-  modes: string[],
+  modes: Array<{ id: string; description?: string }>,
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
-    modes,
+    modes: modes.map(({ id, description }) => createModeDeclaration(id, description)),
+  };
+}
+
+/**
+ * ModeDeclaration factory
+ */
+export function createModeDeclaration(id: string, description?: string): ModeDeclaration {
+  return {
+    kind: "ModeDeclaration",
+    id,
+    description,
   };
 }
 

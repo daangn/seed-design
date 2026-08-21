@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/input-button";
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
@@ -8,6 +9,7 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { vars as tokens } from "../vars";
+import { breakpoints } from "../utils/breakpoint";
 
 const inputButton = defineSlotRecipe({
   name: "input-button",
@@ -32,27 +34,18 @@ const inputButton = defineSlotRecipe({
 
       position: "relative",
       isolation: "isolate",
-
-      height: vars.base.enabled.root.height,
-      gap: vars.base.enabled.root.gap,
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
     },
     button: {
       position: "absolute",
       zIndex: -1,
 
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
 
       cursor: "pointer",
 
       border: "none",
       padding: 0,
 
-      borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
 
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -62,10 +55,7 @@ const inputButton = defineSlotRecipe({
       "&::after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
+        inset: 0,
         borderRadius: "inherit",
         borderStyle: "solid",
         borderColor: "transparent",
@@ -99,8 +89,6 @@ const inputButton = defineSlotRecipe({
       },
     },
     value: {
-      fontSize: vars.base.enabled.value.fontSize,
-      lineHeight: vars.base.enabled.value.lineHeight,
       fontWeight: vars.base.enabled.value.fontWeight,
 
       color: vars.base.enabled.value.color,
@@ -122,8 +110,6 @@ const inputButton = defineSlotRecipe({
       },
     },
     placeholder: {
-      fontSize: vars.base.enabled.placeholder.fontSize,
-      lineHeight: vars.base.enabled.placeholder.lineHeight,
       fontWeight: vars.base.enabled.placeholder.fontWeight,
 
       color: vars.base.enabled.placeholder.color,
@@ -145,40 +131,48 @@ const inputButton = defineSlotRecipe({
       },
     },
     prefixText: {
-      fontSize: vars.base.enabled.prefixText.fontSize,
-      lineHeight: vars.base.enabled.prefixText.lineHeight,
       fontWeight: vars.base.enabled.prefixText.fontWeight,
 
       color: vars.base.enabled.prefixText.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.prefixText.color,
+      },
     },
     prefixIcon: {
-      width: vars.base.enabled.prefixIcon.size,
-      height: vars.base.enabled.prefixIcon.size,
       flexShrink: 0,
 
       color: vars.base.enabled.prefixIcon.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.prefixIcon.color,
+      },
     },
     suffixText: {
-      fontSize: vars.base.enabled.suffixText.fontSize,
-      lineHeight: vars.base.enabled.suffixText.lineHeight,
       fontWeight: vars.base.enabled.suffixText.fontWeight,
 
       color: vars.base.enabled.suffixText.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.suffixText.color,
+      },
     },
     suffixIcon: {
-      width: vars.base.enabled.suffixIcon.size,
-      height: vars.base.enabled.suffixIcon.size,
       flexShrink: 0,
 
       color: vars.base.enabled.suffixIcon.color,
 
       pointerEvents: "none",
+
+      [pseudo("[data-disabled]")]: {
+        color: vars.base.disabled.suffixIcon.color,
+      },
     },
     clearButton: {
       cursor: "pointer",
@@ -194,13 +188,189 @@ const inputButton = defineSlotRecipe({
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
       ...onlyIcon({
-        size: vars.base.enabled.clearButton.size,
         color: vars.base.enabled.clearButton.color,
       }),
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    size: {
+      large: {
+        root: {
+          height: vars.sizeLarge.enabled.root.height,
+          gap: vars.sizeLarge.enabled.root.gap,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+        },
+        button: {
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+        },
+        value: {
+          fontSize: vars.sizeLarge.enabled.value.fontSize,
+          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
+        },
+        placeholder: {
+          fontSize: vars.sizeLarge.enabled.placeholder.fontSize,
+          lineHeight: vars.sizeLarge.enabled.placeholder.lineHeight,
+        },
+        prefixText: {
+          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: vars.sizeLarge.enabled.prefixIcon.size,
+          height: vars.sizeLarge.enabled.prefixIcon.size,
+        },
+        suffixText: {
+          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+        },
+        suffixIcon: {
+          width: vars.sizeLarge.enabled.suffixIcon.size,
+          height: vars.sizeLarge.enabled.suffixIcon.size,
+        },
+        clearButton: onlyIcon({
+          size: vars.sizeLarge.enabled.clearButton.size,
+        }),
+      },
+      medium: {
+        root: {
+          height: vars.sizeMedium.enabled.root.height,
+          gap: vars.sizeMedium.enabled.root.gap,
+          paddingInline: vars.sizeMedium.enabled.root.paddingX,
+        },
+        button: {
+          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+        },
+        value: {
+          fontSize: vars.sizeMedium.enabled.value.fontSize,
+          lineHeight: vars.sizeMedium.enabled.value.lineHeight,
+        },
+        placeholder: {
+          fontSize: vars.sizeMedium.enabled.placeholder.fontSize,
+          lineHeight: vars.sizeMedium.enabled.placeholder.lineHeight,
+        },
+        prefixText: {
+          fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
+          lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+        },
+        prefixIcon: {
+          width: vars.sizeMedium.enabled.prefixIcon.size,
+          height: vars.sizeMedium.enabled.prefixIcon.size,
+        },
+        suffixText: {
+          fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
+          lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+        },
+        suffixIcon: {
+          width: vars.sizeMedium.enabled.suffixIcon.size,
+          height: vars.sizeMedium.enabled.suffixIcon.size,
+        },
+        clearButton: onlyIcon({
+          size: vars.sizeMedium.enabled.clearButton.size,
+        }),
+      },
+      responsive: {
+        root: {
+          height: vars.sizeLarge.enabled.root.height,
+          gap: vars.sizeLarge.enabled.root.gap,
+          paddingInline: vars.sizeLarge.enabled.root.paddingX,
+
+          [breakpoints.up("lg")]: {
+            height: vars.sizeMedium.enabled.root.height,
+            gap: vars.sizeMedium.enabled.root.gap,
+            paddingInline: vars.sizeMedium.enabled.root.paddingX,
+          },
+        },
+        button: {
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+
+          [breakpoints.up("lg")]: {
+            borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          },
+        },
+        value: {
+          fontSize: vars.sizeLarge.enabled.value.fontSize,
+          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.value.fontSize,
+            lineHeight: vars.sizeMedium.enabled.value.lineHeight,
+          },
+        },
+        placeholder: {
+          fontSize: vars.sizeLarge.enabled.placeholder.fontSize,
+          lineHeight: vars.sizeLarge.enabled.placeholder.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.placeholder.fontSize,
+            lineHeight: vars.sizeMedium.enabled.placeholder.lineHeight,
+          },
+        },
+        prefixText: {
+          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
+            lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+          },
+        },
+        prefixIcon: {
+          width: vars.sizeLarge.enabled.prefixIcon.size,
+          height: vars.sizeLarge.enabled.prefixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.sizeMedium.enabled.prefixIcon.size,
+            height: vars.sizeMedium.enabled.prefixIcon.size,
+          },
+        },
+        suffixText: {
+          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
+          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+
+          [breakpoints.up("lg")]: {
+            fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
+            lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+          },
+        },
+        suffixIcon: {
+          width: vars.sizeLarge.enabled.suffixIcon.size,
+          height: vars.sizeLarge.enabled.suffixIcon.size,
+
+          [breakpoints.up("lg")]: {
+            width: vars.sizeMedium.enabled.suffixIcon.size,
+            height: vars.sizeMedium.enabled.suffixIcon.size,
+          },
+        },
+        clearButton: {
+          ...onlyIcon({
+            size: vars.sizeLarge.enabled.clearButton.size,
+          }),
+
+          [breakpoints.up("lg")]: onlyIcon({
+            size: vars.sizeMedium.enabled.clearButton.size,
+          }),
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "large",
+  },
+  metadata: {
+    variants: {
+      ...spec.data.schema.variants,
+      size: {
+        ...spec.data.schema.variants.size,
+        values: {
+          ...spec.data.schema.variants.size.values,
+          responsive: {
+            description:
+              "뷰포트 너비에 따라 적용되는 사이즈가 달라집니다. Breakpoint `lg` 미만에서는 `large`, `lg` 이상에서는 `medium`으로 적용됩니다.",
+          },
+        },
+      },
+    },
+  },
 });
 
 export default inputButton;

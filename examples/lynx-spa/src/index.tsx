@@ -10,7 +10,7 @@ import {
 
 import "./styles/global.css";
 
-import { getSeedClassName } from "@seed-design/lynx-react";
+import { useSeedClassName } from "@seed-design/lynx-react";
 
 import { App } from "./App.jsx";
 
@@ -22,8 +22,9 @@ initNetworkMonitor();
 initPerformanceMonitor();
 
 function Root() {
+  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={`${getSeedClassName({ colorMode: "system" })} bg-bg-layer-default`}>
+    <page className={`${seedClassName} bg-bg-layer-default`}>
       <App />
     </page>
   );

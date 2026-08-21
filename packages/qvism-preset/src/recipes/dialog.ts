@@ -1,7 +1,12 @@
-import { dialog as vars } from "../vars/component";
+// NOTE: dialog naming is mid-rename; rootage/vars already use the new names, recipes and react components still use the old ones.
+// Semantically (= snippet naming), this recipe is the AlertDialog:
+//   snippet AlertDialog → react Dialog        → recipe "dialog"         → vars alertDialog
+//   snippet Dialog      → react ContentDialog → recipe "content-dialog" → vars dialog
+
+import { alertDialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
+import { not, open, pseudo, focus } from "../utils/pseudo";
 
 const dialog = defineSlotRecipe({
   name: "dialog",
@@ -21,10 +26,7 @@ const dialog = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       overscrollBehaviorY: "none",
 
       "--dialog-z-index": "2",
@@ -32,10 +34,7 @@ const dialog = defineSlotRecipe({
     },
     backdrop: {
       position: "fixed",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      inset: 0,
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
     },
@@ -55,13 +54,16 @@ const dialog = defineSlotRecipe({
       maxWidth: vars.base.enabled.content.maxWidth,
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
     },
     header: {
       display: "flex",
       flexDirection: "column",
 
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       gap: vars.base.enabled.header.gap,
     },
@@ -87,8 +89,7 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },

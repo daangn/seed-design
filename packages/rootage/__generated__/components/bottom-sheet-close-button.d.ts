@@ -1,0 +1,107 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "bottom-sheet-close-button";
+    "name": "Bottom Sheet Close Button";
+  };
+  "data": {
+    "id": "bottom-sheet-close-button";
+    "name": "Bottom Sheet Close Button";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "targetSize": {
+              "type": "dimension";
+            };
+            "size": {
+              "type": "dimension";
+            };
+          };
+        };
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "size": {
+              "type": "dimension";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-weak";
+                };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.full";
+                };
+                "targetSize": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 44;
+                    "unit": "px";
+                  };
+                };
+                "size": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 28;
+                    "unit": "px";
+                  };
+                };
+              };
+              "icon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+                "size": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 14;
+                    "unit": "px";
+                  };
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;

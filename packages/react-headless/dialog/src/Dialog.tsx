@@ -1,13 +1,15 @@
 "use client";
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { DismissableLayer } from "@radix-ui/react-dismissable-layer";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { hideOthers } from "aria-hidden";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { mergeProps } from "@seed-design/dom-utils";
+import { usePreventScroll } from "@seed-design/react-prevent-scroll";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef, useRef } from "react";
-import { Presence } from "./private/Presence";
+import { forwardRef, useCallback, useEffect, useState } from "react";
+import { Presence } from "@seed-design/react-presence";
 import { useDialog, type UseDialogProps } from "./useDialog";
 import { DialogProvider, useDialogContext } from "./useDialogContext";
 
@@ -39,10 +41,10 @@ export const DialogPositioner = forwardRef<HTMLDivElement, DialogPositionerProps
   const api = useDialogContext();
   return <Primitive.div ref={ref} {...mergeProps(api.positionerProps, props)} />;
 });
+DialogPositioner.displayName = "DialogPositioner";
 
 export interface DialogBackdropProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// We might need scroll lock here; not needed yet in stackflow based webview.
 export const DialogBackdrop = forwardRef<HTMLDivElement, DialogBackdropProps>((props, ref) => {
   const api = useDialogContext();
   return (
@@ -55,48 +57,63 @@ DialogBackdrop.displayName = "DialogBackdrop";
 
 export interface DialogContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-// TODO: implement DismissableLayer in useDialog instead of radix-ui
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const api = useDialogContext();
+  const [contentNode, setContentNode] = useState<HTMLDivElement | null>(null);
+  const contentRef = useCallback((el: HTMLDivElement | null) => setContentNode(el), []);
 
-  const contentRef = useRef<HTMLDivElement>(null);
+  // Lock body scroll while the modal overlay is open. Mirrors the `modal` contract: the lock
+  // releases the moment the dialog is non-modal or closed.
+  usePreventScroll({ isDisabled: !(api.modal && api.open) });
+
+  // aria-hide everything except the content (better supported equivalent to setting aria-modal)
+  useEffect(() => {
+    if (!api.open || !api.modal || !contentNode) return;
+    return hideOthers(contentNode);
+  }, [api.open, api.modal, contentNode]);
 
   return (
     <Presence present={api.open} unmountOnExit={api.unmountOnExit} lazyMount={api.lazyMount}>
-      <FocusScope
-        asChild
-        loop
-        trapped={api.open}
-        // Move initial focus to the dialog container, not the first tabbable element.
-        onMountAutoFocus={(e) => {
-          e.preventDefault();
-          contentRef.current?.focus();
+      {/* DismissibleLayer must wrap FocusScope, not the other way around.
+          FocusScope asChild uses Slot to forward tabIndex/onKeyDown/ref to the
+          DOM element; if DismissibleLayer sits between them, those props are
+          swallowed by DismissibleLayer's own destructuring and never reach the DOM. */}
+      <DismissibleLayer
+        enabled={api.open}
+        onEscapeKeyDown={(e) => {
+          if (!api.closeOnEscape) return;
+          api.setOpen(false, { reason: "escapeKeyDown", event: e });
+        }}
+        onPressOutside={(e) => {
+          if (!api.closeOnInteractOutside) return;
+          api.setOpen(false, { reason: "interactOutside", event: e });
+        }}
+        onFocusOutside={() => {
+          // focus trapping is handled by FocusScope — nothing to do here
+
+          if (!api.closeOnInteractOutside) return; // not actually going to happen; FocusScope will work regardless
+        }}
+        onCascadeDismiss={({ dismissedParent }) => {
+          api.setOpen(false, { reason: "cascadeDismiss", dismissedParent });
         }}
       >
-        {/* onDismiss = onEscapeKeyDown + onInteractOutside (= onFocusOutside + onPointerDownOutside) */}
-        <DismissableLayer
-          ref={composeRefs(ref, contentRef)}
-          onEscapeKeyDown={(e) => {
-            if (!api.closeOnEscape) {
-              e.preventDefault();
-              return;
-            }
-
-            api.setOpen(false, { reason: "escapeKeyDown", event: e });
+        <FocusScope
+          asChild
+          loop
+          trapped={api.open && api.modal}
+          // Move initial focus to the dialog container, not the first tabbable element.
+          onMountAutoFocus={(e) => {
+            if (!contentNode) return;
+            e.preventDefault();
+            contentNode.focus();
           }}
-          // onInteractOutside = onFocusOutside + onPointerDownOutside
-          onInteractOutside={(e) => {
-            if (!api.closeOnInteractOutside) {
-              e.preventDefault();
-              return;
-            }
-
-            api.setOpen(false, { reason: "interactOutside", event: e.detail.originalEvent });
-          }}
-          // onFocusOutside isn't needed because FocusScope traps the focus
-          {...mergeProps(api.contentProps, props)}
-        />
-      </FocusScope>
+        >
+          <Primitive.div
+            ref={composeRefs(ref, contentRef)}
+            {...mergeProps(api.contentProps, props)}
+          />
+        </FocusScope>
+      </DismissibleLayer>
     </Presence>
   );
 });
@@ -108,7 +125,9 @@ export interface DialogTitleProps
 
 export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>((props, ref) => {
   const api = useDialogContext();
-  return <Primitive.h2 ref={ref} {...mergeProps(api.titleProps, props)} />;
+  return (
+    <Primitive.h2 ref={composeRefs(api.refs.title, ref)} {...mergeProps(api.titleProps, props)} />
+  );
 });
 
 export interface DialogDescriptionProps
@@ -118,7 +137,12 @@ export interface DialogDescriptionProps
 export const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescriptionProps>(
   (props, ref) => {
     const api = useDialogContext();
-    return <Primitive.p ref={ref} {...mergeProps(api.descriptionProps, props)} />;
+    return (
+      <Primitive.p
+        ref={composeRefs(api.refs.description, ref)}
+        {...mergeProps(api.descriptionProps, props)}
+      />
+    );
   },
 );
 

@@ -17,7 +17,7 @@ const withStateProps = createWithStateProps([useDialogContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetRootProps extends ActionSheetVariantProps, DialogPrimitive.RootProps {
   /**
@@ -31,7 +31,7 @@ export interface ActionSheetRootProps extends ActionSheetVariantProps, DialogPri
 }
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetRoot = withRootProvider<ActionSheetRootProps>(DialogPrimitive.Root, {
   defaultProps: {
@@ -43,24 +43,24 @@ export const ActionSheetRoot = withRootProvider<ActionSheetRootProps>(DialogPrim
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetTriggerProps extends DialogPrimitive.TriggerProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetTrigger = DialogPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetPositionerProps extends DialogPrimitive.PositionerProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetPositioner = withContext<HTMLDivElement, ActionSheetPositionerProps>(
   DialogPrimitive.Positioner,
@@ -70,12 +70,12 @@ export const ActionSheetPositioner = withContext<HTMLDivElement, ActionSheetPosi
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetBackdropProps extends DialogPrimitive.BackdropProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetBackdrop = withContext<HTMLDivElement, ActionSheetBackdropProps>(
   DialogPrimitive.Backdrop,
@@ -85,12 +85,12 @@ export const ActionSheetBackdrop = withContext<HTMLDivElement, ActionSheetBackdr
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetContentProps extends DialogPrimitive.ContentProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetContent = withContext<HTMLDivElement, ActionSheetContentProps>(
   DialogPrimitive.Content,
@@ -100,14 +100,14 @@ export const ActionSheetContent = withContext<HTMLDivElement, ActionSheetContent
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetHeaderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetHeader = withContext<HTMLDivElement, ActionSheetHeaderProps>(
   withStateProps(Primitive.div),
@@ -117,12 +117,12 @@ export const ActionSheetHeader = withContext<HTMLDivElement, ActionSheetHeaderPr
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetTitleProps extends DialogPrimitive.TitleProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetTitle = withContext<HTMLHeadingElement, ActionSheetTitleProps>(
   withStateProps(Primitive.h2),
@@ -132,12 +132,12 @@ export const ActionSheetTitle = withContext<HTMLHeadingElement, ActionSheetTitle
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetDescription = withContext<
   HTMLParagraphElement,
@@ -147,12 +147,12 @@ export const ActionSheetDescription = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetList = withContext<HTMLDivElement, ActionSheetListProps>(
   withStateProps(Primitive.div),
@@ -162,7 +162,7 @@ export const ActionSheetList = withContext<HTMLDivElement, ActionSheetListProps>
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetItemProps
   extends PrimitiveProps,
@@ -170,7 +170,7 @@ export interface ActionSheetItemProps
     React.HTMLAttributes<HTMLButtonElement> {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetItem = withItemContext<HTMLButtonElement, ActionSheetItemProps>(
   withStateProps(Primitive.button),
@@ -179,12 +179,12 @@ export const ActionSheetItem = withItemContext<HTMLButtonElement, ActionSheetIte
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface ActionSheetCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
 
 /**
- * @deprecated Use `MenuSheet` instead.
+ * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export const ActionSheetCloseButton = withContext<HTMLDivElement, ActionSheetCloseButtonProps>(
   DialogPrimitive.CloseButton,

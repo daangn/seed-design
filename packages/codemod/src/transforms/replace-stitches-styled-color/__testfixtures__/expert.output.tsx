@@ -18,7 +18,7 @@ const SemanticColorTestComponent = styled("div", {
   color: "$bg-layer-floating",
   color: "$bg-layer-floating",
   color: "$bg-layer-floating",
-  color: "$bg-layer-fill",
+  color: "$bg-neutral-weak",
   color: "$bg-layer-default",
   color: "$bg-layer-basement",
   color: "$palette-carrot-100",

@@ -16,14 +16,14 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "prefixText": {
-        "color": "var(--seed-color-fg-neutral-muted)",
+        "color": "var(--seed-color-fg-neutral-subtle)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "suffixText": {
-        "color": "var(--seed-color-fg-neutral-muted)",
+        "color": "var(--seed-color-fg-neutral-subtle)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "suffixIcon": {
@@ -51,6 +51,18 @@ export declare const vars: {
       },
       "placeholder": {
         "color": "var(--seed-color-fg-disabled)"
+      },
+      "prefixText": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixText": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
@@ -60,8 +72,6 @@ export declare const vars: {
   "variantOutline": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-r3)",
-        "paddingX": "var(--seed-dimension-x4)",
         "strokeWidth": "1px"
       }
     },
@@ -88,12 +98,15 @@ export declare const vars: {
   },
   /**
    * - `variant=outline`: 기본 스타일입니다.
+   * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
    */
   "variantOutlineSizeLarge": {
     "enabled": {
       "root": {
         "gap": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x13)"
+        "minHeight": "var(--seed-dimension-x13)",
+        "cornerRadius": "var(--seed-radius-r3)",
+        "paddingX": "var(--seed-dimension-x4)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -121,12 +134,15 @@ export declare const vars: {
   },
   /**
    * - `variant=outline`: 기본 스타일입니다.
+   * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
    */
   "variantOutlineSizeMedium": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "gap": "var(--seed-dimension-x2)",
+        "minHeight": "var(--seed-dimension-x10)",
+        "cornerRadius": "var(--seed-radius-r2)",
+        "paddingX": "var(--seed-dimension-x3_5)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t4)",
@@ -158,9 +174,38 @@ export declare const vars: {
   "variantUnderline": {
     "enabled": {
       "root": {
+        "strokeBottomWidth": "1px"
+      }
+    },
+    "focused": {
+      "root": {
+        "strokeBottomWidth": "2px"
+      }
+    },
+    "invalid": {
+      "root": {
+        "strokeBottomWidth": "2px"
+      }
+    },
+    "readonly": {
+      "value": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      },
+      "placeholder": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      }
+    }
+  },
+  /**
+   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   */
+  "variantUnderlineSizeLarge": {
+    "enabled": {
+      "root": {
         "gap": "var(--seed-dimension-x2_5)",
         "minHeight": "var(--seed-dimension-x10)",
-        "strokeBottomWidth": "1px"
+        "paddingY": "var(--seed-dimension-x2)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t6)",
@@ -184,40 +229,63 @@ export declare const vars: {
       "suffixIcon": {
         "size": "var(--seed-dimension-x6)"
       }
-    },
-    "focused": {
+    }
+  },
+  /**
+   * - `variant=underline`: 화면에 하나의 Input만 있는 경우 사용을 권장합니다.
+   * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   */
+  "variantUnderlineSizeMedium": {
+    "enabled": {
       "root": {
-        "strokeBottomWidth": "2px"
-      }
-    },
-    "invalid": {
-      "root": {
-        "strokeBottomWidth": "2px"
-      }
-    },
-    "readonly": {
+        "gap": "var(--seed-dimension-x2)",
+        "minHeight": "34px",
+        "paddingY": "var(--seed-dimension-x1_5)"
+      },
       "value": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
       },
       "placeholder": {
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "prefixText": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "prefixIcon": {
+        "size": "var(--seed-dimension-x5)"
+      },
+      "suffixText": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
+      },
+      "suffixIcon": {
+        "size": "var(--seed-dimension-x5)"
       }
     }
   },
   "typeSingleline": {},
+  /**
+   * - `size=large`: 뷰포트 너비와 관계없이 사용할 수 있습니다.
+   */
   "typeMultilineSizeLarge": {
     "enabled": {
       "root": {
-        "minHeight": "95px",
+        "minHeight": "94px",
         "paddingY": "var(--seed-dimension-x3_5)"
       }
     }
   },
+  /**
+   * - `size=medium`: Breakpoint `lg` 이상(데스크톱)에서만 사용하고, 모바일에서는 사용하지 않습니다. 정밀한 선택이 가능한 마우스 입력 환경에서 사이즈를 더 작게 만들고자 할 때 사용합니다.
+   */
   "typeMultilineSizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "90px",
-        "paddingY": "11px"
+        "minHeight": "82px",
+        "paddingY": "var(--seed-dimension-x3)"
       }
     }
   }

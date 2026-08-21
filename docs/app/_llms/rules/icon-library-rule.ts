@@ -4,7 +4,7 @@ import { escapeCell, markdownRow } from "./markdown-utils";
 import monochromeRaw from "@karrotmarket/icon-data/monochrome.json";
 import multicolorRaw from "@karrotmarket/icon-data/multicolor.json";
 
-interface RawIconData {
+export interface RawIconData {
   name: string;
   metadatas: string[];
   figma?: {
@@ -14,7 +14,7 @@ interface RawIconData {
   };
 }
 
-interface IconRow {
+export interface IconRow {
   name: string;
   reactComponentName: string;
   figmaName: string;
@@ -75,7 +75,7 @@ function splitMetadatas(metadatas: string[]): {
   };
 }
 
-function toRow(icon: RawIconData): IconRow {
+export function toRow(icon: RawIconData): IconRow {
   const { keywords, services, tags } = splitMetadatas(icon.metadatas ?? []);
 
   return {
@@ -88,19 +88,15 @@ function toRow(icon: RawIconData): IconRow {
   };
 }
 
-const monochrome = Object.values(monochromeRaw as Record<string, RawIconData>)
-  .map(toRow)
-  .sort((a, b) => a.name.localeCompare(b.name));
-
-const multicolor = Object.values(multicolorRaw as Record<string, RawIconData>)
-  .map(toRow)
-  .sort((a, b) => a.name.localeCompare(b.name));
+function toSortedRows(icons: readonly RawIconData[]): IconRow[] {
+  return icons.map(toRow).sort((a, b) => a.name.localeCompare(b.name));
+}
 
 function formatList(values: string[]): string {
   return values.join(", ");
 }
 
-function buildTable(rows: IconRow[]): string {
+export function buildTable(rows: IconRow[]): string {
   const headers = [
     "Icon Name",
     "React Component Name",
@@ -124,27 +120,40 @@ function buildTable(rows: IconRow[]): string {
   return [markdownRow(headers), markdownRow(separator), ...bodyRows].join("\n");
 }
 
-function buildSection(title: string, rows: IconRow[]): string | null {
+export function buildSection(title: string, rows: IconRow[]): string | null {
   if (rows.length === 0) return null;
   return `## ${title}\n\n${buildTable(rows)}`;
 }
 
-export const iconLibraryRule: Rule = {
-  name: "IconLibrary",
-  match: (node): node is MdxJsxFlowElement =>
-    node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",
-  transform: (node) => {
-    try {
-      const sections = [
-        buildSection("Monochrome Icons", monochrome),
-        buildSection("Multicolor Icons", multicolor),
-      ].filter((section): section is string => Boolean(section));
+export function createIconLibraryRule(
+  monochrome: readonly RawIconData[],
+  multicolor: readonly RawIconData[],
+): Rule<MdxJsxFlowElement> {
+  const monochromeRows = toSortedRows(monochrome);
+  const multicolorRows = toSortedRows(multicolor);
 
-      if (sections.length === 0) return [node];
+  return {
+    name: "IconLibrary",
+    match: (node): node is MdxJsxFlowElement =>
+      node.type === "mdxJsxFlowElement" && node.name === "IconLibrary",
+    transform: (node) => {
+      try {
+        const sections = [
+          buildSection("Monochrome Icons", monochromeRows),
+          buildSection("Multicolor Icons", multicolorRows),
+        ].filter((section): section is string => Boolean(section));
 
-      return [{ type: "html", value: sections.join("\n\n") }];
-    } catch {
-      return [node];
-    }
-  },
-};
+        if (sections.length === 0) return [node];
+
+        return [{ type: "html", value: sections.join("\n\n") }];
+      } catch {
+        return [node];
+      }
+    },
+  };
+}
+
+export const iconLibraryRule = createIconLibraryRule(
+  Object.values(monochromeRaw as Record<string, RawIconData>),
+  Object.values(multicolorRaw as Record<string, RawIconData>),
+);

@@ -42,8 +42,7 @@ const segmentedControl = defineSlotRecipe({
       willChange: "transform",
       transform: "translateX(calc(var(--segment-index) * 100%))",
 
-      top: vars.base.enabled.root.padding,
-      bottom: vars.base.enabled.root.padding,
+      insetBlock: vars.base.enabled.root.padding,
       left: vars.base.enabled.root.padding,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count))`,
 
@@ -72,10 +71,8 @@ const segmentedControl = defineSlotRecipe({
       // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
       height: "100%",
 
-      paddingLeft: itemVars.base.enabled.root.paddingX,
-      paddingRight: itemVars.base.enabled.root.paddingX,
-      paddingTop: itemVars.base.enabled.root.paddingY,
-      paddingBottom: itemVars.base.enabled.root.paddingY,
+      paddingInline: itemVars.base.enabled.root.paddingX,
+      paddingBlock: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,

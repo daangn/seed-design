@@ -1,79 +1,69 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 import { progressCircleVariantMap } from "@seed-design/css/recipes/progress-circle";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: ProgressCircle,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ProgressCircle>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const IndeterminateTemplate: Story = {
+});
+const IndeterminateTemplate = meta.story({
   args: {},
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={progressCircleVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={progressCircleVariantMap} {...args} />
   ),
-};
+});
 
-const Determinate0Template: Story = {
+const Determinate0Template = meta.story({
   args: {
     value: 0,
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={progressCircleVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={progressCircleVariantMap} {...args} />
   ),
-};
+});
 
-const Determinate50Template: Story = {
+const Determinate50Template = meta.story({
   args: {
     value: 50,
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={progressCircleVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={progressCircleVariantMap} {...args} />
   ),
-};
+});
 
-const Determinate100Template: Story = {
+const Determinate100Template = meta.story({
   args: {
     value: 100,
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={progressCircleVariantMap} {...args} />
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={progressCircleVariantMap} {...args} />
   ),
-};
-
-export const IndeterminateLightTheme = IndeterminateTemplate;
-
-export const IndeterminateDarkTheme = createStoryWithParameters({
-  ...IndeterminateTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const Determinate0LightTheme = Determinate0Template;
+export const IndeterminateLightTheme = IndeterminateTemplate.extend({});
 
-export const Determinate0DarkTheme = createStoryWithParameters({
-  ...Determinate0Template,
-  parameters: { theme: "dark" },
+export const IndeterminateDarkTheme = IndeterminateTemplate.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const Determinate50LightTheme = Determinate50Template;
+export const Determinate0LightTheme = Determinate0Template.extend({});
 
-export const Determinate50DarkTheme = createStoryWithParameters({
-  ...Determinate50Template,
-  parameters: { theme: "dark" },
+export const Determinate0DarkTheme = Determinate0Template.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
-export const Determinate100LightTheme = Determinate100Template;
+export const Determinate50LightTheme = Determinate50Template.extend({});
 
-export const Determinate100DarkTheme = createStoryWithParameters({
-  ...Determinate100Template,
-  parameters: { theme: "dark" },
+export const Determinate50DarkTheme = Determinate50Template.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
+});
+
+export const Determinate100LightTheme = Determinate100Template.extend({});
+
+export const Determinate100DarkTheme = Determinate100Template.extend({
+  parameters: withChromaticParameters({ theme: "dark" }),
 });

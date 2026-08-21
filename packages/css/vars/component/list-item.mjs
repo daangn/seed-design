@@ -56,7 +56,7 @@ export const vars = {
         "color": "var(--seed-color-bg-transparent-pressed)",
         "marginX": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-dimension-x2_5)",
-        "contentScale": "0.97"
+        "contentScale": "var(--seed-scale-s97)"
       }
     },
     "highlighted": {

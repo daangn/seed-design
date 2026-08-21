@@ -1,0 +1,40 @@
+name: Sync release branches
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    branches: [dev]
+    types: [closed]
+
+concurrency:
+  group: sync-release-branches
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync minor and major with dev
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.base.ref == 'dev' &&
+        github.event.pull_request.head.ref == 'changeset-release/dev' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.title == 'release: version packages'
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the latest dev branch
+        uses: actions/checkout@v6
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Sync release branches
+        env:
+          VERSION_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: bash .github/scripts/sync-release-branches.sh

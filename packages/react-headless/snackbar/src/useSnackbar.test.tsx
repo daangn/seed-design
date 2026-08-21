@@ -1,9 +1,10 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterAll, beforeEach, describe, expect, it, jest, mock } from "bun:test";
 import { StrictMode } from "react";
 
 import {
+  SnackbarActionButton,
   SnackbarRegion,
   SnackbarRenderer,
   SnackbarRoot,
@@ -141,6 +142,32 @@ describe("useSnackbar", () => {
       act(() => jest.advanceTimersByTime(100));
 
       expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it("should run the action handler and dismiss when the action button is clicked", () => {
+      const onAction = mock(() => {});
+      setUp();
+
+      act(() => {
+        snackbarApi.create(
+          createSnackbar("With action", {
+            removeDelay: 100,
+            render: () => <SnackbarActionButton onClick={onAction}>Undo</SnackbarActionButton>,
+          }),
+        );
+      });
+
+      expect(screen.getByText("Undo")).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.click(screen.getByText("Undo"));
+      });
+
+      expect(onAction).toHaveBeenCalledTimes(1);
+
+      act(() => jest.advanceTimersByTime(100));
+
+      expect(screen.queryByText("Undo")).not.toBeInTheDocument();
     });
   });
 

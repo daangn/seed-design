@@ -3,6 +3,7 @@
     color: var(--seed-color-palette-gray-600);
     font-weight: var(--seed-font-weight-regular);
     white-space: pre;
+    -webkit-user-select: none;
     user-select: none;
   }
 

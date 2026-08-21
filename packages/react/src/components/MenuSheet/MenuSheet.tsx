@@ -21,6 +21,9 @@ const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetRootProps extends MenuSheetVariantProps, DialogPrimitive.RootProps {
   /**
    * @default true
@@ -32,6 +35,9 @@ export interface MenuSheetRootProps extends MenuSheetVariantProps, DialogPrimiti
   unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
 }
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetRoot = withRootProvider<MenuSheetRootProps>(DialogPrimitive.Root, {
   defaultProps: {
     lazyMount: true,
@@ -41,14 +47,26 @@ export const MenuSheetRoot = withRootProvider<MenuSheetRootProps>(DialogPrimitiv
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetTriggerProps extends DialogPrimitive.TriggerProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetTrigger = DialogPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetPositionerProps extends DialogPrimitive.PositionerProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetPositioner = withContext<HTMLDivElement, MenuSheetPositionerProps>(
   DialogPrimitive.Positioner,
   "positioner",
@@ -56,8 +74,14 @@ export const MenuSheetPositioner = withContext<HTMLDivElement, MenuSheetPosition
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetBackdropProps extends DialogPrimitive.BackdropProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetBackdrop = withContext<HTMLDivElement, MenuSheetBackdropProps>(
   DialogPrimitive.Backdrop,
   "backdrop",
@@ -65,10 +89,16 @@ export const MenuSheetBackdrop = withContext<HTMLDivElement, MenuSheetBackdropPr
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetContentProps
   extends DialogPrimitive.ContentProps,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetContentProps>(
   ({ className, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
@@ -88,10 +118,16 @@ export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetConten
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetHeaderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>(
   withStateProps(Primitive.div),
   "header",
@@ -100,8 +136,14 @@ export const MenuSheetHeader = withContext<HTMLDivElement, MenuSheetHeaderProps>
 // NOTE: uses DialogPrimitive.TitleProps,
 // but actual rendered component is a Primitive.h2 rather than a DialogPrimitive.Title
 // find out why later; h2 is same but missing and some a11y features
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetTitleProps extends DialogPrimitive.TitleProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProps>(
   withStateProps(Primitive.h2),
   "title",
@@ -110,8 +152,14 @@ export const MenuSheetTitle = withContext<HTMLHeadingElement, MenuSheetTitleProp
 // NOTE: uses DialogPrimitive.DescriptionProps,
 // but actual rendered component is a Primitive.p rather than a DialogPrimitive.Description
 // find out why later; p is same but missing and some a11y features
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetDescriptionProps>(
   withStateProps(Primitive.p),
   "description",
@@ -119,8 +167,14 @@ export const MenuSheetDescription = withContext<HTMLParagraphElement, MenuSheetD
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetListProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(
   withStateProps(Primitive.div),
   "list",
@@ -128,10 +182,16 @@ export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetGroupProps
   extends React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupProps>(
   ({ className, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
@@ -155,11 +215,17 @@ export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupPro
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetItemProps
   extends PrimitiveProps,
     MenuSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
   ({ className: propClassName, ...props }, ref) => {
     const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
@@ -181,28 +247,46 @@ export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemPr
   },
 );
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetItemContentProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetItemContent = withItemContext<HTMLDivElement, MenuSheetItemContentProps>(
   withStateProps(Primitive.div),
   "content",
 );
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetItemLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetItemLabel = withItemContext<HTMLSpanElement, MenuSheetItemLabelProps>(
   withStateProps(Primitive.span),
   "label",
 );
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetItemDescriptionProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetItemDescription = withItemContext<
   HTMLSpanElement,
   MenuSheetItemDescriptionProps
@@ -210,10 +294,16 @@ export const MenuSheetItemDescription = withItemContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetFooterProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetFooter = withContext<HTMLDivElement, MenuSheetFooterProps>(
   withStateProps(Primitive.div),
   "footer",
@@ -221,8 +311,14 @@ export const MenuSheetFooter = withContext<HTMLDivElement, MenuSheetFooterProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export interface MenuSheetCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
 
+/**
+ * @deprecated Use `SwipeableMenuSheet` instead.
+ */
 export const MenuSheetCloseButton = withContext<HTMLDivElement, MenuSheetCloseButtonProps>(
   DialogPrimitive.CloseButton,
   "closeButton",

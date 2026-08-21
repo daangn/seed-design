@@ -17,7 +17,7 @@ type RegistryIndex = {
   items: RegistryItem[];
 };
 
-type RegistryMapEntry = {
+export type RegistryMapEntry = {
   framework: "react" | "lynx";
   registryId: string;
   snippets: DocsSnippet[];
@@ -35,10 +35,10 @@ const CATEGORY_ORDER = ["docs", "react", "breeze", "lynx", "ai-integration"];
 
 const SECTION_LABELS: Record<string, string> = {
   components: "컴포넌트",
-  foundation: "파운데이션",
-  guidelines: "가이드라인",
+  foundations: "파운데이션",
   migration: "마이그레이션",
-  resources: "리소스",
+  // get-started는 디자인 문서 디렉토리, getting-started는 react 문서의 slugs[0]에서 나온다.
+  "get-started": "시작하기",
   "getting-started": "시작하기",
   stackflow: "Stackflow",
   "developer-tools": "개발자 도구",
@@ -57,7 +57,7 @@ type Frontmatter = {
  * Strips route groups (parenthesized dirs) and the .mdx extension.
  * Returns null for index files at the content dir root.
  */
-function filePathToSlugs(relPath: string): string[] | null {
+export function filePathToSlugs(relPath: string): string[] | null {
   // Remove .mdx extension
   let clean = relPath.replace(/\.mdx$/, "");
 
@@ -77,8 +77,6 @@ function filePathToSlugs(relPath: string): string[] | null {
  * Recursively collect all .mdx files from a directory.
  */
 function collectMdxFiles(dir: string, base = ""): string[] {
-  if (!existsSync(dir)) return [];
-
   const results: string[] = [];
   for (const entry of readdirSync(dir)) {
     const fullPath = path.join(dir, entry);
@@ -101,7 +99,7 @@ const SNIPPET_EXT_LABELS: Record<string, string> = {
   ".module.css": "css",
 };
 
-function getSnippetLabel(filePath: string): string {
+export function getSnippetLabel(filePath: string): string {
   // Check longer extensions first (e.g. .module.css before .css)
   if (filePath.endsWith(".module.css")) return "css";
   const ext = path.extname(filePath);
@@ -145,7 +143,7 @@ function buildRegistryMap(): Map<string, RegistryMapEntry> {
   return map;
 }
 
-function findRegistryEntry(
+export function findRegistryEntry(
   registryMap: Map<string, RegistryMapEntry>,
   categoryId: string,
   itemId: string,
@@ -163,14 +161,34 @@ function findRegistryEntry(
   }
 }
 
+export function compareDocsItems(a: DocsItem, b: DocsItem): number {
+  if (a.id !== b.id) return a.id < b.id ? -1 : 1;
+  if (a.docUrl === b.docUrl) return 0;
+  return a.docUrl < b.docUrl ? -1 : 1;
+}
+
 async function main() {
   console.log(chalk.gray("Generating Docs Index..."));
 
   const contentDir = path.join(process.cwd(), "content");
   const registryMap = buildRegistryMap();
 
+  // docs/app/_llms/config.ts의 sectionConfigs와 동일한 범위를 다뤄야 한다.
+  // 프레임워크 무관한 디자인 문서들(components·foundations·patterns·get-started·updates)은
+  // 각자 최상위 URL을 쓰지만 카테고리는 "Design"(docs) 하나로 묶고, 디렉토리가 평평해서
+  // slugs[0]으로 섹션을 유추할 수 없으므로 sectionId를 명시한다.
   const sources = [
     { dir: "docs", categoryId: "docs", baseUrl: "/docs" },
+    { dir: "components", categoryId: "docs", baseUrl: "/components", sectionId: "components" },
+    { dir: "foundations", categoryId: "docs", baseUrl: "/foundations", sectionId: "foundations" },
+    { dir: "patterns", categoryId: "docs", baseUrl: "/patterns", sectionId: "patterns" },
+    {
+      dir: "get-started",
+      categoryId: "docs",
+      baseUrl: "/get-started",
+      sectionId: "get-started",
+    },
+    { dir: "updates", categoryId: "docs", baseUrl: "/updates", sectionId: "updates" },
     { dir: "react", categoryId: "react", baseUrl: "/react" },
     { dir: "breeze", categoryId: "breeze", baseUrl: "/breeze" },
     { dir: "lynx", categoryId: "lynx", baseUrl: "/lynx" },
@@ -180,8 +198,15 @@ async function main() {
   // categoryId -> sectionId -> DocsItem[]
   const categorySectionsMap = new Map<string, Map<string, DocsItem[]>>();
 
-  for (const { dir, categoryId, baseUrl } of sources) {
+  for (const { dir, categoryId, baseUrl, sectionId: fixedSectionId } of sources) {
     const sourceDir = path.join(contentDir, dir);
+
+    // Every entry in `sources` is a directory that must exist. Skipping a missing one would
+    // drop its whole section from the index while the build still reports success.
+    if (!existsSync(sourceDir)) {
+      throw new Error(`Content directory not found: ${sourceDir}. Update \`sources\` if it moved.`);
+    }
+
     const mdxFiles = collectMdxFiles(sourceDir);
 
     for (const relPath of mdxFiles) {
@@ -193,9 +218,11 @@ async function main() {
       const frontmatter = matter(content).data as Frontmatter;
       if (!frontmatter.title) continue;
 
-      // Section ID is the first slug for multi-level categories,
-      // or "components" as default for flat categories (breeze, lynx, ai-integration)
-      const sectionId = categoryId === "docs" || categoryId === "react" ? slugs[0] : "components";
+      // Explicit sectionId wins (flat design-doc dirs), then the first slug for
+      // multi-level categories, then "components" for flat categories (breeze, lynx, ai-integration)
+      const sectionId =
+        fixedSectionId ??
+        (categoryId === "docs" || categoryId === "react" ? slugs[0] : "components");
 
       const itemId = slugs[slugs.length - 1];
       const docUrl = `${baseUrl}/${slugs.join("/")}`;
@@ -238,7 +265,7 @@ async function main() {
         sections.push({
           id: sectionId,
           label: SECTION_LABELS[sectionId] ?? sectionId,
-          items: items.sort((a, b) => a.id.localeCompare(b.id)),
+          items: items.sort(compareDocsItems),
         });
       }
     }
@@ -283,7 +310,9 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  console.error(chalk.red("Failed to generate docs index:"), error);
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch((error) => {
+    console.error(chalk.red("Failed to generate docs index:"), error);
+    process.exit(1);
+  });
+}

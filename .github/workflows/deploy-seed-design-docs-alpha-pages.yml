@@ -7,10 +7,15 @@ on:
     paths:
       - "docs/**"
       - "packages/css/**"
+      - "packages/react-headless/**"
       - "packages/react/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".github/actions/nextjs-cache/**"
+      - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -18,10 +23,24 @@ on:
         required: false
         type: boolean
         default: false
+      bypass-cache-node-ids:
+        description: "Comma-separated Figma node IDs to bypass cache for (fetch fresh)"
+        required: false
+        type: string
+        default: ""
+      benchmark-cache-key:
+        description: "Optional identifier for a reproducible cold/warm Docs benchmark"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
   pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
@@ -33,6 +52,7 @@ jobs:
   deploy:
     name: deploy-seed-design-docs-alpha-pages
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v6
@@ -46,30 +66,91 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-figma-images-
 
-      - name: Restore Next.js cache
-        uses: actions/cache@v5
-        with:
-          path: docs/.next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
-
       - uses: ./.github/actions/setup
+        id: setup
         with:
           build-packages: true
           build-rootage: true
 
+      - name: Restore Next.js cache
+        id: restore-nextjs-cache
+        uses: ./.github/actions/nextjs-cache
+        with:
+          # A branch publishes one immutable baseline per compatibility namespace.
+          # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
+          cache-generation: baseline
+          cache-scope: ${{ github.ref_name }}
+          default-branch: ${{ github.event.repository.default_branch }}
+          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
+          benchmark-cache-key: ${{ inputs.benchmark-cache-key }}
+
       - name: Build Docs
+        id: build-docs
         working-directory: ./docs
         env:
           # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+          FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+          # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
+          build_started_at="$(date +%s)"
+          set +e
           bun run build
+          status=$?
+          echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
+          echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
+          echo "exit-code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+
+      - name: Report docs build benchmark
+        if: ${{ always() }}
+        env:
+          BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
+          NEXTJS_CACHE_HIT: ${{ steps.restore-nextjs-cache.outputs.cache-hit }}
+          NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-matched-key }}
+          NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+          BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
+          LYNX_CACHE_SIZE_KIB: ${{ steps.build-docs.outputs.lynx-cache-size-kib }}
+          BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
+        run: |
+          cache_result="miss"
+          if [ "$NEXTJS_CACHE_HIT" = "true" ]; then
+            cache_result="exact hit"
+          elif [ -n "$NEXTJS_CACHE_MATCHED_KEY" ]; then
+            cache_result="restore-key hit (not exact)"
+          fi
+
+          {
+            echo "## Docs build benchmark"
+            echo
+            echo "| Metric | Value |"
+            echo "| --- | --- |"
+            echo "| Benchmark cache key | ${BENCHMARK_CACHE_KEY:-default deployment cache} |"
+            echo "| Next.js Actions cache | $cache_result |"
+            echo "| Next.js cache exact hit | ${NEXTJS_CACHE_HIT:-false} |"
+            echo "| Next.js cache matched key | ${NEXTJS_CACHE_MATCHED_KEY:-none} |"
+            echo "| Next.js cache primary key | ${NEXTJS_CACHE_PRIMARY_KEY:-unknown} |"
+            echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
+            echo "| Lynx Rspeedy cache size (KiB) | ${LYNX_CACHE_SIZE_KIB:-not-recorded} |"
+            echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save Next.js cache
+        if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.next/cache
+          key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+
+      - name: Save Fumadocs TypeScript cache
+        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
+        uses: actions/cache/save@v5
+        with:
+          path: docs/.next/cache/fumadocs-typescript
+          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@v5
@@ -85,6 +166,16 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
           command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
+      # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
+      # 차단은 prod 워크플로가 배포 전에 한다.
+      - name: Validate docs links
+        id: links
+        continue-on-error: true
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
 
       - name: Find related PR
         id: pr
@@ -113,6 +204,7 @@ jobs:
         uses: actions/github-script@v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
+          LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
         with:
@@ -123,6 +215,9 @@ jobs:
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
 
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const linksBroken = process.env.LINKS_OUTCOME === 'failure';
+
             const body = [
               marker,
               '## Alpha Preview (Docs)',
@@ -130,6 +225,9 @@ jobs:
               `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
               `- Preview URL: ${deploymentUrl || '(not available)'}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
+              // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
+              // 줄이 없다는 것 자체가 통과를 뜻한다.
+              ...(linksBroken ? [`- ❌ Docs links: broken, see the [run log](${runUrl})`] : []),
             ].join('\n');
 
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -159,4 +257,7 @@ jobs:
                 body,
               });
             }
-              
+
+      - name: Fail when docs links are broken
+        if: ${{ steps.links.outcome == 'failure' }}
+        run: exit 1

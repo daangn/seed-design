@@ -1,21 +1,66 @@
 import { describe, expect, it } from "bun:test";
-import { normalizeLLMBodyWithRules } from "../normalize-llm-body";
-import { platformStatusRule } from "./platform-status-rule";
+import type { ComponentData } from "../../../sanity-studio/lib/types";
+import { generateMarkdownTable } from "./platform-status-rule";
 
-describe("platformStatusRule", () => {
-  it("keeps the original node when componentId is missing", () => {
-    const input = "<PlatformStatusTable />";
+const base: ComponentData = {
+  id: "button",
+  name: "Button",
+  figmaStatus: "ready",
+  reactStatus: "in-progress",
+  lynxStatus: "ready",
+  iosStatus: "not-ready",
+  androidStatus: "not-planned",
+};
 
-    const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
-
-    expect(actual).toContain("PlatformStatusTable");
+describe("generateMarkdownTable", () => {
+  it("renders one row per platform with its status label, dropping the Note column", () => {
+    expect(generateMarkdownTable(base)).toBe(
+      [
+        "| Platform | Status |",
+        "| --- | --- |",
+        "| Figma | Done |",
+        "| React | In Progress |",
+        "| Lynx | Done |",
+        "| iOS | Not Ready |",
+        "| Android | Not Planned |",
+      ].join("\n"),
+    );
   });
 
-  it("keeps the original node when component is not found", () => {
-    const input = `<PlatformStatusTable componentId="nonexistent-component" />`;
+  it("links the platform when a url is set and keeps the Note column once any platform has a note", () => {
+    const component: ComponentData = {
+      ...base,
+      figmaStatus: "deprecated",
+      figmaNote: "Use NewTab",
+      reactStatus: "ready",
+      reactUrl: "https://example.com/tab",
+      reactNote: "see migration",
+    };
 
-    const actual = normalizeLLMBodyWithRules(input, [platformStatusRule]);
+    expect(generateMarkdownTable(component)).toBe(
+      [
+        "| Platform | Status | Note |",
+        "| --- | --- | --- |",
+        "| Figma | Deprecated | Use NewTab |",
+        "| [React](https://example.com/tab) | Done | see migration |",
+        "| Lynx | Done |  |",
+        "| iOS | Not Ready |  |",
+        "| Android | Not Planned |  |",
+      ].join("\n"),
+    );
+  });
 
-    expect(actual).toContain("PlatformStatusTable");
+  it("escapes pipes and flattens newlines so a note cannot break the table", () => {
+    expect(generateMarkdownTable({ ...base, figmaNote: "a | b\nc" })).toBe(
+      [
+        "| Platform | Status | Note |",
+        "| --- | --- | --- |",
+        "| Figma | Done | a \\| b c |",
+        "| React | In Progress |  |",
+        "| Lynx | Done |  |",
+        "| iOS | Not Ready |  |",
+        "| Android | Not Planned |  |",
+      ].join("\n"),
+    );
   });
 });

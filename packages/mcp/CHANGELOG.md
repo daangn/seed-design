@@ -1,5 +1,72 @@
 # @seed-design/mcp
 
+## 3.0.0
+
+### Major Changes
+
+- 56f57da: MCP TypeScript SDK를 v1(`@modelcontextprotocol/sdk`)에서 v2(`@modelcontextprotocol/server`)로 마이그레이션합니다.
+
+  - 두 패키지를 MCP 서버로만 사용하는 경우(`bunx @seed-design/mcp`, `npx @seed-design/docs-mcp` 등) 달라지는 것은 없습니다.
+  - 패키지를 직접 import해서 커스텀 MCP 서버에 통합하는 경우 아래 영향이 있습니다.
+    - `registerTools`(`@seed-design/mcp`)와 `initializeTools`, `server`(`@seed-design/docs-mcp`)가 다루는 `McpServer`의 출처가 `@modelcontextprotocol/sdk`에서 `@modelcontextprotocol/server`로 변경됩니다. v1으로 만든 `McpServer`는 더 이상 넘길 수 없으므로, 함께 v2로 옮겨야 합니다.
+    - `@modelcontextprotocol/server`를 직접 설치해야 합니다. 마이그레이션은 [공식 가이드](https://github.com/modelcontextprotocol/typescript-sdk/blob/main/docs/migration/upgrade-to-v2.md)의 codemod로 대부분 자동 처리됩니다.
+
+### Minor Changes
+
+- 894e2b7: 특정 레이어의 SVG 마크업을 받아오는 `export_node_as_svg` 툴을 추가합니다. `export_node_as_image`의 format `SVG` 파라미터를 대체합니다.
+
+  - REST 및 WebSocket 모드 모두에서 사용할 수 있습니다.
+  - `outlineText` 파라미터를 사용하여 텍스트 레이어를 vector path로 변환할지 정합니다. Figma API 기본값은 `true`지만 이 도구의 기본값은 응답 크기 최적화를 위해 `false`입니다.
+
+  `figma-api` 의존성을 업데이트합니다.
+
+- ba859f2: `export_node_as_image`가 Figma 앱과 웹소켓 서버 없이 REST 모드에서도 작동하도록 업데이트합니다.
+
+  - `format` 파라미터에서 주요 LLM 도구가 이미지로 판단하지 않는 `PDF`를 제거합니다.
+  - `format` 파라미터에서 `SVG`를 제거합니다.
+  - `scale` 파라미터의 스키마를 Figma REST API 제약에 맞춰 0.01 이상 4 이하로 제한합니다.
+
+- 94929d6: `get_annotations`가 Figma 앱과 웹소켓 서버 없이 REST 모드에서도 작동하도록 업데이트하고, 반환 결과를 개선합니다.
+
+  - 조회 대상 레이어 자신에 붙은 Annotation이 결과에서 빠지던 문제를 수정합니다.
+  - Text, Rectangle처럼 하위 레이어를 가질 수 없는 레이어를 조회하면 오류가 나던 문제를 수정합니다.
+  - Annotation 카테고리를 `category: { id, label, color, isPreset }`으로 반환합니다.
+  - Annotation이 붙은 레이어의 `name`, `type`, 그리고 조회 대상부터 해당 레이어까지의 상위 레이어 정보를 `path`로 반환합니다.
+
+### Patch Changes
+
+- a4f0fe9: WebSocket 모드에서 소켓이 준비되기 전에 툴을 호출하면 생기던 문제를 수정합니다.
+
+  - 서버 기동 직후 소켓이 열리기 전에 툴을 호출하면 MCP 서버 프로세스가 종료되어 이후 모든 요청이 응답 없이 멈추던 문제를 수정합니다. 이제 해당 호출은 에러를 반환하고 서버는 계속 동작합니다.
+  - 재연결 직후 채널 참여가 끝나기 전에 툴을 호출하면 30초 타임아웃이 날 때까지 기다리는 대신, 즉시 에러를 반환합니다.
+
+- 3ad8406: 툴 호출이 실패했을 때 반환되는 응답에 `isError` 플래그가 포함되도록 업데이트합니다.
+
+## 2.1.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+### Patch Changes
+
+- Updated dependencies [86f74d7]
+  - @seed-design/figma@2.1.0
+
+## 2.0.0
+
+이 패키지의 코드 변경은 없으며, SEED React 2 릴리즈에 맞춰 앞으로의 semver 정합성을 위해 버전을 올립니다.
+
+## 1.3.18
+
+### Patch Changes
+
+- @seed-design/figma@1.3.18
+
 ## 1.3.17
 
 ### Patch Changes

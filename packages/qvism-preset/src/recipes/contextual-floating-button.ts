@@ -8,6 +8,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/contextual-floating-button";
 
 const contextualFloatingButton = defineRecipe({
   name: "contextual-floating-button",
@@ -126,10 +127,8 @@ const contextualFloatingButton = defineRecipe({
     layout: {
       withText: {
         minHeight: vars.layoutWithText.enabled.root.minHeight,
-        paddingLeft: vars.layoutWithText.enabled.root.paddingX,
-        paddingRight: vars.layoutWithText.enabled.root.paddingX,
-        paddingTop: vars.layoutWithText.enabled.root.paddingY,
-        paddingBottom: vars.layoutWithText.enabled.root.paddingY,
+        paddingInline: vars.layoutWithText.enabled.root.paddingX,
+        paddingBlock: vars.layoutWithText.enabled.root.paddingY,
         gap: vars.layoutWithText.enabled.root.gap,
 
         ...prefixIcon({
@@ -149,6 +148,9 @@ const contextualFloatingButton = defineRecipe({
   defaultVariants: {
     variant: "solid",
     layout: "withText",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

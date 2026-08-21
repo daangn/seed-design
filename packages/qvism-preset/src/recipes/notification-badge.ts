@@ -1,5 +1,6 @@
 import { defineRecipe } from "../utils/define";
 import { notificationBadge as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/notification-badge";
 
 export const notificationBadgePositioner = defineRecipe({
   name: "notification-badge-positioner",
@@ -97,10 +98,8 @@ export const notificationBadge = defineRecipe({
         minHeight: vars.sizeLarge.enabled.root.minHeight,
         borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
-        paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-        paddingRight: vars.sizeLarge.enabled.root.paddingX,
-        paddingTop: vars.sizeLarge.enabled.root.paddingY,
-        paddingBottom: vars.sizeLarge.enabled.root.paddingY,
+        paddingInline: vars.sizeLarge.enabled.root.paddingX,
+        paddingBlock: vars.sizeLarge.enabled.root.paddingY,
 
         fontSize: vars.sizeLarge.enabled.label.fontSize,
         lineHeight: vars.sizeLarge.enabled.label.lineHeight,
@@ -110,5 +109,8 @@ export const notificationBadge = defineRecipe({
   },
   defaultVariants: {
     size: "large",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });

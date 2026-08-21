@@ -1,5 +1,42 @@
 # @seed-design/cli
 
+## 1.6.1
+
+### Patch Changes
+
+- faabf6f: `compat`이 모노레포에서 seed 패키지를 "미설치"로 오판하던 문제를 고칩니다.
+
+  의존성 선언이 상위 워크스페이스 package.json에 있으면 현재 패키지에서는 선언이 잡히지 않아, 실제로는 설치돼 있는데도 스니펫 호환성 검사가 실패했습니다. 선언이 없을 때만 node_modules에 해소된 설치본 버전을 대신 사용합니다. 선언이 있으면 기존과 동일하게 선언을 그대로 씁니다.
+
+## 1.6.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 1.5.1
+
+### Patch Changes
+
+- 304b0c9: `--seed-react-version` 옵션에 `1.0`과 같은 버전 값을 넘길 때 파싱 에러가 발생하던 문제를 수정합니다.
+
+## 1.5.0
+
+### Minor Changes
+
+- b9a2956: `add`, `add-all` 명령어에 `--seed-react-version` 옵션을 추가합니다.
+
+  - 설치한 `@seed-design/react` 버전에 맞는 스니펫 레지스트리를 CLI가 자동으로 찾아줍니다. 정확한 `--baseUrl`을 직접 지정할 필요가 없습니다.
+  - `--baseUrl`, `--framework`보다 우선 적용됩니다.
+
+  ```sh
+  npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
+  ```
+
 ## 1.4.0
 
 ### Minor Changes

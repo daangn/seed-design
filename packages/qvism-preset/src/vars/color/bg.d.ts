@@ -29,7 +29,7 @@ export declare const layerBasement = "var(--seed-color-bg-layer-basement)";
 export declare const layerDefault = "var(--seed-color-bg-layer-default)";
 /** basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed) */
 export declare const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
-/** @deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다. */
+/** @deprecated @seed-design/css@3.0.0에서 새 이름 토큰으로 대체·제거될 예정입니다. */
 export declare const layerFill = "var(--seed-color-bg-layer-fill)";
 /** 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. */
 export declare const layerFloating = "var(--seed-color-bg-layer-floating)";
@@ -66,6 +66,8 @@ export declare const positiveWeak = "var(--seed-color-bg-positive-weak)";
 export declare const positiveWeakPressed = "var(--seed-color-bg-positive-weak-pressed)";
 export declare const transparent = "var(--seed-color-bg-transparent)";
 export declare const transparentPressed = "var(--seed-color-bg-transparent-pressed)";
+export declare const transparentSelected = "var(--seed-color-bg-transparent-selected)";
+export declare const transparentSelectedPressed = "var(--seed-color-bg-transparent-selected-pressed)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid) */
 export declare const warningSolid = "var(--seed-color-bg-warning-solid)";
 /** 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid-pressed) */

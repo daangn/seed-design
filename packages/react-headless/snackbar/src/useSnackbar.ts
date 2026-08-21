@@ -240,6 +240,15 @@ export function useSnackbar(props: UseSnackbarProps) {
           events.dismiss();
         },
       }),
+
+      actionButtonProps: buttonProps({
+        type: "button",
+        onClick(event) {
+          event.stopPropagation();
+          event.currentTarget.blur();
+          events.dismiss();
+        },
+      }),
     }),
     [
       visible,

@@ -1,11 +1,12 @@
 {
   "name": "@seed-design/lynx-css",
-  "version": "0.2.0",
+  "version": "0.8.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/lynx-css"
   },
+  "license": "Apache-2.0",
   "sideEffects": [
     "*.css"
   ],
@@ -43,7 +44,9 @@
     "package.json",
     "recipes",
     "vars",
-    "*.css"
+    "*.css",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",

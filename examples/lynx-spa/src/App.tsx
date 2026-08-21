@@ -25,6 +25,7 @@ import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
+import { TextFieldPage } from "./pages/TextFieldPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
 import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
@@ -49,6 +50,7 @@ export type Page =
   | "radio-group"
   | "switch"
   | "tag-group"
+  | "text-field"
   | "nested-vars-test"
   | "foundation-color"
   | "foundation-monochrome-icon"
@@ -84,6 +86,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "radio-group",
   "switch",
   "tag-group",
+  "text-field",
   "foundation-monochrome-icon",
   "foundation-multicolor-icon",
 ]);
@@ -145,6 +148,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "radio-group" && <RadioGroupPage />}
         {currentPage === "switch" && <SwitchPage />}
         {currentPage === "tag-group" && <TagGroupPage />}
+        {currentPage === "text-field" && <TextFieldPage />}
         <Suspense>
           {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
           {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}

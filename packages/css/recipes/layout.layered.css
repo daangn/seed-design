@@ -1,0 +1,24 @@
+@layer seed-components {
+  .seed-layout__root {
+    height: 100vh;
+    display: flex;
+    overflow-y: auto;
+  }
+
+  .seed-layout__content {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .seed-layout__content--density_low, .seed-layout__content--density_medium {
+      max-width: 720px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .seed-layout__content--density_medium {
+      max-width: 1040px;
+    }
+  }
+}

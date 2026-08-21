@@ -1,30 +1,11 @@
-import { getLLMText } from "@/app/_llms/get-llm-text";
-import { reactSource } from "@/app/source";
-import { notFound } from "next/navigation";
+import { createLLMTextRoute } from "@/app/_llms/llms-route";
+import { getReactSource } from "@/app/source";
 
 export const revalidate = false;
 
-export async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
-  const { slug } = await context.params;
+const route = createLLMTextRoute(getReactSource, "react");
 
-  const actualSlug = slug.map((s, i) => (i === slug.length - 1 ? s.replace(/\.txt$/, "") : s));
-
-  const page = reactSource.getPage(actualSlug);
-
-  if (!page) notFound();
-
-  return new Response(await getLLMText(page, "react"), {
-    headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
-    },
-  });
-}
-
-export async function generateStaticParams() {
-  return reactSource
-    .generateParams()
-    .filter((p) => p.slug && p.slug.length > 0)
-    .map((p) => ({
-      slug: p.slug!.map((s, i) => (i === p.slug!.length - 1 ? `${s}.txt` : s)),
-    }));
+export const GET = route.GET;
+export function generateStaticParams() {
+  return route.generateStaticParams();
 }

@@ -1,0 +1,26 @@
+export {
+  SidePanelBackdrop,
+  SidePanelBody,
+  SidePanelContent,
+  SidePanelDescription,
+  SidePanelFooter,
+  SidePanelHeader,
+  SidePanelPositioner,
+  SidePanelRoot,
+  SidePanelTitle,
+  SidePanelTrigger,
+  SidePanelCloseButton,
+  type SidePanelBackdropProps,
+  type SidePanelBodyProps,
+  type SidePanelContentProps,
+  type SidePanelDescriptionProps,
+  type SidePanelFooterProps,
+  type SidePanelHeaderProps,
+  type SidePanelPositionerProps,
+  type SidePanelRootProps,
+  type SidePanelTitleProps,
+  type SidePanelTriggerProps,
+  type SidePanelCloseButtonProps,
+} from "./SidePanel";
+
+export * as SidePanel from "./SidePanel.namespace";
