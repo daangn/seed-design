@@ -4,7 +4,7 @@
     height: var(--seed-wheel-picker-public-viewport-size, 220px);
     overflow: hidden;
     background-color: var(--seed-color-bg-layer-floating);
-    --seed-wheel-picker-public-item-color: var(--seed-color-fg-neutral-muted);
+    --seed-wheel-picker-public-item-color: var(--seed-color-fg-disabled);
     --seed-wheel-picker-public-selected-item-color: var(--seed-color-fg-neutral);
 }
 .seed-wheel-picker-public__scrollFog {
@@ -96,7 +96,7 @@
 .seed-wheel-picker-public__selectionIndicator {
     position: absolute;
     z-index: 0;
-    inset-inline: 0;
+    inset-inline: var(--seed-dimension-x4);
     top: 50%;
     height: var(--seed-wheel-picker-public-item-size, 44px);
     transform: translateY(-50%);

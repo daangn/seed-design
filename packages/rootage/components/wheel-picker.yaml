@@ -16,6 +16,8 @@ data:
         properties:
           height:
             type: dimension
+          insetX:
+            type: dimension
           cornerRadius:
             type: dimension
           color:
@@ -48,6 +50,7 @@ data:
           color: $color.bg.layer-floating
         selectionIndicator:
           height: 44px
+          insetX: $dimension.x4
           cornerRadius: $radius.r2
           color: $color.bg.neutral-weak
         scrollFog:
@@ -59,7 +62,7 @@ data:
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static
           fontWeight: $font-weight.medium
-          color: $color.fg.neutral-muted
+          color: $color.fg.disabled
       selected:
         itemLabel:
           color: $color.fg.neutral

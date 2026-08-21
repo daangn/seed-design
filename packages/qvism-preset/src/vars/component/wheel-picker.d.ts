@@ -7,6 +7,7 @@ export declare const vars: {
       },
       "selectionIndicator": {
         "height": "44px",
+        "insetX": "var(--seed-dimension-x4)",
         "cornerRadius": "var(--seed-radius-r2)",
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -21,7 +22,7 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
         "fontWeight": "var(--seed-font-weight-medium)",
-        "color": "var(--seed-color-fg-neutral-muted)"
+        "color": "var(--seed-color-fg-disabled)"
       }
     },
     "selected": {
