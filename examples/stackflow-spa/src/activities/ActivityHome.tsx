@@ -381,6 +381,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Other Components",
       items: [
         { title: "Accordion", onClick: () => push("ActivityAccordion", {}) },
+        { title: "Pagination", onClick: () => push("ActivityPagination", {}) },
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },

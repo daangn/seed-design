@@ -17,6 +17,38 @@
         }
       ],
       "id": "manner-temp-level"
+    },
+    {
+      "snippets": [
+        {
+          "path": "pagination-button.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.3.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "pagination-button",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react",
+        "clsx"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "pagination-page-item.tsx",
+          "dependencies": {
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "pagination-page-item",
+      "dependencies": [
+        "@seed-design/css",
+        "clsx"
+      ]
     }
   ]
 }

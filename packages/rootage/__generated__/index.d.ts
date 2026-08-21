@@ -192,6 +192,12 @@ declare const artifact: {
       "path": "/components/page-banner.json";
     },
     {
+      "path": "/components/pagination-button.json";
+    },
+    {
+      "path": "/components/pagination-page-item.json";
+    },
+    {
       "path": "/components/progress-circle.json";
     },
     {

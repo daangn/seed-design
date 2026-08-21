@@ -53,6 +53,8 @@ import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import pageBanner from "./recipes/page-banner";
+import paginationButton from "./recipes/pagination-button";
+import paginationPageItem from "./recipes/pagination-page-item";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
 import quantityPicker from "./recipes/quantity-picker";
@@ -145,6 +147,8 @@ export const recipes = {
   notificationBadge,
   notificationBadgePositioner,
   pageBanner,
+  paginationButton,
+  paginationPageItem,
   progressCircle,
   pullToRefresh,
   quantityPicker,
