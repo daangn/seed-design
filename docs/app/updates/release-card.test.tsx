@@ -26,7 +26,7 @@ describe("ReleaseCard", () => {
     expect(heading.className).toContain("text-lg");
     expect(heading.className).toContain("font-medium");
     expect(heading.className).toContain("text-balance");
-    expect(heading.className).toContain("[word-break:auto-phrase]");
+    expect(heading.className).toContain("break-keep");
     expect(link.className).not.toContain("min-h-");
     expect(link.querySelector("p")).toBeNull();
     expect(link.querySelector("svg")).toBeNull();

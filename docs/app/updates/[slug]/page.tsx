@@ -89,12 +89,8 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
           : "prose-h2:text-[1.75rem] prose-h3:text-[1.5rem] prose-p:text-[1.125rem] prose-li:text-[1.125rem] prose-p:leading-[1.7] prose-li:leading-[1.7] prose-em:text-[color:var(--seed-color-palette-gray-700)]"
       }
       // Updates의 모든 상세 제목은 한국어 어절 단위 줄바꿈을 우선하고 균형 있게 배치한다.
-      // `auto-phrase` 미지원 브라우저에서는 `text-balance`만 적용된다.
       // 블로그 글은 날짜 메타와 함께 중앙 정렬하고, 릴리즈 노트는 기본 좌측 정렬을 유지한다.
-      titleClassName={clsx(
-        "text-balance [word-break:auto-phrase]",
-        !isRelease && "text-center",
-      )}
+      titleClassName={clsx("text-balance break-keep", !isRelease && "text-center")}
       meta={
         publishedDate ? (
           <div
