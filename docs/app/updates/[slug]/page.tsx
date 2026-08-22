@@ -88,6 +88,9 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
           ? undefined
           : "prose-h2:text-[1.75rem] prose-h3:text-[1.5rem] prose-p:text-[1.125rem] prose-li:text-[1.125rem] prose-p:leading-[1.7] prose-li:leading-[1.7] prose-em:text-[color:var(--seed-color-palette-gray-700)]"
       }
+      // 타이틀 h1 중앙 정렬(날짜 메타는 위 meta에서 이미 flex center). DocsTitle은 전역 공유
+      // 컴포넌트라 CSS로 박지 않고, 이 prop이 전달된 Updates 일반 포스트에서만 text-center,
+      // text-balance, break-keep, wrap-anywhere를 얹는다.
       titleClassName={isRelease ? undefined : "text-center text-balance break-keep wrap-anywhere"}
       meta={
         publishedDate ? (
