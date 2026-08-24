@@ -21,8 +21,7 @@
 }
 .seed-wheel-picker-public__column {
     box-sizing: border-box;
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 auto;
     width: max-content;
     height: 100%;
     overflow-x: hidden;

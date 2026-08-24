@@ -13426,11 +13426,10 @@
     touch-action: pan-y;
     cursor: grab;
     width: max-content;
-    min-width: 0;
     height: 100%;
     padding-block: var(--seed-wheel-picker-public-center-offset);
     outline: none;
-    flex: 1 1 0;
+    flex: none;
     overflow: hidden auto;
   }
 

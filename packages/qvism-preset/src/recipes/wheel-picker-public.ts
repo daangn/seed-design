@@ -47,8 +47,7 @@ const wheelPickerPublic = defineSlotRecipe({
     },
     column: {
       boxSizing: "border-box",
-      flex: "1 1 0",
-      minWidth: 0,
+      flex: "0 0 auto",
       width: "max-content",
       height: "100%",
       overflowX: "hidden",
