@@ -55,7 +55,6 @@ export interface TimePickerProps
     Omit<
       InternalWheelPickerRootProps,
       | keyof UseTimePickerProps
-      | "appearance"
       | "asChild"
       | "children"
       | "columnsClassName"

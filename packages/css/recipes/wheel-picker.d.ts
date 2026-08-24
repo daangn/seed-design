@@ -1,5 +1,5 @@
 declare interface WheelPickerVariant {
-  appearance: "neutral";
+  
 }
 
 declare type WheelPickerVariantMap = {
