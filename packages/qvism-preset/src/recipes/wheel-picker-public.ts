@@ -3,6 +3,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/wheel-picker";
 import { defineSlotRecipe } from "../utils/define";
 import { disabled, focusVisible, pseudo, selected } from "../utils/pseudo";
 import { wheelPicker as vars } from "../vars/component";
@@ -11,6 +12,8 @@ export const WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES = {
   viewportSize: "--seed-wheel-picker-public-viewport-size",
   centerOffset: "--seed-wheel-picker-public-center-offset",
   itemSize: "--seed-wheel-picker-public-item-size",
+  scrollFogSize: "--seed-wheel-picker-public-scroll-fog-size",
+  scrollFogMaxHeight: "--seed-wheel-picker-public-scroll-fog-max-height",
   itemColor: "--seed-wheel-picker-public-item-color",
   selectedItemColor: "--seed-wheel-picker-public-selected-item-color",
   indicatorOverlapStart: "--seed-wheel-picker-indicator-overlap-start",
@@ -24,11 +27,11 @@ const wheelPickerPublic = defineSlotRecipe({
     root: {
       position: "relative",
       width: "100%",
-      height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.viewportSize}, ${vars.base.enabled.root.height})`,
       overflow: "hidden",
       backgroundColor: vars.base.enabled.root.color,
       [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.itemLabel.color,
       [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.itemLabel.color,
+      [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.scrollFogSize]: `min(calc(${vars.base.enabled.scrollFog.maxHeightFraction} * 100%), var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.scrollFogMaxHeight}))`,
     },
     scrollFog: {
       position: "relative",
@@ -86,8 +89,8 @@ const wheelPickerPublic = defineSlotRecipe({
     },
     item: {
       display: "flex",
-      height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize}, ${vars.base.enabled.item.height})`,
-      minHeight: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize}, ${vars.base.enabled.item.height})`,
+      height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize})`,
+      minHeight: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize})`,
       alignItems: "center",
       justifyContent: "center",
       color: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemColor})`,
@@ -109,8 +112,6 @@ const wheelPickerPublic = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       paddingInline: vars.base.enabled.itemLabel.paddingX,
-      fontSize: vars.base.enabled.itemLabel.fontSize,
-      lineHeight: vars.base.enabled.itemLabel.lineHeight,
       fontWeight: vars.base.enabled.itemLabel.fontWeight,
       whiteSpace: "nowrap",
     },
@@ -119,15 +120,47 @@ const wheelPickerPublic = defineSlotRecipe({
       zIndex: 0,
       insetInline: vars.base.enabled.selectionIndicator.insetX,
       top: "50%",
-      height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize}, ${vars.base.enabled.selectionIndicator.height})`,
+      height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize})`,
       transform: "translateY(-50%)",
       borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
       backgroundColor: vars.base.enabled.selectionIndicator.color,
       pointerEvents: "none",
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    size: {
+      small: {
+        root: {
+          height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.viewportSize}, ${vars.sizeSmall.enabled.root.height})`,
+          [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize]: vars.sizeSmall.enabled.item.height,
+          [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.scrollFogMaxHeight]:
+            vars.sizeSmall.enabled.scrollFog.maxHeight,
+        },
+        itemLabel: {
+          fontSize: vars.sizeSmall.enabled.itemLabel.fontSize,
+          lineHeight: vars.sizeSmall.enabled.itemLabel.lineHeight,
+        },
+      },
+      medium: {
+        root: {
+          height: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.viewportSize}, ${vars.sizeMedium.enabled.root.height})`,
+          [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemSize]: vars.sizeMedium.enabled.item.height,
+          [WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.scrollFogMaxHeight]:
+            vars.sizeMedium.enabled.scrollFog.maxHeight,
+        },
+        itemLabel: {
+          fontSize: vars.sizeMedium.enabled.itemLabel.fontSize,
+          lineHeight: vars.sizeMedium.enabled.itemLabel.lineHeight,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "medium",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
+  },
 });
 
 export default wheelPickerPublic;

@@ -32,11 +32,18 @@ const wheelPickerPublicSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "size": "medium"
+};
 
 const compoundVariants = [];
 
-export const wheelPickerPublicVariantMap = {};
+export const wheelPickerPublicVariantMap = {
+  "size": [
+    "small",
+    "medium"
+  ]
+};
 
 export const wheelPickerPublicVariantKeys = Object.keys(wheelPickerPublicVariantMap);
 

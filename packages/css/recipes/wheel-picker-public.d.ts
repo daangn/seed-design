@@ -1,5 +1,8 @@
 declare interface WheelPickerPublicVariant {
-  
+  /**
+  * @default "medium"
+  */
+  size: "small" | "medium";
 }
 
 declare type WheelPickerPublicVariantMap = {

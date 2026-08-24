@@ -1,11 +1,11 @@
 .seed-wheel-picker-public__root {
     position: relative;
     width: 100%;
-    height: var(--seed-wheel-picker-public-viewport-size, 220px);
     overflow: hidden;
     background-color: var(--seed-color-bg-layer-floating);
     --seed-wheel-picker-public-item-color: var(--seed-color-fg-disabled);
     --seed-wheel-picker-public-selected-item-color: var(--seed-color-fg-neutral);
+    --seed-wheel-picker-public-scroll-fog-size: min(calc(0.4 * 100%), var(--seed-wheel-picker-public-scroll-fog-max-height));
 }
 .seed-wheel-picker-public__scrollFog {
     position: relative;
@@ -65,8 +65,8 @@
 }
 .seed-wheel-picker-public__item {
     display: flex;
-    height: var(--seed-wheel-picker-public-item-size, 44px);
-    min-height: var(--seed-wheel-picker-public-item-size, 44px);
+    height: var(--seed-wheel-picker-public-item-size);
+    min-height: var(--seed-wheel-picker-public-item-size);
     align-items: center;
     justify-content: center;
     color: var(--seed-wheel-picker-public-item-color);
@@ -88,8 +88,6 @@
     align-items: center;
     justify-content: center;
     padding-inline: var(--seed-dimension-x4);
-    font-size: var(--seed-font-size-t10-static);
-    line-height: var(--seed-line-height-t10-static);
     font-weight: var(--seed-font-weight-medium);
     white-space: nowrap;
 }
@@ -98,9 +96,27 @@
     z-index: 0;
     inset-inline: var(--seed-dimension-x4);
     top: 50%;
-    height: var(--seed-wheel-picker-public-item-size, 44px);
+    height: var(--seed-wheel-picker-public-item-size);
     transform: translateY(-50%);
     border-radius: var(--seed-radius-r2);
     background-color: var(--seed-color-bg-neutral-weak);
     pointer-events: none;
+}
+.seed-wheel-picker-public__root--size_small {
+    height: var(--seed-wheel-picker-public-viewport-size, 180px);
+    --seed-wheel-picker-public-item-size: 36px;
+    --seed-wheel-picker-public-scroll-fog-max-height: 108px;
+}
+.seed-wheel-picker-public__itemLabel--size_small {
+    font-size: var(--seed-font-size-t7-static);
+    line-height: var(--seed-line-height-t7-static);
+}
+.seed-wheel-picker-public__root--size_medium {
+    height: var(--seed-wheel-picker-public-viewport-size, 220px);
+    --seed-wheel-picker-public-item-size: 44px;
+    --seed-wheel-picker-public-scroll-fog-max-height: 132px;
+}
+.seed-wheel-picker-public__itemLabel--size_medium {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
 }

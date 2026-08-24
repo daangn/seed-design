@@ -36,8 +36,12 @@ describe("WheelPicker", () => {
       "--seed-wheel-picker-public-visible-item-count": "5",
       "--seed-wheel-picker-public-viewport-size": "220px",
       "--seed-wheel-picker-public-center-offset": "88px",
+      "--seed-wheel-picker-public-scroll-fog-max-height": "132px",
     });
-    expect(getByRole("group")).toHaveClass("seed-wheel-picker-public__root");
+    expect(getByRole("group")).toHaveClass(
+      "seed-wheel-picker-public__root",
+      "seed-wheel-picker-public__root--size_medium",
+    );
     expect(getByRole("group")).not.toHaveClass("seed-wheel-picker__root");
     expect(container.querySelector("[data-wheel-picker-scroll-fog]")).toHaveClass(
       "seed-wheel-picker-public__scrollFog",
@@ -55,9 +59,69 @@ describe("WheelPicker", () => {
     expect(container.querySelector("[data-wheel-picker-indicator]")).toHaveClass(
       "seed-wheel-picker-public__selectionIndicator",
     );
-    expect(container.querySelector("[data-wheel-picker-scroll-fog]")).toHaveStyle({
-      "--scroll-fog-size-top": "88px",
-      "--scroll-fog-size-bottom": "88px",
+    const scrollFog = container.querySelector<HTMLElement>("[data-wheel-picker-scroll-fog]");
+    expect(scrollFog?.style.getPropertyValue("--scroll-fog-size-top")).toBe(
+      "var(--seed-wheel-picker-public-scroll-fog-size)",
+    );
+    expect(scrollFog?.style.getPropertyValue("--scroll-fog-size-bottom")).toBe(
+      "var(--seed-wheel-picker-public-scroll-fog-size)",
+    );
+  });
+
+  it("Small 크기의 geometry와 타이포그래피 Variant를 적용한다", () => {
+    const { container, getByRole } = render(
+      <WheelPicker.Root aria-label="작은 휠 피커" size="small">
+        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("group")).toHaveStyle({
+      "--seed-wheel-picker-public-item-size": "36px",
+      "--seed-wheel-picker-public-visible-item-count": "5",
+      "--seed-wheel-picker-public-viewport-size": "180px",
+      "--seed-wheel-picker-public-center-offset": "72px",
+      "--seed-wheel-picker-public-scroll-fog-max-height": "108px",
+    });
+    expect(getByRole("group")).toHaveClass("seed-wheel-picker-public__root--size_small");
+    expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
+      "seed-wheel-picker-public__itemLabel--size_small",
+    );
+  });
+
+  it("itemSize를 지정하면 Size의 Item 높이와 Scroll Fog 최대 높이만 덮어쓴다", () => {
+    const { container, getByRole } = render(
+      <WheelPicker.Root
+        aria-label="사용자 지정 휠 피커"
+        size="small"
+        itemSize={56}
+        visibleItemCount={7}
+      >
+        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("group")).toHaveStyle({
+      "--seed-wheel-picker-public-item-size": "56px",
+      "--seed-wheel-picker-public-visible-item-count": "7",
+      "--seed-wheel-picker-public-viewport-size": "392px",
+      "--seed-wheel-picker-public-center-offset": "168px",
+      "--seed-wheel-picker-public-scroll-fog-max-height": "168px",
+    });
+    expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
+      "seed-wheel-picker-public__itemLabel--size_small",
+    );
+  });
+
+  it("Item을 9개 표시해도 Scroll Fog 최대 높이는 Item 3개 높이로 유지한다", () => {
+    const { getByRole } = render(
+      <WheelPicker.Root aria-label="긴 휠 피커" visibleItemCount={9}>
+        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("group")).toHaveStyle({
+      "--seed-wheel-picker-public-viewport-size": "396px",
+      "--seed-wheel-picker-public-scroll-fog-max-height": "132px",
     });
   });
 

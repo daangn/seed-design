@@ -310,6 +310,47 @@ function WheelPickerCase({ label, columns, disabled }: WheelPickerCaseProps) {
   );
 }
 
+const wheelPickerSizes = ["small", "medium"] as const;
+const visibleItemCounts = [5, 7, 9] as const;
+const sizeOptions = createNumberOptions(1, 15, 2);
+
+function SizeAndVisibleItemCountCases() {
+  return (
+    <VStack gap="x6">
+      {wheelPickerSizes.map((size) => (
+        <VStack key={size} gap="x3">
+          <Text fontSize="t5" fontWeight="bold">
+            {size === "small" ? "Small" : "Medium"}
+          </Text>
+          <Grid columns={visibleItemCounts.length} gap="24px">
+            {visibleItemCounts.map((visibleItemCount) => (
+              <VStack key={visibleItemCount} gap="x2">
+                <Text as="p" align="center" fontSize="t3" color="fg.neutralMuted">
+                  {visibleItemCount}개
+                </Text>
+                <Box width="160px">
+                  <WheelPicker.Root
+                    aria-label={`${size}, ${visibleItemCount}개 표시`}
+                    size={size}
+                    visibleItemCount={visibleItemCount}
+                  >
+                    <WheelPicker.Column
+                      aria-label="수량"
+                      options={sizeOptions}
+                      defaultValue="8"
+                      loop
+                    />
+                  </WheelPicker.Root>
+                </Box>
+              </VStack>
+            ))}
+          </Grid>
+        </VStack>
+      ))}
+    </VStack>
+  );
+}
+
 const meta = preview.meta({
   title: "Components/WheelPicker",
   component: WheelPickerCase,
@@ -334,6 +375,11 @@ export const FontScalingExtraSmall = CommonStory.extend({
 
 export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
   parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const SizesAndVisibleItemCounts = meta.story({
+  parameters: withChromaticParameters({}),
+  render: () => <SizeAndVisibleItemCountCases />,
 });
 
 export const Uncontrolled = meta.story({

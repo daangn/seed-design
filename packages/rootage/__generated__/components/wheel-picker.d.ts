@@ -37,8 +37,11 @@ declare const artifact: {
         };
         "scrollFog": {
           "properties": {
-            "height": {
+            "maxHeight": {
               "type": "dimension";
+            };
+            "maxHeightFraction": {
+              "type": "number";
             };
           };
         };
@@ -69,7 +72,15 @@ declare const artifact: {
           };
         };
       };
-      "variants": {};
+      "variants": {
+        "size": {
+          "values": {
+            "small": {};
+            "medium": {};
+          };
+          "defaultValue": "small";
+        };
+      };
     };
     "definitions": readonly [
       {
@@ -81,26 +92,12 @@ declare const artifact: {
             ];
             "slots": {
               "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 220;
-                    "unit": "px";
-                  };
-                };
                 "color": {
                   "type": "color";
                   "value": "$color.bg.layer-floating";
                 };
               };
               "selectionIndicator": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
                 "insetX": {
                   "type": "dimension";
                   "value": "$dimension.x4";
@@ -115,35 +112,15 @@ declare const artifact: {
                 };
               };
               "scrollFog": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 88;
-                    "unit": "px";
-                  };
-                };
-              };
-              "item": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
+                "maxHeightFraction": {
+                  "type": "number";
+                  "value": 0.4;
                 };
               };
               "itemLabel": {
                 "paddingX": {
                   "type": "dimension";
                   "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t10-static";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t10-static";
                 };
                 "fontWeight": {
                   "type": "number";
@@ -178,6 +155,126 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.fg.disabled";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "size": "small";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 180;
+                    "unit": "px";
+                  };
+                };
+              };
+              "selectionIndicator": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 36;
+                    "unit": "px";
+                  };
+                };
+              };
+              "scrollFog": {
+                "maxHeight": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 108;
+                    "unit": "px";
+                  };
+                };
+              };
+              "item": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 36;
+                    "unit": "px";
+                  };
+                };
+              };
+              "itemLabel": {
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t7-static";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t7-static";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "size": "medium";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 220;
+                    "unit": "px";
+                  };
+                };
+              };
+              "selectionIndicator": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 44;
+                    "unit": "px";
+                  };
+                };
+              };
+              "scrollFog": {
+                "maxHeight": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 132;
+                    "unit": "px";
+                  };
+                };
+              };
+              "item": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 44;
+                    "unit": "px";
+                  };
+                };
+              };
+              "itemLabel": {
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t10-static";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t10-static";
                 };
               };
             };

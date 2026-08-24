@@ -2,25 +2,18 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "height": "220px",
         "color": "var(--seed-color-bg-layer-floating)"
       },
       "selectionIndicator": {
-        "height": "44px",
         "insetX": "var(--seed-dimension-x4)",
         "cornerRadius": "var(--seed-radius-r2)",
         "color": "var(--seed-color-bg-neutral-weak)"
       },
       "scrollFog": {
-        "height": "88px"
-      },
-      "item": {
-        "height": "44px"
+        "maxHeightFraction": "0.4"
       },
       "itemLabel": {
         "paddingX": "var(--seed-dimension-x4)",
-        "fontSize": "var(--seed-font-size-t10-static)",
-        "lineHeight": "var(--seed-line-height-t10-static)",
         "fontWeight": "var(--seed-font-weight-medium)",
         "color": "var(--seed-color-fg-disabled)"
       }
@@ -33,6 +26,46 @@ export const vars = {
     "disabled": {
       "itemLabel": {
         "color": "var(--seed-color-fg-disabled)"
+      }
+    }
+  },
+  "sizeSmall": {
+    "enabled": {
+      "root": {
+        "height": "180px"
+      },
+      "selectionIndicator": {
+        "height": "36px"
+      },
+      "scrollFog": {
+        "maxHeight": "108px"
+      },
+      "item": {
+        "height": "36px"
+      },
+      "itemLabel": {
+        "fontSize": "var(--seed-font-size-t7-static)",
+        "lineHeight": "var(--seed-line-height-t7-static)"
+      }
+    }
+  },
+  "sizeMedium": {
+    "enabled": {
+      "root": {
+        "height": "220px"
+      },
+      "selectionIndicator": {
+        "height": "44px"
+      },
+      "scrollFog": {
+        "maxHeight": "132px"
+      },
+      "item": {
+        "height": "44px"
+      },
+      "itemLabel": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)"
       }
     }
   }

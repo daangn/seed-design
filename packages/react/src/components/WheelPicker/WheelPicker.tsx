@@ -1,6 +1,9 @@
 "use client";
 
-import { wheelPickerPublic } from "@seed-design/css/recipes/wheel-picker-public";
+import {
+  wheelPickerPublic,
+  type WheelPickerPublicVariantProps,
+} from "@seed-design/css/recipes/wheel-picker-public";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   WheelPicker as WheelPickerPrimitive,
@@ -11,7 +14,10 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { ScrollFog } from "../ScrollFog/ScrollFog";
 
-const DEFAULT_ITEM_SIZE = 44;
+const DEFAULT_ITEM_SIZE = {
+  small: 36,
+  medium: 44,
+} as const;
 const DEFAULT_VISIBLE_ITEM_COUNT = 5;
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(wheelPickerPublic);
 
@@ -20,13 +26,15 @@ type WheelPickerCssProperties = React.CSSProperties & {
   "--seed-wheel-picker-public-visible-item-count"?: number;
   "--seed-wheel-picker-public-viewport-size"?: string;
   "--seed-wheel-picker-public-center-offset"?: string;
+  "--seed-wheel-picker-public-scroll-fog-max-height"?: string;
 };
 
 export interface WheelPickerRootProps
-  extends Omit<
-    WheelPickerPrimitive.RootProps,
-    "asChild" | "children" | "disabled" | "itemSize" | "readOnly" | "visibleItemCount"
-  > {
+  extends WheelPickerPublicVariantProps,
+    Omit<
+      WheelPickerPrimitive.RootProps,
+      "asChild" | "children" | "disabled" | "itemSize" | "readOnly" | "visibleItemCount"
+    > {
   /** Wheel Picker를 구성하는 `WheelPicker.Column` 목록입니다. */
   children: React.ReactNode;
 
@@ -34,38 +42,39 @@ export interface WheelPickerRootProps
   disabled?: boolean;
 
   /**
-   * 한 항목의 높이입니다.
-   * @default 44
+   * 한 항목의 높이입니다. 지정하지 않으면 `size`의 기본 높이를 사용합니다.
    */
   itemSize?: number;
 
   /**
-   * 화면에 보이는 항목 수입니다. 0보다 큰 홀수여야 합니다.
+   * 화면에 보이는 항목 수입니다. 5 이상의 홀수를 권장합니다.
    * @default 5
    */
   visibleItemCount?: number;
 }
 
 export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootProps>(
-  (
-    {
+  (props, ref) => {
+    const [variantProps, otherProps] = wheelPickerPublic.splitVariantProps(props);
+    const {
       children,
       className,
-      itemSize = DEFAULT_ITEM_SIZE,
+      itemSize: itemSizeProp,
       style,
       visibleItemCount = DEFAULT_VISIBLE_ITEM_COUNT,
-      ...props
-    },
-    ref,
-  ) => {
+      ...rootProps
+    } = otherProps;
+    const size = variantProps.size ?? "medium";
+    const itemSize = itemSizeProp ?? DEFAULT_ITEM_SIZE[size];
     const centerOffset = ((visibleItemCount - 1) / 2) * itemSize;
-    const classNames = wheelPickerPublic();
+    const classNames = wheelPickerPublic({ size });
     const wheelPickerStyle: WheelPickerCssProperties = {
       ...style,
       "--seed-wheel-picker-public-item-size": `${itemSize}px`,
       "--seed-wheel-picker-public-visible-item-count": visibleItemCount,
       "--seed-wheel-picker-public-viewport-size": `${itemSize * visibleItemCount}px`,
       "--seed-wheel-picker-public-center-offset": `${centerOffset}px`,
+      "--seed-wheel-picker-public-scroll-fog-max-height": `${itemSize * 3}px`,
     };
 
     return (
@@ -76,7 +85,7 @@ export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootP
           itemSize={itemSize}
           style={wheelPickerStyle}
           visibleItemCount={visibleItemCount}
-          {...props}
+          {...rootProps}
           readOnly={false}
         >
           <Primitive.div
@@ -87,7 +96,7 @@ export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootP
           <ScrollFog
             className={classNames.scrollFog}
             placement={["top", "bottom"]}
-            size={centerOffset}
+            size="var(--seed-wheel-picker-public-scroll-fog-size)"
             hideScrollBar
             data-wheel-picker-scroll-fog=""
           >

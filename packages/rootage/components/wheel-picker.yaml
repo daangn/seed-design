@@ -24,8 +24,10 @@ data:
             type: color
       scrollFog:
         properties:
-          height:
+          maxHeight:
             type: dimension
+          maxHeightFraction:
+            type: number
       item:
         properties:
           height:
@@ -42,25 +44,24 @@ data:
             type: number
           color:
             type: color
+    variants:
+      size:
+        values:
+          small: {}
+          medium: {}
   definitions:
     base:
       enabled:
         root:
-          height: 220px
           color: $color.bg.layer-floating
         selectionIndicator:
-          height: 44px
           insetX: $dimension.x4
           cornerRadius: $radius.r2
           color: $color.bg.neutral-weak
         scrollFog:
-          height: 88px
-        item:
-          height: 44px
+          maxHeightFraction: 0.4
         itemLabel:
           paddingX: $dimension.x4
-          fontSize: $font-size.t10-static
-          lineHeight: $line-height.t10-static
           fontWeight: $font-weight.medium
           color: $color.fg.disabled
       selected:
@@ -69,3 +70,29 @@ data:
       disabled:
         itemLabel:
           color: $color.fg.disabled
+    size=small:
+      enabled:
+        root:
+          height: 180px
+        selectionIndicator:
+          height: 36px
+        scrollFog:
+          maxHeight: 108px
+        item:
+          height: 36px
+        itemLabel:
+          fontSize: $font-size.t7-static
+          lineHeight: $line-height.t7-static
+    size=medium:
+      enabled:
+        root:
+          height: 220px
+        selectionIndicator:
+          height: 44px
+        scrollFog:
+          maxHeight: 132px
+        item:
+          height: 44px
+        itemLabel:
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static
