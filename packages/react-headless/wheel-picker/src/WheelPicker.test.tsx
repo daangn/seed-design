@@ -61,6 +61,7 @@ describe("WheelPicker", () => {
   const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture;
   const originalHasPointerCapture = HTMLElement.prototype.hasPointerCapture;
   const originalReleasePointerCapture = HTMLElement.prototype.releasePointerCapture;
+  const setPointerCapture = mock(() => {});
   let animationFrameTime = 0;
 
   beforeAll(() => {
@@ -85,7 +86,7 @@ describe("WheelPicker", () => {
       return 1;
     };
     window.cancelAnimationFrame = () => {};
-    HTMLElement.prototype.setPointerCapture = mock(() => {});
+    HTMLElement.prototype.setPointerCapture = setPointerCapture;
     HTMLElement.prototype.hasPointerCapture = mock(() => true);
     HTMLElement.prototype.releasePointerCapture = mock(() => {});
   });
@@ -204,6 +205,41 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("마우스로 항목을 누를 때는 드래그 전까지 포인터 캡처를 시작하지 않는다", () => {
+    jest.useFakeTimers();
+    setPointerCapture.mockClear();
+    const onValueChange = mock(() => {});
+
+    try {
+      const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+      const column = getByRole("spinbutton");
+      const option = column.children[1];
+
+      fireEvent.pointerDown(option, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+
+      expect(setPointerCapture).not.toHaveBeenCalled();
+
+      fireEvent.pointerUp(option, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+      fireEvent.click(option);
+      act(() => jest.advanceTimersByTime(120));
+
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   it("마우스 드래그를 놓으면 속도를 이어받아 부드럽게 정착한다", () => {
     jest.useFakeTimers();
     const requestAnimationFrame = window.requestAnimationFrame;
@@ -226,6 +262,7 @@ describe("WheelPicker", () => {
       <TestWheelPicker pickerOptions={momentumOptions} onValueChange={onValueChange} />,
     );
     const column = getByRole("spinbutton");
+    setPointerCapture.mockClear();
 
     fireEvent.pointerDown(column, {
       pointerId: 1,
@@ -234,6 +271,7 @@ describe("WheelPicker", () => {
       clientY: 100,
     });
     expect(column).toHaveAttribute("data-wheel-picker-dragging");
+    expect(setPointerCapture).not.toHaveBeenCalled();
 
     act(() => jest.advanceTimersByTime(16));
     fireEvent.pointerMove(column, {
@@ -241,6 +279,7 @@ describe("WheelPicker", () => {
       pointerType: "mouse",
       clientY: 30,
     });
+    expect(setPointerCapture).toHaveBeenCalledWith(1);
     expect(column.scrollTop).toBe(70);
     expect(column.children[2]).toHaveAttribute("data-selected");
 

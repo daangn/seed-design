@@ -548,7 +548,6 @@ export function useWheelPickerColumn({
       column.removeAttribute("data-wheel-picker-scrolling");
       column.setAttribute("data-wheel-picker-dragging", "");
       shouldNotifyIndexChangeRef.current = true;
-      column.setPointerCapture(event.pointerId);
       pointerDragRef.current = {
         pointerId: event.pointerId,
         startClientY: event.clientY,
@@ -572,7 +571,10 @@ export function useWheelPickerColumn({
       const dragDistance = pointerDrag.startClientY - event.clientY;
       if (!pointerDrag.hasDragged && Math.abs(dragDistance) < POINTER_DRAG_THRESHOLD) return;
 
-      pointerDrag.hasDragged = true;
+      if (!pointerDrag.hasDragged) {
+        pointerDrag.hasDragged = true;
+        column.setPointerCapture(event.pointerId);
+      }
       column.scrollTop = pointerDrag.startScrollTop + dragDistance;
 
       const timestamp = Date.now();
@@ -596,14 +598,14 @@ export function useWheelPickerColumn({
       if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
 
       pointerDragRef.current = null;
-      if (column.hasPointerCapture(event.pointerId)) {
-        column.releasePointerCapture(event.pointerId);
-      }
-
       if (!pointerDrag.hasDragged) {
         column.removeAttribute("data-wheel-picker-dragging");
         shouldNotifyIndexChangeRef.current = false;
         return;
+      }
+
+      if (column.hasPointerCapture(event.pointerId)) {
+        column.releasePointerCapture(event.pointerId);
       }
 
       suppressClickRef.current = true;
