@@ -88,6 +88,22 @@ function pageItems(start: number, end: number): PaginationItem[] {
   }));
 }
 
+function createCompactItems(page: number, totalPages: number): PaginationItem[] {
+  if (page <= 3) {
+    return [...pageItems(1, 4), { type: "ellipsis", side: "end" }];
+  }
+
+  if (page >= totalPages - 2) {
+    return [{ type: "ellipsis", side: "start" }, ...pageItems(totalPages - 3, totalPages)];
+  }
+
+  return [
+    { type: "ellipsis", side: "start" },
+    ...pageItems(page - 1, page + 1),
+    { type: "ellipsis", side: "end" },
+  ];
+}
+
 function createItems(
   page: number,
   totalPages: number,
@@ -96,6 +112,7 @@ function createItems(
   const navigationItemCount = totalPages > 1 ? 2 : 0;
   const availableItemCount = visibleItemCount - navigationItemCount;
   if (totalPages <= availableItemCount) return pageItems(1, totalPages);
+  if (availableItemCount === 5) return createCompactItems(page, totalPages);
 
   const siblingCount = Math.floor((availableItemCount - 5) / 2);
   const edgePageCount = availableItemCount - 2;
