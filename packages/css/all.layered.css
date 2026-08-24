@@ -1838,7 +1838,7 @@
   }
 
   .seed-action-button--size_xsmall {
-    height: var(--seed-dimension-x8);
+    height: var(--seed-dimension-x12);
     border-radius: var(--seed-radius-full);
     --size: 14px;
     --thickness: 2px;
@@ -1852,7 +1852,7 @@
   }
 
   .seed-action-button--size_small {
-    height: var(--seed-dimension-x9);
+    height: var(--seed-dimension-x12);
     border-radius: var(--seed-radius-r2);
     --size: 14px;
     --thickness: 2px;
@@ -1866,7 +1866,7 @@
   }
 
   .seed-action-button--size_medium {
-    height: var(--seed-dimension-x10);
+    height: var(--seed-dimension-x12);
     border-radius: var(--seed-radius-r2);
     --size: 16px;
     --thickness: 2px;
@@ -1880,7 +1880,7 @@
   }
 
   .seed-action-button--size_large {
-    height: var(--seed-dimension-x13);
+    height: var(--seed-dimension-x12);
     border-radius: var(--seed-radius-r3);
     --size: 18px;
     --thickness: 2px;

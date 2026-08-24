@@ -353,7 +353,7 @@ data:
     size=xsmall:
       enabled:
         root:
-          minHeight: $dimension.x8
+          minHeight: $dimension.x12
           cornerRadius: $radius.full
         progressCircle:
           size: 14px
@@ -385,7 +385,7 @@ data:
     size=small:
       enabled:
         root:
-          minHeight: $dimension.x9
+          minHeight: $dimension.x12
           cornerRadius: $radius.r2
         progressCircle:
           size: 14px
@@ -417,7 +417,7 @@ data:
     size=medium:
       enabled:
         root:
-          minHeight: $dimension.x10
+          minHeight: $dimension.x12
           cornerRadius: $radius.r2
         progressCircle:
           size: 16px
@@ -449,7 +449,7 @@ data:
     size=large:
       enabled:
         root:
-          minHeight: $dimension.x13
+          minHeight: $dimension.x12
           cornerRadius: $radius.r3
         progressCircle:
           size: 18px

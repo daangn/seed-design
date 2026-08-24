@@ -1077,7 +1077,7 @@ declare const artifact: {
               "root": {
                 "minHeight": {
                   "type": "dimension";
-                  "value": "$dimension.x8";
+                  "value": "$dimension.x12";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -1216,7 +1216,7 @@ declare const artifact: {
               "root": {
                 "minHeight": {
                   "type": "dimension";
-                  "value": "$dimension.x9";
+                  "value": "$dimension.x12";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -1355,7 +1355,7 @@ declare const artifact: {
               "root": {
                 "minHeight": {
                   "type": "dimension";
-                  "value": "$dimension.x10";
+                  "value": "$dimension.x12";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -1497,7 +1497,7 @@ declare const artifact: {
               "root": {
                 "minHeight": {
                   "type": "dimension";
-                  "value": "$dimension.x13";
+                  "value": "$dimension.x12";
                 };
                 "cornerRadius": {
                   "type": "dimension";

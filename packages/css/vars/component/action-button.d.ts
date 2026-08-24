@@ -437,7 +437,7 @@ export declare const vars: {
   "sizeXsmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x8)",
+        "minHeight": "var(--seed-dimension-x12)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       "progressCircle": {
@@ -499,7 +499,7 @@ export declare const vars: {
   "sizeSmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x9)",
+        "minHeight": "var(--seed-dimension-x12)",
         "cornerRadius": "var(--seed-radius-r2)"
       },
       "progressCircle": {
@@ -561,7 +561,7 @@ export declare const vars: {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x10)",
+        "minHeight": "var(--seed-dimension-x12)",
         "cornerRadius": "var(--seed-radius-r2)"
       },
       "progressCircle": {
@@ -623,7 +623,7 @@ export declare const vars: {
   "sizeLarge": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-dimension-x13)",
+        "minHeight": "var(--seed-dimension-x12)",
         "cornerRadius": "var(--seed-radius-r3)"
       },
       "progressCircle": {
