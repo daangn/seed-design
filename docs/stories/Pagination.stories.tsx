@@ -30,14 +30,14 @@ const CommonStoryTemplate = meta.story({
             <Text textStyle="t3Regular" color="fg.neutralMuted">
               {label}
             </Text>
-            <Component totalPages={10} page={page} aria-label={`${label} 페이지 예시`} />
+            <Component totalPages={10} defaultPage={page} aria-label={`${label} 페이지 예시`} />
           </VStack>
         ))}
         <VStack gap="x1" align="flex-start">
           <Text textStyle="t3Regular" color="fg.neutralMuted">
             비활성
           </Text>
-          <Component totalPages={10} page={5} disabled aria-label="비활성 페이지 예시" />
+          <Component totalPages={10} defaultPage={5} disabled aria-label="비활성 페이지 예시" />
         </VStack>
       </VStack>
     );
@@ -63,7 +63,7 @@ export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
 export const WithoutEllipsis = meta.story({
   args: {
     totalPages: 5,
-    page: 3,
+    defaultPage: 3,
     "aria-label": "생략 표시가 없는 페이지 예시",
   },
   parameters: { chromatic: { modes: VIEWPORT_MODES } },
@@ -74,7 +74,9 @@ export const LongPageNumbers = meta.story({
   render: (_, { component }) => {
     const Component = component!;
 
-    return <Component totalPages={1_000_000} page={500_000} aria-label="긴 페이지 번호 예시" />;
+    return (
+      <Component totalPages={1_000_000} defaultPage={500_000} aria-label="긴 페이지 번호 예시" />
+    );
   },
   parameters: withChromaticParameters({}),
 });
