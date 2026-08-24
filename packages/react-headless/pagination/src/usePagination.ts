@@ -93,7 +93,7 @@ function createItems(
   totalPages: number,
   visibleItemCount: PaginationVisibleItemCount,
 ): PaginationItem[] {
-  const navigationItemCount = Number(page > 1) + Number(page < totalPages);
+  const navigationItemCount = totalPages > 1 ? 2 : 0;
   const availableItemCount = visibleItemCount - navigationItemCount;
   if (totalPages <= availableItemCount) return pageItems(1, totalPages);
 
