@@ -70,6 +70,10 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
             var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
             var scale = Math.max(0.8, Math.min(1.5, fontSize / 16));
             document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
+            // Raw textZoom factor (not the clamped multiplier) so calc() in static
+            // tokens exactly cancels whatever textZoom the WebView is applying.
+            var userScale = fontSize > 0 ? fontSize / 16 : 1;
+            document.documentElement.style.setProperty('--seed-user-font-scale', userScale.toString());
             document.documentElement.dataset.seedFontScaling = 'enabled';
           }
         }

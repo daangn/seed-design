@@ -40,10 +40,13 @@ const createSeedDeclaration =
     }
     const value = valueOrToken(valueObj.value);
 
-    // Static tokens don't need any scaling
+    // Static tokens: divide by user font scale so Android WebView's textZoom
+    // (which multiplies font-size / line-height post-style-computation) cancels
+    // the division and yields the specified px. `--seed-user-font-scale`
+    // defaults to 1, so iOS and browsers without textZoom render unchanged.
     const tokenKey = decl.token.key.toString();
     if (tokenKey.includes("static")) {
-      return `${tokenName(decl.token)}: ${value};`;
+      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-user-font-scale, 1));`;
     }
 
     // Check if this is a font-size or line-height token that needs scaling
