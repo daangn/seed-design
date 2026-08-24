@@ -56,8 +56,15 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
                 document.body.appendChild(tempEl);
                 var size = parseFloat(window.getComputedStyle(tempEl).fontSize);
                 document.body.removeChild(tempEl);
-                var mult = Math.max(0.8, Math.min(1.35, (size / 16) * 0.9412));
-                document.documentElement.dataset.seedFontMultiplier = parseFloat(mult.toFixed(2)).toString();
+                // Scale normalized to the web 16px baseline, clamped to
+                // [0.8, 1.5]. SEED assumes the native app caps
+                // preferredContentSizeCategory within the same range; the
+                // clamp is only a safety net. Exposed on both the data
+                // attribute and --seed-user-font-scale.
+                var raw = size > 0 ? (size / 16) * 0.9412 : 1;
+                var scale = Math.max(0.8, Math.min(1.5, raw));
+                document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
+                document.documentElement.style.setProperty('--seed-user-font-scale', scale.toString());
               } catch (e) {}
             }
 
@@ -68,12 +75,15 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
             }
           } else if (platform === 'android') {
             var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-            var scale = Math.max(0.8, Math.min(1.5, fontSize / 16));
+            // textZoom factor, clamped to [0.8, 1.5]. SEED assumes the native
+            // app caps Configuration.fontScale (per Activity) within the same
+            // range so the clamped value equals the actual textZoom and the
+            // static-token cancellation in globalCss stays exact. Exposed on
+            // both the data attribute and --seed-user-font-scale.
+            var raw = fontSize > 0 ? fontSize / 16 : 1;
+            var scale = Math.max(0.8, Math.min(1.5, raw));
             document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
-            // Raw textZoom factor (not the clamped multiplier) so calc() in static
-            // tokens exactly cancels whatever textZoom the WebView is applying.
-            var userScale = fontSize > 0 ? fontSize / 16 : 1;
-            document.documentElement.style.setProperty('--seed-user-font-scale', userScale.toString());
+            document.documentElement.style.setProperty('--seed-user-font-scale', scale.toString());
             document.documentElement.dataset.seedFontScaling = 'enabled';
           }
         }

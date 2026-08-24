@@ -45,14 +45,20 @@ const createSeedDeclaration =
     const isFontSize = tokenGroup.includes("font-size");
     const isLineHeight = tokenGroup.includes("line-height");
 
-    // Divide by --seed-user-font-scale so Android WebView's textZoom cancels
-    // out. Gated on font-size/line-height because `static` also matches color
+    // Divide by --seed-static-scale so Android WebView's textZoom cancels
+    // out. globalCss sets --seed-static-scale to var(--seed-user-font-scale, 1)
+    // under [data-seed-platform='android'] and leaves it at 1 elsewhere, so
+    // iOS static tokens stay literal (they should not follow -apple-system-body).
+    // Cancellation is exact only while the native app caps
+    // Configuration.fontScale within the same [0.8, 1.5] range that the
+    // theming script clamps --seed-user-font-scale to.
+    // Gated on font-size/line-height because `static` also matches color
     // palette tokens like `$color.palette.static-black`, and calc(<color>/<n>)
     // is invalid CSS.
     // TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
     // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
     if (tokenKey.includes("static") && (isFontSize || isLineHeight)) {
-      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-user-font-scale, 1));`;
+      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-static-scale, 1));`;
     }
 
     if (isFontSize || isLineHeight) {
@@ -60,8 +66,8 @@ const createSeedDeclaration =
       const tokenType = isFontSize ? "font-size" : "line-height";
       const multiplierVar = `var(--${prefix}-font-size-multiplier, 1)`;
       const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
-      const limitMinVar = `var(--${prefix}-${tokenType}-limit-min, 0.8)`;
-      const limitMaxVar = `var(--${prefix}-${tokenType}-limit-max, 1.5)`;
+      const limitMinVar = `var(--${prefix}-${tokenType}-limit-min, 1)`;
+      const limitMaxVar = `var(--${prefix}-${tokenType}-limit-max, 1)`;
 
       // Return clamp with dynamic min and max using static values
       return `${tokenName(decl.token)}: clamp(calc(${staticTokenVar} * ${limitMinVar}), calc(${value} * ${multiplierVar}), calc(${staticTokenVar} * ${limitMaxVar}));`;

@@ -24,6 +24,10 @@ export const globalCss = defineGlobalCss({
     "--seed-font-size-limit-max": "1.5", // Android default 150%
     "--seed-line-height-limit-min": "0.8",
     "--seed-line-height-limit-max": "1.5", // Android default 150%
+    // Divisor for *-static tokens. Only Android needs to cancel WebView
+    // textZoom (see the [data-seed-platform='android'] override below); on
+    // iOS this stays 1 so static tokens render as literal px.
+    "--seed-static-scale": "1",
 
     ...scaleFeedbackRootVars,
   },
@@ -32,6 +36,15 @@ export const globalCss = defineGlobalCss({
   "[data-seed-platform='ios']": {
     "--seed-font-size-limit-max": "1.35", // iOS 135% limit
     "--seed-line-height-limit-max": "1.35",
+  },
+
+  // Android: cancel WebView textZoom in *-static tokens by dividing them
+  // by --seed-user-font-scale. The theming script clamps that variable to
+  // [0.8, 1.5] and SEED assumes the native app caps
+  // Configuration.fontScale within the same range, so the clamped value
+  // equals the actual textZoom and the two cancel out at render.
+  "[data-seed-platform='android']": {
+    "--seed-static-scale": "var(--seed-user-font-scale, 1)",
   },
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
