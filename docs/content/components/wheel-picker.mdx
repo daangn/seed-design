@@ -18,6 +18,19 @@ coverImage: /og/components/wheel-picker
   alt="Wheel Picker의 Anatomy 이미지. Root, Column, Item, Item Label, Selection Indicator, Scroll Fog로 구성됩니다."
 />
 
+### Scroll Fog 높이
+
+Root 높이는 사용처에 맞게 조정할 수 있습니다. Scroll Fog는 Root 높이의 40%로 늘어나며 Item 3개 높이를 넘지 않습니다. 최소 높이는 Item 5개를 권장합니다. 더 작은 높이를 지원하는 구현체는 중앙 Item 영역을 침범하지 않도록 제한합니다.
+
+Scroll Fog 높이의 계산식은 다음과 같습니다:
+
+`min(Root Height × 40%, Item Height × 3)`
+
+<FigmaImage
+  id="4002:769"
+  alt="Root에 Item을 5개, 7개, 9개 표시할 때 Scroll Fog 높이가 40%로 늘어나다가 Item 3개 높이에서 제한되는 예시"
+/>
+
 ## Properties
 
 ### Columns
@@ -25,6 +38,14 @@ coverImage: /og/components/wheel-picker
 1개 이상의 Column을 사용할 수 있습니다. 각 Column은 Item Label의 너비를 따르며, Column 묶음은 Root의 가운데에 배치합니다. 일반적인 사용을 위해 1~3열 조합을 제공합니다.
 
 <FigmaImage id="2595:39516" alt="Column을 1열, 2열, 3열로 구성한 Wheel Picker 예시" />
+
+### Size
+
+Wheel Picker는 Medium과 Small 두 가지 사이즈로 제공됩니다. Medium 사이즈가 범용적으로 사용되며, Small은 작은 공간에서 효율적으로 사용할 수 있습니다.
+
+각 Size Variant의 기본 Root 높이는 Item 5개를 표시하는 참고값이며, 실제 사용 시에는 필요한 표시 범위에 맞게 높이를 조정할 수 있습니다.
+
+<FigmaImage id="4002:859" alt="Wheel Picker의 Medium과 Small Size Variant 비교" />
 
 ### Item과 표시 개수
 
