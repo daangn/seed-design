@@ -170,6 +170,29 @@ describe("WheelPicker", () => {
     expect(getByText("A")).toHaveAttribute("data-reused-label");
   });
 
+  it("option의 ariaLabel을 기본 접근성 텍스트로 사용한다", () => {
+    const { getByRole } = render(
+      <WheelPicker.Root aria-label="배지 선택">
+        <WheelPicker.Column
+          aria-label="배지"
+          options={[{ value: "popular", label: <span>◆ 인기</span>, ariaLabel: "인기" }]}
+        />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("spinbutton", { name: "배지" })).toHaveAttribute("aria-valuetext", "인기");
+  });
+
+  it("숫자 label을 기본 접근성 텍스트로 변환한다", () => {
+    const { getByRole } = render(
+      <WheelPicker.Root aria-label="수량 선택">
+        <WheelPicker.Column aria-label="수량" options={[{ value: "one", label: 1 }]} />
+      </WheelPicker.Root>,
+    );
+
+    expect(getByRole("spinbutton", { name: "수량" })).toHaveAttribute("aria-valuetext", "1");
+  });
+
   it("Root의 disabled 상태를 Column과 Item에 전파한다", () => {
     const { container, getByRole } = render(
       <WheelPicker.Root aria-label="비활성 휠 피커" disabled>

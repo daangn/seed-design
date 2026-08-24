@@ -13,7 +13,7 @@ export interface WheelPickerOption {
 }
 
 export interface WheelPickerColumn
-  extends Omit<SeedWheelPicker.ColumnProps, "getAriaValueText" | "options"> {
+  extends Omit<SeedWheelPicker.ColumnProps, "options"> {
   /** 컬럼을 식별하는 고유 값입니다. */
   id: string;
 
@@ -24,17 +24,6 @@ export interface WheelPickerColumn
 export interface WheelPickerProps extends Omit<SeedWheelPicker.RootProps, "children"> {
   /** Wheel Picker를 구성하는 컬럼 목록입니다. */
   columns: readonly WheelPickerColumn[];
-}
-
-function getAriaValueText(options: readonly WheelPickerOption[], value: string) {
-  const option = options.find((item) => item.value === value);
-
-  if (!option) return value;
-  if (option.ariaLabel) return option.ariaLabel;
-  if (typeof option.label === "string" || typeof option.label === "number") {
-    return String(option.label);
-  }
-  return value;
 }
 
 function validateOptionLabels(columns: readonly WheelPickerColumn[]) {
@@ -63,12 +52,7 @@ export const WheelPicker = React.forwardRef<HTMLDivElement, WheelPickerProps>(
     return (
       <SeedWheelPicker.Root ref={ref} {...rootProps}>
         {columns.map(({ id, options, ...columnProps }) => (
-          <SeedWheelPicker.Column
-            key={id}
-            options={options}
-            getAriaValueText={(value) => getAriaValueText(options, value)}
-            {...columnProps}
-          />
+          <SeedWheelPicker.Column key={id} options={options} {...columnProps} />
         ))}
       </SeedWheelPicker.Root>
     );

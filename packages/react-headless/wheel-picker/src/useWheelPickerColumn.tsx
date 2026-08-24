@@ -25,6 +25,8 @@ const POINTER_DRAG_THRESHOLD = 3;
 export interface WheelPickerOption {
   value: string;
   label: React.ReactNode;
+  /** React 요소 label을 스크린 리더에서 읽을 문자열입니다. */
+  ariaLabel?: string;
 }
 
 export interface WheelPickerValueChangeDetails {
@@ -896,7 +898,10 @@ export function useWheelPickerColumn({
         currentOption === undefined
           ? undefined
           : (getAriaValueText?.(currentOption.value) ??
-            (typeof currentOption.label === "string" ? currentOption.label : currentOption.value)),
+            currentOption.ariaLabel ??
+            (typeof currentOption.label === "string" || typeof currentOption.label === "number"
+              ? String(currentOption.label)
+              : currentOption.value)),
       "aria-disabled": isInert || undefined,
       "aria-readonly": readOnly || undefined,
       "data-disabled": dataAttr(isInert),
