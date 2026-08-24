@@ -40,18 +40,20 @@ const createSeedDeclaration =
     }
     const value = valueOrToken(valueObj.value);
 
-    // Divide by --seed-user-font-scale so Android WebView's textZoom cancels
-    // out. TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
-    // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
     const tokenKey = decl.token.key.toString();
-    if (tokenKey.includes("static")) {
-      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-user-font-scale, 1));`;
-    }
-
-    // Check if this is a font-size or line-height token that needs scaling
     const tokenGroup = decl.token.group;
     const isFontSize = tokenGroup.includes("font-size");
     const isLineHeight = tokenGroup.includes("line-height");
+
+    // Divide by --seed-user-font-scale so Android WebView's textZoom cancels
+    // out. Gated on font-size/line-height because `static` also matches color
+    // palette tokens like `$color.palette.static-black`, and calc(<color>/<n>)
+    // is invalid CSS.
+    // TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
+    // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
+    if (tokenKey.includes("static") && (isFontSize || isLineHeight)) {
+      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-user-font-scale, 1));`;
+    }
 
     if (isFontSize || isLineHeight) {
       // Build CSS variable names for scaling
