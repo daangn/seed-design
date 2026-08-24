@@ -1,12 +1,27 @@
-import { render } from "@testing-library/react";
-import { describe, expect, it } from "bun:test";
+import { fireEvent, render } from "@testing-library/react";
+import { describe, expect, it, mock, spyOn } from "bun:test";
 import type * as React from "react";
+import { BottomSheet } from "../BottomSheet";
 import { WheelPicker } from "./index";
 
 const options = [
   { value: "a", label: "A" },
   { value: "b", label: "B" },
 ];
+
+function fireTouchPointer(type: string, element: HTMLElement, y: number) {
+  const event = new PointerEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    pointerId: 1,
+    pointerType: "touch",
+    clientX: 50,
+    clientY: y,
+  });
+  Object.defineProperty(event, "pageX", { value: 50 });
+  Object.defineProperty(event, "pageY", { value: y });
+  fireEvent(element, event);
+}
 
 describe("WheelPicker", () => {
   it("공개 기본 geometry와 중립 스타일을 적용한다", () => {
@@ -118,5 +133,51 @@ describe("WheelPicker", () => {
 
     expect(getByRole("group")).not.toHaveAttribute("data-readonly");
     expect(getByRole("spinbutton")).not.toHaveAttribute("aria-readonly");
+  });
+
+  it("BottomSheet 안에서 컬럼을 스크롤할 때 시트 드래그를 시작하지 않는다", () => {
+    const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture;
+    HTMLElement.prototype.setPointerCapture = mock(() => {});
+
+    try {
+      const { container, getByRole } = render(
+        <BottomSheet.Root defaultOpen modal={false} autoFocus={false} skipAnimation>
+          <BottomSheet.Content>
+            <BottomSheet.Title>값 선택</BottomSheet.Title>
+            <BottomSheet.Description>원하는 값을 선택하세요.</BottomSheet.Description>
+            <WheelPicker.Root aria-label="휠 피커">
+              <WheelPicker.Column aria-label="문자" options={options} defaultValue="b" />
+            </WheelPicker.Root>
+          </BottomSheet.Content>
+        </BottomSheet.Root>,
+      );
+      const content = container.ownerDocument.querySelector("[data-drawer]") as HTMLElement;
+      const column = getByRole("spinbutton");
+
+      content.style.transform = "matrix(1, 0, 0, 1, 0, 0)";
+      spyOn(content, "getBoundingClientRect").mockReturnValue({
+        x: 0,
+        y: 0,
+        width: 320,
+        height: 400,
+        top: 0,
+        left: 0,
+        right: 320,
+        bottom: 400,
+        toJSON: () => {},
+      });
+      Object.defineProperties(column, {
+        clientHeight: { value: 220, configurable: true },
+        scrollHeight: { value: 440, configurable: true },
+      });
+      column.scrollTop = 44;
+
+      fireTouchPointer("pointerdown", column, 100);
+      fireTouchPointer("pointermove", column, 130);
+
+      expect(content.style.transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
+    } finally {
+      HTMLElement.prototype.setPointerCapture = originalSetPointerCapture;
+    }
   });
 });

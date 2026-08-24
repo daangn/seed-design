@@ -12,6 +12,7 @@ const options = [
 
 function TestWheelPicker({
   onValueChange,
+  onIndexChange,
   value,
   defaultValue = "a",
   loop = false,
@@ -21,6 +22,7 @@ function TestWheelPicker({
   valueChangeBehavior,
 }: {
   onValueChange?: (value: string) => void;
+  onIndexChange?: (index: number, value: string) => void;
   value?: string;
   defaultValue?: string;
   loop?: boolean;
@@ -43,6 +45,7 @@ function TestWheelPicker({
         value={value}
         defaultValue={defaultValue}
         onValueChange={onValueChange}
+        onIndexChange={onIndexChange}
         loop={loop}
         valueChangeBehavior={valueChangeBehavior}
       />
@@ -144,6 +147,33 @@ describe("WheelPicker", () => {
 
     fireEvent(column, new Event("scrollend"));
     expect(onValueChange).toHaveBeenCalledTimes(1);
+    jest.useRealTimers();
+  });
+
+  it("사용자 스크롤 중 통과한 각 논리 인덱스를 정착 전에 순서대로 알린다", () => {
+    jest.useFakeTimers();
+    const onIndexChange = mock(() => {});
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker onIndexChange={onIndexChange} onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = 80;
+    fireEvent.scroll(column);
+
+    expect(onIndexChange.mock.calls).toEqual([
+      [1, "b"],
+      [2, "c"],
+    ]);
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("c", { stepDelta: 2 });
     jest.useRealTimers();
   });
 
@@ -677,6 +707,28 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(80);
     expect(column).toHaveAttribute("aria-valuenow", "2");
     expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("사용자가 조작 중이면 controlled value의 스크롤 위치 동기화를 건너뛴다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole, rerender } = render(
+      <TestWheelPicker value="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = 40;
+    fireEvent.scroll(column);
+    rerender(<TestWheelPicker value="c" onValueChange={onValueChange} />);
+
+    expect(column.scrollTop).toBe(40);
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
+    jest.useRealTimers();
   });
 
   it("controlled value를 smooth로 동기화할 때 실제 스크롤 전까지 선택 표시를 유지한다", () => {

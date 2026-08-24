@@ -38,6 +38,8 @@ npx @seed-design/cli@latest add ui:wheel-picker
 
 `@seed-design/react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. `itemSize`를 함께 사용하면 기본과 다른 높이와 글자 크기로 구성할 수 있습니다. 모든 항목은 같은 높이를 사용해야 합니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
 
+`onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요.
+
 <ComponentExample name="react/wheel-picker/package-api">
   ```json doc-gen:file
   {
@@ -79,6 +81,7 @@ npx @seed-design/cli@latest add ui:wheel-picker
 - option의 `value`는 컬럼 안에서 고유해야 합니다.
 - 제어 중인 `value`는 현재 `options`에 있어야 합니다.
 - 의존 컬럼이 바뀌면 새 `options`와 유효한 `value`를 같은 렌더에서 전달하세요.
+- 사용자가 조작 중이거나 정착을 기다리는 동안 외부 `value`가 바뀌면 해당 스크롤 위치 동기화는 건너뜁니다.
 - 로딩, 오류, 빈 상태는 Wheel Picker 바깥에서 처리하세요.
 
 Wheel Picker는 유효하지 않은 값을 첫 항목으로 자동 보정하거나 보정 callback을 호출하지 않습니다. 날짜 계산, 컬럼 간 의존성, hidden input과 확인 UI도 사용하는 쪽에서 구성합니다.

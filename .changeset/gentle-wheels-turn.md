@@ -1,4 +1,5 @@
 ---
+"@seed-design/react-wheel-picker": minor
 "@seed-design/react": minor
 "@seed-design/css": minor
 ---
@@ -7,6 +8,8 @@ Wheel Picker 컴포넌트를 추가합니다.
 
 - `@seed-design/react`에서 `WheelPicker.Root`와 `WheelPicker.Column`을 가져와 여러 선택 열을 직접 구성할 수 있습니다.
 - 항목 높이는 44px, 표시 항목 수는 5개를 기본값으로 사용합니다.
+- `onIndexChange`로 사용자가 지나간 각 항목을 감지해 햅틱 등을 제공할 수 있습니다.
+- 사용자 조작 중에는 외부 `value` 변경이 스크롤 위치를 덮어쓰지 않습니다.
 
 ```tsx
 import { WheelPicker } from "@seed-design/react";
@@ -16,6 +19,9 @@ import { WheelPicker } from "@seed-design/react";
     aria-label="연도"
     value={year}
     onValueChange={setYear}
+    onIndexChange={(index, value) => {
+      // 항목별 햅틱 처리
+    }}
     options={yearOptions}
   />
 </WheelPicker.Root>

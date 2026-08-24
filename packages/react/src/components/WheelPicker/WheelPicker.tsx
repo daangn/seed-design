@@ -130,6 +130,7 @@ export interface WheelPickerColumnProps
     | "defaultValue"
     | "getAriaValueText"
     | "loop"
+    | "onIndexChange"
     | "onValueChange"
     | "options"
     | "renderOption"
@@ -147,6 +148,9 @@ export interface WheelPickerColumnProps
 
   /** 선택 값이 바뀔 때 호출됩니다. */
   onValueChange?: WheelPickerPrimitive.ColumnProps["onValueChange"];
+
+  /** 사용자 조작으로 중앙 항목이 바뀔 때마다 호출됩니다. */
+  onIndexChange?: WheelPickerPrimitive.ColumnProps["onIndexChange"];
 
   /**
    * 마지막 항목과 첫 항목을 이어 반복해서 탐색할지 여부입니다.
