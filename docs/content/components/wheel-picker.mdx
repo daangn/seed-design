@@ -6,6 +6,11 @@ coverImage: /og/components/wheel-picker
 
 ## Anatomy
 
+<FigmaImage
+  id="2595:39504"
+  alt="Wheel Picker의 Anatomy 이미지. Root, Column, Item, Item Label, Selection Indicator, Scroll Fog로 구성됩니다."
+/>
+
 - **Root:** 전체 Wheel Picker를 감싸는 최상위 컨테이너입니다.
 - **Column:** 하나의 값 목록을 세로로 스크롤하는 영역입니다.
 - **Item:** Column 안에서 선택할 수 있는 각 값입니다.
@@ -13,12 +18,12 @@ coverImage: /og/components/wheel-picker
 - **Selection Indicator:** 모든 Column을 가로지르며 현재 선택 위치를 나타냅니다.
 - **Scroll Fog:** 위아래 경계에서 항목이 자연스럽게 흐려지도록 가립니다.
 
-<FigmaImage
-  id="2595:39504"
-  alt="Wheel Picker의 Anatomy 이미지. Root, Column, Item, Item Label, Selection Indicator, Scroll Fog로 구성됩니다."
-/>
-
 ### Scroll Fog 높이
+
+<FigmaImage
+  id="4002:769"
+  alt="Root에 Item을 5개, 7개, 9개 표시할 때 Scroll Fog 높이가 40%로 늘어나다가 Item 3개 높이에서 제한되는 예시"
+/>
 
 Root 높이는 사용처에 맞게 조정할 수 있습니다. Scroll Fog는 Root 높이의 40%로 늘어나며 Item 3개 높이를 넘지 않습니다. 최소 높이는 Item 5개를 권장합니다. 더 작은 높이를 지원하는 구현체는 중앙 Item 영역을 침범하지 않도록 제한합니다.
 
@@ -26,71 +31,64 @@ Scroll Fog 높이의 계산식은 다음과 같습니다:
 
 `min(Root Height × 40%, Item Height × 3)`
 
-<FigmaImage
-  id="4002:769"
-  alt="Root에 Item을 5개, 7개, 9개 표시할 때 Scroll Fog 높이가 40%로 늘어나다가 Item 3개 높이에서 제한되는 예시"
-/>
-
 ## Properties
 
 ### Columns
 
-1개 이상의 Column을 사용할 수 있습니다. 각 Column은 Item Label의 너비를 따르며, Column 묶음은 Root의 가운데에 배치합니다. 일반적인 사용을 위해 1~3열 조합을 제공합니다.
-
 <FigmaImage id="2595:39516" alt="Column을 1열, 2열, 3열로 구성한 Wheel Picker 예시" />
 
+1개 이상의 Column을 사용할 수 있습니다. 각 Column은 Item Label의 너비를 따르며, Column 묶음은 Root의 가운데에 배치합니다. 일반적인 사용을 위해 1~3열 조합을 제공합니다.
+
 ### Size
+
+<FigmaImage id="4002:859" alt="Wheel Picker의 Medium과 Small Size Variant 비교" />
 
 Wheel Picker는 Medium과 Small 두 가지 사이즈로 제공됩니다. Medium 사이즈가 범용적으로 사용되며, Small은 작은 공간에서 효율적으로 사용할 수 있습니다.
 
 각 Size Variant의 기본 Root 높이는 Item 5개를 표시하는 참고값이며, 실제 사용 시에는 필요한 표시 범위에 맞게 높이를 조정할 수 있습니다.
 
-<FigmaImage id="4002:859" alt="Wheel Picker의 Medium과 Small Size Variant 비교" />
-
 ### Item과 표시 개수
 
-Item의 기본 높이는 44 입니다. 한 화면에는 기본적으로 5개의 Item을 표시하며, 중앙에 선택 위치가 생기도록 양의 홀수를 사용합니다.
-
 <FigmaImage id="2595:39527" alt="Item 높이 44와 한 화면에 표시되는 5개 Item을 나타낸 예시" />
+
+Item의 기본 높이는 44 입니다. 한 화면에는 기본적으로 5개의 Item을 표시하며, 중앙에 선택 위치가 생기도록 양의 홀수를 사용합니다.
 
 ## State
 
 ### Wheel Picker State
 
-Wheel Picker는 Enabled와 Disabled 상태를 제공합니다. Disabled에서는 현재 값을 유지하며 포커스와 값 변경을 막습니다.
-
 <FigmaImage id="2595:39537" alt="Wheel Picker의 Enabled와 Disabled 상태" />
+
+Wheel Picker는 Enabled와 Disabled 상태를 제공합니다. Disabled에서는 현재 값을 유지하며 포커스와 값 변경을 막습니다.
 
 ## Interaction
 
 ### 선택과 값 확정
-
-보이는 Item을 누르면 해당 Item이 중앙으로 이동합니다. 스크롤 중 중앙을 지나는 Item은 강조할 수 있지만, 중앙에 정렬되어 멈춘 뒤에만 값을 확정합니다.
-
-Column을 드래그한 뒤 놓으면 가장 가까운 Item에 정렬합니다. 드래그 직후 탭 선택이 잘못 발생하지 않아야 합니다.
 
 <FigmaImage
   id="2595:39548"
   alt="선택한 Item이 중앙으로 이동하고 스크롤이 멈춘 뒤 값이 확정되는 예시"
 />
 
+보이는 Item을 누르면 해당 Item이 중앙으로 이동합니다. 스크롤 중 중앙을 지나는 Item은 강조할 수 있지만, 중앙에 정렬되어 멈춘 뒤에만 값을 확정합니다.
+
+Column을 드래그한 뒤 놓으면 가장 가까운 Item에 정렬합니다. 드래그 직후 탭 선택이 잘못 발생하지 않아야 합니다.
+
 ### 목록의 경계와 Loop
 
-Loop의 기본값은 끔입니다. 끈 상태에서는 첫 값과 마지막 값에서 멈춥니다. 켠 상태에서는 마지막 값 다음에 첫 값이 이어집니다.
-
 <FigmaImage id="2595:39559" alt="Loop를 끈 Wheel Picker와 켠 Wheel Picker 비교" />
+
+Loop의 기본값은 끔입니다. 끈 상태에서는 첫 값과 마지막 값에서 멈춥니다. 켠 상태에서는 마지막 값 다음에 첫 값이 이어집니다.
 
 ## Guidelines
 
 ### 사용하기
 
-날짜, 시간, 수량처럼 순서가 있는 값을 선택할 때 사용합니다. 한 화면에서 여러 값의 관계를 함께 확인하며 조정해야 하는 경우에 적합합니다.
-
 <FigmaImage id="2595:39570" alt="순서가 있는 값을 Wheel Picker로 탐색하는 예시" />
 
-### Item 콘텐츠
+날짜, 시간, 수량처럼 순서가 있는 값을 선택할 때 사용합니다. 한 화면에서 여러 값의 관계를 함께 확인하며 조정해야 하는 경우에 적합합니다.
 
-Item은 짧은 한 줄 텍스트를 기본으로 합니다. 단순한 시각 요소는 함께 사용할 수 있지만 버튼, 링크, 입력 필드, 여러 줄 콘텐츠는 넣지 않습니다.
+### Item 콘텐츠
 
 <Grid>
   <DoImage
@@ -104,6 +102,8 @@ Item은 짧은 한 줄 텍스트를 기본으로 합니다. 단순한 시각 요
     alt="Wheel Picker 항목에 버튼을 함께 사용한 예시"
   />
 </Grid>
+
+Item은 짧은 한 줄 텍스트를 기본으로 합니다. 단순한 시각 요소는 함께 사용할 수 있지만 버튼, 링크, 입력 필드, 여러 줄 콘텐츠는 넣지 않습니다.
 
 ### 다른 컴포넌트 선택하기
 

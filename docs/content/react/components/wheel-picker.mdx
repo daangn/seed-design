@@ -36,10 +36,6 @@ npx @seed-design/cli@latest add ui:wheel-picker
 
 ### Package API
 
-`@seed-design/react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
-
-`onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요.
-
 <ComponentExample name="react/wheel-picker/package-api">
   ```json doc-gen:file
   {
@@ -48,6 +44,10 @@ npx @seed-design/cli@latest add ui:wheel-picker
   }
   ```
 </ComponentExample>
+
+`@seed-design/react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
+
+`onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요.
 
 ### Size
 
@@ -63,8 +63,6 @@ npx @seed-design/cli@latest add ui:wheel-picker
 
 ### React Element Label
 
-문자열 label은 그대로 접근성 이름으로 사용됩니다. Registry `WheelPicker`에서 React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. `@seed-design/react`의 `WheelPicker.Column`을 직접 사용할 때는 `getAriaValueText`로 각 값의 접근성 텍스트를 반환하세요. 내부 요소는 `currentColor`를 상속해야 하며 버튼, 링크, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
-
 <ComponentExample name="react/wheel-picker/react-element-label">
   ```json doc-gen:file
   {
@@ -74,9 +72,9 @@ npx @seed-design/cli@latest add ui:wheel-picker
   ```
 </ComponentExample>
 
-### Disabled
+문자열 label은 그대로 접근성 이름으로 사용됩니다. Registry `WheelPicker`에서 React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. `@seed-design/react`의 `WheelPicker.Column`을 직접 사용할 때는 `getAriaValueText`로 각 값의 접근성 텍스트를 반환하세요. 내부 요소는 `currentColor`를 상속해야 하며 버튼, 링크, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
 
-`disabled`는 컬럼의 포커스와 조작을 모두 막습니다.
+### Disabled
 
 <ComponentExample name="react/wheel-picker/states">
   ```json doc-gen:file
@@ -86,6 +84,8 @@ npx @seed-design/cli@latest add ui:wheel-picker
   }
   ```
 </ComponentExample>
+
+`disabled`는 컬럼의 포커스와 조작을 모두 막습니다.
 
 ### Data Contract
 
