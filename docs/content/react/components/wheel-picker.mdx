@@ -49,18 +49,6 @@ npx @seed-design/cli@latest add ui:wheel-picker
 
 `onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요.
 
-### Size
-
-`size`는 Item 높이와 Item Label의 타이포그래피를 함께 결정합니다. `medium`은 44px과 t10-static Medium을 사용하며 기본값입니다. `small`은 36px과 t7-static Medium을 사용합니다.
-
-`itemSize`를 지정하면 Size의 기본 Item 높이만 덮어씁니다. Item Label의 타이포그래피는 `size`를 따릅니다. 모든 항목은 같은 높이를 사용해야 합니다.
-
-### Height and Scroll Fog
-
-높이는 `visibleItemCount`로 조정하세요. 기본값은 5이며 5 이상의 홀수를 권장합니다. 임의의 `style.height`를 사용하면 Scroll Fog는 높이에 맞춰 조정되지만, 중앙 정렬 여백과 반복 항목 수는 `visibleItemCount`를 기준으로 계산됩니다.
-
-위아래 Scroll Fog는 Wheel Picker 높이의 40%까지 늘어납니다. Fog가 지나치게 커지지 않도록 Item 3개 높이에서 제한합니다. 따라서 Item을 5개 또는 7개 표시할 때는 높이의 40%를 사용하고, 9개 이상 표시할 때는 Item 3개 높이를 사용합니다.
-
 ### React Element Label
 
 <ComponentExample name="react/wheel-picker/react-element-label">
