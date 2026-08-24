@@ -40,17 +40,9 @@ const createSeedDeclaration =
     }
     const value = valueOrToken(valueObj.value);
 
-    // Static tokens: divide by user font scale so Android WebView's textZoom
-    // (which multiplies font-size / line-height post-style-computation) cancels
-    // the division and yields the specified px. `--seed-user-font-scale`
-    // defaults to 1, so iOS and browsers without textZoom render unchanged.
-    //
-    // TODO(attr): once typed `attr()` (CSS Values L5) is Baseline at the
-    // target browsers, drop the runtime `--seed-user-font-scale` setter in
-    // theming/index.mjs and read the scale straight from the attribute:
-    //   calc(${value} / attr(data-${prefix}-font-multiplier number, 1)).
-    // As of 2026-08 the spec is still unofficial — Chrome 133+, Safari has
-    // no stable support, Firefox unimplemented — so ~2028 at the earliest.
+    // Divide by --seed-user-font-scale so Android WebView's textZoom cancels
+    // out. TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
+    // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
     const tokenKey = decl.token.key.toString();
     if (tokenKey.includes("static")) {
       return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-user-font-scale, 1));`;
