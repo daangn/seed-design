@@ -42,7 +42,7 @@
     background-color: var(--seed-color-palette-static-white)
 }
 .seed-radiomark__root--tone_neutral-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     border-width: 0px;
     border-color: #00000000
 }
@@ -89,5 +89,5 @@
     background-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-radiomark__root--tone_neutral-pressed_true-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }

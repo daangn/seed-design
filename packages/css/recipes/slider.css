@@ -73,7 +73,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-full);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
@@ -111,7 +111,7 @@
     box-sizing: border-box;
     transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
     will-change: left, right;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     padding-inline: var(--seed-dimension-x2);
     padding-block: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-r1_5);
@@ -197,7 +197,7 @@
 }
 .seed-slider__valueIndicatorArrowTip {
     display: block;
-    fill: var(--seed-color-bg-neutral-inverted);
+    fill: var(--seed-color-bg-neutral-solid);
     width: var(--seed-dimension-x2);
     height: var(--seed-dimension-x1_5);
 }

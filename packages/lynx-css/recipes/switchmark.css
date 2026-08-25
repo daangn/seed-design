@@ -56,7 +56,7 @@
     background-color: var(--seed-color-bg-brand-solid)
 }
 .seed-switchmark__root--tone_neutral-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-switchmark__root--tone_neutral-checked_true-disabled_true {
     background-color: var(--seed-color-palette-gray-600)

@@ -101,7 +101,7 @@
   }
 
   .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]) {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     color: var(--seed-color-fg-neutral-inverted);
   }
 
@@ -119,13 +119,13 @@
 
   @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
@@ -141,7 +141,7 @@
   }
 
   .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]) {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     color: var(--seed-color-fg-neutral-inverted);
     border-color: #0000;
   }
@@ -160,13 +160,13 @@
 
   @media (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
