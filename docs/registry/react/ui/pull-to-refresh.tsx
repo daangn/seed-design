@@ -15,7 +15,7 @@ export const PullToRefreshIndicator = forwardRef<HTMLDivElement, PullToRefreshIn
   ({ ...otherProps }, ref) => {
     return (
       <PullToRefresh.Indicator ref={ref} {...otherProps}>
-        {(props) => <ProgressCircle size="24" tone="brand" {...props} />}
+        {(props) => <ProgressCircle size="24" tone="neutral" {...props} />}
       </PullToRefresh.Indicator>
     );
   },
