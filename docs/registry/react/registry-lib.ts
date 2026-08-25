@@ -12,5 +12,17 @@ export const registryLib: Registry = {
       id: "format-bytes",
       snippets: [{ path: "format-bytes.ts" }],
     },
+    {
+      id: "attachment-reorder",
+      snippets: [
+        {
+          path: "attachment-reorder.ts",
+          dependencies: {
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+          },
+        },
+      ],
+    },
   ],
 };

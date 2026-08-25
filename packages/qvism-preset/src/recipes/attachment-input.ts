@@ -177,15 +177,40 @@ const attachmentInputItem = defineSlotRecipe({
         ...removeButtonMask,
       },
 
+      [pseudo("[data-reorderable]", not("[data-dragging]"), not("[data-readonly]"))]: {
+        cursor: "grab",
+      },
+
+      // Keep dnd-kit's legacy attributes for snippets copied before the
+      // dedicated handle was introduced; those copies can outlive package upgrades.
       [pseudo("[role='button']", not("[aria-grabbed=true]"), not("[data-readonly]"))]: {
         cursor: "grab",
       },
 
-      [pseudo("[aria-grabbed=true]")]: {
+      [pseudo(":is([aria-grabbed=true], [data-dragging])")]: {
         // Disable the remove button mask while dragging — see the slot's
         // description in attachment-input-item.yaml.
         "--remove-button-mask-size": "0px",
         "--remove-button-mask-offset": "0px",
+      },
+
+      "& [data-attachment-reorder-handle]": {
+        position: "absolute",
+        inset: 0,
+
+        // PointerSensor listens on the item root as well, so the full-size keyboard handle
+        // does not need to intercept pointer hit-testing over the item's contents.
+        pointerEvents: "none",
+
+        border: "none",
+        padding: 0,
+        background: "transparent",
+        borderRadius: "inherit",
+        cursor: "inherit",
+        transition: FOCUS_RING_TRANSITION,
+
+        ...createFocusRingRestStyles(),
+        [pseudo(focusVisible)]: createFocusRingStyles(),
       },
     },
     image: {
@@ -323,11 +348,10 @@ const attachmentInputItem = defineSlotRecipe({
         }),
       },
 
-      // dnd-kit's useSortable sets [aria-grabbed=true] directly on the root <li>
-      // and headless does not expose this state, so child slots can only react
-      // via an ancestor selector. While dragging the mask is also disabled (size: 0),
-      // so we hide the button to keep the interaction and visuals consistent.
-      "[aria-grabbed=true] &": {
+      // The current reorder adapter exposes drag state as data-dragging on the item root.
+      // aria-grabbed keeps legacy integrations working when the root itself is the activator.
+      // Hide the remove button because the root also disables its matching mask cutout.
+      ":is([aria-grabbed=true], [data-dragging]) &": {
         display: "none",
       },
     },
@@ -354,7 +378,7 @@ const attachmentInputItem = defineSlotRecipe({
             }),
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             ...onlyIcon({
               color: itemVars.typeFile.dragging.thumbnailIcon.color,
             }),
@@ -370,7 +394,7 @@ const attachmentInputItem = defineSlotRecipe({
             color: itemVars.typeFile.readonly.name.color,
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             color: itemVars.typeFile.dragging.name.color,
           },
         },
@@ -379,7 +403,7 @@ const attachmentInputItem = defineSlotRecipe({
             color: itemVars.typeFile.readonly.size.color,
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             color: itemVars.typeFile.dragging.size.color,
           },
         },
@@ -409,7 +433,7 @@ const attachmentInputItem = defineSlotRecipe({
             opacity: itemVars.typeImage.readonly.root.opacity,
           },
 
-          [pseudo("[aria-grabbed=true]")]: {
+          [pseudo(":is([aria-grabbed=true], [data-dragging])")]: {
             opacity: itemVars.typeImage.dragging.root.opacity,
           },
         },
