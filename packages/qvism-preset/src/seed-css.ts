@@ -17,7 +17,12 @@ type Selectors = {
 };
 
 /**
- * Creates a SEED-specific declaration function with platform-aware font scaling
+ * Creates a SEED-specific declaration function with platform-aware font scaling.
+ *
+ * `prefix` names the generated tokens, so references between them follow it.
+ * The `globalCss` knobs below stay `seed` — that stylesheet and its
+ * `data-seed-*` selectors are not prefixed, so following `prefix` there would
+ * point a custom prefix at variables nothing defines and silently fall back.
  */
 const createSeedDeclaration =
   (prefix: string) =>
@@ -58,16 +63,16 @@ const createSeedDeclaration =
     // TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
     // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
     if (tokenKey.includes("static") && (isFontSize || isLineHeight)) {
-      return `${tokenName(decl.token)}: calc(${value} / var(--${prefix}-static-font-scale, 1));`;
+      return `${tokenName(decl.token)}: calc(${value} / var(--seed-static-font-scale, 1));`;
     }
 
     if (isFontSize || isLineHeight) {
       // Build CSS variable names for scaling
       const tokenType = isFontSize ? "font-size" : "line-height";
-      const multiplierVar = `var(--${prefix}-font-size-multiplier, 1)`;
+      const multiplierVar = "var(--seed-font-size-multiplier, 1)";
       const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
-      const limitMinVar = `var(--${prefix}-${tokenType}-limit-min, 1)`;
-      const limitMaxVar = `var(--${prefix}-${tokenType}-limit-max, 1)`;
+      const limitMinVar = `var(--seed-${tokenType}-limit-min, 1)`;
+      const limitMaxVar = `var(--seed-${tokenType}-limit-max, 1)`;
 
       // Return clamp with dynamic min and max using static values
       return `${tokenName(decl.token)}: clamp(calc(${staticTokenVar} * ${limitMinVar}), calc(${value} * ${multiplierVar}), calc(${staticTokenVar} * ${limitMaxVar}));`;
