@@ -40,6 +40,13 @@
             },
             "gap": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -205,6 +212,10 @@
                 "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x2"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

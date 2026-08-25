@@ -1,0 +1,102 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: page-banner-close-button
+  name: Page Banner Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          size:
+            type: dimension
+          marginLeft:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+    variants:
+      variant:
+        values:
+          weak:
+            description: 배경색이 연한 스타일입니다.
+          solid:
+            description: 배경색이 진한 스타일입니다.
+      tone:
+        values:
+          magic:
+            description: AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다.
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          cornerRadius: $radius.r2
+          size: $dimension.x10
+          marginLeft: $dimension.x2
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+        icon:
+          size: $dimension.x4
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scaleScope: self
+    tone=neutral, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.neutral
+    tone=neutral, variant=solid:
+      enabled:
+        icon:
+          color: $color.fg.neutral-inverted
+    tone=positive, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.positive-contrast
+    tone=positive, variant=solid:
+      enabled:
+        icon:
+          color: $color.palette.static-white
+    tone=informative, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.informative-contrast
+    tone=informative, variant=solid:
+      enabled:
+        icon:
+          color: $color.palette.static-white
+    tone=warning, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.warning-contrast
+    tone=warning, variant=solid:
+      enabled:
+        icon:
+          color: $color.palette.static-black-alpha-900
+    tone=critical, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.critical-contrast
+    tone=critical, variant=solid:
+      enabled:
+        icon:
+          color: $color.palette.static-white
+    tone=magic, variant=weak:
+      enabled:
+        icon:
+          color: $color.fg.neutral

@@ -1,0 +1,299 @@
+---
+title: Scale Feedback
+description: 커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.
+---
+
+SEED 컴포넌트는 눌렸을 때 요소가 살짝 줄어드는 **Scale Feedback**을 기본으로 제공합니다. 작은 아이콘 버튼과 뷰포트 좌우를 채우는 버튼의 눌린 느낌이 같도록 만들기 위해, 축소 배율을 요소마다 다르게 계산합니다. 직접 만든 컴포넌트에도 같은 효과를 적용할 수 있습니다.
+
+## 배율이 정해지는 방식
+
+축소 배율을 고정값으로 정하는 대신, 요소의 실제 크기에서 배율을 계산합니다.
+
+| 요소           | 높이 × 폭 | 계산된 배율 | 실제 축소              |
+| -------------- | --------- | ----------- | ---------------------- |
+| 아이콘 버튼    | 32 × 32   | 0.938       | 가로 2px, 세로 2px     |
+| 텍스트 버튼    | 48 × 120  | 0.958       | 가로 5px, 세로 2px     |
+| 가로로 긴 버튼 | 48 × 343  | 0.977       | 가로 8px, 세로 1.1px   |
+| 작은 버튼      | 22 × 22   | 0.917       | 가로 1.8px, 세로 1.8px |
+
+배율은 렌더된 크기에서 계산되므로, 폰트 스케일링, 화면 폭 차이, 줄바꿈 등으로 인해 요소가 예상과 다른 크기로 그려져도 별도로 값을 조정할 필요가 없습니다.
+
+## 적용하기
+
+요소의 크기를 측정하는 일은 `ScaleFeedback`이 담당하고, **계산된 배율을 언제 어떤 요소에 적용할지는 각 사용처에서 직접 정의합니다.**
+
+<Steps>
+
+<Step>
+
+### 요소 크기 측정하기
+
+축소할 요소를 `ScaleFeedback`으로 감쌉니다.
+
+```tsx title="MyButton.tsx"
+import { ScaleFeedback } from "@seed-design/react";
+
+function MyButton({ className, ...props }) {
+  return (
+    {/* [!code highlight] */}
+    <ScaleFeedback>
+      <button className={className} {...props} />
+    </ScaleFeedback>
+  );
+}
+```
+
+`ScaleFeedback`은 DOM 요소를 렌더하지 않고, 하위 요소에 `ref`와 `className`을 전달합니다. 하위 요소가 이미 가진 `ref`와 `className`은 유지됩니다.
+
+자식 요소는 하나여야 하며, 받은 `ref`와 `className`을 DOM 요소까지 전달해야 합니다. 직접 만든 컴포넌트를 자식으로 넘긴다면 [Composition](/react/components/concepts/composition) 문서의 조합 원칙을 함께 확인하세요.
+
+#### `ScaleFeedback` 없이 사용하기
+
+`ScaleFeedback`을 사용할 수 없는 경우 `useScaleFeedback`을 사용합니다. `scaleFeedbackRef`와 `scaleFeedbackClassName`을 같은 요소에 전달하세요.
+
+```tsx title="MyButton.tsx"
+import { useScaleFeedback } from "@seed-design/react";
+import clsx from "clsx";
+
+function MyButton({ className, ...props }) {
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+  return (
+    <button
+      ref={scaleFeedbackRef} // [!code highlight]
+      className={clsx(scaleFeedbackClassName, className)} // [!code highlight]
+      {...props}
+    />
+  );
+}
+```
+
+</Step>
+
+<Step>
+
+### 계산된 배율 사용하기
+
+계산된 배율은 `--seed-feedback-scale`, 트랜지션은 `--seed-feedback-scale-transition` CSS 변수로 공개됩니다.
+
+JS로 스타일을 작성한다면 `@seed-design/css/scale-feedback`에서 `feedbackScale`, `feedbackScaleTransition`으로 가져올 수 있습니다.
+
+<Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3', 'vanilla-extract', 'CSS']}>
+
+<Tab value="Tailwind CSS 4">
+
+```tsx title="MyButton.tsx"
+<ScaleFeedback>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-feedback-scale-transition)]", // [!code highlight]
+      "active:scale-(--seed-feedback-scale)", // [!code highlight]
+    )}
+  />
+</ScaleFeedback>
+```
+
+#### 유틸리티 클래스 활용하기
+
+배율을 여러 컴포넌트에 적용한다면 프로젝트에 유틸리티를 등록해두세요. `active:scale-(--seed-feedback-scale)` 대신 `active:feedback-scale`로 쓸 수 있습니다.
+
+```css title="style.css"
+@import "tailwindcss";
+
+@utility feedback-scale {
+  scale: var(--seed-feedback-scale);
+}
+```
+
+```tsx title="MyButton.tsx"
+<ScaleFeedback>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-feedback-scale-transition)]",
+      "active:feedback-scale", // [!code highlight]
+    )}
+  />
+</ScaleFeedback>
+```
+
+<Callout type="warn">
+  `@theme`이 아니라 `@utility`에 등록하세요. `@theme` 항목은 `:root`에서 값이
+  확정되므로 요소가 자기 크기에서 계산한 배율이 도달하지 못합니다. 클래스는
+  생성되는데 축소만 일어나지 않습니다.
+</Callout>
+
+트랜지션은 같은 방식으로 묶을 수 없습니다. `transition-*` 유틸리티는 Tailwind 자신의 duration과 timing function을 함께 적용해서 `--seed-feedback-scale-transition`에 담긴 값을 덮어버립니다. 위처럼 arbitrary property 문법을 그대로 사용하세요.
+
+</Tab>
+
+<Tab value="Tailwind CSS 3">
+
+```tsx title="MyButton.tsx"
+<ScaleFeedback>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-feedback-scale-transition)]", // [!code highlight]
+      "active:[scale:var(--seed-feedback-scale)]", // [!code highlight]
+    )}
+  />
+</ScaleFeedback>
+```
+
+#### 유틸리티 클래스 활용하기
+
+배율을 여러 컴포넌트에 적용한다면 프로젝트에 유틸리티를 등록해두세요. `active:[scale:var(--seed-feedback-scale)]` 대신 `active:feedback-scale`로 쓸 수 있습니다.
+
+```js title="tailwind.config.js"
+import plugin from "tailwindcss/plugin";
+
+export default {
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".feedback-scale": { scale: "var(--seed-feedback-scale)" },
+      });
+    }),
+  ],
+};
+```
+
+```tsx title="MyButton.tsx"
+<ScaleFeedback>
+  <button
+    className={clsx(
+      "bg-bg-brand-solid p-x3 rounded-r2",
+      "[transition:background-color_0.2s,var(--seed-feedback-scale-transition)]",
+      "active:feedback-scale", // [!code highlight]
+    )}
+  />
+</ScaleFeedback>
+```
+
+<Callout type="warn">
+  `theme.extend.scale`이 아니라 `addUtilities`에 등록하세요. Tailwind CSS 3의
+  `scale-*` 유틸리티는 [개별 `scale` 속성](#개별-scale-속성)이 아니라
+  `transform`에 `scaleX()`, `scaleY()`를 얹는 방식이므로, 같은 요소의 다른
+  transform과 충돌합니다.
+</Callout>
+
+트랜지션은 같은 방식으로 묶을 수 없습니다. `transition-*` 유틸리티는 Tailwind 자신의 duration과 timing function을 함께 적용해서 `--seed-feedback-scale-transition`에 담긴 값을 덮어버립니다. 위처럼 arbitrary property 문법을 그대로 사용하세요.
+
+</Tab>
+
+<Tab value="vanilla-extract">
+
+```ts title="myButton.css.ts"
+import { style } from "@vanilla-extract/css";
+import {
+  feedbackScale,
+  feedbackScaleTransition,
+} from "@seed-design/css/scale-feedback";
+import { vars } from "@seed-design/css/vars";
+
+export const myButton = style({
+  backgroundColor: vars.$color.bg.brandSolid,
+  transition: `background-color 0.2s, ${feedbackScaleTransition}`, // [!code highlight]
+
+  selectors: {
+    "&:active": {
+      scale: feedbackScale, // [!code highlight]
+    },
+  },
+});
+```
+
+```tsx title="MyButton.tsx"
+<ScaleFeedback>
+  <button className={myButton} />
+</ScaleFeedback>
+```
+
+</Tab>
+
+<Tab value="CSS">
+
+```css title="MyButton.css"
+.my-button {
+  transition:
+    background-color 0.2s,
+    var(--seed-feedback-scale-transition);
+}
+
+.my-button:active {
+  scale: var(--seed-feedback-scale);
+}
+```
+
+</Tab>
+
+</Tabs>
+
+#### 선택자 고르기
+
+SEED 컴포넌트는 상호작용 가능한 요소에 호버할 때 색상을 변경하고, 마우스 왼쪽 버튼을 누르고 있는 동안 Scale Feedback을 적용합니다. 일관성을 위해 커스텀 컴포넌트에서도 이 기준을 유지하는 것을 권장합니다. 자세한 내용은 [Interaction States](/react/components/concepts/interaction-states) 문서를 참고하세요.
+
+`:active`는 비활성 상태의 요소에도 적용됩니다. 비활성 상태를 다루는 컴포넌트라면 선택자에서 제외하세요. SEED 컴포넌트는 `:disabled`, `[disabled]`, `[data-disabled]`를 제외하고 있습니다.
+
+#### 개별 `scale` 속성
+
+SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transform 속성인 [`scale`](https://developer.mozilla.org/ko/docs/Web/CSS/scale)로 적용합니다. 커스텀 컴포넌트에서도 `scale`을 사용하세요.
+
+`transform`은 shorthand라서 한 요소에 하나의 값만 가집니다. 축소를 여기에 적으면 그 요소의 이동이나 회전을 같은 값에 함께 써야 하고 변형을 추가할 때마다 축소 값을 다시 챙겨야 합니다. 개별 `scale`은 `translate`, `rotate`와 독립적으로 동작해서 이런 부담이 없고 `ScaleFeedback`이 이미 `scale`을 사용하므로 축소가 한 속성에 모입니다.
+
+<Callout type="info">
+  개별 `scale` 속성은 Chrome 104, Safari 14.1, Firefox 72부터 지원됩니다. 이보다
+  낮은 버전에서는 축소만 나타나지 않고 나머지 스타일은 그대로 동작합니다.
+</Callout>
+
+</Step>
+
+</Steps>
+
+두 단계를 모두 적용하면 아래와 같이 동작합니다. 크기가 다른 두 요소를 눌러 비교해 보세요.
+
+<ComponentExample name="react/scale-feedback/custom-component">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/scale-feedback/custom-component.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## 자동으로 처리되는 것
+
+아래 두 가지는 별도로 처리할 필요가 없습니다.
+
+- **동작 줄이기 설정**: `prefers-reduced-motion: reduce` 환경에서는 `--seed-feedback-scale`이 항상 `1`이 됩니다.
+- **크기를 알 수 없는 상황**: JavaScript가 실행되지 않았거나 첫 측정 전이라면 `--seed-feedback-scale`이 `1`이 됩니다. 잘못된 배율이 적용되는 대신 효과만 나타나지 않습니다.
+
+## 알아둘 점
+
+### 중첩된 SEED 컴포넌트
+
+커스텀 컴포넌트가 `Checkmark`, `Radiomark`, `Switchmark` 등을 감싸는 경우, 바깥 요소와 안쪽 요소가 함께 줄어들어 안쪽 요소가 이중으로 축소됩니다. 각 컴포넌트 문서에 끄는 방법이 안내되어 있습니다.
+
+- [Checkbox](/react/components/checkbox#scale-feedback)
+- [RadioGroup](/react/components/radio-group#scale-feedback)
+- [Switch](/react/components/switch#scale-feedback)
+
+### `position: fixed` 자손
+
+`scale` 값이 있는 요소는 stacking context이자 `position: fixed` 자손의 containing block이 되므로, 이 요소 안에 `position: fixed` 요소가 있다면 뷰포트가 아니라 **이 요소를 기준으로 배치됩니다.**
+
+`ScaleFeedback`이 적용된 요소는 눌리지 않은 상태에서도 `scale: 1`을 유지하므로, 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지므로 `scale`을 적용한 요소 하위에 `position: fixed` 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
+
+## 프로젝트 전체에서 끄기
+
+배율을 `1`로 고정하는 규칙을 [`@layer`](/react/getting-started/styling/cascade-layers) 없이 추가하고 **SEED CSS보다 뒤에 로드**하세요. 배율을 읽는 모든 곳이 이 변수 하나를 거치므로 SEED 컴포넌트와 커스텀 컴포넌트가 함께 꺼집니다.
+
+```css title="scale-feedback-off.css"
+.seed-scale-feedback {
+  --seed-feedback-scale: 1;
+}
+```
+
+평상시 `scale: 1`은 그대로 남으므로 [`position: fixed` 자손](#position-fixed-자손)의 배치 기준은 달라지지 않습니다.

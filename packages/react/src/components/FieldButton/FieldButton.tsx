@@ -4,6 +4,7 @@ import * as React from "react";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
@@ -227,9 +228,11 @@ export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonContro
 
 export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProps {}
 
-export const FieldButtonClearButton = withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
-  FieldButton.ClearButton,
-  "clearButton",
+export const FieldButtonClearButton = withScaleFeedback(
+  withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
+    FieldButton.ClearButton,
+    "clearButton",
+  ),
 );
 
 export interface FieldButtonValueProps

@@ -1,4 +1,7 @@
 import { actionButton as vars } from "../vars/component";
+import * as duration from "../vars/duration";
+import * as scale from "../vars/scale";
+import * as timingFunction from "../vars/timing-function";
 
 import { defineSlotRecipe } from "../utils/define";
 
@@ -46,7 +49,7 @@ const actionButton = defineSlotRecipe({
 
       transform: "scale(1)",
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
     },
     text: {
       fontWeight: vars.base.enabled.label.fontWeight,
@@ -445,26 +448,28 @@ const actionButton = defineSlotRecipe({
     // Lynx has no individual `scale:` property and does not evaluate
     // prefers-reduced-motion, so scale is applied via the `transform` shorthand
     // and always animates on-device (the reduced-motion guard is dropped in
-    // lynx-css at the token layer).
+    // lynx-css at the token layer). Web derives its feedback scale at runtime,
+    // so the static per-size values reference the global scale tokens directly
+    // instead of component vars.
     {
       size: "xsmall",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeXsmall.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scale.s95})` } },
     },
     {
       size: "small",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeSmall.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scale.s97})` } },
     },
     {
       size: "medium",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeMedium.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scale.s97})` } },
     },
     {
       size: "large",
       pressed: true,
-      css: { root: { transform: `scale(${vars.sizeLarge.pressed.root.scale})` } },
+      css: { root: { transform: `scale(${scale.s98})` } },
     },
 
     // ── variant × disabled — all slots ──────────────────────────────────────

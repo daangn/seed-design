@@ -18,6 +18,9 @@ data:
             type: color
           gradient:
             type: gradient
+          scaleScope:
+            type: enum
+            values: [self, content]
       prefixIcon:
         description: 아이콘은 Fill 타입 사용을 권장합니다.
         properties:
@@ -63,11 +66,12 @@ data:
             type: number
           color:
             type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
       suffixIcon:
         properties:
           size:
-            type: dimension
-          targetSize:
             type: dimension
           marginLeft:
             type: dimension
@@ -111,8 +115,12 @@ data:
           fontWeight: $font-weight.bold
         suffixIcon:
           size: $dimension.x4
-          targetSize: $dimension.x10
           marginLeft: $dimension.x2
+      pressed:
+        root:
+          scaleScope: content
+        button:
+          scaleScope: self
     tone=neutral, variant=weak:
       enabled:
         root:

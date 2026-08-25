@@ -22,6 +22,10 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
+            description: 감싸는 컴포넌트가 자체 pressed 피드백을 주는 경우(List Item 등)에는 이 값이 적용되지 않습니다.
       icon:
         properties:
           color:
@@ -45,6 +49,9 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
+      pressed:
+        root:
+          scaleScope: self
     variant=square:
       enabled:
         root:

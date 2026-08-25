@@ -35,6 +35,13 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -134,6 +141,19 @@ declare const artifact: {
                 "fontWeight": {
                   "type": "number";
                   "value": "$font-weight.bold";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

@@ -12,12 +12,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scale:
-            type: number
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           color:
             type: color
           strokeColor:
@@ -36,6 +30,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -116,10 +113,11 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontWeight: $font-weight.bold
+      pressed:
+        root:
+          scaleScope: self
     variant=brandSolid:
       enabled:
         root:
@@ -358,9 +356,6 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s95
     size=xsmall, layout=withText:
       enabled:
         root:
@@ -390,9 +385,6 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s97
     size=small, layout=withText:
       enabled:
         root:
@@ -422,9 +414,6 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s97
     size=medium, layout=withText:
       enabled:
         root:
@@ -454,9 +443,6 @@ data:
         progressCircle:
           size: 18px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s98
     size=large, layout=withText:
       enabled:
         root:

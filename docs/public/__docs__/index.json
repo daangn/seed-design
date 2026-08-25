@@ -1470,6 +1470,12 @@
               ]
             },
             {
+              "id": "scale-feedback",
+              "title": "Scale Feedback",
+              "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/scale-feedback"
+            },
+            {
               "id": "scroll-fog",
               "title": "Scroll Fog",
               "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",

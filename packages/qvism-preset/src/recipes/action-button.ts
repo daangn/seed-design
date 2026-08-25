@@ -9,6 +9,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const actionButton = defineRecipe({
   name: "action-button",
@@ -60,10 +61,9 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    // Individual `scale` over `transform: scale()` — progressive enhancement for Chrome 104+ (older browsers just skip the pressed scale).
-    scale: "1",
+    [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -373,10 +373,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: vars.sizeXsmall.pressed.root.scale,
-        },
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
@@ -394,10 +390,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: vars.sizeSmall.pressed.root.scale,
-        },
       },
       medium: {
         height: vars.sizeMedium.enabled.root.minHeight,
@@ -415,10 +407,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: vars.sizeMedium.pressed.root.scale,
-        },
       },
       large: {
         height: vars.sizeLarge.enabled.root.minHeight,
@@ -436,10 +424,6 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           size: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
         }),
-
-        [pseudo(not(disabled), active)]: {
-          scale: vars.sizeLarge.pressed.root.scale,
-        },
       },
     },
     layout: {

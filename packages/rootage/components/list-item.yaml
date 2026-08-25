@@ -31,13 +31,9 @@ data:
             type: duration
           borderRadiusTimingFunction:
             type: cubicBezier
-          contentScale:
-            type: number
-            description: pressed 시 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 배경 레이어 위 요소들이 위치하는 레이아웃 레이어는 scale로 인해 전체적으로 줄어드는 형태로 두 레이어가 별개로 작동합니다.
-          contentScaleDuration:
-            type: duration
-          contentScaleTimingFunction:
-            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
       body:
         properties:
           gap:
@@ -107,8 +103,6 @@ data:
           marginTimingFunction: $timing-function.easing
           borderRadiusDuration: $duration.d3
           borderRadiusTimingFunction: $timing-function.easing
-          contentScaleDuration: $duration.pressed-scale
-          contentScaleTimingFunction: $timing-function.pressed-scale
         body:
           gap: $dimension.x0_5
           paddingRight: $dimension.x2_5
@@ -142,7 +136,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
-          contentScale: $scale.s97
+          scaleScope: content
       highlighted:
         root:
           color: $color.bg.brand-weak

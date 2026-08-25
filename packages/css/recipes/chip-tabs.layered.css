@@ -51,14 +51,21 @@
     border-radius: var(--seed-radius-full);
     font-family: inherit;
     font-weight: var(--seed-font-weight-medium);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
     border: none;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
     display: flex;
+  }
+
+  .seed-chip-tabs__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-chip-tabs__trigger {
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
   }
 
   .seed-chip-tabs__trigger:is(:focus-visible, [data-focus-visible]) {

@@ -9,15 +9,22 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     cursor: pointer;
     border-radius: var(--seed-radius-r3);
-    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background-color: #0000;
     border: none;
     flex-direction: column;
     flex-shrink: 0;
     padding: 0;
     display: flex;
+  }
+
+  .seed-attachment-input-trigger__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-attachment-input-trigger__root {
+    transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-attachment-input-trigger__root:is(:focus-visible, [data-focus-visible]) {

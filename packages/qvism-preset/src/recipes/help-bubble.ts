@@ -1,6 +1,7 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
@@ -133,7 +134,10 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
