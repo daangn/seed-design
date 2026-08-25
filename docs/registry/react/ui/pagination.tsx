@@ -36,6 +36,10 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K>
 export type PaginationProps = PaginationBehaviorProps &
   DistributiveOmit<HStackProps, keyof UsePaginationProps | "children" | "as" | "role">;
 
+function PaginationNavigationPlaceholder() {
+  return <HStack width="40px" height="40px" aria-hidden="true" />;
+}
+
 /**
  * @see https://seed-design.io/react/components/pagination
  */
@@ -63,13 +67,15 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>((pro
       as="nav"
       role="navigation"
     >
-      {pagination.hasPreviousPage && (
+      {pagination.hasPreviousPage ? (
         <PaginationButton
           {...pagination.previousButtonProps}
           aria-label={paginationText.previousPageAriaLabel}
         >
           <IconChevronLeftLine />
         </PaginationButton>
+      ) : (
+        <PaginationNavigationPlaceholder />
       )}
 
       {pagination.items.map((item) => {
@@ -103,13 +109,15 @@ export const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>((pro
         );
       })}
 
-      {pagination.hasNextPage && (
+      {pagination.hasNextPage ? (
         <PaginationButton
           {...pagination.nextButtonProps}
           aria-label={paginationText.nextPageAriaLabel}
         >
           <IconChevronRightLine />
         </PaginationButton>
+      ) : (
+        <PaginationNavigationPlaceholder />
       )}
     </HStack>
   );
