@@ -5,7 +5,7 @@ import { List, ListCheckItem, ListDivider } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -239,13 +239,13 @@ const CommonTemplate = meta.story({
 export const LightTheme = CommonTemplate.extend({});
 
 export const DarkTheme = CommonTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
