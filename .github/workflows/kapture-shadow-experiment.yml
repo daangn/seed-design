@@ -488,7 +488,7 @@ jobs:
     if: needs.context.outputs.integration-mode == 'compare'
     needs: [context, build-base, build-head]
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     outputs:
       report-artifact-name: ${{ steps.artifact.outputs.name }}
       report-artifact-id: ${{ steps.report-artifact.outputs.artifact-id }}
@@ -623,7 +623,7 @@ jobs:
             --output "${{ runner.temp }}/kapture-result" \
             --install-browser \
             --browser-with-deps \
-            --workers 4 \
+            --workers 2 \
             --pixel-threshold 0.2 \
             --max-diff-ratio 0 \
             --frozen-time 2026-01-01T00:00:00.000Z \
@@ -969,3 +969,32 @@ jobs:
               issue_number: context.issue.number,
               body: `✅ Kapture shadow report approved by @${approval.user.login} for \`${process.env.KAPTURE_HEAD_SHA}\`.`,
             });
+
+  finalize-experiment:
+    name: Finalize the exact head status
+    if: always() && needs.context.result == 'success' && needs.approve-experiment.result != 'success'
+    needs: [context, publish-experiment, approve-experiment]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      statuses: write
+    steps:
+      - name: Mark an incomplete experiment as failed
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          KAPTURE_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
+          KAPTURE_DASHBOARD_URL: ${{ needs.publish-experiment.outputs.dashboard-url }}
+        with:
+          script: |
+            const status = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: process.env.KAPTURE_HEAD_SHA,
+              state: 'failure',
+              context: 'SEED Kapture Shadow Experiment',
+              description: 'The shadow experiment did not complete or receive approval',
+            };
+            if (process.env.KAPTURE_DASHBOARD_URL) {
+              status.target_url = process.env.KAPTURE_DASHBOARD_URL;
+            }
+            await github.rest.repos.createCommitStatus(status);
