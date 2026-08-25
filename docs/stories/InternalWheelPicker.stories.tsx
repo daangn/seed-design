@@ -9,7 +9,7 @@ import {
 import "./InternalWheelPicker.css";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "./utils/parameters";
+import { withVisualTestParameters } from "./utils/parameters";
 
 interface ColumnCase {
   label: string;
@@ -262,13 +262,13 @@ const CommonStory = meta.story({
 export const LightTheme = CommonStory.extend({});
 
 export const DarkTheme = CommonStory.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStory.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
