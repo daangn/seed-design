@@ -3,8 +3,6 @@ title: Pagination
 description: 여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.
 ---
 
-<AvailableSince packages="@seed-design/react-pagination@1.0.0, @seed-design/css@2.6.0" />
-
 ## Anatomy
 
 - **Root:** 전체 Pagination을 감싸는 최상위 컨테이너입니다. 접근성을 위해 `<nav>` 요소로 렌더링됩니다.
@@ -39,7 +37,7 @@ Pagination은 콘텐츠 목록 하단에 배치하며, 가운데 정렬을 기�
 
 아래와 같은 경우에는 Pagination 대신 다른 방법을 고려합니다.
 
-- 데이터 테이블: [Table Pagination](/react/components/table-pagination)을 사용합니다.
+- 데이터 테이블: [Table Pagination](/components/table-pagination)을 사용합니다.
 - 단계적 흐름 (온보딩, 폼 진행 등): 스텝 인디케이터나 버튼 조합을 사용합니다.
 - 콘텐츠 양이 적은 경우: 전체 길이가 화면 3~4개 분량 이하라면 페이지 분리 없이 한 번에 표시하는 것을 권장합니다.
 
@@ -64,7 +62,7 @@ Pagination은 콘텐츠 목록 하단에 배치하며, 가운데 정렬을 기�
 
 ## Pagination VS Table Pagination
 
-데이터 테이블에서는 Pagination 대신 [Table Pagination](/react/components/table-pagination)을 사용합니다.
+데이터 테이블에서는 Pagination 대신 [Table Pagination](/components/table-pagination)을 사용합니다.
 
 데이터 테이블에서 사용자의 주요 행동은 페이지 번호로 이동하는 것보다 정렬, 필터로 원하는 데이터를 찾거나 순차적으로 훑어보는 것이기 때문에, 한 번에 몇 개를 볼지(Rows Per Page)와 현재 범위(Page Range)를 제어할 수 있는 별도 컴포넌트가 필요합니다.
 
