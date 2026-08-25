@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/responsive-dialog";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 const ResponsiveDialogPreview = ({
   showCloseButton,
@@ -99,6 +99,6 @@ export const LightTheme = meta.story({
     <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
 });
