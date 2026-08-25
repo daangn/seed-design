@@ -5,6 +5,7 @@ import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
+import callout from "./recipes/callout";
 import checkmark from "./recipes/checkmark";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
@@ -28,6 +29,7 @@ export const recipes = {
   bottomSheetHandle,
   checkbox,
   checkboxGroup,
+  callout,
   checkmark,
   field,
   fieldLabel,

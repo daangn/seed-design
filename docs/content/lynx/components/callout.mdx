@@ -1,0 +1,68 @@
+---
+title: Callout
+description: 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/callout/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:callout
+```
+
+<LynxManualInstallation name="callout" />
+
+## Props
+
+### `Callout`
+
+<react-type-table path="./registry/lynx/ui/callout.tsx" name="CalloutProps" />
+
+### `ActionableCallout`
+
+<react-type-table path="./registry/lynx/ui/callout.tsx" name="ActionableCalloutProps" />
+
+### `DismissibleCallout`
+
+<react-type-table path="./registry/lynx/ui/callout.tsx" name="DismissibleCalloutProps" />
+
+## Usage
+
+```tsx
+import { Callout } from "@/components/ui/callout";
+
+export function Notice() {
+  return (
+    <Callout
+      tone="informative"
+      title="새로운 기능"
+      description="새로운 기능을 확인해 보세요."
+    />
+  );
+}
+```
+
+Compound API가 필요하면 `Callout.Root`, `Callout.Content`, `Callout.Title`, `Callout.Description`, `Callout.Link`, `Callout.CloseButton`을 조합할 수 있습니다.
+
+## Web Version Differences
+
+- HTML element 대신 native `<view>`와 `<text>`를 사용합니다.
+- `asChild`는 지원하지 않습니다. Actionable Callout은 `bindtap`으로 동작을 전달합니다.
+- Web의 `aria-*` 대신 Lynx의 `accessibility-*` 속성을 사용합니다.
+- 아이콘은 Lynx icon element를 `PrefixIcon` 또는 `SuffixIcon`으로 감쌉니다.
+
+## Unsupported Lynx Features
+
+- HTML link/button attribute와 DOM focus API는 제공하지 않습니다.
+- `Callout.Link`는 Lynx의 `text` slot이며, 동작은 `bindtap`으로 연결해야 합니다.
+- Dismissible 상태는 `open`, `defaultOpen`, `onDismiss`로 제어하며, 별도 Presence 애니메이션은 사용하지 않습니다.

@@ -4,6 +4,7 @@ export * from "./Badge";
 export * from "./Box";
 export * from "./BottomSheet";
 export * from "./Checkbox";
+export * from "./Callout";
 export * from "./Field";
 export * from "./Icon";
 export * from "./KeyboardAvoidingScrollView";

@@ -2065,6 +2065,19 @@
               "docUrl": "/lynx/foundation/layout/box"
             },
             {
+              "id": "callout",
+              "title": "Callout",
+              "description": "중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+              "docUrl": "/lynx/components/callout",
+              "snippetKey": "lynx/ui:callout",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "callout.tsx"
+                }
+              ]
+            },
+            {
               "id": "checkbox",
               "title": "Checkbox",
               "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",

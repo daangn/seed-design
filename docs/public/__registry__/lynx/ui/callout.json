@@ -1,0 +1,17 @@
+{
+  "id": "callout",
+  "dependencies": [
+    "@karrotmarket/lynx-monochrome-icon",
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "callout.tsx",
+      "content": "/**\n * @file ui:callout\n * @requires @seed-design/lynx-react@>=0.1.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.1.0 <1.0.0\n **/\n\nimport IconChevronRightLine from \"@karrotmarket/lynx-monochrome-icon/IconChevronRightLine\";\nimport IconXmarkLine from \"@karrotmarket/lynx-monochrome-icon/IconXmarkLine\";\nimport { forwardRef, type ReactNode } from \"@lynx-js/react\";\nimport {\n  Callout as SeedCallout,\n  PrefixIcon,\n  SuffixIcon,\n  type PrefixIconProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface CalloutProps extends Omit<SeedCallout.RootProps, \"children\"> {\n  prefixIcon?: PrefixIconProps[\"icon\"];\n  title?: ReactNode;\n  description: ReactNode;\n}\n\n/** @see https://seed-design.io/lynx/components/callout */\nexport const Callout = forwardRef<unknown, CalloutProps>(\n  ({ prefixIcon, title, description, ...rootProps }, ref) => (\n    <SeedCallout.Root ref={ref} {...rootProps}>\n      {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}\n      <SeedCallout.Content>\n        {title ? <SeedCallout.Title>{title}</SeedCallout.Title> : null}\n        <SeedCallout.Description>{description}</SeedCallout.Description>\n      </SeedCallout.Content>\n    </SeedCallout.Root>\n  ),\n);\nCallout.displayName = \"Callout\";\n\nexport interface ActionableCalloutProps extends Omit<CalloutProps, \"bindtap\"> {\n  bindtap: NonNullable<CalloutProps[\"bindtap\"]>;\n}\n\nexport const ActionableCallout = forwardRef<unknown, ActionableCalloutProps>(\n  ({ prefixIcon, title, description, bindtap, ...rootProps }, ref) => (\n    <SeedCallout.Root ref={ref} {...rootProps} bindtap={bindtap}>\n      {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}\n      <SeedCallout.Content>\n        {title ? <SeedCallout.Title>{title}</SeedCallout.Title> : null}\n        <SeedCallout.Description>{description}</SeedCallout.Description>\n      </SeedCallout.Content>\n      <SuffixIcon icon={<IconChevronRightLine />} />\n    </SeedCallout.Root>\n  ),\n);\nActionableCallout.displayName = \"ActionableCallout\";\n\nexport interface DismissibleCalloutProps extends CalloutProps {\n  onDismiss?: () => void;\n}\n\nexport const DismissibleCallout = forwardRef<unknown, DismissibleCalloutProps>(\n  ({ prefixIcon, title, description, ...rootProps }, ref) => (\n    <SeedCallout.Root ref={ref} {...rootProps}>\n      {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}\n      <SeedCallout.Content>\n        {title ? <SeedCallout.Title>{title}</SeedCallout.Title> : null}\n        <SeedCallout.Description>{description}</SeedCallout.Description>\n      </SeedCallout.Content>\n      <SeedCallout.CloseButton accessibility-label=\"닫기\">\n        <SuffixIcon icon={<IconXmarkLine />} />\n      </SeedCallout.CloseButton>\n    </SeedCallout.Root>\n  ),\n);\nDismissibleCallout.displayName = \"DismissibleCallout\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+      }
+    }
+  ]
+}

@@ -31,6 +31,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "callout",
+      snippets: [
+        {
+          path: "callout.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
       id: "checkbox",
       snippets: [
         {
