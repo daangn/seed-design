@@ -19,6 +19,22 @@
     {
       "snippets": [
         {
+          "path": "blur-swap/blur-swap.tsx"
+        },
+        {
+          "path": "blur-swap/blur-swap.module.css"
+        }
+      ],
+      "id": "blur-swap",
+      "description": "두 콘텐츠를 blur crossfade로 교차하는 컴포넌트",
+      "dependencies": [
+        "@radix-ui/react-compose-refs",
+        "@seed-design/react-presence"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "scroll-auto-hide/scroll-auto-hide.tsx"
         },
         {
