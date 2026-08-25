@@ -1,5 +1,11 @@
 # @seed-design/lynx-css
 
+## 0.8.1
+
+### Patch Changes
+
+- 21aa395: iOS Lynx에서 `ProgressCircle`의 색상이 표시되지 않는 문제를 수정합니다.
+
 ## 0.8.0
 
 ### Minor Changes

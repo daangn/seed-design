@@ -69,7 +69,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityDetail: lazy(() => import("../activities/ActivityDetail")),
     ActivityDialog: lazy(() => import("../activities/ActivityDialog")),
     ActivityErrorState: lazy(() => import("../activities/ActivityErrorState")),
-    ActivityFontScaling: lazy(() => import("../activities/ActivityFontScaling")),
+    ActivityFontMultiplierLayout: lazy(() => import("../activities/ActivityFontMultiplierLayout")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
     ActivityIacvtLeak: lazy(() => import("../activities/ActivityIacvtLeak")),
     ActivityIacvtSidePanel: lazy(() => import("../activities/ActivityIacvtSidePanel")),
@@ -123,6 +123,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
     ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
+    ActivityTypographyScale: lazy(() => import("../activities/ActivityTypographyScale")),
 
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
     ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
