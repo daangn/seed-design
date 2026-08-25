@@ -1,7 +1,7 @@
 @layer seed-components {
   .seed-snackbar__root {
     box-sizing: border-box;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-r2);
     width: 100%;
     max-width: 560px;

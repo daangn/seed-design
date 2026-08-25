@@ -6,7 +6,7 @@
   }
 
   .seed-help-bubble__content {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
@@ -56,7 +56,7 @@
   }
 
   .seed-help-bubble__arrowTip {
-    fill: var(--seed-color-bg-neutral-inverted);
+    fill: var(--seed-color-bg-neutral-solid);
     width: 12px;
     height: 8px;
     display: block;

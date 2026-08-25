@@ -155,7 +155,7 @@ data:
     variant=neutralSolid:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         label:
           color: $color.fg.neutral-inverted
         icon:
@@ -169,7 +169,7 @@ data:
           rangeColor: $color.palette.static-white
       pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.bg.disabled
@@ -183,7 +183,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
     variant=neutralWeak:
       enabled:
         root:

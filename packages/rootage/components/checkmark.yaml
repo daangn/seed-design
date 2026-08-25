@@ -79,12 +79,12 @@ data:
     variant=square,tone=neutral:
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         icon:
           color: $color.fg.neutral-inverted
       pressed,selected:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
 
     variant=ghost:
       enabled:
