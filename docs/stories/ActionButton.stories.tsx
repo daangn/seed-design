@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { ActionButton } from "seed-design/ui/action-button";
 
-import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
@@ -105,44 +105,44 @@ const LargeTemplate = meta.story({
 
 export const XSmallLightTheme = XSmallTemplate.extend({});
 export const XSmallDarkTheme = XSmallTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const XSmallFontScalingExtraSmall = XSmallTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const XSmallFontScalingExtraExtraExtraLarge = XSmallTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const SmallLightTheme = SmallTemplate.extend({});
 export const SmallDarkTheme = SmallTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const SmallFontScalingExtraSmall = SmallTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const SmallFontScalingExtraExtraExtraLarge = SmallTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const MediumLightTheme = MediumTemplate.extend({});
 export const MediumDarkTheme = MediumTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const MediumFontScalingExtraSmall = MediumTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const MediumFontScalingExtraExtraExtraLarge = MediumTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const LargeLightTheme = LargeTemplate.extend({});
 export const LargeDarkTheme = LargeTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 export const LargeFontScalingExtraSmall = LargeTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 export const LargeFontScalingExtraExtraExtraLarge = LargeTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

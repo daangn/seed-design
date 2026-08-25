@@ -1,6 +1,5 @@
 // import Seed Design
 import { definePreview } from "@storybook/nextjs-vite";
-import kapture from "@kaptures/storybook";
 
 import "@seed-design/css/all.css";
 
@@ -30,9 +29,6 @@ const viewportMap: ViewportMap = Object.fromEntries(
 
 export default definePreview({
   parameters: {
-    kapture: {
-      requiredFonts: [{ text: "가나다라마바사 ABC 123" }],
-    },
     viewport: {
       options: viewportMap,
     },
@@ -44,5 +40,5 @@ export default definePreview({
     },
   },
 
-  addons: [kapture()],
+  addons: [],
 }).type<{ parameters: StoryParameters }>();

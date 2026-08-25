@@ -4,23 +4,7 @@ import { dirname } from "node:path";
 
 export default defineMain({
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    getAbsolutePath("@chromatic-com/storybook"),
-    {
-      name: "@kaptures/storybook/preset",
-      options: {
-        projectRoot: "..",
-        globalInputs: [
-          "docs/.storybook/**",
-          "docs/public/**",
-          "packages/css/**",
-          "packages/qvism-preset/**",
-          "ecosystem/rootage/**",
-        ],
-        ignoredInputs: [".changeset/**"],
-      },
-    },
-  ],
+  addons: [getAbsolutePath("@chromatic-com/storybook")],
   framework: {
     name: getAbsolutePath("@storybook/nextjs-vite"),
     options: {},
