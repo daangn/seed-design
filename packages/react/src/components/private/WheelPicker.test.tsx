@@ -49,6 +49,7 @@ describe("InternalWheelPicker", () => {
     expect(columns).toHaveClass("seed-wheel-picker__columns", "columns");
     expect(getAllByRole("spinbutton")).toHaveLength(2);
     expect(firstColumn).toHaveClass("seed-wheel-picker__column");
+    expect(firstColumn).not.toHaveClass("seed-wheel-picker-public__column");
     expect(firstColumn.firstElementChild).toHaveClass("seed-wheel-picker__item");
   });
 });

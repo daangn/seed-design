@@ -114,6 +114,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityTabs: lazy(() => import("../activities/ActivityTabs")),
     ActivityTabsAutoHeightLazy: lazy(() => import("../activities/ActivityTabsAutoHeightLazy")),
     ActivityTimePicker: lazy(() => import("../activities/ActivityTimePicker")),
+    ActivityWheelPicker: lazy(() => import("../activities/ActivityWheelPicker")),
     ActivityChipTabsScrollFog: lazy(() => import("../activities/ActivityChipTabsScrollFog")),
     ActivityAttachmentField: lazy(() => import("../activities/ActivityAttachmentField")),
     ActivityAttachmentDisplayField: lazy(
