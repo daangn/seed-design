@@ -192,15 +192,15 @@ describe("usePullToRefresh state machine", () => {
     expect(root).toHaveAttribute("data-ptr-state", "pulling");
   });
 
-  it("defaults to a 44px threshold and a 0.5 displacement multiplier", () => {
+  it("defaults to an 88px threshold and a 0.75 displacement multiplier", () => {
     const { root } = setup();
 
     press(root, 100);
     movePointer(root, 110);
     movePointer(root, 300);
 
-    // (300 - 110) * 0.5 = 95, which clears the default 44px threshold.
-    expect(displacementVar(root)).toBe("95px");
+    // (300 - 110) * 0.75 = 142.5, which clears the default 88px threshold.
+    expect(displacementVar(root)).toBe("142.5px");
     expect(root).toHaveAttribute("data-ptr-state", "ready");
   });
 
