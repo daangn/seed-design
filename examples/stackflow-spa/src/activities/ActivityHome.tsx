@@ -401,7 +401,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     {
       title: "Misc",
       items: [
-        { title: "Font Scaling", onClick: () => push("ActivityFontScaling", {}) },
+        {
+          title: "Font Multiplier Layout",
+          onClick: () => push("ActivityFontMultiplierLayout", {}),
+        },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
       ],

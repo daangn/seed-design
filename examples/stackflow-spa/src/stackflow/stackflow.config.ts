@@ -37,7 +37,7 @@ export const config = defineConfig({
     { route: "/detail", name: "ActivityDetail" },
     { route: "/dialog", name: "ActivityDialog" },
     { route: "/error-state", name: "ActivityErrorState" },
-    { route: "/font-scaling", name: "ActivityFontScaling" },
+    { route: "/font-multiplier-layout", name: "ActivityFontMultiplierLayout" },
     { route: "/result-section", name: "ActivityResultSection" },
     { route: "/help-bubble", name: "ActivityHelpBubble" },
     { route: "/iacvt-leak", name: "ActivityIacvtLeak" },
