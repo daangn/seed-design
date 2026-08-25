@@ -107,7 +107,7 @@
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-page-banner__root--tone_neutral-variant_solid-interactive_true:active {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-page-banner__root--tone_informative-variant_weak-interactive_true:active {
     background-color: var(--seed-color-bg-informative-weak-pressed);
@@ -158,7 +158,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-page-banner__root--tone_neutral-variant_solid {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
 }
 .seed-page-banner__title--tone_neutral-variant_solid {
     color: var(--seed-color-fg-neutral-inverted);
@@ -371,7 +371,7 @@
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-page-banner__root--tone_neutral-variant_solid-pressed_true {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-page-banner__root--tone_informative-variant_weak-pressed_true {
     background-color: var(--seed-color-bg-informative-weak-pressed);

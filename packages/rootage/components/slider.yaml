@@ -127,9 +127,9 @@ data:
         thumb:
           size: $dimension.x5
           cornerRadius: $radius.full
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         valueIndicatorRoot:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
           cornerRadius: $radius.r1_5
           paddingX: $dimension.x2
           paddingY: $dimension.x1
@@ -145,7 +145,7 @@ data:
           translateDuration: $duration.d3
           translateTimingFunction: $timing-function.easing
         valueIndicatorArrow:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
           width: $dimension.x2
           height: $dimension.x1_5
           cornerRadius: $radius.r0_5

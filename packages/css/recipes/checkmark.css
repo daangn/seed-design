@@ -85,16 +85,16 @@
     height: var(--seed-dimension-x5);
 }
 .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:hover, [data-hover]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
     .seed-checkmark__root--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]):is(:active, [data-active]) {
-        background: var(--seed-color-bg-neutral-inverted-pressed);
+        background: var(--seed-color-bg-neutral-solid-pressed);
     }
 }
 .seed-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
