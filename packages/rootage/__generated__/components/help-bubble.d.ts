@@ -50,6 +50,10 @@ declare const artifact: {
             "exitTimingFunction": {
               "type": "cubicBezier";
             };
+            "overflowPadding": {
+              "type": "dimension";
+              "description": "말풍선과 뷰포트 경계 사이의 최소 간격을 정의합니다.";
+            };
           };
         };
         "arrow": {
@@ -195,6 +199,10 @@ declare const artifact: {
                 "exitTimingFunction": {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
+                };
+                "overflowPadding": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
                 };
               };
               "arrow": {

@@ -11,37 +11,67 @@ description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 
 @seed-design/lynx-react
 ```
 
+아래 예제에서 사용하는 Text Field 레지스트리 스니펫도 추가합니다.
+
+```package-install
+npx @seed-design/cli add ui:text-field
+```
+
 ## Props
 
 <react-type-table path="../packages/lynx-react/src/components/KeyboardAvoidingScrollView/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewProps" />
 
 ## Usage
 
-```tsx
-import { KeyboardAvoidingScrollView, TextField } from "@seed-design/lynx-react";
+세로로 스크롤되는 입력 화면의 가장 바깥 영역에 배치합니다. `keyboardGap`은 키보드와 활성 입력 영역 사이의 간격입니다. `scrollBehavior`는 회피 위치로 이동하는 방식을 정합니다.
 
-export function Form() {
-  return (
-    <KeyboardAvoidingScrollView keyboardGap={24} scrollBehavior="smooth">
-      <TextField.Root>
-        <TextField.Input accessibility-label="제목" />
-      </TextField.Root>
-      <TextField.Root>
-        <TextField.Textarea accessibility-label="내용" />
-      </TextField.Root>
-    </KeyboardAvoidingScrollView>
-  );
-}
-```
+Text Field Input과 Text Field Textarea의 레지스트리 스니펫이 제공하는 `TextField` 안에 입력 요소를 배치합니다. 이 `TextField`가 내부에 만드는 Field 경계를 기준으로 입력 영역과 하단을 추적합니다. 입력 요소가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
 
-`TextField.Input`과 `TextField.Textarea`가 focus·blur·layout 변경을 자동으로 전달하므로 별도 등록 prop은 필요하지 않습니다.
+Android에서 이 컴포넌트가 키보드 회피를 전담한다면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정합니다. host window의 별도 pan이나 resize와 회피 동작이 겹치지 않게 합니다.
 
-## Web Version Differences
+## Examples
+
+### 한 줄 입력
+
+화면 아래쪽의 `TextField.Input`에 focus하면 입력 영역과 키보드 사이에 24px 간격이 생기도록 자동 스크롤합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/input" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/input.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 탭에서 Lynx Explorer로 실행한 뒤 화면 아래의 주소 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
+### 자동 높이 조절 textarea
+
+`TextField.Textarea`에 여러 줄을 입력해 높이가 달라지면 활성 입력 영역의 위치를 다시 계산합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/autoresizing-textarea" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/autoresizing-textarea.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 입력 요소의 자동 높이 조절과 키보드 회피 동작을 사용합니다. QR 코드 탭에서 Lynx Explorer로 실행한 뒤 여러 줄을 입력해 확인해 주세요.
+</Callout>
+
+## 웹 버전과의 차이
 
 - 브라우저의 `visualViewport`나 CSS viewport unit 대신 Lynx keyboard global event와 native node 측정을 사용합니다.
 - 키보드가 열릴 때 필요한 하단 spacer만 추가하고, 사용자 스크롤 중에는 자동 이동을 잠시 중단합니다.
+- 브라우저의 form 제출과 자동 focus 이동은 제공하지 않습니다.
 
-## Unsupported Lynx Features
+## Lynx 미지원 기능
 
 - 가로·중첩 scroll view는 지원하지 않습니다.
 - 키보드 toolbar 높이와 큰 textarea의 caret 단위 회피는 아직 반영하지 않습니다.

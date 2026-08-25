@@ -267,6 +267,7 @@ jobs:
               ]
             }' > /tmp/slack-payload.json
 
+      # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
         uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
@@ -274,6 +275,7 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-payload.json
+          errors: true
 
       - name: 실패하면 Slack payload를 빌드해요
         if: failure()
@@ -301,3 +303,4 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-failure-payload.json
+          errors: true

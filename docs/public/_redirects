@@ -31,3 +31,10 @@
 # Library Authors: 별도 섹션 → Getting Started 마지막 문서로 이동
 /react/library-authors /react/getting-started/library-authors 301
 /react/develop-with-seed /react/getting-started/library-authors 301
+
+# 아래 세 경로는 `redirect()`를 호출하는 page.tsx로 처리했었다. static export에서 그건
+# 리다이렉트가 아니라 `__next_error__` 셸을 만든다 — 목적지가 flight payload 안에만 있어서
+# JS가 돌기 전에는 아무 데도 가지 않고, 크롤러와 링크 검사기는 200을 받는다.
+/react/components/check-select-box /react/components/select-box 301
+/react/components/radio-select-box /react/components/select-box 301
+/react/guides/theming /react/getting-started/styling/theming 301

@@ -1,28 +1,30 @@
 "use client";
 
-import { useOnChange } from "fumadocs-core/utils/use-on-change";
+import { Autocomplete } from "@base-ui/react/autocomplete";
+import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type CSSProperties, type KeyboardEvent, type ReactNode, useMemo, useState } from "react";
+import { type CSSProperties, type ReactNode, useMemo } from "react";
 import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
+import { splitQueryTerms } from "@/lib/search-text";
 import {
-  splitHighlights,
-  splitQueryTerms,
   type ThemedCss,
   TOKEN_RESULT_LIMIT,
   type TokenSearchEntry,
   tokenReferenceHref,
 } from "@/lib/token-search";
+import { Highlighted, PromotedSection, ShowMore, toRows, useExpandable } from "./promoted-section";
 
 /**
- * Tall enough for two rows even when a token id wraps onto a second line, so the cut
- * lands between rows instead of through a description. The grid auto-fills — 2 columns
- * on a phone, 4 on desktop — and "더 보기" pours the remaining matches into this same
- * scroll box rather than growing the dialog.
+ * Four across the dialog's desktop width, two once it narrows to the viewport. A counted
+ * grid rather than the `auto-fill` this once was: a row has to be a row in the markup for the
+ * arrow keys to read it, so the count the panel's fixed 720px was already producing is now
+ * stated rather than measured.
  */
-const TOKEN_GRID_CLASS_NAME =
-  "grid max-h-[264px] grid-cols-[repeat(auto-fill,minmax(148px,1fr))] gap-2 overflow-y-auto";
+const TOKEN_COLUMNS = 4;
+
+const TOKEN_ROW_CLASS_NAME = "grid grid-cols-2 gap-2 md:grid-cols-4";
 
 /**
  * Colour roles read differently depending on where the token is meant to land, so each
@@ -36,30 +38,6 @@ const COLOR_ROLE_PREVIEW: Record<string, "text" | "line" | undefined> = {
 
 const themed = ({ light, dark }: ThemedCss) =>
   ({ "--token-preview-light": light, "--token-preview-dark": dark }) as CSSProperties;
-
-/**
- * fumadocs' result list binds Enter on `window` to open whichever row it considers
- * active. A focused tile would otherwise navigate to that row instead of itself.
- */
-function stopEnterPropagation(event: KeyboardEvent) {
-  if (event.key === "Enter") event.stopPropagation();
-}
-
-function Highlighted({ text, terms }: { text: string; terms: string[] }) {
-  return splitHighlights(text, terms).map((chunk, index) =>
-    chunk.match ? (
-      <mark
-        // biome-ignore lint/suspicious/noArrayIndexKey: chunks are positional, and the list is rebuilt whenever the text or terms change
-        key={index}
-        className="bg-[var(--selection-bg)] text-[var(--selection-fg)]"
-      >
-        {chunk.text}
-      </mark>
-    ) : (
-      chunk.text
-    ),
-  );
-}
 
 /**
  * Stand-in for the page canvas, showing both grounds a screen is built from:
@@ -121,7 +99,11 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
       <span
         aria-hidden
         style={themed(background)}
-        className="block h-11 w-full rounded-lg border border-stroke-neutral-muted bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+        // The `background` shorthand rather than `bg-*`: gradient tokens put a
+        // `linear-gradient()` in the variable, and Tailwind can't see through `var()` to
+        // tell a colour from an image, so `bg-[var(…)]` compiles to `background-color` and
+        // drops every gradient at computed-value time.
+        className="block h-11 w-full rounded-lg border border-stroke-neutral-muted [background:var(--token-preview-light)] dark:[background:var(--token-preview-dark)]"
       />
     );
   }
@@ -155,34 +137,47 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
   const href = tokenReferenceHref(entry.id);
 
   return (
-    <Link
-      href={href}
-      // The name wraps across lines and splits into two colours, so spell the id out
-      // again for screen readers.
-      aria-label={entry.id}
+    <Autocomplete.Item
+      value={entry.id}
       title={`${entry.id}\n${entry.label}`}
+      // The cell opens the reference; the anchor below is what makes it a link the browser
+      // recognises. Base UI's own handler would close the dialog without routing, so it is
+      // stopped and the two paths stay one.
       onClick={(event) => {
-        // Keep cmd/ctrl-click opening a tab; a plain click routes through the client
-        // router and closes the dialog behind it.
+        event.preventBaseUIHandler();
+        // Keep cmd/ctrl-click opening a tab — the anchor below is left to do it.
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
         onOpenChange(false);
         router.push(href);
       }}
-      onKeyDown={stopEnterPropagation}
-      className="flex flex-col gap-1.5 rounded-xl p-1.5 transition-colors hover:bg-bg-transparent-selected active:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+      // A tile only fills the row its grid cell was stretched to if it takes the height:
+      // otherwise a one-line description leaves the highlighted ground short of a two-line
+      // neighbour's bottom edge.
+      className={(state) =>
+        clsx(
+          "relative flex h-full flex-col gap-1.5 rounded-xl p-1.5 transition-colors",
+          state.highlighted && "bg-bg-transparent-pressed",
+        )
+      }
     >
       <TokenPreview entry={entry} />
       <span className="min-w-0 px-0.5">
-        <span className="block wrap-anywhere text-[11px] leading-snug">
+        <Link
+          href={href}
+          // The name wraps across lines and splits into two colours, so spell the id out
+          // again for screen readers.
+          aria-label={entry.id}
+          className="block wrap-anywhere text-[11px] leading-snug after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
+        >
           <span className="text-fg-neutral-subtle">
             <Highlighted text={`${entry.group}.`} terms={terms} />
           </span>
           <span className="font-medium text-fg-neutral">
             <Highlighted text={entry.key} terms={terms} />
           </span>
-        </span>
+        </Link>
         {/* No `block` here — line-clamp needs to set `display: -webkit-box` itself, and a
             display utility alongside it silently wins. Two thirds of the tokens have no
             description; the reserved line keeps a row of those from collapsing to a
@@ -191,7 +186,7 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
           {entry.description ? <Highlighted text={entry.description} terms={terms} /> : null}
         </span>
       </span>
-    </Link>
+    </Autocomplete.Item>
   );
 }
 
@@ -201,42 +196,28 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
  * them. Each tile links to that token's reference page.
  */
 export function TokenResults({ matches, search }: { matches: TokenSearchEntry[]; search: string }) {
-  const [expanded, setExpanded] = useState(false);
-
-  // A new query is a new list; carrying the expansion over would dump hundreds of tiles
-  // on someone who only added a letter.
-  useOnChange(search, () => {
-    setExpanded(false);
+  const { visible, hidden, expanded, toggle } = useExpandable({
+    search,
+    matches,
+    limit: TOKEN_RESULT_LIMIT,
   });
 
   const terms = useMemo(() => splitQueryTerms(search), [search]);
 
   if (matches.length === 0) return null;
 
-  const hidden = matches.length - TOKEN_RESULT_LIMIT;
-
   return (
-    <section aria-label="토큰 검색 결과" className="border-b border-stroke-neutral-muted p-3 pb-2">
-      <p className="px-0.5 pb-2 text-xs font-medium text-fg-neutral-muted">
-        토큰 <span className="text-fg-neutral-subtle">{matches.length}개</span>
-      </p>
-      <ul className={TOKEN_GRID_CLASS_NAME}>
-        {(expanded ? matches : matches.slice(0, TOKEN_RESULT_LIMIT)).map((entry) => (
-          <li key={entry.id}>
-            <TokenTile entry={entry} terms={terms} />
-          </li>
+    <PromotedSection label="토큰" count={matches.length}>
+      <div className="flex flex-col gap-2">
+        {toRows(visible, TOKEN_COLUMNS).map((row) => (
+          <Autocomplete.Row key={row[0].id} className={TOKEN_ROW_CLASS_NAME}>
+            {row.map((entry) => (
+              <TokenTile key={entry.id} entry={entry} terms={terms} />
+            ))}
+          </Autocomplete.Row>
         ))}
-      </ul>
-      {hidden > 0 ? (
-        <button
-          type="button"
-          onClick={() => setExpanded((current) => !current)}
-          onKeyDown={stopEnterPropagation}
-          className="mt-1.5 w-full cursor-pointer rounded-lg py-1.5 text-xs text-fg-neutral-subtle transition-colors hover:bg-bg-transparent-selected hover:text-fg-neutral focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
-        >
-          {expanded ? "접기" : `${hidden}개 더 보기`}
-        </button>
-      ) : null}
-    </section>
+      </div>
+      <ShowMore hidden={hidden} expanded={expanded} onToggle={toggle} />
+    </PromotedSection>
   );
 }

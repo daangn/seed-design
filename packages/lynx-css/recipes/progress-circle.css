@@ -43,38 +43,38 @@
 }
 
 .seed-progress-circle__root--tone_neutral {
-  background: var(--seed-color-palette-gray-200);
+  background-color: var(--seed-color-palette-gray-200);
 }
 
 .seed-progress-circle__root--tone_brand {
-  background: var(--seed-color-palette-carrot-200);
+  background-color: var(--seed-color-palette-carrot-200);
 }
 
 .seed-progress-circle__root--tone_staticWhite {
-  background: var(--seed-color-palette-static-white-alpha-300);
+  background-color: var(--seed-color-palette-static-white-alpha-300);
 }
 
 .seed-progress-circle__range--tone_neutral,
 .seed-progress-circle__cap--tone_neutral {
-  background: var(--seed-color-palette-gray-500);
+  background-color: var(--seed-color-palette-gray-500);
 }
 
 .seed-progress-circle__range--tone_brand,
 .seed-progress-circle__cap--tone_brand {
-  background: var(--seed-color-bg-brand-solid);
+  background-color: var(--seed-color-bg-brand-solid);
 }
 
 .seed-progress-circle__range--tone_staticWhite,
 .seed-progress-circle__cap--tone_staticWhite {
-  background: var(--seed-color-palette-static-white);
+  background-color: var(--seed-color-palette-static-white);
 }
 
 /* inherit: inherits --track-color / --range-color from parent (e.g. action-button) */
 .seed-progress-circle__root--tone_inherit {
-  background: var(--track-color);
+  background-color: var(--track-color);
 }
 
 .seed-progress-circle__range--tone_inherit,
 .seed-progress-circle__cap--tone_inherit {
-  background: var(--range-color);
+  background-color: var(--range-color);
 }

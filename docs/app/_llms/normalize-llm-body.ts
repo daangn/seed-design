@@ -67,7 +67,11 @@ function transformNodes(
       if (matchedRule) {
         try {
           const nextNodes = matchedRule.transform(node, context);
-          transformed.push(...transformNodes(nextNodes, rules, context));
+          // 룰은 변환할 수 없을 때 원본 노드를 그대로 돌려준다(AGENTS.md의 안전 실패 규약).
+          // 그 결과를 다시 돌리면 같은 룰이 다시 매치돼 스택이 넘칠 때까지 재귀하고,
+          // 아래 catch가 그 RangeError를 삼켜 실패가 드러나지 않는다.
+          const unchanged = nextNodes.length === 1 && nextNodes[0] === node;
+          transformed.push(...(unchanged ? nextNodes : transformNodes(nextNodes, rules, context)));
         } catch {
           transformed.push(node);
         }
@@ -110,8 +114,11 @@ export function normalizeLLMBody(content?: string): string {
   return normalizeLLMBodyWithRules(content, activeRules);
 }
 
-const _rulesInit = Promise.all(activeRules.filter((r) => r.init).map((r) => r.init!()));
+// 모듈 로드가 아니라 첫 호출에 시작한다. 이 모듈은 규칙 단위 테스트도 import하는데,
+// 모듈 스코프에서 발사하면 그 테스트 전부가 Sanity를 찌르게 된다.
+let rulesInitPromise: Promise<unknown> | null = null;
 
 export async function ensureRulesReady(): Promise<void> {
-  await _rulesInit;
+  rulesInitPromise ??= Promise.all(activeRules.map((rule) => rule.init?.()));
+  await rulesInitPromise;
 }

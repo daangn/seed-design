@@ -8,6 +8,7 @@ import type { PlatformStatus } from "@/sanity-studio/lib/types";
 export const PLATFORM_CONFIG = [
   { key: "figma", label: "Figma" },
   { key: "react", label: "React" },
+  { key: "lynx", label: "Lynx" },
   { key: "ios", label: "iOS" },
   { key: "android", label: "Android" },
 ] as const satisfies readonly { key: string; label: string }[];

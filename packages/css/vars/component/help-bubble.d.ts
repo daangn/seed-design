@@ -14,7 +14,9 @@ export declare const vars: {
         "exitScale": "1",
         "exitOpacity": "0",
         "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-easing)"
+        "exitTimingFunction": "var(--seed-timing-function-easing)",
+        /** 말풍선과 뷰포트 경계 사이의 최소 간격을 정의합니다. */
+        "overflowPadding": "var(--seed-dimension-x4)"
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-inverted)",

@@ -69,6 +69,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       toc={isRelease ? toc : []}
       tableOfContent={isRelease ? { single: false } : { enabled: false }}
       lastUpdate={lastModified}
+      section="updates"
       markdownUrl={markdownUrl}
       topSpacing
       // Updates 전용 스코프 클래스 — 남은 국소 스타일(소제목 여백·이미지 radius)만 updates-article.css에서

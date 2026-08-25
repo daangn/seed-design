@@ -12,8 +12,13 @@ describe("badgeRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [badgeRule]);
 
-    expect(actual).toContain("[직접 판단 필요]");
-    expect(actual).not.toContain("<Badge");
+    expect(actual).toMatchInlineSnapshot(`
+      "## 제목
+
+      \\[직접 판단 필요]
+
+      본문입니다."
+    `);
   });
 
   it("converts an inline Badge inside prose", () => {
@@ -21,8 +26,9 @@ describe("badgeRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [badgeRule]);
 
-    expect(actual).toContain("[타입 에러로 발견 가능]");
-    expect(actual).not.toContain("<Badge");
+    expect(actual).toMatchInlineSnapshot(
+      `"- \\[타입 에러로 발견 가능]: 패키지를 올리면 잡힙니다."`,
+    );
   });
 
   it("passes through non-Badge JSX", () => {
@@ -30,6 +36,6 @@ describe("badgeRule", () => {
 
     const actual = normalizeLLMBodyWithRules(input, [badgeRule]);
 
-    expect(actual).toContain("유지됩니다");
+    expect(actual).toMatchInlineSnapshot(`"<Callout>유지됩니다</Callout>"`);
   });
 });

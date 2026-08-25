@@ -51,7 +51,7 @@ runs:
         CACHE_SCOPE: ${{ inputs.cache-scope }}
         DEFAULT_BRANCH: ${{ inputs.default-branch }}
         LEGACY_BUILD_CACHE_KEY_SUFFIX: ${{ inputs.legacy-build-cache-key-suffix }}
-        NEXTJS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/postcss.config.js', 'docs/tsconfig.json', '.github/actions/setup/action.yml') }}
+        NEXTJS_COMPATIBILITY_HASH: ${{ hashFiles('bun.lock', 'package.json', 'bunfig.toml', 'docs/package.json', 'docs/next.config.mjs', 'docs/postcss.config.js', 'docs/tsconfig.json', 'docs/tsconfig.lynx-node.json', 'docs/examples/lynx/tsconfig.json', 'docs/lynx.config.ts', 'docs/scripts/lynx-examples/constants.ts', 'docs/scripts/lynx-examples/cache.ts', 'docs/scripts/lynx-examples/discovery.ts', 'docs/scripts/lynx-examples/manifest.ts', 'docs/scripts/lynx-examples/web-core-styles.ts', 'docs/scripts/lynx-examples/build.ts', '.github/actions/setup/action.yml') }}
       run: |
         nextjs_namespace="${RUNNER_OS}-nextjs-v2-"
         nextjs_legacy_namespace="${RUNNER_OS}-nextjs-"

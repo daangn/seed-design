@@ -9,10 +9,13 @@ on:
       - "packages/css/**"
       - "packages/react-headless/**"
       - "packages/react/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".github/actions/nextjs-cache/**"
+      - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
       skip-figma-cache:
@@ -26,7 +29,7 @@ on:
         type: string
         default: ""
       benchmark-cache-key:
-        description: "Optional identifier for a reproducible cold/warm Turbopack benchmark"
+        description: "Optional identifier for a reproducible cold/warm Docs benchmark"
         required: false
         type: string
         default: ""
@@ -94,33 +97,11 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=6144
         run: |
           build_started_at="$(date +%s)"
-          turbopack_duration_seconds="not-run"
-          status=0
-
-          # Keep the package build sequence, while measuring only `next build --turbopack`.
           set +e
-          bun run prepare:figma-images
+          bun run build
           status=$?
-
-          if [ "$status" -eq 0 ]; then
-            bun run typecheck
-            status=$?
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            turbopack_started_at="$(date +%s)"
-            bun run build:turbopack
-            status=$?
-            turbopack_duration_seconds="$(( $(date +%s) - turbopack_started_at ))"
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            bun run generate:changelog-llms
-            status=$?
-          fi
-
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
-          echo "turbopack-duration-seconds=$turbopack_duration_seconds" >> "$GITHUB_OUTPUT"
+          echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
           echo "exit-code=$status" >> "$GITHUB_OUTPUT"
           exit "$status"
 
@@ -132,7 +113,7 @@ jobs:
           NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-matched-key }}
           NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
           BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
-          TURBOPACK_DURATION_SECONDS: ${{ steps.build-docs.outputs.turbopack-duration-seconds }}
+          LYNX_CACHE_SIZE_KIB: ${{ steps.build-docs.outputs.lynx-cache-size-kib }}
           BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
         run: |
           cache_result="miss"
@@ -152,8 +133,8 @@ jobs:
             echo "| Next.js cache exact hit | ${NEXTJS_CACHE_HIT:-false} |"
             echo "| Next.js cache matched key | ${NEXTJS_CACHE_MATCHED_KEY:-none} |"
             echo "| Next.js cache primary key | ${NEXTJS_CACHE_PRIMARY_KEY:-unknown} |"
-            echo "| Turbopack build time (seconds) | ${TURBOPACK_DURATION_SECONDS:-not-recorded} |"
             echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
+            echo "| Lynx Rspeedy cache size (KiB) | ${LYNX_CACHE_SIZE_KIB:-not-recorded} |"
             echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -186,6 +167,16 @@ jobs:
           wranglerVersion: "4.45.3"
           command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
 
+      # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
+      # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
+      # 차단은 prod 워크플로가 배포 전에 한다.
+      - name: Validate docs links
+        id: links
+        continue-on-error: true
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
+
       - name: Find related PR
         id: pr
         uses: actions/github-script@v9
@@ -213,6 +204,7 @@ jobs:
         uses: actions/github-script@v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
+          LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
         with:
@@ -223,6 +215,9 @@ jobs:
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
 
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const linksBroken = process.env.LINKS_OUTCOME === 'failure';
+
             const body = [
               marker,
               '## Alpha Preview (Docs)',
@@ -230,6 +225,9 @@ jobs:
               `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
               `- Preview URL: ${deploymentUrl || '(not available)'}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
+              // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
+              // 줄이 없다는 것 자체가 통과를 뜻한다.
+              ...(linksBroken ? [`- ❌ Docs links: broken, see the [run log](${runUrl})`] : []),
             ].join('\n');
 
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -259,3 +257,7 @@ jobs:
                 body,
               });
             }
+
+      - name: Fail when docs links are broken
+        if: ${{ steps.links.outcome == 'failure' }}
+        run: exit 1

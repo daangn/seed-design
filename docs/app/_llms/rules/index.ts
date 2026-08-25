@@ -9,12 +9,14 @@ import { typeTableRule } from "./type-table-rule";
 import { tokenReferenceRule } from "./token-reference-rule";
 import { componentSpecBlockRule } from "./component-spec-block-rule";
 import { iconLibraryRule } from "./icon-library-rule";
+import { lynxComponentExampleRule } from "./lynx-component-example-rule";
 import type { AnyRule } from "./types";
 
 export const activeRules: AnyRule[] = [
   availableSinceRule,
   badgeRule,
   componentExampleRule,
+  lynxComponentExampleRule,
   codeBlockTabsRule,
   typeTableRule,
   tokenReferenceRule,
@@ -37,4 +39,5 @@ export {
   componentSpecBlockRule,
   progressBoardRule,
   iconLibraryRule,
+  lynxComponentExampleRule,
 };

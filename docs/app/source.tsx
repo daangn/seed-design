@@ -3,7 +3,6 @@ import { localMd, type SatteriLocalMarkdown } from "@fumadocs/satteri/local-md";
 import { watchWithDevServer } from "@fumadocs/satteri/local-md/dev/ws";
 import { remarkAutoTypeTable } from "@fumadocs/satteri/remark-auto-type-table";
 import { remarkLlms, type LLMsOptions } from "@fumadocs/satteri/remark-llms";
-import type { StructureOptions } from "@fumadocs/satteri/remark-structure";
 import type { SatteriPresetOptions } from "@fumadocs/satteri/preset";
 import { dynamicLoader } from "fumadocs-core/source/dynamic";
 import {
@@ -13,9 +12,11 @@ import {
 } from "fumadocs-core/source";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { fileGenerator } from "fumadocs-docgen";
+import { defaultHandlers } from "mdast-util-to-markdown";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
+import { preserveRuleElements } from "@/app/_llms/rule-elements";
 import { readFigmaImageManifest } from "@/components/figma-image/figma-image-manifest";
 import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { filteredTypeTableGenerator } from "@/components/type-table/generator";
@@ -23,6 +24,11 @@ import { markFeatured } from "@/lib/featured";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
+import {
+  filterStructureElement,
+  structureOptions,
+  structureStringify,
+} from "@/lib/satteri/search-structure";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
 import { updatesFrontmatterSchema } from "@/lib/updates-frontmatter";
 
@@ -77,76 +83,17 @@ const designSchema = baseDocsSchema.extend({
   ...headingSchema,
 });
 
-const filterStructureElement: NonNullable<LLMsOptions["filterElement"]> = (node) => {
-  if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") return true;
-
-  switch (node.name) {
-    case "File":
-    case "Callout":
-    case "Card":
-    case "DoImage":
-    case "DontImage":
-      return true;
-    default:
-      // TypeTable의 거대한 type 속성과 UI 전용 컴포넌트 태그는 검색 본문에서 제외합니다.
-      return "children-only";
-  }
-};
-
-/** `mdast-util-mdx-jsx`와 같은 규칙으로 속성값을 이스케이프합니다. */
-const escapeMdxAttributeValue = (value: string) => value.replace(/"/g, "&#x22;");
-
-const structureStringify: NonNullable<StructureOptions["stringify"]> = {
-  filterElement: filterStructureElement,
-  filterMdxAttributes(node, attribute) {
-    if (attribute.type !== "mdxJsxAttribute") return false;
-
-    if (node.name === "DoImage" || node.name === "DontImage") {
-      return attribute.name !== "src";
-    }
-
-    return true;
-  },
-  // stringify는 handlers보다 먼저 불리므로, FigmaImage에서 온 이미지만 원래 컴포넌트
-  // 형태로 갈라지고 나머지 이미지는 아래 image handler로 넘어간다.
-  stringify(node) {
-    // remarkFigmaImage가 remarkStructure보다 먼저 <FigmaImage>를 mdast image로 치환한다.
-    // 다른 커스텀 컴포넌트와 같은 JSX 형태로 되살려야 검색 결과에서 출처를 표시할 수 있다.
-    if (node.type !== "image" || !node.data?.figmaImage || !node.alt) return undefined;
-
-    return `<FigmaImage alt="${escapeMdxAttributeValue(node.alt)}" />`;
-  },
-  handlers: {
-    // Fumadocs 기본 stringifier는 이미지를 빈 문자열로 만들어 alt를 통째로 버린다. 문서의
-    // 이미지 alt는 그 이미지를 설명하는 유일한 텍스트라, 검색 결과에서 출처를 알아볼 수
-    // 있도록 커스텀 컴포넌트와 같은 태그 형태로 남긴다.
-    image: (node) => (node.alt ? `<img alt="${escapeMdxAttributeValue(node.alt)}" />` : ""),
-  },
-};
-
-const structureOptions: StructureOptions = {
-  mdxTypes(node) {
-    // Card는 children이 이미 각자 별도 row로 색인되고, 검색 결과의 URL은 카드가 놓인 페이지라
-    // 카드가 가리키는 문서로 데려가지도 못한다. 검색에서만 제외하며 llms.txt에는 그대로 남는다
-    // (mdxTypes는 remarkStructure 전용, filterElement는 remarkLlms와 공유).
-    if ("name" in node && node.name === "Card") return false;
-    if (!("children" in node) || node.children.length === 0) return true;
-    if (!("name" in node)) return false;
-
-    switch (node.name) {
-      case "TypeTable":
-      case "Callout":
-        return true;
-      default:
-        return false;
-    }
-  },
-  stringify: structureStringify,
-};
+/** 검색 본문과 달리 llms.txt는 룰이 변환할 컴포넌트 태그를 그대로 넘겨받아야 합니다. */
+const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
-  filterElement: structureStringify.filterElement,
+  // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
+  // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
+  handlers: { heading: defaultHandlers.heading },
+  // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
+  headingIds: false,
+  filterElement: filterLlmsElement,
   filterMdxAttributes: structureStringify.filterMdxAttributes,
 };
 
@@ -167,7 +114,7 @@ const customMdastPlugins = [
       scale: 2,
     },
   }),
-  remarkApplyLlmsFilter(filterStructureElement),
+  remarkApplyLlmsFilter(filterLlmsElement),
   remarkLlms(llmsOptions),
 ];
 
@@ -222,7 +169,12 @@ const foundationsDocs = localMd({
 
 const componentsDocs = localMd({
   dir: "content/components",
-  frontmatterSchema: designSchema.extend({ componentIds: z.array(z.string()).optional() }),
+  frontmatterSchema: designSchema.extend({
+    componentIds: z.array(z.string()).optional(),
+    // 영문 이름과 한글 검색어가 다른 컴포넌트를 검색 다이얼로그의 컴포넌트 카드에서 찾을 수
+    // 있게 하는 별칭입니다 (`메뉴` → Menu). 문서 본문 검색에는 반영되지 않습니다.
+    keywords: z.array(z.string()).optional(),
+  }),
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,
 });

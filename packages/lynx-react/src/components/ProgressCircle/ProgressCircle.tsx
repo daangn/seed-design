@@ -45,6 +45,37 @@ function computeRingGeometry(numSize: number) {
   return { halfSize, innerR, ringCenterR, capSize };
 }
 
+function bgCubicBezier(rawT: number, x1: number, y1: number, x2: number, y2: number): number {
+  const t = Math.max(0, Math.min(1, rawT));
+  const cx = 3 * x1;
+  const bx = 3 * (x2 - x1) - cx;
+  const ax = 1 - cx - bx;
+  let currentT = t;
+  for (let i = 0; i < 8; i++) {
+    const currentX = ((ax * currentT + bx) * currentT + cx) * currentT - t;
+    const currentDx = (3 * ax * currentT + 2 * bx) * currentT + cx;
+    if (Math.abs(currentDx) < 1e-6) break;
+    currentT = currentT - currentX / currentDx;
+  }
+  const cy = 3 * y1;
+  const by = 3 * (y2 - y1) - cy;
+  const ay = 1 - cy - by;
+  return ((ay * currentT + by) * currentT + cy) * currentT;
+}
+
+function bgSampleIndeterminate(t: number) {
+  const containerEased = bgCubicBezier(t, 0.35, 0.25, 0.65, 0.75);
+  const headEased = bgCubicBezier(t, 0.35, 0, 0.65, 1);
+  const tailEased = bgCubicBezier(t, 0.35, 0, 0.65, 0.6);
+
+  const headLength = headEased <= 0.75 ? (headEased / 0.75) * 360 : 360;
+  const tailOffset = tailEased <= 1 / 3 ? 0 : ((tailEased - 1 / 3) / (2 / 3)) * 360;
+  const arcLength = Math.max(0, headLength - tailOffset);
+  const containerDeg = containerEased * 360 + tailOffset;
+
+  return { containerDeg, arcLength };
+}
+
 function bgPieClipPath(size: number, angleDeg: number): string | undefined {
   if (angleDeg >= 360) return undefined;
   if (angleDeg <= 0) return 'path("M 0 0 Z")';
@@ -113,6 +144,7 @@ function sampleIndeterminate(t: number) {
 // --- Animation constants ---
 
 const INDETERMINATE_DURATION = 1200;
+const INDETERMINATE_INITIAL_PHASE = 1 / 6;
 const TRANSITION_DURATION = 300;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -335,7 +367,10 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
       if (!startTs) startTs = Number(ts);
 
       const elapsed = ts - startTs;
-      const t = (elapsed % INDETERMINATE_DURATION) / INDETERMINATE_DURATION;
+      const t =
+        ((elapsed + INDETERMINATE_DURATION * INDETERMINATE_INITIAL_PHASE) %
+          INDETERMINATE_DURATION) /
+        INDETERMINATE_DURATION;
       const state = sampleIndeterminate(t);
 
       containerEl?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
@@ -373,7 +408,9 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     };
   }, [numSize]);
 
-  const initialClipPath = 'path("M 0 0 Z")';
+  const initialState = bgSampleIndeterminate(INDETERMINATE_INITIAL_PHASE);
+  const initialClipPath = bgPieClipPath(numSize, initialState.arcLength);
+  const initialHeadRad = (initialState.arcLength * Math.PI) / 180;
 
   return (
     <view
@@ -382,7 +419,7 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         position: "absolute",
         width: `${numSize}px`,
         height: `${numSize}px`,
-        transform: "rotate(0deg)",
+        transform: `rotate(${initialState.containerDeg}deg)`,
       }}
     >
       <view
@@ -412,8 +449,8 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
         style={{
           width: `${capSize}px`,
           height: `${capSize}px`,
-          left: `${halfSize - capSize / 2}px`,
-          top: `${halfSize - ringCenterR - capSize / 2}px`,
+          left: `${halfSize + ringCenterR * Math.sin(initialHeadRad) - capSize / 2}px`,
+          top: `${halfSize - ringCenterR * Math.cos(initialHeadRad) - capSize / 2}px`,
         }}
       />
     </view>

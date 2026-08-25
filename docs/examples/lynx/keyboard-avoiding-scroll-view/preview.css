@@ -1,0 +1,47 @@
+/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
+page {
+  height: 100%;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.keyboard-avoiding-scroll-view-preview {
+  height: 100%;
+}
+
+.keyboard-avoiding-scroll-view-preview__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.keyboard-avoiding-scroll-view-preview__title {
+  color: var(--seed-color-fg-neutral);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.keyboard-avoiding-scroll-view-preview__description,
+.keyboard-avoiding-scroll-view-preview__spacer-label {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.keyboard-avoiding-scroll-view-preview__field {
+  flex-shrink: 0;
+}
+
+.keyboard-avoiding-scroll-view-preview__spacer {
+  height: 52vh;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--seed-color-bg-neutral-weak);
+  border-radius: 12px;
+}
+
+.keyboard-avoiding-scroll-view-preview__footer-space {
+  height: 48px;
+  flex-shrink: 0;
+}

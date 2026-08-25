@@ -17,7 +17,7 @@ type RegistryIndex = {
   items: RegistryItem[];
 };
 
-type RegistryMapEntry = {
+export type RegistryMapEntry = {
   framework: "react" | "lynx";
   registryId: string;
   snippets: DocsSnippet[];
@@ -57,7 +57,7 @@ type Frontmatter = {
  * Strips route groups (parenthesized dirs) and the .mdx extension.
  * Returns null for index files at the content dir root.
  */
-function filePathToSlugs(relPath: string): string[] | null {
+export function filePathToSlugs(relPath: string): string[] | null {
   // Remove .mdx extension
   let clean = relPath.replace(/\.mdx$/, "");
 
@@ -99,7 +99,7 @@ const SNIPPET_EXT_LABELS: Record<string, string> = {
   ".module.css": "css",
 };
 
-function getSnippetLabel(filePath: string): string {
+export function getSnippetLabel(filePath: string): string {
   // Check longer extensions first (e.g. .module.css before .css)
   if (filePath.endsWith(".module.css")) return "css";
   const ext = path.extname(filePath);
@@ -143,7 +143,7 @@ function buildRegistryMap(): Map<string, RegistryMapEntry> {
   return map;
 }
 
-function findRegistryEntry(
+export function findRegistryEntry(
   registryMap: Map<string, RegistryMapEntry>,
   categoryId: string,
   itemId: string,
@@ -161,7 +161,7 @@ function findRegistryEntry(
   }
 }
 
-function compareDocsItems(a: DocsItem, b: DocsItem): number {
+export function compareDocsItems(a: DocsItem, b: DocsItem): number {
   if (a.id !== b.id) return a.id < b.id ? -1 : 1;
   if (a.docUrl === b.docUrl) return 0;
   return a.docUrl < b.docUrl ? -1 : 1;
@@ -310,7 +310,9 @@ async function main() {
   );
 }
 
-main().catch((error) => {
-  console.error(chalk.red("Failed to generate docs index:"), error);
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch((error) => {
+    console.error(chalk.red("Failed to generate docs index:"), error);
+    process.exit(1);
+  });
+}

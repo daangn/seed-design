@@ -28,6 +28,9 @@ const ResponsiveSidePanelPreview = ({
         position: relative !important;
         inset: unset !important;
       }
+      .seed-bottom-sheet__positioner {
+        display: block !important;
+      }
       .seed-side-panel__backdrop,
       .seed-bottom-sheet__backdrop {
         display: none !important;
@@ -45,6 +48,9 @@ const ResponsiveSidePanelPreview = ({
       }
       .seed-bottom-sheet__content {
         animation: none !important;
+        width: 100% !important;
+        height: auto !important;
+        flex: none !important;
       }
       .seed-bottom-sheet__content::after {
         height: unset !important;
