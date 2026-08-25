@@ -21,6 +21,7 @@ export const magicWeak = "var(--seed-color-bg-magic-weak)";
 export const neutralInverted = "var(--seed-color-bg-neutral-inverted)";
 export const neutralInvertedPressed = "var(--seed-color-bg-neutral-inverted-pressed)";
 export const neutralSolid = "var(--seed-color-bg-neutral-solid)";
+export const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pressed)";
 export const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-muted)";
 export const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
 export const neutralWeak = "var(--seed-color-bg-neutral-weak)";

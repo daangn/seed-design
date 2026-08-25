@@ -60,7 +60,7 @@ declare const artifact: {
                 };
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "scaleDuration": {
                   "type": "duration";

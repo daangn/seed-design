@@ -78,12 +78,12 @@ data:
     tone=neutral:
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         icon:
           color: $color.fg.neutral-inverted
       enabled,selected,pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.palette.gray-300

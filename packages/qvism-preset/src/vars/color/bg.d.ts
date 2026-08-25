@@ -42,6 +42,8 @@ export declare const neutralInverted = "var(--seed-color-bg-neutral-inverted)";
 export declare const neutralInvertedPressed = "var(--seed-color-bg-neutral-inverted-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid) */
 export declare const neutralSolid = "var(--seed-color-bg-neutral-solid)";
+/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed) */
+export declare const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted) */
 export declare const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-muted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed) */

@@ -110,7 +110,7 @@ data:
           color: $color.fg.neutral-inverted
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
       disabled:
         thumb:
           color: $color.palette.static-black-alpha-700
