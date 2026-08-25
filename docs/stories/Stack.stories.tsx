@@ -3,7 +3,7 @@ import preview from "../.storybook/preview";
 import { VStack, HStack } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const meta = preview.meta({
   component: VStack,
@@ -56,7 +56,7 @@ export const VStackLightTheme = meta.story({
     <VariantTable Component={VStack} variantMap={{}} conditionMap={vstackConditionMap} {...args} />
   ),
   parameters: {
-    ...VISUAL_VIEWPORT_PARAMETERS,
+    chromatic: { modes: VIEWPORT_MODES },
   },
 });
 
@@ -79,6 +79,6 @@ export const HStackLightTheme = meta.story({
     <VariantTable Component={HStack} variantMap={{}} conditionMap={hstackConditionMap} {...args} />
   ),
   parameters: {
-    ...VISUAL_VIEWPORT_PARAMETERS,
+    chromatic: { modes: VIEWPORT_MODES },
   },
 });

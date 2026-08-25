@@ -3,7 +3,7 @@ import preview from "../.storybook/preview";
 import { Flex } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
+import { VIEWPORT_MODES } from "./utils/parameters";
 
 const meta = preview.meta({
   component: Flex,
@@ -69,6 +69,6 @@ export const LightTheme = meta.story({
     <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
-    ...VISUAL_VIEWPORT_PARAMETERS,
+    chromatic: { modes: VIEWPORT_MODES },
   },
 });
