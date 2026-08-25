@@ -1,0 +1,90 @@
+---
+title: Table Pagination
+description: 데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다.
+---
+
+## Anatomy
+
+- **Rows Per Page:** 페이지당 표시할 행 수를 선택하는 컨트롤입니다. `[{n}개 ▾] 씩 보기` 형식으로 표시됩니다. [Input Button](/components/input-button)을 트리거로 [Menu](/components/menu)가 열리는 Dropdown 템플릿을 사용합니다. 선택 값이 바뀌면 범위 표시와 현재 페이지가 함께 업데이트됩니다.
+- **Page Range Select:** 현재 보고 있는 데이터의 범위와 전체 수량을 표시합니다. (예: 1–10 / 총 320개)
+- **Previous Button:** 이전 페이지로 이동합니다.
+- **Next Button:** 다음 페이지로 이동합니다.
+
+<FigmaImage
+  id="4044:117520"
+  alt="Table Pagination의 Anatomy 이미지. Rows Per Page Select, Page Range Select, Previous Button, Next Button으로 구성됩니다."
+/>
+
+## Properties
+
+### State
+
+**Dropdown**
+
+열림/닫힘 상태(open / closed) 및 트리거 버튼의 인터랙션 상태는 Dropdown 템플릿 문서를 참고합니다.
+
+**Previous / Next Button**
+
+- **Enabled:** 기본 상태입니다.
+- **Hover:** 커서가 올라간 상태입니다.
+- **Focus:** 키보드 탐색 시 포커스를 받은 상태입니다.
+- **Pressed:** 클릭하는 순간의 상태입니다.
+
+<FigmaImage id="4053:57292" alt="Table Pagination의 Dropdown Open과 Closed 상태" />
+
+<FigmaImage
+  id="4053:57311"
+  alt="Table Pagination Previous와 Next Button의 Enabled, Hover, Pressed, Loading, Focus 상태"
+/>
+
+## Guidelines
+
+### 데이터 테이블과 함께 사용하기
+
+데이터 테이블에서 사용자의 주요 행동은 페이지 번호로 이동하는 것보다 정렬, 필터로 원하는 데이터를 찾거나 순차적으로 훑어보는 것입니다.
+
+일반 [Pagination](/components/pagination) 대신 한 번에 몇 개를 볼지, 지금 어느 범위를 보고 있는지, 전체가 몇 개인지를 한눈에 파악할 수 있는 Table Pagination을 사용합니다.
+
+Table Pagination은 데이터 테이블 하단에 배치합니다.
+
+<Grid>
+  <FigmaImage id="4053:57476" alt="데이터 테이블 하단에 Table Pagination을 배치한 예시" />
+  <DontImage
+    figmaId="4053:57493"
+    body="데이터 테이블 상단에 배치하지 않습니다."
+    alt="데이터 테이블 상단에 Table Pagination을 배치한 예시"
+  />
+</Grid>
+
+### Rows Per Page 옵션 구성하기
+
+`[{n}개 ▾] 씩 보기` 형식으로 표시하며, 10, 25, 50을 기본 옵션으로 제공하는 것을 권장합니다. 데이터의 성격과 사용 맥락에 따라 조정할 수 있으며, 옵션은 3~4개를 넘지 않도록 합니다.
+
+<FigmaImage id="4053:58650" alt="Table Pagination의 Rows Per Page 옵션 예시" />
+
+### Page Range Select 옵션 구성하기
+
+Page Range Select의 옵션은 `{시작}-{끝}` 형식으로 각 페이지 범위를 나열합니다. (예: 1-10, 11-20, 21-30 …) 전체 수량이 확정되지 않은 경우에는 드롭다운 없이 텍스트로만 표시합니다.
+
+Menu의 기본 최대 높이는 480px이지만, Page Range Select에서 열리는 Menu는 최대 높이를 240px로 제한합니다. 옵션이 많아져도 드롭다운이 과도하게 길어지지 않도록 스크롤로 처리합니다.
+
+<FigmaImage id="4053:58719" alt="Table Pagination의 Page Range Select 옵션 예시" />
+
+## Pagination VS Table Pagination
+
+Table Pagination은 데이터 테이블 전용입니다. 검색결과, 게시판 목록 등 콘텐츠 탐색이 목적인 경우에는 [Pagination](/components/pagination) 컴포넌트를 사용합니다.
+
+일반 Pagination과 혼용하지 않도록 주의해주세요.
+
+|                    | Table Pagination                      | Pagination                           |
+| ------------------ | ------------------------------------- | ------------------------------------ |
+| 사용 맥락          | 데이터 테이블                         | 검색 결과, 게시판, 콘텐츠 목록       |
+| 핵심 컨트롤        | Rows Per Page + Page Range Select     | Page Link + Previous/Next Button     |
+| 현재 위치 표시     | Page Range Select                     | Page Link에 Selected 상태 표시       |
+| 페이지 이동        | Page Range Select로 선택              | Page Link 클릭                       |
+| 이전/다음 끝 처리  | disabled                              | hidden                               |
+
+<Grid>
+  <FigmaImage id="4053:58855" alt="콘텐츠 목록에 Pagination을 사용한 예시" />
+  <FigmaImage id="4053:58886" alt="데이터 테이블에 Table Pagination을 사용한 예시" />
+</Grid>

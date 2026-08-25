@@ -239,6 +239,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다."
     },
     {
+      "slug": "table-pagination",
+      "title": "Table Pagination",
+      "description": "데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다."
+    },
+    {
       "slug": "tabs",
       "title": "Tabs",
       "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다."
