@@ -1,0 +1,40 @@
+name: Kapture Visual Approval
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  approve:
+    if: >-
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/kapture approve ') &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: kapture-review-${{ github.repository }}-pr-${{ github.event.issue.number }}
+      queue: max
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: read
+      statuses: write
+
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+
+      - name: Approve the exact full-SHA report
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: approve
+          status-context: SEED Kapture Visual Review
+          comment-language: ko

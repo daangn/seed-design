@@ -1,0 +1,203 @@
+name: Kapture Visual Report
+
+on:
+  workflow_run:
+    workflows: [Kapture Visual Capture]
+    types: [in_progress, completed]
+
+permissions: {}
+
+jobs:
+  in-progress:
+    name: Mark the current revision as pending
+    if: >-
+      github.event.action == 'in_progress' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: >-
+        kapture-review-${{ github.repository }}-pr-${{
+          github.event.workflow_run.pull_requests[0].number || github.event.workflow_run.id
+        }}
+      queue: max
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      pull-requests: read
+      statuses: write
+
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+
+      - name: Reconcile the current full-SHA status
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: reconcile-run
+          capture-workflow-path: .github/workflows/kapture-capture.yml
+          base-branch: dev
+          status-context: SEED Kapture Visual Review
+
+  publish:
+    name: Publish the trusted dashboard and Storybook
+    if: >-
+      github.event.action == 'completed' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    concurrency:
+      group: >-
+        kapture-review-${{ github.repository }}-pr-${{
+          github.event.workflow_run.pull_requests[0].number || github.event.workflow_run.id
+        }}
+      queue: max
+      cancel-in-progress: false
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+      pull-requests: read
+      statuses: write
+
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+
+      - name: Reconcile the completed full-SHA status
+        id: reconcile
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: reconcile-run
+          capture-workflow-path: .github/workflows/kapture-capture.yml
+          base-branch: dev
+          status-context: SEED Kapture Visual Review
+
+      - name: Verify artifacts and build the trusted dashboard
+        id: prepare
+        if: >-
+          github.event.workflow_run.conclusion == 'success' &&
+          steps.reconcile.outputs.status == 'pending'
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: prepare-run
+          capture-workflow-path: .github/workflows/kapture-capture.yml
+          base-branch: dev
+          output: ${{ runner.temp }}/kapture-trusted/report
+          receipt: ${{ runner.temp }}/kapture-trusted/receipt.json
+          storybook-url: ./storybook/
+          temporary-root: ${{ runner.temp }}/kapture-prepare
+
+      - name: Verify and extract the exact head Storybook
+        id: prepare-storybook
+        if: steps.prepare.outcome == 'success'
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: prepare-storybook-run
+          capture-workflow-path: .github/workflows/kapture-capture.yml
+          base-branch: dev
+          receipt: ${{ steps.prepare.outputs.receipt }}
+          output: ${{ steps.prepare.outputs.report-directory }}/storybook
+          temporary-root: ${{ runner.temp }}/kapture-prepare-storybook
+
+      - name: Deploy the dashboard and exact Storybook to the existing Pages project
+        id: deploy
+        if: steps.prepare-storybook.outcome == 'success'
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: >-
+            pages deploy ${{ steps.prepare.outputs.report-directory }}
+            --project-name=seed-design-storybook
+            --branch=${{ steps.prepare.outputs.preview-alias }}
+            --commit-hash=${{ steps.prepare.outputs.head-sha }}
+
+      - name: Accept only the immutable deployment URL
+        id: dashboard
+        if: steps.deploy.outcome == 'success'
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const url = new URL((process.env.DEPLOYMENT_URL || '').trim());
+            if (
+              url.protocol !== 'https:' ||
+              !/^[0-9a-f]{8}\.seed-design-storybook\.pages\.dev$/.test(url.hostname) ||
+              url.username || url.password || url.pathname !== '/' || url.search || url.hash
+            ) {
+              throw new Error('The deploy step did not return an immutable Storybook Pages URL');
+            }
+            core.setOutput('immutable-url', url.toString());
+
+      - name: Publish the PR comment and commit status
+        id: publish
+        if: steps.dashboard.outcome == 'success'
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: publish-run
+          receipt: ${{ steps.prepare.outputs.receipt }}
+          report: ${{ steps.prepare.outputs.report-path }}
+          report-url: ${{ steps.dashboard.outputs.immutable-url }}
+          status-context: SEED Kapture Visual Review
+          comment-language: ko
+
+      - name: Delete the exact transient source artifacts
+        if: steps.publish.outcome == 'success'
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: cleanup
+          receipt: ${{ steps.prepare.outputs.receipt }}
+
+  finalize:
+    name: Fail closed when trusted publication did not finish
+    needs: publish
+    if: >-
+      always() &&
+      github.event.action == 'completed' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    concurrency:
+      group: >-
+        kapture-review-${{ github.repository }}-pr-${{
+          github.event.workflow_run.pull_requests[0].number || github.event.workflow_run.id
+        }}
+      queue: max
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      issues: read
+      pull-requests: read
+      statuses: write
+
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+
+      - name: Finalize the exact full-SHA status
+        uses: karrot-emu/kapture-action@685c0527c31470fe36ac733fb853ee6b46940ea9
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          mode: finalize-run
+          capture-workflow-path: .github/workflows/kapture-capture.yml
+          base-branch: dev
+          status-context: SEED Kapture Visual Review

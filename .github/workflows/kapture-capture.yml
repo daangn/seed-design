@@ -1,0 +1,43 @@
+name: Kapture Visual Capture
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize, reopened]
+    paths:
+      - "docs/registry/react/**"
+      - "docs/stories/**"
+      - "docs/.storybook/**"
+      - "docs/package.json"
+      - "packages/react/**"
+      - "packages/css/**"
+      - "packages/qvism-preset/**"
+      - "ecosystem/rootage/**"
+      - "bun.lock"
+      - ".github/workflows/kapture-*.yml"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  capture:
+    uses: karrot-emu/kapture-action/.github/workflows/capture.yml@685c0527c31470fe36ac733fb853ee6b46940ea9
+    with:
+      base-branch: dev
+      bootstrap-marker: .github/workflows/kapture-capture.yml
+      bun-version: 1.3.13
+      apt-packages: fonts-noto-cjk=1:20230817+repack1-3
+      install-command: |
+        bun install --frozen-lockfile
+        bun ecosystem:build
+        bun install --frozen-lockfile
+        bun packages:build
+      build-command: |
+        bun storybook:build -- --output-dir "$KAPTURE_STORYBOOK_OUTPUT"
+      storybook-output: docs/.kapture/storybook-static
+      workers: 4
+      pixel-threshold: 0.2
+      max-diff-ratio: 0
+      locale: ko-KR
+      timezone: Asia/Seoul
