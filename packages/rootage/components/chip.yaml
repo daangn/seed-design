@@ -122,7 +122,7 @@ data:
           opacity: 0.5
       selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         label:
           color: $color.fg.neutral-inverted
         prefixIcon:
@@ -133,7 +133,7 @@ data:
           color: $color.fg.neutral-inverted
       selected, pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       selected, disabled:
         root:
           opacity: 0.5
@@ -160,7 +160,7 @@ data:
           opacity: 0.5
       selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         label:
           color: $color.fg.neutral-inverted
         prefixIcon:
@@ -171,7 +171,7 @@ data:
           color: $color.fg.neutral-inverted
       selected, pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       selected, disabled:
         root:
           opacity: 0.5

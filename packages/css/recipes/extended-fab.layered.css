@@ -30,12 +30,12 @@
   }
 
   .seed-extended-fab--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     color: var(--seed-color-fg-neutral-inverted);
   }
 
   .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
   }
 
   .seed-extended-fab--variant_neutralSolid {
