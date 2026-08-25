@@ -20,6 +20,10 @@ import { createRenderTrackingContext } from "../../utils/createRenderTrackingCon
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
+import {
+  getInternalAttachmentItemReorder,
+  InternalAttachmentItemReorderHandle,
+} from "../private/AttachmentItemReorder";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -36,7 +40,7 @@ export interface AttachmentDisplayItemProps
 }
 
 export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentDisplayItemProps>(
-  ({ className, entry, ...props }, ref) => {
+  ({ className, entry, children, ...props }, ref) => {
     const { stateProps } = useAttachmentDisplayContext();
     const api = useAttachmentDisplayItem(entry);
 
@@ -47,6 +51,7 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
 
     const classNames = attachmentInputItem(variantProps);
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+    const reorder = getInternalAttachmentItemReorder(otherProps);
 
     return (
       <ClassNamesProvider value={classNames}>
@@ -56,8 +61,13 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
               ref={useComposedRefs(scaleFeedbackRef, ref)}
               className={clsx(classNames.root, scaleFeedbackClassName, className)}
               {...stateProps}
-              {...otherProps}
-            />
+              {...reorder.itemProps}
+            >
+              {reorder.handleProps && (
+                <InternalAttachmentItemReorderHandle {...reorder.handleProps} />
+              )}
+              {children}
+            </Primitive.li>
           </overlayTracker.Provider>
         </AttachmentDisplayItemProvider>
       </ClassNamesProvider>

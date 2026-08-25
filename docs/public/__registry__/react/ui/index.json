@@ -136,7 +136,6 @@
       ],
       "id": "attachment-display-field-reorderable",
       "dependencies": [
-        "@dnd-kit/abstract",
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
@@ -148,6 +147,12 @@
           "itemIds": [
             "attachment-display-field",
             "progress-circle"
+          ]
+        },
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "attachment-reorder"
           ]
         }
       ]
@@ -202,7 +207,6 @@
       ],
       "id": "attachment-field-reorderable",
       "dependencies": [
-        "@dnd-kit/abstract",
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
@@ -220,6 +224,7 @@
         {
           "registryId": "lib",
           "itemIds": [
+            "attachment-reorder",
             "format-bytes"
           ]
         }

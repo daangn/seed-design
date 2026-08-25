@@ -271,6 +271,8 @@ MIME type(`image/png`, `image/*`) 또는 확장자(`.png`, `.jpg, .jpeg`) 형식
 
 두 컴포넌트는 `dnd-kit` 의존성 분리를 위해 별도 snippet [`ui:attachment-field-reorderable`](#reorderable)로 제공됩니다.
 
+기본 렌더링을 사용하는 경우 순서 변경 버튼과 관련 접근성 속성이 자동으로 구성되므로 별도의 handle이나 ARIA 속성을 작성할 필요가 없습니다.
+
 Context를 통해 `reorderFileEntry`가 제공되므로, 필요한 경우 원하는 드래그 앤 드롭 동작을 직접 구현하거나, 이미 프로젝트에서 사용 중인 드래그 앤 드롭 라이브러리와 연동하여 사용할 수 있습니다.
 
 <ComponentExample name="react/attachment-field/reorderable">

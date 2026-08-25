@@ -5,6 +5,22 @@
     {
       "snippets": [
         {
+          "path": "attachment-reorder.ts",
+          "dependencies": {
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0"
+          }
+        }
+      ],
+      "id": "attachment-reorder",
+      "dependencies": [
+        "@dnd-kit/abstract",
+        "@dnd-kit/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "format-bytes.ts"
         }
       ],

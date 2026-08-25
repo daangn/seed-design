@@ -4,12 +4,45 @@ import type { ReactElement } from "react";
 
 import { Field } from "@seed-design/react-field";
 import { AttachmentInputRoot, AttachmentInputHiddenInput } from "./AttachmentInput";
+import { AttachmentInputItem, AttachmentInputItemRemoveButton } from "./AttachmentInputItem";
+
+const fileEntry = {
+  id: "file-1",
+  file: new File(["hello"], "example.txt", { type: "text/plain" }),
+  status: "success" as const,
+};
 
 function setUp(jsx: ReactElement) {
   return render(jsx);
 }
 
 describe("AttachmentInput", () => {
+  it("renders separate focusable reorder and remove buttons for a reorderable item", () => {
+    const { getByRole, getByTestId } = setUp(
+      <AttachmentInputRoot>
+        <AttachmentInputItem
+          data-testid="item"
+          fileEntry={fileEntry}
+          data-reorderable=""
+          aria-label="example.txt 순서 변경"
+        >
+          <AttachmentInputItemRemoveButton aria-label="파일 제거" />
+        </AttachmentInputItem>
+      </AttachmentInputRoot>,
+    );
+
+    const item = getByTestId("item");
+    const reorderButton = getByRole("button", { name: "example.txt 순서 변경" });
+    const removeButton = getByRole("button", { name: "파일 제거" });
+
+    expect(item).not.toHaveAttribute("role");
+    expect(item).not.toHaveAttribute("aria-label");
+    expect(reorderButton).toHaveAttribute("data-attachment-reorder-handle", "");
+
+    removeButton.focus();
+    expect(document.activeElement).toBe(removeButton);
+  });
+
   describe("props merging", () => {
     describe("AttachmentInputHiddenInput", () => {
       it("should merge props from AttachmentInputRoot", () => {
