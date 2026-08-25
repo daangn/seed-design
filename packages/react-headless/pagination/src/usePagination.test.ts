@@ -44,13 +44,15 @@ describe("usePagination", () => {
     expect(result.current.hasNextPage).toBe(false);
   });
 
-  it("visibleItemCount 9에서 Figma 페이지 배열을 반환한다", () => {
+  it("visibleItemCount 9에서 navigation 슬롯을 고정한 페이지 배열을 반환한다", () => {
     const { result, rerender } = renderHook(
       ({ page }) => usePagination({ page, totalPages: 10, visibleItemCount: 9 }),
       { initialProps: { page: 1 } },
     );
 
-    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, 5, 6, "end", 10]);
+    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, 5, "end", 10]);
+    rerender({ page: 2 });
+    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, 5, "end", 10]);
     rerender({ page: 4 });
     expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, 5, "end", 10]);
     rerender({ page: 5 });
@@ -58,24 +60,30 @@ describe("usePagination", () => {
     rerender({ page: 7 });
     expect(simplify(result.current.items)).toEqual([1, "start", 6, 7, 8, 9, 10]);
     rerender({ page: 10 });
-    expect(simplify(result.current.items)).toEqual([1, "start", 5, 6, 7, 8, 9, 10]);
+    expect(simplify(result.current.items)).toEqual([1, "start", 6, 7, 8, 9, 10]);
   });
 
-  it("visibleItemCount 7에서 Figma 페이지 배열을 반환한다", () => {
+  it("visibleItemCount 7에서 인접 페이지를 선택할 수 있는 5개 페이지 슬롯을 반환한다", () => {
     const { result, rerender } = renderHook(
       ({ page }) => usePagination({ page, totalPages: 10, visibleItemCount: 7 }),
       { initialProps: { page: 1 } },
     );
 
-    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, "end", 10]);
+    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, "end"]);
+    rerender({ page: 2 });
+    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, "end"]);
     rerender({ page: 3 });
-    expect(simplify(result.current.items)).toEqual([1, 2, 3, "end", 10]);
+    expect(simplify(result.current.items)).toEqual([1, 2, 3, 4, "end"]);
+    rerender({ page: 4 });
+    expect(simplify(result.current.items)).toEqual(["start", 3, 4, 5, "end"]);
     rerender({ page: 5 });
-    expect(simplify(result.current.items)).toEqual([1, "start", 5, "end", 10]);
+    expect(simplify(result.current.items)).toEqual(["start", 4, 5, 6, "end"]);
+    rerender({ page: 7 });
+    expect(simplify(result.current.items)).toEqual(["start", 6, 7, 8, "end"]);
     rerender({ page: 8 });
-    expect(simplify(result.current.items)).toEqual([1, "start", 8, 9, 10]);
+    expect(simplify(result.current.items)).toEqual(["start", 7, 8, 9, 10]);
     rerender({ page: 10 });
-    expect(simplify(result.current.items)).toEqual([1, "start", 7, 8, 9, 10]);
+    expect(simplify(result.current.items)).toEqual(["start", 7, 8, 9, 10]);
   });
 
   it("비제어 페이지 이동과 변경 사유를 함께 제공한다", async () => {
