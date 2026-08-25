@@ -27,7 +27,7 @@ export const globalCss = defineGlobalCss({
     // Divisor for *-static tokens. Only Android needs to cancel WebView
     // textZoom (see the [data-seed-platform='android'] override below); on
     // iOS this stays 1 so static tokens render as literal px.
-    "--seed-static-scale": "1",
+    "--seed-static-font-scale": "1",
 
     ...scaleFeedbackRootVars,
   },
@@ -44,7 +44,7 @@ export const globalCss = defineGlobalCss({
   // Configuration.fontScale within the same range, so the clamped value
   // equals the actual textZoom and the two cancel out at render.
   "[data-seed-platform='android']": {
-    "--seed-static-scale": "var(--seed-user-font-scale, 1)",
+    "--seed-static-font-scale": "var(--seed-user-font-scale, 1)",
   },
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {

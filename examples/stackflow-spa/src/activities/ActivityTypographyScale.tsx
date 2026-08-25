@@ -35,7 +35,7 @@ const LINE_HEIGHT: DimensionTokens = lineHeightArtifact.data.tokens;
 
 /**
  * Rootage holds the value a token is *meant* to have, before the CSS pipeline
- * wraps it in clamp() or divides it by --seed-static-scale. That makes it the
+ * wraps it in clamp() or divides it by --seed-static-font-scale. That makes it the
  * right source for the raw px / raw rem baselines: they have to stay outside
  * whatever the pipeline does to the tokens they are being compared against.
  */
