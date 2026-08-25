@@ -334,6 +334,7 @@
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "2.5.0",
         "@seed-design/react": "2.3.0",
+        "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.0.3",
         "@seed-design/stylesheet": "1.1.2",
         "@stackflow/compat-await-push": "^1.1.13",

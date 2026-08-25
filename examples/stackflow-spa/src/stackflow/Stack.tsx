@@ -123,6 +123,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
     ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
+    ActivityTypographyScale: lazy(() => import("../activities/ActivityTypographyScale")),
 
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
     ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
