@@ -1,4 +1,4 @@
-name: Kapture Visual Capture
+name: Kapture Shadow Experiment
 
 on:
   pull_request:
@@ -21,7 +21,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: kapture-capture-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
+  group: kapture-shadow-experiment-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
@@ -41,6 +41,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+      statuses: write
     steps:
       - name: Set up Node.js 24
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -69,7 +70,7 @@ jobs:
         id: marker
         shell: bash
         env:
-          KAPTURE_BOOTSTRAP_MARKER: .github/workflows/kapture-capture.yml
+          KAPTURE_BOOTSTRAP_MARKER: ""
         run: |
           set -euo pipefail
           marker="$KAPTURE_BOOTSTRAP_MARKER"
@@ -121,7 +122,7 @@ jobs:
         id: integration
         shell: bash
         env:
-          KAPTURE_BOOTSTRAP_MARKER: .github/workflows/kapture-capture.yml
+          KAPTURE_BOOTSTRAP_MARKER: ""
         run: |
           set -euo pipefail
           marker="$KAPTURE_BOOTSTRAP_MARKER"
@@ -142,6 +143,22 @@ jobs:
             echo "integration-mode=bootstrap-skip" >> "$GITHUB_OUTPUT"
             echo "Kapture bootstrap detected; visual comparison is intentionally skipped for this run."
           fi
+
+      - name: Mark the exact head revision as pending
+        if: steps.integration.outputs.integration-mode == 'compare'
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          KAPTURE_HEAD_SHA: ${{ steps.context.outputs.head-sha }}
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: process.env.KAPTURE_HEAD_SHA,
+              state: 'pending',
+              context: 'SEED Kapture Shadow Experiment',
+              description: 'Storybook pixel comparison is running',
+            });
 
       - name: Upload the transient context boundary
         id: context-artifact
@@ -176,6 +193,48 @@ jobs:
           ref: ${{ needs.context.outputs.base-sha }}
           path: .kapture/source
           persist-credentials: false
+
+      - name: Checkout only the head instrumentation files
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ needs.context.outputs.head-repository }}
+          ref: ${{ needs.context.outputs.head-sha }}
+          path: .kapture/instrumentation
+          persist-credentials: false
+          sparse-checkout: |
+            bun.lock
+            docs/.storybook/main.ts
+            docs/.storybook/preview.ts
+            docs/package.json
+            docs/stories/utils/parameters.ts
+          sparse-checkout-cone-mode: false
+
+      - name: Instrument the exact base without copying head story content
+        shell: bash
+        env:
+          KAPTURE_BASE_SOURCE: .kapture/source
+          KAPTURE_INSTRUMENTATION_SOURCE: .kapture/instrumentation
+        run: |
+          set -euo pipefail
+          cp "$KAPTURE_INSTRUMENTATION_SOURCE/bun.lock" "$KAPTURE_BASE_SOURCE/bun.lock"
+          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/package.json" "$KAPTURE_BASE_SOURCE/docs/package.json"
+          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/.storybook/main.ts" \
+            "$KAPTURE_BASE_SOURCE/docs/.storybook/main.ts"
+          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/.storybook/preview.ts" \
+            "$KAPTURE_BASE_SOURCE/docs/.storybook/preview.ts"
+          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/stories/utils/parameters.ts" \
+            "$KAPTURE_BASE_SOURCE/docs/stories/utils/parameters.ts"
+
+          find "$KAPTURE_BASE_SOURCE/docs/stories" -name '*.stories.tsx' -type f \
+            -exec perl -0pi -e \
+              's/chromatic: \{ modes: VIEWPORT_MODES \},/...VISUAL_VIEWPORT_PARAMETERS,/g; s/withChromaticParameters/withVisualTestParameters/g; s/VIEWPORT_MODES/VISUAL_VIEWPORT_PARAMETERS/g' \
+              {} +
+
+          if rg -n 'withChromaticParameters|VIEWPORT_MODES' \
+            "$KAPTURE_BASE_SOURCE/docs/stories"; then
+            echo "Base Storybook instrumentation left an unsupported Chromatic-only helper" >&2
+            exit 1
+          fi
 
       - name: Validate the Storybook output input
         working-directory: .kapture/source
@@ -432,6 +491,8 @@ jobs:
     timeout-minutes: 30
     outputs:
       report-artifact-name: ${{ steps.artifact.outputs.name }}
+      report-artifact-id: ${{ steps.report-artifact.outputs.artifact-id }}
+      report-artifact-digest: ${{ steps.report-artifact.outputs.artifact-digest }}
     permissions:
       contents: read
       pull-requests: read
@@ -654,6 +715,7 @@ jobs:
         run: echo "name=kapture-visual-report-$KAPTURE_ARTIFACT_SUFFIX" >> "$GITHUB_OUTPUT"
 
       - name: Upload transient report JSON and referenced PNGs
+        id: report-artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: ${{ steps.artifact.outputs.name }}
@@ -666,3 +728,244 @@ jobs:
           overwrite: true
           compression-level: 0
           retention-days: 1
+
+  publish-experiment:
+    name: Publish the experimental dashboard and review comment
+    needs: [context, build-head, capture]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      report-digest: ${{ steps.report.outputs.digest }}
+      dashboard-url: ${{ steps.dashboard.outputs.immutable-url }}
+      published-at: ${{ steps.comment.outputs.published-at }}
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: write
+      statuses: write
+    steps:
+      - name: Set up Node.js 24
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Download the exact raw report
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        with:
+          artifact-ids: ${{ needs.capture.outputs.report-artifact-id }}
+          path: ${{ runner.temp }}/kapture-raw
+
+      - name: Download the exact head Storybook
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        with:
+          artifact-ids: ${{ needs.build-head.outputs.artifact-id }}
+          path: ${{ runner.temp }}/kapture-head-storybook
+
+      - name: Rebuild the dashboard from validated JSON and PNG files
+        shell: bash
+        env:
+          npm_config_registry: https://registry.npmjs.org/
+        run: |
+          set -euo pipefail
+          bunx @kaptures/cli@0.0.6 report build \
+            --input "${{ runner.temp }}/kapture-raw" \
+            --output "${{ runner.temp }}/kapture-review" \
+            --storybook-url ./storybook/
+          mkdir "${{ runner.temp }}/kapture-review/storybook"
+          cp -R "${{ runner.temp }}/kapture-head-storybook"/. \
+            "${{ runner.temp }}/kapture-review/storybook/"
+
+      - name: Bind the exact report summary and digest
+        id: report
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          KAPTURE_REPORT_PATH: ${{ runner.temp }}/kapture-review/report.json
+          KAPTURE_EXPECTED_BASE_SHA: ${{ needs.context.outputs.base-sha }}
+          KAPTURE_EXPECTED_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
+        with:
+          script: |
+            const { readFile } = require('node:fs/promises');
+            const report = JSON.parse(await readFile(process.env.KAPTURE_REPORT_PATH, 'utf8'));
+            if (report.baseRevision !== process.env.KAPTURE_EXPECTED_BASE_SHA) {
+              throw new Error('The report base revision does not match the pull request');
+            }
+            if (report.headRevision !== process.env.KAPTURE_EXPECTED_HEAD_SHA) {
+              throw new Error('The report head revision does not match the pull request');
+            }
+            if (!/^[0-9a-f]{64}$/.test(report.contentDigest || '')) {
+              throw new Error('The trusted report does not contain a valid content digest');
+            }
+            for (const key of ['total', 'unchanged', 'changed', 'added', 'removed', 'errors']) {
+              const value = report.summary?.[key];
+              if (!Number.isSafeInteger(value) || value < 0) {
+                throw new Error(`Invalid report summary field: ${key}`);
+              }
+              core.setOutput(key, String(value));
+            }
+            core.setOutput('digest', report.contentDigest);
+
+      - name: Deploy the dashboard and exact Storybook to the existing Pages project
+        id: deploy
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: >-
+            pages deploy ${{ runner.temp }}/kapture-review
+            --project-name=seed-design-storybook
+            --branch=kapture-shadow-pr-${{ github.event.pull_request.number }}
+            --commit-hash=${{ needs.context.outputs.head-sha }}
+
+      - name: Accept only the immutable deployment URL
+        id: dashboard
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const url = new URL((process.env.DEPLOYMENT_URL || '').trim());
+            if (
+              url.protocol !== 'https:' ||
+              !/^[0-9a-f]{8}\.seed-design-storybook\.pages\.dev$/.test(url.hostname) ||
+              url.username || url.password || url.pathname !== '/' || url.search || url.hash
+            ) {
+              throw new Error('The deploy step did not return an immutable Storybook Pages URL');
+            }
+            core.setOutput('immutable-url', url.toString());
+
+      - name: Publish the experimental review comment and pending status
+        id: comment
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          KAPTURE_DASHBOARD_URL: ${{ steps.dashboard.outputs.immutable-url }}
+          KAPTURE_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
+          KAPTURE_REPORT_DIGEST: ${{ steps.report.outputs.digest }}
+          KAPTURE_TOTAL: ${{ steps.report.outputs.total }}
+          KAPTURE_UNCHANGED: ${{ steps.report.outputs.unchanged }}
+          KAPTURE_CHANGED: ${{ steps.report.outputs.changed }}
+          KAPTURE_ADDED: ${{ steps.report.outputs.added }}
+          KAPTURE_REMOVED: ${{ steps.report.outputs.removed }}
+          KAPTURE_ERRORS: ${{ steps.report.outputs.errors }}
+        with:
+          script: |
+            const marker = '<!-- seed-kapture-shadow-experiment -->';
+            const dashboard = new URL(process.env.KAPTURE_DASHBOARD_URL);
+            const storybook = new URL('./storybook/', dashboard);
+            const command = `/kapture approve ${process.env.KAPTURE_HEAD_SHA} ${process.env.KAPTURE_REPORT_DIGEST}`;
+            const body = [
+              marker,
+              '## Kapture shadow experiment',
+              '',
+              `- [Pixel comparison dashboard](${dashboard})`,
+              `- [Exact head Storybook](${storybook})`,
+              `- Snapshots: ${process.env.KAPTURE_TOTAL}`,
+              `- Unchanged: ${process.env.KAPTURE_UNCHANGED}`,
+              `- Changed: ${process.env.KAPTURE_CHANGED}`,
+              `- Added: ${process.env.KAPTURE_ADDED}`,
+              `- Removed: ${process.env.KAPTURE_REMOVED}`,
+              `- Errors: ${process.env.KAPTURE_ERRORS}`,
+              `- Head: \`${process.env.KAPTURE_HEAD_SHA}\``,
+              `- Report digest: \`${process.env.KAPTURE_REPORT_DIGEST}\``,
+              '',
+              '검토 후 아래 명령을 이 PR에 정확히 댓글로 남기면 이 실험 run이 승인됩니다.',
+              '',
+              `\`${command}\``,
+              '',
+              '> 이 댓글 승인기는 기본 브랜치에 workflow를 설치하지 않고 단일 PR에서 UX를 검증하기 위한 bounded harness입니다.',
+            ].join('\n');
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: process.env.KAPTURE_HEAD_SHA,
+              state: 'pending',
+              context: 'SEED Kapture Shadow Experiment',
+              description: 'Pixel changes are waiting for an exact comment approval',
+              target_url: dashboard.toString(),
+            });
+            core.setOutput('published-at', new Date().toISOString());
+
+  approve-experiment:
+    name: Wait for an exact SHA and digest approval comment
+    needs: [context, publish-experiment]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      issues: write
+      pull-requests: write
+      statuses: write
+    steps:
+      - name: Accept one exact authorized approval comment
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        env:
+          KAPTURE_DASHBOARD_URL: ${{ needs.publish-experiment.outputs.dashboard-url }}
+          KAPTURE_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
+          KAPTURE_REPORT_DIGEST: ${{ needs.publish-experiment.outputs.report-digest }}
+          KAPTURE_PUBLISHED_AT: ${{ needs.publish-experiment.outputs.published-at }}
+        with:
+          script: |
+            const command = `/kapture approve ${process.env.KAPTURE_HEAD_SHA} ${process.env.KAPTURE_REPORT_DIGEST}`;
+            const publishedAt = Date.parse(process.env.KAPTURE_PUBLISHED_AT);
+            const allowed = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
+            let approval;
+            for (let attempt = 0; attempt < 100; attempt += 1) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              });
+              approval = comments.find((comment) =>
+                comment.body?.trim() === command &&
+                allowed.has(comment.author_association) &&
+                Date.parse(comment.created_at) >= publishedAt
+              );
+              if (approval) break;
+              await new Promise((resolve) => setTimeout(resolve, 15000));
+            }
+            if (!approval) {
+              throw new Error(`Timed out waiting for exact approval command: ${command}`);
+            }
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: process.env.KAPTURE_HEAD_SHA,
+              state: 'success',
+              context: 'SEED Kapture Shadow Experiment',
+              description: `Approved by @${approval.user.login}`,
+              target_url: process.env.KAPTURE_DASHBOARD_URL,
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ Kapture shadow report approved by @${approval.user.login} for \`${process.env.KAPTURE_HEAD_SHA}\`.`,
+            });
