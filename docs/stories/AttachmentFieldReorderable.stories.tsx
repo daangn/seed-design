@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField } from "seed-design/ui/attachment-field";
@@ -79,5 +79,5 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
