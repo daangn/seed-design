@@ -54,6 +54,32 @@ export function Notice() {
 
 Compound API가 필요하면 `Callout.Root`, `Callout.Content`, `Callout.Title`, `Callout.Description`, `Callout.Link`, `Callout.CloseButton`을 조합할 수 있습니다.
 
+## ActionableCallout
+
+`bindtap`을 전달하면 Callout 전체가 실행 영역으로 동작합니다.
+
+<LynxComponentExample name="lynx/callout/actionable">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/actionable.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## DismissibleCallout
+
+닫기 버튼을 누르면 내부 상태가 닫힘으로 전환되고 `onDismiss`가 호출됩니다.
+
+<LynxComponentExample name="lynx/callout/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Web Version Differences
 
 - HTML element 대신 native `<view>`와 `<text>`를 사용합니다.
