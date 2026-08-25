@@ -1,5 +1,15 @@
 # @seed-design/lynx-react
 
+## 0.4.1
+
+### Patch Changes
+
+- 598cd3a: iOS에서 `TextFieldTextarea`의 첫 입력 시 자동 높이가 세로 여백만큼 불필요하게 늘어나는 문제를 수정합니다.
+- fdf4575: Lynx `TagGroup`의 문자열 구분자 앞뒤 공백을 제거해 브라우저 프리뷰와 네이티브 Lynx에서 항목 간격이 다르게 보이는 문제를 수정합니다.
+- 5a7ca99: iOS에서 `TextFieldTextarea`의 자동 높이 영역을 눌렀을 때 포커스가 해제되어 키를 입력할 수 없는 문제를 수정합니다.
+- 554cca0: iOS에서 `VStack`과 `HStack`의 `gap`에 SEED 간격 토큰을 사용하면 간격이 사라지는 문제를 수정합니다.
+- 21aa395: Lynx `ProgressCircle`의 indeterminate 상태가 첫 화면부터 표시되도록 수정합니다.
+
 ## 0.4.0
 
 ### Minor Changes
