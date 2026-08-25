@@ -31,11 +31,13 @@ const GRID_COLUMNS: Record<(typeof FONT_SCALE_THRESHOLDS)[number]["scale"], numb
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityFontScaling: {};
+    ActivityFontMultiplierLayout: {};
   }
 }
 
-const ActivityFontScaling: StaticActivityComponentType<"ActivityFontScaling"> = () => {
+const ActivityFontMultiplierLayout: StaticActivityComponentType<
+  "ActivityFontMultiplierLayout"
+> = () => {
   const { value, scale } = useFontScalingMultiplier();
 
   return (
@@ -44,14 +46,14 @@ const ActivityFontScaling: StaticActivityComponentType<"ActivityFontScaling"> = 
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="Font Scaling 데모" />
+        <AppBarMain title="Font Multiplier Layout" />
       </AppBar>
       <AppScreenContent>
         <VStack gap="spacingY.componentDefault" px="spacingX.globalGutter">
           <Callout
             tone="informative"
-            title="Font Scaling 데모"
-            description="SEED 번들러 플러그인의 fontScaling: true 옵션을 설정하면, 페이지 최초 로드 시 root element의 data-seed-font-multiplier 속성에 사용자의 폰트 스케일링 배율이 저장됩니다."
+            title="폰트 배율 기반 레이아웃"
+            description="SEED 번들러 플러그인의 fontScaling: true 옵션을 설정하면, 페이지 최초 로드 시 root element의 data-seed-font-multiplier 속성에 사용자의 폰트 스케일링 배율이 저장됩니다. 이 값을 읽어 레이아웃을 배율에 맞게 조정할 수 있습니다."
           />
           <VStack gap="x2" p="x1">
             <Text textStyle="t5Bold" color="fg.neutral">
@@ -113,4 +115,4 @@ const ActivityFontScaling: StaticActivityComponentType<"ActivityFontScaling"> = 
   );
 };
 
-export default ActivityFontScaling;
+export default ActivityFontMultiplierLayout;
