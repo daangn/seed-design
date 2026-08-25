@@ -3,6 +3,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { vars as tokens } from "../vars";
 import { focusVisible, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -98,7 +99,7 @@ const wheelPicker = defineSlotRecipe({
     selectionIndicator: {
       position: "absolute",
       zIndex: 0,
-      insetInline: 0,
+      insetInline: tokens.$dimension.x4,
       top: "50%",
       height: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.itemSize})`,
       transform: "translateY(-50%)",

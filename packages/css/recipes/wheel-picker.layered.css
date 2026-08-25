@@ -90,7 +90,7 @@
 
   .seed-wheel-picker__selectionIndicator {
     z-index: 0;
-    inset-inline: 0;
+    inset-inline: var(--seed-dimension-x4);
     height: var(--seed-wheel-picker-item-size);
     pointer-events: none;
     position: absolute;

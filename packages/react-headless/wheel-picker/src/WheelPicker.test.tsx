@@ -12,6 +12,7 @@ const options = [
 
 function TestWheelPicker({
   onValueChange,
+  onIndexChange,
   value,
   defaultValue = "a",
   loop = false,
@@ -21,6 +22,7 @@ function TestWheelPicker({
   valueChangeBehavior,
 }: {
   onValueChange?: (value: string) => void;
+  onIndexChange?: (index: number, value: string) => void;
   value?: string;
   defaultValue?: string;
   loop?: boolean;
@@ -43,6 +45,7 @@ function TestWheelPicker({
         value={value}
         defaultValue={defaultValue}
         onValueChange={onValueChange}
+        onIndexChange={onIndexChange}
         loop={loop}
         valueChangeBehavior={valueChangeBehavior}
       />
@@ -58,6 +61,7 @@ describe("WheelPicker", () => {
   const originalSetPointerCapture = HTMLElement.prototype.setPointerCapture;
   const originalHasPointerCapture = HTMLElement.prototype.hasPointerCapture;
   const originalReleasePointerCapture = HTMLElement.prototype.releasePointerCapture;
+  const setPointerCapture = mock(() => {});
   let animationFrameTime = 0;
 
   beforeAll(() => {
@@ -82,7 +86,7 @@ describe("WheelPicker", () => {
       return 1;
     };
     window.cancelAnimationFrame = () => {};
-    HTMLElement.prototype.setPointerCapture = mock(() => {});
+    HTMLElement.prototype.setPointerCapture = setPointerCapture;
     HTMLElement.prototype.hasPointerCapture = mock(() => true);
     HTMLElement.prototype.releasePointerCapture = mock(() => {});
   });
@@ -147,6 +151,33 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("사용자 스크롤 중 통과한 각 논리 인덱스를 정착 전에 순서대로 알린다", () => {
+    jest.useFakeTimers();
+    const onIndexChange = mock(() => {});
+    const onValueChange = mock(() => {});
+    const { getByRole } = render(
+      <TestWheelPicker onIndexChange={onIndexChange} onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = 80;
+    fireEvent.scroll(column);
+
+    expect(onIndexChange.mock.calls).toEqual([
+      [1, "b"],
+      [2, "c"],
+    ]);
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toHaveBeenCalledWith("c", { stepDelta: 2 });
+    jest.useRealTimers();
+  });
+
   it("터치 중에는 값을 커밋하지 않고 손을 뗀 뒤 스크롤이 정착하면 커밋한다", () => {
     jest.useFakeTimers();
     const onValueChange = mock(() => {});
@@ -174,6 +205,41 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("마우스로 항목을 누를 때는 드래그 전까지 포인터 캡처를 시작하지 않는다", () => {
+    jest.useFakeTimers();
+    setPointerCapture.mockClear();
+    const onValueChange = mock(() => {});
+
+    try {
+      const { getByRole } = render(<TestWheelPicker onValueChange={onValueChange} />);
+      const column = getByRole("spinbutton");
+      const option = column.children[1];
+
+      fireEvent.pointerDown(option, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+
+      expect(setPointerCapture).not.toHaveBeenCalled();
+
+      fireEvent.pointerUp(option, {
+        pointerId: 1,
+        pointerType: "mouse",
+        button: 0,
+        clientY: 100,
+      });
+      fireEvent.click(option);
+      act(() => jest.advanceTimersByTime(120));
+
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   it("마우스 드래그를 놓으면 속도를 이어받아 부드럽게 정착한다", () => {
     jest.useFakeTimers();
     const requestAnimationFrame = window.requestAnimationFrame;
@@ -196,6 +262,7 @@ describe("WheelPicker", () => {
       <TestWheelPicker pickerOptions={momentumOptions} onValueChange={onValueChange} />,
     );
     const column = getByRole("spinbutton");
+    setPointerCapture.mockClear();
 
     fireEvent.pointerDown(column, {
       pointerId: 1,
@@ -204,6 +271,7 @@ describe("WheelPicker", () => {
       clientY: 100,
     });
     expect(column).toHaveAttribute("data-wheel-picker-dragging");
+    expect(setPointerCapture).not.toHaveBeenCalled();
 
     act(() => jest.advanceTimersByTime(16));
     fireEvent.pointerMove(column, {
@@ -211,6 +279,7 @@ describe("WheelPicker", () => {
       pointerType: "mouse",
       clientY: 30,
     });
+    expect(setPointerCapture).toHaveBeenCalledWith(1);
     expect(column.scrollTop).toBe(70);
     expect(column.children[2]).toHaveAttribute("data-selected");
 
@@ -677,6 +746,28 @@ describe("WheelPicker", () => {
     expect(column.scrollTop).toBe(80);
     expect(column).toHaveAttribute("aria-valuenow", "2");
     expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("사용자가 조작 중이면 controlled value의 스크롤 위치 동기화를 건너뛴다", () => {
+    jest.useFakeTimers();
+    const onValueChange = mock(() => {});
+    const { getByRole, rerender } = render(
+      <TestWheelPicker value="a" onValueChange={onValueChange} />,
+    );
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    column.scrollTop = 40;
+    fireEvent.scroll(column);
+    rerender(<TestWheelPicker value="c" onValueChange={onValueChange} />);
+
+    expect(column.scrollTop).toBe(40);
+
+    fireEvent.touchEnd(column, { touches: [] });
+    act(() => jest.advanceTimersByTime(120));
+
+    expect(onValueChange).toHaveBeenCalledWith("b", { stepDelta: 1 });
+    jest.useRealTimers();
   });
 
   it("controlled value를 smooth로 동기화할 때 실제 스크롤 전까지 선택 표시를 유지한다", () => {

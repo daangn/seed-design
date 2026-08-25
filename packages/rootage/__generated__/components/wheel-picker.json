@@ -1,0 +1,286 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "wheel-picker",
+    "name": "Wheel Picker"
+  },
+  "data": {
+    "id": "wheel-picker",
+    "name": "Wheel Picker",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "selectionIndicator": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "insetX": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "scrollFog": {
+          "properties": {
+            "maxHeight": {
+              "type": "dimension"
+            },
+            "maxHeightFraction": {
+              "type": "number"
+            }
+          }
+        },
+        "item": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            }
+          }
+        },
+        "itemLabel": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "small": {},
+            "medium": {}
+          },
+          "defaultValue": "small"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-floating"
+                }
+              },
+              "selectionIndicator": {
+                "insetX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-weak"
+                }
+              },
+              "scrollFog": {
+                "maxHeightFraction": {
+                  "type": "number",
+                  "value": 0.4
+                }
+              },
+              "itemLabel": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "selected"
+            ],
+            "slots": {
+              "itemLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "itemLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "small"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 180,
+                    "unit": "px"
+                  }
+                }
+              },
+              "selectionIndicator": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 36,
+                    "unit": "px"
+                  }
+                }
+              },
+              "scrollFog": {
+                "maxHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 108,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 36,
+                    "unit": "px"
+                  }
+                }
+              },
+              "itemLabel": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7-static"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 220,
+                    "unit": "px"
+                  }
+                }
+              },
+              "selectionIndicator": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              },
+              "scrollFog": {
+                "maxHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 132,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              },
+              "itemLabel": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t10-static"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t10-static"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

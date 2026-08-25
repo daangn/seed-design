@@ -312,6 +312,9 @@ declare const artifact: {
       "path": "/components/typography.json";
     },
     {
+      "path": "/components/wheel-picker.json";
+    },
+    {
       "path": "/dimension.json";
     },
     {
