@@ -351,7 +351,7 @@ export function PerformancePanel({
           </text>
         </view>
         <view bindtap={handleRerender} className="py-x2 px-x3 rounded-full bg-bg-brand-solid">
-          <text className="t2-bold text-fg-neutral-inverted">Rerender</text>
+          <text className="t2-bold text-fg-on-neutral-solid">Rerender</text>
         </view>
       </view>
 

@@ -6,7 +6,6 @@ export const disabled = "var(--seed-color-fg-disabled)";
 export const informative = "var(--seed-color-fg-informative)";
 export const informativeContrast = "var(--seed-color-fg-informative-contrast)";
 export const neutral = "var(--seed-color-fg-neutral)";
-export const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
 export const neutralMuted = "var(--seed-color-fg-neutral-muted)";
 export const neutralSubtle = "var(--seed-color-fg-neutral-subtle)";
 export const onBrandSolid = "var(--seed-color-fg-on-brand-solid)";

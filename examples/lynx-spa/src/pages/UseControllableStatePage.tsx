@@ -25,7 +25,7 @@ function UncontrollableToggle() {
         value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
       )}
     >
-      <text className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}>
+      <text className={clsx("t4-regular", value ? "text-fg-on-neutral-solid" : "text-fg-neutral")}>
         {`value: ${String(value)} (tap to toggle)`}
       </text>
     </view>
@@ -53,7 +53,7 @@ function ControlledToggle() {
         )}
       >
         <text
-          className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}
+          className={clsx("t4-regular", value ? "text-fg-on-neutral-solid" : "text-fg-neutral")}
         >
           {`value: ${String(value)} (tap to toggle)`}
         </text>

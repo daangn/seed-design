@@ -231,7 +231,6 @@
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
-  --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
   --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
@@ -450,7 +449,6 @@
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
-  --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
   --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);

@@ -1239,19 +1239,6 @@ declare const artifact: {
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다.";
       };
-      "$color.fg.neutral-inverted": {
-        "values": {
-          "theme-light": {
-            "type": "color";
-            "value": "$color.palette.gray-00";
-          };
-          "theme-dark": {
-            "type": "color";
-            "value": "$color.palette.gray-100";
-          };
-        };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)";
-      };
       "$color.fg.neutral-muted": {
         "values": {
           "theme-light": {

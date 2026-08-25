@@ -16,7 +16,7 @@ export function TailwindDemoPage() {
           <text className="text-fg-neutral">bg-bg-brand-weak</text>
         </view>
         <view className="bg-bg-brand-solid p-x3 rounded-r2">
-          <text className="text-fg-neutral-inverted">bg-bg-brand-solid</text>
+          <text className="text-fg-on-neutral-solid">bg-bg-brand-solid</text>
         </view>
         <view className="bg-bg-critical-weak p-x3 rounded-r2">
           <text className="text-fg-critical">bg-bg-critical-weak</text>

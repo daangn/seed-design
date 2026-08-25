@@ -156,7 +156,6 @@ export default plugin(
   "fg-informative": "var(--seed-color-fg-informative)",
   "fg-informative-contrast": "var(--seed-color-fg-informative-contrast)",
   "fg-neutral": "var(--seed-color-fg-neutral)",
-  "fg-neutral-inverted": "var(--seed-color-fg-neutral-inverted)",
   "fg-neutral-muted": "var(--seed-color-fg-neutral-muted)",
   "fg-neutral-subtle": "var(--seed-color-fg-neutral-subtle)",
   "fg-on-brand-solid": "var(--seed-color-fg-on-brand-solid)",

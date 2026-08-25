@@ -13,8 +13,6 @@ export declare const informative = "var(--seed-color-fg-informative)";
 export declare const informativeContrast = "var(--seed-color-fg-informative-contrast)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. */
 export declare const neutral = "var(--seed-color-fg-neutral)";
-/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted) */
-export declare const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted) */
 export declare const neutralMuted = "var(--seed-color-fg-neutral-muted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle) */
