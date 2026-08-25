@@ -369,6 +369,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
         { title: "Select", onClick: () => push("ActivitySelect", {}) },
         { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
+        { title: "Wheel Picker", onClick: () => push("ActivityWheelPicker", {}) },
         { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
         {
           title: "AttachmentDisplayField",

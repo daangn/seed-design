@@ -1,0 +1,95 @@
+---
+title: Wheel Picker
+description: 항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/react@2.4.0, @seed-design/css@2.6.0" />
+
+<ComponentExample name="react/wheel-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/wheel-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:wheel-picker
+```
+
+<ManualInstallation name="wheel-picker" />
+
+## Props
+
+### `WheelPicker`
+
+<react-type-table path="./registry/react/ui/wheel-picker.tsx" name="WheelPickerProps" />
+
+### `WheelPickerColumn`
+
+<react-type-table path="./registry/react/ui/wheel-picker.tsx" name="WheelPickerColumn" />
+
+## Examples
+
+### Package API
+
+<ComponentExample name="react/wheel-picker/package-api">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/wheel-picker/package-api.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+`@seed-design/react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
+
+### Value Change
+
+`onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요.
+
+### React Element Label
+
+<ComponentExample name="react/wheel-picker/react-element-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/wheel-picker/react-element-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+문자열과 숫자 label은 그대로 접근성 이름으로 사용됩니다. React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. 접근성 텍스트를 별도로 계산해야 할 때는 `getAriaValueText`를 사용할 수 있습니다. 내부 요소는 `currentColor`를 상속해야 하며 버튼, 링크, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
+
+### Disabled
+
+<ComponentExample name="react/wheel-picker/states">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/wheel-picker/states.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+`disabled`는 컬럼의 포커스와 조작을 모두 막습니다.
+
+### Data Contract
+
+- 각 컬럼의 `options`에는 하나 이상의 항목을 제공하세요.
+- option의 `value`는 컬럼 안에서 고유해야 합니다.
+- 제어 중인 `value`는 현재 `options`에 있어야 합니다.
+- 의존 컬럼이 바뀌면 새 `options`와 유효한 `value`를 같은 렌더에서 전달하세요.
+- 사용자가 조작 중이거나 정착을 기다리는 동안 외부 `value`가 바뀌면 해당 스크롤 위치 동기화는 건너뜁니다.
+- 로딩, 오류, 빈 상태는 Wheel Picker 바깥에서 처리하세요.
+
+Wheel Picker는 유효하지 않은 값을 첫 항목으로 자동 보정하거나 보정 callback을 호출하지 않습니다. 날짜 계산, 컬럼 간 의존성, hidden input과 확인 UI도 사용하는 쪽에서 구성합니다.
+
+### Accessibility
+
+전체 Wheel Picker는 `group`, 각 컬럼은 `spinbutton`으로 제공됩니다. `Root`와 각 `Column`에 `aria-label` 또는 `aria-labelledby`를 지정하세요.
+
+키보드에서는 `ArrowUp`과 `ArrowDown`으로 이전·다음 항목을 선택합니다. `Home`과 `End`는 처음·마지막 항목으로 이동합니다. `Tab`으로 컬럼 사이를 이동할 수 있습니다.

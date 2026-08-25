@@ -25,6 +25,8 @@ const POINTER_DRAG_THRESHOLD = 3;
 export interface WheelPickerOption {
   value: string;
   label: React.ReactNode;
+  /** React 요소 label을 스크린 리더에서 읽을 문자열입니다. */
+  ariaLabel?: string;
 }
 
 export interface WheelPickerValueChangeDetails {
@@ -40,6 +42,11 @@ export interface UseWheelPickerColumnProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string, details: WheelPickerValueChangeDetails) => void;
+  /**
+   * 사용자 조작으로 중앙에 표시되는 항목이 바뀔 때마다 호출됩니다.
+   * 값이 정착하기 전에도 통과한 각 항목의 논리 인덱스와 값을 순서대로 전달합니다.
+   */
+  onIndexChange?: (index: number, value: string) => void;
   /**
    * @default false
    */
@@ -81,6 +88,7 @@ export function useWheelPickerColumn({
   value: valueProp,
   defaultValue,
   onValueChange,
+  onIndexChange,
   loop = false,
   valueChangeBehavior = "auto",
   getAriaValueText,
@@ -133,6 +141,7 @@ export function useWheelPickerColumn({
   const animationFrameRef = React.useRef<number | null>(null);
   const wheelAlignmentFrameRef = React.useRef<number | null>(null);
   const selectedElementRef = React.useRef<HTMLElement | null>(null);
+  const lastVisualPhysicalIndexRef = React.useRef(centralPhysicalIndex);
   const indicatorOverlapElementsRef = React.useRef<HTMLElement[]>([]);
   const hasInitializedScrollPositionRef = React.useRef(false);
   const lastSettledPhysicalIndexRef = React.useRef(centralPhysicalIndex);
@@ -151,6 +160,7 @@ export function useWheelPickerColumn({
   const suppressClickTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const isWheelingRef = React.useRef(false);
   const isWheelAligningRef = React.useRef(false);
+  const shouldNotifyIndexChangeRef = React.useRef(false);
 
   const getNearestPhysicalIndex = React.useCallback(() => {
     const column = columnRef.current;
@@ -207,10 +217,11 @@ export function useWheelPickerColumn({
   }, [itemSize, physicalOptionCount]);
 
   const updateVisualSelection = React.useCallback(
-    (physicalIndex: number) => {
+    (physicalIndex: number, notifyIndexChange = false) => {
       const column = columnRef.current;
       if (!column) return;
 
+      const previousPhysicalIndex = lastVisualPhysicalIndexRef.current;
       const nextSelectedElement = column.children.item(physicalIndex) as HTMLElement | null;
 
       if (selectedElementRef.current !== nextSelectedElement) {
@@ -219,9 +230,25 @@ export function useWheelPickerColumn({
         selectedElementRef.current = nextSelectedElement;
       }
 
+      lastVisualPhysicalIndexRef.current = physicalIndex;
       updateIndicatorOverlap();
+
+      if (!notifyIndexChange || physicalIndex === previousPhysicalIndex || options.length === 0) {
+        return;
+      }
+
+      const direction = physicalIndex > previousPhysicalIndex ? 1 : -1;
+      for (
+        let nextPhysicalIndex = previousPhysicalIndex + direction;
+        direction > 0 ? nextPhysicalIndex <= physicalIndex : nextPhysicalIndex >= physicalIndex;
+        nextPhysicalIndex += direction
+      ) {
+        const nextLogicalIndex = toLogicalIndex(nextPhysicalIndex, options.length);
+        const nextValue = options[nextLogicalIndex]?.value;
+        if (nextValue !== undefined) onIndexChange?.(nextLogicalIndex, nextValue);
+      }
     },
-    [updateIndicatorOverlap],
+    [onIndexChange, options, updateIndicatorOverlap],
   );
 
   const scrollToPhysicalIndex = React.useCallback(
@@ -244,13 +271,16 @@ export function useWheelPickerColumn({
     }
 
     if (isTouchingRef.current || pointerDragRef.current) return;
-    if (options.length === 0) return;
+    if (options.length === 0) {
+      shouldNotifyIndexChangeRef.current = false;
+      return;
+    }
 
     const nearestPhysicalIndex = getNearestPhysicalIndex();
     const nextLogicalIndex = toLogicalIndex(nearestPhysicalIndex, options.length);
     const nextValue = options[nextLogicalIndex]?.value;
 
-    updateVisualSelection(nearestPhysicalIndex);
+    updateVisualSelection(nearestPhysicalIndex, shouldNotifyIndexChangeRef.current);
 
     if (disabled || readOnly) {
       if (nearestPhysicalIndex !== centralPhysicalIndex) {
@@ -258,6 +288,7 @@ export function useWheelPickerColumn({
         updateVisualSelection(centralPhysicalIndex);
       }
       keyboardTargetPhysicalIndexRef.current = centralPhysicalIndex;
+      shouldNotifyIndexChangeRef.current = false;
       return;
     }
 
@@ -294,6 +325,7 @@ export function useWheelPickerColumn({
       lastSettledPhysicalIndexRef.current = nearestPhysicalIndex;
       keyboardTargetPhysicalIndexRef.current = nearestPhysicalIndex;
     }
+    shouldNotifyIndexChangeRef.current = false;
   }, [
     disabled,
     centralPhysicalIndex,
@@ -343,6 +375,7 @@ export function useWheelPickerColumn({
         const progress = Math.min(Math.max(time - startTime, elapsed) / duration, 1);
         const easedProgress = 1 - (1 - progress) ** 3;
         column.scrollTop = startScrollTop + distance * easedProgress;
+        updateVisualSelection(getNearestPhysicalIndex(), shouldNotifyIndexChangeRef.current);
 
         if (progress < 1) {
           wheelAlignmentFrameRef.current = requestAnimationFrame(animate);
@@ -355,7 +388,13 @@ export function useWheelPickerColumn({
 
       wheelAlignmentFrameRef.current = requestAnimationFrame(animate);
     },
-    [finishWheelSettle, itemSize, physicalOptionCount],
+    [
+      finishWheelSettle,
+      getNearestPhysicalIndex,
+      itemSize,
+      physicalOptionCount,
+      updateVisualSelection,
+    ],
   );
 
   const scheduleSettle = React.useCallback(() => {
@@ -390,7 +429,7 @@ export function useWheelPickerColumn({
     if (animationFrameRef.current === null) {
       animationFrameRef.current = requestAnimationFrame(() => {
         animationFrameRef.current = null;
-        updateVisualSelection(getNearestPhysicalIndex());
+        updateVisualSelection(getNearestPhysicalIndex(), shouldNotifyIndexChangeRef.current);
       });
     }
 
@@ -410,6 +449,7 @@ export function useWheelPickerColumn({
       isWheelAligningRef.current = false;
       if (!isWheelingRef.current) {
         isWheelingRef.current = true;
+        shouldNotifyIndexChangeRef.current = true;
         column.setAttribute("data-wheel-picker-scrolling", "");
       }
       scheduleSettle();
@@ -464,6 +504,7 @@ export function useWheelPickerColumn({
     isWheelingRef.current = false;
     columnRef.current?.removeAttribute("data-wheel-picker-scrolling");
     isTouchingRef.current = true;
+    shouldNotifyIndexChangeRef.current = true;
     if (settleTimerRef.current) {
       clearTimeout(settleTimerRef.current);
       settleTimerRef.current = null;
@@ -508,7 +549,7 @@ export function useWheelPickerColumn({
       isWheelingRef.current = false;
       column.removeAttribute("data-wheel-picker-scrolling");
       column.setAttribute("data-wheel-picker-dragging", "");
-      column.setPointerCapture(event.pointerId);
+      shouldNotifyIndexChangeRef.current = true;
       pointerDragRef.current = {
         pointerId: event.pointerId,
         startClientY: event.clientY,
@@ -532,7 +573,10 @@ export function useWheelPickerColumn({
       const dragDistance = pointerDrag.startClientY - event.clientY;
       if (!pointerDrag.hasDragged && Math.abs(dragDistance) < POINTER_DRAG_THRESHOLD) return;
 
-      pointerDrag.hasDragged = true;
+      if (!pointerDrag.hasDragged) {
+        pointerDrag.hasDragged = true;
+        column.setPointerCapture(event.pointerId);
+      }
       column.scrollTop = pointerDrag.startScrollTop + dragDistance;
 
       const timestamp = Date.now();
@@ -544,7 +588,7 @@ export function useWheelPickerColumn({
       pointerDrag.lastScrollTop = column.scrollTop;
       pointerDrag.lastTimestamp = timestamp;
 
-      updateVisualSelection(getNearestPhysicalIndex());
+      updateVisualSelection(getNearestPhysicalIndex(), shouldNotifyIndexChangeRef.current);
     },
     [getNearestPhysicalIndex, updateVisualSelection],
   );
@@ -556,13 +600,14 @@ export function useWheelPickerColumn({
       if (!column || !pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
 
       pointerDragRef.current = null;
-      if (column.hasPointerCapture(event.pointerId)) {
-        column.releasePointerCapture(event.pointerId);
-      }
-
       if (!pointerDrag.hasDragged) {
         column.removeAttribute("data-wheel-picker-dragging");
+        shouldNotifyIndexChangeRef.current = false;
         return;
+      }
+
+      if (column.hasPointerCapture(event.pointerId)) {
+        column.releasePointerCapture(event.pointerId);
       }
 
       suppressClickRef.current = true;
@@ -606,7 +651,7 @@ export function useWheelPickerColumn({
 
       column.removeAttribute("data-wheel-picker-dragging");
       scrollToPhysicalIndex(nearestPhysicalIndex, "auto");
-      updateVisualSelection(nearestPhysicalIndex);
+      updateVisualSelection(nearestPhysicalIndex, shouldNotifyIndexChangeRef.current);
       settle();
     },
     [
@@ -634,6 +679,8 @@ export function useWheelPickerColumn({
   const moveToLogicalIndex = React.useCallback(
     (nextLogicalIndex: number, behavior: ScrollBehavior) => {
       if (disabled || readOnly || options.length === 0) return;
+
+      shouldNotifyIndexChangeRef.current = true;
 
       const normalizedLogicalIndex = shouldLoop
         ? toLogicalIndex(nextLogicalIndex, options.length)
@@ -727,6 +774,7 @@ export function useWheelPickerColumn({
         onClick: () => {
           if (disabled || readOnly) return;
 
+          shouldNotifyIndexChangeRef.current = true;
           keyboardTargetPhysicalIndexRef.current = null;
           scrollToPhysicalIndex(option.physicalIndex, prefersReducedMotion() ? "auto" : "smooth");
           scheduleSettle();
@@ -737,6 +785,18 @@ export function useWheelPickerColumn({
 
   useLayoutEffect(() => {
     if (!columnRef.current || options.length === 0) return;
+
+    if (
+      hasInitializedScrollPositionRef.current &&
+      (isTouchingRef.current ||
+        pointerDragRef.current !== null ||
+        isWheelingRef.current ||
+        isWheelAligningRef.current ||
+        settleTimerRef.current !== null ||
+        shouldNotifyIndexChangeRef.current)
+    ) {
+      return;
+    }
 
     const currentPhysicalIndex = getNearestPhysicalIndex();
     if (
@@ -838,7 +898,10 @@ export function useWheelPickerColumn({
         currentOption === undefined
           ? undefined
           : (getAriaValueText?.(currentOption.value) ??
-            (typeof currentOption.label === "string" ? currentOption.label : currentOption.value)),
+            currentOption.ariaLabel ??
+            (typeof currentOption.label === "string" || typeof currentOption.label === "number"
+              ? String(currentOption.label)
+              : currentOption.value)),
       "aria-disabled": isInert || undefined,
       "aria-readonly": readOnly || undefined,
       "data-disabled": dataAttr(isInert),

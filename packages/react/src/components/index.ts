@@ -84,3 +84,4 @@ export * from "./TextField";
 export * from "./TimePicker";
 export * from "./ToggleButton";
 export * from "./VisuallyHidden";
+export * from "./WheelPicker";
