@@ -70,6 +70,7 @@ export const config = defineConfig({
     { route: "/reaction-button", name: "ActivityReactionButton" },
     { route: "/responsive-dialog", name: "ActivityResponsiveDialog" },
     { route: "/responsive-side-panel", name: "ActivityResponsiveSidePanel" },
+    { route: "/scale-feedback", name: "ActivityScaleFeedback" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/select", name: "ActivitySelect" },
     { route: "/side-navigation", name: "ActivitySideNavigation" },

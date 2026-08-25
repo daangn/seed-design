@@ -230,7 +230,12 @@
     padding: calc((52px - 22px) / 2);
     margin: calc((22px - 52px) / 2);
     cursor: pointer;
-    transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-side-panel__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+}
+.seed-side-panel__closeButton {
+    transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
     outline: var(--seed-dimension-x0_5) solid transparent;

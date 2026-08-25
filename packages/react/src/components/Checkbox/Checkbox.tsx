@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import { InternalIcon } from "../private/Icon";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
@@ -75,9 +76,8 @@ export interface CheckboxControlProps
   extends CheckmarkVariantProps,
     CheckboxPrimitive.ControlProps {}
 
-export const CheckboxControl = withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(
-  CheckboxPrimitive.Control,
-  "root",
+export const CheckboxControl = withScaleFeedback(
+  withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(CheckboxPrimitive.Control, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

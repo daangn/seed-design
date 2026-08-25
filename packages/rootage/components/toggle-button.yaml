@@ -24,6 +24,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -71,6 +74,9 @@ data:
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
+      pressed:
+        root:
+          scaleScope: self
     variant=brandSolid:
       enabled:
         root:

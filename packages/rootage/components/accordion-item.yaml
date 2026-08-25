@@ -34,6 +34,9 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       prefix:
         properties:
           paddingRight:
@@ -142,6 +145,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
+          scaleScope: content
 
     size=medium:
       enabled:

@@ -4,8 +4,9 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { onlyIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo, readOnly } from "../utils/pseudo";
 import {
   attachmentInput as vars,
   attachmentInputItem as itemVars,
@@ -69,7 +70,10 @@ const attachmentInputTrigger = defineSlotRecipe({
       cursor: "pointer",
       backgroundColor: "transparent",
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `background-color 0.2s, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -160,6 +164,8 @@ const attachmentInputItem = defineSlotRecipe({
       height: itemVars.base.enabled.root.height,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
+      transition: FEEDBACK_SCALE_TRANSITION,
+
       "--remove-button-mask-size": itemVars.base.enabled.removeButtonMask.size,
       "--remove-button-mask-offset": itemVars.base.enabled.removeButtonMask.offset,
 
@@ -181,7 +187,13 @@ const attachmentInputItem = defineSlotRecipe({
         cursor: "grab",
       },
 
+      // Shrinks the whole item while it is being dragged (dnd-kit sets
+      // [aria-grabbed=true]). The individual `scale` composes with the
+      // `transform: translate` dnd-kit applies to move the item instead of
+      // clobbering it.
       [pseudo("[aria-grabbed=true]")]: {
+        ...createScaleFeedbackStyles(),
+
         // Disable the remove button mask while dragging — see the slot's
         // description in attachment-input-item.yaml.
         "--remove-button-mask-size": "0px",
@@ -267,7 +279,10 @@ const attachmentInputItem = defineSlotRecipe({
       background: "transparent",
       cursor: "pointer",
       borderRadius: "inherit",
-      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -299,7 +314,10 @@ const attachmentInputItem = defineSlotRecipe({
       backgroundColor: itemRemoveButtonVars.base.enabled.root.color,
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
       cursor: "pointer",
-      transition: `background-color 0.2s, ${FOCUS_RING_TRANSITION}`,
+
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `background-color 0.2s, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
@@ -395,7 +413,9 @@ const attachmentInputItem = defineSlotRecipe({
         root: {
           width: itemVars.typeImage.enabled.root.width,
 
-          transition: "opacity 0.2s",
+          // Keep the base scale transition (image type overrides `transition`,
+          // which would otherwise drop the dragging scale animation).
+          transition: `opacity 0.2s, ${FEEDBACK_SCALE_TRANSITION}`,
 
           "&::before": {
             // The image and ::before both carry translateZ(0) (via removeButtonMask),

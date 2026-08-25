@@ -46,6 +46,13 @@
             },
             "gap": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -210,6 +217,10 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

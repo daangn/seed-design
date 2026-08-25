@@ -4,7 +4,8 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { imageFrameReactionButton as reactionButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -26,6 +27,10 @@ export default defineSlotRecipe({
       height: reactionButtonVars.base.enabled.root.size,
 
       background: "transparent",
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: FEEDBACK_SCALE_TRANSITION,
 
       "&::before": {
         content: "''",

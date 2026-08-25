@@ -29,6 +29,13 @@ declare const artifact: {
             "strokeColor": {
               "type": "color";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -174,6 +181,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

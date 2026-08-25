@@ -18,6 +18,9 @@ data:
             type: dimension
           gap:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       prefixIcon:
         properties:
           size:
@@ -86,6 +89,7 @@ data:
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
+          scaleScope: content
     tone=neutral:
       enabled:
         prefixIcon:

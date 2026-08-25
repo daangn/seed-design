@@ -41,6 +41,13 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "progressCircle": {
@@ -162,6 +169,19 @@ declare const artifact: {
                     "value": 2;
                     "unit": "px";
                   };
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

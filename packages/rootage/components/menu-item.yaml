@@ -32,6 +32,9 @@ data:
             type: dimension
           gap:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       prefixIcon:
         properties:
           size:
@@ -103,6 +106,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x2
           cornerRadius: $radius.r3
+          scaleScope: content
       disabled:
         prefixIcon:
           color: $color.fg.disabled

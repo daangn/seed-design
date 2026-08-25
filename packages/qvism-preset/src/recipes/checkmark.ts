@@ -2,6 +2,7 @@ import spec from "@seed-design/rootage-artifacts/components/checkmark";
 import { checkmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
+  active,
   engaged,
   checkedOrIndeterminate,
   disabled,
@@ -14,6 +15,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const checkmark = defineSlotRecipe({
   name: "checkmark",
@@ -26,7 +28,13 @@ const checkmark = defineSlotRecipe({
 
       marginTop: "var(--checkmark-margin-top, 0)", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      // A containing component (e.g. ListItem) opts the mark out of the pressed
+      // scale by setting --seed-checkmark-feedback-scale to 1.
+      [pseudo(not(disabled), active)]: {
+        ...createScaleFeedbackStyles({ overridableBy: "--seed-checkmark-feedback-scale" }),
+      },
+
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles({ overridableBy: "--seed-focus-ring" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ overridableBy: "--seed-focus-ring" }),

@@ -17,15 +17,6 @@ declare const artifact: {
             "colorTimingFunction": {
               "type": "cubicBezier";
             };
-            "scale": {
-              "type": "number";
-            };
-            "scaleDuration": {
-              "type": "duration";
-            };
-            "scaleTimingFunction": {
-              "type": "cubicBezier";
-            };
             "color": {
               "type": "color";
             };
@@ -52,6 +43,13 @@ declare const artifact: {
             };
             "paddingY": {
               "type": "dimension";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
             };
           };
         };
@@ -196,19 +194,24 @@ declare const artifact: {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
                 };
-                "scaleDuration": {
-                  "type": "duration";
-                  "value": "$duration.pressed-scale";
-                };
-                "scaleTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.pressed-scale";
-                };
               };
               "label": {
                 "fontWeight": {
                   "type": "number";
                   "value": "$font-weight.bold";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };
@@ -1102,19 +1105,6 @@ declare const artifact: {
               };
             };
           },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s95";
-                };
-              };
-            };
-          },
         ];
       },
       {
@@ -1237,19 +1227,6 @@ declare const artifact: {
                     "value": 2;
                     "unit": "px";
                   };
-                };
-              };
-            };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s97";
                 };
               };
             };
@@ -1380,19 +1357,6 @@ declare const artifact: {
               };
             };
           },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s97";
-                };
-              };
-            };
-          },
         ];
       },
       {
@@ -1518,19 +1482,6 @@ declare const artifact: {
                     "value": 2;
                     "unit": "px";
                   };
-                };
-              };
-            };
-          },
-          {
-            "states": readonly [
-              "pressed",
-            ];
-            "slots": {
-              "root": {
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s98";
                 };
               };
             };

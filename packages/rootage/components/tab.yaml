@@ -14,6 +14,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -35,6 +38,9 @@ data:
       disabled:
         label:
           color: $color.fg.disabled
+      pressed:
+        root:
+          scaleScope: self
     size=medium:
       enabled:
         root:

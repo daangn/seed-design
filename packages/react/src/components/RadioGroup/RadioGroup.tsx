@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import { InternalIcon } from "../private/Icon";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
@@ -81,10 +82,12 @@ export interface RadioGroupItemControlProps
   extends RadiomarkVariantProps,
     RadioGroupPrimitive.ItemControlProps {}
 
-export const RadioGroupItemControl = withRadiomarkProvider<
-  HTMLDivElement,
-  RadioGroupItemControlProps
->(RadioGroupPrimitive.ItemControl, "root");
+export const RadioGroupItemControl = withScaleFeedback(
+  withRadiomarkProvider<HTMLDivElement, RadioGroupItemControlProps>(
+    RadioGroupPrimitive.ItemControl,
+    "root",
+  ),
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

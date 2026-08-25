@@ -16,6 +16,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 
 const { withProvider, useClassNames } = createSlotRecipeContext(attachmentInputTrigger);
 
@@ -24,9 +25,8 @@ export interface AttachmentInputTriggerProps
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const AttachmentInputTrigger = withProvider<HTMLButtonElement, AttachmentInputTriggerProps>(
-  FileUploadPrimitive.Trigger,
-  "root",
+export const AttachmentInputTrigger = withScaleFeedback(
+  withProvider<HTMLButtonElement, AttachmentInputTriggerProps>(FileUploadPrimitive.Trigger, "root"),
 );
 
 export type AttachmentInputTriggerIconProps = React.SVGAttributes<SVGElement> & {

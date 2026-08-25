@@ -1,12 +1,13 @@
 import { sidePanel, type SidePanelVariantProps } from "@seed-design/css/recipes/side-panel";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { useScaleFeedback } from "../../utils/scaleFeedback";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(sidePanel);
@@ -202,11 +203,12 @@ export const SidePanelCloseButton = React.forwardRef<HTMLButtonElement, SidePane
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { trackRef } = closeButtonTracker.useRenderTracking();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <Drawer.CloseButton
-        ref={composeRefs(ref, trackRef)}
-        className={clsx(classNames.closeButton, className)}
+        ref={useComposedRefs(scaleFeedbackRef, ref, trackRef)}
+        className={clsx(classNames.closeButton, scaleFeedbackClassName, className)}
         {...props}
       />
     );

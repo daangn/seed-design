@@ -5,11 +5,12 @@
     align-items: center;
     gap: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
+    height: 80px;
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --remove-button-mask-size: var(--seed-dimension-x6);
     --remove-button-mask-offset: var(--seed-dimension-x1_5);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
-    height: 80px;
     display: flex;
     position: relative;
   }
@@ -47,6 +48,7 @@
   }
 
   .seed-attachment-input-item__root[aria-grabbed="true"] {
+    scale: var(--seed-feedback-scale);
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
   }
@@ -141,9 +143,6 @@
     font: inherit;
     cursor: pointer;
     border-radius: inherit;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background: none;
     border: none;
     flex-direction: column;
@@ -151,6 +150,16 @@
     align-items: center;
     padding: 0;
     display: flex;
+  }
+
+  .seed-attachment-input-item__actionButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-attachment-input-item__actionButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-attachment-input-item__actionButton:is(:focus-visible, [data-focus-visible]) {
@@ -174,15 +183,22 @@
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
     cursor: pointer;
-    transition: background-color .2s, outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     border: none;
     justify-content: center;
     align-items: center;
     padding: 0;
     display: flex;
     position: absolute;
+  }
+
+  .seed-attachment-input-item__removeButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-attachment-input-item__removeButton {
+    transition: background-color .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-attachment-input-item__removeButton:is(:focus-visible, [data-focus-visible]) {
@@ -249,7 +265,7 @@
 
   .seed-attachment-input-item__root--type_image {
     width: 80px;
-    transition: opacity .2s;
+    transition: opacity .2s, scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   }
 
   .seed-attachment-input-item__root--type_image:before {

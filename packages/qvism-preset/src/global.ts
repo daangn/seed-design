@@ -1,5 +1,6 @@
 import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
+import { scaleFeedbackGlobalStyles, scaleFeedbackRootVars } from "./utils/scale-feedback";
 import { active, pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
@@ -23,6 +24,8 @@ export const globalCss = defineGlobalCss({
     "--seed-font-size-limit-max": "1.5", // Android default 150%
     "--seed-line-height-limit-min": "0.8",
     "--seed-line-height-limit-max": "1.5", // Android default 150%
+
+    ...scaleFeedbackRootVars,
   },
 
   // iOS platform-specific overrides
@@ -274,4 +277,6 @@ export const globalCss = defineGlobalCss({
       fontWeight: vars.$fontWeight.bold,
     },
   },
+
+  ...scaleFeedbackGlobalStyles,
 });

@@ -28,6 +28,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -87,6 +90,7 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
+          scaleScope: self
       selected:
         root:
           color: $color.bg.transparent
