@@ -187,6 +187,7 @@ export default plugin(
   "bg-neutral-inverted": "var(--seed-color-bg-neutral-inverted)",
   "bg-neutral-inverted-pressed": "var(--seed-color-bg-neutral-inverted-pressed)",
   "bg-neutral-solid": "var(--seed-color-bg-neutral-solid)",
+  "bg-neutral-solid-pressed": "var(--seed-color-bg-neutral-solid-pressed)",
   "bg-neutral-solid-muted": "var(--seed-color-bg-neutral-solid-muted)",
   "bg-neutral-solid-muted-pressed": "var(--seed-color-bg-neutral-solid-muted-pressed)",
   "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",

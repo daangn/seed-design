@@ -76,7 +76,7 @@
     color: var(--seed-color-palette-static-white)
 }
 .seed-action-button__root--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white)
 }
@@ -343,7 +343,7 @@
     background: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-action-button__root--variant_neutralSolid-pressed_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-action-button__root--variant_neutralWeak-pressed_true {
     background: var(--seed-color-bg-neutral-weak-pressed)
@@ -483,7 +483,7 @@
     background: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-action-button__root--variant_neutralSolid-loading_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-action-button__root--variant_neutralWeak-loading_true {
     background: var(--seed-color-bg-neutral-weak-pressed)

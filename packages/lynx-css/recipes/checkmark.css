@@ -80,7 +80,7 @@
     color: var(--seed-color-palette-static-white)
 }
 .seed-checkmark__root--variant_square-tone_neutral-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-checked_true-disabled_false {
     color: var(--seed-color-fg-neutral-inverted)
@@ -92,7 +92,7 @@
     color: var(--seed-color-palette-static-white)
 }
 .seed-checkmark__root--variant_square-tone_neutral-indeterminate_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-indeterminate_true-disabled_false {
     color: var(--seed-color-fg-neutral-inverted)
@@ -153,11 +153,24 @@
     background-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-checkmark__root--variant_square-tone_neutral-pressed_true-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-checkmark__root--variant_square-tone_brand-pressed_true-indeterminate_true-disabled_false {
     background-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-checkmark__root--variant_square-tone_neutral-pressed_true-indeterminate_true-disabled_false {
+<<<<<<< HEAD
     background-color: var(--seed-color-bg-neutral-inverted-pressed)
+=======
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
+}
+.seed-checkmark__root--variant_ghost-pressed_true-checked_false-indeterminate_false-disabled_false {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
+.seed-checkmark__root--variant_ghost-tone_brand-pressed_true-checked_true-disabled_false {
+    background-color: var(--seed-color-palette-carrot-200)
+}
+.seed-checkmark__root--variant_ghost-tone_neutral-pressed_true-checked_true-disabled_false {
+    background-color: var(--seed-color-palette-gray-200)
+>>>>>>> a9ce5dac6 (feat(rootage): update neutral solid background tokens (#1811))
 }

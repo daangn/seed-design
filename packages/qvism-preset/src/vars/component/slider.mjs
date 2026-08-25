@@ -21,10 +21,10 @@ export const vars = {
       "thumb": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "valueIndicatorRoot": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r1_5)",
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x1)",
@@ -41,7 +41,7 @@ export const vars = {
         "translateTimingFunction": "var(--seed-timing-function-easing)"
       },
       "valueIndicatorArrow": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "width": "var(--seed-dimension-x2)",
         "height": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-r0_5)",

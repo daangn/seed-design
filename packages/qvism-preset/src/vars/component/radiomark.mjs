@@ -57,7 +57,7 @@ export const vars = {
   "toneNeutral": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral-inverted)"
@@ -65,7 +65,7 @@ export const vars = {
     },
     "enabledSelectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "disabled": {
