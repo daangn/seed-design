@@ -10,7 +10,14 @@ import { VariantTable } from "./components/variant-table";
 
 const meta = preview.meta({
   component: ActionButton,
-  decorators: [SeedThemeDecorator],
+  decorators: [
+    SeedThemeDecorator,
+    (Story) => (
+      <div style={{ border: "8px solid #ff00b8", padding: 16 }}>
+        <Story />
+      </div>
+    ),
+  ],
 });
 const conditionMap = {
   disabled: {
