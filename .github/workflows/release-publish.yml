@@ -200,11 +200,13 @@ jobs:
           PACKAGE_VERSIONS="$(jq -cn --argjson packages "$PUBLISHED_PACKAGES" '$packages | map({name: .name, value: .version}) | from_entries')"
           echo "packageVersions=$PACKAGE_VERSIONS" >> "$GITHUB_OUTPUT"
 
+      # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: Notify Slack
         uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
+          errors: true
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: "새 Rootage 버전이 배포되었어요."
