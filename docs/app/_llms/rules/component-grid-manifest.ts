@@ -154,6 +154,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다."
     },
     {
+      "slug": "pagination",
+      "title": "Pagination",
+      "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다."
+    },
+    {
       "slug": "progress-board",
       "title": "Progress Board",
       "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다."
