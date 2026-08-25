@@ -3,7 +3,7 @@ import { snackbarVariantMap } from "@seed-design/css/recipes/snackbar";
 import { Box } from "@seed-design/react";
 import { Snackbar, SnackbarProvider } from "seed-design/ui/snackbar";
 
-import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -55,13 +55,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
 });

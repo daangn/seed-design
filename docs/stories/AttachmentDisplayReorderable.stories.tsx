@@ -3,7 +3,7 @@ import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-i
 import type { DisplayItemEntry } from "@seed-design/react/primitive";
 import { AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { AttachmentDisplayReorderable } from "seed-design/ui/attachment-display-field-reorderable";
-import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { withChromaticParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -82,5 +82,5 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withVisualTestParameters({ theme: "dark" }),
+  parameters: withChromaticParameters({ theme: "dark" }),
 });
