@@ -5,7 +5,7 @@ import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrom
 import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 
 const meta = preview.meta({
@@ -48,13 +48,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

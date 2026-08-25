@@ -10,10 +10,10 @@ import {
   SelectRoot,
   SelectTrigger,
 } from "seed-design/ui/select";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 // The listbox is forced open for snapshots. It normally portals to the body and
 // is positioned by floating-ui (flip/shift/size, viewport-dependent). Here it is
@@ -112,18 +112,18 @@ const CommonStoryTemplate = meta.story({
 
 export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

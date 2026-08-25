@@ -4,7 +4,7 @@ import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { progressCircleVariantMap } from "@seed-design/css/recipes/progress-circle";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 
 const meta = preview.meta({
   component: ProgressCircle,
@@ -47,23 +47,23 @@ const Determinate100Template = meta.story({
 export const IndeterminateLightTheme = IndeterminateTemplate.extend({});
 
 export const IndeterminateDarkTheme = IndeterminateTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const Determinate0LightTheme = Determinate0Template.extend({});
 
 export const Determinate0DarkTheme = Determinate0Template.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const Determinate50LightTheme = Determinate50Template.extend({});
 
 export const Determinate50DarkTheme = Determinate50Template.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const Determinate100LightTheme = Determinate100Template.extend({});
 
 export const Determinate100DarkTheme = Determinate100Template.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
