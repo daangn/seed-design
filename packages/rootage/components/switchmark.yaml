@@ -99,7 +99,7 @@ data:
     tone=neutral:
       enabled:
         thumb:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       enabled,selected:
         root:
           color: $color.bg.neutral-solid

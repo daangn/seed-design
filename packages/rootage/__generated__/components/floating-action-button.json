@@ -138,7 +138,7 @@
               "icon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 },
                 "sizeDuration": {
                   "type": "duration",
@@ -206,7 +206,7 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 },
                 "fontSize": {
                   "type": "dimension",

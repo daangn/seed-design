@@ -48,7 +48,7 @@ export const vars = {
   "toneNeutral": {
     "enabled": {
       "thumb": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "enabledSelected": {

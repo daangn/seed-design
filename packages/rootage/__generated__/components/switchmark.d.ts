@@ -269,7 +269,7 @@ declare const artifact: {
               "thumb": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };

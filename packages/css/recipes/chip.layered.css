@@ -68,7 +68,7 @@
   .seed-chip__root--variant_solid:is(:checked, [data-checked]) {
     box-shadow: none;
     background: var(--seed-color-bg-neutral-solid);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -104,7 +104,7 @@
   }
 
   .seed-chip__label--variant_solid:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-chip__prefixIcon--variant_solid, .seed-chip__suffixIcon--variant_solid {
@@ -131,7 +131,7 @@
 
   .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-solid);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -155,7 +155,7 @@
   }
 
   .seed-chip__label--variant_outlineStrong:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-chip__prefixIcon--variant_outlineStrong, .seed-chip__suffixIcon--variant_outlineStrong {

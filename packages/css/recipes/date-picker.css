@@ -225,7 +225,7 @@
     background-color: var(--seed-color-bg-neutral-solid);
 }
 .seed-date-picker__dateButton:is([aria-selected=true], [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-date-picker__dateButton:not(:is(:disabled, [disabled], [data-disabled])):not([data-range-start-readonly]):is(:hover, [data-hover])::before {

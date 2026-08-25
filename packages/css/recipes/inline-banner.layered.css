@@ -150,12 +150,12 @@
 
   .seed-inline-banner__root--variant_criticalSolid {
     background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-critical-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-inline-banner__title--variant_criticalSolid, .seed-inline-banner__description--variant_criticalSolid, .seed-inline-banner__link--variant_criticalSolid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 }

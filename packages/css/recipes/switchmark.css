@@ -30,7 +30,7 @@
     background: var(--seed-color-palette-gray-600);
 }
 .seed-switchmark__thumb--tone_neutral {
-    background: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-switchmark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-palette-static-black-alpha-700);

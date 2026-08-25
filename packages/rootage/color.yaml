@@ -436,6 +436,36 @@ data:
       values:
         theme-light: $color.palette.gray-700
         theme-dark: $color.palette.gray-700
+    $color.fg.on-brand-solid:
+      description: 브랜드 Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-critical-solid:
+      description: Critical Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-informative-solid:
+      description: Informative Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-neutral-solid:
+      description: Neutral Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.gray-00
+        theme-dark: $color.palette.gray-100
+    $color.fg.on-positive-solid:
+      description: Positive Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-warning-solid:
+      description: Warning Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-900
+        theme-dark: $color.palette.static-black-alpha-900
     $color.fg.placeholder:
       values:
         theme-light: $color.palette.gray-600

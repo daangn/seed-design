@@ -54,7 +54,7 @@ data:
         root:
           color: $color.bg.brand-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
       enabled,selected,pressed:
         root:
           color: $color.bg.brand-solid-pressed
@@ -73,7 +73,7 @@ data:
         root:
           color: $color.bg.neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       enabled,selected,pressed:
         root:
           color: $color.bg.neutral-solid-pressed

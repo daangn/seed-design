@@ -11,7 +11,7 @@
     transform: scale(0.8)
 }
 .seed-switchmark__thumb--tone_neutral {
-    background-color: var(--seed-color-fg-neutral-inverted)
+    background-color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-switchmark__thumb--tone_brand {
     background-color: var(--seed-color-palette-static-white)

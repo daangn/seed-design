@@ -30,9 +30,9 @@
 }
 .seed-toggle-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    --range-color: var(--seed-color-fg-on-brand-solid);
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-toggle-button--variant_brandSolid:is(:hover, [data-hover]) {
@@ -75,8 +75,8 @@
     background: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-toggle-button--variant_brandSolid {
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-brand-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-brand-solid);
 }
 .seed-toggle-button--variant_neutralWeak {
     background: var(--seed-color-bg-neutral-weak);

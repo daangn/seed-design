@@ -21,23 +21,23 @@ export declare const vars: {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "pressed": {
@@ -80,23 +80,23 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressed": {
@@ -198,23 +198,23 @@ export declare const vars: {
         "color": "var(--seed-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       /** layout=iconOnly에서 사용되는 아이콘 슬롯입니다. */
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       /** 주로 액션의 의미를 보조합니다. suffixIcon과 함께 사용할 수 없습니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       /** Chevron처럼 동작을 보조하는 역할입니다. prefixIcon과 함께 사용할 수 없습니다. */
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-critical-solid)"
       }
     },
     "pressed": {

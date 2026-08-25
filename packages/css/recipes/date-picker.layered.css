@@ -255,7 +255,7 @@
   }
 
   .seed-date-picker__dateButton:is([aria-selected="true"], [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
