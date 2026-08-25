@@ -238,13 +238,13 @@ declare const artifact: {
                 };
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
               "valueIndicatorRoot": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -306,7 +306,7 @@ declare const artifact: {
               "valueIndicatorArrow": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "width": {
                   "type": "dimension";

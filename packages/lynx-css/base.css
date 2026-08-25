@@ -285,7 +285,8 @@ text {
   --seed-color-bg-magic-weak: #f9f2ee;
   --seed-color-bg-neutral-inverted: #2a3038;
   --seed-color-bg-neutral-inverted-pressed: #555d6d;
-  --seed-color-bg-neutral-solid: #1a1c20;
+  --seed-color-bg-neutral-solid: #2a3038;
+  --seed-color-bg-neutral-solid-pressed: #555d6d;
   --seed-color-bg-neutral-solid-muted: #555d6d;
   --seed-color-bg-neutral-solid-muted-pressed: #2a3038;
   --seed-color-bg-neutral-weak: #f3f4f5;
@@ -497,7 +498,8 @@ text {
   --seed-color-bg-magic-weak: #201f1f;
   --seed-color-bg-neutral-inverted: #f3f4f5;
   --seed-color-bg-neutral-inverted-pressed: #dcdee3;
-  --seed-color-bg-neutral-solid: #2b2e35;
+  --seed-color-bg-neutral-solid: #f3f4f5;
+  --seed-color-bg-neutral-solid-pressed: #dcdee3;
   --seed-color-bg-neutral-solid-muted: #393d46;
   --seed-color-bg-neutral-solid-muted-pressed: #5b606a;
   --seed-color-bg-neutral-weak: #2b2e35;

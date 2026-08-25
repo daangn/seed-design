@@ -571,8 +571,13 @@ data:
     $color.bg.neutral-solid:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
       values:
-        theme-light: $color.palette.gray-1000
-        theme-dark: $color.palette.gray-300
+        theme-light: $color.palette.gray-900
+        theme-dark: $color.palette.gray-1000
+    $color.bg.neutral-solid-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)
+      values:
+        theme-light: $color.palette.gray-800
+        theme-dark: $color.palette.gray-800
     $color.bg.neutral-solid-muted:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)
       excludeFromExchange: true
