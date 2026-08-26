@@ -8,9 +8,12 @@ import {
   addDays,
   addMonths,
   addYears,
+  assertDateInMonthRange,
   assertDateInYearRange,
-  clampDateToYearRange,
+  assertValidYearMonth,
+  clampDateToMonthRange,
   compareDates,
+  compareYearMonths,
   CONTINUOUS_MONTH_GAP,
   CONTINUOUS_MONTH_LABEL_HEIGHT,
   CONTINUOUS_WEEKDAY_HEIGHT,
@@ -36,6 +39,7 @@ import type {
   DatePickerConstraintContext,
   DatePickerDate,
   DatePickerMonth,
+  DatePickerMonthRange,
   DatePickerRangeValue,
   DatePickerSelectionMode,
   DatePickerValue,
@@ -106,24 +110,50 @@ function validateYearRange(yearRange: { start: number; end: number }) {
   }
 }
 
+function resolveMonthRange(
+  yearRange: { start: number; end: number },
+  monthRange: DatePickerMonthRange | undefined,
+): DatePickerMonthRange {
+  const resolved =
+    monthRange ??
+    ({
+      start: { year: yearRange.start, month: 1 },
+      end: { year: yearRange.end, month: 12 },
+    } satisfies DatePickerMonthRange);
+
+  assertValidYearMonth(resolved.start, "monthRange.start");
+  assertValidYearMonth(resolved.end, "monthRange.end");
+  if (compareYearMonths(resolved.start, resolved.end) > 0) {
+    throw new RangeError("DatePicker: monthRange.start는 monthRange.end보다 늦을 수 없습니다.");
+  }
+  if (resolved.start.year < yearRange.start || resolved.end.year > yearRange.end) {
+    throw new RangeError("DatePicker: monthRange는 yearRange 안에 있어야 합니다.");
+  }
+  return resolved;
+}
+
 function validateValue(
   mode: DatePickerSelectionMode,
   value: DatePickerValue,
   yearRange: { start: number; end: number },
+  monthRange: DatePickerMonthRange,
   propName: "value" | "defaultValue",
 ) {
   if (value === undefined) return;
 
   if (mode === "single") {
     assertDateInYearRange(value as DatePickerDate, yearRange, propName);
+    assertDateInMonthRange(value as DatePickerDate, monthRange, propName);
     return;
   }
 
   if (mode === "range") {
     const range = value as DatePickerRangeValue;
     assertDateInYearRange(range.start, yearRange, `${propName}.start`);
+    assertDateInMonthRange(range.start, monthRange, `${propName}.start`);
     if (range.end !== undefined) {
       assertDateInYearRange(range.end, yearRange, `${propName}.end`);
+      assertDateInMonthRange(range.end, monthRange, `${propName}.end`);
       if (compareDates(range.start, range.end) > 0) {
         throw new RangeError(`DatePicker: ${propName}.start는 end보다 늦을 수 없습니다.`);
       }
@@ -135,6 +165,7 @@ function validateValue(
   const keys = new Set<string>();
   dates.forEach((date, index) => {
     assertDateInYearRange(date, yearRange, `${propName}[${index}]`);
+    assertDateInMonthRange(date, monthRange, `${propName}[${index}]`);
     const key = dateKey(date);
     if (keys.has(key)) {
       throw new RangeError(`DatePicker: ${propName}에는 중복 날짜를 전달할 수 없습니다.`);
@@ -158,11 +189,11 @@ function isRtlLocale(locale: string) {
 }
 
 function getMonthDescriptorBases(
-  yearRange: { start: number; end: number },
+  monthRange: DatePickerMonthRange,
   locale: string,
   weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined,
 ) {
-  const cacheKey = `${yearRange.start}:${yearRange.end}:${locale}:${weekStartsOn ?? "locale"}`;
+  const cacheKey = `${monthRange.start.year}:${monthRange.start.month}:${monthRange.end.year}:${monthRange.end.month}:${locale}:${weekStartsOn ?? "locale"}`;
   const cached = monthDescriptorBasesCache.get(cacheKey);
   if (cached) {
     monthDescriptorBasesCache.delete(cacheKey);
@@ -173,13 +204,12 @@ function getMonthDescriptorBases(
   const result: MonthDescriptorBase[] = [];
   const resolvedWeekStartsOn = resolveWeekStartsOn(locale, weekStartsOn);
 
-  for (let year = yearRange.start; year <= yearRange.end; year++) {
-    for (let month = 1; month <= 12; month++) {
-      const date = { year, month, day: 1 };
-      const key = dateKey(date);
-      const weekCount = getMonthWeekCount(date, resolvedWeekStartsOn);
-      result.push({ date, key, weekCount });
-    }
+  const start = { ...monthRange.start, day: 1 };
+  const end = { ...monthRange.end, day: 1 };
+  for (let date = start; compareDates(date, end) <= 0; date = addMonths(date, 1)) {
+    const key = dateKey(date);
+    const weekCount = getMonthWeekCount(date, resolvedWeekStartsOn);
+    result.push({ date, key, weekCount });
   }
 
   if (monthDescriptorBasesCache.size >= MONTH_DESCRIPTOR_BASES_CACHE_LIMIT) {
@@ -258,11 +288,32 @@ export function useDatePicker(props: UseDatePickerProps) {
     () => ({ start: yearRangeStart, end: yearRangeEnd }),
     [yearRangeEnd, yearRangeStart],
   );
-
   validateYearRange(yearRange);
+
+  const monthRangeStartYear = props.monthRange?.start.year;
+  const monthRangeStartMonth = props.monthRange?.start.month;
+  const monthRangeEndYear = props.monthRange?.end.year;
+  const monthRangeEndMonth = props.monthRange?.end.month;
+  const monthRange = React.useMemo(
+    () =>
+      resolveMonthRange(
+        yearRange,
+        monthRangeStartYear === undefined ||
+          monthRangeStartMonth === undefined ||
+          monthRangeEndYear === undefined ||
+          monthRangeEndMonth === undefined
+          ? undefined
+          : {
+              start: { year: monthRangeStartYear, month: monthRangeStartMonth },
+              end: { year: monthRangeEndYear, month: monthRangeEndMonth },
+            },
+      ),
+    [monthRangeEndMonth, monthRangeEndYear, monthRangeStartMonth, monthRangeStartYear, yearRange],
+  );
+
   assertDateInYearRange(today, yearRange, "today");
-  validateValue(selectionMode, props.value, yearRange, "value");
-  validateValue(selectionMode, props.defaultValue, yearRange, "defaultValue");
+  validateValue(selectionMode, props.value, yearRange, monthRange, "value");
+  validateValue(selectionMode, props.defaultValue, yearRange, monthRange, "defaultValue");
   if (
     selectionMode === "range" &&
     props.rangeStartReadOnly === true &&
@@ -275,9 +326,11 @@ export function useDatePicker(props: UseDatePickerProps) {
   }
   if (props.viewDate !== undefined) {
     assertDateInYearRange(props.viewDate, yearRange, "viewDate");
+    assertDateInMonthRange(props.viewDate, monthRange, "viewDate");
   }
   if (props.defaultViewDate !== undefined) {
     assertDateInYearRange(props.defaultViewDate, yearRange, "defaultViewDate");
+    assertDateInMonthRange(props.defaultViewDate, monthRange, "defaultViewDate");
   }
 
   const defaultSelection = selectionMode === "multiple" ? [] : undefined;
@@ -291,7 +344,10 @@ export function useDatePicker(props: UseDatePickerProps) {
     selectionMode,
     props.value ?? props.defaultValue,
   );
-  const initialViewSource = props.viewDate ?? props.defaultViewDate ?? initialSelectedDate ?? today;
+  const initialViewSource = clampDateToMonthRange(
+    props.viewDate ?? props.defaultViewDate ?? initialSelectedDate ?? today,
+    monthRange,
+  );
   const viewDateYear = props.viewDate?.year;
   const viewDateMonth = props.viewDate?.month;
   const viewDateDay = props.viewDate?.day;
@@ -407,7 +463,12 @@ export function useDatePicker(props: UseDatePickerProps) {
 
   const isUnavailable = React.useCallback(
     (date: DatePickerDate) => {
-      if (date.year < yearRange.start || date.year > yearRange.end) return true;
+      if (
+        compareYearMonths(date, monthRange.start) < 0 ||
+        compareYearMonths(date, monthRange.end) > 0
+      ) {
+        return true;
+      }
       const rangeValue =
         selectionMode === "range" ? (value as DatePickerRangeValue | undefined) : undefined;
       if (rangeStartReadOnly && isSameDate(date, rangeValue?.start)) return false;
@@ -427,38 +488,48 @@ export function useDatePicker(props: UseDatePickerProps) {
       rangeStartReadOnly,
       selectionMode,
       value,
-      yearRange.end,
-      yearRange.start,
+      monthRange.end,
+      monthRange.start,
     ],
   );
 
   const setViewDate = React.useCallback(
     (date: DatePickerDate) => {
-      const normalized = normalizeViewDate(date, visibleRange, locale, props.weekStartsOn);
+      const clamped = clampDateToMonthRange(date, monthRange);
+      const normalized = normalizeViewDate(clamped, visibleRange, locale, props.weekStartsOn);
       if (!isSameDate(normalized, viewDate)) setViewDateState(normalized);
     },
-    [locale, props.weekStartsOn, setViewDateState, viewDate, visibleRange],
+    [locale, monthRange, props.weekStartsOn, setViewDateState, viewDate, visibleRange],
   );
+
+  useLayoutEffect(() => {
+    if (props.viewDate !== undefined) return;
+    const clampedViewDate = clampDateToMonthRange(viewDate, monthRange);
+    if (!isSameDate(clampedViewDate, viewDate)) setViewDate(clampedViewDate);
+    setFocusedDate((current) => clampDateToMonthRange(current, monthRange));
+  }, [monthRange, props.viewDate, setViewDate, viewDate]);
 
   const navigateToDate = React.useCallback(
     (date: DatePickerDate) => {
       assertDateInYearRange(date, yearRange, "actions.navigateToDate(date)");
+      assertDateInMonthRange(date, monthRange, "actions.navigateToDate(date)");
       shouldMoveDomFocusRef.current = false;
       setFocusedDate(date);
       setViewDate(date);
     },
-    [setViewDate, yearRange],
+    [monthRange, setViewDate, yearRange],
   );
 
   const focusDate = React.useCallback(
     (date: DatePickerDate) => {
       assertDateInYearRange(date, yearRange, "actions.focusDate(date)");
+      assertDateInMonthRange(date, monthRange, "actions.focusDate(date)");
       shouldMoveDomFocusRef.current = true;
       setFocusedDate(date);
       setViewDate(date);
       requestDomFocusCommit();
     },
-    [setViewDate, yearRange],
+    [monthRange, setViewDate, yearRange],
   );
 
   const actions: DatePickerActions = React.useMemo(
@@ -548,7 +619,7 @@ export function useDatePicker(props: UseDatePickerProps) {
 
   const moveFocus = React.useCallback(
     (nextDate: DatePickerDate) => {
-      const clamped = clampDateToYearRange(nextDate, yearRange);
+      const clamped = clampDateToMonthRange(nextDate, monthRange);
       shouldMoveDomFocusRef.current = true;
       setFocusedDate(clamped);
 
@@ -565,7 +636,7 @@ export function useDatePicker(props: UseDatePickerProps) {
         setViewDate(clamped);
       }
     },
-    [setViewDate, viewDate, visibleRange, yearRange],
+    [monthRange, setViewDate, viewDate, visibleRange],
   );
 
   React.useEffect(() => {
@@ -769,18 +840,12 @@ export function useDatePicker(props: UseDatePickerProps) {
   const [continuousMonthHeights, setContinuousMonthHeights] = React.useState<
     ReadonlyMap<string, number>
   >(() => new Map());
-  const continuousYearStart = yearRange.start;
-  const continuousYearEnd = yearRange.end;
   const continuousMonthDescriptorBases = React.useMemo(
     () =>
       visibleRange === "continuous"
-        ? getMonthDescriptorBases(
-            { start: continuousYearStart, end: continuousYearEnd },
-            locale,
-            props.weekStartsOn,
-          )
+        ? getMonthDescriptorBases(monthRange, locale, props.weekStartsOn)
         : [],
-    [continuousYearEnd, continuousYearStart, locale, props.weekStartsOn, visibleRange],
+    [locale, monthRange, props.weekStartsOn, visibleRange],
   );
   const { descriptors, totalHeight } = React.useMemo(
     () =>
@@ -950,11 +1015,11 @@ export function useDatePicker(props: UseDatePickerProps) {
       if (isWheelOpen) return;
       const next =
         visibleRange === "week" ? addDays(viewDate, direction * 7) : addMonths(viewDate, direction);
-      const clamped = clampDateToYearRange(next, yearRange);
+      const clamped = clampDateToMonthRange(next, monthRange);
       setViewDate(clamped);
       setFocusedDate(clamped);
     },
-    [isWheelOpen, setViewDate, viewDate, visibleRange, yearRange],
+    [isWheelOpen, monthRange, setViewDate, viewDate, visibleRange],
   );
 
   const headerLabel =
@@ -964,14 +1029,20 @@ export function useDatePicker(props: UseDatePickerProps) {
   const previousLabel =
     visibleRange === "week" ? ariaLabels.previousWeek : ariaLabels.previousMonth;
   const nextLabel = visibleRange === "week" ? ariaLabels.nextWeek : ariaLabels.nextMonth;
+  const monthRangeStartDate = { ...monthRange.start, day: 1 };
+  const monthRangeEndStartDate = { ...monthRange.end, day: 1 };
+  const monthRangeEndDate = {
+    ...monthRange.end,
+    day: getDaysInMonth(monthRangeEndStartDate),
+  };
   const canMovePrevious =
     visibleRange === "week"
-      ? compareDates(viewDate, { year: yearRange.start, month: 1, day: 1 }) > 0
-      : viewDate.year > yearRange.start || viewDate.month > 1;
+      ? compareDates(viewDate, monthRangeStartDate) > 0
+      : compareYearMonths(viewDate, monthRange.start) > 0;
   const canMoveNext =
     visibleRange === "week"
-      ? compareDates(addDays(viewDate, 6), { year: yearRange.end, month: 12, day: 31 }) < 0
-      : viewDate.year < yearRange.end || viewDate.month < 12;
+      ? compareDates(addDays(viewDate, 6), monthRangeEndDate) < 0
+      : compareYearMonths(viewDate, monthRange.end) < 0;
 
   const yearOptions = React.useMemo(() => {
     const formatter = new Intl.DateTimeFormat(locale, {

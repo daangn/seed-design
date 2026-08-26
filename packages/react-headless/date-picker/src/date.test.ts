@@ -1,5 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import {
+  clampDateToMonthRange,
+  compareYearMonths,
   getDaysInMonth,
   getMonthWeekCount,
   getMonthWeekStarts,
@@ -24,6 +26,25 @@ describe("date utilities", () => {
     expect(
       inclusiveDayCount({ year: 2026, month: 7, day: 31 }, { year: 2026, month: 7, day: 30 }),
     ).toBe(0);
+  });
+
+  it("연월을 비교하고 monthRange 경계로 날짜를 보정한다", () => {
+    const monthRange = {
+      start: { year: 2026, month: 12 },
+      end: { year: 2027, month: 2 },
+    };
+
+    expect(compareYearMonths(monthRange.start, monthRange.end)).toBeLessThan(0);
+    expect(clampDateToMonthRange({ year: 2026, month: 11, day: 15 }, monthRange)).toEqual({
+      year: 2026,
+      month: 12,
+      day: 1,
+    });
+    expect(clampDateToMonthRange({ year: 2027, month: 3, day: 15 }, monthRange)).toEqual({
+      year: 2027,
+      month: 2,
+      day: 28,
+    });
   });
 
   it("월별 주 수를 locale과 주 시작일에 맞게 계산한다", () => {

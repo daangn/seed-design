@@ -130,6 +130,28 @@ export const Continuous = meta.story({
   ),
 });
 
+export const ContinuousMonthRange = meta.story({
+  render: () => (
+    <Box width="358px" height="420px">
+      <ContinuousDatePicker
+        selectionMode="range"
+        height="full"
+        today={{ year: 2026, month: 12, day: 15 }}
+        yearRange={{ start: 2026, end: 2027 }}
+        monthRange={{
+          start: { year: 2026, month: 12 },
+          end: { year: 2027, month: 1 },
+        }}
+        constraints={[
+          (date) =>
+            (date.year === 2026 && date.month === 12 && date.day >= 15) ||
+            (date.year === 2027 && date.month === 1 && date.day <= 14),
+        ]}
+      />
+    </Box>
+  ),
+});
+
 export const ContinuousCustomCell = meta.story({
   render: () => (
     <Box width="358px" height="560px">
