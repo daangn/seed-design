@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from "@lynx-js/react";
 import { useSafeArea } from "@seed-design/lynx-react";
 
+import { AccordionPage } from "./pages/AccordionPage.jsx";
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
@@ -42,6 +43,7 @@ const FoundationMulticolorIconPage = lazy(async () => ({
 export type Page =
   | "home"
   | "theming"
+  | "accordion"
   | "action-button"
   | "app-bar"
   | "badge"
@@ -80,6 +82,7 @@ function BackButton({ onBack }: { onBack: () => void }) {
 
 // Pages that own their own scroll areas use a fullscreen flex shell.
 const FULLSCREEN_PAGES = new Set<Page>([
+  "accordion",
   "action-button",
   "badge",
   "bottom-sheet",
@@ -143,6 +146,7 @@ export function App(props: { onRender?: () => void }) {
         <view className="px-x4 shrink-0">
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
+        {currentPage === "accordion" && <AccordionPage />}
         {currentPage === "action-button" && <ActionButtonPage />}
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
