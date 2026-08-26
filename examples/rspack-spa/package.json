@@ -15,6 +15,7 @@
   "devDependencies": {
     "@rspack/cli": "^2.0.0",
     "@rspack/core": "^2.0.0",
+    "@rspack/dev-server": "^2.0.0",
     "@rspack/plugin-react-refresh": "^2.0.0",
     "@seed-design/webpack-plugin": "2.1.0",
     "@types/react": "^19.1.6",
