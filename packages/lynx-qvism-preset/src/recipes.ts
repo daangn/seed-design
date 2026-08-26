@@ -7,6 +7,7 @@ import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
+import chip from "./recipes/chip";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import radio from "./recipes/radio";
@@ -31,6 +32,7 @@ export const recipes = {
   checkbox,
   checkboxGroup,
   checkmark,
+  chip,
   field,
   fieldLabel,
   radio,
