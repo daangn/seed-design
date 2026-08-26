@@ -1600,19 +1600,6 @@ declare const artifact: {
           };
         };
       };
-      "$color.bg.neutral-inverted": {
-        "values": {
-          "theme-light": {
-            "type": "color";
-            "value": "$color.palette.gray-900";
-          };
-          "theme-dark": {
-            "type": "color";
-            "value": "$color.palette.gray-1000";
-          };
-        };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)";
-      };
       "$color.bg.neutral-inverted-pressed": {
         "values": {
           "theme-light": {
@@ -1630,14 +1617,27 @@ declare const artifact: {
         "values": {
           "theme-light": {
             "type": "color";
-            "value": "$color.palette.gray-1000";
+            "value": "$color.palette.gray-900";
           };
           "theme-dark": {
             "type": "color";
-            "value": "$color.palette.gray-300";
+            "value": "$color.palette.gray-1000";
           };
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)";
+      };
+      "$color.bg.neutral-solid-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-800";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-800";
+          };
+        };
+        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)";
       };
       "$color.bg.neutral-weak": {
         "values": {

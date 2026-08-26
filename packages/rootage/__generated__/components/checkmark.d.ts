@@ -257,7 +257,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
               "icon": {
@@ -277,7 +277,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
+                  "value": "$color.bg.neutral-solid-pressed";
                 };
               };
             };
