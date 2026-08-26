@@ -3,6 +3,7 @@ import { appBar, appBarMain } from "./recipes/app-bar";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
+import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
@@ -26,6 +27,7 @@ export const recipes = {
   badge,
   bottomSheet,
   bottomSheetHandle,
+  callout,
   checkbox,
   checkboxGroup,
   checkmark,

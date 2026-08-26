@@ -1,0 +1,14 @@
+.callout-preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  gap: 16px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.callout-preview__status {
+  color: var(--seed-color-fg-neutral-subtle);
+  font-size: var(--seed-font-size-t3);
+  line-height: var(--seed-line-height-t3);
+}
