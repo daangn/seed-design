@@ -129,6 +129,21 @@
     {
       "snippets": [
         {
+          "path": "tabs.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "tabs",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "tag-group.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
