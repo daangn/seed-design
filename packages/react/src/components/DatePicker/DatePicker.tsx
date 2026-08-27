@@ -9,6 +9,7 @@ import {
   type DatePickerCell,
   type DatePickerCellState,
   type DatePickerMonth,
+  type DatePickerMonthRange,
   type DatePickerVisibleRange,
   type UseDatePickerProps,
 } from "@seed-design/react-date-picker";
@@ -43,7 +44,7 @@ export interface DatePickerCellContentRenderProps extends DatePickerCellState {}
 
 type DatePickerBehaviorProps = UseDatePickerProps extends infer Props
   ? Props extends UseDatePickerProps
-    ? Omit<Props, "visibleRange">
+    ? Omit<Props, "visibleRange" | "monthRange">
     : never
   : never;
 
@@ -82,10 +83,18 @@ export type WeekDatePickerProps = DatePickerSharedProps;
 type DatePickerPropsWithoutSize<Props = DatePickerSharedProps> = Props extends DatePickerSharedProps
   ? Omit<Props, "height" | "minHeight" | "maxHeight">
   : never;
-export type ContinuousDatePickerProps = DatePickerPropsWithoutSize & ContinuousSizeConstraint;
+export type ContinuousDatePickerProps = DatePickerPropsWithoutSize &
+  ContinuousSizeConstraint & {
+    /**
+     * 노출하고 이동할 수 있는 월 범위입니다. 양끝 월을 포함합니다.
+     * 생략하면 `yearRange.start`의 1월부터 `yearRange.end`의 12월까지 노출합니다.
+     */
+    monthRange?: DatePickerMonthRange;
+  };
 
 type DatePickerImplementationProps = DatePickerSharedProps & {
   visibleRange: DatePickerVisibleRange;
+  monthRange?: DatePickerMonthRange;
 };
 
 type NavigationChevronIconProps = React.SVGProps<SVGSVGElement> & {
@@ -409,6 +418,7 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
       locale: _locale,
       weekStartsOn: _weekStartsOn,
       yearRange: _yearRange,
+      monthRange: _monthRange,
       constraints: _constraints,
       disabled: _disabled,
       readOnly: _readOnly,
@@ -554,10 +564,12 @@ export type {
   DatePickerConstraint,
   DatePickerConstraintContext,
   DatePickerDate,
+  DatePickerMonthRange,
   DatePickerMultipleProps,
   DatePickerRangeProps,
   DatePickerRangeValue,
   DatePickerSelectionMode,
   DatePickerSingleProps,
   DatePickerValue,
+  DatePickerYearMonth,
 } from "@seed-design/react-date-picker";

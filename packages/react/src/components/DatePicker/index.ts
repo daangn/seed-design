@@ -10,6 +10,7 @@ export {
   type DatePickerConstraint,
   type DatePickerConstraintContext,
   type DatePickerDate,
+  type DatePickerMonthRange,
   type DatePickerMultipleProps,
   type DatePickerProps,
   type DatePickerRangeProps,
@@ -17,6 +18,7 @@ export {
   type DatePickerSelectionMode,
   type DatePickerSingleProps,
   type DatePickerValue,
+  type DatePickerYearMonth,
   type TwoMonthDatePickerProps,
   type WeekDatePickerProps,
 } from "./DatePicker";
