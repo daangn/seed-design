@@ -5,6 +5,7 @@ import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
+import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
@@ -45,6 +46,7 @@ export type Page =
   | "app-bar"
   | "badge"
   | "bottom-sheet"
+  | "callout"
   | "checkbox"
   | "progress-circle"
   | "radio-group"
@@ -81,6 +83,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "action-button",
   "badge",
   "bottom-sheet",
+  "callout",
   "checkbox",
   "progress-circle",
   "radio-group",
@@ -143,6 +146,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "action-button" && <ActionButtonPage />}
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
+        {currentPage === "callout" && <CalloutPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}
