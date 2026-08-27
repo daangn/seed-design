@@ -11,6 +11,10 @@ const tabsSlotNames = [
     "seed-tabs__list"
   ],
   [
+    "listContent",
+    "seed-tabs__listContent"
+  ],
+  [
     "carousel",
     "seed-tabs__carousel"
   ],

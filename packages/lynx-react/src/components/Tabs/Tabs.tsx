@@ -36,11 +36,11 @@ function invokeSelectTab(pager: NodesRef | null, index: number, smooth: boolean)
   }
 }
 
-function invokeScrollToIndex(list: NodesRef | null, index: number) {
+function invokeScrollToOffset(list: NodesRef | null, offset: number) {
   "background only";
-  if (!list || index < 0) return;
+  if (!list || offset < 0) return;
   try {
-    list.invoke({ method: "scrollTo", params: { index, smooth: true } }).exec();
+    list.invoke({ method: "scrollTo", params: { offset, smooth: true } }).exec();
   } catch {
     // ReactLynx Testing Library의 NodesRef는 UI method를 구현하지 않는다.
   }
@@ -169,13 +169,15 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
 
   const selectedIndex = value === undefined ? -1 : items.findIndex((item) => item.value === value);
+  const selectedRect = value === undefined ? undefined : triggerRects[value];
+  const selectedOffset = selectedRect ? Math.max(0, selectedRect.left - listLeft) : null;
 
   const setListNode = React.useCallback(
     (node: NodesRef | null) => {
       listRef.current = node;
-      if (node && selectedIndex >= 0) invokeScrollToIndex(node, selectedIndex);
+      if (node && selectedOffset !== null) invokeScrollToOffset(node, selectedOffset);
     },
-    [selectedIndex],
+    [selectedOffset],
   );
 
   const setPagerNode = React.useCallback(
@@ -244,8 +246,8 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     "background only";
     if (selectedIndex < 0) return;
     invokeSelectTab(pagerRef.current, selectedIndex, false);
-    invokeScrollToIndex(listRef.current, selectedIndex);
-  }, [selectedIndex]);
+    if (selectedOffset !== null) invokeScrollToOffset(listRef.current, selectedOffset);
+  }, [selectedIndex, selectedOffset]);
 
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({
@@ -348,7 +350,7 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
       className={clsx(classNames.list, className)}
       style={style}
     >
-      {children}
+      <view className={classNames.listContent}>{children}</view>
     </scroll-view>
   );
 });

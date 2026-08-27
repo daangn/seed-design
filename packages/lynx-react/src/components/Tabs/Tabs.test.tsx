@@ -31,6 +31,15 @@ function getTrigger(container: HTMLElement, label: string) {
 }
 
 describe("Tabs", () => {
+  it("renders triggers inside the list content layout container", () => {
+    const { container } = render(<BasicTabs defaultValue="one" />);
+    const list = container.querySelector(".seed-tabs__list");
+    const listContent = list?.querySelector(":scope > .seed-tabs__listContent");
+
+    expect(listContent).not.toBeNull();
+    expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
+  });
+
   it("changes an uncontrolled value when a trigger is tapped", () => {
     const onValueChange = vi.fn();
     const { container } = render(<BasicTabs defaultValue="one" onValueChange={onValueChange} />);

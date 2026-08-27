@@ -6,6 +6,7 @@ const tabs = defineSlotRecipe({
   slots: [
     "root",
     "list",
+    "listContent",
     "carousel",
     "carouselCamera",
     "content",
@@ -18,15 +19,20 @@ const tabs = defineSlotRecipe({
       position: "relative",
     },
     list: {
+      position: "relative",
+      backgroundColor: vars.base.enabled.root.color,
+      borderBottomWidth: vars.base.enabled.root.strokeBottomWidth,
+      borderBottomStyle: "solid",
+      borderBottomColor: vars.base.enabled.root.strokeColor,
+    },
+    listContent: {
       display: "flex",
       flexDirection: "row",
       position: "relative",
       flexWrap: "nowrap",
       alignItems: "stretch",
-      backgroundColor: vars.base.enabled.root.color,
-      borderBottomWidth: vars.base.enabled.root.strokeBottomWidth,
-      borderBottomStyle: "solid",
-      borderBottomColor: vars.base.enabled.root.strokeColor,
+      width: "max-content",
+      minWidth: "100%",
     },
     carousel: {
       display: "flex",
@@ -68,7 +74,8 @@ const tabs = defineSlotRecipe({
   variants: {
     triggerLayout: {
       fill: {
-        list: {
+        listContent: {
+          width: "100%",
           paddingLeft: vars.layoutFill.enabled.root.paddingX,
           paddingRight: vars.layoutFill.enabled.root.paddingX,
         },
@@ -81,7 +88,7 @@ const tabs = defineSlotRecipe({
         },
       },
       hug: {
-        list: {
+        listContent: {
           paddingLeft: vars.layoutHug.enabled.root.paddingX,
           paddingRight: vars.layoutHug.enabled.root.paddingX,
         },
