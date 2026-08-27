@@ -1952,7 +1952,7 @@ text {
 }
 
 .seed-chip__prefixIcon {
-  padding-left: var(--seed-dimension-x1_5);
+  margin-left: var(--seed-dimension-x1_5);
   flex-shrink: 0;
   align-items: center;
   display: flex;
@@ -1965,7 +1965,7 @@ text {
 }
 
 .seed-chip__suffixIcon {
-  padding-right: var(--seed-dimension-x1_5);
+  margin-right: var(--seed-dimension-x1_5);
   flex-shrink: 0;
   align-items: center;
   display: flex;
@@ -2074,7 +2074,7 @@ text {
 .seed-chip__prefixIcon--size_large {
   width: var(--seed-dimension-x4);
   height: var(--seed-dimension-x4);
-  padding-left: var(--seed-dimension-x1_5);
+  margin-left: var(--seed-dimension-x1_5);
 }
 
 .seed-chip__prefixAvatar--size_large {

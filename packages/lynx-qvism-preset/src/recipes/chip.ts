@@ -37,7 +37,7 @@ const chip = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       flexShrink: 0,
-      paddingLeft: vars.base.enabled.prefixIcon.paddingLeft,
+      marginLeft: vars.base.enabled.prefixIcon.paddingLeft,
     },
     prefixAvatar: {
       display: "flex",
@@ -48,7 +48,7 @@ const chip = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       flexShrink: 0,
-      paddingRight: vars.base.enabled.suffixIcon.paddingRight,
+      marginRight: vars.base.enabled.suffixIcon.paddingRight,
     },
     icon: {
       display: "flex",
@@ -154,7 +154,7 @@ const chip = defineSlotRecipe({
         prefixIcon: {
           width: vars.sizeLarge.enabled.prefixIcon.size,
           height: vars.sizeLarge.enabled.prefixIcon.size,
-          paddingLeft: vars.sizeLarge.enabled.prefixIcon.paddingLeft,
+          marginLeft: vars.sizeLarge.enabled.prefixIcon.paddingLeft,
         },
         prefixAvatar: {
           width: vars.sizeLarge.enabled.prefixAvatar.size,
