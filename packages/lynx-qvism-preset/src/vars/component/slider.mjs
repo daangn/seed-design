@@ -48,7 +48,7 @@ export const vars = {
         "gutter": "var(--seed-dimension-x0_5)"
       },
       "valueIndicatorLabel": {
-        "color": "var(--seed-color-fg-neutral-inverted)",
+        "color": "var(--seed-color-fg-on-neutral-solid)",
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
         "fontWeight": "var(--seed-font-weight-medium)"

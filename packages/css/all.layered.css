@@ -645,9 +645,14 @@
     --seed-color-fg-informative: var(--seed-color-palette-blue-700);
     --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
     --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
-    --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
     --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
     --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
+    --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-critical-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-informative-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-neutral-solid: var(--seed-color-palette-gray-00);
+    --seed-color-fg-on-positive-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-warning-solid: var(--seed-color-palette-static-black-alpha-900);
     --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
     --seed-color-fg-positive: var(--seed-color-palette-green-700);
     --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
@@ -857,9 +862,14 @@
     --seed-color-fg-informative: var(--seed-color-palette-blue-700);
     --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
     --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
-    --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
     --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
     --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
+    --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-critical-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-informative-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-neutral-solid: var(--seed-color-palette-gray-100);
+    --seed-color-fg-on-positive-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-warning-solid: var(--seed-color-palette-static-black-alpha-900);
     --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
     --seed-color-fg-positive: var(--seed-color-palette-green-700);
     --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
@@ -1606,13 +1616,13 @@
 
   .seed-action-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     font-weight: var(--seed-font-weight-bold);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
-    --seed-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-brand-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-brand-solid);
+    --seed-icon-color: var(--seed-color-fg-on-brand-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    --range-color: var(--seed-color-fg-on-brand-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -1641,13 +1651,13 @@
 
   .seed-action-button--variant_neutralSolid {
     background: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-weight: var(--seed-font-weight-bold);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-neutral-solid);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    --range-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -1711,13 +1721,13 @@
 
   .seed-action-button--variant_criticalSolid {
     background: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
     font-weight: var(--seed-font-weight-bold);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
-    --seed-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-critical-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-critical-solid);
+    --seed-icon-color: var(--seed-color-fg-on-critical-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    --range-color: var(--seed-color-fg-on-critical-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -2995,7 +3005,7 @@
 
   .seed-badge__root--tone_neutral-variant_solid {
     background-color: var(--seed-color-palette-gray-800);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-badge__root--tone_neutral-variant_outline {
@@ -3010,7 +3020,7 @@
 
   .seed-badge__root--tone_brand-variant_solid {
     background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-badge__root--tone_brand-variant_outline {
@@ -3025,7 +3035,7 @@
 
   .seed-badge__root--tone_informative-variant_solid {
     background-color: var(--seed-color-bg-informative-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
   }
 
   .seed-badge__root--tone_informative-variant_outline {
@@ -3040,7 +3050,7 @@
 
   .seed-badge__root--tone_positive-variant_solid {
     background-color: var(--seed-color-bg-positive-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
   }
 
   .seed-badge__root--tone_positive-variant_outline {
@@ -3055,7 +3065,7 @@
 
   .seed-badge__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
   }
 
   .seed-badge__root--tone_warning-variant_outline {
@@ -3070,7 +3080,7 @@
 
   .seed-badge__root--tone_critical-variant_solid {
     background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-badge__root--tone_critical-variant_outline {
@@ -3834,7 +3844,7 @@
   }
 
   .seed-checkmark__icon--variant_square-tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-checkmark__root--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -3854,7 +3864,7 @@
   }
 
   .seed-checkmark__icon--variant_square-tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -3983,7 +3993,7 @@
   .seed-chip__root--variant_solid:is(:checked, [data-checked]) {
     box-shadow: none;
     background: var(--seed-color-bg-neutral-solid);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -4019,7 +4029,7 @@
   }
 
   .seed-chip__label--variant_solid:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-chip__prefixIcon--variant_solid, .seed-chip__suffixIcon--variant_solid {
@@ -4046,7 +4056,7 @@
 
   .seed-chip__root--variant_outlineStrong:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-solid);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -4070,7 +4080,7 @@
   }
 
   .seed-chip__label--variant_outlineStrong:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-chip__prefixIcon--variant_outlineStrong, .seed-chip__suffixIcon--variant_outlineStrong {
@@ -4296,7 +4306,7 @@
 
   .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -4336,7 +4346,7 @@
 
   .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     border-color: #0000;
   }
 
@@ -4725,11 +4735,11 @@
 
   .seed-contextual-floating-button--variant_solid {
     background: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
     --track-color: var(--seed-color-palette-gray-700);
-    --range-color: var(--seed-color-fg-neutral-inverted);
+    --range-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -5176,7 +5186,7 @@
   }
 
   .seed-date-picker__dateButton:is([aria-selected="true"], [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -5696,7 +5706,7 @@
 
   .seed-extended-fab--variant_neutralSolid {
     background: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
@@ -5704,7 +5714,7 @@
   }
 
   .seed-extended-fab--variant_neutralSolid {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-extended-fab--variant_layerFloating {
@@ -6385,7 +6395,7 @@
     background: var(--seed-color-bg-brand-solid);
     border-radius: var(--seed-radius-full);
     box-shadow: var(--seed-shadow-s3);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
@@ -6414,7 +6424,7 @@
   }
 
   .seed-floating-action-button__icon {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     transition: margin-right var(--seed-duration-d4) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing);
     flex-shrink: 0;
     justify-content: center;
@@ -6587,7 +6597,7 @@
   }
 
   .seed-help-bubble__title {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-bold);
     line-height: var(--seed-line-height-t3);
@@ -6595,7 +6605,7 @@
   }
 
   .seed-help-bubble__description {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-regular);
     line-height: var(--seed-line-height-t3);
@@ -6608,9 +6618,9 @@
     margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-block: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     --seed-icon-size: var(--seed-dimension-x3_5);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
     border-radius: var(--seed-radius-r3);
     background: none;
     border: none;
@@ -6933,13 +6943,13 @@
 
   .seed-inline-banner__root--variant_criticalSolid {
     background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-critical-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-inline-banner__title--variant_criticalSolid, .seed-inline-banner__description--variant_criticalSolid, .seed-inline-banner__link--variant_criticalSolid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-input-button__root {
@@ -8325,7 +8335,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     justify-content: center;
     align-items: center;
     text-decoration: none;
@@ -8554,8 +8564,8 @@
 
   .seed-page-banner__root--tone_neutral-variant_solid {
     background-color: var(--seed-color-bg-neutral-solid);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -8571,11 +8581,11 @@
   }
 
   .seed-page-banner__title--tone_neutral-variant_solid, .seed-page-banner__description--tone_neutral-variant_solid, .seed-page-banner__button--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-page-banner__closeButton--tone_neutral-variant_solid {
-    --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-page-banner__root--tone_informative-variant_weak {
@@ -8606,8 +8616,8 @@
 
   .seed-page-banner__root--tone_informative-variant_solid {
     background-color: var(--seed-color-bg-informative-solid);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-informative-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-informative-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -8623,7 +8633,7 @@
   }
 
   .seed-page-banner__title--tone_informative-variant_solid, .seed-page-banner__description--tone_informative-variant_solid, .seed-page-banner__button--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
   }
 
   .seed-page-banner__closeButton--tone_informative-variant_solid {
@@ -8658,8 +8668,8 @@
 
   .seed-page-banner__root--tone_positive-variant_solid {
     background-color: var(--seed-color-bg-positive-solid);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-positive-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-positive-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -8675,7 +8685,7 @@
   }
 
   .seed-page-banner__title--tone_positive-variant_solid, .seed-page-banner__description--tone_positive-variant_solid, .seed-page-banner__button--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
   }
 
   .seed-page-banner__closeButton--tone_positive-variant_solid {
@@ -8710,8 +8720,8 @@
 
   .seed-page-banner__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-black-alpha-900);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-warning-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-warning-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -8727,7 +8737,7 @@
   }
 
   .seed-page-banner__title--tone_warning-variant_solid, .seed-page-banner__description--tone_warning-variant_solid, .seed-page-banner__button--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
   }
 
   .seed-page-banner__closeButton--tone_warning-variant_solid {
@@ -8762,8 +8772,8 @@
 
   .seed-page-banner__root--tone_critical-variant_solid {
     background-color: var(--seed-color-bg-critical-solid);
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-critical-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-critical-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -8779,7 +8789,7 @@
   }
 
   .seed-page-banner__title--tone_critical-variant_solid, .seed-page-banner__description--tone_critical-variant_solid, .seed-page-banner__button--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-page-banner__closeButton--tone_critical-variant_solid {
@@ -8968,7 +8978,7 @@
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]):before {
@@ -9506,7 +9516,7 @@
   }
 
   .seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
@@ -9526,7 +9536,7 @@
   }
 
   .seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-radiomark__root--size_large {
@@ -11327,7 +11337,7 @@
     padding-inline: var(--seed-dimension-x2);
     padding-block: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-r1_5);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-medium);
@@ -11485,7 +11495,7 @@
   }
 
   .seed-slider-tick {
-    background-color: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--seed-color-fg-on-neutral-solid);
     height: 100%;
     position: absolute;
     top: 50%;
@@ -11560,7 +11570,7 @@
   }
 
   .seed-snackbar__message {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
@@ -11756,7 +11766,7 @@
   }
 
   .seed-switchmark__thumb--tone_neutral {
-    background: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-switchmark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
@@ -13420,9 +13430,9 @@
 
   .seed-toggle-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     --track-color: var(--seed-color-palette-static-white-alpha-300);
-    --range-color: var(--seed-color-palette-static-white);
+    --range-color: var(--seed-color-fg-on-brand-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -13474,8 +13484,8 @@
   }
 
   .seed-toggle-button--variant_brandSolid {
-    --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-    --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-brand-solid);
+    --seed-suffix-icon-color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-toggle-button--variant_neutralWeak {

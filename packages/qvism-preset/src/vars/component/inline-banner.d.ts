@@ -172,19 +172,19 @@ export declare const vars: {
         "color": "var(--seed-color-bg-critical-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "link": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       }
     }
   }

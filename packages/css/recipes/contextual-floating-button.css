@@ -50,11 +50,11 @@
 }
 .seed-contextual-floating-button--variant_solid {
     background: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
     --track-color: var(--seed-color-palette-gray-700);
-    --range-color: var(--seed-color-fg-neutral-inverted);
+    --range-color: var(--seed-color-fg-on-neutral-solid);
 }
 @media (hover: hover) and (pointer: fine) {
     .seed-contextual-floating-button--variant_solid:is(:hover, [data-hover]) {

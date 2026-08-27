@@ -69,7 +69,7 @@ export const vars = {
         "color": "var(--seed-color-palette-gray-800)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     }
   },
@@ -99,7 +99,7 @@ export const vars = {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     }
   },
@@ -129,7 +129,7 @@ export const vars = {
         "color": "var(--seed-color-bg-informative-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       }
     }
   },
@@ -159,7 +159,7 @@ export const vars = {
         "color": "var(--seed-color-bg-positive-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       }
     }
   },
@@ -189,7 +189,7 @@ export const vars = {
         "color": "var(--seed-color-bg-warning-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       }
     }
   },
@@ -219,7 +219,7 @@ export const vars = {
         "color": "var(--seed-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       }
     }
   },
