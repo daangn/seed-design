@@ -5,6 +5,15 @@ description: 사용자가 선택하거나 실행할 수 있는 짧은 값을 표
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
 
+<LynxComponentExample name="lynx/chip/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -37,67 +46,59 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
 
 <react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipLabelProps" />
 
-## Usage
-
-<LynxComponentExample name="lynx/chip/preview">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/chip/preview.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
+## Examples
 
 ### Button
 
 일반 액션은 `Chip.Button`을 사용하고 `bindtap`으로 탭 이벤트를 처리합니다.
 
-```tsx
-import { Chip } from "@seed-design/lynx-react";
-
-<Chip.Button bindtap={handleTap}>
-  <Chip.Label>필터 열기</Chip.Label>
-</Chip.Button>
-```
+<LynxComponentExample name="lynx/chip/button">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/button.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ### Toggle
 
 독립적인 선택 상태는 `Chip.Toggle`을 사용합니다. `checked`와 `onCheckedChange`를 함께 전달하면 controlled 상태로 사용할 수 있습니다.
 
-```tsx
-import { Chip } from "@seed-design/lynx-react";
-
-<Chip.Toggle defaultChecked onCheckedChange={(checked) => console.log(checked)}>
-  <Chip.Label>거래 가능</Chip.Label>
-</Chip.Toggle>
-```
+<LynxComponentExample name="lynx/chip/toggle">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/toggle.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ### Radio Group
 
 한 항목만 선택해야 하면 `Chip.RadioRoot`와 `Chip.RadioItem`을 조합합니다.
 
-```tsx
-import { Chip } from "@seed-design/lynx-react";
-
-<Chip.RadioRoot defaultValue="recent" onValueChange={(value) => console.log(value)}>
-  <Chip.RadioItem value="recent">
-    <Chip.Label>최신순</Chip.Label>
-  </Chip.RadioItem>
-  <Chip.RadioItem value="nearby">
-    <Chip.Label>가까운 순</Chip.Label>
-  </Chip.RadioItem>
-</Chip.RadioRoot>
-```
+<LynxComponentExample name="lynx/chip/radio-group">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/radio-group.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
 ### Sizes and Variants
 
 React 버전과 동일하게 `size="small" | "medium" | "large"`와 `variant="solid" | "outlineStrong" | "outlineWeak"`를 지원합니다.
 
+<LynxComponentExample name="lynx/chip/sizes-and-variants">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/sizes-and-variants.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ### Affixes and Icon Only
 
 `Chip.PrefixIcon`, `Chip.PrefixAvatar`, `Chip.SuffixIcon` 슬롯으로 앞뒤 콘텐츠를 배치할 수 있습니다. Lynx 아이콘은 `@seed-design/lynx-react`의 `Icon`, `PrefixIcon`, `SuffixIcon`과 `@karrotmarket/lynx-monochrome-icon` 요소를 사용합니다. `layout="iconOnly"`에서는 `Icon` 자식과 `accessibility-label`을 함께 전달해야 합니다.
 
-## Web Version Differences
+<LynxComponentExample name="lynx/chip/affixes-and-icon-only">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/affixes-and-icon-only.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/variant 이름을 사용하지만 다음 차이가 있습니다.
@@ -109,7 +110,7 @@ Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/varia
 - **공개 표면**: React의 registry wrapper 역할을 Lynx package API가 직접 제공하므로 별도 snippet을 설치하지 않습니다.
 </Callout>
 
-## Unsupported Lynx Features
+## Lynx 미지원 기능
 
 현재 Lynx 런타임 모델 차이로 다음 기능은 지원하지 않습니다.
 
