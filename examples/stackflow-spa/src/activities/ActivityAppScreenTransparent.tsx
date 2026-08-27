@@ -39,7 +39,7 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
           justify="center"
           align="center"
           bg="palette.gray800"
-          color="fg.neutralInverted"
+          color="fg.onNeutralSolid"
         >
           Preview
         </Flex>

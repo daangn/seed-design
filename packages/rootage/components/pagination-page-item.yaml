@@ -52,7 +52,7 @@ data:
         root:
           color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       selected, pressed:
         root:
           color: $color.bg.neutral-solid-pressed

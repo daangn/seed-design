@@ -26,7 +26,7 @@
     background: var(--seed-color-bg-brand-solid);
     border-radius: var(--seed-radius-full);
     box-shadow: var(--seed-shadow-s3);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
@@ -52,7 +52,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     transition: margin-right var(--seed-duration-d4) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
 .seed-floating-action-button__label {

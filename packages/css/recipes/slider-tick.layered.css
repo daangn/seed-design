@@ -1,6 +1,6 @@
 @layer seed-components {
   .seed-slider-tick {
-    background-color: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--seed-color-fg-on-neutral-solid);
     height: 100%;
     position: absolute;
     top: 50%;

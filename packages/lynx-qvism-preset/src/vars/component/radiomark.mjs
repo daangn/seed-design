@@ -30,7 +30,7 @@ export const vars = {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "enabledSelectedPressed": {
@@ -60,7 +60,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "enabledSelectedPressed": {

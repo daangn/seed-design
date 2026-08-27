@@ -51,7 +51,7 @@
 
   .seed-badge__root--tone_neutral-variant_solid {
     background-color: var(--seed-color-palette-gray-800);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-badge__root--tone_neutral-variant_outline {
@@ -66,7 +66,7 @@
 
   .seed-badge__root--tone_brand-variant_solid {
     background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-badge__root--tone_brand-variant_outline {
@@ -81,7 +81,7 @@
 
   .seed-badge__root--tone_informative-variant_solid {
     background-color: var(--seed-color-bg-informative-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
   }
 
   .seed-badge__root--tone_informative-variant_outline {
@@ -96,7 +96,7 @@
 
   .seed-badge__root--tone_positive-variant_solid {
     background-color: var(--seed-color-bg-positive-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
   }
 
   .seed-badge__root--tone_positive-variant_outline {
@@ -111,7 +111,7 @@
 
   .seed-badge__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
   }
 
   .seed-badge__root--tone_warning-variant_outline {
@@ -126,7 +126,7 @@
 
   .seed-badge__root--tone_critical-variant_solid {
     background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-badge__root--tone_critical-variant_outline {
