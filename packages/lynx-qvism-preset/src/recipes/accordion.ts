@@ -89,6 +89,7 @@ const accordion = defineSlotRecipe({
       flexDirection: "column",
       flexShrink: 0,
       width: "100%",
+      height: "max-content",
     },
     divider: {
       height: "1px",
