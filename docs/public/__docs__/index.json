@@ -2116,6 +2116,12 @@
               "docUrl": "/lynx/getting-started/cli"
             },
             {
+              "id": "divider",
+              "title": "Divider",
+              "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/divider"
+            },
+            {
               "id": "feature-flags",
               "title": "Feature Flags",
               "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
