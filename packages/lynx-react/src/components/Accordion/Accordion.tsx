@@ -12,6 +12,7 @@ import type {
   LynxPressableProps,
   LynxStyledElementProps,
   LynxTextRef,
+  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { toArray } from "../../utils/children";
@@ -26,7 +27,6 @@ import { InternalIcon } from "../Icon/Icon";
  * - `headingLevel`: Lynx 접근성 heading은 level을 받지 않음
  * - DOM ARIA와 키보드 탐색: Lynx native 접근성 속성과 tap 상호작용으로 대체
  * - `size="responsive"`: Lynx preset은 viewport media query를 지원하지 않음
- * - 임의 높이 expand/collapse 애니메이션: 콘텐츠 높이 측정 없이 안전하게 재현할 수 없음
  */
 
 type PublicAccordionVariantProps = Omit<AccordionVariantProps, "open" | "pressed" | "disabled">;
@@ -282,24 +282,43 @@ AccordionTrigger.displayName = "AccordionTrigger";
 
 export interface AccordionContentProps extends LynxStyledElementProps, LynxAccessibilityProps {}
 
+type ContentLayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
+
+function getContentLayoutHeight(event: Parameters<ContentLayoutChangeHandler>[0]): number | null {
+  const eventWithHeight = event as Parameters<ContentLayoutChangeHandler>[0] & { height?: number };
+  const height = event.detail?.height ?? event.params?.height ?? eventWithHeight.height;
+
+  if (typeof height !== "number" || !Number.isFinite(height)) return null;
+  return Math.max(0, height);
+}
+
 export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>((props, ref) => {
   const {
     children,
     className,
+    style,
     "accessibility-elements-hidden": accessibilityElementsHidden = false,
     ...nativeProps
   } = props;
   const context = useAccordionItemContext("AccordionContent");
   const classes = useClassNames();
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const handleContentLayoutChange = React.useCallback<ContentLayoutChangeHandler>((event) => {
+    const height = getContentLayoutHeight(event);
+    if (height !== null) setContentHeight((current) => (current === height ? current : height));
+  }, []);
 
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.content, className)}
+      style={{ ...style, height: context.open ? `${contentHeight}px` : "0px" }}
       accessibility-elements-hidden={!context.open || accessibilityElementsHidden}
       {...nativeProps}
     >
-      {children}
+      <view className={classes.contentInner} bindlayoutchange={handleContentLayoutChange}>
+        {children}
+      </view>
     </view>
   );
 });

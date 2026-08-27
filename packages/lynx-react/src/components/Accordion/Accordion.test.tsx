@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
+import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as React from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -15,10 +15,6 @@ function getRenderedRoot() {
   return root;
 }
 
-function getRenderedQueries() {
-  return getQueriesForElement(getRenderedRoot());
-}
-
 function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) {
   return (
     <Accordion.Root {...props}>
@@ -30,7 +26,7 @@ function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) 
             </Accordion.Body>
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Content>
+        <Accordion.Content className="first-content">
           <text>첫 번째 내용</text>
         </Accordion.Content>
       </Accordion.Item>
@@ -63,6 +59,28 @@ describe("Accordion", () => {
 
     fireEvent.tap(trigger as HTMLElement);
     expect(trigger).toHaveAttribute("accessibility-value", "접힘");
+  });
+
+  it("transitions content between zero and its measured height", () => {
+    render(<TestAccordion defaultValues={["first"]} />);
+
+    const root = getRenderedRoot();
+    const trigger = root.querySelector<HTMLElement>(".first-trigger");
+    const content = root.querySelector<HTMLElement>(".first-content");
+    const contentInner = content?.querySelector<HTMLElement>(".seed-accordion__contentInner");
+
+    expect(content).not.toBeNull();
+    expect(contentInner).not.toBeNull();
+    expect(content).toHaveStyle({ height: "0px" });
+
+    act(() => {
+      fireEvent.layoutchange(contentInner as HTMLElement, { height: 84 });
+    });
+
+    expect(content).toHaveStyle({ height: "84px" });
+
+    fireEvent.tap(trigger as HTMLElement);
+    expect(content).toHaveStyle({ height: "0px" });
   });
 
   it("keeps one item open by default and supports multiple mode", () => {
@@ -100,7 +118,7 @@ describe("Accordion", () => {
 
     expect(onValuesChange).not.toHaveBeenCalled();
     expect(trigger).toHaveAttribute("accessibility-traits", "disabled");
-    expect(getRenderedQueries().getByText("첫 번째 내용").parentElement).toHaveAttribute(
+    expect(getRenderedRoot().querySelector(".first-content")).toHaveAttribute(
       "accessibility-elements-hidden",
       "true",
     );

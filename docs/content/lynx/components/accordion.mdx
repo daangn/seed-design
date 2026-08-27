@@ -5,6 +5,15 @@ description: 관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
 
+<LynxComponentExample name="lynx/accordion/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Installation
 
 ```package-install
@@ -30,17 +39,6 @@ npx @seed-design/cli@latest add ui:accordion
 ### `AccordionContent`
 
 <react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionContentProps" />
-
-## Usage
-
-<LynxComponentExample name="lynx/accordion/preview">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/accordion/preview.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
 
 ## Examples
 
@@ -92,7 +90,7 @@ Lynx `Accordion`은 React 버전과 다음 차이가 있습니다.
 - **Interaction**: 키보드 탐색 대신 Trigger의 native tap 이벤트로 항목을 열고 닫습니다.
 - **Accessibility**: DOM ARIA 대신 `accessibility-heading`, `accessibility-role-description`, `accessibility-value`를 사용합니다.
 - **Responsive size**: Lynx preset은 viewport media query를 지원하지 않아 `size="responsive"`를 제공하지 않습니다.
-- **Content transition**: 임의 높이를 측정하는 웹 방식의 expand/collapse 애니메이션은 제공하지 않습니다. 콘텐츠는 열림 상태에 따라 즉시 표시되고 suffix 아이콘 회전은 유지됩니다.
+- **Content transition**: React 버전은 CSS custom property로 높이를 전달하고, Lynx 버전은 `layoutchange`로 콘텐츠 높이를 측정해 같은 duration과 easing의 transition을 적용합니다.
 </Callout>
 
 ## Unsupported Lynx Features
@@ -104,4 +102,3 @@ Lynx `Accordion`은 React 버전과 다음 차이가 있습니다.
 | DOM ARIA 연결 | `aria-controls`, `aria-labelledby`, `role="region"` 대신 Lynx native 접근성 속성을 사용합니다. |
 | Arrow / Home / End 키 탐색 | Lynx native 화면에는 웹과 같은 키보드 포커스 모델이 없습니다. |
 | `size="responsive"` | Lynx preset은 viewport media query를 지원하지 않습니다. |
-| 높이 기반 펼침 애니메이션 | 임의 콘텐츠 높이를 CSS 변수로 측정하는 웹 구현을 사용하지 않습니다. |

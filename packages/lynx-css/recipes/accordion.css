@@ -56,7 +56,18 @@
     transition: transform var(--seed-duration-d6) var(--seed-timing-function-easing)
 }
 .seed-accordion__content {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height var(--seed-duration-d6) var(--seed-timing-function-easing), opacity var(--seed-duration-d6) var(--seed-timing-function-easing)
+}
+.seed-accordion__contentInner {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
     width: 100%
 }
 .seed-accordion__divider {
@@ -122,8 +133,8 @@
     transform: rotate(180deg)
 }
 .seed-accordion__content--open_true {
-    display: flex;
-    flex-direction: column
+    opacity: 1;
+    transition: height var(--seed-duration-d6) var(--seed-timing-function-easing), opacity var(--seed-duration-d6) var(--seed-timing-function-easing)
 }
 .seed-accordion__trigger--pressed_true {
     background-color: var(--seed-color-bg-transparent-pressed)

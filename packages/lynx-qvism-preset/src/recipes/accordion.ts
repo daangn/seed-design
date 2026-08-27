@@ -14,6 +14,7 @@ const accordion = defineSlotRecipe({
     "description",
     "suffixIcon",
     "content",
+    "contentInner",
     "divider",
   ],
   base: {
@@ -75,7 +76,18 @@ const accordion = defineSlotRecipe({
       transition: `transform ${itemVars.base.enabled.suffixIcon.rotateDuration} ${itemVars.base.enabled.suffixIcon.rotateTimingFunction}`,
     },
     content: {
-      display: "none",
+      display: "flex",
+      flexDirection: "column",
+      width: "100%",
+      height: 0,
+      opacity: 0,
+      overflow: "hidden",
+      transition: `height ${itemVars.base.enabled.content.collapseHeightDuration} ${itemVars.base.enabled.content.collapseHeightTimingFunction}, opacity ${itemVars.base.enabled.content.collapseHeightDuration} ${itemVars.base.enabled.content.collapseHeightTimingFunction}`,
+    },
+    contentInner: {
+      display: "flex",
+      flexDirection: "column",
+      flexShrink: 0,
       width: "100%",
     },
     divider: {
@@ -156,8 +168,8 @@ const accordion = defineSlotRecipe({
           transform: "rotate(180deg)",
         },
         content: {
-          display: "flex",
-          flexDirection: "column",
+          opacity: 1,
+          transition: `height ${itemVars.base.enabled.content.expandHeightDuration} ${itemVars.base.enabled.content.expandHeightTimingFunction}, opacity ${itemVars.base.enabled.content.expandHeightDuration} ${itemVars.base.enabled.content.expandHeightTimingFunction}`,
         },
       },
       false: {},

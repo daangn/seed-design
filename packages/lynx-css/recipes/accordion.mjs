@@ -43,6 +43,10 @@ const accordionSlotNames = [
     "seed-accordion__content"
   ],
   [
+    "contentInner",
+    "seed-accordion__contentInner"
+  ],
+  [
     "divider",
     "seed-accordion__divider"
   ]
