@@ -6,10 +6,11 @@ import * as React from "react";
 
 const REORDER_HANDLE_SELECTOR = "[data-attachment-reorder-handle]";
 
-function setRef<T>(ref: React.ForwardedRef<T>, value: T | null) {
+function setRef<T>(ref: React.Ref<T>, value: T | null) {
   if (typeof ref === "function") {
-    ref(value);
-  } else if (ref) {
+    return ref(value);
+  }
+  if (ref) {
     ref.current = value;
   }
 }
@@ -51,9 +52,17 @@ export function useAttachmentItemReorder({
   // dnd-kit retains these callback refs, so a stable identity avoids unnecessary unregister/register.
   const itemRef = React.useCallback(
     (item: HTMLLIElement | null) => {
-      setRef(forwardedRef, item);
+      const forwardedRefCleanup = setRef(forwardedRef, item);
       sortableRef(item);
       sortableHandleRef(item?.querySelector<HTMLButtonElement>(REORDER_HANDLE_SELECTOR) ?? null);
+
+      if (typeof forwardedRefCleanup === "function") {
+        return () => {
+          forwardedRefCleanup();
+          sortableRef(null);
+          sortableHandleRef(null);
+        };
+      }
     },
     [forwardedRef, sortableHandleRef, sortableRef],
   );
