@@ -197,7 +197,7 @@ declare const artifact: {
                 "maxWidth": {
                   "type": "dimension";
                   "value": {
-                    "value": 560;
+                    "value": 464;
                     "unit": "px";
                   };
                 };
