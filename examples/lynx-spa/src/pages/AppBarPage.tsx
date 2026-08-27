@@ -176,7 +176,7 @@ function AppBarExamples() {
           </AppBarRight>
         </AppBar>
         <view className="px-x4 pb-x4">
-          <text className="t3-regular text-fg-on-neutral-solid">
+          <text className="t3-regular text-fg-on-brand-solid">
             AppBar background is transparent over this brand surface.
           </text>
         </view>
