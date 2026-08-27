@@ -1,0 +1,104 @@
+---
+title: Accordion
+description: 관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/accordion/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:accordion
+```
+
+<LynxManualInstallation name="accordion" />
+
+## Props
+
+### `Accordion`
+
+<react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionProps" />
+
+### `AccordionItem`
+
+<react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionItemProps" />
+
+### `AccordionTrigger`
+
+<react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionTriggerProps" />
+
+### `AccordionContent`
+
+<react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionContentProps" />
+
+## Examples
+
+### Multiple
+
+`multiple`을 설정하면 여러 항목을 동시에 펼칠 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`Accordion`의 `disabled`는 전체 항목을 비활성화합니다. `AccordionItem`에 설정하면 해당 항목만 비활성화합니다.
+
+<LynxComponentExample name="lynx/accordion/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`values`와 `onValuesChange`를 함께 사용해 펼쳐진 항목을 제어할 수 있습니다. 비제어 방식에서는 `defaultValues`를 사용합니다.
+
+<LynxComponentExample name="lynx/accordion/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+<Callout type="warning">
+Lynx `Accordion`은 React 버전과 다음 차이가 있습니다.
+
+- **Native elements**: HTML heading, button, region 대신 Lynx `<view>`와 `<text>`를 렌더링합니다.
+- **Interaction**: 키보드 탐색 대신 Trigger의 native tap 이벤트로 항목을 열고 닫습니다.
+- **Accessibility**: DOM ARIA 대신 `accessibility-heading`, `accessibility-role-description`, `accessibility-value`를 사용합니다.
+- **Responsive size**: Lynx preset은 viewport media query를 지원하지 않아 `size="responsive"`를 제공하지 않습니다.
+- **Content transition**: React 버전은 CSS custom property로 높이를 전달하고, Lynx 버전은 `layoutchange`로 콘텐츠 높이를 측정해 같은 duration과 easing의 transition을 적용합니다.
+</Callout>
+
+## Unsupported Lynx Features
+
+| 기능 | 설명 |
+|------|------|
+| `asChild` | Lynx에는 Slot 기반 polymorphic 렌더링이 없습니다. |
+| `headingLevel` | Lynx의 heading 접근성 속성은 HTML heading level을 받지 않습니다. |
+| DOM ARIA 연결 | `aria-controls`, `aria-labelledby`, `role="region"` 대신 Lynx native 접근성 속성을 사용합니다. |
+| Arrow / Home / End 키 탐색 | Lynx native 화면에는 웹과 같은 키보드 포커스 모델이 없습니다. |
+| `size="responsive"` | Lynx preset은 viewport media query를 지원하지 않습니다. |
