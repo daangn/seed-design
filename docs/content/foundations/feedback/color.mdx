@@ -1,0 +1,64 @@
+---
+title: Color
+description: 누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. SEED는 이 색을 반투명 레이어로 덮지 않고, 역할 색상 체계 안의 pressed 토큰으로 정의합니다.
+coverImage: /og/foundations/feedback
+---
+
+누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. Color는 어떤 환경에서도 빠지지 않는 기본 피드백 채널입니다. [Scale](/foundations/feedback/scale)이 적용되지 않는 요소도, 동작 줄이기(Reduce Motion)로 축소가 일어나지 않는 경우도 색 전환만은 남습니다.
+
+## 덮지 않고, 정의합니다
+
+눌린 색을 만드는 방법은 두 가지입니다. 기본 색 위에 반투명 레이어를 덮어 어둡게 만드는 방법과, 눌린 상태의 색을 따로 정의하는 방법입니다.
+
+SEED는 두 번째를 택합니다. [역할 기반 색상](/foundations/color/color-role) 체계 안에 `-pressed` 접미사를 가진 토큰을 두고, 컴포넌트 스펙의 pressed 정의가 이 토큰을 직접 참조합니다.
+
+```yaml
+variant=brandSolid:
+  enabled:
+    root:
+      color: $color.bg.brand-solid
+  pressed:
+    root:
+      color: $color.bg.brand-solid-pressed
+```
+
+반투명 레이어 방식은 토큰을 새로 만들지 않아도 되지만, 눌린 색이 항상 기본 색에서 기계적으로 파생됩니다. 그래서 다음 두 가지를 보장할 수 없습니다.
+
+- **테마별 조정** — Light와 Dark에서 같은 불투명도가 같은 정도의 변화로 읽히지 않습니다. 어두운 표면에서는 변화가 묻히고, 밝은 표면에서는 과해집니다.
+- **명도 대비** — 표면 색이 바뀌면 그 위의 텍스트·아이콘 대비도 함께 달라집니다. 파생값에는 [포용적 디자인 문서의 APCA 기준](/foundations/inclusive-design)을 충족하는지 검증할 지점이 없습니다.
+
+눌린 색을 토큰으로 정의하면 두 값 모두 테마별로 직접 지정하고 검증할 수 있습니다.
+
+## 색을 바꾸는 대상
+
+색 전환은 요소의 **표면**에서 일어납니다. 표면 위에 놓인 텍스트와 아이콘의 색은 눌림에 반응하지 않습니다. 두 값이 함께 바뀌면 요소 전체가 다른 요소로 교체된 것처럼 읽힙니다.
+
+배경이 없는 요소도 같은 원칙을 따릅니다. Link Text Button처럼 텍스트 흐름 안에 놓인 요소는 눌린 동안 배경 색이 나타나는 방식으로 표면을 얻습니다(`$color.bg.layer-default-pressed`). 글자 색 자체는 바꾸지 않습니다.
+
+예외는 표면을 가질 수 없는 요소입니다. Select Box의 체크마크처럼 아이콘 하나가 요소 전체인 경우에는 그 아이콘의 색이 눌림을 전달합니다. 이때도 바뀌는 값은 하나입니다.
+
+## 전환 시간
+
+색 전환의 시간은 `$duration.color-transition`으로 정의되어 있습니다.
+
+<TokenReference regex={/^\$duration\.color-transition$/} />
+
+이 값은 축소가 사용하는 `$duration.pressed-scale`과 같은 `$duration.d3`을 참조합니다. 두 채널이 같은 시간 안에 끝나야 한 번의 입력이 하나의 반응으로 인지되기 때문입니다. 자세한 근거는 [피드백 개요의 원칙](/foundations/feedback#채널은-함께-설계합니다)에서 다룹니다.
+
+## 다른 상태와 함께 있을 때
+
+[State](/foundations/state)에서 정의하듯 상호작용 상태와 옵션 상태는 함께 적용될 수 있습니다.
+
+- **Selected** — 선택된 요소에도 pressed 색이 적용됩니다. `$color.bg.transparent-selected-pressed`처럼 선택 상태에 대응하는 pressed 토큰을 별도로 정의합니다.
+- **Loading** — 표면 색으로 pressed와 같은 토큰을 사용합니다. 동작이 진행 중인 동안 눌린 상태의 외형이 유지됩니다.
+- **Disabled** — `$color.bg.disabled`가 pressed 표현을 덮어씁니다. 상호작용을 받지 않으므로 누름에 반응하지 않습니다.
+
+## 접근성
+
+동작 줄이기(Reduce Motion) 설정은 색 전환에 영향을 주지 않습니다. 축소가 빠진 자리에서 색 전환이 눌림을 전달하는 유일한 채널이 되기 때문입니다.
+
+모든 pressed 색은 기본 색과 마찬가지로 그 위에 놓이는 전경 색과의 조합에서 [APCA 기준](/foundations/inclusive-design)을 충족하도록 설계되어 있습니다.
+
+## Color Token
+
+<TokenReference regex={/^\$color\.bg\..*-pressed$/} />
