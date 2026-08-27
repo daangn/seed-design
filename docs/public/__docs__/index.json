@@ -2021,6 +2021,19 @@
           "label": "컴포넌트",
           "items": [
             {
+              "id": "accordion",
+              "title": "Accordion",
+              "description": "관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/accordion",
+              "snippetKey": "lynx/ui:accordion",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "accordion.tsx"
+                }
+              ]
+            },
+            {
               "id": "action-button",
               "title": "Action Button",
               "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",

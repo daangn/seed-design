@@ -1,3 +1,4 @@
+import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
 import { appBar, appBarMain } from "./recipes/app-bar";
 import badge from "./recipes/badge";
@@ -22,6 +23,7 @@ import textInput from "./recipes/text-input";
  * Recipes used by the Lynx preset build.
  */
 export const recipes = {
+  accordion,
   actionButton,
   appBar,
   appBarMain,
