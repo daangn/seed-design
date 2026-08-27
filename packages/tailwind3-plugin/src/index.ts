@@ -185,7 +185,6 @@ export default plugin(
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
   "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
-  "bg-neutral-inverted": "var(--seed-color-bg-neutral-inverted)",
   "bg-neutral-inverted-pressed": "var(--seed-color-bg-neutral-inverted-pressed)",
   "bg-neutral-solid": "var(--seed-color-bg-neutral-solid)",
   "bg-neutral-solid-pressed": "var(--seed-color-bg-neutral-solid-pressed)",
