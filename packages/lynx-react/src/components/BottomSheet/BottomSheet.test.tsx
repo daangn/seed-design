@@ -143,6 +143,30 @@ describe("BottomSheet", () => {
     });
   });
 
+  it("releases the sheet's inline left inset so the positioner can center it", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: { left: "auto" },
+    });
+  });
+
+  it("lets a user-provided style win over the released left inset", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content style={{ left: "12px" }} />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: { left: "12px" },
+    });
+  });
+
   it("skips motion-engine animations when Root has skipAnimation", () => {
     render(
       <BottomSheet.Root skipAnimation>

@@ -279,8 +279,15 @@ export interface BottomSheetContentProps extends SheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
   forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
-    const { className, innerStyle, snapAnimation, enterAnimation, exitAnimation, ...restProps } =
-      props;
+    const {
+      className,
+      style,
+      innerStyle,
+      snapAnimation,
+      enterAnimation,
+      exitAnimation,
+      ...restProps
+    } = props;
     const classNames = useClassNames();
     const { options } = useBottomSheetContext();
     const { safeAreaInsetBottom } = useSafeArea();
@@ -292,6 +299,11 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
         {...(ref ? { ref } : {})}
         {...restProps}
         className={clsx(classNames.content, className)}
+        // `SheetContent` pins its outer view with an inline `left: 0`, which a recipe class
+        // cannot outrank. Releasing it lets the positioner's `justify-content: center` place
+        // the sheet, so the recipe's `max-width` leaves centered gutters instead of a right
+        // one. `transform` is off-limits here — the main-thread motion engine owns it.
+        style={{ left: "auto", ...style }}
         innerStyle={{
           display: "flex",
           flexDirection: "column",
