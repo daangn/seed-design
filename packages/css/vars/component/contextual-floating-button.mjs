@@ -20,16 +20,16 @@ export const vars = {
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-gray-700)",
-        "rangeColor": "var(--seed-color-fg-neutral-inverted)"
+        "rangeColor": "var(--seed-color-fg-on-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressed": {

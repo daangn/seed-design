@@ -176,7 +176,7 @@ data:
         dateVisual:
           color: $color.bg.neutral-solid
         dateContent:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         wheelItem:
           color: $color.fg.neutral
       readOnly:

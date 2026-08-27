@@ -77,25 +77,25 @@
     background-color: var(--seed-color-bg-brand-solid)
 }
 .seed-checkmark__icon--variant_square-tone_brand-checked_true-disabled_false {
-    color: var(--seed-color-palette-static-white)
+    color: var(--seed-color-fg-on-brand-solid)
 }
 .seed-checkmark__root--variant_square-tone_neutral-checked_true-disabled_false {
     background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-checked_true-disabled_false {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-checkmark__root--variant_square-tone_brand-indeterminate_true-disabled_false {
     background-color: var(--seed-color-bg-brand-solid)
 }
 .seed-checkmark__icon--variant_square-tone_brand-indeterminate_true-disabled_false {
-    color: var(--seed-color-palette-static-white)
+    color: var(--seed-color-fg-on-brand-solid)
 }
 .seed-checkmark__root--variant_square-tone_neutral-indeterminate_true-disabled_false {
     background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-indeterminate_true-disabled_false {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-checkmark__root--variant_square-disabled_true {
     background-color: var(--seed-color-bg-disabled);

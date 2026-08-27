@@ -189,31 +189,31 @@
     background: var(--seed-color-bg-neutral-solid)
 }
 .seed-chip__label--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__prefixIcon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__suffixIcon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__icon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__root--variant_outlineStrong-selected_true {
     background: var(--seed-color-bg-neutral-solid)
 }
 .seed-chip__label--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__prefixIcon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__suffixIcon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__icon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__root--variant_outlineWeak-selected_true {
     background: var(--seed-color-bg-neutral-weak);

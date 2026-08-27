@@ -39,8 +39,8 @@
     border-color: #00000000
 }
 .seed-radiomark__icon--tone_brand-checked_true-disabled_false {
-    color: var(--seed-color-palette-static-white);
-    background-color: var(--seed-color-palette-static-white)
+    color: var(--seed-color-fg-on-brand-solid);
+    background-color: var(--seed-color-fg-on-brand-solid)
 }
 .seed-radiomark__root--tone_neutral-checked_true-disabled_false {
     background-color: var(--seed-color-bg-neutral-solid);
@@ -48,8 +48,8 @@
     border-color: #00000000
 }
 .seed-radiomark__icon--tone_neutral-checked_true-disabled_false {
-    color: var(--seed-color-fg-neutral-inverted);
-    background-color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid);
+    background-color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-radiomark__root--tone_brand-checked_false-disabled_true {
     background-color: var(--seed-color-palette-gray-300)
