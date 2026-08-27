@@ -27,6 +27,7 @@
     flex-direction: column;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
+    max-width: 480px;
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
     transform: translate3d(0, 100%, 0)

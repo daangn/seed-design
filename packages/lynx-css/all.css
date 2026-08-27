@@ -1604,6 +1604,7 @@ text {
   border-top-right-radius: var(--seed-radius-r6);
   flex-direction: column;
   flex: 1;
+  max-width: 480px;
   display: flex;
   position: relative;
   transform: translate3d(0, 100%, 0);
