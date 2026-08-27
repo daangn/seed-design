@@ -29,6 +29,16 @@ const MENU_TRANSFORM_ORIGIN = "--seed-menu-transform-origin";
 const MENU_AVAILABLE_HEIGHT = "--seed-menu-available-height";
 const MENU_REFERENCE_WIDTH = "--seed-menu-reference-width";
 
+/**
+ * The only variable here consumers are meant to set — the other three are written by
+ * `useMenu` and merely read back. It has to land on the positioner, the content, or the
+ * scroll area: the positioner renders through a `FloatingPortal`, so a value set on the
+ * trigger or the root never reaches the scroll area by inheritance.
+ */
+const MENU_MAX_HEIGHT = "--seed-menu-max-height";
+
+const menuMaxHeight = `var(${MENU_MAX_HEIGHT}, ${menuVars.base.enabled.root.maxHeight})`;
+
 export const menu = defineSlotRecipe({
   name: "menu",
   slots: ["positioner", "content", "scrollArea", "group", "groupLabel"],
@@ -81,7 +91,10 @@ export const menu = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${menuVars.base.enabled.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.enabled.root.maxHeight}))`,
+      // The viewport clamp falls back to the cap rather than to the token: `useMenu` writes
+      // MENU_AVAILABLE_HEIGHT only once floating-ui has measured, so a raised cap would
+      // otherwise render at the token height on the first frame and then jump.
+      maxHeight: `min(${menuMaxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuMaxHeight}))`,
       boxSizing: "border-box",
 
       paddingBlock: menuVars.base.enabled.root.paddingY,
