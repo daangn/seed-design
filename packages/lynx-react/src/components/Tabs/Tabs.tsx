@@ -58,6 +58,7 @@ function getLayoutRect(event: Parameters<LayoutChangeHandler>[0]): TriggerRect |
 
 interface TabsContextValue {
   value: string | undefined;
+  visualValue: string | undefined;
   variantProps: TabsPublicVariantProps;
   items: TriggerItem[];
   pagerValues: string[];
@@ -163,7 +164,8 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       ),
     [contentValues, items],
   );
-  const indicatorIndex = items.findIndex((item) => item.value === (indicatorValue ?? value));
+  const visualValue = indicatorValue ?? value;
+  const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
   const selectedRect = value === undefined ? undefined : triggerRects[value];
   const selectedOffset = selectedRect ? Math.max(0, selectedRect.left - listLeft) : null;
@@ -264,6 +266,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({
       value,
+      visualValue,
       variantProps,
       items,
       pagerValues,
@@ -285,6 +288,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     }),
     [
       value,
+      visualValue,
       variantProps,
       items,
       pagerValues,
@@ -387,6 +391,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   } = props;
   const context = useTabsContext("TabsTrigger");
   const selected = context.value === triggerValue;
+  const visuallySelected = context.visualValue === triggerValue;
 
   React.useEffect(() => {
     "background only";
@@ -413,7 +418,11 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     [context.updateTriggerRect, triggerValue],
   );
 
-  const triggerClasses = tabs({ ...context.variantProps, selected, disabled });
+  const triggerClasses = tabs({
+    ...context.variantProps,
+    selected: visuallySelected,
+    disabled,
+  });
   const label =
     typeof children === "string" || typeof children === "number" ? String(children) : undefined;
 
