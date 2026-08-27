@@ -17,6 +17,7 @@ import radiomark from "./recipes/radiomark";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
+import tabs from "./recipes/tabs";
 import textInput from "./recipes/text-input";
 
 /**
@@ -44,5 +45,6 @@ export const recipes = {
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,
   tagGroupItem: lynxTagGroupItem,
+  tabs,
   textInput,
 };

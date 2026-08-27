@@ -1,0 +1,16 @@
+{
+  "id": "tabs",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "tabs.tsx",
+      "content": "/**\n * @file ui:tabs\n * @requires @seed-design/lynx-react@>=0.1.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.1.0 <1.0.0\n **/\n\nimport {\n  Tabs as SeedTabs,\n  type TabsCarouselProps as SeedTabsCarouselProps,\n  type TabsContentProps as SeedTabsContentProps,\n  type TabsListProps as SeedTabsListProps,\n  type TabsRootProps as SeedTabsRootProps,\n  type TabsTriggerProps as SeedTabsTriggerProps,\n} from \"@seed-design/lynx-react\";\nimport { forwardRef } from \"@lynx-js/react\";\n\nexport interface TabsRootProps extends SeedTabsRootProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/tabs\n */\nexport const TabsRoot = forwardRef<unknown, TabsRootProps>((props, ref) => {\n  return <SeedTabs.Root ref={ref} {...props} />;\n});\nTabsRoot.displayName = \"TabsRoot\";\n\nexport interface TabsListProps extends SeedTabsListProps {}\n\nexport const TabsList = forwardRef<unknown, TabsListProps>((props, ref) => {\n  const { children, ...otherProps } = props;\n  return (\n    <SeedTabs.List ref={ref} {...otherProps}>\n      {children}\n      <SeedTabs.Indicator />\n    </SeedTabs.List>\n  );\n});\nTabsList.displayName = \"TabsList\";\n\nexport interface TabsTriggerProps extends SeedTabsTriggerProps {}\n\nexport const TabsTrigger = SeedTabs.Trigger;\n\nexport interface TabsCarouselProps extends SeedTabsCarouselProps {}\n\nexport const TabsCarousel = forwardRef<unknown, TabsCarouselProps>((props, ref) => {\n  const { children, ...otherProps } = props;\n  return (\n    <SeedTabs.Carousel ref={ref} {...otherProps}>\n      <SeedTabs.CarouselCamera>{children}</SeedTabs.CarouselCamera>\n    </SeedTabs.Carousel>\n  );\n});\nTabsCarousel.displayName = \"TabsCarousel\";\n\nexport interface TabsContentProps extends SeedTabsContentProps {}\n\nexport const TabsContent = SeedTabs.Content;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+      }
+    }
+  ]
+}

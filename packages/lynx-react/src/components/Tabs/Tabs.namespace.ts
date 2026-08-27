@@ -1,0 +1,16 @@
+export {
+  TabsCarousel as Carousel,
+  TabsCarouselCamera as CarouselCamera,
+  TabsContent as Content,
+  TabsIndicator as Indicator,
+  TabsList as List,
+  TabsRoot as Root,
+  TabsTrigger as Trigger,
+  type TabsCarouselCameraProps as CarouselCameraProps,
+  type TabsCarouselProps as CarouselProps,
+  type TabsContentProps as ContentProps,
+  type TabsIndicatorProps as IndicatorProps,
+  type TabsListProps as ListProps,
+  type TabsRootProps as RootProps,
+  type TabsTriggerProps as TriggerProps,
+} from "./Tabs";

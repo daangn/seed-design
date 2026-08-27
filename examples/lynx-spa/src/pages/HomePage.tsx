@@ -50,6 +50,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
       <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
       <ListItem title="Switch" onTap={() => navigate("switch")} />
+      <ListItem title="Tabs" onTap={() => navigate("tabs")} />
       <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
       <ListItem title="TextField" onTap={() => navigate("text-field")} />
 
