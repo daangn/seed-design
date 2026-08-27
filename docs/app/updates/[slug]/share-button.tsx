@@ -62,7 +62,7 @@ function ShareButtonContent({ title }: { title: string }) {
         <IconLink className="size-4" />
       </button>
       {/* 호버 시 뜨는 "공유하기" 라벨. absolute라 가운데 정렬된 메타 행 레이아웃을 밀지 않는다. */}
-      <span className="pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-r1 bg-bg-neutral-inverted px-x2 py-x1 text-sm text-fg-neutral-inverted opacity-0 transition-opacity peer-hover:opacity-100">
+      <span className="pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-r1 bg-bg-neutral-solid px-x2 py-x1 text-sm text-fg-neutral-inverted opacity-0 transition-opacity peer-hover:opacity-100">
         공유하기
       </span>
     </span>

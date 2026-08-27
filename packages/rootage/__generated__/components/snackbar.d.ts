@@ -174,7 +174,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "cornerRadius": {
                   "type": "dimension";
