@@ -283,7 +283,6 @@ text {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-magic-weak: #f9f2ee;
-  --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);
@@ -496,7 +495,6 @@ text {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-magic-weak: #201f1f;
-  --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);
@@ -2312,7 +2310,7 @@ text {
 }
 
 .seed-chip__root--variant_solid-selected_true {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-chip__label--variant_solid-selected_true, .seed-chip__prefixIcon--variant_solid-selected_true, .seed-chip__suffixIcon--variant_solid-selected_true, .seed-chip__icon--variant_solid-selected_true {
@@ -2320,7 +2318,7 @@ text {
 }
 
 .seed-chip__root--variant_outlineStrong-selected_true {
-  background: var(--seed-color-bg-neutral-inverted);
+  background: var(--seed-color-bg-neutral-solid);
 }
 
 .seed-chip__label--variant_outlineStrong-selected_true, .seed-chip__prefixIcon--variant_outlineStrong-selected_true, .seed-chip__suffixIcon--variant_outlineStrong-selected_true, .seed-chip__icon--variant_outlineStrong-selected_true {
@@ -2341,7 +2339,7 @@ text {
 }
 
 .seed-chip__root--variant_solid-selected_true-pressed_true, .seed-chip__root--variant_outlineStrong-selected_true-pressed_true {
-  background: var(--seed-color-bg-neutral-inverted-pressed);
+  background: var(--seed-color-bg-neutral-solid-pressed);
 }
 
 .seed-chip__root--variant_outlineWeak-selected_true-pressed_true {

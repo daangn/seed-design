@@ -6,12 +6,8 @@
   }
 
   .seed-help-bubble__content {
-<<<<<<< HEAD
     box-sizing: border-box;
-    background: var(--seed-color-bg-neutral-inverted);
-=======
     background: var(--seed-color-bg-neutral-solid);
->>>>>>> a9ce5dac6 (feat(rootage): update neutral solid background tokens (#1811))
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
