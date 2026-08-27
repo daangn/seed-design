@@ -126,7 +126,24 @@ describe("Tabs", () => {
     expect(pager).not.toBeNull();
     expect(pager?.querySelectorAll("viewpager-item")).toHaveLength(2);
     expect(pager).toHaveAttribute("enable-scroll");
-    expect(pager).toHaveAttribute("ios-gesture-offset", "20");
+    expect(pager).toHaveAttribute("ios-gesture-offset", "32");
+  });
+
+  it("supports a custom iOS back gesture edge width", () => {
+    const { container } = render(
+      <Tabs.Root defaultValue="one">
+        <Tabs.List>
+          <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Carousel swipeable iosBackGestureEdgeWidth={48}>
+          <Tabs.CarouselCamera>
+            <Tabs.Content value="one">첫 번째 콘텐츠</Tabs.Content>
+          </Tabs.CarouselCamera>
+        </Tabs.Carousel>
+      </Tabs.Root>,
+    );
+
+    expect(container.querySelector("viewpager")).toHaveAttribute("ios-gesture-offset", "48");
   });
 
   it("maps pager indexes from content order when a disabled trigger has no content", () => {

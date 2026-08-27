@@ -89,6 +89,7 @@ function useTabsContext(consumer: string) {
 
 interface TabsCarouselContextValue {
   swipeable: boolean;
+  iosBackGestureEdgeWidth: number;
   onSettle?: () => void;
   onSwipeStart?: () => void;
   onSwipeEnd?: () => void;
@@ -516,6 +517,8 @@ TabsContent.displayName = "TabsContent";
  */
 export interface TabsCarouselProps extends LynxStyledElementProps {
   swipeable?: boolean;
+  /** iOS 뒤로가기 제스처를 우선하는 화면 왼쪽 가장자리 너비입니다. */
+  iosBackGestureEdgeWidth?: number;
   onSettle?: () => void;
   onSwipeStart?: () => void;
   onSwipeEnd?: () => void;
@@ -527,6 +530,7 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
     className,
     style,
     swipeable = false,
+    iosBackGestureEdgeWidth = 32,
     onSettle,
     onSwipeStart,
     onSwipeEnd,
@@ -534,8 +538,8 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
   } = props;
   const classNames = useClassNames();
   const contextValue = React.useMemo<TabsCarouselContextValue>(
-    () => ({ swipeable, onSettle, onSwipeStart, onSwipeEnd }),
-    [swipeable, onSettle, onSwipeStart, onSwipeEnd],
+    () => ({ swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd }),
+    [swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd],
   );
 
   return (
@@ -659,7 +663,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         {...nativeProps}
         initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
         enable-scroll={carouselContext.swipeable}
-        ios-gesture-offset={20}
+        ios-gesture-offset={carouselContext.iosBackGestureEdgeWidth}
         bindwillchange={handleWillChange}
         bindchange={handleChange}
         bindoffsetchange={handleOffsetChange}
