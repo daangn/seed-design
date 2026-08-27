@@ -24,6 +24,7 @@ import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
+import { TabsPage } from "./pages/TabsPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
@@ -53,6 +54,7 @@ export type Page =
   | "progress-circle"
   | "radio-group"
   | "switch"
+  | "tabs"
   | "tag-group"
   | "text-field"
   | "nested-vars-test"
@@ -91,6 +93,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "progress-circle",
   "radio-group",
   "switch",
+  "tabs",
   "tag-group",
   "text-field",
   "foundation-monochrome-icon",
@@ -155,6 +158,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}
         {currentPage === "switch" && <SwitchPage />}
+        {currentPage === "tabs" && <TabsPage />}
         {currentPage === "tag-group" && <TagGroupPage />}
         {currentPage === "text-field" && <TextFieldPage />}
         <Suspense>

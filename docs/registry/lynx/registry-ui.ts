@@ -94,6 +94,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "tabs",
+      snippets: [
+        {
+          path: "tabs.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
       id: "tag-group",
       snippets: [
         {

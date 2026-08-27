@@ -1,0 +1,143 @@
+---
+title: Tabs
+description: 한 화면의 콘텐츠를 탭 단위로 구분하고, 탭 선택이나 좌우 스와이프로 전환하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/tabs/preview" height={360}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/tabs/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:tabs
+```
+
+<LynxManualInstallation name="tabs" />
+
+## Props
+
+### `TabsRoot`
+
+<react-type-table path="./registry/lynx/ui/tabs.tsx" name="TabsRootProps" />
+
+### `TabsList`
+
+<react-type-table path="./registry/lynx/ui/tabs.tsx" name="TabsListProps" />
+
+### `TabsTrigger`
+
+<react-type-table path="./registry/lynx/ui/tabs.tsx" name="TabsTriggerProps" />
+
+### `TabsCarousel`
+
+<react-type-table path="./registry/lynx/ui/tabs.tsx" name="TabsCarouselProps" />
+
+### `TabsContent`
+
+<react-type-table path="./registry/lynx/ui/tabs.tsx" name="TabsContentProps" />
+
+## Usage
+
+```tsx
+import {
+  TabsCarousel,
+  TabsContent,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+
+export function App() {
+  return (
+    <TabsRoot defaultValue="one" triggerLayout="fill">
+      <TabsList>
+        <TabsTrigger value="one">첫 번째</TabsTrigger>
+        <TabsTrigger value="two">두 번째</TabsTrigger>
+      </TabsList>
+      <TabsCarousel swipeable className="tabs-carousel">
+        <TabsContent value="one">
+          <text>첫 번째 콘텐츠</text>
+        </TabsContent>
+        <TabsContent value="two">
+          <text>두 번째 콘텐츠</text>
+        </TabsContent>
+      </TabsCarousel>
+    </TabsRoot>
+  );
+}
+```
+
+Registry의 `TabsList`는 `Tabs.Indicator`를 자동으로 추가합니다. `TabsCarousel`도 내부에서 `Tabs.CarouselCamera`를 조립하므로 각 `TabsContent`만 자식으로 전달하면 됩니다.
+
+`TabsCarousel`은 Lynx 네이티브 `<viewpager>`를 사용합니다. Carousel에 앱 레이아웃에 맞는 높이를 지정해야 하며, `swipeable`을 설정하면 좌우 스와이프로 탭을 바꿀 수 있습니다.
+
+iOS에서는 화면 왼쪽 32px 안에서 시작하는 뒤로가기 제스처를 우선합니다. 앱의 제스처 영역과 맞춰야 한다면 `iosBackGestureEdgeWidth`로 너비를 조정하세요.
+
+## Examples
+
+### Swipeable
+
+Trigger를 탭하거나 콘텐츠를 좌우로 밀면 선택 값과 Indicator가 함께 이동합니다.
+
+<LynxComponentExample name="lynx/tabs/swipeable" height={360}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/tabs/swipeable.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`disabled` Trigger는 탭할 수 없습니다. Carousel이 비활성 탭에 도달하면 다음 활성 탭으로 이동합니다.
+
+<LynxComponentExample name="lynx/tabs/disabled" height={360}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/tabs/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Layout
+
+`triggerLayout="fill"`은 Trigger를 같은 너비로 배치합니다. `triggerLayout="hug"`은 레이블 너비에 맞춰 배치하고, 화면을 넘으면 List를 가로로 스크롤합니다.
+
+<LynxComponentExample name="lynx/tabs/layout" height={280}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/tabs/layout.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+`size`는 `small`과 `medium`을 지원합니다. 긴 레이블과 큰 글자 크기에서도 한 줄을 유지하며 `hug` List의 가로 스크롤로 처리합니다.
+
+## Web Version Differences
+
+| 항목 | React Web | Lynx |
+|---|---|---|
+| 렌더링 요소 | HTML `div`, `button` | 네이티브 `view`, `text`, `scroll-view`, `viewpager` |
+| 탭 선택 이벤트 | `onClick` 기반 | `bindtap` 기반, 공개 상태 이벤트는 `onValueChange` |
+| Carousel | Embla Carousel | 네이티브 `<viewpager>` |
+| 가로 List | CSS overflow | 네이티브 `<scroll-view>` |
+| 제어 방식 | `value`, `defaultValue` | 동일 |
+| 접근성 | ARIA `tablist`, `tab`, `tabpanel` | Lynx `accessibility-*` 속성 |
+| Indicator | DOM 측정과 CSS 변수 | `bindlayoutchange` 측정과 viewpager offset 보간 |
+
+<Callout type="info">
+스와이프 관성, 비활성 탭 건너뛰기, Indicator 이동은 QR 코드 탭에서 Lynx Explorer로 확인하세요. 문서의 WebLynx 미리보기와 네이티브 기기의 제스처 결과가 다를 수 있습니다.
+</Callout>
+
+## Unsupported Lynx Features
+
+현재 Lynx 구현은 다음 Web 기능을 지원하지 않습니다.
+
+- 세로 `orientation`
+- 키보드 방향키, Home/End, roving focus
+- RTL 순서와 스와이프 방향 반전
+- `asChild`
+- `lazyMount`, `unmountOnExit`
+- Carousel의 `loop`, `autoHeight`, `dragThreshold`
+- `carouselPreventDrag`
+
+Lynx의 native viewpager는 page slot을 유지해야 하므로 Carousel 콘텐츠를 lazy unmount하지 않습니다. 높이가 다른 콘텐츠는 `autoHeight` 대신 Carousel 컨테이너 높이를 앱에서 정하세요.

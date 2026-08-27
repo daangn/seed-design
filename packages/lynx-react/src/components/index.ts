@@ -14,6 +14,7 @@ export * from "./ProgressCircle";
 export * from "./RadioGroup";
 export * from "./Stack";
 export * from "./Switch";
+export * from "./Tabs";
 export * from "./TagGroup";
 export * from "./Text";
 export * from "./TextField";
