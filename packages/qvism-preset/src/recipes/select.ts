@@ -33,6 +33,16 @@ const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
 const SELECT_AVAILABLE_HEIGHT = "--seed-select-available-height";
 const SELECT_REFERENCE_WIDTH = "--seed-select-reference-width";
 
+/**
+ * The only variable here consumers are meant to set — the other three are written by
+ * `useSelect` and merely read back. It has to land on the positioner, the content, or the
+ * scroll area: the positioner renders through a `FloatingPortal`, so a value set on the
+ * trigger or the root never reaches the scroll area by inheritance.
+ */
+const SELECT_MAX_HEIGHT = "--seed-select-max-height";
+
+const selectMaxHeight = `var(${SELECT_MAX_HEIGHT}, ${selectVars.base.enabled.root.maxHeight})`;
+
 export const selectTrigger = defineSlotRecipe({
   name: "select-trigger",
   slots: ["root", "value", "placeholder", "prefixIcon", "suffixIcon"],
@@ -338,7 +348,10 @@ export const select = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${selectVars.base.enabled.root.maxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectVars.base.enabled.root.maxHeight}))`,
+      // The viewport clamp falls back to the cap rather than to the token: `useSelect` writes
+      // SELECT_AVAILABLE_HEIGHT only once floating-ui has measured, so a raised cap would
+      // otherwise render at the token height on the first frame and then jump.
+      maxHeight: `min(${selectMaxHeight}, var(${SELECT_AVAILABLE_HEIGHT}, ${selectMaxHeight}))`,
       boxSizing: "border-box",
 
       paddingBlock: selectVars.base.enabled.root.paddingY,
