@@ -80,18 +80,18 @@
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]):before {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .seed-pagination-page-item:is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])):before {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-pagination-page-item:is([aria-selected="true"], [data-selected]):is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 

@@ -36,8 +36,6 @@ export declare const layerFloating = "var(--seed-color-bg-layer-floating)";
 /** 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. (pressed) */
 export declare const layerFloatingPressed = "var(--seed-color-bg-layer-floating-pressed)";
 export declare const magicWeak = "var(--seed-color-bg-magic-weak)";
-/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted) */
-export declare const neutralInverted = "var(--seed-color-bg-neutral-inverted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed) */
 export declare const neutralInvertedPressed = "var(--seed-color-bg-neutral-inverted-pressed)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid) */
