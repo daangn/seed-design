@@ -106,7 +106,7 @@ data:
         root:
           cornerRadius: $radius.r3
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -149,7 +149,7 @@ data:
           strokeColor: $color.stroke.neutral-contrast
       disabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         prefixIcon:
           color: $color.fg.disabled
         label:
