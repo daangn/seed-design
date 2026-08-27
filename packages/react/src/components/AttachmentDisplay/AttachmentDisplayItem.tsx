@@ -18,6 +18,10 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import {
+  getInternalAttachmentItemReorder,
+  InternalAttachmentItemReorderHandle,
+} from "../private/AttachmentItemReorder";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -34,7 +38,7 @@ export interface AttachmentDisplayItemProps
 }
 
 export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentDisplayItemProps>(
-  ({ className, entry, ...props }, ref) => {
+  ({ className, entry, children, ...props }, ref) => {
     const { stateProps } = useAttachmentDisplayContext();
     const api = useAttachmentDisplayItem(entry);
 
@@ -44,6 +48,7 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     });
 
     const classNames = attachmentInputItem(variantProps);
+    const reorder = getInternalAttachmentItemReorder(otherProps);
 
     return (
       <ClassNamesProvider value={classNames}>
@@ -53,8 +58,13 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
               ref={ref}
               className={clsx(classNames.root, className)}
               {...stateProps}
-              {...otherProps}
-            />
+              {...reorder.itemProps}
+            >
+              {reorder.handleProps && (
+                <InternalAttachmentItemReorderHandle {...reorder.handleProps} />
+              )}
+              {children}
+            </Primitive.li>
           </overlayTracker.Provider>
         </AttachmentDisplayItemProvider>
       </ClassNamesProvider>

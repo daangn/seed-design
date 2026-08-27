@@ -1,5 +1,8 @@
 "use client";
 
+import { Accessibility, AutoScroller, KeyboardSensor, PointerSensor } from "@dnd-kit/dom";
+import { DragDropProvider } from "@dnd-kit/react";
+import { isSortable } from "@dnd-kit/react/sortable";
 import * as React from "react";
 import { AttachmentInput as SeedAttachmentInput, PrefixIcon } from "@seed-design/react";
 import {
@@ -15,16 +18,22 @@ import {
 
 import { ActionButton } from "./action-button";
 import { AttachmentInputItem, type AttachmentInputItemProps } from "./attachment-field";
-
-import { DragDropProvider } from "@dnd-kit/react";
-import { isSortable, useSortable } from "@dnd-kit/react/sortable";
-import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
-import { Accessibility, AutoScroller } from "@dnd-kit/dom";
+import { useAttachmentItemReorder } from "../lib/attachment-reorder";
 
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
 
 const autoScrollerPlugin = AutoScroller.configure({ threshold: { x: 0.2, y: 0 } });
+
+const sensors = [
+  PointerSensor.configure({
+    // The item remains the pointer/touch target while the handle owns keyboard and ARIA behavior.
+    activatorElements(source) {
+      return [source.element, source.handle];
+    },
+  }),
+  KeyboardSensor,
+];
 
 const accessibilityPlugin = Accessibility.configure({
   screenReaderInstructions: {
@@ -66,6 +75,7 @@ export const AttachmentInputReorderable = React.forwardRef<
   return (
     <DragDropProvider
       plugins={(defaults) => [...defaults, autoScrollerPlugin, accessibilityPlugin]}
+      sensors={sensors}
       onDragEnd={({ canceled, operation: { source } }) => {
         if (canceled) return;
         if (!isSortable(source)) return;
@@ -131,6 +141,7 @@ export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderab
       </SeedAttachmentInput.Dropzone>
       <DragDropProvider
         plugins={(defaults) => [...defaults, autoScrollerPlugin, accessibilityPlugin]}
+        sensors={sensors}
         onDragEnd={({ canceled, operation: { source } }) => {
           if (canceled) return;
           if (!isSortable(source)) return;
@@ -170,17 +181,18 @@ interface SortableAttachmentInputItemProps extends AttachmentInputItemProps {
 export const SortableAttachmentInputItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentInputItemProps
->(({ fileEntry, index, ...props }, _ref) => {
+>(({ fileEntry, index, ...props }, forwardedRef) => {
   const { readOnly } = useFileUploadContext();
-
-  const { ref: sortableRef } = useSortable({
+  const itemName = fileEntry.file.name;
+  const { itemRef, itemProps } = useAttachmentItemReorder({
     id: fileEntry.id,
     index,
+    name: itemName,
+    label: props["aria-label"] ?? `${itemName} 순서 변경`,
     disabled: readOnly,
-    modifiers: [RestrictToHorizontalAxis],
-    data: { name: fileEntry.file.name },
+    forwardedRef,
   });
 
-  return <AttachmentInputItem ref={sortableRef} fileEntry={fileEntry} {...props} />;
+  return <AttachmentInputItem ref={itemRef} fileEntry={fileEntry} {...props} {...itemProps} />;
 });
 SortableAttachmentInputItem.displayName = "SortableAttachmentInputItem";

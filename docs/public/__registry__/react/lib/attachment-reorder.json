@@ -1,0 +1,17 @@
+{
+  "id": "attachment-reorder",
+  "dependencies": [
+    "@dnd-kit/abstract",
+    "@dnd-kit/react"
+  ],
+  "snippets": [
+    {
+      "path": "attachment-reorder.ts",
+      "content": "/**\n * @file lib:attachment-reorder\n * @requires @dnd-kit/react@^0.4.0\n * @requires @dnd-kit/abstract@^0.4.0\n **/\n\n\"use client\";\n\nimport { RestrictToHorizontalAxis } from \"@dnd-kit/abstract/modifiers\";\nimport { useSortable } from \"@dnd-kit/react/sortable\";\nimport * as React from \"react\";\n\nconst REORDER_HANDLE_SELECTOR = \"[data-attachment-reorder-handle]\";\n\nfunction setRef<T>(ref: React.Ref<T>, value: T | null) {\n  if (typeof ref === \"function\") {\n    return ref(value);\n  }\n  if (ref) {\n    ref.current = value;\n  }\n}\n\ninterface UseAttachmentItemReorderOptions {\n  id: string;\n  index: number;\n  name: string;\n  label: string;\n  disabled: boolean;\n  forwardedRef: React.ForwardedRef<HTMLLIElement>;\n}\n\ninterface AttachmentReorderItemProps extends React.HTMLAttributes<HTMLLIElement> {\n  \"data-reorderable\": string;\n  \"data-dragging\"?: string;\n}\n\nexport function useAttachmentItemReorder({\n  id,\n  index,\n  name,\n  label,\n  disabled,\n  forwardedRef,\n}: UseAttachmentItemReorderOptions) {\n  const {\n    ref: sortableRef,\n    handleRef: sortableHandleRef,\n    isDragging,\n  } = useSortable({\n    id,\n    index,\n    disabled,\n    modifiers: [RestrictToHorizontalAxis],\n    data: { name },\n  });\n\n  // dnd-kit retains these callback refs, so a stable identity avoids unnecessary unregister/register.\n  const itemRef = React.useCallback(\n    (item: HTMLLIElement | null) => {\n      const forwardedRefCleanup = setRef(forwardedRef, item);\n      sortableRef(item);\n      sortableHandleRef(item?.querySelector<HTMLButtonElement>(REORDER_HANDLE_SELECTOR) ?? null);\n\n      if (typeof forwardedRefCleanup === \"function\") {\n        return () => {\n          forwardedRefCleanup();\n          sortableRef(null);\n          sortableHandleRef(null);\n        };\n      }\n    },\n    [forwardedRef, sortableHandleRef, sortableRef],\n  );\n\n  return {\n    itemRef,\n    itemProps: {\n      \"aria-label\": label,\n      \"data-reorderable\": \"\",\n      \"data-dragging\": isDragging ? \"\" : undefined,\n    } satisfies AttachmentReorderItemProps,\n  };\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@dnd-kit/react": "^0.4.0",
+        "@dnd-kit/abstract": "^0.4.0"
+      }
+    }
+  ]
+}

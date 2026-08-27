@@ -21,6 +21,10 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import {
+  getInternalAttachmentItemReorder,
+  InternalAttachmentItemReorderHandle,
+} from "../private/AttachmentItemReorder";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -35,7 +39,7 @@ export interface AttachmentInputItemProps
 }
 
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
-  ({ className, fileEntry, ...props }, ref) => {
+  ({ className, fileEntry, children, ...props }, ref) => {
     const { acceptType, stateProps } = useFileUploadContext();
     const api = useFileUploadItem(fileEntry);
 
@@ -45,6 +49,7 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     });
 
     const classNames = attachmentInputItem(variantProps);
+    const reorder = getInternalAttachmentItemReorder(otherProps);
 
     return (
       <ClassNamesProvider value={classNames}>
@@ -54,8 +59,13 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
               ref={ref}
               className={clsx(classNames.root, className)}
               {...stateProps}
-              {...otherProps}
-            />
+              {...reorder.itemProps}
+            >
+              {reorder.handleProps && (
+                <InternalAttachmentItemReorderHandle {...reorder.handleProps} />
+              )}
+              {children}
+            </Primitive.li>
           </overlayTracker.Provider>
         </FileUploadItemProvider>
       </ClassNamesProvider>
