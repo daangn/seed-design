@@ -201,7 +201,7 @@ export function IconColorPOCPage() {
       <view className="mb-x4">
         <SectionHeader
           title="Baseline — semantic color 고정 (컴포넌트 + raw image)"
-          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with fg.neutral-inverted. 오른쪽: raw <image> + data URI + semantic tint. 둘 중 어느 쪽이 보이는지."
+          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with fg.on-neutral-solid. 오른쪽: raw <image> + data URI + semantic tint. 둘 중 어느 쪽이 보이는지."
         />
         <BrandBg>
           <IconPlusFill color="var(--seed-color-fg-on-neutral-solid)" size={32} />
