@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 560px;
+    max-width: 464px;
     background: var(--seed-color-bg-neutral-inverted);
     border-radius: var(--seed-radius-r2);
     padding-inline: var(--seed-dimension-x2_5);

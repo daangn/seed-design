@@ -100,7 +100,7 @@ data:
           color: $color.bg.neutral-inverted
           cornerRadius: $radius.r2
           minHeight: 44px
-          maxWidth: 560px
+          maxWidth: 464px
           paddingX: $dimension.x2_5
           paddingY: $dimension.x2_5
           enterOpacity: 0
