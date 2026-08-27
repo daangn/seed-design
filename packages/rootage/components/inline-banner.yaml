@@ -186,12 +186,12 @@ data:
         root:
           color: $color.bg.critical-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         title:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         description:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         link:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
