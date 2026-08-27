@@ -4,7 +4,7 @@ export const vars = {
       "root": {
         "cornerRadius": "var(--seed-radius-r3)",
         "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "strokeWidth": "1px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)",
@@ -58,7 +58,7 @@ export const vars = {
     },
     "disabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-disabled)"
