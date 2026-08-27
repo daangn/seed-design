@@ -3,13 +3,8 @@
     display: flex;
     align-items: center;
     width: 100%;
-<<<<<<< HEAD
     max-width: 464px;
-    background: var(--seed-color-bg-neutral-inverted);
-=======
-    max-width: 560px;
     background: var(--seed-color-bg-neutral-solid);
->>>>>>> a9ce5dac6 (feat(rootage): update neutral solid background tokens (#1811))
     border-radius: var(--seed-radius-r2);
     padding-inline: var(--seed-dimension-x2_5);
     padding-block: var(--seed-dimension-x2_5);

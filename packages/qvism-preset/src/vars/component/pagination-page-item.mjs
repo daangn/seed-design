@@ -23,7 +23,7 @@ export const vars = {
     },
     "selected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
@@ -31,7 +31,7 @@ export const vars = {
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "disabled": {
