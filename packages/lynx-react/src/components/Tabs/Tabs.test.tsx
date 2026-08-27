@@ -128,6 +128,30 @@ describe("Tabs", () => {
     expect(pager).toHaveAttribute("enable-scroll");
   });
 
+  it("maps pager indexes from content order when a disabled trigger has no content", () => {
+    const { container } = render(
+      <Tabs.Root defaultValue="two">
+        <Tabs.List>
+          <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
+          <Tabs.Trigger value="disabled" disabled>
+            비활성
+          </Tabs.Trigger>
+          <Tabs.Trigger value="two">두 번째</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Carousel swipeable>
+          <Tabs.CarouselCamera>
+            <Tabs.Content value="one">첫 번째 콘텐츠</Tabs.Content>
+            <Tabs.Content value="two">두 번째 콘텐츠</Tabs.Content>
+          </Tabs.CarouselCamera>
+        </Tabs.Carousel>
+      </Tabs.Root>,
+    );
+
+    const pager = container.querySelector("viewpager");
+    expect(pager).toHaveAttribute("initial-select-index", "1");
+    expect(getTrigger(container, "두 번째")).toHaveAttribute("accessibility-value", "selected");
+  });
+
   it("exposes tab semantics through Lynx accessibility attributes", () => {
     const { container } = render(<BasicTabs defaultValue="one" />);
     const first = getTrigger(container, "첫 번째");

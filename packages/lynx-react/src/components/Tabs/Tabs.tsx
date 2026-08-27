@@ -53,36 +53,18 @@ function getLayoutRect(event: Parameters<LayoutChangeHandler>[0]): TriggerRect |
   return { width: Math.max(0, width), left };
 }
 
-function getNextEnabledIndex(items: TriggerItem[], targetIndex: number, currentIndex: number) {
-  if (!items[targetIndex]?.disabled) return targetIndex;
-
-  const direction = targetIndex >= currentIndex ? 1 : -1;
-  for (
-    let index = targetIndex + direction;
-    index >= 0 && index < items.length;
-    index += direction
-  ) {
-    if (!items[index]?.disabled) return index;
-  }
-  for (
-    let index = targetIndex - direction;
-    index >= 0 && index < items.length;
-    index -= direction
-  ) {
-    if (!items[index]?.disabled) return index;
-  }
-  return currentIndex;
-}
-
 interface TabsContextValue {
   value: string | undefined;
   variantProps: TabsPublicVariantProps;
   items: TriggerItem[];
+  pagerValues: string[];
   selectedIndex: number;
+  selectedPagerIndex: number;
   indicatorRef: React.RefObject<MainThread.Element>;
   listLeft: number;
   triggerRects: Record<string, TriggerRect>;
   registerTrigger: (value: string, disabled: boolean) => () => void;
+  registerContent: (value: string) => () => void;
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
   updateTriggerRect: (value: string, rect: TriggerRect) => void;
   setListLeft: (left: number) => void;
@@ -166,13 +148,22 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     },
   });
   const [items, setItems] = React.useState<TriggerItem[]>([]);
+  const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [triggerRects, setTriggerRects] = React.useState<Record<string, TriggerRect>>({});
   const [listLeft, setListLeft] = React.useState(0);
   const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
 
+  const pagerValues = React.useMemo(
+    () =>
+      contentValues.filter(
+        (contentValue) => !items.find((item) => item.value === contentValue)?.disabled,
+      ),
+    [contentValues, items],
+  );
   const selectedIndex = value === undefined ? -1 : items.findIndex((item) => item.value === value);
+  const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
   const selectedRect = value === undefined ? undefined : triggerRects[value];
   const selectedOffset = selectedRect ? Math.max(0, selectedRect.left - listLeft) : null;
 
@@ -187,9 +178,9 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const setPagerNode = React.useCallback(
     (node: NodesRef | null) => {
       pagerRef.current = node;
-      if (node && selectedIndex >= 0) invokeSelectTab(node, selectedIndex, false);
+      if (node && selectedPagerIndex >= 0) invokeSelectTab(node, selectedPagerIndex, false);
     },
-    [selectedIndex],
+    [selectedPagerIndex],
   );
 
   const registerTrigger = React.useCallback((triggerValue: string, disabled: boolean) => {
@@ -206,6 +197,17 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         delete next[triggerValue];
         return next;
       });
+    };
+  }, []);
+
+  const registerContent = React.useCallback((contentValue: string) => {
+    setContentValues((current) =>
+      current.includes(contentValue) ? current : [...current, contentValue],
+    );
+
+    return () => {
+      "background only";
+      setContentValues((current) => current.filter((value) => value !== contentValue));
     };
   }, []);
 
@@ -234,35 +236,34 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
 
   const handlePagerChange = React.useCallback(
     (targetIndex: number) => {
-      const nextIndex = getNextEnabledIndex(items, targetIndex, selectedIndex);
-      const nextItem = items[nextIndex];
-      if (!nextItem) return;
-
-      if (nextIndex !== targetIndex) {
-        invokeSelectTab(pagerRef.current, nextIndex, true);
-      }
-      setValueInternal(nextItem.value);
+      const nextValue = pagerValues[targetIndex];
+      if (nextValue === undefined) return;
+      setValueInternal(nextValue);
     },
-    [items, selectedIndex, setValueInternal],
+    [pagerValues, setValueInternal],
   );
 
   React.useEffect(() => {
     "background only";
-    if (selectedIndex < 0) return;
-    invokeSelectTab(pagerRef.current, selectedIndex, false);
+    if (selectedPagerIndex >= 0) {
+      invokeSelectTab(pagerRef.current, selectedPagerIndex, false);
+    }
     if (selectedOffset !== null) invokeScrollToOffset(listRef.current, selectedOffset);
-  }, [selectedIndex, selectedOffset]);
+  }, [selectedPagerIndex, selectedOffset]);
 
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({
       value,
       variantProps,
       items,
+      pagerValues,
       selectedIndex,
+      selectedPagerIndex,
       indicatorRef,
       listLeft,
       triggerRects,
       registerTrigger,
+      registerContent,
       updateTriggerDisabled,
       updateTriggerRect,
       setListLeft,
@@ -275,11 +276,14 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       value,
       variantProps,
       items,
+      pagerValues,
       selectedIndex,
+      selectedPagerIndex,
       indicatorRef,
       listLeft,
       triggerRects,
       registerTrigger,
+      registerContent,
       updateTriggerDisabled,
       updateTriggerRect,
       setListNode,
@@ -514,7 +518,13 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
   const tabsContext = useTabsContext("TabsContent");
   const inCarousel = useTabsCarouselCameraContext();
   const selected = tabsContext.value === contentValue;
+  const disabled = tabsContext.items.find((item) => item.value === contentValue)?.disabled ?? false;
   const contentClasses = tabs({ ...tabsContext.variantProps, selected, inCarousel });
+
+  React.useEffect(() => {
+    "background only";
+    if (inCarousel) return tabsContext.registerContent(contentValue);
+  }, [inCarousel, tabsContext.registerContent, contentValue]);
 
   const content = (
     <view
@@ -531,6 +541,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
   );
 
   if (inCarousel) {
+    if (disabled) return null;
     return <viewpager-item {...viewPagerItemProps}>{content}</viewpager-item>;
   }
   return content;
@@ -625,8 +636,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
     const tabsContext = useTabsContext("TabsCarouselCamera");
     const carouselContext = useTabsCarouselContext("TabsCarouselCamera");
     const swipingRef = React.useRef(false);
-    const { indicatorRef, items, listLeft, triggerRects } = tabsContext;
-    const indicatorRects = items.map((item) => triggerRects[item.value] ?? null);
+    const { indicatorRef, pagerValues, listLeft, triggerRects } = tabsContext;
+    const indicatorRects = pagerValues.map((value) => triggerRects[value] ?? null);
 
     const mergedRef = React.useCallback(
       (node: NodesRef | null) => {
@@ -706,7 +717,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       <viewpager
         ref={mergedRef}
         {...nativeProps}
-        initial-select-index={Math.max(0, tabsContext.selectedIndex)}
+        initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
         enable-scroll={carouselContext.swipeable}
         bindwillchange={handleWillChange}
         bindchange={handleChange}
