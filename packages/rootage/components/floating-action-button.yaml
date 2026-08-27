@@ -74,7 +74,7 @@ data:
           layoutDuration: $duration.d4
           layoutTimingFunction: $timing-function.easing
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
           sizeDuration: $duration.d4
           sizeTimingFunction: $timing-function.easing
       pressed:
@@ -91,7 +91,7 @@ data:
         icon:
           size: $dimension.x4
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold

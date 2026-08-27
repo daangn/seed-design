@@ -29,7 +29,7 @@ export const vars = {
   "toneNeutralVariantSolid": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     }
   },
