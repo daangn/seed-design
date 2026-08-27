@@ -32,6 +32,7 @@ const helpBubble = defineSlotRecipe({
     content: {
       display: "flex",
       alignItems: "flex-start",
+      boxSizing: "border-box",
 
       background: vars.base.enabled.root.color,
 
@@ -40,7 +41,7 @@ const helpBubble = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       // real value, not `initial` — see https://webkit.org/b/241433
-      "--seed-box-max-width--responsive": "none",
+      "--seed-box-max-width--responsive": vars.base.enabled.root.maxWidth,
       maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(open)]: {

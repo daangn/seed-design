@@ -18,6 +18,8 @@ data:
             type: dimension
           gap:
             type: dimension
+          maxWidth:
+            type: dimension
           enterScale:
             type: number
           enterOpacity:
@@ -99,6 +101,7 @@ data:
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
           gap: $dimension.x1
+          maxWidth: 280px
           enterScale: 0.9
           enterOpacity: 0
           enterDuration: $duration.d4

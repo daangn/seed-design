@@ -5,20 +5,20 @@ import { ActionButton } from "seed-design/ui/action-button";
 const TITLE =
   "Pariatur aliqua commodo eu Lorem minim anim. Lorem ipsum voluptate eu duis eiusmod consequat.";
 
-const WIDTHS = ["200px", "300px", "unset"] as const;
+const MAX_WIDTHS = ["200px", "400px", "none"] as const;
 
 export default function HelpBubbleTooltipWidth() {
   return (
     <HStack gap="x16" p="x10">
-      {WIDTHS.map((width) => (
+      {MAX_WIDTHS.map((maxWidth) => (
         <HelpBubbleTooltipTrigger
-          key={width}
+          key={maxWidth}
           title={TITLE}
           placement="bottom"
-          contentProps={{ style: { width } }}
+          contentProps={{ maxWidth }}
         >
           <ActionButton variant="ghost" size="small">
-            {width}
+            {maxWidth}
           </ActionButton>
         </HelpBubbleTooltipTrigger>
       ))}
