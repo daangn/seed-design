@@ -28,7 +28,6 @@ declare const artifact: {
             };
             "maxWidth": {
               "type": "dimension";
-              "description": "말풍선의 최대 너비를 정의합니다.";
             };
             "enterScale": {
               "type": "number";
