@@ -596,12 +596,15 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       (event: ViewPagerWillChangeEvent) => {
         "background only";
         bindwillchange?.(event);
-        if (event.detail.isDragged && !swipingRef.current) {
-          swipingRef.current = true;
-          carouselContext.onSwipeStart?.();
+        if (event.detail.isDragged) {
+          tabsContext.handlePagerChange(event.detail.index);
+          if (!swipingRef.current) {
+            swipingRef.current = true;
+            carouselContext.onSwipeStart?.();
+          }
         }
       },
-      [bindwillchange, carouselContext.onSwipeStart],
+      [bindwillchange, carouselContext.onSwipeStart, tabsContext.handlePagerChange],
     );
 
     const handleChange = React.useCallback(
