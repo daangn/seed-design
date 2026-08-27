@@ -96,6 +96,8 @@ data:
       enabled,selected:
         root:
           color: $color.bg.brand-solid
+        thumb:
+          color: $color.fg.on-brand-solid
     tone=neutral:
       enabled:
         thumb:

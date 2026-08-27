@@ -252,6 +252,12 @@ declare const artifact: {
                   "value": "$color.bg.brand-solid";
                 };
               };
+              "thumb": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-brand-solid";
+                };
+              };
             };
           },
         ];
