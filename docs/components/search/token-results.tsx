@@ -101,8 +101,12 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
         style={themed(background)}
         // The `background` shorthand rather than `bg-*`: gradient tokens put a
         // `linear-gradient()` in the variable, and Tailwind can't see through `var()` to
-        // tell a colour from an image, so `bg-[var(…)]` compiles to `background-color` and
-        // drops every gradient at computed-value time.
+        // tell a colour from an image, so an arbitrary `bg-*` over one compiles to
+        // `background-color` and drops every gradient at computed-value time.
+        //
+        // Spelling that utility out here would be self-defeating: the scanner reads
+        // comments too, and a placeholder inside the brackets becomes a real rule with an
+        // unparseable value.
         className="block h-11 w-full rounded-lg border border-stroke-neutral-muted [background:var(--token-preview-light)] dark:[background:var(--token-preview-dark)]"
       />
     );
