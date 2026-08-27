@@ -1,0 +1,85 @@
+---
+title: Divider
+description: 시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.8.1" />
+
+<LynxComponentExample name="lynx/divider/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `Divider`는 별도 `ui:divider` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Divider/Divider.tsx" name="DividerProps" />
+
+## Usage
+
+```tsx
+import { Divider } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Divider />
+```
+
+## Screen Reader Behavior
+
+Divider는 기본적으로 접근성 트리에 포함되며 `accessibility-role-description="separator"`를 전달합니다. 스크린 리더는 해당 요소를 구분선으로 읽습니다.
+
+Divider가 의미를 가지지 않은 장식적 요소라면, `accessibility-element={false}`를 지정해 스크린 리더가 해당 요소를 읽지 않도록 해야 합니다.
+
+## Examples
+
+### Orientation
+
+`orientation="vertical"`을 사용하면 부모가 구분선의 높이를 정해야 합니다.
+
+<LynxComponentExample name="lynx/divider/orientation">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/orientation.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Inset
+
+`inset`은 구분선 양끝에 16px 간격을 추가합니다.
+
+<LynxComponentExample name="lynx/divider/inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/inset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+- HTML `<hr>` 대신 Lynx native `<view>`를 렌더링합니다.
+- 웹과 동일하게 `color`, `thickness`, `orientation`, `inset`을 지원합니다.
+- Lynx 접근성 속성은 Web의 ARIA 속성 대신 `accessibility-*` 형식을 사용합니다.
+- React 버전과 마찬가지로 package export로 제공하며 Registry snippet은 제공하지 않습니다.
+
+## Unsupported Lynx Features
+
+- Lynx에는 `<hr>`, `<div>`, `<li>`에 대응하는 다형 렌더링이 없으므로 Web Divider의 `as` prop을 제공하지 않습니다.
+- `<hr>`의 암시적 separator semantics가 없습니다. 컴포넌트가 기본으로 전달하는 `accessibility-role-description`과 `accessibility-element`로 접근성 노출 여부를 조정하세요.
