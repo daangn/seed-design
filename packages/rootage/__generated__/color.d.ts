@@ -1600,19 +1600,6 @@ declare const artifact: {
           };
         };
       };
-      "$color.bg.neutral-inverted": {
-        "values": {
-          "theme-light": {
-            "type": "color";
-            "value": "$color.palette.gray-900";
-          };
-          "theme-dark": {
-            "type": "color";
-            "value": "$color.palette.gray-1000";
-          };
-        };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)";
-      };
       "$color.bg.neutral-inverted-pressed": {
         "values": {
           "theme-light": {

@@ -416,7 +416,7 @@ declare const artifact: {
               "dateVisual": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
               "dateContent": {

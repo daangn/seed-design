@@ -80,7 +80,7 @@ export const vars = {
     },
     "selected": {
       "dateVisual": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "dateContent": {
         "color": "var(--seed-color-fg-neutral-inverted)"

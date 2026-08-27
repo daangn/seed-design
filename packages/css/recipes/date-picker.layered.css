@@ -272,7 +272,7 @@
   }
 
   .seed-date-picker__dateButton:is([aria-selected="true"], [data-selected]):before {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
   }
 
   .seed-date-picker__dateButton:is([aria-selected="true"], [data-selected]) {
@@ -293,13 +293,13 @@
 
   @media (hover: hover) and (pointer: fine) {
     .seed-date-picker__dateButton:not(:is(:disabled, [disabled], [data-disabled])):not([data-range-start-readonly]):is([aria-selected="true"], [data-selected]):is(:hover, [data-hover]):not([data-in-range]):before {
-      background-color: var(--seed-color-bg-neutral-inverted);
+      background-color: var(--seed-color-bg-neutral-solid);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-date-picker__dateButton:not(:is(:disabled, [disabled], [data-disabled])):not([data-range-start-readonly]):is([aria-selected="true"], [data-selected]):is(:active, [data-active]):not([data-in-range]):before {
-      background-color: var(--seed-color-bg-neutral-inverted);
+      background-color: var(--seed-color-bg-neutral-solid);
     }
   }
 
