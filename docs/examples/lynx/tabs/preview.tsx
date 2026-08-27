@@ -16,7 +16,7 @@ function Root() {
     <page className={seedClassName}>
       <view className="tabs-preview">
         <text className="tabs-preview__status">선택된 탭: {value}</text>
-        <Tabs.Root value={value} onValueChange={handleValueChange}>
+        <Tabs.Root value={value} onValueChange={handleValueChange} triggerLayout="fill">
           <Tabs.List>
             <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
             <Tabs.Trigger value="two">두 번째</Tabs.Trigger>

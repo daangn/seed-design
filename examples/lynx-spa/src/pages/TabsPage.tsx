@@ -17,7 +17,7 @@ export function TabsPage() {
   return (
     <CatalogExamples title="Tabs" gap="24px">
       <CatalogSectionTitle>Fill layout</CatalogSectionTitle>
-      <TabsRoot defaultValue="one">
+      <TabsRoot defaultValue="one" triggerLayout="fill">
         <TabsList>
           <TabsTrigger value="one">첫 번째</TabsTrigger>
           <TabsTrigger value="two">두 번째</TabsTrigger>
