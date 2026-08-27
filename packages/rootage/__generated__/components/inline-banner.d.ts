@@ -545,31 +545,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "link": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
             };

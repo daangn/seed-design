@@ -357,31 +357,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "button": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };
@@ -485,31 +485,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-positive-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-positive-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-positive-solid";
                 };
               };
               "button": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-positive-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-positive-solid";
                 };
               };
             };
@@ -613,31 +613,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-informative-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-informative-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-informative-solid";
                 };
               };
               "button": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-informative-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-informative-solid";
                 };
               };
             };
@@ -741,31 +741,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
+                  "value": "$color.fg.on-warning-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
+                  "value": "$color.fg.on-warning-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
+                  "value": "$color.fg.on-warning-solid";
                 };
               };
               "button": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
+                  "value": "$color.fg.on-warning-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-black-alpha-900";
+                  "value": "$color.fg.on-warning-solid";
                 };
               };
             };
@@ -869,31 +869,31 @@ declare const artifact: {
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "button": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
             };
