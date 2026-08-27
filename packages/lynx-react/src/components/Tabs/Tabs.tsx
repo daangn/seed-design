@@ -659,7 +659,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         {...nativeProps}
         initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
         enable-scroll={carouselContext.swipeable}
-        allow-horizontal-gesture={carouselContext.swipeable}
+        ios-gesture-offset={20}
         bindwillchange={handleWillChange}
         bindchange={handleChange}
         bindoffsetchange={handleOffsetChange}
