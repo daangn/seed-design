@@ -110,7 +110,11 @@ interface TabsCarouselContextValue {
 }
 
 const TabsCarouselContext = React.createContext<TabsCarouselContextValue | null>(null);
-const TabsCarouselCameraContext = React.createContext(false);
+const TabsCarouselCameraContext = React.createContext<boolean | null>(null);
+
+function useTabsCarouselCameraContext() {
+  return React.useContext(TabsCarouselCameraContext) ?? false;
+}
 
 function useTabsCarouselContext(consumer: string) {
   const context = React.useContext(TabsCarouselContext);
@@ -508,7 +512,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
     ...nativeProps
   } = props;
   const tabsContext = useTabsContext("TabsContent");
-  const inCarousel = React.useContext(TabsCarouselCameraContext);
+  const inCarousel = useTabsCarouselCameraContext();
   const selected = tabsContext.value === contentValue;
   const contentClasses = tabs({ ...tabsContext.variantProps, selected, inCarousel });
 
