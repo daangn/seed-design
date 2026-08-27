@@ -5,6 +5,7 @@ export * from "./Box";
 export * from "./BottomSheet";
 export * from "./Callout";
 export * from "./Checkbox";
+export * from "./Chip";
 export * from "./Field";
 export * from "./Icon";
 export * from "./KeyboardAvoidingScrollView";

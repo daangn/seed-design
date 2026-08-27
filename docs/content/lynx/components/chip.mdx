@@ -1,0 +1,123 @@
+---
+title: Chip
+description: 사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/chip/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Props
+
+### `Chip.Button`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipButtonProps" />
+
+### `Chip.Toggle`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipToggleProps" />
+
+### `Chip.RadioRoot`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipRadioRootProps" />
+
+### `Chip.RadioItem`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipRadioItemProps" />
+
+### Slots
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipLabelProps" />
+
+## Examples
+
+### Button
+
+일반 액션은 `Chip.Button`을 사용하고 `bindtap`으로 탭 이벤트를 처리합니다.
+
+<LynxComponentExample name="lynx/chip/button">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/button.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Toggle
+
+독립적인 선택 상태는 `Chip.Toggle`을 사용합니다. `checked`와 `onCheckedChange`를 함께 전달하면 controlled 상태로 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/chip/toggle">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/toggle.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Radio Group
+
+한 항목만 선택해야 하면 `Chip.RadioRoot`와 `Chip.RadioItem`을 조합합니다.
+
+<LynxComponentExample name="lynx/chip/radio-group">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/radio-group.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Sizes and Variants
+
+React 버전과 동일하게 `size="small" | "medium" | "large"`와 `variant="solid" | "outlineStrong" | "outlineWeak"`를 지원합니다.
+
+<LynxComponentExample name="lynx/chip/sizes-and-variants">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/sizes-and-variants.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Affixes and Icon Only
+
+`Chip.PrefixIcon`, `Chip.PrefixAvatar`, `Chip.SuffixIcon` 슬롯으로 앞뒤 콘텐츠를 배치할 수 있습니다. Lynx 아이콘은 `@seed-design/lynx-react`의 `Icon`, `PrefixIcon`, `SuffixIcon`과 `@karrotmarket/lynx-monochrome-icon` 요소를 사용합니다. `layout="iconOnly"`에서는 `Icon` 자식과 `accessibility-label`을 함께 전달해야 합니다.
+
+<LynxComponentExample name="lynx/chip/affixes-and-icon-only">
+  ```json doc-gen:file
+  { "file": "examples/lynx/chip/affixes-and-icon-only.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/variant 이름을 사용하지만 다음 차이가 있습니다.
+
+- **렌더링 요소**: HTML `<button>` / `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>`를 렌더링합니다.
+- **이벤트 핸들링**: `onClick` 대신 `bindtap`, `onChange` 대신 `onCheckedChange` 또는 `onValueChange`를 사용합니다.
+- **상태 스타일**: 웹 pseudo selector 대신 touch 상태와 선택 상태를 Lynx recipe의 `pressed`, `selected` variant로 연결합니다.
+- **아이콘 렌더링**: SVG `currentColor` 대신 Lynx monochrome icon과 `<image tint-color>` 기반 Icon wrapper를 사용합니다.
+- **공개 표면**: React의 registry wrapper 역할을 Lynx package API가 직접 제공하므로 별도 snippet을 설치하지 않습니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 런타임 모델 차이로 다음 기능은 지원하지 않습니다.
+
+| 기능 | 설명 |
+|------|------|
+| HiddenInput / `inputProps` | Lynx에 HTML input과 form 제출 모델이 없습니다. |
+| `name` / `required` / native form value | HTML form 속성을 연결할 대상이 없습니다. |
+| raw DOM `onChange` | `onCheckedChange` 또는 `onValueChange`로 대체합니다. |
+| 키보드 focus / `focusVisible` | Lynx에는 웹과 같은 키보드 focus 모델이 없습니다. |
+| `asChild` | Lynx는 웹 Slot 기반 다형 렌더링을 지원하지 않습니다. |
