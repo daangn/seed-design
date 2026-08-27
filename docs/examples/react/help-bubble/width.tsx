@@ -3,24 +3,24 @@ import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented
 import { VStack } from "@seed-design/react";
 import { useState } from "react";
 
-const WIDTH_OPTIONS = ["200px", "300px", "unset"] as const;
+const MAX_WIDTH_OPTIONS = ["200px", "400px", "none"] as const;
 
 export default function HelpBubbleWidth() {
-  const [width, setWidth] = useState<(typeof WIDTH_OPTIONS)[number]>("300px");
+  const [maxWidth, setMaxWidth] = useState<(typeof MAX_WIDTH_OPTIONS)[number]>("400px");
 
   return (
     <VStack gap="spacingY.componentDefault" align="center" p="x10">
       <HelpBubbleAnchor
         open
         title="Pariatur aliqua commodo eu Lorem minim anim. Lorem ipsum voluptate eu duis eiusmod consequat."
-        contentProps={{ style: { width } }}
+        contentProps={{ maxWidth }}
       >
         <SegmentedControl
-          aria-label="너비"
-          value={width}
-          onValueChange={(value) => setWidth(value as (typeof WIDTH_OPTIONS)[number])}
+          aria-label="최대 너비"
+          value={maxWidth}
+          onValueChange={(value) => setMaxWidth(value as (typeof MAX_WIDTH_OPTIONS)[number])}
         >
-          {WIDTH_OPTIONS.map((option) => (
+          {MAX_WIDTH_OPTIONS.map((option) => (
             <SegmentedControlItem key={option} value={option}>
               {option}
             </SegmentedControlItem>
