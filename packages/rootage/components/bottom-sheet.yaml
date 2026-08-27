@@ -103,7 +103,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-floating
-          maxWidth: 640px
+          maxWidth: 480px
           topCornerRadius: $radius.r6
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
