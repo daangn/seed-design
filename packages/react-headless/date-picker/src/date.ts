@@ -1,5 +1,10 @@
 import { CalendarDate, endOfWeek, startOfWeek } from "@internationalized/date";
-import type { DatePickerDate, DatePickerVisibleRange } from "./types";
+import type {
+  DatePickerDate,
+  DatePickerMonthRange,
+  DatePickerVisibleRange,
+  DatePickerYearMonth,
+} from "./types";
 
 export const DEFAULT_DATE_CELL_HEIGHT = 48;
 export const CONTINUOUS_WEEKDAY_HEIGHT = 48;
@@ -16,6 +21,10 @@ export function fromCalendarDate(date: CalendarDate): DatePickerDate {
 
 export function compareDates(a: DatePickerDate, b: DatePickerDate) {
   return toCalendarDate(a).compare(toCalendarDate(b));
+}
+
+export function compareYearMonths(a: DatePickerYearMonth, b: DatePickerYearMonth) {
+  return a.year === b.year ? a.month - b.month : a.year - b.year;
 }
 
 export function isSameDate(a: DatePickerDate | undefined, b: DatePickerDate | undefined) {
@@ -157,6 +166,33 @@ export function assertDateInYearRange(
   }
 }
 
+export function assertValidYearMonth(value: DatePickerYearMonth, propName: string) {
+  if (
+    !Number.isInteger(value.year) ||
+    !Number.isInteger(value.month) ||
+    value.month < 1 ||
+    value.month > 12
+  ) {
+    throw new RangeError(
+      `DatePicker: ${propName}은 정수 year와 1부터 12 사이의 month를 가져야 합니다.`,
+    );
+  }
+}
+
+export function assertDateInMonthRange(
+  date: DatePickerDate,
+  monthRange: DatePickerMonthRange,
+  propName: string,
+) {
+  assertValidDate(date, propName);
+  if (
+    compareYearMonths(date, monthRange.start) < 0 ||
+    compareYearMonths(date, monthRange.end) > 0
+  ) {
+    throw new RangeError(`DatePicker: ${propName}은 monthRange 안의 날짜여야 합니다.`);
+  }
+}
+
 export function eachDateInclusive(start: DatePickerDate, end: DatePickerDate) {
   const result: DatePickerDate[] = [];
   for (let cursor = start; compareDates(cursor, end) <= 0; cursor = addDays(cursor, 1)) {
@@ -179,5 +215,16 @@ export function clampDateToYearRange(
 ) {
   if (date.year < yearRange.start) return { year: yearRange.start, month: 1, day: 1 };
   if (date.year > yearRange.end) return { year: yearRange.end, month: 12, day: 31 };
+  return date;
+}
+
+export function clampDateToMonthRange(date: DatePickerDate, monthRange: DatePickerMonthRange) {
+  if (compareYearMonths(date, monthRange.start) < 0) {
+    return { ...monthRange.start, day: 1 };
+  }
+  if (compareYearMonths(date, monthRange.end) > 0) {
+    const end = { ...monthRange.end, day: 1 };
+    return { ...end, day: getDaysInMonth(end) };
+  }
   return date;
 }
