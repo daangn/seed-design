@@ -558,11 +558,6 @@ data:
       values:
         theme-light: "#f9f2ee"
         theme-dark: "#201f1f"
-    $color.bg.neutral-inverted:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
-      values:
-        theme-light: $color.palette.gray-900
-        theme-dark: $color.palette.gray-1000
     $color.bg.neutral-inverted-pressed:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)
       values:
