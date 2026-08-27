@@ -68,7 +68,7 @@
     }
 }
 .seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-brand-solid);
@@ -84,7 +84,7 @@
     }
 }
 .seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
 }
 .seed-radiomark__root--size_large {
     width: var(--seed-dimension-x6);

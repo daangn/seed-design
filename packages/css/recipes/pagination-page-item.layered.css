@@ -76,7 +76,7 @@
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]):before {

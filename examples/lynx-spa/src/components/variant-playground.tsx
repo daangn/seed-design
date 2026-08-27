@@ -230,7 +230,7 @@ function VariantRow({
               <text
                 className={clsx(
                   "t2-regular",
-                  active ? "text-fg-neutral-inverted" : "text-fg-neutral",
+                  active ? "text-fg-on-neutral-solid" : "text-fg-neutral",
                 )}
               >
                 {label}
@@ -265,7 +265,7 @@ function BooleanRow({
         )}
       >
         <text
-          className={clsx("t2-regular", current ? "text-fg-neutral-inverted" : "text-fg-neutral")}
+          className={clsx("t2-regular", current ? "text-fg-on-neutral-solid" : "text-fg-neutral")}
         >
           {current ? "true" : "false"}
         </text>
