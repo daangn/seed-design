@@ -26,7 +26,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "selectedPressed": {

@@ -83,7 +83,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
       "dateContent": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "wheelItem": {
         "color": "var(--seed-color-fg-neutral)"

@@ -185,7 +185,7 @@ declare const artifact: {
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
             };
@@ -271,7 +271,7 @@ declare const artifact: {
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };

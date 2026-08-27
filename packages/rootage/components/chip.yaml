@@ -124,13 +124,13 @@ data:
         root:
           color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         prefixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         suffixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       selected, pressed:
         root:
           color: $color.bg.neutral-solid-pressed
@@ -162,13 +162,13 @@ data:
         root:
           color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         prefixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         suffixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       selected, pressed:
         root:
           color: $color.bg.neutral-solid-pressed

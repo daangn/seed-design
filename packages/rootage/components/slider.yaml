@@ -151,7 +151,7 @@ data:
           cornerRadius: $radius.r0_5
           gutter: $dimension.x0_5
         valueIndicatorLabel:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
           fontSize: $font-size.t3
           lineHeight: $line-height.t3
           fontWeight: $font-weight.medium

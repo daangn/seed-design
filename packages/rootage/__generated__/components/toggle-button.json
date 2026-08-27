@@ -179,19 +179,19 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 }
               },
               "prefixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 }
               },
               "suffixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 }
               },
               "progressCircle": {
@@ -201,7 +201,7 @@
                 },
                 "rangeColor": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.on-brand-solid"
                 }
               }
             }

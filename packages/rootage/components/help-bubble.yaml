@@ -121,17 +121,17 @@ data:
         body:
           gap: $dimension.x0_5
         title:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
           fontSize: $font-size.t3
           fontWeight: $font-weight.bold
           lineHeight: $line-height.t3
         description:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
           fontSize: $font-size.t3
           fontWeight: $font-weight.regular
           lineHeight: $line-height.t3
         closeButton:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
           size: $dimension.x3_5
           targetSize: 38px
           marginTop: $dimension.x0_5

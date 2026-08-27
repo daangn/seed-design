@@ -123,16 +123,16 @@ data:
         root:
           color: $color.bg.brand-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-brand-solid
       pressed:
         root:
           color: $color.bg.brand-solid-pressed
@@ -155,16 +155,16 @@ data:
         root:
           color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         prefixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         suffixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-neutral-solid
       pressed:
         root:
           color: $color.bg.neutral-solid-pressed
@@ -219,16 +219,16 @@ data:
         root:
           color: $color.bg.critical-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-critical-solid
       pressed:
         root:
           color: $color.bg.critical-solid-pressed
