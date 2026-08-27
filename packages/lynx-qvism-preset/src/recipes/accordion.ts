@@ -8,6 +8,7 @@ const accordion = defineSlotRecipe({
     "item",
     "header",
     "trigger",
+    "pressedOverlay",
     "prefix",
     "body",
     "title",
@@ -33,6 +34,7 @@ const accordion = defineSlotRecipe({
       width: "100%",
     },
     trigger: {
+      position: "relative",
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -41,6 +43,14 @@ const accordion = defineSlotRecipe({
       paddingRight: itemVars.base.enabled.trigger.paddingX,
       backgroundColor: "transparent",
       border: "none",
+    },
+    pressedOverlay: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      backgroundColor: "transparent",
       transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}`,
     },
     prefix: {
@@ -100,7 +110,13 @@ const accordion = defineSlotRecipe({
   },
   variants: {
     variant: {
-      inline: {},
+      inline: {
+        pressedOverlay: {
+          right: itemVars.base.pressed.trigger.marginX,
+          left: itemVars.base.pressed.trigger.marginX,
+          borderRadius: itemVars.base.pressed.trigger.cornerRadius,
+        },
+      },
       separated: {
         root: {},
         item: {
@@ -133,8 +149,8 @@ const accordion = defineSlotRecipe({
           lineHeight: itemVars.sizeMedium.enabled.description.lineHeight,
         },
         suffixIcon: {
-          width: itemVars.sizeMedium.enabled.suffixIcon.size,
-          height: itemVars.sizeMedium.enabled.suffixIcon.size,
+          width: itemVars.sizeLarge.enabled.suffixIcon.size,
+          height: itemVars.sizeLarge.enabled.suffixIcon.size,
           marginLeft: itemVars.sizeMedium.enabled.suffixIcon.paddingLeft,
         },
       },
@@ -177,7 +193,7 @@ const accordion = defineSlotRecipe({
     },
     pressed: {
       true: {
-        trigger: {
+        pressedOverlay: {
           backgroundColor: itemVars.base.pressed.trigger.color,
         },
       },
@@ -202,19 +218,6 @@ const accordion = defineSlotRecipe({
     },
   },
   compoundVariants: [
-    {
-      variant: "inline",
-      pressed: true,
-      disabled: false,
-      css: {
-        trigger: {
-          marginLeft: itemVars.base.pressed.trigger.marginX,
-          marginRight: itemVars.base.pressed.trigger.marginX,
-          width: `calc(100% - ${itemVars.base.pressed.trigger.marginX} * 2)`,
-          borderRadius: itemVars.base.pressed.trigger.cornerRadius,
-        },
-      },
-    },
     {
       variant: "separated",
       size: "medium",

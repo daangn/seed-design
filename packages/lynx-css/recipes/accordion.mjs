@@ -19,6 +19,10 @@ const accordionSlotNames = [
     "seed-accordion__trigger"
   ],
   [
+    "pressedOverlay",
+    "seed-accordion__pressedOverlay"
+  ],
+  [
     "prefix",
     "seed-accordion__prefix"
   ],
@@ -61,11 +65,6 @@ const defaultVariant = {
 };
 
 const compoundVariants = [
-  {
-    "variant": "inline",
-    "pressed": true,
-    "disabled": false
-  },
   {
     "variant": "separated",
     "size": "medium"

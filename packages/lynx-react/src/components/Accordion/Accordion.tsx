@@ -271,6 +271,7 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
         {...pressHandlers}
         {...nativeProps}
       >
+        <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
         {children}
       </view>
     </ClassNamesProvider>

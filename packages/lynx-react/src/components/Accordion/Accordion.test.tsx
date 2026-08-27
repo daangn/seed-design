@@ -51,7 +51,10 @@ describe("Accordion", () => {
     render(<TestAccordion />);
 
     const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
+    const pressedOverlay = trigger?.querySelector<HTMLElement>(".seed-accordion__pressedOverlay");
     expect(trigger).not.toBeNull();
+    expect(pressedOverlay).not.toBeNull();
+    expect(pressedOverlay).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(trigger).toHaveAttribute("accessibility-value", "접힘");
 
     fireEvent.tap(trigger as HTMLElement);
