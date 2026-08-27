@@ -81,7 +81,23 @@ describe("Tabs", () => {
     expect(second).toHaveAttribute("accessibility-value", "selected");
   });
 
-  it("renders carousel contents as native viewpager items", () => {
+  it("keeps carousel contents as views without a carousel camera", () => {
+    const { container } = render(
+      <Tabs.Root defaultValue="one">
+        <Tabs.List>
+          <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Carousel>
+          <Tabs.Content value="one">첫 번째 콘텐츠</Tabs.Content>
+        </Tabs.Carousel>
+      </Tabs.Root>,
+    );
+
+    expect(container.querySelector("viewpager-item")).toBeNull();
+    expect(container.querySelector(".seed-tabs__content")).not.toBeNull();
+  });
+
+  it("renders carousel camera contents as native viewpager items", () => {
     const { container } = render(
       <Tabs.Root defaultValue="one">
         <Tabs.List>

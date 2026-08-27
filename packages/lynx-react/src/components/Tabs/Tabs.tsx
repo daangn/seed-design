@@ -110,12 +110,11 @@ interface TabsCarouselContextValue {
 }
 
 const TabsCarouselContext = React.createContext<TabsCarouselContextValue | null>(null);
+const TabsCarouselCameraContext = React.createContext(false);
 
-function useTabsCarouselContext(consumer: string): TabsCarouselContextValue;
-function useTabsCarouselContext(consumer: string, strict: false): TabsCarouselContextValue | null;
-function useTabsCarouselContext(consumer: string, strict = true) {
+function useTabsCarouselContext(consumer: string) {
   const context = React.useContext(TabsCarouselContext);
-  if (!context && strict) {
+  if (!context) {
     throw new Error(`<${consumer}/> must be rendered inside <TabsCarousel/>.`);
   }
   return context;
@@ -507,7 +506,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
     ...nativeProps
   } = props;
   const tabsContext = useTabsContext("TabsContent");
-  const inCarousel = useTabsCarouselContext("TabsContent", false) !== null;
+  const inCarousel = React.useContext(TabsCarouselCameraContext);
   const selected = tabsContext.value === contentValue;
   const contentClasses = tabs({ ...tabsContext.variantProps, selected, inCarousel });
 
@@ -710,7 +709,9 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         className={clsx(classNames.carouselCamera, className)}
         style={style}
       >
-        {children}
+        <TabsCarouselCameraContext.Provider value={true}>
+          {children}
+        </TabsCarouselCameraContext.Provider>
       </viewpager>
     );
   },
