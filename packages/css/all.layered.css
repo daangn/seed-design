@@ -3107,6 +3107,7 @@
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
+    max-width: 480px;
     padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
@@ -8027,6 +8028,7 @@
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
+    max-width: 480px;
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--menu-sheet-header-padding-top, var(--seed-dimension-x4));
     padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));

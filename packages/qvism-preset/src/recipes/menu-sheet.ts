@@ -55,6 +55,7 @@ const menuSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      maxWidth: vars.base.enabled.content.maxWidth,
       paddingInline: vars.base.enabled.content.paddingX,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
