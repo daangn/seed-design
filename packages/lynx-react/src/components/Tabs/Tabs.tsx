@@ -61,7 +61,7 @@ interface TabsContextValue {
   variantProps: TabsPublicVariantProps;
   items: TriggerItem[];
   pagerValues: string[];
-  selectedIndex: number;
+  indicatorIndex: number;
   selectedPagerIndex: number;
   indicatorRef: React.RefObject<MainThread.Element>;
   listLeft: number;
@@ -74,6 +74,7 @@ interface TabsContextValue {
   setListRef: (ref: NodesRef | null) => void;
   setPagerRef: (ref: NodesRef | null) => void;
   selectValue: (value: string) => void;
+  handlePagerWillChange: (index: number) => void;
   handlePagerChange: (index: number) => void;
 }
 
@@ -148,6 +149,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   });
   const [items, setItems] = React.useState<TriggerItem[]>([]);
   const [contentValues, setContentValues] = React.useState<string[]>([]);
+  const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
   const [triggerRects, setTriggerRects] = React.useState<Record<string, TriggerRect>>({});
   const [listLeft, setListLeft] = React.useState(0);
   const listRef = React.useRef<NodesRef | null>(null);
@@ -161,7 +163,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       ),
     [contentValues, items],
   );
-  const selectedIndex = value === undefined ? -1 : items.findIndex((item) => item.value === value);
+  const indicatorIndex = items.findIndex((item) => item.value === (indicatorValue ?? value));
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
   const selectedRect = value === undefined ? undefined : triggerRects[value];
   const selectedOffset = selectedRect ? Math.max(0, selectedRect.left - listLeft) : null;
@@ -228,15 +230,24 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
 
   const selectValue = React.useCallback(
     (nextValue: string) => {
+      setIndicatorValue(undefined);
       setValueInternal(nextValue);
     },
     [setValueInternal],
+  );
+
+  const handlePagerWillChange = React.useCallback(
+    (targetIndex: number) => {
+      setIndicatorValue(pagerValues[targetIndex]);
+    },
+    [pagerValues],
   );
 
   const handlePagerChange = React.useCallback(
     (targetIndex: number) => {
       const nextValue = pagerValues[targetIndex];
       if (nextValue === undefined) return;
+      setIndicatorValue(undefined);
       setValueInternal(nextValue);
     },
     [pagerValues, setValueInternal],
@@ -256,7 +267,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       variantProps,
       items,
       pagerValues,
-      selectedIndex,
+      indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
       listLeft,
@@ -269,6 +280,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       setListRef: setListNode,
       setPagerRef: setPagerNode,
       selectValue,
+      handlePagerWillChange,
       handlePagerChange,
     }),
     [
@@ -276,7 +288,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       variantProps,
       items,
       pagerValues,
-      selectedIndex,
+      indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
       listLeft,
@@ -288,6 +300,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       setListNode,
       setPagerNode,
       selectValue,
+      handlePagerWillChange,
       handlePagerChange,
     ],
   );
@@ -432,9 +445,9 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { indicatorRef, items, listLeft, selectedIndex, triggerRects } =
+  const { indicatorRef, items, listLeft, indicatorIndex, triggerRects } =
     useTabsContext("TabsIndicator");
-  const position = selectedIndex;
+  const position = indicatorIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
   const progress = Math.max(0, Math.min(1, position - lowerIndex));
@@ -597,14 +610,14 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         "background only";
         bindwillchange?.(event);
         if (event.detail.isDragged) {
-          tabsContext.handlePagerChange(event.detail.index);
+          tabsContext.handlePagerWillChange(event.detail.index);
           if (!swipingRef.current) {
             swipingRef.current = true;
             carouselContext.onSwipeStart?.();
           }
         }
       },
-      [bindwillchange, carouselContext.onSwipeStart, tabsContext.handlePagerChange],
+      [bindwillchange, carouselContext.onSwipeStart, tabsContext.handlePagerWillChange],
     );
 
     const handleChange = React.useCallback(
