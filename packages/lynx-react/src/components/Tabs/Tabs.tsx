@@ -2,6 +2,7 @@ import { tabs, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs"
 import * as React from "@lynx-js/react";
 import type {
   IntrinsicElements,
+  MainThread,
   NodesRef,
   ViewPagerChangeEvent,
   ViewPagerOffsetChangeEvent,
@@ -78,7 +79,7 @@ interface TabsContextValue {
   variantProps: TabsPublicVariantProps;
   items: TriggerItem[];
   selectedIndex: number;
-  carouselOffset: number | null;
+  indicatorRef: React.RefObject<MainThread.Element>;
   listLeft: number;
   triggerRects: Record<string, TriggerRect>;
   registerTrigger: (value: string, disabled: boolean) => () => void;
@@ -89,7 +90,6 @@ interface TabsContextValue {
   setPagerRef: (ref: NodesRef | null) => void;
   selectValue: (value: string) => void;
   handlePagerChange: (index: number) => void;
-  handlePagerOffsetChange: (offset: number) => void;
 }
 
 const TabsContext = React.createContext<TabsContextValue | null>(null);
@@ -167,7 +167,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const [listLeft, setListLeft] = React.useState(0);
   const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
-  const [carouselOffset, setCarouselOffset] = React.useState<number | null>(null);
+  const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
 
   const selectedIndex = value === undefined ? -1 : items.findIndex((item) => item.value === value);
 
@@ -236,15 +236,10 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       if (nextIndex !== targetIndex) {
         invokeSelectTab(pagerRef.current, nextIndex, true);
       }
-      setCarouselOffset(null);
       setValueInternal(nextItem.value);
     },
     [items, selectedIndex, setValueInternal],
   );
-
-  const handlePagerOffsetChange = React.useCallback((offset: number) => {
-    setCarouselOffset(Number.isFinite(offset) ? offset : null);
-  }, []);
 
   React.useEffect(() => {
     "background only";
@@ -259,7 +254,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       variantProps,
       items,
       selectedIndex,
-      carouselOffset,
+      indicatorRef,
       listLeft,
       triggerRects,
       registerTrigger,
@@ -270,14 +265,13 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       setPagerRef: setPagerNode,
       selectValue,
       handlePagerChange,
-      handlePagerOffsetChange,
     }),
     [
       value,
       variantProps,
       items,
       selectedIndex,
-      carouselOffset,
+      indicatorRef,
       listLeft,
       triggerRects,
       registerTrigger,
@@ -287,7 +281,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       setPagerNode,
       selectValue,
       handlePagerChange,
-      handlePagerOffsetChange,
     ],
   );
 
@@ -459,9 +452,9 @@ export interface TabsIndicatorProps
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { carouselOffset, items, listLeft, selectedIndex, triggerRects } =
+  const { indicatorRef, items, listLeft, selectedIndex, triggerRects } =
     useTabsContext("TabsIndicator");
-  const position = carouselOffset ?? selectedIndex;
+  const position = selectedIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
   const progress = Math.max(0, Math.min(1, position - lowerIndex));
@@ -477,6 +470,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
+      main-thread:ref={indicatorRef}
       {...nativeProps}
       accessibility-elements-hidden={true}
       className={clsx(classNames.indicator, className)}
@@ -626,6 +620,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
     const tabsContext = useTabsContext("TabsCarouselCamera");
     const carouselContext = useTabsCarouselContext("TabsCarouselCamera");
     const swipingRef = React.useRef(false);
+    const { indicatorRef, items, listLeft, triggerRects } = tabsContext;
+    const indicatorRects = items.map((item) => triggerRects[item.value] ?? null);
 
     const mergedRef = React.useCallback(
       (node: NodesRef | null) => {
@@ -671,10 +667,35 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       (event: ViewPagerOffsetChangeEvent) => {
         "background only";
         bindoffsetchange?.(event);
-        tabsContext.handlePagerOffsetChange(Number(event.detail.offset));
       },
-      [bindoffsetchange, tabsContext.handlePagerOffsetChange],
+      [bindoffsetchange],
     );
+
+    function handleIndicatorOffsetChange(event: ViewPagerOffsetChangeEvent) {
+      "main thread";
+
+      const position = Number(event.detail.offset);
+      if (!Number.isFinite(position)) return;
+
+      const lowerIndex = Math.max(0, Math.floor(position));
+      const upperIndex = Math.min(indicatorRects.length - 1, Math.ceil(position));
+      const progress = Math.max(0, Math.min(1, position - lowerIndex));
+      const lowerRect = indicatorRects[lowerIndex];
+      const upperRect = indicatorRects[upperIndex] ?? lowerRect;
+      if (!lowerRect) return;
+
+      const x =
+        lowerRect.left -
+        listLeft +
+        ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress;
+      const width =
+        lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress;
+
+      indicatorRef.current?.setStyleProperties({
+        "--tabs-indicator-x": `${x}px`,
+        "--tabs-indicator-width": `${width}px`,
+      });
+    }
 
     return (
       <viewpager
@@ -685,6 +706,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         bindwillchange={handleWillChange}
         bindchange={handleChange}
         bindoffsetchange={handleOffsetChange}
+        main-thread:bindoffsetchange={handleIndicatorOffsetChange}
         className={clsx(classNames.carouselCamera, className)}
         style={style}
       >
