@@ -15,6 +15,14 @@ page {
   font-size: 14px;
 }
 
+.tabs-preview--layout {
+  padding-top: 32px;
+}
+
+.tabs-preview__layout-section {
+  margin-bottom: 40px;
+}
+
 .tabs-preview__carousel {
   height: 240px;
 }

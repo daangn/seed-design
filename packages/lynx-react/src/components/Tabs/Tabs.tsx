@@ -12,13 +12,16 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxStyle, LynxViewProps, LynxViewRef } from "../../types";
+import type {
+  LynxAccessibilityProps,
+  LynxStyledElementProps,
+  LynxViewProps,
+  LynxViewRef,
+} from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
 type NativeViewProps = IntrinsicElements["view"];
-type NativeScrollViewProps = IntrinsicElements["scroll-view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
-type NativeViewPagerItemProps = IntrinsicElements["viewpager-item"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
 type TriggerRect = { left: number; width: number };
 type TriggerItem = { value: string; disabled: boolean };
@@ -116,12 +119,7 @@ function useTabsCarouselContext(consumer: string) {
  * - `lazyMount`, `unmountOnExit`: native viewpager가 모든 page slot을 유지해야 함
  * - 키보드 포커스와 roving tabindex
  */
-export interface TabsRootProps
-  extends TabsPublicVariantProps,
-    Omit<NativeViewProps, "children" | "className" | "style"> {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
+export interface TabsRootProps extends TabsPublicVariantProps, LynxStyledElementProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -312,18 +310,10 @@ TabsRoot.displayName = "TabsRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsListProps
-  extends Omit<
-    NativeScrollViewProps,
-    "children" | "className" | "style" | "scroll-orientation" | "scroll-x" | "scroll-y"
-  > {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
-}
+export interface TabsListProps extends LynxStyledElementProps {}
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
-  const { children, className, style, bindlayoutchange, ...nativeProps } = props;
+  const { children, className, style, ...nativeProps } = props;
   const classNames = useClassNames();
   const { setListLeft, setListRef } = useTabsContext("TabsList");
 
@@ -339,11 +329,10 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
       "background only";
-      bindlayoutchange?.(...args);
       const rect = getLayoutRect(args[0]);
       if (rect) setListLeft(rect.left);
     },
-    [bindlayoutchange, setListLeft],
+    [setListLeft],
   );
 
   return (
@@ -366,18 +355,10 @@ TabsList.displayName = "TabsList";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsTriggerProps
-  extends Omit<
-    NativeViewProps,
-    "children" | "className" | "style" | "bindtap" | "bindlayoutchange"
-  > {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
+export interface TabsTriggerProps extends LynxStyledElementProps {
   value: string;
   disabled?: boolean;
-  bindtap?: NativeViewProps["bindtap"];
-  bindlayoutchange?: NativeViewProps["bindlayoutchange"];
+  "accessibility-label"?: LynxAccessibilityProps["accessibility-label"];
 }
 
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {
@@ -387,8 +368,6 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     style,
     value: triggerValue,
     disabled = false,
-    bindtap,
-    bindlayoutchange,
     "accessibility-label": accessibilityLabel,
     ...nativeProps
   } = props;
@@ -405,24 +384,19 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     context.updateTriggerDisabled(triggerValue, disabled);
   }, [context.updateTriggerDisabled, triggerValue, disabled]);
 
-  const handleTap = React.useCallback<NonNullable<NativeViewProps["bindtap"]>>(
-    (...args) => {
-      "background only";
-      context.selectValue(triggerValue);
-      bindtap?.(...args);
-    },
-    [bindtap, context.selectValue, triggerValue],
-  );
+  const handleTap = React.useCallback<NonNullable<NativeViewProps["bindtap"]>>(() => {
+    "background only";
+    context.selectValue(triggerValue);
+  }, [context.selectValue, triggerValue]);
   const { pressed: _pressed, ...pressHandlers } = usePressTap({ disabled, onTap: handleTap });
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
       "background only";
-      bindlayoutchange?.(...args);
       const rect = getLayoutRect(args[0]);
       if (rect) context.updateTriggerRect(triggerValue, rect);
     },
-    [bindlayoutchange, context.updateTriggerRect, triggerValue],
+    [context.updateTriggerRect, triggerValue],
   );
 
   const triggerClasses = tabs({ ...context.variantProps, selected, disabled });
@@ -452,11 +426,7 @@ TabsTrigger.displayName = "TabsTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsIndicatorProps
-  extends Omit<NativeViewProps, "children" | "className" | "style"> {
-  className?: string;
-  style?: LynxStyle;
-}
+export interface TabsIndicatorProps extends LynxStyledElementProps {}
 
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
@@ -497,24 +467,12 @@ TabsIndicator.displayName = "TabsIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsContentProps
-  extends Omit<NativeViewProps, "children" | "className" | "style"> {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
+export interface TabsContentProps extends LynxStyledElementProps {
   value: string;
-  viewPagerItemProps?: Omit<NativeViewPagerItemProps, "children">;
 }
 
 export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    value: contentValue,
-    viewPagerItemProps,
-    ...nativeProps
-  } = props;
+  const { children, className, style, value: contentValue, ...nativeProps } = props;
   const tabsContext = useTabsContext("TabsContent");
   const inCarousel = useTabsCarouselCameraContext();
   const selected = tabsContext.value === contentValue;
@@ -542,7 +500,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
 
   if (inCarousel) {
     if (disabled) return null;
-    return <viewpager-item {...viewPagerItemProps}>{content}</viewpager-item>;
+    return <viewpager-item>{content}</viewpager-item>;
   }
   return content;
 });
@@ -556,11 +514,7 @@ TabsContent.displayName = "TabsContent";
  * native viewpager를 사용하므로 웹의 `loop`, `autoHeight`, `dragThreshold`,
  * `carouselPreventDrag`는 지원하지 않습니다.
  */
-export interface TabsCarouselProps
-  extends Omit<NativeViewProps, "children" | "className" | "style"> {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
+export interface TabsCarouselProps extends LynxStyledElementProps {
   swipeable?: boolean;
   onSettle?: () => void;
   onSwipeStart?: () => void;
@@ -601,21 +555,7 @@ TabsCarousel.displayName = "TabsCarousel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsCarouselCameraProps
-  extends Omit<
-    NativeViewPagerProps,
-    | "children"
-    | "className"
-    | "style"
-    | "enable-scroll"
-    | "initial-select-index"
-    | "bindchange"
-    | "bindwillchange"
-    | "bindoffsetchange"
-  > {
-  children?: React.ReactNode;
-  className?: string;
-  style?: LynxStyle;
+export interface TabsCarouselCameraProps extends LynxStyledElementProps {
   bindchange?: NativeViewPagerProps["bindchange"];
   bindwillchange?: NativeViewPagerProps["bindwillchange"];
   bindoffsetchange?: NativeViewPagerProps["bindoffsetchange"];
@@ -719,6 +659,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         {...nativeProps}
         initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
         enable-scroll={carouselContext.swipeable}
+        allow-horizontal-gesture={carouselContext.swipeable}
         bindwillchange={handleWillChange}
         bindchange={handleChange}
         bindoffsetchange={handleOffsetChange}

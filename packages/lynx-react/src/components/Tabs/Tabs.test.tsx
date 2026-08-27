@@ -126,6 +126,7 @@ describe("Tabs", () => {
     expect(pager).not.toBeNull();
     expect(pager?.querySelectorAll("viewpager-item")).toHaveLength(2);
     expect(pager).toHaveAttribute("enable-scroll");
+    expect(pager).toHaveAttribute("allow-horizontal-gesture");
   });
 
   it("maps pager indexes from content order when a disabled trigger has no content", () => {
