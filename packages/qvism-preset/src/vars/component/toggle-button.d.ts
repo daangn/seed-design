@@ -19,17 +19,17 @@ export declare const vars: {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "pressed": {

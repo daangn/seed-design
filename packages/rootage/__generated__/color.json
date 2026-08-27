@@ -1239,19 +1239,6 @@
         },
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다."
       },
-      "$color.fg.neutral-inverted": {
-        "values": {
-          "theme-light": {
-            "type": "color",
-            "value": "$color.palette.gray-00"
-          },
-          "theme-dark": {
-            "type": "color",
-            "value": "$color.palette.gray-100"
-          }
-        },
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)"
-      },
       "$color.fg.neutral-muted": {
         "values": {
           "theme-light": {
@@ -1277,6 +1264,84 @@
           }
         },
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)"
+      },
+      "$color.fg.on-brand-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          }
+        },
+        "description": "브랜드 Solid 배경 위의 전경 요소에 사용됩니다."
+      },
+      "$color.fg.on-critical-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          }
+        },
+        "description": "Critical Solid 배경 위의 전경 요소에 사용됩니다."
+      },
+      "$color.fg.on-informative-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          }
+        },
+        "description": "Informative Solid 배경 위의 전경 요소에 사용됩니다."
+      },
+      "$color.fg.on-neutral-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.gray-00"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.gray-100"
+          }
+        },
+        "description": "Neutral Solid 배경 위의 전경 요소에 사용됩니다."
+      },
+      "$color.fg.on-positive-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-white"
+          }
+        },
+        "description": "Positive Solid 배경 위의 전경 요소에 사용됩니다."
+      },
+      "$color.fg.on-warning-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-900"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.static-black-alpha-900"
+          }
+        },
+        "description": "Warning Solid 배경 위의 전경 요소에 사용됩니다."
       },
       "$color.fg.placeholder": {
         "values": {
