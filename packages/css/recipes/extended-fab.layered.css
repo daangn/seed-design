@@ -31,7 +31,7 @@
 
   .seed-extended-fab--variant_neutralSolid {
     background: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
@@ -39,7 +39,7 @@
   }
 
   .seed-extended-fab--variant_neutralSolid {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-extended-fab--variant_layerFloating {

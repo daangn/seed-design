@@ -102,7 +102,7 @@
 
   .seed-chip-tabs__trigger--variant_neutralSolid:is([aria-selected="true"], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -142,7 +142,7 @@
 
   .seed-chip-tabs__trigger--variant_neutralOutline:is([aria-selected="true"], [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     border-color: #0000;
   }
 

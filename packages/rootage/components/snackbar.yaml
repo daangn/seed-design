@@ -115,7 +115,7 @@ data:
           paddingX: $dimension.x1_5
           gap: $dimension.x2_5
         message:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
