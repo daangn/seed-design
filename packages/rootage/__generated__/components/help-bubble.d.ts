@@ -26,6 +26,9 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "maxWidth": {
+              "type": "dimension";
+            };
             "enterScale": {
               "type": "number";
             };
@@ -174,6 +177,13 @@ declare const artifact: {
                 "gap": {
                   "type": "dimension";
                   "value": "$dimension.x1";
+                };
+                "maxWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 280;
+                    "unit": "px";
+                  };
                 };
                 "enterScale": {
                   "type": "number";

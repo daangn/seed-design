@@ -7,6 +7,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x1)",
+        "maxWidth": "280px",
         "enterScale": "0.9",
         "enterOpacity": "0",
         "enterDuration": "var(--seed-duration-d4)",
