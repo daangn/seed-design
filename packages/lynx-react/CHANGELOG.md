@@ -1,5 +1,40 @@
 # @seed-design/lynx-react
 
+## 0.5.0
+
+### Minor Changes
+
+- 6af8a34: Lynx에서 Divider를 사용할 수 있도록 컴포넌트와 공개 API를 추가합니다.
+- ff225ee: Lynx에 `Callout` 컴포넌트를 추가합니다.
+
+  - `neutral`, `informative`, `positive`, `warning`, `critical`, `magic` tone을 지원합니다.
+  - actionable 및 controlled/uncontrolled dismiss 동작을 지원합니다.
+  - `npx @seed-design/cli@latest add ui:callout`로 Registry 컴포넌트를 설치할 수 있습니다.
+
+- bd5cd3b: Lynx용 Accordion 컴포넌트를 추가합니다.
+
+  - controlled 및 uncontrolled 상태와 단일·다중 펼치기를 지원합니다.
+  - 콘텐츠 높이를 측정해 펼치고 접을 때 height transition을 적용합니다.
+  - `inline`, `separated` variant와 `medium`, `large` size를 제공합니다.
+  - Trigger에 펼침 상태와 비활성 상태를 전달하는 Lynx 접근성 속성을 제공합니다.
+
+- 6f6c626: Lynx용 Tabs 컴포넌트를 추가합니다.
+
+  - 탭 선택과 콘텐츠 좌우 스와이프를 지원합니다.
+  - 제어형·비제어형 상태, disabled 탭, 균등·콘텐츠 기반 너비, 이동하는 Indicator를 제공합니다.
+  - `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content`, `Tabs.Carousel` API로 구성할 수 있습니다.
+
+- ca0931b: Lynx Checkbox의 ghost 상태 전환을 안정화합니다.
+
+  - 선택 해제 시 배경이 순간적으로 어두워지는 현상을 수정합니다.
+  - 선택 상태가 변경될 때 아이콘 색상이 즉시 반영되도록 개선합니다.
+  - `@seed-design/lynx-react`와 `@seed-design/lynx-css`를 함께 업데이트해야 합니다.
+
+- aef119e: Bottom Sheet의 content 최대 너비를 480px로 맞춥니다.
+
+  - 넓은 뷰포트에서 시트가 화면 폭 전체로 늘어나지 않고 480px에서 멈추며 가운데 정렬됩니다. 480px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - `BottomSheetContent`가 시트를 왼쪽에 고정하던 인라인 `left` 값을 풀어, 폭이 제한됐을 때 좌우 여백이 같게 배치됩니다. `style`로 `left`를 직접 지정하면 그 값이 우선합니다.
+
 ## 0.4.1
 
 ### Patch Changes

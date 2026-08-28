@@ -62,7 +62,7 @@
     "@seed-design/css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
     "@seed-design/migration-index": "2.0.1",
-    "@seed-design/react": "2.3.0",
+    "@seed-design/react": "2.4.0",
     "@seed-design/react-icon": "^0.7.4",
     "@seed-design/react-pagination": "workspace:*",
     "@seed-design/rootage-artifacts": "workspace:*",
