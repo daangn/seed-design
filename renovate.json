@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended",
     ":preserveSemverRanges",
+    "helpers:pinGitHubActionDigests",
     "security:minimumReleaseAgeNpm"
   ],
   "baseBranchPatterns": ["dev"],
