@@ -51,14 +51,6 @@ export function findSection(index: DocsIndex, sectionId: string): DocsIndexCateg
   return index.categories.find((category) => category.id === sectionId);
 }
 
-export function sectionIds(index: DocsIndex): string[] {
-  return index.categories.map((category) => category.id);
-}
-
-export function categoryIds(category: DocsIndexCategory): string[] {
-  return category.sections.map((section) => section.id);
-}
-
 export function itemsOf(category: DocsIndexCategory, categoryFilter?: string) {
   return category.sections
     .filter((section) => !categoryFilter || section.id === categoryFilter)

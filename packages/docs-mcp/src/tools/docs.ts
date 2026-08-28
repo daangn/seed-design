@@ -46,12 +46,11 @@ export function registerListDocsTool(server: McpServer): void {
 
         const grouped = new Map<string, typeof docs>();
         for (const doc of docs) {
-          const key = doc.category ?? "Documents";
-          const existing = grouped.get(key);
+          const existing = grouped.get(doc.category);
           if (existing) {
             existing.push(doc);
           } else {
-            grouped.set(key, [doc]);
+            grouped.set(doc.category, [doc]);
           }
         }
 
