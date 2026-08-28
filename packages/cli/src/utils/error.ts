@@ -134,6 +134,30 @@ function toStack(error: unknown): string | undefined {
   return undefined;
 }
 
+/**
+ * The same text `handleCliError` renders, as plain lines.
+ *
+ * `docs` prints results a caller pipes elsewhere, so it draws no clack frame; putting the
+ * error inside one would be the only decorated thing the command emits.
+ */
+export function formatCliError(
+  error: unknown,
+  { defaultMessage, defaultHint, verbose = false }: HandleCliErrorOptions,
+): string[] {
+  const normalized = normalizeError(error, defaultHint);
+  const lines = [defaultMessage, `원인: ${normalized.reason}`, ...normalized.details];
+
+  if (normalized.hint) {
+    lines.push(`해결 힌트: ${normalized.hint}`);
+  }
+
+  if (verbose && normalized.stack) {
+    lines.push("", "[verbose] stack trace", normalized.stack);
+  }
+
+  return lines;
+}
+
 export function handleCliError(
   error: unknown,
   { defaultMessage, defaultHint, verbose = false }: HandleCliErrorOptions,

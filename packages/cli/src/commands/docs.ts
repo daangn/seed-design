@@ -1,13 +1,20 @@
 import { fetchDocsIndex, fetchLlmsTxt, tryFetchLlmsTxt } from "@/src/utils/fetch";
-import * as p from "@clack/prompts";
 import type { CAC } from "cac";
 import { z } from "zod";
 import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { getRawConfig } from "../utils/get-config";
-import { CliError, handleCliError, isVerboseMode } from "../utils/error";
+import { CliError, formatCliError, isVerboseMode } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
+
+/**
+ * Nothing here draws the clack frame the other commands do. What this one prints is meant
+ * to be piped or pasted back in, and a `│` down the left of every line is not.
+ *
+ * stdout carries the answer in the mode's own currency — paths and links, or the document
+ * text under `--raw`. Everything else, progress and reasons and errors alike, is stderr.
+ */
 
 /**
  * Scripts and agents read this command more often than people do, so its outcome has to
@@ -34,7 +41,7 @@ const docsOptionsSchema = z.object({
 type Resolution =
   | { kind: "item"; item: DocsItem }
   /** The query named a container, so listing what sits inside it is the answer. */
-  | { kind: "listing"; heading: string; lines: string[] }
+  | { kind: "listing"; lines: string[] }
   /** The query named several documents. Only the caller can pick one. */
   | { kind: "ambiguous"; heading: string; lines: string[] };
 
@@ -53,12 +60,12 @@ function llmsUrlFor(item: DocsItem, baseUrl: string): string {
   return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
 }
 
-function printDocsResult(item: DocsItem, baseUrl: string) {
-  p.log.message(
-    [item.id, `- docs: ${baseUrl}${item.docUrl}`, `- llms.txt: ${llmsUrlFor(item, baseUrl)}`].join(
-      "\n",
-    ),
-  );
+function formatDocsResult(item: DocsItem, baseUrl: string): string {
+  return [
+    item.id,
+    `- docs: ${baseUrl}${item.docUrl}`,
+    `- llms.txt: ${llmsUrlFor(item, baseUrl)}`,
+  ].join("\n");
 }
 
 /**
@@ -368,7 +375,6 @@ function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined)
   if (!docsQuery) {
     return {
       kind: "listing",
-      heading: "카테고리",
       lines: alignedLines(
         categories.map((category) => ({
           path: category.id,
@@ -390,7 +396,6 @@ function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined)
     if (matchedSection) {
       return {
         kind: "listing",
-        heading: `${matchedCategory.label} > ${matchedSection.label}`,
         lines: itemLines(matchedCategory, [matchedSection]),
       };
     }
@@ -403,7 +408,6 @@ function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined)
     if (matchedCategory.sections.length > 1) {
       return {
         kind: "listing",
-        heading: matchedCategory.label,
         lines: alignedLines(
           matchedCategory.sections.map((section) => ({
             path: `${matchedCategory.id}/${section.id}`,
@@ -414,7 +418,6 @@ function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined)
     }
     return {
       kind: "listing",
-      heading: matchedCategory.label,
       lines: itemLines(matchedCategory, matchedCategory.sections),
     };
   }
@@ -449,20 +452,20 @@ function emitLinks({
   const resolution = resolveQuery(categories, docsQuery);
 
   if (resolution.kind === "item") {
-    printDocsResult(resolution.item, baseUrl);
-    p.outro("완료했어요.");
+    console.log(formatDocsResult(resolution.item, baseUrl));
     return { exitCode: 0, result: "item", itemId: resolution.item.id };
   }
 
-  p.log.message([resolution.heading, "", ...resolution.lines].join("\n"));
-
-  if (resolution.kind === "listing") {
-    p.outro("완료했어요.");
-    return { exitCode: 0, result: "listing" };
+  // The heading says why a list came back instead of a link, which is a reason rather than
+  // an answer. stdout keeps only the paths, ready to be fed straight back in.
+  if (resolution.kind === "ambiguous") {
+    console.error(resolution.heading);
+    console.log(resolution.lines.join("\n"));
+    return { exitCode: EXIT_AMBIGUOUS, result: "ambiguous" };
   }
 
-  p.outro(highlight("경로를 하나로 좁혀서 다시 실행해주세요."));
-  return { exitCode: EXIT_AMBIGUOUS, result: "ambiguous" };
+  console.log(resolution.lines.join("\n"));
+  return { exitCode: 0, result: "listing" };
 }
 
 async function emitRaw({
@@ -501,9 +504,10 @@ async function emitRaw({
   }
 
   if (resolution) {
-    // stdout carries document text in raw mode, so candidates go to stderr and the exit
-    // code carries the outcome.
-    console.error([resolution.heading, "", ...resolution.lines].join("\n"));
+    // Paths are not document text, so under --raw they are a diagnostic like any other and
+    // stdout stays empty. The exit code carries the outcome.
+    if (resolution.kind === "ambiguous") console.error(resolution.heading);
+    console.error(resolution.lines.join("\n"));
     return { exitCode: EXIT_AMBIGUOUS, result: resolution.kind };
   }
 
@@ -537,8 +541,6 @@ export const docsCommand = (cli: CAC) => {
       const raw = opts.raw ?? false;
       let trackCwd = process.cwd();
 
-      if (!raw) p.intro("seed-design docs");
-
       try {
         const parsed = docsOptionsSchema.safeParse({ query, ...opts });
         if (!parsed.success) {
@@ -551,23 +553,7 @@ export const docsCommand = (cli: CAC) => {
         const rawConfig = await getRawConfig(options.cwd).catch(() => null);
         const framework = options.framework ?? rawConfig?.framework;
 
-        const docsIndex = await (async () => {
-          if (raw) {
-            return await fetchDocsIndex({ baseUrl });
-          }
-          const { start, stop } = p.spinner();
-          start("문서 목록을 가져오고 있어요...");
-          try {
-            const index = await fetchDocsIndex({ baseUrl });
-            stop("문서 목록을 가져왔어요.");
-            return index;
-          } catch (error) {
-            stop("문서 목록을 가져오지 못했어요.");
-            throw error;
-          }
-        })();
-
-        const { categories } = docsIndex;
+        const { categories } = await fetchDocsIndex({ baseUrl });
         const docsQuery = normalizeDocsQuery({
           query: options.query,
           framework,
@@ -624,17 +610,13 @@ export const docsCommand = (cli: CAC) => {
           }
         }
 
-        if (raw) {
-          const msg = error instanceof Error ? error.message : String(error);
-          console.error(msg);
-          process.exit(1);
-        }
-
-        handleCliError(error, {
-          defaultMessage: "문서 조회에 실패했어요.",
-          defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
-          verbose,
-        });
+        console.error(
+          formatCliError(error, {
+            defaultMessage: "문서 조회에 실패했어요.",
+            defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
+            verbose,
+          }).join("\n"),
+        );
         process.exit(1);
       }
     });
