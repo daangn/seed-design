@@ -39,14 +39,10 @@ describe("section registry ↔ routes", () => {
     expect(generated).toBe(sectionConfigs[section].fullText);
   });
 
-  // An already-published CLI builds llms links as `${baseUrl}/llms${docUrl}.txt`, so a
-  // category without this route hands every installed copy a 404.
-  it.each(
-    docsIndex.categories.map((c) => c.id),
-  )("%s is a docs index category and has a per-page llms route", (categoryId) => {
-    expect(existsSync(path.join(docsRoot, "app/llms", categoryId, "[...slug]/route.ts"))).toBe(
-      true,
-    );
+  // `getLLMMarkdownUrl` derives every page's llmsUrl from the registry alone, so a section
+  // whose route file is missing publishes a 404 for each of its pages.
+  it.each(sections)("%s has a per-page llms route", (section) => {
+    expect(existsSync(path.join(docsRoot, "app/llms", section, "[...slug]/route.ts"))).toBe(true);
   });
 
   it("every content dir is registered as a section", () => {
@@ -82,18 +78,6 @@ describe("docs index ↔ content", () => {
     expect(allItems.filter((item) => !item.llmsUrl || !servedLlmsUrls.has(item.llmsUrl))).toEqual(
       [],
     );
-  });
-
-  // A CLI published before the index carried `llmsUrl` composes `/llms${docUrl}.txt` instead.
-  // Section overview items are new, so no already-published link breaks — but every item that
-  // existed under the old shape has to keep resolving for those installs.
-  it("keeps the legacy composed URL resolvable for every slugged page", () => {
-    const dangling = allItems
-      .filter((item) => item.id !== "overview")
-      .map((item) => `/llms${item.docUrl}.txt`)
-      .filter((url) => !servedLlmsUrls.has(url));
-
-    expect(dangling).toEqual([]);
   });
 
   // 제외 목록을 레지스트리에서 끌어온다. 특정 페이지 id를 박아 두면 그 페이지가 사라지는
