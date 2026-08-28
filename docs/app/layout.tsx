@@ -5,6 +5,7 @@ import "./global.css";
 
 import GoogleAnalytics from "@/components/google-analytics";
 import { LatestVersionBanner } from "@/components/latest-version-banner";
+import { SiteAnnouncementBanner } from "@/components/site-announcement-banner";
 import { type ReactNode, Suspense } from "react";
 import ThemeSync from "@/components/theme-sync";
 import { RecentPagesRecorder } from "@/components/recent-pages-recorder";
@@ -48,6 +49,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <RecentPagesRecorder />
         </Suspense>
         <NuqsAdapter>{children}</NuqsAdapter>
+        <SiteAnnouncementBanner />
       </body>
     </html>
   );
