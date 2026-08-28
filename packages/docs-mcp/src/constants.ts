@@ -12,9 +12,4 @@ export const ROOTAGE_ENDPOINTS = {
   BASE: "/rootage",
 } as const;
 
-export const ICON_ENDPOINTS = {
-  INDEX: "/icon-index.json",
-  SVG_BASE: "/icons",
-} as const;
-
 export const DEFAULT_TIMEOUT = 30000;
