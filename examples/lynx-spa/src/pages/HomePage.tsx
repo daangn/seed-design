@@ -40,14 +40,17 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <SectionHeader>Components</SectionHeader>
       <ListItem title="Box / VStack / HStack" onTap={() => navigate("layout-primitives")} />
       <ListItem title="Text" onTap={() => navigate("text-primitive")} />
+      <ListItem title="Accordion" onTap={() => navigate("accordion")} />
       <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
       <ListItem title="AppBar" onTap={() => navigate("app-bar")} />
       <ListItem title="Badge" onTap={() => navigate("badge")} />
       <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
+      <ListItem title="Callout" onTap={() => navigate("callout")} />
       <ListItem title="Checkbox" onTap={() => navigate("checkbox")} />
       <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
       <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
       <ListItem title="Switch" onTap={() => navigate("switch")} />
+      <ListItem title="Tabs" onTap={() => navigate("tabs")} />
       <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
       <ListItem title="TextField" onTap={() => navigate("text-field")} />
 

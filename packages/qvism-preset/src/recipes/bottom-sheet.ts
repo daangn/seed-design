@@ -5,7 +5,8 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 import { vars as tokens } from "../vars";
 
@@ -63,6 +64,7 @@ const bottomSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      maxWidth: vars.base.enabled.content.maxWidth,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
       paddingBottom: "var(--seed-safe-area-bottom)",
@@ -168,6 +170,10 @@ const bottomSheet = defineSlotRecipe({
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
       cursor: "pointer",
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: FEEDBACK_SCALE_TRANSITION,
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,

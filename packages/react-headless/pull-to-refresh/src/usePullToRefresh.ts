@@ -15,13 +15,13 @@ import { findScroller, isPullPrevented } from "./dom";
 interface UsePullToRefreshStateProps {
   /**
    * The threshold value to trigger the refresh. (px)
-   * @default 44
+   * @default 88
    */
   threshold?: number;
 
   /**
    * The multiplier to calculate displacement from the touch movement.
-   * @default 0.5
+   * @default 0.75
    */
   displacementMultiplier?: number;
 
@@ -76,8 +76,8 @@ interface PullToRefreshContext {
 export type PullToRefreshState = "idle" | "pulling" | "ready" | "loading";
 
 function usePullToRefreshState(props: UsePullToRefreshStateProps) {
-  const threshold = props.threshold ?? 44;
-  const displacementMultiplier = props.displacementMultiplier ?? 0.5;
+  const threshold = props.threshold ?? 88;
+  const displacementMultiplier = props.displacementMultiplier ?? 0.75;
   const disabled = props.disabled ?? false;
 
   // We use useSyncExternalStore to only re-render indicator area on drag

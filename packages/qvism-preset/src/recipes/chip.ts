@@ -2,8 +2,9 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createFocusRingRestStyles, createFocusRingStyles } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import spec from "@seed-design/rootage-artifacts/components/chip";
 
 const chip = defineSlotRecipe({
@@ -28,9 +29,17 @@ const chip = defineSlotRecipe({
       lineHeight: 1,
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transitionDuration: vars.base.enabled.root.colorDuration,
-      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
-      transitionProperty: "background-color, color, border-color, box-shadow, outline-color",
+
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: [
+        `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        `outline-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+        FEEDBACK_SCALE_TRANSITION,
+      ].join(", "),
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),

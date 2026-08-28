@@ -6,11 +6,12 @@
 .seed-help-bubble__content {
     display: flex;
     align-items: flex-start;
+    box-sizing: border-box;
     background: var(--seed-color-bg-neutral-inverted);
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
-    --seed-box-max-width-base: none;
+    --seed-box-max-width-base: 280px;
     --seed-box-max-width-sm: var(--seed-box-max-width-base, initial);
     --seed-box-max-width-md: var(--seed-box-max-width-sm, initial);
     --seed-box-max-width-lg: var(--seed-box-max-width-md, initial);
@@ -90,7 +91,12 @@
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     border-radius: var(--seed-radius-r3);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-help-bubble__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+}
+.seed-help-bubble__closeButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
 }

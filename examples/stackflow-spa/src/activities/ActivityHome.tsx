@@ -369,6 +369,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
         { title: "Select", onClick: () => push("ActivitySelect", {}) },
         { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
+        { title: "Wheel Picker", onClick: () => push("ActivityWheelPicker", {}) },
         { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
         {
           title: "AttachmentDisplayField",
@@ -381,6 +382,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Other Components",
       items: [
         { title: "Accordion", onClick: () => push("ActivityAccordion", {}) },
+        { title: "Pagination", onClick: () => push("ActivityPagination", {}) },
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
@@ -406,6 +408,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityFontMultiplierLayout", {}),
         },
         { title: "Typography Scale", onClick: () => push("ActivityTypographyScale", {}) },
+        { title: "Scale Feedback", onClick: () => push("ActivityScaleFeedback", {}) },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
       ],

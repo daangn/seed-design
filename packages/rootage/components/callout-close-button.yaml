@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: callout-close-button
+  name: Callout Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          size:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+    variants:
+      tone:
+        values:
+          neutral:
+            description: 일반적인 정보를 전달합니다.
+          informative:
+            description: 유용한 정보를 제공합니다.
+          positive:
+            description: 긍정적인 상태를 나타냅니다.
+          warning:
+            description: 주의가 필요한 상태를 나타냅니다.
+          critical:
+            description: 중요한 문제를 나타냅니다.
+          magic:
+            description: AI 기능을 나타냅니다.
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          cornerRadius: $radius.r2
+          size: $dimension.x10
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+        icon:
+          size: $dimension.x4
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scaleScope: self
+    tone=neutral:
+      enabled:
+        icon:
+          color: $color.fg.neutral
+    tone=informative:
+      enabled:
+        icon:
+          color: $color.fg.informative-contrast
+    tone=positive:
+      enabled:
+        icon:
+          color: $color.fg.positive-contrast
+    tone=warning:
+      enabled:
+        icon:
+          color: $color.fg.warning-contrast
+    tone=critical:
+      enabled:
+        icon:
+          color: $color.fg.critical-contrast
+    tone=magic:
+      enabled:
+        icon:
+          color: $color.fg.neutral

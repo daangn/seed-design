@@ -1,6 +1,6 @@
 declare const artifact: {
   "name": "Rootage";
-  "version": "2.6.0";
+  "version": "2.7.0";
   "resources": readonly [
     {
       "path": "/collections.json";
@@ -67,6 +67,9 @@ declare const artifact: {
     },
     {
       "path": "/components/bottom-sheet.json";
+    },
+    {
+      "path": "/components/callout-close-button.json";
     },
     {
       "path": "/components/callout.json";
@@ -189,7 +192,16 @@ declare const artifact: {
       "path": "/components/notification-badge.json";
     },
     {
+      "path": "/components/page-banner-close-button.json";
+    },
+    {
       "path": "/components/page-banner.json";
+    },
+    {
+      "path": "/components/pagination-button.json";
+    },
+    {
+      "path": "/components/pagination-page-item.json";
     },
     {
       "path": "/components/progress-circle.json";
@@ -304,6 +316,9 @@ declare const artifact: {
     },
     {
       "path": "/components/typography.json";
+    },
+    {
+      "path": "/components/wheel-picker.json";
     },
     {
       "path": "/dimension.json";

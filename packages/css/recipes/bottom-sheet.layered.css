@@ -32,6 +32,7 @@
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
+    max-width: 480px;
     padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
@@ -142,8 +143,6 @@
     border-radius: var(--seed-radius-full);
     background: var(--seed-color-bg-neutral-weak);
     cursor: pointer;
-    --seed-icon-size: 14px;
-    --seed-icon-color: var(--seed-color-fg-neutral);
     border: none;
     justify-content: center;
     align-items: center;
@@ -151,6 +150,16 @@
     height: 28px;
     display: flex;
     position: absolute;
+  }
+
+  .seed-bottom-sheet__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-bottom-sheet__closeButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+    --seed-icon-size: 14px;
+    --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
   .seed-bottom-sheet__closeButton:after {

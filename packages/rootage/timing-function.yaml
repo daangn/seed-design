@@ -35,6 +35,8 @@ data:
         default:
           type: cubicBezier
           value: [0.35, 0, 0.95, 0.55]
+    # TODO: consider renaming to match the scale feedback naming. Held back because the token is
+    # already released as --seed-timing-function-pressed-scale.
     $timing-function.pressed-scale:
       values:
         default:

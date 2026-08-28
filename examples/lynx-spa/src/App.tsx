@@ -1,10 +1,12 @@
 import { lazy, Suspense, useState } from "@lynx-js/react";
 import { useSafeArea } from "@seed-design/lynx-react";
 
+import { AccordionPage } from "./pages/AccordionPage.jsx";
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
+import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
@@ -22,6 +24,7 @@ import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
+import { TabsPage } from "./pages/TabsPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
@@ -41,14 +44,17 @@ const FoundationMulticolorIconPage = lazy(async () => ({
 export type Page =
   | "home"
   | "theming"
+  | "accordion"
   | "action-button"
   | "app-bar"
   | "badge"
   | "bottom-sheet"
+  | "callout"
   | "checkbox"
   | "progress-circle"
   | "radio-group"
   | "switch"
+  | "tabs"
   | "tag-group"
   | "text-field"
   | "nested-vars-test"
@@ -78,13 +84,16 @@ function BackButton({ onBack }: { onBack: () => void }) {
 
 // Pages that own their own scroll areas use a fullscreen flex shell.
 const FULLSCREEN_PAGES = new Set<Page>([
+  "accordion",
   "action-button",
   "badge",
   "bottom-sheet",
+  "callout",
   "checkbox",
   "progress-circle",
   "radio-group",
   "switch",
+  "tabs",
   "tag-group",
   "text-field",
   "foundation-monochrome-icon",
@@ -140,13 +149,16 @@ export function App(props: { onRender?: () => void }) {
         <view className="px-x4 shrink-0">
           <BackButton onBack={() => setCurrentPage("home")} />
         </view>
+        {currentPage === "accordion" && <AccordionPage />}
         {currentPage === "action-button" && <ActionButtonPage />}
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
+        {currentPage === "callout" && <CalloutPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}
         {currentPage === "switch" && <SwitchPage />}
+        {currentPage === "tabs" && <TabsPage />}
         {currentPage === "tag-group" && <TagGroupPage />}
         {currentPage === "text-field" && <TextFieldPage />}
         <Suspense>

@@ -1,5 +1,52 @@
 # @seed-design/rootage-artifacts
 
+## 2.7.0
+
+### Minor Changes
+
+- 07076a3: Select Box와 `variant="separated"` Accordion Item의 border 색을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경합니다.
+
+  - Select Box는 enabled와 disabled 상태의 border 색이 함께 바뀝니다. selected 상태의 `$color.stroke.neutral-contrast`는 그대로입니다.
+  - Accordion은 border를 가진 `variant="separated"`만 영향을 받습니다. `variant="inline"`의 divider 색은 그대로입니다.
+  - border 색이 light 테마에서 `#00000010`(알파 6%) → `#dcdee3`, dark 테마에서 `#ffffff17`(알파 9%) → `#393d46`으로 바뀌어 또렷해집니다. 두 테마 모두 색이 있는 배경 위에 올려 쓰던 화면은 대비를 확인해 주세요.
+
+- f73ee94: Pagination과 Table Pagination을 추가합니다.
+
+  - `usePagination`은 controlled·uncontrolled 상태, 페이지 범위 계산과 이전·다음 이동을 제공합니다.
+  - `useTablePagination`은 전체 개수를 아는 경우와 모르는 경우를 모두 지원합니다.
+  - Pagination은 전체 페이지가 0개 또는 1개이면 표시하지 않습니다.
+  - `ui:pagination`, `ui:table-pagination` snippet으로 설치할 수 있습니다.
+  - 표시 문구와 접근성 이름을 앱 언어에 맞게 수정할 수 있습니다.
+
+  ```sh
+  npx @seed-design/cli@latest add ui:pagination
+  npx @seed-design/cli@latest add ui:table-pagination
+  ```
+
+- 568f04c: 눌렀을 때 요소가 줄어드는 Scale Feedback을 일부 컴포넌트에 적용합니다.
+
+  - Action Button에만 있던 축소 피드백이 Callout, Page Banner, Chip, Tab, Checkmark, Radiomark, Switchmark, Toggle Button, Reaction Button, Quantity Picker, Attachment Input 등 눌리는 요소 전반으로 확대됩니다.
+  - Callout Close Button과 Page Banner Close Button에 축소 피드백과 함께 색상 피드백을 추가합니다.
+  - 축소 배율을 요소의 렌더된 크기로부터 계산하여 작은 아이콘 버튼과 화면 양끝을 채우는 버튼이 시각적으로 동일한 정도로 눌린 느낌이 들도록 합니다.
+  - CSS `transform` 및 `scale` 속성이나 motion 등 외부 라이브러리로 비슷한 스타일을 적용하고 있던 경우 제거를 권장합니다.
+
+  직접 만든 React 컴포넌트에 동일한 효과를 적용할 수 있도록 `ScaleFeedback` 유틸리티 컴포넌트를 제공합니다. 자세한 내용은 [Scale Feedback](https://seed-design.io/react/components/concepts/scale-feedback) 문서를 참고합니다.
+
+- aef119e: Bottom Sheet와 Menu Sheet의 content 최대 너비를 480px로 맞춥니다.
+
+  - 넓은 뷰포트에서 시트가 화면 폭 전체로 늘어나지 않고 480px에서 멈추며 가운데 정렬됩니다. 480px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Bottom Sheet의 스펙값을 640px에서 480px로 낮춰 Sheet 계열의 최대 너비를 통일합니다.
+
+- 5088420: Snackbar의 최대 너비를 464px로 맞춥니다.
+
+  - 넓은 뷰포트에서 스낵바가 560px까지 늘어나지 않고 464px에서 멈춥니다. 464px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Sheet 계열의 최대 너비 480px에서 좌우 8px씩을 뺀 값이라, 스낵바가 시트 위에 떴을 때 시트 가장자리와의 여백이 생깁니다.
+
+- f12cf1d: Help Bubble 및 Help Bubble Tooltip에 기본 최대 너비 `280px`을 추가합니다.
+
+  - 좌우 padding을 포함한 말풍선 전체 폭이 `280px`가 되도록 `content`에 `box-sizing: border-box`를 추가합니다.
+  - 최대 너비 제한을 제거하려는 경우 `contentProps`를 통해 `maxWidth="none"`을 지정할 수 있습니다.
+
 ## 2.6.0
 
 ### Minor Changes

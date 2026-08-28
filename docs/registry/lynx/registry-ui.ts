@@ -5,6 +5,12 @@ const lynxSeedPackageRanges = {
   "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
+const accordionPackageRanges = {
+  "@seed-design/lynx-react": ">=0.5.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+
 // Lynx UI registry. Each item must have a matching snippet file under
 // `./ui/<id>.tsx` and a corresponding component implementation in
 // `@seed-design/lynx-react`. See `docs/registry/react/registry-ui.ts`
@@ -12,6 +18,15 @@ const lynxSeedPackageRanges = {
 export const registryUI: Registry = {
   id: "ui",
   items: [
+    {
+      id: "accordion",
+      snippets: [
+        {
+          path: "accordion.tsx",
+          dependencies: accordionPackageRanges,
+        },
+      ],
+    },
     {
       id: "app-bar",
       snippets: [
@@ -27,6 +42,18 @@ export const registryUI: Registry = {
         {
           path: "bottom-sheet.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "callout",
+      snippets: [
+        {
+          path: "callout.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": ">=0.5.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
+          },
         },
       ],
     },
@@ -62,6 +89,15 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "switch.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "tabs",
+      snippets: [
+        {
+          path: "tabs.tsx",
           dependencies: lynxSeedPackageRanges,
         },
       ],

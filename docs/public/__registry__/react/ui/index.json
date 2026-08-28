@@ -720,6 +720,33 @@
     {
       "snippets": [
         {
+          "path": "pagination.tsx",
+          "dependencies": {
+            "@seed-design/react-pagination": "^1.0.0",
+            "@seed-design/react": "^2.3.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "pagination",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@seed-design/react-pagination"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "pagination-button",
+            "pagination-page-item"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -1046,6 +1073,38 @@
     {
       "snippets": [
         {
+          "path": "table-pagination.tsx",
+          "dependencies": {
+            "@seed-design/react-pagination": "^1.0.0",
+            "@seed-design/react": "^2.3.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "table-pagination",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@seed-design/react-pagination"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "pagination-button"
+          ]
+        },
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "select"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "tabs.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -1111,6 +1170,21 @@
             "loading-indicator"
           ]
         }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "wheel-picker.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.4.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "wheel-picker",
+      "dependencies": [
+        "@seed-design/react"
       ]
     }
   ]

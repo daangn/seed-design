@@ -4,6 +4,7 @@ import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipe
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/scaleFeedback";
 import React from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
@@ -49,9 +50,8 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export interface SwitchControlProps extends SwitchmarkVariantProps, SwitchPrimitive.ControlProps {}
 
-export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlProps>(
-  SwitchPrimitive.Control,
-  "root",
+export const SwitchControl = withScaleFeedback(
+  withControlProvider<HTMLDivElement, SwitchControlProps>(SwitchPrimitive.Control, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

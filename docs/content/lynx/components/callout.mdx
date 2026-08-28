@@ -1,0 +1,157 @@
+---
+title: Callout
+description: 사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/callout/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:callout
+```
+
+<LynxManualInstallation name="callout" />
+
+## Props
+
+### `Callout`
+
+<react-type-table path="./registry/lynx/ui/callout.tsx" name="CalloutProps" />
+
+### `ActionableCallout`
+
+<react-type-table
+  path="./registry/lynx/ui/callout.tsx"
+  name="ActionableCalloutProps"
+/>
+
+### `DismissibleCallout`
+
+<react-type-table
+  path="./registry/lynx/ui/callout.tsx"
+  name="DismissibleCalloutProps"
+/>
+
+## Usage
+
+설치한 snippet은 기본 Callout, 전체 영역을 탭할 수 있는 ActionableCallout, 닫을 수 있는 DismissibleCallout을 export합니다.
+
+```tsx
+import { Callout } from "@/components/ui/callout";
+
+export function App() {
+  return <Callout title="알림" description="새로운 소식을 확인해 보세요." />;
+}
+```
+
+저수준 조합이 필요하면 `@seed-design/lynx-react`의 compound API를 직접 사용할 수 있습니다.
+
+```tsx
+import { Callout } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <Callout.Root tone="informative">
+      <Callout.Content>
+        <Callout.Title>알림</Callout.Title>
+        <Callout.Description>새로운 소식을 확인해 보세요.</Callout.Description>
+      </Callout.Content>
+    </Callout.Root>
+  );
+}
+```
+
+## Prefix Icon
+
+메시지의 의미를 보조하는 아이콘은 `prefixIcon`에 전달합니다. Lynx monochrome icon을 사용하면 `PrefixIcon` wrapper가 tone에 맞는 색상과 크기를 자동으로 적용합니다.
+
+<LynxComponentExample name="lynx/callout/prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+저수준 compound API에서는 `Callout.Root`의 첫 번째 child로 `PrefixIcon`을 배치하세요.
+
+```tsx
+import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
+import { Callout, PrefixIcon } from "@seed-design/lynx-react";
+
+<Callout.Root tone="informative">
+  <PrefixIcon icon={<IconBellFill />} />
+  <Callout.Content>
+    <Callout.Title>알림</Callout.Title>
+    <Callout.Description>새로운 소식을 확인해 보세요.</Callout.Description>
+  </Callout.Content>
+</Callout.Root>;
+```
+
+## Tones
+
+`tone`은 `neutral`, `informative`, `positive`, `warning`, `critical`, `magic`을 지원합니다. 기본값은 `neutral`입니다.
+
+<LynxComponentExample name="lynx/callout/tones">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/tones.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Actionable Callout
+
+전체 Callout을 액션으로 사용할 때는 `bindtap`을 전달합니다. 내부에 별도의 Link를 함께 두지 마세요.
+
+<LynxComponentExample name="lynx/callout/actionable">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/actionable.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Dismissible Callout
+
+`DismissibleCallout`과 저수준 `Callout.Root`는 `open`, `defaultOpen`, `onDismiss`를 지원합니다. 닫기 버튼에는 현지화된 `dismissLabel` 또는 `accessibility-label`을 제공하세요.
+
+<LynxComponentExample name="lynx/callout/dismissible">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/dismissible.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+| 영역 | React Web | Lynx |
+| --- | --- | --- |
+| Native element | `div`, `span`, `button` | `view`, `text` |
+| Event | `onClick` | `bindtap`, `main-thread:bindtap` |
+| Accessibility | HTML semantics, ARIA | `accessibility-*` |
+| Polymorphism | `asChild` 지원 | 미지원 |
+| Link underline | `text-decoration` | Lynx preset 제약으로 border 기반 표현 |
+
+Lynx에서는 actionable Root가 터치되는 동안 `pressed` recipe variant를 적용합니다. `Callout.Link`는 기본적으로 `accessibility-traits="link"`, actionable Root와 CloseButton은 button trait를 사용합니다.
+
+## Unsupported Lynx Features
+
+- `asChild`: Lynx에는 DOM Slot 기반 다형 렌더링이 없습니다.
+- 웹 focus ring: Lynx는 웹 키보드 포커스 모델을 사용하지 않습니다.
+- HTML attribute와 ARIA prop: 대응하는 Lynx native prop과 `accessibility-*`를 사용하세요.

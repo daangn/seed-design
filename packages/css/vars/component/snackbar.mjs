@@ -11,7 +11,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-inverted)",
         "cornerRadius": "var(--seed-radius-r2)",
         "minHeight": "44px",
-        "maxWidth": "560px",
+        "maxWidth": "464px",
         "paddingX": "var(--seed-dimension-x2_5)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "enterOpacity": "0",

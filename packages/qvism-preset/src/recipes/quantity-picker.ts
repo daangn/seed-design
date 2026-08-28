@@ -3,12 +3,22 @@ import { quantityPicker as vars } from "../vars/component";
 import { quantityPickerButton as buttonVars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-import { disabled, engaged, focusVisible, invalid, loading, not, pseudo } from "../utils/pseudo";
+import {
+  active,
+  disabled,
+  engaged,
+  focusVisible,
+  invalid,
+  loading,
+  not,
+  pseudo,
+} from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const quantityPicker = defineSlotRecipe({
   name: "quantity-picker",
@@ -48,11 +58,12 @@ const quantityPicker = defineSlotRecipe({
       border: "none",
       padding: 0,
       backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: buttonVars.base.pressed.root.color,
       },
@@ -115,11 +126,12 @@ const quantityPicker = defineSlotRecipe({
       border: "none",
       padding: 0,
       backgroundColor: buttonVars.base.enabled.root.color,
-      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${buttonVars.base.enabled.root.colorDuration} ${buttonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
 
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: buttonVars.base.pressed.root.color,
       },

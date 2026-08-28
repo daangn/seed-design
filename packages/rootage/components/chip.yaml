@@ -29,6 +29,9 @@ data:
             type: cubicBezier
           opacity:
             type: number
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -95,6 +98,9 @@ data:
           paddingX: $dimension.x1_5
         icon:
           color: $color.fg.neutral
+      pressed:
+        root:
+          scaleScope: self
 
     variant=solid:
       enabled:

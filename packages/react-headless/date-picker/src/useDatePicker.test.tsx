@@ -432,6 +432,82 @@ describe("useDatePicker", () => {
     );
   });
 
+  it("Continuous는 monthRange의 양끝 월만 렌더링한다", () => {
+    const { result } = renderDatePicker({
+      visibleRange: "continuous",
+      yearRange: { start: 2026, end: 2027 },
+      monthRange: {
+        start: { year: 2026, month: 12 },
+        end: { year: 2027, month: 1 },
+      },
+      defaultViewDate: { year: 2026, month: 12, day: 1 },
+    });
+
+    expect(result.current.months.map((month) => month.date)).toEqual([
+      { year: 2026, month: 12, day: 1 },
+      { year: 2027, month: 1, day: 1 },
+    ]);
+  });
+
+  it("Continuous의 monthRange가 좁아지면 비제어 view와 focus를 경계로 보정한다", () => {
+    const { result, rerender } = renderDatePicker({
+      visibleRange: "continuous",
+      monthRange: {
+        start: { year: 2026, month: 7 },
+        end: { year: 2026, month: 12 },
+      },
+    });
+
+    rerender({
+      today,
+      yearRange,
+      visibleRange: "continuous",
+      monthRange: {
+        start: { year: 2026, month: 9 },
+        end: { year: 2026, month: 10 },
+      },
+    });
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 9, day: 1 });
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 9, day: 1 });
+  });
+
+  it("Continuous의 이동과 action은 monthRange 경계를 넘지 않는다", () => {
+    const { result } = renderDatePicker({
+      visibleRange: "continuous",
+      monthRange: {
+        start: { year: 2026, month: 7 },
+        end: { year: 2026, month: 8 },
+      },
+    });
+
+    expect(() => result.current.actions.navigateToDate({ year: 2026, month: 9, day: 1 })).toThrow(
+      "monthRange 안의 날짜",
+    );
+
+    const augustLastDay = result.current.months
+      .flatMap((month) => month.weeks)
+      .flatMap((week) => week.cells)
+      .find(
+        (cell): cell is DatePickerCell =>
+          cell?.date.year === 2026 && cell.date.month === 8 && cell.date.day === 31,
+      );
+    expect(augustLastDay).toBeDefined();
+
+    act(() => {
+      augustLastDay?.buttonProps.onKeyDown?.({
+        key: "ArrowRight",
+        shiftKey: false,
+        defaultPrevented: false,
+        nativeEvent: { isComposing: false },
+        preventDefault: () => {},
+      } as React.KeyboardEvent<HTMLButtonElement>);
+    });
+
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 8, day: 31 });
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 8, day: 1 });
+  });
+
   it("Continuous는 현재 월의 라벨이 고정 요일 행 아래에 오도록 스크롤한다", () => {
     const { result } = renderDatePicker({
       visibleRange: "continuous",
@@ -619,6 +695,47 @@ describe("useDatePicker", () => {
     );
 
     act(() => result.current.refs.continuousMonth(measuredMonth?.key ?? "")(null));
+  });
+
+  it("유효하지 않은 monthRange와 범위 밖 값을 거부한다", () => {
+    expect(() =>
+      renderDatePicker({
+        visibleRange: "continuous",
+        monthRange: {
+          start: { year: 2026, month: 13 },
+          end: { year: 2027, month: 1 },
+        },
+      }),
+    ).toThrow("1부터 12 사이의 month");
+    expect(() =>
+      renderDatePicker({
+        visibleRange: "continuous",
+        monthRange: {
+          start: { year: 2027, month: 1 },
+          end: { year: 2026, month: 12 },
+        },
+      }),
+    ).toThrow("monthRange.start는 monthRange.end보다 늦을 수 없습니다");
+    expect(() =>
+      renderDatePicker({
+        visibleRange: "continuous",
+        yearRange: { start: 2026, end: 2026 },
+        monthRange: {
+          start: { year: 2026, month: 12 },
+          end: { year: 2027, month: 1 },
+        },
+      }),
+    ).toThrow("monthRange는 yearRange 안에 있어야 합니다");
+    expect(() =>
+      renderDatePicker({
+        visibleRange: "continuous",
+        monthRange: {
+          start: { year: 2026, month: 7 },
+          end: { year: 2026, month: 8 },
+        },
+        value: { year: 2026, month: 9, day: 1 },
+      }),
+    ).toThrow("monthRange 안의 날짜");
   });
 
   it("유효하지 않은 날짜와 범위를 엄격하게 거부한다", () => {

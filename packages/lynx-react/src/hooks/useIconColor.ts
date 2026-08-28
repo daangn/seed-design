@@ -14,7 +14,7 @@ export interface UseIconColorOptions {
 // Lynx `<image>` 의 `tint-color` attribute 에 CSS variable 문자열을 직접 넣는 경로는
 // 안정적으로 동작하지 않는다. CSS `color` 는 computed style 로 resolved color 를 읽을 수
 // 있으므로 main-thread 에서 한 번 읽어 `tint-color` 로 mirror 한다.
-function syncTintColor(targetRef: RefObject<IconElement>, sourceRef?: RefObject<IconElement>) {
+function syncTintColorOnce(targetRef: RefObject<IconElement>, sourceRef?: RefObject<IconElement>) {
   "main thread";
 
   const target = targetRef.current;
@@ -29,14 +29,48 @@ function syncTintColor(targetRef: RefObject<IconElement>, sourceRef?: RefObject<
     color = source.getComputedCssProperty("color");
   }
 
-  if (color) {
+  if (color && target.getAttribute("tint-color") !== color) {
     target.setAttribute("tint-color", color);
+  }
+}
+
+function scheduleTintColorSync(
+  targetRef: RefObject<IconElement>,
+  sourceRef: RefObject<IconElement> | undefined,
+  frameRef: RefObject<number>,
+) {
+  "main thread";
+
+  if (frameRef.current && typeof cancelAnimationFrame === "function") {
+    cancelAnimationFrame(frameRef.current);
+    frameRef.current = 0;
+  }
+
+  // ReactLynx는 effect worklet을 native class patch flush보다 먼저 실행할 수 있다.
+  // 다음 frame에서 class patch가 반영된 computed color를 읽는다.
+  if (typeof requestAnimationFrame === "function") {
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0;
+      syncTintColorOnce(targetRef, sourceRef);
+    });
+  } else {
+    syncTintColorOnce(targetRef, sourceRef);
+  }
+}
+
+function cancelTintColorSync(frameRef: RefObject<number>) {
+  "main thread";
+
+  if (frameRef.current && typeof cancelAnimationFrame === "function") {
+    cancelAnimationFrame(frameRef.current);
+    frameRef.current = 0;
   }
 }
 
 /**
  * Lynx `<image>` 의 tint color 를 recipe 의 CSS `color` 로부터 main-thread 에서 읽어
- * `tint-color` attribute 로 mirror. `deps` 가 바뀌면 재동기화.
+ * `tint-color` attribute 로 mirror. `deps` 가 바뀌면 native class patch가 반영된
+ * 다음 frame에 재동기화하고, UI 표시 이벤트에서는 즉시 동기화.
  *
  * ```tsx
  * const iconColorProps = useIconColor([variant, disabled, loading]);
@@ -52,15 +86,19 @@ export function useIconColor(
 } {
   const ref = useMainThreadRef<IconElement>(null);
   const sourceRef = options?.sourceRef as RefObject<IconElement> | undefined;
+  const frameRef = useMainThreadRef<number>(0);
 
   function syncOnUiAppear() {
     "main thread";
-    syncTintColor(ref, sourceRef);
+    syncTintColorOnce(ref, sourceRef);
   }
 
   // deps 는 caller 가 책임.
   useEffect(() => {
-    runOnMainThread(syncTintColor)(ref, sourceRef);
+    runOnMainThread(scheduleTintColorSync)(ref, sourceRef, frameRef);
+    return () => {
+      runOnMainThread(cancelTintColorSync)(frameRef);
+    };
   }, deps);
 
   return { ref, "main-thread:binduiappear": syncOnUiAppear };

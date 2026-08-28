@@ -5,6 +5,8 @@ export type { ResponsiveValue, UnwrapResponsive, BreakpointThreshold } from "./t
 export { useBreakpoint } from "./hooks/useBreakpoint";
 export type { UseBreakpointOptions } from "./hooks/useBreakpoint";
 export { useBreakpointValue } from "./hooks/useBreakpointValue";
+export { useScaleFeedback, ScaleFeedback } from "./utils/scaleFeedback";
+export type { ScaleFeedbackProps } from "./utils/scaleFeedback";
 export { BreakpointProvider } from "./providers/BreakpointProvider";
 export type { BreakpointProviderProps } from "./providers/BreakpointProvider";
 

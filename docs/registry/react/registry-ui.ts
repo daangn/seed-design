@@ -368,6 +368,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "pagination",
+      snippets: [
+        {
+          path: "pagination.tsx",
+          dependencies: {
+            "@seed-design/react-pagination": "^1.0.0",
+            "@seed-design/react": "^2.3.0",
+            "@seed-design/css": "^2.6.0",
+          },
+        },
+      ],
+    },
+    {
       id: "progress-circle",
       snippets: [
         {
@@ -382,6 +395,15 @@ export const registryUI: Registry = {
         {
           path: "quantity-picker.tsx",
           dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0", "@seed-design/css": "^2.6.0" },
         },
       ],
     },
@@ -409,6 +431,19 @@ export const registryUI: Registry = {
         {
           path: "select-box.tsx",
           dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+        },
+      ],
+    },
+    {
+      id: "table-pagination",
+      snippets: [
+        {
+          path: "table-pagination.tsx",
+          dependencies: {
+            "@seed-design/react-pagination": "^1.0.0",
+            "@seed-design/react": "^2.3.0",
+            "@seed-design/css": "^2.6.0",
+          },
         },
       ],
     },

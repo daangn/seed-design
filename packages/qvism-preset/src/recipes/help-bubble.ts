@@ -1,6 +1,7 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
@@ -31,6 +32,7 @@ const helpBubble = defineSlotRecipe({
     content: {
       display: "flex",
       alignItems: "flex-start",
+      boxSizing: "border-box",
 
       background: vars.base.enabled.root.color,
 
@@ -39,7 +41,7 @@ const helpBubble = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       // real value, not `initial` — see https://webkit.org/b/241433
-      "--seed-box-max-width--responsive": "none",
+      "--seed-box-max-width--responsive": vars.base.enabled.root.maxWidth,
       maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(open)]: {
@@ -133,7 +135,10 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

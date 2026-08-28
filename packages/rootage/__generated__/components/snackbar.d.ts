@@ -130,6 +130,13 @@ declare const artifact: {
             "fontWeight": {
               "type": "number";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
       };
@@ -190,7 +197,7 @@ declare const artifact: {
                 "maxWidth": {
                   "type": "dimension";
                   "value": {
-                    "value": 560;
+                    "value": 464;
                     "unit": "px";
                   };
                 };
@@ -303,6 +310,19 @@ declare const artifact: {
                 "fontWeight": {
                   "type": "number";
                   "value": "$font-weight.bold";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "actionButton": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

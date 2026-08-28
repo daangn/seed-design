@@ -26,6 +26,9 @@ data:
             type: color
           opacity:
             type: number
+          scaleScope:
+            type: enum
+            values: [self, content]
       thumbnail:
         properties:
           color:
@@ -121,6 +124,9 @@ data:
         removeButtonMask:
           offset: $dimension.x1_5
           size: $dimension.x6
+      pressed:
+        root:
+          scaleScope: self
 
     type=file:
       enabled:

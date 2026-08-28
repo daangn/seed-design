@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.7.0",
-    "@seed-design/lynx-css": "0.8.1",
+    "@seed-design/lynx-css": "0.9.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
     "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",

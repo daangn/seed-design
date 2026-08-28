@@ -41,7 +41,12 @@
     --seed-icon-size: 22px;
     --size: 16px;
     --thickness: 2px;
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}
+.seed-contextual-floating-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+}
+.seed-contextual-floating-button {
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-contextual-floating-button--variant_solid {
     background: var(--seed-color-bg-neutral-inverted);

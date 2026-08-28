@@ -1,5 +1,65 @@
 # @seed-design/react
 
+## 2.4.0
+
+### Minor Changes
+
+- e5e557b: `ContinuousDatePicker`의 노출 범위를 월 단위로 제한할 수 있습니다.
+
+  - `monthRange`로 처음과 마지막 노출 월을 지정할 수 있습니다.
+  - `monthRange`를 생략하면 기존처럼 `yearRange`의 시작 연도 1월부터 종료 연도 12월까지 노출합니다.
+  - 날짜별 선택 가능 여부는 기존 `constraints`와 함께 설정할 수 있습니다.
+
+- f441552: Wheel Picker 컴포넌트를 추가합니다.
+
+  - `@seed-design/react`에서 `WheelPicker.Root`와 `WheelPicker.Column`을 가져와 여러 선택 열을 직접 구성할 수 있습니다.
+  - 항목 높이는 44px, 표시 항목 수는 5개를 기본값으로 사용합니다.
+  - 여러 열을 각 항목의 내용 너비에 맞추고, Time Picker와 같은 기준으로 가운데에 모아 배치합니다.
+  - `onIndexChange`로 사용자가 지나간 각 항목을 감지해 햅틱 등을 제공할 수 있습니다.
+  - 사용자 조작 중에는 외부 `value` 변경이 스크롤 위치를 덮어쓰지 않습니다.
+
+  ```tsx
+  import { WheelPicker } from "@seed-design/react";
+
+  <WheelPicker.Root>
+    <WheelPicker.Column
+      aria-label="연도"
+      value={year}
+      onValueChange={setYear}
+      onIndexChange={(index, value) => {
+        // 항목별 햅틱 처리
+      }}
+      options={yearOptions}
+    />
+  </WheelPicker.Root>;
+  ```
+
+  `npx @seed-design/cli@latest add ui:wheel-picker`로 배열 기반 Registry API를 설치할 수 있습니다.
+
+  ```tsx
+  import { WheelPicker } from "seed-design/ui/wheel-picker";
+
+  <WheelPicker aria-label="날짜 선택" columns={columns} />;
+  ```
+
+- 568f04c: 눌렀을 때 요소가 줄어드는 Scale Feedback을 일부 컴포넌트에 적용합니다.
+
+  - Action Button에만 있던 축소 피드백이 Callout, Page Banner, Chip, Tab, Checkmark, Radiomark, Switchmark, Toggle Button, Reaction Button, Quantity Picker, Attachment Input 등 눌리는 요소 전반으로 확대됩니다.
+  - Callout Close Button과 Page Banner Close Button에 축소 피드백과 함께 색상 피드백을 추가합니다.
+  - 축소 배율을 요소의 렌더된 크기로부터 계산하여 작은 아이콘 버튼과 화면 양끝을 채우는 버튼이 시각적으로 동일한 정도로 눌린 느낌이 들도록 합니다.
+  - CSS `transform` 및 `scale` 속성이나 motion 등 외부 라이브러리로 비슷한 스타일을 적용하고 있던 경우 제거를 권장합니다.
+
+  직접 만든 React 컴포넌트에 동일한 효과를 적용할 수 있도록 `ScaleFeedback` 유틸리티 컴포넌트를 제공합니다. 자세한 내용은 [Scale Feedback](https://seed-design.io/react/components/concepts/scale-feedback) 문서를 참고합니다.
+
+### Patch Changes
+
+- Updated dependencies [e5e557b]
+- Updated dependencies [f441552]
+- Updated dependencies [8f3555b]
+  - @seed-design/react-date-picker@1.2.0
+  - @seed-design/react-wheel-picker@1.1.0
+  - @seed-design/react-pull-to-refresh@2.1.0
+
 ## 2.3.0
 
 ### Minor Changes

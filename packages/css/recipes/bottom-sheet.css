@@ -32,6 +32,7 @@
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
+    max-width: 480px;
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
     padding-bottom: var(--seed-safe-area-bottom);
@@ -137,6 +138,12 @@
     width: 28px;
     height: 28px;
     cursor: pointer;
+}
+.seed-bottom-sheet__closeButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+}
+.seed-bottom-sheet__closeButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
     --seed-icon-size: 14px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }

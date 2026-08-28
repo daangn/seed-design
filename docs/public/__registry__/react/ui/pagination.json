@@ -1,0 +1,28 @@
+{
+  "id": "pagination",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react",
+    "@seed-design/react-pagination"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "lib",
+      "itemIds": [
+        "pagination-button",
+        "pagination-page-item"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "pagination.tsx",
+      "content": "/**\n * @file ui:pagination\n * @requires @seed-design/react-pagination@^1.0.0\n * @requires @seed-design/react@^2.3.0\n * @requires @seed-design/css@^2.6.0\n **/\n\n\"use client\";\n\nimport {\n  IconChevronLeftLine,\n  IconChevronRightLine,\n  IconDot3HorizontalLine,\n} from \"@karrotmarket/react-monochrome-icon\";\nimport { HStack, type HStackProps, Icon, useBreakpointValue } from \"@seed-design/react\";\nimport {\n  usePagination,\n  type PaginationVisibleItemCount,\n  type UsePaginationProps,\n} from \"@seed-design/react-pagination\";\nimport * as React from \"react\";\nimport { PaginationButton } from \"../lib/pagination-button\";\nimport { PaginationPageItem } from \"../lib/pagination-page-item\";\n\n// 앱의 언어에 맞게 locale과 기본 접근성 문구를 수정하세요.\nconst numberFormatter = new Intl.NumberFormat(\"ko-KR\");\nconst paginationText = {\n  rootAriaLabel: \"페이지 탐색\",\n  previousPageAriaLabel: \"이전 페이지\",\n  nextPageAriaLabel: \"다음 페이지\",\n  pageAriaLabel: (page: number) => `${numberFormatter.format(page)}페이지`,\n} as const;\n\nexport type {\n  PaginationChangeDetails,\n  PaginationChangeReason,\n  UsePaginationProps,\n} from \"@seed-design/react-pagination\";\n\ntype PaginationBehaviorProps = Omit<UsePaginationProps, \"visibleItemCount\">;\ntype DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;\n\nexport type PaginationProps = PaginationBehaviorProps &\n  DistributiveOmit<HStackProps, keyof UsePaginationProps | \"children\" | \"as\" | \"role\">;\n\nfunction PaginationNavigationPlaceholder() {\n  return <HStack width=\"40px\" height=\"40px\" aria-hidden=\"true\" />;\n}\n\n/**\n * @see https://seed-design.io/react/components/pagination\n */\nexport const Pagination = React.forwardRef<HTMLDivElement, PaginationProps>((props, ref) => {\n  const { page, defaultPage, onPageChange, totalPages, disabled, ...rootProps } = props;\n  const visibleItemCount = useBreakpointValue<PaginationVisibleItemCount>({ base: 7, sm: 9 }) ?? 7;\n  const pagination = usePagination({\n    page,\n    defaultPage,\n    onPageChange,\n    totalPages,\n    visibleItemCount,\n    disabled,\n  });\n\n  if (pagination.totalPages <= 1) return null;\n\n  return (\n    <HStack\n      ref={ref}\n      align=\"center\"\n      aria-label={paginationText.rootAriaLabel}\n      {...pagination.rootProps}\n      {...rootProps}\n      as=\"nav\"\n      role=\"navigation\"\n    >\n      {pagination.hasPreviousPage ? (\n        <PaginationButton\n          {...pagination.previousButtonProps}\n          aria-label={paginationText.previousPageAriaLabel}\n        >\n          <IconChevronLeftLine />\n        </PaginationButton>\n      ) : (\n        <PaginationNavigationPlaceholder />\n      )}\n\n      {pagination.items.map((item) => {\n        if (item.type === \"ellipsis\") {\n          return (\n            <HStack\n              key={`ellipsis-${item.side}`}\n              width=\"40px\"\n              height=\"40px\"\n              align=\"center\"\n              justify=\"center\"\n              aria-hidden=\"true\"\n            >\n              <Icon svg={<IconDot3HorizontalLine />} size=\"x4\" color=\"fg.neutral\" />\n            </HStack>\n          );\n        }\n\n        const formattedPage = numberFormatter.format(item.page);\n\n        return (\n          <PaginationPageItem\n            key={item.page}\n            selected={item.page === pagination.page}\n            {...pagination.getPageButtonProps(item.page)}\n            aria-label={paginationText.pageAriaLabel(item.page)}\n            title={formattedPage}\n          >\n            {formattedPage}\n          </PaginationPageItem>\n        );\n      })}\n\n      {pagination.hasNextPage ? (\n        <PaginationButton\n          {...pagination.nextButtonProps}\n          aria-label={paginationText.nextPageAriaLabel}\n        >\n          <IconChevronRightLine />\n        </PaginationButton>\n      ) : (\n        <PaginationNavigationPlaceholder />\n      )}\n    </HStack>\n  );\n});\nPagination.displayName = \"Pagination\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react-pagination": "^1.0.0",
+        "@seed-design/react": "^2.3.0",
+        "@seed-design/css": "^2.6.0"
+      }
+    }
+  ]
+}

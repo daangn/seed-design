@@ -18,6 +18,8 @@ data:
             type: dimension
           gap:
             type: dimension
+          maxWidth:
+            type: dimension
           enterScale:
             type: number
           enterOpacity:
@@ -87,6 +89,9 @@ data:
             type: dimension
           marginTop:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
   definitions:
     base:
       enabled:
@@ -96,6 +101,7 @@ data:
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
           gap: $dimension.x1
+          maxWidth: 280px
           enterScale: 0.9
           enterOpacity: 0
           enterDuration: $duration.d4
@@ -129,3 +135,6 @@ data:
           size: $dimension.x3_5
           targetSize: 38px
           marginTop: $dimension.x0_5
+      pressed:
+        closeButton:
+          scaleScope: self

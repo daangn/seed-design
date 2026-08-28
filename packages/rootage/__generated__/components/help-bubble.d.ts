@@ -26,6 +26,9 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "maxWidth": {
+              "type": "dimension";
+            };
             "enterScale": {
               "type": "number";
             };
@@ -133,6 +136,13 @@ declare const artifact: {
             "marginTop": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
       };
@@ -167,6 +177,13 @@ declare const artifact: {
                 "gap": {
                   "type": "dimension";
                   "value": "$dimension.x1";
+                };
+                "maxWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 280;
+                    "unit": "px";
+                  };
                 };
                 "enterScale": {
                   "type": "number";
@@ -307,6 +324,19 @@ declare const artifact: {
                 "marginTop": {
                   "type": "dimension";
                   "value": "$dimension.x0_5";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "closeButton": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

@@ -17,6 +17,21 @@ export interface DatePickerRangeValue {
   end?: DatePickerDate;
 }
 
+/** Gregorian 달력의 연도와 월입니다. */
+export interface DatePickerYearMonth {
+  /** Gregorian 달력의 연도입니다. */
+  year: number;
+  /** 1부터 12까지의 월입니다. */
+  month: number;
+}
+
+export interface DatePickerMonthRange {
+  /** 노출 범위의 첫 번째 월입니다. */
+  start: DatePickerYearMonth;
+  /** 노출 범위의 마지막 월입니다. */
+  end: DatePickerYearMonth;
+}
+
 export type DatePickerSelectionMode = "single" | "range" | "multiple";
 export type DatePickerVisibleRange = "month" | "twoMonths" | "continuous" | "week";
 
@@ -120,6 +135,12 @@ interface DatePickerCommonProps {
     start: number;
     end: number;
   };
+  /**
+   * Continuous 레이아웃에서 노출하고 이동할 수 있는 월 범위입니다. 양끝 월을 포함합니다.
+   *
+   * 생략하면 `yearRange.start`의 1월부터 `yearRange.end`의 12월까지 노출합니다.
+   */
+  monthRange?: DatePickerMonthRange;
   /** 날짜 선택 조건입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. */
   constraints?: readonly DatePickerConstraint[];
   /** 모든 조작과 날짜 포커스를 비활성화합니다. */

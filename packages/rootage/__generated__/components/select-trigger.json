@@ -44,6 +44,13 @@
             },
             "strokeTimingFunction": {
               "type": "cubicBezier"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -230,6 +237,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

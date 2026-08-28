@@ -19,6 +19,13 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -88,6 +95,19 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

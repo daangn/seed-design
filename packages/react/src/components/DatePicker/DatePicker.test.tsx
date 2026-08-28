@@ -216,6 +216,26 @@ describe("DatePicker", () => {
     }
   });
 
+  it("ContinuousDatePicker는 monthRange에 포함된 월만 노출한다", () => {
+    const { getAllByRole, queryByRole } = render(
+      <ContinuousDatePicker
+        {...commonProps}
+        defaultViewDate={{ year: 2026, month: 12, day: 1 }}
+        monthRange={{
+          start: { year: 2026, month: 12 },
+          end: { year: 2027, month: 1 },
+        }}
+        height="400px"
+      />,
+    );
+
+    expect(getAllByRole("grid")).toHaveLength(2);
+    expect(queryByRole("grid", { name: "2026년 11월" })).not.toBeInTheDocument();
+    expect(queryByRole("grid", { name: "2026년 12월" })).toBeInTheDocument();
+    expect(queryByRole("grid", { name: "2027년 1월" })).toBeInTheDocument();
+    expect(queryByRole("grid", { name: "2027년 2월" })).not.toBeInTheDocument();
+  });
+
   it("navigateToDate는 외부 포커스를 유지하고 오늘을 다음 tab 진입점으로 지정한다", () => {
     const actionsRef = React.createRef<DatePickerActions>();
     const { getByRole } = render(

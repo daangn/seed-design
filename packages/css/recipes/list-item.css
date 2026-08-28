@@ -25,6 +25,9 @@
     --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-right: var(--seed-box-padding-right);
     --seed-focus-ring: none;
+    --seed-checkmark-feedback-scale: 1;
+    --seed-radiomark-feedback-scale: 1;
+    --seed-switchmark-feedback-scale: 1;
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
@@ -45,6 +48,9 @@
     --seed-box-gap: var(--seed-box-gap-base, initial);
     gap: var(--seed-box-gap);
     --seed-focus-ring: none;
+    --seed-checkmark-feedback-scale: 1;
+    --seed-radiomark-feedback-scale: 1;
+    --seed-switchmark-feedback-scale: 1;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);

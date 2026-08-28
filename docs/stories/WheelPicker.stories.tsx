@@ -1,12 +1,6 @@
 import preview from "../.storybook/preview";
-import type { WheelPickerOption } from "@seed-design/react-wheel-picker";
-import { Grid, Text, VStack } from "@seed-design/react";
+import { Box, Grid, Text, VStack, WheelPicker, type WheelPickerOption } from "@seed-design/react";
 import * as React from "react";
-import {
-  InternalWheelPickerColumn,
-  InternalWheelPickerRoot,
-} from "../../packages/react/src/components/private/WheelPicker";
-import "./InternalWheelPicker.css";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { withChromaticParameters } from "./utils/parameters";
@@ -16,11 +10,13 @@ interface ColumnCase {
   options: WheelPickerOption[];
   loop: boolean;
   defaultValue?: string;
+  getAriaValueText?: (value: string) => string;
 }
 
 interface WheelPickerCaseProps {
   label: string;
   columns: ColumnCase[];
+  disabled?: boolean;
 }
 
 const createNumberOptions = (start: number, end: number, padStart = 0): WheelPickerOption[] =>
@@ -38,6 +34,29 @@ const createTextOptions = (...values: string[]): WheelPickerOption[] =>
 
 const conditionMap = {
   case: {
+    "날짜 입력": {
+      label: "날짜 선택",
+      columns: [
+        {
+          label: "연도",
+          options: createNumberOptions(2020, 2030),
+          loop: false,
+          defaultValue: "2026",
+        },
+        {
+          label: "월",
+          options: createNumberOptions(1, 12),
+          loop: true,
+          defaultValue: "8",
+        },
+        {
+          label: "일",
+          options: createNumberOptions(1, 31),
+          loop: true,
+          defaultValue: "20",
+        },
+      ],
+    },
     "2개 컬럼 / 반복 없음": {
       label: "화면 설정",
       columns: [
@@ -179,10 +198,60 @@ const conditionMap = {
         { label: "일", options: createNumberOptions(1, 31), loop: true, defaultValue: "27" },
       ],
     },
+    "React 요소 label": {
+      label: "배지 선택",
+      columns: [
+        {
+          label: "배지",
+          options: [
+            {
+              value: "new",
+              label: (
+                <span>
+                  <span aria-hidden="true">●</span> 신규
+                </span>
+              ),
+            },
+            {
+              value: "popular",
+              label: (
+                <span>
+                  <span aria-hidden="true">◆</span> 인기
+                </span>
+              ),
+            },
+            {
+              value: "reserved",
+              label: (
+                <span>
+                  <span aria-hidden="true">■</span> 예약
+                </span>
+              ),
+            },
+          ],
+          loop: false,
+          defaultValue: "popular",
+          getAriaValueText: (value) =>
+            ({ new: "신규", popular: "인기", reserved: "예약" })[value] ?? value,
+        },
+      ],
+    },
+    Disabled: {
+      label: "비활성 선택",
+      disabled: true,
+      columns: [
+        {
+          label: "상태",
+          options: createTextOptions("대기", "진행", "완료"),
+          loop: false,
+          defaultValue: "진행",
+        },
+      ],
+    },
   },
 } satisfies Record<string, Record<string, WheelPickerCaseProps>>;
 
-function WheelPickerCase({ label, columns }: WheelPickerCaseProps) {
+function WheelPickerCase({ label, columns, disabled }: WheelPickerCaseProps) {
   const [values, setValues] = React.useState(() =>
     columns.map(
       (column) =>
@@ -217,29 +286,23 @@ function WheelPickerCase({ label, columns }: WheelPickerCaseProps) {
           </Text>
         ))}
       </Grid>
-      <InternalWheelPickerRoot
-        aria-label={label}
-        itemSize={44}
-        visibleItemCount={5}
-        fogSize={52}
-        className="internal-wheel-picker"
-        selectionIndicatorClassName="internal-wheel-picker__selection-indicator"
-      >
-        {columns.map((column, columnIndex) => (
-          <InternalWheelPickerColumn
-            key={column.label}
-            aria-label={column.label}
-            options={column.options}
-            value={values[columnIndex]}
-            onValueChange={(nextValue) => handleValueChange(columnIndex, nextValue)}
-            loop={column.loop}
-            data-loop={column.loop ? "" : undefined}
-            data-finite={column.loop ? undefined : ""}
-            className="internal-wheel-picker__column"
-            itemClassName="internal-wheel-picker__item"
-          />
-        ))}
-      </InternalWheelPickerRoot>
+      <Box width="320px">
+        <WheelPicker.Root aria-label={label} disabled={disabled}>
+          {columns.map((column, columnIndex) => (
+            <WheelPicker.Column
+              key={column.label}
+              aria-label={column.label}
+              options={column.options}
+              value={values[columnIndex]}
+              onValueChange={(nextValue) => handleValueChange(columnIndex, nextValue)}
+              loop={column.loop}
+              getAriaValueText={column.getAriaValueText}
+              data-loop={column.loop ? "" : undefined}
+              data-finite={column.loop ? undefined : ""}
+            />
+          ))}
+        </WheelPicker.Root>
+      </Box>
       <Text as="p" fontSize="t4" color="fg.neutralMuted" aria-live="polite">
         선택값: {values.join(" · ")}
       </Text>
@@ -247,8 +310,49 @@ function WheelPickerCase({ label, columns }: WheelPickerCaseProps) {
   );
 }
 
+const wheelPickerSizes = ["small", "medium"] as const;
+const visibleItemCounts = [5, 7, 9] as const;
+const sizeOptions = createNumberOptions(1, 15, 2);
+
+function SizeAndVisibleItemCountCases() {
+  return (
+    <VStack gap="x6">
+      {wheelPickerSizes.map((size) => (
+        <VStack key={size} gap="x3">
+          <Text fontSize="t5" fontWeight="bold">
+            {size === "small" ? "Small" : "Medium"}
+          </Text>
+          <Grid columns={visibleItemCounts.length} gap="24px">
+            {visibleItemCounts.map((visibleItemCount) => (
+              <VStack key={visibleItemCount} gap="x2">
+                <Text as="p" align="center" fontSize="t3" color="fg.neutralMuted">
+                  {visibleItemCount}개
+                </Text>
+                <Box width="160px">
+                  <WheelPicker.Root
+                    aria-label={`${size}, ${visibleItemCount}개 표시`}
+                    size={size}
+                    visibleItemCount={visibleItemCount}
+                  >
+                    <WheelPicker.Column
+                      aria-label="수량"
+                      options={sizeOptions}
+                      defaultValue="8"
+                      loop
+                    />
+                  </WheelPicker.Root>
+                </Box>
+              </VStack>
+            ))}
+          </Grid>
+        </VStack>
+      ))}
+    </VStack>
+  );
+}
+
 const meta = preview.meta({
-  title: "Internal/WheelPicker",
+  title: "Components/WheelPicker",
   component: WheelPickerCase,
   decorators: [SeedThemeDecorator],
 });
@@ -271,4 +375,29 @@ export const FontScalingExtraSmall = CommonStory.extend({
 
 export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
   parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const SizesAndVisibleItemCounts = meta.story({
+  parameters: withChromaticParameters({}),
+  render: () => <SizeAndVisibleItemCountCases />,
+});
+
+export const Uncontrolled = meta.story({
+  args: conditionMap.case["2개 컬럼 / 혼합"],
+  render: ({ label, columns }) => (
+    <Box width="320px">
+      <WheelPicker.Root aria-label={label}>
+        {columns.map((column) => (
+          <WheelPicker.Column
+            key={column.label}
+            aria-label={column.label}
+            options={column.options}
+            defaultValue={column.defaultValue}
+            loop={column.loop}
+            getAriaValueText={column.getAriaValueText}
+          />
+        ))}
+      </WheelPicker.Root>
+    </Box>
+  ),
 });

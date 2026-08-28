@@ -154,6 +154,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다."
     },
     {
+      "slug": "pagination",
+      "title": "Pagination",
+      "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다."
+    },
+    {
       "slug": "progress-board",
       "title": "Progress Board",
       "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다."
@@ -234,6 +239,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다."
     },
     {
+      "slug": "table-pagination",
+      "title": "Table Pagination",
+      "description": "데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다."
+    },
+    {
       "slug": "tabs",
       "title": "Tabs",
       "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다."
@@ -257,6 +267,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "slug": "top-navigation",
       "title": "Top Navigation",
       "description": "화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다."
+    },
+    {
+      "slug": "wheel-picker",
+      "title": "Wheel Picker",
+      "description": "여러 값을 세로로 스크롤해 하나 이상의 열에서 선택하는 입력 컴포넌트입니다."
     }
   ],
   "/foundations/": [

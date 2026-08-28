@@ -23,6 +23,8 @@
   --seed-font-size-limit-max: 1.5;
   --seed-line-height-limit-min: .8;
   --seed-line-height-limit-max: 1.5;
+  --seed-feedback-scale: 1;
+  --seed-feedback-scale-transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
 }
 
 [data-seed-platform="ios"] {
@@ -378,6 +380,19 @@
   height: 0;
   font-weight: var(--seed-font-weight-bold);
   display: block;
+}
+
+.seed-scale-feedback {
+  --seed-dynamic-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
+  --seed-dynamic-scale: calc((var(--seed-dynamic-scale-basis) - 2) / var(--seed-dynamic-scale-basis));
+  --seed-feedback-scale: var(--seed-dynamic-scale, 1);
+  scale: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seed-scale-feedback {
+    --seed-feedback-scale: 1;
+  }
 }
 
 :root, [data-seed-color-mode="system"] {

@@ -26,6 +26,9 @@
             "gap": {
               "type": "dimension"
             },
+            "maxWidth": {
+              "type": "dimension"
+            },
             "enterScale": {
               "type": "number"
             },
@@ -132,6 +135,13 @@
             },
             "marginTop": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         }
@@ -167,6 +177,13 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1"
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 280,
+                    "unit": "px"
+                  }
                 },
                 "enterScale": {
                   "type": "number",
@@ -307,6 +324,19 @@
                 "marginTop": {
                   "type": "dimension",
                   "value": "$dimension.x0_5"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "closeButton": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }
