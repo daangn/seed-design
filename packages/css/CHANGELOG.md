@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 2.6.1
+
+### Patch Changes
+
+- e7bb171: DatePicker의 `height`, `minHeight`, `maxHeight` prop이 올바르게 적용되도록 수정합니다.
+
 ## 2.6.0
 
 ### Minor Changes

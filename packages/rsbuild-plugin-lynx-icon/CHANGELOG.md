@@ -1,5 +1,11 @@
 # @seed-design/rsbuild-plugin-lynx-icon
 
+## 0.2.1
+
+### Patch Changes
+
+- a6aca14: `sharp` 의존성을 v0.35.0으로 업데이트하여 보안 취약점(CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591)을 수정합니다.
+
 ## 0.2.0
 
 ### Minor Changes
