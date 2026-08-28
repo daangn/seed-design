@@ -1,5 +1,7 @@
 import type { LLMPage, Section } from "./types";
 import { getGitHubSourceUrl } from "./config";
+import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
+import type { LynxCompatibility } from "@/lib/lynx-compatibility";
 import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
 import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
 
@@ -17,6 +19,15 @@ async function platformStatusBlock(page: LLMPage, section: Section): Promise<str
   return table ? `${table}\n\n` : "";
 }
 
+export function getLynxCompatibilityBlock(
+  compatibility: LynxCompatibility | undefined,
+  section: Section,
+): string {
+  if (section !== "lynx" || !compatibility) return "";
+
+  return `${getLynxCompatibilityMarkdown(compatibility)}\n\n`;
+}
+
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
   await ensureRulesReady();
   const renderer = await page.data.load();
@@ -24,6 +35,7 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const processed = normalizeLLMBody(exports.processed);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
+  const lynxCompatibility = getLynxCompatibilityBlock(page.data.frontmatter.lynx, section);
 
   return `# ${page.data.title}
 URL: ${page.url}
@@ -31,5 +43,5 @@ Source: ${sourceUrl}
 
 ${page.data.description ?? ""}
 
-${platformStatus}${processed}`;
+${platformStatus}${lynxCompatibility}${processed}`;
 }

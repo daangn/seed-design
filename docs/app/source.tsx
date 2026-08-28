@@ -21,6 +21,7 @@ import { readFigmaImageManifest } from "@/components/figma-image/figma-image-man
 import { remarkFigmaImage } from "@/components/figma-image/remark-figma-image";
 import { filteredTypeTableGenerator } from "@/components/type-table/generator";
 import { markFeatured } from "@/lib/featured";
+import { lynxCompatibilitySchema } from "@/lib/lynx-compatibility";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
@@ -202,7 +203,11 @@ const breezeDocs = localMd({
 
 const lynxDocs = localMd({
   dir: "content/lynx",
-  frontmatterSchema: baseDocsSchema.extend({ ...staticCoverImageSchema, ...headingSchema }),
+  frontmatterSchema: baseDocsSchema.extend({
+    ...staticCoverImageSchema,
+    ...headingSchema,
+    lynx: lynxCompatibilitySchema.optional(),
+  }),
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,
 });
