@@ -369,7 +369,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.6.1",
+      "version": "1.7.0",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -437,7 +437,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.6.0",
+      "version": "2.6.1",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -485,7 +485,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.9.0",
+      "version": "0.9.1",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -506,7 +506,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
@@ -516,7 +516,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.9.0",
+        "@seed-design/lynx-css": "0.9.1",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
@@ -1473,7 +1473,7 @@
     },
     "packages/rsbuild-plugin-lynx-icon": {
       "name": "@seed-design/rsbuild-plugin-lynx-icon",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "dependencies": {
         "sharp": "^0.35.0",
       },
@@ -1500,7 +1500,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.6.0",
+        "@seed-design/css": "2.6.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
