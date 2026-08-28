@@ -2135,7 +2135,6 @@ text {
   font-weight: var(--seed-font-weight-medium);
   padding-left: var(--seed-dimension-x1_5);
   padding-right: var(--seed-dimension-x1_5);
-  white-space: nowrap;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
