@@ -24,7 +24,7 @@ interface SectionSource {
     url: string;
     slugs: string[];
     path: string;
-    absolutePath: string;
+    absolutePath?: string;
   }>;
 }
 
