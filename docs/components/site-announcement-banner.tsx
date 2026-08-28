@@ -11,7 +11,6 @@ import {
 } from "./site-announcement-banner-config";
 
 const DISMISSAL_KEY_PREFIX = "seed-site-announcement-dismissed:";
-const ACTIVE_DATE_CHECK_INTERVAL = 60_000;
 
 function getDismissalKey(id: string) {
   return `${DISMISSAL_KEY_PREFIX}${id}`;
@@ -27,17 +26,10 @@ export function SiteAnnouncementBanner({
 
   useEffect(() => {
     const dismissalKey = getDismissalKey(config.id);
-    const updateVisibility = () => {
-      setVisible(
-        isSiteAnnouncementBannerActive(config) &&
-          window.localStorage.getItem(dismissalKey) !== "true",
-      );
-    };
-
-    updateVisibility();
-    const interval = window.setInterval(updateVisibility, ACTIVE_DATE_CHECK_INTERVAL);
-
-    return () => window.clearInterval(interval);
+    setVisible(
+      isSiteAnnouncementBannerActive(config) &&
+        window.localStorage.getItem(dismissalKey) !== "true",
+    );
   }, [config]);
 
   useEffect(() => {
