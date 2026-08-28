@@ -2,7 +2,7 @@
 
 import { IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import {
   isSiteAnnouncementBannerActive,
@@ -29,36 +29,11 @@ export function SiteAnnouncementBanner({
 }: {
   config?: SiteAnnouncementBannerConfig;
 }) {
-  const bannerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     setVisible(isSiteAnnouncementBannerActive(config) && !isDismissed(config.id));
   }, [config]);
-
-  useEffect(() => {
-    if (!visible || !bannerRef.current) return;
-
-    const root = document.documentElement;
-    const previousScrollPaddingBottom = root.style.scrollPaddingBottom;
-    const updateScrollPadding = () => {
-      const bannerHeight = bannerRef.current?.getBoundingClientRect().height ?? 0;
-      root.style.scrollPaddingBottom = `${bannerHeight}px`;
-    };
-
-    updateScrollPadding();
-    const observer = new ResizeObserver(updateScrollPadding);
-    observer.observe(bannerRef.current);
-
-    return () => {
-      observer.disconnect();
-      if (previousScrollPaddingBottom) {
-        root.style.scrollPaddingBottom = previousScrollPaddingBottom;
-      } else {
-        root.style.removeProperty("scroll-padding-bottom");
-      }
-    };
-  }, [visible]);
 
   if (!visible) return null;
 
@@ -77,10 +52,7 @@ export function SiteAnnouncementBanner({
       role="region"
       aria-label="사이트 새 소식"
     >
-      <div
-        ref={bannerRef}
-        className="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20] pb-[env(safe-area-inset-bottom)]"
-      >
+      <div className="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20] pb-[env(safe-area-inset-bottom)]">
         <Link
           href={config.href}
           onClick={handleDismiss}
