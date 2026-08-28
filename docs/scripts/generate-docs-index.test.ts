@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { docsIndexSchema, type DocsItem } from "../../packages/cli/src/schema";
 import { filePathToSlugs } from "./content-pages";
-import { compareDocsItems, getSnippetLabel } from "./generate-docs-index";
+import { compareDocsItems } from "./generate-docs-index";
 
 function docsItem(id: string, docUrl: string): DocsItem {
   return { id, title: id, docUrl };
@@ -72,25 +72,6 @@ describe("filePathToSlugs", () => {
   it("maps a nested index onto its directory", () => {
     expect(filePathToSlugs("components/index.mdx")).toEqual(["components"]);
   });
-});
-
-describe("getSnippetLabel", () => {
-  const cases: [filePath: string, expected: string][] = [
-    ["ActionButton.tsx", "react"],
-    ["ActionButton.jsx", "react"],
-    ["use-action-button.ts", "ts"],
-    ["use-action-button.js", "js"],
-    ["action-button.css", "css"],
-    // .css보다 먼저 걸러야 ".module.css"가 css로 붙는다.
-    ["action-button.module.css", "css"],
-    ["action-button.mjs", "mjs"],
-  ];
-
-  for (const [filePath, expected] of cases) {
-    it(`labels ${filePath} as ${expected}`, () => {
-      expect(getSnippetLabel(filePath)).toBe(expected);
-    });
-  }
 });
 
 // 실제 생성물을 지나는 유일한 테스트라, 개별 문서가 아니라 문서 페이지가 늘거나 줄어도

@@ -16,4 +16,6 @@
 
 **동작 변경**: `components/{name}`은 디자인 스펙 문서로 연결됩니다. React 구현 문서는 `react/components/{name}`으로 조회해주세요. 이름만 쓰는 `seed-design docs action-button`은 이전과 동일하게 설정된 `framework`의 문서를 찾습니다.
 
+**동작 변경**: 출력에서 스니펫 링크 줄이 사라집니다. 이 줄은 문서 페이지 이름과 레지스트리 항목 이름이 우연히 같은지 보고 붙이던 것이라, 플랫폼 중립인 디자인 스펙 문서에 React 소스가 붙거나(`components/action-button`), 문서가 `text-field-input`과 `text-field-textarea`로 나뉜 `text-field`처럼 정작 그 스니펫을 설명하는 문서에는 안 붙었습니다. 스니펫 원본은 `seed-design add ui:action-button`으로 받아주세요. 레지스트리를 거치므로 의존성과 버전이 함께 맞춰집니다.
+
 `ai-integration` 문서가 "컴포넌트"로 잘못 분류되던 문제와, Lynx 문서가 섹션 구분 없이 한 덩어리로 나오던 문제도 함께 고쳤습니다.

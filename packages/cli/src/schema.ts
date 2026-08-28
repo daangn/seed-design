@@ -67,13 +67,6 @@ export type PublicAvailableRegistries = z.infer<typeof publicAvailableRegistries
 
 ///////////////////////////////////////////////////////////////
 
-export const docsSnippetSchema = z.object({
-  label: z.string(),
-  path: z.string(),
-  /** Absolute URL to the raw snippet. Optional so older indexes still parse. */
-  url: z.string().optional(),
-});
-
 export const docsItemSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -88,8 +81,6 @@ export const docsItemSchema = z.object({
    */
   llmsUrl: z.string().optional(),
   deprecated: z.boolean().optional(),
-  snippetKey: z.string().optional(),
-  snippets: z.array(docsSnippetSchema).optional(),
 });
 
 export const docsSectionSchema = z.object({
