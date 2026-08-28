@@ -1,5 +1,95 @@
 # @seed-design/css
 
+## 2.6.0
+
+### Minor Changes
+
+- 07076a3: Select Box와 `variant="separated"` Accordion Item의 border 색을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경합니다.
+
+  - Select Box는 enabled와 disabled 상태의 border 색이 함께 바뀝니다. selected 상태의 `$color.stroke.neutral-contrast`는 그대로입니다.
+  - Accordion은 border를 가진 `variant="separated"`만 영향을 받습니다. `variant="inline"`의 divider 색은 그대로입니다.
+  - border 색이 light 테마에서 `#00000010`(알파 6%) → `#dcdee3`, dark 테마에서 `#ffffff17`(알파 9%) → `#393d46`으로 바뀌어 또렷해집니다. 두 테마 모두 색이 있는 배경 위에 올려 쓰던 화면은 대비를 확인해 주세요.
+
+- f73ee94: Pagination과 Table Pagination을 추가합니다.
+
+  - `usePagination`은 controlled·uncontrolled 상태, 페이지 범위 계산과 이전·다음 이동을 제공합니다.
+  - `useTablePagination`은 전체 개수를 아는 경우와 모르는 경우를 모두 지원합니다.
+  - Pagination은 전체 페이지가 0개 또는 1개이면 표시하지 않습니다.
+  - `ui:pagination`, `ui:table-pagination` snippet으로 설치할 수 있습니다.
+  - 표시 문구와 접근성 이름을 앱 언어에 맞게 수정할 수 있습니다.
+
+  ```sh
+  npx @seed-design/cli@latest add ui:pagination
+  npx @seed-design/cli@latest add ui:table-pagination
+  ```
+
+- f441552: Wheel Picker 컴포넌트를 추가합니다.
+
+  - `@seed-design/react`에서 `WheelPicker.Root`와 `WheelPicker.Column`을 가져와 여러 선택 열을 직접 구성할 수 있습니다.
+  - 항목 높이는 44px, 표시 항목 수는 5개를 기본값으로 사용합니다.
+  - 여러 열을 각 항목의 내용 너비에 맞추고, Time Picker와 같은 기준으로 가운데에 모아 배치합니다.
+  - `onIndexChange`로 사용자가 지나간 각 항목을 감지해 햅틱 등을 제공할 수 있습니다.
+  - 사용자 조작 중에는 외부 `value` 변경이 스크롤 위치를 덮어쓰지 않습니다.
+
+  ```tsx
+  import { WheelPicker } from "@seed-design/react";
+
+  <WheelPicker.Root>
+    <WheelPicker.Column
+      aria-label="연도"
+      value={year}
+      onValueChange={setYear}
+      onIndexChange={(index, value) => {
+        // 항목별 햅틱 처리
+      }}
+      options={yearOptions}
+    />
+  </WheelPicker.Root>;
+  ```
+
+  `npx @seed-design/cli@latest add ui:wheel-picker`로 배열 기반 Registry API를 설치할 수 있습니다.
+
+  ```tsx
+  import { WheelPicker } from "seed-design/ui/wheel-picker";
+
+  <WheelPicker aria-label="날짜 선택" columns={columns} />;
+  ```
+
+- 8f3555b: PullToRefresh 인디케이터의 여백과 당김 거리를 조정합니다.
+
+  - 인디케이터 영역이 프로그레스 서클(24px)과 그 위아래 여백(각 32px)을 감싸는 크기로 커집니다. `--ptr-size`가 `44px`에서 `calc(var(--seed-dimension-x6) + var(--seed-dimension-x8) * 2)`(88px)로 바뀌며, 새로고침 중에 열려 있는 공간도 같은 만큼 넓어집니다.
+  - `threshold` 기본값이 `44`에서 `88`로 바뀝니다. 인디케이터 영역과 이 값이 어긋나면 프로그레스 서클이 잘리거나 치우쳐 보이므로, 둘 중 하나를 바꾸면 나머지도 함께 맞춰주세요.
+  - `displacementMultiplier` 기본값이 `0.5`에서 `0.75`로 바뀝니다. 당겨야 하는 거리가 두 배가 되는 대신 손가락 이동 거리는 88px에서 117px로만 늘어나, 기존과 비슷한 무게감을 유지합니다.
+  - 이전 동작이 필요하면 `threshold={44}`, `displacementMultiplier={0.5}`를 직접 넘기고 `--ptr-size`를 `44px`로 덮어쓰면 됩니다.
+
+- 568f04c: 눌렀을 때 요소가 줄어드는 Scale Feedback을 일부 컴포넌트에 적용합니다.
+
+  - Action Button에만 있던 축소 피드백이 Callout, Page Banner, Chip, Tab, Checkmark, Radiomark, Switchmark, Toggle Button, Reaction Button, Quantity Picker, Attachment Input 등 눌리는 요소 전반으로 확대됩니다.
+  - Callout Close Button과 Page Banner Close Button에 축소 피드백과 함께 색상 피드백을 추가합니다.
+  - 축소 배율을 요소의 렌더된 크기로부터 계산하여 작은 아이콘 버튼과 화면 양끝을 채우는 버튼이 시각적으로 동일한 정도로 눌린 느낌이 들도록 합니다.
+  - CSS `transform` 및 `scale` 속성이나 motion 등 외부 라이브러리로 비슷한 스타일을 적용하고 있던 경우 제거를 권장합니다.
+
+  직접 만든 React 컴포넌트에 동일한 효과를 적용할 수 있도록 `ScaleFeedback` 유틸리티 컴포넌트를 제공합니다. 자세한 내용은 [Scale Feedback](https://seed-design.io/react/components/concepts/scale-feedback) 문서를 참고합니다.
+
+- aef119e: Bottom Sheet와 Menu Sheet의 content 최대 너비를 480px로 맞춥니다.
+
+  - 넓은 뷰포트에서 시트가 화면 폭 전체로 늘어나지 않고 480px에서 멈추며 가운데 정렬됩니다. 480px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Bottom Sheet의 스펙값을 640px에서 480px로 낮춰 Sheet 계열의 최대 너비를 통일합니다.
+
+- 5088420: Snackbar의 최대 너비를 464px로 맞춥니다.
+
+  - 넓은 뷰포트에서 스낵바가 560px까지 늘어나지 않고 464px에서 멈춥니다. 464px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Sheet 계열의 최대 너비 480px에서 좌우 8px씩을 뺀 값이라, 스낵바가 시트 위에 떴을 때 시트 가장자리와의 여백이 생깁니다.
+
+- b1dffea: Menu와 Select의 스크롤 영역 최대 높이를 CSS 변수로 조절할 수 있습니다.
+
+  - `--seed-menu-max-height`, `--seed-select-max-height`를 통해 기본값을 덮어쓸 수 있습니다.
+
+- f12cf1d: Help Bubble 및 Help Bubble Tooltip에 기본 최대 너비 `280px`을 추가합니다.
+
+  - 좌우 padding을 포함한 말풍선 전체 폭이 `280px`가 되도록 `content`에 `box-sizing: border-box`를 추가합니다.
+  - 최대 너비 제한을 제거하려는 경우 `contentProps`를 통해 `maxWidth="none"`을 지정할 수 있습니다.
+
 ## 2.5.0
 
 ### Minor Changes

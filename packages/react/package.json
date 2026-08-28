@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -49,7 +49,7 @@
     "@seed-design/react-checkbox": "^2.0.1",
     "@seed-design/react-collapsible": "^1.0.1",
     "@seed-design/react-dialog": "^2.0.3",
-    "@seed-design/react-date-picker": "^1.1.0",
+    "@seed-design/react-date-picker": "^1.2.0",
     "@seed-design/react-drawer": "^2.0.6",
     "@seed-design/react-field": "^2.0.1",
     "@seed-design/react-field-button": "^2.0.1",
@@ -63,7 +63,7 @@
     "@seed-design/react-portal": "^2.0.1",
     "@seed-design/react-primitive": "^2.0.1",
     "@seed-design/react-progress": "^2.0.1",
-    "@seed-design/react-pull-to-refresh": "^2.0.2",
+    "@seed-design/react-pull-to-refresh": "^2.1.0",
     "@seed-design/react-quantity-picker": "^1.0.0",
     "@seed-design/react-radio-group": "^2.0.1",
     "@seed-design/react-segmented-control": "^2.0.2",
@@ -77,7 +77,7 @@
     "@seed-design/react-time-picker": "^1.0.0",
     "@seed-design/react-toggle": "^2.0.1",
     "@seed-design/react-tooltip": "^1.0.1",
-    "@seed-design/react-wheel-picker": "^1.0.0",
+    "@seed-design/react-wheel-picker": "^1.1.0",
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.17.3"
   },

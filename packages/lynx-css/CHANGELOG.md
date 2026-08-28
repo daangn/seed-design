@@ -1,5 +1,70 @@
 # @seed-design/lynx-css
 
+## 0.9.0
+
+### Minor Changes
+
+- ff225ee: Lynx에 `Callout` 컴포넌트를 추가합니다.
+
+  - `neutral`, `informative`, `positive`, `warning`, `critical`, `magic` tone을 지원합니다.
+  - actionable 및 controlled/uncontrolled dismiss 동작을 지원합니다.
+  - `npx @seed-design/cli@latest add ui:callout`로 Registry 컴포넌트를 설치할 수 있습니다.
+
+- bd5cd3b: Lynx용 Accordion 컴포넌트를 추가합니다.
+
+  - controlled 및 uncontrolled 상태와 단일·다중 펼치기를 지원합니다.
+  - 콘텐츠 높이를 측정해 펼치고 접을 때 height transition을 적용합니다.
+  - `inline`, `separated` variant와 `medium`, `large` size를 제공합니다.
+  - Trigger에 펼침 상태와 비활성 상태를 전달하는 Lynx 접근성 속성을 제공합니다.
+
+- 6f6c626: Lynx용 Tabs 컴포넌트를 추가합니다.
+
+  - 탭 선택과 콘텐츠 좌우 스와이프를 지원합니다.
+  - 제어형·비제어형 상태, disabled 탭, 균등·콘텐츠 기반 너비, 이동하는 Indicator를 제공합니다.
+  - `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content`, `Tabs.Carousel` API로 구성할 수 있습니다.
+
+- ca0931b: Lynx Checkbox의 ghost 상태 전환을 안정화합니다.
+
+  - 선택 해제 시 배경이 순간적으로 어두워지는 현상을 수정합니다.
+  - 선택 상태가 변경될 때 아이콘 색상이 즉시 반영되도록 개선합니다.
+  - `@seed-design/lynx-react`와 `@seed-design/lynx-css`를 함께 업데이트해야 합니다.
+
+- 5088420: Snackbar의 최대 너비를 464px로 맞춥니다.
+
+  - 넓은 뷰포트에서 스낵바가 560px까지 늘어나지 않고 464px에서 멈춥니다. 464px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Sheet 계열의 최대 너비 480px에서 좌우 8px씩을 뺀 값이라, 스낵바가 시트 위에 떴을 때 시트 가장자리와의 여백이 생깁니다.
+
+- aef119e: Bottom Sheet의 content 최대 너비를 480px로 맞춥니다.
+
+  - 넓은 뷰포트에서 시트가 화면 폭 전체로 늘어나지 않고 480px에서 멈추며 가운데 정렬됩니다. 480px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - `BottomSheetContent`가 시트를 왼쪽에 고정하던 인라인 `left` 값을 풀어, 폭이 제한됐을 때 좌우 여백이 같게 배치됩니다. `style`로 `left`를 직접 지정하면 그 값이 우선합니다.
+
+### Patch Changes
+
+- 07076a3: Select Box와 `variant="separated"` Accordion Item의 border 색을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경합니다.
+
+  - Select Box는 enabled와 disabled 상태의 border 색이 함께 바뀝니다. selected 상태의 `$color.stroke.neutral-contrast`는 그대로입니다.
+  - Accordion은 border를 가진 `variant="separated"`만 영향을 받습니다. `variant="inline"`의 divider 색은 그대로입니다.
+  - border 색이 light 테마에서 `#00000010`(알파 6%) → `#dcdee3`, dark 테마에서 `#ffffff17`(알파 9%) → `#393d46`으로 바뀌어 또렷해집니다. 두 테마 모두 색이 있는 배경 위에 올려 쓰던 화면은 대비를 확인해 주세요.
+
+- f73ee94: Pagination과 Table Pagination을 추가합니다.
+
+  - `usePagination`은 controlled·uncontrolled 상태, 페이지 범위 계산과 이전·다음 이동을 제공합니다.
+  - `useTablePagination`은 전체 개수를 아는 경우와 모르는 경우를 모두 지원합니다.
+  - Pagination은 전체 페이지가 0개 또는 1개이면 표시하지 않습니다.
+  - `ui:pagination`, `ui:table-pagination` snippet으로 설치할 수 있습니다.
+  - 표시 문구와 접근성 이름을 앱 언어에 맞게 수정할 수 있습니다.
+
+  ```sh
+  npx @seed-design/cli@latest add ui:pagination
+  npx @seed-design/cli@latest add ui:table-pagination
+  ```
+
+- f12cf1d: Help Bubble 및 Help Bubble Tooltip에 기본 최대 너비 `280px`을 추가합니다.
+
+  - 좌우 padding을 포함한 말풍선 전체 폭이 `280px`가 되도록 `content`에 `box-sizing: border-box`를 추가합니다.
+  - 최대 너비 제한을 제거하려는 경우 `contentProps`를 통해 `maxWidth="none"`을 지정할 수 있습니다.
+
 ## 0.8.1
 
 ### Patch Changes
