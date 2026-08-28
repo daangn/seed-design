@@ -14,10 +14,9 @@ import type { LLMHandler, LLMPlaceholder } from "./types";
 /**
  * Every JSX tag llms.txt rewrites at compile time.
  *
- * A tag handled here must be dropped from `app/_llms/rules/` in the same change: the two
- * pipelines run in sequence, and the old rule matching a tag this one already rewrote
- * would find nothing — which reads as "the rule is dead" rather than "it moved".
- * The reverse order is safe, so migrate one tag at a time.
+ * A tag added here has to be added to `app/_llms/rule-elements.ts` too, or the structure
+ * filter folds it away before the handler ever sees the node — the output loses the
+ * content with no error anywhere. `rule-elements.test.ts` holds the two lists together.
  */
 export const handlers: LLMHandler[] = [
   availableSinceHandler,
@@ -31,8 +30,5 @@ export const handlers: LLMHandler[] = [
   typeTableHandler,
 ];
 
-/**
- * Tags deferred to read time. Same migration rule as `handlers` — a tag listed here must
- * leave `app/_llms/rules/` in the same change.
- */
+/** Tags deferred to read time. Same preservation rule as `handlers`. */
 export const placeholders: LLMPlaceholder[] = [changelogPagePlaceholder, progressBoardPlaceholder];

@@ -39,7 +39,7 @@ const isRuleElement = (node: Nodes) =>
  * 나머지는 넘겨받은 필터에 맡깁니다.
  *
  * 검색은 UI 컴포넌트 태그를 지우는 게 맞지만 llms 출력은 그 태그를 보고 변환한다. 접히고 나면
- * 자식 없는 컴포넌트는 흔적조차 남지 않아, `normalizeLLMBody`가 변환할 노드 자체가 사라진다.
+ * 자식 없는 컴포넌트는 흔적조차 남지 않아, 핸들러가 변환할 노드 자체가 사라진다.
  */
 export const preserveRuleElements =
   (filterElement: FilterElement): FilterElement =>
