@@ -48,10 +48,3 @@ export function LynxCompatibilityBadges({ compatibility }: LynxCompatibilityBadg
     </section>
   );
 }
-
-// <span
-//   key={name}
-//   className="inline-flex items-center rounded-full bg-bg-transparent-selected px-x2 py-x1 text-xs font-medium text-fg-neutral"
-// >
-//   XElement · {name} ≥ {version}
-// </span>
