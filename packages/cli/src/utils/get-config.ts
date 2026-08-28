@@ -60,7 +60,7 @@ export async function getRawConfig(cwd: string): Promise<Config | null> {
   } catch (error) {
     throw new CliError({
       message: "seed-design.json 형식이 올바르지 않아요.",
-      hint: "https://seed-design.com/react/getting-started/cli/configuration 문서를 참고해 주세요.",
+      hint: "https://seed-design.io/react/getting-started/cli/configuration 문서를 참고해 주세요.",
       cause: error,
     });
   }
