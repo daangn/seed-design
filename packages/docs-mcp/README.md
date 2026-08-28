@@ -80,7 +80,7 @@ import { server } from "@seed-design/docs-mcp/server";
 import { initializeTools } from "@seed-design/docs-mcp/tools";
 
 // Initialize the tools
-await initializeTools(server);
+initializeTools(server);
 
 // Use with your preferred transport
 // Example: stdio, HTTP, SSE, etc.
@@ -104,21 +104,11 @@ await initializeTools(server);
   - Without path: Returns index with all available resources
   - With path: Returns specific resource (e.g., `/color.json`, `/components/action-button.json`)
 
-### Icons
-
-- `list_icons` - List all available icons with optional type filter
-- `search_icons` - Search icons by keyword
-- `get_icon_details` - Get detailed information about a specific icon
-
 ## Documentation Sections
 
-| Section          | Description                                                          |
-| ---------------- | -------------------------------------------------------------------- |
-| `react`          | React component library, API references, usage examples              |
-| `docs`           | Component design guidelines, Foundation (color, typography, spacing) |
-| `breeze`         | Ready-to-use utility UI components                                   |
-| `ai-integration` | MCP, llms.txt integration guides                                     |
-| `lynx`           | Lynx framework                                                       |
+Sections are read from the live site at call time, so this README does not list them — a
+list here would be one more copy to drift. Call `discover_seed_docs` for the current set,
+along with each section's document count and whether it publishes a `get_full_docs` text.
 
 ## Example Usage
 
