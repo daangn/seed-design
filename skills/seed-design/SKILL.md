@@ -114,6 +114,12 @@ npx @seed-design/cli@latest docs foundations/color               # 파운데이�
 npx @seed-design/cli@latest docs react/overview                  # 카테고리 개요
 ```
 
+`docs`는 아무것도 묻지 않고 종료 코드로 결과를 알립니다. `0`은 문서 하나를 찾았거나 지정한
+카테고리·섹션의 목록을 출력했다는 뜻이고, `1`은 일치하는 문서가 없다는 뜻이며, `2`는 여러
+문서가 일치해 하나로 좁히지 못했다는 뜻입니다. `2`가 나오면 출력된 후보 경로 중 하나를 그대로
+다시 넘깁니다. `--raw`는 stdout에 문서 내용만 내보내므로, 좁혀지지 않으면 stdout이 비고 후보는
+stderr로 나갑니다.
+
 ## 4. 판단이 필요한 절차
 
 | 요청 | 읽을 참조 |

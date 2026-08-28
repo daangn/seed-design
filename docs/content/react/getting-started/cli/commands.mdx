@@ -244,26 +244,37 @@ npx @seed-design/cli@latest compat --all
 npx @seed-design/cli@latest docs [query]
 ```
 
-`query`를 생략하면, 카테고리 → 섹션 → 항목을 인터랙티브하게 선택할 수 있어요.
+`query`를 생략하면 카테고리 목록을 보여줘요. 아무것도 묻지 않으므로 스크립트나 에이전트에서
+그대로 쓸 수 있어요.
 
 ```package-install
 npx @seed-design/cli@latest docs
 ```
 
 ```sh copy
-◆  카테고리를 선택해주세요
-│  React
+│  카테고리
 │
-◆  섹션을 선택해주세요
-│  컴포넌트
-│
-◆  항목을 선택해주세요
-│  Action Button
-│
+│  get-started       1개 항목
+│  foundations      20개 항목
+│  components       61개 항목
+│  patterns          1개 항목
+│  react           110개 항목
+│  lynx             33개 항목
+```
+
+경로를 좁혀 가면 그 아래에 무엇이 있는지 이어서 볼 수 있어요.
+
+```sh copy
+npx @seed-design/cli@latest docs react              # react의 섹션 목록
+npx @seed-design/cli@latest docs react/components   # 그 섹션의 항목 목록
+```
+
+문서 하나로 좁혀지면 링크를 출력해요.
+
+```sh copy
 │  action-button
 │  - docs: https://seed-design.io/react/components/action-button
 │  - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
-│
 ```
 
 <Callout type="info">
@@ -320,27 +331,35 @@ npx @seed-design/cli@latest docs react/components/action-button
 npx @seed-design/cli@latest docs react/overview
 ```
 
-카테고리만 지정하면 해당 카테고리의 섹션/항목을 선택할 수 있어요.
+### 후보가 여러 개일 때
 
-```package-install
-npx @seed-design/cli@latest docs react
-```
+쿼리가 문서 하나로 좁혀지지 않으면 후보 경로를 출력하고 종료 코드 `2`로 끝나요. 출력된
+경로 중 하나를 그대로 다시 넘기면 돼요.
 
-카테고리/섹션까지 지정하면 해당 섹션의 항목을 선택할 수 있어요.
+```sh copy
+$ npx @seed-design/cli@latest docs action
+│  action에 해당하는 문서가 여러 개예요
+│
+│  components/action-button
+│  components/action-chip
+│  react/components/action-button
+│  react/components/action-chip
 
-```package-install
-npx @seed-design/cli@latest docs react/components
+$ echo $?
+2
 ```
 
 ### 오타 제안
 
-경로에 오타가 있으면 유사한 유효 경로를 제안해줘요.
+경로에 오타가 있으면 유사한 유효 경로를 제안하고 종료 코드 `1`로 끝나요.
 
 ```sh copy
 react/component/action-buton: 문서를 찾을 수 없어요.
 
 💡 이것을 의미했나요?
-   - react/components/action-button
+   - react/components
+
+해결 힌트: `seed-design docs react`로 목록을 확인해보세요.
 ```
 
 ### Raw 모드
@@ -357,11 +376,23 @@ npx @seed-design/cli@latest docs react/components/action-button --raw
 npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
 ```
 
+`--raw`는 항상 문서 내용만 stdout으로 내보내요. 문서 하나로 좁혀지지 않으면 후보 경로는
+stderr로 나가고 stdout은 비어 있어요.
+
+### 종료 코드
+
+| 코드 | 의미 |
+|------|------|
+| `0` | 문서 하나를 찾았거나, 지정한 카테고리·섹션의 목록을 출력했어요 |
+| `1` | 일치하는 문서가 없거나, 그 밖의 오류가 났어요 |
+| `2` | 여러 문서가 일치해서 하나로 좁히지 못했어요 |
+
 ### 옵션
 
 | 옵션 | 설명 |
 |------|------|
 | `--raw` | UI 없이 llms.txt 내용을 순수 마크다운으로 출력 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-f, --framework <framework>` | 프레임워크 (`react` 또는 `lynx`) |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
