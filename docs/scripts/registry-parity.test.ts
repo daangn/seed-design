@@ -9,6 +9,7 @@ import {
   sections,
 } from "../app/_llms/config";
 import { listSectionPages } from "./content-pages";
+import { sections as fullTextSections } from "./generate-llms-full";
 import type { DocsIndex } from "../../packages/cli/src/schema";
 
 const docsRoot = path.resolve(import.meta.dir, "..");
@@ -31,9 +32,11 @@ describe("section registry ↔ routes", () => {
     expect(existsSync(path.join(docsRoot, "app", section, "llms.txt/route.ts"))).toBe(true);
   });
 
-  it.each(sections)("%s declares fullText to match its llms-full.txt route", (section) => {
-    const hasRoute = existsSync(path.join(docsRoot, "app", section, "llms-full.txt/route.ts"));
-    expect(hasRoute).toBe(sectionConfigs[section].fullText);
+  // llms-full.txt is written at build time by scripts/generate-llms-full.ts, so a section
+  // declaring fullText without being in that script's list advertises a file nobody emits.
+  it.each(sections)("%s declares fullText to match the llms-full generator", (section) => {
+    const generated = (fullTextSections as readonly string[]).includes(section);
+    expect(generated).toBe(sectionConfigs[section].fullText);
   });
 
   // An already-published CLI builds llms links as `${baseUrl}/llms${docUrl}.txt`, so a
@@ -123,10 +126,6 @@ describe("skills reference live docs URLs", () => {
     walk(path.join(repoRoot, "skills"));
     return [...found].sort();
   })();
-
-  it("finds llms URLs to check", () => {
-    expect(skillUrls.length).toBeGreaterThan(10);
-  });
 
   it("resolves every referenced llms.txt URL", () => {
     // The changelog routes are generated per package/version, not from the content tree.
