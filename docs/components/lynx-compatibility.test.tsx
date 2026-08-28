@@ -8,10 +8,7 @@ describe("LynxCompatibilityBadges", () => {
       <LynxCompatibilityBadges
         compatibility={{
           engine: "2.5",
-          "x-elements": [
-            { name: "viewpager", version: "2.5.1" },
-            { name: "viewpager-item", version: "2.5.1" },
-          ],
+          "x-elements": ["viewpager", "viewpager-item"],
         }}
       />,
     );

@@ -2,14 +2,11 @@ import z from "zod";
 
 const versionSchema = z.string().trim().min(1, "최소 버전을 입력해 주세요.");
 
-const xElementSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "XElement 이름을 입력해 주세요.")
-    .regex(/^[a-z][a-z0-9-]*$/, "XElement 이름은 kebab-case로 입력해 주세요."),
-  version: versionSchema,
-});
+const xElementSchema = z
+  .string()
+  .trim()
+  .min(1, "XElement 이름을 입력해 주세요.")
+  .regex(/^[a-z][a-z0-9-]*$/, "XElement 이름은 kebab-case로 입력해 주세요.");
 
 export const lynxCompatibilitySchema = z
   .object({
@@ -20,14 +17,14 @@ export const lynxCompatibilitySchema = z
     const names = new Set<string>();
 
     for (const [index, xElement] of (compatibility["x-elements"] ?? []).entries()) {
-      if (names.has(xElement.name)) {
+      if (names.has(xElement)) {
         context.addIssue({
           code: "custom",
-          message: `XElement "${xElement.name}"이 중복되었습니다.`,
-          path: ["x-elements", index, "name"],
+          message: `XElement "${xElement}"이 중복되었습니다.`,
+          path: ["x-elements", index],
         });
       }
-      names.add(xElement.name);
+      names.add(xElement);
     }
   });
 
@@ -70,9 +67,7 @@ export function getLynxCompatibilityMarkdown(compatibility: LynxCompatibility): 
   const xElements = effectiveCompatibility["x-elements"];
 
   if (xElements) {
-    lines.push(
-      `XElement 최소 버전: ${xElements.map(({ name, version }) => `${name}@${version}`).join(", ")}`,
-    );
+    lines.push(`사용 XElement: ${xElements.map((name) => `<${name}>`).join(", ")}`);
   }
 
   return lines.join("\n");

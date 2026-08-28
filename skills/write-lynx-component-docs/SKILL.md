@@ -31,7 +31,7 @@ Lynx 컴포넌트 문서와 실행 가능한 예제를 저장소 규칙에 맞�
 ## 작업 흐름
 
 1. 같은 컴포넌트의 React 문서·예제와 Lynx 공개 API를 함께 확인한다.
-2. 컴포넌트 소스에서 사용하는 Lynx API·구문·CSS·엘레먼트를 조사하고, 공식 Lynx API 문서와 호환성 데이터로 Engine·XElement 최소 버전을 확정한다.
+2. 컴포넌트 소스에서 사용하는 Lynx API·구문·CSS·엘레먼트를 조사하고, 공식 Lynx API 문서와 호환성 데이터로 Engine 최소 버전과 사용 XElement를 확정한다.
 3. [작성 규칙](references/authoring.md)에 따라 호환성 frontmatter, MDX, 예제 엔트리를 작성한다.
 4. WebLynx는 실제 문서 개발 서버와 `docs/out`의 `LynxComponentExample`에서만 확인한다.
 5. 웹과 네이티브 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 원인을 분류한다.

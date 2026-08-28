@@ -11,13 +11,10 @@ describe("lynxCompatibilitySchema", () => {
     expect(lynxCompatibilitySchema.parse({ engine: "2.5" })).toEqual({ engine: "2.5" });
   });
 
-  it("여러 XElement의 이름과 최소 버전을 허용한다", () => {
+  it("여러 XElement 이름을 허용한다", () => {
     const compatibility = {
       engine: "2.5",
-      "x-elements": [
-        { name: "viewpager", version: "2.5.1" },
-        { name: "viewpager-item", version: "2.5.1" },
-      ],
+      "x-elements": ["viewpager", "viewpager-item"],
     };
 
     expect(lynxCompatibilitySchema.parse(compatibility)).toEqual(compatibility);
@@ -26,13 +23,13 @@ describe("lynxCompatibilitySchema", () => {
   it("Engine 버전이 없거나 XElement 값이 비어 있으면 거부한다", () => {
     expect(
       lynxCompatibilitySchema.safeParse({
-        "x-elements": [{ name: "input", version: "3.4" }],
+        "x-elements": ["input"],
       }).success,
     ).toBe(false);
     expect(
       lynxCompatibilitySchema.safeParse({
         engine: "2.5",
-        "x-elements": [{ name: "", version: "" }],
+        "x-elements": [""],
       }).success,
     ).toBe(false);
   });
@@ -41,10 +38,16 @@ describe("lynxCompatibilitySchema", () => {
     expect(
       lynxCompatibilitySchema.safeParse({
         engine: "2.5",
-        "x-elements": [
-          { name: "input", version: "3.4" },
-          { name: "input", version: "3.5" },
-        ],
+        "x-elements": ["input", "input"],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("버전 객체 형식의 XElement를 거부한다", () => {
+    expect(
+      lynxCompatibilitySchema.safeParse({
+        engine: "2.5",
+        "x-elements": [{ name: "input", version: "3.6" }],
       }).success,
     ).toBe(false);
   });
@@ -63,15 +66,12 @@ describe("getEffectiveLynxCompatibility", () => {
 });
 
 describe("getLynxCompatibilityMarkdown", () => {
-  it("Engine과 XElement 최소 버전을 줄 단위로 출력한다", () => {
+  it("Engine 최소 버전과 사용 XElement를 줄 단위로 출력한다", () => {
     expect(
       getLynxCompatibilityMarkdown({
         engine: "2.5",
-        "x-elements": [
-          { name: "viewpager", version: "2.5.1" },
-          { name: "viewpager-item", version: "2.5.1" },
-        ],
+        "x-elements": ["viewpager", "viewpager-item"],
       }),
-    ).toBe("Lynx Engine 최소 버전: 3.6\nXElement 최소 버전: viewpager@2.5.1, viewpager-item@2.5.1");
+    ).toBe("Lynx Engine 최소 버전: 3.6\n사용 XElement: <viewpager>, <viewpager-item>");
   });
 });

@@ -40,7 +40,7 @@ export function LynxCompatibilityBadges({ compatibility }: LynxCompatibilityBadg
       </Badge>
 
       {!!xElements &&
-        xElements.map(({ name }) => (
+        xElements.map((name) => (
           <Badge key={name}>
             <code>{`<${name}>`}</code>
           </Badge>

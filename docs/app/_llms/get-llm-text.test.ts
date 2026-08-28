@@ -3,13 +3,13 @@ import { getLynxCompatibilityBlock } from "./get-llm-text";
 
 const compatibility = {
   engine: "2.5",
-  "x-elements": [{ name: "viewpager", version: "2.5.1" }],
+  "x-elements": ["viewpager"],
 };
 
 describe("getLynxCompatibilityBlock", () => {
   it("Lynx 문서에 호환 정보 블록을 출력한다", () => {
     expect(getLynxCompatibilityBlock(compatibility, "lynx")).toBe(
-      "Lynx Engine 최소 버전: 3.6\nXElement 최소 버전: viewpager@2.5.1\n\n",
+      "Lynx Engine 최소 버전: 3.6\n사용 XElement: <viewpager>\n\n",
     );
   });
 
