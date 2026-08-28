@@ -6,9 +6,7 @@ export const revalidate = false;
 
 export async function GET() {
   const source = await getLynxSource();
-  const pages = source
-    .getPages()
-    .filter((page) => shouldIncludeInFullText("lynx", page.path));
+  const pages = source.getPages().filter((page) => shouldIncludeInFullText("lynx", page.path));
 
   const pageList = pages
     .map((page) => {
