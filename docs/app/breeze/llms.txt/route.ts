@@ -6,9 +6,7 @@ export const revalidate = false;
 
 export async function GET() {
   const source = await getBreezeSource();
-  const pages = source
-    .getPages()
-    .filter((page) => shouldIncludeInFullText("breeze", page.path));
+  const pages = source.getPages().filter((page) => shouldIncludeInFullText("breeze", page.path));
 
   const pageList = pages
     .map((page) => {
