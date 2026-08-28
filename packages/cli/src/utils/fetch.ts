@@ -145,6 +145,11 @@ export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
  * Try fetching llms.txt content with fallback URL patterns.
  * 1. {baseUrl}/llms/{query}.txt
  * 2. {baseUrl}/llms/{query}/llms.txt (for package changelog index)
+ *
+ * Composing the URL is the one thing the docs command still does by hand, now that every
+ * other lookup goes through the published index. It stays because changelog deep paths
+ * such as `react/updates/changelog/react/1.2.5` are generated per package and version
+ * rather than from the content tree, so the index has no item to resolve them against.
  */
 export async function tryFetchLlmsTxt({
   baseUrl,
