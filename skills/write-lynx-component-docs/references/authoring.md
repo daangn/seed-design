@@ -72,7 +72,7 @@ React에 대응 문서가 없으면 가까운 Lynx 컴포넌트의 문서 구조
 
 ## Lynx 호환성 frontmatter
 
-Lynx 컴포넌트 문서를 새로 쓰거나 기존 문서의 컴포넌트 사용법을 바꾸면 `lynx` frontmatter도 확인한다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다. 공개 저장소에 남아도 재현할 수 있도록 다음 공식 자료만 버전 근거로 사용한다.
+Lynx 컴포넌트 문서를 새로 쓰거나 기존 문서의 컴포넌트 사용법을 바꾸면 `compatibility.lynx` frontmatter도 확인한다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다. 공개 저장소에 남아도 재현할 수 있도록 다음 공식 자료만 버전 근거로 사용한다.
 
 - [Lynx API 인덱스](https://lynxjs.org/api/index.html)
 - [Lynx Compatibility Data](https://github.com/lynx-family/lynx-website/tree/main/packages/lynx-compat-data)
@@ -92,14 +92,15 @@ API 페이지의 Compatibility 표는 Lynx Compatibility Data를 렌더링한다
 2. 기본 경로뿐 아니라 prop에 따라 실행되는 조건부 경로와 전이 의존성도 포함한다. 예제 파일만 보고 판단하지 않는다.
 3. 목록의 각 항목을 공식 API 상세 페이지와 대응하는 호환성 JSON에서 찾는다. 대상 컴포넌트가 실제로 쓰는 attribute·method·event의 항목까지 확인한다.
 4. Android와 iOS의 `version_added`를 비교한다. 두 플랫폼에서 필요한 버전 중 높은 값을 그 기능의 최소 버전으로 삼는다.
-5. 모든 사용 기능의 최소 버전 중 가장 높은 값을 `lynx.engine`에 적는다. SEED의 최소 지원 버전보다 낮아도 조사한 값을 그대로 적는다. 문서 렌더러가 표시값을 보정한다.
+5. 모든 사용 기능의 최소 버전 중 가장 높은 값을 `compatibility.lynx.engine`에 적는다. SEED의 최소 지원 버전보다 낮아도 조사한 값을 그대로 적는다. 문서 렌더러가 표시값을 보정한다.
 6. 공식 엘레먼트 페이지 제목에 `XElement` 배지가 있으면 태그 이름을 `x-elements`에 추가한다. 해당 엘레먼트와 기능의 `version_added`는 Engine 최소 버전을 계산할 때만 사용한다.
 
 ```yaml
-lynx:
-  engine: "3.9"
-  x-elements:
-    - viewpager
+compatibility:
+  lynx:
+    engine: "3.9"
+    x-elements:
+      - viewpager
 ```
 
 `version_added: true`는 버전 번호 없이 지원됨을 뜻하므로 최소 버전을 올리지 않는다. `false`는 미지원이다. Android나 iOS 중 하나가 `false`이면 지원되는 것으로 문서화하지 말고 플랫폼 제한 또는 대체 구현을 확인한다. 값이 없거나 공식 자료끼리 충돌하면 버전을 추정하지 않는다. 핵심 경로의 최소 버전을 확정하지 못한 경우 `lynx`를 작성하지 않고 확인하지 못한 항목과 출처를 작업 결과에 남긴다.

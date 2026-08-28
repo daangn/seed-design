@@ -39,7 +39,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       }
       layout={page.data.frontmatter.layout}
       full={page.data.frontmatter.full}
-      meta={<LynxCompatibilityBadges compatibility={page.data.frontmatter.lynx} />}
+      meta={<LynxCompatibilityBadges compatibility={page.data.frontmatter.compatibility?.lynx} />}
       toc={toc}
       lastUpdate={lastModified}
       showPageActions={page.slugs.length > 0}

@@ -47,13 +47,14 @@ Lynx 컴포넌트 문서를 작성할 때는 **웹 버전과의 차이점을 반
 - **API 차이**: props 차이, 컴파운드 컴포넌트 구조 차이, 이벤트 핸들링(`bindtap` 등)
 - **누락 기능**: 웹에는 있지만 Lynx에서 미지원인 기능
 
-Lynx Engine 최소 버전과 사용 XElement가 확정된 컴포넌트는 frontmatter에 `lynx`를 작성한다. 화면과 llms.txt는 이 값을 자동으로 렌더링한다.
+Lynx Engine 최소 버전과 사용 XElement가 확정된 컴포넌트는 frontmatter의 `compatibility.lynx`에 작성한다. 화면과 llms.txt는 이 값을 자동으로 렌더링한다.
 
 ```yaml
-lynx:
-  engine: "2.5"
-  x-elements:
-    - viewpager
+compatibility:
+  lynx:
+    engine: "2.5"
+    x-elements:
+      - viewpager
 ```
 
 - `engine`에는 해당 컴포넌트를 사용할 수 있는 실제 최소 버전을 적는다.
@@ -61,7 +62,7 @@ lynx:
 - `x-elements`에는 컴포넌트가 사용하는 XElement 태그 이름만 적는다. XElement별 버전은 관리하지 않는다.
 - XElement와 관련이 없으면 `x-elements`를 생략한다.
 - 직접 사용과 전이·조건부 사용을 구분하지 않고, 컴포넌트와 관련된 XElement를 모두 같은 형식으로 나열한다.
-- 확정된 버전이 없으면 `lynx`를 생략한다. `unknown`이나 추정값은 입력하지 않는다.
+- 확정된 버전이 없으면 `compatibility.lynx`를 생략한다. `unknown`이나 추정값은 입력하지 않는다.
 - `<AvailableSince />`는 SEED 패키지 출시 버전을 뜻하므로 그대로 유지한다.
 
 ## 콘텐츠 작성 룰 (`content/`)

@@ -206,7 +206,11 @@ const lynxDocs = localMd({
   frontmatterSchema: baseDocsSchema.extend({
     ...staticCoverImageSchema,
     ...headingSchema,
-    lynx: lynxCompatibilitySchema.optional(),
+    compatibility: z
+      .object({
+        lynx: lynxCompatibilitySchema,
+      })
+      .optional(),
   }),
   metaSchema: docsMetaSchema,
   satteriOptions: createSatteriOptions,

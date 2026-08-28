@@ -35,7 +35,10 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const processed = normalizeLLMBody(exports.processed);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
-  const lynxCompatibility = getLynxCompatibilityBlock(page.data.frontmatter.lynx, section);
+  const lynxCompatibility = getLynxCompatibilityBlock(
+    page.data.frontmatter.compatibility?.lynx,
+    section,
+  );
 
   return `# ${page.data.title}
 URL: ${page.url}
