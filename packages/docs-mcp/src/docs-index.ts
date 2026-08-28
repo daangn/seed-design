@@ -58,17 +58,42 @@ export function itemsOf(category: DocsIndexCategory, categoryFilter?: string) {
 }
 
 /**
+ * The path `get_doc` accepts for an item: its `docUrl` with the section prefix removed.
+ * A section's own landing page sits at the prefix itself, so it is addressed by id.
+ */
+export function itemPath(category: DocsIndexCategory, item: DocsIndexItem): string {
+  if (item.docUrl === `/${category.id}`) return item.id;
+
+  // Not `replace`, which strips the first occurrence wherever it sits: an item filed
+  // outside its own section would come back mangled rather than merely unaddressable.
+  const prefix = `/${category.id}/`;
+  return item.docUrl.startsWith(prefix) ? item.docUrl.slice(prefix.length) : item.docUrl;
+}
+
+/**
  * Resolve a `get_doc` path such as `components/button` or `color` within a section.
  *
  * Matches the full docUrl first so a path that names its category stays unambiguous,
  * then falls back to a bare item id.
+ *
+ * @throws when the bare id names more than one document. `react` carries `alert-dialog`,
+ * `bottom-sheet` and `menu-sheet` under both `components` and `stackflow`; answering with
+ * whichever came first left the other unreachable through this argument.
  */
 export function findItem(category: DocsIndexCategory, docPath: string): DocsIndexItem | undefined {
   const normalized = docPath.replace(/^\/+|\.txt$/g, "");
   const all = category.sections.flatMap((section) => section.items);
 
-  return (
-    all.find((item) => item.docUrl === `/${category.id}/${normalized}`) ??
-    all.find((item) => item.id === normalized)
-  );
+  const byDocUrl = all.find((item) => item.docUrl === `/${category.id}/${normalized}`);
+  if (byDocUrl) return byDocUrl;
+
+  const byId = all.filter((item) => item.id === normalized);
+  if (byId.length > 1) {
+    const paths = byId.map((item) => itemPath(category, item)).join(", ");
+    throw new Error(
+      `'${normalized}' is ambiguous in section '${category.id}'. Use one of: ${paths}`,
+    );
+  }
+
+  return byId[0];
 }
