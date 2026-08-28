@@ -16,6 +16,14 @@ function getDismissalKey(id: string) {
   return `${DISMISSAL_KEY_PREFIX}${id}`;
 }
 
+function isDismissed(id: string) {
+  try {
+    return window.localStorage.getItem(getDismissalKey(id)) === "true";
+  } catch {
+    return false;
+  }
+}
+
 export function SiteAnnouncementBanner({
   config = SITE_ANNOUNCEMENT_BANNER,
 }: {
@@ -25,11 +33,7 @@ export function SiteAnnouncementBanner({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const dismissalKey = getDismissalKey(config.id);
-    setVisible(
-      isSiteAnnouncementBannerActive(config) &&
-        window.localStorage.getItem(dismissalKey) !== "true",
-    );
+    setVisible(isSiteAnnouncementBannerActive(config) && !isDismissed(config.id));
   }, [config]);
 
   useEffect(() => {
@@ -59,7 +63,11 @@ export function SiteAnnouncementBanner({
   if (!visible) return null;
 
   const handleDismiss = () => {
-    window.localStorage.setItem(getDismissalKey(config.id), "true");
+    try {
+      window.localStorage.setItem(getDismissalKey(config.id), "true");
+    } catch {
+      // Keep the banner dismissed for this page even when persistence is unavailable.
+    }
     setVisible(false);
   };
 

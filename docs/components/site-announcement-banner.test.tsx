@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterEach, describe, expect, it, spyOn } from "bun:test";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import {
   getDateInSeoul,
@@ -103,5 +103,35 @@ describe("SiteAnnouncementBanner", () => {
     await waitFor(() => {
       expect(screen.queryByRole("region", { name: "사이트 새 소식" })).toBeNull();
     });
+  });
+
+  it("localStorage를 읽을 수 없으면 닫히지 않은 것으로 처리한다", async () => {
+    const getItem = spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new Error("Storage is unavailable");
+    });
+
+    try {
+      render(<SiteAnnouncementBanner config={config} />);
+
+      expect(await screen.findByRole("region", { name: "사이트 새 소식" })).toBeDefined();
+    } finally {
+      getItem.mockRestore();
+    }
+  });
+
+  it("localStorage에 저장할 수 없어도 현재 배너는 닫는다", async () => {
+    const setItem = spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new Error("Storage is unavailable");
+    });
+
+    try {
+      render(<SiteAnnouncementBanner config={config} />);
+
+      fireEvent.click(await screen.findByRole("button", { name: "새 소식 배너 닫기" }));
+
+      expect(screen.queryByRole("region", { name: "사이트 새 소식" })).toBeNull();
+    } finally {
+      setItem.mockRestore();
+    }
   });
 });
