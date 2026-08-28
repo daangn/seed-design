@@ -19,10 +19,20 @@ import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { Switch } from "seed-design/ui/switch";
 import img from "../assets/peng.jpeg";
 
+/**
+ * 아래 컨트롤의 초기값을 params 로 받는다. 문서 페이지가 iframe 을 특정 상태로
+ * 열어야 하는데, 마운트 뒤에는 손댈 수 없기 때문이다. `contentMode: "bare"` 는
+ * 반대 방향으로, 컨트롤 패널을 걷어내 화면 자체만 보게 한다.
+ */
 declare module "@stackflow/config" {
   interface Register {
     ActivityAppScreen: {
       transitionStyle?: NonNullable<AppScreenProps["transitionStyle"]>;
+      theme?: NonNullable<AppScreenProps["theme"]>;
+      tone?: NonNullable<AppScreenProps["tone"]>;
+      layerOffsetTop?: NonNullable<AppScreenProps["layerOffsetTop"]>;
+      mainSlot?: "main" | "slot";
+      contentMode?: "bare";
     };
   }
 }
@@ -74,16 +84,13 @@ function VariantControl<T extends string>({
 
 // Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
 // NextAppScreen 짝: ActivityNextAppScreen
-const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({
-  params: { transitionStyle },
-}) => {
+const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({ params }) => {
   const { push } = useFlow();
   const { create } = useSnackbarAdapter();
 
-  const [theme, setTheme] = useState<NonNullable<AppScreenProps["theme"]>>("cupertino");
-  const [tone, setTone] = useState<NonNullable<AppScreenProps["tone"]>>("layer");
-  const [layerOffsetTop, setLayerOffsetTop] =
-    useState<NonNullable<AppScreenProps["layerOffsetTop"]>>("appBar");
+  const [theme, setTheme] = useState(params.theme ?? "cupertino");
+  const [tone, setTone] = useState(params.tone ?? "layer");
+  const [layerOffsetTop, setLayerOffsetTop] = useState(params.layerOffsetTop ?? "appBar");
   const [layerOffsetBottom, setLayerOffsetBottom] =
     useState<NonNullable<AppScreenProps["layerOffsetBottom"]>>("none");
   const [gradient, setGradient] = useState(true);
@@ -91,7 +98,7 @@ const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({
   const [preventSwipeBack, setPreventSwipeBack] = useState(false);
   const [ptr, setPtr] = useState(false);
 
-  const [mainSlot, setMainSlot] = useState<"main" | "slot">("main");
+  const [mainSlot, setMainSlot] = useState(params.mainSlot ?? "main");
   const [subtitle, setSubtitle] = useState(false);
   const [barBg, setBarBg] = useState(false);
   const [iconCounts, setIconCounts] = useState({ left: 0, right: 1 });
@@ -99,11 +106,13 @@ const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({
   // 제스처 진행 중에는 ref 에만 적어 프레임마다 리렌더가 걸리지 않게 한다.
   const peakRatioRef = useRef(0);
 
+  const showCases = params.contentMode !== "bare";
+
   return (
     <AppScreen
       theme={theme}
       tone={tone}
-      transitionStyle={transitionStyle}
+      transitionStyle={params.transitionStyle}
       layerOffsetTop={layerOffsetTop}
       layerOffsetBottom={layerOffsetBottom}
       gradient={gradient}
@@ -172,139 +181,141 @@ const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({
         onPtrRefresh={() => new Promise((resolve) => setTimeout(resolve, 1500))}
       >
         {tone === "transparent" && <img src={img} alt="penguin" />}
-        <VStack px="spacingX.globalGutter" py="x3" gap="x2">
-          <Case label="화면">
-            <VariantControl
-              label="theme"
-              values={appScreenVariantMap.theme}
-              value={theme}
-              onChange={setTheme}
-            />
-            <VariantControl
-              label="tone"
-              values={appScreenVariantMap.tone}
-              value={tone}
-              onChange={setTone}
-            />
-            <Switch
-              label="gradient"
-              tone="neutral"
-              size="24"
-              checked={gradient}
-              onCheckedChange={setGradient}
-            />
-            <Text textStyle="t6Regular" color="fg.neutralMuted">
-              gradient 는 tone="transparent" 에서만 눈에 띕니다. 사진 위로 AppBar 가 얹힌 상태에서
-              꺼보세요.
-            </Text>
-          </Case>
+        {showCases && (
+          <VStack px="spacingX.globalGutter" py="x3" gap="x2">
+            <Case label="화면">
+              <VariantControl
+                label="theme"
+                values={appScreenVariantMap.theme}
+                value={theme}
+                onChange={setTheme}
+              />
+              <VariantControl
+                label="tone"
+                values={appScreenVariantMap.tone}
+                value={tone}
+                onChange={setTone}
+              />
+              <Switch
+                label="gradient"
+                tone="neutral"
+                size="24"
+                checked={gradient}
+                onCheckedChange={setGradient}
+              />
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                gradient 는 tone="transparent" 에서만 눈에 띕니다. 사진 위로 AppBar 가 얹힌 상태에서
+                꺼보세요.
+              </Text>
+            </Case>
 
-          <Case label="오프셋">
-            <VariantControl
-              label="layerOffsetTop"
-              values={appScreenVariantMap.layerOffsetTop}
-              value={layerOffsetTop}
-              onChange={setLayerOffsetTop}
-            />
-            <VariantControl
-              label="layerOffsetBottom"
-              values={appScreenVariantMap.layerOffsetBottom}
-              value={layerOffsetBottom}
-              onChange={setLayerOffsetBottom}
-            />
-          </Case>
+            <Case label="오프셋">
+              <VariantControl
+                label="layerOffsetTop"
+                values={appScreenVariantMap.layerOffsetTop}
+                value={layerOffsetTop}
+                onChange={setLayerOffsetTop}
+              />
+              <VariantControl
+                label="layerOffsetBottom"
+                values={appScreenVariantMap.layerOffsetBottom}
+                value={layerOffsetBottom}
+                onChange={setLayerOffsetBottom}
+              />
+            </Case>
 
-          <Case label="AppBar">
-            <VariantControl
-              label="main / slot"
-              values={["main", "slot"] as const}
-              value={mainSlot}
-              onChange={setMainSlot}
-            />
-            <Switch
-              label="subtitle"
-              tone="neutral"
-              size="24"
-              checked={subtitle}
-              onCheckedChange={setSubtitle}
-            />
-            <Switch
-              label="bg"
-              tone="neutral"
-              size="24"
-              checked={barBg}
-              onCheckedChange={setBarBg}
-            />
-            <HStack gap="x2">
-              {(["left", "right"] as const).map((side) => (
+            <Case label="AppBar">
+              <VariantControl
+                label="main / slot"
+                values={["main", "slot"] as const}
+                value={mainSlot}
+                onChange={setMainSlot}
+              />
+              <Switch
+                label="subtitle"
+                tone="neutral"
+                size="24"
+                checked={subtitle}
+                onCheckedChange={setSubtitle}
+              />
+              <Switch
+                label="bg"
+                tone="neutral"
+                size="24"
+                checked={barBg}
+                onCheckedChange={setBarBg}
+              />
+              <HStack gap="x2">
+                {(["left", "right"] as const).map((side) => (
+                  <ActionButton
+                    key={side}
+                    flexGrow
+                    variant="neutralWeak"
+                    onClick={() => setIconCounts((prev) => ({ ...prev, [side]: prev[side] + 1 }))}
+                  >
+                    {side} +
+                  </ActionButton>
+                ))}
+              </HStack>
+              <HStack gap="x2">
+                {(["left", "right"] as const).map((side) => (
+                  <ActionButton
+                    key={side}
+                    flexGrow
+                    variant="neutralWeak"
+                    onClick={() =>
+                      setIconCounts((prev) => ({ ...prev, [side]: Math.max(0, prev[side] - 1) }))
+                    }
+                  >
+                    {side} -
+                  </ActionButton>
+                ))}
+              </HStack>
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                slot 은 검색바 같은 커스텀 요소에 전환 애니메이션을 입힙니다. 스와이프백 하면
+                IconButton 과 같은 fade 로 빠집니다.
+              </Text>
+            </Case>
+
+            <Case label="transitionStyle">
+              {params.transitionStyle && (
+                <Text textStyle="articleBody">transitionStyle: {params.transitionStyle}</Text>
+              )}
+              {appScreenVariantMap.transitionStyle.map((style) => (
                 <ActionButton
-                  key={side}
-                  flexGrow
-                  variant="neutralWeak"
-                  onClick={() => setIconCounts((prev) => ({ ...prev, [side]: prev[side] + 1 }))}
+                  key={style}
+                  variant={params.transitionStyle === style ? "neutralWeak" : "neutralSolid"}
+                  onClick={() => push("ActivityAppScreen", { transitionStyle: style })}
                 >
-                  {side} +
+                  push transitionStyle: {style}
                 </ActionButton>
               ))}
-            </HStack>
-            <HStack gap="x2">
-              {(["left", "right"] as const).map((side) => (
-                <ActionButton
-                  key={side}
-                  flexGrow
-                  variant="neutralWeak"
-                  onClick={() =>
-                    setIconCounts((prev) => ({ ...prev, [side]: Math.max(0, prev[side] - 1) }))
-                  }
-                >
-                  {side} -
-                </ActionButton>
-              ))}
-            </HStack>
-            <Text textStyle="t6Regular" color="fg.neutralMuted">
-              slot 은 검색바 같은 커스텀 요소에 전환 애니메이션을 입힙니다. 스와이프백 하면
-              IconButton 과 같은 fade 로 빠집니다.
-            </Text>
-          </Case>
+            </Case>
 
-          <Case label="transitionStyle">
-            {transitionStyle && (
-              <Text textStyle="articleBody">transitionStyle: {transitionStyle}</Text>
-            )}
-            {appScreenVariantMap.transitionStyle.map((style) => (
-              <ActionButton
-                key={style}
-                variant={transitionStyle === style ? "neutralWeak" : "neutralSolid"}
-                onClick={() => push("ActivityAppScreen", { transitionStyle: style })}
-              >
-                push transitionStyle: {style}
-              </ActionButton>
-            ))}
-          </Case>
+            <Case label="스와이프백">
+              <Switch
+                label="preventSwipeBack"
+                tone="neutral"
+                size="24"
+                checked={preventSwipeBack}
+                onCheckedChange={setPreventSwipeBack}
+              />
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                {preventSwipeBack
+                  ? "Edge 가 렌더되지 않아 제스처를 받지 않습니다."
+                  : "스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
+              </Text>
+            </Case>
 
-          <Case label="스와이프백">
-            <Switch
-              label="preventSwipeBack"
-              tone="neutral"
-              size="24"
-              checked={preventSwipeBack}
-              onCheckedChange={setPreventSwipeBack}
-            />
-            <Text textStyle="t6Regular" color="fg.neutralMuted">
-              {preventSwipeBack
-                ? "Edge 가 렌더되지 않아 제스처를 받지 않습니다."
-                : "스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
-            </Text>
-          </Case>
-
-          <Case label="PullToRefresh">
-            <Switch label="ptr" tone="neutral" size="24" checked={ptr} onCheckedChange={setPtr} />
-            <Text textStyle="t6Regular" color="fg.neutralMuted">
-              snippet 의 AppScreenContent 가 PullToRefresh 를 감싸는 경로입니다. 수동 조합은
-              ActivityPullToRefreshPreview 에 남아 있습니다.
-            </Text>
-          </Case>
-        </VStack>
+            <Case label="PullToRefresh">
+              <Switch label="ptr" tone="neutral" size="24" checked={ptr} onCheckedChange={setPtr} />
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                snippet 의 AppScreenContent 가 PullToRefresh 를 감싸는 경로입니다. 수동 조합은
+                ActivityPullToRefreshPreview 에 남아 있습니다.
+              </Text>
+            </Case>
+          </VStack>
+        )}
         {tone === "transparent" && <img src={img} alt="penguin" />}
       </AppScreenContent>
     </AppScreen>
