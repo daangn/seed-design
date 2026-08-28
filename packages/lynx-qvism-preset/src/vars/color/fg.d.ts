@@ -13,6 +13,8 @@ export declare const informative = "var(--seed-color-fg-informative)";
 export declare const informativeContrast = "var(--seed-color-fg-informative-contrast)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. */
 export declare const neutral = "var(--seed-color-fg-neutral)";
+/** @deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다. */
+export declare const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted) */
 export declare const neutralMuted = "var(--seed-color-fg-neutral-muted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle) */
