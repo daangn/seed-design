@@ -1,0 +1,53 @@
+name: Version Packages peer dependency merge blocker
+
+on:
+  pull_request_target:
+    branches: [dev]
+    types: [opened, reopened, synchronize, edited]
+
+concurrency:
+  group: version-peer-deps-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check Version Packages peer dependencies
+    if: >-
+      github.event.pull_request.head.ref == 'changeset-release/dev' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout trusted checker
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: control
+          persist-credentials: false
+
+      - name: Checkout exact Version Packages PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: source
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.13"
+
+      - name: Check React and Lynx peer dependency ranges
+        working-directory: source
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+        run: >-
+          bun ../control/.github/scripts/check-version-peer-deps.ts
+          --root .
+          --base-sha "$BASE_SHA"
+          --source-sha "$SOURCE_SHA"
