@@ -6,14 +6,15 @@ import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { getRawConfig } from "../utils/get-config";
-import {
-  CliCancelError,
-  CliError,
-  handleCliError,
-  isCliCancelError,
-  isVerboseMode,
-} from "../utils/error";
+import { CliError, handleCliError, isVerboseMode } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
+
+/**
+ * Scripts and agents read this command more often than people do, so its outcome has to
+ * survive being reduced to a number. A separate code for "several documents matched" lets
+ * a caller retry with one of the printed candidates rather than rewrite the query.
+ */
+const EXIT_AMBIGUOUS = 2;
 
 const docsOptionsSchema = z.object({
   query: z
@@ -29,6 +30,19 @@ const docsOptionsSchema = z.object({
   framework: z.enum(["react", "lynx"]).optional(),
   raw: z.boolean(),
 });
+
+type Resolution =
+  | { kind: "item"; item: DocsItem }
+  /** The query named a container, so listing what sits inside it is the answer. */
+  | { kind: "listing"; heading: string; lines: string[] }
+  /** The query named several documents. Only the caller can pick one. */
+  | { kind: "ambiguous"; heading: string; lines: string[] };
+
+interface Outcome {
+  exitCode: number;
+  result: string;
+  itemId?: string;
+}
 
 /**
  * `llmsUrl` is missing from an index published before it existed: the site between a CLI
@@ -82,15 +96,52 @@ function findSimilar(input: string, candidates: string[], maxDistance = 3): stri
 }
 
 /**
- * Build a suggestion hint from a path query by fuzzy-matching each segment
+ * The path a caller can paste straight back into the command.
+ */
+function pathOf(category: DocsCategory, section: DocsSection, item: DocsItem): string {
+  return `${category.id}/${section.id}/${item.id}`;
+}
+
+function countItems(category: DocsCategory): number {
+  return category.sections.reduce((sum, section) => sum + section.items.length, 0);
+}
+
+function alignedLines(entries: { path: string; note?: string }[]): string[] {
+  const width = Math.max(...entries.map((entry) => entry.path.length));
+  return entries.map(({ path, note }) => (note ? `${path.padEnd(width)}  ${note}` : path));
+}
+
+function itemLines(category: DocsCategory, sections: DocsSection[]): string[] {
+  return alignedLines(
+    sections.flatMap((section) =>
+      section.items.map((item) => ({
+        path: pathOf(category, section, item),
+        note: item.deprecated ? "(deprecated)" : undefined,
+      })),
+    ),
+  );
+}
+
+function notFound(query: string, suggestions: string[], hint: string): CliError {
+  const suggestion =
+    suggestions.length > 0
+      ? `\n\n💡 이것을 의미했나요?\n${suggestions.map((s) => `   - ${s}`).join("\n")}`
+      : "";
+
+  return new CliError({
+    message: `${highlight(query)}: 문서를 찾을 수 없어요.${suggestion}`,
+    hint,
+  });
+}
+
+/**
+ * Build suggestions from a path query by fuzzy-matching each segment
  * against the docs index hierarchy.
  */
-function buildSuggestionHint(segments: string[], categories: DocsCategory[]): string | undefined {
-  if (segments.length === 0) return undefined;
+function suggestionsFor(segments: string[], categories: DocsCategory[]): string[] {
+  if (segments.length === 0) return [];
 
   const suggestions: string[] = [];
-
-  // Try to fuzzy-match the first segment against category IDs
   const categoryIds = categories.map((c) => c.id);
   const similarCategories = findSimilar(segments[0], categoryIds);
 
@@ -99,58 +150,49 @@ function buildSuggestionHint(segments: string[], categories: DocsCategory[]): st
     const allPaths = categories.flatMap((cat) =>
       cat.sections.flatMap((sec) => sec.items.map((item) => `${cat.id}/${sec.id}/${item.id}`)),
     );
-    const fullQuery = segments.join("/");
-    const similarPaths = findSimilar(fullQuery, allPaths, 5);
-    if (similarPaths.length > 0) {
-      suggestions.push(...similarPaths.slice(0, 3));
-    }
-  } else {
-    const bestCat = categories.find((c) => c.id === similarCategories[0]);
-    if (bestCat && segments.length >= 2) {
-      const sectionIds = bestCat.sections.map((s) => s.id);
-      const similarSections = findSimilar(segments[1], sectionIds);
-
-      if (similarSections.length > 0) {
-        const bestSec = bestCat.sections.find((s) => s.id === similarSections[0]);
-        if (bestSec && segments.length >= 3) {
-          const itemIds = bestSec.items.map((i) => i.id);
-          const similarItems = findSimilar(segments[2], itemIds);
-          for (const item of similarItems.slice(0, 3)) {
-            suggestions.push(`${bestCat.id}/${bestSec.id}/${item}`);
-          }
-        } else {
-          for (const sec of similarSections.slice(0, 3)) {
-            suggestions.push(`${bestCat.id}/${sec}`);
-          }
-        }
-      } else {
-        // Section not found, search items within category
-        const allItemIds = bestCat.sections.flatMap((s) =>
-          s.items.map((i) => ({ path: `${bestCat.id}/${s.id}/${i.id}`, id: i.id })),
-        );
-        const similarItems = findSimilar(
-          segments[1],
-          allItemIds.map((x) => x.id),
-        );
-        for (const itemId of similarItems.slice(0, 3)) {
-          const found = allItemIds.find((x) => x.id === itemId);
-          if (found) suggestions.push(found.path);
-        }
-      }
-    } else {
-      for (const cat of similarCategories.slice(0, 3)) {
-        suggestions.push(cat);
-      }
-    }
+    const similarPaths = findSimilar(segments.join("/"), allPaths, 5);
+    return similarPaths.slice(0, 3);
   }
 
-  if (suggestions.length === 0) return undefined;
-
-  const lines = ["", "💡 이것을 의미했나요?"];
-  for (const s of suggestions) {
-    lines.push(`   - ${s}`);
+  const bestCat = categories.find((c) => c.id === similarCategories[0]);
+  if (!bestCat || segments.length < 2) {
+    return similarCategories.slice(0, 3);
   }
-  return lines.join("\n");
+
+  const similarSections = findSimilar(
+    segments[1],
+    bestCat.sections.map((s) => s.id),
+  );
+
+  if (similarSections.length === 0) {
+    // Section not found, search items within category
+    const allItemIds = bestCat.sections.flatMap((s) =>
+      s.items.map((i) => ({ path: `${bestCat.id}/${s.id}/${i.id}`, id: i.id })),
+    );
+    const similarItems = findSimilar(
+      segments[1],
+      allItemIds.map((x) => x.id),
+    );
+    for (const itemId of similarItems.slice(0, 3)) {
+      const found = allItemIds.find((x) => x.id === itemId);
+      if (found) suggestions.push(found.path);
+    }
+    return suggestions;
+  }
+
+  const bestSec = bestCat.sections.find((s) => s.id === similarSections[0]);
+  if (bestSec && segments.length >= 3) {
+    const similarItems = findSimilar(
+      segments[2],
+      bestSec.items.map((i) => i.id),
+    );
+    for (const item of similarItems.slice(0, 3)) {
+      suggestions.push(`${bestCat.id}/${bestSec.id}/${item}`);
+    }
+    return suggestions;
+  }
+
+  return similarSections.slice(0, 3).map((sec) => `${bestCat.id}/${sec}`);
 }
 
 /**
@@ -159,7 +201,7 @@ function buildSuggestionHint(segments: string[], categories: DocsCategory[]): st
  */
 function parseQueryPath(query: string): string[] {
   return query
-    .split(/[\/\s]+/)
+    .split(/[/\s]+/)
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -172,7 +214,7 @@ function normalizeRegistryKeySegment(segment: string): string {
 /**
  * Whether scoping `segments` under `category` would actually resolve to something.
  *
- * Mirrors the lookup the category branch of `resolveFromIndex` performs, so a `true`
+ * Mirrors the lookup the category branch of `resolveQuery` performs, so a `true`
  * here means the scoped query has somewhere to land.
  */
 function categoryContains(category: DocsCategory, head: string): boolean {
@@ -216,64 +258,257 @@ function normalizeDocsQuery({
   return segments.join("/");
 }
 
-/**
- * Search all items across all categories/sections.
- */
 function searchAllItems(
   categories: DocsCategory[],
   query: string,
-): { item: DocsItem; categoryLabel: string; sectionLabel: string }[] {
+): { item: DocsItem; path: string }[] {
   const q = query.toLowerCase();
-  return categories.flatMap((cat) =>
-    cat.sections.flatMap((sec) =>
-      sec.items
+  return categories.flatMap((category) =>
+    category.sections.flatMap((section) =>
+      section.items
         .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
-        .map((item) => ({
-          item,
-          categoryLabel: cat.label,
-          sectionLabel: sec.label,
-        })),
+        .map((item) => ({ item, path: pathOf(category, section, item) })),
     ),
   );
 }
 
-async function selectItem(items: DocsItem[]): Promise<DocsItem> {
-  const selected = await p.select({
-    message: "항목을 선택해주세요",
-    options: items.map((item) => ({
-      label: `${item.deprecated ? "(deprecated) " : ""}${item.title}`,
-      value: item,
-      hint: item.description,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
+function resolveWithinSection(
+  category: DocsCategory,
+  section: DocsSection,
+  needle: string,
+  docsQuery: string,
+): Resolution {
+  const exact = section.items.find((item) => item.id === needle);
+  if (exact) return { kind: "item", item: exact };
+
+  const q = needle.toLowerCase();
+  const matched = section.items.filter(
+    (item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q),
+  );
+
+  if (matched.length === 0) {
+    const similar = findSimilar(
+      needle,
+      section.items.map((item) => item.id),
+    );
+    throw notFound(
+      docsQuery,
+      similar.slice(0, 3).map((id) => `${category.id}/${section.id}/${id}`),
+      `\`seed-design docs ${category.id}/${section.id}\`로 목록을 확인해보세요.`,
+    );
+  }
+  if (matched.length === 1) return { kind: "item", item: matched[0] };
+
+  return {
+    kind: "ambiguous",
+    heading: `${highlight(needle)}에 해당하는 문서가 여러 개예요`,
+    lines: matched.map((item) => pathOf(category, section, item)),
+  };
 }
 
-async function selectSection(sections: DocsSection[]): Promise<DocsSection> {
-  const selected = await p.select({
-    message: "섹션을 선택해주세요",
-    options: sections.map((sec) => ({
-      label: sec.label,
-      value: sec,
-      hint: `${sec.items.length}개 항목`,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
+function resolveWithinCategory(
+  category: DocsCategory,
+  needle: string,
+  docsQuery: string,
+): Resolution {
+  // An exact id wins outright: `components` and `foundations` hold every page in one
+  // section, so `components/action-button` lands here rather than in the section branch
+  // above, and substring matching alone would tie `action-button` with
+  // `floating-action-button`.
+  const exact = category.sections.flatMap((s) => s.items).find((item) => item.id === needle);
+  if (exact) return { kind: "item", item: exact };
+
+  const q = needle.toLowerCase();
+  const matched = category.sections.flatMap((section) =>
+    section.items
+      .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
+      .map((item) => ({ item, section })),
+  );
+
+  if (matched.length === 0) {
+    const allItems = category.sections.flatMap((section) =>
+      section.items.map((item) => ({ path: pathOf(category, section, item), id: item.id })),
+    );
+    const similarSections = findSimilar(
+      needle,
+      category.sections.map((s) => s.id),
+    );
+    const similarItems = findSimilar(
+      needle,
+      allItems.map((entry) => entry.id),
+    );
+    const suggestions = [
+      ...similarSections.slice(0, 2).map((id) => `${category.id}/${id}`),
+      ...similarItems
+        .slice(0, 2)
+        .map((id) => allItems.find((entry) => entry.id === id)?.path)
+        .filter((path): path is string => path != null),
+    ];
+    throw notFound(
+      docsQuery,
+      suggestions,
+      `\`seed-design docs ${category.id}\`로 목록을 확인해보세요.`,
+    );
+  }
+  if (matched.length === 1) return { kind: "item", item: matched[0].item };
+
+  return {
+    kind: "ambiguous",
+    heading: `${highlight(needle)}에 해당하는 문서가 여러 개예요`,
+    lines: matched.map(({ item, section }) => pathOf(category, section, item)),
+  };
 }
 
-async function selectCategory(categories: DocsCategory[]): Promise<DocsCategory> {
-  const selected = await p.select({
-    message: "카테고리를 선택해주세요",
-    options: categories.map((cat) => ({
-      label: cat.label,
-      value: cat,
-      hint: `${cat.sections.reduce((sum, s) => sum + s.items.length, 0)}개 항목`,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
+/**
+ * Turn a query into one document, a list of what a named container holds, or a list of
+ * the documents that tie for it. Nothing here prompts: a non-TTY used to cancel the
+ * picker this replaced, and that cancellation was reported as success.
+ */
+function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined): Resolution {
+  if (!docsQuery) {
+    return {
+      kind: "listing",
+      heading: "카테고리",
+      lines: alignedLines(
+        categories.map((category) => ({
+          path: category.id,
+          note: `${countItems(category)}개 항목`,
+        })),
+      ),
+    };
+  }
+
+  const segments = parseQueryPath(docsQuery);
+  const matchedCategory = categories.find((category) => category.id === segments[0]);
+
+  if (matchedCategory && segments.length >= 2) {
+    const matchedSection = matchedCategory.sections.find((section) => section.id === segments[1]);
+
+    if (matchedSection && segments.length >= 3) {
+      return resolveWithinSection(matchedCategory, matchedSection, segments[2], docsQuery);
+    }
+    if (matchedSection) {
+      return {
+        kind: "listing",
+        heading: `${matchedCategory.label} > ${matchedSection.label}`,
+        lines: itemLines(matchedCategory, [matchedSection]),
+      };
+    }
+    return resolveWithinCategory(matchedCategory, segments[1], docsQuery);
+  }
+
+  if (matchedCategory) {
+    // Sections first where a category has several: `react` spreads 110 documents over 7 of
+    // them, and 110 lines is not a list anyone reads.
+    if (matchedCategory.sections.length > 1) {
+      return {
+        kind: "listing",
+        heading: matchedCategory.label,
+        lines: alignedLines(
+          matchedCategory.sections.map((section) => ({
+            path: `${matchedCategory.id}/${section.id}`,
+            note: `${section.items.length}개 항목`,
+          })),
+        ),
+      };
+    }
+    return {
+      kind: "listing",
+      heading: matchedCategory.label,
+      lines: itemLines(matchedCategory, matchedCategory.sections),
+    };
+  }
+
+  const matched = searchAllItems(categories, docsQuery);
+
+  if (matched.length === 0) {
+    throw notFound(
+      docsQuery,
+      suggestionsFor(segments, categories),
+      "`seed-design docs`로 전체 목록을 확인해보세요.",
+    );
+  }
+  if (matched.length === 1) return { kind: "item", item: matched[0].item };
+
+  return {
+    kind: "ambiguous",
+    heading: `${highlight(docsQuery)}에 해당하는 문서가 여러 개예요`,
+    lines: matched.map(({ path }) => path),
+  };
+}
+
+function emitLinks({
+  baseUrl,
+  categories,
+  docsQuery,
+}: {
+  baseUrl: string;
+  categories: DocsCategory[];
+  docsQuery: string | undefined;
+}): Outcome {
+  const resolution = resolveQuery(categories, docsQuery);
+
+  if (resolution.kind === "item") {
+    printDocsResult(resolution.item, baseUrl);
+    p.outro("완료했어요.");
+    return { exitCode: 0, result: "item", itemId: resolution.item.id };
+  }
+
+  p.log.message([resolution.heading, "", ...resolution.lines].join("\n"));
+
+  if (resolution.kind === "listing") {
+    p.outro("완료했어요.");
+    return { exitCode: 0, result: "listing" };
+  }
+
+  p.outro(highlight("경로를 하나로 좁혀서 다시 실행해주세요."));
+  return { exitCode: EXIT_AMBIGUOUS, result: "ambiguous" };
+}
+
+async function emitRaw({
+  baseUrl,
+  categories,
+  docsQuery,
+}: {
+  baseUrl: string;
+  categories: DocsCategory[];
+  docsQuery: string;
+}): Promise<Outcome> {
+  // A bare category has no single page. Its overview llms.txt answers for it where the
+  // index publishes one; an index from before that field existed publishes none, and the
+  // archived sites are all in that state.
+  const sectionIndexUrl = categories.find((category) => category.id === docsQuery)?.llmsIndexUrl;
+  if (sectionIndexUrl) {
+    console.log(await fetchLlmsTxt({ url: `${baseUrl}${sectionIndexUrl}` }));
+    return { exitCode: 0, result: "section-index" };
+  }
+
+  // Deeper than category/section/item: the changelog routes are generated per package and
+  // version rather than from the content tree, so the index has no item to match.
+  const deep = parseQueryPath(docsQuery).length > 3;
+  let resolution: Resolution | undefined;
+  if (!deep) {
+    try {
+      resolution = resolveQuery(categories, docsQuery);
+    } catch {
+      // Not in the index. The composed URL below still reaches the generated routes.
+    }
+  }
+
+  if (resolution?.kind === "item") {
+    console.log(await fetchLlmsTxt({ url: llmsUrlFor(resolution.item, baseUrl) }));
+    return { exitCode: 0, result: "item", itemId: resolution.item.id };
+  }
+
+  if (resolution) {
+    // stdout carries document text in raw mode, so candidates go to stderr and the exit
+    // code carries the outcome.
+    console.error([resolution.heading, "", ...resolution.lines].join("\n"));
+    return { exitCode: EXIT_AMBIGUOUS, result: resolution.kind };
+  }
+
+  console.log(await tryFetchLlmsTxt({ baseUrl, query: docsQuery }));
+  return { exitCode: 0, result: "composed-url" };
 }
 
 export const docsCommand = (cli: CAC) => {
@@ -316,13 +551,6 @@ export const docsCommand = (cli: CAC) => {
         const rawConfig = await getRawConfig(options.cwd).catch(() => null);
         const framework = options.framework ?? rawConfig?.framework;
 
-        if (options.raw && !options.query) {
-          throw new CliError({
-            message: "--raw 모드에서는 쿼리가 필요해요.",
-            hint: "예: `seed-design docs react/updates/changelog --raw`",
-          });
-        }
-
         const docsIndex = await (async () => {
           if (raw) {
             return await fetchDocsIndex({ baseUrl });
@@ -345,216 +573,28 @@ export const docsCommand = (cli: CAC) => {
           framework,
           categories,
         });
-        let selectedItem: DocsItem | undefined;
 
-        // In --raw mode, wrap index resolution in try-catch to allow fallback to direct URL
-        const resolveFromIndex = async (): Promise<DocsItem | undefined> => {
-          if (docsQuery) {
-            const segments = parseQueryPath(docsQuery);
-
-            // Deep paths (more than category/section/item) can't be resolved from index
-            // e.g., react/updates/changelog/react/1.2.9 — skip to fallback in --raw mode
-            if (raw && segments.length > 3) {
-              return undefined;
-            }
-
-            // Try to resolve as path: category / section / item
-            const matchedCategory = categories.find((c) => c.id === segments[0]);
-
-            if (matchedCategory && segments.length >= 2) {
-              const matchedSection = matchedCategory.sections.find((s) => s.id === segments[1]);
-
-              if (matchedSection && segments.length >= 3) {
-                // Full path: category/section/item
-                const matchedItem = matchedSection.items.find((i) => i.id === segments[2]);
-                if (matchedItem) {
-                  return matchedItem;
-                }
-                // Item not found in section — search within the section
-                const q = segments[2].toLowerCase();
-                const matched = matchedSection.items.filter(
-                  (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
-                );
-                if (matched.length === 0) {
-                  const similarItems = findSimilar(
-                    segments[2],
-                    matchedSection.items.map((i) => i.id),
-                  );
-                  const suggestion =
-                    similarItems.length > 0
-                      ? `\n\n💡 이것을 의미했나요?\n${similarItems
-                          .slice(0, 3)
-                          .map((s) => `   - ${matchedCategory.id}/${matchedSection.id}/${s}`)
-                          .join("\n")}`
-                      : "";
-                  throw new CliError({
-                    message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
-                    hint: `\`seed-design docs ${matchedCategory.id}/${matchedSection.id}\`로 목록을 확인해보세요.`,
-                  });
-                }
-                if (matched.length === 1) {
-                  return matched[0];
-                }
-                return await selectItem(matched);
-              }
-              if (matchedSection) {
-                // category/section — select item within section
-                return await selectItem(matchedSection.items);
-              }
-              // category/??? — search within category.
-              // An exact id wins outright: `components` and `foundations` hold every page in
-              // one section, so `components/action-button` lands here rather than in the
-              // section branch above, and substring matching alone would prompt between
-              // `action-button` and `floating-action-button`.
-              const exactItem = matchedCategory.sections
-                .flatMap((s) => s.items)
-                .find((i) => i.id === segments[1]);
-              if (exactItem) {
-                return exactItem;
-              }
-
-              const q = segments[1].toLowerCase();
-              const matched = matchedCategory.sections.flatMap((s) =>
-                s.items
-                  .filter(
-                    (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
-                  )
-                  .map((item) => ({ item, sectionLabel: s.label })),
-              );
-
-              if (matched.length === 0) {
-                const sectionIds = matchedCategory.sections.map((s) => s.id);
-                const similarSections = findSimilar(segments[1], sectionIds);
-                const allItemIds = matchedCategory.sections.flatMap((s) =>
-                  s.items.map((i) => ({
-                    path: `${matchedCategory.id}/${s.id}/${i.id}`,
-                    id: i.id,
-                  })),
-                );
-                const similarItems = findSimilar(
-                  segments[1],
-                  allItemIds.map((x) => x.id),
-                );
-                const suggestions: string[] = [
-                  ...similarSections.slice(0, 2).map((s) => `${matchedCategory.id}/${s}`),
-                  ...similarItems
-                    .slice(0, 2)
-                    .map((id) => allItemIds.find((x) => x.id === id)?.path)
-                    .filter((p): p is string => p != null),
-                ];
-                const suggestion =
-                  suggestions.length > 0
-                    ? `\n\n💡 이것을 의미했나요?\n${suggestions.map((s) => `   - ${s}`).join("\n")}`
-                    : "";
-                throw new CliError({
-                  message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
-                  hint: `\`seed-design docs ${matchedCategory.id}\`로 목록을 확인해보세요.`,
-                });
-              }
-              if (matched.length === 1) {
-                return matched[0].item;
-              }
-              const selected = await p.select({
-                message: `${highlight(segments[1])}에 해당하는 항목을 선택해주세요`,
-                options: matched.map(({ item, sectionLabel }) => ({
-                  label: `[${sectionLabel}] ${item.title}`,
-                  value: item,
-                  hint: item.description,
-                })),
-              });
-              if (p.isCancel(selected)) throw new CliCancelError();
-              return selected;
-            }
-            if (matchedCategory) {
-              // Single segment matching a category — drill into it
-              if (matchedCategory.sections.length === 1) {
-                return await selectItem(matchedCategory.sections[0].items);
-              }
-              const section = await selectSection(matchedCategory.sections);
-              return await selectItem(section.items);
-            }
-            // No category match — global search
-            const matched = searchAllItems(categories, docsQuery);
-
-            if (matched.length === 0) {
-              const suggestion = buildSuggestionHint(segments, categories);
-              throw new CliError({
-                message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion ?? ""}`,
-                hint: "`seed-design docs`로 전체 목록을 확인해보세요.",
-              });
-            }
-            if (matched.length === 1) {
-              return matched[0].item;
-            }
-            const selected = await p.select({
-              message: `${highlight(docsQuery)}에 해당하는 항목을 선택해주세요`,
-              options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
-                label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
-                value: item,
-                hint: item.description,
-              })),
-            });
-            if (p.isCancel(selected)) throw new CliCancelError();
-            return selected;
-          }
-
-          // No query — full interactive flow: category → section → item
-          const category = await selectCategory(categories);
-
-          let section: DocsSection;
-          if (category.sections.length === 1) {
-            section = category.sections[0];
-          } else {
-            section = await selectSection(category.sections);
-          }
-
-          return await selectItem(section.items);
-        };
-
-        // A bare category has no single page to print. Resolving it would open a picker,
-        // which a non-TTY cancels immediately — that used to surface as a silent exit 0.
-        // Serve the section index instead, before any prompt can be reached.
-        const sectionIndexUrl = raw
-          ? categories.find((category) => category.id === docsQuery)?.llmsIndexUrl
-          : undefined;
-
-        // In --raw mode, swallow index resolution errors and fall back to direct URL fetch
-        if (raw) {
-          if (!sectionIndexUrl) {
-            try {
-              selectedItem = await resolveFromIndex();
-            } catch (error) {
-              if (isCliCancelError(error)) throw error;
-              // index miss in raw mode → will use fallback
-            }
-          }
-        } else {
-          selectedItem = await resolveFromIndex();
+        if (raw && !docsQuery) {
+          throw new CliError({
+            message: "--raw 모드에서는 쿼리가 필요해요.",
+            hint: "예: `seed-design docs react/updates/changelog --raw`",
+          });
         }
 
-        if (raw) {
-          let content: string;
-          if (sectionIndexUrl) {
-            content = await fetchLlmsTxt({ url: `${baseUrl}${sectionIndexUrl}` });
-          } else if (selectedItem) {
-            content = await fetchLlmsTxt({ url: llmsUrlFor(selectedItem, baseUrl) });
-          } else {
-            content = await tryFetchLlmsTxt({ baseUrl, query: docsQuery! });
-          }
-          console.log(content);
-        } else {
-          printDocsResult(selectedItem!, baseUrl);
-          p.outro("완료했어요.");
-        }
+        const outcome =
+          raw && docsQuery
+            ? await emitRaw({ baseUrl, categories, docsQuery })
+            : emitLinks({ baseUrl, categories, docsQuery });
 
         const duration = Date.now() - startTime;
         try {
           await analytics.trackCommandOutcome(trackCwd, {
             command: "docs",
-            status: "completed",
+            status: outcome.exitCode === 0 ? "completed" : "failed",
+            result: outcome.result,
             properties: {
               query: options.query ?? null,
-              item_id: selectedItem?.id ?? options.query ?? null,
+              item_id: outcome.itemId ?? options.query ?? null,
               raw_mode: raw,
               duration_ms: duration,
             },
@@ -564,26 +604,11 @@ export const docsCommand = (cli: CAC) => {
             console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
-      } catch (error) {
-        if (isCliCancelError(error)) {
-          try {
-            await analytics.trackCommandOutcome(trackCwd, {
-              command: "docs",
-              status: "cancelled",
-              properties: {
-                raw_mode: raw,
-                duration_ms: Date.now() - startTime,
-              },
-            });
-          } catch (telemetryError) {
-            if (verbose) {
-              console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-            }
-          }
-          if (!raw) p.outro(highlight(error.message));
-          process.exit(0);
-        }
 
+        if (outcome.exitCode !== 0) {
+          process.exit(outcome.exitCode);
+        }
+      } catch (error) {
         try {
           await analytics.trackCommandFailure(trackCwd, {
             command: "docs",
