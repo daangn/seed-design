@@ -31,46 +31,20 @@ const docsOptionsSchema = z.object({
 });
 
 /**
- * Composing URLs from the index shape is what broke when the docs IA moved, so the
- * index now carries them. These fallbacks only cover the skew window where a CLI
- * update lands before the site redeploys — remove them once that window has passed.
+ * `llmsUrl` is missing from an index published before it existed: the site between a CLI
+ * release and its next deploy, and the archived `v1-x` sites, whose index is frozen in
+ * the old shape. Both still serve the composed route.
  */
-const LEGACY_SNIPPET_BASE =
-  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
-
 function llmsUrlFor(item: DocsItem, baseUrl: string): string {
   return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
 }
 
-function snippetUrlsFor(item: DocsItem): { label: string; url: string }[] {
-  const registryPath = item.snippetKey?.split(":")[0];
-
-  return (item.snippets ?? []).flatMap(({ label, path, url }) => {
-    if (url) return [{ label, url }];
-    if (!registryPath) return [];
-
-    return [{ label, url: `${LEGACY_SNIPPET_BASE}/${registryPath}/${path}` }];
-  });
-}
-
 function printDocsResult(item: DocsItem, baseUrl: string) {
-  const lines = [
-    item.id,
-    `- docs: ${baseUrl}${item.docUrl}`,
-    `- llms.txt: ${llmsUrlFor(item, baseUrl)}`,
-  ];
-
-  const snippets = snippetUrlsFor(item);
-  if (snippets.length === 1) {
-    lines.push(`- snippet: ${snippets[0].url}`);
-  } else if (snippets.length > 1) {
-    lines.push("- snippet:");
-    for (const snippet of snippets) {
-      lines.push(`   - ${snippet.label}: ${snippet.url}`);
-    }
-  }
-
-  p.log.message(lines.join("\n"));
+  p.log.message(
+    [item.id, `- docs: ${baseUrl}${item.docUrl}`, `- llms.txt: ${llmsUrlFor(item, baseUrl)}`].join(
+      "\n",
+    ),
+  );
 }
 
 /**
@@ -304,7 +278,7 @@ async function selectCategory(categories: DocsCategory[]): Promise<DocsCategory>
 
 export const docsCommand = (cli: CAC) => {
   cli
-    .command("docs [...query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
+    .command("docs [...query]", "문서 링크와 llms.txt 링크를 조회합니다")
     .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
       default: BASE_URL,
     })
@@ -581,7 +555,6 @@ export const docsCommand = (cli: CAC) => {
             properties: {
               query: options.query ?? null,
               item_id: selectedItem?.id ?? options.query ?? null,
-              has_snippet: !!(selectedItem?.snippets && selectedItem.snippets.length > 0),
               raw_mode: raw,
               duration_ms: duration,
             },
