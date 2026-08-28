@@ -54,6 +54,12 @@ const datePicker = defineSlotRecipe({
       width: "100%",
       minWidth: 0,
       boxSizing: "border-box",
+      "--seed-box-height--responsive": "auto",
+      "--seed-box-min-height--responsive": "auto",
+      "--seed-box-max-height--responsive": "none",
+      height: "var(--seed-box-height)",
+      minHeight: "var(--seed-box-min-height)",
+      maxHeight: "var(--seed-box-max-height)",
       color: vars.base.enabled.dateContent.color,
       backgroundColor: vars.base.enabled.root.color,
     },
@@ -428,10 +434,6 @@ const datePicker = defineSlotRecipe({
         },
       },
       continuous: {
-        root: {
-          height: "100%",
-          minHeight: 0,
-        },
         weekdayRow: {
           position: "sticky",
           top: 0,
