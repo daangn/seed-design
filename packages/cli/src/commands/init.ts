@@ -77,7 +77,7 @@ export const initCommand = (cli: CAC) => {
         • seed-design.json에서 ${highlight('"telemetry": false')}로 설정
         • ${highlight("DISABLE_TELEMETRY=true")} 환경 변수 설정
 
-      자세한 내용: https://seed-design.com/react/getting-started/cli/configuration#telemetry`),
+      자세한 내용: https://seed-design.io/react/getting-started/cli/configuration#telemetry`),
           "Telemetry 안내",
         );
 
