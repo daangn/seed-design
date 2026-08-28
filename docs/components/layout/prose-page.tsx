@@ -5,6 +5,8 @@ import { SiteFooter } from "./site-footer";
 
 interface ProsePageProps {
   title: ReactNode;
+  /** 제목(h1)에 덧붙일 라우트 전용 클래스. */
+  titleClassName?: string;
   description?: ReactNode;
   /** 제목 위 전체폭 하이라이트(커버 이미지 등). main 컬럼 전체 폭(≈헤더 폭)까지 넓게 쓴다. */
   hero?: ReactNode;
@@ -23,6 +25,7 @@ interface ProsePageProps {
  */
 export function ProsePage({
   title,
+  titleClassName,
   description,
   hero,
   children,
@@ -38,7 +41,12 @@ export function ProsePage({
         >
           <header className="not-prose mb-10 md:mb-14">
             {/* get-started/updates 제목 스케일: text-3xl→md:text-[40px] (데스크탑 40px 고정). */}
-            <h1 className="text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-[40px]">
+            <h1
+              className={clsx(
+                "text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-[40px]",
+                titleClassName,
+              )}
+            >
               {title}
             </h1>
             {description ? (

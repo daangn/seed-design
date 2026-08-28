@@ -26,7 +26,9 @@ export function ReleaseCard({ href, title, description, publishedAt }: ReleaseCa
             {formatPublishedDate(published)}
           </time>
         )}
-        <h3 className="min-w-0 break-words text-balance text-lg font-medium">{title}</h3>
+        <h3 className="min-w-0 break-words text-balance text-lg font-medium [word-break:auto-phrase]">
+          {title}
+        </h3>
       </div>
       {description && (
         <p className="t4-regular mt-x2 line-clamp-2 break-words text-fg-neutral-muted">
