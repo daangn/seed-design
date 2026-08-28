@@ -572,7 +572,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.4.0",
+      "version": "2.4.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -1565,7 +1565,7 @@
     },
     "packages/utils/react-scale-feedback": {
       "name": "@seed-design/react-scale-feedback",
-      "version": "0.0.0",
+      "version": "1.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
