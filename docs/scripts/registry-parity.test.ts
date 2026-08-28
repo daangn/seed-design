@@ -188,15 +188,23 @@ describe("CLI and docs-mcp reference live docs pages", () => {
   const isPagePath = (url: string) =>
     url.startsWith("/") && url !== "/" && !dataPrefixes.some((prefix) => url.startsWith(prefix));
 
+  // docs-mcp joins its paths onto a constant now that the origin is overridable, so the
+  // literal origin no longer sits next to the path and the second pattern is what sees it.
+  const originPatterns = [
+    /https:\/\/seed-design\.io(\/[a-zA-Z0-9/._-]*)/g,
+    /\$\{SEED_DOCS_BASE_URL\}(\/[a-zA-Z0-9/._-]*)/g,
+  ];
+
   /** Referenced pathname → the file it was written in, for a legible failure. */
   const referenced = (() => {
     const found = new Map<string, string>();
     for (const root of packageSourceRoots) {
       for (const file of listFiles(root, /\.tsx?$/)) {
-        for (const match of readFileSync(file, "utf-8").matchAll(
-          /https:\/\/seed-design\.io(\/[a-zA-Z0-9/._-]*)/g,
-        )) {
-          found.set(match[1], path.relative(repoRoot, file));
+        const source = readFileSync(file, "utf-8");
+        for (const pattern of originPatterns) {
+          for (const match of source.matchAll(pattern)) {
+            found.set(match[1], path.relative(repoRoot, file));
+          }
         }
       }
     }

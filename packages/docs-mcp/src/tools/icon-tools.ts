@@ -8,9 +8,10 @@
 import { z } from "zod";
 import { createRequire } from "node:module";
 import type { McpServer } from "@modelcontextprotocol/server";
+import { SEED_DOCS_BASE_URL } from "../constants.js";
 import type { IconIndex, IconEntry, IconSearchResult } from "../types.js";
 
-const DOCS_BASE_URL = "https://seed-design.io/foundations/iconography/library";
+const ICON_LIBRARY_URL = `${SEED_DOCS_BASE_URL}/foundations/iconography/library`;
 
 // ============================================================================
 // Runtime Icon Data Loading
@@ -221,7 +222,7 @@ function findIcon(iconData: IconIndex, iconName: string): IconDetailsInternal | 
       type: "monochrome",
       keywords: monoIcon.metadatas,
       variant: monoIcon.variant,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      docsUrl: `${ICON_LIBRARY_URL}?icon=${iconName}`,
       usage: getIconUsage(iconName, "monochrome"),
     };
   }
@@ -233,7 +234,7 @@ function findIcon(iconData: IconIndex, iconName: string): IconDetailsInternal | 
       type: "multicolor",
       keywords: multiIcon.metadatas,
       service: multiIcon.service,
-      docsUrl: `${DOCS_BASE_URL}?icon=${iconName}`,
+      docsUrl: `${ICON_LIBRARY_URL}?icon=${iconName}`,
       usage: getIconUsage(iconName, "multicolor"),
     };
   }
@@ -416,14 +417,14 @@ function registerSearchIconsTool(server: McpServer, iconData: IconIndex): void {
     async ({ query, type, limit }) => {
       const effectiveLimit = Math.min(limit ?? 20, 100);
       const results = searchIcons(iconData, query, type, effectiveLimit);
-      const searchUrl = `${DOCS_BASE_URL}?search=${encodeURIComponent(query)}`;
+      const searchUrl = `${ICON_LIBRARY_URL}?search=${encodeURIComponent(query)}`;
 
       if (results.length === 0) {
         return {
           content: [
             {
               type: "text",
-              text: `No icons found for "${query}".\n\nTry different keywords or browse all icons:\n${DOCS_BASE_URL}`,
+              text: `No icons found for "${query}".\n\nTry different keywords or browse all icons:\n${ICON_LIBRARY_URL}`,
             },
           ],
         };
