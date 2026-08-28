@@ -34,6 +34,12 @@ describe("lynxCompatibilitySchema", () => {
     ).toBe(false);
   });
 
+  it("숫자 점 표기법이 아닌 Engine 버전을 거부한다", () => {
+    for (const engine of ["2.x", "3.6.0-beta.1"]) {
+      expect(lynxCompatibilitySchema.safeParse({ engine }).success).toBe(false);
+    }
+  });
+
   it("중복된 XElement를 거부한다", () => {
     expect(
       lynxCompatibilitySchema.safeParse({
@@ -62,6 +68,12 @@ describe("getEffectiveLynxCompatibility", () => {
 
   it("SEED 최소 지원 버전 이상은 그대로 유지한다", () => {
     expect(getEffectiveLynxCompatibility({ engine: "3.9" })).toEqual({ engine: "3.9" });
+  });
+
+  it("잘못된 Engine 버전은 SEED 최소 지원 버전으로 보정한다", () => {
+    expect(getEffectiveLynxCompatibility({ engine: "2.x" })).toEqual({
+      engine: MINIMUM_SUPPORTED_LYNX_ENGINE_VERSION,
+    });
   });
 });
 

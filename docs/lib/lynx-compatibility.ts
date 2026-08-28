@@ -1,6 +1,10 @@
 import z from "zod";
 
-const versionSchema = z.string().trim().min(1, "최소 버전을 입력해 주세요.");
+const versionSchema = z
+  .string()
+  .trim()
+  .min(1, "최소 버전을 입력해 주세요.")
+  .regex(/^\d+(?:\.\d+)*$/, "버전은 숫자 점 표기법으로 입력해 주세요.");
 
 const xElementSchema = z
   .string()
@@ -51,8 +55,10 @@ function isVersionLowerThan(version: string, minimum: string): boolean {
 }
 
 export function getEffectiveLynxCompatibility(compatibility: LynxCompatibility): LynxCompatibility {
-  if (!isVersionLowerThan(compatibility.engine, MINIMUM_SUPPORTED_LYNX_ENGINE_VERSION)) {
-    return compatibility;
+  const engine = versionSchema.safeParse(compatibility.engine);
+
+  if (engine.success && !isVersionLowerThan(engine.data, MINIMUM_SUPPORTED_LYNX_ENGINE_VERSION)) {
+    return { ...compatibility, engine: engine.data };
   }
 
   return {
