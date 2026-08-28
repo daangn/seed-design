@@ -4,7 +4,7 @@ import { switchmark, type SwitchmarkVariantProps } from "@seed-design/css/recipe
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import React from "react";
 import clsx from "clsx";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";

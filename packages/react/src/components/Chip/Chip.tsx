@@ -2,7 +2,7 @@ import { chip, type ChipVariantProps } from "@seed-design/css/recipes/chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { withIconRequired } from "../Icon/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { useCheckboxContext } from "@seed-design/react-checkbox";

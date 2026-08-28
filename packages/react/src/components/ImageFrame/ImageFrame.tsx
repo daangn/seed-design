@@ -17,7 +17,7 @@ import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 import * as React from "react";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import type { DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";

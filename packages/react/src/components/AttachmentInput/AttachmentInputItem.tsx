@@ -21,7 +21,8 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useScaleFeedback, withScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);

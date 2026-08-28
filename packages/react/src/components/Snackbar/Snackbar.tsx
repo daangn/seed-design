@@ -6,7 +6,7 @@ import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";
 import { forwardRef } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withContext: withRegionContext } = createRecipeContext(snackbarRegion);

@@ -6,7 +6,7 @@ import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,

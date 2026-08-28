@@ -4,7 +4,7 @@ import * as React from "react";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";

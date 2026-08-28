@@ -10,7 +10,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(contentDialog);

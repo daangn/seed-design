@@ -584,7 +584,7 @@
         "@seed-design/react-avatar": "^2.0.1",
         "@seed-design/react-checkbox": "^2.0.1",
         "@seed-design/react-collapsible": "^1.0.1",
-        "@seed-design/react-date-picker": "^1.1.0",
+        "@seed-design/react-date-picker": "^1.2.0",
         "@seed-design/react-dialog": "^2.0.3",
         "@seed-design/react-drawer": "^2.0.6",
         "@seed-design/react-field": "^2.0.1",
@@ -599,9 +599,10 @@
         "@seed-design/react-portal": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
         "@seed-design/react-progress": "^2.0.1",
-        "@seed-design/react-pull-to-refresh": "^2.0.2",
+        "@seed-design/react-pull-to-refresh": "^2.1.0",
         "@seed-design/react-quantity-picker": "^1.0.0",
         "@seed-design/react-radio-group": "^2.0.1",
+        "@seed-design/react-scale-feedback": "^0.0.0",
         "@seed-design/react-segmented-control": "^2.0.2",
         "@seed-design/react-select": "^1.0.1",
         "@seed-design/react-side-navigation": "^1.0.1",
@@ -613,7 +614,7 @@
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
         "@seed-design/react-tooltip": "^1.0.1",
-        "@seed-design/react-wheel-picker": "^1.0.0",
+        "@seed-design/react-wheel-picker": "^1.1.0",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.17.3",
       },
@@ -1558,6 +1559,24 @@
         "react-dom": "^19.1.0",
       },
       "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/utils/react-scale-feedback": {
+      "name": "@seed-design/react-scale-feedback",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-slot": "^1.2.3",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "@seed-design/css": "^2.6.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -3317,6 +3336,8 @@
     "@seed-design/react-quantity-picker": ["@seed-design/react-quantity-picker@workspace:packages/react-headless/quantity-picker"],
 
     "@seed-design/react-radio-group": ["@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"],
+
+    "@seed-design/react-scale-feedback": ["@seed-design/react-scale-feedback@workspace:packages/utils/react-scale-feedback"],
 
     "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
