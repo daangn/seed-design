@@ -70,7 +70,7 @@
     padding-right: var(--seed-dimension-spacing-x-global-gutter)
 }
 .seed-tabs__indicator--triggerLayout_hug {
-    transform: translateX(calc(var(--tabs-indicator-x, 0px) + 0px));
+    transform: translateX(calc(var(--tabs-indicator-x, 0px) + var(--seed-dimension-spacing-x-global-gutter) + 0px));
     width: calc(var(--tabs-indicator-width, 0px) - 2 * 0px)
 }
 .seed-tabs__root--contentLayout_fill {

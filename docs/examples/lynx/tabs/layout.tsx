@@ -1,20 +1,20 @@
 import "./styles";
 
 import { root } from "@lynx-js/react";
-import { Tabs, useSeedClassName } from "@seed-design/lynx-react";
+import { useSeedClassName } from "@seed-design/lynx-react";
+import { TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
 function TabsExample({ triggerLayout }: { triggerLayout: "fill" | "hug" }) {
   return (
     <view className="tabs-preview__layout-section">
       <text className="tabs-preview__status">triggerLayout=&quot;{triggerLayout}&quot;</text>
-      <Tabs.Root defaultValue="one" triggerLayout={triggerLayout}>
-        <Tabs.List>
-          <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
-          <Tabs.Trigger value="two">길이가 긴 두 번째 탭</Tabs.Trigger>
-          <Tabs.Trigger value="three">세 번째</Tabs.Trigger>
-          <Tabs.Indicator />
-        </Tabs.List>
-      </Tabs.Root>
+      <TabsRoot defaultValue="one" triggerLayout={triggerLayout}>
+        <TabsList>
+          <TabsTrigger value="one">첫 번째</TabsTrigger>
+          <TabsTrigger value="two">길이가 긴 두 번째 탭</TabsTrigger>
+          <TabsTrigger value="three">세 번째</TabsTrigger>
+        </TabsList>
+      </TabsRoot>
     </view>
   );
 }

@@ -19,11 +19,17 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import {
+  getTabsLayoutWidth,
+  getTabsOrderedItems,
+  getTabsTriggerRects,
+  type TabsLayoutRect,
+} from "./Tabs.utils";
 
 type NativeViewProps = IntrinsicElements["view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
-type TriggerRect = { left: number; width: number };
+type TriggerRect = TabsLayoutRect;
 type TriggerItem = { value: string; disabled: boolean };
 type TabsPublicVariantProps = Omit<TabsVariantProps, "selected" | "disabled" | "inCarousel">;
 
@@ -49,13 +55,6 @@ function invokeScrollToOffset(list: NodesRef | null, offset: number) {
   }
 }
 
-function getLayoutRect(event: Parameters<LayoutChangeHandler>[0]): TriggerRect | null {
-  const width = event.detail?.width ?? event.params?.width;
-  const left = event.detail?.left ?? event.params?.left;
-  if (!Number.isFinite(width) || !Number.isFinite(left)) return null;
-  return { width: Math.max(0, width), left };
-}
-
 interface TabsContextValue {
   value: string | undefined;
   visualValue: string | undefined;
@@ -65,13 +64,12 @@ interface TabsContextValue {
   indicatorIndex: number;
   selectedPagerIndex: number;
   indicatorRef: React.RefObject<MainThread.Element>;
-  listLeft: number;
   triggerRects: Record<string, TriggerRect>;
   registerTrigger: (value: string, disabled: boolean) => () => void;
   registerContent: (value: string) => () => void;
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
-  updateTriggerRect: (value: string, rect: TriggerRect) => void;
-  setListLeft: (left: number) => void;
+  syncTriggerOrder: (values: string[]) => void;
+  updateTriggerWidth: (value: string, width: number) => void;
   setListRef: (ref: NodesRef | null) => void;
   setPagerRef: (ref: NodesRef | null) => void;
   selectValue: (value: string) => void;
@@ -151,8 +149,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const [items, setItems] = React.useState<TriggerItem[]>([]);
   const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
-  const [triggerRects, setTriggerRects] = React.useState<Record<string, TriggerRect>>({});
-  const [listLeft, setListLeft] = React.useState(0);
+  const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
   const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
@@ -164,11 +161,19 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       ),
     [contentValues, items],
   );
+  const triggerRects = React.useMemo(
+    () =>
+      getTabsTriggerRects(
+        items.map((item) => item.value),
+        triggerWidths,
+      ),
+    [items, triggerWidths],
+  );
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
   const selectedRect = value === undefined ? undefined : triggerRects[value];
-  const selectedOffset = selectedRect ? Math.max(0, selectedRect.left - listLeft) : null;
+  const selectedOffset = selectedRect?.left ?? null;
 
   const setListNode = React.useCallback(
     (node: NodesRef | null) => {
@@ -195,7 +200,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     return () => {
       "background only";
       setItems((current) => current.filter((item) => item.value !== triggerValue));
-      setTriggerRects((current) => {
+      setTriggerWidths((current) => {
         const next = { ...current };
         delete next[triggerValue];
         return next;
@@ -222,12 +227,17 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     );
   }, []);
 
-  const updateTriggerRect = React.useCallback((triggerValue: string, rect: TriggerRect) => {
-    setTriggerRects((current) => {
-      const previous = current[triggerValue];
-      if (previous?.left === rect.left && previous.width === rect.width) return current;
-      return { ...current, [triggerValue]: rect };
+  const syncTriggerOrder = React.useCallback((triggerValues: string[]) => {
+    setItems((current) => {
+      const ordered = getTabsOrderedItems(current, triggerValues);
+      return ordered.every((item, index) => item === current[index]) ? current : ordered;
     });
+  }, []);
+
+  const updateTriggerWidth = React.useCallback((triggerValue: string, width: number) => {
+    setTriggerWidths((current) =>
+      current[triggerValue] === width ? current : { ...current, [triggerValue]: width },
+    );
   }, []);
 
   const selectValue = React.useCallback(
@@ -273,13 +283,12 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
-      listLeft,
       triggerRects,
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
-      updateTriggerRect,
-      setListLeft,
+      syncTriggerOrder,
+      updateTriggerWidth,
       setListRef: setListNode,
       setPagerRef: setPagerNode,
       selectValue,
@@ -295,12 +304,12 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
-      listLeft,
       triggerRects,
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
-      updateTriggerRect,
+      syncTriggerOrder,
+      updateTriggerWidth,
       setListNode,
       setPagerNode,
       selectValue,
@@ -328,12 +337,38 @@ TabsRoot.displayName = "TabsRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+function getTabsTriggerValues(children: React.ReactNode): string[] {
+  const values: string[] = [];
+
+  function visit(node: React.ReactNode) {
+    if (Array.isArray(node)) {
+      node.forEach(visit);
+      return;
+    }
+    if (!React.isValidElement<TabsTriggerProps>(node)) return;
+    if (node.type === TabsTrigger) {
+      values.push(node.props.value);
+      return;
+    }
+    if (node.type === React.Fragment) visit(node.props.children);
+  }
+
+  visit(children);
+  return values;
+}
+
 export interface TabsListProps extends LynxStyledElementProps {}
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { setListLeft, setListRef } = useTabsContext("TabsList");
+  const { items, setListRef, syncTriggerOrder } = useTabsContext("TabsList");
+  const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
+
+  React.useEffect(() => {
+    "background only";
+    syncTriggerOrder(triggerOrder);
+  }, [items, syncTriggerOrder, triggerOrder]);
 
   const mergedRef = React.useCallback(
     (node: NodesRef | null) => {
@@ -344,22 +379,12 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
     [ref, setListRef],
   );
 
-  const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
-    (...args) => {
-      "background only";
-      const rect = getLayoutRect(args[0]);
-      if (rect) setListLeft(rect.left);
-    },
-    [setListLeft],
-  );
-
   return (
     <scroll-view
       ref={mergedRef}
       {...nativeProps}
       scroll-orientation="horizontal"
       scroll-bar-enable={false}
-      bindlayoutchange={handleLayoutChange}
       accessibility-element={false}
       accessibility-traits="tabbar"
       className={clsx(classNames.list, className)}
@@ -412,10 +437,10 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
       "background only";
-      const rect = getLayoutRect(args[0]);
-      if (rect) context.updateTriggerRect(triggerValue, rect);
+      const width = getTabsLayoutWidth(args[0]);
+      if (width !== null) context.updateTriggerWidth(triggerValue, width);
     },
-    [context.updateTriggerRect, triggerValue],
+    [context.updateTriggerWidth, triggerValue],
   );
 
   const triggerClasses = tabs({
@@ -454,8 +479,7 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { indicatorRef, items, listLeft, indicatorIndex, triggerRects } =
-    useTabsContext("TabsIndicator");
+  const { indicatorRef, items, indicatorIndex, triggerRects } = useTabsContext("TabsIndicator");
   const position = indicatorIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
@@ -463,7 +487,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   const lowerRect = triggerRects[items[lowerIndex]?.value ?? ""];
   const upperRect = triggerRects[items[upperIndex]?.value ?? ""] ?? lowerRect;
   const x = lowerRect
-    ? lowerRect.left - listLeft + ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress
+    ? lowerRect.left + ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress
     : 0;
   const width = lowerRect
     ? lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress
@@ -602,7 +626,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
     const tabsContext = useTabsContext("TabsCarouselCamera");
     const carouselContext = useTabsCarouselContext("TabsCarouselCamera");
     const swipingRef = React.useRef(false);
-    const { indicatorRef, pagerValues, listLeft, triggerRects } = tabsContext;
+    const { indicatorRef, pagerValues, triggerRects } = tabsContext;
     const indicatorRects = pagerValues.map((value) => triggerRects[value] ?? null);
 
     const mergedRef = React.useCallback(
@@ -669,10 +693,7 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       const upperRect = indicatorRects[upperIndex] ?? lowerRect;
       if (!lowerRect) return;
 
-      const x =
-        lowerRect.left -
-        listLeft +
-        ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress;
+      const x = lowerRect.left + ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress;
       const width =
         lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress;
 

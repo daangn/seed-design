@@ -3,6 +3,7 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
+import { getTabsLayoutWidth, getTabsOrderedItems, getTabsTriggerRects } from "./Tabs.utils";
 
 function BasicTabs(props: {
   value?: string;
@@ -54,6 +55,45 @@ describe("Tabs", () => {
 
     expect(onValueChange).toHaveBeenCalledWith("two");
     expect(second).toHaveAttribute("accessibility-value", "selected");
+  });
+
+  it("derives trigger positions from ordered widths instead of platform coordinates", () => {
+    expect(getTabsLayoutWidth({ detail: { width: 128 }, params: { width: 128 } })).toBe(128);
+    expect(
+      getTabsTriggerRects(["one", "two", "three"], {
+        one: 128,
+        two: 128,
+        three: 128,
+      }),
+    ).toEqual({
+      one: { left: 0, width: 128 },
+      two: { left: 128, width: 128 },
+      three: { left: 256, width: 128 },
+    });
+  });
+
+  it("waits for every preceding trigger width before positioning later triggers", () => {
+    expect(getTabsTriggerRects(["one", "two", "three"], { one: 80, three: 120 })).toEqual({
+      one: { left: 0, width: 80 },
+    });
+  });
+
+  it("ignores inherited object properties used as trigger values", () => {
+    expect(getTabsTriggerRects(["toString"], {})).toEqual({});
+    expect(getTabsTriggerRects(["constructor"], {})).toEqual({});
+    expect(getTabsTriggerRects(["__proto__"], {})).toEqual({});
+  });
+
+  it("updates trigger positions when keyed triggers are reordered", () => {
+    const items = [{ value: "one" }, { value: "two" }, { value: "three" }];
+    const reordered = getTabsOrderedItems(items, ["three", "two", "one"]);
+    const rects = getTabsTriggerRects(
+      reordered.map((item) => item.value),
+      { one: 80, two: 80, three: 80 },
+    );
+
+    expect(reordered.map((item) => item.value)).toEqual(["three", "two", "one"]);
+    expect(rects["three"]?.left).toBe(0);
   });
 
   it("does not select a disabled trigger", () => {

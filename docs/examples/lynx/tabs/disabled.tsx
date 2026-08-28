@@ -1,7 +1,8 @@
 import "./styles";
 
 import { root } from "@lynx-js/react";
-import { Tabs, useSeedClassName } from "@seed-design/lynx-react";
+import { useSeedClassName } from "@seed-design/lynx-react";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -9,25 +10,24 @@ function Root() {
   return (
     <page className={seedClassName}>
       <view className="tabs-preview">
-        <Tabs.Root defaultValue="one" triggerLayout="hug">
-          <Tabs.List>
-            <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
-            <Tabs.Trigger value="two" disabled>
+        <TabsRoot defaultValue="one" triggerLayout="hug">
+          <TabsList>
+            <TabsTrigger value="one">첫 번째</TabsTrigger>
+            <TabsTrigger value="two" disabled>
               비활성 탭
-            </Tabs.Trigger>
-            <Tabs.Trigger value="three">세 번째</Tabs.Trigger>
-            <Tabs.Indicator />
-          </Tabs.List>
-          <Tabs.Content className="tabs-preview__content" value="one">
+            </TabsTrigger>
+            <TabsTrigger value="three">세 번째</TabsTrigger>
+          </TabsList>
+          <TabsContent className="tabs-preview__content" value="one">
             <text className="tabs-preview__content-text">첫 번째 콘텐츠</text>
-          </Tabs.Content>
-          <Tabs.Content className="tabs-preview__content" value="two">
+          </TabsContent>
+          <TabsContent className="tabs-preview__content" value="two">
             <text className="tabs-preview__content-text">비활성 콘텐츠</text>
-          </Tabs.Content>
-          <Tabs.Content className="tabs-preview__content" value="three">
+          </TabsContent>
+          <TabsContent className="tabs-preview__content" value="three">
             <text className="tabs-preview__content-text">세 번째 콘텐츠</text>
-          </Tabs.Content>
-        </Tabs.Root>
+          </TabsContent>
+        </TabsRoot>
       </view>
     </page>
   );
