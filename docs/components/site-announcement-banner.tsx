@@ -47,7 +47,7 @@ export function SiteAnnouncementBanner({
     const previousScrollPaddingBottom = root.style.scrollPaddingBottom;
     const updateScrollPadding = () => {
       const bannerHeight = bannerRef.current?.getBoundingClientRect().height ?? 0;
-      root.style.scrollPaddingBottom = `${bannerHeight + 48}px`;
+      root.style.scrollPaddingBottom = `${bannerHeight}px`;
     };
 
     updateScrollPadding();
@@ -73,16 +73,17 @@ export function SiteAnnouncementBanner({
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-4 bottom-[calc(16px+env(safe-area-inset-bottom))] z-[900] md:inset-x-7 md:bottom-[calc(24px+env(safe-area-inset-bottom))]"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-[900]"
       role="region"
       aria-label="사이트 새 소식"
     >
       <div
         ref={bannerRef}
-        className="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20]"
+        className="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20] pb-[env(safe-area-inset-bottom)]"
       >
         <Link
           href={config.href}
+          onClick={handleDismiss}
           className="flex min-w-0 flex-1 items-center gap-1 px-5 py-3 text-sm font-semibold text-[#d6fead] transition-colors duration-color-transition hover:bg-[#202329] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-stroke-focus-ring motion-reduce:transition-none md:text-base"
         >
           <span className="line-clamp-2">{config.message}</span>

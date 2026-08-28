@@ -62,8 +62,24 @@ describe("SiteAnnouncementBanner", () => {
 
     expect(link.getAttribute("href")).toBe("/updates/why-we-hired-a-design-engineer");
     expect(region.className).toContain("fixed");
-    expect(region.className).toContain("bottom-");
+    expect(region.className).toContain("inset-x-0");
+    expect(region.className).toContain("bottom-0");
     expect(screen.getByRole("button", { name: "새 소식 배너 닫기" })).toBeDefined();
+  });
+
+  it("링크를 선택하면 캠페인을 닫은 상태로 저장한다", async () => {
+    render(<SiteAnnouncementBanner config={config} />);
+
+    fireEvent.click(
+      await screen.findByRole("link", {
+        name: /우리는 왜 디자인 엔지니어를 찾게 됐을까/,
+      }),
+    );
+
+    expect(window.localStorage.getItem("seed-site-announcement-dismissed:test-announcement")).toBe(
+      "true",
+    );
+    expect(screen.queryByRole("region", { name: "사이트 새 소식" })).toBeNull();
   });
 
   it("닫은 캠페인을 localStorage에 기억하고 숨긴다", async () => {
