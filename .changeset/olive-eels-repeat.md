@@ -4,7 +4,7 @@
 
 `docs` 명령어가 디자인 스펙·파운데이션·패턴·업데이트 문서를 찾을 수 있습니다.
 
-문서 사이트 구조가 바뀌면서 `components`, `foundations`, `patterns`, `updates`가 최상위 섹션으로 분리됐는데, CLI가 읽는 문서 목록이 예전 5개 섹션에 머물러 있었습니다. 약 85개 문서를 `docs` 명령어로 찾을 수 없었고, 이제 218개 문서가 모두 조회됩니다.
+문서 사이트 구조가 바뀌면서 `components`, `foundations`, `patterns`, `updates`가 최상위 섹션으로 분리됐는데, CLI가 읽는 문서 목록은 그 문서들을 여전히 `docs` 카테고리 아래에 모아 두고 있었습니다. 사이트에서 `/foundations/color`인 문서를 CLI로는 `docs/foundations/color`로 불러야 했고, 사이트에서 본 경로를 그대로 쓰면 실패했습니다. 이제 카테고리가 5개에서 10개로 나뉘어 사이트와 같은 구조를 따릅니다.
 
 - `seed-design docs foundations/color`처럼 새 섹션 경로가 동작합니다.
 - `get-started`가 카테고리로 잡힙니다. 이전에는 목록에 아예 없었습니다.
