@@ -18,7 +18,8 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { useScaleFeedback, withScaleFeedback } from "@seed-design/react-scale-feedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);

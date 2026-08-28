@@ -3,7 +3,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 import { getHelpBubbleArrowTipPath } from "../../utils/getHelpBubbleArrowTipPath";

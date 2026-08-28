@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import {
   DismissibleCloseButton,
   DismissibleRoot,

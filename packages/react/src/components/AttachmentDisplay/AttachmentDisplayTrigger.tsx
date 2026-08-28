@@ -14,7 +14,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { withProvider, useClassNames } = createSlotRecipeContext(attachmentInputTrigger);
 

@@ -12,7 +12,6 @@
 ## 코드 작성 컨벤션
 
 - **스타일 로직 금지**: CSS나 className 관련 코드 없어야 함. 단, `visuallyHidden` 등 접근성을 위한 인라인 스타일은 예외.
-  - `scale-feedback`도 예외. 요소의 렌더링 크기를 CSS 변수로 발행하고 클래스 이름을 넘겨줄 뿐, 그 값으로 어떤 스타일을 적용할지는 `@seed-design/css`가 결정한다.
 - `data-*` 속성으로 상태 표현 (data-checked, data-disabled 등)
 - `useControllableState`로 controlled/uncontrolled 지원
 - `forwardRef` 필수

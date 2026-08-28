@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/scale-feedback"
+    "directory": "packages/utils/react-scale-feedback"
   },
   "license": "Apache-2.0",
   "sideEffects": false,
@@ -31,8 +31,7 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-slot": "^1.2.3",
-    "clsx": "^2.1.1"
+    "@radix-ui/react-slot": "^1.2.3"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

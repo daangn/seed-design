@@ -3,7 +3,7 @@ import type * as React from "react";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { callout, type CalloutVariantProps } from "@seed-design/css/recipes/callout";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
