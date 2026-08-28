@@ -24,7 +24,8 @@ for (const entry of placeholders) {
   for (const name of entry.names) {
     const existing = placeholderByName.get(name);
     if (existing) throw new Error(`Two llms placeholders claim <${name}>`);
-    if (byName.has(name)) throw new Error(`<${name}> is claimed by both a handler and a placeholder`);
+    if (byName.has(name))
+      throw new Error(`<${name}> is claimed by both a handler and a placeholder`);
     placeholderByName.set(name, entry);
   }
 }

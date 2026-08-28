@@ -181,9 +181,7 @@ const tableForGroups = (tokens: ArtifactTokensModel["data"]["tokens"], groups: s
  * 참조할 아티팩트를 인자로 받는다. 테스트는 합성 아티팩트로 핸들러를 만들어 실제 토큰
  * 값에 묶이지 않게 한다.
  */
-export function createTokenReferenceHandler(
-  tokenData: readonly ArtifactTokensModel[],
-): LLMHandler {
+export function createTokenReferenceHandler(tokenData: readonly ArtifactTokensModel[]): LLMHandler {
   return {
     names: ["TokenReference"],
     render: (node) => {
