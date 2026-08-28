@@ -148,7 +148,9 @@ export const TablePagination = React.forwardRef<HTMLDivElement, TablePaginationP
                     aria-label={tablePaginationText.pageRangeAriaLabel}
                     style={{ minWidth: 96 }}
                   />
-                  <SelectContent style={{ maxHeight: 240 }}>
+                  <SelectContent
+                    style={{ "--seed-select-max-height": "240px" } as React.CSSProperties}
+                  >
                     <SelectGroup>
                       {pagination.pageRangeOptions.map((option) => (
                         <SelectItem
