@@ -3,6 +3,7 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
+import { getTabsLayoutWidth, getTabsTriggerRects } from "./Tabs.utils";
 
 function BasicTabs(props: {
   value?: string;
@@ -54,6 +55,27 @@ describe("Tabs", () => {
 
     expect(onValueChange).toHaveBeenCalledWith("two");
     expect(second).toHaveAttribute("accessibility-value", "selected");
+  });
+
+  it("derives trigger positions from ordered widths instead of platform coordinates", () => {
+    expect(getTabsLayoutWidth({ detail: { width: 128 }, params: { width: 128 } })).toBe(128);
+    expect(
+      getTabsTriggerRects(["one", "two", "three"], {
+        one: 128,
+        two: 128,
+        three: 128,
+      }),
+    ).toEqual({
+      one: { left: 0, width: 128 },
+      two: { left: 128, width: 128 },
+      three: { left: 256, width: 128 },
+    });
+  });
+
+  it("waits for every preceding trigger width before positioning later triggers", () => {
+    expect(getTabsTriggerRects(["one", "two", "three"], { one: 80, three: 120 })).toEqual({
+      one: { left: 0, width: 80 },
+    });
   });
 
   it("does not select a disabled trigger", () => {

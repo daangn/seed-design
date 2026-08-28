@@ -93,7 +93,7 @@ const tabs = defineSlotRecipe({
           paddingRight: vars.layoutHug.enabled.root.paddingX,
         },
         indicator: {
-          transform: `translateX(calc(var(--tabs-indicator-x, 0px) + ${vars.layoutHug.enabled.indicator.insetX}))`,
+          transform: `translateX(calc(var(--tabs-indicator-x, 0px) + ${vars.layoutHug.enabled.root.paddingX} + ${vars.layoutHug.enabled.indicator.insetX}))`,
           width: `calc(var(--tabs-indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
         },
       },
