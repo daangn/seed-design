@@ -16,7 +16,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "@seed-design/react-scale-feedback";
 
 const { withProvider, useClassNames } = createSlotRecipeContext(attachmentInputTrigger);
 

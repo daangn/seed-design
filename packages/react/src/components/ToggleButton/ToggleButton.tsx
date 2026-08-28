@@ -6,7 +6,7 @@ import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { Toggle as TogglePrimitive } from "@seed-design/react-toggle";
 import clsx from "clsx";
 import * as React from "react";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import {
   PendingButtonProvider,
   usePendingButton,

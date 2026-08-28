@@ -5,7 +5,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "@seed-design/react-scale-feedback";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withProvider, withContext } = createSlotRecipeContext(floatingActionButton);

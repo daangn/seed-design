@@ -1,7 +1,7 @@
 import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "@seed-design/react-scale-feedback";
 
 const { withProvider, withContext } = createSlotRecipeContext(tabs);
 

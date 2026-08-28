@@ -5,7 +5,7 @@ import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";

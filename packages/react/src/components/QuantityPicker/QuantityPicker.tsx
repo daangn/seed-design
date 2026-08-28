@@ -15,7 +15,7 @@ import * as React from "react";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useScaleFeedback } from "../../utils/scaleFeedback";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(quantityPicker);
 const withStateProps = createWithStateProps([useQuantityPickerContext]);

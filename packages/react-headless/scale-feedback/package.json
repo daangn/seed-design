@@ -1,0 +1,50 @@
+{
+  "name": "@seed-design/react-scale-feedback",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react-headless/scale-feedback"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.cjs",
+  "files": [
+    "lib",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "@radix-ui/react-compose-refs": "^1.1.2",
+    "@radix-ui/react-slot": "^1.2.3",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "peerDependencies": {
+    "@seed-design/css": "^2.6.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

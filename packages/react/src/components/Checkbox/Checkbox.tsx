@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "@seed-design/react-scale-feedback";
 import { InternalIcon } from "../private/Icon";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import {

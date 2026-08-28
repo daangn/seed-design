@@ -1,3 +1,5 @@
+"use client";
+
 import { SCALE_FEEDBACK_CLASS_NAME } from "@seed-design/css/scale-feedback";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlot } from "@radix-ui/react-slot";

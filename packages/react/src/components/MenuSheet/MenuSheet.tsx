@@ -7,7 +7,7 @@ import {
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { withScaleFeedback } from "../../utils/scaleFeedback";
+import { withScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
 

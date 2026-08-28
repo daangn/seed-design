@@ -584,7 +584,7 @@
         "@seed-design/react-avatar": "^2.0.1",
         "@seed-design/react-checkbox": "^2.0.1",
         "@seed-design/react-collapsible": "^1.0.1",
-        "@seed-design/react-date-picker": "^1.1.0",
+        "@seed-design/react-date-picker": "^1.2.0",
         "@seed-design/react-dialog": "^2.0.3",
         "@seed-design/react-drawer": "^2.0.6",
         "@seed-design/react-field": "^2.0.1",
@@ -599,9 +599,10 @@
         "@seed-design/react-portal": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
         "@seed-design/react-progress": "^2.0.1",
-        "@seed-design/react-pull-to-refresh": "^2.0.2",
+        "@seed-design/react-pull-to-refresh": "^2.1.0",
         "@seed-design/react-quantity-picker": "^1.0.0",
         "@seed-design/react-radio-group": "^2.0.1",
+        "@seed-design/react-scale-feedback": "workspace:*",
         "@seed-design/react-segmented-control": "^2.0.2",
         "@seed-design/react-select": "^1.0.1",
         "@seed-design/react-side-navigation": "^1.0.1",
@@ -613,7 +614,7 @@
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
         "@seed-design/react-tooltip": "^1.0.1",
-        "@seed-design/react-wheel-picker": "^1.0.0",
+        "@seed-design/react-wheel-picker": "^1.1.0",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.17.3",
       },
@@ -1163,6 +1164,25 @@
         "react-dom": "^19.1.0",
       },
       "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/scale-feedback": {
+      "name": "@seed-design/react-scale-feedback",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-slot": "^1.2.3",
+        "clsx": "^2.1.1",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "@seed-design/css": "^2.6.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -3317,6 +3337,8 @@
     "@seed-design/react-quantity-picker": ["@seed-design/react-quantity-picker@workspace:packages/react-headless/quantity-picker"],
 
     "@seed-design/react-radio-group": ["@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"],
+
+    "@seed-design/react-scale-feedback": ["@seed-design/react-scale-feedback@workspace:packages/react-headless/scale-feedback"],
 
     "@seed-design/react-scrollable": ["@seed-design/react-scrollable@workspace:packages/react-headless/scrollable"],
 
@@ -7327,8 +7349,6 @@
     "sanity/vite": ["vite@7.3.0", "", { "dependencies": { "esbuild": "^0.27.0", "fdir": "^6.5.0", "picomatch": "^4.0.3", "postcss": "^8.5.6", "rollup": "^4.43.0", "tinyglobby": "^0.2.15" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-dZwN5L1VlUBewiP6H9s2+B3e3Jg96D0vzN+Ry73sOefebhYr9f94wwkMNN/9ouoU8pV1BqA1d1zGk8928cx0rg=="],
 
     "sanity/yargs": ["yargs@17.7.2", "", { "dependencies": { "cliui": "^8.0.1", "escalade": "^3.1.1", "get-caller-file": "^2.0.5", "require-directory": "^2.1.1", "string-width": "^4.2.3", "y18n": "^5.0.5", "yargs-parser": "^21.1.1" } }, "sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w=="],
-
-    "sharp/semver": ["semver@7.8.5", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="],
 
     "simple-swizzle/is-arrayish": ["is-arrayish@0.3.4", "", {}, "sha512-m6UrgzFVUYawGBh1dUsWR5M2Clqic9RVXC/9f8ceNlv2IcO9j9J/z8UoCLPqtsPBFNzEpfR3xftohbfqDx8EQA=="],
 
