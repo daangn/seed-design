@@ -5,7 +5,6 @@ export {
   NextAppBarPropsProvider,
   NextAppBarRight,
   NextAppBarRoot,
-  NextAppBarSlot,
   NextAppBarSubtitle,
   NextAppBarTitle,
 } from "./NextAppBar";
@@ -16,7 +15,6 @@ export type {
   NextAppBarMainProps,
   NextAppBarProps,
   NextAppBarRightProps,
-  NextAppBarSlotProps,
   NextAppBarSubtitleProps,
   NextAppBarTitleProps,
 } from "./NextAppBar";

@@ -130,23 +130,3 @@ export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIcon
   },
 );
 NextAppBarIconButton.displayName = "NextAppBarIconButton";
-
-export interface NextAppBarSlotProps extends PrimitiveProps, React.HTMLAttributes<HTMLElement> {}
-
-export const NextAppBarSlot = forwardRef<HTMLElement, NextAppBarSlotProps>(
-  ({ children, className, ...otherProps }, ref) => {
-    const classNames = useClassNames();
-
-    return (
-      <Slot
-        ref={ref}
-        className={clsx(classNames.custom, className)}
-        data-part={nextAppBarAnatomy.custom}
-        {...otherProps}
-      >
-        {children}
-      </Slot>
-    );
-  },
-);
-NextAppBarSlot.displayName = "NextAppBarSlot";

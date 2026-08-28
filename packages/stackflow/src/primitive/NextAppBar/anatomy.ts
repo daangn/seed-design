@@ -11,7 +11,6 @@ export const nextAppBarAnatomy = {
   background: "app-bar-background",
   main: "app-bar-main",
   icon: "app-bar-icon",
-  custom: "app-bar-custom",
 } as const;
 
 export type NextAppBarPart = (typeof nextAppBarAnatomy)[keyof typeof nextAppBarAnatomy];
