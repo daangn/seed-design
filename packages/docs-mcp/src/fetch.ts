@@ -6,6 +6,7 @@ import {
   docsIndexSchema,
   findItem,
   findSection,
+  itemPath,
   itemsOf,
 } from "./docs-index.js";
 import type { DocInfo } from "./types.js";
@@ -93,11 +94,9 @@ export async function fetchDocsList(sectionId: string, category?: string): Promi
     );
   }
 
-  // Paths stay relative to the section root, matching what get_doc accepts. The section's
-  // own landing page has no path below the root, so it is addressed by id instead.
   return itemsOf(section, category).map(({ item, categoryId }) => ({
     title: item.title,
-    path: item.docUrl === `/${section.id}` ? item.id : item.docUrl.replace(`/${section.id}/`, ""),
+    path: itemPath(section, item),
     url: `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
     category: categoryId,
     ...(item.description && { description: item.description }),
@@ -130,8 +129,25 @@ export async function fetchRootageIndex(): Promise<RootageIndex> {
   return fetchWithCache<RootageIndex>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.INDEX}`);
 }
 
+/**
+ * Resolve the request against the index before fetching it.
+ *
+ * The argument used to be concatenated straight onto the base URL, so a `../` in it
+ * addressed pages outside `/rootage` — a reach the tool does not advertise, and one that
+ * stops being confined to a public site the moment `SEED_DOCS_BASE_URL` moves.
+ */
 export async function fetchRootageResource(path: string): Promise<unknown> {
-  return fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${path}`);
+  const index = await fetchRootageIndex();
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const resource = index.resources.find((entry) => entry.path === normalized);
+
+  if (!resource) {
+    throw new Error(
+      `Unknown rootage resource '${path}'. None of the ${index.resources.length} resources in the index match.`,
+    );
+  }
+
+  return fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${resource.path}`);
 }
 
 export function clearCache(): void {
