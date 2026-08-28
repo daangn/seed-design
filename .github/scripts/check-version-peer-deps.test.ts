@@ -195,7 +195,10 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain(`ref: ${githubExpression("github.event.pull_request.base.sha")}`);
     expect(workflow).toContain(`ref: ${githubExpression("github.event.pull_request.head.sha")}`);
     expect(workflow).toContain("persist-credentials: false");
-    expect(workflow).toContain("bun ../control/.github/scripts/check-version-peer-deps.ts");
+    expect(workflow).toContain("working-directory: control");
+    expect(workflow).toContain("bun .github/scripts/check-version-peer-deps.ts");
+    expect(workflow).toContain("--root ../source");
+    expect(workflow).not.toContain("bun ../control/.github/scripts/check-version-peer-deps.ts");
     expect(workflow).toContain("Check React and Lynx peer dependency ranges");
   });
 });
