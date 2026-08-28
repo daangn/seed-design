@@ -124,7 +124,7 @@ export const nextAppBarMain = defineSlotRecipe({
 
 export const nextAppBar = defineSlotRecipe({
   name: "next-app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "icon", "custom"],
+  slots: ["root", "background", "left", "right", "iconButton", "icon"],
   base: {
     root: {
       // The bar lives inside the screen layer (the transition unit), so it has

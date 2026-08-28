@@ -25,10 +25,6 @@ const nextAppBarSlotNames = [
   [
     "icon",
     "seed-next-app-bar__icon"
-  ],
-  [
-    "custom",
-    "seed-next-app-bar__custom"
   ]
 ];
 
