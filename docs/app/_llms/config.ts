@@ -35,11 +35,6 @@ export interface SectionConfig {
   /** `/{section}/llms-full.txt` 라우트 보유 여부 */
   fullText: boolean;
   grouping: SectionGrouping;
-  /**
-   * CLI 인덱스 항목에 스니펫 링크를 붙일 때 조회할 `public/__registry__` 레지스트리.
-   * 앞에서부터 항목 id로 찾고 처음 맞는 것을 쓴다. 스니펫이 없는 섹션은 빈 배열.
-   */
-  snippetRegistries: `${string}/${string}`[];
 }
 
 /**
@@ -61,7 +56,6 @@ export const sectionConfigs = {
     excludePaths: [],
     fullText: false,
     grouping: { kind: "flat", id: "get-started", label: "시작하기" },
-    snippetRegistries: [],
   },
   foundations: {
     contentDir: "foundations",
@@ -74,7 +68,6 @@ export const sectionConfigs = {
     // color/*, design-token/*, iconography/*는 중첩이지만 나머지는 평면이라
     // byFirstSlug로 묶으면 대부분이 단일 항목 섹션이 된다.
     grouping: { kind: "flat", id: "foundations", label: "파운데이션" },
-    snippetRegistries: [],
   },
   components: {
     contentDir: "components",
@@ -85,7 +78,6 @@ export const sectionConfigs = {
     excludePaths: ["index.mdx", "progress-board.mdx"],
     fullText: false,
     grouping: { kind: "flat", id: "components", label: "컴포넌트" },
-    snippetRegistries: ["react/ui", "react/breeze"],
   },
   patterns: {
     contentDir: "patterns",
@@ -96,7 +88,6 @@ export const sectionConfigs = {
     excludePaths: ["index.mdx"],
     fullText: false,
     grouping: { kind: "flat", id: "patterns", label: "패턴" },
-    snippetRegistries: [],
   },
   docs: {
     contentDir: "docs",
@@ -106,7 +97,6 @@ export const sectionConfigs = {
     excludePaths: [],
     fullText: true,
     grouping: { kind: "byFirstSlug", labels: { migration: "마이그레이션" } },
-    snippetRegistries: ["react/ui", "react/breeze"],
   },
   react: {
     contentDir: "react",
@@ -127,7 +117,6 @@ export const sectionConfigs = {
         updates: "업데이트",
       },
     },
-    snippetRegistries: ["react/ui", "react/breeze"],
   },
   breeze: {
     contentDir: "breeze",
@@ -137,7 +126,6 @@ export const sectionConfigs = {
     excludePaths: [],
     fullText: true,
     grouping: { kind: "flat", id: "components", label: "컴포넌트" },
-    snippetRegistries: ["react/breeze"],
   },
   lynx: {
     contentDir: "lynx",
@@ -155,7 +143,6 @@ export const sectionConfigs = {
         hooks: "훅",
       },
     },
-    snippetRegistries: ["lynx/ui"],
   },
   "ai-integration": {
     contentDir: "ai-integration",
@@ -166,7 +153,6 @@ export const sectionConfigs = {
     fullText: true,
     // skill.mdx + (mcp)/ 2장뿐이라 byFirstSlug면 단일 항목 섹션 3개가 된다.
     grouping: { kind: "flat", id: "guides", label: "가이드" },
-    snippetRegistries: [],
   },
   updates: {
     contentDir: "updates",
@@ -177,7 +163,6 @@ export const sectionConfigs = {
     excludePaths: [],
     fullText: false,
     grouping: { kind: "flat", id: "updates", label: "업데이트" },
-    snippetRegistries: [],
   },
 } satisfies Record<string, SectionConfig>;
 

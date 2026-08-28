@@ -23,8 +23,6 @@ const docsIndex = {
               id: "checkbox",
               title: "Checkbox",
               docUrl: "/lynx/components/checkbox",
-              snippetKey: "lynx/ui:checkbox",
-              snippets: [{ label: "checkbox", path: "checkbox.tsx" }],
             },
           ],
         },
@@ -111,10 +109,9 @@ describe("docs command", () => {
     expect(result.stdout).toContain("/lynx/components/action-button");
     expect(result.stdout).toContain("- llms.txt: http://");
     expect(result.stdout).toContain("/llms/lynx/components/action-button.txt");
-    expect(result.stdout).not.toContain("- snippet:");
   });
 
-  it("prints Lynx snippet URLs for quoted Lynx component queries", async () => {
+  it("resolves a quoted two-word query to the Lynx component", async () => {
     requests.length = 0;
     const result = await runDocsCommand(["lynx checkbox"]);
 
@@ -127,9 +124,6 @@ describe("docs command", () => {
     expect(result.stdout).toContain("/lynx/components/checkbox");
     expect(result.stdout).toContain("- llms.txt: http://");
     expect(result.stdout).toContain("/llms/lynx/components/checkbox.txt");
-    expect(result.stdout).toContain(
-      "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
-    );
   });
 
   it("resolves registry-key queries with an explicit framework", async () => {
@@ -143,8 +137,7 @@ describe("docs command", () => {
     }
     expect(result.stdout).toContain("- docs: http://");
     expect(result.stdout).toContain("/lynx/components/checkbox");
-    expect(result.stdout).toContain(
-      "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
-    );
+    expect(result.stdout).toContain("- llms.txt: http://");
+    expect(result.stdout).toContain("/llms/lynx/components/checkbox.txt");
   });
 });

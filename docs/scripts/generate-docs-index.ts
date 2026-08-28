@@ -15,78 +15,11 @@ import {
 import { getDisplayTitle } from "../app/_llms/utils";
 import { listSectionPages } from "./content-pages";
 
-/**
- * Raw snippet host. Lives here rather than in the CLI so the branch a snippet is
- * served from is a property of the published index, not of whichever CLI version
- * happens to be installed.
- */
-const GITHUB_SNIPPET_BASE =
-  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
-
-type DocsSnippet = NonNullable<DocsItem["snippets"]>[number];
-
-type RegistryItem = {
-  id: string;
-  snippets: Array<{ path: string }>;
-};
-
-type RegistryIndex = {
-  id: string;
-  items: RegistryItem[];
-};
-
 type Frontmatter = {
   title?: string;
   description?: string;
   deprecated?: boolean;
 };
-
-const SNIPPET_EXT_LABELS: Record<string, string> = {
-  ".tsx": "react",
-  ".ts": "ts",
-  ".jsx": "react",
-  ".js": "js",
-  ".css": "css",
-  ".module.css": "css",
-};
-
-export function getSnippetLabel(filePath: string): string {
-  // Check longer extensions first (e.g. .module.css before .css)
-  if (filePath.endsWith(".module.css")) return "css";
-  const ext = path.extname(filePath);
-  return SNIPPET_EXT_LABELS[ext] ?? ext.replace(".", "");
-}
-
-/**
- * Build `"{framework}/{registryId}:{itemId}" -> snippets` from the public registry
- * indexes that any section actually references.
- */
-function buildRegistryMap(): Map<string, DocsSnippet[]> {
-  const map = new Map<string, DocsSnippet[]>();
-  const registryIds = new Set(sections.flatMap((s) => sectionConfigs[s].snippetRegistries));
-
-  for (const registryId of registryIds) {
-    try {
-      const raw = readFileSync(
-        path.join(process.cwd(), `public/__registry__/${registryId}/index.json`),
-        "utf-8",
-      );
-      const registry = JSON.parse(raw) as RegistryIndex;
-      for (const item of registry.items) {
-        if (item.snippets.length > 0) {
-          map.set(
-            `${registryId}:${item.id}`,
-            item.snippets.map((s) => ({ label: getSnippetLabel(s.path), path: s.path })),
-          );
-        }
-      }
-    } catch (err) {
-      if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
-    }
-  }
-
-  return map;
-}
 
 /**
  * Resolve the section an item belongs to within its category.
@@ -138,7 +71,6 @@ async function main() {
   console.log(chalk.gray("Generating Docs Index..."));
 
   const contentDir = path.join(process.cwd(), "content");
-  const registryMap = buildRegistryMap();
   const categories: DocsCategory[] = [];
 
   for (const section of sections) {
@@ -164,11 +96,6 @@ async function main() {
       // 섹션 루트 index.mdx만 slug가 없다. frontmatter title이 죄다 "Overview"라
       // 제목에서 뽑을 수도 없어서, CLI가 `docs react/overview`로 부를 이름을 여기서 준다.
       const itemId = slugs.at(-1) ?? "overview";
-      const snippetKey = config.snippetRegistries
-        .map((registryId) => `${registryId}:${itemId}`)
-        .find((key) => registryMap.has(key));
-      const registryPath = snippetKey?.split(":")[0];
-
       const item: DocsItem = {
         id: itemId,
         title: frontmatter.title,
@@ -176,14 +103,6 @@ async function main() {
         docUrl: getDocUrl(section, slugs),
         llmsUrl: getLLMMarkdownUrl(section, slugs),
         ...(frontmatter.deprecated && { deprecated: true }),
-        ...(snippetKey &&
-          registryPath && {
-            snippetKey,
-            snippets: registryMap.get(snippetKey)?.map((snippet) => ({
-              ...snippet,
-              url: `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippet.path}`,
-            })),
-          }),
       };
 
       const sectionId = resolveSectionId(section, slugs);
