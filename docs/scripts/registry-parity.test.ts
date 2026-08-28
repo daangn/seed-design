@@ -27,6 +27,22 @@ const servedLlmsUrls = new Set(
   ),
 );
 
+/** `/{section}/{...slugs}` for every routable page in the content tree. */
+const servedDocUrls = new Set(
+  sections.flatMap((section) =>
+    listSectionPages(section, contentRoot).map(({ slugs }) => getDocUrl(section, slugs)),
+  ),
+);
+
+/** Every file under `dir` whose name matches `pattern`, recursively. */
+function listFiles(dir: string, pattern: RegExp): string[] {
+  return readdirSync(dir).flatMap((entry) => {
+    const full = path.join(dir, entry);
+    if (statSync(full).isDirectory()) return listFiles(full, pattern);
+    return pattern.test(entry) ? [full] : [];
+  });
+}
+
 describe("section registry ↔ routes", () => {
   it.each(sections)("%s has a section llms.txt route", (section) => {
     expect(existsSync(path.join(docsRoot, "app", section, "llms.txt/route.ts"))).toBe(true);
@@ -57,18 +73,13 @@ describe("section registry ↔ routes", () => {
 
 describe("docs index ↔ content", () => {
   it("holds every routable page exactly once", () => {
-    const expected = sections
-      .flatMap((section) =>
-        listSectionPages(section, contentRoot).map(({ slugs }) => getDocUrl(section, slugs)),
-      )
-      .sort();
     const indexed = docsIndex.categories
       .flatMap((c) => c.sections.flatMap((s) => s.items.map((i) => i.docUrl)))
       .sort();
 
     // Pages without a frontmatter title are skipped by the generator, so the index is a
     // subset — but it must never contain a docUrl the content tree cannot serve.
-    expect(indexed.filter((url) => !expected.includes(url))).toEqual([]);
+    expect(indexed.filter((url) => !servedDocUrls.has(url))).toEqual([]);
     expect(indexed.length).toBeGreaterThan(200);
   });
 
@@ -98,22 +109,13 @@ describe("docs index ↔ content", () => {
 describe("skills reference live docs URLs", () => {
   const skillUrls = (() => {
     const found = new Set<string>();
-    const walk = (dir: string) => {
-      for (const entry of readdirSync(dir)) {
-        const full = path.join(dir, entry);
-        if (statSync(full).isDirectory()) {
-          walk(full);
-          continue;
-        }
-        if (!/\.(md|mdx)$/.test(entry)) continue;
-        for (const match of readFileSync(full, "utf-8").matchAll(
-          /https:\/\/seed-design\.io(\/llms\/[a-z0-9/._-]*\.txt)/g,
-        )) {
-          found.add(match[1]);
-        }
+    for (const file of listFiles(path.join(repoRoot, "skills"), /\.(md|mdx)$/)) {
+      for (const match of readFileSync(file, "utf-8").matchAll(
+        /https:\/\/seed-design\.io(\/llms\/[a-z0-9/._-]*\.txt)/g,
+      )) {
+        found.add(match[1]);
       }
-    };
-    walk(path.join(repoRoot, "skills"));
+    }
     return [...found].sort();
   })();
 
@@ -158,5 +160,70 @@ describe("CLI query resolution invariants", () => {
     );
 
     expect(shared.length).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * The URLs `packages/cli/src` and `packages/docs-mcp/src` hand to users were read by no
+ * test: the skills block above walks `skills/` alone. That is how a link to the IA the
+ * site had already left behind survived a release.
+ */
+const packageSourceRoots = ["packages/cli/src", "packages/docs-mcp/src"].map((rel) =>
+  path.join(repoRoot, rel),
+);
+
+describe("CLI and docs-mcp reference live docs pages", () => {
+  // Paths the site serves as data rather than as a page. They have no entry in the content
+  // tree, so measuring them against it would reject every one.
+  const dataPrefixes = [
+    "/llms/",
+    "/__registry__/",
+    "/__docs__/",
+    "/rootage/",
+    "/schemas/",
+    "/icons/",
+  ];
+
+  // A bare origin yields an empty path, and `/` is the site root — neither names a page.
+  const isPagePath = (url: string) =>
+    url.startsWith("/") && url !== "/" && !dataPrefixes.some((prefix) => url.startsWith(prefix));
+
+  /** Referenced pathname → the file it was written in, for a legible failure. */
+  const referenced = (() => {
+    const found = new Map<string, string>();
+    for (const root of packageSourceRoots) {
+      for (const file of listFiles(root, /\.tsx?$/)) {
+        for (const match of readFileSync(file, "utf-8").matchAll(
+          /https:\/\/seed-design\.io(\/[a-zA-Z0-9/._-]*)/g,
+        )) {
+          found.set(match[1], path.relative(repoRoot, file));
+        }
+      }
+    }
+    return found;
+  })();
+
+  it("resolves every referenced docs page", () => {
+    const pages = [...referenced].filter(([url]) => isPagePath(url));
+
+    // 페이지 URL을 하나도 못 찾으면 아래 단언은 통과해도 아무것도 보지 않는다.
+    expect(pages.length).toBeGreaterThan(0);
+    expect(
+      pages.filter(([url]) => !servedDocUrls.has(url)).map(([url, file]) => `${file}: ${url}`),
+    ).toEqual([]);
+  });
+});
+
+describe("no shipped file points at the parked domain", () => {
+  // seed-design.com is a third party's parking page. The project owns seed-design.io only.
+  it("never writes seed-design.com", () => {
+    const roots = [...packageSourceRoots, path.join(repoRoot, "skills")];
+    const offenders = roots.flatMap((root) =>
+      listFiles(root, /\.(tsx?|mdx?|json)$/)
+        .filter((file) => readFileSync(file, "utf-8").includes("seed-design.com"))
+        .map((file) => path.relative(repoRoot, file)),
+    );
+
+    expect(offenders).toEqual([]);
   });
 });
