@@ -1,4 +1,4 @@
-import type { Section } from "@/app/_llms/types";
+import type { Section } from "@/app/_llms/config";
 import { JsonLd } from "@/components/json-ld";
 import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { LLMOptions } from "@/components/page-actions";
