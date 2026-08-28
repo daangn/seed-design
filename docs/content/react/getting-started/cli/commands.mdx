@@ -252,14 +252,12 @@ npx @seed-design/cli@latest docs
 ```
 
 ```sh copy
-│  카테고리
-│
-│  get-started       1개 항목
-│  foundations      20개 항목
-│  components       61개 항목
-│  patterns          1개 항목
-│  react           110개 항목
-│  lynx             33개 항목
+get-started       1개 항목
+foundations      20개 항목
+components       61개 항목
+patterns          1개 항목
+react           110개 항목
+lynx             33개 항목
 ```
 
 경로를 좁혀 가면 그 아래에 무엇이 있는지 이어서 볼 수 있어요.
@@ -272,9 +270,9 @@ npx @seed-design/cli@latest docs react/components   # 그 섹션의 항목 목�
 문서 하나로 좁혀지면 링크를 출력해요.
 
 ```sh copy
-│  action-button
-│  - docs: https://seed-design.io/react/components/action-button
-│  - llms.txt: https://seed-design.io/llms/react/components/action-button.txt
+action-button
+- docs: https://seed-design.io/react/components/action-button
+- llms.txt: https://seed-design.io/llms/react/components/action-button.txt
 ```
 
 <Callout type="info">
@@ -338,16 +336,17 @@ npx @seed-design/cli@latest docs react/overview
 
 ```sh copy
 $ npx @seed-design/cli@latest docs action
-│  action에 해당하는 문서가 여러 개예요
-│
-│  components/action-button
-│  components/action-chip
-│  react/components/action-button
-│  react/components/action-chip
+components/action-button
+components/action-chip
+react/components/action-button
+react/components/action-chip
 
 $ echo $?
 2
 ```
+
+후보 경로는 stdout으로, 왜 목록이 나왔는지 알려주는 설명은 stderr로 나가요. 그래서
+`docs action | head`처럼 경로만 이어 쓸 수 있어요.
 
 ### 오타 제안
 
@@ -378,6 +377,16 @@ npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
 
 `--raw`는 항상 문서 내용만 stdout으로 내보내요. 문서 하나로 좁혀지지 않으면 후보 경로는
 stderr로 나가고 stdout은 비어 있어요.
+
+### 출력 스트림
+
+`docs`는 다른 명령어와 달리 터미널 장식을 그리지 않아요. 파이프로 넘기거나 그대로 다시
+입력하기 위한 출력이라서예요.
+
+| 스트림 | 담는 것 |
+|--------|---------|
+| stdout | 질의에 대한 답. 기본 모드에서는 경로와 링크, `--raw`에서는 문서 본문 |
+| stderr | 그 밖의 전부. 오류, 후보가 여러 개인 이유, 텔레메트리 안내 |
 
 ### 종료 코드
 
