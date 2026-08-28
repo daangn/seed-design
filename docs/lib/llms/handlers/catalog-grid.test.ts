@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import type { CatalogGridManifestEntry } from "../component-grid-manifest";
+import { type CatalogGridManifestEntry, catalogGridManifest } from "../component-grid-manifest";
 import { renderWithHandler } from "../render-test-utils";
 import { catalogGridHandler, createCatalogGridHandler } from "./catalog-grid";
 
@@ -54,13 +54,19 @@ describe("catalog grid handler", () => {
   });
 
   // 매니페스트를 실제로 물고 있는지 확인한다. 합성 데이터만 보면 기본 핸들러가 빈
-  // 매니페스트를 들고 있어도 테스트는 전부 통과한다.
+  // 매니페스트를 들고 있어도 테스트는 전부 통과한다. 어느 문서가 실렸는지가 아니라
+  // 연결 여부만 보므로 문서가 늘거나 줄어도 흔들리지 않는다.
   it("ships with the generated manifest wired in", async () => {
+    const [somePrefix, entries] = Object.entries(catalogGridManifest).find(
+      ([, value]) => value.length > 0,
+    ) as [string, readonly CatalogGridManifestEntry[]];
+
     const actual = await renderWithHandler(
       catalogGridHandler,
-      `<CatalogGrid pathPrefix="/components/" />`,
+      `<CatalogGrid pathPrefix="${somePrefix}" />`,
     );
 
-    expect(actual).toContain("https://seed-design.io/llms/docs/components/action-button.txt");
+    expect(actual.split("\n")).toHaveLength(entries.length);
+    expect(actual.startsWith("- [")).toBe(true);
   });
 });
