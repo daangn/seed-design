@@ -3,76 +3,8 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { docsIndexSchema, type DocsItem } from "../../packages/cli/src/schema";
-import {
-  type RegistryMapEntry,
-  compareDocsItems,
-  filePathToSlugs,
-  findRegistryEntry,
-  getSnippetLabel,
-} from "./generate-docs-index";
-
-// 실제 public/__registry__ 인덱스 대신 쓰는 합성 레지스트리. 레지스트리를 재생성해도 이 기대값은 흔들리지 않는다.
-function registryEntry(framework: "react" | "lynx", registryId: string): RegistryMapEntry {
-  return {
-    framework,
-    registryId,
-    snippets: [{ label: "react", path: `${framework}/${registryId}/snippet.tsx` }],
-  };
-}
-
-const registryMap = new Map<string, RegistryMapEntry>([
-  ["react/ui:action-button", registryEntry("react", "ui")],
-  ["react/breeze:animate-number", registryEntry("react", "breeze")],
-  ["lynx/ui:checkbox", registryEntry("lynx", "ui")],
-  // 세 레지스트리가 같은 id를 모두 가져야 카테고리별 라우팅이 서로 구별된다.
-  ["react/ui:shared", registryEntry("react", "ui")],
-  ["react/breeze:shared", registryEntry("react", "breeze")],
-  ["lynx/ui:shared", registryEntry("lynx", "ui")],
-]);
-
-// snippetKey는 `${framework}/${registryId}:${itemId}` 이므로, 여기서 고른 항목의
-// framework·registryId가 곧 생성물의 snippetKey를 결정한다.
-describe("findRegistryEntry", () => {
-  it("routes React content to the react/ui registry", () => {
-    expect(findRegistryEntry(registryMap, "react", "shared")).toEqual(registryEntry("react", "ui"));
-  });
-
-  it("routes framework-agnostic design content to the react/ui registry", () => {
-    expect(findRegistryEntry(registryMap, "docs", "shared")).toEqual(registryEntry("react", "ui"));
-  });
-
-  it("routes Breeze content to the react/breeze registry", () => {
-    expect(findRegistryEntry(registryMap, "breeze", "shared")).toEqual(
-      registryEntry("react", "breeze"),
-    );
-  });
-
-  it("routes Lynx content to the lynx/ui registry", () => {
-    expect(findRegistryEntry(registryMap, "lynx", "shared")).toEqual(registryEntry("lynx", "ui"));
-  });
-
-  it("falls back to react/breeze when react/ui has no item with that id", () => {
-    expect(findRegistryEntry(registryMap, "react", "animate-number")).toEqual(
-      registryEntry("react", "breeze"),
-    );
-  });
-
-  it("does not let Lynx content fall back to a React registry with the same id", () => {
-    expect(findRegistryEntry(registryMap, "lynx", "action-button")).toBeUndefined();
-  });
-
-  it("does not let Breeze content fall back to the react/ui registry", () => {
-    expect(findRegistryEntry(registryMap, "breeze", "action-button")).toBeUndefined();
-  });
-
-  it("returns nothing for a category with no registry", () => {
-    expect(findRegistryEntry(registryMap, "ai-integration", "shared")).toBeUndefined();
-  });
-
-  it("returns nothing when no registry has the item", () => {
-    expect(findRegistryEntry(registryMap, "react", "nonexistent")).toBeUndefined();
-  });
-});
+import { filePathToSlugs } from "./content-pages";
+import { compareDocsItems, getSnippetLabel } from "./generate-docs-index";
 
 function docsItem(id: string, docUrl: string): DocsItem {
   return { id, title: id, docUrl };
@@ -133,8 +65,8 @@ describe("filePathToSlugs", () => {
     ]);
   });
 
-  it("returns null for the content dir root index", () => {
-    expect(filePathToSlugs("index.mdx")).toBeNull();
+  it("returns no slugs for the content dir root index", () => {
+    expect(filePathToSlugs("index.mdx")).toEqual([]);
   });
 
   it("maps a nested index onto its directory", () => {
