@@ -114,18 +114,31 @@ function originalTag({ name, attributes, children }: PlaceholderData): string {
 }
 
 /**
+ * Fills markers using the placeholders given rather than the registry, so a test can
+ * drive the fill step without the data the registered ones fetch.
+ */
+export function renderPlaceholdersWith(
+  markdown: string,
+  entries: Iterable<LLMPlaceholder>,
+): Promise<string> {
+  const renderers = Object.fromEntries(
+    [...entries].flatMap((entry) =>
+      entry.names.map((name) => [
+        name,
+        async (data: PlaceholderData) => (await entry.render(data)) ?? originalTag(data),
+      ]),
+    ),
+  );
+
+  return renderPlaceholder(markdown, renderers);
+}
+
+/**
  * Fills in the markers `stringify` left behind. Runs when a page is read, which is the
  * first point in the pipeline that can await, and must be applied to every path that
  * serves processed markdown — an unrendered marker reaches the reader as a NUL-wrapped
  * JSON blob.
  */
 export function renderLLMPlaceholders(markdown: string): Promise<string> {
-  const renderers = Object.fromEntries(
-    [...placeholderByName].map(([name, entry]) => [
-      name,
-      async (data: PlaceholderData) => (await entry.render(data)) ?? originalTag(data),
-    ]),
-  );
-
-  return renderPlaceholder(markdown, renderers);
+  return renderPlaceholdersWith(markdown, placeholderByName.values());
 }

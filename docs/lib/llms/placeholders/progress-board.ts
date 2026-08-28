@@ -46,34 +46,41 @@ function buildComponentTable(components: ComponentData[]): string {
   return [markdownRow(headers), markdownRow(headers.map(() => "---")), ...rows].join("\n");
 }
 
-/** Fetched once per process; every page embedding the tag wants the same board. */
-let components: Promise<ComponentData[]> | null = null;
+/**
+ * `<ProgressBoardTable />` renders live Sanity data, so llms.txt cannot read it off the
+ * page — it refetches. An empty result keeps the tag rather than emitting empty tables,
+ * which would read as "nothing is implemented" instead of "the fetch failed".
+ *
+ * 컴포넌트를 가져오는 일은 인자로 받는다. 테스트가 Sanity를 타지 않게 하려는 것이고,
+ * 그래야 네트워크 상태에 따라 결과가 갈리지 않는다.
+ */
+export function createProgressBoardPlaceholder(
+  load: () => Promise<ComponentData[]>,
+): LLMPlaceholder {
+  // Fetched once per process; every page embedding the tag wants the same board.
+  let components: Promise<ComponentData[]> | null = null;
 
-async function loadComponents(): Promise<ComponentData[]> {
+  return {
+    names: ["ProgressBoardTable"],
+    render: async () => {
+      components ??= load();
+      const data = await components;
+      if (data.length === 0) return null;
+
+      return [
+        "### 플랫폼별 진행률",
+        buildSummaryTable(data),
+        "### 컴포넌트별 상태",
+        buildComponentTable(data),
+      ].join("\n\n");
+    },
+  };
+}
+
+export const progressBoardPlaceholder = createProgressBoardPlaceholder(async () => {
   try {
     return await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
   } catch {
     return [];
   }
-}
-
-/**
- * `<ProgressBoardTable />` renders live Sanity data, so llms.txt cannot read it off the
- * page — it refetches. An empty result keeps the tag rather than emitting empty tables,
- * which would read as "nothing is implemented" instead of "the fetch failed".
- */
-export const progressBoardPlaceholder: LLMPlaceholder = {
-  names: ["ProgressBoardTable"],
-  render: async () => {
-    components ??= loadComponents();
-    const data = await components;
-    if (data.length === 0) return null;
-
-    return [
-      "### 플랫폼별 진행률",
-      buildSummaryTable(data),
-      "### 컴포넌트별 상태",
-      buildComponentTable(data),
-    ].join("\n\n");
-  },
-};
+});
