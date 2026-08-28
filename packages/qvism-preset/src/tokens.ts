@@ -232,6 +232,7 @@ export const tokens = {
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
+  --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
   --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
@@ -265,6 +266,7 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-magic-weak: #f9f2ee;
+  --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);
@@ -451,6 +453,7 @@ export const tokens = {
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
+  --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
   --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
@@ -484,6 +487,7 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-magic-weak: #201f1f;
+  --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);

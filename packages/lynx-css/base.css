@@ -255,6 +255,7 @@ text {
   --seed-color-fg-informative: #217cf9;
   --seed-color-fg-informative-contrast: #0b4596;
   --seed-color-fg-neutral: #1a1c20;
+  --seed-color-fg-neutral-inverted: #fff;
   --seed-color-fg-neutral-muted: #555d6d;
   --seed-color-fg-neutral-subtle: #868b94;
   --seed-color-fg-on-brand-solid: #fff;
@@ -288,6 +289,7 @@ text {
   --seed-color-bg-layer-floating: #fff;
   --seed-color-bg-layer-floating-pressed: #f7f8f9;
   --seed-color-bg-magic-weak: #f9f2ee;
+  --seed-color-bg-neutral-inverted: #2a3038;
   --seed-color-bg-neutral-inverted-pressed: #555d6d;
   --seed-color-bg-neutral-solid: #2a3038;
   --seed-color-bg-neutral-solid-pressed: #555d6d;
@@ -472,6 +474,7 @@ text {
   --seed-color-fg-informative: #41a2f9;
   --seed-color-fg-informative-contrast: #b9d7fb;
   --seed-color-fg-neutral: #f3f4f5;
+  --seed-color-fg-neutral-inverted: #16171b;
   --seed-color-fg-neutral-muted: #dcdee3;
   --seed-color-fg-neutral-subtle: #b0b3ba;
   --seed-color-fg-on-brand-solid: #fff;
@@ -505,6 +508,7 @@ text {
   --seed-color-bg-layer-floating: #1d2025;
   --seed-color-bg-layer-floating-pressed: #2b2e35;
   --seed-color-bg-magic-weak: #201f1f;
+  --seed-color-bg-neutral-inverted: #f3f4f5;
   --seed-color-bg-neutral-inverted-pressed: #dcdee3;
   --seed-color-bg-neutral-solid: #f3f4f5;
   --seed-color-bg-neutral-solid-pressed: #dcdee3;
