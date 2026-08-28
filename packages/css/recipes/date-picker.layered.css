@@ -1,8 +1,29 @@
 @layer seed-components {
   .seed-date-picker__root {
     box-sizing: border-box;
+    --seed-box-height-base: auto;
+    --seed-box-height-sm: var(--seed-box-height-base, initial);
+    --seed-box-height-md: var(--seed-box-height-sm, initial);
+    --seed-box-height-lg: var(--seed-box-height-md, initial);
+    --seed-box-height-xl: var(--seed-box-height-lg, initial);
+    --seed-box-height: var(--seed-box-height-base, initial);
+    --seed-box-min-height-base: auto;
+    --seed-box-min-height-sm: var(--seed-box-min-height-base, initial);
+    --seed-box-min-height-md: var(--seed-box-min-height-sm, initial);
+    --seed-box-min-height-lg: var(--seed-box-min-height-md, initial);
+    --seed-box-min-height-xl: var(--seed-box-min-height-lg, initial);
+    --seed-box-min-height: var(--seed-box-min-height-base, initial);
+    --seed-box-max-height-base: none;
+    --seed-box-max-height-sm: var(--seed-box-max-height-base, initial);
+    --seed-box-max-height-md: var(--seed-box-max-height-sm, initial);
+    --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
+    --seed-box-max-height-xl: var(--seed-box-max-height-lg, initial);
+    --seed-box-max-height: var(--seed-box-max-height-base, initial);
     width: 100%;
     min-width: 0;
+    height: var(--seed-box-height);
+    min-height: var(--seed-box-min-height);
+    max-height: var(--seed-box-max-height);
     color: var(--seed-color-fg-neutral-muted);
     background-color: var(--seed-color-bg-layer-floating);
     position: relative;
@@ -449,11 +470,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .seed-date-picker__root--visibleRange_continuous {
-    height: 100%;
-    min-height: 0;
-  }
-
   .seed-date-picker__weekdayRow--visibleRange_continuous {
     position: sticky;
     top: 0;
@@ -465,5 +481,37 @@
 
   .seed-date-picker__weekday--visibleRange_week {
     height: 24px;
+  }
+
+  @media (min-width: 480px) {
+    .seed-date-picker__root {
+      --seed-box-height: var(--seed-box-height-sm, initial);
+      --seed-box-min-height: var(--seed-box-min-height-sm, initial);
+      --seed-box-max-height: var(--seed-box-max-height-sm, initial);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .seed-date-picker__root {
+      --seed-box-height: var(--seed-box-height-md, initial);
+      --seed-box-min-height: var(--seed-box-min-height-md, initial);
+      --seed-box-max-height: var(--seed-box-max-height-md, initial);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .seed-date-picker__root {
+      --seed-box-height: var(--seed-box-height-lg, initial);
+      --seed-box-min-height: var(--seed-box-min-height-lg, initial);
+      --seed-box-max-height: var(--seed-box-max-height-lg, initial);
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .seed-date-picker__root {
+      --seed-box-height: var(--seed-box-height-xl, initial);
+      --seed-box-min-height: var(--seed-box-min-height-xl, initial);
+      --seed-box-max-height: var(--seed-box-max-height-xl, initial);
+    }
   }
 }
