@@ -71,16 +71,6 @@ export async function requireSection(sectionId: string): Promise<DocsIndexCatego
   return section;
 }
 
-export async function fetchSectionOverview(sectionId: string): Promise<string> {
-  const section = await requireSection(sectionId);
-
-  if (!section.llmsIndexUrl) {
-    throw new Error(`Section '${sectionId}' has no llms.txt index.`);
-  }
-
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${section.llmsIndexUrl}`);
-}
-
 export async function fetchSectionFull(sectionId: string): Promise<string> {
   const section = await requireSection(sectionId);
 
