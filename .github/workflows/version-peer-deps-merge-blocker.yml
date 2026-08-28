@@ -11,6 +11,7 @@ concurrency:
 
 permissions:
   contents: read
+  statuses: write
 
 jobs:
   check:
@@ -42,6 +43,8 @@ jobs:
           bun-version: "1.3.13"
 
       - name: Check React and Lynx peer dependency ranges
+        id: check
+        continue-on-error: true
         working-directory: control
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -51,3 +54,30 @@ jobs:
           --root ../source
           --base-sha "$BASE_SHA"
           --source-sha "$SOURCE_SHA"
+
+      - name: Publish peer dependency status
+        if: always() && steps.check.outcome != 'skipped'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          CHECK_OUTCOME: ${{ steps.check.outcome }}
+          ERROR_MESSAGE: ${{ steps.check.outputs.error_message }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+        with:
+          script: |
+            const failed = process.env.CHECK_OUTCOME === 'failure';
+            const description = failed
+              ? process.env.ERROR_MESSAGE || 'Peer dependency 검사에 실패했습니다.'
+              : 'Peer dependency 범위가 새 패키지 버전과 일치합니다.';
+
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: process.env.SOURCE_SHA,
+              state: failed ? 'failure' : 'success',
+              target_url: process.env.RUN_URL,
+              description,
+              context: 'Version Packages peer dependencies',
+            });
+
+            if (failed) core.setFailed(description);

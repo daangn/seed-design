@@ -1,6 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { join } from "node:path";
-import { validateVersionPeerDependencies } from "./check-version-peer-deps";
+import {
+  formatStatusDescription,
+  validateVersionPeerDependencies,
+} from "./check-version-peer-deps";
 
 const repositoryRoot = join(import.meta.dir, "../..");
 const githubExpression = (expression: string): string => ["$", "{{ ", expression, " }}"].join("");
@@ -108,6 +111,11 @@ function createLynxFixture(overrides?: {
 }
 
 describe("Version Packages peer dependency 검사", () => {
+  test("status description은 한 줄로 만들고 140자로 제한한다", () => {
+    expect(formatStatusDescription(new Error("  첫 줄\n둘째 줄  "))).toBe("첫 줄 둘째 줄");
+    expect(formatStatusDescription("가".repeat(141))).toBe("가".repeat(140));
+  });
+
   test("CSS와 React 버전 및 peer 범위가 함께 오르면 통과한다", () => {
     expect(validateVersionPeerDependencies(createFixture())).toEqual({
       react: {
@@ -188,6 +196,7 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain("branches: [dev]");
     expect(workflow).toContain("types: [opened, reopened, synchronize, edited]");
     expect(workflow).toContain("contents: read");
+    expect(workflow).toContain("statuses: write");
     expect(workflow).toContain("changeset-release/dev");
     expect(workflow).toContain(
       "github.event.pull_request.head.repo.full_name == github.repository",
@@ -196,9 +205,14 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain(`ref: ${githubExpression("github.event.pull_request.head.sha")}`);
     expect(workflow).toContain("persist-credentials: false");
     expect(workflow).toContain("working-directory: control");
+    expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("bun .github/scripts/check-version-peer-deps.ts");
     expect(workflow).toContain("--root ../source");
     expect(workflow).not.toContain("bun ../control/.github/scripts/check-version-peer-deps.ts");
     expect(workflow).toContain("Check React and Lynx peer dependency ranges");
+    expect(workflow).toContain("steps.check.outputs.error_message");
+    expect(workflow).toContain("github.rest.repos.createCommitStatus");
+    expect(workflow).toContain("context: 'Version Packages peer dependencies'");
+    expect(workflow).toContain("core.setFailed(description)");
   });
 });

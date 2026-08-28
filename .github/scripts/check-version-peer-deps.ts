@@ -1,3 +1,4 @@
+import { appendFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { compareStableVersions, parseStableVersion } from "./bump-peer-deps";
@@ -10,6 +11,7 @@ const LYNX_CSS_MANIFEST_PATH = "packages/lynx-css/package.json";
 const LYNX_REACT_PACKAGE = "@seed-design/lynx-react";
 const LYNX_REACT_MANIFEST_PATH = "packages/lynx-react/package.json";
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
+const STATUS_DESCRIPTION_MAX_LENGTH = 140;
 
 type JsonRecord = Record<string, unknown>;
 
@@ -354,6 +356,27 @@ async function main(): Promise<void> {
   reportValidation(result);
 }
 
+export function formatStatusDescription(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+
+  return message.replaceAll(/\s+/g, " ").trim().slice(0, STATUS_DESCRIPTION_MAX_LENGTH);
+}
+
+async function reportFailure(error: unknown): Promise<void> {
+  const description = formatStatusDescription(error);
+  const githubOutput = process.env.GITHUB_OUTPUT;
+
+  console.error(description);
+  if (githubOutput) {
+    await appendFile(githubOutput, `error_message=${description}\n`);
+  }
+  process.exitCode = 1;
+}
+
 if (import.meta.main) {
-  await main();
+  try {
+    await main();
+  } catch (error) {
+    await reportFailure(error);
+  }
 }
