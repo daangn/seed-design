@@ -3,7 +3,7 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
-import { getTabsLayoutWidth, getTabsTriggerRects } from "./Tabs.utils";
+import { getTabsLayoutWidth, getTabsOrderedItems, getTabsTriggerRects } from "./Tabs.utils";
 
 function BasicTabs(props: {
   value?: string;
@@ -76,6 +76,18 @@ describe("Tabs", () => {
     expect(getTabsTriggerRects(["one", "two", "three"], { one: 80, three: 120 })).toEqual({
       one: { left: 0, width: 80 },
     });
+  });
+
+  it("updates trigger positions when keyed triggers are reordered", () => {
+    const items = [{ value: "one" }, { value: "two" }, { value: "three" }];
+    const reordered = getTabsOrderedItems(items, ["three", "two", "one"]);
+    const rects = getTabsTriggerRects(
+      reordered.map((item) => item.value),
+      { one: 80, two: 80, three: 80 },
+    );
+
+    expect(reordered.map((item) => item.value)).toEqual(["three", "two", "one"]);
+    expect(rects["three"]?.left).toBe(0);
   });
 
   it("does not select a disabled trigger", () => {

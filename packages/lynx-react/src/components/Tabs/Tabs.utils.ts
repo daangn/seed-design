@@ -18,6 +18,21 @@ export function getTabsLayoutWidth(event: TabsLayoutChangeEvent): number | null 
   return Math.max(0, width);
 }
 
+export function getTabsOrderedItems<T extends { value: string }>(
+  items: T[],
+  values: string[],
+): T[] {
+  const itemsByValue = new Map(items.map((item) => [item.value, item]));
+  const ordered = values.flatMap((value) => {
+    const item = itemsByValue.get(value);
+    if (!item) return [];
+    itemsByValue.delete(value);
+    return [item];
+  });
+  ordered.push(...itemsByValue.values());
+  return ordered;
+}
+
 export function getTabsTriggerRects(
   values: string[],
   widths: Record<string, number>,

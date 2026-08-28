@@ -19,7 +19,12 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { getTabsLayoutWidth, getTabsTriggerRects, type TabsLayoutRect } from "./Tabs.utils";
+import {
+  getTabsLayoutWidth,
+  getTabsOrderedItems,
+  getTabsTriggerRects,
+  type TabsLayoutRect,
+} from "./Tabs.utils";
 
 type NativeViewProps = IntrinsicElements["view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
@@ -63,6 +68,7 @@ interface TabsContextValue {
   registerTrigger: (value: string, disabled: boolean) => () => void;
   registerContent: (value: string) => () => void;
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
+  syncTriggerOrder: (values: string[]) => void;
   updateTriggerWidth: (value: string, width: number) => void;
   setListRef: (ref: NodesRef | null) => void;
   setPagerRef: (ref: NodesRef | null) => void;
@@ -221,6 +227,13 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     );
   }, []);
 
+  const syncTriggerOrder = React.useCallback((triggerValues: string[]) => {
+    setItems((current) => {
+      const ordered = getTabsOrderedItems(current, triggerValues);
+      return ordered.every((item, index) => item === current[index]) ? current : ordered;
+    });
+  }, []);
+
   const updateTriggerWidth = React.useCallback((triggerValue: string, width: number) => {
     setTriggerWidths((current) =>
       current[triggerValue] === width ? current : { ...current, [triggerValue]: width },
@@ -274,6 +287,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
+      syncTriggerOrder,
       updateTriggerWidth,
       setListRef: setListNode,
       setPagerRef: setPagerNode,
@@ -294,6 +308,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
+      syncTriggerOrder,
       updateTriggerWidth,
       setListNode,
       setPagerNode,
@@ -322,12 +337,38 @@ TabsRoot.displayName = "TabsRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+function getTabsTriggerValues(children: React.ReactNode): string[] {
+  const values: string[] = [];
+
+  function visit(node: React.ReactNode) {
+    if (Array.isArray(node)) {
+      node.forEach(visit);
+      return;
+    }
+    if (!React.isValidElement<TabsTriggerProps>(node)) return;
+    if (node.type === TabsTrigger) {
+      values.push(node.props.value);
+      return;
+    }
+    if (node.type === React.Fragment) visit(node.props.children);
+  }
+
+  visit(children);
+  return values;
+}
+
 export interface TabsListProps extends LynxStyledElementProps {}
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { setListRef } = useTabsContext("TabsList");
+  const { items, setListRef, syncTriggerOrder } = useTabsContext("TabsList");
+  const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
+
+  React.useEffect(() => {
+    "background only";
+    syncTriggerOrder(triggerOrder);
+  }, [items, syncTriggerOrder, triggerOrder]);
 
   const mergedRef = React.useCallback(
     (node: NodesRef | null) => {
