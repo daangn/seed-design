@@ -1,5 +1,10 @@
 import { LRUCache } from "lru-cache";
-import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS, DOCS_INDEX_ENDPOINT } from "./constants.js";
+import {
+  SEED_DOCS_BASE_URL,
+  ROOTAGE_ENDPOINTS,
+  DOCS_INDEX_ENDPOINT,
+  DEFAULT_TIMEOUT,
+} from "./constants.js";
 import {
   type DocsIndex,
   type DocsIndexCategory,
@@ -26,7 +31,16 @@ async function fetchWithCache<T>(url: string): Promise<T> {
     return cached as T;
   }
 
-  const response = await fetch(url);
+  const response = await fetch(url, { signal: AbortSignal.timeout(DEFAULT_TIMEOUT) }).catch(
+    (error) => {
+      // The DOMException this raises names neither the URL nor the limit, and it is what
+      // the MCP client puts in front of the model.
+      if (error instanceof Error && error.name === "TimeoutError") {
+        throw new Error(`Timed out after ${DEFAULT_TIMEOUT}ms fetching ${url}`);
+      }
+      throw error;
+    },
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);

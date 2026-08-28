@@ -17,4 +17,5 @@ export const ROOTAGE_ENDPOINTS = {
   BASE: "/rootage",
 } as const;
 
+/** Caps every request: a docs site that hangs would otherwise hang the MCP client too. */
 export const DEFAULT_TIMEOUT = 30000;
