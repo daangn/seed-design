@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, spyOn } from "bun:test";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import {
-  getDateInSeoul,
+  getLocalDate,
   isSiteAnnouncementBannerActive,
   isValidDateOnly,
   type SiteAnnouncementBannerConfig,
@@ -22,8 +22,8 @@ afterEach(() => {
 });
 
 describe("site announcement banner config", () => {
-  it("서울 날짜를 YYYY-MM-DD 형식으로 계산한다", () => {
-    expect(getDateInSeoul(new Date("2026-08-24T15:00:00.000Z"))).toBe("2026-08-25");
+  it("사용자의 로컬 날짜를 YYYY-MM-DD 형식으로 계산한다", () => {
+    expect(getLocalDate(new Date(2026, 0, 5))).toBe("2026-01-05");
   });
 
   it("유효한 날짜 형식과 실제 달력 날짜만 허용한다", () => {
@@ -32,7 +32,7 @@ describe("site announcement banner config", () => {
     expect(isValidDateOnly("2026-02-30")).toBe(false);
   });
 
-  it("시작일과 종료일을 서울 기준 포함 범위로 판정한다", () => {
+  it("시작일과 종료일을 사용자 로컬 날짜 기준 포함 범위로 판정한다", () => {
     const scheduled = { ...config, startDate: "2026-08-25", endDate: "2026-09-30" };
 
     expect(isSiteAnnouncementBannerActive(scheduled, "2026-08-24")).toBe(false);

@@ -4,7 +4,7 @@ export interface SiteAnnouncementBannerConfig {
   enabled: boolean;
   message: string;
   href: string;
-  /** Inclusive calendar dates in Asia/Seoul, formatted as YYYY-MM-DD. */
+  /** Inclusive calendar dates in the visitor's local time zone, formatted as YYYY-MM-DD. */
   startDate?: string;
   endDate?: string;
 }
@@ -34,21 +34,17 @@ export function isValidDateOnly(value: string): boolean {
   );
 }
 
-export function getDateInSeoul(now = new Date()): string {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Seoul",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(now);
-  const values = new Map(parts.map(({ type, value }) => [type, value]));
+export function getLocalDate(now = new Date()): string {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
 
-  return `${values.get("year")}-${values.get("month")}-${values.get("day")}`;
+  return `${year}-${month}-${day}`;
 }
 
 export function isSiteAnnouncementBannerActive(
   config: SiteAnnouncementBannerConfig,
-  today = getDateInSeoul(),
+  today = getLocalDate(),
 ): boolean {
   if (!config.enabled || !isValidDateOnly(today)) return false;
   if (config.startDate && (!isValidDateOnly(config.startDate) || today < config.startDate)) {
