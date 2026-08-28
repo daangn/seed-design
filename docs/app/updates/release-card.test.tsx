@@ -22,8 +22,11 @@ describe("ReleaseCard", () => {
     expect(link.getAttribute("href")).toBe("/updates/pickers-dialog-select");
     expect(screen.getByText("2026. 8. 10")).toBeDefined();
     expect(Array.from(metadataAndTitle, (element) => element.tagName)).toEqual(["TIME", "H3"]);
-    expect(screen.getByRole("heading", { level: 3 }).className).toContain("text-lg");
-    expect(screen.getByRole("heading", { level: 3 }).className).toContain("font-medium");
+    const heading = screen.getByRole("heading", { level: 3 });
+    expect(heading.className).toContain("text-lg");
+    expect(heading.className).toContain("font-medium");
+    expect(heading.className).toContain("text-balance");
+    expect(heading.className).toContain("[word-break:auto-phrase]");
     expect(link.className).not.toContain("min-h-");
     expect(link.querySelector("p")).toBeNull();
     expect(link.querySelector("svg")).toBeNull();
