@@ -18,6 +18,7 @@ export const layerFill = "var(--seed-color-bg-layer-fill)";
 export const layerFloating = "var(--seed-color-bg-layer-floating)";
 export const layerFloatingPressed = "var(--seed-color-bg-layer-floating-pressed)";
 export const magicWeak = "var(--seed-color-bg-magic-weak)";
+export const neutralInverted = "var(--seed-color-bg-neutral-inverted)";
 export const neutralInvertedPressed = "var(--seed-color-bg-neutral-inverted-pressed)";
 export const neutralSolid = "var(--seed-color-bg-neutral-solid)";
 export const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pressed)";
