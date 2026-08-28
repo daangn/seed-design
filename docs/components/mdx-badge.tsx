@@ -12,10 +12,11 @@ const TONES = {
 
 interface BadgeProps {
   tone?: keyof typeof TONES;
+  className?: string;
   children: ReactNode;
 }
 
-export function Badge({ tone = "neutral", children }: BadgeProps) {
+export function Badge({ tone = "neutral", children, ...props }: BadgeProps) {
   const className = TONES[tone] ?? TONES.neutral;
 
   return (
@@ -23,6 +24,7 @@ export function Badge({ tone = "neutral", children }: BadgeProps) {
       className={clsx(
         "not-prose inline-flex items-center rounded-full px-2 py-1 text-sm font-medium",
         className,
+        props.className,
       )}
     >
       {children}

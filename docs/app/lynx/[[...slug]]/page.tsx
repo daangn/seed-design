@@ -1,5 +1,6 @@
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getLynxSource } from "@/app/source";
+import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
@@ -38,6 +39,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       }
       layout={page.data.frontmatter.layout}
       full={page.data.frontmatter.full}
+      meta={<LynxCompatibilityBadges compatibility={page.data.frontmatter.compatibility?.lynx} />}
       toc={toc}
       lastUpdate={lastModified}
       showPageActions={page.slugs.length > 0}

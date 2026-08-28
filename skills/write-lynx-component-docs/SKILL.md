@@ -1,6 +1,6 @@
 ---
 name: write-lynx-component-docs
-description: SEED Design의 Lynx 컴포넌트 문서와 실행 예제를 작성·수정·디버깅한다. docs/content/lynx, docs/examples/lynx, LynxComponentExample, WebLynx 미리보기, QR·Explorer 실행 주소, 네이티브 전용 동작 안내를 다룰 때 사용한다. 문서 미리보기와 Lynx Explorer·PlayLynx 결과가 다르거나 예제 변경이 실제 배포 컴포넌트에 영향을 주는지 판단해야 할 때도 사용한다.
+description: SEED Design의 Lynx 컴포넌트 문서와 실행 예제를 작성·수정·디버깅한다. docs/content/lynx, docs/examples/lynx, Lynx Engine·XElement 호환 frontmatter, LynxComponentExample, WebLynx 미리보기, QR·Explorer 실행 주소, 네이티브 전용 동작 안내를 다룰 때 사용한다. 문서 미리보기와 Lynx Explorer·PlayLynx 결과가 다르거나 예제 변경이 실제 배포 컴포넌트에 영향을 주는지 판단해야 할 때도 사용한다.
 ---
 
 # Lynx 컴포넌트 문서 작성
@@ -31,17 +31,19 @@ Lynx 컴포넌트 문서와 실행 가능한 예제를 저장소 규칙에 맞�
 ## 작업 흐름
 
 1. 같은 컴포넌트의 React 문서·예제와 Lynx 공개 API를 함께 확인한다.
-2. [작성 규칙](references/authoring.md)에 따라 MDX와 예제 엔트리를 작성한다.
-3. WebLynx는 실제 문서 개발 서버와 `docs/out`의 `LynxComponentExample`에서만 확인한다.
-4. 웹과 네이티브 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 원인을 분류한다.
-5. 네이티브 전용 동작은 가능한 경우 Lynx Explorer 또는 PlayLynx에서 확인한다. 기기나 세션이 없으면 우회 구현 없이 환경 차단으로 보고한다.
-6. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제약을 보고한다.
+2. 컴포넌트 소스에서 사용하는 Lynx API·구문·CSS·엘레먼트를 조사하고, 공식 Lynx API 문서와 호환성 데이터로 Engine 최소 버전과 사용 XElement를 확정한다.
+3. [작성 규칙](references/authoring.md)에 따라 호환성 frontmatter, MDX, 예제 엔트리를 작성한다.
+4. WebLynx는 실제 문서 개발 서버와 `docs/out`의 `LynxComponentExample`에서만 확인한다.
+5. 웹과 네이티브 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 원인을 분류한다.
+6. 네이티브 전용 동작은 가능한 경우 Lynx Explorer 또는 PlayLynx에서 확인한다. 기기나 세션이 없으면 우회 구현 없이 환경 차단으로 보고한다.
+7. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제약을 보고한다.
 
 ## 핵심 원칙
 
 - 예제는 실제 호스트 앱에서 권장하는 사용 패턴을 그대로 보여준다.
 - `@seed-design/lynx-react`의 공개 export만 사용한다.
 - 지원하지 않는 기능을 문서 예제에서 흉내 내지 않는다.
+- Lynx 컴포넌트 문서를 작성하거나 수정할 때 Engine·XElement 호환성 frontmatter를 함께 확인한다. 버전은 [공식 Lynx API 문서](https://lynxjs.org/api/index.html)와 [Lynx Compatibility Data](https://github.com/lynx-family/lynx-website/tree/main/packages/lynx-compat-data)에서 확인하며 추정하지 않는다.
 - 일반적인 문서 작성에서 독립 HTML, 별도 Vite 앱, 임시 React 페이지로 WebLynx 예제를 옮기지 않는다.
 - 독립 재현 환경은 사용자가 문서 런타임 진단을 요청했거나 프로덕션 문서에서도 재현되는 경우에만 고려한다. 시작 전에 작업 범위가 넓어짐을 알린다.
 - 웹 미리보기에서 표현할 수 없는 네이티브 동작은 짧은 콜아웃으로 안내한다.
