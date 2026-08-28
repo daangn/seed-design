@@ -52,6 +52,25 @@ Or if installed globally:
 }
 ```
 
+### Configuration
+
+| Environment variable | Default                  | Description                                                                                                                |
+| -------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `SEED_DOCS_BASE_URL` | `https://seed-design.io` | Docs site the server reads. Point it at a local docs server, or at an archived site such as `https://v1-2.seed-design.io`. |
+
+MCP clients pass environment variables through their server config:
+
+```json
+{
+  "mcpServers": {
+    "seed-docs": {
+      "command": "seed-docs-mcp",
+      "env": { "SEED_DOCS_BASE_URL": "http://localhost:3000" }
+    }
+  }
+}
+```
+
 ### Programmatic Usage
 
 For building custom MCP servers or integrating into your own applications:
