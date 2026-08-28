@@ -31,7 +31,6 @@ const chip = defineSlotRecipe({
       fontWeight: vars.base.enabled.label.fontWeight,
       paddingLeft: vars.base.enabled.label.paddingX,
       paddingRight: vars.base.enabled.label.paddingX,
-      whiteSpace: "nowrap",
     },
     prefixIcon: {
       display: "flex",
