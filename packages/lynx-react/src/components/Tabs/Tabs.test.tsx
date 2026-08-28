@@ -78,6 +78,12 @@ describe("Tabs", () => {
     });
   });
 
+  it("ignores inherited object properties used as trigger values", () => {
+    expect(getTabsTriggerRects(["toString"], {})).toEqual({});
+    expect(getTabsTriggerRects(["constructor"], {})).toEqual({});
+    expect(getTabsTriggerRects(["__proto__"], {})).toEqual({});
+  });
+
   it("updates trigger positions when keyed triggers are reordered", () => {
     const items = [{ value: "one" }, { value: "two" }, { value: "three" }];
     const reordered = getTabsOrderedItems(items, ["three", "two", "one"]);

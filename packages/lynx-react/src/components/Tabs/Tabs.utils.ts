@@ -37,12 +37,12 @@ export function getTabsTriggerRects(
   values: string[],
   widths: Record<string, number>,
 ): Record<string, TabsLayoutRect> {
-  const rects: Record<string, TabsLayoutRect> = {};
+  const rects = Object.create(null) as Record<string, TabsLayoutRect>;
   let left = 0;
   let hasCompletePrefix = true;
 
   for (const value of values) {
-    const width = widths[value];
+    const width = Object.hasOwn(widths, value) ? widths[value] : undefined;
     if (width === undefined) {
       hasCompletePrefix = false;
       continue;
