@@ -1,5 +1,4 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import type { Section } from "@/app/_llms/types";
+import { type Section, getLLMMarkdownUrl } from "@/app/_llms/config";
 
 /**
  * llms.txt v2가 정의한 두 링크 릴레이션을 내보낸다 — `alternate`는 이 페이지의 마크다운 버전을,
