@@ -77,7 +77,7 @@ jobs:
             core.setOutput('source-sha', pull.head.sha);
 
       - name: Checkout trusted automation
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.sha }}
           path: control
@@ -101,7 +101,7 @@ jobs:
           permission-contents: write
 
       - name: Checkout exact version PR head
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ steps.pull.outputs.source-sha }}
           path: source
