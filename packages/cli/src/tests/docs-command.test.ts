@@ -127,7 +127,7 @@ describe("docs command", () => {
     });
   });
 
-  async function runDocsCommand(args: string[]) {
+  async function runDocsCommand(args: string[], env: Record<string, string> = {}) {
     const proc = Bun.spawn({
       cmd: [process.execPath, "packages/cli/src/index.ts", "docs", ...args, "-u", baseUrl],
       cwd: repoRoot,
@@ -135,6 +135,7 @@ describe("docs command", () => {
         ...process.env,
         DISABLE_TELEMETRY: "true",
         FORCE_COLOR: "0",
+        ...env,
       },
       stderr: "pipe",
       stdout: "pipe",
@@ -155,6 +156,16 @@ describe("docs command", () => {
         `docs command failed\nbaseUrl:${baseUrl}\nrequests:${requests.join(",")}\nstdout:\n${result.stdout}\nstderr:\n${result.stderr}`,
       );
     }
+  }
+
+  // The frame, symbols and spinner frames @clack/prompts draws, plus the escapes it
+  // colours them with. None of it belongs in output a caller pipes somewhere.
+  const DECORATION_GLYPH = /[│┌└●◇◆■▲◒◐◓◑]/;
+  const ESC = String.fromCharCode(27);
+
+  function expectPlain(text: string) {
+    expect(text).not.toMatch(DECORATION_GLYPH);
+    expect(text.includes(ESC)).toBe(false);
   }
 
   it("resolves unquoted Lynx component queries to docs and llms links", async () => {
@@ -228,6 +239,36 @@ describe("docs command", () => {
       const result = await runDocsCommand(["react/components/nope"]);
 
       expect(result.exitCode).toBe(1);
+    });
+  });
+
+  describe("plain output", () => {
+    it("decorates neither a listing nor a resolved item", async () => {
+      const listing = await runDocsCommand(["react"]);
+      const item = await runDocsCommand(["react/components/action-button"]);
+
+      expectSuccess(listing);
+      expectSuccess(item);
+      expectPlain(listing.stdout);
+      expectPlain(item.stdout);
+    });
+
+    // The notice is written once per session from deep inside the telemetry client, and
+    // it used to land on stdout — after the document body, under --raw.
+    it("keeps the telemetry notice off stdout", async () => {
+      const result = await runDocsCommand(["react/components/action-button", "--raw"], {
+        // Telemetry on, but with nowhere to send to, so nothing leaves the process.
+        DISABLE_TELEMETRY: "",
+        SEED_DISABLE_TELEMETRY: "",
+        POSTHOG_HOST: "",
+        POSTHOG_API_KEY: "",
+        NODE_ENV: "prod",
+      });
+
+      expectSuccess(result);
+      // Without this the assertion below passes on a run where the notice never fired.
+      expect(result.stderr).toContain("사용 데이터 수집 중");
+      expect(result.stdout.trim()).toBe("# served /llms/react/components/action-button.txt");
     });
   });
 
