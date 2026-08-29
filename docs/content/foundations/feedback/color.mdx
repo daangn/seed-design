@@ -4,7 +4,7 @@ description: 누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니�
 coverImage: /og/foundations/feedback
 ---
 
-누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. Color는 누를 수 있는 모든 요소에 적용되는 피드백 요소로, [Scale](/foundations/feedback/scale)이 적용되지 않는 요소에서도 색 전환은 일어납니다.
+누를 수 있는 요소는 대부분 눌린 동안 표면 색이 바뀝니다. 색이 바뀌지 않고 축소만 일어나는 요소도 있으며, 어떤 조합을 쓰는지는 [피드백 요소 조합](/foundations/feedback#피드백-요소-조합)에서 정합니다.
 
 ## 눌린 색을 따로 정의합니다
 
@@ -39,7 +39,7 @@ SEED는 두 번째 방법을 씁니다. [역할 기반 색상](/foundations/colo
 
 [State](/foundations/state)에서 정의하듯 상호작용 상태와 옵션 상태는 함께 적용될 수 있습니다.
 
-- **Selected** — 선택된 요소에도 pressed 색이 적용됩니다. `$color.bg.transparent-selected-pressed`처럼 선택 상태에 대응하는 pressed 토큰을 별도로 정의합니다.
+- **Selected** — 선택된 요소에도 pressed 색이 적용됩니다. `$color.bg.transparent-selected-pressed`처럼 선택 상태에 대응하는 pressed 토큰을 별도로 정의합니다. 다만 [색이 이미 상태를 나타내는 요소](/foundations/feedback#색이-이미-상태를-나타내는-요소)는 예외로, 눌려도 색이 바뀌지 않습니다.
 - **Loading** — 표면 색으로 pressed와 같은 토큰을 사용합니다. 동작이 진행되는 동안 눌린 외형에서 멈춰 있습니다.
 - **Disabled** — `$color.bg.disabled`가 pressed 표현을 덮어씁니다. 상호작용을 받지 않으므로 누름에 반응하지 않습니다.
 
