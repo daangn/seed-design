@@ -13,7 +13,7 @@ coverImage: /og/foundations/feedback
 | [Color](/foundations/feedback/color) | 눌린 동안 표면 색이 바뀝니다                |
 | [Scale](/foundations/feedback/scale) | 눌린 동안 요소가 정해진 거리만큼 작아집니다 |
 
-어떤 피드백 요소를 쓸지는 요소마다 다릅니다. 대부분은 눌린 동안 색이 바뀌고 구조에 따라 축소가 더해지지만, [Switch](/components/switch)처럼 축소만 일어나고 색은 그대로인 요소도 있습니다. 손끝으로 느껴지는 Haptic도 하나의 피드백 요소이지만, SEED는 아직 정의하지 않았습니다.
+어떤 피드백 요소를 쓸지는 요소마다 다릅니다. 대부분은 눌린 동안 색이 바뀌고 구조에 따라 축소가 더해지지만, [Switch](/components/switch)처럼 축소만 일어나고 색은 그대로인 요소도 있습니다.
 
 ## 원칙
 
@@ -42,10 +42,4 @@ SEED는 이를 위해 색 전환과 축소가 같은 시간을 쓰도록 맞춰�
 
 각 판단 기준의 근거는 [Scale의 적용 범위 결정하기](/foundations/feedback/scale#적용-범위-결정하기)에서 자세히 다룹니다.
 
-### 색이 이미 상태를 나타내는 요소
-
-위 표는 요소의 구조를 기준으로 하지만, 색에는 구조보다 앞서는 기준이 하나 있습니다. **색이 이미 다른 것을 말하고 있다면 눌림에는 쓰지 않습니다.**
-
-[Switch](/components/switch), [Radio](/components/radio), [Tabs](/components/tabs), [Select Box](/components/select-box)가 여기 해당합니다. 이 요소들에서 색은 켜짐과 꺼짐, 선택과 비선택을 구분하는 값입니다. 여기에 눌림까지 색으로 얹으면 사용자가 색 변화를 상태가 바뀐 것으로 읽습니다. 그래서 이 요소들은 색을 그대로 두고 축소만으로 눌림을 전달합니다.
-
-축소의 범위는 위 표와 동일하게 구조를 따릅니다. Switch, Radio, Tabs는 Root Scale을, Select Box는 Content Scale을 사용합니다.
+구조와 무관하게 색을 쓰지 않는 요소도 있습니다. [색이 이미 상태를 나타내는 요소](/foundations/feedback/color#색이-이미-상태를-나타내는-요소)를 참고하세요.
