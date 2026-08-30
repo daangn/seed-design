@@ -8,27 +8,13 @@ coverImage: /og/foundations/feedback
 
 색이 이 역할을 맡는 것은 어떤 환경에서도 일어나기 때문입니다. 축소는 OS의 동작 줄이기 설정에 따라 일어나지 않고 Haptic은 기기에 따라 전달되지 않지만, 색 전환은 설정의 영향을 받지 않습니다. 그래서 SEED는 색을 누를 수 있는 요소 전반에 적용하고, 다른 피드백 요소를 그 위에 더합니다.
 
-다만 색이 이미 그 요소의 상태를 나타내는 경우에는 쓰지 않습니다. Switch의 켜짐과 꺼짐, 개별 탭의 선택과 비선택처럼요.
+다만 색이 이미 그 요소의 상태를 나타내는 경우에는 쓰지 않습니다. [Switch](/components/switch)는 색으로 켜짐과 꺼짐을, [개별 탭](/components/tabs)은 선택과 비선택을 구분합니다. 이런 요소를 누르는 동안 색이 바뀌면 사용자는 그것을 눌림이 아니라 상태가 이미 바뀐 것으로 읽습니다. 아직 손가락을 떼지 않아 상태가 바뀌지 않았는데도 그렇습니다. 그래서 이 요소들은 색을 그대로 두고 [축소](/foundations/feedback/scale)만으로 눌림을 전달합니다.
 
 ## Pressed Color 토큰
 
 SEED는 눌린 상태의 색을 토큰으로 정의합니다. [역할 기반 색상](/foundations/color/color-role) 체계 안에 `-pressed`가 붙은 토큰을 두고, 컴포넌트마다 눌렸을 때 쓸 토큰을 지정합니다. [Action Button](/components/action-button)의 brandSolid는 기본 상태에서 `$color.bg.brand-solid`를, 눌린 동안 `$color.bg.brand-solid-pressed`를 씁니다.
 
 색 전환은 요소의 **표면**에서 일어납니다. 표면을 가진 요소에서는 그 위에 놓인 텍스트와 아이콘의 색이 눌림에 반응하지 않습니다. 표면과 글자 색이 함께 바뀌면 요소 전체가 다른 요소로 교체된 것처럼 읽힙니다.
-
-**색이 이미 그 요소의 상태를 나타내고 있다면, 눌림에는 색을 쓰지 않습니다.**
-
-[Switch](/components/switch)와 [Tabs](/components/tabs)의 개별 탭이 여기 해당합니다. 이 요소들에서 색은 켜짐과 꺼짐, 선택과 비선택을 구분하는 값입니다. 여기에 눌림까지 색으로 얹으면 사용자가 색 변화를 상태가 바뀐 것으로 읽습니다. 그래서 이 요소들은 색을 그대로 두고 [축소](/foundations/feedback/scale)만으로 눌림을 전달합니다.
-
-어떤 요소에 무엇을 쓰는지는 [피드백 요소](/foundations/feedback#feedback-elements)에서 정합니다.
-
-## Transition Duration
-
-색 전환의 시간은 `$duration.color-transition`으로 정의되어 있습니다.
-
-<TokenReference regex={/^\$duration\.color-transition$/} />
-
-이 값은 축소가 사용하는 `$duration.pressed-scale`과 같은 `$duration.d3`, 150ms를 참조합니다. 둘이 같은 시간 안에 끝나야 한 번의 입력이 하나의 반응으로 인지되기 때문입니다. 자세한 근거는 [피드백 개요의 원칙](/foundations/feedback#피드백-요소를-함께-사용하기)에서 다룹니다.
 
 ## 직접 만드는 요소에 적용할 때
 

@@ -24,7 +24,9 @@ Haptic은 SEED가 사용 기준을 정하지 않았습니다. 팀에서 필요�
 
 한 번의 입력에서 여러 피드백 요소가 동작할 때, 사용자는 이를 하나의 반응으로 인지해야 합니다. 시작 시점이나 진행 속도가 서로 다르면 반응이 두 개로 나뉘어 읽히고, 요소가 잘못 동작하는 것처럼 느껴집니다.
 
-SEED는 이를 위해 색 전환과 축소가 같은 시간을 쓰도록 맞춰두었습니다. `$duration.color-transition`과 `$duration.pressed-scale`은 모두 `$duration.d3`을 참조합니다.
+SEED는 이를 위해 색 전환과 축소가 같은 시간을 쓰도록 맞춰두었습니다. 두 토큰 모두 `$duration.d3`, 150ms를 참조합니다.
+
+<TokenReference regex={/^\$duration\.(color-transition|pressed-scale)$/} />
 
 ### 어떤 환경에서도 반응 남기기
 
