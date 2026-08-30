@@ -6,13 +6,28 @@ coverImage: /og/foundations/feedback
 
 색은 눌림을 알리는 가장 기본적인 방법입니다. 표면 색이 바뀌는 것만으로 사용자는 자신이 누른 곳이 어디인지, 입력이 요소에 도달했는지를 즉시 알 수 있습니다.
 
+<FigmaImage
+  id="4134:706"
+  alt="기본 상태와 눌린 상태의 버튼 비교 — 눌린 쪽은 표면 색이 어두워져 어디를 눌렀는지 드러난다"
+/>
+
 색이 이 역할을 맡는 것은 어떤 환경에서도 일어나기 때문입니다. Scale은 OS의 동작 줄이기 설정에 따라 일어나지 않고 Haptic은 기기에 따라 전달되지 않지만, 색 전환은 설정의 영향을 받지 않습니다. 그래서 SEED는 색을 누를 수 있는 요소 전반에 적용하고, 다른 피드백 요소를 그 위에 더합니다.
 
 ## 눌린 색은 토큰으로 정의합니다
 
+<FigmaImage
+  id="4152:11720"
+  alt="기본 상태와 눌린 상태의 버튼 비교 — 표면 색이 bg.brand-solid에서 bg.brand-solid-pressed로 바뀌고 라벨 색은 그대로다"
+/>
+
 SEED는 눌린 상태의 색을 토큰으로 정의합니다. [역할 기반 색상](/foundations/color/color-role) 체계 안에 `-pressed`가 붙은 토큰을 두고, 컴포넌트마다 눌렸을 때 쓸 토큰을 지정합니다. [Action Button](/components/action-button)의 brandSolid는 기본 상태에서 `$color.bg.brand-solid`를, 눌린 동안 `$color.bg.brand-solid-pressed`를 씁니다.
 
 ## 색은 표면에서만 바뀝니다
+
+<FigmaImage
+  id="4156:18852"
+  alt="Do와 Don't 비교 — 메뉴 항목을 누를 때 Do는 표면 색만 어두워지고, Don't는 텍스트와 아이콘 색까지 함께 흐려진다"
+/>
 
 색 전환은 요소의 **표면**에서 일어납니다. 표면을 가진 요소에서는 그 위에 놓인 텍스트와 아이콘의 색이 눌림에 반응하지 않습니다. 표면과 글자 색이 함께 바뀌면 요소 전체가 다른 요소로 교체된 것처럼 읽힙니다. 전경에 사용하는 pressed 토큰은 제공하지 않습니다.
 
@@ -26,6 +41,11 @@ SEED가 제공하지 않는 컴포넌트에 눌린 색을 정할 때는 세 가�
 
 ### 2. 기본 상태에 배경 색이 없을 경우
 
+<FigmaImage
+  id="4158:19166"
+  alt="기본 상태와 눌린 상태의 ghost button 비교 — 평소에는 배경 토큰이 없고, 눌린 동안 bg.transparent-pressed 표면이 나타난다"
+/>
+
 기본 상태에서 배경색이 없는 요소도 눌린 동안에는 표면이 생깁니다. SEED에서는 [Action Button](/components/action-button)의 ghost button이 여기 해당합니다. 평소에는 텍스트만 보이지만, 누르는 동안 배경이 나타나 눌린 영역을 드러냅니다.
 
 이때 표면의 색은 `$color.bg.transparent-pressed`를 사용합니다. 알파 값이라 어떤 배경 위에 놓여도 그 아래 색과 겹쳐 보입니다. 다만 FAB이나 Action Sheet처럼 floating layer 위에 놓이는 컴포넌트에서는 `$color.bg.layer-floating-pressed`를 사용합니다.
@@ -33,6 +53,11 @@ SEED가 제공하지 않는 컴포넌트에 눌린 색을 정할 때는 세 가�
 모서리 반경은 공통 값을 제공하지 않으며 컴포넌트가 직접 정합니다.
 
 ### 3. 색을 쓰지 않는 경우인지 확인하기
+
+<FigmaImage
+  id="4156:11841"
+  alt="Switch와 개별 탭을 누르는 모습 — 눌린 요소는 축소만 일어나고, 켜짐과 꺼짐이나 선택을 나타내는 색은 손을 뗀 뒤에 바뀐다"
+/>
 
 색이 이미 그 요소의 상태를 나타내고 있다면 눌림에는 색을 쓰지 않습니다. [Switch](/components/switch)는 색으로 켜짐과 꺼짐을, [개별 탭](/components/tabs)은 선택과 비선택을 구분합니다. 이런 요소는 누르는 동안 색이 바뀌면 아직 손가락을 떼지 않았는데도 상태가 이미 바뀐 것처럼 보입니다. 그래서 색은 그대로 두고 [축소](/foundations/feedback/scale)만으로 눌림을 전달합니다.
 
