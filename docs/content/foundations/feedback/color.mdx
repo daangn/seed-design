@@ -24,7 +24,7 @@ SEED가 제공하지 않는 컴포넌트를 직접 만들 때도 눌린 색은 �
 
 눌린 색은 새로 만들지 않고 이미 정의된 토큰에서 고릅니다. 기본 상태에 쓰는 토큰 이름 뒤에 `-pressed`가 붙은 토큰이 그 짝입니다. 배경이 `$color.bg.neutral-weak`라면 눌린 동안에는 `$color.bg.neutral-weak-pressed`를 사용합니다.
 
-모든 배경 토큰에 짝이 있는 것은 아닙니다. 찾는 토큰이 아래 [Color Token](#color-token) 목록에 없다면 임의로 값을 만들지 말고 디자인 시스템 팀에 문의해 주세요. 계산으로 만든 색은 테마별 조정과 명도 대비를 보장할 수 없기 때문입니다.
+모든 배경 토큰에 짝이 있는 것은 아닙니다. 찾는 토큰이 아래 [Pressed Tokens](#pressed-tokens) 목록에 없다면 임의로 값을 만들지 말고 디자인 시스템 팀에 문의해 주세요. 계산으로 만든 색은 테마별 조정과 명도 대비를 보장할 수 없기 때문입니다.
 
 ### 2. 기본 상태에 배경 색이 없을 경우
 
@@ -45,8 +45,6 @@ SEED 컴포넌트 안에서도 처리가 갈립니다. [List Item](/components/l
 
 색을 바꾸지 않는 경우도 확인합니다. 색이 이미 켜짐과 꺼짐, 선택과 비선택을 나타내고 있다면 눌림에는 색을 쓰지 않고 축소만으로 전달합니다.
 
-## Color Token
-
-아래 값은 Light 테마 기준입니다. Dark 테마 값은 [디자인 토큰 레퍼런스](/foundations/design-token/reference)에서 토큰별로 확인할 수 있습니다.
+## Pressed Tokens
 
 <TokenReference regex={/^\$color\.bg\..*-pressed$/} />
