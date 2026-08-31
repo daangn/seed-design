@@ -21,6 +21,7 @@ import {
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
+import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
   getProjectSeedPackageVersionSpecs,
@@ -48,9 +49,10 @@ export const addAllParser = command(
   }),
   {
     brief: message`레지스트리의 모든 항목을 추가합니다`,
-    footer: message`예시:
-  seed-design add-all ui --include-deprecated
-  seed-design add-all ui lib breeze`,
+    footer: exampleFooter([
+      "seed-design add-all ui --include-deprecated",
+      "seed-design add-all ui lib breeze",
+    ]),
   },
 );
 

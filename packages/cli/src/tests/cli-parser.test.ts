@@ -132,4 +132,21 @@ describe("cli parser", () => {
     expect(result.exitCode).toBe(0);
     expect(result.stdout.trim()).toBe(version);
   });
+
+  it("breaks the help footer's examples onto their own lines", async () => {
+    // A single newline inside a `message` template renders as a space, which ran every
+    // example of a command together into one line.
+    const result = await runCli(["help", "compat"]);
+
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain(
+      [
+        "예시:",
+        "  seed-design compat",
+        "  seed-design compat -c action-button",
+        "  seed-design compat ui:action-button ui:alert-dialog",
+        "  seed-design compat --all",
+      ].join("\n"),
+    );
+  });
 });
