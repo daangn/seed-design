@@ -107,12 +107,9 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
 
   // PostHog API 호출 (fire-and-forget)
   try {
-    if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) {
-      console.error(
-        "[Telemetry] POSTHOG_HOST 또는 POSTHOG_API_KEY가 없어서 이벤트를 전송하지 않아요.",
-      );
-      return;
-    }
+    // Baked into the bundle at build time, so their absence is a build misconfiguration no
+    // user can act on. `build.mjs` warns about it where it can still be fixed.
+    if (!process.env.POSTHOG_HOST || !process.env.POSTHOG_API_KEY) return;
 
     const url = `${process.env.POSTHOG_HOST}/capture`;
     const headers = {
