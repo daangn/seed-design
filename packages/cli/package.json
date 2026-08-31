@@ -32,7 +32,6 @@
     "@babel/plugin-transform-typescript": "^7.27.0",
     "@clack/prompts": "^1.0.0",
     "@npmcli/disparity-colors": "^3.0.1",
-    "cac": "^7.0.0",
     "cosmiconfig": "^9.0.0",
     "dedent": "^1.7.0",
     "diff": "^8.0.3",
@@ -46,6 +45,8 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
+    "@optique/core": "1.2.4",
+    "@optique/run": "1.2.4",
     "@types/babel__core": "^7.20.5",
     "@types/findup-sync": "^4.0.5",
     "@types/fs-extra": "^11.0.4",
