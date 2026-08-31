@@ -3,17 +3,17 @@ description: $COMPONENT_NAME $PATTERN
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 
-# Dev React Headless
+# React Headless 개발
 
-Use the `dev-react-headless` skill to implement style-free React headless components.
+`seed-create-component` 스킬의 React 플랫폼 게이트와 Headless 참고 문서를 사용해 스타일 없는 React Headless 컴포넌트를 구현합니다.
 
-## Arguments
+## 인자
 
-- $COMPONENT_NAME: target component (PascalCase)
-- $PATTERN: optional; `single|multipart|hook-only`
+- $COMPONENT_NAME: 대상 컴포넌트 이름. PascalCase를 사용합니다.
+- $PATTERN: 선택 사항. `single|multipart|hook-only`
 
-## Required Output
+## 필수 결과
 
-1. Hook/component structure follows `useX.ts` + `X.tsx` conventions
-2. State exposure uses `data-*` attributes and supports controlled/uncontrolled flow
-3. `forwardRef` and `displayName` are applied where component exports exist
+1. Hook과 컴포넌트 구조는 `useX.ts`와 `X.tsx` 규칙을 따릅니다.
+2. 상태는 `data-*` 속성으로 노출하고 제어·비제어 흐름을 지원합니다.
+3. 컴포넌트를 export하는 곳에는 `forwardRef`와 `displayName`을 적용합니다.

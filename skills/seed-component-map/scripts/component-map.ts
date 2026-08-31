@@ -84,6 +84,7 @@ const SCAN_ROOTS = [
   "packages/lynx-react-headless",
   "packages/react/src",
   "packages/lynx-react/src",
+  "packages/stackflow/src",
   "docs/content",
   "docs/registry",
   "docs/stories",
@@ -108,6 +109,7 @@ const COMPONENT_PATH_PATTERNS = [
   /^packages\/(?:qvism-preset|lynx-qvism-preset)\/src\/(?:recipes|vars\/component)\/([^/.]+)/,
   /^packages\/(?:css|lynx-css)\/(?:recipes|vars\/component)\/([^/.]+)/,
   /^packages\/(?:react|lynx-react)\/src\/components\/([^/]+)\//,
+  /^packages\/stackflow\/src\/(?:components|primitive)\/([^/]+)\//,
   /^packages\/(?:react-headless|lynx-react-headless)\/[^/]+\/src\/([^/.]+)/,
   /^docs\/content\/(?:(?:react|lynx)\/)?components\/([^/.]+)/,
   /^docs\/registry\/(?:react|lynx)\/(?:ui|block|breeze|lib)\/([^/.]+)/,
@@ -142,6 +144,11 @@ const STATIC_SURFACE_RULES: SurfaceRule[] = [
     pattern: /^packages\/lynx-react-headless\//,
   },
   {
+    surface: "headless",
+    platform: "react",
+    pattern: /^packages\/stackflow\/src\/primitive\//,
+  },
+  {
     surface: "implementations",
     platform: "react",
     pattern: /^packages\/react\/src\/components\//,
@@ -150,6 +157,11 @@ const STATIC_SURFACE_RULES: SurfaceRule[] = [
     surface: "implementations",
     platform: "lynx",
     pattern: /^packages\/lynx-react\/src\/components\//,
+  },
+  {
+    surface: "implementations",
+    platform: "react",
+    pattern: /^packages\/stackflow\/src\/components\//,
   },
   {
     surface: "registry",
@@ -355,13 +367,12 @@ function pathMatchesComponent(path: string, component: NormalizedComponent): boo
   );
 }
 
-/** import와 export 문에서 상대 모듈 지정자를 추출합니다. */
-function extractModuleSpecifiers(source: string): string[] {
+/** 다시 내보내기 문에서 상대 모듈 지정자를 추출합니다. */
+function extractExportSpecifiers(source: string): string[] {
   const specifiers: string[] = [];
-  for (const match of source.matchAll(/\bfrom\s*["']([^"']+)["']/g)) {
-    if (match[1]) specifiers.push(match[1]);
-  }
-  for (const match of source.matchAll(/\bimport\s*(?:\(\s*)?["']([^"']+)["']/g)) {
+  const pattern =
+    /\bexport\s+(?:type\s+)?(?:\*(?:\s+as\s+\w+)?|\{[^}]*\})\s+from\s*["']([^"']+)["']/g;
+  for (const match of source.matchAll(pattern)) {
     if (match[1]) specifiers.push(match[1]);
   }
   return uniqueSorted(specifiers);
@@ -391,9 +402,9 @@ async function buildReverseExportGraph(
   const fileSet = new Set(files);
   const reverseGraph = new Map<string, Set<string>>();
 
-  for (const sourcePath of files.filter(isIndexModule)) {
+  for (const sourcePath of files.filter(isCodeFile)) {
     const source = await readFile(join(repositoryRoot, sourcePath), "utf8");
-    for (const specifier of extractModuleSpecifiers(source)) {
+    for (const specifier of extractExportSpecifiers(source)) {
       const targetPath = resolveModuleSpecifier(sourcePath, specifier, fileSet);
       if (!targetPath) continue;
       const importers = reverseGraph.get(targetPath) ?? new Set<string>();
@@ -410,43 +421,95 @@ function isCodeFile(path: string): boolean {
   return CODE_EXTENSIONS.has(extname(path));
 }
 
-/** 파일이 패키지 공개 표면으로 이어질 수 있는 index 모듈인지 확인합니다. */
+/** 컴포넌트 디렉터리 자체가 제공하는 index 모듈인지 확인합니다. */
 function isIndexModule(path: string): boolean {
   return /^index\.(?:ts|tsx|mts|mjs|js|jsx)$/.test(basename(path));
 }
 
-/** 한 모듈을 다시 내보내는 barrel을 역추적 큐에 추가합니다. */
-function collectImportingBarrels(
+/** 한 모듈을 다시 내보내는 파일을 역추적 큐와 경로 그래프에 추가합니다. */
+function collectExportingModules(
   targetPath: string,
   reverseGraph: ReadonlyMap<string, ReadonlySet<string>>,
   reached: Set<string>,
-  barrels: Set<string>,
+  exportedTargets: Map<string, Set<string>>,
   queue: string[],
 ): void {
-  for (const importer of reverseGraph.get(targetPath) ?? []) {
-    if (reached.has(importer)) continue;
-    reached.add(importer);
-    barrels.add(importer);
-    queue.push(importer);
+  for (const exporter of reverseGraph.get(targetPath) ?? []) {
+    const targets = exportedTargets.get(exporter) ?? new Set<string>();
+    targets.add(targetPath);
+    exportedTargets.set(exporter, targets);
+    if (reached.has(exporter)) continue;
+    reached.add(exporter);
+    queue.push(exporter);
   }
 }
 
-/** 직접 컴포넌트 파일에서 패키지 루트로 이어지는 모든 barrel을 역추적합니다. */
+/** 패키지가 외부로 공개하는 루트 index인지 확인합니다. */
+function isPackageRootIndex(path: string): boolean {
+  return /^packages\/(?:(?:react|lynx-react|stackflow)|(?:react-headless|lynx-react-headless)\/[^/]+)\/src\/index\.(?:ts|tsx|mts|mjs|js|jsx)$/.test(
+    path,
+  );
+}
+
+function collectPublicExportTarget(
+  target: string,
+  exportedTargets: ReadonlyMap<string, ReadonlySet<string>>,
+  publicLeaves: ReadonlySet<string>,
+  publicPaths: Set<string>,
+  queue: string[],
+): void {
+  if (exportedTargets.has(target)) {
+    queue.push(target);
+    return;
+  }
+  if (publicLeaves.has(target)) publicPaths.add(target);
+}
+
+function collectRootExporter(
+  exporter: string | undefined,
+  exportedTargets: ReadonlyMap<string, ReadonlySet<string>>,
+  publicLeaves: ReadonlySet<string>,
+  publicPaths: Set<string>,
+  queue: string[],
+): void {
+  if (!exporter) return;
+  if (publicPaths.has(exporter)) return;
+  publicPaths.add(exporter);
+  for (const target of exportedTargets.get(exporter) ?? []) {
+    collectPublicExportTarget(target, exportedTargets, publicLeaves, publicPaths, queue);
+  }
+}
+
+/** 패키지 루트에서 직접 컴포넌트 방향으로 이어지는 export 파일만 남깁니다. */
+function collectRootExportChains(
+  exportedTargets: ReadonlyMap<string, ReadonlySet<string>>,
+  publicLeaves: ReadonlySet<string>,
+): Set<string> {
+  const queue = [...exportedTargets.keys()].filter(isPackageRootIndex);
+  const publicPaths = new Set<string>();
+  for (let index = 0; index < queue.length; index += 1) {
+    collectRootExporter(queue[index], exportedTargets, publicLeaves, publicPaths, queue);
+  }
+  return publicPaths;
+}
+
+/** 직접 컴포넌트 파일에서 패키지 루트로 이어지는 모든 export 파일을 역추적합니다. */
 function collectBarrelPaths(
   seedPaths: readonly string[],
   reverseGraph: ReadonlyMap<string, ReadonlySet<string>>,
 ): Set<string> {
   const queue = seedPaths.filter(isCodeFile);
   const reached = new Set(queue);
-  const barrels = new Set(queue.filter(isIndexModule));
+  const exportedTargets = new Map<string, Set<string>>();
+  const publicLeaves = new Set(queue.filter(isIndexModule));
 
   for (let index = 0; index < queue.length; index += 1) {
     const targetPath = queue[index];
     if (!targetPath) continue;
-    collectImportingBarrels(targetPath, reverseGraph, reached, barrels, queue);
+    collectExportingModules(targetPath, reverseGraph, reached, exportedTargets, queue);
   }
 
-  return barrels;
+  return collectRootExportChains(exportedTargets, publicLeaves);
 }
 
 /** Headless 컴포넌트와 같은 워크스페이스 패키지의 manifest 경로를 찾습니다. */

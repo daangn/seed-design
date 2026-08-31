@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 공통 컴포넌트 스펙과 파운데이션을 공식 문서에서 찾고, React·Lynx 프로젝트의 구현·설치·CLI·마이그레이션을 대상 플랫폼에 맞게 안내하며, 지원되는 플랫폼의 사용 상태를 Doctor로 진단한다. SEED Design 관련 질문, 컴포넌트 사용법, 색상·타이포·스페이싱, 셋업, 스니펫, 업그레이드, "잘 쓰고 있나?", "뭘 고쳐야 하나?" 같은 요청이면 이 스킬을 사용한다.
+description: SEED Design 통합 가이드. 공통 컴포넌트 스펙과 파운데이션을 공식 문서에서 찾고, React·Lynx 프로젝트의 구현·설치·CLI·마이그레이션을 안내하며, SEED 저장소 안에서는 컴포넌트·문서·changeset·제출 작업을 전용 seed-* 스킬로 연결한다. SEED Design 사용법, 진단, 저장소 기여 작업을 시작할 때 사용한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
@@ -20,6 +20,25 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 | Doctor·마이그레이션 | 사용 상태 진단, deprecated, 호환성, 업그레이드 | 필요 |
 
 공통 스펙이나 Foundations만 묻는다면 프로젝트가 없어도 바로 공통 문서를 읽습니다. 구현 코드까지 함께 묻는다면 공통 문서를 먼저 읽은 다음, 플랫폼을 판별하고 해당 플랫폼 문서를 결합합니다.
+
+### SEED 저장소 작업 라우팅
+
+현재 저장소의 `package.json` 이름이 `@seed-design/project`이고 요청이 소비자 안내가 아닌 저장소 작업이면 아래 전용 스킬을 먼저 읽습니다. 이 표는 입구만 제공하며 각 절차를 이 문서에 복사하지 않습니다.
+
+| 요청 | 사용할 스킬 |
+|---|---|
+| 기존 컴포넌트의 원천·구현·공개 표면 조회 | [`seed-component-map`](../seed-component-map/SKILL.md) |
+| React와 Lynx 공개 API 차이 확인 | [`seed-api-parity`](../seed-api-parity/SKILL.md) |
+| 컴포넌트 추가·변경 계획과 구현 | [`seed-create-component`](../seed-create-component/SKILL.md) |
+| Lynx 컴포넌트 문서·예제 작성 | [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md) |
+| Lynx 예제 entry·bundle·실행 근거 확인 | [`seed-verify-lynx-example`](../seed-verify-lynx-example/SKILL.md) |
+| 변경 영향·검증·PR 기준 브랜치 계획 | [`seed-change-plan`](../seed-change-plan/SKILL.md) |
+| 배포 후보와 bump·메시지 확정 | [`seed-changeset`](../seed-changeset/SKILL.md) |
+| 기준 브랜치 리베이스·커밋·push·PR base 정렬 | [`seed-submit-change`](../seed-submit-change/SKILL.md) |
+| deprecated 표시·마이그레이션·제거 | [`seed-deprecation`](../seed-deprecation/SKILL.md) |
+| PR snapshot 생성과 결과 확인 | [`seed-snapshot-release`](../seed-snapshot-release/SKILL.md) |
+
+여러 단계가 이어지면 조회와 계획을 먼저 실행하고 쓰기 작업을 나중에 실행합니다. `seed-change-plan`의 브랜치 결과가 `unknown`이면 `seed-submit-change`로 넘어가지 않습니다.
 
 ## 2. 플랫폼 판별
 

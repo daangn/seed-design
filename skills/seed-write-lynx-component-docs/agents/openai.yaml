@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lynx 컴포넌트 문서 작성"
+  short_description: "Lynx 문서와 예제를 작성하고 런타임 검증 범위를 구분합니다"
+  default_prompt: "$seed-write-lynx-component-docs를 사용해 Lynx 컴포넌트 문서와 실행 예제를 작성하고 필요한 검증 범위를 구분하세요."

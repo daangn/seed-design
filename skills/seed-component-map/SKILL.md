@@ -53,7 +53,7 @@ bun skills/seed-component-map/scripts/component-map.ts action-button
 2. 필요한 배열의 경로를 직접 읽어 실제 책임과 공개 API를 확인한다.
 3. `generatedOutputs`는 수정 대상에서 제외하고 대응하는 Rootage 또는 Recipe 원천을 찾는다.
 4. `ambiguous`면 `ambiguities[].candidate`의 정확한 이름으로 다시 실행한다.
-5. 구현이나 변경이 필요하면 `../create-component/SKILL.md`의 게이트와 검증 절차를 따른다.
+5. 구현이나 변경이 필요하면 `../seed-create-component/SKILL.md`의 게이트와 검증 절차를 따른다.
 
 맵 결과만으로 동작을 추측하지 않는다. 이 스킬은 경로를 찾는 역할만 하며 코드 변경, 생성, 검증을 대신하지 않는다.
 

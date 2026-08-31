@@ -42,13 +42,13 @@ bun packages:build
 
 ## 컴포넌트 작업
 
-컴포넌트를 추가하거나 여러 레이어(rootage 스키마 → qvism recipe → react 패키지 → 문서)에 걸친 변경을 할 때는 레포에 포함된 `create-component` 스킬을 참고해 주세요. 플랫폼 결정, 카테고리별 패턴, 작업 순서와 검증까지 안내합니다.
+컴포넌트를 추가하거나 여러 레이어(rootage 스키마 → qvism recipe → react 패키지 → 문서)에 걸친 변경을 할 때는 레포에 포함된 `seed-create-component` 스킬을 참고해 주세요. 플랫폼 결정, 카테고리별 패턴, 작업 순서와 검증까지 안내합니다.
 
-Claude Code를 쓰신다면 클론 직후 `/create-component`로 바로 사용할 수 있습니다. `skills/`가 원천이고 `.claude/skills`가 이 디렉터리로의 심링크입니다.
+Claude Code를 쓰신다면 클론 직후 `/seed-create-component`로 바로 사용할 수 있습니다. `skills/`가 원천이고 `.claude/skills`가 이 디렉터리로의 심링크입니다.
 
 ## changeset
 
-사용자에게 보이는 변경(기능 추가, 버그 픽스, 스타일 변경)에는 changeset이 필요합니다. `.changeset/*.md`를 직접 작성하지 말고 `changeset` 스킬을 사용해 주세요. 변경된 패키지를 감지해 bump 종류를 정하고 유저향 메시지를 작성합니다. Claude Code에서는 `/changeset`입니다.
+사용자에게 보이는 변경(기능 추가, 버그 픽스, 스타일 변경)에는 changeset이 필요합니다. `.changeset/*.md`를 직접 작성하지 말고 `seed-changeset` 스킬을 사용해 주세요. 변경된 패키지를 감지해 bump 종류를 정하고 유저향 메시지를 작성합니다. Claude Code에서는 `/seed-changeset`입니다.
 
 문서 수정이나 내부 리팩터링만 있다면 changeset 없이 올려도 됩니다.
 
@@ -72,7 +72,7 @@ docs: update component rules
 
 토큰과 스타일 CSS의 일부 경로는 rootage·qvism이 만들어내는 산출물입니다. 직접 수정하면 다음 생성 때 덮어써집니다. 원천 파일을 고친 뒤 `bun generate:all`을 실행해서 생성물을 함께 커밋해 주세요.
 
-어느 경로가 생성물인지는 [TECH.md](./TECH.md)의 「생성 파일 직접 수정 금지」에 있습니다. 컴포넌트 작업이라면 `create-component` 스킬에 원천·생성물 대응표가 있습니다.
+어느 경로가 생성물인지는 [TECH.md](./TECH.md)의 「생성 파일 직접 수정 금지」에 있습니다. 컴포넌트 작업이라면 `seed-create-component` 스킬에 원천·생성물 대응표가 있습니다.
 
 ## 라이선스
 

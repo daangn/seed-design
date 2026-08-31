@@ -1,4 +1,0 @@
-interface:
-  display_name: "Lynx 컴포넌트 문서 작성"
-  short_description: "Lynx 문서와 실행 예제를 작성하고 웹·네이티브에서 검증합니다"
-  default_prompt: "$write-lynx-component-docs를 사용해 Lynx 컴포넌트 문서와 실행 예제를 작성하고 웹·네이티브 환경에서 검증하세요."

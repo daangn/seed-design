@@ -50,4 +50,31 @@ describe("seed-component-map", () => {
     expect(result.ambiguities.map(({ candidate }) => candidate)).toContain("action-button");
     expect(result.rootage).toEqual([]);
   });
+
+  it("Stackflow AppBar의 React 구현과 공개 export를 찾는다", async () => {
+    const result = await mapSeedComponent("AppBar");
+
+    expect(result.component.state).toBe("matched");
+    expect(result.implementations.react).toContain(
+      "packages/stackflow/src/components/AppBar/AppBar.tsx",
+    );
+    expect(result.headless.react).toContain("packages/stackflow/src/primitive/AppBar/AppBar.tsx");
+    expect(result.packageExports.react).toContain(
+      "packages/stackflow/src/components/AppBar/index.ts",
+    );
+  });
+
+  it("namespace alias를 거쳐 패키지 루트에 도달하는 공개 export를 찾는다", async () => {
+    const result = await mapSeedComponent("BottomSheetHandle");
+
+    expect(result.packageExports.react).toEqual(
+      expect.arrayContaining([
+        "packages/react/src/components/BottomSheetHandle/index.ts",
+        "packages/react/src/components/BottomSheet/BottomSheet.namespace.ts",
+        "packages/react/src/components/BottomSheet/index.ts",
+        "packages/react/src/components/index.ts",
+        "packages/react/src/index.ts",
+      ]),
+    );
+  });
 });
