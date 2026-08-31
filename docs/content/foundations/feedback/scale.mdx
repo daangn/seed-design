@@ -166,7 +166,7 @@ SEED가 제공하지 않는 컴포넌트에 축소를 적용할 때는 세 가�
 | ------ | --------- |
 | React | 축소할 요소를 `ScaleFeedback`으로 감쌉니다. 감싸기 어려운 구조라면 `useScaleFeedback` hook으로 같은 값을 받을 수 있습니다. 계산된 배율은 `--seed-feedback-scale` CSS 변수로도 공개됩니다. Content Scale처럼 배경과 콘텐츠를 나눠야 하는 경우, 이 값을 콘텐츠 쪽에만 적용합니다. [Scale Feedback 가이드](/react/components/concepts/scale-feedback)를 참고하세요. |
 | iOS | UIKit은 `SeedPressedEffectInteraction`, SwiftUI는 `seedScaleEffect()`를 사용합니다. |
-| Android | 공용 Dynamic Scale Modifier를 누르는 요소에 붙입니다. |
+| Android | Compose용 `Modifier.dynamicScale()`을 붙이면 렌더된 실제 크기 기반 배율이 자동으로 적용됩니다. `clickable`을 쓰는 구조라면 `indication = DynamicScaleIndication`으로 대신 넘길 수 있습니다. |
 
 감싸기만 하면 요소 전체가 줄어듭니다. Content Scale이 필요한 요소는 콘텐츠 영역에만 배율을 적용해야 하므로, 플랫폼별 적용 방법을 확인하세요.
 
