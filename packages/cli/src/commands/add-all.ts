@@ -37,7 +37,7 @@ export const addAllParser = command(
     all: option("-a", "--all", {
       description: message`모든 레지스트리의 모든 항목을 추가합니다.`,
     }),
-    includeDeprecated: option("--include-deprecated", {
+    includeDeprecated: option("--include-deprecated", "--includeDeprecated", {
       description: message`deprecated 항목도 함께 추가합니다.`,
     }),
     cwd: cwdOption,

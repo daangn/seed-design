@@ -40,8 +40,13 @@ export const cwdLongOption = withDefault(
   () => process.cwd(),
 );
 
+/**
+ * Every multi-word option answers to both the kebab and the camel spelling, here and in
+ * `add-all`. cac derived the counterpart of a declared name on its own, so a script written
+ * against any earlier release may carry either one; Optique knows only the names it is given.
+ */
 export const baseUrlOption = withDefault(
-  option("-u", "--baseUrl", string({ metavar: "BASE_URL" }), {
+  option("-u", "--baseUrl", "--base-url", string({ metavar: "BASE_URL" }), {
     description: message`레지스트리의 기본 URL입니다.`,
   }),
   BASE_URL,
@@ -54,13 +59,13 @@ export const frameworkOption = optional(
 );
 
 export const seedReactVersionOption = optional(
-  option("--seed-react-version", string({ metavar: "VERSION" }), {
+  option("--seed-react-version", "--seedReactVersion", string({ metavar: "VERSION" }), {
     description: message`지정한 SEED React 버전의 레지스트리를 사용합니다. 예를 들면 1.2입니다.`,
   }),
 );
 
 export const onDiffOption = optional(
-  option("--on-diff", choice(["overwrite", "backup"]), {
+  option("--on-diff", "--onDiff", choice(["overwrite", "backup"]), {
     description: message`파일 내용이 다를 때의 처리 방식입니다.`,
   }),
 );
