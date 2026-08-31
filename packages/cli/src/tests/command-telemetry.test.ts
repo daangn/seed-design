@@ -149,10 +149,11 @@ describe("command telemetry", () => {
       runAdd({
         command: "add",
         itemIds: [],
-        all: true,
         cwd: "/tmp/seed-design",
         baseUrl: "https://seed-design.io",
-        seedReactVersion: undefined,
+        // An archived version nobody publishes, so `resolveSeedVersion` throws before
+        // anything reaches the filesystem or the network.
+        seedReactVersion: "9.9",
         framework: undefined,
         onDiff: undefined,
         verbose: false,
