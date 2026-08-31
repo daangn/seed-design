@@ -54,6 +54,10 @@ Phase 0 Pre 전에 target platform을 `react` / `lynx` / `cross-platform` 중 �
 
 ## Delivery Surface Gate: 공개 표면 결정
 
+**현재 표면 확인 → `../seed-component-map/SKILL.md`**
+
+기존 컴포넌트를 변경하거나 React/Lynx 동등성을 확인할 때는 먼저 현재 체크아웃의 컴포넌트 맵을 조회한다. 신규 컴포넌트라면 `not-found` 결과를 현재 표면이 없다는 근거로 사용한다. 결과에 나온 경로를 직접 읽은 뒤 공개 표면을 결정한다.
+
 **진입 시 즉시 읽기 → `references/api-design.md`의 "Delivery Surface Gate"와 "Analog Parity Check"**
 
 Platform Gate 직후, 구현 전에 이 컴포넌트를 **package export**, **registry snippet**, **둘 다**, **docs-only** 중 어디로 제공할지 확정한다. React 동등 컴포넌트가 있다면 variant/interface뿐 아니라 docs Usage import, registry 존재 여부, package export, example surface를 함께 비교한다.
@@ -62,6 +66,7 @@ snippet은 wrapper가 실질적인 가치를 추가할 때만 만든다. 단일 
 
 ### 🔒 게이트 Delivery Surface → 0Pre
 - 공개 표면 확정: package-only / snippet-only / package+snippet / docs-only
+- `seed-component-map`으로 현재 표면 확인. 신규 컴포넌트는 `not-found` 확인
 - 동등 React/Lynx 컴포넌트의 docs Usage, registry, package export, example surface 확인
 - snippet이 필요하면 wrapper value를 한 문장으로 설명
 - snippet이 필요 없으면 registry/vendored example 작업을 명시적으로 제외
