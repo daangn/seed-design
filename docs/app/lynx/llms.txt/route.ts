@@ -20,10 +20,6 @@ export async function GET() {
 
 Lynx 프레임워크 문서입니다.
 
-## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/lynx/llms-full.txt", baseUrl)}): 모든 Lynx 문서를 하나의 파일로
-
 ## Documents
 
 ${pageList}

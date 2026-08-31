@@ -23,13 +23,8 @@ export function registerDiscoverSeedDocsTool(server: McpServer): void {
           name: section.label,
           documentCount: section.items.length,
         })),
-        endpoints: {
-          overview: category.llmsIndexUrl,
-          ...(category.llmsFullUrl && { full: category.llmsFullUrl }),
-        },
+        overviewUrl: category.llmsIndexUrl,
       }));
-
-      const withFullText = sections.filter((s) => s.endpoints.full).map((s) => s.id);
 
       return {
         content: [
@@ -43,7 +38,6 @@ export function registerDiscoverSeedDocsTool(server: McpServer): void {
                   listDocs:
                     "Use list_docs with section (and optional category) to get a document list",
                   getDoc: "Use get_doc with section and path to get document content",
-                  getFullDocs: `get_full_docs is only available for: ${withFullText.join(", ")}`,
                   examples: [
                     'get_doc({ section: "components", path: "action-button" })  // design spec',
                     'get_doc({ section: "react", path: "components/action-button" })  // React API',

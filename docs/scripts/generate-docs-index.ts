@@ -136,7 +136,6 @@ async function main() {
       id: section,
       label: config.label,
       llmsIndexUrl: getSectionLLMIndexUrl(section),
-      ...(config.fullText && { llmsFullUrl: `${config.baseUrl}/llms-full.txt` }),
       sections: docsSections,
     });
   }

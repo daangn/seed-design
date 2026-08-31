@@ -94,8 +94,6 @@ export const docsCategorySchema = z.object({
   label: z.string(),
   /** Site-relative path to the section index llms.txt, e.g. `/components/llms.txt`. */
   llmsIndexUrl: z.string().optional(),
-  /** Site-relative path to the whole-section llms-full.txt, when the section has one. */
-  llmsFullUrl: z.string().optional(),
   sections: z.array(docsSectionSchema),
 });
 

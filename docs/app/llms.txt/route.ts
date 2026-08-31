@@ -11,7 +11,6 @@ const EXTRA_ROWS = [
   {
     label: "Changelog",
     llms: "/llms/react/updates/changelog.txt",
-    full: undefined,
     description: "패키지별/버전별 변경 이력",
   },
 ];
@@ -25,16 +24,15 @@ export async function GET() {
       return {
         label: config.label,
         llms: `${config.baseUrl}/llms.txt`,
-        full: config.fullText ? `${config.baseUrl}/llms-full.txt` : undefined,
         description: config.description,
       };
     }),
     ...EXTRA_ROWS,
   ]
-    .map(({ label, llms, full, description }) => {
-      const fullCell = full ? `[llms-full.txt](${new URL(full, baseUrl)})` : "-";
-      return `| ${label} | [llms.txt](${new URL(llms, baseUrl)}) | ${fullCell} | ${description} |`;
-    })
+    .map(
+      ({ label, llms, description }) =>
+        `| ${label} | [llms.txt](${new URL(llms, baseUrl)}) | ${description} |`,
+    )
     .join("\n");
 
   return new Response(`# SEED Design System - Documentation for LLMs
@@ -43,8 +41,8 @@ SEED는 당근의 디자인 시스템입니다.
 
 ## Documentation Sections
 
-| 섹션 | 진입점 | 전체 문서 | 설명 |
-|------|--------|-----------|------|
+| 섹션 | 진입점 | 설명 |
+|------|--------|------|
 ${rows}
 `);
 }

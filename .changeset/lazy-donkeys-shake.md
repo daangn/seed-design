@@ -11,7 +11,6 @@
 - 디자인 스펙(`components`), 파운데이션(`foundations`), 패턴(`patterns`), 업데이트(`updates`), 시작하기(`get-started`) 섹션을 조회할 수 있습니다.
 - 섹션 개요 문서를 `get_doc({ section: "react", path: "overview" })`로 읽을 수 있습니다.
 - 존재하지 않는 섹션을 요청하면 실제 섹션 목록을 담아 안내합니다.
-- `get_full_docs`는 전체 문서를 제공하는 섹션에서만 동작하고, 나머지는 `list_docs`를 안내합니다.
 - `list_docs` 결과에 설명과 deprecated 표시가 함께 나옵니다.
 
 문서 목록을 렌더링된 마크다운에서 정규식으로 추출하던 방식도 함께 걷어냈습니다. 목록 서식이 바뀌면 조용히 빈 결과를 반환하던 문제가 사라집니다.

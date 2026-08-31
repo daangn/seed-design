@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
-import { fetchDocsList, fetchDoc, fetchSectionFull, requireSection } from "../fetch.js";
+import { fetchDocsList, fetchDoc, requireSection } from "../fetch.js";
 
 /**
  * Sections come from the published index, so they cannot be an enum baked into the
@@ -101,25 +101,6 @@ export function registerGetDocTool(server: McpServer): void {
     async ({ section, path }) => {
       try {
         return { content: [{ type: "text" as const, text: await fetchDoc(section, path) }] };
-      } catch (error) {
-        return errorResult(error);
-      }
-    },
-  );
-}
-
-export function registerGetFullDocsTool(server: McpServer): void {
-  server.registerTool(
-    "get_full_docs",
-    {
-      description:
-        "Get all documents from a section combined into a single text. " +
-        "Only some sections publish one — discover_seed_docs reports which.",
-      inputSchema: z.object({ section: sectionArg }),
-    },
-    async ({ section }) => {
-      try {
-        return { content: [{ type: "text" as const, text: await fetchSectionFull(section) }] };
       } catch (error) {
         return errorResult(error);
       }

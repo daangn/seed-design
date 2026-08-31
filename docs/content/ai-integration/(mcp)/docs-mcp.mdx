@@ -137,7 +137,7 @@ discover_seed_docs()
       "categories": [
         { "id": "components", "name": "Components", "documentCount": 61 }
       ],
-      "endpoints": { "overview": "/components/llms.txt" }
+      "overviewUrl": "/components/llms.txt"
     },
     {
       "id": "react",
@@ -147,16 +147,11 @@ discover_seed_docs()
         { "id": "getting-started", "name": "Getting Started", "documentCount": 11 },
         { "id": "components", "name": "Components", "documentCount": 82 }
       ],
-      "endpoints": {
-        "overview": "/react/llms.txt",
-        "full": "/react/llms-full.txt"
-      }
+      "overviewUrl": "/react/llms.txt"
     }
   ]
 }
 ```
-
-`endpoints`에 `full`이 있는 섹션만 `get_full_docs`를 지원합니다.
 
 ---
 
@@ -224,20 +219,6 @@ get_doc({ section: "foundations", path: "color" })
 ```
 
 이름만 넘겼는데 그 이름을 가진 문서가 섹션 안에 둘 이상이면, 앞의 것을 돌려주지 않고 후보 경로를 담아 거부합니다. `react` 섹션의 `alert-dialog`, `bottom-sheet`, `menu-sheet`가 여기에 해당하므로 `components/` 또는 `stackflow/`까지 붙여서 넘겨야 합니다.
-
-#### `get_full_docs`
-
-섹션의 모든 문서를 하나의 텍스트로 합쳐 반환합니다. 전체 문서를 게시하는 섹션에서만 동작하고, 그렇지 않은 섹션에서는 `list_docs`를 안내합니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `section` | string | 섹션 id |
-
-**예시:**
-```
-get_full_docs({ section: "react" })
-```
 
 ---
 

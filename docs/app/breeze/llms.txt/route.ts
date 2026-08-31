@@ -20,10 +20,6 @@ export async function GET() {
 
 프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트입니다.
 
-## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/breeze/llms-full.txt", baseUrl)}): 모든 Breeze 문서를 하나의 파일로
-
 ## Components
 
 ${pageList}
