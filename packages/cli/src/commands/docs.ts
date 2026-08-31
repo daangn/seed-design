@@ -15,7 +15,8 @@ import {
   resolveDocuments,
   resolveScopes,
 } from "../utils/docs-address";
-import { alignedLines, matchItems, similarAddresses } from "../utils/docs-index";
+import { alignedLines, similarAddresses } from "../utils/docs-index";
+import { searchDocs } from "../utils/docs-search";
 import { CliError, formatCliError } from "../utils/error";
 import { exampleFooter } from "../utils/help";
 import type { DocsCategory, DocsItem } from "../schema";
@@ -25,7 +26,7 @@ import type { DocsCategory, DocsItem } from "../schema";
  * the caller typed rather than by the shape of the argument they passed.
  *
  *   docs list [주소]      what the scope holds, one level down
- *   docs search <질의>    the addresses a name reaches
+ *   docs search <질의>    the addresses a query reaches, body text included
  *   docs read <주소>      that document's own text
  *
  * None of them draws the clack frame the other commands do: what they print is meant to be
@@ -87,17 +88,17 @@ const searchParser = command(
     command: constant("docs search"),
     query: argument(string({ metavar: "QUERY" }), {
       errors: {
-        endOfInput: message`찾을 이름이 필요해요. 예: seed-design docs search action-button`,
+        endOfInput: message`찾을 말이 필요해요. 예: seed-design docs search "액션 버튼"`,
       },
     }),
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`이름과 제목으로 문서를 찾아 주소를 출력합니다`,
+    brief: message`문서 본문까지 검색해 주소를 출력합니다`,
     footer: exampleFooter([
+      'seed-design docs search "액션 버튼"',
+      'seed-design docs search "바텀시트 스냅"',
       "seed-design docs search action-button",
-      "seed-design docs search sheet",
-      "seed-design docs search color",
     ]),
   },
 );
@@ -212,30 +213,37 @@ export async function runDocsSearch({
   verbose,
 }: ParsedOptions<typeof searchParser>) {
   await emit("docs-search", verbose, async () => {
-    // A blank name matches every document, which is a listing wearing a search's clothes.
-    const name = query.trim();
-    if (name.length === 0) {
+    // A blank query matches every document, which is a listing wearing a search's clothes.
+    const term = query.trim();
+    if (term.length === 0) {
       throw new CliError({
-        message: "찾을 이름이 필요해요.",
-        hint: "예: `seed-design docs search action-button`. 전체 목록은 `seed-design docs list`로 보세요.",
+        message: "찾을 말이 필요해요.",
+        hint: "예: `seed-design docs search 액션 버튼`. 전체 목록은 `seed-design docs list`로 보세요.",
       });
     }
 
-    const { categories } = await fetchDocsIndex({ baseUrl });
-    const matched = matchItems(categories, name);
+    const { addresses, total } = await searchDocs({ baseUrl, query: term });
 
-    if (matched.length === 0) {
+    if (addresses.length === 0) {
+      // Only reached once the search has already failed, so the extra index costs nothing an
+      // answer would have paid for.
+      const { categories } = await fetchDocsIndex({ baseUrl });
+
       throw new CliError({
-        message: `${highlight(name)}: 일치하는 문서가 없어요.${suggestionFor(categories, name)}`,
-        hint: "`seed-design docs list`로 전체 목록을 확인해보세요.",
+        message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
+        hint: "띄어쓰기를 바꾸거나 더 짧은 말로 찾아보세요. 전체 목록은 `seed-design docs list`로 볼 수 있어요.",
       });
     }
 
     // The count says how the list came out, which is not itself an answer.
-    console.error(`${matched.length}개 문서를 찾았어요.`);
-    // One address per line and nothing else, so a later change to how names are matched
+    console.error(
+      total > addresses.length
+        ? `${total}개 문서를 찾았어요. 위에서부터 ${addresses.length}개를 보여드려요.`
+        : `${total}개 문서를 찾았어요.`,
+    );
+    // One address per line and nothing else, so a later change to how documents are ranked
     // leaves every pipeline reading this untouched.
-    console.log(matched.map((entry) => entry.address).join("\n"));
+    console.log(addresses.join("\n"));
 
     return { result: "matched" };
   });
@@ -243,7 +251,10 @@ export async function runDocsSearch({
 
 export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<typeof readParser>) {
   await emit("docs-read", verbose, async () => {
-    const parsed = parseAddress(address);
+    // `search` prints anchors, because a result reads better when it says which part of the
+    // document matched. A document has one text, though, so an anchor names no less than the
+    // whole of it — pasting a search result back in works, and prints the same thing.
+    const parsed = parseAddress(address.split("#")[0]);
 
     // A trailing slash names a container, and a container has no text of its own. Answering
     // with whatever single document happens to sit underneath would make the same input mean
