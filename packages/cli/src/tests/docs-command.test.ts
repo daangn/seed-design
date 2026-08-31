@@ -25,6 +25,7 @@ const docsIndex = {
               id: "checkbox",
               title: "Checkbox",
               docUrl: "/lynx/components/checkbox",
+              deprecated: true,
             },
           ],
         },
@@ -303,6 +304,24 @@ describe("docs command", () => {
       expect(fromProject.stdout).toBe(fromRepo.stdout);
     });
 
+    it("takes a shortened scope the way it takes a shortened address", async () => {
+      const [shortened, anchored] = await Promise.all([
+        runDocs(["list", "stackflow/"]),
+        runDocs(["list", "/react/stackflow/"]),
+      ]);
+
+      expectSuccess(shortened);
+      expect(shortened.stdout.trimEnd()).toBe("/react/stackflow/bottom-sheet  Bottom Sheet");
+      expect(shortened.stdout).toBe(anchored.stdout);
+    });
+
+    it("marks a deprecated document", async () => {
+      const result = await runDocs(["list", "lynx/components/"]);
+
+      expectSuccess(result);
+      expect(result.stdout).toContain("Checkbox (deprecated)");
+    });
+
     it("exits 1 when the address reaches nothing", async () => {
       const result = await runDocs(["list", "nonexistent/"]);
 
@@ -349,6 +368,15 @@ describe("docs command", () => {
       expect(result.exitCode).toBe(1);
       expect(result.stdout).toBe("");
     });
+
+    it("exits 1 on a blank name rather than matching everything", async () => {
+      for (const blank of ["", "   "]) {
+        const result = await runDocs(["search", blank]);
+
+        expect(result.exitCode).toBe(1);
+        expect(result.stdout).toBe("");
+      }
+    });
   });
 
   describe("read", () => {
@@ -359,12 +387,14 @@ describe("docs command", () => {
       expect(result.stdout.trimEnd()).toBe("# served /llms/react/components/action-button.txt");
     });
 
-    it("puts nothing of its own on stdout", async () => {
+    it("puts nothing of its own on stdout, down to the last byte", async () => {
       const result = await runDocs(["read", "/react/components/action-button"]);
 
       expectSuccess(result);
       expectPlain(result.stdout);
-      expect(result.stdout).toBe("# served /llms/react/components/action-button.txt\n");
+      // The fixture server ends the body without a newline, so a trailing one here could
+      // only have come from the CLI.
+      expect(result.stdout).toBe("# served /llms/react/components/action-button.txt");
     });
 
     it("reads a category landing page by its own address", async () => {
@@ -429,6 +459,37 @@ describe("docs command", () => {
 
       expect(result.exitCode).toBe(1);
       expect(result.stdout).toBe("");
+    });
+
+    it("refuses a container address instead of reading what sits under it", async () => {
+      // `/react/updates` holds exactly one document, so picking it would look like success
+      // until the site grew a second one.
+      const result = await runDocs(["read", "react/updates/"]);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("seed-design docs list");
+    });
+
+    it("refuses the root address", async () => {
+      const result = await runDocs(["read", "/"]);
+
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toBe("");
+      // Not the whole index listed back as candidates.
+      expect(result.stderr.split("\n").length).toBeLessThan(10);
+    });
+
+    it("prints a stack trace with --verbose, from either side of the command name", async () => {
+      const [plain, after, before] = await Promise.all([
+        runDocs(["read", "/react/nope"]),
+        runDocs(["read", "/react/nope", "--verbose"]),
+        runDocs(["--verbose", "read", "/react/nope"]),
+      ]);
+
+      expect(plain.stderr).not.toContain("docs.ts:");
+      expect(after.stderr).toContain("docs.ts:");
+      expect(before.stderr).toContain("docs.ts:");
     });
   });
 });

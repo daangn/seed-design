@@ -29,6 +29,8 @@ seed-design docs read /react/components/action-button  # 그 문서의 내용
 
 뒤의 슬래시는 컨테이너와, 같은 자리에 있는 문서를 가릅니다. `/react`는 React 카테고리의 개요 문서이고, `react/`는 그 카테고리가 담고 있는 것들입니다.
 
+두 슬래시는 서로 독립입니다. 범위도 주소와 똑같이 짧게 칠 수 있어서, `stackflow/`는 `/react/stackflow`에 닿고 `/stackflow/`는 최상위에 그 이름의 컨테이너가 있어야 합니다.
+
 `docs read`는 주소가 여러 문서를 가리키면 그중 하나를 고르지 않고 후보를 stderr에 나열한 뒤 종료 코드 `1`로 끝냅니다. 잘못된 문서를 조용히 받아서 그것을 근거로 작업하는 것이 가장 나쁜 결과이기 때문입니다.
 
 ## 이전 명령에서 옮겨오기
@@ -47,7 +49,11 @@ seed-design docs read /react/components/action-button  # 그 문서의 내용
 
 **동작 변경**: `docs search`의 stdout에 한 줄에 주소 하나씩만 나갑니다. 주소 옆에 붙던 제목과 `(deprecated)` 표시가 사라집니다. 찾은 개수는 이전처럼 stderr로 나갑니다.
 
-**동작 변경**: 세 명령 모두 `--cwd`를 받지 않습니다. 작업 디렉토리와 프로젝트 설정 파일을 읽지 않으므로, 같은 입력은 어디서 실행하든 같은 문서를 가리킵니다.
+**동작 변경**: `docs read`가 뒤 슬래시로 끝나는 범위 주소를 거부합니다. 컨테이너에는 본문이 없고, 그 아래 문서가 마침 하나뿐이라고 해서 그것을 답하면 사이트가 자라는 순간 같은 입력이 다른 뜻이 됩니다. `docs list`로 그 아래를 보세요.
+
+**동작 변경**: telemetry 이벤트 이름이 `seed_cli.docs`와 `seed_cli.docs-search`에서 `seed_cli.docs-list`, `seed_cli.docs-search`, `seed_cli.docs-read` 셋으로 바뀝니다. 이 이름으로 만든 대시보드가 있으면 함께 고쳐주세요.
+
+**동작 변경**: 세 명령 모두 `--cwd`를 받지 않습니다. 어떤 문서를 답할지 정할 때 작업 디렉토리와 프로젝트 설정 파일을 읽지 않으므로, 같은 입력은 어디서 실행하든 같은 문서를 가리킵니다. telemetry 수집 여부는 이전과 같이 실행한 디렉토리의 `seed-design.json`을 따릅니다.
 
 **동작 변경**: 공백으로 나눠 쓴 경로를 한 경로로 합치지 않습니다. `docs react components action-button`처럼 쓰던 입력은 `docs read /react/components/action-button`으로 바꿔주세요.
 

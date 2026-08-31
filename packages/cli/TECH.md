@@ -48,7 +48,7 @@ src/utils/*
 ### 3) 명령 성공 경로에서 telemetry는 비핵심(Non-blocking)
 
 - 파일: `src/utils/analytics.ts`, `src/commands/*.ts`
-- `init`, `add`, `add-all`, `compat`, `docs list`, `docs search`, `docs read` 이벤트를 전송한다.
+- `init`, `add`, `add-all`, `compat`, `docs-list`, `docs-search`, `docs-read` 이벤트를 전송한다. 이벤트 이름에는 공백을 넣지 않는다.
 - telemetry 실패는 명령 성공/실패 판정에 영향을 주지 않는다(실패는 무시 또는 verbose 로그).
 
 ### 4) telemetry opt-out 우선순위 고정
@@ -69,10 +69,13 @@ src/utils/*
 - 뒤 슬래시가 필요한 이유는 카테고리의 개요 문서와 카테고리 자체가 같은 자리에 있기 때문이다. `/react`는 문서, `react/`는 컨테이너다.
 - 주소는 `docs-address.ts`의 `addressOf`가 `docUrl`에서 만든다. `category/section/item`으로 재조립하면 섹션 그룹핑보다 깊은 문서의 중간 slug가 사라지고 서로 다른 두 문서가 같은 주소를 갖는다.
 - `docs read`는 주소가 여러 문서를 가리키면 후보를 stderr에 나열하고 종료 코드 `1`로 끝낸다. 자동으로 하나를 고르지 않는다.
+- `docs read`는 뒤 슬래시가 붙은 범위 주소를 거부한다. 그 아래 문서가 지금 하나뿐이라고 해서 그것을 답하면, 사이트가 자라는 순간 같은 입력이 다른 뜻이 된다.
+- `docs read`의 stdout은 `process.stdout.write`로 쓴다. `console.log`는 문서에 없던 개행을 붙여서 「사이트가 준 바이트만 내보낸다」는 규율을 깬다.
+- `docs search`는 공백뿐인 질의를 거부한다. 빈 문자열은 모든 문서의 id에 포함되므로, 막지 않으면 검색이 인덱스 전체를 답한다.
 - `docs search`는 이름과 제목의 대소문자 무시 부분 일치만 한다. stdout에는 한 줄에 주소 하나씩만 싣는다. 나중에 매칭 방식을 갈아 끼워도 이것을 쓰는 파이프라인이 그대로 유지되게 하기 위해서다.
 - 인덱스에 없는 주소는 URL을 조합해 한 번 시도한다. changelog처럼 콘텐츠 트리가 아니라 패키지·버전별로 생성되는 라우트가 있기 때문이다. 사이트가 모두 404로 답하면 `LlmsTxtNotFoundError`를 인덱스 기반 안내로 바꿔 던지고, 5xx와 타임아웃은 그대로 전달한다.
 - 세 명령 모두 종료 코드는 `0`과 `1` 두 개다. stdout에 답이 있으면 `0`, 그 밖의 전부가 `1`이다.
-- 세 명령 모두 `--cwd`를 받지 않고 `seed-design.json`을 읽지 않는다. 같은 입력이 실행 위치에 따라 다른 문서를 내지 않게 하기 위해서다.
+- 세 명령 모두 `--cwd`를 받지 않고, 어떤 문서를 답할지 정할 때 `seed-design.json`을 읽지 않는다. 같은 입력이 실행 위치에 따라 다른 문서를 내지 않게 하기 위해서다. telemetry 수집 여부를 판정할 때만 `process.cwd()`의 설정을 읽는데, 이건 답에 관여하지 않는다.
 
 ## 패키지 로컬 스크립트
 
