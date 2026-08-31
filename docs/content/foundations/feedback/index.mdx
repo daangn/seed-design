@@ -1,0 +1,34 @@
+---
+title: Overview
+description: 피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.
+coverImage: /og/foundations/feedback
+featured: true
+---
+
+사용자가 요소를 누르면, 인터페이스는 그 입력이 전달되었음을 즉시 알려주어야 합니다. 이 즉각적인 반응이 피드백입니다. [State](/foundations/state)가 정의한 pressed 상태를 사용자가 눈과 손으로 알아챌 수 있게 드러내는 역할을 합니다.
+
+## Feedback Elements
+
+| 피드백 요소                          | 전달 방식                                   |
+| ------------------------------------ | ------------------------------------------- |
+| [Color](/foundations/feedback/color) | 눌린 동안 표면 색이 바뀝니다                |
+| [Scale](/foundations/feedback/scale) | 눌린 동안 요소가 정해진 거리만큼 작아집니다 |
+| Haptic                               | 누른 순간 손끝에 진동이 전해집니다          |
+
+SEED는 이 세 가지를 함께 사용해 눌림을 전달합니다. 색은 누를 수 있는 요소 전반에 적용되는 기본 요소이고, 축소는 요소의 구조가 허락할 때 여기에 더해집니다. 어떤 요소에 어떻게 적용할 수 있는지는 [Color](/foundations/feedback/color)와 [Scale](/foundations/feedback/scale) 각 문서에서 확인할 수 있으며, Haptic은 팀에서 필요에 따라 정의해 사용할 수 있고, 기준이 마련되면 이 문서에서 다룹니다.
+
+## Principles
+
+### 피드백 요소를 함께 사용하기
+
+한 번의 입력에서 여러 피드백 요소가 동작할 때, 사용자는 이를 하나의 반응으로 인지해야 합니다. 시작 시점이나 진행 속도가 서로 다르면 반응이 두 개로 나뉘어 읽히고, 요소가 잘못 동작하는 것처럼 느껴집니다.
+
+SEED는 이를 위해 색 전환과 축소가 같은 시간을 쓰도록 맞춰두었습니다. 두 토큰 모두 `$duration.d3`, 150ms를 참조합니다.
+
+<TokenReference regex={/^\$duration\.(color-transition|pressed-scale)$/} />
+
+### 어떤 환경에서도 반응 남기기
+
+피드백 요소 중에는 사용자의 환경에서 일어나지 않는 것이 있습니다. Scale은 [OS의 동작 줄이기 설정이 켜져 있으면 일어나지 않고](/foundations/feedback/scale#accessibility), Haptic은 기기나 시스템 설정에 따라 전달되지 않습니다.
+
+어떤 요소가 빠지더라도 눌렸다는 사실은 남아야 합니다. 그래서 SEED는 설정의 영향을 받지 않는 [색 전환을 기본 요소로 두고](/foundations/feedback/color), 나머지를 그 위에 더합니다.
