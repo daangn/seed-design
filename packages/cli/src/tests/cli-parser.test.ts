@@ -71,6 +71,34 @@ describe("cli parser", () => {
     expect(`${result.stdout}${result.stderr}`).toContain("1.50");
   });
 
+  it("declares both spellings of every multi-word option", async () => {
+    const [add, addAll] = await Promise.all([
+      runCli(["add", "--help"]),
+      runCli(["add-all", "--help"]),
+    ]);
+
+    for (const name of [
+      "--baseUrl",
+      "--base-url",
+      "--seed-react-version",
+      "--seedReactVersion",
+      "--on-diff",
+      "--onDiff",
+    ]) {
+      expect(add.stdout).toContain(name);
+    }
+    for (const name of ["--include-deprecated", "--includeDeprecated"]) {
+      expect(addAll.stdout).toContain(name);
+    }
+  });
+
+  it("reads the value given to the camel spelling", async () => {
+    const result = await runCli(["add", "--seedReactVersion", "1.50"]);
+
+    expect(result.exitCode).toBe(1);
+    expect(`${result.stdout}${result.stderr}`).toContain("1.50");
+  });
+
   it("answers to -h as well as --help", async () => {
     const result = await runCli(["-h"]);
 
