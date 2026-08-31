@@ -4,10 +4,13 @@ import {
   LlmsTxtNotFoundError,
   tryFetchLlmsTxt,
 } from "@/src/utils/fetch";
-import type { CAC } from "cac";
-import { z } from "zod";
-import { BASE_URL } from "../constants";
+import { object } from "@optique/core/constructs";
+import { message } from "@optique/core/message";
+import { multiple } from "@optique/core/modifiers";
+import { argument, command, constant } from "@optique/core/primitives";
+import { string } from "@optique/core/valueparser";
 import { analytics } from "../utils/analytics";
+import { baseUrlOption, cwdLongOption, type ParsedOptions } from "../utils/cli-options";
 import { highlight } from "../utils/color";
 import {
   alignedLines,
@@ -17,7 +20,7 @@ import {
   pathsNamed,
   similarPaths,
 } from "../utils/docs-index";
-import { CliError, formatCliError, isVerboseMode } from "../utils/error";
+import { CliError, formatCliError } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
 
 /**
@@ -47,19 +50,6 @@ import type { DocsCategory, DocsItem, DocsSection } from "../schema";
  * Addresses come from `pathOf`, so anything printed here is accepted back verbatim. Every
  * one of them is distinct, and none collides with a container path.
  */
-
-const docsOptionsSchema = z.object({
-  query: z
-    .union([z.string(), z.array(z.string())])
-    .optional()
-    .transform((query) => {
-      const normalized = Array.isArray(query) ? query.join(" ") : query;
-      const trimmed = normalized?.trim();
-      return trimmed ? trimmed : undefined;
-    }),
-  baseUrl: z.string().optional(),
-  cwd: z.string().default(process.cwd()),
-});
 
 interface Outcome {
   result: string;
@@ -205,79 +195,78 @@ async function emit({
   return { result: "composed-url" };
 }
 
-export const docsCommand = (cli: CAC) => {
-  cli
-    .command("docs [...query]", "문서 경로로 llms.txt 문서 내용을 조회합니다")
-    .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
-      default: BASE_URL,
-    })
-    .option("--cwd <cwd>", "the working directory. defaults to the current directory.", {
-      default: process.cwd(),
-    })
-    .example("seed-design docs")
-    .example("seed-design docs react")
-    .example("seed-design docs react/components")
-    .example("seed-design docs react/components/action-button")
-    .example("seed-design docs react/components/layout/box")
-    .example("seed-design docs react/overview")
-    .example("seed-design docs react/updates/changelog")
-    .action(async (query, opts) => {
-      const startTime = Date.now();
-      const verbose = isVerboseMode(opts);
-      let trackCwd = process.cwd();
+export const docsParser = command(
+  "docs",
+  object({
+    command: constant("docs"),
+    query: multiple(argument(string({ metavar: "QUERY" }))),
+    baseUrl: baseUrlOption,
+    cwd: cwdLongOption,
+  }),
+  {
+    brief: message`문서 경로로 llms.txt 문서 내용을 조회합니다`,
+    footer: message`예시:
+  seed-design docs
+  seed-design docs react
+  seed-design docs react/components
+  seed-design docs react/components/action-button
+  seed-design docs react/components/layout/box
+  seed-design docs react/overview
+  seed-design docs react/updates/changelog`,
+  },
+);
 
-      try {
-        const parsed = docsOptionsSchema.safeParse({ query, ...opts });
-        if (!parsed.success) {
-          throw parsed.error;
-        }
+export async function runDocs({ verbose, ...options }: ParsedOptions<typeof docsParser>) {
+  const startTime = Date.now();
+  const trackCwd = options.cwd;
 
-        const { data: options } = parsed;
-        trackCwd = options.cwd;
-        const baseUrl = options.baseUrl ?? BASE_URL;
+  // The shell splits on spaces before the parser sees anything, so a path typed without
+  // slashes has to mean what the same path with slashes means.
+  const query = options.query.join(" ").trim() || undefined;
 
-        const { categories } = await fetchDocsIndex({ baseUrl });
-        const outcome = await emit({ baseUrl, categories, query: options.query });
+  try {
+    const { baseUrl } = options;
+    const { categories } = await fetchDocsIndex({ baseUrl });
+    const outcome = await emit({ baseUrl, categories, query });
 
-        try {
-          await analytics.trackCommandOutcome(trackCwd, {
-            command: "docs",
-            status: "completed",
-            result: outcome.result,
-            properties: {
-              query: options.query ?? null,
-              item_id: outcome.itemId ?? options.query ?? null,
-              duration_ms: Date.now() - startTime,
-            },
-          });
-        } catch (telemetryError) {
-          if (verbose) {
-            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-          }
-        }
-      } catch (error) {
-        try {
-          await analytics.trackCommandFailure(trackCwd, {
-            command: "docs",
-            error,
-            properties: {
-              duration_ms: Date.now() - startTime,
-            },
-          });
-        } catch (telemetryError) {
-          if (verbose) {
-            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-          }
-        }
-
-        console.error(
-          formatCliError(error, {
-            defaultMessage: "문서 조회에 실패했어요.",
-            defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
-            verbose,
-          }).join("\n"),
-        );
-        process.exit(1);
+    try {
+      await analytics.trackCommandOutcome(trackCwd, {
+        command: "docs",
+        status: "completed",
+        result: outcome.result,
+        properties: {
+          query: query ?? null,
+          item_id: outcome.itemId ?? query ?? null,
+          duration_ms: Date.now() - startTime,
+        },
+      });
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
       }
-    });
-};
+    }
+  } catch (error) {
+    try {
+      await analytics.trackCommandFailure(trackCwd, {
+        command: "docs",
+        error,
+        properties: {
+          duration_ms: Date.now() - startTime,
+        },
+      });
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
+      }
+    }
+
+    console.error(
+      formatCliError(error, {
+        defaultMessage: "문서 조회에 실패했어요.",
+        defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
+        verbose,
+      }).join("\n"),
+    );
+    process.exit(1);
+  }
+}
