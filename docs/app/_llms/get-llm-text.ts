@@ -4,7 +4,7 @@ import { getGitHubSourceUrl } from "./config";
 import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
 import type { LynxCompatibility } from "@/lib/lynx-compatibility";
 import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
-import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
+import { getPlatformStatusMarkdown } from "./rules/platform-status";
 
 /**
  * 컴포넌트 문서 페이지는 본문에 <PlatformStatusTable> 노드가 없으므로(플랫폼 상태를
