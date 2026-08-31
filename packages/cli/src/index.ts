@@ -3,8 +3,7 @@
 import { addParser, runAdd } from "@/src/commands/add";
 import { addAllParser, runAddAll } from "@/src/commands/add-all";
 import { compatParser, runCompat } from "@/src/commands/compat";
-import { docsSearchParser, runDocsSearch } from "@/src/commands/docs-search";
-import { docsParser, runDocs } from "@/src/commands/docs";
+import { docsParser, runDocsList, runDocsRead, runDocsSearch } from "@/src/commands/docs";
 import { initParser, runInit } from "@/src/commands/init";
 
 import { getPackageInfo } from "@/src/utils/get-package-info";
@@ -21,7 +20,7 @@ const parser = merge(
   object({
     verbose: option("--verbose", { description: message`오류 상세 정보를 출력합니다.` }),
   }),
-  or(addParser, addAllParser, compatParser, docsParser, docsSearchParser, initParser),
+  or(addParser, addAllParser, compatParser, docsParser, initParser),
 );
 
 async function main() {
@@ -46,10 +45,12 @@ async function main() {
       return runAddAll(options);
     case "compat":
       return runCompat(options);
-    case "docs":
-      return runDocs(options);
-    case "docs-search":
+    case "docs list":
+      return runDocsList(options);
+    case "docs search":
       return runDocsSearch(options);
+    case "docs read":
+      return runDocsRead(options);
     case "init":
       return runInit(options);
   }
