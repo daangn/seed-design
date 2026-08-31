@@ -22,10 +22,10 @@
 /foundations/typography/overview /foundations/typography 301
 
 # AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
-# `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
-/react/ai-integration/llms-txt /llms.txt 301
-/docs/ai-integration/llms-txt /llms.txt 301
-/breeze/ai-integration/llms-txt /llms.txt 301
+# `llms-txt` 페이지는 삭제됐고, 그것을 대신하던 `/llms.txt` 라우트도 지금은 없다.
+/react/ai-integration/llms-txt /ai-integration 301
+/docs/ai-integration/llms-txt /ai-integration 301
+/breeze/ai-integration/llms-txt /ai-integration 301
 /react/ai-integration/mcp /ai-integration/figma-mcp 301
 
 # Library Authors: 별도 섹션 → Getting Started 마지막 문서로 이동
@@ -42,3 +42,15 @@
 # 패키지별·버전별 changelog llms 파일을 없애고 전체 한 장으로 합쳤다. 그 아래를 가리키던
 # 주소는 남은 한 장으로 보낸다 — 버전을 특정하던 요청도 전체 이력 안에서 답을 찾는다.
 /llms/react/updates/changelog/* /llms/react/updates/changelog.txt 301
+
+# llms 주소가 문서 URL 앞에 `/llms`, 뒤에 `.txt`를 붙인 것 하나로 통일됐다. 섹션 루트
+# index.mdx는 그 규칙에서 `/llms/<섹션>.txt`가 되므로, `index.txt`라 부르던 옛 주소를 보낸다.
+# 같은 문서다. 섹션 목록 `/{섹션}/llms.txt`와 루트 `/llms.txt`는 대응하는 문서가 없어 빠진다.
+/llms/ai-integration/index.txt /llms/ai-integration.txt 301
+/llms/breeze/index.txt /llms/breeze.txt 301
+/llms/components/index.txt /llms/components.txt 301
+/llms/foundations/index.txt /llms/foundations.txt 301
+/llms/get-started/index.txt /llms/get-started.txt 301
+/llms/lynx/index.txt /llms/lynx.txt 301
+/llms/patterns/index.txt /llms/patterns.txt 301
+/llms/react/index.txt /llms/react.txt 301
