@@ -48,6 +48,34 @@ export function isCliCancelError(error: unknown): error is CliCancelError {
   return error instanceof CliCancelError;
 }
 
+/**
+ * What a failed child process said for itself.
+ *
+ * Read off the `cause` as well as off the error itself: a `CliError` wrapping an `execa`
+ * rejection carries the only account of why the command failed, and dropping it leaves the
+ * caller with our guess at the reason instead of npm's own.
+ */
+function toProcessDetails(error: unknown): string[] {
+  if (!(error instanceof Error)) return [];
+
+  const execaLike = error as ExecaLikeError;
+  const details: string[] = [];
+
+  if (execaLike.escapedCommand || execaLike.command) {
+    details.push(`실행 명령어: ${execaLike.escapedCommand ?? execaLike.command}`);
+  }
+  if (typeof execaLike.exitCode === "number") {
+    details.push(`종료 코드: ${execaLike.exitCode}`);
+  }
+  if (execaLike.stderr?.trim()) {
+    details.push(`stderr: ${execaLike.stderr.trim()}`);
+  } else if (execaLike.stdout?.trim()) {
+    details.push(`stdout: ${execaLike.stdout.trim()}`);
+  }
+
+  return details;
+}
+
 function normalizeError(
   error: unknown,
   defaultHint?: string,
@@ -61,7 +89,7 @@ function normalizeError(
     return {
       reason: error.message,
       hint: error.hint ?? defaultHint,
-      details: error.details,
+      details: [...error.details, ...toProcessDetails(error.cause)],
       stack: toStack(error.cause ?? error),
     };
   }
@@ -81,25 +109,10 @@ function normalizeError(
   }
 
   if (error instanceof Error) {
-    const execaLike = error as ExecaLikeError;
-    const details: string[] = [];
-
-    if (execaLike.escapedCommand || execaLike.command) {
-      details.push(`실행 명령어: ${execaLike.escapedCommand ?? execaLike.command}`);
-    }
-    if (typeof execaLike.exitCode === "number") {
-      details.push(`종료 코드: ${execaLike.exitCode}`);
-    }
-    if (execaLike.stderr?.trim()) {
-      details.push(`stderr: ${execaLike.stderr.trim()}`);
-    } else if (execaLike.stdout?.trim()) {
-      details.push(`stdout: ${execaLike.stdout.trim()}`);
-    }
-
     return {
-      reason: execaLike.shortMessage ?? error.message,
+      reason: (error as ExecaLikeError).shortMessage ?? error.message,
       hint: defaultHint,
-      details,
+      details: toProcessDetails(error),
       stack: error.stack,
     };
   }
