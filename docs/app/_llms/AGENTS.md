@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 문서의 `processed` MDX를 LLM 친화 텍스트로 정제하는 모듈이다. MDX AST 기반 룰 시스템으로 llms.txt 출력 품질을 제어한다. 입력인 `processed`는 상위 `app/source.tsx`의 remark 파이프라인이 만들고, 정제된 결과는 `llms-route.ts`가 서빙한다.
+`docs/app/_llms`는 문서의 `processed` MDX를 LLM 친화 텍스트로 정제하는 모듈이다. MDX AST 기반 룰 시스템으로 llms.txt 출력 품질을 제어한다. 입력인 `processed`는 상위 `app/source.tsx`의 remark 파이프라인이 만들고, 정제된 결과는 `app/llms/[...slug]/route.ts`가 서빙한다.
 
 ## 파일 작성 컨벤션
 

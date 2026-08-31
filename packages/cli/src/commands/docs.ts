@@ -43,9 +43,10 @@ interface Outcome {
 }
 
 /**
- * `llmsUrl` is missing from an index published before it existed: the site between a CLI
- * release and its next deploy, and the archived `v1-x` sites, whose index is frozen in
- * the old shape. Both still serve the composed route.
+ * `llmsUrl` is missing from an index published before the field existed — the archived
+ * `v1-x` sites, whose index is frozen in the old shape. The rule behind the field is the
+ * document URL with `/llms` in front and `.txt` behind, so composing it reaches the same
+ * route the site would have named.
  */
 function llmsUrlFor(item: DocsItem, baseUrl: string): string {
   return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;

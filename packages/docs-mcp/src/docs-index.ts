@@ -23,7 +23,6 @@ const docsIndexItemSchema = z.object({
 const docsIndexCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
-  llmsIndexUrl: z.string().optional(),
   items: z.array(docsIndexItemSchema),
 });
 

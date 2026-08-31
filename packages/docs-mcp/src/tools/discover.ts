@@ -18,7 +18,6 @@ export function registerDiscoverSeedDocsTool(server: McpServer): void {
         id: category.id,
         name: category.label,
         documentCount: category.items.length,
-        overviewUrl: category.llmsIndexUrl,
       }));
 
       return {

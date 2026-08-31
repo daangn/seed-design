@@ -3,21 +3,19 @@
     {
       "id": "get-started",
       "label": "Get Started",
-      "llmsIndexUrl": "/get-started/llms.txt",
       "items": [
         {
           "id": "overview",
           "title": "Get Started",
           "description": "SEED는 당근 제품을 위한 통합 디자인 언어예요. 디자인과 코드가 하나의 소스를 바라보게 만들어, 누가 만들어도 같은 품질의 경험이 나오도록 돕는 것이 목표예요.",
           "docUrl": "/get-started",
-          "llmsUrl": "/llms/get-started/index.txt"
+          "llmsUrl": "/llms/get-started.txt"
         }
       ]
     },
     {
       "id": "foundations",
       "label": "Foundations",
-      "llmsIndexUrl": "/foundations/llms.txt",
       "items": [
         {
           "id": "color",
@@ -114,7 +112,7 @@
           "title": "Overview",
           "description": "접근성, 레이아웃, 인터랙션까지 — 훌륭한 UI의 기반이 되는 핵심 토큰과 패턴을 둘러보세요.",
           "docUrl": "/foundations",
-          "llmsUrl": "/llms/foundations/index.txt"
+          "llmsUrl": "/llms/foundations.txt"
         },
         {
           "id": "palette",
@@ -190,7 +188,6 @@
     {
       "id": "components",
       "label": "Components",
-      "llmsIndexUrl": "/components/llms.txt",
       "items": [
         {
           "id": "accordion",
@@ -457,7 +454,7 @@
           "title": "Overview",
           "description": "SEED의 모든 컴포넌트를 둘러보세요.",
           "docUrl": "/components",
-          "llmsUrl": "/llms/components/index.txt"
+          "llmsUrl": "/llms/components.txt"
         },
         {
           "id": "page-banner",
@@ -639,7 +636,6 @@
     {
       "id": "patterns",
       "label": "Patterns",
-      "llmsIndexUrl": "/patterns/llms.txt",
       "items": [
         {
           "id": "loading",
@@ -653,14 +649,13 @@
           "title": "Overview",
           "description": "자주 쓰는 UI 패턴과 가이드라인 모음입니다.",
           "docUrl": "/patterns",
-          "llmsUrl": "/llms/patterns/index.txt"
+          "llmsUrl": "/llms/patterns.txt"
         }
       ]
     },
     {
       "id": "docs",
       "label": "Design Guidelines",
-      "llmsIndexUrl": "/docs/llms.txt",
       "items": [
         {
           "id": "deprecations",
@@ -681,7 +676,6 @@
     {
       "id": "react",
       "label": "React",
-      "llmsIndexUrl": "/react/llms.txt",
       "items": [
         {
           "id": "accordion",
@@ -1168,7 +1162,7 @@
           "title": "Overview",
           "description": "SEED를 React 프로젝트에서 사용하는 방법을 알아봅니다.",
           "docUrl": "/react",
-          "llmsUrl": "/llms/react/index.txt"
+          "llmsUrl": "/llms/react.txt"
         },
         {
           "id": "page-banner",
@@ -1463,7 +1457,6 @@
     {
       "id": "breeze",
       "label": "Breeze",
-      "llmsIndexUrl": "/breeze/llms.txt",
       "items": [
         {
           "id": "animate-number",
@@ -1477,7 +1470,7 @@
           "title": "Overview",
           "description": "프로젝트에 바로 사용할 수 있는 유용한 UI 컴포넌트 큐레이션",
           "docUrl": "/breeze",
-          "llmsUrl": "/llms/breeze/index.txt"
+          "llmsUrl": "/llms/breeze.txt"
         },
         {
           "id": "scroll-auto-hide",
@@ -1491,7 +1484,6 @@
     {
       "id": "lynx",
       "label": "Lynx",
-      "llmsIndexUrl": "/lynx/llms.txt",
       "items": [
         {
           "id": "accordion",
@@ -1610,7 +1602,7 @@
           "title": "Overview",
           "description": "SEED와 Lynx를 함께 사용하는 방법을 알아봅니다.",
           "docUrl": "/lynx",
-          "llmsUrl": "/llms/lynx/index.txt"
+          "llmsUrl": "/llms/lynx.txt"
         },
         {
           "id": "progress-circle",
@@ -1729,7 +1721,6 @@
     {
       "id": "ai-integration",
       "label": "AI Integration",
-      "llmsIndexUrl": "/ai-integration/llms.txt",
       "items": [
         {
           "id": "docs-mcp",
@@ -1757,7 +1748,7 @@
           "title": "Overview",
           "description": "AI 도구와 SEED를 함께 활용하는 방법을 알아봅니다.",
           "docUrl": "/ai-integration",
-          "llmsUrl": "/llms/ai-integration/index.txt"
+          "llmsUrl": "/llms/ai-integration.txt"
         },
         {
           "id": "skill",
@@ -1771,7 +1762,6 @@
     {
       "id": "updates",
       "label": "Updates",
-      "llmsIndexUrl": "/updates/llms.txt",
       "items": [
         {
           "id": "how-seed-evolved",
