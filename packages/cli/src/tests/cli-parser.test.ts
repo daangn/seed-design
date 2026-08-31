@@ -38,7 +38,7 @@ describe("cli parser", () => {
   });
 
   it("exits 1 with an empty stdout on an unknown option", async () => {
-    const result = await runCli(["docs", "--nope"]);
+    const result = await runCli(["docs", "list", "--nope"]);
 
     expect(result.exitCode).toBe(1);
     expect(result.stdout).toBe("");
@@ -57,15 +57,15 @@ describe("cli parser", () => {
     const result = await runCli(["--help"]);
 
     expect(result.exitCode).toBe(0);
-    for (const name of ["add", "add-all", "compat", "docs", "docs-search", "init"]) {
+    for (const name of ["add", "add-all", "compat", "docs", "init"]) {
       expect(result.stdout).toContain(`seed-design ${name}`);
     }
   });
 
   it("reads --verbose on either side of the command name", async () => {
     const [before, after] = await Promise.all([
-      runCli(["--verbose", "docs", "--nope"]),
-      runCli(["docs", "--nope", "--verbose"]),
+      runCli(["--verbose", "docs", "list", "--nope"]),
+      runCli(["docs", "list", "--nope", "--verbose"]),
     ]);
 
     expect(before.exitCode).toBe(1);
