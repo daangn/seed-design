@@ -1,4 +1,6 @@
 import { describe, expect, it } from "bun:test";
+import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 
 const repoRoot = path.resolve(import.meta.dir, "../../../..");
@@ -10,10 +12,10 @@ const repoRoot = path.resolve(import.meta.dir, "../../../..");
  * fixture server. The one that matters most is the unknown command: it used to print
  * nothing and exit 0, which reads as success to anything checking the code.
  */
-async function runCli(args: string[]) {
+async function runCli(args: string[], cwd = repoRoot) {
   const proc = Bun.spawn({
-    cmd: [process.execPath, "packages/cli/src/index.ts", ...args],
-    cwd: repoRoot,
+    cmd: [process.execPath, path.join(repoRoot, "packages/cli/src/index.ts"), ...args],
+    cwd,
     env: { ...process.env, DISABLE_TELEMETRY: "true", FORCE_COLOR: "0" },
     stderr: "pipe",
     stdout: "pipe",
@@ -104,5 +106,30 @@ describe("cli parser", () => {
 
     expect(result.exitCode).toBe(0);
     expect(result.stdout).toContain("seed-design docs");
+  });
+
+  it("prints the help outside a Node project", async () => {
+    // The version used to be read from the project's package.json before the parser ran, so
+    // a directory without one took down `--help` and `docs` alike with an unhandled throw.
+    const cwd = await fs.mkdtemp(path.join(os.tmpdir(), "seed-design-cli-"));
+    const result = await runCli(["--help"], cwd);
+    await fs.rm(cwd, { recursive: true, force: true });
+
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain("seed-design docs");
+  });
+
+  it("reports its own version and not the surrounding project's", async () => {
+    const cwd = await fs.mkdtemp(path.join(os.tmpdir(), "seed-design-cli-"));
+    await fs.writeFile(
+      path.join(cwd, "package.json"),
+      `${JSON.stringify({ name: "elsewhere", version: "9.9.9" })}\n`,
+    );
+    const result = await runCli(["-v"], cwd);
+    await fs.rm(cwd, { recursive: true, force: true });
+
+    const { version } = await Bun.file(path.join(import.meta.dir, "../../package.json")).json();
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout.trim()).toBe(version);
   });
 });
