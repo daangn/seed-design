@@ -25,12 +25,9 @@ const docsIndex = {
         },
       ],
     },
-    // Carries llmsIndexUrl. A listing is answered from the addresses alone, so this is here
-    // to prove the commands do not reach for it.
     {
       id: "react",
       label: "React",
-      llmsIndexUrl: "/react/llms.txt",
       items: [
         // The category's own landing page, which has no slug of its own: `/react` is that
         // document, and `react/` is what the category holds.
@@ -38,7 +35,7 @@ const docsIndex = {
           id: "overview",
           title: "Overview",
           docUrl: "/react",
-          llmsUrl: "/llms/react/index.txt",
+          llmsUrl: "/llms/react.txt",
         },
         {
           id: "action-button",
@@ -90,8 +87,7 @@ const docsIndex = {
  * Every one of them is an `llmsUrl` the index carries — `read` reaches no other URL.
  */
 const servedTxt = new Set([
-  "/react/llms.txt",
-  "/llms/react/index.txt",
+  "/llms/react.txt",
   "/llms/react/components/action-button.txt",
   "/llms/react/components/concepts/composition.txt",
   "/llms/react/updates/changelog.txt",
@@ -370,7 +366,7 @@ describe("docs command", () => {
       const result = await runDocs(["read", "/react"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("# served /llms/react/index.txt");
+      expect(result.stdout.trimEnd()).toBe("# served /llms/react.txt");
     });
 
     it("resolves a tail query that reaches exactly one document", async () => {

@@ -4,13 +4,7 @@ import { promises as fs } from "fs";
 import matter from "gray-matter";
 import path from "node:path";
 import type { DocsCategory, DocsIndex, DocsItem } from "../../packages/cli/src/schema";
-import {
-  getDocUrl,
-  getLLMMarkdownUrl,
-  getSectionLLMIndexUrl,
-  sectionConfigs,
-  sections,
-} from "../app/_llms/config";
+import { getDocUrl, getLLMMarkdownUrl, sectionConfigs, sections } from "../app/_llms/config";
 import { getDisplayTitle } from "../app/_llms/utils";
 import { listSectionPages } from "./content-pages";
 
@@ -75,7 +69,6 @@ async function main() {
     categories.push({
       id: section,
       label: config.label,
-      llmsIndexUrl: getSectionLLMIndexUrl(section),
       items: entries
         .map(({ item }, index) => ({ ...item, title: getDisplayTitle(pages[index], pages) }))
         .sort(compareDocsItems),

@@ -94,27 +94,20 @@ export function getGitHubSourceUrl(section: Section, pagePath: string): string {
   return `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/content/${config.contentDir}/${encodedPagePath}`;
 }
 
-/** 섹션의 문서 목록 llms.txt. 개별 페이지가 아니라 섹션 전체의 진입점이다. */
-export function getSectionLLMIndexUrl(section: Section): string {
-  return `${sectionConfigs[section].baseUrl}/llms.txt`;
-}
-
-/**
- * @description section 과 slugs 를 받아서 llms.txt 파일의 경로를 반환합니다.
- * @example /components/button -> /llms/components/button.txt
- * @example /react (섹션 루트 index.mdx) -> /llms/react/index.txt
- */
-export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
-  // 섹션 루트 index.mdx는 slug가 없다. fumadocs가 `index.mdx`를 부모로 접기 때문에
-  // `index`는 형제 slug로 절대 나타날 수 없어, 충돌 없는 이름으로 쓸 수 있다.
-  const slugsWithExt = (slugs.length === 0 ? ["index"] : slugs).map((s, i, all) =>
-    i === all.length - 1 ? `${s}.txt` : s,
-  );
-  return `/llms/${section}/${slugsWithExt.join("/")}`;
-}
-
 /** 섹션 루트 index.mdx가 사이트에서 갖는 URL. slug가 없어 baseUrl 자체가 된다. */
 export function getDocUrl(section: Section, slugs: string[]): string {
   const { baseUrl } = sectionConfigs[section];
   return slugs.length === 0 ? baseUrl : `${baseUrl}/${slugs.join("/")}`;
+}
+
+/**
+ * 문서 URL 앞에 `/llms`를 붙이고 뒤에 `.txt`를 붙인다. 그것이 규칙의 전부라, 어느 문서든
+ * 사이트 주소만 알면 llms 주소가 나온다. 섹션 루트 index.mdx도 예외가 아니다 — 그 문서의
+ * URL이 `/react`이므로 `/llms/react.txt`가 된다.
+ *
+ * @example /components/button -> /llms/components/button.txt
+ * @example /react (섹션 루트 index.mdx) -> /llms/react.txt
+ */
+export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
+  return `/llms${getDocUrl(section, slugs)}.txt`;
 }

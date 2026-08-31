@@ -11,6 +11,7 @@ import {
   getUpdatesSource,
 } from "@/app/source";
 import type { Section } from "./config";
+import type { LLMPage } from "./types";
 
 /**
  * 섹션 전체를 균일하게 순회하기 위한 최소 형태.
@@ -20,12 +21,14 @@ import type { Section } from "./config";
  * 섹션별 필드가 필요한 라우트는 `@/app/source`에서 소스를 직접 import한다.
  */
 interface SectionSource {
+  getPage(slugs: string[]): LLMPage | undefined;
   getPages(): Array<{
     url: string;
     slugs: string[];
     path: string;
     absolutePath?: string;
   }>;
+  generateParams(): Array<{ slug?: string[] }>;
 }
 
 /**

@@ -112,7 +112,8 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
       key: page.$id ?? page.url ?? index,
       label: page.name,
       level,
-      // External links (e.g. `external:[llms.txt](/llms.txt)`) are never the current route.
+      // An `external:` entry in meta.json points outside the page tree, so it is never
+      // the current route.
       current: !external && page.url === pathname,
       external,
       featured: isFeatured(page),
