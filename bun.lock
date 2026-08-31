@@ -485,7 +485,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.9.1",
+      "version": "0.9.2",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -516,7 +516,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.9.1",
+        "@seed-design/lynx-css": "0.9.2",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",

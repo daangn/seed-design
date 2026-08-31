@@ -1,5 +1,12 @@
 # @seed-design/lynx-css
 
+## 0.9.2
+
+### Patch Changes
+
+- 059f299: Lynx Callout 닫기 버튼의 크기와 여백이 적용되지 않는 문제를 수정합니다.
+- 88fd4be: Android Lynx에서 Chip의 한글 라벨이 세로 중앙에서 위로 치우쳐 보이는 문제를 수정합니다.
+
 ## 0.9.1
 
 ### Patch Changes
