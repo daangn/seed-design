@@ -23,9 +23,6 @@ export const initParser = command(
     command: constant("init"),
     cwd: cwdOption,
     yes: option("-y", "--yes", { description: message`모든 질문에 기본값으로 답변합니다.` }),
-    default: option("--default", {
-      description: message`Deprecated. --yes와 동일하게 기본값으로 생성합니다.`,
-    }),
   }),
   { brief: message`seed-design.json 파일을 생성합니다` },
 );
@@ -36,8 +33,7 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
   p.intro("seed-design.json 파일 생성");
 
   try {
-    const isDefaultMode = options.yes || options.default;
-    const config: Config = isDefaultMode
+    const config: Config = options.yes
       ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
       : await promptInitConfig(options.cwd);
 
@@ -85,7 +81,7 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
           tsx: config.tsx,
           rsc: config.rsc,
           telemetry: config.telemetry,
-          yes_option: isDefaultMode,
+          yes_option: options.yes,
           duration_ms: duration,
         },
       });

@@ -76,7 +76,6 @@ describe("command telemetry", () => {
       command: "init",
       cwd: "/tmp/seed-design",
       yes: true,
-      default: false,
       verbose: false,
     });
 
@@ -118,7 +117,6 @@ describe("command telemetry", () => {
         command: "init",
         cwd: "/tmp/seed-design",
         yes: false,
-        default: false,
         verbose: false,
       }),
     ).rejects.toThrow("EXIT:0");

@@ -149,4 +149,14 @@ describe("cli parser", () => {
       ].join("\n"),
     );
   });
+
+  it("no longer takes init's deprecated --default", async () => {
+    const [help, run] = await Promise.all([
+      runCli(["help", "init"]),
+      runCli(["init", "--default"]),
+    ]);
+
+    expect(help.stdout).not.toContain("--default");
+    expect(run.exitCode).toBe(1);
+  });
 });
