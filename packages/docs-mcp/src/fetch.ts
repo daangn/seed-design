@@ -12,7 +12,6 @@ import {
   findItem,
   findSection,
   itemPath,
-  itemsOf,
 } from "./docs-index.js";
 import type { DocInfo } from "./types.js";
 
@@ -86,21 +85,13 @@ export async function requireSection(sectionId: string): Promise<DocsIndexCatego
   return section;
 }
 
-export async function fetchDocsList(sectionId: string, category?: string): Promise<DocInfo[]> {
+export async function fetchDocsList(sectionId: string): Promise<DocInfo[]> {
   const section = await requireSection(sectionId);
 
-  if (category && !section.sections.some((s) => s.id === category)) {
-    const available = section.sections.map((s) => s.id).join(", ");
-    throw new Error(
-      `Unknown category '${category}' in section '${sectionId}'. Available: ${available}`,
-    );
-  }
-
-  return itemsOf(section, category).map(({ item, categoryId }) => ({
+  return section.items.map((item) => ({
     title: item.title,
     path: itemPath(section, item),
     url: `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
-    category: categoryId,
     ...(item.description && { description: item.description }),
     ...(item.deprecated && { deprecated: true }),
   }));

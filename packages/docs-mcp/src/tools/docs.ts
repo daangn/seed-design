@@ -30,48 +30,30 @@ export function registerListDocsTool(server: McpServer): void {
     {
       description:
         "List available documents in a SEED Design documentation section. " +
-        "Use discover_seed_docs first to see all available sections and categories.",
-      inputSchema: z.object({
-        section: sectionArg,
-        category: z
-          .string()
-          .optional()
-          .describe("Optional category filter within the section, e.g. 'components'"),
-      }),
+        "Use discover_seed_docs first to see all available sections.",
+      inputSchema: z.object({ section: sectionArg }),
     },
-    async ({ section, category }) => {
+    async ({ section }) => {
       try {
         const resolved = await requireSection(section);
-        const docs = await fetchDocsList(section, category);
+        const docs = await fetchDocsList(section);
 
-        const grouped = new Map<string, typeof docs>();
-        for (const doc of docs) {
-          const existing = grouped.get(doc.category);
-          if (existing) {
-            existing.push(doc);
-          } else {
-            grouped.set(doc.category, [doc]);
-          }
-        }
-
-        const formatted = [...grouped.entries()]
-          .map(([categoryId, categoryDocs]) => {
-            const lines = categoryDocs.map((doc) => {
-              const deprecated = doc.deprecated ? " (deprecated)" : "";
-              const description = doc.description ? ` — ${doc.description}` : "";
-              return `  - ${doc.title}${deprecated} (path: ${doc.path})${description}`;
-            });
-            return `### ${categoryId}\n\n${lines.join("\n")}`;
+        // Sorted by the path `get_doc` takes, so documents sharing a prefix sit together and
+        // the listing shows the section's shape without the index declaring one.
+        const formatted = [...docs]
+          .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0))
+          .map((doc) => {
+            const deprecated = doc.deprecated ? " (deprecated)" : "";
+            const description = doc.description ? ` — ${doc.description}` : "";
+            return `- ${doc.title}${deprecated} (path: ${doc.path})${description}`;
           })
-          .join("\n\n");
-
-        const filter = category ? ` (filtered by: ${category})` : "";
+          .join("\n");
 
         return {
           content: [
             {
               type: "text" as const,
-              text: `# ${resolved.label} Documentation\n\nTotal: ${docs.length} documents${filter}\n\n${formatted}\n\n## Usage\n\nUse get_doc with section="${section}" and a path above to read a document.`,
+              text: `# ${resolved.label} Documentation\n\nTotal: ${docs.length} documents\n\n${formatted}\n\n## Usage\n\nUse get_doc with section="${section}" and a path above to read a document.`,
             },
           ],
         };

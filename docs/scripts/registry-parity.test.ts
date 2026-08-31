@@ -65,9 +65,7 @@ describe("section registry ↔ routes", () => {
 
 describe("docs index ↔ content", () => {
   it("holds every routable page exactly once", () => {
-    const indexed = docsIndex.categories
-      .flatMap((c) => c.sections.flatMap((s) => s.items.map((i) => i.docUrl)))
-      .sort();
+    const indexed = docsIndex.categories.flatMap((c) => c.items.map((i) => i.docUrl)).sort();
 
     // Pages without a frontmatter title are skipped by the generator, so the index is a
     // subset — but it must never contain a docUrl the content tree cannot serve.
@@ -75,7 +73,7 @@ describe("docs index ↔ content", () => {
     expect(indexed.length).toBeGreaterThan(200);
   });
 
-  const allItems = docsIndex.categories.flatMap((c) => c.sections.flatMap((s) => s.items));
+  const allItems = docsIndex.categories.flatMap((c) => c.items);
 
   it("points every item at a served llms.txt URL", () => {
     expect(allItems.filter((item) => !item.llmsUrl || !servedLlmsUrls.has(item.llmsUrl))).toEqual(
@@ -134,8 +132,7 @@ describe("CLI query resolution invariants", () => {
     const misplaced = docsIndex.categories.flatMap((category) => {
       const { baseUrl } = sectionConfigs[category.id as Section];
 
-      return category.sections
-        .flatMap((s) => s.items)
+      return category.items
         .filter((item) => item.docUrl !== baseUrl && !item.docUrl.startsWith(`${baseUrl}/`))
         .map((item) => `${category.id}: ${item.docUrl}`);
     });
@@ -145,7 +142,7 @@ describe("CLI query resolution invariants", () => {
 
   it("has at least one id that two categories both carry", () => {
     const idsPerCategory = docsIndex.categories.map(
-      (category) => new Set(category.sections.flatMap((s) => s.items).map((i) => i.id)),
+      (category) => new Set(category.items.map((i) => i.id)),
     );
     const shared = idsPerCategory.flatMap((ids, index) =>
       [...ids].filter((id) => idsPerCategory.some((other, i) => i !== index && other.has(id))),

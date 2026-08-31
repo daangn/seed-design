@@ -86,11 +86,9 @@ describe("generated docs index artifact", () => {
     expect(() => readDocsIndex()).not.toThrow();
   });
 
-  it("keeps every section's items in compareDocsItems order", () => {
-    for (const category of readDocsIndex().categories) {
-      for (const section of category.sections) {
-        expect(section.items).toEqual([...section.items].sort(compareDocsItems));
-      }
+  it("keeps every category's items in compareDocsItems order", () => {
+    for (const { items } of readDocsIndex().categories) {
+      expect(items).toEqual([...items].sort(compareDocsItems));
     }
   });
 });

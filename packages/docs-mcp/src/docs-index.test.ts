@@ -4,39 +4,23 @@ import { type DocsIndexCategory, findItem, itemPath } from "./docs-index";
 const react: DocsIndexCategory = {
   id: "react",
   label: "React",
-  sections: [
-    {
-      id: "components",
-      label: "Components",
-      items: [
-        { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/components/alert-dialog" },
-        { id: "button", title: "Button", docUrl: "/react/components/button" },
-      ],
-    },
-    {
-      id: "stackflow",
-      label: "Stackflow",
-      items: [
-        { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/stackflow/alert-dialog" },
-      ],
-    },
-    {
-      id: "overview",
-      label: "Overview",
-      items: [{ id: "overview", title: "React", docUrl: "/react" }],
-    },
+  items: [
+    { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/components/alert-dialog" },
+    { id: "button", title: "Button", docUrl: "/react/components/button" },
+    { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/stackflow/alert-dialog" },
+    { id: "overview", title: "React", docUrl: "/react" },
   ],
 };
 
 describe("itemPath", () => {
   it("strips the section prefix", () => {
-    const item = react.sections[0].items[1];
+    const item = react.items[1];
 
     expect(itemPath(react, item)).toBe("components/button");
   });
 
   it("addresses the section landing page by id", () => {
-    const item = react.sections[2].items[0];
+    const item = react.items[3];
 
     expect(itemPath(react, item)).toBe("overview");
   });

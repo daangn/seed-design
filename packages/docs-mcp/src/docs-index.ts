@@ -24,13 +24,7 @@ const docsIndexCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
   llmsIndexUrl: z.string().optional(),
-  sections: z.array(
-    z.object({
-      id: z.string(),
-      label: z.string(),
-      items: z.array(docsIndexItemSchema),
-    }),
-  ),
+  items: z.array(docsIndexItemSchema),
 });
 
 export const docsIndexSchema = z.object({
@@ -42,18 +36,12 @@ export type DocsIndexCategory = z.infer<typeof docsIndexCategorySchema>;
 export type DocsIndexItem = z.infer<typeof docsIndexItemSchema>;
 
 /**
- * The index nests category → section → item. This server has always called those
- * "section" and "category" in its tool contract, so the names are swapped at this
- * boundary rather than renaming the tools' arguments.
+ * The index calls a top-level group a category; this server's tool contract has always
+ * called it a section, so the name is swapped at this boundary rather than renaming the
+ * tools' arguments.
  */
 export function findSection(index: DocsIndex, sectionId: string): DocsIndexCategory | undefined {
   return index.categories.find((category) => category.id === sectionId);
-}
-
-export function itemsOf(category: DocsIndexCategory, categoryFilter?: string) {
-  return category.sections
-    .filter((section) => !categoryFilter || section.id === categoryFilter)
-    .flatMap((section) => section.items.map((item) => ({ item, categoryId: section.id })));
 }
 
 /**
@@ -81,7 +69,7 @@ export function itemPath(category: DocsIndexCategory, item: DocsIndexItem): stri
  */
 export function findItem(category: DocsIndexCategory, docPath: string): DocsIndexItem | undefined {
   const normalized = docPath.replace(/^\/+|\.txt$/g, "");
-  const all = category.sections.flatMap((section) => section.items);
+  const all = category.items;
 
   const byDocUrl = all.find((item) => item.docUrl === `/${category.id}/${normalized}`);
   if (byDocUrl) return byDocUrl;

@@ -2,23 +2,6 @@ const GITHUB_OWNER = "daangn";
 const GITHUB_REPO = "seed-design";
 const GITHUB_BRANCH = "dev";
 
-/**
- * CLI 문서 인덱스(`public/__docs__/index.json`)에서 한 섹션의 페이지들을 어떻게 묶을지.
- *
- * 콘텐츠 구조에서 추론하지 않고 선언한다. `slugs[0]`을 일괄 적용하면 평면 섹션이
- * 페이지마다 단일 항목 섹션으로 쪼개지고(components는 58개가 전부 1레벨),
- * 반대로 고정 라벨을 쓰면 lynx의 components/foundation/getting-started/hooks가
- * 한 덩어리로 뭉개진다.
- */
-type SectionGrouping =
-  /**
-   * 전부 한 섹션에 담는다. `id`는 CLI 경로에 쓰이므로(`breeze/components/animate-number`)
-   * 카테고리 id를 그대로 반복하기보다 내용에 맞는 이름을 준다.
-   */
-  | { kind: "flat"; id: string; label: string }
-  /** `slugs[0]`으로 묶는다. `labels`에 없는 키는 slug를 그대로 라벨로 쓴다. */
-  | { kind: "byFirstSlug"; labels: Record<string, string> };
-
 export interface SectionConfig {
   contentDir: string;
   baseUrl: string;
@@ -32,7 +15,6 @@ export interface SectionConfig {
    * 안 나오던 문제 때문. 본문이 카탈로그 컴포넌트 한 줄뿐인 섹션만 여기서 뺀다.
    */
   excludePaths: string[];
-  grouping: SectionGrouping;
 }
 
 /**
@@ -52,7 +34,6 @@ export const sectionConfigs = {
     label: "Get Started",
     description: "SEED 시작하기",
     excludePaths: [],
-    grouping: { kind: "flat", id: "get-started", label: "시작하기" },
   },
   foundations: {
     contentDir: "foundations",
@@ -61,9 +42,6 @@ export const sectionConfigs = {
     description: "색상, 타이포그래피, 간격 등 디자인 파운데이션",
     // index.mdx 본문은 카탈로그 컴포넌트 한 줄이라 마크다운으로 뽑을 내용이 없다.
     excludePaths: ["index.mdx"],
-    // color/*, design-token/*, iconography/*는 중첩이지만 나머지는 평면이라
-    // byFirstSlug로 묶으면 대부분이 단일 항목 섹션이 된다.
-    grouping: { kind: "flat", id: "foundations", label: "파운데이션" },
   },
   components: {
     contentDir: "components",
@@ -72,7 +50,6 @@ export const sectionConfigs = {
     description: "컴포넌트 디자인 스펙 (Anatomy, Properties, Guidelines)",
     // index.mdx는 카탈로그 셸 (foundations 참고).
     excludePaths: ["index.mdx", "progress-board.mdx"],
-    grouping: { kind: "flat", id: "components", label: "컴포넌트" },
   },
   patterns: {
     contentDir: "patterns",
@@ -81,7 +58,6 @@ export const sectionConfigs = {
     description: "디자인 패턴 및 가이드라인",
     // index.mdx는 카탈로그 셸 (foundations 참고).
     excludePaths: ["index.mdx"],
-    grouping: { kind: "flat", id: "patterns", label: "패턴" },
   },
   docs: {
     contentDir: "docs",
@@ -89,7 +65,6 @@ export const sectionConfigs = {
     label: "Design Guidelines",
     description: "마이그레이션 등 디자인 참고 문서",
     excludePaths: [],
-    grouping: { kind: "byFirstSlug", labels: { migration: "마이그레이션" } },
   },
   react: {
     contentDir: "react",
@@ -97,18 +72,6 @@ export const sectionConfigs = {
     label: "React",
     description: "React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제",
     excludePaths: [],
-    grouping: {
-      kind: "byFirstSlug",
-      labels: {
-        "getting-started": "시작하기",
-        components: "컴포넌트",
-        blocks: "블록",
-        stackflow: "Stackflow",
-        "developer-tools": "개발자 도구",
-        migration: "마이그레이션",
-        updates: "업데이트",
-      },
-    },
   },
   breeze: {
     contentDir: "breeze",
@@ -116,7 +79,6 @@ export const sectionConfigs = {
     label: "Breeze",
     description: "프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트",
     excludePaths: [],
-    grouping: { kind: "flat", id: "components", label: "컴포넌트" },
   },
   lynx: {
     contentDir: "lynx",
@@ -124,15 +86,6 @@ export const sectionConfigs = {
     label: "Lynx",
     description: "Lynx 프레임워크",
     excludePaths: [],
-    grouping: {
-      kind: "byFirstSlug",
-      labels: {
-        "getting-started": "시작하기",
-        components: "컴포넌트",
-        foundation: "파운데이션",
-        hooks: "훅",
-      },
-    },
   },
   "ai-integration": {
     contentDir: "ai-integration",
@@ -140,8 +93,6 @@ export const sectionConfigs = {
     label: "AI Integration",
     description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
     excludePaths: [],
-    // skill.mdx + (mcp)/ 2장뿐이라 byFirstSlug면 단일 항목 섹션 3개가 된다.
-    grouping: { kind: "flat", id: "guides", label: "가이드" },
   },
   updates: {
     contentDir: "updates",
@@ -150,7 +101,6 @@ export const sectionConfigs = {
     description: "SEED 업데이트 소식과 릴리즈 노트",
     // 섹션 인덱스 mdx가 없다 — 랜딩은 app/updates/page.tsx가 그린다.
     excludePaths: [],
-    grouping: { kind: "flat", id: "updates", label: "업데이트" },
   },
 } satisfies Record<string, SectionConfig>;
 
