@@ -1,0 +1,24 @@
+.seed-select-box-checkmark__root {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-select-box-checkmark__icon {
+    width: 15px;
+    height: 15px;
+    color: var(--seed-color-fg-placeholder);
+    transition: color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
+}
+.seed-select-box-checkmark__icon--selected_true {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-select-box-checkmark__icon--pressed_true {
+    color: var(--seed-color-fg-neutral-subtle)
+}
+.seed-select-box-checkmark__icon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}

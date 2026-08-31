@@ -1,0 +1,74 @@
+/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
+page {
+  min-height: 100%;
+  padding: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.select-box-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.select-box-preview__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.select-box-preview__heading {
+  color: var(--seed-color-fg-neutral);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.select-box-preview__footer {
+  padding: 0 20px 20px;
+}
+
+.select-box-preview__footer-text,
+.select-box-preview__status,
+.select-box-preview__suffix {
+  color: var(--seed-color-fg-neutral);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.select-box-preview__row {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.select-box-preview__column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.select-box-preview__label-row {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
+
+.select-box-preview__custom-label {
+  color: var(--seed-color-fg-neutral);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.select-box-preview__status {
+  text-align: center;
+}
+
+.select-box-preview__suffix {
+  flex-shrink: 0;
+  font-weight: 500;
+}

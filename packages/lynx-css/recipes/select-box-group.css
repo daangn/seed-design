@@ -1,0 +1,12 @@
+.seed-select-box-group {
+    display: grid;
+    width: 100%;
+    row-gap: var(--seed-dimension-spacing-y-component-default);
+    column-gap: var(--seed-dimension-x3)
+}
+.seed-select-box-group--columns_1 {
+    grid-template-columns: 1fr
+}
+.seed-select-box-group--columns_2 {
+    grid-template-columns: repeat(2, 1fr)
+}

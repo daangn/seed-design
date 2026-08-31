@@ -1,0 +1,180 @@
+---
+title: Select Box
+description: 명확한 테두리를 가진 컨테이너로 하나 이상의 옵션을 선택하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/select-box/preview">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:select-box
+```
+
+<LynxManualInstallation name="select-box" />
+
+## Usage
+
+`CheckSelectBox`는 여러 항목을 각각 선택할 때 사용합니다. 각 항목이 자신의 선택 상태를 관리하며, `CheckSelectBoxGroup`은 레이아웃을 정합니다.
+
+```tsx
+import {
+  CheckSelectBox,
+  CheckSelectBoxCheckmark,
+  CheckSelectBoxGroup,
+} from "@/components/ui/select-box";
+
+export function NotificationOptions() {
+  return (
+    <CheckSelectBoxGroup>
+      <CheckSelectBox
+        label="채팅 알림"
+        description="새 메시지가 오면 알려드려요."
+        defaultChecked
+        suffix={<CheckSelectBoxCheckmark />}
+      />
+    </CheckSelectBoxGroup>
+  );
+}
+```
+
+`RadioSelectBoxRoot`는 여러 항목 중 하나만 선택할 때 사용합니다. `value`와 `onValueChange`를 함께 전달하면 선택 값을 직접 제어할 수 있습니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import {
+  RadioSelectBoxItem,
+  RadioSelectBoxRadiomark,
+  RadioSelectBoxRoot,
+} from "@/components/ui/select-box";
+
+export function DeliveryOptions() {
+  const [value, setValue] = useState("meeting");
+
+  return (
+    <RadioSelectBoxRoot value={value} onValueChange={setValue}>
+      <RadioSelectBoxItem
+        value="meeting"
+        label="직거래"
+        description="약속 장소에서 직접 거래해요."
+        suffix={<RadioSelectBoxRadiomark />}
+      />
+    </RadioSelectBoxRoot>
+  );
+}
+```
+
+## Props
+
+### Check Select Box
+
+#### `CheckSelectBoxGroup`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="CheckSelectBoxGroupProps" />
+
+#### `CheckSelectBox`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="CheckSelectBoxProps" />
+
+#### `CheckSelectBoxCheckmark`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="CheckSelectBoxCheckmarkProps" />
+
+### Radio Select Box
+
+#### `RadioSelectBoxRoot`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="RadioSelectBoxRootProps" />
+
+#### `RadioSelectBoxItem`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="RadioSelectBoxItemProps" />
+
+#### `RadioSelectBoxRadiomark`
+
+<react-type-table path="./registry/lynx/ui/select-box.tsx" name="RadioSelectBoxRadiomarkProps" />
+
+## Examples
+
+### Customizing Label
+
+`labelAccessory`를 사용하면 label 옆에 Badge 같은 Lynx 요소를 배치할 수 있습니다.
+
+<LynxComponentExample name="lynx/select-box/customizing-label">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/customizing-label.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`CheckSelectBox`는 `onCheckedChange`, `RadioSelectBoxRoot`는 `onValueChange`로 선택 상태 변경을 알립니다.
+
+<LynxComponentExample name="lynx/select-box/value-changes">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/value-changes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Grid Layout (Columns)
+
+`columns="2"`를 사용하면 항목을 두 열로 배치하고 기본 `layout`을 `"vertical"`로 바꿉니다. 개별 항목의 `layout`으로 덮어쓸 수 있습니다.
+
+<LynxComponentExample name="lynx/select-box/columns">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/columns.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### With Suffix
+
+`suffix`에는 `CheckSelectBoxCheckmark`, `RadioSelectBoxRadiomark` 또는 text와 같은 Lynx 요소를 전달할 수 있습니다.
+
+<LynxComponentExample name="lynx/select-box/with-suffix">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/with-suffix.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Collapsible Footer
+
+`footer`로 추가 콘텐츠를 표시하고 `footerVisibility`로 표시 조건을 정합니다.
+
+- `"when-selected"`: 선택됐을 때 표시합니다. 기본값입니다.
+- `"when-not-selected"`: 선택되지 않았을 때 표시합니다.
+- `"always"`: 선택 상태와 관계없이 표시합니다.
+
+<LynxComponentExample name="lynx/select-box/collapsible-footer">
+  ```json doc-gen:file
+  { "file": "examples/lynx/select-box/collapsible-footer.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Select Box`는 React 웹 버전과 다음과 같은 차이가 있습니다.
+
+- **렌더링 요소**: HTML label, input 대신 Lynx `<view>`와 `<text>`를 렌더링합니다.
+- **이벤트 핸들링**: DOM `onChange` 대신 `onCheckedChange` 또는 `onValueChange`를 사용합니다. tap과 pressed 상태는 컴포넌트 내부에서 처리합니다.
+- **접근성**: snippet이 `label`을 Lynx의 `accessibility-label`로 전달합니다.
+- **Label 조합**: ReactNode label 대신 문자열 `label`과 `labelAccessory`를 사용해 Lynx text와 view의 올바른 중첩을 유지합니다.
+- **Grid 열 수**: Lynx에서는 `columns="1"`과 `columns="2"`를 지원합니다. 웹의 3열 예시는 2열로 변환했습니다.
+- **아이콘**: raw SVG 대신 Lynx에서 렌더링할 수 있는 icon element를 사용해야 합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+React 문서의 다음 예시는 Lynx 런타임에 HTML form 제출 모델이 없어 제공하지 않습니다.
+
+| 예시 또는 기능 | 설명 |
+|------|------|
+| React Hook Form | hidden input과 DOM form event가 없습니다. controlled state와 변경 callback을 사용하세요. |
+| Fieldset / RadioGroupField Integration | Lynx Select Box snippet은 field label, error message, form 제출 prop을 제공하지 않습니다. 필요한 안내 문구는 별도 Lynx layout으로 구성하세요. |
+| `name`, `form`, `inputProps` | 전달할 HTML input이 없습니다. |

@@ -13,6 +13,7 @@ export * from "./Icon";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";
+export * from "./SelectBox";
 export * from "./Stack";
 export * from "./Switch";
 export * from "./Tabs";
