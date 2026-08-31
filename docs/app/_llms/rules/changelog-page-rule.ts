@@ -1,27 +1,15 @@
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import { loadChangelogSources } from "@/lib/parse-changelog";
+import { getChangelogLlmData, renderAllPackagesChangelog } from "@/lib/changelog-llms";
 import type { Rule } from "./types";
-
-type ChangelogSource = { packageName: string; raw: string };
 
 let changelogCache: string | null = null;
 let initPromise: Promise<void> | null = null;
 let initFailed = false;
 
-async function fetchAndCacheChangelog(): Promise<void> {
+async function buildAndCacheChangelog(): Promise<void> {
   try {
     initFailed = false;
-    const sources = await loadChangelogSources(process.cwd());
-    const sorted = sources.sort((a: ChangelogSource, b: ChangelogSource) =>
-      a.packageName.localeCompare(b.packageName),
-    );
-
-    changelogCache = sorted
-      .map(({ packageName, raw }: ChangelogSource) => {
-        const normalized = raw.replace(/^# .+\n/, "").trimStart();
-        return `## ${packageName}\n\n${normalized}`;
-      })
-      .join("\n\n---\n\n");
+    changelogCache = renderAllPackagesChangelog(await getChangelogLlmData());
   } catch {
     initFailed = true;
     changelogCache = null;
@@ -30,7 +18,7 @@ async function fetchAndCacheChangelog(): Promise<void> {
 
 async function init(): Promise<void> {
   if (!initPromise) {
-    initPromise = fetchAndCacheChangelog();
+    initPromise = buildAndCacheChangelog();
   }
   await initPromise;
 }
