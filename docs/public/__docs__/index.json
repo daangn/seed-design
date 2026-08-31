@@ -110,6 +110,13 @@
           "llmsUrl": "/llms/foundations/motion.txt"
         },
         {
+          "id": "overview",
+          "title": "Overview ()",
+          "description": "접근성, 레이아웃, 인터랙션까지 — 훌륭한 UI의 기반이 되는 핵심 토큰과 패턴을 둘러보세요.",
+          "docUrl": "/foundations",
+          "llmsUrl": "/llms/foundations/index.txt"
+        },
+        {
           "id": "palette",
           "title": "Palette",
           "docUrl": "/foundations/color/palette",
@@ -446,6 +453,13 @@
           "llmsUrl": "/llms/components/notification-badge.txt"
         },
         {
+          "id": "overview",
+          "title": "Overview",
+          "description": "SEED의 모든 컴포넌트를 둘러보세요.",
+          "docUrl": "/components",
+          "llmsUrl": "/llms/components/index.txt"
+        },
+        {
           "id": "page-banner",
           "title": "Page Banner",
           "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
@@ -458,6 +472,13 @@
           "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.",
           "docUrl": "/components/pagination",
           "llmsUrl": "/llms/components/pagination.txt"
+        },
+        {
+          "id": "progress-board",
+          "title": "Progress Board",
+          "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다.",
+          "docUrl": "/components/progress-board",
+          "llmsUrl": "/llms/components/progress-board.txt"
         },
         {
           "id": "progress-circle",
@@ -626,6 +647,13 @@
           "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
           "docUrl": "/patterns/loading",
           "llmsUrl": "/llms/patterns/loading.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "자주 쓰는 UI 패턴과 가이드라인 모음입니다.",
+          "docUrl": "/patterns",
+          "llmsUrl": "/llms/patterns/index.txt"
         }
       ]
     },

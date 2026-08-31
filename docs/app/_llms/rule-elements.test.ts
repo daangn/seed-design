@@ -116,7 +116,6 @@ describe("activeRules", () => {
         "TokenReference",
         "ProgressBoardTable",
         "IconLibrary",
-        "CatalogGrid",
         "ComponentSpecBlock",
         "ChangelogPage",
       ]

@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
+import { getLLMMarkdownUrl, sectionConfigs } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
 import { getFoundationsSource } from "@/app/source";
@@ -7,10 +7,7 @@ export const revalidate = false;
 
 export async function GET() {
   const foundationsSource = await getFoundationsSource();
-  // 섹션 인덱스는 sectionConfigs.excludePaths가 이미 걸러준다.
-  const pages = foundationsSource
-    .getPages()
-    .filter((page) => shouldIncludeInFullText("foundations", page.path));
+  const pages = foundationsSource.getPages();
 
   // color/iconography/design-token 탭 그룹의 index는 모두 title이 "Overview"라
   // 그대로 나열하면 구분이 안 된다. getDisplayTitle이 slug로 꼬리표를 붙여준다.
