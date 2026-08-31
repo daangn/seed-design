@@ -1,0 +1,43 @@
+{
+  "name": "@seed-design/docs-search",
+  "version": "0.1.0",
+  "description": "Query layer for the seed-design.io documentation search index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/utils/docs-search"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "main": "./lib/index.cjs",
+  "files": [
+    "lib",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "typecheck": "tsc --noEmit",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "zbsearch": "^3.3.4"
+  },
+  "devDependencies": {
+    "bunchee": "^6.3.2",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

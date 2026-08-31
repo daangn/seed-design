@@ -5,7 +5,6 @@ import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { SortedResult } from "fumadocs-core/search";
 import { useDocsSearch } from "fumadocs-core/search/client";
-import { staticClient } from "fumadocs-core/search/client/orama-static";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import {
   SearchDialog,
@@ -16,6 +15,7 @@ import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
 import { useRecentPages } from "@/hooks/useRecentPages";
+import { docsSearchClient } from "./client";
 import { ComponentResults } from "./component-results";
 import { SearchFooter } from "./footer";
 import { NoResults } from "./no-results";
@@ -24,10 +24,8 @@ import { SearchResultItem } from "./search-result-item";
 import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
 import { TokenResults } from "./token-results";
-import { koreanTokenizer } from "./tokenizer";
 import { useComponentSearch } from "./use-component-search";
 import { useTokenSearch } from "./use-token-search";
-import { create } from "zbsearch";
 
 export interface DefaultSearchDialogProps extends SharedProps {
   /** Section tag preselected when the dialog opens (injected per-section layout). */
@@ -36,7 +34,9 @@ export interface DefaultSearchDialogProps extends SharedProps {
   tags?: TagItem[];
 
   /**
-   * Search API URL
+   * Where the static search index is served from. The `.json` name is what earns the response
+   * its compression: Cloudflare types an extensionless export as `application/octet-stream`
+   * and leaves it uncompressed, which sent this 21MB index over the wire in full.
    */
   api?: string;
 
@@ -53,15 +53,6 @@ export interface DefaultSearchDialogProps extends SharedProps {
  * which is what keeps the parts the browser paints — scrollbar, caret, autofill — out of dark.
  */
 const LIGHT_ONLY_PROPS = { "data-seed-color-mode": "light-only" };
-
-const searchDatabase = create({
-  schema: { _: "string" },
-  components: {
-    tokenizer: koreanTokenizer,
-  },
-});
-
-const initSearchDatabase = () => searchDatabase;
 
 /**
  * fumadocs ships the dialog at `z-50`. The docs header (`z-40`) sits under that, but the
@@ -161,14 +152,14 @@ const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
 export default function DefaultSearchDialog({
   defaultTag,
   tags = [],
-  api,
+  api = "/api/search.json",
   contentClassName,
   lightOnly,
   ...props
 }: DefaultSearchDialogProps): ReactNode {
   const [tag, setTag] = useState<string | undefined>(defaultTag);
   const { search, setSearch, query } = useDocsSearch({
-    client: staticClient({ initDB: initSearchDatabase, from: api, tag }),
+    client: docsSearchClient({ api, tag }),
   });
 
   // Keep the tag in sync when navigating between sections re-mounts with a new defaultTag.

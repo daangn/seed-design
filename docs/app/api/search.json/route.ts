@@ -13,7 +13,7 @@ import {
 import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { findPath, type Root } from "fumadocs-core/page-tree";
-import { koreanTokenizer } from "@/components/search/tokenizer";
+import { koreanTokenizer } from "@seed-design/docs-search";
 import { TAGS } from "@/app/api/search/constants";
 import { getEntrySearchText } from "@/lib/changelog-entry";
 import { getChangelogHref } from "@/components/changelog-viewer/utils";
