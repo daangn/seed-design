@@ -86,18 +86,6 @@ export async function requireSection(sectionId: string): Promise<DocsIndexCatego
   return section;
 }
 
-export async function fetchSectionFull(sectionId: string): Promise<string> {
-  const section = await requireSection(sectionId);
-
-  if (!section.llmsFullUrl) {
-    throw new Error(
-      `Section '${sectionId}' has no llms-full.txt. Use list_docs and get_doc instead.`,
-    );
-  }
-
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${section.llmsFullUrl}`);
-}
-
 export async function fetchDocsList(sectionId: string, category?: string): Promise<DocInfo[]> {
   const section = await requireSection(sectionId);
 

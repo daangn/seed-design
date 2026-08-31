@@ -24,7 +24,6 @@ const docsIndexCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
   llmsIndexUrl: z.string().optional(),
-  llmsFullUrl: z.string().optional(),
   sections: z.array(
     z.object({
       id: z.string(),
