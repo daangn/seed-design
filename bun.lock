@@ -43,7 +43,7 @@
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@lottiefiles/react-lottie-player": "^3.6.0",
-        "@lynx-js/css-serializer": "0.1.7",
+        "@lynx-js/css-serializer": "0.1.9",
         "@lynx-js/lynx-core": "0.1.4",
         "@lynx-js/web-core": "0.24.0",
         "@lynx-js/web-elements": "0.12.7",
@@ -2493,7 +2493,7 @@
 
     "@lynx-js/css-extract-webpack-plugin": ["@lynx-js/css-extract-webpack-plugin@0.10.1", "", { "peerDependencies": { "@lynx-js/template-webpack-plugin": "^0.14.0 || ^0.15.0" } }, "sha512-DlZOHSPEHvvb5jAGss/9zZG1BqoeG9qMPV6qV9OEesOtOeFJStotRWRC+70XUvJ7PPVPkZAdqZDZlIW89zvU6A=="],
 
-    "@lynx-js/css-serializer": ["@lynx-js/css-serializer@0.1.7", "", { "dependencies": { "css-tree": "^3.2.1" } }, "sha512-k8J/zZdYvsxqSZxT25dWBT4leOvYSpAanC5NmpYmf0EkSDWbQohensPSMOnEvEmP9R97gDO7K+eA6vgv8IYWGg=="],
+    "@lynx-js/css-serializer": ["@lynx-js/css-serializer@0.1.9", "", { "dependencies": { "css-tree": "^3.2.1", "pathe": "^2.0.3" } }, "sha512-O4wthGp3eBcE9mX+A7Ojla8mRJwucBhRJthEha5dgtvBfcx+P8GI6A0VvhvNwjclTaLnqNNbBRd+ClJQtirptA=="],
 
     "@lynx-js/debug-metadata": ["@lynx-js/debug-metadata@0.1.0", "", { "bin": { "debug-metadata": "./dist/cli.js" } }, "sha512-3N+Wgc/kIc4/aG5KpdPWKsC9MsNngygeyg9JS6IOayS8AQJ37xjVEzlz1U3aYzT9al0RJKL7w4poa0tGaXBv1g=="],
 
@@ -6645,11 +6645,15 @@
 
     "@lynx-js/rsbuild-plugin/@lynx-js/chunk-loading-webpack-plugin": ["@lynx-js/chunk-loading-webpack-plugin@0.4.1", "", { "dependencies": { "@lynx-js/webpack-runtime-globals": "0.0.7" } }, "sha512-vZb2HiZdkVdexs2OhRVZE3FkSUPYRvdnaAKG8y47WW2NlVFj6PHzqEhkqfO1L3dm5CIEsPgOMwzgSs3BHZZ8ig=="],
 
+    "@lynx-js/template-webpack-plugin/@lynx-js/css-serializer": ["@lynx-js/css-serializer@0.1.7", "", { "dependencies": { "css-tree": "^3.2.1" } }, "sha512-k8J/zZdYvsxqSZxT25dWBT4leOvYSpAanC5NmpYmf0EkSDWbQohensPSMOnEvEmP9R97gDO7K+eA6vgv8IYWGg=="],
+
     "@lynx-js/template-webpack-plugin/@rspack/lite-tapable": ["@rspack/lite-tapable@1.1.2", "", {}, "sha512-1OnyWChLGE46YzWyjlmYJssOu/Y0STAnnr2ueKPqDCYTf63GJMs0mxNnCul4dNiVqHYPKv3/fxrTY3IpqoVwZQ=="],
 
     "@lynx-js/template-webpack-plugin/tinypool": ["tinypool@2.1.0", "", {}, "sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw=="],
 
     "@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
+
+    "@lynx-js/web-core/@lynx-js/css-serializer": ["@lynx-js/css-serializer@0.1.7", "", { "dependencies": { "css-tree": "^3.2.1" } }, "sha512-k8J/zZdYvsxqSZxT25dWBT4leOvYSpAanC5NmpYmf0EkSDWbQohensPSMOnEvEmP9R97gDO7K+eA6vgv8IYWGg=="],
 
     "@lynx-js/web-core-wasm/@lynx-js/css-serializer": ["@lynx-js/css-serializer@0.1.4", "", { "dependencies": { "css-tree": "^3.1.0" } }, "sha512-yG3sC1fH+rBQhbdvPCweaGjmFmOBdi2rbt7xs9laMfu5Z5dOXL1OB7pZZN0vodptBO0/ctVfMCKH2EKhq0GtTA=="],
 
