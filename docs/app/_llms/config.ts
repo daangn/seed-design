@@ -8,13 +8,6 @@ export interface SectionConfig {
   /** 루트 llms.txt 표와 CLI 인덱스의 카테고리 라벨 */
   label: string;
   description: string;
-  /**
-   * llms 출력과 CLI 인덱스에서 제외할 콘텐츠 상대 경로. 없으면 빈 배열.
-   *
-   * 섹션 루트 `index.mdx`는 기본적으로 포함된다 — 개요 산문이 llms 출력 어디에도
-   * 안 나오던 문제 때문. 본문이 카탈로그 컴포넌트 한 줄뿐인 섹션만 여기서 뺀다.
-   */
-  excludePaths: string[];
 }
 
 /**
@@ -33,66 +26,54 @@ export const sectionConfigs = {
     baseUrl: "/get-started",
     label: "Get Started",
     description: "SEED 시작하기",
-    excludePaths: [],
   },
   foundations: {
     contentDir: "foundations",
     baseUrl: "/foundations",
     label: "Foundations",
     description: "색상, 타이포그래피, 간격 등 디자인 파운데이션",
-    // index.mdx 본문은 카탈로그 컴포넌트 한 줄이라 마크다운으로 뽑을 내용이 없다.
-    excludePaths: ["index.mdx"],
   },
   components: {
     contentDir: "components",
     baseUrl: "/components",
     label: "Components",
     description: "컴포넌트 디자인 스펙 (Anatomy, Properties, Guidelines)",
-    // index.mdx는 카탈로그 셸 (foundations 참고).
-    excludePaths: ["index.mdx", "progress-board.mdx"],
   },
   patterns: {
     contentDir: "patterns",
     baseUrl: "/patterns",
     label: "Patterns",
     description: "디자인 패턴 및 가이드라인",
-    // index.mdx는 카탈로그 셸 (foundations 참고).
-    excludePaths: ["index.mdx"],
   },
   docs: {
     contentDir: "docs",
     baseUrl: "/docs",
     label: "Design Guidelines",
     description: "마이그레이션 등 디자인 참고 문서",
-    excludePaths: [],
   },
   react: {
     contentDir: "react",
     baseUrl: "/react",
     label: "React",
     description: "React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제",
-    excludePaths: [],
   },
   breeze: {
     contentDir: "breeze",
     baseUrl: "/breeze",
     label: "Breeze",
     description: "프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트",
-    excludePaths: [],
   },
   lynx: {
     contentDir: "lynx",
     baseUrl: "/lynx",
     label: "Lynx",
     description: "Lynx 프레임워크",
-    excludePaths: [],
   },
   "ai-integration": {
     contentDir: "ai-integration",
     baseUrl: "/ai-integration",
     label: "AI Integration",
     description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
-    excludePaths: [],
   },
   updates: {
     contentDir: "updates",
@@ -100,7 +81,6 @@ export const sectionConfigs = {
     label: "Updates",
     description: "SEED 업데이트 소식과 릴리즈 노트",
     // 섹션 인덱스 mdx가 없다 — 랜딩은 app/updates/page.tsx가 그린다.
-    excludePaths: [],
   },
 } satisfies Record<string, SectionConfig>;
 
@@ -137,26 +117,4 @@ export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
 export function getDocUrl(section: Section, slugs: string[]): string {
   const { baseUrl } = sectionConfigs[section];
   return slugs.length === 0 ? baseUrl : `${baseUrl}/${slugs.join("/")}`;
-}
-
-/**
- * 페이지 헤더의 "Markdown으로 보기"가 가리킬 주소.
- *
- * 본문이 카탈로그 컴포넌트뿐인 섹션 루트는 마크다운으로 내보낼 게 없어 라우트가 없다.
- * 그런 페이지만 섹션 문서 목록으로 대신 보낸다.
- */
-export function getPageMarkdownUrl(
-  section: Section,
-  page: { slugs: string[]; path: string },
-): string {
-  if (page.slugs.length === 0 && !shouldIncludeInFullText(section, page.path)) {
-    return getSectionLLMIndexUrl(section);
-  }
-
-  return getLLMMarkdownUrl(section, page.slugs);
-}
-
-export function shouldIncludeInFullText(section: Section, pagePath: string): boolean {
-  const excludePaths: string[] = sectionConfigs[section].excludePaths;
-  return !excludePaths.includes(pagePath);
 }

@@ -8,7 +8,7 @@ import {
   sectionConfigs,
   sections,
 } from "../app/_llms/config";
-import { filePathToSlugs, listSectionPages } from "./content-pages";
+import { listSectionPages } from "./content-pages";
 import type { DocsIndex } from "../../packages/cli/src/schema";
 
 const docsRoot = path.resolve(import.meta.dir, "..");
@@ -81,18 +81,25 @@ describe("docs index ↔ content", () => {
     );
   });
 
-  // 제외 목록을 레지스트리에서 끌어온다. 특정 페이지 id를 박아 두면 그 페이지가 사라지는
-  // 날 생성기가 멀쩡해도 테스트가 깨진다.
-  it("excludes paths the registry opted out of", () => {
-    const excluded = sections.flatMap((section) =>
-      sectionConfigs[section].excludePaths.map((relPath) =>
-        getDocUrl(section, filePathToSlugs(relPath)),
-      ),
+  // 인덱스에서 페이지를 빼는 장치는 이제 없다. 제목이 있는 페이지는 예외 없이 실려야 하고,
+  // 이 단언이 무엇을 놓치는지는 제목 없는 페이지 목록이 스스로 말한다.
+  it("holds every titled page in the content tree", () => {
+    const indexed = new Set(docsIndex.categories.flatMap((c) => c.items.map((i) => i.docUrl)));
+
+    const missing = sections.flatMap((section) =>
+      listSectionPages(section, contentRoot)
+        .filter(({ relPath }) => {
+          const source = readFileSync(
+            path.join(contentRoot, sectionConfigs[section].contentDir, relPath),
+            "utf-8",
+          );
+          return /^---\r?\n[\s\S]*?^title:/m.test(source);
+        })
+        .map(({ slugs }) => getDocUrl(section, slugs))
+        .filter((url) => !indexed.has(url)),
     );
 
-    // 제외 목록이 비면 아래 단언은 통과해도 아무것도 보지 않는다.
-    expect(excluded.length).toBeGreaterThan(0);
-    expect(allItems.map((item) => item.docUrl).filter((url) => excluded.includes(url))).toEqual([]);
+    expect(missing).toEqual([]);
   });
 });
 

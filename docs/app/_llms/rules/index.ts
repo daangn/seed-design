@@ -3,7 +3,6 @@ import { badgeRule } from "./badge-rule";
 import { changelogPageRule } from "./changelog-page-rule";
 import { codeBlockTabsRule } from "./codeblock-tabs-rule";
 import { componentExampleRule } from "./component-example-rule";
-import { componentGridRule } from "./component-grid-rule";
 import { progressBoardRule } from "./progress-board-rule";
 import { typeTableRule } from "./type-table-rule";
 import { tokenReferenceRule } from "./token-reference-rule";
@@ -22,7 +21,6 @@ export const activeRules: AnyRule[] = [
   tokenReferenceRule,
   progressBoardRule,
   iconLibraryRule,
-  componentGridRule,
   componentSpecBlockRule,
   changelogPageRule,
 ];
@@ -33,7 +31,6 @@ export {
   changelogPageRule,
   codeBlockTabsRule,
   componentExampleRule,
-  componentGridRule,
   typeTableRule,
   tokenReferenceRule,
   componentSpecBlockRule,

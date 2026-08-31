@@ -1,4 +1,4 @@
-import { getPageMarkdownUrl } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getDocsSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
@@ -21,7 +21,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   });
 
   const displayTitle = deprecatedTitle(page.data.title, deprecated);
-  const markdownUrl = getPageMarkdownUrl("docs", page);
+  const markdownUrl = getLLMMarkdownUrl("docs", page.slugs);
 
   return (
     <DocsPageRenderer
