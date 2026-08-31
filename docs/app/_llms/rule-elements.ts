@@ -3,11 +3,8 @@ import type { FilterElement } from "@/lib/satteri/remark-llms-filter";
 
 /**
  * `processed`에 JSX 그대로 남겨야 하는 MDX 컴포넌트. 룰이 직접 매치하는 이름과, 부모 룰이
- * 속성을 읽는 자식(`CodeBlockTab`)을 담고, 룰 없이 태그째 남길 이름도 함께 담는다.
- *
- * `CatalogGrid`가 후자다. 카탈로그가 나열하는 문서는 CLI 인덱스와 섹션 llms.txt가 이미
- * 담고 있어 목록을 한 벌 더 펼칠 이유가 없지만, 태그마저 접으면 개요 페이지 본문이 통째로
- * 사라져 내용이 누락된 것처럼 보인다. 태그를 남겨 그 자리에 카탈로그가 있음을 알린다.
+ * 속성을 읽는 자식(`CodeBlockTab`)을 담고, 룰 없이 태그째 남길 이름(`ELEMENTS_WITHOUT_RULE`)도
+ * 함께 담는다.
  *
  * TypeTable은 일부러 빠져 있다. `remarkAutoTypeTable`이 만드는 `type` 속성은 JSX가 섞인 JS
  * 객체 소스라 `typeTableRule`의 JSON.parse가 실패하고, 남겨 두면 그 원본이 llms.txt에 통째로
@@ -16,6 +13,16 @@ import type { FilterElement } from "@/lib/satteri/remark-llms-filter";
  * 룰 모듈(아이콘 데이터·rootage 아티팩트 등)을 끌어오지 않도록 이름만 적는다. 이 목록은
  * `source.tsx`가 모든 페이지 경로에서 import한다.
  */
+/**
+ * 위 목록에서 대응하는 룰이 없는 이름. 여기 없는 이름이 룰을 잃으면 그 MDX 태그가 llms.txt
+ * 본문으로 새어 나가므로, 의도한 예외만 적어 테스트가 나머지를 잡게 한다.
+ *
+ * `CatalogGrid`가 그 예외다. 카탈로그가 나열하는 문서는 CLI 인덱스와 섹션 llms.txt가 이미
+ * 담고 있어 목록을 한 벌 더 펼칠 이유가 없지만, 태그마저 접으면 개요 페이지 본문이 통째로
+ * 사라져 내용이 누락된 것처럼 보인다. 태그를 남겨 그 자리에 카탈로그가 있음을 알린다.
+ */
+export const ELEMENTS_WITHOUT_RULE = ["CatalogGrid"] as const;
+
 export const RULE_ELEMENT_NAMES = [
   "AvailableSince",
   "Badge",

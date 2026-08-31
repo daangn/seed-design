@@ -14,6 +14,7 @@ alwaysApply: true
 - 룰은 컴포넌트 하나당 한 파일씩 `rules/<컴포넌트명 kebab-case>-rule.ts`로 둔다.
 - 룰 단위 테스트는 구현 옆에 같은 이름의 `.test.ts`로 둔다.
 - 여러 룰이 공유하는 헬퍼는 `-rule` 접미사 없이 역할 이름으로 둔다(`markdown-utils.ts`, `estree-utils.ts`).
+- `Rule`을 export하지 않는 파일은 `rules/`에 있더라도 `-rule` 접미사를 쓰지 않는다(`platform-status.ts`). 접미사가 붙어 있으면 `activeRules` 등록이 빠진 것으로 읽힌다.
 - fixture는 `__fixtures__/<룰 이름>/<케이스>.input.mdx`와 `.output.mdx` 쌍으로 두고, 여러 룰이 함께 걸리는 케이스만 `__fixtures__/pipeline/`에 둔다.
 - 생성물이나 외부 패키지 데이터에 묶이는 입력은 fixture로 만들지 않는다(TECH.md 「테스트 작성」). 그 데이터가 바뀌면 룰이 멀쩡해도 fixture가 깨진다.
 - barrel file은 `rules/index.ts` 하나뿐이다. 나머지 모듈은 파일 경로로 직접 import한다.

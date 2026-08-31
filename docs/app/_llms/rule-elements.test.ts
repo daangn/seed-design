@@ -4,7 +4,7 @@ import { remarkLlms } from "@fumadocs/satteri/remark-llms";
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { type FilterElement, remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
 import { normalizeLLMBody } from "./normalize-llm-body";
-import { RULE_ELEMENT_NAMES, preserveRuleElements } from "./rule-elements";
+import { ELEMENTS_WITHOUT_RULE, RULE_ELEMENT_NAMES, preserveRuleElements } from "./rule-elements";
 import { activeRules } from "./rules";
 import { normalizeForAssert } from "./test-utils";
 
@@ -97,6 +97,20 @@ describe("RULE_ELEMENT_NAMES", () => {
       .map((rule) => rule.name);
 
     expect(unpreserved).toEqual(RULE_NAMES_WITHOUT_PRESERVED_ELEMENT);
+  });
+
+  // 위 단언의 반대 방향. 룰을 지우면서 이름을 안 지우면 그 태그가 llms.txt 본문에 실려
+  // 나가는데, 그건 실패가 아니라 출력물 오염으로만 나타나 어떤 테스트도 잡지 못했다.
+  // `CodeBlockTab`은 부모 룰이 속성을 읽는 자식이라 자기 룰이 없는 게 정상이다.
+  it("룰 없이 남긴 이름은 선언된 것뿐이다", () => {
+    const parentReadChildren = ["CodeBlockTab"];
+    const ruleless = RULE_ELEMENT_NAMES.filter(
+      (name) =>
+        !parentReadChildren.includes(name) &&
+        !activeRules.some((rule) => rule.match(jsxNode(name))),
+    );
+
+    expect(ruleless).toEqual([...ELEMENTS_WITHOUT_RULE]);
   });
 });
 
