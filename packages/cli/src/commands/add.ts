@@ -22,6 +22,7 @@ import {
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
+import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
   getProjectSeedPackageVersionSpecs,
@@ -42,9 +43,7 @@ export const addParser = command(
   }),
   {
     brief: message`레지스트리 항목을 추가합니다`,
-    footer: message`예시:
-  seed-design add ui:action-button
-  seed-design add ui:alert-dialog`,
+    footer: exampleFooter(["seed-design add ui:action-button", "seed-design add ui:alert-dialog"]),
   },
 );
 

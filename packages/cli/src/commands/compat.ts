@@ -16,6 +16,7 @@ import {
   frameworkOption,
   type ParsedOptions,
 } from "../utils/cli-options";
+import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
@@ -121,11 +122,12 @@ export const compatParser = command(
   }),
   {
     brief: message`설치된 스니펫의 호환성을 검사합니다`,
-    footer: message`예시:
-  seed-design compat
-  seed-design compat -c action-button
-  seed-design compat ui:action-button ui:alert-dialog
-  seed-design compat --all`,
+    footer: exampleFooter([
+      "seed-design compat",
+      "seed-design compat -c action-button",
+      "seed-design compat ui:action-button ui:alert-dialog",
+      "seed-design compat --all",
+    ]),
   },
 );
 
