@@ -34,3 +34,6 @@ skills/*-workspace/
 # Generated CSS bundles
 /packages/css/*.min.css
 /packages/lynx-css/*.min.css
+
+# Agent skills that ship inside dependencies, symlinked by skills-npm on install
+**/skills/npm-*
