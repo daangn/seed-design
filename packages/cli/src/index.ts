@@ -3,6 +3,7 @@
 import { addCommand } from "@/src/commands/add";
 import { addAllCommand } from "@/src/commands/add-all";
 import { compatCommand } from "@/src/commands/compat";
+import { docsSearchCommand } from "@/src/commands/docs-search";
 import { docsCommand } from "@/src/commands/docs";
 import { initCommand } from "@/src/commands/init";
 
@@ -22,6 +23,7 @@ async function main() {
   addAllCommand(CLI);
   compatCommand(CLI);
   docsCommand(CLI);
+  docsSearchCommand(CLI);
   initCommand(CLI);
 
   CLI.version(packageInfo.version || "1.0.0", "-v, --version");
