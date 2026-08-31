@@ -5,27 +5,30 @@
 - 패키지: `@seed-design/cli`
 - 런타임: Node.js >= 20.19.0
 - 언어/모듈: TypeScript, ESM
-- 핵심 의존성: `cac`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`
+- 핵심 의존성: `@optique/core`, `@optique/run`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`
+- 파서 두 패키지는 devDependencies에 정확한 버전으로 고정한다. `build.mjs`가 dependencies를 전부 번들 밖으로 빼기 때문에, devDependencies에 두어야 `bin/index.mjs` 안으로 인라인되어 추가 다운로드가 생기지 않는다.
 - 빌드: `esbuild` (`build.mjs`, `dev.mjs`)
 
 ## 아키텍처
 
 ```text
-src/index.ts
-  ├─ commands/init.ts
-  ├─ commands/add.ts
-  ├─ commands/add-all.ts
-  ├─ commands/compat.ts
-  ├─ commands/docs.ts
-  └─ commands/docs-search.ts
+src/index.ts                       파서 트리 조립과 분기
+  ├─ commands/init.ts              initParser / runInit
+  ├─ commands/add.ts               addParser / runAdd
+  ├─ commands/add-all.ts           addAllParser / runAddAll
+  ├─ commands/compat.ts            compatParser / runCompat
+  └─ commands/docs.ts              docsParser / runDocsList, runDocsSearch, runDocsRead
 
 src/utils/*
+  ├─ cli-options.ts
   ├─ get-config.ts / init-config.ts
   ├─ fetch.ts / write.ts / resolve-dependencies.ts / install.ts
-  ├─ docs-index.ts
+  ├─ docs-address.ts / docs-index.ts
   ├─ analytics.ts
   └─ error.ts
 ```
+
+명령 파일은 파서와 실행 함수를 각각 export 하고, 트리 조립과 분기는 `src/index.ts`가 맡는다. 실행 함수는 파싱된 값만 받으므로 파서를 거치지 않고 직접 호출할 수 있고, telemetry 테스트가 그렇게 쓴다.
 
 ## 기술적 결정
 
@@ -45,7 +48,7 @@ src/utils/*
 ### 3) 명령 성공 경로에서 telemetry는 비핵심(Non-blocking)
 
 - 파일: `src/utils/analytics.ts`, `src/commands/*.ts`
-- `init`, `add`, `add-all`, `compat`, `docs` 이벤트를 전송한다.
+- `init`, `add`, `add-all`, `compat`, `docs list`, `docs search`, `docs read` 이벤트를 전송한다.
 - telemetry 실패는 명령 성공/실패 판정에 영향을 주지 않는다(실패는 무시 또는 verbose 로그).
 
 ### 4) telemetry opt-out 우선순위 고정
@@ -56,15 +59,20 @@ src/utils/*
   2. `SEED_DISABLE_TELEMETRY=true`
   3. `seed-design.json`의 `telemetry=false`
 
-### 5) 문서 조회와 문서 검색을 분리
+### 5) 문서 조회를 세 하위 명령으로 나눔
 
-- 파일: `src/commands/docs.ts`, `src/commands/docs-search.ts`, `src/utils/docs-index.ts`
-- `docs`는 주소만 해석한다. 인덱스가 발행하는 문서 경로와 카테고리·섹션 경로 외에는 받지 않으며, `seed-design.json`의 `framework`를 참조하지 않는다. 같은 입력이 실행 위치에 따라 다른 문서를 내지 않게 하기 위해서다.
-- 이름 부분 일치와 제목 일치는 `docs-search`가 전담한다. 결과가 여럿인 것이 정상이므로 종료 코드는 `0`이다.
-- 문서의 주소는 `docs-index.ts`의 `pathOf`가 `docUrl`에서 만든다. `category/section/item`으로 재조립하면 섹션 그룹핑보다 깊은 문서의 중간 slug가 사라지고 서로 다른 두 문서가 같은 경로를 갖는다.
-- `docs`의 답은 주소가 무엇을 가리키느냐로 정해진다. 문서면 그 문서의 llms.txt 내용을, 카테고리·섹션이면 그 안의 경로 목록을 stdout으로 낸다. 둘을 고르는 옵션은 없다.
-- 인덱스에 없는 경로는 URL을 조합해 한 번 시도한다. changelog처럼 콘텐츠 트리가 아니라 패키지·버전별로 생성되는 라우트가 있기 때문이다. 사이트가 모두 404로 답하면 `LlmsTxtNotFoundError`를 인덱스 기반 안내로 바꿔 던지고, 5xx와 타임아웃은 그대로 전달한다.
-- `docs`의 종료 코드는 `0`과 `1` 두 개다. 주소는 유일하므로 여러 후보를 뜻하던 `2`가 필요 없다.
+- 파일: `src/commands/docs.ts`, `src/utils/docs-address.ts`, `src/utils/docs-index.ts`
+- `docs list`, `docs search`, `docs read` 셋으로 나눈다. 하나의 `docs`가 인자의 모양에 따라 문서 본문과 경로 목록을 번갈아 내면, 파이프로 받는 쪽이 지금 받은 것이 무엇인지 알 수 없다.
+- `docs`만 입력하면 하위 명령 안내를 stderr로 내고 종료 코드 `1`로 끝낸다. 뒤에 붙은 값을 주소로 해석하지 않는다.
+- 주소 문법은 세 명령이 공유하며 `docs-address.ts`에 있다. 앞 슬래시는 고정 주소(경로 전체 일치), 슬래시 없음은 꼬리 질의(연속된 꼬리 일치), 뒤 슬래시는 범위(그 아래 전부)를 뜻한다.
+- 앞 슬래시가 필요한 이유는 문서 경로 51개가 다른 문서 경로의 꼬리이기 때문이다. `components/bottom-sheet`는 그 자체로 완전한 경로인데 꼬리 규칙만으로는 여러 문서에 걸린다.
+- 뒤 슬래시가 필요한 이유는 카테고리의 개요 문서와 카테고리 자체가 같은 자리에 있기 때문이다. `/react`는 문서, `react/`는 컨테이너다.
+- 주소는 `docs-address.ts`의 `addressOf`가 `docUrl`에서 만든다. `category/section/item`으로 재조립하면 섹션 그룹핑보다 깊은 문서의 중간 slug가 사라지고 서로 다른 두 문서가 같은 주소를 갖는다.
+- `docs read`는 주소가 여러 문서를 가리키면 후보를 stderr에 나열하고 종료 코드 `1`로 끝낸다. 자동으로 하나를 고르지 않는다.
+- `docs search`는 이름과 제목의 대소문자 무시 부분 일치만 한다. stdout에는 한 줄에 주소 하나씩만 싣는다. 나중에 매칭 방식을 갈아 끼워도 이것을 쓰는 파이프라인이 그대로 유지되게 하기 위해서다.
+- 인덱스에 없는 주소는 URL을 조합해 한 번 시도한다. changelog처럼 콘텐츠 트리가 아니라 패키지·버전별로 생성되는 라우트가 있기 때문이다. 사이트가 모두 404로 답하면 `LlmsTxtNotFoundError`를 인덱스 기반 안내로 바꿔 던지고, 5xx와 타임아웃은 그대로 전달한다.
+- 세 명령 모두 종료 코드는 `0`과 `1` 두 개다. stdout에 답이 있으면 `0`, 그 밖의 전부가 `1`이다.
+- 세 명령 모두 `--cwd`를 받지 않고 `seed-design.json`을 읽지 않는다. 같은 입력이 실행 위치에 따라 다른 문서를 내지 않게 하기 위해서다.
 
 ## 패키지 로컬 스크립트
 
