@@ -12,6 +12,13 @@ export const SEED_DOCS_BASE_URL = process.env.SEED_DOCS_BASE_URL || "https://see
  */
 export const DOCS_INDEX_ENDPOINT = "/__docs__/index.json";
 
+/**
+ * The site's full-text search index, the same one its own search dialog queries. Served under
+ * a `.json` name because Cloudflare leaves an extensionless export uncompressed, which for
+ * this file is the difference between roughly 1.5MB and 21MB.
+ */
+export const SEARCH_INDEX_ENDPOINT = "/api/search.json";
+
 export const ROOTAGE_ENDPOINTS = {
   INDEX: "/rootage/index.json",
   BASE: "/rootage",
