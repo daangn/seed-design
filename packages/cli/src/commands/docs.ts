@@ -17,6 +17,7 @@ import {
 } from "../utils/docs-address";
 import { alignedLines, matchItems, similarAddresses } from "../utils/docs-index";
 import { CliError, formatCliError } from "../utils/error";
+import { exampleFooter } from "../utils/help";
 import type { DocsCategory, DocsItem } from "../schema";
 
 /**
@@ -72,10 +73,11 @@ const listParser = command(
   }),
   {
     brief: message`그 범위 바로 아래에 무엇이 있는지 한 단계 나열합니다`,
-    footer: message`예시:
-  seed-design docs list
-  seed-design docs list react/
-  seed-design docs list react/components/`,
+    footer: exampleFooter([
+      "seed-design docs list",
+      "seed-design docs list react/",
+      "seed-design docs list react/components/",
+    ]),
   },
 );
 
@@ -92,10 +94,11 @@ const searchParser = command(
   }),
   {
     brief: message`이름과 제목으로 문서를 찾아 주소를 출력합니다`,
-    footer: message`예시:
-  seed-design docs search action-button
-  seed-design docs search sheet
-  seed-design docs search color`,
+    footer: exampleFooter([
+      "seed-design docs search action-button",
+      "seed-design docs search sheet",
+      "seed-design docs search color",
+    ]),
   },
 );
 
@@ -112,10 +115,11 @@ const readParser = command(
   }),
   {
     brief: message`그 주소의 문서 본문을 출력합니다`,
-    footer: message`예시:
-  seed-design docs read /react/components/action-button
-  seed-design docs read action-button
-  seed-design docs read /react`,
+    footer: exampleFooter([
+      "seed-design docs read /react/components/action-button",
+      "seed-design docs read action-button",
+      "seed-design docs read /react",
+    ]),
   },
 );
 
