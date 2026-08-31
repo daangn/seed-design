@@ -53,8 +53,7 @@ ${pageList}`;
 AI 도구 연동 가이드 문서입니다.
 
 ## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/ai-integration/llms-full.txt", baseUrl)}): 모든 AI Integration 문서를 하나의 파일로${sectionOverviewLine("ai-integration", pages, baseUrl)}
+${sectionOverviewLine("ai-integration", pages, baseUrl)}
 
 ## Categories
 

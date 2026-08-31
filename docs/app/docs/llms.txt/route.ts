@@ -56,8 +56,7 @@ ${pageList}`;
 마이그레이션 등 디자인 참고 문서입니다.
 
 ## Quick Access
-
-- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 참고 문서를 하나의 파일로${sectionOverviewLine("docs", pages, baseUrl)}
+${sectionOverviewLine("docs", pages, baseUrl)}
 
 ## Categories
 

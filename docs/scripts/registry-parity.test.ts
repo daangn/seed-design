@@ -9,7 +9,6 @@ import {
   sections,
 } from "../app/_llms/config";
 import { filePathToSlugs, listSectionPages } from "./content-pages";
-import { sections as fullTextSections } from "./generate-llms-full";
 import type { DocsIndex } from "../../packages/cli/src/schema";
 
 const docsRoot = path.resolve(import.meta.dir, "..");
@@ -46,13 +45,6 @@ function listFiles(dir: string, pattern: RegExp): string[] {
 describe("section registry ↔ routes", () => {
   it.each(sections)("%s has a section llms.txt route", (section) => {
     expect(existsSync(path.join(docsRoot, "app", section, "llms.txt/route.ts"))).toBe(true);
-  });
-
-  // llms-full.txt is written at build time by scripts/generate-llms-full.ts, so a section
-  // declaring fullText without being in that script's list advertises a file nobody emits.
-  it.each(sections)("%s declares fullText to match the llms-full generator", (section) => {
-    const generated = (fullTextSections as readonly string[]).includes(section);
-    expect(generated).toBe(sectionConfigs[section].fullText);
   });
 
   // `getLLMMarkdownUrl` derives every page's llmsUrl from the registry alone, so a section

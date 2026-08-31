@@ -654,7 +654,6 @@
       "id": "docs",
       "label": "Design Guidelines",
       "llmsIndexUrl": "/docs/llms.txt",
-      "llmsFullUrl": "/docs/llms-full.txt",
       "sections": [
         {
           "id": "migration",
@@ -682,7 +681,6 @@
       "id": "react",
       "label": "React",
       "llmsIndexUrl": "/react/llms.txt",
-      "llmsFullUrl": "/react/llms-full.txt",
       "sections": [
         {
           "id": "getting-started",
@@ -1507,7 +1505,6 @@
       "id": "breeze",
       "label": "Breeze",
       "llmsIndexUrl": "/breeze/llms.txt",
-      "llmsFullUrl": "/breeze/llms-full.txt",
       "sections": [
         {
           "id": "components",
@@ -1542,7 +1539,6 @@
       "id": "lynx",
       "label": "Lynx",
       "llmsIndexUrl": "/lynx/llms.txt",
-      "llmsFullUrl": "/lynx/llms-full.txt",
       "sections": [
         {
           "id": "getting-started",
@@ -1805,7 +1801,6 @@
       "id": "ai-integration",
       "label": "AI Integration",
       "llmsIndexUrl": "/ai-integration/llms.txt",
-      "llmsFullUrl": "/ai-integration/llms-full.txt",
       "sections": [
         {
           "id": "guides",

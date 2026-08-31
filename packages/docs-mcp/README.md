@@ -96,7 +96,6 @@ initializeTools(server);
 
 - `list_docs` - List available documents in a section, with optional category filter. Sections are read from the live site, so call `discover_seed_docs` for the current list rather than hardcoding one
 - `get_doc` - Get the content of a specific document by section and path
-- `get_full_docs` - Get all documents from a section combined into a single text
 
 ### Rootage (Design Tokens & Component Specs)
 
@@ -108,7 +107,7 @@ initializeTools(server);
 
 Sections are read from the live site at call time, so this README does not list them — a
 list here would be one more copy to drift. Call `discover_seed_docs` for the current set,
-along with each section's document count and whether it publishes a `get_full_docs` text.
+along with each section's document count.
 
 ## Example Usage
 
