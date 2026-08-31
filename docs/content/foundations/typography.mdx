@@ -49,6 +49,16 @@ font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
 
 <TokenReference groups={["font-weight"]} />
 
+<Callout type="warn" title="medium은 플랫폼에 따라 두께가 조금 다르게 보여요">
+  시스템 폰트를 사용하기 때문에, 같은 medium(500)이라도 iOS와 Android의 글꼴 자체가
+  다릅니다. 한글에서는 Android(Noto Sans KR)가 iOS(Apple SD Gothic Neo)보다 획이 조금 더
+  두껍게 보입니다.
+</Callout>
+
+Android에서는 medium이 bold에 가깝게 느껴질 수 있어, 두께 차이에만 기대어 만든 위계는 두
+플랫폼에서 다르게 읽힙니다. medium과 bold를 나란히 써서 강조를 구분할 때는 폰트 크기나 색상
+등 다른 요소를 함께 사용하고, 두 플랫폼 실기기에서 위계가 그대로 유지되는지 확인해 주세요.
+
 ## 타이포그래피 컴포넌트
 
 텍스트 스타일은 토큰들을 조합하여 사용 가능한 컴포넌트로 취급되며, 두 가지 주요 범주로 나뉩니다:
