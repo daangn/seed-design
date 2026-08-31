@@ -2152,6 +2152,19 @@
               "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
             },
             {
+              "id": "page-banner",
+              "title": "Page Banner",
+              "description": "페이지 상단에서 전체 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+              "docUrl": "/lynx/components/page-banner",
+              "snippetKey": "lynx/ui:page-banner",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "page-banner.tsx"
+                }
+              ]
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",

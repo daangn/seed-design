@@ -58,6 +58,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "page-banner",
+      snippets: [
+        {
+          path: "page-banner.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "checkbox",
       snippets: [
         {

@@ -20,6 +20,7 @@ import {
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
+import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
@@ -50,6 +51,7 @@ export type Page =
   | "badge"
   | "bottom-sheet"
   | "callout"
+  | "page-banner"
   | "checkbox"
   | "progress-circle"
   | "radio-group"
@@ -89,6 +91,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "badge",
   "bottom-sheet",
   "callout",
+  "page-banner",
   "checkbox",
   "progress-circle",
   "radio-group",
@@ -154,6 +157,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "badge" && <BadgePage />}
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
         {currentPage === "callout" && <CalloutPage />}
+        {currentPage === "page-banner" && <PageBannerPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}

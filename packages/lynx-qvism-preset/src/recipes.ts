@@ -11,6 +11,7 @@ import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
+import pageBanner from "./recipes/page-banner";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
@@ -38,6 +39,7 @@ export const recipes = {
   chip,
   field,
   fieldLabel,
+  pageBanner,
   radio,
   radioGroup,
   radiomark,
