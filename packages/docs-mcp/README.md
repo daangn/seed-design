@@ -90,11 +90,11 @@ initializeTools(server);
 
 ### Discovery
 
-- `discover_seed_docs` - Discover all available documentation sections and categories. Call this first to understand the documentation structure.
+- `discover_seed_docs` - Discover all available documentation sections. Call this first to understand the documentation structure.
 
 ### Documentation
 
-- `list_docs` - List available documents in a section, with optional category filter. Sections are read from the live site, so call `discover_seed_docs` for the current list rather than hardcoding one
+- `list_docs` - List available documents in a section. Sections are read from the live site, so call `discover_seed_docs` for the current list rather than hardcoding one
 - `get_doc` - Get the content of a specific document by section and path
 
 ### Rootage (Design Tokens & Component Specs)
@@ -115,8 +115,8 @@ along with each section's document count.
 // 1. Discover available sections
 discover_seed_docs()
 
-// 2. List React components
-list_docs({ section: "react", category: "components" })
+// 2. List React documents
+list_docs({ section: "react" })
 
 // 3. Get the React API for a component
 get_doc({ section: "react", path: "components/action-button" })
