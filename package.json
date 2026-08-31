@@ -14,7 +14,7 @@
     "docs"
   ],
   "scripts": {
-    "prepare": "skills-npm --cwd packages/cli --agents claude-code --no-gitignore",
+    "prepare": "skills-npm --cwd packages/cli --no-gitignore",
     "build": "ultra -r build",
     "packages:build": "ultra -r --build --filter 'packages/*' build",
     "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
