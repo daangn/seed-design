@@ -111,7 +111,7 @@
         },
         {
           "id": "overview",
-          "title": "Overview ()",
+          "title": "Overview",
           "description": "접근성, 레이아웃, 인터랙션까지 — 훌륭한 UI의 기반이 되는 핵심 토큰과 패턴을 둘러보세요.",
           "docUrl": "/foundations",
           "llmsUrl": "/llms/foundations/index.txt"
@@ -1165,7 +1165,7 @@
         },
         {
           "id": "overview",
-          "title": "Overview ()",
+          "title": "Overview",
           "description": "SEED를 React 프로젝트에서 사용하는 방법을 알아봅니다.",
           "docUrl": "/react",
           "llmsUrl": "/llms/react/index.txt"
