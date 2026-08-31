@@ -117,10 +117,7 @@ describe("skills reference live docs URLs", () => {
   })();
 
   it("resolves every referenced llms.txt URL", () => {
-    // The changelog routes are generated per package/version, not from the content tree.
-    const checkable = skillUrls.filter((url) => !url.startsWith("/llms/react/updates/changelog"));
-
-    expect(checkable.filter((url) => !servedLlmsUrls.has(url))).toEqual([]);
+    expect(skillUrls.filter((url) => !servedLlmsUrls.has(url))).toEqual([]);
   });
 });
 

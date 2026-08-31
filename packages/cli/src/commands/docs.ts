@@ -1,9 +1,4 @@
-import {
-  fetchDocsIndex,
-  fetchLlmsTxt,
-  LlmsTxtNotFoundError,
-  tryFetchLlmsTxt,
-} from "@/src/utils/fetch";
+import { fetchDocsIndex, fetchLlmsTxt } from "@/src/utils/fetch";
 import { object, or } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
 import { optional } from "@optique/core/modifiers";
@@ -17,7 +12,6 @@ import {
   childrenOf,
   type DocsListing,
   parseAddress,
-  pathOf,
   resolveDocuments,
   resolveScopes,
 } from "../utils/docs-address";
@@ -275,22 +269,9 @@ export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<t
       });
     }
 
-    // Not in the index at all. The changelog routes are generated per package and version
-    // rather than from the content tree, so composing their URL is the only way to reach
-    // them. A path the site publishes nothing for is the miss it looked like all along.
-    try {
-      process.stdout.write(
-        await tryFetchLlmsTxt({ baseUrl, query: pathOf(parsed).replace(/^\//, "") }),
-      );
-    } catch (error) {
-      if (!(error instanceof LlmsTxtNotFoundError)) throw error;
-
-      throw new CliError({
-        message: `${highlight(address)}: 그런 문서가 없어요.${suggestionFor(categories, address)}`,
-        hint: "`seed-design docs list`로 전체 목록을, `seed-design docs search <이름>`으로 이름 검색을 해보세요.",
-      });
-    }
-
-    return { result: "composed-url" };
+    throw new CliError({
+      message: `${highlight(address)}: 그런 문서가 없어요.${suggestionFor(categories, address)}`,
+      hint: "`seed-design docs list`로 전체 목록을, `seed-design docs search <이름>`으로 이름 검색을 해보세요.",
+    });
   });
 }

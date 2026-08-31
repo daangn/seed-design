@@ -3,9 +3,9 @@ import type { ChangelogSource } from "./parse-changelog";
 import {
   buildChangelogLlmData,
   createChangelogLlmDataLoader,
+  renderAllPackagesChangelog,
   renderVersionMarkdown,
 } from "./changelog-llms";
-import { buildChangelogLlmOutputFiles } from "./changelog-llms-output";
 
 const sources: ChangelogSource[] = [
   {
@@ -46,8 +46,6 @@ describe("buildChangelogLlmData", () => {
 
     expect(data.entries).toHaveLength(3);
     expect(react?.versions).toEqual(["2.0.0", "1.0.0"]);
-    expect(react?.versionIndex.get("2.0.0")).toBe(0);
-    expect(react?.versionIndex.get("1.0.0")).toBe(1);
     expect(react?.renderedBlocks[0]).toContain("React 2를 출시합니다.");
     expect(react?.renderedBlocks[1]).toContain("CSS 토큰을 추가합니다.");
   });
@@ -81,34 +79,33 @@ describe("createChangelogLlmDataLoader", () => {
   });
 });
 
-describe("buildChangelogLlmOutputFiles", () => {
-  it("Next route와 같은 전체, 패키지별, 버전별 파일을 만든다", async () => {
-    const data = await buildChangelogLlmData(sources);
-    const files = buildChangelogLlmOutputFiles(data, new URL("https://seed-design.io"));
-    const output = new Map(files.map((file) => [file.path, file.content]));
+describe("renderAllPackagesChangelog", () => {
+  it("패키지를 이름순으로 잇고 의존성 업데이트를 펼친다", async () => {
+    const markdown = renderAllPackagesChangelog(await buildChangelogLlmData(sources));
 
-    expect(files).toHaveLength(6);
-    expect(output.get("llms/react/updates/changelog.txt")).toStartWith(
-      "# Changelog\nURL: https://seed-design.io/react/updates/changelog",
-    );
-    expect(output.get("llms/react/updates/changelog/react/llms.txt")).toBe(
-      `# @seed-design/react Changelog
+    expect(markdown).toBe(`## @seed-design/css
 
-## Versions
+## 1.0.0
 
-- [2.0.0](https://seed-design.io/llms/react/updates/changelog/react/2.0.0.txt) — changes since this version
-- [1.0.0](https://seed-design.io/llms/react/updates/changelog/react/1.0.0.txt) — changes since this version
+### Patch Changes
+
+- CSS 토큰을 추가합니다. def5678
 
 ---
 
-${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
-`,
-    );
-    expect(output.get("llms/react/updates/changelog/react/1.0.0.txt")).toBe(
-      `# @seed-design/react — Changes since 1.0.0
+## @seed-design/react
 
-${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
-`,
-    );
+## 2.0.0
+
+### Major Changes
+
+- React 2를 출시합니다. abc1234
+
+## 1.0.0
+
+### Updated Dependencies
+
+- **@seed-design/css@1.0.0**
+  - [Patch Changes] CSS 토큰을 추가합니다. def5678`);
   });
 });

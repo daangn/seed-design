@@ -8,12 +8,9 @@ import {
 
 export type { EntryLookup };
 
-const SCOPE = "@seed-design/";
-
 export interface ChangelogLlmPackageData {
   packageName: string;
   versions: string[];
-  versionIndex: ReadonlyMap<string, number>;
   renderedBlocks: string[];
 }
 
@@ -24,26 +21,14 @@ export interface ChangelogLlmData {
   packages: ReadonlyMap<string, ChangelogLlmPackageData>;
 }
 
-export function toSlug(packageName: string): string {
-  return packageName.replace(SCOPE, "");
-}
-
-export function toPackageName(slug: string): string {
-  return `${SCOPE}${slug}`;
-}
-
-export function toVersionSlug(version: string): string {
-  return encodeURIComponent(version);
-}
-
 let sourcesPromise: Promise<ChangelogSource[]> | null = null;
 
-export async function getSources(): Promise<ChangelogSource[]> {
+async function getSources(): Promise<ChangelogSource[]> {
   sourcesPromise ??= loadChangelogSources(process.cwd());
   return sourcesPromise;
 }
 
-export async function buildLookupFromSources(sources: ChangelogSource[]): Promise<{
+async function buildLookupFromSources(sources: ChangelogSource[]): Promise<{
   entries: ChangelogEntry[];
   lookup: EntryLookup;
 }> {
@@ -68,12 +53,25 @@ export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise
     packages.set(source.packageName, {
       packageName: source.packageName,
       versions,
-      versionIndex: new Map(versions.map((version, index) => [version, index])),
       renderedBlocks,
     });
   }
 
   return { sources, entries, lookup, packages };
+}
+
+/**
+ * `<ChangelogPage />`가 llms 출력에서 차지하는 본문.
+ *
+ * 원문을 그대로 잇지 않는 이유: raw CHANGELOG의 `Updated dependencies` 줄은 해시와 패키지
+ * 이름만 남기므로, 무엇이 바뀌었는지는 `renderedBlocks`가 그 버전을 찾아 펼쳐 준 뒤에야
+ * 읽을 수 있다. 문서 제목과 URL 헤더는 `getLLMText`가 붙이므로 여기서는 다루지 않는다.
+ */
+export function renderAllPackagesChangelog({ packages }: ChangelogLlmData): string {
+  return [...packages.values()]
+    .sort((a, b) => a.packageName.localeCompare(b.packageName))
+    .map(({ packageName, renderedBlocks }) => `## ${packageName}\n\n${renderedBlocks.join("\n\n")}`)
+    .join("\n\n---\n\n");
 }
 
 export function createChangelogLlmDataLoader(
