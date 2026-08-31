@@ -19,7 +19,7 @@ const docsIndex = JSON.parse(
   readFileSync(path.join(docsRoot, "public/__docs__/index.json"), "utf-8"),
 ) as DocsIndex;
 
-/** `/llms/{section}/{...slugs}.txt` for every routable page in the content tree. */
+/** `/llms/{section}/{...slugs}.txt` — the document URL with `/llms` in front — for every routable page. */
 const servedLlmsUrls = new Set(
   sections.flatMap((section) =>
     listSectionPages(section, contentRoot).map(({ slugs }) => getLLMMarkdownUrl(section, slugs)),
@@ -43,14 +43,11 @@ function listFiles(dir: string, pattern: RegExp): string[] {
 }
 
 describe("section registry ↔ routes", () => {
-  it.each(sections)("%s has a section llms.txt route", (section) => {
-    expect(existsSync(path.join(docsRoot, "app", section, "llms.txt/route.ts"))).toBe(true);
-  });
-
-  // `getLLMMarkdownUrl` derives every page's llmsUrl from the registry alone, so a section
-  // whose route file is missing publishes a 404 for each of its pages.
-  it.each(sections)("%s has a per-page llms route", (section) => {
-    expect(existsSync(path.join(docsRoot, "app/llms", section, "[...slug]/route.ts"))).toBe(true);
+  // Which sections that route can answer for is settled by `sectionSources`, whose
+  // `Record<Section, ...>` the compiler holds to the registry. What no type can see is
+  // whether the file carrying it still exists — without it every page 404s at once.
+  it("serves every section from one llms route", () => {
+    expect(existsSync(path.join(docsRoot, "app/llms/[...slug]/route.ts"))).toBe(true);
   });
 
   it("every content dir is registered as a section", () => {

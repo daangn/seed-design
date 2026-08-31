@@ -86,8 +86,6 @@ export const docsItemSchema = z.object({
 export const docsCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
-  /** Site-relative path to the section index llms.txt, e.g. `/components/llms.txt`. */
-  llmsIndexUrl: z.string().optional(),
   items: z.array(docsItemSchema),
 });
 
