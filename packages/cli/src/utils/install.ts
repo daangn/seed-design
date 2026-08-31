@@ -32,16 +32,17 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
   const command = [addCommand, isDev, ...depsToInstall].filter((v): v is string => Boolean(v));
-  const commandLabel = `${packageManager} ${command.join(" ")}`;
 
   try {
     await execa(packageManager, command, { cwd });
   } catch (error) {
     stop("의존성 설치에 실패했어요.");
+    // No `details` of our own: the rejection carries the command it ran and what the package
+    // manager printed, and guessing a reason on top of that is how a peer conflict came out
+    // as a network problem.
     throw new CliError({
       message: "의존성 설치에 실패했어요.",
-      hint: "네트워크 상태를 확인하고, 설치 명령어를 직접 실행해 상세 오류를 확인해보세요.",
-      details: [`실행 명령어: ${commandLabel}`],
+      hint: "위 stderr 내용을 확인해주세요. 설치 명령어를 직접 실행하면 같은 오류를 다시 볼 수 있어요.",
       cause: error,
     });
   }
