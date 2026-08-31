@@ -13,6 +13,10 @@ export function getDisplayTitle(page: TitledPage, siblings: TitledPage[]): strin
   const duplicates = siblings.filter((p) => p.data.title === title);
   if (duplicates.length <= 1) return title;
 
+  // 섹션 루트는 slug가 없어 꼬리표로 삼을 조각이 없다 — `${title} ()`가 되어버린다.
+  // 섹션의 대표 개요이므로 제목을 그대로 두고, 꼬리표는 그 아래 문서들이 단다.
+  if (page.slugs.length === 0) return title;
+
   const parentSlug = page.slugs.length >= 2 ? page.slugs[page.slugs.length - 2] : null;
   const hasSameParent = parentSlug
     ? duplicates.some(
