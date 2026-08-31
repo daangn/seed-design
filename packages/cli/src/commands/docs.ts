@@ -13,10 +13,11 @@ import { analytics } from "../utils/analytics";
 import { baseUrlOption, type ParsedOptions } from "../utils/cli-options";
 import { highlight } from "../utils/color";
 import {
-  type Address,
+  byAddress,
   childrenOf,
   type DocsListing,
   parseAddress,
+  pathOf,
   resolveDocuments,
   resolveScopes,
 } from "../utils/docs-address";
@@ -129,10 +130,13 @@ export const docsParser = command("docs", or(listParser, searchParser, readParse
 
 /** Every one of the three ends the same way: the answer on stdout, or a reason on stderr. */
 async function emit(
-  command: "docs list" | "docs search" | "docs read",
+  command: "docs-list" | "docs-search" | "docs-read",
+  verbose: boolean,
   run: () => Promise<Outcome>,
 ) {
   const startTime = Date.now();
+  // Only telemetry reads the working directory, and only to find the opt-out. What document
+  // an address names never depends on where the command was run.
   const cwd = process.cwd();
 
   try {
@@ -148,8 +152,10 @@ async function emit(
           duration_ms: Date.now() - startTime,
         },
       });
-    } catch {
-      // Telemetry never speaks on stdout, and a failure to report is not a failure to answer.
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error(`[Telemetry] ${command} 이벤트 전송에 실패했어요:`, telemetryError);
+      }
     }
   } catch (error) {
     try {
@@ -158,25 +164,27 @@ async function emit(
         error,
         properties: { duration_ms: Date.now() - startTime },
       });
-    } catch {
-      // as above
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error(`[Telemetry] ${command} 이벤트 전송에 실패했어요:`, telemetryError);
+      }
     }
 
     console.error(
       formatCliError(error, {
         defaultMessage: "문서 조회에 실패했어요.",
         defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
-        verbose: false,
+        verbose,
       }).join("\n"),
     );
     process.exit(1);
   }
 }
 
-export async function runDocsList({ address, baseUrl }: ParsedOptions<typeof listParser>) {
-  await emit("docs list", async () => {
+export async function runDocsList({ address, baseUrl, verbose }: ParsedOptions<typeof listParser>) {
+  await emit("docs-list", verbose, async () => {
     const { categories } = await fetchDocsIndex({ baseUrl });
-    const parsed = parseAddress(address ?? "/");
+    const parsed = parseAddress(address ?? "");
     const scopes = resolveScopes(categories, parsed);
 
     const listings = Array.from(
@@ -185,7 +193,7 @@ export async function runDocsList({ address, baseUrl }: ParsedOptions<typeof lis
           .flatMap((scope) => childrenOf(categories, scope))
           .map((entry) => [entry.address, entry]),
       ).values(),
-    ).sort((a, b) => a.address.localeCompare(b.address));
+    ).sort(byAddress);
 
     if (listings.length === 0) {
       throw new CliError({
@@ -199,14 +207,27 @@ export async function runDocsList({ address, baseUrl }: ParsedOptions<typeof lis
   });
 }
 
-export async function runDocsSearch({ query, baseUrl }: ParsedOptions<typeof searchParser>) {
-  await emit("docs search", async () => {
+export async function runDocsSearch({
+  query,
+  baseUrl,
+  verbose,
+}: ParsedOptions<typeof searchParser>) {
+  await emit("docs-search", verbose, async () => {
+    // A blank name matches every document, which is a listing wearing a search's clothes.
+    const name = query.trim();
+    if (name.length === 0) {
+      throw new CliError({
+        message: "찾을 이름이 필요해요.",
+        hint: "예: `seed-design docs search action-button`. 전체 목록은 `seed-design docs list`로 보세요.",
+      });
+    }
+
     const { categories } = await fetchDocsIndex({ baseUrl });
-    const matched = matchItems(categories, query);
+    const matched = matchItems(categories, name);
 
     if (matched.length === 0) {
       throw new CliError({
-        message: `${highlight(query)}: 일치하는 문서가 없어요.${suggestionFor(categories, query)}`,
+        message: `${highlight(name)}: 일치하는 문서가 없어요.${suggestionFor(categories, name)}`,
         hint: "`seed-design docs list`로 전체 목록을 확인해보세요.",
       });
     }
@@ -221,14 +242,27 @@ export async function runDocsSearch({ query, baseUrl }: ParsedOptions<typeof sea
   });
 }
 
-export async function runDocsRead({ address, baseUrl }: ParsedOptions<typeof readParser>) {
-  await emit("docs read", async () => {
-    const { categories } = await fetchDocsIndex({ baseUrl });
+export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<typeof readParser>) {
+  await emit("docs-read", verbose, async () => {
     const parsed = parseAddress(address);
+
+    // A trailing slash names a container, and a container has no text of its own. Answering
+    // with whatever single document happens to sit underneath would make the same input mean
+    // different things as the site grows.
+    if (parsed.kind === "scope") {
+      throw new CliError({
+        message: `${highlight(address)}: 문서가 아니라 그 아래를 가리키는 주소예요.`,
+        hint: `\`seed-design docs list ${address}\`로 그 아래에 무엇이 있는지 보세요.`,
+      });
+    }
+
+    const { categories } = await fetchDocsIndex({ baseUrl });
     const documents = resolveDocuments(categories, parsed);
 
     if (documents.length === 1) {
-      console.log(await fetchLlmsTxt({ url: llmsUrlFor(documents[0].item, baseUrl) }));
+      // Not `console.log`: stdout carries the bytes the site sent and not one of ours, and
+      // `console.log` would append a newline the document did not have.
+      process.stdout.write(await fetchLlmsTxt({ url: llmsUrlFor(documents[0].item, baseUrl) }));
       return { result: "item", itemId: documents[0].item.id };
     }
 
@@ -245,7 +279,9 @@ export async function runDocsRead({ address, baseUrl }: ParsedOptions<typeof rea
     // rather than from the content tree, so composing their URL is the only way to reach
     // them. A path the site publishes nothing for is the miss it looked like all along.
     try {
-      console.log(await tryFetchLlmsTxt({ baseUrl, query: addressPath(parsed) }));
+      process.stdout.write(
+        await tryFetchLlmsTxt({ baseUrl, query: pathOf(parsed).replace(/^\//, "") }),
+      );
     } catch (error) {
       if (!(error instanceof LlmsTxtNotFoundError)) throw error;
 
@@ -257,10 +293,4 @@ export async function runDocsRead({ address, baseUrl }: ParsedOptions<typeof rea
 
     return { result: "composed-url" };
   });
-}
-
-/** The path a composed URL is built from, with the leading slash the route does not carry. */
-function addressPath(address: Address): string {
-  const path = address.kind === "tail" ? `/${address.segments.join("/")}` : address.path;
-  return path.replace(/^\//, "");
 }

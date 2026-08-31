@@ -33,7 +33,9 @@ async function main() {
       value: packageInfo.version || "1.0.0",
       option: { names: ["-v", "--version"] },
     },
-    help: "both",
+    // Both names spelled out: the default registers `--help` alone, and `-h` has worked
+    // since the first release.
+    help: { command: true, option: { names: ["-h", "--help"] } },
     showDefault: true,
     showChoices: true,
   });
