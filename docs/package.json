@@ -57,6 +57,7 @@
     "@sanity/table": "^2.0.1",
     "@sanity/vision": "^4.20.3",
     "@seed-design/css": "workspace:*",
+    "@seed-design/docs-search": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
     "@seed-design/migration-index": "2.0.1",
     "@seed-design/react": "2.4.1",
@@ -111,8 +112,7 @@
     "tailwind-merge": "^3.5.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
-    "yaml": "^2.9.0",
-    "zbsearch": "^3.3.4"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
