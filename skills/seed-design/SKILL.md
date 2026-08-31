@@ -80,7 +80,7 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 3. 인덱스가 제공한 leaf URL을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
 4. 인덱스를 정상적으로 읽었는데 관련 항목이 없으면 현재 공식 문서가 없다고 판단합니다. 인덱스 자체를 읽지 못했으면 부재로 확정하지 않습니다.
 
-CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 id를 확인합니다. URL 경로와 CLI id가 같다고 가정하지 말고, id를 확정할 수 없으면 인덱스의 URL을 직접 읽습니다.
+CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 주소를 확인합니다. 기억한 주소를 조합하지 말고, 주소를 확정할 수 없으면 `docs search`로 찾거나 인덱스의 URL을 직접 읽습니다.
 
 ### 컴포넌트 답변 순서
 
@@ -103,22 +103,30 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 
 전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
 
-`docs` 명령의 첫 경로 조각은 문서 사이트의 최상위 섹션과 같고, 그 목록은 전체 인덱스에서
-읽습니다. 같은 컴포넌트라도 섹션에 따라 다른 문서를 가리킵니다: `components/{name}`은
-**디자인 스펙**이고, React 구현은 `react/components/{name}`입니다.
+`docs`는 `list`, `search`, `read` 세 하위 명령으로 나뉩니다. `list`는 그 범위 바로 아래를 한
+단계 나열하고, `search`는 이름으로 주소를 찾고, `read`는 그 주소의 문서 본문을 출력합니다.
+`docs`만 입력하면 안내를 stderr로 내고 종료 코드 `1`로 끝납니다.
+
+주소는 문서 사이트 주소에서 도메인만 뺀 값입니다. 앞 슬래시가 붙으면 경로 전체와 완전히
+일치하는 고정 주소이고, 붙지 않으면 경로의 꼬리와 일치하는 질의라 여러 문서에 걸릴 수
+있으며, 뒤 슬래시가 붙으면 그 아래 전부를 뜻하는 범위입니다. 같은 컴포넌트라도 섹션에 따라
+다른 문서를 가리킵니다: `/components/{name}`은 **디자인 스펙**이고, React 구현은
+`/react/components/{name}`입니다.
 
 ```bash
-npx @seed-design/cli@latest docs components/action-button        # 디자인 스펙
-npx @seed-design/cli@latest docs react/components/action-button  # React 구현
-npx @seed-design/cli@latest docs foundations/color               # 파운데이션
-npx @seed-design/cli@latest docs react/overview                  # 카테고리 개요
+npx @seed-design/cli@latest docs list                                 # 최상위 목록
+npx @seed-design/cli@latest docs list react/components/               # 그 아래 목록
+npx @seed-design/cli@latest docs search action-button                 # 이름으로 주소 찾기
+npx @seed-design/cli@latest docs read /components/action-button       # 디자인 스펙
+npx @seed-design/cli@latest docs read /react/components/action-button # React 구현
+npx @seed-design/cli@latest docs read /foundations/color              # 파운데이션
+npx @seed-design/cli@latest docs read /react                          # 카테고리 개요
 ```
 
-`docs`는 아무것도 묻지 않고 종료 코드로 결과를 알립니다. `0`은 문서 하나를 찾았거나 지정한
-카테고리·섹션의 목록을 출력했다는 뜻이고, `1`은 일치하는 문서가 없다는 뜻이며, `2`는 여러
-문서가 일치해 하나로 좁히지 못했다는 뜻입니다. `2`가 나오면 출력된 후보 경로 중 하나를 그대로
-다시 넘깁니다. `--raw`는 stdout에 문서 내용만 내보내므로, 좁혀지지 않으면 stdout이 비고 후보는
-stderr로 나갑니다.
+세 명령 모두 아무것도 묻지 않고 종료 코드로 결과를 알립니다. `0`은 stdout에 답이 있다는
+뜻이고, `1`은 그 밖의 전부이며 이유는 stderr에 있습니다. `read`에 넘긴 주소가 여러 문서를
+가리키면 stdout은 비고 후보 주소가 stderr로 나가므로, 그중 하나를 앞 슬래시가 붙은 그대로 다시
+넘깁니다.
 
 ## 4. 판단이 필요한 절차
 
