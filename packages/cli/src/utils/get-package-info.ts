@@ -2,13 +2,17 @@ import path from "path";
 import findup from "findup-sync";
 import fs from "fs-extra";
 import type { PackageJson } from "type-fest";
+import { CliError } from "./error";
 
 const PACKAGE_JSON = "package.json";
 
 function getPackagePath(cwd = process.cwd()) {
   const packageJsonPath = findup(PACKAGE_JSON, { cwd });
   if (!packageJsonPath) {
-    throw new Error("No package.json file found in the project.");
+    throw new CliError({
+      message: "package.json을 찾을 수 없어요.",
+      hint: "Node.js 프로젝트 안에서 실행하거나, `--cwd`로 프로젝트 경로를 지정해주세요.",
+    });
   }
   return packageJsonPath;
 }

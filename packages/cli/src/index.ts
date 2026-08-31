@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
+import { readFileSync } from "node:fs";
+
 import { addParser, runAdd } from "@/src/commands/add";
 import { addAllParser, runAddAll } from "@/src/commands/add-all";
 import { compatParser, runCompat } from "@/src/commands/compat";
 import { docsParser, runDocsList, runDocsRead, runDocsSearch } from "@/src/commands/docs";
 import { initParser, runInit } from "@/src/commands/init";
 
-import { getPackageInfo } from "@/src/utils/get-package-info";
 import { merge, object, or } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
 import { option } from "@optique/core/primitives";
@@ -23,14 +24,25 @@ const parser = merge(
   or(addParser, addAllParser, compatParser, docsParser, initParser),
 );
 
-async function main() {
-  const packageInfo = getPackageInfo();
+/**
+ * The CLI's own version, and not that of whatever project the command was run in. Both `bin/`
+ * and `src/` sit one level under the package root, so the same relative path answers for the
+ * bundle and for the source the tests spawn.
+ */
+function getCliVersion() {
+  const packageJson = JSON.parse(
+    readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+  ) as { version?: string };
 
+  return packageJson.version ?? "0.0.0";
+}
+
+async function main() {
   const options = run(parser, {
     programName: "seed-design",
     brief: message`SEED Design CLI`,
     version: {
-      value: packageInfo.version || "1.0.0",
+      value: getCliVersion(),
       option: { names: ["-v", "--version"] },
     },
     // Both names spelled out: the default registers `--help` alone, and `-h` has worked
