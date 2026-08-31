@@ -1,15 +1,15 @@
 ## 디렉토리 개요
 
-`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat/docs/docs-search` 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화하고, 기술 상세는 이 폴더의 `TECH.md`를 우선 참고한다.
+`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령과 `seed-design docs list/search/read` 하위 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화하고, 기술 상세는 이 폴더의 `TECH.md`를 우선 참고한다.
 
 ## 파일 작성 컨벤션
 
 - 명령어 구현은 `src/commands/*.ts`, 공통 로직은 `src/utils/*.ts`, 검증 스키마는 `src/schema.ts`에 둔다.
 - 엔트리포인트는 `src/index.ts` 단일 파일을 유지하고, 빌드 결과물(`bin/`)은 생성물로 취급한다.
-- CLI 옵션·동작 변경 시 실제로 영향을 받는 사용자 문서를 갱신한다.
-  - 명령 변경: `docs/content/react/getting-started/cli/commands.mdx`
-  - 설정 변경: `docs/content/react/getting-started/cli/configuration.mdx`
-  - `skills/seed-design/SKILL.md`의 CLI 라우팅이나 참조가 영향을 받는 경우에만 해당 Skill을 갱신한다.
+- CLI 옵션/동작 변경 시 아래 문서를 함께 갱신한다.
+  - `docs/content/react/getting-started/cli/commands.mdx`
+  - `docs/content/react/getting-started/cli/configuration.mdx`
+  - `.agents/skills/seed-design/SKILL.md`
 - 배포 가능한 변경은 `.changeset/*.md`를 함께 추가한다.
 
 ## 코드 작성 컨벤션

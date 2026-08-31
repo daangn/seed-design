@@ -238,59 +238,129 @@ npx @seed-design/cli@latest compat --all
 
 ## docs
 
-문서 경로로 그 문서의 llms.txt 내용을 조회하는 명령어예요. 순수 마크다운으로 출력하므로
-LLM 파이프나 스크립트에 그대로 넘길 수 있어요.
+문서를 나열하고, 찾고, 읽는 명령어예요. 세 개의 하위 명령으로 나뉘어 있어서, 무엇이 돌아올지가
+인자의 모양이 아니라 명령 이름으로 정해져요.
+
+| 명령 | 하는 일 |
+|------|---------|
+| `docs list [주소]` | 그 범위 바로 아래에 무엇이 있는지 한 단계 나열해요 |
+| `docs search <질의>` | 이름으로 문서를 찾아 주소를 출력해요 |
+| `docs read <주소>` | 그 주소의 문서 본문을 출력해요 |
+
+`docs`만 입력하면 하위 명령 안내를 stderr로 내보내고 종료 코드 `1`로 끝나요. 뒤에 붙은 값을
+주소로 해석하지 않아요.
+
+세 명령 모두 순수 텍스트로 출력하므로 LLM 파이프나 스크립트에 그대로 넘길 수 있어요. 작업
+디렉토리와 프로젝트 설정 파일을 읽지 않기 때문에, 같은 입력은 어디서 실행하든 같은 문서를
+가리켜요.
+
+### 주소 문법
+
+주소는 문서 사이트 주소에서 도메인만 뺀 값이고, 세 명령이 같은 문법을 공유해요.
+
+| 형태 | 뜻 | 결과 |
+|------|----|------|
+| `/react/components/action-button` | 고정 주소. 경로 전체와 완전히 일치해요 | 0개 또는 1개 |
+| `action-button` | 꼬리 질의. 경로의 마지막 조각들과 일치해요 | 0개 이상 |
+| `react/` | 범위. 그 아래 전부예요 | 0개 이상 |
+
+앞의 슬래시가 고정 주소와 짧게 친 이름을 갈라요. 문서 경로 51개가 다른 문서 경로의 꼬리라서,
+`components/bottom-sheet`처럼 그 자체로 완전한 경로도 꼬리 규칙만으로는 여러 문서에 걸리거든요.
+
+뒤의 슬래시는 컨테이너와, 같은 자리에 있는 문서를 갈라요. `/react`는 React 카테고리의 개요
+문서이고, `react/`는 그 카테고리가 담고 있는 것들이에요.
+
+## docs list
+
+그 범위 바로 아래에 무엇이 있는지 한 단계만 나열해요. 주소를 생략하면 최상위부터 보여줘요.
 
 ```package-install
-npx @seed-design/cli@latest docs [path]
-```
-
-`docs`가 받는 것은 **문서 경로**뿐이에요. 이름으로 찾는 일은 [`docs-search`](#docs-search)가 맡아요.
-둘을 나눠 두면 같은 경로가 언제 어디서 실행하든 같은 문서를 가리켜요.
-
-| 입력 | 결과 |
-|------|------|
-| (생략) | 카테고리 목록 |
-| `react` | 그 카테고리가 담은 섹션 목록 |
-| `react/components` | 그 섹션이 담은 문서 목록 |
-| `react/components/action-button` | 그 문서의 내용 |
-| `react/components/layout/box` | 한 단계 더 들어간 문서도 같은 방식 |
-| `react/overview` | 카테고리 자신의 개요 문서 |
-
-경로는 문서 사이트 주소에서 도메인만 뺀 값이에요. 목록에 출력되는 경로도 같은 값이라,
-출력된 줄을 그대로 다시 넘기면 그 문서가 나와요.
-
-### 목록 보기
-
-`path`를 생략하면 카테고리 목록을 보여줘요. 아무것도 묻지 않으므로 스크립트나 에이전트에서
-그대로 쓸 수 있어요.
-
-```package-install
-npx @seed-design/cli@latest docs
+npx @seed-design/cli@latest docs list
 ```
 
 ```sh copy
-get-started       1개 항목
-foundations      20개 항목
-components       61개 항목
-patterns          1개 항목
-react           110개 항목
-lynx             33개 항목
+/ai-integration/   4개 항목
+/breeze/           2개 항목
+/components/      62개 항목
+/docs/             2개 항목
+/foundations/     20개 항목
+/lynx/            32개 항목
+/patterns/         1개 항목
+/react/          109개 항목
+/updates/          5개 항목
 ```
 
-경로를 좁혀 가면 그 아래에 무엇이 있는지 이어서 볼 수 있어요.
+범위를 좁혀 가면 그 아래를 이어서 볼 수 있어요.
 
 ```sh copy
-npx @seed-design/cli@latest docs react              # react의 섹션 목록
-npx @seed-design/cli@latest docs react/components   # 그 섹션의 문서 목록
+npx @seed-design/cli@latest docs list react/              # react가 담은 것들
+npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
 ```
 
-### 문서 조회
+줄 끝의 슬래시가 그 줄을 다음에 어느 명령으로 넘길지 알려줘요. 슬래시로 끝나면 컨테이너라서
+`docs list`로 한 단계 더 들어가고, 슬래시가 없으면 문서라서 `docs read`로 읽어요.
 
-문서 경로를 넘기면 그 문서의 llms.txt 내용을 출력해요.
+```sh copy
+/react/components/action-button  Action Button
+/react/components/bottom-sheet   Bottom Sheet
+/react/components/concepts/      3개 항목
+```
+
+카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
+`patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`, `updates`를 쓸 수 있어요.
+
+<Callout type="info">
+  `components`는 **디자인 스펙**(Anatomy, Properties, Guidelines) 카테고리예요.
+  React 구현 문서는 `react/components` 아래에 있어요.
+
+  ```sh
+  # 디자인 스펙
+  npx @seed-design/cli@latest docs read /components/action-button
+
+  # React 구현
+  npx @seed-design/cli@latest docs read /react/components/action-button
+  ```
+</Callout>
+
+## docs search
+
+이름과 제목으로 문서를 찾아 주소를 출력해요.
 
 ```package-install
-npx @seed-design/cli@latest docs react/components/action-button
+npx @seed-design/cli@latest docs search action-button
+```
+
+```sh copy
+/components/action-button
+/components/floating-action-button
+/components/reaction-button
+/react/components/action-button
+/react/components/floating-action-button
+/react/components/reaction-button
+/lynx/components/action-button
+/updates/whats-new-in-action-button
+```
+
+문서 id와 제목 양쪽에서 대소문자를 무시하고 부분 일치를 찾아요. 결과가 여러 개인 것은
+정상이라서 종료 코드는 `0`이고, 하나도 없을 때만 `1`이에요.
+
+stdout에는 한 줄에 주소 하나씩만 나가고, 찾은 개수는 stderr로 나가요. 그래서
+`docs search sheet | head`처럼 주소만 이어 쓸 수 있어요.
+
+출력된 주소는 `docs read`가 그대로 받는 값이에요. 이름으로 찾아서 주소로 읽는 흐름이 그래서
+두 명령으로 이어져요.
+
+```sh copy
+npx @seed-design/cli@latest docs search checkbox
+npx @seed-design/cli@latest docs read /lynx/components/checkbox
+```
+
+## docs read
+
+주소가 가리키는 문서의 본문을 stdout으로 출력해요.
+
+```package-install
+npx @seed-design/cli@latest docs read /react/components/action-button
 ```
 
 ```sh copy
@@ -306,28 +376,14 @@ Source: https://github.com/daangn/seed-design/blob/dev/docs/content/react/compon
 ...
 ```
 
-패키지 changelog처럼 문서 목록에 없는 경로도 가져올 수 있어요.
+stdout에는 사이트가 준 바이트만 나가요. 구분자와 머리말을 포함해서 CLI가 만든 문자는 한 글자도
+섞이지 않아요.
+
+패키지 changelog처럼 문서 목록에 없는 주소도 가져올 수 있어요.
 
 ```package-install
-npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5
+npx @seed-design/cli@latest docs read /react/updates/changelog/react/1.2.5
 ```
-
-카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`,
-`components`, `patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`,
-`updates`를 쓸 수 있어요.
-
-<Callout type="info">
-  `components`는 **디자인 스펙**(Anatomy, Properties, Guidelines) 카테고리예요.
-  React 구현 문서는 `react/components` 아래에 있어요.
-
-  ```sh
-  # 디자인 스펙
-  npx @seed-design/cli@latest docs components/action-button
-
-  # React 구현
-  npx @seed-design/cli@latest docs react/components/action-button
-  ```
-</Callout>
 
 <Callout type="info">
   스니펫 원본은 `add` 명령으로 받아요. 레지스트리를 거치므로 의존성과 버전이 함께 맞춰져요.
@@ -337,107 +393,61 @@ npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5
   ```
 </Callout>
 
-### 이름만 넘겼을 때
+### 여러 문서를 가리켰을 때
 
-`action-button` 같은 이름은 경로가 아니에요. 세 카테고리에 같은 이름의 문서가 있어서
-어느 것을 뜻하는지 결정할 수 없기 때문에, `docs`는 고르지 않고 그 이름을 가진 경로를
-알려준 뒤 종료 코드 `1`로 끝나요.
-
-```sh copy
-$ npx @seed-design/cli@latest docs action-button
-action-button: 그런 경로가 없어요.
-
-이 이름을 가진 문서는 아래 경로에 있어요.
-   - components/action-button
-   - react/components/action-button
-   - lynx/components/action-button
-
-해결 힌트: 이름으로 찾으려면 `seed-design docs-search action-button` 명령을 사용해보세요.
-```
-
-### 오타 제안
-
-경로에 오타가 있으면 유사한 유효 경로를 제안하고 종료 코드 `1`로 끝나요.
+`action-button` 같은 꼬리 질의는 여러 문서에 걸려요. `docs read`는 그중 하나를 고르지 않고
+후보를 알려준 뒤 종료 코드 `1`로 끝나요. 잘못된 문서를 조용히 받아서 그것을 근거로 작업하는
+것이 가장 나쁜 결과이기 때문이에요.
 
 ```sh copy
-react/componets: 그런 경로가 없어요.
+$ npx @seed-design/cli@latest docs read action-button
+문서 조회에 실패했어요.
+원인: action-button: 여러 문서를 가리켜요.
 
-💡 이것을 의미했나요?
-   - react/components
-   - breeze/components
+   - /components/action-button
+   - /react/components/action-button
+   - /lynx/components/action-button
 
-해결 힌트: `seed-design docs`로 전체 목록을, `seed-design docs-search <이름>`으로 이름 검색을 해보세요.
+해결 힌트: 앞에 슬래시를 붙인 전체 주소를 그대로 넣으면 하나로 좁혀져요.
 ```
 
-### 출력 스트림
+같은 후보 목록이 `docs search`에서는 stdout에 실려요. 어느 스트림에 있느냐가 그것이 답인지
+아닌지를 말해줘요.
 
-`docs`는 다른 명령어와 달리 터미널 장식을 그리지 않아요. 파이프로 넘기거나 그대로 다시
-입력하기 위한 출력이라서예요.
+## 스트림과 종료 코드
+
+`docs`의 세 명령은 다른 명령어와 달리 터미널 장식을 그리지 않아요. 파이프로 넘기거나 그대로
+다시 입력하기 위한 출력이라서예요.
 
 | 스트림 | 담는 것 |
 |--------|---------|
-| stdout | 질의에 대한 답. 문서를 지목하면 그 본문, 카테고리·섹션을 지목하면 그 안의 경로 목록 |
-| stderr | 그 밖의 전부. 오류, 실패 이유와 후보 경로, 텔레메트리 안내 |
-
-### 종료 코드
+| stdout | 질의에 대한 답만 담아요 |
+| stderr | 그 밖의 전부예요. 실패 이유, 후보 목록, 찾은 개수, 텔레메트리 안내가 모두 여기로 가요 |
 
 | 코드 | 의미 |
 |------|------|
-| `0` | 문서를 찾았거나, 지정한 카테고리·섹션의 목록을 출력했어요 |
-| `1` | 그런 경로가 없거나, 그 밖의 오류가 났어요 |
+| `0` | stdout에 답이 있어요 |
+| `1` | 그 밖의 전부예요. 이유는 stderr에 있어요 |
 
 ### 옵션
 
-| 옵션 | 설명 |
-|------|------|
-| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
-| `-h, --help` | 도움말 출력 |
-
-## docs-search
-
-이름과 제목으로 문서를 찾아 경로를 출력하는 명령어예요.
-
-```package-install
-npx @seed-design/cli@latest docs-search action-button
-```
-
-```sh copy
-components/action-button                 Action Button
-components/floating-action-button        Floating Action Button
-components/reaction-button               Reaction Button
-react/components/action-button           Action Button
-react/components/floating-action-button  Floating Action Button
-react/components/reaction-button         Reaction Button
-lynx/components/action-button            Action Button
-updates/whats-new-in-action-button       What's New in Action Button
-```
-
-문서 id와 제목 양쪽에서 부분 일치를 찾아요. 결과가 여러 개인 것은 정상이라서 종료 코드는
-`0`이고, 하나도 없을 때만 `1`이에요.
-
-출력된 경로는 `docs`가 그대로 받는 값이에요. 이름으로 찾아서 경로로 여는 흐름이 그래서
-두 명령으로 이어져요.
-
-```sh copy
-npx @seed-design/cli@latest docs-search checkbox
-npx @seed-design/cli@latest docs lynx/components/checkbox
-```
-
-찾은 개수는 stderr로, 경로 목록은 stdout으로 나가요. 그래서 `docs-search sheet | head`처럼
-경로만 이어 쓸 수 있어요.
-
-### 종료 코드
-
-| 코드 | 의미 |
-|------|------|
-| `0` | 일치하는 문서를 하나 이상 찾았어요 |
-| `1` | 일치하는 문서가 없거나, 그 밖의 오류가 났어요 |
-
-### 옵션
+세 하위 명령이 같은 옵션을 받아요.
 
 | 옵션 | 설명 |
 |------|------|
-| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-u, --baseUrl <baseUrl>` | 문서 사이트 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
+
+## 이전 버전에서 옮겨오기
+
+| 지금까지 | 앞으로 |
+|----------|--------|
+| `seed-design docs` | `seed-design docs list` |
+| `seed-design docs react` | `seed-design docs list react/` |
+| `seed-design docs react/components/action-button` | `seed-design docs read /react/components/action-button` |
+| `seed-design docs react/overview` | `seed-design docs read /react` |
+| `seed-design docs-search action-button` | `seed-design docs search action-button` |
+
+하위 명령 없는 형태는 남겨 두지 않았어요. 무엇을 요청하는지가 이름에 드러나지 않는 호출을
+없애는 것이 이 변경의 목적이라서, 하위 호환을 위해 예전 형태를 유지하면 그 목적이 사라져요.
