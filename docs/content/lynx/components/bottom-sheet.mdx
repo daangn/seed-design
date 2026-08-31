@@ -172,6 +172,20 @@ Lynx `BottomSheet`는 React `BottomSheet`와 다음과 같은 차이가 있습�
 | `snapPoints` | 지원 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
 | `BottomSheetTrigger`의 `asChild` | 지원 | **미지원** (기본 `<view>`로만 렌더링) |
 | imperative ref API | — | `BottomSheetRootRef.{open, close, snapTo, expand, collapse}` |
+| 배경 스크롤 차단 | 브라우저가 처리 | 컴포넌트가 Lynx 네이티브 속성으로 직접 차단 (아래 참고) |
+
+### Android 스크롤 격리
+
+Lynx Android는 터치를 Lynx 이벤트 시스템과 플랫폼(네이티브) 디스패치 양쪽으로 흘립니다. 아무 처리도 하지 않으면 시트가 드래그를 처리해도 네이티브 이벤트가 그대로 흘러 시트 뒤의 `list`/`scroll-view`가 함께 스크롤됩니다. `BottomSheet`는 이를 막기 위해 다음 속성을 내장하고 있어, 별도 설정 없이 배경이 멈춥니다.
+
+| 슬롯 | 속성 | 역할 |
+|---|---|---|
+| `BottomSheetBody` | `enable-nested-scroll={false}` | 본문이 스크롤 끝에 닿았을 때 남은 스크롤이 조상 스크롤 컨테이너로 넘어가지 않게 합니다 |
+| Handle · Header · Footer | `consume-slide-event` (세로) | 시트를 드래그하는 세로 스와이프가 배경으로 새지 않게 합니다 |
+| Backdrop | `consume-slide-event` (전 방향) | dim 영역 위 스와이프가 배경에 닿지 않게 합니다 |
+| `BottomSheetContent` | `block-native-event` | Lynx 화면을 감싸는 바깥 네이티브 스크롤 컨테이너로 제스처가 새지 않게 합니다 |
+
+`consume-slide-event`는 플랫폼 제스처만 막고 Lynx 터치 이벤트에는 영향을 주지 않으므로, 시트 드래그와 본문 스크롤은 그대로 동작합니다. 커스텀 슬롯을 직접 만들어 시트 안에 배치하는 경우, 그 위의 세로 스와이프는 격리되지 않으니 같은 속성을 직접 넣어야 합니다.
 
 ## Lynx 미지원 기능
 

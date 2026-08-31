@@ -40,26 +40,29 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
     unknown,
     Record<string, unknown> & { children?: React.ReactNode }
   >((props) => {
-    const children = props["children"] as React.ReactNode;
+    const { children, className, style, ...rest } = props;
 
+    // 실물 SheetHandle과 동일하게 rest props를 native view로 흘려보낸다.
     return (
-      <view className={props["className"] as string} style={props["style"] as never}>
-        {children}
+      <view className={className as string} style={style as never} {...rest}>
+        {children as React.ReactNode}
       </view>
     );
   });
   SheetHandle.displayName = "MockSheetHandle";
 
-  const passthrough = (displayName: string) => {
-    const Component = React.forwardRef<unknown, { children?: React.ReactNode }>((props) => {
-      return <>{props.children}</>;
-    });
-    Component.displayName = displayName;
-    return Component;
-  };
+  const SheetBackdrop = React.forwardRef<
+    unknown,
+    Record<string, unknown> & { children?: React.ReactNode }
+  >((props) => {
+    return (
+      <view className={props["className"] as string}>{props["children"] as React.ReactNode}</view>
+    );
+  });
+  SheetBackdrop.displayName = "MockSheetBackdrop";
 
   return {
-    SheetBackdrop: passthrough("MockSheetBackdrop"),
+    SheetBackdrop,
     SheetContent,
     SheetHandle,
     SheetRoot,
@@ -108,6 +111,79 @@ describe("BottomSheet", () => {
 
     expect(body).not.toBeNull();
     expect(body?.hasAttribute("scroll-y")).toBe(true);
+  });
+
+  // Android는 터치를 Lynx와 플랫폼 디스패치 양쪽으로 흘려서, 아래 속성이 빠지면
+  // 시트 위 제스처가 배경 list/scroll-view까지 스크롤시킨다.
+  describe("Android 스크롤 격리", () => {
+    it("opts Body out of nested scroll so it does not chain to ancestors", () => {
+      const { container } = render(
+        <BottomSheet.Root>
+          <BottomSheet.Body>
+            <text>Scrollable content</text>
+          </BottomSheet.Body>
+        </BottomSheet.Root>,
+      );
+
+      expect(container.querySelector("scroll-view")?.getAttribute("enable-nested-scroll")).toBe(
+        "false",
+      );
+    });
+
+    it("claims vertical slides on the drag handle", () => {
+      const { container } = render(
+        <BottomSheet.Root>
+          <BottomSheet.Handle />
+        </BottomSheet.Root>,
+      );
+
+      const touchArea = container.querySelector(".seed-bottom-sheet-handle__touchArea");
+
+      expect(touchArea?.hasAttribute("consume-slide-event")).toBe(true);
+    });
+
+    it("claims vertical slides on Header and Footer", () => {
+      const { container } = render(
+        <BottomSheet.Root>
+          <BottomSheet.Header>
+            <text>Header</text>
+          </BottomSheet.Header>
+          <BottomSheet.Footer>
+            <text>Footer</text>
+          </BottomSheet.Footer>
+        </BottomSheet.Root>,
+      );
+
+      for (const slot of ["header", "footer"]) {
+        const element = container.querySelector(`.seed-bottom-sheet__${slot}`);
+
+        expect(element?.hasAttribute("consume-slide-event")).toBe(true);
+      }
+    });
+
+    it("claims slides on the Backdrop through a full-size child view", () => {
+      const { container } = render(
+        <BottomSheet.Root>
+          <BottomSheet.Backdrop />
+        </BottomSheet.Root>,
+      );
+
+      const backdrop = container.querySelector(".seed-bottom-sheet__backdrop");
+
+      expect(backdrop?.querySelector("view")?.hasAttribute("consume-slide-event")).toBe(true);
+    });
+
+    it("blocks native gestures outside Lynx on Content", () => {
+      render(
+        <BottomSheet.Root>
+          <BottomSheet.Content />
+        </BottomSheet.Root>,
+      );
+
+      expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+        "block-native-event": true,
+      });
+    });
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {
