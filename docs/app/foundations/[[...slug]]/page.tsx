@@ -1,4 +1,4 @@
-import { getPageMarkdownUrl } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getFoundationsSource } from "@/app/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
@@ -37,7 +37,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const description = tabbedFolder ? tabbedFolder.description : page.data.description;
   const coverBase = tabbedFolder ? tabbedFolder.coverImage : page.data.frontmatter.coverImage;
   const cover = coverBase ? resolveCoverImage(coverBase) : null;
-  const markdownUrl = getPageMarkdownUrl("foundations", page);
+  const markdownUrl = getLLMMarkdownUrl("foundations", page.slugs);
 
   return (
     <DocsPageRenderer
