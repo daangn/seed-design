@@ -86,8 +86,8 @@ const docsIndex = {
 };
 
 /**
- * Only these resolve. Serving every `.txt` would let the composed-URL fallback answer for
- * paths the real site 404s, and the tests asserting a miss would pass on a hit.
+ * Only these resolve, so a request for anything else fails the way the real site would.
+ * Every one of them is an `llmsUrl` the index carries — `read` reaches no other URL.
  */
 const servedTxt = new Set([
   "/react/llms.txt",
@@ -95,7 +95,6 @@ const servedTxt = new Set([
   "/llms/react/components/action-button.txt",
   "/llms/react/components/concepts/composition.txt",
   "/llms/react/updates/changelog.txt",
-  "/llms/react/updates/changelog/react/1.2.5.txt",
   "/llms/lynx/components/action-button.txt",
   "/llms/lynx/components/checkbox.txt",
 ]);
@@ -407,16 +406,7 @@ describe("docs command", () => {
       expect(result.stdout).toBe("");
     });
 
-    it("composes a URL for a changelog path the index cannot carry", async () => {
-      const result = await runDocs(["read", "/react/updates/changelog/react/1.2.5"]);
-
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        "# served /llms/react/updates/changelog/react/1.2.5.txt",
-      );
-    });
-
-    it("reports a miss when every composed URL 404s", async () => {
+    it("reports a miss for an address the index does not carry", async () => {
       const result = await runDocs(["read", "/react/nope"]);
 
       expect(result.exitCode).toBe(1);

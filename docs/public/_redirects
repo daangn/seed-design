@@ -38,3 +38,7 @@
 /react/components/check-select-box /react/components/select-box 301
 /react/components/radio-select-box /react/components/select-box 301
 /react/guides/theming /react/getting-started/styling/theming 301
+
+# 패키지별·버전별 changelog llms 파일을 없애고 전체 한 장으로 합쳤다. 그 아래를 가리키던
+# 주소는 남은 한 장으로 보낸다 — 버전을 특정하던 요청도 전체 이력 안에서 답을 찾는다.
+/llms/react/updates/changelog/* /llms/react/updates/changelog.txt 301
