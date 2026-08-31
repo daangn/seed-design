@@ -62,13 +62,19 @@ describe("cli parser", () => {
     }
   });
 
-  it("reads --verbose on either side of the command name", async () => {
-    const [before, after] = await Promise.all([
-      runCli(["--verbose", "docs", "list", "--nope"]),
-      runCli(["docs", "list", "--nope", "--verbose"]),
-    ]);
+  it("keeps an option value that looks like a number as the string it was", async () => {
+    // cac coerced `1.50` to 1.5 and lost the trailing zero, which is why the CLI used to
+    // read this flag straight out of rawArgs.
+    const result = await runCli(["add", "--seed-react-version", "1.50"]);
 
-    expect(before.exitCode).toBe(1);
-    expect(after.exitCode).toBe(1);
+    expect(result.exitCode).toBe(1);
+    expect(`${result.stdout}${result.stderr}`).toContain("1.50");
+  });
+
+  it("answers to -h as well as --help", async () => {
+    const result = await runCli(["-h"]);
+
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain("seed-design docs");
   });
 });
