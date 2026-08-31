@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
+import { getLLMMarkdownUrl, sectionConfigs } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
 import { getPatternsSource } from "@/app/source";
@@ -7,10 +7,7 @@ export const revalidate = false;
 
 export async function GET() {
   const patternsSource = await getPatternsSource();
-  // 섹션 인덱스는 sectionConfigs.excludePaths가 이미 걸러준다.
-  const pages = patternsSource
-    .getPages()
-    .filter((page) => shouldIncludeInFullText("patterns", page.path));
+  const pages = patternsSource.getPages();
 
   const pageList = pages
     .sort((a, b) => a.slugs.join("/").localeCompare(b.slugs.join("/")))

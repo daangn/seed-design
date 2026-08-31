@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
-import { type Section, sectionConfigs, shouldIncludeInFullText } from "../app/_llms/config";
+import { type Section, sectionConfigs } from "../app/_llms/config";
 
 /**
  * Convert a file path relative to its content dir into URL slugs.
@@ -51,14 +51,15 @@ export interface ContentPage {
 }
 
 /**
- * Every routable page of a section, with `excludePaths` applied.
+ * Every routable page of a section.
  * `contentRoot` defaults to `content/` under the current working directory.
  */
 export function listSectionPages(section: Section, contentRoot?: string): ContentPage[] {
   const root = contentRoot ?? path.join(process.cwd(), "content");
   const sourceDir = path.join(root, sectionConfigs[section].contentDir);
 
-  return collectMdxFiles(sourceDir)
-    .filter((relPath) => shouldIncludeInFullText(section, relPath))
-    .map((relPath) => ({ relPath, slugs: filePathToSlugs(relPath) }));
+  return collectMdxFiles(sourceDir).map((relPath) => ({
+    relPath,
+    slugs: filePathToSlugs(relPath),
+  }));
 }

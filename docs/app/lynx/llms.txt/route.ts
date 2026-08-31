@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl, shouldIncludeInFullText } from "@/app/_llms/config";
+import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { baseUrl } from "@/app/metadata";
 import { getLynxSource } from "@/app/source";
 
@@ -6,7 +6,7 @@ export const revalidate = false;
 
 export async function GET() {
   const source = await getLynxSource();
-  const pages = source.getPages().filter((page) => shouldIncludeInFullText("lynx", page.path));
+  const pages = source.getPages();
 
   const pageList = pages
     .map((page) => {

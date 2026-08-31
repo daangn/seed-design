@@ -1,4 +1,4 @@
-import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
+import { getLLMMarkdownUrl, sectionConfigs } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
 import { getUpdatesSource } from "@/app/source";
@@ -14,10 +14,7 @@ function publishedTime(page: { data: { frontmatter: { publishedAt?: string | Dat
 
 export async function GET() {
   const updatesSource = await getUpdatesSource();
-  // updates는 섹션 인덱스 mdx가 없어 excludePaths도 비어있다(랜딩은 app/updates/page.tsx).
-  const pages = updatesSource
-    .getPages()
-    .filter((page) => shouldIncludeInFullText("updates", page.path));
+  const pages = updatesSource.getPages();
 
   // 글 목록이라 slug 알파벳순은 의미가 없다. 발행일 최신순으로 세운다.
   const pageList = pages
