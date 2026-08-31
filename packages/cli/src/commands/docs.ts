@@ -1,10 +1,22 @@
-import { fetchDocsIndex, fetchLlmsTxt, tryFetchLlmsTxt } from "@/src/utils/fetch";
+import {
+  fetchDocsIndex,
+  fetchLlmsTxt,
+  LlmsTxtNotFoundError,
+  tryFetchLlmsTxt,
+} from "@/src/utils/fetch";
 import type { CAC } from "cac";
 import { z } from "zod";
 import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
-import { getRawConfig } from "../utils/get-config";
+import {
+  alignedLines,
+  findByPath,
+  parseQueryPath,
+  pathOf,
+  pathsNamed,
+  similarPaths,
+} from "../utils/docs-index";
 import { CliError, formatCliError, isVerboseMode } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
 
@@ -12,16 +24,29 @@ import type { DocsCategory, DocsItem, DocsSection } from "../schema";
  * Nothing here draws the clack frame the other commands do. What this one prints is meant
  * to be piped or pasted back in, and a `│` down the left of every line is not.
  *
- * stdout carries the answer in the mode's own currency — paths and links, or the document
- * text under `--raw`. Everything else, progress and reasons and errors alike, is stderr.
+ * stdout carries the answer in the currency the address calls for: the document's own text
+ * when the query names a document, the paths it holds when the query names a container.
+ * Everything else, progress and reasons and errors alike, is stderr.
  */
 
 /**
- * Scripts and agents read this command more often than people do, so its outcome has to
- * survive being reduced to a number. A separate code for "several documents matched" lets
- * a caller retry with one of the printed candidates rather than rewrite the query.
+ * This command resolves an address. It does not search, and it does not consult the
+ * project's configured framework, so the same query names the same document from every
+ * directory and every session. `seed-design docs-search` is where a name becomes a set
+ * of candidates, and the failure below points at it.
+ *
+ * The whole of the accepted grammar:
+ *
+ *   (nothing)                                   every category
+ *   react                                       what the category holds
+ *   react/components                            what the section holds
+ *   react/components/action-button              that document's text
+ *   react/components/concepts/composition       the same, nested deeper
+ *   react/overview                              a category's own landing page
+ *
+ * Addresses come from `pathOf`, so anything printed here is accepted back verbatim. Every
+ * one of them is distinct, and none collides with a container path.
  */
-const EXIT_AMBIGUOUS = 2;
 
 const docsOptionsSchema = z.object({
   query: z
@@ -34,19 +59,9 @@ const docsOptionsSchema = z.object({
     }),
   baseUrl: z.string().optional(),
   cwd: z.string().default(process.cwd()),
-  framework: z.enum(["react", "lynx"]).optional(),
-  raw: z.boolean(),
 });
 
-type Resolution =
-  | { kind: "item"; item: DocsItem }
-  /** The query named a container, so listing what sits inside it is the answer. */
-  | { kind: "listing"; lines: string[] }
-  /** The query named several documents. Only the caller can pick one. */
-  | { kind: "ambiguous"; heading: string; lines: string[] };
-
 interface Outcome {
-  exitCode: number;
   result: string;
   itemId?: string;
 }
@@ -60,485 +75,155 @@ function llmsUrlFor(item: DocsItem, baseUrl: string): string {
   return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
 }
 
-function formatDocsResult(item: DocsItem, baseUrl: string): string {
-  return [
-    item.id,
-    `- docs: ${baseUrl}${item.docUrl}`,
-    `- llms.txt: ${llmsUrlFor(item, baseUrl)}`,
-  ].join("\n");
-}
-
-/**
- * Compute the Levenshtein (edit) distance between two strings.
- * Used to suggest similar valid paths when users make typos.
- */
-function levenshtein(a: string, b: string): number {
-  const m = a.length;
-  const n = b.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, (_, i) =>
-    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)),
-  );
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      dp[i][j] = Math.min(
-        dp[i - 1][j] + 1,
-        dp[i][j - 1] + 1,
-        dp[i - 1][j - 1] + (a[i - 1] !== b[j - 1] ? 1 : 0),
-      );
-    }
-  }
-  return dp[m][n];
-}
-
-/**
- * Find candidates similar to `input` within `maxDistance` edits, sorted by distance.
- */
-function findSimilar(input: string, candidates: string[], maxDistance = 3): string[] {
-  const q = input.toLowerCase();
-  return candidates
-    .map((c) => ({ value: c, dist: levenshtein(q, c.toLowerCase()) }))
-    .filter(({ dist }) => dist > 0 && dist <= maxDistance)
-    .sort((a, b) => a.dist - b.dist)
-    .map(({ value }) => value);
-}
-
-/**
- * The path a caller can paste straight back into the command.
- */
-function pathOf(category: DocsCategory, section: DocsSection, item: DocsItem): string {
-  return `${category.id}/${section.id}/${item.id}`;
-}
-
 function countItems(category: DocsCategory): number {
   return category.sections.reduce((sum, section) => sum + section.items.length, 0);
-}
-
-function alignedLines(entries: { path: string; note?: string }[]): string[] {
-  const width = Math.max(...entries.map((entry) => entry.path.length));
-  return entries.map(({ path, note }) => (note ? `${path.padEnd(width)}  ${note}` : path));
 }
 
 function itemLines(category: DocsCategory, sections: DocsSection[]): string[] {
   return alignedLines(
     sections.flatMap((section) =>
       section.items.map((item) => ({
-        path: pathOf(category, section, item),
+        path: pathOf(category, item),
         note: item.deprecated ? "(deprecated)" : undefined,
       })),
     ),
   );
 }
 
-function notFound(query: string, suggestions: string[], hint: string): CliError {
+/**
+ * A miss, told apart into the two things it usually is.
+ *
+ * A bare name is the common one: `action-button` is a document id three times over and an
+ * address none of the times. Naming those three addresses answers the question the caller
+ * was really asking without this command guessing which of them they meant.
+ */
+function notFound(categories: DocsCategory[], query: string): CliError {
+  const segments = parseQueryPath(query);
+  const name = segments[segments.length - 1] ?? query;
+  const named = pathsNamed(categories, name);
+
+  if (named.length > 0) {
+    return new CliError({
+      message: `${highlight(query)}: 그런 경로가 없어요.\n\n이 이름을 가진 문서는 아래 경로에 있어요.\n${named
+        .map((path) => `   - ${path}`)
+        .join("\n")}`,
+      hint: `이름으로 찾으려면 \`seed-design docs-search ${name}\` 명령을 사용해보세요.`,
+    });
+  }
+
+  const similar = similarPaths(categories, query);
   const suggestion =
-    suggestions.length > 0
-      ? `\n\n💡 이것을 의미했나요?\n${suggestions.map((s) => `   - ${s}`).join("\n")}`
+    similar.length > 0
+      ? `\n\n💡 이것을 의미했나요?\n${similar.map((path) => `   - ${path}`).join("\n")}`
       : "";
 
   return new CliError({
-    message: `${highlight(query)}: 문서를 찾을 수 없어요.${suggestion}`,
-    hint,
+    message: `${highlight(query)}: 그런 경로가 없어요.${suggestion}`,
+    hint: "`seed-design docs`로 전체 목록을, `seed-design docs-search <이름>`으로 이름 검색을 해보세요.",
   });
 }
 
-/**
- * Build suggestions from a path query by fuzzy-matching each segment
- * against the docs index hierarchy.
- */
-function suggestionsFor(segments: string[], categories: DocsCategory[]): string[] {
-  if (segments.length === 0) return [];
+/** What a container path answers with, or `undefined` when the path names no container. */
+function containerLines(categories: DocsCategory[], segments: string[]): string[] | undefined {
+  const category = categories.find((candidate) => candidate.id === segments[0]);
+  if (!category) return undefined;
 
-  const suggestions: string[] = [];
-  const categoryIds = categories.map((c) => c.id);
-  const similarCategories = findSimilar(segments[0], categoryIds);
-
-  if (similarCategories.length === 0) {
-    // No similar category — try to find similar full paths across everything
-    const allPaths = categories.flatMap((cat) =>
-      cat.sections.flatMap((sec) => sec.items.map((item) => `${cat.id}/${sec.id}/${item.id}`)),
-    );
-    const similarPaths = findSimilar(segments.join("/"), allPaths, 5);
-    return similarPaths.slice(0, 3);
-  }
-
-  const bestCat = categories.find((c) => c.id === similarCategories[0]);
-  if (!bestCat || segments.length < 2) {
-    return similarCategories.slice(0, 3);
-  }
-
-  const similarSections = findSimilar(
-    segments[1],
-    bestCat.sections.map((s) => s.id),
-  );
-
-  if (similarSections.length === 0) {
-    // Section not found, search items within category
-    const allItemIds = bestCat.sections.flatMap((s) =>
-      s.items.map((i) => ({ path: `${bestCat.id}/${s.id}/${i.id}`, id: i.id })),
-    );
-    const similarItems = findSimilar(
-      segments[1],
-      allItemIds.map((x) => x.id),
-    );
-    for (const itemId of similarItems.slice(0, 3)) {
-      const found = allItemIds.find((x) => x.id === itemId);
-      if (found) suggestions.push(found.path);
+  if (segments.length === 1) {
+    // Sections first where a category has several: `react` spreads 110 documents over 7 of
+    // them, and 110 lines is not a list anyone reads.
+    if (category.sections.length > 1) {
+      return alignedLines(
+        category.sections.map((section) => ({
+          path: `${category.id}/${section.id}`,
+          note: `${section.items.length}개 항목`,
+        })),
+      );
     }
-    return suggestions;
+    return itemLines(category, category.sections);
   }
 
-  const bestSec = bestCat.sections.find((s) => s.id === similarSections[0]);
-  if (bestSec && segments.length >= 3) {
-    const similarItems = findSimilar(
-      segments[2],
-      bestSec.items.map((i) => i.id),
-    );
-    for (const item of similarItems.slice(0, 3)) {
-      suggestions.push(`${bestCat.id}/${bestSec.id}/${item}`);
-    }
-    return suggestions;
+  if (segments.length === 2) {
+    const section = category.sections.find((candidate) => candidate.id === segments[1]);
+    if (section) return itemLines(category, [section]);
   }
 
-  return similarSections.slice(0, 3).map((sec) => `${bestCat.id}/${sec}`);
+  return undefined;
 }
 
 /**
- * Parse a path-style query into segments.
- * e.g. "react/components/action-button" → ["react", "components", "action-button"]
+ * The whole of what this command does, for every query it accepts. A document is answered
+ * with its own text, a container with the addresses it holds, and neither answer prompts
+ * or guesses: a query is an address or it is a miss.
  */
-function parseQueryPath(query: string): string[] {
-  return query
-    .split(/[/\s]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function normalizeRegistryKeySegment(segment: string): string {
-  const [, itemId] = segment.split(":");
-  return itemId ?? segment;
-}
-
-/**
- * Whether scoping `segments` under `category` would actually resolve to something.
- *
- * Mirrors the lookup the category branch of `resolveQuery` performs, so a `true`
- * here means the scoped query has somewhere to land.
- */
-function categoryContains(category: DocsCategory, head: string): boolean {
-  const q = head.toLowerCase();
-  return category.sections.some(
-    (section) =>
-      section.id === head ||
-      section.items.some(
-        (item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q),
-      ),
-  );
-}
-
-function normalizeDocsQuery({
-  query,
-  framework,
+async function emit({
+  baseUrl,
   categories,
+  query,
 }: {
-  query?: string;
-  framework?: string;
+  baseUrl: string;
   categories: DocsCategory[];
-}): string | undefined {
-  if (!query) return undefined;
-
-  const segments = parseQueryPath(query).map(normalizeRegistryKeySegment);
-  if (!segments.length) return undefined;
-
-  const [firstSegment] = segments;
-  if (categories.some((category) => category.id === firstSegment)) {
-    return segments.join("/");
-  }
-
-  // Scope to the configured framework, but only when that scope has a match — otherwise
-  // a query like `spacing` (which lives under `foundations`) would be rewritten to
-  // `react/spacing` and hard-fail instead of falling through to the global search.
-  const frameworkCategory = categories.find((category) => category.id === framework);
-  if (frameworkCategory && categoryContains(frameworkCategory, firstSegment)) {
-    return [framework, ...segments].join("/");
-  }
-
-  return segments.join("/");
-}
-
-function searchAllItems(
-  categories: DocsCategory[],
-  query: string,
-): { item: DocsItem; path: string }[] {
-  const q = query.toLowerCase();
-  return categories.flatMap((category) =>
-    category.sections.flatMap((section) =>
-      section.items
-        .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
-        .map((item) => ({ item, path: pathOf(category, section, item) })),
-    ),
-  );
-}
-
-function resolveWithinSection(
-  category: DocsCategory,
-  section: DocsSection,
-  needle: string,
-  docsQuery: string,
-): Resolution {
-  const exact = section.items.find((item) => item.id === needle);
-  if (exact) return { kind: "item", item: exact };
-
-  const q = needle.toLowerCase();
-  const matched = section.items.filter(
-    (item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q),
-  );
-
-  if (matched.length === 0) {
-    const similar = findSimilar(
-      needle,
-      section.items.map((item) => item.id),
-    );
-    throw notFound(
-      docsQuery,
-      similar.slice(0, 3).map((id) => `${category.id}/${section.id}/${id}`),
-      `\`seed-design docs ${category.id}/${section.id}\`로 목록을 확인해보세요.`,
-    );
-  }
-  if (matched.length === 1) return { kind: "item", item: matched[0] };
-
-  return {
-    kind: "ambiguous",
-    heading: `${highlight(needle)}에 해당하는 문서가 여러 개예요`,
-    lines: matched.map((item) => pathOf(category, section, item)),
-  };
-}
-
-function resolveWithinCategory(
-  category: DocsCategory,
-  needle: string,
-  docsQuery: string,
-): Resolution {
-  // An exact id wins outright: `components` and `foundations` hold every page in one
-  // section, so `components/action-button` lands here rather than in the section branch
-  // above, and substring matching alone would tie `action-button` with
-  // `floating-action-button`.
-  const exact = category.sections.flatMap((s) => s.items).find((item) => item.id === needle);
-  if (exact) return { kind: "item", item: exact };
-
-  const q = needle.toLowerCase();
-  const matched = category.sections.flatMap((section) =>
-    section.items
-      .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
-      .map((item) => ({ item, section })),
-  );
-
-  if (matched.length === 0) {
-    const allItems = category.sections.flatMap((section) =>
-      section.items.map((item) => ({ path: pathOf(category, section, item), id: item.id })),
-    );
-    const similarSections = findSimilar(
-      needle,
-      category.sections.map((s) => s.id),
-    );
-    const similarItems = findSimilar(
-      needle,
-      allItems.map((entry) => entry.id),
-    );
-    const suggestions = [
-      ...similarSections.slice(0, 2).map((id) => `${category.id}/${id}`),
-      ...similarItems
-        .slice(0, 2)
-        .map((id) => allItems.find((entry) => entry.id === id)?.path)
-        .filter((path): path is string => path != null),
-    ];
-    throw notFound(
-      docsQuery,
-      suggestions,
-      `\`seed-design docs ${category.id}\`로 목록을 확인해보세요.`,
-    );
-  }
-  if (matched.length === 1) return { kind: "item", item: matched[0].item };
-
-  return {
-    kind: "ambiguous",
-    heading: `${highlight(needle)}에 해당하는 문서가 여러 개예요`,
-    lines: matched.map(({ item, section }) => pathOf(category, section, item)),
-  };
-}
-
-/**
- * Turn a query into one document, a list of what a named container holds, or a list of
- * the documents that tie for it. Nothing here prompts: a non-TTY used to cancel the
- * picker this replaced, and that cancellation was reported as success.
- */
-function resolveQuery(categories: DocsCategory[], docsQuery: string | undefined): Resolution {
-  if (!docsQuery) {
-    return {
-      kind: "listing",
-      lines: alignedLines(
+  query: string | undefined;
+}): Promise<Outcome> {
+  if (!query) {
+    console.log(
+      alignedLines(
         categories.map((category) => ({
           path: category.id,
           note: `${countItems(category)}개 항목`,
         })),
-      ),
-    };
-  }
-
-  const segments = parseQueryPath(docsQuery);
-  const matchedCategory = categories.find((category) => category.id === segments[0]);
-
-  if (matchedCategory && segments.length >= 2) {
-    const matchedSection = matchedCategory.sections.find((section) => section.id === segments[1]);
-
-    if (matchedSection && segments.length >= 3) {
-      return resolveWithinSection(matchedCategory, matchedSection, segments[2], docsQuery);
-    }
-    if (matchedSection) {
-      return {
-        kind: "listing",
-        lines: itemLines(matchedCategory, [matchedSection]),
-      };
-    }
-    return resolveWithinCategory(matchedCategory, segments[1], docsQuery);
-  }
-
-  if (matchedCategory) {
-    // Sections first where a category has several: `react` spreads 110 documents over 7 of
-    // them, and 110 lines is not a list anyone reads.
-    if (matchedCategory.sections.length > 1) {
-      return {
-        kind: "listing",
-        lines: alignedLines(
-          matchedCategory.sections.map((section) => ({
-            path: `${matchedCategory.id}/${section.id}`,
-            note: `${section.items.length}개 항목`,
-          })),
-        ),
-      };
-    }
-    return {
-      kind: "listing",
-      lines: itemLines(matchedCategory, matchedCategory.sections),
-    };
-  }
-
-  const matched = searchAllItems(categories, docsQuery);
-
-  if (matched.length === 0) {
-    throw notFound(
-      docsQuery,
-      suggestionsFor(segments, categories),
-      "`seed-design docs`로 전체 목록을 확인해보세요.",
+      ).join("\n"),
     );
-  }
-  if (matched.length === 1) return { kind: "item", item: matched[0].item };
-
-  return {
-    kind: "ambiguous",
-    heading: `${highlight(docsQuery)}에 해당하는 문서가 여러 개예요`,
-    lines: matched.map(({ path }) => path),
-  };
-}
-
-function emitLinks({
-  baseUrl,
-  categories,
-  docsQuery,
-}: {
-  baseUrl: string;
-  categories: DocsCategory[];
-  docsQuery: string | undefined;
-}): Outcome {
-  const resolution = resolveQuery(categories, docsQuery);
-
-  if (resolution.kind === "item") {
-    console.log(formatDocsResult(resolution.item, baseUrl));
-    return { exitCode: 0, result: "item", itemId: resolution.item.id };
+    return { result: "listing" };
   }
 
-  // The heading says why a list came back instead of a link, which is a reason rather than
-  // an answer. stdout keeps only the paths, ready to be fed straight back in.
-  if (resolution.kind === "ambiguous") {
-    console.error(resolution.heading);
-    console.log(resolution.lines.join("\n"));
-    return { exitCode: EXIT_AMBIGUOUS, result: "ambiguous" };
+  const segments = parseQueryPath(query);
+  const path = segments.join("/");
+
+  const item = findByPath(categories, path);
+  if (item) {
+    console.log(await fetchLlmsTxt({ url: llmsUrlFor(item, baseUrl) }));
+    return { result: "item", itemId: item.id };
   }
 
-  console.log(resolution.lines.join("\n"));
-  return { exitCode: 0, result: "listing" };
-}
-
-async function emitRaw({
-  baseUrl,
-  categories,
-  docsQuery,
-}: {
-  baseUrl: string;
-  categories: DocsCategory[];
-  docsQuery: string;
-}): Promise<Outcome> {
-  // A bare category has no single page. Its overview llms.txt answers for it where the
-  // index publishes one; an index from before that field existed publishes none, and the
-  // archived sites are all in that state.
-  const sectionIndexUrl = categories.find((category) => category.id === docsQuery)?.llmsIndexUrl;
-  if (sectionIndexUrl) {
-    console.log(await fetchLlmsTxt({ url: `${baseUrl}${sectionIndexUrl}` }));
-    return { exitCode: 0, result: "section-index" };
+  const lines = containerLines(categories, segments);
+  if (lines) {
+    console.log(lines.join("\n"));
+    return { result: "listing" };
   }
 
-  // Deeper than category/section/item: the changelog routes are generated per package and
-  // version rather than from the content tree, so the index has no item to match.
-  const deep = parseQueryPath(docsQuery).length > 3;
-  let resolution: Resolution | undefined;
-  if (!deep) {
-    try {
-      resolution = resolveQuery(categories, docsQuery);
-    } catch {
-      // Not in the index. The composed URL below still reaches the generated routes.
-    }
+  // Not in the index at all. The changelog routes are generated per package and version
+  // rather than from the content tree, so composing their URL is the only way to reach
+  // them. A path the site publishes nothing for is the miss it looked like all along.
+  try {
+    console.log(await tryFetchLlmsTxt({ baseUrl, query: path }));
+  } catch (error) {
+    if (error instanceof LlmsTxtNotFoundError) throw notFound(categories, path);
+
+    throw error;
   }
 
-  if (resolution?.kind === "item") {
-    console.log(await fetchLlmsTxt({ url: llmsUrlFor(resolution.item, baseUrl) }));
-    return { exitCode: 0, result: "item", itemId: resolution.item.id };
-  }
-
-  if (resolution) {
-    // Paths are not document text, so under --raw they are a diagnostic like any other and
-    // stdout stays empty. The exit code carries the outcome.
-    if (resolution.kind === "ambiguous") console.error(resolution.heading);
-    console.error(resolution.lines.join("\n"));
-    return { exitCode: EXIT_AMBIGUOUS, result: resolution.kind };
-  }
-
-  console.log(await tryFetchLlmsTxt({ baseUrl, query: docsQuery }));
-  return { exitCode: 0, result: "composed-url" };
+  return { result: "composed-url" };
 }
 
 export const docsCommand = (cli: CAC) => {
   cli
-    .command("docs [...query]", "문서 링크와 llms.txt 링크를 조회합니다")
+    .command("docs [...query]", "문서 경로로 llms.txt 문서 내용을 조회합니다")
     .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
       default: BASE_URL,
     })
     .option("--cwd <cwd>", "the working directory. defaults to the current directory.", {
       default: process.cwd(),
     })
-    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
-    .option("--raw", "llms.txt 내용을 직접 가져와 출력합니다. LLM 파이프에 유용합니다.", {
-      default: false,
-    })
     .example("seed-design docs")
-    .example("seed-design docs action-button")
     .example("seed-design docs react")
-    .example("seed-design docs lynx action-button")
     .example("seed-design docs react/components")
     .example("seed-design docs react/components/action-button")
-    .example("seed-design docs react/updates/changelog --raw")
+    .example("seed-design docs react/components/layout/box")
+    .example("seed-design docs react/overview")
+    .example("seed-design docs react/updates/changelog")
     .action(async (query, opts) => {
       const startTime = Date.now();
       const verbose = isVerboseMode(opts);
-      const raw = opts.raw ?? false;
       let trackCwd = process.cwd();
 
       try {
@@ -550,39 +235,19 @@ export const docsCommand = (cli: CAC) => {
         const { data: options } = parsed;
         trackCwd = options.cwd;
         const baseUrl = options.baseUrl ?? BASE_URL;
-        const rawConfig = await getRawConfig(options.cwd).catch(() => null);
-        const framework = options.framework ?? rawConfig?.framework;
 
         const { categories } = await fetchDocsIndex({ baseUrl });
-        const docsQuery = normalizeDocsQuery({
-          query: options.query,
-          framework,
-          categories,
-        });
+        const outcome = await emit({ baseUrl, categories, query: options.query });
 
-        if (raw && !docsQuery) {
-          throw new CliError({
-            message: "--raw 모드에서는 쿼리가 필요해요.",
-            hint: "예: `seed-design docs react/updates/changelog --raw`",
-          });
-        }
-
-        const outcome =
-          raw && docsQuery
-            ? await emitRaw({ baseUrl, categories, docsQuery })
-            : emitLinks({ baseUrl, categories, docsQuery });
-
-        const duration = Date.now() - startTime;
         try {
           await analytics.trackCommandOutcome(trackCwd, {
             command: "docs",
-            status: outcome.exitCode === 0 ? "completed" : "failed",
+            status: "completed",
             result: outcome.result,
             properties: {
               query: options.query ?? null,
               item_id: outcome.itemId ?? options.query ?? null,
-              raw_mode: raw,
-              duration_ms: duration,
+              duration_ms: Date.now() - startTime,
             },
           });
         } catch (telemetryError) {
@@ -590,17 +255,12 @@ export const docsCommand = (cli: CAC) => {
             console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
           }
         }
-
-        if (outcome.exitCode !== 0) {
-          process.exit(outcome.exitCode);
-        }
       } catch (error) {
         try {
           await analytics.trackCommandFailure(trackCwd, {
             command: "docs",
             error,
             properties: {
-              raw_mode: raw,
               duration_ms: Date.now() - startTime,
             },
           });

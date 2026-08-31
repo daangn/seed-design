@@ -96,7 +96,7 @@ async function track(cwd: string, { event, properties = {} }: TrackOptions): Pro
   }
 
   // 사용자에게 텔레메트리 수집 중임을 알림 (세션당 한 번만).
-  // stderr로 내보낸다. `docs --raw`의 stdout은 문서 본문이라, 여기에 섞이면 그 출력을
+  // stderr로 내보낸다. `docs`의 stdout은 문서 본문이라, 여기에 섞이면 그 출력을
   // 그대로 파이프로 넘기는 쪽이 안내 문구까지 문서로 읽는다.
   if (!hasShownMessage) {
     console.error(
