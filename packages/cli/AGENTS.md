@@ -12,6 +12,10 @@
   - `.agents/skills/seed-design/SKILL.md`
 - 배포 가능한 변경은 `.changeset/*.md`를 함께 추가한다.
 
+## 참고 스킬
+
+`@optique/core`가 배포에 함께 실어 보내는 `optique` 스킬이 `skills-npm`을 통해 이 디렉토리에 걸린다. 파서 코드를 쓰기 전에 그 스킬을 읽는다. 세부는 `skills/AGENTS.md`의 「의존성이 제공하는 스킬」에 있다.
+
 ## 코드 작성 컨벤션
 
 - Optique 조합자로 명령을 정의하고, 사용자 대상 메시지는 한국어 톤을 유지한다. 명령 파일은 파서(`xParser`)와 실행 함수(`runX`)를 각각 export 하고, 파서 트리 조립과 분기는 `src/index.ts`가 맡는다.
