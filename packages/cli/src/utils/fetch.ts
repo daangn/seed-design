@@ -142,6 +142,18 @@ export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
 }
 
 /**
+ * Every candidate URL 404'd, so the site publishes nothing at this path. Told apart from
+ * the other failures so a caller can answer a miss in its own terms while a 5xx or a
+ * timeout still surfaces as itself.
+ */
+export class LlmsTxtNotFoundError extends CliError {
+  constructor(options: ConstructorParameters<typeof CliError>[0]) {
+    super(options);
+    this.name = "LlmsTxtNotFoundError";
+  }
+}
+
+/**
  * Try fetching llms.txt content with fallback URL patterns.
  * 1. {baseUrl}/llms/{query}.txt
  * 2. {baseUrl}/llms/{query}/llms.txt (for package changelog index)
@@ -182,7 +194,7 @@ export async function tryFetchLlmsTxt({
 
     // 404 → try next URL candidate
     if (response.status === 404) {
-      lastError = new CliError({
+      lastError = new LlmsTxtNotFoundError({
         message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
         hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
       });
@@ -198,7 +210,7 @@ export async function tryFetchLlmsTxt({
 
   throw (
     lastError ??
-    new CliError({
+    new LlmsTxtNotFoundError({
       message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
       hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
     })
