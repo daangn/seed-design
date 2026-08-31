@@ -48,15 +48,18 @@
   "devDependencies": {
     "@optique/core": "1.2.4",
     "@optique/run": "1.2.4",
+    "@seed-design/docs-search": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/findup-sync": "^4.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.0.0",
     "@types/semver": "^7.8.0",
     "dotenv": "^17.2.3",
+    "env-paths": "^4.0.0",
     "esbuild": "^0.27.0",
     "type-fest": "^5.0.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "zbsearch": "^3.3.4"
   },
   "publishConfig": {
     "access": "public"
