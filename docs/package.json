@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "bun run prepare:figma-images && bun run typecheck && bun run build:lynx-examples && bun run build:turbopack && bun run generate:changelog-llms",
+    "build": "bun run prepare:figma-images && bun run typecheck && bun run build:lynx-examples && bun run build:turbopack",
     "build:turbopack": "bun run prepare:git-timestamps && SEED_USE_GIT_TIMESTAMPS_MANIFEST=1 NEXT_EXTERNAL_TYPECHECK=1 next build --turbopack",
     "dev": "bun run prepare:lynx-workspace && local-md dev -- concurrently \"bun --filter @seed-design/lynx-react build --watch\" \"bun run dev:lynx-examples\" \"bun --filter @seed-design/stackflow-spa dev\" \"next dev --webpack\"",
     "start": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next start\"",
@@ -16,7 +16,6 @@
     "generate:all": "bun generate:registry && bun generate:docs-index",
     "generate:registry": "bun scripts/generate-registry.ts",
     "generate:docs-index": "bun scripts/generate-docs-index.ts",
-    "generate:changelog-llms": "bun scripts/generate-changelog-llms.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "typecheck": "bun run prepare:lynx-workspace && bun run typecheck:web && bun run typecheck:lynx-examples && bun run typecheck:lynx-tooling",
