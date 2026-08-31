@@ -1,5 +1,5 @@
 import type { DocsCategory } from "@/src/schema";
-import { type DocsEntry, entriesOf } from "./docs-address";
+import { type DocsEntry, containersOf, entriesOf } from "./docs-address";
 
 /**
  * What `search` matches on, and how every listing is laid out. The address grammar the three
@@ -50,11 +50,10 @@ export function similarAddresses(
   limit = 3,
   maxDistance = 5,
 ): string[] {
-  const containers = categories.flatMap((category) => [
-    `/${category.id}/`,
-    ...category.sections.map((section) => `/${category.id}/${section.id}/`),
-  ]);
-  const candidates = [...containers, ...entriesOf(categories).map((entry) => entry.address)];
+  const candidates = [
+    ...containersOf(categories),
+    ...entriesOf(categories).map((entry) => entry.address),
+  ];
 
   return (
     candidates
