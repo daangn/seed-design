@@ -1,6 +1,4 @@
 import { beforeEach, describe, expect, it, mock, spyOn } from "bun:test";
-import type { CAC } from "cac";
-import { cac } from "cac";
 import { CliCancelError } from "../utils/error";
 import { analytics } from "../utils/analytics";
 
@@ -49,28 +47,8 @@ mock.module("../utils/init-config", () => ({
   writeInitConfigFile: writeInitConfigFileMock,
 }));
 
-const { addCommand } = await import("../commands/add");
-const { initCommand } = await import("../commands/init");
-
-function assertHasCommandAction<T extends { commandAction?: unknown }>(
-  command: T,
-  name: string,
-): asserts command is T & { commandAction: NonNullable<T["commandAction"]> } {
-  if (!command.commandAction) {
-    throw new Error(`Command has no action handler: ${name}`);
-  }
-}
-
-function getCommand(cli: CAC, name: string) {
-  const command = cli.commands.find((item) => item.name === name);
-
-  if (!command) {
-    throw new Error(`Command not found: ${name}`);
-  }
-
-  assertHasCommandAction(command, name);
-  return command;
-}
+const { runAdd } = await import("../commands/add");
+const { runInit } = await import("../commands/init");
 
 describe("command telemetry", () => {
   beforeEach(() => {
@@ -93,13 +71,13 @@ describe("command telemetry", () => {
     const trackCommandFailureSpy = spyOn(analytics, "trackCommandFailure").mockImplementation(
       async () => {},
     );
-    const cli = cac("seed-design");
-    initCommand(cli);
 
-    await getCommand(cli, "init").commandAction({
+    await runInit({
+      command: "init",
       cwd: "/tmp/seed-design",
       yes: true,
       default: false,
+      verbose: false,
     });
 
     expect(writeInitConfigFileMock).toHaveBeenCalledTimes(1);
@@ -135,14 +113,13 @@ describe("command telemetry", () => {
       throw new Error(`EXIT:${code}`);
     }) as never);
 
-    const cli = cac("seed-design");
-    initCommand(cli);
-
     await expect(
-      getCommand(cli, "init").commandAction({
+      runInit({
+        command: "init",
         cwd: "/tmp/seed-design",
         yes: false,
         default: false,
+        verbose: false,
       }),
     ).rejects.toThrow("EXIT:0");
 
@@ -168,14 +145,17 @@ describe("command telemetry", () => {
       throw new Error(`EXIT:${code}`);
     }) as never);
 
-    const cli = cac("seed-design");
-    addCommand(cli);
-
     await expect(
-      getCommand(cli, "add").commandAction([], {
+      runAdd({
+        command: "add",
+        itemIds: [],
         all: true,
         cwd: "/tmp/seed-design",
         baseUrl: "https://seed-design.io",
+        seedReactVersion: undefined,
+        framework: undefined,
+        onDiff: undefined,
+        verbose: false,
       }),
     ).rejects.toThrow("EXIT:1");
 
