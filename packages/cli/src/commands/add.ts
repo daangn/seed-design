@@ -6,7 +6,7 @@ import * as p from "@clack/prompts";
 import { object } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
 import { multiple } from "@optique/core/modifiers";
-import { argument, command, constant, option } from "@optique/core/primitives";
+import { argument, command, constant } from "@optique/core/primitives";
 import { string } from "@optique/core/valueparser";
 import path from "path";
 
@@ -34,8 +34,6 @@ export const addParser = command(
   object({
     command: constant("add"),
     itemIds: multiple(argument(string({ metavar: "ITEM_ID" }))),
-    /** @deprecated use `seed-design add-all` instead */
-    all: option("-a", "--all", { description: message`[Deprecated] 모든 항목을 추가합니다.` }),
     cwd: cwdOption,
     baseUrl: baseUrlOption,
     seedReactVersion: seedReactVersionOption,
@@ -50,19 +48,12 @@ export const addParser = command(
   },
 );
 
-export async function runAdd({ verbose, all, ...options }: ParsedOptions<typeof addParser>) {
+export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addParser>) {
   const startTime = Date.now();
   const trackCwd = options.cwd;
   p.intro("seed-design add");
 
   try {
-    if (all) {
-      throw new CliError({
-        message:
-          "`--all` 옵션은 더 이상 지원되지 않아요. 대신 `seed-design add-all` 명령어를 사용해주세요.",
-      });
-    }
-
     const cwd = options.cwd;
     const versionSource = resolveSeedVersion(options);
     const baseUrl = versionSource?.baseUrl ?? options.baseUrl;
