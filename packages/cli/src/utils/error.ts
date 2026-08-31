@@ -48,13 +48,6 @@ export function isCliCancelError(error: unknown): error is CliCancelError {
   return error instanceof CliCancelError;
 }
 
-export function isVerboseMode(options: unknown): boolean {
-  if (!options || typeof options !== "object") return false;
-  if (!("verbose" in options)) return false;
-
-  return options.verbose === true;
-}
-
 function normalizeError(
   error: unknown,
   defaultHint?: string,

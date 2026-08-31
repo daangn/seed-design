@@ -15,7 +15,8 @@
 
 ## 코드 작성 컨벤션
 
-- `cac` 기반으로 명령을 정의하고, 사용자 대상 메시지는 한국어 톤을 유지한다.
+- Optique 조합자로 명령을 정의하고, 사용자 대상 메시지는 한국어 톤을 유지한다. 명령 파일은 파서(`xParser`)와 실행 함수(`runX`)를 각각 export 하고, 파서 트리 조립과 분기는 `src/index.ts`가 맡는다.
+- 여러 명령이 공유하는 옵션은 `src/utils/cli-options.ts`에 두고, 옵션 값 검증은 zod 스키마가 아니라 Optique 값 파서로 한다. 네트워크로 받은 JSON을 검증하는 `src/schema.ts`는 그대로 zod를 쓴다.
 - 예외 처리는 `src/utils/error.ts`의 `CliError`/`CliCancelError`를 사용해 공통 포맷으로 출력한다.
 - `process.exit`는 명령어 계층(`src/commands`)에서만 사용하고, `src/utils`에서는 에러를 throw 한다.
 - `seed-design.json` 미존재 시 외부 프로세스 실행 대신 내부 init 로직(`src/utils/init-config.ts`)으로 생성한다.
