@@ -16,6 +16,10 @@ import type { DocsCategory, DocsItem } from "@/src/schema";
  * `components/bottom-sheet` is a complete path and a three-way ambiguity at the same time.
  * The trailing slash separates a container from the document sitting at the same path — a
  * category's landing page is `/react`, and what the category holds is `react/`.
+ *
+ * The two slashes are independent: a scope is shortened exactly as an address is, so
+ * `stackflow/` reaches `/react/stackflow` the same way `stackflow` reaches the document
+ * under it, and `/stackflow/` insists on a top-level container by that name.
  */
 
 export interface DocsEntry {
@@ -25,9 +29,9 @@ export interface DocsEntry {
 }
 
 export type Address =
-  | { kind: "exact"; path: string }
+  | { kind: "exact"; segments: string[] }
   | { kind: "tail"; segments: string[] }
-  | { kind: "scope"; path: string };
+  | { kind: "scope"; anchored: boolean; segments: string[] };
 
 /** The site path of a document, always with its leading slash. */
 export function addressOf(item: DocsItem): string {
@@ -42,13 +46,23 @@ export function entriesOf(categories: DocsCategory[]): DocsEntry[] {
   );
 }
 
+export function pathOf(address: Address): string {
+  return `/${address.segments.join("/")}`;
+}
+
+/**
+ * Nothing at all is the root scope, which is what `list` answers with no argument. Reading
+ * or searching it is a miss rather than a listing, and each command says so in its own
+ * words.
+ */
 export function parseAddress(input: string): Address {
   const trimmed = input.trim();
   const segments = trimmed.split("/").filter(Boolean);
-  const path = `/${segments.join("/")}`;
+  const anchored = trimmed.startsWith("/");
 
-  if (trimmed.endsWith("/")) return { kind: "scope", path: segments.length > 0 ? path : "" };
-  if (trimmed.startsWith("/")) return { kind: "exact", path };
+  if (segments.length === 0) return { kind: "scope", anchored: true, segments: [] };
+  if (trimmed.endsWith("/")) return { kind: "scope", anchored, segments };
+  if (anchored) return { kind: "exact", segments };
 
   return { kind: "tail", segments };
 }
@@ -62,14 +76,18 @@ function endsWithSegments(path: string, segments: string[]): boolean {
   return segments.every((segment, index) => parts[offset + index] === segment);
 }
 
-/** The documents an address names. `read` insists on exactly one; the others do not. */
+/**
+ * The documents an address names. A scope names a container rather than a document, so it
+ * reaches none: `read` turns that into its own message instead of picking something from
+ * underneath.
+ */
 export function resolveDocuments(categories: DocsCategory[], address: Address): DocsEntry[] {
+  if (address.kind === "scope") return [];
+
   const entries = entriesOf(categories);
-
-  if (address.kind === "exact") return entries.filter((entry) => entry.address === address.path);
-
-  if (address.kind === "scope") {
-    return entries.filter((entry) => entry.address.startsWith(`${address.path}/`));
+  if (address.kind === "exact") {
+    const path = pathOf(address);
+    return entries.filter((entry) => entry.address === path);
   }
 
   return entries.filter((entry) => endsWithSegments(entry.address, address.segments));
@@ -90,15 +108,16 @@ function pathsOf(categories: DocsCategory[]): string[] {
 }
 
 /**
- * The places a `list` address names. A tail query can name several, and listing under each
- * of them is the ordinary outcome rather than a failure.
+ * The places a `list` address names. A shortened address can name several, and listing under
+ * each of them is the ordinary outcome rather than a failure.
  */
 export function resolveScopes(categories: DocsCategory[], address: Address): string[] {
-  if (address.kind === "tail") {
-    return pathsOf(categories).filter((path) => endsWithSegments(path, address.segments));
+  if (address.kind === "scope" && address.segments.length === 0) return [""];
+  if (address.kind === "exact" || (address.kind === "scope" && address.anchored)) {
+    return [pathOf(address)];
   }
 
-  return [address.path];
+  return pathsOf(categories).filter((path) => endsWithSegments(path, address.segments));
 }
 
 export interface DocsListing {
@@ -135,5 +154,14 @@ export function childrenOf(categories: DocsCategory[], scope: string): DocsListi
     note: `${count}개 항목`,
   }));
 
-  return [...containers, ...documents].sort((a, b) => a.address.localeCompare(b.address));
+  return [...containers, ...documents].sort(byAddress);
+}
+
+/**
+ * Codepoint order, not `localeCompare`. ICU ignores `/` and `-` at its primary strength, so
+ * the same listing would come out in a different order under a different `LC_ALL`, and this
+ * output is piped and diffed.
+ */
+export function byAddress(a: DocsListing, b: DocsListing): number {
+  return a.address < b.address ? -1 : a.address > b.address ? 1 : 0;
 }
