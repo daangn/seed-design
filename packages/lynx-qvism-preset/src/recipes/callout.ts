@@ -1,4 +1,4 @@
-import { callout as vars } from "../vars/component";
+import { calloutCloseButton as closeButtonVars, callout as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
 const callout = defineSlotRecipe({
@@ -56,13 +56,13 @@ const callout = defineSlotRecipe({
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
-      width: vars.base.enabled.suffixIcon.targetSize,
-      height: vars.base.enabled.suffixIcon.targetSize,
-      marginTop: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
-      marginRight: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
-      marginBottom: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
-      marginLeft: `calc((${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5)`,
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
+      marginTop: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
+      marginRight: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
+      marginBottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
+      marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
     },
     prefixIcon: {
       flexShrink: 0,
