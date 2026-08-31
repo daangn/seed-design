@@ -242,7 +242,7 @@ npx @seed-design/cli@latest compat --all
 | 명령 | 하는 일 |
 |------|---------|
 | `docs list [주소]` | 그 범위 바로 아래에 무엇이 있는지 한 단계 나열해요 |
-| `docs search <질의>` | 이름으로 문서를 찾아 주소를 출력해요 |
+| `docs search <질의>` | 문서 본문까지 검색해 주소를 출력해요 |
 | `docs read <주소>` | 그 주소의 문서 본문을 출력해요 |
 
 `docs`만 입력하면 하위 명령 안내를 stderr로 내보내고 종료 코드 `1`로 끝나요. 뒤에 붙은 값을
@@ -327,36 +327,46 @@ npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
 
 ## docs search
 
-이름과 제목으로 문서를 찾아 주소를 출력해요.
+문서 본문까지 검색해서 주소를 출력해요. 문서 사이트의 검색창과 같은 색인을 쓰기 때문에,
+이름을 몰라도 내용을 설명하는 말로 찾을 수 있어요.
 
 ```package-install
-npx @seed-design/cli@latest docs search action-button
+npx @seed-design/cli@latest docs search "액션 버튼"
 ```
 
 ```sh copy
-/components/action-button
+/components/action-button#hierarchy
 /components/floating-action-button
-/components/reaction-button
-/react/components/action-button
 /react/components/floating-action-button
-/react/components/reaction-button
-/lynx/components/action-button
-/updates/whats-new-in-action-button
+/components/dialog#anatomy
+/components/top-navigation#우측-액션-영역-사용하기
 ```
 
-문서 id와 제목 양쪽에서 대소문자를 무시하고 부분 일치를 찾아요. 결과가 여러 개인 것은
-정상이라서 종료 코드는 `0`이고, 하나도 없을 때만 `1`이에요.
+문서 하나에 한 줄씩 나가고, 본문에서 걸린 자리가 있으면 `#` 뒤에 그 제목이 붙어요.
+관련도가 높은 순서이며 위에서부터 20개까지 보여줘요. 결과가 여러 개인 것은 정상이라서
+종료 코드는 `0`이고, 하나도 없을 때만 `1`이에요.
 
 stdout에는 한 줄에 주소 하나씩만 나가고, 찾은 개수는 stderr로 나가요. 그래서
-`docs search sheet | head`처럼 주소만 이어 쓸 수 있어요.
+`docs search 시트 | head`처럼 주소만 이어 쓸 수 있어요.
 
-출력된 주소는 `docs read`가 그대로 받는 값이에요. 이름으로 찾아서 주소로 읽는 흐름이 그래서
-두 명령으로 이어져요.
+출력된 주소는 `docs read`가 그대로 받는 값이에요. `#` 뒤가 붙어 있어도 그대로 넘기면 되고,
+`docs read`는 그 문서 전체를 출력해요.
 
 ```sh copy
-npx @seed-design/cli@latest docs search checkbox
+npx @seed-design/cli@latest docs search "체크박스 접근성"
 npx @seed-design/cli@latest docs read /lynx/components/checkbox
 ```
+
+<Callout type="info">
+  검색은 띄어쓴 낱말 단위로 대조해요. 형태소를 분석하지 않기 때문에 `액션 버튼`으로는
+  찾아지지만 `액션버튼`으로는 찾아지지 않아요. 원하는 문서가 안 나오면 띄어쓰기를 바꾸거나
+  더 짧은 말로 찾아보세요.
+</Callout>
+
+<Callout type="info">
+  검색 색인은 한 번 내려받아 캐시해 두고, 다음 실행부터는 바뀌었는지만 확인해요. 캐시 위치는
+  운영체제의 기본 캐시 디렉토리이고 `SEED_CACHE_DIR`로 옮길 수 있어요.
+</Callout>
 
 ## docs read
 
@@ -414,8 +424,9 @@ $ npx @seed-design/cli@latest docs read action-button
 해결 힌트: 앞에 슬래시를 붙인 전체 주소를 그대로 넣으면 하나로 좁혀져요.
 ```
 
-같은 후보 목록이 `docs search`에서는 stdout에 실려요. 어느 스트림에 있느냐가 그것이 답인지
-아닌지를 말해줘요.
+후보 목록은 답이 아니라 답을 좁히라는 안내라서 stderr로 가요. `docs search`가 내놓는 주소
+목록은 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지 아닌지를
+말해줘요.
 
 ## 스트림과 종료 코드
 

@@ -1,19 +1,12 @@
 import type { DocsCategory } from "@/src/schema";
-import { type DocsEntry, containersOf, entriesOf } from "./docs-address";
+import { containersOf, entriesOf } from "./docs-address";
 
 /**
- * What `search` matches on, and how every listing is laid out. The address grammar the three
- * subcommands share lives in `docs-address.ts`; this file only reads the index through it.
+ * How a listing is laid out, and what a failed lookup offers instead. The address grammar the
+ * three subcommands share lives in `docs-address.ts`; this file only reads the index through
+ * it. Searching does not pass through here at all — `docs-search.ts` queries the site's
+ * full-text index instead.
  */
-
-/** Documents whose id or title contains `query`. The whole of what `search` does. */
-export function matchItems(categories: DocsCategory[], query: string): DocsEntry[] {
-  const q = query.toLowerCase();
-  return entriesOf(categories).filter(
-    (entry) =>
-      entry.item.id.toLowerCase().includes(q) || entry.item.title.toLowerCase().includes(q),
-  );
-}
 
 /**
  * Compute the Levenshtein (edit) distance between two strings.
