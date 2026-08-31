@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: relative;
     gap: var(--seed-dimension-x2);
 }
 .seed-field__header {

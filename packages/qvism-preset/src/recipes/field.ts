@@ -22,6 +22,10 @@ export const field = defineSlotRecipe({
 
       width: "100%",
 
+      // Select has no root of its own to wrap its hidden native `<select>` with, so the field
+      // takes that role and keeps it from escaping into an outer scroll container.
+      position: "relative",
+
       gap: vars.base.enabled.root.gap,
     },
     header: {

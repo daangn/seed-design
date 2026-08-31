@@ -5779,6 +5779,7 @@
     flex-direction: column;
     width: 100%;
     display: flex;
+    position: relative;
   }
 
   .seed-field__header {
@@ -5891,6 +5892,7 @@
     margin-inline: calc(var(--seed-attachment-input-extend-x) * -1);
     flex-direction: column;
     display: flex;
+    position: relative;
   }
 
   .seed-attachment-input__dropzone {

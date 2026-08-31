@@ -4,6 +4,7 @@
     flex-direction: column;
     width: 100%;
     display: flex;
+    position: relative;
   }
 
   .seed-field__header {
