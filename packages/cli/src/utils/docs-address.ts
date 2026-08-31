@@ -40,9 +40,7 @@ export function addressOf(item: DocsItem): string {
 
 export function entriesOf(categories: DocsCategory[]): DocsEntry[] {
   return categories.flatMap((category) =>
-    category.sections.flatMap((section) =>
-      section.items.map((item) => ({ category, item, address: addressOf(item) })),
-    ),
+    category.items.map((item) => ({ category, item, address: addressOf(item) })),
   );
 }
 
@@ -91,6 +89,25 @@ export function resolveDocuments(categories: DocsCategory[], address: Address): 
   }
 
   return entries.filter((entry) => endsWithSegments(entry.address, address.segments));
+}
+
+/**
+ * Every path that holds something, each with the trailing slash that marks it a container.
+ *
+ * Derived from the document addresses rather than declared anywhere, so a container exists
+ * here exactly when a document sits under it.
+ */
+export function containersOf(categories: DocsCategory[]): string[] {
+  const containers = new Set<string>();
+
+  for (const { address } of entriesOf(categories)) {
+    const parts = address.split("/").filter(Boolean);
+    for (let depth = 1; depth < parts.length; depth++) {
+      containers.add(`/${parts.slice(0, depth).join("/")}/`);
+    }
+  }
+
+  return Array.from(containers);
 }
 
 /** Every path the index reaches, a document's own path and each container above it alike. */

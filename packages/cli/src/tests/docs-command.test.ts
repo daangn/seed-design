@@ -11,23 +11,17 @@ const docsIndex = {
     {
       id: "lynx",
       label: "Lynx",
-      sections: [
+      items: [
         {
-          id: "components",
-          label: "Components",
-          items: [
-            {
-              id: "action-button",
-              title: "Action Button",
-              docUrl: "/lynx/components/action-button",
-            },
-            {
-              id: "checkbox",
-              title: "Checkbox",
-              docUrl: "/lynx/components/checkbox",
-              deprecated: true,
-            },
-          ],
+          id: "action-button",
+          title: "Action Button",
+          docUrl: "/lynx/components/action-button",
+        },
+        {
+          id: "checkbox",
+          title: "Checkbox",
+          docUrl: "/lynx/components/checkbox",
+          deprecated: true,
         },
       ],
     },
@@ -37,78 +31,54 @@ const docsIndex = {
       id: "react",
       label: "React",
       llmsIndexUrl: "/react/llms.txt",
-      sections: [
-        // Carries the category's own landing page, which has no slug of its own: `/react`
-        // is that document, and `react/` is what the category holds.
+      items: [
+        // The category's own landing page, which has no slug of its own: `/react` is that
+        // document, and `react/` is what the category holds.
         {
-          id: "getting-started",
-          label: "Getting Started",
-          items: [
-            {
-              id: "overview",
-              title: "Overview",
-              docUrl: "/react",
-              llmsUrl: "/llms/react/index.txt",
-            },
-          ],
+          id: "overview",
+          title: "Overview",
+          docUrl: "/react",
+          llmsUrl: "/llms/react/index.txt",
         },
         {
-          id: "components",
-          label: "Components",
-          items: [
-            {
-              id: "action-button",
-              title: "Action Button",
-              docUrl: "/react/components/action-button",
-              llmsUrl: "/llms/react/components/action-button.txt",
-            },
-            {
-              id: "bottom-sheet",
-              title: "Bottom Sheet",
-              docUrl: "/react/components/bottom-sheet",
-              llmsUrl: "/llms/react/components/bottom-sheet.txt",
-            },
-            // Nested one level deeper than the slug the section groups by, so a path
-            // rebuilt from ids lands both of these on `react/components/composition`.
-            {
-              id: "composition",
-              title: "Composition (Concepts)",
-              docUrl: "/react/components/concepts/composition",
-              llmsUrl: "/llms/react/components/concepts/composition.txt",
-            },
-            {
-              id: "composition",
-              title: "Composition (Iconography)",
-              docUrl: "/react/components/iconography/composition",
-              llmsUrl: "/llms/react/components/iconography/composition.txt",
-            },
-          ],
-        },
-        // The same id filed under two sections of one category, as `bottom-sheet` is on
-        // the real site.
-        {
-          id: "stackflow",
-          label: "Stackflow",
-          items: [
-            {
-              id: "bottom-sheet",
-              title: "Bottom Sheet",
-              docUrl: "/react/stackflow/bottom-sheet",
-              llmsUrl: "/llms/react/stackflow/bottom-sheet.txt",
-            },
-          ],
+          id: "action-button",
+          title: "Action Button",
+          docUrl: "/react/components/action-button",
+          llmsUrl: "/llms/react/components/action-button.txt",
         },
         {
-          id: "updates",
-          label: "Updates",
-          items: [
-            {
-              id: "changelog",
-              title: "Changelog",
-              docUrl: "/react/updates/changelog",
-              llmsUrl: "/llms/react/updates/changelog.txt",
-            },
-          ],
+          id: "bottom-sheet",
+          title: "Bottom Sheet",
+          docUrl: "/react/components/bottom-sheet",
+          llmsUrl: "/llms/react/components/bottom-sheet.txt",
+        },
+        // Nested one level deeper than their shared parent, so a path rebuilt from ids
+        // lands both of these on `react/components/composition`.
+        {
+          id: "composition",
+          title: "Composition (Concepts)",
+          docUrl: "/react/components/concepts/composition",
+          llmsUrl: "/llms/react/components/concepts/composition.txt",
+        },
+        {
+          id: "composition",
+          title: "Composition (Iconography)",
+          docUrl: "/react/components/iconography/composition",
+          llmsUrl: "/llms/react/components/iconography/composition.txt",
+        },
+        // The same id under two containers of one category, as `bottom-sheet` is on the
+        // real site.
+        {
+          id: "bottom-sheet",
+          title: "Bottom Sheet",
+          docUrl: "/react/stackflow/bottom-sheet",
+          llmsUrl: "/llms/react/stackflow/bottom-sheet.txt",
+        },
+        {
+          id: "changelog",
+          title: "Changelog",
+          docUrl: "/react/updates/changelog",
+          llmsUrl: "/llms/react/updates/changelog.txt",
         },
       ],
     },

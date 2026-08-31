@@ -83,18 +83,12 @@ export const docsItemSchema = z.object({
   deprecated: z.boolean().optional(),
 });
 
-export const docsSectionSchema = z.object({
-  id: z.string(),
-  label: z.string(),
-  items: z.array(docsItemSchema),
-});
-
 export const docsCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
   /** Site-relative path to the section index llms.txt, e.g. `/components/llms.txt`. */
   llmsIndexUrl: z.string().optional(),
-  sections: z.array(docsSectionSchema),
+  items: z.array(docsItemSchema),
 });
 
 export const docsIndexSchema = z.object({
@@ -102,6 +96,5 @@ export const docsIndexSchema = z.object({
 });
 
 export type DocsItem = z.infer<typeof docsItemSchema>;
-export type DocsSection = z.infer<typeof docsSectionSchema>;
 export type DocsCategory = z.infer<typeof docsCategorySchema>;
 export type DocsIndex = z.infer<typeof docsIndexSchema>;

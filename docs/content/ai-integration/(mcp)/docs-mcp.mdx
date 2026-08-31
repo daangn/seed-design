@@ -116,7 +116,7 @@ codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
 
 #### `discover_seed_docs`
 
-문서 사이트가 게시하는 섹션과 카테고리 구조를 반환합니다. 섹션마다 문서 개수와 접근 가능한 엔드포인트가 함께 실립니다.
+문서 사이트가 게시하는 섹션 목록을 반환합니다. 섹션마다 문서 개수와 섹션 목록 진입점이 함께 실립니다.
 
 **파라미터:** 없음
 
@@ -134,19 +134,12 @@ discover_seed_docs()
       "id": "components",
       "name": "Components",
       "documentCount": 61,
-      "categories": [
-        { "id": "components", "name": "Components", "documentCount": 61 }
-      ],
       "overviewUrl": "/components/llms.txt"
     },
     {
       "id": "react",
       "name": "React",
       "documentCount": 110,
-      "categories": [
-        { "id": "getting-started", "name": "Getting Started", "documentCount": 11 },
-        { "id": "components", "name": "Components", "documentCount": 82 }
-      ],
       "overviewUrl": "/react/llms.txt"
     }
   ]
@@ -159,30 +152,27 @@ discover_seed_docs()
 
 #### `list_docs`
 
-섹션 안의 문서 목록을 카테고리별로 묶어 반환합니다. 각 항목에 `get_doc`으로 넘길 `path`와 설명, deprecated 표시가 함께 나옵니다.
+섹션 안의 문서 목록을 반환합니다. 각 항목에 `get_doc`으로 넘길 `path`와 설명, deprecated 표시가 함께 나옵니다. 목록은 `path` 순으로 정렬되므로 같은 경로 아래 있는 문서끼리 모여서 나옵니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
 | `section` | string | 섹션 id. `discover_seed_docs`로 현재 목록을 확인합니다 |
-| `category` | string (선택) | 섹션 안의 카테고리 필터 (예: `components`) |
 
 **예시:**
 ```
-list_docs({ section: "react", category: "components" })
+list_docs({ section: "react" })
 ```
 
 **예시 응답:**
 ```
 # React Documentation
 
-Total: 82 documents (filtered by: components)
+Total: 110 documents
 
-### components
-
-  - Accordion (path: components/accordion) — 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
-  - Action Button (path: components/action-button) — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-  ...
+- Accordion (path: components/accordion) — 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+- Action Button (path: components/action-button) — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+...
 
 ## Usage
 
