@@ -1742,11 +1742,13 @@ text {
 }
 
 .seed-callout__closeButton {
-  margin-top: calc((undefined - var(--seed-dimension-x4)) * -.5);
-  margin-right: calc((undefined - var(--seed-dimension-x4)) * -.5);
-  margin-bottom: calc((undefined - var(--seed-dimension-x4)) * -.5);
-  margin-left: calc((undefined - var(--seed-dimension-x4)) * -.5);
-  border-radius: var(--seed-radius-r2_5);
+  width: var(--seed-dimension-x10);
+  height: var(--seed-dimension-x10);
+  margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+  margin-right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+  margin-bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+  margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+  border-radius: var(--seed-radius-r2);
   flex-direction: row;
   flex-grow: 0;
   flex-shrink: 0;
