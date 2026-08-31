@@ -1,8 +1,10 @@
+import { koreanTokenizer } from "@seed-design/docs-search";
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { createServer, type Server } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { create, insertMultiple, save } from "zbsearch";
 
 const repoRoot = path.resolve(import.meta.dir, "../../../..");
 
@@ -83,6 +85,82 @@ const docsIndex = {
 };
 
 /**
+ * A search index of the same shape the site publishes, built here rather than downloaded so
+ * the ranking a test asserts on depends on nothing outside this file.
+ *
+ * Each page contributes a `page` row carrying its title and a `text` row carrying body prose
+ * no title repeats, which is what separates full-text search from the name matching it
+ * replaced. Anchors ride on the heading rows, as they do in the real index.
+ */
+async function buildSearchIndex() {
+  const db = create({
+    schema: {
+      content: "string",
+      page_id: "string",
+      type: "string",
+      url: "string",
+      breadcrumbs: "string[]",
+      tags: "enum[]",
+    },
+    components: { tokenizer: koreanTokenizer },
+  });
+
+  const pages = [
+    {
+      url: "/react/components/action-button",
+      title: "Action Button",
+      heading: "로딩 상태",
+      body: "비동기 작업이 끝날 때까지 스피너를 보여줍니다.",
+    },
+    {
+      url: "/lynx/components/action-button",
+      title: "Action Button",
+      heading: "지원 범위",
+      body: "Lynx 엔진에서 동작하는 버튼입니다.",
+    },
+    {
+      url: "/react/components/bottom-sheet",
+      title: "Bottom Sheet",
+      heading: "스냅 포인트",
+      body: "시트의 높이를 단계별로 확장하거나 축소합니다.",
+    },
+    {
+      url: "/react/components/concepts/composition",
+      title: "Composition",
+      heading: "합성하기",
+      body: "여러 컴포넌트를 겹쳐 하나의 인터랙션을 만듭니다.",
+    },
+  ];
+
+  await insertMultiple(
+    db,
+    pages.flatMap(({ url, title, heading, body }) => [
+      { id: url, page_id: url, type: "page", url, content: title, breadcrumbs: [], tags: [] },
+      {
+        id: `${url}#heading`,
+        page_id: url,
+        type: "heading",
+        url: `${url}#${heading}`,
+        content: heading,
+        breadcrumbs: [],
+        tags: [],
+      },
+      {
+        id: `${url}#text`,
+        page_id: url,
+        type: "text",
+        url: `${url}#${heading}`,
+        content: body,
+        breadcrumbs: [],
+        tags: [],
+      },
+    ]),
+  );
+
+  return save(db);
+}
+
+/**
  * Only these resolve, so a request for anything else fails the way the real site would.
  * Every one of them is an `llmsUrl` the index carries — `read` reaches no other URL.
  */
@@ -99,8 +177,15 @@ describe("docs command", () => {
   let server: Server;
   let baseUrl: string;
   let reactProjectDir: string;
+  let cacheDir: string;
+  let searchIndex: Awaited<ReturnType<typeof buildSearchIndex>>;
 
   beforeAll(async () => {
+    searchIndex = await buildSearchIndex();
+    // The index cache is the CLI's first piece of durable state. Left at its default it would
+    // write into the developer's own cache directory.
+    cacheDir = await mkdtemp(path.join(tmpdir(), "seed-docs-cache-"));
+
     // A project that configures a framework, to prove the commands ignore it.
     reactProjectDir = await mkdtemp(path.join(tmpdir(), "seed-docs-react-"));
     await writeFile(
@@ -119,6 +204,12 @@ describe("docs command", () => {
       if (pathname === "/__docs__/index.json") {
         response.writeHead(200, { "Content-Type": "application/json" });
         response.end(JSON.stringify(docsIndex));
+        return;
+      }
+
+      if (pathname === "/api/search.json") {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify(searchIndex));
         return;
       }
 
@@ -145,6 +236,7 @@ describe("docs command", () => {
 
   afterAll(async () => {
     await rm(reactProjectDir, { force: true, recursive: true });
+    await rm(cacheDir, { force: true, recursive: true });
     await new Promise<void>((resolve, reject) => {
       server.close((error) => {
         if (error) {
@@ -173,6 +265,7 @@ describe("docs command", () => {
         ...process.env,
         DISABLE_TELEMETRY: "true",
         FORCE_COLOR: "0",
+        SEED_CACHE_DIR: cacheDir,
       },
       stderr: "pipe",
       stdout: "pipe",
@@ -296,27 +389,34 @@ describe("docs command", () => {
   });
 
   describe("search", () => {
-    it("prints one address per line and nothing else", async () => {
-      const result = await runDocs(["search", "action-button"]);
+    it("finds a document by prose no title carries, under the anchor that carries it", async () => {
+      const result = await runDocs(["search", "스피너"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        ["/lynx/components/action-button", "/react/components/action-button"].join("\n"),
+      expect(result.stdout.trimEnd()).toBe("/react/components/action-button#로딩 상태");
+    });
+
+    it("prints the anchor the match sits under", async () => {
+      const result = await runDocs(["search", "스냅 포인트"]);
+
+      expectSuccess(result);
+      expect(result.stdout.trimEnd()).toBe("/react/components/bottom-sheet#스냅 포인트");
+    });
+
+    it("ranks the document carrying every word above the ones carrying only some", async () => {
+      const result = await runDocs(["search", "Lynx 버튼"]);
+
+      expectSuccess(result);
+      expect(result.stdout.trimEnd().split("\n")[0]).toBe(
+        "/lynx/components/action-button#지원 범위",
       );
     });
 
-    it("matches a word carried only by the title", async () => {
-      const result = await runDocs(["search", "Iconography"]);
-
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("/react/components/iconography/composition");
-    });
-
     it("keeps the count off stdout", async () => {
-      const result = await runDocs(["search", "composition"]);
+      const result = await runDocs(["search", "스피너"]);
 
       expectSuccess(result);
-      expect(result.stderr).toContain("2개 문서를 찾았어요.");
+      expect(result.stderr).toContain("1개 문서를 찾았어요.");
       expect(result.stdout).not.toContain("찾았어요");
     });
 
