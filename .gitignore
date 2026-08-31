@@ -30,3 +30,7 @@ scripts/data
 
 docs/superpowers/
 skills/*-workspace/
+
+# Generated CSS bundles
+/packages/css/*.min.css
+/packages/lynx-css/*.min.css

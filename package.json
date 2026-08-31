@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "ultra -r build",
-    "packages:build": "ultra -r --build --filter 'packages/*' build",
+    "packages:build": "bun qvism:generate && ultra -r --build --filter 'packages/*' build",
     "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
