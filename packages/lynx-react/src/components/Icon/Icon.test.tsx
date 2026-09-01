@@ -20,6 +20,15 @@ const TestIcon = React.forwardRef<
 });
 TestIcon.displayName = "TestIcon";
 
+const MulticolorTestIcon = React.forwardRef<
+  MainThread.Element,
+  LynxIconElementProps & { children?: React.ReactNode }
+>((props, ref) => <TestIcon {...props} ref={ref} />);
+MulticolorTestIcon.displayName = "MulticolorTestIcon";
+Object.assign(MulticolorTestIcon, {
+  [Symbol.for("@seed-design/multicolor-icon")]: true,
+});
+
 function getSourceAndImage() {
   const source = elementTree.root?.querySelector<HTMLElement>("view");
   const image = source?.querySelector<HTMLElement>("image");
@@ -129,10 +138,10 @@ describe("InternalIcon", () => {
 });
 
 describe("PrefixIcon", () => {
-  it("does not tint multicolor icons", async () => {
+  it("does not tint marked multicolor icons", async () => {
     const { frames } = installMainThreadStyleMocks(() => "rgb(31, 35, 40)");
 
-    render(<PrefixIcon icon={<TestIcon />} multicolor />, {
+    render(<PrefixIcon icon={<MulticolorTestIcon />} />, {
       enableMainThread: true,
       enableBackgroundThread: true,
     });

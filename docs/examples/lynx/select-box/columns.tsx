@@ -22,21 +22,18 @@ function Root() {
         <CheckSelectBoxGroup columns={2} accessibility-label="Grid 레이아웃 예제">
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
-            prefixIconMulticolor
             label="옵션 1"
             description="layout=vertical"
             suffix={<CheckSelectBoxCheckmark />}
           />
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
-            prefixIconMulticolor
             label="옵션 2"
             description="layout=vertical"
             suffix={<CheckSelectBoxCheckmark />}
           />
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
-            prefixIconMulticolor
             defaultChecked
             layout="horizontal"
             label="layout=horizontal"
@@ -45,7 +42,6 @@ function Root() {
           />
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
-            prefixIconMulticolor
             label="옵션 4"
             description="layout=vertical"
             suffix={<CheckSelectBoxCheckmark />}
@@ -60,21 +56,18 @@ function Root() {
           <RadioSelectBoxItem
             value="option1"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="옵션 1"
             suffix={<RadioSelectBoxRadiomark />}
           />
           <RadioSelectBoxItem
             value="option2"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="옵션 2"
             suffix={<RadioSelectBoxRadiomark />}
           />
           <RadioSelectBoxItem
             value="option3"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="layout=horizontal"
             description="layout을 horizontal로 오버라이드"
             layout="horizontal"
@@ -83,21 +76,18 @@ function Root() {
           <RadioSelectBoxItem
             value="option4"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="옵션 4"
             suffix={<RadioSelectBoxRadiomark />}
           />
           <RadioSelectBoxItem
             value="option5"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="옵션 5"
             suffix={<RadioSelectBoxRadiomark />}
           />
           <RadioSelectBoxItem
             value="option6"
             prefixIcon={<IconDiamond />}
-            prefixIconMulticolor
             label="옵션 6"
             suffix={<RadioSelectBoxRadiomark />}
           />
