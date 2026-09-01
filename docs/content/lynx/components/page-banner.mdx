@@ -1,0 +1,194 @@
+---
+title: Page Banner
+description: 페이지 상단에서 전체 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/page-banner/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:page-banner
+```
+
+<LynxManualInstallation name="page-banner" />
+
+## Props
+
+### `PageBanner`
+
+<react-type-table path="./registry/lynx/ui/page-banner.tsx" name="PageBannerProps" />
+
+### `PageBannerButton`
+
+<react-type-table path="./registry/lynx/ui/page-banner.tsx" name="PageBannerButtonProps" />
+
+### `ActionablePageBanner`
+
+<react-type-table
+  path="./registry/lynx/ui/page-banner.tsx"
+  name="ActionablePageBannerProps"
+/>
+
+### `DismissiblePageBanner`
+
+<react-type-table
+  path="./registry/lynx/ui/page-banner.tsx"
+  name="DismissiblePageBannerProps"
+/>
+
+## Usage
+
+설치한 snippet은 기본 배너와 전체 영역을 탭할 수 있는 배너, 닫을 수 있는 배너를 제공합니다.
+
+```tsx
+import { PageBanner } from "@/components/ui/page-banner";
+
+export function App() {
+  return <PageBanner title="알림" description="새로운 소식을 확인해 보세요." />;
+}
+```
+
+저수준 조합이 필요하면 `@seed-design/lynx-react`의 compound API를 직접 사용할 수 있습니다.
+
+```tsx
+import { PageBanner } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <PageBanner.Root tone="informative">
+      <PageBanner.Content>
+        <PageBanner.Body>
+          <PageBanner.Title>알림</PageBanner.Title>
+          <PageBanner.Description>새로운 소식을 확인해 보세요.</PageBanner.Description>
+        </PageBanner.Body>
+      </PageBanner.Content>
+    </PageBanner.Root>
+  );
+}
+```
+
+## Examples
+
+### With Button
+
+`PageBanner`의 `suffix`에 `PageBannerButton`을 전달하면 메시지 옆에 버튼을 배치할 수 있습니다.
+
+<LynxComponentExample name="lynx/page-banner/with-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/with-button.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones and Variants
+
+`tone`은 `neutral`, `informative`, `positive`, `warning`, `critical`, `magic`을 지원합니다. `variant`는 `weak`과 `solid`를 지원합니다. 기본 조합은 `neutral`과 `weak`입니다.
+
+#### Neutral
+
+<LynxComponentExample name="lynx/page-banner/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Informative
+
+<LynxComponentExample name="lynx/page-banner/informative">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/informative.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Positive
+
+<LynxComponentExample name="lynx/page-banner/positive">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/positive.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Warning
+
+<LynxComponentExample name="lynx/page-banner/warning">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/warning.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Critical
+
+<LynxComponentExample name="lynx/page-banner/critical">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/critical.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Magic
+
+<Callout type="warning">
+
+`tone="magic"`은 `variant="weak"`과만 함께 사용할 수 있습니다.
+
+</Callout>
+
+<LynxComponentExample name="lynx/page-banner/magic">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/magic.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Action and Dismiss
+
+전체 배너를 액션으로 사용하려면 `ActionablePageBanner`에 `bindtap`과 `accessibility-label`을 전달하세요. 닫기 상태를 직접 관리할 때는 `DismissiblePageBanner`의 `open`과 `onDismiss`를 사용합니다.
+
+## Web Version Differences
+
+| 영역 | React Web | Lynx |
+| --- | --- | --- |
+| Native element | `div`, `span`, `button` | `view`, `text` |
+| Event | `onClick` | `bindtap`, `main-thread:bindtap` |
+| Accessibility | HTML semantics, ARIA | `accessibility-*` |
+| Polymorphism | `asChild` 지원 | 미지원 |
+| Interaction feedback | focus ring, scale feedback | pressed 배경색 |
+
+Lynx의 actionable Root는 터치되는 동안 `pressed` Recipe 상태를 적용합니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
+
+## Unsupported Lynx Features
+
+- `asChild`: Lynx에는 DOM Slot 기반 다형 렌더링이 없습니다. `PageBannerButton`은 Lynx `text` 요소로 렌더링됩니다.
+- 웹 focus ring과 동적 scale feedback: Lynx는 웹 키보드 포커스 모델을 사용하지 않습니다.
+- HTML attribute와 ARIA prop: 대응하는 Lynx native prop과 `accessibility-*`를 사용하세요.
