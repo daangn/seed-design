@@ -17,10 +17,12 @@ import {
   baseUrlOption,
   cwdOption,
   frameworkOption,
+  includeDeprecatedOption,
   onDiffOption,
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
+import { canPrompt } from "../utils/interactive";
 import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
@@ -45,9 +47,7 @@ export const addAllParser = command(
     all: option("-a", "--all", {
       description: message`모든 레지스트리의 모든 항목을 추가합니다.`,
     }),
-    includeDeprecated: option("--include-deprecated", "--includeDeprecated", {
-      description: message`deprecated 항목도 함께 추가합니다.`,
-    }),
+    includeDeprecated: includeDeprecatedOption,
     cwd: cwdOption,
     baseUrl: baseUrlOption,
     seedReactVersion: seedReactVersionOption,
@@ -122,6 +122,14 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
         return [...options.registryIds];
       }
 
+      if (!canPrompt()) {
+        throw new CliError({
+          message: "추가할 레지스트리를 지정해주세요.",
+          details: [`사용 가능한 레지스트리: ${publicRegistries.map((r) => r.id).join(", ")}`],
+          hint: `${highlight("seed-design add-all ui")}처럼 레지스트리를 인자로 넘기거나, 전부 추가하려면 ${highlight("--all")}을 사용해주세요.`,
+        });
+      }
+
       const selected = await p.multiselect({
         message: "추가할 레지스트리를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
         options: publicRegistries
@@ -173,8 +181,15 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
       );
     }
 
+    // Not a cancellation: nobody stopped anything, the selection simply holds nothing to add,
+    // and reporting that as the `0` a cancellation earns would read as a completed install.
     if (!itemKeys.length) {
-      throw new CliCancelError("추가할 항목이 없어요.");
+      throw new CliError({
+        message: "추가할 항목이 없어요.",
+        ...(deprecatedCount > 0 && {
+          hint: `선택한 레지스트리의 항목이 모두 deprecated예요. ${highlight("--include-deprecated")} 옵션을 사용하면 추가할 수 있어요.`,
+        }),
+      });
     }
 
     p.log.message(`총 ${highlight(itemKeys.length.toString())}개의 항목을 추가합니다.`);
@@ -199,7 +214,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
       framework,
     });
 
-    await writeRegistryItemSnippets({
+    const { unresolved } = await writeRegistryItemSnippets({
       registryItemsToAdd,
       rootPath,
       cwd,
@@ -226,6 +241,16 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
           `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
         );
       }
+    }
+
+    // Raised only once everything else has been done, so a rerun with `--on-diff` has the rest
+    // of the work already behind it.
+    if (unresolved.length) {
+      throw new CliError({
+        message: "내용이 다른 파일이 있어 일부 스니펫을 받지 못했어요.",
+        details: unresolved,
+        hint: `${highlight("--on-diff")}에 overwrite·backup·skip 중 하나를 지정해 다시 실행해주세요.`,
+      });
     }
 
     p.outro("완료했어요.");

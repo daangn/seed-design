@@ -129,6 +129,27 @@ npx @seed-design/cli@latest docs read /react                          # 카테�
 가리키면 stdout은 비고 후보 주소가 stderr로 나가므로, 그중 하나를 앞 슬래시가 붙은 그대로 다시
 넘깁니다.
 
+### 스니펫 추가와 설정 생성
+
+에이전트가 실행하는 환경에는 터미널이 없으므로 `init`, `add`, `add-all`도 아무것도 묻지
+않습니다. 물었을 질문에 답할 인자를 처음부터 함께 넘깁니다.
+
+```bash
+npx @seed-design/cli@latest init -y                                # 설정 파일 생성
+npx @seed-design/cli@latest add ui:action-button                   # 항목을 이름으로 지정
+npx @seed-design/cli@latest add ui:old-item --include-deprecated   # deprecated 항목
+npx @seed-design/cli@latest add-all ui                             # 레지스트리 전체
+```
+
+이 세 명령의 종료 코드는 `0`과 `2` 둘뿐입니다. `2`는 요청한 작업을 끝내지 못했다는 뜻이고,
+무엇을 넘기면 되는지가 stderr에 있습니다. 인자 없이 `add`를 실행하면 항목 선택기가 뜨는 대신
+`2`로 끝나므로, 어떤 항목이 있는지는 위의 레지스트리 인덱스에서 먼저 확인합니다.
+
+`add`는 이미 있는 파일과 새 스니펫의 내용이 다르면 그 파일을 건드리지 않고 남은 경로를 stderr에
+적은 뒤 `2`로 끝냅니다. `--on-diff overwrite`는 사용자가 손댄 내용을 지우는 선택이므로 임의로
+붙이지 않습니다. 남은 파일을 사용자에게 알리고 덮어쓸지, `--on-diff backup`으로 백업할지,
+`--on-diff skip`으로 그대로 둘지 확인합니다.
+
 ## 4. 판단이 필요한 절차
 
 | 요청 | 읽을 참조 |

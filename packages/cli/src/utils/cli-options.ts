@@ -64,8 +64,21 @@ export const seedReactVersionOption = optional(
   }),
 );
 
+/**
+ * `skip` carries the third answer the interactive prompt offers, so every branch a person can
+ * pick there can also be written down in advance. Without it there is no way to say "leave
+ * what is already on disk alone" other than sitting at the prompt.
+ */
 export const onDiffOption = optional(
-  option("--on-diff", "--onDiff", choice(["overwrite", "backup"]), {
+  option("--on-diff", "--onDiff", choice(["overwrite", "backup", "skip"]), {
     description: message`파일 내용이 다를 때의 처리 방식입니다.`,
   }),
 );
+
+/**
+ * The same flag in both commands, though it answers a different question in each: `add-all`
+ * widens what it collects, while `add` authorises an item the caller named itself.
+ */
+export const includeDeprecatedOption = option("--include-deprecated", "--includeDeprecated", {
+  description: message`deprecated 항목도 함께 추가합니다.`,
+});
