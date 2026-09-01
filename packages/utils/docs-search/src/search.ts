@@ -126,16 +126,21 @@ export function createDocsSearch(dump: RawData) {
 }
 
 /**
- * How far the loose pass may extend the strict one, counted in pages and relative to what the
- * strict pass found.
+ * How far the loose pass may extend the strict one, counted in pages.
  *
  * Splitting identifiers turned `action-button` into two words, and a two-word query the loose
- * pass answers with every page holding either of them — 61 for that one, against 8 before.
- * Bounding it is what Elasticsearch spends `minimum_should_match` on. Measured over 766
- * queries, cutting the tail at two, three or five times the strict pass leaves top-1, MRR and
- * recall at 25 identical and roughly halves the count, so nothing an answer needed is in there.
+ * pass answers with every page holding either of them — 61 pages for that one, against 8
+ * before. Elasticsearch spends `minimum_should_match` on the same problem.
+ *
+ * The ratio alone is not enough, because it tightens exactly where it should loosen: the
+ * longer the query, the fewer chunks hold every word of it, so a four-word question like
+ * "action button disabled loading" leaves the strict pass with two pages and the loose one
+ * with six slots. The floor is what keeps such a query answerable. Measured over 916 queries,
+ * the ratio on its own drops answer coverage for long queries from 100% to 97.8%; a floor of
+ * ten restores it while still returning 38.6 pages against 69.8 unbounded.
  */
 const FILL_RATIO = 3;
+const FILL_FLOOR = 10;
 
 /**
  * Appends the pages of `fill` that `base` did not already open, keeping each page's own rows
@@ -147,7 +152,8 @@ function mergeByPage(base: SearchHit[], fill: SearchHit[]): SearchHit[] {
 
   // Nothing carried every word of the query, so the loose pass is the whole answer and keeps
   // its length. Bounding it against zero would leave the reader with nothing.
-  const room = opened.size === 0 ? Number.POSITIVE_INFINITY : opened.size * FILL_RATIO;
+  const room =
+    opened.size === 0 ? Number.POSITIVE_INFINITY : Math.max(opened.size * FILL_RATIO, FILL_FLOOR);
 
   const tail: SearchHit[] = [];
   let taken = 0;
@@ -165,13 +171,18 @@ function mergeByPage(base: SearchHit[], fill: SearchHit[]): SearchHit[] {
 }
 
 /**
- * A page whose title says exactly what the query said goes first.
+ * A page the query named goes first: exactly, ahead of merely.
  *
- * The engine cannot express this on its own: fumadocs fixes the index schema, so a title
+ * The engine cannot express this on its own. fumadocs fixes the index schema, so a title
  * reaches the index as one row's content rather than as a field a boost could reach, and a
- * heading row that matches outranks the page whose own name matches. Promoting on an exact
- * title match is the narrowest rule that fixes it — ranking on partial overlap instead pulls
- * pages named after one word of a sentence over the prose that answers it.
+ * heading row that matches outranks the page whose own name matches.
+ *
+ * A name only counts when the query accounts for all of it, and when it is at least half of
+ * what was asked. Both halves earn their place: without the first, a query is answered by
+ * pages named after one word of it; without the second, "Accordion" appearing in a sentence
+ * promotes the Accordion page over the document that sentence belongs to, which costs Korean
+ * prose queries eight points. Half is what lets "action button disabled loading" find the
+ * action button.
  *
  * The order the engine gave decides everything the title leaves tied.
  */
@@ -188,13 +199,19 @@ function titleFirst(hits: SearchHit[], query: string): SearchHit[] {
   return pages
     .map((page, index) => {
       const title = new Set(tokenize(page[0].content));
+      const named = title.size > 0 && Array.from(title).every((token) => wanted.includes(token));
+
       return {
         page,
         index,
-        named: title.size === wanted.length && wanted.every((token) => title.has(token)),
+        rank: named
+          ? title.size === wanted.length
+            ? 2
+            : Number(title.size * 2 >= wanted.length)
+          : 0,
       };
     })
-    .sort((a, b) => Number(b.named) - Number(a.named) || a.index - b.index)
+    .sort((a, b) => b.rank - a.rank || a.index - b.index)
     .flatMap(({ page }) => page);
 }
 
