@@ -14,6 +14,16 @@ Lynx 문서와 예제는 같은 컴포넌트의 React 문서를 기준으로 작
 3. [`seed-component-map`](../seed-component-map/SKILL.md)으로 대상의 package export, Registry, React·Lynx 문서, 예제를 찾고 결과 경로를 직접 읽는다.
 4. React와 Lynx 공개 API 차이가 문서 구성에 영향을 주면 [`seed-api-parity`](../seed-api-parity/SKILL.md)를 사용한다. 플랫폼 제약으로 의도한 차이와 보완할 누락을 구분한다.
 
+## 검증 경로를 먼저 고정하기
+
+문서를 작성하기 전에 작성 대상과 검증 대상을 정한다.
+
+- 새 컴포넌트나 생성물이 포함되면 `seed-change-plan`으로 target branch와 release lane을 확인한다. 문서만 고치는 작업에는 적용하지 않는다.
+- 문서 작성과 함께 결과 검증이 요청되었는지 확인한다.
+- 결과 검증이 필요하면 작성이 끝난 뒤 [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)를 호출한다. 정적 빌드, bundle URL, Lynx DevTool MCP, 증거 수집은 검증 스킬이 소유한다.
+
+검증 스킬의 공통 실행 절차는 [검증 런북](../seed-verify-lynx-component/references/verification.md)을 따른다. 이 작성 스킬에서 검증 명령이나 런타임 절차를 복사해 유지하지 않는다.
+
 ## 배포 경로를 먼저 정하기
 
 `seed-component-map`의 Registry와 package export 결과로 문서와 예제의 소비 경로를 확정한다.
@@ -28,13 +38,13 @@ Registry 파일이 있다는 사실만으로 배포 방식을 추정하지 않�
 
 ## React 문서와 맞추기
 
-작업 전에 다음 대응표를 만든다. 결과에 포함할 수 있는 짧은 메모면 충분하다.
+작업 전에 다음 대응표를 만든다. 시나리오 이름만 맞는지 확인하지 말고 실제로 비교할 입력과 결과를 적는다.
 
-| React 섹션·시나리오 | Lynx 처리 | 근거 |
-| --- | --- | --- |
-| 같은 기능 지원 | 제목, 순서, 사용자 결과를 유지 | 대응 공개 API·예제 경로 |
-| Lynx식 변환 필요 | 사용자 결과를 유지하고 이벤트·element·접근성 속성만 변환 | 플랫폼 차이 근거 |
-| 지원하지 않음 | 실행 예제를 만들지 않고 차이와 대안을 설명 | 런타임 또는 공개 API 근거 |
+| React 섹션·시나리오 | Lynx 처리 | 비교할 입력·결과 | 근거 |
+| --- | --- | --- | --- |
+| 같은 기능 지원 | 제목, 순서, 사용자 결과를 유지 | 항목 수·순서, 문구, 초기 상태, suffix, 상태 출력, 레이아웃, 자산 | 대응 공개 API·예제 경로 |
+| Lynx식 변환 필요 | 사용자 결과를 유지하고 이벤트·element·접근성 속성만 변환 | 변환 전후의 사용자 결과와 달라진 필드 | 플랫폼 차이 근거 |
+| 지원하지 않음 | 실행 예제를 만들지 않고 차이와 대안을 설명 | 지원하지 않는 입력과 대체 가능한 결과 | 런타임 또는 공개 API 근거 |
 
 React 문서에서 지원하는 시나리오를 이유 없이 빼거나 이름을 바꾸지 않는다. Lynx에만 필요한 설치, 실행, 호환성 안내는 공통 섹션 흐름을 깨지 않는 위치에 추가한다. React 대응 문서가 없으면 가장 가까운 Lynx 문서 구조와 대상 컴포넌트의 실제 공개 API를 기준으로 삼는다.
 
@@ -44,10 +54,7 @@ React 문서에서 지원하는 시나리오를 이유 없이 빼거나 이름�
 2. 각 시나리오를 동일 지원, Lynx식 변환, 미지원으로 분류한다.
 3. 컴포넌트가 쓰는 Lynx API·CSS·element를 조사한다. `find-refer`로 로컬 공식 자료 스냅샷을 먼저 찾고, API와 Engine 호환성은 `lynx-api-docs`, CSS 지원은 `lynx-check-css-support`로 확인한다.
 4. [작성 규칙](references/authoring.md)에 따라 frontmatter, MDX, 예제 엔트리를 작성한다.
-5. 실제 문서 개발 서버나 `docs/out`의 `LynxComponentExample`에서 브라우저 미리보기를 확인한다.
-6. 브라우저와 실제 Lynx 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 문서 문제, 미리보기 문제, 컴포넌트·런타임 문제로 나눈다.
-7. 네이티브 결과를 새로 주장하거나 예제 동작을 바꿨다면 사용 가능한 Lynx 호스트 앱이나 `examples/lynx-spa`에서 직접 확인한다. 환경이 없으면 확인하지 못한 범위를 보고하고 우회 구현을 추가하지 않는다.
-8. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제한을 보고한다.
+5. 문서 작성이 끝나면 검증이 요청된 경우 [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)로 넘긴다. 검증이 요청되지 않았다면 작성한 원천과 변경 범위만 보고한다.
 
 ## 작업 경계
 
@@ -65,6 +72,5 @@ React 문서에서 지원하는 시나리오를 이유 없이 빼거나 이름�
 - Engine·XElement 호환성은 `find-refer`와 `lynx-api-docs`로 공식 자료를 확인한다. CSS 속성·값은 `lynx-check-css-support`를 함께 사용한다. Context7이나 일반 웹 검색으로 우회하지 않으며 버전을 추정하지 않는다.
 - 일반적인 문서 작업에서 독립 HTML, 별도 Vite 앱, 임시 React 페이지를 만들지 않는다.
 - 브라우저 미리보기에서 표현할 수 없는 네이티브 동작은 관련 예제 가까이에 짧게 안내한다.
-- QR 코드에는 직접 접근 가능한 `.lynx.bundle` HTTP(S) 주소를 넣는다. `lynx://` 딥 링크는 Explorer 실행 버튼에만 사용한다.
 - `false`, `null`, `0`처럼 JSX가 그대로 표시하지 않을 수 있는 값은 `JSON.stringify`로 직렬화한다.
 - 공유 스타일은 컴포넌트보다 먼저 등록한다. 컴포넌트가 소유한 Recipe CSS를 예제에서 다시 가져오지 않는다.
