@@ -23,7 +23,7 @@ import {
   getCompatPackageNames,
   getProjectSeedPackageVersionSpecs,
 } from "../utils/compatibility";
-import { CliError, isCliCancelError, reportCliError } from "../utils/error";
+import { CliError, ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
 
 function parseTargetInputs({
   itemIds,
@@ -218,7 +218,9 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
         }
       }
       console.error("검사할 스니펫이 없어요.");
-      process.exit(0);
+      // Nothing installed is not the same as not knowing where to look, which is why a
+      // missing config leaves through the catch below instead of here.
+      process.exit(ExitCode.answered);
     }
 
     const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd, framework);
@@ -252,7 +254,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
         }
       }
 
-      process.exit(0);
+      process.exit(ExitCode.answered);
     }
 
     console.log(
@@ -288,7 +290,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       }
     }
 
-    process.exit(1);
+    process.exit(ExitCode.answeredNegatively);
   } catch (error) {
     if (isCliCancelError(error)) {
       try {
@@ -305,7 +307,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
         }
       }
       console.error(highlight(error.message));
-      process.exit(0);
+      process.exit(ExitCode.cancelled);
     }
 
     try {
@@ -327,6 +329,6 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,
     });
-    process.exit(1);
+    process.exit(exitCodeFor(error));
   }
 }
