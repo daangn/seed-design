@@ -388,7 +388,6 @@
         "execa": "^9.5.2",
         "findup-sync": "^5.0.0",
         "fs-extra": "^11.3.0",
-        "picocolors": "^1.1.1",
         "recast": "^0.23.11",
         "semver": "^7.7.2",
         "ts-morph": "^27.0.0",

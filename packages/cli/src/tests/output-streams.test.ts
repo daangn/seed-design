@@ -90,8 +90,9 @@ describe("output streams", () => {
     const proc = Bun.spawn({
       cmd: [process.execPath, path.join(repoRoot, "packages/cli/src/index.ts"), ...args],
       cwd,
-      // Colour off, so the assertions read the text rather than the escapes around it.
-      // picocolors decides that for itself, and `CI` is one of the things it looks at.
+      // Colour off, so the assertions read the text rather than the escapes around it. A piped
+      // stdout settles it on its own, but `optique` renders its help and usage without
+      // consulting either variable, so both are spelled out for whatever reads them.
       env: { ...process.env, DISABLE_TELEMETRY: "true", FORCE_COLOR: "0", NO_COLOR: "1" },
       stderr: "pipe",
       stdout: "pipe",
