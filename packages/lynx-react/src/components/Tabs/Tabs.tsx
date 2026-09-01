@@ -12,6 +12,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -455,7 +456,19 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     },
     [bindtap, context.selectValue, triggerValue],
   );
-  const { pressed: _pressed, ...pressHandlers } = usePressTap({ disabled, onTap: handleTap });
+  const {
+    pressed: _pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressHandlers
+  } = usePressTap({ disabled, onTap: handleTap });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
+  });
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
@@ -480,6 +493,8 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       {...(ref ? { ref: ref as LynxViewRef } : {})}
       {...nativeProps}
       {...pressHandlers}
+      {...scaleFeedbackTargetProps}
+      {...scaleFeedbackTriggerProps}
       flatten={false}
       bindlayoutchange={handleLayoutChange}
       accessibility-element={true}

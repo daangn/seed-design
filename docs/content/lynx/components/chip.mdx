@@ -3,7 +3,7 @@ title: Chip
 description: 사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
@@ -48,6 +48,10 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
 ### Slots
 
 <react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipLabelProps" />
+
+## Scale Feedback
+
+Button, Toggle, Radio Item 형태의 Chip은 모두 배경과 콘텐츠를 포함한 Root에 **Self Scale**을 적용합니다. Disabled 상태에서는 축소하지 않습니다. [Scale Feedback](/lynx/components/concepts/scale-feedback)을 참고하세요.
 
 ## Examples
 

@@ -5,6 +5,7 @@ import type { BaseTouchEvent, EventHandler, Target } from "@lynx-js/types";
 import type { LynxTouchProps } from "../types";
 
 type TouchHandler = EventHandler<BaseTouchEvent<Target>>;
+type PressStateHandler = TouchHandler & (() => void);
 
 export interface UsePressTapOptions {
   disabled?: boolean;
@@ -15,9 +16,9 @@ export interface UsePressTapOptions {
 export interface UsePressTapReturn {
   pressed: boolean;
   bindtap: TouchHandler;
-  bindtouchstart: TouchHandler;
-  bindtouchend: TouchHandler;
-  bindtouchcancel: TouchHandler;
+  bindtouchstart: PressStateHandler;
+  bindtouchend: PressStateHandler;
+  bindtouchcancel: PressStateHandler;
   "main-thread:bindtap"?: LynxTouchProps["main-thread:bindtap"];
 }
 

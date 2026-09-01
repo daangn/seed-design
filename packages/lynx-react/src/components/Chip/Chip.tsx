@@ -5,6 +5,7 @@ import { chip, type ChipVariantProps } from "@seed-design/lynx-css/recipes/chip"
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -111,10 +112,16 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     "accessibility-traits": accessibilityTraits,
     ...restProps
   } = props;
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
   });
 
   return (
@@ -127,6 +134,8 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
       accessibility-element={accessibilityElement}
       accessibility-role-description={accessibilityRoleDescription}
       accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+      {...scaleFeedbackTargetProps}
+      {...scaleFeedbackTriggerProps}
       {...pressHandlers}
     />
   );
@@ -182,10 +191,16 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     },
     [bindtap, checked, setChecked],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
   });
 
   return (
@@ -199,6 +214,8 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
       accessibility-role-description={accessibilityRoleDescription}
       accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
       accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
+      {...scaleFeedbackTargetProps}
+      {...scaleFeedbackTriggerProps}
       {...pressHandlers}
     />
   );
@@ -303,10 +320,16 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
     },
     [bindtap, group, itemValue, selected],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
   });
 
   return (
@@ -320,6 +343,8 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
       accessibility-role-description={accessibilityRoleDescription}
       accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
       accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
+      {...scaleFeedbackTargetProps}
+      {...scaleFeedbackTriggerProps}
       {...pressHandlers}
     />
   );

@@ -3,7 +3,7 @@ title: Checkbox
 description: 사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
@@ -46,6 +46,10 @@ npx @seed-design/cli@latest add ui:checkbox
 ### 접근성 이름
 
 `Checkbox.Root`는 기본적으로 접근성 요소로 노출됩니다. `checkbox` 역할과 현재 선택 상태, 비활성 상태도 전달합니다. Registry `Checkbox`에 문자열 `label`을 전달하면 화면의 문구를 `accessibility-label`에도 연결합니다. 문자열이 아닌 `label`이나 `children`으로 문구를 구성할 때는 같은 내용을 `accessibility-label`에 직접 전달하세요.
+
+## Scale Feedback
+
+Checkbox는 label을 포함한 Root에서 터치를 받지만 **Checkmark만 Self Scale**합니다. 상위 List Item처럼 이미 축소되는 pressable 안에서는 중복 Scale Feedback을 적용하지 않아야 합니다. [Scale Feedback](/lynx/components/concepts/scale-feedback)을 참고하세요.
 
 ## Examples
 
