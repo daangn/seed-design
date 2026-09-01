@@ -65,6 +65,7 @@ bun skills/seed-component-map/scripts/component-map.ts action-button
 - `packages/css`, `packages/lynx-css`
 - `packages/react-headless`, `packages/lynx-react-headless`
 - `packages/react`, `packages/lynx-react`
+- `packages/stackflow`의 공개 컴포넌트와 primitive
 - `docs/content`, `docs/registry`, `docs/stories`, `docs/examples`
 - `examples`
 
