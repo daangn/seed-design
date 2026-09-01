@@ -15,7 +15,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   const packageManager = await getPackageManager(cwd);
   const packageInfo = getPackageInfo(cwd);
 
-  // 이미 설치된 의존성 필터링
+  // package.json의 선언만 본다. node_modules에 실제로 설치됐는지는 확인하지 않는다.
   const existingDeps = {
     ...packageInfo.dependencies,
     // ...packageInfo.devDependencies,
