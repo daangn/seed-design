@@ -21,30 +21,3 @@ export function createScaleFeedbackAnimation(
     },
   };
 }
-
-export function animateScaleFeedback(
-  target: ScaleFeedbackElement | null,
-  currentAnimation: MainThread.Animation | null,
-  scale: number,
-  duration: number,
-): MainThread.Animation | null {
-  "main thread";
-
-  if (!target) return null;
-
-  let currentTransform = "scale(1)";
-  try {
-    currentTransform = target.getComputedStyleProperty("transform") || currentTransform;
-  } catch {
-    // Some non-native runtimes expose the method but cannot evaluate it.
-  }
-
-  const { keyframes, options } = createScaleFeedbackAnimation(
-    currentTransform,
-    scale,
-    duration,
-  );
-  currentAnimation?.cancel();
-
-  return target.animate(keyframes, options);
-}
