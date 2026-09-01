@@ -91,6 +91,18 @@ describe("createDocsSearch", () => {
     expect((await search("Bottom Sheet"))[0]).toBe("/components/bottom-sheet");
   });
 
+  it("still names it when the query asks about something on that page", async () => {
+    expect((await search("bottom sheet snap point"))[0]).toBe("/components/bottom-sheet");
+  });
+
+  it("leaves a name that is one word of a longer question where the engine put it", async () => {
+    // "Changelog" is a whole title inside this query, but one word out of five: promoting it
+    // would put it over the page the rest of the query is actually about.
+    expect((await search("액션을 수행하도록 돕는 changelog 컴포넌트"))[0]).not.toBe(
+      "/react/updates/changelog",
+    );
+  });
+
   it("still splits Korean on whitespace alone", async () => {
     expect(await search("액션 수행")).toContain("/components/action-button");
   });
