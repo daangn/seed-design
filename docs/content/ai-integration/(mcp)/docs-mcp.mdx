@@ -116,7 +116,7 @@ codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
 
 #### `discover_seed_docs`
 
-문서 사이트가 게시하는 섹션 목록을 반환합니다. 섹션마다 문서 개수와 섹션 목록 진입점이 함께 실립니다.
+문서 사이트가 게시하는 섹션 목록을 반환합니다. 섹션마다 id와 이름, 문서 개수가 함께 실립니다.
 
 **파라미터:** 없음
 
@@ -133,18 +133,48 @@ discover_seed_docs()
     {
       "id": "components",
       "name": "Components",
-      "documentCount": 61,
-      "overviewUrl": "/components/llms.txt"
+      "documentCount": 63
     },
     {
       "id": "react",
       "name": "React",
-      "documentCount": 110,
-      "overviewUrl": "/react/llms.txt"
+      "documentCount": 110
     }
   ]
 }
 ```
+
+#### `search_docs`
+
+문서 본문까지 검색해 관련 문서 주소를 관련도 순으로 반환합니다. 어느 섹션에 답이 있는지 모를 때 쓰는 도구이고, 문서 사이트의 검색창과 같은 색인, 같은 순위를 씁니다.
+
+**파라미터:**
+| 이름 | 타입 | 설명 |
+|------|------|------|
+| `query` | string | 찾을 말. 한국어와 영어 모두 동작하며 단어는 공백으로 구분합니다 |
+
+**예시:**
+```
+search_docs({ query: "액션 버튼" })
+```
+
+**예시 응답 (발췌):**
+```
+# Search: 액션 버튼
+
+Showing the top 20 of 71 matches
+
+- /components/action-button#hierarchy
+- /components/floating-action-button
+- /react/components/floating-action-button
+...
+```
+
+주소는 그 문서가 사이트에서 갖는 경로 그대로입니다. 앞의 슬래시를 떼고 그다음 슬래시에서 자르면 앞이 `section`, 뒤가 `get_doc`에 넘길 `path`입니다. `/components/action-button#hierarchy`는 `get_doc({ section: "components", path: "action-button#hierarchy" })`가 됩니다. 조각이 하나뿐인 `/react` 같은 주소는 `section`이 `react`이고 `path`가 빈 문자열입니다.
+
+주소에 붙은 `#앵커`는 어느 제목이 걸렸는지 알려주는 표시일 뿐이고, `get_doc`이 그대로 받아 문서 전체를 반환하므로 떼지 않아도 됩니다.
+
+질의어는 형태소 분석 없이 단어 단위로 맞춰봅니다. 그래서 `액션 버튼`은 찾지만 `액션버튼`은 찾지 못합니다.
 
 ---
 
@@ -189,7 +219,7 @@ Use get_doc with section="react" and a path above to read a document.
 | 이름 | 타입 | 설명 |
 |------|------|------|
 | `section` | string | 섹션 id |
-| `path` | string | 섹션 기준 상대 경로 (예: `components/action-button`, `color`) |
+| `path` | string | 섹션 기준 상대 경로 (예: `components/action-button`, `color`). 빈 문자열은 그 섹션 자체의 페이지를 가리키고, `#앵커`가 붙어 있으면 무시합니다 |
 
 **예시:**
 
@@ -209,6 +239,8 @@ get_doc({ section: "foundations", path: "color" })
 ```
 
 이름만 넘겼는데 그 이름을 가진 문서가 섹션 안에 둘 이상이면, 앞의 것을 돌려주지 않고 후보 경로를 담아 거부합니다. `react` 섹션의 `alert-dialog`, `bottom-sheet`, `menu-sheet`가 여기에 해당하므로 `components/` 또는 `stackflow/`까지 붙여서 넘겨야 합니다.
+
+`search_docs`가 출력한 주소는 나눈 그대로 넘기면 됩니다. 앵커를 떼거나 섹션 개요 문서의 이름을 따로 찾아볼 필요가 없습니다.
 
 ---
 

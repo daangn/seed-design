@@ -29,9 +29,12 @@ export function registerDiscoverSeedDocsTool(server: McpServer): void {
                 totalSections: sections.length,
                 sections,
                 usage: {
+                  searchDocs:
+                    "Use search_docs with a query when you do not know which section holds the answer",
                   listDocs: "Use list_docs with a section to get its document list",
                   getDoc: "Use get_doc with section and path to get document content",
                   examples: [
+                    'search_docs({ query: "액션 버튼" })',
                     'get_doc({ section: "components", path: "action-button" })  // design spec',
                     'get_doc({ section: "react", path: "components/action-button" })  // React API',
                     'get_doc({ section: "foundations", path: "color" })',
