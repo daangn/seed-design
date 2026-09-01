@@ -84,7 +84,7 @@ bun skills/seed-create-component/scripts/scaffold-plan.ts <component> \
 | 요구사항에 중요한 빈칸이 있음 | [brainstorming.md](references/brainstorming.md) |
 | 새 컴포넌트 또는 레이어 구조 변경 | [architecture-decisions.md](references/architecture-decisions.md), [pattern-catalog.md](references/pattern-catalog.md) |
 | React Styled UI 구현 | [react-patterns.md](references/react-patterns.md) |
-| Lynx 구현 | [lynx-patterns.md](references/lynx-patterns.md) |
+| Lynx 구현, native 텍스트 배치나 상태 전환 | [lynx-patterns.md](references/lynx-patterns.md) |
 | Recipe 구현 | [recipe-patterns.md](references/recipe-patterns.md) |
 | 레이어별 경로와 생성 관계만 확인 | [guide.md](references/guide.md) |
 | Registry·문서·예제를 포함한 구현 순서 | [implementation-steps.md](references/implementation-steps.md) |

@@ -1,0 +1,16 @@
+{
+  "id": "segmented-control",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "segmented-control.tsx",
+      "content": "/**\n * @file ui:segmented-control\n * @requires @seed-design/lynx-react@>=0.6.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.10.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport { SegmentedControl as SeedSegmentedControl } from \"@seed-design/lynx-react\";\n\nexport interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/segmented-control\n */\nexport const SegmentedControl = React.forwardRef<unknown, SegmentedControlProps>(\n  ({ children, ...otherProps }, ref) => {\n    return (\n      <SeedSegmentedControl.Root ref={ref} {...otherProps}>\n        {children}\n        <SeedSegmentedControl.Indicator />\n      </SeedSegmentedControl.Root>\n    );\n  },\n);\nSegmentedControl.displayName = \"SegmentedControl\";\n\nexport interface SegmentedControlItemProps extends SeedSegmentedControl.ItemProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/segmented-control#segmentedcontrolitem\n */\nexport const SegmentedControlItem = SeedSegmentedControl.Item;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+      }
+    }
+  ]
+}
