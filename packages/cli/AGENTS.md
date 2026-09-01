@@ -46,6 +46,33 @@ src/utils/
 
 사용자 대상 메시지는 한국어 톤을 유지한다.
 
+### 용어
+
+`add`·`add-all`이 쓰는 말을 정본으로 삼는다. 사용자 문구와 코드 식별자가 같은 층을 같은 이름으로 부르게 하기 위해서다.
+
+| 층 | 코드 식별자 | 한국어 | 실체 |
+|---|---|---|---|
+| 1 | `PublicRegistry` / `registryId` | 레지스트리 | `ui`, `lib`, `breeze` |
+| 2 | `PublicRegistryItem` / `itemId` | 항목 | `action-button`. 사람이 고르고 CLI가 추가하는 단위 |
+| 2′ | `itemKey` | (표기만 존재) | `ui:action-button`. 레지스트리와 항목을 이은 주소 |
+| 3 | `snippets[]` / `snippet.path` | 스니펫 | 항목이 담고 있는 소스 파일 하나 |
+| 4 | (디스크에 쓰인 결과) | 파일 | `seed-design/breeze/animate-number/animate-number.tsx` |
+
+```text
+레지스트리 breeze
+└─ 항목 animate-number                    ← seed-design add breeze:animate-number
+   ├─ 스니펫 animate-number/animate-number.tsx
+   └─ 스니펫 animate-number/animate-number.module.css
+                                          ↓ utils/write.ts
+   파일 seed-design/breeze/animate-number/animate-number.tsx
+   파일 seed-design/breeze/animate-number/animate-number.module.css
+```
+
+- **항목과 스니펫은 1:N이다.** 대부분의 항목은 스니펫 하나지만, 위처럼 `.tsx`와 `.module.css`가 함께 들어가기도 하고 `ui:app-screen`(`app-screen.tsx` + `app-bar.tsx`)처럼 파츠 둘이 한 항목으로 묶이기도 한다. 그래서 고르고, 받고, 호환성을 검사하고, 의존성을 푸는 일은 전부 항목 단위로 하고 스니펫은 그 안에서만 센다. 사용자에게 개수를 말할 때도 같다.
+- **스니펫과 파일은 같은 것을 두 관점에서 부른다.** 레지스트리에 실려 오는 동안은 스니펫이고, 디스크에 놓인 뒤로는 파일이다. `utils/write.ts`가 그 경계에서 말을 갈아탄다. 이름이 늘 같지도 않아서, 경로는 `seed-design.json`의 `path` 아래 `{registryId}/{snippet.path}`로 놓이고 `tsx: false`면 `.tsx`·`.ts`가 `.jsx`·`.js`로 바뀐다.
+- `itemKey`에는 한국어 이름이 없다. 그래서 힌트가 매번 `ui:action-button과 같은 형식으로`처럼 실물을 예로 든다.
+- `컴포넌트`는 이 계층에 없는 말이다. 항목에는 UI 컴포넌트가 아닌 것도 있다.
+
 ### 레이어 책임
 
 - 종료(`process.exit`)는 `src/commands/`에서만 한다. `src/utils/`는 종료하지 않고 예외를 throw 하며, 어떤 종료 코드로 끝낼지는 그 예외를 받은 명령이 정한다.
