@@ -145,6 +145,9 @@ export interface DocsListing {
 /**
  * One level below `scope`, and no deeper. A container is printed with its trailing slash and
  * a document without one, so each line says which subcommand takes it next.
+ *
+ * A container's note counts the documents anywhere beneath it, not the lines its own listing
+ * would print, so it names that unit rather than leaving the two numbers to be read as one.
  */
 export function childrenOf(categories: DocsCategory[], scope: string): DocsListing[] {
   const prefix = `${scope}/`;
@@ -168,7 +171,7 @@ export function childrenOf(categories: DocsCategory[], scope: string): DocsListi
 
   const containers = Array.from(containerCounts, ([head, count]) => ({
     address: `${prefix}${head}/`,
-    note: `${count}개 항목`,
+    note: `문서 ${count}개`,
   }));
 
   return [...containers, ...documents].sort(byAddress);
