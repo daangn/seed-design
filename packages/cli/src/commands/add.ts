@@ -18,10 +18,12 @@ import {
   baseUrlOption,
   cwdOption,
   frameworkOption,
+  includeDeprecatedOption,
   onDiffOption,
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
+import { canPrompt } from "../utils/interactive";
 import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
@@ -42,6 +44,7 @@ export const addParser = command(
   object({
     command: constant("add"),
     itemIds: multiple(argument(string({ metavar: "ITEM_ID" }))),
+    includeDeprecated: includeDeprecatedOption,
     cwd: cwdOption,
     baseUrl: baseUrlOption,
     seedReactVersion: seedReactVersionOption,
@@ -89,6 +92,13 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
     const selectedItemKeys: string[] = await (async () => {
       if (options.itemIds?.length) {
         return [...options.itemIds];
+      }
+
+      if (!canPrompt()) {
+        throw new CliError({
+          message: "추가할 항목을 지정해주세요.",
+          hint: `${highlight("seed-design add ui:action-button")}처럼 항목을 인자로 넘겨주세요.`,
+        });
       }
 
       const selected = await p.multiselect({
@@ -152,7 +162,16 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
         });
       }
 
-      if (foundItem.deprecated) {
+      if (foundItem.deprecated && !options.includeDeprecated) {
+        // The caller named this one itself, so passing over it is the ending that looks like
+        // success and leaves nothing added.
+        if (!canPrompt()) {
+          throw new CliError({
+            message: `${highlight(itemKey)}: deprecated된 항목이에요.`,
+            hint: `그래도 추가하려면 ${highlight("--include-deprecated")} 옵션을 함께 사용해주세요.`,
+          });
+        }
+
         const confirm = await p.confirm({
           message: `${highlight(foundItem.id)}: deprecated 되었어요. 추가할까요?`,
           initialValue: false,
@@ -197,7 +216,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
 설치할 의존성: ${highlight(Array.from(npmDependenciesToAdd).join(", ") || "없음")}`,
     );
 
-    await writeRegistryItemSnippets({
+    const { unresolved } = await writeRegistryItemSnippets({
       registryItemsToAdd,
       rootPath,
       cwd,
@@ -225,6 +244,17 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
         );
       }
     }
+
+    // Raised only once everything else has been done, so a rerun with `--on-diff` has the rest
+    // of the work already behind it.
+    if (unresolved.length) {
+      throw new CliError({
+        message: "내용이 다른 파일이 있어 일부 스니펫을 받지 못했어요.",
+        details: unresolved,
+        hint: `${highlight("--on-diff")}에 overwrite·backup·skip 중 하나를 지정해 다시 실행해주세요.`,
+      });
+    }
+
     p.outro("완료했어요.");
 
     // add 성공 이벤트 추적
