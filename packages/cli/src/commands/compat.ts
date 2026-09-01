@@ -24,7 +24,7 @@ import {
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
-import { CliError, handleCliError, isCliCancelError } from "../utils/error";
+import { CliError, isCliCancelError, reportCliError } from "../utils/error";
 
 function parseTargetInputs({
   itemIds,
@@ -325,7 +325,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       }
     }
 
-    handleCliError(error, {
+    reportCliError(error, {
       defaultMessage: "호환성 검사에 실패했어요.",
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,

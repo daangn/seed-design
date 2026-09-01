@@ -1,6 +1,5 @@
 import type { PublicRegistry } from "@/src/schema";
 
-import * as p from "@clack/prompts";
 import {
   type PublicRegistryItem,
   publicRegistrySchema,
@@ -173,15 +172,16 @@ export async function fetchRegistryItems({
         // fatal, should not happen
         if (!success) throw new Error(`Failed to parse registry index for ${registryId}`);
 
-        p.log.error(`${itemId} 스니펫이 ${registryId} 레지스트리에 없어요.`);
-        p.log.info(
-          `${registryId} 레지스트리에 존재하는 스니펫:\n${parsedIndex.items
-            .map((component) => component.id)
-            .join("\n")}`,
-        );
-
-        // so fetchRegistryItems also can throw
-        throw error;
+        // Carried on the error rather than printed here, so the names reach the caller's
+        // stderr alongside the reason instead of landing on stdout ahead of it.
+        throw new CliError({
+          message: `${itemId} 스니펫이 ${registryId} 레지스트리에 없어요.`,
+          details: [
+            `${registryId} 레지스트리에 존재하는 스니펫:`,
+            ...parsedIndex.items.map((component) => component.id),
+          ],
+          cause: error,
+        });
       }
     }),
   );
