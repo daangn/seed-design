@@ -76,7 +76,9 @@ export function registerGetDocTool(server: McpServer): void {
         path: z
           .string()
           .describe(
-            "Document path relative to the section, e.g. 'components/action-button', 'color'",
+            "Document path relative to the section, e.g. 'components/action-button', 'color'. " +
+              "Empty names the section's own page. An `#anchor` is ignored, so an address from " +
+              "search_docs can be split and passed through unchanged.",
           ),
       }),
     },
