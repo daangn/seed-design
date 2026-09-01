@@ -400,7 +400,7 @@ evidence: 확인한 changeset, 경로, 브랜치 차이
 - push와 PR 생성 또는 base 변경은 실행 직전 사용자 확인을 받는다.
 - 작업 전후 feature 브랜치 SHA, 기준 브랜치 SHA, 검증 결과, PR base를 보고한다.
 
-### 후순위: seed-token-analysis
+### 완료: seed-token-analysis
 
 `seed_token_impact`와 `seed_token_contrast`의 저장소 원천 분석만 한 스킬에 둔다.
 
@@ -546,12 +546,12 @@ git diff --check
 
 ### 6단계: 반복 수요가 확인된 분석 스킬
 
-- [ ] 토큰 변경 작업이 실제로 예정되어 있으면 `seed-token-analysis`를 만든다.
+- [x] 토큰 변경 작업이 실제로 예정되어 있으면 `seed-token-analysis`를 만든다.
 - [ ] package graph 조회가 change plan 밖에서도 필요하면 `seed-package-map`을 만든다.
 - [ ] Figma URL과 로컬 표면 연결 수요가 남아 있으면 `seed-figma-target-map`을 만든다.
 - [x] 수요가 확인되지 않은 항목은 체크하지 않은 채 보류 사유를 남긴다.
 
-세 항목 모두 이번 작업에서 독립적인 반복 수요가 확인되지 않았다. 예상 수요만으로 스킬과 공통 계층을 늘리지 않기 위해 보류했다.
+색상 토큰의 원천과 대비를 반복해서 확인할 수요가 생겨 `seed-token-analysis`를 추가했다. 나머지 두 항목은 독립적인 반복 수요가 확인되지 않아 보류했다.
 
 완료 조건: 예상 수요만으로 새 스킬이나 공통 계층을 만들지 않았다.
 
@@ -619,9 +619,10 @@ Pi 정리는 이 저장소 작업과 분리한다.
 - 이름과 책임을 정리한 `seed-changeset`
 - 신규 `seed-change-plan`
 - 신규 `seed-submit-change`
+- 신규 `seed-token-analysis`
 - 현재 기준 구현으로 유지·보완된 `seed-component-map`
 - `seed-*`로 이름을 바꾼 나머지 저장소 스킬
 
-`seed-token-analysis`, `seed-package-map`, `seed-figma-target-map`은 반복 수요가 확인될 때 추가한다. 만들지 않았다면 미완료가 아니라 의도적인 보류로 기록한다.
+`seed-package-map`, `seed-figma-target-map`은 반복 수요가 확인될 때 추가한다. 만들지 않았다면 미완료가 아니라 의도적인 보류로 기록한다.
 
 작업 완료 보고에는 수정한 스킬, 실행한 집중 테스트, 공통 검증 결과, 선택한 기준 브랜치와 PR base, 남은 환경 차단, Pi에서 후속 제거할 도구 목록만 남긴다.
