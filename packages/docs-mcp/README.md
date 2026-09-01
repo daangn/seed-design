@@ -91,6 +91,7 @@ initializeTools(server);
 ### Discovery
 
 - `discover_seed_docs` - Discover all available documentation sections. Call this first to understand the documentation structure.
+- `search_docs` - Search the full text of the documentation and get back document addresses, ranked. Use this when you do not know which section holds the answer. An address is the document's site path, so dropping its leading slash and splitting at the next one gives the `section` and `path` that `get_doc` takes
 
 ### Documentation
 
@@ -112,6 +113,11 @@ along with each section's document count.
 ## Example Usage
 
 ```text
+// 0. Search when you do not know where the answer lives
+search_docs({ query: "액션 버튼" })
+// → /components/action-button#hierarchy
+//   get_doc({ section: "components", path: "action-button#hierarchy" })
+
 // 1. Discover available sections
 discover_seed_docs()
 
