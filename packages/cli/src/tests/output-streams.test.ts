@@ -107,11 +107,65 @@ describe("output streams", () => {
     return { exitCode, stderr, stdout };
   }
 
+  /**
+   * The three endings a caller has to tell apart, on the one command where all three exist.
+   *
+   * A CI gate reading only "non-zero" treats an unreachable registry as a project that failed
+   * its check, which is the reading the codes are there to prevent.
+   */
+  describe("compat separates a verdict from a failure to reach one", () => {
+    it("exits 0 when the snippets fit", async () => {
+      const result = await runCli(["compat", "ui:plain-text", "-u", baseUrl]);
+
+      expect(result.exitCode).toBe(0);
+    });
+
+    it("exits 1 when it checked and found incompatibilities", async () => {
+      const result = await runCli(["compat", "ui:action-button", "-u", baseUrl]);
+
+      expect(result.exitCode).toBe(1);
+    });
+
+    it("exits 2 when it could not reach the registry", async () => {
+      const result = await runCli(["compat", "ui:action-button", "-u", unreachableUrl]);
+
+      expect(result.exitCode).toBe(2);
+    });
+
+    it("exits 2 when the item named does not exist", async () => {
+      const result = await runCli(["compat", "ui:does-not-exist-xyz", "-u", baseUrl]);
+
+      expect(result.exitCode).toBe(2);
+    });
+
+    it("exits 0 when the project has nothing installed to check", async () => {
+      const result = await runCli(["compat", "-u", baseUrl]);
+
+      expect(result.exitCode).toBe(0);
+    });
+
+    it("exits 2 when it cannot tell which snippets to check", async () => {
+      // A project with no `seed-design.json` is not a project with nothing installed: the
+      // first cannot be answered, the second answers that nothing is wrong.
+      const configlessDir = await mkdtemp(path.join(tmpdir(), "seed-streams-noconfig-"));
+      await writeFile(
+        path.join(configlessDir, "package.json"),
+        JSON.stringify({ name: "seed-streams-noconfig", version: "0.0.0" }),
+      );
+
+      const result = await runCli(["compat", "-u", baseUrl], configlessDir);
+
+      expect(result.exitCode).toBe(2);
+
+      await rm(configlessDir, { force: true, recursive: true });
+    });
+  });
+
   describe("every command reports a failure on stderr", () => {
     it("compat", async () => {
       const result = await runCli(["compat", "--all", "-u", unreachableUrl]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stderr).toContain("호환성 검사에 실패했어요.");
       expect(result.stdout).not.toContain("호환성 검사에 실패했어요.");
     });
@@ -119,7 +173,7 @@ describe("output streams", () => {
     it("add", async () => {
       const result = await runCli(["add", "ui:action-button", "-u", unreachableUrl]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stderr).toContain("추가에 실패했어요.");
       expect(result.stdout).not.toContain("추가에 실패했어요.");
     });
@@ -127,7 +181,7 @@ describe("output streams", () => {
     it("add-all", async () => {
       const result = await runCli(["add-all", "-u", unreachableUrl]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stderr).toContain("추가에 실패했어요.");
       expect(result.stdout).not.toContain("추가에 실패했어요.");
     });
@@ -140,7 +194,7 @@ describe("output streams", () => {
 
       const result = await runCli(["init", "-y"], blockedDir);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stderr).toContain("seed-design.json 파일 생성에 실패했어요.");
       expect(result.stdout).not.toContain("seed-design.json 파일 생성에 실패했어요.");
 
@@ -150,7 +204,7 @@ describe("output streams", () => {
     it("docs", async () => {
       const result = await runCli(["docs", "list", "-u", unreachableUrl]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stderr).toContain("문서 조회에 실패했어요.");
       expect(result.stdout).toBe("");
     });

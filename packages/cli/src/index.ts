@@ -7,6 +7,7 @@ import { addAllParser, runAddAll } from "@/src/commands/add-all";
 import { compatParser, runCompat } from "@/src/commands/compat";
 import { docsParser, runDocsList, runDocsRead, runDocsSearch } from "@/src/commands/docs";
 import { initParser, runInit } from "@/src/commands/init";
+import { ExitCode } from "@/src/utils/error";
 
 import { merge, object, or } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
@@ -48,6 +49,9 @@ async function main() {
     // Both names spelled out: the default registers `--help` alone, and `-h` has worked
     // since the first release.
     help: { command: true, option: { names: ["-h", "--help"] } },
+    // An unreadable command line stops a command before it can look at anything, which is the
+    // same kind of ending as an unreachable registry and not the same as an answer of no.
+    errorExitCode: ExitCode.unanswerable,
     showDefault: true,
     showChoices: true,
   });
