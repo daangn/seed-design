@@ -4,15 +4,19 @@ import {
   useEffect,
   useGlobalProps,
   useMainThreadRef,
+  useRef,
 } from "@lynx-js/react";
 import type { RefObject } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
+import { feedbackScaleDuration } from "@seed-design/lynx-css/scale-feedback" with {
+  runtime: "shared",
+};
 
 import type { LynxViewProps } from "../types";
-import {
-  calculateScaleFeedback,
-  isReducedMotion,
-} from "../utils/calculate-scale-feedback" with {
+import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback" with {
+  runtime: "shared",
+};
+import { animateScaleFeedback, type ScaleFeedbackElement } from "../utils/animate-scale-feedback" with {
   runtime: "shared",
 };
 
@@ -52,14 +56,20 @@ export interface UseScaleFeedbackReturn {
   scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
-function resetScaleFeedback(targetRef: RefObject<MainThread.Element | null>) {
+function runScaleFeedback(
+  targetRef: RefObject<ScaleFeedbackElement | null>,
+  animationRef: RefObject<MainThread.Animation | null>,
+  scale: number,
+  duration: number,
+) {
   "main thread";
 
-  targetRef.current?.setStyleProperties({
-    transform: "scale(1)",
-    "transform-origin": "center center",
-    transition: "transform 150ms cubic-bezier(0, 0, 0.15, 1)",
-  });
+  animationRef.current = animateScaleFeedback(
+    targetRef.current,
+    animationRef.current,
+    scale,
+    duration,
+  );
 }
 
 /**
@@ -74,14 +84,14 @@ function resetScaleFeedback(targetRef: RefObject<MainThread.Element | null>) {
  * `GlobalProps.motion` values preserve the default motion; only the exact
  * `"reduced"` value disables scaling.
  */
-export function useScaleFeedback(
-  options: UseScaleFeedbackOptions = {},
-): UseScaleFeedbackReturn {
+export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScaleFeedbackReturn {
   const { disabled = false, onPressStart, onPressEnd, onPressCancel } = options;
   const globalProps = useGlobalProps() as SeedMotionGlobalProps | undefined;
   const reducedMotion = isReducedMotion(globalProps?.motion);
-  const targetRef = useMainThreadRef<MainThread.Element>(null);
+  const targetRef = useMainThreadRef<ScaleFeedbackElement>(null);
+  const animationRef = useMainThreadRef<MainThread.Animation>(null);
   const scaleRef = useMainThreadRef(1);
+  const hasMountedRef = useRef(false);
 
   function handleLayoutChange(event: MainThread.LayoutChangeEvent) {
     "main thread";
@@ -89,38 +99,40 @@ export function useScaleFeedback(
     const width = event.detail?.width ?? event.params?.width ?? 0;
     const height = event.detail?.height ?? event.params?.height ?? 0;
     scaleRef.current = calculateScaleFeedback(width, height);
+    targetRef.current?.setStyleProperty("transform-origin", "center center");
   }
 
   function handleTouchStart() {
     "main thread";
 
-    const scale = disabled || reducedMotion ? 1 : scaleRef.current;
-    targetRef.current?.setStyleProperties({
-      transform: `scale(${scale})`,
-      "transform-origin": "center center",
-      transition: "transform 150ms cubic-bezier(0, 0, 0.15, 1)",
-    });
+    if (!disabled && !reducedMotion) {
+      runScaleFeedback(targetRef, animationRef, scaleRef.current, feedbackScaleDuration);
+    }
     if (onPressStart) runOnBackground(onPressStart)();
   }
 
   function handleTouchEnd() {
     "main thread";
 
-    resetScaleFeedback(targetRef);
+    runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onPressEnd) runOnBackground(onPressEnd)();
   }
 
   function handleTouchCancel() {
     "main thread";
 
-    resetScaleFeedback(targetRef);
+    runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onPressCancel) runOnBackground(onPressCancel)();
   }
 
   useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
     if (!disabled && !reducedMotion) return;
 
-    runOnMainThread(resetScaleFeedback)(targetRef);
+    runOnMainThread(runScaleFeedback)(targetRef, animationRef, 1, 0);
   }, [disabled, reducedMotion]);
 
   return {

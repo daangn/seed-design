@@ -21,6 +21,7 @@ export * from "./List";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";
 export * from "./ReactionButton";
+export * from "./ScaleFeedback";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Stack";

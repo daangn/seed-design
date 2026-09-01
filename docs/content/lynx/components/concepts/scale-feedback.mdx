@@ -9,11 +9,11 @@ compatibility:
 
 SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
 
-Lynx 구현은 `@seed-design/lynx-react`의 `useScaleFeedback`을 사용합니다.
+Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 단일 요소에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나눠야 할 때는 훅을 사용하세요.
 
 ## Requirements
 
-SEED가 지원하는 최소 버전은 **Lynx Engine 3.9**입니다. Main Thread Script와 `useMainThreadRef`는 더 낮은 버전에도 존재하지만, SEED는 Engine 3.9의 이벤트·Element API와 `GlobalProps.motion` 계약을 기준으로 구현하고 검증합니다.
+SEED가 지원하는 최소 버전은 **Lynx Engine 3.9**입니다. `Element.animate()` 자체는 더 낮은 버전에도 있지만, SEED는 Engine 3.9의 Main Thread Script와 GlobalProps 계약을 기준으로 구현하고 검증합니다.
 
 ```package-install
 @seed-design/lynx-react @seed-design/lynx-css
@@ -30,7 +30,27 @@ scale = (basis - 2) / basis
 
 축소량, 폭 보정값, 최소 기준 길이의 의미는 [Scale Foundation](/foundations/feedback/scale)에서 확인할 수 있습니다.
 
-## Usage
+## Self Scale with ScaleFeedback
+
+단일 요소에 Self Scale을 적용할 때는 `ScaleFeedback`으로 감싸세요. 별도 wrapper를 렌더하지 않고 child에 필요한 Main Thread props를 합성합니다.
+
+```tsx
+import { ScaleFeedback } from "@seed-design/lynx-react";
+
+function Pressable() {
+  return (
+    <ScaleFeedback>
+      <view>
+        <text>눌러 보세요</text>
+      </view>
+    </ScaleFeedback>
+  );
+}
+```
+
+child는 하나의 Lynx element여야 하며, 사용자 컴포넌트라면 `main-thread:ref`와 Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
+
+## Self and Content with useScaleFeedback
 
 훅은 터치를 받는 요소와 실제로 축소할 요소의 props를 나누어 반환합니다.
 
@@ -58,7 +78,7 @@ function Pressable() {
 Main Thread의 실제 입력 지연과 transform 결과는 QR 코드 탭에서 Lynx Explorer로 확인하세요. WebLynx 미리보기는 구조와 기본 상호작용을 확인하는 용도입니다.
 </Callout>
 
-## Self and Content
+## Choosing Self or Content
 
 두 방식은 공식이 아니라 **target 위치**가 다릅니다.
 
@@ -87,12 +107,25 @@ Scale Feedback은 하나의 touch 이벤트를 다음처럼 나눠 처리합니�
 
 | 실행 위치 | 책임 |
 |---|---|
-| Main Thread | layout 측정, touchstart의 transform 적용, touchend·touchcancel의 reset |
-| Background Thread | React `pressed` state, pressed color recipe, tap callback과 비즈니스 로직 |
+| Main Thread | layout 측정, touch 이벤트 처리, `Element.animate()` 실행·중단 |
+| Background Thread | `onPressStart`·`onPressEnd`·`onPressCancel` callback, tap과 비즈니스 로직 |
 
-Main Thread 핸들러가 transform을 즉시 적용한 뒤 `runOnBackground()`로 pressed 상태 갱신을 전달합니다. Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 직접 사용하지 않습니다.
+Main Thread 핸들러가 scale을 즉시 시작한 뒤 필요한 callback만 `runOnBackground()`로 전달합니다. Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 직접 사용하지 않습니다.
 
 `usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onPressStart`, `onPressEnd`, `onPressCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
+
+## Animation and Rootage values
+
+Scale은 CSS `transition` 문자열을 inline style에 쓰지 않고 `Element.animate()`로 실행합니다. 따라서 target에 이미 선언된 background-color, color, border-color transition을 덮어쓰지 않습니다.
+
+| 값 | Rootage source | 현재 값 |
+|---|---|---|
+| Duration | `$duration.pressed-scale` | `150ms` |
+| Easing | `$timing-function.pressed-scale` | `cubic-bezier(0, 0, 0.15, 1)` |
+
+빌드 시 `@seed-design/lynx-css/scale-feedback` 런타임 모듈을 생성하고, 훅은 이 값을 Main Thread에서 사용합니다. 값을 훅에 복사하지 않으므로 Rootage가 바뀌면 생성 결과를 통해 React와 Lynx가 함께 갱신됩니다.
+
+touchend나 touchcancel이 이전 애니메이션 도중 발생하면 computed transform을 읽고 기존 `Animation`을 취소한 뒤 현재 지점에서 `scale(1)`로 돌아갑니다.
 
 ## Reduced Motion
 
@@ -116,6 +149,8 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 - target이 기존 `transform`을 사용한다면 전용 content layer를 두세요. 훅이 target의 `transform`을 소유하므로 translate·rotate가 있는 같은 node에 직접 연결하면 기존 transform을 덮어씁니다.
 
 ## API
+
+<react-type-table path="../packages/lynx-react/src/components/ScaleFeedback/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
 
 <react-type-table path="../packages/lynx-react/src/hooks/useScaleFeedback.ts" name="UseScaleFeedbackOptions" />
 
