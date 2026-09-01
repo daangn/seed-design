@@ -106,6 +106,9 @@ jobs:
           bun install --no-immutable
           bun --filter @seed-design/rootage-artifacts rootage:generate
 
+      - name: Generate CSS bundles
+        run: bun qvism:build && bun qvism:generate
+
       - name: Build packages
         run: bun packages:build
 
