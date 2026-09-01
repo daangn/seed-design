@@ -200,4 +200,28 @@ describe("seed-changeset plan", () => {
       await rm(fixture.root, { recursive: true, force: true });
     }
   });
+
+  it("이름을 유지한 패키지 디렉터리 rename은 현재 경로의 후보 하나로 병합한다", async () => {
+    const fixture = await createGitFixture();
+    try {
+      await rename(join(fixture.root, "packages/source"), join(fixture.root, "packages/renamed"));
+      git(fixture.root, "add", "-A");
+
+      const plan = await buildChangesetPlan({
+        root: fixture.root,
+        baseRef: "origin/dev",
+      });
+
+      expect(plan.candidates).toEqual([
+        {
+          package: "@seed-design/source",
+          directory: "packages/renamed",
+          version: "1.0.0",
+          coveredBy: [],
+        },
+      ]);
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
+    }
+  });
 });

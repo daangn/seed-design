@@ -495,13 +495,13 @@ function mergeWorkspacePackages(
   current: WorkspacePackage[],
   deleted: WorkspacePackage[],
 ): WorkspacePackage[] {
-  const byDirectory = new Map(
+  const byName = new Map(
     [...deleted, ...current].map((workspacePackage) => [
-      workspacePackage.directory,
+      workspacePackage.name,
       workspacePackage,
     ]),
   );
-  return [...byDirectory.values()].sort((left, right) => left.name.localeCompare(right.name));
+  return [...byName.values()].sort((left, right) => left.name.localeCompare(right.name));
 }
 
 /** 현재 PR에서는 수정하지 않고 Version Changes PR에서 확인할 peer 범위를 찾습니다. */
