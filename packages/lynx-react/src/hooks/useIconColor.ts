@@ -9,6 +9,7 @@ type IconElement = MainThread.Element & {
 
 export interface UseIconColorOptions {
   sourceRef?: RefObject<MainThread.Element>;
+  enabled?: boolean;
 }
 
 // Lynx `<image>` 의 `tint-color` attribute 에 CSS variable 문자열을 직접 넣는 경로는
@@ -86,20 +87,24 @@ export function useIconColor(
 } {
   const ref = useMainThreadRef<IconElement>(null);
   const sourceRef = options?.sourceRef as RefObject<IconElement> | undefined;
+  const enabled = options?.enabled ?? true;
   const frameRef = useMainThreadRef<number>(0);
 
   function syncOnUiAppear() {
     "main thread";
+    if (!enabled) return;
     syncTintColorOnce(ref, sourceRef);
   }
 
   // deps 는 caller 가 책임.
   useEffect(() => {
+    if (!enabled) return;
+
     runOnMainThread(scheduleTintColorSync)(ref, sourceRef, frameRef);
     return () => {
       runOnMainThread(cancelTintColorSync)(frameRef);
     };
-  }, deps);
+  }, [...deps, enabled]);
 
   return { ref, "main-thread:binduiappear": syncOnUiAppear };
 }

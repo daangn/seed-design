@@ -2222,6 +2222,19 @@
               ]
             },
             {
+              "id": "select-box",
+              "title": "Select Box",
+              "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+              "docUrl": "/lynx/components/select-box",
+              "snippetKey": "lynx/ui:select-box",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "select-box.tsx"
+                }
+              ]
+            },
+            {
               "id": "styling",
               "title": "Styling with Tailwind",
               "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",

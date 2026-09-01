@@ -16,6 +16,7 @@ import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
 import segmentedControl from "./recipes/segmented-control";
+import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
@@ -45,6 +46,9 @@ export const recipes = {
   radioGroup,
   radiomark,
   segmentedControl,
+  selectBox,
+  selectBoxCheckmark,
+  selectBoxGroup,
   switch: switchRecipe,
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,
