@@ -131,8 +131,9 @@ npx @seed-design/cli@latest docs read /react                          # 카테�
 
 ### 스니펫 추가와 설정 생성
 
-에이전트가 실행하는 환경에는 터미널이 없으므로 `init`, `add`, `add-all`도 아무것도 묻지
-않습니다. 물었을 질문에 답할 인자를 처음부터 함께 넘깁니다.
+에이전트가 실행하는 환경에서는 질문을 띄울 수 없으므로 `init`, `add`, `add-all`도 아무것도 묻지
+않습니다. 물었을 질문에 답할 인자를 처음부터 함께 넘깁니다. `init`은 `-y`가 없으면 무엇도 만들지
+않고 `2`로 끝납니다.
 
 ```bash
 npx @seed-design/cli@latest init -y                                # 설정 파일 생성
