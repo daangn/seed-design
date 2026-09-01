@@ -146,17 +146,17 @@ describe("resolveScopes", () => {
 describe("childrenOf", () => {
   it("lists the categories, and a landing page beside the container of the same name", () => {
     expect(childrenOf(categories, "")).toEqual([
-      { address: "/lynx/", note: "2개 항목" },
+      { address: "/lynx/", note: "문서 2개" },
       { address: "/react", note: "Overview" },
-      { address: "/react/", note: "5개 항목" },
+      { address: "/react/", note: "문서 5개" },
     ]);
   });
 
   it("descends exactly one level, counting everything below each container", () => {
     expect(childrenOf(categories, "/react")).toEqual([
-      { address: "/react/components/", note: "3개 항목" },
-      { address: "/react/stackflow/", note: "1개 항목" },
-      { address: "/react/updates/", note: "1개 항목" },
+      { address: "/react/components/", note: "문서 3개" },
+      { address: "/react/stackflow/", note: "문서 1개" },
+      { address: "/react/updates/", note: "문서 1개" },
     ]);
   });
 
@@ -164,7 +164,7 @@ describe("childrenOf", () => {
     expect(childrenOf(categories, "/react/components")).toEqual([
       { address: "/react/components/action-button", note: "Action Button" },
       { address: "/react/components/bottom-sheet", note: "Bottom Sheet" },
-      { address: "/react/components/concepts/", note: "1개 항목" },
+      { address: "/react/components/concepts/", note: "문서 1개" },
     ]);
   });
 
@@ -198,10 +198,10 @@ describe("alignedLines", () => {
   it("pads every address to the widest one, so the notes line up", () => {
     expect(
       alignedLines([
-        { address: "/react/components/", note: "3개 항목" },
-        { address: "/react/updates/", note: "1개 항목" },
+        { address: "/react/components/", note: "문서 3개" },
+        { address: "/react/updates/", note: "문서 1개" },
       ]),
-    ).toEqual(["/react/components/  3개 항목", "/react/updates/     1개 항목"]);
+    ).toEqual(["/react/components/  문서 3개", "/react/updates/     문서 1개"]);
   });
 
   it("leaves an address carrying no note bare, with no padding behind it", () => {

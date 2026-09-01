@@ -299,7 +299,7 @@ describe("docs command", () => {
 
       expectSuccess(result);
       expect(result.stdout.trimEnd()).toBe(
-        ["/lynx/   2개 항목", "/react   Overview", "/react/  6개 항목"].join("\n"),
+        ["/lynx/   문서 2개", "/react   Overview", "/react/  문서 6개"].join("\n"),
       );
     });
 
@@ -325,8 +325,8 @@ describe("docs command", () => {
           "/lynx/components/checkbox        Checkbox (deprecated)",
           "/react/components/action-button  Action Button",
           "/react/components/bottom-sheet   Bottom Sheet",
-          "/react/components/concepts/      1개 항목",
-          "/react/components/iconography/   1개 항목",
+          "/react/components/concepts/      문서 1개",
+          "/react/components/iconography/   문서 1개",
         ].join("\n"),
       );
     });
