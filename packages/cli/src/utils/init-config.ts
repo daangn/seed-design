@@ -37,12 +37,12 @@ export async function promptInitConfig(cwd: string): Promise<Config> {
     {
       tsx: () =>
         p.confirm({
-          message: `${highlight("TypeScript")}를 사용중이신가요?`,
+          message: `${highlight("TypeScript")}를 사용 중이신가요?`,
           initialValue: DEFAULT_INIT_CONFIG.tsx,
         }),
       rsc: () =>
         p.confirm({
-          message: `${highlight("React Server Components")}를 사용중이신가요?`,
+          message: `${highlight("React Server Components")}를 사용 중이신가요?`,
           initialValue: DEFAULT_INIT_CONFIG.rsc,
         }),
       framework: () =>
@@ -56,7 +56,7 @@ export async function promptInitConfig(cwd: string): Promise<Config> {
         }),
       path: () =>
         p.text({
-          message: `${highlight("seed-design 폴더")} 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)`,
+          message: `${highlight("seed-design 폴더")} 경로를 입력해주세요. (기본값은 프로젝트 루트입니다.)`,
           initialValue: DEFAULT_INIT_CONFIG.path,
           defaultValue: DEFAULT_INIT_CONFIG.path,
           placeholder: DEFAULT_INIT_CONFIG.path,

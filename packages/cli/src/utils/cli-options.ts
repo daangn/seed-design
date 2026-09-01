@@ -60,7 +60,7 @@ export const frameworkOption = optional(
 
 export const seedReactVersionOption = optional(
   option("--seed-react-version", "--seedReactVersion", string({ metavar: "VERSION" }), {
-    description: message`지정한 SEED React 버전의 레지스트리를 사용합니다. 예를 들면 1.2입니다.`,
+    description: message`지정한 SEED React 버전의 레지스트리를 사용합니다. (예: 1.2)`,
   }),
 );
 
@@ -71,7 +71,7 @@ export const seedReactVersionOption = optional(
  */
 export const onDiffOption = optional(
   option("--on-diff", "--onDiff", choice(["overwrite", "backup", "skip"]), {
-    description: message`파일 내용이 다를 때의 처리 방식입니다.`,
+    description: message`받고자 하는 파일 내용과 현재 존재하는 파일 내용이 다를 때 어떻게 처리할지 정합니다.`,
   }),
 );
 
@@ -80,5 +80,5 @@ export const onDiffOption = optional(
  * widens what it collects, while `add` authorises an item the caller named itself.
  */
 export const includeDeprecatedOption = option("--include-deprecated", "--includeDeprecated", {
-  description: message`deprecated 항목도 함께 추가합니다.`,
+  description: message`deprecated 항목인 경우에도 추가합니다.`,
 });
