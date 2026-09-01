@@ -378,7 +378,7 @@ export const FontScalingExtraExtraExtraLarge = CommonStory.extend({
 });
 
 export const SizesAndVisibleItemCounts = meta.story({
-  parameters: withChromaticParameters({}),
+  parameters: withVisualTestParameters({}),
   render: () => <SizeAndVisibleItemCountCases />,
 });
 
