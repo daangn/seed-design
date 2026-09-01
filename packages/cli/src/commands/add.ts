@@ -232,7 +232,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
     });
 
     if (installed.size === 0) {
-      p.log.message("모든 의존성이 이미 설치되어 있어요.");
+      p.log.message("필요한 의존성이 모두 package.json에 선언되어 있어 설치를 건너뛰었어요.");
     }
 
     if (installed.size) {
@@ -240,7 +240,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
 
       if (filtered.size) {
         p.log.message(
-          `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
+          `설치하지 않은 의존성 (package.json에 이미 선언됨): ${highlight(Array.from(filtered).join(", "))}`,
         );
       }
     }
