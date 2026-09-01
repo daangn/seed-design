@@ -356,6 +356,31 @@ function createTextSlot(displayName: string, slot: keyof ReturnType<typeof selec
   return Component;
 }
 
+function createLabelSlot(displayName: string) {
+  const Component = React.forwardRef<unknown, LynxStyledElementProps>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const classes = useClassNames();
+    const labelChildren =
+      typeof children === "string" || typeof children === "number" ? (
+        <text>{children}</text>
+      ) : (
+        children
+      );
+
+    return (
+      <view
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        className={clsx(classes.label, className)}
+        {...nativeProps}
+      >
+        {labelChildren}
+      </view>
+    );
+  });
+  Component.displayName = displayName;
+  return Component;
+}
+
 export interface CheckSelectBoxTriggerProps extends LynxStyledElementProps {}
 export const CheckSelectBoxTrigger = createViewSlot("CheckSelectBoxTrigger", "trigger");
 export interface CheckSelectBoxContentProps extends LynxStyledElementProps {}
@@ -363,7 +388,7 @@ export const CheckSelectBoxContent = createViewSlot("CheckSelectBoxContent", "co
 export interface CheckSelectBoxBodyProps extends LynxStyledElementProps {}
 export const CheckSelectBoxBody = createViewSlot("CheckSelectBoxBody", "body");
 export interface CheckSelectBoxLabelProps extends LynxStyledElementProps {}
-export const CheckSelectBoxLabel = createTextSlot("CheckSelectBoxLabel", "label");
+export const CheckSelectBoxLabel = createLabelSlot("CheckSelectBoxLabel");
 export interface CheckSelectBoxDescriptionProps extends LynxStyledElementProps {}
 export const CheckSelectBoxDescription = createTextSlot("CheckSelectBoxDescription", "description");
 
@@ -374,7 +399,7 @@ export const RadioSelectBoxContent = createViewSlot("RadioSelectBoxContent", "co
 export interface RadioSelectBoxBodyProps extends LynxStyledElementProps {}
 export const RadioSelectBoxBody = createViewSlot("RadioSelectBoxBody", "body");
 export interface RadioSelectBoxLabelProps extends LynxStyledElementProps {}
-export const RadioSelectBoxLabel = createTextSlot("RadioSelectBoxLabel", "label");
+export const RadioSelectBoxLabel = createLabelSlot("RadioSelectBoxLabel");
 export interface RadioSelectBoxDescriptionProps extends LynxStyledElementProps {}
 export const RadioSelectBoxDescription = createTextSlot("RadioSelectBoxDescription", "description");
 

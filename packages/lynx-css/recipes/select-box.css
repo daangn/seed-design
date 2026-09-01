@@ -62,6 +62,11 @@
     margin-right: auto
 }
 .seed-select-box__label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--seed-dimension-x1);
     color: var(--seed-color-fg-neutral);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);

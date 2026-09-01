@@ -106,6 +106,11 @@ export const selectBox = defineSlotRecipe({
       marginRight: "auto",
     },
     label: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      gap: vars.base.enabled.label.gap,
       color: vars.base.enabled.label.color,
       fontSize: vars.base.enabled.label.fontSize,
       lineHeight: vars.base.enabled.label.lineHeight,

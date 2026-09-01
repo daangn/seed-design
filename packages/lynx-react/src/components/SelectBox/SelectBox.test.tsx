@@ -29,6 +29,26 @@ function CheckItem() {
 }
 
 describe("SelectBox", () => {
+  it("lays out custom label content in a view", () => {
+    render(
+      <CheckSelectBox.Root accessibility-label="Melon New">
+        <CheckSelectBox.Trigger>
+          <CheckSelectBox.Label>
+            <text>Melon</text>
+            <view className="label-badge">
+              <text>New</text>
+            </view>
+          </CheckSelectBox.Label>
+        </CheckSelectBox.Trigger>
+      </CheckSelectBox.Root>,
+    );
+
+    const label = getRenderedRoot().querySelector<HTMLElement>(".seed-select-box__label");
+
+    expect(label?.tagName.toLowerCase()).toBe("view");
+    expect(label?.querySelector(".label-badge")).toBeInTheDocument();
+  });
+
   it("renders an initially open footer without starting from zero height", () => {
     render(
       <CheckSelectBox.Root accessibility-label="마케팅 정보 수신" defaultChecked>

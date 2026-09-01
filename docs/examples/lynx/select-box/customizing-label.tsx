@@ -14,7 +14,7 @@ import {
 function CustomizedLabel() {
   return (
     <>
-      Melon
+      <text>Melon</text>
       <Badge tone="brand" variant="solid">
         New
       </Badge>
