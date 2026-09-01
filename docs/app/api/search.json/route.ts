@@ -11,9 +11,8 @@ import {
   getUpdatesSource,
 } from "@/app/source";
 import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
-import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { findPath, type Root } from "fumadocs-core/page-tree";
-import { koreanTokenizer } from "@seed-design/docs-search";
+import { buildDocsIndex, type IndexablePage } from "@seed-design/docs-search";
 import { TAGS } from "@/app/api/search/constants";
 import { getEntrySearchText } from "@/lib/changelog-entry";
 import { getChangelogHref } from "@/components/changelog-viewer/utils";
@@ -22,6 +21,9 @@ import { parseChangelog } from "@/lib/parse-changelog";
 
 // it should be cached forever
 export const revalidate = false;
+
+// `output: "export"` emits this as a static JSON file, like /api/token-search next to it.
+export const dynamic = "force-static";
 
 type IndexableSource = {
   pageTree: Root;
@@ -37,9 +39,9 @@ type IndexableSource = {
 
 /**
  * Where the page sits, worded as the sidebar words it: the header section it belongs to, then
- * the folders above it. `searchAdvanced` carries this onto the document's `page` row, and the
- * dialog prints it over the title — so a result says which part of the docs it came from
- * without the reader having to recognise the title.
+ * the folders above it. Every row of a page carries it, and the dialog prints it over the
+ * title — so a result says which part of the docs it came from without the reader having to
+ * recognise the title.
  *
  * A tree node's name is a `ReactNode`, so only the ones authored as plain text can be read
  * back out; the rest are dropped rather than rendered as `[object Object]`.
@@ -58,7 +60,7 @@ function buildBreadcrumbs(tree: Root, url: string) {
 }
 
 /** Map a docs source's pages into search indexes under a single tag. */
-async function indexSource(source: IndexableSource, tag: string): Promise<AdvancedIndex[]> {
+async function indexSource(source: IndexableSource, tag: string): Promise<IndexablePage[]> {
   return Promise.all(
     source.getPages().map(async (page) => {
       const { structuredData } = await page.data.load();
@@ -70,12 +72,12 @@ async function indexSource(source: IndexableSource, tag: string): Promise<Advanc
         breadcrumbs: buildBreadcrumbs(source.pageTree, page.url),
         tag,
         url: page.url,
-      } satisfies AdvancedIndex;
+      } satisfies IndexablePage;
     }),
   );
 }
 
-async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
+async function getChangelogIndexes(): Promise<IndexablePage[]> {
   const entries = await parseChangelog(process.cwd());
 
   const byPackage = new Map<string, Map<string, string[]>>();
@@ -111,52 +113,55 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
   });
 }
 
-export const { staticGET: GET } = createSearchAPI("advanced", {
-  indexes: async () => {
-    const [
-      docsSource,
-      getStartedSource,
-      breezeSource,
-      foundationsSource,
-      componentsSource,
-      patternsSource,
-      reactSource,
-      lynxSource,
-      aiIntegrationSource,
-      updatesSource,
-    ] = await Promise.all([
-      getDocsSource(),
-      getGetStartedSource(),
-      getBreezeSource(),
-      getFoundationsSource(),
-      getComponentsSource(),
-      getPatternsSource(),
-      getReactSource(),
-      getLynxSource(),
-      getAiIntegrationSource(),
-      getUpdatesSource(),
-    ]);
+/**
+ * The dump is built here rather than by fumadocs' `createSearchAPI`, because that one fixes
+ * the row shape and leaves a page's title reachable only as the text of its own row — where
+ * no boost can address it. `buildDocsIndex` owns the shape instead, and the reader in
+ * `@seed-design/docs-search` is the other half of the same contract.
+ */
+export async function GET() {
+  const [
+    docsSource,
+    getStartedSource,
+    breezeSource,
+    foundationsSource,
+    componentsSource,
+    patternsSource,
+    reactSource,
+    lynxSource,
+    aiIntegrationSource,
+    updatesSource,
+  ] = await Promise.all([
+    getDocsSource(),
+    getGetStartedSource(),
+    getBreezeSource(),
+    getFoundationsSource(),
+    getComponentsSource(),
+    getPatternsSource(),
+    getReactSource(),
+    getLynxSource(),
+    getAiIntegrationSource(),
+    getUpdatesSource(),
+  ]);
 
-    const groups = await Promise.all([
-      // Sections without a filter chip (legacy /docs tree, get-started, breeze) keep
-      // their own tag so they only surface under the "All" filter.
-      indexSource(docsSource, "design"),
-      indexSource(getStartedSource, "get-started"),
-      indexSource(breezeSource, "breeze"),
-      // Header sections — each maps to its own filter chip (see search/constants.ts).
-      indexSource(foundationsSource, TAGS.foundations.value),
-      indexSource(componentsSource, TAGS.components.value),
-      indexSource(patternsSource, TAGS.patterns.value),
-      indexSource(reactSource, TAGS.react.value),
-      indexSource(lynxSource, TAGS.lynx.value),
-      indexSource(aiIntegrationSource, TAGS.aiIntegration.value),
-      indexSource(updatesSource, TAGS.updates.value),
-      // Package changelogs live at /react/updates/changelog, so they answer to React like the
-      // rest of that tree. The Updates chip stays the design system's own news at /updates.
-      getChangelogIndexes(),
-    ]);
+  const groups = await Promise.all([
+    // Sections without a filter chip (legacy /docs tree, get-started, breeze) keep
+    // their own tag so they only surface under the "All" filter.
+    indexSource(docsSource, "design"),
+    indexSource(getStartedSource, "get-started"),
+    indexSource(breezeSource, "breeze"),
+    // Header sections — each maps to its own filter chip (see search/constants.ts).
+    indexSource(foundationsSource, TAGS.foundations.value),
+    indexSource(componentsSource, TAGS.components.value),
+    indexSource(patternsSource, TAGS.patterns.value),
+    indexSource(reactSource, TAGS.react.value),
+    indexSource(lynxSource, TAGS.lynx.value),
+    indexSource(aiIntegrationSource, TAGS.aiIntegration.value),
+    indexSource(updatesSource, TAGS.updates.value),
+    // Package changelogs live at /react/updates/changelog, so they answer to React like the
+    // rest of that tree. The Updates chip stays the design system's own news at /updates.
+    getChangelogIndexes(),
+  ]);
 
-    return groups.flat();
-  },
-  tokenizer: koreanTokenizer,
-});
+  return Response.json(await buildDocsIndex(groups.flat()));
+}
