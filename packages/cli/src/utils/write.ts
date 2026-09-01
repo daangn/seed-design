@@ -111,15 +111,18 @@ export async function writeRegistryItemSnippets({
             );
             p.log.message(coloredDiff);
 
+            // With no `initialValue`, clack rests the cursor on the first option, so this
+            // order is the answer an unread Enter gives. Backup leads because it is the only
+            // branch that loses nothing.
             return p.select({
               message:
                 "현재 파일에 스타일 변경, 로깅 등 커스터마이징이 적용되어 있는 경우 신규 파일에 동일한 커스터마이징을 적용하는 것을 검토해보세요.",
               options: [
-                { value: "overwrite", label: `${filename} 덮어쓰기` },
                 {
                   value: "backup",
                   label: `기존 파일 내용을 ${legacyFilename}으로 옮기고 ${filename} 받기`,
                 },
+                { value: "overwrite", label: `${filename} 덮어쓰기` },
                 { value: "skip", label: "새 파일 받지 않고 그대로 두기" },
               ],
             });
