@@ -1,10 +1,9 @@
-import { koreanTokenizer } from "@seed-design/docs-search";
+import { buildDocsIndex } from "@seed-design/docs-search";
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { createServer, type Server } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { create, insertMultiple, save } from "zbsearch";
 
 const repoRoot = path.resolve(import.meta.dir, "../../../..");
 
@@ -85,80 +84,51 @@ const docsIndex = {
 };
 
 /**
- * A search index of the same shape the site publishes, built here rather than downloaded so
- * the ranking a test asserts on depends on nothing outside this file.
+ * A search index built through the same builder the site publishes with, from pages declared
+ * here rather than downloaded, so the ranking a test asserts on depends on nothing outside
+ * this file.
  *
  * Each page contributes a `page` row carrying its title and a `text` row carrying body prose
  * no title repeats, which is what separates full-text search from the name matching it
  * replaced. Anchors ride on the heading rows, as they do in the real index.
  */
-async function buildSearchIndex() {
-  const db = create({
-    schema: {
-      content: "string",
-      page_id: "string",
-      type: "string",
-      url: "string",
-      breadcrumbs: "string[]",
-      tags: "enum[]",
-    },
-    components: { tokenizer: koreanTokenizer },
-  });
-
-  const pages = [
-    {
-      url: "/react/components/action-button",
-      title: "Action Button",
-      heading: "로딩 상태",
-      body: "비동기 작업이 끝날 때까지 스피너를 보여줍니다.",
-    },
-    {
-      url: "/lynx/components/action-button",
-      title: "Action Button",
-      heading: "지원 범위",
-      body: "Lynx 엔진에서 동작하는 버튼입니다.",
-    },
-    {
-      url: "/react/components/bottom-sheet",
-      title: "Bottom Sheet",
-      heading: "스냅 포인트",
-      body: "시트의 높이를 단계별로 확장하거나 축소합니다.",
-    },
-    {
-      url: "/react/components/concepts/composition",
-      title: "Composition",
-      heading: "합성하기",
-      body: "여러 컴포넌트를 겹쳐 하나의 인터랙션을 만듭니다.",
-    },
-  ];
-
-  await insertMultiple(
-    db,
-    pages.flatMap(({ url, title, heading, body }) => [
-      { id: url, page_id: url, type: "page", url, content: title, breadcrumbs: [], tags: [] },
+const buildSearchIndex = () =>
+  buildDocsIndex(
+    [
       {
-        id: `${url}#heading`,
-        page_id: url,
-        type: "heading",
-        url: `${url}#${heading}`,
-        content: heading,
-        breadcrumbs: [],
-        tags: [],
+        url: "/react/components/action-button",
+        title: "Action Button",
+        heading: "로딩 상태",
+        body: "비동기 작업이 끝날 때까지 스피너를 보여줍니다.",
       },
       {
-        id: `${url}#text`,
-        page_id: url,
-        type: "text",
-        url: `${url}#${heading}`,
-        content: body,
-        breadcrumbs: [],
-        tags: [],
+        url: "/lynx/components/action-button",
+        title: "Action Button",
+        heading: "지원 범위",
+        body: "Lynx 엔진에서 동작하는 버튼입니다.",
       },
-    ]),
+      {
+        url: "/react/components/bottom-sheet",
+        title: "Bottom Sheet",
+        heading: "스냅 포인트",
+        body: "시트의 높이를 단계별로 확장하거나 축소합니다.",
+      },
+      {
+        url: "/react/components/concepts/composition",
+        title: "Composition",
+        heading: "합성하기",
+        body: "여러 컴포넌트를 겹쳐 하나의 인터랙션을 만듭니다.",
+      },
+    ].map(({ url, title, heading, body }) => ({
+      id: url,
+      url,
+      title,
+      structuredData: {
+        headings: [{ id: heading, content: heading }],
+        contents: [{ heading, content: body }],
+      },
+    })),
   );
-
-  return save(db);
-}
 
 /**
  * Only these resolve, so a request for anything else fails the way the real site would.

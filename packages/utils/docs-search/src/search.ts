@@ -1,27 +1,29 @@
 import { type RawData, create, getByID, load, search } from "zbsearch";
+import { DOCS_SCHEMA } from "./build";
 import { koreanTokenizer, tokenize } from "./tokenizer";
 
 /** The dump shape `createDocsSearch` takes, re-exported so callers can name what they fetched. */
 export type { RawData } from "zbsearch";
 
 /**
- * Querying the static search index the documentation site publishes at `/api/search`.
+ * Querying the static search index the documentation site publishes at `/api/search.json`.
  *
- * The index is a zbsearch database dump built by fumadocs at site build time. Everything here
- * exists so that the site, the CLI and the MCP server reach it the same way: one tokenizer,
- * one set of query parameters, one ranking. A second implementation anywhere would answer the
- * same question differently, and nothing would report the disagreement.
+ * The index is a zbsearch database dump, built at site build time by `build.ts` next door.
+ * Everything here exists so that the site, the CLI and the MCP server reach it the same way:
+ * one tokenizer, one row shape, one set of query parameters, one ranking. A second
+ * implementation anywhere would answer the same question differently, and nothing would
+ * report the disagreement.
  */
 
-/** The row shape fumadocs indexes: one per page, plus one per heading and per text chunk. */
-const schema = {
-  content: "string",
-  page_id: "string",
-  type: "string",
-  url: "string",
-  breadcrumbs: "string[]",
-  tags: "enum[]",
-} as const;
+/**
+ * How much a match on the page's own name outweighs one in its prose.
+ *
+ * `title` sits on one row per page against thousands of prose rows, so it needs a weight that
+ * size to be heard at all. Measured over questions agents actually asked, it moves top-1 from
+ * 17.9% to 28.6% and MRR from 33.9 to 41.8, while the synthetic corpus the ranking was
+ * previously fitted to holds at its own numbers.
+ */
+const TITLE_BOOST = 10;
 
 export interface SearchHit {
   id: string;
@@ -52,7 +54,7 @@ export interface SearchOptions {
  * file cannot reference, and no caller has a reason to hold it.
  */
 export function createDocsSearch(dump: RawData) {
-  const db = create({ schema, components: { tokenizer: koreanTokenizer } });
+  const db = create({ schema: DOCS_SCHEMA, components: { tokenizer: koreanTokenizer } });
   load(db, dump);
 
   async function runPass(
@@ -63,8 +65,9 @@ export function createDocsSearch(dump: RawData) {
     const result = await search(db, {
       limit,
       mode: "fulltext",
-      properties: ["content"],
+      properties: ["content", "title"],
       groupBy: { properties: ["page_id"], maxResult: maxResultsPerPage },
+      boost: { content: 1, title: TITLE_BOOST },
       ...(query.length > 0 && { term: query }),
       ...(tag && tag.length > 0 && { where: { tags: { containsAll: tag } } }),
       ...(threshold !== undefined && { threshold }),
@@ -173,16 +176,19 @@ function mergeByPage(base: SearchHit[], fill: SearchHit[]): SearchHit[] {
 /**
  * A page the query named goes first: exactly, ahead of merely.
  *
- * The engine cannot express this on its own. fumadocs fixes the index schema, so a title
- * reaches the index as one row's content rather than as a field a boost could reach, and a
- * heading row that matches outranks the page whose own name matches.
- *
  * A name only counts when the query accounts for all of it, and when it is at least half of
  * what was asked. Both halves earn their place: without the first, a query is answered by
  * pages named after one word of it; without the second, "Accordion" appearing in a sentence
  * promotes the Accordion page over the document that sentence belongs to, which costs Korean
  * prose queries eight points. Half is what lets "action button disabled loading" find the
  * action button.
+ *
+ * What this no longer guarantees is the other direction: a page the query only mentions in
+ * passing can still lead. `title` being a boosted property means the engine ranks such a page
+ * highly before this runs, and reordering cannot undo a score. Demoting the names below the
+ * half was measured and abandoned — the queries it demotes are the same shape as the ones this
+ * exists to serve, "action button disabled loading" being a title covering two words of four,
+ * so it cost that set two thirds of its top-1 and returned nothing anywhere else.
  *
  * The order the engine gave decides everything the title leaves tied.
  */
