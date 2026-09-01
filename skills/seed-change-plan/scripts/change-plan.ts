@@ -869,6 +869,15 @@ function releaseDecisionFor(input: ChangePlanInput): "unconfirmed" | "confirmed-
   return input.releaseDecision ?? "unconfirmed";
 }
 
+function validateReleaseDecision(
+  releaseDecision: "unconfirmed" | "confirmed-none",
+  confirmedBumps: ReleaseBump[],
+): void {
+  if (releaseDecision === "confirmed-none" && confirmedBumps.length > 0) {
+    throw new Error("changeset 없음 확정과 package bump는 함께 사용할 수 없습니다.");
+  }
+}
+
 function existingUncertaintiesFor(input: ChangePlanInput): string[] {
   return input.uncertainties ?? [];
 }
@@ -907,6 +916,7 @@ export async function planSeedChange(input: ChangePlanInput): Promise<ChangePlan
   const changesetPaths = changesetPathsFor(input, allPaths);
   const confirmedBumps = await confirmedBumpsFor(input, root, changesetPaths);
   const releaseDecision = releaseDecisionFor(input);
+  validateReleaseDecision(releaseDecision, confirmedBumps);
   const branch = resolveReleaseBranch({
     releaseRequired: releaseRequired(packageImpact.packages),
     confirmedBumps,

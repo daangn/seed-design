@@ -199,6 +199,24 @@ describe("seed-change-plan", () => {
     expect(confirmed.branch.targetBranch).toBe("minor");
   });
 
+  it("changeset에서 읽은 bump와 릴리스 없음 확정을 함께 허용하지 않는다", async () => {
+    const root = createFixture();
+    writePackage(root, "packages/react", "@seed-design/react");
+    writeFixtureFile(
+      root,
+      ".changeset/react-minor.md",
+      '---\n"@seed-design/react": minor\n---\n\nReact 기능을 추가합니다.\n',
+    );
+
+    await expect(
+      planSeedChange({
+        root,
+        changedPaths: ["packages/react/src/Button.tsx", ".changeset/react-minor.md"],
+        releaseDecision: "confirmed-none",
+      }),
+    ).rejects.toThrow("changeset 없음 확정과 package bump는 함께 사용할 수 없습니다.");
+  });
+
   it("명시 base ref 이후 feature rename과 삭제의 이전·새 경로만 수집한다", () => {
     const root = createGitFixture();
     const script = join(import.meta.dir, "change-plan.ts");
