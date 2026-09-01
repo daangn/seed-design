@@ -73,7 +73,7 @@ const listParser = command(
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`그 범위 바로 아래에 무엇이 있는지 한 단계 나열합니다`,
+    brief: message`주소 아래 한 단계에 무엇이 있는지 나열합니다.`,
     footer: exampleFooter([
       "seed-design docs list",
       "seed-design docs list react/",
@@ -88,13 +88,13 @@ const searchParser = command(
     command: constant("docs search"),
     query: argument(string({ metavar: "QUERY" }), {
       errors: {
-        endOfInput: message`찾을 말이 필요해요. 예: seed-design docs search "액션 버튼"`,
+        endOfInput: message`찾을 내용이 필요합니다. 예: seed-design docs search "액션 버튼"`,
       },
     }),
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`문서 본문까지 검색해 주소를 출력합니다`,
+    brief: message`문서 본문까지 검색해 주소를 출력합니다.`,
     footer: exampleFooter([
       'seed-design docs search "액션 버튼"',
       'seed-design docs search "바텀시트 스냅"',
@@ -109,13 +109,13 @@ const readParser = command(
     command: constant("docs read"),
     address: argument(string({ metavar: "ADDRESS" }), {
       errors: {
-        endOfInput: message`읽을 주소가 필요해요. 예: seed-design docs read /react/components/action-button`,
+        endOfInput: message`읽을 문서가 필요합니다. 예: seed-design docs read /react/components/action-button`,
       },
     }),
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`그 주소의 문서 본문을 출력합니다`,
+    brief: message`문서 본문을 출력합니다.`,
     footer: exampleFooter([
       "seed-design docs read /react/components/action-button",
       "seed-design docs read action-button",
@@ -125,7 +125,7 @@ const readParser = command(
 );
 
 export const docsParser = command("docs", or(listParser, searchParser, readParser), {
-  brief: message`문서를 나열하고, 찾고, 읽습니다`,
+  brief: message`문서를 나열하고, 찾고, 읽습니다.`,
 });
 
 /** Every one of the three ends the same way: the answer on stdout, or a reason on stderr. */
@@ -195,8 +195,8 @@ export async function runDocsList({ address, baseUrl, verbose }: ParsedOptions<t
 
     if (listings.length === 0) {
       throw new CliError({
-        message: `${highlight(address ?? "/")}: 그 아래에 나열할 것이 없어요.${suggestionFor(categories, address ?? "")}`,
-        hint: "`seed-design docs list`로 전체 목록을, `seed-design docs search <이름>`으로 이름 검색을 해보세요.",
+        message: `${highlight(address ?? "/")}: 하위 항목이 없어요.${suggestionFor(categories, address ?? "")}`,
+        hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
         exit: ExitCode.answeredNegatively,
       });
     }
@@ -216,8 +216,8 @@ export async function runDocsSearch({
     const term = query.trim();
     if (term.length === 0) {
       throw new CliError({
-        message: "찾을 말이 필요해요.",
-        hint: "예: `seed-design docs search 액션 버튼`. 전체 목록은 `seed-design docs list`로 보세요.",
+        message: "검색어가 필요해요.",
+        hint: "예: `seed-design docs search 액션 버튼`. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
       });
     }
 
@@ -230,7 +230,7 @@ export async function runDocsSearch({
 
       throw new CliError({
         message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
-        hint: "띄어쓰기를 바꾸거나 더 짧은 말로 찾아보세요. 전체 목록은 `seed-design docs list`로 볼 수 있어요.",
+        hint: "띄어쓰기를 바꾸거나 더 짧은 검색어로 찾아보세요. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
         exit: ExitCode.answeredNegatively,
       });
     }
@@ -238,7 +238,7 @@ export async function runDocsSearch({
     // The count says how the list came out, which is not itself an answer.
     console.error(
       total > addresses.length
-        ? `${total}개 문서를 찾았어요. 위에서부터 ${addresses.length}개를 보여드려요.`
+        ? `${total}개 문서를 찾았어요. 위에서부터 ${addresses.length}개를 표시하고 있어요.`
         : `${total}개 문서를 찾았어요.`,
     );
     // One address per line and nothing else, so a later change to how documents are ranked
@@ -261,8 +261,8 @@ export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<t
     // different things as the site grows.
     if (parsed.kind === "scope") {
       throw new CliError({
-        message: `${highlight(address)}: 문서가 아니라 그 아래를 가리키는 주소예요.`,
-        hint: `\`seed-design docs list ${address}\`로 그 아래에 무엇이 있는지 보세요.`,
+        message: `${highlight(address)}: 문서가 아니라 하위 항목들을 가리키는 주소예요.`,
+        hint: `\`seed-design docs list ${address}\`로 하위 항목들을 확인할 수 있어요.`,
       });
     }
 
@@ -281,13 +281,13 @@ export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<t
         message: `${highlight(address)}: 여러 문서를 가리켜요.\n\n${documents
           .map((entry) => `   - ${entry.address}`)
           .join("\n")}`,
-        hint: "앞에 슬래시를 붙인 전체 주소를 그대로 넣으면 하나로 좁혀져요.",
+        hint: "위에 나온 주소 중 하나를 그대로 넣어주세요.",
       });
     }
 
     throw new CliError({
-      message: `${highlight(address)}: 그런 문서가 없어요.${suggestionFor(categories, address)}`,
-      hint: "`seed-design docs list`로 전체 목록을, `seed-design docs search <이름>`으로 이름 검색을 해보세요.",
+      message: `${highlight(address)}: 문서가 없어요.${suggestionFor(categories, address)}`,
+      hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
     });
   });
 }

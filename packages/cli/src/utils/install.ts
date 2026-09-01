@@ -27,7 +27,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
 
   if (!depsToInstall.size) return { installed: new Set<string>(), filtered: depsToInstall };
 
-  start("의존성 설치중...");
+  start("의존성 설치 중...");
 
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
@@ -42,7 +42,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
     // as a network problem.
     throw new CliError({
       message: "의존성 설치에 실패했어요.",
-      hint: "위 stderr 내용을 확인해주세요. 설치 명령어를 직접 실행하면 같은 오류를 다시 볼 수 있어요.",
+      hint: "위에 표시된 설치 명령어의 오류 내용을 확인해주세요. 설치 명령어를 직접 실행하면 같은 오류를 다시 볼 수 있어요.",
       cause: error,
     });
   }

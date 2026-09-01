@@ -175,9 +175,9 @@ export async function fetchRegistryItems({
         // Carried on the error rather than printed here, so the names reach the caller's
         // stderr alongside the reason instead of landing on stdout ahead of it.
         throw new CliError({
-          message: `${itemId} 스니펫이 ${registryId} 레지스트리에 없어요.`,
+          message: `${itemId} 항목이 ${registryId} 레지스트리에 없어요.`,
           details: [
-            `${registryId} 레지스트리에 존재하는 스니펫:`,
+            `${registryId} 레지스트리에 존재하는 항목:`,
             ...parsedIndex.items.map((component) => component.id),
           ],
           cause: error,

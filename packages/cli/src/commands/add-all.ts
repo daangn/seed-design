@@ -55,7 +55,7 @@ export const addAllParser = command(
     onDiff: onDiffOption,
   }),
   {
-    brief: message`레지스트리의 모든 항목을 추가합니다`,
+    brief: message`레지스트리의 모든 항목을 추가합니다.`,
     footer: exampleFooter([
       "seed-design add-all ui --include-deprecated",
       "seed-design add-all ui lib breeze",
@@ -77,7 +77,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
     const rootPath = path.resolve(cwd, config.path);
 
     const { start, stop } = p.spinner();
-    start("Registry를 가져오고 있어요...");
+    start("레지스트리를 가져오고 있어요...");
 
     const publicRegistries = await (async () => {
       try {
@@ -86,11 +86,11 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
             fetchRegistry({ baseUrl, framework, registryId: id }),
           ),
         );
-        stop("Registry를 가져왔어요.");
+        stop("레지스트리를 가져왔어요.");
 
         return registries;
       } catch (error) {
-        stop("Registry를 가져오지 못했어요.");
+        stop("레지스트리를 가져오지 못했어요.");
         throw error;
       }
     })();
@@ -131,7 +131,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
       }
 
       const selected = await p.multiselect({
-        message: "추가할 레지스트리를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
+        message: "추가할 레지스트리를 선택해주세요. (스페이스 바로 여러 개 선택 가능)",
         options: publicRegistries
           .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
           .sort((a, b) => b.items.length - a.items.length)
@@ -210,7 +210,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
 
     logCompatibilityReport({
       report: compatibilityReport,
-      title: "현재 프로젝트 버전과 호환되지 않을 수 있는 스니펫이 있어요.",
+      title: "현재 프로젝트 버전과 호환되지 않을 수 있는 항목이 있어요.",
       framework,
     });
 
