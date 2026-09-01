@@ -5,7 +5,7 @@ import { command, constant, option } from "@optique/core/primitives";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { cwdOption, type ParsedOptions } from "../utils/cli-options";
-import { ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
+import { CliError, ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
 import { canPrompt } from "../utils/interactive";
 import {
   DEFAULT_INIT_CONFIG,
@@ -34,19 +34,19 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
   p.intro("seed-design.json 파일 생성");
 
   try {
-    // The one prompt this CLI can answer for itself: every question has a documented default
-    // and the result is a single config file, so a terminal-less run writes what `-y` writes
-    // instead of refusing the way the `add` prompts have to.
-    const answerable = canPrompt();
-
-    if (!answerable && !options.yes) {
-      p.log.info("터미널이 아니어서 모든 질문에 기본값으로 답했어요.");
+    // Every question here has a documented default, but writing them unasked settles the
+    // path, the framework and the telemetry setting without any of them being seen. `-y` is
+    // the caller saying those defaults are fine; being unable to reach a terminal is not.
+    if (!options.yes && !canPrompt()) {
+      throw new CliError({
+        message: "입력이나 출력이 터미널에 연결되어 있지 않아 질문을 띄울 수 없어요.",
+        hint: `${highlight("seed-design init -y")}로 기본값 사용을 명시할 수 있어요.`,
+      });
     }
 
-    const config: Config =
-      options.yes || !answerable
-        ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
-        : await promptInitConfig(options.cwd);
+    const config: Config = options.yes
+      ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
+      : await promptInitConfig(options.cwd);
 
     const { start, stop } = p.spinner();
     start("seed-design.json 파일 생성 중...");

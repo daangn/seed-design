@@ -111,14 +111,24 @@ describe("non-interactive endings", () => {
 
   const snippetPath = (dir: string, id: string) => path.join(dir, "seed-design", "ui", `${id}.tsx`);
 
-  describe("init answers itself", () => {
-    it("writes the defaults rather than asking, and says so", async () => {
+  describe("init refuses without -y, and writes the defaults with it", () => {
+    it("names -y and leaves no config file behind", async () => {
       const dir = await createProject({ withConfig: false });
 
       const result = await runCli(["init"], dir);
 
+      expect(result.exitCode).toBe(2);
+      expect(result.stderr).toContain("질문을 띄울 수 없어요");
+      expect(result.stderr).toContain("seed-design init -y");
+      expect(existsSync(path.join(dir, "seed-design.json"))).toBe(false);
+    });
+
+    it("writes the documented defaults when -y answers for the caller", async () => {
+      const dir = await createProject({ withConfig: false });
+
+      const result = await runCli(["init", "-y"], dir);
+
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("터미널이 아니어서");
       expect(JSON.parse(await readFile(path.join(dir, "seed-design.json"), "utf8"))).toMatchObject({
         framework: "react",
         path: "./seed-design",
@@ -129,7 +139,7 @@ describe("non-interactive endings", () => {
   });
 
   /**
-   * The five prompts with no answer of their own. Each names the argument that would have
+   * The prompts with no answer of their own. Each names the argument that would have
    * answered it, because a caller that cannot see the question has no other way to find out.
    */
   describe("the prompts with no safe default refuse and name the argument", () => {
