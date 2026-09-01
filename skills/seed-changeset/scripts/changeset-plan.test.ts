@@ -102,11 +102,12 @@ describe("seed-changeset plan", () => {
           range: "^2.6.0",
         },
       ]);
-      expect(plan.peerFloorReviewCandidates).toEqual([
+      expect(plan.versionChangesReviewCandidates).toEqual([
         {
           dependency: "@seed-design/css",
           dependent: "@seed-design/react",
           range: "^2.6.0",
+          reviewIn: "Version Changes PR",
         },
       ]);
     } finally {

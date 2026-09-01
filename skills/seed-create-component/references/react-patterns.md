@@ -2,7 +2,7 @@
 
 `packages/react/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 React Web 컴포넌트 공통 패턴을 보충한다.
 
-target platform이 `lynx` 또는 `cross-platform`의 Lynx 구현이면 이 문서를 API/semantic 비교용으로만 사용하고, 실제 구현 패턴은 `references/lynx-patterns.md`와 `packages/lynx-react/AGENTS.md`를 따른다.
+target platform이 `lynx` 또는 `cross-platform`의 Lynx 구현이면 이 문서를 API/semantic 비교용으로만 사용하고, 실제 구현 패턴은 [lynx-patterns.md](lynx-patterns.md)와 `packages/lynx-react/AGENTS.md`를 따른다.
 
 ## 필수 규칙 (모든 카테고리)
 

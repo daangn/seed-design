@@ -1,6 +1,6 @@
-# Phase 0 Pre: 요구사항 Brainstorming
+# 요구사항 탐색
 
-컴포넌트를 만들기 전에 Platform Gate를 완료하고, 사용자와 **5개 영역**을 합의한다. 합의 없이 Phase 0(아키텍처 분석)으로 넘어가지 않는다.
+새 컴포넌트의 목적이나 공개 계약에 중요한 빈칸이 있을 때 사용한다. 사용자가 이미 구체적으로 정한 내용은 다시 묻지 않는다. 구현 방향을 바꿀 수 있는 항목만 확인한다.
 
 이 단계가 빠지면 다음 통증이 누적된다:
 - 구현 후에 "사실 이게 필요한 게 아니었다"는 재작업
@@ -10,9 +10,9 @@
 
 ---
 
-## 진행 방식 (Incremental)
+## 진행 방식
 
-5개 영역을 **순서대로, 한 영역씩** 다룬다. 한 영역에서 다음 패턴을 반복:
+아래 다섯 영역 중 아직 정해지지 않은 항목만 다룬다. 질문은 한 번에 하나씩 한다.
 
 ```text
 한 영역에서:
@@ -28,13 +28,13 @@
     ↓ (다음 영역)
 ```
 
-마지막에 5개 영역을 종합한 합의 요약을 한 번 더 보여주고 사용자의 **최종 컨펌**을 받는다 (게이트).
+새 패키지, 새 토큰, 공개 API처럼 사용자 선택이 필요한 결정이 있으면 합의 요약을 보여주고 확인받는다. 읽기 전용 분석이나 이미 확정된 요구사항에는 별도 확인 단계를 만들지 않는다.
 
 ### 안티 패턴
 
-- ❌ "이건 너무 간단해서 brainstorming 필요 없다" — 모든 컴포넌트가 이 단계를 거친다. 단순한 컴포넌트일수록 합의가 빠를 뿐.
-- ❌ 5개 영역을 한 번에 다 묻기 — 사용자가 압도된다. 영역별로 incremental.
-- ❌ 사용자의 모호한 답에 추측 덧붙이기 — 모호하면 다시 좁혀 묻는다.
+- 구현을 바꾸지 않는 질문까지 형식적으로 반복하지 않는다.
+- 여러 영역을 한 번에 묻지 않는다.
+- 모호한 답에 추측을 덧붙이지 않는다. 결정이 필요한 부분만 다시 좁혀 묻는다.
 
 ### Red Flags (사용자가 이렇게 말하면 멈추고 다시 확인)
 
@@ -78,7 +78,7 @@
 ### 합의 확인
 "이 컴포넌트는 _[사용자]_가 _[화면·플로우]_에서 _[문제]_를 풀기 위해 쓰는 거야, 맞지?"
 
-### 영역 게이트
+### 확인 기준
 **금지**: "유용할 것 같아서" / "있으면 좋을 것 같아서"만으로 진행하지 않는다. 구체적 사용 사례가 적어도 1개 있어야 §2로 진입.
 
 ---
@@ -100,7 +100,7 @@
 
 - Headless ref:
   - React: `packages/react-headless/<name>` 중 어느 것?
-  - Lynx: `packages/lynx-react-headless/<name>` 또는 local hook/context 중 어느 것?
+  - Lynx: `packages/lynx-react/src/hooks`, 컴포넌트 내부 hook/context, 기존 외부 primitive 중 어느 것?
 - Styled ref:
   - React: `packages/react/src/components/<Name>` 중 어느 것?
   - Lynx: `packages/lynx-react/src/components/<Name>` 중 어느 것?
@@ -124,10 +124,10 @@
 |------|------------|
 | 상태 | 로딩 / 에러 / 빈 상태 / 비활성 / 읽기 전용 |
 | 제어 | 제어/비제어 모두 지원? defaultValue 동작? `useControllableState` 사용? |
-| 키보드 | Space/Enter / Arrow / Home/End / Escape / Tab — 각 동작 정의 |
-| 스크린리더 | ARIA role / aria-* / live region 필요한가? |
-| 모바일 | 터치 타겟 크기 (≥24px, 권장 ≥44px), engaged 상태(hover 대신), 스크롤 동작 |
-| 폼 통합 | Field 컨텍스트 통합? 숨겨진 native input 필요? |
+| 입력 | React는 필요한 키보드·focus 동작, Lynx는 터치·제스처·스크롤 동작 |
+| 접근성 | React는 ARIA role·`aria-*`·live region, Lynx는 native `accessibility-*` 속성 |
+| 터치 환경 | 터치 타겟 크기 (≥24px, 권장 ≥44px), engaged 상태, 스크롤 동작 |
+| 폼 통합 | React의 Field·native input 계약. Lynx는 HTML form 모델을 가정하지 않고 런타임 지원 여부를 별도 확인 |
 | 다국어/RTL | RTL 환경에서 방향이 바뀌어야 하는가? |
 | 폰트 스케일링 | t1~t10 어디까지 지원? overflow 동작? |
 
@@ -141,7 +141,7 @@
 
 이런 식으로 5-8번 짧은 질문을 던진다.
 
-### 영역 게이트
+### 확인 기준
 **금지**: "기본 케이스만 먼저" / "엣지케이스는 나중에" — 코드를 쓰기 전에 한 번에 합의한다.
 
 ---
@@ -168,7 +168,7 @@
 ### 합의 확인
 "토큰은 _[기존 사용 / 새 토큰 N개 추가]_, 추가 방식은 _[Figma 기다림 / 임시 추가 / 컴포넌트별 vars]_, 맞지?"
 
-### 영역 게이트
+### 확인 기준
 새 토큰 추가는 `Ask first` 영역(AGENTS.md §Boundaries)이므로 사용자 확인 필수.
 
 ---
@@ -201,16 +201,16 @@
 후보 3개를 만들기 어렵거나 한 라이브러리가 명확히 우월하면 1순위 룰을 따른다.
 
 ### 상세
-**라이브러리 우선순위 룰 + 차용 vs 거부 결정 트리**: `references/external-references.md`
+**라이브러리 우선순위 룰 + 차용 vs 거부 결정 트리**: [external-references.md](external-references.md)
 
 ### 합의 확인
 "1순위는 _[라이브러리]_의 _[영역]_, 2순위는 _[라이브러리]_의 _[영역]_, SEED 패턴과 충돌 시 _[기준]_으로 결정해, 맞지?"
 
 ---
 
-## 산출물 — 합의 요약 템플릿
+## 합의 요약 템플릿
 
-Phase 0 Pre가 끝나면 다음 템플릿을 채워 메모(또는 PR description 초안)로 남긴다. Phase 0의 입력이 된다.
+여러 레이어나 공개 API를 새로 결정했다면 다음 템플릿에서 해당하는 항목만 채운다. 단순 변경에 빈 항목을 억지로 만들지 않는다.
 
 ```markdown
 ## 컴포넌트: <Name>
@@ -219,7 +219,7 @@ Phase 0 Pre가 끝나면 다음 템플릿을 채워 메모(또는 PR description
 - Target: react / lynx / cross-platform
 - 이유: <요청/경로/import/docs 근거>
 - Lynx support delta: <웹 대비 차이 또는 N/A>
-- Headless ownership: React headless / Lynx headless / styled-local / 없음
+- Headless ownership: React headless / Lynx hook·context / 기존 외부 Lynx primitive / 없음
 - Docs/registry target: <docs/content/... + docs/registry/... 경로>
 
 ### Purpose
@@ -238,10 +238,10 @@ Phase 0 Pre가 끝나면 다음 템플릿을 채워 메모(또는 PR description
 ### 엣지케이스 합의
 - 상태: 로딩 [O/X] / 에러 [O/X] / 빈 [O/X] / 비활성 [O/X] / 읽기전용 [O/X]
 - 제어: controlled [O/X] / uncontrolled [O/X] / useControllableState [O/X]
-- 키보드: <키별 동작>
-- 스크린리더: role=<...>, aria-<...>
-- 모바일: 터치타겟 ≥ <Npx>, engaged 상태 [O/X]
-- 폼: Field 통합 [O/X] / hidden native input [O/X]
+- React 입력·접근성: <키보드·focus 동작>, role=<...>, aria-<...>, native input [O/X]
+- Lynx 입력·접근성: <터치·제스처 동작>, accessibility-<...>, 플랫폼 제약 <...>
+- 터치 타겟 ≥ <Npx>, engaged 상태 [O/X]
+- 폼: React Field 통합 [O/X] / Lynx 런타임 지원 [O/X]
 - RTL [O/X] / 폰트스케일 t1~t10 [O/X]
 
 ### 토큰
@@ -257,12 +257,10 @@ Phase 0 Pre가 끝나면 다음 템플릿을 채워 메모(또는 PR description
 
 ---
 
-## 🔒 최종 게이트
+## 사용자 확인이 필요한 경우
 
-5개 영역 모두 합의된 후, **합의 요약을 사용자에게 한 번에 보여주고** 명시적 컨펌을 받는다:
+새 패키지, 새 토큰, 외부 의존성, 공개 API 선택처럼 작업 범위를 바꾸는 결정이 남아 있으면 합의 요약을 보여주고 확인받는다.
 
 > "위 요약대로 진행할까? 빠진 거나 수정할 거 있어?"
 
-사용자가 **"이대로 진행"**(또는 명확한 동의)이라고 답해야 Phase 0(아키텍처 분석) 진입.
-
-컨펌이 모호하거나("음... 일단 가보자" 등) 추가 의견이 있으면 해당 영역만 따로 다시 좁혀 묻는다. 추측해서 채우지 않는다.
+추가 의견이 있으면 해당 항목만 다시 좁혀 묻는다. 이미 확정된 요구사항과 되돌릴 수 있는 구현 세부에는 별도 확인을 요구하지 않는다.

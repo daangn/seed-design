@@ -105,6 +105,22 @@ describe("seed-change-plan", () => {
     expect(result.verification.some((step) => step.id === "skill-tests")).toBe(false);
   });
 
+  it("Lynx 예제 변경은 제거된 검증 스킬 대신 수동 런타임 확인을 안내한다", async () => {
+    const root = createFixture();
+    const result = await planSeedChange({
+      root,
+      changedPaths: ["docs/examples/lynx/action-button/index.tsx"],
+      releaseDecision: "confirmed-none",
+    });
+    const runtimeStep = result.verification.find((step) => step.id === "lynx-example-runtime");
+
+    expect(runtimeStep).toMatchObject({
+      kind: "manual",
+      source: "skills/seed-write-lynx-component-docs/references/verification.md",
+    });
+    expect(runtimeStep?.skill).toBeUndefined();
+  });
+
   it("Git 브랜치 근거가 불완전하면 docs-only 변경도 기준 브랜치를 확정하지 않는다", async () => {
     const root = createFixture();
     const result = await planSeedChange({

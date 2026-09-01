@@ -1,118 +1,41 @@
-# Create Component
+# 레이어와 경로 빠른 참조
 
-컴포넌트 개발의 전체 흐름을 단계별로 안내합니다.
-
-## Quick Start
-
-1. **Platform Gate**: `references/platform-gate.md`로 target platform을 `react` / `lynx` / `cross-platform` 중 하나로 확정합니다.
-2. **Phase 0**: `references/architecture-decisions.md`를 완성하여 카테고리와 플랫폼별 패턴을 확정합니다.
-3. **Phase 1**: Rootage → platform recipe → styled UI → snippet/docs/example 순서로 구현합니다.
-4. **Phase 2**: `references/verification-checklist.md`의 자동 검증과 플랫폼별 확인을 완료합니다.
-5. 상세 구현은 `references/implementation-steps.md`와 `references/verification-checklist.md`를 사용합니다.
-
-## 핵심 흐름
-
-```text
-Platform Gate → Architecture Analysis → Headless (선택) → Rootage YAML → bun generate:all → Recipe → Styled UI → Snippet → Docs/Examples → Visual Test
-```
-
-## 카테고리별 Quick Reference
-
-| 카테고리 | Recipe | Styled UI 패턴 | Namespace | React 참조 | Lynx 참조 |
-|----------|--------|----------------|-----------|-----------|-----------|
-| A. Simple | defineRecipe | splitVariantProps | 없음 | Badge | ActionButton/Text |
-| B. Compound (Stateless) | defineSlotRecipe | slot context | 있음 | Avatar | TagGroup |
-| C. Compound (Stateful) | defineSlotRecipe | headless + styled wrapper | 있음 | TextField | BottomSheet |
-| D. Multi-Recipe | defineSlotRecipe ×2 | splitMultipleVariantsProps | 있음 | Checkbox | Checkbox/Switch |
-| E. Layout | 없음 | Box 확장 | 없음 | Flex | Box/Stack |
-
-카테고리 결정 방법은 `references/architecture-decisions.md`를 참조합니다.
+구현할 레이어를 이미 정한 뒤 경로와 생성 관계를 확인할 때 사용한다. 작업 흐름과 다른 스킬 라우팅은 상위 `SKILL.md`를 따른다.
 
 ## 수정 진입점
 
-| 수정 대상 | React 시작 위치 | Lynx 시작 위치 | 명령어 |
-|----------|----------------|---------------|--------|
-| 토큰/스타일 변수 | `packages/rootage/` | `packages/rootage/` | `bun generate:all` |
-| Recipe source | `packages/qvism-preset/src/recipes/` | `packages/lynx-qvism-preset/src/recipes/` | `bun qvism:generate` |
-| Headless/state | `packages/react-headless/` | `packages/lynx-react-headless/` 또는 styled-local | package build/test |
-| Styled UI | `packages/react/src/components/` | `packages/lynx-react/src/components/` | `bun packages:build` |
-| Snippet | `docs/registry/react/ui/` | `docs/registry/lynx/ui/` | docs registry generate |
-| 문서 | `docs/content/react/` | `docs/content/lynx/` | `bun docs:test` |
+| 수정 대상 | React 시작 위치 | Lynx 시작 위치 | 확인 명령 |
+| --- | --- | --- | --- |
+| 토큰·컴포넌트 변수 원천 | `packages/rootage/` | `packages/rootage/` | `bun generate:all` |
+| Recipe 원천 | `packages/qvism-preset/src/recipes/` | `packages/lynx-qvism-preset/src/recipes/` | 대상 preset 생성·빌드 |
+| Headless·상태 | `packages/react-headless/` | `packages/lynx-react/src/hooks/`, Styled UI 내부 hook/context 또는 기존 외부 Lynx primitive | 대상 패키지 테스트 |
+| Styled UI | `packages/react/src/components/` | `packages/lynx-react/src/components/` | 대상 패키지 빌드·테스트 |
+| Registry | `docs/registry/react/ui/` | `docs/registry/lynx/ui/` | docs registry 생성 |
+| 문서 | `docs/content/react/` | `docs/content/lynx/` | 관련 docs 테스트 |
+| 실행 예제 | `docs/examples/react/`, `examples/stackflow-spa/` | `docs/examples/lynx/`, `examples/lynx-spa/` | 관련 예제 타입 검사·빌드 |
 
-## 생성 파일 (수정 금지)
+## 레이어 선택
 
-- `packages/css/**` ← rootage에서 생성
-- `packages/qvism-preset/src/vars/**` ← rootage에서 생성
-- `packages/lynx-css/**` ← rootage/lynx-qvism에서 생성
-- `packages/lynx-qvism-preset/src/vars/**` ← rootage에서 생성
-- `docs/public/__registry__/**` ← docs registry script에서 생성
+모든 컴포넌트가 모든 레이어를 필요로 하지는 않는다.
 
-## 전체 파이프라인
+- 상태와 접근성 동작을 재사용해야 할 때만 Headless를 추가한다.
+- 토큰이나 Recipe가 바뀌지 않으면 Rootage와 preset을 건드리지 않는다.
+- Registry 필요 여부와 배포 방식은 [API 설계](api-design.md)에서 정한다. Lynx 문서와 예제의 소비 경로는 [`seed-write-lynx-component-docs`](../../seed-write-lynx-component-docs/SKILL.md)를 따른다.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  1. HEADLESS (Optional) - react-headless or lynx-react-headless   │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  2. DEFINITION - packages/rootage/components/[name].yaml    │
-└─────────────────────────────────────────────────────────────┘
-                           │ bun generate:all
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  3. RECIPE - qvism-preset or lynx-qvism-preset              │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  4. UI - packages/react or packages/lynx-react              │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  5. EXAMPLE - Storybook or examples/lynx-spa                │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  6. DOCUMENTATION - docs/content/                           │
-└─────────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│  7. VISUAL TESTING - Agent Browser                          │
-└─────────────────────────────────────────────────────────────┘
-```
+구조가 애매하면 `seed-component-map`으로 현재 컴포넌트와 가까운 참조 컴포넌트를 먼저 비교한다. React와 Lynx를 함께 맞출 때는 `seed-api-parity`로 공개 차이를 확인한다.
 
-## Quick Reference
+## 생성 파일
 
-### 새 컴포넌트 추가 시
+다음 경로는 원천 파일에서 생성하므로 직접 수정하지 않는다.
 
-1. target platform 확정 (`react` / `lynx` / `cross-platform`)
-2. `packages/rootage/components/[name].yaml` 작성
-3. `bun generate:all` 실행
-4. React는 `packages/qvism-preset/src/recipes/[name].ts`, Lynx는 `packages/lynx-qvism-preset/src/recipes/[name].ts` 작성
-5. target preset entry에 recipe export 추가
-6. React는 `packages/react/src/components/[Name]/`, Lynx는 `packages/lynx-react/src/components/[Name]/` 구현
-7. stateful Lynx에서 필요하면 `packages/lynx-react-headless/[name]/`를 먼저 설계하고 사용자 확인 후 추가
-8. platform snippet/docs/example 작성
-9. Visual Test 실행
+- `packages/css/**`
+- `packages/qvism-preset/src/vars/**`
+- `packages/lynx-css/**`
+- `packages/lynx-qvism-preset/src/vars/**`
+- `docs/public/__registry__/**`
 
-### 스타일 수정 시
+원천 파일을 수정한 뒤 저장소 지침에 맞는 생성 명령을 실행한다. `git status --short`와 diff로 예상한 생성물만 바뀌었는지 확인한다.
 
-1. `packages/rootage/`, React `packages/qvism-preset/src/recipes/`, Lynx `packages/lynx-qvism-preset/src/recipes/` 중 source 수정
-2. `bun generate:all` 실행
-3. Visual Test로 확인
+## 구현 후
 
-## 상세 가이드
-
-각 단계의 상세 내용은 `references/` 폴더 참조:
-- `references/implementation-steps.md` - 각 단계별 구현 상세
-- `references/storybook.md` - React Storybook CSF Next 작성·리팩터링 규칙
-- `references/visual-testing.md` - Visual Test 방법
-- `references/verification-checklist.md` - 완료 전 체크리스트
-
-## 필수 체크리스트
-
-작업 완료 전 명령과 플랫폼별 확인은 `references/verification-checklist.md` 한 곳에서 확인한다. Lynx 예제의 실제 실행 근거는 `../../seed-verify-lynx-example/SKILL.md`를 따른다.
+변경 범위에 맞는 명령과 화면 확인은 [verification-checklist.md](verification-checklist.md)에서 고른다. 공개 패키지를 바꿨다면 `seed-changeset`과 `seed-change-plan`으로 버전과 PR base를 정한다. 사용자가 제출을 요청한 경우에만 `seed-submit-change`로 이어간다.

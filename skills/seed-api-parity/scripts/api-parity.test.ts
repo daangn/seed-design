@@ -92,4 +92,32 @@ describe("seed-api-parity", () => {
     expect(result.dimensions.props.confidence).toBe("unknown");
     expect(result.warnings.join("\n")).toContain("공개 API 원천");
   });
+
+  it("문서에 명시된 플랫폼 제약을 미구현 후보와 구분한다", async () => {
+    const result = await compareSeedComponentApi("Accordion");
+    const expectedIds = result.platformDifferences.expected.map(({ id }) => id);
+    const propsReview = result.platformDifferences.needsReview.find(
+      ({ dimension }) => dimension === "props",
+    );
+
+    expect(expectedIds).toEqual(
+      expect.arrayContaining([
+        "slot-composition",
+        "native-accessibility-properties",
+        "native-heading-semantics",
+        "keyboard-focus-model",
+        "css-media-queries",
+      ]),
+    );
+    expect(result.dimensions.props.react).toContain("headingLevel");
+    expect(propsReview?.reactObservedOnly).toContain("headingLevel");
+    expect(propsReview?.possiblyExplainedBy).toContainEqual({
+      id: "native-heading-semantics",
+      reactObservedOnly: ["headingLevel"],
+      lynxObservedOnly: [],
+    });
+    expect(result.platformDifferences.needsReview.map(({ dimension }) => dimension)).toContain(
+      "exports",
+    );
+  });
 });

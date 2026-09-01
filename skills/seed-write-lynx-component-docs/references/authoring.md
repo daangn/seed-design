@@ -5,6 +5,7 @@
 - [React 문서를 기준으로 삼기](#react-문서를-기준으로-삼기)
 - [문서 페이지](#문서-페이지)
 - [Lynx 호환성 frontmatter](#lynx-호환성-frontmatter)
+- [배포 경로와 import](#배포-경로와-import)
 - [실행 예제 연결](#실행-예제-연결)
 - [엔트리 구성](#엔트리-구성)
 - [예제 설계](#예제-설계)
@@ -14,7 +15,7 @@
 
 ## React 문서를 기준으로 삼기
 
-Lynx 문서와 예제를 처음부터 새로 설계하지 않는다. 같은 컴포넌트의 React 문서와 예제를 먼저 읽고, 사용자가 배워야 할 기능과 시나리오를 기준점으로 삼는다.
+Lynx 문서와 예제를 처음부터 새로 설계하지 않는다. 같은 컴포넌트의 React 문서와 예제를 먼저 읽는다. 지원되는 내용은 섹션 순서, 예제 제목, 시나리오 파일, 문구, 사용자가 보는 결과를 가능한 한 같게 유지한다.
 
 ```text
 docs/content/react/components/<component>.mdx
@@ -23,7 +24,7 @@ docs/examples/react/<component>/*.tsx
 
 다음 순서로 비교한다.
 
-1. React 문서의 섹션 순서, 예제 제목, 시나리오 파일 목록을 수집한다.
+1. React 문서의 섹션 순서, 예제 제목, 시나리오 파일 목록, 각 예제의 사용자 결과를 수집한다.
 2. 각 시나리오가 Lynx 공개 API와 런타임에서 지원되는지 확인한다.
 3. 지원되는 시나리오는 목적과 화면 결과를 유지한 채 ReactLynx 코드로 옮긴다.
 4. API나 렌더링 방식이 다르면 Lynx 사용법으로 바꾸고 차이를 설명한다.
@@ -33,8 +34,8 @@ docs/examples/react/<component>/*.tsx
 
 | 분류 | 처리 |
 | --- | --- |
-| 동일 지원 | React 예제의 목적, 문구, 상태를 유지하고 Lynx 엔트리 형식으로 변환한다. |
-| Lynx식 변환 필요 | 컴파운드 구조, 이벤트 prop, 이미지·CSS 차이를 Lynx 공개 API에 맞게 바꾼다. |
+| 동일 지원 | React 섹션과 예제의 제목, 순서, 목적, 문구, 상태를 유지하고 Lynx 엔트리 형식으로 변환한다. |
+| Lynx식 변환 필요 | 사용자 결과는 유지한다. 컴파운드 구조, 이벤트 prop, 접근성 속성, 이미지·CSS만 Lynx 공개 API에 맞게 바꾼다. |
 | 미지원 | 실행 예제를 만들지 않고 문서의 차이·미지원 섹션에 기록한다. |
 
 코드를 기계적으로 복사하지 않는다. React의 `onClick`, DOM 요소, 브라우저 API, SVG, CSS가 Lynx에서도 같은 의미라고 가정하지 않는다. 다음 항목은 반드시 다시 결정한다.
@@ -44,7 +45,7 @@ docs/examples/react/<component>/*.tsx
 - `onClick` 같은 React 이벤트와 `bindtap` 같은 Lynx 이벤트의 대응
 - background thread와 main thread 경계
 - HTML·SVG 요소와 Lynx element의 대응
-- CSS 속성, 단위, 이미지 형식의 Lynx·WebLynx 지원 여부
+- CSS 속성, 단위, 이미지 형식의 Lynx 런타임·브라우저 미리보기 지원 여부
 - `<page>`, 테마 className, `root.render()`를 포함한 독립 엔트리 구성
 
 예를 들어 React `ActionButton`의 Loading 예제는 “탭하면 잠시 loading 상태가 된다”는 목적과 문구를 유지한다. Lynx에서는 `onClick`을 `bindtap`으로 바꾸고, 사용자 정의 컴포넌트 경계를 통과하는 상태 변경 핸들러에 `"background only"`를 둔다.
@@ -57,7 +58,7 @@ React에 대응 문서가 없으면 가까운 Lynx 컴포넌트의 문서 구조
 
 `docs/content/lynx/components/<component>.mdx`에 컴포넌트 문서를 둔다. 새 문서는 `docs/AGENTS.md`의 frontmatter 규칙을 따른다. 본문은 한국어로 작성하고 API 이름과 코드 식별자는 원문 표기를 유지한다.
 
-기존 문서와 컴포넌트 특성에 맞춰 다음 내용을 구성한다.
+React 대응 문서가 있으면 그 문서의 공통 섹션 순서를 따른다. 다음 내용 중 실제로 필요한 항목을 대응되는 위치에 둔다.
 
 1. 설치 방법
 2. Props와 공개 API
@@ -68,16 +69,17 @@ React에 대응 문서가 없으면 가까운 Lynx 컴포넌트의 문서 구조
 
 차이가 없는 섹션을 억지로 만들지 않는다. 웹 버전과 다르거나 Lynx에서 지원하지 않는 동작은 명시적으로 적는다.
 
-지원 범위가 같으면 React 문서의 예제 제목, 순서, 시나리오 파일명을 유지한다. 다르게 구성할 때는 Lynx API 차이 또는 미지원 사유가 문서에 드러나야 한다. Lynx에만 필요한 설치, 실행, 플랫폼 차이 안내는 별도 섹션으로 추가한다.
+지원 범위가 같으면 React 문서의 섹션, 예제 제목, 순서, 시나리오 파일명, 사용자 결과를 유지한다. 다르게 구성할 때는 Lynx API 차이 또는 미지원 사유가 문서에 드러나야 한다. Lynx에만 필요한 설치, 실행, 플랫폼 차이 안내는 공통 흐름을 깨지 않는 위치에 추가한다.
 
 ## Lynx 호환성 frontmatter
 
-Lynx 컴포넌트 문서를 새로 쓰거나 기존 문서의 컴포넌트 사용법을 바꾸면 `compatibility.lynx` frontmatter도 확인한다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다. 공개 저장소에 남아도 재현할 수 있도록 다음 공식 자료만 버전 근거로 사용한다.
+Lynx 컴포넌트 문서를 새로 쓰거나 기존 문서의 컴포넌트 사용법을 바꾸면 `compatibility.lynx` frontmatter도 확인한다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다. 다음 순서로 공식 자료를 확인한다.
 
-- [Lynx API 인덱스](https://lynxjs.org/api/index.html)
-- [Lynx Compatibility Data](https://github.com/lynx-family/lynx-website/tree/main/packages/lynx-compat-data)
+- `find-refer`로 로컬 공식 문서와 호환성 데이터 스냅샷을 찾는다.
+- Lynx API와 Engine 호환성은 `lynx-api-docs`로 확인한다.
+- CSS 속성·값·하위 기능은 `lynx-check-css-support`로 확인한다.
 
-API 페이지의 Compatibility 표는 Lynx Compatibility Data를 렌더링한다. 표가 텍스트 추출 결과에 나오지 않으면 브라우저에서 표를 확인하거나 표의 `View Source` 링크로 연결된 JSON을 읽는다. 데이터는 용도에 따라 다음 경로에서 찾는다.
+Context7이나 일반 웹 검색으로 우회하지 않는다. 호환성 표가 스킬 결과에 충분히 나오지 않으면 `find-refer`가 찾은 공식 원본 JSON을 읽는다. 데이터는 용도에 따라 다음 경로에서 찾는다.
 
 | 사용 기능 | 호환성 데이터 경로 |
 | --- | --- |
@@ -90,7 +92,7 @@ API 페이지의 Compatibility 표는 Lynx Compatibility Data를 렌더링한다
 
 1. `packages/lynx-react`의 대상 컴포넌트와 내부에서 호출하는 훅·하위 컴포넌트를 따라가며 Lynx API, main-thread API, 구문, CSS 기능, 엘레먼트를 목록으로 만든다.
 2. 기본 경로뿐 아니라 prop에 따라 실행되는 조건부 경로와 전이 의존성도 포함한다. 예제 파일만 보고 판단하지 않는다.
-3. 목록의 각 항목을 공식 API 상세 페이지와 대응하는 호환성 JSON에서 찾는다. 대상 컴포넌트가 실제로 쓰는 attribute·method·event의 항목까지 확인한다.
+3. 목록의 각 항목을 Lynx 전용 스킬 결과와 대응하는 공식 호환성 JSON에서 찾는다. 대상 컴포넌트가 실제로 쓰는 attribute·method·event의 항목까지 확인한다.
 4. Android와 iOS의 `version_added`를 비교한다. 두 플랫폼에서 필요한 버전 중 높은 값을 그 기능의 최소 버전으로 삼는다.
 5. 모든 사용 기능의 최소 버전 중 가장 높은 값을 `compatibility.lynx.engine`에 적는다. SEED의 최소 지원 버전보다 낮아도 조사한 값을 그대로 적는다. 문서 렌더러가 표시값을 보정한다.
 6. 공식 엘레먼트 페이지 제목에 `XElement` 배지가 있으면 태그 이름을 `x-elements`에 추가한다. 해당 엘레먼트와 기능의 `version_added`는 Engine 최소 버전을 계산할 때만 사용한다.
@@ -109,6 +111,15 @@ compatibility:
 
 일반 `<view>`, `<text>`처럼 내장 엘레먼트는 Engine 계산에는 포함하지만 `x-elements`에는 넣지 않는다. 직접 사용, 전이 사용, 조건부 사용으로 확인한 XElement는 모두 나열하며 이름이 같은 항목은 한 번만 적는다.
 
+## 배포 경로와 import
+
+`seed-component-map`으로 package export와 Registry 배포 여부를 확인한 뒤 문서와 실행 예제에 같은 경로를 쓴다.
+
+- Registry 배포 컴포넌트는 Installation, Usage, Props, `docs/examples/lynx`에서 설치된 `@/components/ui/<name>` 경로를 사용한다. 하위 package API를 보여주는 별도 저수준 예시가 아니라면 `@seed-design/lynx-react`로 우회하지 않는다.
+- package-only 컴포넌트는 `@seed-design/lynx-react`의 실제 공개 export를 직접 사용한다. Registry 설치 명령이나 존재하지 않는 wrapper를 만들지 않는다.
+- package + Registry 컴포넌트의 기본 예제는 Registry 경로를 사용한다. package API는 사용자가 저수준 조합을 직접 해야 하는 경우에만 별도 코드로 설명한다.
+- vendored 앱 예제가 있으면 Registry 원본과 공개 이름을 동기화한다.
+
 ## 실행 예제 연결
 
 예제는 `docs/examples/lynx/<component>/<scenario>.tsx`에 둔다. 컴포넌트와 시나리오 디렉터리·파일 이름은 kebab-case를 사용한다. 각 TSX 파일은 하나의 실행 엔트리만 제공한다.
@@ -125,7 +136,7 @@ MDX에서는 예제 이름과 코드 원본 경로를 같은 값으로 맞춘다
 
 ## 엔트리 구성
 
-공유 스타일을 사용하는 엔트리는 스타일을 가장 먼저 불러온다.
+공유 스타일을 사용하는 엔트리는 스타일을 가장 먼저 불러온다. 아래는 package-only 컴포넌트의 예다.
 
 ```tsx
 import "./styles";
@@ -144,6 +155,15 @@ function Root() {
 root.render(<Root />);
 ```
 
+Registry 배포 컴포넌트는 같은 위치에서 설치된 경로를 사용한다.
+
+```tsx
+import "./styles";
+
+import { root } from "@lynx-js/react";
+import { Accordion } from "@/components/ui/accordion";
+```
+
 `styles.ts`는 base CSS와 예제용 CSS만 등록한다.
 
 ```ts
@@ -156,7 +176,7 @@ import "./preview.css";
 ## 예제 설계
 
 - 한 예제에는 한 가지 사용법이나 상태만 담는다.
-- `@seed-design/lynx-react`의 공개 API를 실제 앱과 같은 방식으로 사용한다.
+- 배포 방식을 그대로 따른다. Registry 배포면 `@/components/ui/<name>`, package-only면 `@seed-design/lynx-react` 공개 API를 사용한다.
 - 같은 컴포넌트의 기존 예제에서 이벤트 prop과 스레드 지시어 사용법을 먼저 찾는다.
 - 컴포넌트 상태를 별도 텍스트로 보여줄 때 boolean, `null`, 숫자 값은 `JSON.stringify(value)`로 표시한다. 특히 `false`는 JSX 자식으로 직접 넣으면 화면에 보이지 않을 수 있다.
 - 웹 미리보기를 맞추기 위해 실제 앱에서 쓰지 않는 래퍼, 간격 보정, 스타일 예외를 추가하지 않는다.
@@ -223,8 +243,8 @@ function handleTap() {
 
 > 문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
 
-콜아웃은 실제 네이티브 동작을 확인한 뒤 작성한다. 확인이 필요하면 [`seed-verify-lynx-example`](../../seed-verify-lynx-example/SKILL.md)로 정확한 예제와 런타임 근거를 수집한다. 미확인 상태를 정상 동작으로 단정하지 않는다.
+콜아웃은 실제 Lynx 동작을 확인한 뒤 작성한다. 사용 가능한 호스트 앱이나 `examples/lynx-spa`에서 정확한 예제를 직접 확인하고 환경과 결과를 기록한다. 실행 환경이 없으면 미확인 상태를 정상 동작으로 단정하지 않는다.
 
 ## 이미지 자산
 
-WebLynx가 표시할 수 있는 형식이 네이티브 자산과 다르면 문서 예제용 자산을 `docs/` 범위에서 준비한다. 자산 호환성을 이유로 실제 배포 컴포넌트의 아이콘 API나 내부 렌더링을 바꾸지 않는다.
+브라우저 미리보기가 표시할 수 있는 형식이 네이티브 자산과 다르면 문서 예제용 자산을 `docs/` 범위에서 준비한다. 자산 호환성을 이유로 실제 배포 컴포넌트의 아이콘 API나 내부 렌더링을 바꾸지 않는다.

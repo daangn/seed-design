@@ -24,7 +24,7 @@ argument-hint: "[--base-ref origin/dev|origin/minor|origin/major] [--path <경�
    - `surfaces`: 원천, 생성물, 구현, 문서, 예제, 테스트, 릴리스, 도구 구분
    - `components`, `platforms`: 컴포넌트와 React·Lynx 영향
 
-3. `verification`을 표시된 순서대로 검토합니다. 각 단계의 `source`로 루트 정책, package script, 위임 스킬 중 어느 근거에서 나온 명령인지 확인합니다. 계획 단계에서는 실행하지 않습니다.
+3. `verification`을 표시된 순서대로 검토합니다. 각 단계의 `source`로 루트 정책, package script, 위임 스킬 또는 수동 점검 중 어느 근거에서 나온 항목인지 확인합니다. 계획 단계에서는 실행하지 않습니다.
 
 4. `branchEvidence`가 완전한지 확인합니다.
    - `complete`가 `false`이거나 `errors`가 있으면 bump나 `--no-release`와 관계없이 브랜치는 `unknown`입니다.

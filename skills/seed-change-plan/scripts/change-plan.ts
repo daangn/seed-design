@@ -683,17 +683,17 @@ function packageBuildStep(paths: string[]): VerificationStep | undefined {
   };
 }
 
-function lynxRuntimeStep(paths: string[]): VerificationStep | undefined {
+function lynxRuntimeReviewStep(paths: string[]): VerificationStep | undefined {
   const evidence = paths.filter((path) => /^(?:docs\/examples\/lynx\/|examples\/lynx)/.test(path));
   if (evidence.length === 0) return undefined;
   return {
     id: "lynx-example-runtime",
-    kind: "skill",
-    skill: "seed-verify-lynx-example",
-    action: "WebLynx와 실제 Lynx 실행 근거를 분리해 확인합니다.",
+    kind: "manual",
+    action:
+      "문서 미리보기의 entry·bundle 연결을 확인하고, 네이티브 동작을 새로 주장한다면 실제 Lynx 환경에서 별도로 확인합니다.",
     reason: "Lynx 예제 또는 실행 앱이 변경됐습니다.",
     evidence,
-    source: "skills/seed-verify-lynx-example/SKILL.md",
+    source: "skills/seed-write-lynx-component-docs/references/verification.md",
   };
 }
 
@@ -748,7 +748,7 @@ async function buildVerification(
     ...focusedVerificationSteps(paths),
     await skillTestStep(root, paths),
     packageBuildStep(paths),
-    lynxRuntimeStep(paths),
+    lynxRuntimeReviewStep(paths),
     reactVisualStep(paths),
     changesetStep(packages, releaseDecision),
     testAll,

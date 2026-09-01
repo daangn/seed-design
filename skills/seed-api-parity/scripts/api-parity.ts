@@ -27,6 +27,43 @@ export interface ApiParityDimension {
   evidence: string[];
 }
 
+export type PlatformDifferenceCategory =
+  | "composition"
+  | "accessibility"
+  | "heading"
+  | "focus"
+  | "responsive-styling";
+
+export interface ExpectedPlatformDifference {
+  id: string;
+  category: PlatformDifferenceCategory;
+  react: string;
+  lynx: string;
+  reason: string;
+  evidence: string[];
+}
+
+export interface PlatformDifferenceReview {
+  dimension: ApiParityDimensionName;
+  reactObservedOnly: string[];
+  lynxObservedOnly: string[];
+  possiblyExplainedBy: PossiblePlatformDifferenceExplanation[];
+  confidence: ApiParityDimension["confidence"];
+  reason: string;
+  evidence: string[];
+}
+
+export interface PossiblePlatformDifferenceExplanation {
+  id: string;
+  reactObservedOnly: string[];
+  lynxObservedOnly: string[];
+}
+
+export interface PlatformDifferences {
+  expected: ExpectedPlatformDifference[];
+  needsReview: PlatformDifferenceReview[];
+}
+
 interface PlatformCandidates {
   implementation: string[];
   publicApi: string[];
@@ -46,10 +83,21 @@ interface SourceFacts {
   accessibility: string[];
 }
 
+interface SourceEntry {
+  path: string;
+  source: string;
+}
+
+interface PlatformConstraintRule extends Omit<ExpectedPlatformDifference, "evidence"> {
+  evidencePattern: RegExp;
+  apiNamePattern: RegExp;
+}
+
 export interface ApiParityResult {
   component: ComponentMapResult["component"];
   sources: Record<ComponentPlatform, PlatformCandidates>;
   dimensions: Record<ApiParityDimensionName, ApiParityDimension>;
+  platformDifferences: PlatformDifferences;
   warnings: string[];
   readOnly: true;
 }
@@ -71,6 +119,58 @@ const STATE_NAMES = new Set([
   "show",
   "value",
 ]);
+const PLATFORM_CONSTRAINT_RULES: PlatformConstraintRule[] = [
+  {
+    id: "slot-composition",
+    category: "composition",
+    react: "DOM 요소를 교체하거나 합성할 때 asChild와 Slot 패턴을 사용할 수 있습니다.",
+    lynx: "네이티브 요소를 직접 렌더링하며 Slot 기반 asChild를 제공하지 않습니다.",
+    reason: "DOM Slot 합성과 Lynx 네이티브 요소 렌더링은 요소 구성 모델이 다릅니다.",
+    evidencePattern:
+      /(?:asChild.{0,120}(?:미지원|지원하지|제공하지|없(?:음|습니다)))|(?:Slot 기반.{0,120}(?:미지원|지원하지|제공하지|없(?:음|습니다)))/is,
+    apiNamePattern: /^(?:as|asChild)$/,
+  },
+  {
+    id: "native-accessibility-properties",
+    category: "accessibility",
+    react: "브라우저 DOM의 role과 aria-* 속성으로 의미와 상태를 전달합니다.",
+    lynx: "accessibility-label, accessibility-role-description, accessibility-value 같은 네이티브 접근성 속성을 사용합니다.",
+    reason: "두 렌더러가 접근성 트리에 의미를 전달하는 속성 체계가 다릅니다.",
+    evidencePattern:
+      /(?:DOM\s+ARIA.{0,160}(?:대신|대체|미지원|없(?:음|습니다)))|(?:aria-label.{0,120}대신.{0,120}accessibility-label)/is,
+    apiNamePattern: /^(?:aria(?:-|[A-Z])|role$|accessibility)/,
+  },
+  {
+    id: "native-heading-semantics",
+    category: "heading",
+    react: "HTML heading 요소와 headingLevel 또는 aria-level로 문서 구조의 단계를 표현합니다.",
+    lynx: "accessibility-heading으로 heading 의미를 전달하며 HTML heading level은 받지 않습니다.",
+    reason: "Lynx 네이티브 heading 접근성 표면에는 HTML 문서 개요의 단계 모델이 없습니다.",
+    evidencePattern:
+      /(?:headingLevel.{0,120}(?:받지|미지원|지원하지|없(?:음|습니다)))|(?:HTML heading.{0,160}(?:대신|대체).{0,120}accessibility-heading)/is,
+    apiNamePattern: /^(?:headingLevel|aria-level|accessibility-heading)$/,
+  },
+  {
+    id: "keyboard-focus-model",
+    category: "focus",
+    react: "키보드 focus와 focusVisible, 방향키 탐색을 브라우저 포커스 모델로 처리합니다.",
+    lynx: "웹 키보드 포커스 모델 대신 네이티브 tap과 접근성 탐색을 사용합니다.",
+    reason: "터치 중심 Lynx 화면과 브라우저의 키보드 포커스 이동 모델이 다릅니다.",
+    evidencePattern:
+      /(?:키보드 (?:포커스|focus).{0,160}(?:미지원|지원하지|없(?:음|습니다)))|(?:focus\s*\/\s*focusVisible.{0,120}(?:미지원|지원하지|없(?:음|습니다)))/is,
+    apiNamePattern: /^(?:focus|focusVisible|isFocused|isFocusVisible)$/,
+  },
+  {
+    id: "css-media-queries",
+    category: "responsive-styling",
+    react: "CSS media query와 반응형 variant로 화면 너비별 스타일을 전환할 수 있습니다.",
+    lynx: "CSS @media 대신 viewport 단위, JavaScript 분기 또는 별도 Recipe 값이 필요합니다.",
+    reason: "Lynx 런타임은 CSS @media 규칙을 지원하지 않습니다.",
+    evidencePattern:
+      /(?:@media|media query|미디어 쿼리).{0,160}(?:미지원|지원하지|제공하지|없(?:음|습니다))/is,
+    apiNamePattern: /^(?:hideFrom|responsive)$/,
+  },
+];
 
 function uniqueSorted(values: Iterable<string>): string[] {
   return [...new Set(values)].sort((left, right) => left.localeCompare(right));
@@ -510,17 +610,21 @@ function isNamespaceSlot(name: string): boolean {
   return /^[A-Z]/.test(name) && !name.endsWith("Props");
 }
 
-async function readSources(root: string, paths: readonly string[]): Promise<string[]> {
-  const sources: string[] = [];
-  for (const path of uniqueSorted(paths)) {
-    const absolute = await realpath(join(root, path));
-    const relativePath = relative(root, absolute);
-    if (relativePath === ".." || relativePath.startsWith(`..${sep}`)) {
-      throw new Error(`저장소 밖의 파일은 읽지 않습니다: ${path}`);
-    }
-    sources.push(await readFile(absolute, "utf8"));
+async function readSourceEntry(root: string, path: string): Promise<SourceEntry> {
+  const absolute = await realpath(join(root, path));
+  const relativePath = relative(root, absolute);
+  if (relativePath === ".." || relativePath.startsWith(`..${sep}`)) {
+    throw new Error(`저장소 밖의 파일은 읽지 않습니다: ${path}`);
   }
-  return sources;
+  return { path, source: await readFile(absolute, "utf8") };
+}
+
+async function readSourceEntries(root: string, paths: readonly string[]): Promise<SourceEntry[]> {
+  return Promise.all(uniqueSorted(paths).map((path) => readSourceEntry(root, path)));
+}
+
+async function readSources(root: string, paths: readonly string[]): Promise<string[]> {
+  return (await readSourceEntries(root, paths)).map(({ source }) => source);
 }
 
 async function collectFacts(
@@ -673,6 +777,122 @@ function buildDimensions(
   };
 }
 
+function platformEvidencePaths(candidates: PlatformCandidates): string[] {
+  return uniqueSorted([
+    ...candidates.implementation,
+    ...candidates.publicApi,
+    ...candidates.recipes,
+    ...candidates.docs,
+  ]);
+}
+
+function constraintEvidence(
+  rule: PlatformConstraintRule,
+  entries: readonly SourceEntry[],
+): string[] {
+  return entries.filter(({ source }) => rule.evidencePattern.test(source)).map(({ path }) => path);
+}
+
+function expectedDifference(
+  rule: PlatformConstraintRule,
+  evidence: string[],
+): ExpectedPlatformDifference {
+  return {
+    id: rule.id,
+    category: rule.category,
+    react: rule.react,
+    lynx: rule.lynx,
+    reason: rule.reason,
+    evidence,
+  };
+}
+
+function expectedPlatformDifferences(
+  entries: readonly SourceEntry[],
+): ExpectedPlatformDifference[] {
+  return PLATFORM_CONSTRAINT_RULES.flatMap((rule) => {
+    const evidence = constraintEvidence(rule, entries);
+    return evidence.length > 0 ? [expectedDifference(rule, evidence)] : [];
+  });
+}
+
+function activeConstraintRules(
+  expected: readonly ExpectedPlatformDifference[],
+): PlatformConstraintRule[] {
+  const activeIds = new Set(expected.map(({ id }) => id));
+  return PLATFORM_CONSTRAINT_RULES.filter(({ id }) => activeIds.has(id));
+}
+
+function observedOnly(values: readonly string[], otherValues: readonly string[]): string[] {
+  const other = new Set(otherValues);
+  return values.filter((value) => !other.has(value));
+}
+
+function possiblyExplainedBy(
+  reactObservedOnly: readonly string[],
+  lynxObservedOnly: readonly string[],
+  expectedRules: readonly PlatformConstraintRule[],
+): PossiblePlatformDifferenceExplanation[] {
+  return expectedRules.flatMap(({ id, apiNamePattern }) => {
+    const reactMatches = reactObservedOnly.filter((value) => apiNamePattern.test(value));
+    const lynxMatches = lynxObservedOnly.filter((value) => apiNamePattern.test(value));
+    return reactMatches.length > 0 || lynxMatches.length > 0
+      ? [{ id, reactObservedOnly: reactMatches, lynxObservedOnly: lynxMatches }]
+      : [];
+  });
+}
+
+function observedDifferences(
+  dimension: ApiParityDimension,
+): Pick<PlatformDifferenceReview, "reactObservedOnly" | "lynxObservedOnly"> {
+  return {
+    reactObservedOnly: observedOnly(dimension.react, dimension.lynx),
+    lynxObservedOnly: observedOnly(dimension.lynx, dimension.react),
+  };
+}
+
+function reviewReason(confidence: ApiParityDimension["confidence"]): string {
+  if (confidence === "unknown") {
+    return "직접 관찰한 값은 다르지만 근거가 완전하지 않습니다. 누락으로 판정하지 말고 타입 상속과 구현 경로를 확인해야 합니다.";
+  }
+  return "한쪽에서만 관찰된 공개 표면입니다. 플랫폼 제약 후보와 대체 동작을 확인한 뒤 의도된 차이인지 구현 누락인지 판정해야 합니다.";
+}
+
+function differenceReview(
+  name: ApiParityDimensionName,
+  dimension: ApiParityDimension,
+  expectedRules: readonly PlatformConstraintRule[],
+): PlatformDifferenceReview | undefined {
+  const { reactObservedOnly, lynxObservedOnly } = observedDifferences(dimension);
+  if (reactObservedOnly.length === 0 && lynxObservedOnly.length === 0) return undefined;
+  return {
+    dimension: name,
+    reactObservedOnly,
+    lynxObservedOnly,
+    possiblyExplainedBy: possiblyExplainedBy(reactObservedOnly, lynxObservedOnly, expectedRules),
+    confidence: dimension.confidence,
+    reason: reviewReason(dimension.confidence),
+    evidence: dimension.evidence,
+  };
+}
+
+/*
+ * 플랫폼 제약 후보는 관찰값을 검토 목록에서 제거하지 않는다. 같은 이름의 API가
+ * 없더라도 실제 대체 동작이 있는지 소스에서 확인해야 하기 때문이다.
+ */
+function platformDifferences(
+  dimensions: Record<ApiParityDimensionName, ApiParityDimension>,
+  expected: ExpectedPlatformDifference[],
+): PlatformDifferences {
+  const expectedRules = activeConstraintRules(expected);
+  const names = Object.keys(dimensions) as ApiParityDimensionName[];
+  const needsReview = names.flatMap((name) => {
+    const review = differenceReview(name, dimensions[name], expectedRules);
+    return review ? [review] : [];
+  });
+  return { expected, needsReview };
+}
+
 function warningsFor(
   sources: Record<ComponentPlatform, PlatformCandidates>,
   react: SourceFacts,
@@ -700,15 +920,19 @@ export async function compareSeedComponentApi(component: string): Promise<ApiPar
     react: candidatesFor(map, "react"),
     lynx: candidatesFor(map, "lynx"),
   };
-  const [react, lynx] = await Promise.all([
+  const [react, lynx, lynxEvidence] = await Promise.all([
     collectFacts(root, sources.react, map.component),
     collectFacts(root, sources.lynx, map.component),
+    readSourceEntries(root, platformEvidencePaths(sources.lynx)),
   ]);
+  const dimensions = buildDimensions(map, sources, react, lynx);
+  const expected = expectedPlatformDifferences(lynxEvidence);
 
   return {
     component: map.component,
     sources,
-    dimensions: buildDimensions(map, sources, react, lynx),
+    dimensions,
+    platformDifferences: platformDifferences(dimensions, expected),
     warnings: warningsFor(sources, react, lynx),
     readOnly: true,
   };

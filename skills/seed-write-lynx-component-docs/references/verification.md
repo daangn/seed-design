@@ -20,13 +20,13 @@ git diff --check
 bun test docs/components/lynx-example docs/scripts/lynx-examples docs/lib/lynx-examples
 ```
 
-실행 예제나 빌드 구성을 수정했다면 native와 web bundle을 다시 만든다.
+실행 예제나 빌드 구성을 수정했다면 실제 Lynx용 bundle과 브라우저 미리보기 bundle을 다시 만든다.
 
 ```bash
 bun --filter @seed-design/docs build:lynx-examples:development
 ```
 
-생성 후 [`seed-verify-lynx-example`](../../seed-verify-lynx-example/SKILL.md)의 resolver로 해당 예제 entry, manifest, web·native bundle 연결을 확인한다.
+생성 후 대상 예제의 entry, manifest, 브라우저 미리보기 bundle, 실제 Lynx용 bundle이 같은 예제 ID로 연결되는지 생성 결과에서 확인한다.
 
 ## 저장소 공통 검증
 
@@ -47,7 +47,7 @@ bun test:all
 
 ## 문서 미리보기 확인
 
-일반적인 문서 작성에서는 저장소의 문서 개발 서버 또는 `bun docs:build`로 생성한 `docs/out`에서만 WebLynx를 확인한다. 예제를 독립 HTML, 별도 Vite 앱, 임시 React 페이지로 옮기지 않는다. 검증 결과는 반드시 실제 `LynxComponentExample`에서 얻는다.
+일반적인 문서 작성에서는 저장소의 문서 개발 서버 또는 `bun docs:build`로 생성한 `docs/out`에서 브라우저 미리보기를 확인한다. 예제를 독립 HTML, 별도 Vite 앱, 임시 React 페이지로 옮기지 않는다. 검증 결과는 반드시 실제 `LynxComponentExample`에서 얻는다.
 
 개발 서버의 미리보기가 준비되지 않거나 불안정하면 다음 순서로 전환한다.
 
@@ -59,6 +59,9 @@ bun test:all
 
 - 예제의 미리보기, QR 코드, 코드 탭이 모두 열린다.
 - 코드 탭이 의도한 엔트리 파일을 보여준다.
+- Registry 배포 컴포넌트의 예제는 설치된 `@/components/ui/<name>` 경로를 사용한다.
+- package-only 컴포넌트의 예제는 `@seed-design/lynx-react` 공개 export를 사용한다.
+- React와 같은 기능을 다루는 섹션과 예제는 제목, 순서, 사용자 결과가 대응한다.
 - QR 원문은 `lynx://`가 아닌 직접 접근 가능한 `.lynx.bundle` URL이다.
 - Explorer 버튼은 bundle URL을 인코딩한 `lynx://open` 딥 링크다.
 - 네이티브 전용 동작의 콜아웃이 관련 예제 바로 아래에 있다.
@@ -66,9 +69,9 @@ bun test:all
 
 ## 실기기 확인
 
-문구나 코드 노출만 바뀌고 네이티브 동작이 달라지지 않았다면 실기기 확인을 의무로 요구하지 않는다. WebLynx에서 확인한 범위만 보고한다.
+문구나 코드 노출만 바뀌고 실제 Lynx 동작이 달라지지 않았다면 실기기 확인을 의무로 요구하지 않는다. 브라우저 미리보기에서 확인한 범위만 보고한다.
 
-네이티브 결과를 새로 주장하거나 예제 동작이 달라졌다면 [`seed-verify-lynx-example`](../../seed-verify-lynx-example/SKILL.md)을 사용한다. 정확한 예제 ID로 얻은 entry, manifest, native bundle과 실제 런타임 근거를 작업 결과에 연결한다. 기기나 기존 session이 없으면 환경 차단으로 보고하며 문서용 우회 구현을 추가하지 않는다.
+실제 Lynx 결과를 새로 주장하거나 예제 동작이 달라졌다면 사용 가능한 호스트 앱이나 `examples/lynx-spa`에서 정확한 예제를 직접 실행한다. 예제 ID, entry, manifest, 실제 Lynx용 bundle, 기기·실행 환경과 확인 결과를 작업 결과에 연결한다. 실행 환경이 없으면 미확인 범위를 보고하며 문서용 우회 구현을 추가하지 않는다.
 
 ## 임시 산출물 정리
 
@@ -84,8 +87,8 @@ bun test:all
 
 1. 작성하거나 수정한 문서와 예제
 2. 웹 미리보기에서 확인한 항목
-3. resolver로 확인한 entry, 매니페스트, web·native bundle 상태
+3. 확인한 entry, 매니페스트, 브라우저 미리보기·실제 Lynx용 bundle 상태
 4. QR의 직접 bundle URL과 Explorer 버튼의 `lynx://open` 주소 확인 여부
-5. 실제 Lynx 동작을 주장한 경우 `seed-verify-lynx-example`의 client, session, 직접 확인한 근거. 수행하지 못했다면 환경 차단 사유
+5. 실제 Lynx 동작을 주장한 경우 기기·실행 환경과 직접 확인한 근거. 수행하지 못했다면 미확인 사유
 6. 실행한 테스트와 결과
 7. 문서 미리보기의 알려진 제한 또는 별도 컴포넌트 작업이 필요한 문제

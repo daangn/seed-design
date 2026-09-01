@@ -31,7 +31,6 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 | React와 Lynx 공개 API 차이 확인 | [`seed-api-parity`](../seed-api-parity/SKILL.md) |
 | 컴포넌트 추가·변경 계획과 구현 | [`seed-create-component`](../seed-create-component/SKILL.md) |
 | Lynx 컴포넌트 문서·예제 작성 | [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md) |
-| Lynx 예제 entry·bundle·실행 근거 확인 | [`seed-verify-lynx-example`](../seed-verify-lynx-example/SKILL.md) |
 | 변경 영향·검증·PR 기준 브랜치 계획 | [`seed-change-plan`](../seed-change-plan/SKILL.md) |
 | 배포 후보와 bump·메시지 확정 | [`seed-changeset`](../seed-changeset/SKILL.md) |
 | 기준 브랜치 리베이스·커밋·push·PR base 정렬 | [`seed-submit-change`](../seed-submit-change/SKILL.md) |

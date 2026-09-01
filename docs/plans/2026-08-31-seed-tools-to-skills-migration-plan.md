@@ -1,7 +1,7 @@
 # SEED 전용 도구의 저장소 스킬 전환 계획
 
 - 작성일: 2026-08-31
-- 상태: 구현 및 검증 완료
+- 상태: 구현 완료, 2026-09-01 후속 검토 반영
 - 대상 저장소: `/Users/ette/workspace/10-daangn-org/seed-design`
 - 참고 구현: `/Users/ette/workspace/10-design-system/pi-seed-agent`
 - 기준 리비전: `seed-design@4fd45a826`, `pi-seed-agent@9ebbe6f`
@@ -12,7 +12,13 @@ Pi 확장에 들어 있는 SEED 전용 판단 로직을 `seed-design/skills`로 
 
 `skills/`가 유일한 원본이다. 현재 `.agents/skills`, `.claude/skills`, `.claude/plugins/seed-design/skills`가 이 디렉터리를 가리키므로, 클라이언트별 복사본은 만들지 않는다. 플러그인은 나중에 배포 경로로 붙일 수 있지만 사실과 정책을 별도 서버나 플러그인 런타임에 두지 않는다.
 
-이번 계획은 저장소 스킬 이름을 `seed-*`로 통일한 뒤 기존 스킬의 책임을 좁힌다. `seed-create-component`, `seed-write-lynx-component-docs`, `seed-changeset`을 정리하고, 저장소에 아직 없는 `seed-verify-lynx-example`과 `seed-submit-change`를 만든다. 그다음 Pi의 나머지 읽기 전용 도구를 목적별 스킬로 옮긴다.
+이번 계획은 저장소 스킬 이름을 `seed-*`로 통일한 뒤 기존 스킬의 책임을 좁힌다. `seed-create-component`, `seed-write-lynx-component-docs`, `seed-changeset`을 정리하고 `seed-submit-change`를 만든다. 그다음 Pi의 나머지 읽기 전용 도구를 목적별 스킬로 옮긴다.
+
+### 2026-09-01 후속 결정
+
+- `seed-verify-lynx-example`은 현재 절차를 유지하지 않고 제거했다. 실제 Lynx 실행 검증은 요구사항을 다시 정리한 뒤 별도 작업에서 스킬화한다.
+- 활성 스킬은 제거된 스킬을 호출하지 않는다. 문서 미리보기에서 확인한 범위와 실제 Lynx 환경에서 확인한 범위를 구분하고, 후자를 확인하지 못했다면 미검증 상태로 보고한다.
+- 아래의 최초 구현 기록에서 이 결정과 충돌하는 내용은 이 후속 결정을 우선한다.
 
 ## 이 문서로 후속 작업 시작하기
 
@@ -61,7 +67,7 @@ bun test skills/seed-component-map/scripts/component-map.test.ts
 ### 전체 완료 조건
 
 - 저장소 스킬 이름이 모두 `seed-*` 형식이고 이전 이름의 복사본이 남지 않는다.
-- `seed-create-component`, `seed-write-lynx-component-docs`, `seed-changeset`, `seed-verify-lynx-example`의 책임이 겹치지 않는다.
+- `seed-create-component`, `seed-write-lynx-component-docs`, `seed-changeset`의 책임이 겹치지 않는다.
 - 필수 신규 스킬이 모두 현재 체크아웃을 직접 읽고 외부 서버 없이 동작한다.
 - 각 스크립트는 한 번에 한 대상을 처리하고 JSON으로 근거 경로를 반환한다.
 - 쓰기와 외부 실행 전에 사용자 확인이 필요한 지점이 각 `SKILL.md`에 명시된다.
@@ -115,15 +121,15 @@ bun test skills/seed-component-map/scripts/component-map.test.ts
 | 컴포넌트 작업 라우터 | [`skills/seed-create-component/SKILL.md`](../../skills/seed-create-component/SKILL.md) | 이름 전환과 책임 정리를 마친 현재 원본이다. |
 | 컴포넌트 경로 조회 | [`skills/seed-component-map/SKILL.md`](../../skills/seed-component-map/SKILL.md) | 이번 전환의 첫 기준 구현이다. |
 | 컴포넌트 맵 스크립트 | [`skills/seed-component-map/scripts/component-map.ts`](../../skills/seed-component-map/scripts/component-map.ts) | 읽기 전용이며 한 컴포넌트의 표면을 JSON으로 반환한다. |
-| Lynx 문서 작업 | [`skills/seed-write-lynx-component-docs/SKILL.md`](../../skills/seed-write-lynx-component-docs/SKILL.md) | 문서 작성과 런타임 검증 위임을 정리한 현재 원본이다. |
-| Lynx 런타임 분류 | [`skills/seed-write-lynx-component-docs/references/preview-runtime.md`](../../skills/seed-write-lynx-component-docs/references/preview-runtime.md) | WebLynx와 실제 Lynx의 차이, DevTool 진단 순서를 설명한다. |
-| Lynx 문서 검증 | [`skills/seed-write-lynx-component-docs/references/verification.md`](../../skills/seed-write-lynx-component-docs/references/verification.md) | 정적 검증과 런타임 위임 경계를 설명한다. |
+| Lynx 문서 작업 | [`skills/seed-write-lynx-component-docs/SKILL.md`](../../skills/seed-write-lynx-component-docs/SKILL.md) | 문서 작성과 확인 범위를 정리한 현재 원본이다. |
+| Lynx 런타임 분류 | [`skills/seed-write-lynx-component-docs/references/preview-runtime.md`](../../skills/seed-write-lynx-component-docs/references/preview-runtime.md) | 브라우저 미리보기와 실제 Lynx의 확인 범위를 구분한다. |
+| Lynx 문서 검증 | [`skills/seed-write-lynx-component-docs/references/verification.md`](../../skills/seed-write-lynx-component-docs/references/verification.md) | 정적 검증과 실제 Lynx 확인의 경계를 설명한다. |
 | 릴리스 작업 | [`skills/seed-changeset/SKILL.md`](../../skills/seed-changeset/SKILL.md) | 후보 계산과 사용자 확인 절차를 정리한 현재 원본이다. |
 | 버전 정책 | [`skills/seed-changeset/references/version-matrix.md`](../../skills/seed-changeset/references/version-matrix.md) | bump와 내부 의존성 전파의 단일 기준이다. |
 | 메시지 정책 | [`skills/seed-changeset/references/patterns.md`](../../skills/seed-changeset/references/patterns.md) | 사용자 관점 changeset 문구를 정의한다. |
 | 범용 SEED 안내 | [`skills/seed-design/SKILL.md`](../../skills/seed-design/SKILL.md) | 소비자 프로젝트 안내와 Doctor 라우팅이 중심이다. |
 
-`skills/seed-verify-lynx-example`은 Pi의 `seed_lynx_example_verify`가 수행하던 작업 목적을 옮겼다. `skills/seed-submit-change`는 변경 계획에서 확정한 기준 브랜치로 feature 커밋만 옮기고 같은 PR base를 사용하는 절차를 맡는다.
+`seed_lynx_example_verify`의 스킬 전환은 후속 재설계 대상으로 돌렸다. `skills/seed-submit-change`는 변경 계획에서 확정한 기준 브랜치로 feature 커밋만 옮기고 같은 PR base를 사용하는 절차를 맡는다.
 
 ### Pi에서 참고할 원본
 
@@ -134,7 +140,7 @@ bun test skills/seed-component-map/scripts/component-map.test.ts
 | `seed_component_map` | `extensions/tools/seed-component-map.ts` | `test/unit/component-map.test.ts` | `seed-component-map`에 이미 최소 이관됨 |
 | `seed_api_parity` | `extensions/tools/seed-api-parity.ts` | `test/unit/api-parity.test.ts` | 신규 `seed-api-parity` |
 | `seed_component_scaffold` | `extensions/tools/seed-component-scaffold.ts` | `test/unit/component-scaffold.test.ts` | `seed-create-component` 개선으로 흡수 |
-| `seed_lynx_example_verify` | `extensions/tools/seed-lynx-example-verify.ts` | `test/unit/lynx-example-verify.test.ts` | 신규 `seed-verify-lynx-example` |
+| `seed_lynx_example_verify` | `extensions/tools/seed-lynx-example-verify.ts` | `test/unit/lynx-example-verify.test.ts` | 후속 재설계 후보. 현재 대응 스킬 없음 |
 | `seed_changeset_plan` | `extensions/tools/seed-changeset-plan.ts` | `test/unit/changeset-plan.test.ts` | 기존 `seed-changeset` 개선 |
 | `seed_change_impact` | `extensions/tools/seed-change-impact.ts` | `test/unit/change-impact.test.ts` | 신규 `seed-change-plan`에 통합 |
 | `seed_change_plan` | `extensions/tools/seed-change-plan.ts` | `test/unit/change-plan.test.ts` | 신규 `seed-change-plan`에 통합 |
@@ -185,10 +191,7 @@ bun test skills/seed-component-map/scripts/component-map.test.ts
 
 ```text
 seed-component-map ──> seed-api-parity ──> seed-create-component
-                                                   │
-                                                   └──> seed-verify-lynx-example
-                                                                    ▲
-seed-write-lynx-component-docs ─────────────────────────────────────┘
+                              └──────────> seed-write-lynx-component-docs
 
 seed-change-plan ──> 에이전트 기본 셸 ──> seed-changeset
        ▲                                           ▲
@@ -222,7 +225,7 @@ seed-change-plan ──> seed-submit-change ──> Git rebase/commit/push
 - React와 Lynx를 함께 다루면 `seed-api-parity` 결과를 Analog Parity Check의 입력으로 사용한다.
 - `scaffold-plan.ts`는 사용자가 확정한 플랫폼과 공개 표면을 입력받아 원천, 생성물, 참고 파일, 기존 파일 충돌만 계산한다.
 - Pi처럼 archetype, Registry, style 전략을 자동 확정하지 않는다. 아키텍처와 wrapper 가치는 기존 게이트에서 결정한다.
-- 여러 reference에 반복된 검증 명령은 `verification-checklist.md`에 모으고, Lynx 실기기 검증은 `seed-verify-lynx-example`로 연결한다.
+- 여러 reference에 반복된 검증 명령은 `verification-checklist.md`에 모은다. 실제 Lynx 환경 검증은 확인 가능한 범위와 미검증 범위를 수동으로 구분한다.
 
 완료 조건:
 
@@ -231,36 +234,15 @@ seed-change-plan ──> seed-submit-change ──> Git rebase/commit/push
 - 원천과 생성물 경계, 기존 파일 충돌을 검증하는 주 경로 테스트 한 개가 있다.
 - 게이트를 통과하지 않은 상태에서 scaffold 결과만으로 구현을 시작하지 않는다.
 
-### 2. seed-verify-lynx-example
+### 2. Lynx 실행 검증 후속 보류
 
-현재 저장소에는 없는 신규 작업 스킬이다. 문서 작성과 분리해 Lynx 예제를 실제 실행 환경에서 확인하는 절차만 맡는다.
+최초 구현한 `seed-verify-lynx-example`은 2026-09-01 검토에서 제거했다. entry, manifest, bundle, client와 session을 한 절차에 묶기 전에 실제로 반복되는 검증 요구와 실행 환경을 다시 확인해야 한다.
 
-계획된 파일:
-
-- `skills/seed-verify-lynx-example/SKILL.md`
-- `skills/seed-verify-lynx-example/scripts/resolve-example.ts`
-- `skills/seed-verify-lynx-example/scripts/resolve-example.test.ts`
-- 필요한 경우에만 `skills/seed-verify-lynx-example/references/devtool.md`
-
-변경 내용:
-
-- 컴포넌트나 예제 이름에서 `docs/examples/lynx`, 생성 매니페스트, native `.lynx.bundle` 후보를 찾는다.
-- 번들 생성 명령과 실제 생성 여부를 분리해 보고한다. 빌드는 에이전트 기본 셸로 실행한다.
-- Lynx Explorer 또는 PlayLynx의 기존 client와 session이 있을 때만 DevTool 검증을 진행한다.
-- client가 여러 개면 정확한 ID를 요청한다. 기존 session이 없으면 페이지를 임의로 열지 않고 수동 실행 절차를 보고한다.
-- DOM, 계산 스타일, box, screenshot 중 실제로 확인한 근거만 결과에 적는다.
-- Pi의 DevTool adapter, 스크린샷 임시 파일 관리, 호스트 확인 UI를 그대로 옮기지 않는다. 해당 기능은 사용 가능한 에이전트 도구에 맡긴다.
-
-완료 조건:
-
-- 예제 하나를 정확한 entry, manifest, native bundle과 연결한다.
-- 중복 후보와 세션 부재를 성공으로 처리하지 않는다.
-- `seed-write-lynx-component-docs`와 `seed-create-component`가 같은 런타임 절차를 중복해서 설명하지 않고 이 스킬을 호출한다.
-- 기기나 DevTool 기능이 없는 에이전트에서도 정적 준비 결과와 수동 검증 항목까지는 얻을 수 있다.
+현재는 문서와 예제의 정적 연결을 기존 빌드와 문서 미리보기로 확인한다. 실제 Lynx 동작을 새로 주장하는 변경은 가능한 환경에서 별도로 확인하고, 환경이 없으면 미검증으로 보고한다. 이를 우회하려는 임시 앱이나 별도 구현은 추가하지 않는다.
 
 ### 3. seed-write-lynx-component-docs
 
-이 스킬은 문서와 예제 작성에 집중한다. 런타임 검증의 실행 책임은 `seed-verify-lynx-example`로 보낸다.
+이 스킬은 문서와 예제 작성에 집중한다. 실제 Lynx 실행 검증 절차를 대신 설계하지 않는다.
 
 수정 대상:
 
@@ -274,15 +256,15 @@ seed-change-plan ──> seed-submit-change ──> Git rebase/commit/push
 - 시작 단계에서 `seed-component-map`으로 문서, 예제, package export를 찾는다.
 - React 문서와 차이를 설명해야 하면 `seed-api-parity`를 사용한다.
 - `authoring.md`는 frontmatter, MDX, 예제 코드 규칙을 유지한다.
-- `preview-runtime.md`는 WebLynx와 실제 런타임의 책임 구분만 유지한다.
-- `verification.md`의 client/session 선택, DOM, style, box, screenshot 절차는 `seed-verify-lynx-example` 호출로 치환한다.
+- `preview-runtime.md`는 브라우저 미리보기와 실제 런타임의 확인 범위만 구분한다.
+- `verification.md`는 정적 검증과 실제 Lynx 환경에서 확인해야 할 조건을 구분하되 client/session 조작 절차를 포함하지 않는다.
 - 문서만 바뀌었고 네이티브 동작이 달라지지 않았다면 실기기 검증을 무조건 요구하지 않는다. 변경 범위에 맞는 근거를 남긴다.
 
 완료 조건:
 
-- 문서 작성 절차와 런타임 검증 절차가 서로 다른 스킬에 한 번씩만 존재한다.
+- 문서 작성과 정적 확인 절차만 이 스킬에 두고, 실제 Lynx 실행 검증 절차는 후속 범위로 남긴다.
 - 웹 미리보기 한계를 이유로 배포 컴포넌트를 바꾸지 않는 현재 원칙이 유지된다.
-- 실제 런타임 동작을 주장할 때만 `seed-verify-lynx-example`의 근거를 요구한다.
+- 실제 런타임 동작을 주장할 때는 직접 확인한 환경과 근거를 요구한다. 확인하지 못했다면 미검증으로 남긴다.
 
 ### 4. seed-changeset
 
@@ -300,7 +282,7 @@ seed-change-plan ──> seed-submit-change ──> Git rebase/commit/push
 - `.changeset/config.json`의 base branch와 현재 Git 변경에서 공개 workspace 패키지 후보를 찾는다.
 - private 패키지와 `packages/archive/*`를 구분한다.
 - 기존 `.changeset/*.md`가 이미 다루는 패키지를 함께 반환한다.
-- workspace 의존 관계와 버전 범위를 읽어 reverse dependency와 peer floor 검토 후보를 제시한다.
+- workspace 의존 관계와 버전 범위를 읽어 reverse dependency와 Version Changes PR의 peer 하한 검토 후보를 제시한다.
 - bump 추천은 `version-matrix.md`와 실제 공개 표면 변경을 읽은 에이전트가 사용자에게 확인한다. 스크립트가 의미를 추측하지 않는다.
 - 사용자 확인 뒤 확정된 패키지별 bump와 가장 높은 bump를 `seed-change-plan`이 다시 읽을 수 있는 근거로 남긴다. 브랜치 선택은 이 스킬이 직접 수행하지 않는다.
 - 메시지 작성과 최종 파일 생성은 기존처럼 사용자 확인 뒤 수행한다. 스크립트는 `.changeset` 파일을 쓰지 않는다.
@@ -311,7 +293,7 @@ seed-change-plan ──> seed-submit-change ──> Git rebase/commit/push
 - `sleep`, `kill`, 터미널 폭, ANSI 출력에 의존하지 않고 후보를 얻는다.
 - 이미 커버된 패키지와 전파 후보를 구분한다.
 - 후보 계산 주 경로와 archive/private 제외 경로를 최소 테스트로 검증한다.
-- 사용자 확인 전에는 package version, dependency floor, changeset 파일을 바꾸지 않는다.
+- 이 스킬은 package version과 dependency range를 바꾸지 않는다. changeset 파일은 사용자 확인 뒤에만 작성한다.
 
 ### 5. seed-component-map
 
@@ -516,28 +498,19 @@ git diff --check
 
 완료 조건: 한 컴포넌트의 현재 표면, 플랫폼 차이, 계획 파일 경계를 구현 전에 재현할 수 있다.
 
-### 3단계: Lynx 문서와 실행 검증 분리
+### 3단계: Lynx 문서와 실행 검증 경계 정리
 
-- [x] `seed-verify-lynx-example`을 만든다.
-- [x] 예제 entry, manifest, native bundle 해석을 테스트한다.
-- [x] `seed-write-lynx-component-docs`의 런타임 실행 절차를 새 스킬 호출로 바꾼다.
-- [x] `seed-create-component`의 Lynx Phase 2도 같은 스킬을 사용한다.
+- [x] `seed-verify-lynx-example`과 활성 참조를 제거한다.
+- [x] `seed-write-lynx-component-docs`는 문서·예제 작성과 정적 확인만 안내한다.
+- [x] `seed-create-component`는 실제 Lynx 환경에서 확인하지 못한 결과를 미검증으로 보고한다.
 - [x] 문서 연구가 필요하면 현재 작업 환경에서는 로컬 Refer 자료와 Lynx 전용 스킬을 우선하고 Context7이나 웹 검색은 사용하지 않는다.
 
-집중 검증:
-
-```bash
-bun test skills/seed-verify-lynx-example/scripts/resolve-example.test.ts
-bunx biome check skills/seed-verify-lynx-example skills/seed-write-lynx-component-docs skills/seed-create-component
-git diff --check
-```
-
-완료 조건: 문서 작성, WebLynx 확인, 실제 Lynx 실행 근거가 서로 구분되고 실행 절차가 한 곳에만 있다.
+완료 조건: 브라우저 미리보기와 실제 Lynx 실행 근거가 구분되고, 제거된 스킬을 호출하는 활성 절차가 없다.
 
 ### 4단계: changeset 계획 안정화
 
 - [x] `changeset-plan.ts`로 후보와 기존 coverage를 계산한다.
-- [x] reverse dependency와 peer floor 검토 후보를 출력한다.
+- [x] reverse dependency와 Version Changes PR의 peer 하한 검토 후보를 출력한다.
 - [x] `seed-changeset/SKILL.md`에서 백그라운드 CLI 종료 방식을 제거한다.
 - [x] bump와 메시지, 파일 쓰기는 사용자 확인 뒤에만 수행하는 흐름을 유지한다.
 
@@ -642,7 +615,6 @@ Pi 정리는 이 저장소 작업과 분리한다.
 
 - 이름과 책임을 정리한 `seed-create-component`
 - 신규 `seed-api-parity`
-- 신규 `seed-verify-lynx-example`
 - 이름과 책임을 정리한 `seed-write-lynx-component-docs`
 - 이름과 책임을 정리한 `seed-changeset`
 - 신규 `seed-change-plan`

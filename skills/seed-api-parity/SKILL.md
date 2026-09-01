@@ -1,6 +1,6 @@
 ---
 name: seed-api-parity
-description: SEED Design 저장소의 한 컴포넌트에서 React와 Lynx 공개 export, props, Recipe, 슬롯, 상태, 이벤트, 접근성, Registry와 문서 차이를 현재 체크아웃 기준으로 비교한다. 두 플랫폼 구현 전 공개 API 동등성을 확인하거나 플랫폼별 미지원 범위를 기록할 때 사용한다.
+description: SEED Design 저장소의 한 컴포넌트에서 React와 Lynx 공개 export, props, Recipe, 슬롯, 상태, 이벤트, 접근성, Registry와 문서 차이를 현재 체크아웃 기준으로 비교한다. 구현 누락과 브라우저·Lynx 플랫폼 제약을 구분할 때 사용한다.
 ---
 
 # SEED API parity
@@ -15,7 +15,14 @@ description: SEED Design 저장소의 한 컴포넌트에서 React와 Lynx 공�
 bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 ```
 
-결과 JSON의 `sources`에서 분석한 구현, 공개 API, Recipe, Registry, 문서 경로를 먼저 확인한다. `dimensions`는 양쪽 값, 공통 값, `reactOnly`, `lynxOnly`, 근거 경로를 반환한다.
+결과 JSON은 다음 순서로 읽는다.
+
+1. `sources`에서 분석한 구현, 공개 API, Recipe, Registry, 문서 경로가 맞는지 확인한다.
+2. `dimensions`에서 양쪽 관찰값, 공통 값, `reactOnly`, `lynxOnly`, 근거 경로를 확인한다.
+3. `platformDifferences.expected`에서 현재 Lynx 구현이나 문서에 명시된 플랫폼 제약을 확인한다.
+4. `platformDifferences.needsReview`에서 한쪽에만 관찰된 값을 직접 검토한다. `possiblyExplainedBy`는 관련 있을 수 있는 `expected` ID와 그 규칙에 이름이 일치한 양쪽 값을 함께 반환한다.
+
+`dimensions`는 원시 비교 결과를 유지한다. `needsReview`도 한쪽 관찰값을 빠뜨리지 않고 유지한다. `possiblyExplainedBy`가 있어도 검토 목록에서 제거하지 않는다. 브라우저 DOM과 Lynx 네이티브 환경의 차이로 설명할 수 있는지, 대체 동작이 같은 사용자 결과를 내는지 확인한 뒤 미구현 여부를 판정한다.
 
 `confidence`는 다음처럼 읽는다.
 
@@ -23,11 +30,24 @@ bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 - `partial`: 양쪽 소스에서 직접 선언된 값을 읽어 비교했다.
 - `unknown`: 한쪽 근거가 없거나, 컴포넌트를 정확히 찾지 못했거나, 상속 타입 때문에 전체 표면을 확인하지 못했다. 이때 `reactOnly`와 `lynxOnly`는 차이를 단정하지 않고 비워 둔다.
 
+## 플랫폼 차이 판정
+
+다음 차이는 같은 이름의 API가 없더라도 기능 부족으로 보지 않을 수 있다.
+
+- React의 `asChild`와 DOM Slot 합성 대신 Lynx 네이티브 요소를 직접 렌더링하는 경우
+- DOM `role`과 `aria-*` 대신 `accessibility-*` 네이티브 접근성 속성으로 같은 의미와 상태를 전달하는 경우
+- HTML heading level 대신 `accessibility-heading`으로 heading 의미를 전달하는 경우
+- 브라우저의 키보드 focus와 `focusVisible` 대신 Lynx의 tap 및 네이티브 접근성 탐색을 사용하는 경우
+- CSS media query 대신 viewport 단위, JavaScript 분기 또는 별도 Recipe 값으로 반응형 목적을 달성하는 경우
+
+다만 플랫폼 제약은 대체 동작을 생략해도 된다는 뜻이 아니다. 접근 가능한 이름·역할·상태와 핵심 사용자 결과가 양쪽에서 유지되는지 확인한다. 세부 판정 기준은 [React와 Lynx 플랫폼 차이 판정 기준](references/platform-differences.md)을 따른다.
+
 ## 작업 연결
 
 1. 먼저 [`seed-component-map`](../seed-component-map/SKILL.md)으로 정확한 컴포넌트 이름과 현재 표면을 확인한다.
 2. React와 Lynx를 함께 다루면 이 스크립트를 실행한다.
-3. `unknown`을 누락으로 단정하지 않는다. 결과의 근거 경로를 직접 읽고 상속 타입과 플랫폼 제약을 확인한다.
-4. 확인한 차이를 [`seed-create-component`](../seed-create-component/SKILL.md)의 Delivery Surface Gate와 Analog Parity Check에 입력한다.
+3. `expected`는 현재 컴포넌트의 Lynx 소스나 문서에서 제약을 명시적으로 확인했을 때만 사용한다. `possiblyExplainedBy`는 판정이 아니라 검토 단서다. 근거 경로와 대체 동작을 직접 읽는다.
+4. `unknown`과 `needsReview`를 누락으로 단정하지 않는다. 상속 타입과 대체 동작을 확인한 뒤 판정한다.
+5. 확인한 차이를 [`seed-create-component`](../seed-create-component/SKILL.md)의 플랫폼 및 배포 표면 결정에 입력한다.
 
 스크립트는 TypeScript 컴파일러를 사용하지 않는다. `extends`, `Omit`, 외부 타입에서 상속한 prop을 발견하면 관련 prop 차원을 `unknown`으로 낮추고 직접 확인한 값만 양쪽 관찰값에 남긴다.

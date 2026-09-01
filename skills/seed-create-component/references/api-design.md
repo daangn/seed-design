@@ -73,15 +73,6 @@ Badge 같은 package-only primitive의 경우: React `Badge`가 `@seed-design/re
 
 사용자가 스킬을 함께 발전시키자고 요청하면, correction retro를 구현 작업의 일부로 취급한다. 단순 회고 설명에서 끝내지 말고 해당 reference에 durable rule을 추가할지 판단한다.
 
-## Snippet 레이어 필요 여부
-
-| 조건 | Snippet 필요? |
-|------|-------------|
-| 3개+ sub-component를 조합해야 사용 가능 | Yes |
-| 서드파티 라이브러리와 통합 필요 | Yes |
-| 단일 import으로 사용 가능 | No |
-| 이미 심플한 API | No |
-
 ## API 설계 9원칙
 
 ### 1. Action을 노출하고 State setter를 숨긴다

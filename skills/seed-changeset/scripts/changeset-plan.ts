@@ -61,10 +61,11 @@ export interface ChangesetPlan {
     section: DependencySection;
     range: string;
   }>;
-  peerFloorReviewCandidates: Array<{
+  versionChangesReviewCandidates: Array<{
     dependency: string;
     dependent: string;
     range: string;
+    reviewIn: "Version Changes PR";
   }>;
 }
 
@@ -503,6 +504,20 @@ function mergeWorkspacePackages(
   return [...byDirectory.values()].sort((left, right) => left.name.localeCompare(right.name));
 }
 
+/** 현재 PR에서는 수정하지 않고 Version Changes PR에서 확인할 peer 범위를 찾습니다. */
+function versionChangesReviewCandidates(
+  reverseDependencies: ChangesetPlan["reverseDependencies"],
+): ChangesetPlan["versionChangesReviewCandidates"] {
+  return reverseDependencies
+    .filter((dependency) => dependency.section === "peerDependencies")
+    .map(({ dependency, dependent, range }) => ({
+      dependency,
+      dependent,
+      range,
+      reviewIn: "Version Changes PR",
+    }));
+}
+
 /** 현재 diff와 workspace metadata로 읽기 전용 Changeset 계획을 만듭니다. */
 export async function buildChangesetPlan(
   options: BuildChangesetPlanOptions = {},
@@ -534,9 +549,7 @@ export async function buildChangesetPlan(
     excluded: excludedPackageResults(changed),
     existingChangesets,
     reverseDependencies,
-    peerFloorReviewCandidates: reverseDependencies
-      .filter((dependency) => dependency.section === "peerDependencies")
-      .map(({ dependency, dependent, range }) => ({ dependency, dependent, range })),
+    versionChangesReviewCandidates: versionChangesReviewCandidates(reverseDependencies),
   };
 }
 

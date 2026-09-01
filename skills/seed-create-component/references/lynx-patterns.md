@@ -8,12 +8,13 @@ Stateful Lynx 컴포넌트의 기본 계약은 다음과 같다.
 
 | 레이어 | 책임 | 넣지 않는 것 |
 |--------|------|--------------|
-| `packages/lynx-react-headless/*` | 상태, press/tap, controlled/uncontrolled, context, render props | SEED recipe, token, className 자동 주입 |
-| `packages/lynx-react/*` | native slot JSX, recipe variant 조합, className 병합, icon/image wiring | 중복 상태 계산, Web DOM/form/focus API |
+| `packages/lynx-react/src/hooks/*` 또는 컴포넌트 내부 hook/context | 직접 소유하는 상태, press/tap, controlled/uncontrolled, context | SEED recipe, token, className 자동 주입 |
+| 기존 외부 Lynx primitive | 해당 primitive가 이미 소유한 상태·이벤트 | wrapper의 중복 상태 |
+| `packages/lynx-react/*` Styled UI | native slot JSX, recipe variant 조합, className 병합, icon/image wiring | 중복 상태 계산, Web DOM/form/focus API |
 | `packages/lynx-qvism-preset/*` | Lynx CSS 제약에 맞춘 recipe source | Web-only CSS, pseudo selector 의존 |
 | `packages/lynx-css/*` | generated CSS/recipe output | 직접 수정 |
 
-`lynx-react-headless`는 자동 state class를 주입하지 않는다. `active`, `checked`, `disabled` 같은 순수 상태를 context/render props로 노출하고, `lynx-react`가 그 상태를 recipe boolean/string variant로 전달한다.
+현재 저장소에 별도의 Lynx headless 패키지는 없다. 기존 상태 소유자가 `active`, `checked`, `disabled` 같은 상태를 노출하고, Styled UI가 그 상태를 recipe boolean/string variant로 전달한다.
 
 ## Native JSX 제약
 
@@ -80,7 +81,7 @@ Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모�
 
 ### 책임 분리
 
-- **headless(`packages/lynx-react-headless/*`)**: a11y 속성을 만들지 않는다. 상태(`pressed`/`checked`/`disabled`)만 노출한다.
+- **상태 소유 hook/context 또는 외부 primitive**: a11y 속성을 중복 계산하지 않고 `pressed`/`checked`/`disabled` 상태를 노출한다.
 - **styled(`packages/lynx-react/*`)**: 내부 상태·prop에 따라 `accessibility-*`를 native element에 **직접 작성**한다. (web `react-headless`가 `stateProps`로 `aria-*`를 붙이는 역할을 Lynx에선 styled가 담당)
 - 공통 헬퍼는 두지 않는다. 컴포넌트마다 label/role/value가 달라 직접 작성이 명확하다.
 
@@ -113,15 +114,12 @@ Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모�
 
 ## Docs and registry
 
-- Lynx snippet은 `docs/registry/lynx/ui/<name>.tsx`에 둔다.
-- `docs/registry/lynx/registry-ui.ts`에 item을 등록하고 `@seed-design/lynx-react`, `@seed-design/lynx-css` dependency range를 확인한다.
-- Delivery Surface가 `snippet-only` 또는 `package+snippet`이면 `docs/content/lynx/components/<name>.mdx`의 install/usage/props가 Lynx snippet 경로를 가리키게 한다.
-- `package-only`이면 문서에서 `@seed-design/lynx-react`의 실제 공개 export를 직접 사용하고 snippet을 만들지 않는다.
-- Lynx component docs는 `Installation → Props → Usage → Web Version Differences → Unsupported Lynx Features` 순서를 따른다.
-- Lynx docs heading은 최대한 영어로 쓰고, description과 설명 본문은 한국어로 작성한다.
+- Delivery Surface가 `snippet-only` 또는 `package+snippet`일 때만 Lynx snippet을 `docs/registry/lynx/ui/<name>.tsx`에 둔다.
+- Registry를 제공하면 `docs/registry/lynx/registry-ui.ts`의 등록과 dependency range를 확인한다.
 - `examples/lynx-spa/src/seed-design/ui/<name>.tsx`가 vendored copy를 갖고 있으면 registry snippet과 동기화한다.
 - 실제 사용 화면은 `examples/lynx-spa`에 추가하거나 기존 page에서 확인한다.
+- Delivery Surface 결정은 `api-design.md`, Lynx 문서와 실행 예제의 작성 규칙은 `../../seed-write-lynx-component-docs/SKILL.md`를 따른다.
 
 ## Verification focus
 
-자동 검증 명령은 `verification-checklist.md` 한 곳에서 확인한다. WebLynx와 실제 Lynx 실행은 `../../seed-verify-lynx-example/SKILL.md`를 사용한다. 이 문서에는 native JSX, Recipe, 상태와 접근성 구현 규칙만 둔다.
+자동 검증 명령은 `verification-checklist.md`에서 확인한다. 브라우저 문서 미리보기는 구조와 기본 상호작용 확인에 사용한다. 실제 Lynx 결과를 새로 주장할 때는 사용 가능한 호스트 앱이나 `examples/lynx-spa`에서 직접 확인하고, 실행 환경이 없으면 미확인 범위를 보고한다.
