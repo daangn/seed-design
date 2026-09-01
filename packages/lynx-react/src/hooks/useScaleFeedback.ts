@@ -8,17 +8,16 @@ import {
 } from "@lynx-js/react";
 import type { RefObject } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import { feedbackScaleDuration } from "@seed-design/lynx-css/scale-feedback" with {
-  runtime: "shared",
-};
+import {
+  feedbackScaleDuration,
+  feedbackScaleTimingFunction,
+} from "@seed-design/lynx-css/scale-feedback" with { runtime: "shared" };
 
 import type { LynxViewProps } from "../types";
 import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback" with {
   runtime: "shared",
 };
-import { animateScaleFeedback, type ScaleFeedbackElement } from "../utils/animate-scale-feedback" with {
-  runtime: "shared",
-};
+import type { ScaleFeedbackElement } from "../utils/animate-scale-feedback";
 
 type MainThreadLayoutChangeHandler = NonNullable<LynxViewProps["main-thread:bindlayoutchange"]>;
 type MainThreadTouchHandler = NonNullable<LynxViewProps["main-thread:bindtouchstart"]>;
@@ -64,11 +63,24 @@ function runScaleFeedback(
 ) {
   "main thread";
 
-  animationRef.current = animateScaleFeedback(
-    targetRef.current,
-    animationRef.current,
-    scale,
-    duration,
+  const target = targetRef.current;
+  if (!target) return;
+
+  let currentTransform = "scale(1)";
+  try {
+    currentTransform = target.getComputedStyleProperty("transform") || currentTransform;
+  } catch {
+    // Some non-native runtimes expose the method but cannot evaluate it.
+  }
+
+  animationRef.current?.cancel();
+  animationRef.current = target.animate(
+    [{ transform: currentTransform }, { transform: `scale(${scale})` }],
+    {
+      duration,
+      easing: feedbackScaleTimingFunction,
+      fill: "forwards",
+    },
   );
 }
 
