@@ -31,7 +31,7 @@ const viewportMap: ViewportMap = Object.fromEntries(
 export default definePreview({
   parameters: {
     kapture: {
-      requiredFonts: [{ text: "가나다라마바사 ABC 123" }],
+      waitForFonts: true,
     },
     viewport: {
       options: viewportMap,
