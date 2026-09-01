@@ -37,12 +37,13 @@ src/utils/*
 - 파일: `src/utils/get-config.ts`, `src/utils/init-config.ts`
 - `seed-design.json`이 없을 때 외부 명령(`seed-design init`)을 `execa`로 재호출하지 않는다.
 - 사용자 확인 후 기본값(`rsc=false`, `tsx=true`, `path="./seed-design"`, `telemetry=true`)으로 내부 생성한다.
+- 터미널이 없으면 확인을 받을 수 없으므로 생성하지 않고 `seed-design init -y`를 안내하며 종료 코드 `2`로 끝낸다. `add`에 `--yes`를 두지 않는 이유는 경로·프레임워크·telemetry 값이 한 번도 보이지 않은 채 정해지기 때문이다.
 
 ### 2) 에러 처리 책임 분리
 
 - 파일: `src/utils/error.ts`, `src/commands/*.ts`
 - 유틸 레이어는 에러를 `throw`만 하고 종료하지 않는다.
-- 커맨드 레이어만 `process.exit(0/1)`을 결정한다.
+- 커맨드 레이어만 `process.exit`을 결정한다. 코드는 `src/utils/error.ts`의 `ExitCode`가 이름으로 가지고 있다.
 - 기본 실패 출력은 `실패 메시지 + 원인 + 힌트`, `--verbose`에서 stack trace를 추가 출력한다.
 
 ### 3) 명령 성공 경로에서 telemetry는 비핵심(Non-blocking)
@@ -76,6 +77,29 @@ src/utils/*
 - 인덱스에 없는 주소는 URL을 조합해 한 번 시도한다. changelog처럼 콘텐츠 트리가 아니라 패키지·버전별로 생성되는 라우트가 있기 때문이다. 사이트가 모두 404로 답하면 `LlmsTxtNotFoundError`를 인덱스 기반 안내로 바꿔 던지고, 5xx와 타임아웃은 그대로 전달한다.
 - 세 명령의 종료 코드는 `0`·`1`·`2` 세 개다. stdout에 답이 있으면 `0`, 명령은 돌았고 답이 부정적이면 `1`, 답을 낼 수 없었으면 `2`다.
 - 세 명령 모두 `--cwd`를 받지 않고, 어떤 문서를 답할지 정할 때 `seed-design.json`을 읽지 않는다. 같은 입력이 실행 위치에 따라 다른 문서를 내지 않게 하기 위해서다. telemetry 수집 여부를 판정할 때만 `process.cwd()`의 설정을 읽는데, 이건 답에 관여하지 않는다.
+
+### 6) 터미널이 없으면 프롬프트를 호출하기 전에 막는다
+
+- 파일: `src/utils/interactive.ts`, `src/utils/get-config.ts`, `src/utils/init-config.ts`, `src/utils/write.ts`, `src/commands/add.ts`, `src/commands/add-all.ts`, `src/commands/init.ts`
+- `canPrompt()`는 `process.stdin.isTTY && process.stdout.isTTY`를 본다. clack은 답을 stdin에서 읽고 질문을 stdout에 그리므로 둘 중 하나만 터미널이어도 프롬프트가 성립하지 않는다.
+- 판정을 stdin이 닫혔는지로 하지 않는 이유는 그것이 증상의 한쪽뿐이기 때문이다. `@clack/core`의 `setRawMode`가 `isTTY`로 가드돼 있어 비TTY에서 프롬프트는 예외를 던지지 않고 기다린다. stdin이 닫혀 있으면 `await`가 해소되지 않은 채 이벤트 루프가 비어 Node가 `0`으로 빠져나가고, 열린 파이프면 무한히 기다린다. 종료 코드 계약만 고쳐서는 어느 쪽도 해결되지 않는다. `catch` 블록 자체가 실행되지 않기 때문이다.
+- 비대화형 수단을 새로 만들지 않고 이미 있는 인자로 답하게 한다. 전역 `--non-interactive` 플래그는 두지 않는다. 그 플래그의 역할은 「TTY인데도 비대화형처럼 굴어라」뿐이라 판정 수단이지 실행 수단이 아니고, 테스트는 자식 프로세스의 stdin을 `/dev/null`로 붙여 만든다.
+- 결말은 두 갈래다. 안전한 기본값이 있으면 그 값으로 진행하고, 없으면 어떤 인자로 답하면 되는지 알린 뒤 `ExitCode.unanswerable`로 끝낸다. 기본값이 있는 것은 `init` 하나뿐이다.
+
+| 프롬프트 | 비TTY 결말 |
+|---|---|
+| `init-config.ts`의 다섯 문항 | `-y`와 같은 기본값 |
+| `get-config.ts`의 설정 파일 생성 | `seed-design init -y` 안내 후 `2` |
+| `add.ts`의 항목 multiselect | 인자 예시 안내 후 `2` |
+| `add.ts`의 deprecated 확인 | `--include-deprecated` 안내 후 `2` |
+| `add-all.ts`의 레지스트리 multiselect | 사용 가능한 목록과 `--all` 안내 후 `2` |
+| `write.ts`의 diff 처리 | 파일을 두고 경로를 모아 반환, 호출자가 `2` |
+
+- `write.ts`는 답을 받지 못한 파일의 경로를 `unresolved`로 돌려준다. 사람이 고른 skip과 답하지 못한 skip을 한 덩어리로 묶으면 「완료했어요」와 `0` 아래에 바뀌지 않은 파일이 숨는다.
+- `add`·`add-all`은 그 목록을 스니펫 쓰기와 의존성 설치가 모두 끝난 뒤에 던진다. `--on-diff`를 붙여 다시 실행하면 나머지 작업은 이미 끝나 있다.
+- `--on-diff`에 `skip`이 있는 이유는 대화형 선택지 셋을 모두 인자로 쓸 수 있게 하기 위해서다. 없으면 「기존 파일을 그대로 두라」를 비대화형으로 표현할 방법이 없다.
+- `add`의 `--include-deprecated`는 `add-all`의 같은 이름과 역할이 다르다. `add-all`에서는 대상을 넓히고, `add`에서는 호출자가 이름으로 지목한 항목을 허가한다. `add`에서 조용히 건너뛰면 그것이 이 결정이 없애려는 증상 그 자체다.
+- `ExitCode.cancelled`는 사람이 프롬프트 앞에서 멈춘 경우에만 남는다. `add-all`의 「추가할 항목이 없어요」는 취소가 아니라 요청을 수행하지 못한 것이므로 `CliError`로 바꿨다.
 
 ## 패키지 로컬 스크립트
 

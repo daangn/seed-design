@@ -6,6 +6,7 @@ import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { cwdOption, type ParsedOptions } from "../utils/cli-options";
 import { ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
+import { canPrompt } from "../utils/interactive";
 import {
   DEFAULT_INIT_CONFIG,
   detectFramework,
@@ -33,9 +34,19 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
   p.intro("seed-design.json 파일 생성");
 
   try {
-    const config: Config = options.yes
-      ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
-      : await promptInitConfig(options.cwd);
+    // The one prompt this CLI can answer for itself: every question has a documented default
+    // and the result is a single config file, so a terminal-less run writes what `-y` writes
+    // instead of refusing the way the `add` prompts have to.
+    const answerable = canPrompt();
+
+    if (!answerable && !options.yes) {
+      p.log.info("터미널이 아니어서 모든 질문에 기본값으로 답했어요.");
+    }
+
+    const config: Config =
+      options.yes || !answerable
+        ? { ...DEFAULT_INIT_CONFIG, framework: detectFramework(options.cwd) }
+        : await promptInitConfig(options.cwd);
 
     const { start, stop } = p.spinner();
     start("seed-design.json 파일 생성중...");
