@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-`docs/examples/lynx`의 ReactLynx entry를 찾고 Rspeedy로 빌드해 `public/__lynx__`에 게시합니다. WebLynx 미리보기와 native Lynx 실행 파일은 하나의 manifest로 관리합니다.
+`docs/examples/lynx`의 ReactLynx entry를 찾고 Rspeedy로 빌드해 `public/__lynx__`에 게시합니다. 브라우저 미리보기와 native Lynx 실행 파일은 하나의 manifest로 관리합니다.
 
 ## 파일 작성 컨벤션
 

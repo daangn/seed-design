@@ -272,7 +272,7 @@ jobs:
             커밋과 push는 워크플로우의 후속 step이 처리하므로 직접 실행하지 마세요.
 
             판단 절차:
-            1. 먼저 `skills/changeset/SKILL.md`와 `skills/changeset/references/patterns.md`를 읽고 changeset 작성 규칙을 숙지하세요.
+            1. 먼저 `skills/seed-changeset/SKILL.md`와 `skills/seed-changeset/references/patterns.md`를 읽고 changeset 작성 규칙을 숙지하세요.
             2. `git diff ${{ steps.pr-info.outputs.base_sha || github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 workspace package.json을 확인하세요.
             3. 각 변경 package.json에서 `dependencies`, `devDependencies`, `peerDependencies`, `optionalDependencies`의 버전 상승을 찾으세요.
             4. 변경 package.json의 가장 가까운 package root를 기준으로 package name과 `private` 여부를 확인하세요.

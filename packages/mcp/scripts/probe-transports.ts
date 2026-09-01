@@ -11,7 +11,7 @@
  * To cover a new tool, add an entry to `PROBES` below: point `run` at the helper the tool's
  * handler already calls (never at the REST/WebSocket API directly — the helper *is* what is under
  * test), and list in `ignore` the fields only one transport can produce. What belongs in `ignore`
- * and what must be reported instead is decided by the `verify-figma-mcp-transports` skill.
+ * and what must be reported instead is decided by the `seed-verify-figma-mcp-transports` skill.
  */
 import { parseArgs } from "node:util";
 import { v4 as uuidv4 } from "uuid";
@@ -234,6 +234,6 @@ console.error(`✗ ${probeName} ${fileKey}/${nodeId}: transports disagree`);
 console.error(`\n--- REST (normalized) ---\n${restNormalized}`);
 console.error(`\n--- WebSocket (normalized) ---\n${websocketNormalized}`);
 console.error(
-  "\nA difference is not automatically a bug. Classify the field first — see the `verify-figma-mcp-transports` skill. Only a value one transport cannot produce at all belongs in this probe's `ignore`; anything the two sides merely render differently is reported, not silenced.",
+  "\nA difference is not automatically a bug. Classify the field first — see the `seed-verify-figma-mcp-transports` skill. Only a value one transport cannot produce at all belongs in this probe's `ignore`; anything the two sides merely render differently is reported, not silenced.",
 );
 process.exit(1);

@@ -18,7 +18,7 @@ x-textarea:defined::part(textarea) {
   padding: 0;
 }
 
-/* WebLynx는 flex item인 text를 상단에 배치하므로 선택 컴포넌트 label의 첫 줄만 중앙에 맞춥니다. */
+/* 브라우저 미리보기는 flex item인 text를 상단에 배치하므로 선택 컴포넌트 label의 첫 줄만 중앙에 맞춥니다. */
 .seed-radio__label--size_medium,
 .seed-checkbox__label--size_medium {
   margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
