@@ -23,9 +23,9 @@ export const initParser = command(
   object({
     command: constant("init"),
     cwd: cwdOption,
-    yes: option("-y", "--yes", { description: message`모든 질문에 기본값으로 답변합니다.` }),
+    yes: option("-y", "--yes", { description: message`묻지 않고 기본값을 선택합니다.` }),
   }),
-  { brief: message`seed-design.json 파일을 생성합니다` },
+  { brief: message`seed-design.json 파일을 생성합니다.` },
 );
 
 export async function runInit({ verbose, ...options }: ParsedOptions<typeof initParser>) {
@@ -49,7 +49,7 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
         : await promptInitConfig(options.cwd);
 
     const { start, stop } = p.spinner();
-    start("seed-design.json 파일 생성중...");
+    start("seed-design.json 파일 생성 중...");
     const relativePath = await (async () => {
       try {
         const result = await writeInitConfigFile({
@@ -66,8 +66,8 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
 
     stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
 
-    p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
-    p.log.info(highlight("seed-design add 명령어로 추가할 수 있는 모든 컴포넌트를 확인해보세요."));
+    p.log.info(highlight("seed-design add ui:snackbar처럼 항목을 추가해보세요!"));
+    p.log.info(highlight("seed-design add 명령어로 추가할 수 있는 모든 항목을 확인해보세요."));
 
     p.note(
       dedent(`SEED Design CLI는 개선을 위해 익명 사용 데이터를 수집해요.
