@@ -32,8 +32,6 @@ export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemPro
   label: React.ReactNode;
   description?: React.ReactNode;
   prefixIcon?: React.ReactElement<LynxIconElementProps>;
-  /** 멀티컬러 prefix 아이콘의 원본 색상을 유지합니다. */
-  prefixIconMulticolor?: boolean;
   suffix?: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -44,7 +42,6 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       label,
       description,
       prefixIcon,
-      prefixIconMulticolor,
       suffix,
       footer,
       "accessibility-label": accessibilityLabel,
@@ -60,9 +57,7 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       >
         <SeedRadioSelectBox.Trigger>
           <SeedRadioSelectBox.Content>
-            {prefixIcon ? (
-              <PrefixIcon icon={prefixIcon} multicolor={prefixIconMulticolor} />
-            ) : null}
+            {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}
             <SeedRadioSelectBox.Body>
               <SeedRadioSelectBox.Label>{label}</SeedRadioSelectBox.Label>
               {description != null ? (
@@ -100,8 +95,6 @@ export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, 
   label: React.ReactNode;
   description?: React.ReactNode;
   prefixIcon?: React.ReactElement<LynxIconElementProps>;
-  /** 멀티컬러 prefix 아이콘의 원본 색상을 유지합니다. */
-  prefixIconMulticolor?: boolean;
   suffix?: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -115,7 +108,6 @@ export const CheckSelectBox = React.forwardRef<unknown, CheckSelectBoxProps>(
       label,
       description,
       prefixIcon,
-      prefixIconMulticolor,
       suffix,
       footer,
       "accessibility-label": accessibilityLabel,
@@ -131,9 +123,7 @@ export const CheckSelectBox = React.forwardRef<unknown, CheckSelectBoxProps>(
       >
         <SeedCheckSelectBox.Trigger>
           <SeedCheckSelectBox.Content>
-            {prefixIcon ? (
-              <PrefixIcon icon={prefixIcon} multicolor={prefixIconMulticolor} />
-            ) : null}
+            {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}
             <SeedCheckSelectBox.Body>
               <SeedCheckSelectBox.Label>{label}</SeedCheckSelectBox.Label>
               {description != null ? (

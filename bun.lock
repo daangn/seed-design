@@ -118,7 +118,7 @@
       "devDependencies": {
         "@chromatic-com/storybook": "^4.1.3",
         "@figma/rest-api-spec": "^0.36.0",
-        "@karrotmarket/lynx-multicolor-icon": "1.25.0",
+        "@karrotmarket/lynx-multicolor-icon": "1.27.0",
         "@lynx-js/config-rsbuild-plugin": "0.2.2",
         "@lynx-js/react": "0.123.3",
         "@lynx-js/react-rsbuild-plugin": "0.18.3",
@@ -276,7 +276,7 @@
       "dependencies": {
         "@karrotmarket/icon-data": "^1.34.0",
         "@karrotmarket/lynx-monochrome-icon": "1.20.0",
-        "@karrotmarket/lynx-multicolor-icon": "1.25.0",
+        "@karrotmarket/lynx-multicolor-icon": "1.27.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
         "@lynx-js/react": "^0.117.0",
         "@seed-design/lynx-css": "0.8.0",
@@ -2456,13 +2456,13 @@
 
     "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.26.0", "", {}, "sha512-Kf1wPy7lX49WpEw1o383gPJUx95abXRTvELhq+1Gi/HXZSWiNoLXUZoiI8VG6wFwFOgr7PFjFHrSQuuj8JLWWw=="],
 
-    "@karrotmarket/assets-multicolor": ["@karrotmarket/assets-multicolor@1.28.0", "", {}, "sha512-K9M71Mtq4hVD7QqUO2nshfOWdGa+5YgwqxtIuBKKYVFmJdERraQWf5nnksNq509GbQKLSfdP9j0S4fYUCZyk6g=="],
+    "@karrotmarket/assets-multicolor": ["@karrotmarket/assets-multicolor@1.29.0", "", {}, "sha512-XMZE5XF7cq8XZ1BlttTvJbrYN7BSqE5P9Eq4yRkeIW7WHxSkmjjHI4LkbLf+GkRuJz/Llhzrlm8mVQsy3wmwOg=="],
 
     "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.34.0", "", {}, "sha512-zjtPezoyCcNX5n0FYTtwFgeNsson1M3yLSP5Vy5G0yebzpR1GPFLRvlDPzwB3SjUKzyhR6XIvypYBXSY5QK39w=="],
 
     "@karrotmarket/lynx-monochrome-icon": ["@karrotmarket/lynx-monochrome-icon@1.20.0", "", { "dependencies": { "@karrotmarket/assets-monochrome": "^1.24.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-E4hnkdGdIEgLWltw4wFPO8ohx27veJ2wSzw/LS0WrbLaBgz7yKeyT0ziuBZXF1xFR4X7dS+3D8ektJDCLSqKdQ=="],
 
-    "@karrotmarket/lynx-multicolor-icon": ["@karrotmarket/lynx-multicolor-icon@1.25.0", "", { "dependencies": { "@karrotmarket/assets-multicolor": "^1.26.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-rSlIEabPJb309L0gQMyos+aRiRRHQFK0a6oRh0NIS9d5tbjcU2jfuDBbEVA7zkIeUdkm6aWmsuZlg/mUucgz8w=="],
+    "@karrotmarket/lynx-multicolor-icon": ["@karrotmarket/lynx-multicolor-icon@1.27.0", "", { "dependencies": { "@karrotmarket/assets-multicolor": "^1.29.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-IqtL1teZnsM6XwMKEiTDxGNbttpIz13O4IxRYhFcIXH0vqUK2p+Yh9YQ81HPwK8T0HQM0MAWsMOuOhVvCatfMA=="],
 
     "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.17.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-r89zaxc6FeMpmTWz0u6TbasROhl1OWrqk+WRPgPDmEpUfydW4x7j88F30WAe5cOGZlrTklna3K79XovF3wBI2g=="],
 

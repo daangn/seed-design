@@ -93,15 +93,29 @@ export function IconSlotProvider({
 ////////////////////////////////////////////////////////////////////////////////////
 
 const iconSlotMarker = Symbol.for("@seed-design/lynx-react/icon-slot");
+const seedMulticolorIconMarker = Symbol.for("@seed-design/multicolor-icon");
 
 interface IconSlotComponent {
   [iconSlotMarker]?: IconSlotName;
+}
+
+interface MulticolorIconComponent {
+  [seedMulticolorIconMarker]?: boolean;
 }
 
 export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
   if (!isValidElement(node)) return null;
 
   return ((node.type as IconSlotComponent)[iconSlotMarker] ?? null) as IconSlotName | null;
+}
+
+function isMulticolorIcon(node: React.ReactNode): boolean {
+  if (!isValidElement(node)) return false;
+  if (node.type == null || (typeof node.type !== "function" && typeof node.type !== "object")) {
+    return false;
+  }
+
+  return (node.type as MulticolorIconComponent)[seedMulticolorIconMarker] === true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +125,7 @@ export interface IconProps extends LynxStyledElementProps {
   size?: StyleProps["height"] | number;
   color?: StyleProps["color"];
   /**
-   * 아이콘의 원본 색상을 유지합니다. 멀티컬러 아이콘에 사용합니다.
+   * 자동 감지되지 않는 멀티컬러 아이콘의 원본 색상을 유지합니다.
    * @default false
    */
   multicolor?: boolean;
@@ -165,9 +179,10 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const slotClassName = slot != null ? context?.classNames?.[slot] : undefined;
   const styleColor = getStyleColor(style);
+  const shouldPreserveOriginalColor = multicolor || isMulticolorIcon(icon);
   const iconColor = useIconColor(
     [baseClassName, slotClassName, className, size, color, styleColor, ...(context?.deps ?? [])],
-    { sourceRef, enabled: !multicolor },
+    { sourceRef, enabled: !shouldPreserveOriginalColor },
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
 
