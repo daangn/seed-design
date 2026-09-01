@@ -3,7 +3,7 @@ title: Accordion
 description: 관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
@@ -42,6 +42,10 @@ npx @seed-design/cli@latest add ui:accordion
 ### `AccordionContent`
 
 <react-type-table path="./registry/lynx/ui/accordion.tsx" name="AccordionContentProps" />
+
+## Scale Feedback
+
+Accordion Trigger는 화면 폭과 배경 정렬을 유지하기 위해 **Content Scale**을 사용합니다. 눌렀을 때 pressed overlay는 제자리에 남고 Prefix, Body, Suffix Icon이 들어 있는 내부 content layer만 줄어듭니다. [Scale Feedback](/lynx/components/concepts/scale-feedback)에서 Self와 Content의 차이를 확인하세요.
 
 ## Examples
 

@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -75,12 +76,24 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     defaultValue: defaultOpen,
   });
   const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const pressTap = usePressTap({
+  const {
+    pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressTapHandlers
+  } = usePressTap({
     disabled: !isInteractive,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const classNames = callout({ ...variantProps, pressed: pressTap.pressed });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: !isInteractive,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
+  });
+  const classNames = callout({ ...variantProps, pressed });
   const dismiss = useMemoizedFn(() => {
     if (!open) return;
 
@@ -94,9 +107,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
         prefixIcon: classNames.prefixIcon,
         suffixIcon: classNames.suffixIcon,
       },
-      deps: [variantProps.tone ?? "neutral", pressTap.pressed],
+      deps: [variantProps.tone ?? "neutral", pressed],
     }),
-    [classNames.prefixIcon, classNames.suffixIcon, pressTap.pressed, variantProps.tone],
+    [classNames.prefixIcon, classNames.suffixIcon, pressed, variantProps.tone],
   );
 
   if (!open) return null;
@@ -108,7 +121,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
           <view
             {...(ref ? { ref: ref as LynxViewRef } : {})}
             {...nativeProps}
-            {...(isInteractive ? pressTap : {})}
+            {...(isInteractive ? pressTapHandlers : {})}
+            {...(isInteractive ? scaleFeedbackTargetProps : {})}
+            {...(isInteractive ? scaleFeedbackTriggerProps : {})}
             accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
             accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
             className={clsx(classNames.root, className)}
@@ -248,6 +263,7 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
       bindtap?.(event);
       dismiss();
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
     if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
       console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
@@ -258,6 +274,8 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
         bindtap={handleTap}
+        {...scaleFeedbackTargetProps}
+        {...scaleFeedbackTriggerProps}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits={accessibilityTraits}

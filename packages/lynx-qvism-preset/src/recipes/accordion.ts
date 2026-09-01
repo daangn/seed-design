@@ -8,6 +8,7 @@ const accordion = defineSlotRecipe({
     "item",
     "header",
     "trigger",
+    "triggerContent",
     "pressedOverlay",
     "prefix",
     "body",
@@ -43,6 +44,13 @@ const accordion = defineSlotRecipe({
       paddingRight: itemVars.base.enabled.trigger.paddingX,
       backgroundColor: "transparent",
       border: "none",
+    },
+    triggerContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      transform: "scale(1)",
     },
     pressedOverlay: {
       position: "absolute",

@@ -3,7 +3,7 @@ title: Checkbox
 description: 사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
@@ -144,6 +144,10 @@ export function CheckboxVariants() {
 ### `CheckboxGroup`
 
 <react-type-table path="./registry/lynx/ui/checkbox.tsx" name="CheckboxGroupProps" />
+
+## Scale Feedback
+
+Checkbox는 label을 포함한 Root에서 터치를 받지만 **Checkmark만 Self Scale**합니다. 상위 List Item처럼 이미 축소되는 pressable 안에서는 중복 Scale Feedback을 적용하지 않아야 합니다. [Scale Feedback](/lynx/components/concepts/scale-feedback)을 참고하세요.
 
 ## Examples
 

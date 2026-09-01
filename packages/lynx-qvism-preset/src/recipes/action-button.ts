@@ -1,7 +1,4 @@
 import { actionButton as vars } from "../vars/component";
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 
 import { defineSlotRecipe } from "../utils/define";
 
@@ -47,9 +44,7 @@ const actionButton = defineSlotRecipe({
       marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
       marginRight: "calc(var(--seed-box-bleed-right) * -1)",
 
-      transform: "scale(1)",
-
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     text: {
       fontWeight: vars.base.enabled.label.fontWeight,
@@ -442,34 +437,6 @@ const actionButton = defineSlotRecipe({
       variant: "ghost",
       pressed: true,
       css: { root: { background: vars.variantGhost.pressed.root.color } },
-    },
-
-    // ── size × pressed — root scale ──────────────────────────────────────────
-    // Lynx has no individual `scale:` property and does not evaluate
-    // prefers-reduced-motion, so scale is applied via the `transform` shorthand
-    // and always animates on-device (the reduced-motion guard is dropped in
-    // lynx-css at the token layer). Web derives its feedback scale at runtime,
-    // so the static per-size values reference the global scale tokens directly
-    // instead of component vars.
-    {
-      size: "xsmall",
-      pressed: true,
-      css: { root: { transform: `scale(${scale.s95})` } },
-    },
-    {
-      size: "small",
-      pressed: true,
-      css: { root: { transform: `scale(${scale.s97})` } },
-    },
-    {
-      size: "medium",
-      pressed: true,
-      css: { root: { transform: `scale(${scale.s97})` } },
-    },
-    {
-      size: "large",
-      pressed: true,
-      css: { root: { transform: `scale(${scale.s98})` } },
     },
 
     // ── variant × disabled — all slots ──────────────────────────────────────

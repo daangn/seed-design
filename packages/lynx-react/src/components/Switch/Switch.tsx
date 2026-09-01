@@ -9,6 +9,10 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import {
+  useScaleFeedback,
+  type ScaleFeedbackTargetProps,
+} from "../../hooks/useScaleFeedback";
 import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 
 /**
@@ -30,6 +34,7 @@ interface SwitchContextValue {
   switchVariantProps: SwitchVariantProps;
   switchmarkVariantProps: SwitchmarkVariantProps;
   toggle: () => void;
+  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const SwitchContext = React.createContext<SwitchContextValue | null>(null);
@@ -90,9 +95,21 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
-  const { pressed: _pressed, ...pressHandlers } = usePressTap({
+  const {
+    pressed: _pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressHandlers
+  } = usePressTap({
     disabled,
     onTap: toggle,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onPressStart: bindtouchstart,
+    onPressEnd: bindtouchend,
+    onPressCancel: bindtouchcancel,
   });
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
@@ -104,8 +121,9 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       switchVariantProps,
       switchmarkVariantProps,
       toggle,
+      scaleFeedbackTargetProps,
     }),
-    [checked, disabled, switchVariantProps, switchmarkVariantProps, toggle],
+    [checked, disabled, switchVariantProps, switchmarkVariantProps, toggle, scaleFeedbackTargetProps],
   );
 
   return (
@@ -113,6 +131,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
+        {...scaleFeedbackTriggerProps}
         {...pressHandlers}
         {...nativeProps}
       >
@@ -148,6 +167,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
+        {...context.scaleFeedbackTargetProps}
         {...nativeProps}
       >
         {children}

@@ -3,7 +3,7 @@ title: RadioGroup
 description: 사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
@@ -38,6 +38,10 @@ npx @seed-design/cli add ui:radio-group
 ### `Radiomark`
 
 <react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadiomarkProps" />
+
+## Scale Feedback
+
+Radio Item은 label을 포함한 Root에서 터치를 받고 **Radiomark만 Self Scale**합니다. 상위 pressable이 전체 행의 피드백을 소유한다면 mark의 중복 축소를 피하세요. [Scale Feedback](/lynx/components/concepts/scale-feedback)을 참고하세요.
 
 ## Examples
 

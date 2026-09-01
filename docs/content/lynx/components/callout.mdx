@@ -3,7 +3,7 @@ title: Callout
 description: 사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.5"
+    engine: "3.9"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
@@ -44,6 +44,10 @@ npx @seed-design/cli@latest add ui:callout
   path="./registry/lynx/ui/callout.tsx"
   name="DismissibleCalloutProps"
 />
+
+## Scale Feedback
+
+Actionable Callout과 Close Button은 각각 자신의 표면에 **Self Scale**을 적용합니다. 상호작용이 없는 Callout Root에는 Scale Feedback을 적용하지 않습니다. 자세한 동작은 [Scale Feedback](/lynx/components/concepts/scale-feedback)을 참고하세요.
 
 ## Usage
 
