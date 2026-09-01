@@ -1,3 +1,12 @@
+/**
+ * TODO: Drop `-c`/`-r` and name a target the way `add`/`add-all` does — the positional
+ * `ITEM_ID`, spelled in full as `ui:action-button`. `-c` accepts exactly what the positional
+ * argument accepts, `-r` exists only to fill in the registry a bare name leaves out, and
+ * `resolveExplicitItemKeys` carries the guessing that follows from allowing a bare name at
+ * all. `add` refuses one outright, so the same input means two different things depending on
+ * which command reads it.
+ */
+
 import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { getRawConfig } from "@/src/utils/get-config";
 import { object } from "@optique/core/constructs";
@@ -72,7 +81,7 @@ function resolveExplicitItemKeys({
             if (!matchedItemKeys.length) {
               throw new CliError({
                 message: `${highlight(input)}: 항목을 찾을 수 없어요.`,
-                hint: `${highlight("ui:action-button")}처럼 registry를 포함해서 입력해보세요.`,
+                hint: `${highlight("ui:action-button")}처럼 레지스트리를 포함해서 입력해보세요.`,
               });
             }
 
@@ -80,7 +89,7 @@ function resolveExplicitItemKeys({
               throw new CliError({
                 message: `${highlight(input)}: 같은 이름의 항목이 여러 레지스트리에 있어요.`,
                 details: matchedItemKeys.map((itemKey) => `- ${itemKey}`),
-                hint: `${highlight("ui:action-button")}처럼 registry를 포함해서 입력해보세요.`,
+                hint: `${highlight("ui:action-button")}처럼 레지스트리를 포함해서 입력해보세요.`,
               });
             }
 
@@ -106,13 +115,13 @@ export const compatParser = command(
     itemIds: multiple(argument(string({ metavar: "ITEM_ID" }))),
     component: multiple(
       option("-c", "--component", string({ metavar: "COMPONENT" }), {
-        description: message`검사할 컴포넌트입니다. 여러 번 또는 쉼표로 지정할 수 있습니다.`,
+        description: message`검사할 항목입니다. 플래그를 반복하거나, 값을 쉼표로 이어 지정할 수 있습니다.`,
       }),
     ),
     all: option("-a", "--all", { description: message`모든 레지스트리 항목을 검사합니다.` }),
     registry: optional(
       option("-r", "--registry", string({ metavar: "REGISTRY_ID" }), {
-        description: message`컴포넌트 이름만 입력했을 때 사용할 기본 레지스트리입니다.`,
+        description: message`항목 이름만 입력했을 때 사용할 기본 레지스트리입니다.`,
       }),
     ),
     cwd: cwdLongOption,
@@ -120,7 +129,7 @@ export const compatParser = command(
     framework: frameworkOption,
   }),
   {
-    brief: message`설치된 스니펫의 호환성을 검사합니다`,
+    brief: message`다운로드된 항목의 호환성을 검사합니다.`,
     footer: exampleFooter([
       "seed-design compat",
       "seed-design compat -c action-button",
@@ -181,7 +190,8 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
           const rawConfig = await targetItemKeys;
           if (!rawConfig) {
             throw new CliError({
-              message: "seed-design.json 파일이 없어 설치된 스니펫 경로를 알 수 없어요.",
+              message:
+                "seed-design.json 파일이 없어 다운로드된 항목이 어떤 위치에 존재하는지 알 수 없어요.",
               hint: "`seed-design init`으로 설정을 만든 뒤 실행하거나, `--all`/`-c`로 검사 대상을 직접 지정해주세요.",
             });
           }
@@ -194,7 +204,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
 
           if (!installedItemKeys.length) {
             console.error(
-              `${highlight(path.relative(options.cwd, rootPath) || rawConfig.path)}에서 설치된 스니펫을 찾지 못했어요.`,
+              `${highlight(path.relative(options.cwd, rootPath) || rawConfig.path)}에 다운로드된 항목을 찾지 못했어요.`,
             );
             return [];
           }
@@ -217,7 +227,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
           console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
         }
       }
-      console.error("검사할 스니펫이 없어요.");
+      console.error("검사할 항목이 없어요.");
       // Nothing installed is not the same as not knowing where to look, which is why a
       // missing config leaves through the catch below instead of here.
       process.exit(ExitCode.answered);
@@ -235,7 +245,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
 
     if (!compatibilityReport.issues.length) {
       const compatPkgNames = getCompatPackageNames(framework);
-      console.error(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
+      console.error(`모든 항목이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
 
       try {
         await analytics.trackCommandOutcome(options.cwd, {
@@ -260,7 +270,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
     console.log(
       formatCompatibilityReport({
         report: compatibilityReport,
-        title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
+        title: "현재 프로젝트 버전과 호환되지 않는 항목을 찾았어요.",
         framework,
       })
         .map(({ text }) => text)
@@ -268,7 +278,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
     );
     const compatPkgList = getCompatPackageNames(framework);
     console.error(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
-    console.error("호환성 이슈가 있어요.");
+    console.error("호환성 문제가 있어요.");
 
     try {
       await analytics.trackCommandOutcome(options.cwd, {

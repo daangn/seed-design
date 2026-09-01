@@ -220,7 +220,7 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 npx @seed-design/cli@latest compat
 ```
 
-기본값은 `seed-design.json`의 `path` 아래에 이미 추가된 스니펫만 검사해요.
+기본값은 `seed-design.json`의 `path` 아래에 이미 추가된 항목만 검사해요.
 
 종료 코드가 세 갈래예요. 문제가 없으면 `0`, 검사해서 호환성 이슈를 찾았으면 `1`, 검사 자체를 하지 못했으면 `2`예요. 레지스트리에 닿지 못했거나 없는 항목을 넘겼거나 `seed-design.json`이 없어서 무엇을 검사할지 모르는 경우가 `2`에 해당해요. CI에서 `1`과 `2`를 나눠 다루면 네트워크 장애를 프로젝트의 문제로 읽지 않아요.
 
@@ -232,7 +232,7 @@ npx @seed-design/cli@latest compat
 npx @seed-design/cli@latest compat ui:action-button ui:alert-dialog
 ```
 
-컴포넌트 shorthand를 쓸 때는 `-c` 옵션을 사용해요.
+항목 shorthand를 쓸 때는 `-c` 옵션을 사용해요.
 
 ```package-install
 npx @seed-design/cli@latest compat -c action-button -c alert-dialog
@@ -248,7 +248,7 @@ npx @seed-design/cli@latest compat --all
 
 | 옵션 | 설명 |
 |------|------|
-| `-c, --component <component>` | 검사할 컴포넌트 ID. 여러 번 또는 쉼표로 지정 가능 |
+| `-c, --component <component>` | 검사할 항목 ID. 플래그를 반복하거나, 값을 쉼표로 이어 지정 가능 |
 | `-r, --registry <registryId>` | `--component`에 shorthand를 사용할 때 기본 registry 지정 |
 | `-a, --all` | 모든 registry 항목 검사 |
 | `--cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |

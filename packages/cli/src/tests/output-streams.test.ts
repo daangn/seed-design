@@ -217,7 +217,7 @@ describe("output streams", () => {
       expect(result.exitCode).toBe(1);
       expect(result.stdout).toBe(
         [
-          "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
+          "현재 프로젝트 버전과 호환되지 않는 항목을 찾았어요.",
           "현재 프로젝트 버전: @seed-design/react@미설치, @seed-design/css@미설치",
           "ui:action-button",
           "  - @seed-design/react: 패키지가 설치되어 있지 않아요. 필요 범위: >=1.2.0",
@@ -225,7 +225,7 @@ describe("output streams", () => {
         ].join("\n"),
       );
       expect(result.stderr).toContain("검사 대상: ui:action-button");
-      expect(result.stderr).toContain("호환성 이슈가 있어요.");
+      expect(result.stderr).toContain("호환성 문제가 있어요.");
     });
 
     it("leaves stdout empty when there is nothing to report", async () => {
@@ -233,7 +233,7 @@ describe("output streams", () => {
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toBe("");
-      expect(result.stderr).toContain("모든 스니펫이 현재");
+      expect(result.stderr).toContain("모든 항목이 현재");
     });
 
     it("draws no clack frame", async () => {
