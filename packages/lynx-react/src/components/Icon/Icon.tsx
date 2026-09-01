@@ -110,6 +110,11 @@ export interface IconProps extends LynxStyledElementProps {
   icon: ReactElement<LynxIconElementProps>;
   size?: StyleProps["height"] | number;
   color?: StyleProps["color"];
+  /**
+   * 아이콘의 원본 색상을 유지합니다. 멀티컬러 아이콘에 사용합니다.
+   * @default false
+   */
+  multicolor?: boolean;
 }
 
 export interface PrefixIconProps extends IconProps {}
@@ -151,6 +156,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
     style,
     size,
     color,
+    multicolor = false,
     children: _children,
     ...nativeProps
   } = props;
@@ -161,7 +167,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   const styleColor = getStyleColor(style);
   const iconColor = useIconColor(
     [baseClassName, slotClassName, className, size, color, styleColor, ...(context?.deps ?? [])],
-    { sourceRef },
+    { sourceRef, enabled: !multicolor },
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
 

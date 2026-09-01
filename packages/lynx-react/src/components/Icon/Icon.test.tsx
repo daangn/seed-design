@@ -4,7 +4,7 @@ import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
-import { InternalIcon } from "./Icon";
+import { InternalIcon, PrefixIcon } from "./Icon";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -125,5 +125,20 @@ describe("InternalIcon", () => {
     runNextFrame();
 
     expect(getSourceAndImage().image.getAttribute("tint-color")).toBe("rgb(73, 80, 88)");
+  });
+});
+
+describe("PrefixIcon", () => {
+  it("does not tint multicolor icons", async () => {
+    const { frames } = installMainThreadStyleMocks(() => "rgb(31, 35, 40)");
+
+    render(<PrefixIcon icon={<TestIcon />} multicolor />, {
+      enableMainThread: true,
+      enableBackgroundThread: true,
+    });
+    await waitSchedule();
+
+    expect(frames.size).toBe(0);
+    expect(getSourceAndImage().image.getAttribute("tint-color")).toBeNull();
   });
 });

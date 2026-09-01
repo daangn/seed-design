@@ -60,7 +60,7 @@ interface RadioGroupItemContextValue {
 
 const RadioGroupItemContext = React.createContext<RadioGroupItemContextValue | null>(null);
 
-function useRadioGroupItemContext(consumer: string): RadioGroupItemContextValue {
+export function useRadioGroupItemContext(consumer: string): RadioGroupItemContextValue {
   const ctx = React.useContext(RadioGroupItemContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <RadioGroupItem/>.`);
