@@ -1,6 +1,5 @@
 import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { getRawConfig } from "@/src/utils/get-config";
-import * as p from "@clack/prompts";
 import { object } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
 import { multiple, optional } from "@optique/core/modifiers";
@@ -20,9 +19,9 @@ import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
+  formatCompatibilityReport,
   getCompatPackageNames,
   getProjectSeedPackageVersionSpecs,
-  logCompatibilityReport,
 } from "../utils/compatibility";
 import { CliError, isCliCancelError, reportCliError } from "../utils/error";
 
@@ -131,32 +130,26 @@ export const compatParser = command(
   },
 );
 
+/**
+ * Like `docs`, and unlike `add` and `init`, this command draws no clack frame: it answers a
+ * question rather than walking someone through a change, and it never prompts. What it found
+ * goes to stdout, one line each; what it checked, how the check ended and why it failed go to
+ * stderr. A pipeline reading the findings gets them and nothing else, and a CI watching
+ * stderr for trouble sees the trouble.
+ */
 export async function runCompat({ verbose, ...options }: ParsedOptions<typeof compatParser>) {
   const startTime = Date.now();
   const trackCwd = options.cwd;
-  p.intro("seed-design compat");
 
   try {
     const rawConfig = await getRawConfig(options.cwd);
     const framework = options.framework ?? rawConfig?.framework ?? "react";
-    const { start, stop } = p.spinner();
 
-    start("Registry를 가져오고 있어요...");
-    const publicRegistries = await (async () => {
-      try {
-        const registries = await Promise.all(
-          (await fetchAvailableRegistries({ baseUrl: options.baseUrl, framework })).map(
-            async ({ id }) =>
-              fetchRegistry({ baseUrl: options.baseUrl, framework, registryId: id }),
-          ),
-        );
-        stop("Registry를 가져왔어요.");
-        return registries;
-      } catch (error) {
-        stop("Registry를 가져오지 못했어요.");
-        throw error;
-      }
-    })();
+    const publicRegistries = await Promise.all(
+      (await fetchAvailableRegistries({ baseUrl: options.baseUrl, framework })).map(({ id }) =>
+        fetchRegistry({ baseUrl: options.baseUrl, framework, registryId: id }),
+      ),
+    );
 
     const targetInputs = parseTargetInputs({
       itemIds: options.itemIds,
@@ -200,7 +193,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
           });
 
           if (!installedItemKeys.length) {
-            p.log.info(
+            console.error(
               `${highlight(path.relative(options.cwd, rootPath) || rawConfig.path)}에서 설치된 스니펫을 찾지 못했어요.`,
             );
             return [];
@@ -224,7 +217,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
           console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
         }
       }
-      p.outro("검사할 스니펫이 없어요.");
+      console.error("검사할 스니펫이 없어요.");
       process.exit(0);
     }
 
@@ -236,11 +229,11 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       framework,
     });
 
-    p.log.info(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
+    console.error(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
 
     if (!compatibilityReport.issues.length) {
       const compatPkgNames = getCompatPackageNames(framework);
-      p.outro(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
+      console.error(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
 
       try {
         await analytics.trackCommandOutcome(options.cwd, {
@@ -262,14 +255,18 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       process.exit(0);
     }
 
-    logCompatibilityReport({
-      report: compatibilityReport,
-      title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
-      framework,
-    });
+    console.log(
+      formatCompatibilityReport({
+        report: compatibilityReport,
+        title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
+        framework,
+      })
+        .map(({ text }) => text)
+        .join("\n"),
+    );
     const compatPkgList = getCompatPackageNames(framework);
-    p.log.info(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
-    p.outro("호환성 이슈가 있어요.");
+    console.error(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
+    console.error("호환성 이슈가 있어요.");
 
     try {
       await analytics.trackCommandOutcome(options.cwd, {
@@ -307,7 +304,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
           console.error("[Telemetry] compat 이벤트 전송에 실패했어요:", telemetryError);
         }
       }
-      p.outro(highlight(error.message));
+      console.error(highlight(error.message));
       process.exit(0);
     }
 
