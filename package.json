@@ -15,11 +15,11 @@
   ],
   "scripts": {
     "build": "ultra -r build",
-    "packages:build": "bun qvism:generate && ultra -r --build --filter 'packages/*' build",
+    "packages:build": "ultra -r --build --filter 'packages/*' build",
     "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
-    "release": "bun packages:build && bun changeset publish",
+    "release": "bun qvism:generate && bun packages:build && bun changeset publish",
     "version": "changeset version && bun install --no-immutable && bun rootage:build && bun install --no-immutable && bun --filter @seed-design/rootage-artifacts rootage:generate && bun tools/rootage-cdn/src/version-change-policy.ts",
     "format:all": "bun biome format --fix",
     "test:all": "bun test:unit && bun test:lynx-react",
