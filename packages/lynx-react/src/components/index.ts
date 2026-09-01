@@ -17,6 +17,7 @@ export * from "./NotificationBadge";
 export * from "./PageBanner";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";
+export * from "./ScaleFeedback";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Stack";

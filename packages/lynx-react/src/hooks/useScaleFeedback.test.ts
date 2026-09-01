@@ -1,9 +1,11 @@
+import {
+  feedbackScaleDuration,
+  feedbackScaleTimingFunction,
+} from "@seed-design/lynx-css/scale-feedback";
 import { describe, expect, it } from "vitest";
 
-import {
-  calculateScaleFeedback,
-  isReducedMotion,
-} from "../utils/calculate-scale-feedback";
+import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
+import { createScaleFeedbackAnimation } from "../utils/animate-scale-feedback";
 
 describe("calculateScaleFeedback", () => {
   it.each([
@@ -23,5 +25,34 @@ describe("isReducedMotion", () => {
     expect(isReducedMotion(undefined)).toBe(false);
     expect(isReducedMotion(null)).toBe(false);
     expect(isReducedMotion("unknown")).toBe(false);
+  });
+});
+
+describe("createScaleFeedbackAnimation", () => {
+  it("uses the current transform and Rootage motion values", () => {
+    expect(
+      createScaleFeedbackAnimation(
+        "matrix(0.97, 0, 0, 0.97, 0, 0)",
+        30 / 32,
+        feedbackScaleDuration,
+      ),
+    ).toEqual({
+      keyframes: [
+        { transform: "matrix(0.97, 0, 0, 0.97, 0, 0)" },
+        { transform: `scale(${30 / 32})` },
+      ],
+      options: {
+        duration: feedbackScaleDuration,
+        easing: feedbackScaleTimingFunction,
+        fill: "forwards",
+      },
+    });
+  });
+
+  it("falls back to the resting transform when the computed value is empty", () => {
+    expect(createScaleFeedbackAnimation("", 1, 0).keyframes).toEqual([
+      { transform: "scale(1)" },
+      { transform: "scale(1)" },
+    ]);
   });
 });

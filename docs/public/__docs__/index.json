@@ -2240,6 +2240,12 @@
               ]
             },
             {
+              "id": "scale-feedback",
+              "title": "Scale Feedback",
+              "description": "Lynx에서 Main Thread 기반의 SEED Scale Feedback을 적용하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/components/concepts/scale-feedback"
+            },
+            {
               "id": "segmented-control",
               "title": "Segmented Control",
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",

@@ -38,11 +38,16 @@
       "types": "./vars/component/*.d.ts",
       "import": "./vars/component/*.mjs"
     },
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "package.json",
     "recipes",
+    "scale-feedback",
     "vars",
     "*.css",
     "LICENSE",
@@ -50,12 +55,13 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun qvism ./ ./recipes",
+    "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs",
     "lint:publish": "bun publint"
   },
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/lynx-qvism-preset": "0.0.0"
+    "@seed-design/lynx-qvism-preset": "0.0.0",
+    "@seed-design/rootage-artifacts": "2.7.0"
   },
   "publishConfig": {
     "access": "public"
