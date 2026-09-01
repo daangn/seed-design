@@ -36,6 +36,12 @@ mock.module("@clack/prompts", () => ({
   isCancel: () => false,
 }));
 
+// These cases are about what the telemetry says once a prompt has been reached, so the
+// terminal check that decides whether one is reached at all is answered yes throughout.
+mock.module("../utils/interactive", () => ({
+  canPrompt: () => true,
+}));
+
 mock.module("../utils/init-config", () => ({
   DEFAULT_INIT_CONFIG: {
     tsx: true,
@@ -147,6 +153,7 @@ describe("command telemetry", () => {
       runAdd({
         command: "add",
         itemIds: [],
+        includeDeprecated: false,
         cwd: "/tmp/seed-design",
         baseUrl: "https://seed-design.io",
         // An archived version nobody publishes, so `resolveSeedVersion` throws before
