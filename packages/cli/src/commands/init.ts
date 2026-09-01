@@ -5,7 +5,7 @@ import { command, constant, option } from "@optique/core/primitives";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { cwdOption, type ParsedOptions } from "../utils/cli-options";
-import { isCliCancelError, reportCliError } from "../utils/error";
+import { ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
 import {
   DEFAULT_INIT_CONFIG,
   detectFramework,
@@ -106,7 +106,7 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
         }
       }
       p.outro(highlight(error.message));
-      process.exit(0);
+      process.exit(ExitCode.cancelled);
     }
 
     try {
@@ -128,6 +128,6 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,
     });
-    process.exit(1);
+    process.exit(exitCodeFor(error));
   }
 }
