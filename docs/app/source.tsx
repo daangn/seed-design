@@ -25,6 +25,7 @@ import { lynxCompatibilitySchema } from "@/lib/lynx-compatibility";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
+import { remarkTypeTableLlms } from "@/lib/satteri/remark-type-table-llms";
 import {
   filterStructureElement,
   structureOptions,
@@ -99,13 +100,18 @@ const llmsOptions: LLMsOptions = {
 };
 
 const figmaImageManifest = readFigmaImageManifest();
+/** 두 플러그인이 같은 generator와 basePath를 봐야 하므로 설정을 한 번만 씁니다. */
+const typeTableOptions = {
+  generator: filteredTypeTableGenerator,
+  name: "react-type-table",
+  options: { basePath: process.cwd() },
+};
+const typeTableLlms = remarkTypeTableLlms(typeTableOptions);
+
 const customMdastPlugins = [
   remarkDocGen({ generators: [fileGenerator()] }),
-  remarkAutoTypeTable({
-    generator: filteredTypeTableGenerator,
-    name: "react-type-table",
-    options: { basePath: process.cwd() },
-  }),
+  typeTableLlms.captureProps,
+  remarkAutoTypeTable(typeTableOptions),
   remarkFigmaImage({
     fileKey: env.figmaFileKey,
     accessToken: env.figmaPersonalAccessToken,
@@ -116,6 +122,7 @@ const customMdastPlugins = [
     },
   }),
   remarkApplyLlmsFilter(filterLlmsElement),
+  typeTableLlms.emitLlmsForm,
   remarkLlms(llmsOptions),
 ];
 

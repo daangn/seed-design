@@ -8,7 +8,8 @@ import type { FilterElement } from "@/lib/satteri/remark-llms-filter";
  *
  * TypeTable은 일부러 빠져 있다. `remarkAutoTypeTable`이 만드는 `type` 속성은 JSX가 섞인 JS
  * 객체 소스라 `typeTableRule`의 JSON.parse가 실패하고, 남겨 두면 그 원본이 llms.txt에 통째로
- * 실린다. 지금처럼 접어서 버리는 편이 낫다.
+ * 실린다. 그래서 이 목록으로 보존하는 대신 `remarkTypeTableLlms`가 표 데이터를 JSON으로 담은
+ * `<TypeTable>`을 `processed`에 다시 써 넣고, `typeTableRule`은 그쪽을 받는다.
  *
  * 룰 모듈(아이콘 데이터·rootage 아티팩트 등)을 끌어오지 않도록 이름만 적는다. 이 목록은
  * `source.tsx`가 모든 페이지 경로에서 import한다.
