@@ -1,0 +1,120 @@
+---
+title: Segmented Control
+description: 여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/segmented-control/preview">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:segmented-control
+```
+
+<LynxManualInstallation name="segmented-control" />
+
+## Props
+
+### `SegmentedControl`
+
+<Callout type="info">
+`value`와 `defaultValue` 중 하나를 제공해야 선택된 항목과 Indicator를 표시할 수 있습니다.
+</Callout>
+
+<react-type-table
+  path="./registry/lynx/ui/segmented-control.tsx"
+  name="SegmentedControlProps"
+/>
+
+### `SegmentedControlItem`
+
+<react-type-table
+  path="./registry/lynx/ui/segmented-control.tsx"
+  name="SegmentedControlItemProps"
+/>
+
+## Usage
+
+```tsx
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from "@/components/ui/segmented-control";
+
+export function App() {
+  return (
+    <SegmentedControl defaultValue="hot" accessibility-label="정렬 기준">
+      <SegmentedControlItem value="hot">인기순</SegmentedControlItem>
+      <SegmentedControlItem value="new">최신순</SegmentedControlItem>
+    </SegmentedControl>
+  );
+}
+```
+
+Registry의 `SegmentedControl`은 선택 Indicator를 자동으로 추가합니다.
+
+## Examples
+
+### Disabled
+
+`SegmentedControl`의 `disabled`는 전체 항목을 비활성화합니다. 각 `SegmentedControlItem`도 따로 비활성화할 수 있습니다.
+
+<LynxComponentExample name="lynx/segmented-control/disabled">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Long Label
+
+<LynxComponentExample name="lynx/segmented-control/long-label">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/long-label.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Fixed Width
+
+`SegmentedControl`의 `style`이나 `className`으로 너비를 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/segmented-control/fixed-width">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/fixed-width.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`onValueChange`로 선택 값 변경을 감지할 수 있습니다. Controlled 모드에서는 `value`와 함께 사용합니다.
+
+<LynxComponentExample name="lynx/segmented-control/value-changes">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/value-changes.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+| 항목 | React Web | Lynx |
+|---|---|---|
+| 렌더링 요소 | HTML `label`, `input` | 네이티브 `view`, `text` |
+| 선택 이벤트 | input change | `bindtap`, 공개 상태 이벤트는 `onValueChange` |
+| 접근성 | ARIA `radiogroup`, `radio` | Lynx `accessibility-*` 속성 |
+| Indicator | CSS grid와 custom property | Grid layout과 custom property |
+
+## Lynx 미지원 기능
+
+- HTML form 제출을 위한 `ItemHiddenInput`, `name`, `form`, `inputProps`
+- 키보드 focus와 focus-visible 상호작용
+- Registry `SegmentedControlItem`의 `notification` prop
+
+Lynx에는 대응하는 Notification Badge 컴포넌트가 없어 `notification` prop을 제공하지 않습니다. 항목 레이블은 문자열이나 숫자로 전달합니다.

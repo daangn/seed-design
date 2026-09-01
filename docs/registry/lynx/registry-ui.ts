@@ -85,6 +85,18 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "segmented-control",
+      snippets: [
+        {
+          path: "segmented-control.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "switch",
       snippets: [
         {
