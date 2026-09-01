@@ -7,11 +7,20 @@ import { type Tokenizer, components } from "zbsearch";
  *
  * Splitting follows Lucene's word delimiter filter: a chunk breaks apart at hyphens,
  * underscores and case boundaries, so `ActionButton`, `action-button` and `action button` all
- * reach the page written "Action Button". Hangul has no such boundaries and comes through
- * whole, which leaves `액션 버튼` findable and `액션버튼` not.
+ * reach the page written "Action Button". Each part is then stemmed, which is what lets
+ * `action buttons` reach it too. Hangul has neither boundary nor stem here and comes through
+ * whole, so `액션 버튼` is findable and `액션버튼` is not.
  */
 
-const defaultTokenizer = components.tokenizer.createTokenizer({ language: "english" });
+/**
+ * Stemming is off in zbsearch unless asked for. Splitting is what makes it worth asking: it
+ * is the parts that carry the plural, so `buttons` only folds onto `button` once
+ * `ActionButtons` has become two words.
+ */
+const defaultTokenizer = components.tokenizer.createTokenizer({
+  language: "english",
+  stemming: true,
+});
 
 const normalizeToken = defaultTokenizer.normalizeToken.bind(defaultTokenizer);
 

@@ -40,7 +40,16 @@ describe("tokenize", () => {
   });
 
   it("splits letters from digits", () => {
-    expect(tokenize("v1Migration")).toEqual(["v", "1", "migration"]);
+    expect(tokenize("v1Migration")).toEqual(["v", "1", "migrat"]);
+  });
+
+  it("folds a singular and its plural onto the same stem", () => {
+    expect(tokenize("badge")).toEqual(tokenize("badges"));
+  });
+
+  it("stems each part, so a plural reaches the singular it was written as", () => {
+    expect(tokenize("Action Buttons")).toEqual(tokenize("Action Button"));
+    expect(tokenize("ActionButtons")).toEqual(tokenize("action-button"));
   });
 
   it("drops delimiters left at either end of a word", () => {
