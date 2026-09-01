@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조 변경 시 `packages/docs-mcp/src/config.ts` 동기화 필수.
+SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조는 `public/__docs__/index.json`으로 게시되고, `@seed-design/cli`와 `@seed-design/docs-mcp`가 그 인덱스를 실행 시점에 읽는다. 두 소비자에게는 이 인덱스가 유일한 구조 정보이므로, 섹션을 늘리거나 줄일 때 `app/_llms/config.ts`의 등록을 함께 갱신한다.
 
 ## 파일 작성 컨벤션
 
