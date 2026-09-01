@@ -50,6 +50,20 @@ describe("findItem", () => {
     expect(findItem(react, "/components/button.txt")?.docUrl).toBe("/react/components/button");
   });
 
+  // What is left of a `search_docs` address once the leading slash is dropped and the section
+  // is split off the front. Each of these used to reach nothing.
+  it("drops the anchor a search result named its matching heading with", () => {
+    expect(findItem(react, "components/button#props")?.docUrl).toBe("/react/components/button");
+  });
+
+  it("reads the section's own page from an address with nothing after the section", () => {
+    expect(findItem(react, "")?.docUrl).toBe("/react");
+  });
+
+  it("reads the section's own page from an anchor alone", () => {
+    expect(findItem(react, "#install")?.docUrl).toBe("/react");
+  });
+
   it("returns nothing for a path no document has", () => {
     expect(findItem(react, "components/nope")).toBeUndefined();
   });

@@ -62,13 +62,21 @@ export function itemPath(category: DocsIndexCategory, item: DocsIndexItem): stri
  * Matches the full docUrl first so a path that names its category stays unambiguous,
  * then falls back to a bare item id.
  *
+ * Everything `search_docs` prints is accepted back as typed, which is what makes an address
+ * pasted from a search result reach the document it named: an `#anchor` is dropped, because a
+ * document has one text and the heading that matched names no less than the whole of it, and
+ * nothing at all is the section's own page, because splitting a one-segment address leaves the
+ * section id and no path behind it.
+ *
  * @throws when the bare id names more than one document. `react` carries `alert-dialog`,
  * `bottom-sheet` and `menu-sheet` under both `components` and `stackflow`; answering with
  * whichever came first left the other unreachable through this argument.
  */
 export function findItem(category: DocsIndexCategory, docPath: string): DocsIndexItem | undefined {
-  const normalized = docPath.replace(/^\/+|\.txt$/g, "");
+  const normalized = docPath.split("#")[0].replace(/^\/+|\.txt$/g, "");
   const all = category.items;
+
+  if (normalized.length === 0) return all.find((item) => item.docUrl === `/${category.id}`);
 
   const byDocUrl = all.find((item) => item.docUrl === `/${category.id}/${normalized}`);
   if (byDocUrl) return byDocUrl;
