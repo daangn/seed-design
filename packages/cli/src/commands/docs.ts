@@ -17,7 +17,7 @@ import {
 } from "../utils/docs-address";
 import { alignedLines, similarAddresses } from "../utils/docs-index";
 import { searchDocs } from "../utils/docs-search";
-import { CliError, reportCliError } from "../utils/error";
+import { CliError, ExitCode, exitCodeFor, reportCliError } from "../utils/error";
 import { exampleFooter } from "../utils/help";
 import type { DocsCategory, DocsItem } from "../schema";
 
@@ -175,7 +175,7 @@ async function emit(
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,
     });
-    process.exit(1);
+    process.exit(exitCodeFor(error));
   }
 }
 
@@ -197,6 +197,7 @@ export async function runDocsList({ address, baseUrl, verbose }: ParsedOptions<t
       throw new CliError({
         message: `${highlight(address ?? "/")}: 그 아래에 나열할 것이 없어요.${suggestionFor(categories, address ?? "")}`,
         hint: "`seed-design docs list`로 전체 목록을, `seed-design docs search <이름>`으로 이름 검색을 해보세요.",
+        exit: ExitCode.answeredNegatively,
       });
     }
 
@@ -230,6 +231,7 @@ export async function runDocsSearch({
       throw new CliError({
         message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
         hint: "띄어쓰기를 바꾸거나 더 짧은 말로 찾아보세요. 전체 목록은 `seed-design docs list`로 볼 수 있어요.",
+        exit: ExitCode.answeredNegatively,
       });
     }
 

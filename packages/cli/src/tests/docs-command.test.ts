@@ -277,10 +277,10 @@ describe("docs command", () => {
   }
 
   describe("without a subcommand", () => {
-    it("exits 1 with an empty stdout", async () => {
+    it("exits 2 with an empty stdout", async () => {
       const result = await runDocs([]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
       expect(result.stderr).not.toBe("");
     });
@@ -288,7 +288,7 @@ describe("docs command", () => {
     it("does not read a trailing value as an address", async () => {
       const result = await runDocs(["/react/components/action-button"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
     });
   });
@@ -378,18 +378,18 @@ describe("docs command", () => {
       expect(result.stdout).toBe("");
     });
 
-    it("exits 1 when given no name", async () => {
+    it("exits 2 when given no name", async () => {
       const result = await runDocs(["search"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
     });
 
-    it("exits 1 on a blank name rather than matching everything", async () => {
+    it("exits 2 on a blank name rather than matching everything", async () => {
       for (const blank of ["", "   "]) {
         const result = await runDocs(["search", blank]);
 
-        expect(result.exitCode).toBe(1);
+        expect(result.exitCode).toBe(2);
         expect(result.stdout).toBe("");
       }
     });
@@ -434,7 +434,7 @@ describe("docs command", () => {
     it("fails on a tail query that reaches several, naming each", async () => {
       const result = await runDocs(["read", "action-button"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
       expect(result.stderr).toContain("/lynx/components/action-button");
       expect(result.stderr).toContain("/react/components/action-button");
@@ -443,15 +443,15 @@ describe("docs command", () => {
     it("reports a miss for an address the index does not carry", async () => {
       const result = await runDocs(["read", "/react/nope"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
       expect(result.stderr).toContain("seed-design docs search");
     });
 
-    it("exits 1 when given no address", async () => {
+    it("exits 2 when given no address", async () => {
       const result = await runDocs(["read"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
     });
 
@@ -460,7 +460,7 @@ describe("docs command", () => {
       // until the site grew a second one.
       const result = await runDocs(["read", "react/updates/"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
       expect(result.stderr).toContain("seed-design docs list");
     });
@@ -468,7 +468,7 @@ describe("docs command", () => {
     it("refuses the root address", async () => {
       const result = await runDocs(["read", "/"]);
 
-      expect(result.exitCode).toBe(1);
+      expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
       // Not the whole index listed back as candidates.
       expect(result.stderr.split("\n").length).toBeLessThan(10);

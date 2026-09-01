@@ -28,7 +28,14 @@ import {
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
-import { CliCancelError, CliError, isCliCancelError, reportCliError } from "../utils/error";
+import {
+  CliCancelError,
+  CliError,
+  ExitCode,
+  exitCodeFor,
+  isCliCancelError,
+  reportCliError,
+} from "../utils/error";
 
 export const addParser = command(
   "add",
@@ -263,7 +270,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
         }
       }
       p.outro(highlight(error.message));
-      process.exit(0);
+      process.exit(ExitCode.cancelled);
     }
 
     try {
@@ -285,6 +292,6 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,
     });
-    process.exit(1);
+    process.exit(exitCodeFor(error));
   }
 }

@@ -27,7 +27,14 @@ import {
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
-import { CliCancelError, CliError, isCliCancelError, reportCliError } from "../utils/error";
+import {
+  CliCancelError,
+  CliError,
+  ExitCode,
+  exitCodeFor,
+  isCliCancelError,
+  reportCliError,
+} from "../utils/error";
 import { installDependencies } from "../utils/install";
 
 export const addAllParser = command(
@@ -258,7 +265,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
         }
       }
       p.outro(highlight(error.message));
-      process.exit(0);
+      process.exit(ExitCode.cancelled);
     }
 
     try {
@@ -280,6 +287,6 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,
     });
-    process.exit(1);
+    process.exit(exitCodeFor(error));
   }
 }

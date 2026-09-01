@@ -1,10 +1,44 @@
 import { ZodError } from "zod";
 
+/**
+ * What a command's exit code tells whatever ran it, in the shape `grep` settled on.
+ *
+ * The line that matters is not "did anything go wrong" but "did the command get to answer".
+ * A `compat` that found incompatible snippets did its job; a `compat` that could not reach the
+ * registry did not, and a CI gate unable to tell those apart reads a broken network as a
+ * broken project.
+ */
+export const ExitCode = {
+  /** The command answered. Where that answer is a verdict, it is the favourable one. */
+  answered: 0,
+  /**
+   * The command answered, and the answer is the unfavourable one: snippets that do not fit
+   * the installed packages, a query nothing matched, an address with nothing under it.
+   */
+  answeredNegatively: 1,
+  /**
+   * The command never reached an answer. The network, the arguments, the config file or the
+   * file system stopped it before it could look.
+   */
+  unanswerable: 2,
+  /**
+   * The person running the command stopped it at a prompt. Neither an answer nor a failure,
+   * and the same `0` as an answer, but named so a reader of the exit site can tell which of
+   * the two they are looking at.
+   */
+  cancelled: 0,
+} as const;
+
 interface CliErrorOptions {
   message: string;
   hint?: string;
   details?: string[];
   cause?: unknown;
+  /**
+   * Named rather than spelled as a number, so a reader of the throw site can see which of the
+   * two failures this is without going and looking up what `1` means here.
+   */
+  exit?: (typeof ExitCode)[keyof typeof ExitCode];
 }
 
 interface HandleCliErrorOptions {
@@ -26,12 +60,20 @@ interface ExecaLikeError {
 export class CliError extends Error {
   hint?: string;
   details: string[];
+  exit: (typeof ExitCode)[keyof typeof ExitCode];
 
-  constructor({ message, hint, details = [], cause }: CliErrorOptions) {
+  constructor({
+    message,
+    hint,
+    details = [],
+    cause,
+    exit = ExitCode.unanswerable,
+  }: CliErrorOptions) {
     super(message, { cause });
     this.name = "CliError";
     this.hint = hint;
     this.details = details;
+    this.exit = exit;
   }
 }
 
@@ -172,4 +214,14 @@ export function formatCliError(
  */
 export function reportCliError(error: unknown, options: HandleCliErrorOptions): void {
   console.error(formatCliError(error, options).join("\n"));
+}
+
+/**
+ * The code to leave with after `reportCliError`.
+ *
+ * Anything that is not a `CliError` came from the network, a library or a bug, none of which
+ * is the command answering, so it is unanswerable by default. A `CliError` says for itself.
+ */
+export function exitCodeFor(error: unknown) {
+  return error instanceof CliError ? error.exit : ExitCode.unanswerable;
 }

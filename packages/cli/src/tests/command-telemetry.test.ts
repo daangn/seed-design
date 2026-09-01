@@ -156,7 +156,9 @@ describe("command telemetry", () => {
         onDiff: undefined,
         verbose: false,
       }),
-    ).rejects.toThrow("EXIT:1");
+      // `add` has no verdict to report, so a version it cannot resolve leaves the same way
+      // every other failure does.
+    ).rejects.toThrow("EXIT:2");
 
     expect(trackCommandFailureSpy).toHaveBeenCalledWith(
       "/tmp/seed-design",

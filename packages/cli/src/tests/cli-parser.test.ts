@@ -31,18 +31,18 @@ async function runCli(args: string[], cwd = repoRoot) {
 }
 
 describe("cli parser", () => {
-  it("exits 1 with an empty stdout on an unknown command", async () => {
+  it("exits 2 with an empty stdout on an unknown command", async () => {
     const result = await runCli(["bogus-command"]);
 
-    expect(result.exitCode).toBe(1);
+    expect(result.exitCode).toBe(2);
     expect(result.stdout).toBe("");
     expect(result.stderr).not.toBe("");
   });
 
-  it("exits 1 with an empty stdout on an unknown option", async () => {
+  it("exits 2 with an empty stdout on an unknown option", async () => {
     const result = await runCli(["docs", "list", "--nope"]);
 
-    expect(result.exitCode).toBe(1);
+    expect(result.exitCode).toBe(2);
     expect(result.stdout).toBe("");
     expect(result.stderr).not.toBe("");
   });
@@ -50,7 +50,7 @@ describe("cli parser", () => {
   it("rejects a value outside an option's choices", async () => {
     const result = await runCli(["add", "--framework", "svelte"]);
 
-    expect(result.exitCode).toBe(1);
+    expect(result.exitCode).toBe(2);
     expect(result.stdout).toBe("");
     expect(result.stderr).toContain("svelte");
   });
@@ -69,7 +69,7 @@ describe("cli parser", () => {
     // read this flag straight out of rawArgs.
     const result = await runCli(["add", "--seed-react-version", "1.50"]);
 
-    expect(result.exitCode).toBe(1);
+    expect(result.exitCode).toBe(2);
     expect(`${result.stdout}${result.stderr}`).toContain("1.50");
   });
 
@@ -97,7 +97,7 @@ describe("cli parser", () => {
   it("reads the value given to the camel spelling", async () => {
     const result = await runCli(["add", "--seedReactVersion", "1.50"]);
 
-    expect(result.exitCode).toBe(1);
+    expect(result.exitCode).toBe(2);
     expect(`${result.stdout}${result.stderr}`).toContain("1.50");
   });
 
@@ -157,6 +157,6 @@ describe("cli parser", () => {
     ]);
 
     expect(help.stdout).not.toContain("--default");
-    expect(run.exitCode).toBe(1);
+    expect(run.exitCode).toBe(2);
   });
 });
