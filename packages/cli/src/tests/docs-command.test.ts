@@ -143,6 +143,14 @@ const servedTxt = new Set([
   "/llms/lynx/components/checkbox.txt",
 ]);
 
+/**
+ * What only a spawned process can answer: the exit code, which stream each answer lands on, and
+ * whether the command reaches the URL its address resolved to.
+ *
+ * Which documents an address names is not that. Those rules are pure functions over the index,
+ * and `docs-address.test.ts` holds them — the cases here take one address per rule and follow it
+ * the rest of the way out, rather than re-deriving the grammar a process at a time.
+ */
 describe("docs command", () => {
   let server: Server;
   let baseUrl: string;
@@ -295,33 +303,6 @@ describe("docs command", () => {
       );
     });
 
-    it("descends exactly one level", async () => {
-      const result = await runDocs(["list", "react/"]);
-
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        [
-          "/react/components/  4개 항목",
-          "/react/stackflow/   1개 항목",
-          "/react/updates/     1개 항목",
-        ].join("\n"),
-      );
-    });
-
-    it("marks a container with a trailing slash and a document without one", async () => {
-      const result = await runDocs(["list", "react/components/"]);
-
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        [
-          "/react/components/action-button  Action Button",
-          "/react/components/bottom-sheet   Bottom Sheet",
-          "/react/components/concepts/      1개 항목",
-          "/react/components/iconography/   1개 항목",
-        ].join("\n"),
-      );
-    });
-
     it("answers the same way from a project that configures a framework", async () => {
       const [fromRepo, fromProject] = await Promise.all([
         runDocs(["list", "react/"]),
@@ -332,22 +313,22 @@ describe("docs command", () => {
       expect(fromProject.stdout).toBe(fromRepo.stdout);
     });
 
-    it("takes a shortened scope the way it takes a shortened address", async () => {
-      const [shortened, anchored] = await Promise.all([
-        runDocs(["list", "stackflow/"]),
-        runDocs(["list", "/react/stackflow/"]),
-      ]);
-
-      expectSuccess(shortened);
-      expect(shortened.stdout.trimEnd()).toBe("/react/stackflow/bottom-sheet  Bottom Sheet");
-      expect(shortened.stdout).toBe(anchored.stdout);
-    });
-
-    it("marks a deprecated document", async () => {
-      const result = await runDocs(["list", "lynx/components/"]);
+    it("lists under every container a shortened scope reaches, merged and sorted as one", async () => {
+      // `resolveScopes` answers with both containers, and the listings are flattened, deduped
+      // by address and re-sorted here rather than printed one block per scope.
+      const result = await runDocs(["list", "components/"]);
 
       expectSuccess(result);
-      expect(result.stdout).toContain("Checkbox (deprecated)");
+      expect(result.stdout.trimEnd()).toBe(
+        [
+          "/lynx/components/action-button   Action Button",
+          "/lynx/components/checkbox        Checkbox (deprecated)",
+          "/react/components/action-button  Action Button",
+          "/react/components/bottom-sheet   Bottom Sheet",
+          "/react/components/concepts/      1개 항목",
+          "/react/components/iconography/   1개 항목",
+        ].join("\n"),
+      );
     });
 
     it("exits 1 when the address reaches nothing", async () => {
@@ -439,7 +420,9 @@ describe("docs command", () => {
       expect(result.stdout.trimEnd()).toBe("# served /llms/react.txt");
     });
 
-    it("resolves a tail query that reaches exactly one document", async () => {
+    it("follows a tail query through to the document it reaches", async () => {
+      // The only success path that runs on the tail resolver's output rather than an exact
+      // address: what it settles on has to reach the fetch the same way.
       const result = await runDocs(["read", "concepts/composition"]);
 
       expectSuccess(result);
@@ -455,21 +438,6 @@ describe("docs command", () => {
       expect(result.stdout).toBe("");
       expect(result.stderr).toContain("/lynx/components/action-button");
       expect(result.stderr).toContain("/react/components/action-button");
-    });
-
-    it("takes the exact address the ambiguous query listed", async () => {
-      const result = await runDocs(["read", "/lynx/components/action-button"]);
-
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("# served /llms/lynx/components/action-button.txt");
-    });
-
-    it("does not read an exact address as a tail query", async () => {
-      // `/components/bottom-sheet` is nobody's path, though two documents end with it.
-      const result = await runDocs(["read", "/components/bottom-sheet"]);
-
-      expect(result.exitCode).toBe(1);
-      expect(result.stdout).toBe("");
     });
 
     it("reports a miss for an address the index does not carry", async () => {
