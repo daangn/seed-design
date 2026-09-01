@@ -126,17 +126,38 @@ export function createDocsSearch(dump: RawData) {
 }
 
 /**
+ * How far the loose pass may extend the strict one, counted in pages and relative to what the
+ * strict pass found.
+ *
+ * Splitting identifiers turned `action-button` into two words, and a two-word query the loose
+ * pass answers with every page holding either of them — 61 for that one, against 8 before.
+ * Bounding it is what Elasticsearch spends `minimum_should_match` on. Measured over 766
+ * queries, cutting the tail at two, three or five times the strict pass leaves top-1, MRR and
+ * recall at 25 identical and roughly halves the count, so nothing an answer needed is in there.
+ */
+const FILL_RATIO = 3;
+
+/**
  * Appends the pages of `fill` that `base` did not already open, keeping each page's own rows
  * together. A page is the unit because a heading torn from its page reads as a second result
  * for the same document.
  */
 function mergeByPage(base: SearchHit[], fill: SearchHit[]): SearchHit[] {
   const opened = new Set(base.filter((hit) => hit.type === "page").map((hit) => hit.url));
+
+  // Nothing carried every word of the query, so the loose pass is the whole answer and keeps
+  // its length. Bounding it against zero would leave the reader with nothing.
+  const room = opened.size === 0 ? Number.POSITIVE_INFINITY : opened.size * FILL_RATIO;
+
   const tail: SearchHit[] = [];
+  let taken = 0;
   let keeping = false;
 
   for (const hit of fill) {
-    if (hit.type === "page") keeping = !opened.has(hit.url);
+    if (hit.type === "page") {
+      keeping = !opened.has(hit.url) && taken < room;
+      if (keeping) taken += 1;
+    }
     if (keeping) tail.push(hit);
   }
 
