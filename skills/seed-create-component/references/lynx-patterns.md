@@ -145,6 +145,14 @@ Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.
 - `docs/content/lynx/components/<name>.mdx`에 `Web Version Differences`와 `Unsupported Lynx Features`를 작성한다.
 - SVG/icon 기능은 `@karrotmarket/lynx-monochrome-icon` 같은 Lynx icon element와 `<image tint-color>` 기반 wrapper를 우선 검토한다.
 
+## 아이콘 색상 처리
+
+사용자가 전달하는 아이콘은 `Icon`, `PrefixIcon`, `SuffixIcon`으로 렌더한다. 이 컴포넌트들은 `@seed-design/multicolor-icon` 표시가 있는 아이콘을 자동으로 감지해 원본 색상을 유지한다. 자동 감지되지 않는 사용자 아이콘에만 `multicolor` prop을 사용한다.
+
+- 컴포넌트별로 `prefixIconMulticolor` 같은 분기 prop을 추가하지 않는다.
+- `InternalIcon`은 컴포넌트가 소유한 단색 아이콘과 상태별 색상 적용에 사용한다. 현재 멀티컬러 자동 감지를 지원하지 않는다.
+- 내부 아이콘 슬롯도 멀티컬러 콘텐츠를 받아야 한다면 개별 컴포넌트에서 우회하지 않는다. 공통 Icon 구현의 자동 감지 범위를 먼저 확장한다.
+
 ## Accessibility
 
 Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모든 native tag(`<view>`/`<text>`/`<image>`/`<list>`/...)가 동일한 공통 속성을 공유**하며 tag별 차이는 없다. `lynx-react`의 `LynxAccessibilityProps`(`packages/lynx-react/src/types.ts`)가 이 속성들을 모은 표준 타입이다 — 컴포넌트 props가 이를 확장해 native element에 패스스루한다.
