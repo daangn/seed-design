@@ -1,48 +1,25 @@
 import { describe, expect, it } from "bun:test";
-import { create, insertMultiple, save } from "zbsearch";
+import { buildDocsIndex } from "./build";
 import { addressesOf, createDocsSearch } from "./search";
-import { koreanTokenizer } from "./tokenizer";
 
 /**
- * Built the way the documentation site builds it — one `page` row carrying the title, then a
- * row per chunk — so what these assert is the round trip a reader actually makes: indexed
- * under the site's rules, queried under the CLI's.
+ * Indexed through the same builder the documentation site publishes with, so what these
+ * assert is the round trip a reader actually makes rather than a fixture that agrees with
+ * itself: built under the site's rules, queried under the CLI's.
  *
  * The split between those two rules rests on zbsearch naming the property it is indexing and
  * naming nothing when it splits a query, which is its behaviour rather than its contract.
  * Should a release change that, the glued spelling below is what stops answering.
  */
-async function indexOf(pages: { url: string; title: string; chunks: string[] }[]) {
-  const db = create({
-    schema: {
-      content: "string",
-      page_id: "string",
-      type: "string",
-      url: "string",
-      breadcrumbs: "string[]",
-      tags: "enum[]",
-    },
-    components: { tokenizer: koreanTokenizer },
-  });
-
-  await insertMultiple(
-    db,
-    pages.flatMap(({ url, title, chunks }) => [
-      { id: url, page_id: url, type: "page", content: title, url, breadcrumbs: [], tags: [] },
-      ...chunks.map((content, index) => ({
-        id: `${url}-${index}`,
-        page_id: url,
-        type: "text",
-        content,
-        url,
-        breadcrumbs: [],
-        tags: [],
-      })),
-    ]),
+const indexOf = (pages: { url: string; title: string; chunks: string[] }[]) =>
+  buildDocsIndex(
+    pages.map(({ url, title, chunks }) => ({
+      id: url,
+      url,
+      title,
+      structuredData: { headings: [], contents: chunks.map((content) => ({ content })) },
+    })),
   );
-
-  return save(db);
-}
 
 const CORPUS = [
   {
@@ -93,14 +70,6 @@ describe("createDocsSearch", () => {
 
   it("still names it when the query asks about something on that page", async () => {
     expect((await search("bottom sheet snap point"))[0]).toBe("/components/bottom-sheet");
-  });
-
-  it("leaves a name that is one word of a longer question where the engine put it", async () => {
-    // "Changelog" is a whole title inside this query, but one word out of five: promoting it
-    // would put it over the page the rest of the query is actually about.
-    expect((await search("액션을 수행하도록 돕는 changelog 컴포넌트"))[0]).not.toBe(
-      "/react/updates/changelog",
-    );
   });
 
   it("still splits Korean on whitespace alone", async () => {

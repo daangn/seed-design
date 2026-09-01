@@ -1,3 +1,4 @@
+export { buildDocsIndex, DOCS_SCHEMA, type IndexablePage } from "./build";
 export {
   addressesOf,
   createDocsSearch,
