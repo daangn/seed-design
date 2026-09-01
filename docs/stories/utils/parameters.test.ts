@@ -12,15 +12,15 @@ describe("visual test provider parameters", () => {
       pauseAnimationAtEnd: true,
     });
     expect(parameters.kapture).toEqual({
-      diff: { pixel: 0.2 },
-      delayMs: 300,
-      animation: "end",
+      diff: { pixelColorThreshold: 0.2 },
+      captureDelayMs: 300,
+      animationState: "end",
     });
     expect(parameters.theme).toBe("dark");
   });
 
   test("maps responsive captures independently for both providers", () => {
-    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.viewports).toEqual([...breakpointNames]);
+    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.captureViewports).toEqual([...breakpointNames]);
     expect(Object.keys(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes)).toEqual([...breakpointNames]);
   });
 });

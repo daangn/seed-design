@@ -24,7 +24,7 @@ export const VISUAL_VIEWPORT_PARAMETERS = {
     modes: Object.fromEntries(breakpointNames.map((name) => [name, { viewport: name }])),
   },
   kapture: {
-    viewports: breakpointNames,
+    captureViewports: breakpointNames,
   },
 } satisfies { kapture: KaptureStoryParameters; chromatic: { modes: object } };
 
@@ -35,9 +35,9 @@ const VISUAL_TEST_PARAMETERS = {
     pauseAnimationAtEnd: true, // 애니메이션 종료 시점에서 스냅샷
   },
   kapture: {
-    diff: { pixel: 0.2 },
-    delayMs: 300,
-    animation: "end",
+    diff: { pixelColorThreshold: 0.2 },
+    captureDelayMs: 300,
+    animationState: "end",
   },
 } satisfies { kapture: KaptureStoryParameters; chromatic: object };
 
