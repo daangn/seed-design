@@ -5,7 +5,7 @@ import { command, constant, option } from "@optique/core/primitives";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { cwdOption, type ParsedOptions } from "../utils/cli-options";
-import { handleCliError, isCliCancelError } from "../utils/error";
+import { isCliCancelError, reportCliError } from "../utils/error";
 import {
   DEFAULT_INIT_CONFIG,
   detectFramework,
@@ -123,7 +123,7 @@ export async function runInit({ verbose, ...options }: ParsedOptions<typeof init
       }
     }
 
-    handleCliError(error, {
+    reportCliError(error, {
       defaultMessage: "seed-design.json 파일 생성에 실패했어요.",
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,

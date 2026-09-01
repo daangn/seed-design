@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, mock, spyOn } from "bun:te
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import * as prompts from "@clack/prompts";
 import { analytics } from "../utils/analytics";
 
 describe("analytics command outcome tracking", () => {
@@ -40,7 +39,8 @@ describe("analytics command outcome tracking", () => {
     const fetchSpy = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(null, { status: 200 }),
     );
-    const infoSpy = spyOn(prompts.log, "info").mockImplementation(() => {});
+    // The notice goes to stderr, so that `docs` output piped onward carries no line of ours.
+    const noticeSpy = spyOn(console, "error").mockImplementation(() => {});
 
     await analytics.trackCommandOutcome(cwd, {
       command: "add",
@@ -51,7 +51,7 @@ describe("analytics command outcome tracking", () => {
     });
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    expect(infoSpy).toHaveBeenCalled();
+    expect(noticeSpy).toHaveBeenCalled();
 
     const [, request] = fetchSpy.mock.calls[0] ?? [];
     const payload = JSON.parse(String(request?.body));
@@ -69,7 +69,7 @@ describe("analytics command outcome tracking", () => {
     const fetchSpy = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(null, { status: 200 }),
     );
-    spyOn(prompts.log, "info").mockImplementation(() => {});
+    spyOn(console, "error").mockImplementation(() => {});
 
     await analytics.trackCommandFailure(cwd, {
       command: "docs",

@@ -28,7 +28,7 @@ import {
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
-import { CliCancelError, CliError, handleCliError, isCliCancelError } from "../utils/error";
+import { CliCancelError, CliError, isCliCancelError, reportCliError } from "../utils/error";
 
 export const addParser = command(
   "add",
@@ -280,7 +280,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
       }
     }
 
-    handleCliError(error, {
+    reportCliError(error, {
       defaultMessage: "추가에 실패했어요.",
       defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
       verbose,

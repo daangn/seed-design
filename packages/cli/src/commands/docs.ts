@@ -17,7 +17,7 @@ import {
 } from "../utils/docs-address";
 import { alignedLines, similarAddresses } from "../utils/docs-index";
 import { searchDocs } from "../utils/docs-search";
-import { CliError, formatCliError } from "../utils/error";
+import { CliError, reportCliError } from "../utils/error";
 import { exampleFooter } from "../utils/help";
 import type { DocsCategory, DocsItem } from "../schema";
 
@@ -170,13 +170,11 @@ async function emit(
       }
     }
 
-    console.error(
-      formatCliError(error, {
-        defaultMessage: "문서 조회에 실패했어요.",
-        defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
-        verbose,
-      }).join("\n"),
-    );
+    reportCliError(error, {
+      defaultMessage: "문서 조회에 실패했어요.",
+      defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
+      verbose,
+    });
     process.exit(1);
   }
 }

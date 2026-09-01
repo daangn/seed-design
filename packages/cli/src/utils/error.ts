@@ -1,6 +1,4 @@
-import * as p from "@clack/prompts";
 import { ZodError } from "zod";
-import { highlight } from "./color";
 
 interface CliErrorOptions {
   message: string;
@@ -141,10 +139,10 @@ function toStack(error: unknown): string | undefined {
 }
 
 /**
- * The same text `handleCliError` renders, as plain lines.
+ * What went wrong, as plain lines, for a caller that has somewhere of its own to put them.
  *
- * `docs` prints results a caller pipes elsewhere, so it draws no clack frame; putting the
- * error inside one would be the only decorated thing the command emits.
+ * Kept separate from `reportCliError` so a test can read the text without capturing a
+ * stream.
  */
 export function formatCliError(
   error: unknown,
@@ -164,27 +162,14 @@ export function formatCliError(
   return lines;
 }
 
-export function handleCliError(
-  error: unknown,
-  { defaultMessage, defaultHint, verbose = false }: HandleCliErrorOptions,
-): void {
-  const normalized = normalizeError(error, defaultHint);
-
-  p.log.error(defaultMessage);
-  p.log.error(`원인: ${normalized.reason}`);
-
-  for (const detail of normalized.details) {
-    p.log.info(detail);
-  }
-
-  if (normalized.hint) {
-    p.log.info(`해결 힌트: ${normalized.hint}`);
-  }
-
-  if (verbose && normalized.stack) {
-    p.log.message(highlight("\n[verbose] stack trace"));
-    p.log.message(normalized.stack);
-  }
-
-  p.outro(highlight("작업에 실패했어요."));
+/**
+ * The failure account, on stderr, where anything watching for one will find it.
+ *
+ * Commands differ in how they narrate progress — `docs` and `compat` print bare lines a
+ * caller pipes onward, while `add` and `init` draw a clack frame around an interactive
+ * session — but a failure reads the same from all of them, and never lands on stdout among
+ * the results.
+ */
+export function reportCliError(error: unknown, options: HandleCliErrorOptions): void {
+  console.error(formatCliError(error, options).join("\n"));
 }
