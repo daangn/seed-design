@@ -11,6 +11,7 @@ export * from "./Divider";
 export * from "./Field";
 export * from "./Icon";
 export * from "./KeyboardAvoidingScrollView";
+export * from "./PageBanner";
 export * from "./ProgressCircle";
 export * from "./RadioGroup";
 export * from "./SegmentedControl";

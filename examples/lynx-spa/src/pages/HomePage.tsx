@@ -47,6 +47,7 @@ export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
       <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
       <ListItem title="Callout" onTap={() => navigate("callout")} />
       <ListItem title="Checkbox" onTap={() => navigate("checkbox")} />
+      <ListItem title="PageBanner" onTap={() => navigate("page-banner")} />
       <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
       <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
       <ListItem title="Switch" onTap={() => navigate("switch")} />
