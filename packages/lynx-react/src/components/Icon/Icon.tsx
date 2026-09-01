@@ -93,9 +93,14 @@ export function IconSlotProvider({
 ////////////////////////////////////////////////////////////////////////////////////
 
 const iconSlotMarker = Symbol.for("@seed-design/lynx-react/icon-slot");
+const seedMulticolorIconMarker = Symbol.for("@seed-design/multicolor-icon");
 
 interface IconSlotComponent {
   [iconSlotMarker]?: IconSlotName;
+}
+
+interface MulticolorIconComponent {
+  [seedMulticolorIconMarker]?: boolean;
 }
 
 export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
@@ -104,12 +109,26 @@ export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
   return ((node.type as IconSlotComponent)[iconSlotMarker] ?? null) as IconSlotName | null;
 }
 
+function isMulticolorIcon(node: React.ReactNode): boolean {
+  if (!isValidElement(node)) return false;
+  if (node.type == null || (typeof node.type !== "function" && typeof node.type !== "object")) {
+    return false;
+  }
+
+  return (node.type as MulticolorIconComponent)[seedMulticolorIconMarker] === true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface IconProps extends LynxStyledElementProps {
   icon: ReactElement<LynxIconElementProps>;
   size?: StyleProps["height"] | number;
   color?: StyleProps["color"];
+  /**
+   * 자동 감지되지 않는 멀티컬러 아이콘의 원본 색상을 유지합니다.
+   * @default false
+   */
+  multicolor?: boolean;
 }
 
 export interface PrefixIconProps extends IconProps {}
@@ -151,6 +170,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
     style,
     size,
     color,
+    multicolor = false,
     children: _children,
     ...nativeProps
   } = props;
@@ -159,9 +179,10 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const slotClassName = slot != null ? context?.classNames?.[slot] : undefined;
   const styleColor = getStyleColor(style);
+  const shouldPreserveOriginalColor = multicolor || isMulticolorIcon(icon);
   const iconColor = useIconColor(
     [baseClassName, slotClassName, className, size, color, styleColor, ...(context?.deps ?? [])],
-    { sourceRef },
+    { sourceRef, enabled: !shouldPreserveOriginalColor },
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
 

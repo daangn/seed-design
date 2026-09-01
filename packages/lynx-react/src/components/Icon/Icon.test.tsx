@@ -4,7 +4,7 @@ import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
-import { InternalIcon } from "./Icon";
+import { InternalIcon, PrefixIcon } from "./Icon";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -19,6 +19,15 @@ const TestIcon = React.forwardRef<
   );
 });
 TestIcon.displayName = "TestIcon";
+
+const MulticolorTestIcon = React.forwardRef<
+  MainThread.Element,
+  LynxIconElementProps & { children?: React.ReactNode }
+>((props, ref) => <TestIcon {...props} ref={ref} />);
+MulticolorTestIcon.displayName = "MulticolorTestIcon";
+Object.assign(MulticolorTestIcon, {
+  [Symbol.for("@seed-design/multicolor-icon")]: true,
+});
 
 function getSourceAndImage() {
   const source = elementTree.root?.querySelector<HTMLElement>("view");
@@ -125,5 +134,20 @@ describe("InternalIcon", () => {
     runNextFrame();
 
     expect(getSourceAndImage().image.getAttribute("tint-color")).toBe("rgb(73, 80, 88)");
+  });
+});
+
+describe("PrefixIcon", () => {
+  it("does not tint marked multicolor icons", async () => {
+    const { frames } = installMainThreadStyleMocks(() => "rgb(31, 35, 40)");
+
+    render(<PrefixIcon icon={<MulticolorTestIcon />} />, {
+      enableMainThread: true,
+      enableBackgroundThread: true,
+    });
+    await waitSchedule();
+
+    expect(frames.size).toBe(0);
+    expect(getSourceAndImage().image.getAttribute("tint-color")).toBeNull();
   });
 });

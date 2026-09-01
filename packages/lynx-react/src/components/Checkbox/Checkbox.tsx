@@ -47,7 +47,7 @@ interface CheckboxContextValue {
 
 const CheckboxContext = React.createContext<CheckboxContextValue | null>(null);
 
-function useCheckboxContext(consumer: string): CheckboxContextValue {
+export function useCheckboxContext(consumer: string): CheckboxContextValue {
   const ctx = React.useContext(CheckboxContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <CheckboxRoot/>.`);

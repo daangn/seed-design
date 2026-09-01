@@ -48,7 +48,6 @@ Lynx compound 컴포넌트라고 해서 `createSlotRecipeContext`를 무조건 �
 - `inherit`, CSS-wide keyword, Web-only SVG stroke/fill CSS, `content`, unsupported shorthand에 의존하지 않는다.
 - style 변경은 `packages/lynx-qvism-preset/src/recipes/*` 또는 Rootage 원천에서 하고, generated `packages/lynx-css/*`는 직접 수정하지 않는다.
 
-<<<<<<< HEAD
 ## 초기 레이아웃 전환 방지
 
 위치·크기·색상처럼 **등록 또는 레이아웃 측정 결과에 따라 정해지는 값**에 transition을 적용하면, Lynx의 최초 렌더링 중간값에서 최종값으로 이동하는 과정까지 사용자 전환처럼 보일 수 있다. 선택 Indicator, 가변 너비 Trigger, Carousel처럼 초기 선택 상태와 측정값을 함께 쓰는 컴포넌트는 다음 패턴을 적용한다.
@@ -87,7 +86,7 @@ const classNames = componentRecipe({ ...variantProps, transitionEnabled: transit
 ```
 
 회귀 테스트는 첫 번째가 아닌 항목을 초기 선택값으로 렌더링하고, 최초 렌더링 시 Label과 Indicator에 transition 비활성 Recipe className이 적용되는지 확인한다. 자식을 동적으로 지원하는 컴포넌트라면 측정 완료 후 새 자식을 추가했을 때 준비 상태가 다시 `false`가 되는 경로도 검증한다.
-=======
+
 ## 텍스트 줄바꿈과 intrinsic size
 
 자동 너비에서는 라벨을 한 줄로 유지하고, 부모가 너비를 제한했을 때만 줄바꿈해야 하는 컴포넌트가 있다. 이 요구를 `white-space`로 해결하지 않는다. Lynx Android에서 CJK 라벨에 `white-space: nowrap` 또는 `pre`를 적용하면 수직 정렬이 어긋날 수 있다. Chip도 같은 이유로 `whiteSpace: "nowrap"`을 제거했다.
@@ -175,7 +174,6 @@ const pressStartClasses = recipe({
 - 실제 전환 영상이 있으면 눌림 시작, Indicator 이동 중간, release fade 종료 프레임을 나눠 탁한 중간색과 잔상을 확인한다.
 
 현재 저장소에서는 `packages/lynx-qvism-preset/src/recipes/checkmark.ts`와 `packages/lynx-react/src/components/Checkbox/Checkbox.tsx`를 기준 구현으로 본다. 선택 Indicator가 움직이는 경우에는 Segmented Control의 recipe와 컴포넌트 구현도 함께 확인한다.
->>>>>>> 681664c52 (feat(lynx-react): add segmented control (#2136))
 
 ## Unsupported Web API 문서화
 

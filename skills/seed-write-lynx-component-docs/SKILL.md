@@ -48,13 +48,28 @@ Registry 파일이 있다는 사실만으로 배포 방식을 추정하지 않�
 
 React 문서에서 지원하는 시나리오를 이유 없이 빼거나 이름을 바꾸지 않는다. Lynx에만 필요한 설치, 실행, 호환성 안내는 공통 섹션 흐름을 깨지 않는 위치에 추가한다. React 대응 문서가 없으면 가장 가까운 Lynx 문서 구조와 대상 컴포넌트의 실제 공개 API를 기준으로 삼는다.
 
+시나리오 이름이 양쪽에 있다는 사실만으로 동등하다고 판단하지 않는다. 각 React 예제와 Lynx 예제를 나란히 읽고 다음 사용자 결과를 비교한다.
+
+- 항목의 개수와 순서, label과 description 문구
+- 기본 선택값과 disabled·selected 같은 초기 상태
+- prefix, suffix, checkmark, radiomark처럼 화면에 보이는 보조 요소
+- 상태 변경 뒤 표시하는 값과 안내 문구
+- 열 개수, 방향, 개별 layout override
+- footer와 조건부 콘텐츠의 표시 조건
+
+Lynx 공개 API가 같은 결과를 지원하면 일부 항목이나 보조 요소를 뺀 축약 예제로 바꾸지 않는다. 지원하지 않는 항목만 대응표에서 `미지원`으로 분류하고 문서에 이유와 대안을 남긴다.
+
 ## 작업 흐름
 
-1. React 문서의 섹션, 예제 제목, 시나리오 파일과 사용자 결과를 수집한다.
+1. React 문서의 섹션, 예제 제목, 시나리오 파일과 위 사용자 결과를 수집한다.
 2. 각 시나리오를 동일 지원, Lynx식 변환, 미지원으로 분류한다.
 3. 컴포넌트가 쓰는 Lynx API·CSS·element를 조사한다. `find-refer`로 로컬 공식 자료 스냅샷을 먼저 찾고, API와 Engine 호환성은 `lynx-api-docs`, CSS 지원은 `lynx-check-css-support`로 확인한다.
 4. [작성 규칙](references/authoring.md)에 따라 frontmatter, MDX, 예제 엔트리를 작성한다.
-5. 문서 작성이 끝나면 검증이 요청된 경우 [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)로 넘긴다. 검증이 요청되지 않았다면 작성한 원천과 변경 범위만 보고한다.
+5. 실제 문서 개발 서버나 `docs/out`의 `LynxComponentExample`에서 브라우저 미리보기를 확인한다.
+6. 브라우저와 실제 Lynx 결과가 다르면 [미리보기와 런타임](references/preview-runtime.md)에 따라 문서 문제, 미리보기 문제, 컴포넌트·런타임 문제로 나눈다.
+7. 네이티브 결과를 새로 주장하거나 예제 동작을 바꿨다면 사용 가능한 Lynx 호스트 앱이나 `examples/lynx-spa`에서 직접 확인한다. 환경이 없으면 확인하지 못한 범위를 보고하고 우회 구현을 추가하지 않는다.
+8. React와 Lynx 예제 파일을 다시 나란히 읽어 대응표와 실제 결과가 일치하는지 확인한다.
+9. [검증 절차](references/verification.md)를 수행하고 확인한 환경과 남은 제한을 보고한다.
 
 ## 작업 경계
 
