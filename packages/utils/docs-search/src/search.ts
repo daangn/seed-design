@@ -1,5 +1,5 @@
 import { type RawData, create, getByID, load, search } from "zbsearch";
-import { koreanTokenizer } from "./tokenizer";
+import { koreanTokenizer, tokenize } from "./tokenizer";
 
 /** The dump shape `createDocsSearch` takes, re-exported so callers can name what they fetched. */
 export type { RawData } from "zbsearch";
@@ -120,7 +120,7 @@ export function createDocsSearch(dump: RawData) {
         runPass(query, settings, undefined),
       ]);
 
-      return mergeByPage(all, any).slice(0, settings.limit);
+      return titleFirst(mergeByPage(all, any), query).slice(0, settings.limit);
     },
   };
 }
@@ -141,6 +141,40 @@ function mergeByPage(base: SearchHit[], fill: SearchHit[]): SearchHit[] {
   }
 
   return [...base, ...tail];
+}
+
+/**
+ * A page whose title says exactly what the query said goes first.
+ *
+ * The engine cannot express this on its own: fumadocs fixes the index schema, so a title
+ * reaches the index as one row's content rather than as a field a boost could reach, and a
+ * heading row that matches outranks the page whose own name matches. Promoting on an exact
+ * title match is the narrowest rule that fixes it — ranking on partial overlap instead pulls
+ * pages named after one word of a sentence over the prose that answers it.
+ *
+ * The order the engine gave decides everything the title leaves tied.
+ */
+function titleFirst(hits: SearchHit[], query: string): SearchHit[] {
+  const wanted = tokenize(query);
+  if (wanted.length === 0) return hits;
+
+  const pages: SearchHit[][] = [];
+  for (const hit of hits) {
+    if (hit.type === "page" || pages.length === 0) pages.push([]);
+    pages[pages.length - 1].push(hit);
+  }
+
+  return pages
+    .map((page, index) => {
+      const title = new Set(tokenize(page[0].content));
+      return {
+        page,
+        index,
+        named: title.size === wanted.length && wanted.every((token) => title.has(token)),
+      };
+    })
+    .sort((a, b) => Number(b.named) - Number(a.named) || a.index - b.index)
+    .flatMap(({ page }) => page);
 }
 
 /**
