@@ -91,7 +91,6 @@ export async function fetchDocsList(sectionId: string): Promise<DocInfo[]> {
   return section.items.map((item) => ({
     title: item.title,
     path: itemPath(section, item),
-    url: `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
     ...(item.description && { description: item.description }),
     ...(item.deprecated && { deprecated: true }),
   }));
