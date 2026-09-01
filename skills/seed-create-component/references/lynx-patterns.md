@@ -48,6 +48,94 @@ Lynx compound 컴포넌트라고 해서 `createSlotRecipeContext`를 무조건 �
 - `inherit`, CSS-wide keyword, Web-only SVG stroke/fill CSS, `content`, unsupported shorthand에 의존하지 않는다.
 - style 변경은 `packages/lynx-qvism-preset/src/recipes/*` 또는 Rootage 원천에서 하고, generated `packages/lynx-css/*`는 직접 수정하지 않는다.
 
+## 텍스트 줄바꿈과 intrinsic size
+
+자동 너비에서는 라벨을 한 줄로 유지하고, 부모가 너비를 제한했을 때만 줄바꿈해야 하는 컴포넌트가 있다. 이 요구를 `white-space`로 해결하지 않는다. Lynx Android에서 CJK 라벨에 `white-space: nowrap` 또는 `pre`를 적용하면 수직 정렬이 어긋날 수 있다. Chip도 같은 이유로 `whiteSpace: "nowrap"`을 제거했다.
+
+먼저 컨테이너와 항목의 크기 계산을 확인한다. Lynx의 `flex: 1` 항목은 Web의 Grid와 달리 라벨의 max-content 너비보다 작게 줄어들 수 있다. 같은 너비의 여러 항목이 필요한 경우에는 다음 조합을 우선 검토한다.
+
+```ts
+root: {
+  display: "grid",
+  gridAutoFlow: "column",
+  gridAutoColumns: "1fr",
+  gridAutoRows: "1fr",
+  width: "max-content",
+  maxWidth: "100%",
+},
+label: {
+  textAlign: "center",
+},
+```
+
+- `width: max-content`는 자동 너비에서 가장 긴 라벨을 기준으로 각 Grid track을 계산한다.
+- `max-width: 100%`는 사용 가능한 부모 너비를 넘지 않게 한다.
+- 명시한 `width`나 좁은 부모가 컨테이너를 제한하면 라벨은 줄바꿈한다. `text-align: center`가 여러 줄에도 적용되는지 확인한다.
+- Grid가 필요하지 않거나 항목 너비가 달라도 되는 컴포넌트에는 이 구조를 그대로 복사하지 않는다. 핵심은 `white-space`로 줄바꿈을 막지 않고 컨테이너의 intrinsic sizing을 고치는 것이다.
+
+`display: grid`, `grid-auto-columns: 1fr`, `width: max-content`를 사용하기 전에 `lynx-check-css-support`로 Android와 iOS의 최소 Engine 버전을 확인한다. 문서의 compatibility도 가장 높은 요구 버전에 맞춘다.
+
+시각 검증은 두 경우를 분리한다.
+
+1. 자동 너비와 긴 라벨: 모든 라벨이 한 줄이고 항목 너비가 같다.
+2. 고정 너비와 더 긴 라벨: 필요한 라벨만 줄바꿈하고, 텍스트와 항목 높이가 가운데 정렬된다.
+
+브라우저용 Lynx 미리보기만으로 native 결과를 확정하지 않는다. Android와 iOS 중 실행 가능한 호스트 앱에서도 확인한다.
+
+현재 저장소에서는 `packages/lynx-qvism-preset/src/recipes/chip.ts`의 CJK 라벨 처리와 `packages/lynx-qvism-preset/src/recipes/segmented-control.ts`의 Grid 배치를 참고할 수 있다.
+
+## 투명 배경의 색상 전환
+
+눌림 배경처럼 평소에는 투명하고 누르는 동안만 나타나는 면에 `background-color` transition을 직접 걸지 않는다. Lynx는 불투명한 상태 색과 transparent black 사이를 보간할 때 중간 RGB가 검게 탁해질 수 있다. 선택 상태나 checked 상태까지 같은 제스처에서 바뀌면 Indicator 아래에 어두운 잔상이 보이기도 한다.
+
+이 경우 배경색과 가시성 전환을 분리한다.
+
+```ts
+background: {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  opacity: 0,
+  transitionProperty: "opacity",
+  backgroundColor: pressedColor,
+},
+pressed: {
+  true: { background: { opacity: 1 } },
+},
+```
+
+- root는 투명 상태로 고정한다.
+- 별도 native `<view>`와 recipe slot에 최종 pressed 색을 칠한다.
+- 배경색 자체는 보간하지 않고 overlay의 `opacity`만 전환한다.
+- 상시 배경이나 실제로 두 불투명 색 사이를 전환하는 경우에는 이 레이어를 추가하지 않는다.
+
+선택 상태가 tap에서 바뀌는 컴포넌트는 touch start 시점의 의미 상태도 고정해야 한다. `useRef`에 `checked`, `selected`, `indeterminate`처럼 pressed 색을 결정하는 값을 저장하고, overlay className은 그 값과 현재 `pressed`를 조합한다. 본문과 Indicator는 최신 상태로 갱신해도 된다. 이렇게 해야 release fade 도중 overlay 색이 새 선택 상태의 색으로 바뀌지 않는다.
+
+```tsx
+const pressSelectionRef = React.useRef(selected);
+const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({ onTap });
+
+const handleTouchStart = (...args: Parameters<typeof bindtouchstart>) => {
+  pressSelectionRef.current = selected;
+  bindtouchstart(...args);
+};
+
+const pressStartClasses = recipe({
+  selected: pressSelectionRef.current,
+  pressed,
+});
+```
+
+이 패턴에는 작은 회귀 테스트를 둔다.
+
+- recipe 테스트는 root가 `background-color` transition을 하지 않고 overlay가 `opacity`만 전환하는지 확인한다.
+- 컴포넌트 테스트는 `touchstart` 뒤 선택 값이 바뀌어도 overlay가 touch start 상태의 variant를 release까지 유지하는지 확인한다.
+- 실제 전환 영상이 있으면 눌림 시작, Indicator 이동 중간, release fade 종료 프레임을 나눠 탁한 중간색과 잔상을 확인한다.
+
+현재 저장소에서는 `packages/lynx-qvism-preset/src/recipes/checkmark.ts`와 `packages/lynx-react/src/components/Checkbox/Checkbox.tsx`를 기준 구현으로 본다. 선택 Indicator가 움직이는 경우에는 Segmented Control의 recipe와 컴포넌트 구현도 함께 확인한다.
+
 ## Unsupported Web API 문서화
 
 Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.
