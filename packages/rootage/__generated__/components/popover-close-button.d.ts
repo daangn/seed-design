@@ -75,7 +75,7 @@ declare const artifact: {
                 "size": {
                   "type": "dimension";
                   "value": {
-                    "value": 44;
+                    "value": 52;
                     "unit": "px";
                   };
                 };
@@ -96,7 +96,7 @@ declare const artifact: {
                 "size": {
                   "type": "dimension";
                   "value": {
-                    "value": 20;
+                    "value": 22;
                     "unit": "px";
                   };
                 };
@@ -124,12 +124,6 @@ declare const artifact: {
                 "scaleScope": {
                   "type": "enum";
                   "value": "self";
-                };
-              };
-              "icon": {
-                "color": {
-                  "type": "color";
-                  "value": "$color.fg.neutral";
                 };
               };
             };
