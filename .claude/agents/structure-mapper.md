@@ -48,7 +48,7 @@ git check-attr linguist-generated -- packages/css/vars/component/action-button.m
 # → packages/css/vars/component/action-button.mjs: linguist-generated: set
 ```
 
-같은 패키지 안에서도 갈린다는 점에 주의한다 — `packages/css/vars/`와 `packages/css/recipes/`는 생성물이지만 `packages/css/theming/`, `breakpoints/`, `scale-feedback/`은 손으로 쓰는 소스다.
+판정 단위는 패키지가 아니라 경로다. 같은 패키지 안에서도 갈리므로 파일마다 묻되, 디렉토리 경로를 넘기면 `**` 패턴이 맞지 않아 `unspecified`가 나오니 반드시 파일 경로로 묻는다.
 
 ### 3. 의존성 매핑
 
