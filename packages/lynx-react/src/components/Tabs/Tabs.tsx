@@ -20,6 +20,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import {
+  areTabsTransitionsEnabled,
   getTabsLayoutWidth,
   getTabsOrderedItems,
   getTabsTriggerRects,
@@ -151,7 +152,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
   const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
-  const [transitionsEnabled, setTransitionsEnabled] = React.useState(false);
   const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
@@ -170,6 +170,10 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         triggerWidths,
       ),
     [items, triggerWidths],
+  );
+  const transitionsEnabled = areTabsTransitionsEnabled(
+    items.map((item) => item.value),
+    triggerRects,
   );
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
@@ -274,17 +278,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     }
     if (selectedOffset !== null) invokeScrollToOffset(listRef.current, selectedOffset);
   }, [selectedPagerIndex, selectedOffset]);
-
-  React.useEffect(() => {
-    "background only";
-    if (
-      !transitionsEnabled &&
-      items.length > 0 &&
-      items.every((item) => triggerRects[item.value] !== undefined)
-    ) {
-      setTransitionsEnabled(true);
-    }
-  }, [items, transitionsEnabled, triggerRects]);
 
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({

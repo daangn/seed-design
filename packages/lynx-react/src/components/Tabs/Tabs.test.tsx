@@ -3,7 +3,12 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
-import { getTabsLayoutWidth, getTabsOrderedItems, getTabsTriggerRects } from "./Tabs.utils";
+import {
+  areTabsTransitionsEnabled,
+  getTabsLayoutWidth,
+  getTabsOrderedItems,
+  getTabsTriggerRects,
+} from "./Tabs.utils";
 
 function BasicTabs(props: {
   value?: string;
@@ -50,6 +55,13 @@ describe("Tabs", () => {
     for (const label of labels) {
       expect(label).toHaveStyle({ transitionDuration: "0s" });
     }
+  });
+
+  it("disables transitions when a dynamically added trigger is unmeasured", () => {
+    const rects = getTabsTriggerRects(["one", "two"], { one: 80, two: 80 });
+
+    expect(areTabsTransitionsEnabled(["one", "two"], rects)).toBe(true);
+    expect(areTabsTransitionsEnabled(["one", "two", "three"], rects)).toBe(false);
   });
 
   it("changes an uncontrolled value when a trigger is tapped", () => {
