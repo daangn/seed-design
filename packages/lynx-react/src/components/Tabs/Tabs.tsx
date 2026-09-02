@@ -65,6 +65,7 @@ interface TabsContextValue {
   selectedPagerIndex: number;
   indicatorRef: React.RefObject<MainThread.Element>;
   triggerRects: Record<string, TriggerRect>;
+  transitionsEnabled: boolean;
   registerTrigger: (value: string, disabled: boolean) => () => void;
   registerContent: (value: string) => () => void;
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
@@ -150,6 +151,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
   const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
+  const [transitionsEnabled, setTransitionsEnabled] = React.useState(false);
   const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
@@ -273,6 +275,17 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     if (selectedOffset !== null) invokeScrollToOffset(listRef.current, selectedOffset);
   }, [selectedPagerIndex, selectedOffset]);
 
+  React.useEffect(() => {
+    "background only";
+    if (
+      !transitionsEnabled &&
+      items.length > 0 &&
+      items.every((item) => triggerRects[item.value] !== undefined)
+    ) {
+      setTransitionsEnabled(true);
+    }
+  }, [items, transitionsEnabled, triggerRects]);
+
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({
       value,
@@ -283,6 +296,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
+      transitionsEnabled,
       triggerRects,
       registerTrigger,
       registerContent,
@@ -305,6 +319,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       selectedPagerIndex,
       indicatorRef,
       triggerRects,
+      transitionsEnabled,
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
@@ -466,7 +481,12 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       className={clsx(triggerClasses.trigger, className)}
       style={style}
     >
-      <text className={triggerClasses.triggerLabel}>{children}</text>
+      <text
+        className={triggerClasses.triggerLabel}
+        style={context.transitionsEnabled ? undefined : { transitionDuration: "0s" }}
+      >
+        {children}
+      </text>
     </view>
   );
 });
@@ -479,7 +499,8 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { indicatorRef, items, indicatorIndex, triggerRects } = useTabsContext("TabsIndicator");
+  const { indicatorRef, items, indicatorIndex, transitionsEnabled, triggerRects } =
+    useTabsContext("TabsIndicator");
   const position = indicatorIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
@@ -505,6 +526,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
           "--tabs-indicator-x": `${x}px`,
           "--tabs-indicator-width": `${width}px`,
           ...style,
+          ...(transitionsEnabled ? {} : { transitionDuration: "0s" }),
         } as LynxViewProps["style"]
       }
     />

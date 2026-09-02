@@ -41,6 +41,17 @@ describe("Tabs", () => {
     expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
   });
 
+  it("disables label and indicator transitions during the initial render", () => {
+    const { container } = render(<BasicTabs defaultValue="two" />);
+    const labels = container.querySelectorAll<HTMLElement>(".seed-tabs__triggerLabel");
+    const indicator = container.querySelector<HTMLElement>(".seed-tabs__indicator");
+
+    expect(indicator).toHaveStyle({ transitionDuration: "0s" });
+    for (const label of labels) {
+      expect(label).toHaveStyle({ transitionDuration: "0s" });
+    }
+  });
+
   it("changes an uncontrolled value when a trigger is tapped", () => {
     const onValueChange = vi.fn();
     const { container } = render(<BasicTabs defaultValue="one" onValueChange={onValueChange} />);
