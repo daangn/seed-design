@@ -28,6 +28,10 @@ function normalizeHost(input: string) {
 
 function serve(upstream: string, token: string) {
   const server = Bun.serve({
+    // Bun listens on every interface unless told otherwise, and this proxy
+    // attaches the account token to whatever it forwards, so the default would
+    // hand anyone on the network an authenticated read of a private Storybook.
+    hostname: "127.0.0.1",
     port: 0,
     idleTimeout: 120,
     async fetch(request) {
