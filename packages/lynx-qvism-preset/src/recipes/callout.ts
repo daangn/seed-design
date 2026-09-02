@@ -134,7 +134,7 @@ const callout = defineSlotRecipe({
       },
       magic: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient.serialized})`,
         },
         title: { color: vars.toneMagic.enabled.title.color },
         description: { color: vars.toneMagic.enabled.description.color },
@@ -182,7 +182,7 @@ const callout = defineSlotRecipe({
       pressed: true,
       css: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient.serialized})`,
         },
       },
     },

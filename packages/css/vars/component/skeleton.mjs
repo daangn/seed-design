@@ -41,7 +41,9 @@ export const vars = {
         "color": "var(--seed-color-palette-gray-200)"
       },
       "shimmer": {
-        "gradient": "var(--seed-gradient-shimmer-neutral)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-shimmer-neutral)"
+        }
       }
     }
   },
@@ -51,7 +53,9 @@ export const vars = {
         "color": "var(--seed-color-bg-magic-weak)"
       },
       "shimmer": {
-        "gradient": "var(--seed-gradient-shimmer-magic)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-shimmer-magic)"
+        }
       }
     }
   }

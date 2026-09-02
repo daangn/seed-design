@@ -272,7 +272,7 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
         },
         title: { color: vars.toneMagicVariantWeak.enabled.title.color },
         description: { color: vars.toneMagicVariantWeak.enabled.description.color },
@@ -348,7 +348,7 @@ const pageBanner = defineSlotRecipe({
       pressed: true,
       css: {
         root: {
-          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient})`,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
         },
       },
     },

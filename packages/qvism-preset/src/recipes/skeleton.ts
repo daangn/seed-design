@@ -50,14 +50,14 @@ const skeleton = defineRecipe({
         background: vars.toneNeutral.enabled.root.color,
 
         "&::after": {
-          backgroundImage: `linear-gradient(90deg, ${vars.toneNeutral.enabled.shimmer.gradient})`,
+          backgroundImage: `linear-gradient(90deg, ${vars.toneNeutral.enabled.shimmer.gradient.serialized})`,
         },
       },
       magic: {
         background: vars.toneMagic.enabled.root.color,
 
         "&::after": {
-          backgroundImage: `linear-gradient(90deg, ${vars.toneMagic.enabled.shimmer.gradient})`,
+          backgroundImage: `linear-gradient(90deg, ${vars.toneMagic.enabled.shimmer.gradient.serialized})`,
         },
       },
     },
