@@ -61,7 +61,7 @@ jobs:
           npm_config_registry: https://registry.npmjs.org/
         run: |
           set -euo pipefail
-          bunx @kaptures/cli@0.3.0 github context \
+          bunx @kaptures/cli@0.4.0 github context \
             --base-branch dev \
             --output "${{ runner.temp }}/kapture-context/context.json" \
             --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
@@ -614,7 +614,7 @@ jobs:
           npm_config_registry: https://registry.npmjs.org/
         run: |
           set -uo pipefail
-          bunx @kaptures/cli@0.3.0 test \
+          bunx @kaptures/cli@0.4.0 test \
             --base-dir "${{ runner.temp }}/kapture-storybook/base" \
             --head-dir "${{ runner.temp }}/kapture-storybook/head" \
             --base-revision "${{ needs.context.outputs.base-sha }}" \
@@ -773,7 +773,7 @@ jobs:
           npm_config_registry: https://registry.npmjs.org/
         run: |
           set -euo pipefail
-          bunx @kaptures/cli@0.3.0 report build \
+          bunx @kaptures/cli@0.4.0 report build \
             --input "${{ runner.temp }}/kapture-raw" \
             --output "${{ runner.temp }}/kapture-review" \
             --storybook-url ./storybook/
