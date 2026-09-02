@@ -1,1 +1,1 @@
-export { MannerTempBadge, type MannerTempBadgeProps } from "./MannerTempBadge";
+export * from "./MannerTempBadge";
