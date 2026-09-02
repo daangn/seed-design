@@ -32,10 +32,12 @@ Lynx가 Web API를 그대로 재현할 수 없으면 타입에 열어두지 않�
 | Styled component | `packages/react/src/components/*` | `packages/lynx-react/src/components/*` |
 | Headless/state | `packages/react-headless/*` | `packages/lynx-react/src/hooks/*`, 컴포넌트 내부 hook/context 또는 기존 외부 Lynx primitive |
 | Recipe source | `packages/qvism-preset/src/recipes/*` | `packages/lynx-qvism-preset/src/recipes/*` |
-| Generated CSS | `packages/css/*` | `packages/lynx-css/*` |
+| Generated CSS | `packages/css/{vars,recipes}/*`, `packages/css/*.css` | `packages/lynx-css/{vars,recipes}/*`, `packages/lynx-css/*.css` |
 | Docs | `docs/content/react/*` | `docs/content/lynx/*` |
 | Registry snippet | `docs/registry/react/ui/*` when Delivery Surface Gate = snippet | `docs/registry/lynx/ui/*` when Delivery Surface Gate = snippet |
 | Vendored example copy | `examples/stackflow-spa/src/seed-design/ui/*` when snippet exists | `examples/lynx-spa/src/seed-design/ui/*` when snippet exists |
+
+위 표는 어디를 보는지에 대한 안내다. `packages/css`와 `packages/lynx-css`는 생성물과 손으로 쓰는 소스를 함께 담으므로, 특정 파일을 수정해도 되는지는 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <파일 경로>`가 `set`이면 생성물이다.
 
 Registry snippet을 제공하기로 결정한 경우 source of truth는 docs registry다. example app의 vendored copy는 registry snippet을 따라간다. package-only primitive는 registry/vendored copy를 만들지 않고 docs Usage와 package export, example direct import를 동기화한다.
 

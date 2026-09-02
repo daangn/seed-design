@@ -1,7 +1,7 @@
 ---
 name: structure-mapper
 description: SEED Design 모노레포 구조 매핑 에이전트. 패키지 관계와 의존성 흐름을 요약합니다.
-tools: Read, Glob, Grep
+tools: Read, Glob, Grep, Bash
 ---
 
 # Structure Mapper 에이전트
@@ -31,32 +31,35 @@ figma, mcp, docs
 특정 컴포넌트의 모든 관련 파일을 찾습니다:
 
 ```
-packages/rootage/components/[name]/     # 정의
-packages/css/components/[name]/         # 스타일
-packages/react-headless/[name]/         # 로직
-packages/react/[name]/                  # UI
-docs/content/*/components/[name].mdx    # 문서
+packages/rootage/components/[name].yaml          # 정의
+packages/css/vars/component/[name].mjs           # 스타일 변수 (생성)
+packages/css/recipes/[name].css                  # Recipe CSS (생성)
+packages/react-headless/[name]/src/              # 로직
+packages/react/src/components/[PascalName]/      # UI
+docs/content/**/components/[name].mdx            # 문서
 ```
 
 ### 2. 생성 파일 식별
 
-자동 생성되어 수정 금지인 파일들:
+생성 파일 목록을 여기 두지 않는다. `.gitattributes`가 단일 소스이므로 `git check-attr`로 판정하고, 결과가 `set`이면 생성물로 표시한다.
 
-- `packages/css/` 내 대부분의 파일 (rootage에서 생성)
-- `**/vars.ts` (qvism에서 생성)
-- `docs/registry/*.json` (레지스트리 빌드)
-- `**/dist/`, `**/__generated__/`
+```bash
+git check-attr linguist-generated -- packages/css/vars/component/action-button.mjs
+# → packages/css/vars/component/action-button.mjs: linguist-generated: set
+```
+
+판정 단위는 패키지가 아니라 경로다. 같은 패키지 안에서도 갈리므로 파일마다 묻되, 디렉토리 경로를 넘기면 `**` 패턴이 맞지 않아 `unspecified`가 나오니 반드시 파일 경로로 묻는다.
 
 ### 3. 의존성 매핑
 
 패키지 간 의존 관계 확인:
 
 ```bash
-# package.json dependencies 확인
-grep -l "@seed-design" packages/*/package.json
+# package.json에서 워크스페이스 의존 확인
+grep -l "@seed-design" packages/*/package.json packages/react-headless/*/package.json
 
 # import 구문에서 내부 패키지 참조 확인
-grep -r "from ['\"]@seed-design/" packages/*/src/
+grep -rn --exclude-dir=node_modules "from ['\"]@seed-design/" packages/
 ```
 
 ## 출력 형식
@@ -67,22 +70,22 @@ grep -r "from ['\"]@seed-design/" packages/*/src/
 ## [ComponentName] 관련 파일
 
 ### 정의 (Definition)
-- packages/rootage/components/[name]/metadata.yaml
-- packages/rootage/components/[name]/ui-spec.yaml
+- packages/rootage/components/[name].yaml
 
 ### 스타일 (CSS) - 자동생성
-- packages/css/components/[name]/vars.ts ⚠️ 생성파일
-- packages/css/components/[name]/style.css
+- packages/css/vars/component/[name].mjs ⚠️ 생성파일
+- packages/css/recipes/[name].css ⚠️ 생성파일
 
 ### 로직 (Headless)
 - packages/react-headless/[name]/src/...
 
 ### UI (React)
-- packages/react/[name]/src/...
+- packages/react/src/components/[PascalName]/...
 
 ### 문서 (Docs)
-- docs/content/docs/components/[name].mdx
+- docs/content/components/[name].mdx
 - docs/content/react/components/[name].mdx
+- docs/content/lynx/components/[name].mdx
 ```
 
 ## 사용 예시
@@ -96,6 +99,6 @@ grep -r "from ['\"]@seed-design/" packages/*/src/
 
 ## 제약사항
 
-- **읽기만 수행**: Write, Edit 도구 사용 불가
+- **읽기만 수행**: `Write`, `Edit` 도구가 없다. Bash는 `git check-attr`처럼 상태를 바꾸지 않는 조회 명령에만 쓴다.
 - **요약만 제공**: 상세 분석은 다른 에이전트에게 위임
 - **속도 우선**: 빠른 탐색을 위해 깊이 제한
