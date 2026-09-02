@@ -2,10 +2,20 @@ import {
   feedbackScaleDuration,
   feedbackScaleTimingFunction,
 } from "@seed-design/lynx-css/scale-feedback";
+import { renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
 import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
 import { createScaleFeedbackAnimation } from "../utils/animate-scale-feedback";
+import { useScaleFeedback } from "./useScaleFeedback";
+
+describe("useScaleFeedback", () => {
+  it("keeps the animation target from being flattened", () => {
+    const { result } = renderHook(() => useScaleFeedback());
+
+    expect(result.current.scaleFeedbackTargetProps.flatten).toBe(false);
+  });
+});
 
 describe("calculateScaleFeedback", () => {
   it.each([
