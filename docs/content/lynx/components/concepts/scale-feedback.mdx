@@ -9,7 +9,7 @@ compatibility:
 
 SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
 
-Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 단일 요소에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나눠야 할 때는 훅을 사용하세요.
+Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 하나의 시각 영역에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나누거나 정확한 native element를 target으로 삼아야 할 때는 훅을 사용하세요.
 
 ## Scale 계산 방식
 
@@ -24,7 +24,7 @@ scale = (basis - 2) / basis
 
 ## ScaleFeedback으로 Self Scale 적용하기
 
-단일 요소에 Self Scale을 적용할 때는 `ScaleFeedback`으로 감싸세요. 별도 wrapper를 렌더하지 않고 child에 필요한 Main Thread props를 합성합니다.
+하나의 시각 영역에 Self Scale을 적용할 때는 `ScaleFeedback`으로 감싸세요. `ScaleFeedback`은 animation target이 되는 native `view`를 렌더하고 여기에 Main Thread props를 적용합니다.
 
 ```tsx
 import { ScaleFeedback } from "@seed-design/lynx-react";
@@ -40,7 +40,11 @@ function Pressable() {
 }
 ```
 
-child는 하나의 Lynx element여야 하며, `ScaleFeedback`은 해당 element가 실제 animation target으로 유지되도록 `flatten={false}`를 합성합니다. Lynx의 flatten은 별도 render object가 필요 없는 element를 부모와 합쳐 렌더링 비용을 줄이는 최적화이므로, ref와 animation target으로 사용할 element에서는 비활성화해야 합니다. 사용자 컴포넌트라면 `flatten`, `main-thread:ref`, Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
+wrapper는 실제 animation target으로 유지되도록 `flatten={false}`를 사용합니다. Lynx의 flatten은 별도 render object가 필요 없는 element를 부모와 합쳐 렌더링 비용을 줄이는 최적화이므로, ref와 animation target으로 사용할 element에서는 비활성화해야 합니다.
+
+child의 ref와 이벤트 props는 변경하지 않습니다. child의 touch 이벤트가 wrapper까지 전파되면 child handler와 Scale Feedback이 함께 실행됩니다. child에서 이벤트 전파를 중단하거나 wrapper가 레이아웃에 영향을 주면 `useScaleFeedback`으로 정확한 trigger와 target에 props를 직접 전달하세요.
+
+React의 `ScaleFeedback`은 Slot으로 child에 props를 전달해 DOM wrapper를 만들지 않지만, ReactLynx의 `main-thread:*` handler는 native JSX element에 정적으로 연결되어야 합니다. 따라서 Lynx 유틸은 `cloneElement()`로 Main Thread props를 주입하지 않고 native wrapper를 명시적으로 렌더합니다.
 
 ## useScaleFeedback으로 Self와 Content Scale 적용하기
 
