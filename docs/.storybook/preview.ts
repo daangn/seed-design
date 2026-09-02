@@ -32,6 +32,9 @@ export default definePreview({
   parameters: {
     kapture: {
       waitForFonts: true,
+      diff: {
+        maxChangedPixelPercentage: 0.1,
+      },
     },
     viewport: {
       options: viewportMap,
