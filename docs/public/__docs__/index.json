@@ -685,6 +685,12 @@
               "docUrl": "/foundations/color"
             },
             {
+              "id": "color",
+              "title": "Color",
+              "description": "누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. SEED는 눌린 상태의 색을 역할 색상 체계 안의 pressed 토큰으로 정의합니다.",
+              "docUrl": "/foundations/feedback/color"
+            },
+            {
               "id": "color-role",
               "title": "Roles",
               "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
@@ -701,6 +707,12 @@
               "title": "Elevation",
               "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
               "docUrl": "/foundations/elevation"
+            },
+            {
+              "id": "feedback",
+              "title": "Overview",
+              "description": "피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.",
+              "docUrl": "/foundations/feedback"
             },
             {
               "id": "gradient",
@@ -759,6 +771,12 @@
               "title": "Reference",
               "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
               "docUrl": "/foundations/design-token/reference"
+            },
+            {
+              "id": "scale",
+              "title": "Scale",
+              "description": "누를 수 있는 요소는 눌린 동안 살짝 작아집니다. SEED는 모든 요소에서 눌린 느낌의 양이 같도록 축소량을 배율이 아닌 거리로 정의합니다.",
+              "docUrl": "/foundations/feedback/scale"
             },
             {
               "id": "spacing",

@@ -39,83 +39,170 @@ npx @seed-design/cli add ui:text-field
 
 ## Examples
 
-### Listening to Value Changes
-
-`TextField.Root`에 `value`와 `onValueChange`를 전달하면 입력값을 직접 관리할 수 있습니다. Lynx native 입력에는 `value` attribute가 없으므로 컴포넌트가 `setValue` UI method로 값을 동기화합니다.
-
-<LynxComponentExample name="lynx/text-field-input/value-changes">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/text-field-input/value-changes.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
 ### State
 
-`Field.Root`의 `disabled`, `readOnly`, `invalid` 상태는 내부 `TextField.Root`와 `TextField.Input`에 전달됩니다.
+#### Enabled
 
-<LynxComponentExample name="lynx/text-field-input/states" height={520}>
+<LynxComponentExample name="lynx/text-field-input/enabled">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/text-field-input/states.tsx",
+    "file": "examples/lynx/text-field-input/enabled.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-### Prefix and Suffix
+#### Disabled
 
-`TextField.PrefixText`와 `TextField.SuffixText`를 입력 앞뒤에 조합할 수 있습니다.
-
-<LynxComponentExample name="lynx/text-field-input/affixes" height={360}>
+<LynxComponentExample name="lynx/text-field-input/disabled">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/text-field-input/affixes.tsx",
+    "file": "examples/lynx/text-field-input/disabled.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-### Composing with Field
+#### Read Only
 
-`Field`와 조합하면 레이블, 설명, 필수 표시, 오류 메시지를 함께 제공합니다. Lynx에는 HTML `label for` 연결이 없으므로 native 입력에는 `accessibility-label`을 직접 지정합니다.
-
-<LynxComponentExample name="lynx/text-field-input/field-composition" height={420}>
+<LynxComponentExample name="lynx/text-field-input/read-only">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/text-field-input/field-composition.tsx",
+    "file": "examples/lynx/text-field-input/read-only.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-### Grapheme Limit
+### Size
 
-이모지·조합 문자를 사용자에게 보이는 한 글자로 계산하려면 snippet의 `maxGraphemeCount`와 `onValueChange`를 사용합니다.
+`size`로 TextField의 크기를 정합니다. (default: `large`)
 
-```tsx
-import { useState } from "@lynx-js/react";
-import { TextField, TextFieldInput } from "@/components/ui/text-field";
+Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가 없어 `responsive`는 지원하지 않습니다.
 
-export function LimitedTitleField() {
-  const [value, setValue] = useState("");
+<LynxComponentExample name="lynx/text-field-input/size" height={680}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
-  return (
-    <TextField
-      label="제목"
-      value={value}
-      maxGraphemeCount={40}
-      onValueChange={({ slicedValue }) => setValue(slicedValue)}
-    >
-      <TextFieldInput accessibility-label="제목" />
-    </TextField>
-  );
-}
-```
+### Customizable Parts
 
-### Keyboard avoidance
+아이콘만으로 맥락을 전달할 때는 `description` 또는 `label`에 아이콘의 의미를 설명하는 텍스트를 포함하세요. 아이콘 자체를 읽어야 한다면 `accessibility-label`을 지정하세요.
+
+#### Prefix
+
+<LynxComponentExample name="lynx/text-field-input/prefix" height={680}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/prefix.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Suffix
+
+<LynxComponentExample name="lynx/text-field-input/suffix" height={680}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/suffix.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Both Affixes
+
+<LynxComponentExample name="lynx/text-field-input/both-affixes" height={680}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/both-affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Indicator
+
+`indicator` 또는 `showRequiredIndicator` prop을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/text-field-input/indicator" height={560}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/indicator.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Grapheme Count
+
+<LynxComponentExample name="lynx/text-field-input/grapheme-count" height={440}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/grapheme-count.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`value`를 사용자 인식 문자(grapheme cluster) 단위로 나눈 결과를 `onValueChange` 콜백의 `graphemes`와 `slicedGraphemes`로 제공합니다.
+
+문자 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
+
+<LynxComponentExample name="lynx/text-field-input/grapheme-count-controlled" height={500}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/grapheme-count-controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Use Cases
+
+#### Controlled State
+
+Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 사용해 입력값을 React state로 관리할 수 있습니다.
+
+<LynxComponentExample name="lynx/text-field-input/controlled-state">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/controlled-state.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Number Formatting
+
+<LynxComponentExample name="lynx/text-field-input/number-formatting">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/number-formatting.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Slicing
+
+<LynxComponentExample name="lynx/text-field-input/slicing">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/text-field-input/slicing.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Lynx Usage
+
+#### Keyboard Avoidance
 
 `KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다.
 
@@ -123,7 +210,7 @@ export function LimitedTitleField() {
 import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
-export function Form() {
+export function KeyboardAwareFields() {
   return (
     <KeyboardAvoidingScrollView>
       <TextField label="제목">
@@ -148,4 +235,4 @@ export function Form() {
 
 ## Unsupported Lynx Features
 
-- HTML form submit, browser validation, `aria-describedby` id 연결은 지원하지 않습니다.
+- HTML form submit, browser validation, React Hook Form, `aria-describedby` id 연결은 지원하지 않습니다.

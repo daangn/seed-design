@@ -456,11 +456,18 @@ function useNativeTextControl({
     (event: Parameters<NonNullable<NativeInputProps["bindblur"]>>[0]) => {
       "background only";
 
+      const nativeValue = event.detail?.value;
+      if (typeof nativeValue === "string") {
+        lastNativeValueRef.current = nativeValue;
+      }
       textFieldContext.setFocused(false);
       keyboardAvoidance?.blur(ownerRef.current);
       bindblur?.(event);
+      if (typeof nativeValue === "string") {
+        reconcileControlledValue(nativeValue);
+      }
     },
-    [bindblur, keyboardAvoidance, textFieldContext.setFocused],
+    [bindblur, keyboardAvoidance, reconcileControlledValue, textFieldContext.setFocused],
   );
 
   const notifyLayoutChanged = React.useCallback(() => {
