@@ -232,6 +232,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
       pressed: itemContext.pressed,
     };
     const classes = radiomark(radiomarkVariantProps);
+    const controlClassName = radio(groupContext.radioVariantProps).control;
 
     return (
       <RadiomarkControlContext.Provider
@@ -239,7 +240,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
       >
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
-          className={clsx(classes.root, className)}
+          className={clsx(classes.root, controlClassName, className)}
           {...nativeProps}
         >
           {children}
