@@ -1,0 +1,55 @@
+---
+title: Manner Temp Badge
+description: 매너온도를 작은 배지 형태로 표현하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "1.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/manner-temp-badge/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/manner-temp-badge/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 설치
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `MannerTempBadge`는 별도 `ui:manner-temp-badge` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## 속성
+
+<react-type-table path="../packages/lynx-react/src/components/MannerTempBadge/MannerTempBadge.tsx" name="MannerTempBadgeProps" />
+
+## 사용법
+
+`level`에 매너온도 구간을 지정하고 자식으로 표시할 온도를 전달합니다.
+
+```tsx
+import { MannerTempBadge } from "@seed-design/lynx-react";
+
+export function App() {
+  return <MannerTempBadge level="l4">36.5°C</MannerTempBadge>;
+}
+```
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+
+- **렌더링 요소.** HTML `<span>` 대신 native `<view>`와 `<text>`를 렌더링합니다.
+- **공개 경로.** React 문서의 `ui:manner-temp-badge` snippet과 달리 Lynx에서는 패키지 API를 직접 사용합니다.
+- **온도 변환.** Lynx 패키지는 `temperature`를 `level`로 바꾸지 않습니다. 제품의 매너온도 기준에 따라 `level`을 계산해 전달하세요.
+- **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
+
+</Callout>

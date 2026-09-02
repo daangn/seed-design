@@ -19,6 +19,7 @@ import {
   LayoutStressTailwindPage,
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
+import { MannerTempPage } from "./pages/MannerTempPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
@@ -52,6 +53,7 @@ export type Page =
   | "bottom-sheet"
   | "callout"
   | "checkbox"
+  | "manner-temp"
   | "page-banner"
   | "progress-circle"
   | "radio-group"
@@ -92,6 +94,7 @@ const FULLSCREEN_PAGES = new Set<Page>([
   "bottom-sheet",
   "callout",
   "checkbox",
+  "manner-temp",
   "page-banner",
   "progress-circle",
   "radio-group",
@@ -158,6 +161,7 @@ export function App(props: { onRender?: () => void }) {
         {currentPage === "bottom-sheet" && <BottomSheetPage />}
         {currentPage === "callout" && <CalloutPage />}
         {currentPage === "checkbox" && <CheckboxPage />}
+        {currentPage === "manner-temp" && <MannerTempPage />}
         {currentPage === "page-banner" && <PageBannerPage />}
         {currentPage === "progress-circle" && <ProgressCirclePage />}
         {currentPage === "radio-group" && <RadioGroupPage />}
