@@ -16,3 +16,8 @@ page {
   color: var(--seed-color-fg-neutral);
   font-size: 16px;
 }
+
+.text-field-textarea-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}
