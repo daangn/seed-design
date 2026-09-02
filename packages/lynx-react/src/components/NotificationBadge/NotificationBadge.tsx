@@ -63,9 +63,10 @@ export const NotificationBadgePositioner = React.forwardRef<
 >((props, ref) => {
   const [variantProps, otherProps] = notificationBadgePositioner.splitVariantProps(props);
   const { children, className, ...nativeProps } = otherProps;
+  const contextValue = React.useMemo(() => ({ size: variantProps.size }), [variantProps.size]);
 
   return (
-    <NotificationBadgeContext.Provider value={{ size: variantProps.size }}>
+    <NotificationBadgeContext.Provider value={contextValue}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
