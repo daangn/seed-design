@@ -13,7 +13,7 @@ Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback
 
 ## Scale 계산 방식
 
-Target의 `main-thread:bindlayoutchange`에서 실제 폭과 높이를 읽고 다음 공식으로 배율을 계산합니다.
+Target의 `main-thread:bindlayoutchange`에서 실제 폭과 높이를 읽고 다음 공식으로 배율을 계산합니다. 아직 보이지 않는 target이 `0 × 0`으로 측정되면 그 값은 사용하지 않고, 처음 누르는 순간 현재 크기를 Main Thread에서 다시 읽습니다.
 
 ```text
 basis = max(height, width / 4, 24)
