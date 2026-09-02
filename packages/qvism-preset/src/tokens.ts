@@ -329,6 +329,7 @@ export const tokens = {
   --seed-color-banner-teal: #e6faf6;
   --seed-color-banner-warm-gray: #f2f0ee;
   --seed-color-banner-yellow: #fffae1;
+  --seed-gradient-fade-mask: #00000000 0%, #00000003 8%, #00000005 16%, #0000000d 22%, #00000014 28.999999999999996%, #00000021 35%, #0000002e 41%, #00000040 47%, #00000052 53%, #00000066 59%, #0000007a 65%, #00000094 71%, #000000ab 78%, #000000c7 84%, #000000e3 92%, #000000ff 100%;
   --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
@@ -542,6 +543,7 @@ export const tokens = {
   --seed-color-banner-teal: #143633;
   --seed-color-banner-warm-gray: #2f2b27;
   --seed-color-banner-yellow: #3e2b00;
+  --seed-gradient-fade-mask: #00000000 0%, #00000003 8%, #00000005 16%, #0000000d 22%, #00000014 28.999999999999996%, #00000021 35%, #0000002e 41%, #00000040 47%, #00000052 53%, #00000066 59%, #0000007a 65%, #00000094 71%, #000000ab 78%, #000000c7 84%, #000000e3 92%, #000000ff 100%;
   --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
