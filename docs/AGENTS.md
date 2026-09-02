@@ -36,6 +36,6 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 
 - 컴포넌트·훅 문서를 새로 만들 때 frontmatter 직후에 `<AvailableSince />`를 넣는다. 패키지 매핑은 React→`react`+`css`, React Stackflow→`stackflow`+`css`, Lynx component→`lynx-react`+`lynx-css`, Lynx hook→실제로 훅을 제공하는 공개 패키지다. 독립 훅 패키지가 있으면 해당 패키지의 출시 버전을 표기하고, 기존 `lynx-react` 재export는 본문에서 따로 설명한다.
 - React에서 다른 컴포넌트의 컨텍스트 안에서만 유효한 종속 컴포넌트는 상위 컴포넌트 문서의 하위 섹션으로 설명한다. 예: `AppBar`는 `AppScreen` 문서에서 다룬다.
-- 문서에 새 MDX 컴포넌트를 도입하면 `app/_llms`의 관련 룰과 fixture를 갱신한다. 단순 문서 내용 변경에는 적용하지 않는다.
+- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
 - 산문에서는 `SEED Design` 대신 `SEED` 또는 `SEED Design System`을 사용한다.
 - `featured: true`는 동시에 소수의 최신 문서에만 사용한다.
