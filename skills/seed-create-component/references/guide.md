@@ -29,7 +29,7 @@
 생성 파일은 직접 수정하지 않는다. 어떤 경로가 생성물인지는 `.gitattributes`의 `linguist-generated`가 단일 소스이므로, 목록을 외우지 말고 git에 묻는다.
 
 ```sh
-git check-attr linguist-generated -- <path>   # : set 이면 생성물
+git check-attr linguist-generated -- <파일 경로>   # : set 이면 생성물
 ```
 
 같은 패키지 안에서도 갈린다. `packages/css/vars/`는 생성물이지만 `packages/css/theming/`은 손으로 쓰는 소스다.

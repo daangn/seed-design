@@ -65,7 +65,7 @@ tools: Read, Glob, Grep, Bash
 
 ```bash
 # 단일 경로 판정 (파일이 아직 없어도 동작한다)
-git check-attr linguist-generated -- <path>
+git check-attr linguist-generated -- <파일 경로>
 
 # staged 파일 일괄 판정
 git diff --cached --name-only -z |

@@ -13,7 +13,7 @@
 | `*.css` (루트) | qvism-preset |
 | `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs` | 없음 (손으로 작성) |
 
-수정 가능 여부는 이 표가 아니라 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <path>`가 `set`이면 생성물이다.
+수정 가능 여부는 이 표가 아니라 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <파일 경로>`가 `set`이면 생성물이다.
 
 `theming/`, `breakpoints/`, `scale-feedback/`는 `.mjs`와 `.cjs`, `.d.ts`를 손으로 함께 맞춘다. `bun generate:all`은 이 디렉토리를 건드리지 않는다.
 
