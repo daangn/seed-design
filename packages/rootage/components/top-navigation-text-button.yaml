@@ -16,6 +16,17 @@ data:
             type: dimension
           paddingX:
             type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -40,6 +51,10 @@ data:
         root:
           height: 44px
           paddingX: $dimension.x2_5
+          cornerRadius: $radius.r2
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -48,6 +63,10 @@ data:
           minFontSizeScale: 1
           maxLineHeightScale: 1.2
           minLineHeightScale: 1
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scaleScope: self
     tone=layer:
       enabled:
         label:

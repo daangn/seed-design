@@ -13,6 +13,25 @@
           "properties": {
             "size": {
               "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -53,6 +72,22 @@
                     "value": 44,
                     "unit": "px"
                   }
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.color-transition"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "icon": {
@@ -62,6 +97,23 @@
                     "value": 24,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.transparent-pressed"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }
