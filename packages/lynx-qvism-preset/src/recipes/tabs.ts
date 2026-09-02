@@ -69,6 +69,9 @@ const tabs = defineSlotRecipe({
     triggerLabel: {
       whiteSpace: "nowrap",
       color: triggerVars.base.enabled.label.color,
+      transitionProperty: "color",
+      transitionDuration: vars.base.enabled.indicator.transformDuration,
+      transitionTimingFunction: vars.base.enabled.indicator.transformTimingFunction,
     },
   },
   variants: {

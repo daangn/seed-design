@@ -51,7 +51,10 @@
 }
 .seed-tabs__triggerLabel {
     white-space: nowrap;
-    color: var(--seed-color-fg-neutral-subtle)
+    color: var(--seed-color-fg-neutral-subtle);
+    transition-property: color;
+    transition-duration: var(--seed-duration-d4);
+    transition-timing-function: var(--seed-timing-function-easing)
 }
 .seed-tabs__listContent--triggerLayout_fill {
     width: 100%;
