@@ -1,0 +1,48 @@
+---
+title: Notification Badge
+description: 아이콘이나 텍스트에 새로운 알림 또는 읽지 않은 항목이 있음을 표시하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "1.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `NotificationBadge`는 별도 Registry 컴포넌트 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+<LynxComponentExample name="lynx/notification-badge/preview" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/notification-badge/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`NotificationBadgePositioner`를 알림을 표시할 요소 안에 배치합니다. 부모 요소에는 `position="relative"`를 지정해야 합니다.
+
+`size="large"`는 최대 4자의 알림 수를 표시할 때 사용합니다. `size="small"`은 라벨 없이 알림의 존재만 나타냅니다.
+
+작은 배지는 시각적인 장식으로 숨기고, 함께 사용하는 버튼이나 메뉴에 읽지 않은 상태를 설명하는 접근성 이름을 제공하세요.
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/NotificationBadge/NotificationBadge.tsx" name="NotificationBadgeProps" />
+
+<react-type-table path="../packages/lynx-react/src/components/NotificationBadge/NotificationBadge.tsx" name="NotificationBadgePositionerProps" />
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx 버전은 HTML `<span>` 대신 native `<text>`와 `<view>`를 렌더링합니다. HTML attribute와 `asChild`는 제공하지 않으며, native 접근성 속성과 `bind*` 이벤트를 사용합니다.
+</Callout>

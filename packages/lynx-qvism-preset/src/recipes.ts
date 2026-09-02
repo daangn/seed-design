@@ -15,6 +15,7 @@ import pageBanner from "./recipes/page-banner";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
+import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import switchRecipe from "./recipes/switch";
@@ -45,6 +46,8 @@ export const recipes = {
   radio,
   radioGroup,
   radiomark,
+  notificationBadge,
+  notificationBadgePositioner,
   segmentedControl,
   selectBox,
   selectBoxCheckmark,
