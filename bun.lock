@@ -60,7 +60,7 @@
         "@seed-design/css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.3.0",
+        "@seed-design/react": "2.4.1",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
@@ -118,7 +118,7 @@
       "devDependencies": {
         "@chromatic-com/storybook": "^4.1.3",
         "@figma/rest-api-spec": "^0.36.0",
-        "@kaptures/storybook": "0.3.0",
+        "@kaptures/storybook": "0.4.0",
         "@karrotmarket/lynx-multicolor-icon": "1.27.0",
         "@lynx-js/config-rsbuild-plugin": "0.2.2",
         "@lynx-js/react": "0.123.3",
@@ -2455,7 +2455,7 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@kaptures/storybook": ["@kaptures/storybook@0.3.0", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-vVl9rX5g891mtow8Q8POSW9zvUgPl03h6VicvOfNOh7MMqeghleF2RGFpmSYlcPHSEYYullReZMobw1HHqsXEw=="],
+    "@kaptures/storybook": ["@kaptures/storybook@0.4.0", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-HCA/Lilew1OvLalPsi7Xd9NE5wG0cKMb8tIDnFE/fe45jgYIzCXzDxUM5EEIoNS+iCWbhAEUb/YZanwFctRRqg=="],
 
     "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.26.0", "", {}, "sha512-Kf1wPy7lX49WpEw1o383gPJUx95abXRTvELhq+1Gi/HXZSWiNoLXUZoiI8VG6wFwFOgr7PFjFHrSQuuj8JLWWw=="],
 
