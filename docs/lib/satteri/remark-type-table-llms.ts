@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Generator, TypeTableProps } from "fumadocs-typescript";
 import { defineMdastPlugin, type MdastVisitorContext, type MdxJsxFlowElement } from "satteri";
+import { renderTypeTableMarkdown } from "@/lib/llms/type-table";
 
 type GenerateTypeTableOptions = NonNullable<Parameters<Generator["generateTypeTable"]>[1]>;
 
@@ -67,9 +68,8 @@ function resolveBasePath(
 }
 
 /**
- * `<TypeTable>`이 llms.txt에서 사라지지 않도록, 그 자리에 표의 원본 데이터를 담은 태그를 다시
- * 써 넣는 pass 한 쌍입니다. 그 데이터를 읽어 목록으로 옮기는 일은 `app/_llms`의
- * `typeTableRule`이 이어서 맡습니다.
+ * `<TypeTable>`이 llms.txt에서 사라지지 않도록, 그 자리에 props 표를 마크다운으로 다시 써
+ * 넣는 pass 한 쌍입니다. 목록을 그리는 일은 `lib/llms/type-table.ts`가 맡습니다.
  *
  * `remarkAutoTypeTable`이 만드는 `type` 속성은 Shiki가 색칠한 JSX 소스라, 남겨 두면 하이라이트
  * span이 llms.txt에 통째로 실리고 접으면 자식이 없어 흔적조차 남지 않습니다. 그래서 소비되기
@@ -151,6 +151,10 @@ export function remarkTypeTableLlms({
           );
         }
 
+        // 표가 비면 그릴 것이 없습니다. 태그를 남겨 그 자리에 표가 있었음을 알립니다 —
+        // 접히면 그 자리가 통째로 사라져 문서가 잘린 것처럼 읽힙니다.
+        const markdown = renderTypeTableMarkdown(doc) ?? `<${outputName} />`;
+
         // 표시할 속성이 아니므로 렌더 트리로 넘기지 않습니다.
         context.replaceNode(node, {
           ...node,
@@ -158,10 +162,7 @@ export function remarkTypeTableLlms({
             (attribute) =>
               attribute.type !== "mdxJsxAttribute" || attribute.name !== CAPTURED_PROPS_ATTRIBUTE,
           ),
-          data: {
-            ...node.data,
-            _stringify: { text: `<${outputName} type={${JSON.stringify(doc)}} />` },
-          },
+          data: { ...node.data, _stringify: { text: markdown } },
         });
       },
     }),
