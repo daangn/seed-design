@@ -112,7 +112,7 @@ const SURFACE_RULES: Array<{ kind: SurfaceKind; pattern: RegExp }> = [
   {
     kind: "generated",
     pattern:
-      /^(?:packages\/rootage\/(?:__generated__\/|components\/schema\.json$)|packages\/(?:lynx-)?qvism-preset\/src\/(?:vars\/|token\.css$|tokens\.ts$)|packages\/css\/(?:recipes\/|vars\/|[^/]+\.css$)|packages\/lynx-css\/(?:recipes\/|vars\/|[^/]+\.css$)|docs\/public\/(?:__registry__\/|__docs__\/index\.json$)|docs\/app\/_llms\/rules\/component-grid-manifest\.ts$)|(?:^|\/)(?:dist|node_modules)(?:\/|$)/,
+      /^(?:packages\/rootage\/(?:__generated__\/|components\/schema\.json$)|packages\/(?:lynx-)?qvism-preset\/src\/(?:vars\/|token\.css$|tokens\.ts$)|packages\/css\/(?:recipes\/|vars\/|[^/]+\.css$)|packages\/lynx-css\/(?:recipes\/|vars\/|[^/]+\.css$)|docs\/public\/(?:__registry__\/|__docs__\/index\.json$))|(?:^|\/)(?:dist|node_modules)(?:\/|$)/,
   },
   { kind: "release", pattern: /^(?:\.changeset\/|bun\.lock$)/ },
   { kind: "registry", pattern: /^docs\/(?:public\/__registry__|registry)\// },
