@@ -58,7 +58,19 @@ export declare const vars: {
   "toneTransparentGradientTrue": {
     "enabled": {
       "root": {
-        "gradient": "#00000059 0%, #00000000 100%",
+        "gradient": {
+          "serialized": "#00000059 0%, #00000000 100%",
+          "stops": [
+            {
+              "color": "#00000059",
+              "position": 0
+            },
+            {
+              "color": "#00000000",
+              "position": 1
+            }
+          ]
+        },
         /** gradient가 표시될 때 하단 아래로 gradient가 확장되는 길이입니다. */
         "bleedBottom": "var(--seed-dimension-x5)"
       }

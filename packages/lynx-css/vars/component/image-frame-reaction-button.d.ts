@@ -10,7 +10,19 @@ export declare const vars: {
       },
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {
-        "gradient": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
+        "gradient": {
+          "serialized": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
+          "stops": [
+            {
+              "color": "var(--seed-color-palette-static-black-alpha-600)",
+              "position": 0
+            },
+            {
+              "color": "var(--seed-color-palette-static-black-alpha-600)",
+              "position": 1
+            }
+          ]
+        },
         /** 보이는 버튼 크기입니다. */
         "size": "var(--seed-dimension-x6)",
         "shadow": "0px 2px 4px 0px #00000026"
@@ -25,7 +37,19 @@ export declare const vars: {
     "selected": {
       /** lineIcon 아래에 내려가는 하트 아이콘입니다. */
       "fillIcon": {
-        "gradient": "#FF9A56 0%, #FF6600 100%"
+        "gradient": {
+          "serialized": "#FF9A56 0%, #FF6600 100%",
+          "stops": [
+            {
+              "color": "#FF9A56",
+              "position": 0
+            },
+            {
+              "color": "#FF6600",
+              "position": 1
+            }
+          ]
+        }
       },
       /** fillIcon 위로 올라가는 하트 아이콘입니다. */
       "lineIcon": {
