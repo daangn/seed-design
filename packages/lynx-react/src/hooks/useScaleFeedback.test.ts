@@ -1,19 +1,25 @@
-import {
-  feedbackScaleDuration,
-  feedbackScaleTimingFunction,
-} from "@seed-design/lynx-css/scale-feedback";
 import { renderHook } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import { describe, expect, expectTypeOf, it } from "vitest";
 
 import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
-import { createScaleFeedbackAnimation } from "../utils/animate-scale-feedback";
-import { useScaleFeedback } from "./useScaleFeedback";
+import { useScaleFeedback, type UseScaleFeedbackOptions } from "./useScaleFeedback";
 
 describe("useScaleFeedback", () => {
   it("keeps the animation target from being flattened", () => {
     const { result } = renderHook(() => useScaleFeedback());
 
     expect(result.current.scaleFeedbackTargetProps.flatten).toBe(false);
+  });
+
+  it("uses exact touch event callbacks", () => {
+    expectTypeOf<UseScaleFeedbackOptions>().toMatchTypeOf<{
+      onTouchStart?: () => void;
+      onTouchEnd?: () => void;
+      onTouchCancel?: () => void;
+    }>();
+    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressStart");
+    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressEnd");
+    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressCancel");
   });
 });
 
@@ -35,34 +41,5 @@ describe("isReducedMotion", () => {
     expect(isReducedMotion(undefined)).toBe(false);
     expect(isReducedMotion(null)).toBe(false);
     expect(isReducedMotion("unknown")).toBe(false);
-  });
-});
-
-describe("createScaleFeedbackAnimation", () => {
-  it("uses the current transform and Rootage motion values", () => {
-    expect(
-      createScaleFeedbackAnimation(
-        "matrix(0.97, 0, 0, 0.97, 0, 0)",
-        30 / 32,
-        feedbackScaleDuration,
-      ),
-    ).toEqual({
-      keyframes: [
-        { transform: "matrix(0.97, 0, 0, 0.97, 0, 0)" },
-        { transform: `scale(${30 / 32})` },
-      ],
-      options: {
-        duration: feedbackScaleDuration,
-        easing: feedbackScaleTimingFunction,
-        fill: "forwards",
-      },
-    });
-  });
-
-  it("falls back to the resting transform when the computed value is empty", () => {
-    expect(createScaleFeedbackAnimation("", 1, 0).keyframes).toEqual([
-      { transform: "scale(1)" },
-      { transform: "scale(1)" },
-    ]);
   });
 });

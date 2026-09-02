@@ -453,9 +453,9 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   } = usePressTap({ disabled, onTap: handleTap });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(

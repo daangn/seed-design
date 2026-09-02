@@ -118,9 +118,9 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (
@@ -194,9 +194,9 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (
@@ -321,9 +321,9 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (

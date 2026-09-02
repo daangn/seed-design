@@ -89,9 +89,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: !isInteractive,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classNames = callout({ ...variantProps, pressed });
   const dismiss = useMemoizedFn(() => {

@@ -107,9 +107,9 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;

@@ -32,7 +32,7 @@ import { ScaleFeedback } from "@seed-design/lynx-react";
 function Pressable() {
   return (
     <ScaleFeedback>
-      <view flatten={false}>
+      <view>
         <text>눌러 보세요</text>
       </view>
     </ScaleFeedback>
@@ -40,7 +40,7 @@ function Pressable() {
 }
 ```
 
-child는 하나의 Lynx element여야 하며, 사용자 컴포넌트라면 `main-thread:ref`와 Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child가 시각 속성 없이 flatten될 수 있다면 예제처럼 `flatten={false}`를 지정하세요. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
+child는 하나의 Lynx element여야 하며, `ScaleFeedback`은 해당 element가 실제 animation target으로 유지되도록 `flatten={false}`를 합성합니다. 사용자 컴포넌트라면 `flatten`, `main-thread:ref`, Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
 
 ## useScaleFeedback으로 Self와 Content Scale 적용하기
 
@@ -102,11 +102,11 @@ Scale Feedback은 하나의 touch 이벤트를 다음처럼 나눠 처리합니�
 | 실행 위치 | 책임 |
 |---|---|
 | Main Thread | layout 측정, touch 이벤트 처리, `Element.animate()` 실행·중단 |
-| Background Thread | `onPressStart`·`onPressEnd`·`onPressCancel` callback, tap과 비즈니스 로직 |
+| Background Thread | `onTouchStart`·`onTouchEnd`·`onTouchCancel` callback, tap과 비즈니스 로직 |
 
 Main Thread 핸들러가 scale을 즉시 시작한 뒤 필요한 callback만 `runOnBackground()`로 전달합니다. Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 직접 사용하지 않습니다.
 
-`usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onPressStart`, `onPressEnd`, `onPressCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
+`usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onTouchStart`, `onTouchEnd`, `onTouchCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
 
 ## 애니메이션과 Rootage 값
 

@@ -124,9 +124,9 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   );
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: handlePressStart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: handlePressStart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;

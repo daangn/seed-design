@@ -329,9 +329,9 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: !isInteractive,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (

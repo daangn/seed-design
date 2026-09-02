@@ -190,9 +190,9 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = radio({ ...groupContext.radioVariantProps, disabled }).root;
