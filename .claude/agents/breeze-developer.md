@@ -1,7 +1,7 @@
 ---
 name: breeze-developer
 description: Seed Breeze 컴포넌트 개발 전문가. 유용한 UI 유틸리티 컴포넌트를 개발하고 CSS Modules로 스타일링합니다.
-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, TodoWrite
+tools: Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
 # Breeze 개발 에이전트
