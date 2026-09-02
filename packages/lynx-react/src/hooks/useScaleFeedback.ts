@@ -86,6 +86,31 @@ function runScaleFeedback(
   );
 }
 
+function updateScaleFeedbackScale(
+  target: ScaleFeedbackElement | null,
+  scaleRef: RefObject<number>,
+) {
+  "main thread";
+
+  if (!target) return;
+
+  let width = 0;
+  let height = 0;
+  try {
+    // Hidden targets may first report a 0x0 layout. Read their current size again
+    // at touchstart so the scale always uses the interactive layout.
+    width = Number.parseFloat(target.getComputedStyleProperty("width"));
+    height = Number.parseFloat(target.getComputedStyleProperty("height"));
+  } catch {
+    // Keep the last valid layout measurement in non-native runtimes.
+    return;
+  }
+
+  if (width <= 0 || height <= 0 || Number.isNaN(width) || Number.isNaN(height)) return;
+
+  scaleRef.current = calculateScaleFeedback(width, height);
+}
+
 /**
  * Applies SEED Scale Feedback on the Lynx Main Thread.
  *
@@ -113,7 +138,9 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     targetRef.current = event.currentTarget as ScaleFeedbackElement;
     const width = event.detail?.width ?? event.params?.width ?? 0;
     const height = event.detail?.height ?? event.params?.height ?? 0;
-    scaleRef.current = calculateScaleFeedback(width, height);
+    if (width > 0 && height > 0) {
+      scaleRef.current = calculateScaleFeedback(width, height);
+    }
     targetRef.current?.setStyleProperty("transform-origin", "center center");
   }
 
@@ -121,6 +148,7 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     "main thread";
 
     if (!disabled && !reducedMotion) {
+      updateScaleFeedbackScale(targetRef.current, scaleRef);
       runScaleFeedback(targetRef, animationRef, scaleRef.current, feedbackScaleDuration);
     }
     if (onTouchStart) runOnBackground(onTouchStart)();
