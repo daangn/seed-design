@@ -173,14 +173,22 @@ function testProbe(testId: string) {
   };
 }
 
-async function resolveComparison(appId: string, against: string | undefined) {
-  if (!against) return null;
+async function findComparison(appId: string, against: string) {
+  // Anchored on the scheme rather than the prefix, because a branch named
+  // `http-client-refactor` would otherwise reach `new URL` and die there.
+  if (/^https?:\/\//i.test(against)) {
+    const target = parseTarget(against);
 
-  if (against.startsWith("http")) {
-    const { buildNumber } = parseTarget(against);
+    if (target.appId !== appId) {
+      throw new Error(
+        `--against names Chromatic project ${target.appId}, but this build belongs to ${appId}. Story ids are scoped to a project, so the two Storybooks have no story in common to compare.`,
+      );
+    }
+
+    if (target.testId) return (await searchBuilds(appId, testProbe(target.testId)))?.build;
 
     return searchBuilds(appId, async (candidates) =>
-      candidates.find((item) => item.number === buildNumber),
+      candidates.find((item) => item.number === target.buildNumber),
     );
   }
 
@@ -198,6 +206,27 @@ async function resolveComparison(appId: string, against: string | undefined) {
   }
 
   return lastBuild(appId, `branches: [${JSON.stringify(against)}]`);
+}
+
+/**
+ * Resolves --against into the build to compare against.
+ *
+ * Throws when nothing matches, rather than returning empty. The caller's other
+ * branch is `Test.baseline`, so degrading into it would answer a different
+ * question from the one that was asked and leave one word of output as the only
+ * trace that the substitution happened.
+ */
+async function resolveComparison(appId: string, against: string | undefined) {
+  if (!against) return null;
+
+  const build = await findComparison(appId, against);
+  if (!build) {
+    throw new Error(
+      `--against ${against} matched no build. lastBuild returns only the newest build per branch and status, so a superseded build is out of reach — check the branch name, or name a build that is still the newest of its branch.`,
+    );
+  }
+
+  return build;
 }
 
 const storybookHost = (url: string | null | undefined) => (url ? new URL(url).host : null);
