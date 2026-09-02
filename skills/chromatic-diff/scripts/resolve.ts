@@ -176,7 +176,7 @@ function testProbe(testId: string) {
 async function findComparison(appId: string, against: string) {
   // Anchored on the scheme rather than the prefix, because a branch named
   // `http-client-refactor` would otherwise reach `new URL` and die there.
-  if (/^https?:\/\//.test(against)) {
+  if (/^https?:\/\//i.test(against)) {
     const target = parseTarget(against);
 
     if (target.appId !== appId) {
