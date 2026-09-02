@@ -2837,6 +2837,74 @@ text {
   background-color: var(--seed-color-bg-neutral-inverted-pressed);
 }
 
+.seed-notification-badge__root {
+  background-color: var(--seed-color-bg-brand-solid);
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.seed-notification-badge__label {
+  text-align: center;
+  color: var(--seed-color-palette-static-white);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.seed-notification-badge__root--size_small {
+  border-radius: var(--seed-radius-full);
+  width: 6px;
+  height: 6px;
+}
+
+.seed-notification-badge__root--size_large {
+  width: max-content;
+  min-width: 18px;
+  min-height: 18px;
+  padding-left: var(--seed-dimension-x1);
+  padding-right: var(--seed-dimension-x1);
+  border-radius: var(--seed-radius-full);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.seed-notification-badge__label--size_large {
+  font-size: var(--seed-font-size-t1-static);
+  line-height: var(--seed-line-height-t1-static);
+  font-weight: var(--seed-font-weight-bold);
+}
+
+.seed-notification-badge-positioner {
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  display: flex;
+  position: absolute;
+}
+
+.seed-notification-badge-positioner--attach_icon {
+  transform: translate(100%, -100%);
+}
+
+.seed-notification-badge-positioner--attach_text {
+  transform: translate(100%);
+}
+
+.seed-notification-badge-positioner--size_large-attach_icon {
+  top: 14px;
+  right: 8px;
+}
+
+.seed-notification-badge-positioner--size_small-attach_icon {
+  top: 7px;
+  right: 7px;
+}
+
+.seed-notification-badge-positioner--size_large-attach_text, .seed-notification-badge-positioner--size_small-attach_text {
+  right: -2px;
+}
+
 .seed-segmented-control__root {
   width: max-content;
   max-width: 100%;
