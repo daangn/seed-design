@@ -163,6 +163,17 @@ const tabs = defineSlotRecipe({
       },
       false: {},
     },
+    transitionEnabled: {
+      true: {},
+      false: {
+        indicator: {
+          transitionDuration: "0s",
+        },
+        triggerLabel: {
+          transitionDuration: "0s",
+        },
+      },
+    },
     selected: {
       true: {
         triggerLabel: {
@@ -204,6 +215,7 @@ const tabs = defineSlotRecipe({
     contentLayout: "hug",
     size: "small",
     stickyList: false,
+    transitionEnabled: true,
   },
 });
 

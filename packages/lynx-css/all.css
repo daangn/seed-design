@@ -2972,6 +2972,10 @@ text {
   top: 0;
 }
 
+.seed-tabs__indicator--transitionEnabled_false, .seed-tabs__triggerLabel--transitionEnabled_false {
+  transition-duration: 0s;
+}
+
 .seed-tabs__triggerLabel--selected_true {
   color: var(--seed-color-fg-neutral);
 }

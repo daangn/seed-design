@@ -122,6 +122,12 @@
     top: 0px;
     z-index: 1
 }
+.seed-tabs__indicator--transitionEnabled_false {
+    transition-duration: 0s
+}
+.seed-tabs__triggerLabel--transitionEnabled_false {
+    transition-duration: 0s
+}
 .seed-tabs__triggerLabel--selected_true {
     color: var(--seed-color-fg-neutral)
 }

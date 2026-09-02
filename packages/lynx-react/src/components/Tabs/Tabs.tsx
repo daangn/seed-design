@@ -32,7 +32,10 @@ type NativeViewPagerProps = IntrinsicElements["viewpager"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
 type TriggerRect = TabsLayoutRect;
 type TriggerItem = { value: string; disabled: boolean };
-type TabsPublicVariantProps = Omit<TabsVariantProps, "selected" | "disabled" | "inCarousel">;
+type TabsPublicVariantProps = Omit<
+  TabsVariantProps,
+  "selected" | "disabled" | "inCarousel" | "transitionEnabled"
+>;
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(tabs);
 
@@ -139,7 +142,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     onValueChange,
     ...nativeProps
   } = otherProps;
-  const classNames = tabs(variantProps);
   const [value, setValueInternal] = useControllableState<string | undefined>({
     value: valueProp,
     defaultValue,
@@ -175,6 +177,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     items.map((item) => item.value),
     triggerRects,
   );
+  const classNames = tabs({ ...variantProps, transitionEnabled: transitionsEnabled });
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
@@ -455,6 +458,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     ...context.variantProps,
     selected: visuallySelected,
     disabled,
+    transitionEnabled: context.transitionsEnabled,
   });
   const label =
     typeof children === "string" || typeof children === "number" ? String(children) : undefined;
@@ -474,12 +478,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       className={clsx(triggerClasses.trigger, className)}
       style={style}
     >
-      <text
-        className={triggerClasses.triggerLabel}
-        style={context.transitionsEnabled ? undefined : { transitionDuration: "0s" }}
-      >
-        {children}
-      </text>
+      <text className={triggerClasses.triggerLabel}>{children}</text>
     </view>
   );
 });
@@ -492,8 +491,7 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
   const classNames = useClassNames();
-  const { indicatorRef, items, indicatorIndex, transitionsEnabled, triggerRects } =
-    useTabsContext("TabsIndicator");
+  const { indicatorRef, items, indicatorIndex, triggerRects } = useTabsContext("TabsIndicator");
   const position = indicatorIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
@@ -519,7 +517,6 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
           "--tabs-indicator-x": `${x}px`,
           "--tabs-indicator-width": `${width}px`,
           ...style,
-          ...(transitionsEnabled ? {} : { transitionDuration: "0s" }),
         } as LynxViewProps["style"]
       }
     />

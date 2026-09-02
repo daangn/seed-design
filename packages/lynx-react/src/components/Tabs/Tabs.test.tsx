@@ -51,9 +51,11 @@ describe("Tabs", () => {
     const labels = container.querySelectorAll<HTMLElement>(".seed-tabs__triggerLabel");
     const indicator = container.querySelector<HTMLElement>(".seed-tabs__indicator");
 
-    expect(indicator).toHaveStyle({ transitionDuration: "0s" });
+    expect(indicator).toHaveClass("seed-tabs__indicator--transitionEnabled_false");
+    expect(indicator?.style.transitionDuration).toBe("");
     for (const label of labels) {
-      expect(label).toHaveStyle({ transitionDuration: "0s" });
+      expect(label).toHaveClass("seed-tabs__triggerLabel--transitionEnabled_false");
+      expect(label.style.transitionDuration).toBe("");
     }
   });
 
