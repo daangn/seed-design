@@ -252,9 +252,9 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: context.disabled,
-    onPressStart: bindtouchstart,
-    onPressEnd: bindtouchend,
-    onPressCancel: bindtouchcancel,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classes = accordion({
     ...context.variantProps,

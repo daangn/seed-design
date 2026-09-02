@@ -9,7 +9,7 @@ describe("ScaleFeedback", () => {
       <ScaleFeedback>
         <view id="target" />
       </ScaleFeedback>,
-      { enableMainThread: true, enableBackgroundThread: true },
+      { enableMainThread: true, enableBackgroundThread: false },
     );
     await waitSchedule();
 
@@ -17,4 +17,5 @@ describe("ScaleFeedback", () => {
     expect(target).not.toBeNull();
     expect(container.children).toHaveLength(1);
   });
+
 });

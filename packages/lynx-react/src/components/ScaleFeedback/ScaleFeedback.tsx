@@ -3,6 +3,7 @@ import type { MainThread } from "@lynx-js/types";
 
 import type { LynxViewProps } from "../../types";
 import { useScaleFeedback, type UseScaleFeedbackOptions } from "../../hooks/useScaleFeedback";
+import { mergeScaleFeedbackProps } from "./mergeScaleFeedbackProps";
 
 type MainThreadRef = NonNullable<LynxViewProps["main-thread:ref"]>;
 type MainThreadRefCleanup = undefined | (() => void);
@@ -108,13 +109,16 @@ export const ScaleFeedback = React.forwardRef<MainThread.Element, ScaleFeedbackP
       feedbackTouchCancel(event);
     }
 
-    return React.cloneElement(children, {
-      "main-thread:ref": handleMainThreadRef,
-      "main-thread:bindlayoutchange": handleLayoutChange,
-      "main-thread:bindtouchstart": handleTouchStart,
-      "main-thread:bindtouchend": handleTouchEnd,
-      "main-thread:bindtouchcancel": handleTouchCancel,
-    });
+    return React.cloneElement(
+      children,
+      mergeScaleFeedbackProps(childProps, {
+        "main-thread:ref": handleMainThreadRef,
+        "main-thread:bindlayoutchange": handleLayoutChange,
+        "main-thread:bindtouchstart": handleTouchStart,
+        "main-thread:bindtouchend": handleTouchEnd,
+        "main-thread:bindtouchcancel": handleTouchCancel,
+      }),
+    );
   },
 );
 

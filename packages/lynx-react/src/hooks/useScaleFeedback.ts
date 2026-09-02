@@ -17,7 +17,6 @@ import type { LynxViewProps } from "../types";
 import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback" with {
   runtime: "shared",
 };
-import type { ScaleFeedbackElement } from "../utils/animate-scale-feedback";
 
 type MainThreadLayoutChangeHandler = NonNullable<LynxViewProps["main-thread:bindlayoutchange"]>;
 type MainThreadTouchHandler = NonNullable<LynxViewProps["main-thread:bindtouchstart"]>;
@@ -26,15 +25,19 @@ interface SeedMotionGlobalProps {
   motion?: unknown;
 }
 
+interface ScaleFeedbackElement extends MainThread.Element {
+  getComputedStyleProperty(styleName: string): string;
+}
+
 export interface UseScaleFeedbackOptions {
   /** Disables Scale Feedback while the target is not interactive. */
   disabled?: boolean;
   /** Runs on the Background Thread immediately after Main Thread touchstart. */
-  onPressStart?: () => void;
-  /** Runs on the Background Thread immediately after Main Thread touchend or touchcancel. */
-  onPressEnd?: () => void;
+  onTouchStart?: () => void;
+  /** Runs on the Background Thread immediately after Main Thread touchend. */
+  onTouchEnd?: () => void;
   /** Runs on the Background Thread immediately after Main Thread touchcancel. */
-  onPressCancel?: () => void;
+  onTouchCancel?: () => void;
 }
 
 export interface ScaleFeedbackTriggerProps {
@@ -98,7 +101,7 @@ function runScaleFeedback(
  * `"reduced"` value disables scaling.
  */
 export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScaleFeedbackReturn {
-  const { disabled = false, onPressStart, onPressEnd, onPressCancel } = options;
+  const { disabled = false, onTouchStart, onTouchEnd, onTouchCancel } = options;
   const globalProps = useGlobalProps() as SeedMotionGlobalProps | undefined;
   const reducedMotion = isReducedMotion(globalProps?.motion);
   const targetRef = useMainThreadRef<ScaleFeedbackElement>(null);
@@ -121,21 +124,21 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     if (!disabled && !reducedMotion) {
       runScaleFeedback(targetRef, animationRef, scaleRef.current, feedbackScaleDuration);
     }
-    if (onPressStart) runOnBackground(onPressStart)();
+    if (onTouchStart) runOnBackground(onTouchStart)();
   }
 
   function handleTouchEnd() {
     "main thread";
 
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
-    if (onPressEnd) runOnBackground(onPressEnd)();
+    if (onTouchEnd) runOnBackground(onTouchEnd)();
   }
 
   function handleTouchCancel() {
     "main thread";
 
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
-    if (onPressCancel) runOnBackground(onPressCancel)();
+    if (onTouchCancel) runOnBackground(onTouchCancel)();
   }
 
   useEffect(() => {
