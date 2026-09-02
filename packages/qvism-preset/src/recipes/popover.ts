@@ -210,9 +210,6 @@ const popover = defineSlotRecipe({
       [pseudo(active)]: { ...createScaleFeedbackStyles() },
       [pseudo(engaged)]: {
         background: closeButtonVars.base.pressed.root.color,
-        ...onlyIcon({
-          color: closeButtonVars.base.pressed.icon.color,
-        }),
       },
     },
   },

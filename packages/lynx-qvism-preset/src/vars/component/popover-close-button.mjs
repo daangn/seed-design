@@ -4,13 +4,13 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
         "cornerRadius": "var(--seed-radius-r3)",
-        "size": "44px",
+        "size": "52px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral-subtle)",
-        "size": "20px",
+        "size": "22px",
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       }
@@ -18,9 +18,6 @@ export const vars = {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-transparent-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     }
   }
