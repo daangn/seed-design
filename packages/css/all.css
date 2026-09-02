@@ -8964,7 +8964,7 @@
   background: var(--seed-color-bg-transparent);
   border-radius: var(--seed-radius-r3);
   cursor: pointer;
-  transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   --seed-icon-size: 20px;
   --seed-icon-color: var(--seed-color-fg-neutral-subtle);
   outline: var(--seed-dimension-x0_5) solid transparent;
@@ -8983,6 +8983,10 @@
 .seed-popover__closeButton:is(:focus-visible, [data-focus-visible]) {
   outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
   outline-offset: var(--seed-dimension-x0_5);
+}
+
+.seed-popover__closeButton:is(:active, [data-active]) {
+  scale: var(--seed-feedback-scale);
 }
 
 @media (hover: hover) and (pointer: fine) {
