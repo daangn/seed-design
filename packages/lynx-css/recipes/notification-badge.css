@@ -1,0 +1,33 @@
+.seed-notification-badge__root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: var(--seed-color-bg-brand-solid)
+}
+.seed-notification-badge__label {
+    text-align: center;
+    color: var(--seed-color-palette-static-white);
+    white-space: nowrap;
+    flex-shrink: 0
+}
+.seed-notification-badge__root--size_small {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--seed-radius-full)
+}
+.seed-notification-badge__root--size_large {
+    width: max-content;
+    min-width: 18px;
+    min-height: 18px;
+    padding-left: var(--seed-dimension-x1);
+    padding-right: var(--seed-dimension-x1);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-radius: var(--seed-radius-full)
+}
+.seed-notification-badge__label--size_large {
+    font-size: var(--seed-font-size-t1-static);
+    line-height: var(--seed-line-height-t1-static);
+    font-weight: var(--seed-font-weight-bold)
+}
