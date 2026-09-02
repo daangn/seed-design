@@ -1,4 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
+/* biome-ignore lint/correctness/noUnknownTypeSelector: page is a Lynx element. */
 page {
   height: 100%;
   padding: 24px;

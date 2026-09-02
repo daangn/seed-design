@@ -44,6 +44,7 @@ export interface ScaleFeedbackTriggerProps {
 }
 
 export interface ScaleFeedbackTargetProps {
+  flatten: false;
   "main-thread:ref": NonNullable<LynxViewProps["main-thread:ref"]>;
   "main-thread:bindlayoutchange": MainThreadLayoutChangeHandler;
 }
@@ -154,6 +155,7 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
       "main-thread:bindtouchcancel": handleTouchCancel,
     },
     scaleFeedbackTargetProps: {
+      flatten: false,
       "main-thread:ref": targetRef,
       "main-thread:bindlayoutchange": handleLayoutChange,
     },

@@ -11,15 +11,7 @@ SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도
 
 Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 단일 요소에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나눠야 할 때는 훅을 사용하세요.
 
-## Requirements
-
-SEED가 지원하는 최소 버전은 **Lynx Engine 3.9**입니다. `Element.animate()` 자체는 더 낮은 버전에도 있지만, SEED는 Engine 3.9의 Main Thread Script와 GlobalProps 계약을 기준으로 구현하고 검증합니다.
-
-```package-install
-@seed-design/lynx-react @seed-design/lynx-css
-```
-
-## How the scale is calculated
+## Scale 계산 방식
 
 Target의 `main-thread:bindlayoutchange`에서 실제 폭과 높이를 읽고 다음 공식으로 배율을 계산합니다.
 
@@ -30,7 +22,7 @@ scale = (basis - 2) / basis
 
 축소량, 폭 보정값, 최소 기준 길이의 의미는 [Scale Foundation](/foundations/feedback/scale)에서 확인할 수 있습니다.
 
-## Self Scale with ScaleFeedback
+## ScaleFeedback으로 Self Scale 적용하기
 
 단일 요소에 Self Scale을 적용할 때는 `ScaleFeedback`으로 감싸세요. 별도 wrapper를 렌더하지 않고 child에 필요한 Main Thread props를 합성합니다.
 
@@ -40,7 +32,7 @@ import { ScaleFeedback } from "@seed-design/lynx-react";
 function Pressable() {
   return (
     <ScaleFeedback>
-      <view>
+      <view flatten={false}>
         <text>눌러 보세요</text>
       </view>
     </ScaleFeedback>
@@ -48,9 +40,9 @@ function Pressable() {
 }
 ```
 
-child는 하나의 Lynx element여야 하며, 사용자 컴포넌트라면 `main-thread:ref`와 Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
+child는 하나의 Lynx element여야 하며, 사용자 컴포넌트라면 `main-thread:ref`와 Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child가 시각 속성 없이 flatten될 수 있다면 예제처럼 `flatten={false}`를 지정하세요. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
 
-## Self and Content with useScaleFeedback
+## useScaleFeedback으로 Self와 Content Scale 적용하기
 
 훅은 터치를 받는 요소와 실제로 축소할 요소의 props를 나누어 반환합니다.
 
@@ -74,11 +66,13 @@ function Pressable() {
   ```
 </LynxComponentExample>
 
+`scaleFeedbackTargetProps`는 Main Thread ref와 animation이 실제 render object를 가리키도록 `flatten={false}`도 포함합니다. target에 props 객체를 그대로 전달하세요.
+
 <Callout>
 Main Thread의 실제 입력 지연과 transform 결과는 QR 코드 탭에서 Lynx Explorer로 확인하세요. WebLynx 미리보기는 구조와 기본 상호작용을 확인하는 용도입니다.
 </Callout>
 
-## Choosing Self or Content
+## Self와 Content 선택하기
 
 두 방식은 공식이 아니라 **target 위치**가 다릅니다.
 
@@ -101,7 +95,7 @@ return (
 
 Checkbox, Radio, Switch처럼 label까지 포함한 Root가 터치를 받되 mark만 줄어들어야 하는 컴포넌트도 같은 패턴을 사용합니다.
 
-## Main and Background Threads
+## Main Thread와 Background Thread
 
 Scale Feedback은 하나의 touch 이벤트를 다음처럼 나눠 처리합니다.
 
@@ -114,7 +108,7 @@ Main Thread 핸들러가 scale을 즉시 시작한 뒤 필요한 callback만 `ru
 
 `usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onPressStart`, `onPressEnd`, `onPressCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
 
-## Animation and Rootage values
+## 애니메이션과 Rootage 값
 
 Scale은 CSS `transition` 문자열을 inline style에 쓰지 않고 `Element.animate()`로 실행합니다. 따라서 target에 이미 선언된 background-color, color, border-color transition을 덮어쓰지 않습니다.
 
@@ -127,7 +121,7 @@ Scale은 CSS `transition` 문자열을 inline style에 쓰지 않고 `Element.an
 
 touchend나 touchcancel이 이전 애니메이션 도중 발생하면 computed transform을 읽고 기존 `Animation`을 취소한 뒤 현재 지점에서 `scale(1)`로 돌아갑니다.
 
-## Reduced Motion
+## 동작 줄이기
 
 `useScaleFeedback`은 `@lynx-js/react`의 `useGlobalProps()`에서 `motion`을 읽습니다.
 
@@ -141,14 +135,14 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 
 당근 GlobalProps 전체 타입은 앱 또는 frontend-core가 소유합니다. SEED는 전체 스키마를 다시 선언하지 않고 자신이 소비하는 `motion`만 방어적으로 읽습니다.
 
-## Disabled, Loading, and nested targets
+## disabled, loading, 중첩 target
 
 - `disabled: true`이면 축소하지 않습니다.
 - Loading처럼 추가 입력을 받지 않는 상태도 `disabled: true`로 전달합니다.
 - 이미 축소되는 상위 요소 안의 target에는 중복 Scale Feedback을 적용하지 않습니다.
 - target이 기존 `transform`을 사용한다면 전용 content layer를 두세요. 훅이 target의 `transform`을 소유하므로 translate·rotate가 있는 같은 node에 직접 연결하면 기존 transform을 덮어씁니다.
 
-## API
+## API 살펴보기
 
 <react-type-table path="../packages/lynx-react/src/components/ScaleFeedback/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
 
@@ -156,7 +150,7 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 
 <react-type-table path="../packages/lynx-react/src/hooks/useScaleFeedback.ts" name="UseScaleFeedbackReturn" />
 
-## References
+## 참고 자료
 
 - [Lynx 3.9 Main Thread Script](https://lynxjs.org/3.9/react/main-thread-script.html)
 - [Lynx Rendering Process and Lifecycle](https://lynxjs.org/3.9/react/lifecycle.html)
