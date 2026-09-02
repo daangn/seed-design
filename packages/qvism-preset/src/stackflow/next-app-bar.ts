@@ -4,7 +4,8 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { focusVisible, pseudo } from "../utils/pseudo";
+import { active, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { vars as tokens } from "../vars/";
 import {
   topNavigation as vars,
@@ -161,14 +162,21 @@ export const nextAppBar = defineSlotRecipe({
       justifyContent: "center",
 
       border: "none",
-      background: "none",
       fontFamily: "inherit",
       padding: 0,
 
-      borderRadius: tokens.$radius.r1,
-      transition: FOCUS_RING_TRANSITION,
+      backgroundColor: iconButtonVars.base.enabled.root.color,
+      borderRadius: iconButtonVars.base.enabled.root.cornerRadius,
+
+      transition: `background-color ${iconButtonVars.base.enabled.root.colorDuration} ${iconButtonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+      // `scaleScope: self` in the spec: the button shrinks, not the glyph inside it.
+      [pseudo(not(disabled), active)]: {
+        backgroundColor: iconButtonVars.base.pressed.root.color,
+        ...createScaleFeedbackStyles(),
+      },
     },
     icon: {
       display: "inline-block",
