@@ -1,3 +1,4 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { Slot } from "@radix-ui/react-slot";
 import { nextAppBar, type NextAppBarVariantProps } from "@seed-design/css/recipes/next-app-bar";
 import {
@@ -6,6 +7,7 @@ import {
 } from "@seed-design/css/recipes/next-app-bar-main";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { NextAppBar as NextAppBarPrimitive } from "../../primitive";
@@ -114,12 +116,13 @@ export interface NextAppBarIconButtonProps
 export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIconButtonProps>(
   ({ children, className, ...otherProps }, ref) => {
     const classNames = useClassNames();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <Primitive.button
-        ref={ref}
+        ref={composeRefs(scaleFeedbackRef, ref)}
         type="button"
-        className={clsx(classNames.iconButton, className)}
+        className={clsx(classNames.iconButton, scaleFeedbackClassName, className)}
         {...otherProps}
       >
         <Slot className={classNames.icon} data-part={nextAppBarAnatomy.icon}>
