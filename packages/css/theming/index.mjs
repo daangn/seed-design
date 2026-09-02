@@ -42,6 +42,25 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
         }
       } catch (e) {}
 
+      // Outside the fontScaling gate on purpose. Android WebView multiplies
+      // every computed font-size and line-height by Configuration.fontScale
+      // whether or not the app opted in, so the *-static tokens have to divide
+      // it back out either way — the option picks whether SEED *follows* the
+      // user's scale, not whether the WebView applies one. iOS needs nothing
+      // here: its scaling arrives through -apple-system-body inheritance,
+      // which the gate does control, and a literal px is never inflated.
+      var seedAndroidFontScale = 1;
+      try {
+        if (document.documentElement.dataset.seedPlatform === 'android') {
+          var rootSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+          // Uncapped, because it is a divisor: the tokens cancel textZoom only
+          // by dividing by exactly what the WebView multiplied back in,
+          // whatever cap the native app chose.
+          seedAndroidFontScale = rootSize > 0 ? rootSize / 16 : 1;
+          document.documentElement.style.setProperty('--seed-static-font-scale', seedAndroidFontScale.toString());
+        }
+      } catch (e) {}
+
       try {
         if (${fontScaling}) {
           var platform = document.documentElement.dataset.seedPlatform;
@@ -74,18 +93,10 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
               applyIOSFontScaling();
             }
           } else if (platform === 'android') {
-            var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-            // The measured textZoom, uncapped, because it is a divisor: the
-            // *-static tokens cancel it only by dividing by exactly what the
-            // WebView multiplied back in, whatever cap the native app chose.
-            // Capping it here is what left static tokens above their literal
-            // px once Configuration.fontScale went past the cap.
-            var raw = fontSize > 0 ? fontSize / 16 : 1;
-            document.documentElement.style.setProperty('--seed-static-font-scale', raw.toString());
             // How much SEED grows the text, which the token clamp bounds to
             // [--seed-font-size-limit-min, --seed-font-size-limit-max]. Past
-            // the cap this is deliberately below the raw scale.
-            var applied = Math.max(0.8, Math.min(1.5, raw));
+            // the cap this is deliberately below the raw scale measured above.
+            var applied = Math.max(0.8, Math.min(1.5, seedAndroidFontScale));
             document.documentElement.dataset.seedFontMultiplier = parseFloat(applied.toFixed(2)).toString();
             document.documentElement.dataset.seedFontScaling = 'enabled';
           }
