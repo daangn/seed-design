@@ -1,11 +1,12 @@
 import { popover, type PopoverVariantProps } from "@seed-design/css/recipes/popover";
 import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
 import { forwardRef } from "react";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
@@ -242,11 +243,12 @@ export const PopoverCloseButton = forwardRef<HTMLButtonElement, PopoverCloseButt
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { trackRef } = closeButtonTracker.useRenderTracking();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <PopoverPrimitive.CloseButton
-        ref={composeRefs(ref, trackRef)}
-        className={clsx(classNames.closeButton, className)}
+        ref={useComposedRefs(scaleFeedbackRef, ref, trackRef)}
+        className={clsx(classNames.closeButton, scaleFeedbackClassName, className)}
         {...props}
       />
     );

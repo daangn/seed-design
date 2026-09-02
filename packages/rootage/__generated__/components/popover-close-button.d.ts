@@ -26,6 +26,13 @@ declare const artifact: {
             "colorTimingFunction": {
               "type": "cubicBezier";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -113,6 +120,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
               "icon": {
