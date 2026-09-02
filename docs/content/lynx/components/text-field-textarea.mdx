@@ -143,9 +143,9 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
   ```
 </LynxComponentExample>
 
-자소 단위로 쪼개진 `value`에 관한 정보를 `onValueChange` 콜백에서 `graphemes`와 `slicedGraphemes`로 제공합니다.
+`value`를 사용자 인식 문자(grapheme cluster) 단위로 나눈 결과를 `onValueChange` 콜백의 `graphemes`와 `slicedGraphemes`로 제공합니다.
 
-자소 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
+문자 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
 
 <LynxComponentExample name="lynx/text-field-textarea/grapheme-count-controlled" height={600}>
   ```json doc-gen:file
