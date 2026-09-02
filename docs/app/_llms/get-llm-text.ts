@@ -1,10 +1,20 @@
+import { renderLLMPlaceholders, tidyLLMMarkdown } from "@/lib/llms/options";
+import { getPlatformStatusMarkdown } from "@/lib/llms/platform-status";
 import type { Section } from "./config";
 import type { LLMPage } from "./types";
 import { getGitHubSourceUrl } from "./config";
 import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
 import type { LynxCompatibility } from "@/lib/lynx-compatibility";
-import { ensureRulesReady, normalizeLLMBody } from "./normalize-llm-body";
-import { getPlatformStatusMarkdown } from "./rules/platform-status";
+
+/**
+ * The page already exports markdown that the compile-time handlers rewrote; all that is
+ * left is filling the placeholder markers, which is the one step that has to await.
+ */
+async function processedBody(page: LLMPage): Promise<string> {
+  const renderer = await page.data.load();
+  const { exports } = await renderer.render();
+  return tidyLLMMarkdown(await renderLLMPlaceholders(exports.processed ?? ""));
+}
 
 /**
  * 컴포넌트 문서 페이지는 본문에 <PlatformStatusTable> 노드가 없으므로(플랫폼 상태를
@@ -30,10 +40,7 @@ export function getLynxCompatibilityBlock(
 }
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
-  await ensureRulesReady();
-  const renderer = await page.data.load();
-  const { exports } = await renderer.render();
-  const processed = normalizeLLMBody(exports.processed);
+  const processed = await processedBody(page);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
   const lynxCompatibility = getLynxCompatibilityBlock(
