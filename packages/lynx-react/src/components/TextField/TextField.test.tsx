@@ -301,6 +301,54 @@ describe("TextField", () => {
     expect(invoke).not.toHaveBeenCalled();
   });
 
+  it("restores the committed controlled value when blur reports a stale native value", async () => {
+    const inputRef = createRef<NodesRef>();
+
+    function ControlledInput() {
+      const [value, setValue] = useState("초기값");
+
+      return (
+        <TextField.Root value={value} onValueChange={setValue}>
+          <TextField.Input ref={inputRef} />
+        </TextField.Root>
+      );
+    }
+
+    render(<ControlledInput />);
+
+    const input = getRenderedRoot().querySelector("input");
+    if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+
+    const exec = vi.fn();
+    const invoke = vi.fn(() => ({ exec }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireNativeEvent(inputRef.current, input, "input", {
+      value: "최신값",
+      selectionStart: 3,
+      selectionEnd: 3,
+      isComposing: false,
+    });
+    await flushControlledReconciliation();
+
+    fireNativeEvent(inputRef.current, input, "blur", { value: "이전값" });
+    await flushControlledReconciliation();
+
+    expect(invoke).toHaveBeenCalledTimes(1);
+    expect(invoke).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: "setValue",
+        params: { value: "최신값" },
+      }),
+    );
+    expect(exec).toHaveBeenCalledTimes(1);
+
+    fireNativeEvent(inputRef.current, input, "blur", { value: "최신값" });
+    await flushControlledReconciliation();
+
+    expect(invoke).toHaveBeenCalledTimes(1);
+  });
+
   it("waits for a parent value update queued in a microtask", async () => {
     const inputRef = createRef<NodesRef>();
 
