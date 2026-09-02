@@ -20,7 +20,7 @@ const GENERATED_FILE_PATTERNS: Array<{
   regenerateCommand: string;
 }> = [
   {
-    pattern: /packages\/css\/(vars|recipes|theming)\/.*/,
+    pattern: /packages\/css\/(vars|recipes)\/.*/,
     source: "packages/rootage/ 또는 packages/qvism-preset/",
     regenerateCommand: "bun generate:all",
   },
