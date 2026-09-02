@@ -61,12 +61,10 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
                 // --seed-font-size-limit-max. So the value says how much SEED
                 // grew the text, not how large a Dynamic Type step the user
                 // picked: the accessibility steps reach 3.1 and would
-                // otherwise overstate it. Exposed on both the data attribute
-                // and --seed-user-font-scale.
+                // otherwise overstate it.
                 var raw = size > 0 ? (size / 16) * 0.9412 : 1;
                 var scale = Math.max(0.8, Math.min(1.35, raw));
                 document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
-                document.documentElement.style.setProperty('--seed-user-font-scale', scale.toString());
               } catch (e) {}
             }
 
@@ -77,15 +75,18 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScalin
             }
           } else if (platform === 'android') {
             var fontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-            // textZoom factor, clamped to [0.8, 1.5]. SEED assumes the native
-            // app caps Configuration.fontScale (per Activity) within the same
-            // range so the clamped value equals the actual textZoom and the
-            // static-token cancellation in globalCss stays exact. Exposed on
-            // both the data attribute and --seed-user-font-scale.
+            // The measured textZoom, uncapped, because it is a divisor: the
+            // *-static tokens cancel it only by dividing by exactly what the
+            // WebView multiplied back in, whatever cap the native app chose.
+            // Capping it here is what left static tokens above their literal
+            // px once Configuration.fontScale went past the cap.
             var raw = fontSize > 0 ? fontSize / 16 : 1;
-            var scale = Math.max(0.8, Math.min(1.5, raw));
-            document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
-            document.documentElement.style.setProperty('--seed-user-font-scale', scale.toString());
+            document.documentElement.style.setProperty('--seed-static-font-scale', raw.toString());
+            // How much SEED grows the text, which the token clamp bounds to
+            // [--seed-font-size-limit-min, --seed-font-size-limit-max]. Past
+            // the cap this is deliberately below the raw scale.
+            var applied = Math.max(0.8, Math.min(1.5, raw));
+            document.documentElement.dataset.seedFontMultiplier = parseFloat(applied.toFixed(2)).toString();
             document.documentElement.dataset.seedFontScaling = 'enabled';
           }
         }

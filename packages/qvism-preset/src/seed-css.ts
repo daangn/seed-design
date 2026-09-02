@@ -51,17 +51,15 @@ const createSeedDeclaration =
     const isLineHeight = tokenGroup.includes("line-height");
 
     // Divide by --seed-static-font-scale so Android WebView's textZoom cancels
-    // out. globalCss sets --seed-static-font-scale to var(--seed-user-font-scale, 1)
-    // under [data-seed-platform='android'] and leaves it at 1 elsewhere, so
-    // iOS static tokens stay literal (they should not follow -apple-system-body).
-    // Cancellation is exact only while the native app caps
-    // Configuration.fontScale within the same [0.8, 1.5] range that the
-    // theming script clamps --seed-user-font-scale to.
+    // out. The theming script writes the measured textZoom there on Android
+    // and nowhere else, so globalCss's 1 stands on iOS and static tokens stay
+    // literal (they should not follow -apple-system-body).
     // Gated on font-size/line-height because `static` also matches color
     // palette tokens like `$color.palette.static-black`, and calc(<color>/<n>)
     // is invalid CSS.
-    // TODO(attr): swap for `attr(data-seed-font-multiplier number, 1)`
-    // (dropping the theming setter) once typed attr() (CSS L5) is Baseline.
+    // TODO(attr): typed attr() (CSS L5) would drop the theming setter, but it
+    // needs the raw textZoom — data-seed-font-multiplier carries the capped
+    // scale, which leaves static tokens above their literal px past the cap.
     if (tokenKey.includes("static") && (isFontSize || isLineHeight)) {
       return `${tokenName(decl.token)}: calc(${value} / var(--seed-static-font-scale, 1));`;
     }
