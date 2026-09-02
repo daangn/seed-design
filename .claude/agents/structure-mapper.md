@@ -31,11 +31,12 @@ figma, mcp, docs
 특정 컴포넌트의 모든 관련 파일을 찾습니다:
 
 ```
-packages/rootage/components/[name]/     # 정의
-packages/css/components/[name]/         # 스타일
-packages/react-headless/[name]/         # 로직
-packages/react/[name]/                  # UI
-docs/content/*/components/[name].mdx    # 문서
+packages/rootage/components/[name].yaml          # 정의
+packages/css/vars/component/[name].mjs           # 스타일 변수 (생성)
+packages/css/recipes/[name].css                  # Recipe CSS (생성)
+packages/react-headless/[name]/src/              # 로직
+packages/react/src/components/[PascalName]/      # UI
+docs/content/**/components/[name].mdx            # 문서
 ```
 
 ### 2. 생성 파일 식별
@@ -74,11 +75,12 @@ grep -r "from ['\"]@seed-design/" packages/*/src/
 - packages/react-headless/[name]/src/...
 
 ### UI (React)
-- packages/react/[name]/src/...
+- packages/react/src/components/[PascalName]/...
 
 ### 문서 (Docs)
-- docs/content/docs/components/[name].mdx
+- docs/content/components/[name].mdx
 - docs/content/react/components/[name].mdx
+- docs/content/lynx/components/[name].mdx
 ```
 
 ## 사용 예시

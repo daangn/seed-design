@@ -78,7 +78,7 @@ git diff --cached --name-only -z |
 ```bash
 # rootage 변경 후 css 재생성 필요 여부
 git diff --name-only HEAD | grep "packages/rootage/" && \
-  echo "⚠️ bun generate 실행 필요"
+  echo "⚠️ bun rootage:generate 실행 필요"
 ```
 
 ## 출력 형식
