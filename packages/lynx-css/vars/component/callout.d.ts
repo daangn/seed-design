@@ -199,7 +199,9 @@ export declare const vars: {
   "toneMagic": {
     "enabled": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic)"
+        }
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. */
       "prefixIcon": {
@@ -221,7 +223,9 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic-pressed)"
+        }
       }
     }
   }

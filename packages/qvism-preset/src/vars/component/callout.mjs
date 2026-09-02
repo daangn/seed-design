@@ -169,7 +169,9 @@ export const vars = {
   "toneMagic": {
     "enabled": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic)"
+        }
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
@@ -189,7 +191,9 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic-pressed)"
+        }
       }
     }
   }
