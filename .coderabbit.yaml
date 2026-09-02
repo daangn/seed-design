@@ -1,5 +1,11 @@
 language: ko-KR
 reviews:
+  auto_review:
+    base_branches:
+      - dev
+      - minor
+      - major
+
   path_filters:
     - "!**/package.json"
     - "!**/archive/**/*"
