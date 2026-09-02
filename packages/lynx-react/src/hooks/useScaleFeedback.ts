@@ -6,6 +6,7 @@ import {
   useMainThreadRef,
   useRef,
 } from "@lynx-js/react";
+import { runWorkletCtx } from "@lynx-js/react/worklet-runtime/bindings" with { runtime: "shared" };
 import type { RefObject } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import {
@@ -20,6 +21,9 @@ import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scal
 
 type MainThreadLayoutChangeHandler = NonNullable<LynxViewProps["main-thread:bindlayoutchange"]>;
 type MainThreadTouchHandler = NonNullable<LynxViewProps["main-thread:bindtouchstart"]>;
+type MainThreadRef = NonNullable<LynxViewProps["main-thread:ref"]>;
+type MainThreadRefCleanup = undefined | (() => void);
+type RunWorklet = (worklet: unknown, params: unknown[]) => unknown;
 
 interface SeedMotionGlobalProps {
   motion?: unknown;
@@ -57,6 +61,15 @@ export interface UseScaleFeedbackReturn {
   scaleFeedbackTriggerProps: ScaleFeedbackTriggerProps;
   /** Spread onto the element that is measured and scaled. */
   scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
+}
+
+export interface ScaleFeedbackComposition {
+  ref?: MainThreadRef | null;
+  forwardedRef?: MainThreadRef | null;
+  layoutChange?: MainThreadLayoutChangeHandler;
+  touchStart?: MainThreadTouchHandler;
+  touchEnd?: MainThreadTouchHandler;
+  touchCancel?: MainThreadTouchHandler;
 }
 
 function runScaleFeedback(
@@ -100,43 +113,113 @@ function runScaleFeedback(
  * `GlobalProps.motion` values preserve the default motion; only the exact
  * `"reduced"` value disables scaling.
  */
-export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScaleFeedbackReturn {
+function useScaleFeedbackImpl(
+  options: UseScaleFeedbackOptions,
+  composition?: ScaleFeedbackComposition,
+): UseScaleFeedbackReturn {
   const { disabled = false, onTouchStart, onTouchEnd, onTouchCancel } = options;
+  const composedRef = composition?.ref;
+  const composedForwardedRef = composition?.forwardedRef;
+  const composedLayoutChange = composition?.layoutChange;
+  const composedTouchStart = composition?.touchStart;
+  const composedTouchEnd = composition?.touchEnd;
+  const composedTouchCancel = composition?.touchCancel;
+  const hasComposition = composition !== undefined;
   const globalProps = useGlobalProps() as SeedMotionGlobalProps | undefined;
   const reducedMotion = isReducedMotion(globalProps?.motion);
-  const targetRef = useMainThreadRef<ScaleFeedbackElement>(null);
+  const targetRef = useMainThreadRef<ScaleFeedbackElement | null>(null);
   const animationRef = useMainThreadRef<MainThread.Animation>(null);
   const scaleRef = useMainThreadRef(1);
   const hasMountedRef = useRef(false);
 
+  function handleTargetRef(element: MainThread.Element | null) {
+    "main thread";
+
+    targetRef.current = element as ScaleFeedbackElement | null;
+    const childRef = composedRef;
+    const forwardedRef = composedForwardedRef;
+    let childCleanup: MainThreadRefCleanup;
+    let forwardedCleanup: MainThreadRefCleanup;
+
+    if (typeof childRef === "function") {
+      const cleanup = childRef(element);
+      if (typeof cleanup === "function") childCleanup = cleanup;
+    } else if (childRef && "current" in childRef) {
+      childRef.current = element;
+    } else if (childRef) {
+      childCleanup = (runWorkletCtx as RunWorklet)(childRef, [element]) as MainThreadRefCleanup;
+    }
+
+    if (typeof forwardedRef === "function") {
+      const cleanup = forwardedRef(element);
+      if (typeof cleanup === "function") forwardedCleanup = cleanup;
+    } else if (forwardedRef && "current" in forwardedRef) {
+      forwardedRef.current = element;
+    } else if (forwardedRef) {
+      forwardedCleanup = (runWorkletCtx as RunWorklet)(forwardedRef, [
+        element,
+      ]) as MainThreadRefCleanup;
+    }
+
+    return () => {
+      "main thread";
+
+      if (typeof childCleanup === "function") childCleanup();
+      else if (childCleanup) (runWorkletCtx as RunWorklet)(childCleanup, []);
+      else if (typeof childRef === "function") childRef(null);
+      else if (childRef && "current" in childRef) childRef.current = null;
+      else if (childRef) (runWorkletCtx as RunWorklet)(childRef, [null]);
+
+      if (typeof forwardedCleanup === "function") forwardedCleanup();
+      else if (forwardedCleanup) (runWorkletCtx as RunWorklet)(forwardedCleanup, []);
+      else if (typeof forwardedRef === "function") forwardedRef(null);
+      else if (forwardedRef && "current" in forwardedRef) forwardedRef.current = null;
+      else if (forwardedRef) (runWorkletCtx as RunWorklet)(forwardedRef, [null]);
+
+      targetRef.current = null;
+    };
+  }
+
   function handleLayoutChange(event: MainThread.LayoutChangeEvent) {
     "main thread";
 
+    const childLayoutChange = composedLayoutChange;
+    if (typeof childLayoutChange === "function") childLayoutChange(event);
+    else if (childLayoutChange) (runWorkletCtx as RunWorklet)(childLayoutChange, [event]);
     const width = event.detail?.width ?? event.params?.width ?? 0;
     const height = event.detail?.height ?? event.params?.height ?? 0;
     scaleRef.current = calculateScaleFeedback(width, height);
     targetRef.current?.setStyleProperty("transform-origin", "center center");
   }
 
-  function handleTouchStart() {
+  function handleTouchStart(event: MainThread.TouchEvent) {
     "main thread";
 
+    const childTouchStart = composedTouchStart;
+    if (typeof childTouchStart === "function") childTouchStart(event);
+    else if (childTouchStart) (runWorkletCtx as RunWorklet)(childTouchStart, [event]);
     if (!disabled && !reducedMotion) {
       runScaleFeedback(targetRef, animationRef, scaleRef.current, feedbackScaleDuration);
     }
     if (onTouchStart) runOnBackground(onTouchStart)();
   }
 
-  function handleTouchEnd() {
+  function handleTouchEnd(event: MainThread.TouchEvent) {
     "main thread";
 
+    const childTouchEnd = composedTouchEnd;
+    if (typeof childTouchEnd === "function") childTouchEnd(event);
+    else if (childTouchEnd) (runWorkletCtx as RunWorklet)(childTouchEnd, [event]);
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onTouchEnd) runOnBackground(onTouchEnd)();
   }
 
-  function handleTouchCancel() {
+  function handleTouchCancel(event: MainThread.TouchEvent) {
     "main thread";
 
+    const childTouchCancel = composedTouchCancel;
+    if (typeof childTouchCancel === "function") childTouchCancel(event);
+    else if (childTouchCancel) (runWorkletCtx as RunWorklet)(childTouchCancel, [event]);
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onTouchCancel) runOnBackground(onTouchCancel)();
   }
@@ -159,8 +242,19 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     },
     scaleFeedbackTargetProps: {
       flatten: false,
-      "main-thread:ref": targetRef,
+      "main-thread:ref": hasComposition ? handleTargetRef : targetRef,
       "main-thread:bindlayoutchange": handleLayoutChange,
     },
   };
+}
+
+export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScaleFeedbackReturn {
+  return useScaleFeedbackImpl(options);
+}
+
+export function useComposedScaleFeedback(
+  options: UseScaleFeedbackOptions,
+  composition: ScaleFeedbackComposition,
+): UseScaleFeedbackReturn {
+  return useScaleFeedbackImpl(options, composition);
 }
