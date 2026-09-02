@@ -86,13 +86,10 @@ function runScaleFeedback(
   );
 }
 
-function updateScaleFeedbackScale(
-  target: ScaleFeedbackElement | null,
-  scaleRef: RefObject<number>,
-) {
+function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | null {
   "main thread";
 
-  if (!target) return;
+  if (!target) return null;
 
   let width = 0;
   let height = 0;
@@ -102,13 +99,12 @@ function updateScaleFeedbackScale(
     width = Number.parseFloat(target.getComputedStyleProperty("width"));
     height = Number.parseFloat(target.getComputedStyleProperty("height"));
   } catch {
-    // Keep the last valid layout measurement in non-native runtimes.
-    return;
+    return null;
   }
 
-  if (width <= 0 || height <= 0 || Number.isNaN(width) || Number.isNaN(height)) return;
+  if (width <= 0 || height <= 0 || Number.isNaN(width) || Number.isNaN(height)) return null;
 
-  scaleRef.current = calculateScaleFeedback(width, height);
+  return calculateScaleFeedback(width, height);
 }
 
 /**
@@ -129,7 +125,7 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
   const reducedMotion = isReducedMotion(globalProps?.motion);
   const targetRef = useMainThreadRef<ScaleFeedbackElement | null>(null);
   const animationRef = useMainThreadRef<MainThread.Animation>(null);
-  const scaleRef = useMainThreadRef(1);
+  const scaleRef = useMainThreadRef<number | null>(null);
   const hasMountedRef = useRef(false);
 
   function handleLayoutChange(event: MainThread.LayoutChangeEvent) {
@@ -140,6 +136,8 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     const height = event.detail?.height ?? event.params?.height ?? 0;
     if (width > 0 && height > 0) {
       scaleRef.current = calculateScaleFeedback(width, height);
+    } else {
+      scaleRef.current = null;
     }
     targetRef.current?.setStyleProperty("transform-origin", "center center");
   }
@@ -148,8 +146,11 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     "main thread";
 
     if (!disabled && !reducedMotion) {
-      updateScaleFeedbackScale(targetRef.current, scaleRef);
-      runScaleFeedback(targetRef, animationRef, scaleRef.current, feedbackScaleDuration);
+      const scale = scaleRef.current ?? readScaleFeedbackScale(targetRef.current);
+      if (scale !== null) {
+        scaleRef.current = scale;
+        runScaleFeedback(targetRef, animationRef, scale, feedbackScaleDuration);
+      }
     }
     if (onTouchStart) runOnBackground(onTouchStart)();
   }
