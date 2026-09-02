@@ -40,7 +40,7 @@ function Pressable() {
 }
 ```
 
-child는 하나의 Lynx element여야 하며, `ScaleFeedback`은 해당 element가 실제 animation target으로 유지되도록 `flatten={false}`를 합성합니다. 사용자 컴포넌트라면 `flatten`, `main-thread:ref`, Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
+child는 하나의 Lynx element여야 하며, `ScaleFeedback`은 해당 element가 실제 animation target으로 유지되도록 `flatten={false}`를 합성합니다. Lynx의 flatten은 별도 render object가 필요 없는 element를 부모와 합쳐 렌더링 비용을 줄이는 최적화이므로, ref와 animation target으로 사용할 element에서는 비활성화해야 합니다. 사용자 컴포넌트라면 `flatten`, `main-thread:ref`, Main Thread 이벤트 props를 실제 native element까지 전달해야 합니다. child에 같은 이벤트나 ref가 이미 있으면 child 로직을 먼저 실행한 뒤 SEED 로직을 실행합니다. ref cleanup도 함께 보존합니다.
 
 ## useScaleFeedback으로 Self와 Content Scale 적용하기
 
@@ -142,9 +142,13 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 - 이미 축소되는 상위 요소 안의 target에는 중복 Scale Feedback을 적용하지 않습니다.
 - target이 기존 `transform`을 사용한다면 전용 content layer를 두세요. 훅이 target의 `transform`을 소유하므로 translate·rotate가 있는 같은 node에 직접 연결하면 기존 transform을 덮어씁니다.
 
-## API 살펴보기
+## API
+
+### ScaleFeedback
 
 <react-type-table path="../packages/lynx-react/src/components/ScaleFeedback/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
+
+### useScaleFeedback
 
 <react-type-table path="../packages/lynx-react/src/hooks/useScaleFeedback.ts" name="UseScaleFeedbackOptions" />
 
