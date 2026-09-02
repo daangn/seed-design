@@ -100,7 +100,7 @@
     padding-bottom: var(--seed-dimension-x4);
 }
 .seed-popover__header[data-show-close-button] {
-    padding-right: calc(20px + 20px + var(--seed-dimension-x1_5));
+    padding-right: calc(20px + 22px + var(--seed-dimension-x1_5));
 }
 .seed-popover__title {
     color: var(--seed-color-fg-neutral);
@@ -192,11 +192,11 @@
     top: 20px;
     right: 20px;
     border-radius: var(--seed-radius-r3);
-    padding: calc((44px - 20px) / 2);
-    margin: calc((20px - 44px) / 2);
+    padding: calc((52px - 22px) / 2);
+    margin: calc((22px - 52px) / 2);
     cursor: pointer;
     transition: background var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    --seed-icon-size: 20px;
+    --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral-subtle);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: var(--seed-dimension-x0_5);
@@ -211,13 +211,11 @@
 @media (hover: hover) and (pointer: fine) {
     .seed-popover__closeButton:is(:hover, [data-hover]) {
         background: var(--seed-color-bg-transparent-pressed);
-        --seed-icon-color: var(--seed-color-fg-neutral);
     }
 }
 @media not all and (hover: hover) and (pointer: fine) {
     .seed-popover__closeButton:is(:active, [data-active]) {
         background: var(--seed-color-bg-transparent-pressed);
-        --seed-icon-color: var(--seed-color-fg-neutral);
     }
 }
 @media (min-width: 480px) {
