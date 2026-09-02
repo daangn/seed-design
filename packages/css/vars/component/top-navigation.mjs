@@ -1,9 +1,16 @@
 export const vars = {
+  "base": {
+    "enabled": {
+      "root": {
+        "titleMinGap": "var(--seed-dimension-x2)"
+      }
+    }
+  },
   "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
-        "paddingX": "var(--seed-dimension-x4)"
+        "paddingX": "var(--seed-dimension-x1_5)"
       }
     }
   },
@@ -11,10 +18,10 @@ export const vars = {
     "enabled": {
       "root": {
         "height": "56px",
-        "paddingX": "var(--seed-dimension-x4)"
+        "paddingX": "var(--seed-dimension-x1_5)"
       },
       "main": {
-        "paddingLeft": "16px"
+        "paddingLeft": "var(--seed-dimension-x1_5)"
       }
     }
   },

@@ -9,6 +9,14 @@ import { topNavigation as vars } from "../vars/component";
 import { topNavigationIconButton as iconButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars/";
 
+// The spec moved Top Navigation to button-box-based spacing (`root.paddingX` and
+// `main.paddingLeft` are now `$dimension.x1_5`). Following it here would render identically —
+// the negative margins below exist only to undo the old icon-based basis — but it rewrites the
+// emitted CSS, so both stay as they were until DES-2511 settles the platform difference.
+const PINNED_ROOT_PADDING_X = tokens.$dimension.x4;
+const PINNED_LEFT_PADDING_RIGHT = "16px";
+const ICON_BASIS_OFFSET = `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`;
+
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
   slots: ["root", "title", "subtitle"],
@@ -63,6 +71,9 @@ export const appBarMain = defineSlotRecipe({
           top: "var(--seed-safe-area-top)",
           bottom: 0,
           insetInline: 0,
+          // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
+          // is measured from the left/right areas in `useAppBar` and has no floor, so consuming it
+          // means `max(var(--centered-title-padding-x, 0), ${vars.base.enabled.root.titleMinGap})`.
           paddingInline: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },
@@ -174,7 +185,7 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeIos.enabled.root.paddingX,
+          paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -184,10 +195,10 @@ export const appBar = defineSlotRecipe({
           // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: ICON_BASIS_OFFSET,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: ICON_BASIS_OFFSET,
           },
         },
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
@@ -201,7 +212,7 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -209,10 +220,10 @@ export const appBar = defineSlotRecipe({
           height: iconButtonVars.base.enabled.root.size,
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: ICON_BASIS_OFFSET,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: ICON_BASIS_OFFSET,
           },
         },
         icon: {
@@ -220,7 +231,7 @@ export const appBar = defineSlotRecipe({
           height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
         left: {
-          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+          paddingRight: PINNED_LEFT_PADDING_RIGHT,
         },
       },
     },

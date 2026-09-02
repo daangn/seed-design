@@ -12,6 +12,12 @@ data:
             type: dimension
           paddingX:
             type: dimension
+            description:
+              좌우 영역에 놓이는 버튼의 터치 영역을 기준으로 한 여백입니다. 버튼 내부 여백과 합쳐져 아이콘과 레이블 기준의 시각적
+              여백이 됩니다.
+          titleMinGap:
+            type: dimension
+            description: 가운데 정렬된 title이 좌우 영역과 겹치지 않도록 보장하는 최소 간격입니다.
           color:
             type: color
           gradient:
@@ -82,20 +88,24 @@ data:
               직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를
               사용하세요.
   definitions:
+    base:
+      enabled:
+        root:
+          titleMinGap: $dimension.x2
     theme=ios:
       enabled:
         root:
           height: 44px
-          paddingX: $dimension.x4
+          paddingX: $dimension.x1_5
         # main:
         #   paddingLeft: $dimension.x1
     theme=android:
       enabled:
         root:
           height: 56px
-          paddingX: $dimension.x4
+          paddingX: $dimension.x1_5
         main:
-          paddingLeft: 16px # should be $dimension.x1_5 after we add pressed styles to top navigation icon buttons and do the layout based on the button size rather than the icon size
+          paddingLeft: $dimension.x1_5
     tone=layer:
       enabled:
         root:
