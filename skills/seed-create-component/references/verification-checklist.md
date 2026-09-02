@@ -66,6 +66,7 @@ Storybook 파일만 바꿨다면 [storybook.md](storybook.md)의 CSF Next 규칙
 - [ ] Recipe import가 대상 플랫폼과 일치하는가?
 - [ ] Headless와 Styled UI가 상태와 스타일 책임을 중복해서 소유하지 않는가?
 - [ ] 지원하지 않는 플랫폼 기능을 타입과 문서에서 같은 방식으로 제외했는가?
+- [ ] 등록·레이아웃 측정값에 의존하는 transition이 있다면, 동적 자식 추가를 포함해 현재 필요한 값이 모두 준비될 때까지 관련 slot의 Recipe className으로 transition을 비활성화했는가?
 
 ## 배포 준비
 

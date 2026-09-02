@@ -54,3 +54,10 @@ export function getTabsTriggerRects(
 
   return rects;
 }
+
+export function areTabsTransitionsEnabled(
+  values: string[],
+  rects: Record<string, TabsLayoutRect>,
+): boolean {
+  return values.length > 0 && values.every((value) => rects[value] !== undefined);
+}

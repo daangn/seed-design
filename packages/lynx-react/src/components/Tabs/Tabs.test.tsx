@@ -3,7 +3,12 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
-import { getTabsLayoutWidth, getTabsOrderedItems, getTabsTriggerRects } from "./Tabs.utils";
+import {
+  areTabsTransitionsEnabled,
+  getTabsLayoutWidth,
+  getTabsOrderedItems,
+  getTabsTriggerRects,
+} from "./Tabs.utils";
 
 function BasicTabs(props: {
   value?: string;
@@ -39,6 +44,26 @@ describe("Tabs", () => {
 
     expect(listContent).not.toBeNull();
     expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
+  });
+
+  it("disables label and indicator transitions during the initial render", () => {
+    const { container } = render(<BasicTabs defaultValue="two" />);
+    const labels = container.querySelectorAll<HTMLElement>(".seed-tabs__triggerLabel");
+    const indicator = container.querySelector<HTMLElement>(".seed-tabs__indicator");
+
+    expect(indicator).toHaveClass("seed-tabs__indicator--transitionEnabled_false");
+    expect(indicator?.style.transitionDuration).toBe("");
+    for (const label of labels) {
+      expect(label).toHaveClass("seed-tabs__triggerLabel--transitionEnabled_false");
+      expect(label.style.transitionDuration).toBe("");
+    }
+  });
+
+  it("disables transitions when a dynamically added trigger is unmeasured", () => {
+    const rects = getTabsTriggerRects(["one", "two"], { one: 80, two: 80 });
+
+    expect(areTabsTransitionsEnabled(["one", "two"], rects)).toBe(true);
+    expect(areTabsTransitionsEnabled(["one", "two", "three"], rects)).toBe(false);
   });
 
   it("changes an uncontrolled value when a trigger is tapped", () => {

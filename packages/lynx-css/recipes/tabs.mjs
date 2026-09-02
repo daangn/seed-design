@@ -44,7 +44,8 @@ const defaultVariant = {
   "triggerLayout": "fill",
   "contentLayout": "hug",
   "size": "small",
-  "stickyList": false
+  "stickyList": false,
+  "transitionEnabled": true
 };
 
 const compoundVariants = [
@@ -68,6 +69,10 @@ export const tabsVariantMap = {
     "medium"
   ],
   "stickyList": [
+    true,
+    false
+  ],
+  "transitionEnabled": [
     true,
     false
   ],

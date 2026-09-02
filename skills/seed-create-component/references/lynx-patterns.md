@@ -48,6 +48,45 @@ Lynx compound 컴포넌트라고 해서 `createSlotRecipeContext`를 무조건 �
 - `inherit`, CSS-wide keyword, Web-only SVG stroke/fill CSS, `content`, unsupported shorthand에 의존하지 않는다.
 - style 변경은 `packages/lynx-qvism-preset/src/recipes/*` 또는 Rootage 원천에서 하고, generated `packages/lynx-css/*`는 직접 수정하지 않는다.
 
+## 초기 레이아웃 전환 방지
+
+위치·크기·색상처럼 **등록 또는 레이아웃 측정 결과에 따라 정해지는 값**에 transition을 적용하면, Lynx의 최초 렌더링 중간값에서 최종값으로 이동하는 과정까지 사용자 전환처럼 보일 수 있다. 선택 Indicator, 가변 너비 Trigger, Carousel처럼 초기 선택 상태와 측정값을 함께 쓰는 컴포넌트는 다음 패턴을 적용한다.
+
+- 최초 렌더링은 상태 변화가 아니라 초기화다. 필요한 자식 등록과 레이아웃 측정이 모두 끝날 때까지 관련 transition을 비활성화한다.
+- `useEffect`가 한 번 실행됐거나 첫 측정값이 들어왔다는 이유만으로 활성화하지 않는다. `items.every((item) => rects[item.value] !== undefined)`처럼 최종 스타일 계산에 필요한 값이 현재 모두 준비됐는지 매 렌더링에서 계산한다.
+- 준비 여부를 한 번 `true`로 만든 뒤 유지하지 않는다. 동적으로 자식이 추가되어 측정값이 다시 불완전해지면 transition도 다시 비활성화한다.
+- 임의의 timeout으로 초기화 완료 시점을 추정하지 않는다. 컴포넌트가 이미 소유한 등록·측정 상태에서 준비 조건을 계산한다.
+- 준비 전에는 transition 대상 전체가 `transitionDuration: "0s"`를 받도록 내부 boolean Recipe variant를 둔다. Indicator의 위치·크기뿐 아니라 같은 초기 선택 과정에서 바뀌는 Label 색상도 함께 막는다.
+- React 레이어에서 `transitionDuration`을 inline `style`로 지정하지 않는다. 준비 상태를 Recipe variant에 전달하고 각 slot의 className으로 적용한다.
+- 현재 등록된 모든 대상의 측정이 끝난 동안에는 일반적인 선택·swipe·layout 변경에 기존 Recipe transition을 사용한다.
+
+```tsx
+const componentRecipe = defineSlotRecipe({
+  // ...
+  variants: {
+    transitionEnabled: {
+      true: {},
+      false: {
+        label: { transitionDuration: "0s" },
+        indicator: { transitionDuration: "0s" },
+      },
+    },
+  },
+  defaultVariants: {
+    transitionEnabled: true,
+  },
+});
+
+const transitionsEnabled =
+  items.length > 0 && items.every((item) => rects[item.value] !== undefined);
+const classNames = componentRecipe({ ...variantProps, transitionEnabled: transitionsEnabled });
+
+<text className={classNames.label} />;
+<view className={classNames.indicator} />;
+```
+
+회귀 테스트는 첫 번째가 아닌 항목을 초기 선택값으로 렌더링하고, 최초 렌더링 시 Label과 Indicator에 transition 비활성 Recipe className이 적용되는지 확인한다. 자식을 동적으로 지원하는 컴포넌트라면 측정 완료 후 새 자식을 추가했을 때 준비 상태가 다시 `false`가 되는 경로도 검증한다.
+
 ## Unsupported Web API 문서화
 
 Web과 Lynx의 차이는 타입과 문서가 같은 말을 해야 한다.

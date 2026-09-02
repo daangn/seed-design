@@ -20,6 +20,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import {
+  areTabsTransitionsEnabled,
   getTabsLayoutWidth,
   getTabsOrderedItems,
   getTabsTriggerRects,
@@ -31,7 +32,10 @@ type NativeViewPagerProps = IntrinsicElements["viewpager"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
 type TriggerRect = TabsLayoutRect;
 type TriggerItem = { value: string; disabled: boolean };
-type TabsPublicVariantProps = Omit<TabsVariantProps, "selected" | "disabled" | "inCarousel">;
+type TabsPublicVariantProps = Omit<
+  TabsVariantProps,
+  "selected" | "disabled" | "inCarousel" | "transitionEnabled"
+>;
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(tabs);
 
@@ -65,6 +69,7 @@ interface TabsContextValue {
   selectedPagerIndex: number;
   indicatorRef: React.RefObject<MainThread.Element>;
   triggerRects: Record<string, TriggerRect>;
+  transitionsEnabled: boolean;
   registerTrigger: (value: string, disabled: boolean) => () => void;
   registerContent: (value: string) => () => void;
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
@@ -137,7 +142,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     onValueChange,
     ...nativeProps
   } = otherProps;
-  const classNames = tabs(variantProps);
   const [value, setValueInternal] = useControllableState<string | undefined>({
     value: valueProp,
     defaultValue,
@@ -169,6 +173,11 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       ),
     [items, triggerWidths],
   );
+  const transitionsEnabled = areTabsTransitionsEnabled(
+    items.map((item) => item.value),
+    triggerRects,
+  );
+  const classNames = tabs({ ...variantProps, transitionEnabled: transitionsEnabled });
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
@@ -283,6 +292,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       indicatorIndex,
       selectedPagerIndex,
       indicatorRef,
+      transitionsEnabled,
       triggerRects,
       registerTrigger,
       registerContent,
@@ -305,6 +315,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       selectedPagerIndex,
       indicatorRef,
       triggerRects,
+      transitionsEnabled,
       registerTrigger,
       registerContent,
       updateTriggerDisabled,
@@ -447,6 +458,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     ...context.variantProps,
     selected: visuallySelected,
     disabled,
+    transitionEnabled: context.transitionsEnabled,
   });
   const label =
     typeof children === "string" || typeof children === "number" ? String(children) : undefined;

@@ -15,6 +15,10 @@ declare interface TabsVariant {
   * @default false
   */
   stickyList: boolean;
+/**
+  * @default true
+  */
+  transitionEnabled: boolean;
 selected: boolean;
 disabled: boolean;
 inCarousel: boolean;

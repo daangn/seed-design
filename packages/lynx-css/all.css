@@ -2889,6 +2889,9 @@ text {
 .seed-tabs__triggerLabel {
   white-space: nowrap;
   color: var(--seed-color-fg-neutral-subtle);
+  transition-property: color;
+  transition-duration: var(--seed-duration-d4);
+  transition-timing-function: var(--seed-timing-function-easing);
 }
 
 .seed-tabs__listContent--triggerLayout_fill {
@@ -2970,6 +2973,10 @@ text {
   z-index: 1;
   position: sticky;
   top: 0;
+}
+
+.seed-tabs__indicator--transitionEnabled_false, .seed-tabs__triggerLabel--transitionEnabled_false {
+  transition-duration: 0s;
 }
 
 .seed-tabs__triggerLabel--selected_true {
