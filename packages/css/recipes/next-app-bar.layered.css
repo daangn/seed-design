@@ -30,11 +30,11 @@
   }
 
   .seed-next-app-bar__iconButton {
-    border-radius: var(--seed-radius-r1);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    background-color: var(--seed-color-bg-transparent);
+    border-radius: var(--seed-radius-r2);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
-    background: none;
     border: none;
     justify-content: center;
     align-items: center;
@@ -46,6 +46,11 @@
   .seed-next-app-bar__iconButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-next-app-bar__iconButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-transparent-pressed);
+    scale: var(--seed-feedback-scale);
   }
 
   .seed-next-app-bar__icon {
