@@ -226,20 +226,12 @@ jobs:
             To see the diff that needs to be reviewed, you must run this exact command. Note that the PR branch is already checked out in the current working directory.
 
             git diff $(git merge-base ${{ steps.pr.outputs.base_ref }} HEAD) -- . \
+            ':(exclude,attr:linguist-generated)' \
             ':(exclude)**/package.json' \
             ':(exclude)**/archive/**/*' \
             ':(exclude)**/.next/**/*' \
             ':(exclude)**/__testfixtures__/**/*' \
-            ':(exclude)**/__generated__/**/*' \
-            ':(exclude)**/__registry__/**/*' \
-            ':(exclude)**/public/**/*' \
-            ':(exclude)packages/css/**/*' \
-            ':(exclude)**/schema.json' \
-            ':(exclude)packages/qvism-preset/src/vars/**/*' \
-            ':(exclude)packages/qvism-preset/src/token.css' \
-            ':(exclude)packages/qvism-preset/src/tokens.ts' \
-            ':(exclude)packages/tailwind3-plugin/src/index.ts' \
-            ':(exclude)packages/tailwind4-theme/src/index.css'
+            ':(exclude)**/public/**/*'
 
             Use `gh pr comment` for *concise* top-level feedback.
             Use `mcp__github_inline_comment__create_inline_comment` to highlight specific code issues.

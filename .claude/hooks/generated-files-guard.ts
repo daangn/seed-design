@@ -1,3 +1,4 @@
+import { execFileSync } from "child_process";
 import { readFileSync } from "fs";
 
 // ===== 타입 정의 =====
@@ -13,43 +14,26 @@ interface ToolUseInput {
   };
 }
 
-// ===== 생성 파일 패턴 =====
-const GENERATED_FILE_PATTERNS: Array<{
-  pattern: RegExp;
-  source: string;
-  regenerateCommand: string;
-}> = [
-  {
-    pattern: /packages\/css\/(vars|recipes)\/.*/,
-    source: "packages/rootage/ 또는 packages/qvism-preset/",
-    regenerateCommand: "bun generate:all",
-  },
-  {
-    pattern: /packages\/css\/.*\.(css|min\.css)$/,
-    source: "packages/qvism-preset/",
-    regenerateCommand: "bun generate:all",
-  },
-  {
-    pattern: /packages\/qvism-preset\/src\/vars\/.*/,
-    source: "packages/rootage/",
-    regenerateCommand: "bun generate",
-  },
-  {
-    pattern: /docs\/registry\/.*\.json$/,
-    source: "docs/registry/*.ts",
-    regenerateCommand: "bun --filter @seed-design/docs generate:registry",
-  },
-  {
-    pattern: /.*\/dist\/.*/,
-    source: "해당 패키지 소스",
-    regenerateCommand: "bun build",
-  },
-  {
-    pattern: /.*\/__generated__\/.*/,
-    source: "생성 스크립트",
-    regenerateCommand: "해당 generate 스크립트",
-  },
-];
+/**
+ * 어떤 파일이 생성물인지는 .gitattributes의 linguist-generated가 단일 소스다.
+ * 여기에 경로 패턴을 다시 적지 않는다. check-attr는 순수 패턴 매칭이라
+ * 아직 만들어지지 않은 파일에도 답한다.
+ */
+function isGenerated(cwd: string, filePath: string): boolean {
+  const output = execFileSync("git", ["check-attr", "linguist-generated", "--", filePath], {
+    cwd,
+    encoding: "utf-8",
+    stdio: ["ignore", "pipe", "ignore"],
+  });
+  return output.trimEnd().endsWith(": set");
+}
+
+// .gitattributes가 답하지 못하는 것만 남긴다: 무엇으로 되돌리는가.
+function regenerateCommand(filePath: string): string {
+  if (/(^|\/)(lib|dist)\//.test(filePath)) return "bun packages:build";
+  if (/(^|\/)docs\//.test(filePath)) return "bun --filter @seed-design/docs generate:all";
+  return "bun generate:all";
+}
 
 // ===== 메인 로직 =====
 try {
@@ -64,13 +48,10 @@ try {
 
   // 3. 파일 경로 추출
   const filePath = input.tool_input.filePath || input.tool_input.path || input.tool_input.file_path;
-  if (!filePath || typeof filePath !== "string") {
+  if (typeof filePath !== "string" || filePath.length === 0) {
     process.exit(0);
-  }
-
-  for (const { pattern, source, regenerateCommand } of GENERATED_FILE_PATTERNS) {
-    if (pattern.test(filePath)) {
-      const message = `
+  } else if (isGenerated(input.cwd, filePath)) {
+    const message = `
 ╔════════════════════════════════════════════════════════════╗
 ║  ⛔ 생성 파일 수정 감지                                    ║
 ╚════════════════════════════════════════════════════════════╝
@@ -78,19 +59,18 @@ try {
 수정하려는 파일:
   ${filePath}
 
-이 파일은 자동 생성됩니다.
-직접 수정하지 말고 소스를 수정하세요:
-  → ${source}
+.gitattributes가 이 경로를 linguist-generated로 표시했습니다.
+직접 수정하지 말고 원천 파일을 수정하세요.
+원천과 생성 명령은 TECH.md의 「생성 파이프라인」 표를 보세요.
 
 재생성 명령어:
-  $ ${regenerateCommand}
+  $ ${regenerateCommand(filePath)}
 
-💡 @generated-files-guard 스킬을 참고하세요.
+이 파일이 생성물이 아니라면 .gitattributes를 고치세요.
 `;
 
-      console.error(message);
-      process.exit(2);
-    }
+    console.error(message);
+    process.exit(2);
   }
 } catch {
   // 에러 시 조용히 처리하여 hook이 실행을 방해하지 않도록

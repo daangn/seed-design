@@ -12,18 +12,13 @@ tools: Read, Glob, Grep, Bash
 2. **빌드 동기화 확인**: 소스 변경 후 필요한 빌드 명령어 안내
 3. **워크플로우 검증**: 올바른 작업 순서 확인
 
-## 생성 파일 목록 (수정 금지)
+## 생성 파일 판정
 
-### 절대 수정 금지
+경로 목록을 여기 두지 않는다. `.gitattributes`의 `linguist-generated`가 단일 소스이고, 판정은 git에게 직접 묻는다 (명령은 「감지 로직」).
 
-| 패턴 | 소스 | 재생성 명령어 |
-|------|------|--------------|
-| `packages/css/**/*.ts` | rootage | `bun generate` |
-| `packages/css/**/*.css` | rootage | `bun generate` |
-| `**/vars.ts` | qvism-preset | `bun generate` |
-| `docs/registry/*.json` | registry-*.ts | `bun --filter @seed-design/docs generate:registry` |
-| `**/dist/**` | 소스 코드 | `bun build` |
-| `**/__generated__/**` | 다양한 소스 | 해당 generate 스크립트 |
+`set`이면 생성물, `unspecified`면 손으로 쓰는 소스다. 같은 패키지 안에서도 갈린다 — `packages/css/vars/`는 생성물이지만 `packages/css/theming/`은 아니다. 판정이 틀렸다면 목록을 늘리지 말고 `.gitattributes`를 고친다.
+
+`.gitattributes`가 답하지 못하는 건 "무엇으로 되돌리는가"뿐이다. 원천과 생성 명령은 @TECH.md의 「생성 파이프라인」 표를 본다.
 
 ### 경고 대상
 
@@ -38,8 +33,8 @@ tools: Read, Glob, Grep, Bash
 
 ```text
 [필수 순서]
-1. packages/rootage/components/[name]/*.yaml 수정
-2. bun generate (CSS 생성)
+1. packages/rootage/components/[name].yaml 수정
+2. bun generate:all (CSS 생성)
 3. packages/react-headless/[name]/ 수정 (필요시)
 4. packages/react/[name]/ 수정 (필요시)
 5. docs/ 문서 업데이트
@@ -50,8 +45,8 @@ tools: Read, Glob, Grep, Bash
 
 ```text
 [필수 순서]
-1. packages/rootage/tokens/*.yaml 수정
-2. bun generate (vars.ts 생성)
+1. packages/rootage/*.yaml 수정 (color, dimension, font-size 등)
+2. bun rootage:generate (packages/css/vars 생성)
 3. 사용처 업데이트
 ```
 
@@ -69,8 +64,13 @@ tools: Read, Glob, Grep, Bash
 ### 생성 파일 수정 시도 감지
 
 ```bash
-# staged 파일 중 생성 파일 확인
-git diff --cached --name-only | grep -E "(packages/css/|vars\.ts|registry.*\.json|/dist/)"
+# 단일 경로 판정 (파일이 아직 없어도 동작한다)
+git check-attr linguist-generated -- <path>
+
+# staged 파일 일괄 판정
+git diff --cached --name-only -z |
+  git check-attr --stdin -z linguist-generated |
+  tr '\0' '\n' | paste - - -
 ```
 
 ### 소스-생성물 동기화 확인
@@ -91,14 +91,14 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
 ╚════════════════════════════════════════════╝
 
 수정된 생성 파일:
-  - packages/css/components/button/vars.ts
+  - packages/css/vars/component/action-button.mjs
 
 이 파일은 rootage에서 자동 생성됩니다.
 직접 수정하지 말고 소스를 수정하세요:
-  → packages/rootage/components/button/ui-spec.yaml
+  → packages/rootage/components/action-button.yaml
 
 수정 후 재생성:
-  $ bun generate
+  $ bun rootage:generate
 ```
 
 ### 동기화 필요 시
@@ -109,13 +109,13 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
 ╚════════════════════════════════════════════╝
 
 감지된 변경:
-  - packages/rootage/components/chip/*.yaml
+  - packages/rootage/components/chip.yaml
 
 필요한 명령어:
-  $ bun generate
+  $ bun rootage:generate
 
 영향받는 파일:
-  - packages/css/components/chip/
+  - packages/css/vars/component/chip.mjs
 ```
 
 ## 사용 예시

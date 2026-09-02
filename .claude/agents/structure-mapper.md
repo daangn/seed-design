@@ -40,12 +40,9 @@ docs/content/*/components/[name].mdx    # 문서
 
 ### 2. 생성 파일 식별
 
-자동 생성되어 수정 금지인 파일들:
+생성 파일 목록을 여기 두지 않는다. `.gitattributes`를 읽고 `linguist-generated`가 붙은 패턴을 그대로 쓴다. 이 에이전트는 Bash가 없어 `git check-attr`를 실행할 수 없으므로, 파일을 직접 읽어 패턴을 매칭한다.
 
-- `packages/css/` 내 대부분의 파일 (rootage에서 생성)
-- `**/vars.ts` (qvism에서 생성)
-- `docs/registry/*.json` (레지스트리 빌드)
-- `**/dist/`, `**/__generated__/`
+같은 패키지 안에서도 갈린다는 점에 주의한다 — `packages/css/vars/`와 `packages/css/recipes/`는 생성물이지만 `packages/css/theming/`, `breakpoints/`, `scale-feedback/`은 손으로 쓰는 소스다.
 
 ### 3. 의존성 매핑
 
@@ -67,12 +64,11 @@ grep -r "from ['\"]@seed-design/" packages/*/src/
 ## [ComponentName] 관련 파일
 
 ### 정의 (Definition)
-- packages/rootage/components/[name]/metadata.yaml
-- packages/rootage/components/[name]/ui-spec.yaml
+- packages/rootage/components/[name].yaml
 
 ### 스타일 (CSS) - 자동생성
-- packages/css/components/[name]/vars.ts ⚠️ 생성파일
-- packages/css/components/[name]/style.css
+- packages/css/vars/component/[name].mjs ⚠️ 생성파일
+- packages/css/recipes/[name].css ⚠️ 생성파일
 
 ### 로직 (Headless)
 - packages/react-headless/[name]/src/...

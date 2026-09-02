@@ -26,13 +26,13 @@
 
 ## 생성 파일
 
-다음 경로는 원천 파일에서 생성하므로 직접 수정하지 않는다.
+생성 파일은 직접 수정하지 않는다. 어떤 경로가 생성물인지는 `.gitattributes`의 `linguist-generated`가 단일 소스이므로, 목록을 외우지 말고 git에 묻는다.
 
-- `packages/css/**`
-- `packages/qvism-preset/src/vars/**`
-- `packages/lynx-css/**`
-- `packages/lynx-qvism-preset/src/vars/**`
-- `docs/public/__registry__/**`
+```sh
+git check-attr linguist-generated -- <path>   # : set 이면 생성물
+```
+
+같은 패키지 안에서도 갈린다. `packages/css/vars/`는 생성물이지만 `packages/css/theming/`은 손으로 쓰는 소스다.
 
 원천 파일을 수정한 뒤 저장소 지침에 맞는 생성 명령을 실행한다. `git status --short`와 diff로 예상한 생성물만 바뀌었는지 확인한다.
 

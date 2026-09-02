@@ -32,7 +32,8 @@ Lynx가 Web API를 그대로 재현할 수 없으면 타입에 열어두지 않�
 | Styled component | `packages/react/src/components/*` | `packages/lynx-react/src/components/*` |
 | Headless/state | `packages/react-headless/*` | `packages/lynx-react/src/hooks/*`, 컴포넌트 내부 hook/context 또는 기존 외부 Lynx primitive |
 | Recipe source | `packages/qvism-preset/src/recipes/*` | `packages/lynx-qvism-preset/src/recipes/*` |
-| Generated CSS | `packages/css/*` | `packages/lynx-css/*` |
+| Generated CSS | `packages/css/{vars,recipes}/*`, `packages/css/*.css` | `packages/lynx-css/{vars,recipes}/*`, `packages/lynx-css/*.css` |
+| Hand-written CSS 패키지 소스 | `packages/css/{theming,breakpoints,scale-feedback}/*` | 없음 |
 | Docs | `docs/content/react/*` | `docs/content/lynx/*` |
 | Registry snippet | `docs/registry/react/ui/*` when Delivery Surface Gate = snippet | `docs/registry/lynx/ui/*` when Delivery Surface Gate = snippet |
 | Vendored example copy | `examples/stackflow-spa/src/seed-design/ui/*` when snippet exists | `examples/lynx-spa/src/seed-design/ui/*` when snippet exists |

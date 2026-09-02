@@ -2,16 +2,20 @@
 
 ## 디렉토리 개요
 
-**CSS 변수와 Recipe를 제공**하는 패키지. 대부분의 파일은 **자동 생성**되므로 직접 수정 금지.
+**CSS 변수와 Recipe를 제공**하는 패키지. `vars/`, `recipes/`, 루트 `*.css`는 **자동 생성**이므로 직접 수정 금지. 나머지는 손으로 쓰는 소스다.
 
 ## 파일 작성 컨벤션
 
-| 경로 | 생성 원천 | 수정 가능 |
-|------|-----------|-----------|
-| `vars/` | `rootage/*.yaml` | **X** |
-| `recipes/` | `qvism-preset/src/recipes/*.ts` | **X** |
-| `*.css` (루트) | qvism-preset | **X** |
-| `qvism.config.mjs` | - | **O** |
+| 경로 | 생성 원천 |
+|------|-----------|
+| `vars/` | `rootage/*.yaml` |
+| `recipes/` | `qvism-preset/src/recipes/*.ts` |
+| `*.css` (루트) | qvism-preset |
+| `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs` | 없음 (손으로 작성) |
+
+수정 가능 여부는 이 표가 아니라 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <path>`가 `set`이면 생성물이다.
+
+`theming/`, `breakpoints/`, `scale-feedback/`는 `.mjs`와 `.cjs`, `.d.ts`를 손으로 함께 맞춘다. `bun generate:all`은 이 디렉토리를 건드리지 않는다.
 
 ## 코드 작성 컨벤션
 
