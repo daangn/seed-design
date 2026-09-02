@@ -52,6 +52,14 @@ export default defineConfig(async () => {
       lynx: {},
     },
     splitChunks: false as const,
+    tools: {
+      rspack(config: { resolve: { modules?: string[] } }) {
+        config.resolve.modules = [
+          resolve(DOCS_DIRECTORY, "node_modules"),
+          ...(config.resolve.modules ?? ["node_modules"]),
+        ];
+      },
+    },
     output: {
       distPath: {
         root: process.env.LYNX_EXAMPLES_DEV_OUTPUT ? DEVELOPMENT_DIRECTORY : STAGING_DIRECTORY,
