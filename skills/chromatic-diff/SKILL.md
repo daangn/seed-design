@@ -15,21 +15,21 @@ Read this before the workflow. The steps below assume three things are present, 
 
 | What is missing | How far this skill goes |
 | --- | --- |
-| `CHROMATIC_TOKEN` | Nowhere. Say it is missing, point at `references/token.md`, stop. |
+| `CHROMATIC_TOKEN` | Nowhere. Nothing else authenticates this API. Say it is missing, point at `references/token.md`, stop. |
 | Bun | Nowhere. Say Bun is not installed, stop. |
 | a chrome-devtools driver, meaning the MCP tools or the CLI | Steps 1 and 2. Report those, name the gap, stop. |
 | nothing | Steps 1 through 5. |
 
 Finishing the investigation is not the goal; a trustworthy answer is.
 
+One row admits an exception. Bun installed but unreachable from `PATH` is an environment quirk rather than a missing capability, so finding the binary and calling it by absolute path is fine, **provided the answer says you did it**. Step 0 detects the situation and prints `OFF PATH` into the `env:` line for exactly that reason. Bun genuinely absent from the machine is the row above.
+
 ### Do not route around a missing piece
 
-Every gap in that table has an obvious workaround within reach, and taking one is the failure this section exists to prevent:
+Two workarounds sit within reach, and neither is the fallback:
 
-- **No chrome-devtools driver** — the MCP tools and the `chrome-devtools` CLI are two forms of one capability, since the CLI drives the same server and exposes the same tools, so either one carries steps 3 to 5 and only missing both ends the run. Playwright, Puppeteer and headless Chrome launched from a shell are not the fallback: step 4's checks are written against the chrome-devtools tool surface, and an improvised driver drops them without saying so. Stop after step 2.
+- **Playwright, Puppeteer, or headless Chrome launched from a shell** — step 4's checks are written against the chrome-devtools tool surface, and an improvised driver drops them without saying so.
 - **Chromatic's own comparison images** — the one substitution that changes what the answer rests on, so it is refused whatever else is present. A run that stopped reports what it has instead of filling the gap with pixels.
-- **No `CHROMATIC_TOKEN`** — nothing else authenticates this API; see `references/token.md`.
-- **Bun not on `PATH`** — this one is different in kind. Bun installed but unreachable is an environment quirk rather than a missing capability, so finding the binary and calling it by absolute path is fine, **provided the answer says you did it**. Step 0 detects the situation and prints `OFF PATH` into the `env:` line for exactly that reason. Bun genuinely absent from the machine is the row in the table above.
 
 The reason is not procedural. A substitute usually does produce an answer, and that is the problem: it reads exactly like one that took the checked path, so the reader has no way to weigh it. A sentence naming the gap is worth more, because they can close it.
 
@@ -51,7 +51,7 @@ Then remove the `--out` directory step 1 wrote into, the same as a finished run 
 bun scripts/preflight.ts --devtools-mcp <yes|no>
 ```
 
-The flag is your own answer to the one question the script cannot check for itself: does *this session* have tools named `mcp__chrome-devtools__*`? Read it off your tool list, not off the machine, and answer about those tools alone. Holding the `chrome-devtools` CLI instead is not a `yes`, and it does not need to be, because the script looks for the CLI on `PATH` itself and either one lets the run finish.
+The flag is your own answer to the one question the script cannot check for itself: does *this session* have tools named `mcp__chrome-devtools__*`? Read it off your tool list, not off the machine, and answer about those tools alone. Holding the `chrome-devtools` CLI instead is not a `yes`, and it does not need to be: the script looks for the CLI on `PATH` itself, and since the CLI drives the same server and exposes the same tools, either one carries steps 3 to 5.
 
 Only one of the two is detectable, and the asymmetry is the point. The CLI is invoked through a shell, so finding it on `PATH` *is* the capability. The `chrome-devtools-mcp` binary sitting on the same `PATH` says nothing about whether this session received the tools, which is why the flag exists at all.
 
@@ -63,7 +63,7 @@ env: bun 1.4.0 · token ok (29d left) · driver: chrome-devtools MCP tools
 
 Keep that line. When the script exits non-zero it prints a `STOP` line naming where the workflow ends for this run, and that line governs the rest of the session.
 
-If the command does not run at all, `bun` is not on `PATH`; see the third bullet above before doing anything else.
+If the command does not run at all, `bun` is not on `PATH`; see the exception under the table above before doing anything else.
 
 ## Step 1 — Resolve the URL
 
@@ -128,7 +128,6 @@ Give each run its own subdirectory — `.chromatic-diff/<something unique to thi
 | --- | --- |
 | DOM differs | Structural change. Point at the elements and relate them to the commit range. |
 | Computed styles or boxes differ | A styling or layout change. Name the properties and the elements. |
-| Custom properties differ, everything else identical | A token was *redefined* without changing what it resolves to — `11px` becoming `calc(11px / var(--scale, 1))` reads as 57 changed properties and renders identically. Report it as a refactor, not a visual change. |
 | Everything identical at the captured viewport | The two builds render the same, so the snapshot is likely flaky rather than a regression. |
 
 The flaky verdict deserves the most care, because it is the one that changes what someone does with the diff. Support it: confirm both sides really did render, confirm you matched the viewport and globals, and look at the story's own `chromatic` parameters.
