@@ -1,6 +1,32 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
+import type { ReactElement } from "@lynx-js/react";
+
+import type { LynxViewProps } from "../../types";
+
+vi.mock("../ScaleFeedback", async () => {
+  const { cloneElement } = await import("@lynx-js/react");
+
+  return {
+    ScaleFeedback: ({
+      children,
+      onTouchStart,
+      onTouchEnd,
+      onTouchCancel,
+    }: {
+      children: ReactElement<LynxViewProps>;
+      onTouchStart?: () => void;
+      onTouchEnd?: () => void;
+      onTouchCancel?: () => void;
+    }) =>
+      cloneElement(children, {
+        bindtouchstart: onTouchStart,
+        bindtouchend: onTouchEnd,
+        bindtouchcancel: onTouchCancel,
+      }),
+  };
+});
 
 import * as PageBanner from "./PageBanner.namespace";
 
