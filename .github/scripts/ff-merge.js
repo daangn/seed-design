@@ -103,13 +103,8 @@ function validatePullRequest(pull, repository) {
   if (!SOURCE_BRANCHES.has(pull.head?.ref) || pull.base?.ref !== TARGET_BRANCH) {
     throw new FFMergeError("`minor → dev` 또는 `major → dev` PR에서만 실행할 수 있습니다.");
   }
-  if (!SHA_PATTERN.test(pull.head?.sha ?? "") || !SHA_PATTERN.test(pull.base?.sha ?? "")) {
-    throw new FFMergeError("PR base/head SHA 형식이 올바르지 않습니다.");
-  }
 
   return {
-    baseSha: pull.base.sha,
-    headSha: pull.head.sha,
     pullUrl: pull.html_url,
     sourceBranch: pull.head.ref,
   };
@@ -182,12 +177,33 @@ async function inspectRequest({ github, context, expectedBaseSha, expectedHeadSh
   });
   const pullInfo = validatePullRequest(pull, repository);
 
-  if (expectedBaseSha && pullInfo.baseSha !== expectedBaseSha) {
+  const [{ data: targetRef }, { data: sourceRef }] = await Promise.all([
+    github.rest.git.getRef({
+      owner,
+      repo,
+      ref: `heads/${TARGET_BRANCH}`,
+    }),
+    github.rest.git.getRef({
+      owner,
+      repo,
+      ref: `heads/${pullInfo.sourceBranch}`,
+    }),
+  ]);
+  const inspected = {
+    ...pullInfo,
+    baseSha: targetRef.object?.sha ?? "",
+    headSha: sourceRef.object?.sha ?? "",
+  };
+  if (!SHA_PATTERN.test(inspected.baseSha) || !SHA_PATTERN.test(inspected.headSha)) {
+    throw new FFMergeError("현재 base/head SHA 형식이 올바르지 않습니다.");
+  }
+
+  if (expectedBaseSha && inspected.baseSha !== expectedBaseSha) {
     throw new FFMergeError(
       "사전 검증 이후 `dev`가 변경되었습니다. 최신 상태에서 다시 실행해 주세요.",
     );
   }
-  if (expectedHeadSha && pullInfo.headSha !== expectedHeadSha) {
+  if (expectedHeadSha && inspected.headSha !== expectedHeadSha) {
     throw new FFMergeError(
       "사전 검증 이후 source 브랜치가 변경되었습니다. 최신 상태에서 다시 실행해 주세요.",
     );
@@ -196,12 +212,12 @@ async function inspectRequest({ github, context, expectedBaseSha, expectedHeadSh
   const { data: comparison } = await github.rest.repos.compareCommitsWithBasehead({
     owner,
     repo,
-    basehead: `${pullInfo.baseSha}...${pullInfo.headSha}`,
+    basehead: `${inspected.baseSha}...${inspected.headSha}`,
   });
   validateComparison(comparison);
 
   return {
-    ...pullInfo,
+    ...inspected,
     actor,
     pullNumber: context.issue.number,
   };

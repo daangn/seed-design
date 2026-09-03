@@ -12,6 +12,8 @@ const {
 
 const BASE_SHA = "1".repeat(40);
 const HEAD_SHA = "2".repeat(40);
+const PULL_BASE_SHA = "a".repeat(40);
+const PULL_HEAD_SHA = "b".repeat(40);
 
 function createPull(overrides = {}) {
   return {
@@ -20,12 +22,12 @@ function createPull(overrides = {}) {
     html_url: "https://github.com/daangn/seed-design/pull/2000",
     base: {
       ref: "dev",
-      sha: BASE_SHA,
+      sha: PULL_BASE_SHA,
       repo: { full_name: "daangn/seed-design" },
     },
     head: {
       ref: "minor",
-      sha: HEAD_SHA,
+      sha: PULL_HEAD_SHA,
       repo: { full_name: "daangn/seed-design" },
     },
     ...overrides,
@@ -48,9 +50,17 @@ function createContext() {
   };
 }
 
-function createReadGithub(pull = createPull()) {
+function createReadGithub(
+  pull = createPull(),
+  refs = { dev: BASE_SHA, minor: HEAD_SHA, major: HEAD_SHA },
+) {
   return {
     rest: {
+      git: {
+        getRef: mock(async ({ ref }) => ({
+          data: { object: { sha: refs[ref.replace("heads/", "")] } },
+        })),
+      },
       repos: {
         getCollaboratorPermissionLevel: mock(async () => ({
           data: { user: { permissions: { push: true } } },
@@ -69,8 +79,6 @@ function createReadGithub(pull = createPull()) {
 describe("validatePullRequest", () => {
   test("minor → dev PR을 허용한다", () => {
     expect(validatePullRequest(createPull(), "daangn/seed-design")).toEqual({
-      baseSha: BASE_SHA,
-      headSha: HEAD_SHA,
       pullUrl: "https://github.com/daangn/seed-design/pull/2000",
       sourceBranch: "minor",
     });
@@ -120,7 +128,7 @@ describe("권한과 비교 상태", () => {
 });
 
 describe("performFastForward", () => {
-  test("dev ref를 force 없이 PR head로 갱신하고 결과를 검증한다", async () => {
+  test("현재 브랜치 ref를 사용해 dev를 force 없이 갱신하고 결과를 검증한다", async () => {
     const readGithub = createReadGithub();
     const updateRef = mock(async () => ({ data: {} }));
     const getRef = mock(async () => ({ data: { object: { sha: HEAD_SHA } } }));
