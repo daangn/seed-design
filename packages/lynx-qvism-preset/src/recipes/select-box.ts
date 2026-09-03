@@ -208,7 +208,13 @@ export const selectBox = defineSlotRecipe({
           color: vars.base.disabled.description.color,
         },
       },
-      false: {},
+      false: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.base.enabledPressed.root.color,
+          },
+        },
+      },
     },
     footerOpen: {
       true: {

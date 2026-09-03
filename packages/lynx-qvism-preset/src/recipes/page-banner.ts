@@ -91,6 +91,10 @@ const pageBanner = defineSlotRecipe({
       marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5 + ${closeButtonVars.base.enabled.root.marginLeft})`,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
       backgroundColor: closeButtonVars.base.enabled.root.color,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}`,
+      "&:active": {
+        backgroundColor: closeButtonVars.base.pressed.root.color,
+      },
     },
     prefixIcon: {
       flexShrink: 0,
@@ -129,6 +133,17 @@ const pageBanner = defineSlotRecipe({
       true: {},
       false: {},
     },
+    interactive: {
+      true: {
+        root: {
+          "&:active": {
+            backgroundColor: "var(--seed-page-banner-pressed-background-color)",
+            backgroundImage: "var(--seed-page-banner-pressed-background-image)",
+          },
+        },
+      },
+      false: {},
+    },
     closeButtonPressed: {
       true: {
         closeButton: { backgroundColor: closeButtonVars.base.pressed.root.color },
@@ -141,7 +156,11 @@ const pageBanner = defineSlotRecipe({
       tone: "neutral",
       variant: "weak",
       css: {
-        root: { backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneNeutralVariantWeak.pressed.root.color,
+        },
         title: { color: vars.toneNeutralVariantWeak.enabled.title.color },
         description: { color: vars.toneNeutralVariantWeak.enabled.description.color },
         button: { color: vars.toneNeutralVariantWeak.enabled.button.color },
@@ -154,7 +173,11 @@ const pageBanner = defineSlotRecipe({
       tone: "neutral",
       variant: "solid",
       css: {
-        root: { backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneNeutralVariantSolid.pressed.root.color,
+        },
         title: { color: vars.toneNeutralVariantSolid.enabled.title.color },
         description: { color: vars.toneNeutralVariantSolid.enabled.description.color },
         button: { color: vars.toneNeutralVariantSolid.enabled.button.color },
@@ -167,7 +190,11 @@ const pageBanner = defineSlotRecipe({
       tone: "informative",
       variant: "weak",
       css: {
-        root: { backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneInformativeVariantWeak.pressed.root.color,
+        },
         title: { color: vars.toneInformativeVariantWeak.enabled.title.color },
         description: { color: vars.toneInformativeVariantWeak.enabled.description.color },
         button: { color: vars.toneInformativeVariantWeak.enabled.button.color },
@@ -180,7 +207,11 @@ const pageBanner = defineSlotRecipe({
       tone: "informative",
       variant: "solid",
       css: {
-        root: { backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneInformativeVariantSolid.pressed.root.color,
+        },
         title: { color: vars.toneInformativeVariantSolid.enabled.title.color },
         description: { color: vars.toneInformativeVariantSolid.enabled.description.color },
         button: { color: vars.toneInformativeVariantSolid.enabled.button.color },
@@ -193,7 +224,11 @@ const pageBanner = defineSlotRecipe({
       tone: "positive",
       variant: "weak",
       css: {
-        root: { backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color },
+        root: {
+          backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.tonePositiveVariantWeak.pressed.root.color,
+        },
         title: { color: vars.tonePositiveVariantWeak.enabled.title.color },
         description: { color: vars.tonePositiveVariantWeak.enabled.description.color },
         button: { color: vars.tonePositiveVariantWeak.enabled.button.color },
@@ -206,7 +241,11 @@ const pageBanner = defineSlotRecipe({
       tone: "positive",
       variant: "solid",
       css: {
-        root: { backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color },
+        root: {
+          backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.tonePositiveVariantSolid.pressed.root.color,
+        },
         title: { color: vars.tonePositiveVariantSolid.enabled.title.color },
         description: { color: vars.tonePositiveVariantSolid.enabled.description.color },
         button: { color: vars.tonePositiveVariantSolid.enabled.button.color },
@@ -219,7 +258,11 @@ const pageBanner = defineSlotRecipe({
       tone: "warning",
       variant: "weak",
       css: {
-        root: { backgroundColor: vars.toneWarningVariantWeak.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneWarningVariantWeak.pressed.root.color,
+        },
         title: { color: vars.toneWarningVariantWeak.enabled.title.color },
         description: { color: vars.toneWarningVariantWeak.enabled.description.color },
         button: { color: vars.toneWarningVariantWeak.enabled.button.color },
@@ -232,7 +275,11 @@ const pageBanner = defineSlotRecipe({
       tone: "warning",
       variant: "solid",
       css: {
-        root: { backgroundColor: vars.toneWarningVariantSolid.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneWarningVariantSolid.pressed.root.color,
+        },
         title: { color: vars.toneWarningVariantSolid.enabled.title.color },
         description: { color: vars.toneWarningVariantSolid.enabled.description.color },
         button: { color: vars.toneWarningVariantSolid.enabled.button.color },
@@ -245,7 +292,11 @@ const pageBanner = defineSlotRecipe({
       tone: "critical",
       variant: "weak",
       css: {
-        root: { backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneCriticalVariantWeak.pressed.root.color,
+        },
         title: { color: vars.toneCriticalVariantWeak.enabled.title.color },
         description: { color: vars.toneCriticalVariantWeak.enabled.description.color },
         button: { color: vars.toneCriticalVariantWeak.enabled.button.color },
@@ -258,7 +309,11 @@ const pageBanner = defineSlotRecipe({
       tone: "critical",
       variant: "solid",
       css: {
-        root: { backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color },
+        root: {
+          backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
+          "--seed-page-banner-pressed-background-color":
+            vars.toneCriticalVariantSolid.pressed.root.color,
+        },
         title: { color: vars.toneCriticalVariantSolid.enabled.title.color },
         description: { color: vars.toneCriticalVariantSolid.enabled.description.color },
         button: { color: vars.toneCriticalVariantSolid.enabled.button.color },
@@ -273,6 +328,7 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
+          "--seed-page-banner-pressed-background-image": `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
         },
         title: { color: vars.toneMagicVariantWeak.enabled.title.color },
         description: { color: vars.toneMagicVariantWeak.enabled.description.color },
@@ -358,6 +414,7 @@ const pageBanner = defineSlotRecipe({
     variant: "weak",
     pressed: false,
     closeButtonPressed: false,
+    interactive: false,
   },
 });
 

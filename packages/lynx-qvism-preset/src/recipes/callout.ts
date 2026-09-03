@@ -150,6 +150,10 @@ const callout = defineSlotRecipe({
       true: {},
       false: {},
     },
+    interactive: {
+      true: {},
+      false: {},
+    },
   },
   compoundVariants: [
     {
@@ -158,9 +162,21 @@ const callout = defineSlotRecipe({
       css: { root: { backgroundColor: vars.toneNeutral.pressed.root.color } },
     },
     {
+      tone: "neutral",
+      interactive: true,
+      css: { root: { "&:active": { backgroundColor: vars.toneNeutral.pressed.root.color } } },
+    },
+    {
       tone: "informative",
       pressed: true,
       css: { root: { backgroundColor: vars.toneInformative.pressed.root.color } },
+    },
+    {
+      tone: "informative",
+      interactive: true,
+      css: {
+        root: { "&:active": { backgroundColor: vars.toneInformative.pressed.root.color } },
+      },
     },
     {
       tone: "positive",
@@ -168,14 +184,29 @@ const callout = defineSlotRecipe({
       css: { root: { backgroundColor: vars.tonePositive.pressed.root.color } },
     },
     {
+      tone: "positive",
+      interactive: true,
+      css: { root: { "&:active": { backgroundColor: vars.tonePositive.pressed.root.color } } },
+    },
+    {
       tone: "warning",
       pressed: true,
       css: { root: { backgroundColor: vars.toneWarning.pressed.root.color } },
     },
     {
+      tone: "warning",
+      interactive: true,
+      css: { root: { "&:active": { backgroundColor: vars.toneWarning.pressed.root.color } } },
+    },
+    {
       tone: "critical",
       pressed: true,
       css: { root: { backgroundColor: vars.toneCritical.pressed.root.color } },
+    },
+    {
+      tone: "critical",
+      interactive: true,
+      css: { root: { "&:active": { backgroundColor: vars.toneCritical.pressed.root.color } } },
     },
     {
       tone: "magic",
@@ -186,10 +217,22 @@ const callout = defineSlotRecipe({
         },
       },
     },
+    {
+      tone: "magic",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.gradient.serialized})`,
+          },
+        },
+      },
+    },
   ],
   defaultVariants: {
     tone: "neutral",
     pressed: false,
+    interactive: false,
   },
 });
 

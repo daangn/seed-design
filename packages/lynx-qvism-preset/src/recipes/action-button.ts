@@ -409,9 +409,27 @@ const actionButton = defineSlotRecipe({
       css: { root: { background: vars.variantBrandSolid.pressed.root.color } },
     },
     {
+      variant: "brandSolid",
+      disabled: false,
+      loading: false,
+      css: {
+        root: {
+          "&:active": { background: vars.variantBrandSolid.pressed.root.color },
+        },
+      },
+    },
+    {
       variant: "neutralSolid",
       pressed: true,
       css: { root: { background: vars.variantNeutralSolid.pressed.root.color } },
+    },
+    {
+      variant: "neutralSolid",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantNeutralSolid.pressed.root.color } },
+      },
     },
     {
       variant: "neutralWeak",
@@ -419,9 +437,25 @@ const actionButton = defineSlotRecipe({
       css: { root: { background: vars.variantNeutralWeak.pressed.root.color } },
     },
     {
+      variant: "neutralWeak",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantNeutralWeak.pressed.root.color } },
+      },
+    },
+    {
       variant: "criticalSolid",
       pressed: true,
       css: { root: { background: vars.variantCriticalSolid.pressed.root.color } },
+    },
+    {
+      variant: "criticalSolid",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantCriticalSolid.pressed.root.color } },
+      },
     },
     {
       variant: "brandOutline",
@@ -429,14 +463,38 @@ const actionButton = defineSlotRecipe({
       css: { root: { background: vars.variantBrandOutline.pressed.root.color } },
     },
     {
+      variant: "brandOutline",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantBrandOutline.pressed.root.color } },
+      },
+    },
+    {
       variant: "neutralOutline",
       pressed: true,
       css: { root: { background: vars.variantNeutralOutline.pressed.root.color } },
     },
     {
+      variant: "neutralOutline",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantNeutralOutline.pressed.root.color } },
+      },
+    },
+    {
       variant: "ghost",
       pressed: true,
       css: { root: { background: vars.variantGhost.pressed.root.color } },
+    },
+    {
+      variant: "ghost",
+      disabled: false,
+      loading: false,
+      css: {
+        root: { "&:active": { background: vars.variantGhost.pressed.root.color } },
+      },
     },
 
     // ── variant × disabled — all slots ──────────────────────────────────────

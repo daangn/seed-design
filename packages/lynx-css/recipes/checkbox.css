@@ -32,3 +32,9 @@
 .seed-checkbox__label--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-checkbox__root--disabled_false:active .seed-checkmark__root {
+    background-color: var(--seed-checkmark-pressed-color)
+}
+.seed-checkbox__root--disabled_false:active .seed-checkmark__background {
+    opacity: 1
+}

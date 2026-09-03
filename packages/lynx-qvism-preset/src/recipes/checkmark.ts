@@ -37,6 +37,7 @@ const checkmarkRecipe = defineSlotRecipe({
     variant: {
       square: {
         root: {
+          "--seed-checkmark-pressed-color": vars.variantSquare.pressed.root.color,
           borderWidth: vars.variantSquare.enabled.root.strokeWidth,
           borderStyle: "solid",
           borderColor: vars.variantSquare.enabled.root.strokeColor,
@@ -179,7 +180,10 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color": vars.variantSquareToneBrand.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -189,7 +193,11 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color":
+            vars.variantSquareToneNeutral.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },
@@ -199,7 +207,10 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color": vars.variantSquareToneBrand.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -209,7 +220,11 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color":
+            vars.variantSquareToneNeutral.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },

@@ -80,14 +80,29 @@ const compoundVariants = [
     "selected": false
   },
   {
+    "variant": "solid",
+    "selected": false,
+    "disabled": false
+  },
+  {
     "variant": "outlineStrong",
     "pressed": true,
     "selected": false
   },
   {
+    "variant": "outlineStrong",
+    "selected": false,
+    "disabled": false
+  },
+  {
     "variant": "outlineWeak",
     "pressed": true,
     "selected": false
+  },
+  {
+    "variant": "outlineWeak",
+    "selected": false,
+    "disabled": false
   },
   {
     "variant": "solid",
@@ -95,14 +110,29 @@ const compoundVariants = [
     "pressed": true
   },
   {
+    "variant": "solid",
+    "selected": true,
+    "disabled": false
+  },
+  {
     "variant": "outlineStrong",
+    "selected": true,
+    "pressed": true
+  },
+  {
+    "variant": "outlineStrong",
+    "selected": true,
+    "disabled": false
+  },
+  {
+    "variant": "outlineWeak",
     "selected": true,
     "pressed": true
   },
   {
     "variant": "outlineWeak",
     "selected": true,
-    "pressed": true
+    "disabled": false
   }
 ];
 
