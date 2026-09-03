@@ -1,9 +1,15 @@
 export const vars = {
+  "base": {
+    "enabled": {
+      "root": {
+        "paddingX": "var(--seed-dimension-x1_5)"
+      }
+    }
+  },
   "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
-        "paddingX": "var(--seed-dimension-x1_5)",
         "titleMinGap": "var(--seed-dimension-x2)"
       }
     }
@@ -11,8 +17,7 @@ export const vars = {
   "themeAndroid": {
     "enabled": {
       "root": {
-        "height": "56px",
-        "paddingX": "var(--seed-dimension-x1_5)"
+        "height": "56px"
       },
       "main": {
         "paddingLeft": "var(--seed-dimension-x1_5)"

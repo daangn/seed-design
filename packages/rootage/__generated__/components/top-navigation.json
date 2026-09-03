@@ -144,6 +144,24 @@
     },
     "definitions": [
       {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
         "variants": {
           "theme": "ios"
         },
@@ -160,10 +178,6 @@
                     "value": 44,
                     "unit": "px"
                   }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
                 },
                 "titleMinGap": {
                   "type": "dimension",
@@ -191,10 +205,6 @@
                     "value": 56,
                     "unit": "px"
                   }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
                 }
               },
               "main": {

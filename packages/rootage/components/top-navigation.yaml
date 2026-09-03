@@ -85,17 +85,19 @@ data:
               직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를
               사용하세요.
   definitions:
+    base:
+      enabled:
+        root:
+          paddingX: $dimension.x1_5
     theme=ios:
       enabled:
         root:
           height: 44px
-          paddingX: $dimension.x1_5
           titleMinGap: $dimension.x2
     theme=android:
       enabled:
         root:
           height: 56px
-          paddingX: $dimension.x1_5
         main:
           paddingLeft: $dimension.x1_5
     tone=layer:
