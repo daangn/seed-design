@@ -1,8 +1,8 @@
-name: Kapture Shadow Experiment
+name: Kapture Capture
 
 on:
   pull_request:
-    branches: [dev]
+    branches: [dev, codex/kapture-shadow-experiment]
     types: [opened, synchronize, reopened]
     paths:
       - "docs/registry/react/**"
@@ -27,6 +27,7 @@ concurrency:
 jobs:
   context:
     name: Bind exact pull request context
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -41,7 +42,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
-      statuses: write
     steps:
       - name: Set up Node.js 24
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -59,106 +59,39 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           npm_config_registry: https://registry.npmjs.org/
+          KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
+          case "$KAPTURE_BASE_BRANCH" in
+            dev|codex/kapture-shadow-experiment) ;;
+            *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
+          esac
           bunx @kaptures/cli@0.4.0 github context \
-            --base-branch dev \
+            --base-branch "$KAPTURE_BASE_BRANCH" \
             --output "${{ runner.temp }}/kapture-context/context.json" \
             --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
 
-      - name: Validate the optional bootstrap marker
-        id: marker
-        shell: bash
-        env:
-          KAPTURE_BOOTSTRAP_MARKER: ""
-        run: |
-          set -euo pipefail
-          marker="$KAPTURE_BOOTSTRAP_MARKER"
-          if [[ -z "$marker" ]]; then
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if [[ "$marker" == /* || "$marker" == */ || "$marker" == *\\* ]]; then
-            echo "bootstrap-marker must be a project-relative file path" >&2
-            exit 1
-          fi
-          if [[ ! "$marker" =~ ^[A-Za-z0-9._/-]+$ ]]; then
-            echo "bootstrap-marker contains unsupported characters" >&2
-            exit 1
-          fi
-          IFS='/' read -ra segments <<< "$marker"
-          for segment in "${segments[@]}"; do
-            if [[ -z "$segment" || "$segment" == "." || "$segment" == ".." ]]; then
-              echo "bootstrap-marker must not contain empty, dot, or parent segments" >&2
-              exit 1
-            fi
-          done
-          echo "enabled=true" >> "$GITHUB_OUTPUT"
-
-      - name: Inspect the exact base marker without executing repository code
-        if: steps.marker.outputs.enabled == 'true'
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          repository: ${{ steps.context.outputs.base-repository }}
-          ref: ${{ steps.context.outputs.base-sha }}
-          path: .kapture/bootstrap/base
-          persist-credentials: false
-          sparse-checkout: .github/workflows/kapture-capture.yml
-          sparse-checkout-cone-mode: false
-
-      - name: Inspect the exact head marker without executing repository code
-        if: steps.marker.outputs.enabled == 'true'
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          repository: ${{ steps.context.outputs.head-repository }}
-          ref: ${{ steps.context.outputs.head-sha }}
-          path: .kapture/bootstrap/head
-          persist-credentials: false
-          sparse-checkout: .github/workflows/kapture-capture.yml
-          sparse-checkout-cone-mode: false
-
-      - name: Resolve bootstrap integration mode
+      - name: Check whether the base has Kapture installed
         id: integration
-        shell: bash
-        env:
-          KAPTURE_BOOTSTRAP_MARKER: ""
-        run: |
-          set -euo pipefail
-          marker="$KAPTURE_BOOTSTRAP_MARKER"
-          if [[ -z "$marker" ]]; then
-            echo "integration-mode=compare" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          base_marker="$GITHUB_WORKSPACE/.kapture/bootstrap/base/$marker"
-          head_marker="$GITHUB_WORKSPACE/.kapture/bootstrap/head/$marker"
-          if [[ ! -f "$head_marker" || -L "$head_marker" ]]; then
-            echo "bootstrap-marker must exist as a regular file at the exact head revision" >&2
-            exit 1
-          fi
-          if [[ -f "$base_marker" && ! -L "$base_marker" ]]; then
-            echo "integration-mode=compare" >> "$GITHUB_OUTPUT"
-          else
-            echo "integration-mode=bootstrap-skip" >> "$GITHUB_OUTPUT"
-            echo "Kapture bootstrap detected; visual comparison is intentionally skipped for this run."
-          fi
-
-      - name: Mark the exact head revision as pending
-        if: steps.integration.outputs.integration-mode == 'compare'
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         env:
-          KAPTURE_HEAD_SHA: ${{ steps.context.outputs.head-sha }}
+          KAPTURE_BASE_SHA: ${{ steps.context.outputs.base-sha }}
         with:
           script: |
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: process.env.KAPTURE_HEAD_SHA,
-              state: 'pending',
-              context: 'SEED Kapture Shadow Experiment',
-              description: 'Storybook pixel comparison is running',
+            const { data } = await github.rest.repos.getContent({
+              ...context.repo,
+              path: 'docs/package.json',
+              ref: process.env.KAPTURE_BASE_SHA,
             });
+            if (Array.isArray(data) || data.type !== 'file' || data.encoding !== 'base64') {
+              throw new Error('Expected base docs/package.json contents');
+            }
+            const pkg = JSON.parse(Buffer.from(data.content, 'base64').toString('utf8'));
+            const installed = Boolean(pkg.devDependencies?.['@kaptures/storybook']);
+            core.setOutput('integration-mode', installed ? 'compare' : 'bootstrap-skip');
+            if (!installed) {
+              await core.summary.addRaw('Kapture is not installed on the base revision. This adoption PR does not compare an instrumented substitute; use a stacked PR based on this branch to validate real changes.').write();
+            }
 
       - name: Upload the transient context boundary
         id: context-artifact
@@ -193,48 +126,6 @@ jobs:
           ref: ${{ needs.context.outputs.base-sha }}
           path: .kapture/source
           persist-credentials: false
-
-      - name: Checkout only the head instrumentation files
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          repository: ${{ needs.context.outputs.head-repository }}
-          ref: ${{ needs.context.outputs.head-sha }}
-          path: .kapture/instrumentation
-          persist-credentials: false
-          sparse-checkout: |
-            bun.lock
-            docs/.storybook/main.ts
-            docs/.storybook/preview.ts
-            docs/package.json
-            docs/stories/utils/parameters.ts
-          sparse-checkout-cone-mode: false
-
-      - name: Instrument the exact base without copying head story content
-        shell: bash
-        env:
-          KAPTURE_BASE_SOURCE: .kapture/source
-          KAPTURE_INSTRUMENTATION_SOURCE: .kapture/instrumentation
-        run: |
-          set -euo pipefail
-          cp "$KAPTURE_INSTRUMENTATION_SOURCE/bun.lock" "$KAPTURE_BASE_SOURCE/bun.lock"
-          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/package.json" "$KAPTURE_BASE_SOURCE/docs/package.json"
-          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/.storybook/main.ts" \
-            "$KAPTURE_BASE_SOURCE/docs/.storybook/main.ts"
-          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/.storybook/preview.ts" \
-            "$KAPTURE_BASE_SOURCE/docs/.storybook/preview.ts"
-          cp "$KAPTURE_INSTRUMENTATION_SOURCE/docs/stories/utils/parameters.ts" \
-            "$KAPTURE_BASE_SOURCE/docs/stories/utils/parameters.ts"
-
-          find "$KAPTURE_BASE_SOURCE/docs/stories" -name '*.stories.tsx' -type f \
-            -exec perl -0pi -e \
-              's/chromatic: \{ modes: VIEWPORT_MODES \},/...VISUAL_VIEWPORT_PARAMETERS,/g; s/withChromaticParameters/withVisualTestParameters/g; s/VIEWPORT_MODES/VISUAL_VIEWPORT_PARAMETERS/g' \
-              {} +
-
-          if rg -n 'withChromaticParameters|VIEWPORT_MODES' \
-            "$KAPTURE_BASE_SOURCE/docs/stories"; then
-            echo "Base Storybook instrumentation left an unsupported Chromatic-only helper" >&2
-            exit 1
-          fi
 
       - name: Validate the Storybook output input
         working-directory: .kapture/source
@@ -623,7 +514,7 @@ jobs:
             --output "${{ runner.temp }}/kapture-result" \
             --install-browser \
             --browser-with-deps \
-            --workers 2 \
+            --workers 4 \
             --pixel-color-threshold 0.2 \
             --max-changed-pixel-percentage 0.1 \
             --frozen-time 2026-01-01T00:00:00.000Z \
@@ -729,15 +620,18 @@ jobs:
           compression-level: 0
           retention-days: 1
 
-  publish-experiment:
-    name: Publish the experimental dashboard and review comment
+  preview:
+    # Pre-merge validation only. This is not the production approval gate.
+    name: Publish stacked PR preview
+    if: >-
+      github.event.pull_request.base.ref == 'codex/kapture-shadow-experiment' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     needs: [context, build-head, capture]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     outputs:
       report-digest: ${{ steps.report.outputs.digest }}
       dashboard-url: ${{ steps.dashboard.outputs.immutable-url }}
-      published-at: ${{ steps.comment.outputs.published-at }}
     permissions:
       actions: read
       contents: read
@@ -801,7 +695,7 @@ jobs:
             if (!/^[0-9a-f]{64}$/.test(report.contentDigest || '')) {
               throw new Error('The trusted report does not contain a valid content digest');
             }
-            for (const key of ['total', 'unchanged', 'changed', 'added', 'removed', 'errors']) {
+            for (const key of ['total', 'unchanged', 'changed', 'unstable', 'added', 'removed', 'errors']) {
               const value = report.summary?.[key];
               if (!Number.isSafeInteger(value) || value < 0) {
                 throw new Error(`Invalid report summary field: ${key}`);
@@ -840,7 +734,7 @@ jobs:
             }
             core.setOutput('immutable-url', url.toString());
 
-      - name: Publish the experimental review comment and pending status
+      - name: Publish the preview result without an approval gate
         id: comment
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         env:
@@ -850,6 +744,7 @@ jobs:
           KAPTURE_TOTAL: ${{ steps.report.outputs.total }}
           KAPTURE_UNCHANGED: ${{ steps.report.outputs.unchanged }}
           KAPTURE_CHANGED: ${{ steps.report.outputs.changed }}
+          KAPTURE_UNSTABLE: ${{ steps.report.outputs.unstable }}
           KAPTURE_ADDED: ${{ steps.report.outputs.added }}
           KAPTURE_REMOVED: ${{ steps.report.outputs.removed }}
           KAPTURE_ERRORS: ${{ steps.report.outputs.errors }}
@@ -858,27 +753,23 @@ jobs:
             const marker = '<!-- seed-kapture-shadow-experiment -->';
             const dashboard = new URL(process.env.KAPTURE_DASHBOARD_URL);
             const storybook = new URL('./storybook/', dashboard);
-            const command = `/kapture approve ${process.env.KAPTURE_HEAD_SHA} ${process.env.KAPTURE_REPORT_DIGEST}`;
             const body = [
               marker,
-              '## Kapture shadow experiment',
+              '## Kapture stacked PR preview',
               '',
               `- [Pixel comparison dashboard](${dashboard})`,
               `- [Exact head Storybook](${storybook})`,
               `- Snapshots: ${process.env.KAPTURE_TOTAL}`,
               `- Unchanged: ${process.env.KAPTURE_UNCHANGED}`,
               `- Changed: ${process.env.KAPTURE_CHANGED}`,
+              `- Unstable: ${process.env.KAPTURE_UNSTABLE}`,
               `- Added: ${process.env.KAPTURE_ADDED}`,
               `- Removed: ${process.env.KAPTURE_REMOVED}`,
               `- Errors: ${process.env.KAPTURE_ERRORS}`,
               `- Head: \`${process.env.KAPTURE_HEAD_SHA}\``,
               `- Report digest: \`${process.env.KAPTURE_REPORT_DIGEST}\``,
               '',
-              '검토 후 아래 명령을 이 PR에 정확히 댓글로 남기면 이 실험 run이 승인됩니다.',
-              '',
-              `\`${command}\``,
-              '',
-              '> 이 댓글 승인기는 기본 브랜치에 workflow를 설치하지 않고 단일 PR에서 UX를 검증하기 위한 bounded harness입니다.',
+              '> Pre-merge capture and dashboard validation only. Event-driven approval is activated when the production workflows are installed on the default branch.',
             ].join('\n');
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
@@ -886,7 +777,12 @@ jobs:
               issue_number: context.issue.number,
               per_page: 100,
             });
-            const existing = comments.find((comment) => comment.body?.includes(marker));
+            const { data: livePr } = await github.rest.pulls.get({ ...context.repo, pull_number: context.issue.number });
+            if (livePr.state !== 'open' || livePr.head.sha !== process.env.KAPTURE_HEAD_SHA) {
+              core.notice('Ignoring an obsolete preview result');
+              return;
+            }
+            const existing = comments.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.includes(marker));
             if (existing) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -906,95 +802,10 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: process.env.KAPTURE_HEAD_SHA,
-              state: 'pending',
-              context: 'SEED Kapture Shadow Experiment',
-              description: 'Pixel changes are waiting for an exact comment approval',
+              state: Number(process.env.KAPTURE_ERRORS) > 0 ? 'failure' : 'success',
+              context: 'Kapture Preview',
+              description: 'Preview ready; visual changes are for review, not an approval gate',
               target_url: dashboard.toString(),
             });
-            core.setOutput('published-at', new Date().toISOString());
 
-  approve-experiment:
-    name: Wait for an exact SHA and digest approval comment
-    needs: [context, publish-experiment]
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    permissions:
-      issues: write
-      pull-requests: write
-      statuses: write
-    steps:
-      - name: Accept one exact authorized approval comment
-        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
-        env:
-          KAPTURE_DASHBOARD_URL: ${{ needs.publish-experiment.outputs.dashboard-url }}
-          KAPTURE_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
-          KAPTURE_REPORT_DIGEST: ${{ needs.publish-experiment.outputs.report-digest }}
-          KAPTURE_PUBLISHED_AT: ${{ needs.publish-experiment.outputs.published-at }}
-        with:
-          script: |
-            const command = `/kapture approve ${process.env.KAPTURE_HEAD_SHA} ${process.env.KAPTURE_REPORT_DIGEST}`;
-            const publishedAt = Date.parse(process.env.KAPTURE_PUBLISHED_AT);
-            const allowed = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
-            let approval;
-            for (let attempt = 0; attempt < 100; attempt += 1) {
-              const comments = await github.paginate(github.rest.issues.listComments, {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                per_page: 100,
-              });
-              approval = comments.find((comment) =>
-                comment.body?.trim() === command &&
-                allowed.has(comment.author_association) &&
-                Date.parse(comment.created_at) >= publishedAt
-              );
-              if (approval) break;
-              await new Promise((resolve) => setTimeout(resolve, 15000));
-            }
-            if (!approval) {
-              throw new Error(`Timed out waiting for exact approval command: ${command}`);
-            }
-            await github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: process.env.KAPTURE_HEAD_SHA,
-              state: 'success',
-              context: 'SEED Kapture Shadow Experiment',
-              description: `Approved by @${approval.user.login}`,
-              target_url: process.env.KAPTURE_DASHBOARD_URL,
-            });
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `✅ Kapture shadow report approved by @${approval.user.login} for \`${process.env.KAPTURE_HEAD_SHA}\`.`,
-            });
 
-  finalize-experiment:
-    name: Finalize the exact head status
-    if: always() && needs.context.result == 'success' && needs.approve-experiment.result != 'success'
-    needs: [context, publish-experiment, approve-experiment]
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      statuses: write
-    steps:
-      - name: Mark an incomplete experiment as failed
-        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
-        env:
-          KAPTURE_HEAD_SHA: ${{ needs.context.outputs.head-sha }}
-          KAPTURE_DASHBOARD_URL: ${{ needs.publish-experiment.outputs.dashboard-url }}
-        with:
-          script: |
-            const status = {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: process.env.KAPTURE_HEAD_SHA,
-              state: 'failure',
-              context: 'SEED Kapture Shadow Experiment',
-              description: 'The shadow experiment did not complete or receive approval',
-            };
-            if (process.env.KAPTURE_DASHBOARD_URL) {
-              status.target_url = process.env.KAPTURE_DASHBOARD_URL;
-            }
-            await github.rest.repos.createCommitStatus(status);
