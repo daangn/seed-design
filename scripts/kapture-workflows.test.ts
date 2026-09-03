@@ -4,6 +4,8 @@ import { spawnSync } from "node:child_process";
 import { parse } from "yaml";
 
 const root = new URL("../", import.meta.url);
+const adapterVersion = JSON.parse(readFileSync(new URL("docs/package.json", root), "utf8"))
+  .devDependencies["@kaptures/storybook"];
 const names = ["capture", "report", "approve"] as const;
 const sources = Object.fromEntries(
   names.map((name) => [
@@ -77,8 +79,14 @@ describe("Kapture consumer workflows", () => {
       expect(sources[name]).toContain('"Kapture Visual Review"');
       expect(workflows[name].permissions).toEqual({});
     }
+  });
+
+  test("pins every CLI invocation to the installed adapter version", () => {
+    expect(adapterVersion).toMatch(/^\d+\.\d+\.\d+$/);
     for (const name of names) {
-      expect(sources[name]).not.toMatch(/@kaptures\/cli@(?!0\.4\.0\b)/);
+      const versions = [...sources[name].matchAll(/@kaptures\/cli@([^\s]+)/g)];
+      expect(versions.length).toBeGreaterThan(0);
+      for (const [, version] of versions) expect(version).toBe(adapterVersion);
     }
   });
 
