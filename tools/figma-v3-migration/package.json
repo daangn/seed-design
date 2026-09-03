@@ -23,7 +23,7 @@
     "@create-figma-plugin/utilities": "^4.0.0",
     "@figmazing/event": "0.0.1",
     "@karrotmarket/react-monochrome-icon": "^1.17.0",
-    "@seed-design/css": "^1.2.16",
+    "@seed-design/css": "^1.2.17",
     "@seed-design/migration-index": "^1.0.0",
     "@seed-design/react": "^1.2.16",
     "@seed-design/vite-plugin": "^1.1.1",
