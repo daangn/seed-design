@@ -1,0 +1,88 @@
+---
+title: Result Section
+description: 데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자 액션의 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내합니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/result-section/preview" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:result-section
+```
+
+<LynxManualInstallation name="result-section" />
+
+## Props
+
+<react-type-table
+  path="./registry/lynx/ui/result-section.tsx"
+  name="ResultSectionProps"
+/>
+
+## Examples
+
+### Sizes
+
+#### Large
+
+전체 화면을 차지하는 상태를 표현할 때 사용합니다.
+
+<LynxComponentExample name="lynx/result-section/large" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/large.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Medium
+
+카드나 섹션처럼 화면의 일부 영역에서 상태를 표현할 때 사용합니다.
+
+<LynxComponentExample name="lynx/result-section/medium" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/medium.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With CTA & Progress Circle
+
+화면의 주요 액션을 하단 CTA로 제공할 때는 Result Section 내부 버튼 대신 별도 Action Button을 배치할 수 있습니다.
+
+<LynxComponentExample name="lynx/result-section/with-cta-progress-circle" height={704}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/with-cta-progress-circle.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Success Example
+
+`asset`은 임의의 ReactLynx 노드를 받습니다. Lottie를 사용할 때는 앱에서 사용하는 Lynx Lottie 요소를 전달하고, 라이트·다크 모드에 맞는 에셋 선택도 앱에서 처리하세요. Result Section은 특정 애니메이션 라이브러리에 의존하지 않습니다.
+
+## Web Version Differences
+
+| 영역 | React Web | Lynx |
+| --- | --- | --- |
+| Native element | `div`, `span`, `button` | `view`, `text` |
+| Event | `onClick` | `bindtap`, `main-thread:bindtap` |
+| Root props | HTML attribute | Lynx native element prop과 `accessibility-*` |
+| Secondary action override | `color`, `fontWeight`, `bleedX`, `bleedY` 적용 | Lynx Action Button의 `ghost`, `small` 스타일 사용 |
+
+Result Section의 크기, 중앙 정렬, 에셋·문구·버튼 구성은 두 플랫폼에서 같습니다. 버튼의 접근 가능한 이름과 탭 이벤트는 `primaryActionProps`와 `secondaryActionProps`에 Lynx Action Button prop으로 전달합니다.
