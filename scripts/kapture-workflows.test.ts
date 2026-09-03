@@ -59,6 +59,11 @@ describe("Kapture consumer workflows", () => {
     expect(sources.capture).not.toContain("/kapture approve");
     expect(sources.capture).toContain("livePr.head.sha !== process.env.KAPTURE_HEAD_SHA");
     expect(sources.capture).toContain("comment.user?.login === 'github-actions[bot]'");
+    const buildReport = preview.steps.find((step: any) => step.run?.includes("report build"));
+    expect(buildReport.env.KAPTURE_BASE_BRANCH).toBe("${{ github.event.pull_request.base.ref }}");
+    expect(buildReport.env.KAPTURE_HEAD_BRANCH).toBe("${{ github.event.pull_request.head.ref }}");
+    expect(buildReport.run).toContain('--base-branch "$KAPTURE_BASE_BRANCH"');
+    expect(buildReport.run).toContain('--head-branch "$KAPTURE_HEAD_BRANCH"');
   });
 
   test("delegates production report trust and approval to the released CLI", () => {

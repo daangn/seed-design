@@ -665,11 +665,15 @@ jobs:
         shell: bash
         env:
           npm_config_registry: https://registry.npmjs.org/
+          KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          KAPTURE_HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
           bunx @kaptures/cli@0.5.0 report build \
             --input "${{ runner.temp }}/kapture-raw" \
             --output "${{ runner.temp }}/kapture-review" \
+            --base-branch "$KAPTURE_BASE_BRANCH" \
+            --head-branch "$KAPTURE_HEAD_BRANCH" \
             --storybook-url ./storybook/
           mkdir "${{ runner.temp }}/kapture-review/storybook"
           cp -R "${{ runner.temp }}/kapture-head-storybook"/. \
@@ -807,5 +811,4 @@ jobs:
               description: 'Preview ready; visual changes are for review, not an approval gate',
               target_url: dashboard.toString(),
             });
-
 
