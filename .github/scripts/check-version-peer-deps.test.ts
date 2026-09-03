@@ -215,4 +215,19 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain("context: 'Version Packages peer dependencies'");
     expect(workflow).toContain("core.setFailed(description)");
   });
+
+  test("Version Packages PR은 앱 토큰으로 생성해 blocker를 실행한다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/release-publish.yml"),
+    ).text();
+
+    expect(workflow).toContain("vars.DAANGN_BUD_CLIENT_ID");
+    expect(workflow).toContain("secrets.DAANGN_BUD_PRIVATE_KEY");
+    expect(workflow).toContain("permission-contents: write");
+    expect(workflow).toContain("permission-pull-requests: write");
+    expect(workflow).toContain(
+      `GITHUB_TOKEN: ${githubExpression("steps.app-token.outputs.token")}`,
+    );
+    expect(workflow).not.toContain(`GITHUB_TOKEN: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+  });
 });
