@@ -69,7 +69,7 @@ export const appBarMain = defineSlotRecipe({
           left: 0,
           // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
           // is measured from the left/right areas and has no floor, so consuming it means
-          // `max(var(--centered-title-padding-x, 0), ${vars.base.enabled.root.titleMinGap})`.
+          // `max(var(--centered-title-padding-x, 0), ${vars.themeIos.enabled.root.titleMinGap})`.
           paddingLeft: "var(--centered-title-padding-x, 0)",
           paddingRight: "var(--centered-title-padding-x, 0)",
         },
