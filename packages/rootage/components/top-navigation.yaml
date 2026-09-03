@@ -97,8 +97,6 @@ data:
         root:
           height: 44px
           paddingX: $dimension.x1_5
-        # main:
-        #   paddingLeft: $dimension.x1
     theme=android:
       enabled:
         root:
