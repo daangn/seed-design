@@ -67,31 +67,26 @@ export type PublicAvailableRegistries = z.infer<typeof publicAvailableRegistries
 
 ///////////////////////////////////////////////////////////////
 
-export const docsSnippetSchema = z.object({
-  label: z.string(),
-  path: z.string(),
-});
-
 export const docsItemSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string().optional(),
   docUrl: z.string(),
+  /**
+   * Site-relative path to this page's llms.txt, e.g. `/llms/foundations/color.txt`.
+   *
+   * Carried by the index so the CLI never has to know the route shape. Optional
+   * so an older index (or a self-hosted one) still parses; callers fall back to
+   * composing it from `docUrl`.
+   */
+  llmsUrl: z.string().optional(),
   deprecated: z.boolean().optional(),
-  snippetKey: z.string().optional(),
-  snippets: z.array(docsSnippetSchema).optional(),
-});
-
-export const docsSectionSchema = z.object({
-  id: z.string(),
-  label: z.string(),
-  items: z.array(docsItemSchema),
 });
 
 export const docsCategorySchema = z.object({
   id: z.string(),
   label: z.string(),
-  sections: z.array(docsSectionSchema),
+  items: z.array(docsItemSchema),
 });
 
 export const docsIndexSchema = z.object({
@@ -99,6 +94,5 @@ export const docsIndexSchema = z.object({
 });
 
 export type DocsItem = z.infer<typeof docsItemSchema>;
-export type DocsSection = z.infer<typeof docsSectionSchema>;
 export type DocsCategory = z.infer<typeof docsCategorySchema>;
 export type DocsIndex = z.infer<typeof docsIndexSchema>;

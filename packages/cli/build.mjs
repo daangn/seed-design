@@ -4,6 +4,20 @@ import esbuild from "esbuild";
 
 import pkg from "./package.json" with { type: "json" };
 
+/**
+ * The PostHog credentials are baked into the bundle below, so whether telemetry can be sent is
+ * settled here and never again. Warning at build time is the last point anyone can act on it.
+ */
+const missingTelemetryEnv = ["POSTHOG_API_KEY", "POSTHOG_HOST"].filter(
+  (name) => !process.env[name],
+);
+
+if (missingTelemetryEnv.length > 0) {
+  console.warn(
+    `[build] ${missingTelemetryEnv.join(", ")} not set: this bundle will send no telemetry.`,
+  );
+}
+
 esbuild
   .build({
     entryPoints: ["./src/index.ts"],

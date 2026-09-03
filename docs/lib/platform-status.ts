@@ -3,7 +3,7 @@ import type { PlatformStatus } from "@/sanity-studio/lib/types";
 /**
  * Platform column order + display labels, shared by the status/progress tables
  * (`components/platform-status-table`, `components/progress-board-table`) and the
- * llms markdown rules (`app/_llms/rules/{platform-status,progress-board}-rule`).
+ * llms markdown (`lib/llms/platform-status`, `lib/llms/placeholders/progress-board`).
  */
 export const PLATFORM_CONFIG = [
   { key: "figma", label: "Figma" },

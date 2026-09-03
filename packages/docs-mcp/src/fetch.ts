@@ -1,6 +1,18 @@
 import { LRUCache } from "lru-cache";
-import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS } from "./constants.js";
-import { SECTIONS, type SectionId } from "./config.js";
+import {
+  SEED_DOCS_BASE_URL,
+  ROOTAGE_ENDPOINTS,
+  DOCS_INDEX_ENDPOINT,
+  DEFAULT_TIMEOUT,
+} from "./constants.js";
+import {
+  type DocsIndex,
+  type DocsIndexCategory,
+  docsIndexSchema,
+  findItem,
+  findSection,
+  itemPath,
+} from "./docs-index.js";
 import type { DocInfo } from "./types.js";
 
 // biome-ignore lint/suspicious/noExplicitAny: cache stores various types
@@ -18,7 +30,16 @@ async function fetchWithCache<T>(url: string): Promise<T> {
     return cached as T;
   }
 
-  const response = await fetch(url);
+  const response = await fetch(url, { signal: AbortSignal.timeout(DEFAULT_TIMEOUT) }).catch(
+    (error) => {
+      // The DOMException this raises names neither the URL nor the limit, and it is what
+      // the MCP client puts in front of the model.
+      if (error instanceof Error && error.name === "TimeoutError") {
+        throw new Error(`Timed out after ${DEFAULT_TIMEOUT}ms fetching ${url}`);
+      }
+      throw error;
+    },
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
@@ -37,66 +58,57 @@ async function fetchWithCache<T>(url: string): Promise<T> {
   return data;
 }
 
-export async function fetchSectionOverview(section: SectionId): Promise<string> {
-  const config = SECTIONS[section];
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.overviewPath}`);
-}
+export async function fetchDocsIndex(): Promise<DocsIndex> {
+  const raw = await fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${DOCS_INDEX_ENDPOINT}`);
+  const parsed = docsIndexSchema.safeParse(raw);
 
-export async function fetchSectionFull(section: SectionId): Promise<string> {
-  const config = SECTIONS[section];
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.fullPath}`);
-}
-
-function escapeRegExp(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-export async function fetchDocsList(section: SectionId, category?: string): Promise<DocInfo[]> {
-  const overview = await fetchSectionOverview(section);
-  const config = SECTIONS[section];
-
-  const lines = overview.split("\n").filter((line) => line.trim());
-  const docs: DocInfo[] = [];
-
-  const escapedBasePath = escapeRegExp(config.basePath);
-  const urlPattern = new RegExp(`${escapedBasePath}\\/([a-z0-9-/]+)\\.txt`, "i");
-
-  for (const line of lines) {
-    const match = line.match(urlPattern);
-    if (!match) continue;
-
-    const path = match[1];
-    const pathParts = path.split("/");
-    const docCategory = pathParts.length > 1 ? pathParts[0] : undefined;
-
-    if (category && docCategory !== category) continue;
-
-    const titleMatch = line.match(/\[([^\]]+)\]/);
-    const title = titleMatch
-      ? titleMatch[1]
-      : pathParts[pathParts.length - 1]
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-
-    const urlMatch = line.match(/\((https?:\/\/[^)]+)\)/);
-    const url = urlMatch ? urlMatch[1] : `${SEED_DOCS_BASE_URL}${config.basePath}/${path}.txt`;
-
-    docs.push({
-      title,
-      path,
-      url,
-      category: docCategory,
-    });
+  if (!parsed.success) {
+    throw new Error(`Failed to parse the docs index: ${parsed.error.message}`);
   }
 
-  return docs;
+  return parsed.data;
 }
 
-export async function fetchDoc(section: SectionId, path: string): Promise<string> {
-  const config = SECTIONS[section];
-  const cleanPath = path.replace(/\.txt$/, "");
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.basePath}/${cleanPath}.txt`);
+/**
+ * Resolve a section, or throw with the live section list so a caller working from a
+ * stale prompt can correct itself instead of guessing.
+ */
+export async function requireSection(sectionId: string): Promise<DocsIndexCategory> {
+  const index = await fetchDocsIndex();
+  const section = findSection(index, sectionId);
+
+  if (!section) {
+    const available = index.categories.map((category) => category.id).join(", ");
+    throw new Error(`Unknown section '${sectionId}'. Available sections: ${available}`);
+  }
+
+  return section;
+}
+
+export async function fetchDocsList(sectionId: string): Promise<DocInfo[]> {
+  const section = await requireSection(sectionId);
+
+  return section.items.map((item) => ({
+    title: item.title,
+    path: itemPath(section, item),
+    ...(item.description && { description: item.description }),
+    ...(item.deprecated && { deprecated: true }),
+  }));
+}
+
+export async function fetchDoc(sectionId: string, docPath: string): Promise<string> {
+  const section = await requireSection(sectionId);
+  const item = findItem(section, docPath);
+
+  if (!item) {
+    throw new Error(
+      `No document at '${docPath}' in section '${sectionId}'. Use list_docs to see available paths.`,
+    );
+  }
+
+  return fetchWithCache<string>(
+    `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
+  );
 }
 
 export interface RootageIndex {
@@ -109,8 +121,25 @@ export async function fetchRootageIndex(): Promise<RootageIndex> {
   return fetchWithCache<RootageIndex>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.INDEX}`);
 }
 
+/**
+ * Resolve the request against the index before fetching it.
+ *
+ * The argument used to be concatenated straight onto the base URL, so a `../` in it
+ * addressed pages outside `/rootage` — a reach the tool does not advertise, and one that
+ * stops being confined to a public site the moment `SEED_DOCS_BASE_URL` moves.
+ */
 export async function fetchRootageResource(path: string): Promise<unknown> {
-  return fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${path}`);
+  const index = await fetchRootageIndex();
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const resource = index.resources.find((entry) => entry.path === normalized);
+
+  if (!resource) {
+    throw new Error(
+      `Unknown rootage resource '${path}'. None of the ${index.resources.length} resources in the index match.`,
+    );
+  }
+
+  return fetchWithCache<unknown>(`${SEED_DOCS_BASE_URL}${ROOTAGE_ENDPOINTS.BASE}${resource.path}`);
 }
 
 export function clearCache(): void {

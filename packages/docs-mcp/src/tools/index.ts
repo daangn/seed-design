@@ -1,14 +1,13 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import { registerDiscoverSeedDocsTool } from "./discover.js";
-import { registerListDocsTool, registerGetDocTool, registerGetFullDocsTool } from "./docs.js";
+import { registerListDocsTool, registerGetDocTool } from "./docs.js";
 import { registerGetRootageTool } from "./get-rootage.js";
-import { registerIconTools } from "./icon-tools.js";
+import { registerSearchDocsTool } from "./search.js";
 
-export const initializeTools = async (server: McpServer) => {
+export const initializeTools = (server: McpServer) => {
   registerDiscoverSeedDocsTool(server);
   registerListDocsTool(server);
+  registerSearchDocsTool(server);
   registerGetDocTool(server);
-  registerGetFullDocsTool(server);
   registerGetRootageTool(server);
-  await registerIconTools(server);
 };

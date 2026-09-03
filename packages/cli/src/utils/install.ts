@@ -15,7 +15,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   const packageManager = await getPackageManager(cwd);
   const packageInfo = getPackageInfo(cwd);
 
-  // 이미 설치된 의존성 필터링
+  // package.json의 선언만 본다. node_modules에 실제로 설치됐는지는 확인하지 않는다.
   const existingDeps = {
     ...packageInfo.dependencies,
     // ...packageInfo.devDependencies,
@@ -27,21 +27,22 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
 
   if (!depsToInstall.size) return { installed: new Set<string>(), filtered: depsToInstall };
 
-  start("의존성 설치중...");
+  start("의존성 설치 중...");
 
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
   const command = [addCommand, isDev, ...depsToInstall].filter((v): v is string => Boolean(v));
-  const commandLabel = `${packageManager} ${command.join(" ")}`;
 
   try {
     await execa(packageManager, command, { cwd });
   } catch (error) {
     stop("의존성 설치에 실패했어요.");
+    // No `details` of our own: the rejection carries the command it ran and what the package
+    // manager printed, and guessing a reason on top of that is how a peer conflict came out
+    // as a network problem.
     throw new CliError({
       message: "의존성 설치에 실패했어요.",
-      hint: "네트워크 상태를 확인하고, 설치 명령어를 직접 실행해 상세 오류를 확인해보세요.",
-      details: [`실행 명령어: ${commandLabel}`],
+      hint: "위에 표시된 설치 명령어의 오류 내용을 확인해주세요. 설치 명령어를 직접 실행하면 같은 오류를 다시 볼 수 있어요.",
       cause: error,
     });
   }

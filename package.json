@@ -14,6 +14,7 @@
     "docs"
   ],
   "scripts": {
+    "prepare": "skills-npm --cwd packages/cli --no-gitignore",
     "build": "ultra -r build",
     "packages:build": "ultra -r --build --filter 'packages/*' build",
     "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
@@ -75,6 +76,7 @@
     "figma-api": "2.1.4-beta",
     "knip": "^6.0.0",
     "publint": "^0.3.12",
+    "skills-npm": "1.2.0",
     "typescript": "^6.0.3",
     "ultra-runner": "^3.10.5",
     "watchlist": "^0.3.1",

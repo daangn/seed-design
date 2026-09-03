@@ -9,11 +9,10 @@ description: AI Agent가 SEED 문서에 직접 접근할 수 있는 MCP 서버�
 
 이 MCP 서버를 사용하면 AI Agent가 다음 정보에 직접 접근할 수 있습니다:
 
-- **React 컴포넌트**: 설치, props, 사용 예시
-- **Design Guidelines**: 컴포넌트 해부도, 속성, 사용 가이드라인
-- **Foundation**: 색상, 타이포그래피, 간격 등 디자인 토큰
+- **컴포넌트**: 해부도, 속성, 사용 가이드라인
+- **React · Lynx · Breeze**: 설치, props, 사용 예시
+- **Foundations**: 색상, 타이포그래피, 간격 등 디자인 토큰
 - **Rootage**: 디자인 토큰과 컴포넌트 스펙 원본 데이터
-- **아이콘**: 아이콘 검색 및 사용법
 
 Figma 연결 없이 독립적으로 실행되며, SEED를 사용하는 프로젝트에서 AI 도구의 문서 이해도를 높일 수 있습니다.
 
@@ -91,175 +90,157 @@ codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
 
 </Tabs>
 
+## 조회할 문서 사이트 바꾸기
+
+기본값은 `https://seed-design.io`입니다. `SEED_DOCS_BASE_URL` 환경 변수로 로컬 문서 서버나 아카이브 사이트를 겨눌 수 있습니다. MCP 클라이언트 설정에서 `env`로 넘깁니다.
+
+```json
+{
+  "mcpServers": {
+    "seed-docs": {
+      "command": "npx",
+      "args": ["-y", "@seed-design/docs-mcp"],
+      "env": { "SEED_DOCS_BASE_URL": "http://localhost:3000" }
+    }
+  }
+}
+```
+
 ## 사용 가능한 도구
+
+서버가 등록하는 도구는 다섯 개입니다.
+
+섹션 목록은 서버 안에 상수로 들어 있지 않고, 문서 사이트가 게시하는 인덱스를 호출 시점에 읽어옵니다. 사이트 구조가 바뀌면 이미 설치된 버전도 그대로 따라가므로, 섹션 이름을 외워서 넘기는 대신 `discover_seed_docs`로 현재 목록을 먼저 확인하세요.
 
 ### Discovery
 
-#### `discover_tools`
+#### `discover_seed_docs`
 
-사용 가능한 모든 도구를 탐색하고 각 도구의 용도를 확인합니다. MCP 서버에 처음 연결했을 때 호출하면 유용합니다.
+문서 사이트가 게시하는 섹션 목록을 반환합니다. 섹션마다 id와 이름, 문서 개수가 함께 실립니다.
+
+**파라미터:** 없음
+
+**예시:**
+```
+discover_seed_docs()
+```
+
+**예시 응답 (발췌):**
+```json
+{
+  "totalSections": 10,
+  "sections": [
+    {
+      "id": "components",
+      "name": "Components",
+      "documentCount": 63
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "documentCount": 110
+    }
+  ]
+}
+```
+
+#### `search_docs`
+
+문서 본문까지 검색해 관련 문서 주소를 관련도 순으로 반환합니다. 어느 섹션에 답이 있는지 모를 때 쓰는 도구이고, 문서 사이트의 검색창과 같은 색인, 같은 순위를 씁니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `query` | string (선택) | 도구를 필터링할 검색어 (예: 'installation', 'component') |
-| `category` | string (선택) | 카테고리 필터 (`discovery`, `react`, `breeze`, `design-guidelines`, `rootage`, `icons`) |
+| `query` | string | 찾을 말. 한국어와 영어 모두 동작하며 단어는 공백으로 구분합니다 |
 
 **예시:**
 ```
-discover_tools({ query: "component" })
+search_docs({ query: "액션 버튼" })
 ```
 
----
-
-### React Components
-
-#### `list_react_components`
-
-사용 가능한 모든 SEED React 컴포넌트 목록을 반환합니다.
-
-**파라미터:** 없음
-
-**예시 응답:**
+**예시 응답 (발췌):**
 ```
-Found 45 React components:
+# Search: 액션 버튼
 
-- ActionButton (action-button)
-- AlertDialog (alert-dialog)
-- Avatar (avatar)
-- Badge (badge)
+Showing the top 20 of 71 matches
+
+- /components/action-button#hierarchy
+- /components/floating-action-button
+- /react/components/floating-action-button
 ...
 ```
 
-#### `get_react_component`
+주소는 그 문서가 사이트에서 갖는 경로 그대로입니다. 앞의 슬래시를 떼고 그다음 슬래시에서 자르면 앞이 `section`, 뒤가 `get_doc`에 넘길 `path`입니다. `/components/action-button#hierarchy`는 `get_doc({ section: "components", path: "action-button#hierarchy" })`가 됩니다. 조각이 하나뿐인 `/react` 같은 주소는 `section`이 `react`이고 `path`가 빈 문자열입니다.
 
-특정 React 컴포넌트의 상세 문서를 반환합니다. 설치 방법, props, 사용 예시가 포함됩니다.
+주소에 붙은 `#앵커`는 어느 제목이 걸렸는지 알려주는 표시일 뿐이고, `get_doc`이 그대로 받아 문서 전체를 반환하므로 떼지 않아도 됩니다.
+
+질의어는 형태소 분석 없이 단어 단위로 맞춰봅니다. 그래서 `액션 버튼`은 찾지만 `액션버튼`은 찾지 못합니다.
+
+---
+
+### 문서
+
+#### `list_docs`
+
+섹션 안의 문서 목록을 반환합니다. 각 항목에 `get_doc`으로 넘길 `path`와 설명, deprecated 표시가 함께 나옵니다. 목록은 `path` 순으로 정렬되므로 같은 경로 아래 있는 문서끼리 모여서 나옵니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `componentName` | string | 컴포넌트 이름 (kebab-case, 예: `action-button`, `text-field`) |
+| `section` | string | 섹션 id. `discover_seed_docs`로 현재 목록을 확인합니다 |
 
 **예시:**
 ```
-get_react_component({ componentName: "action-button" })
+list_docs({ section: "react" })
 ```
-
-#### `get_react_changelog`
-
-SEED React 패키지의 변경 이력을 반환합니다. 버전 업그레이드 시 변경 사항을 확인할 때 유용합니다.
-
-**파라미터:** 없음
-
----
-
-### React 섹션별 도구
-
-React 문서의 각 섹션에 접근하는 도구들입니다. 각 섹션마다 `list_*`와 `get_*` 도구가 제공됩니다.
-
-| 섹션 | list 도구 | get 도구 | 설명 |
-|------|-----------|----------|------|
-| Getting Started | `list_react_getting_started` | `get_react_getting_started` | 설치, CLI, 스타일링 설정 |
-| Stackflow | `list_react_stackflow` | `get_react_stackflow` | Stackflow 통합 가이드 |
-| Developer Tools | `list_react_developer_tools` | `get_react_developer_tools` | Codemod, Figma 통합 |
-| Migration | `list_react_migration` | `get_react_migration` | 마이그레이션 가이드 |
-| AI Integration | `list_react_ai_integration` | `get_react_ai_integration` | AI 도구 통합 |
-| Updates | `list_react_updates` | `get_react_updates` | 버전 업데이트 정보 |
-
-#### 사용 예시
-
-먼저 `list_*` 도구로 사용 가능한 문서를 확인합니다:
-
-```
-list_react_getting_started()
-```
-
-응답:
-```
-# SEED React - Getting Started Topics
-
-- Installation - Vite (path: installation/vite)
-- Installation - Manual (path: installation/manual)
-- CLI - Commands (path: cli/commands)
-- CLI - Configuration (path: cli/configuration)
-- Styling - Theming (path: styling/theming)
-- Styling - Tailwind CSS (path: styling/tailwind-css)
-```
-
-원하는 문서의 `path`를 사용해 상세 내용을 가져옵니다:
-
-```
-get_react_getting_started({ path: "installation/vite" })
-```
-
----
-
-### Breeze
-
-Breeze는 프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트 모음입니다.
-
-#### `list_breeze_components`
-
-사용 가능한 Breeze 컴포넌트 목록을 반환합니다.
-
-**파라미터:** 없음
 
 **예시 응답:**
 ```
-Found 1 Breeze components:
+# React Documentation
 
-- AnimateNumber (animate-number)
-```
+Total: 110 documents
 
-#### `get_breeze_component`
-
-특정 Breeze 컴포넌트의 상세 문서를 반환합니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `componentName` | string | 컴포넌트 이름 (kebab-case, 예: `animate-number`) |
-
-**예시:**
-```
-get_breeze_component({ componentName: "animate-number" })
-```
-
----
-
-### Design Guidelines
-
-컴포넌트의 디자인 가이드라인 문서에 접근합니다. 해부도(anatomy), 속성, 사용 권장사항 등이 포함됩니다.
-
-#### `list_docs_components`
-
-디자인 가이드라인이 있는 컴포넌트 목록을 반환합니다.
-
-**파라미터:** 없음
-
-**예시 응답:**
-```
-Found 25 component design guidelines:
-
-- ActionButton (action-button)
-- Avatar (avatar)
-- BottomSheet (bottom-sheet)
+- Accordion (path: components/accordion) — 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+- Action Button (path: components/action-button) — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
 ...
+
+## Usage
+
+Use get_doc with section="react" and a path above to read a document.
 ```
 
-#### `get_docs_component`
+없는 섹션을 넘기면 실제 섹션 목록을 담아 거부하므로, 한 번의 재시도로 바로잡을 수 있습니다.
 
-특정 컴포넌트의 디자인 가이드라인을 반환합니다.
+#### `get_doc`
+
+특정 문서의 본문을 반환합니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `componentName` | string | 컴포넌트 이름 (kebab-case, 예: `action-button`) |
+| `section` | string | 섹션 id |
+| `path` | string | 섹션 기준 상대 경로 (예: `components/action-button`, `color`). 빈 문자열은 그 섹션 자체의 페이지를 가리키고, `#앵커`가 붙어 있으면 무시합니다 |
 
 **예시:**
+
+컴포넌트의 디자인 스펙:
 ```
-get_docs_component({ componentName: "action-button" })
+get_doc({ section: "components", path: "action-button" })
 ```
+
+같은 컴포넌트의 React API:
+```
+get_doc({ section: "react", path: "components/action-button" })
+```
+
+파운데이션 문서:
+```
+get_doc({ section: "foundations", path: "color" })
+```
+
+이름만 넘겼는데 그 이름을 가진 문서가 섹션 안에 둘 이상이면, 앞의 것을 돌려주지 않고 후보 경로를 담아 거부합니다. `react` 섹션의 `alert-dialog`, `bottom-sheet`, `menu-sheet`가 여기에 해당하므로 `components/` 또는 `stackflow/`까지 붙여서 넘겨야 합니다.
+
+`search_docs`가 출력한 주소는 나눈 그대로 넘기면 됩니다. 앵커를 떼거나 섹션 개요 문서의 이름을 따로 찾아볼 필요가 없습니다.
 
 ---
 
@@ -288,92 +269,7 @@ get_rootage()
 get_rootage({ path: "/components/action-button.json" })
 ```
 
----
-
-### Icons
-
-SEED 아이콘을 검색하고 사용법을 확인합니다.
-
-#### `list_icons`
-
-아이콘 목록을 반환합니다. 타입, 변형, 서비스별로 필터링할 수 있습니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `type` | string (선택) | 아이콘 타입 (`monochrome`, `multicolor`) |
-| `variant` | string (선택) | 모노크롬 아이콘 변형 (`line`, `fill`) |
-| `service` | string (선택) | 멀티컬러 아이콘의 서비스 카테고리 (예: `중고거래`, `부동산`) |
-| `limit` | number (선택) | 반환할 최대 개수 (기본값: 50, 최대: 200) |
-
-**예시:**
-```
-list_icons({ type: "monochrome", variant: "line", limit: 20 })
-```
-
-#### `search_icons`
-
-키워드로 아이콘을 검색합니다. 영어와 한국어 검색을 모두 지원합니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `query` | string | 검색어 (예: `arrow`, `화살표`, `shopping`) |
-| `type` | string (선택) | 아이콘 타입 필터 |
-| `limit` | number (선택) | 반환할 최대 개수 (기본값: 20, 최대: 100) |
-
-**예시:**
-```
-search_icons({ query: "화살표" })
-```
-
-**예시 응답:**
-```
-Found 15 icons matching "화살표":
-View in browser: https://seed-design.io/foundations/iconography/library?search=화살표
-
-- icon_arrow_left_line [monochrome] (line)
-  Matched: arrow, 화살표, left
-- icon_arrow_right_line [monochrome] (line)
-  Matched: arrow, 화살표, right
-...
-```
-
-#### `get_icon_details`
-
-특정 아이콘의 상세 정보와 React 컴포넌트 import 문을 반환합니다.
-
-**파라미터:**
-| 이름 | 타입 | 설명 |
-|------|------|------|
-| `iconName` | string | 아이콘 이름 (예: `icon_arrow_left_line`) |
-
-**예시:**
-```
-get_icon_details({ iconName: "icon_arrow_left_line" })
-```
-
-**예시 응답:**
-```markdown
-# icon_arrow_left_line
-
-**Type:** monochrome
-**Variant:** line
-**Keywords:** arrow, left, back, 화살표, 왼쪽
-
-## Usage
-
-### React
-\`\`\`tsx
-import { IconArrowLeftLine } from "@karrotmarket/react-monochrome-icon"
-
-<IconArrowLeftLine />
-\`\`\`
-
-## Documentation
-
-View this icon: https://seed-design.io/foundations/iconography/library?icon=icon_arrow_left_line
-```
+경로는 인덱스와 대조한 뒤 가져오므로, `/rootage` 밖을 가리키는 값은 거부됩니다.
 
 ---
 
@@ -399,7 +295,7 @@ import { server } from "@seed-design/docs-mcp/server";
 import { initializeTools } from "@seed-design/docs-mcp/tools";
 
 // 도구 초기화
-await initializeTools(server);
+initializeTools(server);
 
 // 원하는 transport와 함께 사용 (stdio, Streamable HTTP 등)
 await server.connect(new StdioServerTransport());

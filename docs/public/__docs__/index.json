@@ -1,2342 +1,1802 @@
 {
   "categories": [
     {
+      "id": "get-started",
+      "label": "Get Started",
+      "items": [
+        {
+          "id": "overview",
+          "title": "Get Started",
+          "description": "SEED는 당근 제품을 위한 통합 디자인 언어예요. 디자인과 코드가 하나의 소스를 바라보게 만들어, 누가 만들어도 같은 품질의 경험이 나오도록 돕는 것이 목표예요.",
+          "docUrl": "/get-started",
+          "llmsUrl": "/llms/get-started.txt"
+        }
+      ]
+    },
+    {
+      "id": "foundations",
+      "label": "Foundations",
+      "items": [
+        {
+          "id": "color",
+          "title": "Overview (color)",
+          "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
+          "docUrl": "/foundations/color",
+          "llmsUrl": "/llms/foundations/color.txt"
+        },
+        {
+          "id": "color",
+          "title": "Color",
+          "description": "누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. SEED는 눌린 상태의 색을 역할 색상 체계 안의 pressed 토큰으로 정의합니다.",
+          "docUrl": "/foundations/feedback/color",
+          "llmsUrl": "/llms/foundations/feedback/color.txt"
+        },
+        {
+          "id": "color-role",
+          "title": "Roles",
+          "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
+          "docUrl": "/foundations/color/color-role",
+          "llmsUrl": "/llms/foundations/color/color-role.txt"
+        },
+        {
+          "id": "design-token",
+          "title": "Overview (design-token)",
+          "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
+          "docUrl": "/foundations/design-token",
+          "llmsUrl": "/llms/foundations/design-token.txt"
+        },
+        {
+          "id": "elevation",
+          "title": "Elevation",
+          "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
+          "docUrl": "/foundations/elevation",
+          "llmsUrl": "/llms/foundations/elevation.txt"
+        },
+        {
+          "id": "feedback",
+          "title": "Overview (feedback)",
+          "description": "피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.",
+          "docUrl": "/foundations/feedback",
+          "llmsUrl": "/llms/foundations/feedback.txt"
+        },
+        {
+          "id": "gradient",
+          "title": "Gradient",
+          "description": "그라디언트는 배경과 아이콘 등에서 입체감이나 AI 기능을 표현할 때 사용하는 색상 토큰입니다.",
+          "docUrl": "/foundations/gradient",
+          "llmsUrl": "/llms/foundations/gradient.txt"
+        },
+        {
+          "id": "iconography",
+          "title": "Overview (iconography)",
+          "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
+          "docUrl": "/foundations/iconography",
+          "llmsUrl": "/llms/foundations/iconography.txt"
+        },
+        {
+          "id": "inclusive-design",
+          "title": "Inclusive Design",
+          "description": "SEED는 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.",
+          "docUrl": "/foundations/inclusive-design",
+          "llmsUrl": "/llms/foundations/inclusive-design.txt"
+        },
+        {
+          "id": "international-design",
+          "title": "International Design",
+          "description": "SEED는 전 세계에서 똑같이 유용하고 가치있는 경험을 제공할 수 있도록 돕습니다.",
+          "docUrl": "/foundations/international-design",
+          "llmsUrl": "/llms/foundations/international-design.txt"
+        },
+        {
+          "id": "layout",
+          "title": "Layout",
+          "description": "레이아웃은 제품의 콘텐츠를 구조화하고 일관된 사용자 경험을 제공하기 위한 시각적 뼈대입니다. SEED는 다양한 화면 밀도와 디바이스 환경에 대응할 수 있도록 유연한 그리드 시스템과 중단점(Breakpoint)을 제공합니다.",
+          "docUrl": "/foundations/layout",
+          "llmsUrl": "/llms/foundations/layout.txt"
+        },
+        {
+          "id": "library",
+          "title": "Library",
+          "docUrl": "/foundations/iconography/library",
+          "llmsUrl": "/llms/foundations/iconography/library.txt"
+        },
+        {
+          "id": "motion",
+          "title": "Motion",
+          "description": "모션은 유저 인터페이스의 표현력을 높이고 쉽게 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/foundations/motion",
+          "llmsUrl": "/llms/foundations/motion.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "접근성, 레이아웃, 인터랙션까지 — 훌륭한 UI의 기반이 되는 핵심 토큰과 패턴을 둘러보세요.",
+          "docUrl": "/foundations",
+          "llmsUrl": "/llms/foundations.txt"
+        },
+        {
+          "id": "palette",
+          "title": "Palette",
+          "docUrl": "/foundations/color/palette",
+          "llmsUrl": "/llms/foundations/color/palette.txt"
+        },
+        {
+          "id": "radius",
+          "title": "Radius",
+          "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다.",
+          "docUrl": "/foundations/radius",
+          "llmsUrl": "/llms/foundations/radius.txt"
+        },
+        {
+          "id": "reference",
+          "title": "Reference",
+          "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
+          "docUrl": "/foundations/design-token/reference",
+          "llmsUrl": "/llms/foundations/design-token/reference.txt"
+        },
+        {
+          "id": "scale",
+          "title": "Scale",
+          "description": "누를 수 있는 요소는 눌린 동안 살짝 작아집니다. SEED는 모든 요소에서 눌린 느낌의 양이 같도록 축소량을 배율이 아닌 거리로 정의합니다.",
+          "docUrl": "/foundations/feedback/scale",
+          "llmsUrl": "/llms/foundations/feedback/scale.txt"
+        },
+        {
+          "id": "spacing",
+          "title": "Spacing",
+          "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다.",
+          "docUrl": "/foundations/spacing",
+          "llmsUrl": "/llms/foundations/spacing.txt"
+        },
+        {
+          "id": "state",
+          "title": "State",
+          "description": "상태 표현은 컴포넌트 또는 상호작용 가능한 요소의 상태 또는 가능성을 사용자에게 전달합니다.",
+          "docUrl": "/foundations/state",
+          "llmsUrl": "/llms/foundations/state.txt"
+        },
+        {
+          "id": "typography",
+          "title": "Typography",
+          "description": "타이포그래피는 콘텐츠를 명확하고 효율적으로 표현하기 위한 디자인 요소입니다.",
+          "docUrl": "/foundations/typography",
+          "llmsUrl": "/llms/foundations/typography.txt"
+        },
+        {
+          "id": "usage",
+          "title": "Usage",
+          "description": "아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.",
+          "docUrl": "/foundations/iconography/usage",
+          "llmsUrl": "/llms/foundations/iconography/usage.txt"
+        },
+        {
+          "id": "voice-and-tone",
+          "title": "Voice and Tone",
+          "description": "당근에서 일관되게 말하는 방법을 소개합니다.",
+          "docUrl": "/foundations/voice-and-tone",
+          "llmsUrl": "/llms/foundations/voice-and-tone.txt"
+        },
+        {
+          "id": "writing",
+          "title": "Writing",
+          "description": "당근에서 일관되게 글쓰는 방법을 소개합니다.",
+          "docUrl": "/foundations/writing",
+          "llmsUrl": "/llms/foundations/writing.txt"
+        }
+      ]
+    },
+    {
+      "id": "components",
+      "label": "Components",
+      "items": [
+        {
+          "id": "accordion",
+          "title": "Accordion",
+          "description": "세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.",
+          "docUrl": "/components/accordion",
+          "llmsUrl": "/llms/components/accordion.txt"
+        },
+        {
+          "id": "action-button",
+          "title": "Action Button",
+          "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "docUrl": "/components/action-button",
+          "llmsUrl": "/llms/components/action-button.txt"
+        },
+        {
+          "id": "action-chip",
+          "title": "Action Chip",
+          "docUrl": "/components/action-chip",
+          "llmsUrl": "/llms/components/action-chip.txt",
+          "deprecated": true
+        },
+        {
+          "id": "action-sheet",
+          "title": "Action Sheet",
+          "docUrl": "/components/action-sheet",
+          "llmsUrl": "/llms/components/action-sheet.txt",
+          "deprecated": true
+        },
+        {
+          "id": "alert-dialog",
+          "title": "Alert Dialog",
+          "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+          "docUrl": "/components/alert-dialog",
+          "llmsUrl": "/llms/components/alert-dialog.txt"
+        },
+        {
+          "id": "attachment-input",
+          "title": "Attachment Input",
+          "description": "사진, 영상, 파일 첨부를 다루는 입력으로, 선택, 업로드, 진행률, 실패, 삭제 상태를 관리합니다.",
+          "docUrl": "/components/attachment-input",
+          "llmsUrl": "/llms/components/attachment-input.txt"
+        },
+        {
+          "id": "avatar",
+          "title": "Avatar",
+          "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
+          "docUrl": "/components/avatar",
+          "llmsUrl": "/llms/components/avatar.txt"
+        },
+        {
+          "id": "badge",
+          "title": "Badge",
+          "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
+          "docUrl": "/components/badge",
+          "llmsUrl": "/llms/components/badge.txt"
+        },
+        {
+          "id": "bottom-navigation",
+          "title": "Bottom Navigation",
+          "description": "앱의 루트 페이지 하단에 고정되어 있는 네비게이션 바로, 다섯 개의 상위 탭 간 이동을 제공합니다.",
+          "docUrl": "/components/bottom-navigation",
+          "llmsUrl": "/llms/components/bottom-navigation.txt"
+        },
+        {
+          "id": "bottom-sheet",
+          "title": "Bottom Sheet",
+          "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
+          "docUrl": "/components/bottom-sheet",
+          "llmsUrl": "/llms/components/bottom-sheet.txt"
+        },
+        {
+          "id": "callout",
+          "title": "Callout",
+          "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "docUrl": "/components/callout",
+          "llmsUrl": "/llms/components/callout.txt"
+        },
+        {
+          "id": "checkbox",
+          "title": "Checkbox",
+          "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+          "docUrl": "/components/checkbox",
+          "llmsUrl": "/llms/components/checkbox.txt"
+        },
+        {
+          "id": "chip",
+          "title": "Chip",
+          "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
+          "docUrl": "/components/chip",
+          "llmsUrl": "/llms/components/chip.txt"
+        },
+        {
+          "id": "content-placeholder",
+          "title": "Content Placeholder",
+          "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+          "docUrl": "/components/content-placeholder",
+          "llmsUrl": "/llms/components/content-placeholder.txt"
+        },
+        {
+          "id": "contextual-floating-button",
+          "title": "Contextual Floating Button",
+          "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+          "docUrl": "/components/contextual-floating-button",
+          "llmsUrl": "/llms/components/contextual-floating-button.txt"
+        },
+        {
+          "id": "control-chip",
+          "title": "Control Chip",
+          "docUrl": "/components/control-chip",
+          "llmsUrl": "/llms/components/control-chip.txt",
+          "deprecated": true
+        },
+        {
+          "id": "date-picker",
+          "title": "Date Picker",
+          "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/date-picker",
+          "llmsUrl": "/llms/components/date-picker.txt"
+        },
+        {
+          "id": "dialog",
+          "title": "Dialog",
+          "description": "사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.",
+          "docUrl": "/components/dialog",
+          "llmsUrl": "/llms/components/dialog.txt"
+        },
+        {
+          "id": "divider",
+          "title": "Divider",
+          "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/divider",
+          "llmsUrl": "/llms/components/divider.txt"
+        },
+        {
+          "id": "error-state",
+          "title": "Error State",
+          "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
+          "docUrl": "/components/error-state",
+          "llmsUrl": "/llms/components/error-state.txt",
+          "deprecated": true
+        },
+        {
+          "id": "extended-action-sheet",
+          "title": "Extended Action Sheet",
+          "docUrl": "/components/extended-action-sheet",
+          "llmsUrl": "/llms/components/extended-action-sheet.txt",
+          "deprecated": true
+        },
+        {
+          "id": "extended-fab",
+          "title": "Extended FAB",
+          "docUrl": "/components/extended-fab",
+          "llmsUrl": "/llms/components/extended-fab.txt",
+          "deprecated": true
+        },
+        {
+          "id": "fab",
+          "title": "FAB",
+          "docUrl": "/components/fab",
+          "llmsUrl": "/llms/components/fab.txt",
+          "deprecated": true
+        },
+        {
+          "id": "field",
+          "title": "Field",
+          "description": "사용자로부터 값을 입력받는 컨테이너 컴포넌트로, 일관된 레이블, 도움말, 오류 표기와 상태 피드백을 제공합니다.",
+          "docUrl": "/components/field",
+          "llmsUrl": "/llms/components/field.txt"
+        },
+        {
+          "id": "floating-action-button",
+          "title": "Floating Action Button",
+          "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+          "docUrl": "/components/floating-action-button",
+          "llmsUrl": "/llms/components/floating-action-button.txt"
+        },
+        {
+          "id": "footer",
+          "title": "Footer",
+          "description": "사이트 하단에서 법적 정보·정책 링크·서비스 탐색·연락처를 모아 보여주는 영역입니다.",
+          "docUrl": "/components/footer",
+          "llmsUrl": "/llms/components/footer.txt"
+        },
+        {
+          "id": "help-bubble",
+          "title": "Help Bubble",
+          "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
+          "docUrl": "/components/help-bubble",
+          "llmsUrl": "/llms/components/help-bubble.txt"
+        },
+        {
+          "id": "identity-placeholder",
+          "title": "Identity Placeholder",
+          "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+          "docUrl": "/components/identity-placeholder",
+          "llmsUrl": "/llms/components/identity-placeholder.txt"
+        },
+        {
+          "id": "image-frame",
+          "title": "Image Frame",
+          "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+          "docUrl": "/components/image-frame",
+          "llmsUrl": "/llms/components/image-frame.txt"
+        },
+        {
+          "id": "inline-banner",
+          "title": "Inline Banner",
+          "docUrl": "/components/inline-banner",
+          "llmsUrl": "/llms/components/inline-banner.txt",
+          "deprecated": true
+        },
+        {
+          "id": "input-button",
+          "title": "Input Button",
+          "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+          "docUrl": "/components/input-button",
+          "llmsUrl": "/llms/components/input-button.txt"
+        },
+        {
+          "id": "link-content",
+          "title": "Link Content",
+          "docUrl": "/components/link-content",
+          "llmsUrl": "/llms/components/link-content.txt",
+          "deprecated": true
+        },
+        {
+          "id": "list",
+          "title": "List",
+          "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
+          "docUrl": "/components/list",
+          "llmsUrl": "/llms/components/list.txt"
+        },
+        {
+          "id": "manner-temp",
+          "title": "Manner Temp & Manner Temp Badge",
+          "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
+          "docUrl": "/components/manner-temp",
+          "llmsUrl": "/llms/components/manner-temp.txt"
+        },
+        {
+          "id": "menu",
+          "title": "Menu",
+          "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+          "docUrl": "/components/menu",
+          "llmsUrl": "/llms/components/menu.txt"
+        },
+        {
+          "id": "menu-sheet",
+          "title": "Menu Sheet",
+          "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "docUrl": "/components/menu-sheet",
+          "llmsUrl": "/llms/components/menu-sheet.txt"
+        },
+        {
+          "id": "notification-badge",
+          "title": "Notification Badge",
+          "description": "아이콘, 버튼, 메뉴 등 UI 요소에 표시되어 새로운 알림이나 읽지 않은 메시지 수를 나타내는 컴포넌트입니다.",
+          "docUrl": "/components/notification-badge",
+          "llmsUrl": "/llms/components/notification-badge.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "SEED의 모든 컴포넌트를 둘러보세요.",
+          "docUrl": "/components",
+          "llmsUrl": "/llms/components.txt"
+        },
+        {
+          "id": "page-banner",
+          "title": "Page Banner",
+          "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+          "docUrl": "/components/page-banner",
+          "llmsUrl": "/llms/components/page-banner.txt"
+        },
+        {
+          "id": "pagination",
+          "title": "Pagination",
+          "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.",
+          "docUrl": "/components/pagination",
+          "llmsUrl": "/llms/components/pagination.txt"
+        },
+        {
+          "id": "progress-board",
+          "title": "Progress Board",
+          "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다.",
+          "docUrl": "/components/progress-board",
+          "llmsUrl": "/llms/components/progress-board.txt"
+        },
+        {
+          "id": "progress-circle",
+          "title": "Progress Circle",
+          "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "docUrl": "/components/progress-circle",
+          "llmsUrl": "/llms/components/progress-circle.txt"
+        },
+        {
+          "id": "quantity-picker",
+          "title": "Quantity Picker",
+          "description": "버튼으로 수치 값을 한 단계씩 늘리거나 줄일 수 있는 입력 컴포넌트입니다.",
+          "docUrl": "/components/quantity-picker",
+          "llmsUrl": "/llms/components/quantity-picker.txt"
+        },
+        {
+          "id": "radio",
+          "title": "Radio",
+          "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/radio",
+          "llmsUrl": "/llms/components/radio.txt"
+        },
+        {
+          "id": "reaction-button",
+          "title": "Reaction Button",
+          "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+          "docUrl": "/components/reaction-button",
+          "llmsUrl": "/llms/components/reaction-button.txt"
+        },
+        {
+          "id": "result-section",
+          "title": "Result Section",
+          "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
+          "docUrl": "/components/result-section",
+          "llmsUrl": "/llms/components/result-section.txt"
+        },
+        {
+          "id": "scroll-fog",
+          "title": "Scroll Fog",
+          "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
+          "docUrl": "/components/scroll-fog",
+          "llmsUrl": "/llms/components/scroll-fog.txt"
+        },
+        {
+          "id": "segmented-control",
+          "title": "Segmented Control",
+          "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/segmented-control",
+          "llmsUrl": "/llms/components/segmented-control.txt"
+        },
+        {
+          "id": "select",
+          "title": "Select",
+          "description": "옵션 목록에서 값을 골라 Form에 제출할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/select",
+          "llmsUrl": "/llms/components/select.txt"
+        },
+        {
+          "id": "select-box",
+          "title": "Select Box",
+          "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+          "docUrl": "/components/select-box",
+          "llmsUrl": "/llms/components/select-box.txt"
+        },
+        {
+          "id": "side-navigation",
+          "title": "Side Navigation",
+          "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+          "docUrl": "/components/side-navigation",
+          "llmsUrl": "/llms/components/side-navigation.txt"
+        },
+        {
+          "id": "side-panel",
+          "title": "Side Panel",
+          "description": "화면의 측면에서 슬라이드되어 나타나며, 현재 맥락을 유지한 채 상세 정보를 확인하거나 부수적인 작업을 수행하는 레이아웃 컴포넌트입니다.",
+          "docUrl": "/components/side-panel",
+          "llmsUrl": "/llms/components/side-panel.txt"
+        },
+        {
+          "id": "skeleton",
+          "title": "Skeleton",
+          "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+          "docUrl": "/components/skeleton",
+          "llmsUrl": "/llms/components/skeleton.txt"
+        },
+        {
+          "id": "slider",
+          "title": "Slider",
+          "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
+          "docUrl": "/components/slider",
+          "llmsUrl": "/llms/components/slider.txt"
+        },
+        {
+          "id": "snackbar",
+          "title": "Snackbar",
+          "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
+          "docUrl": "/components/snackbar",
+          "llmsUrl": "/llms/components/snackbar.txt"
+        },
+        {
+          "id": "switch",
+          "title": "Switch",
+          "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+          "docUrl": "/components/switch",
+          "llmsUrl": "/llms/components/switch.txt"
+        },
+        {
+          "id": "table-pagination",
+          "title": "Table Pagination",
+          "description": "데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다.",
+          "docUrl": "/components/table-pagination",
+          "llmsUrl": "/llms/components/table-pagination.txt"
+        },
+        {
+          "id": "tabs",
+          "title": "Tabs",
+          "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
+          "docUrl": "/components/tabs",
+          "llmsUrl": "/llms/components/tabs.txt"
+        },
+        {
+          "id": "tag-group",
+          "title": "Tag Group",
+          "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "docUrl": "/components/tag-group",
+          "llmsUrl": "/llms/components/tag-group.txt"
+        },
+        {
+          "id": "text-input",
+          "title": "Text Input & Textarea",
+          "description": "사용자로부터 텍스트를 입력받는 컴포넌트입니다.",
+          "docUrl": "/components/text-input",
+          "llmsUrl": "/llms/components/text-input.txt"
+        },
+        {
+          "id": "time-picker",
+          "title": "Time Picker",
+          "description": "휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/components/time-picker",
+          "llmsUrl": "/llms/components/time-picker.txt"
+        },
+        {
+          "id": "top-navigation",
+          "title": "Top Navigation",
+          "description": "화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.",
+          "docUrl": "/components/top-navigation",
+          "llmsUrl": "/llms/components/top-navigation.txt"
+        },
+        {
+          "id": "wheel-picker",
+          "title": "Wheel Picker",
+          "description": "여러 값을 세로로 스크롤해 하나 이상의 열에서 선택하는 입력 컴포넌트입니다.",
+          "docUrl": "/components/wheel-picker",
+          "llmsUrl": "/llms/components/wheel-picker.txt"
+        }
+      ]
+    },
+    {
+      "id": "patterns",
+      "label": "Patterns",
+      "items": [
+        {
+          "id": "loading",
+          "title": "Loading",
+          "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
+          "docUrl": "/patterns/loading",
+          "llmsUrl": "/llms/patterns/loading.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "자주 쓰는 UI 패턴과 가이드라인 모음입니다.",
+          "docUrl": "/patterns",
+          "llmsUrl": "/llms/patterns.txt"
+        }
+      ]
+    },
+    {
       "id": "docs",
-      "label": "Design",
-      "sections": [
+      "label": "Design Guidelines",
+      "items": [
         {
-          "id": "components",
-          "label": "컴포넌트",
-          "items": [
-            {
-              "id": "accordion",
-              "title": "Accordion",
-              "description": "세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.",
-              "docUrl": "/components/accordion",
-              "snippetKey": "react/ui:accordion",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "accordion.tsx"
-                }
-              ]
-            },
-            {
-              "id": "action-button",
-              "title": "Action Button",
-              "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
-              "docUrl": "/components/action-button",
-              "snippetKey": "react/ui:action-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "alert-dialog",
-              "title": "Alert Dialog",
-              "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
-              "docUrl": "/components/alert-dialog",
-              "snippetKey": "react/ui:alert-dialog",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "alert-dialog.tsx"
-                }
-              ]
-            },
-            {
-              "id": "attachment-input",
-              "title": "Attachment Input",
-              "description": "사진, 영상, 파일 첨부를 다루는 입력으로, 선택, 업로드, 진행률, 실패, 삭제 상태를 관리합니다.",
-              "docUrl": "/components/attachment-input"
-            },
-            {
-              "id": "avatar",
-              "title": "Avatar",
-              "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
-              "docUrl": "/components/avatar",
-              "snippetKey": "react/ui:avatar",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "avatar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "badge",
-              "title": "Badge",
-              "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/components/badge"
-            },
-            {
-              "id": "bottom-navigation",
-              "title": "Bottom Navigation",
-              "description": "앱의 루트 페이지 하단에 고정되어 있는 네비게이션 바로, 다섯 개의 상위 탭 간 이동을 제공합니다.",
-              "docUrl": "/components/bottom-navigation"
-            },
-            {
-              "id": "bottom-sheet",
-              "title": "Bottom Sheet",
-              "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
-              "docUrl": "/components/bottom-sheet",
-              "snippetKey": "react/ui:bottom-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "bottom-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "callout",
-              "title": "Callout",
-              "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
-              "docUrl": "/components/callout",
-              "snippetKey": "react/ui:callout",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "callout.tsx"
-                }
-              ]
-            },
-            {
-              "id": "checkbox",
-              "title": "Checkbox",
-              "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
-              "docUrl": "/components/checkbox",
-              "snippetKey": "react/ui:checkbox",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "checkbox.tsx"
-                }
-              ]
-            },
-            {
-              "id": "chip",
-              "title": "Chip",
-              "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
-              "docUrl": "/components/chip",
-              "snippetKey": "react/ui:chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "chip.tsx"
-                }
-              ]
-            },
-            {
-              "id": "content-placeholder",
-              "title": "Content Placeholder",
-              "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
-              "docUrl": "/components/content-placeholder",
-              "snippetKey": "react/ui:content-placeholder",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "content-placeholder.tsx"
-                }
-              ]
-            },
-            {
-              "id": "contextual-floating-button",
-              "title": "Contextual Floating Button",
-              "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
-              "docUrl": "/components/contextual-floating-button",
-              "snippetKey": "react/ui:contextual-floating-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "contextual-floating-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "control-chip.tsx"
-                }
-              ]
-            },
-            {
-              "id": "date-picker",
-              "title": "Date Picker",
-              "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/date-picker"
-            },
-            {
-              "id": "dialog",
-              "title": "Dialog",
-              "description": "사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.",
-              "docUrl": "/components/dialog",
-              "snippetKey": "react/ui:dialog",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "dialog.tsx"
-                }
-              ]
-            },
-            {
-              "id": "divider",
-              "title": "Divider",
-              "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/components/fab",
-              "deprecated": true
-            },
-            {
-              "id": "field",
-              "title": "Field",
-              "description": "사용자로부터 값을 입력받는 컨테이너 컴포넌트로, 일관된 레이블, 도움말, 오류 표기와 상태 피드백을 제공합니다.",
-              "docUrl": "/components/field"
-            },
-            {
-              "id": "floating-action-button",
-              "title": "Floating Action Button",
-              "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
-              "docUrl": "/components/floating-action-button",
-              "snippetKey": "react/ui:floating-action-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "floating-action-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "footer",
-              "title": "Footer",
-              "description": "사이트 하단에서 법적 정보·정책 링크·서비스 탐색·연락처를 모아 보여주는 영역입니다.",
-              "docUrl": "/components/footer"
-            },
-            {
-              "id": "help-bubble",
-              "title": "Help Bubble",
-              "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
-              "docUrl": "/components/help-bubble",
-              "snippetKey": "react/ui:help-bubble",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "help-bubble.tsx"
-                }
-              ]
-            },
-            {
-              "id": "identity-placeholder",
-              "title": "Identity Placeholder",
-              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
-              "docUrl": "/components/identity-placeholder",
-              "snippetKey": "react/ui:identity-placeholder",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "identity-placeholder.tsx"
-                }
-              ]
-            },
-            {
-              "id": "image-frame",
-              "title": "Image Frame",
-              "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
-              "docUrl": "/components/image-frame"
-            },
-            {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
-              "id": "input-button",
-              "title": "Input Button",
-              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
-              "docUrl": "/components/input-button"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/components/link-content",
-              "deprecated": true
-            },
-            {
-              "id": "list",
-              "title": "List",
-              "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
-              "docUrl": "/components/list",
-              "snippetKey": "react/ui:list",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "list.tsx"
-                },
-                {
-                  "label": "react",
-                  "path": "list-header.tsx"
-                }
-              ]
-            },
-            {
-              "id": "manner-temp",
-              "title": "Manner Temp & Manner Temp Badge",
-              "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
-              "docUrl": "/components/manner-temp",
-              "snippetKey": "react/ui:manner-temp",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "manner-temp.tsx"
-                }
-              ]
-            },
-            {
-              "id": "menu",
-              "title": "Menu",
-              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
-              "docUrl": "/components/menu",
-              "snippetKey": "react/ui:menu",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu.tsx"
-                }
-              ]
-            },
-            {
-              "id": "menu-sheet",
-              "title": "Menu Sheet",
-              "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
-              "docUrl": "/components/menu-sheet",
-              "snippetKey": "react/ui:menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "notification-badge",
-              "title": "Notification Badge",
-              "description": "아이콘, 버튼, 메뉴 등 UI 요소에 표시되어 새로운 알림이나 읽지 않은 메시지 수를 나타내는 컴포넌트입니다.",
-              "docUrl": "/components/notification-badge"
-            },
-            {
-              "id": "page-banner",
-              "title": "Page Banner",
-              "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
-              "docUrl": "/components/page-banner",
-              "snippetKey": "react/ui:page-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "page-banner.tsx"
-                }
-              ]
-            },
-            {
-              "id": "pagination",
-              "title": "Pagination",
-              "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.",
-              "docUrl": "/components/pagination",
-              "snippetKey": "react/ui:pagination",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "pagination.tsx"
-                }
-              ]
-            },
-            {
-              "id": "progress-board",
-              "title": "Progress Board",
-              "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다.",
-              "docUrl": "/components/progress-board"
-            },
-            {
-              "id": "progress-circle",
-              "title": "Progress Circle",
-              "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
-              "docUrl": "/components/progress-circle",
-              "snippetKey": "react/ui:progress-circle",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "progress-circle.tsx"
-                }
-              ]
-            },
-            {
-              "id": "quantity-picker",
-              "title": "Quantity Picker",
-              "description": "버튼으로 수치 값을 한 단계씩 늘리거나 줄일 수 있는 입력 컴포넌트입니다.",
-              "docUrl": "/components/quantity-picker",
-              "snippetKey": "react/ui:quantity-picker",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "quantity-picker.tsx"
-                }
-              ]
-            },
-            {
-              "id": "radio",
-              "title": "Radio",
-              "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/radio"
-            },
-            {
-              "id": "reaction-button",
-              "title": "Reaction Button",
-              "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
-              "docUrl": "/components/reaction-button",
-              "snippetKey": "react/ui:reaction-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "reaction-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "result-section",
-              "title": "Result Section",
-              "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
-              "docUrl": "/components/result-section",
-              "snippetKey": "react/ui:result-section",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "result-section.tsx"
-                }
-              ]
-            },
-            {
-              "id": "scroll-fog",
-              "title": "Scroll Fog",
-              "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
-              "docUrl": "/components/scroll-fog"
-            },
-            {
-              "id": "segmented-control",
-              "title": "Segmented Control",
-              "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/segmented-control",
-              "snippetKey": "react/ui:segmented-control",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "segmented-control.tsx"
-                }
-              ]
-            },
-            {
-              "id": "select",
-              "title": "Select",
-              "description": "옵션 목록에서 값을 골라 Form에 제출할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/select",
-              "snippetKey": "react/ui:select",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "select.tsx"
-                }
-              ]
-            },
-            {
-              "id": "select-box",
-              "title": "Select Box",
-              "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
-              "docUrl": "/components/select-box",
-              "snippetKey": "react/ui:select-box",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "select-box.tsx"
-                }
-              ]
-            },
-            {
-              "id": "side-navigation",
-              "title": "Side Navigation",
-              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
-              "docUrl": "/components/side-navigation",
-              "snippetKey": "react/ui:side-navigation",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "side-navigation.tsx"
-                }
-              ]
-            },
-            {
-              "id": "side-panel",
-              "title": "Side Panel",
-              "description": "화면의 측면에서 슬라이드되어 나타나며, 현재 맥락을 유지한 채 상세 정보를 확인하거나 부수적인 작업을 수행하는 레이아웃 컴포넌트입니다.",
-              "docUrl": "/components/side-panel",
-              "snippetKey": "react/ui:side-panel",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "side-panel.tsx"
-                }
-              ]
-            },
-            {
-              "id": "skeleton",
-              "title": "Skeleton",
-              "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
-              "docUrl": "/components/skeleton"
-            },
-            {
-              "id": "slider",
-              "title": "Slider",
-              "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
-              "docUrl": "/components/slider",
-              "snippetKey": "react/ui:slider",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "slider.tsx"
-                }
-              ]
-            },
-            {
-              "id": "snackbar",
-              "title": "Snackbar",
-              "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
-              "docUrl": "/components/snackbar",
-              "snippetKey": "react/ui:snackbar",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "snackbar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "switch",
-              "title": "Switch",
-              "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
-              "docUrl": "/components/switch",
-              "snippetKey": "react/ui:switch",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "switch.tsx"
-                }
-              ]
-            },
-            {
-              "id": "table-pagination",
-              "title": "Table Pagination",
-              "description": "데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다.",
-              "docUrl": "/components/table-pagination",
-              "snippetKey": "react/ui:table-pagination",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "table-pagination.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tabs",
-              "title": "Tabs",
-              "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
-              "docUrl": "/components/tabs",
-              "snippetKey": "react/ui:tabs",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tabs.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tag-group",
-              "title": "Tag Group",
-              "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
-              "docUrl": "/components/tag-group",
-              "snippetKey": "react/ui:tag-group",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tag-group.tsx"
-                }
-              ]
-            },
-            {
-              "id": "text-input",
-              "title": "Text Input & Textarea",
-              "description": "사용자로부터 텍스트를 입력받는 컴포넌트입니다.",
-              "docUrl": "/components/text-input"
-            },
-            {
-              "id": "time-picker",
-              "title": "Time Picker",
-              "description": "휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/time-picker"
-            },
-            {
-              "id": "top-navigation",
-              "title": "Top Navigation",
-              "description": "화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.",
-              "docUrl": "/components/top-navigation"
-            },
-            {
-              "id": "wheel-picker",
-              "title": "Wheel Picker",
-              "description": "여러 값을 세로로 스크롤해 하나 이상의 열에서 선택하는 입력 컴포넌트입니다.",
-              "docUrl": "/components/wheel-picker",
-              "snippetKey": "react/ui:wheel-picker",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "wheel-picker.tsx"
-                }
-              ]
-            }
-          ]
+          "id": "deprecations",
+          "title": "Deprecations",
+          "description": "Deprecated 항목의 현황과 제거 계획을 관리합니다.",
+          "docUrl": "/docs/migration/deprecations",
+          "llmsUrl": "/llms/docs/migration/deprecations.txt"
         },
         {
-          "id": "foundations",
-          "label": "파운데이션",
-          "items": [
-            {
-              "id": "color",
-              "title": "Overview",
-              "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/color"
-            },
-            {
-              "id": "color",
-              "title": "Color",
-              "description": "누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. SEED는 눌린 상태의 색을 역할 색상 체계 안의 pressed 토큰으로 정의합니다.",
-              "docUrl": "/foundations/feedback/color"
-            },
-            {
-              "id": "color-role",
-              "title": "Roles",
-              "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
-              "docUrl": "/foundations/color/color-role"
-            },
-            {
-              "id": "design-token",
-              "title": "Overview",
-              "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
-              "docUrl": "/foundations/design-token"
-            },
-            {
-              "id": "elevation",
-              "title": "Elevation",
-              "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
-              "docUrl": "/foundations/elevation"
-            },
-            {
-              "id": "feedback",
-              "title": "Overview",
-              "description": "피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.",
-              "docUrl": "/foundations/feedback"
-            },
-            {
-              "id": "gradient",
-              "title": "Gradient",
-              "description": "그라디언트는 배경과 아이콘 등에서 입체감이나 AI 기능을 표현할 때 사용하는 색상 토큰입니다.",
-              "docUrl": "/foundations/gradient"
-            },
-            {
-              "id": "iconography",
-              "title": "Overview",
-              "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
-              "docUrl": "/foundations/iconography"
-            },
-            {
-              "id": "inclusive-design",
-              "title": "Inclusive Design",
-              "description": "SEED는 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/inclusive-design"
-            },
-            {
-              "id": "international-design",
-              "title": "International Design",
-              "description": "SEED는 전 세계에서 똑같이 유용하고 가치있는 경험을 제공할 수 있도록 돕습니다.",
-              "docUrl": "/foundations/international-design"
-            },
-            {
-              "id": "layout",
-              "title": "Layout",
-              "description": "레이아웃은 제품의 콘텐츠를 구조화하고 일관된 사용자 경험을 제공하기 위한 시각적 뼈대입니다. SEED는 다양한 화면 밀도와 디바이스 환경에 대응할 수 있도록 유연한 그리드 시스템과 중단점(Breakpoint)을 제공합니다.",
-              "docUrl": "/foundations/layout"
-            },
-            {
-              "id": "library",
-              "title": "Library",
-              "docUrl": "/foundations/iconography/library"
-            },
-            {
-              "id": "motion",
-              "title": "Motion",
-              "description": "모션은 유저 인터페이스의 표현력을 높이고 쉽게 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/foundations/motion"
-            },
-            {
-              "id": "palette",
-              "title": "Palette",
-              "docUrl": "/foundations/color/palette"
-            },
-            {
-              "id": "radius",
-              "title": "Radius",
-              "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다.",
-              "docUrl": "/foundations/radius"
-            },
-            {
-              "id": "reference",
-              "title": "Reference",
-              "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
-              "docUrl": "/foundations/design-token/reference"
-            },
-            {
-              "id": "scale",
-              "title": "Scale",
-              "description": "누를 수 있는 요소는 눌린 동안 살짝 작아집니다. SEED는 모든 요소에서 눌린 느낌의 양이 같도록 축소량을 배율이 아닌 거리로 정의합니다.",
-              "docUrl": "/foundations/feedback/scale"
-            },
-            {
-              "id": "spacing",
-              "title": "Spacing",
-              "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다.",
-              "docUrl": "/foundations/spacing"
-            },
-            {
-              "id": "state",
-              "title": "State",
-              "description": "상태 표현은 컴포넌트 또는 상호작용 가능한 요소의 상태 또는 가능성을 사용자에게 전달합니다.",
-              "docUrl": "/foundations/state"
-            },
-            {
-              "id": "typography",
-              "title": "Typography",
-              "description": "타이포그래피는 콘텐츠를 명확하고 효율적으로 표현하기 위한 디자인 요소입니다.",
-              "docUrl": "/foundations/typography"
-            },
-            {
-              "id": "usage",
-              "title": "Usage",
-              "description": "아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.",
-              "docUrl": "/foundations/iconography/usage"
-            },
-            {
-              "id": "voice-and-tone",
-              "title": "Voice and Tone",
-              "description": "당근에서 일관되게 말하는 방법을 소개합니다.",
-              "docUrl": "/foundations/voice-and-tone"
-            },
-            {
-              "id": "writing",
-              "title": "Writing",
-              "description": "당근에서 일관되게 글쓰는 방법을 소개합니다.",
-              "docUrl": "/foundations/writing"
-            }
-          ]
-        },
-        {
-          "id": "migration",
-          "label": "마이그레이션",
-          "items": [
-            {
-              "id": "deprecations",
-              "title": "Deprecations",
-              "description": "Deprecated 항목의 현황과 제거 계획을 관리합니다.",
-              "docUrl": "/docs/migration/deprecations"
-            },
-            {
-              "id": "migration-reference",
-              "title": "Migration Reference",
-              "description": "SEED 마이그레이션 레퍼런스",
-              "docUrl": "/docs/migration/migration-reference"
-            }
-          ]
-        },
-        {
-          "id": "updates",
-          "label": "업데이트",
-          "items": [
-            {
-              "id": "how-seed-evolved",
-              "title": "더 당근답게: SEED는 어떻게 진화했나",
-              "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
-              "docUrl": "/updates/how-seed-evolved"
-            },
-            {
-              "id": "pickers-dialog-select",
-              "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
-              "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
-              "docUrl": "/updates/pickers-dialog-select"
-            },
-            {
-              "id": "whats-new-in-action-button",
-              "title": "What's New in Action Button",
-              "description": "SEED Action Button은 기존 Box Button의 주요 문제를 해결하며, 사용자 경험과 접근성을 한층 더 강화했어요.",
-              "docUrl": "/updates/whats-new-in-action-button"
-            },
-            {
-              "id": "why-design-system-needs-branding",
-              "title": "디자인 시스템에도 브랜딩이 필요할까",
-              "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
-              "docUrl": "/updates/why-design-system-needs-branding"
-            },
-            {
-              "id": "why-we-hired-a-design-engineer",
-              "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
-              "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
-              "docUrl": "/updates/why-we-hired-a-design-engineer"
-            }
-          ]
-        },
-        {
-          "id": "patterns",
-          "label": "패턴",
-          "items": [
-            {
-              "id": "loading",
-              "title": "Loading",
-              "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
-              "docUrl": "/patterns/loading"
-            }
-          ]
+          "id": "migration-reference",
+          "title": "Migration Reference",
+          "description": "SEED 마이그레이션 레퍼런스",
+          "docUrl": "/docs/migration/migration-reference",
+          "llmsUrl": "/llms/docs/migration/migration-reference.txt"
         }
       ]
     },
     {
       "id": "react",
       "label": "React",
-      "sections": [
+      "items": [
         {
-          "id": "components",
-          "label": "컴포넌트",
-          "items": [
-            {
-              "id": "accordion",
-              "title": "Accordion",
-              "description": "여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.",
-              "docUrl": "/react/components/accordion",
-              "snippetKey": "react/ui:accordion",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "accordion.tsx"
-                }
-              ]
-            },
-            {
-              "id": "action-button",
-              "title": "Action Button",
-              "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
-              "docUrl": "/react/components/action-button",
-              "snippetKey": "react/ui:action-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/react/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/react/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "alert-dialog",
-              "title": "Alert Dialog",
-              "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/alert-dialog",
-              "snippetKey": "react/ui:alert-dialog",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "alert-dialog.tsx"
-                }
-              ]
-            },
-            {
-              "id": "article",
-              "title": "Article",
-              "description": "Article은 일관된 selection 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.",
-              "docUrl": "/react/components/article"
-            },
-            {
-              "id": "aspect-ratio",
-              "title": "Aspect Ratio",
-              "description": "가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.",
-              "docUrl": "/react/components/aspect-ratio"
-            },
-            {
-              "id": "attachment-display-field",
-              "title": "Attachment Display Field",
-              "description": "외부 소스에서 제공된 미디어를 URL 기반으로 표시하고 관리하는 컴포넌트입니다.",
-              "docUrl": "/react/components/attachment-display-field",
-              "snippetKey": "react/ui:attachment-display-field",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "attachment-display-field.tsx"
-                }
-              ]
-            },
-            {
-              "id": "attachment-field",
-              "title": "Attachment Field",
-              "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",
-              "docUrl": "/react/components/attachment-field",
-              "snippetKey": "react/ui:attachment-field",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "attachment-field.tsx"
-                }
-              ]
-            },
-            {
-              "id": "avatar",
-              "title": "Avatar",
-              "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
-              "docUrl": "/react/components/avatar",
-              "snippetKey": "react/ui:avatar",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "avatar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "badge",
-              "title": "Badge",
-              "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/react/components/badge"
-            },
-            {
-              "id": "bottom-sheet",
-              "title": "Bottom Sheet",
-              "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
-              "docUrl": "/react/components/bottom-sheet",
-              "snippetKey": "react/ui:bottom-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "bottom-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "box",
-              "title": "Box",
-              "description": "Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/layout/box"
-            },
-            {
-              "id": "callout",
-              "title": "Callout",
-              "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
-              "docUrl": "/react/components/callout",
-              "snippetKey": "react/ui:callout",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "callout.tsx"
-                }
-              ]
-            },
-            {
-              "id": "checkbox",
-              "title": "Checkbox",
-              "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
-              "docUrl": "/react/components/checkbox",
-              "snippetKey": "react/ui:checkbox",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "checkbox.tsx"
-                }
-              ]
-            },
-            {
-              "id": "chip",
-              "title": "Chip",
-              "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
-              "docUrl": "/react/components/chip",
-              "snippetKey": "react/ui:chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "chip.tsx"
-                }
-              ]
-            },
-            {
-              "id": "chip-tabs",
-              "title": "Chip Tabs",
-              "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.",
-              "docUrl": "/react/components/chip-tabs",
-              "snippetKey": "react/ui:chip-tabs",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "chip-tabs.tsx"
-                }
-              ]
-            },
-            {
-              "id": "columns",
-              "title": "Columns",
-              "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns",
-              "deprecated": true
-            },
-            {
-              "id": "composition",
-              "title": "Composition",
-              "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
-              "docUrl": "/react/components/concepts/composition"
-            },
-            {
-              "id": "composition",
-              "title": "Composition",
-              "description": "아이콘을 사용하는 방법을 설명합니다.",
-              "docUrl": "/react/components/iconography/composition"
-            },
-            {
-              "id": "content-placeholder",
-              "title": "Content Placeholder",
-              "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
-              "docUrl": "/react/components/content-placeholder",
-              "snippetKey": "react/ui:content-placeholder",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "content-placeholder.tsx"
-                }
-              ]
-            },
-            {
-              "id": "contextual-floating-button",
-              "title": "Contextual Floating Button",
-              "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
-              "docUrl": "/react/components/contextual-floating-button",
-              "snippetKey": "react/ui:contextual-floating-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "contextual-floating-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/react/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "control-chip.tsx"
-                }
-              ]
-            },
-            {
-              "id": "date-picker",
-              "title": "Date Picker",
-              "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
-              "docUrl": "/react/components/date-picker"
-            },
-            {
-              "id": "dialog",
-              "title": "Dialog",
-              "description": "화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.",
-              "docUrl": "/react/components/dialog",
-              "snippetKey": "react/ui:dialog",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "dialog.tsx"
-                }
-              ]
-            },
-            {
-              "id": "divider",
-              "title": "Divider",
-              "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/react/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/react/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/react/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/react/components/fab",
-              "deprecated": true
-            },
-            {
-              "id": "field-button",
-              "title": "Field Button",
-              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
-              "docUrl": "/react/components/field-button",
-              "snippetKey": "react/ui:field-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "field-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "flex",
-              "title": "Flex",
-              "description": "Flex 컴포넌트는 flexbox를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/layout/flex"
-            },
-            {
-              "id": "float",
-              "title": "Float",
-              "description": "Float 컴포넌트는 특정 위치에 고정된 요소를 배치할 때 사용합니다.",
-              "docUrl": "/react/components/layout/float"
-            },
-            {
-              "id": "floating-action-button",
-              "title": "Floating Action Button",
-              "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
-              "docUrl": "/react/components/floating-action-button",
-              "snippetKey": "react/ui:floating-action-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "floating-action-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "grid",
-              "title": "Grid",
-              "description": "Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/layout/grid"
-            },
-            {
-              "id": "h-stack",
-              "title": "HStack",
-              "description": "가로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/layout/h-stack"
-            },
-            {
-              "id": "help-bubble",
-              "title": "Help Bubble",
-              "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
-              "docUrl": "/react/components/help-bubble",
-              "snippetKey": "react/ui:help-bubble",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "help-bubble.tsx"
-                }
-              ]
-            },
-            {
-              "id": "help-bubble-tooltip",
-              "title": "Help Bubble Tooltip",
-              "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.",
-              "docUrl": "/react/components/help-bubble-tooltip",
-              "snippetKey": "react/ui:help-bubble-tooltip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "help-bubble-tooltip.tsx"
-                }
-              ]
-            },
-            {
-              "id": "identity-placeholder",
-              "title": "Identity Placeholder",
-              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
-              "docUrl": "/react/components/identity-placeholder",
-              "snippetKey": "react/ui:identity-placeholder",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "identity-placeholder.tsx"
-                }
-              ]
-            },
-            {
-              "id": "image-frame",
-              "title": "Image Frame",
-              "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
-              "docUrl": "/react/components/image-frame"
-            },
-            {
-              "id": "inline",
-              "title": "Inline",
-              "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline",
-              "deprecated": true
-            },
-            {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/react/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
-              "id": "interaction-states",
-              "title": "Interaction States",
-              "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
-              "docUrl": "/react/components/concepts/interaction-states"
-            },
-            {
-              "id": "library",
-              "title": "Library",
-              "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
-              "docUrl": "/react/components/iconography/library"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/react/components/link-content",
-              "deprecated": true
-            },
-            {
-              "id": "list",
-              "title": "List",
-              "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
-              "docUrl": "/react/components/list",
-              "snippetKey": "react/ui:list",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "list.tsx"
-                },
-                {
-                  "label": "react",
-                  "path": "list-header.tsx"
-                }
-              ]
-            },
-            {
-              "id": "manner-temp",
-              "title": "Manner Temp",
-              "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
-              "docUrl": "/react/components/manner-temp",
-              "snippetKey": "react/ui:manner-temp",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "manner-temp.tsx"
-                }
-              ]
-            },
-            {
-              "id": "manner-temp-badge",
-              "title": "Manner Temp Badge",
-              "description": "매너 온도를 배지 형태로 표현하는 컴포넌트입니다. 콤팩트한 공간에서 사용자의 매너 온도 레벨을 간단히 표시할 때 사용됩니다.",
-              "docUrl": "/react/components/manner-temp-badge",
-              "snippetKey": "react/ui:manner-temp-badge",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "manner-temp-badge.tsx"
-                }
-              ]
-            },
-            {
-              "id": "menu",
-              "title": "Menu",
-              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
-              "docUrl": "/react/components/menu",
-              "snippetKey": "react/ui:menu",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu.tsx"
-                }
-              ]
-            },
-            {
-              "id": "menu-sheet",
-              "title": "Menu Sheet",
-              "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
-              "docUrl": "/react/components/menu-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "page-banner",
-              "title": "Page Banner",
-              "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
-              "docUrl": "/react/components/page-banner",
-              "snippetKey": "react/ui:page-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "page-banner.tsx"
-                }
-              ]
-            },
-            {
-              "id": "pagination",
-              "title": "Pagination",
-              "description": "여러 페이지로 나뉜 목록에서 원하는 페이지로 이동할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/pagination",
-              "snippetKey": "react/ui:pagination",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "pagination.tsx"
-                }
-              ]
-            },
-            {
-              "id": "progress-circle",
-              "title": "Progress Circle",
-              "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
-              "docUrl": "/react/components/progress-circle",
-              "snippetKey": "react/ui:progress-circle",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "progress-circle.tsx"
-                }
-              ]
-            },
-            {
-              "id": "pull-to-refresh",
-              "title": "Pull To Refresh",
-              "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.",
-              "docUrl": "/react/components/pull-to-refresh",
-              "snippetKey": "react/ui:pull-to-refresh",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "pull-to-refresh.tsx"
-                }
-              ]
-            },
-            {
-              "id": "quantity-picker",
-              "title": "Quantity Picker",
-              "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/quantity-picker",
-              "snippetKey": "react/ui:quantity-picker",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "quantity-picker.tsx"
-                }
-              ]
-            },
-            {
-              "id": "radio-group",
-              "title": "Radio Group",
-              "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/radio-group",
-              "snippetKey": "react/ui:radio-group",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "radio-group.tsx"
-                }
-              ]
-            },
-            {
-              "id": "reaction-button",
-              "title": "Reaction Button",
-              "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
-              "docUrl": "/react/components/reaction-button",
-              "snippetKey": "react/ui:reaction-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "reaction-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "responsive-design",
-              "title": "Responsive Design",
-              "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
-              "docUrl": "/react/components/concepts/responsive-design"
-            },
-            {
-              "id": "result-section",
-              "title": "Result Section",
-              "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
-              "docUrl": "/react/components/result-section",
-              "snippetKey": "react/ui:result-section",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "result-section.tsx"
-                }
-              ]
-            },
-            {
-              "id": "scale-feedback",
-              "title": "Scale Feedback",
-              "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
-              "docUrl": "/react/components/concepts/scale-feedback"
-            },
-            {
-              "id": "scroll-fog",
-              "title": "Scroll Fog",
-              "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
-              "docUrl": "/react/components/scroll-fog"
-            },
-            {
-              "id": "segmented-control",
-              "title": "Segmented Control",
-              "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/react/components/segmented-control",
-              "snippetKey": "react/ui:segmented-control",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "segmented-control.tsx"
-                }
-              ]
-            },
-            {
-              "id": "select",
-              "title": "Select",
-              "description": "트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.",
-              "docUrl": "/react/components/select",
-              "snippetKey": "react/ui:select",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "select.tsx"
-                }
-              ]
-            },
-            {
-              "id": "select-box",
-              "title": "Select Box",
-              "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
-              "docUrl": "/react/components/select-box",
-              "snippetKey": "react/ui:select-box",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "select-box.tsx"
-                }
-              ]
-            },
-            {
-              "id": "side-panel",
-              "title": "Side Panel",
-              "description": "화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
-              "docUrl": "/react/components/side-panel",
-              "snippetKey": "react/ui:side-panel",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "side-panel.tsx"
-                }
-              ]
-            },
-            {
-              "id": "skeleton",
-              "title": "Skeleton",
-              "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
-              "docUrl": "/react/components/skeleton"
-            },
-            {
-              "id": "slider",
-              "title": "Slider",
-              "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
-              "docUrl": "/react/components/slider",
-              "snippetKey": "react/ui:slider",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "slider.tsx"
-                }
-              ]
-            },
-            {
-              "id": "snackbar",
-              "title": "Snackbar",
-              "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
-              "docUrl": "/react/components/snackbar",
-              "snippetKey": "react/ui:snackbar",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "snackbar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "snippet",
-              "title": "Snippet",
-              "description": "자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.",
-              "docUrl": "/react/components/concepts/snippet"
-            },
-            {
-              "id": "stack",
-              "title": "Stack",
-              "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack",
-              "deprecated": true
-            },
-            {
-              "id": "swipeable-menu-sheet",
-              "title": "Swipeable Menu Sheet",
-              "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
-              "docUrl": "/react/components/swipeable-menu-sheet",
-              "snippetKey": "react/ui:swipeable-menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "swipeable-menu-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "switch",
-              "title": "Switch",
-              "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
-              "docUrl": "/react/components/switch",
-              "snippetKey": "react/ui:switch",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "switch.tsx"
-                }
-              ]
-            },
-            {
-              "id": "table-pagination",
-              "title": "Table Pagination",
-              "description": "데이터 표의 페이지와 페이지당 표시 행 수를 함께 제어하는 컴포넌트입니다.",
-              "docUrl": "/react/components/table-pagination",
-              "snippetKey": "react/ui:table-pagination",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "table-pagination.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tabs",
-              "title": "Tabs",
-              "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
-              "docUrl": "/react/components/tabs",
-              "snippetKey": "react/ui:tabs",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tabs.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tag-group",
-              "title": "Tag Group",
-              "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
-              "docUrl": "/react/components/tag-group",
-              "snippetKey": "react/ui:tag-group",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tag-group.tsx"
-                }
-              ]
-            },
-            {
-              "id": "text",
-              "title": "Text",
-              "description": "텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. 일관된 글꼴 스타일과 크기를 적용하여 텍스트를 렌더링할 때 사용됩니다.",
-              "docUrl": "/react/components/typography/text"
-            },
-            {
-              "id": "text-field-input",
-              "title": "Text Field Input",
-              "description": "한 줄 텍스트를 입력받는 컴포넌트입니다.",
-              "docUrl": "/react/components/text-field-input"
-            },
-            {
-              "id": "text-field-textarea",
-              "title": "Text Field Textarea",
-              "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
-              "docUrl": "/react/components/text-field-textarea"
-            },
-            {
-              "id": "time-picker",
-              "title": "Time Picker",
-              "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
-              "docUrl": "/react/components/time-picker"
-            },
-            {
-              "id": "toggle-button",
-              "title": "Toggle Button",
-              "description": "사용자가 특정 상태를 켜거나 끌 수 있게 해주는 버튼 형태의 컴포넌트입니다. 필터링이나 뷰 전환과 같은 즉각적인 상태 변경에 사용됩니다.",
-              "docUrl": "/react/components/toggle-button",
-              "snippetKey": "react/ui:toggle-button",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "toggle-button.tsx"
-                }
-              ]
-            },
-            {
-              "id": "v-stack",
-              "title": "VStack",
-              "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/layout/v-stack"
-            },
-            {
-              "id": "wheel-picker",
-              "title": "Wheel Picker",
-              "description": "항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.",
-              "docUrl": "/react/components/wheel-picker",
-              "snippetKey": "react/ui:wheel-picker",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "wheel-picker.tsx"
-                }
-              ]
-            }
-          ]
+          "id": "accordion",
+          "title": "Accordion",
+          "description": "여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.",
+          "docUrl": "/react/components/accordion",
+          "llmsUrl": "/llms/react/components/accordion.txt"
         },
         {
-          "id": "migration",
-          "label": "마이그레이션",
-          "items": [
-            {
-              "id": "guide",
-              "title": "Guide",
-              "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
-              "docUrl": "/react/migration/guide"
-            },
-            {
-              "id": "migrating-icons",
-              "title": "Migrating Icons",
-              "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
-              "docUrl": "/react/migration/migrating-icons"
-            }
-          ]
+          "id": "action-button",
+          "title": "Action Button",
+          "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "docUrl": "/react/components/action-button",
+          "llmsUrl": "/llms/react/components/action-button.txt"
+        },
+        {
+          "id": "action-chip",
+          "title": "Action Chip",
+          "docUrl": "/react/components/action-chip",
+          "llmsUrl": "/llms/react/components/action-chip.txt",
+          "deprecated": true
+        },
+        {
+          "id": "action-sheet",
+          "title": "Action Sheet",
+          "docUrl": "/react/components/action-sheet",
+          "llmsUrl": "/llms/react/components/action-sheet.txt",
+          "deprecated": true
+        },
+        {
+          "id": "alert-dialog",
+          "title": "Alert Dialog (Components)",
+          "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/alert-dialog",
+          "llmsUrl": "/llms/react/components/alert-dialog.txt"
+        },
+        {
+          "id": "alert-dialog",
+          "title": "Alert Dialog (Stackflow)",
+          "description": "Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "docUrl": "/react/stackflow/alert-dialog",
+          "llmsUrl": "/llms/react/stackflow/alert-dialog.txt"
+        },
+        {
+          "id": "app-screen",
+          "title": "App Screen",
+          "description": "Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.",
+          "docUrl": "/react/stackflow/app-screen",
+          "llmsUrl": "/llms/react/stackflow/app-screen.txt"
+        },
+        {
+          "id": "article",
+          "title": "Article",
+          "description": "Article은 일관된 selection 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.",
+          "docUrl": "/react/components/article",
+          "llmsUrl": "/llms/react/components/article.txt"
+        },
+        {
+          "id": "aspect-ratio",
+          "title": "Aspect Ratio",
+          "description": "가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.",
+          "docUrl": "/react/components/aspect-ratio",
+          "llmsUrl": "/llms/react/components/aspect-ratio.txt"
+        },
+        {
+          "id": "attachment-display-field",
+          "title": "Attachment Display Field",
+          "description": "외부 소스에서 제공된 미디어를 URL 기반으로 표시하고 관리하는 컴포넌트입니다.",
+          "docUrl": "/react/components/attachment-display-field",
+          "llmsUrl": "/llms/react/components/attachment-display-field.txt"
+        },
+        {
+          "id": "attachment-field",
+          "title": "Attachment Field",
+          "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",
+          "docUrl": "/react/components/attachment-field",
+          "llmsUrl": "/llms/react/components/attachment-field.txt"
+        },
+        {
+          "id": "available-transforms",
+          "title": "Available Transforms",
+          "description": "codemod를 통해 실행 가능한 변환 목록입니다.",
+          "docUrl": "/react/developer-tools/codemods/available-transforms",
+          "llmsUrl": "/llms/react/developer-tools/codemods/available-transforms.txt"
+        },
+        {
+          "id": "avatar",
+          "title": "Avatar",
+          "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
+          "docUrl": "/react/components/avatar",
+          "llmsUrl": "/llms/react/components/avatar.txt"
+        },
+        {
+          "id": "badge",
+          "title": "Badge",
+          "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
+          "docUrl": "/react/components/badge",
+          "llmsUrl": "/llms/react/components/badge.txt"
+        },
+        {
+          "id": "bottom-sheet",
+          "title": "Bottom Sheet (Components)",
+          "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
+          "docUrl": "/react/components/bottom-sheet",
+          "llmsUrl": "/llms/react/components/bottom-sheet.txt"
+        },
+        {
+          "id": "bottom-sheet",
+          "title": "Bottom Sheet (Stackflow)",
+          "description": "Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "docUrl": "/react/stackflow/bottom-sheet",
+          "llmsUrl": "/llms/react/stackflow/bottom-sheet.txt"
+        },
+        {
+          "id": "box",
+          "title": "Box",
+          "description": "Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/layout/box",
+          "llmsUrl": "/llms/react/components/layout/box.txt"
+        },
+        {
+          "id": "callout",
+          "title": "Callout",
+          "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "docUrl": "/react/components/callout",
+          "llmsUrl": "/llms/react/components/callout.txt"
+        },
+        {
+          "id": "cascade-layers",
+          "title": "Cascade Layers (Experimental)",
+          "description": "CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/styling/cascade-layers",
+          "llmsUrl": "/llms/react/getting-started/styling/cascade-layers.txt"
+        },
+        {
+          "id": "changelog",
+          "title": "Changelog",
+          "description": "최신 업데이트와 변경사항을 기록합니다.",
+          "docUrl": "/react/updates/changelog",
+          "llmsUrl": "/llms/react/updates/changelog.txt"
+        },
+        {
+          "id": "checkbox",
+          "title": "Checkbox",
+          "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+          "docUrl": "/react/components/checkbox",
+          "llmsUrl": "/llms/react/components/checkbox.txt"
+        },
+        {
+          "id": "chip",
+          "title": "Chip",
+          "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
+          "docUrl": "/react/components/chip",
+          "llmsUrl": "/llms/react/components/chip.txt"
+        },
+        {
+          "id": "chip-tabs",
+          "title": "Chip Tabs",
+          "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.",
+          "docUrl": "/react/components/chip-tabs",
+          "llmsUrl": "/llms/react/components/chip-tabs.txt"
+        },
+        {
+          "id": "codegen",
+          "title": "Codegen",
+          "description": "Figma 디자인으로부터 React 코드를 생성하는 플러그인을 제공합니다.",
+          "docUrl": "/react/developer-tools/figma-integration/codegen",
+          "llmsUrl": "/llms/react/developer-tools/figma-integration/codegen.txt"
+        },
+        {
+          "id": "columns",
+          "title": "Columns",
+          "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/columns",
+          "llmsUrl": "/llms/react/components/columns.txt",
+          "deprecated": true
+        },
+        {
+          "id": "commands",
+          "title": "Commands",
+          "description": "@seed-design/cli 명령어를 안내해요.",
+          "docUrl": "/react/getting-started/cli/commands",
+          "llmsUrl": "/llms/react/getting-started/cli/commands.txt"
+        },
+        {
+          "id": "composition",
+          "title": "Composition (Concepts)",
+          "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
+          "docUrl": "/react/components/concepts/composition",
+          "llmsUrl": "/llms/react/components/concepts/composition.txt"
+        },
+        {
+          "id": "composition",
+          "title": "Composition (Iconography)",
+          "description": "아이콘을 사용하는 방법을 설명합니다.",
+          "docUrl": "/react/components/iconography/composition",
+          "llmsUrl": "/llms/react/components/iconography/composition.txt"
+        },
+        {
+          "id": "configuration",
+          "title": "Configuration",
+          "description": "seed-design.json 설정을 안내해요.",
+          "docUrl": "/react/getting-started/cli/configuration",
+          "llmsUrl": "/llms/react/getting-started/cli/configuration.txt"
+        },
+        {
+          "id": "content-placeholder",
+          "title": "Content Placeholder",
+          "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+          "docUrl": "/react/components/content-placeholder",
+          "llmsUrl": "/llms/react/components/content-placeholder.txt"
+        },
+        {
+          "id": "contextual-floating-button",
+          "title": "Contextual Floating Button",
+          "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+          "docUrl": "/react/components/contextual-floating-button",
+          "llmsUrl": "/llms/react/components/contextual-floating-button.txt"
+        },
+        {
+          "id": "control-chip",
+          "title": "Control Chip",
+          "docUrl": "/react/components/control-chip",
+          "llmsUrl": "/llms/react/components/control-chip.txt",
+          "deprecated": true
+        },
+        {
+          "id": "date-picker",
+          "title": "Date Picker",
+          "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
+          "docUrl": "/react/components/date-picker",
+          "llmsUrl": "/llms/react/components/date-picker.txt"
+        },
+        {
+          "id": "dialog",
+          "title": "Dialog",
+          "description": "화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.",
+          "docUrl": "/react/components/dialog",
+          "llmsUrl": "/llms/react/components/dialog.txt"
+        },
+        {
+          "id": "divider",
+          "title": "Divider",
+          "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/divider",
+          "llmsUrl": "/llms/react/components/divider.txt"
+        },
+        {
+          "id": "error-state",
+          "title": "Error State",
+          "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
+          "docUrl": "/react/components/error-state",
+          "llmsUrl": "/llms/react/components/error-state.txt",
+          "deprecated": true
+        },
+        {
+          "id": "extended-action-sheet",
+          "title": "Extended Action Sheet",
+          "docUrl": "/react/components/extended-action-sheet",
+          "llmsUrl": "/llms/react/components/extended-action-sheet.txt",
+          "deprecated": true
+        },
+        {
+          "id": "extended-fab",
+          "title": "Extended FAB",
+          "docUrl": "/react/components/extended-fab",
+          "llmsUrl": "/llms/react/components/extended-fab.txt",
+          "deprecated": true
+        },
+        {
+          "id": "fab",
+          "title": "FAB",
+          "docUrl": "/react/components/fab",
+          "llmsUrl": "/llms/react/components/fab.txt",
+          "deprecated": true
+        },
+        {
+          "id": "field-button",
+          "title": "Field Button",
+          "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+          "docUrl": "/react/components/field-button",
+          "llmsUrl": "/llms/react/components/field-button.txt"
+        },
+        {
+          "id": "flex",
+          "title": "Flex",
+          "description": "Flex 컴포넌트는 flexbox를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/layout/flex",
+          "llmsUrl": "/llms/react/components/layout/flex.txt"
+        },
+        {
+          "id": "float",
+          "title": "Float",
+          "description": "Float 컴포넌트는 특정 위치에 고정된 요소를 배치할 때 사용합니다.",
+          "docUrl": "/react/components/layout/float",
+          "llmsUrl": "/llms/react/components/layout/float.txt"
+        },
+        {
+          "id": "floating-action-button",
+          "title": "Floating Action Button",
+          "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+          "docUrl": "/react/components/floating-action-button",
+          "llmsUrl": "/llms/react/components/floating-action-button.txt"
+        },
+        {
+          "id": "footer",
+          "title": "Footer",
+          "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+          "docUrl": "/react/blocks/footer",
+          "llmsUrl": "/llms/react/blocks/footer.txt"
         },
         {
           "id": "getting-started",
-          "label": "시작하기",
-          "items": [
-            {
-              "id": "cascade-layers",
-              "title": "Cascade Layers (Experimental)",
-              "description": "CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/cascade-layers"
-            },
-            {
-              "id": "commands",
-              "title": "Commands",
-              "description": "@seed-design/cli 명령어를 안내해요.",
-              "docUrl": "/react/getting-started/cli/commands"
-            },
-            {
-              "id": "configuration",
-              "title": "Configuration",
-              "description": "seed-design.json 설정을 안내해요.",
-              "docUrl": "/react/getting-started/cli/configuration"
-            },
-            {
-              "id": "library-authors",
-              "title": "Library Authors",
-              "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/library-authors"
-            },
-            {
-              "id": "manual",
-              "title": "Manual",
-              "description": "SEED를 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/manual"
-            },
-            {
-              "id": "rsbuild",
-              "title": "Rsbuild",
-              "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/rsbuild"
-            },
-            {
-              "id": "tailwind-css",
-              "title": "Tailwind CSS",
-              "description": "Tailwind CSS 프로젝트에서 SEED를 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/tailwind-css"
-            },
-            {
-              "id": "theming",
-              "title": "Theming",
-              "description": "SEED의 테마 시스템을 이해하고 활용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/theming"
-            },
-            {
-              "id": "vite",
-              "title": "Vite",
-              "description": "Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/vite"
-            },
-            {
-              "id": "webpack",
-              "title": "Webpack",
-              "description": "Webpack 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/installation/webpack"
-            }
-          ]
+          "title": "Getting Started",
+          "description": "SEED AppScreen을 사용하기 위한 Stackflow 플러그인 설정 방법을 안내합니다.",
+          "docUrl": "/react/stackflow/getting-started",
+          "llmsUrl": "/llms/react/stackflow/getting-started.txt"
         },
         {
-          "id": "stackflow",
-          "label": "Stackflow",
-          "items": [
-            {
-              "id": "alert-dialog",
-              "title": "Alert Dialog",
-              "description": "Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.",
-              "docUrl": "/react/stackflow/alert-dialog",
-              "snippetKey": "react/ui:alert-dialog",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "alert-dialog.tsx"
-                }
-              ]
-            },
-            {
-              "id": "app-screen",
-              "title": "App Screen",
-              "description": "Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.",
-              "docUrl": "/react/stackflow/app-screen",
-              "snippetKey": "react/ui:app-screen",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "app-screen.tsx"
-                },
-                {
-                  "label": "react",
-                  "path": "app-bar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "bottom-sheet",
-              "title": "Bottom Sheet",
-              "description": "Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
-              "docUrl": "/react/stackflow/bottom-sheet",
-              "snippetKey": "react/ui:bottom-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "bottom-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "getting-started",
-              "title": "Getting Started",
-              "description": "SEED AppScreen을 사용하기 위한 Stackflow 플러그인 설정 방법을 안내합니다.",
-              "docUrl": "/react/stackflow/getting-started"
-            },
-            {
-              "id": "menu-sheet",
-              "title": "Menu Sheet",
-              "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
-              "docUrl": "/react/stackflow/menu-sheet",
-              "snippetKey": "react/ui:menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu-sheet.tsx"
-                }
-              ]
-            }
-          ]
+          "id": "grid",
+          "title": "Grid",
+          "description": "Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/layout/grid",
+          "llmsUrl": "/llms/react/components/layout/grid.txt"
         },
         {
-          "id": "developer-tools",
-          "label": "개발자 도구",
-          "items": [
-            {
-              "id": "available-transforms",
-              "title": "Available Transforms",
-              "description": "codemod를 통해 실행 가능한 변환 목록입니다.",
-              "docUrl": "/react/developer-tools/codemods/available-transforms"
-            },
-            {
-              "id": "codegen",
-              "title": "Codegen",
-              "description": "Figma 디자인으로부터 React 코드를 생성하는 플러그인을 제공합니다.",
-              "docUrl": "/react/developer-tools/figma-integration/codegen"
-            },
-            {
-              "id": "introduction",
-              "title": "Introduction",
-              "description": "@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.",
-              "docUrl": "/react/developer-tools/codemods/introduction"
-            }
-          ]
+          "id": "guide",
+          "title": "Guide",
+          "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+          "docUrl": "/react/migration/guide",
+          "llmsUrl": "/llms/react/migration/guide.txt"
         },
         {
-          "id": "updates",
-          "label": "업데이트",
-          "items": [
-            {
-              "id": "changelog",
-              "title": "Changelog",
-              "description": "최신 업데이트와 변경사항을 기록합니다.",
-              "docUrl": "/react/updates/changelog"
-            },
-            {
-              "id": "upgrade",
-              "title": "Overview",
-              "description": "SEED 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.",
-              "docUrl": "/react/updates/upgrade"
-            },
-            {
-              "id": "v1",
-              "title": "SEED React 1 and older",
-              "description": "SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.",
-              "docUrl": "/react/updates/upgrade/v1"
-            },
-            {
-              "id": "v2",
-              "title": "SEED React 2",
-              "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
-              "docUrl": "/react/updates/upgrade/v2"
-            }
-          ]
+          "id": "h-stack",
+          "title": "HStack",
+          "description": "가로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/layout/h-stack",
+          "llmsUrl": "/llms/react/components/layout/h-stack.txt"
         },
         {
-          "id": "blocks",
-          "label": "blocks",
-          "items": [
-            {
-              "id": "footer",
-              "title": "Footer",
-              "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
-              "docUrl": "/react/blocks/footer"
-            },
-            {
-              "id": "layout",
-              "title": "Layout",
-              "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
-              "docUrl": "/react/blocks/layout"
-            },
-            {
-              "id": "side-navigation",
-              "title": "Side Navigation",
-              "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
-              "docUrl": "/react/blocks/side-navigation",
-              "snippetKey": "react/ui:side-navigation",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "side-navigation.tsx"
-                }
-              ]
-            }
-          ]
+          "id": "help-bubble",
+          "title": "Help Bubble",
+          "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
+          "docUrl": "/react/components/help-bubble",
+          "llmsUrl": "/llms/react/components/help-bubble.txt"
+        },
+        {
+          "id": "help-bubble-tooltip",
+          "title": "Help Bubble Tooltip",
+          "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.",
+          "docUrl": "/react/components/help-bubble-tooltip",
+          "llmsUrl": "/llms/react/components/help-bubble-tooltip.txt"
+        },
+        {
+          "id": "identity-placeholder",
+          "title": "Identity Placeholder",
+          "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+          "docUrl": "/react/components/identity-placeholder",
+          "llmsUrl": "/llms/react/components/identity-placeholder.txt"
+        },
+        {
+          "id": "image-frame",
+          "title": "Image Frame",
+          "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+          "docUrl": "/react/components/image-frame",
+          "llmsUrl": "/llms/react/components/image-frame.txt"
+        },
+        {
+          "id": "inline",
+          "title": "Inline",
+          "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/inline",
+          "llmsUrl": "/llms/react/components/inline.txt",
+          "deprecated": true
+        },
+        {
+          "id": "inline-banner",
+          "title": "Inline Banner",
+          "docUrl": "/react/components/inline-banner",
+          "llmsUrl": "/llms/react/components/inline-banner.txt",
+          "deprecated": true
+        },
+        {
+          "id": "interaction-states",
+          "title": "Interaction States",
+          "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
+          "docUrl": "/react/components/concepts/interaction-states",
+          "llmsUrl": "/llms/react/components/concepts/interaction-states.txt"
+        },
+        {
+          "id": "introduction",
+          "title": "Introduction",
+          "description": "@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.",
+          "docUrl": "/react/developer-tools/codemods/introduction",
+          "llmsUrl": "/llms/react/developer-tools/codemods/introduction.txt"
+        },
+        {
+          "id": "layout",
+          "title": "Layout",
+          "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+          "docUrl": "/react/blocks/layout",
+          "llmsUrl": "/llms/react/blocks/layout.txt"
+        },
+        {
+          "id": "library",
+          "title": "Library",
+          "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
+          "docUrl": "/react/components/iconography/library",
+          "llmsUrl": "/llms/react/components/iconography/library.txt"
+        },
+        {
+          "id": "library-authors",
+          "title": "Library Authors",
+          "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/library-authors",
+          "llmsUrl": "/llms/react/getting-started/library-authors.txt"
+        },
+        {
+          "id": "link-content",
+          "title": "Link Content",
+          "docUrl": "/react/components/link-content",
+          "llmsUrl": "/llms/react/components/link-content.txt",
+          "deprecated": true
+        },
+        {
+          "id": "list",
+          "title": "List",
+          "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
+          "docUrl": "/react/components/list",
+          "llmsUrl": "/llms/react/components/list.txt"
+        },
+        {
+          "id": "manner-temp",
+          "title": "Manner Temp",
+          "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
+          "docUrl": "/react/components/manner-temp",
+          "llmsUrl": "/llms/react/components/manner-temp.txt"
+        },
+        {
+          "id": "manner-temp-badge",
+          "title": "Manner Temp Badge",
+          "description": "매너 온도를 배지 형태로 표현하는 컴포넌트입니다. 콤팩트한 공간에서 사용자의 매너 온도 레벨을 간단히 표시할 때 사용됩니다.",
+          "docUrl": "/react/components/manner-temp-badge",
+          "llmsUrl": "/llms/react/components/manner-temp-badge.txt"
+        },
+        {
+          "id": "manual",
+          "title": "Manual",
+          "description": "SEED를 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/installation/manual",
+          "llmsUrl": "/llms/react/getting-started/installation/manual.txt"
+        },
+        {
+          "id": "menu",
+          "title": "Menu",
+          "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+          "docUrl": "/react/components/menu",
+          "llmsUrl": "/llms/react/components/menu.txt"
+        },
+        {
+          "id": "menu-sheet",
+          "title": "Menu Sheet (Components)",
+          "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "docUrl": "/react/components/menu-sheet",
+          "llmsUrl": "/llms/react/components/menu-sheet.txt",
+          "deprecated": true
+        },
+        {
+          "id": "menu-sheet",
+          "title": "Menu Sheet (Stackflow)",
+          "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "docUrl": "/react/stackflow/menu-sheet",
+          "llmsUrl": "/llms/react/stackflow/menu-sheet.txt"
+        },
+        {
+          "id": "migrating-icons",
+          "title": "Migrating Icons",
+          "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
+          "docUrl": "/react/migration/migrating-icons",
+          "llmsUrl": "/llms/react/migration/migrating-icons.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "SEED를 React 프로젝트에서 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react",
+          "llmsUrl": "/llms/react.txt"
+        },
+        {
+          "id": "page-banner",
+          "title": "Page Banner",
+          "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+          "docUrl": "/react/components/page-banner",
+          "llmsUrl": "/llms/react/components/page-banner.txt"
+        },
+        {
+          "id": "pagination",
+          "title": "Pagination",
+          "description": "여러 페이지로 나뉜 목록에서 원하는 페이지로 이동할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/pagination",
+          "llmsUrl": "/llms/react/components/pagination.txt"
+        },
+        {
+          "id": "progress-circle",
+          "title": "Progress Circle",
+          "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "docUrl": "/react/components/progress-circle",
+          "llmsUrl": "/llms/react/components/progress-circle.txt"
+        },
+        {
+          "id": "pull-to-refresh",
+          "title": "Pull To Refresh",
+          "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.",
+          "docUrl": "/react/components/pull-to-refresh",
+          "llmsUrl": "/llms/react/components/pull-to-refresh.txt"
+        },
+        {
+          "id": "quantity-picker",
+          "title": "Quantity Picker",
+          "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/quantity-picker",
+          "llmsUrl": "/llms/react/components/quantity-picker.txt"
+        },
+        {
+          "id": "radio-group",
+          "title": "Radio Group",
+          "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/radio-group",
+          "llmsUrl": "/llms/react/components/radio-group.txt"
+        },
+        {
+          "id": "reaction-button",
+          "title": "Reaction Button",
+          "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+          "docUrl": "/react/components/reaction-button",
+          "llmsUrl": "/llms/react/components/reaction-button.txt"
+        },
+        {
+          "id": "responsive-design",
+          "title": "Responsive Design",
+          "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
+          "docUrl": "/react/components/concepts/responsive-design",
+          "llmsUrl": "/llms/react/components/concepts/responsive-design.txt"
+        },
+        {
+          "id": "result-section",
+          "title": "Result Section",
+          "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
+          "docUrl": "/react/components/result-section",
+          "llmsUrl": "/llms/react/components/result-section.txt"
+        },
+        {
+          "id": "rsbuild",
+          "title": "Rsbuild",
+          "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/installation/rsbuild",
+          "llmsUrl": "/llms/react/getting-started/installation/rsbuild.txt"
+        },
+        {
+          "id": "scale-feedback",
+          "title": "Scale Feedback",
+          "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
+          "docUrl": "/react/components/concepts/scale-feedback",
+          "llmsUrl": "/llms/react/components/concepts/scale-feedback.txt"
+        },
+        {
+          "id": "scroll-fog",
+          "title": "Scroll Fog",
+          "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
+          "docUrl": "/react/components/scroll-fog",
+          "llmsUrl": "/llms/react/components/scroll-fog.txt"
+        },
+        {
+          "id": "segmented-control",
+          "title": "Segmented Control",
+          "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
+          "docUrl": "/react/components/segmented-control",
+          "llmsUrl": "/llms/react/components/segmented-control.txt"
+        },
+        {
+          "id": "select",
+          "title": "Select",
+          "description": "트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.",
+          "docUrl": "/react/components/select",
+          "llmsUrl": "/llms/react/components/select.txt"
+        },
+        {
+          "id": "select-box",
+          "title": "Select Box",
+          "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+          "docUrl": "/react/components/select-box",
+          "llmsUrl": "/llms/react/components/select-box.txt"
+        },
+        {
+          "id": "side-navigation",
+          "title": "Side Navigation",
+          "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+          "docUrl": "/react/blocks/side-navigation",
+          "llmsUrl": "/llms/react/blocks/side-navigation.txt"
+        },
+        {
+          "id": "side-panel",
+          "title": "Side Panel",
+          "description": "화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
+          "docUrl": "/react/components/side-panel",
+          "llmsUrl": "/llms/react/components/side-panel.txt"
+        },
+        {
+          "id": "skeleton",
+          "title": "Skeleton",
+          "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+          "docUrl": "/react/components/skeleton",
+          "llmsUrl": "/llms/react/components/skeleton.txt"
+        },
+        {
+          "id": "slider",
+          "title": "Slider",
+          "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
+          "docUrl": "/react/components/slider",
+          "llmsUrl": "/llms/react/components/slider.txt"
+        },
+        {
+          "id": "snackbar",
+          "title": "Snackbar",
+          "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
+          "docUrl": "/react/components/snackbar",
+          "llmsUrl": "/llms/react/components/snackbar.txt"
+        },
+        {
+          "id": "snippet",
+          "title": "Snippet",
+          "description": "자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.",
+          "docUrl": "/react/components/concepts/snippet",
+          "llmsUrl": "/llms/react/components/concepts/snippet.txt"
+        },
+        {
+          "id": "stack",
+          "title": "Stack",
+          "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/stack",
+          "llmsUrl": "/llms/react/components/stack.txt",
+          "deprecated": true
+        },
+        {
+          "id": "swipeable-menu-sheet",
+          "title": "Swipeable Menu Sheet",
+          "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "docUrl": "/react/components/swipeable-menu-sheet",
+          "llmsUrl": "/llms/react/components/swipeable-menu-sheet.txt"
+        },
+        {
+          "id": "switch",
+          "title": "Switch",
+          "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+          "docUrl": "/react/components/switch",
+          "llmsUrl": "/llms/react/components/switch.txt"
+        },
+        {
+          "id": "table-pagination",
+          "title": "Table Pagination",
+          "description": "데이터 표의 페이지와 페이지당 표시 행 수를 함께 제어하는 컴포넌트입니다.",
+          "docUrl": "/react/components/table-pagination",
+          "llmsUrl": "/llms/react/components/table-pagination.txt"
+        },
+        {
+          "id": "tabs",
+          "title": "Tabs",
+          "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
+          "docUrl": "/react/components/tabs",
+          "llmsUrl": "/llms/react/components/tabs.txt"
+        },
+        {
+          "id": "tag-group",
+          "title": "Tag Group",
+          "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "docUrl": "/react/components/tag-group",
+          "llmsUrl": "/llms/react/components/tag-group.txt"
+        },
+        {
+          "id": "tailwind-css",
+          "title": "Tailwind CSS",
+          "description": "Tailwind CSS 프로젝트에서 SEED를 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/styling/tailwind-css",
+          "llmsUrl": "/llms/react/getting-started/styling/tailwind-css.txt"
+        },
+        {
+          "id": "text",
+          "title": "Text",
+          "description": "텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. 일관된 글꼴 스타일과 크기를 적용하여 텍스트를 렌더링할 때 사용됩니다.",
+          "docUrl": "/react/components/typography/text",
+          "llmsUrl": "/llms/react/components/typography/text.txt"
+        },
+        {
+          "id": "text-field-input",
+          "title": "Text Field Input",
+          "description": "한 줄 텍스트를 입력받는 컴포넌트입니다.",
+          "docUrl": "/react/components/text-field-input",
+          "llmsUrl": "/llms/react/components/text-field-input.txt"
+        },
+        {
+          "id": "text-field-textarea",
+          "title": "Text Field Textarea",
+          "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
+          "docUrl": "/react/components/text-field-textarea",
+          "llmsUrl": "/llms/react/components/text-field-textarea.txt"
+        },
+        {
+          "id": "theming",
+          "title": "Theming",
+          "description": "SEED의 테마 시스템을 이해하고 활용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/styling/theming",
+          "llmsUrl": "/llms/react/getting-started/styling/theming.txt"
+        },
+        {
+          "id": "time-picker",
+          "title": "Time Picker",
+          "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
+          "docUrl": "/react/components/time-picker",
+          "llmsUrl": "/llms/react/components/time-picker.txt"
+        },
+        {
+          "id": "toggle-button",
+          "title": "Toggle Button",
+          "description": "사용자가 특정 상태를 켜거나 끌 수 있게 해주는 버튼 형태의 컴포넌트입니다. 필터링이나 뷰 전환과 같은 즉각적인 상태 변경에 사용됩니다.",
+          "docUrl": "/react/components/toggle-button",
+          "llmsUrl": "/llms/react/components/toggle-button.txt"
+        },
+        {
+          "id": "upgrade",
+          "title": "Overview (Updates)",
+          "description": "SEED 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.",
+          "docUrl": "/react/updates/upgrade",
+          "llmsUrl": "/llms/react/updates/upgrade.txt"
+        },
+        {
+          "id": "v-stack",
+          "title": "VStack",
+          "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "docUrl": "/react/components/layout/v-stack",
+          "llmsUrl": "/llms/react/components/layout/v-stack.txt"
+        },
+        {
+          "id": "v1",
+          "title": "SEED React 1 and older",
+          "description": "SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.",
+          "docUrl": "/react/updates/upgrade/v1",
+          "llmsUrl": "/llms/react/updates/upgrade/v1.txt"
+        },
+        {
+          "id": "v2",
+          "title": "SEED React 2",
+          "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
+          "docUrl": "/react/updates/upgrade/v2",
+          "llmsUrl": "/llms/react/updates/upgrade/v2.txt"
+        },
+        {
+          "id": "vite",
+          "title": "Vite",
+          "description": "Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/installation/vite",
+          "llmsUrl": "/llms/react/getting-started/installation/vite.txt"
+        },
+        {
+          "id": "webpack",
+          "title": "Webpack",
+          "description": "Webpack 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "docUrl": "/react/getting-started/installation/webpack",
+          "llmsUrl": "/llms/react/getting-started/installation/webpack.txt"
+        },
+        {
+          "id": "wheel-picker",
+          "title": "Wheel Picker",
+          "description": "항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.",
+          "docUrl": "/react/components/wheel-picker",
+          "llmsUrl": "/llms/react/components/wheel-picker.txt"
         }
       ]
     },
     {
       "id": "breeze",
       "label": "Breeze",
-      "sections": [
+      "items": [
         {
-          "id": "components",
-          "label": "컴포넌트",
-          "items": [
-            {
-              "id": "animate-number",
-              "title": "Animate Number",
-              "description": "숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌트",
-              "docUrl": "/breeze/components/animate-number",
-              "snippetKey": "react/breeze:animate-number",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "animate-number/animate-number.tsx"
-                },
-                {
-                  "label": "css",
-                  "path": "animate-number/animate-number.module.css"
-                }
-              ]
-            },
-            {
-              "id": "scroll-auto-hide",
-              "title": "Scroll Auto Hide",
-              "description": "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
-              "docUrl": "/breeze/components/scroll-auto-hide",
-              "snippetKey": "react/breeze:scroll-auto-hide",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "scroll-auto-hide/scroll-auto-hide.tsx"
-                },
-                {
-                  "label": "css",
-                  "path": "scroll-auto-hide/scroll-auto-hide.module.css"
-                }
-              ]
-            }
-          ]
+          "id": "animate-number",
+          "title": "Animate Number",
+          "description": "숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌트",
+          "docUrl": "/breeze/components/animate-number",
+          "llmsUrl": "/llms/breeze/components/animate-number.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "프로젝트에 바로 사용할 수 있는 유용한 UI 컴포넌트 큐레이션",
+          "docUrl": "/breeze",
+          "llmsUrl": "/llms/breeze.txt"
+        },
+        {
+          "id": "scroll-auto-hide",
+          "title": "Scroll Auto Hide",
+          "description": "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
+          "docUrl": "/breeze/components/scroll-auto-hide",
+          "llmsUrl": "/llms/breeze/components/scroll-auto-hide.txt"
         }
       ]
     },
     {
       "id": "lynx",
       "label": "Lynx",
-      "sections": [
+      "items": [
         {
-          "id": "components",
-          "label": "컴포넌트",
-          "items": [
-            {
-              "id": "accordion",
-              "title": "Accordion",
-              "description": "관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/accordion",
-              "snippetKey": "lynx/ui:accordion",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "accordion.tsx"
-                }
-              ]
-            },
-            {
-              "id": "action-button",
-              "title": "Action Button",
-              "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
-              "docUrl": "/lynx/components/action-button"
-            },
-            {
-              "id": "app-bar",
-              "title": "AppBar",
-              "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
-              "docUrl": "/lynx/components/app-bar",
-              "snippetKey": "lynx/ui:app-bar",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "app-bar.tsx"
-                }
-              ]
-            },
-            {
-              "id": "badge",
-              "title": "Badge",
-              "description": "상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.",
-              "docUrl": "/lynx/components/badge"
-            },
-            {
-              "id": "bottom-sheet",
-              "title": "Bottom Sheet",
-              "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",
-              "docUrl": "/lynx/components/bottom-sheet",
-              "snippetKey": "lynx/ui:bottom-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "bottom-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "box",
-              "title": "Box",
-              "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/box"
-            },
-            {
-              "id": "callout",
-              "title": "Callout",
-              "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
-              "docUrl": "/lynx/components/callout",
-              "snippetKey": "lynx/ui:callout",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "callout.tsx"
-                }
-              ]
-            },
-            {
-              "id": "checkbox",
-              "title": "Checkbox",
-              "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",
-              "docUrl": "/lynx/components/checkbox",
-              "snippetKey": "lynx/ui:checkbox",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "checkbox.tsx"
-                }
-              ]
-            },
-            {
-              "id": "chip",
-              "title": "Chip",
-              "description": "사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/chip"
-            },
-            {
-              "id": "cli",
-              "title": "CLI",
-              "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
-              "docUrl": "/lynx/getting-started/cli"
-            },
-            {
-              "id": "divider",
-              "title": "Divider",
-              "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/divider"
-            },
-            {
-              "id": "feature-flags",
-              "title": "Feature Flags",
-              "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
-              "docUrl": "/lynx/getting-started/feature-flags"
-            },
-            {
-              "id": "h-stack",
-              "title": "HStack",
-              "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/h-stack"
-            },
-            {
-              "id": "iconography",
-              "title": "Iconography",
-              "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
-              "docUrl": "/lynx/foundation/iconography"
-            },
-            {
-              "id": "installation",
-              "title": "Installation",
-              "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/installation"
-            },
-            {
-              "id": "keyboard-avoiding-scroll-view",
-              "title": "KeyboardAvoidingScrollView",
-              "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
-            },
-            {
-              "id": "progress-circle",
-              "title": "Progress Circle",
-              "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
-              "docUrl": "/lynx/components/progress-circle",
-              "snippetKey": "lynx/ui:progress-circle",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "progress-circle.tsx"
-                }
-              ]
-            },
-            {
-              "id": "radio-group",
-              "title": "RadioGroup",
-              "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
-              "docUrl": "/lynx/components/radio-group",
-              "snippetKey": "lynx/ui:radio-group",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "radio-group.tsx"
-                }
-              ]
-            },
-            {
-              "id": "styling",
-              "title": "Styling with Tailwind",
-              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
-              "docUrl": "/lynx/foundation/layout/styling"
-            },
-            {
-              "id": "switch",
-              "title": "Switch",
-              "description": "특정 옵션이나 설정을 켜거나 끌 수 있도록 돕는 토글 컴포넌트입니다.",
-              "docUrl": "/lynx/components/switch",
-              "snippetKey": "lynx/ui:switch",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "switch.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tabs",
-              "title": "Tabs",
-              "description": "한 화면의 콘텐츠를 탭 단위로 구분하고, 탭 선택이나 좌우 스와이프로 전환하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/tabs",
-              "snippetKey": "lynx/ui:tabs",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tabs.tsx"
-                }
-              ]
-            },
-            {
-              "id": "tag-group",
-              "title": "Tag Group",
-              "description": "텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
-              "docUrl": "/lynx/components/tag-group",
-              "snippetKey": "lynx/ui:tag-group",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "tag-group.tsx"
-                }
-              ]
-            },
-            {
-              "id": "text",
-              "title": "Text",
-              "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/typography/text"
-            },
-            {
-              "id": "text-field-input",
-              "title": "Text Field Input",
-              "description": "한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/text-field-input"
-            },
-            {
-              "id": "text-field-textarea",
-              "title": "Text Field Textarea",
-              "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/text-field-textarea"
-            },
-            {
-              "id": "theming",
-              "title": "Theming",
-              "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/theming"
-            },
-            {
-              "id": "use-controllable-state",
-              "title": "useControllableState",
-              "description": "Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-controllable-state"
-            },
-            {
-              "id": "use-icon-color",
-              "title": "useIconColor",
-              "description": "Lynx image 아이콘의 CSS color를 native tint-color로 동기화하는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-icon-color"
-            },
-            {
-              "id": "use-press-tap",
-              "title": "usePressTap",
-              "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-press-tap"
-            },
-            {
-              "id": "use-safe-area",
-              "title": "useSafeArea",
-              "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-safe-area"
-            },
-            {
-              "id": "use-seed-class-name",
-              "title": "useSeedClassName",
-              "description": "root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-seed-class-name"
-            },
-            {
-              "id": "v-stack",
-              "title": "VStack",
-              "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
-              "docUrl": "/lynx/foundation/layout/v-stack"
-            }
-          ]
+          "id": "accordion",
+          "title": "Accordion",
+          "description": "관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/accordion",
+          "llmsUrl": "/llms/lynx/components/accordion.txt"
+        },
+        {
+          "id": "action-button",
+          "title": "Action Button",
+          "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "docUrl": "/lynx/components/action-button",
+          "llmsUrl": "/llms/lynx/components/action-button.txt"
+        },
+        {
+          "id": "app-bar",
+          "title": "AppBar",
+          "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
+          "docUrl": "/lynx/components/app-bar",
+          "llmsUrl": "/llms/lynx/components/app-bar.txt"
+        },
+        {
+          "id": "badge",
+          "title": "Badge",
+          "description": "상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.",
+          "docUrl": "/lynx/components/badge",
+          "llmsUrl": "/llms/lynx/components/badge.txt"
+        },
+        {
+          "id": "bottom-sheet",
+          "title": "Bottom Sheet",
+          "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",
+          "docUrl": "/lynx/components/bottom-sheet",
+          "llmsUrl": "/llms/lynx/components/bottom-sheet.txt"
+        },
+        {
+          "id": "box",
+          "title": "Box",
+          "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
+          "docUrl": "/lynx/foundation/layout/box",
+          "llmsUrl": "/llms/lynx/foundation/layout/box.txt"
+        },
+        {
+          "id": "callout",
+          "title": "Callout",
+          "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "docUrl": "/lynx/components/callout",
+          "llmsUrl": "/llms/lynx/components/callout.txt"
+        },
+        {
+          "id": "checkbox",
+          "title": "Checkbox",
+          "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",
+          "docUrl": "/lynx/components/checkbox",
+          "llmsUrl": "/llms/lynx/components/checkbox.txt"
+        },
+        {
+          "id": "chip",
+          "title": "Chip",
+          "description": "사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/chip",
+          "llmsUrl": "/llms/lynx/components/chip.txt"
+        },
+        {
+          "id": "cli",
+          "title": "CLI",
+          "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
+          "docUrl": "/lynx/getting-started/cli",
+          "llmsUrl": "/llms/lynx/getting-started/cli.txt"
+        },
+        {
+          "id": "divider",
+          "title": "Divider",
+          "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/divider",
+          "llmsUrl": "/llms/lynx/components/divider.txt"
+        },
+        {
+          "id": "feature-flags",
+          "title": "Feature Flags",
+          "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+          "docUrl": "/lynx/getting-started/feature-flags",
+          "llmsUrl": "/llms/lynx/getting-started/feature-flags.txt"
+        },
+        {
+          "id": "h-stack",
+          "title": "HStack",
+          "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+          "docUrl": "/lynx/foundation/layout/h-stack",
+          "llmsUrl": "/llms/lynx/foundation/layout/h-stack.txt"
+        },
+        {
+          "id": "iconography",
+          "title": "Iconography",
+          "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
+          "docUrl": "/lynx/foundation/iconography",
+          "llmsUrl": "/llms/lynx/foundation/iconography.txt"
+        },
+        {
+          "id": "installation",
+          "title": "Installation",
+          "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "docUrl": "/lynx/getting-started/installation",
+          "llmsUrl": "/llms/lynx/getting-started/installation.txt"
+        },
+        {
+          "id": "keyboard-avoiding-scroll-view",
+          "title": "KeyboardAvoidingScrollView",
+          "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/keyboard-avoiding-scroll-view",
+          "llmsUrl": "/llms/lynx/components/keyboard-avoiding-scroll-view.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "SEED와 Lynx를 함께 사용하는 방법을 알아봅니다.",
+          "docUrl": "/lynx",
+          "llmsUrl": "/llms/lynx.txt"
+        },
+        {
+          "id": "progress-circle",
+          "title": "Progress Circle",
+          "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "docUrl": "/lynx/components/progress-circle",
+          "llmsUrl": "/llms/lynx/components/progress-circle.txt"
+        },
+        {
+          "id": "radio-group",
+          "title": "RadioGroup",
+          "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
+          "docUrl": "/lynx/components/radio-group",
+          "llmsUrl": "/llms/lynx/components/radio-group.txt"
+        },
+        {
+          "id": "styling",
+          "title": "Styling with Tailwind",
+          "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+          "docUrl": "/lynx/foundation/layout/styling",
+          "llmsUrl": "/llms/lynx/foundation/layout/styling.txt"
+        },
+        {
+          "id": "switch",
+          "title": "Switch",
+          "description": "특정 옵션이나 설정을 켜거나 끌 수 있도록 돕는 토글 컴포넌트입니다.",
+          "docUrl": "/lynx/components/switch",
+          "llmsUrl": "/llms/lynx/components/switch.txt"
+        },
+        {
+          "id": "tabs",
+          "title": "Tabs",
+          "description": "한 화면의 콘텐츠를 탭 단위로 구분하고, 탭 선택이나 좌우 스와이프로 전환하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/tabs",
+          "llmsUrl": "/llms/lynx/components/tabs.txt"
+        },
+        {
+          "id": "tag-group",
+          "title": "Tag Group",
+          "description": "텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "docUrl": "/lynx/components/tag-group",
+          "llmsUrl": "/llms/lynx/components/tag-group.txt"
+        },
+        {
+          "id": "text",
+          "title": "Text",
+          "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
+          "docUrl": "/lynx/foundation/typography/text",
+          "llmsUrl": "/llms/lynx/foundation/typography/text.txt"
+        },
+        {
+          "id": "text-field-input",
+          "title": "Text Field Input",
+          "description": "한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/text-field-input",
+          "llmsUrl": "/llms/lynx/components/text-field-input.txt"
+        },
+        {
+          "id": "text-field-textarea",
+          "title": "Text Field Textarea",
+          "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
+          "docUrl": "/lynx/components/text-field-textarea",
+          "llmsUrl": "/llms/lynx/components/text-field-textarea.txt"
+        },
+        {
+          "id": "theming",
+          "title": "Theming",
+          "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
+          "docUrl": "/lynx/getting-started/theming",
+          "llmsUrl": "/llms/lynx/getting-started/theming.txt"
+        },
+        {
+          "id": "use-controllable-state",
+          "title": "useControllableState",
+          "description": "Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.",
+          "docUrl": "/lynx/hooks/use-controllable-state",
+          "llmsUrl": "/llms/lynx/hooks/use-controllable-state.txt"
+        },
+        {
+          "id": "use-icon-color",
+          "title": "useIconColor",
+          "description": "Lynx image 아이콘의 CSS color를 native tint-color로 동기화하는 훅입니다.",
+          "docUrl": "/lynx/hooks/use-icon-color",
+          "llmsUrl": "/llms/lynx/hooks/use-icon-color.txt"
+        },
+        {
+          "id": "use-press-tap",
+          "title": "usePressTap",
+          "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
+          "docUrl": "/lynx/hooks/use-press-tap",
+          "llmsUrl": "/llms/lynx/hooks/use-press-tap.txt"
+        },
+        {
+          "id": "use-safe-area",
+          "title": "useSafeArea",
+          "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+          "docUrl": "/lynx/hooks/use-safe-area",
+          "llmsUrl": "/llms/lynx/hooks/use-safe-area.txt"
+        },
+        {
+          "id": "use-seed-class-name",
+          "title": "useSeedClassName",
+          "description": "root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.",
+          "docUrl": "/lynx/hooks/use-seed-class-name",
+          "llmsUrl": "/llms/lynx/hooks/use-seed-class-name.txt"
+        },
+        {
+          "id": "v-stack",
+          "title": "VStack",
+          "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+          "docUrl": "/lynx/foundation/layout/v-stack",
+          "llmsUrl": "/llms/lynx/foundation/layout/v-stack.txt"
         }
       ]
     },
     {
       "id": "ai-integration",
       "label": "AI Integration",
-      "sections": [
+      "items": [
         {
-          "id": "components",
-          "label": "컴포넌트",
-          "items": [
-            {
-              "id": "docs-mcp",
-              "title": "Docs MCP",
-              "description": "AI Agent가 SEED 문서에 직접 접근할 수 있는 MCP 서버를 제공합니다.",
-              "docUrl": "/ai-integration/docs-mcp"
-            },
-            {
-              "id": "doctor",
-              "title": "Doctor",
-              "description": "저장소 맥락에 맞춰 SEED 설정, 호환성, 셋업, Foundations, 컴포넌트, 라이브러리 계약을 읽기 전용으로 진단합니다.",
-              "docUrl": "/ai-integration/skill/doctor"
-            },
-            {
-              "id": "figma-mcp",
-              "title": "Figma MCP",
-              "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
-              "docUrl": "/ai-integration/figma-mcp"
-            },
-            {
-              "id": "skill",
-              "title": "Skill",
-              "description": "SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.",
-              "docUrl": "/ai-integration/skill"
-            }
-          ]
+          "id": "docs-mcp",
+          "title": "Docs MCP",
+          "description": "AI Agent가 SEED 문서에 직접 접근할 수 있는 MCP 서버를 제공합니다.",
+          "docUrl": "/ai-integration/docs-mcp",
+          "llmsUrl": "/llms/ai-integration/docs-mcp.txt"
+        },
+        {
+          "id": "doctor",
+          "title": "Doctor",
+          "description": "저장소 맥락에 맞춰 SEED 설정, 호환성, 셋업, Foundations, 컴포넌트, 라이브러리 계약을 읽기 전용으로 진단합니다.",
+          "docUrl": "/ai-integration/skill/doctor",
+          "llmsUrl": "/llms/ai-integration/skill/doctor.txt"
+        },
+        {
+          "id": "figma-mcp",
+          "title": "Figma MCP",
+          "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
+          "docUrl": "/ai-integration/figma-mcp",
+          "llmsUrl": "/llms/ai-integration/figma-mcp.txt"
+        },
+        {
+          "id": "overview",
+          "title": "Overview",
+          "description": "AI 도구와 SEED를 함께 활용하는 방법을 알아봅니다.",
+          "docUrl": "/ai-integration",
+          "llmsUrl": "/llms/ai-integration.txt"
+        },
+        {
+          "id": "skill",
+          "title": "Skill",
+          "description": "SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.",
+          "docUrl": "/ai-integration/skill",
+          "llmsUrl": "/llms/ai-integration/skill.txt"
+        }
+      ]
+    },
+    {
+      "id": "updates",
+      "label": "Updates",
+      "items": [
+        {
+          "id": "how-seed-evolved",
+          "title": "더 당근답게: SEED는 어떻게 진화했나",
+          "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
+          "docUrl": "/updates/how-seed-evolved",
+          "llmsUrl": "/llms/updates/how-seed-evolved.txt"
+        },
+        {
+          "id": "pickers-dialog-select",
+          "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
+          "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
+          "docUrl": "/updates/pickers-dialog-select",
+          "llmsUrl": "/llms/updates/pickers-dialog-select.txt"
+        },
+        {
+          "id": "whats-new-in-action-button",
+          "title": "What's New in Action Button",
+          "description": "SEED Action Button은 기존 Box Button의 주요 문제를 해결하며, 사용자 경험과 접근성을 한층 더 강화했어요.",
+          "docUrl": "/updates/whats-new-in-action-button",
+          "llmsUrl": "/llms/updates/whats-new-in-action-button.txt"
+        },
+        {
+          "id": "why-design-system-needs-branding",
+          "title": "디자인 시스템에도 브랜딩이 필요할까",
+          "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
+          "docUrl": "/updates/why-design-system-needs-branding",
+          "llmsUrl": "/llms/updates/why-design-system-needs-branding.txt"
+        },
+        {
+          "id": "why-we-hired-a-design-engineer",
+          "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
+          "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
+          "docUrl": "/updates/why-we-hired-a-design-engineer",
+          "llmsUrl": "/llms/updates/why-we-hired-a-design-engineer.txt"
         }
       ]
     }

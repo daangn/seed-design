@@ -1,586 +1,293 @@
-import { fetchDocsIndex, fetchLlmsTxt, tryFetchLlmsTxt } from "@/src/utils/fetch";
-import * as p from "@clack/prompts";
-import type { CAC } from "cac";
-import { z } from "zod";
-import { BASE_URL } from "../constants";
+import { fetchDocsIndex, fetchLlmsTxt } from "@/src/utils/fetch";
+import { object, or } from "@optique/core/constructs";
+import { message } from "@optique/core/message";
+import { optional } from "@optique/core/modifiers";
+import { argument, command, constant } from "@optique/core/primitives";
+import { string } from "@optique/core/valueparser";
 import { analytics } from "../utils/analytics";
+import { baseUrlOption, type ParsedOptions } from "../utils/cli-options";
 import { highlight } from "../utils/color";
-import { getRawConfig } from "../utils/get-config";
 import {
-  CliCancelError,
-  CliError,
-  handleCliError,
-  isCliCancelError,
-  isVerboseMode,
-} from "../utils/error";
-import type { DocsCategory, DocsItem, DocsSection } from "../schema";
+  byAddress,
+  childrenOf,
+  type DocsListing,
+  parseAddress,
+  resolveDocuments,
+  resolveScopes,
+} from "../utils/docs-address";
+import { alignedLines, similarAddresses } from "../utils/docs-index";
+import { searchDocs } from "../utils/docs-search";
+import { CliError, ExitCode, exitCodeFor, reportCliError } from "../utils/error";
+import { exampleFooter } from "../utils/help";
+import type { DocsCategory, DocsItem } from "../schema";
 
-const GITHUB_SNIPPET_BASE =
-  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
+/**
+ * Three subcommands, one for each kind of answer, so what comes back is settled by the name
+ * the caller typed rather than by the shape of the argument they passed.
+ *
+ *   docs list [주소]      what the scope holds, one level down
+ *   docs search <질의>    the addresses a query reaches, body text included
+ *   docs read <주소>      that document's own text
+ *
+ * None of them draws the clack frame the other commands do: what they print is meant to be
+ * piped or pasted back in, and a `│` down the left of every line is not. stdout carries the
+ * answer and nothing else; reasons, counts and candidates all go to stderr. `read` holds the
+ * strictest form of that rule — its stdout is the bytes the site sent, with not one
+ * character of the CLI's own mixed in.
+ *
+ * None of them reads the working directory, the project's config or the environment either,
+ * so the same address names the same document from every directory and every session.
+ */
 
-const docsOptionsSchema = z.object({
-  query: z
-    .union([z.string(), z.array(z.string())])
-    .optional()
-    .transform((query) => {
-      const normalized = Array.isArray(query) ? query.join(" ") : query;
-      const trimmed = normalized?.trim();
-      return trimmed ? trimmed : undefined;
+interface Outcome {
+  result: string;
+  itemId?: string;
+}
+
+/**
+ * `llmsUrl` is missing from an index published before the field existed — the archived
+ * `v1-x` sites, whose index is frozen in the old shape. The rule behind the field is the
+ * document URL with `/llms` in front and `.txt` behind, so composing it reaches the same
+ * route the site would have named.
+ */
+function llmsUrlFor(item: DocsItem, baseUrl: string): string {
+  return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
+}
+
+function suggestionFor(categories: DocsCategory[], query: string): string {
+  const similar = similarAddresses(categories, query);
+  if (similar.length === 0) return "";
+
+  return `\n\n💡 이것을 의미했나요?\n${similar.map((address) => `   - ${address}`).join("\n")}`;
+}
+
+function print(listings: DocsListing[]) {
+  console.log(alignedLines(listings).join("\n"));
+}
+
+const listParser = command(
+  "list",
+  object({
+    command: constant("docs list"),
+    address: optional(argument(string({ metavar: "ADDRESS" }))),
+    baseUrl: baseUrlOption,
+  }),
+  {
+    brief: message`주소 아래 한 단계에 무엇이 있는지 나열합니다.`,
+    footer: exampleFooter([
+      "seed-design docs list",
+      "seed-design docs list react/",
+      "seed-design docs list react/components/",
+    ]),
+  },
+);
+
+const searchParser = command(
+  "search",
+  object({
+    command: constant("docs search"),
+    query: argument(string({ metavar: "QUERY" }), {
+      errors: {
+        endOfInput: message`찾을 내용이 필요합니다. 예: seed-design docs search "액션 버튼"`,
+      },
     }),
-  baseUrl: z.string().optional(),
-  cwd: z.string().default(process.cwd()),
-  framework: z.enum(["react", "lynx"]).optional(),
-  raw: z.boolean(),
+    baseUrl: baseUrlOption,
+  }),
+  {
+    brief: message`문서 본문까지 검색해 주소를 출력합니다.`,
+    footer: exampleFooter([
+      'seed-design docs search "액션 버튼"',
+      'seed-design docs search "바텀시트 스냅"',
+      "seed-design docs search action-button",
+    ]),
+  },
+);
+
+const readParser = command(
+  "read",
+  object({
+    command: constant("docs read"),
+    address: argument(string({ metavar: "ADDRESS" }), {
+      errors: {
+        endOfInput: message`읽을 문서가 필요합니다. 예: seed-design docs read /react/components/action-button`,
+      },
+    }),
+    baseUrl: baseUrlOption,
+  }),
+  {
+    brief: message`문서 본문을 출력합니다.`,
+    footer: exampleFooter([
+      "seed-design docs read /react/components/action-button",
+      "seed-design docs read action-button",
+      "seed-design docs read /react",
+    ]),
+  },
+);
+
+export const docsParser = command("docs", or(listParser, searchParser, readParser), {
+  brief: message`문서를 나열하고, 찾고, 읽습니다.`,
 });
 
-function buildSnippetUrl(registryPath: string, snippetPath: string): string {
-  return `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippetPath}`;
-}
+/** Every one of the three ends the same way: the answer on stdout, or a reason on stderr. */
+async function emit(
+  command: "docs-list" | "docs-search" | "docs-read",
+  verbose: boolean,
+  run: () => Promise<Outcome>,
+) {
+  const startTime = Date.now();
+  // Only telemetry reads the working directory, and only to find the opt-out. What document
+  // an address names never depends on where the command was run.
+  const cwd = process.cwd();
 
-function printDocsResult(item: DocsItem, baseUrl: string) {
-  const docLink = `${baseUrl}${item.docUrl}`;
-  const llmsLink = `${baseUrl}/llms${item.docUrl}.txt`;
+  try {
+    const outcome = await run();
 
-  const lines = [item.id, `- docs: ${docLink}`, `- llms.txt: ${llmsLink}`];
-
-  if (item.snippetKey && item.snippets && item.snippets.length > 0) {
-    const [registryPath] = item.snippetKey.split(":");
-    if (registryPath) {
-      if (item.snippets.length === 1) {
-        lines.push(`- snippet: ${buildSnippetUrl(registryPath, item.snippets[0].path)}`);
-      } else {
-        lines.push("- snippet:");
-        for (const snippet of item.snippets) {
-          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryPath, snippet.path)}`);
-        }
+    try {
+      await analytics.trackCommandOutcome(cwd, {
+        command,
+        status: "completed",
+        result: outcome.result,
+        properties: {
+          item_id: outcome.itemId ?? null,
+          duration_ms: Date.now() - startTime,
+        },
+      });
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error(`[Telemetry] ${command} 이벤트 전송에 실패했어요:`, telemetryError);
       }
     }
-  }
-
-  p.log.message(lines.join("\n"));
-}
-
-/**
- * Compute the Levenshtein (edit) distance between two strings.
- * Used to suggest similar valid paths when users make typos.
- */
-function levenshtein(a: string, b: string): number {
-  const m = a.length;
-  const n = b.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, (_, i) =>
-    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)),
-  );
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      dp[i][j] = Math.min(
-        dp[i - 1][j] + 1,
-        dp[i][j - 1] + 1,
-        dp[i - 1][j - 1] + (a[i - 1] !== b[j - 1] ? 1 : 0),
-      );
-    }
-  }
-  return dp[m][n];
-}
-
-/**
- * Find candidates similar to `input` within `maxDistance` edits, sorted by distance.
- */
-function findSimilar(input: string, candidates: string[], maxDistance = 3): string[] {
-  const q = input.toLowerCase();
-  return candidates
-    .map((c) => ({ value: c, dist: levenshtein(q, c.toLowerCase()) }))
-    .filter(({ dist }) => dist > 0 && dist <= maxDistance)
-    .sort((a, b) => a.dist - b.dist)
-    .map(({ value }) => value);
-}
-
-/**
- * Build a suggestion hint from a path query by fuzzy-matching each segment
- * against the docs index hierarchy.
- */
-function buildSuggestionHint(segments: string[], categories: DocsCategory[]): string | undefined {
-  if (segments.length === 0) return undefined;
-
-  const suggestions: string[] = [];
-
-  // Try to fuzzy-match the first segment against category IDs
-  const categoryIds = categories.map((c) => c.id);
-  const similarCategories = findSimilar(segments[0], categoryIds);
-
-  if (similarCategories.length === 0) {
-    // No similar category — try to find similar full paths across everything
-    const allPaths = categories.flatMap((cat) =>
-      cat.sections.flatMap((sec) => sec.items.map((item) => `${cat.id}/${sec.id}/${item.id}`)),
-    );
-    const fullQuery = segments.join("/");
-    const similarPaths = findSimilar(fullQuery, allPaths, 5);
-    if (similarPaths.length > 0) {
-      suggestions.push(...similarPaths.slice(0, 3));
-    }
-  } else {
-    const bestCat = categories.find((c) => c.id === similarCategories[0]);
-    if (bestCat && segments.length >= 2) {
-      const sectionIds = bestCat.sections.map((s) => s.id);
-      const similarSections = findSimilar(segments[1], sectionIds);
-
-      if (similarSections.length > 0) {
-        const bestSec = bestCat.sections.find((s) => s.id === similarSections[0]);
-        if (bestSec && segments.length >= 3) {
-          const itemIds = bestSec.items.map((i) => i.id);
-          const similarItems = findSimilar(segments[2], itemIds);
-          for (const item of similarItems.slice(0, 3)) {
-            suggestions.push(`${bestCat.id}/${bestSec.id}/${item}`);
-          }
-        } else {
-          for (const sec of similarSections.slice(0, 3)) {
-            suggestions.push(`${bestCat.id}/${sec}`);
-          }
-        }
-      } else {
-        // Section not found, search items within category
-        const allItemIds = bestCat.sections.flatMap((s) =>
-          s.items.map((i) => ({ path: `${bestCat.id}/${s.id}/${i.id}`, id: i.id })),
-        );
-        const similarItems = findSimilar(
-          segments[1],
-          allItemIds.map((x) => x.id),
-        );
-        for (const itemId of similarItems.slice(0, 3)) {
-          const found = allItemIds.find((x) => x.id === itemId);
-          if (found) suggestions.push(found.path);
-        }
-      }
-    } else {
-      for (const cat of similarCategories.slice(0, 3)) {
-        suggestions.push(cat);
+  } catch (error) {
+    try {
+      await analytics.trackCommandFailure(cwd, {
+        command,
+        error,
+        properties: { duration_ms: Date.now() - startTime },
+      });
+    } catch (telemetryError) {
+      if (verbose) {
+        console.error(`[Telemetry] ${command} 이벤트 전송에 실패했어요:`, telemetryError);
       }
     }
-  }
 
-  if (suggestions.length === 0) return undefined;
-
-  const lines = ["", "💡 이것을 의미했나요?"];
-  for (const s of suggestions) {
-    lines.push(`   - ${s}`);
-  }
-  return lines.join("\n");
-}
-
-/**
- * Parse a path-style query into segments.
- * e.g. "react/components/action-button" → ["react", "components", "action-button"]
- */
-function parseQueryPath(query: string): string[] {
-  return query
-    .split(/[\/\s]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function normalizeRegistryKeySegment(segment: string): string {
-  const [, itemId] = segment.split(":");
-  return itemId ?? segment;
-}
-
-function normalizeDocsQuery({
-  query,
-  framework,
-  categoryIds,
-}: {
-  query?: string;
-  framework?: string;
-  categoryIds: string[];
-}): string | undefined {
-  if (!query) return undefined;
-
-  const segments = parseQueryPath(query).map(normalizeRegistryKeySegment);
-  if (!segments.length) return undefined;
-
-  const [firstSegment] = segments;
-  const isCategoryQuery = categoryIds.includes(firstSegment);
-
-  if (!isCategoryQuery && framework && categoryIds.includes(framework)) {
-    return [framework, ...segments].join("/");
-  }
-
-  return segments.join("/");
-}
-
-/**
- * Search all items across all categories/sections.
- */
-function searchAllItems(
-  categories: DocsCategory[],
-  query: string,
-): { item: DocsItem; categoryLabel: string; sectionLabel: string }[] {
-  const q = query.toLowerCase();
-  return categories.flatMap((cat) =>
-    cat.sections.flatMap((sec) =>
-      sec.items
-        .filter((item) => item.id.toLowerCase().includes(q) || item.title.toLowerCase().includes(q))
-        .map((item) => ({
-          item,
-          categoryLabel: cat.label,
-          sectionLabel: sec.label,
-        })),
-    ),
-  );
-}
-
-async function selectItem(items: DocsItem[]): Promise<DocsItem> {
-  const selected = await p.select({
-    message: "항목을 선택해주세요",
-    options: items.map((item) => ({
-      label: `${item.deprecated ? "(deprecated) " : ""}${item.title}`,
-      value: item,
-      hint: item.description,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
-}
-
-async function selectSection(sections: DocsSection[]): Promise<DocsSection> {
-  const selected = await p.select({
-    message: "섹션을 선택해주세요",
-    options: sections.map((sec) => ({
-      label: sec.label,
-      value: sec,
-      hint: `${sec.items.length}개 항목`,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
-}
-
-async function selectCategory(categories: DocsCategory[]): Promise<DocsCategory> {
-  const selected = await p.select({
-    message: "카테고리를 선택해주세요",
-    options: categories.map((cat) => ({
-      label: cat.label,
-      value: cat,
-      hint: `${cat.sections.reduce((sum, s) => sum + s.items.length, 0)}개 항목`,
-    })),
-  });
-  if (p.isCancel(selected)) throw new CliCancelError();
-  return selected;
-}
-
-export const docsCommand = (cli: CAC) => {
-  cli
-    .command("docs [...query]", "문서 링크, llms.txt 링크, 스니펫 링크를 조회합니다")
-    .option("-u, --baseUrl <baseUrl>", `레지스트리의 기본 URL (기본값: ${BASE_URL})`, {
-      default: BASE_URL,
-    })
-    .option("--cwd <cwd>", "the working directory. defaults to the current directory.", {
-      default: process.cwd(),
-    })
-    .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
-    .option("--raw", "llms.txt 내용을 직접 가져와 출력합니다. LLM 파이프에 유용합니다.", {
-      default: false,
-    })
-    .example("seed-design docs")
-    .example("seed-design docs action-button")
-    .example("seed-design docs react")
-    .example("seed-design docs lynx action-button")
-    .example("seed-design docs react/components")
-    .example("seed-design docs react/components/action-button")
-    .example("seed-design docs react/updates/changelog --raw")
-    .action(async (query, opts) => {
-      const startTime = Date.now();
-      const verbose = isVerboseMode(opts);
-      const raw = opts.raw ?? false;
-      let trackCwd = process.cwd();
-
-      if (!raw) p.intro("seed-design docs");
-
-      try {
-        const parsed = docsOptionsSchema.safeParse({ query, ...opts });
-        if (!parsed.success) {
-          throw parsed.error;
-        }
-
-        const { data: options } = parsed;
-        trackCwd = options.cwd;
-        const baseUrl = options.baseUrl ?? BASE_URL;
-        const rawConfig = await getRawConfig(options.cwd).catch(() => null);
-        const framework = options.framework ?? rawConfig?.framework;
-
-        if (options.raw && !options.query) {
-          throw new CliError({
-            message: "--raw 모드에서는 쿼리가 필요해요.",
-            hint: "예: `seed-design docs react/updates/changelog --raw`",
-          });
-        }
-
-        const docsIndex = await (async () => {
-          if (raw) {
-            return await fetchDocsIndex({ baseUrl });
-          }
-          const { start, stop } = p.spinner();
-          start("문서 목록을 가져오고 있어요...");
-          try {
-            const index = await fetchDocsIndex({ baseUrl });
-            stop("문서 목록을 가져왔어요.");
-            return index;
-          } catch (error) {
-            stop("문서 목록을 가져오지 못했어요.");
-            throw error;
-          }
-        })();
-
-        const { categories } = docsIndex;
-        const docsQuery = normalizeDocsQuery({
-          query: options.query,
-          framework,
-          categoryIds: categories.map((category) => category.id),
-        });
-        let selectedItem: DocsItem | undefined;
-
-        // In --raw mode, wrap index resolution in try-catch to allow fallback to direct URL
-        const resolveFromIndex = async (): Promise<DocsItem | undefined> => {
-          if (docsQuery) {
-            const segments = parseQueryPath(docsQuery);
-
-            // Deep paths (more than category/section/item) can't be resolved from index
-            // e.g., react/updates/changelog/react/1.2.9 — skip to fallback in --raw mode
-            if (raw && segments.length > 3) {
-              return undefined;
-            }
-
-            // Try to resolve as path: category / section / item
-            const matchedCategory = categories.find((c) => c.id === segments[0]);
-
-            if (matchedCategory && segments.length >= 2) {
-              const matchedSection = matchedCategory.sections.find((s) => s.id === segments[1]);
-
-              if (matchedSection && segments.length >= 3) {
-                // Full path: category/section/item
-                const matchedItem = matchedSection.items.find((i) => i.id === segments[2]);
-                if (matchedItem) {
-                  return matchedItem;
-                }
-                // Item not found in section — search within the section
-                const q = segments[2].toLowerCase();
-                const matched = matchedSection.items.filter(
-                  (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
-                );
-                if (matched.length === 0) {
-                  const similarItems = findSimilar(
-                    segments[2],
-                    matchedSection.items.map((i) => i.id),
-                  );
-                  const suggestion =
-                    similarItems.length > 0
-                      ? `\n\n💡 이것을 의미했나요?\n${similarItems
-                          .slice(0, 3)
-                          .map((s) => `   - ${matchedCategory.id}/${matchedSection.id}/${s}`)
-                          .join("\n")}`
-                      : "";
-                  throw new CliError({
-                    message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
-                    hint: `\`seed-design docs ${matchedCategory.id}/${matchedSection.id}\`로 목록을 확인해보세요.`,
-                  });
-                }
-                if (matched.length === 1) {
-                  return matched[0];
-                }
-                return await selectItem(matched);
-              }
-              if (matchedSection) {
-                // category/section — select item within section
-                return await selectItem(matchedSection.items);
-              }
-              // category/??? — search within category
-              const q = segments[1].toLowerCase();
-              const matched = matchedCategory.sections.flatMap((s) =>
-                s.items
-                  .filter(
-                    (i) => i.id.toLowerCase().includes(q) || i.title.toLowerCase().includes(q),
-                  )
-                  .map((item) => ({ item, sectionLabel: s.label })),
-              );
-
-              if (matched.length === 0) {
-                const sectionIds = matchedCategory.sections.map((s) => s.id);
-                const similarSections = findSimilar(segments[1], sectionIds);
-                const allItemIds = matchedCategory.sections.flatMap((s) =>
-                  s.items.map((i) => ({
-                    path: `${matchedCategory.id}/${s.id}/${i.id}`,
-                    id: i.id,
-                  })),
-                );
-                const similarItems = findSimilar(
-                  segments[1],
-                  allItemIds.map((x) => x.id),
-                );
-                const suggestions: string[] = [
-                  ...similarSections.slice(0, 2).map((s) => `${matchedCategory.id}/${s}`),
-                  ...similarItems
-                    .slice(0, 2)
-                    .map((id) => allItemIds.find((x) => x.id === id)?.path)
-                    .filter((p): p is string => p != null),
-                ];
-                const suggestion =
-                  suggestions.length > 0
-                    ? `\n\n💡 이것을 의미했나요?\n${suggestions.map((s) => `   - ${s}`).join("\n")}`
-                    : "";
-                throw new CliError({
-                  message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion}`,
-                  hint: `\`seed-design docs ${matchedCategory.id}\`로 목록을 확인해보세요.`,
-                });
-              }
-              if (matched.length === 1) {
-                return matched[0].item;
-              }
-              const selected = await p.select({
-                message: `${highlight(segments[1])}에 해당하는 항목을 선택해주세요`,
-                options: matched.map(({ item, sectionLabel }) => ({
-                  label: `[${sectionLabel}] ${item.title}`,
-                  value: item,
-                  hint: item.description,
-                })),
-              });
-              if (p.isCancel(selected)) throw new CliCancelError();
-              return selected;
-            }
-            if (matchedCategory) {
-              // Single segment matching a category — drill into it
-              if (matchedCategory.sections.length === 1) {
-                return await selectItem(matchedCategory.sections[0].items);
-              }
-              const section = await selectSection(matchedCategory.sections);
-              return await selectItem(section.items);
-            }
-            // No category match — global search
-            const matched = searchAllItems(categories, docsQuery);
-
-            if (matched.length === 0) {
-              const suggestion = buildSuggestionHint(segments, categories);
-              throw new CliError({
-                message: `${highlight(docsQuery)}: 문서를 찾을 수 없어요.${suggestion ?? ""}`,
-                hint: "`seed-design docs`로 전체 목록을 확인해보세요.",
-              });
-            }
-            if (matched.length === 1) {
-              return matched[0].item;
-            }
-            const selected = await p.select({
-              message: `${highlight(docsQuery)}에 해당하는 항목을 선택해주세요`,
-              options: matched.map(({ item, categoryLabel, sectionLabel }) => ({
-                label: `[${categoryLabel} > ${sectionLabel}] ${item.title}`,
-                value: item,
-                hint: item.description,
-              })),
-            });
-            if (p.isCancel(selected)) throw new CliCancelError();
-            return selected;
-          }
-
-          // No query — full interactive flow: category → section → item
-          const category = await selectCategory(categories);
-
-          let section: DocsSection;
-          if (category.sections.length === 1) {
-            section = category.sections[0];
-          } else {
-            section = await selectSection(category.sections);
-          }
-
-          return await selectItem(section.items);
-        };
-
-        // In --raw mode, swallow index resolution errors and fall back to direct URL fetch
-        if (raw) {
-          try {
-            selectedItem = await resolveFromIndex();
-          } catch (error) {
-            if (isCliCancelError(error)) throw error;
-            // index miss in raw mode → will use fallback
-          }
-        } else {
-          selectedItem = await resolveFromIndex();
-        }
-
-        if (raw) {
-          let content: string;
-          if (selectedItem) {
-            const llmsUrl = `${baseUrl}/llms${selectedItem.docUrl}.txt`;
-            content = await fetchLlmsTxt({ url: llmsUrl });
-          } else {
-            content = await tryFetchLlmsTxt({ baseUrl, query: docsQuery! });
-          }
-          console.log(content);
-        } else {
-          printDocsResult(selectedItem!, baseUrl);
-          p.outro("완료했어요.");
-        }
-
-        const duration = Date.now() - startTime;
-        try {
-          await analytics.trackCommandOutcome(trackCwd, {
-            command: "docs",
-            status: "completed",
-            properties: {
-              query: options.query ?? null,
-              item_id: selectedItem?.id ?? options.query ?? null,
-              has_snippet: !!(selectedItem?.snippets && selectedItem.snippets.length > 0),
-              raw_mode: raw,
-              duration_ms: duration,
-            },
-          });
-        } catch (telemetryError) {
-          if (verbose) {
-            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-          }
-        }
-      } catch (error) {
-        if (isCliCancelError(error)) {
-          try {
-            await analytics.trackCommandOutcome(trackCwd, {
-              command: "docs",
-              status: "cancelled",
-              properties: {
-                raw_mode: raw,
-                duration_ms: Date.now() - startTime,
-              },
-            });
-          } catch (telemetryError) {
-            if (verbose) {
-              console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-            }
-          }
-          if (!raw) p.outro(highlight(error.message));
-          process.exit(0);
-        }
-
-        try {
-          await analytics.trackCommandFailure(trackCwd, {
-            command: "docs",
-            error,
-            properties: {
-              raw_mode: raw,
-              duration_ms: Date.now() - startTime,
-            },
-          });
-        } catch (telemetryError) {
-          if (verbose) {
-            console.error("[Telemetry] docs 이벤트 전송에 실패했어요:", telemetryError);
-          }
-        }
-
-        if (raw) {
-          const msg = error instanceof Error ? error.message : String(error);
-          console.error(msg);
-          process.exit(1);
-        }
-
-        handleCliError(error, {
-          defaultMessage: "문서 조회에 실패했어요.",
-          defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
-          verbose,
-        });
-        process.exit(1);
-      }
+    reportCliError(error, {
+      defaultMessage: "문서 조회에 실패했어요.",
+      defaultHint: "`--verbose` 옵션으로 상세 오류를 확인해보세요.",
+      verbose,
     });
-};
+    process.exit(exitCodeFor(error));
+  }
+}
+
+export async function runDocsList({ address, baseUrl, verbose }: ParsedOptions<typeof listParser>) {
+  await emit("docs-list", verbose, async () => {
+    const { categories } = await fetchDocsIndex({ baseUrl });
+    const parsed = parseAddress(address ?? "");
+    const scopes = resolveScopes(categories, parsed);
+
+    const listings = Array.from(
+      new Map(
+        scopes
+          .flatMap((scope) => childrenOf(categories, scope))
+          .map((entry) => [entry.address, entry]),
+      ).values(),
+    ).sort(byAddress);
+
+    if (listings.length === 0) {
+      throw new CliError({
+        message: `${highlight(address ?? "/")}: 하위 항목이 없어요.${suggestionFor(categories, address ?? "")}`,
+        hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
+        exit: ExitCode.answeredNegatively,
+      });
+    }
+
+    print(listings);
+    return { result: "listing" };
+  });
+}
+
+export async function runDocsSearch({
+  query,
+  baseUrl,
+  verbose,
+}: ParsedOptions<typeof searchParser>) {
+  await emit("docs-search", verbose, async () => {
+    // A blank query matches every document, which is a listing wearing a search's clothes.
+    const term = query.trim();
+    if (term.length === 0) {
+      throw new CliError({
+        message: "검색어가 필요해요.",
+        hint: "예: `seed-design docs search 액션 버튼`. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
+      });
+    }
+
+    const { addresses, total } = await searchDocs({ baseUrl, query: term });
+
+    if (addresses.length === 0) {
+      // Only reached once the search has already failed, so the extra index costs nothing an
+      // answer would have paid for.
+      const { categories } = await fetchDocsIndex({ baseUrl });
+
+      throw new CliError({
+        message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
+        hint: "띄어쓰기를 바꾸거나 더 짧은 검색어로 찾아보세요. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
+        exit: ExitCode.answeredNegatively,
+      });
+    }
+
+    // The count says how the list came out, which is not itself an answer.
+    console.error(
+      total > addresses.length
+        ? `${total}개 문서를 찾았어요. 위에서부터 ${addresses.length}개를 표시하고 있어요.`
+        : `${total}개 문서를 찾았어요.`,
+    );
+    // One address per line and nothing else, so a later change to how documents are ranked
+    // leaves every pipeline reading this untouched.
+    console.log(addresses.join("\n"));
+
+    return { result: "matched" };
+  });
+}
+
+export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<typeof readParser>) {
+  await emit("docs-read", verbose, async () => {
+    // `search` prints anchors, because a result reads better when it says which part of the
+    // document matched. A document has one text, though, so an anchor names no less than the
+    // whole of it — pasting a search result back in works, and prints the same thing.
+    const parsed = parseAddress(address.split("#")[0]);
+
+    // A trailing slash names a container, and a container has no text of its own. Answering
+    // with whatever single document happens to sit underneath would make the same input mean
+    // different things as the site grows.
+    if (parsed.kind === "scope") {
+      throw new CliError({
+        message: `${highlight(address)}: 문서가 아니라 하위 항목들을 가리키는 주소예요.`,
+        hint: `\`seed-design docs list ${address}\`로 하위 항목들을 확인할 수 있어요.`,
+      });
+    }
+
+    const { categories } = await fetchDocsIndex({ baseUrl });
+    const documents = resolveDocuments(categories, parsed);
+
+    if (documents.length === 1) {
+      // Not `console.log`: stdout carries the bytes the site sent and not one of ours, and
+      // `console.log` would append a newline the document did not have.
+      process.stdout.write(await fetchLlmsTxt({ url: llmsUrlFor(documents[0].item, baseUrl) }));
+      return { result: "item", itemId: documents[0].item.id };
+    }
+
+    if (documents.length > 1) {
+      throw new CliError({
+        message: `${highlight(address)}: 여러 문서를 가리켜요.\n\n${documents
+          .map((entry) => `   - ${entry.address}`)
+          .join("\n")}`,
+        hint: "위에 나온 주소 중 하나를 그대로 넣어주세요.",
+      });
+    }
+
+    throw new CliError({
+      message: `${highlight(address)}: 문서가 없어요.${suggestionFor(categories, address)}`,
+      hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
+    });
+  });
+}

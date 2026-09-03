@@ -27,5 +27,16 @@ jobs:
       - name: Build dependencies
         run: bun packages:build
 
+      # public/__docs__와 public/__registry__는 커밋된 생성물인데 build에 물려 있지 않다.
+      # CLI docs 커맨드와 docs-mcp가 이 파일을 원격에서 읽으므로, 재생성 결과가 커밋본과
+      # 어긋나면 사이트는 멀쩡한 채로 두 소비자만 조용히 낡은 구조를 보게 된다.
+      - name: Check generated docs artifacts are up to date
+        run: |
+          bun docs:generate
+          git diff --exit-code docs/public/__docs__ docs/public/__registry__ || {
+            echo "::error::생성물이 소스와 어긋나요. \`bun docs:generate\` 실행 후 결과를 커밋해주세요."
+            exit 1
+          }
+
       - name: Run tests
         run: bun docs:test

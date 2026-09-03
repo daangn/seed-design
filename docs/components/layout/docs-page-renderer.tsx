@@ -1,4 +1,4 @@
-import type { Section } from "@/app/_llms/types";
+import type { Section } from "@/app/_llms/config";
 import { JsonLd } from "@/components/json-ld";
 import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { LLMOptions } from "@/components/page-actions";
@@ -75,8 +75,6 @@ export interface DocsPageRendererProps {
   platformStatus?: ReactNode;
   /** LLMs.txt/action controls. Hide on section overview/root pages. */
   showPageActions?: boolean;
-  /** 기본 LLMs.txt 옵션 대신 렌더할 노드 (예: changelog 전용) */
-  llmOptions?: ReactNode;
   /** 제목·설명 아래(커버 위)에 렌더할 메타 노드. 예: Updates 글의 게시일. */
   meta?: ReactNode;
   /** 섹션 라벨과 제목 사이 여백을 키운다 — 제목·메타·커버를 한 세트로 보이게(예: Updates 글). */
@@ -129,7 +127,6 @@ export function DocsPageRenderer({
   markdownUrl,
   platformStatus,
   showPageActions = true,
-  llmOptions,
   meta,
   topSpacing,
   articleClassName,
@@ -181,7 +178,7 @@ export function DocsPageRenderer({
         {/* 상세 페이지 최상단: 현재 섹션명(좌) + LLMs.txt(우) 한 줄. fumadocs breadcrumb 대체. */}
         <div className="flex flex-row items-center justify-between gap-2 mb-2">
           <SectionLabel />
-          {showPageActions ? (llmOptions ?? <LLMOptions markdownUrl={markdownUrl} />) : null}
+          {showPageActions ? <LLMOptions markdownUrl={markdownUrl} /> : null}
         </div>
         {/* Match OverviewLayout: unified responsive title size (32/48/60) + Medium weight across
             all doc pages. className overrides fumadocs' default text-[1.75em] via tailwind-merge.

@@ -2,7 +2,7 @@
 
 ## 디렉토리 개요
 
-SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조 변경 시 `packages/docs-mcp/src/config.ts` 동기화 필수.
+SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조는 `public/__docs__/index.json`으로 게시되고, `@seed-design/cli`와 `@seed-design/docs-mcp`가 그 인덱스를 실행 시점에 읽는다. 두 소비자에게는 이 인덱스가 유일한 구조 정보이므로, 섹션을 늘리거나 줄일 때 `app/_llms/config.ts`의 등록을 함께 갱신한다.
 
 ## 파일 작성 컨벤션
 
@@ -71,6 +71,6 @@ compatibility:
   - 형식: `<AvailableSince packages="@seed-design/react@2.1.0, @seed-design/css@2.3.0" />` (콤마로 구분)
   - 패키지 매핑: react components → react + css / react stackflow → stackflow + css / lynx components → lynx-react + lynx-css / lynx hooks → lynx-react
   - 버전은 **그 항목이 처음 사용 가능해진 버전**이다. 새로 만드는 컴포넌트/훅이면 그게 곧 문서와 함께 나갈 다음 릴리스(현재 버전 + changeset bump)이고, 이미 릴리스된 항목의 문서를 뒤늦게 추가하는 경우에는 문서가 나갈 버전이 아니라 그 항목이 실제로 나갔던 버전을 적는다.
-- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 룰과 fixture를 함께 추가한다 ([app/\_llms/AGENTS.md](app/_llms/AGENTS.md) 참조). 룰이 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
+- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
 - "SEED"는 "SEED Design System"의 줄임말이다. 풀어 쓰거나 "SEED"로 줄여 쓰고, 중간 표기인 "SEED Design"은 산문에서 쓰지 않는다 (패키지명·저장소명은 예외).
 - `featured: true`(사이드바 강조 dot)는 동시에 3개 안팎으로 유지하고 오래된 것부터 뗀다. 개수가 늘면 강조가 의미를 잃는다.

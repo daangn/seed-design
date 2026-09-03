@@ -1,5 +1,5 @@
 ---
-description: llms.txt 변환 룰 개발 가이드
+description: llms.txt 섹션 레지스트리와 라우트 가이드
 alwaysApply: true
 ---
 
@@ -7,37 +7,33 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 문서의 `processed` MDX를 LLM 친화 텍스트로 정제하는 모듈이다. MDX AST 기반 룰 시스템으로 llms.txt 출력 품질을 제어한다. 입력인 `processed`는 상위 `app/source.tsx`의 remark 파이프라인이 만들고, 정제된 결과는 `llms-route.ts`가 서빙한다.
+`docs/app/_llms`는 llms.txt로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/llms/[...slug]/route.ts` 하나가 서빙한다.
 
 ## 파일 작성 컨벤션
 
-- 룰은 컴포넌트 하나당 한 파일씩 `rules/<컴포넌트명 kebab-case>-rule.ts`로 둔다.
-- 룰 단위 테스트는 구현 옆에 같은 이름의 `.test.ts`로 둔다.
-- 여러 룰이 공유하는 헬퍼는 `-rule` 접미사 없이 역할 이름으로 둔다(`markdown-utils.ts`, `estree-utils.ts`).
-- fixture는 `__fixtures__/<룰 이름>/<케이스>.input.mdx`와 `.output.mdx` 쌍으로 두고, 여러 룰이 함께 걸리는 케이스만 `__fixtures__/pipeline/`에 둔다.
-- 생성물이나 외부 패키지 데이터에 묶이는 입력은 fixture로 만들지 않는다(TECH.md 「테스트 작성」). 그 데이터가 바뀌면 룰이 멀쩡해도 fixture가 깨진다.
-- barrel file은 `rules/index.ts` 하나뿐이다. 나머지 모듈은 파일 경로로 직접 import한다.
+- `config.ts`가 섹션 레지스트리의 단일 진입점이다. 섹션의 콘텐츠 디렉토리·URL·라벨·설명을 한곳에 적는다.
+- `config.ts`는 번들러 전용 모듈을 import하지 않는다. `scripts/generate-docs-index.ts`가 Next 밖에서 읽어야 한다. fumadocs 소스와 짝짓는 일은 `sources.ts`가 맡는다.
+- barrel file을 두지 않는다. 모듈은 파일 경로로 직접 import한다.
 
 ## 코드 작성 컨벤션
 
-- 룰은 `Rule` 인터페이스를 구현해 `rules/`에 분리한다.
-- 룰은 `match`(대상 식별)와 `transform`(노드 변환)을 분리한다.
-- 변환 실패 시 예외를 전파하지 말고 원본 노드를 반환해 안전하게 실패한다.
-- 문자열 정규식 후처리보다 AST 변환을 우선한다.
-- 테스트 단언은 TECH.md 「테스트 작성」을 따른다. 이 폴더에서는 파이프라인 검증에 fixture를, 룰 단위 검증에 inline snapshot을 쓴다.
+- 섹션을 추가하면 `config.ts`의 `sectionConfigs`에 넣는다. `sources.ts`의 `Record<Section, ...>`가 소스를 안 붙인 섹션을 컴파일 에러로 잡는다.
+- 라벨·설명·URL을 손으로 적지 않는다. 전부 레지스트리에서 읽는다. 손으로 적은 링크가 IA 개편 때 통째로 썩었다.
+- 섹션 소스는 비동기 getter다(`getReactSource()`). 호출 결과가 아니라 getter를 넘긴다.
+- 페이지 프론트매터는 `page.data.frontmatter.*`로 읽는다. `title`·`description`만 `page.data`에 직접 있다.
 
 ## 필수 작업 절차
 
-1. 룰 추가/변경 시 `rules/`에 독립 모듈로 구현하고, 새 컴포넌트를 다루면 `rule-elements.ts`의 `RULE_ELEMENT_NAMES`에 이름을 추가한다.
-2. 룰 단위 검증은 inline snapshot으로 충분하다. 파이프라인 fixture(`__fixtures__/pipeline`)에 케이스를 추가한다.
-3. 룰 단위 테스트와 파이프라인 테스트를 모두 갱신한다.
-4. 아래 검증을 통과시킨다.
-   - `cd docs && bun test app/_llms`
+1. 섹션을 추가·변경하면 `config.ts`와 `sources.ts`를 함께 고친다.
+2. 새 MDX 컴포넌트를 문서에 도입하면 `lib/llms`에 핸들러를 만들고 `rule-elements.ts`의 `RULE_ELEMENT_NAMES`에 이름을 추가한다.
+3. 아래 검증을 통과시킨다.
+   - `bun test docs/app/_llms docs/lib/llms` (저장소 루트에서 — DOM preload가 `bunfig.toml`에 있다)
+   - `cd docs && bun run generate:all`
 
 ## 변경되지 않는 중요 규칙
 
-- 공개 인터페이스 `normalizeLLMBody(content?: string): string` 시그니처는 유지한다.
-- 룰 활성 순서는 `rules/index.ts`에서 단일 진입점으로 관리한다.
-- `RULE_ELEMENT_NAMES`에 없는 컴포넌트는 `processed`에서 태그가 접혀, 자식이 없으면 흔적조차 남지 않는다. 룰이 아무리 정확해도 변환할 노드가 오지 않는다.
-- fixture를 읽어 비교할 때는 `normalizeForAssert`(개행 정규화 + trim)를 양쪽에 적용한다. 기대값이 소스 안 문자열 리터럴이면 CRLF도 여백도 생길 수 없어 항등 연산이므로 쓰지 않는다.
-- llms.txt 변환 품질은 fixture를 소스 오브 트루스로 관리한다.
+- `RULE_ELEMENT_NAMES`에 없는 컴포넌트는 구조 필터가 태그를 접어, 핸들러에 노드가 아예 오지 않는다. 출력에서 조용히 사라질 뿐 오류는 나지 않으므로 `rule-elements.test.ts`가 이 목록과 핸들러 레지스트리를 맞물려 둔다.
+- 그 목록의 예외가 둘 있다. `CatalogGrid`는 핸들러 없이 태그째 남기고(`ELEMENTS_WITHOUT_RULE`), `TypeTable`은 반대로 목록에 넣지 않는다. 후자는 `lib/satteri/remark-type-table-llms.ts`가 표를 마크다운으로 직접 써 넣으므로 보존할 노드가 필요 없다.
+- llms 주소는 문서 URL 앞에 `/llms`, 뒤에 `.txt`를 붙인 것이다. 이 규칙이 전부이므로 주소를 따로 적어 두지 않는다.
+- 링크로 내보내는 주소는 페이지 URL이 아니라 `/llms/{...}.txt`다. 이 사이트는 정적 익스포트라 `Accept` 협상이 없어, 페이지 URL은 HTML로 응답한다.
+- placeholder 마커는 페이지를 읽는 시점에 `renderLLMPlaceholders`로 채운다. 채우지 않은 마커는 NUL로 감싼 JSON 덩어리째 독자에게 나간다.
