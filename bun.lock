@@ -438,7 +438,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -1502,7 +1502,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.6.1",
+        "@seed-design/css": "2.6.2",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
