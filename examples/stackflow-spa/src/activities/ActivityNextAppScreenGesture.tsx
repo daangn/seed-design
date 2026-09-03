@@ -204,6 +204,11 @@ const ActivityNextAppScreenGesture: StaticActivityComponentType<"ActivityNextApp
                 height="320px"
                 today={{ year: 2026, month: 8, day: 18 }}
                 defaultValue={{ year: 2026, month: 8, day: 18 }}
+                // monthRange 를 생략하면 yearRange 기본값인 100년 범위 위에서 windowing 이
+                // 돌면서 5개월치를 마운트한다. 이 케이스가 보는 것은 세로 연속 스크롤과
+                // 스와이프백이 대각선에서 함께 발동하는지 하나뿐이라, 3개월(912px)로도
+                // 320px 뷰포트에 스크롤이 남는다.
+                monthRange={{ start: { year: 2026, month: 7 }, end: { year: 2026, month: 9 } }}
               />
             </Box>
           </Case>
