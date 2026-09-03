@@ -12,6 +12,9 @@ data:
             type: dimension
           paddingX:
             type: dimension
+          titleMinGap:
+            type: dimension
+            description: main과 left/right 영역 간 최소 간격입니다.
           color:
             type: color
           gradient:
@@ -82,20 +85,21 @@ data:
               직접 확보해야 합니다. 스크린 배경 색상이 Top Navigation에 보이기를 원하는 경우 tone=layer를
               사용하세요.
   definitions:
+    base:
+      enabled:
+        root:
+          paddingX: $dimension.x1_5
     theme=ios:
       enabled:
         root:
           height: 44px
-          paddingX: $dimension.x4
-        # main:
-        #   paddingLeft: $dimension.x1
+          titleMinGap: $dimension.x2
     theme=android:
       enabled:
         root:
           height: 56px
-          paddingX: $dimension.x4
         main:
-          paddingLeft: 16px # should be $dimension.x1_5 after we add pressed styles to top navigation icon buttons and do the layout based on the button size rather than the icon size
+          paddingLeft: $dimension.x1_5
     tone=layer:
       enabled:
         root:

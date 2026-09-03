@@ -17,6 +17,10 @@ declare const artifact: {
             "paddingX": {
               "type": "dimension";
             };
+            "titleMinGap": {
+              "type": "dimension";
+              "description": "main과 left/right 영역 간 최소 간격입니다.";
+            };
             "color": {
               "type": "color";
             };
@@ -140,6 +144,24 @@ declare const artifact: {
     };
     "definitions": readonly [
       {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.x1_5";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
         "variants": {
           "theme": "ios";
         };
@@ -157,9 +179,9 @@ declare const artifact: {
                     "unit": "px";
                   };
                 };
-                "paddingX": {
+                "titleMinGap": {
                   "type": "dimension";
-                  "value": "$dimension.x4";
+                  "value": "$dimension.x2";
                 };
               };
             };
@@ -184,18 +206,11 @@ declare const artifact: {
                     "unit": "px";
                   };
                 };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
               };
               "main": {
                 "paddingLeft": {
                   "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
+                  "value": "$dimension.x1_5";
                 };
               };
             };

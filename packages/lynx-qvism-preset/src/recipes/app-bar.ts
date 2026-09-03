@@ -1,8 +1,17 @@
+import * as dimension from "../vars/dimension";
 import { defineSlotRecipe } from "../utils/define";
 import {
   topNavigation as vars,
   topNavigationIconButton as iconButtonVars,
 } from "../vars/component";
+
+// The spec moved Top Navigation to button-box-based spacing (`root.paddingX` and
+// `main.paddingLeft` are now `$dimension.x1_5`), but this recipe has no negative-margin
+// compensation on the icon buttons the way the web one does, so following the spec would shift
+// the icon gap from 26px to 16px. Pinned to the pre-change values until DES-2511 settles which
+// of the two platforms is right.
+const PINNED_ROOT_PADDING_X = dimension.x4;
+const PINNED_LEFT_PADDING_RIGHT = "16px";
 
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
@@ -58,6 +67,9 @@ export const appBarMain = defineSlotRecipe({
           right: 0,
           bottom: 0,
           left: 0,
+          // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
+          // is measured from the left/right areas and has no floor, so consuming it means
+          // `max(var(--centered-title-padding-x, 0), ${vars.base.enabled.root.titleMinGap})`.
           paddingLeft: "var(--centered-title-padding-x, 0)",
           paddingRight: "var(--centered-title-padding-x, 0)",
         },
@@ -167,8 +179,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeIos.enabled.root.paddingX,
-          paddingRight: vars.themeIos.enabled.root.paddingX,
+          paddingLeft: PINNED_ROOT_PADDING_X,
+          paddingRight: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
@@ -189,13 +201,13 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
-          paddingRight: vars.themeAndroid.enabled.root.paddingX,
+          paddingLeft: PINNED_ROOT_PADDING_X,
+          paddingRight: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
           height: vars.themeAndroid.enabled.root.height,
-          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+          paddingRight: PINNED_LEFT_PADDING_RIGHT,
         },
         right: {
           height: vars.themeAndroid.enabled.root.height,

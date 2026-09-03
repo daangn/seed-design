@@ -3,7 +3,11 @@ export const vars = {
     "enabled": {
       "root": {
         "height": "44px",
-        "paddingX": "var(--seed-dimension-x2_5)"
+        "paddingX": "var(--seed-dimension-x2_5)",
+        "cornerRadius": "var(--seed-radius-r2)",
+        "color": "var(--seed-color-bg-transparent)",
+        "colorDuration": "var(--seed-duration-color-transition)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -13,6 +17,11 @@ export const vars = {
         "minFontSizeScale": "1",
         "maxLineHeightScale": "1.2",
         "minLineHeightScale": "1"
+      }
+    },
+    "pressed": {
+      "root": {
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     }
   },
