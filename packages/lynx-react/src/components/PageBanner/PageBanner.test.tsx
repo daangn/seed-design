@@ -1,32 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import type { ReactElement } from "@lynx-js/react";
-
-import type { LynxViewProps } from "../../types";
-
-vi.mock("../ScaleFeedback", async () => {
-  const { cloneElement } = await import("@lynx-js/react");
-
-  return {
-    ScaleFeedback: ({
-      children,
-      onTouchStart,
-      onTouchEnd,
-      onTouchCancel,
-    }: {
-      children: ReactElement<LynxViewProps>;
-      onTouchStart?: () => void;
-      onTouchEnd?: () => void;
-      onTouchCancel?: () => void;
-    }) =>
-      cloneElement(children, {
-        bindtouchstart: onTouchStart,
-        bindtouchend: onTouchEnd,
-        bindtouchcancel: onTouchCancel,
-      }),
-  };
-});
 
 import * as PageBanner from "./PageBanner.namespace";
 
@@ -71,6 +45,9 @@ describe("PageBanner", () => {
     const root = getPageBannerRoot();
 
     expect(root).toHaveClass("seed-page-banner__root--tone_neutral-variant_weak");
+    const closeButton = root.querySelector(".seed-page-banner__closeButton");
+    expect(closeButton?.parentElement).toBe(root);
+    expect(closeButton).toHaveAttribute("flatten", "false");
     expect(root.querySelector(".seed-page-banner__content")?.tagName.toLowerCase()).toBe("view");
     expect(root.querySelector(".seed-page-banner__body")?.tagName.toLowerCase()).toBe("text");
     expect(root.querySelector(".seed-page-banner__title")).toHaveClass(

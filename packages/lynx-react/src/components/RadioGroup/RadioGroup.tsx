@@ -9,6 +9,7 @@ import type { RadiomarkVariantProps } from "@seed-design/lynx-css/recipes/radiom
 import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
+import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
 import {
   useScaleFeedback,
@@ -237,6 +238,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
     const { children, className, ...nativeProps } = restProps;
     const groupContext = useRadioGroupContext("RadioGroupItemControl");
     const itemContext = useRadioGroupItemContext("RadioGroupItemControl");
+    const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
     const radiomarkVariantProps: RadiomarkVariantProps = {
       ...groupContext.radiomarkVariantProps,
       ...variantProps,
@@ -254,7 +256,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, controlClassName, className)}
-          {...itemContext.scaleFeedbackTargetProps}
+          {...(!hasScaledContent ? itemContext.scaleFeedbackTargetProps : {})}
           {...nativeProps}
         >
           {children}

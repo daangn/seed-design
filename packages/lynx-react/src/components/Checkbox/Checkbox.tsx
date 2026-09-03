@@ -9,6 +9,7 @@ import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkm
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
+import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
 import {
   useScaleFeedback,
@@ -182,6 +183,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
   const context = useCheckboxContext("CheckboxControl");
+  const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const checkmarkVariantProps: CheckmarkVariantProps = {
     ...context.checkmarkVariantProps,
     ...variantProps,
@@ -219,7 +221,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        {...context.scaleFeedbackTargetProps}
+        {...(!hasScaledContent ? context.scaleFeedbackTargetProps : {})}
         {...nativeProps}
       >
         {isGhost ? <view className={pressStartClasses.background} /> : null}
