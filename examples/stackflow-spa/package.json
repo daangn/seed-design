@@ -17,7 +17,7 @@
     "@karrotmarket/react-multicolor-icon": "^1.17.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
-    "@seed-design/css": "2.6.1",
+    "@seed-design/css": "2.6.2",
     "@seed-design/react": "2.4.1",
     "@seed-design/react-pagination": "workspace:*",
     "@seed-design/rootage-artifacts": "workspace:*",
