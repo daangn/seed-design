@@ -32,6 +32,8 @@ export default definePreview({
   parameters: {
     kapture: {
       waitForFonts: true,
+      // Exclude story scaffolding without hiding it in snapshots.
+      diffIgnoreSelectors: ['[data-kapture="ignore"]'],
       diff: {
         maxChangedPixelPercentage: 0.1,
       },
