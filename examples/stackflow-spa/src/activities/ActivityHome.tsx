@@ -122,6 +122,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: LayoutTemplateIcon,
       items: [
         { title: "기본", ...to("ActivityNextAppScreen", {}) },
+        { title: "제스처 충돌", ...to("ActivityNextAppScreenGesture", {}) },
         { title: "투명", ...to("ActivityNextAppScreenTransparent", {}) },
         { title: "미리보기", ...to("ActivityNextAppScreenPreview", {}) },
         {

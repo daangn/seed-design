@@ -130,6 +130,7 @@ export const { Stack, actions, stepActions } = stackflow({
 
     ActivityAppScreen: lazy(() => import("../activities/ActivityAppScreen")),
     ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
+    ActivityNextAppScreenGesture: lazy(() => import("../activities/ActivityNextAppScreenGesture")),
     ActivityNextAppScreenPreview: lazy(() => import("../activities/ActivityNextAppScreenPreview")),
     ActivityNextAppScreenTransparent: lazy(
       () => import("../activities/ActivityNextAppScreenTransparent"),
