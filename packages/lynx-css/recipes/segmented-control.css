@@ -87,10 +87,16 @@
 .seed-segmented-control__label--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-segmented-control__item--disabled_false:active .seed-segmented-control__itemBackground {
+    opacity: 1
+}
 .seed-segmented-control__itemBackground--pressed_true {
     opacity: 1
 }
 .seed-segmented-control__indicator--hasSelection_false {
+    opacity: 0
+}
+.seed-segmented-control__itemBackground--disabled_true-pressed_true {
     opacity: 0
 }
 .seed-segmented-control__item--selected_true-disabled_true {

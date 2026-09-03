@@ -37,6 +37,10 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
+    "disabled": true,
+    "pressed": true
+  },
+  {
     "selected": true,
     "disabled": true
   }

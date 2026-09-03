@@ -185,7 +185,7 @@ export function App() {
 | Polymorphism | `asChild` 지원 | 미지원 |
 | Interaction feedback | focus ring, scale feedback | pressed 배경색, Button·CloseButton Scale Feedback |
 
-Lynx의 actionable Root와 CloseButton은 터치되는 동안 `pressed` Recipe 상태를 적용합니다. `PageBannerButton`과 CloseButton은 Scale Feedback도 적용하며, child의 기존 Main Thread 이벤트와 ref를 보존합니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
+Lynx의 actionable Root와 CloseButton은 Main Thread의 `:active` 상태에서 pressed 배경색을 즉시 적용합니다. `PageBannerButton`과 CloseButton은 Scale Feedback도 적용하며, child의 기존 Main Thread 이벤트와 ref를 보존합니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
 
 ## Unsupported Lynx Features
 

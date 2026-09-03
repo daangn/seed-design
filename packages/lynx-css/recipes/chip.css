@@ -221,18 +221,36 @@
 .seed-chip__root--variant_solid-pressed_true-selected_false {
     background: var(--seed-color-bg-neutral-weak-alpha-pressed)
 }
+.seed-chip__root--variant_solid-selected_false-disabled_false:active {
+    background: var(--seed-color-bg-neutral-weak-alpha-pressed)
+}
 .seed-chip__root--variant_outlineStrong-pressed_true-selected_false {
+    background: var(--seed-color-bg-transparent-pressed)
+}
+.seed-chip__root--variant_outlineStrong-selected_false-disabled_false:active {
     background: var(--seed-color-bg-transparent-pressed)
 }
 .seed-chip__root--variant_outlineWeak-pressed_true-selected_false {
     background: var(--seed-color-bg-transparent-pressed)
 }
+.seed-chip__root--variant_outlineWeak-selected_false-disabled_false:active {
+    background: var(--seed-color-bg-transparent-pressed)
+}
 .seed-chip__root--variant_solid-selected_true-pressed_true {
+    background: var(--seed-color-bg-neutral-inverted-pressed)
+}
+.seed-chip__root--variant_solid-selected_true-disabled_false:active {
     background: var(--seed-color-bg-neutral-inverted-pressed)
 }
 .seed-chip__root--variant_outlineStrong-selected_true-pressed_true {
     background: var(--seed-color-bg-neutral-inverted-pressed)
 }
+.seed-chip__root--variant_outlineStrong-selected_true-disabled_false:active {
+    background: var(--seed-color-bg-neutral-inverted-pressed)
+}
 .seed-chip__root--variant_outlineWeak-selected_true-pressed_true {
+    background: var(--seed-color-bg-neutral-weak-pressed)
+}
+.seed-chip__root--variant_outlineWeak-selected_true-disabled_false:active {
     background: var(--seed-color-bg-neutral-weak-pressed)
 }

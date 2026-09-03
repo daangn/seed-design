@@ -109,7 +109,13 @@ const segmentedControl = defineSlotRecipe({
           color: itemVars.base.disabled.label.color,
         },
       },
-      false: {},
+      false: {
+        item: {
+          "&:active .seed-segmented-control__itemBackground": {
+            opacity: 1,
+          },
+        },
+      },
     },
     pressed: {
       true: {
@@ -129,6 +135,15 @@ const segmentedControl = defineSlotRecipe({
     },
   },
   compoundVariants: [
+    {
+      disabled: true,
+      pressed: true,
+      css: {
+        itemBackground: {
+          opacity: 0,
+        },
+      },
+    },
     {
       selected: true,
       disabled: true,

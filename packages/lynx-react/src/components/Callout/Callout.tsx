@@ -47,7 +47,7 @@ function useCalloutContext(consumer: string) {
  * - 웹 focus ring은 지원하지 않습니다.
  */
 export interface CalloutRootProps
-  extends Omit<CalloutVariantProps, "pressed">,
+  extends Omit<CalloutVariantProps, "pressed" | "interactive">,
     LynxStyledElementProps,
     LynxPressableProps,
     LynxAccessibilityProps {
@@ -76,24 +76,19 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     defaultValue: defaultOpen,
   });
   const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const {
-    pressed,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    ...pressTapHandlers
-  } = usePressTap({
-    disabled: !isInteractive,
-    onTap: bindtap,
-    mainThreadOnTap: mainThreadBindtap,
-  });
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
+    usePressTap({
+      disabled: !isInteractive,
+      onTap: bindtap,
+      mainThreadOnTap: mainThreadBindtap,
+    });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: !isInteractive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const classNames = callout({ ...variantProps, pressed });
+  const classNames = callout({ ...variantProps, pressed, interactive: isInteractive });
   const dismiss = useMemoizedFn(() => {
     if (!open) return;
 
