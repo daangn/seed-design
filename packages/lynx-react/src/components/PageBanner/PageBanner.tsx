@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -298,6 +299,11 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
         onTap: handleTap,
         mainThreadOnTap: mainThreadBindtap,
       });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
     const classNames = pageBanner({
       ...parentVariantProps,
       closeButtonPressed: pressed,
@@ -316,24 +322,20 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
 
     return (
       <IconSlotProvider value={iconSlotContextValue}>
-        <ScaleFeedback
-          onTouchStart={bindtouchstart}
-          onTouchEnd={bindtouchend}
-          onTouchCancel={bindtouchcancel}
+        <view
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
+          {...nativeProps}
+          {...pressTapHandlers}
+          {...scaleFeedbackTriggerProps}
+          {...scaleFeedbackTargetProps}
+          accessibility-element={accessibilityElement}
+          accessibility-label={accessibilityLabel}
+          accessibility-traits={accessibilityTraits}
+          className={clsx(classNames.closeButton, className)}
+          style={style}
         >
-          <view
-            {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...nativeProps}
-            {...pressTapHandlers}
-            accessibility-element={accessibilityElement}
-            accessibility-label={accessibilityLabel}
-            accessibility-traits={accessibilityTraits}
-            className={clsx(classNames.closeButton, className)}
-            style={style}
-          >
-            {children}
-          </view>
-        </ScaleFeedback>
+          {children}
+        </view>
       </IconSlotProvider>
     );
   },

@@ -36,12 +36,20 @@
     min-width: 86px;
     min-height: 34px;
     height: 100%;
+    border-radius: var(--seed-radius-full)
+}
+.seed-segmented-control__itemContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     gap: var(--seed-dimension-x1_5);
     padding-left: var(--seed-dimension-x6);
     padding-right: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
-    border-radius: var(--seed-radius-full)
+    padding-bottom: var(--seed-dimension-x1_5)
 }
 .seed-segmented-control__itemBackground {
     position: absolute;

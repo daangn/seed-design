@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -173,11 +174,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       [bindtap, context.selectValue, itemValue, selected],
     );
     const pressSelectionRef = React.useRef(selected);
-    const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({
-      disabled,
-      onTap: handleTap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } =
+      usePressTap({
+        disabled,
+        onTap: handleTap,
+        mainThreadOnTap: mainThreadBindtap,
+      });
     const handleTouchStart = React.useCallback(
       (...args: Parameters<typeof bindtouchstart>) => {
         pressSelectionRef.current = selected;
@@ -185,6 +187,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       },
       [bindtouchstart, selected],
     );
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled,
+      onTouchStart: handleTouchStart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
     const classes = segmentedControl({ selected, disabled, pressed });
     const pressStartClasses = segmentedControl({
       selected: pressSelectionRef.current,
@@ -198,7 +206,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         {...nativeProps}
-        bindtouchstart={handleTouchStart}
+        {...scaleFeedbackTriggerProps}
         {...pressHandlers}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel ?? label}
@@ -211,6 +219,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
         style={style}
       >
         <view accessibility-elements-hidden={true} className={pressStartClasses.itemBackground} />
+        <view className={classes.itemContent} {...scaleFeedbackTargetProps}>
         {notification ? (
           <HStack position="relative" align="flex-start">
             <text className={classes.label}>{children}</text>
@@ -219,6 +228,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
         ) : (
           <text className={classes.label}>{children}</text>
         )}
+        </view>
       </view>
     );
   },

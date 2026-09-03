@@ -7,6 +7,8 @@ import {
   type SelectBoxCheckmarkVariantProps,
 } from "@seed-design/lynx-css/recipes/select-box-checkmark";
 import { selectBoxGroup } from "@seed-design/lynx-css/recipes/select-box-group";
+import type { ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
+import { ScaleFeedbackContentContext } from "../../contexts";
 
 import type {
   LynxAccessibilityProps,
@@ -46,6 +48,7 @@ interface SelectBoxRuntimeContextValue {
   footerVisibility: FooterVisibility;
   variantProps: PublicSelectBoxVariantProps;
   accessibilityRole: "checkbox" | "radio";
+  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const SelectBoxRuntimeContext = React.createContext<SelectBoxRuntimeContextValue | null>(null);
@@ -99,7 +102,11 @@ function SelectBoxSurface({
           accessibility-traits={context.disabled ? "disabled" : undefined}
           {...accessibilityProps}
         >
-          {children}
+          <view className={classes.scaleContent} {...context.scaleFeedbackTargetProps}>
+            <ScaleFeedbackContentContext.Provider value={true}>
+              {children}
+            </ScaleFeedbackContentContext.Provider>
+          </view>
           <view className={classes.selectedStroke} accessibility-elements-hidden={true} />
         </view>
       </IconSlotProvider>
@@ -172,11 +179,13 @@ function CheckSelectBoxSurface(props: CheckSelectBoxSurfaceProps) {
       footerVisibility: props.footerVisibility,
       variantProps: props.variantProps,
       accessibilityRole: "checkbox",
+      scaleFeedbackTargetProps: checkbox.scaleFeedbackTargetProps,
     }),
     [
       checkbox.checked,
       checkbox.disabled,
       checkbox.pressed,
+      checkbox.scaleFeedbackTargetProps,
       props.footerVisibility,
       props.variantProps,
     ],
@@ -263,8 +272,16 @@ function RadioSelectBoxSurface(props: RadioSelectBoxSurfaceProps) {
       footerVisibility: props.footerVisibility,
       variantProps: props.variantProps,
       accessibilityRole: "radio",
+      scaleFeedbackTargetProps: item.scaleFeedbackTargetProps,
     }),
-    [item.checked, item.disabled, item.pressed, props.footerVisibility, props.variantProps],
+    [
+      item.checked,
+      item.disabled,
+      item.pressed,
+      item.scaleFeedbackTargetProps,
+      props.footerVisibility,
+      props.variantProps,
+    ],
   );
 
   return (
