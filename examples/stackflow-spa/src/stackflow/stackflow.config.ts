@@ -90,6 +90,7 @@ export const config = defineConfig({
 
     { route: "/app-screen", name: "ActivityAppScreen" },
     { route: "/next-app-screen", name: "ActivityNextAppScreen" },
+    { route: "/next-app-screen-gesture", name: "ActivityNextAppScreenGesture" },
     { route: "/next-app-screen-preview", name: "ActivityNextAppScreenPreview" },
     { route: "/next-app-screen-transparent", name: "ActivityNextAppScreenTransparent" },
     { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
