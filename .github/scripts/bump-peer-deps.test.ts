@@ -75,15 +75,23 @@ describe("peer dependency 동기화", () => {
     expect(result.lockfile).toBe(fixture.lockfile);
   });
 
-  test("manifest와 lockfile의 현재 범위가 다르면 실패한다", () => {
+  test("manifest와 lockfile의 현재 범위가 달라도 둘 다 원하는 범위로 맞춘다", () => {
     const fixture = createFixture();
+    const staleLockfile = fixture.lockfile.replace(
+      '"@seed-design/css": "^2.4.0"',
+      '"@seed-design/css": "^2.3.0"',
+    );
+    const result = synchronizePeerDependencyText({
+      ...fixture,
+      lockfile: staleLockfile,
+    });
 
-    expect(() =>
-      synchronizePeerDependencyText({
-        ...fixture,
-        lockfile: fixture.lockfile.replace('"^2.4.0"', '"^2.3.0"'),
-      }),
-    ).toThrow("항목을 정확히 하나 찾지 못했습니다");
+    expect(result.reactManifest).toBe(
+      fixture.reactManifest.replace('"@seed-design/css": "^2.4.0"', '"@seed-design/css": "^2.5.0"'),
+    );
+    expect(result.lockfile).toBe(
+      fixture.lockfile.replace('"@seed-design/css": "^2.4.0"', '"@seed-design/css": "^2.5.0"'),
+    );
   });
 
   test("caret 안정 버전이 아닌 기존 peer 범위는 거부한다", () => {

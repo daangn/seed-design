@@ -91,7 +91,6 @@ function updateLockfilePeerRange(
   lockfile: string,
   workspacePath: string,
   dependencyName: string,
-  currentRange: string,
   desiredRange: string,
 ): string {
   const [workspaceStart, workspaceEnd] = findWorkspaceBlock(lockfile, workspacePath);
@@ -108,17 +107,27 @@ function updateLockfilePeerRange(
   }
 
   const peerDependencies = workspace.slice(peerDependenciesStart, peerDependenciesEnd);
-  const currentEntry = `        "${dependencyName}": "${currentRange}",`;
-  const desiredEntry = `        "${dependencyName}": "${desiredRange}",`;
-  const entryCount = peerDependencies.split(currentEntry).length - 1;
+  const entryPrefix = `        "${dependencyName}": "`;
+  const entryStart = peerDependencies.indexOf(entryPrefix);
+  const duplicateEntryStart =
+    entryStart === -1 ? -1 : peerDependencies.indexOf(entryPrefix, entryStart + entryPrefix.length);
 
-  if (entryCount !== 1) {
+  if (entryStart === -1 || duplicateEntryStart !== -1) {
     throw new Error(
-      `bun.lock의 ${workspacePath} peerDependencies에서 ${dependencyName}@${currentRange} 항목을 정확히 하나 찾지 못했습니다.`,
+      `bun.lock의 ${workspacePath} peerDependencies에서 ${dependencyName} 항목을 정확히 하나 찾지 못했습니다.`,
     );
   }
 
-  const updatedPeerDependencies = peerDependencies.replace(currentEntry, desiredEntry);
+  const valueStart = entryStart + entryPrefix.length;
+  const entryEnd = peerDependencies.indexOf('",', valueStart);
+  if (entryEnd === -1 || peerDependencies.slice(valueStart, entryEnd).includes("\n")) {
+    throw new Error(
+      `bun.lock의 ${workspacePath} peerDependencies에서 ${dependencyName} 항목 형식이 올바르지 않습니다.`,
+    );
+  }
+
+  const desiredEntry = `${entryPrefix}${desiredRange}",`;
+  const updatedPeerDependencies = `${peerDependencies.slice(0, entryStart)}${desiredEntry}${peerDependencies.slice(entryEnd + 2)}`;
   const updatedWorkspace = `${workspace.slice(0, peerDependenciesStart)}${updatedPeerDependencies}${workspace.slice(peerDependenciesEnd)}`;
 
   return `${lockfile.slice(0, workspaceStart)}${updatedWorkspace}${lockfile.slice(workspaceEnd)}`;
@@ -158,7 +167,6 @@ export function synchronizePeerDependencyText(input: {
     input.lockfile,
     REACT_MANIFEST_PATH.replace("/package.json", ""),
     CSS_PACKAGE,
-    previousRange,
     desiredRange,
   );
 
@@ -228,7 +236,6 @@ export function synchronizeLynxPeerDependencyText(input: {
     input.lockfile,
     LYNX_REACT_MANIFEST_PATH.replace("/package.json", ""),
     LYNX_CSS_PACKAGE,
-    previousRange,
     desiredRange,
   );
 
