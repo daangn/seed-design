@@ -67,6 +67,7 @@ export interface PlatformDifferences {
 interface PlatformCandidates {
   implementation: string[];
   publicApi: string[];
+  referencedPublicApi: string[];
   recipes: string[];
   registry: string[];
   docs: string[];
@@ -260,15 +261,20 @@ function candidatesFor(map: ComponentMapResult, platform: ComponentPlatform): Pl
   const indirectNamespaces = componentModules.filter(
     (path) => isNamespaceModule(path) && !isComponentNamespace(path, map.component),
   );
+  const packagePublicApi =
+    indirectNamespaces.length > 0
+      ? indirectNamespaces
+      : uniqueSorted([
+          ...implementation.filter((path) => isPublicImplementation(path, map.component)),
+          ...componentModules,
+        ]);
+  const registrySnippet = map.registry[platform].filter(
+    (path) => path === `docs/registry/${platform}/ui/${map.component.kebab}.tsx`,
+  );
   return {
     implementation,
-    publicApi:
-      indirectNamespaces.length > 0
-        ? indirectNamespaces
-        : uniqueSorted([
-            ...implementation.filter((path) => isPublicImplementation(path, map.component)),
-            ...componentModules,
-          ]),
+    referencedPublicApi: [],
+    publicApi: packagePublicApi.length > 0 ? packagePublicApi : registrySnippet,
     recipes: map.recipeSources[platform],
     registry: map.registry[platform],
     docs: map.docs[platform],
@@ -419,20 +425,47 @@ function topLevelKeys(body: string): string[] {
   return uniqueSorted(keys);
 }
 
-function extractProps(source: string): string[] {
-  const props = new Set<string>();
+function exportedPropsBodies(source: string): string[] {
   const declarations = [
     /export\s+interface\s+[A-Za-z_$][\w$]*Props\b[^{]*{/g,
-    /export\s+type\s+[A-Za-z_$][\w$]*Props\s*=\s*{/g,
+    /export\s+type\s+[A-Za-z_$][\w$]*Props\s*=\s*[^;{]*{/g,
   ];
-  for (const declaration of declarations) {
-    for (const match of source.matchAll(declaration)) {
+  return declarations.flatMap((declaration) =>
+    [...source.matchAll(declaration)].flatMap((match) => {
       const openingBrace = source.indexOf("{", match.index);
       const body = balancedBody(source, openingBrace);
-      if (body) for (const prop of topLevelKeys(body)) props.add(prop);
+      return body ? [body] : [];
+    }),
+  );
+}
+
+function extractProps(source: string): string[] {
+  return uniqueSorted(exportedPropsBodies(source).flatMap(topLevelKeys));
+}
+
+function referencedPropsTypeImports(source: string): string[] {
+  const referenced = new Set(
+    exportedPropsBodies(source).flatMap((body) =>
+      [...body.matchAll(/\b[A-Za-z_$][\w$]*Props\b/g)].flatMap((match) =>
+        match[0] ? [match[0]] : [],
+      ),
+    ),
+  );
+  const specifiers = new Set<string>();
+  for (const match of source.matchAll(
+    /\bimport\s+(?:type\s+)?\{([\s\S]*?)\}\s+from\s*["']([^"']+)["']/g,
+  )) {
+    const specifier = match[2];
+    if (!specifier?.startsWith(".")) continue;
+    for (const item of (match[1] ?? "").split(",")) {
+      const imported = item
+        .replace(/^\s*type\s+/, "")
+        .trim()
+        .match(/^([A-Za-z_$][\w$]*)/)?.[1];
+      if (imported && referenced.has(imported)) specifiers.add(specifier);
     }
   }
-  return uniqueSorted(props);
+  return uniqueSorted(specifiers);
 }
 
 function hasUnresolvedProps(source: string): boolean {
@@ -627,14 +660,54 @@ async function readSources(root: string, paths: readonly string[]): Promise<stri
   return (await readSourceEntries(root, paths)).map(({ source }) => source);
 }
 
+async function resolveLocalModule(
+  root: string,
+  sourcePath: string,
+  specifier: string,
+): Promise<string | undefined> {
+  const base = posix.normalize(posix.join(posix.dirname(sourcePath), specifier));
+  const candidates = [
+    base,
+    ...MODULE_EXTENSIONS.map((extension) => `${base}${extension}`),
+    ...MODULE_EXTENSIONS.map((extension) => `${base}/index${extension}`),
+  ];
+  for (const candidate of candidates) {
+    try {
+      await readSourceEntry(root, candidate);
+      return candidate;
+    } catch (error) {
+      if (!hasErrorCode(error, "ENOENT")) throw error;
+    }
+  }
+  return undefined;
+}
+
+async function expandReferencedPublicApi(
+  root: string,
+  candidates: PlatformCandidates,
+): Promise<PlatformCandidates> {
+  if (!candidates.publicApi.some((path) => path.startsWith("docs/registry/"))) return candidates;
+
+  const referenced = new Set<string>();
+  for (const path of candidates.publicApi) {
+    const { source } = await readSourceEntry(root, path);
+    for (const specifier of referencedPropsTypeImports(source)) {
+      const target = await resolveLocalModule(root, path, specifier);
+      if (target) referenced.add(target);
+    }
+  }
+  return { ...candidates, referencedPublicApi: uniqueSorted(referenced) };
+}
+
 async function collectFacts(
   root: string,
   candidates: PlatformCandidates,
   component: ComponentMapResult["component"],
 ): Promise<SourceFacts> {
   const publicSources = await readSources(root, candidates.publicApi);
+  const referencedPublicSources = await readSources(root, candidates.referencedPublicApi);
   const recipeSources = await readSources(root, candidates.recipes);
-  const props = uniqueSorted(publicSources.flatMap(extractProps));
+  const props = uniqueSorted([...publicSources, ...referencedPublicSources].flatMap(extractProps));
   const recipes = recipeSources.map(extractRecipe);
   const namespaceExports = candidates.publicApi.flatMap((path, index) =>
     namespaceExportsFor(path, publicSources[index] ?? "", component),
@@ -651,7 +724,9 @@ async function collectFacts(
   return {
     exports,
     props,
-    propsComplete: publicSources.every((source) => !hasUnresolvedProps(source)),
+    propsComplete: [...publicSources, ...referencedPublicSources].every(
+      (source) => !hasUnresolvedProps(source),
+    ),
     variants,
     slots: uniqueSorted(slots.map(canonicalSlotName)),
     state: props.filter((name) => STATE_NAMES.has(name)),
@@ -703,7 +778,7 @@ function propsSourceConfidence(
   lynx: SourceFacts,
   publicConfidence: ApiParityDimension["confidence"],
 ): ApiParityDimension["confidence"] {
-  return publicConfidence === "partial" && react.propsComplete && lynx.propsComplete
+  return publicConfidence === "partial" && react.props.length > 0 && lynx.props.length > 0
     ? "partial"
     : "unknown";
 }
@@ -748,6 +823,11 @@ function buildDimensions(
 ): Record<ApiParityDimensionName, ApiParityDimension> {
   const publicEvidence = sourceEvidence(sources, "publicApi");
   const recipeEvidence = sourceEvidence(sources, "recipes");
+  const propsEvidence = uniqueSorted([
+    ...publicEvidence,
+    ...sources.react.referencedPublicApi,
+    ...sources.lynx.referencedPublicApi,
+  ]);
   const publicConfidence = sourceConfidence(sources.react.publicApi, sources.lynx.publicApi);
   const recipeConfidence = sourceConfidence(sources.react.recipes, sources.lynx.recipes);
   const slotConfidence = slotSourceConfidence(sources, publicConfidence);
@@ -755,7 +835,7 @@ function buildDimensions(
   const exactConfidence = map.component.state === "matched" ? "confirmed" : "unknown";
   return {
     exports: sourceDimension(react, lynx, "exports", publicEvidence, publicConfidence),
-    props: sourceDimension(react, lynx, "props", publicEvidence, propsConfidence),
+    props: sourceDimension(react, lynx, "props", propsEvidence, propsConfidence),
     variants: sourceDimension(react, lynx, "variants", recipeEvidence, recipeConfidence),
     slots: sourceDimension(
       react,
@@ -764,9 +844,9 @@ function buildDimensions(
       [...publicEvidence, ...recipeEvidence],
       slotConfidence,
     ),
-    state: sourceDimension(react, lynx, "state", publicEvidence, propsConfidence),
-    event: sourceDimension(react, lynx, "event", publicEvidence, propsConfidence),
-    accessibility: sourceDimension(react, lynx, "accessibility", publicEvidence, propsConfidence),
+    state: sourceDimension(react, lynx, "state", propsEvidence, propsConfidence),
+    event: sourceDimension(react, lynx, "event", propsEvidence, propsConfidence),
+    accessibility: sourceDimension(react, lynx, "accessibility", propsEvidence, propsConfidence),
     registry: presenceDimension(
       sources.react.registry,
       sources.lynx.registry,
@@ -901,7 +981,13 @@ function warningsFor(
   const warnings = ["정적 구문으로 직접 선언된 공개 표면만 읽습니다."];
   if (!react.propsComplete || !lynx.propsComplete) {
     warnings.push(
-      "extends, Omit 또는 다른 타입을 참조하는 Props가 있어 props, state, event, accessibility 차원을 unknown으로 남겼습니다.",
+      propsSourceConfidence(
+        react,
+        lynx,
+        sourceConfidence(sources.react.publicApi, sources.lynx.publicApi),
+      ) === "partial"
+        ? "extends, Omit 또는 다른 타입에서 상속한 전체 prop은 해석하지 않았습니다. 직접 선언된 prop은 partial 근거로 비교했습니다."
+        : "extends, Omit 또는 다른 타입을 참조하는 Props가 있고 양쪽의 직접 선언 prop 근거가 부족해 관련 차원을 unknown으로 남겼습니다.",
     );
   }
   if (sourceConfidence(sources.react.publicApi, sources.lynx.publicApi) === "unknown") {
@@ -913,17 +999,25 @@ function warningsFor(
   return warnings;
 }
 
-/** 현재 체크아웃의 컴포넌트 맵을 근거로 React와 Lynx 공개 API를 비교합니다. */
-export async function compareSeedComponentApi(component: string): Promise<ApiParityResult> {
-  const [root, map] = await Promise.all([findRepositoryRoot(), mapSeedComponent(component)]);
-  const sources = {
+/** 이미 찾은 컴포넌트 맵과 저장소 루트로 공개 API를 비교합니다. */
+export async function compareMappedSeedComponentApi(
+  root: string,
+  map: ComponentMapResult,
+): Promise<ApiParityResult> {
+  const repositoryRoot = await realpath(root);
+  const initialSources = {
     react: candidatesFor(map, "react"),
     lynx: candidatesFor(map, "lynx"),
   };
+  const [reactSources, lynxSources] = await Promise.all([
+    expandReferencedPublicApi(repositoryRoot, initialSources.react),
+    expandReferencedPublicApi(repositoryRoot, initialSources.lynx),
+  ]);
+  const sources = { react: reactSources, lynx: lynxSources };
   const [react, lynx, lynxEvidence] = await Promise.all([
-    collectFacts(root, sources.react, map.component),
-    collectFacts(root, sources.lynx, map.component),
-    readSourceEntries(root, platformEvidencePaths(sources.lynx)),
+    collectFacts(repositoryRoot, sources.react, map.component),
+    collectFacts(repositoryRoot, sources.lynx, map.component),
+    readSourceEntries(repositoryRoot, platformEvidencePaths(sources.lynx)),
   ]);
   const dimensions = buildDimensions(map, sources, react, lynx);
   const expected = expectedPlatformDifferences(lynxEvidence);
@@ -936,6 +1030,12 @@ export async function compareSeedComponentApi(component: string): Promise<ApiPar
     warnings: warningsFor(sources, react, lynx),
     readOnly: true,
   };
+}
+
+/** 현재 체크아웃의 컴포넌트 맵을 근거로 React와 Lynx 공개 API를 비교합니다. */
+export async function compareSeedComponentApi(component: string): Promise<ApiParityResult> {
+  const [root, map] = await Promise.all([findRepositoryRoot(), mapSeedComponent(component)]);
+  return compareMappedSeedComponentApi(root, map);
 }
 
 async function runCli(args: string[]): Promise<void> {

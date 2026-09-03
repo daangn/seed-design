@@ -30,6 +30,20 @@ docs/examples/react/<component>/*.tsx
 4. API나 렌더링 방식이 다르면 Lynx 사용법으로 바꾸고 차이를 설명한다.
 5. 지원되지 않는 시나리오는 작동하는 것처럼 흉내 내지 않고 `Lynx 미지원 기능`에 이유와 대안을 적는다.
 
+파일을 만들기 전에 각 React 예제 ID마다 다음 행을 채운다.
+
+| 항목 | 반드시 기록할 값 |
+| --- | --- |
+| 문서 섹션·예제 ID | 양쪽 제목, 순서, 논리 ID |
+| asset | 정확한 컴포넌트 이름, 크기, 색상, multicolor 여부 |
+| frame | host와 내부 frame의 width·height·padding·정렬·외곽 여백 |
+| 초기 상태 | 문구, 상태, disabled, loading |
+| 입력 | React click·callback과 Lynx bindtap·공개 callback |
+| 상태 전이 | 입력 직후 중간 상태, 최종 상태, 걸리는 시간 |
+| 화면 셸 | AppScreen, AppBar, 본문, 하단 CTA의 대응 |
+
+각 행의 판정은 `동일 지원`, `Lynx식 변환`, `미지원` 중 하나여야 하며 소스 경로를 근거로 남긴다. 근거가 없는 `unknown`은 구현 전에 해소한다. `scaffold-plan`과 생성할 파일 목록은 파일 경계만 나타내므로 이 대응표를 대신할 수 없다.
+
 시나리오를 다음 셋으로 분류하면 누락과 무리한 이식을 줄일 수 있다.
 
 | 분류 | 처리 |
@@ -178,9 +192,13 @@ import "./preview.css";
 - 한 예제에는 한 가지 사용법이나 상태만 담는다.
 - 배포 방식을 그대로 따른다. Registry 배포면 `@/components/ui/<name>`, package-only면 `@seed-design/lynx-react` 공개 API를 사용한다.
 - 같은 컴포넌트의 기존 예제에서 이벤트 prop과 스레드 지시어 사용법을 먼저 찾는다.
+- 같은 기능을 지원하는 asset은 의미가 비슷한 다른 자산으로 바꾸지 않는다. 컴포넌트 종류, 크기, 색상, multicolor 여부를 React 기준과 맞춘다.
+- 문서 host가 제공하는 중앙 정렬과 padding도 사용자 결과다. 필요한 경우 `LynxComponentExample height`와 내부 frame 크기를 명시하고 좌우·상하 여백을 계산한다.
+- React가 Stackflow 같은 플랫폼 전용 화면 셸을 쓰면 AppBar, 본문, 하단 CTA의 역할을 같은 Lynx 화면 구조로 변환한다.
+- 상호작용 예제는 초기 상태뿐 아니라 입력 직후 중간 상태, 최종 상태, 전이 시간을 구현한다. handler의 존재만으로 완료 처리하지 않는다.
 - 컴포넌트 상태를 별도 텍스트로 보여줄 때 boolean, `null`, 숫자 값은 `JSON.stringify(value)`로 표시한다. 특히 `false`는 JSX 자식으로 직접 넣으면 화면에 보이지 않을 수 있다.
 - 웹 미리보기를 맞추기 위해 실제 앱에서 쓰지 않는 래퍼, 간격 보정, 스타일 예외를 추가하지 않는다.
-- 지원하지 않는 기능은 동작하는 것처럼 꾸미지 말고 문서에서 제한으로 설명한다.
+- 지원하지 않는 기능은 실행 예제를 만들지 않는다. 구현체 부재 근거와 앱 수준 대안을 대응 문서 섹션에 남긴다.
 
 ## 이벤트 핸들러 선택
 

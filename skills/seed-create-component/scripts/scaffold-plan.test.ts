@@ -63,4 +63,23 @@ describe("seed-create-component scaffold plan", () => {
       }),
     ).rejects.toThrow("컴포넌트 이름이 모호합니다");
   });
+
+  it("Lynx snippet 계획에 React 기준 시나리오와 누락 경고를 포함한다", async () => {
+    const result = await createScaffoldPlan({
+      component: "ResultSection",
+      platform: "lynx",
+      deliverySurface: "snippet-only",
+    });
+
+    expect(result.referenceScenarios).toEqual([
+      "large",
+      "medium",
+      "preview",
+      "success-with-lottie",
+    ]);
+    expect(result.warnings).toEqual([
+      "scaffold plan은 파일 경계만 제안합니다. 대응 플랫폼의 예제 시나리오를 별도로 분류하세요.",
+      "React 예제 4개보다 Lynx 계획 예제 1개가 적습니다. 누락이 아닌 동일 지원·Lynx식 변환·미지원으로 각각 분류하세요.",
+    ]);
+  });
 });

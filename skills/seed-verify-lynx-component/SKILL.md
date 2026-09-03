@@ -50,13 +50,16 @@ description: SEED Lynx 컴포넌트의 React↔Lynx 예제 대응, 생성물 연
 
 `seed-component-map`과 `seed-api-parity`의 결과를 실제 문서와 예제 파일에 대조한다. 제목이 같은지만으로 동등하다고 판정하지 않는다.
 
-| React 시나리오 | Lynx 시나리오 | 판정 | 확인할 내용 | 근거 |
+| 항목 | React | Lynx | 판정 | 근거 |
 | --- | --- | --- | --- | --- |
-| 섹션·예제 제목 | 섹션·예제 제목 | 동일 지원·변환·미지원 | 제목과 순서 | 문서 경로 |
-| 예제 파일 | 예제 파일 | 동일 지원·변환·미지원 | 논리 ID와 import 경로 | entry·manifest |
-| 항목 데이터 | 항목 데이터 | 동일·차이 | 개수, 순서, label, description, footer | 예제 소스 |
-| 상태 | 상태 | 동일·차이 | 초기값, 선택 항목, 상태 출력, disabled | 예제 소스·API |
-| 시각 표현 | 시각 표현 | 동일·변환·미지원 | suffix, icon, tone, layout, columns, 줄바꿈 | Recipe·실행 결과 |
+| 문서 섹션 | 제목과 순서 | 제목과 순서 | 동일·변환·미지원 | MDX 경로 |
+| 예제 ID | 모든 논리 ID | 대응 논리 ID | 동일·변환·미지원 | entry·manifest |
+| asset | 컴포넌트·크기·색상 | 컴포넌트·크기·색상 | 동일·변환·미지원 | import·JSX·runtime |
+| frame | host와 내부 frame의 width·height·padding·정렬 | host와 내부 frame의 width·height·padding·정렬 | 동일·변환 | rect |
+| 초기 상태 | 문구·상태·disabled·loading | 문구·상태·disabled·loading | 동일·변환 | 소스·runtime |
+| 입력 | click·callback | bindtap·공개 callback | Lynx식 변환 | handler·runtime |
+| 전이 | 중간·최종 상태와 시간 | 중간·최종 상태와 시간 | 동일·변환 | runtime |
+| 화면 셸 | AppScreen·AppBar·하단 CTA | AppBar·native layout·하단 CTA | 동일·변환·미지원 | JSX·runtime |
 
 판정은 다음 세 가지 중 하나로 남긴다.
 
@@ -100,6 +103,31 @@ MDX + doc-gen entry
 - animation, transition, 측정 갱신, 지연 마운트의 시간축 확인
 
 브라우저 미리보기만으로 실제 Lynx 결과를 주장하지 않는다. native bundle, 로컬 Lynx 런타임, 실제 기기는 각각 별도 증거 행으로 기록한다.
+
+### 5. 시각적 동등성 통과 조건
+
+같은 사용자 결과를 목표로 하는 React와 Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제마다 React·Lynx host와 내부 frame의 width·height, 상하·좌우 여백, viewport 차이의 이유를 기록한다. 정렬은 인상으로 판정하지 않고 다음 rect 조건으로 판정한다.
+
+```text
+left margin == right margin
+abs(top margin - bottom margin) <= 1px
+frame width == expected width
+frame height == expected height
+```
+
+전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 시각 판정에는 각 예제의 개별 캡처가 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. 소스에 handler가 있다는 사실만으로 통과시키지 않는다.
+
+asset은 import한 컴포넌트 이름, runtime image 수, image width·height, multicolor의 tint 미적용 여부, monochrome의 `color`와 `tint-color`를 함께 확인한다. Web raster tint와 native tint는 별도 증거 행으로 기록한다.
+
+다음 중 하나라도 빠지면 `시각적 동등성 통과`로 판정하지 않는다.
+
+- React 기준 예제를 직접 읽지 않았다.
+- asset 종류와 크기를 확인하지 않았다.
+- host와 frame rect를 확인하지 않았다.
+- 초기 상태를 확인하지 않았다.
+- 상호작용 예제의 중간·최종 상태를 실행하지 않았다.
+- Web 미리보기 결과를 native 결과와 합쳤다.
+- 전체 페이지 축소 캡처만 있다.
 
 ## 판정과 보고
 

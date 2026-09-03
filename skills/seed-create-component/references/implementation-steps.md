@@ -166,5 +166,16 @@ React story를 작성하거나 기존 story를 리팩터링하기 전에 [storyb
 ### Lynx 문서
 **위치**: `docs/content/lynx/components/[name].mdx`
 
+Lynx 문서와 예제를 만들기 전에 `scaffold-plan.referenceScenarios`의 React 예제를 모두 읽는다. `items`의 `preview.tsx`는 파일 경계 예시일 뿐 전체 예제 계획이 아니다. 각 시나리오를 `동일 지원`, `Lynx식 변환`, `미지원`으로 분류하고 다음 값을 대응표에 기록한다.
+
+- 문서 섹션과 예제 논리 ID
+- asset의 정확한 컴포넌트 종류·크기·색상
+- host와 내부 frame의 width·height·padding·정렬
+- 초기 문구·상태·disabled·loading
+- click·tap 입력과 중간·최종 상태 전이
+- AppBar·본문·하단 CTA 같은 화면 셸
+
+근거가 없는 `unknown`은 구현 전에 해결한다. 미지원 기능은 실행 예제를 만들지 않고 구현체 부재 근거와 앱 수준 대안을 문서에 남긴다. 상세 형식은 `../../seed-write-lynx-component-docs/SKILL.md`를 따른다.
+
 ### Design 문서
 **위치**: `docs/content/docs/components/[name].mdx`

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "bun:test";
-import { compareSeedComponentApi } from "./api-parity";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import type { ComponentMapResult } from "../../seed-component-map/scripts/component-map";
+import { compareMappedSeedComponentApi, compareSeedComponentApi } from "./api-parity";
 
 describe("seed-api-parity", () => {
   it("양쪽 플랫폼이 있는 컴포넌트의 공개 표면과 차이를 반환한다", async () => {
@@ -119,5 +123,109 @@ describe("seed-api-parity", () => {
     expect(result.platformDifferences.needsReview.map(({ dimension }) => dimension)).toContain(
       "exports",
     );
+  });
+
+  it("양쪽 Registry snippet만 있는 컴포넌트의 직접 prop과 event를 비교한다", async () => {
+    const root = await mkdtemp(join(tmpdir(), "seed-api-parity-"));
+    const reactPath = "docs/registry/react/ui/registry-only.tsx";
+    const lynxPath = "docs/registry/lynx/ui/registry-only.tsx";
+    const reactActionPath = "docs/registry/react/ui/action-button.tsx";
+    const lynxActionPath = "docs/registry/lynx/ui/action-button.tsx";
+    const map: ComponentMapResult = {
+      component: {
+        input: "RegistryOnly",
+        kebab: "registry-only",
+        pascal: "RegistryOnly",
+        state: "matched",
+      },
+      platforms: ["react", "lynx"],
+      rootage: [],
+      recipeSources: { react: [], lynx: [] },
+      generatedOutputs: { shared: [], react: [], lynx: [] },
+      headless: { react: [], lynx: [] },
+      implementations: { react: [], lynx: [] },
+      packageExports: { react: [], lynx: [] },
+      registry: { react: [reactPath], lynx: [lynxPath] },
+      docs: { shared: [], react: [], lynx: [] },
+      examples: { react: [], lynx: [] },
+      tests: { react: [], lynx: [] },
+      ambiguities: [],
+    };
+
+    try {
+      await Promise.all([
+        mkdir(join(root, "docs/registry/react/ui"), { recursive: true }),
+        mkdir(join(root, "docs/registry/lynx/ui"), { recursive: true }),
+      ]);
+      await Promise.all([
+        writeFile(
+          join(root, reactPath),
+          `
+import { type ReactActionProps } from "./action-button";
+export type RegistryOnlyProps = Omit<BaseProps, "title"> & {
+  title: string;
+  description?: string;
+  asset?: unknown;
+  primaryActionProps?: ReactActionProps;
+  reactOnly?: boolean;
+};
+export function RegistryOnly(_props: RegistryOnlyProps) {}
+`,
+        ),
+        writeFile(
+          join(root, reactActionPath),
+          `
+export interface ReactActionProps {
+  onClick?: () => void;
+}
+`,
+        ),
+        writeFile(
+          join(root, lynxPath),
+          `
+import type { LynxActionProps } from "./action-button";
+export interface RegistryOnlyProps extends BaseProps {
+  title: string;
+  description?: string;
+  asset?: unknown;
+  primaryActionProps?: LynxActionProps;
+  lynxOnly?: boolean;
+}
+export function RegistryOnly(_props: RegistryOnlyProps) {}
+`,
+        ),
+        writeFile(
+          join(root, lynxActionPath),
+          `
+export interface LynxActionProps {
+  bindtap?: () => void;
+  "main-thread:bindtap"?: () => void;
+}
+`,
+        ),
+      ]);
+
+      const result = await compareMappedSeedComponentApi(root, map);
+
+      expect(result.sources.react.publicApi).toEqual([reactPath]);
+      expect(result.sources.lynx.publicApi).toEqual([lynxPath]);
+      expect(result.sources.react.referencedPublicApi).toEqual([reactActionPath]);
+      expect(result.sources.lynx.referencedPublicApi).toEqual([lynxActionPath]);
+      expect(result.dimensions.props).toMatchObject({
+        confidence: "partial",
+        common: ["asset", "description", "primaryActionProps", "title"],
+        reactOnly: ["onClick", "reactOnly"],
+        lynxOnly: ["bindtap", "lynxOnly", "main-thread:bindtap"],
+        evidence: [lynxActionPath, lynxPath, reactActionPath, reactPath],
+      });
+      expect(result.dimensions.event).toMatchObject({
+        confidence: "partial",
+        react: ["onClick"],
+        lynx: ["bindtap", "main-thread:bindtap"],
+      });
+      expect(result.warnings.join("\n")).toContain("직접 선언된 prop은 partial 근거");
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
   });
 });

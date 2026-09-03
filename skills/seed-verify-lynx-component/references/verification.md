@@ -26,6 +26,18 @@
 
 ## 2. 정적 문서와 bundle 서빙
 
+### watcher와 정적 빌드 분리
+
+docs 개발 서버의 Lynx watcher와 `bun docs:build`를 동시에 실행하지 않는다. 정적 빌드 전에 실행 중인 watcher를 확인한다. 검증자가 직접 시작한 watcher는 종료하고, 기존 사용자 프로세스는 임의로 종료하지 않은 채 정적 빌드를 `환경 차단`으로 남긴다.
+
+watcher와 production build가 겹쳤거나 manifest 생성에서 시나리오별 bundle이 정확히 하나여야 한다는 오류가 나면 중복 해시 bundle을 먼저 확인한다. watcher가 종료된 뒤 다음 ignored 산출물만 정리하고 정적 빌드를 다시 실행한다.
+
+```bash
+rm -rf docs/.next/lynx-rspeedy-dist docs/.next/cache/lynx-rspeedy
+```
+
+소스나 tracked 생성물은 정리 명령에 포함하지 않는다. 정적 문서가 이미 생성된 뒤 예제 bundle만 바뀌었다면 `bun --filter @seed-design/docs build:lynx-examples`로 production manifest와 bundle을 갱신할 수 있다. MDX 구조나 예제 host 높이가 바뀌었다면 `bun docs:build`를 다시 실행한다.
+
 문서 전체를 확인할 때는 `next dev`보다 정적 빌드와 `npx serve`를 사용한다.
 
 ```bash
@@ -77,6 +89,16 @@ BUNDLE_URL="http://127.0.0.1:4174${BUNDLE_PATH}"
 5. 텍스트, class, `getBoundingClientRect()`, computed style, clipping, overflow를 기록한다.
 6. Registry 예제는 `@/components/ui/<name>`, package-only 예제는 `@seed-design/lynx-react` 공개 export를 사용하는지 확인한다.
 7. QR 원문은 직접 접근 가능한 `.lynx.bundle` HTTP(S) URL인지, Explorer 버튼만 `lynx://open?url=`을 사용하는지 확인한다.
+
+각 예제는 개별 캡처와 측정값으로 판정한다. 전체 페이지 캡처는 섹션 탐색용일 뿐 시각적 동등성의 증거가 아니다.
+
+1. React 기준 예제와 Lynx 예제를 같은 viewport 조건으로 연다.
+2. 양쪽 host와 내부 frame의 width·height를 기록한다.
+3. frame의 상하·좌우 여백을 계산하고, 좌우가 같으며 상하 차이가 1px 이하인지 확인한다.
+4. import한 asset 이름, runtime image 수, image width·height, multicolor 여부를 확인한다.
+5. 초기 문구와 disabled·loading 등 control 상태를 기록한다.
+6. 상호작용 예제는 실제 click·tap을 실행하고 입력 직후와 최종 상태를 각각 캡처하거나 DOM·layout으로 남긴다.
+7. Web raster tint와 native tint는 별도 행으로 판정한다.
 
 BottomSheet처럼 viewport 전체를 기준으로 배치되는 오버레이는 `LynxComponentExample`에 충분한 고정 `height`가 있는지 확인한다. Backdrop·Positioner가 preview 전체를 채우고 Content가 카드 밖으로 넘치지 않는지, 작은 폭에서 잘림이나 가로 스크롤이 없는지 확인한다. preview를 맞추려고 배포 컴포넌트의 스타일을 바꾸지 않는다.
 
@@ -152,12 +174,39 @@ CDP 명령을 보내기 전에는 `lynx-devtool`의 지원 CDP method 문서를 
 - layout 측정 뒤 height·width 갱신
 - viewport 진입 뒤 지연 마운트
 - pressed 상태와 selected·checked 상태가 한 제스처에서 함께 바뀜
+- 입력 뒤 loading 같은 중간 상태를 거쳐 최종 상태로 돌아가는 상호작용
 
-이 경우 초기 렌더링, 상태 반영 중간, 최종 안정 상태, 첫 전환과 release 종료를 확인한다. 영상이나 연속 프레임은 `analyze-video-frames` 기준으로 분석하고 프레임 번호와 경과 시간을 기록한다.
+이 경우 `initial → immediately after input → settled/final`을 실제 입력으로 실행한다. 각 시점의 화면 문구, asset, disabled·loading 상태와 경과 시간을 기록한다. 영상이나 연속 프레임은 `analyze-video-frames` 기준으로 분석하고 프레임 번호와 경과 시간을 기록한다. handler 존재나 정적 소스만으로 상태 전이를 통과시키지 않는다.
 
-처음부터 열린·선택된 상태나 `useIconColor`·`tint-color`만 있는 정적 시나리오는 중간 프레임을 임의로 요구하지 않는다. 초기 프레임과 안정 상태를 확인하고, 실제 transition·animation이 연결된 경우에만 전체 시간축을 적용한다.
+처음부터 열린·선택된 상태나 `useIconColor`·`tint-color`만 있는 정적 시나리오는 중간 프레임을 임의로 요구하지 않는다. 초기 프레임과 안정 상태를 확인하고, 실제 transition·animation 또는 비동기 상태 전이가 연결된 경우에만 전체 시간축을 적용한다.
 
-## 7. 상태와 완료 판정
+## 7. Result Section 회귀 체크리스트
+
+이 스킬이나 Lynx 문서 워크플로를 바꾼 뒤에는 현재 체크아웃에 해당 예제가 있을 때 다음 기준으로 회귀 확인한다.
+
+### Preview·Large·Medium
+
+- Preview asset은 `IconDiamond`이고 `ProgressCircle`이 아니다.
+- Preview 아이콘은 `40 × 40px`이다.
+- 내부 frame은 `320 × 480px`, host 높이는 `544px`, 상하 여백은 각각 `32px`이며 좌우 여백이 같다.
+- Large·Medium도 같은 frame·정렬 규칙을 사용한다.
+- size, title, description, action label이 React 예제와 같다.
+
+### CTA와 Progress Circle
+
+- frame은 `360 × 640px`, host 높이는 `704px`이다.
+- `AppBar.Title`은 `환불 요청`이다.
+- 초기 상태는 `다시 시도해주세요`와 `환불 요청에 실패했어요`를 표시하며 CTA가 활성화되어 있다.
+- CTA를 탭하면 `환불을 요청하고 있어요`와 `잠시만 기다려주세요`, Progress Circle, disabled·loading CTA가 표시된다.
+- 3초 뒤 초기 실패 상태로 돌아간다.
+
+### Lottie
+
+- Lynx Lottie 구현체가 없으면 실행 예제를 만들지 않는다.
+- 구현체 부재와 앱 수준 `asset` 전달 대안을 문서에 설명한다.
+- 단순 누락 경고가 아니라 근거가 있는 `미지원`으로 분류한다.
+
+## 8. 상태와 완료 판정
 
 각 시나리오와 환경에 다음 상태 중 하나만 부여한다.
 
@@ -177,7 +226,7 @@ CDP 명령을 보내기 전에는 `lynx-devtool`의 지원 CDP method 문서를 
 - 필수 항목에 `환경 차단` 또는 `미확인`이 있으면 전체 `미완료`
 - 선택 환경의 `환경 차단` 또는 `미확인`은 전체를 막지 않지만 보고서에 남긴다.
 
-## 8. 정리와 보고
+## 9. 정리와 보고
 
 검증이 끝나면 직접 시작한 `npx serve`, 브라우저 세션, DevTool 세션, 임시 증거 파일을 정리한다. `git status --short`로 새 tracked 파일이나 예상하지 않은 변경이 없는지 확인한다.
 

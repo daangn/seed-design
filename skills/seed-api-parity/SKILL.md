@@ -17,8 +17,8 @@ bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 
 결과 JSON은 다음 순서로 읽는다.
 
-1. `sources`에서 분석한 구현, 공개 API, Recipe, Registry, 문서 경로가 맞는지 확인한다.
-2. `dimensions`에서 양쪽 관찰값, 공통 값, `reactOnly`, `lynxOnly`, 근거 경로를 확인한다.
+1. `sources`에서 분석한 구현, 공개 API, Recipe, Registry, 문서 경로가 맞는지 확인한다. package 공개 API가 없는 Registry-only 컴포넌트는 `docs/registry/{platform}/ui/<name>.tsx`가 `sources.<platform>.publicApi`에 있어야 한다. 공개 Props가 참조하는 로컬 Registry 타입 파일은 `referencedPublicApi`와 해당 차원의 `evidence`에 남는다.
+2. `dimensions`에서 양쪽 관찰값, 공통 값, `reactOnly`, `lynxOnly`, 근거 경로를 확인한다. Registry snippet의 exported `*Props`, 직접 선언 prop, 포함된 공개 action props와 `onClick`·`bindtap`·`main-thread:*` 이벤트도 이 비교에 포함된다.
 3. `platformDifferences.expected`에서 현재 Lynx 구현이나 문서에 명시된 플랫폼 제약을 확인한다.
 4. `platformDifferences.needsReview`에서 한쪽에만 관찰된 값을 직접 검토한다. `possiblyExplainedBy`는 관련 있을 수 있는 `expected` ID와 그 규칙에 이름이 일치한 양쪽 값을 함께 반환한다.
 
@@ -27,8 +27,8 @@ bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 `confidence`는 다음처럼 읽는다.
 
 - `confirmed`: 현재 컴포넌트 맵에서 존재 여부를 직접 확인했다.
-- `partial`: 양쪽 소스에서 직접 선언된 값을 읽어 비교했다.
-- `unknown`: 한쪽 근거가 없거나, 컴포넌트를 정확히 찾지 못했거나, 상속 타입 때문에 전체 표면을 확인하지 못했다. 이때 `reactOnly`와 `lynxOnly`는 차이를 단정하지 않고 비워 둔다.
+- `partial`: 양쪽 공개 API 원천에서 직접 선언된 값을 읽어 비교했다. `extends`, `Omit` 또는 다른 공개 타입을 참조해 전체 상속 표면을 풀지 못해도 직접 선언 prop과 event는 이 근거로 유지한다.
+- `unknown`: 한쪽 공개 API 원천이 없거나, 컴포넌트를 정확히 찾지 못했거나, 양쪽의 직접 선언 prop 근거도 부족하다. 이때 `reactOnly`와 `lynxOnly`는 차이를 단정하지 않고 비워 둔다.
 
 ## 플랫폼 차이 판정
 
@@ -46,8 +46,9 @@ bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 
 1. 먼저 [`seed-component-map`](../seed-component-map/SKILL.md)으로 정확한 컴포넌트 이름과 현재 표면을 확인한다.
 2. React와 Lynx를 함께 다루면 이 스크립트를 실행한다.
-3. `expected`는 현재 컴포넌트의 Lynx 소스나 문서에서 제약을 명시적으로 확인했을 때만 사용한다. `possiblyExplainedBy`는 판정이 아니라 검토 단서다. 근거 경로와 대체 동작을 직접 읽는다.
-4. `unknown`과 `needsReview`를 누락으로 단정하지 않는다. 상속 타입과 대체 동작을 확인한 뒤 판정한다.
-5. 확인한 차이를 [`seed-create-component`](../seed-create-component/SKILL.md)의 플랫폼 및 배포 표면 결정에 입력한다.
+3. package 구현이 없는 Registry-only 컴포넌트는 양쪽 snippet 경로가 `sources.publicApi`와 해당 차원의 `evidence`에 포함됐는지 확인한다.
+4. `expected`는 현재 컴포넌트의 Lynx 소스나 문서에서 제약을 명시적으로 확인했을 때만 사용한다. `possiblyExplainedBy`는 판정이 아니라 검토 단서다. 근거 경로와 대체 동작을 직접 읽는다.
+5. `unknown`과 `needsReview`를 누락으로 단정하지 않는다. 상속 타입과 대체 동작을 확인한 뒤 판정한다.
+6. 확인한 차이를 [`seed-create-component`](../seed-create-component/SKILL.md)의 플랫폼 및 배포 표면 결정에 입력한다.
 
-스크립트는 TypeScript 컴파일러를 사용하지 않는다. `extends`, `Omit`, 외부 타입에서 상속한 prop을 발견하면 관련 prop 차원을 `unknown`으로 낮추고 직접 확인한 값만 양쪽 관찰값에 남긴다.
+스크립트는 TypeScript 컴파일러를 사용하지 않는다. `extends`, `Omit`, 외부 타입에서 상속한 prop 전체를 풀지 않는다. 대신 양쪽 공개 API에 직접 선언된 prop이 있으면 props, state, event, accessibility 차원을 `partial`로 비교하고 상속 표면이 미해석 상태임을 `warnings`에 남긴다.

@@ -54,7 +54,9 @@ bun skills/seed-create-component/scripts/scaffold-plan.ts <component> \
   --surface <package-only|snippet-only|package+snippet|docs-only>
 ```
 
-스크립트는 아키텍처나 Registry 필요성을 대신 결정하지 않는다. `source`, `reference`, `generated`, `conflicts`를 검토하고 이번 작업에 필요한 원천 파일만 계획에 남긴다.
+스크립트는 아키텍처나 Registry 필요성을 대신 결정하지 않는다. `items`는 파일 경계만 제안하며 시나리오 완전성을 보장하지 않는다. `source`, `reference`, `generated`, `conflicts`, `referenceScenarios`, `warnings`를 검토하고 이번 작업에 필요한 원천 파일만 계획에 남긴다.
+
+다른 플랫폼의 문서 예제가 있으면 `referenceScenarios`의 모든 ID를 `동일 지원`, `Lynx식 변환`, `미지원`으로 분류한 대응표를 파일 생성 전에 작성한다. `preview.tsx` 하나가 계획에 있다는 이유로 다른 예제를 범위 밖으로 두지 않는다. Lynx 문서·예제를 포함하면 [Lynx 문서 작성 스킬](../seed-write-lynx-component-docs/SKILL.md)의 asset, frame, 초기 상태, 입력, 전이, 화면 셸 대응표를 완료 조건으로 삼는다.
 
 7. [구현 순서](references/implementation-steps.md)에 따라 Headless, Rootage, Recipe, Styled UI, Registry, 문서, 예제 중 필요한 레이어만 구현한다.
 8. [검증 체크리스트](references/verification-checklist.md)를 실행한다. 공개 패키지가 바뀌면 `seed-changeset`을 사용한다. commit·PR을 준비할 때는 `seed-change-plan`으로 base를 정하고, 제출을 요청받은 경우에만 `seed-submit-change`로 이어간다.

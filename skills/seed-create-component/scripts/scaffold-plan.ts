@@ -35,6 +35,8 @@ export interface ScaffoldPlanResult {
   currentSurface: ComponentMapResult;
   items: ScaffoldPlanItem[];
   conflicts: ScaffoldConflict[];
+  referenceScenarios: string[];
+  warnings: string[];
   boundaries: {
     rule: string;
   };
@@ -184,6 +186,70 @@ function plannedItems(input: ScaffoldPlanInput, map: ComponentMapResult): Scaffo
   return [...byPath.values()].sort((left, right) => left.path.localeCompare(right.path));
 }
 
+function documentationScenarioIds(
+  paths: readonly string[],
+  platform: ComponentPlatform,
+  kebab: string,
+): string[] {
+  const prefix = `docs/examples/${platform}/${kebab}/`;
+  return [
+    ...new Set(
+      paths.flatMap((path) => {
+        if (!path.startsWith(prefix) || !path.endsWith(".tsx")) return [];
+        return [path.slice(prefix.length, -".tsx".length)];
+      }),
+    ),
+  ].sort((left, right) => left.localeCompare(right));
+}
+
+function referenceScenarios(input: ScaffoldPlanInput, map: ComponentMapResult): string[] {
+  const platforms: ComponentPlatform[] =
+    input.platform === "react"
+      ? ["lynx"]
+      : input.platform === "lynx"
+        ? ["react"]
+        : ["react", "lynx"];
+  return [
+    ...new Set(
+      platforms.flatMap((platform) =>
+        documentationScenarioIds(map.examples[platform], platform, map.component.kebab),
+      ),
+    ),
+  ].sort((left, right) => left.localeCompare(right));
+}
+
+function warningsFor(
+  input: ScaffoldPlanInput,
+  map: ComponentMapResult,
+  items: readonly ScaffoldPlanItem[],
+): string[] {
+  const warnings = [
+    "scaffold plan은 파일 경계만 제안합니다. 대응 플랫폼의 예제 시나리오를 별도로 분류하세요.",
+  ];
+  if (
+    input.deliverySurface !== "snippet-only" ||
+    !selectedPlatforms(input.platform).includes("lynx")
+  ) {
+    return warnings;
+  }
+
+  const reactScenarios = documentationScenarioIds(map.examples.react, "react", map.component.kebab);
+  const lynxScenarios = documentationScenarioIds(
+    [
+      ...map.examples.lynx,
+      ...items.flatMap((target) => (target.action === "create" ? [target.path] : [])),
+    ],
+    "lynx",
+    map.component.kebab,
+  );
+  if (reactScenarios.length > lynxScenarios.length) {
+    warnings.push(
+      `React 예제 ${reactScenarios.length}개보다 Lynx 계획 예제 ${lynxScenarios.length}개가 적습니다. 누락이 아닌 동일 지원·Lynx식 변환·미지원으로 각각 분류하세요.`,
+    );
+  }
+  return warnings;
+}
+
 function assertUnambiguous(map: ComponentMapResult): void {
   if (map.component.state !== "ambiguous") return;
   const candidates = map.ambiguities.map(({ candidate }) => candidate).join(", ");
@@ -233,9 +299,8 @@ async function pathExists(root: string, path: string): Promise<boolean> {
 export async function createScaffoldPlan(input: ScaffoldPlanInput): Promise<ScaffoldPlanResult> {
   const [root, map] = await Promise.all([findRepositoryRoot(), mapSeedComponent(input.component)]);
   assertUnambiguous(map);
-  const resolved = await Promise.all(
-    plannedItems(input, map).map((target) => resolveTarget(root, target)),
-  );
+  const items = plannedItems(input, map);
+  const resolved = await Promise.all(items.map((target) => resolveTarget(root, target)));
 
   return {
     input,
@@ -243,6 +308,8 @@ export async function createScaffoldPlan(input: ScaffoldPlanInput): Promise<Scaf
     currentSurface: map,
     items: resolved.map(({ item }) => item),
     conflicts: resolved.flatMap(({ conflict }) => (conflict ? [conflict] : [])),
+    referenceScenarios: referenceScenarios(input, map),
+    warnings: warningsFor(input, map, items),
     boundaries: {
       rule: "source와 reference만 편집합니다. generated는 원천 변경 뒤 생성 명령으로 갱신합니다.",
     },
