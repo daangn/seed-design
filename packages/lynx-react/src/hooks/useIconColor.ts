@@ -1,4 +1,4 @@
-import { runOnMainThread, useEffect, useMainThreadRef } from "@lynx-js/react";
+import { runOnMainThread, useEffect, useGlobalProps, useMainThreadRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import type { DependencyList, RefObject } from "@lynx-js/react";
 
@@ -70,8 +70,8 @@ function cancelTintColorSync(frameRef: RefObject<number>) {
 
 /**
  * Lynx `<image>` 의 tint color 를 recipe 의 CSS `color` 로부터 main-thread 에서 읽어
- * `tint-color` attribute 로 mirror. `deps` 가 바뀌면 native class patch가 반영된
- * 다음 frame에 재동기화하고, UI 표시 이벤트에서는 즉시 동기화.
+ * `tint-color` attribute 로 mirror. `deps` 또는 시스템 테마가 바뀌면 native class
+ * patch가 반영된 다음 frame에 재동기화하고, UI 표시 이벤트에서는 즉시 동기화.
  *
  * ```tsx
  * const iconColorProps = useIconColor([variant, disabled, loading]);
@@ -89,6 +89,7 @@ export function useIconColor(
   const sourceRef = options?.sourceRef as RefObject<IconElement> | undefined;
   const enabled = options?.enabled ?? true;
   const frameRef = useMainThreadRef<number>(0);
+  const theme = (useGlobalProps() as { theme?: unknown } | undefined)?.theme;
 
   function syncOnUiAppear() {
     "main thread";
@@ -96,7 +97,6 @@ export function useIconColor(
     syncTintColorOnce(ref, sourceRef);
   }
 
-  // deps 는 caller 가 책임.
   useEffect(() => {
     if (!enabled) return;
 
@@ -104,7 +104,7 @@ export function useIconColor(
     return () => {
       runOnMainThread(cancelTintColorSync)(frameRef);
     };
-  }, [...deps, enabled]);
+  }, [...deps, enabled, theme]);
 
   return { ref, "main-thread:binduiappear": syncOnUiAppear };
 }

@@ -56,6 +56,7 @@ export default defineConfig({
     port: Number(process.env.PORT) || 3000,
   },
   output: {
+    assetPrefix: process.env.ASSET_PREFIX || "/",
     filename: "[name].[platform].bundle",
   },
   tools: {
