@@ -186,6 +186,7 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
       "main-thread:bindtouchcancel": handleTouchCancel,
     },
     scaleFeedbackTargetProps: {
+      // Preserve a native view for transform animations instead of allowing Lynx to flatten it.
       flatten: false,
       "main-thread:ref": targetRef,
       "main-thread:bindlayoutchange": handleLayoutChange,
