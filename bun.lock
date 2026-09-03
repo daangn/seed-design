@@ -438,7 +438,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.6.2",
+      "version": "2.7.0",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -486,7 +486,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.9.3",
+      "version": "0.10.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -502,12 +502,12 @@
       },
       "devDependencies": {
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/rootage-artifacts": "2.7.0",
+        "@seed-design/rootage-artifacts": "2.8.0",
       },
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.5.2",
+      "version": "0.6.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
@@ -517,7 +517,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-css": "0.9.3",
+        "@seed-design/lynx-css": "0.10.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
@@ -567,7 +567,7 @@
         "@seed-design/rootage-core": "0.0.0",
       },
       "devDependencies": {
-        "@seed-design/rootage-artifacts": "2.7.0",
+        "@seed-design/rootage-artifacts": "2.8.0",
         "csstype": "^3.1.3",
       },
     },
@@ -1459,7 +1459,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "2.7.0",
+      "version": "2.8.0",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -1502,7 +1502,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.6.2",
+        "@seed-design/css": "2.7.0",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -1528,7 +1528,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "2.3.0",
+      "version": "2.4.0",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1539,7 +1539,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "2.3.0",
+      "version": "2.4.0",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },

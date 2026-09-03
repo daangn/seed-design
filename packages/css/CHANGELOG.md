@@ -1,5 +1,25 @@
 # @seed-design/css
 
+## 2.7.0
+
+### Minor Changes
+
+- 45b827b: `$gradient.fade-mask` 토큰을 추가하고, ScrollFog의 fog 마스크를 easing 그라데이션으로 개선합니다.
+
+  - `$gradient.fade-mask`(`--seed-gradient-fade-mask`)를 추가합니다. 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선이며, 라이트/다크 테마에서 동일합니다.
+  - ScrollFog의 가장자리 페이드가 기존 선형 2단계에서 16단계 easing 곡선으로 바뀌어 더 부드럽게 표현됩니다.
+  - ScrollFog spec의 `fromColor`/`toColor` 프로퍼티가 `gradient` 하나로 대체됩니다.
+
+### Patch Changes
+
+- 8a8ab80: 컴포넌트 vars의 gradient가 문자열 대신 `{ serialized, stops? }` 객체로 제공됩니다.
+
+  - `serialized`: 기존과 동일한 CSS gradient 문자열입니다. `linear-gradient(88deg, ${vars.toneMagic.enabled.root.gradient.serialized})`처럼 사용합니다.
+  - `stops`: `{ color, position }` 배열로, position이 0~1 원본 값이라 stop마다 `calc()`로 위치를 계산하는 등 동적으로 다룰 수 있습니다. 테마별로 값이 다른 gradient에는 제공되지 않습니다.
+  - 생성되는 CSS는 이전과 동일합니다.
+
+- e12a356: Android WebView에서 시스템 폰트 스케일링이 `t*Static` 폰트 크기·행간 토큰에도 적용되던 문제를 수정합니다. 이제 static 토큰 및 텍스트 스타일은 의도된 px 크기로 렌더링됩니다.
+
 ## 2.6.2
 
 ### Patch Changes
