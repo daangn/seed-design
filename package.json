@@ -47,6 +47,7 @@
     "qvism:generate:watch": "watchlist ecosystem/qvism/core ecosystem/qvism/cli packages/qvism-preset packages/lynx-qvism-preset -- bun qvism:generate",
     "lynx:generate": "bun --filter @seed-design/lynx-react build && bun --filter @seed-design/tailwind3-plugin build",
     "cli:watch": "watchlist packages/cli -- bun --filter @seed-design/cli dev",
+    "utils:build": "ultra -r --filter 'packages/utils/*' build",
     "headless:build": "ultra -r --filter 'packages/react-headless/*' build",
     "headless:test": "bun test packages/react-headless",
     "headless:test:watch": "bun test --watch packages/react-headless",
