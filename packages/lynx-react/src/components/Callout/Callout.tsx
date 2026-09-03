@@ -1,7 +1,7 @@
 import { callout, type CalloutVariantProps } from "@seed-design/lynx-css/recipes/callout";
 import * as React from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";

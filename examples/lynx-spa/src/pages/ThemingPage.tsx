@@ -1,5 +1,5 @@
 import { ActionButton, getSeedClassName } from "@seed-design/lynx-react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 interface ThemeGlobalProps {
   frontendTheme?: unknown;

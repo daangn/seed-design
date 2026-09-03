@@ -1,6 +1,6 @@
 import { listHeader, type ListHeaderVariantProps } from "@seed-design/css/recipes/list-header";
 import { forwardRef } from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { PrimitiveProps } from "@seed-design/react-primitive";
 
 export interface ListHeaderProps

@@ -1,6 +1,6 @@
 import { IconXmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 
 interface DontImageProps {

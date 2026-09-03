@@ -2,7 +2,7 @@ import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import { field, type FieldVariantProps } from "@seed-design/lynx-css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/lynx-css/recipes/field-label";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";

@@ -79,7 +79,7 @@
     "@seed-design/react-toggle": "^2.0.1",
     "@seed-design/react-tooltip": "^1.0.1",
     "@seed-design/react-wheel-picker": "^1.1.0",
-    "clsx": "^2.1.1",
+    "cn": "0.2.4",
     "unicode-segmenter": "^0.17.3"
   },
   "peerDependencies": {

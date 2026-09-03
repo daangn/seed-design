@@ -3,7 +3,7 @@ import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { forwardRef } from "react";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";

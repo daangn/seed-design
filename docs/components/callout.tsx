@@ -1,5 +1,5 @@
 import { Callout as SeedSnippetCallout } from "seed-design/ui/callout";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { CalloutType } from "fumadocs-ui/components/callout";
 import type { ComponentProps, ReactNode } from "react";
 import { match } from "ts-pattern";

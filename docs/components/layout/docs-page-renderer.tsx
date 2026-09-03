@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/json-ld";
 import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { LLMOptions } from "@/components/page-actions";
 import { HiddenTocPopover, SeedTableOfContents } from "@/components/table-of-contents";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { TOCProvider } from "fumadocs-ui/components/toc";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { ComponentProps, ReactNode } from "react";

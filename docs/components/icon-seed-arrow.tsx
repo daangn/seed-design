@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { SVGProps } from "react";
 
 /** SEED brand arrow glyph (from the landing "더보기" cursor). Filled, follows

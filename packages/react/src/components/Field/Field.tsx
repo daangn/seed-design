@@ -7,7 +7,7 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon } from "../private/Icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(field);
 const {

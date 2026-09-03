@@ -8,7 +8,7 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 import { getHelpBubbleArrowTipPath } from "../../utils/getHelpBubbleArrowTipPath";
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(helpBubble);
 const withStateProps = createWithStateProps([usePopoverContext]);

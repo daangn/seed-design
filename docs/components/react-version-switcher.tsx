@@ -10,7 +10,7 @@ import {
 } from "@/components/docs-menu";
 import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
 import { useState } from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const VERSIONS = [
   { label: "v2.0 (latest)", url: "https://seed-design.io/react" },

@@ -1,5 +1,5 @@
 import { badge, type BadgeVariantProps } from "@seed-design/lynx-css/recipes/badge";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "@lynx-js/react";
 
 import type { LynxStyledElementProps, LynxViewRef } from "../../types";

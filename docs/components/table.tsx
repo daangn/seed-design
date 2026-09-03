@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { ComponentPropsWithoutRef } from "react";
 
 /**

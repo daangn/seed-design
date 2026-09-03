@@ -2,7 +2,7 @@
 
 import { timePicker } from "@seed-design/css/recipes/time-picker";
 import { useTimePicker, type UseTimePickerProps } from "@seed-design/react-time-picker";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import {
   InternalWheelPickerColumn,

@@ -1,6 +1,6 @@
 import { useState } from "@lynx-js/react";
 import { useControllableState } from "@seed-design/lynx-react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

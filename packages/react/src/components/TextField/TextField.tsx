@@ -3,7 +3,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
 import { useFieldContext } from "@seed-design/react-field";
 import { textInput, type TextInputVariantProps } from "@seed-design/css/recipes/text-input";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type * as React from "react";
 import { forwardRef, useCallback, useRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

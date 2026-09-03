@@ -14,7 +14,7 @@ import {
 } from "@seed-design/css/recipes/select-trigger";
 import { selectItem, type SelectItemVariantProps } from "@seed-design/css/recipes/select-item";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";

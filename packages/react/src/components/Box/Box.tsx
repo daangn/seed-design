@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import type { BreakpointThreshold } from "../../types/responsive";
 import { useStyleProps, type StyleProps } from "../../utils/styled";

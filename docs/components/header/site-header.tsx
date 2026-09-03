@@ -1,6 +1,6 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "cn";
 import Link from "next/link";
 import { SeedMark } from "../landing/seed-mark";
 import { SeedWordmark } from "../landing/seed-wordmark";

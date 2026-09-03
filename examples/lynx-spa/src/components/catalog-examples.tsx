@@ -1,5 +1,5 @@
 import type { ReactNode } from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const GAP_CLASS_NAMES = {
   "12px": "gap-x3",

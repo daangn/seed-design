@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import { DocsBody } from "fumadocs-ui/page";
 import type { ReactNode } from "react";
 import { SiteFooter } from "./site-footer";

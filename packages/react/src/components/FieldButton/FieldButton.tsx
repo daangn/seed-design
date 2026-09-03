@@ -10,7 +10,7 @@ import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { inputButton, type InputButtonVariantProps } from "@seed-design/css/recipes/input-button";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const { ClassNamesProvider: FieldClassNamesProvider, withContext: withFieldContext } =
   createSlotRecipeContext(field);
