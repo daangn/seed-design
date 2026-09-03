@@ -1,5 +1,13 @@
 # @seed-design/lynx-react
 
+## 0.5.2
+
+### Patch Changes
+
+- 844d91c: `TextField.Input`과 `TextField.Textarea`의 native 값이 blur 시 controlled value와 달라지는 문제를 수정합니다.
+- 55103a6: Lynx `Radio Group`에서 라디오 표시와 라벨의 상단 여백이 적용되지 않아 수직 정렬이 어긋나던 문제를 수정합니다.
+- f446304: Lynx Tabs가 초기 렌더링 시 선택된 탭으로 이동하면서 Label 색상과 Indicator 위치·크기를 전환하던 문제를 수정합니다.
+
 ## 0.5.1
 
 ### Patch Changes

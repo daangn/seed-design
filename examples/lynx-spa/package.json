@@ -15,8 +15,8 @@
     "@karrotmarket/lynx-multicolor-icon": "1.25.0",
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "@lynx-js/react": "^0.117.0",
-    "@seed-design/lynx-css": "0.9.2",
-    "@seed-design/lynx-react": "0.5.1",
+    "@seed-design/lynx-css": "0.9.3",
+    "@seed-design/lynx-react": "0.5.2",
     "@seed-design/tailwind3-plugin": "workspace:*",
     "clsx": "^2.1.1",
     "lynx-console": "^0.3.0"
