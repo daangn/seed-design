@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          bunx @kaptures/cli@0.4.0 github reconcile-run
+          bunx @kaptures/cli@0.5.0 github reconcile-run
           --capture-workflow-path .github/workflows/kapture-capture.yml
           --base-branch dev
           --status-context "Kapture Visual Review"
@@ -53,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          bunx @kaptures/cli@0.4.0 github prepare-run
+          bunx @kaptures/cli@0.5.0 github prepare-run
           --capture-workflow-path .github/workflows/kapture-capture.yml
           --base-branch dev
           --output "${{ runner.temp }}/kapture-review"
@@ -65,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          bunx @kaptures/cli@0.4.0 github prepare-storybook-run
+          bunx @kaptures/cli@0.5.0 github prepare-storybook-run
           --capture-workflow-path .github/workflows/kapture-capture.yml
           --base-branch dev
           --receipt "${{ runner.temp }}/kapture-receipt.json"
@@ -107,7 +107,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
         run: >-
-          bunx @kaptures/cli@0.4.0 github publish-run
+          bunx @kaptures/cli@0.5.0 github publish-run
           --receipt "${{ runner.temp }}/kapture-receipt.json"
           --report "${{ runner.temp }}/kapture-review/report.json"
           --report-url "$KAPTURE_REPORT_URL"
@@ -139,7 +139,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          bunx @kaptures/cli@0.4.0 github finalize-run
+          bunx @kaptures/cli@0.5.0 github finalize-run
           --capture-workflow-path .github/workflows/kapture-capture.yml
           --base-branch dev
           --status-context "Kapture Visual Review"
