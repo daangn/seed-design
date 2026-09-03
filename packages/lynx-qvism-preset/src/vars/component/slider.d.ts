@@ -21,11 +21,11 @@ export declare const vars: {
       "thumb": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       /** arrow width + (valueIndicatorRoot paddingX * 2)만큼의 최소 너비를 가집니다. */
       "valueIndicatorRoot": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r1_5)",
         /** value indicator 내부 좌우 여백입니다. arrow와 valueIndicatorRoot 경계 사이의 최소 간격에도 동일한 값이 적용됩니다. */
         "paddingX": "var(--seed-dimension-x2)",
@@ -43,7 +43,7 @@ export declare const vars: {
         "translateTimingFunction": "var(--seed-timing-function-easing)"
       },
       "valueIndicatorArrow": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "width": "var(--seed-dimension-x2)",
         "height": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-r0_5)",
@@ -51,7 +51,7 @@ export declare const vars: {
         "gutter": "var(--seed-dimension-x0_5)"
       },
       "valueIndicatorLabel": {
-        "color": "var(--seed-color-fg-neutral-inverted)",
+        "color": "var(--seed-color-fg-on-neutral-solid)",
         "fontSize": "var(--seed-font-size-t3)",
         "lineHeight": "var(--seed-line-height-t3)",
         "fontWeight": "var(--seed-font-weight-medium)"

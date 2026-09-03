@@ -104,13 +104,15 @@ data:
       enabled,selected:
         root:
           color: $color.bg.brand-solid
+        thumb:
+          color: $color.fg.on-brand-solid
     tone=neutral:
       enabled:
         thumb:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
       disabled:
         thumb:
           color: $color.palette.static-black-alpha-700

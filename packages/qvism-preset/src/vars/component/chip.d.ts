@@ -59,25 +59,25 @@ export declare const vars: {
     },
     "selected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "selectedDisabled": {
@@ -122,25 +122,25 @@ export declare const vars: {
     },
     "selected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       /** Icon, Avatar, Image를 넣을 수 있습니다. 들어오는 요소에 따라 좌측 여백이 달라집니다. */
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "selectedPressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "selectedDisabled": {

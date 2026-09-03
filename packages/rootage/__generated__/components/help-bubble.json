@@ -160,7 +160,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-inverted"
+                  "value": "$color.bg.neutral-solid"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -225,7 +225,7 @@
               "arrow": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-inverted"
+                  "value": "$color.bg.neutral-solid"
                 },
                 "width": {
                   "type": "dimension",
@@ -272,7 +272,7 @@
               "title": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-inverted"
+                  "value": "$color.fg.on-neutral-solid"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -290,7 +290,7 @@
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-inverted"
+                  "value": "$color.fg.on-neutral-solid"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -308,7 +308,7 @@
               "closeButton": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-inverted"
+                  "value": "$color.fg.on-neutral-solid"
                 },
                 "size": {
                   "type": "dimension",

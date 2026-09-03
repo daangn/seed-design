@@ -42,18 +42,21 @@ export const vars = {
     "enabledSelected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
+      },
+      "thumb": {
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     }
   },
   "toneNeutral": {
     "enabled": {
       "thumb": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       }
     },
     "disabled": {

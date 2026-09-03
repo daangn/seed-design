@@ -25,14 +25,14 @@
     box-shadow: 0px 2px 6px 0px #00000026;
 }
 .seed-extended-fab--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
-    color: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-extended-fab--variant_neutralSolid {
-    --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-prefix-icon-color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-extended-fab--variant_layerFloating {
     background: var(--seed-color-bg-layer-floating);

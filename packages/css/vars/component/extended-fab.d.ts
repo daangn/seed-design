@@ -13,18 +13,18 @@ export declare const vars: {
   "variantNeutralSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },

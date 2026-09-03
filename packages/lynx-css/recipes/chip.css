@@ -185,34 +185,34 @@
     min-width: var(--seed-dimension-x10)
 }
 .seed-chip__root--variant_solid-selected_true {
-    background: var(--seed-color-bg-neutral-inverted)
+    background: var(--seed-color-bg-neutral-solid)
 }
 .seed-chip__label--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__prefixIcon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__suffixIcon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__icon--variant_solid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__root--variant_outlineStrong-selected_true {
-    background: var(--seed-color-bg-neutral-inverted)
+    background: var(--seed-color-bg-neutral-solid)
 }
 .seed-chip__label--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__prefixIcon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__suffixIcon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__icon--variant_outlineStrong-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip__root--variant_outlineWeak-selected_true {
     background: var(--seed-color-bg-neutral-weak);
@@ -228,10 +228,10 @@
     background: var(--seed-color-bg-transparent-pressed)
 }
 .seed-chip__root--variant_solid-selected_true-pressed_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-chip__root--variant_outlineStrong-selected_true-pressed_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-chip__root--variant_outlineWeak-selected_true-pressed_true {
     background: var(--seed-color-bg-neutral-weak-pressed)

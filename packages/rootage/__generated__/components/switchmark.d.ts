@@ -274,6 +274,12 @@ declare const artifact: {
                   "value": "$color.bg.brand-solid";
                 };
               };
+              "thumb": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-brand-solid";
+                };
+              };
             };
           },
         ];
@@ -291,7 +297,7 @@ declare const artifact: {
               "thumb": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };
@@ -305,7 +311,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
             };
