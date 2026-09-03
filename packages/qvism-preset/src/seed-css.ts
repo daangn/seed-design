@@ -17,7 +17,12 @@ type Selectors = {
 };
 
 /**
- * Creates a SEED-specific declaration function with platform-aware font scaling
+ * Creates a SEED-specific declaration function with platform-aware font scaling.
+ *
+ * `prefix` names the generated tokens, so references between them follow it.
+ * The `globalCss` knobs below stay `seed` — that stylesheet and its
+ * `data-seed-*` selectors are not prefixed, so following `prefix` there would
+ * point a custom prefix at variables nothing defines and silently fall back.
  */
 const createSeedDeclaration =
   (prefix: string) =>
@@ -40,24 +45,32 @@ const createSeedDeclaration =
     }
     const value = valueOrToken(valueObj.value);
 
-    // Static tokens don't need any scaling
     const tokenKey = decl.token.key.toString();
-    if (tokenKey.includes("static")) {
-      return `${tokenName(decl.token)}: ${value};`;
-    }
-
-    // Check if this is a font-size or line-height token that needs scaling
     const tokenGroup = decl.token.group;
     const isFontSize = tokenGroup.includes("font-size");
     const isLineHeight = tokenGroup.includes("line-height");
 
+    // Divide by --seed-static-font-scale so Android WebView's textZoom cancels
+    // out. The theming script writes the measured textZoom there on Android
+    // and nowhere else, so globalCss's 1 stands on iOS and static tokens stay
+    // literal (they should not follow -apple-system-body).
+    // Gated on font-size/line-height because `static` also matches color
+    // palette tokens like `$color.palette.static-black`, and calc(<color>/<n>)
+    // is invalid CSS.
+    // TODO(attr): typed attr() (CSS L5) would drop the theming setter, but it
+    // needs the raw textZoom — data-seed-font-multiplier carries the capped
+    // scale, which leaves static tokens above their literal px past the cap.
+    if (tokenKey.includes("static") && (isFontSize || isLineHeight)) {
+      return `${tokenName(decl.token)}: calc(${value} / var(--seed-static-font-scale, 1));`;
+    }
+
     if (isFontSize || isLineHeight) {
       // Build CSS variable names for scaling
       const tokenType = isFontSize ? "font-size" : "line-height";
-      const multiplierVar = `var(--${prefix}-font-size-multiplier, 1)`;
+      const multiplierVar = "var(--seed-font-size-multiplier, 1)";
       const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
-      const limitMinVar = `var(--${prefix}-${tokenType}-limit-min, 0.8)`;
-      const limitMaxVar = `var(--${prefix}-${tokenType}-limit-max, 1.5)`;
+      const limitMinVar = `var(--seed-${tokenType}-limit-min, 1)`;
+      const limitMaxVar = `var(--seed-${tokenType}-limit-max, 1)`;
 
       // Return clamp with dynamic min and max using static values
       return `${tokenName(decl.token)}: clamp(calc(${staticTokenVar} * ${limitMinVar}), calc(${value} * ${multiplierVar}), calc(${staticTokenVar} * ${limitMaxVar}));`;
