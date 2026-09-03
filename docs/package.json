@@ -48,7 +48,7 @@
     "@lynx-js/css-serializer": "0.1.7",
     "@lynx-js/lynx-core": "0.1.4",
     "@lynx-js/web-core": "0.24.0",
-    "@lynx-js/web-elements": "0.12.7",
+    "@lynx-js/web-elements": "0.12.9",
     "@portabletext/react": "^6.0.0",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-compose-refs": "^1.1.2",
