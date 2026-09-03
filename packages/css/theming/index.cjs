@@ -1,5 +1,81 @@
 const { DefaultColorModeValue, isValidColorMode } = require("./mode.cjs");
 
+// The template literals below are emitted verbatim into an inline <script>, so
+// anything written inside one is string content rather than source: the bundler
+// that minifies this module cannot reach it, and whether the host's HTML
+// pipeline minifies an injected inline script is out of this package's hands.
+// Rationale therefore lives on the constants out here.
+
+/**
+ * Sits outside the `fontScaling` gate on purpose. Android WebView multiplies
+ * every computed font-size and line-height by Configuration.fontScale whether
+ * or not the app opted in, so the `*-static` tokens have to divide it back out
+ * either way: the option picks whether SEED *follows* the user's scale, not
+ * whether the WebView applies one. iOS needs nothing here, because its scaling
+ * arrives through `-apple-system-body` inheritance, which the gate does
+ * control, and a literal px is never inflated.
+ *
+ * The measured scale stays uncapped because it is a divisor. The tokens cancel
+ * textZoom only by dividing by exactly what the WebView multiplied back in,
+ * whatever cap the native app chose.
+ */
+const androidStaticFontScale = `
+      var seedAndroidFontScale = 1;
+      try {
+        if (document.documentElement.dataset.seedPlatform === 'android') {
+          var rootSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+          seedAndroidFontScale = rootSize > 0 ? rootSize / 16 : 1;
+          document.documentElement.style.setProperty('--seed-static-font-scale', seedAndroidFontScale.toString());
+        }
+      } catch (e) {}
+`;
+
+/**
+ * `data-seed-font-multiplier` reports how much SEED grew the text, not how
+ * large a step the user picked.
+ *
+ * On iOS the measurement is normalized to the web 16px baseline and then
+ * clamped to the cap iOS actually applies, the 1.35 that globalCss sets as
+ * `--seed-font-size-limit-max`; the Dynamic Type accessibility steps reach 3.1
+ * and would otherwise overstate it. On Android the token clamp bounds the same
+ * value to [`--seed-font-size-limit-min`, `--seed-font-size-limit-max`], so
+ * past the cap it stays deliberately below the raw scale measured above.
+ */
+const fontScalingBlock = (enabled) => `
+      try {
+        if (${enabled}) {
+          var platform = document.documentElement.dataset.seedPlatform;
+
+          if (platform === 'ios') {
+            document.documentElement.dataset.seedFontScaling = 'enabled';
+
+            function applyIOSFontScaling() {
+              try {
+                var tempEl = document.createElement('div');
+                tempEl.style.cssText = 'position:absolute;visibility:hidden;font-size:16px;font:-apple-system-body;';
+                document.body.appendChild(tempEl);
+                var size = parseFloat(window.getComputedStyle(tempEl).fontSize);
+                document.body.removeChild(tempEl);
+                var raw = size > 0 ? (size / 16) * 0.9412 : 1;
+                var scale = Math.max(0.8, Math.min(1.35, raw));
+                document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
+              } catch (e) {}
+            }
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', applyIOSFontScaling);
+            } else {
+              applyIOSFontScaling();
+            }
+          } else if (platform === 'android') {
+            var applied = Math.max(0.8, Math.min(1.5, seedAndroidFontScale));
+            document.documentElement.dataset.seedFontMultiplier = parseFloat(applied.toFixed(2)).toString();
+            document.documentElement.dataset.seedFontScaling = 'enabled';
+          }
+        }
+      } catch (e) {}
+`;
+
 function generateThemingScript({ mode = DefaultColorModeValue, fontScaling = false }) {
   if (!isValidColorMode(mode)) {
     throw new Error(`Invalid color mode: ${mode}`);
@@ -41,68 +117,7 @@ function generateThemingScript({ mode = DefaultColorModeValue, fontScaling = fal
           document.documentElement.dataset.seedPlatform = 'ios';
         }
       } catch (e) {}
-
-      // Outside the fontScaling gate on purpose. Android WebView multiplies
-      // every computed font-size and line-height by Configuration.fontScale
-      // whether or not the app opted in, so the *-static tokens have to divide
-      // it back out either way — the option picks whether SEED *follows* the
-      // user's scale, not whether the WebView applies one. iOS needs nothing
-      // here: its scaling arrives through -apple-system-body inheritance,
-      // which the gate does control, and a literal px is never inflated.
-      var seedAndroidFontScale = 1;
-      try {
-        if (document.documentElement.dataset.seedPlatform === 'android') {
-          var rootSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-          // Uncapped, because it is a divisor: the tokens cancel textZoom only
-          // by dividing by exactly what the WebView multiplied back in,
-          // whatever cap the native app chose.
-          seedAndroidFontScale = rootSize > 0 ? rootSize / 16 : 1;
-          document.documentElement.style.setProperty('--seed-static-font-scale', seedAndroidFontScale.toString());
-        }
-      } catch (e) {}
-
-      try {
-        if (${fontScaling}) {
-          var platform = document.documentElement.dataset.seedPlatform;
-
-          if (platform === 'ios') {
-            document.documentElement.dataset.seedFontScaling = 'enabled';
-
-            function applyIOSFontScaling() {
-              try {
-                var tempEl = document.createElement('div');
-                tempEl.style.cssText = 'position:absolute;visibility:hidden;font-size:16px;font:-apple-system-body;';
-                document.body.appendChild(tempEl);
-                var size = parseFloat(window.getComputedStyle(tempEl).fontSize);
-                document.body.removeChild(tempEl);
-                // Scale normalized to the web 16px baseline, clamped to the
-                // cap iOS actually applies — the 1.35 globalCss sets as
-                // --seed-font-size-limit-max. So the value says how much SEED
-                // grew the text, not how large a Dynamic Type step the user
-                // picked: the accessibility steps reach 3.1 and would
-                // otherwise overstate it.
-                var raw = size > 0 ? (size / 16) * 0.9412 : 1;
-                var scale = Math.max(0.8, Math.min(1.35, raw));
-                document.documentElement.dataset.seedFontMultiplier = parseFloat(scale.toFixed(2)).toString();
-              } catch (e) {}
-            }
-
-            if (document.readyState === 'loading') {
-              document.addEventListener('DOMContentLoaded', applyIOSFontScaling);
-            } else {
-              applyIOSFontScaling();
-            }
-          } else if (platform === 'android') {
-            // How much SEED grows the text, which the token clamp bounds to
-            // [--seed-font-size-limit-min, --seed-font-size-limit-max]. Past
-            // the cap this is deliberately below the raw scale measured above.
-            var applied = Math.max(0.8, Math.min(1.5, seedAndroidFontScale));
-            document.documentElement.dataset.seedFontMultiplier = parseFloat(applied.toFixed(2)).toString();
-            document.documentElement.dataset.seedFontScaling = 'enabled';
-          }
-        }
-      } catch (e) {}
-    })(window, document, '${mode}');
+${androidStaticFontScale}${fontScalingBlock(fontScaling)}    })(window, document, '${mode}');
   `;
 }
 
