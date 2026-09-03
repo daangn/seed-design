@@ -48,7 +48,8 @@ const defaultVariant = {
   "tone": "neutral",
   "variant": "weak",
   "pressed": false,
-  "closeButtonPressed": false
+  "closeButtonPressed": false,
+  "interactive": false
 };
 
 const compoundVariants = [
@@ -167,6 +168,10 @@ export const pageBannerVariantMap = {
     "solid"
   ],
   "pressed": [
+    true,
+    false
+  ],
+  "interactive": [
     true,
     false
   ],
