@@ -73,7 +73,7 @@ export const appBarMain = defineSlotRecipe({
           insetInline: 0,
           // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
           // is measured from the left/right areas in `useAppBar` and has no floor, so consuming it
-          // means `max(var(--centered-title-padding-x, 0), ${vars.base.enabled.root.titleMinGap})`.
+          // means `max(var(--centered-title-padding-x, 0), ${vars.themeIos.enabled.root.titleMinGap})`.
           paddingInline: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
         },

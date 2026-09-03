@@ -145,24 +145,6 @@
     },
     "definitions": [
       {
-        "variants": {},
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "titleMinGap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
         "variants": {
           "theme": "ios"
         },
@@ -183,6 +165,10 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
+                },
+                "titleMinGap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
                 }
               }
             }

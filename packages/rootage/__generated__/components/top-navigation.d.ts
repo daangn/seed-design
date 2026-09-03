@@ -145,24 +145,6 @@ declare const artifact: {
     };
     "definitions": readonly [
       {
-        "variants": {};
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "titleMinGap": {
-                  "type": "dimension";
-                  "value": "$dimension.x2";
-                };
-              };
-            };
-          },
-        ];
-      },
-      {
         "variants": {
           "theme": "ios";
         };
@@ -183,6 +165,10 @@ declare const artifact: {
                 "paddingX": {
                   "type": "dimension";
                   "value": "$dimension.x1_5";
+                };
+                "titleMinGap": {
+                  "type": "dimension";
+                  "value": "$dimension.x2";
                 };
               };
             };

@@ -1,18 +1,12 @@
 export declare const vars: {
-  "base": {
-    "enabled": {
-      "root": {
-        /** 가운데 정렬된 title이 좌우 영역과 겹치지 않도록 보장하는 최소 간격입니다. */
-        "titleMinGap": "var(--seed-dimension-x2)"
-      }
-    }
-  },
   "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
         /** 좌우 영역에 놓이는 버튼의 터치 영역을 기준으로 한 여백입니다. 버튼 내부 여백과 합쳐져 아이콘과 레이블 기준의 시각적 여백이 됩니다. */
-        "paddingX": "var(--seed-dimension-x1_5)"
+        "paddingX": "var(--seed-dimension-x1_5)",
+        /** 가운데 정렬된 title이 좌우 영역과 겹치지 않도록 보장하는 최소 간격입니다. */
+        "titleMinGap": "var(--seed-dimension-x2)"
       }
     }
   },

@@ -1,16 +1,10 @@
 export const vars = {
-  "base": {
-    "enabled": {
-      "root": {
-        "titleMinGap": "var(--seed-dimension-x2)"
-      }
-    }
-  },
   "themeIos": {
     "enabled": {
       "root": {
         "height": "44px",
-        "paddingX": "var(--seed-dimension-x1_5)"
+        "paddingX": "var(--seed-dimension-x1_5)",
+        "titleMinGap": "var(--seed-dimension-x2)"
       }
     }
   },
