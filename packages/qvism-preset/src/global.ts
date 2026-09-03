@@ -23,6 +23,11 @@ export const globalCss = defineGlobalCss({
     "--seed-font-size-limit-max": "1.5", // Android default 150%
     "--seed-line-height-limit-min": "0.8",
     "--seed-line-height-limit-max": "1.5", // Android default 150%
+    // Divisor for *-static tokens. Only Android has to cancel anything, so
+    // only there does the theming script overwrite this with the measured
+    // WebView textZoom; everywhere else it stays 1 and the tokens emit their
+    // literal px.
+    "--seed-static-font-scale": "1",
   },
 
   // iOS platform-specific overrides
