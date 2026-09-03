@@ -15,6 +15,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
+import { ScaleFeedback } from "../ScaleFeedback";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(pageBanner);
@@ -42,9 +43,9 @@ function usePageBannerContext(consumer: string) {
 /**
  * @platform Lynx
  *
- * 웹 대비 차이:
- * - `asChild`와 DOM 이벤트 대신 Lynx native `<view>`와 `bindtap`을 사용합니다.
- * - 웹 focus ring과 동적 scale feedback은 지원하지 않습니다.
+ * Differences from React Web:
+ * - Uses Lynx native `<view>` and `bindtap` instead of `asChild` and DOM events.
+ * - Does not provide a web focus ring.
  */
 export interface PageBannerRootProps
   extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed">,
@@ -250,16 +251,18 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
   const classNames = useClassNames();
 
   return (
-    <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits}
-      className={clsx(classNames.button, className)}
-      style={style}
-    >
-      {children}
-    </text>
+    <ScaleFeedback>
+      <text
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
+        {...nativeProps}
+        accessibility-element={accessibilityElement}
+        accessibility-traits={accessibilityTraits}
+        className={clsx(classNames.button, className)}
+        style={style}
+      >
+        {children}
+      </text>
+    </ScaleFeedback>
   );
 });
 PageBannerButton.displayName = "PageBannerButton";
@@ -290,29 +293,21 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
       bindtap?.(event);
       dismiss();
     });
-    const pressTap = usePressTap({
-      onTap: handleTap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
+      usePressTap({
+        onTap: handleTap,
+        mainThreadOnTap: mainThreadBindtap,
+      });
     const classNames = pageBanner({
       ...parentVariantProps,
-      closeButtonPressed: pressTap.pressed,
+      closeButtonPressed: pressed,
     });
     const iconSlotContextValue = React.useMemo(
       () => ({
         classNames: { suffixIcon: classNames.closeButtonIcon },
-        deps: [
-          parentVariantProps.tone ?? "neutral",
-          parentVariantProps.variant ?? "weak",
-          pressTap.pressed,
-        ],
+        deps: [parentVariantProps.tone ?? "neutral", parentVariantProps.variant ?? "weak", pressed],
       }),
-      [
-        classNames.closeButtonIcon,
-        parentVariantProps.tone,
-        parentVariantProps.variant,
-        pressTap.pressed,
-      ],
+      [classNames.closeButtonIcon, parentVariantProps.tone, parentVariantProps.variant, pressed],
     );
 
     if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
@@ -321,18 +316,24 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
 
     return (
       <IconSlotProvider value={iconSlotContextValue}>
-        <view
-          {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
-          {...pressTap}
-          accessibility-element={accessibilityElement}
-          accessibility-label={accessibilityLabel}
-          accessibility-traits={accessibilityTraits}
-          className={clsx(classNames.closeButton, className)}
-          style={style}
+        <ScaleFeedback
+          onTouchStart={bindtouchstart}
+          onTouchEnd={bindtouchend}
+          onTouchCancel={bindtouchcancel}
         >
-          {children}
-        </view>
+          <view
+            {...(ref ? { ref: ref as LynxViewRef } : {})}
+            {...nativeProps}
+            {...pressTapHandlers}
+            accessibility-element={accessibilityElement}
+            accessibility-label={accessibilityLabel}
+            accessibility-traits={accessibilityTraits}
+            className={clsx(classNames.closeButton, className)}
+            style={style}
+          >
+            {children}
+          </view>
+        </ScaleFeedback>
       </IconSlotProvider>
     );
   },
