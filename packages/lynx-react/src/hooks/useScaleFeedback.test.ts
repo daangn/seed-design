@@ -1,4 +1,5 @@
-import { renderHook } from "@lynx-js/react/testing-library";
+import { runOnMainThread } from "@lynx-js/react";
+import { renderHook, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
@@ -29,8 +30,12 @@ describe("calculateScaleFeedback", () => {
     { width: 120, height: 48, expected: 46 / 48 },
     { width: 343, height: 48, expected: (343 / 4 - 2) / (343 / 4) },
     { width: 22, height: 22, expected: 22 / 24 },
-  ])("calculates the scale for $width x $height", ({ width, height, expected }) => {
-    expect(calculateScaleFeedback(width, height)).toBeCloseTo(expected);
+  ])("calculates the scale for $width x $height", async ({ width, height, expected }) => {
+    renderHook(() => undefined);
+    await waitSchedule();
+    const scale = runOnMainThread(calculateScaleFeedback)(width, height);
+    await waitSchedule();
+    expect(await scale).toBeCloseTo(expected);
   });
 });
 

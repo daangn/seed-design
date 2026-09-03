@@ -12,12 +12,10 @@ import type { MainThread } from "@lynx-js/types";
 import {
   feedbackScaleDuration,
   feedbackScaleTimingFunction,
-} from "@seed-design/lynx-css/scale-feedback" with { runtime: "shared" };
+} from "@seed-design/lynx-css/scale-feedback";
 
 import type { LynxViewProps } from "../types";
-import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback" with {
-  runtime: "shared",
-};
+import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
 
 type MainThreadLayoutChangeHandler = NonNullable<LynxViewProps["main-thread:bindlayoutchange"]>;
 type MainThreadTouchHandler = NonNullable<LynxViewProps["main-thread:bindtouchstart"]>;
