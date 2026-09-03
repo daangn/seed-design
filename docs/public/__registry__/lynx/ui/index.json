@@ -130,6 +130,21 @@
     {
       "snippets": [
         {
+          "path": "result-section.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "result-section",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "segmented-control.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.6.0 <1.0.0",

@@ -1,0 +1,16 @@
+{
+  "id": "result-section",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "result-section.tsx",
+      "content": "/**\n * @file ui:result-section\n * @requires @seed-design/lynx-react@>=0.1.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.1.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport {\n  ActionButton,\n  Text,\n  VStack,\n  type ActionButtonProps,\n  type TextProps,\n  type VStackProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface ResultSectionProps extends Omit<VStackProps, \"children\"> {\n  /**\n   * @default \"large\"\n   */\n  size?: \"large\" | \"medium\";\n\n  asset?: React.ReactNode;\n  title?: React.ReactNode;\n  description?: React.ReactNode;\n\n  primaryActionProps?: ActionButtonProps;\n  secondaryActionProps?: ActionButtonProps;\n}\n\nconst textStyles = {\n  title: {\n    large: \"t8Bold\",\n    medium: \"t5Bold\",\n  },\n  description: {\n    large: \"t5Regular\",\n    medium: \"t4Regular\",\n  },\n} as const satisfies Record<\n  string,\n  Record<NonNullable<ResultSectionProps[\"size\"]>, NonNullable<TextProps[\"textStyle\"]>>\n>;\n\nconst textContainerProperties = {\n  large: {\n    gap: \"x3\",\n    pb: \"x7\",\n  },\n  medium: {\n    gap: \"x2\",\n    pb: \"x6\",\n  },\n} as const satisfies Record<NonNullable<ResultSectionProps[\"size\"]>, VStackProps>;\n\n/**\n * @see https://seed-design.io/lynx/components/result-section\n */\nexport const ResultSection = React.forwardRef<unknown, ResultSectionProps>((props, ref) => {\n  const {\n    size = \"large\",\n    asset,\n    title,\n    description,\n    primaryActionProps,\n    secondaryActionProps,\n    ...otherProps\n  } = props;\n\n  return (\n    <VStack\n      {...(ref ? { ref } : {})}\n      justify=\"center\"\n      align=\"center\"\n      px=\"x12\"\n      py=\"x4\"\n      grow\n      {...otherProps}\n    >\n      {asset}\n      <VStack {...textContainerProperties[size]}>\n        <Text align=\"center\" color=\"fg.neutral\" textStyle={textStyles.title[size]}>\n          {title}\n        </Text>\n        <Text align=\"center\" color=\"fg.neutralMuted\" textStyle={textStyles.description[size]}>\n          {description}\n        </Text>\n      </VStack>\n      {primaryActionProps || secondaryActionProps ? (\n        <VStack align=\"center\" gap=\"x5\">\n          {primaryActionProps ? (\n            <ActionButton variant=\"neutralWeak\" size=\"medium\" {...primaryActionProps} />\n          ) : null}\n          {secondaryActionProps ? (\n            <ActionButton variant=\"ghost\" size=\"small\" {...secondaryActionProps} />\n          ) : null}\n        </VStack>\n      ) : null}\n    </VStack>\n  );\n});\nResultSection.displayName = \"ResultSection\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+      }
+    }
+  ]
+}

@@ -103,6 +103,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "result-section",
+      snippets: [
+        {
+          path: "result-section.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
       id: "segmented-control",
       snippets: [
         {
