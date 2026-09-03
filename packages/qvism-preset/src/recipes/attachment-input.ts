@@ -491,6 +491,8 @@ const attachmentInput = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
+      position: "relative",
+
       gap: vars.base.enabled.root.gap,
 
       marginInline: "calc(var(--seed-attachment-input-extend-x) * -1)",

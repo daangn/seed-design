@@ -1,6 +1,7 @@
 .seed-attachment-input__root {
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: var(--seed-dimension-x2);
     margin-inline: calc(var(--seed-attachment-input-extend-x) * -1);
 }
