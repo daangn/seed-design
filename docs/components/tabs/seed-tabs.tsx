@@ -1,7 +1,7 @@
 "use client";
 
 import { ChipTabs } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import {
   Children,
   createContext,

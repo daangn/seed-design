@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import { isValidElement, type ReactElement } from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { radio } from "@seed-design/lynx-css/recipes/radio";
 import type { RadioVariantProps } from "@seed-design/lynx-css/recipes/radio";

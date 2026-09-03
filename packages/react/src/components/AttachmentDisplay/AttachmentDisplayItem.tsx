@@ -14,7 +14,7 @@ import {
   type DisplayItemEntry,
 } from "@seed-design/react-attachment-display";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

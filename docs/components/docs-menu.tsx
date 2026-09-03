@@ -1,6 +1,6 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "cn";
 import { PopoverContent } from "fumadocs-ui/components/ui/popover";
 import {
   MenuContent,

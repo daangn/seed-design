@@ -1,5 +1,5 @@
 import * as React from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { chip, type ChipVariantProps } from "@seed-design/lynx-css/recipes/chip";
 

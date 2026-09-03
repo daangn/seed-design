@@ -1,5 +1,5 @@
 import * as React from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { switchStyle } from "@seed-design/lynx-css/recipes/switch";
 import type { SwitchVariantProps } from "@seed-design/lynx-css/recipes/switch";

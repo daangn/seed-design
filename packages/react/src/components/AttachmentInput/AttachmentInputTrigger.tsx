@@ -13,7 +13,7 @@ import {
 
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { mergeProps } from "@seed-design/dom-utils";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";

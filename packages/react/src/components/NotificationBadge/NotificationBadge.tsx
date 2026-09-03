@@ -7,7 +7,7 @@ import {
   type NotificationBadgePositionerVariantProps,
 } from "@seed-design/css/recipes/notification-badge-positioner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { useMemo } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";

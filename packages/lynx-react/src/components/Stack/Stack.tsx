@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "@lynx-js/react";
 
 import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";

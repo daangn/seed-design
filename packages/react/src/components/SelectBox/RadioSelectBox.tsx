@@ -25,7 +25,7 @@ import {
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
   createSlotRecipeContext(selectBox);

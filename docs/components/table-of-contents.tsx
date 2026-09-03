@@ -12,7 +12,7 @@ import {
   type ComponentProps,
   type ReactNode,
 } from "react";
-import { twMerge as cn } from "tailwind-merge";
+import { twMerge as cn } from "cn";
 import { renderInlineCode } from "./inline-code";
 import {
   buildTocTrackGeometry,

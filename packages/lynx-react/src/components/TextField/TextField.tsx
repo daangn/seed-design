@@ -2,7 +2,7 @@ import * as React from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import { textInput as textInputVars } from "@seed-design/lynx-css/vars/component";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";

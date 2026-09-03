@@ -3,7 +3,7 @@ import { appBar, type AppBarVariantProps } from "@seed-design/css/recipes/app-ba
 import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipes/app-bar-main";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { forwardRef } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";
 import { appBarAnatomy } from "../../primitive/AppBar/anatomy";

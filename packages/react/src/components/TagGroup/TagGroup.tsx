@@ -5,7 +5,7 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/css/recipes/tag-group-item";
 import { forwardRef, Children, Fragment } from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

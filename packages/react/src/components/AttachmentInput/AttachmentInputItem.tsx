@@ -18,7 +18,7 @@ import {
 } from "@seed-design/react-file-upload";
 import { MiddleTruncate } from "@seed-design/react-middle-truncate";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";

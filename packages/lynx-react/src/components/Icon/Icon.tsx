@@ -1,6 +1,6 @@
 import { useMainThreadRef } from "@lynx-js/react";
 import type { CSSProperties, MainThread } from "@lynx-js/types";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "@lynx-js/react";
 import {
   cloneElement,

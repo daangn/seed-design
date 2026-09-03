@@ -1,6 +1,6 @@
 "use client";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { usePathname } from "fumadocs-core/framework";
 import Link from "fumadocs-core/link";
 import type { FooterProps } from "fumadocs-ui/layouts/docs/page/slots/footer";

@@ -14,7 +14,7 @@ import {
   type UseDatePickerProps,
 } from "@seed-design/react-date-picker";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { InternalWheelPickerColumn, InternalWheelPickerRoot } from "../private/WheelPicker";
 import { useStyleProps, type StyleProps } from "../../utils/styled";

@@ -8,7 +8,7 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { contentPlaceholderAssetPresetMap } from "./presets";
 import { mergeProps } from "@seed-design/dom-utils";
-import { clsx } from "clsx";
+import { clsx } from "cn";
 import { useMemo } from "react";
 
 const { PropsProvider, ClassNamesProvider, useProps, useClassNames } =

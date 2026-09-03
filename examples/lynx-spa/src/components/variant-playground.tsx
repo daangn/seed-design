@@ -1,5 +1,5 @@
 import { type ReactNode, useMemo, useState } from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 export type PrimitiveValue = string | number | boolean;
 export type VariantValues = Record<string, PrimitiveValue>;

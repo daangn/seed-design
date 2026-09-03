@@ -6,7 +6,7 @@ import {
 import { dataAttr } from "@seed-design/dom-utils";
 import { Dialog as DialogPrimitive } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

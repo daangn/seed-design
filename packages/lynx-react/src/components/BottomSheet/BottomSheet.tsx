@@ -30,7 +30,7 @@ import {
   type RefObject,
   type RefAttributes,
 } from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
 import type {

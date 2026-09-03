@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import { createContext, forwardRef, useContext } from "react";
 
 type Recipe<

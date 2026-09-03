@@ -6,7 +6,7 @@ import {
   IconDot3HorizontalLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { HStack, Icon, ScaleFeedback, VStack } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 function PressableCard({ className, ...props }: ComponentPropsWithoutRef<"button">) {
   return (

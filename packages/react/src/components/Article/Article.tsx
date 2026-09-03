@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { article } from "@seed-design/css/recipes/article";
 
 export type ArticleProps = BoxProps;

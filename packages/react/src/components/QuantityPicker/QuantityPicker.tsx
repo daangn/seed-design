@@ -10,7 +10,7 @@ import {
   quantityPicker,
   type QuantityPickerVariantProps,
 } from "@seed-design/css/recipes/quantity-picker";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

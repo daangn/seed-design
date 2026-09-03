@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import "../styles/css-selector-test.css";
 

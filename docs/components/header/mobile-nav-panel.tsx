@@ -3,7 +3,7 @@
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";

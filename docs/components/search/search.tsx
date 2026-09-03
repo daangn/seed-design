@@ -2,7 +2,7 @@
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { SortedResult } from "fumadocs-core/search";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import { staticClient } from "fumadocs-core/search/client/orama-static";

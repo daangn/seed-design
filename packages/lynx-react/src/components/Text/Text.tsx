@@ -1,6 +1,6 @@
 import { typography } from "@seed-design/lynx-css/vars/component";
 import type { CSSProperties } from "@lynx-js/types";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "@lynx-js/react";
 
 import {

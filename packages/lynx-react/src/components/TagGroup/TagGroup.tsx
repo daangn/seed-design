@@ -1,5 +1,5 @@
 import * as React from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { tagGroup, type TagGroupVariantProps } from "@seed-design/lynx-css/recipes/tag-group";
 import {
   tagGroupItem,

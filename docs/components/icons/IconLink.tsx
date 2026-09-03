@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { SVGProps } from "react";
 
 /** SEED "link/chain" glyph (two chain links) from the SEED Icons Figma — not shipped in the

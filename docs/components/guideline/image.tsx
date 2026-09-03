@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 
 interface ImageProps {

@@ -4,7 +4,7 @@ import {
 } from "@seed-design/css/recipes/action-button";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";

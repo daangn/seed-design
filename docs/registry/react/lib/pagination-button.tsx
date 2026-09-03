@@ -2,7 +2,7 @@
 
 import { paginationButton } from "@seed-design/css/recipes/pagination-button";
 import { Icon } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 
 export interface PaginationButtonProps

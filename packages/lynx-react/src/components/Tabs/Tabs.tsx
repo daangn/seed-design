@@ -8,7 +8,7 @@ import type {
   ViewPagerOffsetChangeEvent,
   ViewPagerWillChangeEvent,
 } from "@lynx-js/types";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";

@@ -6,7 +6,7 @@ import {
   IconMoonFill,
   IconSunFill,
 } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { useTheme as useFumaTheme } from "fumadocs-ui/provider/base";
 import type { ReactNode } from "react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { ContentPlaceholder } from "@/registry/react/ui/content-placeholder";
-import clsx from "clsx";
+import { clsx } from "cn";
 import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";

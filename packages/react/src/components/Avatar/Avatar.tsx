@@ -2,7 +2,7 @@ import { Image } from "@seed-design/react-image";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { avatar, type AvatarVariantProps } from "@seed-design/css/recipes/avatar";
 import { avatarStack, type AvatarStackVariantProps } from "@seed-design/css/recipes/avatar-stack";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { useMemo } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

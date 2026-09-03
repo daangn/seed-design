@@ -5,7 +5,7 @@ import {
   IconSquare2StackedLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { type MouseEvent, useEffect, useRef, useState } from "react";
 
 interface CopyButtonProps {

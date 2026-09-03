@@ -1,6 +1,6 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "cn";
 import { createMarkdownRenderer, type MarkdownProps } from "fumadocs-core/content/md";
 import type { CalloutType } from "fumadocs-ui/components/callout";
 import type { Root } from "hast";

@@ -3,7 +3,7 @@
 import { wheelPicker } from "@seed-design/css/recipes/wheel-picker";
 import { Primitive } from "@seed-design/react-primitive";
 import { WheelPicker as WheelPickerPrimitive } from "@seed-design/react-wheel-picker";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { ScrollFog, type ScrollFogProps } from "../ScrollFog/ScrollFog";
 

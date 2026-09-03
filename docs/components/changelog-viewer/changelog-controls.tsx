@@ -10,7 +10,7 @@ import {
   DocsMenuTriggerButton,
 } from "@/components/docs-menu";
 import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { type CSSProperties, useState } from "react";
 
 type QueryStateSetter = (value: string | null) => unknown;

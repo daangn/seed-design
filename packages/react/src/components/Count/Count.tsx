@@ -1,5 +1,5 @@
 import { Primitive } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { forwardRef } from "react";
 
 export interface CountProps extends React.HTMLAttributes<HTMLSpanElement> {}

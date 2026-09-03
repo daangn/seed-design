@@ -1,5 +1,5 @@
 import { ScaleFeedback, useScaleFeedback } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 
 import "./ScaleFeedbackPlainCss.css";

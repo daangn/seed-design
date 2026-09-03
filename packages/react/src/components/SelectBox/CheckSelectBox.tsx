@@ -16,7 +16,7 @@ import {
   useCollapsibleContext,
 } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import {
   createContext,
   forwardRef,

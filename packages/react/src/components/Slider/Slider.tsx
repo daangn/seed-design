@@ -12,7 +12,7 @@ import { Slider, useSliderContext } from "@seed-design/react-slider";
 import { forwardRef, useState, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { mergeProps } from "@seed-design/dom-utils";
 import { useFieldContext } from "@seed-design/react-field";
 import { composeRefs } from "@radix-ui/react-compose-refs";

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { CSSProperties, ReactNode } from "react";
 import { usePersistentOpenState } from "../layout/docs-side-navigation-items";
 import {
