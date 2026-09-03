@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 2.9.0
+
+### Minor Changes
+
+- 05d4cf9: Top Navigation의 좌우 여백을 아이콘 크기가 아니라 버튼 크기 기준으로 정리하고, `root.titleMinGap`을 추가합니다. `top-navigation-icon-button`과 `top-navigation-text-button`에 pressed 상태 스펙을 추가합니다.
+
 ## 2.8.0
 
 ### Minor Changes

@@ -502,7 +502,7 @@
       },
       "devDependencies": {
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/rootage-artifacts": "2.8.0",
+        "@seed-design/rootage-artifacts": "2.9.0",
       },
     },
     "packages/lynx-react": {
@@ -567,7 +567,7 @@
         "@seed-design/rootage-core": "0.0.0",
       },
       "devDependencies": {
-        "@seed-design/rootage-artifacts": "2.8.0",
+        "@seed-design/rootage-artifacts": "2.9.0",
         "csstype": "^3.1.3",
       },
     },
@@ -1459,7 +1459,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "2.8.0",
+      "version": "2.9.0",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
