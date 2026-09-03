@@ -1,10 +1,11 @@
 import { DefaultColorModeValue, isValidColorMode } from "./mode.mjs";
 
-// The template literals below are emitted verbatim into an inline <script>, so
-// anything written inside one is string content rather than source: the bundler
-// that minifies this module cannot reach it, and whether the host's HTML
-// pipeline minifies an injected inline script is out of this package's hands.
-// Rationale therefore lives on the constants out here.
+// Never write a comment inside the template literals below. They are emitted
+// verbatim into an inline <script>, so a comment there is string content rather
+// than source: the bundler minifying this module cannot reach it, and whether
+// the host's HTML pipeline minifies an injected inline script is out of this
+// package's hands. Every such comment ships on every page load. Rationale about
+// the snippet goes on the constants out here instead.
 
 /**
  * Sits outside the `fontScaling` gate on purpose. Android WebView multiplies
