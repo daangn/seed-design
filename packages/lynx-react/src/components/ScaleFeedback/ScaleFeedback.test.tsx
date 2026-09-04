@@ -1,9 +1,26 @@
+import { createRef } from "@lynx-js/react";
 import { render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
 import { ScaleFeedback } from "./ScaleFeedback";
 
 describe("ScaleFeedback", () => {
+  it("forwards the consumer ref and clears it on unmount", async () => {
+    const ref = createRef<unknown>();
+    const { unmount } = render(
+      <ScaleFeedback ref={ref}>
+        <view />
+      </ScaleFeedback>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+
+    expect(ref.current).toBeTruthy();
+    unmount();
+    await waitSchedule();
+    expect(ref.current).toBeNull();
+  });
+
   it("renders its child inside one native feedback target", async () => {
     const { container } = render(
       <ScaleFeedback>
