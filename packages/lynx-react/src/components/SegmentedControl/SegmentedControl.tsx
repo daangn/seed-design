@@ -12,6 +12,7 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { HStack } from "../Stack";
 
 interface SegmentedControlContextValue {
   value: string | undefined;
@@ -132,6 +133,7 @@ export interface SegmentedControlItemProps
     LynxAccessibilityProps,
     LynxPressableProps {
   children: string | number;
+  notification?: React.ReactNode;
   value: string;
   disabled?: boolean;
 }
@@ -140,6 +142,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
   (props, ref) => {
     const {
       children,
+      notification,
       className,
       style,
       value: itemValue,
@@ -208,7 +211,14 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
         style={style}
       >
         <view accessibility-elements-hidden={true} className={pressStartClasses.itemBackground} />
-        <text className={classes.label}>{children}</text>
+        {notification ? (
+          <HStack position="relative" align="flex-start">
+            <text className={classes.label}>{children}</text>
+            <view accessibility-elements-hidden={true}>{notification}</view>
+          </HStack>
+        ) : (
+          <text className={classes.label}>{children}</text>
+        )}
       </view>
     );
   },

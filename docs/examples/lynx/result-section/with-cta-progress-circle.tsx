@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
-import { root, useState } from "@lynx-js/react";
+import { root, useEffect, useState } from "@lynx-js/react";
 import {
   ActionButton,
   AppBar,
@@ -15,7 +15,13 @@ import { ResultSection } from "@/components/ui/result-section";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   function handleRetry() {
     "background only";

@@ -1,31 +1,38 @@
 import "./styles";
-import { root } from "@lynx-js/react";
-import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { root, useState } from "@lynx-js/react";
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+const longLabel =
+  "Consequat ut veniam aliqua deserunt occaecat enim occaecat veniam et et cillum nulla officia incididunt incididunt. Sint laboris labore occaecat fugiat culpa voluptate ullamco in elit dolore exercitation nulla.";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
+  const [value, setValue] = useState("medium");
 
   return (
     <page className={seedClassName}>
       <VStack className="radio-group-preview">
-        <RadioGroup.Root defaultValue="medium" size="medium" tone="neutral">
-          <RadioGroup.Item value="medium">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>
-              긴 라벨도 여러 줄로 자연스럽게 표시되어 선택 항목의 내용을 모두 확인할 수 있습니다.
-            </RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="large">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>
-              화면 너비가 좁아져도 라디오 마크와 라벨의 정렬을 유지합니다.
-            </RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
+        <RadioGroup
+          accessibility-label="Long label options"
+          value={value}
+          size="medium"
+          tone="neutral"
+          onValueChange={setValue}
+        >
+          <RadioGroupItem value="medium" label={longLabel} />
+        </RadioGroup>
+        <RadioGroup
+          accessibility-label="Long label options"
+          value={value}
+          size="large"
+          tone="neutral"
+          onValueChange={setValue}
+        >
+          <RadioGroupItem value="large" label={longLabel} />
+        </RadioGroup>
       </VStack>
     </page>
   );

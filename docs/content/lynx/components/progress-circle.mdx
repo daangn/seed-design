@@ -28,9 +28,23 @@ npx @seed-design/cli add ui:progress-circle
 ## Props
 
 <react-type-table
-  path="../packages/lynx-react/src/components/ProgressCircle/ProgressCircle.tsx"
-  name="ProgressCircleRootProps"
+  path="./registry/lynx/ui/progress-circle.tsx"
+  name="ProgressCircleProps"
 />
+
+`ProgressCircle`은 기본적으로 접근성 요소로 노출되며 `accessibility-role-description="progressbar"`를 전달합니다. `minValue`, `maxValue`, `value`를 모두 지정하면 세 값을 `accessibility-value`로 전달하고, `value`를 생략하면 `indeterminate`를 전달합니다.
+
+스크린 리더가 읽을 문구를 바꾸려면 `accessibility-value`를 직접 지정하세요. 필요한 경우 `accessibility-role-description`과 `accessibility-element`도 같은 방식으로 덮어쓸 수 있습니다.
+
+```tsx
+<ProgressCircle
+  minValue={0}
+  maxValue={100}
+  value={40}
+  accessibility-label="파일 업로드"
+  accessibility-value="40% 완료"
+/>
+```
 
 ## Examples
 
@@ -119,15 +133,17 @@ npx @seed-design/cli add ui:progress-circle
 
 ## 웹 버전과의 차이
 
-Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과 내부 구현이 다릅니다. 공개 variant와 진행률 API는 같지만 조합 방식과 렌더링 방식에 차이가 있습니다.
+Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과 내부 구현이 다릅니다. Registry에서 제공하는 단일 `ProgressCircle` API와 공개 variant, 진행률 API는 같습니다.
 
 | | 웹 (React) | Lynx |
 |---|---|---|
-| **조합 방식** | 단일 `ProgressCircle` 컴포넌트 | `ProgressCircle.Root`와 `ProgressCircle.Range` 조합 |
+| **Registry API** | 단일 `ProgressCircle` 컴포넌트 | 단일 `ProgressCircle` 컴포넌트 |
+| **저수준 package API** | `Root`, `Track`, `Range` 조합 | `Root`, `Range` 조합 |
 | **렌더링** | SVG `<circle>`과 `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
 | **애니메이션** | CSS `@keyframes`와 `animation` | Main thread `requestAnimationFrame`과 `setStyleProperty` |
 | **Determinate 전환** | CSS `transition` | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
 | **Track** | `<ProgressCircle.Track />` SVG circle | Root의 CSS `background`와 `clip-path`로 렌더링하며 별도 Track 컴포넌트 없음 |
+| **접근성** | `role="progressbar"`와 `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-valuetext` | `accessibility-role-description="progressbar"`와 `accessibility-value` |
 
 <Callout type="warn">
 Lynx에서는 `clip-path`가 애니메이션 속성이 아니어서 매 프레임 path 문자열을 만듭니다. Indeterminate 인스턴스를 한 화면에 많이 렌더링하면 성능이 저하될 수 있습니다.

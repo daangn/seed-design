@@ -79,6 +79,40 @@ function getCheckboxBackground() {
 }
 
 describe("Checkbox", () => {
+  it("exposes checkbox accessibility state", () => {
+    const { rerender } = render(<Checkbox.Root />);
+
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-element", "true");
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-role-description", "checkbox");
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-value", "not checked");
+    expect(getCheckboxRoot()).not.toHaveAttribute("accessibility-traits");
+
+    rerender(<Checkbox.Root checked disabled />);
+
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-value", "checked");
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-traits", "disabled");
+  });
+
+  it("prefers explicit accessibility props over defaults", () => {
+    render(
+      <Checkbox.Root
+        checked
+        disabled
+        accessibility-element={false}
+        accessibility-role-description="custom checkbox"
+        accessibility-value="custom value"
+        accessibility-traits="button"
+      />,
+    );
+
+    const root = getCheckboxRoot();
+
+    expect(root).toHaveAttribute("accessibility-element", "false");
+    expect(root).toHaveAttribute("accessibility-role-description", "custom checkbox");
+    expect(root).toHaveAttribute("accessibility-value", "custom value");
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+  });
+
   it("keeps each ghost press color stable through release in both toggle directions", () => {
     const onCheckedChange = vi.fn();
 

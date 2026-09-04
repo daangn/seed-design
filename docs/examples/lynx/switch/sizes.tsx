@@ -1,16 +1,11 @@
-import { root } from "@lynx-js/react";
-import { Switch, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
 
-function SwitchItem({ size, label }: { size: Switch.RootProps["size"]; label: string }) {
-  return (
-    <Switch.Root size={size} defaultChecked>
-      <Switch.Control>
-        <Switch.Thumb />
-      </Switch.Control>
-      <Switch.Label>{label}</Switch.Label>
-    </Switch.Root>
-  );
+import { root } from "@lynx-js/react";
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Switch, type SwitchProps } from "@/components/ui/switch";
+
+function SwitchItem({ size, label }: { size: SwitchProps["size"]; label: string }) {
+  return <Switch size={size} label={label} defaultChecked />;
 }
 
 function Root() {

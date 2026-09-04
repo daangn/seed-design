@@ -10,8 +10,29 @@ function Root() {
   return (
     <page className={seedClassName}>
       <VStack className="text-field-input-preview">
-        <VStack className="text-field-input-preview__content">
+        <VStack className="text-field-input-preview__content" gap="spacingY.componentDefault">
           <TextField label="라벨" description="설명을 써주세요" disabled>
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
+          <TextField
+            label="라벨"
+            description="설명을 써주세요"
+            disabled
+            invalid
+            errorMessage="오류가 발생한 이유를 써주세요"
+          >
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
+          <TextField variant="underline" description="설명을 써주세요" disabled>
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
+          <TextField
+            variant="underline"
+            description="설명을 써주세요"
+            disabled
+            invalid
+            errorMessage="오류가 발생한 이유를 써주세요"
+          >
             <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
         </VStack>
