@@ -50,7 +50,9 @@ let initPromise: Promise<void> | null = null;
 async function fetchAndCacheComponentData(): Promise<void> {
   const cache = new Map<string, ComponentData>();
   try {
-    const components = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
+    const components = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY, {}, {
+      cache: "no-store",
+    });
     for (const component of components) {
       cache.set(component.id, component);
     }

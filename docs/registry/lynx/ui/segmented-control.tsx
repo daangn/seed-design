@@ -1,5 +1,9 @@
 import * as React from "@lynx-js/react";
-import { SegmentedControl as SeedSegmentedControl } from "@seed-design/lynx-react";
+import {
+  NotificationBadge,
+  NotificationBadgePositioner,
+  SegmentedControl as SeedSegmentedControl,
+} from "@seed-design/lynx-react";
 
 export interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}
 
@@ -18,9 +22,31 @@ export const SegmentedControl = React.forwardRef<unknown, SegmentedControlProps>
 );
 SegmentedControl.displayName = "SegmentedControl";
 
-export interface SegmentedControlItemProps extends SeedSegmentedControl.ItemProps {}
+export interface SegmentedControlItemProps
+  extends Omit<SeedSegmentedControl.ItemProps, "notification"> {
+  notification?: boolean;
+}
 
 /**
  * @see https://seed-design.io/lynx/components/segmented-control#segmentedcontrolitem
  */
-export const SegmentedControlItem = SeedSegmentedControl.Item;
+export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlItemProps>(
+  ({ children, notification, ...otherProps }, ref) => {
+    return (
+      <SeedSegmentedControl.Item
+        ref={ref}
+        {...otherProps}
+        notification={
+          notification ? (
+            <NotificationBadgePositioner size="small" attach="text">
+              <NotificationBadge />
+            </NotificationBadgePositioner>
+          ) : undefined
+        }
+      >
+        {children}
+      </SeedSegmentedControl.Item>
+    );
+  },
+);
+SegmentedControlItem.displayName = "SegmentedControlItem";

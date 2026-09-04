@@ -9,7 +9,12 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import type {
+  LynxAccessibilityProps,
+  LynxStyledElementProps,
+  LynxTextRef,
+  LynxViewRef,
+} from "../../types";
 
 /**
  * @platform Lynx
@@ -62,7 +67,8 @@ function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContext
 export interface SwitchRootProps
   extends SwitchVariantProps,
     Omit<SwitchmarkVariantProps, "size">,
-    LynxStyledElementProps {
+    LynxStyledElementProps,
+    LynxAccessibilityProps {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -79,8 +85,15 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
+  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restNativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
+  const {
+    "accessibility-element": accessibilityElement = true,
+    "accessibility-role-description": accessibilityRoleDescription = "switch",
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+    ...nativeProps
+  } = restNativeProps;
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -113,6 +126,10 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
+        accessibility-element={accessibilityElement}
+        accessibility-role-description={accessibilityRoleDescription}
+        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+        accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
         {...pressHandlers}
         {...nativeProps}
       >

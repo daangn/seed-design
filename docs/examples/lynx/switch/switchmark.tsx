@@ -1,23 +1,21 @@
-import { root } from "@lynx-js/react";
-import { HStack, Switch, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
 
-function CustomSwitch({
-  label,
-  defaultChecked = false,
-}: {
+import { root } from "@lynx-js/react";
+import { HStack, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Switchmark } from "@/components/ui/switch";
+
+interface CustomSwitchProps {
   label: string;
+  textStyle: "t7Regular" | "t7Medium" | "t7Bold";
   defaultChecked?: boolean;
-}) {
+}
+
+function CustomSwitch({ label, textStyle, defaultChecked = false }: CustomSwitchProps) {
   return (
-    <Switch.Root defaultChecked={defaultChecked}>
-      <VStack gap="x2" align="center">
-        <Switch.Control>
-          <Switch.Thumb />
-        </Switch.Control>
-        <text>{label}</text>
-      </VStack>
-    </Switch.Root>
+    <VStack gap="x2" align="center">
+      <Switchmark accessibility-label={label} defaultChecked={defaultChecked} />
+      <Text textStyle={textStyle}>{label}</Text>
+    </VStack>
   );
 }
 
@@ -26,9 +24,9 @@ function Root() {
   return (
     <page className={seedClassName}>
       <HStack className="switch-preview" gap="x6">
-        <CustomSwitch label="regular" />
-        <CustomSwitch label="medium" defaultChecked />
-        <CustomSwitch label="bold" />
+        <CustomSwitch label="regular" textStyle="t7Regular" />
+        <CustomSwitch label="medium" textStyle="t7Medium" defaultChecked />
+        <CustomSwitch label="bold" textStyle="t7Bold" />
       </HStack>
     </page>
   );

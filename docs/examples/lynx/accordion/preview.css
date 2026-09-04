@@ -16,9 +16,12 @@ page {
   line-height: 20px;
 }
 
-.accordion-preview__status {
-  margin-top: 16px;
-  color: var(--seed-color-fg-neutral-muted);
-  font-size: 14px;
-  line-height: 20px;
+.accordion-preview__value-changes {
+  width: 100%;
+  min-height: 320px;
+}
+
+.accordion-preview__history {
+  width: 280px;
+  flex-shrink: 0;
 }

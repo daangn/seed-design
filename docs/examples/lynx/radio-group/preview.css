@@ -15,3 +15,27 @@ page {
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;
 }
+
+.radio-group-preview__field {
+  width: 100%;
+  max-width: 320px;
+}
+
+.radio-group-preview__field-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.radio-group-preview__field-label {
+  color: var(--seed-color-fg-neutral);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.radio-group-preview__field-indicator,
+.radio-group-preview__field-description {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 13px;
+}
