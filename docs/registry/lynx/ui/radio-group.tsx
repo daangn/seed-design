@@ -25,9 +25,15 @@ export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
  * @see https://seed-design.io/lynx/components/radio-group
  */
 export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>(
-  ({ label, children, ...otherProps }, ref) => {
+  ({ label, children, "accessibility-label": accessibilityLabel, ...otherProps }, ref) => {
+    const defaultAccessibilityLabel = typeof label === "string" ? label : undefined;
+
     return (
-      <SeedRadioGroup.Item ref={ref} {...otherProps}>
+      <SeedRadioGroup.Item
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
+        {...otherProps}
+      >
         <SeedRadioGroup.ItemControl>
           <SeedRadioGroup.ItemIndicator />
         </SeedRadioGroup.ItemControl>

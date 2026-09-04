@@ -16,8 +16,12 @@ page {
   align-self: center;
 }
 
-.segmented-control-example__fixed {
-  width: 320px;
+.segmented-control-example__fixed-wide {
+  width: 500px;
+}
+
+.segmented-control-example__fixed-narrow {
+  width: 400px;
 }
 
 .segmented-control-example__status {

@@ -8,7 +8,7 @@ compatibility:
 
 <AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
 
-<LynxComponentExample name="lynx/callout/preview">
+<LynxComponentExample name="lynx/callout/preview" height={320}>
   ```json doc-gen:file
   {
     "file": "examples/lynx/callout/preview.tsx",
@@ -17,7 +17,7 @@ compatibility:
   ```
 </LynxComponentExample>
 
-## Installation
+## 설치
 
 ```package-install
 npx @seed-design/cli@latest add ui:callout
@@ -25,7 +25,7 @@ npx @seed-design/cli@latest add ui:callout
 
 <LynxManualInstallation name="callout" />
 
-## Props
+## 속성
 
 ### `Callout`
 
@@ -45,9 +45,9 @@ npx @seed-design/cli@latest add ui:callout
   name="DismissibleCalloutProps"
 />
 
-## Usage
+## 사용법
 
-설치한 snippet은 기본 Callout, 전체 영역을 탭할 수 있는 ActionableCallout, 닫을 수 있는 DismissibleCallout을 export합니다.
+설치한 스니펫은 기본 `Callout`, 전체 영역을 탭할 수 있는 `ActionableCallout`, 닫을 수 있는 `DismissibleCallout`을 내보냅니다.
 
 ```tsx
 import { Callout } from "@/components/ui/callout";
@@ -57,7 +57,7 @@ export function App() {
 }
 ```
 
-저수준 조합이 필요하면 `@seed-design/lynx-react`의 compound API를 직접 사용할 수 있습니다.
+저수준 조합이 필요하면 `@seed-design/lynx-react`의 컴파운드 API를 직접 사용할 수 있습니다.
 
 ```tsx
 import { Callout } from "@seed-design/lynx-react";
@@ -74,87 +74,153 @@ export function App() {
 }
 ```
 
-## Prefix Icon
+## 예시
 
-메시지의 의미를 보조하는 아이콘은 `prefixIcon`에 전달합니다. Lynx monochrome icon을 사용하면 `PrefixIcon` wrapper가 tone에 맞는 색상과 크기를 자동으로 적용합니다.
+### 콘텐츠 구성
 
-<LynxComponentExample name="lynx/callout/prefix-icon">
+#### 텍스트만
+
+<LynxComponentExample name="lynx/callout/text-only" height={320}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/callout/prefix-icon.tsx",
+    "file": "examples/lynx/callout/text-only.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-저수준 compound API에서는 `Callout.Root`의 첫 번째 child로 `PrefixIcon`을 배치하세요.
+#### 아이콘 포함
 
-```tsx
-import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
-import { Callout, PrefixIcon } from "@seed-design/lynx-react";
+<LynxComponentExample name="lynx/callout/with-icon" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
-<Callout.Root tone="informative">
-  <PrefixIcon icon={<IconBellFill />} />
-  <Callout.Content>
-    <Callout.Title>알림</Callout.Title>
-    <Callout.Description>새로운 소식을 확인해 보세요.</Callout.Description>
-  </Callout.Content>
-</Callout.Root>;
-```
+#### 제목 텍스트 포함
 
-## Tones
+<LynxComponentExample name="lynx/callout/with-title-text" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-title-text.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 링크 레이블 포함
+
+<Callout type="warn">
+`ActionableCallout`에서는 `linkProps`를 제공하지 않아요.
+</Callout>
+
+<LynxComponentExample name="lynx/callout/with-link-label" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-link-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 모든 요소 포함
+
+<LynxComponentExample name="lynx/callout/with-all" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-all.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+
+### 톤
 
 `tone`은 `neutral`, `informative`, `positive`, `warning`, `critical`, `magic`을 지원합니다. 기본값은 `neutral`입니다.
 
-<LynxComponentExample name="lynx/callout/tones">
+#### 중립 (기본값)
+
+<LynxComponentExample name="lynx/callout/neutral" height={320}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/callout/tones.tsx",
+    "file": "examples/lynx/callout/neutral.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-## Actionable Callout
+#### 정보
 
-전체 Callout을 액션으로 사용할 때는 `bindtap`을 전달합니다. 내부에 별도의 Link를 함께 두지 마세요.
-
-<LynxComponentExample name="lynx/callout/actionable">
+<LynxComponentExample name="lynx/callout/informative" height={320}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/callout/actionable.tsx",
+    "file": "examples/lynx/callout/informative.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-## Dismissible Callout
+#### 긍정
 
-`DismissibleCallout`과 저수준 `Callout.Root`는 `open`, `defaultOpen`, `onDismiss`를 지원합니다. 닫기 버튼에는 현지화된 `dismissLabel` 또는 `accessibility-label`을 제공하세요.
-
-<LynxComponentExample name="lynx/callout/dismissible">
+<LynxComponentExample name="lynx/callout/positive" height={320}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/callout/dismissible.tsx",
+    "file": "examples/lynx/callout/positive.tsx",
     "codeblock": true
   }
   ```
 </LynxComponentExample>
 
-## Web Version Differences
+#### 경고
 
-| 영역 | React Web | Lynx |
+<LynxComponentExample name="lynx/callout/warning" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/warning.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 위험
+
+<LynxComponentExample name="lynx/callout/critical" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/critical.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 매직
+
+<LynxComponentExample name="lynx/callout/magic" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/magic.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+| 영역 | React | Lynx |
 | --- | --- | --- |
-| Native element | `div`, `span`, `button` | `view`, `text` |
-| Event | `onClick` | `bindtap`, `main-thread:bindtap` |
-| Accessibility | HTML semantics, ARIA | `accessibility-*` |
-| Polymorphism | `asChild` 지원 | 미지원 |
-| Link underline | `text-decoration` | Lynx preset 제약으로 border 기반 표현 |
+| 엘리먼트 | `div`, `span`, `button` | `view`, `text` |
+| 이벤트 | `onClick` | `bindtap`, `main-thread:bindtap` |
+| 접근성 | HTML 의미 요소, ARIA | `accessibility-*` |
+| 다형성 | `asChild` 지원 | 미지원 |
+| 링크 밑줄 | `text-decoration` | Lynx 프리셋 제약으로 테두리 기반 표현 |
 
-Lynx에서는 actionable Root가 터치되는 동안 `pressed` recipe variant를 적용합니다. `Callout.Link`는 기본적으로 `accessibility-traits="link"`, actionable Root와 CloseButton은 button trait를 사용합니다.
+Lynx에서는 탭할 수 있는 `Root`를 누르는 동안 `pressed` Recipe variant를 적용합니다. `Callout.Link`는 기본적으로 `accessibility-traits="link"`를 사용합니다. 탭할 수 있는 `Root`와 `CloseButton`에는 `button` 역할을 적용합니다.
 
-## Unsupported Lynx Features
+## Lynx 미지원 기능
 
 - `asChild`: Lynx에는 DOM Slot 기반 다형 렌더링이 없습니다.
-- 웹 focus ring: Lynx는 웹 키보드 포커스 모델을 사용하지 않습니다.
-- HTML attribute와 ARIA prop: 대응하는 Lynx native prop과 `accessibility-*`를 사용하세요.
+- 링크 레이블을 자식 요소로 렌더링: `asChild` 대신 링크 문구를 `linkProps.children`에 전달하고 탭 동작은 `linkProps.bindtap`으로 처리하세요.

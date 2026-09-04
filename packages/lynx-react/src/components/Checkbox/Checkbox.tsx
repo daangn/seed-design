@@ -11,6 +11,7 @@ import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
 import type {
+  LynxAccessibilityProps,
   LynxIconElementProps,
   LynxStyledElementProps,
   LynxTextRef,
@@ -75,7 +76,8 @@ function useCheckmarkControlContext(consumer: string): CheckmarkControlContextVa
 export interface CheckboxRootProps
   extends CheckboxVariantProps,
     Omit<CheckmarkVariantProps, "size" | "checked" | "disabled" | "indeterminate">,
-    LynxStyledElementProps {
+    LynxStyledElementProps,
+    LynxAccessibilityProps {
   checked?: boolean;
   defaultChecked?: boolean;
   indeterminate?: boolean;
@@ -94,8 +96,15 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
+  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, restNativeProps] =
     splitMultipleVariantsProps(restProps, { checkbox, checkmark });
+  const {
+    "accessibility-element": accessibilityElement = true,
+    "accessibility-role-description": accessibilityRoleDescription = "checkbox",
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+    ...nativeProps
+  } = restNativeProps;
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -148,6 +157,10 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
+        accessibility-element={accessibilityElement}
+        accessibility-role-description={accessibilityRoleDescription}
+        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+        accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
         bindtouchstart={handleTouchStart}
         {...pressHandlers}
         {...nativeProps}

@@ -22,6 +22,18 @@ page {
   gap: 8px;
 }
 
+.chip-preview__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}
+
 .chip-preview__avatar {
   width: 100%;
   height: 100%;

@@ -1,12 +1,21 @@
 import "./styles";
 
-import IconExclamationmarkTriangleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkTriangleFill";
+import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
 import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
-import { PageBanner, PageBannerButton } from "@/components/ui/page-banner";
+import {
+  ActionablePageBanner,
+  DismissiblePageBanner,
+  PageBanner,
+  PageBannerButton,
+} from "@/components/ui/page-banner";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
+
+  function handleTap() {
+    "background only";
+  }
 
   return (
     <page className={seedClassName}>
@@ -14,18 +23,50 @@ function Root() {
         <PageBanner
           tone="warning"
           variant="weak"
-          prefixIcon={<IconExclamationmarkTriangleFill />}
-          title="주의"
-          description="입력한 내용을 다시 확인해 주세요."
-          suffix={<PageBannerButton>확인</PageBannerButton>}
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
+          suffix={<PageBannerButton>등록하기</PageBannerButton>}
         />
         <PageBanner
           tone="warning"
           variant="solid"
-          prefixIcon={<IconExclamationmarkTriangleFill />}
-          title="주의"
-          description="입력한 내용을 다시 확인해 주세요."
-          suffix={<PageBannerButton>확인</PageBannerButton>}
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
+          suffix={<PageBannerButton>등록하기</PageBannerButton>}
+        />
+        <ActionablePageBanner
+          tone="warning"
+          variant="weak"
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
+          bindtap={handleTap}
+          accessibility-label="미노출, 사업자 정보를 등록해주세요."
+        />
+        <ActionablePageBanner
+          tone="warning"
+          variant="solid"
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
+          bindtap={handleTap}
+          accessibility-label="미노출, 사업자 정보를 등록해주세요."
+        />
+        <DismissiblePageBanner
+          tone="warning"
+          variant="weak"
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
+        />
+        <DismissiblePageBanner
+          tone="warning"
+          variant="solid"
+          prefixIcon={<IconExclamationmarkCircleFill />}
+          title="미노출"
+          description="사업자 정보를 등록해주세요."
         />
       </view>
     </page>

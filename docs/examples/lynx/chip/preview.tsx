@@ -13,17 +13,17 @@ function Root() {
           <Chip.Button>
             <Chip.Label>Button Chip</Chip.Label>
           </Chip.Button>
-          <Chip.Toggle defaultChecked>
+          <Chip.Toggle>
             <Chip.Label>Toggle Chip</Chip.Label>
           </Chip.Toggle>
         </view>
-        <Chip.RadioRoot defaultValue="first">
+        <Chip.RadioRoot defaultValue="option1">
           <view className="chip-preview__row">
-            <Chip.RadioItem value="first" variant="outlineStrong">
-              <Chip.Label>Radio 1</Chip.Label>
+            <Chip.RadioItem value="option1">
+              <Chip.Label>Radio Chip 1</Chip.Label>
             </Chip.RadioItem>
-            <Chip.RadioItem value="second" variant="outlineStrong">
-              <Chip.Label>Radio 2</Chip.Label>
+            <Chip.RadioItem value="option2">
+              <Chip.Label>Radio Chip 2</Chip.Label>
             </Chip.RadioItem>
           </view>
         </Chip.RadioRoot>
