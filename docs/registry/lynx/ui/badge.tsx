@@ -2,36 +2,26 @@ import IconILowercaseSerifCircleLine from "@karrotmarket/lynx-monochrome-icon/Ic
 import * as React from "@lynx-js/react";
 import { Badge as SeedBadge, Icon, type IconProps } from "@seed-design/lynx-react";
 
-export interface BadgeActionOptions
+export interface BadgeActionProps
   extends Omit<SeedBadge.ActionProps, "accessibility-label" | "children"> {
   "accessibility-label": string;
   render?: (triggerElement: React.ReactElement) => React.ReactNode;
 }
 
-type BadgeBaseProps = Omit<SeedBadge.RootProps, "children" | "prefix" | "action"> & {
+export type BadgeProps = Omit<SeedBadge.RootProps, "children" | "prefix" | "action"> & {
   children: React.ReactNode;
-};
-
-type BadgePrefixProps = {
   prefix?: IconProps["icon"];
-  action?: never;
+  actionProps?: BadgeActionProps;
 };
-
-type BadgeActionProps = {
-  prefix?: never;
-  action?: BadgeActionOptions;
-};
-
-export type BadgeProps = BadgeBaseProps & (BadgePrefixProps | BadgeActionProps);
 
 export const Badge = React.forwardRef<unknown, BadgeProps>((props, ref) => {
-  const { prefix, action, children, ...rootProps } = props;
+  const { prefix, actionProps, children, ...rootProps } = props;
   let actionElement: React.ReactNode = null;
 
-  if (action) {
-    const { render, ...actionProps } = action;
+  if (actionProps) {
+    const { render, ...seedActionProps } = actionProps;
     const triggerElement = (
-      <SeedBadge.Action {...actionProps}>
+      <SeedBadge.Action {...seedActionProps}>
         <Icon icon={<IconILowercaseSerifCircleLine />} size="full" />
       </SeedBadge.Action>
     );

@@ -10,7 +10,7 @@ function Root() {
     <page className={seedClassName}>
       <view className="badge-preview">
         <Badge
-          action={{
+          actionProps={{
             "accessibility-label": "도움말",
             bindtap: () => console.log("도움말 열기"),
           }}

@@ -6,7 +6,7 @@ import { Badge } from "seed-design/ui/badge";
 export default function BadgeWithAction() {
   return (
     <Badge
-      action={{
+      actionProps={{
         "aria-label": "도움말",
         render: (trigger) => (
           <HelpBubbleTooltipTrigger title="판매 완료된 상품이에요">

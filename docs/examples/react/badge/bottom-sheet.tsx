@@ -17,7 +17,7 @@ export default function BadgeWithBottomSheet() {
   return (
     <BottomSheetRoot open={open} onOpenChange={setOpen}>
       <Badge
-        action={{
+        actionProps={{
           "aria-label": "집주인 인증 안내",
           render: (trigger) => <BottomSheetTrigger asChild>{trigger}</BottomSheetTrigger>,
         }}
