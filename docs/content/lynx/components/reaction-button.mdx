@@ -1,0 +1,94 @@
+---
+title: Reaction Button
+description: 사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `ReactionButton`은 별도 `ui:reaction-button` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+<LynxComponentExample name="lynx/reaction-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/ReactionButton/ReactionButton.tsx" name="ReactionButtonProps" />
+
+## Examples
+
+### Small
+
+<LynxComponentExample name="lynx/reaction-button/small">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/small.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Xsmall
+
+<LynxComponentExample name="lynx/reaction-button/xsmall">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/xsmall.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/reaction-button/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Loading
+
+<LynxComponentExample name="lynx/reaction-button/loading">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/loading.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+Loading 중에도 `bindtap`과 `onPressedChange`가 동작합니다. 이벤트를 막아야 한다면 `disabled`를 함께 사용하세요.
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `ReactionButton`은 React `ReactionButton`과 다음과 같은 차이가 있습니다.
+
+- **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
+- **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`와 `<text>` 요소를 렌더링합니다.
+- **접근성 속성**: `aria-*` 대신 Lynx native `accessibility-*` 속성을 사용합니다.
+- **HTML 기능**: button/form 속성, 키보드 focus, `asChild`를 지원하지 않습니다.
+- **Loading 상태**: spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다. React와 마찬가지로 이벤트는 유지됩니다.
+</Callout>
