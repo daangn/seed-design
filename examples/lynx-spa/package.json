@@ -18,7 +18,7 @@
     "@seed-design/lynx-css": "0.10.0",
     "@seed-design/lynx-react": "0.6.0",
     "@seed-design/tailwind3-plugin": "workspace:*",
-    "clsx": "^2.1.1",
+    "cn": "0.2.4",
     "lynx-console": "^0.3.0"
   },
   "devDependencies": {

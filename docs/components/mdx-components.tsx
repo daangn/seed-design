@@ -31,7 +31,7 @@ import {
   SeedCodeBlockAuto,
 } from "@/components/codeblock";
 import defaultMdxComponents from "fumadocs-ui/mdx";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 import { BreezeManualInstallation } from "./breeze-manual-installation";

@@ -1,7 +1,7 @@
 "use client";
 import * as Primitive from "@radix-ui/react-collapsible";
 import { forwardRef, useEffect, useState } from "react";
-import { twMerge as cn } from "tailwind-merge";
+import { twMerge as cn } from "cn";
 
 const Collapsible = Primitive.Root;
 

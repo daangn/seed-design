@@ -1,6 +1,6 @@
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
 import { Icon, ScaleFeedback, Skeleton } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const SPECIMENS = [
   { label: "Scale", scope: "self", marginInset: false },

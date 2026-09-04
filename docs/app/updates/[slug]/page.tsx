@@ -9,7 +9,7 @@ import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { formatPublishedDate } from "@/lib/format-date";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleShareButton } from "./share-button";

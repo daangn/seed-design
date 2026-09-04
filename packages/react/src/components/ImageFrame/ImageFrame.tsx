@@ -15,7 +15,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

@@ -28,7 +28,7 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { mediaQueries } from "@seed-design/css/breakpoints";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import React from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { dataAttr } from "@seed-design/dom-utils";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(sideNavigation);

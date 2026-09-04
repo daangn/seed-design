@@ -4,7 +4,7 @@ import {
   type AppBarMainVariantProps,
 } from "@seed-design/lynx-css/recipes/app-bar-main";
 import * as React from "@lynx-js/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 import type {
   LynxElementProps,

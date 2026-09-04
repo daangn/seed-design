@@ -9,7 +9,7 @@ import {
   useMainThreadRef,
 } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { LynxStyledElementProps, LynxViewRef } from "../../types";

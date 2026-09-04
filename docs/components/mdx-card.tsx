@@ -1,5 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import clsx from "clsx";
+import { clsx } from "cn";
 import Link from "fumadocs-core/link";
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 

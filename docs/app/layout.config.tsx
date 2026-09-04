@@ -1,5 +1,5 @@
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 import {
   SidebarCollapseTrigger,

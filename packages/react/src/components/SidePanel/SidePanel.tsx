@@ -3,7 +3,7 @@ import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

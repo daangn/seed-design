@@ -6,7 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { RadioGroup as RadioGroupPrimitive } from "@seed-design/react-radio-group";
 import type * as React from "react";
 import { forwardRef } from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon } from "../private/Icon";
 

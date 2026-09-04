@@ -1,7 +1,7 @@
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import { runOnMainThread, useEffect, useMainThreadRef, useState } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { RefObject } from "react";
 
 import "../styles/icon-color-poc.css";

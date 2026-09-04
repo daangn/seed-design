@@ -3,7 +3,7 @@ import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { forwardRef } from "react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(chipTabs);
 

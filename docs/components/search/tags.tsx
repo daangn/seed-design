@@ -1,6 +1,6 @@
 "use client";
 
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { TagItem } from "fumadocs-ui/contexts/search";
 import type { ReactNode } from "react";
 

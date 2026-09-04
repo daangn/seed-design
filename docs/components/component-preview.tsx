@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { twMerge as cn } from "tailwind-merge";
+import { twMerge as cn } from "cn";
 
 interface ComponentPreviewProps {
   name: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import gsap from "gsap";
 import { useRef, useState } from "react";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";

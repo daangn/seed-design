@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn";
 import { Children, cloneElement, isValidElement, type ComponentProps, type ReactNode } from "react";
 
 export const INLINE_CODE_CLASS_NAME =

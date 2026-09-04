@@ -1,5 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import clsx from "clsx";
+import { clsx } from "cn";
 import Image from "next/image";
 import Link from "next/link";
 import { RevealText } from "../components/reveal-text";

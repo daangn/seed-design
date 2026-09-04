@@ -1,5 +1,5 @@
 import { paginationPageItem } from "@seed-design/css/recipes/pagination-page-item";
-import clsx from "clsx";
+import { clsx } from "cn"
 import * as React from "react";
 
 export interface PaginationPageItemProps

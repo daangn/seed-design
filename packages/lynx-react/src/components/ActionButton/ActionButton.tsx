@@ -2,7 +2,7 @@ import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
 import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
 import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "@lynx-js/react";
 import { isValidElement, useMemo } from "@lynx-js/react";
 

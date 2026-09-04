@@ -9,7 +9,7 @@ import {
   AccordionTitle,
   AccordionTrigger,
 } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type { ReactNode } from "react";
 
 interface AccordionsProps {

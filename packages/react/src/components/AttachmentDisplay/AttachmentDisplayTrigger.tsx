@@ -10,7 +10,7 @@ import {
 } from "@seed-design/react-attachment-display";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import * as React from "react";
 import { InternalIcon } from "../private/Icon";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";

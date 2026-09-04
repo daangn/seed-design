@@ -7,7 +7,7 @@ import {
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";

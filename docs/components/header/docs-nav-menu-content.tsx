@@ -5,7 +5,7 @@ import {
   NavigationMenuContent,
   type NavigationMenuContentProps,
 } from "@/registry/react/ui/navigation-menu";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 /**
  * Docs-only NavigationMenu flyout wrapper.

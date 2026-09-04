@@ -1,6 +1,6 @@
 import type React from "react";
 
-import clsx from "clsx";
+import { clsx } from "cn";
 import { usePreference } from "../hooks/usePreference";
 import * as styles from "./ComponentShowcase.css";
 
