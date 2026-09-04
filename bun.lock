@@ -582,7 +582,6 @@
         "@seed-design/dom-utils": "^2.1.0",
         "@seed-design/react-accordion": "^1.0.1",
         "@seed-design/react-attachment-display": "^1.0.1",
-        "@seed-design/react-avatar": "^2.0.1",
         "@seed-design/react-checkbox": "^2.0.1",
         "@seed-design/react-collapsible": "^1.0.1",
         "@seed-design/react-date-picker": "^1.2.0",
@@ -664,26 +663,6 @@
       "dependencies": {
         "@radix-ui/react-compose-refs": "1.1.2",
         "@radix-ui/react-use-controllable-state": "1.2.2",
-        "@seed-design/dom-utils": "^2.0.1",
-        "@seed-design/react-primitive": "^2.0.1",
-      },
-      "devDependencies": {
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-      },
-      "peerDependencies": {
-        "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/react-headless/avatar": {
-      "name": "@seed-design/react-avatar",
-      "version": "2.0.1",
-      "dependencies": {
-        "@radix-ui/react-compose-refs": "^1.1.2",
-        "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@radix-ui/react-use-layout-effect": "^1.1.1",
         "@seed-design/dom-utils": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
       },
@@ -3285,8 +3264,6 @@
     "@seed-design/react-accordion": ["@seed-design/react-accordion@workspace:packages/react-headless/accordion"],
 
     "@seed-design/react-attachment-display": ["@seed-design/react-attachment-display@workspace:packages/react-headless/attachment-display"],
-
-    "@seed-design/react-avatar": ["@seed-design/react-avatar@workspace:packages/react-headless/avatar"],
 
     "@seed-design/react-checkbox": ["@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"],
 
