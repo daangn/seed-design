@@ -1385,8 +1385,9 @@ text {
 
 .seed-badge__root {
   flex-direction: row;
-  flex-shrink: 0;
+  flex-shrink: 1;
   align-items: center;
+  min-width: 0;
   display: flex;
   overflow: hidden;
 }
