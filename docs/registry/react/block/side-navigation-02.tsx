@@ -6,10 +6,11 @@ import {
   IconPersonFill,
   IconWrenchFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Box, HStack, Layout, Text, VStack } from "@seed-design/react";
+import { Box, HStack, Layout, Text, VStack } from "@seed-design/react";
 import { useSideNavigationContext } from "@seed-design/react/primitive";
 import { useState } from "react";
 
+import { Badge } from "../ui/badge";
 import { Avatar } from "../ui/avatar";
 import { IdentityPlaceholder } from "../ui/identity-placeholder";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "../ui/menu";
@@ -32,9 +33,9 @@ function SideNavigationHeaderContent() {
     <VStack paddingX="x2" paddingY="x2" gap="x3" align="flex-start">
       {!collapsed && (
         <>
-          <Badge.Root size="large" tone="neutral" variant="weak">
-            <Badge.Label>서비스명</Badge.Label>
-          </Badge.Root>
+          <Badge size="large" tone="neutral" variant="weak">
+            서비스명
+          </Badge>
           <MenuRoot matchReferenceWidth>
             <MenuTrigger asChild>
               <HStack

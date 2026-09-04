@@ -1,10 +1,11 @@
 "use client";
 
 import { IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Box, Flex, HStack, Icon, Text, VStack } from "@seed-design/react";
+import { Box, Flex, HStack, Icon, Text, VStack } from "@seed-design/react";
 import { useRef } from "react";
 import { ScrollAutoHide } from "seed-design/breeze/scroll-auto-hide/scroll-auto-hide";
 import { Avatar } from "seed-design/ui/avatar";
+import { Badge } from "seed-design/ui/badge";
 import { Chip } from "seed-design/ui/chip";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
@@ -140,9 +141,9 @@ export default function ScrollAutoHidePreview() {
 
                   <HStack align="center" gap="x2">
                     {article.popular && (
-                      <Badge.Root variant="outline" tone="brand">
-                        <Badge.Label>인기</Badge.Label>
-                      </Badge.Root>
+                      <Badge variant="outline" tone="brand">
+                        인기
+                      </Badge>
                     )}
                     <TagGroupRoot size="t4" tone="neutralSubtle">
                       <TagGroupItem label={article.category} />
