@@ -14,6 +14,7 @@ describe("resolveTokenReferences", () => {
 .seed-color-mode-light {
   --seed-color-palette-neutral: #111111;
   --seed-color-fg-neutral: var(--seed-color-palette-neutral);
+  --seed-color-fg-static: var(--seed-color-palette-neutral);
   --seed-gradient-fade: var(--seed-color-fg-neutral) 0%, #00000000 100%;
   --seed-component-spacing: var(--seed-dimension-semantic);
 }
@@ -22,6 +23,7 @@ describe("resolveTokenReferences", () => {
   --seed-color-palette-neutral: #eeeeee;
   --seed-color-fg-neutral: var(--seed-color-palette-neutral);
   --seed-gradient-fade: var(--seed-color-fg-neutral) 0%, #00000000 100%;
+  --seed-component-fg-static: var(--seed-color-fg-static);
   --seed-component-spacing: var(--seed-dimension-semantic);
 }`,
     };
@@ -35,6 +37,7 @@ describe("resolveTokenReferences", () => {
 .seed-color-mode-light {
   --seed-color-palette-neutral: #111111;
   --seed-color-fg-neutral: #111111;
+  --seed-color-fg-static: #111111;
   --seed-gradient-fade: #111111 0%, #00000000 100%;
   --seed-component-spacing: 4px;
 }
@@ -43,6 +46,7 @@ describe("resolveTokenReferences", () => {
   --seed-color-palette-neutral: #eeeeee;
   --seed-color-fg-neutral: #eeeeee;
   --seed-gradient-fade: #eeeeee 0%, #00000000 100%;
+  --seed-component-fg-static: #111111;
   --seed-component-spacing: 4px;
 }`);
   });

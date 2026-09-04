@@ -55,7 +55,7 @@ export function resolveTokenReferences(tokens: Theme["tokens"]): Theme["tokens"]
       }
     });
 
-    if (node.selector.trim() === ":root") {
+    if (node.selectors.includes(":root")) {
       rootDeclarations = resolved;
     }
   }
