@@ -30,7 +30,7 @@ runs:
     # `--remap` 값은 작은따옴표로 감싼다. 액션 진입점이 `eval lychee ... ${ARGS}`로
     # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
     - name: Check links in the exported HTML
-      uses: lycheeverse/lychee-action@v2
+      uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
       with:
         lycheeVersion: v0.24.2
         fail: true
@@ -102,7 +102,7 @@ runs:
     # 실제 heading을 담고 있어야만 성립한다. heading을 잃은 채로 켜면 페이지에 멀쩡히 있는
     # 앵커가 전부 깨진 걸로 잡힌다.
     - name: Check links in the llms text outputs
-      uses: lycheeverse/lychee-action@v2
+      uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
       with:
         lycheeVersion: v0.24.2
         fail: true
