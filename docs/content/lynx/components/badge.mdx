@@ -52,12 +52,23 @@ export function App() {
   ```
 </LynxComponentExample>
 
-정보 아이콘에 동작을 연결하려면 `action`에 `accessibility-label`과 `bindtap`을 전달하세요.
+정보 아이콘에는 안내의 양과 사용자가 해야 할 일에 맞는 UI를 연결하세요. 간단한 동작은 `action`에 `accessibility-label`과 `bindtap`을 전달해 연결할 수 있습니다.
 
 <LynxComponentExample name="lynx/badge/action">
   ```json doc-gen:file
   {
     "file": "examples/lynx/badge/action.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+설명이 길거나 사용자의 확인이 필요하면 Bottom Sheet를 연결할 수 있습니다. 다음 예시는 부동산 게시글의 `집주인` Badge에서 집주인 인증에 관한 설명을 제공합니다.
+
+<LynxComponentExample name="lynx/badge/bottom-sheet" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/badge/bottom-sheet.tsx",
     "codeblock": true
   }
   ```

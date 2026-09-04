@@ -51,12 +51,23 @@ export function Example() {
   ```
 </ComponentExample>
 
-부가 설명이 필요하면 정보 아이콘을 눌렀을 때 안내가 나타나도록 `action.render`에 Help Bubble을 연결하세요.
+정보 아이콘에는 안내의 양과 사용자가 해야 할 일에 맞는 UI를 연결하세요. 짧은 설명에는 `action.render`로 Help Bubble을 연결할 수 있습니다.
 
 <ComponentExample name="react/badge/action">
   ```json doc-gen:file
   {
     "file": "examples/react/badge/action.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+설명이 길거나 사용자의 확인이 필요하면 Bottom Sheet를 연결할 수 있습니다. 다음 예시는 부동산 게시글의 `집주인` Badge에서 집주인 인증에 관한 설명을 제공합니다.
+
+<ComponentExample name="react/badge/bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/badge/bottom-sheet.tsx",
     "codeblock": true
   }
   ```
