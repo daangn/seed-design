@@ -1,5 +1,6 @@
 // import Seed Design
 import { definePreview } from "@storybook/nextjs-vite";
+import kapture from "@kaptures/storybook";
 
 import "@seed-design/css/all.css";
 
@@ -29,6 +30,14 @@ const viewportMap: ViewportMap = Object.fromEntries(
 
 export default definePreview({
   parameters: {
+    kapture: {
+      waitForFonts: true,
+      // Exclude story scaffolding without hiding it in snapshots.
+      diffIgnoreSelectors: ['[data-kapture="ignore"]'],
+      diff: {
+        maxChangedPixelPercentage: 0.1,
+      },
+    },
     viewport: {
       options: viewportMap,
     },
@@ -40,5 +49,5 @@ export default definePreview({
     },
   },
 
-  addons: [],
+  addons: [kapture()],
 }).type<{ parameters: StoryParameters }>();
