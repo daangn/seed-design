@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
-import * as React from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Badge from "./Badge.namespace";
@@ -17,16 +16,6 @@ function getRenderedRoot() {
   }
 
   return root;
-}
-
-function SwappableAccessory() {
-  const [showAction, setShowAction] = React.useState(true);
-
-  return showAction ? (
-    <Badge.Action bindtap={() => setShowAction(false)}>닫기</Badge.Action>
-  ) : (
-    <Badge.Prefix>인증</Badge.Prefix>
-  );
 }
 
 describe("Badge", () => {
@@ -104,27 +93,15 @@ describe("Badge", () => {
     expect(action).toHaveClass("seed-badge__action--pressed_false");
   });
 
-  it("allows replacing an action with a prefix", () => {
+  it("renders a prefix and action together", () => {
     render(
       <Badge.Root>
-        <SwappableAccessory />
+        <Badge.Prefix>인증</Badge.Prefix>
+        <Badge.Action>닫기</Badge.Action>
       </Badge.Root>,
     );
 
-    const action = getRenderedRoot().querySelector(".seed-badge__action");
-    fireEvent.tap(action as HTMLElement);
-
     expect(getRenderedRoot().querySelector(".seed-badge__prefix")).toHaveTextContent("인증");
-  });
-
-  it("rejects a prefix and action together", () => {
-    expect(() => {
-      render(
-        <Badge.Root>
-          <Badge.Prefix>인증</Badge.Prefix>
-          <Badge.Action>닫기</Badge.Action>
-        </Badge.Root>,
-      );
-    }).toThrow(/Badge\.Prefix and Badge\.Action cannot be used together\./);
+    expect(getRenderedRoot().querySelector(".seed-badge__action")).toHaveTextContent("닫기");
   });
 });

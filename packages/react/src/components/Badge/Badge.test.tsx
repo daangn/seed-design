@@ -1,19 +1,8 @@
 import { badge } from "@seed-design/css/recipes/badge";
 import { SCALE_FEEDBACK_CLASS_NAME } from "@seed-design/css/scale-feedback";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
-import * as React from "react";
 import { BadgeAction, BadgeLabel, BadgePrefix, BadgeRoot } from "./Badge";
-
-function SwappableAccessory() {
-  const [showAction, setShowAction] = React.useState(true);
-
-  return showAction ? (
-    <BadgeAction aria-label="Show prefix" onClick={() => setShowAction(false)} />
-  ) : (
-    <BadgePrefix>New</BadgePrefix>
-  );
-}
 
 describe("Badge", () => {
   it("applies root and label classes", () => {
@@ -52,26 +41,16 @@ describe("Badge", () => {
     expect(action).toHaveAttribute("type", "button");
   });
 
-  it("allows replacing an action with a prefix", () => {
+  it("renders a prefix and action together", () => {
+    const classNames = badge();
     const { getByRole, getByText } = render(
       <BadgeRoot>
-        <SwappableAccessory />
+        <BadgePrefix>New</BadgePrefix>
+        <BadgeAction aria-label="Details" />
       </BadgeRoot>,
     );
 
-    fireEvent.click(getByRole("button", { name: "Show prefix" }));
-
-    expect(getByText("New")).toHaveClass(badge().prefix);
-  });
-
-  it("rejects a prefix and action together", () => {
-    expect(() =>
-      render(
-        <BadgeRoot>
-          <BadgePrefix>New</BadgePrefix>
-          <BadgeAction aria-label="Dismiss" />
-        </BadgeRoot>,
-      ),
-    ).toThrow("Badge.Prefix and Badge.Action cannot be used together.");
+    expect(getByText("New")).toHaveClass(classNames.prefix);
+    expect(getByRole("button", { name: "Details" })).toHaveClass(classNames.action);
   });
 });

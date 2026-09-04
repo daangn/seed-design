@@ -8,11 +8,9 @@ import clsx from "clsx";
 import * as React from "react";
 
 type BadgeClassNames = Record<BadgeSlotName, string>;
-type BadgeAccessory = "prefix" | "action";
 
 interface BadgeSlotContextValue {
   classNames: BadgeClassNames;
-  registerAccessory: (accessory: BadgeAccessory) => () => void;
 }
 
 const BadgeSlotContext = React.createContext<BadgeSlotContextValue | null>(null);
@@ -27,14 +25,6 @@ function useBadgeSlotContext() {
   return context;
 }
 
-function useBadgeAccessorySlot(accessory: BadgeAccessory) {
-  const { classNames, registerAccessory } = useBadgeSlotContext();
-
-  React.useLayoutEffect(() => registerAccessory(accessory), [accessory, registerAccessory]);
-
-  return classNames;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BadgeRootProps
@@ -46,27 +36,7 @@ export const BadgeRoot = React.forwardRef<HTMLSpanElement, BadgeRootProps>(
   ({ className, ...props }, ref) => {
     const [variantProps, restProps] = badge.splitVariantProps(props);
     const classNames = badge(variantProps);
-    const usedAccessories = React.useRef<Record<BadgeAccessory, number>>({
-      prefix: 0,
-      action: 0,
-    });
-    const registerAccessory = React.useCallback((accessory: BadgeAccessory) => {
-      const otherAccessory = accessory === "prefix" ? "action" : "prefix";
-
-      if (usedAccessories.current[otherAccessory] > 0) {
-        throw new Error("Badge.Prefix and Badge.Action cannot be used together.");
-      }
-
-      usedAccessories.current[accessory] += 1;
-
-      return () => {
-        usedAccessories.current[accessory] -= 1;
-      };
-    }, []);
-    const contextValue: BadgeSlotContextValue = {
-      classNames,
-      registerAccessory,
-    };
+    const contextValue: BadgeSlotContextValue = { classNames };
 
     return (
       <BadgeSlotContext.Provider value={contextValue}>
@@ -83,7 +53,7 @@ export interface BadgePrefixProps extends PrimitiveProps, React.HTMLAttributes<H
 
 export const BadgePrefix = React.forwardRef<HTMLSpanElement, BadgePrefixProps>(
   ({ className, ...props }, ref) => {
-    const classNames = useBadgeAccessorySlot("prefix");
+    const { classNames } = useBadgeSlotContext();
 
     return <Primitive.span ref={ref} className={clsx(classNames.prefix, className)} {...props} />;
   },
@@ -111,7 +81,7 @@ export interface BadgeActionProps
 
 export const BadgeAction = React.forwardRef<HTMLButtonElement, BadgeActionProps>(
   ({ className, ...props }, ref) => {
-    const classNames = useBadgeAccessorySlot("action");
+    const { classNames } = useBadgeSlotContext();
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (

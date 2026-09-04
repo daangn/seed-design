@@ -15,10 +15,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(badge);
 
-type BadgeSlot = "prefix" | "action";
-
 interface BadgeContextValue {
-  registerSlot: (slot: BadgeSlot) => () => void;
   variantProps: BadgeVariantProps;
 }
 
@@ -44,27 +41,7 @@ export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) 
   const [variantProps, otherProps] = badge.splitVariantProps(props);
   const classes = badge(variantProps);
   const { children, className, ...nativeProps } = otherProps;
-  const registeredSlots = React.useRef<Record<BadgeSlot, number>>({
-    prefix: 0,
-    action: 0,
-  });
-  const registerSlot = React.useCallback((slot: BadgeSlot) => {
-    const otherSlot = slot === "prefix" ? "action" : "prefix";
-
-    if (registeredSlots.current[otherSlot] > 0) {
-      throw new Error("Badge.Prefix and Badge.Action cannot be used together.");
-    }
-
-    registeredSlots.current[slot] += 1;
-
-    return () => {
-      registeredSlots.current[slot] -= 1;
-    };
-  }, []);
-  const contextValue: BadgeContextValue = {
-    registerSlot,
-    variantProps,
-  };
+  const contextValue: BadgeContextValue = { variantProps };
 
   return (
     <ClassNamesProvider value={classes}>
@@ -87,11 +64,9 @@ BadgeRoot.displayName = "BadgeRoot";
 export interface BadgePrefixProps extends LynxStyledElementProps {}
 
 export const BadgePrefix = React.forwardRef<unknown, BadgePrefixProps>((props, ref) => {
-  const context = useBadgeContext("BadgePrefix");
+  useBadgeContext("BadgePrefix");
   const classes = useClassNames();
   const { children, className, ...nativeProps } = props;
-
-  React.useEffect(() => context.registerSlot("prefix"), [context.registerSlot]);
 
   return (
     <view
@@ -151,8 +126,6 @@ export const BadgeAction = React.forwardRef<unknown, BadgeActionProps>((props, r
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
-
-  React.useEffect(() => context.registerSlot("action"), [context.registerSlot]);
 
   const handleTouchStart = React.useCallback(
     (...args: Parameters<typeof pressTap.bindtouchstart>) => {

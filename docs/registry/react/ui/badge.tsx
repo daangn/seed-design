@@ -4,34 +4,27 @@ import { IconILowercaseSerifCircleLine } from "@karrotmarket/react-monochrome-ic
 import { Badge as SeedBadge, Icon } from "@seed-design/react";
 import * as React from "react";
 
-export interface BadgeActionOptions extends Omit<SeedBadge.ActionProps, "aria-label" | "children"> {
+export interface BadgeActionProps extends Omit<SeedBadge.ActionProps, "aria-label" | "children"> {
   "aria-label": string;
   render?: (trigger: React.ReactElement) => React.ReactNode;
 }
 
 export type BadgeProps = Omit<SeedBadge.RootProps, "children" | "prefix"> & {
   children: React.ReactNode;
-} & (
-    | {
-        prefix?: React.ReactNode;
-        action?: never;
-      }
-    | {
-        prefix?: never;
-        action?: BadgeActionOptions;
-      }
-  );
+  prefix?: React.ReactNode;
+  actionProps?: BadgeActionProps;
+};
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ children, prefix, action, ...props }, ref) => {
+  ({ children, prefix, actionProps, ...props }, ref) => {
     let actionElement: React.ReactElement | null = null;
-    let renderAction: BadgeActionOptions["render"];
+    let renderAction: BadgeActionProps["render"];
 
-    if (action) {
-      const { render, ...actionProps } = action;
+    if (actionProps) {
+      const { render, ...seedActionProps } = actionProps;
       renderAction = render;
       actionElement = (
-        <SeedBadge.Action {...actionProps}>
+        <SeedBadge.Action {...seedActionProps}>
           <Icon size="full" svg={<IconILowercaseSerifCircleLine />} />
         </SeedBadge.Action>
       );

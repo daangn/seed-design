@@ -29,7 +29,7 @@ function Root() {
       <view className="badge-preview">
         <BottomSheetRoot open={open} onOpenChange={setOpen}>
           <Badge
-            action={{
+            actionProps={{
               "accessibility-label": "집주인 인증 안내",
               bindtap: handleOpen,
             }}
