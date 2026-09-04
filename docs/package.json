@@ -118,7 +118,7 @@
     "zbsearch": "^3.3.4"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.1.3",
+    "@chromatic-com/storybook": "^5.0.0",
     "@figma/rest-api-spec": "^0.36.0",
     "@karrotmarket/lynx-multicolor-icon": "1.27.0",
     "@lynx-js/config-rsbuild-plugin": "0.2.2",
