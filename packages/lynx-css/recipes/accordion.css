@@ -23,6 +23,13 @@
     background-color: transparent;
     border: none
 }
+.seed-accordion__triggerContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    transform: scale(1)
+}
 .seed-accordion__pressedOverlay {
     position: absolute;
     top: 0;

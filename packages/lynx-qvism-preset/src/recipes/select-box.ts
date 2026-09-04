@@ -31,6 +31,7 @@ export const selectBox = defineSlotRecipe({
   slots: [
     "interactionRoot",
     "root",
+    "scaleContent",
     "selectedStroke",
     "trigger",
     "content",
@@ -63,6 +64,15 @@ export const selectBox = defineSlotRecipe({
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
       overflow: "hidden",
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      width: "100%",
+      height: "100%",
+      minHeight: 0,
+      flexGrow: 1,
     },
     selectedStroke: {
       position: "absolute",

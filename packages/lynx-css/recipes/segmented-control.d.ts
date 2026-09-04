@@ -23,7 +23,7 @@ declare type SegmentedControlVariantMap = {
 
 export declare type SegmentedControlVariantProps = Partial<SegmentedControlVariant>;
 
-export declare type SegmentedControlSlotName = "root" | "indicator" | "item" | "itemBackground" | "label";
+export declare type SegmentedControlSlotName = "root" | "indicator" | "item" | "itemContent" | "itemBackground" | "label";
 
 export declare const segmentedControlVariantMap: SegmentedControlVariantMap;
 

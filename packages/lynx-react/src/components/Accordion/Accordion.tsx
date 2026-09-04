@@ -6,6 +6,7 @@ import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/rec
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
@@ -245,9 +246,15 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     },
     [bindtap, context],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled: context.disabled,
     onTap: handleTap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: context.disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classes = accordion({
     ...context.variantProps,
@@ -269,10 +276,13 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
           (context.open ? expandedAccessibilityValue : collapsedAccessibilityValue)
         }
         {...pressHandlers}
+        {...scaleFeedbackTriggerProps}
         {...nativeProps}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-        {children}
+        <view className={classes.triggerContent} {...scaleFeedbackTargetProps}>
+          {children}
+        </view>
       </view>
     </ClassNamesProvider>
   );

@@ -27,7 +27,7 @@ declare type SelectBoxVariantMap = {
 
 export declare type SelectBoxVariantProps = Partial<SelectBoxVariant>;
 
-export declare type SelectBoxSlotName = "interactionRoot" | "root" | "selectedStroke" | "trigger" | "content" | "prefixIcon" | "body" | "label" | "description" | "footer" | "footerInner";
+export declare type SelectBoxSlotName = "interactionRoot" | "root" | "scaleContent" | "selectedStroke" | "trigger" | "content" | "prefixIcon" | "body" | "label" | "description" | "footer" | "footerInner";
 
 export declare const selectBoxVariantMap: SelectBoxVariantMap;
 

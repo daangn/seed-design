@@ -9,7 +9,12 @@ import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkm
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
+import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
+import {
+  useScaleFeedback,
+  type ScaleFeedbackTargetProps,
+} from "../../hooks/useScaleFeedback";
 import type {
   LynxIconElementProps,
   LynxStyledElementProps,
@@ -43,6 +48,7 @@ interface CheckboxContextValue {
   checkboxVariantProps: CheckboxVariantProps;
   checkmarkVariantProps: CheckmarkVariantProps;
   toggle: () => void;
+  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const CheckboxContext = React.createContext<CheckboxContextValue | null>(null);
@@ -106,17 +112,23 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
   const pressSelectionRef = React.useRef({ checked, indeterminate });
-  const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
   });
-  const handleTouchStart = React.useCallback(
-    (...args: Parameters<typeof bindtouchstart>) => {
+  const handlePressStart = React.useCallback(
+    () => {
       pressSelectionRef.current = { checked, indeterminate };
-      bindtouchstart(...args);
+      bindtouchstart();
     },
     [bindtouchstart, checked, indeterminate],
   );
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: handlePressStart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 
@@ -131,6 +143,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       checkboxVariantProps,
       checkmarkVariantProps,
       toggle,
+      scaleFeedbackTargetProps,
     }),
     [
       checked,
@@ -140,6 +153,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       checkboxVariantProps,
       checkmarkVariantProps,
       toggle,
+      scaleFeedbackTargetProps,
     ],
   );
 
@@ -148,7 +162,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        bindtouchstart={handleTouchStart}
+        {...scaleFeedbackTriggerProps}
         {...pressHandlers}
         {...nativeProps}
       >
@@ -169,6 +183,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
   const context = useCheckboxContext("CheckboxControl");
+  const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const checkmarkVariantProps: CheckmarkVariantProps = {
     ...context.checkmarkVariantProps,
     ...variantProps,
@@ -206,6 +221,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
+        {...(!hasScaledContent ? context.scaleFeedbackTargetProps : {})}
         {...nativeProps}
       >
         {isGhost ? <view className={pressStartClasses.background} /> : null}

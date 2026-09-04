@@ -7,7 +7,7 @@ import { defineSlotRecipe } from "../utils/define";
 
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
-  slots: ["root", "indicator", "item", "itemBackground", "label"],
+  slots: ["root", "indicator", "item", "itemContent", "itemBackground", "label"],
   base: {
     root: {
       display: "grid",
@@ -47,12 +47,20 @@ const segmentedControl = defineSlotRecipe({
       minWidth: itemVars.base.enabled.root.minWidth,
       minHeight: itemVars.base.enabled.root.minHeight,
       height: "100%",
+      borderRadius: itemVars.base.enabled.root.cornerRadius,
+    },
+    itemContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
       gap: itemVars.base.enabled.root.gap,
       paddingLeft: itemVars.base.enabled.root.paddingX,
       paddingRight: itemVars.base.enabled.root.paddingX,
       paddingTop: itemVars.base.enabled.root.paddingY,
       paddingBottom: itemVars.base.enabled.root.paddingY,
-      borderRadius: itemVars.base.enabled.root.cornerRadius,
     },
     itemBackground: {
       position: "absolute",

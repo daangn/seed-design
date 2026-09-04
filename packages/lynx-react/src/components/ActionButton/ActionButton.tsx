@@ -7,6 +7,7 @@ import * as React from "@lynx-js/react";
 import { isValidElement, useMemo } from "@lynx-js/react";
 
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxElementProps,
   LynxPressableProps,
@@ -315,10 +316,22 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     );
   }
 
-  const { pressed, ...pressTapHandlers } = usePressTap({
+  const {
+    pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressTapHandlers
+  } = usePressTap({
     disabled: !isInteractive,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: !isInteractive,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (
@@ -332,6 +345,8 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits={accessibilityTraits}
+        {...scaleFeedbackTargetProps}
+        {...scaleFeedbackTriggerProps}
         {...pressTapHandlers}
       >
         {loading ? (
