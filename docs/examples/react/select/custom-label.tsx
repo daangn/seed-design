@@ -5,7 +5,8 @@ import {
   IconFigureBikeLine,
   IconMetroFrontsideLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Box, HStack } from "@seed-design/react";
+import { Box, HStack } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import {
   SelectContent,
   SelectGroup,
@@ -29,9 +30,9 @@ export default function SelectCustomLabel() {
               label={
                 <HStack as="span" align="center" gap="x1_5">
                   지하철
-                  <Badge.Root variant="weak" tone="informative">
-                    <Badge.Label>가장 빠름</Badge.Label>
-                  </Badge.Root>
+                  <Badge variant="weak" tone="informative">
+                    가장 빠름
+                  </Badge>
                 </HStack>
               }
             />
@@ -43,9 +44,9 @@ export default function SelectCustomLabel() {
               label={
                 <HStack as="span" align="center" gap="x1_5">
                   자동차
-                  <Badge.Root variant="weak" tone="warning">
-                    <Badge.Label>고객지원에 문의</Badge.Label>
-                  </Badge.Root>
+                  <Badge variant="weak" tone="warning">
+                    고객지원에 문의
+                  </Badge>
                 </HStack>
               }
             />

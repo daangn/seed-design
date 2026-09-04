@@ -1,6 +1,7 @@
 import "./styles";
 
-import { Badge, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,
@@ -14,9 +15,9 @@ function CustomizedLabel() {
   return (
     <>
       <text>Melon</text>
-      <Badge.Root tone="brand" variant="solid">
-        <Badge.Label>New</Badge.Label>
-      </Badge.Root>
+      <Badge tone="brand" variant="solid">
+        New
+      </Badge>
     </>
   );
 }
