@@ -1,0 +1,18 @@
+{
+  "id": "badge",
+  "dependencies": [
+    "@karrotmarket/lynx-monochrome-icon",
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "badge.tsx",
+      "content": "/**\n * @file ui:badge\n * @requires @seed-design/lynx-react@>=1.0.0 <2.0.0\n * @requires @seed-design/lynx-css@>=1.0.0 <2.0.0\n * @requires @karrotmarket/lynx-monochrome-icon@>=1.20.0 <2.0.0\n **/\n\nimport IconILowercaseSerifCircleLine from \"@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleLine\";\nimport * as React from \"@lynx-js/react\";\nimport { Badge as SeedBadge, Icon, type IconProps } from \"@seed-design/lynx-react\";\n\nexport interface BadgeActionOptions\n  extends Omit<SeedBadge.ActionProps, \"accessibility-label\" | \"children\"> {\n  \"accessibility-label\": string;\n  render?: (triggerElement: React.ReactElement) => React.ReactNode;\n}\n\ntype BadgeBaseProps = Omit<SeedBadge.RootProps, \"children\" | \"prefix\" | \"action\"> & {\n  children: React.ReactNode;\n};\n\ntype BadgePrefixProps = {\n  prefix?: IconProps[\"icon\"];\n  action?: never;\n};\n\ntype BadgeActionProps = {\n  prefix?: never;\n  action?: BadgeActionOptions;\n};\n\nexport type BadgeProps = BadgeBaseProps & (BadgePrefixProps | BadgeActionProps);\n\nexport const Badge = React.forwardRef<unknown, BadgeProps>((props, ref) => {\n  const { prefix, action, children, ...rootProps } = props;\n  let actionElement: React.ReactNode = null;\n\n  if (action) {\n    const { render, ...actionProps } = action;\n    const triggerElement = (\n      <SeedBadge.Action {...actionProps}>\n        <Icon icon={<IconILowercaseSerifCircleLine />} size=\"full\" />\n      </SeedBadge.Action>\n    );\n\n    actionElement = render ? render(triggerElement) : triggerElement;\n  }\n\n  return (\n    <SeedBadge.Root ref={ref} {...rootProps}>\n      {prefix ? (\n        <SeedBadge.Prefix>\n          <Icon icon={prefix} size=\"full\" />\n        </SeedBadge.Prefix>\n      ) : null}\n      <SeedBadge.Label>{children}</SeedBadge.Label>\n      {actionElement}\n    </SeedBadge.Root>\n  );\n});\nBadge.displayName = \"Badge\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=1.0.0 <2.0.0",
+        "@seed-design/lynx-css": ">=1.0.0 <2.0.0",
+        "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+      }
+    }
+  ]
+}

@@ -14,25 +14,59 @@ description: 객체의 속성이나 상태를 시각적으로 표현하는 작�
   ```
 </ComponentExample>
 
-## Usage
+## Installation
 
-```tsx
-import { Badge } from "@seed-design/react";
+```package-install
+npx @seed-design/cli@latest add ui:badge
 ```
 
-```tsx
-<Badge>Badge</Badge>
-```
+<ManualInstallation name="badge" />
 
 ## Props
 
-<react-type-table path="../packages/react/src/components/Badge/Badge.tsx" name="BadgeProps" />
+<react-type-table path="./registry/react/ui/badge.tsx" name="BadgeProps" />
+
+## Usage
+
+```tsx
+"use client";
+
+import { Badge } from "seed-design/ui/badge";
+
+export function Example() {
+  return <Badge>라벨</Badge>;
+}
+```
+
+## Prefix and Action
+
+`prefix`에는 Label 앞에 표시할 아이콘 요소를 전달합니다.
+
+<ComponentExample name="react/badge/prefix">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/badge/prefix.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+부가 설명이 필요하면 정보 아이콘을 눌렀을 때 안내가 나타나도록 `action.render`에 Help Bubble을 연결하세요.
+
+<ComponentExample name="react/badge/action">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/badge/action.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ## Examples
 
 ### Truncating Behavior
 
-Badge는 긴 텍스트를 잘라내고 생략 부호를 표시합니다.
+긴 라벨을 한 줄로 줄여 표시하려면 `style.maxWidth`로 최대 너비를 지정하세요. 지정한 너비를 넘는 내용은 말줄임표로 표시됩니다.
 
 <ComponentExample name="react/badge/truncating">
   ```json doc-gen:file

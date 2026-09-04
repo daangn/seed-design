@@ -1,6 +1,7 @@
 import "./styles";
 
-import { Badge, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -8,14 +9,9 @@ export default function Example() {
   return (
     <view className={`${seedClassName} docs-lynx-badge-root`}>
       <view className="badge-preview">
-        <VStack gap="x4">
-          <Badge size="medium">
-            In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
-          </Badge>
-          <Badge size="large">
-            In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
-          </Badge>
-        </VStack>
+        <Badge style={{ maxWidth: "120px" }}>
+          In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
+        </Badge>
       </view>
     </view>
   );

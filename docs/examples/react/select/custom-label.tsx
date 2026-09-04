@@ -1,3 +1,5 @@
+"use client";
+
 import {
   IconCarLine,
   IconFigureBikeLine,
@@ -27,9 +29,9 @@ export default function SelectCustomLabel() {
               label={
                 <HStack as="span" align="center" gap="x1_5">
                   지하철
-                  <Badge variant="weak" tone="informative">
-                    가장 빠름
-                  </Badge>
+                  <Badge.Root variant="weak" tone="informative">
+                    <Badge.Label>가장 빠름</Badge.Label>
+                  </Badge.Root>
                 </HStack>
               }
             />
@@ -41,9 +43,9 @@ export default function SelectCustomLabel() {
               label={
                 <HStack as="span" align="center" gap="x1_5">
                   자동차
-                  <Badge variant="weak" tone="warning">
-                    고객지원에 문의
-                  </Badge>
+                  <Badge.Root variant="weak" tone="warning">
+                    <Badge.Label>고객지원에 문의</Badge.Label>
+                  </Badge.Root>
                 </HStack>
               }
             />

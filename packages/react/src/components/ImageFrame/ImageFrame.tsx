@@ -21,7 +21,7 @@ import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import type { DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
-import { Badge, type BadgeProps } from "../Badge/Badge";
+import { BadgeLabel, BadgeRoot, type BadgeRootProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
 import { InternalIcon } from "../private/Icon";
@@ -119,11 +119,15 @@ ImageFrameFloater.displayName = "ImageFrameFloater";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameBadgeProps extends BadgeProps {}
+export interface ImageFrameBadgeProps extends BadgeRootProps {}
 
 export const ImageFrameBadge = React.forwardRef<HTMLSpanElement, ImageFrameBadgeProps>(
-  (props, ref) => {
-    return <Badge ref={ref} {...props} />;
+  ({ children, ...props }, ref) => {
+    return (
+      <BadgeRoot ref={ref} {...props}>
+        <BadgeLabel>{children}</BadgeLabel>
+      </BadgeRoot>
+    );
   },
 );
 
