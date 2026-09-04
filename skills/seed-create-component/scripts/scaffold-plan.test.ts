@@ -66,16 +66,16 @@ describe("seed-create-component scaffold plan", () => {
 
   it("Lynx snippet 계획에 React 기준 시나리오와 누락 경고를 포함한다", async () => {
     const result = await createScaffoldPlan({
-      component: "ResultSection",
+      component: "ContentPlaceholder",
       platform: "lynx",
       deliverySurface: "snippet-only",
     });
 
     expect(result.referenceScenarios).toEqual([
-      "large",
-      "medium",
       "preview",
-      "success-with-lottie",
+      "sizes",
+      "svg",
+      "type",
     ]);
     expect(result.warnings).toEqual([
       "scaffold plan은 파일 경계만 제안합니다. 대응 플랫폼의 예제 시나리오를 별도로 분류하세요.",
