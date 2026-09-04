@@ -44,6 +44,7 @@ export interface ScaleFeedbackTriggerProps {
   "main-thread:bindtouchcancel": MainThreadTouchHandler;
 }
 
+/** The target's transform is owned by Scale Feedback; use a separate layer for other transforms. */
 export interface ScaleFeedbackTargetProps {
   flatten: false;
   "main-thread:ref": NonNullable<LynxViewProps["main-thread:ref"]>;
@@ -94,8 +95,8 @@ function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | n
   let width = 0;
   let height = 0;
   try {
-    // Hidden targets may first report a 0x0 layout. Read their current size again
-    // at touchstart so the scale always uses the interactive layout.
+    // Retry at touchstart when no valid layout measurement is cached,
+    // including targets that initially reported a 0x0 layout.
     width = Number.parseFloat(target.getComputedStyleProperty("width"));
     height = Number.parseFloat(target.getComputedStyleProperty("height"));
   } catch {
@@ -114,6 +115,9 @@ function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | n
  * events and `scaleFeedbackTargetProps` onto the element that should scale.
  * Applying both objects to one element creates Self Scale; applying them to
  * separate elements creates Content Scale.
+ *
+ * The target's transform is owned by this hook. Use a separate content layer
+ * when the element already uses translate, rotate, or another transform.
  *
  * Supported on Lynx Engine 3.9 and later. Missing or unknown
  * `GlobalProps.motion` values preserve the default motion; only the exact
