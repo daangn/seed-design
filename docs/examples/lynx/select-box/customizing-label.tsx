@@ -15,9 +15,9 @@ function CustomizedLabel() {
   return (
     <>
       <text>Melon</text>
-      <Badge tone="brand" variant="solid">
-        New
-      </Badge>
+      <Badge.Root tone="brand" variant="solid">
+        <Badge.Label>New</Badge.Label>
+      </Badge.Root>
     </>
   );
 }

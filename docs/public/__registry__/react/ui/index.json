@@ -272,6 +272,23 @@
     {
       "snippets": [
         {
+          "path": "badge.tsx",
+          "dependencies": {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0"
+          }
+        }
+      ],
+      "id": "badge",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "bottom-sheet.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",

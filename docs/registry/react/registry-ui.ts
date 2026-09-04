@@ -26,6 +26,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "badge",
+      snippets: [
+        {
+          path: "badge.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "error-state",
       deprecated: true,
       snippets: [

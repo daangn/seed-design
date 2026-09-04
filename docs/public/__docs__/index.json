@@ -89,7 +89,14 @@
               "id": "badge",
               "title": "Badge",
               "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/components/badge"
+              "docUrl": "/components/badge",
+              "snippetKey": "react/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-navigation",
@@ -1005,7 +1012,14 @@
               "id": "badge",
               "title": "Badge",
               "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/react/components/badge"
+              "docUrl": "/react/components/badge",
+              "snippetKey": "react/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-sheet",
@@ -2074,7 +2088,14 @@
               "id": "badge",
               "title": "Badge",
               "description": "상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.",
-              "docUrl": "/lynx/components/badge"
+              "docUrl": "/lynx/components/badge",
+              "snippetKey": "lynx/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-sheet",

@@ -1,0 +1,18 @@
+{
+  "id": "badge",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "badge.tsx",
+      "content": "/**\n * @file ui:badge\n * @requires @karrotmarket/react-monochrome-icon@^1.17.0\n * @requires @seed-design/react@^3.0.0\n * @requires @seed-design/css@^3.0.0\n **/\n\n\"use client\";\n\nimport { IconILowercaseSerifCircleLine } from \"@karrotmarket/react-monochrome-icon\";\nimport { Badge as SeedBadge, Icon } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface BadgeActionOptions extends Omit<SeedBadge.ActionProps, \"aria-label\" | \"children\"> {\n  \"aria-label\": string;\n  render?: (trigger: React.ReactElement) => React.ReactNode;\n}\n\nexport type BadgeProps = Omit<SeedBadge.RootProps, \"children\" | \"prefix\"> & {\n  children: React.ReactNode;\n} & (\n    | {\n        prefix?: React.ReactNode;\n        action?: never;\n      }\n    | {\n        prefix?: never;\n        action?: BadgeActionOptions;\n      }\n  );\n\nexport const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(\n  ({ children, prefix, action, ...props }, ref) => {\n    let actionElement: React.ReactElement | null = null;\n    let renderAction: BadgeActionOptions[\"render\"];\n\n    if (action) {\n      const { render, ...actionProps } = action;\n      renderAction = render;\n      actionElement = (\n        <SeedBadge.Action {...actionProps}>\n          <Icon size=\"full\" svg={<IconILowercaseSerifCircleLine />} />\n        </SeedBadge.Action>\n      );\n    }\n\n    return (\n      <SeedBadge.Root ref={ref} {...props}>\n        {prefix != null ? (\n          <SeedBadge.Prefix>\n            <Icon size=\"full\" svg={prefix} />\n          </SeedBadge.Prefix>\n        ) : null}\n        <SeedBadge.Label>{children}</SeedBadge.Label>\n        {actionElement ? (renderAction ? renderAction(actionElement) : actionElement) : null}\n      </SeedBadge.Root>\n    );\n  },\n);\nBadge.displayName = \"Badge\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@karrotmarket/react-monochrome-icon": "^1.17.0",
+        "@seed-design/react": "^3.0.0",
+        "@seed-design/css": "^3.0.0"
+      }
+    }
+  ]
+}

@@ -140,9 +140,9 @@ export default function ScrollAutoHidePreview() {
 
                   <HStack align="center" gap="x2">
                     {article.popular && (
-                      <Badge variant="outline" tone="brand">
-                        인기
-                      </Badge>
+                      <Badge.Root variant="outline" tone="brand">
+                        <Badge.Label>인기</Badge.Label>
+                      </Badge.Root>
                     )}
                     <TagGroupRoot size="t4" tone="neutralSubtle">
                       <TagGroupItem label={article.category} />

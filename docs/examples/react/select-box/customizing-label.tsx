@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge, HStack } from "@seed-design/react";
 import {
   CheckSelectBox,
@@ -17,9 +19,9 @@ export default function SelectBoxCustomizingLabel() {
           label={
             <>
               Melon
-              <Badge tone="brand" variant="solid">
-                New
-              </Badge>
+              <Badge.Root tone="brand" variant="solid">
+                <Badge.Label>New</Badge.Label>
+              </Badge.Root>
             </>
           }
           description="Elit cupidatat dolore fugiat enim veniam culpa."
@@ -39,9 +41,9 @@ export default function SelectBoxCustomizingLabel() {
           label={
             <>
               Melon
-              <Badge tone="brand" variant="solid">
-                New
-              </Badge>
+              <Badge.Root tone="brand" variant="solid">
+                <Badge.Label>New</Badge.Label>
+              </Badge.Root>
             </>
           }
           description="Elit cupidatat dolore fugiat enim veniam culpa."

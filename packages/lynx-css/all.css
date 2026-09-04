@@ -1389,6 +1389,7 @@ text {
   flex-shrink: 0;
   align-items: center;
   display: flex;
+  overflow: hidden;
 }
 
 .seed-badge__root:dir(ltr) {
@@ -1399,22 +1400,46 @@ text {
   text-align: right;
 }
 
+.seed-badge__prefix {
+  color: inherit;
+  --seed-icon-size: 100%;
+  --seed-icon-color: currentColor;
+  flex-direction: row;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 .seed-badge__label {
   text-overflow: ellipsis;
   white-space: nowrap;
   flex-shrink: 1;
-  max-width: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
+.seed-badge__action {
+  color: inherit;
+  --seed-icon-size: 100%;
+  --seed-icon-color: currentColor;
+  transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+  flex-direction: row;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  transform: scale(1);
+}
+
 .seed-badge__root--size_medium {
-  max-width: 7.5rem;
   min-height: var(--seed-dimension-x5);
   padding-left: var(--seed-dimension-x1_5);
   padding-right: var(--seed-dimension-x1_5);
   padding-top: var(--seed-dimension-x0_5);
   padding-bottom: var(--seed-dimension-x0_5);
   border-radius: var(--seed-radius-r1);
+  gap: var(--seed-dimension-x0_5);
 }
 
 .seed-badge__label--size_medium {
@@ -1422,19 +1447,29 @@ text {
   line-height: var(--seed-line-height-t1);
 }
 
+.seed-badge__prefix--size_medium, .seed-badge__action--size_medium {
+  width: var(--seed-dimension-x3);
+  height: var(--seed-dimension-x3);
+}
+
 .seed-badge__root--size_large {
-  max-width: 6.75rem;
   min-height: var(--seed-dimension-x6);
   padding-left: var(--seed-dimension-x2);
   padding-right: var(--seed-dimension-x2);
   padding-top: var(--seed-dimension-x1);
   padding-bottom: var(--seed-dimension-x1);
   border-radius: var(--seed-radius-r1_5);
+  gap: var(--seed-dimension-x0_5);
 }
 
 .seed-badge__label--size_large {
   font-size: var(--seed-font-size-t2);
   line-height: var(--seed-line-height-t2);
+}
+
+.seed-badge__prefix--size_large, .seed-badge__action--size_large {
+  width: var(--seed-dimension-x3_5);
+  height: var(--seed-dimension-x3_5);
 }
 
 .seed-badge__label--variant_weak {
@@ -1447,6 +1482,7 @@ text {
 
 .seed-badge__root--tone_neutral-variant_weak {
   background-color: var(--seed-color-bg-neutral-weak);
+  color: var(--seed-color-fg-neutral-muted);
 }
 
 .seed-badge__label--tone_neutral-variant_weak {
@@ -1455,6 +1491,7 @@ text {
 
 .seed-badge__root--tone_neutral-variant_solid {
   background-color: var(--seed-color-palette-gray-800);
+  color: var(--seed-color-fg-on-neutral-solid);
 }
 
 .seed-badge__label--tone_neutral-variant_solid {
@@ -1463,6 +1500,7 @@ text {
 
 .seed-badge__root--tone_neutral-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+  color: var(--seed-color-fg-neutral-muted);
 }
 
 .seed-badge__label--tone_neutral-variant_outline {
@@ -1471,6 +1509,7 @@ text {
 
 .seed-badge__root--tone_brand-variant_weak {
   background-color: var(--seed-color-bg-brand-weak);
+  color: var(--seed-color-fg-brand-contrast);
 }
 
 .seed-badge__label--tone_brand-variant_weak {
@@ -1479,6 +1518,7 @@ text {
 
 .seed-badge__root--tone_brand-variant_solid {
   background-color: var(--seed-color-bg-brand-solid);
+  color: var(--seed-color-fg-on-brand-solid);
 }
 
 .seed-badge__label--tone_brand-variant_solid {
@@ -1487,6 +1527,7 @@ text {
 
 .seed-badge__root--tone_brand-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand-weak);
+  color: var(--seed-color-fg-brand);
 }
 
 .seed-badge__label--tone_brand-variant_outline {
@@ -1495,6 +1536,7 @@ text {
 
 .seed-badge__root--tone_informative-variant_weak {
   background-color: var(--seed-color-bg-informative-weak);
+  color: var(--seed-color-fg-informative-contrast);
 }
 
 .seed-badge__label--tone_informative-variant_weak {
@@ -1503,6 +1545,7 @@ text {
 
 .seed-badge__root--tone_informative-variant_solid {
   background-color: var(--seed-color-bg-informative-solid);
+  color: var(--seed-color-fg-on-informative-solid);
 }
 
 .seed-badge__label--tone_informative-variant_solid {
@@ -1511,6 +1554,7 @@ text {
 
 .seed-badge__root--tone_informative-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-informative-weak);
+  color: var(--seed-color-fg-informative);
 }
 
 .seed-badge__label--tone_informative-variant_outline {
@@ -1519,6 +1563,7 @@ text {
 
 .seed-badge__root--tone_positive-variant_weak {
   background-color: var(--seed-color-bg-positive-weak);
+  color: var(--seed-color-fg-positive-contrast);
 }
 
 .seed-badge__label--tone_positive-variant_weak {
@@ -1527,6 +1572,7 @@ text {
 
 .seed-badge__root--tone_positive-variant_solid {
   background-color: var(--seed-color-bg-positive-solid);
+  color: var(--seed-color-fg-on-positive-solid);
 }
 
 .seed-badge__label--tone_positive-variant_solid {
@@ -1535,6 +1581,7 @@ text {
 
 .seed-badge__root--tone_positive-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-positive-weak);
+  color: var(--seed-color-fg-positive);
 }
 
 .seed-badge__label--tone_positive-variant_outline {
@@ -1543,6 +1590,7 @@ text {
 
 .seed-badge__root--tone_warning-variant_weak {
   background-color: var(--seed-color-bg-warning-weak);
+  color: var(--seed-color-fg-warning-contrast);
 }
 
 .seed-badge__label--tone_warning-variant_weak {
@@ -1551,6 +1599,7 @@ text {
 
 .seed-badge__root--tone_warning-variant_solid {
   background-color: var(--seed-color-bg-warning-solid);
+  color: var(--seed-color-fg-on-warning-solid);
 }
 
 .seed-badge__label--tone_warning-variant_solid {
@@ -1559,6 +1608,7 @@ text {
 
 .seed-badge__root--tone_warning-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-warning-weak);
+  color: var(--seed-color-fg-warning);
 }
 
 .seed-badge__label--tone_warning-variant_outline {
@@ -1567,6 +1617,7 @@ text {
 
 .seed-badge__root--tone_critical-variant_weak {
   background-color: var(--seed-color-bg-critical-weak);
+  color: var(--seed-color-fg-critical-contrast);
 }
 
 .seed-badge__label--tone_critical-variant_weak {
@@ -1575,6 +1626,7 @@ text {
 
 .seed-badge__root--tone_critical-variant_solid {
   background-color: var(--seed-color-bg-critical-solid);
+  color: var(--seed-color-fg-on-critical-solid);
 }
 
 .seed-badge__label--tone_critical-variant_solid {
@@ -1583,10 +1635,15 @@ text {
 
 .seed-badge__root--tone_critical-variant_outline {
   box-shadow: inset 0 0 0 1px var(--seed-color-stroke-critical-weak);
+  color: var(--seed-color-fg-critical);
 }
 
 .seed-badge__label--tone_critical-variant_outline {
   color: var(--seed-color-fg-critical);
+}
+
+.seed-badge__action--size_medium-pressed_true, .seed-badge__action--size_large-pressed_true {
+  transform: scale(var(--seed-scale-s95));
 }
 
 .seed-bottom-sheet__positioner {

@@ -43,6 +43,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "badge",
+      snippets: [
+        {
+          path: "badge.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": ">=1.0.0 <2.0.0",
+            "@seed-design/lynx-css": ">=1.0.0 <2.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "bottom-sheet",
       snippets: [
         {

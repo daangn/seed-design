@@ -1,3 +1,4 @@
+import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +10,7 @@ function Root() {
   return (
     <page className={seedClassName}>
       <view className="badge-preview">
-        <Badge>라벨</Badge>
+        <Badge prefix={<IconPlusFill />}>추가</Badge>
       </view>
     </page>
   );

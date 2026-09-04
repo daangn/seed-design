@@ -7,8 +7,16 @@ const badgeSlotNames = [
     "seed-badge__root"
   ],
   [
+    "prefix",
+    "seed-badge__prefix"
+  ],
+  [
     "label",
     "seed-badge__label"
+  ],
+  [
+    "action",
+    "seed-badge__action"
   ]
 ];
 

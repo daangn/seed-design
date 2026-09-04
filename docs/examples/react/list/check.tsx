@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge, HStack } from "@seed-design/react";
 import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
 import { Checkmark } from "seed-design/ui/checkbox";
@@ -9,7 +11,9 @@ export default function ListCheckbox() {
         title={
           <HStack gap="x1_5">
             <span>알림 수신 동의</span>
-            <Badge variant="weak">권장</Badge>
+            <Badge.Root variant="weak">
+              <Badge.Label>권장</Badge.Label>
+            </Badge.Root>
           </HStack>
         }
         detail="푸시 알림을 받으시겠습니까?"

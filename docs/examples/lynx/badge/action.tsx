@@ -9,7 +9,14 @@ function Root() {
   return (
     <page className={seedClassName}>
       <view className="badge-preview">
-        <Badge>라벨</Badge>
+        <Badge
+          action={{
+            "accessibility-label": "도움말",
+            bindtap: () => console.log("도움말 열기"),
+          }}
+        >
+          판매 완료
+        </Badge>
       </view>
     </page>
   );

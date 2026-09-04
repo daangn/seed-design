@@ -1,5 +1,6 @@
 import { root } from "@lynx-js/react";
-import { Badge, HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 import "./styles";
 
 function Root() {

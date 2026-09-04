@@ -32,9 +32,9 @@ function SideNavigationHeaderContent() {
     <VStack paddingX="x2" paddingY="x2" gap="x3" align="flex-start">
       {!collapsed && (
         <>
-          <Badge size="large" tone="neutral" variant="weak">
-            서비스명
-          </Badge>
+          <Badge.Root size="large" tone="neutral" variant="weak">
+            <Badge.Label>서비스명</Badge.Label>
+          </Badge.Root>
           <MenuRoot matchReferenceWidth>
             <MenuTrigger asChild>
               <HStack
