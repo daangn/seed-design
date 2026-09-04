@@ -38,6 +38,7 @@ describe("Chip", () => {
 
     expect(root).toHaveClass("seed-chip__root--size_large");
     expect(root).toHaveClass("seed-chip__root--variant_outlineStrong");
+    expect(root).toHaveAttribute("accessibility-role-description", "button");
     expect(label).toHaveTextContent("버튼 칩");
     expect(label).toHaveClass("seed-chip__label--size_large");
   });
@@ -52,12 +53,15 @@ describe("Chip", () => {
 
     const root = getChipRoot();
     expect(root).toHaveClass("seed-chip__root--selected_false");
+    expect(root).toHaveAttribute("accessibility-role-description", "toggle");
+    expect(root).toHaveAttribute("accessibility-value", "not checked");
 
     fireEvent.tap(root);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
     expect(getChipRoot()).toHaveClass("seed-chip__root--selected_true");
-    expect(getChipRoot()).toHaveAttribute("accessibility-traits", "selected");
+    expect(getChipRoot()).toHaveAttribute("accessibility-role-description", "toggle");
+    expect(getChipRoot()).toHaveAttribute("accessibility-value", "checked");
   });
 
   it("does not toggle when disabled", () => {
@@ -92,6 +96,10 @@ describe("Chip", () => {
     const roots = getRenderedRoot().querySelectorAll(".seed-chip__root");
     expect(roots[0]).toHaveClass("seed-chip__root--selected_true");
     expect(roots[1]).toHaveClass("seed-chip__root--selected_false");
+    expect(roots[0]).toHaveAttribute("accessibility-role-description", "radio");
+    expect(roots[0]).toHaveAttribute("accessibility-value", "selected");
+    expect(roots[1]).toHaveAttribute("accessibility-role-description", "radio");
+    expect(roots[1]).toHaveAttribute("accessibility-value", "not selected");
 
     fireEvent.tap(roots[1] as HTMLElement);
 
@@ -99,6 +107,47 @@ describe("Chip", () => {
     const updatedRoots = getRenderedRoot().querySelectorAll(".seed-chip__root");
     expect(updatedRoots[0]).toHaveClass("seed-chip__root--selected_false");
     expect(updatedRoots[1]).toHaveClass("seed-chip__root--selected_true");
+    expect(updatedRoots[0]).toHaveAttribute("accessibility-role-description", "radio");
+    expect(updatedRoots[0]).toHaveAttribute("accessibility-value", "not selected");
+    expect(updatedRoots[1]).toHaveAttribute("accessibility-role-description", "radio");
+    expect(updatedRoots[1]).toHaveAttribute("accessibility-value", "selected");
+  });
+
+  it("prefers custom accessibility props to defaults", () => {
+    render(
+      <view>
+        <Chip.Button
+          disabled
+          accessibility-role-description="custom button"
+          accessibility-traits="link"
+        />
+        <Chip.Toggle
+          disabled
+          defaultChecked
+          accessibility-role-description="custom toggle"
+          accessibility-traits="link"
+          accessibility-value="custom checked"
+        />
+        <Chip.RadioRoot defaultValue="selected" disabled>
+          <Chip.RadioItem
+            value="selected"
+            accessibility-role-description="custom radio"
+            accessibility-traits="link"
+            accessibility-value="custom selected"
+          />
+        </Chip.RadioRoot>
+      </view>,
+    );
+
+    const roots = getRenderedRoot().querySelectorAll(".seed-chip__root");
+    expect(roots[0]).toHaveAttribute("accessibility-role-description", "custom button");
+    expect(roots[0]).toHaveAttribute("accessibility-traits", "link");
+    expect(roots[1]).toHaveAttribute("accessibility-role-description", "custom toggle");
+    expect(roots[1]).toHaveAttribute("accessibility-traits", "link");
+    expect(roots[1]).toHaveAttribute("accessibility-value", "custom checked");
+    expect(roots[2]).toHaveAttribute("accessibility-role-description", "custom radio");
+    expect(roots[2]).toHaveAttribute("accessibility-traits", "link");
+    expect(roots[2]).toHaveAttribute("accessibility-value", "custom selected");
   });
 
   it("requires radio items to be rendered inside a radio root", () => {

@@ -1,0 +1,120 @@
+---
+title: AppBar
+description: 화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/stackflow@0.0.1, @seed-design/css@0.0.1" />
+
+<ComponentExample name="react/app-bar/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-bar/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:app-screen
+```
+
+<ManualInstallation name="app-screen" />
+
+React Registry는 AppBar를 AppScreen과 함께 설치합니다. AppBar는 Stackflow Activity 안에서 AppScreen과 함께 사용하세요. Stackflow 설정은 [Getting Started](/react/stackflow/getting-started)를 참고하세요.
+
+## Props
+
+### `AppBar`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarProps" />
+
+### `AppBarLeft`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarLeftProps" />
+
+### `AppBarMain`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarMainProps" />
+
+### `AppBarRight`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarRightProps" />
+
+### `AppBarSlot`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarSlotProps" />
+
+### `AppBarIconButton`
+
+<react-type-table path="./registry/react/ui/app-bar.tsx" name="AppBarIconButtonProps" />
+
+## Usage
+
+설치한 snippet은 Root와 주요 슬롯을 `AppBar`, `AppBarLeft`, `AppBarMain`, `AppBarRight`로 내보냅니다. `AppBarBackButton`은 현재 Activity가 루트가 아닐 때 나타나며, 클릭하면 이전 Activity로 이동합니다.
+
+```tsx
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "@/components/ui/app-bar";
+
+export function Header() {
+  return (
+    <AppBar>
+      <AppBarLeft>
+        <AppBarBackButton />
+      </AppBarLeft>
+      <AppBarMain title="동네생활" />
+      <AppBarRight />
+    </AppBar>
+  );
+}
+```
+
+### Title / Subtitle
+
+`AppBarMain`에 `title`, `subtitle`을 전달하면 제목과 부제목을 조립합니다. `subtitle`이 있으면 `layout="withSubtitle"`을 자동으로 적용합니다.
+
+<ComponentExample name="react/app-bar/title-and-subtitle">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-bar/title-and-subtitle.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Left / Right Action
+
+왼쪽과 오른쪽에는 아이콘 버튼이나 커스텀 슬롯을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 기준으로 가운데 제목의 padding을 조정합니다.
+
+<ComponentExample name="react/app-bar/left-and-right-actions">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-bar/left-and-right-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+아이콘만 있는 버튼에는 동작을 설명하는 `aria-label`을 지정하세요. `AppBarBackButton`과 `AppBarCloseButton`은 각각 `"뒤로"`, `"닫기"`를 기본값으로 제공합니다.
+
+### Theme
+
+`theme`은 `"cupertino"` 또는 `"android"`를 사용할 수 있습니다. `AppScreen`과 같은 theme을 사용하세요.
+
+<ComponentExample name="react/app-bar/platform-layouts">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-bar/platform-layouts.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

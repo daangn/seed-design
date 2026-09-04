@@ -1,41 +1,37 @@
 import "./styles";
-import { root } from "@lynx-js/react";
-import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { root, useState } from "@lynx-js/react";
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
+  const [value, setValue] = useState("regular");
 
   return (
     <page className={seedClassName}>
-      <VStack className="radio-group-preview" gap="x5">
-        <RadioGroup.Root defaultValue="regular-1" size="large" tone="neutral" weight="regular">
-          <RadioGroup.Item value="regular-1">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Regular</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="regular-2">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Regular</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
-        <RadioGroup.Root defaultValue="bold-1" size="large" tone="neutral" weight="bold">
-          <RadioGroup.Item value="bold-1">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Bold</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="bold-2">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>Bold</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
+      <VStack className="radio-group-preview">
+        <RadioGroup
+          accessibility-label="글꼴 굵기 선택"
+          value={value}
+          size="large"
+          tone="neutral"
+          weight="regular"
+          onValueChange={setValue}
+        >
+          <RadioGroupItem value="regular" label="Regular" />
+        </RadioGroup>
+        <RadioGroup
+          accessibility-label="글꼴 굵기 선택"
+          value={value}
+          size="large"
+          tone="neutral"
+          weight="bold"
+          onValueChange={setValue}
+        >
+          <RadioGroupItem value="bold" label="Bold" />
+        </RadioGroup>
       </VStack>
     </page>
   );

@@ -16,8 +16,8 @@ page {
 }
 
 .tag-group-preview__wrapping-container {
-  width: 220px;
-  padding: 16px;
+  width: 350px;
+  padding: 12px;
   border-radius: 8px;
   background-color: var(--seed-color-bg-neutral-weak);
 }

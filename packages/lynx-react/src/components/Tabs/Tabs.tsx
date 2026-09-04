@@ -14,11 +14,13 @@ import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
 import type {
   LynxAccessibilityProps,
+  LynxPressableProps,
   LynxStyledElementProps,
   LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { Box } from "../Box";
 import {
   areTabsTransitionsEnabled,
   getTabsLayoutWidth,
@@ -409,19 +411,25 @@ TabsList.displayName = "TabsList";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TabsTriggerProps extends LynxStyledElementProps {
+export interface TabsTriggerProps
+  extends Omit<LynxStyledElementProps, "children">,
+    Pick<LynxPressableProps, "bindtap"> {
+  children: string | number;
   value: string;
   disabled?: boolean;
+  notification?: React.ReactNode;
   "accessibility-label"?: LynxAccessibilityProps["accessibility-label"];
 }
 
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {
   const {
     children,
+    notification,
     className,
     style,
     value: triggerValue,
     disabled = false,
+    bindtap,
     "accessibility-label": accessibilityLabel,
     ...nativeProps
   } = props;
@@ -439,10 +447,14 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     context.updateTriggerDisabled(triggerValue, disabled);
   }, [context.updateTriggerDisabled, triggerValue, disabled]);
 
-  const handleTap = React.useCallback<NonNullable<NativeViewProps["bindtap"]>>(() => {
-    "background only";
-    context.selectValue(triggerValue);
-  }, [context.selectValue, triggerValue]);
+  const handleTap = React.useCallback<NonNullable<NativeViewProps["bindtap"]>>(
+    (...args) => {
+      "background only";
+      bindtap?.(...args);
+      context.selectValue(triggerValue);
+    },
+    [bindtap, context.selectValue, triggerValue],
+  );
   const { pressed: _pressed, ...pressHandlers } = usePressTap({ disabled, onTap: handleTap });
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
@@ -478,7 +490,14 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       className={clsx(triggerClasses.trigger, className)}
       style={style}
     >
-      <text className={triggerClasses.triggerLabel}>{children}</text>
+      {notification ? (
+        <Box position="relative">
+          <text className={triggerClasses.triggerLabel}>{children}</text>
+          {notification}
+        </Box>
+      ) : (
+        <text className={triggerClasses.triggerLabel}>{children}</text>
+      )}
     </view>
   );
 });
