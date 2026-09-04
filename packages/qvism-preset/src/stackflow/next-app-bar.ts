@@ -188,19 +188,12 @@ export const nextAppBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeIos.enabled.root.paddingX,
+          paddingInline: vars.base.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
           height: iconButtonVars.base.enabled.root.size,
-
-          "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
-          },
-          "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
-          },
         },
         icon: {
           width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
@@ -210,19 +203,12 @@ export const nextAppBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          paddingInline: vars.base.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
           height: iconButtonVars.base.enabled.root.size,
-
-          "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
-          },
-          "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
-          },
         },
         icon: {
           width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
