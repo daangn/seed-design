@@ -151,7 +151,7 @@ jobs:
           echo "result=$VULN_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Run Claude Dependency Analysis
-        uses: anthropics/claude-code-action@3f854a8fb5146b39d5cbf8b57f70d80810e1366f # v1
+        uses: anthropics/claude-code-action@d75b94d5ad426cb8546e6628b6f5f19b84e5cce1 # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           allowed_bots: "renovate[bot]"
