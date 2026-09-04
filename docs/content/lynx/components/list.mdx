@@ -1,0 +1,335 @@
+---
+title: List
+description: 가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.7.0, @seed-design/lynx-css@0.11.0" />
+
+<LynxComponentExample name="lynx/list/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:list
+```
+
+<LynxManualInstallation name="list" />
+
+## Usage
+
+```tsx
+import { ListHeader } from "@/components/ui/list-header";
+import { List, ListDivider, ListItem } from "@/components/ui/list";
+
+<view>
+  <ListHeader>리스트 헤더</ListHeader>
+  <List>
+    <ListItem title="리스트 아이템 1" />
+    <ListDivider />
+    <ListItem title="리스트 아이템 2" />
+  </List>
+</view>
+```
+
+## Props
+
+### `ListHeader`
+
+<react-type-table path="./registry/lynx/ui/list-header.tsx" name="ListHeaderProps" />
+
+### `List`
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListProps" />
+
+### List Items
+
+<Accordions>
+
+<Accordion title="ListItem">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListItemProps" />
+
+</Accordion>
+
+<Accordion title="ListButtonItem">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListButtonItemProps" />
+
+</Accordion>
+
+<Accordion title="ListLinkItem">
+
+Lynx에는 HTML anchor에 해당하는 기본 요소가 없습니다. 링크 이동은 `ListButtonItem`의 `bindtap`에서 앱 라우터를 호출해 처리합니다.
+
+</Accordion>
+
+<Accordion title="ListSwitchItem">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListSwitchItemProps" />
+
+</Accordion>
+
+<Accordion title="ListCheckItem">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListCheckItemProps" />
+
+</Accordion>
+
+<Accordion title="ListRadioItem">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListRadioItemProps" />
+
+</Accordion>
+
+<Accordion title="ListDivider">
+
+<react-type-table path="./registry/lynx/ui/list.tsx" name="ListDividerProps" />
+
+</Accordion>
+
+</Accordions>
+
+## Examples
+
+### Using `ListHeader`
+
+`ListHeader`는 `List` 밖에 위치합니다. Lynx `ListHeader`는 `<text>`를 렌더링하므로 액션은 Header의 형제로 배치합니다.
+
+<LynxComponentExample name="lynx/list/header" height={760}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/header.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Affixes (Prefix/Suffix)
+
+<LynxComponentExample name="lynx/list/affixes" height={580}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Clickable List Items
+
+`ListButtonItem`을 사용하면 리스트 항목 전체를 탭할 수 있습니다. Lynx에는 `ListLinkItem`이 없으므로 화면 이동은 `bindtap`에서 앱 라우터를 호출합니다.
+
+<LynxComponentExample name="lynx/list/clickable" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/clickable.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### `input`s in List Items
+
+`ListSwitchItem`, `ListCheckItem`, `ListRadioItem`을 사용하면 항목 전체를 탭해 값을 바꿀 수 있습니다. snippet은 각 컨트롤을 기본 suffix로 렌더링합니다. `suffix={null}`을 전달하면 기본 컨트롤을 숨길 수 있습니다.
+
+<LynxComponentExample name="lynx/list/switch">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/switch.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<LynxComponentExample name="lynx/list/check">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/check.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<LynxComponentExample name="lynx/list/radio">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/radio.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Accessibility
+
+`ListButtonItem`은 기본적으로 button 역할과 문자열 `title` 기반의 접근성 이름을 제공합니다. 선택 항목은 현재 선택 여부를 `accessibility-value`로 전달합니다. `ListRadioItem`은 반드시 `RadioGroup.Root` 안에서 사용하고 그룹의 접근성 이름도 지정하세요.
+
+```tsx
+import { List, ListRadioItem } from "@/components/ui/list";
+import { RadioGroup } from "@/components/ui/radio-group";
+
+<RadioGroup defaultValue="짜장" accessibility-label="점심 메뉴">
+  <List>
+    <ListRadioItem value="짜장" title="짜장" />
+    <ListRadioItem value="짬뽕" title="짬뽕" />
+  </List>
+</RadioGroup>
+```
+
+### Disabled
+
+<LynxComponentExample name="lynx/list/disabled" height={650}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Variants
+
+#### Highlighted
+
+<LynxComponentExample name="lynx/list/highlighted" height={620}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/highlighted.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With Bottom Sheet
+
+<LynxComponentExample name="lynx/list/bottom-sheet" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/list/bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Alignment
+
+React의 `alignItems` prop은 Lynx List에서 지원하지 않습니다. Lynx에서는 Recipe가 prefix, content, suffix를 가운데에 정렬합니다. 상단 정렬이 필요하면 저수준 슬롯을 직접 배치한 별도 레이아웃을 사용하세요.
+
+### Border Radius
+
+React의 `itemBorderRadius` prop은 Lynx List에서 지원하지 않습니다. Lynx 항목의 눌림 반경은 Recipe가 정한 값을 사용합니다. 둥근 카드 안에서는 바깥 컨테이너에 `border-radius`와 `overflow: hidden`을 적용하세요.
+
+## Customization and Composition
+
+### Usage
+
+`@seed-design/lynx-react`에서 제공하는 `List`와 `ListHeader` 컴포넌트는 다음 구조로 사용합니다.
+
+```
+ListHeader
+List.Root
+└── List.Item
+    ├── List.Prefix (선택사항)
+    ├── List.Content
+    │   ├── List.Title
+    │   └── List.Detail (선택사항)
+    └── List.Suffix (선택사항)
+└── List.Item
+    ├── ...
+```
+
+```tsx
+import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevronRightLine";
+import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
+import { List, ListHeader, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
+
+<view>
+  <ListHeader>내 정보</ListHeader>
+  <List.Root>
+    <List.Item>
+      <List.Prefix>
+        <PrefixIcon icon={<IconPersonCircleLine />} />
+      </List.Prefix>
+      <List.Content>
+        <List.Title>내 프로필</List.Title>
+        <List.Detail>다른 사람들에게 보이는 내 정보를 관리합니다.</List.Detail>
+      </List.Content>
+      <List.Suffix>
+        <SuffixIcon icon={<IconChevronRightLine />} />
+      </List.Suffix>
+    </List.Item>
+  </List.Root>
+</view>
+```
+
+- `ListHeader`: 리스트의 제목이나 설명을 표시하는 헤더
+- `List.Root`: 모든 리스트 항목을 감싸는 컨테이너
+  - `List.Item`: 상호작용하지 않는 개별 항목
+  - `List.ButtonItem`: 탭할 수 있는 개별 항목
+  - `List.CheckboxItem`, `List.RadioItem`, `List.SwitchItem`: 선택 상태를 가진 개별 항목
+  - `List.Prefix`: 아이콘이나 Avatar 등을 표시하는 시작 영역
+  - `List.Content`: 제목과 설명이 들어가는 중앙 영역
+  - `List.Suffix`: 아이콘이나 Action Button 등을 표시하는 끝 영역
+
+### `asChild` prop으로 적절한 시맨틱 요소와 조합하기
+
+Lynx에는 DOM 기반 `asChild` prop이 없습니다. 역할에 맞는 상호작용 항목을 직접 사용합니다.
+
+#### Using `List.ButtonItem` instead of `asChild` in `List.Content`
+
+항목 전체를 탭할 때는 `List.ButtonItem`을 사용합니다.
+
+```tsx
+import { List } from "@seed-design/lynx-react";
+
+<List.ButtonItem bindtap={handleTap} accessibility-label="사용자, 항목 6개">
+  <List.Content>
+    <List.Title>사용자</List.Title>
+    <List.Detail>항목 6개</List.Detail>
+  </List.Content>
+</List.ButtonItem>
+```
+
+snippet의 `ListButtonItem`은 같은 구조를 간단히 작성할 수 있게 돕습니다.
+
+```tsx
+import { ListButtonItem } from "@/components/ui/list";
+
+<ListButtonItem bindtap={handleTap} title="사용자" detail="항목 6개" />
+```
+
+#### Using selection items instead of `asChild` in `List.Item`
+
+선택 상태가 있는 항목은 각각 `List.CheckboxItem`, `List.RadioItem`, `List.SwitchItem`을 사용합니다. snippet의 선택 항목은 접근성 값과 기본 컨트롤을 함께 구성합니다.
+
+```tsx
+import { ListCheckItem } from "@/components/ui/list";
+
+<ListCheckItem defaultChecked title="동의" />
+```
+
+## 웹 버전과의 차이
+
+| 영역 | React Web | Lynx |
+| --- | --- | --- |
+| 요소 | `ul`, `li`, `button`, `input` | `view`, `text` |
+| 이벤트 | `onClick` | `bindtap`, `main-thread:bindtap` |
+| 접근성 | HTML 시맨틱과 ARIA | `accessibility-*` |
+| 링크 항목 | `ListLinkItem` | `ListButtonItem`에서 앱 라우터 호출 |
+| 다형 렌더링 | `as`, `asChild` | 미지원 |
+| 선택 컨트롤 | hidden input | Lynx 상태와 접근성 값 공유 |
+
+## Lynx 미지원 기능
+
+| 기능 | 웹 대응 | 대체 방법 |
+| --- | --- | --- |
+| `ListLinkItem` | `<a>` 링크 항목 | `ListButtonItem`의 `bindtap`에서 앱 라우터 호출 |
+| `itemBorderRadius` | 목록별 눌림 반경 | 바깥 컨테이너에 반경과 clipping 적용 |
+| `alignItems` | prefix와 suffix 정렬 | 저수준 슬롯을 사용한 별도 레이아웃 구성 |
+| Header 내부 복합 콘텐츠 | 제목과 액션을 한 Header에 배치 | Header와 액션을 형제 요소로 배치 |
