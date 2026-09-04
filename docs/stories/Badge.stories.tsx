@@ -36,5 +36,5 @@ export const WithPrefix = meta.story({
 });
 
 export const WithAction = meta.story({
-  render: () => <Badge action={{ "aria-label": "도움말" }}>판매 완료</Badge>,
+  render: () => <Badge actionProps={{ "aria-label": "도움말" }}>판매 완료</Badge>,
 });
