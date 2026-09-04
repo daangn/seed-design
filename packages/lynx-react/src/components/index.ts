@@ -10,6 +10,7 @@ export * from "./Chip";
 export * from "./Divider";
 export * from "./Field";
 export * from "./Icon";
+export * from "./InputButton";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./MannerTemp";
 export * from "./MannerTempBadge";
