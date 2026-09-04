@@ -8129,21 +8129,13 @@
 
 .seed-next-app-bar__root--theme_cupertino {
   height: calc(44px + var(--seed-safe-area-top));
-  padding-inline: var(--seed-dimension-x4);
+  padding-inline: var(--seed-dimension-x1_5);
   padding-top: var(--seed-safe-area-top);
 }
 
 .seed-next-app-bar__iconButton--theme_cupertino {
   width: 44px;
   height: 44px;
-}
-
-.seed-next-app-bar__iconButton--theme_cupertino:first-child {
-  margin-left: -10px;
-}
-
-.seed-next-app-bar__iconButton--theme_cupertino:last-child {
-  margin-right: -10px;
 }
 
 .seed-next-app-bar__icon--theme_cupertino {
@@ -8153,7 +8145,7 @@
 
 .seed-next-app-bar__root--theme_android {
   height: calc(56px + var(--seed-safe-area-top));
-  padding-inline: var(--seed-dimension-x4);
+  padding-inline: var(--seed-dimension-x1_5);
   padding-top: var(--seed-safe-area-top);
 }
 
@@ -8162,21 +8154,13 @@
   height: 44px;
 }
 
-.seed-next-app-bar__iconButton--theme_android:first-child {
-  margin-left: -10px;
-}
-
-.seed-next-app-bar__iconButton--theme_android:last-child {
-  margin-right: -10px;
-}
-
 .seed-next-app-bar__icon--theme_android {
   width: var(--seed-icon-size, 24px);
   height: var(--seed-icon-size, 24px);
 }
 
 .seed-next-app-bar__left--theme_android {
-  padding-right: 16px;
+  padding-right: var(--seed-dimension-x1_5);
 }
 
 .seed-next-app-bar__background--tone_layer {
@@ -8196,8 +8180,8 @@
 }
 
 .seed-next-app-bar__background--tone_transparent-gradient_true {
+  background: linear-gradient(180deg, [object Object]);
   height: calc(100% + var(--seed-dimension-x5));
-  background: linear-gradient(#00000059 0%, #0000 100%);
 }
 
 .seed-next-app-bar-main__root {
