@@ -24,6 +24,7 @@ const radiomarkRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
 
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      "--seed-radiomark-pressed-color": vars.base.enabledPressed.root.color,
     },
     icon: {
       borderRadius: vars.base.enabled.icon.cornerRadius,
@@ -79,6 +80,7 @@ const radiomarkRecipe = defineSlotRecipe({
       css: {
         root: {
           backgroundColor: vars.toneBrand.enabledSelected.root.color,
+          "--seed-radiomark-pressed-color": vars.toneBrand.enabledSelectedPressed.root.color,
           borderWidth: vars.base.enabledSelected.root.strokeWidth,
           borderColor: vars.base.enabledSelected.root.strokeColor,
         },
@@ -95,6 +97,7 @@ const radiomarkRecipe = defineSlotRecipe({
       css: {
         root: {
           backgroundColor: vars.toneNeutral.enabledSelected.root.color,
+          "--seed-radiomark-pressed-color": vars.toneNeutral.enabledSelectedPressed.root.color,
           borderWidth: vars.base.enabledSelected.root.strokeWidth,
           borderColor: vars.base.enabledSelected.root.strokeColor,
         },

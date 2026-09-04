@@ -63,7 +63,13 @@ const radioRecipe = defineSlotRecipe({
       true: {
         label: { color: vars.base.disabled.label.color },
       },
-      false: {},
+      false: {
+        root: {
+          "&:active .seed-radiomark__root": {
+            backgroundColor: "var(--seed-radiomark-pressed-color)",
+          },
+        },
+      },
     },
   },
   defaultVariants: {

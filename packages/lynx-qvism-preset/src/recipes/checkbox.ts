@@ -57,7 +57,16 @@ const checkboxRecipe = defineSlotRecipe({
       true: {
         label: { color: vars.base.disabled.label.color },
       },
-      false: {},
+      false: {
+        root: {
+          "&:active .seed-checkmark__root": {
+            backgroundColor: "var(--seed-checkmark-pressed-color)",
+          },
+          "&:active .seed-checkmark__background": {
+            opacity: 1,
+          },
+        },
+      },
     },
   },
   defaultVariants: {

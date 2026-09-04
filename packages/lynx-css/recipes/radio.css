@@ -38,3 +38,6 @@
 .seed-radio__label--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-radio__root--disabled_false:active .seed-radiomark__root {
+    background-color: var(--seed-radiomark-pressed-color)
+}

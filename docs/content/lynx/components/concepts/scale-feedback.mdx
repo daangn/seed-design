@@ -112,6 +112,14 @@ Main Thread 핸들러가 scale을 즉시 시작한 뒤 필요한 callback만 `ru
 
 `usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onTouchStart`, `onTouchEnd`, `onTouchCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
 
+### pressed 색상 피드백
+
+Scale과 함께 바뀌는 pressed 색상은 Lynx CSS의 `:active`에서 시작합니다. Background Thread의 `usePressTap()`이 className을 갱신할 때까지 기다리지 않으므로 짧은 탭에서도 색상 transition이 Main Thread 입력과 함께 시작됩니다.
+
+Action Button, Chip, Callout처럼 trigger와 color target이 같은 컴포넌트는 Self selector를 사용합니다. Accordion, Checkbox, Radio처럼 target이 내부 slot인 컴포넌트는 enabled trigger의 `:active` selector가 해당 content class를 대상으로 합니다. disabled 또는 loading variant에는 active selector class가 생성되지 않습니다.
+
+Background Thread의 `pressed` variant는 상태 기반 렌더링과 기존 fallback을 위해 유지합니다. 즉각적인 시각 반응은 `:active`, tap 처리와 React state는 `usePressTap()`이 담당합니다.
+
 ## 애니메이션과 Rootage 값
 
 Scale은 CSS `transition` 문자열을 inline style에 쓰지 않고 `Element.animate()`로 실행합니다. 따라서 target에 이미 선언된 background-color, color, border-color transition을 덮어쓰지 않습니다.
