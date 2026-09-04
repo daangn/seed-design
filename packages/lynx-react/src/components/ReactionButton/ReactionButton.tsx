@@ -38,22 +38,25 @@ export interface ReactionButtonProps
 }
 
 export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((props, ref) => {
+  const [variantProps, otherProps] = reactionButton.splitVariantProps(props);
   const {
     children,
     className,
     style,
-    size,
-    pressed: pressedProp,
     defaultPressed = false,
     onPressedChange,
-    disabled = false,
-    loading = false,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement = true,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
-  } = props;
+  } = otherProps;
+  const {
+    size,
+    pressed: pressedProp,
+    disabled = false,
+    loading = false,
+  } = variantProps;
   const [selected, setSelected] = useControllableState({
     value: pressedProp,
     defaultValue: defaultPressed,
@@ -71,7 +74,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const classNames = reactionButton({ size, selected, pressed, disabled, loading });
+  const classNames = reactionButton({ ...variantProps, selected, pressed, disabled, loading });
   const iconSlotContextValue = useMemo(
     () => ({
       classNames: { prefixIcon: classNames.prefixIcon },
