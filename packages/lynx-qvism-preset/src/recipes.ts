@@ -21,6 +21,7 @@ import radiomark from "./recipes/radiomark";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
+import reactionButton from "./recipes/reaction-button";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
@@ -52,6 +53,7 @@ export const recipes = {
   radio,
   radioGroup,
   radiomark,
+  reactionButton,
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,

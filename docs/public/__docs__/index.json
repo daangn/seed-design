@@ -2233,6 +2233,12 @@
               ]
             },
             {
+              "id": "reaction-button",
+              "title": "Reaction Button",
+              "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+              "docUrl": "/lynx/components/reaction-button"
+            },
+            {
               "id": "result-section",
               "title": "Result Section",
               "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자 액션의 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내합니다.",
