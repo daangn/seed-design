@@ -1430,6 +1430,19 @@
               ]
             },
             {
+              "id": "popover",
+              "title": "Popover",
+              "description": "트리거 요소에 앵커링되어 화면 위에 떠 있는 컨테이너입니다. Header/Body/Footer 구조로 부가 정보나 액션을 제공할 때 사용됩니다.",
+              "docUrl": "/react/components/popover",
+              "snippetKey": "react/ui:popover",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "popover.tsx"
+                }
+              ]
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",

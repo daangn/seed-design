@@ -332,6 +332,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "popover",
+      snippets: [
+        {
+          path: "popover.tsx",
+          dependencies: { "@seed-design/react": "^2.5.0", "@seed-design/css": "^2.7.0" },
+        },
+      ],
+    },
+    {
       id: "tabs",
       snippets: [
         {

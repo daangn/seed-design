@@ -747,6 +747,22 @@
     {
       "snippets": [
         {
+          "path": "popover.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.5.0",
+            "@seed-design/css": "^2.7.0"
+          }
+        }
+      ],
+      "id": "popover",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
