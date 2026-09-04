@@ -58,15 +58,48 @@ export const nextAppBarMain = defineSlotRecipe({
       cupertino: {
         root: {
           position: "absolute",
-          display: "flex",
+          // Three tracks — spacer / content / spacer — reproduce the native iOS rule: the title
+          // holds the bar's centre while it fits, then gives the centre up and grows into
+          // whichever side still has room, and truncates only once both edges are reached.
+          // Equal `1fr` spacers keep it centred; their `minmax` floors are the left/right areas
+          // measured by `useNextAppBar`, so the narrower side stops shrinking first and the
+          // title keeps expanding on the other.
+          display: "grid",
+          gridTemplateColumns: `minmax(var(--centered-title-left, 0px), 1fr) minmax(0, auto) minmax(var(--centered-title-right, 0px), 1fr)`,
+          columnGap: vars.themeIos.enabled.root.titleMinGap,
           alignItems: "center",
-          justifyContent: "center",
+          // Title and subtitle stack as two rows, so the block needs centring as well.
+          alignContent: "center",
           textAlign: "center",
           top: "var(--seed-safe-area-top)",
           bottom: 0,
           insetInline: 0,
-          paddingInline: "var(--centered-title-padding-x, 0)",
           pointerEvents: "none",
+
+          // Track indices are strings: the generator appends `px` to bare numbers, which would
+          // turn `grid-column: 1` into the invalid `grid-column: 1px`.
+          "&::before": {
+            content: "''",
+            gridColumn: "1",
+            gridRow: "1",
+          },
+          "&::after": {
+            content: "''",
+            gridColumn: "3",
+            gridRow: "1",
+          },
+        },
+        // Pinned to the content track. Auto-placement would put a second child — Title and
+        // Subtitle composed directly, without the registry's wrapper — in the trailing spacer,
+        // overlapping the right-hand buttons. A lone child still auto-places here correctly, so
+        // a wrapper needs no rule of its own.
+        title: {
+          gridColumn: "2",
+          minWidth: 0,
+        },
+        subtitle: {
+          gridColumn: "2",
+          minWidth: 0,
         },
       },
       android: {
