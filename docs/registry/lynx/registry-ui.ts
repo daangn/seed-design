@@ -10,6 +10,11 @@ const accordionPackageRanges = {
   "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const fieldButtonPackageRanges = {
+  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
 
 const selectBoxPackageRanges = {
   "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
@@ -69,6 +74,15 @@ export const registryUI: Registry = {
         {
           path: "checkbox.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "field-button",
+      snippets: [
+        {
+          path: "field-button.tsx",
+          dependencies: fieldButtonPackageRanges,
         },
       ],
     },
