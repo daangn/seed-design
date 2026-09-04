@@ -1,7 +1,8 @@
 import "./styles";
 
 import { root } from "@lynx-js/react";
-import { Badge, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,

@@ -1,14 +1,11 @@
-import { Badge, VStack } from "@seed-design/react";
+"use client";
+
+import { Badge } from "seed-design/ui/badge";
 
 export default function BadgeTruncating() {
   return (
-    <VStack gap="x4">
-      <Badge size="medium">
-        In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
-      </Badge>
-      <Badge size="large">
-        In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
-      </Badge>
-    </VStack>
+    <Badge style={{ maxWidth: "120px" }}>
+      In velit velit deserunt amet veniam incididunt consectetur incididunt Lorem.
+    </Badge>
   );
 }
