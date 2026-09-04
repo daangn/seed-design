@@ -45,9 +45,35 @@ npx @seed-design/cli@latest add ui:accordion
 
 ## Examples
 
+### Inline Variant
+
+기본 variant입니다. 아이템이 연속된 흐름으로 제공되며, 아이템 사이에 구분선이 표시됩니다.
+
+<LynxComponentExample name="lynx/accordion/inline">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/inline.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Separated
+
+`variant="separated"` 를 사용하면 각 항목이 분리된 카드 형태로 표시됩니다.
+
+<LynxComponentExample name="lynx/accordion/separated">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/separated.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Multiple
 
-`multiple`을 설정하면 여러 항목을 동시에 펼칠 수 있습니다.
+기본적으로 한 번에 하나의 항목만 펼칠 수 있습니다. `multiple` prop을 사용하면 여러 항목을 동시에 펼칠 수 있습니다.
 
 <LynxComponentExample name="lynx/accordion/multiple">
   ```json doc-gen:file
@@ -58,9 +84,66 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </LynxComponentExample>
 
+### Always one open
+
+`values`와 `onValuesChange`를 사용해 controlled 패턴으로 운영하면, 빈 배열이 들어올 때 setter를 호출하지 않는 가드만 추가하여 항상 하나의 항목이 열려 있도록 강제할 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/controlled-required-open">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/controlled-required-open.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Size
+
+`size`로 Accordion의 크기를 정합니다. (default: `medium`)
+
+Lynx에서는 `medium`과 `large`를 사용할 수 있습니다. 화면 너비에 따라 자동으로 바뀌는 `responsive`는 지원하지 않으므로, 필요하면 앱에서 화면 너비에 따라 두 값 중 하나를 선택해 주세요.
+
+<LynxComponentExample name="lynx/accordion/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Prefix
+
+`prefix` prop에 아이콘 같은 앞쪽 요소를 전달할 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/with-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Description
+
+`description` prop으로 트리거에 부가 설명을 추가할 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/with-description">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/with-description.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Disabled
 
-`Accordion`의 `disabled`는 전체 항목을 비활성화합니다. `AccordionItem`에 설정하면 해당 항목만 비활성화합니다.
+`disabled` prop으로 전체 또는 개별 항목을 비활성화할 수 있습니다.
+
+- `Accordion`에 `disabled`를 설정하면 모든 항목이 비활성화됩니다.
+- `AccordionItem`에 `disabled`를 설정하면 해당 항목만 비활성화됩니다.
 
 <LynxComponentExample name="lynx/accordion/disabled">
   ```json doc-gen:file
@@ -71,14 +154,53 @@ npx @seed-design/cli@latest add ui:accordion
   ```
 </LynxComponentExample>
 
-### Listening to Value Changes
+### Controlled
 
-`values`와 `onValuesChange`를 함께 사용해 펼쳐진 항목을 제어할 수 있습니다. 비제어 방식에서는 `defaultValues`를 사용합니다.
+`values`와 `onValuesChange`를 사용하여 열림 상태를 직접 제어할 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Value Array Changes
+
+controlled 모드에서는 현재 열려 있는 항목이 `values` 배열로 전달됩니다. 아래 예시는 트리거를 누를 때마다 최신 `values`와 최근 `onValuesChange` 결과를 함께 보여줍니다.
 
 <LynxComponentExample name="lynx/accordion/value-changes">
   ```json doc-gen:file
   {
     "file": "examples/lynx/accordion/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Default Expanded
+
+`defaultValues`를 사용하여 초기 열림 상태를 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/accordion/default-expanded">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/default-expanded.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Custom Content
+
+`AccordionContent`는 열림/닫힘 애니메이션 컨테이너 역할만 합니다. 기본 패딩, 배경색, 테두리, 타이포그래피 스타일은 제공하지 않으므로 내부 콘텐츠에서 직접 구성해야 합니다. 아래 예시처럼 `Box`로 패딩과 배경을 명시적으로 주는 패턴을 권장합니다.
+
+<LynxComponentExample name="lynx/accordion/custom-content">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/custom-content.tsx",
     "codeblock": true
   }
   ```

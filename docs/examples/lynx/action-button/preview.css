@@ -9,8 +9,3 @@ page {
   align-items: center;
   justify-content: center;
 }
-
-.action-button-preview__description {
-  color: var(--seed-color-fg-neutral-muted);
-  font-size: 14px;
-}

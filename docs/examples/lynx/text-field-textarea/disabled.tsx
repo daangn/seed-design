@@ -11,22 +11,17 @@ function Root() {
     <page className={seedClassName}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack width="full" maxWidth="480px" gap="x5">
-          <TextField
-            label="소개"
-            description="현재 수정할 수 없는 항목입니다."
-            disabled
-            defaultValue="동네 생활을 좋아해요."
-          >
-            <TextFieldTextarea accessibility-label="소개" />
+          <TextField label="라벨" description="설명을 써주세요" disabled>
+            <TextFieldTextarea accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
           <TextField
-            label="문의 내용"
+            label="라벨"
+            description="설명을 써주세요"
             disabled
             invalid
-            errorMessage="입력 내용을 확인해 주세요."
-            defaultValue="확인이 필요한 내용"
+            errorMessage="오류가 발생한 이유를 써주세요"
           >
-            <TextFieldTextarea accessibility-label="문의 내용" />
+            <TextFieldTextarea accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
         </VStack>
       </VStack>

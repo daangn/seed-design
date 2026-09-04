@@ -5,13 +5,18 @@ import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
 function formatNumber(value: string) {
-  const digits = value.replace(/\D/g, "");
-  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (value === "") return value;
+
+  const number = Number(value.replace(/,/g, ""));
+  if (Number.isNaN(number)) return "";
+
+  return number.toLocaleString();
 }
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
-  const [value, setValue] = useState("1,000");
+  const [value, setValue] = useState("1000");
+  const formattedValue = formatNumber(value);
 
   return (
     <page className={seedClassName}>
@@ -20,8 +25,8 @@ function Root() {
           <TextField
             label="금액"
             description="금액을 써주세요"
-            value={value}
-            onValueChange={({ value: nextValue }) => setValue(formatNumber(nextValue))}
+            value={formattedValue}
+            onValueChange={({ value: nextValue }) => setValue(nextValue)}
           >
             <TextFieldInput accessibility-label="금액" placeholder="9,999,999" />
           </TextField>

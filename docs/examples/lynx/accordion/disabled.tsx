@@ -27,7 +27,7 @@ function Root() {
           <AccordionTrigger title="비활성화된 항목" />
           <AccordionContent>
             <Box p="x4">
-              <Text textStyle="t4Regular">이 항목은 열 수 없습니다.</Text>
+              <Text textStyle="t4Regular">이 항목은 비활성화 상태입니다.</Text>
             </Box>
           </AccordionContent>
         </AccordionItem>

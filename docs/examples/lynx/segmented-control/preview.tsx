@@ -12,11 +12,11 @@ function Root() {
       <view className="segmented-control-example">
         <SegmentedControl
           className="segmented-control-example__control"
-          defaultValue="hot"
-          accessibility-label="정렬 기준"
+          defaultValue="Hot"
+          accessibility-label="Sort by"
         >
-          <SegmentedControlItem value="hot">인기순</SegmentedControlItem>
-          <SegmentedControlItem value="new">최신순</SegmentedControlItem>
+          <SegmentedControlItem value="Hot">Hot</SegmentedControlItem>
+          <SegmentedControlItem value="New">New</SegmentedControlItem>
         </SegmentedControl>
       </view>
     </page>

@@ -11,9 +11,13 @@ export interface CheckboxProps extends SeedCheckbox.RootProps {
  * @see https://seed-design.io/lynx/components/checkbox
  */
 export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
-  ({ label, children, ...otherProps }, ref) => {
+  ({ label, children, "accessibility-label": accessibilityLabel, ...otherProps }, ref) => {
     return (
-      <SeedCheckbox.Root ref={ref} {...otherProps}>
+      <SeedCheckbox.Root
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? (typeof label === "string" ? label : undefined)}
+        {...otherProps}
+      >
         <SeedCheckbox.Control>
           <SeedCheckbox.Indicator
             unchecked={otherProps.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}

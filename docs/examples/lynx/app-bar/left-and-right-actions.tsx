@@ -1,9 +1,16 @@
 import "./styles";
 
-import IconChevronLeftLine from "@karrotmarket/lynx-monochrome-icon/IconChevronLeftLine";
-import IconXmarkLine from "@karrotmarket/lynx-monochrome-icon/IconXmarkLine";
 import { root, useState } from "@lynx-js/react";
-import { AppBar, useSeedClassName } from "@seed-design/lynx-react";
+import { useSeedClassName } from "@seed-design/lynx-react";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarCloseButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+  AppBarSlot,
+} from "@/components/ui/app-bar";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -22,28 +29,18 @@ function Root() {
   return (
     <page className={seedClassName}>
       <view className="app-bar-preview">
-        <AppBar.Root theme="cupertino">
-          <AppBar.Left>
-            <AppBar.IconButton
-              accessibility-label="뒤로"
-              icon={<IconChevronLeftLine />}
-              bindtap={handleBack}
-            />
-          </AppBar.Left>
-          <AppBar.Main>
-            <AppBar.Title>작성하기</AppBar.Title>
-          </AppBar.Main>
-          <AppBar.Right>
-            <AppBar.Slot>
+        <AppBar theme="cupertino">
+          <AppBarLeft>
+            <AppBarBackButton bindtap={handleBack} />
+          </AppBarLeft>
+          <AppBarMain title="작성하기" />
+          <AppBarRight>
+            <AppBarSlot>
               <text>완료</text>
-            </AppBar.Slot>
-            <AppBar.IconButton
-              accessibility-label="닫기"
-              icon={<IconXmarkLine />}
-              bindtap={handleClose}
-            />
-          </AppBar.Right>
-        </AppBar.Root>
+            </AppBarSlot>
+            <AppBarCloseButton bindtap={handleClose} />
+          </AppBarRight>
+        </AppBar>
         <view className="app-bar-preview__content">
           <text className="app-bar-preview__status">마지막 액션: {lastAction}</text>
         </view>
