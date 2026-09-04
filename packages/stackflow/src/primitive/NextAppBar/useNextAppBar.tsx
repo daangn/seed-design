@@ -20,9 +20,12 @@ export function useNextAppBar(_props: UseNextAppBarProps) {
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
-  const centeredTitlePaddingX = root
-    ? `${Math.max(leftOffset?.fromLeft ?? 0, rightOffset?.fromRight ?? 0)}px`
-    : "initial";
+
+  // Reported separately rather than as one `Math.max`: the grid in `next-app-bar-main` uses each
+  // side as its own floor, so a title that outgrows the centre keeps expanding into whichever
+  // side is wider instead of being capped by the narrower one on both edges.
+  const centeredTitleLeft = root ? `${leftOffset?.fromLeft ?? 0}px` : "initial";
+  const centeredTitleRight = root ? `${rightOffset?.fromRight ?? 0}px` : "initial";
 
   return useMemo(
     () => ({
@@ -34,10 +37,11 @@ export function useNextAppBar(_props: UseNextAppBarProps) {
       rootProps: elementProps({
         "data-part": nextAppBarAnatomy.root,
         style: {
-          "--centered-title-padding-x": centeredTitlePaddingX,
+          "--centered-title-left": centeredTitleLeft,
+          "--centered-title-right": centeredTitleRight,
         } as React.CSSProperties,
       }),
     }),
-    [centeredTitlePaddingX],
+    [centeredTitleLeft, centeredTitleRight],
   );
 }
