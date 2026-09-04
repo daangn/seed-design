@@ -1,0 +1,209 @@
+.seed-input-button__root {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    position: relative;
+    overflow: hidden
+}
+.seed-input-button__button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--seed-color-bg-transparent)
+}
+.seed-input-button__baseStroke {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--seed-color-stroke-neutral-weak);
+    pointer-events: none
+}
+.seed-input-button__stroke {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 2px;
+    border-color: transparent;
+    transition: border-color 0.1s var(--seed-timing-function-easing);
+    pointer-events: none
+}
+.seed-input-button__value {
+    flex-grow: 1;
+    min-width: 0;
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-regular);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none
+}
+.seed-input-button__placeholder {
+    flex-grow: 1;
+    min-width: 0;
+    color: var(--seed-color-fg-placeholder);
+    font-weight: var(--seed-font-weight-regular);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none
+}
+.seed-input-button__prefixText {
+    flex-shrink: 0;
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    pointer-events: none
+}
+.seed-input-button__prefixIcon {
+    flex-shrink: 0;
+    color: var(--seed-color-fg-neutral-muted);
+    pointer-events: none
+}
+.seed-input-button__suffixText {
+    flex-shrink: 0;
+    color: var(--seed-color-fg-neutral-subtle);
+    font-weight: var(--seed-font-weight-regular);
+    pointer-events: none
+}
+.seed-input-button__suffixIcon {
+    flex-shrink: 0;
+    color: var(--seed-color-fg-neutral-muted);
+    pointer-events: none
+}
+.seed-input-button__clearButton {
+    flex-shrink: 0;
+    color: var(--seed-color-fg-neutral-subtle)
+}
+.seed-input-button__root--size_large {
+    height: var(--seed-dimension-x13);
+    gap: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x4);
+    border-radius: var(--seed-radius-r3)
+}
+.seed-input-button__button--size_large {
+    border-radius: var(--seed-radius-r3)
+}
+.seed-input-button__baseStroke--size_large {
+    border-radius: var(--seed-radius-r3)
+}
+.seed-input-button__stroke--size_large {
+    border-radius: var(--seed-radius-r3)
+}
+.seed-input-button__value--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-input-button__placeholder--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-input-button__prefixText--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-input-button__prefixIcon--size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-input-button__suffixText--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-input-button__suffixIcon--size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-input-button__clearButton--size_large {
+    width: 22px;
+    height: 22px
+}
+.seed-input-button__root--size_medium {
+    height: var(--seed-dimension-x10);
+    gap: var(--seed-dimension-x2);
+    padding-left: var(--seed-dimension-x3_5);
+    padding-right: var(--seed-dimension-x3_5);
+    border-radius: var(--seed-radius-r2)
+}
+.seed-input-button__button--size_medium {
+    border-radius: var(--seed-radius-r2)
+}
+.seed-input-button__baseStroke--size_medium {
+    border-radius: var(--seed-radius-r2)
+}
+.seed-input-button__stroke--size_medium {
+    border-radius: var(--seed-radius-r2)
+}
+.seed-input-button__value--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-input-button__placeholder--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-input-button__prefixText--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-input-button__prefixIcon--size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4)
+}
+.seed-input-button__suffixText--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-input-button__suffixIcon--size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4)
+}
+.seed-input-button__clearButton--size_medium {
+    width: var(--seed-dimension-x4_5);
+    height: var(--seed-dimension-x4_5)
+}
+.seed-input-button__button--pressed_true {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
+.seed-input-button__stroke--invalid_true {
+    border-color: var(--seed-color-stroke-critical-solid)
+}
+.seed-input-button__button--disabled_true {
+    background-color: var(--seed-color-bg-disabled)
+}
+.seed-input-button__value--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__placeholder--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__prefixText--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__prefixIcon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__suffixText--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__suffixIcon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-input-button__button--readOnly_true {
+    background-color: var(--seed-color-bg-disabled)
+}
+.seed-input-button__value--readOnly_true {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-input-button__placeholder--readOnly_true {
+    color: var(--seed-color-fg-placeholder)
+}

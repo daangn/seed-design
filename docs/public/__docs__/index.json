@@ -2158,6 +2158,12 @@
               "docUrl": "/lynx/foundation/iconography"
             },
             {
+              "id": "input-button",
+              "title": "Field Button",
+              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+              "docUrl": "/lynx/components/input-button"
+            },
+            {
               "id": "installation",
               "title": "Installation",
               "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",

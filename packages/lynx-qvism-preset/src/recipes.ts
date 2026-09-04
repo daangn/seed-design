@@ -14,6 +14,7 @@ import fieldLabel from "./recipes/field-label";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import pageBanner from "./recipes/page-banner";
+import inputButton from "./recipes/input-button";
 import radio from "./recipes/radio";
 import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
@@ -47,6 +48,7 @@ export const recipes = {
   mannerTemp,
   mannerTempBadge,
   pageBanner,
+  inputButton,
   radio,
   radioGroup,
   radiomark,
