@@ -877,7 +877,7 @@
             {
               "id": "loading",
               "title": "Loading",
-              "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
+              "description": "로딩을 없애는 것을 최우선으로 두고, 피할 수 없는 로딩을 언제·어디에·무엇으로 보여줄지 다룹니다.",
               "docUrl": "/patterns/loading"
             }
           ]
