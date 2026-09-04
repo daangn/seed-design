@@ -32,6 +32,7 @@ import type {
 interface SwitchContextValue {
   checked: boolean;
   disabled: boolean;
+  pressed: boolean;
   switchVariantProps: SwitchVariantProps;
   switchmarkVariantProps: SwitchmarkVariantProps;
   toggle: () => void;
@@ -39,7 +40,7 @@ interface SwitchContextValue {
 
 const SwitchContext = React.createContext<SwitchContextValue | null>(null);
 
-function useSwitchContext(consumer: string): SwitchContextValue {
+export function useSwitchContext(consumer: string): SwitchContextValue {
   const ctx = React.useContext(SwitchContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
@@ -103,7 +104,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
-  const { pressed: _pressed, ...pressHandlers } = usePressTap({
+  const { pressed, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
   });
@@ -114,11 +115,12 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     () => ({
       checked,
       disabled,
+      pressed,
       switchVariantProps,
       switchmarkVariantProps,
       toggle,
     }),
-    [checked, disabled, switchVariantProps, switchmarkVariantProps, toggle],
+    [checked, disabled, pressed, switchVariantProps, switchmarkVariantProps, toggle],
   );
 
   return (
