@@ -187,6 +187,6 @@ export interface ListDividerProps extends SeedDividerProps {}
  * @see https://seed-design.io/lynx/components/list
  */
 export const ListDivider = React.forwardRef<unknown, ListDividerProps>((props, ref) => {
-  return <SeedDivider ref={ref} accessibility-element={false} {...props} />;
+  return <SeedDivider ref={ref} {...props} accessibility-element={false} />;
 });
 ListDivider.displayName = "ListDivider";
