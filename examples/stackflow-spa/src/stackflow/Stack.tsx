@@ -7,6 +7,7 @@ import { stackflow, lazy } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
+import { isIos } from "../platform";
 import { theme } from "./theme";
 import ActivityDemoArticleDetail from "../activities/ActivityDemoArticleDetail";
 import ActivityDemoHome from "../activities/ActivityDemoHome";
@@ -22,7 +23,11 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({ theme }),
-    seedPlugin({ theme }),
+    // iOS에서만 화면 전체를 백스와이프 영역으로 쓰고, 기기 디스플레이 모서리에 맞춰
+    // 전환/스와이프 중 클립한다. 55px = iPhone 15 Pro의 UIScreen
+    // _displayCornerRadius(55.0pt, 15 Pro Max / 14 Pro 동일). 나머지 플랫폼은
+    // swipeBackArea edge 기본값에 클립 없음.
+    seedPlugin({ theme, ...(isIos && { swipeBackArea: "full" as const, clipRadius: 55 }) }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
@@ -38,7 +43,6 @@ export const { Stack, actions, stepActions } = stackflow({
 
     ActivityAccordion: lazy(() => import("../activities/ActivityAccordion")),
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
-    ActivityAppBarSlot: lazy(() => import("../activities/ActivityAppBarSlot")),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
     ActivityAnimateFalseTest: lazy(() => import("../activities/ActivityAnimateFalseTest")),
     ActivityAlertDialogActivity: lazy(() => import("../activities/ActivityAlertDialogActivity")),
@@ -72,10 +76,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityErrorState: lazy(() => import("../activities/ActivityErrorState")),
     ActivityFontMultiplierLayout: lazy(() => import("../activities/ActivityFontMultiplierLayout")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
-    ActivityIacvtLeak: lazy(() => import("../activities/ActivityIacvtLeak")),
-    ActivityIacvtSidePanel: lazy(() => import("../activities/ActivityIacvtSidePanel")),
-    ActivityIacvtOverlay: lazy(() => import("../activities/ActivityIacvtOverlay")),
-    ActivityIacvtMargin: lazy(() => import("../activities/ActivityIacvtMargin")),
+    ActivityIacvt: lazy(() => import("../activities/ActivityIacvt")),
     ActivityIacvtExperiment: lazy(() => import("../activities/ActivityIacvtExperiment")),
     ActivityLayerBar: lazy(() => import("../activities/ActivityLayerBar")),
     ActivityListButtonItem: lazy(() => import("../activities/ActivityListButtonItem")),
@@ -125,15 +126,22 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityForm: lazy(() => import("../activities/ActivityForm")),
     ActivityCategorySheet: lazy(() => import("../activities/ActivityCategorySheet")),
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
-    ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
     ActivityTypographyScale: lazy(() => import("../activities/ActivityTypographyScale")),
 
-    ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
-    ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
+    ActivityAppScreen: lazy(() => import("../activities/ActivityAppScreen")),
+    ActivityNextAppScreen: lazy(() => import("../activities/ActivityNextAppScreen")),
+    ActivityNextAppScreenPreview: lazy(() => import("../activities/ActivityNextAppScreenPreview")),
+    ActivityNextAppScreenTransparent: lazy(
+      () => import("../activities/ActivityNextAppScreenTransparent"),
+    ),
     ActivityAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityAppScreenIntersectionObserver"),
     ),
+    ActivityNextAppScreenIntersectionObserver: lazy(
+      () => import("../activities/ActivityNextAppScreenIntersectionObserver"),
+    ),
+    ActivityNextAnimateFalseTest: lazy(() => import("../activities/ActivityNextAnimateFalseTest")),
     ActivityAppScreenAppBarCustomization: lazy(
       () => import("../activities/ActivityAppScreenAppBarCustomization"),
     ),
@@ -144,9 +152,15 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityArticlePreventPull: lazy(() => import("../activities/ActivityArticlePreventPull")),
     ActivityArticlePreventDrag: lazy(() => import("../activities/ActivityArticlePreventDrag")),
     ActivityPullToRefreshPreview: lazy(() => import("../activities/ActivityPullToRefreshPreview")),
+    ActivityNextPullToRefreshPreview: lazy(
+      () => import("../activities/ActivityNextPullToRefreshPreview"),
+    ),
     ActivityPullToRefreshTabs: lazy(() => import("../activities/ActivityPullToRefreshTabs")),
     ActivityPullToRefreshPreventPull: lazy(
       () => import("../activities/ActivityPullToRefreshPreventPull"),
+    ),
+    ActivityNextPullToRefreshPreventPull: lazy(
+      () => import("../activities/ActivityNextPullToRefreshPreventPull"),
     ),
   },
 });

@@ -2,14 +2,14 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Badge, HStack, Text, VStack } from "@seed-design/react";
 import { badgeVariantMap } from "@seed-design/css/recipes/badge";
@@ -24,19 +24,19 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Badge</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Badge</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x4" px="spacingX.globalGutter" py="x3" pb="safeArea">
           <Text textStyle="t1Bold">t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.</Text>
           <HStack gap="x2" wrap>
@@ -63,8 +63,8 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
             ))}
           </HStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

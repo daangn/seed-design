@@ -1,5 +1,4 @@
 import { defineConfig } from "@stackflow/config";
-import { theme } from "./theme";
 
 export const config = defineConfig({
   initialActivity: () => "ActivityHome",
@@ -10,7 +9,6 @@ export const config = defineConfig({
     { route: "/animate-false-test", name: "ActivityAnimateFalseTest" },
     { route: "/accordion", name: "ActivityAccordion" },
     { route: "/action-button", name: "ActivityActionButton" },
-    { route: "/app-bar-slot", name: "ActivityAppBarSlot" },
     { route: "/alert-dialog", name: "ActivityAlertDialog" },
     { route: "/alert-dialog-activity", name: "ActivityAlertDialogActivity" },
     { route: "/alert-dialog-step", name: "ActivityAlertDialogStep" },
@@ -41,10 +39,7 @@ export const config = defineConfig({
     { route: "/font-multiplier-layout", name: "ActivityFontMultiplierLayout" },
     { route: "/result-section", name: "ActivityResultSection" },
     { route: "/help-bubble", name: "ActivityHelpBubble" },
-    { route: "/iacvt-leak", name: "ActivityIacvtLeak" },
-    { route: "/iacvt-side-panel", name: "ActivityIacvtSidePanel" },
-    { route: "/iacvt-overlay", name: "ActivityIacvtOverlay" },
-    { route: "/iacvt-margin", name: "ActivityIacvtMargin" },
+    { route: "/iacvt", name: "ActivityIacvt" },
     { route: "/iacvt-experiment", name: "ActivityIacvtExperiment" },
     { route: "/layer-bar", name: "ActivityLayerBar" },
     { route: "/list-item-button", name: "ActivityListButtonItem" },
@@ -90,13 +85,19 @@ export const config = defineConfig({
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
-    { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
     { route: "/typography-scale", name: "ActivityTypographyScale" },
 
-    { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
-    { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
+    { route: "/app-screen", name: "ActivityAppScreen" },
+    { route: "/next-app-screen", name: "ActivityNextAppScreen" },
+    { route: "/next-app-screen-preview", name: "ActivityNextAppScreenPreview" },
+    { route: "/next-app-screen-transparent", name: "ActivityNextAppScreenTransparent" },
     { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
+    {
+      route: "/next-app-screen-intersection-observer",
+      name: "ActivityNextAppScreenIntersectionObserver",
+    },
+    { route: "/next-animate-false-test", name: "ActivityNextAnimateFalseTest" },
     { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
     {
@@ -106,11 +107,19 @@ export const config = defineConfig({
     { route: "/article-prevent-pull", name: "ActivityArticlePreventPull" },
     { route: "/article-prevent-drag", name: "ActivityArticlePreventDrag" },
     { route: "/pull-to-refresh-preview", name: "ActivityPullToRefreshPreview" },
+    { route: "/next-pull-to-refresh-preview", name: "ActivityNextPullToRefreshPreview" },
     { route: "/pull-to-refresh-tabs", name: "ActivityPullToRefreshTabs" },
     { route: "/pull-to-refresh-prevent-pull", name: "ActivityPullToRefreshPreventPull" },
+    {
+      route: "/next-pull-to-refresh-prevent-pull",
+      name: "ActivityNextPullToRefreshPreventPull",
+    },
 
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },
   ],
-  transitionDuration: theme === "cupertino" ? 350 : 300,
+  // NextAppScreen unmounts on this timer, so an exit longer than it gets cut
+  // off mid-animation. 350ms is the longest exit any transitionStyle runs
+  // (horizontalSlide), and any screen may opt into it regardless of theme.
+  transitionDuration: 350,
 });

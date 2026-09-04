@@ -3,14 +3,14 @@ import { Box, useBreakpoint } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import type * as React from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { useComputedStyle } from "../components/IacvtProbe";
 
 declare module "@stackflow/config" {
@@ -75,19 +75,19 @@ const ActivityIacvtExperiment: StaticActivityComponentType<"ActivityIacvtExperim
   const breakpoint = useBreakpoint();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>IACVT initial-fallback 실험</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>IACVT initial-fallback 실험</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: throwaway experiment CSS, no user input */}
         <style dangerouslySetInnerHTML={{ __html: PROBE_CSS }} />
         <Box p="x4" bg="palette.gray25">
@@ -153,8 +153,8 @@ const ActivityIacvtExperiment: StaticActivityComponentType<"ActivityIacvtExperim
             margin은 고쳐도 bleed를 깨므로 재설계/런타임(A) 필요.
           </Box>
         </Box>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

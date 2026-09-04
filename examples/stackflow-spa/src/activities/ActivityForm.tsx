@@ -1,9 +1,14 @@
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { receive } from "@stackflow/compat-await-push";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useSnackbarAdapter, Snackbar, SnackbarAvoidOverlap } from "seed-design/ui/snackbar";
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
+import {
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+} from "seed-design/ui/next-app-bar";
 import { useState, type FormEventHandler } from "react";
 import {
   Divider,
@@ -73,14 +78,14 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
   };
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Form Components</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Form Components</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack height="full">
           <VStack gap="x2" pb="x2" bg={bg} style={{ transition: "background-color 0.2s" }}>
             <PageBanner
@@ -365,8 +370,8 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
             </form>
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 export default ActivityForm;

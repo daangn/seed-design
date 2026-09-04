@@ -11,8 +11,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   BottomSheetBody,
   BottomSheetContent,
@@ -39,14 +44,14 @@ const ActivityBottomSheetWithAlertDialogStep: StaticActivityComponentType<
   const alertDialog = useStepOverlay({ key: "alert-dialog" });
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="BottomSheet × AlertDialog (Step)" />
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="BottomSheet × AlertDialog (Step)" />
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack p="x5" gap="x4">
           <Box px="spacingX.globalGutter">
             <Callout
@@ -110,8 +115,8 @@ const ActivityBottomSheetWithAlertDialogStep: StaticActivityComponentType<
             </Portal>
           </BottomSheetRoot>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

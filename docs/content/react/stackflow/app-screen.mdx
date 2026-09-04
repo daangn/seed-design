@@ -5,11 +5,13 @@ description: Stackflow 네비게이션에서 개별 화면을 구성하는 컴�
 
 <AvailableSince packages="@seed-design/stackflow@0.0.1, @seed-design/css@0.0.1" />
 
-<StackflowExample path="/app-screen-preview">
+<StackflowExample path="/app-screen?contentMode=bare">
   ```json doc-gen:file
   {
-    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenPreview.tsx",
-    "codeblock": true
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreen.tsx",
+    "codeblock": {
+      "meta": "title='ActivityAppScreen.tsx'"
+    }
   }
   ```
 </StackflowExample>
@@ -100,11 +102,13 @@ AppScreen의 `tone` 속성을 `transparent`로 설정하여 투명한 배경을 
 - 모바일 OS 상태바를 포함한 `AppScreen` 상단에 그라디언트가 표시됩니다.
   - `gradient` 속성을 `false`로 설정하여 숨길 수 있습니다.
 
-<StackflowExample path="/app-screen-transparent">
+<StackflowExample path="/app-screen?tone=transparent&layerOffsetTop=none">
   ```json doc-gen:file
   {
-    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreenTransparent.tsx",
-    "codeblock": true
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreen.tsx",
+    "codeblock": {
+      "meta": "title='ActivityAppScreen.tsx'"
+    }
   }
   ```
 </StackflowExample>
@@ -176,14 +180,14 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 `AppBar` 내에 `AppBarLeft`, `AppBarMain`, `AppBarRight`에 대응되지 않는 커스텀 요소를 배치하는 경우, 다른 요소와 동일한 화면 전환 트랜지션을 적용하기 위해 `AppBarSlot` 컴포넌트를 사용합니다.
 
-`AppBarSlot`은 하위 요소에 `class`를 주입하여 트랜지션을 적용하며, 추가 마크업은 생성하지 않습니다.
+`AppBarSlot`은 하위 요소에 `data-part` 속성을 주입하여 트랜지션 엔진이 해당 요소를 IconButton과 동일한 그룹으로 인식하게 하며, 추가 마크업은 생성하지 않습니다.
 
-<StackflowExample path="/app-bar-slot">
+<StackflowExample path="/app-screen?mainSlot=slot">
   ```json doc-gen:file
   {
-    "file": "../examples/stackflow-spa/src/activities/ActivityAppBarSlot.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreen.tsx",
     "codeblock": {
-      "meta": "title='ActivityAppBarSlot.tsx'"
+      "meta": "title='ActivityAppScreen.tsx'"
     }
   }
   ```
@@ -228,12 +232,12 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 </Callout>
 
-<StackflowExample path="/transition-style">
+<StackflowExample path="/app-screen">
   ```json doc-gen:file
   {
-    "file": "../examples/stackflow-spa/src/activities/ActivityTransitionStyle.tsx",
+    "file": "../examples/stackflow-spa/src/activities/ActivityAppScreen.tsx",
     "codeblock": {
-      "meta": "title='ActivityTransitionStyle.tsx'"
+      "meta": "title='ActivityAppScreen.tsx'"
     }
   }
   ```

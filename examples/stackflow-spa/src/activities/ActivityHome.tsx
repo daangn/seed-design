@@ -11,14 +11,18 @@ import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import {
+  NextAppScreen,
+  NextAppScreenContent,
+  type NextAppScreenProps,
+} from "seed-design/ui/next-app-screen";
 import { DialogPushTrigger } from "seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -36,7 +40,6 @@ import { menuSheetCallback } from "./ActivityMenuSheet";
 import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
-import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import {
   IconHandPointUpLine,
@@ -60,7 +63,7 @@ type NavigationSection = {
 declare module "@stackflow/config" {
   interface Register {
     ActivityHome: {
-      transitionStyle?: AppScreenProps["transitionStyle"];
+      transitionStyle?: NextAppScreenProps["transitionStyle"];
     };
   }
 }
@@ -81,22 +84,27 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     {
-      title: "AppScreen",
+      title: "NextAppScreen",
       items: [
-        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
+        { title: "NextAppScreen", onClick: () => push("ActivityNextAppScreen", {}) },
+        {
+          title: "NextAppScreen (transparent)",
+          onClick: () => push("ActivityNextAppScreenTransparent", {}),
+        },
+        { title: "Preview", onClick: () => push("ActivityNextAppScreenPreview", {}) },
+        {
+          title: "IntersectionObserver",
+          onClick: () => push("ActivityNextAppScreenIntersectionObserver", {}),
+        },
         {
           title: "animate: false Test (밀림 버그)",
-          onClick: () => push("ActivityAnimateFalseTest", {}),
+          onClick: () => push("ActivityNextAnimateFalseTest", {}),
         },
+        { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
         {
           title: `Push to here (current activityIndex: ${activityIndex})`,
           onClick: () => push("ActivityHome", {}),
         },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
-        ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `ActivityTransitionStyle (${transitionStyle})`,
-          onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
-        })),
       ],
     },
     {
@@ -110,10 +118,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Box",
       items: [
         { title: "Margin Playground", onClick: () => push("ActivityMarginPlayground", {}) },
-        { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
-        { title: "SidePanel IACVT (구형 iOS)", onClick: () => push("ActivityIacvtSidePanel", {}) },
-        { title: "Overlay IACVT (구형 iOS)", onClick: () => push("ActivityIacvtOverlay", {}) },
-        { title: "Margin/Bleed IACVT (구형 iOS)", onClick: () => push("ActivityIacvtMargin", {}) },
+        { title: "IACVT (구형 iOS)", onClick: () => push("ActivityIacvt", {}) },
         {
           title: "IACVT initial-fallback 실험 (구형 iOS)",
           onClick: () => push("ActivityIacvtExperiment", {}),
@@ -279,10 +284,21 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     {
       title: "PullToRefresh",
       items: [
-        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        {
+          title: "PullToRefresh",
+          onClick: () => push("ActivityNextPullToRefreshPreview", {}),
+        },
+        {
+          title: "PullToRefresh [Legacy]",
+          onClick: () => push("ActivityPullToRefreshPreview", {}),
+        },
         { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
         {
           title: "PullToRefresh (preventPull)",
+          onClick: () => push("ActivityNextPullToRefreshPreventPull", {}),
+        },
+        {
+          title: "PullToRefresh (preventPull) [Legacy]",
           onClick: () => push("ActivityPullToRefreshPreventPull", {}),
         },
         {
@@ -413,24 +429,40 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
       ],
     },
+    // 구형 AppScreen 화면 모음. 표식을 섹션 제목이 대신 지므로 항목마다 [Legacy] 를 붙이지 않는다.
+    {
+      title: "AppScreen (Legacy)",
+      items: [
+        { title: "AppScreen", onClick: () => push("ActivityAppScreen", {}) },
+        {
+          title: "IntersectionObserver",
+          onClick: () => push("ActivityAppScreenIntersectionObserver", {}),
+        },
+        {
+          title: "animate: false Test (밀림 버그)",
+          onClick: () => push("ActivityAnimateFalseTest", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
+      ],
+    },
   ];
 
   return (
-    <AppScreen transitionStyle={params.transitionStyle}>
-      <AppBar>
+    <NextAppScreen transitionStyle={params.transitionStyle}>
+      <NextAppBar>
         {activityIndex > 0 && (
-          <AppBarLeft>
-            <AppBarBackButton />
-          </AppBarLeft>
+          <NextAppBarLeft>
+            <NextAppBarBackButton />
+          </NextAppBarLeft>
         )}
-        <AppBarMain title="Home" />
-        <AppBarRight>
-          <AppBarIconButton>
+        <NextAppBarMain title="Home" />
+        <NextAppBarRight>
+          <NextAppBarIconButton>
             <IconBellLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -472,8 +504,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             ))}
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
