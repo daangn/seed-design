@@ -27,7 +27,7 @@ npx @seed-design/cli add ui:segmented-control
 ### `SegmentedControl`
 
 <Callout type="info">
-`value`와 `defaultValue` 중 하나를 제공해야 선택된 항목과 Indicator를 표시할 수 있습니다.
+`value`와 `defaultValue` 중 적어도 하나를 제공해야 선택된 항목과 Indicator를 표시할 수 있습니다.
 </Callout>
 
 <react-type-table
@@ -74,6 +74,14 @@ Registry의 `SegmentedControl`은 선택 Indicator를 자동으로 추가합니�
   ```
 </LynxComponentExample>
 
+### Notification
+
+<LynxComponentExample name="lynx/segmented-control/notification">
+  ```json doc-gen:file
+  {"file":"examples/lynx/segmented-control/notification.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ### Long Label
 
 <LynxComponentExample name="lynx/segmented-control/long-label">
@@ -115,6 +123,6 @@ Registry의 `SegmentedControl`은 선택 Indicator를 자동으로 추가합니�
 
 - HTML form 제출을 위한 `ItemHiddenInput`, `name`, `form`, `inputProps`
 - 키보드 focus와 focus-visible 상호작용
-- Registry `SegmentedControlItem`의 `notification` prop
+- `SegmentedControlItem`의 `invalid` 상태
 
-Lynx에는 대응하는 Notification Badge 컴포넌트가 없어 `notification` prop을 제공하지 않습니다. 항목 레이블은 문자열이나 숫자로 전달합니다.
+Lynx Registry와 package는 `invalid` 상태를 제공하지 않습니다. 이 차이는 의도된 미지원입니다. 오류 상태가 필요하면 앱에서 `SegmentedControl` 가까이에 오류 문구를 표시하고, `accessibility-label`에도 오류 내용을 포함하세요.

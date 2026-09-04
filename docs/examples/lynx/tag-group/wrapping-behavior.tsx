@@ -1,7 +1,8 @@
 import "./styles";
 
 import { root } from "@lynx-js/react";
-import { TagGroup, useSeedClassName } from "@seed-design/lynx-react";
+import { Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
 
 function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -9,19 +10,14 @@ function Root() {
   return (
     <page className={seedClassName}>
       <view className="tag-group-preview">
-        <view className="tag-group-preview__wrapping-container">
-          <TagGroup.Root className="tag-group-preview__wrapping-group">
-            <TagGroup.Item>
-              <TagGroup.ItemLabel>부산광역시 해운대구</TagGroup.ItemLabel>
-            </TagGroup.Item>
-            <TagGroup.Item>
-              <TagGroup.ItemLabel>인증 5회</TagGroup.ItemLabel>
-            </TagGroup.Item>
-            <TagGroup.Item>
-              <TagGroup.ItemLabel>3분 전</TagGroup.ItemLabel>
-            </TagGroup.Item>
-          </TagGroup.Root>
-        </view>
+        <VStack className="tag-group-preview__wrapping-container" gap="x1" align="flex-start">
+          <Text textStyle="t2Medium">default (wrap)</Text>
+          <TagGroupRoot className="tag-group-preview__wrapping-group">
+            <TagGroupItem label="부산광역시 해운대구" />
+            <TagGroupItem label="123 456 789 012 345" />
+            <TagGroupItem label="Ut minim laboris enim" />
+          </TagGroupRoot>
+        </VStack>
       </view>
     </page>
   );

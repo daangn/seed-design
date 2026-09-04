@@ -107,6 +107,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
     "accessibility-element": accessibilityElement = true,
+    "accessibility-role-description": accessibilityRoleDescription = "button",
     "accessibility-traits": accessibilityTraits,
     ...restProps
   } = props;
@@ -124,7 +125,8 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
       selected={false}
       pressed={pressed}
       accessibility-element={accessibilityElement}
-      accessibility-traits={disabled ? "disabled" : (accessibilityTraits ?? "button")}
+      accessibility-role-description={accessibilityRoleDescription}
+      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
       {...pressHandlers}
     />
   );
@@ -163,7 +165,9 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
     "accessibility-element": accessibilityElement = true,
+    "accessibility-role-description": accessibilityRoleDescription = "toggle",
     "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
     ...restProps
   } = props;
   const [checked, setChecked] = useControllableState({
@@ -192,9 +196,9 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
       selected={checked}
       pressed={pressed}
       accessibility-element={accessibilityElement}
-      accessibility-traits={
-        disabled ? "disabled" : checked ? "selected" : (accessibilityTraits ?? "button")
-      }
+      accessibility-role-description={accessibilityRoleDescription}
+      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+      accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
       {...pressHandlers}
     />
   );
@@ -284,7 +288,9 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement = true,
+    "accessibility-role-description": accessibilityRoleDescription = "radio",
     "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
     ...restProps
   } = props;
   const group = useChipRadioGroupContext("ChipRadioItem");
@@ -311,9 +317,9 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
       selected={selected}
       pressed={pressed}
       accessibility-element={accessibilityElement}
-      accessibility-traits={
-        disabled ? "disabled" : selected ? "selected" : (accessibilityTraits ?? "button")
-      }
+      accessibility-role-description={accessibilityRoleDescription}
+      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+      accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
       {...pressHandlers}
     />
   );

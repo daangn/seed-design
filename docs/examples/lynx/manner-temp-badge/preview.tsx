@@ -26,15 +26,16 @@ function Root() {
         height="full"
         align="center"
         justify="center"
-        gap="x1"
         p="x4"
         bg="bg.layerDefault"
       >
-        {mannerTemps.map(([level, label]) => (
-          <MannerTempBadge key={level} level={level}>
-            {label}
-          </MannerTempBadge>
-        ))}
+        <VStack align="flex-start" gap="x1">
+          {mannerTemps.map(([level, label]) => (
+            <MannerTempBadge key={level} level={level}>
+              {label}
+            </MannerTempBadge>
+          ))}
+        </VStack>
       </VStack>
     </page>
   );

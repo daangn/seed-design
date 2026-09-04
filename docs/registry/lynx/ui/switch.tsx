@@ -9,9 +9,13 @@ export interface SwitchProps extends SeedSwitch.RootProps {
  * @see https://seed-design.io/lynx/components/switch
  */
 export const Switch = React.forwardRef<unknown, SwitchProps>(
-  ({ label, children, ...otherProps }, ref) => {
+  ({ label, children, "accessibility-label": accessibilityLabel, ...otherProps }, ref) => {
     return (
-      <SeedSwitch.Root ref={ref} {...otherProps}>
+      <SeedSwitch.Root
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? (typeof label === "string" ? label : undefined)}
+        {...otherProps}
+      >
         <SeedSwitch.Control>
           <SeedSwitch.Thumb />
         </SeedSwitch.Control>

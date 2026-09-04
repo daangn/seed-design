@@ -30,3 +30,14 @@ page {
   min-height: 280px;
   gap: 12px;
 }
+
+.bottom-sheet-preview__blocks {
+  width: 100%;
+  align-items: center;
+}
+
+.bottom-sheet-preview__block {
+  width: 100%;
+  height: 100px;
+  background-color: var(--seed-color-bg-layer-basement);
+}

@@ -14,7 +14,7 @@ function Root() {
 
   return (
     <page className={seedClassName}>
-      <Accordion multiple defaultValues={["item-1", "item-2"]} variant="separated">
+      <Accordion multiple defaultValues={["item-1", "item-2"]}>
         <AccordionItem value="item-1">
           <AccordionTrigger title="아코디언 항목 1" />
           <AccordionContent>
