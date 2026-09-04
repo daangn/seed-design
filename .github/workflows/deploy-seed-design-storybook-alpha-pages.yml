@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-storybook` project (Alpha)
         id: deploy
-        uses: cloudflare/wrangler-action@v4
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
@@ -47,7 +47,7 @@ jobs:
 
       - name: Find related PR
         id: pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -69,7 +69,7 @@ jobs:
 
       - name: Upsert PR preview comment
         if: ${{ steps.pr.outputs.number != '' }}
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}

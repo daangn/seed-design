@@ -59,7 +59,7 @@ jobs:
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
@@ -140,27 +140,27 @@ jobs:
 
       - name: Save Next.js cache
         if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: docs/.next/cache
           key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
 
       - name: Save Fumadocs TypeScript cache
         if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: docs/.next/cache/fumadocs-typescript
           key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
         id: deploy
-        uses: cloudflare/wrangler-action@v4
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
@@ -179,7 +179,7 @@ jobs:
 
       - name: Find related PR
         id: pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -201,7 +201,7 @@ jobs:
 
       - name: Upsert PR preview comment
         if: ${{ steps.pr.outputs.number != '' }}
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
           LINKS_OUTCOME: ${{ steps.links.outcome }}
