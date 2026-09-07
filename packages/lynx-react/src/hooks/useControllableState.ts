@@ -25,9 +25,14 @@ export function useControllableState<T>(
   const prevValueRef = useRef(currentValue);
 
   const setValue = useMemoizedFn((nextValue: T) => {
-    if (!isControlled) {
-      setUncontrolledValue(nextValue);
+    if (isControlled) {
+      if (nextValue !== value) {
+        onChange?.(nextValue);
+      }
+      return;
     }
+
+    setUncontrolledValue(nextValue);
     if (nextValue !== prevValueRef.current) {
       onChange?.(nextValue);
       prevValueRef.current = nextValue;
