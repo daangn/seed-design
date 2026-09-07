@@ -106,11 +106,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "AppScreen",
       icon: LayersIcon,
       items: [
-        { title: "AppBar 슬롯 · 긴 제목", ...to("ActivityLayerBar", {}) },
-        { title: "transparent", ...to("ActivityTransparentBar", {}) },
+        { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
+        { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
         { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
-        { title: "Pop Test (중복 pop 가드)", ...to("ActivityPopTest", {}) },
-        { title: "animate: false Test (밀림 버그)", ...to("ActivityAnimateFalseTest", {}) },
+        { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
+        { title: "animate: false 밀림 버그", ...to("ActivityAnimateFalseTest", {}) },
         { title: `홈 다시 push (깊이: ${activityIndex})`, ...to("ActivityHome", {}) },
         ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
           title: `전환: ${transitionStyle}`,
@@ -122,24 +122,27 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Drawer",
       icon: PanelBottomIcon,
       items: [
-        { title: "BottomSheet", ...to("ActivityBottomSheet", {}) },
-        { title: "BottomSheet: modal 토글", ...to("ActivityBottomSheetModalTest", {}) },
-        { title: "BottomSheet: TextField only", ...to("ActivityBottomSheetTextField", {}) },
+        { title: "Bottom Sheet", ...to("ActivityBottomSheet", {}) },
+        { title: "Bottom Sheet modal 토글", ...to("ActivityBottomSheetModalTest", {}) },
+        { title: "Text Field만 있는 Bottom Sheet", ...to("ActivityBottomSheetTextField", {}) },
         {
-          title: "BottomSheet: snapPoints × 입력 포커스",
+          title: "Bottom Sheet snapPoints와 입력 포커스",
           ...to("ActivityBottomSheetInputFocus", {}),
         },
         {
-          title: "BottomSheet: Keyboard Playground",
+          title: "Bottom Sheet Keyboard Playground",
           ...to("ActivityBottomSheetKeyboardPlayground", {}),
         },
         {
-          title: "BottomSheet × AlertDialog (step)",
+          title: "Bottom Sheet 위 Alert Dialog (step)",
           ...to("ActivityBottomSheetWithAlertDialogStep", {}),
         },
-        { title: "BottomSheet × AlertDialog (activity)", ...to("ActivityNestedBottomSheet", {}) },
         {
-          title: "MenuSheet",
+          title: "Bottom Sheet 위 Alert Dialog (activity)",
+          ...to("ActivityNestedBottomSheet", {}),
+        },
+        {
+          title: "Menu Sheet",
           component: (
             <DialogPushTrigger
               callbackActivity={menuSheetCallback}
@@ -148,12 +151,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                 console.log(result?.action);
               }}
             >
-              <ListButtonItem title="MenuSheet" detail="ActivityMenuSheet" />
+              <ListButtonItem title="Menu Sheet" detail="ActivityMenuSheet" />
             </DialogPushTrigger>
           ),
         },
         {
-          title: "SwipeableMenuSheet",
+          title: "Swipeable Menu Sheet",
           component: (
             <DialogPushTrigger
               callbackActivity={swipeableMenuSheetCallback}
@@ -162,12 +165,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                 console.log(result?.action);
               }}
             >
-              <ListButtonItem title="SwipeableMenuSheet" detail="ActivitySwipeableMenuSheet" />
+              <ListButtonItem title="Swipeable Menu Sheet" detail="ActivitySwipeableMenuSheet" />
             </DialogPushTrigger>
           ),
         },
-        { title: "SidePanel", ...to("ActivitySidePanel", {}) },
-        { title: "ResponsiveSidePanel", ...to("ActivityResponsiveSidePanel", {}) },
+        { title: "Side Panel", ...to("ActivitySidePanel", {}) },
+        { title: "Responsive Side Panel", ...to("ActivityResponsiveSidePanel", {}) },
       ],
     },
     {
@@ -175,11 +178,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: AppWindowIcon,
       items: [
         {
-          title: "AlertDialog (step)",
+          title: "Alert Dialog (step)",
           component: (
             <AlertDialogRoot {...overlayProps}>
               <AlertDialogTrigger asChild>
-                <ListButtonItem title="AlertDialog (step)" />
+                <ListButtonItem title="Alert Dialog (step)" />
               </AlertDialogTrigger>
               <Portal>
                 <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: 1 })}>
@@ -209,14 +212,14 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           ),
         },
         {
-          title: "AlertDialog (activity)",
+          title: "Alert Dialog (activity)",
           detail: "ActivityAlertDialog",
           onClick: async () => {
             const result = await receive<any>(push("ActivityAlertDialog", {}));
             console.log(result.message);
           },
         },
-        { title: "ResponsiveDialog", ...to("ActivityResponsiveDialog", {}) },
+        { title: "Responsive Dialog", ...to("ActivityResponsiveDialog", {}) },
       ],
     },
     {
@@ -225,11 +228,11 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "Menu", ...to("ActivityMenu", {}) },
         {
-          title: "ListButtonItem 트리거",
+          title: "List Button Item으로 여는 Menu",
           component: (
             <MenuRoot size="medium" matchReferenceWidth>
               <MenuTrigger asChild>
-                <ListButtonItem title="ListButtonItem 트리거" />
+                <ListButtonItem title="List Button Item으로 여는 Menu" />
               </MenuTrigger>
               <MenuContent>
                 <MenuGroup>
@@ -243,7 +246,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             </MenuRoot>
           ),
         },
-        { title: "HelpBubble", ...to("ActivityHelpBubble", {}) },
+        { title: "Help Bubble", ...to("ActivityHelpBubble", {}) },
       ],
     },
     {
@@ -251,9 +254,9 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: RefreshCwIcon,
       items: [
         { title: "기본", ...to("ActivityPullToRefreshPreview", {}) },
-        { title: "Tabs 조합", ...to("ActivityPullToRefreshTabs", {}) },
+        { title: "Tabs와 조합", ...to("ActivityPullToRefreshTabs", {}) },
         { title: "preventPull", ...to("ActivityPullToRefreshPreventPull", {}) },
-        { title: "Article preventPull (텍스트 선택)", ...to("ActivityArticlePreventPull", {}) },
+        { title: "Article 텍스트 선택 중 당김 차단", ...to("ActivityArticlePreventPull", {}) },
       ],
     },
     {
@@ -261,13 +264,13 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: CompassIcon,
       items: [
         { title: "Tabs", ...to("ActivityTabs", {}) },
-        { title: "AnimatedTabs", ...to("ActivityAnimatedTabs", {}) },
-        { title: "SwipeableTabs", ...to("ActivitySwipeableTabs", {}) },
-        { title: "Tabs autoHeight × 지연 로딩", ...to("ActivityTabsAutoHeightLazy", {}) },
-        { title: "ChipTabs × ScrollFog", ...to("ActivityChipTabsScrollFog", {}) },
+        { title: "Animated Tabs", ...to("ActivityAnimatedTabs", {}) },
+        { title: "Swipeable Tabs", ...to("ActivitySwipeableTabs", {}) },
+        { title: "Tabs autoHeight와 지연 로딩", ...to("ActivityTabsAutoHeightLazy", {}) },
+        { title: "Chip Tabs와 Scroll Fog", ...to("ActivityChipTabsScrollFog", {}) },
         { title: "Pagination", ...to("ActivityPagination", {}) },
         {
-          title: "SideNavigation",
+          title: "Side Navigation",
           detail: "ActivitySideNavigation",
           onClick: () => replace("ActivitySideNavigation", {}),
         },
@@ -277,13 +280,13 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "List",
       icon: ListIcon,
       items: [
-        { title: "ListItem", ...to("ActivityListItem", {}) },
-        { title: "ListImageFrame", ...to("ActivityListImageFrame", {}) },
-        { title: "ListButtonItem", ...to("ActivityListButtonItem", {}) },
-        { title: "ListLinkItem", ...to("ActivityListLinkItem", {}) },
-        { title: "ListSwitchItem", ...to("ActivityListSwitchItem", {}) },
-        { title: "ListCheckItem", ...to("ActivityListCheckItem", {}) },
-        { title: "ListRadioItem", ...to("ActivityListRadioItem", {}) },
+        { title: "List Item", ...to("ActivityListItem", {}) },
+        { title: "List Image Frame", ...to("ActivityListImageFrame", {}) },
+        { title: "List Button Item", ...to("ActivityListButtonItem", {}) },
+        { title: "List Link Item", ...to("ActivityListLinkItem", {}) },
+        { title: "List Switch Item", ...to("ActivityListSwitchItem", {}) },
+        { title: "List Check Item", ...to("ActivityListCheckItem", {}) },
+        { title: "List Radio Item", ...to("ActivityListRadioItem", {}) },
       ],
     },
     {
@@ -292,26 +295,26 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "Switch", ...to("ActivitySwitch", {}) },
         { title: "Checkbox", ...to("ActivityCheckbox", {}) },
-        { title: "QuantityPicker", ...to("ActivityQuantityPicker", {}) },
-        { title: "RadioGroup", ...to("ActivityRadioGroup", {}) },
-        { title: "SegmentedControl", ...to("ActivitySegmentedControl", {}) },
+        { title: "Quantity Picker", ...to("ActivityQuantityPicker", {}) },
+        { title: "Radio Group", ...to("ActivityRadioGroup", {}) },
+        { title: "Segmented Control", ...to("ActivitySegmentedControl", {}) },
         { title: "Select", ...to("ActivitySelect", {}) },
-        { title: "TimePicker", ...to("ActivityTimePicker", {}) },
-        { title: "WheelPicker", ...to("ActivityWheelPicker", {}) },
-        { title: "AttachmentField", ...to("ActivityAttachmentField", {}) },
-        { title: "AttachmentDisplayField", ...to("ActivityAttachmentDisplayField", {}) },
-        { title: "조합 예제", ...to("ActivityForm", {}) },
+        { title: "Time Picker", ...to("ActivityTimePicker", {}) },
+        { title: "Wheel Picker", ...to("ActivityWheelPicker", {}) },
+        { title: "Attachment Field", ...to("ActivityAttachmentField", {}) },
+        { title: "Attachment Display Field", ...to("ActivityAttachmentDisplayField", {}) },
+        { title: "여러 필드 조합", ...to("ActivityForm", {}) },
       ],
     },
     {
       title: "Button & Chip",
       icon: MousePointerClickIcon,
       items: [
-        { title: "ActionButton", ...to("ActivityActionButton", {}) },
-        { title: "ToggleButton", ...to("ActivityToggleButton", {}) },
-        { title: "ReactionButton", ...to("ActivityReactionButton", {}) },
-        { title: "Chip.Button", ...to("ActivityChipButton", {}) },
-        { title: "Chip.Toggle", ...to("ActivityChipToggle", {}) },
+        { title: "Action Button", ...to("ActivityActionButton", {}) },
+        { title: "Toggle Button", ...to("ActivityToggleButton", {}) },
+        { title: "Reaction Button", ...to("ActivityReactionButton", {}) },
+        { title: "Chip Button", ...to("ActivityChipButton", {}) },
+        { title: "Chip Toggle", ...to("ActivityChipToggle", {}) },
       ],
     },
     {
@@ -319,12 +322,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: ImageIcon,
       items: [
         { title: "Avatar", ...to("ActivityAvatar", {}) },
-        { title: "AvatarStack", ...to("ActivityAvatarStack", {}) },
+        { title: "Avatar Stack", ...to("ActivityAvatarStack", {}) },
         { title: "Badge", ...to("ActivityBadge", {}) },
-        { title: "MannerTempBadge", ...to("ActivityMannerTempLevel", {}) },
+        { title: "Manner Temp Badge", ...to("ActivityMannerTempLevel", {}) },
         { title: "Accordion", ...to("ActivityAccordion", {}) },
-        { title: "ErrorState", ...to("ActivityErrorState", {}) },
-        { title: "ResultSection", ...to("ActivityResultSection", {}) },
+        { title: "Error State", ...to("ActivityErrorState", {}) },
+        { title: "Result Section", ...to("ActivityResultSection", {}) },
       ],
     },
     {
@@ -368,7 +371,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           // 기존 스낵바를 먼저 닫고 다음 tick에 새 스낵바를 띄우는 패턴.
           // dismiss 상태 전이가 적용된 뒤에 create가 실행되므로
           // 항상 새 스낵바부터 활성화되는 것을 보장한다.
-          title: "dismiss+setTimeout workaround",
+          title: "dismiss 후 setTimeout 우회",
           onClick: () => {
             snackbarAdapter.dismiss();
             setTimeout(() => {
@@ -384,16 +387,16 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Foundation",
       icon: PaletteIcon,
       items: [
-        { title: "Box margin 프롭", ...to("ActivityMarginPlayground", {}) },
-        { title: "IACVT Leak Check (구형 iOS)", ...to("ActivityIacvtLeak", {}) },
-        { title: "SidePanel IACVT (구형 iOS)", ...to("ActivityIacvtSidePanel", {}) },
-        { title: "Overlay IACVT (구형 iOS)", ...to("ActivityIacvtOverlay", {}) },
-        { title: "Margin/Bleed IACVT (구형 iOS)", ...to("ActivityIacvtMargin", {}) },
+        { title: "Box margin prop", ...to("ActivityMarginPlayground", {}) },
+        { title: "IACVT 상속 누수 (구형 iOS)", ...to("ActivityIacvtLeak", {}) },
+        { title: "Side Panel IACVT (구형 iOS)", ...to("ActivityIacvtSidePanel", {}) },
+        { title: "오버레이 IACVT (구형 iOS)", ...to("ActivityIacvtOverlay", {}) },
+        { title: "margin·bleed IACVT (구형 iOS)", ...to("ActivityIacvtMargin", {}) },
         { title: "IACVT: initial 폴백 가설 (순수 CSS)", ...to("ActivityIacvtExperiment", {}) },
-        { title: "Font Multiplier Layout", ...to("ActivityFontMultiplierLayout", {}) },
-        { title: "Typography Scale", ...to("ActivityTypographyScale", {}) },
-        { title: "누름 축소 피드백", ...to("ActivityScaleFeedback", {}) },
-        { title: "PartialDarkMode", ...to("ActivityPartialDarkMode", {}) },
+        { title: "폰트 배율 레이아웃", ...to("ActivityFontMultiplierLayout", {}) },
+        { title: "타이포그래피 스케일", ...to("ActivityTypographyScale", {}) },
+        { title: "Scale Feedback", ...to("ActivityScaleFeedback", {}) },
+        { title: "부분 다크 모드", ...to("ActivityPartialDarkMode", {}) },
         { title: "v2 변수 × v3 토큰 혼용", ...to("ActivityMixedVersionTest", {}) },
       ],
     },
