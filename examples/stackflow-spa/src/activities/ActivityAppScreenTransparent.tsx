@@ -1,9 +1,11 @@
-import { Flex, Icon } from "@seed-design/react";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
+import { Flex } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
+  NextAppBarBackButton,
   NextAppBarIconButton,
+  NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRight,
 } from "seed-design/ui/next-app-bar";
@@ -11,30 +13,39 @@ import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-scr
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityAppScreenAppBarCustomization: {};
+    ActivityAppScreenTransparent: {};
   }
 }
 
-const ActivityAppScreenAppBarCustomization: StaticActivityComponentType<
-  "ActivityAppScreenAppBarCustomization"
+const ActivityAppScreenTransparent: StaticActivityComponentType<
+  "ActivityAppScreenTransparent"
 > = () => {
   return (
-    <NextAppScreen theme="android">
-      <NextAppBar bg="palette.blue200">
-        <NextAppBarMain title="Preview" subtitle="This is a nice preview." />
+    <NextAppScreen contentOffsetTop="none" tone="transparent">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Transparent</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
-            <Icon svg={<IconBellFill />} color="palette.blue500" size="x5" />
+            <IconBellFill />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>
       <NextAppScreenContent>
-        <Flex justify="center" align="center" height="full">
-          Preview
+        <Flex
+          height="full"
+          justify="center"
+          align="center"
+          bg="palette.gray800"
+          color="fg.neutralInverted"
+        >
+          Transparent
         </Flex>
       </NextAppScreenContent>
     </NextAppScreen>
   );
 };
 
-export default ActivityAppScreenAppBarCustomization;
+export default ActivityAppScreenTransparent;

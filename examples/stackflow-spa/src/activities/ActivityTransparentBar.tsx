@@ -93,9 +93,9 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
                 key={transitionStyle}
                 variant="neutralSolid"
                 flexGrow
-                onClick={() => push("ActivityNextAppScreen", { transitionStyle })}
+                onClick={() => push("ActivityAppScreen", { transitionStyle })}
               >
-                ActivityNextAppScreen ({transitionStyle})
+                ActivityAppScreen ({transitionStyle})
               </ActionButton>
             ))}
           </VStack>

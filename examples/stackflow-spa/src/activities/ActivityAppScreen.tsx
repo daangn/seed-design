@@ -1,41 +1,44 @@
-import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
-import { Flex, HStack, Text, VStack } from "@seed-design/react";
+import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
+import { Box, Text, VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
-import { useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarSlot,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent, type AppScreenProps } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+} from "seed-design/ui/next-app-bar";
+import {
+  NextAppScreen,
+  NextAppScreenContent,
+  type NextAppScreenProps,
+} from "seed-design/ui/next-app-screen";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
-import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-import { Switch } from "seed-design/ui/switch";
-import img from "../assets/peng.jpeg";
+import { useSwipeBackSnackbar } from "../hooks/useSwipeBackSnackbar";
 
 /**
- * 아래 컨트롤의 초기값을 params 로 받는다. 문서 페이지가 iframe 을 특정 상태로
- * 열어야 하는데, 마운트 뒤에는 손댈 수 없기 때문이다. `contentMode: "bare"` 는
- * 반대 방향으로, 컨트롤 패널을 걷어내 화면 자체만 보게 한다.
+ * 화면 전체의 제스처 조건을 바꾸는 케이스들: `ptr`은 content를 PullToRefresh로
+ * 감싸고, `overflowX`는 content 자체를 가로로 넘치게 만든다. 섹션 안에 끼워넣을
+ * 수 없어 params로 화면을 다시 push한다. `plain`은 둘 다 걸지 않은 기본 상태다.
  */
+const CONTENT_MODES = ["plain", "ptr", "overflowX"] as const;
+
 declare module "@stackflow/config" {
   interface Register {
     ActivityAppScreen: {
-      transitionStyle?: NonNullable<AppScreenProps["transitionStyle"]>;
-      theme?: NonNullable<AppScreenProps["theme"]>;
-      tone?: NonNullable<AppScreenProps["tone"]>;
-      layerOffsetTop?: NonNullable<AppScreenProps["layerOffsetTop"]>;
-      mainSlot?: "main" | "slot";
-      contentMode?: "bare";
+      transitionStyle?: NonNullable<NextAppScreenProps["transitionStyle"]>;
+      contentMode?: (typeof CONTENT_MODES)[number];
     };
   }
 }
+
+const SWIPE_BACK_AREAS = ["edge", "full", "none"] as const satisfies ReadonlyArray<
+  NonNullable<NextAppScreenProps["swipeBackArea"]>
+>;
+
+/** `off` 는 prop 을 넘기지 않는 것 — 손을 떼는 시점에 판정하는 기본 동작이다. */
+const COMMIT_RATIOS = ["off", "0.1", "0.2", "0.4"] as const;
 
 function Case({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -48,277 +51,137 @@ function Case({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function VariantControl<T extends string>({
-  label,
-  values,
-  value,
-  onChange,
-}: {
-  label: string;
-  values: readonly T[];
-  value: T;
-  onChange: (value: T) => void;
-}) {
-  return (
-    <VStack gap="x2" align="center">
-      <Text textStyle="t5Bold" aria-hidden>
-        {label}
-      </Text>
-      <SegmentedControl
-        value={value}
-        aria-label={label}
-        onValueChange={(next) => {
-          const found = values.find((candidate) => candidate === next);
-          if (found) onChange(found);
-        }}
-      >
-        {values.map((candidate) => (
-          <SegmentedControlItem key={candidate} value={candidate}>
-            {candidate}
-          </SegmentedControlItem>
-        ))}
-      </SegmentedControl>
-    </VStack>
-  );
-}
-
-// Legacy AppScreen 회귀 검증 전용. 신규 activity 는 NextAppScreen 만 쓴다.
-// NextAppScreen 짝: ActivityNextAppScreen
-const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({ params }) => {
+/**
+ * 전환 스타일과 스와이프백 설정만 다루는 화면. 전환 QA 는 화면을 여러 개 쌓아야
+ * 하므로, 마운트 비용이 큰 케이스는 `ActivityAppScreenGesture` 로 옮겨 두고
+ * 여기서는 현재 설정 그대로 그 화면을 여는 진입점만 둔다.
+ */
+const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({
+  params,
+}) => {
   const { push } = useFlow();
-  const { create } = useSnackbarAdapter();
+  const swipeBackHandlers = useSwipeBackSnackbar();
 
-  const [theme, setTheme] = useState(params.theme ?? "cupertino");
-  const [tone, setTone] = useState(params.tone ?? "layer");
-  const [layerOffsetTop, setLayerOffsetTop] = useState(params.layerOffsetTop ?? "appBar");
-  const [layerOffsetBottom, setLayerOffsetBottom] =
-    useState<NonNullable<AppScreenProps["layerOffsetBottom"]>>("none");
-  const [gradient, setGradient] = useState(true);
-
-  const [preventSwipeBack, setPreventSwipeBack] = useState(false);
-  const [ptr, setPtr] = useState(false);
-
-  const [mainSlot, setMainSlot] = useState(params.mainSlot ?? "main");
-  const [subtitle, setSubtitle] = useState(false);
-  const [barBg, setBarBg] = useState(false);
-  const [iconCounts, setIconCounts] = useState({ left: 0, right: 1 });
-
-  // 제스처 진행 중에는 ref 에만 적어 프레임마다 리렌더가 걸리지 않게 한다.
-  const peakRatioRef = useRef(0);
-
-  const showCases = params.contentMode !== "bare";
+  const [swipeBackArea, setSwipeBackArea] = useState<(typeof SWIPE_BACK_AREAS)[number]>("edge");
+  const [commitRatio, setCommitRatio] = useState<(typeof COMMIT_RATIOS)[number]>("off");
 
   return (
-    <AppScreen
-      theme={theme}
-      tone={tone}
+    <NextAppScreen
       transitionStyle={params.transitionStyle}
-      layerOffsetTop={layerOffsetTop}
-      layerOffsetBottom={layerOffsetBottom}
-      gradient={gradient}
-      preventSwipeBack={preventSwipeBack}
-      onSwipeBackStart={() => {
-        peakRatioRef.current = 0;
-        create({ render: () => <Snackbar message="Started swiping" />, timeout: 500 });
-      }}
-      onSwipeBackMove={({ displacementRatio }) => {
-        peakRatioRef.current = Math.max(peakRatioRef.current, displacementRatio);
-      }}
-      onSwipeBackEnd={({ swiped }) => {
-        const peak = peakRatioRef.current.toFixed(2);
-        create({
-          render: () => <Snackbar message={`Swiped: ${swiped} (peak ratio ${peak})`} />,
-          timeout: 1000,
-        });
-      }}
+      swipeBackArea={swipeBackArea}
+      {...(commitRatio !== "off" && { swipeBackCommitRatio: Number(commitRatio) })}
+      {...swipeBackHandlers}
     >
-      <AppBar {...(barBg && { bg: "palette.blue200" })}>
-        <AppBarLeft>
-          <AppBarBackButton />
-          {Array.from({ length: iconCounts.left }).map((_, index) => (
-            <AppBarIconButton key={index} aria-label={`알림 ${index + 1}`}>
-              <IconBellLine />
-            </AppBarIconButton>
-          ))}
-        </AppBarLeft>
-        {mainSlot === "main" ? (
-          <AppBarMain
-            title="AppScreen (Legacy)"
-            {...(subtitle && { subtitle: "Subtitle 이 붙으면 Main 레이아웃이 바뀝니다" })}
-          />
-        ) : (
-          <AppBarSlot>
-            <Flex grow py="x2" px="x2_5" height="full" style={{ boxSizing: "border-box" }}>
-              <Flex
-                px="x3"
-                grow
-                align="center"
-                borderRadius="r2"
-                background="bg.neutralWeak"
-                borderColor="stroke.neutralMuted"
-                borderWidth={1}
-              >
-                <Text color="fg.placeholder" textStyle="t4Medium">
-                  검색어를 입력하세요
-                </Text>
-              </Flex>
-            </Flex>
-          </AppBarSlot>
-        )}
-        <AppBarRight>
-          {Array.from({ length: iconCounts.right }).map((_, index) => (
-            <AppBarIconButton key={index} aria-label={`알림 ${index + 1}`}>
-              <IconBellLine />
-            </AppBarIconButton>
-          ))}
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent
-        ptr={ptr}
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="NextAppScreen" />
+      </NextAppBar>
+      <NextAppScreenContent
+        ptr={params.contentMode === "ptr"}
         onPtrRefresh={() => new Promise((resolve) => setTimeout(resolve, 1500))}
       >
-        {tone === "transparent" && <img src={img} alt="penguin" />}
-        {showCases && (
-          <VStack px="spacingX.globalGutter" py="x3" gap="x2">
-            <Case label="화면">
-              <VariantControl
-                label="theme"
-                values={appScreenVariantMap.theme}
-                value={theme}
-                onChange={setTheme}
-              />
-              <VariantControl
-                label="tone"
-                values={appScreenVariantMap.tone}
-                value={tone}
-                onChange={setTone}
-              />
-              <Switch
-                label="gradient"
-                tone="neutral"
-                size="24"
-                checked={gradient}
-                onCheckedChange={setGradient}
-              />
-              <Text textStyle="t6Regular" color="fg.neutralMuted">
-                gradient 는 tone="transparent" 에서만 눈에 띕니다. 사진 위로 AppBar 가 얹힌 상태에서
-                꺼보세요.
+        <VStack px="spacingX.globalGutter" py="x3" gap="x2">
+          <Case label="transitionStyle">
+            {params.transitionStyle && (
+              <Text textStyle="articleBody">transitionStyle: {params.transitionStyle}</Text>
+            )}
+            {nextAppScreenVariantMap.transitionStyle.map((style) => (
+              <ActionButton
+                key={style}
+                variant={params.transitionStyle === style ? "neutralWeak" : "neutralSolid"}
+                onClick={() => push("ActivityAppScreen", { transitionStyle: style })}
+              >
+                push transitionStyle: {style}
+              </ActionButton>
+            ))}
+            <ActionButton onClick={() => push("ActivityAppScreenTransparent", {})}>
+              push transparent tone
+            </ActionButton>
+          </Case>
+
+          <Case label="스와이프백">
+            <VStack gap="x2" align="center">
+              <Text textStyle="t5Bold" aria-hidden>
+                Swipe Back Area
               </Text>
-            </Case>
-
-            <Case label="오프셋">
-              <VariantControl
-                label="layerOffsetTop"
-                values={appScreenVariantMap.layerOffsetTop}
-                value={layerOffsetTop}
-                onChange={setLayerOffsetTop}
-              />
-              <VariantControl
-                label="layerOffsetBottom"
-                values={appScreenVariantMap.layerOffsetBottom}
-                value={layerOffsetBottom}
-                onChange={setLayerOffsetBottom}
-              />
-            </Case>
-
-            <Case label="AppBar">
-              <VariantControl
-                label="main / slot"
-                values={["main", "slot"] as const}
-                value={mainSlot}
-                onChange={setMainSlot}
-              />
-              <Switch
-                label="subtitle"
-                tone="neutral"
-                size="24"
-                checked={subtitle}
-                onCheckedChange={setSubtitle}
-              />
-              <Switch
-                label="bg"
-                tone="neutral"
-                size="24"
-                checked={barBg}
-                onCheckedChange={setBarBg}
-              />
-              <HStack gap="x2">
-                {(["left", "right"] as const).map((side) => (
-                  <ActionButton
-                    key={side}
-                    flexGrow
-                    variant="neutralWeak"
-                    onClick={() => setIconCounts((prev) => ({ ...prev, [side]: prev[side] + 1 }))}
-                  >
-                    {side} +
-                  </ActionButton>
+              <SegmentedControl
+                value={swipeBackArea}
+                onValueChange={(value) => {
+                  const next = SWIPE_BACK_AREAS.find((area) => area === value);
+                  if (next) setSwipeBackArea(next);
+                }}
+                aria-label="Swipe Back Area"
+              >
+                {SWIPE_BACK_AREAS.map((area) => (
+                  <SegmentedControlItem key={area} value={area}>
+                    {area}
+                  </SegmentedControlItem>
                 ))}
-              </HStack>
-              <HStack gap="x2">
-                {(["left", "right"] as const).map((side) => (
-                  <ActionButton
-                    key={side}
-                    flexGrow
-                    variant="neutralWeak"
-                    onClick={() =>
-                      setIconCounts((prev) => ({ ...prev, [side]: Math.max(0, prev[side] - 1) }))
-                    }
-                  >
-                    {side} -
-                  </ActionButton>
+              </SegmentedControl>
+              <Text textStyle="t6Regular" color="fg.neutralMuted">
+                {swipeBackArea === "none"
+                  ? "이 영역 설정에서는 제스처를 받지 않습니다."
+                  : "제스처는 위 transitionStyle 의 exit 를 그대로 되감습니다. 스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
+              </Text>
+            </VStack>
+            <VStack gap="x2" align="center">
+              <Text textStyle="t5Bold" aria-hidden>
+                Swipe Back Commit Ratio
+              </Text>
+              <SegmentedControl
+                value={commitRatio}
+                onValueChange={(value) => {
+                  const next = COMMIT_RATIOS.find((ratio) => ratio === value);
+                  if (next) setCommitRatio(next);
+                }}
+                aria-label="Swipe Back Commit Ratio"
+              >
+                {COMMIT_RATIOS.map((ratio) => (
+                  <SegmentedControlItem key={ratio} value={ratio}>
+                    {ratio}
+                  </SegmentedControlItem>
                 ))}
-              </HStack>
+              </SegmentedControl>
               <Text textStyle="t6Regular" color="fg.neutralMuted">
-                slot 은 검색바 같은 커스텀 요소에 전환 애니메이션을 입힙니다. 스와이프백 하면
-                IconButton 과 같은 fade 로 빠집니다.
+                {commitRatio === "off"
+                  ? "손을 떼는 시점에 판정합니다. 임계를 넘겨 끌었어도 되돌려 놓으면 취소됩니다."
+                  : `ratio 가 ${commitRatio} 보다 커지는 순간, 손을 떼지 않아도 확정됩니다. 그 뒤로는 되돌릴 수 없고 Snackbar 도 그 시점에 뜹니다.`}
               </Text>
-            </Case>
+            </VStack>
+            <ActionButton
+              variant="neutralSolid"
+              onClick={() =>
+                push("ActivityAppScreenGesture", {
+                  swipeBackArea,
+                  ...(commitRatio !== "off" && { swipeBackCommitRatio: commitRatio }),
+                })
+              }
+            >
+              이 설정으로 제스처 충돌 화면 열기
+            </ActionButton>
+          </Case>
 
-            <Case label="transitionStyle">
-              {params.transitionStyle && (
-                <Text textStyle="articleBody">transitionStyle: {params.transitionStyle}</Text>
-              )}
-              {appScreenVariantMap.transitionStyle.map((style) => (
-                <ActionButton
-                  key={style}
-                  variant={params.transitionStyle === style ? "neutralWeak" : "neutralSolid"}
-                  onClick={() => push("ActivityAppScreen", { transitionStyle: style })}
-                >
-                  push transitionStyle: {style}
-                </ActionButton>
-              ))}
-            </Case>
+          <Case label="contentMode">
+            {params.contentMode && (
+              <Text textStyle="articleBody">contentMode: {params.contentMode}</Text>
+            )}
+            {CONTENT_MODES.map((mode) => (
+              <ActionButton
+                key={mode}
+                variant={params.contentMode === mode ? "neutralWeak" : "neutralSolid"}
+                onClick={() => push("ActivityAppScreen", { contentMode: mode })}
+              >
+                push contentMode: {mode}
+              </ActionButton>
+            ))}
+          </Case>
 
-            <Case label="스와이프백">
-              <Switch
-                label="preventSwipeBack"
-                tone="neutral"
-                size="24"
-                checked={preventSwipeBack}
-                onCheckedChange={setPreventSwipeBack}
-              />
-              <Text textStyle="t6Regular" color="fg.neutralMuted">
-                {preventSwipeBack
-                  ? "Edge 가 렌더되지 않아 제스처를 받지 않습니다."
-                  : "스와이프백 후 Snackbar 로 swiped 와 최대 displacement ratio 를 확인하세요."}
-              </Text>
-            </Case>
-
-            <Case label="PullToRefresh">
-              <Switch label="ptr" tone="neutral" size="24" checked={ptr} onCheckedChange={setPtr} />
-              <Text textStyle="t6Regular" color="fg.neutralMuted">
-                snippet 의 AppScreenContent 가 PullToRefresh 를 감싸는 경로입니다. 수동 조합은
-                ActivityPullToRefreshPreview 에 남아 있습니다.
-              </Text>
-            </Case>
-          </VStack>
-        )}
-        {tone === "transparent" && <img src={img} alt="penguin" />}
-      </AppScreenContent>
-    </AppScreen>
+          {params.contentMode === "overflowX" && <Box width="200%" height="1px" />}
+        </VStack>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
