@@ -46,8 +46,6 @@ import {
   IconPencilLine,
   IconTrashcanLine,
 } from "@karrotmarket/react-monochrome-icon";
-// 섹션 제목 아이콘은 화면 껍데기·시트·패널처럼 UI 구조 자체를 가리켜야 하는데,
-// @karrotmarket/react-monochrome-icon은 당근 제품 도메인 위주라 그 개념을 담은 아이콘이 없다.
 import {
   AppWindowIcon,
   CompassIcon,
@@ -95,11 +93,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   const { zIndex: activityIndex } = useActivity();
 
-  // 항목 이름은 섹션 제목이 이미 말한 단어를 되풀이하지 않는다. 다만 ListButtonItem·ActionButton처럼
-  // 문자열 자체가 실제 export 이름인 항목은, 접두어를 떼면 없는 이름이 되므로 그대로 둔다.
   const navigationSections: NavigationSection[] = [
-    // 화면 껍데기의 prop과 그 위에서 일어나는 스택 동작. 둘 다 AppScreen이 소유하거나
-    // AppScreen을 통해서만 검증되므로 한 섹션으로 둔다.
     {
       title: "AppScreen",
       icon: LayersIcon,
@@ -122,8 +116,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         })),
       ],
     },
-    // 화면 아래 가장자리에서 올라오는 오버레이. 중앙·좌우 가장자리에 고정되는 것은 Dialog & Panel,
-    // 트리거 요소에 앵커되는 것은 Menu & Popover로 간다.
     {
       title: "Drawer",
       icon: PanelBottomIcon,
@@ -183,8 +175,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
       ],
     },
-    // 화면 중앙 또는 가장자리에 고정되는 오버레이. Responsive 계열은 좁은 화면에서 시트로 렌더되지만
-    // 검증 대상 API가 ResponsiveSidePanel/ResponsiveDialog이므로 여기에 둔다.
     {
       title: "Dialog & Panel",
       icon: AppWindowIcon,
@@ -241,7 +231,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
       ],
     },
-    // 트리거 요소에 앵커되는 오버레이의 배치·정렬.
     {
       title: "Menu & Popover",
       icon: SquareMenuIcon,
@@ -269,7 +258,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
       ],
     },
-    // PTR 제스처의 발동·차단 조건. 스와이프백 제스처는 App Screen으로 간다.
     {
       title: "Pull to Refresh",
       icon: RefreshCwIcon,
@@ -286,7 +274,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
       ],
     },
-    // 콘텐츠 묶음 사이를 이동시키는 컨트롤. 화면 스택 이동은 Stack & Transition으로 간다.
     {
       title: "Navigation",
       icon: CompassIcon,
@@ -306,7 +293,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
       ],
     },
-    // List 계열 아이템의 prefix/suffix 조합. 그 안에 쓰이는 Checkbox·Switch·Radio 자체는 Form으로 간다.
     {
       title: "List",
       icon: ListIcon,
@@ -320,7 +306,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ListRadioItem", onClick: () => push("ActivityListRadioItem", {}) },
       ],
     },
-    // 값을 입력·선택받는 컨트롤. 누르기만 하는 버튼·칩은 Button & Chip으로 간다.
     {
       title: "Form",
       icon: TextCursorInputIcon,
@@ -352,7 +337,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Chip.Toggle", onClick: () => push("ActivityChipToggle", {}) },
       ],
     },
-    // 정보를 보여주기만 하는 컴포넌트와 화면 전체 상태 표현.
     {
       title: "Content Display",
       icon: ImageIcon,
@@ -419,8 +403,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
       ],
     },
-    // 특정 컴포넌트가 아니라 그 아래 스타일 레이어(토큰·스타일 프롭·컬러 모드·폰트 배율·CSS 변수 엔진)를
-    // 보는 화면.
     {
       title: "Foundation",
       icon: PaletteIcon,
@@ -448,7 +430,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const stripRef = React.useRef<HTMLDivElement>(null);
-  // 섹션 제목이 고정될 자리가 칩 스트립 바로 아래여야 해서, 스트립의 실제 높이를 잰다.
   const [stripHeight, setStripHeight] = React.useState(0);
   // 등록이 렌더 순서대로 일어나므로 Map의 키 순서가 곧 화면에 놓인 섹션 순서다.
   const sectionRefs = React.useRef(new Map<string, HTMLElement>());
