@@ -510,6 +510,7 @@
       "version": "0.6.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
+        "@lynx-js/lynx-ui-popover": "^3.130.1",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.14.4",
@@ -2504,15 +2505,17 @@
 
     "@lynx-js/lynx-core": ["@lynx-js/lynx-core@0.1.4", "", {}, "sha512-JxpAoDhpR8dJ6PFR2KOsFQyWt6SKiU+Bp701/miy5exqZHd+SlCd3UCfMtJy3nRlz3gy1O1xsObK7+x+jArdAQ=="],
 
-    "@lynx-js/lynx-ui-button": ["@lynx-js/lynx-ui-button@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/react-use": "0.1.3", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-HhncNSI+PWFIDBYYT+4sEBZhJbDr6ra7Ppdoys12XxKWydjsphnzKHG0Klh+VPbNRu7VUGo3WZ3ymm6K/ehw3g=="],
+    "@lynx-js/lynx-ui-button": ["@lynx-js/lynx-ui-button@3.136.0", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.136.0", "@lynx-js/react-use": "0.2.2", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-BKx3qH13VEpCVQVPKrLm7xO9YW66tJP9xpWIAyUtr/yBNA5XBbZnemw0Q4yZ7bLhhJYoU3Ot/QkbRChgwCtQtg=="],
 
     "@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.133.1", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.1.3" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-xV+GoixE/FK4DvjqYNJxZBeF+Jk1lCrUwvj7rd9cTzQV+xXiPDcP6BNnAu8q4jYDE5WKD/hgfHn9quUTcWvccQ=="],
 
     "@lynx-js/lynx-ui-dialog": ["@lynx-js/lynx-ui-dialog@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-button": "3.133.1", "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-UrTKEePoA9KFyU4D15wFePxNswnU1RcPGgqShzYeDGJ2Cq/ua9Ddz+Bo5mPcIXTVAPNkSVs2DaEcbsNtZoULHQ=="],
 
-    "@lynx-js/lynx-ui-overlay": ["@lynx-js/lynx-ui-overlay@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-PCfjmAUheL5USYCaJUZQVf8M+g6we0h7yOdi0Z0+5RJgjzn0WNuAQU6oNisId+H4W0tGmTlRvtXs1gZJ4+KcoQ=="],
+    "@lynx-js/lynx-ui-overlay": ["@lynx-js/lynx-ui-overlay@3.136.0", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.136.0" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-n0tZzbb+JAC+M/K1OP9sZ4FXMz6+gx/QY3XqHU3MRazWfVF8MMZDANl6oNPcb/rtbsvJRg8X5/gihe5NFfkhLw=="],
 
-    "@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-SjDLZPBmnAuFUekAMA8xl0y1iDlzc2JNP+wQcOJ+JyEdNy7V5v2apomPqLXNVtGoZ7eSIOTjxuzeO1e/kRYqSg=="],
+    "@lynx-js/lynx-ui-popover": ["@lynx-js/lynx-ui-popover@3.136.0", "", { "dependencies": { "@lynx-js/lynx-ui-button": "3.136.0", "@lynx-js/lynx-ui-common": "3.136.0", "@lynx-js/lynx-ui-overlay": "3.136.0", "@lynx-js/lynx-ui-presence": "3.136.0", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-cCGBGc3WLctWPqesaR/gTN0uBF2YDM/PHI5PqxOcmHzWm7fbBI4y7B5lPbJ55gHFK/S3ktSowyBxO/KlYPBIiQ=="],
+
+    "@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.136.0", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.136.0", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-YW001rZ8d0n0ZTKimGW628g38OXSLqnGK0/0MR7r6qV8tjg7UR0HzAwNDeXhvn75NT80H2D3SddHprKtouoY3g=="],
 
     "@lynx-js/lynx-ui-sheet": ["@lynx-js/lynx-ui-sheet@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/lynx-ui-dialog": "3.133.1", "@lynx-js/lynx-ui-overlay": "3.133.1", "@lynx-js/lynx-ui-presence": "3.133.1", "@lynx-js/motion": "0.0.3", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-mw5h6aD5cj72U+nQl6cCMPf+ZK9TkPQSAGIuiYwcMDRWabNF+nCBYgywaFh2ZGTDf0nspWTaYr9lDzzJyqmQ9g=="],
 
@@ -6638,6 +6641,26 @@
 
     "@lynx-js/chunk-loading-webpack-plugin/@lynx-js/webpack-runtime-globals": ["@lynx-js/webpack-runtime-globals@0.0.6", "", {}, "sha512-VzpJc/w7v38/SHaZ+f3WBVBrsgXOG13YX9mRRxRrCgJQa+wZ6waRz7OIjntuTYJk2p7rQ0wKRGzsMgMfRBs/3g=="],
 
+    "@lynx-js/lynx-ui-button/@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.136.0", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.2.2" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-wTHJxhisR2+/0ECpLXzdwrNqy50Rcu6hCb4suXoQjDkf1yq6sTic+h0g9SYiK3k0fv01UDEJKiMrtVAsbgTGJQ=="],
+
+    "@lynx-js/lynx-ui-button/@lynx-js/react-use": ["@lynx-js/react-use@0.2.2", "", { "dependencies": { "immer": "10.1.1", "nanoid": "^5.1.6", "react-use": "^17.6.0" }, "peerDependencies": { "@lynx-js/react": ">=0.105.1" } }, "sha512-+cFNtHNraLojSWwZL0uHFLHqoh/bCQU1fT7L2gSOqkwnKYmyDbtZOj+CXtHyDPVHEaGTYqqRt93ZuYA2jztD2Q=="],
+
+    "@lynx-js/lynx-ui-dialog/@lynx-js/lynx-ui-button": ["@lynx-js/lynx-ui-button@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "@lynx-js/react-use": "0.1.3", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-HhncNSI+PWFIDBYYT+4sEBZhJbDr6ra7Ppdoys12XxKWydjsphnzKHG0Klh+VPbNRu7VUGo3WZ3ymm6K/ehw3g=="],
+
+    "@lynx-js/lynx-ui-dialog/@lynx-js/lynx-ui-overlay": ["@lynx-js/lynx-ui-overlay@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-PCfjmAUheL5USYCaJUZQVf8M+g6we0h7yOdi0Z0+5RJgjzn0WNuAQU6oNisId+H4W0tGmTlRvtXs1gZJ4+KcoQ=="],
+
+    "@lynx-js/lynx-ui-dialog/@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-SjDLZPBmnAuFUekAMA8xl0y1iDlzc2JNP+wQcOJ+JyEdNy7V5v2apomPqLXNVtGoZ7eSIOTjxuzeO1e/kRYqSg=="],
+
+    "@lynx-js/lynx-ui-overlay/@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.136.0", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.2.2" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-wTHJxhisR2+/0ECpLXzdwrNqy50Rcu6hCb4suXoQjDkf1yq6sTic+h0g9SYiK3k0fv01UDEJKiMrtVAsbgTGJQ=="],
+
+    "@lynx-js/lynx-ui-popover/@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.136.0", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.2.2" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-wTHJxhisR2+/0ECpLXzdwrNqy50Rcu6hCb4suXoQjDkf1yq6sTic+h0g9SYiK3k0fv01UDEJKiMrtVAsbgTGJQ=="],
+
+    "@lynx-js/lynx-ui-presence/@lynx-js/lynx-ui-common": ["@lynx-js/lynx-ui-common@3.136.0", "", { "dependencies": { "@lynx-js/gesture-runtime": "2.1.1", "@lynx-js/react-use": "0.2.2" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-wTHJxhisR2+/0ECpLXzdwrNqy50Rcu6hCb4suXoQjDkf1yq6sTic+h0g9SYiK3k0fv01UDEJKiMrtVAsbgTGJQ=="],
+
+    "@lynx-js/lynx-ui-sheet/@lynx-js/lynx-ui-overlay": ["@lynx-js/lynx-ui-overlay@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-PCfjmAUheL5USYCaJUZQVf8M+g6we0h7yOdi0Z0+5RJgjzn0WNuAQU6oNisId+H4W0tGmTlRvtXs1gZJ4+KcoQ=="],
+
+    "@lynx-js/lynx-ui-sheet/@lynx-js/lynx-ui-presence": ["@lynx-js/lynx-ui-presence@3.133.1", "", { "dependencies": { "@lynx-js/lynx-ui-common": "3.133.1", "clsx": "^2.1.1" }, "peerDependencies": { "@lynx-js/react": ">=0.100.0", "@lynx-js/types": "*", "@types/react": "^18" } }, "sha512-SjDLZPBmnAuFUekAMA8xl0y1iDlzc2JNP+wQcOJ+JyEdNy7V5v2apomPqLXNVtGoZ7eSIOTjxuzeO1e/kRYqSg=="],
+
     "@lynx-js/motion/framer-motion": ["framer-motion@12.34.1", "", { "dependencies": { "motion-dom": "^12.34.1", "motion-utils": "^12.29.2", "tslib": "^2.4.0" }, "peerDependencies": { "@emotion/is-prop-valid": "*", "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" }, "optionalPeers": ["@emotion/is-prop-valid", "react", "react-dom"] }, "sha512-kcZyNaYQfvE2LlH6+AyOaJAQV4rGp5XbzfhsZpiSZcwDMfZUHhuxLWeyRzf5I7jip3qKRpuimPA9pXXfr111kQ=="],
 
     "@lynx-js/motion/motion-dom": ["motion-dom@12.23.12", "", { "dependencies": { "motion-utils": "^12.23.6" } }, "sha512-RcR4fvMCTESQBD/uKQe49D5RUeDOokkGRmz4ceaJKDBgHYtZtntC/s2vLvY38gqGaytinij/yi3hMcWVcEF5Kw=="],
@@ -7568,6 +7591,14 @@
 
     "@jsonjoy.com/fs-snapshot/@jsonjoy.com/util/@jsonjoy.com/codegen": ["@jsonjoy.com/codegen@17.67.0", "", { "peerDependencies": { "tslib": "2" } }, "sha512-idnkUplROpdBOV0HMcwhsCUS5TRUi9poagdGs70A6S4ux9+/aPuKbh8+UYRTLYQHtXvAdNfQWXDqZEx5k4Dj2Q=="],
 
+    "@lynx-js/lynx-ui-button/@lynx-js/react-use/nanoid": ["nanoid@5.1.6", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg=="],
+
+    "@lynx-js/lynx-ui-overlay/@lynx-js/lynx-ui-common/@lynx-js/react-use": ["@lynx-js/react-use@0.2.2", "", { "dependencies": { "immer": "10.1.1", "nanoid": "^5.1.6", "react-use": "^17.6.0" }, "peerDependencies": { "@lynx-js/react": ">=0.105.1" } }, "sha512-+cFNtHNraLojSWwZL0uHFLHqoh/bCQU1fT7L2gSOqkwnKYmyDbtZOj+CXtHyDPVHEaGTYqqRt93ZuYA2jztD2Q=="],
+
+    "@lynx-js/lynx-ui-popover/@lynx-js/lynx-ui-common/@lynx-js/react-use": ["@lynx-js/react-use@0.2.2", "", { "dependencies": { "immer": "10.1.1", "nanoid": "^5.1.6", "react-use": "^17.6.0" }, "peerDependencies": { "@lynx-js/react": ">=0.105.1" } }, "sha512-+cFNtHNraLojSWwZL0uHFLHqoh/bCQU1fT7L2gSOqkwnKYmyDbtZOj+CXtHyDPVHEaGTYqqRt93ZuYA2jztD2Q=="],
+
+    "@lynx-js/lynx-ui-presence/@lynx-js/lynx-ui-common/@lynx-js/react-use": ["@lynx-js/react-use@0.2.2", "", { "dependencies": { "immer": "10.1.1", "nanoid": "^5.1.6", "react-use": "^17.6.0" }, "peerDependencies": { "@lynx-js/react": ">=0.105.1" } }, "sha512-+cFNtHNraLojSWwZL0uHFLHqoh/bCQU1fT7L2gSOqkwnKYmyDbtZOj+CXtHyDPVHEaGTYqqRt93ZuYA2jztD2Q=="],
+
     "@lynx-js/motion/framer-motion/motion-dom": ["motion-dom@12.38.0", "", { "dependencies": { "motion-utils": "^12.36.0" } }, "sha512-pdkHLD8QYRp8VfiNLb8xIBJis1byQ9gPT3Jnh2jqfFtAsWUA3dEepDlsWe/xMpO8McV+VdpKVcp+E+TGJEtOoA=="],
 
     "@lynx-js/motion/framer-motion/motion-utils": ["motion-utils@12.36.0", "", {}, "sha512-eHWisygbiwVvf6PZ1vhaHCLamvkSbPIeAYxWUuL3a2PD/TROgE7FvfHWTIH4vMl798QLfMw15nRqIaRDXTlYRg=="],
@@ -8235,6 +8266,12 @@
     "@inquirer/select/@inquirer/core/wrap-ansi/ansi-styles": ["ansi-styles@6.2.3", "", {}, "sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg=="],
 
     "@inquirer/select/@inquirer/core/wrap-ansi/string-width": ["string-width@7.2.0", "", { "dependencies": { "emoji-regex": "^10.3.0", "get-east-asian-width": "^1.0.0", "strip-ansi": "^7.1.0" } }, "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="],
+
+    "@lynx-js/lynx-ui-overlay/@lynx-js/lynx-ui-common/@lynx-js/react-use/nanoid": ["nanoid@5.1.6", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg=="],
+
+    "@lynx-js/lynx-ui-popover/@lynx-js/lynx-ui-common/@lynx-js/react-use/nanoid": ["nanoid@5.1.6", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg=="],
+
+    "@lynx-js/lynx-ui-presence/@lynx-js/lynx-ui-common/@lynx-js/react-use/nanoid": ["nanoid@5.1.6", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-c7+7RQ+dMB5dPwwCp4ee1/iV/q2P6aK1mTZcfr1BTuVlyW9hJYiMPybJCcnBlQtuSmTIWNeazm/zqNoZSSElBg=="],
 
     "@manypkg/find-root/find-up/locate-path/p-locate": ["p-locate@4.1.0", "", { "dependencies": { "p-limit": "^2.2.0" } }, "sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A=="],
 
