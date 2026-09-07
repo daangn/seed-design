@@ -58,6 +58,7 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
             label="긴 본문 (오버플로)"
             checked={overflow}
             onCheckedChange={setOverflow}
+            style={{ alignSelf: "flex-start" }}
           />
           <DialogRoot size="medium">
             <DialogTrigger asChild>
