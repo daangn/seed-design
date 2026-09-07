@@ -7777,6 +7777,7 @@
 }
 
 .seed-next-app-screen__content {
+  isolation: isolate;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
   position: absolute;
