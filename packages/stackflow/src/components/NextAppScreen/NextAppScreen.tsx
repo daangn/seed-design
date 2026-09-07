@@ -86,12 +86,7 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
 
     return (
       <ClassNamesProvider value={classNames}>
-        <NextAppBarPropsProvider
-          value={useMemo(
-            () => ({ ...appBarVariantProps, transitionStyle }),
-            [appBarVariantProps, transitionStyle],
-          )}
-        >
+        <NextAppBarPropsProvider value={appBarVariantProps}>
           <NextAppScreenPrimitive.Root
             ref={ref}
             transitionStyle={transitionStyle}

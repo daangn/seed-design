@@ -30,7 +30,6 @@ const nextAppBarSlotNames = [
 
 const defaultVariant = {
   "theme": "cupertino",
-  "transitionStyle": "horizontalSlide",
   "tone": "layer",
   "gradient": true
 };
@@ -46,12 +45,6 @@ export const nextAppBarVariantMap = {
   "theme": [
     "cupertino",
     "android"
-  ],
-  "transitionStyle": [
-    "horizontalSlide",
-    "verticalSlide",
-    "crossfade",
-    "experimental_scaleSlide"
   ],
   "tone": [
     "layer",

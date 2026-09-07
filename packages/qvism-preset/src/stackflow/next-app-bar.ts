@@ -115,14 +115,6 @@ export const nextAppBarMain = defineSlotRecipe({
         },
       },
     },
-    // The NextAppBar is embedded in the screen layer and moves with it as one
-    // piece — declared only so the styled layer can forward the variant.
-    transitionStyle: {
-      horizontalSlide: {},
-      verticalSlide: {},
-      crossfade: {},
-      experimental_scaleSlide: {},
-    },
     tone: {
       layer: {
         root: {
@@ -151,7 +143,6 @@ export const nextAppBarMain = defineSlotRecipe({
   defaultVariants: {
     layout: "titleOnly",
     theme: "cupertino",
-    transitionStyle: "horizontalSlide",
     tone: "layer",
   },
 });
@@ -252,13 +243,6 @@ export const nextAppBar = defineSlotRecipe({
         },
       },
     },
-    // Embedded in the layer; declared only for variant forwarding.
-    transitionStyle: {
-      horizontalSlide: {},
-      verticalSlide: {},
-      crossfade: {},
-      experimental_scaleSlide: {},
-    },
     tone: {
       layer: {
         background: {
@@ -296,7 +280,6 @@ export const nextAppBar = defineSlotRecipe({
   ],
   defaultVariants: {
     theme: "cupertino",
-    transitionStyle: "horizontalSlide",
     tone: "layer",
     gradient: true,
   },
