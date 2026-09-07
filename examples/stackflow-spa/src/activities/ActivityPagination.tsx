@@ -2,8 +2,8 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { Box, Text, VStack } from "@seed-design/react";
 import * as React from "react";
 
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarBackButton, NextAppBarLeft, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { Pagination } from "seed-design/ui/pagination";
 import { TablePagination, type TablePaginationValue } from "seed-design/ui/table-pagination";
 
@@ -25,14 +25,14 @@ const ActivityPagination: StaticActivityComponentType<"ActivityPagination"> = ()
   });
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Pagination</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Pagination</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x8" px="x4" py="x6" align="stretch">
           <VStack gap="x3" align="flex-start">
             <Text textStyle="t5Bold">Pagination</Text>
@@ -81,8 +81,8 @@ const ActivityPagination: StaticActivityComponentType<"ActivityPagination"> = ()
             </Box>
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
