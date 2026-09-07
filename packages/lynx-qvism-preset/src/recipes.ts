@@ -23,7 +23,6 @@ import radioGroup from "./recipes/radio-group";
 import radiomark from "./recipes/radiomark";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import segmentedControl from "./recipes/segmented-control";
-import { select, selectItem, selectTrigger } from "./recipes/select";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import reactionButton from "./recipes/reaction-button";
 import switchRecipe from "./recipes/switch";
@@ -64,9 +63,6 @@ export const recipes = {
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,
-  select,
-  selectItem,
-  selectTrigger,
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
