@@ -186,6 +186,7 @@ export const nextAppScreen = defineSlotRecipe({
       [swipeBackActive]: CLIP_STYLES,
     },
     content: {
+      isolation: "isolate",
       boxSizing: "border-box",
       position: "absolute",
       inset: 0,
