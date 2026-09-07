@@ -13,10 +13,27 @@ const sources = Object.fromEntries(
     readFileSync(new URL(`.github/workflows/kapture-${name}.yml`, root), "utf8"),
   ]),
 );
+interface Step {
+  id?: string;
+  run?: string;
+  uses?: string;
+  env?: Record<string, string>;
+  with: Record<string, string>;
+}
+interface Workflow {
+  on: Record<string, { branches?: string[]; types?: string[]; workflows?: string[] }>;
+  permissions: Record<string, string>;
+  concurrency: { queue?: string; "cancel-in-progress": boolean };
+  jobs: Record<string, { if: string; steps: Step[] }>;
+}
 const workflows = Object.fromEntries(names.map((name) => [name, parse(sources[name])])) as Record<
   string,
-  any
+  Workflow
 >;
+const commands = (steps: Step[]) =>
+  steps.flatMap((step) =>
+    [...(step.run ?? "").matchAll(/github ([a-z-]+)/g)].map((match) => match[1]),
+  );
 
 describe("Kapture consumer workflows", () => {
   test("allows the adoption branch as an explicit stacked PR base", () => {
@@ -32,7 +49,7 @@ describe("Kapture consumer workflows", () => {
   test("compares original revisions without copying head instrumentation into base", () => {
     expect(sources.capture).not.toContain(".kapture/instrumentation");
     expect(sources.capture).not.toContain("perl -0pi");
-    expect(sources.capture).toContain("installed ? 'compare' : 'bootstrap-skip'");
+    expect(sources.capture).not.toContain("bootstrap-skip");
     expect(sources.capture).toContain("--workers 4");
     expect(sources.capture).toContain("--max-changed-pixel-percentage 0.1");
     expect(workflows.capture.jobs["build-base"].steps[0].with.ref).toBe(
@@ -54,34 +71,38 @@ describe("Kapture consumer workflows", () => {
     const preview = workflows.capture.jobs.preview;
     expect(preview.if).toContain("base.ref == 'codex/kapture-shadow-experiment'");
     expect(preview.if).toContain("head.repo.full_name == github.repository");
-    expect(sources.capture).toContain("Kapture Preview");
-    expect(sources.capture).toContain("KAPTURE_UNSTABLE");
+    expect(commands(preview.steps)).toEqual(["prepare-preview", "publish-preview"]);
     expect(sources.capture).not.toContain("/kapture approve");
-    expect(sources.capture).toContain("livePr.head.sha !== process.env.KAPTURE_HEAD_SHA");
-    expect(sources.capture).toContain("comment.user?.login === 'github-actions[bot]'");
-    const buildReport = preview.steps.find((step: any) => step.run?.includes("report build"));
-    expect(buildReport.env.KAPTURE_BASE_BRANCH).toBe("${{ github.event.pull_request.base.ref }}");
-    expect(buildReport.env.KAPTURE_HEAD_BRANCH).toBe("${{ github.event.pull_request.head.ref }}");
-    expect(buildReport.run).toContain('--base-branch "$KAPTURE_BASE_BRANCH"');
-    expect(buildReport.run).toContain('--head-branch "$KAPTURE_HEAD_BRANCH"');
+    const buildReport = preview.steps.find((step) => step.id === "report");
+    expect(buildReport?.env).toEqual({
+      KAPTURE_BASE_BRANCH: "${{ github.event.pull_request.base.ref }}",
+    });
+    const publish = preview.steps.find((step) => step.run?.includes("github publish-preview"));
+    expect(publish?.env).toEqual({
+      GITHUB_TOKEN: "${{ github.token }}",
+      KAPTURE_BASE_BRANCH: "${{ github.event.pull_request.base.ref }}",
+      KAPTURE_REPORT_URL: "${{ steps.dashboard.outputs.immutable-url }}",
+      KAPTURE_REPORT_DIGEST: "${{ steps.report.outputs.report-digest }}",
+    });
   });
 
   test("delegates production report trust and approval to the released CLI", () => {
     expect(workflows.report.on.workflow_run.workflows).toEqual(["Kapture Capture"]);
     expect(workflows.report.on.workflow_run.types).toEqual(["in_progress", "completed"]);
-    for (const command of [
-      "reconcile-run",
-      "prepare-run",
-      "prepare-storybook-run",
+    expect(commands(workflows.report.jobs.publish.steps)).toEqual([
+      "prepare-review",
       "publish-run",
-      "finalize-run",
-    ]) {
-      expect(sources.report).toContain(`github ${command}`);
-    }
+    ]);
+    expect(commands(workflows.report.jobs.finalize.steps)).toEqual(["finalize-run"]);
+    expect(commands(workflows.approve.jobs.approve.steps)).toEqual(["approve"]);
     expect(workflows.report.jobs.finalize.if).toContain("always()");
     for (const name of ["report", "approve"]) {
       expect(sources[name]).not.toContain("actions/checkout");
-      expect(sources[name]).toContain('"Kapture Visual Review"');
+      expect(workflows[name].concurrency).toEqual({
+        group: "kapture-review-${{ github.repository }}",
+        "cancel-in-progress": false,
+        queue: "max",
+      });
       expect(workflows[name].permissions).toEqual({});
     }
   });
@@ -98,7 +119,7 @@ describe("Kapture consumer workflows", () => {
   test("all inline shell and github-script blocks parse", () => {
     const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor;
     for (const workflow of Object.values(workflows)) {
-      for (const job of Object.values(workflow.jobs) as any[]) {
+      for (const job of Object.values(workflow.jobs)) {
         for (const step of job.steps ?? []) {
           if (step.run) {
             const result = spawnSync("bash", ["-n"], {
