@@ -55,13 +55,11 @@ import {
   CompassIcon,
   ImageIcon,
   LayersIcon,
-  LayoutTemplateIcon,
   ListIcon,
   MessageSquareDashedIcon,
   MousePointerClickIcon,
   PaletteIcon,
   PanelBottomIcon,
-  PanelTopIcon,
   RefreshCwIcon,
   SquareMenuIcon,
   TextCursorInputIcon,
@@ -108,16 +106,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   const navigationSections: NavigationSection[] = [
     {
-      title: "AppBar",
-      icon: PanelTopIcon,
-      items: [
-        { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
-        { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
-      ],
-    },
-    {
-      title: "NextAppScreen",
-      icon: LayoutTemplateIcon,
+      title: "AppScreen",
+      icon: LayersIcon,
       items: [
         { title: "기본", ...to("ActivityAppScreen", {}) },
         { title: "제스처 충돌", ...to("ActivityAppScreenGesture", {}) },
@@ -130,6 +120,18 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "animate: false 밀림 버그", ...to("ActivityAnimateFalseTest", {}) },
         { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
         { title: `홈 다시 push (깊이: ${activityIndex})`, ...to("ActivityHome", {}) },
+        { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
+        { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
+        { title: "기본 [Legacy]", ...to("ActivityLegacyAppScreen", {}) },
+        {
+          title: "IntersectionObserver [Legacy]",
+          ...to("ActivityLegacyAppScreenIntersectionObserver", {}),
+        },
+        {
+          title: "animate: false 밀림 버그 [Legacy]",
+          ...to("ActivityLegacyAnimateFalseTest", {}),
+        },
+        { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
       ],
     },
     {
@@ -414,19 +416,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       ],
     },
     // 구형 AppScreen 화면 모음. 표식을 섹션 제목이 대신 지므로 항목마다 [Legacy] 를 붙이지 않는다.
-    {
-      title: "AppScreen (Legacy)",
-      icon: LayersIcon,
-      items: [
-        { title: "기본", ...to("ActivityLegacyAppScreen", {}) },
-        {
-          title: "IntersectionObserver",
-          ...to("ActivityLegacyAppScreenIntersectionObserver", {}),
-        },
-        { title: "animate: false 밀림 버그", ...to("ActivityLegacyAnimateFalseTest", {}) },
-        { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
-      ],
-    },
   ];
 
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
