@@ -90,7 +90,7 @@ const conditionMap = {
     },
     bleedX: { bleedX: "x4" },
     color: { color: "fg.brand" },
-    "responsive padding": { padding: { base: "x2", md: "x6" } },
+    "responsive padding": { padding: { base: "x2", md: "x10" } },
     "responsive display": { display: { base: "none", md: "block" } },
     "hideFrom md": { hideFrom: "md" },
   },
