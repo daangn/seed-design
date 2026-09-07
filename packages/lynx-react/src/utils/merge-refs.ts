@@ -1,5 +1,5 @@
 type Cleanup = void | (() => void);
-type Ref<T> = { current: T | null } | ((value: T | null) => Cleanup);
+export type Ref<T> = { current: T | null } | ((value: T | null) => Cleanup);
 
 function setRef<T>(ref: Ref<T>, value: T | null): Cleanup {
   if (typeof ref === "function") return ref(value);
@@ -12,29 +12,33 @@ function setMainThreadRef<T>(ref: Ref<T>, value: T | null): Cleanup {
   ref.current = value;
 }
 
-export function mergeRefs<T>(first: Ref<T>, second: Ref<T>): Ref<T> {
+export function mergeRefs<T>(...refs: Ref<T>[]): Ref<T> {
   return (value) => {
-    const cleanFirst = setRef(first, value);
-    const cleanSecond = setRef(second, value);
+    const cleanups = refs.map((ref) => setRef(ref, value));
     return () => {
-      if (cleanFirst) cleanFirst();
-      else setRef(first, null);
-      if (cleanSecond) cleanSecond();
-      else setRef(second, null);
+      refs.forEach((ref, index) => {
+        const cleanup = cleanups[index];
+        if (cleanup) cleanup();
+        else setRef(ref, null);
+      });
     };
   };
 }
 
-export function mergeMainThreadRefs<T>(first: Ref<T>, second: Ref<T>): Ref<T> {
+export function mergeMainThreadRefs<T>(...refs: Ref<T>[]): Ref<T> {
   return (value) => {
     "main thread";
-    const cleanFirst = setMainThreadRef(first, value);
-    const cleanSecond = setMainThreadRef(second, value);
+    const cleanups: Cleanup[] = [];
+    // Indexed access preserves the captured array in the Main Thread compiler.
+    for (let index = 0; index < refs.length; index++) {
+      cleanups.push(setMainThreadRef(refs[index], value));
+    }
     return () => {
-      if (cleanFirst) cleanFirst();
-      else setMainThreadRef(first, null);
-      if (cleanSecond) cleanSecond();
-      else setMainThreadRef(second, null);
+      for (let index = 0; index < refs.length; index++) {
+        const cleanup = cleanups[index];
+        if (cleanup) cleanup();
+        else setMainThreadRef(refs[index], null);
+      }
     };
   };
 }

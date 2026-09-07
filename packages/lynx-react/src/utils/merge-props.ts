@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { composeEventHandlers, composeMainThreadEventHandlers } from "./compose-event-handlers";
-import { mergeRefs, mergeMainThreadRefs } from "./merge-refs";
+import { mergeRefs, mergeMainThreadRefs, type Ref } from "./merge-refs";
 
 type Props = Record<string, any>;
 type Merge<A, B> = Omit<A, keyof B> & {
@@ -25,14 +25,16 @@ const callbackEvent = /^on[A-Z]/;
  */
 export function mergeProps<T extends object[]>(...sources: T): Merged<T> {
   const result: Props = {};
+  const refs: Ref<unknown>[] = [];
+  const mainThreadRefs: Ref<unknown>[] = [];
   for (const source of sources) {
     for (const [key, value] of Object.entries(source)) {
       if (value === undefined) continue;
       const previous = result[key];
       if (key === "ref" || key === "main-thread:ref") {
         if (value == null) continue;
-        const merge = key === "ref" ? mergeRefs : mergeMainThreadRefs;
-        result[key] = previous ? merge(previous, value as any) : value;
+        const targetRefs = key === "ref" ? refs : mainThreadRefs;
+        targetRefs.push(value as Ref<unknown>);
       } else if (key === "className") {
         result[key] = clsx(previous, value as string);
       } else if (key === "style" && typeof value === "object" && value !== null) {
@@ -50,6 +52,11 @@ export function mergeProps<T extends object[]>(...sources: T): Merged<T> {
         result[key] = value;
       }
     }
+  }
+  if (refs.length) result["ref"] = refs.length === 1 ? refs[0] : mergeRefs(...refs);
+  if (mainThreadRefs.length) {
+    result["main-thread:ref"] =
+      mainThreadRefs.length === 1 ? mainThreadRefs[0] : mergeMainThreadRefs(...mainThreadRefs);
   }
   return result as Merged<T>;
 }

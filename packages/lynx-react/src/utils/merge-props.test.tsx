@@ -30,26 +30,36 @@ describe("mergeProps", () => {
       catchtap: user.bindtap,
     });
     expect(mergeProps({ ref: null })).toEqual({});
+    const ref = createRef();
+    expect(mergeProps({ ref }, { ref: null }).ref).toBe(ref);
+    expect(mergeProps({ "main-thread:ref": ref })["main-thread:ref"]).toBe(ref);
   });
 
-  it("preserves callback cleanup and object refs across replacement and unmount", async () => {
+  it("preserves three refs across replacement and unmount", async () => {
     const ref = createRef<unknown>();
     const cleanup = vi.fn();
     const first = vi.fn(() => cleanup);
     const next = vi.fn();
+    const observer = vi.fn();
     function Example({ callback }: { callback: (value: unknown) => void | (() => void) }) {
-      return <view {...mergeProps({ ref }, { ref: callback })} />;
+      return <view {...mergeProps({ ref }, { ref: callback }, { ref: observer })} />;
     }
     const { rerender, unmount } = render(<Example callback={first} />);
     await waitSchedule();
     expect(ref.current).toBeTruthy();
+    expect(first).toHaveBeenLastCalledWith(ref.current);
+    expect(observer).toHaveBeenLastCalledWith(ref.current);
     rerender(<Example callback={next} />);
     await waitSchedule();
     expect(cleanup).toHaveBeenCalledTimes(1);
+    expect(observer.mock.calls[1]).toEqual([null]);
+    expect(observer).toHaveBeenLastCalledWith(ref.current);
     unmount();
     await waitSchedule();
     expect(ref.current).toBeNull();
     expect(next).toHaveBeenLastCalledWith(null);
+    expect(observer).toHaveBeenLastCalledWith(null);
+    expect(observer).toHaveBeenCalledTimes(4);
   });
 
   it("composes compiled Main Thread handlers and refreshes captures", async () => {
@@ -90,7 +100,7 @@ describe("mergeProps", () => {
     expect(report).toHaveBeenCalledTimes(2);
   });
 
-  it("composes Main Thread refs and runs cleanup on detach", async () => {
+  it("composes three Main Thread refs and runs cleanup in source order", async () => {
     function Example({ report, show = true }: { report: (value: string) => void; show?: boolean }) {
       const target = useMainThreadRef(null);
       const status = useMainThreadRef("initial");
@@ -105,11 +115,21 @@ describe("mergeProps", () => {
         "main thread";
         runOnBackground(report)(status.current);
       }
+      function observer(value: unknown) {
+        "main thread";
+        status.current += value ? ":observed" : ":detached";
+      }
       return (
         <view>
           <view id="inspect" main-thread:bindtap={inspect} />
           {show && (
-            <view {...mergeProps({ "main-thread:ref": target }, { "main-thread:ref": callback })} />
+            <view
+              {...mergeProps(
+                { "main-thread:ref": target },
+                { "main-thread:ref": callback },
+                { "main-thread:ref": observer },
+              )}
+            />
           )}
         </view>
       );
@@ -122,11 +142,11 @@ describe("mergeProps", () => {
     await waitSchedule();
     fireEvent.tap(container.querySelector("#inspect")!);
     await waitSchedule();
-    expect(report.mock.calls).toEqual([["attached"]]);
+    expect(report.mock.calls).toEqual([["attached:observed"]]);
     rerender(<Example report={report} show={false} />);
     await waitSchedule();
     fireEvent.tap(container.querySelector("#inspect")!);
     await waitSchedule();
-    expect(report.mock.calls).toEqual([["attached"], ["cleaned"]]);
+    expect(report.mock.calls).toEqual([["attached:observed"], ["cleaned:detached"]]);
   });
 });
