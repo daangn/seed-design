@@ -7,12 +7,6 @@ import { forwardRef } from "react";
 
 export interface NextAppScreenProps extends SeedNextAppScreen.RootProps {}
 
-/**
- * NOTE: stackflow의 `transitionDuration`은 화면 unmount 타이밍을 결정합니다.
- * enter는 어긋나도 애니메이션이 자연 완주하지만 exit는 unmount에 잘리므로,
- * `transitionDuration`을 exit 애니메이션 길이의 최댓값(350ms) 이상으로
- * 설정하세요.
- */
 export const NextAppScreen = forwardRef<HTMLDivElement, NextAppScreenProps>(
   ({ children, onSwipeBackEnd, swipeBackArea, ...otherProps }, ref) => {
     const { pop } = useActions();

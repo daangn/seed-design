@@ -14,14 +14,6 @@ export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
    * default (cupertino → horizontalSlide, android → verticalSlide) and passes
    * the result down.
    *
-   * NOTE: the motion durations are fixed (350ms for horizontalSlide and
-   * experimental_scaleSlide, 300ms enter / 150ms exit for the rest) while
-   * stackflow's configured `transitionDuration` governs unmount timing. Enter tolerates
-   * any mismatch (a resting state leaves the animation running, and it ends
-   * on the position that state holds anyway), but an exit gets cut off by
-   * unmount — keep `transitionDuration` at or above the largest exit duration
-   * (350ms covers every style).
-   *
    * @default "horizontalSlide"
    */
   transitionStyle?: NextAppScreenTransitionStyle;
