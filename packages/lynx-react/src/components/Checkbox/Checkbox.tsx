@@ -191,6 +191,10 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
     pressed: context.pressed,
   };
   const classes = checkmark(checkmarkVariantProps);
+  const checkboxControlClassName = checkbox({
+    ...context.checkboxVariantProps,
+    disabled: context.disabled,
+  }).control;
 
   // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
   // 중간 RGB가 검게 탁해진다. ghost root는 투명 상태로 고정하고 별도 배경의
@@ -218,7 +222,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
     >
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
-        className={clsx(rootClassName, className)}
+        className={clsx(checkboxControlClassName, rootClassName, className)}
         {...nativeProps}
       >
         {isGhost ? <view className={pressStartClasses.background} /> : null}
