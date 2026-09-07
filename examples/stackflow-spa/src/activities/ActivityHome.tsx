@@ -462,12 +462,19 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
         if (isJumpingRef.current) return;
 
-        // 띠에 걸린 것 중 마지막 섹션을 고른다. 첫 섹션을 고르면 이미 위로 밀려나는 중인 섹션이
-        // 다음 섹션이 화면을 다 채울 때까지 활성으로 남는다.
-        const current = [...sectionRefs.current.keys()]
-          .filter((title) => visibleTitles.has(title))
-          .pop();
-        if (current) setActiveSection(current);
+        // 띠에 걸린 마지막 행에서 첫 섹션을 고른다. 마지막 섹션을 고르면 여러 열로 렌더될 때 한
+        // 행이 통째로 띠에 들어와 오른쪽 끝 카드가 활성이 되고, 첫 행을 고르면 이미 위로 밀려나는
+        // 행이 다음 행이 화면을 다 채울 때까지 활성으로 남는다.
+        const visible = [...sectionRefs.current.entries()].filter(([title]) =>
+          visibleTitles.has(title),
+        );
+        if (visible.length > 0) {
+          const rowTop = Math.max(...visible.map(([, el]) => el.getBoundingClientRect().top));
+          const current = visible.find(
+            ([, el]) => Math.abs(el.getBoundingClientRect().top - rowTop) < 1,
+          )?.[0];
+          if (current) setActiveSection(current);
+        }
       },
       // 스크롤 컨테이너 위쪽 20%만 관측한다.
       { root: scrollContainer, rootMargin: "0px 0px -80% 0px" },
