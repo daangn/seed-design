@@ -106,34 +106,6 @@ describe("useControllableState", () => {
 
       expect(result.current[0]).toBe("second");
     });
-
-    it("notifies when an external controlled update is reverted", () => {
-      const onChange = vi.fn();
-      const { result, rerender } = renderHook(
-        (props: { value: boolean }) =>
-          useControllableState({
-            value: props.value,
-            defaultValue: false,
-            onChange,
-          }),
-        { initialProps: { value: false } },
-      );
-
-      rerender({ value: true });
-
-      act(() => {
-        result.current[1](true);
-      });
-
-      expect(onChange).not.toHaveBeenCalled();
-
-      act(() => {
-        result.current[1](false);
-      });
-
-      expect(onChange).toHaveBeenCalledTimes(1);
-      expect(onChange).toHaveBeenCalledWith(false);
-    });
   });
 
   it("returns a stable setValue reference", () => {

@@ -32,12 +32,6 @@ const listPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
-const selectPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-
 // Lynx UI registry. Each item must have a matching snippet file under
 // `./ui/<id>.tsx` and a corresponding component implementation in
 // `@seed-design/lynx-react`. See `docs/registry/react/registry-ui.ts`
@@ -166,15 +160,6 @@ export const registryUI: Registry = {
             "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
             "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
           },
-        },
-      ],
-    },
-    {
-      id: "select",
-      snippets: [
-        {
-          path: "select.tsx",
-          dependencies: selectPackageRanges,
         },
       ],
     },
