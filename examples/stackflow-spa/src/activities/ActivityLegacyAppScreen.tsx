@@ -202,6 +202,7 @@ const ActivityLegacyAppScreen: StaticActivityComponentType<"ActivityLegacyAppScr
                 size="24"
                 checked={gradient}
                 onCheckedChange={setGradient}
+                style={{ alignSelf: "flex-start" }}
               />
               <Text textStyle="t6Regular" color="fg.neutralMuted">
                 gradient 는 tone="transparent" 에서만 눈에 띕니다. 사진 위로 AppBar 가 얹힌 상태에서
@@ -237,6 +238,7 @@ const ActivityLegacyAppScreen: StaticActivityComponentType<"ActivityLegacyAppScr
                 size="24"
                 checked={subtitle}
                 onCheckedChange={setSubtitle}
+                style={{ alignSelf: "flex-start" }}
               />
               <Switch
                 label="bg"
@@ -244,6 +246,7 @@ const ActivityLegacyAppScreen: StaticActivityComponentType<"ActivityLegacyAppScr
                 size="24"
                 checked={barBg}
                 onCheckedChange={setBarBg}
+                style={{ alignSelf: "flex-start" }}
               />
               <HStack gap="x2">
                 {(["left", "right"] as const).map((side) => (
@@ -299,6 +302,7 @@ const ActivityLegacyAppScreen: StaticActivityComponentType<"ActivityLegacyAppScr
                 size="24"
                 checked={preventSwipeBack}
                 onCheckedChange={setPreventSwipeBack}
+                style={{ alignSelf: "flex-start" }}
               />
               <Text textStyle="t6Regular" color="fg.neutralMuted">
                 {preventSwipeBack
@@ -308,7 +312,14 @@ const ActivityLegacyAppScreen: StaticActivityComponentType<"ActivityLegacyAppScr
             </Case>
 
             <Case label="PullToRefresh">
-              <Switch label="ptr" tone="neutral" size="24" checked={ptr} onCheckedChange={setPtr} />
+              <Switch
+                label="ptr"
+                tone="neutral"
+                size="24"
+                checked={ptr}
+                onCheckedChange={setPtr}
+                style={{ alignSelf: "flex-start" }}
+              />
               <Text textStyle="t6Regular" color="fg.neutralMuted">
                 snippet 의 AppScreenContent 가 PullToRefresh 를 감싸는 경로입니다. 수동 조합은
                 ActivityLegacyPullToRefreshPreview 에 남아 있습니다.

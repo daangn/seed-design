@@ -50,6 +50,7 @@ const ActivityBottomSheetModalTest: StaticActivityComponentType<
                 label="modal prop 토글"
                 checked={modal}
                 onCheckedChange={setModal}
+                style={{ alignSelf: "flex-start" }}
               />
             </VStack>
 
