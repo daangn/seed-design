@@ -18,7 +18,6 @@ const checkmarkRecipe = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flex: "none",
-      marginTop: "var(--checkmark-margin-top, 0)",
     },
     background: {
       position: "absolute",
