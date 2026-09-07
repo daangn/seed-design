@@ -8,10 +8,6 @@ declare interface NextAppBarMainVariant {
   */
   theme: "cupertino" | "android";
 /**
-  * @default "horizontalSlide"
-  */
-  transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade" | "experimental_scaleSlide";
-/**
   * @default "layer"
   */
   tone: "layer" | "transparent";
