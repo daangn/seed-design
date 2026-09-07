@@ -87,5 +87,6 @@
   },
   "patchedDependencies": {
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch"
-  }
+  },
+  "packageManager": "bun@1.3.13"
 }
