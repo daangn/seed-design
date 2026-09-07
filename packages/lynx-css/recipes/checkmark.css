@@ -3,8 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: none;
-    margin-top: var(--checkmark-margin-top, 0)
+    flex: none
 }
 .seed-checkmark__background {
     position: absolute;

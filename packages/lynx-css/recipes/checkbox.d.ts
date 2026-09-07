@@ -19,7 +19,7 @@ declare type CheckboxVariantMap = {
 
 export declare type CheckboxVariantProps = Partial<CheckboxVariant>;
 
-export declare type CheckboxSlotName = "root" | "label";
+export declare type CheckboxSlotName = "root" | "control" | "label";
 
 export declare const checkboxVariantMap: CheckboxVariantMap;
 
