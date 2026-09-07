@@ -98,7 +98,8 @@ ChipRootView.displayName = "ChipRootView";
  */
 export interface ChipButtonProps
   extends ChipPublicVariantProps,
-    LynxStyledElementProps,
+    // Keep the scale target's Android View even if shared props later expose flatten.
+    Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {
   disabled?: boolean;

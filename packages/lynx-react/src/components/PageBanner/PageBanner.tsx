@@ -269,7 +269,8 @@ PageBannerButton.displayName = "PageBannerButton";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PageBannerCloseButtonProps
-  extends LynxStyledElementProps,
+  // Keep the scale target's Android View even if shared props later expose flatten.
+  extends Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {}
 

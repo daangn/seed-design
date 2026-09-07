@@ -278,7 +278,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
 export interface ActionButtonProps
   extends Omit<ActionButtonVariantProps, "pressed">,
     Pick<StyleProps, "flexGrow">,
-    LynxElementProps,
+    // Keep the scale target's Android View even if shared props later expose flatten.
+    Omit<LynxElementProps, "flatten">,
     LynxPressableProps,
     ActionButtonAccessibilityProps {
   icon?: IconProps["icon"];

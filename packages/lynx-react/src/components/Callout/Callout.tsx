@@ -236,7 +236,8 @@ CalloutLink.displayName = "CalloutLink";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CalloutCloseButtonProps
-  extends LynxStyledElementProps,
+  // Keep the scale target's Android View even if shared props later expose flatten.
+  extends Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {}
 

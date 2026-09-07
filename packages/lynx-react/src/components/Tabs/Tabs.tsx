@@ -407,8 +407,9 @@ TabsList.displayName = "TabsList";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// Keep the scale target's Android View even if shared props later expose flatten.
 export interface TabsTriggerProps
-  extends Omit<LynxStyledElementProps, "children">,
+  extends Omit<LynxStyledElementProps, "children" | "flatten">,
     Pick<LynxPressableProps, "bindtap"> {
   children: string | number;
   value: string;

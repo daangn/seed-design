@@ -168,7 +168,8 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export interface SwitchControlProps
   extends Pick<SwitchmarkVariantProps, "tone" | "size">,
-    LynxStyledElementProps {}
+    // Keep the scale target's Android View even if shared props later expose flatten.
+    Omit<LynxStyledElementProps, "flatten"> {}
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
