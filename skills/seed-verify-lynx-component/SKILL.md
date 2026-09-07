@@ -43,7 +43,7 @@ description: Lynx 컴포넌트의 문서·예제·런타임 결과를 환경별�
 
 문구·코드 노출만 바뀐 작업은 문서 브라우저를 필수 환경으로 삼는다. native 동작을 새로 주장하거나 실행 결과가 바뀐 작업은 로컬 Lynx 런타임 또는 실제 host app을 필수 환경으로 추가한다. 실제 기기 확인을 요청받지 않았다면 선택 환경으로 남긴다.
 
-새 컴포넌트, 공개 package, Registry, 생성물이 포함될 때만 `seed-change-plan`과 docs examples·host app의 런타임 버전을 확인한다. 변경 전 기준 빌드를 확보하지 못하면 그 사실을 `미확인`으로 기록하고 현재 결과와 섞지 않는다.
+새 컴포넌트·공개 package·Registry·생성물이 포함되면 `seed-change-plan`을 사용한다. 이 경우와 기존 컴포넌트의 native 동작·bundle 실행 결과가 바뀌는 경우에는 [검증 런북의 사전 점검](references/verification.md#1-사전-점검)에 따라 docs examples·host app의 런타임 버전과 변경 전 기준 빌드 결과를 기록한다. 기준 빌드가 없으면 현재 결과와 분리해 `미확인`으로 남긴다.
 
 ### 2. React↔Lynx 시나리오 대응 확인
 
@@ -78,18 +78,7 @@ MDX + doc-gen entry → 문서 index
 
 ### 5. 시각적 동등성 통과 조건
 
-같은 사용자 결과를 목표로 하는 대상 React·Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제의 host·내부 frame width·height, 상하·좌우 여백, viewport 차이의 이유를 기록하고 다음 rect 조건으로 판정한다.
-
-```text
-left margin == right margin
-abs(top margin - bottom margin) <= 1px
-frame width == expected width
-frame height == expected height
-```
-
-전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 대상 예제의 개별 캡처와 측정값이 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. asset은 import 이름, runtime image 수·크기, multicolor·tint를 확인하고 Web raster tint와 native tint를 별도 행으로 기록한다.
-
-React 기준·asset·host/frame·초기 상태를 직접 확인하지 않았거나, 상호작용 전이를 실행하지 않았거나, Web 결과를 native로 합쳤다면 `시각적 동등성 통과`로 판정하지 않는다.
+같은 사용자 결과를 주장하는 React·Lynx 예제에는 [검증 런북의 시각적 동등성 판정](references/verification.md#시각적-동등성-판정)을 적용한다. viewport·frame·상호작용·asset 증거와 통과 조건은 해당 항목을 따른다.
 
 ## 판정과 보고
 

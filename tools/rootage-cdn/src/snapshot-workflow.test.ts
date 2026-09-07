@@ -52,6 +52,23 @@ describe("Rootage snapshot workflows", () => {
     expect(workflow).not.toContain("issues: write");
   });
 
+  test("snapshot 결과는 PR과 source/control SHA 및 실행 시도로 연결된다", async () => {
+    const workflow = await Bun.file(
+      join(repositoryRoot, ".github/workflows/continuous-releases.yml"),
+    ).text();
+
+    expect(workflow).toContain("snapshot-metadata:");
+    expect(workflow).toContain("repository: `${context.repo.owner}/${context.repo.repo}`");
+    expect(workflow).toContain("'pr-number': context.issue.number");
+    expect(workflow).toContain("'source-sha': pull.head.sha");
+    expect(workflow).toContain("'control-sha': context.sha");
+    expect(workflow).toContain("'run-id': context.runId");
+    expect(workflow).toContain("'run-attempt': Number(process.env.GITHUB_RUN_ATTEMPT)");
+    expect(workflow).toContain("snapshot-release-metadata-${{ github.run_id }}-${{ github.run_attempt }}");
+    expect(workflow).toContain("<!-- seed-snapshot-metadata ${JSON.stringify(metadata)} -->");
+    expect(workflow).toContain("SNAPSHOT_METADATA: ${{ needs.resolve.outputs.snapshot-metadata }}");
+  });
+
   test("snapshot 게시기는 trusted dev control SHA와 production environment에 결속된다", async () => {
     const workflow = await Bun.file(
       join(repositoryRoot, ".github/workflows/continuous-releases.yml"),

@@ -47,9 +47,13 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 
 - Rootage 대상: `packages/rootage/components/*.yaml`
 - React 공개 API: `packages/react/src/components/**`
-- 공개 안내: 해당 Design Guidelines·React 문서·예시
+- React Headless 공개 API: `packages/react-headless/*/src/**`와 각 패키지의 `package.json` 공개 진입점
+- Lynx 공개 API: `packages/lynx-react/src/components/**`, `packages/lynx-react/src/hooks/**`, `packages/lynx-react/src/index.ts`와 패키지의 `package.json` 공개 진입점
+- 공개 안내: 해당 Design Guidelines·React 문서·예시와 Lynx의 `docs/content/lynx/**`, `docs/examples/lynx/**`, `examples/lynx-spa/**`
 
 ### Step 2: JSDoc/메타데이터 추가
+
+대상 플랫폼의 공개 선언과 재수출 경로를 확인하고 JSDoc에 실제 소유 패키지의 버전·대체안을 기록한다. React Headless 개별 패키지와 Lynx API를 `@seed-design/react` 소속으로 표기하지 않는다.
 
 **TypeScript/TSX 예시**:
 
@@ -72,7 +76,7 @@ description: |
 
 ### Step 3: 공개 안내와 추적 갱신
 
-- 영향을 받는 Design Guidelines 및 React 문서에 대체안과 제거 버전을 명확히 표기한다.
+- 영향을 받는 Design Guidelines·React 문서·예시와 Lynx의 `docs/content/lynx/**`, `docs/examples/lynx/**`, `examples/lynx-spa/**`에 대체안과 제거 버전을 일관되게 반영한다.
 - `docs/content/docs/migration/deprecations.mdx`에 항목을 추가하고, 제거 버전에 도달한 요청이면 히스토리 섹션으로 옮긴다.
 
 ### Step 4: 생성물 업데이트
@@ -85,11 +89,11 @@ bun run rootage:generate
 
 ### Step 5: 제거 버전 도달 시
 
-- deprecated 대상과 더는 유효하지 않은 문서·예시·테스트를 함께 삭제한다.
+- 대상 React·React Headless·Lynx의 구현, 공개 export·재수출과 더는 유효하지 않은 문서·예시·테스트를 함께 제거한다. Lynx는 `docs/content/lynx/**`, `docs/examples/lynx/**`, `examples/lynx-spa/**`의 잔여 참조도 확인한다.
 - `deprecations.mdx`의 항목을 히스토리 섹션으로 옮긴다.
 
 ## 완료 조건
 
-- 코드/JSDoc, 공개 안내, 추적 파일이 같은 deprecated 버전·제거 버전·대체안을 말한다.
+- 대상 React·React Headless·Lynx의 코드/JSDoc, 공개 안내, 추적 파일이 같은 deprecated 버전·제거 버전·대체안을 말한다. Lynx 문서·예시는 `docs/content/lynx/**`, `docs/examples/lynx/**`, `examples/lynx-spa/**`까지 확인한다.
 - Rootage를 변경했다면 생성물은 생성 절차로 갱신한다.
-- 제거 작업이면 더는 지원하지 않는 공개 경로와 예시가 남지 않는다.
+- 제거 작업이면 더는 지원하지 않는 공개 진입점·export·재수출, 문서·예시·테스트의 잔여 참조가 남지 않는다.

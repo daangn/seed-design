@@ -72,6 +72,8 @@
 
 `bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친다. Rootage YAML을 수정하면 `bun rootage:test`가 validation과 Rootage 테스트를 함께 실행한다.
 
+`bun rootage:test`의 validator는 미사용 schema property를 제거하며, `modelFixed`가 참이면 원본 YAML을 다시 쓴다. 실행 후에는 통과 여부와 별개로 `git diff`를 확인해 의도한 작업 트리 변경만 남았는지 검토한다.
+
 **테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
 
 ### 개발

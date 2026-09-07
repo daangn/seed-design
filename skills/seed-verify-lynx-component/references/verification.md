@@ -8,7 +8,9 @@
 
 - 대상 컴포넌트, 문서 URL, React·Lynx 예제 ID
 - 필수·선택 환경과 생성물·실행 환경을 구분한 검증표
-- 새 공개 소비 경로·bundle·native 결과를 검증할 때만 관련 런타임 버전과 기준 빌드 결과
+- 새 컴포넌트·공개 package·Registry·생성물이 포함되거나 기존 컴포넌트의 native 동작·bundle 실행 결과가 바뀌면 docs examples·host app의 런타임 버전과 변경 전 기준 빌드 결과
+
+변경 전 기준 빌드를 확보하지 못하면 이유와 함께 별도 `미확인` 행으로 기록한다. 현재 빌드의 검증 결과로 기준 결과를 대신하거나 둘을 합치지 않는다.
 
 검증 스킬은 문서·컴포넌트 소스를 수정하지 않는다. 빌드가 만드는 ignored 산출물, 직접 시작한 서버, 검증 중인 런타임 상태 변경은 허용한다. 실행 전후 `git status --short`를 비교하고 새 tracked 변경이 생기면 원인을 보고한다. 사용자 변경이나 기존 서버를 되돌리거나 종료하지 않는다.
 
@@ -85,7 +87,20 @@ BUNDLE_URL="http://127.0.0.1:4174${BUNDLE_PATH}"
 4. 대상이 Registry면 `@/components/ui/<name>`, package-only면 `@seed-design/lynx-react` 공개 export를 사용하는지 확인한다.
 5. QR 원문은 직접 접근 가능한 `.lynx.bundle` HTTP(S) URL인지, Explorer 버튼만 `lynx://open?url=`을 사용하는지 확인한다.
 
-시각적 동등성을 주장하는 예제는 개별 캡처와 측정값으로 판정한다. React 기준과 Lynx 예제를 같은 viewport 조건으로 열고, host·frame rect, asset, 초기 상태를 기록한다. 상호작용이 있으면 실제 click·tap 뒤 즉시·최종 상태를 각각 캡처하거나 DOM·layout으로 남긴다. 전체 페이지 캡처는 섹션 탐색용일 뿐 시각적 동등성의 증거가 아니다.
+### 시각적 동등성 판정
+
+같은 사용자 결과를 목표로 하는 React·Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제의 host·내부 frame width·height, 상하·좌우 여백, viewport 차이의 이유를 기록하고 다음 rect 조건으로 판정한다.
+
+```text
+left margin == right margin
+abs(top margin - bottom margin) <= 1px
+frame width == expected width
+frame height == expected height
+```
+
+전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 대상 예제의 개별 캡처와 측정값이 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. asset은 import 이름, runtime image 수·크기, multicolor·tint를 확인하고 Web raster tint와 native tint를 별도 행으로 기록한다.
+
+React 기준·asset·host/frame·초기 상태를 직접 확인하지 않았거나, 상호작용 전이를 실행하지 않았거나, Web 결과를 native로 합쳤다면 `시각적 동등성 통과`로 판정하지 않는다.
 
 BottomSheet 같은 viewport 오버레이, `vw`·`vh`, tint·CSS 변수는 해당 예제가 사용하는 경우에만 필요한 layout·runtime 조건을 확인한다. 브라우저와 native 결과가 다르면 preview 한정, native·bundle·CSS parser·Engine·host app, entry·asset·layout 중 어느 범위인지 분리한다. 브라우저 결과만으로 native 통과를 판정하지 않는다.
 

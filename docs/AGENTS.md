@@ -7,7 +7,7 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 ## 파일 작성 컨벤션
 
 - 문서는 역할 중심 도메인으로 배치하고 MDX 파일명은 `kebab-case`를 사용한다.
-- 새 문서 영역이나 콘텐츠 구조를 추가할 때만 관련 매핑·동기화 규칙을 갱신한다.
+- 새 문서 영역·콘텐츠 구조 추가뿐 아니라 기존 문서의 이동·이름 변경·삭제 등 콘텐츠 경로가 바뀔 때도 `packages/docs-mcp/src/config.ts`의 매핑과 관련 동기화 규칙을 검토하고 필요한 항목을 갱신한다.
 - `content/` 아래에는 `AGENTS.md`를 추가하지 않는다. Fumadocs가 문서 콘텐츠로 인식할 수 있다.
 
 ## 코드 작성 컨벤션
@@ -15,7 +15,7 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 - 문서 frontmatter에는 `title`, `description`을 포함한다.
 - 문서 UI와 Storybook은 본문과 분리된 참조 계층으로 관리한다.
 - `docs/registry/{react,lynx}/ui/` snippet은 stable user API이자 사용자가 복사해 커스터마이즈하는 계층이다. API를 변경할 때는 minimal user code와 convenience wrapper 여부를 먼저 확인한다.
-- snippet 변경 시 `docs/public/__registry__/` 생성물과 vendored consumer(`examples/stackflow-spa/src/seed-design/ui/`)의 영향만 실제 사용 여부에 따라 확인한다.
+- snippet 변경 시 `bun generate:all`로 `docs/public/__registry__/` 공개 생성물을 항상 갱신한다. vendored consumer(`examples/stackflow-spa/src/seed-design/ui/`)의 영향은 실제 사용 여부에 따라 확인한다.
 
 ### `app/global.css`를 수정할 때
 
