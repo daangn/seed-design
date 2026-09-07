@@ -132,6 +132,7 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
                 label="제목 표시"
                 checked={showTitle}
                 onCheckedChange={setShowTitle}
+                style={{ alignSelf: "flex-start" }}
               />
               <Switch
                 tone="neutral"
@@ -139,6 +140,7 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
                 label="설명 표시"
                 checked={showDescription}
                 onCheckedChange={setShowDescription}
+                style={{ alignSelf: "flex-start" }}
               />
               <Switch
                 tone="neutral"
@@ -146,6 +148,7 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
                 label="닫기 버튼 표시"
                 checked={showCloseButton}
                 onCheckedChange={setShowCloseButton}
+                style={{ alignSelf: "flex-start" }}
               />
               <Switch
                 tone="neutral"
@@ -153,6 +156,7 @@ const ActivitySidePanel: StaticActivityComponentType<"ActivitySidePanel"> = () =
                 label="푸터 표시"
                 checked={showFooter}
                 onCheckedChange={setShowFooter}
+                style={{ alignSelf: "flex-start" }}
               />
             </VStack>
           </VStack>
