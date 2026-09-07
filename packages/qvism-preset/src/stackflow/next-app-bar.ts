@@ -211,7 +211,7 @@ export const nextAppBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingInline: vars.base.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },
@@ -226,7 +226,7 @@ export const nextAppBar = defineSlotRecipe({
       },
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingInline: vars.base.enabled.root.paddingX,
           paddingTop: "var(--seed-safe-area-top)",
         },

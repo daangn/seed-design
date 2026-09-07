@@ -8377,7 +8377,7 @@
   }
 
   .seed-next-app-bar__root--theme_cupertino {
-    height: calc(44px + var(--seed-safe-area-top));
+    height: calc(56px + var(--seed-safe-area-top));
     padding-inline: var(--seed-dimension-x1_5);
     padding-top: var(--seed-safe-area-top);
   }
@@ -8568,11 +8568,7 @@
     inset-inline: 0;
   }
 
-  .seed-next-app-screen__root--theme_cupertino {
-    --app-bar-height: 44px;
-  }
-
-  .seed-next-app-screen__root--theme_android {
+  .seed-next-app-screen__root--theme_cupertino, .seed-next-app-screen__root--theme_android {
     --app-bar-height: 56px;
   }
 

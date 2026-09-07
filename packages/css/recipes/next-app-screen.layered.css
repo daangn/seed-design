@@ -56,11 +56,7 @@
     inset-inline: 0;
   }
 
-  .seed-next-app-screen__root--theme_cupertino {
-    --app-bar-height: 44px;
-  }
-
-  .seed-next-app-screen__root--theme_android {
+  .seed-next-app-screen__root--theme_cupertino, .seed-next-app-screen__root--theme_android {
     --app-bar-height: 56px;
   }
 

@@ -59,7 +59,7 @@
   }
 
   .seed-next-app-bar__root--theme_cupertino {
-    height: calc(44px + var(--seed-safe-area-top));
+    height: calc(56px + var(--seed-safe-area-top));
     padding-inline: var(--seed-dimension-x1_5);
     padding-top: var(--seed-safe-area-top);
   }
