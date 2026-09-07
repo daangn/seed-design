@@ -1,9 +1,17 @@
-import { Grid, Portal, VStack, useSnackbarAdapter } from "@seed-design/react";
+import {
+  Box,
+  Grid,
+  HStack,
+  Icon,
+  Portal,
+  Text,
+  VStack,
+  useSnackbarAdapter,
+} from "@seed-design/react";
 import { vars } from "@seed-design/css/vars";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
-import { ListHeader } from "seed-design/ui/list-header";
 import {
   AppBar,
   AppBarBackButton,
@@ -29,6 +37,7 @@ import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
+import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import {
@@ -37,8 +46,29 @@ import {
   IconPencilLine,
   IconTrashcanLine,
 } from "@karrotmarket/react-monochrome-icon";
+// 섹션 제목 아이콘은 화면 껍데기·시트·패널처럼 UI 구조 자체를 가리켜야 하는데,
+// @karrotmarket/react-monochrome-icon은 당근 제품 도메인 위주라 그 개념을 담은 아이콘이 없다.
+import {
+  AppWindowIcon,
+  CompassIcon,
+  ImageIcon,
+  LayersIcon,
+  ListIcon,
+  MessageSquareDashedIcon,
+  MousePointerClickIcon,
+  PaletteIcon,
+  PanelBottomIcon,
+  RefreshCwIcon,
+  SquareMenuIcon,
+  TextCursorInputIcon,
+  type LucideIcon,
+} from "lucide-react";
 import { receive } from "@stackflow/compat-await-push";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
+
+// 칩 스트립과 섹션 제목 사이 간격(px). 그리드 위쪽 여백, 제목이 고정되는 자리, 칩 점프
+// 오프셋이 이 값을 함께 써서 스크롤 전후로 간격이 달라지지 않는다.
+const HEADER_GAP = 8;
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -46,6 +76,7 @@ type NavigationItem =
 
 type NavigationSection = {
   title: string;
+  icon: LucideIcon;
   items: NavigationItem[];
 };
 
@@ -64,19 +95,18 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   const { zIndex: activityIndex } = useActivity();
 
+  // 항목 이름은 섹션 제목이 이미 말한 단어를 되풀이하지 않는다. 다만 ListButtonItem·ActionButton처럼
+  // 문자열 자체가 실제 export 이름인 항목은, 접두어를 떼면 없는 이름이 되므로 그대로 둔다.
   const navigationSections: NavigationSection[] = [
-    // 화면 껍데기 자체를 prop으로 조작하는 화면. push/pop 옵션이 주제인 화면은 Stack & Transition으로 간다.
+    // 화면 껍데기의 prop과 그 위에서 일어나는 스택 동작. 둘 다 AppScreen이 소유하거나
+    // AppScreen을 통해서만 검증되므로 한 섹션으로 둔다.
     {
-      title: "App Screen",
+      title: "AppScreen",
+      icon: LayersIcon,
       items: [
         { title: "AppBar 슬롯 · 긴 제목", onClick: () => push("ActivityLayerBar", {}) },
-        { title: "AppScreen transparent", onClick: () => push("ActivityTransparentBar", {}) },
+        { title: "transparent", onClick: () => push("ActivityTransparentBar", {}) },
         { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
-      ],
-    },
-    {
-      title: "Stack & Transition",
-      items: [
         { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
         {
           title: "animate: false Test (밀림 버그)",
@@ -87,38 +117,40 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityHome", {}),
         },
         ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `전환 스타일: ${transitionStyle}`,
+          title: `전환: ${transitionStyle}`,
           onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
         })),
       ],
     },
-    // 화면 아래에서 올라오는 시트. 중앙·가장자리 고정 오버레이는 Dialog & Panel로 간다.
+    // 화면 아래 가장자리에서 올라오는 오버레이. 중앙·좌우 가장자리에 고정되는 것은 Dialog & Panel,
+    // 트리거 요소에 앵커되는 것은 Menu & Popover로 간다.
     {
-      title: "Bottom Sheet",
+      title: "Drawer",
+      icon: PanelBottomIcon,
       items: [
-        { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
+        { title: "기본", onClick: () => push("ActivityBottomSheet", {}) },
         {
-          title: "BottomSheet modal 토글",
+          title: "modal 토글",
           onClick: () => push("ActivityBottomSheetModalTest", {}),
         },
         {
-          title: "BottomSheet (TextField only)",
+          title: "TextField only",
           onClick: () => push("ActivityBottomSheetTextField", {}),
         },
         {
-          title: "BottomSheet snapPoints × 입력 포커스",
+          title: "snapPoints × 입력 포커스",
           onClick: () => push("ActivityBottomSheetInputFocus", {}),
         },
         {
-          title: "BottomSheet Keyboard Playground",
+          title: "Keyboard Playground",
           onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
         },
         {
-          title: "BottomSheet × AlertDialog (step)",
+          title: "AlertDialog 중첩 (step)",
           onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
         },
         {
-          title: "BottomSheet × AlertDialog (activity)",
+          title: "AlertDialog 중첩 (activity)",
           onClick: () => push("ActivityNestedBottomSheet", {}),
         },
         {
@@ -155,6 +187,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 검증 대상 API가 ResponsiveSidePanel/ResponsiveDialog이므로 여기에 둔다.
     {
       title: "Dialog & Panel",
+      icon: AppWindowIcon,
       items: [
         {
           title: "AlertDialog (step)",
@@ -211,14 +244,15 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 트리거 요소에 앵커되는 오버레이의 배치·정렬.
     {
       title: "Menu & Popover",
+      icon: SquareMenuIcon,
       items: [
         { title: "Menu", onClick: () => push("ActivityMenu", {}) },
         {
-          title: "Menu from ListButtonItem",
+          title: "ListButtonItem 트리거",
           component: (
             <MenuRoot size="medium" matchReferenceWidth>
               <MenuTrigger asChild>
-                <ListButtonItem title="Menu from ListButtonItem" />
+                <ListButtonItem title="ListButtonItem 트리거" />
               </MenuTrigger>
               <MenuContent>
                 <MenuGroup>
@@ -238,11 +272,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // PTR 제스처의 발동·차단 조건. 스와이프백 제스처는 App Screen으로 간다.
     {
       title: "Pull to Refresh",
+      icon: RefreshCwIcon,
       items: [
-        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
-        { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
+        { title: "기본", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        { title: "Tabs 조합", onClick: () => push("ActivityPullToRefreshTabs", {}) },
         {
-          title: "PullToRefresh (preventPull)",
+          title: "preventPull",
           onClick: () => push("ActivityPullToRefreshPreventPull", {}),
         },
         {
@@ -254,6 +289,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 콘텐츠 묶음 사이를 이동시키는 컨트롤. 화면 스택 이동은 Stack & Transition으로 간다.
     {
       title: "Navigation",
+      icon: CompassIcon,
       items: [
         { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
         { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
@@ -273,6 +309,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // List 계열 아이템의 prefix/suffix 조합. 그 안에 쓰이는 Checkbox·Switch·Radio 자체는 Form으로 간다.
     {
       title: "List",
+      icon: ListIcon,
       items: [
         { title: "ListItem", onClick: () => push("ActivityListItem", {}) },
         { title: "ListImageFrame", onClick: () => push("ActivityListImageFrame", {}) },
@@ -286,6 +323,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 값을 입력·선택받는 컨트롤. 누르기만 하는 버튼·칩은 Button & Chip으로 간다.
     {
       title: "Form",
+      icon: TextCursorInputIcon,
       items: [
         { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
         { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
@@ -300,11 +338,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "AttachmentDisplayField",
           onClick: () => push("ActivityAttachmentDisplayField", {}),
         },
-        { title: "Form 조합 예제", onClick: () => push("ActivityForm", {}) },
+        { title: "조합 예제", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
       title: "Button & Chip",
+      icon: MousePointerClickIcon,
       items: [
         { title: "ActionButton", onClick: () => push("ActivityActionButton", {}) },
         { title: "ToggleButton", onClick: () => push("ActivityToggleButton", {}) },
@@ -316,6 +355,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 정보를 보여주기만 하는 컴포넌트와 화면 전체 상태 표현.
     {
       title: "Content Display",
+      icon: ImageIcon,
       items: [
         { title: "Avatar", onClick: () => push("ActivityAvatar", {}) },
         { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
@@ -328,16 +368,17 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     },
     {
       title: "Snackbar",
+      icon: MessageSquareDashedIcon,
       items: [
         {
-          title: "Snackbar",
+          title: "기본",
           onClick: () =>
             snackbarAdapter.create({
               render: () => <Snackbar message="Disco Party!" actionLabel="Dance" />,
             }),
         },
         {
-          title: "Snackbar (positive)",
+          title: "positive",
           onClick: () =>
             snackbarAdapter.create({
               render: () => (
@@ -346,7 +387,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             }),
         },
         {
-          title: "Snackbar (critical)",
+          title: "critical",
           onClick: () =>
             snackbarAdapter.create({
               render: () => (
@@ -355,7 +396,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             }),
         },
         {
-          title: "Snackbar (queued)",
+          title: "queued",
           onClick: () =>
             snackbarAdapter.create({
               strategy: "queued",
@@ -366,7 +407,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           // 기존 스낵바를 먼저 닫고 다음 tick에 새 스낵바를 띄우는 패턴.
           // dismiss 상태 전이가 적용된 뒤에 create가 실행되므로
           // 항상 새 스낵바부터 활성화되는 것을 보장한다.
-          title: "Snackbar (dismiss+setTimeout workaround)",
+          title: "dismiss+setTimeout workaround",
           onClick: () => {
             snackbarAdapter.dismiss();
             setTimeout(() => {
@@ -382,6 +423,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     // 보는 화면.
     {
       title: "Foundation",
+      icon: PaletteIcon,
       items: [
         { title: "Box margin 프롭", onClick: () => push("ActivityMarginPlayground", {}) },
         { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
@@ -404,6 +446,99 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
     },
   ];
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const stripRef = React.useRef<HTMLDivElement>(null);
+  // 섹션 제목이 고정될 자리가 칩 스트립 바로 아래여야 해서, 스트립의 실제 높이를 잰다.
+  const [stripHeight, setStripHeight] = React.useState(0);
+  // 등록이 렌더 순서대로 일어나므로 Map의 키 순서가 곧 화면에 놓인 섹션 순서다.
+  const sectionRefs = React.useRef(new Map<string, HTMLElement>());
+  const isJumpingRef = React.useRef(false);
+  const [activeSection, setActiveSection] = React.useState(navigationSections[0].title);
+
+  React.useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+
+    const observer = new ResizeObserver(() => setStripHeight(strip.offsetHeight));
+    observer.observe(strip);
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const visibleTitles = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const title = (entry.target as HTMLElement).dataset.sectionTitle;
+          if (!title) continue;
+
+          if (entry.isIntersecting) visibleTitles.add(title);
+          else visibleTitles.delete(title);
+        }
+
+        if (isJumpingRef.current) return;
+
+        // 띠에 걸린 것 중 마지막 섹션을 고른다. 첫 섹션을 고르면 이미 위로 밀려나는 중인 섹션이
+        // 다음 섹션이 화면을 다 채울 때까지 활성으로 남는다.
+        const current = [...sectionRefs.current.keys()]
+          .filter((title) => visibleTitles.has(title))
+          .pop();
+        if (current) setActiveSection(current);
+      },
+      // 스크롤 컨테이너 위쪽 20%만 관측한다.
+      { root: scrollContainer, rootMargin: "0px 0px -80% 0px" },
+    );
+
+    for (const section of sectionRefs.current.values()) {
+      observer.observe(section);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let settleTimer: ReturnType<typeof setTimeout>;
+    const releaseWhenSettled = () => {
+      if (!isJumpingRef.current) return;
+
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        isJumpingRef.current = false;
+      }, 120);
+    };
+
+    scrollContainer.addEventListener("scroll", releaseWhenSettled, { passive: true });
+    return () => {
+      clearTimeout(settleTimer);
+      scrollContainer.removeEventListener("scroll", releaseWhenSettled);
+    };
+  }, []);
+
+  function jumpToSection(title: string) {
+    const scrollContainer = scrollContainerRef.current;
+    const section = sectionRefs.current.get(title);
+    if (!scrollContainer || !section) return;
+
+    // 부드러운 스크롤이 중간 섹션들을 훑고 지나가는 동안 활성 칩이 튀지 않도록 동기화를 멈춘다.
+    isJumpingRef.current = true;
+    setActiveSection(title);
+    scrollContainer.scrollTo({
+      top:
+        scrollContainer.scrollTop +
+        section.getBoundingClientRect().top -
+        scrollContainer.getBoundingClientRect().top -
+        Number.parseFloat(getComputedStyle(scrollContainer).paddingTop) -
+        stripHeight -
+        HEADER_GAP,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <AppScreen transitionStyle={params.transitionStyle}>
       <AppBar bg="bg.layerBasement">
@@ -420,6 +555,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         </AppBarRight>
       </AppBar>
       <AppScreenContent
+        ref={scrollContainerRef}
         ptr
         // layer의 배경색은 recipe가 layerDefault로 고정하고 style prop을 받지 않는다.
         // PTR로 당겼을 때 드러나는 영역까지 카드 배경과 이어지려면 여기서 덮어야 한다.
@@ -429,19 +565,112 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         }}
       >
         <VStack pb="safeArea" minHeight="100%">
-          <Grid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap="x4" px="x4" pb="x4">
+          <Box ref={stripRef} position="sticky" top={0} zIndex={2} bg="bg.layerBasement">
+            <ChipTabsRoot
+              value={activeSection}
+              onValueChange={jumpToSection}
+              variant="neutralSolid"
+            >
+              <ChipTabsList style={{ padding: "8px 16px" }}>
+                {navigationSections.map((section) => (
+                  <ChipTabsTrigger key={section.title} value={section.title}>
+                    {section.title}
+                  </ChipTabsTrigger>
+                ))}
+              </ChipTabsList>
+            </ChipTabsRoot>
+          </Box>
+          <Grid
+            columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
+            gap="x5"
+            px="x4"
+            pt={`${HEADER_GAP}px`}
+            pb="x4"
+          >
             {navigationSections.map((section) => (
-              <VStack key={section.title} py="x1_5" borderRadius="r3_5" bg="bg.layerDefault">
-                <ListHeader as="h2">{section.title}</ListHeader>
-                <List itemBorderRadius="r2">
-                  {section.items.map((item) =>
-                    item.component ? (
-                      <React.Fragment key={item.title}>{item.component}</React.Fragment>
-                    ) : (
-                      <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
-                    ),
-                  )}
-                </List>
+              <VStack
+                key={section.title}
+                data-section-title={section.title}
+                ref={(node) => {
+                  if (node) sectionRefs.current.set(section.title, node);
+                  else sectionRefs.current.delete(section.title);
+                }}
+              >
+                {/*
+                  카드 위쪽 여백을 섹션 gap이 아니라 제목의 pb로 준다. 쉬고 있을 때의 간격은
+                  같으면서, 제목이 고정됐을 때는 그 8px까지 제목의 배경이 덮어서 카드 항목이
+                  제목 글자에 닿지 않는다.
+                */}
+                <HStack
+                  align="center"
+                  gap="x1_5"
+                  px="x1"
+                  pt="x1"
+                  pb="x2"
+                  position="sticky"
+                  top={`${stripHeight + HEADER_GAP}px`}
+                  zIndex={1}
+                  bg="bg.layerBasement"
+                >
+                  {/*
+                    제목이 스트립에서 HEADER_GAP만큼 떨어져 고정되므로 그 사이에 틈이 생긴다.
+                    제목의 배경을 그 틈까지 위로 늘려서 카드 항목이 제목 위로 새어 나오지 않게
+                    한다. 섹션 사이 간격이 이보다 넓어서, 고정되기 전에는 그 간격 안에 들어가
+                    페이지 배경과 겹치므로 보이지 않는다.
+                  */}
+                  <Box
+                    position="absolute"
+                    bottom="100%"
+                    left={0}
+                    right={0}
+                    height={`${HEADER_GAP}px`}
+                    bg="bg.layerBasement"
+                  />
+                  <Icon svg={<section.icon />} size="x4_5" color="fg.neutralSubtle" />
+                  <Text as="h2" textStyle="t5Medium" color="fg.neutral">
+                    {section.title}
+                  </Text>
+                  {/*
+                    카드의 둥근 윗변을 제목 아래에 고정하는 캡. 제목이 sticky라서 그 자식으로
+                    두면 별도 오프셋 계산 없이 제목을 따라다닌다.
+
+                    칠하는 것은 두 위쪽 모서리의 바깥 쐐기뿐이다. 바깥으로 퍼지는 box-shadow는
+                    둥근 테두리 모양의 바깥만 칠하고, clip-path가 그 그림자를 다시 사각형 안으로
+                    자르므로, 사각형 안이면서 곡선 바깥인 쐐기만 남는다. 가운데가 비어 있어서
+                    항목이 캡 높이만큼 늦게 드러나지 않고 카드 윗변에서 바로 곡선을 따라 잘린다.
+
+                    칠하는 색이 페이지 배경과 같아서, 여러 열에서 카드가 먼저 끝나고 제목만 남는
+                    구간에서는 캡이 보이지 않는다.
+                  */}
+                  <Box
+                    position="absolute"
+                    top="100%"
+                    left={0}
+                    right={0}
+                    height="x3_5"
+                    borderTopLeftRadius="r3_5"
+                    borderTopRightRadius="r3_5"
+                    style={{
+                      boxShadow: `0 0 0 ${vars.$radius.r3_5} ${vars.$color.bg.layerBasement}`,
+                      clipPath: "inset(0)",
+                    }}
+                  />
+                </HStack>
+                <VStack py="x1_5" borderRadius="r3_5" bg="bg.layerDefault">
+                  <List itemBorderRadius="r2">
+                    {section.items.map((item) =>
+                      item.component ? (
+                        <React.Fragment key={item.title}>{item.component}</React.Fragment>
+                      ) : (
+                        <ListButtonItem
+                          key={item.title}
+                          onClick={item.onClick}
+                          title={item.title}
+                        />
+                      ),
+                    )}
+                  </List>
+                </VStack>
               </VStack>
             ))}
           </Grid>
