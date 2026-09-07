@@ -173,10 +173,15 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             </DialogPushTrigger>
           ),
         },
+        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
+        {
+          title: "ResponsiveSidePanel",
+          onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
       ],
     },
     {
-      title: "Dialog & Panel",
+      title: "Dialog",
       icon: AppWindowIcon,
       items: [
         {
@@ -219,11 +224,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             const result = await receive<any>(push("ActivityAlertDialog", {}));
             console.log(result.message);
           },
-        },
-        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
-        {
-          title: "ResponsiveSidePanel",
-          onClick: () => push("ActivityResponsiveSidePanel", {}),
         },
         {
           title: "ResponsiveDialog",
