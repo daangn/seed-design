@@ -29,7 +29,6 @@ npx @seed-design/cli@latest add ui:checkbox
 
 <LynxManualInstallation name="checkbox" />
 
-
 ## Props
 
 ### `CheckboxGroup`
@@ -157,13 +156,26 @@ Lynx Registry의 `Checkmark`는 자체 `Checkbox.Root`를 포함합니다. 단�
   ```
 </LynxComponentExample>
 
+### Fieldset Integration
+
+`CheckboxGroup`을 사용하여 여러 체크박스를 그룹화하고 `label`, `description`, `errorMessage` 등의 Fieldset 관련 prop을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/checkbox/fieldset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/fieldset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 
-- **Field wrapper 없음**: Lynx의 `CheckboxGroup`은 항목의 세로 간격만 관리합니다. React snippet의 `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator` 같은 field 관련 prop은 제공하지 않습니다.
 - **아이콘 주입 방식**: snippet의 `Checkbox`와 `Checkmark`는 `@karrotmarket/lynx-monochrome-icon`의 check / minus icon을 자동으로 주입합니다. compound component를 직접 조합할 때는 `Checkbox.Indicator`에 Lynx monochrome icon을 전달해야 합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **오류 안내 렌더링**: React는 오류가 표시될 때 `description`을 접근성 트리에 남기지만, Lynx에는 DOM의 visually hidden 처리 방식이 없어 화면과 접근성 트리에서 `description`을 제외하고 `errorMessage`만 렌더링합니다.
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Root 내부에서 소유합니다.
 - **Pressed 상태**: 웹의 `data-active` 대신 내부 press state를 `checkmark` recipe의 `pressed` boolean variant로 전달합니다.
 - **Scale Feedback**: Lynx는 눌림 상태를 색상으로 표현하며 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
@@ -182,10 +194,8 @@ Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 | --- | --- | --- |
 | `CheckboxHiddenInput` | `<input type="checkbox">` | Lynx에 HTML form 제출 모델 없음 |
 | `inputProps` | hidden input props | Lynx snippet은 hidden input을 렌더링하지 않음 |
-| `name` / `value` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
-| `label` / `description` / `errorMessage` on `CheckboxGroup` | field wrapper props | Lynx에 대응 field wrapper snippet을 제공하지 않음 |
+| 개별 `Checkbox`의 `name` / `value` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
 | React Hook Form 예제 | HTML form과 hidden input 연동 | 앱 상태와 `checked` / `onCheckedChange`를 직접 연결해야 함 |
-| Fieldset Integration | `<fieldset>` 기반 검증과 제출 | Lynx에 HTML fieldset과 form 제출 모델 없음 |
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onCheckedChange`로 대체 |
 | `weight="default"` / `"stronger"` | deprecated 호환 매핑 | Lynx는 `"regular"` / `"bold"`만 노출 |

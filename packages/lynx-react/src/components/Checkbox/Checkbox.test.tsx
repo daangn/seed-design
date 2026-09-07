@@ -113,6 +113,16 @@ describe("Checkbox", () => {
     expect(root).toHaveAttribute("accessibility-traits", "button");
   });
 
+  it("applies the checkbox size class to the control", () => {
+    render(
+      <Checkbox.Root size="large">
+        <Checkbox.Control />
+      </Checkbox.Root>,
+    );
+
+    expect(getCheckboxControl()).toHaveClass("seed-checkbox__control--size_large");
+  });
+
   it("keeps each ghost press color stable through release in both toggle directions", () => {
     const onCheckedChange = vi.fn();
 
