@@ -10,6 +10,7 @@
 - PR number: 현재 PR 번호
 - source-sha: 현재 PR의 HEAD SHA
 - control-sha: trusted default-branch workflow의 SHA
+- trigger-comment-id: 실행을 시작한 `/snapshot` 댓글의 서버 ID
 - run-id와 run-attempt: 같은 실행의 결과를 가리키는 식별자
 
 `gh run list`의 workflow·event·createdAt은 후보를 찾는 데만 사용한다. `📦 Snapshot Release` 댓글의 최신 여부만으로 실행이나 tarball을 연결하지 않는다. workflow가 댓글에 붙인 `<!-- seed-snapshot-metadata {...} -->` identity를 읽고, 현재 PR 번호와 HEAD SHA가 모두 일치하는지 확인한다. metadata가 없거나 값이 다르면 해당 실행과 tarball을 재사용하지 말고 새 실행을 사용한다.
@@ -25,15 +26,18 @@ gh run download <RUN_ID> --name "snapshot-release-output-<RUN_ID>" --dir "$TMPDI
 ## 2. 대상과 로컬 상태
 
 ```bash
-gh pr view --json number,url,headRefOid,comments \
-  --jq '{number, url, sourceSha: .headRefOid, anchor: ([.comments[] | select(.body == "/snapshot")] | last | .createdAt // "")}'
+NUM=$(gh pr view --json number --jq .number)
+gh pr view --json number,url,headRefOid \
+  --jq '{number, url, sourceSha: .headRefOid}'
+gh api "repos/{owner}/{repo}/issues/$NUM/comments" --paginate --slurp |
+  jq '[.[][] | select(.body == "/snapshot")] | last | {commentId: .id, commentAt: .created_at}'
 echo "---DIRTY---"
 git status --short
 echo "---UNPUSHED---"
 git log @{u}..HEAD --oneline 2>/dev/null || echo "(no upstream tracking)"
 ```
 
-PR이 없으면 중단한다. 기존 `/snapshot` 댓글이 있으면 새 댓글을 쓰지 않고, 해당 댓글 이후의 실행만 identity로 검증해 이어간다. 로컬 dirty/unpushed 상태는 이미 원격에서 실행된 snapshot의 결과를 바꾸지 않는다.
+PR이 없으면 중단한다. 기존 `/snapshot` 댓글이 있으면 새 댓글을 쓰지 않고 서버가 반환한 댓글 ID와 생성 시각을 보존한다. 해당 댓글 이후의 실행 중 metadata의 `trigger-comment-id`가 댓글 ID와 같은 실행만 이어간다. 로컬 dirty/unpushed 상태는 이미 원격에서 실행된 snapshot의 결과를 바꾸지 않는다.
 
 ## 3. `/snapshot` 게시 승인과 작성자 권한
 
@@ -47,7 +51,7 @@ PR이 없으면 중단한다. 기존 `/snapshot` 댓글이 있으면 새 댓글�
 1. 현재 계정이 PR의 기존 댓글에서 `author_association`이 `OWNER`, `MEMBER`, `COLLABORATOR`로 확인됨.
 2. 기존 댓글이 없는 경우, 저장소 소유자와 계정을 비교한 뒤 `gh api repos/{owner}/{repo}/collaborators/{login}/permission`의 `role_name` 또는 `permissions`가 collaborator/member에 해당하는 push·maintain·admin 권한으로 확인됨.
 
-권한 endpoint가 404·403이거나 계정이 허용 association으로 판정되지 않으면 중단한다. 인증 계정을 확인하지 않은 상태에서 `gh pr comment`를 실행하지 않는다.
+권한 endpoint가 404·403이거나 계정이 허용 association으로 판정되지 않으면 중단한다. 인증 계정을 확인하지 않은 상태에서 댓글 생성 API를 호출하지 않는다.
 
 ## 4. 실행 orchestration
 
@@ -57,31 +61,49 @@ PR이 없으면 중단한다. 기존 `/snapshot` 댓글이 있으면 새 댓글�
 set -euo pipefail
 
 NUM=<NUM>
-ANCHOR='<ANCHOR>'
+OWNER='<OWNER>'
+REPO='<REPO>'
+COMMENT_ID='<COMMENT_ID_OR_EMPTY>'
+COMMENT_AT='<COMMENT_AT_OR_EMPTY>'
 PUSH_FIRST='<PUSH_FIRST>'
+SNAPSHOT_META_DIR=$(mktemp -d)
+trap 'rm -rf "$SNAPSHOT_META_DIR"' EXIT
 
-if [ -z "$ANCHOR" ]; then
+if [ -z "$COMMENT_ID" ]; then
   if [ "$PUSH_FIRST" = "1" ]; then
     git push
   fi
-  gh pr comment "$NUM" --body "/snapshot"
-  ANCHOR=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  COMMENT_JSON=$(gh api --method POST "repos/$OWNER/$REPO/issues/$NUM/comments" -f body='/snapshot')
+  COMMENT_ID=$(jq -er '.id' <<< "$COMMENT_JSON")
+  COMMENT_AT=$(jq -er '.created_at' <<< "$COMMENT_JSON")
 fi
 
 RUN_ID=""
-for _ in $(seq 1 10); do
-  RUN_ID=$(gh run list --workflow=continuous-releases.yml --limit 10 \
+for _ in $(seq 1 30); do
+  while read -r CANDIDATE_ID CANDIDATE_ATTEMPT; do
+    CANDIDATE_DIR="$SNAPSHOT_META_DIR/$CANDIDATE_ID-$CANDIDATE_ATTEMPT"
+    mkdir -p "$CANDIDATE_DIR"
+    if gh run download "$CANDIDATE_ID" \
+      --name "snapshot-release-metadata-$CANDIDATE_ID-$CANDIDATE_ATTEMPT" \
+      --dir "$CANDIDATE_DIR" >/dev/null 2>&1 &&
+      jq -e --argjson comment_id "$COMMENT_ID" \
+        '.["trigger-comment-id"] == $comment_id' \
+        "$CANDIDATE_DIR/snapshot-metadata.json" >/dev/null; then
+      RUN_ID="$CANDIDATE_ID"
+      break
+    fi
+  done < <(gh run list --workflow=continuous-releases.yml --limit 20 \
     --json databaseId,createdAt,event,attempt \
-    --jq "[.[] | select(.event == \"issue_comment\" and .createdAt >= \"$ANCHOR\")] | .[0].databaseId // empty")
+    --jq ".[] | select(.event == \"issue_comment\" and .createdAt >= \"$COMMENT_AT\") | [.databaseId, .attempt] | @tsv")
   [ -n "$RUN_ID" ] && break
   sleep 2
 done
 
-[ -n "$RUN_ID" ] || { echo "no matching Continuous Releases run found after polling" >&2; exit 1; }
+[ -n "$RUN_ID" ] || { echo "no Continuous Releases run matched comment $COMMENT_ID" >&2; exit 1; }
 gh run watch "$RUN_ID" --exit-status || WATCH_EXIT=$?
 ```
 
-run을 고른 뒤에는 `gh run view "$RUN_ID" --json databaseId,attempt,headSha,event`와 결과 댓글의 metadata를 함께 확인한다. `headSha`는 issue-comment workflow의 control SHA일 수 있으므로 PR source SHA 비교에 사용하지 않는다. source SHA는 metadata와 `gh pr view --json headRefOid`를 비교한다.
+`createdAt >= "$COMMENT_AT"` 조건은 후보 범위만 줄인다. 최종 `RUN_ID`는 artifact의 `trigger-comment-id`가 서버 댓글 ID와 같은 실행으로 정한다. run을 고른 뒤에는 `gh run view "$RUN_ID" --json databaseId,attempt,headSha,event`와 결과 댓글의 metadata를 함께 확인한다. `headSha`는 issue-comment workflow의 control SHA일 수 있으므로 PR source SHA 비교에 사용하지 않는다. source SHA는 metadata와 `gh pr view --json headRefOid`를 비교한다.
 
 실행이 성공하면 같은 run ID·attempt·PR·source/control SHA가 metadata에 있는 `📦 Snapshot Release` 댓글만 결과로 보고한다. 실행이 실패하거나 취소되면 failed steps를 보여주며, 다른 실행의 이전 댓글은 결과로 재사용하지 않는다.
 
