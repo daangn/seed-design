@@ -26,13 +26,12 @@ alwaysApply: true
 - 문자열 정규식 후처리보다 AST 변환을 우선한다.
 - 테스트 단언은 TECH.md 「테스트 작성」을 따른다. 이 폴더에서는 파이프라인 검증에 fixture를, 룰 단위 검증에 inline snapshot을 쓴다.
 
-## 필수 작업 절차
+## 변환 동작을 변경할 때
 
-1. 룰 추가/변경 시 `rules/`에 독립 모듈로 구현하고, 새 컴포넌트를 다루면 `rule-elements.ts`의 `RULE_ELEMENT_NAMES`에 이름을 추가한다.
-2. 룰 단위 검증은 inline snapshot으로 충분하다. 파이프라인 fixture(`__fixtures__/pipeline`)에 케이스를 추가한다.
-3. 룰 단위 테스트와 파이프라인 테스트를 모두 갱신한다.
-4. 아래 검증을 통과시킨다.
-   - `cd docs && bun test app/_llms`
+1. 룰은 `rules/`의 독립 모듈로 구현한다. 새 컴포넌트 태그를 다루면 `rule-elements.ts`의 `RULE_ELEMENT_NAMES`에도 추가한다.
+2. 개별 룰은 inline snapshot으로 검증하고, 여러 룰의 상호작용이 바뀔 때만 `__fixtures__/pipeline/`에 pipeline fixture를 추가한다.
+3. 해당 변경에 영향을 받는 단위 테스트와 pipeline 테스트만 갱신한다.
+4. 동작을 변경한 경우 `cd docs && bun test app/_llms`를 실행한다.
 
 ## 변경되지 않는 중요 규칙
 

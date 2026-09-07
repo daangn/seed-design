@@ -1,13 +1,13 @@
 ---
 name: seed-verify-figma-mcp-transports
-description: Run a Figma MCP tool over both the REST and WebSocket transports and diff the two answers, so a change to one path cannot silently drift from the other. Use after editing `packages/mcp/src/tools.ts`, `src/tools-helpers.ts`, or `tools/figma-mcp/src/main/commands/*`. Also triggers on "verify both transports", "compare REST and WebSocket output", "check the plugin path still matches", "transport 검증", "REST랑 WebSocket 비교해줘", "플러그인이랑 REST 결과 같은지 확인".
+description: Figma MCP 도구 변경 뒤 REST와 WebSocket 결과를 실제로 비교해 transport parity를 검증할 때 사용한다.
 ---
 
 # Verify Figma MCP Transports
 
 A Figma MCP tool answers the same question over two paths: **REST** (personal access token) and **WebSocket** (the Figma plugin). Fixing one and not the other still typechecks, so the drift is silent. Run both and compare mechanically.
 
-For where the two paths diverge in this package, read `packages/mcp/AGENTS.md`.
+두 경로의 구현 차이가 판단에 필요할 때만 `packages/mcp/AGENTS.md`를 읽는다.
 
 > [!IMPORTANT]
 > Run this skill **on the main thread**. Phase 3 is a hard stop that waits on a person, and a subagent has nobody to ask — it will pass itself.
@@ -22,9 +22,7 @@ For where the two paths diverge in this package, read `packages/mcp/AGENTS.md`.
 
 Both transports need a target, so this comes before any probing — REST in Phase 1 already needs it.
 
-**Derive the criteria yourself; do not ask the person to invent them.** Read the diff you just made and work out which edge cases it touches. Then ask for a layer that exercises those specific cases. You know what changed; the person only knows their files.
-
-Concretely: name the shape you need, not the node. "A frame containing a layer with two or more annotations, and a text layer with none" is answerable. "Give me a layer URL" is not — it hands your job to someone who can't do it.
+**검증 기준은 변경 diff에서 스스로 도출한다.** 사용자가 이미 조건을 만족하는 layer URL을 제공했으면 그대로 사용한다. 그렇지 않으면 특정 node가 아니라 필요한 layer 형태를 설명해 URL을 요청한다. "A frame containing a layer with two or more annotations, and a text layer with none"은 답할 수 있지만, "Give me a layer URL"은 검증 설계를 사용자에게 넘긴다.
 
 Start from this checklist and cut what your change doesn't touch:
 

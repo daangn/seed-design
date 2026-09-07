@@ -38,7 +38,7 @@ Figma 노드 데이터를 통일된 내부 타입(`NormalizedNode`)으로 변환
 
 ## 코드 작성 컨벤션
 
-- `FIGMA_ACCESS_TOKEN` 환경변수 필요
+- 이 패키지는 Figma 데이터 처리 라이브러리이므로 자체적으로 `FIGMA_ACCESS_TOKEN`을 읽지 않는다. Figma REST API를 호출하는 동기화 도구나 실행 환경에서 필요한 인증 설정만 해당 경로에 둔다.
 - Entity 파일: `{entity}.interface.ts`, `{entity}.repository.ts`, `{entity}.service.ts`
 - normalizer 출력 타입은 `src/normalizer/types.ts`에 정의 — codegen은 이 타입만 의존
 - codegen에서 Plugin API(`figma.*`, `node.getMainComponentAsync()` 등)를 직접 호출하지 않는다

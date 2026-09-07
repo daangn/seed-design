@@ -1,18 +1,16 @@
 ---
 name: seed-deprecation
-description: Manage deprecation lifecycle for components, interfaces, and tokens with versioned notices, replacement guidance, migration docs, and removal tracking. Use when deprecating, migrating, or removing API/spec options.
+description: SEED 컴포넌트·API·토큰의 사용 중단 선언, 마이그레이션 안내 또는 예정된 제거를 처리할 때 사용한다.
 ---
 
 # Deprecation Flow
 
-요청 범위를 확정하고 필요한 가이드만 선택해 실행한다.
+요청 범위와 목표 결과를 확인한 뒤, 해당 작업에 필요한 가이드 절만 읽어 적용한다.
 
-## 실행 절차
-
-1. 대상 범위와 목표 결과를 먼저 확정한다.
-2. `references/`에서 현재 작업에 필요한 문서만 읽는다.
-3. 문서 절차에 맞춰 구현/수정하고 관련 생성 명령을 실행한다.
-4. 검증 명령을 실행한 뒤 변경 파일과 리스크를 보고한다.
+1. 현재 변경과 릴리스 계획으로 확정할 수 없는 대상·버전·대체안·사유만 한 번에 확인한다.
+2. 가이드에서 대상 종류와 단계에 맞는 원천, 문서, 생성물만 수정한다.
+3. Rootage를 바꾼 경우에만 생성 절차를 실행한다.
+4. 변경 계약과 가이드가 요구하는 검증만 수행하고 변경 파일·남은 위험을 보고한다.
 
 ## 참조 파일
 

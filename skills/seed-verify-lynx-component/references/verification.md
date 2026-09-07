@@ -4,25 +4,24 @@
 
 ## 1. 사전 점검
 
-검증 전에 다음을 기록한다.
+대상 시나리오와 선택한 환경에 필요한 정보만 기록한다.
 
-- `git status --short`와 현재 branch
 - 대상 컴포넌트, 문서 URL, React·Lynx 예제 ID
-- docs examples와 host app의 `@lynx-js/react`, React plugin, Rspeedy 버전
-- 변경 전 기준 빌드 결과. 기준 빌드를 확보하지 못하면 `미확인`으로 남긴다.
-- 필수 환경과 선택 환경
-- 생성물 검증과 실행 환경 검증을 구분한 검증표
+- 필수·선택 환경과 생성물·실행 환경을 구분한 검증표
+- 새 컴포넌트·공개 package·Registry·생성물이 포함되거나 기존 컴포넌트의 native 동작·bundle 실행 결과가 바뀌면 docs examples·host app의 런타임 버전과 변경 전 기준 빌드 결과
+
+변경 전 기준 빌드를 확보하지 못하면 이유와 함께 별도 `미확인` 행으로 기록한다. 현재 빌드의 검증 결과로 기준 결과를 대신하거나 둘을 합치지 않는다.
 
 검증 스킬은 문서·컴포넌트 소스를 수정하지 않는다. 빌드가 만드는 ignored 산출물, 직접 시작한 서버, 검증 중인 런타임 상태 변경은 허용한다. 실행 전후 `git status --short`를 비교하고 새 tracked 변경이 생기면 원인을 보고한다. 사용자 변경이나 기존 서버를 되돌리거나 종료하지 않는다.
 
-검증은 다음 순서로 값싼 확인에서 비싼 확인으로 넓힌다.
+검증은 대상 결과를 직접 확인하는 가장 좁은 경로부터 넓힌다.
 
-1. React↔Lynx 시나리오와 공개 API 대응
-2. Registry, 문서 index, entry, manifest, bundle 연결
-3. 정적 문서 또는 bundle의 브라우저 확인
-4. 필요한 경우 시간축 확인
-5. native bundle의 로컬 Lynx 런타임 또는 실제 host app 확인
-6. 변경과 관련된 테스트 및 저장소 공통 검증
+1. 대상 React↔Lynx 시나리오와 공개 API 대응
+2. 변경에 포함된 Registry, 문서 index, entry, manifest, bundle 연결
+3. 변경한 정적 문서 또는 bundle의 브라우저 확인
+4. 실제 transition·측정·지연 마운트가 있을 때 시간축 확인
+5. native 결과를 새로 주장하거나 런타임 동작을 바꿨을 때 로컬 Lynx 런타임 또는 실제 host app 확인
+6. 상위 지침이나 변경 범위가 요구하는 관련 검증
 
 ## 2. 정적 문서와 bundle 서빙
 
@@ -80,39 +79,30 @@ BUNDLE_URL="http://127.0.0.1:4174${BUNDLE_PATH}"
 
 ## 3. 브라우저 미리보기 확인
 
-정적 문서를 서빙한 뒤 실제 `LynxComponentExample`에서 확인한다. 독립 HTML, 임시 Vite 앱, 임시 React 페이지로 옮겨 확인하지 않는다.
+문서 예제의 렌더링·상호작용 결과를 검증할 때 정적 문서를 서빙한 뒤 실제 `LynxComponentExample`에서 확인한다. 독립 HTML, 임시 Vite 앱, 임시 React 페이지로 옮겨 확인하지 않는다.
 
-1. `docs/out`에서 대상 `.html`의 실제 경로를 찾는다.
-2. 예제의 로딩이 끝날 때까지 기다린다.
-3. 미리보기, 코드 탭, QR, Explorer 버튼이 같은 논리 ID와 entry를 가리키는지 확인한다.
-4. `lynx-view`와 `lynx-view.shadowRoot` 안의 대상 root를 찾는다.
-5. 텍스트, class, `getBoundingClientRect()`, computed style, clipping, overflow를 기록한다.
-6. Registry 예제는 `@/components/ui/<name>`, package-only 예제는 `@seed-design/lynx-react` 공개 export를 사용하는지 확인한다.
-7. QR 원문은 직접 접근 가능한 `.lynx.bundle` HTTP(S) URL인지, Explorer 버튼만 `lynx://open?url=`을 사용하는지 확인한다.
+1. `docs/out`에서 대상 `.html`의 실제 경로를 찾고 예제 로딩을 기다린다.
+2. 변경한 예제에서 미리보기, 코드 탭, QR, Explorer 버튼이 같은 논리 ID와 entry를 가리키는지 확인한다.
+3. `lynx-view.shadowRoot` 안의 대상 root에서 텍스트·rect·computed style·clipping·overflow를 필요한 만큼 기록한다.
+4. 대상이 Registry면 `@/components/ui/<name>`, package-only면 `@seed-design/lynx-react` 공개 export를 사용하는지 확인한다.
+5. QR 원문은 직접 접근 가능한 `.lynx.bundle` HTTP(S) URL인지, Explorer 버튼만 `lynx://open?url=`을 사용하는지 확인한다.
 
-각 예제는 개별 캡처와 측정값으로 판정한다. 전체 페이지 캡처는 섹션 탐색용일 뿐 시각적 동등성의 증거가 아니다.
+### 시각적 동등성 판정
 
-1. React 기준 예제와 Lynx 예제를 같은 viewport 조건으로 연다.
-2. 양쪽 host와 내부 frame의 width·height를 기록한다.
-3. frame의 상하·좌우 여백을 계산하고, 좌우가 같으며 상하 차이가 1px 이하인지 확인한다.
-4. import한 asset 이름, runtime image 수, image width·height, multicolor 여부를 확인한다.
-5. 초기 문구와 disabled·loading 등 control 상태를 기록한다.
-6. 상호작용 예제는 실제 click·tap을 실행하고 입력 직후와 최종 상태를 각각 캡처하거나 DOM·layout으로 남긴다.
-7. Web raster tint와 native tint는 별도 행으로 판정한다.
+같은 사용자 결과를 목표로 하는 React·Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제의 host·내부 frame width·height, 상하·좌우 여백, viewport 차이의 이유를 기록하고 다음 rect 조건으로 판정한다.
 
-BottomSheet처럼 viewport 전체를 기준으로 배치되는 오버레이는 `LynxComponentExample`에 충분한 고정 `height`가 있는지 확인한다. Backdrop·Positioner가 preview 전체를 채우고 Content가 카드 밖으로 넘치지 않는지, 작은 폭에서 잘림이나 가로 스크롤이 없는지 확인한다. preview를 맞추려고 배포 컴포넌트의 스타일을 바꾸지 않는다.
+```text
+left margin == right margin
+abs(top margin - bottom margin) <= 1px
+frame width == expected width
+frame height == expected height
+```
 
-`vw`·`vh`를 사용하는 예제는 preview 초기화 시점의 `transformVW`·`transformVH` 설정을 확인한다. 고정 높이 preview는 두 단위를, 자동 높이 preview는 `transformVW`만 사용해야 한다. `height: auto`에 `transformVH`를 함께 켜서 높이가 `0px`이 되는 상황을 만들지 않는다.
+전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 대상 예제의 개별 캡처와 측정값이 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. asset은 import 이름, runtime image 수·크기, multicolor·tint를 확인하고 Web raster tint와 native tint를 별도 행으로 기록한다.
 
-브라우저와 native 결과가 다르면 먼저 다음을 구분한다.
+React 기준·asset·host/frame·초기 상태를 직접 확인하지 않았거나, 상호작용 전이를 실행하지 않았거나, Web 결과를 native로 합쳤다면 `시각적 동등성 통과`로 판정하지 않는다.
 
-- 문서 preview에서만 실패: preview runtime 또는 web 제한
-- native에서도 실패: 컴포넌트, bundle, CSS parser, Engine 또는 host app
-- 아이콘 노드가 없거나 크기가 0: entry, 자산, layout
-- 아이콘은 존재하지만 웹에서만 색상이 다름: `tint-color` 또는 native 전용 스타일
-- `var(...)` shorthand가 `0px`: CSS 변수 해석과 대응 longhand
-
-브라우저 결과만으로 native 통과를 판정하지 않는다.
+BottomSheet 같은 viewport 오버레이, `vw`·`vh`, tint·CSS 변수는 해당 예제가 사용하는 경우에만 필요한 layout·runtime 조건을 확인한다. 브라우저와 native 결과가 다르면 preview 한정, native·bundle·CSS parser·Engine·host app, entry·asset·layout 중 어느 범위인지 분리한다. 브라우저 결과만으로 native 통과를 판정하지 않는다.
 
 ## 4. `lynx://open?url=` 실행
 
@@ -182,29 +172,11 @@ CDP 명령을 보내기 전에는 `lynx-devtool`의 지원 CDP method 문서를 
 
 ## 7. Result Section 회귀 체크리스트
 
-이 스킬이나 Lynx 문서 워크플로를 바꾼 뒤에는 현재 체크아웃에 해당 예제가 있을 때 다음 기준으로 회귀 확인한다.
+대상이 Result Section이거나 이번 변경이 해당 예제·문서 워크플로에 영향을 줄 때만 적용한다.
 
-### Preview·Large·Medium
-
-- Preview asset은 `IconDiamond`이고 `ProgressCircle`이 아니다.
-- Preview 아이콘은 `40 × 40px`이다.
-- 내부 frame은 `320 × 480px`, host 높이는 `544px`, 상하 여백은 각각 `32px`이며 좌우 여백이 같다.
-- Large·Medium도 같은 frame·정렬 규칙을 사용한다.
-- size, title, description, action label이 React 예제와 같다.
-
-### CTA와 Progress Circle
-
-- frame은 `360 × 640px`, host 높이는 `704px`이다.
-- `AppBar.Title`은 `환불 요청`이다.
-- 초기 상태는 `다시 시도해주세요`와 `환불 요청에 실패했어요`를 표시하며 CTA가 활성화되어 있다.
-- CTA를 탭하면 `환불을 요청하고 있어요`와 `잠시만 기다려주세요`, Progress Circle, disabled·loading CTA가 표시된다.
-- 3초 뒤 초기 실패 상태로 돌아간다.
-
-### Lottie
-
-- Lynx Lottie 구현체가 없으면 실행 예제를 만들지 않는다.
-- 구현체 부재와 앱 수준 `asset` 전달 대안을 문서에 설명한다.
-- 단순 누락 경고가 아니라 근거가 있는 `미지원`으로 분류한다.
+- Preview·Large·Medium은 `IconDiamond`, `40 × 40px`, `320 × 480px` frame, `544px` host, `32px` 상하 여백과 React와 같은 size·문구를 확인한다.
+- CTA·Progress Circle은 `360 × 640px` frame, `704px` host, `환불 요청` AppBar, 초기 실패 상태와 탭 뒤 loading 상태, 3초 뒤 복귀를 확인한다.
+- Lottie 구현체가 없으면 실행 예제를 만들지 않고 근거 있는 `미지원`과 앱 수준 `asset` 대안을 문서화한다.
 
 ## 8. 상태와 완료 판정
 

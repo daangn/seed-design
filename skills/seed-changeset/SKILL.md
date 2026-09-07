@@ -1,11 +1,11 @@
 ---
 name: seed-changeset
-description: SEED 저장소의 현재 Git 변경에서 공개 패키지 후보와 기존 changeset 포함 여부를 찾고, 사용자 확인을 거쳐 패키지 bump와 한국어 changeset 메시지를 작성한다. peer dependency 범위, 브랜치, 배포는 변경하지 않는다.
+description: 현재 SEED 변경의 공개 패키지 release bump와 한국어 changeset을 판단·작성할 때 사용한다.
 ---
 
 # SEED Changeset
 
-현재 diff에서 릴리스 후보를 찾고, 공개 출력에 미치는 영향으로 bump를 정한다. 변경 의미와 bump는 자동으로 추측하지 않는다. 사용자가 패키지별 bump와 메시지를 승인한 뒤에만 `.changeset/*.md`를 작성한다.
+현재 diff에서 릴리스 후보를 찾고, 공개 출력에 미치는 영향으로 bump를 정한다. 사용자가 현재 요청에서 패키지별 bump와 메시지를 확정했거나 초안을 승인한 뒤에만 `.changeset/*.md`를 작성한다.
 
 이 스킬은 `package.json`의 dependency 또는 peer dependency 범위를 수정하지 않는다. 새 기능 때문에 필요한 peer dependency 하한 조정은 Version Changes PR에서 수동으로 처리한다.
 
@@ -37,7 +37,7 @@ bun skills/seed-changeset/scripts/changeset-plan.ts --base-ref origin/dev
 
 역의존 패키지는 실제로 새 기능을 소비하거나 변경을 공개 표면에 노출할 때만 동반 bump 후보가 된다. 의존 관계가 있다는 사실만으로 동반 bump를 만들지 않는다. 이 판단은 changeset 범위를 정하기 위한 것이며 dependency range 편집을 허용하지 않는다.
 
-패키지마다 추천 bump와 근거를 사용자에게 보여주고 확정받는다. 스크립트는 변경 의미, bump, 배포 브랜치를 결정하지 않는다.
+패키지마다 추천 bump와 근거를 사용자에게 보여주고, 현재 요청에서 이미 확정하지 않았으면 확정받는다. 스크립트는 변경 의미, bump, 배포 브랜치를 결정하지 않는다.
 
 ## 메시지 작성과 승인
 
@@ -61,7 +61,7 @@ bun skills/seed-changeset/scripts/changeset-plan.ts --base-ref origin/dev
 ```
 ````
 
-사용자가 bump와 메시지를 승인하기 전에는 파일을 쓰지 않는다. 수정 요청이 있으면 반영한 초안을 다시 보여준다.
+현재 요청에서 bump와 메시지가 이미 확정되지 않았으면 파일을 쓰기 전에 초안을 승인받는다. 수정 요청이 있으면 반영한 초안을 다시 보여준다.
 
 ## 파일 작성과 확인
 

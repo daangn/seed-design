@@ -22,27 +22,23 @@ docs/content/react/components/<component>.mdx
 docs/examples/react/<component>/*.tsx
 ```
 
-다음 순서로 비교한다.
+새 문서·실행 예제를 만들거나 기존 시나리오의 사용자 결과를 바꿀 때만 다음 순서로 비교한다. 이미 알려진 한 시나리오의 문구·코드 노출 수정에는 그 시나리오와 대응 MDX·엔트리만 읽는다.
 
-1. React 문서의 섹션 순서, 예제 제목, 시나리오 파일 목록, 각 예제의 사용자 결과를 수집한다.
-2. 각 시나리오가 Lynx 공개 API와 런타임에서 지원되는지 확인한다.
+1. 새 컴포넌트는 React 문서의 관련 섹션·시나리오 파일·사용자 결과를 수집하고, 기존 컴포넌트는 영향 받은 시나리오만 수집한다.
+2. 대상 시나리오가 Lynx 공개 API와 런타임에서 지원되는지 확인한다.
 3. 지원되는 시나리오는 목적과 화면 결과를 유지한 채 ReactLynx 코드로 옮긴다.
 4. API나 렌더링 방식이 다르면 Lynx 사용법으로 바꾸고 차이를 설명한다.
 5. 지원되지 않는 시나리오는 작동하는 것처럼 흉내 내지 않고 `Lynx 미지원 기능`에 이유와 대안을 적는다.
 
-파일을 만들기 전에 각 React 예제 ID마다 다음 행을 채운다.
+대상 시나리오마다 다음 값을 대응표에 기록한다.
 
-| 항목 | 반드시 기록할 값 |
+| 항목 | 기록할 값 |
 | --- | --- |
 | 문서 섹션·예제 ID | 양쪽 제목, 순서, 논리 ID |
-| asset | 정확한 컴포넌트 이름, 크기, 색상, multicolor 여부 |
-| frame | host와 내부 frame의 width·height·padding·정렬·외곽 여백 |
-| 초기 상태 | 문구, 상태, disabled, loading |
-| 입력 | React click·callback과 Lynx bindtap·공개 callback |
-| 상태 전이 | 입력 직후 중간 상태, 최종 상태, 걸리는 시간 |
-| 화면 셸 | AppScreen, AppBar, 본문, 하단 CTA의 대응 |
+| 사용자 결과 | asset·frame·초기 상태·입력·상태 전이·화면 셸 |
+| 판정·근거 | 동일 지원·Lynx식 변환·미지원과 소스 경로 |
 
-각 행의 판정은 `동일 지원`, `Lynx식 변환`, `미지원` 중 하나여야 하며 소스 경로를 근거로 남긴다. 근거가 없는 `unknown`은 구현 전에 해소한다. `scaffold-plan`과 생성할 파일 목록은 파일 경계만 나타내므로 이 대응표를 대신할 수 없다.
+`scaffold-plan`과 생성할 파일 목록은 파일 경계만 나타내므로 이 대응표를 대신할 수 없다. 근거가 없는 `unknown`은 해당 시나리오를 구현하기 전에 해소한다.
 
 시나리오를 다음 셋으로 분류하면 누락과 무리한 이식을 줄일 수 있다.
 
@@ -52,7 +48,7 @@ docs/examples/react/<component>/*.tsx
 | Lynx식 변환 필요 | 사용자 결과는 유지한다. 컴파운드 구조, 이벤트 prop, 접근성 속성, 이미지·CSS만 Lynx 공개 API에 맞게 바꾼다. |
 | 미지원 | 실행 예제를 만들지 않고 문서의 차이·미지원 섹션에 기록한다. |
 
-코드를 기계적으로 복사하지 않는다. React의 `onClick`, DOM 요소, 브라우저 API, SVG, CSS가 Lynx에서도 같은 의미라고 가정하지 않는다. 다음 항목은 반드시 다시 결정한다.
+코드를 기계적으로 복사하지 않는다. 새·변경된 예제에서 React와 Lynx의 사용법이 달라질 때만 다음 항목을 다시 결정한다.
 
 - import 출처와 컴포넌트의 공개 export
 - 단일 컴포넌트와 compound component 구조 차이
@@ -87,56 +83,29 @@ React 대응 문서가 있으면 그 문서의 공통 섹션 순서를 따른다
 
 ## Lynx 호환성 frontmatter
 
-Lynx 컴포넌트 문서를 새로 쓰거나 기존 문서의 컴포넌트 사용법을 바꾸면 `compatibility.lynx` frontmatter도 확인한다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다. 다음 순서로 공식 자료를 확인한다.
+새 Lynx 문서를 만들거나 문서화한 컴포넌트 사용법·Engine 의존 기능·XElement·CSS 사용을 바꿀 때만 `compatibility.lynx` frontmatter를 갱신한다. 문구나 코드 노출만 고치고 실행 경로가 그대로면 기존 호환성 값을 다시 전수 조사하지 않는다. 내부 서비스나 특정 앱의 지원 현황을 출처로 사용하지 않는다.
 
-- `find-refer`로 로컬 공식 문서와 호환성 데이터 스냅샷을 찾는다.
-- Lynx API와 Engine 호환성은 `lynx-api-docs`로 확인한다.
-- CSS 속성·값·하위 기능은 `lynx-check-css-support`로 확인한다.
+필요한 경우 `find-refer`로 로컬 공식 문서와 호환성 데이터 스냅샷을 찾고, Lynx API·Engine은 `lynx-api-docs`, CSS는 `lynx-check-css-support`로 확인한다. 값이 없거나 공식 자료끼리 충돌하면 버전을 추정하지 않는다.
 
-Context7이나 일반 웹 검색으로 우회하지 않는다. 호환성 표가 스킬 결과에 충분히 나오지 않으면 `find-refer`가 찾은 공식 원본 JSON을 읽는다. 데이터는 용도에 따라 다음 경로에서 찾는다.
+1. 바뀐 사용법이 실제로 호출하는 Lynx API, main-thread API, 구문, CSS 기능, 엘레먼트와 조건부 경로만 목록으로 만든다.
+2. 각 항목의 Android·iOS `version_added`를 비교하고 필요한 높은 버전을 최소 버전으로 사용한다.
+3. 대상 항목 중 가장 높은 최소 버전을 `compatibility.lynx.engine`에 적고, XElement이면 `x-elements`에 태그 이름을 한 번만 적는다.
+4. 한 플랫폼이 `false`이거나 핵심 경로의 최소 버전을 확정하지 못하면 지원으로 문서화하지 않고 제한·대안 또는 미확인 출처를 결과에 남긴다.
 
-| 사용 기능 | 호환성 데이터 경로 |
-| --- | --- |
-| Lynx 엘레먼트와 attribute·method·event | `elements/*.json` |
-| `lynx.*`, MainThread, SelectorQuery 등 | `lynx-api/**/*.json`, `react/**/*.json` |
-| CSS 속성·값·selector | `css/**/*.json` 또는 공식 API 페이지의 Compatibility 표 |
-| 그 밖의 렌더링 기능 | `features/*.json` |
-
-다음 순서로 frontmatter를 작성한다.
-
-1. `packages/lynx-react`의 대상 컴포넌트와 내부에서 호출하는 훅·하위 컴포넌트를 따라가며 Lynx API, main-thread API, 구문, CSS 기능, 엘레먼트를 목록으로 만든다.
-2. 기본 경로뿐 아니라 prop에 따라 실행되는 조건부 경로와 전이 의존성도 포함한다. 예제 파일만 보고 판단하지 않는다.
-3. 목록의 각 항목을 Lynx 전용 스킬 결과와 대응하는 공식 호환성 JSON에서 찾는다. 대상 컴포넌트가 실제로 쓰는 attribute·method·event의 항목까지 확인한다.
-4. Android와 iOS의 `version_added`를 비교한다. 두 플랫폼에서 필요한 버전 중 높은 값을 그 기능의 최소 버전으로 삼는다.
-5. 모든 사용 기능의 최소 버전 중 가장 높은 값을 `compatibility.lynx.engine`에 적는다. SEED의 최소 지원 버전보다 낮아도 조사한 값을 그대로 적는다. 문서 렌더러가 표시값을 보정한다.
-6. 공식 엘레먼트 페이지 제목에 `XElement` 배지가 있으면 태그 이름을 `x-elements`에 추가한다. 해당 엘레먼트와 기능의 `version_added`는 Engine 최소 버전을 계산할 때만 사용한다.
-
-```yaml
-compatibility:
-  lynx:
-    engine: "3.9"
-    x-elements:
-      - viewpager
-```
-
-`version_added: true`는 버전 번호 없이 지원됨을 뜻하므로 최소 버전을 올리지 않는다. `false`는 미지원이다. Android나 iOS 중 하나가 `false`이면 지원되는 것으로 문서화하지 말고 플랫폼 제한 또는 대체 구현을 확인한다. 값이 없거나 공식 자료끼리 충돌하면 버전을 추정하지 않는다. 핵심 경로의 최소 버전을 확정하지 못한 경우 `lynx`를 작성하지 않고 확인하지 못한 항목과 출처를 작업 결과에 남긴다.
-
-`x-elements`는 XElement의 사용 여부만 기록한다. 호환성 데이터의 `version_added`를 별도의 XElement 버전으로 옮겨 적지 않는다.
-
-일반 `<view>`, `<text>`처럼 내장 엘레먼트는 Engine 계산에는 포함하지만 `x-elements`에는 넣지 않는다. 직접 사용, 전이 사용, 조건부 사용으로 확인한 XElement는 모두 나열하며 이름이 같은 항목은 한 번만 적는다.
+`version_added: true`는 최소 버전을 올리지 않는다. 일반 `<view>`, `<text>` 같은 내장 엘레먼트는 Engine 계산에는 포함하지만 `x-elements`에는 넣지 않는다.
 
 ## 배포 경로와 import
 
-`seed-component-map`으로 package export와 Registry 배포 여부를 확인한 뒤 문서와 실행 예제에 같은 경로를 쓴다.
+문서와 예제의 소비 경로가 알려져 있으면 그대로 사용한다. 새 예제를 만들거나 Registry·package export가 불명확할 때만 `seed-component-map`으로 확인한 뒤 문서와 실행 예제에 같은 경로를 쓴다.
 
 - Registry 배포 컴포넌트는 Installation, Usage, Props, `docs/examples/lynx`에서 설치된 `@/components/ui/<name>` 경로를 사용한다. 하위 package API를 보여주는 별도 저수준 예시가 아니라면 `@seed-design/lynx-react`로 우회하지 않는다.
 - package-only 컴포넌트는 `@seed-design/lynx-react`의 실제 공개 export를 직접 사용한다. Registry 설치 명령이나 존재하지 않는 wrapper를 만들지 않는다.
 - package + Registry 컴포넌트의 기본 예제는 Registry 경로를 사용한다. package API는 사용자가 저수준 조합을 직접 해야 하는 경우에만 별도 코드로 설명한다.
-- vendored 앱 예제가 있으면 Registry 원본과 공개 이름을 동기화한다.
+- vendored 앱 예제가 영향을 받으면 Registry 원본과 공개 이름을 동기화한다.
 
 ## 실행 예제 연결
 
-예제는 `docs/examples/lynx/<component>/<scenario>.tsx`에 둔다. 컴포넌트와 시나리오 디렉터리·파일 이름은 kebab-case를 사용한다. 각 TSX 파일은 하나의 실행 엔트리만 제공한다.
+예제는 `docs/examples/lynx/<component>/<scenario>.tsx`에 둔다. 컴포넌트와 시나리오 디렉터리·파일 이름은 kebab-case를 사용하고, 각 TSX 파일은 하나의 실행 엔트리만 제공한다.
 
 MDX에서는 예제 이름과 코드 원본 경로를 같은 값으로 맞춘다.
 
@@ -150,7 +119,7 @@ MDX에서는 예제 이름과 코드 원본 경로를 같은 값으로 맞춘다
 
 ## 엔트리 구성
 
-공유 스타일을 사용하는 엔트리는 스타일을 가장 먼저 불러온다. 아래는 package-only 컴포넌트의 예다.
+공유 스타일을 사용하는 엔트리는 스타일을 가장 먼저 불러온다. package-only 예제는 `@seed-design/lynx-react`, Registry 예제는 설치된 `@/components/ui/<name>`를 사용한다.
 
 ```tsx
 import "./styles";
@@ -169,23 +138,7 @@ function Root() {
 root.render(<Root />);
 ```
 
-Registry 배포 컴포넌트는 같은 위치에서 설치된 경로를 사용한다.
-
-```tsx
-import "./styles";
-
-import { root } from "@lynx-js/react";
-import { Accordion } from "@/components/ui/accordion";
-```
-
-`styles.ts`는 base CSS와 예제용 CSS만 등록한다.
-
-```ts
-import "@seed-design/lynx-css/base.css";
-import "./preview.css";
-```
-
-컴포넌트 패키지가 소유한 recipe CSS는 예제에서 직접 import하지 않는다. 엔트리에서 `styles.ts`를 컴포넌트보다 나중에 불러오면 base CSS가 recipe CSS를 덮을 수 있으므로 import 순서를 유지한다.
+`styles.ts`는 base CSS와 예제용 CSS만 등록한다. 컴포넌트 패키지가 소유한 recipe CSS는 예제에서 직접 import하지 않으며, `styles.ts`를 컴포넌트보다 먼저 import한다.
 
 ## 예제 설계
 

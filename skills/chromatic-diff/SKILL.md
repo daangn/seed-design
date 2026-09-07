@@ -1,6 +1,6 @@
 ---
 name: chromatic-diff
-description: Investigates why a Chromatic visual test shows a diff. Turns a chromatic.com build or test URL into the build behind it, the stories that changed, and both sides' published Storybooks, then compares the two renders as DOM, computed styles, and design tokens so the answer is a named cause instead of a picture. Use this whenever someone pastes a chromatic.com link or asks why a snapshot changed, what a build's diff is about, which stories a build flagged, or whether a visual regression is real or flaky — including "이 diff 왜 있어?", "Chromatic에서 뭐가 바뀐 거야?", "why did the visual test fail?", "what changed in this Chromatic build?". Also use it to compare a build against a specific other build rather than its automatic baseline.
+description: Chromatic snapshot 변경의 원인, 실제 회귀 또는 flaky 여부를 조사할 때 사용한다.
 ---
 
 # Chromatic Diff Investigation

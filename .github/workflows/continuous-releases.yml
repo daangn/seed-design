@@ -23,6 +23,7 @@ jobs:
       base-sha: ${{ steps.pull.outputs.base-sha }}
       control-sha: ${{ steps.pull.outputs.control-sha }}
       source-sha: ${{ steps.pull.outputs.source-sha }}
+      snapshot-metadata: ${{ steps.pull.outputs.snapshot-metadata }}
     steps:
       - name: Add acknowledgement reaction and resolve PR identity
         id: pull
@@ -54,6 +55,25 @@ jobs:
             core.setOutput('base-sha', pull.base.sha);
             core.setOutput('control-sha', context.sha);
             core.setOutput('source-sha', pull.head.sha);
+            const metadata = {
+              repository: `${context.repo.owner}/${context.repo.repo}`,
+              'pr-number': context.issue.number,
+              'source-sha': pull.head.sha,
+              'control-sha': context.sha,
+              'run-id': context.runId,
+              'run-attempt': Number(process.env.GITHUB_RUN_ATTEMPT),
+              'trigger-comment-id': context.payload.comment.id,
+            };
+            const metadataJson = JSON.stringify(metadata);
+            core.setOutput('snapshot-metadata', metadataJson);
+            require('fs').writeFileSync('snapshot-metadata.json', metadataJson);
+
+      - name: Upload exact snapshot identity
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-release-metadata-${{ github.run_id }}-${{ github.run_attempt }}
+          path: snapshot-metadata.json
+          if-no-files-found: error
 
   release:
     name: Release Seed Design package snapshots
@@ -219,10 +239,15 @@ jobs:
           ROOTAGE_PUBLISH_RESULT: ${{ needs.publish-rootage.result }}
           ROOTAGE_VERSION: ${{ needs.release.outputs.rootage-version }}
           SNAPSHOT_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+          SNAPSHOT_METADATA: ${{ needs.resolve.outputs.snapshot-metadata }}
         with:
           script: |
             const fs = require('fs');
             const output = JSON.parse(fs.readFileSync('output.json', 'utf8'));
+            const metadata = {
+              ...JSON.parse(process.env.SNAPSHOT_METADATA),
+              'run-attempt': Number(process.env.GITHUB_RUN_ATTEMPT),
+            };
             const packages = output.packages
               .map((item) => `\`${item.name}\`: \`${item.url}\``)
               .join('\n');
@@ -240,6 +265,8 @@ jobs:
 
             > Source: \`${process.env.SNAPSHOT_SOURCE_SHA}\`
             > Triggered by @${{ github.event.comment.user.login }} via \`/snapshot\`
+
+            <!-- seed-snapshot-metadata ${JSON.stringify(metadata)} -->
             `.replace(/^ +/gm, '');
             await github.rest.issues.createComment({
               owner: context.repo.owner,

@@ -14,7 +14,7 @@ coverImageFigmaId: { Figma node ID for the cover image, if available }
 
 ## PlatformStatusTable
 
-Shows implementation status across platforms. Always place at the very top of the document, right after frontmatter.
+컴포넌트 가이드 문서에는 frontmatter 바로 뒤에 둔다. 부분 수정으로 이미 올바른 위치에 있으면 다시 추가하거나 문서 전체를 재정렬하지 않는다.
 
 ```tsx
 <PlatformStatusTable componentId="{component-id}" />
@@ -22,7 +22,7 @@ Shows implementation status across platforms. Always place at the very top of th
 
 ## ComponentSpecBlock
 
-Renders the technical specification from rootage. Always place at the bottom of the document under a "Specification" heading.
+관련 Rootage spec이 있는 컴포넌트에만 문서 마지막의 `Specification` 아래에 둔다. 기존 문서의 관련 spec이 바뀌지 않았으면 다른 spec을 전수 탐색하지 않는다.
 
 ```tsx
 ## Specification
@@ -30,7 +30,7 @@ Renders the technical specification from rootage. Always place at the bottom of 
 <ComponentSpecBlock id="{component-id}" />
 ```
 
-When a component has multiple related rootage specs (e.g., Radio has radio-group, radio, radiomark), give each its own sub-section:
+여러 관련 Rootage spec이 있을 때만 각각 하위 섹션을 둔다.
 
 ```tsx
 ## Specification
@@ -70,7 +70,7 @@ Embeds an image from Figma by node ID. Used for anatomy diagrams, property illus
 기본 타입과 서비스나 카테고리 별 타입을 제공합니다.
 ```
 
-Always write descriptive alt text that explains what the image shows.
+FigmaImage, DoImage, DontImage에는 Figma에서 확인할 수 있는 시각을 설명하는 의미 있는 alt text를 쓴다.
 
 ## DoImage / DontImage
 
@@ -186,7 +186,7 @@ Used when you want to display a group of tokens as a table, typically in foundat
 
 ## Cross-linking
 
-When mentioning another component in body text, always link to it:
+본문에서 실제 다른 컴포넌트를 언급할 때만 해당 컴포넌트 페이지로 링크한다.
 
 ```markdown
 [Bottom Sheet](/components/bottom-sheet)
@@ -194,7 +194,7 @@ When mentioning another component in body text, always link to it:
 [Alert Dialog](/components/alert-dialog)
 ```
 
-The link path is always `/components/{component-id}` — no category subfolder in the URL.
+링크 경로는 `/components/{component-id}`다. 일반 명사나 Figma에 없는 보충 설명을 링크로 만들지 않는다.
 
 ## Writing Guidelines that tools can check
 

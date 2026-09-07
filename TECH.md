@@ -10,14 +10,15 @@
 - 린트/포맷: Biome
 
 버전 정보는 문서에 중복 기재하지 않는다. 버전 확인은 루트 `package.json`과 각 워크스페이스의 `package.json`을 단일 소스로 사용한다.
+이 문서는 기술 스택·코드 규칙·생성·검증 명령을 다룬다. 패키지 의존성과 작업 시작 경로는 [`ARCHITECTURE.md`](ARCHITECTURE.md)를 먼저 참고한다.
 
 ## 공통 규칙
 
 ### TypeScript
 
-- `any`, `as unknown` 사용 금지 (명시적 승인 없이)
-- 타입 import는 항상 `type` 키워드 사용
-- 동적 import보다 정적 import 우선
+- 새 코드에서는 `any`와 `as unknown`을 사용하지 않는다. 기존 예외를 unrelated 변경에서 일괄 정리하지 않는다.
+- 타입 import에는 `type` 키워드를 사용한다.
+- 정적 import를 기본으로 하되 lazy loading, plugin 경계, 런타임 선택이 필요한 경우 동적 import를 허용한다.
 
 ### 테스트 작성
 
@@ -28,59 +29,17 @@
 
 ### 패키지 관리
 
-- 항상 `bun` 사용 (`npm`/`yarn` 금지)
-- `package.json` 직접 수정 금지 - `bun add 패키지명`으로 설치
+- 패키지 매니저는 항상 `bun`을 사용한다. 의존성 추가·변경은 `bun add`로 수행하고 lockfile을 수동 편집하지 않는다.
+- `package.json`의 script·metadata 변경은 해당 패키지의 기존 구조와 release 규칙을 먼저 확인한다.
 
-### 생성 파일 직접 수정 금지
+### 생성물 경계
 
-- `packages/css/vars/`, `packages/css/recipes/` → rootage, qvism-preset에서 생성
-- `packages/qvism-preset/src/vars/` → rootage에서 생성
-- 수정 필요 시 원천 파일 수정 후 `bun generate:all` 실행
-
----
-
-## 아키텍처 개요
-
-SEED Design은 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라인을 따른다.
-
-```text
-[Figma] → [rootage YAML] → [qvism-preset] → [css] → [react]
-           ↓                ↓               ↓
-         토큰 정의        Recipe 정의      CSS 생성    React 컴포넌트
-```
-
-### 생성 파이프라인
-
-| 단계 | 입력 | 출력 | 명령어 |
-|------|------|------|--------|
-| 1. Figma 동기화 | Figma 변수 | rootage YAML | `bun figma:sync` |
-| 2. Rootage 생성 | rootage YAML | css/vars, qvism-preset/src/vars | `bun rootage:generate` |
-| 3. Qvism 생성 | qvism-preset recipes | css/recipes | `bun qvism:generate` |
-| 4. 전체 생성 | - | rootage, qvism, docs 산출물 | `bun generate:all` |
+- 생성물 경계와 원천·출력 관계는 [`ARCHITECTURE.md`](ARCHITECTURE.md)와 `.gitattributes`를 기준으로 한다.
+- 대표 생성물은 `packages/css/vars/`, `packages/css/recipes/`, `packages/lynx-css/`, `packages/qvism-preset/src/vars/`다.
+- 위 생성물에 영향을 주는 원천을 수정했을 때만 원천 파일을 수정하고 필요한 생성 명령을 실행한다.
 
 ---
 
-## 핵심 패키지 관계
-
-```text
-rootage (YAML 정의)
-    ↓ generate
-qvism-preset (Recipe 정의) + css/vars (토큰)
-    ↓ generate
-css (CSS 파일 + 타입)
-    ↓ import
-react (스타일드 컴포넌트) ← react-headless (로직)
-```
-
-| 패키지 | 역할 | 소스/생성 |
-|--------|------|-----------|
-| `rootage` | 디자인 토큰/컴포넌트 스키마 (YAML) | **소스** |
-| `qvism-preset` | 스타일 Recipe 정의 | **소스** (일부 생성) |
-| `css` | CSS/타입 생성물 | **생성** |
-| `react-headless` | Headless UI 로직 | **소스** |
-| `react` | 스타일드 React 컴포넌트 | **소스** |
-
----
 
 ## 주요 명령어
 
@@ -88,11 +47,12 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 | 명령어 | 설명 |
 |--------|------|
-| `bun generate:all` | 전체 코드 생성 (rootage + qvism + docs) |
-| `bun rootage:generate` | Rootage에서 타입/변수 생성 |
-| `bun qvism:generate` | qvism-preset에서 CSS 생성 |
+| `bun generate:all` | rootage → qvism → Lynx → docs 전체 생성 |
+| `bun rootage:generate` | Rootage schema·JSON·타입 생성 |
+| `bun qvism:generate` | 웹·Lynx Recipe CSS 생성 |
+| `bun lynx:generate` | Lynx React와 Tailwind plugin 빌드 |
 | `bun packages:build` | 모든 패키지 빌드 |
-| `bun headless:build` | react-headless 빌드 |
+| `bun headless:build` | react-headless family 빌드 |
 
 ### 테스트
 
@@ -100,7 +60,7 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 
 | 수정 경로 | 명령어 |
 |-----------|--------|
-| `packages/react-headless/` | `bun headless:test` |
+| `packages/react-headless/*/` | `bun headless:test` |
 | `packages/react/` | `bun react:test` |
 | `packages/lynx-react/` | `bun test:lynx-react` |
 | `packages/cli/` | `bun test packages/cli` |
@@ -110,7 +70,9 @@ react (스타일드 컴포넌트) ← react-headless (로직)
 | `docs/` | `bun docs:test` |
 | 전체 | `bun test:all` |
 
-`bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친 것이다. `bun rootage:test`가 함께 실행하는 `bun rootage:validate`는 여기 포함되지 않으므로, rootage YAML을 수정했으면 `bun rootage:test`를 따로 돌린다. 이 validator는 미사용 schema property를 정리할 수 있으므로 실행 뒤 `git diff`로 의도한 변경만 남았는지 확인한다.
+`bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친다. Rootage YAML을 수정하면 `bun rootage:test`가 validation과 Rootage 테스트를 함께 실행한다.
+
+`bun rootage:test`의 validator는 미사용 schema property를 제거하며, `modelFixed`가 참이면 원본 YAML을 다시 쓴다. 실행 후에는 통과 여부와 별개로 `git diff`를 확인해 의도한 작업 트리 변경만 남았는지 검토한다.
 
 **테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
 
@@ -208,26 +170,36 @@ const recipe = defineRecipe({
 
 ## React 컴포넌트 패턴
 
-### 단일 컴포넌트 (ActionButton 등)
+### 단일 컴포넌트 (ActionChip 등)
 
 ```typescript
-import { recipe } from "@seed-design/css/recipes/component";
-import { Primitive } from "@seed-design/react-primitive";
+import { actionChip, type ActionChipVariantProps } from "@seed-design/css/recipes/action-chip";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import type * as React from "react";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 
-export const Component = React.forwardRef<HTMLElement, Props>((props, ref) => {
-  const className = recipe({ variant, size });
-  return <Primitive.element ref={ref} className={className} {...props} />;
-});
+const { withContext } = createRecipeContext(actionChip);
+
+interface ActionChipProps
+  extends ActionChipVariantProps,
+    PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const ActionChip = withContext<HTMLButtonElement, ActionChipProps>(Primitive.button);
+ActionChip.displayName = "ActionChip";
 ```
 
-### 복합 컴포넌트 (Checkbox 등)
+### 복합 컴포넌트 (Accordion 등)
 
 ```typescript
-// Headless에서 로직 가져옴
-import { CheckboxRoot, CheckboxControl } from "@seed-design/react-checkbox";
+import { accordion } from "@seed-design/css/recipes/accordion";
+import { Accordion as AccordionPrimitive } from "@seed-design/react-accordion";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-// Styled 컴포넌트에서 스타일 적용
-export const Checkbox = { Root, Control, HiddenInput, ... };
+const { withProvider, withContext } = createSlotRecipeContext(accordion);
+
+export const AccordionRoot = withProvider(AccordionPrimitive.Root, "root");
+export const AccordionItem = withContext(AccordionPrimitive.Item, "item");
 ```
 
 ---
@@ -253,4 +225,5 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 
 | 변수 | 설명 | 필수 |
 |------|------|------|
-| `FIGMA_ACCESS_TOKEN` | Figma API 토큰 | `figma:sync` 시 |
+| `FIGMA_FILE_KEY` | Figma 파일 식별자 | `figma:sync` 시 |
+| `FIGMA_PERSONAL_ACCESS_TOKEN` | Figma API 토큰 | `figma:sync` 시 |

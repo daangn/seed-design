@@ -1,92 +1,21 @@
 # Visual Testing 가이드
 
-## 테스트 환경 구성
+## 적용 범위
 
-### 서버 시작
+렌더링·상호작용·시각 결과가 바뀐 표면만 실제로 연다. 문구나 비시각적 메타데이터만 바꾼 경우에는 이 절차를 추가하지 않는다. 변경한 플랫폼과 소비 경로에 맞는 서버 하나만 시작하고, 이미 실행 중인 사용자 서버는 재사용하거나 종료하지 않는다.
 
-```bash
-# 터미널 1: docs 개발 서버
-cd docs && bun dev
-# → localhost:3000
+## 확인 경로
 
-# 터미널 2: stackflow-spa 개발 서버
-cd examples/stackflow-spa && bun dev
-# → localhost:5173
+| 변경 표면 | 확인 경로 | 확인 내용 |
+| --- | --- | --- |
+| React 문서 예제 | docs 컴포넌트 페이지 | 렌더링과 바꾼 예제 동작 |
+| React 실사용 조합 | 영향 받은 Stackflow Activity | 실제 앱 조합 결과 |
+| Storybook story | 변경한 story와 영향 받은 theme·font-scale variant | 시각적 결과 |
+| Lynx 문서 예제 | `LynxComponentExample` | 미리보기와 바꾼 상호작용 |
+| Lynx 실제 동작 주장 | `examples/lynx-spa` 또는 사용 가능한 host app | native runtime 결과 |
 
-# 터미널 3: lynx-spa 개발 서버 (Lynx 작업 시)
-cd examples/lynx-spa && bun dev
-# → Lynx dev server output 확인
+브라우저는 실제 surface를 열어 바뀐 사용자 결과를 확인하고 닫는다. Lynx native 결과는 웹 미리보기와 합치지 않으며, 실행 환경이 없으면 미확인 범위와 이유를 보고한다.
 
-# 터미널 4: Storybook (React 작업 시)
-cd docs && bun storybook
-# → localhost:6006
-```
+## Figma 비교
 
-## Agent Browser 테스트 플로우
-
-### 1. Docs 테스트
-
-```bash
-agent-browser open http://localhost:3000/react/components/[name]
-agent-browser snapshot -i
-agent-browser screenshot docs-[name].png
-agent-browser close
-```
-
-### 2. Stackflow-SPA 테스트
-
-```bash
-agent-browser open http://localhost:5173
-# Activity[ComponentName]으로 이동
-agent-browser snapshot -i
-agent-browser screenshot stackflow-[name].png
-agent-browser close
-```
-
-### 3. Storybook 테스트 (테마별)
-
-```bash
-# Light Theme
-agent-browser open http://localhost:6006/?path=/story/[name]--light-theme
-agent-browser screenshot storybook-[name]-light.png
-
-# Dark Theme
-agent-browser open http://localhost:6006/?path=/story/[name]--dark-theme
-agent-browser screenshot storybook-[name]-dark.png
-
-# Font Scaling
-agent-browser open http://localhost:6006/?path=/story/[name]--font-scaling-extra-small
-agent-browser screenshot storybook-[name]-font-xs.png
-
-agent-browser open http://localhost:6006/?path=/story/[name]--font-scaling-extra-extra-extra-large
-agent-browser screenshot storybook-[name]-font-xxxl.png
-
-agent-browser close
-```
-
-### 4. Lynx-SPA 테스트
-
-Lynx 컴포넌트는 Storybook 대신 `examples/lynx-spa`의 page/catalog에서 실제 사용 화면을 확인한다. snippet을 vendoring하는 컴포넌트라면 `examples/lynx-spa/src/seed-design/ui/`가 `docs/registry/lynx/ui/`와 동기화되어 있는지도 함께 본다.
-
-```bash
-cd examples/lynx-spa && bun dev
-# dev server URL과 QR/device target은 rspeedy output을 따른다.
-```
-
-## 테스트 체크리스트
-
-| 환경 | URL | 확인 사항 |
-|------|-----|----------|
-| docs | localhost:3000 | 컴포넌트 렌더링, 예제 동작 |
-| stackflow-spa (React) | localhost:5173 | 실제 앱 환경 동작 |
-| lynx-spa (Lynx) | rspeedy output | Lynx runtime/page/catalog 동작 |
-| Storybook Light (React) | localhost:6006 | 라이트 모드 스타일 |
-| Storybook Dark (React) | localhost:6006 | 다크 모드 스타일 |
-| Storybook Font XS (React) | localhost:6006 | 작은 폰트 스케일 |
-| Storybook Font XXXL (React) | localhost:6006 | 큰 폰트 스케일 |
-
-## Figma 비교 (선택)
-
-스크린샷 저장 위치: `agent-browser-report/`
-
-**불일치 발견 시**: Step 2(Rootage)부터 다시 검토
+디자인 일치가 요청되었거나 변경의 기준일 때만 비교한다. 불일치가 있으면 바뀐 Rootage·Recipe·예제 경로부터 원인을 좁히며, 관련 없는 레이어를 다시 검토하지 않는다.

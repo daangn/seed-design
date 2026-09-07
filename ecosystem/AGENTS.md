@@ -13,5 +13,5 @@ SEED Design의 생성 파이프라인을 담당하는 CLI/코어 워크스페이
 ## 코드 작성 컨벤션
 
 - 생성 로직은 source 패키지(`packages/rootage`, `packages/qvism-preset`)를 기준으로 작성하고 출력 파일 역수정에 의존하지 않는다.
-- 전체 검증은 `bun generate:all`, 단계별 검증은 `bun rootage:generate`와 `bun qvism:generate`를 우선 사용한다.
+- Rootage·Qvism source 또는 생성 로직을 변경해 출력물에 영향을 줄 때는 `bun generate:all`을 실행한다. 단일 단계만 영향을 받으면 `bun rootage:generate` 또는 `bun qvism:generate` 같은 좁은 검증을 우선한다.
 - CLI와 core는 TypeScript ESM 패턴을 유지하고 공통 타입을 명시적으로 공유한다.

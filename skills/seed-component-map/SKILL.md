@@ -1,6 +1,6 @@
 ---
 name: seed-component-map
-description: SEED Design 저장소에서 한 컴포넌트의 Rootage, Recipe, Headless, React/Lynx 구현, package export, Registry, 문서, 예제, 테스트 연결을 현재 체크아웃 기준으로 조회한다. 컴포넌트 변경 전 영향 범위 파악, 플랫폼 동등성 확인, 생성물과 원천 구분, 공개 표면 확인에 사용한다.
+description: 한 SEED 컴포넌트의 구현·공개 export·Registry·문서·테스트 경로를 읽기 전용으로 찾을 때 사용한다.
 ---
 
 # SEED Component Map

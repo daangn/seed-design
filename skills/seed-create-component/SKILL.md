@@ -1,6 +1,6 @@
 ---
 name: seed-create-component
-description: SEED의 React, Lynx 또는 공통 컴포넌트를 새로 만들거나 공개 API·스타일·문서까지 함께 변경할 때 현재 구현을 찾고, 플랫폼과 배포 방식을 정해 최소 파일 계획부터 구현·검증·changeset·PR 준비까지 연결한다. API를 바꾸지 않는 Storybook 문서 작업은 짧은 경로로 처리한다.
+description: SEED 컴포넌트의 플랫폼·공개 표면을 정하고 구현·문서·검증을 연결할 때 사용한다.
 ---
 
 # SEED 컴포넌트 작업

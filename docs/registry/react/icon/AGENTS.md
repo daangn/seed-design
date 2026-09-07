@@ -1,15 +1,16 @@
-# docs/registry/icons
+# docs/registry/react/icon
 
-Block에서 사용하는 SVG 아이콘을 개별 파일로 제공하는 registry (`id: "icon"`).
+## 디렉터리 개요
 
-## 파일 컨벤션
+Block에서 사용하는 SVG 아이콘을 개별 파일로 제공하는 React registry다. registry id는 `"icon"`이며 CLI 카탈로그에는 표시하지 않고 block의 `innerDependency`로만 사용한다.
 
-- 파일명: `icon-{서비스명}.tsx` (예: `icon-facebook.tsx`, `icon-blog.tsx`)
-- 컴포넌트명: `Icon` prefix + PascalCase (예: `IconFacebook`, `IconBlog`, `IconKakaoTalk`)
-- 모든 아이콘은 `React.SVGProps<SVGSVGElement>`을 props로 받음
-- 각 파일은 단일 아이콘만 export
+## 파일 작성 컨벤션
 
-## 코드 패턴
+- 파일명은 `icon-{서비스명}.tsx`를 사용한다(예: `icon-facebook.tsx`).
+- 컴포넌트명은 `Icon` prefix와 PascalCase를 사용한다(예: `IconFacebook`, `IconKakaoTalk`).
+- 각 파일은 단일 아이콘 컴포넌트만 export하고 `React.SVGProps<SVGSVGElement>`을 props로 받는다.
+
+## 코드 작성 컨벤션
 
 ```tsx
 import type * as React from "react";
@@ -27,4 +28,4 @@ export function IconExample(props: IconProps) {
 
 ## Registry 등록
 
-`docs/registry/registry-icon.ts`에 item으로 등록. `hideFromCLICatalog: true`이므로 CLI 카탈로그에 표시되지 않고, block의 `innerDependency`로만 사용됨.
+아이콘을 추가하면 `docs/registry/registry-icon.ts`에 item으로 등록한다.
