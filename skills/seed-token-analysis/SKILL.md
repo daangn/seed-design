@@ -1,6 +1,6 @@
 ---
 name: seed-token-analysis
-description: SEED Design 저장소의 한 색상 토큰을 현재 체크아웃 기준으로 읽기 전용 분석한다. Rootage 정의와 mode별 alias, 직접 의존 토큰, 컴포넌트 사용처, 생성 표면을 찾거나 WCAG 2.x 대비를 확인할 때 사용한다.
+description: 한 SEED 색상 토큰의 정의·alias·사용처·생성 표면 또는 WCAG 2.x 대비를 읽기 전용으로 확인할 때 사용한다.
 ---
 
 # SEED 토큰 분석

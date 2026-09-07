@@ -1,6 +1,6 @@
 ---
 name: seed-submit-change
-description: seed-change-plan이 확정한 origin/dev·origin/minor·origin/major 중 하나로 현재 feature 브랜치를 안전하게 리베이스하고, 같은 base로 커밋·push·GitHub PR 생성 또는 갱신을 마친다. 변경 제출, 릴리스 브랜치 정렬, PR base 수정, 리베이스 뒤 force-with-lease가 필요할 때 사용한다.
+description: 확정한 변경을 release lane에 맞춰 rebase·commit·push·PR할 때 사용한다.
 user-invocable: true
 argument-hint: "[seed-change-plan 결과 또는 PR]"
 ---
@@ -22,7 +22,7 @@ argument-hint: "[seed-change-plan 결과 또는 PR]"
 
 ## 2. 커밋과 리베이스
 
-커밋되지 않은 변경이 있으면 자동 stash와 `git rebase --autostash`를 쓰지 않습니다. 포함할 파일, 제외할 파일, 커밋 메시지를 보여주고 사용자 확인을 받은 뒤 승인된 파일만 stage하고 커밋합니다. 커밋 메시지는 영어 Conventional Commits 형식을 사용합니다.
+커밋되지 않은 변경이 있으면 자동 stash와 `git rebase --autostash`를 쓰지 않습니다. 현재 요청에서 포함 파일과 커밋이 명시 승인됐으면 그 범위만 stage·commit하고, 아니면 포함·제외 파일과 메시지를 보여주고 확인받습니다. 커밋 메시지는 영어 Conventional Commits 형식을 사용합니다.
 
 리베이스 전에 `oldBase..HEAD`의 커밋 목록을 보여주어 현재 작업만 이동하는지 확인합니다. target ref가 기록한 SHA에서 움직이지 않았는지도 다시 확인합니다. feature 커밋에 merge commit이 있으면 보존 방식을 임의로 정하지 않고 중단합니다.
 
@@ -49,7 +49,7 @@ bun skills/seed-change-plan/scripts/change-plan.ts --base-ref <targetRef> --lane
 
 ## 4. push
 
-push 직전에 사용자 확인을 받습니다.
+push가 현재 요청에서 명시 승인되지 않았다면 push 직전에 확인을 받습니다.
 
 - 원격 feature 브랜치가 없으면 일반 push를 사용합니다.
 - 원격 브랜치가 있고 리베이스로 SHA가 바뀌었으면 원격 SHA를 다시 읽습니다. 사용자가 확인한 뒤 아래처럼 정확한 ref와 예상 SHA를 지정합니다.
@@ -62,7 +62,7 @@ push 직전에 사용자 확인을 받습니다.
 
 ## 5. PR base
 
-PR 생성 또는 기존 PR base 변경 직전에 사용자 확인을 받습니다.
+PR 생성 또는 기존 PR base 변경이 현재 요청에서 명시 승인되지 않았다면 직전에 확인을 받습니다.
 
 - 새 PR은 `gh pr create --base <prBase> --head <feature>`처럼 base와 head를 명시합니다.
 - 기존 PR의 base가 다르면 리베이스와 검증을 먼저 끝낸 뒤 `gh pr edit --base <prBase>`로 바꿉니다.

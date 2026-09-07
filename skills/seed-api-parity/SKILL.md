@@ -1,6 +1,6 @@
 ---
 name: seed-api-parity
-description: SEED Design 저장소의 한 컴포넌트에서 React와 Lynx 공개 export, props, Recipe, 슬롯, 상태, 이벤트, 접근성, Registry와 문서 차이를 현재 체크아웃 기준으로 비교한다. 구현 누락과 브라우저·Lynx 플랫폼 제약을 구분할 때 사용한다.
+description: 한 SEED 컴포넌트의 React·Lynx 공개 API와 사용자 결과 차이를 읽기 전용으로 비교할 때 사용한다.
 ---
 
 # SEED API parity
@@ -40,11 +40,11 @@ bun skills/seed-api-parity/scripts/api-parity.ts ProgressCircle
 - 브라우저의 키보드 focus와 `focusVisible` 대신 Lynx의 tap 및 네이티브 접근성 탐색을 사용하는 경우
 - CSS media query 대신 viewport 단위, JavaScript 분기 또는 별도 Recipe 값으로 반응형 목적을 달성하는 경우
 
-다만 플랫폼 제약은 대체 동작을 생략해도 된다는 뜻이 아니다. 접근 가능한 이름·역할·상태와 핵심 사용자 결과가 양쪽에서 유지되는지 확인한다. 세부 판정 기준은 [React와 Lynx 플랫폼 차이 판정 기준](references/platform-differences.md)을 따른다.
+플랫폼 제약 후보가 있으면 세부 판정 기준은 [React와 Lynx 플랫폼 차이 판정 기준](references/platform-differences.md)을 따른다.
 
 ## 작업 연결
 
-1. 먼저 [`seed-component-map`](../seed-component-map/SKILL.md)으로 정확한 컴포넌트 이름과 현재 표면을 확인한다.
+1. 정확한 컴포넌트 이름이나 현재 표면이 불확실하면 [`seed-component-map`](../seed-component-map/SKILL.md)으로 확인한다.
 2. React와 Lynx를 함께 다루면 이 스크립트를 실행한다.
 3. package 구현이 없는 Registry-only 컴포넌트는 양쪽 snippet 경로가 `sources.publicApi`와 해당 차원의 `evidence`에 포함됐는지 확인한다.
 4. `expected`는 현재 컴포넌트의 Lynx 소스나 문서에서 제약을 명시적으로 확인했을 때만 사용한다. `possiblyExplainedBy`는 판정이 아니라 검토 단서다. 근거 경로와 대체 동작을 직접 읽는다.

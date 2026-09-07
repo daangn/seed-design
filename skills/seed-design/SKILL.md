@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 통합 가이드. 공통 컴포넌트 스펙과 파운데이션을 공식 문서에서 찾고, React·Lynx 프로젝트의 구현·설치·CLI·마이그레이션을 안내하며, SEED 저장소 안에서는 컴포넌트·문서·changeset·제출 작업을 전용 seed-* 스킬로 연결한다. SEED Design 사용법, 진단, 저장소 기여 작업을 시작할 때 사용한다.
+description: SEED Design 사용법·진단·저장소 작업의 공식 문서와 전용 Skill을 라우팅할 때 사용한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---

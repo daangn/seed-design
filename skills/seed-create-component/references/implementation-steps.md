@@ -166,7 +166,7 @@ React story를 작성하거나 기존 story를 리팩터링하기 전에 [storyb
 ### Lynx 문서
 **위치**: `docs/content/lynx/components/[name].mdx`
 
-Lynx 문서와 예제를 만들기 전에 `scaffold-plan.referenceScenarios`의 React 예제를 모두 읽는다. `items`의 `preview.tsx`는 파일 경계 예시일 뿐 전체 예제 계획이 아니다. 각 시나리오를 `동일 지원`, `Lynx식 변환`, `미지원`으로 분류하고 다음 값을 대응표에 기록한다.
+Lynx 문서·예제를 새로 만들거나 사용자 결과를 바꾸기 전에 `scaffold-plan.referenceScenarios`에서 영향 받은 React 예제를 읽는다. 새 컴포넌트는 모든 관련 시나리오를, 이미 알려진 단일 시나리오의 국소 수정은 그 대응 시나리오만 분류한다. 각 대상 시나리오를 `동일 지원`, `Lynx식 변환`, `미지원`으로 분류하고 다음 값을 대응표에 기록한다.
 
 - 문서 섹션과 예제 논리 ID
 - asset의 정확한 컴포넌트 종류·크기·색상
@@ -175,7 +175,7 @@ Lynx 문서와 예제를 만들기 전에 `scaffold-plan.referenceScenarios`의 
 - click·tap 입력과 중간·최종 상태 전이
 - AppBar·본문·하단 CTA 같은 화면 셸
 
-근거가 없는 `unknown`은 구현 전에 해결한다. 미지원 기능은 실행 예제를 만들지 않고 구현체 부재 근거와 앱 수준 대안을 문서에 남긴다. 상세 형식은 `../../seed-write-lynx-component-docs/SKILL.md`를 따른다.
+근거가 없는 `unknown`은 해당 시나리오를 구현하기 전에 해결한다. 미지원 기능은 실행 예제를 만들지 않고 구현체 부재 근거와 앱 수준 대안을 문서에 남긴다. 상세 형식은 `../../seed-write-lynx-component-docs/SKILL.md`를 따른다.
 
 ### Design 문서
 **위치**: `docs/content/docs/components/[name].mdx`

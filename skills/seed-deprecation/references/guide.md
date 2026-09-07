@@ -4,9 +4,9 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 
 ## Quick Start
 
-1. 입력 5개(Target, Deprecated In, Remove In, Replacement, Reason)를 먼저 확정합니다.
-2. 코드/JSDoc/문서/마이그레이션 문서(`deprecations.mdx`)를 같은 버전 정보로 맞춥니다.
-3. Rootage가 바뀌면 생성 명령을 실행하고 제거 버전 도달 시 실제 삭제까지 마무리합니다.
+1. Target, Deprecated In, Remove In, Replacement, Reason은 현재 변경과 릴리스 계획에서 확인한다. 근거로 확정할 수 없는 값만 한 번에 질문한다.
+2. 대상이 공개되는 코드, JSDoc, 문서, 마이그레이션 추적에 같은 버전·대체안을 반영한다.
+3. Rootage가 바뀐 경우에만 생성 명령을 실행하고, 제거 버전에 도달한 요청이면 실제 삭제까지 마무리한다.
 
 ## Purpose
 
@@ -37,17 +37,17 @@ SEED Design의 deprecated 라이프사이클을 표준화합니다. 대상 추�
 - **Replacement**: 대체안 (예: `borderRadius="r2"`)
 - **Reason**: deprecated 이유
 
-입력이 누락된 경우 다음 순서로 사용자에게 질문합니다: Target → Deprecated In → Remove In → Replacement → Reason.
+현재 코드·릴리스 계획·문서에서 확정할 수 없는 입력만 한 번에 질문한다. Target, 버전, 대체안, 제거 여부처럼 계약을 바꾸는 추측은 하지 않는다.
 
 ## Workflow
 
-### Step 1: 대상 탐색
+### Step 1: 대상 확인
 
-- Rootage 스펙: `packages/rootage/components/*.yaml`
-- React 구현: `packages/react/src/components/**`
-- Design Guidelines: `docs/content/docs/components/**`
-- React 문서: `docs/content/react/components/**`
-- 예시 코드: `docs/examples/**`, `examples/**`
+대상 종류에 맞는 원천과 공개 표면만 찾는다.
+
+- Rootage 대상: `packages/rootage/components/*.yaml`
+- React 공개 API: `packages/react/src/components/**`
+- 공개 안내: 해당 Design Guidelines·React 문서·예시
 
 ### Step 2: JSDoc/메타데이터 추가
 
@@ -70,17 +70,12 @@ description: |
   Reason: 모서리 스타일은 `borderRadius` prop으로 통일합니다.
 ```
 
-### Step 3: 문서 업데이트
+### Step 3: 공개 안내와 추적 갱신
 
-- Design Guidelines 및 React Docs에 deprecated 안내 추가
-- 대체안과 제거 버전을 명확히 표기
+- 영향을 받는 Design Guidelines 및 React 문서에 대체안과 제거 버전을 명확히 표기한다.
+- `docs/content/docs/migration/deprecations.mdx`에 항목을 추가하고, 제거 버전에 도달한 요청이면 히스토리 섹션으로 옮긴다.
 
-### Step 4: Deprecated 원천 파일 갱신
-
-- `docs/content/docs/migration/deprecations.mdx`에 항목 추가
-- 제거 버전 도달 시 히스토리 섹션으로 이동
-
-### Step 5: 생성물 업데이트
+### Step 4: 생성물 업데이트
 
 Rootage 변경이 있는 경우:
 
@@ -88,23 +83,13 @@ Rootage 변경이 있는 경우:
 bun run rootage:generate
 ```
 
-### Step 6: 제거 버전 도달 시
+### Step 5: 제거 버전 도달 시
 
-- deprecated 대상 삭제
-- 문서/예시/테스트 정리
-- `deprecations.mdx` 히스토리 섹션으로 이동
+- deprecated 대상과 더는 유효하지 않은 문서·예시·테스트를 함께 삭제한다.
+- `deprecations.mdx`의 항목을 히스토리 섹션으로 옮긴다.
 
-## Files to Touch (Checklist)
+## 완료 조건
 
-- `packages/rootage/components/{component}.yaml`
-- `packages/react/src/components/**`
-- `docs/content/docs/components/**`
-- `docs/content/react/components/**`
-- `docs/content/docs/migration/deprecations.mdx`
-- 생성물: `docs/public/rootage/**`, `packages/css/vars/**`, `packages/qvism-preset/src/vars/**`
-
-## Output Expectations
-
-1. 모든 JSDoc에 이유, 제거 버전, 대체안이 명확히 포함됨
-2. 문서와 Rootage 스펙이 동일한 내용을 반영
-3. 원천 파일(deprecations.mdx) 최신화
+- 코드/JSDoc, 공개 안내, 추적 파일이 같은 deprecated 버전·제거 버전·대체안을 말한다.
+- Rootage를 변경했다면 생성물은 생성 절차로 갱신한다.
+- 제거 작업이면 더는 지원하지 않는 공개 경로와 예시가 남지 않는다.

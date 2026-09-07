@@ -17,8 +17,8 @@
 - `forwardRef` 필수
 - APG가 heading hierarchy나 landmark 구조를 요구하면 native heading을 hardcode하기 전에 `hardcode`, `asChild`, `aria-level override` 중 어떤 escape hatch를 줄지 먼저 정한다.
 - 기존 primitive/hook 조합으로 해결할 수 있으면 재사용을 우선한다. 새 hook abstraction은 duplication이 분명할 때만 추가한다.
-- public API는 내부 상태 구현의 단순함보다 consumer ergonomics와 외부 레퍼런스 일관성을 우선한다.
-- binary mode는 미래 제3상태가 명확하지 않으면 enum보다 boolean prop을 우선한다. 예를 들어 한 번에 여러 item을 열 수 있는지만 선택한다면 `type: "single" | "multiple"`보다 `multiple?: boolean`이 기본값이다.
+- 공개 API를 새로 설계하거나 변경할 때는 내부 상태 구현의 단순함보다 consumer ergonomics와 기존 외부 API 일관성을 우선 검토한다.
+- binary mode의 표현은 실제 가능한 상태 수와 기존 API 호환성을 기준으로 선택한다. 단순한 이진 옵션이면 boolean prop을, 구별되는 동작 상태가 있으면 discriminated union이나 enum을 사용한다.
 - 특정 mode에서만 유효한 prop은 런타임에서 무시하지 말고 discriminated union으로 차단한다. 문서와 테스트도 같은 contract를 설명해야 한다.
 - 재사용 가능한 상태 전이, 키보드 인터랙션, DOM querying, 내부 id 생성 로직은 가능하면 `use*` 훅으로 내리고 컴포넌트는 hook이 만든 props와 refs를 연결하는 역할에 집중한다.
 - `AccordionTrigger` 같은 leaf component에 이벤트 핸들러가 길어지기 시작하면 먼저 `useItem` 계열 훅으로 옮길 수 있는지 검토한다.

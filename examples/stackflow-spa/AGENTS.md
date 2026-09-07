@@ -24,7 +24,7 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
 
 ## Activity 등록 체크리스트
 
-새 activity를 만들 때 **네 군데** 모두 업데이트해야 한다. 한 군데라도 빠지면 타입 에러, 라우트 404, 또는 홈 화면에서 접근 불가.
+새 activity를 만들 때 아래 세 가지를 모두 업데이트해야 한다. 하나라도 빠지면 타입 에러나 라우트 404가 발생할 수 있다. `ActivityHome` 링크는 홈 화면에서 해당 activity를 노출할 때만 추가한다.
 
 1. **Activity 파일 생성**: `src/activities/Activity<Name>.tsx`
    - `declare module "@stackflow/config" { interface Register { Activity<Name>: {}; } }`
@@ -43,11 +43,10 @@ SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제
    ```
    알파벳 순서 유지. 등록하지 않으면 `push()`는 호출되지만 URL 라우팅이 안 된다.
 
-4. **`src/activities/ActivityHome.tsx`의 섹션에 링크 추가** (선택):
+4. **`src/activities/ActivityHome.tsx`의 섹션에 링크 추가** (홈 화면에 노출할 때만):
    ```ts
    { title: "<Display Name>", onClick: () => push("Activity<Name>", {}) }
    ```
-   홈 화면에서 접근 가능하게 하려면 필수.
 
 ## Snippet 동기화
 

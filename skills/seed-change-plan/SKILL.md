@@ -1,6 +1,6 @@
 ---
 name: seed-change-plan
-description: 현재 SEED Design 변경이나 계획 경로의 패키지·생성물·플랫폼 영향과 검증 순서를 읽기 전용으로 만들고, 확정 changeset과 origin/dev·origin/minor·origin/major 차이를 근거로 PR 기준 브랜치를 정한다. 구현 전 작업 계획, 검증 범위, changeset 필요 여부, targetBranch·targetRef·prBase 판단이 필요할 때 사용한다.
+description: SEED 변경의 패키지·플랫폼 영향, 필요한 검증, changeset 및 PR 기준 브랜치를 읽기 전용으로 판단할 때 사용한다.
 user-invocable: true
 argument-hint: "[--base-ref origin/dev|origin/minor|origin/major] [--path <경로>] [--planned <경로>] [--lane minor|major|none] [--bump patch|minor|major | --no-release]"
 ---

@@ -6,9 +6,9 @@
 
 ## 파일 작성 컨벤션
 
-- 컴포넌트별 디렉토리는 `PascalCase`를 사용하고, 기본 파일은 `{ComponentName}.tsx`, `{ComponentName}.namespace.ts`, `index.ts` 조합을 따른다.
-- 실제 구현은 `{ComponentName}.tsx`에 두고, namespace 단축 이름은 `{ComponentName}.namespace.ts`, 공개 re-export는 `index.ts`에 둔다.
-- helper slot이 내부 구현에만 필요하면 별도 파일 분리보다 같은 구현 파일 안에 두고 export surface에서 숨기는 쪽을 우선 검토한다.
+- 컴포넌트별 디렉토리는 `PascalCase`를 사용한다. 단일 컴포넌트는 `{ComponentName}.tsx`와 `index.ts`를 기본으로 둔다.
+- compound component에서 public namespace 단축 이름이 필요할 때만 `{ComponentName}.namespace.ts`를 추가한다.
+- 실제 구현은 `{ComponentName}.tsx` 또는 역할별 구현 파일에 두고, 공개 re-export는 `index.ts`와 필요한 namespace 파일에서 관리한다.
 
 ## 코드 작성 컨벤션
 

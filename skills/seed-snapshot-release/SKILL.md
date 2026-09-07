@@ -1,6 +1,6 @@
 ---
 name: seed-snapshot-release
-description: Drives the snapshot-release flow for the current branch's PR. Posts a `/snapshot` comment on the PR if one isn't already there (with confirmation), waits for the `Continuous Releases` workflow to finish, and reports the tarball URLs from the resulting `📦 Snapshot Release` comment. Use for both triggering and waiting — phrases like "trigger a snapshot", "ship a snapshot release", "post `/snapshot` for me", "let me know when snapshot is done", "wait for the snapshot and show me the tarballs", "did the snapshot finish?", "snapshot 해줘", "snapshot 완료되면 알려줘", "snapshot 결과 보여줘", "tarball 받아와".
+description: PR snapshot release를 trigger하거나 결과를 확인할 때 사용한다.
 ---
 
 # Snapshot Release
@@ -13,15 +13,13 @@ End-to-end orchestration of the snapshot-release flow for the PR connected to th
 
 Supports kicking off a fresh snapshot *or* picking up one that's already in flight or already finished.
 
-## Bundling principle
+## 재실행
 
-The skill runs in **two Bash invocations**: discover (Step 1) and orchestrate (Step 3). Inside each, bundle every `gh` call into one shell pipeline — do not split a step into multiple Bash tool calls. Use `gh ... --jq` to extract fields, and shell `for` / `if` to chain `gh pr view` → optional `gh pr comment` → `gh run list` → `gh run watch` → `gh pr view` within Step 3.
-
-The skill is **re-entrant**: if Step 3 dies mid-way (network drop, terminal close, etc.) after the `/snapshot` comment was posted, simply invoking the skill again routes through the fast path — Step 1 finds the existing comment, Step 3 picks up the in-flight run via `gh run watch`, and the report catches up. No cleanup needed.
+이미 `/snapshot` 댓글이 있으면 새 댓글을 쓰지 않고 진행 중이거나 완료된 실행을 이어서 확인한다. 댓글 게시 뒤 중단됐어도 다시 실행하면 해당 실행을 찾는다.
 
 ## Step 1: Discover
 
-Run a single command that returns the PR info plus the local git state. Bundle the remote PR query with the local checks so it stays one Bash call:
+PR 정보와 로컬 상태를 함께 확인한다. 아래 명령은 필요한 값을 한 번에 수집하는 예시다.
 
 ```bash
 gh pr view --json number,url,comments \
@@ -38,26 +36,23 @@ git log @{u}..HEAD --oneline 2>/dev/null || echo "(no upstream tracking)"
 
 ## Step 2: Confirm trigger (only when no `/snapshot` exists)
 
-Before opening the AskUserQuestion, re-read the user's original request:
+현재 요청을 먼저 구분한다.
 
-- **Wait-only intent** (e.g. "snapshot 기다려줘", "snapshot 끝났어?", "결과 보여줘", "did the snapshot finish?", "let me know when it's done"): the user assumed a `/snapshot` comment already exists. Don't pivot to a trigger prompt. Just tell them no `/snapshot` comment was found on this PR and stop. Suggest they post `/snapshot` themselves (or re-invoke with a trigger phrasing) if they want to proceed.
-- **Trigger or ambiguous intent** (e.g. "snapshot 해줘", "trigger a snapshot", "snapshot 결과 받아와", "post `/snapshot` for me"): proceed with the AskUserQuestion below.
+- **대기 전용 요청**(예: "snapshot 기다려줘", "snapshot 끝났어?", "결과 보여줘")인데 `/snapshot` 댓글이 없으면, 댓글이 없음을 알리고 멈춘다. 사용자가 직접 게시하거나 trigger 요청으로 다시 실행할 수 있다고 안내한다.
+- **명시적인 trigger 요청**(예: "snapshot 해줘", "trigger a snapshot", "`/snapshot`을 게시해줘")은 댓글 게시 승인이다. 같은 실행에 대해 다시 승인받지 않는다.
+- trigger 의도가 모호하면 아래 상태를 포함해 댓글 게시 여부를 확인한다.
 
-Snapshot releases are built by GitHub Actions from the PR's *remote* HEAD, so any uncommitted change or unpushed commit will be silently absent from the resulting tarballs. Surface that before posting `/snapshot`.
+Snapshot release는 PR의 *remote* HEAD로 빌드하므로 uncommitted 변경이나 unpushed commit은 tarball에 포함되지 않는다.
 
-Use **AskUserQuestion**. Tailor the question to whatever Step 1 found:
+- **Clean tree, fully pushed**: `/snapshot` 댓글을 게시할지 확인한다.
+- **Clean tree, but unpushed commits exist**: unpushed commit 수를 알리고 `Push, then post /snapshot` / `Post anyway against remote HEAD` / `Stop, I'll handle it` 중 하나를 확인한다.
+- **Uncommitted changes**: push 선택지를 제안하지 않는다. 로컬 전용 변경이 tarball에 빠짐을 알리고 `Stop, I'll handle it` / `Post anyway against remote HEAD` 중 하나를 확인한다.
 
-- **Clean tree, fully pushed**: "There's no `/snapshot` comment on this PR yet. Want me to post one for you?" — Options: `Yes, post it` / `No, I'll post it myself`.
-- **Clean tree, but unpushed commits exist**: Spell out the unpushed commits (e.g. "2 unpushed commits") and offer to push them first. Options: `Push, then post /snapshot` (recommended default) / `Post anyway against remote HEAD` / `Stop, I'll handle it`.
-- **Uncommitted changes (with or without unpushed commits)**: `git push` won't carry the uncommitted work, so do **not** offer the push option. Spell out what's local-only and warn that the snapshot will be built from the remote HEAD without those changes. Options: `Stop, I'll handle it` (recommended default) / `Post anyway against remote HEAD`.
+`Stop`이면 commit·push 뒤 다시 실행하도록 알린다. 사용자가 `Push, then post /snapshot`을 선택하면 `PUSH_FIRST=1`, 명시 trigger 또는 `Post anyway`면 `PUSH_FIRST=0`으로 Step 3을 실행한다.
 
-On `Stop`, stop and tell the user to commit/push and re-invoke.
-On `Push, then post /snapshot`, run Step 3 with `anchor` empty and `PUSH_FIRST=1` — the orchestrator will `git push` before posting.
-On `Yes` / `Post anyway`, run Step 3 with `anchor` empty (and `PUSH_FIRST=0`) — the orchestrator will post immediately.
+## Step 3: Orchestrate
 
-## Step 3: Orchestrate (single Bash call)
-
-One command that conditionally pushes and posts, finds the matching workflow run, waits for it, and prints the resulting `📦 Snapshot Release` comment. Substitute `<NUM>`, `<ANCHOR>`, and `<PUSH_FIRST>` from Step 1 / Step 2 (pass `<ANCHOR>` empty when posting; `<PUSH_FIRST>` is `1` only when the user explicitly chose `Push, then post /snapshot`):
+아래 흐름으로 필요하면 push·`/snapshot` 댓글 게시·실행 대기·결과 댓글 조회를 이어서 수행한다. `<NUM>`, `<ANCHOR>`, `<PUSH_FIRST>`에는 Step 1·2의 값을 넣는다. 댓글을 새로 게시할 때 `<ANCHOR>`는 비워 두고, 사용자가 명시적으로 push를 승인한 경우에만 `<PUSH_FIRST>`를 `1`로 둔다.
 
 ```bash
 set -euo pipefail
@@ -111,7 +106,7 @@ fi
 exit $WATCH_EXIT
 ```
 
-For a long-running watch, launch this command via `Bash` with `run_in_background: true` and react to the completion notification — do **not** poll.
+긴 실행은 백그라운드에서 시작하고 완료 알림을 기다린다. 상태를 반복 조회하지 않는다.
 
 ## Step 4: Report to the user
 

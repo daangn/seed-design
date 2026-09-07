@@ -4,10 +4,10 @@ V2 컴포넌트를 V3로 안전하게 치환하기 위한 매핑과 생성 메�
 
 ## Quick Start
 
-1. `tools/figma-v3-migration`에서 `bun extract`로 최신 메타데이터를 동기화합니다.
-2. 변경된 `__generated__`를 기준으로 `src/main/mapping/*`를 수정합니다.
-3. `bun run typecheck:main`으로 매핑 타입 안정성을 검증합니다.
-4. 신규 패턴은 기존 매핑(`buttons.ts`, `action-sheet.ts`) 스타일과 동일하게 맞춥니다.
+1. 현재 생성 메타데이터가 요청한 V2·V3 속성을 설명하지 못할 때만 `bun extract`로 동기화합니다.
+2. 대상 컴포넌트의 변경된 `__generated__`와 관련 `src/main/mapping/*`만 확인·수정합니다.
+3. 매핑 또는 생성 메타데이터를 바꿨으면 `bun run typecheck:main`으로 타입 계약을 검증합니다. UI까지 바꾼 경우에만 전체 `bun run typecheck`를 추가합니다.
+4. 신규 패턴은 가장 가까운 기존 매핑(`buttons.ts`, `action-sheet.ts`) 스타일을 따릅니다.
 
 ## 목차
 
@@ -52,6 +52,8 @@ Figma Personal Access Token은 Figma Settings > Account > Personal access tokens
 
 ### 2. 의존성 설치
 
+의존성이 아직 준비되지 않은 환경에서만 실행합니다.
+
 ```bash
 cd tools/figma-v3-migration
 bun install
@@ -60,6 +62,8 @@ bun install
 ## 매핑 최신화 프로세스
 
 ### 1. 메타데이터 추출
+
+새 Figma 속성이나 컴포넌트가 현재 `__generated__`에 없거나 최신 메타데이터가 필요한 요청에서만 실행합니다.
 
 ```bash
 cd tools/figma-v3-migration
@@ -70,17 +74,14 @@ bun extract
 
 ### 2. 변경된 파일 확인
 
-```bash
-git status
-git diff src/main/data/__generated__/
-```
+추출했을 때는 대상 컴포넌트의 생성 파일만 읽어 새·변경된 속성을 확인합니다.
 
 ### 3. 매핑 파일 업데이트 워크플로우
 
-1. **변경된 Generated 파일 분석**: 새로 추가되거나 변경된 컴포넌트 확인
-2. **관련 매핑 파일 수정**: `src/main/mapping/` 디렉토리의 해당 컴포넌트 매핑 업데이트
-3. **index.ts 업데이트**: 새 매핑 추가 시 export 목록에 추가
-4. **타입 체크**: `bun run typecheck:main`으로 매핑 파일 타입 에러 확인
+1. 대상 Generated 파일에서 새·변경된 컴포넌트와 속성을 확인합니다.
+2. 관련 `src/main/mapping/` 파일만 수정합니다.
+3. 새 매핑을 추가한 경우에만 `index.ts` export 목록을 갱신합니다.
+4. 매핑 또는 Generated 파일을 바꿨으면 `bun run typecheck:main`을 실행합니다.
 
 ## 매핑 파일 작성 가이드
 
@@ -280,8 +281,8 @@ export const actionSheetMapping: ComponentMapping<
 4. **타입 체크**
    ```bash
    cd tools/figma-v3-migration
-   bun run typecheck:main  # 매핑 파일 타입 체크
-   bun run typecheck       # 전체 타입 체크 (main + ui)
+   bun run typecheck:main  # 매핑 또는 Generated 파일 변경
+   bun run typecheck       # UI도 변경한 경우
    ```
 
 ## 타입 시스템

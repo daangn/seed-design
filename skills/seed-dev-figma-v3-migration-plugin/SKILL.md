@@ -1,18 +1,15 @@
 ---
 name: seed-dev-figma-v3-migration-plugin
-description: Develop and maintain the Figma V3 migration plugin, including metadata extraction, mapping updates, and type-safe property conversion. Use when updating V2 to V3 migration mappings in tools/figma-v3-migration.
+description: Figma V3 migration 매핑·메타데이터 변환을 수정할 때 사용한다.
 ---
 
 # Dev Figma V3 Migration Plugin
 
-요청 범위를 확정하고 필요한 가이드만 선택해 실행한다.
+요청 범위와 목표 결과를 확인한 뒤, 필요한 가이드 절만 읽어 적용한다.
 
-## 실행 절차
-
-1. 대상 범위와 목표 결과를 먼저 확정한다.
-2. `references/`에서 현재 작업에 필요한 문서만 읽는다.
-3. 문서 절차에 맞춰 구현/수정하고 관련 생성 명령을 실행한다.
-4. 검증 명령을 실행한 뒤 변경 파일과 리스크를 보고한다.
+1. 현재 메타데이터로 판단할 수 없는 V2·V3 컴포넌트 속성만 추출해 동기화한다.
+2. 변경된 매핑과 생성 메타데이터에 필요한 원천만 수정하고 기존 매핑 패턴을 따른다.
+3. 변경한 표면과 가이드가 요구하는 검증만 수행한 뒤 변경 파일·남은 위험을 보고한다.
 
 ## 참조 파일
 

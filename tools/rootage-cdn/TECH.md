@@ -1,4 +1,5 @@
 # Rootage CDN 기술 개요
+저장소 전체 구조와 이 도구의 릴리스 경로는 루트 [`ARCHITECTURE.md`](../../ARCHITECTURE.md)를 먼저 참고한다.
 
 ## 저장 구조
 
@@ -23,15 +24,24 @@ PR snapshot은 `0.0.0-snapshot.pr-{PR 번호}.sha-{40자리 head SHA}` 버전을
 - `bun tools/rootage-cdn/src/cli.ts cleanup ...`: 완료 manifest가 없는 7일 이상 객체의 보고/확인 삭제
 - `PUBLISHED_PACKAGES=... ROOTAGE_SOURCE_SHA=<gitHead> GITHUB_OUTPUT=<path> bun tools/rootage-cdn/src/release-input.ts`: source의 현재 Rootage 버전을 npm의 exact `gitHead`·integrity와 대조해 재실행 가능한 workflow output으로 변환하며, Changesets 게시 결과가 있으면 일치 여부를 추가 검증
 - `bun tools/rootage-cdn/src/version-change-policy.ts`: Changesets Version command가 각 패키지의 `package.json`·`CHANGELOG.md`, changeset, lockfile, `packages/rootage/__generated__/**` 밖의 파일을 변경하지 않았는지 검증
-- `bun tools/rootage-cdn/src/snapshot-input.ts detect|prepare`: exact PR diff에서 Rootage 변경을 찾고 package·생성 JSON에 사용할 snapshot 버전을 준비
+- `bun tools/rootage-cdn/src/snapshot-input.ts detect ...`: exact PR diff에서 Rootage 변경을 찾는다.
+- `bun tools/rootage-cdn/src/snapshot-input.ts prepare ...`: package·생성 JSON에 사용할 snapshot 버전을 준비한다.
 - `bun tools/rootage-cdn/src/cli.ts publish-snapshot ...`: `pkg.pr.new` tarball의 URL·SHA-1·package identity·SHA-512를 검증하고 불변 snapshot을 게시
 - `bun tools/rootage-cdn/src/cli.ts cleanup-snapshots ...`: PR이 닫힌 지 30일 지난 완료 snapshot을 manifest부터 제거
 
-production 쓰기에는 `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`이 필요하다.
-stable 포인터 조건부 쓰기를 진단할 때는 `ROOTAGE_R2_DIAGNOSTICS=true`를 추가한다. 이 로그는 stable 포인터에서 관찰한 ETag와 실제 `If-Match` 값, 조건부 PUT 결과, R2 오류 상태를 stderr에 기록하며 접근 키와 서명 헤더는 기록하지 않는다. R2 GET이 weak ETag를 반환하면 strong 비교만 수행하는 `If-Match`에 맞게 `W/`만 제거하고 따옴표와 opaque tag는 그대로 유지한다.
-배포·route 변경·rollback·삭제는 GitHub의 `rootage-production` environment 승인을 거친 수동 workflow에서 실행한다.
-Snapshot 게시와 정기 정리도 기존 `rootage-production` environment를 재사용한다. 두 workflow 모두 `dev`의 신뢰된 코드만 실행하며 PR 빌드 job에는 R2 자격 증명을 전달하지 않는다.
-production Worker 배포는 기존 단일 100% traffic deployment/version을 먼저 기록하고 `https://seed-design.io/rootage/latest/index.json`의 응답 shape와 exact Worker version header를 확인한다. smoke 실패 시 현재 deployment와 version이 방금 배포한 두 ID와 모두 일치할 때만 기록한 정확한 이전 version으로 자동 rollback한다.
-성공한 배포의 지연 장애는 `Operate Rootage CDN`의 `worker-rollback`으로 복구한다. target은 history의 과거 단일 100% Worker version이어야 하고, 현재 exact version과 target history deployment를 호출 직전에 다시 확인하며, rollback 뒤 새 100% deployment가 current인지 bounded 검증한다.
+## 인증·운영 경계
 
-현재 production처럼 기존 Worker deployment, stable pointer, route가 있는 환경의 교체만 자동화한다. deployment history가 전혀 없는 최초 bootstrap은 되돌릴 이전 version을 증명할 수 없어 fail-closed하며, 별도로 리뷰된 1회성 bootstrap 절차 없이는 이 workflow로 진행하지 않는다. 백필 검증 URL은 environment secret `ROOTAGE_WORKER_BASE_URL`로 주입한다.
+명령에 필요한 환경변수는 작업을 실행하는 경로에 따라 다르다.
+
+| 작업 | 필요한 환경변수 |
+|---|---|
+| `publish`, `publish-snapshot`, `set-stable` | `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`, `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `ROOTAGE_PUBLIC_BASE_URL` |
+| `cleanup` | `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`, `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY` |
+| `cleanup-snapshots` | 위 R2 변수와 `ROOTAGE_GITHUB_TOKEN` |
+| `route` | `CF_ZONE_ID`, `CLOUDFLARE_API_TOKEN` |
+
+`ROOTAGE_R2_DIAGNOSTICS=true`를 설정하면 stable pointer CAS 진단을 stderr에 기록한다. 접근 키와 서명 헤더는 기록하지 않는다.
+
+mutation job은 `rootage-production` protected environment와 workflow별 신뢰 경계를 따른다. release publish는 자동 workflow에서 실행되고, snapshot cleanup은 schedule 또는 수동 dispatch로 실행된다. PR build에는 R2 자격 증명을 전달하지 않으며, snapshot은 stable pointer를 변경하지 않는다.
+
+production Worker deploy는 기존 단일 100% deployment와 exact Worker version을 확인한 뒤 smoke한다. 소유권이 확인된 경우에만 자동 rollback하며, 기존 deployment history가 없는 최초 bootstrap은 fail-closed한다. 상세 guard·workflow 계약은 `src/deployment-guard.ts`, `src/verify-deployment.ts`, `src/operations.ts`와 `.github/workflows/`를 함께 확인한다.

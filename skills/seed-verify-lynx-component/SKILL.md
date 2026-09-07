@@ -1,6 +1,6 @@
 ---
 name: seed-verify-lynx-component
-description: SEED Lynx 컴포넌트의 React↔Lynx 예제 대응, 생성물 연결, 정적 문서 미리보기, 시간축 동작, Lynx 런타임 결과를 검증하고 환경별 증거를 분리해 보고한다. 문서나 컴포넌트 소스는 수정하지 않는다.
+description: Lynx 컴포넌트의 문서·예제·런타임 결과를 환경별로 검증할 때 사용한다.
 ---
 
 # Lynx 컴포넌트 검증
@@ -9,9 +9,9 @@ description: SEED Lynx 컴포넌트의 React↔Lynx 예제 대응, 생성물 연
 
 ## 범위와 경계
 
-- 한 번에 한 컴포넌트를 대상으로 한다.
-- 소스, Recipe, 문서, Registry, 생성물, 예제, bundle의 연결을 읽기 전용으로 확인한다.
-- React와 Lynx가 같은 시나리오를 제공하는지 내용 단위로 비교한다.
+- 한 번에 한 컴포넌트와 요청된 시나리오·변경 표면을 대상으로 한다. 새 컴포넌트나 전체 동등성 주장은 모든 관련 시나리오를 포함한다.
+- 대상 경로에 존재하는 소스, Recipe, 문서, Registry, 생성물, 예제, bundle 연결만 읽기 전용으로 확인한다.
+- React와 Lynx가 같은 사용자 결과를 주장하는 시나리오는 내용 단위로 비교한다.
 - 브라우저, native bundle, 로컬 Lynx 런타임, 실제 기기의 결과를 서로 합치지 않는다.
 - 컴포넌트나 문서의 소스는 수정하지 않는다. 문제가 발견되면 원인과 수정 범위를 보고한다.
 - 빌드가 만드는 ignored 산출물, 직접 시작한 `npx serve` 프로세스, 검증 중인 런타임 상태 변경은 허용한다. 실행 전후 `git status --short`를 비교하고 새 tracked 변경이 생기면 검증 결과에 남긴다. 사용자가 만든 변경을 되돌리지 않는다.
@@ -35,78 +35,50 @@ description: SEED Lynx 컴포넌트의 React↔Lynx 예제 대응, 생성물 연
 
 ### 1. 검증 대상과 필수 환경 고정
 
-다음 정보를 먼저 기록한다.
+대상 컴포넌트·시나리오·기대 결과와 이번 변경에 필요한 환경만 기록한다. 대상 경로·소비 경로가 불명확할 때만 `seed-component-map`을 사용하고, 공개 API 차이가 검증 대상일 때만 `seed-api-parity`를 사용한다.
 
-- 대상 컴포넌트, 문서 URL, React·Lynx 예제 ID
-- 검증할 시나리오와 각 시나리오의 기대 결과
-- 필수 환경: 문서 브라우저, 로컬 Lynx 런타임, 실제 기기 중 해당 작업에서 요구하는 범위
-- 선택 환경과 환경을 사용할 수 없는 경우의 처리
+- 문서 URL과 React·Lynx 예제 ID
+- 변경한 사용자 결과와 기대 결과
+- 필수 환경과 선택 환경, 사용할 수 없는 경우의 처리
 
 문구·코드 노출만 바뀐 작업은 문서 브라우저를 필수 환경으로 삼는다. native 동작을 새로 주장하거나 실행 결과가 바뀐 작업은 로컬 Lynx 런타임 또는 실제 host app을 필수 환경으로 추가한다. 실제 기기 확인을 요청받지 않았다면 선택 환경으로 남긴다.
 
-새 컴포넌트, 공개 package, Registry, 생성물이 포함되면 `seed-change-plan`으로 target branch와 release lane을 확인한다. docs examples와 host app의 `@lynx-js/react`, React plugin, Rspeedy 버전도 비교한다. 변경 전 기준 빌드를 확보하지 못하면 그 사실을 `미확인`으로 기록하고 현재 결과와 섞지 않는다.
+새 컴포넌트, 공개 package, Registry, 생성물이 포함될 때만 `seed-change-plan`과 docs examples·host app의 런타임 버전을 확인한다. 변경 전 기준 빌드를 확보하지 못하면 그 사실을 `미확인`으로 기록하고 현재 결과와 섞지 않는다.
 
 ### 2. React↔Lynx 시나리오 대응 확인
 
-`seed-component-map`과 `seed-api-parity`의 결과를 실제 문서와 예제 파일에 대조한다. 제목이 같은지만으로 동등하다고 판정하지 않는다.
+새 시나리오, 사용자 결과 변경, 전체 동등성 요청에는 React와 Lynx 문서·예제를 대조한다. 이미 알려진 단일 시나리오의 국소 변경은 그 대응 파일만 대조한다. 제목이 같은지만으로 동등하다고 판정하지 않는다.
 
 | 항목 | React | Lynx | 판정 | 근거 |
 | --- | --- | --- | --- | --- |
-| 문서 섹션 | 제목과 순서 | 제목과 순서 | 동일·변환·미지원 | MDX 경로 |
-| 예제 ID | 모든 논리 ID | 대응 논리 ID | 동일·변환·미지원 | entry·manifest |
-| asset | 컴포넌트·크기·색상 | 컴포넌트·크기·색상 | 동일·변환·미지원 | import·JSX·runtime |
-| frame | host와 내부 frame의 width·height·padding·정렬 | host와 내부 frame의 width·height·padding·정렬 | 동일·변환 | rect |
-| 초기 상태 | 문구·상태·disabled·loading | 문구·상태·disabled·loading | 동일·변환 | 소스·runtime |
-| 입력 | click·callback | bindtap·공개 callback | Lynx식 변환 | handler·runtime |
-| 전이 | 중간·최종 상태와 시간 | 중간·최종 상태와 시간 | 동일·변환 | runtime |
+| 문서 섹션·예제 ID | 제목·순서·논리 ID | 대응 값 | 동일·변환·미지원 | MDX·entry 경로 |
+| 사용자 결과 | asset·frame·초기 상태·보조 요소 | 대응 값 | 동일·변환·미지원 | import·JSX·runtime |
+| 입력·전이 | click·callback·중간·최종 상태 | bindtap·공개 callback·대응 상태 | 동일·Lynx식 변환·미지원 | handler·runtime |
 | 화면 셸 | AppScreen·AppBar·하단 CTA | AppBar·native layout·하단 CTA | 동일·변환·미지원 | JSX·runtime |
 
-판정은 다음 세 가지 중 하나로 남긴다.
-
-- `동일 지원`: 목적과 사용자가 보는 결과를 유지한다.
-- `Lynx식 변환`: 사용자 결과는 유지하고 element, event, accessibility, CSS 또는 import만 바꾼다.
-- `미지원`: 실행하는 척하지 않고 문서에 제한과 대안을 적는다.
+판정은 `동일 지원`, `Lynx식 변환`, `미지원` 중 하나로 남긴다. `미지원`은 실행하는 척하지 않고 문서에 제한과 대안을 적는다.
 
 ### 3. 생성물 연결 확인
 
-원천 파일의 존재만 확인하지 말고 같은 컴포넌트와 시나리오가 다음 경로로 연결되는지 확인한다.
+Registry, doc-gen, 예제 entry, manifest, bundle이 이번 변경의 소비 경로에 포함될 때만 같은 컴포넌트·시나리오가 연결되는지 확인한다. 원천 파일의 존재만으로 통과시키지 않는다.
 
 ```text
-Registry source
-  → Registry JSON
-MDX + doc-gen entry
-  → 문서 index
-예제 entry
-  → manifest
-  → Web bundle / native bundle
+Registry source → Registry JSON
+MDX + doc-gen entry → 문서 index
+예제 entry → manifest → Web bundle / native bundle
 ```
 
-최소 확인 항목은 다음과 같다.
-
-- Registry 공개 이름과 생성 JSON 이름이 같다.
-- 문서 URL, `LynxComponentExample` 이름, doc-gen 파일 경로가 같은 논리 ID를 쓴다.
-- entry, manifest, Web bundle, native bundle이 같은 시나리오를 가리킨다.
-- Registry wrapper와 vendored wrapper의 공개 export 이름이 같다.
-- 생성 CSS와 Recipe 원천의 변경이 일치한다.
-- 새 문서나 생성물이 untracked 상태로 검토에서 빠지지 않았다.
-
-실제 bundle 출력 경로, manifest 경로, 대상 `.html` 경로는 추측하지 말고 파일에서 확인한다. bundle을 실행하거나 브라우저를 열 때는 [검증 런북](references/verification.md)의 URL 조립 규칙을 사용한다.
+해당 경로에서 공개 이름·논리 ID·entry·manifest·bundle·Recipe 생성물의 일치와 untracked 문서·생성물 누락을 확인한다. 실제 bundle 출력·manifest·`.html` 경로는 추측하지 말고 파일에서 확인한다. bundle을 실행하거나 브라우저를 열 때는 [검증 런북](references/verification.md)의 URL 조립 규칙을 사용한다.
 
 ### 4. 실행과 증거 수집
 
-변경된 경로에 따라 [검증 런북](references/verification.md)의 다음 항목을 선택한다.
-
-- 정적 문서 빌드와 `npx serve docs/out` 브라우저 확인
-- Lynx bundle 생성과 `npx serve docs/public` bundle 확인
-- `lynx://open?url=` 실행
-- Lynx DevTool MCP의 client·session 선택, DOM·layout·computed style·console·screenshot 수집
-- animation, transition, 측정 갱신, 지연 마운트의 시간축 확인
+변경한 표면과 필수 환경에 맞는 [검증 런북](references/verification.md) 항목만 선택한다. 정적 문서·bundle 브라우저 확인, `lynx://open?url=`, DevTool DOM·layout·computed style·console·screenshot, 시간축 검증은 각각 해당 결과를 주장하거나 변경했을 때 실행한다.
 
 브라우저 미리보기만으로 실제 Lynx 결과를 주장하지 않는다. native bundle, 로컬 Lynx 런타임, 실제 기기는 각각 별도 증거 행으로 기록한다.
 
 ### 5. 시각적 동등성 통과 조건
 
-같은 사용자 결과를 목표로 하는 React와 Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제마다 React·Lynx host와 내부 frame의 width·height, 상하·좌우 여백, viewport 차이의 이유를 기록한다. 정렬은 인상으로 판정하지 않고 다음 rect 조건으로 판정한다.
+같은 사용자 결과를 목표로 하는 대상 React·Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제의 host·내부 frame width·height, 상하·좌우 여백, viewport 차이의 이유를 기록하고 다음 rect 조건으로 판정한다.
 
 ```text
 left margin == right margin
@@ -115,19 +87,9 @@ frame width == expected width
 frame height == expected height
 ```
 
-전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 시각 판정에는 각 예제의 개별 캡처가 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. 소스에 handler가 있다는 사실만으로 통과시키지 않는다.
+전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 대상 예제의 개별 캡처와 측정값이 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. asset은 import 이름, runtime image 수·크기, multicolor·tint를 확인하고 Web raster tint와 native tint를 별도 행으로 기록한다.
 
-asset은 import한 컴포넌트 이름, runtime image 수, image width·height, multicolor의 tint 미적용 여부, monochrome의 `color`와 `tint-color`를 함께 확인한다. Web raster tint와 native tint는 별도 증거 행으로 기록한다.
-
-다음 중 하나라도 빠지면 `시각적 동등성 통과`로 판정하지 않는다.
-
-- React 기준 예제를 직접 읽지 않았다.
-- asset 종류와 크기를 확인하지 않았다.
-- host와 frame rect를 확인하지 않았다.
-- 초기 상태를 확인하지 않았다.
-- 상호작용 예제의 중간·최종 상태를 실행하지 않았다.
-- Web 미리보기 결과를 native 결과와 합쳤다.
-- 전체 페이지 축소 캡처만 있다.
+React 기준·asset·host/frame·초기 상태를 직접 확인하지 않았거나, 상호작용 전이를 실행하지 않았거나, Web 결과를 native로 합쳤다면 `시각적 동등성 통과`로 판정하지 않는다.
 
 ## 판정과 보고
 
@@ -150,11 +112,11 @@ asset은 import한 컴포넌트 이름, runtime image 수, image width·height, 
 최종 보고에는 다음을 포함한다.
 
 1. 대상 컴포넌트와 시나리오
-2. React↔Lynx 대응 및 생성물 연결 결과
+2. 대상 React↔Lynx 대응 및 해당 생성물 연결 결과
 3. 환경별 상태와 직접 확인한 기대·실제 결과
-4. bundle URL, 문서 URL, client·session, screenshot·console·layout 증거 경로
+4. bundle URL, 문서 URL, client·session, screenshot·console·layout 증거 경로(사용한 경우)
 5. 발견 사항의 재현 단계와 수정 범위
 6. 미검증 환경과 정확한 차단 사유
-7. 실행한 테스트와 정적 빌드 결과
+7. 실행한 검증과 결과
 
 검증이 끝나면 직접 시작한 서버, 브라우저 세션, DevTool 세션, 임시 증거 파일을 정리한다. 기존에 실행 중이던 서버나 사용자 세션은 임의로 종료하지 않는다.

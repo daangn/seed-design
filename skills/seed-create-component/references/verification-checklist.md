@@ -23,23 +23,28 @@
 
 ## 자동 검증
 
-1. 수정한 패키지나 문서의 기존 집중 테스트를 먼저 실행한다.
-2. 저장소 지침에 따라 `bun generate:all`을 실행하고 예상한 생성물만 바뀌었는지 확인한다.
-3. 변경한 경로의 타입 검사, 빌드, 테스트를 실행한다.
-4. 커밋하기 전에는 `bun test:all`을 실행한다.
-5. 마지막에 `git diff --check`와 `git status --short`를 확인한다.
+변경한 레이어와 사용자 결과에 필요한 항목만 선택한다. 문서·Skill·Storybook 설정처럼 실행 동작을 바꾸지 않는 수정에는 내용·링크·형식 검토로 충분하다.
+
+1. 동작을 바꿨다면 수정한 패키지의 기존 집중 테스트를 실행한다.
+2. Rootage·Recipe 원천을 바꿨다면 해당 생성 명령을 실행하고 예상한 산출물만 바뀌었는지 확인한다.
+3. 공개 코드·Registry·문서 예제를 바꿨다면 관련 타입 검사·빌드·테스트를 실행한다.
+4. `bun test:all`은 저장소 필수 절차, 릴리스·제출 요청 또는 넓은 회귀 위험이 있을 때만 실행한다. 커밋 전이라는 이유만으로 반복하지 않는다.
+5. 코드나 생성물을 바꿨다면 마지막에 `git diff --check`와 `git status --short`로 범위를 확인한다.
 
 대표 명령은 다음과 같다. 실제 `package.json`과 수정 경로의 `AGENTS.md`에 더 좁은 명령이 있으면 그 명령을 우선한다.
 
 ```bash
+# Rootage·Recipe 원천을 바꾼 경우
 bun generate:all
+
+# 해당 surface의 실제 변경이 있을 때만 선택
 bun packages:build
 bun docs:test
 bun test:all
 git diff --check
 ```
 
-문서나 Storybook을 바꾸지 않았다면 관련 없는 빌드를 의무로 추가하지 않는다. 반대로 공개 예제나 Registry를 바꿨다면 해당 docs 타입 검사와 생성 검증을 생략하지 않는다.
+문서나 Storybook만 바꿨다면 관련 문서·스토리 검사만 실행한다. Registry·공개 예제를 바꿨다면 docs 타입 검사와 생성 검증을 생략하지 않는다.
 
 ## React 화면 확인
 

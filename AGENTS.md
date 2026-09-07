@@ -1,68 +1,62 @@
 ---
-description: General instructions for agents
+description: SEED Design 저장소 작업의 범위·검증·경계를 정하는 공통 지침.
 alwaysApply: true
 ---
 
-# AGENTS.md
+# 저장소 작업 지침
 
-AI 어시스턴트가 이 저장소에서 작업할 때 참고하는 가이드.
+- 에이전트 규칙은 이 문서, 저장소 아키텍처는 [`ARCHITECTURE.md`](ARCHITECTURE.md), 기술 상세는 [`TECH.md`](TECH.md), 사람 대상 사용법은 `README.md`에 둔다.
 
-## 프로젝트 개요
+## 우선순위와 작업 방식
 
-SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md 참고.
+- 사용자의 명시적 요청이 이 문서나 Skill의 일반 가이드보다 우선한다. 사용자 요청과 Skill의 지침이 충돌해 멈추거나 방향을 바꾸면, 읽은 `SKILL.md`의 정확한 경로와 해당 문장을 사용자에게 밝힌다.
+- 행동을 요청받으면 가능 여부나 계획만 답하지 말고 작업을 끝까지 수행한다. 문맥으로 결정할 수 있는 빈칸은 안전한 기본값으로 채운다.
+- 질문하기 전에 승인된 읽기·수정·검증을 끝내고 결과를 검토 가능한 상태로 만든다. 결과를 바꾸는 선택, 되돌릴 수 없는 작업, 아래의 명시적 경계만 질문한다.
+- 완료 조건을 먼저 정하고 구현·검증·필요한 정리까지 수행한다. 첫 구현이나 첫 통과를 작업 종료로 보지 않는다.
+- 루트에서 대상 경로까지 적용되는 `AGENTS.md`만 읽고, 요청과 직접 관련된 코드·설정·문서만 연다. 오탈자나 단순 문서 수정에 전체 저장소 맵이나 모든 문서를 요구하지 않는다.
+- Skill은 이름과 설명의 적용 조건이 맞을 때만 읽는다. `skills/<name>/SKILL.md`는 필요한 reference와 script로 연결하는 짧은 라우터로 유지하고, 여러 workflow의 세부 지침은 reference로 늦게 읽는다.
+- 충분히 크고 서로 독립적인 작업만 병렬화한다. 같은 파일은 한 담당자가 통합하고, 작은 수정은 직접 수행한다.
 
-## AGENTS.md 역할
+## 검증
 
-각 폴더의 `AGENTS.md`는 **해당 폴더의 개요와 컨벤션**을 설명한다. 기술 상세는 TECH.md에, 사용자 대상 설명은 README.md에 작성한다.
+- 변경된 동작에 가장 가까운 기존 검사나 실제 실행을 우선한다. 문서·AGENTS·Skill처럼 실행 동작이 없는 변경은 내용, 링크, 형식 검토로 충분하다.
+- 검증 범위는 변경 위험과 저장소의 필수 검사에 맞춘다. 작은 수정에 무관한 전체 테스트를 반복하지 말고, 실패가 요청한 변경에서 비롯된 경우에만 고친 뒤 관련 검사를 다시 실행한다.
+- Rootage·Recipe 원천을 수정했을 때만 필요한 생성 명령을 실행하고, 생성 후 의도한 산출물만 바뀌었는지 확인한다.
+- 테스트나 명령을 실행하지 못하면 실행하지 못한 이유와 미검증 범위를 보고한다. 실행하지 않은 검증을 통과했다고 쓰지 않는다.
 
-### 필수 3섹션
+## 경계
 
-- **디렉토리 개요**: 폴더의 역할을 1-2문장으로 설명하고 상/하위 연결만 간단히 언급한다.
-- **파일 작성 컨벤션**: 파일/디렉토리 네이밍 규칙과 barrel file 사용 원칙을 적는다.
-- **코드 작성 컨벤션**: 해당 폴더에 적용되는 패턴과 import/export 규칙을 정리한다.
+### 사전 확인이 필요한 작업
 
-### 계층 원칙
+- 새 패키지 또는 외부 의존성 추가
+- `tsconfig`, `biome.json`, CI workflow 변경
+- 데이터 삭제, Git 복원·브랜치 전환, 외부 서비스 쓰기, publish, merge
+- 사용자가 명시하지 않은 commit, push, PR 생성·갱신
 
-- **상위 AGENTS는 얕고 넓게**: 폴더군의 역할과 연결 흐름만
-- **하위 AGENTS는 깊고 좁게**: 해당 폴더에 국한된 구조와 컨벤션
-- 중복 없이 계층적으로 작성
+읽기, 로컬 수정, 테스트, 생성, 리뷰처럼 되돌릴 수 있는 작업은 별도 확인 없이 진행한다. 사전 확인이 필요한 작업도 가능한 준비와 로컬 검증을 먼저 끝낸다.
 
-### AGENTS.md가 필요한 디렉토리
+### 수정 금지 경로
 
-핵심 도메인/패키지 폴더에는 AGENTS.md를 두고, 생성물/의존성 폴더(`node_modules`, `dist` 등)에는 두지 않는다.
+- 생성물: `packages/css/vars/`, `packages/css/recipes/`, `packages/qvism-preset/src/vars/`
+- 의존성·빌드 산출물: `node_modules/`, `dist/`
+- `.env`, API key, secret을 읽거나 커밋하지 않는다.
 
-## 문서 역할 분리
+패키지 매니저는 항상 `bun`을 사용한다. `npm`, `pnpm`, `yarn`은 사용하지 않는다.
 
-| 문서        | 역할                           | 대상        |
-| ----------- | ------------------------------ | ----------- |
-| `AGENTS.md` | 폴더 개요 + 컨벤션             | AI 에이전트 |
-| `TECH.md`   | 기술 상세, 아키텍처, 명령어    | AI 에이전트 |
-| `README.md` | 패키지 소개, 사용법, 개발 방법 | 사람        |
+## 디렉토리 개요
 
-각 패키지/폴더별 세부 규칙은 해당 디렉토리의 `AGENTS.md`에 명시되어 있으며, 해당 경로에서 작업할 때만 읽힌다.
+SEED Design 모노레포는 디자인 토큰·Recipe·CSS·React·Lynx 구현과 문서·도구를 함께 관리한다. 패키지 연결과 작업 경로는 [`ARCHITECTURE.md`](ARCHITECTURE.md), 기술 상세는 [`TECH.md`](TECH.md)를 기준으로 한다.
 
-## Boundaries
+## 파일 작성 컨벤션
 
-- ✅ **Always:**
-  - `bun generate:all` 실행 후 변경사항 확인
-  - 패키지 수정 직후 해당 경로 테스트만 실행 (경로별 명령어는 @TECH.md의 「테스트」 표)
-  - 테스트 실행 후 커밋 (`bun test:all`)
+각 폴더의 `AGENTS.md`는 해당 폴더의 고유 개요와 convention만 설명한다. 상위 문서는 얕고 넓게, 하위 문서는 깊고 좁게 작성하며 파일명·디렉터리명·barrel 규칙을 해당 경로에 둔다.
 
-- ⚠️ **Ask first:**
-  - 새 패키지 추가
-  - tsconfig/biome.json 설정 변경
-  - CI 워크플로우 수정
-  - 외부 의존성 추가
+## 코드 작성 컨벤션
 
-- 🚫 **Never:**
-  - `packages/css/vars/`, `packages/css/recipes/` 직접 수정
-  - `packages/qvism-preset/src/vars/` 직접 수정
-  - `.env`, API 키, 시크릿 커밋
-  - `npm`/`pnpm`/`yarn` 사용 (`bun` 전용)
-  - `dist/`, `node_modules/` 수정
+`AGENTS.md`는 에이전트 규칙, `ARCHITECTURE.md`는 구조·의존성·작업 경로, `TECH.md`는 기술 상세, `README.md`는 사람 대상 소개·사용법·개발 방법을 담는다. 코드·import/export 규칙은 수정 대상에 가장 가까운 `AGENTS.md`를 따른다.
 
-## Git 규칙
+새 규칙은 가장 좁은 적용 경로에 추가하고 상위 문서에 반복하지 않는다.
 
-- **커밋 메시지는 반드시 영어로 작성**한다. Conventional Commits 형식을 따른다: `type(scope): subject`
-  - 예: `feat(button): add loading state`, `fix(tooltip): correct z-index`, `docs: update component rules`
-- **PR 제목도 반드시 영어로 작성**한다. 커밋 메시지와 동일한 Conventional Commits 형식을 따른다.
+## Git
+
+커밋이나 PR을 사용자가 요청한 경우 제목과 커밋 메시지는 영어 Conventional Commits 형식(`type(scope): subject`)을 사용한다. 예: `feat(button): add loading state`.
