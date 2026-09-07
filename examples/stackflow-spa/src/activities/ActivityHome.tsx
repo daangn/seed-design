@@ -1,11 +1,5 @@
-import {
-  Box,
-  Divider,
-  Portal,
-  PullToRefresh,
-  VStack,
-  useSnackbarAdapter,
-} from "@seed-design/react";
+import { Grid, Portal, VStack, useSnackbarAdapter } from "@seed-design/react";
+import { vars } from "@seed-design/css/vars";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
@@ -34,12 +28,10 @@ import { Snackbar } from "seed-design/ui/snackbar";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { swipeableMenuSheetCallback } from "./ActivitySwipeableMenuSheet";
-import { Callout } from "seed-design/ui/callout";
 import { MenuRoot, MenuTrigger, MenuContent, MenuGroup, MenuItem } from "seed-design/ui/menu";
 import { appScreenVariantMap } from "@seed-design/css/recipes/app-screen";
 
 import {
-  IconHandPointUpLine,
   IconBellLine,
   IconPlusLine,
   IconPencilLine,
@@ -414,7 +406,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
 
   return (
     <AppScreen transitionStyle={params.transitionStyle}>
-      <AppBar>
+      <AppBar bg="bg.layerBasement">
         {activityIndex > 0 && (
           <AppBarLeft>
             <AppBarBackButton />
@@ -429,45 +421,30 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       </AppBar>
       <AppScreenContent
         ptr
+        // layer의 배경색은 recipe가 layerDefault로 고정하고 style prop을 받지 않는다.
+        // PTR로 당겼을 때 드러나는 영역까지 카드 배경과 이어지려면 여기서 덮어야 한다.
+        style={{ backgroundColor: vars.$color.bg.layerBasement }}
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <VStack gap="spacingY.componentDefault" pb="safeArea">
-          <Box px="spacingX.globalGutter">
-            <Callout
-              tone="critical"
-              prefixIcon={<IconHandPointUpLine />}
-              title="foobar"
-              description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
-              aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
-              occaecat duis irure ea sunt officia cupidatat."
-              {...PullToRefresh.preventPull}
-            />
-          </Box>
-          <VStack gap="spacingY.componentDefault" pb="spacingY.componentDefault">
-            {navigationSections.map((section, sectionIndex) => (
-              <>
-                <VStack key={section.title}>
-                  <ListHeader>{section.title}</ListHeader>
-                  <List>
-                    {section.items.map((item) =>
-                      item.component ? (
-                        <React.Fragment key={item.title}>{item.component}</React.Fragment>
-                      ) : (
-                        <ListButtonItem
-                          key={item.title}
-                          onClick={item.onClick}
-                          title={item.title}
-                        />
-                      ),
-                    )}
-                  </List>
-                </VStack>
-                {sectionIndex < navigationSections.length - 1 && <Divider />}
-              </>
+        <VStack pb="safeArea" minHeight="100%">
+          <Grid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap="x4" px="x4" pb="x4">
+            {navigationSections.map((section) => (
+              <VStack key={section.title} py="x1_5" borderRadius="r3_5" bg="bg.layerDefault">
+                <ListHeader as="h2">{section.title}</ListHeader>
+                <List itemBorderRadius="r2">
+                  {section.items.map((item) =>
+                    item.component ? (
+                      <React.Fragment key={item.title}>{item.component}</React.Fragment>
+                    ) : (
+                      <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
+                    ),
+                  )}
+                </List>
+              </VStack>
             ))}
-          </VStack>
+          </Grid>
         </VStack>
       </AppScreenContent>
     </AppScreen>
