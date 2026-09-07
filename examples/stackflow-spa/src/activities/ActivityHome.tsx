@@ -120,29 +120,29 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       title: "Drawer",
       icon: PanelBottomIcon,
       items: [
-        { title: "기본", onClick: () => push("ActivityBottomSheet", {}) },
+        { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
         {
-          title: "modal 토글",
+          title: "BottomSheet: modal 토글",
           onClick: () => push("ActivityBottomSheetModalTest", {}),
         },
         {
-          title: "TextField only",
+          title: "BottomSheet: TextField only",
           onClick: () => push("ActivityBottomSheetTextField", {}),
         },
         {
-          title: "snapPoints × 입력 포커스",
+          title: "BottomSheet: snapPoints × 입력 포커스",
           onClick: () => push("ActivityBottomSheetInputFocus", {}),
         },
         {
-          title: "Keyboard Playground",
+          title: "BottomSheet: Keyboard Playground",
           onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
         },
         {
-          title: "AlertDialog 중첩 (step)",
+          title: "BottomSheet × AlertDialog (step)",
           onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
         },
         {
-          title: "AlertDialog 중첩 (activity)",
+          title: "BottomSheet × AlertDialog (activity)",
           onClick: () => push("ActivityNestedBottomSheet", {}),
         },
         {
