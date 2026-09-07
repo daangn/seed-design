@@ -54,12 +54,12 @@ import { useSwipeBackSnackbar } from "../hooks/useSwipeBackSnackbar";
 /**
  * 스와이프백과 부딪히는 케이스들을 한 화면에 모은다. 이 케이스들은 임의의
  * `swipeBackArea` / `swipeBackCommitRatio` 조합 아래에서 돌아가야 하므로, 두 값을
- * activity params 로 받는다. 조합을 바꾸는 컨트롤은 `ActivityNextAppScreen` 에
+ * activity params 로 받는다. 조합을 바꾸는 컨트롤은 `ActivityAppScreen` 에
  * 있으며, 거기서 현재 설정 그대로 이 화면을 push 한다.
  */
 declare module "@stackflow/config" {
   interface Register {
-    ActivityNextAppScreenGesture: {
+    ActivityAppScreenGesture: {
       swipeBackArea?: NonNullable<NextAppScreenProps["swipeBackArea"]>;
       swipeBackCommitRatio?: string;
       "bottom-sheet"?: "open";
@@ -101,7 +101,7 @@ function Case({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-const ActivityNextAppScreenGesture: StaticActivityComponentType<"ActivityNextAppScreenGesture"> = ({
+const ActivityAppScreenGesture: StaticActivityComponentType<"ActivityAppScreenGesture"> = ({
   params,
 }) => {
   const { push } = useFlow();
@@ -300,4 +300,4 @@ const ActivityNextAppScreenGesture: StaticActivityComponentType<"ActivityNextApp
   );
 };
 
-export default ActivityNextAppScreenGesture;
+export default ActivityAppScreenGesture;

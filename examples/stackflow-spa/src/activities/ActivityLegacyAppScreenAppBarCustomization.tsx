@@ -1,11 +1,9 @@
+import { Flex, Icon } from "@seed-design/react";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
-  NextAppBarCloseButton,
   NextAppBarIconButton,
-  NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRight,
 } from "seed-design/ui/next-app-bar";
@@ -13,33 +11,30 @@ import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-scr
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityNextAppScreenPreview: {};
+    ActivityLegacyAppScreenAppBarCustomization: {};
   }
 }
 
-const ActivityNextAppScreenPreview: StaticActivityComponentType<
-  "ActivityNextAppScreenPreview"
+const ActivityLegacyAppScreenAppBarCustomization: StaticActivityComponentType<
+  "ActivityLegacyAppScreenAppBarCustomization"
 > = () => {
   return (
-    <NextAppScreen theme="cupertino">
-      <NextAppBar>
-        <NextAppBarLeft>
-          <NextAppBarCloseButton />
-        </NextAppBarLeft>
-        <NextAppBarMain>Next Preview</NextAppBarMain>
+    <NextAppScreen theme="android">
+      <NextAppBar bg="palette.blue200">
+        <NextAppBarMain title="Preview" subtitle="This is a nice preview." />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
-            <IconBellFill />
+            <Icon svg={<IconBellFill />} color="palette.blue500" size="x5" />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>
       <NextAppScreenContent>
-        <Flex height="full" justify="center" align="center">
-          Next Preview
+        <Flex justify="center" align="center" height="full">
+          Preview
         </Flex>
       </NextAppScreenContent>
     </NextAppScreen>
   );
 };
 
-export default ActivityNextAppScreenPreview;
+export default ActivityLegacyAppScreenAppBarCustomization;

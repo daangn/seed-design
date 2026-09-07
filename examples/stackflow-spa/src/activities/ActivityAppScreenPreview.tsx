@@ -3,7 +3,7 @@ import { Flex } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
-  NextAppBarBackButton,
+  NextAppBarCloseButton,
   NextAppBarIconButton,
   NextAppBarLeft,
   NextAppBarMain,
@@ -13,20 +13,20 @@ import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-scr
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityNextAppScreenTransparent: {};
+    ActivityAppScreenPreview: {};
   }
 }
 
-const ActivityNextAppScreenTransparent: StaticActivityComponentType<
-  "ActivityNextAppScreenTransparent"
+const ActivityAppScreenPreview: StaticActivityComponentType<
+  "ActivityAppScreenPreview"
 > = () => {
   return (
-    <NextAppScreen contentOffsetTop="none" tone="transparent">
+    <NextAppScreen theme="cupertino">
       <NextAppBar>
         <NextAppBarLeft>
-          <NextAppBarBackButton />
+          <NextAppBarCloseButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Transparent</NextAppBarMain>
+        <NextAppBarMain>Next Preview</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
             <IconBellFill />
@@ -34,18 +34,12 @@ const ActivityNextAppScreenTransparent: StaticActivityComponentType<
         </NextAppBarRight>
       </NextAppBar>
       <NextAppScreenContent>
-        <Flex
-          height="full"
-          justify="center"
-          align="center"
-          bg="palette.gray800"
-          color="fg.neutralInverted"
-        >
-          Transparent
+        <Flex height="full" justify="center" align="center">
+          Next Preview
         </Flex>
       </NextAppScreenContent>
     </NextAppScreen>
   );
 };
 
-export default ActivityNextAppScreenTransparent;
+export default ActivityAppScreenPreview;
