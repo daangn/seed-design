@@ -1,5 +1,6 @@
 import { textInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
+import { pseudo } from "../utils/pseudo";
 
 const textInput = defineSlotRecipe({
   name: "text-input",
@@ -51,6 +52,10 @@ const textInput = defineSlotRecipe({
       backgroundColor: "transparent",
       color: vars.base.enabled.value.color,
       fontWeight: vars.base.enabled.value.fontWeight,
+      [pseudo("::placeholder")]: {
+        color: vars.base.enabled.placeholder.color,
+        fontWeight: vars.base.enabled.placeholder.fontWeight,
+      },
     },
     textareaRoot: {
       flexGrow: 1,
@@ -181,7 +186,12 @@ const textInput = defineSlotRecipe({
     },
     disabled: {
       true: {
-        value: { color: vars.base.disabled.value.color },
+        value: {
+          color: vars.base.disabled.value.color,
+          [pseudo("::placeholder")]: {
+            color: vars.base.disabled.placeholder.color,
+          },
+        },
         prefixText: { color: vars.base.disabled.prefixText.color },
         prefixIcon: { color: vars.base.disabled.prefixIcon.color },
         suffixText: { color: vars.base.disabled.suffixText.color },
