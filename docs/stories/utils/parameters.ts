@@ -24,7 +24,7 @@ export const VISUAL_VIEWPORT_PARAMETERS = {
     modes: Object.fromEntries(breakpointNames.map((name) => [name, { viewport: name }])),
   },
   kapture: {
-    captureViewports: breakpointNames,
+    captureViewports: ["sm", "md", "lg"],
   },
 } satisfies { kapture: KaptureStoryParameters; chromatic: { modes: object } };
 
