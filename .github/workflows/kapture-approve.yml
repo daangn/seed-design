@@ -28,4 +28,4 @@ jobs:
           node-version: "24"
       - env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: npx --yes @kaptures/cli@0.6.1 github approve --comment-language ko
+        run: npx --yes @kaptures/cli@0.7.0 github approve --comment-language ko

@@ -20,7 +20,7 @@ describe("visual test provider parameters", () => {
   });
 
   test("maps responsive captures independently for both providers", () => {
-    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.captureViewports).toEqual([...breakpointNames]);
+    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.captureViewports).toEqual(["sm", "md", "lg"]);
     expect(Object.keys(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes)).toEqual([...breakpointNames]);
   });
 });
