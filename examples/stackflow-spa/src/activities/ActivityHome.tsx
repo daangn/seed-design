@@ -73,15 +73,17 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   const { zIndex: activityIndex } = useActivity();
 
   const navigationSections: NavigationSection[] = [
+    // 화면 껍데기 자체를 prop으로 조작하는 화면. push/pop 옵션이 주제인 화면은 Stack & Transition으로 간다.
     {
-      title: "AppBar",
+      title: "App Screen",
       items: [
-        { title: "LayerBar", onClick: () => push("ActivityLayerBar", {}) },
-        { title: "TransparentBar", onClick: () => push("ActivityTransparentBar", {}) },
+        { title: "AppBar 슬롯 · 긴 제목", onClick: () => push("ActivityLayerBar", {}) },
+        { title: "AppScreen transparent", onClick: () => push("ActivityTransparentBar", {}) },
+        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
       ],
     },
     {
-      title: "AppScreen",
+      title: "Stack & Transition",
       items: [
         { title: "Pop Test (중복 pop 가드)", onClick: () => push("ActivityPopTest", {}) },
         {
@@ -89,39 +91,78 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           onClick: () => push("ActivityAnimateFalseTest", {}),
         },
         {
-          title: `Push to here (current activityIndex: ${activityIndex})`,
+          title: `홈 다시 push (깊이: ${activityIndex})`,
           onClick: () => push("ActivityHome", {}),
         },
-        { title: "@stackflow/plugin-basic-ui", onClick: () => push("ActivityPluginBasicUI", {}) },
         ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
-          title: `ActivityTransitionStyle (${transitionStyle})`,
+          title: `전환 스타일: ${transitionStyle}`,
           onClick: () => push("ActivityTransitionStyle", { transitionStyle }),
         })),
       ],
     },
+    // 화면 아래에서 올라오는 시트. 중앙·가장자리 고정 오버레이는 Dialog & Panel로 간다.
     {
-      title: "Avatars",
+      title: "Bottom Sheet",
       items: [
-        { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
-        { title: "Avatar", onClick: () => push("ActivityAvatar", {}) },
-      ],
-    },
-    {
-      title: "Box",
-      items: [
-        { title: "Margin Playground", onClick: () => push("ActivityMarginPlayground", {}) },
-        { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
-        { title: "SidePanel IACVT (구형 iOS)", onClick: () => push("ActivityIacvtSidePanel", {}) },
-        { title: "Overlay IACVT (구형 iOS)", onClick: () => push("ActivityIacvtOverlay", {}) },
-        { title: "Margin/Bleed IACVT (구형 iOS)", onClick: () => push("ActivityIacvtMargin", {}) },
+        { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
         {
-          title: "IACVT initial-fallback 실험 (구형 iOS)",
-          onClick: () => push("ActivityIacvtExperiment", {}),
+          title: "BottomSheet modal 토글",
+          onClick: () => push("ActivityBottomSheetModalTest", {}),
+        },
+        {
+          title: "BottomSheet (TextField only)",
+          onClick: () => push("ActivityBottomSheetTextField", {}),
+        },
+        {
+          title: "BottomSheet snapPoints × 입력 포커스",
+          onClick: () => push("ActivityBottomSheetInputFocus", {}),
+        },
+        {
+          title: "BottomSheet Keyboard Playground",
+          onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (step)",
+          onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
+        },
+        {
+          title: "BottomSheet × AlertDialog (activity)",
+          onClick: () => push("ActivityNestedBottomSheet", {}),
+        },
+        {
+          title: "MenuSheet",
+          component: (
+            <DialogPushTrigger
+              callbackActivity={menuSheetCallback}
+              params={{}}
+              onPop={(result) => {
+                console.log(result?.action);
+              }}
+            >
+              <ListButtonItem title="MenuSheet" />
+            </DialogPushTrigger>
+          ),
+        },
+        {
+          title: "SwipeableMenuSheet",
+          component: (
+            <DialogPushTrigger
+              callbackActivity={swipeableMenuSheetCallback}
+              params={{}}
+              onPop={(result) => {
+                console.log(result?.action);
+              }}
+            >
+              <ListButtonItem title="SwipeableMenuSheet" />
+            </DialogPushTrigger>
+          ),
         },
       ],
     },
+    // 화면 중앙 또는 가장자리에 고정되는 오버레이. Responsive 계열은 좁은 화면에서 시트로 렌더되지만
+    // 검증 대상 API가 ResponsiveSidePanel/ResponsiveDialog이므로 여기에 둔다.
     {
-      title: "AlertDialogs",
+      title: "Dialog & Panel",
       items: [
         {
           title: "AlertDialog (step)",
@@ -164,18 +205,20 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             console.log(result.message);
           },
         },
+        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
+        {
+          title: "ResponsiveSidePanel",
+          onClick: () => push("ActivityResponsiveSidePanel", {}),
+        },
+        {
+          title: "ResponsiveDialog",
+          onClick: () => push("ActivityResponsiveDialog", {}),
+        },
       ],
     },
+    // 트리거 요소에 앵커되는 오버레이의 배치·정렬.
     {
-      title: "Buttons",
-      items: [
-        { title: "ActionButton", onClick: () => push("ActivityActionButton", {}) },
-        { title: "ToggleButton", onClick: () => push("ActivityToggleButton", {}) },
-        { title: "ReactionButton", onClick: () => push("ActivityReactionButton", {}) },
-      ],
-    },
-    {
-      title: "Menu",
+      title: "Menu & Popover",
       items: [
         { title: "Menu", onClick: () => push("ActivityMenu", {}) },
         {
@@ -197,73 +240,45 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
             </MenuRoot>
           ),
         },
+        { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
       ],
     },
+    // PTR 제스처의 발동·차단 조건. 스와이프백 제스처는 App Screen으로 간다.
     {
-      title: "BottomSheets",
+      title: "Pull to Refresh",
       items: [
-        { title: "BottomSheet", onClick: () => push("ActivityBottomSheet", {}) },
+        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
+        { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
         {
-          title: "BottomSheet Modal Test",
-          onClick: () => push("ActivityBottomSheetModalTest", {}),
+          title: "PullToRefresh (preventPull)",
+          onClick: () => push("ActivityPullToRefreshPreventPull", {}),
         },
         {
-          title: "BottomSheet (TextField only)",
-          onClick: () => push("ActivityBottomSheetTextField", {}),
-        },
-        {
-          title: "BottomSheet Share (snapPoints)",
-          onClick: () => push("ActivityBottomSheetInputFocus", {}),
-        },
-        {
-          title: "BottomSheet Keyboard Playground",
-          onClick: () => push("ActivityBottomSheetKeyboardPlayground", {}),
-        },
-        {
-          title: "BottomSheet × AlertDialog (Step)",
-          onClick: () => push("ActivityBottomSheetWithAlertDialogStep", {}),
-        },
-        {
-          title: "BottomSheet × AlertDialog (Activity)",
-          onClick: () => push("ActivityNestedBottomSheet", {}),
-        },
-        {
-          title: "MenuSheet",
-          component: (
-            <DialogPushTrigger
-              callbackActivity={menuSheetCallback}
-              params={{}}
-              onPop={(result) => {
-                console.log(result?.action);
-              }}
-            >
-              <ListButtonItem title="MenuSheet" />
-            </DialogPushTrigger>
-          ),
-        },
-        {
-          title: "SwipeableMenuSheet",
-          component: (
-            <DialogPushTrigger
-              callbackActivity={swipeableMenuSheetCallback}
-              params={{}}
-              onPop={(result) => {
-                console.log(result?.action);
-              }}
-            >
-              <ListButtonItem title="SwipeableMenuSheet" />
-            </DialogPushTrigger>
-          ),
+          title: "Article preventPull (텍스트 선택)",
+          onClick: () => push("ActivityArticlePreventPull", {}),
         },
       ],
     },
+    // 콘텐츠 묶음 사이를 이동시키는 컨트롤. 화면 스택 이동은 Stack & Transition으로 간다.
     {
-      title: "Chips",
+      title: "Navigation",
       items: [
-        { title: "Chip.Button", onClick: () => push("ActivityChipButton", {}) },
-        { title: "Chip.Toggle", onClick: () => push("ActivityChipToggle", {}) },
+        { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
+        { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
+        { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        {
+          title: "Tabs autoHeight × 지연 로딩",
+          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+        },
+        {
+          title: "ChipTabs × ScrollFog",
+          onClick: () => push("ActivityChipTabsScrollFog", {}),
+        },
+        { title: "Pagination", onClick: () => push("ActivityPagination", {}) },
+        { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
       ],
     },
+    // List 계열 아이템의 prefix/suffix 조합. 그 안에 쓰이는 Checkbox·Switch·Radio 자체는 Form으로 간다.
     {
       title: "List",
       items: [
@@ -276,23 +291,51 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "ListRadioItem", onClick: () => push("ActivityListRadioItem", {}) },
       ],
     },
+    // 값을 입력·선택받는 컨트롤. 누르기만 하는 버튼·칩은 Button & Chip으로 간다.
     {
-      title: "PullToRefresh",
+      title: "Form",
       items: [
-        { title: "PullToRefresh", onClick: () => push("ActivityPullToRefreshPreview", {}) },
-        { title: "PullToRefresh × Tabs", onClick: () => push("ActivityPullToRefreshTabs", {}) },
+        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
+        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
+        { title: "QuantityPicker", onClick: () => push("ActivityQuantityPicker", {}) },
+        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
+        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
+        { title: "Select", onClick: () => push("ActivitySelect", {}) },
+        { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
+        { title: "WheelPicker", onClick: () => push("ActivityWheelPicker", {}) },
+        { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
         {
-          title: "PullToRefresh (preventPull)",
-          onClick: () => push("ActivityPullToRefreshPreventPull", {}),
+          title: "AttachmentDisplayField",
+          onClick: () => push("ActivityAttachmentDisplayField", {}),
         },
-        {
-          title: "Article (preventPull)",
-          onClick: () => push("ActivityArticlePreventPull", {}),
-        },
+        { title: "Form 조합 예제", onClick: () => push("ActivityForm", {}) },
       ],
     },
     {
-      title: "Snackbars",
+      title: "Button & Chip",
+      items: [
+        { title: "ActionButton", onClick: () => push("ActivityActionButton", {}) },
+        { title: "ToggleButton", onClick: () => push("ActivityToggleButton", {}) },
+        { title: "ReactionButton", onClick: () => push("ActivityReactionButton", {}) },
+        { title: "Chip.Button", onClick: () => push("ActivityChipButton", {}) },
+        { title: "Chip.Toggle", onClick: () => push("ActivityChipToggle", {}) },
+      ],
+    },
+    // 정보를 보여주기만 하는 컴포넌트와 화면 전체 상태 표현.
+    {
+      title: "Content Display",
+      items: [
+        { title: "Avatar", onClick: () => push("ActivityAvatar", {}) },
+        { title: "AvatarStack", onClick: () => push("ActivityAvatarStack", {}) },
+        { title: "Badge", onClick: () => push("ActivityBadge", {}) },
+        { title: "MannerTempBadge", onClick: () => push("ActivityMannerTempLevel", {}) },
+        { title: "Accordion", onClick: () => push("ActivityAccordion", {}) },
+        { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
+        { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
+      ],
+    },
+    {
+      title: "Snackbar",
       items: [
         {
           title: "Snackbar",
@@ -343,74 +386,28 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         },
       ],
     },
+    // 특정 컴포넌트가 아니라 그 아래 스타일 레이어(토큰·스타일 프롭·컬러 모드·폰트 배율·CSS 변수 엔진)를
+    // 보는 화면.
     {
-      title: "Tabs",
+      title: "Foundation",
       items: [
-        { title: "Tabs", onClick: () => push("ActivityTabs", {}) },
-        { title: "AnimatedTabs", onClick: () => push("ActivityAnimatedTabs", {}) },
-        { title: "SwipeableTabs", onClick: () => push("ActivitySwipeableTabs", {}) },
+        { title: "Box margin 프롭", onClick: () => push("ActivityMarginPlayground", {}) },
+        { title: "IACVT Leak Check (구형 iOS)", onClick: () => push("ActivityIacvtLeak", {}) },
+        { title: "SidePanel IACVT (구형 iOS)", onClick: () => push("ActivityIacvtSidePanel", {}) },
+        { title: "Overlay IACVT (구형 iOS)", onClick: () => push("ActivityIacvtOverlay", {}) },
+        { title: "Margin/Bleed IACVT (구형 iOS)", onClick: () => push("ActivityIacvtMargin", {}) },
         {
-          title: "TabsAutoHeightLazy",
-          onClick: () => push("ActivityTabsAutoHeightLazy", {}),
+          title: "IACVT: initial 폴백 가설 (순수 CSS)",
+          onClick: () => push("ActivityIacvtExperiment", {}),
         },
-        {
-          title: "ChipTabsScrollFog",
-          onClick: () => push("ActivityChipTabsScrollFog", {}),
-        },
-      ],
-    },
-    {
-      title: "Forms",
-      items: [
-        { title: "Switch", onClick: () => push("ActivitySwitch", {}) },
-        { title: "Checkbox", onClick: () => push("ActivityCheckbox", {}) },
-        { title: "Quantity Picker", onClick: () => push("ActivityQuantityPicker", {}) },
-        { title: "RadioGroup", onClick: () => push("ActivityRadioGroup", {}) },
-        { title: "SegmentedControl", onClick: () => push("ActivitySegmentedControl", {}) },
-        { title: "Select", onClick: () => push("ActivitySelect", {}) },
-        { title: "TimePicker", onClick: () => push("ActivityTimePicker", {}) },
-        { title: "Wheel Picker", onClick: () => push("ActivityWheelPicker", {}) },
-        { title: "AttachmentField", onClick: () => push("ActivityAttachmentField", {}) },
-        {
-          title: "AttachmentDisplayField",
-          onClick: () => push("ActivityAttachmentDisplayField", {}),
-        },
-        { title: "Form", onClick: () => push("ActivityForm", {}) },
-      ],
-    },
-    {
-      title: "Other Components",
-      items: [
-        { title: "Accordion", onClick: () => push("ActivityAccordion", {}) },
-        { title: "Pagination", onClick: () => push("ActivityPagination", {}) },
-        { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
-        { title: "Badge", onClick: () => push("ActivityBadge", {}) },
-        { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
-        { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
-        { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
-        { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
-        { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
-        {
-          title: "ResponsiveSidePanel",
-          onClick: () => push("ActivityResponsiveSidePanel", {}),
-        },
-        {
-          title: "ResponsiveDialog",
-          onClick: () => push("ActivityResponsiveDialog", {}),
-        },
-      ],
-    },
-    {
-      title: "Misc",
-      items: [
         {
           title: "Font Multiplier Layout",
           onClick: () => push("ActivityFontMultiplierLayout", {}),
         },
         { title: "Typography Scale", onClick: () => push("ActivityTypographyScale", {}) },
-        { title: "Scale Feedback", onClick: () => push("ActivityScaleFeedback", {}) },
+        { title: "누름 축소 피드백", onClick: () => push("ActivityScaleFeedback", {}) },
         { title: "PartialDarkMode", onClick: () => push("ActivityPartialDarkMode", {}) },
-        { title: "Mixed Version Test", onClick: () => push("ActivityMixedVersionTest", {}) },
+        { title: "v2 변수 × v3 토큰 혼용", onClick: () => push("ActivityMixedVersionTest", {}) },
       ],
     },
   ];
