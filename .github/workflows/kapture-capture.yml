@@ -54,7 +54,7 @@ jobs:
             dev|codex/kapture-shadow-experiment) ;;
             *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
           esac
-          npx --yes @kaptures/cli@0.6.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+          npx --yes @kaptures/cli@0.6.1 github context --base-branch "$KAPTURE_BASE_BRANCH" --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         if: steps.context.outputs.integration-mode == 'compare'
@@ -96,7 +96,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.6.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: npx --yes @kaptures/cli@0.6.1 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -137,7 +137,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.6.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: npx --yes @kaptures/cli@0.6.1 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -189,7 +189,7 @@ jobs:
           KAPTURE_BASE_ARTIFACT_DIGEST: ${{ needs.build-base.outputs.artifact-digest }}
           KAPTURE_HEAD_ARTIFACT_ID: ${{ needs.build-head.outputs.artifact-id }}
           KAPTURE_HEAD_ARTIFACT_DIGEST: ${{ needs.build-head.outputs.artifact-digest }}
-        run: npx --yes @kaptures/cli@0.6.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
+        run: npx --yes @kaptures/cli@0.6.1 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: kapture-visual-report-${{ needs.context.outputs.artifact-suffix }}
@@ -242,7 +242,7 @@ jobs:
         id: report
         env:
           KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-        run: npx --yes @kaptures/cli@0.6.0 github prepare-preview --base-branch "$KAPTURE_BASE_BRANCH" --input "${{ runner.temp }}/kapture-raw" --output "${{ runner.temp }}/kapture-review" --storybook-directory "${{ runner.temp }}/kapture-head-storybook"
+        run: npx --yes @kaptures/cli@0.6.1 github prepare-preview --base-branch "$KAPTURE_BASE_BRANCH" --input "${{ runner.temp }}/kapture-raw" --output "${{ runner.temp }}/kapture-review" --storybook-directory "${{ runner.temp }}/kapture-head-storybook"
       - name: Deploy the dashboard and exact Storybook to the existing Pages project
         id: deploy
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
@@ -273,7 +273,7 @@ jobs:
           KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.immutable-url }}
           KAPTURE_REPORT_DIGEST: ${{ steps.report.outputs.report-digest }}
-        run: npx --yes @kaptures/cli@0.6.0 github publish-preview --base-branch "$KAPTURE_BASE_BRANCH" --report "${{ runner.temp }}/kapture-review/report.json" --report-digest "$KAPTURE_REPORT_DIGEST" --report-url "$KAPTURE_REPORT_URL"
+        run: npx --yes @kaptures/cli@0.6.1 github publish-preview --base-branch "$KAPTURE_BASE_BRANCH" --report "${{ runner.temp }}/kapture-review/report.json" --report-digest "$KAPTURE_REPORT_DIGEST" --report-url "$KAPTURE_REPORT_URL"
     env:
       npm_config_registry: https://registry.npmjs.org/
       npm_config_ignore_scripts: "true"

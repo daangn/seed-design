@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: "24"
       - id: review
-        run: npx --yes @kaptures/cli@0.6.0 github prepare-review --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
+        run: npx --yes @kaptures/cli@0.6.1 github prepare-review --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
       - name: Deploy dashboard and Storybook together
         id: deploy
         if: steps.review.outputs.ready == 'true'
@@ -63,7 +63,7 @@ jobs:
         if: steps.review.outputs.ready == 'true'
         env:
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
-        run: npx --yes @kaptures/cli@0.6.0 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
+        run: npx --yes @kaptures/cli@0.6.1 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
   finalize:
     needs: publish
     if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.pull_requests[0].base.ref == 'dev' && github.event.workflow_run.head_repository.full_name == github.repository
@@ -80,4 +80,4 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
-      - run: npx --yes @kaptures/cli@0.6.0 github finalize-run --base-branch "$KAPTURE_BASE_BRANCH" --capture-workflow-path .github/workflows/kapture-capture.yml
+      - run: npx --yes @kaptures/cli@0.6.1 github finalize-run --base-branch "$KAPTURE_BASE_BRANCH" --capture-workflow-path .github/workflows/kapture-capture.yml
