@@ -55,7 +55,9 @@ export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) 
 });
 Checkmark.displayName = "Checkmark";
 
-export interface CheckboxGroupProps extends SeedCheckbox.GroupProps {
+export interface CheckboxGroupProps
+  extends SeedCheckbox.GroupProps,
+    Pick<SeedField.RootProps, "required" | "invalid" | "readOnly"> {
   label?: React.ReactNode;
   /**
    * @default "medium"
