@@ -32,6 +32,6 @@ SEED React 컴포넌트를 Stackflow SPA에서 검증하는 예제 앱이다. �
 - activity는 `NextAppScreen` + `NextAppBar` 구조를 기본으로 쓴다.
 - 한 화면에서 두 세대를 섞지 않는다. legacy `AppBar`는 `useAppScreenContext()`를 호출하므로 `NextAppScreen` 안에서 렌더하면 throw한다.
 - 플랫폼 분기는 `src/platform.ts`의 `isIos`로 통일하고 `Stack.tsx`의 `seedPlugin` 옵션(`theme`, `swipeBackArea`, `clipRadius`)에서 소비한다.
-- 신규 activity는 NextAppScreen을 쓴다. 구형 AppScreen 예제는 제목과 홈 링크 또는 홈 섹션에 `Legacy`를 표시한다.
+- 신규 activity는 NextAppScreen을 쓴다. 구형 AppScreen 화면은 `ActivityLegacy*` 이름과 `/legacy-*` 라우트를 쓰고, 제목과 홈 링크에 `Legacy`를 표시한다.
 - snippet이 있는 컴포넌트는 `@seed-design/react` 직접 import 대신 `seed-design/ui/*`를 쓴다.
 - 컴포넌트가 제공하는 권장 layout을 먼저 보여준다. `Footer`, `Body`처럼 recipe가 gap·stretch·layout을 가진 slot에는 검증 목적 없는 layout wrapper를 넣지 않는다.
