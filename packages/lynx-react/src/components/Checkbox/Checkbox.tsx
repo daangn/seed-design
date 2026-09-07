@@ -11,10 +11,7 @@ import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 import { useControllableState } from "../../hooks/useControllableState";
 import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
-import {
-  useScaleFeedback,
-  type ScaleFeedbackTargetProps,
-} from "../../hooks/useScaleFeedback";
+import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
@@ -24,6 +21,7 @@ import type {
 } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -125,13 +123,10 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     disabled,
     onTap: toggle,
   });
-  const handlePressStart = React.useCallback(
-    () => {
-      pressSelectionRef.current = { checked, indeterminate };
-      bindtouchstart();
-    },
-    [bindtouchstart, checked, indeterminate],
-  );
+  const handlePressStart = React.useCallback(() => {
+    pressSelectionRef.current = { checked, indeterminate };
+    bindtouchstart();
+  }, [bindtouchstart, checked, indeterminate]);
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: handlePressStart,
@@ -169,15 +164,17 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   return (
     <CheckboxContext.Provider value={contextValue}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTriggerProps,
+          pressHandlers,
+          nativeProps,
+        )}
         className={clsx(rootClassName, className)}
         accessibility-element={accessibilityElement}
         accessibility-role-description={accessibilityRoleDescription}
         accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
         accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
-        {...scaleFeedbackTriggerProps}
-        {...pressHandlers}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -236,10 +233,13 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       value={{ iconClassName: classes.icon, checkmarkVariantProps }}
     >
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          !hasScaledContent ? context.scaleFeedbackTargetProps : {},
+          nativeProps,
+        )}
         className={clsx(checkboxControlClassName, rootClassName, className)}
-        {...(!hasScaledContent ? context.scaleFeedbackTargetProps : {})}
-        {...nativeProps}
+        {...(!hasScaledContent ? { flatten: false } : {})}
       >
         {isGhost ? <view className={pressStartClasses.background} /> : null}
         {children}
@@ -318,9 +318,8 @@ export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((prop
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(labelClassName, className)}
-      {...nativeProps}
     >
       {children}
     </text>
@@ -338,9 +337,8 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.root, className)}
-      {...nativeProps}
     >
       {children}
     </view>

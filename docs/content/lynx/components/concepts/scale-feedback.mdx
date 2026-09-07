@@ -51,13 +51,13 @@ React의 `ScaleFeedback`은 Slot으로 child에 props를 전달해 DOM wrapper�
 훅은 터치를 받는 요소와 실제로 축소할 요소의 props를 나누어 반환합니다.
 
 ```tsx
-import { useScaleFeedback } from "@seed-design/lynx-react";
+import { mergeProps, useScaleFeedback } from "@seed-design/lynx-react";
 
 function Pressable() {
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
   return (
-    <view {...scaleFeedbackTriggerProps} {...scaleFeedbackTargetProps}>
+    <view {...mergeProps(scaleFeedbackTriggerProps, scaleFeedbackTargetProps)}>
       <text>눌러 보세요</text>
     </view>
   );
@@ -71,6 +71,21 @@ function Pressable() {
 </LynxComponentExample>
 
 `scaleFeedbackTargetProps`는 Main Thread ref와 animation이 실제 render object를 가리키도록 `flatten={false}`도 포함합니다. target에 props 객체를 그대로 전달하세요.
+
+### 기존 이벤트와 ref 합성하기
+
+같은 요소에 여러 props 객체를 전달할 때는 `mergeProps()`를 사용하세요. 단순 spread는 같은 이름의 이벤트와 ref를 덮어쓰지만, `mergeProps()`는 기존 동작을 함께 보존합니다.
+
+```tsx
+<view
+  {...mergeProps(scaleFeedbackTriggerProps, scaleFeedbackTargetProps, userProps)}
+  flatten={false}
+/>
+```
+
+뒤에 전달한 객체의 동일 이름 이벤트가 먼저 실행되므로 사용자 props를 마지막에 전달합니다. `false` 반환이나 `preventDefault()`가 다른 handler 실행을 취소하지는 않습니다. `className`은 연결하고 객체 `style`은 얕게 병합하며, 일반 값은 뒤의 값이 우선합니다. `undefined`는 앞의 값을 유지합니다. animation target의 `flatten={false}`는 사용자 props 뒤에서도 유지하세요.
+
+`ref`와 `main-thread:ref`는 각각 자신의 스레드에서 연결과 cleanup을 합성합니다. 이벤트도 정확히 같은 키끼리만 합성하므로 `bindtap`, `catchtap`, `main-thread:bindtap`의 전파 방식이나 실행 스레드를 바꾸지 않습니다. `mergeProps()`가 스레드 간 전달을 대신하지는 않습니다. 같은 touch 입력의 Background 로직은 훅의 `onTouchStart`·`onTouchEnd`·`onTouchCancel`로 연결하세요.
 
 <Callout>
 브라우저 미리보기는 구조와 기본 상호작용을 확인하는 용도입니다. 실제 Scale Feedback 동작은 Lynx Explorer에서 확인하세요.

@@ -17,6 +17,7 @@ import type {
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
 import { ScaleFeedback } from "../ScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(pageBanner);
@@ -126,9 +127,11 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
         <PropsProvider value={variantProps}>
           <IconSlotProvider value={iconSlotContextValue}>
             <view
-              {...(ref ? { ref: ref as LynxViewRef } : {})}
-              {...nativeProps}
-              {...(isInteractive ? pressTap : {})}
+              {...mergeProps(
+                ref ? { ref: ref as LynxViewRef } : {},
+                isInteractive ? pressTap : {},
+                nativeProps,
+              )}
               accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
               accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
               className={clsx(classNames.root, className)}
@@ -154,8 +157,7 @@ export const PageBannerContent = React.forwardRef<unknown, PageBannerContentProp
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.content, className)}
       style={style}
     >
@@ -175,8 +177,7 @@ export const PageBannerBody = React.forwardRef<unknown, PageBannerBodyProps>((pr
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.body, className)}
       style={style}
     >
@@ -196,8 +197,7 @@ export const PageBannerTitle = React.forwardRef<unknown, PageBannerTitleProps>((
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.title, className)}
       style={style}
     >
@@ -221,8 +221,7 @@ export const PageBannerDescription = React.forwardRef<unknown, PageBannerDescrip
 
     return (
       <text
-        {...(ref ? { ref: ref as LynxTextRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         className={clsx(classNames.description, className)}
         style={style}
       >
@@ -254,8 +253,7 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
   return (
     <ScaleFeedback>
       <text
-        {...(ref ? { ref: ref as LynxTextRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         accessibility-element={accessibilityElement}
         accessibility-traits={accessibilityTraits}
         className={clsx(classNames.button, className)}
@@ -323,16 +321,19 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
     return (
       <IconSlotProvider value={iconSlotContextValue}>
         <view
-          {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
-          {...pressTapHandlers}
-          {...scaleFeedbackTriggerProps}
-          {...scaleFeedbackTargetProps}
+          {...mergeProps(
+            ref ? { ref: ref as LynxViewRef } : {},
+            pressTapHandlers,
+            scaleFeedbackTriggerProps,
+            scaleFeedbackTargetProps,
+            nativeProps,
+          )}
           accessibility-element={accessibilityElement}
           accessibility-label={accessibilityLabel}
           accessibility-traits={accessibilityTraits}
           className={clsx(classNames.closeButton, className)}
           style={style}
+          flatten={false}
         >
           {children}
         </view>

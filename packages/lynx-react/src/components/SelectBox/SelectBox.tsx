@@ -25,6 +25,7 @@ import {
   type RadioGroupItemProps,
   useRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -132,10 +133,9 @@ const SelectBoxGroup = React.forwardRef<unknown, SelectBoxGroupProps>((props, re
   return (
     <SelectBoxLayoutContext.Provider value={{ layout }}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes, className)}
         style={{ ...style, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -342,9 +342,8 @@ function createViewSlot(displayName: string, slot: keyof ReturnType<typeof selec
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes[slot], className)}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -361,9 +360,8 @@ function createTextSlot(displayName: string, slot: keyof ReturnType<typeof selec
 
     return (
       <text
-        {...(ref ? { ref: ref as LynxTextRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         className={clsx(classes[slot], className)}
-        {...nativeProps}
       >
         {children}
       </text>
@@ -386,9 +384,8 @@ function createLabelSlot(displayName: string) {
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.label, className)}
-        {...nativeProps}
       >
         {labelChildren}
       </view>
@@ -454,7 +451,7 @@ const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, 
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.footer, className)}
       style={{
         ...style,
@@ -466,7 +463,6 @@ const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, 
               : "0px",
       }}
       accessibility-elements-hidden={!open || accessibilityElementsHidden}
-      {...nativeProps}
     >
       <view className={classes.footerInner} bindlayoutchange={handleLayoutChange}>
         {children}
@@ -508,10 +504,9 @@ export const CheckSelectBoxCheckmarkControl = React.forwardRef<
   return (
     <SelectBoxCheckmarkContext.Provider value={{ iconClassName: classes.icon, variantProps }}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.root, className)}
         accessibility-elements-hidden={true}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -536,14 +531,13 @@ export const CheckSelectBoxCheckmarkIcon = React.forwardRef<
 
   return (
     <InternalIcon
-      ref={ref}
+      {...mergeProps({ ref }, otherProps)}
       className={clsx(context.iconClassName, className)}
       deps={[
         context.variantProps.selected,
         context.variantProps.pressed,
         context.variantProps.disabled,
       ]}
-      {...otherProps}
     />
   );
 });

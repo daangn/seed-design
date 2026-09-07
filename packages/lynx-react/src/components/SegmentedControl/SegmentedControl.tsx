@@ -14,6 +14,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { HStack } from "../Stack";
+import { mergeProps } from "../../utils/merge-props";
 
 interface SegmentedControlContextValue {
   value: string | undefined;
@@ -107,8 +108,7 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
       <SegmentedControlContext.Provider value={contextValue}>
         <ClassNamesProvider value={classNames}>
           <view
-            {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...nativeProps}
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
             accessibility-element={accessibilityElement}
             accessibility-role-description={accessibilityRoleDescription}
             className={clsx(classNames.root, className)}
@@ -204,10 +204,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
-        {...scaleFeedbackTriggerProps}
-        {...pressHandlers}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTriggerProps,
+          pressHandlers,
+          nativeProps,
+        )}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel ?? label}
         accessibility-role-description={accessibilityRoleDescription}
@@ -244,8 +246,7 @@ export const SegmentedControlIndicator = React.forwardRef<unknown, SegmentedCont
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         accessibility-elements-hidden={true}
         className={clsx(classNames.indicator, className)}
         style={style}

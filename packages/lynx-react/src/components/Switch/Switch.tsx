@@ -19,6 +19,7 @@ import {
   useScaleFeedback,
   type ScaleFeedbackTargetProps,
 } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -144,15 +145,17 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   return (
     <SwitchContext.Provider value={contextValue}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTriggerProps,
+          pressHandlers,
+          nativeProps,
+        )}
         className={clsx(rootClassName, className)}
         accessibility-element={accessibilityElement}
         accessibility-role-description={accessibilityRoleDescription}
         accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
         accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
-        {...scaleFeedbackTriggerProps}
-        {...pressHandlers}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -184,10 +187,13 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       value={{ thumbClassName: classes.thumb, switchmarkVariantProps }}
     >
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          context.scaleFeedbackTargetProps,
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
-        {...context.scaleFeedbackTargetProps}
-        {...nativeProps}
+        flatten={false}
       >
         {children}
       </view>
@@ -206,9 +212,8 @@ export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, r
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(thumbClassName, className)}
-      {...nativeProps}
     />
   );
 });
@@ -228,9 +233,8 @@ export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, r
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(labelClassName, className)}
-      {...nativeProps}
     >
       {children}
     </text>

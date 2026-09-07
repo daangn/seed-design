@@ -19,6 +19,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { Icon } from "../Icon";
 import { AppBarProvider, useAppBarContext } from "./context";
 import { getLayoutWidth, getMainLayoutStyle, useAppBar } from "./useAppBar";
+import { mergeProps } from "../../utils/merge-props";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
@@ -61,8 +62,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
     <AppBarProvider value={contextValue}>
       <AppBarClassNamesProvider value={classNames}>
         <view
-          {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
           className={clsx(classNames.root, className)}
           style={
             {
@@ -106,9 +106,11 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
-      bindlayoutchange={handleLayoutChange}
+      {...mergeProps(
+        { bindlayoutchange: handleLayoutChange },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={clsx(classNames.left, className)}
     >
       {children}
@@ -139,9 +141,11 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
-      bindlayoutchange={handleLayoutChange}
+      {...mergeProps(
+        { bindlayoutchange: handleLayoutChange },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={clsx(classNames.right, className)}
     >
       {children}
@@ -175,8 +179,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
   return (
     <AppBarMainClassNamesProvider value={classNames}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classNames.root, className)}
         style={
           {
@@ -201,8 +204,7 @@ export const AppBarTitle = React.forwardRef<unknown, AppBarTitleProps>((props, r
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.title, className)}
     >
       {children}
@@ -219,8 +221,7 @@ export const AppBarSubtitle = React.forwardRef<unknown, AppBarSubtitleProps>((pr
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.subtitle, className)}
     >
       {children}
@@ -256,8 +257,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       accessibility-element={accessibilityElement}
       accessibility-label={accessibilityLabel}
       accessibility-traits={accessibilityTraits}
@@ -277,8 +277,7 @@ export const AppBarSlot = React.forwardRef<unknown, AppBarSlotProps>((props, ref
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.custom, className)}
     >
       {children}
