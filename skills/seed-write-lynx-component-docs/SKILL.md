@@ -18,7 +18,7 @@ Lynx 문서와 예제는 같은 컴포넌트의 React 문서를 기준으로 작
 
 - 새 컴포넌트·생성물·공개 소비 경로를 추가할 때만 `seed-change-plan`으로 target branch와 release lane을 확인한다. 알려진 문서의 국소 수정에는 적용하지 않는다.
 - 문서 또는 예제의 렌더링·상호작용 결과가 바뀌거나 사용자가 결과 검증을 요청하면 작성 뒤 [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)를 사용한다.
-- 정적 빌드, bundle URL, Lynx DevTool MCP, 증거 수집은 검증 스킬이 소유한다. 문구·코드 노출만 고치고 실행 결과가 바뀌지 않으면 검증 절차를 추가하지 않는다.
+- 여러 레이어의 구현·Registry·예제·런타임을 나눠 맡는 작업에서는 [`seed-orchestrate-component`](../seed-orchestrate-component/SKILL.md)가 역할과 인계 순서를 정한다. 이 경우 문서 담당은 시나리오·기대 결과·문서 소비 경로를 소유하고, 정적 빌드·manifest·bundle·DevTool 증거는 지정 검증 담당에게 넘긴다. 단독 문서 작업에서는 아래 기존 절차를 그대로 실행한다.
 
 ## 배포 경로 확인
 
@@ -45,6 +45,8 @@ Lynx 문서와 예제는 같은 컴포넌트의 React 문서를 기준으로 작
 
 ## 작업 흐름
 
+단독 작업에서는 아래 순서를 따른다.
+
 1. 수정 범위에 맞춰 대상 MDX·예제와 필요한 React 대응 파일만 읽는다.
 2. 새·변경 시나리오는 동일 지원, Lynx식 변환, 미지원으로 분류하고 근거 없는 `unknown`을 구현 전에 해소한다.
 3. 컴포넌트 사용법, Engine·XElement, CSS·element 사용을 새로 추가하거나 바꿀 때만 [작성 규칙](references/authoring.md)의 호환성 절차와 `find-refer`·`lynx-api-docs`·`lynx-check-css-support`를 사용한다.
@@ -53,6 +55,8 @@ Lynx 문서와 예제는 같은 컴포넌트의 React 문서를 기준으로 작
 6. 네이티브 결과를 새로 주장하거나 예제 동작을 바꿨다면 사용 가능한 Lynx 호스트 앱이나 `examples/lynx-spa`에서 직접 확인한다. 환경이 없으면 확인하지 못한 범위를 보고하고 우회 구현을 추가하지 않는다.
 7. 브라우저와 실제 Lynx 결과가 다르면 [검증 런북](../seed-verify-lynx-component/references/verification.md)의 환경 분리 기준에 따라 문서, 미리보기, 컴포넌트·런타임 문제로 나눈다.
 8. 대상 예제를 다시 읽어 대응표와 실제 작성 결과가 일치하는지 확인하고, 검증한 환경과 남은 제한을 보고한다.
+
+협업 작업에서는 문서 담당이 위 순서의 읽기·작성·시나리오 인계를 수행한다. 변경된 렌더링·상호작용을 직접 통과시켰다고 보고하지 않고, [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)의 지정 검증 담당이 수집한 결과를 받아 문서와 제한을 확정한다.
 
 ## 작업 경계
 
