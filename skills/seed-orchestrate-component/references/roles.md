@@ -4,10 +4,10 @@
 
 ## 조율자
 
-- 사용자 요구, 참조 결과, 대상 플랫폼·소비 경로와 전체 완료 조건을 유지한다.
+- 사용자 요구, 원래 참조 화면·행동의 원천, 대상 플랫폼·소비 경로와 관찰 가능한 승인 조건을 유지한다.
 - 변경 파일의 소유자와 공동 계약의 생산자·소비자를 정한다. 런타임 상태와 생성·빌드 실행 책임도 배정한다.
 - 관련 담당이 근거를 교환한 뒤에도 결정하지 못한 쟁점을 정리한다. 승인 범위를 바꾸는 선택만 사용자에게 묻는다.
-- 본문·로그 전체를 모으지 않고 결정, 변경 경로, 검증 증거와 제한을 회수한다. 모든 구현을 다시 직접 수행하지 않는다.
+- 결정, 변경 경로, 시나리오별 기대·실제 결과와 실행 증거를 회수한다. 중복 구현은 피하지만, 증거가 부족하거나 충돌하면 필요한 원천과 결과를 직접 확인한다.
 - 새 요구사항이나 계약 변경이 생기면 영향받는 담당에게 전달하고 기존 검증 중 재확인이 필요한 항목을 지정한다.
 
 ## Rootage 담당
@@ -32,15 +32,16 @@
 - 변경하는 플랫폼의 상태·이벤트·접근성·hook/context·실제 요소를 소유한다. React는 `packages/react-headless/`와 `packages/react/`, Lynx는 `packages/lynx-react/`의 기존 책임 경계를 따른다.
 - 동일한 prop 이름이 동일한 렌더링 책임을 뜻한다고 가정하지 않는다. prop과 명시적 slot의 관계, 필수 provider 범위, controlled 상태와 표시 수명을 소비자에게 전달한다.
 - Recipe 담당과 slot·상태·모션 계약을, 통합 담당과 실제 공개 조합을 확인한다. 같은 파일의 hook과 UI를 여러 작성자가 동시에 수정하지 않는다.
+- [참조 동작 추적과 기본 장면](../../seed-create-component/references/implementation-steps.md#참조-동작-추적과-기본-장면)에 따라 실제 행동을 만드는 hook·측정·스타일 적용 경로를 확인하고 대상 플랫폼의 책임을 연결한다. 공개 JSX나 수식의 존재만으로 포팅 완료를 선언하지 않는다.
 - 동작 변경에 필요한 기존 테스트와 회귀 방어는 원천 담당이 수정한다. 별도 테스트 체계를 추가하거나 검증자의 기대 결과를 변경하지 않는다.
-- 인계할 것은 공개 API·상태 전이·slot 구조, 의도적인 플랫폼 차이와 영향받는 소비처다.
+- 인계할 것은 행동별 원천·대상 책임, 공개 API·상태 전이·slot 구조, 의도적인 플랫폼 차이와 영향받는 소비처다.
 - 플랫폼에 맞는 [`React 패턴`](../../seed-create-component/references/react-patterns.md) 또는 [`Lynx 패턴`](../../seed-create-component/references/lynx-patterns.md)을 읽는다. Lynx 작업에서는 변경 내용에 맞는 API·TypeScript·ReactLynx 스킬만 추가한다.
 
 ## 소비 경로 통합 담당
 
 - package entry·Registry 등록·wrapper·vendored 소비처의 연결을 소유한다. 플랫폼 담당과 export 파일의 쓰기 범위를 먼저 나눈다.
 - Registry를 문구가 아니라 실행 코드로 다룬다. 필수 slot 누락, prop과 slot의 중복 렌더링, provider 밖 consumer, 실제 import 경로를 확인한다.
-- 필요한 원천이 준비된 뒤 생성·package build·Registry·예제 bundle을 의존 순서대로 갱신한다. 명령은 현재 package script와 기존 검증 지침에서 고른다.
+- 기본 장면과 최종 통합의 안정된 변경본에서 필요한 생성·package build·Registry·예제 bundle을 의존 순서대로 갱신한다. 명령은 현재 package script와 기존 검증 지침에서 고른다.
 - 예제 빌드가 package source를 다시 빌드하는지, 기존 `lib`만 소비하는지 확인한다. 오래된 package 출력으로 최신 소스를 검증하지 않는다.
 - 인계할 것은 변경본 식별 정보, 수행한 생성·빌드, 시나리오 entry와 manifest·bundle 경로다. 서버·기기 실행은 지정된 검증 담당에게 넘긴다.
 - [`Registry·소비처 구현 단계`](../../seed-create-component/references/implementation-steps.md#step-5-registry-ui-snippet-레이어)와 [`검증 체크리스트`](../../seed-create-component/references/verification-checklist.md)를 사용한다.
@@ -50,13 +51,13 @@
 - MDX와 실행 예제의 사용자 시나리오를 소유한다. Registry source는 통합 담당의 범위이며 필요하면 두 역할을 한 명에게 배정한다.
 - 지원하는 기능은 React 대응의 asset·frame·초기 상태·입력·전이·최종 결과를 비교한다. 같은 제목이나 비슷한 JSX만으로 동등하다고 판단하지 않는다.
 - 확정한 package 또는 Registry 경로를 소비한다. 문서용 provider·아이콘·slot 우회로 실제 API 결함을 감추지 않는다.
-- 구현 전에는 필요한 조합과 기대 결과를 제시하고, 구현 후에는 검증 결과를 받아 설명과 제한을 확정한다.
+- 구현 전에는 필요한 조합과 기대 결과를 제시한다. 기본 장면의 검증 결과를 받은 뒤 의존하는 변형 예제를 확장하고, 전체 검증 결과로 설명과 제한을 확정한다.
 - 인계할 것은 시나리오별 참조·기대 결과, 문서 URL·예제 ID, 실제 소비 경로와 미지원 설명이다.
 - Lynx는 [`seed-write-lynx-component-docs`](../../seed-write-lynx-component-docs/SKILL.md), React는 [`문서 구현 단계`](../../seed-create-component/references/implementation-steps.md#step-8-documentation)를 따른다.
 
 ## 검증 담당
 
-- 구현자의 요약 대신 원래 요구사항·참조 시나리오와 실제 소비 결과를 대조한다. 여러 레이어의 동작 변경에서는 작성자와 별도로 배정한다.
+- 구현자의 요약 대신 원래 요구사항·참조 화면·시나리오·승인 조건과 실제 소비 결과를 대조한다. 여러 레이어의 동작 변경에서는 작성자와 별도로 배정하고 기본 장면부터 검증한다.
 - 구현 전에 필수 환경과 검증 수단을 확인한다. 실행 파일 하나의 미발견을 전체 런타임 부재로 단정하지 않고 해당 도구의 사용법과 연결 경로를 확인한다.
 - 통합된 변경본의 생성물 연결, 실제 요소·스타일, 입력·중간·최종 상태, 오류를 확인한다. 모션은 정지 끝점만으로 통과시키지 않는다.
 - 검증용 서버와 기기 session을 단독으로 조작하고 실행 대상·증거를 유지한다. 공유 원천을 수정 중일 때 최종 검증을 병행하지 않는다.

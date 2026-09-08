@@ -89,14 +89,9 @@ BUNDLE_URL="http://127.0.0.1:4174${BUNDLE_PATH}"
 
 ### 시각적 동등성 판정
 
-같은 사용자 결과를 목표로 하는 React·Lynx 예제는 같은 viewport 조건에서 비교한다. 각 예제의 host·내부 frame width·height, 상하·좌우 여백, viewport 차이의 이유를 기록하고 다음 rect 조건으로 판정한다.
+같은 사용자 결과를 목표로 하는 React·Lynx 예제는 같은 viewport, host/frame, 기준 요소 위치, 내용과 초기 상태에서 비교한다. 차이가 있으면 이유를 기록한다. 공통 승인 기준은 [관찰 가능한 결과 판정](../../seed-create-component/references/verification-checklist.md#관찰-가능한-결과-판정)을 따른다.
 
-```text
-left margin == right margin
-abs(top margin - bottom margin) <= 1px
-frame width == expected width
-frame height == expected height
-```
+host/frame의 크기·여백과 내부 컴포넌트의 배치는 별도로 판정한다. 참조가 중앙 정렬인 영역에만 중앙 정렬 조건을 적용한다. Menu·Popover처럼 기준 요소에 붙는 UI는 그 요소와의 간격·정렬·겹침 및 공간 부족 시 정책을 비교하며, 콘텐츠가 화면 중앙에 있다는 이유로 통과시키지 않는다.
 
 전체 페이지 캡처는 문서 구조 탐색에만 쓴다. 대상 예제의 개별 캡처와 측정값이 필요하다. 상호작용 예제는 `initial → immediately after input → settled/final`을 실제 click·tap으로 실행하고 각 시점의 캡처 또는 DOM·layout 증거를 남긴다. asset은 import 이름, runtime image 수·크기, multicolor·tint를 확인하고 Web raster tint와 native tint를 별도 행으로 기록한다.
 

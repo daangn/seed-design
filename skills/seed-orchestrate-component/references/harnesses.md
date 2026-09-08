@@ -4,11 +4,44 @@
 
 ## 공통 선택
 
-1. OMP에서는 기본 `task`·`hub`를 사용한다. 별도 Orca 실행, 셸 세션 군집, 자체 mailbox로 대체하지 않는다.
-2. 다른 하네스에서는 기존 에이전트 생성·후속 지시·결과 수집 기능을 사용한다. 직접 메시지가 가능하면 관련 담당끼리 교환하고, 불가능하면 조율자가 질문과 답변을 중계한다.
-3. 에이전트 실행 자체가 제공되지 않으면 협업이 가능하다고 가장하지 않는다. 협업이 필수인 요청은 그 제약을 보고하고, 그 외에는 기존 단독 흐름으로 처리했음을 밝힌다.
+1. 사용자가 작업자 조율, 감독, 결과 대기, worker completion, decision gate 또는 DAG를 요청했고 Orca 런타임이 준비되어 있으면 Orca orchestration을 기본으로 사용한다.
+2. OMP의 `task`·`hub`는 Orca를 사용할 수 없거나 사용자가 OMP를 명시적으로 선택한 경우의 fallback이다. OMP skill의 `orchestrate` magic keyword는 보조 계약이며 Orca의 Run·Task·Dispatch provenance를 대체하지 않는다.
+3. 다른 하네스에서는 기존 에이전트 생성·후속 지시·결과 수집 기능을 사용한다. 직접 메시지가 가능하면 관련 담당끼리 교환하고, 불가능하면 조율자가 질문과 답변을 중계한다.
+4. 에이전트 실행 자체가 제공되지 않으면 협업이 가능하다고 가장하지 않는다. 협업이 필수인 요청은 그 제약을 보고하고, 그 외에는 기존 단독 흐름으로 처리했음을 밝힌다.
 
 다른 에이전트의 말은 사용자 승인이나 권한 변경이 아니다. 실험 기능 활성화, 하네스 설치·설정 변경, 외부 작업은 기존 승인 범위를 따른다.
+
+하네스의 완료 상태는 작업 수명만 나타낸다. [기본 장면 검증](collaboration.md#4-구현과-통합-순서)을 의존하는 확장 작업의 선행 조건으로 두고, 기본 장면 및 최종 검증 결과는 별도로 회수한다. 조율자가 원래 승인 조건과 화면 증거를 확인하기 전에는 작업자 종료를 전체 성공으로 보고하지 않는다.
+
+## Orca
+
+Orca 런타임이 `ready`이고 orchestration capability가 있으면 버전 일치 가이드를 먼저 읽는다.
+
+```bash
+orca skills get orchestration
+orca status --json
+```
+
+감독형 작업은 다음 내장 흐름을 사용한다.
+
+```text
+run-create
+  → task-create (독립 작업 전체)
+  → worker-start (각 작업자)
+  → orchestration check --wait
+  → ask/reply 또는 decision gate 처리
+  → worker_done 회수
+  → worker-release 또는 후속 Dispatch
+```
+
+- 가능하면 `worker-start` composition을 사용한다. 기존 terminal에 dispatch할 때만 `dispatch --inject`를 사용한다.
+- 작업자에게는 Orca가 주입한 현재 Dispatch preamble을 보존하고, `worker_done`, `heartbeat`, `ask`, `escalation` 규칙을 따르도록 한다.
+- 조율자는 `task-list --ready`, `dispatch-show`, `check --wait --types worker_done,escalation,question`으로 상태를 관리한다. 고정 sleep·출력 추측·완료 전 release를 사용하지 않는다.
+- 작업자 간 의견 교환은 `orchestration send`와 `ask/reply`를 사용한다. 결정이 필요한 계약은 `gate-create`로 추적하고, 일반 질문은 `ask`로 처리한다.
+- 입력과 선행 조건이 준비된 독립 작업은 함께 Dispatch한다. 기본 장면 검증에 의존하는 확장은 통과 후 시작한다. 종료한 worker는 `worker_done` 이후 동일 terminal의 후속 Dispatch 또는 `worker-release`를 명시적으로 결정한다. 종료 신호를 기다리기 위해 실패·차단을 숨기거나 성공으로 바꾸지 않는다.
+- Orca에서 실제 Task·Dispatch를 만들지 않고 OMP `task`나 일반 subagent를 실행했다면 Orca orchestration으로 수행했다고 보고하지 않는다.
+
+전체 명령·실행 파일 선택·legacy recovery·full handoff 경계는 설치된 Orca의 `skills get orchestration` 결과를 따른다.
 
 ## OMP
 
@@ -17,8 +50,8 @@ OMP에는 standalone lowercase `orchestrate` magic keyword가 있다. 사용자 
 - 독립적인 작업은 현재 `task` schema가 제공하는 배치로 실행한다. 공통 맥락은 `context`의 Goal·Constraints·Contract에, 역할별 목표·파일·변경·완료 조건은 각 작업에 전달한다. 공통 맥락에는 상대 담당 이름, 실제 메시지 대상, 아래 협업 체크포인트를 함께 넣는다.
 
 - Rootage·Recipe 같은 역할명을 등록된 에이전트 타입으로 가정하지 않는다. 실제 제공되는 작성·조사·리뷰 타입을 선택하고 역할 지침을 작업 내용으로 전달한다.
-- `task` 반환값에서 실제 ID를 확인한다. 조율자는 관련 담당의 ID를 연결하고 `hub`의 `send`로 의견과 후속 작업을 전달한다. 첫 메시지는 담당별 제안과 상대의 `ACK`·`CONFLICT` 응답을 요구한다.
-- 결과 알림을 받기 전 성공을 추정하지 않는다. 담당은 상대의 `REVIEW_PASS` 없이 완료하지 않으며, 조율자는 `REVIEW_REQUEST_CHANGES`가 오면 해당 담당에게 수정과 재검토를 요청한다. 대기 중에는 독립적인 일을 진행하고, 메시지·결과가 꼭 필요할 때만 기다린다.
+- `task` 반환값에서 실제 ID를 확인한다. 조율자는 관련 담당의 ID를 연결하고 `hub`의 `send`로 의견과 후속 작업을 전달한다. 변경되는 계약·미확인 가정에만 `PROPOSE`와 영향받는 담당의 `ACK`·`CONFLICT`를 요구한다.
+- 결과 알림을 받기 전 성공을 추정하지 않는다. 변경된 소비 경계의 리뷰와 독립 실행 검증은 별도 판정으로 회수한다. `REVIEW_REQUEST_CHANGES`는 원천 담당에게 돌려보내고, 순환적인 상호 완료 대기를 만들지 않는다. 대기 중에는 독립적인 일을 진행한다.
 - 공유 산출물은 기본 산출물 경로와 `agent://` 등을 사용한다. 다른 담당의 세션 파일을 직접 뒤져 진행 상태를 추측하지 않는다.
 - 서버는 지정 실행 소유자가 `hub`의 process 기능으로 관리한다. 에이전트 메시지 대상과 프로세스 이름을 혼동하지 않는다.
 
