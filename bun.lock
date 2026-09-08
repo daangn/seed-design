@@ -508,7 +508,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
