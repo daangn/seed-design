@@ -1,0 +1,36 @@
+---
+title: Fonts
+description: SEED가 제공하는 권장 폰트 스택을 애플리케이션에 적용하는 방법을 알아봅니다.
+---
+
+## 개요
+
+`@seed-design/css`는 권장 폰트 스택을 `--seed-font-family` 변수로 제공합니다. SEED는 이 값을 어디에도 자동으로 적용하지 않으므로, 적용할 지점은 직접 선택해야 합니다.
+
+`base.css`나 `all.css`를 불러온 뒤 다음과 같이 참조합니다.
+
+```css title="style.css"
+body {
+  font-family: var(--seed-font-family);
+}
+```
+
+폰트 스택의 값은 [Typography](/foundations/typography)에서 확인할 수 있습니다.
+
+## `html`이 아니라 `body`에 선언하기
+
+[번들러 플러그인](/react/getting-started/installation/vite)의 `fontScaling` 옵션을 켜면, SEED가 iOS에서 다음 규칙을 적용합니다.
+
+```css
+@supports (font: -apple-system-body) {
+  html[data-seed-platform="ios"][data-seed-font-scaling="enabled"] {
+    font: -apple-system-body;
+  }
+}
+```
+
+`font`는 단축 속성이므로 `font-family`까지 함께 설정합니다. 그래서 `base.css`를 사용하는 경우, `html`에 직접 선언한 `font-family`가 이 규칙에 덮여 사라집니다.
+
+[`base.layered.css`](/react/getting-started/styling/cascade-layers)를 사용한다면 이 규칙이 `seed-base` 레이어 안에 있으므로, 레이어 밖 또는 이후 레이어의 선언이 우선합니다.
+
+규칙의 대상은 `html`뿐이므로, `body`에 선언한 `font-family`는 어느 빌드에서도 그대로 유지됩니다.
