@@ -19,13 +19,31 @@ SEED 타이포그래피 시스템은 폰트 크기, 줄 높이, 폰트 두께 �
 
 사용자의 디바이스 환경을 고려하여, 시스템 폰트를 사용합니다. 이는 다양한 국가와 문화권에서 사용되는 여러 기기 및 운영 체제에서 일관된 사용자 경험과 가독성을 보장합니다.
 
-웹에서는 다음과 같은 폰트 스택을 적용할 수 있습니다:
+웹에서는 `@seed-design/css`가 권장 폰트 스택을 `--seed-font-family` 변수로 제공합니다. SEED는 이 값을 어디에도 자동으로 적용하지 않으므로, 필요한 지점에서 직접 참조해 주세요.
+
+```css
+body {
+  font-family: var(--seed-font-family);
+}
+```
+
+`html`이 아니라 `body`에 선언하는 편이 안전합니다. `fontScaling` 옵션을 켜면 iOS에서 `html`에 `font: -apple-system-body`가 적용되는데, 이 단축 속성이 `html`의 `font-family` 선언을 함께 지웁니다.
+
+변수에 담긴 값은 다음과 같습니다.
 
 ```css
 font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
   "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 ```
+
+<Callout type="warn" title="커스텀 폰트를 섞을 때에는 선언 순서를 지켜주세요">
+  Pretendard처럼 직접 준비한 폰트를 함께 쓰려면 `-apple-system`과 `BlinkMacSystemFont` **뒤**에
+  두세요. `BlinkMacSystemFont`보다 앞에 두면 macOS Chrome에서 시스템 폰트가 선택되지 않습니다.
+  `-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, ...` 순서로 두면 한글은
+  Pretendard로, 나머지는 시스템 폰트로 그려집니다. 한편 Figma에서 보이는 `Figma Only iOS`는 미리
+  보기 전용 폰트이므로 `font-family`에 넣지 마세요.
+</Callout>
 
 ## 타이포그래피 토큰
 
