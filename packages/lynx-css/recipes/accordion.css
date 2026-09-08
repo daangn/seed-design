@@ -173,6 +173,9 @@
 .seed-accordion__suffixIcon--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-accordion__trigger--disabled_false:active .seed-accordion__pressedOverlay {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
 .seed-accordion__root--variant_separated-size_medium {
     gap: var(--seed-dimension-x3)
 }

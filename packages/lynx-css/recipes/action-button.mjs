@@ -79,28 +79,63 @@ const compoundVariants = [
     "pressed": true
   },
   {
+    "variant": "brandSolid",
+    "disabled": false,
+    "loading": false
+  },
+  {
     "variant": "neutralSolid",
     "pressed": true
+  },
+  {
+    "variant": "neutralSolid",
+    "disabled": false,
+    "loading": false
   },
   {
     "variant": "neutralWeak",
     "pressed": true
   },
   {
+    "variant": "neutralWeak",
+    "disabled": false,
+    "loading": false
+  },
+  {
     "variant": "criticalSolid",
     "pressed": true
+  },
+  {
+    "variant": "criticalSolid",
+    "disabled": false,
+    "loading": false
   },
   {
     "variant": "brandOutline",
     "pressed": true
   },
   {
+    "variant": "brandOutline",
+    "disabled": false,
+    "loading": false
+  },
+  {
     "variant": "neutralOutline",
     "pressed": true
   },
   {
+    "variant": "neutralOutline",
+    "disabled": false,
+    "loading": false
+  },
+  {
     "variant": "ghost",
     "pressed": true
+  },
+  {
+    "variant": "ghost",
+    "disabled": false,
+    "loading": false
   },
   {
     "variant": "brandSolid",

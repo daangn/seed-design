@@ -50,7 +50,7 @@ function usePageBannerContext(consumer: string) {
  * - Does not provide a web focus ring.
  */
 export interface PageBannerRootProps
-  extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed">,
+  extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
     LynxStyledElementProps,
     LynxPressableProps,
     LynxAccessibilityProps {
@@ -94,7 +94,11 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const classNames = pageBanner({ ...variantProps, pressed: pressTap.pressed });
+  const classNames = pageBanner({
+    ...variantProps,
+    pressed: pressTap.pressed,
+    interactive: isInteractive,
+  });
   const dismiss = useMemoizedFn(() => {
     if (!open) return;
 

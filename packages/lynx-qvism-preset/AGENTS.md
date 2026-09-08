@@ -15,6 +15,6 @@ Lynx 플랫폼 전용 qvism preset을 정의하는 private 패키지. `rootage`�
 - Recipe 작성 시 `src/utils/define.ts`의 `defineRecipe` / `defineSlotRecipe`를 사용한다.
 - `define.ts`는 SEED Lynx strict style type으로 style 입력을 좁힌다. `boxSizing`, `verticalAlign`, SVG stroke/fill CSS, `content`, CSS-wide keyword(`initial`, `inherit`, `unset`)처럼 Lynx preset source에서 허용하지 않는 property/value를 추가하지 않는다.
 - `inset` / `inset-*` shorthand는 Lynx preset source에서 사용하지 않는다. 전체 영역 채움은 `top` / `right` / `bottom` / `left` longhand로 작성하고, Lightning CSS의 `Features.LogicalProperties` include 옵션으로 최종 CSS에서도 longhand를 유지한다.
-- Lynx에서 상태는 pseudo selector보다 boolean/string variant로 모델링한다.
+- Lynx에서 상태는 기본적으로 boolean/string variant로 모델링한다. 단, Main Thread에서 즉시 시작해야 하는 pressed 시각 피드백은 `:active`를 사용할 수 있으며, enabled/interactive variant class로 disabled·loading 상태를 반드시 gate한다. trigger와 target이 다른 경우에는 trigger의 `:active` selector가 해당 content slot class만 대상으로 해야 한다.
 - Root와 text를 분리해야 하는 recipe는 qvism core에서 slot을 파생하지 않고 `defineSlotRecipe`로 slot을 명시한다.
 - Lynx 전용 selector/theme/platform 차이는 qvism core나 PostCSS 후처리에 넣지 않고 이 preset source에서 class selector와 명시적인 fallback 값으로 해결한다.

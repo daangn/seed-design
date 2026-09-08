@@ -222,7 +222,13 @@ const accordion = defineSlotRecipe({
           color: itemVars.base.disabled.suffixIcon.color,
         },
       },
-      false: {},
+      false: {
+        trigger: {
+          "&:active .seed-accordion__pressedOverlay": {
+            backgroundColor: itemVars.base.pressed.trigger.color,
+          },
+        },
+      },
     },
   },
   compoundVariants: [
