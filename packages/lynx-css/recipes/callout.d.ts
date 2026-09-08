@@ -7,6 +7,10 @@ declare interface CalloutVariant {
   * @default false
   */
   pressed: boolean;
+/**
+  * @default false
+  */
+  interactive: boolean;
 }
 
 declare type CalloutVariantMap = {
