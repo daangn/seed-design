@@ -175,18 +175,36 @@
 .seed-callout__root--tone_neutral-pressed_true {
     background-color: var(--seed-color-bg-neutral-weak-pressed)
 }
+.seed-callout__root--tone_neutral-interactive_true:active {
+    background-color: var(--seed-color-bg-neutral-weak-pressed)
+}
 .seed-callout__root--tone_informative-pressed_true {
+    background-color: var(--seed-color-bg-informative-weak-pressed)
+}
+.seed-callout__root--tone_informative-interactive_true:active {
     background-color: var(--seed-color-bg-informative-weak-pressed)
 }
 .seed-callout__root--tone_positive-pressed_true {
     background-color: var(--seed-color-bg-positive-weak-pressed)
 }
+.seed-callout__root--tone_positive-interactive_true:active {
+    background-color: var(--seed-color-bg-positive-weak-pressed)
+}
 .seed-callout__root--tone_warning-pressed_true {
+    background-color: var(--seed-color-bg-warning-weak-pressed)
+}
+.seed-callout__root--tone_warning-interactive_true:active {
     background-color: var(--seed-color-bg-warning-weak-pressed)
 }
 .seed-callout__root--tone_critical-pressed_true {
     background-color: var(--seed-color-bg-critical-weak-pressed)
 }
+.seed-callout__root--tone_critical-interactive_true:active {
+    background-color: var(--seed-color-bg-critical-weak-pressed)
+}
 .seed-callout__root--tone_magic-pressed_true {
+    background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed))
+}
+.seed-callout__root--tone_magic-interactive_true:active {
     background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed))
 }

@@ -142,6 +142,9 @@
 .seed-select-box__description--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-select-box__root--disabled_false:active {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
 .seed-select-box__footer--footerOpen_true {
     opacity: 1;
     transition: height 400ms var(--seed-timing-function-easing), opacity var(--seed-duration-d6) var(--seed-timing-function-easing)
