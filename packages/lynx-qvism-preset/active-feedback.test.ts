@@ -41,11 +41,33 @@ describe("Lynx active feedback", () => {
   });
 
   it("transitions the page banner close button on the main thread", () => {
-    expect(pageBanner.variants.interactive.true.root).toHaveProperty("&:active");
     expect(pageBanner.base.closeButton).toMatchObject({
       transition: expect.stringContaining("background-color"),
       "&:active": expect.objectContaining({ backgroundColor: expect.any(String) }),
     });
+  });
+
+  it("gates page banner active backgrounds and matches the pressed fallback", () => {
+    expect(pageBanner.base.root).not.toHaveProperty("&:active");
+    expect(pageBanner.variants.interactive.true).not.toHaveProperty("root");
+    const compounds = pageBanner.compoundVariants ?? [];
+    const pressedVariants = compounds.filter((variant) => variant.pressed === true);
+    expect(pressedVariants).toHaveLength(11);
+    for (const pressed of pressedVariants) {
+      const active = compounds.find(
+        (variant) =>
+          variant.tone === pressed.tone &&
+          variant.variant === pressed.variant &&
+          variant.interactive === true,
+      );
+      expect(active?.css.root?.["&:active"]).toEqual(pressed.css.root);
+      expect(Object.keys(active?.css.root?.["&:active"] ?? {})).toEqual([
+        pressed.tone === "magic" ? "backgroundImage" : "backgroundColor",
+      ]);
+    }
+    for (const variant of compounds) {
+      if (variant.css.root?.["&:active"]) expect(variant.interactive).toBe(true);
+    }
   });
 
   it("gates select box and segmented feedback with resolved disabled state", () => {
