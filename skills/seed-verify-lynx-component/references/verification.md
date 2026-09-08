@@ -23,19 +23,27 @@
 5. native 결과를 새로 주장하거나 런타임 동작을 바꿨을 때 로컬 Lynx 런타임 또는 실제 host app 확인
 6. 상위 지침이나 변경 범위가 요구하는 관련 검증
 
+### 기본 native 장면과 안정된 변경본
+
+기본 native 장면에서는 이번 변경에 필요한 package와 생성물, 그 package를 실제로 소비하는 공개 경로의 대상 bundle을 먼저 확인한다. 소스 수정마다 전체 정적 docs 빌드를 선행하지 않는다. 문서 브라우저와 전체 docs 검증은 관련 변경이 모인 안정된 차수에 실행하되, 필수 검사를 생략하지 않는다.
+
+재빌드는 변경 영향이 있는 package·bundle·문서로 한정하고, 저장소에 이미 있는 명령만 사용한다. 대상만 빌드하는 새 CLI flag를 만들거나 추정하지 않는다. package·bundle·문서의 실제 지원 명령과 생성물은 각 경로의 `package.json`과 manifest에서 확인한다.
+
+검증 분담·자원 배정은 [검증 분담과 자원](../../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)을 따른다. 동일 변경본의 안정된 입력·생성물·충돌 자원이 독립된 검사만 병렬로 실행한다.
+
 ## 2. 정적 문서와 bundle 서빙
 
 ### watcher와 정적 빌드 분리
 
-docs 개발 서버의 Lynx watcher와 `bun docs:build`를 동시에 실행하지 않는다. 정적 빌드 전에 실행 중인 watcher를 확인한다. 검증자가 직접 시작한 watcher는 종료하고, 기존 사용자 프로세스는 임의로 종료하지 않은 채 정적 빌드를 `환경 차단`으로 남긴다.
+docs 개발 서버의 Lynx watcher와 `bun docs:build`를 동시에 실행하지 않는다. 서버 수명 소유자가 정적 빌드 전에 실행 중인 watcher를 확인한다. 그 소유자가 직접 시작한 watcher만 종료하고, 기존 사용자 프로세스는 임의로 종료하지 않은 채 정적 빌드를 `환경 차단`으로 남긴다.
 
-watcher와 production build가 겹쳤거나 manifest 생성에서 시나리오별 bundle이 정확히 하나여야 한다는 오류가 나면 중복 해시 bundle을 먼저 확인한다. watcher가 종료된 뒤 다음 ignored 산출물만 정리하고 정적 빌드를 다시 실행한다.
+watcher와 production build가 겹쳤거나 manifest 생성에서 시나리오별 bundle이 정확히 하나여야 한다는 오류가 나면 중복 해시 bundle을 먼저 확인한다. watcher가 종료된 뒤 서버 수명 소유자만 다음 ignored 산출물을 정리하고 정적 빌드를 다시 실행한다.
 
 ```bash
 rm -rf docs/.next/lynx-rspeedy-dist docs/.next/cache/lynx-rspeedy
 ```
 
-소스나 tracked 생성물은 정리 명령에 포함하지 않는다. 정적 문서가 이미 생성된 뒤 예제 bundle만 바뀌었다면 `bun --filter @seed-design/docs build:lynx-examples`로 production manifest와 bundle을 갱신할 수 있다. MDX 구조나 예제 host 높이가 바뀌었다면 `bun docs:build`를 다시 실행한다.
+소스나 tracked 생성물은 정리 명령에 포함하지 않는다. 정적 문서가 이미 생성된 뒤 예제 bundle만 바뀌었다면 기존 `bun --filter @seed-design/docs build:lynx-examples`로 production manifest와 bundle을 갱신할 수 있다. MDX 구조나 예제 host 높이가 바뀌었거나 문서 브라우저·전체 docs 검증 차수라면 `bun docs:build`를 실행한다.
 
 문서 전체를 확인할 때는 `next dev`보다 정적 빌드와 `npx serve`를 사용한다.
 
@@ -75,7 +83,13 @@ BUNDLE_URL="http://127.0.0.1:4174${BUNDLE_PATH}"
 
 `docs/out`을 서빙하는 경우에는 실제 `docs/out` 파일과 현재 origin에 맞춰 URL을 만든다. 실기기에서는 `127.0.0.1`이나 `localhost` 대신 기기에서 접근할 수 있는 LAN 또는 배포 주소를 사용한다.
 
-원천이나 생성물이 바뀌면 bundle과 정적 문서를 다시 만들고 서버를 다시 시작한다. 실행 중인 서버가 새 파일을 반영한다고 가정하지 않는다. 브라우저는 새 세션이나 빌드 식별용 쿼리로 캐시를 피한다.
+원천이나 생성물이 바뀌면 영향받은 package·bundle·문서만 기존 지원 명령으로 다시 만들고, 해당 서버 수명 소유자가 재시작과 새 변경본 로드를 확인한다. 기본 native 장면에 전체 docs 빌드를 선행하지 않으며, 전체 문서 검증은 관련 변경이 모인 안정된 차수에 묶는다. 실행 중인 서버가 새 파일을 반영한다고 가정하지 않는다. 브라우저는 새 세션이나 빌드 식별용 쿼리로 캐시를 피한다.
+
+### 병렬 실행과 host 자원
+
+서버·host app·기기 등 실제 자원마다 수명과 조작 소유자를 배정한다. 한 사람이 모든 호스트를 소유할 필요는 없다. 변경 없는 서빙 출력을 여러 검증자가 읽을 수 있지만 시작·중지·재빌드·정리는 해당 자원 소유자만 수행한다. 조율자는 각 검증 결과를 모아 최종 승인한다.
+
+같은 host process·창·전역 overlay·캡처 자원(PlayLynx 포함)을 사용하는 검사는 session ID가 달라도 직렬로 실행한다. 별도 host 인스턴스의 격리를 확인했을 때만 병렬로 실행한다. 증거 수집 후 해당 검사에서 연 menu·overlay를 닫고 상태 정리와 종료를 확인한 뒤 다음 장면을 시작한다. 기존 사용자 session은 어떤 담당도 임의로 종료하지 않는다.
 
 ## 3. 브라우저 미리보기 확인
 
