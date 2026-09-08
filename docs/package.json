@@ -45,7 +45,7 @@
     "@karrotmarket/react-monochrome-icon": "^1.17.0",
     "@karrotmarket/react-multicolor-icon": "^1.17.0",
     "@lottiefiles/react-lottie-player": "^3.6.0",
-    "@lynx-js/css-serializer": "0.1.7",
+    "@lynx-js/css-serializer": "0.1.9",
     "@lynx-js/lynx-core": "0.1.4",
     "@lynx-js/web-core": "0.24.0",
     "@lynx-js/web-elements": "0.12.7",
