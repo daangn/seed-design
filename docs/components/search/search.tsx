@@ -317,7 +317,7 @@ export default function DefaultSearchDialog({
 // gutter on both sides. Desktop keeps fumadocs' default (centered). `!` overrides
 // fumadocs' built-in position classes (left-1/2, top-4, translate, width).
 const LANDING_MOBILE_POSITION =
-  "max-md:!top-[66px] max-md:!left-[var(--seed-dimension-spacing-x-global-gutter)] max-md:!right-[var(--seed-dimension-spacing-x-global-gutter)] max-md:!bottom-auto max-md:!w-auto max-md:!max-w-none max-md:!translate-x-0 max-md:!translate-y-0";
+  "max-md:!top-[66px] max-md:!left-(--seed-dimension-spacing-x-global-gutter) max-md:!right-(--seed-dimension-spacing-x-global-gutter) max-md:!bottom-auto max-md:!w-auto max-md:!max-w-none max-md:!translate-x-0 max-md:!translate-y-0";
 
 /**
  * Landing(/) search dialog. RootProvider's `search.options` is typed to fumadocs'

@@ -77,7 +77,7 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
         <PreviewSurface>
           <span
             style={themed(background)}
-            className="flex w-full text-[15px] font-semibold leading-none text-[var(--token-preview-light)] dark:text-[var(--token-preview-dark)]"
+            className="flex w-full text-[15px] font-semibold leading-none text-(color:--token-preview-light) dark:text-(color:--token-preview-dark)"
           >
             <span className="flex-1 text-center">Aa</span>
             <span className="flex-1 text-center">Aa</span>
@@ -90,7 +90,7 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
         <PreviewSurface>
           <span
             style={themed(background)}
-            className="h-0.5 w-2/3 bg-[var(--token-preview-light)] dark:bg-[var(--token-preview-dark)]"
+            className="h-0.5 w-2/3 bg-(--token-preview-light) dark:bg-(--token-preview-dark)"
           />
         </PreviewSurface>
       );
@@ -117,7 +117,7 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
       <PreviewSurface>
         <span
           style={themed(boxShadow)}
-          className="size-6 rounded-md bg-bg-layer-floating shadow-[var(--token-preview-light)] dark:shadow-[var(--token-preview-dark)]"
+          className="size-6 rounded-md bg-bg-layer-floating shadow-(--token-preview-light) dark:shadow-(--token-preview-dark)"
         />
       </PreviewSurface>
     );
