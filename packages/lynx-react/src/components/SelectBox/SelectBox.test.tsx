@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render } from "@lynx-js/react/testing-library";
+import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import { RadioGroup } from "../RadioGroup";
@@ -29,6 +29,36 @@ function CheckItem() {
 }
 
 describe("SelectBox", () => {
+  it("shares checkbox touch state with content feedback and cancels without selecting", async () => {
+    const onCheckedChange = vi.fn();
+    const { container } = render(
+      <CheckSelectBox.Root onCheckedChange={onCheckedChange}>
+        <CheckSelectBox.Trigger>
+          <CheckSelectBox.Label>선택</CheckSelectBox.Label>
+        </CheckSelectBox.Trigger>
+      </CheckSelectBox.Root>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    const trigger = container.querySelector<HTMLElement>(".seed-select-box__interactionRoot")!;
+    const surface = container.querySelector(".seed-select-box__root")!;
+    const content = container.querySelector(".seed-select-box__scaleContent")!;
+    expect(content).toHaveAttribute("flatten", "false");
+    expect(content).not.toContainElement(surface.querySelector(".seed-select-box__selectedStroke"));
+
+    fireEvent.touchstart(trigger, {});
+    await waitSchedule();
+    expect(surface).toHaveClass("seed-select-box__root--pressed_true");
+    fireEvent.touchcancel(trigger, {});
+    await waitSchedule();
+    expect(surface).toHaveClass("seed-select-box__root--pressed_false");
+    expect(onCheckedChange).not.toHaveBeenCalled();
+
+    fireEvent.tap(trigger);
+    await waitSchedule();
+    expect(onCheckedChange).toHaveBeenCalledExactlyOnceWith(true);
+  });
+
   it("lays out custom label content in a view", () => {
     render(
       <CheckSelectBox.Root accessibility-label="Melon New">
@@ -137,6 +167,9 @@ describe("SelectBox", () => {
           <RadioSelectBox.Item value="second" accessibility-label="두 번째">
             <RadioSelectBox.Trigger>
               <RadioSelectBox.Label>두 번째</RadioSelectBox.Label>
+              <RadioGroup.ItemControl>
+                <RadioGroup.ItemIndicator />
+              </RadioGroup.ItemControl>
             </RadioSelectBox.Trigger>
           </RadioSelectBox.Item>
           <RadioSelectBox.Item value="disabled" accessibility-label="비활성" disabled>
@@ -153,6 +186,11 @@ describe("SelectBox", () => {
       ".seed-select-box__interactionRoot",
     );
     const surfaces = root.querySelectorAll<HTMLElement>(".seed-select-box__root");
+    const radioContent = surfaces[1].querySelector(".seed-select-box__scaleContent");
+    const radioMark = surfaces[1].querySelector(".seed-radiomark__root");
+
+    expect(radioContent).toHaveAttribute("flatten", "false");
+    expect(radioMark).not.toHaveAttribute("flatten", "false");
 
     expect(surfaces[0]).toHaveAttribute("accessibility-value", "selected");
     expect(surfaces[1]).toHaveAttribute("accessibility-value", "not selected");

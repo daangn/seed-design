@@ -12,6 +12,7 @@ import {
   type TextStyleProps,
 } from "../../utils/styled";
 import type { LynxStyledElementProps, LynxTextRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
   return (value.charAt(0).toUpperCase() + value.slice(1)) as Capitalize<T>;
@@ -42,8 +43,7 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(className)}
       style={
         {

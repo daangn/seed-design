@@ -12,6 +12,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -28,6 +29,7 @@ import {
   getTabsTriggerRects,
   type TabsLayoutRect,
 } from "./Tabs.utils";
+import { mergeProps } from "../../utils/merge-props";
 
 type NativeViewProps = IntrinsicElements["view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
@@ -335,8 +337,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     <TabsContext.Provider value={contextValue}>
       <ClassNamesProvider value={classNames}>
         <view
-          {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
           className={clsx(classNames.root, className)}
           style={style}
         >
@@ -383,19 +384,14 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
     syncTriggerOrder(triggerOrder);
   }, [items, syncTriggerOrder, triggerOrder]);
 
-  const mergedRef = React.useCallback(
-    (node: NodesRef | null) => {
-      setListRef(node);
-      if (typeof ref === "function") ref(node);
-      else if (ref) ref.current = node;
-    },
+  const mergedRef = React.useMemo(
+    () => mergeProps({ ref: setListRef }, { ref: ref as LynxViewRef }).ref,
     [ref, setListRef],
   );
 
   return (
     <scroll-view
-      ref={mergedRef}
-      {...nativeProps}
+      {...mergeProps({ ref: mergedRef }, nativeProps)}
       scroll-orientation="horizontal"
       scroll-bar-enable={false}
       accessibility-element={false}
@@ -411,8 +407,9 @@ TabsList.displayName = "TabsList";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+// Keep the scale target's Android View even if shared props later expose flatten.
 export interface TabsTriggerProps
-  extends Omit<LynxStyledElementProps, "children">,
+  extends Omit<LynxStyledElementProps, "children" | "flatten">,
     Pick<LynxPressableProps, "bindtap"> {
   children: string | number;
   value: string;
@@ -455,7 +452,19 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     },
     [bindtap, context.selectValue, triggerValue],
   );
-  const { pressed: _pressed, ...pressHandlers } = usePressTap({ disabled, onTap: handleTap });
+  const {
+    pressed: _pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressHandlers
+  } = usePressTap({ disabled, onTap: handleTap });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (...args) => {
@@ -477,11 +486,15 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
-      {...pressHandlers}
+      {...mergeProps(
+        { bindlayoutchange: handleLayoutChange },
+        ref ? { ref: ref as LynxViewRef } : {},
+        pressHandlers,
+        scaleFeedbackTargetProps,
+        scaleFeedbackTriggerProps,
+        nativeProps,
+      )}
       flatten={false}
-      bindlayoutchange={handleLayoutChange}
       accessibility-element={true}
       accessibility-role-description="tab"
       accessibility-label={accessibilityLabel ?? label}
@@ -526,9 +539,11 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      main-thread:ref={indicatorRef}
-      {...nativeProps}
+      {...mergeProps(
+        { "main-thread:ref": indicatorRef },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       accessibility-elements-hidden={true}
       className={clsx(classNames.indicator, className)}
       style={
@@ -564,8 +579,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
 
   const content = (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       accessibility-elements-hidden={!selected}
       accessibility-role-description="tabpanel"
       accessibility-value={selected ? "selected" : "not selected"}
@@ -622,8 +636,7 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
   return (
     <TabsCarouselContext.Provider value={contextValue}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classNames.carousel, className)}
         style={style}
       >
@@ -660,12 +673,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
     const { indicatorRef, pagerValues, triggerRects } = tabsContext;
     const indicatorRects = pagerValues.map((value) => triggerRects[value] ?? null);
 
-    const mergedRef = React.useCallback(
-      (node: NodesRef | null) => {
-        tabsContext.setPagerRef(node);
-        if (typeof ref === "function") ref(node);
-        else if (ref) ref.current = node;
-      },
+    const mergedRef = React.useMemo(
+      () => mergeProps({ ref: tabsContext.setPagerRef }, { ref: ref as LynxViewRef }).ref,
       [ref, tabsContext.setPagerRef],
     );
 
@@ -736,15 +745,19 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
 
     return (
       <viewpager
-        ref={mergedRef}
-        {...nativeProps}
+        {...mergeProps(
+          {
+            ref: mergedRef,
+            bindwillchange: handleWillChange,
+            bindchange: handleChange,
+            bindoffsetchange: handleOffsetChange,
+            "main-thread:bindoffsetchange": handleIndicatorOffsetChange,
+          },
+          nativeProps,
+        )}
         initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
         enable-scroll={carouselContext.swipeable}
         ios-gesture-offset={carouselContext.iosBackGestureEdgeWidth}
-        bindwillchange={handleWillChange}
-        bindchange={handleChange}
-        bindoffsetchange={handleOffsetChange}
-        main-thread:bindoffsetchange={handleIndicatorOffsetChange}
         className={clsx(classNames.carouselCamera, className)}
         style={style}
       >
