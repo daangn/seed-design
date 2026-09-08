@@ -1,4 +1,4 @@
-import { breakpointNames } from "@seed-design/css/breakpoints";
+import { breakpointNames, breakpoints } from "@seed-design/css/breakpoints";
 import type { KaptureStoryParameters } from "@kaptures/storybook";
 
 export const FONT_SCALE_MAP = {
@@ -24,7 +24,12 @@ export const VISUAL_VIEWPORT_PARAMETERS = {
     modes: Object.fromEntries(breakpointNames.map((name) => [name, { viewport: name }])),
   },
   kapture: {
-    captureViewports: ["sm", "md", "lg"],
+    // Capture at SEED's minimum breakpoint widths, independently of Storybook's viewport options.
+    captureViewports: (["sm", "md", "lg"] as const).map((name) => ({
+      name,
+      width: breakpoints[name],
+      height: 800,
+    })),
   },
 } satisfies { kapture: KaptureStoryParameters; chromatic: { modes: object } };
 
