@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -13,6 +14,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { HStack } from "../Stack";
+import { mergeProps } from "../../utils/merge-props";
 
 interface SegmentedControlContextValue {
   value: string | undefined;
@@ -106,8 +108,7 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
       <SegmentedControlContext.Provider value={contextValue}>
         <ClassNamesProvider value={classNames}>
           <view
-            {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...nativeProps}
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
             accessibility-element={accessibilityElement}
             accessibility-role-description={accessibilityRoleDescription}
             className={clsx(classNames.root, className)}
@@ -173,11 +174,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       [bindtap, context.selectValue, itemValue, selected],
     );
     const pressSelectionRef = React.useRef(selected);
-    const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({
-      disabled,
-      onTap: handleTap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } =
+      usePressTap({
+        disabled,
+        onTap: handleTap,
+        mainThreadOnTap: mainThreadBindtap,
+      });
     const handleTouchStart = React.useCallback(
       (...args: Parameters<typeof bindtouchstart>) => {
         pressSelectionRef.current = selected;
@@ -185,6 +187,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       },
       [bindtouchstart, selected],
     );
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled,
+      onTouchStart: handleTouchStart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
     const classes = segmentedControl({ selected, disabled, pressed });
     const pressStartClasses = segmentedControl({
       selected: pressSelectionRef.current,
@@ -196,10 +204,12 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
-        bindtouchstart={handleTouchStart}
-        {...pressHandlers}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTriggerProps,
+          pressHandlers,
+          nativeProps,
+        )}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel ?? label}
         accessibility-role-description={accessibilityRoleDescription}
@@ -211,6 +221,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
         style={style}
       >
         <view accessibility-elements-hidden={true} className={pressStartClasses.itemBackground} />
+        <view className={classes.itemContent} {...scaleFeedbackTargetProps}>
         {notification ? (
           <HStack position="relative" align="flex-start">
             <text className={classes.label}>{children}</text>
@@ -219,6 +230,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
         ) : (
           <text className={classes.label}>{children}</text>
         )}
+        </view>
       </view>
     );
   },
@@ -234,8 +246,7 @@ export const SegmentedControlIndicator = React.forwardRef<unknown, SegmentedCont
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         accessibility-elements-hidden={true}
         className={clsx(classNames.indicator, className)}
         style={style}

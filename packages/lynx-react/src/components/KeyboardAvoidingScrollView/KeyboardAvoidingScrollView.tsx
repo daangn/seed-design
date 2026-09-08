@@ -21,6 +21,7 @@ import { KeyboardAvoidanceActionsContext, type KeyboardAvoidanceActions } from "
 import { createKeyboardAvoidingEngine, type KeyboardAvoidingScheduler } from "./engine";
 import { lynxKeyboardEventSource } from "./keyboard-event-source";
 import { lynxKeyboardAvoidingNativeDriver } from "./native-driver";
+import { mergeProps } from "../../utils/merge-props";
 
 type NativeScrollViewProps = IntrinsicElements["scroll-view"];
 type LayoutChangeHandler = NonNullable<NativeScrollViewProps["bindlayoutchange"]>;
@@ -147,17 +148,8 @@ export const KeyboardAvoidingScrollView: LynxForwardRefComponent<
     [],
   );
 
-  const mergedRef = useCallback(
-    (node: NodesRef | null) => {
-      "background only";
-
-      scrollRef.current = node;
-      if (typeof forwardedRef === "function") {
-        forwardedRef(node);
-      } else if (forwardedRef) {
-        forwardedRef.current = node;
-      }
-    },
+  const mergedRef = useMemo(
+    () => mergeProps({ ref: scrollRef }, { ref: forwardedRef }).ref,
     [forwardedRef],
   );
 
@@ -276,21 +268,24 @@ export const KeyboardAvoidingScrollView: LynxForwardRefComponent<
   return (
     <KeyboardAvoidanceActionsContext.Provider value={actions}>
       <scroll-view
-        {...nativeProps}
-        ref={mergedRef}
+        {...mergeProps(
+          {
+            ref: mergedRef,
+            bindlayoutchange: handleLayoutChange,
+            bindtouchstart: handleTouchStart,
+            bindtouchend: handleTouchEnd,
+            bindtouchcancel: handleTouchCancel,
+            bindscroll: handleScroll,
+            bindscrollend: handleScrollEnd,
+          },
+          nativeProps,
+        )}
         scroll-orientation="vertical"
         flatten={false}
-        bindlayoutchange={handleLayoutChange}
-        bindtouchstart={handleTouchStart}
-        bindtouchend={handleTouchEnd}
-        bindtouchcancel={handleTouchCancel}
-        bindscroll={handleScroll}
-        bindscrollend={handleScrollEnd}
       >
         {children}
         <view
-          {...({ ref: spacerRef as LynxViewRef } as Record<string, unknown>)}
-          {...spacerProps}
+          {...mergeProps({ ref: spacerRef as LynxViewRef } as Record<string, unknown>, spacerProps)}
         />
       </scroll-view>
     </KeyboardAvoidanceActionsContext.Provider>

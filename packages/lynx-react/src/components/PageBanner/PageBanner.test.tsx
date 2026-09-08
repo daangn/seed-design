@@ -45,6 +45,9 @@ describe("PageBanner", () => {
     const root = getPageBannerRoot();
 
     expect(root).toHaveClass("seed-page-banner__root--tone_neutral-variant_weak");
+    const closeButton = root.querySelector(".seed-page-banner__closeButton");
+    expect(closeButton?.parentElement).toBe(root);
+    expect(closeButton).toHaveAttribute("flatten", "false");
     expect(root.querySelector(".seed-page-banner__content")?.tagName.toLowerCase()).toBe("view");
     expect(root.querySelector(".seed-page-banner__body")?.tagName.toLowerCase()).toBe("text");
     expect(root.querySelector(".seed-page-banner__title")).toHaveClass(

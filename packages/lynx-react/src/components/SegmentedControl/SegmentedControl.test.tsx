@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
+import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as SegmentedControl from "./SegmentedControl.namespace";
@@ -62,19 +62,31 @@ describe("SegmentedControl", () => {
     expect(disabledItem).toHaveAttribute("accessibility-traits", "disabled");
   });
 
-  it("keeps the press-start selection on the fading item background", () => {
-    const { container } = render(<BasicSegmentedControl defaultValue="hot" />);
+  it("keeps the press-start selection when main-thread feedback hands off to selection", async () => {
+    const onValueChange = vi.fn();
+    const { container } = render(
+      <BasicSegmentedControl defaultValue="hot" onValueChange={onValueChange} />,
+      {
+        enableMainThread: true,
+        enableBackgroundThread: true,
+      },
+    );
+    await waitSchedule();
     const latest = getItem(container, "최신순");
     const getBackground = () =>
       latest.querySelector<HTMLElement>(".seed-segmented-control__itemBackground");
 
     fireEvent.touchstart(latest, {});
+    await waitSchedule();
     expect(getBackground()).toHaveClass("seed-segmented-control__itemBackground--pressed_true");
     expect(getBackground()).toHaveClass("seed-segmented-control__itemBackground--selected_false");
 
     fireEvent.touchend(latest, {});
+    await waitSchedule();
     fireEvent.tap(latest);
+    await waitSchedule();
 
+    expect(onValueChange).toHaveBeenCalledExactlyOnceWith("new");
     expect(getBackground()).toHaveClass("seed-segmented-control__itemBackground--pressed_false");
     expect(getBackground()).toHaveClass("seed-segmented-control__itemBackground--selected_false");
   });
