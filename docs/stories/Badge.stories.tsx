@@ -19,7 +19,9 @@ const CommonStoryTemplate = meta.story({
   ),
 });
 
-export const LightTheme = CommonStoryTemplate.extend({});
+export const LightTheme = CommonStoryTemplate.extend({
+  args: { children: "새로운 소식" },
+});
 
 export const DarkTheme = CommonStoryTemplate.extend({
   parameters: withVisualTestParameters({ theme: "dark" }),
