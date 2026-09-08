@@ -1,0 +1,31 @@
+name: Kapture Approval
+on:
+  issue_comment:
+    types:
+      - created
+permissions: {}
+concurrency:
+  group: kapture-review-${{ github.repository }}
+  cancel-in-progress: false
+  queue: max
+env:
+  npm_config_registry: https://registry.npmjs.org/
+  npm_config_ignore_scripts: "true"
+  YARN_ENABLE_SCRIPTS: "false"
+jobs:
+  approve:
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/kapture approve ') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      issues: write
+      pull-requests: read
+      statuses: write
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: npx --yes @kaptures/cli@0.7.0 github approve --comment-language ko
