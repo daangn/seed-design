@@ -23,9 +23,19 @@ jobs:
       pull-requests: read
       statuses: write
     steps:
+      - name: Check supported PR base
+        id: policy
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({ ...context.repo, pull_number: context.issue.number });
+            core.setOutput('supported', pr.state === 'open' &&
+              ['dev', 'minor', 'major'].includes(pr.base.ref) && pr.head.repo?.full_name === `${context.repo.owner}/${context.repo.repo}`);
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        if: steps.policy.outputs.supported == 'true'
         with:
           node-version: "24"
       - env:
           GITHUB_TOKEN: ${{ github.token }}
+        if: steps.policy.outputs.supported == 'true'
         run: npx --yes @kaptures/cli@0.7.0 github approve --comment-language ko

@@ -6,7 +6,7 @@ import { parse } from "yaml";
 const root = new URL("../", import.meta.url);
 const adapterVersion = JSON.parse(readFileSync(new URL("docs/package.json", root), "utf8"))
   .devDependencies["@kaptures/storybook"];
-const names = ["capture", "report", "approve"] as const;
+const names = ["capture", "report", "approve", "retention"] as const;
 const sources = Object.fromEntries(
   names.map((name) => [
     name,
@@ -36,13 +36,10 @@ const commands = (steps: Step[]) =>
   );
 
 describe("Kapture consumer workflows", () => {
-  test("allows the adoption branch as an explicit stacked PR base", () => {
-    expect(workflows.capture.on.pull_request.branches).toEqual([
-      "dev",
-      "codex/kapture-shadow-experiment",
-    ]);
+  test("supports all release lanes without special stacked branches", () => {
+    expect(workflows.capture.on.pull_request.branches).toEqual(["dev", "minor", "major"]);
     expect(sources.capture).toContain('--base-branch "$KAPTURE_BASE_BRANCH"');
-    expect(sources.capture).toContain("dev|codex/kapture-shadow-experiment)");
+    expect(sources.capture).toContain("dev|minor|major)");
     expect(workflows.capture.jobs.context.if).toContain("head.repo.full_name == github.repository");
   });
 
@@ -57,6 +54,18 @@ describe("Kapture consumer workflows", () => {
     );
   });
 
+  test("restored builds are validated and republished as current-run artifacts", () => {
+    const steps = workflows.capture.jobs["build-base"].steps;
+    expect(steps.find((s) => s.id === "restore")?.with["run-id"]).toBe(
+      "${{ steps.cache.outputs.run-id }}",
+    );
+    expect(steps.find((s) => s.id === "restored-build")?.run).toBe(
+      "npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static",
+    );
+    expect(steps.find((s) => s.id === "artifact")?.with["retention-days"]).toBe(1);
+    expect(steps.filter((s) => s.with?.["retention-days"] === 7).length).toBe(1);
+  });
+
   test("does not hold a runner open for review", () => {
     for (const source of Object.values(sources)) {
       expect(source).not.toContain("setTimeout");
@@ -67,23 +76,9 @@ describe("Kapture consumer workflows", () => {
     expect(sources.approve).toContain("github approve");
   });
 
-  test("keeps preview publication separate from the trusted approval gate", () => {
-    const preview = workflows.capture.jobs.preview;
-    expect(preview.if).toContain("base.ref == 'codex/kapture-shadow-experiment'");
-    expect(preview.if).toContain("head.repo.full_name == github.repository");
-    expect(commands(preview.steps)).toEqual(["prepare-preview", "publish-preview"]);
-    expect(sources.capture).not.toContain("/kapture approve");
-    const buildReport = preview.steps.find((step) => step.id === "report");
-    expect(buildReport?.env).toEqual({
-      KAPTURE_BASE_BRANCH: "${{ github.event.pull_request.base.ref }}",
-    });
-    const publish = preview.steps.find((step) => step.run?.includes("github publish-preview"));
-    expect(publish?.env).toEqual({
-      GITHUB_TOKEN: "${{ github.token }}",
-      KAPTURE_BASE_BRANCH: "${{ github.event.pull_request.base.ref }}",
-      KAPTURE_REPORT_URL: "${{ steps.dashboard.outputs.immutable-url }}",
-      KAPTURE_REPORT_DIGEST: "${{ steps.report.outputs.report-digest }}",
-    });
+  test("removes the adoption-only preview job", () => {
+    expect(workflows.capture.jobs.preview).toBeUndefined();
+    expect(sources.capture).not.toContain("codex/kapture-shadow-experiment");
   });
 
   test("delegates production report trust and approval to the released CLI", () => {
@@ -111,7 +106,7 @@ describe("Kapture consumer workflows", () => {
     expect(adapterVersion).toMatch(/^\d+\.\d+\.\d+$/);
     for (const name of names) {
       const versions = [...sources[name].matchAll(/@kaptures\/cli@([^\s]+)/g)];
-      expect(versions.length).toBeGreaterThan(0);
+      if (name !== "retention") expect(versions.length).toBeGreaterThan(0);
       for (const [, version] of versions) expect(version).toBe(adapterVersion);
     }
   });
@@ -139,5 +134,22 @@ describe("Kapture consumer workflows", () => {
         }
       }
     }
+  });
+
+  test("cleanup shares the review lock and never checks out a PR head", () => {
+    expect(workflows.retention.concurrency).toEqual(workflows.report.concurrency);
+    const cleanup = workflows.retention.jobs.cleanup;
+    expect(cleanup.steps[0].with.ref).toBe("$" + "{{ github.event.repository.default_branch }}");
+    expect(cleanup.if).toContain("github.event.repository.default_branch");
+    expect(workflows.retention.on.pull_request_target).toEqual({
+      types: ["closed"],
+      branches: ["dev", "minor", "major"],
+    });
+    expect(workflows.capture.on.pull_request.types).toEqual([
+      "opened",
+      "synchronize",
+      "reopened",
+      "edited",
+    ]);
   });
 });
