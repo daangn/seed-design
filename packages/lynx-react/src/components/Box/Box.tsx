@@ -3,6 +3,7 @@ import * as React from "@lynx-js/react";
 
 import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -26,8 +27,7 @@ export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(className)}
       style={style}
     >

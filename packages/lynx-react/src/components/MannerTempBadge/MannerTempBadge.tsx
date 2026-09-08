@@ -6,6 +6,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
 import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -22,8 +23,7 @@ export const MannerTempBadge = React.forwardRef<unknown, MannerTempBadgeProps>((
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.root, className)}
     >
       <text className={classes.label}>{children}</text>

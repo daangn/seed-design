@@ -1,0 +1,52 @@
+/* biome-ignore lint/correctness/noUnknownTypeSelector: page is a Lynx element. */
+page {
+  height: 100%;
+  padding: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.scale-feedback-example {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scale-feedback-example__label {
+  color: var(--seed-color-fg-neutral);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.scale-feedback-example__self,
+.scale-feedback-example__content-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 12px;
+  background-color: var(--seed-color-bg-brand-solid);
+}
+
+.scale-feedback-example__content-root {
+  background-color: var(--seed-color-bg-neutral-weak);
+}
+
+.scale-feedback-example__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+}
+
+.scale-feedback-example__self-text {
+  color: var(--seed-color-palette-static-white);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.scale-feedback-example__content-text {
+  color: var(--seed-color-fg-neutral);
+  font-size: 16px;
+  font-weight: 700;
+}

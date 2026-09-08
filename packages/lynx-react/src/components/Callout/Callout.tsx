@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -15,6 +16,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
+import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);
 
@@ -75,12 +77,19 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     defaultValue: defaultOpen,
   });
   const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const pressTap = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
+    usePressTap({
+      disabled: !isInteractive,
+      onTap: bindtap,
+      mainThreadOnTap: mainThreadBindtap,
+    });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: !isInteractive,
-    onTap: bindtap,
-    mainThreadOnTap: mainThreadBindtap,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
-  const classNames = callout({ ...variantProps, pressed: pressTap.pressed });
+  const classNames = callout({ ...variantProps, pressed });
   const dismiss = useMemoizedFn(() => {
     if (!open) return;
 
@@ -94,9 +103,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
         prefixIcon: classNames.prefixIcon,
         suffixIcon: classNames.suffixIcon,
       },
-      deps: [variantProps.tone ?? "neutral", pressTap.pressed],
+      deps: [variantProps.tone ?? "neutral", pressed],
     }),
-    [classNames.prefixIcon, classNames.suffixIcon, pressTap.pressed, variantProps.tone],
+    [classNames.prefixIcon, classNames.suffixIcon, pressed, variantProps.tone],
   );
 
   if (!open) return null;
@@ -106,13 +115,18 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
       <ClassNamesProvider value={classNames}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
-            {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...nativeProps}
-            {...(isInteractive ? pressTap : {})}
+            {...mergeProps(
+              ref ? { ref: ref as LynxViewRef } : {},
+              isInteractive ? pressTapHandlers : {},
+              isInteractive ? scaleFeedbackTargetProps : {},
+              isInteractive ? scaleFeedbackTriggerProps : {},
+              nativeProps,
+            )}
             accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
             accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
             className={clsx(classNames.root, className)}
             style={style}
+            {...(isInteractive ? { flatten: false } : {})}
           >
             {children}
           </view>
@@ -133,8 +147,7 @@ export const CalloutContent = React.forwardRef<unknown, CalloutContentProps>((pr
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.content, className)}
       style={style}
     >
@@ -154,8 +167,7 @@ export const CalloutTitle = React.forwardRef<unknown, CalloutTitleProps>((props,
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.title, className)}
       style={style}
     >
@@ -177,8 +189,7 @@ export const CalloutDescription = React.forwardRef<unknown, CalloutDescriptionPr
 
     return (
       <text
-        {...(ref ? { ref: ref as LynxTextRef } : {})}
-        {...nativeProps}
+        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         className={clsx(classNames.description, className)}
         style={style}
       >
@@ -210,8 +221,7 @@ export const CalloutLink = React.forwardRef<unknown, CalloutLinkProps>((props, r
 
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       accessibility-element={accessibilityElement}
       accessibility-traits={accessibilityTraits}
       className={clsx(classNames.link, className)}
@@ -226,7 +236,8 @@ CalloutLink.displayName = "CalloutLink";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CalloutCloseButtonProps
-  extends LynxStyledElementProps,
+  // Keep the scale target's Android View even if shared props later expose flatten.
+  extends Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {}
 
@@ -248,6 +259,7 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
       bindtap?.(event);
       dismiss();
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
     if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
       console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
@@ -255,14 +267,19 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
 
     return (
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
-        bindtap={handleTap}
+        {...mergeProps(
+          { bindtap: handleTap },
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          nativeProps,
+        )}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits={accessibilityTraits}
         className={clsx(classNames.closeButton, className)}
         style={style}
+        flatten={false}
       >
         {children}
       </view>

@@ -11,6 +11,7 @@ import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
 
 const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
   createSlotRecipeContext(tagGroupItem);
@@ -49,9 +50,8 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
   return (
     <PropsProvider value={tagGroupItemVariantProps}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.root, className)}
-        {...nativeProps}
       >
         {visibleChildren.map((child, index) => {
           if (index === 0) return child;
@@ -97,10 +97,9 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
   return (
     <ClassNamesProvider value={classes}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.root, className)}
         style={style}
-        {...nativeProps}
       >
         {children}
       </view>
@@ -118,9 +117,8 @@ export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProp
   const { children, className, ...nativeProps } = props;
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classes.label, className)}
-      {...nativeProps}
     >
       {children}
     </text>
