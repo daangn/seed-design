@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { breakpointNames } from "@seed-design/css/breakpoints";
+import { breakpointNames, breakpoints } from "@seed-design/css/breakpoints";
 import { VISUAL_VIEWPORT_PARAMETERS, withVisualTestParameters } from "./parameters";
 
 describe("visual test provider parameters", () => {
@@ -20,7 +20,11 @@ describe("visual test provider parameters", () => {
   });
 
   test("maps responsive captures independently for both providers", () => {
-    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.captureViewports).toEqual(["sm", "md", "lg"]);
+    expect(VISUAL_VIEWPORT_PARAMETERS.kapture.captureViewports).toEqual([
+      { name: "sm", width: breakpoints.sm, height: 800 },
+      { name: "md", width: breakpoints.md, height: 800 },
+      { name: "lg", width: breakpoints.lg, height: 800 },
+    ]);
     expect(Object.keys(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes)).toEqual([...breakpointNames]);
   });
 });
