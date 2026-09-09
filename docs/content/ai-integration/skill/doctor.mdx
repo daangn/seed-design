@@ -11,13 +11,11 @@ Doctor는 SEED를 쓰는 워크스페이스를 찾아 **그 맥락에 적용되�
 
 지원 범위와 문서 목록은 스킬에 복사하지 않습니다. Doctor는 실행할 때마다 다음 인덱스를 읽습니다.
 
-- [SEED 전체 문서 인덱스](https://seed-design.io/llms.txt)
-- [React 문서 인덱스](https://seed-design.io/react/llms.txt)
-- [Lynx 문서 인덱스](https://seed-design.io/lynx/llms.txt)
+- [SEED 문서 인덱스](https://seed-design.io/__docs__/index.json)
 
-전체 인덱스에서 공통 Components·Foundations 문서를 찾고, 선택된 플랫폼 인덱스에서 설치·업그레이드·컴포넌트·저자 문서처럼 이번 진단에 필요한 현재 leaf 문서를 찾습니다. 인덱스를 정상적으로 읽었는데 계약 문서가 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
+인덱스의 `components`·`foundations` category에서 공통 문서를 찾고, 선택된 플랫폼 category에서 설치·업그레이드·컴포넌트·저자 문서처럼 이번 진단에 필요한 현재 문서를 찾습니다. 인덱스를 정상적으로 읽었는데 계약 문서가 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
 
-Doctor 요청 하나는 URL 기준 문서 풀 하나를 사용합니다. 전체·플랫폼 인덱스와 leaf 문서는 URL마다 한 번만 읽고 같은 실행의 workspace와 rule이 재사용합니다. 결과의 `references`에 같은 URL이 반복되어도 출처를 표시하는 것이며 문서를 다시 요청한다는 뜻은 아닙니다.
+Doctor 요청 하나는 URL 기준 문서 풀 하나를 사용합니다. 인덱스와 leaf 문서는 URL마다 한 번만 읽고 같은 실행의 workspace와 rule이 재사용합니다. 결과의 `references`에 같은 URL이 반복되어도 출처를 표시하는 것이며 문서를 다시 요청한다는 뜻은 아닙니다.
 
 ## 사용법
 
@@ -178,28 +176,28 @@ checks:
     status: pass
     evidence: framework·path와 TypeScript alias가 일치함
     references:
-      - https://seed-design.io/react/llms.txt
+      - https://seed-design.io/__docs__/index.json
       - "{configurationLeafUrlResolvedFromIndex}"
   - rule: seed/library-authors
     category: library
     status: fail
     evidence: 소비 진입점이 있지만 @seed-design/react가 dependencies에 있음
     references:
-      - https://seed-design.io/react/llms.txt
+      - https://seed-design.io/__docs__/index.json
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
   - rule: seed/snippet-generation
     category: compatibility
     status: not-applicable
     reason: 설치 스니펫이 없음
     references:
-      - https://seed-design.io/react/llms.txt
+      - https://seed-design.io/__docs__/index.json
 findings:
   - rule: seed/library-authors
     severity: warn
     message: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
     file: packages/ui/package.json
     references:
-      - https://seed-design.io/react/llms.txt
+      - https://seed-design.io/__docs__/index.json
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
     remediation: |-
       다음 SEED Doctor finding을 수정해 주세요.
@@ -214,7 +212,7 @@ findings:
       - 공개 API와 관련 없는 파일은 변경하지 마세요.
 
       근거:
-      - https://seed-design.io/react/llms.txt
+      - https://seed-design.io/__docs__/index.json
       - {libraryAuthorsLeafUrlResolvedFromIndex}
 
       먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.
