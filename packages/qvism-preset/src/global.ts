@@ -18,6 +18,11 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
 
+    // The recommended stack, published as a value only: nothing in SEED reads this
+    // variable, so a product opts in with `font-family: var(--seed-font-family)`.
+    "--seed-font-family":
+      '-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+
     // Font scaling variables
     "--seed-font-size-multiplier": "1",
     "--seed-font-size-limit-min": "0.8",
