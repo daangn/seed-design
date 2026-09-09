@@ -1,4 +1,6 @@
-declare interface ListVariant {}
+declare interface ListVariant {
+  
+}
 
 declare type ListVariantMap = {
   [key in keyof ListVariant]: Array<ListVariant[key]>;
