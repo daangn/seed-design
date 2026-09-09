@@ -67,17 +67,17 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 
 문서 목록과 지원 범위를 스킬에 복사하지 않습니다. 요청할 때마다 아래 인덱스를 먼저 읽고, 인덱스가 제공한 링크를 그대로 따라갑니다.
 
-- 전체 문서 인덱스: `https://seed-design.io/llms.txt`
-- React 문서 인덱스: `https://seed-design.io/react/llms.txt`
-- Lynx 문서 인덱스: `https://seed-design.io/lynx/llms.txt`
+- 문서 인덱스: `https://seed-design.io/__docs__/index.json`
 
-한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 전체 인덱스, 선택된 플랫폼 인덱스, 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
+인덱스는 `categories[].items[]` 구조입니다. 공통 문서는 `components`·`foundations`·`patterns` category에, 플랫폼 문서는 `react`·`lynx` category에 있고, 각 항목이 `title`·`description`·`docUrl`과 본문 주소인 `llmsUrl`을 담습니다.
+
+한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 인덱스와 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
 
 다음 순서를 지킵니다.
 
-1. 전체 문서 인덱스에서 공통 Components·Foundations·Patterns 또는 선택된 플랫폼의 현재 진입점을 찾습니다.
-2. 플랫폼 구현 요청이면 선택된 플랫폼 인덱스를 읽고, 제목·category·설명으로 필요한 문서를 찾습니다.
-3. 인덱스가 제공한 leaf URL을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
+1. 문서 인덱스에서 공통 Components·Foundations·Patterns category를 찾습니다.
+2. 플랫폼 구현 요청이면 `react` 또는 `lynx` category에서 제목·설명으로 필요한 문서를 찾습니다.
+3. 항목의 `llmsUrl`을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
 4. 인덱스를 정상적으로 읽었는데 관련 항목이 없으면 현재 공식 문서가 없다고 판단합니다. 인덱스 자체를 읽지 못했으면 부재로 확정하지 않습니다.
 
 CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 주소를 확인합니다. 기억한 주소를 조합하지 말고, 주소를 확정할 수 없으면 `docs search`로 찾거나 인덱스의 URL을 직접 읽습니다.

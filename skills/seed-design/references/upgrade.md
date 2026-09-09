@@ -4,10 +4,10 @@
 
 ## 문서 발견
 
-1. `https://seed-design.io/llms.txt`에서 선택된 플랫폼 진입점을 찾습니다.
-2. 선택된 플랫폼의 `llms.txt`에서 현재 upgrade·migration·changelog·CLI 문서를 찾습니다.
+1. 문서 인덱스 `https://seed-design.io/__docs__/index.json`에서 선택된 플랫폼 category를 찾습니다.
+2. 그 category에서 현재 upgrade·migration·changelog·CLI 문서를 찾습니다.
 3. 공유 라이브러리이면 같은 인덱스에서 Library Authors 또는 같은 역할의 배포 계약 문서를 추가로 찾습니다.
-4. 인덱스가 제공한 leaf URL과 문서가 안내한 CLI id만 사용합니다. 버전 경계·changelog 경로·호환표를 이 파일에 복사하지 않습니다.
+4. 항목의 `llmsUrl`과 문서가 안내한 CLI id만 사용합니다. 버전 경계·changelog 경로·호환표를 이 파일에 복사하지 않습니다.
 
 인덱스를 정상적으로 읽었는데 업그레이드 문서가 없으면 공식 경로 부재를 알리고 다른 플랫폼 문서를 이식하지 않습니다. 인덱스나 연결 문서를 읽지 못하면 부재로 확정하지 않습니다.
 
