@@ -2,7 +2,7 @@
 // - react-aria
 // - @zag-js/core
 
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 
 interface Props {
   [key: string]: any;

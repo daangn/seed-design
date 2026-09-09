@@ -7,7 +7,7 @@ import {
   type ScopedColorFg,
   type ScopedColorPalette,
 } from "@seed-design/css/vars";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";
 import type * as CSS from "csstype";

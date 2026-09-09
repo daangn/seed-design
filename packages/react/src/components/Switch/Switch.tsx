@@ -6,7 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import React from "react";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 
 const { withContext, ClassNamesProvider } = createSlotRecipeContext(switchStyle);

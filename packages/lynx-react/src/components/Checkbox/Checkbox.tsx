@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import { isValidElement, type ReactElement } from "@lynx-js/react";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 
 import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
 import type { CheckboxVariantProps } from "@seed-design/lynx-css/recipes/checkbox";

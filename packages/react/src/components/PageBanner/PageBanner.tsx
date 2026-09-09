@@ -10,7 +10,7 @@ import {
   DismissibleRoot,
   type DismissibleRootProps,
 } from "../private/useDismissible";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 
 const { withContext, ClassNamesProvider } = createSlotRecipeContext(pageBanner);
 

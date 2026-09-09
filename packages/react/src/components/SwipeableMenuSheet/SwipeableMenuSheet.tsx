@@ -6,7 +6,7 @@ import {
 } from "@seed-design/css/recipes/menu-sheet-item";
 import { Drawer } from "@seed-design/react-drawer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";

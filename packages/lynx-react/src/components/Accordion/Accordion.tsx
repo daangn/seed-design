@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import type { ReactElement } from "@lynx-js/react";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 
 import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
 

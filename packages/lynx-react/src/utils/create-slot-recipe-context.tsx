@@ -7,7 +7,7 @@ import type {
   ReactNode,
   RefAttributes,
 } from "@lynx-js/react";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 
 type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,

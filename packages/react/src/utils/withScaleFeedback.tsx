@@ -1,6 +1,6 @@
 import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 import * as React from "react";
 
 /**

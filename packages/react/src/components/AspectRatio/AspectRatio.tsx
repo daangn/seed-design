@@ -1,5 +1,5 @@
 import { aspectRatio as aspectRatioRecipe } from "@seed-design/css/recipes/aspect-ratio";
-import { clsx } from "cn";
+import { clsx } from "cn/lite";
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
 
