@@ -1,6 +1,6 @@
 ## 디렉토리 개요
 
-`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령과 `seed-design docs list/search/read` 하위 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화한다.
+`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령과 `seed-design docs list/search/read` 하위 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화한다. 저장소 전체 의존성과 작업 경로는 루트 `ARCHITECTURE.md`를 먼저 참고한다.
 
 - 런타임은 Node.js >= 20.19.0이고, TypeScript ESM으로 쓴다.
 - 핵심 의존성은 `@optique/core`, `@optique/run`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`다.
@@ -19,8 +19,11 @@ src/utils/
   ├─ interactive.ts                프롬프트를 띄울 수 있는 환경인지 판정
   ├─ get-config.ts / init-config.ts
   ├─ fetch.ts / write.ts / resolve-dependencies.ts / install.ts
-  ├─ docs-address.ts / docs-index.ts
-  ├─ analytics.ts
+  ├─ registry-source.ts / get-package-info.ts / get-package-manager.ts
+  ├─ compatibility.ts
+  ├─ docs-address.ts / docs-index.ts / docs-search.ts / index-cache.ts
+  ├─ transformers/                 registry 스니펫의 TSX/JSX 변환
+  ├─ color.ts / help.ts / analytics.ts
   └─ error.ts                      CliError / CliCancelError / ExitCode
 ```
 
@@ -130,7 +133,7 @@ CLI가 밖으로 드러내는 계약이다. 사용자 문서와 테스트가 이
 
 ### 설정 파일 부트스트랩을 내부 로직으로 처리
 
-`seed-design.json`이 없을 때 외부 명령(`seed-design init`)을 `execa`로 재호출하지 않고 `src/utils/init-config.ts`로 직접 만든다. 질문을 띄울 수 없으면 만들지 않고 `seed-design init -y`를 안내한다. `add`에 `--yes`를 두지 않는 이유는 경로·프레임워크·telemetry 값이 한 번도 보이지 않은 채 정해지기 때문이다. 설정 파일을 만드는 일은 `init`이 이미 갖고 있다.
+`seed-design.json`이 없을 때 외부 명령(`seed-design init`)을 `execa`로 재호출하지 않고 `src/utils/init-config.ts`로 직접 만든다. 기본값은 `rsc=false`, `tsx=true`, `framework="react"`, `path="./seed-design"`, `telemetry=true`이고, `detectFramework(cwd)`가 프로젝트 의존성을 보고 React와 Lynx 중 하나를 고른다. 질문을 띄울 수 없으면 만들지 않고 `seed-design init -y`를 안내한다. `add`에 `--yes`를 두지 않는 이유는 경로·프레임워크·telemetry 값이 한 번도 보이지 않은 채 정해지기 때문이다. 설정 파일을 만드는 일은 `init`이 이미 갖고 있다.
 
 ### `--on-diff`의 세 값과 `--include-deprecated`의 두 얼굴
 
@@ -141,6 +144,8 @@ CLI가 밖으로 드러내는 계약이다. 사용자 문서와 테스트가 이
 ### 명령 성공 경로에서 telemetry는 비핵심
 
 `src/utils/analytics.ts`가 `init`, `add`, `add-all`, `compat`, `docs-list`, `docs-search`, `docs-read` 이벤트를 보낸다. 이벤트 이름에는 공백을 넣지 않는다. telemetry 실패는 명령의 성공·실패 판정에 영향을 주지 않는다.
+
+전송은 `await`로 기다리고 요청에 5초 timeout을 건다. 명령마다 왕복이 한 번 붙는다는 뜻이므로, 이벤트를 늘릴 때 이 비용을 함께 본다.
 
 opt-out 우선순위는 고정이다. `DISABLE_TELEMETRY=true`, `SEED_DISABLE_TELEMETRY=true`, `seed-design.json`의 `telemetry=false` 순으로 본다.
 
