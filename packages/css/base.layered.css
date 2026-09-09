@@ -19,6 +19,7 @@
   }
 
   :root {
+    --seed-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --seed-font-size-multiplier: 1;
     --seed-font-size-limit-min: .8;
     --seed-font-size-limit-max: 1.5;
