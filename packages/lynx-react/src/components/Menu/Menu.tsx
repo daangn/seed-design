@@ -419,8 +419,6 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       return;
     }
     const version = ++measurementVersionRef.current;
-    const boundary = getScreenRect();
-    if (!boundary) return;
     try {
       const [reference, overlay, trigger] = await Promise.all([
         getRectByRef({ current: referenceNode }, true),
@@ -437,21 +435,22 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       const width = context.matchReferenceWidth
         ? reference.width
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
-      const nextPosition = positionMenu({
+      const nextPosition = await positionMenu({
         reference,
-        boundary: {
-          left: boundary.left + context.overflowPadding,
-          top: boundary.top + context.overflowPadding,
-          right: boundary.right - context.overflowPadding,
-          bottom: boundary.bottom - context.overflowPadding,
-          width: boundary.width - context.overflowPadding * 2,
-          height: boundary.height - context.overflowPadding * 2,
-        },
+        boundary: overlay,
         width,
         height: Math.min(intrinsicSize.height, menuMaxHeight),
         placement: context.placement,
         gutter: context.gutter,
+        overflowPadding: context.overflowPadding,
       });
+      if (
+        version !== measurementVersionRef.current ||
+        !context.isOpenRef.current ||
+        openEpoch !== context.openEpochRef.current
+      ) {
+        return;
+      }
       setPosition((previous) => {
         if (
           previous?.left === nextPosition.left &&

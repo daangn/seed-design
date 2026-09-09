@@ -1,3 +1,13 @@
+import {
+  computePosition,
+  flip,
+  offset,
+  shift,
+  size,
+  type Platform,
+  type Rect,
+} from "@floating-ui/core";
+
 export type MenuSide = "top" | "right" | "bottom" | "left";
 export type MenuPlacement = MenuSide | `${MenuSide}-${"start" | "end"}`;
 
@@ -19,21 +29,40 @@ export interface MenuPosition {
   transformOrigin: string;
 }
 
-const opposite: Record<MenuSide, MenuSide> = {
-  top: "bottom",
-  bottom: "top",
-  left: "right",
-  right: "left",
-};
+interface MenuReferenceElement {
+  rect: Rect;
+}
+
+interface MenuFloatingElement {
+  dimensions: {
+    width: number;
+    height: number;
+  };
+}
+
+const minimumHeight = 200;
+
+function getTransformOrigin(placement: MenuPlacement) {
+  const [side, align] = placement.split("-") as [MenuSide, "start" | "end" | undefined];
+  const crossOrigin = align === "start" ? "0%" : align === "end" ? "100%" : "50%";
+  return side === "top"
+    ? `${crossOrigin} 100%`
+    : side === "bottom"
+      ? `${crossOrigin} 0%`
+      : side === "left"
+        ? `100% ${crossOrigin}`
+        : `0% ${crossOrigin}`;
+}
 
 /** All inputs and output coordinates use the same screen-relative coordinate space. */
-export function positionMenu({
+export async function positionMenu({
   reference,
   boundary,
   width,
   height,
   placement,
   gutter,
+  overflowPadding,
 }: {
   reference: MenuRect;
   boundary: MenuRect;
@@ -41,77 +70,74 @@ export function positionMenu({
   height: number;
   placement: MenuPlacement;
   gutter: number;
-}): MenuPosition {
-  const requestedSide: MenuSide = placement.startsWith("top")
-    ? "top"
-    : placement.startsWith("right")
-      ? "right"
-      : placement.startsWith("left")
-        ? "left"
-        : "bottom";
-  const align = placement.endsWith("-start")
-    ? "start"
-    : placement.endsWith("-end")
-      ? "end"
-      : undefined;
-  const available: Record<MenuSide, number> = {
-    top: Math.max(0, reference.top - boundary.top - gutter),
-    bottom: Math.max(0, boundary.bottom - reference.bottom - gutter),
-    left: Math.max(0, reference.left - boundary.left - gutter),
-    right: Math.max(0, boundary.right - reference.right - gutter),
+  overflowPadding: number;
+}): Promise<MenuPosition> {
+  const referenceElement: MenuReferenceElement = {
+    rect: {
+      x: reference.left,
+      y: reference.top,
+      width: reference.width,
+      height: reference.height,
+    },
   };
-  const vertical = requestedSide === "top" || requestedSide === "bottom";
-  const desired = vertical ? Math.min(height, boundary.height) : Math.min(width, boundary.width);
-  const flipped = opposite[requestedSide];
-  const side =
-    available[requestedSide] < desired && available[flipped] > available[requestedSide]
-      ? flipped
-      : requestedSide;
-  const finalWidth = Math.max(
-    0,
-    Math.min(width, boundary.width, vertical ? boundary.width : available[side]),
-  );
-  const finalHeight = Math.max(
-    0,
-    Math.min(height, boundary.height, vertical ? available[side] : boundary.height),
-  );
-  const alignedX =
-    align === "start"
-      ? reference.left
-      : align === "end"
-        ? reference.right - finalWidth
-        : (reference.left + reference.right - finalWidth) / 2;
-  const alignedY =
-    align === "start"
-      ? reference.top
-      : align === "end"
-        ? reference.bottom - finalHeight
-        : (reference.top + reference.bottom - finalHeight) / 2;
-  const x = vertical
-    ? alignedX
-    : side === "left"
-      ? reference.left - gutter - finalWidth
-      : reference.right + gutter;
-  const y = vertical
-    ? side === "top"
-      ? reference.top - gutter - finalHeight
-      : reference.bottom + gutter
-    : alignedY;
-  const crossOrigin = align === "start" ? "0%" : align === "end" ? "100%" : "50%";
-  const resolvedPlacement: MenuPlacement =
-    align === "start" ? `${side}-start` : align === "end" ? `${side}-end` : side;
+  const floatingElement: MenuFloatingElement = {
+    dimensions: {
+      width: Math.max(0, width),
+      height: Math.max(0, height),
+    },
+  };
+  const clippingRect: Rect = {
+    x: boundary.left,
+    y: boundary.top,
+    width: boundary.width,
+    height: boundary.height,
+  };
+  const maximumHeight = floatingElement.dimensions.height;
+  const platform: Platform = {
+    getElementRects: () => ({
+      reference: referenceElement.rect,
+      floating: {
+        x: 0,
+        y: 0,
+        ...floatingElement.dimensions,
+      },
+    }),
+    getClippingRect: () => clippingRect,
+    getDimensions: () => floatingElement.dimensions,
+    isElement: () => true,
+    isRTL: () => false,
+  };
+
+  const result = await computePosition(referenceElement, floatingElement, {
+    placement,
+    strategy: "absolute",
+    platform,
+    middleware: [
+      offset(gutter),
+      size({
+        padding: overflowPadding,
+        apply({ availableHeight }) {
+          floatingElement.dimensions.height = Math.min(
+            maximumHeight,
+            Math.max(minimumHeight, availableHeight),
+          );
+        },
+      }),
+      flip({
+        padding: overflowPadding,
+        fallbackStrategy: "bestFit",
+      }),
+      shift({ padding: overflowPadding, crossAxis: true }),
+    ],
+  });
+  const resolvedPlacement = result.placement as MenuPlacement;
 
   return {
-    left: Math.max(
-      boundary.left,
-      Math.min(x, Math.max(boundary.left, boundary.right - finalWidth)),
-    ),
-    top: Math.max(boundary.top, Math.min(y, Math.max(boundary.top, boundary.bottom - finalHeight))),
-    width: finalWidth,
-    height: finalHeight,
+    left: result.x,
+    top: result.y,
+    width: floatingElement.dimensions.width,
+    height: floatingElement.dimensions.height,
     placement: resolvedPlacement,
-    transformOrigin: vertical
-      ? `${crossOrigin} ${side === "top" ? "100%" : "0%"}`
-      : `${side === "left" ? "100%" : "0%"} ${crossOrigin}`,
+    transformOrigin: getTransformOrigin(resolvedPlacement),
   };
 }
