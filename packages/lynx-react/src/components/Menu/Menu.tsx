@@ -172,11 +172,14 @@ export interface MenuRootProps extends MenuPublicVariantProps, LynxStyledElement
  * web DOM focus, keyboard navigation, typeahead, `asChild`, or nested submenus.
  */
 export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) => {
+  const { size: sizeProp = "medium", open: openProp, ...restProps } = props;
+  const [variantProps, otherProps] = menu.splitVariantProps({
+    ...restProps,
+    size: sizeProp === "responsive" ? undefined : sizeProp,
+  });
   const {
     children,
     className,
-    size = "medium",
-    open: openProp,
     defaultOpen = false,
     onOpenChange,
     disabled = false,
@@ -185,7 +188,7 @@ export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) =>
     overflowPadding = 8,
     matchReferenceWidth = false,
     ...nativeProps
-  } = props;
+  } = otherProps;
   const [open, setOpen] = useControllableState({ value: openProp, defaultValue: defaultOpen });
   const [mounted, setMounted] = React.useState(open);
   const [positionedEpoch, setPositionedEpoch] = React.useState<number | null>(null);
@@ -233,11 +236,9 @@ export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) =>
 
   const screenRect = getScreenRect();
   const resolvedSize =
-    size === "responsive" && screenRect?.width != null && screenRect.width >= 1280
+    sizeProp === "responsive" && screenRect?.width != null && screenRect.width >= 1280
       ? "small"
-      : size === "small"
-        ? "small"
-        : "medium";
+      : (variantProps.size ?? "medium");
   const classes = menu({ size: resolvedSize, open, positioned });
   const contextValue = React.useMemo<MenuContextValue>(
     () => ({
@@ -729,18 +730,18 @@ export interface MenuItemProps
 }
 
 export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) => {
+  const [variantProps, otherProps] = menuItem.splitVariantProps(props);
+  const { disabled: disabledProp = false, tone = "neutral" } = variantProps;
   const {
     children,
     className,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    disabled: disabledProp = false,
-    tone = "neutral",
     "accessibility-element": accessibilityElement = true,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
-  } = props;
+  } = otherProps;
   const context = useMenuContext("MenuItem");
   const disabled = context.disabled || disabledProp;
   const handleTap = React.useCallback<NativeTapHandler>(
@@ -756,7 +757,13 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const classes = menuItem({ size: context.size, tone, disabled, pressed });
+  const classes = menuItem({
+    ...variantProps,
+    size: context.size,
+    tone,
+    disabled,
+    pressed,
+  });
   const iconSlots = React.useMemo(
     () => ({
       classNames: { prefixIcon: classes.prefixIcon, suffixIcon: classes.suffixIcon },
