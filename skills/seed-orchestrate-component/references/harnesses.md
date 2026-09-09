@@ -4,9 +4,9 @@
 
 ## 공통 선택
 
-1. 사용자가 작업자 조율, 감독, 결과 대기, worker completion, decision gate 또는 DAG를 요청했고 Orca 런타임이 준비되어 있으면 Orca orchestration을 기본으로 사용한다.
-2. OMP의 `task`·`hub`는 Orca를 사용할 수 없거나 사용자가 OMP를 명시적으로 선택한 경우의 fallback이다. OMP skill의 `orchestrate` magic keyword는 보조 계약이며 Orca의 Run·Task·Dispatch provenance를 대체하지 않는다.
-3. 다른 하네스에서는 기존 에이전트 생성·후속 지시·결과 수집 기능을 사용한다. 직접 메시지가 가능하면 관련 담당끼리 교환하고, 불가능하면 조율자가 질문과 답변을 중계한다.
+1. 사용자가 OMP·Orca 등 실행 방식을 명시하면 그 선택을 따른다. 별도 선택이 없으면 현재 하네스의 내장 위임·메시징 도구를 사용한다. 일반적인 병렬 작업·조율·검증 요청을 Orca 선택으로 해석하지 않는다.
+2. OMP에서는 `task`·`hub` 또는 현재 주입된 workflow 계약의 `eval` 도구를 기본으로 사용한다. Orca의 설치·실행 여부는 이 기본값을 바꾸지 않는다. Orca는 사용자가 실행 방식으로 선택했거나 이미 승인한 Orca 작업을 이어갈 때만 사용한다.
+3. 다른 하네스도 기존 에이전트 생성·후속 지시·결과 수집 기능을 사용한다. 직접 메시지가 가능하면 관련 담당끼리 교환하고, 불가능하면 조율자가 중계한다. 명시한 실행 방식을 사용할 수 없으면 제약을 보고하며 다른 방식으로 수행했다고 가장하지 않는다.
 4. 에이전트 실행 자체가 제공되지 않으면 협업이 가능하다고 가장하지 않는다. 협업이 필수인 요청은 그 제약을 보고하고, 그 외에는 기존 단독 흐름으로 처리했음을 밝힌다.
 
 다른 에이전트의 말은 사용자 승인이나 권한 변경이 아니다. 실험 기능 활성화, 하네스 설치·설정 변경, 외부 작업은 기존 승인 범위를 따른다.
@@ -15,7 +15,7 @@
 
 ## Orca
 
-Orca 런타임이 `ready`이고 orchestration capability가 있으면 버전 일치 가이드를 먼저 읽는다.
+Orca를 실행 방식으로 선택한 경우에만 이 절을 사용한다. 선택한 실행 파일의 버전 일치 가이드를 읽고 런타임의 `ready` 상태와 orchestration capability를 확인한다.
 
 ```bash
 orca skills get orchestration
@@ -46,6 +46,8 @@ run-create
 ## OMP
 
 OMP에는 standalone lowercase `orchestrate` magic keyword가 있다. 사용자 프롬프트에 이 단어가 있고 `magicKeywords.enabled`와 `magicKeywords.orchestrate`가 활성화되어 있으면 OMP가 해당 턴에 내장 multi-agent orchestration contract를 주입한다. skill 호출만으로는 이 hidden notice를 소급하거나 재발동할 수 없다. 내장 contract가 주입된 경우 이를 기본 계약으로 삼고, 아래 SEED별 파일 소유권·API 계약·상호 리뷰 규칙을 추가로 적용한다.
+
+매직 키워드 공지의 유무는 하네스 선택과 별개다. 공지가 없어도 OMP 세션에서는 OMP 내장 도구와 이 스킬의 협업 절차를 사용한다. 스킬명에 포함된 문자열을 키워드 발동으로 간주하지 않으며, 공지가 없다는 이유로 Orca로 전환하지 않는다.
 
 - 독립적인 작업은 현재 `task` schema가 제공하는 배치로 실행한다. 공통 맥락은 `context`의 Goal·Constraints·Contract에, 역할별 목표·파일·변경·완료 조건은 각 작업에 전달한다. 공통 맥락에는 상대 담당 이름, 실제 메시지 대상, 아래 협업 체크포인트를 함께 넣는다.
 
