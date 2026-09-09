@@ -18,10 +18,35 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
 
-    // The recommended stack, published as a value only: nothing in SEED reads this
-    // variable, so a product opts in with `font-family: var(--seed-font-family)`.
-    "--seed-font-family":
-      '-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    // users can opt in with `font-family: var(--seed-font-family)`.
+    // see: https://seed-design.io/foundations/typography
+    "--seed-font-family": [
+      // SF Pro under WebKit. note: the literal "SF Pro" resolves only for users who installed the font themselves
+      "-apple-system",
+      // SF Pro under Chromium (macOS).
+      "BlinkMacSystemFont",
+      // 한글 on Apple platforms
+      '"Apple SD Gothic Neo"',
+
+      // when loaded (for Windows, mostly)
+      '"Pretendard Variable"',
+      "Pretendard",
+      // on Windows without Pretendard loaded/installed
+      '"Segoe UI"',
+
+      // fallbacks
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      '"Noto Sans"',
+
+      "sans-serif",
+
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+      '"Noto Color Emoji"',
+    ].join(", "),
 
     // Font scaling variables
     "--seed-font-size-multiplier": "1",
