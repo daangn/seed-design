@@ -1,7 +1,7 @@
 "use client";
 
 import { IconHorizline3VerticalLine } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
 import Link from "next/link";

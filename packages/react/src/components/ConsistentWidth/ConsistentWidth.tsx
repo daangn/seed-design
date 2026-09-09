@@ -1,5 +1,5 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import clsx from "clsx";
+import { clsx } from "cn/lite";
 import { forwardRef } from "react";
 
 export interface ConsistentWidthProps

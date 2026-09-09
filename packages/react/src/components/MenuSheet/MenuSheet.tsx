@@ -9,7 +9,7 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import clsx from "clsx";
+import { clsx } from "cn/lite";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(menuSheet);
 const {

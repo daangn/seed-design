@@ -5,7 +5,7 @@ import {
   IconVertrectangle2HorizontalFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import { clsx } from "clsx";
+import { clsx } from "cn";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useLandingMp4Playback } from "../lib/use-landing-mp4-playback";

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "cn/lite";
 import { createContext, forwardRef, useContext } from "react";
 import { restoreDefaultProps } from "./restoreDefaultProps";
 

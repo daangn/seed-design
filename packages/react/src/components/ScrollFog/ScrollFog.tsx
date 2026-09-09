@@ -1,5 +1,5 @@
 import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/scroll-fog";
-import clsx from "clsx";
+import { clsx } from "cn/lite";
 import { forwardRef, useMemo } from "react";
 
 type ScrollPlacement = "top" | "bottom" | "left" | "right";

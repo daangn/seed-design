@@ -9,7 +9,7 @@ import {
 } from "@/registry/react/ui/navigation-menu";
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { DocsNavigationMenuContent } from "./docs-nav-menu-content";
-import clsx from "clsx";
+import { clsx } from "cn";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { NAV_ITEMS, type NavItem } from "./nav-items";

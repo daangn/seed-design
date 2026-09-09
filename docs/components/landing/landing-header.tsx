@@ -4,7 +4,7 @@ import {
   IconHorizline3VerticalLine,
   IconMagnifyingglassFill,
 } from "@karrotmarket/react-monochrome-icon";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { useState, type ReactNode } from "react";
 import { MobileNavPanel } from "../header/mobile-nav-panel";

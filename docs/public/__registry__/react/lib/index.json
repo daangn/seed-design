@@ -32,7 +32,7 @@
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react",
-        "clsx"
+        "cn"
       ]
     },
     {
@@ -47,7 +47,7 @@
       "id": "pagination-page-item",
       "dependencies": [
         "@seed-design/css",
-        "clsx"
+        "cn"
       ]
     }
   ]

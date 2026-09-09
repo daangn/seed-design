@@ -54,7 +54,7 @@ function MyButton({ className, ...props }) {
 
 ```tsx title="MyButton.tsx"
 import { useScaleFeedback } from "@seed-design/react";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 function MyButton({ className, ...props }) {
   const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();

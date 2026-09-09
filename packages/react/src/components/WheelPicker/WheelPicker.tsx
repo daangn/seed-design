@@ -9,7 +9,7 @@ import {
   WheelPicker as WheelPickerPrimitive,
   type WheelPickerOption,
 } from "@seed-design/react-wheel-picker";
-import clsx from "clsx";
+import { clsx } from "cn/lite";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { ScrollFog } from "../ScrollFog/ScrollFog";

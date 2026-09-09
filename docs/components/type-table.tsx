@@ -7,7 +7,7 @@
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import Link from "fumadocs-core/link";
 import { cva } from "class-variance-authority";
-import { twMerge as cn } from "tailwind-merge";
+import { twMerge as cn } from "cn";
 import { type ComponentProps, type ReactNode, useEffect, useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 

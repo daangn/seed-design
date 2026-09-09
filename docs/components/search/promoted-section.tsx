@@ -1,7 +1,7 @@
 "use client";
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
-import clsx from "clsx";
+import { clsx } from "cn";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { type ReactNode, useState } from "react";
 import { splitHighlights } from "@/lib/search-text";

@@ -29,7 +29,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "clsx": "^2.1.1"
+    "cn": "0.2.4"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

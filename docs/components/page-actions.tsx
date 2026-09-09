@@ -13,7 +13,7 @@ import {
 } from "@/components/docs-menu";
 import { useState } from "react";
 import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
-import clsx from "clsx";
+import { clsx } from "cn";
 
 const cache = new Map<string, string>();
 
