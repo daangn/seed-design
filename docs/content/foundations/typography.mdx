@@ -17,15 +17,9 @@ SEED 타이포그래피 시스템은 폰트 크기, 줄 높이, 폰트 두께 �
 
 ## 글꼴
 
-사용자의 디바이스 환경을 고려하여, 시스템 폰트를 사용합니다. 이는 다양한 국가와 문화권에서 사용되는 여러 기기 및 운영 체제에서 일관된 사용자 경험과 가독성을 보장합니다.
+사용자의 디바이스 환경을 고려하여, 각 플랫폼의 시스템 폰트를 사용합니다. 이는 다양한 국가와 문화권에서 사용되는 여러 기기 및 운영 체제에서 일관된 사용자 경험과 가독성을 보장합니다.
 
-웹에서는 다음과 같은 폰트 스택을 적용할 수 있습니다:
-
-```css
-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
-  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-```
+웹에서는 `font-family`를 선언하지 않으면 브라우저와 사용자 설정에 따라 글꼴이 정해지므로, 시스템 폰트를 쓰려면 폰트 스택을 직접 선언해야 합니다. `@seed-design/css`가 권장 스택을 `--seed-font-family` 변수로 제공하며, 값과 적용 방법은 [Fonts](/react/getting-started/styling/fonts)에서 다룹니다.
 
 ## 타이포그래피 토큰
 

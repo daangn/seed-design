@@ -8,13 +8,6 @@ interface ComponentPreviewProps {
   isolate?: boolean;
 }
 
-// Reset examples back to the system font (the docs `html` uses Pretendard) so SEED
-// component demos render in their native platform typeface. A comma-separated font
-// stack doesn't fit a Tailwind arbitrary class cleanly, so it lives in `style`;
-// `leading-[normal]` handles the line-height (Tailwind's `leading-normal` is 1.5).
-const SYSTEM_FONT_STACK =
-  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif';
-
 export function ComponentPreview(props: ComponentPreviewProps) {
   const { name, isolate } = props;
 
@@ -38,14 +31,14 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   return (
     <React.Suspense fallback={null}>
       <div
+        // The docs `html` uses Pretendard, so the font goes back to what a product using
+        // these components would render in. `leading-[normal]` because Tailwind's
+        // `leading-normal` is 1.5.
         className={cn(
           "not-prose leading-[normal] w-full flex flex-col justify-center items-center",
+          "bg-bg-layer-default font-(family-name:--seed-font-family)",
           isolate && "isolate",
         )}
-        style={{
-          backgroundColor: "var(--seed-color-bg-layer-default)",
-          fontFamily: SYSTEM_FONT_STACK,
-        }}
       >
         {Preview}
       </div>
