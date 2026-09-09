@@ -216,9 +216,7 @@ const MARKDOWN_COMPONENTS: NonNullable<MarkdownProps["components"]> = {
       className="rounded-sm bg-bg-neutral-weak-alpha px-1 py-px font-mono text-[0.9em]"
     />
   ),
-  mark: (props) => (
-    <mark {...props} className="bg-[var(--selection-bg)] text-[var(--selection-fg)]" />
-  ),
+  mark: (props) => <mark {...props} className="bg-(--selection-bg) text-(color:--selection-fg)" />,
 };
 
 const COMPONENTS = { ...MARKDOWN_COMPONENTS, custom: MdxTagBadge };

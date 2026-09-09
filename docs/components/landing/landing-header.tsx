@@ -90,7 +90,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
           // `right`: same scroll-lock trim the footer compensates for (see section-footer) —
           // <body> narrows by the removed scrollbar width while this fixed bar does not, which
           // would slide the right-hand actions out of line with the page under them.
-          "fixed inset-x-0 right-[var(--removed-body-scroll-bar-size,0px)] top-0 z-[1000]",
+          "fixed inset-x-0 right-(--removed-body-scroll-bar-size,0px) top-0 z-[1000]",
           LANDING_LIGHT_ONLY_COLOR_BRIDGE,
           `transition-transform ${EASE_DUR} motion-reduce:transition-none`,
           isHidden ? "-translate-y-full pointer-events-none" : "translate-y-0",
@@ -104,7 +104,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
             // Match the docs header's container (fumadocs --fd-layout-width default 97rem,
             // px-4) so the logo/actions sit at the same x → no layout shift when navigating
             // between landing and docs.
-            "mx-auto h-[76px] w-full max-w-[97rem] items-center px-4 text-[var(--landing-header-fg)]",
+            "mx-auto h-[76px] w-full max-w-[97rem] items-center px-4 text-(color:--landing-header-fg)",
             "min-[968px]:h-[72px] min-[968px]:px-3 min-[1120px]:h-[76px] min-[1120px]:px-4",
             "hidden min-[968px]:grid",
             TONE_CLASSES[tone],
@@ -130,7 +130,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
 
           {/* Logo: mark always; wordmark in a clipping wrapper that collapses to 0 width.
               Landing is light-only, so avoid Tailwind's global dark variant here. */}
-          <div className="relative z-10 col-start-2 row-start-1 flex items-center text-[var(--landing-header-fg)]">
+          <div className="relative z-10 col-start-2 row-start-1 flex items-center text-(color:--landing-header-fg)">
             <SeedMark className="h-10 w-auto shrink-0 min-[968px]:h-8 min-[1120px]:h-9 min-[1280px]:h-10" />
             <div
               className={clsx(
@@ -163,7 +163,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
               ponytail: pixel pads are tuned to the SEED wordmark width (measured on the deployed
               preview: nav centered within ~1px at 968/1120/1280 bands). Re-measure if the logo or
               wordmark changes. */}
-          <div className="relative z-10 col-start-6 row-start-1 flex items-center gap-1.5 text-[var(--landing-header-fg)]">
+          <div className="relative z-10 col-start-6 row-start-1 flex items-center gap-1.5 text-(color:--landing-header-fg)">
             <div
               aria-hidden
               className={clsx(
@@ -188,7 +188,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
             px = global gutter, items vertically centered. Logo mark plus playback, search, and menu. */}
         <div
           className={clsx(
-            "h-16 items-center justify-between px-spacing-x-global-gutter text-[var(--landing-header-fg)]",
+            "h-16 items-center justify-between px-spacing-x-global-gutter text-(color:--landing-header-fg)",
             "flex min-[968px]:hidden",
             TONE_CLASSES[tone],
           )}

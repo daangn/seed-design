@@ -5,7 +5,7 @@ description: Lynx 컴포넌트의 문서·예제·런타임 결과를 환경별�
 
 # Lynx 컴포넌트 검증
 
-현재 worktree의 한 Lynx 컴포넌트와 관련 문서·실행 예제를 검증한다. 결과는 구현 성공 여부가 아니라 어떤 환경에서 무엇을 직접 확인했는지와 아직 확인하지 못한 범위를 분리한 검증 기록이다.
+현재 worktree의 한 Lynx 컴포넌트와 관련 문서·실행 예제를 검증한다. 결과는 어떤 환경에서 무엇을 직접 확인했는지와 미확인 범위를 분리한 기록이다. [`seed-orchestrate-component`](../seed-orchestrate-component/SKILL.md)를 통한 협업에서는 구현자와 독립된 검증 담당이 기본 장면과 최종 결과를 확인한다. 검증자는 소스를 수정하지 않으며, 구현자의 요약·API 리뷰·작업 종료를 사용자 결과의 승인 근거로 삼지 않는다.
 
 ## 범위와 경계
 
@@ -14,9 +14,10 @@ description: Lynx 컴포넌트의 문서·예제·런타임 결과를 환경별�
 - React와 Lynx가 같은 사용자 결과를 주장하는 시나리오는 내용 단위로 비교한다.
 - 브라우저, native bundle, 로컬 Lynx 런타임, 실제 기기의 결과를 서로 합치지 않는다.
 - 컴포넌트나 문서의 소스는 수정하지 않는다. 문제가 발견되면 원인과 수정 범위를 보고한다.
-- 빌드가 만드는 ignored 산출물, 직접 시작한 `npx serve` 프로세스, 검증 중인 런타임 상태 변경은 허용한다. 실행 전후 `git status --short`를 비교하고 새 tracked 변경이 생기면 검증 결과에 남긴다. 사용자가 만든 변경을 되돌리지 않는다.
+- 협업에서는 통합 담당이 넘긴 변경본 식별 정보·manifest·bundle을 확인하고, 후속 수정이 있으면 영향받은 항목을 `미확인`으로 되돌린다. [검증 분담과 자원](../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)에 따라 독립 검사를 병렬 배정하며, 공유 출력·서버·호스트 등 자원별 조작 소유자를 정한다. 조율자는 결과를 통합·승인하고 모든 검사를 직접 실행하지 않는다.
+- 빌드가 만드는 ignored 산출물, 직접 시작한 `npx serve` 프로세스, 검증 중인 런타임 상태 변경은 허용한다. 실행 전후 `git status --short`를 비교하고 새 tracked 변경이 생기면 검증 결과에 남긴다. 사용자가 만든 변경을 되돌리거나 기존 서버·사용자 session을 임의로 종료하지 않는다.
 
-문서와 예제를 작성하거나 수정하는 요청이면 [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md)를 사용한다. 이 스킬은 작성이 끝난 결과의 검증에 사용한다.
+문서와 예제를 작성하거나 수정하는 요청이면 [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md)를 사용한다. 이 스킬은 실행 가능한 기본 장면부터 적용하고, 나머지 범위를 구현한 뒤 최종 검증에도 사용한다.
 
 ## 함께 사용하는 스킬
 
@@ -41,9 +42,11 @@ description: Lynx 컴포넌트의 문서·예제·런타임 결과를 환경별�
 - 변경한 사용자 결과와 기대 결과
 - 필수 환경과 선택 환경, 사용할 수 없는 경우의 처리
 
+원래 요청·참조 화면·시나리오를 직접 받아 [관찰 가능한 결과 판정](../seed-create-component/references/verification-checklist.md#관찰-가능한-결과-판정)으로 승인 조건을 고정한다. 구현자의 지원 목록이나 완료 요약에서 기대 결과를 역으로 만들지 않는다. 기본 장면의 통과와 요청 범위 전체의 통과를 구분한다.
+
 문구·코드 노출만 바뀐 작업은 문서 브라우저를 필수 환경으로 삼는다. native 동작을 새로 주장하거나 실행 결과가 바뀐 작업은 로컬 Lynx 런타임 또는 실제 host app을 필수 환경으로 추가한다. 실제 기기 확인을 요청받지 않았다면 선택 환경으로 남긴다.
 
-새 컴포넌트·공개 package·Registry·생성물이 포함되면 `seed-change-plan`을 사용한다. 이 경우와 기존 컴포넌트의 native 동작·bundle 실행 결과가 바뀌는 경우에는 [검증 런북의 사전 점검](references/verification.md#1-사전-점검)에 따라 docs examples·host app의 런타임 버전과 변경 전 기준 빌드 결과를 기록한다. 기준 빌드가 없으면 현재 결과와 분리해 `미확인`으로 남긴다.
+- 새 컴포넌트·공개 package·Registry·생성물이 포함되면 `seed-change-plan`을 사용한다. 이 경우와 기존 컴포넌트의 native 동작·bundle 실행 결과가 바뀌는 경우에는 [검증 런북의 사전 점검](references/verification.md#1-사전-점검)에 따라 docs examples·host app의 런타임 버전과 변경 전 기준 빌드 결과를 기록한다. 기본 native 장면은 먼저 필요한 package·생성물과 실제 공개 소비 경로의 대상 bundle을 확인하며, 전체 docs 빌드는 그 선행조건이 아니다. 관련 변경이 모인 안정된 차수에서는 문서 브라우저·전체 docs 검증을 실행해 필수 검사를 남긴다. 기준 빌드가 없으면 현재 결과와 분리해 `미확인`으로 남긴다.
 
 ### 2. React↔Lynx 시나리오 대응 확인
 
@@ -68,11 +71,13 @@ MDX + doc-gen entry → 문서 index
 예제 entry → manifest → Web bundle / native bundle
 ```
 
-해당 경로에서 공개 이름·논리 ID·entry·manifest·bundle·Recipe 생성물의 일치와 untracked 문서·생성물 누락을 확인한다. 실제 bundle 출력·manifest·`.html` 경로는 추측하지 말고 파일에서 확인한다. bundle을 실행하거나 브라우저를 열 때는 [검증 런북](references/verification.md)의 URL 조립 규칙을 사용한다.
+해당 경로에서 공개 이름·논리 ID·entry·manifest·bundle·Recipe 생성물의 일치와 untracked 문서·생성물 누락을 확인한다. 실제 bundle 출력·manifest·`.html` 경로는 추측하지 말고 파일에서 확인한다. 기본 native 장면은 필요한 package·생성물에서 실제 공개 소비 경로의 대상 bundle까지 먼저 확인하고, 문서 전체는 관련 변경이 안정된 최종 차수에서 확인한다. bundle을 실행하거나 브라우저를 열 때는 [검증 런북](references/verification.md)의 URL 조립 규칙을 사용한다.
 
 ### 4. 실행과 증거 수집
 
-변경한 표면과 필수 환경에 맞는 [검증 런북](references/verification.md) 항목만 선택한다. 정적 문서·bundle 브라우저 확인, `lynx://open?url=`, DevTool DOM·layout·computed style·console·screenshot, 시간축 검증은 각각 해당 결과를 주장하거나 변경했을 때 실행한다.
+변경한 표면과 필수 환경에 맞는 [검증 런북](references/verification.md) 항목만 선택한다. 안정된 입력과 충돌 자원이 독립된 검사는 병렬 실행할 수 있다. 같은 host process·창·전역 overlay·캡처 자원은 session ID가 달라도 한 소유자가 순서대로 조작한다. 증거 수집 후 해당 검사에서 연 menu·overlay를 닫고 상태 정리와 종료를 확인한 뒤 다음 장면을 시작한다.
+
+정적 문서·bundle 브라우저 확인, `lynx://open?url=`, DevTool DOM·layout·computed style·console·screenshot, 시간축 검증은 각각 해당 결과를 주장하거나 변경했을 때 실행한다. 문서 브라우저·전체 docs 검증은 관련 변경이 모인 안정된 차수에서 실행하며, 이 순서가 필수 검사를 생략하는 근거가 되지 않는다.
 
 브라우저 미리보기만으로 실제 Lynx 결과를 주장하지 않는다. native bundle, 로컬 Lynx 런타임, 실제 기기는 각각 별도 증거 행으로 기록한다.
 
@@ -108,4 +113,6 @@ MDX + doc-gen entry → 문서 index
 6. 미검증 환경과 정확한 차단 사유
 7. 실행한 검증과 결과
 
-검증이 끝나면 직접 시작한 서버, 브라우저 세션, DevTool 세션, 임시 증거 파일을 정리한다. 기존에 실행 중이던 서버나 사용자 세션은 임의로 종료하지 않는다.
+다른 담당에게 넘길 때는 다음 순서로 짧게 인계한다: `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`.
+
+검증이 끝나면 직접 시작한 서버, 브라우저 세션, DevTool 세션을 정리한다. 보고서·인계에서 참조하는 화면과 측정 증거는 수신자가 확인할 수 있는 경로에 보존하고, 참조하지 않는 임시 파일만 정리한다. 서버·host app·기기 session의 수명 소유자가 아닌 담당은 이를 중지하지 않으며, 기존 서버나 사용자 세션은 임의로 종료하지 않는다.

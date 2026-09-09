@@ -66,7 +66,5 @@ export function DocsPopoverContent({
   className,
   ...props
 }: ComponentPropsWithoutRef<typeof PopoverContent>) {
-  return (
-    <PopoverContent className={clsx("shadow-[var(--seed-shadow-s2)]!", className)} {...props} />
-  );
+  return <PopoverContent className={clsx("shadow-s2!", className)} {...props} />;
 }

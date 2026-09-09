@@ -50,7 +50,7 @@ export function SectionFooter() {
       // carrot into the strip the scrollbar vacated, so match the trim. The variable only
       // exists while locked; mobile is in normal flow, where `right` would shift the box.
       // `w-auto` goes with it — `w-full` over-constrains the box and `right` gets dropped.
-      className="relative flex w-full flex-col gap-8 overflow-hidden bg-palette-carrot-600 py-8 text-fg-neutral md:fixed md:inset-x-0 md:right-[var(--removed-body-scroll-bar-size,0px)] md:bottom-0 md:z-0 md:w-auto md:gap-14 md:py-12"
+      className="relative flex w-full flex-col gap-8 overflow-hidden bg-palette-carrot-600 py-8 text-fg-neutral md:fixed md:inset-x-0 md:right-(--removed-body-scroll-bar-size,0px) md:bottom-0 md:z-0 md:w-auto md:gap-14 md:py-12"
     >
       <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-8 px-spacing-x-global-gutter md:flex-row md:justify-between md:gap-12 md:px-12">
         <div className="flex flex-col gap-3">

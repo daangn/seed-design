@@ -5,14 +5,16 @@ description: SEED 컴포넌트의 플랫폼·공개 표면을 정하고 구현·
 
 # SEED 컴포넌트 작업
 
-이 스킬은 컴포넌트 작업의 진입점을 정하는 라우터다. 모든 참고 문서를 순서대로 읽지 않는다. 현재 작업에 필요한 스킬과 reference만 선택한다.
+이 스킬은 컴포넌트 작업의 진입점을 정하는 라우터다. 모든 참고 문서를 순서대로 읽지 않는다. 현재 작업에 필요한 스킬과 reference만 선택한다. 여러 레이어의 담당·병렬 작업·에이전트 간 협의가 요청됐거나 필요한 경우에는 [`seed-orchestrate-component`](../seed-orchestrate-component/SKILL.md)를 먼저 사용한다. 단순 작업은 기존 단독 흐름을 유지한다.
 
 ## 먼저 확인할 것
 
 1. 저장소 루트부터 수정 경로까지 적용되는 `AGENTS.md`를 읽는다.
-2. [`seed-component-map`](../seed-component-map/SKILL.md)으로 현재 구현, 공개 export, Recipe, Registry, 문서, 예제를 찾는다. 신규 컴포넌트라면 `not-found` 결과를 현재 구현이 없다는 근거로 남긴다.
+2. [`seed-component-map`](../seed-component-map/SKILL.md)으로 현재 구현, 공개 export, Recipe, Registry, 문서, 예제를 찾는다. 신규 구현은 대상 플랫폼의 구현 유무를 확인한다. 전체 `not-found`와 한 플랫폼만 없는 경우를 구분한다.
 3. 결과에 나온 실제 파일을 직접 읽는다. 맵 결과만으로 API나 책임을 추정하지 않는다.
 4. 요청을 기존 컴포넌트 변경, 새 컴포넌트, 문서·Storybook 전용 중 하나로 분류한다.
+
+참조가 있는 신규 구현·플랫폼 포팅·동작 변경은 파일 작성 전에 [참조 동작 추적과 기본 장면](references/implementation-steps.md#참조-동작-추적과-기본-장면)을 적용한다. 공개 JSX를 넘어 hook·측정·스타일 적용까지 필요한 원천을 추적하고, 기본 장면을 실제 공개 소비 경로에서 먼저 검증한다. 이 기준은 단독 작업에도 적용하며, 문구 수정이나 동작을 보존하는 정리에 전체 절차를 요구하지 않는다.
 
 ## 함께 쓰는 `seed-*` 스킬
 
@@ -29,6 +31,14 @@ description: SEED 컴포넌트의 플랫폼·공개 표면을 정하고 구현·
 
 `seed-submit-change`는 사용자가 제출 작업을 요청한 경우에만 사용한다. `seed-change-plan`이 정한 `origin/dev`, `origin/minor`, `origin/major` 중 하나를 rebase와 PR base에 그대로 사용한다.
 
+## 여러 에이전트로 나누는 작업
+
+사용자가 협업을 요청했거나, 조사 결과 조정 비용보다 이득이 큰 독립적인 구현·검증 범위가 확인되면 [`seed-orchestrate-component`](../seed-orchestrate-component/SKILL.md)를 사용한다. 상태·모션·성능·플랫폼 차이를 모두 포함해야 한다는 조건이나 역할 수에 맞춘 위임을 요구하지 않는다.
+
+협업 스킬은 Rootage·Recipe·플랫폼 구현·소비 경로 통합·문서·검증 중 필요한 역할만 선택한다. 같은 파일과 공유 빌드 출력·호스트·전역 overlay 등 실제 충돌 자원마다 한 조작 소유자를 둔다. 검증 전체의 실행자를 한 명으로 제한하지 않는다.
+
+안정된 변경본에서는 [검증 분담과 자원](../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)에 따라 독립적인 패키지·소비 연결·런타임 검사를 병렬로 배정한다. 검증자는 구현하지 않고 원래 참조와 기대 결과로 판정하며, 조율자는 결과 통합과 최종 승인을 맡는다. 담당별 작업 종료를 전체 완료로 보지 않으며, changeset·제출 규칙은 단독 작업과 같다.
+
 ## 기존 컴포넌트 변경
 
 1. `seed-component-map` 결과에서 이번 요청과 직접 연결된 파일을 읽는다.
@@ -41,7 +51,7 @@ description: SEED 컴포넌트의 플랫폼·공개 표면을 정하고 구현·
 
 ## 새 컴포넌트
 
-1. `seed-component-map`의 `not-found`와 가까운 기존 컴포넌트의 경로를 함께 확인한다.
+1. `seed-component-map`으로 대상 플랫폼의 구현 유무와 가까운 기존 컴포넌트의 경로를 확인한다. 한 플랫폼만 없는 포팅은 전체 맵의 `not-found`를 요구하지 않고, 존재하는 플랫폼을 동작 참조로 삼는다.
 2. 대상 플랫폼을 `react`, `lynx`, `cross-platform` 중 하나로 정한다. 판단 기준은 [플랫폼 선택](references/platform-gate.md)에 있다.
 3. [API 설계](references/api-design.md)에 따라 제공 방식을 `package-only`, `snippet-only`, `package+snippet`, `docs-only` 중 하나로 정한다.
 4. 요구사항에 구현을 바꿀 빈칸이 있을 때만 [요구사항 탐색](references/brainstorming.md)을 사용한다. 이미 구체적인 요청을 다시 인터뷰하지 않는다.
@@ -82,6 +92,7 @@ bun skills/seed-create-component/scripts/scaffold-plan.ts <component> \
 | 상황 | 읽을 문서 |
 | --- | --- |
 | 플랫폼이 모호하거나 교차 플랫폼 | [platform-gate.md](references/platform-gate.md) |
+| 참조가 있는 신규 구현·포팅·동작 변경 | [참조 동작 추적과 기본 장면](references/implementation-steps.md#참조-동작-추적과-기본-장면) |
 | 공개 API나 Registry 여부 결정 | [api-design.md](references/api-design.md) |
 | 요구사항에 중요한 빈칸이 있음 | [brainstorming.md](references/brainstorming.md) |
 | 새 컴포넌트 또는 레이어 구조 변경 | [architecture-decisions.md](references/architecture-decisions.md), [pattern-catalog.md](references/pattern-catalog.md) |
@@ -101,5 +112,7 @@ bun skills/seed-create-component/scripts/scaffold-plan.ts <component> \
 - package와 Registry 중 선택한 배포 방식이 문서와 예제에도 그대로 적용된다.
 - 원천 파일을 수정하고 생성 파일을 직접 고치지 않았다.
 - 변경과 관련된 기존 테스트와 저장소 필수 검증을 통과했다.
+- 렌더링·상호작용 변경은 [관찰 가능한 결과 판정](references/verification-checklist.md#관찰-가능한-결과-판정)의 시나리오별 기대·실제 결과와 실행 증거가 있다. 기본 장면 하나의 통과로 나머지 범위를 생략하지 않는다.
+- 필수 항목에 실패·환경 차단·미확인이 남으면 전체 완료로 보고하지 않는다. API 대응이나 빌드 성공은 실행 증거를 대체하지 않는다.
 - 공개 패키지 변경에는 확정한 changeset이 있다.
 - commit·PR을 준비한다면 changeset 유무와 관계없이 확정한 base를 쓰는 변경 계획이 있다.

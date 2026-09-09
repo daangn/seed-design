@@ -13,7 +13,7 @@ export function Highlighted({ text, terms }: { text: string; terms: string[] }) 
       <mark
         // biome-ignore lint/suspicious/noArrayIndexKey: chunks are positional, and the list is rebuilt whenever the text or terms change
         key={index}
-        className="bg-[var(--selection-bg)] text-[var(--selection-fg)]"
+        className="bg-(--selection-bg) text-(color:--selection-fg)"
       >
         {chunk.text}
       </mark>

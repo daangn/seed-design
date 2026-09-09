@@ -16,6 +16,8 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 - 문서 UI와 Storybook은 본문과 분리된 참조 계층으로 관리한다.
 - `docs/registry/{react,lynx}/ui/` snippet은 stable user API이자 사용자가 복사해 커스터마이즈하는 계층이다. API를 변경할 때는 minimal user code와 convenience wrapper 여부를 먼저 확인한다.
 - snippet 변경 시 `bun generate:all`로 `docs/public/__registry__/` 공개 생성물을 항상 갱신한다. vendored consumer(`examples/stackflow-spa/src/seed-design/ui/`)의 영향은 실제 사용 여부에 따라 확인한다.
+- Tailwind utility에 CSS 변수를 넘길 때는 v4 축약 문법을 쓴다. `bg-[var(--x)]`가 아니라 `bg-(--x)`로 적고, `font-`나 `text-`처럼 한 namespace가 여러 속성에 걸리면 `font-(family-name:--x)`, `text-(length:--x)`처럼 타입을 함께 적는다. fallback도 `right-(--x,0px)`으로 그대로 넘어간다.
+- 그 변수를 `@seed-design/tailwind4-theme`가 이미 등록했다면 변수를 넘기지 말고 theme utility를 쓴다. `shadow-[var(--seed-shadow-s2)]`가 아니라 `shadow-s2`다. theme utility는 `@utility`가 정의된 namespace에서만 생성되므로(`px-*`는 있고 `left-*`는 없다) 없는 자리에서는 축약 문법으로 넘긴다.
 
 ### `app/global.css`를 수정할 때
 

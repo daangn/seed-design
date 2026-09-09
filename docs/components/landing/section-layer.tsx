@@ -7,8 +7,8 @@ import type { CSSProperties, ReactNode } from "react";
  * the tablet band (e.g. bento, whose grid gets an aspect ratio there instead of 100dvh).
  */
 const MOBILE_STACK_SECTION = {
-  md: "h-auto md:h-[var(--region-h)]",
-  lg: "h-auto lg:h-[var(--region-h)]",
+  md: "h-auto md:h-(--region-h)",
+  lg: "h-auto lg:h-(--region-h)",
 } as const;
 const MOBILE_STACK_PANEL_STICKY = {
   md: "relative h-auto md:sticky md:top-0 md:h-dvh",
