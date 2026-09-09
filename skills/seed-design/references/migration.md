@@ -4,8 +4,8 @@
 
 ## 문서 발견
 
-1. `https://seed-design.io/llms.txt`를 읽습니다.
-2. 선택된 플랫폼의 `llms.txt`에서 현재 CLI·Commands·Configuration·registry 문서를 찾습니다.
+1. 문서 인덱스 `https://seed-design.io/__docs__/index.json`를 읽습니다.
+2. 선택된 플랫폼 category에서 현재 CLI·Commands·Configuration·registry 문서를 찾습니다.
 3. 인덱스가 연결한 문서에서 호환 검사, 버전 선택, 파일 충돌 처리에 관한 현재 명령과 옵션을 읽습니다.
 
 명령·플래그·아카이브 registry 주소를 이 파일에 유지하지 않습니다. 문서 위치가 다른 플랫폼 트리 아래에 있더라도 본문이 선택된 플랫폼 지원을 명시할 때만 사용합니다.

@@ -17,11 +17,9 @@ description: SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 �
 
 스킬은 문서 목록이나 플랫폼 지원표를 갖지 않고 아래 인덱스를 현재 상태의 단일 원천으로 사용합니다.
 
-- [SEED 전체 문서 인덱스](https://seed-design.io/llms.txt)
-- [React 문서 인덱스](https://seed-design.io/react/llms.txt)
-- [Lynx 문서 인덱스](https://seed-design.io/lynx/llms.txt)
+- [SEED 문서 인덱스](https://seed-design.io/__docs__/index.json)
 
-전체 인덱스에서 공통 Components·Foundations와 플랫폼 진입점을 찾고, 선택된 플랫폼 인덱스에서 필요한 leaf 문서를 찾습니다. 경로·CLI id·지원 capability를 기억으로 조합하지 않습니다. 문서나 registry 항목이 없으면 다른 플랫폼으로 대체하지 않고 현재 인덱스에서 확인한 부재를 안내합니다.
+인덱스는 `categories[].items[]` 구조이고, 각 항목이 `docUrl`과 본문 주소인 `llmsUrl`을 담습니다. 공통 Components·Foundations는 `components`·`foundations` category에서, 플랫폼 문서는 `react`·`lynx` category에서 찾아 그 항목의 `llmsUrl`을 읽습니다. 경로·CLI id·지원 capability를 기억으로 조합하지 않습니다. 문서나 registry 항목이 없으면 다른 플랫폼으로 대체하지 않고 현재 인덱스에서 확인한 부재를 안내합니다.
 
 Doctor도 같은 관계를 사용합니다. 공통 룰은 고정하되 현재 인덱스가 공식 계약을 제공하는지에 따라 실행 시점에 `pass | fail | not-applicable | not-verified`를 정합니다. 자세한 내용은 [Doctor](/ai-integration/skill/doctor)를 참고하세요.
 
