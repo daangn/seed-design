@@ -14,6 +14,7 @@ export * from "./Icon";
 export * from "./InputButton";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./MannerTemp";
+export * from "./Menu";
 export * from "./MannerTempBadge";
 export * from "./NotificationBadge";
 export * from "./PageBanner";
