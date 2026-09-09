@@ -511,6 +511,7 @@
       "name": "@seed-design/lynx-react",
       "version": "0.6.2",
       "dependencies": {
+        "@floating-ui/core": "^1.8.0",
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
         "clsx": "^2.1.1",

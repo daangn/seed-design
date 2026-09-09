@@ -26,6 +26,10 @@ const selectBoxPackageRanges = {
   "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const menuPackageRanges = {
+  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+};
 
 const listPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
@@ -109,6 +113,15 @@ export const registryUI: Registry = {
         {
           path: "list-header.tsx",
           dependencies: listPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "menu",
+      snippets: [
+        {
+          path: "menu.tsx",
+          dependencies: menuPackageRanges,
         },
       ],
     },

@@ -51,6 +51,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@floating-ui/core": "^1.8.0",
     "@lynx-js/lynx-ui-common": "^3.130.0",
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "clsx": "^2.1.1",
