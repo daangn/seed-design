@@ -126,6 +126,11 @@ function getScreenRect(): MenuRect | null {
   return { left: 0, top: 0, right: width, bottom: height, width, height };
 }
 
+function getRootRect() {
+  "background only";
+  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
+}
+
 function toPixel(value: number) {
   return `${value}px`;
 }
@@ -420,8 +425,9 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     }
     const version = ++measurementVersionRef.current;
     try {
-      const [reference, overlay, trigger] = await Promise.all([
+      const [reference, boundary, overlay, trigger] = await Promise.all([
         getRectByRef({ current: referenceNode }, true),
+        getRootRect(),
         getRectByRef({ current: overlayNode }, true),
         triggerNode ? getRectByRef({ current: triggerNode }, true) : Promise.resolve(null),
       ]);
@@ -437,7 +443,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
       const nextPosition = await positionMenu({
         reference,
-        boundary: overlay,
+        boundary,
         width,
         height: Math.min(intrinsicSize.height, menuMaxHeight),
         placement: context.placement,

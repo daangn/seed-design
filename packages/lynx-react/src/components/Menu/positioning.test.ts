@@ -75,6 +75,29 @@ describe("positionMenu", () => {
     });
   });
 
+  it("keeps the menu inside an embedded Lynx root", async () => {
+    const embeddedRoot = {
+      left: 780,
+      top: 0,
+      right: 1560,
+      bottom: 516,
+      width: 780,
+      height: 516,
+    };
+    const position = await positionMenu({
+      reference: { left: 1480, top: 80, right: 1520, bottom: 120, width: 40, height: 40 },
+      boundary: embeddedRoot,
+      width: 740,
+      height: 280,
+      placement: "bottom-start",
+      gutter: 8,
+      overflowPadding: 8,
+    });
+
+    expect(position.left).toBeGreaterThanOrEqual(embeddedRoot.left + 8);
+    expect(position.left + position.width).toBeLessThanOrEqual(embeddedRoot.right - 8);
+  });
+
   it("flips sides and limits a long menu to the available height", async () => {
     const position = await positionMenu({
       reference: { left: 140, top: 250, right: 180, bottom: 290, width: 40, height: 40 },
