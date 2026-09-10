@@ -12,7 +12,6 @@ import {
 import { useIconColor } from "../../hooks/useIconColor";
 import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
-import { mergeProps } from "../../utils/merge-props";
 
 export type IconSlotName = "icon" | "prefixIcon" | "suffixIcon";
 
@@ -200,11 +199,9 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
 
   return (
     <view
-      {...mergeProps(
-        { "main-thread:ref": sourceRef },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...nativeProps}
+      main-thread:ref={sourceRef}
       className={clsx(baseClassName, slotClassName, className)}
       style={mergeWrapperStyle({ size, color, style })}
     >
@@ -230,9 +227,7 @@ function createIconComponent<Props extends IconProps>(
   baseClassName: string,
 ) {
   const Component = React.forwardRef<unknown, Props>((props, ref) => {
-    return (
-      <IconSlotBase {...mergeProps({ ref }, props)} slot={slot} baseClassName={baseClassName} />
-    );
+    return <IconSlotBase ref={ref} slot={slot} baseClassName={baseClassName} {...props} />;
   });
 
   Component.displayName = displayName;
@@ -270,11 +265,9 @@ export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props,
 
   return (
     <view
-      {...mergeProps(
-        { "main-thread:ref": sourceRef },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...nativeProps}
+      main-thread:ref={sourceRef}
       className={className}
       style={style}
     >

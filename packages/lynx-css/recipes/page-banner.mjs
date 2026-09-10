@@ -48,66 +48,10 @@ const defaultVariant = {
   "tone": "neutral",
   "variant": "weak",
   "pressed": false,
-  "closeButtonPressed": false,
-  "interactive": false
+  "closeButtonPressed": false
 };
 
 const compoundVariants = [
-  {
-    "tone": "neutral",
-    "variant": "weak",
-    "interactive": true
-  },
-  {
-    "tone": "neutral",
-    "variant": "solid",
-    "interactive": true
-  },
-  {
-    "tone": "informative",
-    "variant": "weak",
-    "interactive": true
-  },
-  {
-    "tone": "informative",
-    "variant": "solid",
-    "interactive": true
-  },
-  {
-    "tone": "positive",
-    "variant": "weak",
-    "interactive": true
-  },
-  {
-    "tone": "positive",
-    "variant": "solid",
-    "interactive": true
-  },
-  {
-    "tone": "warning",
-    "variant": "weak",
-    "interactive": true
-  },
-  {
-    "tone": "warning",
-    "variant": "solid",
-    "interactive": true
-  },
-  {
-    "tone": "critical",
-    "variant": "weak",
-    "interactive": true
-  },
-  {
-    "tone": "critical",
-    "variant": "solid",
-    "interactive": true
-  },
-  {
-    "tone": "magic",
-    "variant": "weak",
-    "interactive": true
-  },
   {
     "tone": "neutral",
     "variant": "weak"
@@ -223,10 +167,6 @@ export const pageBannerVariantMap = {
     "solid"
   ],
   "pressed": [
-    true,
-    false
-  ],
-  "interactive": [
     true,
     false
   ],

@@ -1,27 +1,39 @@
 import "./styles";
 
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
+import { root } from "@lynx-js/react";
+import { TagGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-tag-group-root`}>
+    <page className={seedClassName}>
       <VStack className="tag-group-preview" gap="spacingY.componentDefault">
-        <TagGroupRoot separator=" | " size="t4" className="tag-group-preview__group">
-          <TagGroupItem label="가" />
-          <TagGroupItem label="나" />
-          <TagGroupItem label="다" />
-          <TagGroupItem label="라" />
-        </TagGroupRoot>
-        <TagGroupRoot separator=" / " size="t4" className="tag-group-preview__group">
-          <TagGroupItem label="가" />
-          <TagGroupItem label="나" />
-          <TagGroupItem label="다" />
-          <TagGroupItem label="라" />
-        </TagGroupRoot>
+        <TagGroup.Root separator=" | " size="t4" className="tag-group-preview__group">
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>가</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>나</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>다</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        </TagGroup.Root>
+        <TagGroup.Root separator=" / " size="t4" className="tag-group-preview__group">
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서울</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서초구</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서초4동</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        </TagGroup.Root>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

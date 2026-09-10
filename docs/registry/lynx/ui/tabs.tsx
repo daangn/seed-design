@@ -1,6 +1,4 @@
 import {
-  NotificationBadge,
-  NotificationBadgePositioner,
   Tabs as SeedTabs,
   type TabsCarouselProps as SeedTabsCarouselProps,
   type TabsContentProps as SeedTabsContentProps,
@@ -33,29 +31,9 @@ export const TabsList = forwardRef<unknown, TabsListProps>((props, ref) => {
 });
 TabsList.displayName = "TabsList";
 
-export interface TabsTriggerProps extends Omit<SeedTabsTriggerProps, "notification"> {
-  notification?: boolean;
-}
+export interface TabsTriggerProps extends SeedTabsTriggerProps {}
 
-export const TabsTrigger = forwardRef<unknown, TabsTriggerProps>((props, ref) => {
-  const { children, notification, ...otherProps } = props;
-  return (
-    <SeedTabs.Trigger
-      ref={ref}
-      {...otherProps}
-      notification={
-        notification ? (
-          <NotificationBadgePositioner size="small" attach="text">
-            <NotificationBadge accessibility-elements-hidden={true} />
-          </NotificationBadgePositioner>
-        ) : undefined
-      }
-    >
-      {children}
-    </SeedTabs.Trigger>
-  );
-});
-TabsTrigger.displayName = "TabsTrigger";
+export const TabsTrigger = SeedTabs.Trigger;
 
 export interface TabsCarouselProps extends SeedTabsCarouselProps {}
 

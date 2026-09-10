@@ -1,31 +1,41 @@
 import "./styles";
 
+import { root, useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
+  const [value, setValue] = useState("one");
+
+  function handleValueChange(nextValue: string) {
+    "background only";
+    setValue(nextValue);
+  }
 
   return (
-    <view className={`${seedClassName} docs-lynx-tabs-root`}>
+    <page className={seedClassName}>
       <view className="tabs-preview">
-        <TabsRoot defaultValue="1">
+        <text className="tabs-preview__status">선택된 탭: {value}</text>
+        <TabsRoot value={value} onValueChange={handleValueChange} triggerLayout="fill">
           <TabsList>
-            <TabsTrigger value="1">라벨1</TabsTrigger>
-            <TabsTrigger value="2">라벨2</TabsTrigger>
-            <TabsTrigger value="3">라벨3</TabsTrigger>
+            <TabsTrigger value="one">첫 번째</TabsTrigger>
+            <TabsTrigger value="two">두 번째</TabsTrigger>
+            <TabsTrigger value="three">세 번째</TabsTrigger>
           </TabsList>
-          <TabsContent className="tabs-preview__content" value="1">
-            <text className="tabs-preview__content-text">Content 1</text>
+          <TabsContent className="tabs-preview__content" value="one">
+            <text className="tabs-preview__content-text">첫 번째 콘텐츠</text>
           </TabsContent>
-          <TabsContent className="tabs-preview__content" value="2">
-            <text className="tabs-preview__content-text">Content 2</text>
+          <TabsContent className="tabs-preview__content" value="two">
+            <text className="tabs-preview__content-text">두 번째 콘텐츠</text>
           </TabsContent>
-          <TabsContent className="tabs-preview__content" value="3">
-            <text className="tabs-preview__content-text">Content 3</text>
+          <TabsContent className="tabs-preview__content" value="three">
+            <text className="tabs-preview__content-text">세 번째 콘텐츠</text>
           </TabsContent>
         </TabsRoot>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

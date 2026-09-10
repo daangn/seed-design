@@ -6,7 +6,6 @@ import { isValidElement } from "@lynx-js/react";
 
 import type { LynxStyledElementProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
-import { mergeProps } from "../../utils/merge-props";
 
 type MannerTempLevel = NonNullable<MannerTempVariantProps["level"]>;
 
@@ -36,7 +35,8 @@ export const MannerTempEmote = React.forwardRef<unknown, MannerTempEmoteProps>((
 
   return (
     <image
-      {...mergeProps(ref ? { ref: ref as React.Ref<NodesRef> } : {}, nativeProps)}
+      {...(ref ? { ref: ref as React.Ref<NodesRef> } : {})}
+      {...nativeProps}
       src={emoteSources[level]}
       mode="aspectFit"
       accessibility-elements-hidden={true}
@@ -71,7 +71,8 @@ export const MannerTemp = React.forwardRef<unknown, MannerTempProps>((props, ref
   return (
     <MannerTempLevelContext.Provider value={level}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...nativeProps}
         className={clsx(classes.root, className)}
       >
         <text className={classes.label}>{labelChildren}</text>

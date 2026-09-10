@@ -19,10 +19,6 @@ const accordionSlotNames = [
     "seed-accordion__trigger"
   ],
   [
-    "triggerContent",
-    "seed-accordion__triggerContent"
-  ],
-  [
     "pressedOverlay",
     "seed-accordion__pressedOverlay"
   ],

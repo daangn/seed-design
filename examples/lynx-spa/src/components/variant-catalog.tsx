@@ -1,5 +1,6 @@
 import { type ReactNode, useState } from "@lynx-js/react";
-import { TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
+import clsx from "clsx";
+
 import {
   getPreviewStateDefaultValues,
   type PreviewState,
@@ -49,24 +50,21 @@ export function VariantCatalog<
 >(props: VariantCatalogProps<Variants, PreviewStates>) {
   const { children, variants, previewStates, examples } = props;
   const [mode, setMode] = useState<Mode>("playground");
+  const tabs: Mode[] =
+    examples == null ? ["playground", "table"] : ["playground", "table", "examples"];
 
   return (
     <view className="flex flex-col flex-1 min-h-0">
-      <TabsRoot
-        value={mode}
-        triggerLayout="fill"
-        onValueChange={(value) => {
-          if (value === "playground" || value === "table" || value === "examples") {
-            setMode(value);
-          }
-        }}
-      >
-        <TabsList>
-          <TabsTrigger value="playground">Playground</TabsTrigger>
-          <TabsTrigger value="table">Table</TabsTrigger>
-          {examples == null ? null : <TabsTrigger value="examples">Examples</TabsTrigger>}
-        </TabsList>
-      </TabsRoot>
+      <view className="w-full flex flex-row shrink-0 bg-bg-layer-fill border-b border-stroke-neutral-muted">
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab}
+            active={mode === tab}
+            onTap={() => setMode(tab)}
+            label={toTabLabel(tab)}
+          />
+        ))}
+      </view>
       {mode === "playground" ? (
         <VariantPlayground<Variants, PreviewStates>
           variants={variants}
@@ -100,5 +98,37 @@ function renderForTable<
       ...values,
     } as VariantCatalogValues<Variants, PreviewStates>,
     noopSetValue as SetVariantValue<VariantCatalogValues<Variants, PreviewStates>>,
+  );
+}
+
+function toTabLabel(mode: Mode) {
+  if (mode === "playground") return "Playground";
+  if (mode === "table") return "Table";
+  return "Examples";
+}
+
+function TabButton({
+  active,
+  onTap,
+  label,
+}: {
+  active: boolean;
+  onTap: () => void;
+  label: string;
+}) {
+  return (
+    <view
+      bindtap={onTap}
+      className={clsx(
+        "flex flex-1 flex-col items-center justify-center py-x3_5 border-b-2",
+        active ? "border-stroke-neutral-contrast" : "border-transparent",
+      )}
+    >
+      <text
+        className={clsx(active ? "t4-bold text-fg-neutral" : "t4-regular text-fg-neutral-muted")}
+      >
+        {label}
+      </text>
+    </view>
   );
 }

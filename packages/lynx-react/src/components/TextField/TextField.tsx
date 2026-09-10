@@ -10,7 +10,6 @@ import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/conte
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { useFieldContext } from "../Field/context";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED, TextFieldContext } from "./context";
-import { mergeProps } from "../../utils/merge-props";
 
 type LynxSystemInfo = { platform?: string };
 
@@ -103,8 +102,17 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       readOnly,
     });
 
-    const mergedRef = React.useMemo(
-      () => mergeProps({ ref: rootRef }, { ref: forwardedRef }).ref,
+    const mergedRef = React.useCallback(
+      (node: NodesRef | null) => {
+        "background only";
+
+        rootRef.current = node;
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          forwardedRef.current = node;
+        }
+      },
       [forwardedRef],
     );
 
@@ -159,10 +167,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
     return (
       <TextFieldContext.Provider value={contextValue}>
         <ClassNamesProvider value={classes}>
-          <view
-            {...mergeProps({ ref: mergedRef }, nativeProps)}
-            className={clsx(classes.root, className)}
-          >
+          <view ref={mergedRef} className={clsx(classes.root, className)} {...nativeProps}>
             <view className={classes.baseStroke} accessibility-elements-hidden={true} />
             <view className={classes.stroke} accessibility-elements-hidden={true} />
             {children}
@@ -293,8 +298,17 @@ function useNativeTextControl({
     }
   }, []);
 
-  const mergedRef = React.useMemo(
-    () => mergeProps({ ref: nativeRef }, { ref: forwardedRef }).ref,
+  const mergedRef = React.useCallback(
+    (node: NodesRef | null) => {
+      "background only";
+
+      nativeRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
     [forwardedRef],
   );
 
@@ -633,18 +647,13 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
 
     return (
       <text
-        {...mergeProps(
-          {
-            ref: control.mergedRef,
-            bindlayoutchange: props.bindlayoutchange,
-            "main-thread:bindlayoutchange": props["main-thread:bindlayoutchange"],
-          },
-          getAccessibilityProps(props),
-        )}
+        ref={control.mergedRef}
         id={props.id}
         hidden={props.hidden}
         flatten={props.flatten}
         focusable={props.focusable}
+        bindlayoutchange={props.bindlayoutchange}
+        main-thread:bindlayoutchange={props["main-thread:bindlayoutchange"]}
         className={clsx(classes.value, className)}
         style={getReadOnlyTextStyle({
           style: props.style,
@@ -652,6 +661,7 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
           placeholder: isPlaceholder,
           multiline: false,
         })}
+        {...getAccessibilityProps(props)}
       >
         {displayValue}
       </text>
@@ -660,24 +670,20 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
 
   return (
     <input
-      {...mergeProps(
-        {
-          ref: control.mergedRef,
-          bindinput: control.handleInput,
-          bindselection: handleSelection,
-          bindfocus: control.handleFocus,
-          bindblur: control.handleBlur,
-        },
-        control.defaultValueProps,
-        resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength },
-        nativeProps,
-      )}
+      {...control.defaultValueProps}
+      ref={control.mergedRef}
       className={clsx(classes.value, className)}
       disabled={control.disabled}
       readonly={control.readOnly}
       show-soft-input-on-focus={showSoftInputOnFocus ?? true}
       android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
       name={name ?? control.context.name}
+      {...(resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength })}
+      bindinput={control.handleInput}
+      bindselection={handleSelection}
+      bindfocus={control.handleFocus}
+      bindblur={control.handleBlur}
+      {...nativeProps}
     />
   );
 });
@@ -815,18 +821,13 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
 
       return (
         <text
-          {...mergeProps(
-            {
-              ref: control.mergedRef,
-              bindlayoutchange: props.bindlayoutchange,
-              "main-thread:bindlayoutchange": props["main-thread:bindlayoutchange"],
-            },
-            getAccessibilityProps(props),
-          )}
+          ref={control.mergedRef}
           id={props.id}
           hidden={props.hidden}
           flatten={props.flatten}
           focusable={props.focusable}
+          bindlayoutchange={props.bindlayoutchange}
+          main-thread:bindlayoutchange={props["main-thread:bindlayoutchange"]}
           className={clsx(classes.value, classes.textareaValue, classes.textareaFixed, className)}
           style={getReadOnlyTextStyle({
             style: props.style,
@@ -834,6 +835,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
             placeholder: isPlaceholder,
             multiline: true,
           })}
+          {...getAccessibilityProps(props)}
         >
           {isPlaceholder ? props.placeholder : value}
         </text>
@@ -844,19 +846,8 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     // 디자인 padding을 wrapper로 분리해 이때 padding만큼 높이가 중복되지 않게 한다.
     const textarea = (
       <textarea
-        {...mergeProps(
-          {
-            ref: control.mergedRef,
-            bindinput: control.handleInput,
-            bindselection: handleSelection,
-            bindfocus: control.handleFocus,
-            bindblur: control.handleBlur,
-            bindlayoutchange: usesIOSAutoresizeWrapper ? bindlayoutchange : handleLayoutChange,
-          },
-          control.defaultValueProps,
-          resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength },
-          nativeProps,
-        )}
+        {...control.defaultValueProps}
+        ref={control.mergedRef}
         className={clsx(
           classes.value,
           classes.textareaValue,
@@ -873,6 +864,13 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         android-fullscreen-mode={androidFullscreenMode ?? false}
         android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
         name={name ?? control.context.name}
+        {...(resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength })}
+        bindinput={control.handleInput}
+        bindselection={handleSelection}
+        bindfocus={control.handleFocus}
+        bindblur={control.handleBlur}
+        bindlayoutchange={usesIOSAutoresizeWrapper ? bindlayoutchange : handleLayoutChange}
+        {...nativeProps}
       />
     );
 
@@ -902,10 +900,7 @@ export const TextFieldPrefixIcon = React.forwardRef<unknown, TextFieldPrefixIcon
     const { className, ...otherProps } = props;
 
     return (
-      <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
-        className={clsx(classes.prefixIcon, className)}
-      />
+      <InternalIcon ref={ref} className={clsx(classes.prefixIcon, className)} {...otherProps} />
     );
   },
 );
@@ -920,8 +915,9 @@ export const TextFieldPrefixText = React.forwardRef<unknown, TextFieldPrefixText
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classes.prefixText, className)}
+        {...nativeProps}
       >
         {children}
       </text>
@@ -938,10 +934,7 @@ export const TextFieldSuffixIcon = React.forwardRef<unknown, TextFieldSuffixIcon
     const { className, ...otherProps } = props;
 
     return (
-      <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
-        className={clsx(classes.suffixIcon, className)}
-      />
+      <InternalIcon ref={ref} className={clsx(classes.suffixIcon, className)} {...otherProps} />
     );
   },
 );
@@ -956,8 +949,9 @@ export const TextFieldSuffixText = React.forwardRef<unknown, TextFieldSuffixText
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classes.suffixText, className)}
+        {...nativeProps}
       >
         {children}
       </text>

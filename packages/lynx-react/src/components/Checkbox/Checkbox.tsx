@@ -9,11 +9,8 @@ import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkm
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
-import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
-import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import type {
-  LynxAccessibilityProps,
   LynxIconElementProps,
   LynxStyledElementProps,
   LynxTextRef,
@@ -21,7 +18,6 @@ import type {
 } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
-import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -47,7 +43,6 @@ interface CheckboxContextValue {
   checkboxVariantProps: CheckboxVariantProps;
   checkmarkVariantProps: CheckmarkVariantProps;
   toggle: () => void;
-  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const CheckboxContext = React.createContext<CheckboxContextValue | null>(null);
@@ -80,8 +75,7 @@ function useCheckmarkControlContext(consumer: string): CheckmarkControlContextVa
 export interface CheckboxRootProps
   extends CheckboxVariantProps,
     Omit<CheckmarkVariantProps, "size" | "checked" | "disabled" | "indeterminate">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    LynxStyledElementProps {
   checked?: boolean;
   defaultChecked?: boolean;
   indeterminate?: boolean;
@@ -100,15 +94,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, restNativeProps] =
+  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { checkbox, checkmark });
-  const {
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "checkbox",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = restNativeProps;
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -119,20 +106,17 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
   const pressSelectionRef = React.useRef({ checked, indeterminate });
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
   });
-  const handlePressStart = React.useCallback(() => {
-    pressSelectionRef.current = { checked, indeterminate };
-    bindtouchstart();
-  }, [bindtouchstart, checked, indeterminate]);
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
-    onTouchStart: handlePressStart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
-  });
+  const handleTouchStart = React.useCallback(
+    (...args: Parameters<typeof bindtouchstart>) => {
+      pressSelectionRef.current = { checked, indeterminate };
+      bindtouchstart(...args);
+    },
+    [bindtouchstart, checked, indeterminate],
+  );
 
   const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 
@@ -147,7 +131,6 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       checkboxVariantProps,
       checkmarkVariantProps,
       toggle,
-      scaleFeedbackTargetProps,
     }),
     [
       checked,
@@ -157,24 +140,17 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       checkboxVariantProps,
       checkmarkVariantProps,
       toggle,
-      scaleFeedbackTargetProps,
     ],
   );
 
   return (
     <CheckboxContext.Provider value={contextValue}>
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          scaleFeedbackTriggerProps,
-          pressHandlers,
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-        accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
+        bindtouchstart={handleTouchStart}
+        {...pressHandlers}
+        {...nativeProps}
       >
         {children}
       </view>
@@ -193,7 +169,6 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
   const context = useCheckboxContext("CheckboxControl");
-  const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const checkmarkVariantProps: CheckmarkVariantProps = {
     ...context.checkmarkVariantProps,
     ...variantProps,
@@ -203,10 +178,6 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
     pressed: context.pressed,
   };
   const classes = checkmark(checkmarkVariantProps);
-  const checkboxControlClassName = checkbox({
-    ...context.checkboxVariantProps,
-    disabled: context.disabled,
-  }).control;
 
   // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
   // 중간 RGB가 검게 탁해진다. ghost root는 투명 상태로 고정하고 별도 배경의
@@ -233,13 +204,9 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       value={{ iconClassName: classes.icon, checkmarkVariantProps }}
     >
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          !hasScaledContent ? context.scaleFeedbackTargetProps : {},
-          nativeProps,
-        )}
-        className={clsx(checkboxControlClassName, rootClassName, className)}
-        {...(!hasScaledContent ? { flatten: false } : {})}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        className={clsx(rootClassName, className)}
+        {...nativeProps}
       >
         {isGhost ? <view className={pressStartClasses.background} /> : null}
         {children}
@@ -318,8 +285,9 @@ export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((prop
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(labelClassName, className)}
+      {...nativeProps}
     >
       {children}
     </text>
@@ -337,8 +305,9 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.root, className)}
+      {...nativeProps}
     >
       {children}
     </view>

@@ -1,48 +1,44 @@
 import "./styles";
+import { root } from "@lynx-js/react";
+import { HStack, RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-import {
-  HStack,
-  RadioGroup as RadioGroupPrimitive,
-  VStack,
-  useSeedClassName,
-} from "@seed-design/lynx-react";
-
-import { RadioGroup, Radiomark } from "@/components/ui/radio-group";
-
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
+    <page className={seedClassName}>
       <VStack className="radio-group-preview">
-        <RadioGroup
-          accessibility-label="Weight selection"
-          defaultValue="medium"
-          size="large"
-          tone="neutral"
-        >
+        <RadioGroup.Root defaultValue="medium" size="large" tone="neutral">
           <HStack gap="x6">
-            <RadioGroupPrimitive.Item accessibility-label="regular" value="regular">
+            <RadioGroup.Item value="regular">
               <VStack gap="x2" align="center">
-                <Radiomark />
-                <RadioGroupPrimitive.ItemLabel>regular</RadioGroupPrimitive.ItemLabel>
+                <RadioGroup.ItemControl>
+                  <RadioGroup.ItemIndicator />
+                </RadioGroup.ItemControl>
+                <RadioGroup.ItemLabel>Regular</RadioGroup.ItemLabel>
               </VStack>
-            </RadioGroupPrimitive.Item>
-            <RadioGroupPrimitive.Item accessibility-label="medium" value="medium">
+            </RadioGroup.Item>
+            <RadioGroup.Item value="medium">
               <VStack gap="x2" align="center">
-                <Radiomark />
-                <RadioGroupPrimitive.ItemLabel>medium</RadioGroupPrimitive.ItemLabel>
+                <RadioGroup.ItemControl>
+                  <RadioGroup.ItemIndicator />
+                </RadioGroup.ItemControl>
+                <RadioGroup.ItemLabel>Medium</RadioGroup.ItemLabel>
               </VStack>
-            </RadioGroupPrimitive.Item>
-            <RadioGroupPrimitive.Item accessibility-label="bold" value="bold">
+            </RadioGroup.Item>
+            <RadioGroup.Item value="bold">
               <VStack gap="x2" align="center">
-                <Radiomark />
-                <RadioGroupPrimitive.ItemLabel>bold</RadioGroupPrimitive.ItemLabel>
+                <RadioGroup.ItemControl>
+                  <RadioGroup.ItemIndicator />
+                </RadioGroup.ItemControl>
+                <RadioGroup.ItemLabel>Bold</RadioGroup.ItemLabel>
               </VStack>
-            </RadioGroupPrimitive.Item>
+            </RadioGroup.Item>
           </HStack>
-        </RadioGroup>
+        </RadioGroup.Root>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

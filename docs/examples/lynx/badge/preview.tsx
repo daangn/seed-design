@@ -1,15 +1,17 @@
+import { root } from "@lynx-js/react";
+import { Badge, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
 
-import { Badge, useSeedClassName } from "@seed-design/lynx-react";
-
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-badge-root`}>
+    <page className={seedClassName}>
       <view className="badge-preview">
         <Badge>라벨</Badge>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

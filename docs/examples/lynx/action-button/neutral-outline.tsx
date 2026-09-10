@@ -1,14 +1,16 @@
 import "./styles";
-
+import { root } from "@lynx-js/react";
 import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={`${seedClassName} docs-lynx-action-button-root`}>
+    <page className={seedClassName}>
       <view className="action-button-preview">
         <ActionButton variant="neutralOutline">라벨</ActionButton>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

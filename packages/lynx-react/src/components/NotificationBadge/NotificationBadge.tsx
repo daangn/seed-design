@@ -9,8 +9,11 @@ import {
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
-import { mergeProps } from "../../utils/merge-props";
+import type {
+  LynxAccessibilityProps,
+  LynxStyledElementProps,
+  LynxViewRef,
+} from "../../types";
 
 const NotificationBadgeContext = React.createContext<NotificationBadgeVariantProps | null>(null);
 
@@ -36,7 +39,8 @@ export const NotificationBadge = React.forwardRef<unknown, NotificationBadgeProp
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...nativeProps}
         className={clsx(classes.root, className)}
       >
         <text className={classes.label} text-single-line-vertical-align="center">
@@ -64,7 +68,8 @@ export const NotificationBadgePositioner = React.forwardRef<
   return (
     <NotificationBadgeContext.Provider value={contextValue}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...nativeProps}
         className={clsx(notificationBadgePositioner(variantProps), className)}
       >
         {children}

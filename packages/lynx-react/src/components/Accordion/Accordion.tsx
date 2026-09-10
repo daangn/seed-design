@@ -6,7 +6,6 @@ import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/rec
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
@@ -19,7 +18,6 @@ import type {
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon } from "../Icon/Icon";
-import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -128,8 +126,9 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
   return (
     <AccordionContext.Provider value={contextValue}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
+        {...nativeProps}
       >
         {items.map((item, index) => (
           <AccordionItemPositionContext.Provider
@@ -174,8 +173,9 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
     <AccordionItemContext.Provider value={contextValue}>
       <ClassNamesProvider value={classes}>
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.item, className)}
+          {...nativeProps}
         >
           {children}
           {!isLast ? (
@@ -203,9 +203,10 @@ export const AccordionHeader = React.forwardRef<unknown, AccordionHeaderProps>((
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.header, className)}
       accessibility-heading={accessibilityHeading}
+      {...nativeProps}
     >
       {children}
     </view>
@@ -244,15 +245,9 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     },
     [bindtap, context],
   );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { pressed, ...pressHandlers } = usePressTap({
     disabled: context.disabled,
     onTap: handleTap,
-  });
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: context.disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
   });
   const classes = accordion({
     ...context.variantProps,
@@ -264,12 +259,7 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
   return (
     <ClassNamesProvider value={classes}>
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          pressHandlers,
-          scaleFeedbackTriggerProps,
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.trigger, className)}
         accessibility-element={accessibilityElement}
         accessibility-role-description={accessibilityRoleDescription}
@@ -278,11 +268,11 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
           accessibilityValue ??
           (context.open ? expandedAccessibilityValue : collapsedAccessibilityValue)
         }
+        {...pressHandlers}
+        {...nativeProps}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-        <view className={classes.triggerContent} {...scaleFeedbackTargetProps}>
-          {children}
-        </view>
+        {children}
       </view>
     </ClassNamesProvider>
   );
@@ -321,10 +311,11 @@ export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.content, className)}
       style={{ ...style, height: context.open ? `${contentHeight}px` : "0px" }}
       accessibility-elements-hidden={!context.open || accessibilityElementsHidden}
+      {...nativeProps}
     >
       <view className={classes.contentInner} bindlayoutchange={handleContentLayoutChange}>
         {children}
@@ -344,8 +335,9 @@ export const AccordionBody = React.forwardRef<unknown, AccordionBodyProps>((prop
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.body, className)}
+      {...nativeProps}
     >
       {children}
     </view>
@@ -363,8 +355,9 @@ export const AccordionTitle = React.forwardRef<unknown, AccordionTitleProps>((pr
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(classes.title, className)}
+      {...nativeProps}
     >
       {children}
     </text>
@@ -383,8 +376,9 @@ export const AccordionDescription = React.forwardRef<unknown, AccordionDescripti
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classes.description, className)}
+        {...nativeProps}
       >
         {children}
       </text>
@@ -403,8 +397,9 @@ export const AccordionPrefix = React.forwardRef<unknown, AccordionPrefixProps>((
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.prefix, className)}
+      {...nativeProps}
     >
       {children}
     </view>
@@ -428,11 +423,9 @@ export const AccordionSuffixIcon = React.forwardRef<unknown, AccordionSuffixIcon
     if (icon) {
       return (
         <view
-          {...mergeProps(
-            { "accessibility-elements-hidden": true },
-            ref ? { ref: ref as LynxViewRef } : {},
-            nativeProps,
-          )}
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
+          accessibility-elements-hidden={true}
+          {...nativeProps}
         >
           <InternalIcon
             icon={icon}
@@ -446,13 +439,11 @@ export const AccordionSuffixIcon = React.forwardRef<unknown, AccordionSuffixIcon
 
     return (
       <view
-        {...mergeProps(
-          { "accessibility-elements-hidden": true },
-          ref ? { ref: ref as LynxViewRef } : {},
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={mergedClassName}
         style={style}
+        accessibility-elements-hidden={true}
+        {...nativeProps}
       >
         {children}
       </view>

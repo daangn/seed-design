@@ -1,28 +1,31 @@
+import { root, useState } from "@lynx-js/react";
+import { Switch, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
 
-import { useState } from "@lynx-js/react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { Switch } from "@/components/ui/switch";
-
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<boolean | null>(null);
   return (
-    <view className={`${seedClassName} docs-lynx-switch-root`}>
+    <page className={seedClassName}>
       <VStack className="switch-preview" gap="x4">
-        <Switch
-          label="Click me"
+        <Switch.Root
           onCheckedChange={(checked) => {
             setCount((previous) => previous + 1);
             setLastValue(checked);
           }}
-        />
+        >
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+          <Switch.Label>Click me</Switch.Label>
+        </Switch.Root>
         <text className="switch-preview__status">
-          onCheckedChange called: {count} times, last value:{" "}
-          {lastValue === null ? "-" : JSON.stringify(lastValue)}
+          onCheckedChange called: {count} times, last value: {JSON.stringify(lastValue)}
         </text>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

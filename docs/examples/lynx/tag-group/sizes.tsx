@@ -1,30 +1,50 @@
 import "./styles";
 
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
+import { root } from "@lynx-js/react";
+import { TagGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-tag-group-root`}>
+    <page className={seedClassName}>
       <VStack className="tag-group-preview" gap="spacingY.componentDefault">
-        <TagGroupRoot size="t2" className="tag-group-preview__group">
-          <TagGroupItem label="t2" />
-          <TagGroupItem label="t2" />
-          <TagGroupItem label="t2" />
-        </TagGroupRoot>
-        <TagGroupRoot size="t3" className="tag-group-preview__group">
-          <TagGroupItem label="t3" />
-          <TagGroupItem label="t3" />
-          <TagGroupItem label="t3" />
-        </TagGroupRoot>
-        <TagGroupRoot size="t4" className="tag-group-preview__group">
-          <TagGroupItem label="t4" />
-          <TagGroupItem label="t4" />
-          <TagGroupItem label="t4" />
-        </TagGroupRoot>
+        <TagGroup.Root size="t2" className="tag-group-preview__group">
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>거리 500m</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서초4동</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>3분 전</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        </TagGroup.Root>
+        <TagGroup.Root size="t3" className="tag-group-preview__group">
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>거리 500m</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서초4동</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>3분 전</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        </TagGroup.Root>
+        <TagGroup.Root size="t4" className="tag-group-preview__group">
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>거리 500m</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>서초4동</TagGroup.ItemLabel>
+          </TagGroup.Item>
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>3분 전</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        </TagGroup.Root>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

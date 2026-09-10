@@ -1,35 +1,33 @@
 import "./styles";
 
-import { useState } from "@lynx-js/react";
+import { root, useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
-  const [count, setCount] = useState(0);
-  const [lastValue, setLastValue] = useState<string | null>(null);
+  const [value, setValue] = useState("hot");
 
   function handleValueChange(nextValue: string) {
     "background only";
-    setCount((previous) => previous + 1);
-    setLastValue(nextValue);
+    setValue(nextValue);
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-segmented-control-root`}>
+    <page className={seedClassName}>
       <view className="segmented-control-example">
         <SegmentedControl
-          defaultValue="hot"
+          value={value}
           onValueChange={handleValueChange}
-          accessibility-label="Sort by"
+          accessibility-label="정렬 기준"
         >
-          <SegmentedControlItem value="hot">Hot</SegmentedControlItem>
-          <SegmentedControlItem value="new">New</SegmentedControlItem>
+          <SegmentedControlItem value="hot">인기순</SegmentedControlItem>
+          <SegmentedControlItem value="new">최신순</SegmentedControlItem>
         </SegmentedControl>
-        <text className="segmented-control-example__status">
-          onValueChange called: {count} times, last value: {lastValue ?? "-"}
-        </text>
+        <text className="segmented-control-example__status">선택값: {value}</text>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

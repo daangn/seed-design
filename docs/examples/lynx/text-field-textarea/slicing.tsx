@@ -1,15 +1,15 @@
 import "./styles";
 
-import { useState } from "@lynx-js/react";
+import { root, useState } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("");
 
   return (
-    <view className={`${seedClassName} docs-lynx-text-field-textarea-root`}>
+    <page className={seedClassName}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack width="full" maxWidth="480px">
           <TextField
@@ -23,6 +23,8 @@ export default function Example() {
           </TextField>
         </VStack>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

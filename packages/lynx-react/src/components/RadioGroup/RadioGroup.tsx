@@ -9,11 +9,8 @@ import type { RadiomarkVariantProps } from "@seed-design/lynx-css/recipes/radiom
 import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
 
 import { useControllableState } from "../../hooks/useControllableState";
-import { ScaleFeedbackContentContext } from "../../contexts";
 import { usePressTap } from "../../hooks/usePressTap";
-import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import type {
-  LynxAccessibilityProps,
   LynxIconElementProps,
   LynxStyledElementProps,
   LynxTextRef,
@@ -21,7 +18,6 @@ import type {
 } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
-import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -60,7 +56,6 @@ interface RadioGroupItemContextValue {
   disabled: boolean;
   pressed: boolean;
   select: () => void;
-  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const RadioGroupItemContext = React.createContext<RadioGroupItemContextValue | null>(null);
@@ -93,8 +88,7 @@ function useRadiomarkControlContext(consumer: string): RadiomarkControlContextVa
 export interface RadioGroupRootProps
   extends RadioVariantProps,
     Omit<RadiomarkVariantProps, "size" | "checked" | "disabled">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    LynxStyledElementProps {
   value?: string;
   defaultValue?: string;
   disabled?: boolean;
@@ -111,14 +105,8 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
     onValueChange,
     ...restProps
   } = props;
-  const [{ radio: radioVariantProps, radiomark: radiomarkVariantProps }, restNativeProps] =
+  const [{ radio: radioVariantProps, radiomark: radiomarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { radio, radiomark });
-  const {
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "radiogroup",
-    "accessibility-traits": accessibilityTraits,
-    ...nativeProps
-  } = restNativeProps;
 
   const handleChange = React.useCallback(
     (next: string | null) => {
@@ -156,11 +144,9 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
   return (
     <RadioGroupContext.Provider value={contextValue}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
+        {...nativeProps}
       >
         {children}
       </view>
@@ -171,7 +157,7 @@ RadioGroupRoot.displayName = "RadioGroupRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface RadioGroupItemProps extends LynxStyledElementProps, LynxAccessibilityProps {
+export interface RadioGroupItemProps extends LynxStyledElementProps {
   value: string;
   disabled?: boolean;
 }
@@ -182,10 +168,6 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     disabled: itemDisabled = false,
     children,
     className,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "radio",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
     ...nativeProps
   } = props;
   const groupContext = useRadioGroupContext("RadioGroupItem");
@@ -197,15 +179,9 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     groupContext.setValue(itemValue);
   }, [checked, groupContext, itemValue]);
 
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { pressed, ...pressHandlers } = usePressTap({
     disabled,
     onTap: select,
-  });
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = radio({ ...groupContext.radioVariantProps, disabled }).root;
@@ -217,25 +193,17 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
       disabled,
       pressed,
       select,
-      scaleFeedbackTargetProps,
     }),
-    [itemValue, checked, disabled, pressed, select, scaleFeedbackTargetProps],
+    [itemValue, checked, disabled, pressed, select],
   );
 
   return (
     <RadioGroupItemContext.Provider value={itemContextValue}>
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          scaleFeedbackTriggerProps,
-          pressHandlers,
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-        accessibility-value={accessibilityValue ?? (checked ? "selected" : "not selected")}
+        {...pressHandlers}
+        {...nativeProps}
       >
         {children}
       </view>
@@ -256,7 +224,6 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
     const { children, className, ...nativeProps } = restProps;
     const groupContext = useRadioGroupContext("RadioGroupItemControl");
     const itemContext = useRadioGroupItemContext("RadioGroupItemControl");
-    const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
     const radiomarkVariantProps: RadiomarkVariantProps = {
       ...groupContext.radiomarkVariantProps,
       ...variantProps,
@@ -272,13 +239,9 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
         value={{ iconClassName: classes.icon, radiomarkVariantProps }}
       >
         <view
-          {...mergeProps(
-            ref ? { ref: ref as LynxViewRef } : {},
-            !hasScaledContent ? itemContext.scaleFeedbackTargetProps : {},
-            nativeProps,
-          )}
+          {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, controlClassName, className)}
-          {...(!hasScaledContent ? { flatten: false } : {})}
+          {...nativeProps}
         >
           {children}
         </view>
@@ -346,8 +309,9 @@ export const RadioGroupItemLabel = React.forwardRef<unknown, RadioGroupItemLabel
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(labelClassName, className)}
+        {...nativeProps}
       >
         {children}
       </text>

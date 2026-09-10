@@ -1,13 +1,14 @@
 import "./styles";
 
+import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-segmented-control-root`}>
+    <page className={seedClassName}>
       <view className="segmented-control-example">
         <SegmentedControl defaultValue="price" accessibility-label="정렬 기준">
           <SegmentedControlItem value="price">가격 높은 순</SegmentedControlItem>
@@ -15,6 +16,8 @@ export default function Example() {
           <SegmentedControlItem value="popular">인기 많은 순</SegmentedControlItem>
         </SegmentedControl>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

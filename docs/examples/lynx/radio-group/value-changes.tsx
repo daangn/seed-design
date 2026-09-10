@@ -1,20 +1,16 @@
 import "./styles";
+import { root, useState } from "@lynx-js/react";
+import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-import { useState } from "@lynx-js/react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<string | null>(null);
 
   return (
-    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
+    <page className={seedClassName}>
       <VStack className="radio-group-preview" gap="x4">
-        <RadioGroup
-          accessibility-label="Fruit selection"
+        <RadioGroup.Root
           defaultValue="apple"
           size="large"
           tone="neutral"
@@ -23,14 +19,31 @@ export default function Example() {
             setLastValue(value);
           }}
         >
-          <RadioGroupItem value="apple" label="Apple" />
-          <RadioGroupItem value="banana" label="Banana" />
-          <RadioGroupItem value="orange" label="Orange" />
-        </RadioGroup>
+          <RadioGroup.Item value="apple">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>사과</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+          <RadioGroup.Item value="banana">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>바나나</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+          <RadioGroup.Item value="orange">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>오렌지</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+        </RadioGroup.Root>
         <text className="radio-group-preview__status">
-          onValueChange called: {count} times, last value: {lastValue ?? "-"}
+          onValueChange 호출: {count}회, 마지막 값: {JSON.stringify(lastValue)}
         </text>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

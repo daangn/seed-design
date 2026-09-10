@@ -1,30 +1,28 @@
 import "./styles";
 
+import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-segmented-control-root`}>
+    <page className={seedClassName}>
       <view className="segmented-control-example">
-        <SegmentedControl defaultValue="Hot" disabled accessibility-label="Sort by">
-          <SegmentedControlItem value="Hot">Hot</SegmentedControlItem>
-          <SegmentedControlItem value="New">New</SegmentedControlItem>
+        <SegmentedControl defaultValue="hot" disabled accessibility-label="전체 비활성화">
+          <SegmentedControlItem value="hot">인기순</SegmentedControlItem>
+          <SegmentedControlItem value="new">최신순</SegmentedControlItem>
         </SegmentedControl>
-        <SegmentedControl defaultValue="Marinara" accessibility-label="Pasta">
-          <SegmentedControlItem value="Marinara">Marinara</SegmentedControlItem>
-          <SegmentedControlItem value="Alfredo" disabled>
-            Alfredo
+        <SegmentedControl defaultValue="hot" accessibility-label="일부 비활성화">
+          <SegmentedControlItem value="hot">인기순</SegmentedControlItem>
+          <SegmentedControlItem value="new" disabled>
+            최신순
           </SegmentedControlItem>
-          <SegmentedControlItem value="Pesto" disabled>
-            Pesto
-          </SegmentedControlItem>
-          <SegmentedControlItem value="Carbonara">Carbonara</SegmentedControlItem>
-          <SegmentedControlItem value="Bolognese">Bolognese</SegmentedControlItem>
         </SegmentedControl>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

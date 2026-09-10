@@ -20,6 +20,7 @@ import {
 import {
   createContext,
   forwardRef,
+  useCallback,
   useContext,
   useMemo,
   useRef,
@@ -39,7 +40,6 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { mergeProps } from "../../utils/merge-props";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -153,8 +153,15 @@ export const BottomSheetRoot: LynxForwardRefComponent<SheetRootRef, BottomSheetR
 
     // `SheetRoot`에 직접 ref를 넘겨 Trigger 컨텍스트와 외부 ref에 같은 인스턴스를 동기화한다.
     // `useImperativeHandle([])`은 마운트 시점 값(null)을 고정시키는 함정이 있어 사용하지 않는다.
-    const mergedRef = useMemo(
-      () => mergeProps({ ref: internalRef }, { ref: forwardedRef }).ref,
+    const mergedRef = useCallback(
+      (value: SheetRootRef | null) => {
+        internalRef.current = value;
+        if (typeof forwardedRef === "function") {
+          forwardedRef(value);
+        } else if (forwardedRef) {
+          forwardedRef.current = value;
+        }
+      },
       [forwardedRef],
     );
 
@@ -178,10 +185,12 @@ export const BottomSheetRoot: LynxForwardRefComponent<SheetRootRef, BottomSheetR
       <BottomSheetContext.Provider value={context}>
         <ClassNamesProvider value={classNames}>
           <SheetRoot
-            {...mergeProps({ ref: mergedRef, onShowChange: onOpenChange }, nativeProps)}
+            ref={mergedRef}
             show={open}
             defaultShow={defaultOpen}
+            onShowChange={onOpenChange}
             snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
+            {...nativeProps}
           >
             {children}
           </SheetRoot>
@@ -220,10 +229,8 @@ export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTri
 
     return (
       <view
-        {...mergeProps(
-          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
-          handlers,
-        )}
+        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...handlers}
         className={className}
         style={style as never}
       >
@@ -289,7 +296,8 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
 
     return (
       <SheetContent
-        {...mergeProps(ref ? { ref } : {}, restProps)}
+        {...(ref ? { ref } : {})}
+        {...restProps}
         className={clsx(classNames.content, className)}
         // `SheetContent` pins its outer view with an inline `left: 0`, which a recipe class
         // cannot outrank. Releasing it lets the positioner's `justify-content: center` place

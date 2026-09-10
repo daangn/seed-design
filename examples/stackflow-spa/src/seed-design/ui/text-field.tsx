@@ -66,7 +66,6 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
 
       // useTextFieldWithGraphemes params
       value,
-      defaultValue,
       onValueChange,
       maxGraphemeCount,
 
@@ -78,7 +77,6 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
   ) => {
     const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
       value,
-      defaultValue,
       onValueChange,
       maxGraphemeCount,
     });
