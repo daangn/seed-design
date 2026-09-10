@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
 import {
   SwipeableMenuSheetContent,
@@ -10,7 +10,7 @@ import {
   SwipeableMenuSheetTrigger,
 } from "@/components/ui/swipeable-menu-sheet";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
 
@@ -20,7 +20,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-swipeable-menu-sheet-root`}>
       <VStack className="swipeable-menu-sheet-preview" gap="x3">
         <text className="swipeable-menu-sheet-preview__status">
           {open ? "열림: true" : "열림: false"}
@@ -45,8 +45,6 @@ function Root() {
           </SwipeableMenuSheetContent>
         </SwipeableMenuSheetRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -19,7 +19,12 @@ import type {
 } from "../../types";
 import { toArray } from "../../utils/children";
 import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
-import { positionMenu, type MenuPlacement, type MenuPosition, type MenuRect } from "./positioning";
+import {
+  computePosition,
+  type Placement as MenuPlacement,
+  type Position as MenuPosition,
+  type Rect as MenuRect,
+} from "../private/Positioning";
 
 type MenuClassNames = {
   positioner: string;
@@ -50,6 +55,7 @@ type NativeLayoutHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type MenuTriggerHandlers = Pick<LynxViewProps, "bindtap" | "main-thread:bindtap">;
 
 const menuMaxHeight = Number.parseFloat(menuVars.base.enabled.root.maxHeight);
+const menuMinimumHeight = 200;
 
 export type MenuOpenChangeReason = "trigger" | "interactOutside" | "itemClick" | "dismiss";
 
@@ -442,7 +448,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       const width = context.matchReferenceWidth
         ? reference.width
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
-      const nextPosition = await positionMenu({
+      const nextPosition = await computePosition({
         reference,
         boundary,
         width,
@@ -450,6 +456,9 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
         placement: context.placement,
         gutter: context.gutter,
         overflowPadding: context.overflowPadding,
+        flip: { fallbackStrategy: "bestFit" },
+        shift: { crossAxis: true },
+        size: { order: "beforeFlip", minimumHeight: menuMinimumHeight },
       });
       if (
         version !== measurementVersionRef.current ||
