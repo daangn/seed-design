@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
 import {
   SwipeableMenuSheetContent,
@@ -10,11 +9,11 @@ import {
   SwipeableMenuSheetTrigger,
 } from "@/components/ui/swipeable-menu-sheet";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-swipeable-menu-sheet-root`}>
       <VStack className="swipeable-menu-sheet-preview" gap="x3">
         <SwipeableMenuSheetRoot>
           <SwipeableMenuSheetTrigger>
@@ -36,8 +35,6 @@ function Root() {
           </SwipeableMenuSheetContent>
         </SwipeableMenuSheetRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
