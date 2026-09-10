@@ -15,7 +15,7 @@ vi.mock("@lynx-js/react", async (importOriginal) => {
   return {
     ...actual,
     runOnMainThread:
-      (_worklet: (...args: never[]) => unknown) =>
+      () =>
       (...args: unknown[]) => {
         testState.workletCalls.push(args.length);
       },
@@ -36,14 +36,14 @@ describe("useIconColor", () => {
     expect(result.current["main-thread:binduiappear"]).toBeDefined();
   });
 
-  it("schedules tint color synchronization when the system theme changes", () => {
+  it("avoids cross-thread calls on mount and resynchronizes after theme changes", () => {
     const { rerender } = renderHook(() => useIconColor([]));
 
-    expect(testState.workletCalls).toEqual([3]);
+    expect(testState.workletCalls).toEqual([]);
 
     testState.theme = "dark";
     rerender();
 
-    expect(testState.workletCalls).toEqual([3, 1, 3]);
+    expect(testState.workletCalls).toEqual([3]);
   });
 });

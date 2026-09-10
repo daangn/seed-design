@@ -80,7 +80,7 @@ function installMainThreadStyleMocks(getComputedColor: () => string) {
 }
 
 describe("InternalIcon", () => {
-  it("reads the updated computed color in the next frame", async () => {
+  it("reads the updated computed color after dependency changes", async () => {
     let computedColor = "rgb(134, 139, 148)";
     const { frames, runNextFrame } = installMainThreadStyleMocks(() => computedColor);
 
@@ -94,16 +94,14 @@ describe("InternalIcon", () => {
     await waitSchedule();
 
     const { image } = getSourceAndImage();
-    expect(frames.size).toBe(1);
-    runNextFrame();
-
-    expect(image.getAttribute("tint-color")).toBe("rgb(134, 139, 148)");
+    expect(frames.size).toBe(0);
+    expect(image.getAttribute("tint-color")).toBeNull();
 
     rerender(renderIcon("checked"));
     await waitSchedule();
 
     expect(frames.size).toBe(1);
-    expect(image.getAttribute("tint-color")).toBe("rgb(134, 139, 148)");
+    expect(image.getAttribute("tint-color")).toBeNull();
 
     computedColor = "rgb(255, 102, 0)";
     runNextFrame();

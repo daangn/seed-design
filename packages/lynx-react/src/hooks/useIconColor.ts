@@ -1,4 +1,4 @@
-import { runOnMainThread, useEffect, useGlobalProps, useMainThreadRef } from "@lynx-js/react";
+import { runOnMainThread, useEffect, useGlobalProps, useMainThreadRef, useRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import type { DependencyList, RefObject } from "@lynx-js/react";
 
@@ -90,14 +90,20 @@ export function useIconColor(
   const enabled = options?.enabled ?? true;
   const frameRef = useMainThreadRef<number>(0);
   const theme = (useGlobalProps() as { theme?: unknown } | undefined)?.theme;
+  const hasMountedRef = useRef(false);
 
   function syncOnUiAppear() {
     "main thread";
     if (!enabled) return;
-    syncTintColorOnce(ref, sourceRef);
+    scheduleTintColorSync(ref, sourceRef, frameRef);
   }
 
   useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+
     if (!enabled) return;
 
     runOnMainThread(scheduleTintColorSync)(ref, sourceRef, frameRef);
