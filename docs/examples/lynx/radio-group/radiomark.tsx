@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import {
   HStack,
   RadioGroup as RadioGroupPrimitive,
@@ -10,11 +9,11 @@ import {
 
 import { RadioGroup, Radiomark } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
         <RadioGroup
           accessibility-label="Weight selection"
@@ -44,8 +43,6 @@ function Root() {
           </HStack>
         </RadioGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

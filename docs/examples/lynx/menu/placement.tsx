@@ -2,7 +2,7 @@ import "./styles";
 
 import IconPencilLine from "@karrotmarket/lynx-monochrome-icon/IconPencilLine";
 import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
-import { root } from "@lynx-js/react";
+
 import { ActionButton, Box, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import {
   MenuContent,
@@ -31,11 +31,11 @@ function PlacementMenu({ placement }: { placement: NonNullable<MenuRootProps["pl
   );
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-menu-root`}>
       <scroll-view scroll-orientation="horizontal" style={{ width: "100%", height: "100%" }}>
         <VStack width="760px" gap="x10" px="x10" py="x10">
           <HStack gap="x10">
@@ -65,8 +65,6 @@ function Root() {
           </HStack>
         </VStack>
       </scroll-view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

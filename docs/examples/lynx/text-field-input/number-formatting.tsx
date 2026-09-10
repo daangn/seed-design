@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
@@ -13,13 +13,13 @@ function formatNumber(value: string) {
   return number.toLocaleString();
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("1000");
   const formattedValue = formatNumber(value);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-input-root`}>
       <VStack className="text-field-input-preview">
         <VStack className="text-field-input-preview__content">
           <TextField
@@ -32,8 +32,6 @@ function Root() {
           </TextField>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

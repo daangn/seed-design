@@ -1,18 +1,18 @@
 import "./styles";
 
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { PrefixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListDivider, ListItem } from "@/components/ui/list";
 import { Switch } from "@/components/ui/switch";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [highlighted, setHighlighted] = useState(true);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview__sections">
         <List>
           <ListButtonItem
@@ -48,8 +48,6 @@ function Root() {
           <Switch checked={highlighted} onCheckedChange={setHighlighted} />
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

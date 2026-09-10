@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Box, Text, useSeedClassName } from "@seed-design/lynx-react";
 import {
   Accordion,
@@ -9,7 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [values, setValues] = useState<string[]>(["item-1"]);
 
@@ -21,7 +21,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-accordion-root`}>
       <Accordion values={values} onValuesChange={handleValuesChange}>
         <AccordionItem value="item-1">
           <AccordionTrigger title="주문 전 확인 사항" />
@@ -54,8 +54,6 @@ function Root() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

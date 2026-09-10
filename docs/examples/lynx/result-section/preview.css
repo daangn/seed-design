@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-result-section-root {
   height: 100%;
   background-color: var(--seed-color-bg-layer-default);
 }

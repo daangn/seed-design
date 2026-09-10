@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-text-field-textarea-root {
   box-sizing: border-box;
   height: 100%;
   padding: 24px;

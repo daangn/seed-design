@@ -4,7 +4,7 @@ import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevron
 import IconLockLine from "@karrotmarket/lynx-monochrome-icon/IconLockLine";
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
 import IconQuestionmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconQuestionmarkCircleFill";
-import { root } from "@lynx-js/react";
+
 import { ActionButton, PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListDivider } from "@/components/ui/list";
@@ -29,11 +29,11 @@ function AccountList() {
   );
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview__sections">
         <view className="list-preview__section">
           <ListHeader variant="mediumWeak">variant=&quot;mediumWeak&quot;</ListHeader>
@@ -56,8 +56,6 @@ function Root() {
           <AccountList />
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

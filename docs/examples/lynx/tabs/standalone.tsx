@@ -1,10 +1,10 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [activeTab, setActiveTab] = useState("1");
 
@@ -14,7 +14,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tabs-root`}>
       <view className="tabs-preview">
         <TabsRoot defaultValue="1" onValueChange={handleValueChange}>
           <TabsList>
@@ -39,8 +39,6 @@ function Root() {
           )}
         </TabsRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

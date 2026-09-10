@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { ScaleFeedback, useScaleFeedback, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const content = useScaleFeedback();
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-scale-feedback-root`}>
       <view className="scale-feedback-example">
         <text className="scale-feedback-example__label">Self Scale</text>
         <ScaleFeedback>
@@ -29,8 +28,6 @@ function Root() {
           </view>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

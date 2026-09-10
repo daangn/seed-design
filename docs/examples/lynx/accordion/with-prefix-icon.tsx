@@ -3,7 +3,7 @@ import "./styles";
 import IconCardLine from "@karrotmarket/lynx-monochrome-icon/IconCardLine";
 import IconQuestionmarkCircleLine from "@karrotmarket/lynx-monochrome-icon/IconQuestionmarkCircleLine";
 import IconTruckLine from "@karrotmarket/lynx-monochrome-icon/IconTruckLine";
-import { root } from "@lynx-js/react";
+
 import { Box, Icon, Text, useSeedClassName } from "@seed-design/lynx-react";
 import {
   Accordion,
@@ -12,11 +12,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-accordion-root`}>
       <Accordion>
         <AccordionItem value="shipping">
           <AccordionTrigger
@@ -58,8 +58,6 @@ function Root() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

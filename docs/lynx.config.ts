@@ -1,7 +1,8 @@
 import { resolve } from "node:path";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
-import { defineConfig } from "@lynx-js/rspeedy";
+import type { Rspack } from "@lynx-js/rspeedy";
+import { defineConfig, rspack } from "@lynx-js/rspeedy";
 import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
 import {
   CACHE_DIRECTORY,
@@ -10,15 +11,17 @@ import {
   REPOSITORY_DIRECTORY,
   STAGING_DIRECTORY,
 } from "./scripts/lynx-examples/constants.js";
-import { discoverLynxExamples, toRspeedyEntries } from "./scripts/lynx-examples/discovery.js";
 import { createLynxCacheDigest } from "./scripts/lynx-examples/cache.js";
+import { discoverLynxExamples } from "./scripts/lynx-examples/discovery.js";
+import { createStandaloneModules } from "./scripts/lynx-examples/modules.js";
 
 export default defineConfig(async () => {
   const entries = await discoverLynxExamples();
+  const standalone = createStandaloneModules(entries);
   const development = process.env.LYNX_EXAMPLES_DEV_OUTPUT === "1";
 
   return {
-    source: { entry: toRspeedyEntries(entries) },
+    source: { entry: standalone.entries },
     plugins: [
       pluginLynxIcon({
         include: /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//,
@@ -53,11 +56,14 @@ export default defineConfig(async () => {
     },
     splitChunks: false as const,
     tools: {
-      rspack(config: { resolve: { modules?: string[] } }) {
+      rspack(config: Rspack.Configuration) {
+        config.resolve ??= {};
         config.resolve.modules = [
           resolve(DOCS_DIRECTORY, "node_modules"),
           ...(config.resolve.modules ?? ["node_modules"]),
         ];
+        config.plugins ??= [];
+        config.plugins.push(new rspack.experiments.VirtualModulesPlugin(standalone.modules));
       },
     },
     output: {
@@ -78,10 +84,13 @@ export default defineConfig(async () => {
         buildDependencies: [
           resolve(DOCS_DIRECTORY, "lynx.config.ts"),
           resolve(DOCS_DIRECTORY, "scripts/lynx-examples/discovery.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/modules.ts"),
           resolve(DOCS_DIRECTORY, "scripts/lynx-examples/manifest.ts"),
           resolve(DOCS_DIRECTORY, "scripts/lynx-examples/web-core-styles.ts"),
           resolve(DOCS_DIRECTORY, "scripts/lynx-examples/cache.ts"),
           resolve(DOCS_DIRECTORY, "examples/lynx/tsconfig.json"),
+          resolve(DOCS_DIRECTORY, "examples/lynx/standalone.tsx"),
+          resolve(DOCS_DIRECTORY, "examples/lynx/standalone.css"),
           resolve(DOCS_DIRECTORY, "tsconfig.lynx-node.json"),
           resolve(DOCS_DIRECTORY, "package.json"),
           resolve(REPOSITORY_DIRECTORY, "package.json"),

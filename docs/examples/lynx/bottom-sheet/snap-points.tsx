@@ -8,12 +8,12 @@ import {
   type BottomSheetRootRef,
   BottomSheetTrigger,
 } from "@/components/ui/bottom-sheet";
-import { root, useRef, useState } from "@lynx-js/react";
+import { useRef, useState } from "@lynx-js/react";
 import { ActionButton, HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
 
 const snapPoints = ["45%", "80%"];
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const sheetRef = useRef<BottomSheetRootRef>(null);
   const [snapIndex, setSnapIndex] = useState(0);
@@ -34,7 +34,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-bottom-sheet-root`}>
       <VStack className="bottom-sheet-preview" gap="x3">
         <text className="bottom-sheet-preview__status">
           snap index: {JSON.stringify(snapIndex)}
@@ -74,8 +74,6 @@ function Root() {
           </BottomSheetContent>
         </BottomSheetRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

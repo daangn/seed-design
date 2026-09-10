@@ -3,17 +3,17 @@ import "./styles";
 import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevronRightLine";
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
 import IconSlashCircleLine from "@karrotmarket/lynx-monochrome-icon/IconSlashCircleLine";
-import { root } from "@lynx-js/react";
+
 import { PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "@/components/ui/list";
 import { RadioGroup } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview__sections">
         <List>
           <ListButtonItem
@@ -61,8 +61,6 @@ function Root() {
           </List>
         </RadioGroup>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

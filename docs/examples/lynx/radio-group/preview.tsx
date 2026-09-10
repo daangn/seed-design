@@ -1,15 +1,14 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
         <RadioGroup
           defaultValue="apple"
@@ -24,8 +23,6 @@ function Root() {
           <RadioGroupItem value="orange" label="Orange" />
         </RadioGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

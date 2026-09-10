@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import IconILowercaseSerifCircleLine from "@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleLine";
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
 import { PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
@@ -8,11 +7,11 @@ import { PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-reac
 import { ListHeader } from "@/components/ui/list-header";
 import { List, ListDivider, ListItem } from "@/components/ui/list";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview">
         <ListHeader>리스트 헤더</ListHeader>
         <List>
@@ -26,8 +25,6 @@ function Root() {
           />
         </List>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

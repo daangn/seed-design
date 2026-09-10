@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Box, HStack, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import {
   Accordion,
@@ -11,7 +11,7 @@ import {
 
 const DEFAULT_VALUES = ["shipping"];
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [values, setValues] = useState<string[]>(DEFAULT_VALUES);
   const [history, setHistory] = useState<string[][]>([DEFAULT_VALUES]);
@@ -24,7 +24,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-accordion-root`}>
       <HStack className="accordion-preview__value-changes" gap="x6" align="flexStart">
         <Box flexGrow width="full" minWidth="0">
           <Accordion multiple values={values} onValuesChange={handleValuesChange}>
@@ -80,8 +80,6 @@ function Root() {
           </VStack>
         </Box>
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
