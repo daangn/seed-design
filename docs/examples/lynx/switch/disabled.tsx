@@ -1,8 +1,6 @@
+import { root, useState } from "@lynx-js/react";
+import { Switch, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
-
-import { useState } from "@lynx-js/react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { Switch, type SwitchProps } from "@/components/ui/switch";
 
 function SwitchItem({
   disabled,
@@ -12,17 +10,24 @@ function SwitchItem({
 }: {
   disabled: boolean;
   label: string;
-  tone?: SwitchProps["tone"];
+  tone?: Switch.RootProps["tone"];
   defaultChecked?: boolean;
 }) {
-  return <Switch disabled={disabled} tone={tone} defaultChecked={defaultChecked} label={label} />;
+  return (
+    <Switch.Root disabled={disabled} tone={tone} defaultChecked={defaultChecked}>
+      <Switch.Control>
+        <Switch.Thumb />
+      </Switch.Control>
+      <Switch.Label>{label}</Switch.Label>
+    </Switch.Root>
+  );
 }
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [disabled, setDisabled] = useState(true);
   return (
-    <view className={`${seedClassName} docs-lynx-switch-root`}>
+    <page className={seedClassName}>
       <VStack className="switch-preview" gap="x8">
         <VStack gap="spacingY.componentDefault">
           <SwitchItem disabled={disabled} label="Not Checked (Brand)" />
@@ -30,14 +35,15 @@ export default function Example() {
           <SwitchItem disabled={disabled} tone="neutral" label="Not Checked (Neutral)" />
           <SwitchItem disabled={disabled} tone="neutral" defaultChecked label="Checked (Neutral)" />
         </VStack>
-        <Switch
-          size="16"
-          tone="neutral"
-          checked={disabled}
-          onCheckedChange={setDisabled}
-          label="Disable switches"
-        />
+        <Switch.Root size="16" tone="neutral" checked={disabled} onCheckedChange={setDisabled}>
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+          <Switch.Label>Disable switches</Switch.Label>
+        </Switch.Root>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

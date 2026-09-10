@@ -5,19 +5,9 @@ const lynxSeedPackageRanges = {
   "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
-const fieldPackageRanges = {
-  "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.8.0 <1.0.0",
-};
-
 const accordionPackageRanges = {
   "@seed-design/lynx-react": ">=0.5.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const fieldButtonPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
@@ -25,20 +15,6 @@ const selectBoxPackageRanges = {
   "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const menuPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-};
-
-const listPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-};
-
-const swipeableMenuSheetPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
 // Lynx UI registry. Each item must have a matching snippet file under
@@ -92,41 +68,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "checkbox.tsx",
-          dependencies: fieldPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "field-button",
-      snippets: [
-        {
-          path: "field-button.tsx",
-          dependencies: fieldButtonPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "list",
-      snippets: [
-        {
-          path: "list.tsx",
-          dependencies: {
-            ...listPackageRanges,
-            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-          },
-        },
-        {
-          path: "list-header.tsx",
-          dependencies: listPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "menu",
-      snippets: [
-        {
-          path: "menu.tsx",
-          dependencies: menuPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -156,7 +98,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "radio-group.tsx",
-          dependencies: fieldPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -196,15 +138,6 @@ export const registryUI: Registry = {
         {
           path: "switch.tsx",
           dependencies: lynxSeedPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "swipeable-menu-sheet",
-      snippets: [
-        {
-          path: "swipeable-menu-sheet.tsx",
-          dependencies: swipeableMenuSheetPackageRanges,
         },
       ],
     },

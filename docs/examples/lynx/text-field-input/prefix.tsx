@@ -1,15 +1,15 @@
 import "./styles";
 
 import IconMagnifyingglassLine from "@karrotmarket/lynx-monochrome-icon/IconMagnifyingglassLine";
-
+import { root } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-text-field-input-root`}>
+    <page className={seedClassName}>
       <VStack className="text-field-input-preview">
         <VStack className="text-field-input-preview__content" gap="spacingY.componentDefault">
           <TextField
@@ -42,6 +42,8 @@ export default function Example() {
           </TextField>
         </VStack>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

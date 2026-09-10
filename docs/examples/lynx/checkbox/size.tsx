@@ -1,29 +1,48 @@
 import "./styles";
 
-import { HStack, useSeedClassName } from "@seed-design/lynx-react";
-import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
+import { root } from "@lynx-js/react";
+import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
+import { Checkbox, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function CheckboxItem({
+  label,
+  size,
+  variant,
+}: {
+  label: string;
+  size: Checkbox.RootProps["size"];
+  variant: Checkbox.RootProps["variant"];
+}) {
+  return (
+    <Checkbox.Root tone="neutral" size={size} variant={variant} defaultChecked>
+      <Checkbox.Control>
+        <Checkbox.Indicator
+          unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
+          checked={<IconCheckmarkFatFill />}
+        />
+      </Checkbox.Control>
+      <Checkbox.Label>{label}</Checkbox.Label>
+    </Checkbox.Root>
+  );
+}
+
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
+    <page className={seedClassName}>
       <HStack className="checkbox-preview" gap="x8">
-        <CheckboxGroup>
-          <Checkbox label="Medium (default)" size="medium" defaultChecked tone="neutral" />
-          <Checkbox label="Large" size="large" defaultChecked tone="neutral" />
-        </CheckboxGroup>
-        <CheckboxGroup>
-          <Checkbox
-            label="Medium (default)"
-            size="medium"
-            variant="ghost"
-            defaultChecked
-            tone="neutral"
-          />
-          <Checkbox label="Large" size="large" variant="ghost" defaultChecked tone="neutral" />
-        </CheckboxGroup>
+        <VStack gap="spacingY.componentDefault">
+          <CheckboxItem label="Medium (default)" size="medium" variant="square" />
+          <CheckboxItem label="Large" size="large" variant="square" />
+        </VStack>
+        <VStack gap="spacingY.componentDefault">
+          <CheckboxItem label="Medium (default)" size="medium" variant="ghost" />
+          <CheckboxItem label="Large" size="large" variant="ghost" />
+        </VStack>
       </HStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

@@ -38,8 +38,7 @@ const calloutSlotNames = [
 
 const defaultVariant = {
   "tone": "neutral",
-  "pressed": false,
-  "interactive": false
+  "pressed": false
 };
 
 const compoundVariants = [
@@ -48,48 +47,24 @@ const compoundVariants = [
     "pressed": true
   },
   {
-    "tone": "neutral",
-    "interactive": true
-  },
-  {
     "tone": "informative",
     "pressed": true
-  },
-  {
-    "tone": "informative",
-    "interactive": true
   },
   {
     "tone": "positive",
     "pressed": true
   },
   {
-    "tone": "positive",
-    "interactive": true
-  },
-  {
     "tone": "warning",
     "pressed": true
-  },
-  {
-    "tone": "warning",
-    "interactive": true
   },
   {
     "tone": "critical",
     "pressed": true
   },
   {
-    "tone": "critical",
-    "interactive": true
-  },
-  {
     "tone": "magic",
     "pressed": true
-  },
-  {
-    "tone": "magic",
-    "interactive": true
   }
 ];
 
@@ -103,10 +78,6 @@ export const calloutVariantMap = {
     "magic"
   ],
   "pressed": [
-    true,
-    false
-  ],
-  "interactive": [
     true,
     false
   ]

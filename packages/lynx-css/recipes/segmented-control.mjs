@@ -15,10 +15,6 @@ const segmentedControlSlotNames = [
     "seed-segmented-control__item"
   ],
   [
-    "itemContent",
-    "seed-segmented-control__itemContent"
-  ],
-  [
     "itemBackground",
     "seed-segmented-control__itemBackground"
   ],
@@ -36,10 +32,6 @@ const defaultVariant = {
 };
 
 const compoundVariants = [
-  {
-    "disabled": true,
-    "pressed": true
-  },
   {
     "selected": true,
     "disabled": true

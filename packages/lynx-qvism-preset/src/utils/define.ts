@@ -122,14 +122,12 @@ type StrictLynxInput<T> = RejectCssWideKeywords<T>;
 /**
  * Style object constrained to the SEED Lynx preset contract. It starts from
  * Lynx's known longhand/shorthand CSS keys, then removes web-only properties
- * that SEED does not allow in preset sources. Interaction state is normally
- * modeled as a recipe variant; `:active` is the narrow exception for feedback
- * that must begin on the Lynx Main Thread.
+ * that SEED does not allow in preset sources. State styles should be modeled
+ * as recipe variants instead of selector nesting. Supported pseudo-elements
+ * may be added explicitly when they cannot be represented as variants.
  */
 export type LynxStyleObject = LynxStyleProperties & {
   "&::placeholder"?: LynxStyleProperties;
-  "&:active"?: LynxStyleProperties;
-  [selector: `&:active ${string}`]: LynxStyleProperties | undefined;
 };
 
 type LynxSlotRecord<S extends string> = Partial<Record<S, LynxStyleObject>>;

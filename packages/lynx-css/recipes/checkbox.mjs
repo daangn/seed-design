@@ -7,10 +7,6 @@ const checkboxSlotNames = [
     "seed-checkbox__root"
   ],
   [
-    "control",
-    "seed-checkbox__control"
-  ],
-  [
     "label",
     "seed-checkbox__label"
   ]

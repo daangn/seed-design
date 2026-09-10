@@ -1,9 +1,9 @@
 ---
-title: Radio Group
+title: RadioGroup
 description: 사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.
 compatibility:
   lynx:
-    engine: "3.9"
+    engine: "3.5"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
@@ -17,7 +17,6 @@ compatibility:
   ```
 </LynxComponentExample>
 
-
 ## Installation
 
 ```package-install
@@ -25,30 +24,6 @@ npx @seed-design/cli add ui:radio-group
 ```
 
 <LynxManualInstallation name="radio-group" />
-
-## Usage
-
-`RadioGroup`은 선택 상태와 함께 Field의 안내 정보를 표시합니다. `label`, `labelWeight`, `indicator`, `showRequiredIndicator`, `description`, `errorMessage`를 사용할 수 있습니다.
-
-```tsx
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export function ContactMethod() {
-  return (
-    <RadioGroup
-      label="선호하는 연락 방법"
-      indicator="필수"
-      description="연락받을 방법을 선택해 주세요."
-      defaultValue="chat"
-    >
-      <RadioGroupItem value="chat" label="채팅" />
-      <RadioGroupItem value="phone" label="전화" />
-    </RadioGroup>
-  );
-}
-```
-
-`invalid`가 `true`이고 `errorMessage`가 있으면 화면에는 `description` 대신 오류 메시지를 표시합니다.
 
 ## Props
 
@@ -63,14 +38,6 @@ export function ContactMethod() {
 ### `Radiomark`
 
 <react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadiomarkProps" />
-
-## 접근성
-
-`RadioGroup`은 기본적으로 접근성 요소이며 `accessibility-role-description="radiogroup"`을 사용합니다. 그룹이 비활성 상태이면 `accessibility-traits="disabled"`도 전달합니다. Registry `RadioGroup`에 문자열 `label`을 전달하면 같은 내용을 `accessibility-label`에도 연결합니다.
-
-`RadioGroupItem`은 기본적으로 `accessibility-role-description="radio"`를 사용합니다. 선택 상태는 `accessibility-value`의 `selected` 또는 `not selected`로 전달하며, 비활성 상태는 `accessibility-traits="disabled"`로 전달합니다.
-
-문자열 `label`을 사용하면 Registry 래퍼가 그 값을 항목의 `accessibility-label`로 연결합니다. `label`에 문자열이 아닌 콘텐츠를 넣거나 컴파운드 API를 직접 조합할 때는 각 항목에 `accessibility-label`을 명시하세요. 필요하면 모든 기본 접근성 prop을 직접 덮어쓸 수 있습니다.
 
 ## Examples
 
@@ -111,8 +78,6 @@ export function ContactMethod() {
 
 ### Weights
 
-React의 항목별 `weight`와 달리 Lynx의 `weight`는 그룹 단위 prop입니다. 아래 예제는 굵기마다 그룹을 나눕니다. 두 그룹은 같은 제어 값을 공유하므로 두 항목 중 하나만 선택됩니다.
-
 <LynxComponentExample name="lynx/radio-group/weights">
   ```json doc-gen:file
   {
@@ -123,8 +88,6 @@ React의 항목별 `weight`와 달리 Lynx의 `weight`는 그룹 단위 prop입�
 </LynxComponentExample>
 
 ### Long Label
-
-Lynx의 `size`도 그룹 단위 prop입니다. 아래 예제는 크기마다 그룹을 나눕니다. 두 그룹은 같은 제어 값을 공유하므로 두 항목 중 하나만 선택됩니다.
 
 <LynxComponentExample name="lynx/radio-group/long-label">
   ```json doc-gen:file
@@ -137,7 +100,7 @@ Lynx의 `size`도 그룹 단위 prop입니다. 아래 예제는 크기마다 그
 
 ### Disabled
 
-`RadioGroup`의 `disabled`는 그룹 전체를 비활성화합니다. 개별 `RadioGroupItem`도 따로 비활성화할 수 있습니다.
+`RadioGroup.Root`의 `disabled`는 그룹 전체를 비활성화합니다. 개별 `RadioGroup.Item`도 따로 비활성화할 수 있습니다.
 
 <LynxComponentExample name="lynx/radio-group/disabled">
   ```json doc-gen:file
@@ -150,7 +113,7 @@ Lynx의 `size`도 그룹 단위 prop입니다. 아래 예제는 크기마다 그
 
 ### Listening to Value Changes
 
-`RadioGroup`의 `onValueChange`로 선택 값 변경을 감지할 수 있습니다. Controlled 모드에서는 `value`와 `onValueChange`를 함께 사용합니다.
+`RadioGroup.Root`의 `onValueChange`로 선택 값 변경을 감지할 수 있습니다. Controlled 모드에서는 `value`와 `onValueChange`를 함께 사용합니다.
 
 <LynxComponentExample name="lynx/radio-group/value-changes">
   ```json doc-gen:file
@@ -163,13 +126,9 @@ Lynx의 `size`도 그룹 단위 prop입니다. 아래 예제는 크기마다 그
 
 ### Use Cases
 
-#### React Hook Form
-
-React Hook Form은 HTML 폼과 input을 전제로 하므로 Lynx에서는 같은 예제를 실행할 수 없습니다. Lynx에서는 `value`와 `onValueChange`로 선택 값을 제어하세요. 제출과 검증은 앱의 상태 관리와 요청 흐름에서 처리합니다.
-
 #### Using `Radiomark`
 
-Registry의 `Radiomark`와 `@seed-design/lynx-react`의 컴파운드 API를 함께 사용하면 선택 상태를 공유하면서 항목의 배치를 바꿀 수 있습니다. `Radiomark`는 `RadioGroup.Item` 안에서만 사용할 수 있습니다.
+`RadioGroup.ItemControl`과 `RadioGroup.ItemIndicator`를 직접 조합하면 선택 상태를 공유하면서 항목의 배치를 바꿀 수 있습니다.
 
 <LynxComponentExample name="lynx/radio-group/radiomark">
   ```json doc-gen:file
@@ -180,41 +139,18 @@ Registry의 `Radiomark`와 `@seed-design/lynx-react`의 컴파운드 API를 함�
   ```
 </LynxComponentExample>
 
-### RadioGroupField Integration
-
-`label`, `description`, `errorMessage` 등의 RadioGroupField 관련 prop을 사용할 수 있습니다.
-
-<LynxComponentExample name="lynx/radio-group/radio-group-field">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/radio-group/radio-group-field.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-## Scale Feedback
-
-Lynx `RadioGroupItem`은 누르는 동안 `Radiomark`의 배경색을 바꿉니다. React처럼 크기를 줄이지 않으므로 `--seed-radiomark-feedback-scale` CSS 변수도 사용하지 않습니다.
-
 ## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니다.
 
-- **오류 안내 렌더링**: React는 오류가 표시될 때 `description`을 접근성 트리에 남기지만, Lynx에는 DOM의 visually hidden 처리 방식이 없어 화면과 접근성 트리에서 `description`을 제외하고 `errorMessage`만 렌더링합니다.
-- **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` 점으로 렌더됩니다. 사용자 지정 아이콘을 전달하려면 `@karrotmarket/lynx-monochrome-icon`을 별도로 설치하고 단색 아이콘 컴포넌트를 사용하세요. `<svg>`를 직접 주입하는 방식은 Lynx에서 지원하지 않습니다.
+- **Field wrapper 없음**: React snippet의 `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator` 같은 field 관련 prop은 Lynx snippet에서 제공하지 않습니다.
+- **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` dot으로 렌더됩니다. custom icon을 전달할 때는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트를 사용해야 하며 raw `<svg>` 주입은 Lynx 범위 밖입니다.
 - **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 item 내부에서 소유합니다.
-- **Pressed 상태**: 웹의 크기 축소 대신 내부 press state가 `Radiomark`의 배경색을 바꿉니다.
+- **Pressed 상태**: 웹의 `data-active` 대신 내부 press state를 `radiomark` recipe의 `pressed` boolean variant로 전달합니다.
 - **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
 - **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다. `Radiomark`는 standalone primitive가 아니라 item context 안에서 `ItemControl`과 `ItemIndicator`를 묶는 snippet helper입니다.
 </Callout>
-
-사용자 지정 아이콘 패키지는 Registry 기본 설치에 포함되지 않습니다.
-
-```sh
-bun add @karrotmarket/lynx-monochrome-icon@^1.20.0
-```
 
 ## Lynx 미지원 기능
 
@@ -224,8 +160,9 @@ bun add @karrotmarket/lynx-monochrome-icon@^1.20.0
 
 | 기능 | 웹 대응 | 설명 |
 |------|---------|------|
-| React Hook Form | HTML form 라이브러리 | `value`와 `onValueChange` 및 앱 수준 제출 로직으로 대체 |
 | `RadioGroupItemHiddenInput` | `<input type="radio">` | Lynx에 HTML form 제출 모델 없음 |
-| `name` | native form field name | Lynx에 native form 제출 모델 없음 |
+| `name` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| `inputProps` | 내부 input prop 전달 | Lynx에는 전달할 HTML input이 없음 |
+| `label` / `description` / `errorMessage` on `RadioGroup` | field wrapper props | Lynx에 대응 field wrapper snippet을 제공하지 않음 |
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onValueChange`로 대체 |

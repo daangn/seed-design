@@ -1,28 +1,36 @@
 import "./styles";
+import { root } from "@lynx-js/react";
+import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
+    <page className={seedClassName}>
       <VStack className="radio-group-preview">
-        <RadioGroup
-          defaultValue="apple"
-          label="좋아하는 과일"
-          description="좋아하는 과일을 선택해 주세요."
-          indicator="선택"
-          tone="neutral"
-          size="large"
-        >
-          <RadioGroupItem value="apple" label="Apple" />
-          <RadioGroupItem value="banana" label="Banana" />
-          <RadioGroupItem value="orange" label="Orange" />
-        </RadioGroup>
+        <RadioGroup.Root defaultValue="apple" size="large" tone="neutral">
+          <RadioGroup.Item value="apple">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>사과</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+          <RadioGroup.Item value="banana">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>바나나</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+          <RadioGroup.Item value="orange">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+            <RadioGroup.ItemLabel>오렌지</RadioGroup.ItemLabel>
+          </RadioGroup.Item>
+        </RadioGroup.Root>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

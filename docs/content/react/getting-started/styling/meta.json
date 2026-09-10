@@ -1,5 +1,5 @@
 {
   "title": "Styling",
   "icon": "Palette",
-  "pages": ["theming", "fonts", "tailwind-css", "cascade-layers"]
+  "pages": ["theming", "tailwind-css", "cascade-layers"]
 }

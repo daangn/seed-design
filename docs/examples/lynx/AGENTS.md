@@ -12,6 +12,6 @@ Lynx 컴포넌트 문서에서 실행하는 ReactLynx 예제를 둡니다. Rspee
 
 ## 코드 작성 컨벤션
 
-- entry는 default export하는 하나의 예제 컴포넌트다. 독립 실행은 상위 `standalone.tsx`의 bootstrap이 맡으며, 예제 내부에서 `root.render()`를 호출하지 않는다.
+- entry는 필요한 스타일을 import하고 `<page>`를 렌더한 뒤 `root.render()`를 직접 호출합니다.
 - 새로 작성하거나 대상 컴포넌트 import를 수정하는 예제는 Lynx registry 항목이 있으면 `@/components/ui/<name>`의 registry 모듈을 사용합니다. registry가 없는 package-only 컴포넌트만 `@seed-design/lynx-react`의 공개 export를 직접 사용합니다. 기존 예제의 일괄 변경은 별도 작업으로 다룹니다.
 - 사용자 이벤트는 Lynx 이벤트 prop을 사용합니다. background thread에서 실행해야 하는 handler에는 `"background only"` 지시문을 둡니다.

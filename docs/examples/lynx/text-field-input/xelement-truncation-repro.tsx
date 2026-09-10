@@ -1,14 +1,14 @@
-import { useState } from "@lynx-js/react";
+import { root, useState } from "@lynx-js/react";
 
 const INITIAL_VALUE =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-export default function Example() {
+function Root() {
   const [value, setValue] = useState(INITIAL_VALUE);
   const [focused, setFocused] = useState(false);
 
   return (
-    <view className="docs-lynx-text-field-input-root" style={{ backgroundColor: "#ffffff" }}>
+    <page style={{ backgroundColor: "#ffffff" }}>
       <view style={{ padding: "32px" }}>
         <text style={{ marginBottom: "8px", fontSize: "16px", fontWeight: "600" }}>
           Input focus rendering
@@ -37,8 +37,12 @@ export default function Example() {
         <text style={{ marginTop: "12px", color: "#666666", fontSize: "14px" }}>
           State: {focused ? "focused" : "blurred"}
         </text>
-        <text style={{ marginTop: "8px", color: "#666666", fontSize: "14px" }}>Value: {value}</text>
+        <text style={{ marginTop: "8px", color: "#666666", fontSize: "14px" }}>
+          Value: {value}
+        </text>
       </view>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

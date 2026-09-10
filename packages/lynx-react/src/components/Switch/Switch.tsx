@@ -9,17 +9,7 @@ import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switc
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
-import {
-  useScaleFeedback,
-  type ScaleFeedbackTargetProps,
-} from "../../hooks/useScaleFeedback";
-import { mergeProps } from "../../utils/merge-props";
+import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 
 /**
  * @platform Lynx
@@ -37,16 +27,14 @@ import { mergeProps } from "../../utils/merge-props";
 interface SwitchContextValue {
   checked: boolean;
   disabled: boolean;
-  pressed: boolean;
   switchVariantProps: SwitchVariantProps;
   switchmarkVariantProps: SwitchmarkVariantProps;
   toggle: () => void;
-  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
 const SwitchContext = React.createContext<SwitchContextValue | null>(null);
 
-export function useSwitchContext(consumer: string): SwitchContextValue {
+function useSwitchContext(consumer: string): SwitchContextValue {
   const ctx = React.useContext(SwitchContext);
   if (!ctx) {
     throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
@@ -74,8 +62,7 @@ function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContext
 export interface SwitchRootProps
   extends SwitchVariantProps,
     Omit<SwitchmarkVariantProps, "size">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    LynxStyledElementProps {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -92,15 +79,8 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restNativeProps] =
+  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
-  const {
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "switch",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = restNativeProps;
 
   const [checked, setChecked] = useControllableState({
     value: checkedProp,
@@ -110,21 +90,9 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
-  const {
-    pressed,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    ...pressHandlers
-  } = usePressTap({
+  const { pressed: _pressed, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
-  });
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
@@ -133,29 +101,20 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     () => ({
       checked,
       disabled,
-      pressed,
       switchVariantProps,
       switchmarkVariantProps,
       toggle,
-      scaleFeedbackTargetProps,
     }),
-    [checked, disabled, pressed, switchVariantProps, switchmarkVariantProps, toggle, scaleFeedbackTargetProps],
+    [checked, disabled, switchVariantProps, switchmarkVariantProps, toggle],
   );
 
   return (
     <SwitchContext.Provider value={contextValue}>
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          scaleFeedbackTriggerProps,
-          pressHandlers,
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(rootClassName, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-        accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
+        {...pressHandlers}
+        {...nativeProps}
       >
         {children}
       </view>
@@ -168,8 +127,7 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export interface SwitchControlProps
   extends Pick<SwitchmarkVariantProps, "tone" | "size">,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxStyledElementProps, "flatten"> {}
+    LynxStyledElementProps {}
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
@@ -188,13 +146,9 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       value={{ thumbClassName: classes.thumb, switchmarkVariantProps }}
     >
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          context.scaleFeedbackTargetProps,
-          nativeProps,
-        )}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
-        flatten={false}
+        {...nativeProps}
       >
         {children}
       </view>
@@ -213,8 +167,9 @@ export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, r
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(thumbClassName, className)}
+      {...nativeProps}
     />
   );
 });
@@ -234,8 +189,9 @@ export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, r
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(labelClassName, className)}
+      {...nativeProps}
     >
       {children}
     </text>

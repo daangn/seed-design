@@ -951,12 +951,6 @@
               ]
             },
             {
-              "id": "app-bar",
-              "title": "AppBar",
-              "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
-              "docUrl": "/react/components/app-bar"
-            },
-            {
               "id": "article",
               "title": "Article",
               "description": "Article은 일관된 selection 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.",
@@ -1792,12 +1786,6 @@
               "docUrl": "/react/getting-started/cli/configuration"
             },
             {
-              "id": "fonts",
-              "title": "Fonts",
-              "description": "SEED가 제공하는 권장 폰트 스택을 애플리케이션에 적용하는 방법을 알아봅니다.",
-              "docUrl": "/react/getting-started/styling/fonts"
-            },
-            {
               "id": "library-authors",
               "title": "Library Authors",
               "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
@@ -2123,7 +2111,7 @@
             {
               "id": "checkbox",
               "title": "Checkbox",
-              "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+              "description": "사용자가 여러 옵션 중 하나 이상을 선택할 수 있게 하는 체크박스 컴포넌트입니다.",
               "docUrl": "/lynx/components/checkbox",
               "snippetKey": "lynx/ui:checkbox",
               "snippets": [
@@ -2170,12 +2158,6 @@
               "docUrl": "/lynx/foundation/iconography"
             },
             {
-              "id": "input-button",
-              "title": "Field Button",
-              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
-              "docUrl": "/lynx/components/input-button"
-            },
-            {
               "id": "installation",
               "title": "Installation",
               "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
@@ -2186,23 +2168,6 @@
               "title": "KeyboardAvoidingScrollView",
               "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
-            },
-            {
-              "id": "list",
-              "title": "List",
-              "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/list",
-              "snippetKey": "lynx/ui:list",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "list.tsx"
-                },
-                {
-                  "label": "react",
-                  "path": "list-header.tsx"
-                }
-              ]
             },
             {
               "id": "manner-temp",
@@ -2217,17 +2182,10 @@
               "docUrl": "/lynx/components/manner-temp-badge"
             },
             {
-              "id": "menu",
-              "title": "Menu",
-              "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/menu",
-              "snippetKey": "lynx/ui:menu",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "menu.tsx"
-                }
-              ]
+              "id": "notification-badge",
+              "title": "Notification Badge",
+              "description": "아이콘이나 텍스트에 새로운 알림 또는 읽지 않은 항목이 있음을 표시하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/notification-badge"
             },
             {
               "id": "page-banner",
@@ -2257,7 +2215,7 @@
             },
             {
               "id": "radio-group",
-              "title": "Radio Group",
+              "title": "RadioGroup",
               "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
               "docUrl": "/lynx/components/radio-group",
               "snippetKey": "lynx/ui:radio-group",
@@ -2267,12 +2225,6 @@
                   "path": "radio-group.tsx"
                 }
               ]
-            },
-            {
-              "id": "reaction-button",
-              "title": "Reaction Button",
-              "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
-              "docUrl": "/lynx/components/reaction-button"
             },
             {
               "id": "result-section",
@@ -2286,12 +2238,6 @@
                   "path": "result-section.tsx"
                 }
               ]
-            },
-            {
-              "id": "scale-feedback",
-              "title": "Scale Feedback",
-              "description": "Lynx에서 Main Thread 기반의 SEED Scale Feedback을 적용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/components/concepts/scale-feedback"
             },
             {
               "id": "segmented-control",
@@ -2326,22 +2272,9 @@
               "docUrl": "/lynx/foundation/layout/styling"
             },
             {
-              "id": "swipeable-menu-sheet",
-              "title": "Swipeable Menu Sheet",
-              "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
-              "docUrl": "/lynx/components/swipeable-menu-sheet",
-              "snippetKey": "lynx/ui:swipeable-menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "swipeable-menu-sheet.tsx"
-                }
-              ]
-            },
-            {
               "id": "switch",
               "title": "Switch",
-              "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+              "description": "특정 옵션이나 설정을 켜거나 끌 수 있도록 돕는 토글 컴포넌트입니다.",
               "docUrl": "/lynx/components/switch",
               "snippetKey": "lynx/ui:switch",
               "snippets": [

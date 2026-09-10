@@ -23,13 +23,6 @@
     background-color: transparent;
     border: none
 }
-.seed-accordion__triggerContent {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    transform: scale(1)
-}
 .seed-accordion__pressedOverlay {
     position: absolute;
     top: 0;
@@ -172,9 +165,6 @@
 }
 .seed-accordion__suffixIcon--disabled_true {
     color: var(--seed-color-fg-disabled)
-}
-.seed-accordion__trigger--disabled_false:active .seed-accordion__pressedOverlay {
-    background-color: var(--seed-color-bg-transparent-pressed)
 }
 .seed-accordion__root--variant_separated-size_medium {
     gap: var(--seed-dimension-x3)

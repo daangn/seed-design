@@ -53,7 +53,7 @@
 - 지원하는 기능은 React 대응의 asset·frame·초기 상태·입력·전이·최종 결과를 비교한다. 같은 제목이나 비슷한 JSX만으로 동등하다고 판단하지 않는다.
 - 확정한 package 또는 Registry 경로를 소비한다. 문서용 provider·아이콘·slot 우회로 실제 API 결함을 감추지 않는다.
 - 구현 전에는 필요한 조합과 기대 결과를 제시한다. 기본 장면의 검증 결과를 받은 뒤 의존하는 변형 예제를 확장하고, 전체 검증 결과로 설명과 제한을 확정한다.
-- 인계할 것은 시나리오별 참조·기대 결과, 문서 URL·예제 ID, 실제 소비 경로와 미지원 설명이다. Lynx native인 경우 SPA 예제 ID·query를 포함한 bundle URL·변경본과 환경 근거를 추가한다.
+- 인계할 것은 시나리오별 참조·기대 결과, 문서 URL·예제 ID, 실제 소비 경로와 미지원 설명이다.
 - Lynx는 [`seed-write-lynx-component-docs`](../../seed-write-lynx-component-docs/SKILL.md), React는 [`문서 구현 단계`](../../seed-create-component/references/implementation-steps.md#step-8-documentation)를 따른다.
 
 ## 검증 실행 담당
@@ -61,10 +61,10 @@
 - 구현자의 요약 대신 원래 요구사항·참조 화면·시나리오·승인 조건과 실제 소비 결과를 대조한다. 여러 레이어의 동작 변경에서는 작성자와 별도로 배정하고 기본 장면부터 검증한다.
 - 구현 전에 필수 환경과 검증 수단을 확인한다. 실행 파일 하나의 미발견을 전체 런타임 부재로 단정하지 않고 해당 도구의 사용법과 연결 경로를 확인한다.
 - 안정된 변경본에서 package 타입·회귀, Registry·문서·예제 소비 연결, 런타임 화면·상호작용을 입력·생성물·자원이 독립할 때 병렬로 실행할 수 있다. 생성물을 소비하는 검사는 그 생성 완료만 선행 조건으로 두며, 역할별 검증 작업자를 반드시 늘리지 않는다.
-- 통합된 변경본의 생성물 연결, 실제 요소·스타일, 입력·중간·최종 상태, 오류를 확인한다. 모션은 정지 끝점만으로 통과시키지 않는다. Lynx 기본 장면은 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제로 확인하고, MDX 페이지·host·코드 탭·QR·Web preview·docs pipeline을 바꾼 경우에만 해당 문서 변경 부분을 확인한다.
+- 통합된 변경본의 생성물 연결, 실제 요소·스타일, 입력·중간·최종 상태, 오류를 확인한다. 모션은 정지 끝점만으로 통과시키지 않는다. 기본 장면 승인을 위해 전체 문서 빌드를 강제하지 않고, 승인 뒤에는 관련 최종 검증을 유지한다.
 - 공유 원천을 수정 중일 때 그 입력의 최종 검증을 병행하지 않는다. 전역 overlay·호스트 창·기기·스크린샷·공유 산출물의 조작은 지정 소유자만 하며, 같은 호스트에서 session ID만 다른 것은 병렬 실행의 격리 근거가 아니다.
 - 실패는 재현 단계·기대/실제 결과·증거·실패 원천·영향 범위와 함께 원천 담당에게 전달한다. 통과를 위해 소스·테스트·기대 결과를 고치지 않으며, 후속 수정의 영향 검사와 실패한 검사만 다시 실행한다.
-- 인계할 것은 `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`다. Lynx native 인계에는 SPA 예제 ID·query를 포함한 bundle URL·변경본과 환경 근거를 추가한다. [`검증 체크리스트`](../../seed-create-component/references/verification-checklist.md)와 Lynx의 [`seed-verify-lynx-component`](../../seed-verify-lynx-component/SKILL.md)를 따른다.
+- 인계할 것은 `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`다. [`검증 체크리스트`](../../seed-create-component/references/verification-checklist.md)와 Lynx의 [`seed-verify-lynx-component`](../../seed-verify-lynx-component/SKILL.md)를 따른다.
 
 ## 조건부 전문 검토
 

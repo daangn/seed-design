@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
-import { useEffect, useState } from "@lynx-js/react";
+import { root, useState } from "@lynx-js/react";
 import {
   ActionButton,
   AppBar,
@@ -13,15 +13,9 @@ import {
 } from "@seed-design/lynx-react";
 import { ResultSection } from "@/components/ui/result-section";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   function handleRetry() {
     "background only";
@@ -30,7 +24,7 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-result-section-root`}>
+    <page className={seedClassName}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack height="640px" width="360px" borderWidth={1} borderColor="stroke.neutralMuted">
           <AppBar.Root>
@@ -73,6 +67,8 @@ export default function Example() {
           </VStack>
         </VStack>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

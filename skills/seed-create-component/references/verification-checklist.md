@@ -41,7 +41,7 @@
 
 번호는 검사 목록이며 모든 검사를 직렬 실행하라는 뜻이 아니다. 동일 입력을 편집 중일 때 최종 검증을 하지 않는다. 변경본이 안정되면 패키지 타입·회귀, Registry·문서·예제 연결, 화면·상호작용 검사를 입력과 자원 의존성에 따라 병렬로 실행할 수 있다. 생성물을 소비하는 검사만 해당 생성 완료를 기다리며, 무관한 검사는 기다리지 않는다.
 
-실행 분담·호스트 격리·CPU와 메모리 경합은 [검증 분담과 자원](../../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)을 따른다. 이 기준은 기존 실행 자원을 배정하는 용도이며 검사 종류별 워커 생성이나 새로운 검증 체계를 요구하지 않는다. Lynx native 기본 경로와 실행 방법은 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제를 따른다. 전체 docs 빌드나 정적 bundle 서빙은 MDX 페이지·host·코드 탭·QR·Web preview·docs pipeline 자체를 바꾼 경우에만 해당 문서 surface 검증으로 추가한다.
+실행 분담·호스트 격리·CPU와 메모리 경합은 [검증 분담과 자원](../../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)을 따른다. 이 기준은 기존 실행 자원을 배정하는 용도이며 검사 종류별 워커 생성이나 새로운 검증 체계를 요구하지 않는다. 전체 문서 빌드는 [기본 장면 우선 검증](implementation-steps.md#기본-장면-우선-검증)의 필수 선행 조건이 아니다.
 
 1. 동작을 바꿨다면 수정한 패키지의 기존 집중 테스트를 실행한다.
 2. Rootage·Recipe 원천을 바꿨다면 해당 생성 명령을 실행하고 예상한 산출물만 바뀌었는지 확인한다.
@@ -76,9 +76,9 @@ Storybook 파일만 바꿨다면 [storybook.md](storybook.md)의 CSF Next 규칙
 
 ## Lynx 화면 확인
 
-- 실제 Lynx 동작을 새로 주장하거나 런타임 동작을 바꿨다면 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 기본 경로에서 확인하고, SPA 예제 ID와 query를 포함한 bundle URL·변경본·환경 근거를 남긴다.
-- MDX 페이지·`LynxComponentExample` host·코드 탭·QR·Web preview·docs build pipeline을 바꿨을 때만 실제 문서에서 해당 변경 부분을 확인한다.
-- [`seed-write-lynx-component-docs`](../../seed-write-lynx-component-docs/SKILL.md)에서 확정한 배포 경로가 Registry, 문서, SPA 예제에서 일치하는지 확인한다.
+- 문서 예제를 바꿨다면 실제 `LynxComponentExample`에서 미리보기, 코드, QR, Explorer 링크를 확인한다.
+- [`seed-write-lynx-component-docs`](../../seed-write-lynx-component-docs/SKILL.md)에서 확정한 배포 경로가 Registry, 문서, 예제에서 일치하는지 확인한다.
+- 실제 Lynx 동작을 새로 주장하거나 런타임 동작을 바꿨다면 `examples/lynx-spa` 또는 사용 가능한 호스트 앱에서 확인한다.
 - 기기나 실행 세션이 없으면 확인하지 못한 범위를 적는다. 문서용 우회 구현으로 네이티브 결과를 흉내 내지 않는다.
 
 ## 구현 패턴

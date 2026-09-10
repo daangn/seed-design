@@ -1,35 +1,36 @@
 import "./styles";
 
-import { useState } from "@lynx-js/react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { root, useState } from "@lynx-js/react";
+import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
+import { Checkbox, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<boolean | null>(null);
 
-  function handleCheckedChange(checked: boolean) {
-    "background only";
-
-    setCount((previous) => previous + 1);
-    setLastValue(checked);
-  }
-
   return (
-    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
+    <page className={seedClassName}>
       <VStack className="checkbox-preview" gap="x4">
-        <Checkbox
-          label="Click me"
+        <Checkbox.Root
           tone="neutral"
           size="large"
-          onCheckedChange={handleCheckedChange}
-        />
+          onCheckedChange={(checked) => {
+            setCount((previous) => previous + 1);
+            setLastValue(checked);
+          }}
+        >
+          <Checkbox.Control>
+            <Checkbox.Indicator checked={<IconCheckmarkFatFill />} />
+          </Checkbox.Control>
+          <Checkbox.Label>선택 상태 바꾸기</Checkbox.Label>
+        </Checkbox.Root>
         <text className="checkbox-preview__status">
-          onCheckedChange called: {count} times, last value:{" "}
-          {lastValue === null ? "-" : JSON.stringify(lastValue)}
+          onCheckedChange 호출: {count}회, 마지막 값: {JSON.stringify(lastValue)}
         </text>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

@@ -1,13 +1,14 @@
 import "./styles";
 
+import { root } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { ResultSection } from "@/components/ui/result-section";
 
-export default function Example() {
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-result-section-root`}>
+    <page className={seedClassName}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
           <ResultSection
@@ -19,6 +20,8 @@ export default function Example() {
           />
         </VStack>
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

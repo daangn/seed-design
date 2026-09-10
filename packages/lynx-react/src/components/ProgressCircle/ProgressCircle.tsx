@@ -12,7 +12,7 @@ import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
 import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxStyledElementProps, LynxViewRef } from "../../types";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,8 +153,7 @@ const TRANSITION_DURATION = 300;
 
 export interface ProgressCircleRootProps
   extends ProgressCircleVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    LynxStyledElementProps {
   minValue?: number;
   maxValue?: number;
   value?: number;
@@ -176,18 +175,7 @@ export type RootProps = ProgressCircleRootProps;
  */
 export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
   const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
-  const {
-    children,
-    className,
-    style,
-    minValue,
-    maxValue,
-    value,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "progressbar",
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = otherProps;
+  const { children, className, style, minValue, maxValue, value } = otherProps;
   const size = variantProps.size ?? "40";
   const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
@@ -196,9 +184,6 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
 
   const range = (maxValue ?? 1) - (minValue ?? 0);
   const progress = isDeterminate ? (range === 0 ? 0 : ((value ?? 0) - (minValue ?? 0)) / range) : 0;
-  const defaultAccessibilityValue = isDeterminate
-    ? `minimum ${minValue}, maximum ${maxValue}, current ${value}`
-    : "indeterminate";
 
   const classes = progressCircle({ tone, size });
 
@@ -210,13 +195,9 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
   return (
     <ProgressCircleContext.Provider value={ctx}>
       <view
-        {...nativeProps}
         {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.root, className)}
         style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-value={accessibilityValue ?? defaultAccessibilityValue}
       >
         {children}
       </view>

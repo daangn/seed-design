@@ -3,7 +3,6 @@ import * as React from "@lynx-js/react";
 import type { LynxAccessibilityProps, LynxStyledElementProps } from "../../types";
 import type { StyleProps } from "../../utils/styled";
 import { Box } from "../Box";
-import { mergeProps } from "../../utils/merge-props";
 
 export interface DividerProps
   extends Omit<LynxStyledElementProps, "children">,
@@ -53,7 +52,8 @@ export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
 
   return (
     <Box
-      {...mergeProps({ ref }, nativeProps)}
+      {...nativeProps}
+      ref={ref}
       borderColor={color}
       borderWidth={0}
       borderBottomWidth={isHorizontal ? thickness : 0}

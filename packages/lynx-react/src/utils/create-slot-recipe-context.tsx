@@ -8,7 +8,6 @@ import type {
   RefAttributes,
 } from "@lynx-js/react";
 import clsx from "clsx";
-import { mergeProps } from "./merge-props";
 
 type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,
@@ -106,7 +105,7 @@ export function createSlotRecipeContext<
     const { defaultProps } = options ?? {};
 
     const StyledComponent = (innerProps: any) => {
-      const props = mergeProps(defaultProps ?? {}, useProps() ?? {}, innerProps) as Props &
+      const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         Record<string, unknown>;
 
       restoreDefaultProps(props, defaultProps);
@@ -140,7 +139,7 @@ export function createSlotRecipeContext<
     const { defaultProps } = options ?? {};
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
-      const props: any = mergeProps(defaultProps ?? {}, useProps() ?? {}, innerProps);
+      const props: any = { ...(defaultProps ?? {}), ...useProps(), ...innerProps };
 
       restoreDefaultProps(props, defaultProps);
 
@@ -153,7 +152,8 @@ export function createSlotRecipeContext<
         <ClassNamesProvider value={classNames}>
           <PropsProvider value={variantProps}>
             <Component
-              {...mergeProps(ref ? { ref } : {}, otherProps)}
+              {...(ref ? { ref } : {})}
+              {...otherProps}
               className={clsx(slotClassName, userClassName)}
             />
           </PropsProvider>
@@ -177,7 +177,7 @@ export function createSlotRecipeContext<
     const { defaultProps } = options ?? {};
 
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
-      const props: any = mergeProps(defaultProps ?? {}, innerProps);
+      const props: any = { ...(defaultProps ?? {}), ...innerProps };
 
       restoreDefaultProps(props, defaultProps);
 
@@ -187,7 +187,8 @@ export function createSlotRecipeContext<
 
       return (
         <Component
-          {...mergeProps(ref ? { ref } : {}, props)}
+          {...(ref ? { ref } : {})}
+          {...props}
           className={clsx(slotClassName, userClassName)}
         />
       );

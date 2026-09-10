@@ -11,10 +11,10 @@
 | React 문서 예제 | docs 컴포넌트 페이지 | 렌더링과 바꾼 예제 동작 |
 | React 실사용 조합 | 영향 받은 Stackflow Activity | 실제 앱 조합 결과 |
 | Storybook story | 변경한 story와 영향 받은 theme·font-scale variant | 시각적 결과 |
-| Lynx 문서 변경 | `LynxComponentExample` | MDX host·코드 탭·QR·Web preview의 변경 결과 |
-| Lynx 실제 동작 주장 | [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 | native runtime 결과 |
+| Lynx 문서 예제 | `LynxComponentExample` | 미리보기와 바꾼 상호작용 |
+| Lynx 실제 동작 주장 | `examples/lynx-spa` 또는 사용 가능한 host app | native runtime 결과 |
 
-브라우저는 실제로 변경한 표면을 열어 바뀐 사용자 결과를 확인하고 닫는다. Lynx 문서 변경은 해당 부분만 확인한다. Lynx native 결과는 웹 미리보기와 합치지 않으며, `examples/lynx-spa` 문서 예제의 SPA 예제 ID와 query를 포함한 bundle URL·환경 근거를 남긴다. 실행 환경이 없으면 미확인 범위와 이유를 보고한다.
+브라우저는 실제 surface를 열어 바뀐 사용자 결과를 확인하고 닫는다. Lynx native 결과는 웹 미리보기와 합치지 않으며, 실행 환경이 없으면 미확인 범위와 이유를 보고한다.
 
 ## Figma 비교
 

@@ -3,7 +3,6 @@ import * as React from "@lynx-js/react";
 
 import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
-import { mergeProps } from "../../utils/merge-props";
 
 type StackStyleProps =
   | "display"
@@ -85,7 +84,8 @@ function renderStackView(
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
+      {...nativeProps}
       className={clsx(className)}
       style={style}
     >

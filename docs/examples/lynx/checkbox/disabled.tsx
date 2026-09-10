@@ -1,47 +1,50 @@
 import "./styles";
 
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
-import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
+import { root } from "@lynx-js/react";
+import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
+import { Checkbox, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-export default function Example() {
+function CheckboxItem({
+  label,
+  variant,
+  defaultChecked = false,
+}: {
+  label: string;
+  variant: Checkbox.RootProps["variant"];
+  defaultChecked?: boolean;
+}) {
+  return (
+    <Checkbox.Root
+      tone="neutral"
+      size="large"
+      variant={variant}
+      defaultChecked={defaultChecked}
+      disabled
+    >
+      <Checkbox.Control>
+        <Checkbox.Indicator
+          unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
+          checked={<IconCheckmarkFatFill />}
+        />
+      </Checkbox.Control>
+      <Checkbox.Label>{label}</Checkbox.Label>
+    </Checkbox.Root>
+  );
+}
+
+function Root() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
-      <VStack className="checkbox-preview">
-        <CheckboxGroup>
-          <Checkbox
-            defaultChecked
-            label="Disabled Checked, Square"
-            disabled
-            tone="neutral"
-            size="large"
-          />
-          <Checkbox
-            checked={false}
-            label="Disabled without Checked, Square"
-            disabled
-            tone="neutral"
-            size="large"
-          />
-          <Checkbox
-            variant="ghost"
-            defaultChecked
-            label="Disabled Checked, Ghost"
-            disabled
-            tone="neutral"
-            size="large"
-          />
-          <Checkbox
-            variant="ghost"
-            checked={false}
-            label="Disabled without Checked, Ghost"
-            disabled
-            tone="neutral"
-            size="large"
-          />
-        </CheckboxGroup>
+    <page className={seedClassName}>
+      <VStack className="checkbox-preview" gap="spacingY.componentDefault">
+        <CheckboxItem label="선택 안 됨, Square" variant="square" />
+        <CheckboxItem label="선택됨, Square" variant="square" defaultChecked />
+        <CheckboxItem label="선택 안 됨, Ghost" variant="ghost" />
+        <CheckboxItem label="선택됨, Ghost" variant="ghost" defaultChecked />
       </VStack>
-    </view>
+    </page>
   );
 }
+
+root.render(<Root />);

@@ -7,7 +7,6 @@ import clsx from "clsx";
 import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { FieldContext, useFieldContext } from "./context";
-import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider: FieldClassNamesProvider, useClassNames: useFieldClassNames } =
   createSlotRecipeContext(field);
@@ -44,8 +43,17 @@ export const FieldRoot = React.forwardRef<NodesRef, FieldRootProps>((props, forw
   const rootRef = React.useRef<NodesRef | null>(null);
   const classes = field({ invalid });
 
-  const mergedRef = React.useMemo(
-    () => mergeProps({ ref: rootRef }, { ref: forwardedRef }).ref,
+  const mergedRef = React.useCallback(
+    (node: NodesRef | null) => {
+      "background only";
+
+      rootRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
     [forwardedRef],
   );
 
@@ -65,10 +73,7 @@ export const FieldRoot = React.forwardRef<NodesRef, FieldRootProps>((props, forw
   return (
     <FieldContext.Provider value={contextValue}>
       <FieldClassNamesProvider value={classes}>
-        <view
-          {...mergeProps({ ref: mergedRef }, nativeProps)}
-          className={clsx(classes.root, className)}
-        >
+        <view ref={mergedRef} className={clsx(classes.root, className)} {...nativeProps}>
           {children}
         </view>
       </FieldClassNamesProvider>
@@ -87,8 +92,9 @@ export const FieldHeader = React.forwardRef<unknown, FieldHeaderProps>((props, r
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.header, className)}
+      {...nativeProps}
     >
       {children}
     </view>
@@ -106,8 +112,9 @@ export const FieldLabel = React.forwardRef<unknown, FieldLabelProps>((props, ref
   return (
     <FieldLabelClassNamesProvider value={classes}>
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classes.root, className)}
+        {...nativeProps}
       >
         {children}
       </text>
@@ -125,8 +132,9 @@ export const FieldIndicatorText = React.forwardRef<unknown, FieldIndicatorTextPr
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classes.indicatorText, className)}
+        {...nativeProps}
       >
         {"\u00a0"}
         {children}
@@ -145,9 +153,10 @@ export const FieldRequiredIndicator = React.forwardRef<unknown, FieldRequiredInd
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxTextRef } : {})}
         accessibility-elements-hidden={true}
         className={clsx(classes.indicatorIcon, className)}
+        {...nativeProps}
       >
         {"\u200a"}
         {children}
@@ -167,8 +176,9 @@ export const FieldFooter = React.forwardRef<unknown, FieldFooterProps>((props, r
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.footer, className)}
+      {...nativeProps}
     >
       {children}
     </view>
@@ -184,8 +194,9 @@ export const FieldDescription = React.forwardRef<unknown, FieldDescriptionProps>
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(classes.description, className)}
+      {...nativeProps}
     >
       {children}
     </text>
@@ -201,8 +212,9 @@ export const FieldErrorMessage = React.forwardRef<unknown, FieldErrorMessageProp
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...(ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(classes.errorMessage, className)}
+      {...nativeProps}
     >
       {children}
     </text>
@@ -227,8 +239,9 @@ export const FieldCharacterCount = React.forwardRef<unknown, FieldCharacterCount
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...(ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classes.characterCountArea, className)}
+        {...nativeProps}
       >
         <text className={classes.characterCount}>{current}</text>
         <text className={classes.maxCharacterCount}>/{max}</text>
