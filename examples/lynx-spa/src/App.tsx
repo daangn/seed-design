@@ -282,7 +282,7 @@ export function App(props: { onRender?: () => void }) {
         {allComponentExamples.length > 0 ? (
           <DocsComponentPage
             component={route.component}
-            examples={examples}
+            examples={allComponentExamples}
             onOpenExample={handleOpenExample}
           />
         ) : (

@@ -1,4 +1,6 @@
-import "@lynx-js/preact-devtools";
+// Temporarily disabled due to a getUniqueIdListBySnapshotId runtime error.
+// import "@lynx-js/preact-devtools";
+
 import { root } from "@lynx-js/react";
 import "@lynx-js/react/debug";
 import {

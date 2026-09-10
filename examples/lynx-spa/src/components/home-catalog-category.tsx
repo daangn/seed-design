@@ -19,7 +19,7 @@ export function HomeCatalogCategory({ category, onCategoryChange }: HomeCatalogC
   );
 
   return (
-    <Box px="x4">
+    <Box px="x4" pt="x2">
       <scroll-view scroll-orientation="horizontal" className="w-full">
         <Chip.RadioRoot
           value={category}
