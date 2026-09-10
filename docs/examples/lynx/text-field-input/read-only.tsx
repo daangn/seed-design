@@ -1,28 +1,41 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-input-root`}>
       <VStack className="text-field-input-preview">
-        <VStack className="text-field-input-preview__content">
+        <VStack className="text-field-input-preview__content" gap="spacingY.componentDefault">
+          <TextField label="라벨" description="설명을 써주세요" readOnly>
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
           <TextField
             label="라벨"
             description="설명을 써주세요"
-            defaultValue="수정할 수 없는 값"
             readOnly
+            invalid
+            errorMessage="오류가 발생한 이유를 써주세요"
           >
-            <TextFieldInput accessibility-label="라벨" />
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
+          <TextField variant="underline" description="설명을 써주세요" readOnly>
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+          </TextField>
+          <TextField
+            variant="underline"
+            description="설명을 써주세요"
+            readOnly
+            invalid
+            errorMessage="오류가 발생한 이유를 써주세요"
+          >
+            <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

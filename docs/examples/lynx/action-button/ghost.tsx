@@ -1,16 +1,18 @@
 import "./styles";
-import { root } from "@lynx-js/react";
-import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
+import IconTagFill from "@karrotmarket/lynx-monochrome-icon/IconTagFill";
 
-function Root() {
+import { ActionButton, PrefixIcon, useSeedClassName } from "@seed-design/lynx-react";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-action-button-root`}>
       <view className="action-button-preview">
-        <ActionButton variant="ghost">Ghost</ActionButton>
+        <ActionButton variant="ghost">
+          <PrefixIcon icon={<IconTagFill />} />
+          Default (fg.neutral)
+        </ActionButton>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

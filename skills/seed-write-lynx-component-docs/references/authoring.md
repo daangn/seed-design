@@ -214,7 +214,7 @@ function handleTap() {
 
 > 문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
 
-콜아웃은 실제 Lynx 동작을 확인한 뒤 작성한다. 사용 가능한 호스트 앱이나 `examples/lynx-spa`에서 정확한 예제를 직접 확인하고 환경과 결과를 기록한다. 실행 환경이 없으면 미확인 상태를 정상 동작으로 단정하지 않는다.
+콜아웃은 실제 Lynx 동작을 확인한 뒤 작성한다. [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 기본 경로에서 정확한 예제를 직접 확인하고, SPA 예제 ID·query를 포함한 bundle URL·환경과 결과를 기록한다. 실행 환경이 없으면 미확인 상태를 정상 동작으로 단정하지 않는다.
 
 ## 이미지 자산
 

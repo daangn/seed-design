@@ -1,49 +1,24 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
-import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-import IconMinusFatFill from "@karrotmarket/lynx-monochrome-icon/IconMinusFatFill";
-import { Checkbox, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
 
-function CheckboxItem({
-  label,
-  defaultChecked = false,
-  indeterminate = false,
-}: {
-  label: string;
-  defaultChecked?: boolean;
-  indeterminate?: boolean;
-}) {
-  return (
-    <Checkbox.Root
-      tone="neutral"
-      size="large"
-      defaultChecked={defaultChecked}
-      indeterminate={indeterminate}
-    >
-      <Checkbox.Control>
-        <Checkbox.Indicator
-          checked={<IconCheckmarkFatFill />}
-          indeterminate={<IconMinusFatFill />}
-        />
-      </Checkbox.Control>
-      <Checkbox.Label>{label}</Checkbox.Label>
-    </Checkbox.Root>
-  );
-}
-
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
-      <Checkbox.Group className="checkbox-preview">
-        <CheckboxItem label="선택 안 됨" />
-        <CheckboxItem label="선택됨" defaultChecked />
-        <CheckboxItem label="일부 선택됨" indeterminate />
-      </Checkbox.Group>
-    </page>
+    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
+      <VStack className="checkbox-preview">
+        <CheckboxGroup
+          label="관심 분야"
+          description="관심 있는 분야를 모두 선택해 주세요."
+          indicator="선택"
+        >
+          <Checkbox label="디자인" tone="neutral" size="large" />
+          <Checkbox label="개발" tone="neutral" size="large" defaultChecked />
+          <Checkbox label="마케팅" tone="neutral" size="large" />
+        </CheckboxGroup>
+      </VStack>
+    </view>
   );
 }
-
-root.render(<Root />);

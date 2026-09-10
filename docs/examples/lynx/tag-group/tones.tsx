@@ -1,41 +1,30 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
-import { TagGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tag-group-root`}>
       <VStack className="tag-group-preview" gap="spacingY.componentDefault">
-        <TagGroup.Root tone="neutralSubtle" className="tag-group-preview__group">
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>neutralSubtle</TagGroup.ItemLabel>
-          </TagGroup.Item>
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>3분 전</TagGroup.ItemLabel>
-          </TagGroup.Item>
-        </TagGroup.Root>
-        <TagGroup.Root tone="neutral" className="tag-group-preview__group">
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>neutral</TagGroup.ItemLabel>
-          </TagGroup.Item>
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>서초4동</TagGroup.ItemLabel>
-          </TagGroup.Item>
-        </TagGroup.Root>
-        <TagGroup.Root tone="brand" className="tag-group-preview__group">
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>brand</TagGroup.ItemLabel>
-          </TagGroup.Item>
-          <TagGroup.Item>
-            <TagGroup.ItemLabel>추천</TagGroup.ItemLabel>
-          </TagGroup.Item>
-        </TagGroup.Root>
+        <TagGroupRoot tone="neutralSubtle" className="tag-group-preview__group">
+          <TagGroupItem label="neutralSubtle" />
+          <TagGroupItem label="neutralSubtle" />
+          <TagGroupItem label="neutralSubtle" />
+        </TagGroupRoot>
+        <TagGroupRoot tone="neutral" className="tag-group-preview__group">
+          <TagGroupItem label="neutral" />
+          <TagGroupItem label="neutral" />
+          <TagGroupItem label="neutral" />
+        </TagGroupRoot>
+        <TagGroupRoot tone="brand" className="tag-group-preview__group">
+          <TagGroupItem label="brand" />
+          <TagGroupItem label="brand" />
+          <TagGroupItem label="brand" />
+        </TagGroupRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

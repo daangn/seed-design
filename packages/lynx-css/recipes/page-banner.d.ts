@@ -14,6 +14,10 @@ declare interface PageBannerVariant {
 /**
   * @default false
   */
+  interactive: boolean;
+/**
+  * @default false
+  */
   closeButtonPressed: boolean;
 }
 

@@ -7,6 +7,7 @@ import * as React from "@lynx-js/react";
 import { isValidElement, useMemo } from "@lynx-js/react";
 
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxElementProps,
   LynxPressableProps,
@@ -36,6 +37,7 @@ import {
   type PrefixIconProps,
   type SuffixIconProps,
 } from "../Icon/Icon";
+import { mergeProps } from "../../utils/merge-props";
 
 // Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
 // intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
@@ -63,7 +65,9 @@ interface ActionButtonRootOwnProps
     LynxTouchProps,
     ActionButtonAccessibilityProps {}
 
-interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
+interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {
+  flatten?: false;
+}
 
 function resolveProgressCircleSize(
   actionButtonSize: ActionButtonVariantProps["size"],
@@ -131,8 +135,7 @@ const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((inner
       <PropsProvider value={propsForContext}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
-            {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...rest}
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, rest)}
             className={clsx(classNames.root, userClassName)}
           >
             {children as React.ReactNode}
@@ -153,8 +156,7 @@ const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps
   const classNames = useClassNames();
   return (
     <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...rest}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, rest)}
       className={clsx(classNames.text, userClassName)}
     >
       {children}
@@ -276,7 +278,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
 export interface ActionButtonProps
   extends Omit<ActionButtonVariantProps, "pressed">,
     Pick<StyleProps, "flexGrow">,
-    LynxElementProps,
+    // Keep the scale target's Android View even if shared props later expose flatten.
+    Omit<LynxElementProps, "flatten">,
     LynxPressableProps,
     ActionButtonAccessibilityProps {
   icon?: IconProps["icon"];
@@ -315,24 +318,36 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     );
   }
 
-  const { pressed, ...pressTapHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
+    usePressTap({
+      disabled: !isInteractive,
+      onTap: bindtap,
+      mainThreadOnTap: mainThreadBindtap,
+    });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: !isInteractive,
-    onTap: bindtap,
-    mainThreadOnTap: mainThreadBindtap,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   return (
     <IconRequired enabled={isIconOnly}>
       <ActionButtonRoot
-        {...variantAndRest}
+        {...mergeProps(
+          { ref },
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          pressTapHandlers,
+          variantAndRest,
+        )}
         layout={layout}
         pressed={pressed}
-        ref={ref}
         style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits={accessibilityTraits}
-        {...pressTapHandlers}
+        flatten={false}
       >
         {loading ? (
           <>

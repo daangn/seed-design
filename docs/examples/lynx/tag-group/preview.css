@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-tag-group-root {
   height: 100%;
   background-color: var(--seed-color-bg-layer-default);
 }
@@ -16,8 +15,8 @@ page {
 }
 
 .tag-group-preview__wrapping-container {
-  width: 220px;
-  padding: 16px;
+  width: 350px;
+  padding: 12px;
   border-radius: 8px;
   background-color: var(--seed-color-bg-neutral-weak);
 }

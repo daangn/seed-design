@@ -47,15 +47,16 @@ function scheduleTintColorSync(
     frameRef.current = 0;
   }
 
-  // ReactLynx는 effect worklet을 native class patch flush보다 먼저 실행할 수 있다.
-  // 다음 frame에서 class patch가 반영된 computed color를 읽는다.
+  // WebLynx는 effect 시점에 class patch가 반영되어 있으므로 즉시 동기화해
+  // 불필요한 한 프레임 지연을 없앤다. Native는 patch flush가 늦을 수 있어
+  // 다음 frame에 한 번 더 읽는다.
+  syncTintColorOnce(targetRef, sourceRef);
+
   if (typeof requestAnimationFrame === "function") {
     frameRef.current = requestAnimationFrame(() => {
       frameRef.current = 0;
       syncTintColorOnce(targetRef, sourceRef);
     });
-  } else {
-    syncTintColorOnce(targetRef, sourceRef);
   }
 }
 

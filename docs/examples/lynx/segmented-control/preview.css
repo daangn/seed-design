@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-segmented-control-root {
   height: 100%;
   padding: 24px;
   background-color: var(--seed-color-bg-layer-default);
@@ -16,8 +15,12 @@ page {
   align-self: center;
 }
 
-.segmented-control-example__fixed {
-  width: 320px;
+.segmented-control-example__fixed-wide {
+  width: 500px;
+}
+
+.segmented-control-example__fixed-narrow {
+  width: 400px;
 }
 
 .segmented-control-example__status {

@@ -3,8 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: none;
-    margin-top: var(--checkmark-margin-top, 0)
+    flex: none
 }
 .seed-checkmark__background {
     position: absolute;
@@ -19,6 +18,7 @@
     position: absolute
 }
 .seed-checkmark__root--variant_square {
+    --seed-checkmark-pressed-color: var(--seed-color-bg-transparent-pressed);
     border-width: 1px;
     border-style: solid;
     border-color: var(--seed-color-stroke-neutral-weak);
@@ -74,25 +74,29 @@
     border-color: #00000000
 }
 .seed-checkmark__root--variant_square-tone_brand-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-brand-solid)
+    background-color: var(--seed-color-bg-brand-solid);
+    --seed-checkmark-pressed-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-checkmark__icon--variant_square-tone_brand-checked_true-disabled_false {
     color: var(--seed-color-palette-static-white)
 }
 .seed-checkmark__root--variant_square-tone_neutral-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-inverted);
+    --seed-checkmark-pressed-color: var(--seed-color-bg-neutral-inverted-pressed)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-checked_true-disabled_false {
     color: var(--seed-color-fg-neutral-inverted)
 }
 .seed-checkmark__root--variant_square-tone_brand-indeterminate_true-disabled_false {
-    background-color: var(--seed-color-bg-brand-solid)
+    background-color: var(--seed-color-bg-brand-solid);
+    --seed-checkmark-pressed-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-checkmark__icon--variant_square-tone_brand-indeterminate_true-disabled_false {
     color: var(--seed-color-palette-static-white)
 }
 .seed-checkmark__root--variant_square-tone_neutral-indeterminate_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-inverted);
+    --seed-checkmark-pressed-color: var(--seed-color-bg-neutral-inverted-pressed)
 }
 .seed-checkmark__icon--variant_square-tone_neutral-indeterminate_true-disabled_false {
     color: var(--seed-color-fg-neutral-inverted)

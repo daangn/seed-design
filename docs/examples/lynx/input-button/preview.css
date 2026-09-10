@@ -1,0 +1,16 @@
+.docs-lynx-input-button-root {
+  height: 100%;
+  padding: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.input-button-preview {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-button-preview__content {
+  width: 100%;
+  max-width: 420px;
+}

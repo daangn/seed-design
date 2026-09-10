@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { Box, Text, useSeedClassName } from "@seed-design/lynx-react";
 import {
   Accordion,
@@ -9,12 +8,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
-      <Accordion multiple defaultValues={["item-1", "item-2"]} variant="separated">
+    <view className={`${seedClassName} docs-lynx-accordion-root`}>
+      <Accordion multiple defaultValues={["item-1", "item-2"]}>
         <AccordionItem value="item-1">
           <AccordionTrigger title="아코디언 항목 1" />
           <AccordionContent>
@@ -40,8 +39,6 @@ function Root() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

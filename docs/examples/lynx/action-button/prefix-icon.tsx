@@ -1,20 +1,18 @@
 import "./styles";
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
-import { root } from "@lynx-js/react";
+
 import { ActionButton, PrefixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-action-button-root`}>
       <view className="action-button-preview">
         <ActionButton>
           <PrefixIcon icon={<IconPlusFill />} />
           라벨
         </ActionButton>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

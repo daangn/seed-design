@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-checkbox-root {
   height: 100%;
   padding: 24px;
   background-color: var(--seed-color-bg-layer-default);
@@ -7,6 +6,7 @@ page {
 
 .checkbox-preview {
   height: 100%;
+  padding: 20px;
   align-items: center;
   justify-content: center;
 }

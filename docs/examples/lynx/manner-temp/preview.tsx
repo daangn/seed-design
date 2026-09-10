@@ -1,6 +1,6 @@
 import "./styles";
+import "./preview.css";
 
-import { root } from "@lynx-js/react";
 import { MannerTemp, MannerTempEmote, useSeedClassName, VStack } from "@seed-design/lynx-react";
 
 const mannerTemps = [
@@ -16,29 +16,30 @@ const mannerTemps = [
   ["l10", "80°C"],
 ] as const;
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-manner-temp-root`}>
       <VStack
         width="full"
         height="full"
         align="center"
         justify="center"
-        gap="x1"
         p="x4"
         bg="bg.layerDefault"
       >
-        {mannerTemps.map(([level, label]) => (
-          <MannerTemp key={level} level={level}>
-            {label}
-            <MannerTempEmote />
-          </MannerTemp>
-        ))}
+        <view className="manner-temp-preview__frame">
+          <VStack gap="x1" align="flex-end">
+            {mannerTemps.map(([level, label]) => (
+              <MannerTemp key={level} level={level}>
+                {label}
+                <MannerTempEmote />
+              </MannerTemp>
+            ))}
+          </VStack>
+        </view>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

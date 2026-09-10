@@ -1,6 +1,9 @@
 ---
 title: Result Section
 description: 데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자 액션의 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내합니다.
+compatibility:
+  lynx:
+    engine: "3.5"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
@@ -74,7 +77,9 @@ npx @seed-design/cli@latest add ui:result-section
 
 ### Success Example
 
-`asset`은 임의의 ReactLynx 노드를 받습니다. Lottie를 사용할 때는 앱에서 사용하는 Lynx Lottie 요소를 전달하고, 라이트·다크 모드에 맞는 에셋 선택도 앱에서 처리하세요. Result Section은 특정 애니메이션 라이브러리에 의존하지 않습니다.
+현재 저장소의 Lynx Registry와 `@seed-design/lynx-react`는 Lottie 구현체를 제공하지 않으므로 Success Example을 실행 예제로 제공하지 않습니다.
+
+같은 화면이 필요하면 앱에서 검증한 Lynx용 Lottie 구현체를 사용하세요. 앱이 현재 색상 모드에 맞는 에셋을 선택하고, 자동 재생·한 번 재생·마지막 프레임 유지 동작을 설정한 70×70 노드를 `asset`에 전달할 수 있습니다. 확인 액션은 `primaryActionProps`로 연결하세요.
 
 ## Web Version Differences
 

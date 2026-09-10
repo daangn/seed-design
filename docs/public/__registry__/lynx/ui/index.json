@@ -70,14 +70,70 @@
         {
           "path": "checkbox.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.8.0 <1.0.0"
           }
         }
       ],
       "id": "checkbox",
       "dependencies": [
         "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "field-button.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "field-button",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "list.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        },
+        {
+          "path": "list-header.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "list",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "menu.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "menu",
+      "dependencies": [
         "@seed-design/lynx-react"
       ]
     },
@@ -117,8 +173,8 @@
         {
           "path": "radio-group.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.8.0 <1.0.0"
           }
         }
       ],
@@ -171,6 +227,21 @@
       "id": "select-box",
       "dependencies": [
         "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "swipeable-menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "swipeable-menu-sheet",
+      "dependencies": [
         "@seed-design/lynx-react"
       ]
     },

@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { MannerTempBadge, useSeedClassName, VStack } from "@seed-design/lynx-react";
 
 const mannerTemps = [
@@ -16,28 +15,27 @@ const mannerTemps = [
   ["l10", "80°C"],
 ] as const;
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-manner-temp-badge-root`}>
       <VStack
         width="full"
         height="full"
         align="center"
         justify="center"
-        gap="x1"
         p="x4"
         bg="bg.layerDefault"
       >
-        {mannerTemps.map(([level, label]) => (
-          <MannerTempBadge key={level} level={level}>
-            {label}
-          </MannerTempBadge>
-        ))}
+        <VStack align="flex-start" gap="x1">
+          {mannerTemps.map(([level, label]) => (
+            <MannerTempBadge key={level} level={level}>
+              {label}
+            </MannerTempBadge>
+          ))}
+        </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

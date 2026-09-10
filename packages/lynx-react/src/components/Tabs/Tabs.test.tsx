@@ -82,6 +82,25 @@ describe("Tabs", () => {
     expect(second).toHaveAttribute("accessibility-value", "selected");
   });
 
+  it("calls bindtap when the selected trigger is tapped again", () => {
+    const bindtap = vi.fn();
+    const onValueChange = vi.fn();
+    const { container } = render(
+      <Tabs.Root defaultValue="one" onValueChange={onValueChange}>
+        <Tabs.List>
+          <Tabs.Trigger value="one" bindtap={bindtap}>
+            첫 번째
+          </Tabs.Trigger>
+        </Tabs.List>
+      </Tabs.Root>,
+    );
+
+    fireEvent.tap(getTrigger(container, "첫 번째"));
+
+    expect(bindtap).toHaveBeenCalledTimes(1);
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
   it("derives trigger positions from ordered widths instead of platform coordinates", () => {
     expect(getTabsLayoutWidth({ detail: { width: 128 }, params: { width: 128 } })).toBe(128);
     expect(

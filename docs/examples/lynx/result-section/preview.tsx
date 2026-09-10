@@ -1,15 +1,26 @@
 import "./styles";
 
 import IconDiamond from "@karrotmarket/lynx-multicolor-icon/IconDiamond";
-import { root } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Box, Icon, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { ResultSection } from "@/components/ui/result-section";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
+  const [actionResult, setActionResult] = useState<string | null>(null);
+
+  function handlePrimaryAction() {
+    "background only";
+    setActionResult("Primary Action Clicked");
+  }
+
+  function handleSecondaryAction() {
+    "background only";
+    setActionResult("Secondary Action Clicked");
+  }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-result-section-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
           <ResultSection
@@ -19,14 +30,15 @@ function Root() {
               </Box>
             }
             title="결과 타이틀"
-            description="부가 설명을 적어주세요"
-            primaryActionProps={{ children: "Primary Action" }}
-            secondaryActionProps={{ children: "Secondary Action" }}
+            description={actionResult ?? "부가 설명을 적어주세요"}
+            primaryActionProps={{ children: "Primary Action", bindtap: handlePrimaryAction }}
+            secondaryActionProps={{
+              children: "Secondary Action",
+              bindtap: handleSecondaryAction,
+            }}
           />
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

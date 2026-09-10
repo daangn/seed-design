@@ -1,0 +1,211 @@
+---
+title: Menu
+description: 사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+    x-elements:
+      - overlay
+---
+
+<LynxComponentExample name="lynx/menu/preview" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:menu
+```
+
+<LynxManualInstallation name="menu" />
+
+## Usage
+
+Menu는 Root, Trigger, Content와 Group으로 구성합니다. `MenuContent`는 native overlay, 위치 계산, 표시 수명, 긴 목록의 세로 스크롤을 함께 처리합니다.
+
+```tsx
+import { ActionButton } from "@seed-design/lynx-react";
+
+import {
+  MenuContent,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
+
+export function App() {
+  return (
+    <MenuRoot>
+      <MenuTrigger>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
+      </MenuTrigger>
+      <MenuContent>
+        <MenuGroup>
+          <MenuGroupLabel>작업</MenuGroupLabel>
+          <MenuItem label="항목 1" />
+          <MenuItem label="항목 2" />
+        </MenuGroup>
+        <MenuGroup>
+          <MenuItem label="항목 3" />
+        </MenuGroup>
+      </MenuContent>
+    </MenuRoot>
+  );
+}
+```
+
+- `MenuRoot`는 열림 상태와 위치를 관리합니다.
+- `MenuTrigger`는 닫힌 Menu를 탭으로 엽니다.
+- `MenuAnchor`는 위치 기준점만 제공합니다. 열림 상태는 `open`과 `onOpenChange`로 제어합니다.
+- `MenuContent`는 overlay와 스크롤 가능한 메뉴 목록을 렌더링합니다. 자식에 별도 `Positioner`나 `ScrollArea`를 추가하지 않습니다.
+- `MenuGroup`과 `MenuGroupLabel`은 관련된 항목을 묶고 제목을 표시합니다.
+- `MenuItem`은 `label`, 선택적 `description`, `prefixIcon`, `suffixIcon`을 한 항목으로 조립합니다.
+
+## Props
+
+### `MenuRoot`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuRootProps" />
+
+### `MenuTrigger`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuTriggerProps" />
+
+### `MenuAnchor`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuAnchorProps" />
+
+### `MenuContent`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuContentProps" />
+
+### `MenuGroup`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuGroupProps" />
+
+### `MenuGroupLabel`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuGroupLabelProps" />
+
+### `MenuItem`
+
+<react-type-table path="./registry/lynx/ui/menu.tsx" name="MenuItemProps" />
+
+## Examples
+
+### Trigger
+
+`MenuTrigger`를 탭하면 닫힌 Menu가 열립니다. `MenuItem`을 탭하거나 바깥 영역을 탭하면 닫힙니다.
+
+<LynxComponentExample name="lynx/menu/preview" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Size
+
+`size`로 Menu의 크기를 정합니다. 기본값은 `"medium"`입니다. `"responsive"`는 현재 화면 너비를 기준으로 `"small"` 또는 `"medium"`으로 바뀝니다.
+
+<LynxComponentExample name="lynx/menu/size" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/size.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Description
+
+`MenuItem`의 `description`에 항목의 부가 설명을 전달합니다.
+
+<LynxComponentExample name="lynx/menu/with-description" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/with-description.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Tone
+
+`MenuItem`의 `tone="critical"`로 삭제처럼 주의가 필요한 액션을 표시합니다.
+
+<LynxComponentExample name="lynx/menu/tone" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/tone.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Disabled Items
+
+`disabled` 항목은 탭해도 `bindtap`이 실행되지 않고 Menu를 닫지 않습니다.
+
+<LynxComponentExample name="lynx/menu/disabled" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Placement
+
+`MenuRoot`의 `placement`로 Menu를 기준 요소의 12개 방향에 배치합니다. 기본값은 `"bottom"`입니다. 화면 가장자리에서 공간이 부족하면 native runtime이 반대쪽으로 뒤집거나 경계 안으로 이동합니다.
+
+<LynxComponentExample name="lynx/menu/placement" height={560}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/placement.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Anchor
+
+`MenuAnchor`는 Menu 위치만 정하고 탭으로 열고 닫지는 않습니다. 이 예제처럼 `open`과 `onOpenChange`로 상태를 제어할 수 있습니다.
+
+<LynxComponentExample name="lynx/menu/anchor" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/anchor.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+Native overlay가 열려 있는 동안에는 Anchor 바깥의 Switch를 탭할 수 없습니다. 이 예제는 Menu가 닫힌 상태에서 Switch로 열고, 항목을 선택해 닫는 흐름을 보여줍니다. overlay 바깥 탭을 무시하는 제어는 `onOpenChange`에서 `details.reason === "interactOutside"`를 걸러 구현합니다.
+</Callout>
+
+### Match Width
+
+`matchReferenceWidth`를 사용하면 Menu 너비가 Trigger 또는 Anchor 너비와 같아집니다.
+
+<LynxComponentExample name="lynx/menu/match-reference-width" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/match-reference-width.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` details
+
+`onOpenChange`의 두 번째 인자인 `details`에는 상태를 바꾼 이유와 native event가 들어옵니다.
+
+- 열림: `"trigger"`
+- 닫힘: `"trigger"`, `"interactOutside"`, `"itemClick"`
+- native overlay가 닫힘을 요청한 경우: `"dismiss"`
+
+<LynxComponentExample name="lynx/menu/open-change-reason" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu/open-change-reason.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx Menu는 native `overlay` 위에 렌더링합니다. HTML DOM, `asChild`, 키보드 포커스, typeahead, ESC 키 닫힘은 지원하지 않습니다. 따라서 `escapeKeyDown`과 `cascadeDismiss` reason도 제공하지 않습니다. 화면과 앱 수준에서 필요한 키보드 접근성은 host의 native 접근성 흐름으로 확인하세요.
+</Callout>
+
+| 항목 | 웹 | Lynx |
+|---|---|---|
+| Trigger 조합 | `asChild` 지원 | 자식을 감싸는 native Trigger를 사용 |
+| 위치와 목록 | DOM positioner와 scroll area | `MenuContent`가 native overlay, 위치, 스크롤을 함께 처리 |
+| 바깥 상호작용 | DOM pointer와 키보드 | 바깥 탭은 `interactOutside`, native dismissal은 `dismiss` |
+| 키보드 | ESC, focus, typeahead 지원 | 미지원 |
+| Anchor가 열린 동안의 제어 | 바깥 제어를 계속 조합 가능 | fullscreen overlay가 Anchor 밖의 탭을 가림 |

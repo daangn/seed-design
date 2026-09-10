@@ -1,33 +1,36 @@
 import "./styles";
 
 import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
-import IconChevronLeftLine from "@karrotmarket/lynx-monochrome-icon/IconChevronLeftLine";
-import { root } from "@lynx-js/react";
-import { AppBar, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+import { useSeedClassName } from "@seed-design/lynx-react";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "@/components/ui/app-bar";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-app-bar-root`}>
       <view className="app-bar-preview">
-        <AppBar.Root theme="cupertino">
-          <AppBar.Left>
-            <AppBar.IconButton accessibility-label="뒤로" icon={<IconChevronLeftLine />} />
-          </AppBar.Left>
-          <AppBar.Main>
-            <AppBar.Title>동네생활</AppBar.Title>
-          </AppBar.Main>
-          <AppBar.Right>
-            <AppBar.IconButton accessibility-label="알림" icon={<IconBellLine />} />
-          </AppBar.Right>
-        </AppBar.Root>
+        <AppBar theme="cupertino">
+          <AppBarLeft>
+            <AppBarBackButton />
+          </AppBarLeft>
+          <AppBarMain title="동네생활" />
+          <AppBarRight>
+            <AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
+          </AppBarRight>
+        </AppBar>
         <view className="app-bar-preview__content">
           <text className="app-bar-preview__status">화면 콘텐츠</text>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

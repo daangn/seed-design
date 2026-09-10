@@ -1,31 +1,28 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-textarea-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack width="full" maxWidth="480px" gap="x5">
-          <TextField label="소개" description="자신을 소개해 주세요.">
-            <TextFieldTextarea accessibility-label="소개" placeholder="소개를 입력해 주세요" />
+          <TextField label="라벨" description="설명을 써주세요">
+            <TextFieldTextarea accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
           <TextField
-            label="문의 내용"
+            label="라벨"
+            description="설명을 써주세요"
             invalid
-            errorMessage="문의 내용을 10자 이상 입력해 주세요."
-            defaultValue="짧은 문의"
+            errorMessage="오류가 발생한 이유를 써주세요"
           >
-            <TextFieldTextarea accessibility-label="문의 내용" />
+            <TextFieldTextarea accessibility-label="라벨" placeholder="플레이스홀더" />
           </TextField>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

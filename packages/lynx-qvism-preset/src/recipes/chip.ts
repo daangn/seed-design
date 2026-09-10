@@ -256,10 +256,22 @@ const chip = defineSlotRecipe({
       css: { root: { background: vars.variantSolid.pressed.root.color } },
     },
     {
+      variant: "solid",
+      selected: false,
+      disabled: false,
+      css: { root: { "&:active": { background: vars.variantSolid.pressed.root.color } } },
+    },
+    {
       variant: "outlineStrong",
       pressed: true,
       selected: false,
       css: { root: { background: vars.variantOutlineStrong.pressed.root.color } },
+    },
+    {
+      variant: "outlineStrong",
+      selected: false,
+      disabled: false,
+      css: { root: { "&:active": { background: vars.variantOutlineStrong.pressed.root.color } } },
     },
     {
       variant: "outlineWeak",
@@ -268,10 +280,24 @@ const chip = defineSlotRecipe({
       css: { root: { background: vars.variantOutlineWeak.pressed.root.color } },
     },
     {
+      variant: "outlineWeak",
+      selected: false,
+      disabled: false,
+      css: { root: { "&:active": { background: vars.variantOutlineWeak.pressed.root.color } } },
+    },
+    {
       variant: "solid",
       selected: true,
       pressed: true,
       css: { root: { background: vars.variantSolid.selectedPressed.root.color } },
+    },
+    {
+      variant: "solid",
+      selected: true,
+      disabled: false,
+      css: {
+        root: { "&:active": { background: vars.variantSolid.selectedPressed.root.color } },
+      },
     },
     {
       variant: "outlineStrong",
@@ -280,10 +306,26 @@ const chip = defineSlotRecipe({
       css: { root: { background: vars.variantOutlineStrong.selectedPressed.root.color } },
     },
     {
+      variant: "outlineStrong",
+      selected: true,
+      disabled: false,
+      css: {
+        root: { "&:active": { background: vars.variantOutlineStrong.selectedPressed.root.color } },
+      },
+    },
+    {
       variant: "outlineWeak",
       selected: true,
       pressed: true,
       css: { root: { background: vars.variantOutlineWeak.selectedPressed.root.color } },
+    },
+    {
+      variant: "outlineWeak",
+      selected: true,
+      disabled: false,
+      css: {
+        root: { "&:active": { background: vars.variantOutlineWeak.selectedPressed.root.color } },
+      },
     },
   ],
   defaultVariants: {

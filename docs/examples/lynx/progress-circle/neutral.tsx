@@ -1,20 +1,17 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
-import { ProgressCircle, useSeedClassName } from "@seed-design/lynx-react";
+import { ProgressCircle } from "@/components/ui/progress-circle";
 
-function Root() {
+import { useSeedClassName } from "@seed-design/lynx-react";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-progress-circle-root`}>
       <view className="progress-circle-preview">
-        <ProgressCircle.Root tone="neutral">
-          <ProgressCircle.Range />
-        </ProgressCircle.Root>
+        <ProgressCircle tone="neutral" />
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

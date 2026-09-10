@@ -1,44 +1,31 @@
 import "./styles";
-import { root } from "@lynx-js/react";
-import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview" gap="x5">
-        <RadioGroup.Root defaultValue="apple" size="medium" tone="neutral">
-          <RadioGroup.Item value="apple">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>사과</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="banana">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>바나나</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
-        <RadioGroup.Root defaultValue="red" size="large" tone="neutral">
-          <RadioGroup.Item value="red">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>빨간색</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="blue">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>파란색</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
+        <RadioGroup
+          accessibility-label="과일 선택"
+          defaultValue="apple"
+          size="medium"
+          tone="neutral"
+        >
+          <RadioGroupItem value="apple" label="사과" />
+          <RadioGroupItem value="banana" label="바나나" />
+          <RadioGroupItem value="orange" label="오렌지" />
+        </RadioGroup>
+        <RadioGroup accessibility-label="색상 선택" defaultValue="red" size="large" tone="neutral">
+          <RadioGroupItem value="red" label="빨간색" />
+          <RadioGroupItem value="blue" label="파란색" />
+          <RadioGroupItem value="green" label="초록색" />
+        </RadioGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

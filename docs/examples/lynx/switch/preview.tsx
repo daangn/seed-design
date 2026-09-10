@@ -1,20 +1,15 @@
-import { root } from "@lynx-js/react";
-import { Switch, useSeedClassName } from "@seed-design/lynx-react";
 import "./styles";
 
-function Root() {
+import { useSeedClassName } from "@seed-design/lynx-react";
+import { Switch } from "@/components/ui/switch";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-switch-root`}>
       <view className="switch-preview">
-        <Switch.Root defaultChecked>
-          <Switch.Control>
-            <Switch.Thumb />
-          </Switch.Control>
-        </Switch.Root>
+        <Switch accessibility-label="Switch" defaultChecked />
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

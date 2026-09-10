@@ -1,44 +1,26 @@
 import "./styles";
-import { root } from "@lynx-js/react";
-import { RadioGroup, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
-      <VStack className="radio-group-preview" gap="x8">
-        <RadioGroup.Root defaultValue="option1" size="large" tone="neutral">
-          <RadioGroup.Item value="option1">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>활성 옵션</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="option2" disabled>
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>비활성 옵션</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
-        <RadioGroup.Root defaultValue="all-disabled" size="large" tone="neutral" disabled>
-          <RadioGroup.Item value="all-disabled">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>그룹 전체 비활성</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-          <RadioGroup.Item value="unavailable">
-            <RadioGroup.ItemControl>
-              <RadioGroup.ItemIndicator />
-            </RadioGroup.ItemControl>
-            <RadioGroup.ItemLabel>선택할 수 없음</RadioGroup.ItemLabel>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
+      <VStack className="radio-group-preview">
+        <RadioGroup
+          accessibility-label="Options with disabled"
+          defaultValue="option1"
+          size="large"
+          tone="neutral"
+        >
+          <RadioGroupItem value="option1" label="Active option" />
+          <RadioGroupItem value="option2" label="Disabled option" disabled />
+          <RadioGroupItem value="option3" label="Another active option" />
+        </RadioGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

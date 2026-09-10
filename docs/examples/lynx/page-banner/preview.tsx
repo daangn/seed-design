@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   ActionablePageBanner,
@@ -8,7 +8,7 @@ import {
   PageBanner,
 } from "@/components/ui/page-banner";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(true);
 
@@ -22,7 +22,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-page-banner-root`}>
       <view className="page-banner-preview">
         <PageBanner description="새로운 소식을 확인해 보세요." />
         <ActionablePageBanner
@@ -37,8 +37,6 @@ function Root() {
           onDismiss={handleDismiss}
         />
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

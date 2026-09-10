@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: Lynx의 page 요소입니다. */
-page {
+.docs-lynx-chip-root {
   height: 100%;
   padding: 24px;
   background-color: var(--seed-color-bg-layer-default);
@@ -20,6 +19,18 @@ page {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.chip-preview__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
 }
 
 .chip-preview__avatar {

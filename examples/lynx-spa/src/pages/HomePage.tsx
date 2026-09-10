@@ -1,76 +1,54 @@
-import type { Page } from "../App.jsx";
+import { VStack } from "@seed-design/lynx-react";
+import type { LynxPlaygroundExample } from "../../../../docs/playground/lynx/types";
+import { HomeCatalogCategory } from "../components/home-catalog-category.js";
+import { HomeCatalogContent } from "../components/home-catalog-content.js";
+import {
+  PLAYGROUND_SECTIONS,
+  TOOL_SECTIONS,
+  type HomeCategory,
+  type LegacyPage,
+} from "./home-navigation.js";
 
-function ListItem({ title, onTap }: { title: string; onTap: () => void }) {
-  return (
-    <view
-      bindtap={onTap}
-      className="py-x3_5 px-x3 border-b border-stroke-neutral-muted flex flex-row justify-between items-center"
-    >
-      <text className="t5-regular text-fg-neutral">{title}</text>
-      <text className="t5-regular text-fg-neutral-subtle">{"→"}</text>
-    </view>
-  );
+interface HomePageProps {
+  category: HomeCategory;
+  examples: readonly LynxPlaygroundExample[];
+  catalogIsEmpty: boolean;
+  onCategoryChange: (category: HomeCategory) => void;
+  onOpenComponent: (component: string) => void;
+  onOpenLegacy: (page: LegacyPage) => void;
 }
 
-function SectionHeader({ children }: { children: string }) {
+export function HomePage({
+  category,
+  examples,
+  catalogIsEmpty,
+  onCategoryChange,
+  onOpenComponent,
+  onOpenLegacy,
+}: HomePageProps) {
+  const legacySections =
+    category === "docs"
+      ? []
+      : (category === "playground" ? PLAYGROUND_SECTIONS : TOOL_SECTIONS)
+          .map((section) => ({
+            ...section,
+            items: section.items.filter((item) => `${item.title} ${item.page}`.toLowerCase()),
+          }))
+          .filter((section) => section.items.length > 0);
+
   return (
-    <text className="t3-bold text-fg-neutral-subtle mt-x4 mb-x1 pl-x3 uppercase tracking-[0.5px]">
-      {children}
-    </text>
-  );
-}
-
-export function HomePage({ navigate }: { navigate: (page: Page) => void }) {
-  return (
-    <scroll-view scroll-y className="flex flex-col flex-1">
-      <text className="t8-bold mb-x4 text-fg-brand">SEED Design Lynx Catalog</text>
-
-      <SectionHeader>Getting Started</SectionHeader>
-      <ListItem title="Theming" onTap={() => navigate("theming")} />
-
-      <SectionHeader>Foundation</SectionHeader>
-      <ListItem title="Color" onTap={() => navigate("foundation-color")} />
-      <ListItem title="Monochrome Icon" onTap={() => navigate("foundation-monochrome-icon")} />
-      <ListItem title="Multicolor Icon" onTap={() => navigate("foundation-multicolor-icon")} />
-      <ListItem title="Typography" onTap={() => navigate("foundation-typography")} />
-
-      <SectionHeader>Tailwind</SectionHeader>
-      <ListItem title="Tailwind Demo" onTap={() => navigate("tailwind-demo")} />
-
-      <SectionHeader>Components</SectionHeader>
-      <ListItem title="Box / VStack / HStack" onTap={() => navigate("layout-primitives")} />
-      <ListItem title="Text" onTap={() => navigate("text-primitive")} />
-      <ListItem title="Accordion" onTap={() => navigate("accordion")} />
-      <ListItem title="ActionButton" onTap={() => navigate("action-button")} />
-      <ListItem title="AppBar" onTap={() => navigate("app-bar")} />
-      <ListItem title="Badge" onTap={() => navigate("badge")} />
-      <ListItem title="BottomSheet" onTap={() => navigate("bottom-sheet")} />
-      <ListItem title="Callout" onTap={() => navigate("callout")} />
-      <ListItem title="Checkbox" onTap={() => navigate("checkbox")} />
-      <ListItem title="Manner Temp" onTap={() => navigate("manner-temp")} />
-      <ListItem title="PageBanner" onTap={() => navigate("page-banner")} />
-      <ListItem title="ProgressCircle" onTap={() => navigate("progress-circle")} />
-      <ListItem title="RadioGroup" onTap={() => navigate("radio-group")} />
-      <ListItem title="Switch" onTap={() => navigate("switch")} />
-      <ListItem title="Tabs" onTap={() => navigate("tabs")} />
-      <ListItem title="TagGroup" onTap={() => navigate("tag-group")} />
-      <ListItem title="TextField" onTap={() => navigate("text-field")} />
-
-      <SectionHeader>Hooks</SectionHeader>
-      <ListItem title="useControllableState" onTap={() => navigate("use-controllable-state")} />
-      <ListItem title="usePressTap" onTap={() => navigate("use-press-tap")} />
-
-      <SectionHeader>Test</SectionHeader>
-      <ListItem title="Layout Stress: Tailwind" onTap={() => navigate("layout-stress-tailwind")} />
-      <ListItem title="Layout Stress: Inline Style" onTap={() => navigate("layout-stress-style")} />
-      <ListItem
-        title="Layout Stress: SEED Primitives"
-        onTap={() => navigate("layout-stress-seed-primitives")}
-      />
-      <ListItem title="Safe Area Debug" onTap={() => navigate("safe-area-debug")} />
-      <ListItem title="Nested Vars Test (Lynx 3.6+)" onTap={() => navigate("nested-vars-test")} />
-      <ListItem title="CSS Selector Test" onTap={() => navigate("css-selector-test")} />
-      <ListItem title="Icon Color POC" onTap={() => navigate("icon-color-poc")} />
-    </scroll-view>
+    <VStack className="flex-1 min-h-0" bg="bg.layerBasement">
+      <scroll-view scroll-orientation="vertical" className="flex-1 min-h-0">
+        <HomeCatalogCategory category={category} onCategoryChange={onCategoryChange} />
+        <HomeCatalogContent
+          category={category}
+          examples={examples}
+          catalogIsEmpty={catalogIsEmpty}
+          legacySections={legacySections}
+          onOpenComponent={onOpenComponent}
+          onOpenLegacy={onOpenLegacy}
+        />
+      </scroll-view>
+    </VStack>
   );
 }
