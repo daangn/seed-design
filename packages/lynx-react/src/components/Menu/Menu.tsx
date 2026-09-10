@@ -412,6 +412,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     config: number;
   } | null>(null);
   const [position, setPosition] = React.useState<MenuPosition | null>(null);
+  const [widthConstraint, setWidthConstraint] = React.useState<number | null>(null);
   const [overlayRect, setOverlayRect] = React.useState<MenuRect | null>(null);
   const [triggerRect, setTriggerRect] = React.useState<MenuRect | null>(null);
 
@@ -445,9 +446,10 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       ) {
         return;
       }
-      const width = context.matchReferenceWidth
+      const intrinsicWidth = context.matchReferenceWidth
         ? reference.width
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
+      const width = widthConstraint ?? intrinsicWidth;
       const nextPosition = await computePosition({
         reference,
         boundary,
@@ -465,6 +467,19 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
         !context.isOpenRef.current ||
         openEpoch !== context.openEpochRef.current
       ) {
+        return;
+      }
+      if (nextPosition.availableWidth < width) {
+        // 너비를 제한한 뒤 bindlayoutchange에서 줄바꿈된 높이를 다시 측정합니다.
+        const constrainedWidth = nextPosition.availableWidth;
+        if (widthConstraint !== constrainedWidth) {
+          setWidthConstraint(constrainedWidth);
+          setIntrinsicSize(null);
+          setPosition(null);
+          setOverlayRect(null);
+          setTriggerRect(null);
+          context.setPositioned(false);
+        }
         return;
       }
       setPosition((previous) => {
@@ -485,11 +500,12 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     } catch {
       // A ref can disappear while the native query is in flight. Keep this close hidden.
     }
-  }, [context, intrinsicSize, overlayNode]);
+  }, [context, intrinsicSize, overlayNode, widthConstraint]);
 
   React.useEffect(() => {
     "background only";
     measurementVersionRef.current++;
+    setWidthConstraint(null);
     setPosition(null);
     setOverlayRect(null);
     setTriggerRect(null);
@@ -501,6 +517,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     measurementVersionRef.current++;
     intrinsicWidthRef.current = null;
     measurementConfigRef.current++;
+    setWidthConstraint(null);
     setIntrinsicSize((current) =>
       current ? { ...current, config: measurementConfigRef.current } : current,
     );
@@ -629,7 +646,11 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
         <view
           ref={handleRef as LynxViewRef}
           className={clsx(context.classes.content, className)}
-          style={{ ...geometryStyle, ...style }}
+          style={{
+            ...geometryStyle,
+            ...style,
+            ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
+          }}
           bindtransitionend={handleTransitionEnd}
           {...nativeProps}
         >
