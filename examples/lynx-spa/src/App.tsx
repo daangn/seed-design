@@ -1,7 +1,7 @@
-import { Suspense, type ReactNode, useCallback, useState } from "@lynx-js/react";
+import { Suspense, type ReactNode, useCallback, useEffect, useState } from "@lynx-js/react";
 import { ActionButton, Text, useSafeArea, VStack } from "@seed-design/lynx-react";
 import LynxConsole from "lynx-console";
-import type { LynxExampleId, LynxPlaygroundExample } from "../../../docs/playground/lynx/types";
+import type { LynxPlaygroundExample } from "../../../docs/playground/lynx/types";
 import { examples } from "lynx-docs-examples";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "@/components/ui/app-bar";
 import { AccordionPage } from "./pages/AccordionPage.jsx";
@@ -84,7 +84,7 @@ type LegacyPage = Exclude<Page, "home">;
 type Route =
   | { kind: "home" }
   | { kind: "docs-component"; component: string }
-  | { kind: "docs-example"; id: LynxExampleId }
+  | { kind: "docs-example"; id: string }
   | { kind: "legacy"; page: LegacyPage };
 
 const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
@@ -203,6 +203,26 @@ export function App(props: { onRender?: () => void }) {
   const [route, setRoute] = useState<Route>({ kind: "home" });
   const [homeCategory, setHomeCategory] = useState<HomeCategory>("docs");
   const { safeAreaInsetBottom } = useSafeArea();
+
+  useEffect(() => {
+    // Lynx는 브라우저 location이 없어 background runtime의 원본 bundle URL을 읽는다.
+    // getNativeApp과 __pageUrl은 공개 타입에 없는 내부 API이므로 이 진입 경로에서만 사용한다.
+    const runtime = lynx as typeof lynx & {
+      getNativeApp?: () => { __pageUrl?: string };
+    };
+    const bundleUrl = runtime.getNativeApp?.().__pageUrl;
+    if (!bundleUrl) return;
+
+    // 호스트의 URL polyfill은 search를 지원하지 않을 수 있어 query만 분리한다.
+    const urlWithoutHash = bundleUrl.split("#", 1)[0] ?? "";
+    const queryStart = urlWithoutHash.indexOf("?");
+    if (queryStart < 0) return;
+
+    const exampleId = new URLSearchParams(urlWithoutHash.slice(queryStart + 1)).get("example");
+    if (exampleId !== null) {
+      setRoute({ kind: "docs-example", id: exampleId });
+    }
+  }, []);
 
   const handleGoHome = useCallback(() => {
     "background only";

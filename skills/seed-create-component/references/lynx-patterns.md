@@ -119,7 +119,7 @@ label: {
 1. 자동 너비와 긴 라벨: 모든 라벨이 한 줄이고 항목 너비가 같다.
 2. 고정 너비와 더 긴 라벨: 필요한 라벨만 줄바꿈하고, 텍스트와 항목 높이가 가운데 정렬된다.
 
-브라우저용 Lynx 미리보기만으로 native 결과를 확정하지 않는다. Android와 iOS 중 실행 가능한 호스트 앱에서도 확인한다.
+브라우저용 Lynx 미리보기만으로 native 결과를 확정하지 않는다. 실제 Lynx 결과는 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 기본 경로에서 확인하고, SPA 예제 ID와 query를 포함한 bundle URL·환경 근거를 남긴다.
 
 현재 저장소에서는 `packages/lynx-qvism-preset/src/recipes/chip.ts`의 CJK 라벨 처리와 `packages/lynx-qvism-preset/src/recipes/segmented-control.ts`의 Grid 배치를 참고할 수 있다.
 
@@ -249,4 +249,4 @@ Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓴다. **모�
 
 ## Verification focus
 
-자동 검증 명령은 `verification-checklist.md`에서 확인한다. 브라우저 문서 미리보기는 구조와 기본 상호작용 확인에 사용한다. 실제 Lynx 결과를 새로 주장할 때는 사용 가능한 호스트 앱이나 `examples/lynx-spa`에서 직접 확인하고, 실행 환경이 없으면 미확인 범위를 보고한다.
+자동 검증 명령은 `verification-checklist.md`에서 확인한다. 브라우저 문서 미리보기는 MDX host·코드 탭·QR·Web preview 변경의 구조와 기본 상호작용 확인에만 사용한다. 실제 Lynx 결과를 새로 주장할 때는 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 기본 경로에서 직접 확인하고, 실행 환경이 없으면 미확인 범위를 보고한다.
