@@ -78,9 +78,9 @@ Rootage와 Recipe, Recipe와 플랫폼, 플랫폼과 Registry처럼 변경을 �
 | --- | --- | --- |
 | package 타입·회귀 | 지정 실행자 | 안정된 package 원천·필요한 생성물 |
 | Registry·문서·예제 소비 연결 | 지정 실행자 | 안정된 소비 경로와 소비할 생성물 완료 |
-| 런타임 화면·상호작용 | 지정 실행자 | 안정된 실행 bundle·시나리오·전용 조작 자원 |
+| 런타임 화면·상호작용 | 지정 실행자 | 안정된 실행 bundle·시나리오·전용 조작 자원 (Lynx native는 `examples/lynx-spa` 문서 예제) |
 
-생성물 소비 검사는 해당 생성물의 완료만 기다린다. 기본 장면 승인에 전체 문서 빌드를 선행 조건으로 추가하지 않지만, 승인 뒤에는 요청 범위와 관련된 최종 검증을 유지한다. 검증 인계는 `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`로 짧게 남긴다. 실패 또는 후속 수정 뒤에는 실패한 검사와 영향 범위의 검사만 다시 실행한다.
+생성물 소비 검사는 해당 생성물의 완료만 기다린다. Lynx native 기본 장면은 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제로 확인한다. 전체 docs 빌드나 정적 bundle 서빙은 MDX 페이지·`LynxComponentExample` host·코드 탭·QR·Web preview·docs pipeline 자체를 바꾼 경우에만 해당 문서 변경 부분 확인으로 추가한다. 검증 인계는 `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`로 짧게 남긴다. Lynx native 인계에는 SPA 예제 ID·query를 포함한 bundle URL·변경본과 환경 근거를 추가한다. 실패 또는 후속 수정 뒤에는 실패한 검사와 영향 범위의 검사만 다시 실행한다.
 
 - 전역 overlay·호스트 창·기기·캡처 대상·공유 산출물마다 한 조작 소유자를 둔다. 독립 호스트는 프로세스·창 또는 기기 식별자와 overlay·캡처 자원 공유 여부로 격리를 확인한다. session ID·포트·worktree만 다른 것은 호스트 격리 근거가 아니다.
 - 변경 없는 서빙 출력에는 여러 읽기 전용 소비자가 연결될 수 있다. 서버의 시작·재시작·중지는 서버 수명 소유자가, 생성물 갱신은 해당 출력 소유자가 수행하며 소비 중인 변경본을 바꾸지 않는다.
@@ -103,10 +103,11 @@ Rootage와 Recipe, Recipe와 플랫폼, 플랫폼과 Registry처럼 변경을 �
 
 - 현재 worktree와 통합 변경본, 실제 수행한 package·예제 빌드
 - 문서·시나리오 ID, entry와 manifest의 실제 bundle 경로
+- Lynx native인 경우 SPA 예제 ID와 query를 포함한 전체 bundle URL
 - 서빙 루트·실제 주소와 서버 소유자, 사용하는 client·session
 - 해당 변경본에서 수집한 화면·DOM·console·측정 증거
 
-명령 종료나 포트 응답만으로 올바른 worktree의 번들이 로드됐다고 보지 않는다. 해시 유무와 URL은 현재 manifest에서 확인하고, 실행 중인 서버와 기기 session이 그 대상을 소비하는지 확인한다. 세부 명령은 기존 검증 런북을 사용한다.
+명령 종료나 포트 응답만으로 올바른 worktree의 번들이 로드됐다고 보지 않는다. 해시 유무와 URL은 현재 manifest에서 확인하고, 실행 중인 서버와 기기 session이 그 대상을 소비하는지 확인한다. Lynx native는 query를 포함한 bundle URL과 변경본·환경 근거도 대조한다. 세부 명령은 [검증 런북](../../seed-verify-lynx-component/references/verification.md)을 사용한다.
 
 자원 소유권과 병렬 실행은 [검증 분담과 자원](#검증-분담과-자원)을 따른다. 기존 사용자 세션은 임의 종료하지 않으며, 다른 담당이 계속 사용할 자원은 변경본·상태와 함께 명시적으로 인계한다.
 
