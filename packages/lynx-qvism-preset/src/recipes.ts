@@ -14,6 +14,8 @@ import fieldLabel from "./recipes/field-label";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
+import menuSheet from "./recipes/menu-sheet";
+import menuSheetItem from "./recipes/menu-sheet-item";
 import pageBanner from "./recipes/page-banner";
 import inputButton from "./recipes/input-button";
 import list from "./recipes/list";
@@ -54,6 +56,8 @@ export const recipes = {
   mannerTempBadge,
   menu,
   menuItem,
+  menuSheet,
+  menuSheetItem,
   pageBanner,
   inputButton,
   list,
