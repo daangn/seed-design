@@ -73,6 +73,29 @@ render: (args, { component }) => (
 
 variant/condition 매핑은 story 밖의 상수로 유지하고 `VariantTable`에 전달한다. mapping 함수가 render 대상 컴포넌트를 받으면 `meta.component` 대신 context의 `component`를 전달한다. wrapper가 상태나 레이아웃을 소유하면 wrapper를 `meta.component`로 지정하거나 기존 명시적 wrapper 전달을 유지한다.
 
+- `variantMap`: Recipe에서 생성한 `*VariantMap`을 전달해 `size`, `tone` 등 Recipe variant를 조합한다.
+- `conditionMap`: 높이, 반응형 값, 여러 prop의 묶음처럼 Recipe 밖의 케이스를 `{ 축: { 케이스명: 전달할 props } }`로 정의한다. 케이스명은 표의 라벨이며 실제 컴포넌트에는 안쪽 props가 전달된다.
+- `VariantTable`은 두 map의 축을 모두 조합한다. prop 값만 다른 케이스는 기존 공통 template의 `conditionMap`을 확장해 네 테마·글자 크기 story에 함께 적용한다. 같은 축이 두 map에 있으면 `conditionMap`이 해당 축의 값 목록과 전달 props를 대체한다.
+
+Skeleton의 높이 케이스를 정의하고 공통 template의 render에 연결하는 예시다.
+
+```tsx
+const conditionMap = {
+  height: {
+    "50px": { height: "50px" },
+    "lineHeight.t4": { height: "lineHeight.t4" },
+    responsive: { height: { base: "lineHeight.t4", md: "lineHeight.t5" } },
+  },
+};
+
+<VariantTable
+  Component={component!}
+  variantMap={skeletonVariantMap}
+  conditionMap={conditionMap}
+  {...args}
+/>
+```
+
 ## custom parameters와 Chromatic
 
 `theme`과 `fontScale` 타입은 `docs/.storybook/preview.ts`의 다음 확장으로 관리한다.
