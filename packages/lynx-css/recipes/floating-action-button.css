@@ -1,0 +1,54 @@
+.seed-floating-action-button__root {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-color: var(--seed-color-bg-brand-solid);
+    border-radius: var(--seed-radius-full);
+    box-shadow: var(--seed-shadow-s3);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding-left var(--seed-duration-d4) var(--seed-timing-function-easing), padding-right var(--seed-duration-d4) var(--seed-timing-function-easing), gap var(--seed-duration-d4) var(--seed-timing-function-easing)
+}
+.seed-floating-action-button__icon {
+    flex-shrink: 0;
+    color: var(--seed-color-palette-static-white);
+    transition: width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing)
+}
+.seed-floating-action-button__label {
+    width: max-content;
+    flex-shrink: 0;
+    color: var(--seed-color-palette-static-white);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-bold)
+}
+.seed-floating-action-button__root--extended_true {
+    width: fit-content;
+    max-width: 100%;
+    height: 48px;
+    padding-left: var(--seed-dimension-x4_5);
+    padding-right: var(--seed-dimension-x4_5);
+    gap: var(--seed-dimension-x1)
+}
+.seed-floating-action-button__icon--extended_true {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4)
+}
+.seed-floating-action-button__root--extended_false {
+    width: 56px;
+    min-width: 56px;
+    max-width: 56px;
+    height: 56px;
+    padding-left: 0;
+    padding-right: 0;
+    gap: 0
+}
+.seed-floating-action-button__icon--extended_false {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6)
+}
+.seed-floating-action-button__root--pressed_true {
+    background-color: var(--seed-color-bg-brand-solid-pressed)
+}
