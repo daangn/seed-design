@@ -1,16 +1,16 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("regular");
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
         <RadioGroup
           accessibility-label="글꼴 굵기 선택"
@@ -33,8 +33,6 @@ function Root() {
           <RadioGroupItem value="bold" label="Bold" />
         </RadioGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

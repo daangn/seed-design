@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tag-group-root`}>
       <view className="tag-group-preview">
         <TagGroupRoot className="tag-group-preview__group">
           <TagGroupItem label="500m" />
@@ -16,8 +15,6 @@ function Root() {
           <TagGroupItem label="3분 전" />
         </TagGroupRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

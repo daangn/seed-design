@@ -1,16 +1,16 @@
 import "./styles";
 
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-import { root } from "@lynx-js/react";
+
 import { Badge, Checkbox, HStack, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListCheckItem, ListDivider } from "@/components/ui/list";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview list-preview--centered">
         <List>
           <ListCheckItem
@@ -50,8 +50,6 @@ function Root() {
           />
         </List>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

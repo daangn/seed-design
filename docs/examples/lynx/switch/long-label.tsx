@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Switch, type SwitchProps } from "@/components/ui/switch";
 
@@ -11,17 +10,15 @@ function SwitchItem({ size }: { size: SwitchProps["size"] }) {
   return <Switch size={size} label={label} />;
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-switch-root`}>
       <VStack className="switch-preview" gap="spacingY.componentDefault">
         <SwitchItem size="32" />
         <SwitchItem size="24" />
         <SwitchItem size="16" />
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

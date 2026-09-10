@@ -1,13 +1,12 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { Divider, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-divider-root`}>
       <view className="divider-example">
         <view className="divider-preview">
           <text className="divider-preview__text">
@@ -20,8 +19,6 @@ function Root() {
           </text>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

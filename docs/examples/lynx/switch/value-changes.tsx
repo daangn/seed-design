@@ -1,15 +1,15 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Switch } from "@/components/ui/switch";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<boolean | null>(null);
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-switch-root`}>
       <VStack className="switch-preview" gap="x4">
         <Switch
           label="Click me"
@@ -23,8 +23,6 @@ function Root() {
           {lastValue === null ? "-" : JSON.stringify(lastValue)}
         </text>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

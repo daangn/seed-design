@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tabs-root`}>
       <view className="tabs-preview">
         <TabsRoot defaultValue="2">
           <TabsList>
@@ -29,8 +28,6 @@ function Root() {
           </TabsCarousel>
         </TabsRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

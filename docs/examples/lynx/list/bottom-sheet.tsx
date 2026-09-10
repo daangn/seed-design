@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconArrowClockwiseCircularFill from "@karrotmarket/lynx-monochrome-icon/IconArrowClockwiseCircularFill";
-import { root, useRef, useState } from "@lynx-js/react";
+import { useRef, useState } from "@lynx-js/react";
 import {
   ActionButton,
   type BottomSheetRootRef,
@@ -20,13 +20,13 @@ import { List, ListCheckItem } from "@/components/ui/list";
 
 const TYPES = ["버스", "지하철", "택시", "자전거", "도보"] as const;
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const sheetRef = useRef<BottomSheetRootRef>(null);
   const [selectedTypes, setSelectedTypes] = useState<(typeof TYPES)[number][]>([]);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview list-preview--centered">
         <BottomSheetRoot ref={sheetRef}>
           <BottomSheetTrigger>
@@ -81,8 +81,6 @@ function Root() {
           </BottomSheetContent>
         </BottomSheetRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

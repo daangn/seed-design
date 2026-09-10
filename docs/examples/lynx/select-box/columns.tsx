@@ -2,7 +2,7 @@ import "./styles";
 
 import IconDiamond from "@karrotmarket/lynx-multicolor-icon/IconDiamond";
 import IconIcecreamcone from "@karrotmarket/lynx-multicolor-icon/IconIcecreamcone";
-import { root } from "@lynx-js/react";
+
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import {
   CheckSelectBox,
@@ -13,11 +13,11 @@ import {
   RadioSelectBoxRoot,
 } from "@/components/ui/select-box";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-select-box-root`}>
       <VStack className="select-box-preview" gap="x8">
         <CheckSelectBoxGroup columns={2} accessibility-label="Grid 레이아웃 예제">
           <CheckSelectBox
@@ -93,8 +93,6 @@ function Root() {
           />
         </RadioSelectBoxRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

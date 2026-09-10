@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   AppBar,
@@ -12,7 +12,7 @@ import {
   AppBarSlot,
 } from "@/components/ui/app-bar";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [lastAction, setLastAction] = useState("없음");
 
@@ -27,7 +27,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-app-bar-root`}>
       <view className="app-bar-preview">
         <AppBar theme="cupertino">
           <AppBarLeft>
@@ -45,8 +45,6 @@ function Root() {
           <text className="app-bar-preview__status">마지막 액션: {lastAction}</text>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

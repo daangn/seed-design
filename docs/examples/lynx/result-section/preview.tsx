@@ -1,11 +1,11 @@
 import "./styles";
 
 import IconDiamond from "@karrotmarket/lynx-multicolor-icon/IconDiamond";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Box, Icon, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { ResultSection } from "@/components/ui/result-section";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [actionResult, setActionResult] = useState<string | null>(null);
 
@@ -20,7 +20,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-result-section-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
           <ResultSection
@@ -39,8 +39,6 @@ function Root() {
           />
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

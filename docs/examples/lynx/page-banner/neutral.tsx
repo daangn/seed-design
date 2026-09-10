@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
-import { root } from "@lynx-js/react";
+
 import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   ActionablePageBanner,
@@ -10,7 +10,7 @@ import {
   PageBannerButton,
 } from "@/components/ui/page-banner";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   function handleTap() {
@@ -18,7 +18,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-page-banner-root`}>
       <view className="page-banner-preview">
         <PageBanner
           tone="neutral"
@@ -69,8 +69,6 @@ function Root() {
           description="사업자 정보를 등록해주세요."
         />
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   AppBar,
@@ -11,11 +10,11 @@ import {
   AppBarRight,
 } from "@/components/ui/app-bar";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-app-bar-root`}>
       <view className="app-bar-preview__platforms">
         <view className="app-bar-preview__platform">
           <text className="app-bar-preview__label">Cupertino</text>
@@ -47,8 +46,6 @@ function Root() {
           </view>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
