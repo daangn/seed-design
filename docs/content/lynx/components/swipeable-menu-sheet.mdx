@@ -1,0 +1,214 @@
+---
+title: Swipeable Menu Sheet
+description: 사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - overlay
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.7.0, @seed-design/lynx-css@0.11.0" />
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:swipeable-menu-sheet
+```
+
+<LynxManualInstallation name="swipeable-menu-sheet" />
+
+## Usage
+
+Registry가 제공하는 `Root`, `Trigger`, `Content`, `Group`, `Item`을 조합합니다. `Trigger`는 자식을 감싸는 native `<view>`를 렌더링하므로 `asChild`처럼 자식을 대체하는 방식은 지원하지 않습니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { ActionButton } from "@seed-design/lynx-react";
+import {
+  SwipeableMenuSheetContent,
+  SwipeableMenuSheetGroup,
+  SwipeableMenuSheetItem,
+  SwipeableMenuSheetRoot,
+  SwipeableMenuSheetTrigger,
+} from "@/components/ui/swipeable-menu-sheet";
+
+export function App() {
+  const [open, setOpen] = useState(false);
+
+  function handleEdit() {
+    "background only";
+    setOpen(false);
+  }
+
+  return (
+    <SwipeableMenuSheetRoot open={open} onOpenChange={setOpen}>
+      <SwipeableMenuSheetTrigger accessibility-label="게시글 관리 메뉴 열기">
+        <ActionButton variant="neutralSolid">메뉴 열기</ActionButton>
+      </SwipeableMenuSheetTrigger>
+      <SwipeableMenuSheetContent title="게시글 관리">
+        <SwipeableMenuSheetGroup>
+          <SwipeableMenuSheetItem label="수정하기" bindtap={handleEdit} />
+          <SwipeableMenuSheetItem label="삭제하기" tone="critical" />
+        </SwipeableMenuSheetGroup>
+      </SwipeableMenuSheetContent>
+    </SwipeableMenuSheetRoot>
+  );
+}
+```
+
+`Item`의 `bindtap`은 작업만 수행하며 시트를 자동으로 닫지 않습니다. 작업 후 닫아야 하면 위 예제처럼 `open`을 제어하거나 `SwipeableMenuSheetRoot` ref의 `close()`를 호출하세요. `title`을 제공하지 않는 `Content`에는 native 보조 기술이 읽을 이름을 알 수 있도록 `accessibility-label`을 제공해야 합니다.
+
+## Props
+
+### `SwipeableMenuSheetRoot`
+
+`open?: boolean`, `defaultOpen?: boolean`으로 제어·비제어 열린 상태를 선택합니다. `skipAnimation?: boolean`은 열기와 닫기 애니메이션을 건너뜁니다. `onOpenChange`의 형식은 `(open: boolean, details: { reason: "trigger" | "closeButton" | "interactOutside" | "drag" }) => void`입니다.
+
+<react-type-table path="./registry/lynx/ui/swipeable-menu-sheet.tsx" name="SwipeableMenuSheetRootProps" />
+
+### `SwipeableMenuSheetTrigger`
+
+<react-type-table path="./registry/lynx/ui/swipeable-menu-sheet.tsx" name="SwipeableMenuSheetTriggerProps" />
+
+### `SwipeableMenuSheetContent`
+
+`labelAlign?: "left" | "center"`을 지정하면 그 안의 `Group`과 `Item`의 기본 레이블 정렬이 됩니다. `showCloseButton?: boolean`의 기본값은 `false`입니다. `false`일 때 별도의 숨겨진 닫기 버튼은 렌더링하지 않으며, 사용자는 배경 탭 또는 아래 방향 드래그로 닫을 수 있습니다.
+
+<react-type-table path="./registry/lynx/ui/swipeable-menu-sheet.tsx" name="SwipeableMenuSheetContentProps" />
+
+### `SwipeableMenuSheetGroup`
+
+`labelAlign?: "left" | "center"`으로 `Content`의 기본 정렬을 해당 그룹에서 덮어쓸 수 있습니다.
+
+<react-type-table path="./registry/lynx/ui/swipeable-menu-sheet.tsx" name="SwipeableMenuSheetGroupProps" />
+
+### `SwipeableMenuSheetItem`
+
+`label`은 필수이며, `description`과 `prefixIcon`을 추가할 수 있습니다. `tone?: "neutral" | "critical"`의 기본값은 `"neutral"`입니다. `labelAlign?: "left" | "center"`은 Item, Group, Content 순서로 해석되는 정렬을 마지막에 덮어씁니다.
+
+<react-type-table path="./registry/lynx/ui/swipeable-menu-sheet.tsx" name="SwipeableMenuSheetItemProps" />
+
+## Examples
+
+### Trigger
+
+`SwipeableMenuSheetTrigger`를 탭하면 시트가 열립니다. 열린 상태는 배경 탭, 아래 방향 드래그, 또는 `showCloseButton`으로 표시한 닫기 버튼으로 닫을 수 있습니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`open`과 `onOpenChange`로 Trigger 외의 방식에서도 열린 상태를 제어합니다. 배경 탭과 드래그로 닫힐 때도 새 `open` 값을 반영해야 합니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/controlled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Title
+
+`Content`의 `title`로 시트 헤더에 제목을 표시합니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/with-title" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/with-title.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Title and Description
+
+`description`은 제목 아래에 부가 설명을 표시합니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/with-title-and-description" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/with-title-and-description.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Close Button
+
+`showCloseButton`을 설정하면 시트 하단에 닫기 버튼을 표시합니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/with-close-button" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/with-close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Label Align
+
+`labelAlign`은 Content의 기본값을 Group과 Item에서 차례로 덮어쓸 수 있습니다.
+
+#### `labelAlign="left"` with Prefix Icon
+
+Prefix icon이 있는 항목은 일반적으로 왼쪽 정렬을 사용합니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/with-prefix-icon" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/with-prefix-icon.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+#### `labelAlign="center"` without Prefix Icon
+
+Prefix icon이 없는 항목은 중앙 정렬을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/without-prefix-icon" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/without-prefix-icon.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+#### Overriding `labelAlign`
+
+그룹 또는 개별 항목의 `labelAlign`으로 상위 정렬을 덮어씁니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/overriding-label-align" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/overriding-label-align.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange`의 두 번째 인자는 `{ reason }`입니다. 열릴 때는 `"trigger"`이고, 닫힐 때는 `"closeButton"`, `"interactOutside"`, `"drag"` 중 하나입니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/open-change-reason" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/open-change-reason.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Skip Animation
+
+`skipAnimation`을 설정하면 enter/exit 애니메이션 없이 즉시 열고 닫습니다.
+
+<LynxComponentExample name="lynx/swipeable-menu-sheet/skip-animation" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/swipeable-menu-sheet/skip-animation.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+<Callout type="warning">
+Lynx `SwipeableMenuSheet`는 React 버전과 다음 차이가 있습니다.
+
+- **Trigger wrapper**: Trigger는 native `<view>` wrapper를 렌더링하며 `asChild`처럼 자식을 대체하는 API를 제공하지 않습니다.
+- **Native interaction**: HTML 요소와 `onClick` 대신 native `<view>`/`<text>`와 `bindtap`을 사용합니다.
+- **Accessibility**: DOM ARIA 속성 대신 `accessibility-label`, `accessibility-role-description` 등 Lynx native 접근성 속성을 사용합니다.
+- **Close fallback**: `showCloseButton={false}`는 숨겨진 닫기 버튼을 만들지 않습니다.
+- **Close reason**: 키보드 ESC에 해당하는 `escapeKeyDown` reason은 제공하지 않습니다.
+</Callout>

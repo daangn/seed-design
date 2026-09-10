@@ -2326,6 +2326,19 @@
               "docUrl": "/lynx/foundation/layout/styling"
             },
             {
+              "id": "swipeable-menu-sheet",
+              "title": "Swipeable Menu Sheet",
+              "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
+              "docUrl": "/lynx/components/swipeable-menu-sheet",
+              "snippetKey": "lynx/ui:swipeable-menu-sheet",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "swipeable-menu-sheet.tsx"
+                }
+              ]
+            },
+            {
               "id": "switch",
               "title": "Switch",
               "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
