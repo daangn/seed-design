@@ -1,9 +1,9 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Chip, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [toggleCount, setToggleCount] = useState(0);
   const [toggleLastValue, setToggleLastValue] = useState<boolean | null>(null);
@@ -11,7 +11,7 @@ function Root() {
   const [radioLastValue, setRadioLastValue] = useState<string | null>(null);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-chip-root`}>
       <view className="chip-preview">
         <view className="chip-preview__group">
           <Chip.Toggle
@@ -49,8 +49,6 @@ function Root() {
           </text>
         </view>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

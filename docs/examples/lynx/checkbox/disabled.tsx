@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
       <VStack className="checkbox-preview">
         <CheckboxGroup>
           <Checkbox
@@ -43,8 +42,6 @@ function Root() {
           />
         </CheckboxGroup>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

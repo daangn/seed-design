@@ -7,14 +7,14 @@ import {
   BottomSheetRoot,
   BottomSheetTrigger,
 } from "@/components/ui/bottom-sheet";
-import { root } from "@lynx-js/react";
+
 import { ActionButton, HStack, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-bottom-sheet-root`}>
       <HStack className="bottom-sheet-preview" gap="x4">
         <BottomSheetRoot headerAlign="left">
           <BottomSheetTrigger>
@@ -44,8 +44,6 @@ function Root() {
           </BottomSheetContent>
         </BottomSheetRoot>
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

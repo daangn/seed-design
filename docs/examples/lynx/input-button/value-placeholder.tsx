@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import {
   FieldButton,
@@ -8,7 +8,7 @@ import {
   FieldButtonValue,
 } from "@/components/ui/field-button";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("");
 
@@ -18,7 +18,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-input-button-root`}>
       <VStack className="input-button-preview">
         <VStack className="input-button-preview__content" gap="spacingY.componentDefault">
           <FieldButton buttonProps={{ "accessibility-label": "현재 값: FieldButtonValue" }}>
@@ -41,8 +41,6 @@ function Root() {
           </FieldButton>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

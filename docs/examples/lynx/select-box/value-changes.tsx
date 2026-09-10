@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import {
   CheckSelectBox,
@@ -11,7 +11,7 @@ import {
   RadioSelectBoxRoot,
 } from "@/components/ui/select-box";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [checkCount, setCheckCount] = useState(0);
   const [checkLastValue, setCheckLastValue] = useState<boolean | null>(null);
@@ -19,7 +19,7 @@ function Root() {
   const [radioLastValue, setRadioLastValue] = useState<string | null>(null);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-select-box-root`}>
       <HStack className="select-box-preview" gap="x8" align="center">
         <VStack className="select-box-preview__column" gap="x4" align="center">
           <CheckSelectBoxGroup accessibility-label="Fruit">
@@ -59,8 +59,6 @@ function Root() {
           </text>
         </VStack>
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -1,10 +1,10 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<string | null>(null);
@@ -16,7 +16,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-segmented-control-root`}>
       <view className="segmented-control-example">
         <SegmentedControl
           defaultValue="hot"
@@ -30,8 +30,6 @@ function Root() {
           onValueChange called: {count} times, last value: {lastValue ?? "-"}
         </text>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tag-group-root`}>
       <VStack className="tag-group-preview" gap="spacingY.componentDefault">
         <TagGroupRoot weight="regular" className="tag-group-preview__group">
           <TagGroupItem label="regular" />
@@ -21,8 +20,6 @@ function Root() {
           <TagGroupItem label="bold" />
         </TagGroupRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

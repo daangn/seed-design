@@ -1,10 +1,10 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [sortBy, setSortBy] = useState("monthly");
   const [hasSeenAnnual, setHasSeenAnnual] = useState(false);
@@ -22,7 +22,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-segmented-control-root`}>
       <view className="segmented-control-example">
         <SegmentedControl
           accessibility-label="Billing Method"
@@ -44,8 +44,6 @@ function Root() {
           Reset Notification
         </ActionButton>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

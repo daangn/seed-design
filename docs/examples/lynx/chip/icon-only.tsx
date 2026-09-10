@@ -5,15 +5,15 @@ import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
 import IconBellSlashLine from "@karrotmarket/lynx-monochrome-icon/IconBellSlashLine";
 import IconTimer_10Line from "@karrotmarket/lynx-monochrome-icon/IconTimer_10Line";
 import IconTimer_3Line from "@karrotmarket/lynx-monochrome-icon/IconTimer_3Line";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { Chip, Icon, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [checked, setChecked] = useState(false);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-chip-root`}>
       <view className="chip-preview">
         <view className="chip-preview__row">
           <Chip.Button layout="iconOnly" accessibility-label="Refresh">
@@ -39,8 +39,6 @@ function Root() {
           </view>
         </Chip.RadioRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

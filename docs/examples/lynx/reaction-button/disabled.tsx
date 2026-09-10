@@ -1,22 +1,20 @@
 import "./styles";
 
 import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
-import { root } from "@lynx-js/react";
+
 import { PrefixIcon, ReactionButton, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-reaction-button-root`}>
       <view className="reaction-button-preview">
         <ReactionButton disabled>
           <PrefixIcon icon={<IconBellFill />} />
           비활성
         </ReactionButton>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

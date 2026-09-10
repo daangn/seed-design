@@ -1,8 +1,8 @@
 import "./styles";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [loading, setLoading] = useState(false);
 
@@ -13,14 +13,12 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-action-button-root`}>
       <view className="action-button-preview">
         <ActionButton loading={loading} bindtap={handleTap}>
           시간이 걸리는 액션
         </ActionButton>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

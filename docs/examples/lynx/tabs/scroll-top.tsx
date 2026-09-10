@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useCallback, useRef, useState } from "@lynx-js/react";
+import { useCallback, useRef, useState } from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
@@ -13,7 +13,7 @@ function scrollToTop(ref: NodesRef | null) {
   ref?.invoke({ method: "scrollTo", params: { offset: 0, smooth: true } }).exec();
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [currentTab, setCurrentTab] = useState("1");
   const firstContentRef = useRef<NodesRef | null>(null);
@@ -39,7 +39,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tabs-root`}>
       <view className="tabs-preview">
         <TabsRoot triggerLayout="fill" value={currentTab} onValueChange={setCurrentTab}>
           <TabsList>
@@ -86,8 +86,6 @@ function Root() {
           </TabsCarousel>
         </TabsRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

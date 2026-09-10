@@ -3,37 +3,38 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "rspeedy build",
+    "build": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy build",
     "check": "cd ../.. && bun biome check --write examples/lynx-spa",
-    "dev": "rspeedy dev",
+    "dev": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy dev",
     "format": "cd ../.. && bun biome format --write examples/lynx-spa",
-    "preview": "rspeedy preview"
+    "preview": "bunx rspeedy preview",
+    "typecheck": "bun node_modules/typescript/bin/tsc -p tsconfig.json && bun node_modules/typescript/bin/tsc -p tsconfig.node.json"
   },
   "dependencies": {
     "@karrotmarket/icon-data": "^1.34.0",
     "@karrotmarket/lynx-monochrome-icon": "1.20.0",
     "@karrotmarket/lynx-multicolor-icon": "1.27.0",
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
-    "@lynx-js/react": "^0.117.0",
-    "@seed-design/lynx-css": "0.10.2",
-    "@seed-design/lynx-react": "0.6.3",
+    "@lynx-js/react": "0.123.3",
+    "@seed-design/lynx-css": "workspace:*",
+    "@seed-design/lynx-react": "workspace:*",
     "@seed-design/tailwind3-plugin": "workspace:*",
     "clsx": "^2.1.1",
     "lynx-console": "^0.3.0"
   },
   "devDependencies": {
-    "@lynx-js/config-rsbuild-plugin": "^0.0.1",
+    "@lynx-js/config-rsbuild-plugin": "0.2.2",
     "@lynx-js/preact-devtools": "^5.0.1-c0c936b",
     "@lynx-js/qrcode-rsbuild-plugin": "^0.4.6",
-    "@lynx-js/react-rsbuild-plugin": "^0.13.0",
-    "@lynx-js/rspeedy": "^0.13.6",
-    "@lynx-js/types": "^3.7.0",
-    "@rsbuild/plugin-type-check": "1.3.3",
+    "@lynx-js/react-rsbuild-plugin": "0.18.3",
+    "@lynx-js/rspeedy": "0.16.4",
+    "@lynx-js/types": "4.1.0",
+    "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@types/react": "^19",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.0",
     "sharp": "^0.35.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=18"

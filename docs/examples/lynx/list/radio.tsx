@@ -1,16 +1,15 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListDivider, ListRadioItem } from "@/components/ui/list";
 import { RadioGroup, Radiomark } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <view className="list-preview list-preview--centered">
         <RadioGroup
           defaultValue="option1"
@@ -44,8 +43,6 @@ function Root() {
           </List>
         </RadioGroup>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

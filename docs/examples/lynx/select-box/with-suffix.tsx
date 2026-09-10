@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
-import { root } from "@lynx-js/react";
+
 import { HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import {
   CheckSelectBox,
@@ -12,11 +12,11 @@ import {
   RadioSelectBoxRoot,
 } from "@/components/ui/select-box";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-select-box-root`}>
       <HStack className="select-box-preview" gap="x8" align="flex-start">
         <VStack className="select-box-preview__column">
           <CheckSelectBoxGroup accessibility-label="Suffix 예제">
@@ -54,8 +54,6 @@ function Root() {
           </RadioSelectBoxRoot>
         </VStack>
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

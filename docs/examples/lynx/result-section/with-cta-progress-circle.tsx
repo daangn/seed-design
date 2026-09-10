@@ -1,7 +1,7 @@
 import "./styles";
 
 import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
-import { root, useEffect, useState } from "@lynx-js/react";
+import { useEffect, useState } from "@lynx-js/react";
 import {
   ActionButton,
   AppBar,
@@ -13,7 +13,7 @@ import {
 } from "@seed-design/lynx-react";
 import { ResultSection } from "@/components/ui/result-section";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +30,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-result-section-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack height="640px" width="360px" borderWidth={1} borderColor="stroke.neutralMuted">
           <AppBar.Root>
@@ -73,8 +73,6 @@ function Root() {
           </VStack>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

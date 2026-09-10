@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-textarea-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack width="full" maxWidth="480px">
           <TextField label="라벨" description="설명을 써주세요">
@@ -20,8 +19,6 @@ function Root() {
           </TextField>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

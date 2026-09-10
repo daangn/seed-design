@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { Chip, useSeedClassName } from "@seed-design/lynx-react";
 
 function AppAvatar() {
@@ -11,11 +10,11 @@ function AppAvatar() {
   );
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-chip-root`}>
       <view className="chip-preview">
         <view className="chip-preview__row">
           <Chip.Button>
@@ -48,8 +47,6 @@ function Root() {
           </view>
         </Chip.RadioRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

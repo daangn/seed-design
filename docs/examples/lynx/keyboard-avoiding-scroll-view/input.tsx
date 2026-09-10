@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { KeyboardAvoidingScrollView, useSeedClassName } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-keyboard-avoiding-scroll-view-root`}>
       <KeyboardAvoidingScrollView
         className="keyboard-avoiding-scroll-view-preview"
         keyboardGap={24}
@@ -40,8 +39,6 @@ function Root() {
           <view className="keyboard-avoiding-scroll-view-preview__footer-space" />
         </view>
       </KeyboardAvoidingScrollView>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

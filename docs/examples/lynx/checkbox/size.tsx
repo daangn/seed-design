@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { HStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
       <HStack className="checkbox-preview" gap="x8">
         <CheckboxGroup>
           <Checkbox label="Medium (default)" size="medium" defaultChecked tone="neutral" />
@@ -25,8 +24,6 @@ function Root() {
           <Checkbox label="Large" size="large" variant="ghost" defaultChecked tone="neutral" />
         </CheckboxGroup>
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

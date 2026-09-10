@@ -1,6 +1,5 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { HStack, Text, useSeedClassName } from "@seed-design/lynx-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -23,18 +22,16 @@ function CustomCheckbox({ label, textStyle, defaultChecked }: CustomCheckboxProp
   );
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
       <HStack className="checkbox-preview" gap="x6">
         <CustomCheckbox label="regular" textStyle="t7Regular" />
         <CustomCheckbox label="medium" textStyle="t7Medium" defaultChecked />
         <CustomCheckbox label="bold" textStyle="t7Bold" />
       </HStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
