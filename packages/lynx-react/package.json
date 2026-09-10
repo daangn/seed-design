@@ -34,7 +34,7 @@
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.9.0",
-    "@seed-design/lynx-css": "0.0.0 || >=0.10.0 <1.0.0"
+    "@seed-design/lynx-css": "0.0.0 || >=0.11.0 <1.0.0"
   },
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
