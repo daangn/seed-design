@@ -1,13 +1,12 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { Badge, HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-badge-root`}>
       <view className="badge-preview">
         <HStack gap="x4">
           <VStack gap="x4">
@@ -34,8 +33,6 @@ function Root() {
           </VStack>
         </HStack>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

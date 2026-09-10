@@ -1,14 +1,13 @@
 import "./styles";
 
-import { root } from "@lynx-js/react";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-tabs-root`}>
       <scroll-view className="tabs-preview__scroll" scroll-orientation="vertical">
         <TabsRoot defaultValue="1" size="medium" stickyList>
           <TabsList>
@@ -27,8 +26,6 @@ function Root() {
           </TabsContent>
         </TabsRoot>
       </scroll-view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

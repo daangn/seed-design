@@ -1,17 +1,17 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [count, setCount] = useState(0);
   const [lastValue, setLastValue] = useState<string | null>(null);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview" gap="x4">
         <RadioGroup
           accessibility-label="Fruit selection"
@@ -31,8 +31,6 @@ function Root() {
           onValueChange called: {count} times, last value: {lastValue ?? "-"}
         </text>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

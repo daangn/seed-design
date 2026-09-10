@@ -1,10 +1,10 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [apple, setApple] = useState(true);
   const [banana, setBanana] = useState(false);
@@ -24,7 +24,7 @@ function Root() {
   };
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-checkbox-root`}>
       <VStack className="checkbox-preview">
         <HStack width="full" gap="x8" align="flex-start">
           <VStack style={{ flex: 1 }} gap="spacingY.componentDefault">
@@ -97,8 +97,6 @@ function Root() {
           </VStack>
         </HStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

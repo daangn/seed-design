@@ -1,15 +1,15 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("안녕하세요");
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-textarea-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <VStack width="full" maxWidth="480px" gap="x3">
           <TextField
@@ -23,8 +23,6 @@ function Root() {
           <text className="text-field-textarea-preview__status">입력값: {value}</text>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

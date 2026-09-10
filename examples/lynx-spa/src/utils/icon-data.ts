@@ -7,7 +7,7 @@ interface RawIconData {
 }
 
 type IconData = Record<string, RawIconData>;
-type IconComponentMap = Record<string, ComponentType<IconProps> | undefined>;
+type IconComponentMap = Record<string, unknown>;
 
 function toPascalCasePart(part: string) {
   return `${part.charAt(0).toUpperCase()}${part.slice(1)}`;
@@ -26,6 +26,9 @@ function toComponentName(iconName: string) {
 function isIconEntry(entry: IconEntry | null): entry is IconEntry {
   return entry != null;
 }
+function isIconComponent(value: unknown): value is ComponentType<IconProps> {
+  return typeof value === "function";
+}
 
 export function createIconEntries(iconData: IconData, components: IconComponentMap) {
   return Object.values(iconData)
@@ -33,7 +36,7 @@ export function createIconEntries(iconData: IconData, components: IconComponentM
       const componentName = toComponentName(icon.name);
       const component = components[componentName];
 
-      if (component == null) {
+      if (!isIconComponent(component)) {
         return null;
       }
 

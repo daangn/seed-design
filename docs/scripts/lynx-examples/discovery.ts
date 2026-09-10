@@ -68,7 +68,3 @@ export async function discoverLynxExamples(
 
   return entries.sort((a, b) => a.id.localeCompare(b.id));
 }
-
-export function toRspeedyEntries(entries: LynxExampleEntry[]): Record<string, string> {
-  return Object.fromEntries(entries.map((entry) => [entry.entryKey, entry.sourcePath]));
-}

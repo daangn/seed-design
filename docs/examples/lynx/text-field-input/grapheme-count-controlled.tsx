@@ -1,16 +1,16 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { useSeedClassName, VStack } from "@seed-design/lynx-react";
 import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("");
   const [graphemes, setGraphemes] = useState<string[]>([]);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-text-field-input-root`}>
       <VStack className="text-field-input-preview">
         <VStack className="text-field-input-preview__content" gap="x4">
           <TextField
@@ -39,8 +39,6 @@ function Root() {
           </VStack>
         </VStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

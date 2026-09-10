@@ -2,11 +2,11 @@ import "./styles";
 
 import IconPencilLine from "@karrotmarket/lynx-monochrome-icon/IconPencilLine";
 import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "@/components/ui/menu";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
   const [openReason, setOpenReason] = useState<string | null>(null);
@@ -19,7 +19,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-menu-root`}>
       <VStack width="full" height="full" gap="x4" align="center" justify="center">
         <MenuRoot open={open} onOpenChange={handleOpenChange}>
           <MenuTrigger>
@@ -37,8 +37,6 @@ function Root() {
           <text>마지막 닫힘 이유: {closeReason ?? "-"}</text>
         </HStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -2,17 +2,17 @@ import "./styles";
 
 import IconArrowUpBracketDownFill from "@karrotmarket/lynx-monochrome-icon/IconArrowUpBracketDownFill";
 import IconILowercaseSerifCircleLine from "@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleLine";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, Icon, PrefixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListDivider, ListItem } from "@/components/ui/list";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [pressed, setPressed] = useState(false);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <List>
         <ListItem
           prefix={
@@ -67,8 +67,6 @@ function Root() {
           }
         />
       </List>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

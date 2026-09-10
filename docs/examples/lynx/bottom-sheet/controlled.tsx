@@ -6,10 +6,10 @@ import {
   BottomSheetFooter,
   BottomSheetRoot,
 } from "@/components/ui/bottom-sheet";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
 
@@ -21,7 +21,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-bottom-sheet-root`}>
       <VStack className="bottom-sheet-preview">
         <ActionButton variant="neutralSolid" bindtap={scheduleOpen}>
           1초 후 열기
@@ -37,8 +37,6 @@ function Root() {
           </BottomSheetContent>
         </BottomSheetRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

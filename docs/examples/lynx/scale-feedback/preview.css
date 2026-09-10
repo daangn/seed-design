@@ -1,5 +1,4 @@
-/* biome-ignore lint/correctness/noUnknownTypeSelector: page is a Lynx element. */
-page {
+.docs-lynx-scale-feedback-root {
   height: 100%;
   padding: 24px;
   background-color: var(--seed-color-bg-layer-default);

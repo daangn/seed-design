@@ -1,10 +1,10 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [contact, setContact] = useState("email");
   const [firstErrorMessage, setFirstErrorMessage] = useState<string | undefined>();
@@ -20,7 +20,7 @@ function Root() {
   };
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
         <HStack width="full" gap="x8" align="flex-start">
           <VStack style={{ flex: 1 }} gap="spacingY.componentDefault">
@@ -67,8 +67,6 @@ function Root() {
           </VStack>
         </HStack>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

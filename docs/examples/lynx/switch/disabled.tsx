@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { Switch, type SwitchProps } from "@/components/ui/switch";
 
@@ -18,11 +18,11 @@ function SwitchItem({
   return <Switch disabled={disabled} tone={tone} defaultChecked={defaultChecked} label={label} />;
 }
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [disabled, setDisabled] = useState(true);
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-switch-root`}>
       <VStack className="switch-preview" gap="x8">
         <VStack gap="spacingY.componentDefault">
           <SwitchItem disabled={disabled} label="Not Checked (Brand)" />
@@ -38,8 +38,6 @@ function Root() {
           label="Disable switches"
         />
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

@@ -6,19 +6,19 @@ import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevron
 import IconPenHorizlineFill from "@karrotmarket/lynx-monochrome-icon/IconPenHorizlineFill";
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import IconSquare2StackedFill from "@karrotmarket/lynx-monochrome-icon/IconSquare2StackedFill";
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListDivider, ListItem } from "@/components/ui/list";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [status, setStatus] = useState("아직 탭하지 않았어요");
   const [subscribed, setSubscribed] = useState(false);
   const [copied, setCopied] = useState(false);
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-list-root`}>
       <List>
         <ListItem
           title="ListItem은 클릭할 수 없어요. 눌러보세요."
@@ -120,8 +120,6 @@ function Root() {
         />
       </List>
       <text className="list-preview__status">{status}</text>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

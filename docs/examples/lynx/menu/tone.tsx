@@ -3,15 +3,15 @@ import "./styles";
 import IconPencilLine from "@karrotmarket/lynx-monochrome-icon/IconPencilLine";
 import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
 import IconTrashcanLine from "@karrotmarket/lynx-monochrome-icon/IconTrashcanLine";
-import { root } from "@lynx-js/react";
+
 import { ActionButton, VStack, useSeedClassName } from "@seed-design/lynx-react";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "@/components/ui/menu";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-menu-root`}>
       <VStack width="full" height="full" align="center" justify="center">
         <MenuRoot>
           <MenuTrigger>
@@ -28,8 +28,6 @@ function Root() {
           </MenuContent>
         </MenuRoot>
       </VStack>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
