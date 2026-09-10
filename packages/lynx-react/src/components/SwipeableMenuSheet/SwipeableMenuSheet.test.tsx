@@ -186,18 +186,24 @@ describe("SwipeableMenuSheet", () => {
     expect(onOpenChange).toHaveBeenCalledWith(false, { reason: "interactOutside" });
   });
 
-  it("inherits label alignment, omits the final group divider, and leaves item taps open", () => {
+  it("inherits label alignment, supports wrapped items, omits the final divider, and leaves item taps open", () => {
     const onItemTap = vi.fn();
+    function WrappedItem() {
+      return (
+        <SwipeableMenuSheet.Item bindtap={onItemTap}>
+          <SwipeableMenuSheet.ItemContent>
+            <SwipeableMenuSheet.ItemLabel>First item</SwipeableMenuSheet.ItemLabel>
+          </SwipeableMenuSheet.ItemContent>
+        </SwipeableMenuSheet.Item>
+      );
+    }
+
     const { container, getByText } = render(
       <SwipeableMenuSheet.Root>
         <SwipeableMenuSheet.Content labelAlign="center">
           <SwipeableMenuSheet.List>
             <SwipeableMenuSheet.Group labelAlign="left">
-              <SwipeableMenuSheet.Item bindtap={onItemTap}>
-                <SwipeableMenuSheet.ItemContent>
-                  <SwipeableMenuSheet.ItemLabel>First item</SwipeableMenuSheet.ItemLabel>
-                </SwipeableMenuSheet.ItemContent>
-              </SwipeableMenuSheet.Item>
+              <WrappedItem />
               <SwipeableMenuSheet.Item labelAlign="center">
                 <SwipeableMenuSheet.ItemContent>
                   <SwipeableMenuSheet.ItemLabel>Second item</SwipeableMenuSheet.ItemLabel>

@@ -3,7 +3,7 @@ import type { MenuSheetVariantProps } from "@seed-design/lynx-css/recipes/menu-s
 import { menuSheetItem } from "@seed-design/lynx-css/recipes/menu-sheet-item";
 import type { MenuSheetItemVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet-item";
 import * as React from "@lynx-js/react";
-import { cloneElement, forwardRef, isValidElement } from "@lynx-js/react";
+import { forwardRef, isValidElement } from "@lynx-js/react";
 import type { ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from "@lynx-js/react";
 import clsx from "clsx";
 
@@ -84,6 +84,7 @@ const ContentLabelAlignContext = React.createContext<SwipeableMenuSheetLabelAlig
 const GroupLabelAlignContext = React.createContext<SwipeableMenuSheetLabelAlign | undefined>(
   undefined,
 );
+const SwipeableMenuSheetItemPositionContext = React.createContext({ isLast: true });
 
 function useSwipeableMenuSheetContext(): SwipeableMenuSheetContextValue {
   const context = React.useContext(SwipeableMenuSheetContext);
@@ -413,12 +414,14 @@ export const SwipeableMenuSheetGroup: LynxForwardRefComponent<
         className={clsx(classNames.group, className)}
         style={style as never}
       >
-        {items.map((child, index) =>
-          isValidElement<SwipeableMenuSheetItemProps>(child) &&
-          child.type === SwipeableMenuSheetItem
-            ? cloneElement(child, { divider: index < items.length - 1 })
-            : child,
-        )}
+        {items.map((item, index) => (
+          <SwipeableMenuSheetItemPositionContext.Provider
+            key={isValidElement(item) ? (item.key ?? index) : index}
+            value={{ isLast: index === items.length - 1 }}
+          >
+            {item}
+          </SwipeableMenuSheetItemPositionContext.Provider>
+        ))}
       </view>
     </GroupLabelAlignContext.Provider>
   );
@@ -501,7 +504,6 @@ export interface SwipeableMenuSheetItemProps
     LynxPressableProps {
   tone?: SwipeableMenuSheetItemTone;
   labelAlign?: SwipeableMenuSheetLabelAlign;
-  divider?: boolean;
 }
 
 interface SwipeableMenuSheetItemContextValue {
@@ -527,7 +529,6 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
       style,
       tone = "neutral",
       labelAlign,
-      divider = false,
       bindtap: userBindtap,
       "main-thread:bindtap": userMainThreadBindtap,
       "accessibility-element": accessibilityElement = true,
@@ -543,6 +544,7 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
     } = props;
     const groupLabelAlign = React.useContext(GroupLabelAlignContext);
     const contentLabelAlign = React.useContext(ContentLabelAlignContext);
+    const { isLast } = React.useContext(SwipeableMenuSheetItemPositionContext);
     const resolvedLabelAlign = labelAlign ?? groupLabelAlign ?? contentLabelAlign ?? "left";
     const { pressed, ...pressHandlers } = usePressTap({
       onTap: userBindtap,
@@ -580,7 +582,7 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
           >
             {children}
           </view>
-          {divider ? (
+          {!isLast ? (
             <view className={classNames.divider} accessibility-elements-hidden={true} />
           ) : null}
         </IconSlotProvider>
