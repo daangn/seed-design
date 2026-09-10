@@ -27,6 +27,7 @@ export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Stack";
 export * from "./Switch";
+export * from "./SwipeableMenuSheet";
 export * from "./Tabs";
 export * from "./TagGroup";
 export * from "./Text";
