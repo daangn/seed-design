@@ -36,6 +36,11 @@ const listPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
+const swipeableMenuSheetPackageRanges = {
+  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+};
+
 // Lynx UI registry. Each item must have a matching snippet file under
 // `./ui/<id>.tsx` and a corresponding component implementation in
 // `@seed-design/lynx-react`. See `docs/registry/react/registry-ui.ts`
@@ -191,6 +196,15 @@ export const registryUI: Registry = {
         {
           path: "switch.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "swipeable-menu-sheet",
+      snippets: [
+        {
+          path: "swipeable-menu-sheet.tsx",
+          dependencies: swipeableMenuSheetPackageRanges,
         },
       ],
     },

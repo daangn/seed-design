@@ -233,6 +233,21 @@
     {
       "snippets": [
         {
+          "path": "swipeable-menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "swipeable-menu-sheet",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "switch.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
