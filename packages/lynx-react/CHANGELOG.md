@@ -1,5 +1,64 @@
 # @seed-design/lynx-react
 
+## 0.7.0
+
+### Minor Changes
+
+- 5871638: Checkbox, Chip, Progress Circle, Radio Group, Switch의 네이티브 접근성 지원을 확장합니다.
+
+  - 접근성 이름과 속성을 전달할 수 있습니다.
+  - 컴포넌트별 역할과 선택·진행·비활성 상태를 기본으로 제공합니다.
+
+- 6201bcb: Lynx Field Button 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:field-button`로 Registry 컴포넌트를 설치할 수 있습니다.
+
+- 2c3a308: Lynx 컴포넌트에 누르는 동안 요소가 축소되는 Scale Feedback을 추가합니다.
+
+  - Action Button
+  - Chip
+  - Callout
+  - Tabs
+  - Accordion
+  - Checkbox
+  - Radio Group
+  - Switch
+  - Page Banner의 Button·Close Button
+  - Select Box
+  - Segmented Control
+
+  `ScaleFeedback` 컴포넌트와 `useScaleFeedback` 훅을 제공합니다.
+  요소 전체를 축소하는 Self Scale과 내부 콘텐츠만 축소하는 Content Scale을 구성할 수 있습니다.
+
+  `mergeProps` 유틸을 추가하고 컴포넌트의 props 합성에 적용합니다.
+  사용자 이벤트와 ref를 내부 동작과 함께 보존하며, Main Thread와 Background Thread의 실행 경계를 유지합니다.
+
+  최소 지원 버전은 Lynx Engine 3.9입니다.
+
+- 3a66eeb: Lynx에서 Reaction Button과 Count 컴포넌트를 사용할 수 있도록 추가했습니다.
+- f8db24a: Lynx 플랫폼에 `Menu` 컴포넌트를 추가합니다.
+- 441a22e: Lynx용 `SwipeableMenuSheet` 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:swipeable-menu-sheet`로 Registry 컴포넌트를 설치할 수 있습니다.
+
+- 5871638: Segmented Control과 Tabs 항목에 알림 콘텐츠를 배치할 수 있는 `notification` prop을 추가합니다. Tabs Trigger에는 선택된 항목을 다시 누르는 동작도 처리할 수 있도록 `bindtap` prop을 추가합니다.
+- 50c7e53: Lynx 컴포넌트의 pressed 색상 피드백을 개선합니다.
+
+  기존 Background Thread의 상태 갱신에 의존하던 pressed 색상 반응을
+  Main Thread의 `:active` 기반으로 개선하고, React와 동일한 색상 transition을 적용합니다.
+  짧은 탭에서도 색상 피드백이 빠르게 시작됩니다.
+
+  disabled·loading 상태의 입력 제한과 기존 pressed 상태 처리는 유지합니다.
+
+- ce7fcfe: List 컴포넌트의 Lynx 버전을 추가합니다.
+
+  - 정적, 버튼, Checkbox, Radio, Switch 목록 항목과 `ListHeader`를 제공합니다.
+  - `npx @seed-design/cli@latest add ui:list`로 Registry 컴포넌트를 설치할 수 있습니다.
+
+### Patch Changes
+
+- 02c08d0: Lynx Checkbox에서 컨트롤과 라벨의 세로 정렬이 어긋나던 문제를 수정합니다.
+
 ## 0.6.3
 
 ### Patch Changes
