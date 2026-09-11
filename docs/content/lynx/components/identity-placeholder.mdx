@@ -24,7 +24,9 @@ npx @seed-design/cli@latest add ui:identity-placeholder
 
 ## Usage
 
-`IdentityPlaceholder`는 부모의 너비와 높이를 모두 채웁니다. 빈 native `<view>`는 높이를 자동으로 채우지 않으므로, 아래처럼 두 축이 해석되는 `Box` frame 안에 배치하세요.
+`IdentityPlaceholder`의 배경은 부모의 너비와 높이를 모두 채웁니다. 도형은 비율을 유지하면서 부모의 짧은 축에 맞춰 중앙에 표시되므로, 비정방형에서도 잘리지 않습니다.
+
+부모의 너비와 높이를 지정한 `Box` 안에 배치하세요.
 
 ```tsx
 import { Box } from "@seed-design/lynx-react";
@@ -69,13 +71,26 @@ export function ProfileFallback() {
   ```
 </LynxComponentExample>
 
+### Aspect Ratio
+
+정방형, 가로형, 세로형 영역에서 사람과 매장 도형의 비율을 유지합니다.
+
+<LynxComponentExample name="lynx/identity-placeholder/aspect-ratio" height={400}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/identity-placeholder/aspect-ratio.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
 | 영역 | React | Lynx |
 | --- | --- | --- |
 | 렌더링 | `<svg>` path | native `<image>` |
 | 이미지 소스 | 컴포넌트의 SVG path | package에 포함한 person/business 640×640 WebP |
-| 크기 맞춤 | `object-fit: cover` | `mode="aspectFill"` |
+| 크기 맞춤 | SVG의 기본 `preserveAspectRatio="xMidYMid meet"` | `mode="aspectFit"`로 도형 전체를 중앙에 맞춤 |
 | 색상 | Recipe의 gray-500 배경과 `static-white-alpha-800` glyph | 같은 gray-500 배경. glyph은 React Recipe의 `static-white-alpha-800` 값인 `#ffffffde`를 WebP에 고정해 보존합니다. |
 | 접근성 | `aria-label` | `imageProps`의 native `accessibility-label` |
 | SVG / `asChild` prop | SVG prop과 DOM Slot 조합 가능 | 지원하지 않음. Root에는 native `<view>` prop, Image에는 native `<image>` prop을 사용합니다. |

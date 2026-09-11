@@ -60,6 +60,8 @@ IdentityPlaceholderRoot.displayName = "IdentityPlaceholderRoot";
  * `src`와 `mode`는 identity variant가 소유합니다. Web SVG props 대신 native image
  * props를 사용하며 SVG rendering과 `asChild`는 지원하지 않습니다.
  *
+ * React SVG의 기본 `xMidYMid meet`처럼 도형 전체를 비율을 유지한 채 영역 안에 맞춥니다.
+ *
  * 로컬 WebP는 `static-white-alpha-800`의 고정값 `#ffffffde`로 원본 SVG path를
  * rasterize합니다. Native image의 SVG/fill 경로를 피하고, 토큰이 light/dark에서
  * 동일하므로 동적 tint를 사용하지 않습니다.
@@ -90,7 +92,7 @@ export const IdentityPlaceholderImage = React.forwardRef<unknown, IdentityPlaceh
       <image
         {...mergeProps(ref ? { ref: ref as React.Ref<NodesRef> } : {}, nativeProps)}
         src={identitySources[identity]}
-        mode="aspectFill"
+        mode="aspectFit"
         accessibility-label={accessibilityLabel ?? "Identity placeholder"}
         accessibility-traits={accessibilityTraits ?? "image"}
         className={clsx(classNames.image, className)}
