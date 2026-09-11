@@ -304,7 +304,7 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/react": "2.4.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -333,7 +333,7 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/react": "2.4.1",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
@@ -1674,7 +1674,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "2.4.1",
