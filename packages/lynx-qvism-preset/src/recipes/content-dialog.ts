@@ -79,7 +79,7 @@ const contentDialog = defineSlotRecipe({
       },
       "&.ui-closed": {
         opacity: vars.base.enabled.content.exitOpacity,
-        transform: "scale(1)",
+        transform: `scale(${vars.base.enabled.content.enterScale})`,
         transitionDuration: vars.base.enabled.content.exitDuration,
         transitionTimingFunction: vars.base.enabled.content.exitTimingFunction,
       },
