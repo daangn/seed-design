@@ -102,6 +102,21 @@ Trigger 외의 방식으로 Popover를 열고 닫을 수 있습니다. 이 경�
   ```
 </ComponentExample>
 
+### Open Change
+
+`onOpenChange(open, details)`에서 열림 상태가 바뀐 이유를 확인할 수 있습니다.
+
+- `trigger`: 트리거로 열거나 닫음
+- `closeButton`: 닫기 버튼으로 닫음
+- `escapeKeyDown`: Escape 키로 닫음
+- `interactOutside`: 외부 영역을 눌러 닫음
+- `focusOut`: Tab 등으로 포커스가 밖으로 이동하여 닫음
+- `cascadeDismiss`: 상위 레이어가 닫혀 함께 닫음
+
+`cascadeDismiss`는 `details.dismissedParent`를, 나머지는 `details.event`를 제공합니다. `focusOut`의 이벤트는 `FocusEvent`입니다.
+
+Popover는 열릴 때 콘텐츠로 포커스를 옮기지만 가두지 않습니다. Tab으로 밖으로 이동하면 닫히며, 이동한 곳의 포커스를 유지합니다.
+
 ### Placement
 
 `<PopoverRoot>`에 `placement` prop을 설정하여 트리거 기준 위치를 지정합니다. 뷰포트 경계를 벗어나면 자동으로 뒤집히거나(flip) 이동합니다(shift). safe-area가 있는 기기에서는 노치와 홈 인디케이터 안쪽에 배치됩니다.

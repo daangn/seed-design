@@ -7,7 +7,7 @@ import {
   type ReferenceType,
 } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useCallback, useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   usePositionedFloating,
   type UsePositionedFloatingProps,
@@ -20,6 +20,7 @@ interface PopoverReasonToDetailMap {
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
   interactOutside: { event: PointerEvent | TouchEvent };
+  focusOut: { event: FocusEvent };
   /** A parent layer unmounted and cascade-dismissed this one. */
   cascadeDismiss: { dismissedParent: HTMLElement };
 }
@@ -30,13 +31,14 @@ type PopoverChangeDetails = {
   } & PopoverReasonToDetailMap[R];
 }[keyof PopoverReasonToDetailMap];
 
-// The trigger's `useClick` is the only open-state change floating-ui drives on its own;
-// everything else runs through `setOpen` below or the layer callbacks in Popover.tsx.
-// floating-ui reports it as "click" and hands over the click/mousedown/keydown that drove it.
 function getFloatingChangeDetails(
   event: Event | undefined,
   reason: OpenChangeReason | undefined,
 ): PopoverChangeDetails | undefined {
+  if (reason === "focus-out" && event instanceof FocusEvent) {
+    return { reason: "focusOut", event };
+  }
+
   if (reason !== "click") return undefined;
   if (!(event instanceof MouseEvent) && !(event instanceof KeyboardEvent)) return undefined;
 
@@ -83,6 +85,26 @@ export function usePopover({
     arrowStyles,
     rects,
   } = usePositionedFloating<ReferenceType, PopoverChangeDetails>(props, getFloatingChangeDetails);
+
+  const focusOutTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(focusOutTimeout.current), [open]);
+
+  const floatingContext = useMemo(
+    () => ({
+      ...context,
+      onOpenChange: (...args: Parameters<typeof context.onOpenChange>) => {
+        if (args[2] !== "focus-out") return context.onOpenChange(...args);
+
+        // Removing portal guards between native focusout and focusin lets an ancestor
+        // Radix FocusScope's mutation observer steal focus while activeElement is body.
+        // https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/focus-scope.tsx
+        clearTimeout(focusOutTimeout.current);
+        focusOutTimeout.current = setTimeout(() => context.onOpenChange(...args), 0);
+      },
+    }),
+    [context],
+  );
 
   // The single write path for open state, so every caller — the close button here and the
   // layer-stack callbacks in Popover.tsx — funnels through one place.
@@ -141,7 +163,7 @@ export function usePopover({
       // so floating-ui keeps a real node to measure and reposition against.
       lazyMount,
       unmountOnExit,
-      floatingContext: context,
+      floatingContext,
       refs: {
         anchor: refs.setReference as (instance: HTMLElement | null) => void,
         trigger: refs.setReference as (instance: HTMLElement | null) => void,
@@ -198,6 +220,7 @@ export function usePopover({
       lazyMount,
       unmountOnExit,
       context,
+      floatingContext,
       id,
       isTitleRendered,
       isDescriptionRendered,
