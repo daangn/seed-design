@@ -119,7 +119,7 @@ function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | n
  * The target's transform is owned by this hook. Use a separate content layer
  * when the element already uses translate, rotate, or another transform.
  *
- * Supported on Lynx Engine 3.9 and later. Missing or unknown
+ * Supported on Lynx Engine 3.6 and later. Missing or unknown
  * `GlobalProps.motion` values preserve the default motion; only the exact
  * `"reduced"` value disables scaling.
  */
