@@ -1,0 +1,98 @@
+---
+title: Identity Placeholder
+description: 인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/identity-placeholder/preview" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/identity-placeholder/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:identity-placeholder
+```
+
+<LynxManualInstallation name="identity-placeholder" />
+
+## Usage
+
+`IdentityPlaceholder`의 배경은 부모의 너비와 높이를 모두 채웁니다. 도형은 비율을 유지하면서 부모의 짧은 축에 맞춰 중앙에 표시되므로, 비정방형에서도 잘리지 않습니다.
+
+부모의 너비와 높이를 지정한 `Box` 안에 배치하세요.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+import { IdentityPlaceholder } from "@/components/ui/identity-placeholder";
+
+export function ProfileFallback() {
+  return (
+    <Box width="160px" height="160px">
+      <IdentityPlaceholder />
+    </Box>
+  );
+}
+```
+
+기본 `identity`는 `"person"`이며 사람 도형을 표시합니다. `identity="business"`를 전달하면 매장 도형을 표시합니다.
+
+## Props
+
+<react-type-table
+  path="./registry/lynx/ui/identity-placeholder.tsx"
+  name="IdentityPlaceholderProps"
+/>
+
+`imageProps`로 내부 native `<image>`의 접근성 prop을 전달할 수 있습니다. 기본 접근성 레이블은 `"Identity placeholder"`이며, 의미에 맞게 덮어쓸 수 있습니다.
+
+```tsx
+<IdentityPlaceholder imageProps={{ "accessibility-label": "프로필 이미지 없음" }} />
+```
+
+## Examples
+
+### Identity
+
+`identity`로 사람과 매장 도형을 선택합니다.
+
+<LynxComponentExample name="lynx/identity-placeholder/identity" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/identity-placeholder/identity.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Aspect Ratio
+
+정방형, 가로형, 세로형 영역에서 사람과 매장 도형의 비율을 유지합니다.
+
+<LynxComponentExample name="lynx/identity-placeholder/aspect-ratio" height={400}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/identity-placeholder/aspect-ratio.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+| 영역 | React | Lynx |
+| --- | --- | --- |
+| 렌더링 | `<svg>` path | native `<image>` |
+| 이미지 소스 | 컴포넌트의 SVG path | package에 포함한 person/business 640×640 WebP |
+| 크기 맞춤 | SVG의 기본 `preserveAspectRatio="xMidYMid meet"` | `mode="aspectFit"`로 도형 전체를 중앙에 맞춤 |
+| 색상 | Recipe의 gray-500 배경과 `static-white-alpha-800` glyph | 같은 gray-500 배경. glyph은 React Recipe의 `static-white-alpha-800` 값인 `#ffffffde`를 WebP에 고정해 보존합니다. |
+| 접근성 | `aria-label` | `imageProps`의 native `accessibility-label` |
+| SVG / `asChild` prop | SVG prop과 DOM Slot 조합 가능 | 지원하지 않음. Root에는 native `<view>` prop, Image에는 native `<image>` prop을 사용합니다. |
+
+Lynx native image는 SVG를 렌더링하지 않으므로 두 도형을 내부 WebP로 제공합니다. 이미지는 package asset import로 bundle에 포함되며 외부 URL 요청을 하지 않습니다. glyph 색상은 원본 React Recipe의 고정 alpha를 raster에 보존한 값이므로 `tint-color` 또는 동적 tint hook을 추가하지 않습니다.

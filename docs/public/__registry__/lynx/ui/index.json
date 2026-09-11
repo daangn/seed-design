@@ -165,6 +165,21 @@
     {
       "snippets": [
         {
+          "path": "identity-placeholder.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "identity-placeholder",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "list.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
