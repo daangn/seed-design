@@ -2365,6 +2365,133 @@ text {
   background: var(--seed-color-bg-neutral-weak-pressed);
 }
 
+.seed-contextual-floating-button__root {
+  border-radius: var(--seed-radius-full);
+  width: fit-content;
+  box-shadow: var(--seed-shadow-s3);
+  --size: 16px;
+  --thickness: 2px;
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+  flex-direction: row;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.seed-contextual-floating-button__content {
+  opacity: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.seed-contextual-floating-button__prefixIcon, .seed-contextual-floating-button__icon {
+  flex-shrink: 0;
+}
+
+.seed-contextual-floating-button__loadingIndicator {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.seed-contextual-floating-button__root--variant_solid {
+  background: var(--seed-color-bg-neutral-inverted);
+  --track-color: var(--seed-color-palette-gray-700);
+  --range-color: var(--seed-color-fg-neutral-inverted);
+}
+
+.seed-contextual-floating-button__text--variant_solid, .seed-contextual-floating-button__prefixIcon--variant_solid, .seed-contextual-floating-button__icon--variant_solid {
+  color: var(--seed-color-fg-neutral-inverted);
+}
+
+.seed-contextual-floating-button__root--variant_layer {
+  background: var(--seed-color-bg-layer-floating);
+  --track-color: var(--seed-color-palette-gray-500);
+  --range-color: var(--seed-color-fg-neutral);
+}
+
+.seed-contextual-floating-button__text--variant_layer, .seed-contextual-floating-button__prefixIcon--variant_layer, .seed-contextual-floating-button__icon--variant_layer {
+  color: var(--seed-color-fg-neutral);
+}
+
+.seed-contextual-floating-button__root--layout_withText {
+  min-height: 36px;
+  padding-top: var(--seed-dimension-x2);
+  padding-right: var(--seed-dimension-x3_5);
+  padding-bottom: var(--seed-dimension-x2);
+  padding-left: var(--seed-dimension-x3_5);
+}
+
+.seed-contextual-floating-button__content--layout_withText {
+  gap: var(--seed-dimension-x1);
+}
+
+.seed-contextual-floating-button__text--layout_withText {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+  font-weight: var(--seed-font-weight-medium);
+}
+
+.seed-contextual-floating-button__prefixIcon--layout_withText {
+  width: 16px;
+  height: 16px;
+}
+
+.seed-contextual-floating-button__root--layout_iconOnly {
+  width: 44px;
+  height: 44px;
+}
+
+.seed-contextual-floating-button__icon--layout_iconOnly {
+  width: 22px;
+  height: 22px;
+}
+
+.seed-contextual-floating-button__content--loading_true {
+  opacity: 0;
+}
+
+.seed-contextual-floating-button__root--variant_solid-pressed_true {
+  background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+
+.seed-contextual-floating-button__root--variant_layer-pressed_true {
+  background: var(--seed-color-bg-layer-floating-pressed);
+}
+
+.seed-contextual-floating-button__root--variant_solid-disabled_true {
+  background: var(--seed-color-bg-disabled);
+}
+
+.seed-contextual-floating-button__text--variant_solid-disabled_true, .seed-contextual-floating-button__prefixIcon--variant_solid-disabled_true, .seed-contextual-floating-button__icon--variant_solid-disabled_true {
+  color: var(--seed-color-fg-disabled);
+}
+
+.seed-contextual-floating-button__root--variant_layer-disabled_true {
+  background: var(--seed-color-bg-disabled);
+}
+
+.seed-contextual-floating-button__text--variant_layer-disabled_true, .seed-contextual-floating-button__prefixIcon--variant_layer-disabled_true, .seed-contextual-floating-button__icon--variant_layer-disabled_true {
+  color: var(--seed-color-fg-disabled);
+}
+
+.seed-contextual-floating-button__root--variant_solid-loading_true {
+  background: var(--seed-color-bg-neutral-inverted-pressed);
+}
+
+.seed-contextual-floating-button__root--variant_layer-loading_true {
+  background: var(--seed-color-bg-layer-floating-pressed);
+}
+
 .seed-field__root {
   gap: var(--seed-dimension-x2);
   flex-direction: column;

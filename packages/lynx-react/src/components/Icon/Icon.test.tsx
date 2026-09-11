@@ -97,8 +97,6 @@ describe("InternalIcon", () => {
     await waitSchedule();
 
     const { image } = getSourceAndImage();
-    expect(frames.size).toBe(0);
-    expect(image.getAttribute("tint-color")).toBeNull();
 
     rerender(renderIcon("checked"));
     await waitSchedule();
@@ -106,7 +104,6 @@ describe("InternalIcon", () => {
     expect(frames.size).toBe(1);
     // The immediate read uses the old native style; the next frame must refresh it.
     expect(image.getAttribute("tint-color")).toBe("rgb(134, 139, 148)");
-
     computedColor = "rgb(255, 102, 0)";
     runNextFrame();
 

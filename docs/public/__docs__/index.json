@@ -2146,6 +2146,12 @@
               "docUrl": "/lynx/getting-started/cli"
             },
             {
+              "id": "contextual-floating-button",
+              "title": "Contextual Floating Button",
+              "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+              "docUrl": "/lynx/components/contextual-floating-button"
+            },
+            {
               "id": "divider",
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
