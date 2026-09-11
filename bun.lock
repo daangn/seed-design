@@ -65,7 +65,7 @@
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "2.0.3",
+        "@seed-design/stackflow": "2.0.4",
         "@seed-design/tailwind4-theme": "2.4.0",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
@@ -337,7 +337,7 @@
         "@seed-design/react": "2.4.1",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
-        "@seed-design/stackflow": "2.0.3",
+        "@seed-design/stackflow": "2.0.4",
         "@seed-design/stylesheet": "1.1.2",
         "@stackflow/compat-await-push": "^1.1.13",
         "@stackflow/config": "^1.2.1",
@@ -427,7 +427,7 @@
       "devDependencies": {
         "@types/jscodeshift": "^17.3.0",
         "@types/node": "^25.0.0",
-        "csv-parse": "^6.0.0",
+        "csv-parse": "^7.0.2",
         "dotenv": "^17.0.0",
         "esbuild": "^0.27.0",
         "typescript": "^7.0.2",
@@ -4214,7 +4214,7 @@
 
     "csstype": ["csstype@3.2.3", "", {}, "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ=="],
 
-    "csv-parse": ["csv-parse@6.1.0", "", {}, "sha512-CEE+jwpgLn+MmtCpVcPtiCZpVtB6Z2OKPTr34pycYYoL7sxdOkXDdQ4lRiw6ioC0q6BLqhc6cKweCVvral8yhw=="],
+    "csv-parse": ["csv-parse@7.0.2", "", {}, "sha512-uKZghv9UmPkMVLYy//KZ9HFAIJsl7wkhoEdIL0+rhuSY9pZQlhaeGEDPIe+/w7eh81MOql8Q/9+inAGWG6ZHYA=="],
 
     "custom-media-element": ["custom-media-element@1.4.5", "", {}, "sha512-cjrsQufETwxjvwZbYbKBCJNvmQ2++G9AvT45zDi7NXL9k2PdVcs2h0jQz96J6G4TMKRCcEsoJ+QTgQD00Igtjw=="],
 
