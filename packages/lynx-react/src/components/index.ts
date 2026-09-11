@@ -7,6 +7,7 @@ export * from "./BottomSheet";
 export * from "./Callout";
 export * from "./Checkbox";
 export * from "./Chip";
+export * from "./ChipTabs";
 export * from "./Count";
 export * from "./ContextualFloatingButton";
 export * from "./Divider";

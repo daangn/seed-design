@@ -1,14 +1,28 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
+import * as React from "@lynx-js/react";
+import { createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace";
+import * as ChipTabs from "../ChipTabs/ChipTabs.namespace";
 import {
   areTabsTransitionsEnabled,
   getTabsLayoutWidth,
   getTabsOrderedItems,
+  getTabsScrollOffset,
   getTabsTriggerRects,
 } from "./Tabs.utils";
+
+function fireViewPagerEvent(
+  pager: Element,
+  eventName: "change" | "willchange",
+  detail: { index: number; isDragged: boolean },
+) {
+  const init = { eventType: "bindEvent", eventName, detail };
+  const event = createEvent(`bindEvent:${eventName}`, pager, init);
+  Object.assign(event, init);
+  fireEvent(pager, event);
+}
 
 function BasicTabs(props: {
   value?: string;
@@ -140,6 +154,121 @@ describe("Tabs", () => {
     expect(rects["three"]?.left).toBe(0);
   });
 
+  it("calculates tab scroll offsets from content insets and measured widths", () => {
+    const geometry = {
+      viewportWidth: 360,
+      contentWidth: 792,
+      contentInsetStart: 16,
+      contentInsetEnd: 16,
+      triggerRect: { left: 320, width: 56 },
+    };
+
+    expect(getTabsScrollOffset({ ...geometry, scrollAlign: "start", currentOffset: 0 })).toBe(320);
+    expect(getTabsScrollOffset({ ...geometry, scrollAlign: "center", currentOffset: 0 })).toBe(184);
+    expect(getTabsScrollOffset({ ...geometry, scrollAlign: "end", currentOffset: 0 })).toBe(48);
+    expect(getTabsScrollOffset({ ...geometry, scrollAlign: "nearest", currentOffset: 0 })).toBe(48);
+    expect(getTabsScrollOffset({ ...geometry, scrollAlign: "nearest", currentOffset: 160 })).toBe(
+      160,
+    );
+    // A trigger can sit inside the desired 16px padding while remaining fully
+    // visible in the actual scroll viewport; nearest must not move it.
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        scrollAlign: "nearest",
+        currentOffset: 200,
+        triggerRect: { left: 192, width: 56 },
+      }),
+    ).toBe(200);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        scrollAlign: "nearest",
+        currentOffset: 240,
+        triggerRect: { left: 192, width: 56 },
+      }),
+    ).toBe(192);
+  });
+
+  it("clamps tab scrolling at both content edges without moving a non-scrollable list", () => {
+    const geometry = {
+      viewportWidth: 360,
+      contentWidth: 792,
+      contentInsetStart: 16,
+      contentInsetEnd: 16,
+    };
+
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        scrollAlign: "end",
+        currentOffset: 0,
+        triggerRect: { left: 0, width: 56 },
+      }),
+    ).toBe(0);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        scrollAlign: "start",
+        currentOffset: 0,
+        triggerRect: { left: 704, width: 56 },
+      }),
+    ).toBe(432);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        contentWidth: 360,
+        scrollAlign: "center",
+        currentOffset: 144,
+        triggerRect: { left: 320, width: 56 },
+      }),
+    ).toBe(0);
+  });
+
+  it("updates large ChipTabs selection and content without activating disabled triggers", () => {
+    const onValueChange = vi.fn();
+    const { container } = render(
+      <ChipTabs.Root size="large" defaultValue="one" onValueChange={onValueChange}>
+        <ChipTabs.List>
+          <ChipTabs.Trigger value="one" notification={<text>새 알림</text>}>
+            첫 번째
+          </ChipTabs.Trigger>
+          <ChipTabs.Trigger value="two">두 번째</ChipTabs.Trigger>
+          <ChipTabs.Trigger value="three" disabled>
+            세 번째
+          </ChipTabs.Trigger>
+        </ChipTabs.List>
+        <ChipTabs.Content value="one">첫 번째 콘텐츠</ChipTabs.Content>
+        <ChipTabs.Content value="two">두 번째 콘텐츠</ChipTabs.Content>
+        <ChipTabs.Content value="three">세 번째 콘텐츠</ChipTabs.Content>
+      </ChipTabs.Root>,
+    );
+    const triggers = container.querySelectorAll<HTMLElement>(
+      '[accessibility-role-description="tab"]',
+    );
+    const contents = container.querySelectorAll<HTMLElement>(
+      '[accessibility-role-description="tabpanel"]',
+    );
+
+    expect(triggers[0]).toHaveAttribute("accessibility-value", "selected");
+    expect(contents[0]).toHaveAttribute("accessibility-elements-hidden", "false");
+    expect(contents[0]).toHaveTextContent("첫 번째 콘텐츠");
+    expect(container).toHaveTextContent("새 알림");
+
+    fireEvent.tap(triggers[1]);
+
+    expect(onValueChange).toHaveBeenCalledWith("two");
+    expect(triggers[1]).toHaveAttribute("accessibility-value", "selected");
+    expect(contents[1]).toHaveAttribute("accessibility-elements-hidden", "false");
+    expect(contents[1]).toHaveTextContent("두 번째 콘텐츠");
+
+    fireEvent.tap(triggers[2]);
+
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(triggers[1]).toHaveAttribute("accessibility-value", "selected");
+    expect(contents[1]).toHaveAttribute("accessibility-elements-hidden", "false");
+  });
+
   it("does not select a disabled trigger", () => {
     const onValueChange = vi.fn();
     const { container } = render(
@@ -188,6 +317,78 @@ describe("Tabs", () => {
 
     expect(container.querySelector("viewpager-item")).toBeNull();
     expect(container.querySelector(".seed-tabs__content")).not.toBeNull();
+  });
+
+  it("starts only for native drags and closes non-changing or cancelled swipes", () => {
+    function SwipeLifecycleTabs() {
+      const [counts, setCounts] = React.useState({ starts: 0, ends: 0, settles: 0 });
+      const isSwiping = counts.starts > counts.ends;
+
+      return (
+        <Tabs.Root defaultValue="one">
+          <Tabs.List>
+            <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
+            <Tabs.Trigger value="two">두 번째</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Carousel
+            swipeable
+            onSwipeStart={() =>
+              setCounts((current) => ({ ...current, starts: current.starts + 1 }))
+            }
+            onSwipeEnd={() => setCounts((current) => ({ ...current, ends: current.ends + 1 }))}
+            onSettle={() => setCounts((current) => ({ ...current, settles: current.settles + 1 }))}
+          >
+            <Tabs.CarouselCamera>
+              <Tabs.Content value="one">첫 번째 콘텐츠</Tabs.Content>
+              <Tabs.Content value="two">두 번째 콘텐츠</Tabs.Content>
+            </Tabs.CarouselCamera>
+          </Tabs.Carousel>
+          <text data-testid="swipe-state">{isSwiping ? "swiping" : "idle"}</text>
+          <text data-testid="swipe-counts">
+            {`${counts.starts}/${counts.ends}/${counts.settles}`}
+          </text>
+        </Tabs.Root>
+      );
+    }
+
+    const { container, getByTestId } = render(<SwipeLifecycleTabs />);
+    const pager = container.querySelector("viewpager")!;
+
+    fireEvent.touchstart(pager, {});
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    fireEvent.touchend(pager, {});
+    expect(getByTestId("swipe-counts")).toHaveTextContent("0/0/0");
+
+    fireEvent.touchstart(pager, {});
+    fireViewPagerEvent(pager, "willchange", { index: 1, isDragged: true });
+    expect(getByTestId("swipe-state")).toHaveTextContent("swiping");
+    fireViewPagerEvent(pager, "change", { index: 1, isDragged: true });
+    fireEvent.touchend(pager, {});
+
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    expect(getByTestId("swipe-counts")).toHaveTextContent("1/1/1");
+
+    fireEvent.touchstart(pager, {});
+    fireViewPagerEvent(pager, "willchange", { index: 1, isDragged: true });
+    fireEvent.touchend(pager, {});
+
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    expect(getByTestId("swipe-counts")).toHaveTextContent("2/2/1");
+
+    fireEvent.touchstart(pager, {});
+    fireViewPagerEvent(pager, "willchange", { index: 0, isDragged: true });
+    fireViewPagerEvent(pager, "change", { index: 0, isDragged: true });
+    fireEvent.touchend(pager, {});
+
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    expect(getByTestId("swipe-counts")).toHaveTextContent("3/3/2");
+
+    fireEvent.touchstart(pager, {});
+    fireViewPagerEvent(pager, "willchange", { index: 0, isDragged: true });
+    fireEvent.touchcancel(pager, {});
+    fireEvent.touchend(pager, {});
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    expect(getByTestId("swipe-counts")).toHaveTextContent("4/4/2");
   });
 
   it("renders carousel camera contents as native viewpager items", () => {
