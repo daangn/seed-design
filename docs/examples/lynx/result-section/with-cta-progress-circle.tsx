@@ -49,11 +49,7 @@ export default function Example() {
                       <ProgressCircle.Range />
                     </ProgressCircle.Root>
                   ) : (
-                    <Icon
-                      icon={<IconExclamationmarkCircleFill color="var(--seed-color-fg-critical)" />}
-                      size="x10"
-                      color="fg.critical"
-                    />
+                    <Icon icon={<IconExclamationmarkCircleFill />} size="x10" color="fg.critical" />
                   )}
                 </Box>
               }
