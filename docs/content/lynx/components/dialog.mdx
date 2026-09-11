@@ -1,0 +1,212 @@
+---
+title: Dialog
+description: 화면 중앙에 떠서 사용자의 주의를 모으고, 제목·본문·푸터를 담는 모달형 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - overlay
+featured: true
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.7.0, @seed-design/lynx-css@0.11.0" />
+
+<LynxComponentExample name="lynx/dialog/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:dialog
+```
+
+<LynxManualInstallation name="dialog" />
+
+`@seed-design/lynx-react`의 `Dialog`는 [`@lynx-js/lynx-ui-dialog`](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-dialog)를 래핑합니다. Registry의 `DialogContent`는 Positioner, Backdrop, Header를 내부에서 조립하고, `DialogAction`은 `ActionButton`과 닫기 동작을 함께 제공합니다.
+
+## Usage
+
+```tsx
+import {
+  DialogAction,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogRoot,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ActionButton } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <DialogRoot size="medium">
+      <DialogTrigger>
+        <ActionButton variant="neutralSolid">다이얼로그 열기</ActionButton>
+      </DialogTrigger>
+      <DialogContent title="제목" description="부가 설명">
+        <DialogBody>
+          <text>본문 콘텐츠</text>
+        </DialogBody>
+        <DialogFooter>
+          <DialogAction variant="neutralSolid">닫기</DialogAction>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
+  );
+}
+```
+
+Registry의 `DialogContent`는 `Positioner`, `Backdrop`, `Header`를 내부에서 조립합니다. `DialogTrigger`는 Content 밖에 두어야 탭으로 Dialog를 열 수 있습니다. `DialogContent`의 `showCloseButton`은 기본값이 `true`이며, 헤더에 닫기 `ActionButton`을 렌더링합니다. 닫기 버튼이 필요하지 않으면 `showCloseButton={false}`로 설정하세요.
+
+`DialogBody`는 native `<scroll-view scroll-y>`로 렌더링되며 Content의 최대 높이 안에서 세로로 스크롤합니다. `DialogAction`은 `ActionButton` props를 받아 닫기 동작과 함께 렌더링합니다.
+
+## Props
+
+### `DialogRoot`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogRootProps" />
+
+### `DialogTrigger`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogTriggerProps" />
+
+### `DialogContent`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogContentProps" />
+
+### `DialogBody`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogBodyProps" />
+
+### `DialogFooter`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogFooterProps" />
+
+### `DialogAction`
+
+<react-type-table path="./registry/lynx/ui/dialog.tsx" name="DialogActionProps" />
+
+## Examples
+
+### Trigger
+
+`<DialogTrigger>`를 탭하면 Dialog가 열립니다. Lynx는 React의 `asChild`를 지원하지 않으며, Trigger가 자식 요소를 감싸는 native view를 렌더링합니다.
+
+<LynxComponentExample name="lynx/dialog/trigger" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/trigger.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Dialog를 열고 닫으려면 `open`과 `onOpenChange`로 상태를 제어합니다.
+
+<LynxComponentExample name="lynx/dialog/controlled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Size
+
+`<DialogRoot>`의 `size` prop으로 Dialog 너비를 변경할 수 있습니다. `"medium"`이 기본값이며 `"large"`를 지원합니다. 두 size 모두 작은 화면에서는 recipe의 뷰포트 기반 너비를 사용하고, 더 넓은 화면에서는 Dialog token의 size별 최대 너비가 적용됩니다. Content 높이는 recipe의 최대 높이로 제한됩니다.
+
+<LynxComponentExample name="lynx/dialog/size" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/size.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Body
+
+`<DialogBody>`는 `seed-content-dialog__body` selector가 적용되는 본문 slot입니다. literal native `<scroll-view scroll-y>`로 렌더링되어 Content의 최대 높이 안에서 세로로 스크롤하며, 기본 가로 패딩은 recipe의 body token(`x6`)에서 제공합니다.
+
+웹 버전과 달리 Lynx는 overflow 상태를 관찰해 헤더 구분선이나 하단 fade 마스크를 표시하지 않습니다.
+
+<LynxComponentExample name="lynx/dialog/body" height={560}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/body.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Custom Body
+
+`<DialogBody>`는 기존 Lynx styled props를 받습니다. `className` 또는 `style`로 `height`, `min-height`, 정렬을 재정의할 수 있습니다. Recipe 기본 padding을 확실히 덮어써야 하는 경우에는 CSS 로드 순서의 영향을 받지 않도록 `style`에 `paddingLeft`와 `paddingRight`를 직접 지정하세요. 기본 가로 패딩을 제거해 full-bleed 콘텐츠를 배치할 때만 명시적으로 지정하세요.
+
+<LynxComponentExample name="lynx/dialog/custom-body" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/custom-body.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Show Close Button
+
+Registry의 `DialogContent`는 `showCloseButton`을 지원하며 기본값은 `true`입니다. `false`로 설정하면 헤더의 닫기 `ActionButton`을 숨기고, 푸터 등에 명시적인 닫기 액션을 제공할 수 있습니다.
+
+<LynxComponentExample name="lynx/dialog/show-close-button" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/show-close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Footer Layout
+
+`DialogFooter`는 flex 레이아웃만 제공합니다. 버튼 배치는 자식 `view`에 `flex-direction`, `justify-content`, `gap` 등을 지정해 직접 구성합니다.
+
+<LynxComponentExample name="lynx/dialog/footer-layout" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/footer-layout.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Prevent Close
+
+Lynx의 `DialogAction`에는 React 이벤트의 `preventDefault()`를 사용하는 방식이 없습니다. Dialog를 controlled 상태로 만들고 `onOpenChange(false)`를 조건에 따라 무시하면 닫힘을 막을 수 있습니다.
+
+<LynxComponentExample name="lynx/dialog/prevent-close" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/prevent-close.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` Details
+
+Lynx의 `onOpenChange`는 변경된 `open` 값만 전달합니다. React 버전의 두 번째 인자인 `details.reason`은 지원하지 않습니다. 닫힘 원인이 필요하면 앱이 소유한 버튼과 Trigger의 이벤트 핸들러에서 원인을 별도 상태로 기록하세요.
+
+#### Confirm Before Close
+
+React 예제처럼 `closeButton`, `escapeKeyDown`, `interactOutside`별로 확인 Dialog를 띄우는 동작은 Lynx에서 지원하지 않습니다. Lynx의 callback만으로는 닫힘 원인을 구분할 수 없으므로, 확인이 필요한 액션은 앱이 소유한 버튼의 핸들러에서 확인 Dialog를 먼저 열고 원본 Dialog의 `open`을 직접 제어하세요.
+
+### Portalled
+
+`DialogContent`의 `container`를 지정하면 native overlay 레이어에 렌더링됩니다. `overlayLevel`로 overlay 레이어의 표시 순서를 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/dialog/portalled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/portalled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Responsive
+
+React의 `ResponsiveDialog`와 같은 자동 전환 컴포넌트는 Lynx에서 제공하지 않습니다. 화면 크기에 따라 `Dialog`와 `BottomSheet`를 앱에서 직접 선택하거나, 동일한 controlled 상태를 두 컴포넌트에 연결하세요.
+
+## 웹 버전과의 차이
+
+| 항목 | 웹 | Lynx |
+|---|---|---|
+| 사용자 이벤트 | `onClick` | `bindtap` 또는 공개 callback |
+| 렌더링 요소 | HTML 요소와 Portal | native `<view>`, `<text>`, `<scroll-view>`와 overlay |
+| 상태 prop | `open`, `defaultOpen`, `onOpenChange` | 동일. 내부에서 lynx-ui-dialog의 `show`, `defaultShow`, `onShowChange`로 연결 |
+| Trigger 합성 | `asChild` 지원 | 미지원. Trigger가 자식 요소를 감싸는 view 렌더링 |
+| 본문 slot | `DialogBody` 제공 | `DialogBody` 제공. native `<scroll-view scroll-y>`와 `seed-content-dialog__body` selector를 사용하며 기본 가로 패딩은 recipe body token(`x6`)에서 제공 |
+| 닫기 버튼 | `showCloseButton` 지원 | Registry의 `DialogContent`에서 기본 지원. `showCloseButton={false}`로 숨김 |
+| 닫힘 원인 | `onOpenChange`의 `details.reason` 제공 | boolean `open` 값만 제공 |
+| Portal / overlay | `Portal` 컴포넌트 | `DialogContent`의 `container`, `overlayLevel` |
+| Responsive Dialog | `ResponsiveDialog` 제공 | 미제공. Dialog와 BottomSheet를 앱에서 직접 조합 |
+| 마운트 제어 | `lazyMount`, `unmountOnExit` | `forceMount` 지원 |
+| imperative ref API | 없음 | 지원하지 않음 |

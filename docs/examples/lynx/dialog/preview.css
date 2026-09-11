@@ -1,0 +1,86 @@
+.docs-lynx-dialog-root {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f7f7;
+}
+
+.dialog-example-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.dialog-example-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+}
+.dialog-example-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dialog-example-header-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dialog-example-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.dialog-example-scroll-body {
+  height: 220px;
+  flex: none;
+}
+.dialog-example-min-height-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+}
+
+.dialog-example-full-bleed {
+  display: flex;
+  padding: 32px 24px;
+  background-color: #eeeeee;
+}
+
+.dialog-example-scroll-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dialog-example-text {
+  color: #454545;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.dialog-example-muted {
+  color: #777777;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.dialog-example-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
