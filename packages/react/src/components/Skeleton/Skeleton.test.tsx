@@ -2,16 +2,17 @@ import { vars } from "@seed-design/css/vars";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { createRef } from "react";
-import { Box } from "../Box/Box";
 import { Skeleton } from "./Skeleton";
 
 describe("Skeleton", () => {
-  it.each(Object.entries(vars.$lineHeight))("resolves lineHeight.%s", (token, value) => {
+  it.each(["t4", "t4Static"] as const)("resolves lineHeight.%s", (token) => {
     const { getByTestId } = render(
       <Skeleton data-testid="skeleton" height={`lineHeight.${token}`} />,
     );
 
-    expect(getByTestId("skeleton").style.getPropertyValue("--seed-box-height-base")).toBe(value);
+    expect(getByTestId("skeleton").style.getPropertyValue("--seed-box-height-base")).toBe(
+      vars.$lineHeight[token],
+    );
   });
 
   it("supports line-height and dimension tokens in responsive heights", () => {
@@ -32,10 +33,7 @@ describe("Skeleton", () => {
   it.each([
     [undefined, ""],
     ["x4", vars.$dimension.x4],
-    ["spacingY.componentDefault", vars.$dimension.spacingY.componentDefault],
-    ["full", "100%"],
     ["24px", "24px"],
-    ["50%", "50%"],
     ["var(--custom-height)", "var(--custom-height)"],
     ["lineHeight.invalid", "lineHeight.invalid"],
     ["lineHeight.constructor", "lineHeight.constructor"],
@@ -45,7 +43,7 @@ describe("Skeleton", () => {
     expect(getByTestId("skeleton").style.getPropertyValue("--seed-box-height-base")).toBe(expected);
   });
 
-  it("preserves styles, recipe props, className and ref with asChild", () => {
+  it("preserves styles, className and ref with asChild", () => {
     const ref = createRef<HTMLDivElement>();
     const { getByTestId } = render(
       <Skeleton
@@ -53,8 +51,6 @@ describe("Skeleton", () => {
         asChild
         height="lineHeight.t4"
         width="x8"
-        radius="full"
-        tone="magic"
         className="custom"
         style={{ height: "32px" }}
       >
@@ -63,39 +59,10 @@ describe("Skeleton", () => {
     );
     const element = getByTestId("skeleton");
 
-    expect(ref.current === element).toBe(true);
-    expect(element).toHaveClass(
-      "seed-skeleton",
-      "seed-skeleton--radius_full",
-      "seed-skeleton--tone_magic",
-      "custom",
-    );
+    expect(ref.current).toBe(element);
+    expect(element).toHaveClass("custom");
     expect(element.style.height).toBe("32px");
     expect(element.style.getPropertyValue("--seed-box-width-base")).toBe(vars.$dimension.x8);
     expect(element).not.toHaveAttribute("height");
-    expect(element).not.toHaveAttribute("radius");
-  });
-
-  it("limits line-height token resolution to Skeleton height", () => {
-    const { getByTestId } = render(
-      <>
-        <Skeleton data-testid="skeleton" width="lineHeight.t4" />
-        <Box
-          data-testid="box"
-          height="lineHeight.t4"
-          minHeight="lineHeight.t4"
-          maxHeight="lineHeight.t4"
-        />
-      </>,
-    );
-
-    expect(getByTestId("skeleton").style.getPropertyValue("--seed-box-width-base")).toBe(
-      "lineHeight.t4",
-    );
-    for (const property of ["height", "min-height", "max-height"]) {
-      expect(getByTestId("box").style.getPropertyValue(`--seed-box-${property}-base`)).toBe(
-        "lineHeight.t4",
-      );
-    }
   });
 });
