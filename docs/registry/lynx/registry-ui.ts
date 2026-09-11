@@ -30,6 +30,11 @@ const menuPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
+const dialogPackageRanges = {
+  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
 
 const listPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
@@ -72,6 +77,15 @@ export const registryUI: Registry = {
         {
           path: "bottom-sheet.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: dialogPackageRanges,
         },
       ],
     },

@@ -1,0 +1,26 @@
+export {
+  DialogAction,
+  type DialogActionProps,
+  DialogBackdrop,
+  type DialogBackdropProps,
+  DialogBody,
+  type DialogBodyProps,
+  DialogContent,
+  type DialogContentProps,
+  DialogDescription,
+  type DialogDescriptionProps,
+  DialogFooter,
+  type DialogFooterProps,
+  DialogHeader,
+  type DialogHeaderProps,
+  DialogPositioner,
+  type DialogPositionerProps,
+  DialogRoot,
+  type DialogRootProps,
+  DialogTitle,
+  type DialogTitleProps,
+  DialogTrigger,
+  type DialogTriggerProps,
+} from "./Dialog";
+
+export * as Dialog from "./Dialog.namespace";

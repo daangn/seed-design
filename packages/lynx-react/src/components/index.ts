@@ -12,6 +12,7 @@ export * from "./ContextualFloatingButton";
 export * from "./Divider";
 export * from "./Field";
 export * from "./Icon";
+export * from "./Dialog";
 export * from "./InputButton";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./MannerTemp";
