@@ -1,0 +1,16 @@
+{
+  "id": "identity-placeholder",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "identity-placeholder.tsx",
+      "content": "/**\n * @file ui:identity-placeholder\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport { IdentityPlaceholder as SeedIdentityPlaceholder } from \"@seed-design/lynx-react\";\n\nexport interface IdentityPlaceholderProps\n  extends Omit<SeedIdentityPlaceholder.RootProps, \"children\"> {\n  imageProps?: SeedIdentityPlaceholder.ImageProps;\n}\n\n/**\n * @see https://seed-design.io/lynx/components/identity-placeholder\n */\nexport const IdentityPlaceholder = React.forwardRef<unknown, IdentityPlaceholderProps>(\n  ({ imageProps, ...rootProps }, ref) => {\n    return (\n      <SeedIdentityPlaceholder.Root ref={ref} {...rootProps}>\n        <SeedIdentityPlaceholder.Image {...imageProps} />\n      </SeedIdentityPlaceholder.Root>\n    );\n  },\n);\nIdentityPlaceholder.displayName = \"IdentityPlaceholder\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+      }
+    }
+  ]
+}

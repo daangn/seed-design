@@ -98,6 +98,8 @@ export function App() {
 
 SEED 컴포넌트의 monochrome icon slot 안에서는 `@seed-design/lynx-react`의 `Icon`, `PrefixIcon`, `SuffixIcon` wrapper를 사용하세요. wrapper가 recipe className에서 계산된 color를 Lynx `<image>`의 `tint-color`로 동기화하고, slot size를 icon image에 전달합니다.
 
+색상을 지정할 때는 wrapper의 `color` prop에만 전달하세요. `icon`에 전달하는 아이콘 컴포넌트에는 `color`나 `tint-color`를 중복 지정하지 않습니다.
+
 ```tsx
 import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";

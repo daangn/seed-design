@@ -1,0 +1,117 @@
+---
+title: Contextual Floating Button
+description: 화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `ContextualFloatingButton`은 별도 `ui:contextual-floating-button` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+<LynxComponentExample name="lynx/contextual-floating-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout>
+웹 미리보기에서는 아이콘 색상이 적용되지 않습니다. 실제 아이콘 색상은 QR 코드 탭에서 Lynx Explorer로 확인하세요.
+</Callout>
+
+## Props
+
+<react-type-table
+  path="../packages/lynx-react/src/components/ContextualFloatingButton/ContextualFloatingButton.tsx"
+  name="ContextualFloatingButtonProps"
+/>
+
+## Examples
+
+### Float Composition
+
+Lynx에는 `Float` 컴포넌트가 없으므로 기준 frame의 `position="relative"`와 외부 `Box`의 native absolute bottom-center 배치로 같은 결과를 만듭니다.
+
+<LynxComponentExample name="lynx/contextual-floating-button/float-composition">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/float-composition.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Solid Variant
+
+<LynxComponentExample name="lynx/contextual-floating-button/solid">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/solid.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Layer Variant
+
+<LynxComponentExample name="lynx/contextual-floating-button/layer">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/layer.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Icon Only
+
+`layout="iconOnly"`에는 스크린 리더가 읽을 `accessibility-label`을 함께 지정하세요.
+
+<LynxComponentExample name="lynx/contextual-floating-button/icon-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/icon-only.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Loading
+
+탭하면 loading 상태가 즉시 시작되고 2초 뒤에 원래 상태로 돌아옵니다. Loading 중에는 탭할 수 없습니다.
+
+<LynxComponentExample name="lynx/contextual-floating-button/loading">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/contextual-floating-button/loading.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+
+- **이벤트 핸들링**: `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`을 사용합니다.
+- **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`와 `<text>` 요소를 렌더링합니다. HTML form props와 `asChild`는 지원하지 않습니다.
+- **접근성**: `aria-label` 대신 native `accessibility-label`을 사용합니다.
+- **아이콘**: 웹 SVG 대신 native icon asset을 `PrefixIcon` 또는 `Icon` child slot으로 전달합니다. recipe 색상은 native icon tint로 동기화됩니다.
+- **Loading**: 두 플랫폼 모두 spinner를 absolute로 얹고 content를 숨겨 버튼 폭을 유지합니다. Lynx는 loading 중 tap을 차단하지만, React는 loading만으로 `onClick`을 차단하지 않습니다.
+- **Scale Feedback**: root의 `transform`은 Scale Feedback hook이 소유합니다. 위치를 transform으로 조정해야 할 때는 버튼 root가 아닌 외부 wrapper에 적용하세요.
+
+</Callout>

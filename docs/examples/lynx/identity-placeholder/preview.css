@@ -1,0 +1,10 @@
+.docs-lynx-identity-placeholder-root {
+  height: 100%;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.identity-placeholder-preview {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}

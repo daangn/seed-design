@@ -5,6 +5,11 @@ const lynxSeedPackageRanges = {
   "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
+const identityPlaceholderPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+
 const fieldPackageRanges = {
   "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.8.0 <1.0.0",
@@ -21,6 +26,15 @@ const fieldButtonPackageRanges = {
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
+const floatingActionButtonPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+const chipTabsPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+
 const selectBoxPackageRanges = {
   "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
@@ -29,6 +43,17 @@ const selectBoxPackageRanges = {
 const menuPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+};
+const dialogPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+
+const helpBubblePackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
 const listPackageRanges = {
@@ -76,6 +101,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: dialogPackageRanges,
+        },
+      ],
+    },
+    {
       id: "callout",
       snippets: [
         {
@@ -97,11 +131,38 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "chip-tabs",
+      snippets: [
+        {
+          path: "chip-tabs.tsx",
+          dependencies: chipTabsPackageRanges,
+        },
+      ],
+    },
+    {
       id: "field-button",
       snippets: [
         {
           path: "field-button.tsx",
           dependencies: fieldButtonPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "floating-action-button",
+      snippets: [
+        {
+          path: "floating-action-button.tsx",
+          dependencies: floatingActionButtonPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "identity-placeholder",
+      snippets: [
+        {
+          path: "identity-placeholder.tsx",
+          dependencies: identityPlaceholderPackageRanges,
         },
       ],
     },
@@ -127,6 +188,15 @@ export const registryUI: Registry = {
         {
           path: "menu.tsx",
           dependencies: menuPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "help-bubble",
+      snippets: [
+        {
+          path: "help-bubble.tsx",
+          dependencies: helpBubblePackageRanges,
         },
       ],
     },
