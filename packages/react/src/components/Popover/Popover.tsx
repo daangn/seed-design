@@ -34,11 +34,6 @@ export interface PopoverRootProps extends PopoverVariantProps, PopoverPrimitive.
   /** @default 16 */
   overflowPadding?: PopoverPrimitive.RootProps["overflowPadding"];
   /**
-   * Keep the popover clear of the device safe-area (notch / home indicator).
-   * @default true
-   */
-  safeAreaAware?: PopoverPrimitive.RootProps["safeAreaAware"];
-  /**
    * @default true
    */
   lazyMount?: PopoverPrimitive.RootProps["lazyMount"];
@@ -62,7 +57,6 @@ export function PopoverRoot(props: PopoverRootProps) {
           placement="bottom"
           gutter={DEFAULT_GUTTER}
           overflowPadding={DEFAULT_OVERFLOW_PADDING}
-          safeAreaAware
           lazyMount
           {...otherProps}
         />
