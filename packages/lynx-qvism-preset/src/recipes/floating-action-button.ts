@@ -19,13 +19,14 @@ const floatingActionButton = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flexShrink: 0,
+      maxWidth: "100%",
       overflow: "hidden",
       backgroundColor: vars.base.enabled.root.color,
       borderRadius: vars.base.enabled.root.cornerRadius,
       boxShadow: vars.base.enabled.root.shadow,
       transition: [
         `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
-        `max-width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
+        `width ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding-left ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding-right ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
@@ -54,7 +55,6 @@ const floatingActionButton = defineSlotRecipe({
       true: {
         root: {
           width: "fit-content",
-          maxWidth: "100%",
           height: vars.extendedTrue.enabled.root.minHeight,
           paddingLeft: vars.extendedTrue.enabled.root.paddingX,
           paddingRight: vars.extendedTrue.enabled.root.paddingX,
@@ -68,8 +68,6 @@ const floatingActionButton = defineSlotRecipe({
       false: {
         root: {
           width: vars.extendedFalse.enabled.root.size,
-          minWidth: vars.extendedFalse.enabled.root.size,
-          maxWidth: vars.extendedFalse.enabled.root.size,
           height: vars.extendedFalse.enabled.root.size,
           paddingLeft: 0,
           paddingRight: 0,
@@ -93,11 +91,30 @@ const floatingActionButton = defineSlotRecipe({
       true: {},
       false: {},
     },
+    transitionEnabled: {
+      true: {},
+      false: {
+        root: { transitionDuration: "0s" },
+        icon: { transitionDuration: "0s" },
+      },
+    },
   },
+  compoundVariants: [
+    {
+      extended: true,
+      transitionEnabled: true,
+      css: {
+        root: {
+          width: `calc(var(--fab-label-width) + ${vars.extendedTrue.enabled.icon.size} + ${vars.extendedTrue.enabled.root.gap} + 2 * ${vars.extendedTrue.enabled.root.paddingX})`,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     extended: true,
     pressed: false,
     disabled: false,
+    transitionEnabled: false,
   },
 });
 

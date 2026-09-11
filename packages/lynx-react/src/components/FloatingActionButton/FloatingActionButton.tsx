@@ -12,9 +12,11 @@ import type {
   LynxAccessibilityProps,
   LynxPressableProps,
   LynxStyledElementProps,
+  LynxTextProps,
   LynxTextRef,
   LynxTouchProps,
   LynxViewRef,
+  LynxViewProps,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
@@ -23,7 +25,12 @@ import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps, withContext } =
   createSlotRecipeContext(floatingActionButton);
 
-type FloatingActionButtonPublicVariantProps = Omit<FloatingActionButtonVariantProps, "pressed">;
+type FloatingActionButtonPublicVariantProps = Omit<
+  FloatingActionButtonVariantProps,
+  "pressed" | "transitionEnabled"
+>;
+
+const LabelWidthContext = React.createContext<((width: number) => void) | null>(null);
 
 interface FloatingActionButtonRootViewProps
   extends FloatingActionButtonVariantProps,
@@ -36,18 +43,31 @@ interface FloatingActionButtonRootViewProps
 const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionButtonRootViewProps>(
   (props, ref) => {
     const [variantProps, otherProps] = floatingActionButton.splitVariantProps(props);
-    const { children, className, ...nativeProps } = otherProps;
-    const classNames = floatingActionButton(variantProps);
+    const { children, className, style, ...nativeProps } = otherProps;
+    const initiallyExtended = React.useRef(variantProps.extended !== false);
+    const [labelWidth, setLabelWidth] = React.useState<number>();
+    const classNames = floatingActionButton({
+      ...variantProps,
+      transitionEnabled: labelWidth !== undefined || !initiallyExtended.current,
+    });
 
     return (
       <ClassNamesProvider value={classNames}>
         <PropsProvider value={variantProps}>
-          <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-            className={clsx(classNames.root, className)}
-          >
-            {children}
-          </view>
+          <LabelWidthContext.Provider value={setLabelWidth}>
+            <view
+              {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+              className={clsx(classNames.root, className)}
+              style={
+                {
+                  "--fab-label-width": `${labelWidth ?? 0}px`,
+                  ...style,
+                } as LynxViewProps["style"]
+              }
+            >
+              {children}
+            </view>
+          </LabelWidthContext.Provider>
         </PropsProvider>
       </ClassNamesProvider>
     );
@@ -148,6 +168,20 @@ export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActio
     const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
     const variantProps = useProps();
+    const setLabelWidth = React.useContext(LabelWidthContext);
+
+    if (!setLabelWidth) {
+      throw new Error("FloatingActionButtonLabel must be used within FloatingActionButtonRoot.");
+    }
+
+    const handleLayoutChange = React.useCallback<NonNullable<LynxTextProps["bindlayoutchange"]>>(
+      (event) => {
+        "background only";
+        const width = event.detail.width;
+        if (Number.isFinite(width) && width >= 0) setLabelWidth(width);
+      },
+      [setLabelWidth],
+    );
 
     if (variantProps?.extended === false) {
       return null;
@@ -155,7 +189,11 @@ export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActio
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxTextRef } : {},
+          { bindlayoutchange: handleLayoutChange },
+          nativeProps,
+        )}
         className={clsx(classNames.label, className)}
         accessibility-elements-hidden={true}
       >

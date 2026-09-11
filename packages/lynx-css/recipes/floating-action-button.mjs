@@ -19,10 +19,16 @@ const floatingActionButtonSlotNames = [
 const defaultVariant = {
   "extended": true,
   "pressed": false,
-  "disabled": false
+  "disabled": false,
+  "transitionEnabled": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "extended": true,
+    "transitionEnabled": true
+  }
+];
 
 export const floatingActionButtonVariantMap = {
   "extended": [
@@ -34,6 +40,10 @@ export const floatingActionButtonVariantMap = {
     false
   ],
   "disabled": [
+    true,
+    false
+  ],
+  "transitionEnabled": [
     true,
     false
   ]

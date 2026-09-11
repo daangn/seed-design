@@ -103,6 +103,7 @@ describe("InternalIcon", () => {
 
     expect(image.getAttribute("tint-color")).toBe("rgb(255, 102, 0)");
   });
+
   it("coalesces pending frame syncs across rapid dependency changes", async () => {
     let computedColor = "rgb(134, 139, 148)";
     const { frames, runNextFrame } = installMainThreadStyleMocks(() => computedColor);

@@ -2854,8 +2854,9 @@ text {
 .seed-floating-action-button__root {
   background-color: var(--seed-color-bg-brand-solid);
   border-radius: var(--seed-radius-full);
+  max-width: 100%;
   box-shadow: var(--seed-shadow-s3);
-  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), max-width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding-left var(--seed-duration-d4) var(--seed-timing-function-easing), padding-right var(--seed-duration-d4) var(--seed-timing-function-easing), gap var(--seed-duration-d4) var(--seed-timing-function-easing);
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing), padding-left var(--seed-duration-d4) var(--seed-timing-function-easing), padding-right var(--seed-duration-d4) var(--seed-timing-function-easing), gap var(--seed-duration-d4) var(--seed-timing-function-easing);
   flex-direction: row;
   flex-shrink: 0;
   justify-content: center;
@@ -2882,7 +2883,6 @@ text {
 
 .seed-floating-action-button__root--extended_true {
   width: fit-content;
-  max-width: 100%;
   height: 48px;
   padding-left: var(--seed-dimension-x4_5);
   padding-right: var(--seed-dimension-x4_5);
@@ -2897,8 +2897,6 @@ text {
 .seed-floating-action-button__root--extended_false {
   gap: 0;
   width: 56px;
-  min-width: 56px;
-  max-width: 56px;
   height: 56px;
   padding-left: 0;
   padding-right: 0;
@@ -2911,6 +2909,14 @@ text {
 
 .seed-floating-action-button__root--pressed_true {
   background-color: var(--seed-color-bg-brand-solid-pressed);
+}
+
+.seed-floating-action-button__root--transitionEnabled_false, .seed-floating-action-button__icon--transitionEnabled_false {
+  transition-duration: 0s;
+}
+
+.seed-floating-action-button__root--extended_true-transitionEnabled_true {
+  width: calc(var(--fab-label-width) + var(--seed-dimension-x4) + var(--seed-dimension-x1) + 2 * var(--seed-dimension-x4_5));
 }
 
 .seed-manner-temp__root {
