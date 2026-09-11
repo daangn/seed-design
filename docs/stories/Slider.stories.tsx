@@ -1,7 +1,7 @@
 import preview from "../.storybook/preview";
 import { Slider } from "seed-design/ui/slider";
 
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { sliderVariantMap } from "@seed-design/css/recipes/slider";
 import { sliderTickVariantMap } from "@seed-design/css/recipes/slider-tick";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -57,13 +57,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

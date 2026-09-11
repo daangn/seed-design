@@ -1,0 +1,98 @@
+name: Kapture Report
+on:
+  workflow_run:
+    workflows:
+      - Kapture Capture
+    types:
+      - in_progress
+      - completed
+permissions: {}
+concurrency:
+  group: kapture-review-${{ github.repository }}
+  cancel-in-progress: false
+  queue: max
+env:
+  npm_config_registry: https://registry.npmjs.org/
+  npm_config_ignore_scripts: "true"
+  YARN_ENABLE_SCRIPTS: "false"
+jobs:
+  publish:
+    if: github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: read
+      statuses: write
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      KAPTURE_BASE_BRANCH: ${{ github.event.workflow_run.pull_requests[0].base.ref }}
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - id: review
+        run: npx --yes @kaptures/cli@0.7.0 github prepare-review --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
+      - name: Deploy dashboard and Storybook together
+        id: deploy
+        if: steps.review.outputs.ready == 'true'
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: 4.45.3
+          command: pages deploy ${{ runner.temp }}/kapture-review --project-name=seed-design-storybook --branch=kapture-pr-${{ steps.review.outputs.pr-number }} --commit-hash=${{ steps.review.outputs.head-sha }} --commit-message=kapture-pr-${{ steps.review.outputs.pr-number }}-run-${{ steps.review.outputs.run-id }}
+      - name: Validate the immutable Pages URL
+        id: dashboard
+        if: steps.review.outputs.ready == 'true'
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        with:
+          script: |
+            const url = new URL((process.env.DEPLOYMENT_URL || '').trim());
+            if (url.protocol !== 'https:' ||
+                !/^[0-9a-f]{8}\.seed-design-storybook\.pages\.dev$/.test(url.hostname) ||
+                url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
+              throw new Error('Expected an immutable Storybook Pages deployment URL');
+            }
+            core.setOutput('url', url.toString());
+      - name: Publish review
+        if: steps.review.outputs.ready == 'true'
+        env:
+          KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
+        run: npx --yes @kaptures/cli@0.7.0 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
+      - name: Explain preview retention once per PR
+        if: steps.review.outputs.ready == 'true'
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+        env:
+          PR_NUMBER: ${{ steps.review.outputs.pr-number }}
+        with:
+          script: |
+            const issue_number = Number(process.env.PR_NUMBER);
+            if (!Number.isSafeInteger(issue_number) || issue_number <= 0) throw new Error('Invalid PR number');
+            const marker = '<!-- seed-kapture-retention-policy -->';
+            const comments = await github.paginate(github.rest.issues.listComments, { ...context.repo, issue_number, per_page: 100 });
+            if (!comments.some(c => c.user?.type === 'Bot' && c.body?.includes(marker))) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number,
+                body: `${marker}\nKapture Preview는 PR이 열린 동안 최신 결과와 승인 근거를 보관합니다. 보호 대상이 아닌 이전 결과는 7일 뒤, PR 머지·종료 후에는 모든 해당 Preview를 7일 뒤 정리합니다. 정리된 이미지·대시보드는 기존 링크와 MCP로 조회할 수 없습니다.` });
+            }
+  finalize:
+    needs: publish
+    if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      pull-requests: read
+      statuses: write
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      KAPTURE_BASE_BRANCH: ${{ github.event.workflow_run.pull_requests[0].base.ref }}
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - run: npx --yes @kaptures/cli@0.7.0 github finalize-run --base-branch "$KAPTURE_BASE_BRANCH" --capture-workflow-path .github/workflows/kapture-capture.yml

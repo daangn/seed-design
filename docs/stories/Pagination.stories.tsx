@@ -3,7 +3,7 @@ import { Text, VStack } from "@seed-design/react";
 import { Pagination } from "seed-design/ui/pagination";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { withChromaticParameters, VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS, withVisualTestParameters } from "./utils/parameters";
 
 const meta = preview.meta({
   component: Pagination,
@@ -45,19 +45,19 @@ const CommonStoryTemplate = meta.story({
 });
 
 export const LightTheme = CommonStoryTemplate.extend({
-  parameters: { chromatic: { modes: VIEWPORT_MODES } },
+  parameters: VISUAL_VIEWPORT_PARAMETERS,
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const WithoutEllipsis = meta.story({
@@ -66,7 +66,7 @@ export const WithoutEllipsis = meta.story({
     defaultPage: 3,
     "aria-label": "생략 표시가 없는 페이지 예시",
   },
-  parameters: { chromatic: { modes: VIEWPORT_MODES } },
+  parameters: VISUAL_VIEWPORT_PARAMETERS,
 });
 
 export const LongPageNumbers = meta.story({
@@ -78,5 +78,5 @@ export const LongPageNumbers = meta.story({
       <Component totalPages={1_000_000} defaultPage={500_000} aria-label="긴 페이지 번호 예시" />
     );
   },
-  parameters: withChromaticParameters({}),
+  parameters: withVisualTestParameters({}),
 });

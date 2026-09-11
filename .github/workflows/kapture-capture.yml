@@ -1,0 +1,266 @@
+name: Kapture Capture
+on:
+  pull_request:
+    branches:
+      - dev
+      - minor
+      - major
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+    paths:
+      - docs/registry/react/**
+      - docs/stories/**
+      - docs/.storybook/**
+      - docs/public/**
+      - docs/package.json
+      - packages/react/**
+      - packages/react-headless/**
+      - packages/css/**
+      - packages/qvism-preset/**
+      - ecosystem/rootage/**
+      - bun.lock
+      - package.json
+      - scripts/kapture-*.mjs
+      - .github/workflows/kapture-*.yml
+permissions:
+  contents: read
+  pull-requests: read
+concurrency:
+  group: kapture-capture-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  context:
+    if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.action != 'edited' || github.event.changes.base)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      npm_config_ignore_scripts: "true"
+    outputs:
+      integration-mode: ${{ steps.context.outputs.integration-mode }}
+      artifact-suffix: ${{ steps.context.outputs.artifact-suffix }}
+      base-repository: ${{ steps.context.outputs.base-repository }}
+      base-sha: ${{ steps.context.outputs.base-sha }}
+      head-repository: ${{ steps.context.outputs.head-repository }}
+      head-sha: ${{ steps.context.outputs.head-sha }}
+      context-artifact-id: ${{ steps.artifact.outputs.artifact-id }}
+      context-artifact-digest: ${{ steps.artifact.outputs.artifact-digest }}
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - id: context
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+        run: |
+          case "$KAPTURE_BASE_BRANCH" in
+            dev|minor|major) ;;
+            *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
+          esac
+          npx --yes @kaptures/cli@0.7.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        id: artifact
+        if: steps.context.outputs.integration-mode == 'compare'
+        with:
+          name: kapture-context-${{ steps.context.outputs.artifact-suffix }}
+          path: ${{ runner.temp }}/kapture-context
+          include-hidden-files: true
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 1
+  build-base:
+    needs: context
+    if: needs.context.outputs.integration-mode == 'compare'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      artifact-id: ${{ steps.artifact.outputs.artifact-id }}
+      artifact-digest: ${{ steps.artifact.outputs.artifact-digest }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: ${{ needs.context.outputs.base-repository }}
+          ref: ${{ needs.context.outputs.base-sha }}
+          persist-credentials: false
+      - name: Check out storage policy (read-only job)
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ needs.context.outputs.head-sha }}
+          path: _kapture-policy
+          persist-credentials: false
+          sparse-checkout: scripts
+      - name: Look up an exact-base build
+        id: cache
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+        env:
+          KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          KAPTURE_BASE_SHA: ${{ needs.context.outputs.base-sha }}
+        with:
+          script: |
+            const { resolveBuildCache } = await import(`${process.env.GITHUB_WORKSPACE}/_kapture-policy/scripts/kapture-build-cache.mjs`);
+            await resolveBuildCache({ github, context, core,
+              policyRoot: `${process.env.GITHUB_WORKSPACE}/_kapture-policy`,
+              branch: process.env.KAPTURE_BASE_BRANCH, sha: process.env.KAPTURE_BASE_SHA });
+      - name: Restore base build
+        id: restore
+        if: steps.cache.outputs.cache-hit == 'true'
+        continue-on-error: true
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.cache.outputs.run-id }}
+          artifact-ids: ${{ steps.cache.outputs.artifact-id }}
+          path: docs/.kapture/storybook-static
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - name: Validate restored build
+        id: restored-build
+        if: steps.restore.outcome == 'success'
+        continue-on-error: true
+        env:
+          npm_config_registry: https://registry.npmjs.org/
+          npm_config_ignore_scripts: "true"
+        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        if: steps.restored-build.outcome != 'success'
+      - name: Install project dependencies
+        if: steps.restored-build.outcome != 'success'
+        run: |
+          bun install --frozen-lockfile
+          bun ecosystem:build
+          bun install --frozen-lockfile
+          bun packages:build
+      - name: Build Storybook
+        if: steps.restored-build.outcome != 'success'
+        run: |
+          bun storybook:build -- --output-dir "$PWD/docs/.kapture/storybook-static"
+      - name: Validate build boundary
+        env:
+          npm_config_registry: https://registry.npmjs.org/
+          npm_config_ignore_scripts: "true"
+        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        id: artifact
+        with:
+          name: kapture-storybook-base-${{ needs.context.outputs.artifact-suffix }}
+          path: docs/.kapture/storybook-static
+          if-no-files-found: error
+          include-hidden-files: true
+          overwrite: true
+          retention-days: 1
+      - name: Retain reusable base build
+        if: steps.cache.outputs.cache-name != '' && steps.restored-build.outcome != 'success'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ${{ steps.cache.outputs.cache-name }}
+          path: docs/.kapture/storybook-static
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+          overwrite: true
+  build-head:
+    needs: context
+    if: needs.context.outputs.integration-mode == 'compare'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      artifact-id: ${{ steps.artifact.outputs.artifact-id }}
+      artifact-digest: ${{ steps.artifact.outputs.artifact-digest }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: ${{ needs.context.outputs.head-repository }}
+          ref: ${{ needs.context.outputs.head-sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+      - name: Install project dependencies
+        run: |
+          bun install --frozen-lockfile
+          bun ecosystem:build
+          bun install --frozen-lockfile
+          bun packages:build
+      - name: Build Storybook
+        run: |
+          bun storybook:build -- --output-dir "$PWD/docs/.kapture/storybook-static"
+      - name: Validate build boundary
+        env:
+          npm_config_registry: https://registry.npmjs.org/
+          npm_config_ignore_scripts: "true"
+        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        id: artifact
+        with:
+          name: kapture-storybook-head-${{ needs.context.outputs.artifact-suffix }}
+          path: docs/.kapture/storybook-static
+          if-no-files-found: error
+          include-hidden-files: true
+          overwrite: true
+          retention-days: 1
+  capture:
+    needs:
+      - context
+      - build-base
+      - build-head
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      npm_config_ignore_scripts: "true"
+      YARN_ENABLE_SCRIPTS: "false"
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          artifact-ids: ${{ needs.context.outputs.context-artifact-id }}
+          path: ${{ runner.temp }}/kapture-context
+      - name: Install the project's pinned CJK font
+        shell: bash
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20230817+repack1-3
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          artifact-ids: ${{ needs.build-base.outputs.artifact-id }}
+          path: ${{ runner.temp }}/kapture-storybook/base
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          artifact-ids: ${{ needs.build-head.outputs.artifact-id }}
+          path: ${{ runner.temp }}/kapture-storybook/head
+      - id: capture
+        env:
+          KAPTURE_ARTIFACT_SUFFIX: ${{ needs.context.outputs.artifact-suffix }}
+          KAPTURE_CONTEXT_ARTIFACT_ID: ${{ needs.context.outputs.context-artifact-id }}
+          KAPTURE_CONTEXT_ARTIFACT_DIGEST: ${{ needs.context.outputs.context-artifact-digest }}
+          KAPTURE_BASE_ARTIFACT_ID: ${{ needs.build-base.outputs.artifact-id }}
+          KAPTURE_BASE_ARTIFACT_DIGEST: ${{ needs.build-base.outputs.artifact-digest }}
+          KAPTURE_HEAD_ARTIFACT_ID: ${{ needs.build-head.outputs.artifact-id }}
+          KAPTURE_HEAD_ARTIFACT_DIGEST: ${{ needs.build-head.outputs.artifact-digest }}
+        run: npx --yes @kaptures/cli@0.7.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: kapture-visual-report-${{ needs.context.outputs.artifact-suffix }}
+          path: |
+            ${{ steps.capture.outputs.report-path }}
+            ${{ steps.capture.outputs.report-directory }}/capture-boundary.json
+            ${{ steps.capture.outputs.report-directory }}/images/**/*.png
+          include-hidden-files: true
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 1
+          compression-level: 0
+        id: report-artifact
+    outputs:
+      report-artifact-id: ${{ steps.report-artifact.outputs.artifact-id }}
