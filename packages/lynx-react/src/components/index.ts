@@ -8,6 +8,7 @@ export * from "./Callout";
 export * from "./Checkbox";
 export * from "./Chip";
 export * from "./Count";
+export * from "./ContextualFloatingButton";
 export * from "./Divider";
 export * from "./Field";
 export * from "./Icon";
