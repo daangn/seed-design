@@ -5,12 +5,18 @@ import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
+import helpBubble from "./recipes/help-bubble";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
+import chipTabs from "./recipes/chip-tabs";
+import contextualFloatingButton from "./recipes/contextual-floating-button";
+import contentDialog from "./recipes/content-dialog";
+import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
+import floatingActionButton from "./recipes/floating-action-button";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
@@ -46,12 +52,18 @@ export const recipes = {
   bottomSheet,
   bottomSheetHandle,
   callout,
+  helpBubble,
   checkbox,
   checkboxGroup,
   checkmark,
   chip,
+  chipTabs,
+  contextualFloatingButton,
+  contentDialog,
+  dialog,
   field,
   fieldLabel,
+  floatingActionButton,
   mannerTemp,
   mannerTempBadge,
   menu,

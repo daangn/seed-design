@@ -1,0 +1,18 @@
+{
+  "name": "@seed-design/lynx-vitest-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0",
+    "vitest": ">=3.0.0"
+  },
+  "devDependencies": {
+    "@lynx-js/react": "^0.117.0",
+    "vitest": "^3.2.4",
+    "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26"
+  }
+}
