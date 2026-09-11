@@ -8,8 +8,13 @@ import {
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarIconButton,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   MenuSheetContent,
   MenuSheetGroup,
@@ -65,16 +70,16 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
   };
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain title="Step" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain title="Step" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
           <MenuSheetTrigger asChild>
             <VStack p="x5" justify="center" gap="x4">
@@ -123,8 +128,8 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
             </MenuSheetContent>
           </Portal>
         </MenuSheetRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

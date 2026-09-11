@@ -1,14 +1,14 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { HStack, VStack } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
@@ -24,19 +24,19 @@ const ActivitySegmentedControl: StaticActivityComponentType<"ActivitySegmentedCo
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Segmented Control" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Segmented Control" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack align="center" p="x4" gap="x4">
           <SegmentedControl defaultValue="1" aria-label="Sort options">
             <SegmentedControlItem value="1">가격 높은 순</SegmentedControlItem>
@@ -53,8 +53,8 @@ const ActivitySegmentedControl: StaticActivityComponentType<"ActivitySegmentedCo
           </SegmentedControl>
           <ActionButton variant="neutralSolid">Test</ActionButton>
         </HStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

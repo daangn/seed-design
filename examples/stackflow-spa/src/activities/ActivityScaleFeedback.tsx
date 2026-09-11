@@ -10,14 +10,14 @@ import { useFlow, type StaticActivityComponentType } from "@stackflow/react/futu
 import * as React from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionableCallout, DismissibleCallout } from "seed-design/ui/callout";
 import { Checkbox, Checkmark } from "seed-design/ui/checkbox";
 import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
@@ -96,19 +96,19 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
   const composedRefTarget = React.useRef<HTMLButtonElement>(null);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Scale Feedback" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="홈" onClick={() => push("ActivityHome", {})}>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Scale Feedback" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="홈" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <div className={styles.page}>
           <p className={styles.intro}>
             요소를 누르는 동안 축소가 유지됩니다. 각 섹션의 설명이 그 패널에서 무엇을 확인할 수
@@ -301,8 +301,8 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
             </Section>
           </Group>
         </div>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

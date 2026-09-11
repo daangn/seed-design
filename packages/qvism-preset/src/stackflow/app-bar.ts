@@ -17,6 +17,12 @@ const PINNED_ROOT_PADDING_X = tokens.$dimension.x4;
 const PINNED_LEFT_PADDING_RIGHT = "16px";
 const ICON_BASIS_OFFSET = `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`;
 
+// The spec raised the iOS height to 56px, so the value now lives in `base` alongside Android's.
+// That was decided for the native iOS navigation bar; adopting it here would move the legacy app
+// bar and every AppScreen offset derived from it, so cupertino keeps the height it has emitted
+// so far.
+export const PINNED_IOS_ROOT_HEIGHT = "44px";
+
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
   slots: ["root", "title", "subtitle"],
@@ -184,7 +190,7 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${PINNED_IOS_ROOT_HEIGHT} + var(--seed-safe-area-top))`,
           paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
@@ -211,7 +217,7 @@ export const appBar = defineSlotRecipe({
       // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },

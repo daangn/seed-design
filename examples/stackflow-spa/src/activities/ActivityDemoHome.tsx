@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed-design/ui/tabs";
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
@@ -65,11 +65,11 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
           __html: "::-webkit-scrollbar{display:none}",
         }}
       />
-      <AppScreen>
-        <AppBar>
-          <AppBarMain title="Demo" />
-        </AppBar>
-        <AppScreenContent>
+      <NextAppScreen>
+        <NextAppBar>
+          <NextAppBarMain title="Demo" />
+        </NextAppBar>
+        <NextAppScreenContent>
           <TabsRoot
             value={tab}
             onValueChange={(value) => setTab(value as Tab)}
@@ -107,8 +107,8 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
               </TabsContent>
             </TabsCarousel>
           </TabsRoot>
-        </AppScreenContent>
-      </AppScreen>
+        </NextAppScreenContent>
+      </NextAppScreen>
     </SnackbarProvider>
   );
 };

@@ -1,13 +1,13 @@
 import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarCloseButton,
-  AppBarRight,
-  AppBarLeft,
-} from "seed-design/ui/app-bar";
-import type { AppBarProps } from "seed-design/ui/app-bar";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarCloseButton,
+  NextAppBarRight,
+  NextAppBarLeft,
+} from "seed-design/ui/next-app-bar";
+import type { NextAppBarProps } from "seed-design/ui/next-app-bar";
 import { VStack, HStack, Box, Article as SeedArticle } from "@seed-design/react";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Text } from "@seed-design/react";
@@ -48,7 +48,7 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
 
   const categoryName = CATEGORIES.find((c) => c.id === article?.categoryId)?.name;
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const [tone, setTone] = useState<AppBarProps["tone"]>("transparent");
+  const [tone, setTone] = useState<NextAppBarProps["tone"]>("transparent");
   const imageBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -69,16 +69,16 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
   if (!article) return null;
 
   return (
-    <AppScreen layerOffsetTop="none" tone={tone}>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarRight>
-          <AppBarCloseButton />
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen contentOffsetTop="none" tone={tone}>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarRight>
+          <NextAppBarCloseButton />
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x4">
           <Box
             ref={imageBoxRef}
@@ -166,8 +166,8 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
             </VStack>
           </VStack>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

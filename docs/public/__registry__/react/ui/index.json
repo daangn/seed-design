@@ -704,6 +704,39 @@
     {
       "snippets": [
         {
+          "path": "next-app-screen.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.4.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        },
+        {
+          "path": "next-app-bar.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.4.0",
+            "@seed-design/css": "^2.6.0"
+          }
+        }
+      ],
+      "id": "next-app-screen",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@seed-design/stackflow",
+        "@stackflow/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "pull-to-refresh"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "page-banner.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",

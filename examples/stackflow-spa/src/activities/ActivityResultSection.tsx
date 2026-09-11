@@ -1,9 +1,14 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 
 import React from "react";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ResultSection, type ResultSectionProps } from "seed-design/ui/result-section";
-import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
+import {
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+} from "seed-design/ui/next-app-bar";
 import { Box, Icon, VStack } from "@seed-design/react";
 import { IconDiamond } from "@karrotmarket/react-multicolor-icon";
 
@@ -17,14 +22,14 @@ const ActivityResultSection: StaticActivityComponentType<"ActivityResultSection"
   const [size, setSize] = React.useState<ResultSectionProps["size"]>("large");
   const [showAsset, setShowAsset] = React.useState(true);
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Result Section</AppBarMain>
-      </AppBar>
-      <AppScreenContent
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Result Section</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -54,8 +59,8 @@ const ActivityResultSection: StaticActivityComponentType<"ActivityResultSection"
             }}
           />
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

@@ -2,14 +2,14 @@ import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarCloseButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -21,19 +21,19 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
   "ActivityAppScreenTransparent"
 > = () => {
   return (
-    <AppScreen theme="cupertino" layerOffsetTop="none" tone="transparent">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarCloseButton aria-label="Close" />
-        </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Notification">
+    <NextAppScreen contentOffsetTop="none" tone="transparent">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Transparent</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Notification">
             <IconBellFill />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Flex
           height="full"
           justify="center"
@@ -41,10 +41,10 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
           bg="palette.gray800"
           color="fg.neutralInverted"
         >
-          Preview
+          Transparent
         </Flex>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

@@ -1,5 +1,4 @@
 import { defineConfig } from "@stackflow/config";
-import { theme } from "./theme";
 
 export const config = defineConfig({
   initialActivity: () => "ActivityHome",
@@ -7,10 +6,9 @@ export const config = defineConfig({
     { route: "/", name: "ActivityHome" },
     { route: "/404", name: "ActivityNotFound" },
     { route: "/pop-test", name: "ActivityPopTest" },
-    { route: "/animate-false-test", name: "ActivityAnimateFalseTest" },
+    { route: "/legacy-animate-false-test", name: "ActivityLegacyAnimateFalseTest" },
     { route: "/accordion", name: "ActivityAccordion" },
     { route: "/action-button", name: "ActivityActionButton" },
-    { route: "/app-bar-slot", name: "ActivityAppBarSlot" },
     { route: "/alert-dialog", name: "ActivityAlertDialog" },
     { route: "/alert-dialog-activity", name: "ActivityAlertDialogActivity" },
     { route: "/alert-dialog-step", name: "ActivityAlertDialogStep" },
@@ -41,10 +39,7 @@ export const config = defineConfig({
     { route: "/font-multiplier-layout", name: "ActivityFontMultiplierLayout" },
     { route: "/result-section", name: "ActivityResultSection" },
     { route: "/help-bubble", name: "ActivityHelpBubble" },
-    { route: "/iacvt-leak", name: "ActivityIacvtLeak" },
-    { route: "/iacvt-side-panel", name: "ActivityIacvtSidePanel" },
-    { route: "/iacvt-overlay", name: "ActivityIacvtOverlay" },
-    { route: "/iacvt-margin", name: "ActivityIacvtMargin" },
+    { route: "/iacvt", name: "ActivityIacvt" },
     { route: "/iacvt-experiment", name: "ActivityIacvtExperiment" },
     { route: "/layer-bar", name: "ActivityLayerBar" },
     { route: "/list-item-button", name: "ActivityListButtonItem" },
@@ -90,14 +85,21 @@ export const config = defineConfig({
     { route: "/form", name: "ActivityForm" },
     { route: "/category-sheet", name: "ActivityCategorySheet" },
     { route: "/toggle-button", name: "ActivityToggleButton" },
-    { route: "/transition-style", name: "ActivityTransitionStyle" },
     { route: "/transparent-bar", name: "ActivityTransparentBar" },
     { route: "/typography-scale", name: "ActivityTypographyScale" },
 
+    { route: "/legacy-app-screen", name: "ActivityLegacyAppScreen" },
+    { route: "/app-screen", name: "ActivityAppScreen" },
+    { route: "/app-screen-gesture", name: "ActivityAppScreenGesture" },
     { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
     { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
-    { route: "/app-screen-intersection-observer", name: "ActivityAppScreenIntersectionObserver" },
-    { route: "/app-screen-app-bar-customization", name: "ActivityAppScreenAppBarCustomization" },
+    { route: "/legacy-app-screen-intersection-observer", name: "ActivityLegacyAppScreenIntersectionObserver" },
+    {
+      route: "/app-screen-intersection-observer",
+      name: "ActivityAppScreenIntersectionObserver",
+    },
+    { route: "/animate-false-test", name: "ActivityAnimateFalseTest" },
+    { route: "/legacy-app-screen-app-bar-customization", name: "ActivityLegacyAppScreenAppBarCustomization" },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
     {
       route: "/result-section-cta-progress-circle",
@@ -105,12 +107,20 @@ export const config = defineConfig({
     },
     { route: "/article-prevent-pull", name: "ActivityArticlePreventPull" },
     { route: "/article-prevent-drag", name: "ActivityArticlePreventDrag" },
+    { route: "/legacy-pull-to-refresh-preview", name: "ActivityLegacyPullToRefreshPreview" },
     { route: "/pull-to-refresh-preview", name: "ActivityPullToRefreshPreview" },
     { route: "/pull-to-refresh-tabs", name: "ActivityPullToRefreshTabs" },
-    { route: "/pull-to-refresh-prevent-pull", name: "ActivityPullToRefreshPreventPull" },
+    { route: "/legacy-pull-to-refresh-prevent-pull", name: "ActivityLegacyPullToRefreshPreventPull" },
+    {
+      route: "/pull-to-refresh-prevent-pull",
+      name: "ActivityPullToRefreshPreventPull",
+    },
 
     { route: "/demo/home", name: "ActivityDemoHome" },
     { route: "/demo/article-detail", name: "ActivityDemoArticleDetail" },
   ],
-  transitionDuration: theme === "cupertino" ? 350 : 300,
+  // NextAppScreen unmounts on this timer, so an exit longer than it gets cut
+  // off mid-animation. 350ms is the longest exit any transitionStyle runs
+  // (horizontalSlide), and any screen may opt into it regardless of theme.
+  transitionDuration: 350,
 });

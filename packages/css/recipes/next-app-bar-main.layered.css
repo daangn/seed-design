@@ -1,0 +1,79 @@
+@layer seed-components {
+  .seed-next-app-bar-main__root {
+    flex: 1;
+  }
+
+  .seed-next-app-bar-main__title, .seed-next-app-bar-main__subtitle {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .seed-next-app-bar-main__title--layout_titleOnly {
+    font-size: clamp(calc(var(--seed-font-size-t6-static) * 1), var(--seed-font-size-t6), calc(var(--seed-font-size-t6-static) * 1.2));
+    font-weight: var(--seed-font-weight-bold);
+    line-height: clamp(calc(var(--seed-line-height-t6-static) * 1), var(--seed-line-height-t6), calc(var(--seed-line-height-t6-static) * 1.2));
+  }
+
+  .seed-next-app-bar-main__title--layout_withSubtitle {
+    font-size: clamp(calc(var(--seed-font-size-t5-static) * 1), var(--seed-font-size-t5), calc(var(--seed-font-size-t5-static) * 1.2));
+    font-weight: var(--seed-font-weight-bold);
+    line-height: clamp(calc(var(--seed-line-height-t5-static) * 1), var(--seed-line-height-t5), calc(var(--seed-line-height-t5-static) * 1.2));
+  }
+
+  .seed-next-app-bar-main__subtitle--layout_withSubtitle {
+    font-size: clamp(calc(var(--seed-font-size-t2-static) * 1), var(--seed-font-size-t2), calc(var(--seed-font-size-t2-static) * 1.2));
+    font-weight: var(--seed-font-weight-regular);
+    line-height: clamp(calc(var(--seed-line-height-t2-static) * 1), var(--seed-line-height-t2), calc(var(--seed-line-height-t2-static) * 1.2));
+  }
+
+  .seed-next-app-bar-main__root--theme_cupertino {
+    grid-template-columns: minmax(var(--centered-title-left, 0px), 1fr) minmax(0, auto) minmax(var(--centered-title-right, 0px), 1fr);
+    column-gap: var(--seed-dimension-x2);
+    text-align: center;
+    top: var(--seed-safe-area-top);
+    bottom: 0;
+    pointer-events: none;
+    align-content: center;
+    align-items: center;
+    display: grid;
+    position: absolute;
+    inset-inline: 0;
+  }
+
+  .seed-next-app-bar-main__root--theme_cupertino:before {
+    content: "";
+    grid-area: 1 / 1;
+  }
+
+  .seed-next-app-bar-main__root--theme_cupertino:after {
+    content: "";
+    grid-area: 1 / 3;
+  }
+
+  .seed-next-app-bar-main__title--theme_cupertino, .seed-next-app-bar-main__subtitle--theme_cupertino {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .seed-next-app-bar-main__root--theme_android {
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+  }
+
+  .seed-next-app-bar-main__root--tone_layer, .seed-next-app-bar-main__title--tone_layer {
+    color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-next-app-bar-main__subtitle--tone_layer {
+    color: var(--seed-color-fg-neutral-muted);
+  }
+
+  .seed-next-app-bar-main__root--tone_transparent, .seed-next-app-bar-main__title--tone_transparent, .seed-next-app-bar-main__subtitle--tone_transparent {
+    color: var(--seed-color-palette-static-white);
+  }
+}

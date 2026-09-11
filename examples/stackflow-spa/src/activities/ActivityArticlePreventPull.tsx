@@ -1,7 +1,7 @@
 import { VStack, Icon, Text, Article, Divider, PullToRefresh } from "@seed-design/react";
 import { type StaticActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -20,11 +20,11 @@ const ActivityArticlePreventPull: StaticActivityComponentType<
   "ActivityArticlePreventPull"
 > = () => {
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain>Pull To Refresh</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain>Pull To Refresh</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <PullToRefreshRoot
           onPtrReady={() => {}}
           onPtrRefresh={async () => {
@@ -65,8 +65,8 @@ const ActivityArticlePreventPull: StaticActivityComponentType<
             </VStack>
           </PullToRefreshContent>
         </PullToRefreshRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

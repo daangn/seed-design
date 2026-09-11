@@ -1,6 +1,6 @@
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
@@ -49,11 +49,11 @@ const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
   }, []);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain title="환불 요청" />
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain title="환불 요청" />
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack grow gap="x4" height="full" pb="safeArea">
           <ResultSection {...resultSectionProperties[refundStatus]} />
           <Flex p="x4" px="spacingX.globalGutter" pt="x3" pb="x2">
@@ -73,8 +73,8 @@ const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
             </ActionButton>
           </Flex>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

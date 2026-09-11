@@ -2,14 +2,14 @@ import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarCloseButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarCloseButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -17,26 +17,28 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPreview"> = () => {
+const ActivityAppScreenPreview: StaticActivityComponentType<
+  "ActivityAppScreenPreview"
+> = () => {
   return (
-    <AppScreen theme="cupertino">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarCloseButton />
-        </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Notification">
+    <NextAppScreen theme="cupertino">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarCloseButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Next Preview</NextAppBarMain>
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Notification">
             <IconBellFill />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Flex height="full" justify="center" align="center">
-          Preview
+          Next Preview
         </Flex>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

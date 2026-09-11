@@ -1,6 +1,7 @@
 import { defineSlotRecipe } from "../utils/define";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
+import { PINNED_IOS_ROOT_HEIGHT } from "./app-bar";
 
 const OVERSCROLL_GRADIENT_OFFSET = "400px";
 
@@ -54,12 +55,12 @@ export const appScreen = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          "--app-bar-height": navVars.themeIos.enabled.root.height,
+          "--app-bar-height": PINNED_IOS_ROOT_HEIGHT,
         },
       },
       android: {
         root: {
-          "--app-bar-height": navVars.themeAndroid.enabled.root.height,
+          "--app-bar-height": navVars.base.enabled.root.height,
         },
         edge: {
           display: "none",

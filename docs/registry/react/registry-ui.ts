@@ -26,6 +26,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "next-app-screen",
+      snippets: [
+        {
+          path: "next-app-screen.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0", "@seed-design/css": "^2.6.0" },
+        },
+        {
+          path: "next-app-bar.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0", "@seed-design/css": "^2.6.0" },
+        },
+      ],
+    },
+    {
       id: "error-state",
       deprecated: true,
       snippets: [
