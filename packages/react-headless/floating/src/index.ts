@@ -12,7 +12,6 @@ import {
   type FloatingContext,
   type Middleware,
   type OpenChangeReason,
-  type Padding,
   type Placement,
   type Rect,
   type ReferenceType,
@@ -56,16 +55,6 @@ export interface PositioningOptions {
    * @default 4
    */
   arrowPadding?: number;
-  /**
-   * Whether flip/shift/size should treat the device safe-area insets as part of the
-   * viewport collision boundary, so the floating element stays clear of the notch and
-   * home indicator instead of only the bare viewport edge.
-   *
-   * Off by default so existing consumers (HelpBubble, Tooltip) keep their placement; a
-   * container popover that fills the viewport height opts in.
-   * @default false
-   */
-  safeAreaAware?: boolean;
 }
 
 const defaultPositioningOptions: PositioningOptions = {
@@ -75,18 +64,7 @@ const defaultPositioningOptions: PositioningOptions = {
   slide: true,
   overflowPadding: 8,
   arrowPadding: 4,
-  safeAreaAware: false,
 };
-
-// flip/size/shift derive collisions from numeric padding, so the safe-area insets have to
-// reach floating-ui as numbers — a CSS env() value alone can't. Like Menu's useMenu and
-// Snackbar's useSafeOffset, the positioner re-declares the insets from env() here and the
-// hook reads them back as px (see the effect after useFloating), which keeps this layer
-// self-contained from the global SEED safe-area tokens.
-const SAFE_AREA_STYLE = {
-  "--seed-safe-area-top": "env(safe-area-inset-top)",
-  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
-} as CSSProperties;
 
 function getArrowMiddleware(arrowElement: HTMLElement | null, opts: PositioningOptions) {
   if (!arrowElement) return;
@@ -98,26 +76,26 @@ function getOffsetMiddleware(arrowOffset: number, opts: PositioningOptions) {
   return offset(offsetMainAxis);
 }
 
-function getFlipMiddleware(opts: PositioningOptions, collisionPadding: Padding) {
+function getFlipMiddleware(opts: PositioningOptions) {
   if (!opts.flip) return;
   return flip({
-    padding: collisionPadding,
+    padding: opts.overflowPadding,
     fallbackPlacements: opts.flip === true ? undefined : opts.flip,
   });
 }
 
-function getShiftMiddleware(opts: PositioningOptions, collisionPadding: Padding) {
+function getShiftMiddleware(opts: PositioningOptions) {
   if (!opts.slide) return;
   return shift({
     mainAxis: opts.slide,
-    padding: collisionPadding,
+    padding: opts.overflowPadding,
     limiter: limitShift(),
   });
 }
 
-function getSizeMiddleware(collisionPadding: Padding) {
+function getSizeMiddleware(opts: PositioningOptions) {
   return size({
-    padding: collisionPadding,
+    padding: opts.overflowPadding,
     apply({ availableWidth, availableHeight, elements }) {
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
@@ -207,7 +185,6 @@ export function usePositionedFloating<
   ) => Details | undefined,
 ): UsePositionedFloatingReturn<RT, Details> {
   const options = { ...defaultPositioningOptions, ...props };
-  const { safeAreaAware = false, overflowPadding = 8 } = options;
 
   const [open, onOpenChange] = useControllableState<boolean, Details>({
     prop: props.open,
@@ -227,24 +204,10 @@ export function usePositionedFloating<
 
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
   const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
-  const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
 
   const arrowTipWidth = arrowTipEl?.clientWidth ?? 0;
   const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
   const arrowTipOffset = arrowTipHeight;
-
-  // Inset the viewport collision boundary by the safe area so flip/shift/size keep the
-  // floating element clear of the notch and home indicator, not just the bare viewport edge.
-  // Where a safe area exists the element sits right at its boundary; where there is none it
-  // falls back to overflowPadding. Only active when safeAreaAware — otherwise a plain scalar.
-  const collisionPadding: Padding = safeAreaAware
-    ? {
-        top: safeArea.top || overflowPadding,
-        right: overflowPadding,
-        bottom: safeArea.bottom || overflowPadding,
-        left: overflowPadding,
-      }
-    : overflowPadding;
 
   const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating<RT>({
     strategy: options.strategy,
@@ -253,9 +216,9 @@ export function usePositionedFloating<
     onOpenChange: handleFloatingOpenChange,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
-      getFlipMiddleware(options, collisionPadding),
-      getShiftMiddleware(options, collisionPadding),
-      getSizeMiddleware(collisionPadding),
+      getFlipMiddleware(options),
+      getShiftMiddleware(options),
+      getSizeMiddleware(options),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
@@ -270,28 +233,6 @@ export function usePositionedFloating<
     return autoUpdate(refs.reference.current, refs.floating.current, context.update);
   }, [open, refs.reference, refs.floating, context]);
 
-  const floatingElement = context.elements.floating;
-
-  // Read the env()-resolved insets off the positioner (it carries the env() declarations via
-  // SAFE_AREA_STYLE merged into floatingStyles below) and feed them back as px to the collision
-  // boundary. Re-read on resize for orientation changes.
-  useEffect(() => {
-    if (!safeAreaAware || !floatingElement) return;
-
-    const read = () => {
-      const styles = getComputedStyle(floatingElement);
-      setSafeArea({
-        top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
-        bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
-      });
-    };
-
-    read();
-    window.addEventListener("resize", read);
-
-    return () => window.removeEventListener("resize", read);
-  }, [safeAreaAware, floatingElement]);
-
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 
   const arrowStyles = useMemo(
@@ -304,11 +245,6 @@ export function usePositionedFloating<
         transform: ARROW_FLOATING_STYLE[side],
       }) as const,
     [middlewareData.arrow, side],
-  );
-
-  const resolvedFloatingStyles = useMemo(
-    () => (safeAreaAware ? { ...SAFE_AREA_STYLE, ...floatingStyles } : floatingStyles),
-    [safeAreaAware, floatingStyles],
   );
 
   return useMemo(
@@ -333,7 +269,7 @@ export function usePositionedFloating<
       side,
       alignment,
       context,
-      floatingStyles: resolvedFloatingStyles,
+      floatingStyles,
       arrowStyles,
     }),
     [
@@ -346,7 +282,7 @@ export function usePositionedFloating<
       context,
       side,
       alignment,
-      resolvedFloatingStyles,
+      floatingStyles,
       arrowStyles,
       isPositioned,
       arrowTipWidth,
