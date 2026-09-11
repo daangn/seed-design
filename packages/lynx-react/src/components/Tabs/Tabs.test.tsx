@@ -319,7 +319,7 @@ describe("Tabs", () => {
     expect(container.querySelector(".seed-tabs__content")).not.toBeNull();
   });
 
-  it("closes every native swipe lifecycle when a drag does not change pages", () => {
+  it("starts only for native drags and closes non-changing or cancelled swipes", () => {
     function SwipeLifecycleTabs() {
       const [counts, setCounts] = React.useState({ starts: 0, ends: 0, settles: 0 });
       const isSwiping = counts.starts > counts.ends;
@@ -355,7 +355,13 @@ describe("Tabs", () => {
     const pager = container.querySelector("viewpager")!;
 
     fireEvent.touchstart(pager, {});
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    fireEvent.touchend(pager, {});
+    expect(getByTestId("swipe-counts")).toHaveTextContent("0/0/0");
+
+    fireEvent.touchstart(pager, {});
     fireViewPagerEvent(pager, "willchange", { index: 1, isDragged: true });
+    expect(getByTestId("swipe-state")).toHaveTextContent("swiping");
     fireViewPagerEvent(pager, "change", { index: 1, isDragged: true });
     fireEvent.touchend(pager, {});
 
@@ -376,6 +382,13 @@ describe("Tabs", () => {
 
     expect(getByTestId("swipe-state")).toHaveTextContent("idle");
     expect(getByTestId("swipe-counts")).toHaveTextContent("3/3/2");
+
+    fireEvent.touchstart(pager, {});
+    fireViewPagerEvent(pager, "willchange", { index: 0, isDragged: true });
+    fireEvent.touchcancel(pager, {});
+    fireEvent.touchend(pager, {});
+    expect(getByTestId("swipe-state")).toHaveTextContent("idle");
+    expect(getByTestId("swipe-counts")).toHaveTextContent("4/4/2");
   });
 
   it("renders carousel camera contents as native viewpager items", () => {

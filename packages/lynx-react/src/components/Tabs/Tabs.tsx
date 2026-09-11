@@ -36,7 +36,6 @@ import {
 
 type NativeViewProps = IntrinsicElements["view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
-type TouchStartHandler = NonNullable<NativeViewPagerProps["bindtouchstart"]>;
 type TouchEndHandler = NonNullable<NativeViewPagerProps["bindtouchend"]>;
 type TouchCancelHandler = NonNullable<NativeViewPagerProps["bindtouchcancel"]>;
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
@@ -854,7 +853,9 @@ export interface TabsCarouselProps extends LynxStyledElementProps {
   /** iOS 뒤로가기 제스처를 우선하는 화면 왼쪽 가장자리 너비입니다. */
   iosBackGestureEdgeWidth?: number;
   onSettle?: () => void;
+  /** 네이티브 pager가 drag를 감지했을 때 호출합니다. */
   onSwipeStart?: () => void;
+  /** 시작된 스와이프가 끝나거나 취소되면 호출합니다. */
   onSwipeEnd?: () => void;
 }
 
@@ -928,13 +929,6 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       carouselContext.onSwipeEnd?.();
     }, [carouselContext.onSwipeEnd]);
 
-    const handleTouchStart = React.useCallback<TouchStartHandler>(() => {
-      "background only";
-      if (!carouselContext.swipeable || swipingRef.current) return;
-      swipingRef.current = true;
-      carouselContext.onSwipeStart?.();
-    }, [carouselContext.onSwipeStart, carouselContext.swipeable]);
-
     const handleTouchEnd = React.useCallback<TouchEndHandler>(() => {
       "background only";
       finishSwipe();
@@ -951,9 +945,18 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         bindwillchange?.(event);
         if (event.detail.isDragged) {
           tabsContext.handlePagerWillChange(event.detail.index);
+          if (carouselContext.swipeable && !swipingRef.current) {
+            swipingRef.current = true;
+            carouselContext.onSwipeStart?.();
+          }
         }
       },
-      [bindwillchange, tabsContext.handlePagerWillChange],
+      [
+        bindwillchange,
+        carouselContext.onSwipeStart,
+        carouselContext.swipeable,
+        tabsContext.handlePagerWillChange,
+      ],
     );
 
     const handleChange = React.useCallback(
@@ -1002,7 +1005,6 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         {...mergeProps(
           {
             ref: mergedRef,
-            bindtouchstart: handleTouchStart,
             bindtouchend: handleTouchEnd,
             bindtouchcancel: handleTouchCancel,
             bindwillchange: handleWillChange,
