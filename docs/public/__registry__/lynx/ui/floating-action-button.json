@@ -1,0 +1,16 @@
+{
+  "id": "floating-action-button",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "floating-action-button.tsx",
+      "content": "/**\n * @file ui:floating-action-button\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport { FloatingActionButton as SeedFloatingActionButton } from \"@seed-design/lynx-react\";\n\nexport interface FloatingActionButtonProps\n  extends Omit<SeedFloatingActionButton.RootProps, \"children\"> {\n  icon: SeedFloatingActionButton.IconProps[\"icon\"];\n\n  label: string;\n}\n\n/**\n * @see https://seed-design.io/lynx/components/floating-action-button\n */\nexport const FloatingActionButton = React.forwardRef<unknown, FloatingActionButtonProps>(\n  ({ icon, label, \"accessibility-label\": accessibilityLabel, ...otherProps }, ref) => {\n    return (\n      <SeedFloatingActionButton.Root\n        ref={ref}\n        accessibility-label={accessibilityLabel ?? label}\n        {...otherProps}\n      >\n        <SeedFloatingActionButton.Icon icon={icon} />\n        <SeedFloatingActionButton.Label>{label}</SeedFloatingActionButton.Label>\n      </SeedFloatingActionButton.Root>\n    );\n  },\n);\nFloatingActionButton.displayName = \"FloatingActionButton\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+      }
+    }
+  ]
+}

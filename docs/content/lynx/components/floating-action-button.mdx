@@ -1,0 +1,101 @@
+---
+title: Floating Action Button
+description: 화면 위에 떠 있으며 주요 액션을 실행하는 버튼입니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/floating-action-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/floating-action-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:floating-action-button
+```
+
+<LynxManualInstallation name="floating-action-button" />
+
+## Props
+
+<react-type-table
+  path="./registry/lynx/ui/floating-action-button.tsx"
+  name="FloatingActionButtonProps"
+/>
+
+## Usage
+
+`FloatingActionButton`은 Lynx package의 `Root`, `Icon`, `Label`을 조합합니다. `label`은 필수이며, 기본으로 Root의 `accessibility-label`에도 사용됩니다. `extended`는 기본값이 `true`입니다.
+
+```tsx
+import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
+
+import { FloatingActionButton } from "@/components/ui/floating-action-button";
+
+function handleTap() {
+  "background only";
+  // 새 글 작성 동작을 처리합니다.
+}
+
+export function NewPostButton() {
+  return (
+    <FloatingActionButton
+      icon={<IconPlusLine />}
+      label="새 글 작성"
+      bindtap={handleTap}
+    />
+  );
+}
+```
+
+`extended={false}`이면 label은 화면에서 숨겨지고 56×56px 아이콘 버튼으로 표시됩니다. 이때도 `label`은 Root의 접근성 이름으로 남습니다. 다른 설명이 필요하면 `accessibility-label`을 직접 지정하세요.
+
+## Examples
+
+### Extended
+
+`extended` prop으로 label 표시와 레이아웃을 전환할 수 있습니다. 기본값은 `true`입니다.
+
+<LynxComponentExample name="lynx/floating-action-button/extended">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/floating-action-button/extended.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Float Composition
+
+Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`에 `position="relative"`를 지정하고, 버튼 wrapper에 `position="absolute"`, `right`, `bottom`을 적용해 같은 배치를 구성하세요.
+
+<LynxComponentExample name="lynx/floating-action-button/float-composition">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/floating-action-button/float-composition.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+
+- **이벤트**: `onClick` 대신 native `bindtap`을 사용합니다. React state를 바꾸는 handler가 wrapper를 거쳐 전달되면 handler 첫 줄에 `"background only"`를 둡니다.
+- **접근성**: `aria-label` 대신 `accessibility-label`을 사용합니다. Registry wrapper는 필수 `label`을 기본 접근성 이름으로 사용하므로 collapsed 상태에서도 이름을 보존합니다.
+- **렌더링**: HTML `<button>` / SVG 대신 native `<view>` / `<text>`와 Lynx icon tint를 렌더링합니다. `asChild`와 DOM button prop은 지원하지 않습니다.
+- **부동 배치**: React의 `<Float>` API는 제공하지 않습니다. 앱의 native absolute layout으로 `right`와 `bottom` 위치를 지정하세요.
+
+</Callout>
+
+`compatibility.lynx.engine`의 3.9는 package가 요구하는 `@lynx-js/types >=3.9.0` 및 Scale Feedback 경로의 최소 Engine 버전입니다. 실제 native host의 실행 버전은 별도로 확인하세요.
