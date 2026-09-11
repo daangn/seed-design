@@ -5,6 +5,11 @@ const lynxSeedPackageRanges = {
   "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
+const identityPlaceholderPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+
 const fieldPackageRanges = {
   "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.8.0 <1.0.0",
@@ -149,6 +154,15 @@ export const registryUI: Registry = {
         {
           path: "floating-action-button.tsx",
           dependencies: floatingActionButtonPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "identity-placeholder",
+      snippets: [
+        {
+          path: "identity-placeholder.tsx",
+          dependencies: identityPlaceholderPackageRanges,
         },
       ],
     },
