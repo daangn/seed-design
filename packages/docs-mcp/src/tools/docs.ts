@@ -10,7 +10,10 @@ import { fetchDocsList, fetchDoc, requireSection } from "../fetch.js";
  */
 const sectionArg = z
   .string()
-  .describe("Documentation section id. Call discover_seed_docs for the current list.");
+  .describe(
+    "Documentation section id, such as `react` or `components`: the first segment of a " +
+      "search_docs address. An unknown id is rejected with the current list.",
+  );
 
 function errorResult(error: unknown) {
   return {
@@ -28,9 +31,7 @@ export function registerListDocsTool(server: McpServer): void {
   server.registerTool(
     "list_docs",
     {
-      description:
-        "List available documents in a SEED Design documentation section. " +
-        "Use discover_seed_docs first to see all available sections.",
+      description: "List available documents in a SEED Design documentation section.",
       inputSchema: z.object({ section: sectionArg }),
     },
     async ({ section }) => {
