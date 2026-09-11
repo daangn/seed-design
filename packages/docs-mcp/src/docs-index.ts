@@ -91,3 +91,23 @@ export function findItem(category: DocsIndexCategory, docPath: string): DocsInde
 
   return byId[0];
 }
+
+/**
+ * One `search_docs` result: the address as the search printed it, then the title and
+ * description of the document at that path.
+ *
+ * Kept to one line whatever the index holds, so a result never spills into the next one. An
+ * address the index lists no page for is left bare rather than dropped, since the count printed
+ * above the list includes it.
+ */
+export function searchResultLine(index: DocsIndex, address: string): string {
+  const docUrl = address.split("#")[0];
+  const item = index.categories
+    .flatMap((category) => category.items)
+    .find((entry) => entry.docUrl === docUrl);
+  if (!item) return address;
+
+  const title = item.deprecated ? `${item.title} (deprecated)` : item.title;
+  const summary = item.description ? `${title} — ${item.description}` : title;
+  return `${address}  ${summary.replace(/\s+/g, " ").trim()}`;
+}
