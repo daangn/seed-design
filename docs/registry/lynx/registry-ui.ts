@@ -25,6 +25,10 @@ const floatingActionButtonPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
 };
+const chipTabsPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
 
 const selectBoxPackageRanges = {
   "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
@@ -112,6 +116,15 @@ export const registryUI: Registry = {
         {
           path: "checkbox.tsx",
           dependencies: fieldPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "chip-tabs",
+      snippets: [
+        {
+          path: "chip-tabs.tsx",
+          dependencies: chipTabsPackageRanges,
         },
       ],
     },
