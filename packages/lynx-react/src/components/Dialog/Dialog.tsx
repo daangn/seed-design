@@ -26,8 +26,8 @@ import {
 import clsx from "clsx";
 
 import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-
 type DialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
 };
@@ -235,13 +235,14 @@ DialogContent.displayName = "DialogContent";
 // Local slots
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogHeaderProps extends LynxStyledElementProps {}
+export interface DialogHeaderProps extends StyleProps, LynxStyledElementProps {}
 
 export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> = forwardRef<
   unknown,
   DialogHeaderProps
 >((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { style, restProps } = useStyleProps(props);
+  const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
   return (
@@ -257,21 +258,23 @@ export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> =
 });
 DialogHeader.displayName = "DialogHeader";
 
-export interface DialogBodyProps extends LynxStyledElementProps {}
+export interface DialogBodyProps extends StyleProps, LynxStyledElementProps {}
 
 export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = forwardRef<
   unknown,
   DialogBodyProps
 >((props, ref) => {
-  const { children, className, style } = props;
+  const { style, restProps } = useStyleProps(props);
+  const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
   return (
     <scroll-view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      {...nativeProps}
       scroll-y
       className={clsx(classNames.body, className)}
-      style={style as never}
+      style={style}
     >
       {children}
     </scroll-view>
@@ -279,13 +282,14 @@ export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = for
 });
 DialogBody.displayName = "DialogBody";
 
-export interface DialogTitleProps extends LynxStyledElementProps {}
+export interface DialogTitleProps extends StyleProps, LynxStyledElementProps {}
 
 export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = forwardRef<
   unknown,
   DialogTitleProps
 >((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { style, restProps } = useStyleProps(props);
+  const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
   return (
@@ -301,11 +305,12 @@ export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = f
 });
 DialogTitle.displayName = "DialogTitle";
 
-export interface DialogDescriptionProps extends LynxStyledElementProps {}
+export interface DialogDescriptionProps extends StyleProps, LynxStyledElementProps {}
 
 export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescriptionProps> =
   forwardRef<unknown, DialogDescriptionProps>((props, ref) => {
-    const { children, className, style, ...nativeProps } = props;
+    const { style, restProps } = useStyleProps(props);
+    const { children, className, ...nativeProps } = restProps;
     const classNames = useClassNames();
 
     return (
@@ -321,13 +326,14 @@ export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescripti
   });
 DialogDescription.displayName = "DialogDescription";
 
-export interface DialogFooterProps extends LynxStyledElementProps {}
+export interface DialogFooterProps extends StyleProps, LynxStyledElementProps {}
 
 export const DialogFooter: LynxForwardRefComponent<unknown, DialogFooterProps> = forwardRef<
   unknown,
   DialogFooterProps
 >((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { style, restProps } = useStyleProps(props);
+  const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
   return (

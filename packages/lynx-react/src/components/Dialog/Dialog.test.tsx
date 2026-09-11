@@ -93,7 +93,12 @@ describe("Dialog", () => {
               <Dialog.Title>Title</Dialog.Title>
               <Dialog.Description>Description</Dialog.Description>
             </Dialog.Header>
-            <Dialog.Body className="custom-body" style={{ maxHeight: "120px" }}>
+            <Dialog.Body
+              className="custom-body"
+              maxHeight="96px"
+              paddingLeft="16px"
+              style={{ maxHeight: "120px" }}
+            >
               <text>Scrollable content</text>
             </Dialog.Body>
             <Dialog.Footer>
@@ -124,6 +129,7 @@ describe("Dialog", () => {
     expect(body?.classList.contains("custom-body")).toBe(true);
     expect(body?.hasAttribute("scroll-y")).toBe(true);
     expect(body?.style.maxHeight).toBe("120px");
+    expect(body?.style.paddingLeft).toBe("16px");
   });
 
   it("forwards headless mount options and removes only reserved lifecycle handlers", () => {
