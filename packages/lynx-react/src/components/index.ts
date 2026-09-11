@@ -30,6 +30,7 @@ export * from "./RadioGroup";
 export * from "./ReactionButton";
 export * from "./ScaleFeedback";
 export * from "./SegmentedControl";
+export * from "./Select";
 export * from "./SelectBox";
 export * from "./Stack";
 export * from "./Switch";
