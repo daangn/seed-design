@@ -1,12 +1,9 @@
 import * as React from "@lynx-js/react";
-import {
-  FloatingActionButton as SeedFloatingActionButton,
-  type LynxIconElementProps,
-} from "@seed-design/lynx-react";
+import { FloatingActionButton as SeedFloatingActionButton } from "@seed-design/lynx-react";
 
 export interface FloatingActionButtonProps
   extends Omit<SeedFloatingActionButton.RootProps, "children"> {
-  icon: React.ReactNode;
+  icon: SeedFloatingActionButton.IconProps["icon"];
 
   label: string;
 }
@@ -22,7 +19,7 @@ export const FloatingActionButton = React.forwardRef<unknown, FloatingActionButt
         accessibility-label={accessibilityLabel ?? label}
         {...otherProps}
       >
-        <SeedFloatingActionButton.Icon icon={icon as React.ReactElement<LynxIconElementProps>} />
+        <SeedFloatingActionButton.Icon icon={icon} />
         <SeedFloatingActionButton.Label>{label}</SeedFloatingActionButton.Label>
       </SeedFloatingActionButton.Root>
     );
