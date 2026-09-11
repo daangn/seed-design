@@ -118,6 +118,44 @@ describe("PopoverContent", () => {
   });
 
   describe("focus", () => {
+    it.each([false, true])("reports focusOut when tabbing out (shift: %s)", async (shift) => {
+      const user = userEvent.setup();
+      const onOpenChange = jest.fn();
+      const { getByText, getByTestId } = render(
+        <>
+          <button type="button">Before</button>
+          <BasicPopover onOpenChange={onOpenChange} />
+          <button type="button">After</button>
+        </>,
+      );
+      await waitForPositioning();
+
+      await user.click(getByText("Open Popover"));
+      await waitForFocus();
+      if (!shift) {
+        await user.tab();
+        await user.tab();
+        expect(getByText("Close")).toHaveFocus();
+      }
+
+      onOpenChange.mockClear();
+      await user.tab({ shift });
+      if (shift) {
+        expect(getByText("Open Popover")).toHaveFocus();
+        await user.tab({ shift });
+      }
+
+      await waitForFocus();
+
+      expect(getByTestId("content")).not.toHaveAttribute("data-open");
+      expect(onOpenChange).toHaveBeenCalledTimes(1);
+      expect(onOpenChange).toHaveBeenCalledWith(false, {
+        reason: "focusOut",
+        event: expect.any(FocusEvent),
+      });
+      expect(getByText(shift ? "Before" : "After")).toHaveFocus();
+    });
+
     it("focuses the content container rather than its first tabbable on open", async () => {
       const user = userEvent.setup();
       const { getByText, getByTestId } = render(<BasicPopover />);

@@ -217,7 +217,7 @@ function OpenChangeSection() {
   return (
     <Section
       title="onOpenChange reason + 중첩 dismiss"
-      hint="trigger / closeButton / escapeKeyDown / interactOutside 네 가지를 모두 찍어보세요. Escape와 바깥 누르기는 항상 최상위 레이어부터 처리하므로, cascadeDismiss는 안쪽 popover를 열어둔 채 아래 버튼으로 바깥을 직접 닫아야 나옵니다."
+      hint="trigger / closeButton / escapeKeyDown / interactOutside / focusOut을 확인해보세요. Tab으로 바깥으로 이동하면 focusOut이 기록됩니다. cascadeDismiss는 안쪽 popover를 열어둔 채 아래 버튼으로 바깥을 직접 닫아야 나옵니다."
     >
       <Row>
         <PopoverRoot
