@@ -143,6 +143,18 @@ export interface DocsListing {
 }
 
 /**
+ * What a line says about the document at its address: the title, then the description.
+ *
+ * Collapsed onto one line whatever the index holds, because callers grep these lines and a
+ * description wrapped onto a second one would drop out of every match.
+ */
+export function summaryOf(item: DocsItem): string {
+  const title = item.deprecated ? `${item.title} (deprecated)` : item.title;
+  const line = item.description ? `${title} — ${item.description}` : title;
+  return line.replace(/\s+/g, " ").trim();
+}
+
+/**
  * One level below `scope`, and no deeper. A container is printed with its trailing slash and
  * a document without one, so each line says which subcommand takes it next.
  *
@@ -159,10 +171,7 @@ export function childrenOf(categories: DocsCategory[], scope: string): DocsListi
 
     const [head, ...rest] = entry.address.slice(prefix.length).split("/");
     if (rest.length === 0) {
-      documents.push({
-        address: entry.address,
-        note: entry.item.deprecated ? `${entry.item.title} (deprecated)` : entry.item.title,
-      });
+      documents.push({ address: entry.address, note: summaryOf(entry.item) });
       continue;
     }
 
