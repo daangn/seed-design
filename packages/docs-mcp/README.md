@@ -90,7 +90,7 @@ initializeTools(server);
 
 ### Search
 
-- `search_docs` - Search the full text of the documentation and get back the matching documents, ranked, one per line: the address, then the document's title and description. Use this when you do not know which section holds the answer. An address is the document's site path, so dropping its leading slash and splitting at the next one gives the `section` and `path` that `get_doc` takes
+- `search_docs` - Search the full text of the documentation and get back the matching documents, ranked, one per line: the address, then the document's title, description and when to read it. Use this when you do not know which section holds the answer. An address is the document's site path, so dropping its leading slash and splitting at the next one gives the `section` and `path` that `get_doc` takes
 
 ### Documentation
 
@@ -114,7 +114,7 @@ first segment, and `list_docs` answers an unknown section with the current set.
 ```text
 // 0. Search when you do not know where the answer lives
 search_docs({ query: "액션 버튼" })
-// → /components/action-button#hierarchy  Action Button — <description>
+// → /components/action-button#hierarchy  Action Button — <description> — <when to read>
 //   get_doc({ section: "components", path: "action-button#hierarchy" })
 
 // 1. List React documents

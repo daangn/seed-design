@@ -15,6 +15,7 @@ const docsIndexItemSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string().optional(),
+  whenToRead: z.string().optional(),
   docUrl: z.string(),
   llmsUrl: z.string().optional(),
   deprecated: z.boolean().optional(),
@@ -93,8 +94,8 @@ export function findItem(category: DocsIndexCategory, docPath: string): DocsInde
 }
 
 /**
- * One `search_docs` result: the address as the search printed it, then the title and
- * description of the document at that path.
+ * One `search_docs` result: the address as the search printed it, then the title, the
+ * description and when to read the document at that path.
  *
  * Kept to one line whatever the index holds, so a result never spills into the next one. An
  * address the index lists no page for is left bare rather than dropped, since the count printed
@@ -108,6 +109,6 @@ export function searchResultLine(index: DocsIndex, address: string): string {
   if (!item) return address;
 
   const title = item.deprecated ? `${item.title} (deprecated)` : item.title;
-  const summary = item.description ? `${title} — ${item.description}` : title;
+  const summary = [title, item.description, item.whenToRead].filter(Boolean).join(" — ");
   return `${address}  ${summary.replace(/\s+/g, " ").trim()}`;
 }

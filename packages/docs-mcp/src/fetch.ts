@@ -92,6 +92,7 @@ export async function fetchDocsList(sectionId: string): Promise<DocInfo[]> {
     title: item.title,
     path: itemPath(section, item),
     ...(item.description && { description: item.description }),
+    ...(item.whenToRead && { whenToRead: item.whenToRead }),
     ...(item.deprecated && { deprecated: true }),
   }));
 }
