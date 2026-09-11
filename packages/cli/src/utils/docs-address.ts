@@ -143,15 +143,19 @@ export interface DocsListing {
 }
 
 /**
- * What a line says about the document at its address: the title, then the description.
+ * What a line says about the document at its address: the title, the description, then when to
+ * read it.
  *
  * Collapsed onto one line whatever the index holds, because callers grep these lines and a
  * description wrapped onto a second one would drop out of every match.
  */
 export function summaryOf(item: DocsItem): string {
   const title = item.deprecated ? `${item.title} (deprecated)` : item.title;
-  const line = item.description ? `${title} — ${item.description}` : title;
-  return line.replace(/\s+/g, " ").trim();
+  return [title, item.description, item.whenToRead]
+    .filter(Boolean)
+    .join(" — ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /**

@@ -71,6 +71,7 @@ export const docsItemSchema = z.object({
   id: z.string(),
   title: z.string(),
   description: z.string().optional(),
+  whenToRead: z.string().optional(),
   docUrl: z.string(),
   /**
    * Site-relative path to this page's llms.txt, e.g. `/llms/foundations/color.txt`.

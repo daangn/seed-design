@@ -327,12 +327,12 @@ npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
 `docs list`로 한 단계 더 들어가고, 슬래시가 없으면 문서라서 `docs read`로 읽어요.
 
 ```sh copy
-/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-/react/components/bottom-sheet   Bottom Sheet (Components) — 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
+/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다. — React에서 ActionButton을 CLI로 설치하고 variant별 예제, Prefix·Suffix 아이콘, loading, bleedX·bleedY 정렬을 코드로 확인할 때 읽는다.
+/react/components/bottom-sheet   Bottom Sheet (Components) — 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다. — React에서 BottomSheet를 구현하며 snapPoints, maxHeight, showHandle·dismissible, Scroll Fog 조합, onOpenChange reason을 확인할 때 읽는다.
 /react/components/concepts/      문서 5개
 ```
 
-문서 줄에는 주소 뒤에 제목과 설명이 붙어요. 문서 하나가 늘 한 줄이고 주소가 맨 앞에 있어서,
+문서 줄에는 주소 뒤에 제목, 설명, 그 문서를 언제 읽으면 되는지가 차례로 붙어요. 문서 하나가 늘 한 줄이고 주소가 맨 앞에 있어서,
 `grep`으로 줄을 걸러도 설명이 함께 남고 `awk '{print $1}'`로 주소만 잘라낼 수 있어요.
 
 카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
@@ -361,15 +361,15 @@ npx @seed-design/cli@latest docs search "액션 버튼"
 ```
 
 ```sh copy
-/components/action-button#hierarchy  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
-/react/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
-/components/dialog#anatomy  Dialog — 사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.
-/components/top-navigation#우측-액션-영역-사용하기  Top Navigation — 화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.
+/components/action-button#hierarchy  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다. — 버튼 variant를 강조 위계(High·Medium·Low)에 맞춰 고르거나 size, 버튼 조합·배치, 라벨·아이콘 사용, Chip과의 구분 같은 디자인 기준이 필요할 때 읽는다.
+/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다. — FAB의 Button·Menu 타입, Extended 라벨과 스크롤 시 라벨 숨김, 우측 하단 배치·여백, Snackbar와의 위치 관계 같은 디자인 기준이 필요할 때 읽는다.
+/react/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다. — React에서 화면의 주요 액션을 FloatingActionButton으로 구현하며 필수 label, extended로 라벨 표시 전환, Float로 위치 잡기를 확인할 때 읽는다.
+/components/dialog#anatomy  Dialog — 사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다. — 폼 입력·정보 조회용 모달의 Medium·Large 사이즈, 스크롤 시 고정 Header·Footer, 닫기·취소 버튼 선택, md 미만 Bottom Sheet 전환 같은 디자인 기준이 필요할 때 읽는다.
+/components/top-navigation#우측-액션-영역-사용하기  Top Navigation — 화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다. — 상단 바의 Root·Standard 타입 선택, 뒤로가기와 닫기 구분, History·Hierarchy Back 정책, 우측 아이콘 버튼 개수(최대 3개), 스크롤 시 동작 같은 디자인 기준이 필요할 때 읽는다.
 ```
 
 문서 하나에 한 줄씩 나가요. 본문에서 걸린 자리가 있으면 주소의 `#` 뒤에 그 제목이 붙고, 주소
-뒤에는 `docs list`와 같은 모양으로 문서의 제목과 설명이 붙어요. 관련도가 높은 순서이며
+뒤에는 `docs list`와 같은 모양으로 문서의 제목, 설명, 언제 읽으면 되는지가 붙어요. 관련도가 높은 순서이며
 위에서부터 20개까지 보여줘요. 결과가 여러 개인 것은 정상이라서 종료 코드는 `0`이고, 하나도
 없을 때만 `1`이에요.
 

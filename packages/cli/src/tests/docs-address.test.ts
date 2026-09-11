@@ -192,13 +192,29 @@ describe("summaryOf", () => {
     docUrl: "/react/components/action-button",
   };
 
-  it("gives the title alone when the index carries no description", () => {
+  it("gives the title alone when the index carries nothing else", () => {
     expect(summaryOf(item)).toBe("Action Button");
   });
 
   it("follows the title with the description", () => {
     expect(summaryOf({ ...item, description: "명확한 액션을 수행하는 버튼입니다." })).toBe(
       "Action Button — 명확한 액션을 수행하는 버튼입니다.",
+    );
+  });
+
+  it("follows the description with when to read the document", () => {
+    expect(
+      summaryOf({
+        ...item,
+        description: "명확한 액션을 수행하는 버튼입니다.",
+        whenToRead: "버튼 variant를 고를 때 읽는다.",
+      }),
+    ).toBe("Action Button — 명확한 액션을 수행하는 버튼입니다. — 버튼 variant를 고를 때 읽는다.");
+  });
+
+  it("follows the title with when to read the document when the index carries no description", () => {
+    expect(summaryOf({ ...item, whenToRead: "버튼 variant를 고를 때 읽는다." })).toBe(
+      "Action Button — 버튼 variant를 고를 때 읽는다.",
     );
   });
 

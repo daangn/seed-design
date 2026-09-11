@@ -43,6 +43,7 @@ const docsIndex = {
           id: "action-button",
           title: "Action Button",
           description: "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          whenToRead: "React에서 ActionButton의 variant와 loading을 코드로 확인할 때 읽는다.",
           docUrl: "/react/components/action-button",
           llmsUrl: "/llms/react/components/action-button.txt",
         },
@@ -337,7 +338,7 @@ describe("docs command", () => {
         [
           "/lynx/components/action-button   Action Button",
           "/lynx/components/checkbox        Checkbox (deprecated) — 여러 선택지 중 하나 이상을 고를 때 씁니다.",
-          "/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다. — React에서 ActionButton의 variant와 loading을 코드로 확인할 때 읽는다.",
           "/react/components/bottom-sheet   Bottom Sheet — 화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
           "/react/components/concepts/      문서 1개",
           "/react/components/iconography/   문서 1개",
@@ -359,7 +360,7 @@ describe("docs command", () => {
 
       expectSuccess(result);
       expect(result.stdout.trimEnd()).toBe(
-        "/react/components/action-button#로딩-상태  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+        "/react/components/action-button#로딩-상태  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다. — React에서 ActionButton의 variant와 loading을 코드로 확인할 때 읽는다.",
       );
     });
 
