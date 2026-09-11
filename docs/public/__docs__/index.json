@@ -2140,6 +2140,19 @@
               "docUrl": "/lynx/components/chip"
             },
             {
+              "id": "chip-tabs",
+              "title": "Chip Tabs",
+              "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용합니다.",
+              "docUrl": "/lynx/components/chip-tabs",
+              "snippetKey": "lynx/ui:chip-tabs",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "chip-tabs.tsx"
+                }
+              ]
+            },
+            {
               "id": "cli",
               "title": "CLI",
               "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",

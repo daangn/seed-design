@@ -1,4 +1,5 @@
 import { tabs, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
+import { runOnMainThread } from "@lynx-js/react";
 import * as React from "@lynx-js/react";
 import type {
   IntrinsicElements,
@@ -20,28 +21,90 @@ import type {
   LynxViewProps,
   LynxViewRef,
 } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Box } from "../Box";
+import { HStack } from "../Stack";
 import {
   areTabsTransitionsEnabled,
   getTabsLayoutWidth,
   getTabsOrderedItems,
+  getTabsScrollOffset,
   getTabsTriggerRects,
   type TabsLayoutRect,
 } from "./Tabs.utils";
-import { mergeProps } from "../../utils/merge-props";
 
 type NativeViewProps = IntrinsicElements["view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
+type TouchEndHandler = NonNullable<NativeViewPagerProps["bindtouchend"]>;
+type TouchCancelHandler = NonNullable<NativeViewPagerProps["bindtouchcancel"]>;
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
+type NativeScrollViewProps = IntrinsicElements["scroll-view"];
+type ScrollViewLayoutChangeHandler = NonNullable<NativeScrollViewProps["bindlayoutchange"]>;
+type ScrollViewHandler = NonNullable<NativeScrollViewProps["bindscroll"]>;
+type ContentSizeChangedHandler = NonNullable<NativeScrollViewProps["bindcontentsizechanged"]>;
+
+type ComputedStyleElement = MainThread.Element & {
+  getComputedStyleProperty?: (name: string) => string;
+};
+
+interface TabsContentInsets {
+  start: number;
+  end: number;
+}
+
+interface TabsScrollMetrics {
+  currentOffset: number;
+  viewportWidth: number | null;
+  contentWidth: number | null;
+  insets: TabsContentInsets | null;
+}
+
+function getTabsContentInsets(
+  contentRef: React.RefObject<ComputedStyleElement | null>,
+): TabsContentInsets | null {
+  "main thread";
+
+  const content = contentRef.current;
+  if (!content || typeof content.getComputedStyleProperty !== "function") return null;
+  // Read used values so Rootage tokens and consumer style overrides share the
+  // same scroll-content origin as the trigger rectangles; do not invent a fallback.
+
+  const start = Number.parseFloat(content.getComputedStyleProperty("padding-left"));
+  const end = Number.parseFloat(content.getComputedStyleProperty("padding-right"));
+  if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || end < 0) return null;
+  return { start, end };
+}
 type TriggerRect = TabsLayoutRect;
 type TriggerItem = { value: string; disabled: boolean };
+type TabsSharedClassNames = {
+  root: string;
+  list: string;
+  listContent: string;
+  carousel: string;
+  carouselCamera: string;
+  content: string;
+  trigger: string;
+  triggerLabel: string;
+};
+type TabsRecipeState = {
+  selected?: boolean;
+  pressed?: boolean;
+  disabled?: boolean;
+  inCarousel?: boolean;
+  transitionEnabled?: boolean;
+};
+type TabsRecipeAdapter = {
+  getClassNames: (state?: TabsRecipeState) => TabsSharedClassNames;
+  getIndicatorClassName?: (state?: TabsRecipeState) => string;
+  triggerGap: number;
+};
 type TabsPublicVariantProps = Omit<
   TabsVariantProps,
   "selected" | "disabled" | "inCarousel" | "transitionEnabled"
 >;
 
-const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(tabs);
+const { ClassNamesProvider } = createSlotRecipeContext(tabs);
 
 function invokeSelectTab(pager: NodesRef | null, index: number, smooth: boolean) {
   "background only";
@@ -66,7 +129,10 @@ function invokeScrollToOffset(list: NodesRef | null, offset: number) {
 interface TabsContextValue {
   value: string | undefined;
   visualValue: string | undefined;
-  variantProps: TabsPublicVariantProps;
+  classNames: TabsSharedClassNames;
+  getClassNames: (state?: TabsRecipeState) => TabsSharedClassNames;
+  getIndicatorClassName?: (state?: TabsRecipeState) => string;
+  inlineNotification: boolean;
   items: TriggerItem[];
   pagerValues: string[];
   indicatorIndex: number;
@@ -79,7 +145,6 @@ interface TabsContextValue {
   updateTriggerDisabled: (value: string, disabled: boolean) => void;
   syncTriggerOrder: (values: string[]) => void;
   updateTriggerWidth: (value: string, width: number) => void;
-  setListRef: (ref: NodesRef | null) => void;
   setPagerRef: (ref: NodesRef | null) => void;
   selectValue: (value: string) => void;
   handlePagerWillChange: (index: number) => void;
@@ -135,9 +200,15 @@ export interface TabsRootProps extends TabsPublicVariantProps, LynxStyledElement
   onValueChange?: (value: string) => void;
 }
 
-export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) => {
-  const [variantProps, otherProps] = tabs.splitVariantProps(props);
+interface TabsRootPrimitiveProps extends Omit<TabsRootProps, keyof TabsPublicVariantProps> {
+  recipe: TabsRecipeAdapter;
+  inlineNotification?: boolean;
+}
+
+export const TabsRootPrimitive = React.forwardRef<unknown, TabsRootPrimitiveProps>((props, ref) => {
   const {
+    recipe,
+    inlineNotification = false,
     children,
     className,
     style,
@@ -145,7 +216,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     defaultValue,
     onValueChange,
     ...nativeProps
-  } = otherProps;
+  } = props;
   const [value, setValueInternal] = useControllableState<string | undefined>({
     value: valueProp,
     defaultValue,
@@ -158,7 +229,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
   const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
-  const listRef = React.useRef<NodesRef | null>(null);
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
 
@@ -174,28 +244,19 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       getTabsTriggerRects(
         items.map((item) => item.value),
         triggerWidths,
+        recipe.triggerGap,
       ),
-    [items, triggerWidths],
+    [items, recipe.triggerGap, triggerWidths],
   );
   const transitionsEnabled = areTabsTransitionsEnabled(
     items.map((item) => item.value),
     triggerRects,
   );
-  const classNames = tabs({ ...variantProps, transitionEnabled: transitionsEnabled });
+  const getClassNames = recipe.getClassNames;
+  const classNames = getClassNames({ transitionEnabled: transitionsEnabled });
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
-  const selectedRect = value === undefined ? undefined : triggerRects[value];
-  const selectedOffset = selectedRect?.left ?? null;
-
-  const setListNode = React.useCallback(
-    (node: NodesRef | null) => {
-      listRef.current = node;
-      if (node && selectedOffset !== null) invokeScrollToOffset(node, selectedOffset);
-    },
-    [selectedOffset],
-  );
-
   const setPagerNode = React.useCallback(
     (node: NodesRef | null) => {
       pagerRef.current = node;
@@ -283,14 +344,16 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     if (selectedPagerIndex >= 0) {
       invokeSelectTab(pagerRef.current, selectedPagerIndex, false);
     }
-    if (selectedOffset !== null) invokeScrollToOffset(listRef.current, selectedOffset);
-  }, [selectedPagerIndex, selectedOffset]);
+  }, [selectedPagerIndex]);
 
   const contextValue = React.useMemo<TabsContextValue>(
     () => ({
       value,
       visualValue,
-      variantProps,
+      classNames,
+      getClassNames,
+      getIndicatorClassName: recipe.getIndicatorClassName,
+      inlineNotification,
       items,
       pagerValues,
       indicatorIndex,
@@ -303,7 +366,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       updateTriggerDisabled,
       syncTriggerOrder,
       updateTriggerWidth,
-      setListRef: setListNode,
       setPagerRef: setPagerNode,
       selectValue,
       handlePagerWillChange,
@@ -312,7 +374,10 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     [
       value,
       visualValue,
-      variantProps,
+      classNames,
+      getClassNames,
+      recipe.getIndicatorClassName,
+      inlineNotification,
       items,
       pagerValues,
       indicatorIndex,
@@ -325,7 +390,6 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       updateTriggerDisabled,
       syncTriggerOrder,
       updateTriggerWidth,
-      setListNode,
       setPagerNode,
       selectValue,
       handlePagerWillChange,
@@ -335,16 +399,44 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
 
   return (
     <TabsContext.Provider value={contextValue}>
-      <ClassNamesProvider value={classNames}>
-        <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-          className={clsx(classNames.root, className)}
-          style={style}
-        >
-          {children}
-        </view>
-      </ClassNamesProvider>
+      <view
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classNames.root, className)}
+        style={style}
+      >
+        {children}
+      </view>
     </TabsContext.Provider>
+  );
+});
+TabsRootPrimitive.displayName = "TabsRootPrimitive";
+
+export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) => {
+  const [variantProps, rootProps] = tabs.splitVariantProps(props);
+  const getClassNames = React.useCallback(
+    (state: TabsRecipeState = {}) =>
+      tabs({
+        ...variantProps,
+        selected: state.selected,
+        disabled: state.disabled,
+        inCarousel: state.inCarousel,
+        transitionEnabled: state.transitionEnabled,
+      }),
+    [variantProps],
+  );
+  const recipe = React.useMemo<TabsRecipeAdapter>(
+    () => ({
+      getClassNames,
+      getIndicatorClassName: (state) => getClassNames(state).indicator,
+      triggerGap: 0,
+    }),
+    [getClassNames],
+  );
+
+  return (
+    <ClassNamesProvider value={getClassNames()}>
+      <TabsRootPrimitive {...rootProps} ref={ref} recipe={recipe} />
+    </ClassNamesProvider>
   );
 });
 TabsRoot.displayName = "TabsRoot";
@@ -371,27 +463,157 @@ function getTabsTriggerValues(children: React.ReactNode): string[] {
   return values;
 }
 
-export interface TabsListProps extends LynxStyledElementProps {}
+export interface TabsListProps extends LynxStyledElementProps {
+  /** 선택한 tab을 목록 안에서 정렬할 방식입니다. @defaultValue "start" */
+  scrollAlign?: "nearest" | "start" | "center" | "end";
+}
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
-  const classNames = useClassNames();
-  const { items, setListRef, syncTriggerOrder } = useTabsContext("TabsList");
+  const { children, className, style, scrollAlign = "start", ...nativeProps } = props;
+  const { classNames, items, syncTriggerOrder, triggerRects, value } = useTabsContext("TabsList");
+  const scrollRef = React.useRef<NodesRef | null>(null);
+  const contentRef = React.useMainThreadRef<ComputedStyleElement | null>(null);
+  const metricsRef = React.useRef<TabsScrollMetrics>({
+    currentOffset: 0,
+    viewportWidth: null,
+    contentWidth: null,
+    insets: null,
+  });
+  const contentInsetRequestRef = React.useRef(0);
+  const selectedValueRef = React.useRef(value);
+  const [geometryRevision, setGeometryRevision] = React.useState(0);
   const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
+
+  selectedValueRef.current = value;
 
   React.useEffect(() => {
     "background only";
     syncTriggerOrder(triggerOrder);
   }, [items, syncTriggerOrder, triggerOrder]);
 
+  const requestContentInsets = React.useCallback(() => {
+    "background only";
+    const request = ++contentInsetRequestRef.current;
+    metricsRef.current.insets = null;
+
+    void runOnMainThread<TabsContentInsets | null, typeof getTabsContentInsets>(
+      getTabsContentInsets,
+    )(contentRef).then(
+      (insets) => {
+        "background only";
+        if (request !== contentInsetRequestRef.current || !insets) return;
+
+        metricsRef.current.insets = insets;
+        setGeometryRevision((revision) => revision + 1);
+      },
+      () => {
+        // Missing native measurement intentionally leaves alignment pending.
+      },
+    );
+  }, [contentRef]);
+
+  const handleListLayoutChange = React.useCallback<ScrollViewLayoutChangeHandler>((event) => {
+    "background only";
+    const width = getTabsLayoutWidth(event);
+    if (width !== null && width > 0 && metricsRef.current.viewportWidth !== width) {
+      metricsRef.current.viewportWidth = width;
+      setGeometryRevision((revision) => revision + 1);
+    }
+  }, []);
+
+  const handleContentLayoutChange = React.useCallback<LayoutChangeHandler>(
+    (event) => {
+      "background only";
+      const width = getTabsLayoutWidth(event);
+      if (width !== null && width > 0 && metricsRef.current.contentWidth !== width) {
+        // Layout width is the ListContent border box until scrollWidth reports
+        // the scroll-view content width; the latter replaces this value below.
+        metricsRef.current.contentWidth = width;
+        setGeometryRevision((revision) => revision + 1);
+      }
+      requestContentInsets();
+    },
+    [requestContentInsets],
+  );
+
+  const updateScrollMetrics = React.useCallback(
+    (scrollLeft: number, scrollWidth: number) => {
+      "background only";
+      if (Number.isFinite(scrollLeft)) metricsRef.current.currentOffset = Math.max(0, scrollLeft);
+      if (
+        Number.isFinite(scrollWidth) &&
+        scrollWidth > 0 &&
+        metricsRef.current.contentWidth !== scrollWidth
+      ) {
+        metricsRef.current.contentWidth = scrollWidth;
+        requestContentInsets();
+        setGeometryRevision((revision) => revision + 1);
+      }
+    },
+    [requestContentInsets],
+  );
+
+  const handleScroll = React.useCallback<ScrollViewHandler>(
+    (event) => {
+      "background only";
+      updateScrollMetrics(event.detail.scrollLeft, event.detail.scrollWidth);
+    },
+    [updateScrollMetrics],
+  );
+
+  const handleContentSizeChanged = React.useCallback<ContentSizeChangedHandler>(
+    (event) => {
+      "background only";
+      updateScrollMetrics(event.detail.scrollLeft, event.detail.scrollWidth);
+    },
+    [updateScrollMetrics],
+  );
+
+  React.useEffect(() => {
+    "background only";
+    const selectedRect = value === undefined ? undefined : triggerRects[value];
+    const { currentOffset, viewportWidth, contentWidth, insets } = metricsRef.current;
+    if (
+      !scrollRef.current ||
+      value === undefined ||
+      !selectedRect ||
+      viewportWidth === null ||
+      contentWidth === null ||
+      insets === null
+    ) {
+      return;
+    }
+
+    const targetOffset = getTabsScrollOffset({
+      scrollAlign,
+      currentOffset,
+      viewportWidth,
+      contentWidth,
+      contentInsetStart: insets.start,
+      contentInsetEnd: insets.end,
+      triggerRect: selectedRect,
+    });
+    if (selectedValueRef.current !== value || targetOffset === currentOffset) return;
+
+    invokeScrollToOffset(scrollRef.current, targetOffset);
+  }, [geometryRevision, items, scrollAlign, triggerRects, value]);
+
   const mergedRef = React.useMemo(
-    () => mergeProps({ ref: setListRef }, { ref: ref as LynxViewRef }).ref,
-    [ref, setListRef],
+    () => mergeProps({ ref: scrollRef }, { ref: ref as LynxViewRef }).ref,
+    [ref],
   );
 
   return (
     <scroll-view
-      {...mergeProps({ ref: mergedRef }, nativeProps)}
+      {...mergeProps(
+        {
+          ref: mergedRef,
+          bindlayoutchange: handleListLayoutChange,
+          bindscroll: handleScroll,
+          bindcontentsizechanged: handleContentSizeChanged,
+        },
+        nativeProps,
+      )}
       scroll-orientation="horizontal"
       scroll-bar-enable={false}
       accessibility-element={false}
@@ -399,7 +621,13 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
       className={clsx(classNames.list, className)}
       style={style}
     >
-      <view className={classNames.listContent}>{children}</view>
+      <view
+        className={classNames.listContent}
+        main-thread:ref={contentRef}
+        bindlayoutchange={handleContentLayoutChange}
+      >
+        {children}
+      </view>
     </scroll-view>
   );
 });
@@ -452,13 +680,10 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     },
     [bindtap, context.selectValue, triggerValue],
   );
-  const {
-    pressed: _pressed,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    ...pressHandlers
-  } = usePressTap({ disabled, onTap: handleTap });
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+    disabled,
+    onTap: handleTap,
+  });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: bindtouchstart,
@@ -475,10 +700,10 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     [context.updateTriggerWidth, triggerValue],
   );
 
-  const triggerClasses = tabs({
-    ...context.variantProps,
+  const triggerClasses = context.getClassNames({
     selected: visuallySelected,
     disabled,
+    pressed,
     transitionEnabled: context.transitionsEnabled,
   });
   const label =
@@ -504,10 +729,17 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       style={style}
     >
       {notification ? (
-        <Box position="relative">
-          <text className={triggerClasses.triggerLabel}>{children}</text>
-          {notification}
-        </Box>
+        context.inlineNotification ? (
+          <HStack position="relative" gap="x1_5">
+            <text className={triggerClasses.triggerLabel}>{children}</text>
+            <view accessibility-elements-hidden={true}>{notification}</view>
+          </HStack>
+        ) : (
+          <Box position="relative">
+            <text className={triggerClasses.triggerLabel}>{children}</text>
+            {notification}
+          </Box>
+        )
       ) : (
         <text className={triggerClasses.triggerLabel}>{children}</text>
       )}
@@ -522,8 +754,18 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { className, style, ...nativeProps } = props;
-  const classNames = useClassNames();
-  const { indicatorRef, items, indicatorIndex, triggerRects } = useTabsContext("TabsIndicator");
+  const {
+    indicatorRef,
+    items,
+    indicatorIndex,
+    triggerRects,
+    getIndicatorClassName,
+    transitionsEnabled,
+  } = useTabsContext("TabsIndicator");
+  if (!getIndicatorClassName) {
+    throw new Error("<TabsIndicator/> is only supported inside <TabsRoot/>.");
+  }
+  const indicatorClassName = getIndicatorClassName({ transitionEnabled: transitionsEnabled });
   const position = indicatorIndex;
   const lowerIndex = Math.max(0, Math.floor(position));
   const upperIndex = Math.min(items.length - 1, Math.ceil(position));
@@ -545,7 +787,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
         nativeProps,
       )}
       accessibility-elements-hidden={true}
-      className={clsx(classNames.indicator, className)}
+      className={clsx(indicatorClassName, className)}
       style={
         {
           "--tabs-indicator-x": `${x}px`,
@@ -570,7 +812,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
   const inCarousel = useTabsCarouselCameraContext();
   const selected = tabsContext.value === contentValue;
   const disabled = tabsContext.items.find((item) => item.value === contentValue)?.disabled ?? false;
-  const contentClasses = tabs({ ...tabsContext.variantProps, selected, inCarousel });
+  const contentClasses = tabsContext.getClassNames({ selected, inCarousel });
 
   React.useEffect(() => {
     "background only";
@@ -611,7 +853,9 @@ export interface TabsCarouselProps extends LynxStyledElementProps {
   /** iOS 뒤로가기 제스처를 우선하는 화면 왼쪽 가장자리 너비입니다. */
   iosBackGestureEdgeWidth?: number;
   onSettle?: () => void;
+  /** 네이티브 pager가 drag를 감지했을 때 호출합니다. */
   onSwipeStart?: () => void;
+  /** 시작된 스와이프가 끝나거나 취소되면 호출합니다. */
   onSwipeEnd?: () => void;
 }
 
@@ -627,7 +871,7 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
     onSwipeEnd,
     ...nativeProps
   } = props;
-  const classNames = useClassNames();
+  const { classNames } = useTabsContext("TabsCarousel");
   const contextValue = React.useMemo<TabsCarouselContextValue>(
     () => ({ swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd }),
     [swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd],
@@ -666,8 +910,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       bindoffsetchange,
       ...nativeProps
     } = props;
-    const classNames = useClassNames();
     const tabsContext = useTabsContext("TabsCarouselCamera");
+    const { classNames } = tabsContext;
     const carouselContext = useTabsCarouselContext("TabsCarouselCamera");
     const swipingRef = React.useRef(false);
     const { indicatorRef, pagerValues, triggerRects } = tabsContext;
@@ -678,19 +922,41 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
       [ref, tabsContext.setPagerRef],
     );
 
+    const finishSwipe = React.useCallback(() => {
+      "background only";
+      if (!swipingRef.current) return;
+      swipingRef.current = false;
+      carouselContext.onSwipeEnd?.();
+    }, [carouselContext.onSwipeEnd]);
+
+    const handleTouchEnd = React.useCallback<TouchEndHandler>(() => {
+      "background only";
+      finishSwipe();
+    }, [finishSwipe]);
+
+    const handleTouchCancel = React.useCallback<TouchCancelHandler>(() => {
+      "background only";
+      finishSwipe();
+    }, [finishSwipe]);
+
     const handleWillChange = React.useCallback(
       (event: ViewPagerWillChangeEvent) => {
         "background only";
         bindwillchange?.(event);
         if (event.detail.isDragged) {
           tabsContext.handlePagerWillChange(event.detail.index);
-          if (!swipingRef.current) {
+          if (carouselContext.swipeable && !swipingRef.current) {
             swipingRef.current = true;
             carouselContext.onSwipeStart?.();
           }
         }
       },
-      [bindwillchange, carouselContext.onSwipeStart, tabsContext.handlePagerWillChange],
+      [
+        bindwillchange,
+        carouselContext.onSwipeStart,
+        carouselContext.swipeable,
+        tabsContext.handlePagerWillChange,
+      ],
     );
 
     const handleChange = React.useCallback(
@@ -699,17 +965,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         bindchange?.(event);
         tabsContext.handlePagerChange(event.detail.index);
         carouselContext.onSettle?.();
-        if (swipingRef.current || event.detail.isDragged) {
-          swipingRef.current = false;
-          carouselContext.onSwipeEnd?.();
-        }
       },
-      [
-        bindchange,
-        carouselContext.onSettle,
-        carouselContext.onSwipeEnd,
-        tabsContext.handlePagerChange,
-      ],
+      [bindchange, carouselContext.onSettle, tabsContext.handlePagerChange],
     );
 
     const handleOffsetChange = React.useCallback(
@@ -748,6 +1005,8 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
         {...mergeProps(
           {
             ref: mergedRef,
+            bindtouchend: handleTouchEnd,
+            bindtouchcancel: handleTouchCancel,
             bindwillchange: handleWillChange,
             bindchange: handleChange,
             bindoffsetchange: handleOffsetChange,
