@@ -5,6 +5,7 @@ import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
+import helpBubble from "./recipes/help-bubble";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
@@ -51,6 +52,7 @@ export const recipes = {
   bottomSheet,
   bottomSheetHandle,
   callout,
+  helpBubble,
   checkbox,
   checkboxGroup,
   checkmark,
