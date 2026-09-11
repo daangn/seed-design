@@ -106,6 +106,13 @@ describe("searchResultLine", () => {
             description: "화면 아래에서\n  올라옵니다.",
             docUrl: "/react/components/bottom-sheet",
           },
+          {
+            id: "checkbox",
+            title: "Checkbox",
+            description: "여러 항목을 고릅니다.",
+            whenToRead: "체크박스 그룹을 만들 때 읽는다.",
+            docUrl: "/react/components/checkbox",
+          },
         ],
       },
     ],
@@ -126,6 +133,12 @@ describe("searchResultLine", () => {
   it("folds a description spanning several lines onto the result's one line", () => {
     expect(searchResultLine(index, "/react/components/bottom-sheet")).toBe(
       "/react/components/bottom-sheet  Bottom Sheet — 화면 아래에서 올라옵니다.",
+    );
+  });
+
+  it("follows the description with when to read the document", () => {
+    expect(searchResultLine(index, "/react/components/checkbox")).toBe(
+      "/react/components/checkbox  Checkbox — 여러 항목을 고릅니다. — 체크박스 그룹을 만들 때 읽는다.",
     );
   });
 

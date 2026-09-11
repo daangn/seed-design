@@ -15,7 +15,8 @@ export function registerSearchDocsTool(server: McpServer): void {
     {
       description:
         "Search the full text of SEED Design documentation and get back the matching documents, " +
-        "one per line: the address first, then the document's title and description. " +
+        "one per line: the address first, then the document's title, description and when to " +
+        "read it. " +
         "Use this when you do not already know which section or document holds the answer. " +
         "An address is the document's own path on the site: a leading slash, then the section " +
         "id, then the path within that section. Drop the leading slash and split at the next " +

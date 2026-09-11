@@ -45,8 +45,11 @@ export function registerListDocsTool(server: McpServer): void {
           .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0))
           .map((doc) => {
             const deprecated = doc.deprecated ? " (deprecated)" : "";
-            const description = doc.description ? ` — ${doc.description}` : "";
-            return `- ${doc.title}${deprecated} (path: ${doc.path})${description}`;
+            const details = [doc.description, doc.whenToRead]
+              .filter(Boolean)
+              .map((text) => ` — ${text}`)
+              .join("");
+            return `- ${doc.title}${deprecated} (path: ${doc.path})${details}`;
           })
           .join("\n");
 
