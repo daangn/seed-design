@@ -50,6 +50,15 @@ export function useSwipeBack(props: UseSwipeBackProps) {
       edgeProps: {
         tabIndex: -1,
         onTouchStart: (e: React.TouchEvent) => {
+          // Dismiss input focus before moving the screen, even if the swipe is cancelled.
+          const activeElement = e.currentTarget.ownerDocument.activeElement;
+          if (
+            activeElement &&
+            "blur" in activeElement &&
+            typeof activeElement.blur === "function"
+          ) {
+            activeElement.blur();
+          }
           const x0 = e.touches[0].clientX;
           const t0 = Date.now();
           startSwipeBack({ x0, t0 });

@@ -77,6 +77,7 @@ export const config = defineConfig({
     { route: "/side-navigation", name: "ActivitySideNavigation" },
     { route: "/side-panel", name: "ActivitySidePanel" },
     { route: "/side-panel-activity", name: "ActivitySidePanelActivity" },
+    { route: "/swipe-back-keyboard", name: "ActivitySwipeBackKeyboard" },
     { route: "/swipeable-menu-sheet", name: "ActivitySwipeableMenuSheet" },
     { route: "/swipeable-tabs", name: "ActivitySwipeableTabs" },
     { route: "/switch", name: "ActivitySwitch" },

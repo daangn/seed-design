@@ -110,6 +110,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
         { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
         { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
+        { title: "스와이프백 키보드", ...to("ActivitySwipeBackKeyboard", {}) },
         { title: "animate: false 밀림 버그", ...to("ActivityAnimateFalseTest", {}) },
         { title: `홈 다시 push (깊이: ${activityIndex})`, ...to("ActivityHome", {}) },
         ...appScreenVariantMap.transitionStyle.map((transitionStyle) => ({
