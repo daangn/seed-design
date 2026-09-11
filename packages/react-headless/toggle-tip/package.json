@@ -1,0 +1,49 @@
+{
+  "name": "@seed-design/react-toggle-tip",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react-headless/toggle-tip"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.cjs",
+  "files": [
+    "lib",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.0",
+    "@radix-ui/react-compose-refs": "^1.1.2",
+    "@seed-design/dom-utils": "workspace:*",
+    "@seed-design/react-floating": "workspace:*",
+    "@seed-design/react-primitive": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6"
+  }
+}
