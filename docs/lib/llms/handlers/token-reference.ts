@@ -54,16 +54,32 @@ function findAttribute(node: JsxNode, name: string) {
 }
 
 /*
+  파싱된 AST를 꺼냅니다. 없으면 소스 텍스트로 읽습니다.
+
+  Satteri는 `{...}` 속성을 `data.estree` 없이 원문 문자열로만 싣습니다. estree만 보면
+  `groups={["radius"]}`가 지정되지 않은 것으로 읽혀, 요청한 그룹 대신 모든 컬렉션의
+  토큰 표가 문서에 실립니다.
+*/
+function readAttribute(node: JsxNode, name: string) {
+  const attr = findAttribute(node, name);
+  if (!attr?.value) return {};
+
+  if (typeof attr.value === "string") return { source: attr.value };
+
+  const estree = attr.value.data?.estree;
+  return isProgramNode(estree) ? { estree } : { source: attr.value.value };
+}
+
+/*
   <TokenReference groups={["color", "palette"]} /> 에서 groups 배열을 파싱합니다.
   문자열로 쓴 속성(groups="[...]")도 JSON 배열로 받습니다.
 */
 function readGroups(node: JsxNode): string[] {
-  const attr = findAttribute(node, "groups");
-  if (!attr?.value) return [];
+  const { source, estree } = readAttribute(node, "groups");
 
-  if (typeof attr.value === "string") {
+  if (source !== undefined) {
     try {
-      const parsed: unknown = JSON.parse(attr.value);
+      const parsed: unknown = JSON.parse(source);
       if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === "string");
     } catch {
       // JSON 파싱 실패 시 빈 배열 반환
@@ -72,8 +88,7 @@ function readGroups(node: JsxNode): string[] {
     return [];
   }
 
-  const estree = attr.value.data?.estree;
-  if (!isProgramNode(estree)) return [];
+  if (!estree) return [];
 
   const stmt = estree.body[0];
   if (!stmt || stmt.type !== "ExpressionStatement") return [];
@@ -91,11 +106,10 @@ function readGroups(node: JsxNode): string[] {
   문자열로 쓴 속성(regex="/.../")도 정규식 리터럴로 받습니다.
 */
 function readRegex(node: JsxNode): RegExp | null {
-  const attr = findAttribute(node, "regex");
-  if (!attr?.value) return null;
+  const { source, estree } = readAttribute(node, "regex");
 
-  if (typeof attr.value === "string") {
-    const literal = attr.value.match(/^\/(.+)\/([dgimsuvy]*)$/);
+  if (source !== undefined) {
+    const literal = source.match(/^\/(.+)\/([dgimsuvy]*)$/);
     if (!literal) return null;
 
     try {
@@ -105,8 +119,7 @@ function readRegex(node: JsxNode): RegExp | null {
     }
   }
 
-  const estree = attr.value.data?.estree;
-  if (!isProgramNode(estree)) return null;
+  if (!estree) return null;
 
   const stmt = estree.body[0];
   if (!stmt || stmt.type !== "ExpressionStatement") return null;
