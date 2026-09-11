@@ -1,0 +1,10 @@
+.docs-lynx-floating-action-button-root {
+  height: 100%;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.floating-action-button-preview {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}

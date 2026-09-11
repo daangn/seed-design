@@ -2177,6 +2177,19 @@
               "docUrl": "/lynx/getting-started/feature-flags"
             },
             {
+              "id": "floating-action-button",
+              "title": "Floating Action Button",
+              "description": "화면 위에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+              "docUrl": "/lynx/components/floating-action-button",
+              "snippetKey": "lynx/ui:floating-action-button",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "floating-action-button.tsx"
+                }
+              ]
+            },
+            {
               "id": "h-stack",
               "title": "HStack",
               "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
