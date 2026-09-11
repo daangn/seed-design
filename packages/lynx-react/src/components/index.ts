@@ -16,6 +16,7 @@ export * from "./FloatingActionButton";
 export * from "./Icon";
 export * from "./Dialog";
 export * from "./HelpBubble";
+export * from "./IdentityPlaceholder";
 export * from "./InputButton";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./MannerTemp";

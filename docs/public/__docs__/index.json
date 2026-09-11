@@ -2228,6 +2228,19 @@
               "docUrl": "/lynx/foundation/iconography"
             },
             {
+              "id": "identity-placeholder",
+              "title": "Identity Placeholder",
+              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+              "docUrl": "/lynx/components/identity-placeholder",
+              "snippetKey": "lynx/ui:identity-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "identity-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "input-button",
               "title": "Field Button",
               "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
