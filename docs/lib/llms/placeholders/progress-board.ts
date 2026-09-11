@@ -79,7 +79,13 @@ export function createProgressBoardPlaceholder(
 
 export const progressBoardPlaceholder = createProgressBoardPlaceholder(async () => {
   try {
-    return await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
+    return await sanityClient.fetch<ComponentData[]>(
+      ALL_COMPONENTS_QUERY,
+      {},
+      {
+        cache: "no-store",
+      },
+    );
   } catch {
     return [];
   }
