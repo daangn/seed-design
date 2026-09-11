@@ -6,8 +6,8 @@ import { searchDocs } from "../search.js";
 
 /**
  * The only tool here that answers a question phrased in the caller's words rather than in the
- * site's structure. `discover_seed_docs` and `list_docs` need the section already; this needs
- * nothing but the words, which is what a caller has before it knows what to look for.
+ * site's structure. `list_docs` and `get_doc` need the section already; this needs nothing but
+ * the words, which is what a caller has before it knows what to look for.
  */
 export function registerSearchDocsTool(server: McpServer): void {
   server.registerTool(
@@ -47,7 +47,7 @@ export function registerSearchDocsTool(server: McpServer): void {
             content: [
               {
                 type: "text" as const,
-                text: `No documents matched "${query}". Try fewer or differently spaced words, or call discover_seed_docs to browse by section.`,
+                text: `No documents matched "${query}". Try fewer or differently spaced words.`,
               },
             ],
           };

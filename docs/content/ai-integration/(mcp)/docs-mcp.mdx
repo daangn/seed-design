@@ -108,41 +108,11 @@ codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
 
 ## 사용 가능한 도구
 
-서버가 등록하는 도구는 다섯 개입니다.
+서버가 등록하는 도구는 네 개입니다.
 
-섹션 목록은 서버 안에 상수로 들어 있지 않고, 문서 사이트가 게시하는 인덱스를 호출 시점에 읽어옵니다. 사이트 구조가 바뀌면 이미 설치된 버전도 그대로 따라가므로, 섹션 이름을 외워서 넘기는 대신 `discover_seed_docs`로 현재 목록을 먼저 확인하세요.
+섹션 목록은 서버 안에 상수로 들어 있지 않고, 문서 사이트가 게시하는 인덱스를 호출 시점에 읽어옵니다. 사이트 구조가 바뀌면 이미 설치된 버전도 그대로 따라가므로, 섹션 이름을 외워서 넘기는 대신 `search_docs`가 출력한 주소를 나눠서 씁니다.
 
-### Discovery
-
-#### `discover_seed_docs`
-
-문서 사이트가 게시하는 섹션 목록을 반환합니다. 섹션마다 id와 이름, 문서 개수가 함께 실립니다.
-
-**파라미터:** 없음
-
-**예시:**
-```
-discover_seed_docs()
-```
-
-**예시 응답 (발췌):**
-```json
-{
-  "totalSections": 10,
-  "sections": [
-    {
-      "id": "components",
-      "name": "Components",
-      "documentCount": 63
-    },
-    {
-      "id": "react",
-      "name": "React",
-      "documentCount": 110
-    }
-  ]
-}
-```
+### 검색
 
 #### `search_docs`
 
@@ -187,7 +157,7 @@ Showing the top 20 of 71 matches
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `section` | string | 섹션 id. `discover_seed_docs`로 현재 목록을 확인합니다 |
+| `section` | string | 섹션 id. `search_docs`가 출력한 주소의 첫 조각입니다 |
 
 **예시:**
 ```
