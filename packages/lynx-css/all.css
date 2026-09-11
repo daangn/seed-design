@@ -2365,6 +2365,157 @@ text {
   background: var(--seed-color-bg-neutral-weak-pressed);
 }
 
+.seed-chip-tabs__root, .seed-chip-tabs__list {
+  position: relative;
+}
+
+.seed-chip-tabs__listContent {
+  width: max-content;
+  min-width: 100%;
+  padding-left: var(--seed-dimension-x4);
+  padding-right: var(--seed-dimension-x4);
+  flex-flow: row;
+  gap: 8px;
+  display: flex;
+}
+
+.seed-chip-tabs__trigger {
+  justify-content: center;
+  align-items: center;
+  gap: var(--seed-dimension-x1_5);
+  border-radius: var(--seed-radius-full);
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+  flex-direction: row;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.seed-chip-tabs__triggerLabel {
+  font-weight: var(--seed-font-weight-medium);
+  transition-property: color;
+  transition-duration: var(--seed-duration-color-transition);
+  transition-timing-function: var(--seed-timing-function-easing);
+  flex-shrink: 0;
+  display: flex;
+}
+
+.seed-chip-tabs__content {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.seed-chip-tabs__carousel {
+  display: flex;
+  overflow: hidden;
+}
+
+.seed-chip-tabs__carouselCamera {
+  width: 100%;
+}
+
+.seed-chip-tabs__trigger--size_medium {
+  min-height: 36px;
+  min-width: var(--seed-dimension-x12);
+  padding-left: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
+  padding-right: calc(var(--seed-dimension-x2) + var(--seed-dimension-x1_5));
+}
+
+.seed-chip-tabs__triggerLabel--size_medium {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}
+
+.seed-chip-tabs__trigger--size_large {
+  min-height: 40px;
+  min-width: var(--seed-dimension-x13);
+  padding-left: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
+  padding-right: calc(var(--seed-dimension-x2_5) + var(--seed-dimension-x1_5));
+}
+
+.seed-chip-tabs__triggerLabel--size_large {
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}
+
+.seed-chip-tabs__trigger--variant_neutralSolid {
+  background-color: var(--seed-color-bg-neutral-weak-alpha);
+}
+
+.seed-chip-tabs__triggerLabel--variant_neutralSolid {
+  color: var(--seed-color-fg-neutral);
+}
+
+.seed-chip-tabs__trigger--variant_neutralOutline {
+  background-color: var(--seed-color-bg-transparent);
+  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+}
+
+.seed-chip-tabs__triggerLabel--variant_neutralOutline {
+  color: var(--seed-color-fg-neutral);
+}
+
+.seed-chip-tabs__root--contentLayout_fill {
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+}
+
+.seed-chip-tabs__carousel--contentLayout_fill {
+  flex: 1;
+}
+
+.seed-chip-tabs__carouselCamera--contentLayout_fill, .seed-chip-tabs__content--contentLayout_fill {
+  height: 100%;
+}
+
+.seed-chip-tabs__list--stickyList_true {
+  z-index: 1;
+  position: sticky;
+  top: 0;
+}
+
+.seed-chip-tabs__content--selected_false {
+  display: none;
+}
+
+.seed-chip-tabs__trigger--variant_neutralSolid-selected_true {
+  background-color: var(--seed-color-bg-neutral-inverted);
+}
+
+.seed-chip-tabs__triggerLabel--variant_neutralSolid-selected_true {
+  color: var(--seed-color-fg-neutral-inverted);
+}
+
+.seed-chip-tabs__trigger--variant_neutralOutline-selected_true {
+  background-color: var(--seed-color-bg-neutral-inverted);
+  box-shadow: inset 0 0 0 1px #0000;
+}
+
+.seed-chip-tabs__triggerLabel--variant_neutralOutline-selected_true {
+  color: var(--seed-color-fg-neutral-inverted);
+}
+
+.seed-chip-tabs__trigger--variant_neutralSolid-selected_false-pressed_true-disabled_false {
+  background-color: var(--seed-color-bg-neutral-weak-alpha-pressed);
+}
+
+.seed-chip-tabs__trigger--variant_neutralOutline-selected_false-pressed_true-disabled_false {
+  background-color: var(--seed-color-bg-transparent-pressed);
+}
+
+.seed-chip-tabs__trigger--variant_neutralSolid-selected_true-pressed_true-disabled_false, .seed-chip-tabs__trigger--variant_neutralOutline-selected_true-pressed_true-disabled_false {
+  background-color: var(--seed-color-bg-neutral-inverted-pressed);
+}
+
+.seed-chip-tabs__trigger--variant_neutralSolid-disabled_true, .seed-chip-tabs__trigger--variant_neutralOutline-disabled_true {
+  opacity: .5;
+}
+
+.seed-chip-tabs__content--selected_false-inCarousel_true {
+  display: flex;
+}
+
 .seed-contextual-floating-button__root {
   border-radius: var(--seed-radius-full);
   width: fit-content;

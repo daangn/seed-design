@@ -1,0 +1,236 @@
+---
+title: Chip Tabs
+description: Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용합니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+    x-elements:
+      - viewpager
+      - viewpager-item
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/chip-tabs/preview">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:chip-tabs
+```
+
+<LynxManualInstallation name="chip-tabs" />
+
+## Props
+
+### `ChipTabsRoot`
+
+<react-type-table path="./registry/lynx/ui/chip-tabs.tsx" name="ChipTabsRootProps" />
+
+### `ChipTabsList`
+
+<react-type-table path="./registry/lynx/ui/chip-tabs.tsx" name="ChipTabsListProps" />
+
+### `ChipTabsTrigger`
+
+<react-type-table path="./registry/lynx/ui/chip-tabs.tsx" name="ChipTabsTriggerProps" />
+
+### `ChipTabsCarousel`
+
+<react-type-table path="./registry/lynx/ui/chip-tabs.tsx" name="ChipTabsCarouselProps" />
+
+### `ChipTabsContent`
+
+<react-type-table path="./registry/lynx/ui/chip-tabs.tsx" name="ChipTabsContentProps" />
+
+## Usage
+
+```tsx
+import { useState } from "@lynx-js/react";
+import {
+  ChipTabsList,
+  ChipTabsRoot,
+  ChipTabsTrigger,
+} from "@/components/ui/chip-tabs";
+
+export function App() {
+  const [value, setValue] = useState("1");
+
+  function handleValueChange(nextValue: string) {
+    "background only";
+    setValue(nextValue);
+  }
+
+  return (
+    <>
+      <ChipTabsRoot value={value} onValueChange={handleValueChange}>
+        <ChipTabsList>
+          <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
+          <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
+          <ChipTabsTrigger value="3">라벨3</ChipTabsTrigger>
+        </ChipTabsList>
+      </ChipTabsRoot>
+      {value === "1" && <text>content 1</text>}
+      {value === "2" && <text>content 2</text>}
+      {value === "3" && <text>content 3</text>}
+    </>
+  );
+}
+```
+
+`ChipTabsRoot`는 `value`와 `onValueChange`로 제어하거나 `defaultValue`로 초기 선택 값을 지정합니다. `ChipTabsTrigger`의 `notification` boolean은 label 옆 6px 간격에 작은 `NotificationBadge`를 표시합니다.
+
+`ChipTabsCarousel`은 Registry에서 `ChipTabsCarouselCamera`를 조립하므로 `ChipTabsContent`만 자식으로 전달합니다. Carousel은 native `<viewpager>`이므로 Carousel 또는 Camera에 앱 레이아웃에 맞는 높이를 명시하고, `swipeable`로 좌우 스와이프를 켭니다. iOS의 화면 왼쪽 가장자리 뒤로가기 제스처를 우선할 범위는 `iosBackGestureEdgeWidth`로 정합니다.
+
+공개 package API에서 Camera의 native `bindchange`, `bindwillchange`, `bindoffsetchange`를 직접 사용해야 할 때는 `ChipTabs.CarouselCamera`를 조합합니다. `onSwipeStart`, `onSwipeEnd`, `onSettle`은 Carousel에 전달해 스와이프 시작·종료·정착을 처리할 수 있습니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { ChipTabs } from "@seed-design/lynx-react";
+
+export function App() {
+  const [lastEvent, setLastEvent] = useState("대기");
+
+  function handleSwipeStart() {
+    "background only";
+    setLastEvent("스와이프 시작");
+  }
+
+  function handleSwipeEnd() {
+    "background only";
+    setLastEvent("스와이프 종료");
+  }
+
+  function handleSettle() {
+    "background only";
+    setLastEvent("정착");
+  }
+
+  return (
+    <ChipTabs.Root defaultValue="1">
+      <ChipTabs.List>
+        <ChipTabs.Trigger value="1">라벨1</ChipTabs.Trigger>
+        <ChipTabs.Trigger value="2">라벨2</ChipTabs.Trigger>
+      </ChipTabs.List>
+      <ChipTabs.Carousel
+        style={{ height: "240px" }}
+        swipeable
+        iosBackGestureEdgeWidth={32}
+        onSwipeStart={handleSwipeStart}
+        onSwipeEnd={handleSwipeEnd}
+        onSettle={handleSettle}
+      >
+        <ChipTabs.CarouselCamera>
+          <ChipTabs.Content value="1"><text>content 1</text></ChipTabs.Content>
+          <ChipTabs.Content value="2"><text>content 2</text></ChipTabs.Content>
+        </ChipTabs.CarouselCamera>
+      </ChipTabs.Carousel>
+      <text>{lastEvent}</text>
+    </ChipTabs.Root>
+  );
+}
+```
+
+## Scroll Alignment
+
+`ChipTabsList`의 `scrollAlign`은 선택한 chip을 가로 목록에 맞추는 방식입니다. `"nearest"`, `"start"`, `"center"`, `"end"`를 사용할 수 있으며 기본값은 `"nearest"`입니다.
+
+- `"start"`, `"center"`, `"end"`는 선택한 chip을 각각 목록의 시작, 가운데, 끝에 맞춥니다.
+- `"nearest"`는 React Web의 최소 스크롤 동작과 같이 선택한 chip이 완전히 보이면 현재 위치를 유지합니다. 왼쪽이 잘렸을 때는 시작 경계까지, 오른쪽이 잘렸을 때는 끝 경계까지 필요한 만큼만 이동하므로 `"end"`처럼 항상 끝에 맞추지 않습니다.
+
+실제 chip의 너비와 위치, viewport를 기준으로 계산하며, 가변 너비 chip도 그대로 유지합니다. 목록의 첫·마지막 항목을 가운데에 맞추기 위해 빈 공간을 추가하지 않고 스크롤 가능한 범위 안에서만 이동하며 항목 순서도 바꾸지 않습니다.
+
+
+아래 예제에서 모드를 고르면 선택을 `라벨1`로 초기화합니다. 그 뒤 `라벨6`을 탭하거나 `6번 선택`을 탭해 controlled `value` 변경에서도 실제 scrollAlign 차이를 확인하세요. `nearest`를 고르면 `scrollAlign` prop을 생략하여 기본 동작도 함께 확인합니다.
+
+<LynxComponentExample name="lynx/chip-tabs/scroll-alignment">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/scroll-alignment.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+`nearest`에서 선택한 chip이 이미 완전히 보인 상태로 다시 선택하면 이동하지 않습니다. 목록을 직접 스크롤한 뒤에도 다음 선택이 필요한 경우에만 이동합니다.
+
+
+## Examples
+
+### Size=Medium
+
+`medium`의 최소 높이는 36px입니다.
+
+<LynxComponentExample name="lynx/chip-tabs/size-medium">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/size-medium.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Size=Large
+
+`large`의 최소 높이는 40px입니다.
+
+<LynxComponentExample name="lynx/chip-tabs/size-large">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/size-large.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Variant=Neutral Solid
+
+<LynxComponentExample name="lynx/chip-tabs/variant-neutral-solid">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/variant-neutral-solid.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Variant=Neutral Outline
+
+<LynxComponentExample name="lynx/chip-tabs/variant-neutral-outline">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/variant-neutral-outline.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Notification
+
+<LynxComponentExample name="lynx/chip-tabs/notification">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/notification.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Scroll Fog
+
+`ScrollFog`는 Lynx Registry와 package에서 지원하지 않으므로 가장자리 fade를 제공하지 않습니다.
+
+대신 스크롤 가능한 목록으로 많은 탭을 표시할 수 있습니다. `ChipTabsList`는 native 가로 `scroll-view`를 사용하며, 아래 예제는 최대 너비 360px 안에 15개 라벨을 표시합니다. List의 내부 좌우 padding 16px을 그대로 사용하므로 추가 좌우 padding을 지정하지 않습니다. Web `ScrollFog` 예제의 20px padding은 fog 배치를 위한 값이며 Lynx 목록에 적용하지 않습니다.
+
+<LynxComponentExample name="lynx/chip-tabs/scrollable">
+  ```json doc-gen:file
+  {"file":"examples/lynx/chip-tabs/scrollable.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+| 항목 | React Web | Lynx |
+|---|---|---|
+| 렌더링 요소 | HTML `div`, `button` | 네이티브 `view`, `text`, `scroll-view`, `viewpager` |
+| 탭 선택 이벤트 | `onClick` 기반 | `bindtap` 기반, 공개 상태 이벤트는 `onValueChange` |
+| 콘텐츠 | Root 바깥의 조건부 `div`도 사용 가능 | Root 바깥에서 value에 따른 조건부 native `text`를 렌더링할 수 있음 |
+| 가로 List | CSS overflow | 네이티브 가로 `scroll-view` |
+| Carousel | 웹 Carousel | 네이티브 `<viewpager>` |
+
+React 예제와 마찬가지로 Lynx에서도 Root 바깥에서 선택 값에 따라 조건부 native `text` 콘텐츠를 렌더링할 수 있습니다. 별도 AppBar, 화면 shell, CTA, asset은 제공하지 않습니다.
+
+## Unsupported Lynx Features
+
+- `ScrollFog`와 가장자리 fade
+- 키보드 포커스와 roving focus
+- RTL 순서와 스와이프 방향 반전
+- `lazyMount`, `unmountOnExit`: native viewpager는 모든 page slot을 유지합니다.
+- Carousel의 `loop`, `autoHeight`, `dragThreshold`, `carouselPreventDrag`
+- 콘텐츠 전환 애니메이션

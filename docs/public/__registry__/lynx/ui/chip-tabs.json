@@ -1,0 +1,16 @@
+{
+  "id": "chip-tabs",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "chip-tabs.tsx",
+      "content": "/**\n * @file ui:chip-tabs\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n **/\n\nimport { NotificationBadge, ChipTabs as SeedChipTabs } from \"@seed-design/lynx-react\";\nimport { forwardRef } from \"@lynx-js/react\";\n\nexport interface ChipTabsRootProps extends SeedChipTabs.RootProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/chip-tabs\n */\nexport const ChipTabsRoot = SeedChipTabs.Root;\n\nexport interface ChipTabsListProps extends SeedChipTabs.ListProps {}\n\nexport const ChipTabsList = SeedChipTabs.List;\n\nexport interface ChipTabsTriggerProps extends Omit<SeedChipTabs.TriggerProps, \"notification\"> {\n  notification?: boolean;\n}\n\nexport const ChipTabsTrigger = forwardRef<unknown, ChipTabsTriggerProps>((props, ref) => {\n  const { children, notification, ...otherProps } = props;\n\n  return (\n    <SeedChipTabs.Trigger\n      ref={ref}\n      {...otherProps}\n      notification={\n        notification ? (\n          <NotificationBadge size=\"small\" accessibility-elements-hidden={true} />\n        ) : undefined\n      }\n    >\n      {children}\n    </SeedChipTabs.Trigger>\n  );\n});\nChipTabsTrigger.displayName = \"ChipTabsTrigger\";\n\nexport interface ChipTabsCarouselProps extends SeedChipTabs.CarouselProps {}\n\nexport const ChipTabsCarousel = forwardRef<unknown, ChipTabsCarouselProps>((props, ref) => {\n  const { children, ...otherProps } = props;\n\n  return (\n    <SeedChipTabs.Carousel ref={ref} {...otherProps}>\n      <SeedChipTabs.CarouselCamera>{children}</SeedChipTabs.CarouselCamera>\n    </SeedChipTabs.Carousel>\n  );\n});\nChipTabsCarousel.displayName = \"ChipTabsCarousel\";\n\nexport interface ChipTabsContentProps extends SeedChipTabs.ContentProps {}\n\nexport const ChipTabsContent = SeedChipTabs.Content;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+      }
+    }
+  ]
+}
