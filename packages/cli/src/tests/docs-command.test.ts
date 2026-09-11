@@ -21,6 +21,7 @@ const docsIndex = {
         {
           id: "checkbox",
           title: "Checkbox",
+          description: "여러 선택지 중 하나 이상을 고를 때 씁니다.",
           docUrl: "/lynx/components/checkbox",
           deprecated: true,
         },
@@ -41,12 +42,14 @@ const docsIndex = {
         {
           id: "action-button",
           title: "Action Button",
+          description: "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
           docUrl: "/react/components/action-button",
           llmsUrl: "/llms/react/components/action-button.txt",
         },
         {
           id: "bottom-sheet",
           title: "Bottom Sheet",
+          description: "화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
           docUrl: "/react/components/bottom-sheet",
           llmsUrl: "/llms/react/components/bottom-sheet.txt",
         },
@@ -90,7 +93,8 @@ const docsIndex = {
  *
  * Each page contributes a `page` row carrying its title and a `text` row carrying body prose
  * no title repeats, which is what separates full-text search from the name matching it
- * replaced. Anchors ride on the heading rows, as they do in the real index.
+ * replaced. Anchors ride on the heading rows under the slug the site gives each heading, as
+ * they do in the real index. The last page is one the docs index above does not list.
  */
 const buildSearchIndex = () =>
   buildDocsIndex(
@@ -119,15 +123,25 @@ const buildSearchIndex = () =>
         heading: "합성하기",
         body: "여러 컴포넌트를 겹쳐 하나의 인터랙션을 만듭니다.",
       },
-    ].map(({ url, title, heading, body }) => ({
-      id: url,
-      url,
-      title,
-      structuredData: {
-        headings: [{ id: heading, content: heading }],
-        contents: [{ heading, content: body }],
+      {
+        url: "/react/components/legacy-sheet",
+        title: "Legacy Sheet",
+        heading: "대체 컴포넌트",
+        body: "오래된 시트 구현은 새 시트로 옮겨 주세요.",
       },
-    })),
+    ].map(({ url, title, heading, body }) => {
+      const anchor = heading.replaceAll(" ", "-");
+
+      return {
+        id: url,
+        url,
+        title,
+        structuredData: {
+          headings: [{ id: anchor, content: heading }],
+          contents: [{ heading: anchor, content: body }],
+        },
+      };
+    }),
   );
 
 /**
@@ -322,9 +336,9 @@ describe("docs command", () => {
       expect(result.stdout.trimEnd()).toBe(
         [
           "/lynx/components/action-button   Action Button",
-          "/lynx/components/checkbox        Checkbox (deprecated)",
-          "/react/components/action-button  Action Button",
-          "/react/components/bottom-sheet   Bottom Sheet",
+          "/lynx/components/checkbox        Checkbox (deprecated) — 여러 선택지 중 하나 이상을 고를 때 씁니다.",
+          "/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "/react/components/bottom-sheet   Bottom Sheet — 화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
           "/react/components/concepts/      문서 1개",
           "/react/components/iconography/   문서 1개",
         ].join("\n"),
@@ -344,14 +358,18 @@ describe("docs command", () => {
       const result = await runDocs(["search", "스피너"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("/react/components/action-button#로딩 상태");
+      expect(result.stdout.trimEnd()).toBe(
+        "/react/components/action-button#로딩-상태  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+      );
     });
 
     it("prints the anchor the match sits under", async () => {
       const result = await runDocs(["search", "스냅 포인트"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("/react/components/bottom-sheet#스냅 포인트");
+      expect(result.stdout.trimEnd()).toBe(
+        "/react/components/bottom-sheet#스냅-포인트  Bottom Sheet — 화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
+      );
     });
 
     it("ranks the document carrying every word above the ones carrying only some", async () => {
@@ -359,8 +377,15 @@ describe("docs command", () => {
 
       expectSuccess(result);
       expect(result.stdout.trimEnd().split("\n")[0]).toBe(
-        "/lynx/components/action-button#지원 범위",
+        "/lynx/components/action-button#지원-범위  Action Button",
       );
+    });
+
+    it("prints an address bare when the docs index lists no page for it", async () => {
+      const result = await runDocs(["search", "오래된"]);
+
+      expectSuccess(result);
+      expect(result.stdout.trimEnd()).toBe("/react/components/legacy-sheet#대체-컴포넌트");
     });
 
     it("keeps the count off stdout", async () => {

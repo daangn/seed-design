@@ -265,7 +265,7 @@ npx @seed-design/cli@latest compat --all
 | 명령 | 하는 일 |
 |------|---------|
 | `docs list [주소]` | 그 범위 바로 아래에 무엇이 있는지 한 단계 나열해요 |
-| `docs search <질의>` | 문서 본문까지 검색해 주소를 출력해요 |
+| `docs search <질의>` | 문서 본문까지 검색해 걸린 문서를 출력해요 |
 | `docs read <주소>` | 그 주소의 문서 본문을 출력해요 |
 
 `docs`만 입력하면 하위 명령 안내를 stderr로 내보내고 종료 코드 `2`로 끝나요. 뒤에 붙은 값을
@@ -323,14 +323,17 @@ npx @seed-design/cli@latest docs list react/              # react가 담은 것�
 npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
 ```
 
-줄 끝의 슬래시가 그 줄을 다음에 어느 명령으로 넘길지 알려줘요. 슬래시로 끝나면 컨테이너라서
+주소 끝의 슬래시가 그 줄을 다음에 어느 명령으로 넘길지 알려줘요. 슬래시로 끝나면 컨테이너라서
 `docs list`로 한 단계 더 들어가고, 슬래시가 없으면 문서라서 `docs read`로 읽어요.
 
 ```sh copy
-/react/components/action-button  Action Button
-/react/components/bottom-sheet   Bottom Sheet
-/react/components/concepts/      3개 항목
+/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+/react/components/bottom-sheet   Bottom Sheet (Components) — 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
+/react/components/concepts/      문서 5개
 ```
+
+문서 줄에는 주소 뒤에 제목과 설명이 붙어요. 문서 하나가 늘 한 줄이고 주소가 맨 앞에 있어서,
+`grep`으로 줄을 걸러도 설명이 함께 남고 `awk '{print $1}'`로 주소만 잘라낼 수 있어요.
 
 카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
 `patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`, `updates`를 쓸 수 있어요.
@@ -350,7 +353,7 @@ npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
 
 ## docs search
 
-문서 본문까지 검색해서 주소를 출력해요. 문서 사이트의 검색창과 같은 색인을 쓰기 때문에,
+문서 본문까지 검색해서 걸린 문서를 출력해요. 문서 사이트의 검색창과 같은 색인을 쓰기 때문에,
 이름을 몰라도 내용을 설명하는 말로 찾을 수 있어요.
 
 ```package-install
@@ -358,19 +361,20 @@ npx @seed-design/cli@latest docs search "액션 버튼"
 ```
 
 ```sh copy
-/components/action-button#hierarchy
-/components/floating-action-button
-/react/components/floating-action-button
-/components/dialog#anatomy
-/components/top-navigation#우측-액션-영역-사용하기
+/components/action-button#hierarchy  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
+/react/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
+/components/dialog#anatomy  Dialog — 사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.
+/components/top-navigation#우측-액션-영역-사용하기  Top Navigation — 화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.
 ```
 
-문서 하나에 한 줄씩 나가고, 본문에서 걸린 자리가 있으면 `#` 뒤에 그 제목이 붙어요.
-관련도가 높은 순서이며 위에서부터 20개까지 보여줘요. 결과가 여러 개인 것은 정상이라서
-종료 코드는 `0`이고, 하나도 없을 때만 `1`이에요.
+문서 하나에 한 줄씩 나가요. 본문에서 걸린 자리가 있으면 주소의 `#` 뒤에 그 제목이 붙고, 주소
+뒤에는 `docs list`와 같은 모양으로 문서의 제목과 설명이 붙어요. 관련도가 높은 순서이며
+위에서부터 20개까지 보여줘요. 결과가 여러 개인 것은 정상이라서 종료 코드는 `0`이고, 하나도
+없을 때만 `1`이에요.
 
-stdout에는 한 줄에 주소 하나씩만 나가고, 찾은 개수는 stderr로 나가요. 그래서
-`docs search 시트 | head`처럼 주소만 이어 쓸 수 있어요.
+stdout에는 결과만 나가고, 찾은 개수는 stderr로 나가요. 주소가 줄의 첫 필드라서
+`docs search 시트 | awk '{print $1}'`처럼 주소만 잘라 이어 쓸 수 있어요.
 
 출력된 주소는 `docs read`가 그대로 받는 값이에요. `#` 뒤가 붙어 있어도 그대로 넘기면 되고,
 `docs read`는 그 문서 전체를 출력해요.
@@ -447,8 +451,8 @@ $ npx @seed-design/cli@latest docs read action-button
 해결 힌트: 앞에 슬래시를 붙인 전체 주소를 그대로 넣으면 하나로 좁혀져요.
 ```
 
-후보 목록은 답이 아니라 답을 좁히라는 안내라서 stderr로 가요. `docs search`가 내놓는 주소
-목록은 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지 아닌지를
+후보 목록은 답이 아니라 답을 좁히라는 안내라서 stderr로 가요. `docs search`가 내놓는 검색
+결과는 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지 아닌지를
 말해줘요.
 
 ## 스트림과 종료 코드

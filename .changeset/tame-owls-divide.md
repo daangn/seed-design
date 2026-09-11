@@ -9,7 +9,7 @@
 ```sh
 seed-design docs list                                  # 최상위 목록
 seed-design docs list react/                           # 그 아래 한 단계
-seed-design docs search action-button                  # 이름으로 주소 찾기
+seed-design docs search action-button                  # 본문까지 검색해 문서 찾기
 seed-design docs read /react/components/action-button  # 그 문서의 내용
 ```
 
@@ -47,7 +47,7 @@ seed-design docs read /react/components/action-button  # 그 문서의 내용
 
 **동작 변경**: `docs-search`가 `docs search`로 바뀌고, 별칭을 남기지 않습니다.
 
-**동작 변경**: `docs search`의 stdout에 한 줄에 주소 하나씩만 나갑니다. 주소 옆에 붙던 제목과 `(deprecated)` 표시가 사라집니다. 찾은 개수는 이전처럼 stderr로 나갑니다.
+**동작 변경**: `docs search`의 stdout은 문서 하나당 한 줄입니다. 줄 첫머리에 주소가 오고, 그 뒤에 제목과 description이 `제목 — description` 모양으로 붙습니다. `(deprecated)` 표시는 제목 뒤에 붙습니다. `docs list`의 문서 줄도 같은 모양입니다. 주소가 늘 첫 필드라서 `awk '{print $1}'`로 주소만 잘라낼 수 있고, 찾은 개수는 이전처럼 stderr로 나갑니다.
 
 **동작 변경**: `docs read`가 뒤 슬래시로 끝나는 범위 주소를 거부합니다. 컨테이너에는 본문이 없고, 그 아래 문서가 마침 하나뿐이라고 해서 그것을 답하면 사이트가 자라는 순간 같은 입력이 다른 뜻이 됩니다. `docs list`로 그 아래를 보세요.
 
