@@ -1,12 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { remarkLLMs } from "fumadocs-core/mdx-plugins/remark-llms";
-import type { Root } from "mdast";
-import type { MdxJsxAttribute } from "mdast-util-mdx-jsx";
-import remarkMdx from "remark-mdx";
-import remarkParse from "remark-parse";
-import { unified } from "unified";
-import { llmsHandlerOptions, tidyLLMMarkdown } from "../options";
-import { remarkLLMRemovals } from "../render-test-utils";
+import { renderWithHandler } from "../render-test-utils";
 import { codeBlockTabsHandler } from "./codeblock-tabs";
 
 /**
@@ -14,44 +7,7 @@ import { codeBlockTabsHandler } from "./codeblock-tabs";
  * so the shared helper would render its tags as untouched JSX. Everything else — plugin
  * order, options, the blank-run collapse — comes from the real pipeline.
  */
-async function render(mdx: string): Promise<string> {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkMdx)
-    .use(remarkLLMRemovals)
-    .use(remarkLLMs, {
-      ...llmsHandlerOptions,
-      _data: true,
-      stringify(node, _parent, state, info) {
-        if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement")
-          return undefined;
-        if (!codeBlockTabsHandler.names.includes(node.name ?? "")) return undefined;
-
-        return codeBlockTabsHandler.render?.(node, {
-          phrasing: () => state.containerPhrasing(node, info),
-          flow: () =>
-            node.type === "mdxJsxFlowElement"
-              ? state.containerFlow(node, info)
-              : state.containerPhrasing(node, info),
-          attr: (name) => {
-            const found = node.attributes.find(
-              (attribute): attribute is MdxJsxAttribute =>
-                attribute.type === "mdxJsxAttribute" && attribute.name === name,
-            );
-            return typeof found?.value === "string" ? found.value : undefined;
-          },
-          state,
-          info,
-        });
-      },
-    });
-
-  const tree = processor.parse(mdx) as Root;
-  const file = { data: {} } as never;
-  await processor.run(tree, file);
-
-  return tidyLLMMarkdown(String((file as { data: { markdown?: string } }).data.markdown ?? ""));
-}
+const render = (mdx: string) => renderWithHandler(codeBlockTabsHandler, mdx);
 
 const tab = (value: string, command: string) =>
   `  <CodeBlockTab value="${value}">\n    \`\`\`bash\n    ${command}\n    \`\`\`\n  </CodeBlockTab>`;
