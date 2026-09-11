@@ -167,31 +167,23 @@ function PlacementSection() {
 function PositioningOptionsSection() {
   const [flip, setFlip] = useState(true);
   const [slide, setSlide] = useState(true);
-  const [safeAreaAware, setSafeAreaAware] = useState(true);
 
   return (
     <Section
       title="positioning 옵션"
-      hint="popover를 열어둔 채 값을 바꾸면 재배치가 실시간으로 보입니다. safeAreaAware를 끄면 노치 / 홈 인디케이터 영역까지 침범합니다."
+      hint="popover를 열어둔 채 값을 바꾸면 재배치가 실시간으로 보입니다."
     >
       <Switch label="flip" checked={flip} onCheckedChange={setFlip} />
       <Switch label="slide" checked={slide} onCheckedChange={setSlide} />
-      <Switch label="safeAreaAware" checked={safeAreaAware} onCheckedChange={setSafeAreaAware} />
 
       <Row>
-        <PopoverRoot
-          placement="top"
-          flip={flip}
-          slide={slide}
-          safeAreaAware={safeAreaAware}
-          closeOnInteractOutside={false}
-        >
+        <PopoverRoot placement="top" flip={flip} slide={slide} closeOnInteractOutside={false}>
           <PopoverTrigger asChild>
             <ActionButton variant="neutralSolid">옵션 적용 popover</ActionButton>
           </PopoverTrigger>
           <PopoverContent title="positioning">
             <PopoverBody>
-              flip {String(flip)} / slide {String(slide)} / safeAreaAware {String(safeAreaAware)}
+              flip {String(flip)} / slide {String(slide)}
             </PopoverBody>
           </PopoverContent>
         </PopoverRoot>
