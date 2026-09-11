@@ -1,7 +1,6 @@
 ---
 "@seed-design/react": minor
 "@seed-design/css": minor
-"@seed-design/react-popover": minor
 "@seed-design/rootage-artifacts": minor
 ---
 
@@ -32,6 +31,8 @@ Popover 컴포넌트를 추가합니다.
 `onOpenChange` 두 번째 인자로 `details`를 제공합니다.
 
 - 열릴 때(`open: true`)는 `"trigger"`입니다.
-- 닫힐 때(`open: false`)는 `"closeButton"`, `"escapeKeyDown"`, `"interactOutside"`, `"cascadeDismiss"` 중 하나입니다.
+- 닫힐 때(`open: false`)는 `"trigger"`, `"closeButton"`, `"escapeKeyDown"`, `"interactOutside"`, `"focusOut"`, `"cascadeDismiss"` 중 하나입니다.
 
-Escape 키와 외부 영역 누름은 SEED 공용 dismissible layer stack에서 처리합니다. 가장 위에 있는 레이어만 닫히고, 상위 레이어(Dialog, Drawer 등)가 닫히면 함께 닫힙니다. 터치에서는 스크롤 도중 화면에 손이 닿는 것을 닫기로 보지 않습니다. 같은 headless를 사용하는 HelpBubble에도 동일하게 적용되며, `onOpenChange`의 `details`도 함께 제공됩니다.
+Escape 키와 외부 영역 누름은 SEED 공용 dismissible layer stack에서 처리합니다. 가장 위에 있는 레이어만 닫히고, 상위 레이어(Dialog, Drawer 등)가 닫히면 함께 닫힙니다. 터치에서는 스크롤 도중 화면에 손이 닿는 것을 닫기로 보지 않습니다. Tab 등으로 포커스가 밖으로 이동하면 `focusOut`과 해당 `FocusEvent`를 전달합니다.
+
+`HelpBubble`은 별도 headless인 `@seed-design/react-toggle-tip`을 사용하며 기존 공개 API와 동작을 유지합니다.

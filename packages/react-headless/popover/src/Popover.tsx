@@ -55,11 +55,8 @@ PopoverTrigger.displayName = "PopoverTrigger";
  * and outside presses resolve against the top-most layer instead of every open layer at
  * once, and an ancestor layer closing (Dialog, Drawer) cascades down to this one.
  *
- * The layer wraps the positioner rather than the content for two reasons. The positioner
- * is the floating element, so "outside the layer" keeps meaning what it meant while
- * dismissal lived in floating-ui's `useDismiss`. And it is the one part every consumer of
- * `usePopover` renders — HelpBubble supplies its own content element, so a layer on
- * `PopoverContent` would leave it out of the stack entirely.
+ * The layer wraps the positioner so outside presses are measured against the entire
+ * floating surface, including any arrow outside the content.
  *
  * `pressBehavior="drag"` matches the other anchored surfaces (Menu, Select): a mouse press
  * outside dismisses on pointerdown, while touch waits for a drag or a completed tap so a
