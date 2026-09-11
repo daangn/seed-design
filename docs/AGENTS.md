@@ -12,7 +12,7 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 
 ## 코드 작성 컨벤션
 
-- 문서 frontmatter에는 `title`, `description`을 포함한다.
+- 문서 frontmatter에는 `title`, `description`, `whenToRead`를 포함한다.
 - 문서 UI와 Storybook은 본문과 분리된 참조 계층으로 관리한다.
 - `docs/registry/{react,lynx}/ui/` snippet은 stable user API이자 사용자가 복사해 커스터마이즈하는 계층이다. API를 변경할 때는 minimal user code와 convenience wrapper 여부를 먼저 확인한다.
 - snippet 변경 시 `bun generate:all`로 `docs/public/__registry__/` 공개 생성물을 항상 갱신한다. vendored consumer(`examples/stackflow-spa/src/seed-design/ui/`)의 영향은 실제 사용 여부에 따라 확인한다.
@@ -38,3 +38,4 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 - 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
 - 산문에서는 `SEED Design` 대신 `SEED` 또는 `SEED Design System`을 사용한다.
 - `featured: true`는 동시에 소수의 최신 문서에만 사용한다.
+- `whenToRead`에는 에이전트가 CLI·docs-mcp 문서 목록에서 이 문서를 골라야 하는 상황을 쓰고 「~할 때 읽는다」로 끝맺는다. 같은 컴포넌트의 디자인 스펙·React·Lynx 문서가 서로 구별되도록 이 문서만 다루는 API·설정·제약을 넣는다. 다른 문서의 주소는 적지 않는다. 주소 안내를 더해도 에이전트가 문서를 더 잘 고르지 않았고, 주소가 바뀌면 문구도 함께 고쳐야 한다.

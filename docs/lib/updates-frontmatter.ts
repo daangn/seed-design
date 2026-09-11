@@ -11,6 +11,7 @@ export const updatesFrontmatterSchema = pageSchema
       .refine(isValidCoverImagePath, { message: COVER_IMAGE_PATH_ERROR_MESSAGE })
       .optional(),
     coverImageFigmaId: z.string().optional(),
+    whenToRead: z.string().optional(),
   })
   .superRefine((data, context) => {
     if (data.category === "post" && !data.description) {

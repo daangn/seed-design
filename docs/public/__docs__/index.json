@@ -8,6 +8,7 @@
           "id": "overview",
           "title": "Get Started",
           "description": "SEED는 당근 제품을 위한 통합 디자인 언어예요. 디자인과 코드가 하나의 소스를 바라보게 만들어, 누가 만들어도 같은 품질의 경험이 나오도록 돕는 것이 목표예요.",
+          "whenToRead": "SEED가 무엇이고 문서가 Foundations·Components·Patterns(디자인 기준), React·Lynx(구현), AI 도구로 어떻게 나뉘는지 처음 파악하거나 Apache-2.0 라이선스 조건을 확인할 때 읽는다.",
           "docUrl": "/get-started",
           "llmsUrl": "/llms/get-started.txt"
         }
@@ -21,6 +22,7 @@
           "id": "color",
           "title": "Overview (color)",
           "description": "SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.",
+          "whenToRead": "SEED 색상 체계의 개념, 즉 역할 기반 색상과 팔레트 색상의 구분, 팔레트를 예외로 쓰는 경우, 역할 기반 색상이 접근성과 라이트·다크 테마에 주는 이점을 이해할 때 읽는다.",
           "docUrl": "/foundations/color",
           "llmsUrl": "/llms/foundations/color.txt"
         },
@@ -28,6 +30,7 @@
           "id": "color",
           "title": "Color",
           "description": "누를 수 있는 요소는 눌린 동안 표면 색이 바뀝니다. SEED는 눌린 상태의 색을 역할 색상 체계 안의 pressed 토큰으로 정의합니다.",
+          "whenToRead": "직접 만드는 요소에 눌린 색을 입히며 기본 색에 짝이 되는 -pressed 토큰을 찾거나, 배경 없는 요소·floating layer 위 요소의 눌린 표면 색을 고르거나, Switch·탭처럼 눌림에 색을 쓰지 말아야 하는지 판단할 때 읽는다.",
           "docUrl": "/foundations/feedback/color",
           "llmsUrl": "/llms/foundations/feedback/color.txt"
         },
@@ -35,6 +38,7 @@
           "id": "color-role",
           "title": "Roles",
           "description": "역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.",
+          "whenToRead": "fg·bg·stroke 속성과 brand·neutral·positive·warning·critical·informative 역할, weak·solid 변형을 조합해 UI에 쓸 색상 토큰을 고르거나 역할별 토큰의 라이트·다크 값을 확인할 때 읽는다.",
           "docUrl": "/foundations/color/color-role",
           "llmsUrl": "/llms/foundations/color/color-role.txt"
         },
@@ -42,6 +46,7 @@
           "id": "design-token",
           "title": "Overview (design-token)",
           "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
+          "whenToRead": "디자인 토큰이 무엇인지, SEED가 Raw value·Scale Token·Semantic Token 단계로 토큰을 어떻게 계층화하는지 개념을 이해할 때 읽는다.",
           "docUrl": "/foundations/design-token",
           "llmsUrl": "/llms/foundations/design-token.txt"
         },
@@ -49,6 +54,7 @@
           "id": "elevation",
           "title": "Elevation",
           "description": "UI 요소 간의 상대적인 깊이와 계층 구조를 시각적으로 표현하는 디자인 원칙입니다.",
+          "whenToRead": "화면 요소의 쌓임 순서와 깊이를 설계하며 바텀시트·Alert Dialog 같은 Global 레벨과 플로팅 액션·일시적 피드백 같은 Local 레벨을 구분하거나, surface color·shadow·stroke 중 고도 표현 방식을 고르거나, layer-basement와 neutral-weak 중 배경 토큰을 고를 때 읽는다.",
           "docUrl": "/foundations/elevation",
           "llmsUrl": "/llms/foundations/elevation.txt"
         },
@@ -56,6 +62,7 @@
           "id": "feedback",
           "title": "Overview (feedback)",
           "description": "피드백은 사용자의 입력에 대한 즉각적인 반응입니다. 요소가 조작 가능하다는 사실과 입력이 전달되었다는 사실을 알려줍니다.",
+          "whenToRead": "누름 피드백의 전체 원칙, 즉 색·축소·햅틱을 하나의 반응으로 묶는 방법, 색 전환과 축소의 duration 토큰을 맞추는 이유, 동작 줄이기 설정에서도 눌림을 남기는 기준을 확인할 때 읽는다.",
           "docUrl": "/foundations/feedback",
           "llmsUrl": "/llms/foundations/feedback.txt"
         },
@@ -63,6 +70,7 @@
           "id": "gradient",
           "title": "Gradient",
           "description": "그라디언트는 배경과 아이콘 등에서 입체감이나 AI 기능을 표현할 때 사용하는 색상 토큰입니다.",
+          "whenToRead": "페이드 마스크, AI 기능을 표현하는 magic 계열 글로우·하이라이트, shimmer 같은 그라디언트 토큰의 이름과 라이트·다크 stop 값을 찾을 때 읽는다.",
           "docUrl": "/foundations/gradient",
           "llmsUrl": "/llms/foundations/gradient.txt"
         },
@@ -70,6 +78,7 @@
           "id": "iconography",
           "title": "Overview (iconography)",
           "description": "아이콘은 사용자가 복잡한 정보나 기능을 빠르게 이해할 수 있도록 도와주는 디자인 요소입니다.",
+          "whenToRead": "당근 아이콘의 형태 원칙과 모노크롬·멀티컬러 분류를 이해하거나, 라이브러리에 없는 아이콘을 새로 만들어야 해 제작 절차를 확인할 때 읽는다.",
           "docUrl": "/foundations/iconography",
           "llmsUrl": "/llms/foundations/iconography.txt"
         },
@@ -77,6 +86,7 @@
           "id": "inclusive-design",
           "title": "Inclusive Design",
           "description": "SEED는 모든 사용자가 제품을 쉽게 접근하고 사용할 수 있도록 돕습니다.",
+          "whenToRead": "텍스트 명도 대비(APCA Lc)나 최소 터치 영역(44px 권장, 24px 최소)을 정하거나, 대체 텍스트·오류 메시지·애니메이션·자동 재생·폰트 크기 설정 같은 접근성 요구사항을 디자인에 반영할 때 읽는다.",
           "docUrl": "/foundations/inclusive-design",
           "llmsUrl": "/llms/foundations/inclusive-design.txt"
         },
@@ -84,6 +94,7 @@
           "id": "international-design",
           "title": "International Design",
           "description": "SEED는 전 세계에서 똑같이 유용하고 가치있는 경험을 제공할 수 있도록 돕습니다.",
+          "whenToRead": "다국어·다지역 화면을 설계하며 로케일별 상대 시간·날짜·요일 표기, 숫자와 단위 순서·큰 수 표기를 맞추거나, 번역 후 늘어나는 텍스트 길이에 대비해 레이아웃 여유 공간을 잡을 때 읽는다.",
           "docUrl": "/foundations/international-design",
           "llmsUrl": "/llms/foundations/international-design.txt"
         },
@@ -91,12 +102,14 @@
           "id": "layout",
           "title": "Layout",
           "description": "레이아웃은 제품의 콘텐츠를 구조화하고 일관된 사용자 경험을 제공하기 위한 시각적 뼈대입니다. SEED는 다양한 화면 밀도와 디바이스 환경에 대응할 수 있도록 유연한 그리드 시스템과 중단점(Breakpoint)을 제공합니다.",
+          "whenToRead": "웹 대시보드나 콘텐츠 페이지의 그리드를 설계하며 밀도별 컬럼·거터·마진·max-width, base~xl 중단점, 컬럼 span·offset, Header·Side Navigation·Aside 영역 기준을 정할 때 읽는다.",
           "docUrl": "/foundations/layout",
           "llmsUrl": "/llms/foundations/layout.txt"
         },
         {
           "id": "library",
           "title": "Library",
+          "whenToRead": "필요한 아이콘이 있는지 키워드로 찾거나, 아이콘 이름에 대응하는 React 컴포넌트 이름(예: IconAppleFill)과 Figma 이름을 확인할 때 읽는다. 모노크롬·멀티컬러 전체 목록이라 매우 길다.",
           "docUrl": "/foundations/iconography/library",
           "llmsUrl": "/llms/foundations/iconography/library.txt"
         },
@@ -104,6 +117,7 @@
           "id": "motion",
           "title": "Motion",
           "description": "모션은 유저 인터페이스의 표현력을 높이고 쉽게 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "애니메이션에 쓸 easing·enter·exit·expressive 타이밍 함수와 duration 토큰(d1~d6)을 고르거나, 매크로·마이크로 모션을 가르는 0.2초 기준을 확인할 때 읽는다.",
           "docUrl": "/foundations/motion",
           "llmsUrl": "/llms/foundations/motion.txt"
         },
@@ -111,12 +125,14 @@
           "id": "overview",
           "title": "Overview",
           "description": "접근성, 레이아웃, 인터랙션까지 — 훌륭한 UI의 기반이 되는 핵심 토큰과 패턴을 둘러보세요.",
+          "whenToRead": "Foundations 섹션에 어떤 디자인 기준 문서(색상, 타이포그래피, 간격, 아이콘, 모션, 피드백 등)가 있는지 훑어볼 때만 읽는다.",
           "docUrl": "/foundations",
           "llmsUrl": "/llms/foundations.txt"
         },
         {
           "id": "palette",
           "title": "Palette",
+          "whenToRead": "역할 기반 색상으로 표현하기 어려운 예외 상황에서 gray·carrot 등 팔레트 색상 토큰이나 banner 색상 토큰의 단계별 라이트·다크 값을 찾을 때 읽는다.",
           "docUrl": "/foundations/color/palette",
           "llmsUrl": "/llms/foundations/color/palette.txt"
         },
@@ -124,6 +140,7 @@
           "id": "radius",
           "title": "Radius",
           "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다.",
+          "whenToRead": "요소 모서리에 줄 radius 토큰(r0_5~r6, full)을 고르거나 각 토큰의 px 값을 확인할 때 읽는다.",
           "docUrl": "/foundations/radius",
           "llmsUrl": "/llms/foundations/radius.txt"
         },
@@ -131,6 +148,7 @@
           "id": "reference",
           "title": "Reference",
           "description": "SEED 디자인 토큰의 전체 목록을 제공합니다.",
+          "whenToRead": "색상·dimension·duration·font size·font weight·line height·gradient·radius·scale·shadow·timing function 토큰의 정확한 이름과 값을 찾아볼 때 읽는다. 전체 목록이라 매우 길다.",
           "docUrl": "/foundations/design-token/reference",
           "llmsUrl": "/llms/foundations/design-token/reference.txt"
         },
@@ -138,6 +156,7 @@
           "id": "scale",
           "title": "Scale",
           "description": "누를 수 있는 요소는 눌린 동안 살짝 작아집니다. SEED는 모든 요소에서 눌린 느낌의 양이 같도록 축소량을 배율이 아닌 거리로 정의합니다.",
+          "whenToRead": "누를 때 요소가 줄어드는 양(세로 2px, basis 공식과 배율)을 이해하거나, 직접 만드는 요소에 축소를 적용할지, Root·Content Scale 중 무엇을 줄일지, 중첩 시 안쪽 축소를 끌지 판단할 때 읽는다.",
           "docUrl": "/foundations/feedback/scale",
           "llmsUrl": "/llms/foundations/feedback/scale.txt"
         },
@@ -145,6 +164,7 @@
           "id": "spacing",
           "title": "Spacing",
           "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다.",
+          "whenToRead": "요소 사이 간격에 dimension 스케일 토큰(x0_5~x16)과 global-gutter·nav-to-title·component-default·between-chips 같은 spacing-x·spacing-y 시맨틱 토큰 중 무엇을 쓸지 정할 때 읽는다.",
           "docUrl": "/foundations/spacing",
           "llmsUrl": "/llms/foundations/spacing.txt"
         },
@@ -152,6 +172,7 @@
           "id": "state",
           "title": "State",
           "description": "상태 표현은 컴포넌트 또는 상호작용 가능한 요소의 상태 또는 가능성을 사용자에게 전달합니다.",
+          "whenToRead": "enabled·pressed·selected·disabled 상태의 정의와, 상호작용 상태와 옵션 상태가 함께 적용되거나 서로 덮어쓰는 규칙을 확인할 때 읽는다.",
           "docUrl": "/foundations/state",
           "llmsUrl": "/llms/foundations/state.txt"
         },
@@ -159,6 +180,7 @@
           "id": "typography",
           "title": "Typography",
           "description": "타이포그래피는 콘텐츠를 명확하고 효율적으로 표현하기 위한 디자인 요소입니다.",
+          "whenToRead": "텍스트에 쓸 폰트 크기·줄 높이·두께 토큰을 고르거나, t4Medium 같은 스케일 스타일과 screenTitle 같은 시맨틱 스타일 중 무엇을 쓸지, 플랫폼별 권장 글꼴(Windows는 Pretendard)을 확인할 때 읽는다. 웹에 font-family를 적용하는 방법은 다루지 않는다.",
           "docUrl": "/foundations/typography",
           "llmsUrl": "/llms/foundations/typography.txt"
         },
@@ -166,6 +188,7 @@
           "id": "usage",
           "title": "Usage",
           "description": "아이콘과 다른 디자인 요소 간의 상호작용 및 아이콘 사용 방법에 대해 설명합니다.",
+          "whenToRead": "아이콘 크기(최소 12px)와 단독 버튼의 터치 영역, Line과 Fill 중 무엇을 쓸지, 텍스트와 한 줄에 놓을 때의 크기·굵기 조합, 버튼·피드·리스트·내비게이션별 권장 크기를 정할 때 읽는다.",
           "docUrl": "/foundations/iconography/usage",
           "llmsUrl": "/llms/foundations/iconography/usage.txt"
         },
@@ -173,6 +196,7 @@
           "id": "voice-and-tone",
           "title": "Voice and Tone",
           "description": "당근에서 일관되게 말하는 방법을 소개합니다.",
+          "whenToRead": "당근 서비스 문구의 역할과 말하기 원칙(명확한, 이해하기 쉬운, 사려깊은), 활기차고 친절한 보이스 톤을 확인할 때 읽는다.",
           "docUrl": "/foundations/voice-and-tone",
           "llmsUrl": "/llms/foundations/voice-and-tone.txt"
         },
@@ -180,6 +204,7 @@
           "id": "writing",
           "title": "Writing",
           "description": "당근에서 일관되게 글쓰는 방법을 소개합니다.",
+          "whenToRead": "UI 문구의 존칭어 사용, 숫자 표기, 축약어·은어, 긍정문·능동문, 느낌표·띄어쓰기·마침표 규칙을 Do·Don't 예시로 확인하며 문구를 쓰거나 고칠 때 읽는다.",
           "docUrl": "/foundations/writing",
           "llmsUrl": "/llms/foundations/writing.txt"
         }
@@ -193,6 +218,7 @@
           "id": "accordion",
           "title": "Accordion",
           "description": "세부 정보를 점진적으로 공개할 수 있는, 수직으로 쌓인 목록 컴포넌트입니다.",
+          "whenToRead": "Accordion을 쓸지 판단하고 Item 최소 개수, 모바일(Medium)·PC(Large) 사이즈, 펼칠 때 자동 스크롤·포커스 이동, Content Panel 내부 스크롤 지양 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/accordion",
           "llmsUrl": "/llms/components/accordion.txt"
         },
@@ -200,12 +226,14 @@
           "id": "action-button",
           "title": "Action Button",
           "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "whenToRead": "버튼 variant를 강조 위계(High·Medium·Low)에 맞춰 고르거나 size, 버튼 조합·배치, 라벨·아이콘 사용, Chip과의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/action-button",
           "llmsUrl": "/llms/components/action-button.txt"
         },
         {
           "id": "action-chip",
           "title": "Action Chip",
+          "whenToRead": "deprecated된 Action Chip의 옛 디자인 옵션(size, layout, count)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/action-chip",
           "llmsUrl": "/llms/components/action-chip.txt",
           "deprecated": true
@@ -213,6 +241,7 @@
         {
           "id": "action-sheet",
           "title": "Action Sheet",
+          "whenToRead": "deprecated된 Action Sheet의 옛 옵션과 Item·Close Button 스펙을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/action-sheet",
           "llmsUrl": "/llms/components/action-sheet.txt",
           "deprecated": true
@@ -221,6 +250,7 @@
           "id": "alert-dialog",
           "title": "Alert Dialog",
           "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+          "whenToRead": "삭제·이탈처럼 확인이나 경고가 필요한 순간의 버튼 배열, Critical·Nonpreferred 레이아웃, 문구 작성, Menu Sheet와의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/alert-dialog",
           "llmsUrl": "/llms/components/alert-dialog.txt"
         },
@@ -228,6 +258,7 @@
           "id": "attachment-input",
           "title": "Attachment Input",
           "description": "사진, 영상, 파일 첨부를 다루는 입력으로, 선택, 업로드, 진행률, 실패, 삭제 상태를 관리합니다.",
+          "whenToRead": "사진·파일 첨부 UI의 Media·File 타입, 대표사진 배지, 업로드 중·실패 Preview 상태, Dropzone과 순서 변경 같은 디자인 스펙을 확인할 때 읽는다.",
           "docUrl": "/components/attachment-input",
           "llmsUrl": "/llms/components/attachment-input.txt"
         },
@@ -235,6 +266,7 @@
           "id": "avatar",
           "title": "Avatar",
           "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
+          "whenToRead": "프로필 이미지의 사이즈(20~108) 선택, Circle·Shield·Flower 배지와 Custom Slot, Avatar Stack 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/avatar",
           "llmsUrl": "/llms/components/avatar.txt"
         },
@@ -242,6 +274,7 @@
           "id": "badge",
           "title": "Badge",
           "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
+          "whenToRead": "상태·카테고리 라벨로 쓸 Badge의 tone과 Solid·Outline·Weak 스타일 선택, 개수·라벨 길이 제한, 클릭 요소로 쓰지 않기 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/badge",
           "llmsUrl": "/llms/components/badge.txt"
         },
@@ -249,6 +282,7 @@
           "id": "bottom-navigation",
           "title": "Bottom Navigation",
           "description": "앱의 루트 페이지 하단에 고정되어 있는 네비게이션 바로, 다섯 개의 상위 탭 간 이동을 제공합니다.",
+          "whenToRead": "Bottom Navigation의 탭 개수(5개 이하), 라벨 길이, 최대 너비 480px, 탭별 Notification Badge, 아이콘 스타일 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/bottom-navigation",
           "llmsUrl": "/llms/components/bottom-navigation.txt"
         },
@@ -256,6 +290,7 @@
           "id": "bottom-sheet",
           "title": "Bottom Sheet",
           "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
+          "whenToRead": "하단 시트의 Handle·Close Button·Footer 구성, 스냅 포인트, 최대 너비·높이, 닫기 동작, 키보드가 올라올 때의 처리 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/bottom-sheet",
           "llmsUrl": "/llms/components/bottom-sheet.txt"
         },
@@ -263,6 +298,7 @@
           "id": "callout",
           "title": "Callout",
           "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "whenToRead": "본문 중간에 팁·주의 메시지를 넣을 때 Display·Actionable·Dismissible 동작, tone, 제목·Link Text 작성 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/callout",
           "llmsUrl": "/llms/components/callout.txt"
         },
@@ -270,6 +306,7 @@
           "id": "checkbox",
           "title": "Checkbox",
           "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+          "whenToRead": "Checkbox의 Square·Ghost shape, 부모 Checkbox와 Indeterminate 상태, 터치 영역 같은 디자인 기준이 필요하거나 Switch와 Checkbox 중 무엇을 쓸지 판단할 때 읽는다.",
           "docUrl": "/components/checkbox",
           "llmsUrl": "/llms/components/checkbox.txt"
         },
@@ -277,6 +314,7 @@
           "id": "chip",
           "title": "Chip",
           "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
+          "whenToRead": "Chip을 Selection·Suggestion·Input·Filter Bar 중 어떤 용도로 쓸지, variant·size와 Chip Group 레이아웃(Scrollable·Overflow)을 정하는 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/chip",
           "llmsUrl": "/llms/components/chip.txt"
         },
@@ -284,6 +322,7 @@
           "id": "content-placeholder",
           "title": "Content Placeholder",
           "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+          "whenToRead": "Image Frame 등에서 이미지를 표시할 수 없을 때 넣을 대체 에셋의 타입(기본·서비스·카테고리별)과 Asset 크기 규칙 같은 디자인 스펙을 확인할 때 읽는다.",
           "docUrl": "/components/content-placeholder",
           "llmsUrl": "/llms/components/content-placeholder.txt"
         },
@@ -291,12 +330,14 @@
           "id": "contextual-floating-button",
           "title": "Contextual Floating Button",
           "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+          "whenToRead": "콘텐츠 근처에 조건부로 띄우는 버튼의 Solid·Layer tone, Icon Only 레이아웃, 여러 개 동시 배치와 여백 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/contextual-floating-button",
           "llmsUrl": "/llms/components/contextual-floating-button.txt"
         },
         {
           "id": "control-chip",
           "title": "Control Chip",
+          "whenToRead": "deprecated된 Control Chip의 옛 디자인 옵션(selected, count 등)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/control-chip",
           "llmsUrl": "/llms/components/control-chip.txt",
           "deprecated": true
@@ -305,6 +346,7 @@
           "id": "date-picker",
           "title": "Date Picker",
           "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "날짜 선택 UI의 Single·Range·Multiple 선택 방식, Month·Two Months·Continuous·Week 표시 범위, Inline·Sheet·Popover 레이아웃, Read Only·Disabled 날짜 처리 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/date-picker",
           "llmsUrl": "/llms/components/date-picker.txt"
         },
@@ -312,6 +354,7 @@
           "id": "dialog",
           "title": "Dialog",
           "description": "사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다.",
+          "whenToRead": "폼 입력·정보 조회용 모달의 Medium·Large 사이즈, 스크롤 시 고정 Header·Footer, 닫기·취소 버튼 선택, md 미만 Bottom Sheet 전환 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/dialog",
           "llmsUrl": "/llms/components/dialog.txt"
         },
@@ -319,6 +362,7 @@
           "id": "divider",
           "title": "Divider",
           "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "whenToRead": "Inset·Full-width Divider와 8px Gap 중 무엇으로 구분할지, Neutral Muted·Subtle tone, 세로 방향, 마지막 구분선 생략 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/divider",
           "llmsUrl": "/llms/components/divider.txt"
         },
@@ -326,6 +370,7 @@
           "id": "error-state",
           "title": "Error State",
           "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
+          "whenToRead": "deprecated된 Error State의 옛 디자인 옵션(variant, layout, 버튼 표시)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/error-state",
           "llmsUrl": "/llms/components/error-state.txt",
           "deprecated": true
@@ -333,6 +378,7 @@
         {
           "id": "extended-action-sheet",
           "title": "Extended Action Sheet",
+          "whenToRead": "deprecated된 Extended Action Sheet의 옛 옵션과 Item·Close Button 스펙을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/extended-action-sheet",
           "llmsUrl": "/llms/components/extended-action-sheet.txt",
           "deprecated": true
@@ -340,6 +386,7 @@
         {
           "id": "extended-fab",
           "title": "Extended FAB",
+          "whenToRead": "deprecated된 Extended FAB의 옛 디자인 옵션(size, variant, prefix icon)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/extended-fab",
           "llmsUrl": "/llms/components/extended-fab.txt",
           "deprecated": true
@@ -347,6 +394,7 @@
         {
           "id": "fab",
           "title": "FAB",
+          "whenToRead": "deprecated된 FAB의 옛 size 옵션과 스펙을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/fab",
           "llmsUrl": "/llms/components/fab.txt",
           "deprecated": true
@@ -355,6 +403,7 @@
           "id": "field",
           "title": "Field",
           "description": "사용자로부터 값을 입력받는 컨테이너 컴포넌트로, 일관된 레이블, 도움말, 오류 표기와 상태 피드백을 제공합니다.",
+          "whenToRead": "입력 UI에 Label·필수 표시·Helper Text·Error Message를 붙이는 방식이나 제출 시·인라인 검증, 이탈 시 경고, 단일 화면·단계별 Form 구성 같은 폼 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/field",
           "llmsUrl": "/llms/components/field.txt"
         },
@@ -362,6 +411,7 @@
           "id": "floating-action-button",
           "title": "Floating Action Button",
           "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+          "whenToRead": "FAB의 Button·Menu 타입, Extended 라벨과 스크롤 시 라벨 숨김, 우측 하단 배치·여백, Snackbar와의 위치 관계 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/floating-action-button",
           "llmsUrl": "/llms/components/floating-action-button.txt"
         },
@@ -369,6 +419,7 @@
           "id": "footer",
           "title": "Footer",
           "description": "사이트 하단에서 법적 정보·정책 링크·서비스 탐색·연락처를 모아 보여주는 영역입니다.",
+          "whenToRead": "웹 사이트 Footer에 넣을 블록(정책 링크, 사업자 정보, 사이트맵 등)을 고르거나 제품별 preset(비즈프로필, 당근닷컴 등)과 반응형 배치를 참고할 때 읽는다.",
           "docUrl": "/components/footer",
           "llmsUrl": "/llms/components/footer.txt"
         },
@@ -376,6 +427,7 @@
           "id": "help-bubble",
           "title": "Help Bubble",
           "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
+          "whenToRead": "요소에 붙는 말풍선 안내의 placement, Close Button 여부, 최대 너비 280px, 화면 밖으로 넘칠 때 처리와 닫히는 시점 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/help-bubble",
           "llmsUrl": "/llms/components/help-bubble.txt"
         },
@@ -383,6 +435,7 @@
           "id": "identity-placeholder",
           "title": "Identity Placeholder",
           "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+          "whenToRead": "Avatar 이미지가 없을 때 쓸 Person·Business 타입 선택이나, 라이트/다크 분기가 어려운 레거시 환경용 대체 에셋 URL이 필요할 때 읽는다.",
           "docUrl": "/components/identity-placeholder",
           "llmsUrl": "/llms/components/identity-placeholder.txt"
         },
@@ -390,12 +443,14 @@
           "id": "image-frame",
           "title": "Image Frame",
           "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+          "whenToRead": "업로드 이미지를 고정 비율로 보여줄 때 Ratio·Border Radius, 모서리 Overlay(Badge·Indicator·Icon), 로딩·실패 상태와 fallback 처리 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/image-frame",
           "llmsUrl": "/llms/components/image-frame.txt"
         },
         {
           "id": "inline-banner",
           "title": "Inline Banner",
+          "whenToRead": "deprecated된 Inline Banner의 옛 디자인 옵션(type, variant, link label 등)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/inline-banner",
           "llmsUrl": "/llms/components/inline-banner.txt",
           "deprecated": true
@@ -404,12 +459,14 @@
           "id": "input-button",
           "title": "Input Button",
           "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+          "whenToRead": "직접 타이핑 대신 Bottom Sheet나 Date/Time Picker로 값을 고르게 하는 입력형 버튼의 상태, 값·Chip 표시, Clear Button 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/input-button",
           "llmsUrl": "/llms/components/input-button.txt"
         },
         {
           "id": "link-content",
           "title": "Link Content",
+          "whenToRead": "deprecated된 Link Content의 옛 디자인 옵션(size, icon)을 확인해야 할 때만 읽는다.",
           "docUrl": "/components/link-content",
           "llmsUrl": "/llms/components/link-content.txt",
           "deprecated": true
@@ -418,6 +475,7 @@
           "id": "list",
           "title": "List",
           "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
+          "whenToRead": "List Item의 Prefix·Suffix·Detail 슬롯, Align·Highlighted 속성, List Header로 묶기, 클릭 영역, Checkbox·Radiomark를 조합한 선택 목록 구성 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/list",
           "llmsUrl": "/llms/components/list.txt"
         },
@@ -425,6 +483,7 @@
           "id": "manner-temp",
           "title": "Manner Temp & Manner Temp Badge",
           "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
+          "whenToRead": "매너온도를 크게 강조할지(Manner Temp) 작은 배지로 보여줄지(Manner Temp Badge) 고르거나 10단계 레벨의 디자인 스펙을 확인할 때 읽는다.",
           "docUrl": "/components/manner-temp",
           "llmsUrl": "/llms/components/manner-temp.txt"
         },
@@ -432,6 +491,7 @@
           "id": "menu",
           "title": "Menu",
           "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+          "whenToRead": "트리거에 붙어 뜨는 액션 목록의 Small·Medium 사이즈, 항목 그룹화와 최대 높이, Destructive 항목, placement, 아이콘·라벨 작성 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/menu",
           "llmsUrl": "/llms/components/menu.txt"
         },
@@ -439,6 +499,7 @@
           "id": "menu-sheet",
           "title": "Menu Sheet",
           "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "whenToRead": "Menu Sheet의 메뉴 그룹 수, Text Only·아이콘 레이아웃, Critical tone, Header·Item Description 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/menu-sheet",
           "llmsUrl": "/llms/components/menu-sheet.txt"
         },
@@ -446,6 +507,7 @@
           "id": "notification-badge",
           "title": "Notification Badge",
           "description": "아이콘, 버튼, 메뉴 등 UI 요소에 표시되어 새로운 알림이나 읽지 않은 메시지 수를 나타내는 컴포넌트입니다.",
+          "whenToRead": "Notification Badge를 점(Small)과 숫자(Large) 중 무엇으로 표시할지, 최대 4자 라벨·0 미표시, 확인 후 사라지는 동작, 남용 기준 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/notification-badge",
           "llmsUrl": "/llms/components/notification-badge.txt"
         },
@@ -453,6 +515,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "SEED의 모든 컴포넌트를 둘러보세요.",
+          "whenToRead": "components 섹션의 입구를 확인할 때만 읽는다.",
           "docUrl": "/components",
           "llmsUrl": "/llms/components.txt"
         },
@@ -460,6 +523,7 @@
           "id": "page-banner",
           "title": "Page Banner",
           "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+          "whenToRead": "페이지 최상단에 상태·제재·기능 안내를 둘 때 tone과 Weak·Solid 조합, 한 화면 하나·상단 고정 규칙, Dismissible·진입점 활용, Callout과의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/page-banner",
           "llmsUrl": "/llms/components/page-banner.txt"
         },
@@ -467,6 +531,7 @@
           "id": "pagination",
           "title": "Pagination",
           "description": "여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.",
+          "whenToRead": "검색 결과·게시판 목록에 페이지 번호 이동을 둘지 판단하거나, 화면 폭별 슬롯 수(9·7개)와 Ellipsis 처리 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/pagination",
           "llmsUrl": "/llms/components/pagination.txt"
         },
@@ -474,6 +539,7 @@
           "id": "progress-board",
           "title": "Progress Board",
           "description": "플랫폼별 컴포넌트 구현 상태를 확인합니다.",
+          "whenToRead": "컴포넌트가 Figma·React·Lynx·iOS·Android 중 어디까지 구현됐는지 확인하거나, 디자인 문서와 이름이 다른 구현 문서 주소를 찾을 때 읽는다.",
           "docUrl": "/components/progress-board",
           "llmsUrl": "/llms/components/progress-board.txt"
         },
@@ -481,6 +547,7 @@
           "id": "progress-circle",
           "title": "Progress Circle",
           "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "whenToRead": "로딩 표시에 Indeterminate·Determinate 중 무엇을 쓸지, 24·40 사이즈와 tone, 배경에 묻힐 때의 Overlay, 위치로 로딩 범위를 나타내는 법 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/progress-circle",
           "llmsUrl": "/llms/components/progress-circle.txt"
         },
@@ -488,6 +555,7 @@
           "id": "quantity-picker",
           "title": "Quantity Picker",
           "description": "버튼으로 수치 값을 한 단계씩 늘리거나 줄일 수 있는 입력 컴포넌트입니다.",
+          "whenToRead": "장바구니·주문서의 수량 조절 UI에서 Min·Max 경계 상태, 버튼 Loading, 최소값에서 Remove 버튼으로 바뀌는 Removable, 사이즈 맞춤 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/quantity-picker",
           "llmsUrl": "/llms/components/quantity-picker.txt"
         },
@@ -495,6 +563,7 @@
           "id": "radio",
           "title": "Radio",
           "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "단일 선택지의 기본 선택 제공, 세로 나열, 옵션 수(2~6개)에 따른 Radio·Input Button 선택, Checkbox·Chip Group과의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/radio",
           "llmsUrl": "/llms/components/radio.txt"
         },
@@ -502,6 +571,7 @@
           "id": "reaction-button",
           "title": "Reaction Button",
           "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+          "whenToRead": "Reaction Button의 디자인 옵션(xsmall·small 사이즈, loading, count, prefix icon)과 스펙 JSON 경로만 확인하면 될 때 읽는다.",
           "docUrl": "/components/reaction-button",
           "llmsUrl": "/llms/components/reaction-button.txt"
         },
@@ -509,6 +579,7 @@
           "id": "result-section",
           "title": "Result Section",
           "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
+          "whenToRead": "완료·실패·빈 상태 화면의 Large·Medium 사이즈, Lottie·아이콘 에셋, Bottom CTA와 내부 버튼의 위계, 실패 시 뒤로가기·닫기 선택 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/result-section",
           "llmsUrl": "/llms/components/result-section.txt"
         },
@@ -516,6 +587,7 @@
           "id": "scroll-fog",
           "title": "Scroll Fog",
           "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
+          "whenToRead": "스크롤 영역 가장자리 페이드의 top·bottom·left·right placement, 방향별 권장 크기(하단 80px·상단 20px 등), Fog 깊이와 콘텐츠 padding의 관계 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/scroll-fog",
           "llmsUrl": "/llms/components/scroll-fog.txt"
         },
@@ -523,6 +595,7 @@
           "id": "segmented-control",
           "title": "Segmented Control",
           "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "현재 뷰의 보기 전환·필터링에 Segmented Control을 쓸지, 세그먼트 수(2~4개)와 라벨 길이, 한 화면 하나 규칙, Tabs와의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/segmented-control",
           "llmsUrl": "/llms/components/segmented-control.txt"
         },
@@ -530,6 +603,7 @@
           "id": "select",
           "title": "Select",
           "description": "옵션 목록에서 값을 골라 Form에 제출할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "폼 드롭다운의 Large·Medium 사이즈, 단일·다중 선택과 선택값 표시, 옵션 순서·Placeholder 작성 같은 디자인 기준이 필요하거나 Select Box·Chip·Radio 중 무엇을 쓸지 판단할 때 읽는다.",
           "docUrl": "/components/select",
           "llmsUrl": "/llms/components/select.txt"
         },
@@ -537,6 +611,7 @@
           "id": "select-box",
           "title": "Select Box",
           "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+          "whenToRead": "설명이 붙은 카드형 선택지의 Checkmark·Radiomark·None 컨트롤, 1~3열 배치와 높이 규칙, 최대 선택 개수 안내·도달 피드백, Chip과의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/select-box",
           "llmsUrl": "/llms/components/select-box.txt"
         },
@@ -544,6 +619,7 @@
           "id": "side-navigation",
           "title": "Side Navigation",
           "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+          "whenToRead": "웹 서비스 사이드 메뉴의 하위 메뉴 접기·펼치기, 접힌 상태의 아이콘·팝오버, 라벨 줄바꿈, 고정 Header·Footer 스크롤, 반응형 동작 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/side-navigation",
           "llmsUrl": "/llms/components/side-navigation.txt"
         },
@@ -551,6 +627,7 @@
           "id": "side-panel",
           "title": "Side Panel",
           "description": "화면의 측면에서 슬라이드되어 나타나며, 현재 맥락을 유지한 채 상세 정보를 확인하거나 부수적인 작업을 수행하는 레이아웃 컴포넌트입니다.",
+          "whenToRead": "측면 패널의 좌·우 방향, Small·Medium·Large 폭, Modal·Persistent 타입, md 미만 너비·Bottom Sheet 전환, 모바일 내비게이션 통합 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/side-panel",
           "llmsUrl": "/llms/components/side-panel.txt"
         },
@@ -558,6 +635,7 @@
           "id": "skeleton",
           "title": "Skeleton",
           "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+          "whenToRead": "로딩 중 콘텐츠 윤곽을 그릴 때 유형별 radius(텍스트 8, 카드 16, 원형 Avatar 9999), AI 콘텐츠용 magic tone, Progress Circle과의 구분 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/skeleton",
           "llmsUrl": "/llms/components/skeleton.txt"
         },
@@ -565,6 +643,7 @@
           "id": "slider",
           "title": "Slider",
           "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
+          "whenToRead": "Slider의 Single·Range 핸들, 연속형·이산형 Tick Mark와 Markers, Active Track 표시, 기본값·현재 값 표시와 Value Indicator 오버플로우 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/slider",
           "llmsUrl": "/llms/components/slider.txt"
         },
@@ -572,6 +651,7 @@
           "id": "snackbar",
           "title": "Snackbar",
           "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
+          "whenToRead": "작업 결과를 잠깐 알릴 때 Default·Positive·Critical variant, 되돌리기 같은 액션, FAB 위 배치, 문구 작성 같은 디자인 기준이 필요하거나 Snackbar 대신 다른 컴포넌트를 써야 할지 판단할 때 읽는다.",
           "docUrl": "/components/snackbar",
           "llmsUrl": "/llms/components/snackbar.txt"
         },
@@ -579,6 +659,7 @@
           "id": "switch",
           "title": "Switch",
           "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+          "whenToRead": "설정 토글의 16·24·32 사이즈와 라벨 조합, 터치 영역, Disabled 표기 같은 디자인 기준이 필요하거나 Checkbox를 대신 써야 할지 판단할 때 읽는다.",
           "docUrl": "/components/switch",
           "llmsUrl": "/llms/components/switch.txt"
         },
@@ -586,6 +667,7 @@
           "id": "table-pagination",
           "title": "Table Pagination",
           "description": "데이터 테이블에서 대량의 데이터를 페이지 단위로 나누고, 페이지 이동과 페이지당 표시 행 수를 제어하는 컴포넌트입니다.",
+          "whenToRead": "데이터 테이블 하단 페이지 컨트롤의 Rows Per Page 옵션(10·25·50), Page Range Select 범위 표기, 전체 수를 모를 때의 표시, 배치 위치 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/table-pagination",
           "llmsUrl": "/llms/components/table-pagination.txt"
         },
@@ -593,6 +675,7 @@
           "id": "tabs",
           "title": "Tabs",
           "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
+          "whenToRead": "탭의 Line(Fill·Hug)·Chip(Solid·Outline) 타입과 사이즈 선택, 2 Depth 구성, 탭 알림 표시 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/tabs",
           "llmsUrl": "/llms/components/tabs.txt"
         },
@@ -600,6 +683,7 @@
           "id": "tag-group",
           "title": "Tag Group",
           "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "whenToRead": "카드·상세·프로필의 부가 정보를 Tag Group으로 묶을 때 t2~t4 사이즈, Item별 tone·weight·아이콘 조합, 6~10자 문구, 우선순위·줄바꿈 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/tag-group",
           "llmsUrl": "/llms/components/tag-group.txt"
         },
@@ -607,6 +691,7 @@
           "id": "text-input",
           "title": "Text Input & Textarea",
           "description": "사용자로부터 텍스트를 입력받는 컴포넌트입니다.",
+          "whenToRead": "Text Input·Textarea의 상태, Outline·Underline variant, Auto Size 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/text-input",
           "llmsUrl": "/llms/components/text-input.txt"
         },
@@ -614,6 +699,7 @@
           "id": "time-picker",
           "title": "Time Picker",
           "description": "휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "시간 입력의 Minute Step(1·5·10·15·30) 선택, Inline·Popover·Sheet 레이아웃, 처음 열 때 보여줄 시간, Date Picker와 함께 두는 법 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/time-picker",
           "llmsUrl": "/llms/components/time-picker.txt"
         },
@@ -621,6 +707,7 @@
           "id": "top-navigation",
           "title": "Top Navigation",
           "description": "화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.",
+          "whenToRead": "상단 바의 Root·Standard 타입 선택, 뒤로가기와 닫기 구분, History·Hierarchy Back 정책, 우측 아이콘 버튼 개수(최대 3개), 스크롤 시 동작 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/top-navigation",
           "llmsUrl": "/llms/components/top-navigation.txt"
         },
@@ -628,6 +715,7 @@
           "id": "wheel-picker",
           "title": "Wheel Picker",
           "description": "여러 값을 세로로 스크롤해 하나 이상의 열에서 선택하는 입력 컴포넌트입니다.",
+          "whenToRead": "순서 있는 값을 휠로 고를 때 1~3열 구성, Medium·Small 사이즈, 표시 Item 수와 Scroll Fog 높이, 값 확정 시점과 Loop 같은 디자인 기준이 필요할 때 읽는다.",
           "docUrl": "/components/wheel-picker",
           "llmsUrl": "/llms/components/wheel-picker.txt"
         }
@@ -641,6 +729,7 @@
           "id": "loading",
           "title": "Loading",
           "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
+          "whenToRead": "로딩 상태를 설계하며 첫 진입·페이지 전환·추가 로드·새로고침·제출 같은 상황과 예상 시간에 따라 Progress Circle·Progress Bar·Skeleton 중 무엇을 쓸지, 시작·진행·완료·실패 단계를 어떻게 보여줄지 정할 때 읽는다.",
           "docUrl": "/patterns/loading",
           "llmsUrl": "/llms/patterns/loading.txt"
         },
@@ -648,6 +737,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "자주 쓰는 UI 패턴과 가이드라인 모음입니다.",
+          "whenToRead": "Patterns 섹션에 어떤 UI 패턴 가이드가 있는지 확인할 때만 읽는다.",
           "docUrl": "/patterns",
           "llmsUrl": "/llms/patterns.txt"
         }
@@ -661,6 +751,7 @@
           "id": "deprecations",
           "title": "Deprecations",
           "description": "Deprecated 항목의 현황과 제거 계획을 관리합니다.",
+          "whenToRead": "deprecated 상태인 토큰과 제거 예정 버전, 이미 제거된 토큰·props·옵션과 그 대체안을 확인해 버전을 올리기 전에 코드를 정리할 때 읽는다.",
           "docUrl": "/docs/migration/deprecations",
           "llmsUrl": "/llms/docs/migration/deprecations.txt"
         },
@@ -668,6 +759,7 @@
           "id": "migration-reference",
           "title": "Migration Reference",
           "description": "SEED 마이그레이션 레퍼런스",
+          "whenToRead": "이전 색상 토큰(semantic·scale·static)·타이포그래피·아이콘 이름이 SEED에서 어떤 토큰·텍스트 스타일·아이콘으로 바뀌었는지 대응표를 찾을 때 읽는다.",
           "docUrl": "/docs/migration/migration-reference",
           "llmsUrl": "/llms/docs/migration/migration-reference.txt"
         }
@@ -681,6 +773,7 @@
           "id": "accordion",
           "title": "Accordion",
           "description": "여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.",
+          "whenToRead": "React에서 Accordion을 구현하며 separated variant, multiple 동시 펼침, values·onValuesChange 제어, headingLevel 접근성 설정을 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/accordion",
           "llmsUrl": "/llms/react/components/accordion.txt"
         },
@@ -688,12 +781,14 @@
           "id": "action-button",
           "title": "Action Button",
           "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "whenToRead": "React에서 ActionButton을 CLI로 설치하고 variant별 예제, Prefix·Suffix 아이콘, loading, bleedX·bleedY 정렬을 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/action-button",
           "llmsUrl": "/llms/react/components/action-button.txt"
         },
         {
           "id": "action-chip",
           "title": "Action Chip",
+          "whenToRead": "deprecated된 React ActionChip의 기존 코드를 유지보수하며 size·iconOnly 레이아웃 props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/action-chip",
           "llmsUrl": "/llms/react/components/action-chip.txt",
           "deprecated": true
@@ -701,6 +796,7 @@
         {
           "id": "action-sheet",
           "title": "Action Sheet",
+          "whenToRead": "deprecated된 React ActionSheet의 기존 코드를 유지보수하며 ActionSheetRoot·Content·Item props나 Portal 렌더링을 확인할 때만 읽는다.",
           "docUrl": "/react/components/action-sheet",
           "llmsUrl": "/llms/react/components/action-sheet.txt",
           "deprecated": true
@@ -709,6 +805,7 @@
           "id": "alert-dialog",
           "title": "Alert Dialog (Components)",
           "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 AlertDialog를 구현하며 단일·critical 액션, ResponsivePair 버튼 줄바꿈, open 제어와 onOpenChange reason을 확인할 때 읽는다.",
           "docUrl": "/react/components/alert-dialog",
           "llmsUrl": "/llms/react/components/alert-dialog.txt"
         },
@@ -716,6 +813,7 @@
           "id": "alert-dialog",
           "title": "Alert Dialog (Stackflow)",
           "description": "Alert Dialog를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "whenToRead": "Stackflow 앱에서 Alert Dialog를 Activity로 만들어 딥링크로 열거나, Step과 상태를 동기화하거나, 위에 다른 Activity를 push해도 마운트를 유지하거나, useActivityZIndexBase로 layerIndex를 맞출 때 읽는다.",
           "docUrl": "/react/stackflow/alert-dialog",
           "llmsUrl": "/llms/react/stackflow/alert-dialog.txt"
         },
@@ -723,6 +821,7 @@
           "id": "app-bar",
           "title": "AppBar",
           "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
+          "whenToRead": "React에서 AppBar를 AppBarLeft·Main·Right로 조립하며 title·subtitle, 루트 Activity가 아닐 때만 보이는 AppBarBackButton, cupertino·android theme을 정할 때 읽는다. ui:app-screen으로 AppScreen과 함께 설치된다.",
           "docUrl": "/react/components/app-bar",
           "llmsUrl": "/llms/react/components/app-bar.txt"
         },
@@ -730,6 +829,7 @@
           "id": "app-screen",
           "title": "App Screen",
           "description": "Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.",
+          "whenToRead": "React 구현 문서로, Stackflow Activity 화면을 AppScreen·AppBar로 구성하면서 투명 tone과 gradient를 쓰거나, layerOffsetTop으로 콘텐츠를 상태바까지 넓히거나, AppBarSlot으로 커스텀 요소를 넣거나, preventSwipeBack·transitionStyle을 지정할 때 읽는다.",
           "docUrl": "/react/stackflow/app-screen",
           "llmsUrl": "/llms/react/stackflow/app-screen.txt"
         },
@@ -737,6 +837,7 @@
           "id": "article",
           "title": "Article",
           "description": "Article은 일관된 selection 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.",
+          "whenToRead": "React 본문 영역에 Article을 씌워 lang 기반 줄바꿈과 텍스트 선택 정책을 맞추거나, 텍스트 드래그가 PullToRefresh·TabsCarousel 제스처를 일으키지 않게 막을 때 읽는다.",
           "docUrl": "/react/components/article",
           "llmsUrl": "/llms/react/components/article.txt"
         },
@@ -744,6 +845,7 @@
           "id": "aspect-ratio",
           "title": "Aspect Ratio",
           "description": "가로(width)가 정해지면 비율에 따라 세로(height)가 자동으로 결정되는 레이아웃 컨테이너입니다.",
+          "whenToRead": "React에서 너비에 맞춰 높이를 1, 4/3, 16/9 같은 비율로 정하는 AspectRatio 레이아웃 컨테이너의 ratio prop과 예제를 확인할 때 읽는다.",
           "docUrl": "/react/components/aspect-ratio",
           "llmsUrl": "/llms/react/components/aspect-ratio.txt"
         },
@@ -751,6 +853,7 @@
           "id": "attachment-display-field",
           "title": "Attachment Display Field",
           "description": "외부 소스에서 제공된 미디어를 URL 기반으로 표시하고 관리하는 컴포넌트입니다.",
+          "whenToRead": "React에서 외부 미디어 피커가 준 URL 목록을 AttachmentDisplayField로 보여주며 onTriggerClick·addEntries로 추가, updateEntryStatus로 업로드 상태, 드래그 순서 변경을 구현할 때 읽는다.",
           "docUrl": "/react/components/attachment-display-field",
           "llmsUrl": "/llms/react/components/attachment-display-field.txt"
         },
@@ -758,6 +861,7 @@
           "id": "attachment-field",
           "title": "Attachment Field",
           "description": "파일을 선택하거나 드래그 앤 드롭으로 업로드할 수 있는 컴포넌트입니다.",
+          "whenToRead": "React에서 AttachmentField로 파일 선택·드래그 앤 드롭 업로드를 구현하며 maxFiles·accept·크기 검증과 onFileReject, 업로드 상태, React Hook Form 연동을 확인할 때 읽는다.",
           "docUrl": "/react/components/attachment-field",
           "llmsUrl": "/llms/react/components/attachment-field.txt"
         },
@@ -765,6 +869,7 @@
           "id": "available-transforms",
           "title": "Available Transforms",
           "description": "codemod를 통해 실행 가능한 변환 목록입니다.",
+          "whenToRead": "codemod 변환 목록으로, 구형 색상·타이포그래피 토큰이나 아이콘 코드를 일괄 변환할 transform을 고르거나, Tailwind·Stitches·CSS 변수·design-token vars별 transform의 입출력 예시와 주의사항을 확인할 때 읽는다.",
           "docUrl": "/react/developer-tools/codemods/available-transforms",
           "llmsUrl": "/llms/react/developer-tools/codemods/available-transforms.txt"
         },
@@ -772,6 +877,7 @@
           "id": "avatar",
           "title": "Avatar",
           "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
+          "whenToRead": "React에서 Avatar를 구현하며 size, AvatarBadge와 배지 마스크, AvatarStack으로 겹쳐 쌓기, IdentityPlaceholder fallback을 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/avatar",
           "llmsUrl": "/llms/react/components/avatar.txt"
         },
@@ -779,6 +885,7 @@
           "id": "badge",
           "title": "Badge",
           "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
+          "whenToRead": "React에서 Badge를 import해 tone·variant 조합과 긴 텍스트 말줄임 동작을 예제 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/badge",
           "llmsUrl": "/llms/react/components/badge.txt"
         },
@@ -786,6 +893,7 @@
           "id": "bottom-sheet",
           "title": "Bottom Sheet (Components)",
           "description": "화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.",
+          "whenToRead": "React에서 BottomSheet를 구현하며 snapPoints, maxHeight, showHandle·dismissible, Scroll Fog 조합, onOpenChange reason을 확인할 때 읽는다.",
           "docUrl": "/react/components/bottom-sheet",
           "llmsUrl": "/llms/react/components/bottom-sheet.txt"
         },
@@ -793,6 +901,7 @@
           "id": "bottom-sheet",
           "title": "Bottom Sheet (Stackflow)",
           "description": "Bottom Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "whenToRead": "Stackflow 앱에서 Bottom Sheet를 Activity로 만들거나 Step과 동기화할 때, 위에 Activity를 push해도 시트와 폼 상태를 유지하거나 Alert Dialog 같은 modal을 겹쳐 올릴 때 읽는다.",
           "docUrl": "/react/stackflow/bottom-sheet",
           "llmsUrl": "/llms/react/stackflow/bottom-sheet.txt"
         },
@@ -800,6 +909,7 @@
           "id": "box",
           "title": "Box",
           "description": "Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "React에서 Box로 bg·padding·borderRadius 같은 디자인 토큰 style prop, 그라디언트, 반응형 값을 JSX에 직접 적용할 때 읽는다.",
           "docUrl": "/react/components/layout/box",
           "llmsUrl": "/llms/react/components/layout/box.txt"
         },
@@ -807,6 +917,7 @@
           "id": "callout",
           "title": "Callout",
           "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "whenToRead": "React에서 Callout, ActionableCallout, DismissibleCallout 중 하나를 골라 제목·아이콘·링크 라벨 구성과 tone을 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/callout",
           "llmsUrl": "/llms/react/components/callout.txt"
         },
@@ -814,6 +925,7 @@
           "id": "cascade-layers",
           "title": "Cascade Layers (Experimental)",
           "description": "CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.",
+          "whenToRead": "실험적 설정 가이드로, Tailwind 4처럼 @layer를 쓰는 CSS에서 유틸리티 클래스가 SEED 컴포넌트 스타일을 못 덮어쓸 때 읽는다. base.layered.css로 바꾸고 번들러에 seed-layered condition을 넣거나, 청크 분리로 레이어 순서가 깨질 때도 읽는다.",
           "docUrl": "/react/getting-started/styling/cascade-layers",
           "llmsUrl": "/llms/react/getting-started/styling/cascade-layers.txt"
         },
@@ -821,6 +933,7 @@
           "id": "changelog",
           "title": "Changelog",
           "description": "최신 업데이트와 변경사항을 기록합니다.",
+          "whenToRead": "릴리스 노트로, 특정 @seed-design/* 패키지가 어느 버전에서 무엇이 바뀌었는지 찾을 때 읽는다. react·css·stackflow뿐 아니라 cli·codemod, lynx-react·lynx-css, 번들러·Tailwind 플러그인의 기록도 여기 있다.",
           "docUrl": "/react/updates/changelog",
           "llmsUrl": "/llms/react/updates/changelog.txt"
         },
@@ -828,6 +941,7 @@
           "id": "checkbox",
           "title": "Checkbox",
           "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+          "whenToRead": "React에서 Checkbox·CheckboxGroup을 구현하며 indeterminate, weight, onCheckedChange, React Hook Form·Fieldset 연동, Checkmark 커스텀 레이아웃을 확인할 때 읽는다.",
           "docUrl": "/react/components/checkbox",
           "llmsUrl": "/llms/react/components/checkbox.txt"
         },
@@ -835,6 +949,7 @@
           "id": "chip",
           "title": "Chip",
           "description": "사용자가 선택하거나 입력하는 값을 표시하는 컴포넌트입니다.",
+          "whenToRead": "React에서 Chip.Button·Chip.Toggle·Chip.RadioRoot로 칩을 구현하며 size·variant, 아이콘·Avatar prefix, 값 변경 감지를 확인하거나 ActionChip·ControlChip 코드를 옮길 때 읽는다.",
           "docUrl": "/react/components/chip",
           "llmsUrl": "/llms/react/components/chip.txt"
         },
@@ -842,6 +957,7 @@
           "id": "chip-tabs",
           "title": "Chip Tabs",
           "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.",
+          "whenToRead": "React에서 칩 모양 탭 ChipTabs로 카테고리·필터를 전환하며 size, neutralSolid·neutralOutline variant, notification, 가로 스크롤 Scroll Fog를 구현할 때 읽는다.",
           "docUrl": "/react/components/chip-tabs",
           "llmsUrl": "/llms/react/components/chip-tabs.txt"
         },
@@ -849,6 +965,7 @@
           "id": "codegen",
           "title": "Codegen",
           "description": "Figma 디자인으로부터 React 코드를 생성하는 플러그인을 제공합니다.",
+          "whenToRead": "Figma Dev Mode에서 고른 디자인 요소를 SEED React 코드로 바꿔 보려고 SEED Codegen 플러그인을 설치할 때 읽는다.",
           "docUrl": "/react/developer-tools/figma-integration/codegen",
           "llmsUrl": "/llms/react/developer-tools/figma-integration/codegen.txt"
         },
@@ -856,6 +973,7 @@
           "id": "columns",
           "title": "Columns",
           "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "deprecated된 React Columns·Column 레이아웃의 기존 코드를 유지보수하며 props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/columns",
           "llmsUrl": "/llms/react/components/columns.txt",
           "deprecated": true
@@ -864,6 +982,7 @@
           "id": "commands",
           "title": "Commands",
           "description": "@seed-design/cli 명령어를 안내해요.",
+          "whenToRead": "CLI 명령어 레퍼런스로, init·add·add-all·compat·docs의 옵션을 찾거나, --seed-react-version으로 버전에 맞는 스니펫을 받거나, 비대화형 환경의 종료 코드와 docs 주소 문법을 확인할 때 읽는다.",
           "docUrl": "/react/getting-started/cli/commands",
           "llmsUrl": "/llms/react/getting-started/cli/commands.txt"
         },
@@ -871,6 +990,7 @@
           "id": "composition",
           "title": "Composition (Concepts)",
           "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
+          "whenToRead": "SEED React 컴포넌트가 렌더링하는 요소를 as prop으로 바꾸거나 asChild로 다른 컴포넌트에 기능을 합성하려고 개념과 원칙(props 전개, ref 전달)을 확인할 때 읽는다.",
           "docUrl": "/react/components/concepts/composition",
           "llmsUrl": "/llms/react/components/concepts/composition.txt"
         },
@@ -878,6 +998,7 @@
           "id": "composition",
           "title": "Composition (Iconography)",
           "description": "아이콘을 사용하는 방법을 설명합니다.",
+          "whenToRead": "React 컴포넌트에 아이콘을 넣을 때 Icon과 PrefixIcon·SuffixIcon 중 무엇을 쓰는지, svg prop으로 커스텀 아이콘을 연결하는 방법을 확인할 때 읽는다.",
           "docUrl": "/react/components/iconography/composition",
           "llmsUrl": "/llms/react/components/iconography/composition.txt"
         },
@@ -885,6 +1006,7 @@
           "id": "configuration",
           "title": "Configuration",
           "description": "seed-design.json 설정을 안내해요.",
+          "whenToRead": "seed-design.json을 직접 쓰거나 고치면서 스니펫 생성 경로 path, 'use client' 유지 여부 rsc, JS 변환 tsx, react·lynx framework 값을 정하거나 텔레메트리를 끌 때 읽는다.",
           "docUrl": "/react/getting-started/cli/configuration",
           "llmsUrl": "/llms/react/getting-started/cli/configuration.txt"
         },
@@ -892,6 +1014,7 @@
           "id": "content-placeholder",
           "title": "Content Placeholder",
           "description": "이미지나 콘텐츠가 로드되지 않았을 때, 해당 영역의 성격을 전달하는 대체 시각 요소입니다.",
+          "whenToRead": "React에서 비어 있는 이미지·콘텐츠 자리에 ContentPlaceholder를 넣으며 type 프리셋, width·height 크기, children으로 아이콘 교체를 확인할 때 읽는다.",
           "docUrl": "/react/components/content-placeholder",
           "llmsUrl": "/llms/react/components/content-placeholder.txt"
         },
@@ -899,12 +1022,14 @@
           "id": "contextual-floating-button",
           "title": "Contextual Floating Button",
           "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+          "whenToRead": "React에서 특정 상황에만 뜨는 보조 플로팅 버튼을 ContextualFloatingButton으로 구현하며 Float 배치, solid·layer variant, icon only, loading을 확인할 때 읽는다.",
           "docUrl": "/react/components/contextual-floating-button",
           "llmsUrl": "/llms/react/components/contextual-floating-button.txt"
         },
         {
           "id": "control-chip",
           "title": "Control Chip",
+          "whenToRead": "deprecated된 React ControlChip의 기존 코드를 유지보수하며 Button·Toggle·RadioRoot props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/control-chip",
           "llmsUrl": "/llms/react/components/control-chip.txt",
           "deprecated": true
@@ -913,6 +1038,7 @@
           "id": "date-picker",
           "title": "Date Picker",
           "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
+          "whenToRead": "React에서 DatePicker·TwoMonthDatePicker·WeekDatePicker·ContinuousDatePicker 중 레이아웃을 고르고 single·range·multiple 선택, constraints 선택 제한, 날짜 셀 추가 정보를 구현할 때 읽는다.",
           "docUrl": "/react/components/date-picker",
           "llmsUrl": "/llms/react/components/date-picker.txt"
         },
@@ -920,6 +1046,7 @@
           "id": "dialog",
           "title": "Dialog",
           "description": "화면 중앙에 떠서 사용자의 주의를 모으는 다이얼로그입니다. 제목, 본문, 푸터와 닫기 버튼을 갖추어 폼이나 스크롤되는 콘텐츠 등 풍부한 내용을 담을 때 사용합니다.",
+          "whenToRead": "React에서 Dialog를 구현하며 size·너비 지정, 스크롤되는 DialogBody, 푸터 레이아웃, 뷰포트에 따라 Bottom Sheet로 바뀌는 ResponsiveDialogRoot를 확인할 때 읽는다.",
           "docUrl": "/react/components/dialog",
           "llmsUrl": "/llms/react/components/dialog.txt"
         },
@@ -927,6 +1054,7 @@
           "id": "divider",
           "title": "Divider",
           "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 Divider의 orientation·inset·thickness를 설정하거나, 장식용 구분선을 as로 바꿔 스크린 리더가 읽지 않게 할 때 읽는다.",
           "docUrl": "/react/components/divider",
           "llmsUrl": "/llms/react/components/divider.txt"
         },
@@ -934,6 +1062,7 @@
           "id": "error-state",
           "title": "Error State",
           "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
+          "whenToRead": "deprecated된 React ErrorState의 기존 코드를 유지보수하며 props나 basement variant를 확인할 때만 읽는다.",
           "docUrl": "/react/components/error-state",
           "llmsUrl": "/llms/react/components/error-state.txt",
           "deprecated": true
@@ -941,6 +1070,7 @@
         {
           "id": "extended-action-sheet",
           "title": "Extended Action Sheet",
+          "whenToRead": "deprecated된 React ExtendedActionSheet의 기존 코드를 유지보수하며 Root·Trigger·Content·Group·Item props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/extended-action-sheet",
           "llmsUrl": "/llms/react/components/extended-action-sheet.txt",
           "deprecated": true
@@ -948,6 +1078,7 @@
         {
           "id": "extended-fab",
           "title": "Extended FAB",
+          "whenToRead": "deprecated된 React ExtendedFab의 기존 코드를 유지보수하며 size와 neutralSolid·layerFloating variant를 확인할 때만 읽는다.",
           "docUrl": "/react/components/extended-fab",
           "llmsUrl": "/llms/react/components/extended-fab.txt",
           "deprecated": true
@@ -955,6 +1086,7 @@
         {
           "id": "fab",
           "title": "FAB",
+          "whenToRead": "deprecated된 React Fab의 기존 코드를 유지보수하며 props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/fab",
           "llmsUrl": "/llms/react/components/fab.txt",
           "deprecated": true
@@ -963,6 +1095,7 @@
           "id": "field-button",
           "title": "Field Button",
           "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+          "whenToRead": "React에서 입력 필드 모양의 FieldButton으로 피커·선택창을 열게 구현하며 FieldButtonValue·Placeholder, showClearButton, buttonProps aria-label, values로 폼·React Hook Form 제출을 확인할 때 읽는다.",
           "docUrl": "/react/components/field-button",
           "llmsUrl": "/llms/react/components/field-button.txt"
         },
@@ -970,6 +1103,7 @@
           "id": "flex",
           "title": "Flex",
           "description": "Flex 컴포넌트는 flexbox를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "React에서 flexbox 레이아웃을 Flex로 만들며 방향·정렬·wrap 등 flex prop과 토큰 style prop, 반응형 값을 확인할 때 읽는다.",
           "docUrl": "/react/components/layout/flex",
           "llmsUrl": "/llms/react/components/layout/flex.txt"
         },
@@ -977,6 +1111,7 @@
           "id": "float",
           "title": "Float",
           "description": "Float 컴포넌트는 특정 위치에 고정된 요소를 배치할 때 사용합니다.",
+          "whenToRead": "React에서 플로팅 버튼 같은 요소를 부모의 특정 위치에 겹쳐 고정하며 Float의 placement와 offsetX·offsetY를 조정할 때 읽는다.",
           "docUrl": "/react/components/layout/float",
           "llmsUrl": "/llms/react/components/layout/float.txt"
         },
@@ -984,6 +1119,7 @@
           "id": "floating-action-button",
           "title": "Floating Action Button",
           "description": "화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+          "whenToRead": "React에서 화면의 주요 액션을 FloatingActionButton으로 구현하며 필수 label, extended로 라벨 표시 전환, Float로 위치 잡기를 확인할 때 읽는다.",
           "docUrl": "/react/components/floating-action-button",
           "llmsUrl": "/llms/react/components/floating-action-button.txt"
         },
@@ -991,6 +1127,7 @@
           "id": "fonts",
           "title": "Fonts",
           "description": "SEED가 제공하는 권장 폰트 스택을 애플리케이션에 적용하는 방법을 알아봅니다.",
+          "whenToRead": "React 웹 앱에 --seed-font-family를 적용할 때, fontScaling을 켠 iOS에서 덮이지 않게 font-family를 html 대신 body에 선언하거나 Windows에서 맑은 고딕 대신 Pretendard를 보여 줄 때 읽는다. SEED는 이 변수를 자동 적용하지 않고 폰트도 내려받지 않는다.",
           "docUrl": "/react/getting-started/styling/fonts",
           "llmsUrl": "/llms/react/getting-started/styling/fonts.txt"
         },
@@ -998,6 +1135,7 @@
           "id": "footer",
           "title": "Footer",
           "description": "페이지 하단에 사이트 정보, 링크, 법적 고지 등을 표시하는 블록입니다.",
+          "whenToRead": "React 블록 문서로, 웹 페이지 하단 푸터를 직접 조립하지 않고 block:footer-01~04 중 하나를 CLI로 받아 쓸 때 읽는다. 본문은 설치 명령뿐이다.",
           "docUrl": "/react/blocks/footer",
           "llmsUrl": "/llms/react/blocks/footer.txt"
         },
@@ -1005,6 +1143,7 @@
           "id": "getting-started",
           "title": "Getting Started",
           "description": "SEED AppScreen을 사용하기 위한 Stackflow 플러그인 설정 방법을 안내합니다.",
+          "whenToRead": "Stackflow 앱에서 SEED AppScreen을 쓰기 전에 seedPlugin을 등록하면서 필수 theme 옵션(android·cupertino)을 정하거나, SSR에서 initialContext로 theme을 동적으로 넘기거나, cupertino 스와이프 백 제스처 동작을 확인할 때 읽는다.",
           "docUrl": "/react/stackflow/getting-started",
           "llmsUrl": "/llms/react/stackflow/getting-started.txt"
         },
@@ -1012,6 +1151,7 @@
           "id": "grid",
           "title": "Grid",
           "description": "Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "React에서 CSS Grid 레이아웃을 Grid·GridItem으로 만들며 columns·rows, colSpan·rowSpan, autoFlow·autoRows, 반응형 columns를 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/layout/grid",
           "llmsUrl": "/llms/react/components/layout/grid.txt"
         },
@@ -1019,6 +1159,7 @@
           "id": "guide",
           "title": "Guide",
           "description": "Sprout에서 SEED로 마이그레이션하기 위해 필요한 작업들을 안내합니다.",
+          "whenToRead": "마이그레이션 가이드로, Sprout을 쓰던 프로젝트를 SEED로 옮기며 작업 순서를 정하거나, data-seed-scale-color 테마 속성을 바꾸거나, 스타일 방식에 맞는 codemod를 고르거나, issues.log 경고를 해결할 때 읽는다.",
           "docUrl": "/react/migration/guide",
           "llmsUrl": "/llms/react/migration/guide.txt"
         },
@@ -1026,6 +1167,7 @@
           "id": "h-stack",
           "title": "HStack",
           "description": "가로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "React에서 요소를 가로로 쌓는 HStack의 gap·align·justify·wrap과 토큰 style prop, 반응형 값을 확인하거나 deprecated된 Inline·Columns를 옮길 때 읽는다.",
           "docUrl": "/react/components/layout/h-stack",
           "llmsUrl": "/llms/react/components/layout/h-stack.txt"
         },
@@ -1033,6 +1175,7 @@
           "id": "help-bubble",
           "title": "Help Bubble",
           "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.",
+          "whenToRead": "React에서 클릭으로 여닫는 HelpBubble을 HelpBubbleTrigger나 HelpBubbleAnchor로 구현하며 placement·flip, 닫기 버튼, closeOnInteractOutside, 너비·z-index 조정을 확인할 때 읽는다.",
           "docUrl": "/react/components/help-bubble",
           "llmsUrl": "/llms/react/components/help-bubble.txt"
         },
@@ -1040,6 +1183,7 @@
           "id": "help-bubble-tooltip",
           "title": "Help Bubble Tooltip",
           "description": "포인터를 올리거나 포커스했을 때 보조 정보를 보여주는 툴팁 형태의 Help Bubble입니다.",
+          "whenToRead": "React에서 hover나 focus로 열리는 툴팁을 HelpBubbleTooltipTrigger로 구현하며 openDelay·closeDelay, DelayGroup, keepOpenOnContentHover, 비활성 버튼 트리거 접근성을 확인할 때 읽는다.",
           "docUrl": "/react/components/help-bubble-tooltip",
           "llmsUrl": "/llms/react/components/help-bubble-tooltip.txt"
         },
@@ -1047,6 +1191,7 @@
           "id": "identity-placeholder",
           "title": "Identity Placeholder",
           "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+          "whenToRead": "React에서 프로필 사진이 없을 때 IdentityPlaceholder를 넣으며 identity prop을 확인할 때 읽는다.",
           "docUrl": "/react/components/identity-placeholder",
           "llmsUrl": "/llms/react/components/identity-placeholder.txt"
         },
@@ -1054,6 +1199,7 @@
           "id": "image-frame",
           "title": "Image Frame",
           "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+          "whenToRead": "React에서 사용자가 올린 이미지를 ImageFrame으로 보여주며 ratio, borderRadius·stroke, ContentPlaceholder fallback, ImageFrameFloater 오버레이를 구현할 때 읽는다.",
           "docUrl": "/react/components/image-frame",
           "llmsUrl": "/llms/react/components/image-frame.txt"
         },
@@ -1061,6 +1207,7 @@
           "id": "inline",
           "title": "Inline",
           "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "deprecated된 React Inline 레이아웃의 기존 코드를 유지보수하며 props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/inline",
           "llmsUrl": "/llms/react/components/inline.txt",
           "deprecated": true
@@ -1068,6 +1215,7 @@
         {
           "id": "inline-banner",
           "title": "Inline Banner",
+          "whenToRead": "deprecated된 React InlineBanner·ActionableInlineBanner·DismissibleInlineBanner의 기존 코드를 유지보수하며 variant나 링크 라벨 구성을 확인할 때만 읽는다.",
           "docUrl": "/react/components/inline-banner",
           "llmsUrl": "/llms/react/components/inline-banner.txt",
           "deprecated": true
@@ -1076,6 +1224,7 @@
           "id": "interaction-states",
           "title": "Interaction States",
           "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
+          "whenToRead": "SEED React 컴포넌트의 상호작용 스타일 개념을 알아야 할 때 읽는다. 마우스 hover와 터치 누름에 pressed 스타일을 나눠 적용하는 기준, 키보드 focus ring 표시를 다룬다.",
           "docUrl": "/react/components/concepts/interaction-states",
           "llmsUrl": "/llms/react/components/concepts/interaction-states.txt"
         },
@@ -1083,6 +1232,7 @@
           "id": "introduction",
           "title": "Introduction",
           "description": "@seed-design/codemod는 Sprout에서 SEED로 마이그레이션하기 위한 코드 변환 도구예요.",
+          "whenToRead": "@seed-design/codemod를 실행하면서 transform·대상 경로 지정 형식, --list·--log·--parser·--extensions 옵션, Node.js 20.19 이상 요구사항을 확인할 때 읽는다.",
           "docUrl": "/react/developer-tools/codemods/introduction",
           "llmsUrl": "/llms/react/developer-tools/codemods/introduction.txt"
         },
@@ -1090,6 +1240,7 @@
           "id": "layout",
           "title": "Layout",
           "description": "페이지의 콘텐츠 영역을 반응형으로 제한하고 중앙 정렬하는 페이지 레이아웃 블록입니다.",
+          "whenToRead": "React 블록 문서로, 웹 페이지 전체를 감싸는 Layout.Root·Layout.Content를 배치하거나, density로 콘텐츠 최대 너비를 고르거나, block:layout-01·02를 CLI로 받을 때 읽는다.",
           "docUrl": "/react/blocks/layout",
           "llmsUrl": "/llms/react/blocks/layout.txt"
         },
@@ -1097,6 +1248,7 @@
           "id": "library",
           "title": "Library",
           "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
+          "whenToRead": "React 프로젝트에 아이콘을 쓰려고 @karrotmarket/react-monochrome-icon·react-multicolor-icon 패키지를 설치할 때 읽는다.",
           "docUrl": "/react/components/iconography/library",
           "llmsUrl": "/llms/react/components/iconography/library.txt"
         },
@@ -1104,12 +1256,14 @@
           "id": "library-authors",
           "title": "Library Authors",
           "description": "SEED를 사용하는 공유 패키지와 SDK를 만들 때의 의존성 선언, 버전 범위, 2.0 마이그레이션 방법을 알아봅니다.",
+          "whenToRead": "SEED를 쓰는 SDK나 공유 컴포넌트 라이브러리를 npm으로 배포하면서 peerDependencies 범위(~1.2.0, ^2.0.0)를 정하거나, 빌드에서 @seed-design/*를 external 처리하거나, 라이브러리가 SEED 2.0도 받아들이게 넓힐 때 읽는다.",
           "docUrl": "/react/getting-started/library-authors",
           "llmsUrl": "/llms/react/getting-started/library-authors.txt"
         },
         {
           "id": "link-content",
           "title": "Link Content",
+          "whenToRead": "deprecated된 React LinkContent의 기존 코드를 유지보수하며 size·color props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/link-content",
           "llmsUrl": "/llms/react/components/link-content.txt",
           "deprecated": true
@@ -1118,6 +1272,7 @@
           "id": "list",
           "title": "List",
           "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
+          "whenToRead": "React에서 List·ListHeader로 행 목록을 구현하며 prefix·suffix 영역, ListButtonItem·ListLinkItem 클릭 항목, ListSwitchItem·ListCheckItem·ListRadioItem 입력 항목, asChild 시맨틱 조합을 확인할 때 읽는다.",
           "docUrl": "/react/components/list",
           "llmsUrl": "/llms/react/components/list.txt"
         },
@@ -1125,6 +1280,7 @@
           "id": "manner-temp",
           "title": "Manner Temp",
           "description": "사용자의 매너온도를 시각적으로 표현하는 컴포넌트입니다. 신뢰도/매너 정도를 직관적으로 보여주는 데에 사용합니다.",
+          "whenToRead": "React에서 매너온도를 MannerTemp로 표시하며 temperature로 레벨을 계산하거나 level을 직접 지정할 때 읽는다.",
           "docUrl": "/react/components/manner-temp",
           "llmsUrl": "/llms/react/components/manner-temp.txt"
         },
@@ -1132,6 +1288,7 @@
           "id": "manner-temp-badge",
           "title": "Manner Temp Badge",
           "description": "매너 온도를 배지 형태로 표현하는 컴포넌트입니다. 콤팩트한 공간에서 사용자의 매너 온도 레벨을 간단히 표시할 때 사용됩니다.",
+          "whenToRead": "React에서 매너온도를 배지형 MannerTempBadge로 표시하며 temperature로 레벨을 계산하거나 level을 직접 지정할 때 읽는다.",
           "docUrl": "/react/components/manner-temp-badge",
           "llmsUrl": "/llms/react/components/manner-temp-badge.txt"
         },
@@ -1139,6 +1296,7 @@
           "id": "manual",
           "title": "Manual",
           "description": "SEED를 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.",
+          "whenToRead": "번들러 플러그인 없이 SEED React를 설치하면서 index.html에 data-seed-color-mode 속성과 색상 모드 감지 스크립트를 직접 넣거나, 전체 스타일시트 all.css를 import할 때 읽는다.",
           "docUrl": "/react/getting-started/installation/manual",
           "llmsUrl": "/llms/react/getting-started/installation/manual.txt"
         },
@@ -1146,6 +1304,7 @@
           "id": "menu",
           "title": "Menu",
           "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+          "whenToRead": "React에서 트리거 옆에 뜨는 Menu를 MenuRoot·Trigger·Group·Item으로 구성하며 MenuAnchor, placement, 항목 tone·description·disabled를 확인할 때 읽는다.",
           "docUrl": "/react/components/menu",
           "llmsUrl": "/llms/react/components/menu.txt"
         },
@@ -1153,6 +1312,7 @@
           "id": "menu-sheet",
           "title": "Menu Sheet (Components)",
           "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "whenToRead": "deprecated된 React MenuSheet의 기존 코드를 유지보수하며 title·description, labelAlign, onOpenChange reason을 확인할 때만 읽는다.",
           "docUrl": "/react/components/menu-sheet",
           "llmsUrl": "/llms/react/components/menu-sheet.txt",
           "deprecated": true
@@ -1161,6 +1321,7 @@
           "id": "menu-sheet",
           "title": "Menu Sheet (Stackflow)",
           "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+          "whenToRead": "Stackflow 앱에서 기존 Menu Sheet를 Activity로 만들거나 Step과 동기화하거나, 위에 Activity를 push해도 마운트를 유지하거나, useActivityZIndexBase로 layerIndex를 맞출 때 읽는다.",
           "docUrl": "/react/stackflow/menu-sheet",
           "llmsUrl": "/llms/react/stackflow/menu-sheet.txt"
         },
@@ -1168,6 +1329,7 @@
           "id": "migrating-icons",
           "title": "Migrating Icons",
           "description": "구형 아이콘을 신규 아이콘으로 쉽게 마이그레이션해요.",
+          "whenToRead": "마이그레이션 가이드로, 구형 아이콘 패키지를 react-monochrome-icon·react-multicolor-icon으로 바꾸면서 replace-react-icon codemod를 돌리거나, SVG·Vue 사용처를 수동으로 옮기거나, IconHome·IconHouse 이름 충돌을 피할 때 읽는다.",
           "docUrl": "/react/migration/migrating-icons",
           "llmsUrl": "/llms/react/migration/migrating-icons.txt"
         },
@@ -1175,6 +1337,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "SEED를 React 프로젝트에서 사용하는 방법을 알아봅니다.",
+          "whenToRead": "React 섹션의 시작점으로, React 프로젝트에 SEED를 처음 들이면서 seed-design 스킬로 AI 에이전트에게 셋업을 맡길지, 설치·테마·CLI 문서를 직접 따라갈지 정할 때 읽는다.",
           "docUrl": "/react",
           "llmsUrl": "/llms/react.txt"
         },
@@ -1182,6 +1345,7 @@
           "id": "page-banner",
           "title": "Page Banner",
           "description": "페이지 상단에 위치하며 사용자에게 전체적인 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+          "whenToRead": "React에서 PageBanner, ActionablePageBanner, DismissiblePageBanner 중 하나를 골라 PageBannerButton suffix와 tone·variant 조합을 구현할 때 읽는다.",
           "docUrl": "/react/components/page-banner",
           "llmsUrl": "/llms/react/components/page-banner.txt"
         },
@@ -1189,6 +1353,7 @@
           "id": "pagination",
           "title": "Pagination",
           "description": "여러 페이지로 나뉜 목록에서 원하는 페이지로 이동할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 일반 목록·검색 결과 아래에 Pagination을 두며 totalPages, page·onPageChange 제어, 문구 현지화, nav 접근성 이름을 구현할 때 읽는다.",
           "docUrl": "/react/components/pagination",
           "llmsUrl": "/llms/react/components/pagination.txt"
         },
@@ -1196,6 +1361,7 @@
           "id": "progress-circle",
           "title": "Progress Circle",
           "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "whenToRead": "React에서 ProgressCircle의 tone(neutral·brand·staticWhite), size(24·40), determinate 진행률과 indeterminate 로딩을 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/progress-circle",
           "llmsUrl": "/llms/react/components/progress-circle.txt"
         },
@@ -1203,6 +1369,7 @@
           "id": "pull-to-refresh",
           "title": "Pull To Refresh",
           "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.",
+          "whenToRead": "React 모바일 화면에 당겨서 새로고침을 PullToRefreshRoot·Indicator·Content로 구현하며 Tabs 안에서 쓰기, disabled, preventPull로 특정 영역 제외를 확인할 때 읽는다.",
           "docUrl": "/react/components/pull-to-refresh",
           "llmsUrl": "/llms/react/components/pull-to-refresh.txt"
         },
@@ -1210,6 +1377,7 @@
           "id": "quantity-picker",
           "title": "Quantity Picker",
           "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 QuantityPicker로 수량 입력을 구현하며 layout hug·fill, getValueText 단위 표시, removable 삭제 전환, loading, inputProps name 폼 제출, 접근성 이름을 확인할 때 읽는다.",
           "docUrl": "/react/components/quantity-picker",
           "llmsUrl": "/llms/react/components/quantity-picker.txt"
         },
@@ -1217,6 +1385,7 @@
           "id": "radio-group",
           "title": "Radio Group",
           "description": "여러 옵션 중 하나를 선택할 수 있도록 할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 RadioGroup·RadioGroupItem으로 단일 선택을 구현하며 size·tone·weight, onValueChange, React Hook Form, Radiomark 커스텀 레이아웃, RadioGroupField 라벨·오류를 확인할 때 읽는다.",
           "docUrl": "/react/components/radio-group",
           "llmsUrl": "/llms/react/components/radio-group.txt"
         },
@@ -1224,6 +1393,7 @@
           "id": "reaction-button",
           "title": "Reaction Button",
           "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+          "whenToRead": "React에서 좋아요 같은 반응 버튼을 ReactionButton으로 구현하며 pressed·onPressedChange 토글, Count 표시, small·xsmall size, loading·disabled를 확인할 때 읽는다.",
           "docUrl": "/react/components/reaction-button",
           "llmsUrl": "/llms/react/components/reaction-button.txt"
         },
@@ -1231,6 +1401,7 @@
           "id": "responsive-design",
           "title": "Responsive Design",
           "description": "Viewport 크기에 따라 레이아웃과 스타일을 조정하는 방법을 알아봅니다.",
+          "whenToRead": "SEED React에서 뷰포트 크기별로 레이아웃과 스타일을 바꿔야 할 때 읽는 개념 가이드다. breakpoint 표, Box 계열 prop에 반응형 객체 넘기기, hideFrom, useBreakpoint·useBreakpointValue 훅과 SSR용 BreakpointProvider를 다룬다.",
           "docUrl": "/react/components/concepts/responsive-design",
           "llmsUrl": "/llms/react/components/concepts/responsive-design.txt"
         },
@@ -1238,6 +1409,7 @@
           "id": "result-section",
           "title": "Result Section",
           "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자에 액션에 대한 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내하는 역할을 합니다.",
+          "whenToRead": "React에서 완료·오류·빈 상태 결과 화면을 ResultSection으로 구현하며 size, CTA 버튼과 ProgressCircle 조합, 테마별 Lottie 에셋 적용을 확인할 때 읽는다.",
           "docUrl": "/react/components/result-section",
           "llmsUrl": "/llms/react/components/result-section.txt"
         },
@@ -1245,6 +1417,7 @@
           "id": "rsbuild",
           "title": "Rsbuild",
           "description": "Rsbuild 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Rsbuild React 앱에 SEED를 처음 설치하면서 @seed-design/rsbuild-plugin을 등록하거나, colorMode로 색상 모드를 고정하거나, seed-design.json과 tsconfig paths 별칭을 맞출 때 읽는다.",
           "docUrl": "/react/getting-started/installation/rsbuild",
           "llmsUrl": "/llms/react/getting-started/installation/rsbuild.txt"
         },
@@ -1252,6 +1425,7 @@
           "id": "scale-feedback",
           "title": "Scale Feedback",
           "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
+          "whenToRead": "직접 만든 React 컴포넌트에 SEED의 눌림 축소 효과를 적용할 때 읽는다. ScaleFeedback·useScaleFeedback 측정, --seed-feedback-scale 변수와 Tailwind 유틸리티 등록, 중첩·position: fixed 주의점, 프로젝트 전체에서 끄기를 다룬다.",
           "docUrl": "/react/components/concepts/scale-feedback",
           "llmsUrl": "/llms/react/components/concepts/scale-feedback.txt"
         },
@@ -1259,6 +1433,7 @@
           "id": "scroll-fog",
           "title": "Scroll Fog",
           "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
+          "whenToRead": "React에서 스크롤 영역 가장자리에 추가 콘텐츠 힌트를 ScrollFog로 넣으며 placement 방향, size·sizes, 필요한 최소 padding, hideScrollBar를 확인할 때 읽는다.",
           "docUrl": "/react/components/scroll-fog",
           "llmsUrl": "/llms/react/components/scroll-fog.txt"
         },
@@ -1266,6 +1441,7 @@
           "id": "segmented-control",
           "title": "Segmented Control",
           "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "React에서 SegmentedControl·SegmentedControlItem으로 옵션을 전환하며 notification, 긴 라벨, 고정 너비, onValueChange 감지를 코드로 확인할 때 읽는다.",
           "docUrl": "/react/components/segmented-control",
           "llmsUrl": "/llms/react/components/segmented-control.txt"
         },
@@ -1273,6 +1449,7 @@
           "id": "select",
           "title": "Select",
           "description": "트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.",
+          "whenToRead": "React에서 폼 값을 고르는 Select를 SelectRoot·Trigger·Content·Group·Item으로 구현하며 multiple 선택, prefixIcon·description, textValue 트리거 문구, Field·React Hook Form 연동을 확인할 때 읽는다.",
           "docUrl": "/react/components/select",
           "llmsUrl": "/llms/react/components/select.txt"
         },
@@ -1280,6 +1457,7 @@
           "id": "select-box",
           "title": "Select Box",
           "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+          "whenToRead": "React에서 테두리 박스형 선택지를 CheckSelectBox(다중)나 RadioSelectBox(단일)로 구현하며 columns 그리드, suffix 체크마크, footer 표시 조건, React Hook Form·Fieldset 연동을 확인할 때 읽는다.",
           "docUrl": "/react/components/select-box",
           "llmsUrl": "/llms/react/components/select-box.txt"
         },
@@ -1287,6 +1465,7 @@
           "id": "side-navigation",
           "title": "Side Navigation",
           "description": "서비스의 최상위 메뉴 간 이동을 돕고 앱의 전체 구조를 탐색할 수 있게 하는 컴포넌트입니다.",
+          "whenToRead": "React 구현 문서로, 웹 앱 사이드 내비게이션을 ui:side-navigation 스니펫과 블록 예제로 설치하거나, SideNavigationProvider로 접힘 상태를 제어하거나, SideNavigationGroup에 중첩 items를 넘기거나, 현재 메뉴를 current로 표시할 때 읽는다.",
           "docUrl": "/react/blocks/side-navigation",
           "llmsUrl": "/llms/react/blocks/side-navigation.txt"
         },
@@ -1294,6 +1473,7 @@
           "id": "side-panel",
           "title": "Side Panel",
           "description": "화면 좌측 또는 우측 가장자리에서 슬라이드하여 나타나는 패널 컴포넌트입니다. 데스크탑 환경에서 추가 콘텐츠나 네비게이션을 제공할 때 사용됩니다.",
+          "whenToRead": "React에서 화면 좌우에서 밀려 나오는 SidePanel을 구현하며 direction, size·너비 지정, 푸터 레이아웃, non-modal, 뷰포트에 따라 Bottom Sheet로 바뀌는 ResponsiveSidePanelRoot를 확인할 때 읽는다.",
           "docUrl": "/react/components/side-panel",
           "llmsUrl": "/llms/react/components/side-panel.txt"
         },
@@ -1301,6 +1481,7 @@
           "id": "skeleton",
           "title": "Skeleton",
           "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+          "whenToRead": "React에서 로딩 중 자리 표시 Skeleton을 import해 width·height, radius, tone을 지정할 때 읽는다.",
           "docUrl": "/react/components/skeleton",
           "llmsUrl": "/llms/react/components/skeleton.txt"
         },
@@ -1308,6 +1489,7 @@
           "id": "slider",
           "title": "Slider",
           "description": "지정된 범위 내에서 하나 또는 두 개의 값을 선택해 입력할 수 있는 컴포넌트입니다.",
+          "whenToRead": "React에서 Slider로 값이나 범위를 입력받으며 min·max·step, allowedValues, 눈금·마커, onValuesChange·onValuesCommit, 값 표시 라벨, getAriaValuetext 접근성을 구현할 때 읽는다.",
           "docUrl": "/react/components/slider",
           "llmsUrl": "/llms/react/components/slider.txt"
         },
@@ -1315,6 +1497,7 @@
           "id": "snackbar",
           "title": "Snackbar",
           "description": "화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.",
+          "whenToRead": "React에서 SnackbarProvider와 useSnackbarAdapter로 Snackbar를 띄우며 positive·critical variant, pauseOnInteraction, queued strategy, SnackbarAvoidOverlap 겹침 방지를 구현할 때 읽는다.",
           "docUrl": "/react/components/snackbar",
           "llmsUrl": "/llms/react/components/snackbar.txt"
         },
@@ -1322,6 +1505,7 @@
           "id": "snippet",
           "title": "Snippet",
           "description": "자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.",
+          "whenToRead": "SEED React 스니펫 개념을 이해해야 할 때 읽는다. 컴파운드 컴포넌트를 쓰는 이유와, CLI로 seed-design/ui 아래에 생성한 스니펫을 가져다 쓰는 흐름을 다룬다.",
           "docUrl": "/react/components/concepts/snippet",
           "llmsUrl": "/llms/react/components/concepts/snippet.txt"
         },
@@ -1329,6 +1513,7 @@
           "id": "stack",
           "title": "Stack",
           "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "deprecated된 React Stack 레이아웃의 기존 코드를 유지보수하며 props를 확인할 때만 읽는다.",
           "docUrl": "/react/components/stack",
           "llmsUrl": "/llms/react/components/stack.txt",
           "deprecated": true
@@ -1337,6 +1522,7 @@
           "id": "swipeable-menu-sheet",
           "title": "Swipeable Menu Sheet",
           "description": "사용자의 작업과 관련된 선택지를 제공하는 시트 형태의 컴포넌트입니다.",
+          "whenToRead": "React에서 하단 시트형 메뉴를 SwipeableMenuSheet로 구현하며 스와이프로 닫기, title·description, showCloseButton, labelAlign, onOpenChange reason을 확인할 때 읽는다.",
           "docUrl": "/react/components/swipeable-menu-sheet",
           "llmsUrl": "/llms/react/components/swipeable-menu-sheet.txt"
         },
@@ -1344,6 +1530,7 @@
           "id": "switch",
           "title": "Switch",
           "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+          "whenToRead": "React에서 Switch로 설정을 켜고 끄며 size(16·32), tone, onCheckedChange, Switchmark 커스텀 레이아웃과 중첩 Scale Feedback 끄기를 확인할 때 읽는다.",
           "docUrl": "/react/components/switch",
           "llmsUrl": "/llms/react/components/switch.txt"
         },
@@ -1351,6 +1538,7 @@
           "id": "table-pagination",
           "title": "Table Pagination",
           "description": "데이터 표의 페이지와 페이지당 표시 행 수를 함께 제어하는 컴포넌트입니다.",
+          "whenToRead": "React에서 데이터 표 아래에 TablePagination을 두며 page·pageSize를 묶은 value 제어, 전체 개수를 모를 때 hasNextPage 모드, 대량 페이지 pageOptions, 문구 현지화를 구현할 때 읽는다.",
           "docUrl": "/react/components/table-pagination",
           "llmsUrl": "/llms/react/components/table-pagination.txt"
         },
@@ -1358,6 +1546,7 @@
           "id": "tabs",
           "title": "Tabs",
           "description": "한 화면 내에서 콘텐츠를 탭 단위로 구분하여 전환할 수 있는 컴포넌트입니다.",
+          "whenToRead": "React에서 라인형 Tabs를 TabsRoot·List·Trigger·Content로 구현하며 fill·hug 레이아웃, TabsCarousel 전환·스와이프, sticky 탭 목록, 동적 높이를 확인할 때 읽는다.",
           "docUrl": "/react/components/tabs",
           "llmsUrl": "/llms/react/components/tabs.txt"
         },
@@ -1365,6 +1554,7 @@
           "id": "tag-group",
           "title": "Tag Group",
           "description": "아이콘과 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "whenToRead": "React에서 TagGroupRoot·TagGroupItem으로 태그를 나열하며 size·weight·tone, 항목별 덮어쓰기, separator 변경, truncate 한 줄 말줄임과 flexShrink 우선순위를 구현할 때 읽는다.",
           "docUrl": "/react/components/tag-group",
           "llmsUrl": "/llms/react/components/tag-group.txt"
         },
@@ -1372,6 +1562,7 @@
           "id": "tailwind-css",
           "title": "Tailwind CSS",
           "description": "Tailwind CSS 프로젝트에서 SEED를 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Tailwind CSS 3·4 프로젝트에서 tailwind4-theme나 tailwind3-plugin을 설정해 SEED 토큰을 유틸리티 클래스로 쓰거나, Tailwind 클래스로 SEED 컴포넌트 스타일을 덮어쓸 때 읽는다.",
           "docUrl": "/react/getting-started/styling/tailwind-css",
           "llmsUrl": "/llms/react/getting-started/styling/tailwind-css.txt"
         },
@@ -1379,6 +1570,7 @@
           "id": "text",
           "title": "Text",
           "description": "텍스트를 표시하는 기본 타이포그래피 컴포넌트입니다. 일관된 글꼴 스타일과 크기를 적용하여 텍스트를 렌더링할 때 사용됩니다.",
+          "whenToRead": "React에서 Text로 글자를 렌더링하며 textStyle이나 fontSize·fontWeight 지정, maxLines 말줄임, userSelect, static 스타일, 밑줄 사용 주의점을 확인할 때 읽는다.",
           "docUrl": "/react/components/typography/text",
           "llmsUrl": "/llms/react/components/typography/text.txt"
         },
@@ -1386,6 +1578,7 @@
           "id": "text-field-input",
           "title": "Text Field Input",
           "description": "한 줄 텍스트를 입력받는 컴포넌트입니다.",
+          "whenToRead": "React에서 한 줄 입력 TextField·TextFieldInput을 구현하며 disabled·readOnly, size, prefix·suffix, 필수 indicator, 자소 단위 글자 수을 확인할 때 읽는다.",
           "docUrl": "/react/components/text-field-input",
           "llmsUrl": "/llms/react/components/text-field-input.txt"
         },
@@ -1393,6 +1586,7 @@
           "id": "text-field-textarea",
           "title": "Text Field Textarea",
           "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
+          "whenToRead": "React에서 여러 줄 입력 TextFieldTextarea를 구현하며 자동 높이와 고정·최소·최대 높이, 필수 indicator, 자소 단위 글자 수, React Hook Form 예제를 확인할 때 읽는다.",
           "docUrl": "/react/components/text-field-textarea",
           "llmsUrl": "/llms/react/components/text-field-textarea.txt"
         },
@@ -1400,6 +1594,7 @@
           "id": "theming",
           "title": "Theming",
           "description": "SEED의 테마 시스템을 이해하고 활용하는 방법을 알아봅니다.",
+          "whenToRead": "테마 개념 가이드로, React 웹에서 data-seed-color-mode와 data-seed-user-color-scheme가 라이트·다크 모드를 정하는 방식을 알아야 하거나, 특정 영역만 다른 모드로 덮어쓰거나, 클라이언트에서 현재 테마를 감지할 때 읽는다.",
           "docUrl": "/react/getting-started/styling/theming",
           "llmsUrl": "/llms/react/getting-started/styling/theming.txt"
         },
@@ -1407,6 +1602,7 @@
           "id": "time-picker",
           "title": "Time Picker",
           "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
+          "whenToRead": "React에서 휠형 TimePicker로 시간을 고르며 24시간 형식 value 제어, minuteStep 반올림, 인라인 배치나 FieldButton·Bottom Sheet 조합, Date 객체 변환을 구현할 때 읽는다.",
           "docUrl": "/react/components/time-picker",
           "llmsUrl": "/llms/react/components/time-picker.txt"
         },
@@ -1414,6 +1610,7 @@
           "id": "toggle-button",
           "title": "Toggle Button",
           "description": "사용자가 특정 상태를 켜거나 끌 수 있게 해주는 버튼 형태의 컴포넌트입니다. 필터링이나 뷰 전환과 같은 즉각적인 상태 변경에 사용됩니다.",
+          "whenToRead": "React에서 필터나 보기 전환처럼 눌림 상태를 가진 버튼을 ToggleButton으로 구현하며 pressed·onPressedChange, brandSolid·neutralWeak variant, size, loading을 확인할 때 읽는다.",
           "docUrl": "/react/components/toggle-button",
           "llmsUrl": "/llms/react/components/toggle-button.txt"
         },
@@ -1421,6 +1618,7 @@
           "id": "upgrade",
           "title": "Overview (Updates)",
           "description": "SEED 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.",
+          "whenToRead": "업그레이드 절차 개요로, SEED 패키지 버전을 올리기 전에 2.0 전후 버저닝 정책 차이를 확인하거나, @seed-design/react와 css를 호환되는 조합으로 함께 올리거나, compat으로 스니펫 호환을 점검할 때 읽는다.",
           "docUrl": "/react/updates/upgrade",
           "llmsUrl": "/llms/react/updates/upgrade.txt"
         },
@@ -1428,6 +1626,7 @@
           "id": "v-stack",
           "title": "VStack",
           "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
+          "whenToRead": "React에서 요소를 세로로 쌓는 VStack의 gap·align·justify와 토큰 style prop, 반응형 값을 확인하거나 deprecated된 Stack을 옮길 때 읽는다.",
           "docUrl": "/react/components/layout/v-stack",
           "llmsUrl": "/llms/react/components/layout/v-stack.txt"
         },
@@ -1435,6 +1634,7 @@
           "id": "v1",
           "title": "SEED React 1 and older",
           "description": "SEED React 2 이전 버전 간 업그레이드에 필요한 작업을 버전 구간별로 안내합니다.",
+          "whenToRead": "업그레이드 가이드로, SEED React 2 이전 버전끼리 올리거나 1.x에서 react·css·stackflow 버전 조합이 맞는지 호환표로 판정할 때 읽는다. 0.2.0 stroke 토큰 이름 변경이나 1.0→1.1, 1.1→1.2 구간의 컴포넌트 변경을 처리할 때도 읽는다.",
           "docUrl": "/react/updates/upgrade/v1",
           "llmsUrl": "/llms/react/updates/upgrade/v1.txt"
         },
@@ -1442,6 +1642,7 @@
           "id": "v2",
           "title": "SEED React 2",
           "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
+          "whenToRead": "업그레이드 가이드로, SEED React 1.2.x에서 2로 올리면서 패키지별 최소 버전을 맞추거나, 제거된 fade-layer 그라디언트 토큰·App Bar divider·Bottom Sheet 옵션을 대체하거나, Switch size 같은 없어진 prop 값을 바꿀 때 읽는다.",
           "docUrl": "/react/updates/upgrade/v2",
           "llmsUrl": "/llms/react/updates/upgrade/v2.txt"
         },
@@ -1449,6 +1650,7 @@
           "id": "vite",
           "title": "Vite",
           "description": "Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Vite React 앱에 SEED를 처음 설치하면서 @seed-design/vite-plugin을 등록하거나, colorMode로 색상 모드를 고정하거나, seed-design.json과 tsconfig paths 별칭을 맞출 때 읽는다.",
           "docUrl": "/react/getting-started/installation/vite",
           "llmsUrl": "/llms/react/getting-started/installation/vite.txt"
         },
@@ -1456,6 +1658,7 @@
           "id": "webpack",
           "title": "Webpack",
           "description": "Webpack 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Webpack React 앱에 SEED를 처음 설치하면서 SeedDesignPlugin을 webpack config에 추가하거나, colorMode로 색상 모드를 고정하거나, seed-design.json과 tsconfig paths 별칭을 맞출 때 읽는다.",
           "docUrl": "/react/getting-started/installation/webpack",
           "llmsUrl": "/llms/react/getting-started/installation/webpack.txt"
         },
@@ -1463,6 +1666,7 @@
           "id": "wheel-picker",
           "title": "Wheel Picker",
           "description": "항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.",
+          "whenToRead": "React에서 WheelPicker·WheelPickerColumn으로 여러 열 휠 선택을 직접 구성하며 onIndexChange와 onValueChange 차이, React 요소 label의 ariaLabel, options·value 데이터 계약을 확인할 때 읽는다.",
           "docUrl": "/react/components/wheel-picker",
           "llmsUrl": "/llms/react/components/wheel-picker.txt"
         }
@@ -1476,6 +1680,7 @@
           "id": "animate-number",
           "title": "Animate Number",
           "description": "숫자를 부드럽게 애니메이션하는 유틸리티 컴포넌트",
+          "whenToRead": "카운터처럼 바뀌는 숫자에 애니메이션을 넣으려고 motion 의존성과 CLI 스니펫(breeze:animate-number)을 설치하고 LazyMotion 기반 MotionProvider를 설정하거나, 쉼표·그라디언트 마스크 props를 조정할 때 읽는다. SEED 정식 컴포넌트가 아닌 Breeze 유틸리티다.",
           "docUrl": "/breeze/components/animate-number",
           "llmsUrl": "/llms/breeze/components/animate-number.txt"
         },
@@ -1483,6 +1688,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "프로젝트에 바로 사용할 수 있는 유용한 UI 컴포넌트 큐레이션",
+          "whenToRead": "SEED Breeze가 무엇인지(특정 디자인 시스템에 묶이지 않고 코드를 복사해 고쳐 쓰는 유틸리티 컴포넌트 모음)와 설치·복사·커스터마이징 절차를 파악할 때 읽는다.",
           "docUrl": "/breeze",
           "llmsUrl": "/llms/breeze.txt"
         },
@@ -1490,6 +1696,7 @@
           "id": "scroll-auto-hide",
           "title": "Scroll Auto Hide",
           "description": "스크롤 방향에 따라 고정 영역을 숨기고 드러내는 컴포넌트",
+          "whenToRead": "필터·탭·보조 헤더 같은 sticky 영역을 스크롤에 맞춰 자동으로 숨기려고 scrollContainerRef·asChild를 연결하거나, 스냅·모션 감소·키보드 포커스 동작과 직접 지정해야 할 배경색·z-index를 확인할 때 읽는다. SEED 정식 컴포넌트가 아닌 Breeze 유틸리티다.",
           "docUrl": "/breeze/components/scroll-auto-hide",
           "llmsUrl": "/llms/breeze/components/scroll-auto-hide.txt"
         }
@@ -1503,6 +1710,7 @@
           "id": "accordion",
           "title": "Accordion",
           "description": "관련된 정보 섹션을 접고 펼쳐 화면을 간결하게 구성하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에 ui:accordion 스니펫으로 separated variant, 트리거 prefix·description을 쓰거나 multiple·disabled·onValuesChange로 펼침 상태를 다룰 때 읽는다. Lynx Engine 3.6 이상이 필요하고 키보드 탐색·headingLevel·responsive size는 없다.",
           "docUrl": "/lynx/components/accordion",
           "llmsUrl": "/llms/lynx/components/accordion.txt"
         },
@@ -1510,6 +1718,7 @@
           "id": "action-button",
           "title": "Action Button",
           "description": "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 @seed-design/lynx-react의 ActionButton을 bindtap, PrefixIcon·SuffixIcon 슬롯, iconOnly layout, loading 상태로 구현하거나 bleedX 같은 미지원 prop을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/action-button",
           "llmsUrl": "/llms/lynx/components/action-button.txt"
         },
@@ -1517,6 +1726,7 @@
           "id": "app-bar",
           "title": "AppBar",
           "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
+          "whenToRead": "Lynx 화면 상단에 ui:app-bar 스니펫으로 제목·부제목과 뒤로·닫기 버튼을 두고, cupertino·android theme을 정하고 이동 로직을 bindtap으로 직접 연결할 때 읽는다.",
           "docUrl": "/lynx/components/app-bar",
           "llmsUrl": "/llms/lynx/components/app-bar.txt"
         },
@@ -1524,6 +1734,7 @@
           "id": "badge",
           "title": "Badge",
           "description": "상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 Badge로 size·variant·tone 조합과 긴 라벨 말줄임을 구현할 때 읽는다.",
           "docUrl": "/lynx/components/badge",
           "llmsUrl": "/llms/lynx/components/badge.txt"
         },
@@ -1531,6 +1742,7 @@
           "id": "bottom-sheet",
           "title": "Bottom Sheet",
           "description": "화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.",
+          "whenToRead": "Lynx 앱에서 ui:bottom-sheet 스니펫으로 시트를 열고 snapPoints, handleOnly, ref의 open·snapTo로 제어하거나 BottomSheetBody 스크롤 높이를 정할 때 읽는다. Lynx Engine 3.5 이상이 필요하고 CloseButton·dismissible·lazyMount는 없다.",
           "docUrl": "/lynx/components/bottom-sheet",
           "llmsUrl": "/llms/lynx/components/bottom-sheet.txt"
         },
@@ -1538,6 +1750,7 @@
           "id": "box",
           "title": "Box",
           "description": "Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표면을 구성하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 Box의 bg·p·borderRadius 같은 토큰 style prop으로 <view>를 꾸미거나, margin·boxShadow처럼 열리지 않은 prop을 확인할 때 읽는다.",
           "docUrl": "/lynx/foundation/layout/box",
           "llmsUrl": "/llms/lynx/foundation/layout/box.txt"
         },
@@ -1545,6 +1758,7 @@
           "id": "callout",
           "title": "Callout",
           "description": "사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:callout 스니펫의 Callout, 탭 가능한 ActionableCallout, 닫을 수 있는 DismissibleCallout으로 제목·아이콘·링크 레이블 조합과 tone을 구현할 때 읽는다. Lynx Engine 3.6 이상이 필요하고 ActionableCallout에는 linkProps가 없다.",
           "docUrl": "/lynx/components/callout",
           "llmsUrl": "/llms/lynx/components/callout.txt"
         },
@@ -1552,6 +1766,7 @@
           "id": "checkbox",
           "title": "Checkbox",
           "description": "사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.",
+          "whenToRead": "Lynx 앱에서 ui:checkbox 스니펫의 Checkbox·Checkmark·CheckboxGroup으로 indeterminate, onCheckedChange, tone·variant, 그룹의 label·errorMessage를 구현하거나 hidden input과 개별 name·value가 없는 점을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/checkbox",
           "llmsUrl": "/llms/lynx/components/checkbox.txt"
         },
@@ -1559,6 +1774,7 @@
           "id": "chip",
           "title": "Chip",
           "description": "사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 Chip.Button·Chip.Toggle·Chip.RadioRoot로 실행·토글·단일 선택 칩을 만들고 size·variant·아이콘 배치를 정하거나 값 변경을 감지할 때 읽는다. Lynx Engine 3.6 이상이 필요하고, 패키지에 Avatar가 없어 PrefixAvatar에 앱의 아바타 view를 넣는다.",
           "docUrl": "/lynx/components/chip",
           "llmsUrl": "/llms/lynx/components/chip.txt"
         },
@@ -1566,6 +1782,7 @@
           "id": "cli",
           "title": "CLI",
           "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
+          "whenToRead": "Lynx 프로젝트에서 SEED CLI가 달라지는 부분, 곧 프레임워크 자동 감지, seed-design.json의 framework 값, --framework lynx 플래그, compat 검사 대상 패키지를 확인할 때 읽는다.",
           "docUrl": "/lynx/getting-started/cli",
           "llmsUrl": "/llms/lynx/getting-started/cli.txt"
         },
@@ -1573,6 +1790,7 @@
           "id": "divider",
           "title": "Divider",
           "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 Divider로 orientation·inset·thickness를 지정하거나, 장식용 구분선을 accessibility-element={false}로 스크린 리더에서 숨길 때 읽는다.",
           "docUrl": "/lynx/components/divider",
           "llmsUrl": "/llms/lynx/components/divider.txt"
         },
@@ -1580,6 +1798,7 @@
           "id": "feature-flags",
           "title": "Feature Flags",
           "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+          "whenToRead": "Lynx 프로젝트의 pluginLynxConfig에 어떤 피쳐 플래그를 켤지 정할 때 읽는다. enableCSSSelector·enableCSSInheritance가 SEED에 필요한 이유, enableCSSStrictMode를 끄는 이유, 제스처·성능 플래그를 켤 상황을 다룬다.",
           "docUrl": "/lynx/getting-started/feature-flags",
           "llmsUrl": "/llms/lynx/getting-started/feature-flags.txt"
         },
@@ -1587,6 +1806,7 @@
           "id": "h-stack",
           "title": "HStack",
           "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 자식을 가로로 나열하며 gap, align·justify alias, wrap 줄바꿈을 지정할 때 읽는다.",
           "docUrl": "/lynx/foundation/layout/h-stack",
           "llmsUrl": "/llms/lynx/foundation/layout/h-stack.txt"
         },
@@ -1594,6 +1814,7 @@
           "id": "iconography",
           "title": "Iconography",
           "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
+          "whenToRead": "Lynx 앱에 monochrome·multicolor 아이콘 패키지를 설치하고 rsbuild-plugin-lynx-icon을 설정하거나, SEED 컴포넌트 슬롯에 Icon·PrefixIcon·SuffixIcon으로 아이콘을 넣을 때 읽는다.",
           "docUrl": "/lynx/foundation/iconography",
           "llmsUrl": "/llms/lynx/foundation/iconography.txt"
         },
@@ -1601,6 +1822,7 @@
           "id": "input-button",
           "title": "Field Button",
           "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+          "whenToRead": "Lynx 앱에서 ui:field-button 스니펫의 FieldButton으로 Bottom Sheet나 피커를 여는 버튼을 만들고 buttonProps.bindtap·accessibility-label, showClearButton을 다룰 때 읽는다. form 제출과 responsive size는 지원하지 않는다.",
           "docUrl": "/lynx/components/input-button",
           "llmsUrl": "/llms/lynx/components/input-button.txt"
         },
@@ -1608,6 +1830,7 @@
           "id": "installation",
           "title": "Installation",
           "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Lynx 프로젝트에 SEED를 처음 설정할 때 읽는다. 패키지와 Tailwind v3 설치, base.css import, seed-design.json 생성, tsconfig·lynx.config.ts path alias, 기본 피쳐 플래그, lynx-console까지 순서대로 다룬다.",
           "docUrl": "/lynx/getting-started/installation",
           "llmsUrl": "/llms/lynx/getting-started/installation.txt"
         },
@@ -1615,6 +1838,7 @@
           "id": "keyboard-avoiding-scroll-view",
           "title": "KeyboardAvoidingScrollView",
           "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 입력 화면에서 소프트 키보드가 TextField를 가리지 않게 스크롤 영역을 감쌀 때, keyboardGap·scrollBehavior와 Android에서 android-set-soft-input-mode를 nothing으로 두는 설정을 확인할 때 읽는다. Lynx Engine 4.1 이상이 필요하다.",
           "docUrl": "/lynx/components/keyboard-avoiding-scroll-view",
           "llmsUrl": "/llms/lynx/components/keyboard-avoiding-scroll-view.txt"
         },
@@ -1622,6 +1846,7 @@
           "id": "list",
           "title": "List",
           "description": "가로 행으로 구성된 콘텐츠를 표현하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:list 스니펫으로 행 목록의 prefix·suffix, bindtap으로 탭하는 ListButtonItem, ListSwitchItem·ListCheckItem·ListRadioItem 선택 항목을 구현할 때 읽는다. ListLinkItem·asChild·alignItems·itemBorderRadius는 없다.",
           "docUrl": "/lynx/components/list",
           "llmsUrl": "/llms/lynx/components/list.txt"
         },
@@ -1629,6 +1854,7 @@
           "id": "manner-temp",
           "title": "Manner Temp",
           "description": "사용자의 매너온도를 온도와 표정 이미지로 표현하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 MannerTemp와 MannerTempEmote로 매너온도와 표정 이미지를 그리고, 온도를 level로 직접 계산해 넘길 때 읽는다.",
           "docUrl": "/lynx/components/manner-temp",
           "llmsUrl": "/llms/lynx/components/manner-temp.txt"
         },
@@ -1636,6 +1862,7 @@
           "id": "manner-temp-badge",
           "title": "Manner Temp Badge",
           "description": "매너온도를 작은 배지 형태로 표현하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 MannerTempBadge로 매너온도를 작은 배지로 표시하고, 온도를 level로 직접 계산해 넘길 때 읽는다.",
           "docUrl": "/lynx/components/manner-temp-badge",
           "llmsUrl": "/llms/lynx/components/manner-temp-badge.txt"
         },
@@ -1643,6 +1870,7 @@
           "id": "menu",
           "title": "Menu",
           "description": "사용자가 취할 수 있는 선택지나 액션 리스트를 제공하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:menu 스니펫으로 트리거 옆에 native overlay 메뉴를 띄우고 MenuAnchor, placement, matchReferenceWidth, onOpenChange reason을 다룰 때 읽는다. Lynx Engine 3.9 이상이 필요하고 키보드·asChild는 없다.",
           "docUrl": "/lynx/components/menu",
           "llmsUrl": "/llms/lynx/components/menu.txt"
         },
@@ -1650,6 +1878,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "SEED와 Lynx를 함께 사용하는 방법을 알아봅니다.",
+          "whenToRead": "Lynx 쪽 문서 중 설치·CLI·피쳐 플래그·아이콘 가운데 어디로 갈지 고를 때 읽는다.",
           "docUrl": "/lynx",
           "llmsUrl": "/llms/lynx.txt"
         },
@@ -1657,6 +1886,7 @@
           "id": "page-banner",
           "title": "Page Banner",
           "description": "페이지 상단에서 전체 상태나 중요한 메시지를 전달하는 상위 레벨 메시지 컴포넌트입니다.",
+          "whenToRead": "Lynx 화면 상단에 ui:page-banner 스니펫으로 배너를 두고 tone·variant, PageBannerButton, 탭 가능한 Actionable·닫기 가능한 Dismissible 변형을 구현하거나 눌림 배경색·Scale Feedback 동작을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/page-banner",
           "llmsUrl": "/llms/lynx/components/page-banner.txt"
         },
@@ -1664,6 +1894,7 @@
           "id": "progress-circle",
           "title": "Progress Circle",
           "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
+          "whenToRead": "Lynx 앱에서 ui:progress-circle 스니펫으로 determinate·indeterminate 진행 표시와 tone·size를 구현하거나 스크린 리더가 읽을 accessibility-value를 바꾸거나, clip-path 방식이라 indeterminate를 한 화면에 많이 두면 느려지는 점을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/progress-circle",
           "llmsUrl": "/llms/lynx/components/progress-circle.txt"
         },
@@ -1671,6 +1902,7 @@
           "id": "radio-group",
           "title": "Radio Group",
           "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:radio-group 스니펫의 RadioGroup·RadioGroupItem·Radiomark로 단일 선택을 만들고 onValueChange, size·tone·weight, label·description·errorMessage 필드 prop을 다룰 때 읽는다. Lynx Engine 3.6 이상이 필요하다.",
           "docUrl": "/lynx/components/radio-group",
           "llmsUrl": "/llms/lynx/components/radio-group.txt"
         },
@@ -1678,6 +1910,7 @@
           "id": "reaction-button",
           "title": "Reaction Button",
           "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+          "whenToRead": "Lynx 앱에서 패키지의 ReactionButton으로 pressed·onPressedChange 토글, PrefixIcon·Count, small·xsmall size를 구현하거나 loading 중에도 동작하는 bindtap을 disabled로 막을 때 읽는다. Lynx Engine 3.5 이상이 필요하다.",
           "docUrl": "/lynx/components/reaction-button",
           "llmsUrl": "/llms/lynx/components/reaction-button.txt"
         },
@@ -1685,6 +1918,7 @@
           "id": "result-section",
           "title": "Result Section",
           "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자 액션의 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내합니다.",
+          "whenToRead": "Lynx 화면에 ui:result-section 스니펫으로 asset·제목·설명과 CTA 버튼을 배치하고 size를 고를 때, primaryActionProps·secondaryActionProps에 Lynx ActionButton prop을 넘기는 방법을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/result-section",
           "llmsUrl": "/llms/lynx/components/result-section.txt"
         },
@@ -1692,6 +1926,7 @@
           "id": "scale-feedback",
           "title": "Scale Feedback",
           "description": "Lynx에서 Main Thread 기반의 SEED Scale Feedback을 적용하는 방법을 알아봅니다.",
+          "whenToRead": "Lynx에서 ScaleFeedback이나 useScaleFeedback의 trigger·target props로 Self·Content Scale을 적용하거나, mergeProps()로 기존 이벤트·ref와 합성하고 usePressTap과 함께 쓸 때 읽는다. Lynx Engine 3.6 이상이 필요하다.",
           "docUrl": "/lynx/components/concepts/scale-feedback",
           "llmsUrl": "/llms/lynx/components/concepts/scale-feedback.txt"
         },
@@ -1699,6 +1934,7 @@
           "id": "segmented-control",
           "title": "Segmented Control",
           "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:segmented-control 스니펫으로 정렬 기준 같은 옵션 전환을 만들고 onValueChange, 고정 폭, 긴 레이블, 항목의 notification 배지를 다루거나 invalid 상태가 없는 점을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/segmented-control",
           "llmsUrl": "/llms/lynx/components/segmented-control.txt"
         },
@@ -1706,6 +1942,7 @@
           "id": "select-box",
           "title": "Select Box",
           "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+          "whenToRead": "Lynx 앱에서 ui:select-box 스니펫의 Check·Radio Select Box로 테두리 있는 선택지를 만들고 columns 그리드, suffix, 접히는 footer, onCheckedChange·onValueChange를 다룰 때 읽는다.",
           "docUrl": "/lynx/components/select-box",
           "llmsUrl": "/llms/lynx/components/select-box.txt"
         },
@@ -1713,6 +1950,7 @@
           "id": "styling",
           "title": "Styling with Tailwind",
           "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
+          "whenToRead": "Lynx 앱에서 tailwind3-plugin으로 SEED 색상(bg-·text-)·타이포그래피(t5-bold)·flex 레이아웃 클래스를 쓰거나, overflow scroll·inset 미지원 같은 Lynx CSS 제약을 확인할 때 읽는다.",
           "docUrl": "/lynx/foundation/layout/styling",
           "llmsUrl": "/llms/lynx/foundation/layout/styling.txt"
         },
@@ -1720,6 +1958,7 @@
           "id": "swipeable-menu-sheet",
           "title": "Swipeable Menu Sheet",
           "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
+          "whenToRead": "Lynx 앱에서 ui:swipeable-menu-sheet 스니펫으로 드래그해 닫는 메뉴 시트를 만들고 tone·labelAlign, onOpenChange reason, open 제어나 ref close()로 닫기를 다룰 때 읽는다. Item 탭은 시트를 닫지 않고 <overlay> XElement를 쓴다.",
           "docUrl": "/lynx/components/swipeable-menu-sheet",
           "llmsUrl": "/llms/lynx/components/swipeable-menu-sheet.txt"
         },
@@ -1727,6 +1966,7 @@
           "id": "switch",
           "title": "Switch",
           "description": "특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:switch 스니펫의 Switch·Switchmark로 설정 토글을 만들고 onCheckedChange, size·tone, 긴 레이블, 접근성 레이블을 다루거나 눌림 Scale Feedback·form 속성이 없는 점을 확인할 때 읽는다. Lynx Engine 3.6 이상이 필요하다.",
           "docUrl": "/lynx/components/switch",
           "llmsUrl": "/llms/lynx/components/switch.txt"
         },
@@ -1734,6 +1974,7 @@
           "id": "tabs",
           "title": "Tabs",
           "description": "한 화면의 콘텐츠를 탭 단위로 구분하고, 탭 선택이나 좌우 스와이프로 전환하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:tabs 스니펫으로 탭 목록과 <viewpager> 기반 TabsCarousel을 조립하고 swipeable, triggerLayout, stickyList, notification, iOS 뒤로가기 제스처 폭을 정할 때 읽는다. Lynx Engine 3.6 이상이 필요하고 세로 방향·lazyMount는 없다.",
           "docUrl": "/lynx/components/tabs",
           "llmsUrl": "/llms/lynx/components/tabs.txt"
         },
@@ -1741,6 +1982,7 @@
           "id": "tag-group",
           "title": "Tag Group",
           "description": "텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:tag-group 스니펫의 TagGroupRoot·TagGroupItem으로 읽기 전용 태그를 나열하고 separator, size·weight·tone, 줄바꿈 방식을 정하거나 truncate·아이콘 미지원을 확인할 때 읽는다.",
           "docUrl": "/lynx/components/tag-group",
           "llmsUrl": "/llms/lynx/components/tag-group.txt"
         },
@@ -1748,6 +1990,7 @@
           "id": "text",
           "title": "Text",
           "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 Text 컴포넌트로 <text>에 textStyle, color, fontSize·fontWeight 타이포그래피 토큰을 적용하거나 maxLines·as 같은 미지원 prop을 확인할 때 읽는다.",
           "docUrl": "/lynx/foundation/typography/text",
           "llmsUrl": "/llms/lynx/foundation/typography/text.txt"
         },
@@ -1755,6 +1998,7 @@
           "id": "text-field-input",
           "title": "Text Field Input",
           "description": "한 줄 텍스트를 입력받고 Field의 레이블·설명·오류 상태와 조합하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:text-field 스니펫의 TextFieldInput으로 label·errorMessage, maxGraphemeCount, onValueChange, 소프트 키보드 속성을 다루거나, autoFocus 대신 id와 focus UI method로 초기 포커스를 줄 때 읽는다.",
           "docUrl": "/lynx/components/text-field-input",
           "llmsUrl": "/llms/lynx/components/text-field-input.txt"
         },
@@ -1762,6 +2006,7 @@
           "id": "text-field-textarea",
           "title": "Text Field Textarea",
           "description": "여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 ui:text-field 스니펫의 TextFieldTextarea로 autoresize나 고정 높이, Android line-spacing 보정, onValueChange를 다루거나, autoFocus 대신 ref의 focus UI method로 초기 포커스를 줄 때 읽는다.",
           "docUrl": "/lynx/components/text-field-textarea",
           "llmsUrl": "/llms/lynx/components/text-field-textarea.txt"
         },
@@ -1769,6 +2014,7 @@
           "id": "theming",
           "title": "Theming",
           "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
+          "whenToRead": "Lynx 앱에 라이트·다크 테마를 적용할 때, getSeedClassName의 colorMode로 <page>에 테마 클래스를 붙이거나 seed-color-mode-dark-only 같은 클래스로 일부 영역만 고정할 때 읽는다.",
           "docUrl": "/lynx/getting-started/theming",
           "llmsUrl": "/llms/lynx/getting-started/theming.txt"
         },
@@ -1776,6 +2022,7 @@
           "id": "use-controllable-state",
           "title": "useControllableState",
           "description": "Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.",
+          "whenToRead": "Lynx에서 직접 만드는 컴포넌트가 value를 받으면 controlled로, 없으면 defaultValue로 동작하게 할 때 읽는다. 반환 튜플과 onChange 시그니처, 웹 버전과 달리 함수형 setter와 dev 경고가 없다는 점을 확인한다.",
           "docUrl": "/lynx/hooks/use-controllable-state",
           "llmsUrl": "/llms/lynx/hooks/use-controllable-state.txt"
         },
@@ -1783,6 +2030,7 @@
           "id": "use-icon-color",
           "title": "useIconColor",
           "description": "Lynx image 아이콘의 CSS color를 native tint-color로 동기화하는 훅입니다.",
+          "whenToRead": "Lynx에서 직접 만든 컴포넌트의 아이콘 슬롯에 monochrome 아이콘을 넣으며 CSS color를 <image> tint-color로 옮길 때, deps에 넣을 상태나 list 안에서 색이 늦게 반영되는 문제를 다룰 때 읽는다.",
           "docUrl": "/lynx/hooks/use-icon-color",
           "llmsUrl": "/llms/lynx/hooks/use-icon-color.txt"
         },
@@ -1790,6 +2038,7 @@
           "id": "use-press-tap",
           "title": "usePressTap",
           "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",
+          "whenToRead": "Lynx에서 직접 만든 탭 가능한 요소에 pressed 상태와 bindtap·touch 핸들러를 붙이거나, disabled 처리와 mainThreadOnTap 콜백을 연결할 때 읽는다. pressed를 recipe variant로 넘겨 누름 스타일을 입히는 방법도 다룬다.",
           "docUrl": "/lynx/hooks/use-press-tap",
           "llmsUrl": "/llms/lynx/hooks/use-press-tap.txt"
         },
@@ -1797,6 +2046,7 @@
           "id": "use-safe-area",
           "title": "useSafeArea",
           "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+          "whenToRead": "Lynx 화면에서 상단·하단 safe area inset을 padding에 반영할 때, host globalProps와 env() fallback 중 어떤 값이 쓰이는지 확인할 때 읽는다.",
           "docUrl": "/lynx/hooks/use-safe-area",
           "llmsUrl": "/llms/lynx/hooks/use-safe-area.txt"
         },
@@ -1804,6 +2054,7 @@
           "id": "use-seed-class-name",
           "title": "useSeedClassName",
           "description": "root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.",
+          "whenToRead": "Lynx 앱의 root <page>가 host의 테마 변경을 구독해 라이트·다크 클래스를 다시 받게 할 때, getSeedClassName 대신 이 훅을 쓸지 정할 때 읽는다. @lynx-js/react 0.117.0 이상이 필요하다.",
           "docUrl": "/lynx/hooks/use-seed-class-name",
           "llmsUrl": "/llms/lynx/hooks/use-seed-class-name.txt"
         },
@@ -1811,6 +2062,7 @@
           "id": "v-stack",
           "title": "VStack",
           "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
+          "whenToRead": "Lynx 앱에서 자식을 세로로 쌓으며 gap과 align·justify·grow alias로 정렬할 때 읽는다.",
           "docUrl": "/lynx/foundation/layout/v-stack",
           "llmsUrl": "/llms/lynx/foundation/layout/v-stack.txt"
         }
@@ -1824,6 +2076,7 @@
           "id": "docs-mcp",
           "title": "Docs MCP",
           "description": "AI Agent가 SEED 문서에 직접 접근할 수 있는 MCP 서버를 제공합니다.",
+          "whenToRead": "AI 에이전트가 MCP로 SEED 문서를 읽도록 @seed-design/docs-mcp 서버를 Claude Code·Codex·Cursor 등에 등록하거나, SEED_DOCS_BASE_URL로 조회 사이트를 바꾸거나, search_docs·get_doc·get_rootage 같은 도구 사용법을 확인할 때 읽는다.",
           "docUrl": "/ai-integration/docs-mcp",
           "llmsUrl": "/llms/ai-integration/docs-mcp.txt"
         },
@@ -1831,6 +2084,7 @@
           "id": "doctor",
           "title": "Doctor",
           "description": "저장소 맥락에 맞춰 SEED 설정, 호환성, 셋업, Foundations, 컴포넌트, 라이브러리 계약을 읽기 전용으로 진단합니다.",
+          "whenToRead": "seed-design 스킬의 Doctor로 프로젝트의 SEED 설정·패키지 호환·셋업·토큰 계약·deprecated 컴포넌트·가이드라인 준수를 읽기 전용으로 진단하거나, 각 룰의 판정 기준·severity와 YAML·HTML 리포트 형식을 확인할 때 읽는다.",
           "docUrl": "/ai-integration/skill/doctor",
           "llmsUrl": "/llms/ai-integration/skill/doctor.txt"
         },
@@ -1838,6 +2092,7 @@
           "id": "figma-mcp",
           "title": "Figma MCP",
           "description": "AI Agent를 활용해 Figma 디자인을 React 코드로 변환하는 Model Context Protocol(MCP)를 제공합니다.",
+          "whenToRead": "Figma 디자인을 AI 에이전트로 React 코드로 옮기려고 SEED Figma MCP를 설치하며 PAT(REST)와 플러그인(WebSocket) 방식 중 고르거나, --mode 옵션·제공 툴·커스텀 컴포넌트를 매핑하는 ComponentHandler 설정을 확인할 때 읽는다.",
           "docUrl": "/ai-integration/figma-mcp",
           "llmsUrl": "/llms/ai-integration/figma-mcp.txt"
         },
@@ -1845,6 +2100,7 @@
           "id": "overview",
           "title": "Overview",
           "description": "AI 도구와 SEED를 함께 활용하는 방법을 알아봅니다.",
+          "whenToRead": "SEED가 AI 도구용으로 무엇을 제공하는지(llms.txt, MCP) 대략 파악할 때만 읽는다.",
           "docUrl": "/ai-integration",
           "llmsUrl": "/llms/ai-integration.txt"
         },
@@ -1852,6 +2108,7 @@
           "id": "skill",
           "title": "Skill",
           "description": "SEED 통합 스킬. 공통 디자인 지식과 React·Lynx 구현 문서를 구분해 안내하고, 플랫폼별 진단 절차를 수행합니다.",
+          "whenToRead": "AI 에이전트용 seed-design 스킬을 설치하거나, 스킬이 요청을 스펙·구현·진단으로 나누고 React·Lynx 플랫폼을 판별해 문서 인덱스와 docs CLI로 안내하는 규칙, 스니펫 마이그레이션·업그레이드 참조 절차를 확인할 때 읽는다.",
           "docUrl": "/ai-integration/skill",
           "llmsUrl": "/llms/ai-integration/skill.txt"
         }
@@ -1865,6 +2122,7 @@
           "id": "how-seed-evolved",
           "title": "더 당근답게: SEED는 어떻게 진화했나",
           "description": "자산 정리에서 멀티플랫폼·AI 시대까지, 당근 디자인 시스템 SEED가 V3로 진화하며 무엇을 '더 당근답게' 바꿨는지 담았습니다.",
+          "whenToRead": "SEED가 V1에서 V3로 오며 무엇을 바꿨는지, 접근성 기반 색상 재설계·타이포그래피 토큰 축소·Rootage·Figma 구조 개편 같은 결정의 배경을 알고 싶을 때 읽는다.",
           "docUrl": "/updates/how-seed-evolved",
           "llmsUrl": "/llms/updates/how-seed-evolved.txt"
         },
@@ -1872,6 +2130,7 @@
           "id": "pickers-dialog-select",
           "title": "선택하고, 확인하고, 탐색하는 경험을 더 쉽게",
           "description": "Quantity Picker부터 ScrollAutoHide까지, 제품에서 반복되는 상호작용을 더 일관되게 만드는 새로운 구성 요소를 소개해요.",
+          "whenToRead": "Quantity Picker·Time Picker·Date Picker·Select·Dialog·ScrollAutoHide가 새로 추가된 배경과 각 컴포넌트를 쓸 수 있는 @seed-design/react·css 최소 버전을 확인할 때 읽는다.",
           "docUrl": "/updates/pickers-dialog-select",
           "llmsUrl": "/llms/updates/pickers-dialog-select.txt"
         },
@@ -1879,6 +2138,7 @@
           "id": "whats-new-in-action-button",
           "title": "What's New in Action Button",
           "description": "SEED Action Button은 기존 Box Button의 주요 문제를 해결하며, 사용자 경험과 접근성을 한층 더 강화했어요.",
+          "whenToRead": "Action Button이 기존 Box Button의 어떤 문제(저대비, 모든 버튼이 중요해 보이는 혼란)를 풀려고 Neutral Solid와 Outline을 도입했는지 설계 배경을 알고 싶을 때 읽는다.",
           "docUrl": "/updates/whats-new-in-action-button",
           "llmsUrl": "/llms/updates/whats-new-in-action-button.txt"
         },
@@ -1886,6 +2146,7 @@
           "id": "why-design-system-needs-branding",
           "title": "디자인 시스템에도 브랜딩이 필요할까",
           "description": "우리끼리 쓰는 디자인 시스템에 정말 브랜딩이 필요할까요. SEED가 당근에 기반하면서도 전혀 다른 얼굴을 한 하나의 브랜드로 완성되기까지 과정을 담았습니다.",
+          "whenToRead": "SEED 로고와 브랜드가 왜 당근 로고와 다른 얼굴로 만들어졌는지, 디자인 시스템 브랜딩을 결정한 배경을 알고 싶을 때 읽는다. 브랜딩 과정을 담은 글이라 컴포넌트·토큰 사용법이나 코드는 없다.",
           "docUrl": "/updates/why-design-system-needs-branding",
           "llmsUrl": "/llms/updates/why-design-system-needs-branding.txt"
         },
@@ -1893,6 +2154,7 @@
           "id": "why-we-hired-a-design-engineer",
           "title": "우리는 왜 디자인 엔지니어를 찾게 됐을까",
           "description": "당근 디자인 시스템 팀에 디자인 엔지니어라는 새로운 직군이 생겼습니다. 왜 이 역할이 필요했고, 어떤 기준으로 정의했는지 그 고민의 과정을 담았습니다.",
+          "whenToRead": "당근 디자인 시스템 팀이 디자인 엔지니어 직군을 새로 만든 이유와 어떤 역량을 기대하는지 알고 싶을 때 읽는다. 조직·채용 이야기라 SEED 사용법이나 코드는 없다.",
           "docUrl": "/updates/why-we-hired-a-design-engineer",
           "llmsUrl": "/llms/updates/why-we-hired-a-design-engineer.txt"
         }
