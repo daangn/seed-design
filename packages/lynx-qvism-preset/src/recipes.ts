@@ -17,6 +17,7 @@ import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import floatingActionButton from "./recipes/floating-action-button";
+import identityPlaceholder from "./recipes/identity-placeholder";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
@@ -64,6 +65,7 @@ export const recipes = {
   field,
   fieldLabel,
   floatingActionButton,
+  identityPlaceholder,
   mannerTemp,
   mannerTempBadge,
   menu,

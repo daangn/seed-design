@@ -3182,6 +3182,19 @@ text {
   width: calc(var(--fab-label-width) + var(--seed-dimension-x4) + var(--seed-dimension-x1) + 2 * var(--seed-dimension-x4_5));
 }
 
+.seed-identity-placeholder__root {
+  background-color: var(--seed-color-palette-gray-500);
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.seed-identity-placeholder__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .seed-manner-temp__root {
   justify-content: flex-start;
   align-items: center;
