@@ -52,7 +52,22 @@ function handlerFor(node: { type: string }): LLMHandler | undefined {
  */
 export function removeForLLMs(node: { type: string }): boolean {
   const handler = handlerFor(node);
-  return Boolean(handler?.remove && isJsx(node) && handler.remove(node));
+  if (!handler?.remove || !isJsx(node)) return false;
+
+  return handler.remove(withChildren(node));
+}
+
+/**
+ * Satteri omits `children` from a self-closing element entirely — the key is absent, not an
+ * empty array — while remark writes `[]` either way. A `remove` predicate asking whether
+ * anything is left to keep reads `undefined.length` off the first shape and throws, taking
+ * the whole docs build with it.
+ *
+ * Normalising here rather than in each predicate keeps the next one written safe by default,
+ * and `render-test-utils.ts` applies it to the handler it swaps in for the registry.
+ */
+export function withChildren(node: JsxNode): JsxNode {
+  return node.children ? node : ({ ...node, children: [] } as JsxNode);
 }
 
 /**
