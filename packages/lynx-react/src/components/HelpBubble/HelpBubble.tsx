@@ -95,6 +95,7 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
     event.params.animation_name === "opacity"
   );
 }
+const EXIT_TRANSITION_FALLBACK_MS = 200;
 
 function getRootRect() {
   "background only";
@@ -397,7 +398,11 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
     },
     [bindtap, context],
   );
-  const { bindtap: triggerTap, ...pressHandlers } = usePressTap({
+  const {
+    pressed: _pressed,
+    bindtap: triggerTap,
+    ...pressHandlers
+  } = usePressTap({
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
   });
@@ -562,6 +567,13 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
     config: number;
   } | null>(null);
   const [widthConstraint, setWidthConstraint] = React.useState<number | null>(null);
+  const closeFinishedRef = React.useRef(false);
+  const finishClose = React.useCallback(() => {
+    "background only";
+    if (closeFinishedRef.current) return;
+    closeFinishedRef.current = true;
+    context.finishClose();
+  }, [context.finishClose]);
 
   const measureIntrinsicSize = React.useCallback(async () => {
     "background only";
@@ -744,6 +756,19 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
     context.positionRevision,
     measurePosition,
   ]);
+  React.useEffect(() => {
+    "background only";
+    if (context.open) {
+      closeFinishedRef.current = false;
+      return;
+    }
+    if (!context.mounted) return;
+    const timer = setTimeout(() => {
+      "background only";
+      finishClose();
+    }, EXIT_TRANSITION_FALLBACK_MS);
+    return () => clearTimeout(timer);
+  }, [context.mounted, context.open, finishClose]);
 
   const handleRef = React.useCallback(
     (node: NodesRef | null) => {
@@ -783,9 +808,9 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
   const handleTransitionEnd = React.useCallback<NativeTransitionHandler>(
     (event) => {
       "background only";
-      if (!context.open && hasExitTransition(event)) context.finishClose();
+      if (!context.open && hasExitTransition(event)) finishClose();
     },
-    [context],
+    [context.open, finishClose],
   );
 
   return (
