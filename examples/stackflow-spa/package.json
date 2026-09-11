@@ -21,7 +21,7 @@
     "@seed-design/react": "2.4.1",
     "@seed-design/react-pagination": "workspace:*",
     "@seed-design/rootage-artifacts": "workspace:*",
-    "@seed-design/stackflow": "2.0.3",
+    "@seed-design/stackflow": "2.0.4",
     "@seed-design/stylesheet": "1.1.2",
     "@stackflow/compat-await-push": "^1.1.13",
     "@stackflow/config": "^1.2.1",
