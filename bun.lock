@@ -304,7 +304,7 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/react": "2.4.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -333,7 +333,7 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/react": "2.4.1",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
@@ -618,6 +618,7 @@
         "@seed-design/react-text-field": "^2.0.1",
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
+        "@seed-design/react-toggle-tip": "workspace:*",
         "@seed-design/react-tooltip": "^1.0.1",
         "@seed-design/react-wheel-picker": "^1.1.0",
         "clsx": "^2.1.1",
@@ -908,7 +909,7 @@
       "version": "1.0.1",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
-        "@radix-ui/react-use-controllable-state": "1.2.2",
+        "@seed-design/react-use-controllable-state": "^2.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -1025,8 +1026,11 @@
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-focus-scope": "^1.1.8",
         "@seed-design/dom-utils": "^2.0.1",
+        "@seed-design/react-dismissible-layer": "^1.0.2",
         "@seed-design/react-floating": "^1.0.1",
+        "@seed-design/react-presence": "^1.0.1",
         "@seed-design/react-primitive": "^2.0.1",
       },
       "devDependencies": {
@@ -1404,6 +1408,24 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/toggle-tip": {
+      "name": "@seed-design/react-toggle-tip",
+      "version": "1.0.0",
+      "dependencies": {
+        "@floating-ui/react": "^0.27.0",
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@seed-design/dom-utils": "workspace:*",
+        "@seed-design/react-floating": "workspace:*",
+        "@seed-design/react-primitive": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/tooltip": {
       "name": "@seed-design/react-tooltip",
       "version": "1.0.1",
@@ -1675,7 +1697,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "2.7.0",
+        "@seed-design/css": "2.8.0",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "2.4.1",
@@ -3335,6 +3357,8 @@
     "@seed-design/react-time-picker": ["@seed-design/react-time-picker@workspace:packages/react-headless/time-picker"],
 
     "@seed-design/react-toggle": ["@seed-design/react-toggle@workspace:packages/react-headless/toggle"],
+
+    "@seed-design/react-toggle-tip": ["@seed-design/react-toggle-tip@workspace:packages/react-headless/toggle-tip"],
 
     "@seed-design/react-tooltip": ["@seed-design/react-tooltip@workspace:packages/react-headless/tooltip"],
 
