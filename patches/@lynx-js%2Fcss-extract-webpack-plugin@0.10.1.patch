@@ -1,0 +1,53 @@
+diff --git a/runtime/hotModuleReplacement.cjs b/runtime/hotModuleReplacement.cjs
+index a061e44843cd83b64bab589838e8d6ed2ce7c02d..05e8ea8dc4c71efe1a9f8ec17955f0e73b819591 100644
+--- a/runtime/hotModuleReplacement.cjs
++++ b/runtime/hotModuleReplacement.cjs
+@@ -16,13 +16,38 @@ function debounce(fn, time) {
+   };
+ }
+ 
++let reloadPending = false;
++
+ function updateStyle(cssId = 0) {
++  if (reloadPending) {
++    return;
++  }
++
+   const cssHotUpdateList = __webpack_require__.cssHotUpdateList;
+   if (!cssHotUpdateList) {
+     throw new Error('cssHotUpdateList is not found');
+   }
+ 
+-  for (const [chunkName, cssHotUpdatePath] of cssHotUpdateList) {
++  const chunkEntries = lynx.__chunk_entries__ || {};
++  const loadedUpdates = cssHotUpdateList.filter(
++    ([chunkName]) => typeof chunkEntries[chunkName] === 'string',
++  );
++
++  // FetchBundle adopts stylesheets without registering a TemplateEntry.
++  // The native CSS replacement API only supports TemplateEntry stylesheets.
++  // Reload before dispatching any updates, once across all CSS module timers.
++  if (
++    typeof __LAZY_BUNDLE_FETCHER__ !== 'undefined'
++    && __LAZY_BUNDLE_FETCHER__ === 'FetchBundle'
++    && loadedUpdates.some(([chunkName]) => chunkEntries[chunkName] !== '__Card__')
++  ) {
++    reloadPending = true;
++    console.info('[HMR] Reloading for FetchBundle CSS update.');
++    require('@lynx-js/webpack-dev-transport/reloadApp').reloadPage();
++    return;
++  }
++
++  for (const [chunkName, cssHotUpdatePath] of loadedUpdates) {
+     lynx.requireModuleAsync(
+       // lynx.requireModuleAsync has two level hash and we cannot delete
+       // the LynxGroup level cache here.
+@@ -42,7 +67,7 @@ function updateStyle(cssId = 0) {
+               cssId,
+               content: ret.content,
+               deps: ret.deps,
+-              entry: lynx.__chunk_entries__[chunkName],
++              entry: chunkEntries[chunkName],
+             },
+           });
+         }
