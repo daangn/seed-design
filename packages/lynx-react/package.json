@@ -45,7 +45,8 @@
     "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
     "vite": "^8.0.0",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "@seed-design/lynx-vitest-config": "0.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -56,6 +57,8 @@
     "@lynx-js/lynx-ui-dialog": "^3.133.1",
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "clsx": "^2.1.1",
-    "unicode-segmenter": "^0.14.4"
+    "unicode-segmenter": "^0.14.4",
+    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+    "@seed-design/lynx-react-use-press-tap": "0.0.0"
   }
 }
