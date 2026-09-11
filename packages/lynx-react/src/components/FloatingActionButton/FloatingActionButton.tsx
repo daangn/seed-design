@@ -20,7 +20,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
-const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
+const { ClassNamesProvider, PropsProvider, useClassNames, useProps, withContext } =
   createSlotRecipeContext(floatingActionButton);
 
 type FloatingActionButtonPublicVariantProps = Omit<FloatingActionButtonVariantProps, "pressed">;
@@ -98,7 +98,7 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
     return (
       <FloatingActionButtonRootView
         {...mergeProps(
-          { ref },
+          ref ? { ref } : {},
           disabled ? {} : scaleFeedbackTargetProps,
           disabled ? {} : scaleFeedbackTriggerProps,
           disabled ? {} : pressTapHandlers,
@@ -120,15 +120,17 @@ FloatingActionButtonRoot.displayName = "FloatingActionButtonRoot";
 
 export interface FloatingActionButtonIconProps extends Omit<InternalIconProps, "deps"> {}
 
+const StyledIcon = withContext<unknown, InternalIconProps>(InternalIcon, "icon");
+
 export const FloatingActionButtonIcon = React.forwardRef<unknown, FloatingActionButtonIconProps>(
   (props, ref) => {
     const { className, ...iconProps } = props;
     const classNames = useClassNames();
 
     return (
-      <InternalIcon
+      <StyledIcon
         {...mergeProps(ref ? { ref } : {}, iconProps)}
-        className={clsx(classNames.icon, className)}
+        className={className}
         deps={[classNames.icon]}
         accessibility-elements-hidden={true}
       />
