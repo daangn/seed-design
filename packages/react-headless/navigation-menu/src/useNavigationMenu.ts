@@ -23,6 +23,11 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 const MIN_HEIGHT = 200;
 
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+} as React.CSSProperties;
+
 /** Default open delay (ms) for the `NavigationMenuProvider` delay group. */
 export const DEFAULT_OPEN_DELAY = 200;
 /** Default close delay (ms) for the `NavigationMenuProvider` delay group. */
@@ -158,6 +163,14 @@ export function useNavigationMenuRoot(
   } = root;
 
   const open = openValue === itemValue;
+  const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
+
+  const collisionPadding = {
+    top: safeArea.top || overflowPadding,
+    right: overflowPadding,
+    bottom: safeArea.bottom || overflowPadding,
+    left: overflowPadding,
+  };
 
   // Whether the flyout should manage focus (move it into the content, keep Tab
   // order coherent across the portal, and return focus to the trigger on close).
@@ -206,7 +219,7 @@ export function useNavigationMenuRoot(
     middleware: [
       offset(gutter),
       size({
-        padding: overflowPadding,
+        padding: collisionPadding,
         apply({ availableHeight, elements }) {
           elements.floating.style.setProperty(
             "--seed-menu-available-height",
@@ -214,13 +227,32 @@ export function useNavigationMenuRoot(
           );
         },
       }),
-      flip({ padding: overflowPadding, fallbackStrategy: "initialPlacement" }),
-      shift({ padding: overflowPadding }),
+      flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: collisionPadding }),
     ],
   });
 
   const { status } = useTransitionStatus(context);
   const mounted = status !== "unmounted";
+  const floatingElement = context.elements.floating;
+
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const element = floatingElement;
+    function read() {
+      const styles = getComputedStyle(element);
+      setSafeArea({
+        top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
+        bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
+      });
+    }
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
 
   // Participate in the delay group provided by `NavigationMenuRoot` (a floating-ui
   // `NextFloatingDelayGroup`, shared with `HelpBubbleTooltip`): once any grouped
@@ -307,7 +339,10 @@ export function useNavigationMenuRoot(
 
     positionerProps: elementProps({
       ...stateProps,
-      style: floatingStyles,
+      style: {
+        ...SAFE_AREA_STYLE,
+        ...floatingStyles,
+      },
     }),
 
     contentProps: elementProps({
