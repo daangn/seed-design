@@ -141,21 +141,27 @@ export declare const privateComponentContentPlaceholder: {
   "name": "privateComponentContentPlaceholder",
   "key": "49e110c31e4a7e6e9872d369f889dc48c0f5cef4",
   "componentPropertyDefinitions": {
+    "Custom Icon#16102:0": {
+      "type": "INSTANCE_SWAP"
+    },
     "Type": {
       "type": "VARIANT",
       "variantOptions": [
         "Default",
-        "Coupon",
+        "Buy-sell",
         "Realty",
         "Car",
         "Jobs",
-        "Buy-sell",
-        "Business",
         "Post",
         "Group",
         "Image",
+        "Business",
+        "Coupon",
         "Food",
-        "Commerce"
+        "Commerce",
+        "Cafe",
+        "Custom",
+        "Apartment"
       ]
     }
   }
@@ -549,7 +555,7 @@ export declare const privateComponentMenuGroup: {
       "type": "VARIANT",
       "variantOptions": [
         "Medium",
-        "Small"
+        "Small (Desktop Only)"
       ]
     }
   }
@@ -566,7 +572,7 @@ export declare const privateComponentMenuGroupLabel: {
       "type": "VARIANT",
       "variantOptions": [
         "Medium",
-        "Small"
+        "Small (Desktop Only)"
       ]
     }
   }
@@ -607,7 +613,7 @@ export declare const privateComponentMenuItem: {
       "type": "VARIANT",
       "variantOptions": [
         "Medium",
-        "Small"
+        "Small (Desktop Only)"
       ]
     },
     "Tone": {
@@ -701,6 +707,37 @@ export declare const privateComponentMenuSheetMenuItem: {
       "variantOptions": [
         "Text Only",
         "Text with Icon"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentPageBannerSuffixAction: {
+  "name": "privateComponentPageBannerSuffixAction",
+  "key": "1d2126136884cdc6f63d1c3d0748f764a2dbb496",
+  "componentPropertyDefinitions": {
+    "Label#17855:0": {
+      "type": "TEXT"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
+export declare const privateComponentPageBannerSuffixDismissButton: {
+  "name": "privateComponentPageBannerSuffixDismissButton",
+  "key": "34cf18ba7d51227960b3d5f29927f46308f2908e",
+  "componentPropertyDefinitions": {
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
       ]
     }
   }
@@ -1156,6 +1193,27 @@ export declare const privateComponentTextInputCardNumberInput: {
   "componentPropertyDefinitions": {}
 };
 
+export declare const privateComponentTextInputClearButton: {
+  "name": "privateComponentTextInputClearButton",
+  "key": "6879c0c32b2aab5e5246ed9454c0a0aa766ee579",
+  "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
 export declare const privateComponentTextInputIdNumberInput: {
   "name": "privateComponentTextInputIdNumberInput",
   "key": "6c6ae2b292cdec5caf84f7f52aa46027aeb4aeb2",
@@ -1410,12 +1468,26 @@ export declare const privateComponentTextareaInputReadOnly: {
   }
 };
 
+export declare const privateComponentTopNavigationLeftIconButton: {
+  "name": "privateComponentTopNavigationLeftIconButton",
+  "key": "d70b9b3ef92365438b29cb93e1815ff613837fac",
+  "componentPropertyDefinitions": {}
+};
+
 export declare const privateComponentTopNavigationRightIconButton: {
   "name": "privateComponentTopNavigationRightIconButton",
   "key": "4f0db543b68ecb13d39842951e1b97c5c53c219f",
   "componentPropertyDefinitions": {
     "Icon#6406:3": {
       "type": "INSTANCE_SWAP"
+    },
+    "States": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Pressed",
+        "Disabled",
+        "Enabled"
+      ]
     },
     "Badge": {
       "type": "VARIANT",
@@ -1438,8 +1510,16 @@ export declare const privateComponentTopNavigationRightTextButton: {
     "State (Figma Only)": {
       "type": "VARIANT",
       "variantOptions": [
-        "Enable",
-        "Disabled"
+        "Disabled",
+        "Enabled",
+        "Pressed"
+      ]
+    },
+    "OS (Figma Only)": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Android",
+        "iOS"
       ]
     }
   }
@@ -2507,6 +2587,49 @@ export declare const componentBottomActionBarFigmaOnly: {
   }
 };
 
+export declare const componentBottomNavigationGlobal: {
+  "name": "componentBottomNavigationGlobal",
+  "key": "ca9af78189076ceaaf84c4d13f0426f28952e860",
+  "componentPropertyDefinitions": {
+    "Show Safe Area#25445:3": {
+      "type": "BOOLEAN"
+    },
+    "OS": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Android",
+        "\biOS (18 이전)",
+        "iOS"
+      ]
+    },
+    "Language": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "English",
+        "Japanese"
+      ]
+    }
+  }
+};
+
+export declare const componentBottomNavigationKr: {
+  "name": "componentBottomNavigationKr",
+  "key": "6c6004fe0093a3e73d84e8f4c5323e431ffed4cf",
+  "componentPropertyDefinitions": {
+    "Show Safe Area#25445:0": {
+      "type": "BOOLEAN"
+    },
+    "OS": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "iOS",
+        "\biOS (18 이전)",
+        "Android"
+      ]
+    }
+  }
+};
+
 export declare const componentBottomSheet: {
   "name": "componentBottomSheet",
   "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
@@ -2933,6 +3056,52 @@ export declare const componentContextualFloatingButton: {
   }
 };
 
+export declare const componentDatePicker: {
+  "name": "componentDatePicker",
+  "key": "f3d18b9ae419bcd932dd367733367c14ca7658a0",
+  "componentPropertyDefinitions": {
+    "Show Year-Month Picker#174:0": {
+      "type": "BOOLEAN"
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Month",
+        "Month with Text",
+        "Week",
+        "Scrollable",
+        "Two Months"
+      ]
+    }
+  }
+};
+
+export declare const componentDialog: {
+  "name": "componentDialog",
+  "key": "553a33dd77996bda2a02d64cd08907aebc3bbe4a",
+  "componentPropertyDefinitions": {
+    "Has Footer#185:1": {
+      "type": "BOOLEAN"
+    },
+    "Show Scroll Fog#1396:9": {
+      "type": "BOOLEAN"
+    },
+    "Is Scrolled#1396:13": {
+      "type": "BOOLEAN"
+    },
+    "Slot#17906:3": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
+    }
+  }
+};
+
 export declare const componentDisclaimer: {
   "name": "componentDisclaimer",
   "key": "9532514879fc59d5b221b8cc4b85a569ed15d265",
@@ -2960,8 +3129,8 @@ export declare const componentDivider: {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "Neutral Muted",
-        "Neutral Subtle"
+        "Neutral Subtle",
+        "Neutral Muted"
       ]
     },
     "Orientation": {
@@ -3046,13 +3215,106 @@ export declare const componentFloatingActionButton: {
   }
 };
 
+export declare const componentFooterPreset: {
+  "name": "componentFooterPreset",
+  "key": "a872131de683d596911a8c900f9c3531adeda4bf",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "비즈프로필",
+        "당근비즈니스",
+        "어바웃당근",
+        "당근닷컴"
+      ]
+    },
+    "Platform": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Desktop",
+        "Mobile"
+      ]
+    }
+  }
+};
+
+export declare const componentHeader: {
+  "name": "componentHeader",
+  "key": "161e2ac88e023e18c9657ee699aad2a24f5a10e2",
+  "componentPropertyDefinitions": {
+    "Left 1st Slot#4518:20": {
+      "type": "SLOT"
+    },
+    "Left 2nd Slot#4518:25": {
+      "type": "SLOT"
+    },
+    "Center Slot#4518:30": {
+      "type": "SLOT"
+    },
+    "Right 1st Slot#4518:35": {
+      "type": "SLOT"
+    },
+    "Right 2nd Slot#4518:40": {
+      "type": "SLOT"
+    },
+    "Has Left 2nd Slot#4518:45": {
+      "type": "BOOLEAN"
+    },
+    "Has Center Slot#4518:50": {
+      "type": "BOOLEAN"
+    },
+    "Has Right 2nd Slot#4518:55": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Layer Default",
+        "Transparent"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderPreset: {
+  "name": "componentHeaderPreset",
+  "key": "c7cf19e6fe7134a7d2ccc9bba5f9f2fd0686ed74",
+  "componentPropertyDefinitions": {
+    "Show Divider#1072:0": {
+      "type": "BOOLEAN"
+    },
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "당근닷컴",
+        "어바웃당근",
+        "당근비즈니스",
+        "비즈프로필",
+        "판매자센터",
+        "Realty"
+      ]
+    },
+    "Platform": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Desktop",
+        "Mobile"
+      ]
+    }
+  }
+};
+
 export declare const componentHelpBubble: {
   "name": "componentHelpBubble",
   "key": "eb1f8c5cb33de231bf3352d44a5abf05fe19a9a2",
   "componentPropertyDefinitions": {
-    "Show Close Button#40538:0": {
-      "type": "BOOLEAN"
-    },
     "Show Description#62499:0": {
       "type": "BOOLEAN"
     },
@@ -3077,6 +3339,13 @@ export declare const componentHelpBubble: {
         "Top-Left",
         "Top-Center",
         "Top-Right"
+      ]
+    },
+    "Show Close Button": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
       ]
     }
   }
@@ -3202,6 +3471,9 @@ export declare const componentListHeader: {
   "name": "componentListHeader",
   "key": "88a425714cf186e362b9c420fabf6e39d7bd5155",
   "componentPropertyDefinitions": {
+    "Suffix Slot#20032:2": {
+      "type": "SLOT"
+    },
     "Title#28588:0": {
       "type": "TEXT"
     },
@@ -3209,8 +3481,8 @@ export declare const componentListHeader: {
       "type": "VARIANT",
       "variantOptions": [
         "None",
-        "Custom",
-        "Button"
+        "Button",
+        "Custom"
       ]
     },
     "Variant": {
@@ -3337,7 +3609,7 @@ export declare const componentMenu: {
       "type": "VARIANT",
       "variantOptions": [
         "Medium",
-        "Small"
+        "Small (Desktop Only)"
       ]
     }
   }
@@ -3347,6 +3619,9 @@ export declare const componentMenuSheet: {
   "name": "componentMenuSheet",
   "key": "0e0597f2ea3f9dde6c17bf0e4d8eebe3a95e3942",
   "componentPropertyDefinitions": {
+    "Show Close Button#13640:0": {
+      "type": "BOOLEAN"
+    },
     "Title Text#14599:0": {
       "type": "TEXT"
     },
@@ -3407,6 +3682,23 @@ export declare const componentMultilineTextField: {
         "Error",
         "Focused",
         "Enabled"
+      ]
+    }
+  }
+};
+
+export declare const componentNotificationBadge: {
+  "name": "componentNotificationBadge",
+  "key": "3fd17dc3a3c89c6c9be90894117e7da9bbc02d9c",
+  "componentPropertyDefinitions": {
+    "Label#18752:0": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Small"
       ]
     }
   }
@@ -3531,6 +3823,30 @@ export declare const componentPageBanner: {
   }
 };
 
+export declare const componentPagination: {
+  "name": "componentPagination",
+  "key": "e2bd43a46693530c1ab466779aa847b0ab9ef431",
+  "componentPropertyDefinitions": {
+    "Viewport": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "≥480",
+        "<480"
+      ]
+    },
+    "Selected Index": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "First",
+        "Start Range",
+        "Middle",
+        "End Range",
+        "Last"
+      ]
+    }
+  }
+};
+
 export declare const componentProgressCircle: {
   "name": "componentProgressCircle",
   "key": "28441ca27a79547f29d72ea9e7f18beeb41b83b5",
@@ -3559,6 +3875,55 @@ export declare const componentProgressCircle: {
         "25%",
         "75%",
         "100%"
+      ]
+    }
+  }
+};
+
+export declare const componentQuantityPicker: {
+  "name": "componentQuantityPicker",
+  "key": "dcad89090f20a0af851222ed7c2e5f3637d88c1b",
+  "componentPropertyDefinitions": {
+    "value (~9)#17813:46": {
+      "type": "TEXT"
+    },
+    "value (~99)#17813:92": {
+      "type": "TEXT"
+    },
+    "value (~999)#17813:138": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Small",
+        "Medium",
+        "Large"
+      ]
+    },
+    "States": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Disabled",
+        "Error"
+      ]
+    },
+    "Value": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Min",
+        "Min(Removable)",
+        "InRange",
+        "Max"
+      ]
+    },
+    "Max Length": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "~9",
+        "~99",
+        "~999"
       ]
     }
   }
@@ -3778,7 +4143,7 @@ export declare const componentResultSection: {
     "Description#16237:5": {
       "type": "TEXT"
     },
-    "Asset Type#45154:9": {
+    "Asset#20627:4": {
       "type": "INSTANCE_SWAP"
     },
     "Show Asset#45154:14": {
@@ -3896,6 +4261,35 @@ export declare const componentSelectBoxGroup: {
   }
 };
 
+export declare const componentSelectField: {
+  "name": "componentSelectField",
+  "key": "8b3e81e38392ff43f1aaceb1c602bfb67a74b5e9",
+  "componentPropertyDefinitions": {
+    "Show Header#40606:8": {
+      "type": "BOOLEAN"
+    },
+    "Show Footer#40606:9": {
+      "type": "BOOLEAN"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Error",
+        "Disabled",
+        "Read Only"
+      ]
+    }
+  }
+};
+
 export declare const componentShareModalFigmaOnly: {
   "name": "componentShareModalFigmaOnly",
   "key": "9a004b31527378d7f0e711812466640f35c187de",
@@ -3964,6 +4358,23 @@ export declare const componentSideNavigationPreset: {
       "variantOptions": [
         "False",
         "True"
+      ]
+    }
+  }
+};
+
+export declare const componentSidePanel: {
+  "name": "componentSidePanel",
+  "key": "7070cd166ebd523504342398d763c4dae2decec7",
+  "componentPropertyDefinitions": {
+    "Modal#1396:0": {
+      "type": "BOOLEAN"
+    },
+    "Placement": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Right",
+        "Left"
       ]
     }
   }
@@ -4073,9 +4484,6 @@ export declare const componentSnackbar: {
       "type": "BOOLEAN"
     },
     "Message#1528:4": {
-      "type": "TEXT"
-    },
-    "Action Label#1528:8": {
       "type": "TEXT"
     },
     "Variant": {
@@ -4266,6 +4674,20 @@ export declare const componentTextField: {
   }
 };
 
+export declare const componentTimePicker: {
+  "name": "componentTimePicker",
+  "key": "6d3b86df6afa442162348ad5e16cadb701e2c7d0",
+  "componentPropertyDefinitions": {
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Disabled"
+      ]
+    }
+  }
+};
+
 export declare const componentToggleButton: {
   "name": "componentToggleButton",
   "key": "eb1eac49eb281c1029e659821f4091619d0b74e4",
@@ -4322,6 +4744,9 @@ export declare const componentTopNavigation: {
   "name": "componentTopNavigation",
   "key": "e9afd82664e7d588ca6790245926f62ca2dc0bef",
   "componentPropertyDefinitions": {
+    "Show Additional Left Action#15349:0": {
+      "type": "BOOLEAN"
+    },
     "Show Title#33588:82": {
       "type": "BOOLEAN"
     },
@@ -4399,6 +4824,35 @@ export declare const componentUserSelectionFigmaOnly: {
       "variantOptions": [
         "iOS",
         "Android"
+      ]
+    }
+  }
+};
+
+export declare const componentWheelPicker: {
+  "name": "componentWheelPicker",
+  "key": "82fea02f5b1e136c122b089671eb337c4ffda7e9",
+  "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Small",
+        "Medium"
+      ]
+    },
+    "Columns": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Disabled"
       ]
     }
   }
@@ -4526,6 +4980,41 @@ export declare const componentInputButton: {
         "Error Pressed",
         "Disabled",
         "Read Only"
+      ]
+    }
+  }
+};
+
+export declare const componentSelect: {
+  "name": "componentSelect",
+  "key": "bd9af944985650bb674b7b30f818b5707942e677",
+  "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium (Desktop Only)"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Open": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Flipped": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
       ]
     }
   }
@@ -4684,47 +5173,6 @@ export declare const componentActionButtonGhostButton: {
   }
 };
 
-export declare const componentBottomNavigationGlobal: {
-  "name": "componentBottomNavigationGlobal",
-  "key": "ca9af78189076ceaaf84c4d13f0426f28952e860",
-  "componentPropertyDefinitions": {
-    "Show Safe Area#25445:3": {
-      "type": "BOOLEAN"
-    },
-    "OS": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "iOS",
-        "Android"
-      ]
-    },
-    "Language": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "English",
-        "Japanese"
-      ]
-    }
-  }
-};
-
-export declare const componentBottomNavigationKr: {
-  "name": "componentBottomNavigationKr",
-  "key": "6c6004fe0093a3e73d84e8f4c5323e431ffed4cf",
-  "componentPropertyDefinitions": {
-    "Show Safe Area#25445:0": {
-      "type": "BOOLEAN"
-    },
-    "OS": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "\biOS",
-        "Android"
-      ]
-    }
-  }
-};
-
 export declare const templateEmbedViewType: {
   "name": "templateEmbedViewType",
   "key": "6913a0eb2ae6a5e704ee862cb2294046274bcaae",
@@ -4771,6 +5219,192 @@ export declare const templateEmbedViewType: {
   }
 };
 
+export declare const componentFooterItemLinkText: {
+  "name": "componentFooterItemLinkText",
+  "key": "9d55bd82eebca210db9fed9e0a36705a392db1da",
+  "componentPropertyDefinitions": {
+    "Text#911:0": {
+      "type": "TEXT"
+    },
+    "Has Suffix Icon#911:3": {
+      "type": "BOOLEAN"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Large"
+      ]
+    }
+  }
+};
+
+export declare const componentFooterItemLogoButton: {
+  "name": "componentFooterItemLogoButton",
+  "key": "27c57186907e4d20d49de0974b0b21afd8d263ba",
+  "componentPropertyDefinitions": {
+    "Icon#937:0": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemIconButton: {
+  "name": "componentHeaderItemIconButton",
+  "key": "510f9b3920d37a67855dfec1e247d991241d1d5c",
+  "componentPropertyDefinitions": {
+    "Icon#1019:1": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "State2"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemLogo: {
+  "name": "componentHeaderItemLogo",
+  "key": "e84ba1b5c2e23048e31c267f5c8d76650b7c54a3",
+  "componentPropertyDefinitions": {
+    "Product": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Daangn",
+        "Business",
+        "Service",
+        "Commerce",
+        "Realty"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenu: {
+  "name": "componentHeaderItemMenu",
+  "key": "c09d80c557caff256d65b3275a8906049a50bbdc",
+  "componentPropertyDefinitions": {
+    "Slot#4518:74": {
+      "type": "SLOT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemProfile: {
+  "name": "componentHeaderItemProfile",
+  "key": "cfa0fcc57f8d1cd8abd11d8db755659f8a4ba35d",
+  "componentPropertyDefinitions": {
+    "Property 1": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Right",
+        "Variant2"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenuButtonAction: {
+  "name": "componentHeaderItemMenuButtonAction",
+  "key": "48205ed4ff40531b0a5eaa3f602ddacb5cfca2d9",
+  "componentPropertyDefinitions": {
+    "Label#286:2": {
+      "type": "TEXT"
+    },
+    "Suffix Icon#287:2": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabeld",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon Last"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    }
+  }
+};
+
+export declare const componentHeaderItemMenuButtonToggle: {
+  "name": "componentHeaderItemMenuButtonToggle",
+  "key": "b22e14e44e7d06587a01ae8e87a1f448a6a46e7d",
+  "componentPropertyDefinitions": {
+    "Label#286:2": {
+      "type": "TEXT"
+    },
+    "Suffix Icon#287:2": {
+      "type": "INSTANCE_SWAP"
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabeld",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Text Only",
+        "Icon Last"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Medium",
+        "Small"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    }
+  }
+};
+
 export declare const componentImageFrameReactionButton: {
   "name": "componentImageFrameReactionButton",
   "key": "559ac01a2ef202564821a5c7f0dbf46dcd61b3f9",
@@ -4810,6 +5444,33 @@ export declare const componentListItemSuffixIconButton: {
         "1",
         "2",
         "3"
+      ]
+    }
+  }
+};
+
+export declare const templatePinMarker: {
+  "name": "templatePinMarker",
+  "key": "c2e062cc5d6d9fd065d427ff74b705145a076aa6",
+  "componentPropertyDefinitions": {
+    "Show Label#18841:4": {
+      "type": "BOOLEAN"
+    },
+    "Label#18841:8": {
+      "type": "TEXT"
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Small",
+        "Large"
+      ]
+    },
+    "Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Picker",
+        "Marker"
       ]
     }
   }

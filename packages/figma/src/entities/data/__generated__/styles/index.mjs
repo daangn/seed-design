@@ -226,7 +226,7 @@ export const FIGMA_STYLES = [
   {
     "styleType": "TEXT",
     "key": "f8246d0f7aac99e4bedf442e7705eb8c6fbd287f",
-    "name": "scale/t13-large",
+    "name": "scale/t13-bold",
     "description": "40",
     "remote": false
   },
