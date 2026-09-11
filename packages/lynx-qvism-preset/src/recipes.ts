@@ -9,6 +9,7 @@ import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
+import contextualFloatingButton from "./recipes/contextual-floating-button";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import mannerTemp from "./recipes/manner-temp";
@@ -50,6 +51,7 @@ export const recipes = {
   checkboxGroup,
   checkmark,
   chip,
+  contextualFloatingButton,
   field,
   fieldLabel,
   mannerTemp,
