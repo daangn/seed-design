@@ -11,9 +11,11 @@ import {
   byAddress,
   childrenOf,
   type DocsListing,
+  entriesOf,
   parseAddress,
   resolveDocuments,
   resolveScopes,
+  summaryOf,
 } from "../utils/docs-address";
 import { alignedLines, similarAddresses } from "../utils/docs-index";
 import { searchDocs } from "../utils/docs-search";
@@ -26,7 +28,7 @@ import type { DocsCategory, DocsItem } from "../schema";
  * the caller typed rather than by the shape of the argument they passed.
  *
  *   docs list [주소]      what the scope holds, one level down
- *   docs search <질의>    the addresses a query reaches, body text included
+ *   docs search <질의>    the documents a query reaches, body text included
  *   docs read <주소>      that document's own text
  *
  * None of them draws the clack frame the other commands do: what they print is meant to be
@@ -34,6 +36,9 @@ import type { DocsCategory, DocsItem } from "../schema";
  * answer and nothing else; reasons, counts and candidates all go to stderr. `read` holds the
  * strictest form of that rule — its stdout is the bytes the site sent, with not one
  * character of the CLI's own mixed in.
+ *
+ * `list` and `search` answer one entry to a line with its address as the first field, so a
+ * line survives `grep` whole and `awk '{print $1}'` cuts the address back out of it.
  *
  * None of them reads the working directory, the project's config or the environment either,
  * so the same address names the same document from every directory and every session.
@@ -94,7 +99,7 @@ const searchParser = command(
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`문서 본문까지 검색해 주소를 출력합니다.`,
+    brief: message`문서 본문까지 검색해 걸린 문서를 한 줄씩 출력합니다.`,
     footer: exampleFooter([
       'seed-design docs search "액션 버튼"',
       'seed-design docs search "바텀시트 스냅"',
@@ -221,13 +226,12 @@ export async function runDocsSearch({
       });
     }
 
-    const { addresses, total } = await searchDocs({ baseUrl, query: term });
+    const [{ addresses, total }, { categories }] = await Promise.all([
+      searchDocs({ baseUrl, query: term }),
+      fetchDocsIndex({ baseUrl }),
+    ]);
 
     if (addresses.length === 0) {
-      // Only reached once the search has already failed, so the extra index costs nothing an
-      // answer would have paid for.
-      const { categories } = await fetchDocsIndex({ baseUrl });
-
       throw new CliError({
         message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
         hint: "띄어쓰기를 바꾸거나 더 짧은 검색어로 찾아보세요. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
@@ -241,9 +245,18 @@ export async function runDocsSearch({
         ? `${total}개 문서를 찾았어요. 위에서부터 ${addresses.length}개를 표시하고 있어요.`
         : `${total}개 문서를 찾았어요.`,
     );
-    // One address per line and nothing else, so a later change to how documents are ranked
-    // leaves every pipeline reading this untouched.
-    console.log(addresses.join("\n"));
+
+    // Unpadded, unlike a listing: an anchor's Hangul takes two columns that a character count
+    // cannot line up.
+    const documents = new Map(entriesOf(categories).map((entry) => [entry.address, entry.item]));
+    console.log(
+      addresses
+        .map((address) => {
+          const item = documents.get(address.split("#")[0]);
+          return item ? `${address}  ${summaryOf(item)}` : address;
+        })
+        .join("\n"),
+    );
 
     return { result: "matched" };
   });

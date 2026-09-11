@@ -7,6 +7,7 @@ import {
   parseAddress,
   resolveDocuments,
   resolveScopes,
+  summaryOf,
 } from "@/src/utils/docs-address";
 import { alignedLines } from "@/src/utils/docs-index";
 
@@ -34,7 +35,12 @@ const categories: DocsCategory[] = [
     label: "React",
     items: [
       { id: "overview", title: "Overview", docUrl: "/react" },
-      { id: "action-button", title: "Action Button", docUrl: "/react/components/action-button" },
+      {
+        id: "action-button",
+        title: "Action Button",
+        description: "명확한 액션을 수행하는 버튼입니다.",
+        docUrl: "/react/components/action-button",
+      },
       { id: "bottom-sheet", title: "Bottom Sheet", docUrl: "/react/components/bottom-sheet" },
       {
         id: "composition",
@@ -162,7 +168,10 @@ describe("childrenOf", () => {
 
   it("marks a container with a trailing slash and leaves a document without one", () => {
     expect(childrenOf(categories, "/react/components")).toEqual([
-      { address: "/react/components/action-button", note: "Action Button" },
+      {
+        address: "/react/components/action-button",
+        note: "Action Button — 명확한 액션을 수행하는 버튼입니다.",
+      },
       { address: "/react/components/bottom-sheet", note: "Bottom Sheet" },
       { address: "/react/components/concepts/", note: "문서 1개" },
     ]);
@@ -173,6 +182,36 @@ describe("childrenOf", () => {
       { address: "/lynx/components/action-button", note: "Action Button" },
       { address: "/lynx/components/checkbox", note: "Checkbox (deprecated)" },
     ]);
+  });
+});
+
+describe("summaryOf", () => {
+  const item = {
+    id: "action-button",
+    title: "Action Button",
+    docUrl: "/react/components/action-button",
+  };
+
+  it("gives the title alone when the index carries no description", () => {
+    expect(summaryOf(item)).toBe("Action Button");
+  });
+
+  it("follows the title with the description", () => {
+    expect(summaryOf({ ...item, description: "명확한 액션을 수행하는 버튼입니다." })).toBe(
+      "Action Button — 명확한 액션을 수행하는 버튼입니다.",
+    );
+  });
+
+  it("keeps the deprecation mark on the title, ahead of the description", () => {
+    expect(summaryOf({ ...item, deprecated: true, description: "새 버튼을 쓰세요." })).toBe(
+      "Action Button (deprecated) — 새 버튼을 쓰세요.",
+    );
+  });
+
+  it("folds a description spanning several lines onto one", () => {
+    expect(summaryOf({ ...item, description: "첫 줄입니다.\n  둘째 줄입니다.\n" })).toBe(
+      "Action Button — 첫 줄입니다. 둘째 줄입니다.",
+    );
   });
 });
 
