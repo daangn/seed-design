@@ -56,11 +56,14 @@ const iconHandler = (icon: string | undefined) => {
  * - `deprecated`: 페이지나 컴포넌트의 지원 중단 표시
  * - `layout`: 표준 문서와 자체 overview 레이아웃 구분
  * - `featured`: 사이드바 라벨 뒤의 강조 점 표시
+ * - `whenToRead`: 에이전트가 문서를 고를 때 보는 '언제 읽을지' 문구. 사이트는 표시하지 않고
+ *   문서 인덱스를 거쳐 CLI와 docs-mcp가 보여줌
  */
 const baseDocsSchema = pageSchema.extend({
   deprecated: z.boolean().optional(),
   layout: z.enum(["docs", "overview"]).default("docs"),
   featured: z.boolean().optional(),
+  whenToRead: z.string().optional(),
 });
 
 const staticCoverImageSchema = {

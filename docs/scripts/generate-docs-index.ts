@@ -11,6 +11,7 @@ import { listSectionPages } from "./content-pages";
 type Frontmatter = {
   title?: string;
   description?: string;
+  whenToRead?: string;
   deprecated?: boolean;
 };
 
@@ -52,6 +53,7 @@ async function main() {
         id: itemId,
         title: frontmatter.title,
         ...(frontmatter.description && { description: frontmatter.description }),
+        ...(frontmatter.whenToRead && { whenToRead: frontmatter.whenToRead }),
         docUrl: getDocUrl(section, slugs),
         llmsUrl: getLLMMarkdownUrl(section, slugs),
         ...(frontmatter.deprecated && { deprecated: true }),
