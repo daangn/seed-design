@@ -12,7 +12,6 @@
 **`@seed-design/docs-mcp`**
 
 - `list_docs`에서 `category` 인자가 사라졌습니다. 섹션 전체를 `path` 순으로 정렬해 반환하므로 같은 경로 아래 문서끼리 모여서 나옵니다.
-- `discover_seed_docs` 응답에서 `categories` 배열이 사라졌습니다. `documentCount`는 섹션 전체 문서 수를 뜻합니다.
 
 **`@seed-design/cli`**
 

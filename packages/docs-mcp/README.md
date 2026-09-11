@@ -88,14 +88,13 @@ initializeTools(server);
 
 ## Available Tools
 
-### Discovery
+### Search
 
-- `discover_seed_docs` - Discover all available documentation sections. Call this first to understand the documentation structure.
 - `search_docs` - Search the full text of the documentation and get back the matching documents, ranked, one per line: the address, then the document's title and description. Use this when you do not know which section holds the answer. An address is the document's site path, so dropping its leading slash and splitting at the next one gives the `section` and `path` that `get_doc` takes
 
 ### Documentation
 
-- `list_docs` - List available documents in a section. Sections are read from the live site, so call `discover_seed_docs` for the current list rather than hardcoding one
+- `list_docs` - List available documents in a section. Sections are read from the live site rather than hardcoded, and an unknown section is rejected with the current list
 - `get_doc` - Get the content of a specific document by section and path
 
 ### Rootage (Design Tokens & Component Specs)
@@ -107,8 +106,8 @@ initializeTools(server);
 ## Documentation Sections
 
 Sections are read from the live site at call time, so this README does not list them — a
-list here would be one more copy to drift. Call `discover_seed_docs` for the current set,
-along with each section's document count.
+list here would be one more copy to drift. A `search_docs` address names its section as its
+first segment, and `list_docs` answers an unknown section with the current set.
 
 ## Example Usage
 
@@ -118,22 +117,19 @@ search_docs({ query: "액션 버튼" })
 // → /components/action-button#hierarchy  Action Button — <description>
 //   get_doc({ section: "components", path: "action-button#hierarchy" })
 
-// 1. Discover available sections
-discover_seed_docs()
-
-// 2. List React documents
+// 1. List React documents
 list_docs({ section: "react" })
 
-// 3. Get the React API for a component
+// 2. Get the React API for a component
 get_doc({ section: "react", path: "components/action-button" })
 
-// 4. Get its design spec (anatomy, properties, guidelines)
+// 3. Get its design spec (anatomy, properties, guidelines)
 get_doc({ section: "components", path: "action-button" })
 
-// 5. Get a foundation document
+// 4. Get a foundation document
 get_doc({ section: "foundations", path: "color" })
 
-// 6. Get AI integration guide
+// 5. Get AI integration guide
 get_doc({ section: "ai-integration", path: "figma-mcp" })
 ```
 
