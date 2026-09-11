@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
+import { searchResultLine } from "../docs-index.js";
+import { fetchDocsIndex } from "../fetch.js";
 import { searchDocs } from "../search.js";
 
 /**
@@ -12,7 +14,8 @@ export function registerSearchDocsTool(server: McpServer): void {
     "search_docs",
     {
       description:
-        "Search the full text of SEED Design documentation and get back document addresses. " +
+        "Search the full text of SEED Design documentation and get back the matching documents, " +
+        "one per line: the address first, then the document's title and description. " +
         "Use this when you do not already know which section or document holds the answer. " +
         "An address is the document's own path on the site: a leading slash, then the section " +
         "id, then the path within that section. Drop the leading slash and split at the next " +
@@ -34,7 +37,10 @@ export function registerSearchDocsTool(server: McpServer): void {
     },
     async ({ query }) => {
       try {
-        const { addresses, total } = await searchDocs(query);
+        const [{ addresses, total }, index] = await Promise.all([
+          searchDocs(query),
+          fetchDocsIndex(),
+        ]);
 
         if (addresses.length === 0) {
           return {
@@ -56,7 +62,7 @@ export function registerSearchDocsTool(server: McpServer): void {
           content: [
             {
               type: "text" as const,
-              text: `# Search: ${query}\n\n${shown}\n\n${addresses.map((address) => `- ${address}`).join("\n")}\n\n## Usage\n\nDrop an address's leading slash and split at the next one: the first segment is \`section\`, whatever follows it is \`path\` for get_doc. Pass any \`#anchor\` through as it stands.`,
+              text: `# Search: ${query}\n\n${shown}\n\n${addresses.map((address) => `- ${searchResultLine(index, address)}`).join("\n")}\n\n## Usage\n\nEach line opens with an address. Drop its leading slash and split at the next one: the first segment is \`section\`, whatever follows it is \`path\` for get_doc. Pass any \`#anchor\` through as it stands.`,
             },
           ],
         };

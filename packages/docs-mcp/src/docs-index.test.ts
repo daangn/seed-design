@@ -1,5 +1,11 @@
 import { describe, expect, it } from "bun:test";
-import { type DocsIndexCategory, findItem, itemPath } from "./docs-index";
+import {
+  type DocsIndex,
+  type DocsIndexCategory,
+  findItem,
+  itemPath,
+  searchResultLine,
+} from "./docs-index";
 
 const react: DocsIndexCategory = {
   id: "react",
@@ -71,6 +77,61 @@ describe("findItem", () => {
   it("rejects a bare id two documents share, naming both paths", () => {
     expect(() => findItem(react, "alert-dialog")).toThrow(
       "'alert-dialog' is ambiguous in section 'react'. Use one of: components/alert-dialog, stackflow/alert-dialog",
+    );
+  });
+});
+
+describe("searchResultLine", () => {
+  const index: DocsIndex = {
+    categories: [
+      {
+        id: "react",
+        label: "React",
+        items: [
+          {
+            id: "button",
+            title: "Button",
+            description: "누르면 동작을 실행합니다.",
+            docUrl: "/react/components/button",
+          },
+          {
+            id: "alert-dialog",
+            title: "Alert Dialog",
+            docUrl: "/react/stackflow/alert-dialog",
+            deprecated: true,
+          },
+          {
+            id: "bottom-sheet",
+            title: "Bottom Sheet",
+            description: "화면 아래에서\n  올라옵니다.",
+            docUrl: "/react/components/bottom-sheet",
+          },
+        ],
+      },
+    ],
+  };
+
+  it("follows the address, anchor and all, with its document's title and description", () => {
+    expect(searchResultLine(index, "/react/components/button#props")).toBe(
+      "/react/components/button#props  Button — 누르면 동작을 실행합니다.",
+    );
+  });
+
+  it("gives a document without a description its title alone, deprecation marked", () => {
+    expect(searchResultLine(index, "/react/stackflow/alert-dialog")).toBe(
+      "/react/stackflow/alert-dialog  Alert Dialog (deprecated)",
+    );
+  });
+
+  it("folds a description spanning several lines onto the result's one line", () => {
+    expect(searchResultLine(index, "/react/components/bottom-sheet")).toBe(
+      "/react/components/bottom-sheet  Bottom Sheet — 화면 아래에서 올라옵니다.",
+    );
+  });
+
+  it("leaves an address the index lists no page for bare", () => {
+    expect(searchResultLine(index, "/react/components/nope#usage")).toBe(
+      "/react/components/nope#usage",
     );
   });
 });

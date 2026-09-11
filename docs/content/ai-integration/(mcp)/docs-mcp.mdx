@@ -146,7 +146,7 @@ discover_seed_docs()
 
 #### `search_docs`
 
-문서 본문까지 검색해 관련 문서 주소를 관련도 순으로 반환합니다. 어느 섹션에 답이 있는지 모를 때 쓰는 도구이고, 문서 사이트의 검색창과 같은 색인, 같은 순위를 씁니다.
+문서 본문까지 검색해 관련 문서를 관련도 순으로 반환합니다. 어느 섹션에 답이 있는지 모를 때 쓰는 도구이고, 문서 사이트의 검색창과 같은 색인, 같은 순위를 씁니다. 결과 한 줄에 문서 하나가 주소, 제목, 설명 순서로 담겨 있어서, 문서를 열어 보기 전에 어느 것을 읽을지 고를 수 있습니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
@@ -164,13 +164,13 @@ search_docs({ query: "액션 버튼" })
 
 Showing the top 20 of 71 matches
 
-- /components/action-button#hierarchy
-- /components/floating-action-button
-- /react/components/floating-action-button
+- /components/action-button#hierarchy  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
+- /components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
+- /react/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
 ...
 ```
 
-주소는 그 문서가 사이트에서 갖는 경로 그대로입니다. 앞의 슬래시를 떼고 그다음 슬래시에서 자르면 앞이 `section`, 뒤가 `get_doc`에 넘길 `path`입니다. `/components/action-button#hierarchy`는 `get_doc({ section: "components", path: "action-button#hierarchy" })`가 됩니다. 조각이 하나뿐인 `/react` 같은 주소는 `section`이 `react`이고 `path`가 빈 문자열입니다.
+각 줄은 주소로 시작하고, 주소는 그 문서가 사이트에서 갖는 경로 그대로입니다. 앞의 슬래시를 떼고 그다음 슬래시에서 자르면 앞이 `section`, 뒤가 `get_doc`에 넘길 `path`입니다. `/components/action-button#hierarchy`는 `get_doc({ section: "components", path: "action-button#hierarchy" })`가 됩니다. 조각이 하나뿐인 `/react` 같은 주소는 `section`이 `react`이고 `path`가 빈 문자열입니다.
 
 주소에 붙은 `#앵커`는 어느 제목이 걸렸는지 알려주는 표시일 뿐이고, `get_doc`이 그대로 받아 문서 전체를 반환하므로 떼지 않아도 됩니다.
 
