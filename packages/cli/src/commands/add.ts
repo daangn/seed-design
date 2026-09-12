@@ -23,7 +23,7 @@ import {
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
-import { canPrompt } from "../utils/interactive";
+import { assertAnswered, canPrompt } from "../utils/interactive";
 import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
@@ -126,9 +126,7 @@ export async function runAdd({ verbose, ...options }: ParsedOptions<typeof addPa
           }),
       });
 
-      if (p.isCancel(selected)) {
-        throw new CliCancelError();
-      }
+      assertAnswered(selected);
 
       return selected;
     })();
