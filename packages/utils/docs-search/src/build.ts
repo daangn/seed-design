@@ -14,16 +14,32 @@ import { koreanTokenizer } from "./tokenizer";
  * fumadocs, since the site's search dialog, the CLI and the MCP server all read them.
  */
 
-/** One row per page, per heading and per text chunk, as the reader in `search.ts` expects. */
+/**
+ * The properties `search.ts` searches, filters and groups by, and no others.
+ *
+ * Rows also carry `url`, `type` and `breadcrumbs`. zbsearch stores a document whole whether or
+ * not it indexes a property, so those still reach every result; indexing them would serve no
+ * query and grow the published dump toward the 25 MiB Cloudflare Pages accepts per file.
+ */
 export const DOCS_SCHEMA = {
   content: "string",
   page_id: "string",
-  type: "string",
-  url: "string",
-  breadcrumbs: "string[]",
   tags: "enum[]",
   title: "string",
 } as const;
+
+/**
+ * What both sides open the database with, so the dump `buildDocsIndex` writes is the one
+ * `search.ts` reads.
+ *
+ * Sorting is off. Results come back in relevance order, and a sort index per string property is
+ * megabytes of dump no query reads.
+ */
+export const DOCS_DB_OPTIONS = {
+  schema: DOCS_SCHEMA,
+  components: { tokenizer: koreanTokenizer },
+  sort: { enabled: false },
+};
 
 /** The extract of a page this index is built from, matching fumadocs' `AdvancedIndex`. */
 export interface IndexablePage {
@@ -81,9 +97,12 @@ function rowsOf(page: IndexablePage) {
   ];
 }
 
+/** What a hit's document holds: every field `rowsOf` writes, the unindexed ones included. */
+export type DocsRow = ReturnType<typeof rowsOf>[number];
+
 /** The dump to publish, ready to be served as JSON and read back by `createDocsSearch`. */
 export async function buildDocsIndex(pages: IndexablePage[]): Promise<RawData> {
-  const db = create({ schema: DOCS_SCHEMA, components: { tokenizer: koreanTokenizer } });
+  const db = create(DOCS_DB_OPTIONS);
   await insertMultiple(db, pages.flatMap(rowsOf), 1000);
 
   return save(db);

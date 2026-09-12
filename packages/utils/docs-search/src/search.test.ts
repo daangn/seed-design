@@ -75,4 +75,28 @@ describe("createDocsSearch", () => {
   it("still splits Korean on whitespace alone", async () => {
     expect(await search("액션 수행")).toContain("/components/action-button");
   });
+
+  it("hands back the breadcrumbs the index stores without indexing them", async () => {
+    const docs = createDocsSearch(
+      await buildDocsIndex([
+        {
+          id: "/react/components/action-button",
+          url: "/react/components/action-button",
+          title: "Action Button",
+          breadcrumbs: ["React", "Components"],
+          structuredData: {
+            headings: [],
+            contents: [{ content: "ActionButton takes a variant." }],
+          },
+        },
+      ]),
+    );
+
+    expect(
+      (await docs.search("variant")).map(({ type, breadcrumbs }) => [type, breadcrumbs]),
+    ).toEqual([
+      ["page", ["React", "Components"]],
+      ["text", ["React", "Components"]],
+    ]);
+  });
 });

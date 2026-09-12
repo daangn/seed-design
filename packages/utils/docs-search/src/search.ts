@@ -1,6 +1,6 @@
 import { type RawData, create, getByID, load, search } from "zbsearch";
-import { DOCS_SCHEMA } from "./build";
-import { koreanTokenizer, tokenize } from "./tokenizer";
+import { DOCS_DB_OPTIONS, type DocsRow } from "./build";
+import { tokenize } from "./tokenizer";
 
 /** The dump shape `createDocsSearch` takes, re-exported so callers can name what they fetched. */
 export type { RawData } from "zbsearch";
@@ -54,7 +54,7 @@ export interface SearchOptions {
  * file cannot reference, and no caller has a reason to hold it.
  */
 export function createDocsSearch(dump: RawData) {
-  const db = create({ schema: DOCS_SCHEMA, components: { tokenizer: koreanTokenizer } });
+  const db = create(DOCS_DB_OPTIONS);
   load(db, dump);
 
   async function runPass(
@@ -62,7 +62,7 @@ export function createDocsSearch(dump: RawData) {
     { tag, limit, maxResultsPerPage }: SearchOptions,
     threshold: number | undefined,
   ) {
-    const result = await search(db, {
+    const result = await search<typeof db, DocsRow>(db, {
       limit,
       mode: "fulltext",
       properties: ["content", "title"],
@@ -77,7 +77,7 @@ export function createDocsSearch(dump: RawData) {
 
     for (const group of result.groups ?? []) {
       const pageId = group.values[0];
-      const page = typeof pageId === "string" ? getByID(db, pageId) : undefined;
+      const page = typeof pageId === "string" ? getByID<typeof db, DocsRow>(db, pageId) : undefined;
       if (!page) continue;
 
       hits.push({
