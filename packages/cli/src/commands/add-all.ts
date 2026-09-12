@@ -22,21 +22,14 @@ import {
   type ParsedOptions,
   seedReactVersionOption,
 } from "../utils/cli-options";
-import { canPrompt } from "../utils/interactive";
+import { assertAnswered, canPrompt } from "../utils/interactive";
 import { exampleFooter } from "../utils/help";
 import {
   analyzeRegistryItemCompatibility,
   getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
-import {
-  CliCancelError,
-  CliError,
-  ExitCode,
-  exitCodeFor,
-  isCliCancelError,
-  reportCliError,
-} from "../utils/error";
+import { CliError, ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
 import { installDependencies } from "../utils/install";
 
 export const addAllParser = command(
@@ -149,9 +142,7 @@ export async function runAddAll({ verbose, ...options }: ParsedOptions<typeof ad
           }),
       });
 
-      if (p.isCancel(selected)) {
-        throw new CliCancelError();
-      }
+      assertAnswered(selected);
 
       p.log.message(`선택된 레지스트리의 항목을 추가합니다: ${highlight(selected.join(", "))}`);
 

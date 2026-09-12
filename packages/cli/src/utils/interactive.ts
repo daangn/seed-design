@@ -1,3 +1,5 @@
+import { CliCancelError } from "./error";
+
 /**
  * Whether a prompt can be answered where this process is running.
  *
@@ -10,4 +12,15 @@
  */
 export function canPrompt() {
   return Boolean(process.stdin.isTTY && process.stdout.isTTY);
+}
+
+/**
+ * Throws `CliCancelError` when the user cancelled the prompt that returned `answer`.
+ *
+ * Checked with `typeof` rather than `p.isCancel`: clack types `isCancel` as narrowing to its own
+ * cancel symbol while `multiselect` returns a bare `symbol`, so the answer's type still carries
+ * `symbol` after an `isCancel` check.
+ */
+export function assertAnswered<T>(answer: T | symbol): asserts answer is T {
+  if (typeof answer === "symbol") throw new CliCancelError();
 }
