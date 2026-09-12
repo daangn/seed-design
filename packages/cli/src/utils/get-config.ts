@@ -3,6 +3,7 @@ import { cosmiconfig } from "cosmiconfig";
 import { z } from "zod";
 import { CliCancelError, CliError } from "./error";
 import { DEFAULT_INIT_CONFIG, writeInitConfigFile } from "./init-config";
+import { canPrompt } from "./interactive";
 
 const MODULE_NAME = "seed-design";
 
@@ -26,6 +27,16 @@ export type Config = z.infer<typeof configSchema>;
 export async function getConfig(cwd: string): Promise<Config> {
   const config = await getRawConfig(cwd);
   if (config) return config;
+
+  // Writing the config here would settle the path, the framework and the telemetry setting on
+  // the caller's behalf without any of them being seen, so the answer is the command that owns
+  // that file rather than a flag of our own.
+  if (!canPrompt()) {
+    throw new CliError({
+      message: "프로젝트 루트 경로에 `seed-design.json` 파일이 없어요.",
+      hint: "`seed-design init -y`로 설정 파일을 먼저 만들어주세요.",
+    });
+  }
 
   p.log.error("프로젝트 루트 경로에 `seed-design.json` 파일이 없어요.");
 
@@ -60,7 +71,7 @@ export async function getRawConfig(cwd: string): Promise<Config | null> {
   } catch (error) {
     throw new CliError({
       message: "seed-design.json 형식이 올바르지 않아요.",
-      hint: "https://seed-design.com/react/getting-started/cli/configuration 문서를 참고해 주세요.",
+      hint: "https://seed-design.io/react/getting-started/cli/configuration 문서를 참고해 주세요.",
       cause: error,
     });
   }

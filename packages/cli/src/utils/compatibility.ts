@@ -152,7 +152,13 @@ export function analyzeRegistryItemCompatibility({
   };
 }
 
-export function logCompatibilityReport({
+/**
+ * The report as lines, each carrying the weight it should be read with.
+ *
+ * `compat` writes these as they are, and `add` hands them to clack, so the two commands cannot
+ * drift into describing the same incompatibility differently.
+ */
+export function formatCompatibilityReport({
   report,
   title,
   framework = "react",
@@ -160,15 +166,21 @@ export function logCompatibilityReport({
   report: CompatibilityReport;
   title: string;
   framework?: string;
-}) {
-  if (!report.issues.length) return;
+}): { level: "warn" | "info"; text: string }[] {
+  if (!report.issues.length) return [];
 
-  const compatPackages = getCompatPackageNames(framework);
-
-  p.log.warn(title);
-  p.log.info(
-    `현재 프로젝트 버전: ${compatPackages.map((packageName) => `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`).join(", ")}`,
-  );
+  const lines: { level: "warn" | "info"; text: string }[] = [
+    { level: "warn", text: title },
+    {
+      level: "info",
+      text: `현재 프로젝트 버전: ${getCompatPackageNames(framework)
+        .map(
+          (packageName) =>
+            `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`,
+        )
+        .join(", ")}`,
+    },
+  ];
 
   const issuesByItem = new Map<string, CompatibilityIssue[]>();
 
@@ -179,29 +191,44 @@ export function logCompatibilityReport({
   }
 
   for (const [itemKey, issues] of issuesByItem.entries()) {
-    p.log.warn(highlight(itemKey));
+    lines.push({ level: "warn", text: highlight(itemKey) });
 
     for (const issue of issues) {
       const required = issue.requiredRanges.join(" | ");
 
       if (issue.type === "missing-package") {
-        p.log.info(
-          `  - ${issue.packageName}: 패키지가 설치되어 있지 않아요. 필요 범위: ${required}`,
-        );
+        lines.push({
+          level: "info",
+          text: `  - ${issue.packageName}: 패키지가 설치되어 있지 않아요. 필요 범위: ${required}`,
+        });
         continue;
       }
 
       if (issue.type === "invalid-version-spec") {
-        p.log.info(
-          `  - ${issue.packageName}: 현재 버전 형식을 해석하지 못했어요 (${issue.installedVersionSpec}). 필요 범위: ${required}`,
-        );
+        lines.push({
+          level: "info",
+          text: `  - ${issue.packageName}: 현재 버전 형식을 해석하지 못했어요 (${issue.installedVersionSpec}). 필요 범위: ${required}`,
+        });
         continue;
       }
 
-      p.log.info(
-        `  - ${issue.packageName}: 현재 ${issue.installedVersionSpec}, 필요 범위 ${required}`,
-      );
+      lines.push({
+        level: "info",
+        text: `  - ${issue.packageName}: 현재 ${issue.installedVersionSpec}, 필요 범위 ${required}`,
+      });
     }
+  }
+
+  return lines;
+}
+
+export function logCompatibilityReport(options: {
+  report: CompatibilityReport;
+  title: string;
+  framework?: string;
+}) {
+  for (const { level, text } of formatCompatibilityReport(options)) {
+    p.log[level](text);
   }
 }
 

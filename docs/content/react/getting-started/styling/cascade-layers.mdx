@@ -1,6 +1,7 @@
 ---
 title: Cascade Layers (Experimental)
 description: CSS Cascade Layers를 사용하여 SEED 스타일의 우선순위를 제어하는 방법을 알아봅니다.
+whenToRead: 실험적 설정 가이드로, Tailwind 4처럼 @layer를 쓰는 CSS에서 유틸리티 클래스가 SEED 컴포넌트 스타일을 못 덮어쓸 때 읽는다. base.layered.css로 바꾸고 번들러에 seed-layered condition을 넣거나, 청크 분리로 레이어 순서가 깨질 때도 읽는다.
 ---
 
 Tailwind CSS 4 등 CSS Cascade Layer를 사용하는 CSS 프레임워크와 SEED 컴포넌트를 함께 사용할 때, 프레임워크의 유틸리티 클래스로 SEED 컴포넌트 스타일을 오버라이드하려면 다음과 같은 설정이 필요합니다.

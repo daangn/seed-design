@@ -81,8 +81,8 @@
 | Lynx 컴포넌트 | `packages/lynx-react/` | `packages/lynx-css/`, `docs/content/lynx/`, `docs/examples/lynx/` |
 | CLI 동작 | `packages/cli/` | `docs/content/react/getting-started/cli/`, registry 경로 |
 | Figma 변환·codegen | `packages/figma/` | `tools/figma-codegen/`, `packages/mcp/`, `scripts/` |
-| MCP 도구 | `packages/mcp/` 또는 `packages/docs-mcp/` | REST/WebSocket 또는 docs config의 실제 소비 경로 |
-| 문서·registry | `docs/`의 대상 하위 경로 | `packages/docs-mcp/src/config.ts`, 생성 registry, vendored consumer |
+| MCP 도구 | `packages/mcp/` 또는 `packages/docs-mcp/` | REST/WebSocket 또는 게시된 docs 인덱스의 실제 소비 경로 |
+| 문서·registry | `docs/`의 대상 하위 경로 | `docs/app/_llms/config.ts`, 생성 registry, vendored consumer |
 | Rootage CDN·릴리스 | `tools/rootage-cdn/` | `packages/rootage/`, GitHub workflow, 환경별 AGENTS |
 
 ## 변경 전 영향도 분석
@@ -122,7 +122,7 @@ bun skills/seed-token-analysis/scripts/token-map.ts '$color.fg.neutral'
 
 ### 문서와 MCP
 
-`docs/content/`가 문서 source이며 docs 생성 스크립트가 index·registry·LLM용 산출물을 만든다. `packages/docs-mcp/src/config.ts`는 문서 section 매핑을 관리하므로 content 영역이나 section 구조를 바꿀 때만 함께 확인한다.
+`docs/content/`가 문서 source이며 docs 생성 스크립트가 index·registry·LLM용 산출물을 만든다. section 등록은 `docs/app/_llms/config.ts`가 관리하고 그 결과가 `docs/public/__docs__/index.json`으로 게시된다. `@seed-design/cli`와 `@seed-design/docs-mcp`는 이 인덱스를 실행 시점에 읽으므로, content 영역이나 section 구조를 바꿀 때 이 파일을 함께 확인한다.
 
 ### Figma와 MCP
 

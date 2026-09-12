@@ -1,6 +1,4 @@
 import { beforeEach, describe, expect, it, mock, spyOn } from "bun:test";
-import type { CAC } from "cac";
-import { cac } from "cac";
 import { CliCancelError } from "../utils/error";
 import { analytics } from "../utils/analytics";
 
@@ -38,6 +36,12 @@ mock.module("@clack/prompts", () => ({
   isCancel: () => false,
 }));
 
+// These cases are about what the telemetry says once a prompt has been reached, so the
+// terminal check that decides whether one is reached at all is answered yes throughout.
+mock.module("../utils/interactive", () => ({
+  canPrompt: () => true,
+}));
+
 mock.module("../utils/init-config", () => ({
   DEFAULT_INIT_CONFIG: {
     tsx: true,
@@ -49,28 +53,8 @@ mock.module("../utils/init-config", () => ({
   writeInitConfigFile: writeInitConfigFileMock,
 }));
 
-const { addCommand } = await import("../commands/add");
-const { initCommand } = await import("../commands/init");
-
-function assertHasCommandAction<T extends { commandAction?: unknown }>(
-  command: T,
-  name: string,
-): asserts command is T & { commandAction: NonNullable<T["commandAction"]> } {
-  if (!command.commandAction) {
-    throw new Error(`Command has no action handler: ${name}`);
-  }
-}
-
-function getCommand(cli: CAC, name: string) {
-  const command = cli.commands.find((item) => item.name === name);
-
-  if (!command) {
-    throw new Error(`Command not found: ${name}`);
-  }
-
-  assertHasCommandAction(command, name);
-  return command;
-}
+const { runAdd } = await import("../commands/add");
+const { runInit } = await import("../commands/init");
 
 describe("command telemetry", () => {
   beforeEach(() => {
@@ -93,13 +77,12 @@ describe("command telemetry", () => {
     const trackCommandFailureSpy = spyOn(analytics, "trackCommandFailure").mockImplementation(
       async () => {},
     );
-    const cli = cac("seed-design");
-    initCommand(cli);
 
-    await getCommand(cli, "init").commandAction({
+    await runInit({
+      command: "init",
       cwd: "/tmp/seed-design",
       yes: true,
-      default: false,
+      verbose: false,
     });
 
     expect(writeInitConfigFileMock).toHaveBeenCalledTimes(1);
@@ -135,14 +118,12 @@ describe("command telemetry", () => {
       throw new Error(`EXIT:${code}`);
     }) as never);
 
-    const cli = cac("seed-design");
-    initCommand(cli);
-
     await expect(
-      getCommand(cli, "init").commandAction({
+      runInit({
+        command: "init",
         cwd: "/tmp/seed-design",
         yes: false,
-        default: false,
+        verbose: false,
       }),
     ).rejects.toThrow("EXIT:0");
 
@@ -168,16 +149,23 @@ describe("command telemetry", () => {
       throw new Error(`EXIT:${code}`);
     }) as never);
 
-    const cli = cac("seed-design");
-    addCommand(cli);
-
     await expect(
-      getCommand(cli, "add").commandAction([], {
-        all: true,
+      runAdd({
+        command: "add",
+        itemIds: [],
+        includeDeprecated: false,
         cwd: "/tmp/seed-design",
         baseUrl: "https://seed-design.io",
+        // An archived version nobody publishes, so `resolveSeedVersion` throws before
+        // anything reaches the filesystem or the network.
+        seedReactVersion: "9.9",
+        framework: undefined,
+        onDiff: undefined,
+        verbose: false,
       }),
-    ).rejects.toThrow("EXIT:1");
+      // `add` has no verdict to report, so a version it cannot resolve leaves the same way
+      // every other failure does.
+    ).rejects.toThrow("EXIT:2");
 
     expect(trackCommandFailureSpy).toHaveBeenCalledWith(
       "/tmp/seed-design",

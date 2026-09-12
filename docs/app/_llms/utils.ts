@@ -1,9 +1,21 @@
-import type { LLMPage } from "./types";
+/**
+ * The minimum `getDisplayTitle` reads. `LLMPage` satisfies it, and so do the plain
+ * frontmatter/slug pairs `scripts/generate-docs-index.ts` assembles — the CLI index has
+ * to disambiguate the same duplicate titles the llms.txt listings do.
+ */
+interface TitledPage {
+  data: { title: string };
+  slugs: string[];
+}
 
-export function getDisplayTitle(page: LLMPage, categoryPages: LLMPage[]): string {
+export function getDisplayTitle(page: TitledPage, siblings: TitledPage[]): string {
   const title = page.data.title;
-  const duplicates = categoryPages.filter((p) => p.data.title === title);
+  const duplicates = siblings.filter((p) => p.data.title === title);
   if (duplicates.length <= 1) return title;
+
+  // 섹션 루트는 slug가 없어 꼬리표로 삼을 조각이 없다 — `${title} ()`가 되어버린다.
+  // 섹션의 대표 개요이므로 제목을 그대로 두고, 꼬리표는 그 아래 문서들이 단다.
+  if (page.slugs.length === 0) return title;
 
   const parentSlug = page.slugs.length >= 2 ? page.slugs[page.slugs.length - 2] : null;
   const hasSameParent = parentSlug
@@ -19,20 +31,4 @@ export function getDisplayTitle(page: LLMPage, categoryPages: LLMPage[]): string
     return `${title} (${label})`;
   }
   return `${title} (${page.slugs.join("/")})`;
-}
-
-/** categoryOrder에 있는 것 먼저, 나머지는 알파벳순 */
-export function sortCategories(
-  categories: Map<string, LLMPage[]>,
-  categoryOrder: string[],
-): [string, LLMPage[]][] {
-  const ordered = categoryOrder
-    .filter((c) => categories.has(c))
-    .map((c) => [c, categories.get(c)!] as [string, LLMPage[]]);
-
-  const remaining = Array.from(categories.entries())
-    .filter(([c]) => !categoryOrder.includes(c))
-    .sort(([a], [b]) => a.localeCompare(b));
-
-  return [...ordered, ...remaining];
 }

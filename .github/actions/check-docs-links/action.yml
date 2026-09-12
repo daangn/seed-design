@@ -12,11 +12,7 @@ inputs:
       from `packages/*/CHANGELOG.md`, so a link that rots there cannot be fixed at the source, and
       its older URLs are served through the site's `_redirects`, which lychee cannot see offline.
     required: false
-    # `react/llms-full.txt`는 changelog 전용이 아닌데도 통째로 뺀다. 이 파일에만 있는 링크는
-    # 전부 `# Changelog` 섹션 안이고, 그 앞부분은 `llms/react/**`가 그대로 담고 있어서
-    # 빼도 검사 범위가 줄지 않는다.
     default: |
-      react/llms-full.txt
       llms/react/updates/changelog.txt
       llms/react/updates/changelog/*
 
@@ -85,7 +81,7 @@ runs:
           mkdir -p "$MIRROR_DIR/$(dirname "$rel")"
           cp "$file" "$MIRROR_DIR/${rel%.txt}.md"
           count=$((count + 1))
-        done < <(find . \( \( -path './llms/*' -a -name '*.txt' \) -o -name 'llms.txt' -o -name 'llms-full.txt' \) )
+        done < <(find . \( \( -path './llms/*' -a -name '*.txt' \) -o -name 'llms.txt' \) )
 
         # 라우트가 사라지거나 파일 이름 규칙이 바뀌면 사본이 비고, 그러면 링크를 하나도
         # 보지 않은 채로 통과한다. 아래 lychee 단계의 failIfEmpty가 걸러주긴 하지만

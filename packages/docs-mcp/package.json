@@ -50,8 +50,8 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "@karrotmarket/icon-data": "^1.34.0",
     "@modelcontextprotocol/server": "^2.0.0",
+    "@seed-design/docs-search": "workspace:*",
     "lru-cache": "^11.0.2",
     "zod": "^4.3.5"
   },

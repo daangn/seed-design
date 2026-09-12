@@ -1,6 +1,5 @@
 import type { PublicRegistry } from "@/src/schema";
 
-import * as p from "@clack/prompts";
 import {
   type PublicRegistryItem,
   publicRegistrySchema,
@@ -141,65 +140,6 @@ export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
   return response.text();
 }
 
-/**
- * Try fetching llms.txt content with fallback URL patterns.
- * 1. {baseUrl}/llms/{query}.txt
- * 2. {baseUrl}/llms/{query}/llms.txt (for package changelog index)
- */
-export async function tryFetchLlmsTxt({
-  baseUrl,
-  query,
-}: {
-  baseUrl: string;
-  query: string;
-}): Promise<string> {
-  const normalizedQuery = query.startsWith("/") ? query.slice(1) : query;
-
-  const urls = [
-    `${baseUrl}/llms/${normalizedQuery}.txt`,
-    `${baseUrl}/llms/${normalizedQuery}/llms.txt`,
-  ];
-
-  let lastError: unknown;
-
-  for (const url of urls) {
-    let response: Response;
-    try {
-      response = await fetchWithTimeout(url);
-    } catch (error) {
-      lastError = error;
-      continue;
-    }
-
-    if (response.ok) {
-      return response.text();
-    }
-
-    // 404 → try next URL candidate
-    if (response.status === 404) {
-      lastError = new CliError({
-        message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
-        hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
-      });
-      continue;
-    }
-
-    // Non-404 errors (5xx, 401, etc.) — propagate immediately
-    throw new CliError({
-      message: `llms.txt 요청이 실패했어요: ${response.status} ${response.statusText}`,
-      hint: `URL: ${url}`,
-    });
-  }
-
-  throw (
-    lastError ??
-    new CliError({
-      message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
-      hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
-    })
-  );
-}
-
 export async function fetchRegistryItems({
   baseUrl,
   framework,
@@ -232,15 +172,16 @@ export async function fetchRegistryItems({
         // fatal, should not happen
         if (!success) throw new Error(`Failed to parse registry index for ${registryId}`);
 
-        p.log.error(`${itemId} 스니펫이 ${registryId} 레지스트리에 없어요.`);
-        p.log.info(
-          `${registryId} 레지스트리에 존재하는 스니펫:\n${parsedIndex.items
-            .map((component) => component.id)
-            .join("\n")}`,
-        );
-
-        // so fetchRegistryItems also can throw
-        throw error;
+        // Carried on the error rather than printed here, so the names reach the caller's
+        // stderr alongside the reason instead of landing on stdout ahead of it.
+        throw new CliError({
+          message: `${itemId} 항목이 ${registryId} 레지스트리에 없어요.`,
+          details: [
+            `${registryId} 레지스트리에 존재하는 항목:`,
+            ...parsedIndex.items.map((component) => component.id),
+          ],
+          cause: error,
+        });
       }
     }),
   );

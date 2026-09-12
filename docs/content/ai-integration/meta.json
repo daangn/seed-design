@@ -2,5 +2,5 @@
   "title": "AI & Tools",
   "description": "AI 도구와 SEED를 함께 활용하는 방법",
   "icon": "Bot",
-  "pages": ["index", "external:[llms.txt](/llms.txt)", "skill", "---MCP---", "...(mcp)"]
+  "pages": ["index", "skill", "---MCP---", "...(mcp)"]
 }
