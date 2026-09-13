@@ -35,10 +35,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
   return (
     <ProsePage title={displayTitle} description={page.data.description}>
-      <LlmsLinkRels
-        section="get-started"
-        markdownUrl={getLLMMarkdownUrl("get-started", params.slug ?? [])}
-      />
+      <LlmsLinkRels markdownUrl={getLLMMarkdownUrl("get-started", params.slug ?? [])} />
       <JsonLd data={buildDocsPageJsonLd(page)} />
       {cover ? (
         <div className="not-prose mb-8 md:mb-10">

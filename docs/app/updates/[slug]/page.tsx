@@ -69,7 +69,6 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       toc={isRelease ? toc : []}
       tableOfContent={isRelease ? { single: false } : { enabled: false }}
       lastUpdate={lastModified}
-      section="updates"
       markdownUrl={markdownUrl}
       topSpacing
       // Updates 전용 스코프 클래스 — 남은 국소 스타일(소제목 여백·이미지 radius)만 updates-article.css에서
@@ -91,10 +90,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       // Updates의 모든 상세 제목은 한국어 어절 단위 줄바꿈을 우선하고 균형 있게 배치한다.
       // `auto-phrase` 미지원 브라우저에서는 `text-balance`만 적용된다.
       // 블로그 글은 날짜 메타와 함께 중앙 정렬하고, 릴리즈 노트는 기본 좌측 정렬을 유지한다.
-      titleClassName={clsx(
-        "text-balance [word-break:auto-phrase]",
-        !isRelease && "text-center",
-      )}
+      titleClassName={clsx("text-balance [word-break:auto-phrase]", !isRelease && "text-center")}
       meta={
         publishedDate ? (
           <div
