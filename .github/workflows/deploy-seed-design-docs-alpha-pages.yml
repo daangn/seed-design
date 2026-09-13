@@ -14,6 +14,7 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
       - ".github/actions/nextjs-cache/**"
       - ".github/actions/check-docs-links/**"
   workflow_dispatch:

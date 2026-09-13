@@ -6,6 +6,7 @@ on:
       - "packages/react-headless/**/*"
       - ".github/workflows/react-headless-test.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 permissions:
   contents: read

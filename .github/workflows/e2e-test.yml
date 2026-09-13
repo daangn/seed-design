@@ -12,6 +12,7 @@ on:
       - "packages/stylesheet/**"
       - ".github/workflows/e2e-test.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 permissions:
   contents: read
