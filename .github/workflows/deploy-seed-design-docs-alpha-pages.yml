@@ -12,6 +12,7 @@ on:
       - "packages/lynx-react/**"
       - "packages/lynx-css/**"
       - "packages/stackflow/**"
+      - "packages/utils/docs-search/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".bun-version"
