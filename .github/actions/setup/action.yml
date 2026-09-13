@@ -45,15 +45,25 @@ runs:
       id: cache-build
       uses: actions/cache@v5
       with:
+        # Fixed depths rather than `**`: actions/cache follows symlinks, so `**` also saves directories
+        # inside each workspace's node_modules, which Bun (1.3.14+) then leaves in place of its links.
         path: |
-          packages/**/dist
-          packages/**/build
-          packages/**/lib
-          packages/**/.ultra.cache.json
-          ecosystem/**/dist
-          ecosystem/**/build
-          ecosystem/**/lib
-          ecosystem/**/.ultra.cache.json
+          packages/*/dist
+          packages/*/build
+          packages/*/lib
+          packages/*/.ultra.cache.json
+          packages/*/*/dist
+          packages/*/*/build
+          packages/*/*/lib
+          packages/*/*/.ultra.cache.json
+          ecosystem/*/dist
+          ecosystem/*/build
+          ecosystem/*/lib
+          ecosystem/*/.ultra.cache.json
+          ecosystem/*/*/dist
+          ecosystem/*/*/build
+          ecosystem/*/*/lib
+          ecosystem/*/*/.ultra.cache.json
         key: ${{ runner.os }}-build-${{ steps.build-cache-key.outputs.suffix }}
         restore-keys: |
           ${{ runner.os }}-build-rootage-${{ inputs.build-rootage }}-
