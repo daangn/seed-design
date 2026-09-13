@@ -6,6 +6,7 @@ on:
       - "packages/react/**/*"
       - ".github/workflows/react-test.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 permissions:
   contents: read

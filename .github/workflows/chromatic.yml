@@ -17,6 +17,7 @@ on:
       - "packages/css/**"
       - ".github/workflows/chromatic.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 # List of jobs
 jobs:

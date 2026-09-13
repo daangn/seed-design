@@ -13,6 +13,7 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-storybook-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 permissions:
   contents: read

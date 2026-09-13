@@ -11,6 +11,7 @@ on:
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-stackflow-spa-prod-pages.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
   workflow_dispatch:
 
 permissions:

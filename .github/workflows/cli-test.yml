@@ -6,6 +6,7 @@ on:
       - "packages/cli/**/*"
       - ".github/workflows/cli-test.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 permissions:
   contents: read
