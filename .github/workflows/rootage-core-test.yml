@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: oven-sh/setup-bun@v2
+        id: setup-bun
         with:
           bun-version-file: .bun-version
 
@@ -26,9 +27,9 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-${{ hashFiles('**/bun.lock', '**/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-bun-
+            ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-
 
       - name: Install dependencies
         run: bun install --frozen-lockfile --ignore-scripts
