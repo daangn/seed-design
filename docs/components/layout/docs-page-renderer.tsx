@@ -1,4 +1,3 @@
-import type { Section } from "@/app/_llms/config";
 import { JsonLd } from "@/components/json-ld";
 import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { LLMOptions } from "@/components/page-actions";
@@ -68,8 +67,6 @@ export interface DocsPageRendererProps {
   lastUpdate?: DocsPageProps["lastUpdate"];
   /** TOC 활성화/단일 항목 및 header/footer 설정. */
   tableOfContent?: DocsPageProps["tableOfContent"];
-  /** 이 페이지가 속한 llms 섹션. `markdownUrl`과 짝이 되어 llms.txt 링크 릴레이션을 만든다. */
-  section: Section;
   markdownUrl: string;
   /** 제목/설명 바로 아래(커버 이미지 위)에 렌더할 노드. 예: 컴포넌트 플랫폼 상태 스트립. */
   platformStatus?: ReactNode;
@@ -123,7 +120,6 @@ export function DocsPageRenderer({
   toc,
   lastUpdate,
   tableOfContent,
-  section,
   markdownUrl,
   platformStatus,
   showPageActions = true,
@@ -139,7 +135,7 @@ export function DocsPageRenderer({
     return (
       <>
         {jsonLd ? <JsonLd data={jsonLd} /> : null}
-        <LlmsLinkRels section={section} markdownUrl={markdownUrl} />
+        <LlmsLinkRels markdownUrl={markdownUrl} />
         <OverviewLayout title={title} description={description} coverImage={coverImage} full={full}>
           {children}
         </OverviewLayout>
@@ -151,7 +147,7 @@ export function DocsPageRenderer({
   return (
     <>
       {jsonLd ? <JsonLd data={jsonLd} /> : null}
-      <LlmsLinkRels section={section} markdownUrl={markdownUrl} />
+      <LlmsLinkRels markdownUrl={markdownUrl} />
       <DocsPage
         // articleClassName은 전달된 라우트(예: Updates)에서만 붙어, 그 라우트 전용 스코프 CSS의
         // 진입점이 된다. 미전달 시 클래스가 붙지 않아 다른 docs 페이지엔 영향이 없다.
