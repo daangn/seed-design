@@ -29,6 +29,8 @@ runs:
     #
     # `--remap` 값은 작은따옴표로 감싼다. 액션 진입점이 `eval lychee ... ${ARGS}`로
     # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
+    #
+    # changelog 페이지는 `llms-exclude`가 changelog llms 산출물을 빼는 것과 같은 이유로 뺀다.
     - name: Check links in the exported HTML
       uses: lycheeverse/lychee-action@v2
       with:
@@ -42,6 +44,7 @@ runs:
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
           --include-fragments=anchor-only
+          --exclude-path '/react/updates/changelog\.html$'
           --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
           --
           ${{ inputs.out-dir }}
