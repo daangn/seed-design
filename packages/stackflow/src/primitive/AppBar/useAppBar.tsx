@@ -12,19 +12,18 @@ export type UseAppBarReturn = ReturnType<typeof useAppBar>;
 export function useAppBar(_props: UseAppBarProps) {
   const { stateProps } = useAppScreenContext();
 
-  const [root, rootRef] = useState<HTMLElement | null>(null);
   const [left, leftRef] = useState<HTMLElement | null>(null);
   const [right, rightRef] = useState<HTMLElement | null>(null);
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
-  const leftExtent = root ? `${leftOffset?.fromLeft ?? 0}px` : "initial";
-  const rightExtent = root ? `${rightOffset?.fromRight ?? 0}px` : "initial";
+  // `initial` leaves the variable unset, which the recipe reads as a missing area.
+  const leftExtent = leftOffset ? `${leftOffset.fromLeft}px` : "initial";
+  const rightExtent = rightOffset ? `${rightOffset.fromRight}px` : "initial";
 
   return useMemo(
     () => ({
       refs: {
-        root: rootRef,
         left: leftRef,
         right: rightRef,
       },
