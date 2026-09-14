@@ -39,6 +39,20 @@ import { Box } from "@seed-design/react";
   ```
 </ComponentExample>
 
+### Safe Area
+
+`pt`, `pr`, `pb`, `pl`과 `bleed` 계열 속성(`bleed`, `bleedX`, `bleedY`, `bleedTop`, `bleedRight`, `bleedBottom`, `bleedLeft`)은 `"safeArea"` 값을 받습니다. 이 값을 지정하면 각 방향의 safe area inset을 padding이나 bleed 값으로 사용합니다.
+
+```tsx
+<Box bleedX="safeArea" pl="safeArea" pr="safeArea" bg="bg.brandWeak">
+  <Box px="x4" py="x3">배경은 화면 끝까지 채우고, 내용은 safe area 안쪽에 둡니다.</Box>
+</Box>
+```
+
+`p`(`padding`), `px`(`paddingX`), `py`(`paddingY`)는 `"safeArea"`를 받지 않습니다. 이 속성들은 양쪽에 같은 값을 적용하는데, safe area inset은 방향마다 다를 수 있기 때문입니다. 양쪽 모두 필요하면 `pl`, `pr`처럼 방향별 속성을 함께 지정하세요.
+
+`AppScreen` 안에서 쓰는 방법은 [AppScreen의 Safe Area](/react/stackflow/app-screen#safe-area)를 참고하세요.
+
 ## Responsive Design
 
 <Card title="Responsive Design" href="/react/components/concepts/responsive-design">
