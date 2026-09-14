@@ -2170,7 +2170,8 @@
   text-align: center;
   top: var(--seed-safe-area-top);
   bottom: 0;
-  padding-inline: max(var(--centered-title-padding-x, 0px), var(--seed-safe-area-left), var(--seed-safe-area-right));
+  padding-left: calc(var(--seed-safe-area-left) + max(var(--app-bar-left-extent, 0px) - var(--seed-safe-area-left), var(--app-bar-right-extent, 0px) - var(--seed-safe-area-right), 0px));
+  padding-right: calc(var(--seed-safe-area-right) + max(var(--app-bar-left-extent, 0px) - var(--seed-safe-area-left), var(--app-bar-right-extent, 0px) - var(--seed-safe-area-right), 0px));
   pointer-events: none;
   justify-content: center;
   align-items: center;
