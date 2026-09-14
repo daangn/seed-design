@@ -39,17 +39,9 @@
 /react/components/radio-select-box /react/components/select-box 301
 /react/guides/theming /react/getting-started/styling/theming 301
 
-# 문서별 markdown이 `/llms/<문서 URL>.txt`에서 `<문서 URL>.md`로 옮겨졌다. 마지막 줄이 옛 주소를
-# 모두 보낸다(splat은 `/`를 건너 경로 전체를 잡는다). 그 위 줄들은 그보다 더 전에 쓰던 주소, 곧
-# 섹션 루트를 가리키던 `index.txt`와 버전별로 나뉘어 있던 changelog를 새 주소로 곧장 보낸다.
-# 섹션 목록 `/{섹션}/llms.txt`와 루트 `/llms.txt`는 대응하는 문서가 없어 보내지 않는다.
-/llms/ai-integration/index.txt /ai-integration.md 301
-/llms/breeze/index.txt /breeze.md 301
-/llms/components/index.txt /components.md 301
-/llms/foundations/index.txt /foundations.md 301
-/llms/get-started/index.txt /get-started.md 301
-/llms/lynx/index.txt /lynx.md 301
-/llms/patterns/index.txt /patterns.md 301
-/llms/react/index.txt /react.md 301
+# 문서별 markdown이 `/llms/<문서 URL>.txt`에서 `<문서 URL>.md`로 옮겨졌다. splat은 `/`를 건너
+# 경로 전체를 잡는다. 패키지·버전별로 나뉘어 있던 changelog 파일은 한 문서로 합쳐졌고, splat
+# 규칙보다 먼저 와야 `/react/updates/changelog/<패키지>/...md`(없음)로 떨어지지 않는다.
+# 섹션 목록 `/{섹션}/llms.txt`, 루트 `/llms.txt`, `/{섹션}/llms-full.txt`는 대응하는 문서가 없어 보내지 않는다.
 /llms/react/updates/changelog/* /react/updates/changelog.md 301
 /llms/*.txt /:splat.md 301
