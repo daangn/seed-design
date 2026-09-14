@@ -17,14 +17,14 @@ const docsIndex = {
           id: "action-button",
           title: "Action Button",
           docUrl: "/lynx/components/action-button",
-          llmsUrl: "/llms/lynx/components/action-button.txt",
+          llmsUrl: "/lynx/components/action-button.md",
         },
         {
           id: "checkbox",
           title: "Checkbox",
           description: "여러 선택지 중 하나 이상을 고를 때 씁니다.",
           docUrl: "/lynx/components/checkbox",
-          llmsUrl: "/llms/lynx/components/checkbox.txt",
+          llmsUrl: "/lynx/components/checkbox.md",
           deprecated: true,
         },
       ],
@@ -39,7 +39,7 @@ const docsIndex = {
           id: "overview",
           title: "Overview",
           docUrl: "/react",
-          llmsUrl: "/llms/react.txt",
+          llmsUrl: "/react.md",
         },
         {
           id: "action-button",
@@ -47,14 +47,14 @@ const docsIndex = {
           description: "명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
           whenToRead: "React에서 ActionButton의 variant와 loading을 코드로 확인할 때 읽는다.",
           docUrl: "/react/components/action-button",
-          llmsUrl: "/llms/react/components/action-button.txt",
+          llmsUrl: "/react/components/action-button.md",
         },
         {
           id: "bottom-sheet",
           title: "Bottom Sheet",
           description: "화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
           docUrl: "/react/components/bottom-sheet",
-          llmsUrl: "/llms/react/components/bottom-sheet.txt",
+          llmsUrl: "/react/components/bottom-sheet.md",
         },
         // Nested one level deeper than their shared parent, so a path rebuilt from ids
         // lands both of these on `react/components/composition`.
@@ -62,13 +62,13 @@ const docsIndex = {
           id: "composition",
           title: "Composition (Concepts)",
           docUrl: "/react/components/concepts/composition",
-          llmsUrl: "/llms/react/components/concepts/composition.txt",
+          llmsUrl: "/react/components/concepts/composition.md",
         },
         {
           id: "composition",
           title: "Composition (Iconography)",
           docUrl: "/react/components/iconography/composition",
-          llmsUrl: "/llms/react/components/iconography/composition.txt",
+          llmsUrl: "/react/components/iconography/composition.md",
         },
         // The same id under two containers of one category, as `bottom-sheet` is on the
         // real site.
@@ -76,13 +76,13 @@ const docsIndex = {
           id: "bottom-sheet",
           title: "Bottom Sheet",
           docUrl: "/react/stackflow/bottom-sheet",
-          llmsUrl: "/llms/react/stackflow/bottom-sheet.txt",
+          llmsUrl: "/react/stackflow/bottom-sheet.md",
         },
         {
           id: "changelog",
           title: "Changelog",
           docUrl: "/react/updates/changelog",
-          llmsUrl: "/llms/react/updates/changelog.txt",
+          llmsUrl: "/react/updates/changelog.md",
         },
       ],
     },
@@ -151,13 +151,13 @@ const buildSearchIndex = () =>
  * Only these resolve, so a request for anything else fails the way the real site would.
  * Every one of them is an `llmsUrl` the index carries — `read` reaches no other URL.
  */
-const servedTxt = new Set([
-  "/llms/react.txt",
-  "/llms/react/components/action-button.txt",
-  "/llms/react/components/concepts/composition.txt",
-  "/llms/react/updates/changelog.txt",
-  "/llms/lynx/components/action-button.txt",
-  "/llms/lynx/components/checkbox.txt",
+const servedMarkdown = new Set([
+  "/react.md",
+  "/react/components/action-button.md",
+  "/react/components/concepts/composition.md",
+  "/react/updates/changelog.md",
+  "/lynx/components/action-button.md",
+  "/lynx/components/checkbox.md",
 ]);
 
 /**
@@ -208,8 +208,8 @@ describe("docs command", () => {
         return;
       }
 
-      if (servedTxt.has(pathname)) {
-        response.writeHead(200, { "Content-Type": "text/plain" });
+      if (servedMarkdown.has(pathname)) {
+        response.writeHead(200, { "Content-Type": "text/markdown; charset=utf-8" });
         response.end(`# served ${pathname}`);
         return;
       }
@@ -428,7 +428,7 @@ describe("docs command", () => {
       const result = await runDocs(["read", "/react/components/action-button"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("# served /llms/react/components/action-button.txt");
+      expect(result.stdout.trimEnd()).toBe("# served /react/components/action-button.md");
     });
 
     it("puts nothing of its own on stdout, down to the last byte", async () => {
@@ -438,14 +438,14 @@ describe("docs command", () => {
       expectPlain(result.stdout);
       // The fixture server ends the body without a newline, so a trailing one here could
       // only have come from the CLI.
-      expect(result.stdout).toBe("# served /llms/react/components/action-button.txt");
+      expect(result.stdout).toBe("# served /react/components/action-button.md");
     });
 
     it("reads a category landing page by its own address", async () => {
       const result = await runDocs(["read", "/react"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("# served /llms/react.txt");
+      expect(result.stdout.trimEnd()).toBe("# served /react.md");
     });
 
     it("follows a tail query through to the document it reaches", async () => {
@@ -454,9 +454,7 @@ describe("docs command", () => {
       const result = await runDocs(["read", "concepts/composition"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        "# served /llms/react/components/concepts/composition.txt",
-      );
+      expect(result.stdout.trimEnd()).toBe("# served /react/components/concepts/composition.md");
     });
 
     it("fails on a tail query that reaches several, naming each", async () => {

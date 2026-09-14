@@ -30,13 +30,13 @@ const categories: DocsCategory[] = [
         id: "action-button",
         title: "Action Button",
         docUrl: "/lynx/components/action-button",
-        llmsUrl: "/llms/lynx/components/action-button.txt",
+        llmsUrl: "/lynx/components/action-button.md",
       },
       {
         id: "checkbox",
         title: "Checkbox",
         docUrl: "/lynx/components/checkbox",
-        llmsUrl: "/llms/lynx/components/checkbox.txt",
+        llmsUrl: "/lynx/components/checkbox.md",
         deprecated: true,
       },
     ],
@@ -45,37 +45,37 @@ const categories: DocsCategory[] = [
     id: "react",
     label: "React",
     items: [
-      { id: "overview", title: "Overview", docUrl: "/react", llmsUrl: "/llms/react.txt" },
+      { id: "overview", title: "Overview", docUrl: "/react", llmsUrl: "/react.md" },
       {
         id: "action-button",
         title: "Action Button",
         description: "명확한 액션을 수행하는 버튼입니다.",
         docUrl: "/react/components/action-button",
-        llmsUrl: "/llms/react/components/action-button.txt",
+        llmsUrl: "/react/components/action-button.md",
       },
       {
         id: "bottom-sheet",
         title: "Bottom Sheet",
         docUrl: "/react/components/bottom-sheet",
-        llmsUrl: "/llms/react/components/bottom-sheet.txt",
+        llmsUrl: "/react/components/bottom-sheet.md",
       },
       {
         id: "composition",
         title: "Composition",
         docUrl: "/react/components/concepts/composition",
-        llmsUrl: "/llms/react/components/concepts/composition.txt",
+        llmsUrl: "/react/components/concepts/composition.md",
       },
       {
         id: "bottom-sheet",
         title: "Bottom Sheet",
         docUrl: "/react/stackflow/bottom-sheet",
-        llmsUrl: "/llms/react/stackflow/bottom-sheet.txt",
+        llmsUrl: "/react/stackflow/bottom-sheet.md",
       },
       {
         id: "changelog",
         title: "Changelog",
         docUrl: "/react/updates/changelog",
-        llmsUrl: "/llms/react/updates/changelog.txt",
+        llmsUrl: "/react/updates/changelog.md",
       },
     ],
   },
@@ -218,7 +218,7 @@ describe("summaryOf", () => {
     id: "action-button",
     title: "Action Button",
     docUrl: "/react/components/action-button",
-    llmsUrl: "/llms/react/components/action-button.txt",
+    llmsUrl: "/react/components/action-button.md",
   };
 
   it("gives the title alone when the index carries nothing else", () => {
