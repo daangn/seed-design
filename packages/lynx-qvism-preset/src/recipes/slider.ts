@@ -130,7 +130,6 @@ const slider = defineSlotRecipe({
       true: {
         range: { transition: "none" },
         thumb: { transition: "none" },
-        valueIndicatorRoot: { transition: "none" },
         valueIndicatorArrow: { transition: "none" },
       },
       false: {},
@@ -154,7 +153,8 @@ const slider = defineSlotRecipe({
       false: {
         valueIndicatorRoot: {
           opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
-          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY})) scale(${vars.base.enabled.valueIndicatorRoot.exitScale})`,
+          // Match React's enter/exit motion by moving the hidden bubble closer to the thumb.
+          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 5px)) scale(${vars.base.enabled.valueIndicatorRoot.exitScale})`,
         },
       },
     },

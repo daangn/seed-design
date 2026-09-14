@@ -1,7 +1,7 @@
 .docs-lynx-slider-root {
   width: 100%;
   height: 100%;
-  padding: 24px;
+  padding: 48px 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;

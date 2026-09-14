@@ -5407,7 +5407,7 @@ text {
   --slider-marker-color: var(--seed-color-fg-disabled);
 }
 
-.seed-slider__range--dragging_true, .seed-slider__thumb--dragging_true, .seed-slider__valueIndicatorRoot--dragging_true, .seed-slider__valueIndicatorArrow--dragging_true {
+.seed-slider__range--dragging_true, .seed-slider__thumb--dragging_true, .seed-slider__valueIndicatorArrow--dragging_true {
   transition: none;
 }
 
@@ -5423,7 +5423,7 @@ text {
 
 .seed-slider__valueIndicatorRoot--valueIndicatorShown_false {
   opacity: 0;
-  transform: translate(-50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3))) scale(1);
+  transform: translate(-50%, calc(-100% - var(--seed-dimension-x5) / 2 - 5px)) scale(1);
 }
 
 .seed-slider__valueIndicatorRoot--valueIndicatorEverShown_false {
