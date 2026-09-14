@@ -1,0 +1,72 @@
+---
+title: Skeleton
+description: 콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.
+compatibility:
+  lynx:
+    engine: "1.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/skeleton/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `Skeleton`은 별도 `ui:skeleton` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Usage
+
+```tsx
+import { Skeleton } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Skeleton />
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Skeleton/Skeleton.tsx" name="SkeletonProps" />
+
+## Examples
+
+### Radius
+
+<LynxComponentExample name="lynx/skeleton/radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/radius.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tone
+
+<LynxComponentExample name="lynx/skeleton/tone">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/tone.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 웹은 HTML `<div>`와 CSS pseudo-element로 shimmer를 렌더링하고, Lynx는 네이티브 `<view>` root와 shimmer child를 렌더링합니다.
+- Lynx는 Skeleton을 장식 요소로 취급해 root와 shimmer child를 `accessibility-elements-hidden`으로 접근성 트리에서 숨깁니다.
+- Lynx 공개 API는 `radius`, `tone`, `width`, `height`, `className`, `style`, root `<view>` ref를 제공하며 children, 이벤트, 상태 API는 제공하지 않습니다.
