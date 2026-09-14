@@ -1,0 +1,16 @@
+{
+  "id": "alert-dialog",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "alert-dialog.tsx",
+      "content": "/**\n * @file ui:alert-dialog\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport {\n  ActionButton,\n  AlertDialog as SeedAlertDialog,\n  type ActionButtonProps,\n} from \"@seed-design/lynx-react\";\n\nexport interface AlertDialogRootProps extends SeedAlertDialog.RootProps {}\n\n/**\n * @see https://seed-design.io/lynx/components/alert-dialog\n */\nexport const AlertDialogRoot = SeedAlertDialog.Root;\n\nexport interface AlertDialogTriggerProps extends SeedAlertDialog.TriggerProps {}\n\nexport const AlertDialogTrigger = SeedAlertDialog.Trigger;\n\nexport interface AlertDialogHeaderProps extends SeedAlertDialog.HeaderProps {}\n\nexport const AlertDialogHeader = SeedAlertDialog.Header;\n\nexport interface AlertDialogTitleProps extends SeedAlertDialog.TitleProps {}\n\nexport const AlertDialogTitle = SeedAlertDialog.Title;\n\nexport interface AlertDialogDescriptionProps extends SeedAlertDialog.DescriptionProps {}\n\nexport const AlertDialogDescription = SeedAlertDialog.Description;\n\nexport interface AlertDialogFooterProps extends SeedAlertDialog.FooterProps {}\n\nexport const AlertDialogFooter = SeedAlertDialog.Footer;\n\nexport interface AlertDialogActionProps\n  extends Omit<SeedAlertDialog.ActionProps, \"children\">,\n    ActionButtonProps {}\n\nexport const AlertDialogAction = React.forwardRef<unknown, AlertDialogActionProps>(\n  ({ children, transition, ...actionButtonProps }, ref) => {\n    return (\n      <SeedAlertDialog.Action transition={transition} disabled={actionButtonProps.disabled}>\n        <ActionButton ref={ref} {...actionButtonProps}>\n          {children}\n        </ActionButton>\n      </SeedAlertDialog.Action>\n    );\n  },\n);\nAlertDialogAction.displayName = \"AlertDialogAction\";\n\nexport interface AlertDialogContentProps extends Omit<SeedAlertDialog.ContentProps, \"children\"> {\n  children?: React.ReactNode;\n  container?: SeedAlertDialog.PositionerProps[\"container\"];\n  overlayLevel?: SeedAlertDialog.PositionerProps[\"overlayLevel\"];\n}\n\n/**\n * Positioner, Backdrop, Content를 조립합니다. Lynx에서는 container와 overlayLevel로\n * overlay 위치를 지정하며, alert dialog의 backdrop을 탭해도 닫히지 않습니다.\n */\nexport const AlertDialogContent = (props: AlertDialogContentProps) => {\n  const { children, container, overlayLevel, ...contentProps } = props;\n\n  return (\n    <SeedAlertDialog.Positioner container={container} overlayLevel={overlayLevel}>\n      <SeedAlertDialog.Backdrop clickToClose={false} />\n      <SeedAlertDialog.Content {...contentProps}>{children}</SeedAlertDialog.Content>\n    </SeedAlertDialog.Positioner>\n  );\n};\nAlertDialogContent.displayName = \"AlertDialogContent\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+      }
+    }
+  ]
+}
