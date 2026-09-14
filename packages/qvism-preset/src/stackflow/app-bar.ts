@@ -18,10 +18,12 @@ const PINNED_LEFT_PADDING_RIGHT = "16px";
 const ICON_BASIS_OFFSET = `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`;
 
 // The centered title keeps the same distance past each side's safe-area inset, so it stays centered
-// in the safe area. That distance clears whichever left/right area reaches further past its own
-// inset; `useAppBar` measures each area's extent from the bar's outer edge, and a missing area is 0.
-const CENTERED_TITLE_CLEARANCE =
-  "max(var(--app-bar-left-extent, 0px) - var(--seed-safe-area-left), var(--app-bar-right-extent, 0px) - var(--seed-safe-area-right), 0px)";
+// in the safe area. That distance clears whichever left/right area reaches further: the bar's
+// padding plus the extent `useAppBar` measures from the bar's content edge. A missing area leaves
+// its extent unset, and the fallback cancels the padding so the area clears nothing.
+const areaClearance = (side: "left" | "right") =>
+  `calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-${side}-extent, calc(-1 * ${PINNED_ROOT_PADDING_X})))`;
+const CENTERED_TITLE_CLEARANCE = `max(${areaClearance("left")}, ${areaClearance("right")}, 0px)`;
 
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
@@ -79,7 +81,7 @@ export const appBarMain = defineSlotRecipe({
           insetInline: 0,
           // NOTE: the spec's `root.titleMinGap` (the minimum gap between the title and the left/right
           // areas) is not applied yet; consuming it means adding
-          // `${vars.themeIos.enabled.root.titleMinGap}` to both extents in `CENTERED_TITLE_CLEARANCE`.
+          // `${vars.themeIos.enabled.root.titleMinGap}` to the measured extent in `areaClearance`.
           paddingLeft: `calc(var(--seed-safe-area-left) + ${CENTERED_TITLE_CLEARANCE})`,
           paddingRight: `calc(var(--seed-safe-area-right) + ${CENTERED_TITLE_CLEARANCE})`,
           pointerEvents: "none",
