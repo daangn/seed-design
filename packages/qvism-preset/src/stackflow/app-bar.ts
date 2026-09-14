@@ -71,10 +71,12 @@ export const appBarMain = defineSlotRecipe({
           top: "var(--seed-safe-area-top)",
           bottom: 0,
           insetInline: 0,
-          // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
-          // is measured from the left/right areas in `useAppBar` and has no floor, so consuming it
-          // means `max(var(--centered-title-padding-x, 0), ${vars.themeIos.enabled.root.titleMinGap})`.
-          paddingInline: "var(--centered-title-padding-x, 0)",
+          // `--centered-title-padding-x` is measured from the left/right areas in `useAppBar`, so it
+          // covers the side insets only when those areas exist; the safe-area arguments cover the rest.
+          // NOTE: the spec's `root.titleMinGap` is not applied yet; consuming it means adding
+          // `${vars.themeIos.enabled.root.titleMinGap}` as another `max()` argument.
+          paddingInline:
+            "max(var(--centered-title-padding-x, 0px), var(--seed-safe-area-left), var(--seed-safe-area-right))",
           pointerEvents: "none",
         },
       },
@@ -185,7 +187,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: PINNED_ROOT_PADDING_X,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -212,7 +215,8 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: PINNED_ROOT_PADDING_X,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {

@@ -19,9 +19,11 @@
   .seed-app-screen__layer {
     z-index: var(--z-index-layer);
     box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
     width: 100%;
     height: 100%;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
+    -webkit-overflow-scrolling: touch;
     position: absolute;
     inset-inline: 0;
     overflow-y: scroll;
@@ -118,6 +120,8 @@
     content: "";
     inset-inline: 0;
     margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
+    margin-left: calc(-1 * var(--seed-safe-area-left));
+    margin-right: calc(-1 * var(--seed-safe-area-right));
     height: calc(66px + 400px + var(--seed-safe-area-top));
     pointer-events: none;
     z-index: 1;
