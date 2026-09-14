@@ -494,7 +494,10 @@ export function useWheelPickerColumn({
     ],
   );
 
-  const handleTouchStart = React.useCallback(() => {
+  const handleTouchStart = React.useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    if (event.currentTarget.tabIndex >= 0) {
+      event.currentTarget.setAttribute("data-wheel-picker-pointer-focus", "");
+    }
     keyboardTargetPhysicalIndexRef.current = null;
     if (wheelAlignmentFrameRef.current !== null) {
       cancelAnimationFrame(wheelAlignmentFrameRef.current);

@@ -205,6 +205,22 @@ describe("WheelPicker", () => {
     jest.useRealTimers();
   });
 
+  it("터치로 받은 포커스는 blur 전까지 포인터 포커스로 표시한다", () => {
+    const { getByRole } = render(<TestWheelPicker />);
+    const column = getByRole("spinbutton");
+
+    fireEvent.touchStart(column, { touches: [{ clientY: 100 }] });
+    fireEvent.focus(column);
+
+    expect(column).toHaveAttribute("data-wheel-picker-pointer-focus");
+
+    fireEvent.touchEnd(column, { touches: [] });
+    expect(column).toHaveAttribute("data-wheel-picker-pointer-focus");
+
+    fireEvent.blur(column);
+    expect(column).not.toHaveAttribute("data-wheel-picker-pointer-focus");
+  });
+
   it("마우스로 항목을 누를 때는 드래그 전까지 포인터 캡처를 시작하지 않는다", () => {
     jest.useFakeTimers();
     setPointerCapture.mockClear();

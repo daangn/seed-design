@@ -81,6 +81,8 @@ const wheelPickerPublic = defineSlotRecipe({
       [`& ${selected}` as const]: {
         ...createFocusRingRestStyles({ position: "inside" }),
         borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
+      },
+      [`&:not([data-wheel-picker-pointer-focus]) ${selected}` as const]: {
         transition: FOCUS_RING_TRANSITION,
       },
       [`&${pseudo(focusVisible)}:not([data-wheel-picker-pointer-focus]) ${selected}` as const]:
