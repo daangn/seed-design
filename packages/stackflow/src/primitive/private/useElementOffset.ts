@@ -28,8 +28,11 @@ export function useElementOffset(element: HTMLElement | null) {
       });
 
       resizeObserver.observe(element);
+      // The offset also moves when the parent's padding changes (e.g. safe-area insets on
+      // rotation) while the element's own size stays the same.
+      if (element.offsetParent) resizeObserver.observe(element.offsetParent);
 
-      return () => resizeObserver.unobserve(element);
+      return () => resizeObserver.disconnect();
     }
   }, [element]);
 
