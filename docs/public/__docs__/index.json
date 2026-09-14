@@ -2404,6 +2404,19 @@
               ]
             },
             {
+              "id": "slider",
+              "title": "Slider",
+              "description": "지정된 범위에서 하나 또는 두 개의 값을 선택하는 슬라이더 컴포넌트입니다.",
+              "docUrl": "/lynx/components/slider",
+              "snippetKey": "lynx/ui:slider",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "slider.tsx"
+                }
+              ]
+            },
+            {
               "id": "swipeable-menu-sheet",
               "title": "Swipeable Menu Sheet",
               "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",

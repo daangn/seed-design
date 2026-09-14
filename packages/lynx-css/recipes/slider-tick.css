@@ -1,0 +1,14 @@
+.seed-slider-tick {
+    position: absolute;
+    top: 50%;
+    height: 100%;
+    left: calc(var(--slider-tick-left, 0%) + var(--slider-tick-offset, 0px));
+    background-color: var(--seed-color-fg-neutral-inverted);
+    transform: translate(-50%, -50%)
+}
+.seed-slider-tick--weight_thin {
+    width: 1px
+}
+.seed-slider-tick--weight_thick {
+    width: var(--seed-dimension-x1)
+}
