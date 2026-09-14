@@ -1,0 +1,44 @@
+.seed-slider-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: max-content;
+    left: calc(var(--slider-marker-left, 0%) + var(--slider-marker-offset, 0px));
+    color: var(--slider-marker-color, var(--seed-color-fg-neutral-muted));
+    font-weight: var(--seed-font-weight-regular);
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3)
+}
+.seed-slider-marker--align_start {}
+.seed-slider-marker--align_center {}
+.seed-slider-marker--align_end {}
+.seed-slider-marker--dir_ltr {}
+.seed-slider-marker--dir_rtl {}
+.seed-slider-marker--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-slider-marker--disabled_false {}
+.seed-slider-marker--align_start-dir_ltr {
+    text-align: left;
+    transform: translateX(0%)
+}
+.seed-slider-marker--align_center-dir_ltr {
+    text-align: center;
+    transform: translateX(-50%)
+}
+.seed-slider-marker--align_end-dir_ltr {
+    text-align: right;
+    transform: translateX(-100%)
+}
+.seed-slider-marker--align_start-dir_rtl {
+    text-align: right;
+    transform: translateX(-100%)
+}
+.seed-slider-marker--align_center-dir_rtl {
+    text-align: center;
+    transform: translateX(-50%)
+}
+.seed-slider-marker--align_end-dir_rtl {
+    text-align: left;
+    transform: translateX(0%)
+}
