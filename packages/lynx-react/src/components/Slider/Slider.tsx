@@ -182,7 +182,13 @@ function dynamicStyle(
   return { ...values, ...(style ?? {}) };
 }
 
+function defaultGetValueIndicatorLabel({ value }: { value: number }): React.ReactNode {
+  return String(value);
+}
+
 export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, forwardedRef) => {
+  const [variantProps, restProps] = slider.splitVariantProps(props);
+  const { disabled = false } = variantProps;
   const {
     children,
     className,
@@ -195,14 +201,13 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     allowedValues,
     minStepsBetweenThumbs = 0,
     dir = "ltr",
-    disabled = false,
     readOnly = false,
     invalid = false,
     onValuesChange,
     onValuesCommit,
     getAccessibilityLabel,
     getAccessibilityValueText,
-    getValueIndicatorLabel = ({ value }) => String(value),
+    getValueIndicatorLabel = defaultGetValueIndicatorLabel,
     valueIndicatorTrigger = "auto",
     "consume-slide-event": consumeSlideEvent = [
       [-180, -135],
@@ -210,7 +215,7 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
       [135, 180],
     ],
     ...nativeProps
-  } = props;
+  } = restProps;
   const resolvedValueIndicatorTrigger =
     valueIndicatorTrigger === "auto" ? "active" : valueIndicatorTrigger;
   const getClasses = React.useCallback((state: SliderVariantProps = {}) => slider(state), []);
@@ -283,23 +288,19 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
         if (pending !== null && track) {
           interaction.current.pendingX = null;
           updateFromRatioRef.current?.(clampRatio((pending - track.left) / track.width));
-          if (pendingEndRef.current) finalizeRef.current?.();
         }
+        if (pendingEndRef.current) finalizeRef.current?.();
       })
       .catch(() => {
         measureInFlight.current = false;
-        if (
-          !pendingEndRef.current ||
-          interaction.current.pendingX === null ||
-          trackWidthRef.current <= 0
-        ) {
-          return;
-        }
+        if (!pendingEndRef.current) return;
         const pending = interaction.current.pendingX;
-        interaction.current.pendingX = null;
-        updateFromRatioRef.current?.(
-          clampRatio((pending - trackLeftRef.current) / trackWidthRef.current),
-        );
+        if (pending !== null && trackWidthRef.current > 0) {
+          interaction.current.pendingX = null;
+          updateFromRatioRef.current?.(
+            clampRatio((pending - trackLeftRef.current) / trackWidthRef.current),
+          );
+        }
         finalizeRef.current?.();
       });
   }, []);
@@ -453,45 +454,84 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     interaction.current.changed = false;
   }, []);
 
-  React.useEffect(() => {
-    measure();
-  }, [measure, values.length]);
-  const classes = getClasses({ disabled, dragging, valueIndicatorEverShown });
-
   const rootHandlers = {
     catchtouchstart: begin,
     catchtouchmove: move,
     catchtouchend: finish,
     catchtouchcancel: cancel,
   };
-  const contextValue: SliderContextValue = {
-    values,
-    min,
-    max,
-    step,
-    allowedValues,
-    minStepsBetweenThumbs,
-    dir,
-    disabled,
-    readOnly,
-    invalid,
-    valueIndicatorTrigger: resolvedValueIndicatorTrigger,
-    dragging,
-    activeThumbIndex,
-    valueIndicatorEverShown,
-    classes,
-    getClasses,
-    trackRef,
-    dimensions: { trackLeft, trackWidth, thumbWidth, indicatorWidths },
-    registerThumb,
-    updateIndicatorWidth,
-    registerIndicator,
-    startThumb: (index) => {
-      interaction.current.index = index;
-    },
-    formatters: { getAccessibilityLabel, getAccessibilityValueText, getValueIndicatorLabel },
-    interaction: interaction.current,
-  };
+
+  React.useEffect(() => {
+    measure();
+  }, [measure, values.length]);
+  const classes = React.useMemo(
+    () => getClasses({ disabled, dragging, valueIndicatorEverShown }),
+    [disabled, dragging, getClasses, valueIndicatorEverShown],
+  );
+  const dimensions = React.useMemo<SliderDimensions>(
+    () => ({ trackLeft, trackWidth, thumbWidth, indicatorWidths }),
+    [indicatorWidths, thumbWidth, trackLeft, trackWidth],
+  );
+  const startThumb = React.useCallback((index: number) => {
+    interaction.current.index = index;
+  }, []);
+  const formatters = React.useMemo<SliderFormatters>(
+    () => ({ getAccessibilityLabel, getAccessibilityValueText, getValueIndicatorLabel }),
+    [getAccessibilityLabel, getAccessibilityValueText, getValueIndicatorLabel],
+  );
+
+  const contextValue = React.useMemo<SliderContextValue>(
+    () => ({
+      values,
+      min,
+      max,
+      step,
+      allowedValues,
+      minStepsBetweenThumbs,
+      dir,
+      disabled,
+      readOnly,
+      invalid,
+      valueIndicatorTrigger: resolvedValueIndicatorTrigger,
+      dragging,
+      activeThumbIndex,
+      valueIndicatorEverShown,
+      classes,
+      getClasses,
+      trackRef,
+      dimensions,
+      registerThumb,
+      updateIndicatorWidth,
+      registerIndicator,
+      startThumb,
+      formatters,
+      interaction: interaction.current,
+    }),
+    [
+      activeThumbIndex,
+      allowedValues,
+      classes,
+      dimensions,
+      dir,
+      disabled,
+      dragging,
+      formatters,
+      getClasses,
+      invalid,
+      max,
+      min,
+      minStepsBetweenThumbs,
+      readOnly,
+      registerIndicator,
+      registerThumb,
+      resolvedValueIndicatorTrigger,
+      startThumb,
+      step,
+      updateIndicatorWidth,
+      valueIndicatorEverShown,
+      values,
+    ],
+  );
 
   return (
     <SliderContext.Provider value={contextValue}>

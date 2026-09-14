@@ -60,7 +60,7 @@ export function normalizeValue(
   const safeMax = Math.max(min, max);
   const candidate = Number.isFinite(value) ? value : safeMin;
   if (allowedValues && allowedValues.length > 0) {
-    return clamp(closestAllowedValue(candidate, allowedValues), safeMin, safeMax);
+    return closestAllowedValue(candidate, allowedValues);
   }
   const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
   const decimals = Math.max(decimalCount(safeStep), decimalCount(safeMin));
@@ -104,9 +104,12 @@ export function hasMinimumSteps(
   step: number,
 ): boolean {
   if (minimumSteps <= 0 || values.length < 2) return true;
-  const required = minimumSteps * step;
+  const safeStep = Number.isFinite(step) && step > 0 ? step : 1;
+  const decimals = decimalCount(safeStep);
+  const required = roundValue(minimumSteps * safeStep, decimals);
   for (let index = 1; index < values.length; index += 1) {
-    if (values[index] - values[index - 1] < required) return false;
+    const difference = roundValue(values[index] - values[index - 1], decimals);
+    if (difference < required) return false;
   }
   return true;
 }

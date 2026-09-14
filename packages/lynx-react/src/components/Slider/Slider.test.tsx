@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
+import { getRectByRef } from "@lynx-js/lynx-ui-common";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 
 import * as Slider from "./Slider.namespace";
@@ -30,11 +31,14 @@ describe("Slider utilities", () => {
   it("uses allowed values instead of step snapping", () => {
     expect(normalizeValue(34, 0, 100, 10, [5, 35, 90])).toBe(35);
     expect(normalizeValues([89, 6], 0, 100, 1, [5, 35, 90])).toEqual([5, 90]);
+    expect(normalizeValue(-8, 0, 100, 10, [-10, 50])).toBe(-10);
   });
 
   it("enforces minimum steps and converts RTL geometry", () => {
     expect(hasMinimumSteps([10, 30], 2, 10)).toBe(true);
     expect(hasMinimumSteps([10, 20], 2, 10)).toBe(false);
+    expect(hasMinimumSteps([10, 10], 1, 0)).toBe(false);
+    expect(hasMinimumSteps([0.1, 0.3], 2, 0.1)).toBe(true);
     expect(valueForPercentage(25, 0, 100, "ltr")).toBe(25);
     expect(valueForPercentage(25, 0, 100, "rtl")).toBe(75);
     expect(percentageForValue(25, 0, 100)).toBe(25);
@@ -114,6 +118,66 @@ describe("Slider", () => {
     expect(onValuesChange).toHaveBeenLastCalledWith([70]);
     expect(onValuesCommit).toHaveBeenCalledTimes(1);
     expect(onValuesCommit).toHaveBeenLastCalledWith([70]);
+  });
+
+  it("clears a finished interaction when measurement fails", async () => {
+    const getRect = vi.mocked(getRectByRef);
+    const onValuesChange = vi.fn();
+    const onValuesCommit = vi.fn();
+    getRect.mockRejectedValue(new Error("measurement failed"));
+
+    try {
+      const view = render(
+        <Slider.Root values={[20]} onValuesChange={onValuesChange} onValuesCommit={onValuesCommit}>
+          <Slider.Control>
+            <Slider.Track>
+              <Slider.Thumb />
+            </Slider.Track>
+          </Slider.Control>
+        </Slider.Root>,
+      );
+      const root = view.container.querySelector(".seed-slider__root");
+      if (!root) throw new Error("Expected slider root");
+      fireEvent.touchstart(root, { eventType: "catchEvent", touches: [{ pageX: 80 }] });
+      fireEvent.touchend(root, { eventType: "catchEvent", changedTouches: [{ pageX: 80 }] });
+      await waitSchedule();
+
+      getRect.mockResolvedValue({
+        left: 10,
+        top: 0,
+        width: 100,
+        height: 20,
+        right: 110,
+        bottom: 20,
+      });
+      view.rerender(
+        <Slider.Root
+          values={[20, 40]}
+          onValuesChange={onValuesChange}
+          onValuesCommit={onValuesCommit}
+        >
+          <Slider.Control>
+            <Slider.Track>
+              <Slider.Thumb />
+            </Slider.Track>
+          </Slider.Control>
+        </Slider.Root>,
+      );
+      await waitSchedule();
+
+      expect(onValuesChange).not.toHaveBeenCalled();
+      expect(onValuesCommit).not.toHaveBeenCalled();
+    } finally {
+      getRect.mockReset();
+      getRect.mockResolvedValue({
+        left: 10,
+        top: 0,
+        width: 100,
+        height: 20,
+        right: 110,
+        bottom: 20,
+      });
+    }
   });
 
   it("cancels an unmeasured interaction without committing delayed updates", async () => {
