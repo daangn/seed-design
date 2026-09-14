@@ -73,7 +73,7 @@ export function itemPath(category: DocsIndexCategory, item: DocsIndexItem): stri
  * whichever came first left the other unreachable through this argument.
  */
 export function findItem(category: DocsIndexCategory, docPath: string): DocsIndexItem | undefined {
-  const normalized = docPath.split("#")[0].replace(/^\/+|\.txt$/g, "");
+  const normalized = docPath.split("#")[0].replace(/^\/+|\.md$/g, "");
   const all = category.items;
 
   if (normalized.length === 0) return all.find((item) => item.docUrl === `/${category.id}`);
