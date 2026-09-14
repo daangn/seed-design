@@ -2417,6 +2417,12 @@
               ]
             },
             {
+              "id": "skeleton",
+              "title": "Skeleton",
+              "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+              "docUrl": "/lynx/components/skeleton"
+            },
+            {
               "id": "slider",
               "title": "Slider",
               "description": "지정된 범위에서 하나 또는 두 개의 값을 선택하는 슬라이더 컴포넌트입니다.",
