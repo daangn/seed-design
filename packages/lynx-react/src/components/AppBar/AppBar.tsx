@@ -20,6 +20,7 @@ import { Icon } from "../Icon";
 import { AppBarProvider, useAppBarContext } from "./context";
 import { getLayoutWidth, getMainLayoutStyle, useAppBar } from "./useAppBar";
 import { mergeProps } from "../../utils/merge-props";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
@@ -232,7 +233,9 @@ AppBarSubtitle.displayName = "AppBarSubtitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarIconButtonProps extends LynxElementProps, LynxPressableProps {
+export interface AppBarIconButtonProps
+  extends Omit<LynxElementProps, "flatten">,
+    LynxPressableProps {
   icon?: React.ReactElement<LynxIconElementProps>;
   "accessibility-label"?: LynxViewProps["accessibility-label"];
   "accessibility-element"?: LynxViewProps["accessibility-element"];
@@ -250,6 +253,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
     ...nativeProps
   } = props;
   const classNames = useAppBarClassNames("AppBarIconButton");
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
   if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
     console.warn("AppBarIconButton requires `accessibility-label` for accessibility.");
@@ -257,7 +261,13 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        ref ? { ref: ref as LynxViewRef } : {},
+        scaleFeedbackTriggerProps,
+        scaleFeedbackTargetProps,
+        nativeProps,
+      )}
+      flatten={false}
       accessibility-element={accessibilityElement}
       accessibility-label={accessibilityLabel}
       accessibility-traits={accessibilityTraits}

@@ -223,7 +223,9 @@ describe("SwipeableMenuSheet", () => {
       (getByText("Second item") as HTMLElement).parentElement?.parentElement?.className,
     ).toContain("labelAlign_center");
 
-    const item = (getByText("First item") as HTMLElement).parentElement?.parentElement;
+    const item = (getByText("First item") as HTMLElement).closest<HTMLElement>(
+      ".seed-menu-sheet-item__root",
+    );
     if (!item) throw new Error("Expected menu sheet item.");
     fireEvent.tap(item);
 
@@ -254,5 +256,23 @@ describe("SwipeableMenuSheet", () => {
       enterAnimation: { type: "tween", duration: 0 },
       exitAnimation: { type: "tween", duration: 0 },
     });
+  });
+  it("keeps item backgrounds outside the scale target and scales the whole close button", () => {
+    const { getByText } = render(
+      <SwipeableMenuSheet.Root>
+        <SwipeableMenuSheet.Item>
+          <SwipeableMenuSheet.ItemLabel>Choice</SwipeableMenuSheet.ItemLabel>
+        </SwipeableMenuSheet.Item>
+        <SwipeableMenuSheet.CloseButton>Close feedback</SwipeableMenuSheet.CloseButton>
+      </SwipeableMenuSheet.Root>,
+    );
+    const target = (getByText("Choice") as HTMLElement).parentElement!;
+    expect(target.classList.contains("seed-menu-sheet-item__scaleContent")).toBe(true);
+    expect(target.getAttribute("flatten")).toBe("false");
+    expect(target.parentElement!.classList.contains("seed-menu-sheet-item__root")).toBe(true);
+    expect(target.parentElement!.hasAttribute("flatten")).toBe(false);
+    const close = (getByText("Close feedback") as HTMLElement).parentElement!;
+    expect(close.classList.contains("seed-menu-sheet__closeButton")).toBe(true);
+    expect(close.getAttribute("flatten")).toBe("false");
   });
 });

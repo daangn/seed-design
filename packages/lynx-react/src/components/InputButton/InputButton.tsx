@@ -7,6 +7,9 @@ import {
 import clsx from "clsx";
 
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback, type ScaleFeedbackTriggerProps } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
+import { toArray } from "../../utils/children";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -20,6 +23,8 @@ interface InputButtonContextValue {
   variantProps: InputButtonVariantProps;
   disabled: boolean;
   readOnly: boolean;
+  pressed: boolean;
+  scaleFeedbackTriggerProps: ScaleFeedbackTriggerProps;
 }
 
 const InputButtonContext = React.createContext<InputButtonContextValue | null>(null);
@@ -42,6 +47,8 @@ function useInputButtonContext(consumer: string): InputButtonContextValue {
  * 웹 대비 미지원 기능:
  * - `size="responsive"`: Lynx에는 CSS viewport breakpoint가 없음
  * - HTML form 제출과 DOM ARIA id 연결
+ * - Content Scale을 적용하려면 Button을 Root의 직접 자식 또는 Fragment 안에 둡니다.
+ *   커스텀 컴포넌트로 감싼 Button은 기존 구조를 보존하며 Content Scale을 생략합니다.
  */
 export interface InputButtonRootProps
   extends Omit<InputButtonVariantProps, "pressed">,
@@ -54,9 +61,21 @@ export const InputButtonRoot = React.forwardRef<NodesRef, InputButtonRootProps>(
     const disabled = variantProps.disabled ?? false;
     const readOnly = variantProps.readOnly ?? false;
     const classes = inputButton(variantProps);
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel } = usePressTap({
+      disabled: disabled || readOnly,
+    });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: disabled || readOnly,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
+    const childArray = flattenInputButtonChildren(children);
+    const buttonChildren = childArray.filter(isInputButtonButton);
+    const contentChildren = childArray.filter((child) => !isInputButtonButton(child));
     const contextValue = React.useMemo(
-      () => ({ variantProps, disabled, readOnly }),
-      [variantProps, disabled, readOnly],
+      () => ({ variantProps, disabled, readOnly, pressed, scaleFeedbackTriggerProps }),
+      [variantProps, disabled, readOnly, pressed, scaleFeedbackTriggerProps],
     );
 
     return (
@@ -66,7 +85,16 @@ export const InputButtonRoot = React.forwardRef<NodesRef, InputButtonRootProps>(
           className={clsx(classes.root, className)}
           {...nativeProps}
         >
-          {children}
+          {buttonChildren.length > 0 ? (
+            <>
+              {buttonChildren}
+              <view {...scaleFeedbackTargetProps} className={classes.content}>
+                {contentChildren}
+              </view>
+            </>
+          ) : (
+            children
+          )}
         </view>
       </InputButtonContext.Provider>
     );
@@ -93,12 +121,12 @@ export const InputButtonButton = React.forwardRef<unknown, InputButtonButtonProp
     ...nativeProps
   } = props;
   const nonInteractive = context.disabled || context.readOnly;
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { bindtap: handleTap, "main-thread:bindtap": handleMainThreadTap } = usePressTap({
     disabled: nonInteractive,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const classes = inputButton({ ...context.variantProps, pressed });
+  const classes = inputButton({ ...context.variantProps, pressed: context.pressed });
 
   return (
     <view
@@ -106,8 +134,11 @@ export const InputButtonButton = React.forwardRef<unknown, InputButtonButtonProp
       className={clsx(classes.button, className)}
       accessibility-element={accessibilityElement}
       accessibility-traits={accessibilityTraits ?? (nonInteractive ? "disabled" : "button")}
-      {...pressHandlers}
-      {...nativeProps}
+      {...mergeProps(
+        { bindtap: handleTap, "main-thread:bindtap": handleMainThreadTap },
+        context.scaleFeedbackTriggerProps,
+        nativeProps,
+      )}
     >
       <view className={classes.baseStroke} accessibility-elements-hidden={true} />
       <view className={classes.stroke} accessibility-elements-hidden={true} />
@@ -116,6 +147,18 @@ export const InputButtonButton = React.forwardRef<unknown, InputButtonButtonProp
   );
 });
 InputButtonButton.displayName = "InputButtonButton";
+
+function isInputButtonButton(node: React.ReactNode) {
+  return React.isValidElement(node) && node.type === InputButtonButton;
+}
+
+function flattenInputButtonChildren(children: React.ReactNode): React.ReactNode[] {
+  return toArray(children).flatMap((child) =>
+    React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === React.Fragment
+      ? flattenInputButtonChildren(child.props.children)
+      : [child],
+  );
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -272,6 +315,9 @@ export const InputButtonClearButton = React.forwardRef<unknown, InputButtonClear
       mainThreadOnTap: mainThreadBindtap,
     });
     const classes = inputButton({ ...context.variantProps, pressed });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: nonInteractive,
+    });
 
     if (nonInteractive) return null;
 
@@ -286,8 +332,13 @@ export const InputButtonClearButton = React.forwardRef<unknown, InputButtonClear
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits="button"
-        {...pressHandlers}
-        {...otherProps}
+        {...mergeProps(
+          pressHandlers,
+          scaleFeedbackTriggerProps,
+          scaleFeedbackTargetProps,
+          otherProps,
+          { flatten: false },
+        )}
       />
     );
   },

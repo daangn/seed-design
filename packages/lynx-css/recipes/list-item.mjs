@@ -53,14 +53,24 @@ const listItemSlotNames = [
 ];
 
 const defaultVariant = {
+  "interactive": false,
   "highlighted": false,
   "pressed": false,
   "disabled": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "interactive": true,
+    "disabled": false
+  }
+];
 
 export const listItemVariantMap = {
+  "interactive": [
+    true,
+    false
+  ],
   "highlighted": [
     true,
     false

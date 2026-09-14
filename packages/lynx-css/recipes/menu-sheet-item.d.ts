@@ -19,7 +19,7 @@ declare type MenuSheetItemVariantMap = {
 
 export declare type MenuSheetItemVariantProps = Partial<MenuSheetItemVariant>;
 
-export declare type MenuSheetItemSlotName = "root" | "content" | "label" | "description" | "prefixIcon" | "divider";
+export declare type MenuSheetItemSlotName = "root" | "scaleContent" | "content" | "label" | "description" | "prefixIcon" | "divider";
 
 export declare const menuSheetItemVariantMap: MenuSheetItemVariantMap;
 
