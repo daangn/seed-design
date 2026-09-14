@@ -1,0 +1,403 @@
+---
+title: Slider
+description: 지정된 범위에서 하나 또는 두 개의 값을 선택하는 슬라이더 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/slider/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:slider --framework lynx
+```
+
+<LynxManualInstallation name='slider' />
+
+## Props
+
+### `Slider`
+
+Registry의 `Slider`는 Slider primitive를 Field 안내 요소와 함께 조합한 편의 래퍼입니다. 한 개의 thumb을 사용할 때는 `defaultValues` 또는 `values`에 한 값을 넣고, 범위를 선택할 때는 두 값을 넣습니다.
+
+<react-type-table path="./registry/lynx/ui/slider.tsx" name="SliderProps" />
+
+Registry 래퍼는 다음 두 종류의 prop을 제공합니다.
+
+- **Slider 상태·동작**: `low-level Root`의 `values`, `defaultValues`, `min`, `max`, `step`, `allowedValues`, `minStepsBetweenThumbs`, `dir`, `disabled`, `readOnly`, `invalid`, `onValuesChange`, `onValuesCommit`, `getAccessibilityLabel`, `getAccessibilityValueText`, `getValueIndicatorLabel`, `valueIndicatorTrigger`를 그대로 전달합니다.
+- **화면과 Field 안내**: `label`, `labelWeight`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`, `markers`, `ticks`, `tickWeight`, `hideRange`, `hideValueIndicator`, `fieldRef`를 제공합니다. `markers`의 각 항목은 숫자이거나 `{ value, label?, align? }` 객체입니다.
+
+`allowedValues`를 지정하면 허용된 값만 선택할 수 있으며 `step`과 `minStepsBetweenThumbs`보다 우선합니다. `values`와 `onValuesChange`를 함께 사용하면 controlled 상태가 되고, `onValuesCommit`은 값이 확정되는 시점에 호출됩니다.
+
+## Usage
+
+Registry의 조합이 아닌 `@seed-design/lynx-react` primitive를 직접 사용할 수도 있습니다. `SliderRoot` 안에서 `SliderControl`과 `SliderTrack`을 조합하고, track 안에 `SliderRange`와 필요한 `SliderTick`을 배치합니다. 각 thumb은 `SliderThumb`로 만들며 Value Indicator는 `SliderValueIndicatorRoot`, `SliderValueIndicatorArrow`, `SliderValueIndicatorLabel`로 구성합니다. 마커가 필요하면 `SliderMarkers` 안에 `SliderMarker`를 둡니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import {
+  SliderControl,
+  SliderMarker,
+  SliderMarkers,
+  SliderRange,
+  SliderRoot,
+  SliderThumb,
+  SliderTick,
+  SliderTrack,
+  SliderValueIndicatorArrow,
+  SliderValueIndicatorLabel,
+  SliderValueIndicatorRoot,
+} from "@seed-design/lynx-react";
+
+export function PriceSlider() {
+  const [values, setValues] = useState([40]);
+
+  const setPreset = () => {
+    setValues([60]);
+  };
+
+  return (
+    <view>
+      <SliderRoot
+        values={values}
+        min={0}
+        max={100}
+        step={10}
+        onValuesChange={setValues}
+        getAccessibilityLabel={() => "가격"}
+        getAccessibilityValueText={(value) => `${value}원`}
+      >
+        <SliderControl>
+          <SliderTrack>
+            <SliderRange />
+            <SliderTick value={0} />
+            <SliderTick value={50} />
+            <SliderTick value={100} />
+          </SliderTrack>
+          <SliderValueIndicatorRoot index={0}>
+            <SliderValueIndicatorArrow />
+            <SliderValueIndicatorLabel index={0} />
+          </SliderValueIndicatorRoot>
+          <SliderThumb index={0} />
+        </SliderControl>
+        <SliderMarkers>
+          <SliderMarker value={0}>0원</SliderMarker>
+          <SliderMarker value={100}>100원</SliderMarker>
+        </SliderMarkers>
+      </SliderRoot>
+      <view bindtap={setPreset}>
+        <text>60원으로 설정</text>
+      </view>
+    </view>
+  );
+}
+```
+
+`SliderThumb`의 `index`는 `values` 배열에서 thumb의 위치를 가리킵니다. package primitive를 직접 조합할 때도 값 변경과 제출·검증은 앱 상태와 요청 흐름에서 처리합니다.
+
+## Examples
+
+### Basic
+
+`min`과 `max`로 선택 범위를 정하고 하나의 thumb으로 값을 선택합니다.
+
+<LynxComponentExample name="lynx/slider/basic">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/basic.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Steps
+
+`step`으로 선택 간격을 설정해 일정한 단위의 값만 선택합니다.
+
+<LynxComponentExample name="lynx/slider/steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/steps.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Allowed Values
+
+`allowedValues`로 선택 가능한 값을 명시합니다. 이 prop을 지정하면 `step`과 `minStepsBetweenThumbs`보다 `allowedValues`가 우선합니다.
+
+<LynxComponentExample name="lynx/slider/allowed-values">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/allowed-values.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With Ticks
+
+track 위에 선택 단위를 나타내는 눈금을 표시할 수 있습니다.
+
+#### Thin
+
+연속적인 조작처럼 보이도록 작은 간격을 사용하고 얇은 눈금을 표시합니다.
+
+<LynxComponentExample name="lynx/slider/ticks-thin">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/ticks-thin.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Thick
+
+값의 단계가 크거나 눈금 위치에서만 선택할 수 있는 경우 굵은 눈금을 표시합니다.
+
+<LynxComponentExample name="lynx/slider/ticks-thick">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/ticks-thick.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With Markers
+
+slider 아래에 주요 값을 설명하는 marker를 표시합니다. marker의 시각적 텍스트는 native accessibility 값에 자동으로 포함되지 않으므로, 필요한 의미는 `getAccessibilityValueText`로도 전달하세요.
+
+`markers`에는 숫자 또는 `{ value, label?, align? }` 객체를 전달할 수 있습니다. 객체에서 `align`을 생략하면 최소값은 시작, 최대값은 끝, 나머지는 가운데에 배치됩니다.
+
+<LynxComponentExample name="lynx/slider/markers">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/markers.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`values`와 `onValuesChange`를 사용하여 슬라이더의 값을 앱 상태로 제어합니다.
+
+<LynxComponentExample name="lynx/slider/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+- `onValuesChange`: 드래그 중 값이 바뀔 때마다 호출됩니다. 화면에 현재 값을 표시하거나 앱 상태를 실시간으로 갱신할 때 사용합니다.
+- `onValuesCommit`: 값 변경이 끝났을 때 호출됩니다. Lynx native에서는 값이 변경된 drag의 touch release에서 한 번 호출됩니다. 이 callback에 debounce를 추가할 필요는 없습니다.
+
+<LynxComponentExample name="lynx/slider/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`disabled`를 사용하면 thumb을 조작할 수 없고 비활성 상태 스타일을 표시합니다.
+
+<LynxComponentExample name="lynx/slider/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Hide Range
+
+`hideRange`로 활성 구간 색상을 숨기고 track만 표시합니다.
+
+<LynxComponentExample name="lynx/slider/hide-range">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/hide-range.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Customizing Value Indicator
+
+#### Value Indicator Label
+
+`getValueIndicatorLabel`로 thumb을 조작할 때 표시되는 Value Indicator의 텍스트를 바꿀 수 있습니다.
+
+Value Indicator는 native touch 조작 중에 표시되는 보조 UI이며, 접근성 탐색이 읽는 값은 아닙니다. 의미 있는 단위나 설명을 제공해야 한다면 `getAccessibilityValueText`도 함께 사용하세요.
+
+<LynxComponentExample name="lynx/slider/custom-value-indicator-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/custom-value-indicator-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Value Indicator Trigger
+
+`valueIndicatorTrigger`로 Value Indicator가 표시되는 조건을 정합니다. Lynx에서는 `"auto"`와 `"active"`를 사용할 수 있습니다.
+
+- `"active"`: 현재 touch로 조작하는 thumb에 표시합니다.
+- `"auto"` (기본값): native touch 환경에서는 `"active"`와 동일하게 동작합니다.
+
+웹의 hover 기반 표시 조건이나 키보드 포커스 기반 동작은 Lynx native에 대응하지 않습니다.
+
+<LynxComponentExample name="lynx/slider/value-indicator-trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/value-indicator-trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Hide Value Indicator
+
+`hideValueIndicator`로 thumb 위의 Value Indicator를 숨깁니다.
+
+<LynxComponentExample name="lynx/slider/hide-value-indicator">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/hide-value-indicator.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Range Slider
+
+`defaultValues` 또는 `values`에 두 값을 전달하여 두 thumb 사이의 범위를 선택합니다.
+
+<LynxComponentExample name="lynx/slider/range">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/range.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Minimum Steps Between Thumbs
+
+`minStepsBetweenThumbs`로 두 thumb 사이에 유지할 최소 간격을 지정합니다.
+
+<LynxComponentExample name="lynx/slider/range-min-steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/range-min-steps.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Accessibility
+
+#### `getAccessibilityValueText`
+
+native accessibility 탐색은 기본적으로 각 thumb에 `minimum <min>, maximum <max>, current <value>` 형식의 값을 제공합니다. 숫자만으로 의미가 충분하지 않다면 `getAccessibilityValueText`로 단위나 값의 의미를 포함한 설명을 제공하세요.
+
+<LynxComponentExample name="lynx/slider/get-aria-value-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/get-aria-value-text.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### `getAccessibilityLabel`
+
+`getAccessibilityLabel`로 각 thumb의 용도를 설명합니다. 특히 range slider에서는 각 thumb이 최소값·최대값 중 어떤 역할인지 구분할 수 있는 label을 제공하세요.
+
+<LynxComponentExample name="lynx/slider/get-aria-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/get-aria-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Field Integration
+
+`label`, `labelWeight`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`를 사용해 슬라이더 주변에 Field 안내를 표시할 수 있습니다. `invalid`가 `true`이고 `errorMessage`가 있으면 오류 안내를 표시합니다.
+
+<LynxComponentExample name="lynx/slider/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/field.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### RTL Support
+
+`dir="rtl"`로 값의 시작과 끝이 오른쪽에서 왼쪽으로 배치되는 슬라이더를 만들 수 있습니다.
+
+<LynxComponentExample name="lynx/slider/rtl">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/slider/rtl.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx `Slider`는 React Slider와 다음과 같은 차이가 있습니다.
+
+- **렌더링 요소**: HTML form input과 DOM 요소 대신 native `<view>`와 `<text>`를 사용합니다.
+- **입력 이벤트**: 브라우저 pointer/keyboard 이벤트 대신 native touch 입력을 사용하며, 값 변경은 `onValuesChange`, 확정은 `onValuesCommit`으로 전달합니다.
+- **Value Indicator**: `valueIndicatorTrigger="auto"`도 native에서는 touch-active와 같고 hover로 표시되지 않습니다. `"active"`와 동일한 결과를 제공합니다.
+- **접근성**: DOM ARIA 대신 `getAccessibilityLabel`과 `getAccessibilityValueText`로 native accessibility 이름과 값을 제공합니다.
+- **Field 안내**: Registry의 `label`, `description`, `errorMessage`는 native 레이아웃으로 표시됩니다. DOM id를 통한 label·description 연결은 사용하지 않습니다.
+- **범위 선택**: `values` 배열과 두 개의 native thumb으로 범위를 표현합니다.
+</Callout>
+
+## Lynx 미지원 기능
+
+Lynx에는 HTML form과 브라우저 키보드 모델이 없으므로 다음 React 전용 기능은 실행 예제로 제공하지 않습니다.
+
+| 기능 | Lynx에서의 대체 또는 제한 |
+| --- | --- |
+| `form` 제출, `React Hook Form` | `values`와 `onValuesChange`로 앱 상태를 관리하고, 제출은 앱의 요청 흐름에서 처리합니다. |
+| `HiddenInput` | HTML hidden input이 없습니다. 제출할 값은 앱 상태에서 직접 구성합니다. |
+| `name` | native form field name이 없습니다. 앱 상태의 키나 요청 payload를 사용합니다. |
+| 브라우저 검증 및 form field 연결 | `invalid`, `errorMessage`로 화면 오류를 표시하고 검증은 앱에서 수행합니다. |
+| `getAriaLabelledby`와 DOM ARIA | DOM id 연결이 없습니다. `getAccessibilityLabel`과 `getAccessibilityValueText`로 native accessibility를 제공합니다. |
+| keyboard, focus, focus-visible | 키보드 thumb focus 모델이 없습니다. native touch와 accessibility 탐색을 사용합니다. |
+| hover | native에는 hover 상호작용이 없습니다. `valueIndicatorTrigger="auto"`는 `"active"`와 같이 touch-active로 동작합니다. |
+
+따라서 Form (Uncontrolled)과 React Hook Form은 Lynx 문서의 실행 예제에서 제외했습니다. 제출·검증이 필요한 경우에도 슬라이더 값을 앱 상태에 연결하고, 앱의 제출·검증 로직과 native accessibility 안내를 사용하세요.

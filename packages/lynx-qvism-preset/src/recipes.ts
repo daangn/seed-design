@@ -35,6 +35,7 @@ import { notificationBadge, notificationBadgePositioner } from "./recipes/notifi
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import { select, selectItem, selectTrigger } from "./recipes/select";
+import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import reactionButton from "./recipes/reaction-button";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
@@ -88,6 +89,9 @@ export const recipes = {
   select,
   selectItem,
   selectTrigger,
+  slider,
+  sliderMarker,
+  sliderTick,
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
