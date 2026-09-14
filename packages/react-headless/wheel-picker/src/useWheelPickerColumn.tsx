@@ -739,6 +739,7 @@ export function useWheelPickerColumn({
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
+      event.currentTarget.removeAttribute("data-wheel-picker-pointer-focus");
       if (disabled || readOnly) return;
 
       const currentPhysicalIndex =
