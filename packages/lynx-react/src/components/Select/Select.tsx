@@ -202,6 +202,16 @@ function toPixel(value: number) {
   return `${value}px`;
 }
 
+function areStylesEqual(left: object | undefined, right: object | undefined) {
+  if (left === right) return true;
+  if (!left || !right) return false;
+  const leftEntries = Object.entries(left);
+  if (leftEntries.length !== Object.keys(right).length) return false;
+  return leftEntries.every(([key, value]) =>
+    Object.is(value, (right as Record<string, unknown>)[key]),
+  );
+}
+
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
   if (event.target.uid !== event.currentTarget.uid) return false;
   return (
@@ -739,6 +749,9 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     setScrollAreaId(`seed-select-scroll-area-${nextSelectScrollAreaId++}`);
   }, []);
   const measurementConfigRef = React.useRef(0);
+  const configuredClassNameRef = React.useRef(className);
+  const configuredSizeRef = React.useRef(context.size);
+  const configuredStyleRef = React.useRef(style);
   const [intrinsicSize, setIntrinsicSize] = React.useState<{
     width: number;
     height: number;
@@ -916,10 +929,20 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
 
   React.useEffect(() => {
     "background only";
+    if (
+      configuredClassNameRef.current === className &&
+      configuredSizeRef.current === context.size &&
+      areStylesEqual(configuredStyleRef.current, style)
+    ) {
+      return;
+    }
     measurementVersionRef.current++;
     intrinsicMeasurementVersionRef.current++;
     scrollRequestVersionRef.current++;
     measurementConfigRef.current++;
+    configuredClassNameRef.current = className;
+    configuredSizeRef.current = context.size;
+    configuredStyleRef.current = style;
     setWidthConstraint(null);
     setIntrinsicSize(null);
     setPosition(null);

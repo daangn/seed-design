@@ -60,11 +60,21 @@ function installRootSelectorQuery() {
   }
 }
 
-function FloatingSelect({ contentRef }: { contentRef?: React.Ref<unknown> }) {
+function FloatingSelect({
+  contentRef,
+  styleOrder = "normal",
+}: {
+  contentRef?: React.Ref<unknown>;
+  styleOrder?: "normal" | "reversed";
+}) {
+  const style =
+    styleOrder === "normal"
+      ? { paddingTop: "4px", paddingBottom: "8px" }
+      : { paddingBottom: "8px", paddingTop: "4px" };
   return (
     <Select.Root defaultOpen>
       <Select.Trigger accessibility-label="열기" />
-      <Select.Content ref={contentRef} accessibility-label="floating-content">
+      <Select.Content ref={contentRef} style={style} accessibility-label="floating-content">
         <Select.Group>
           <Select.Item value="apple" label="사과">
             <Select.ItemLabel />
@@ -207,6 +217,51 @@ describe("Select", () => {
         top: "172px",
         width: "240px",
       });
+    });
+  });
+
+  it("keeps positioned content visible when an equivalent inline style is recreated", async () => {
+    installRootSelectorQuery();
+    const intrinsic = createRect(0, 0, 240, 480);
+    const repeatedMeasurement = deferred<GeometryRect>();
+    let blockIntrinsicMeasurement = false;
+
+    geometry.getRectByRef.mockImplementation(
+      (_ref: unknown, _relative: boolean, scrollAreaId?: string) =>
+        scrollAreaId && blockIntrinsicMeasurement
+          ? repeatedMeasurement.promise
+          : Promise.resolve(scrollAreaId ? intrinsic : createRect(72, 112, 240, 52)),
+    );
+    geometry.computePosition.mockImplementation(async ({ width }: { width: number }) => ({
+      availableWidth: width,
+      availableHeight: 480,
+      left: 144,
+      top: 284,
+      width,
+      height: 320,
+      placement: "bottom",
+      transformOrigin: "50% 0%",
+    }));
+
+    const { rerender } = render(<FloatingSelect />);
+    await waitFor(() => {
+      expect(getFloatingContent()).toHaveStyle({
+        left: "72px",
+        top: "172px",
+        width: "240px",
+      });
+    });
+    blockIntrinsicMeasurement = true;
+
+    rerender(<FloatingSelect styleOrder="reversed" />);
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    expect(getFloatingContent()).toHaveStyle({
+      left: "72px",
+      top: "172px",
+      width: "240px",
     });
   });
 
