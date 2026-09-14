@@ -23,7 +23,7 @@ declare type MenuItemVariantMap = {
 
 export declare type MenuItemVariantProps = Partial<MenuItemVariant>;
 
-export declare type MenuItemSlotName = "root" | "pressedOverlay" | "body" | "label" | "description" | "prefixIcon" | "suffixIcon";
+export declare type MenuItemSlotName = "root" | "scaleContent" | "pressedOverlay" | "body" | "label" | "description" | "prefixIcon" | "suffixIcon";
 
 export declare const menuItemVariantMap: MenuItemVariantMap;
 

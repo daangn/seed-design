@@ -27,7 +27,7 @@ declare type PageBannerVariantMap = {
 
 export declare type PageBannerVariantProps = Partial<PageBannerVariant>;
 
-export declare type PageBannerSlotName = "root" | "content" | "body" | "title" | "description" | "button" | "closeButton" | "prefixIcon" | "suffixIcon" | "closeButtonIcon";
+export declare type PageBannerSlotName = "root" | "content" | "scaleContent" | "body" | "title" | "description" | "button" | "closeButton" | "prefixIcon" | "suffixIcon" | "closeButtonIcon";
 
 export declare const pageBannerVariantMap: PageBannerVariantMap;
 

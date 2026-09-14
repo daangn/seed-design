@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
+import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { Checkbox } from "../Checkbox";
+import { Switch } from "../Switch";
 import { RadioGroup } from "../RadioGroup";
 import { List, ListHeader } from "./index";
 
@@ -66,7 +68,7 @@ describe("List", () => {
     );
   });
 
-  it("tracks button pressed state and ignores a disabled tap", () => {
+  it("tracks button pressed state and ignores a disabled tap", async () => {
     const onTap = vi.fn();
     const { rerender } = render(
       <List.ButtonItem className="button-item" bindtap={onTap} accessibility-label="열기">
@@ -74,15 +76,19 @@ describe("List", () => {
           <List.Title>버튼</List.Title>
         </List.Content>
       </List.ButtonItem>,
+      { enableMainThread: true, enableBackgroundThread: true },
     );
 
+    await waitSchedule();
     let item = getListItem("button-item");
     fireEvent.touchstart(item, {});
+    await waitSchedule();
     expect(item.querySelector(".seed-list-item__pressedOverlay")).toHaveClass(
       "seed-list-item__pressedOverlay--pressed_true",
     );
 
     fireEvent.tap(item);
+    await waitSchedule();
     expect(onTap).toHaveBeenCalledTimes(1);
 
     rerender(
@@ -94,6 +100,7 @@ describe("List", () => {
     );
     item = getListItem("button-item");
     fireEvent.tap(item);
+    await waitSchedule();
 
     expect(onTap).toHaveBeenCalledTimes(1);
     expect(item).toHaveAttribute("accessibility-traits", "disabled");
@@ -158,5 +165,50 @@ describe("List", () => {
     fireEvent.tap(second.parentElement as HTMLElement);
     expect(first).toHaveAttribute("accessibility-value", "선택 안 됨");
     expect(second).toHaveAttribute("accessibility-value", "선택됨");
+  });
+  it("scales only interactive row content and suppresses nested control targets", () => {
+    render(
+      <List.Root>
+        <List.Item className="static-row">
+          <List.Title>Static</List.Title>
+        </List.Item>
+        <List.CheckboxItem className="check-row">
+          <List.Prefix>
+            <Checkbox.Control />
+          </List.Prefix>
+          <List.Title>Check</List.Title>
+        </List.CheckboxItem>
+        <List.SwitchItem className="switch-row">
+          <List.Suffix>
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </List.Suffix>
+        </List.SwitchItem>
+        <RadioGroup.Root>
+          <List.RadioItem value="a" className="radio-row">
+            <List.Prefix>
+              <RadioGroup.ItemControl />
+            </List.Prefix>
+          </List.RadioItem>
+        </RadioGroup.Root>
+      </List.Root>,
+    );
+    expect(getListItem("static-row").querySelector(".seed-list-item__layout")).not.toHaveAttribute(
+      "flatten",
+      "false",
+    );
+    for (const name of ["check-row", "switch-row", "radio-row"]) {
+      const row = getListItem(name);
+      const layout = row.querySelector(".seed-list-item__layout")!;
+      expect(layout).toHaveAttribute("flatten", "false");
+      expect(layout).not.toContainElement(row.querySelector(".seed-list-item__pressedOverlay"));
+      if (name === "switch-row") {
+        // Switch keeps its native view for its own thumb animation even without a scale target.
+        expect(layout.querySelector(".seed-switchmark__root")).toHaveAttribute("flatten", "false");
+      } else {
+        expect(layout.querySelectorAll('[flatten="false"]')).toHaveLength(0);
+      }
+    }
   });
 });

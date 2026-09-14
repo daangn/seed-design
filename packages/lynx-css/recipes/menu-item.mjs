@@ -7,6 +7,10 @@ const menuItemSlotNames = [
     "seed-menu-item__root"
   ],
   [
+    "scaleContent",
+    "seed-menu-item__scaleContent"
+  ],
+  [
     "pressedOverlay",
     "seed-menu-item__pressedOverlay"
   ],

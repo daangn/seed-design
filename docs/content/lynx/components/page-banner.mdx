@@ -183,9 +183,11 @@ export function App() {
 | Event | `onClick` | `bindtap`, `main-thread:bindtap` |
 | Accessibility | HTML semantics, ARIA | `accessibility-*` |
 | Polymorphism | `asChild` 지원 | 미지원 |
-| Interaction feedback | focus ring, scale feedback | pressed 배경색, Button·CloseButton Scale Feedback |
+| Interaction feedback | focus ring, scale feedback | pressed 배경색, 본문 Content Scale, Button·CloseButton Root Scale |
 
-Lynx의 actionable Root와 CloseButton은 Main Thread의 `:active` 상태에서 pressed 배경색을 즉시 적용합니다. `PageBannerButton`과 CloseButton은 Scale Feedback도 적용하며, child의 기존 Main Thread 이벤트와 ref를 보존합니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
+Actionable Root는 배경을 유지하고 내부 콘텐츠만 축소하는 Content Scale을 적용합니다. `PageBannerButton`과 CloseButton은 각각 자신의 영역을 축소하는 Root Scale을 적용합니다. 개별 버튼을 누르면 본문 액션이 함께 실행되거나 중복 축소되지 않습니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
+
+CloseButton은 Root의 직접 자식 또는 Fragment 안에 배치해야 본문 축소 영역에서 분리됩니다. 사용자 정의 컴포넌트로 감싸면 본문 축소 영역에 포함됩니다.
 
 ## Unsupported Lynx Features
 
