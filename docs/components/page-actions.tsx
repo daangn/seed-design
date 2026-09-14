@@ -37,7 +37,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
   const [isLoading, setLoading] = useState(false);
   const adapter = useSnackbarAdapter();
 
-  const showCopiedSnackbar = (message: string) => {
+  const showSnackbar = (message: string) => {
     adapter.create({
       timeout: 2000,
       onClose: () => {},
@@ -50,7 +50,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
     setOpen(false);
 
     await navigator.clipboard.writeText(new URL(markdownUrl, window.location.href).href);
-    showCopiedSnackbar("링크가 복사되었습니다");
+    showSnackbar("링크가 복사되었습니다");
   };
 
   const handleCopyClick = async () => {
@@ -59,7 +59,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
     const cached = cache.get(markdownUrl);
     if (cached) {
       await navigator.clipboard.writeText(cached);
-      showCopiedSnackbar("내용이 복사되었습니다");
+      showSnackbar("내용이 복사되었습니다");
       return;
     }
 
@@ -67,11 +67,16 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
 
     try {
       const res = await fetch(markdownUrl);
+      if (!res.ok) {
+        showSnackbar("내용을 가져오지 못했습니다");
+        return;
+      }
+
       const content = await res.text();
 
       cache.set(markdownUrl, content);
       await navigator.clipboard.writeText(content);
-      showCopiedSnackbar("내용이 복사되었습니다");
+      showSnackbar("내용이 복사되었습니다");
     } finally {
       setLoading(false);
     }
