@@ -56,6 +56,8 @@
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     border-radius: var(--seed-radius-r2);
+}
+.seed-wheel-picker-public__column:not([data-wheel-picker-pointer-focus]) :is([aria-selected=true], [data-selected]) {
     transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-wheel-picker-public__column.seed-wheel-picker-public__column:is(:focus-visible, [data-focus-visible]):not([data-wheel-picker-pointer-focus]) :is([aria-selected=true], [data-selected]) {

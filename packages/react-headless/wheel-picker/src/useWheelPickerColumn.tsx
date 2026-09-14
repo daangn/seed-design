@@ -494,7 +494,10 @@ export function useWheelPickerColumn({
     ],
   );
 
-  const handleTouchStart = React.useCallback(() => {
+  const handleTouchStart = React.useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    if (event.currentTarget.tabIndex >= 0) {
+      event.currentTarget.setAttribute("data-wheel-picker-pointer-focus", "");
+    }
     keyboardTargetPhysicalIndexRef.current = null;
     if (wheelAlignmentFrameRef.current !== null) {
       cancelAnimationFrame(wheelAlignmentFrameRef.current);
@@ -736,6 +739,7 @@ export function useWheelPickerColumn({
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
+      event.currentTarget.removeAttribute("data-wheel-picker-pointer-focus");
       if (disabled || readOnly) return;
 
       const currentPhysicalIndex =
