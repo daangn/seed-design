@@ -10,7 +10,7 @@ import { progressBoardPlaceholder } from "./placeholders/progress-board";
 import type { LLMHandler, LLMPlaceholder } from "./types";
 
 /**
- * Every JSX tag llms.txt rewrites at compile time.
+ * Every JSX tag rewritten into markdown at compile time.
  *
  * A tag added here has to be added to `app/_llms/rule-elements.ts` too, or the structure
  * filter folds it away before the handler ever sees the node — the output loses the

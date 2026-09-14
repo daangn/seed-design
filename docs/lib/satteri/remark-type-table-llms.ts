@@ -68,11 +68,11 @@ function resolveBasePath(
 }
 
 /**
- * `<TypeTable>`이 llms.txt에서 사라지지 않도록, 그 자리에 props 표를 마크다운으로 다시 써
+ * `<TypeTable>`이 마크다운 버전에서 사라지지 않도록, 그 자리에 props 표를 마크다운으로 다시 써
  * 넣는 pass 한 쌍입니다. 목록을 그리는 일은 `lib/llms/type-table.ts`가 맡습니다.
  *
  * `remarkAutoTypeTable`이 만드는 `type` 속성은 Shiki가 색칠한 JSX 소스라, 남겨 두면 하이라이트
- * span이 llms.txt에 통째로 실리고 접으면 자식이 없어 흔적조차 남지 않습니다. 그래서 소비되기
+ * span이 마크다운에 통째로 실리고 접으면 자식이 없어 흔적조차 남지 않습니다. 그래서 소비되기
  * 전의 props를 붙잡아 두었다가(`captureProps`) 같은 generator로 표 데이터를 다시 얻어 llms
  * 출력용 형태로 바꿔 답니다(`emitLlmsForm`). generator는 파일 단위로 결과를 캐시하므로 두 번째
  * 호출은 앞선 호출이 채워 둔 캐시를 읽습니다.

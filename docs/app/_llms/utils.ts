@@ -1,8 +1,3 @@
-/**
- * The minimum `getDisplayTitle` reads. `LLMPage` satisfies it, and so do the plain
- * frontmatter/slug pairs `scripts/generate-docs-index.ts` assembles — the CLI index has
- * to disambiguate the same duplicate titles the llms.txt listings do.
- */
 interface TitledPage {
   data: { title: string };
   slugs: string[];

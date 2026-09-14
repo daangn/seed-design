@@ -16,7 +16,7 @@ function isPreview(node: JsxNode): boolean {
 
 /**
  * `<ComponentExample name="react/action-button/preview">` renders a live demo above the
- * code it wraps. llms.txt keeps the code and drops the frame.
+ * code it wraps. The markdown keeps the code and drops the frame.
  *
  * The `/preview` example opens the page, which is why it is the one example with no
  * heading of its own in the source — so `## Preview` is written back in its place. When

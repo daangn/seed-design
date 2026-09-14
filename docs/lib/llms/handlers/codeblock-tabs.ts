@@ -58,7 +58,7 @@ const sortTabs = (tabs: Tab[]) => [
 
 /**
  * `<CodeBlockTabs>` is one command repeated per package manager, and the tab strip that
- * picks between them is a UI affordance llms.txt has no way to offer. It flattens to a
+ * picks between them is a UI affordance markdown has no way to offer. It flattens to a
  * list of `manager: command` lines, in `PACKAGE_MANAGERS` order.
  */
 export const codeBlockTabsHandler: LLMHandler = {
