@@ -241,6 +241,7 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     pendingX: null,
   });
   const pendingEndRef = React.useRef(false);
+  const moveFrameRef = React.useRef<number | null>(null);
   const [valueIndicatorEverShown, setValueIndicatorEverShown] = React.useState(false);
 
   const trackRef = React.useRef<NodesRef>(null);
@@ -348,6 +349,27 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
   );
   updateFromRatioRef.current = updateFromRatio;
 
+  const cancelPendingMove = React.useCallback(() => {
+    if (moveFrameRef.current === null) return;
+    cancelAnimationFrame(moveFrameRef.current);
+    moveFrameRef.current = null;
+  }, []);
+
+  const flushPendingMove = React.useCallback(() => {
+    "background only";
+    moveFrameRef.current = null;
+    if (!interaction.current.active || disabled || readOnly) return;
+    const pending = interaction.current.pendingX;
+    if (pending === null) return;
+    const track = trackWidthRef.current;
+    if (!track) {
+      measure();
+      return;
+    }
+    interaction.current.pendingX = null;
+    updateFromRatio(clampRatio((pending - trackLeftRef.current) / track));
+  }, [disabled, measure, readOnly, updateFromRatio]);
+
   const finalize = React.useCallback(() => {
     if (!interaction.current.active) return;
     interaction.current.active = false;
@@ -400,22 +422,18 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
       if (!interaction.current.active || disabled || readOnly) return;
       const x = eventPageX(event);
       if (!Number.isFinite(x)) return;
-      const track = trackWidthRef.current;
-      if (measureInFlight.current) interaction.current.pendingX = x;
-      if (!track) {
-        interaction.current.pendingX = x;
-        measure();
-        return;
-      }
-      updateFromRatio(clampRatio((x - trackLeftRef.current) / track));
+      interaction.current.pendingX = x;
+      if (moveFrameRef.current !== null) return;
+      moveFrameRef.current = requestAnimationFrame(flushPendingMove);
     },
-    [disabled, measure, readOnly, updateFromRatio],
+    [disabled, flushPendingMove, readOnly],
   );
 
   const finish = React.useCallback(
     (event: unknown) => {
       "background only";
       if (!interaction.current.active) return;
+      cancelPendingMove();
       const x = eventPageX(event);
       if (Number.isFinite(x)) interaction.current.pendingX = x;
       if (interaction.current.pendingX !== null && measureInFlight.current) {
@@ -439,12 +457,13 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
       }
       finalizeRef.current?.();
     },
-    [measure, updateFromRatio],
+    [cancelPendingMove, measure, updateFromRatio],
   );
 
   const cancel = React.useCallback(() => {
     "background only";
     if (!interaction.current.active) return;
+    cancelPendingMove();
     interaction.current.active = false;
     interaction.current.pendingX = null;
     pendingEndRef.current = false;
@@ -452,7 +471,7 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     setActiveThumbIndex(null);
     interaction.current.index = null;
     interaction.current.changed = false;
-  }, []);
+  }, [cancelPendingMove]);
 
   const rootHandlers = {
     catchtouchstart: begin,
@@ -460,6 +479,8 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     catchtouchend: finish,
     catchtouchcancel: cancel,
   };
+
+  React.useEffect(() => cancelPendingMove, [cancelPendingMove]);
 
   React.useEffect(() => {
     measure();

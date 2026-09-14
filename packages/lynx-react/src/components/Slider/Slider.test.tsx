@@ -94,6 +94,30 @@ describe("Slider", () => {
     expect(onValuesCommit).toHaveBeenLastCalledWith([70]);
   });
 
+  it("coalesces touch moves to the latest value once per frame", async () => {
+    const onValuesChange = vi.fn();
+    const view = render(
+      <Slider.Root defaultValues={[20]} onValuesChange={onValuesChange}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Thumb />
+          </Slider.Track>
+        </Slider.Control>
+      </Slider.Root>,
+    );
+    await waitSchedule();
+    const root = view.container.querySelector(".seed-slider__root");
+    if (!root) throw new Error("Expected slider root");
+    fireEvent.touchstart(root, { eventType: "catchEvent", touches: [{ pageX: 30 }] });
+    fireEvent.touchmove(root, { eventType: "catchEvent", touches: [{ pageX: 40 }] });
+    fireEvent.touchmove(root, { eventType: "catchEvent", touches: [{ pageX: 80 }] });
+
+    expect(onValuesChange).not.toHaveBeenCalled();
+    await waitSchedule();
+    expect(onValuesChange).toHaveBeenCalledTimes(1);
+    expect(onValuesChange).toHaveBeenLastCalledWith([70]);
+  });
+
   it("commits a quick first tap after track measurement", async () => {
     const onValuesChange = vi.fn();
     const onValuesCommit = vi.fn();
