@@ -311,6 +311,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "Radius는 컴포넌트 혹은 콘텐츠 모서리의 둥글기를 표현합니다."
     },
     {
+      "slug": "screen-edges",
+      "title": "Screen Edges",
+      "description": "화면 가장자리는 시스템 UI나 기기 형태에 가려질 수 있습니다. 요소를 가려지지 않는 안전 영역(Safe Area) 안에 둘지, 화면 끝까지 채울지 정하는 기준을 설명합니다."
+    },
+    {
       "slug": "spacing",
       "title": "Spacing",
       "description": "Spacing은 컴포넌트 혹은 콘텐츠 간의 간격을 표현합니다."
