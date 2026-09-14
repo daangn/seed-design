@@ -154,6 +154,83 @@ function cleanupFixture(pr = closedPR) {
 }
 
 describe("preview cleanup integration", () => {
+  test("skips PR lookup when every owned preview is younger than seven days or invalid", async () => {
+    const f = cleanupFixture();
+    let reads = 0;
+    f.options.github.rest.pulls.get = async () => {
+      reads++;
+      return { data: closedPR };
+    };
+    const cf = async () => ({
+      result: [
+        preview({ created_on: new Date(now - 6 * DAY).toISOString() }),
+        preview({ created_on: "invalid" }),
+        preview({ environment: "production" }),
+      ],
+    });
+    expect(await cleanupPreviews({ ...f.options, cf, now })).toBe(0);
+    expect(reads).toBe(0);
+  });
+
+  test("recently closed PR needs only one PR read and no evidence lookup", async () => {
+    const f = cleanupFixture({ ...closedPR, closed_at: new Date(now - DAY).toISOString() });
+    let reads = 0;
+    const get = f.options.github.rest.pulls.get;
+    f.options.github.rest.pulls.get = async () => {
+      reads++;
+      return get();
+    };
+    f.options.github.paginate = async () => {
+      throw new Error("Unnecessary evidence lookup");
+    };
+    expect(await cleanupPreviews({ ...f.options, now, dryRun: false })).toBe(0);
+    expect(reads).toBe(1);
+  });
+
+  test("latest-only open PR skips status and comment lookups", async () => {
+    const f = cleanupFixture(openPR);
+    f.options.github.paginate = async () => {
+      throw new Error("Unnecessary evidence lookup");
+    };
+    expect(await cleanupPreviews({ ...f.options, now, dryRun: false })).toBe(0);
+  });
+
+  test("queries only candidate SHAs and preserves bot-linked results after a base change", async () => {
+    const f = cleanupFixture({ ...openPR, base: { ref: "feature/retargeted" } } as typeof openPR);
+    const latest = preview({
+      id: "11111111-2222-3333-4444-555555555555",
+      url: "https://87654321.seed-design-storybook.pages.dev",
+      created_on: new Date(now - DAY).toISOString(),
+      deployment_trigger: {
+        metadata: {
+          branch: "kapture-pr-2090",
+          commit_message: "kapture-pr-2090-run-456",
+          commit_hash: "c".repeat(40),
+        },
+      },
+    });
+    const refs: string[] = [];
+    let commentReads = 0;
+    const statuses = () => {};
+    const github = {
+      ...f.options.github,
+      rest: { ...f.options.github.rest, repos: { listCommitStatusesForRef: statuses } },
+      paginate: async (method: unknown, args: { ref?: string }) => {
+        if (method === statuses) {
+          if (!args.ref) throw new Error("Missing status SHA");
+          refs.push(args.ref);
+          return [];
+        }
+        commentReads++;
+        return [{ user: { type: "Bot" }, body: preview().url }];
+      },
+    };
+    const cf = async () => ({ result: [preview(), latest] });
+    expect(await cleanupPreviews({ ...f.options, github, cf, now, dryRun: false })).toBe(0);
+    expect(refs).toEqual([sha]);
+    expect(commentReads).toBe(1);
+  });
+
   test("open PR keeps latest success and historical approved evidence", async () => {
     const f = cleanupFixture(openPR);
     const latest = preview({

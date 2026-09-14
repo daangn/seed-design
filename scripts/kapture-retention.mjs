@@ -59,24 +59,40 @@ export async function cleanupBuilds({ github, context, core, dryRun = true }) {
   return targets.length;
 }
 
-export async function cleanupPreviews({ github, context, core, cf, dryRun = true }) {
+export async function cleanupPreviews({
+  github,
+  context,
+  core,
+  cf,
+  dryRun = true,
+  now = Date.now(),
+}) {
   const deployments = (await listDeployments(cf)).filter((d) => deploymentOwner(d));
   const groups = Map.groupBy(deployments, (d) => deploymentOwner(d).pr);
   let deleted = 0;
   const failures = [];
   for (const [number, group] of groups) {
     try {
+      // Age is independent of PR state. Keep the full group for latest-result protection.
+      let candidates = group.filter((d) =>
+        shouldDeletePreview(d, { number, state: "open" }, new Set(), now),
+      );
+      if (!candidates.length) continue;
       let prDeleted = 0;
       const { data: pr } = await github.rest.pulls.get({ ...context.repo, pull_number: number });
       const protectedIds = new Set();
+      candidates = candidates.filter((d) => shouldDeletePreview(d, pr, protectedIds, now));
+      if (!candidates.length) continue;
       if (pr.state === "open") {
         const successful = group
           .filter((d) => d.latest_stage?.status === "success")
           .sort((a, b) => Date.parse(b.created_on) - Date.parse(a.created_on));
         if (successful[0]) protectedIds.add(successful[0].id);
+        candidates = candidates.filter((d) => !protectedIds.has(d.id));
+        if (!candidates.length) continue;
         // Preserve review evidence without interpreting Kapture's private comment encoding.
         // Historical success statuses conservatively protect approved/clean reports.
-        for (const sha of new Set(group.map((d) => deploymentOwner(d).sha))) {
+        for (const sha of new Set(candidates.map((d) => deploymentOwner(d).sha))) {
           const statuses = await github.paginate(github.rest.repos.listCommitStatusesForRef, {
             ...context.repo,
             ref: sha,
@@ -89,6 +105,8 @@ export async function cleanupPreviews({ github, context, core, cf, dryRun = true
           );
           for (const d of group) if (urls.has(d.url?.replace(/\/$/, ""))) protectedIds.add(d.id);
         }
+        candidates = candidates.filter((d) => !protectedIds.has(d.id));
+        if (!candidates.length) continue;
         const comments = await github.paginate(github.rest.issues.listComments, {
           ...context.repo,
           issue_number: number,
@@ -99,8 +117,8 @@ export async function cleanupPreviews({ github, context, core, cf, dryRun = true
           if (comments.some((c) => c.user?.type === "Bot" && c.body?.includes(d.url)))
             protectedIds.add(d.id);
       }
-      for (const deployment of group) {
-        if (!shouldDeletePreview(deployment, pr, protectedIds)) continue;
+      for (const deployment of candidates) {
+        if (!shouldDeletePreview(deployment, pr, protectedIds, now)) continue;
         const id = deployment.id;
         if (!/^[a-f0-9-]{36}$/.test(id)) throw new Error("Invalid deployment ID");
         core.info(`${dryRun ? "Would delete" : "Delete"} PR #${number} preview ${id}`);
@@ -113,7 +131,7 @@ export async function cleanupPreviews({ github, context, core, cf, dryRun = true
         if (
           current.state !== pr.state ||
           current.updated_at !== pr.updated_at ||
-          !shouldDeletePreview(deployment, current, protectedIds)
+          !shouldDeletePreview(deployment, current, protectedIds, now)
         )
           break;
         const { result: fresh } = await cf(`/deployments/${id}`);
