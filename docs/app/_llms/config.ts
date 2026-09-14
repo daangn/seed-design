@@ -73,7 +73,7 @@ export const sectionConfigs = {
     contentDir: "ai-integration",
     baseUrl: "/ai-integration",
     label: "AI Integration",
-    description: "MCP, llms.txt 활용법 등 AI 도구 연동 가이드",
+    description: "MCP, 문서별 마크다운 활용법 등 AI 도구 연동 가이드",
   },
   updates: {
     contentDir: "updates",
@@ -101,13 +101,13 @@ export function getDocUrl(section: Section, slugs: string[]): string {
 }
 
 /**
- * 문서 URL 앞에 `/llms`를 붙이고 뒤에 `.txt`를 붙인다. 그것이 규칙의 전부라, 어느 문서든
- * 사이트 주소만 알면 llms 주소가 나온다. 섹션 루트 index.mdx도 예외가 아니다 — 그 문서의
- * URL이 `/react`이므로 `/llms/react.txt`가 된다.
+ * 문서 URL 뒤에 `.md`를 붙인다. 그것이 규칙의 전부라, 어느 문서든 사이트 주소만 알면 markdown
+ * 주소가 나온다. 섹션 루트 index.mdx도 예외가 아니다 — 그 문서의 URL이 `/react`이므로
+ * `/react.md`가 된다.
  *
- * @example /components/button -> /llms/components/button.txt
- * @example /react (섹션 루트 index.mdx) -> /llms/react.txt
+ * @example /components/button -> /components/button.md
+ * @example /react (섹션 루트 index.mdx) -> /react.md
  */
 export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
-  return `/llms${getDocUrl(section, slugs)}.txt`;
+  return `${getDocUrl(section, slugs)}.md`;
 }

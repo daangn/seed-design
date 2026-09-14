@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 llms.txt로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/llms/[...slug]/route.ts` 하나가 서빙한다.
+`docs/app/_llms`는 llms.txt로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다.
 
 ## 파일 작성 컨벤션
 
@@ -34,6 +34,6 @@ alwaysApply: true
 
 - `RULE_ELEMENT_NAMES`에 없는 컴포넌트는 구조 필터가 태그를 접어, 핸들러에 노드가 아예 오지 않는다. 출력에서 조용히 사라질 뿐 오류는 나지 않으므로 `rule-elements.test.ts`가 이 목록과 핸들러 레지스트리를 맞물려 둔다.
 - 그 목록의 예외가 둘 있다. `CatalogGrid`는 핸들러 없이 태그째 남기고(`ELEMENTS_WITHOUT_RULE`), `TypeTable`은 반대로 목록에 넣지 않는다. 후자는 `lib/satteri/remark-type-table-llms.ts`가 표를 마크다운으로 직접 써 넣으므로 보존할 노드가 필요 없다.
-- llms 주소는 문서 URL 앞에 `/llms`, 뒤에 `.txt`를 붙인 것이다. 이 규칙이 전부이므로 주소를 따로 적어 두지 않는다.
-- 링크로 내보내는 주소는 페이지 URL이 아니라 `/llms/{...}.txt`다. 이 사이트는 정적 익스포트라 `Accept` 협상이 없어, 페이지 URL은 HTML로 응답한다.
+- markdown 주소는 문서 URL 뒤에 `.md`를 붙인 것이다. 섹션 루트도 `/react.md`처럼 같은 규칙을 따른다. 이 규칙이 전부이므로 주소를 따로 적어 두지 않는다.
+- 링크로 내보내는 주소는 페이지 URL이 아니라 `{문서 URL}.md`다. 이 사이트는 정적 익스포트라 `Accept` 협상이 없어, 페이지 URL은 HTML로 응답한다.
 - placeholder 마커는 페이지를 읽는 시점에 `renderLLMPlaceholders`로 채운다. 채우지 않은 마커는 NUL로 감싼 JSON 덩어리째 독자에게 나간다.

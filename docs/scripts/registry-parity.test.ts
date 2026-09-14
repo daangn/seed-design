@@ -19,7 +19,7 @@ const docsIndex = JSON.parse(
   readFileSync(path.join(docsRoot, "public/__docs__/index.json"), "utf-8"),
 ) as DocsIndex;
 
-/** `/llms/{section}/{...slugs}.txt` — the document URL with `/llms` in front — for every routable page. */
+/** `/{section}/{...slugs}.md` — the document URL with `.md` behind it — for every routable page. */
 const servedLlmsUrls = new Set(
   sections.flatMap((section) =>
     listSectionPages(section, contentRoot).map(({ slugs }) => getLLMMarkdownUrl(section, slugs)),
@@ -46,8 +46,8 @@ describe("section registry ↔ routes", () => {
   // Which sections that route can answer for is settled by `sectionSources`, whose
   // `Record<Section, ...>` the compiler holds to the registry. What no type can see is
   // whether the file carrying it still exists — without it every page 404s at once.
-  it("serves every section from one llms route", () => {
-    expect(existsSync(path.join(docsRoot, "app/llms/[...slug]/route.ts"))).toBe(true);
+  it("serves every section from one markdown route", () => {
+    expect(existsSync(path.join(docsRoot, "app/[...slug]/route.ts"))).toBe(true);
   });
 
   it("every content dir is registered as a section", () => {
@@ -72,7 +72,7 @@ describe("docs index ↔ content", () => {
 
   const allItems = docsIndex.categories.flatMap((c) => c.items);
 
-  it("points every item at a served llms.txt URL", () => {
+  it("points every item at a served markdown URL", () => {
     expect(allItems.filter((item) => !item.llmsUrl || !servedLlmsUrls.has(item.llmsUrl))).toEqual(
       [],
     );
@@ -105,7 +105,7 @@ describe("skills reference live docs URLs", () => {
     const found = new Set<string>();
     for (const file of listFiles(path.join(repoRoot, "skills"), /\.(md|mdx)$/)) {
       for (const match of readFileSync(file, "utf-8").matchAll(
-        /https:\/\/seed-design\.io(\/llms\/[a-z0-9/._-]*\.txt)/g,
+        /https:\/\/seed-design\.io(\/[a-z0-9/._-]*\.md)/g,
       )) {
         found.add(match[1]);
       }
@@ -113,7 +113,7 @@ describe("skills reference live docs URLs", () => {
     return [...found].sort();
   })();
 
-  it("resolves every referenced llms.txt URL", () => {
+  it("resolves every referenced markdown URL", () => {
     expect(skillUrls.filter((url) => !servedLlmsUrls.has(url))).toEqual([]);
   });
 });
@@ -165,14 +165,7 @@ const packageSourceRoots = ["packages/cli/src", "packages/docs-mcp/src"].map((re
 describe("CLI and docs-mcp reference live docs pages", () => {
   // Paths the site serves as data rather than as a page. They have no entry in the content
   // tree, so measuring them against it would reject every one.
-  const dataPrefixes = [
-    "/llms/",
-    "/__registry__/",
-    "/__docs__/",
-    "/rootage/",
-    "/schemas/",
-    "/icons/",
-  ];
+  const dataPrefixes = ["/__registry__/", "/__docs__/", "/rootage/", "/schemas/", "/icons/"];
 
   // A bare origin yields an empty path, and `/` is the site root — neither names a page.
   const isPagePath = (url: string) =>
@@ -207,7 +200,9 @@ describe("CLI and docs-mcp reference live docs pages", () => {
     // 페이지 URL을 하나도 못 찾으면 아래 단언은 통과해도 아무것도 보지 않는다.
     expect(pages.length).toBeGreaterThan(0);
     expect(
-      pages.filter(([url]) => !servedDocUrls.has(url)).map(([url, file]) => `${file}: ${url}`),
+      pages
+        .filter(([url]) => !servedDocUrls.has(url) && !servedLlmsUrls.has(url))
+        .map(([url, file]) => `${file}: ${url}`),
     ).toEqual([]);
   });
 });
