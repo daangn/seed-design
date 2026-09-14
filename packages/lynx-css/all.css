@@ -5034,15 +5034,7 @@ text {
 .seed-select__content--positioned_false {
   opacity: 0;
   transition-duration: 0s;
-  transform: scale(1);
-}
-
-.seed-select__content--open_true-positioned_true {
-  animation-name: seed-enter;
-  animation-duration: var(--seed-duration-d3);
-  animation-timing-function: var(--seed-timing-function-enter);
-  --seed-enter-opacity: 0;
-  --seed-enter-scale: .95;
+  transform: scale(.95);
 }
 
 .seed-select-item__root {

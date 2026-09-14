@@ -159,7 +159,9 @@ export function App() {
 
 ### Long List
 
-옵션이 많으면 목록 내부에서 스크롤합니다. 목록 최대 높이는 480px이며, trigger 주위의 남은 공간과 safe area를 고려해 위치와 높이를 정합니다. 열릴 때 선택된 옵션이 보이는 위치로 이동합니다.
+목록은 상하 8px 패딩을 포함한 내용 높이만큼 표시하며, 별도의 최소 높이는 없습니다. 최대 높이는 480px이고 trigger 주위의 남은 공간과 safe area에 맞춰 제한합니다. 내용이 이 높이를 넘을 때만 스크롤됩니다.
+
+열릴 때 선택된 옵션이 화면 밖에 있으면 보이는 데 필요한 만큼만 스크롤합니다. 이미 보이는 옵션을 선택하거나 목록이 닫히는 중에는 스크롤 위치를 바꾸지 않습니다.
 
 <LynxComponentExample name="lynx/select/long-list" height={400}>
   ```json doc-gen:file

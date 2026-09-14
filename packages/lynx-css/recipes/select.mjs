@@ -45,10 +45,6 @@ const defaultVariant = {
 const compoundVariants = [
   {
     "positioned": false
-  },
-  {
-    "open": true,
-    "positioned": true
   }
 ];
 

@@ -39,7 +39,9 @@ const EMPTY_VALUE: string[] = [];
 const selectGutter = 8;
 const selectOverflowPadding = 8;
 const selectMaxHeight = Number.parseFloat(selectVars.base.enabled.root.maxHeight);
-const selectMinimumHeight = 200;
+// This protects placement near the screen edge; it does not impose a minimum list viewport.
+const selectMinimumAvailableHeight = 200;
+let nextSelectScrollAreaId = 0;
 
 interface SelectClassNames {
   positioner: string;
@@ -198,15 +200,6 @@ function getRootRect() {
 
 function toPixel(value: number) {
   return `${value}px`;
-}
-
-function getLayoutSize(
-  event: Parameters<NativeLayoutHandler>[0],
-): { width: number; height: number } | null {
-  const width = event.detail?.width ?? event.params?.width;
-  const height = event.detail?.height ?? event.params?.height;
-  if (!Number.isFinite(width) || !Number.isFinite(height)) return null;
-  return { width: Math.max(0, width), height: Math.max(0, height) };
 }
 
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
@@ -723,16 +716,26 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
   const { children, className, style, ...nativeProps } = props;
   const context = useSelectContext("SelectContent");
   const measurementVersionRef = React.useRef(0);
-  const intrinsicWidthRef = React.useRef<number | null>(null);
-  const scrolledKeyRef = React.useRef<string | null>(null);
+  const intrinsicMeasurementVersionRef = React.useRef(0);
+  const scrollRequestVersionRef = React.useRef(0);
+  const scrolledEpochRef = React.useRef<number | null>(null);
   // Snapshot refs can be recreated on each patch. Their current native node belongs in a ref;
   // the one-time attachment state merely starts effects that require an attached node.
   const overlayNodeRef = React.useRef<NodesRef | null>(null);
   const scrollNodeRef = React.useRef<NodesRef | null>(null);
+  const scrollContentNodeRef = React.useRef<NodesRef | null>(null);
   const overlayAttachedRef = React.useRef(false);
   const scrollAttachedRef = React.useRef(false);
+  const scrollContentAttachedRef = React.useRef(false);
   const [overlayAttached, setOverlayAttached] = React.useState(false);
   const [scrollAttached, setScrollAttached] = React.useState(false);
+  const [scrollContentAttached, setScrollContentAttached] = React.useState(false);
+  const [scrollAreaId, setScrollAreaId] = React.useState<string | undefined>(undefined);
+  React.useEffect(() => {
+    "background only";
+    // Generate once on the background thread, then share the id through state.
+    setScrollAreaId(`seed-select-scroll-area-${nextSelectScrollAreaId++}`);
+  }, []);
   const measurementConfigRef = React.useRef(0);
   const [intrinsicSize, setIntrinsicSize] = React.useState<{
     width: number;
@@ -763,11 +766,10 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     }
     const version = ++measurementVersionRef.current;
     try {
-      const [reference, boundary, overlay, trigger] = await Promise.all([
+      const [reference, boundary, overlay] = await Promise.all([
         getRectByRef({ current: referenceNode }, true),
         getRootRect(),
         getRectByRef({ current: overlayNode }, true),
-        getRectByRef({ current: referenceNode }, true),
       ]);
       if (
         version !== measurementVersionRef.current ||
@@ -787,7 +789,7 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
         overflowPadding: context.overflowPadding,
         flip: { fallbackStrategy: "bestFit" },
         shift: { crossAxis: true },
-        size: { order: "beforeFlip", minimumHeight: selectMinimumHeight },
+        size: { order: "beforeFlip", minimumHeight: selectMinimumAvailableHeight },
       });
       if (
         version !== measurementVersionRef.current ||
@@ -799,6 +801,10 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
       if (nextPosition.availableWidth < width) {
         const constrainedWidth = nextPosition.availableWidth;
         if (widthConstraint !== constrainedWidth) {
+          measurementVersionRef.current++;
+          measurementConfigRef.current++;
+          intrinsicMeasurementVersionRef.current++;
+          scrollRequestVersionRef.current++;
           setWidthConstraint(constrainedWidth);
           setIntrinsicSize(null);
           setPosition(null);
@@ -821,38 +827,110 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
         return nextPosition;
       });
       setOverlayRect(overlay);
-      setTriggerRect(trigger);
+      setTriggerRect(reference);
       context.setPositioned(true);
     } catch {
       // Native nodes can disappear while a selector query is in flight; keep the popup hidden.
     }
-  }, [context, intrinsicSize, overlayAttached, widthConstraint]);
+  }, [
+    context.gutter,
+    context.isOpenRef,
+    context.open,
+    context.openEpoch,
+    context.openEpochRef,
+    context.overflowPadding,
+    context.placement,
+    context.setPositioned,
+    context.triggerRef,
+    intrinsicSize,
+    overlayAttached,
+    widthConstraint,
+  ]);
+
+  const measureIntrinsicSize = React.useCallback(async () => {
+    "background only";
+    const scrollNode = scrollNodeRef.current;
+    const scrollContentNode = scrollContentNodeRef.current;
+    const openEpoch = context.openEpochRef.current;
+    const config = measurementConfigRef.current;
+    if (!context.isOpenRef.current || !scrollAreaId || !scrollNode || !scrollContentNode) {
+      return;
+    }
+    const version = ++intrinsicMeasurementVersionRef.current;
+    try {
+      const rect = await getRectByRef({ current: scrollContentNode }, false, scrollAreaId);
+      if (
+        version !== intrinsicMeasurementVersionRef.current ||
+        !context.isOpenRef.current ||
+        openEpoch !== context.openEpochRef.current ||
+        config !== measurementConfigRef.current
+      ) {
+        return;
+      }
+      setIntrinsicSize((current) => {
+        if (
+          current?.width === rect.width &&
+          current.height === rect.height &&
+          current.epoch === openEpoch &&
+          current.config === config
+        ) {
+          return current;
+        }
+        return { width: rect.width, height: rect.height, epoch: openEpoch, config };
+      });
+    } catch {
+      // The hidden overlay may release either node before the native query resolves.
+    }
+  }, [context.isOpenRef, context.openEpochRef, scrollAreaId]);
 
   React.useEffect(() => {
     "background only";
     measurementVersionRef.current++;
+    intrinsicMeasurementVersionRef.current++;
+    scrollRequestVersionRef.current++;
     setWidthConstraint(null);
     setPosition(null);
     setOverlayRect(null);
     setTriggerRect(null);
     setIntrinsicSize((current) => (current ? { ...current, epoch: context.openEpoch } : current));
-    scrolledKeyRef.current = null;
-  }, [context.openEpoch]);
+    scrolledEpochRef.current = null;
+    if (scrollNodeRef.current && scrollContentNodeRef.current) void measureIntrinsicSize();
+  }, [context.openEpoch, measureIntrinsicSize]);
+  React.useEffect(() => {
+    "background only";
+    if (context.open) return;
+    measurementVersionRef.current++;
+    intrinsicMeasurementVersionRef.current++;
+    scrollRequestVersionRef.current++;
+  }, [context.open]);
+  React.useEffect(() => {
+    "background only";
+    return () => {
+      measurementVersionRef.current++;
+      intrinsicMeasurementVersionRef.current++;
+      scrollRequestVersionRef.current++;
+    };
+  }, []);
 
   React.useEffect(() => {
     "background only";
     measurementVersionRef.current++;
-    intrinsicWidthRef.current = null;
+    intrinsicMeasurementVersionRef.current++;
+    scrollRequestVersionRef.current++;
     measurementConfigRef.current++;
     setWidthConstraint(null);
-    setIntrinsicSize((current) =>
-      current ? { ...current, config: measurementConfigRef.current } : current,
-    );
+    setIntrinsicSize(null);
     setPosition(null);
     setOverlayRect(null);
     setTriggerRect(null);
     context.setPositioned(false);
-  }, [className, context.setPositioned, context.size, style]);
+    if (scrollNodeRef.current && scrollContentNodeRef.current) void measureIntrinsicSize();
+  }, [className, context.setPositioned, context.size, measureIntrinsicSize, style]);
+
+  React.useEffect(() => {
+    "background only";
+    if (scrollAttached && scrollContentAttached) void measureIntrinsicSize();
+  }, [measureIntrinsicSize, scrollAttached, scrollContentAttached]);
 
   React.useEffect(() => {
     "background only";
@@ -861,41 +939,84 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
 
   React.useEffect(() => {
     "background only";
+    if (context.open && widthConstraint != null) void measureIntrinsicSize();
+  }, [context.open, measureIntrinsicSize, widthConstraint]);
+  React.useEffect(() => {
+    "background only";
+    const requestVersion = ++scrollRequestVersionRef.current;
+    const openEpoch = context.openEpoch;
     const selected = context.selectedItem;
     const scrollNode = scrollNodeRef.current;
-    if (!context.positioned || !selected || !scrollNode) return;
+    if (
+      !context.open ||
+      !context.positioned ||
+      !position ||
+      !intrinsicSize ||
+      intrinsicSize.epoch !== openEpoch ||
+      intrinsicSize.config !== measurementConfigRef.current ||
+      !selected?.node ||
+      !scrollNode ||
+      !scrollAreaId ||
+      scrolledEpochRef.current === openEpoch
+    ) {
+      return;
+    }
+    if (intrinsicSize.height <= position.height) {
+      scrolledEpochRef.current = openEpoch;
+      return;
+    }
     const entry = selected.node;
-    const key = `${context.openEpoch}:${selected.value}`;
-    if (!entry || scrolledKeyRef.current === key) return;
-    scrolledKeyRef.current = key;
-    void Promise.all([
-      getRectByRef({ current: scrollNode }, true),
-      getRectByRef({ current: entry }, true),
-    ])
-      .then(([viewport, item]) => {
+    void getRectByRef({ current: entry }, false, scrollAreaId)
+      .then((item) => {
+        if (
+          requestVersion !== scrollRequestVersionRef.current ||
+          !context.isOpenRef.current ||
+          openEpoch !== context.openEpochRef.current ||
+          scrolledEpochRef.current === openEpoch
+        ) {
+          return;
+        }
+        const offset =
+          item.top < 0
+            ? item.top
+            : item.bottom > position.height
+              ? item.bottom - position.height
+              : 0;
+        if (offset === 0) {
+          scrolledEpochRef.current = openEpoch;
+          return;
+        }
         try {
-          scrollNode
-            .invoke({
-              method: "scrollTo",
-              params: { offset: Math.max(0, item.top - viewport.top), smooth: false },
-            })
-            .exec();
+          scrollNode.invoke({ method: "scrollBy", params: { offset } }).exec();
+          scrolledEpochRef.current = openEpoch;
         } catch {
           // Test refs do not implement native UI methods.
         }
       })
       .catch(() => {
-        scrolledKeyRef.current = null;
+        // The entry can be replaced before its native bounds are available.
       });
-  }, [context.openEpoch, context.positioned, context.selectedItem, scrollAttached, selectedNode]);
+  }, [
+    context.isOpenRef,
+    context.open,
+    context.openEpoch,
+    context.openEpochRef,
+    context.positioned,
+    context.selectedItem,
+    intrinsicSize,
+    position,
+    scrollAreaId,
+    scrollAttached,
+    selectedNode,
+  ]);
 
   const handleShowOverlay = React.useCallback(() => {
     "background only";
+    void measureIntrinsicSize();
     void measurePosition();
-  }, [measurePosition]);
+  }, [measureIntrinsicSize, measurePosition]);
   const handleRef = React.useCallback(
     (node: NodesRef | null) => {
-      measurementVersionRef.current++;
       mergeNodeRef(ref, node);
     },
     [ref],
@@ -908,38 +1029,25 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     }
   }, []);
   const handleScrollRef = React.useCallback((node: NodesRef | null) => {
+    "background only";
     scrollNodeRef.current = node;
     if (node && !scrollAttachedRef.current) {
       scrollAttachedRef.current = true;
       setScrollAttached(true);
     }
   }, []);
-  const handleIntrinsicLayoutChange = React.useCallback<NativeLayoutHandler>(
-    (event) => {
-      // Content stays mounted while its overlay is hidden to register option metadata. Cache that
-      // native layout too: making an already-laid-out overlay visible need not emit another event.
-      const nextSize = getLayoutSize(event);
-      if (!nextSize) return;
-      setIntrinsicSize((current) => {
-        const nextWidth = intrinsicWidthRef.current ?? nextSize.width;
-        if (
-          current?.width === nextWidth &&
-          current.height === nextSize.height &&
-          current.epoch === context.openEpoch &&
-          current.config === measurementConfigRef.current
-        ) {
-          return current;
-        }
-        return {
-          width: nextWidth,
-          height: nextSize.height,
-          epoch: context.openEpoch,
-          config: measurementConfigRef.current,
-        };
-      });
-    },
-    [context.openEpoch],
-  );
+  const handleScrollContentRef = React.useCallback((node: NodesRef | null) => {
+    "background only";
+    scrollContentNodeRef.current = node;
+    if (node && !scrollContentAttachedRef.current) {
+      scrollContentAttachedRef.current = true;
+      setScrollContentAttached(true);
+    }
+  }, []);
+  const handleIntrinsicLayoutChange = React.useCallback<NativeLayoutHandler>(() => {
+    "background only";
+    void measureIntrinsicSize();
+  }, [measureIntrinsicSize]);
   const handleTransitionEnd = React.useCallback<NativeTransitionHandler>(
     (event) => {
       "background only";
@@ -1022,11 +1130,20 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
         >
           <scroll-view
             ref={handleScrollRef as LynxViewRef}
+            id={scrollAreaId}
             className={context.classes.scrollArea}
             scroll-orientation="vertical"
+            enable-scroll={Boolean(
+              position &&
+                intrinsicSize &&
+                intrinsicSize.epoch === context.openEpoch &&
+                intrinsicSize.config === measurementConfigRef.current &&
+                intrinsicSize.height > position.height,
+            )}
             style={scrollStyle}
           >
             <view
+              ref={handleScrollContentRef as LynxViewRef}
               className={context.classes.scrollContent}
               bindlayoutchange={handleIntrinsicLayoutChange}
             >

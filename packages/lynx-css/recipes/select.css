@@ -83,13 +83,6 @@
 }
 .seed-select__content--positioned_false {
     opacity: 0;
-    transform: scale(1);
+    transform: scale(0.95);
     transition-duration: 0s
-}
-.seed-select__content--open_true-positioned_true {
-    animation-name: seed-enter;
-    animation-duration: var(--seed-duration-d3);
-    animation-timing-function: var(--seed-timing-function-enter);
-    --seed-enter-opacity: 0;
-    --seed-enter-scale: 0.95
 }

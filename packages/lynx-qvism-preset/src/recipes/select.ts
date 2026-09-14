@@ -306,21 +306,8 @@ export const select = defineSlotRecipe({
       css: {
         content: {
           opacity: selectVars.base.enabled.root.enterOpacity,
-          transform: "scale(1)",
+          transform: `scale(${selectVars.base.enabled.root.enterScale})`,
           transitionDuration: "0s",
-        },
-      },
-    },
-    {
-      open: true,
-      positioned: true,
-      css: {
-        content: {
-          animationName: "seed-enter",
-          animationDuration: selectVars.base.enabled.root.enterDuration,
-          animationTimingFunction: selectVars.base.enabled.root.enterTimingFunction,
-          "--seed-enter-opacity": selectVars.base.enabled.root.enterOpacity,
-          "--seed-enter-scale": selectVars.base.enabled.root.enterScale,
         },
       },
     },
