@@ -139,6 +139,32 @@ describe("Select", () => {
     expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
   });
 
+  it("preserves controlled open state after splitting recipe variants", () => {
+    const onOpenChange = vi.fn();
+    const { rerender } = render(
+      <Select.Root open onOpenChange={onOpenChange}>
+        <Select.Trigger className="controlled-trigger" accessibility-label="과일" />
+      </Select.Root>,
+    );
+    const trigger = getRenderedRoot().querySelector<HTMLElement>(".controlled-trigger");
+    if (!trigger) throw new Error("Expected the controlled Select trigger.");
+
+    expect(trigger).toHaveAttribute("accessibility-value", "expanded");
+    fireEvent.tap(trigger);
+    expect(onOpenChange).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({ reason: "trigger" }),
+    );
+    expect(trigger).toHaveAttribute("accessibility-value", "expanded");
+
+    rerender(
+      <Select.Root open={false} onOpenChange={onOpenChange}>
+        <Select.Trigger className="controlled-trigger" accessibility-label="과일" />
+      </Select.Root>,
+    );
+    expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
+  });
+
   it("positions content after a public ref patch resolves deferred geometry", async () => {
     installRootSelectorQuery();
     const pendingGeometry = deferred<GeometryRect>();

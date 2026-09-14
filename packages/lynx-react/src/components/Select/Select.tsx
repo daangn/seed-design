@@ -267,6 +267,17 @@ export interface SelectRootProps
 }
 
 export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref) => {
+  const screenRect = getScreenRect();
+  const [variantProps, otherProps] = select.splitVariantProps({
+    ...props,
+    size:
+      props.size === "responsive"
+        ? screenRect?.width != null && screenRect.width >= 1280
+          ? "medium"
+          : "large"
+        : props.size,
+  });
+  const { size = "large", open: openProp } = variantProps;
   const {
     children,
     className,
@@ -274,20 +285,18 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
     defaultValue = EMPTY_VALUE,
     onValueChange,
     multiple = false,
-    open: openProp,
     defaultOpen = false,
     onOpenChange,
     disabled: disabledProp,
     readOnly: readOnlyProp,
     invalid: invalidProp,
     required: requiredProp,
-    size: sizeProp = "large",
     placement = "bottom",
     gutter = selectGutter,
     overflowPadding = selectOverflowPadding,
     formatValue,
     ...nativeProps
-  } = props;
+  } = otherProps;
   const fieldContext = useFieldContext({ strict: false });
   const disabled = disabledProp ?? fieldContext?.disabled ?? false;
   const readOnly = readOnlyProp ?? fieldContext?.readOnly ?? false;
@@ -315,14 +324,7 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
   const positioned = positionedEpoch === openEpoch;
   const [triggerHandlers, setTriggerHandlers] = React.useState<SelectTriggerHandlers>({});
   const triggerRef = React.useRef<NodesRef | null>(null);
-  const screenRect = getScreenRect();
-  const size =
-    sizeProp === "responsive" && screenRect?.width != null && screenRect.width >= 1280
-      ? "medium"
-      : sizeProp === "responsive"
-        ? "large"
-        : sizeProp;
-  const classes = select({ size, open, positioned });
+  const classes = select({ ...variantProps, open, positioned });
 
   const selectedItems = React.useMemo(
     () =>
