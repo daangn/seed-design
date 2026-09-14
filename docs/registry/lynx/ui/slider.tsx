@@ -85,7 +85,7 @@ export const Slider = React.forwardRef<SliderRootRef, SliderProps>(
     const renderErrorMessage = invalid === true && errorMessage != null;
     const renderDescription = description != null && !renderErrorMessage;
     const renderFooter = renderDescription || renderErrorMessage;
-    const thumbCount = values?.length ?? defaultValues?.length ?? 1;
+    const thumbCount = Math.max(values?.length ?? defaultValues?.length ?? 1, 1);
     const defaultAccessibilityLabel = typeof label === "string" ? () => label : undefined;
 
     if (
