@@ -32,6 +32,7 @@ type IndexableSource = {
     data: {
       title: string;
       description?: string;
+      frontmatter: { whenToRead?: string };
       load: () => Promise<MarkdownRenderer<Record<string, unknown>>>;
     };
   }[];
@@ -68,6 +69,7 @@ async function indexSource(source: IndexableSource, tag: string): Promise<Indexa
         id: page.url,
         title: page.data.title,
         description: page.data.description,
+        whenToRead: page.data.frontmatter.whenToRead,
         structuredData,
         breadcrumbs: buildBreadcrumbs(source.pageTree, page.url),
         tag,
