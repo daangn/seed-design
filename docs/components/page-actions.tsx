@@ -45,7 +45,7 @@ function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
     });
   };
 
-  // markdownUrl은 루트 상대 경로(`/llms/...`)라 그대로 복사하면 붙여넣는 쪽에서 못 연다.
+  // markdownUrl은 루트 상대 경로(`/components/button.md`)라 그대로 복사하면 붙여넣는 쪽에서 못 연다.
   const handleCopyUrlClick = async () => {
     setOpen(false);
 
