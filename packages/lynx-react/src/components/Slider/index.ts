@@ -1,0 +1,28 @@
+export {
+  SliderRoot,
+  SliderControl,
+  SliderTrack,
+  SliderRange,
+  SliderThumb,
+  SliderTick,
+  SliderMarkers,
+  SliderMarker,
+  SliderValueIndicatorRoot,
+  SliderValueIndicatorArrow,
+  SliderValueIndicatorLabel,
+  type SliderClassNames,
+  type SliderValues,
+  type SliderRootProps,
+  type SliderControlProps,
+  type SliderTrackProps,
+  type SliderRangeProps,
+  type SliderThumbProps,
+  type SliderTickProps,
+  type SliderMarkersProps,
+  type SliderMarkerProps,
+  type SliderValueIndicatorRootProps,
+  type SliderValueIndicatorArrowProps,
+  type SliderValueIndicatorLabelProps,
+} from "./Slider";
+
+export * as Slider from "./Slider.namespace";
