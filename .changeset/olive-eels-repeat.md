@@ -1,5 +1,5 @@
 ---
-"@seed-design/cli": patch
+"@seed-design/cli": major
 ---
 
 `docs` 명령어가 디자인 스펙·파운데이션·패턴·업데이트 문서를 찾을 수 있습니다.

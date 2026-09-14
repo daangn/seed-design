@@ -1,5 +1,5 @@
 ---
-"@seed-design/cli": minor
+"@seed-design/cli": major
 ---
 
 `init`에서 deprecated된 `--default` 옵션을 제거합니다.

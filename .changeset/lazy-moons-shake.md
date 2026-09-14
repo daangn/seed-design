@@ -1,5 +1,5 @@
 ---
-"@seed-design/cli": minor
+"@seed-design/cli": major
 ---
 
 `docs` 명령어가 아무것도 묻지 않고, 결과를 종료 코드로 알립니다.
