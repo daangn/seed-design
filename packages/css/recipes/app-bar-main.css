@@ -35,7 +35,7 @@
     top: var(--seed-safe-area-top);
     bottom: 0;
     inset-inline: 0;
-    padding-inline: var(--centered-title-padding-x, 0);
+    padding-inline: max(var(--centered-title-padding-x, 0px), var(--seed-safe-area-left), var(--seed-safe-area-right));
     pointer-events: none
 }
 .seed-app-bar-main__root--theme_android {
