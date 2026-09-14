@@ -1,0 +1,263 @@
+---
+title: Select
+description: 트리거를 눌러 native overlay의 목록에서 값을 선택하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+    x-elements:
+      - overlay
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/select/preview" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:select
+```
+
+<LynxManualInstallation name="select" />
+
+## Usage
+
+`SelectContent`는 native overlay, 위치 계산, 표시 수명과 긴 목록의 scroll viewport를 함께 소유합니다.
+
+```tsx
+import {
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+} from "@/components/ui/select";
+
+export function App() {
+  return (
+    <view style={{ width: "240px" }}>
+      <SelectRoot defaultValue={["apple"]}>
+        <SelectTrigger accessibility-label="과일" placeholder="과일을 선택하세요" />
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="apple" label="사과" />
+            <SelectItem value="banana" label="바나나" />
+            <SelectItem value="cherry" label="체리" />
+          </SelectGroup>
+        </SelectContent>
+      </SelectRoot>
+    </view>
+  );
+}
+```
+
+- `SelectRoot`는 `value`/`defaultValue`와 `open`/`defaultOpen`을 관리합니다. `multiple`일 때는 항목을 탭해도 목록을 유지하고 선택을 toggle합니다.
+- `SelectTrigger`는 선택 값 또는 placeholder를 표시하고 탭으로 목록을 열고 닫습니다. `SelectRoot`의 문자열 `label` 또는 `accessibility-label`은 trigger의 기본 접근성 이름으로 사용됩니다.
+- `SelectContent`는 선택된 항목이 보이도록 목록을 스크롤하고, trigger 너비·화면 여유 공간·safe area에 맞춰 목록을 배치합니다.
+- `SelectGroup`은 관련 항목을 묶습니다. 여러 그룹 사이에는 구분선이 표시되고 `label`은 그룹 제목을 만듭니다.
+- `SelectItem`은 label, 선택적 description, prefix icon과 기본 checkmark indicator를 조합합니다. `selectedIndicator`로 checkmark를 교체할 수 있습니다.
+
+낮은 수준의 조합이 필요하면 `Select` namespace의 `Root`, `Trigger`, `Value`, `Placeholder`, `PrefixIcon`, `SuffixIcon`, `Content`, `ScrollArea`, `Group`, `GroupLabel`, `Item`, `ItemPrefixIcon`, `ItemBody`, `ItemLabel`, `ItemDescription`, `ItemIndicator`를 사용하세요. 같은 API는 `SelectRoot`, `SelectTrigger`처럼 `Select` 접두어가 붙은 flat export로도 제공합니다.
+
+## Props
+
+### `SelectRoot`
+
+<react-type-table path="./registry/lynx/ui/select.tsx" name="SelectRootProps" />
+
+### `SelectTrigger`
+
+<react-type-table path="./registry/lynx/ui/select.tsx" name="SelectTriggerProps" />
+
+### `SelectContent`
+
+<react-type-table path="./registry/lynx/ui/select.tsx" name="SelectContentProps" />
+
+### `SelectGroup`
+
+<react-type-table path="./registry/lynx/ui/select.tsx" name="SelectGroupProps" />
+
+### `SelectItem`
+
+<react-type-table path="./registry/lynx/ui/select.tsx" name="SelectItemProps" />
+
+## Examples
+
+### Size
+
+`size`로 trigger와 목록의 크기를 정합니다. 기본값은 `large`이고, `responsive`는 native runtime의 화면 폭이 1280 이상이면 `medium`, 그 외에는 `large`로 해석합니다.
+
+<LynxComponentExample name="lynx/select/size" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/size.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Groups
+
+`SelectGroup`으로 옵션을 묶고 `label`로 그룹 제목을 표시합니다. 두 번째 그룹부터는 그룹 사이에 구분선이 추가됩니다.
+
+<LynxComponentExample name="lynx/select/groups" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/groups.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Multiple Selection
+
+`multiple`을 지정하면 선택한 옵션을 다시 탭해 해제할 수 있습니다. 다중 선택 중에는 목록이 닫히지 않으며 trigger에는 기본적으로 선택된 `textValue`가 `", "`로 연결되어 표시됩니다.
+
+<LynxComponentExample name="lynx/select/multiple" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/multiple.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Description
+
+`SelectItem`의 `description`으로 옵션에 부가 설명을 추가합니다.
+
+<LynxComponentExample name="lynx/select/with-description" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/with-description.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Prefix Icon
+
+`SelectItem`의 `prefixIcon`으로 옵션 앞에 아이콘을 표시합니다. 단일 옵션이 선택되면 해당 아이콘이 trigger prefix에 표시됩니다. 선택이 없거나 여러 옵션이 선택된 경우에는 `SelectTrigger`의 `prefixIcon` fallback을 사용합니다.
+
+<LynxComponentExample name="lynx/select/with-prefix-icon" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/with-prefix-icon.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Custom Item Label
+
+`label`에는 복합 JSX를 전달할 수 있습니다. 복합 label을 사용할 때는 trigger에 표시할 문자열과 옵션 접근성 이름을 위해 `textValue`를 함께 지정하세요.
+
+<LynxComponentExample name="lynx/select/custom-label" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/custom-label.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`SelectItem`의 `disabled`는 특정 옵션을, `SelectRoot`의 `disabled`는 Select 전체를 비활성화합니다. `readOnly`도 목록을 열거나 선택을 바꾸지 않습니다.
+
+<LynxComponentExample name="lynx/select/disabled" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Long List
+
+목록은 상하 8px 패딩을 포함한 내용 높이만큼 표시하며, 별도의 최소 높이는 없습니다. 최대 높이는 480px이고 trigger 주위의 남은 공간과 safe area에 맞춰 제한합니다. 내용이 이 높이를 넘을 때만 스크롤됩니다.
+
+열릴 때 선택된 옵션이 화면 밖에 있으면 보이는 데 필요한 만큼만 스크롤합니다. 이미 보이는 옵션을 선택하거나 목록이 닫히는 중에는 스크롤 위치를 바꾸지 않습니다.
+
+<LynxComponentExample name="lynx/select/long-list" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/long-list.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Placement
+
+`placement`로 목록 위치를 정합니다. 기본값은 `bottom`이며, 공간이 부족하면 native positioner가 반대쪽으로 뒤집거나 경계 안으로 이동합니다.
+
+<LynxComponentExample name="lynx/select/placement" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/placement.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`value`와 `onValueChange`로 선택 값을 제어할 수 있습니다.
+
+<LynxComponentExample name="lynx/select/controlled" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled Open State
+
+`open`과 `onOpenChange`로 목록 상태를 제어합니다. 초기 상태만 지정하려면 `defaultOpen`을 사용하세요.
+
+<LynxComponentExample name="lynx/select/controlled-open" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/controlled-open.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange`의 두 번째 인자는 상태를 바꾼 이유를 제공합니다. 열림 이유는 `trigger`이고, 닫힘 이유는 `trigger`, `itemSelect`, `interactOutside`, `dismiss`입니다.
+
+<LynxComponentExample name="lynx/select/open-change-reason" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/open-change-reason.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Custom Value Format
+
+`formatValue`로 trigger에 표시할 선택 값을 바꿉니다. callback은 `value`, `label`, `textValue`, `prefixIcon`을 담은 선택 item 배열을 받습니다.
+
+<LynxComponentExample name="lynx/select/format-value" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/format-value.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Field Integration
+
+`SelectRoot`는 기존 Lynx `Field`를 조합하므로 `label`, `description`, `errorMessage`, `invalid`, `required`와 `showRequiredIndicator`를 지원합니다. 오류 메시지가 있으면 description 대신 오류 메시지를 표시합니다.
+
+<LynxComponentExample name="lynx/select/field" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/field.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Form Integration
+
+Lynx에는 HTML `<form>`과 native `<select>` 제출 모델이 없습니다. 선택 값은 `onValueChange`로 앱 state에 저장하고, 제출 action의 payload에 그 값을 넣으세요.
+
+### React Hook Form
+
+현재 Lynx React 런타임과 이 예제 경로에는 React Hook Form 통합·dependency가 없습니다. `value`/`onValueChange`와 `invalid`/`errorMessage`를 앱 상태 및 native request action에 직접 연결하세요.
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+Lynx Select는 native <code>overlay</code> 위에 렌더링됩니다. HTML DOM의 focus와 form 모델 대신 native tap, overlay dismissal, <code>accessibility-*</code> 속성과 앱 상태를 사용합니다.
+</Callout>
+
+| 항목 | React | Lynx |
+| --- | --- | --- |
+| Trigger 조합 | `asChild`와 DOM button 조합 | native `SelectTrigger`를 사용 |
+| 위치와 긴 목록 | DOM positioner와 scroll area | `SelectContent`가 native overlay, 위치 계산, scroll viewport를 함께 소유 |
+| 열림 이유 | keyboard/focus를 포함한 DOM 상호작용 | `trigger`, `itemSelect`, `interactOutside`, `dismiss` |
+| 키보드 | focus, typeahead, Escape로 닫기 | 현재 Lynx Select에서 지원하지 않음 |
+| 접근성 | DOM ARIA id 연결 | `SelectRoot` 또는 `SelectTrigger`의 `accessibility-label`과 item의 native 접근성 속성 사용 |
+| 반응형 size | 웹 viewport 기반 | native runtime 폭을 사용 |
+
+## Lynx 미지원 기능
+
+| 기능 | 웹 대응 | 앱 대안 |
+| --- | --- | --- |
+| hidden native select, `name`, `form` 제출 | `<select>`와 `FormData` | `onValueChange`로 앱 state를 갱신하고 제출 action payload에 그 값을 넣기 |
+| browser validation | `required`의 native form validation | 앱 제출 action에서 state를 검증하고 `invalid`/`errorMessage`를 제어하기 |
+| React Hook Form 예제 | `useController`와 HTML form 통합 | 현재 예제 경로에는 React Hook Form 통합·dependency가 없으므로 `value`/`onValueChange` 및 앱 상태·요청 action으로 연결하기 |
+| DOM focus, typeahead, keyboard navigation | focus/keyboard API | native tap과 host의 접근성 탐색 흐름 사용 |
+| DOM ARIA id | `aria-describedby`, `aria-controls` | 각 trigger와 복합 item에 필요한 `accessibility-*` 속성을 직접 지정 |

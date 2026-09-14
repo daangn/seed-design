@@ -1,0 +1,11 @@
+.docs-lynx-select-root {
+  height: 100%;
+  padding: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.select-preview {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
