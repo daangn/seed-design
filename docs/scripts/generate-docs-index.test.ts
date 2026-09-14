@@ -7,7 +7,7 @@ import { filePathToSlugs } from "./content-pages";
 import { compareDocsItems } from "./generate-docs-index";
 
 function docsItem(id: string, docUrl: string): DocsItem {
-  return { id, title: id, docUrl };
+  return { id, title: id, docUrl, llmsUrl: `/llms${docUrl}.txt` };
 }
 
 describe("compareDocsItems", () => {
