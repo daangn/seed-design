@@ -151,6 +151,26 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 </div>
 
+### Safe Area
+
+`AppScreen`은 기기의 safe area inset을 반영합니다.
+
+- 상단과 하단 inset은 `layerOffsetTop`, `layerOffsetBottom` 속성으로 조정합니다.
+- 좌우 inset은 항상 반영됩니다. `AppBar`와 `AppScreenContent`의 내용이 좌우 inset만큼 안쪽으로 들어가므로, 가로 모드처럼 좌우 inset이 있는 화면에서도 디스플레이 컷아웃에 가려지지 않습니다.
+
+이미지, 가로 스크롤 영역, 배경 띠처럼 화면 끝까지 채워야 하는 요소는 `Box`의 `bleedX`에 `"safeArea"`를 지정해 좌우 inset만큼 넓힙니다. 넓힌 요소 안의 내용을 safe area 안쪽에 두려면 `pl`, `pr`에도 `"safeArea"`를 함께 지정합니다.
+
+가로 스크롤 영역은 flex 컨테이너(`display="flex"`)로 두세요. WebKit은 block 스크롤 컨테이너의 끝쪽 padding을 스크롤 범위에 넣지 않아서, 끝까지 스크롤하면 마지막 항목이 오른쪽 inset 영역에 걸립니다.
+
+<StackflowExample path="/safe-area-bleed">
+  ```json doc-gen:file
+  {
+    "file": "../examples/stackflow-spa/src/activities/ActivitySafeAreaBleed.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
 ### Customizing App Bar
 
 `tone="layer"`인 경우 `AppBar`의 색상을 변경할 수 있습니다.
