@@ -106,9 +106,7 @@ export async function fetchDoc(sectionId: string, docPath: string): Promise<stri
     );
   }
 
-  return fetchWithCache<string>(
-    `${SEED_DOCS_BASE_URL}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`,
-  );
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${item.llmsUrl}`);
 }
 
 export interface RootageIndex {
