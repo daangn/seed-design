@@ -2070,6 +2070,19 @@
               "docUrl": "/lynx/components/action-button"
             },
             {
+              "id": "alert-dialog",
+              "title": "Alert Dialog",
+              "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/alert-dialog",
+              "snippetKey": "lynx/ui:alert-dialog",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "alert-dialog.tsx"
+                }
+              ]
+            },
+            {
               "id": "app-bar",
               "title": "AppBar",
               "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
