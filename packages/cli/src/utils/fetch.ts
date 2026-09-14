@@ -132,7 +132,7 @@ export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
 
   if (!response.ok) {
     throw new CliError({
-      message: `llms.txt를 가져오지 못했어요: ${response.status} ${response.statusText}`,
+      message: `문서를 가져오지 못했어요: ${response.status} ${response.statusText}`,
       hint: `${url} 에 접근할 수 있는지 확인해주세요.`,
     });
   }

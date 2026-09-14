@@ -2,14 +2,14 @@
 "@seed-design/cli": minor
 ---
 
-`docs`가 문서 경로를 llms.txt 내용으로 답합니다. `--raw` 옵션을 제거합니다.
+`docs`가 문서 경로를 그 문서의 마크다운 본문으로 답합니다. `--raw` 옵션을 제거합니다.
 
 문서 하나를 지목했을 때 나오던 링크 세 줄은 그 다음에 할 일이 늘 정해져 있었습니다. 링크를 받아서 하는 일이 결국 그 주소를 다시 요청하는 것이라면, 처음부터 내용을 주는 편이 짧습니다. 그래서 `--raw`가 하던 일이 기본 동작이 되고, 옵션은 사라집니다.
 
 ```sh
 seed-design docs list                                  # 카테고리 목록
 seed-design docs list react/                           # 그 아래 목록
-seed-design docs read /react/components/action-button  # 그 문서의 llms.txt 내용
+seed-design docs read /react/components/action-button  # 그 문서의 마크다운 본문
 ```
 
 목록은 `docs list`가 stdout으로 출력하고 종료 코드 `0`으로 끝납니다. 출력된 주소를 `docs read`에 그대로 다시 넣으면 그 문서의 내용이 나옵니다.

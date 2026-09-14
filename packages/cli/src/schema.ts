@@ -74,7 +74,7 @@ export const docsItemSchema = z.object({
   whenToRead: z.string().optional(),
   docUrl: z.string(),
   /**
-   * Site-relative path to this page's llms.txt, e.g. `/llms/foundations/color.txt`.
+   * Site-relative path to this page's markdown, e.g. `/foundations/color.md`.
    *
    * Carried by the index so the CLI never has to know the route shape.
    */
