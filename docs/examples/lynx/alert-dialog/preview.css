@@ -1,0 +1,22 @@
+.docs-lynx-alert-dialog-root {
+  width: 100%;
+  height: 100%;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.alert-dialog-example-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.alert-dialog-example-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+}
