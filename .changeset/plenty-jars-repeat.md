@@ -1,5 +1,5 @@
 ---
-"@seed-design/cli": minor
+"@seed-design/cli": major
 ---
 
 `docs`가 문서 경로를 그 문서의 마크다운 본문으로 답합니다. `--raw` 옵션을 제거합니다.
