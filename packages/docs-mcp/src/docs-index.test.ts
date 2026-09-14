@@ -11,10 +11,25 @@ const react: DocsIndexCategory = {
   id: "react",
   label: "React",
   items: [
-    { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/components/alert-dialog" },
-    { id: "button", title: "Button", docUrl: "/react/components/button" },
-    { id: "alert-dialog", title: "Alert Dialog", docUrl: "/react/stackflow/alert-dialog" },
-    { id: "overview", title: "React", docUrl: "/react" },
+    {
+      id: "alert-dialog",
+      title: "Alert Dialog",
+      docUrl: "/react/components/alert-dialog",
+      llmsUrl: "/llms/react/components/alert-dialog.txt",
+    },
+    {
+      id: "button",
+      title: "Button",
+      docUrl: "/react/components/button",
+      llmsUrl: "/llms/react/components/button.txt",
+    },
+    {
+      id: "alert-dialog",
+      title: "Alert Dialog",
+      docUrl: "/react/stackflow/alert-dialog",
+      llmsUrl: "/llms/react/stackflow/alert-dialog.txt",
+    },
+    { id: "overview", title: "React", docUrl: "/react", llmsUrl: "/llms/react.txt" },
   ],
 };
 
@@ -34,7 +49,12 @@ describe("itemPath", () => {
   // `replace` would have cut the `/react/` out of the middle and produced
   // `/lynx/components/button`, a path pointing at neither document.
   it("leaves an item filed outside the section alone", () => {
-    const stray = { id: "button", title: "Button", docUrl: "/lynx/components/react/button" };
+    const stray = {
+      id: "button",
+      title: "Button",
+      docUrl: "/lynx/components/react/button",
+      llmsUrl: "/llms/lynx/components/react/button.txt",
+    };
 
     expect(itemPath(react, stray)).toBe("/lynx/components/react/button");
   });
@@ -93,11 +113,13 @@ describe("searchResultLine", () => {
             title: "Button",
             description: "누르면 동작을 실행합니다.",
             docUrl: "/react/components/button",
+            llmsUrl: "/llms/react/components/button.txt",
           },
           {
             id: "alert-dialog",
             title: "Alert Dialog",
             docUrl: "/react/stackflow/alert-dialog",
+            llmsUrl: "/llms/react/stackflow/alert-dialog.txt",
             deprecated: true,
           },
           {
@@ -105,6 +127,7 @@ describe("searchResultLine", () => {
             title: "Bottom Sheet",
             description: "화면 아래에서\n  올라옵니다.",
             docUrl: "/react/components/bottom-sheet",
+            llmsUrl: "/llms/react/components/bottom-sheet.txt",
           },
           {
             id: "checkbox",
@@ -112,6 +135,7 @@ describe("searchResultLine", () => {
             description: "여러 항목을 고릅니다.",
             whenToRead: "체크박스 그룹을 만들 때 읽는다.",
             docUrl: "/react/components/checkbox",
+            llmsUrl: "/llms/react/components/checkbox.txt",
           },
         ],
       },

@@ -21,7 +21,7 @@ import { alignedLines, similarAddresses } from "../utils/docs-index";
 import { searchDocs } from "../utils/docs-search";
 import { CliError, ExitCode, exitCodeFor, reportCliError } from "../utils/error";
 import { exampleFooter } from "../utils/help";
-import type { DocsCategory, DocsItem } from "../schema";
+import type { DocsCategory } from "../schema";
 
 /**
  * Three subcommands, one for each kind of answer, so what comes back is settled by the name
@@ -47,16 +47,6 @@ import type { DocsCategory, DocsItem } from "../schema";
 interface Outcome {
   result: string;
   itemId?: string;
-}
-
-/**
- * `llmsUrl` is missing from an index published before the field existed — the archived
- * `v1-x` sites, whose index is frozen in the old shape. The rule behind the field is the
- * document URL with `/llms` in front and `.txt` behind, so composing it reaches the same
- * route the site would have named.
- */
-function llmsUrlFor(item: DocsItem, baseUrl: string): string {
-  return `${baseUrl}${item.llmsUrl ?? `/llms${item.docUrl}.txt`}`;
 }
 
 function suggestionFor(categories: DocsCategory[], query: string): string {
@@ -285,7 +275,7 @@ export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<t
     if (documents.length === 1) {
       // Not `console.log`: stdout carries the bytes the site sent and not one of ours, and
       // `console.log` would append a newline the document did not have.
-      process.stdout.write(await fetchLlmsTxt({ url: llmsUrlFor(documents[0].item, baseUrl) }));
+      process.stdout.write(await fetchLlmsTxt({ url: `${baseUrl}${documents[0].item.llmsUrl}` }));
       return { result: "item", itemId: documents[0].item.id };
     }
 

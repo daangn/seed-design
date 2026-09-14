@@ -76,11 +76,9 @@ export const docsItemSchema = z.object({
   /**
    * Site-relative path to this page's llms.txt, e.g. `/llms/foundations/color.txt`.
    *
-   * Carried by the index so the CLI never has to know the route shape. Optional
-   * so an older index (or a self-hosted one) still parses; callers fall back to
-   * composing it from `docUrl`.
+   * Carried by the index so the CLI never has to know the route shape.
    */
-  llmsUrl: z.string().optional(),
+  llmsUrl: z.string(),
   deprecated: z.boolean().optional(),
 });
 

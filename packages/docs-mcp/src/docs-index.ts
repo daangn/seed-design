@@ -17,7 +17,7 @@ const docsIndexItemSchema = z.object({
   description: z.string().optional(),
   whenToRead: z.string().optional(),
   docUrl: z.string(),
-  llmsUrl: z.string().optional(),
+  llmsUrl: z.string(),
   deprecated: z.boolean().optional(),
 });
 
