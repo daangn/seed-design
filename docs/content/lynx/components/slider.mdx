@@ -47,6 +47,7 @@ Registry의 조합이 아닌 `@seed-design/lynx-react` primitive를 직접 사�
 ```tsx
 import { useState } from "@lynx-js/react";
 import {
+  ActionButton,
   SliderControl,
   SliderMarker,
   SliderMarkers,
@@ -96,9 +97,7 @@ export function PriceSlider() {
           <SliderMarker value={100}>100원</SliderMarker>
         </SliderMarkers>
       </SliderRoot>
-      <view bindtap={setPreset}>
-        <text>60원으로 설정</text>
-      </view>
+      <ActionButton bindtap={setPreset}>60원으로 설정</ActionButton>
     </view>
   );
 }

@@ -88,6 +88,16 @@ export const Slider = React.forwardRef<SliderRootRef, SliderProps>(
     const thumbCount = values?.length ?? defaultValues?.length ?? 1;
     const defaultAccessibilityLabel = typeof label === "string" ? () => label : undefined;
 
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !getAccessibilityLabel &&
+      !defaultAccessibilityLabel
+    ) {
+      console.warn(
+        "Slider: Provide a string `label` or `getAccessibilityLabel` so every thumb has an accessible name.",
+      );
+    }
+
     return (
       <SeedField.Root
         ref={fieldRef}
