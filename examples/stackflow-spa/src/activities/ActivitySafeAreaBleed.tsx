@@ -35,7 +35,7 @@ const Section = ({
   children: ReactNode;
 }) => (
   <VStack gap="x3">
-    <VStack gap="x1" px="x4">
+    <VStack gap="x1" px="spacingX.globalGutter">
       <Text textStyle="t5Bold" color="fg.neutral">
         {title}
       </Text>
@@ -69,7 +69,7 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           {/* WebKit leaves a block scroll container's end padding out of the scroll range; a flex
               container keeps it, so the last item stops at the safe area edge. */}
           <Box display="flex" bleedX="safeArea" pl="safeArea" pr="safeArea" overflowX="auto">
-            <HStack gap="x2" px="x4" width="max-content">
+            <HStack gap="x2" px="spacingX.globalGutter" width="max-content">
               {Array.from({ length: 10 }, (_, index) => (
                 <VStack
                   key={index}
@@ -96,8 +96,10 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
             <ChipTabsRoot defaultValue={CATEGORIES[0]} variant="neutralSolid">
               <ChipTabsList
                 style={{
-                  paddingLeft: "calc(var(--seed-dimension-x4) + var(--seed-safe-area-left))",
-                  paddingRight: "calc(var(--seed-dimension-x4) + var(--seed-safe-area-right))",
+                  paddingLeft:
+                    "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-left))",
+                  paddingRight:
+                    "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-right))",
                 }}
               >
                 {CATEGORIES.map((category) => (
@@ -114,14 +116,14 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           description="배경은 bleedX로 화면 끝까지 채우고, 내용은 pl과 pr의 safeArea와 gutter 안쪽에 둬요."
         >
           <Box bleedX="safeArea" pl="safeArea" pr="safeArea" bg="bg.brandWeak">
-            <Box px="x4" py="x4">
+            <Box px="spacingX.globalGutter" py="x4">
               <Text textStyle="t4Medium" color="fg.brand">
                 배경은 화면 끝까지, 글자는 safe area 안쪽에 있어요.
               </Text>
             </Box>
           </Box>
         </Section>
-        <VStack gap="x3" px="x4">
+        <VStack gap="x3" px="spacingX.globalGutter">
           {Array.from({ length: 6 }, (_, index) => (
             <Text key={index} textStyle="t4Regular" color="fg.neutral">
               아래 하단 바가 콘텐츠 위에 고정되는지 확인하기 위한 문단이에요. 하단 바는 배경을 화면
@@ -138,7 +140,7 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           pb="safeArea"
           bg="bg.layerDefault"
         >
-          <HStack px="x4" py="x3">
+          <HStack px="spacingX.globalGutter" py="x3">
             <ActionButton variant="brandSolid" flexGrow>
               확인
             </ActionButton>
