@@ -1,7 +1,7 @@
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
 import IconChevronDownSmallLine from "@karrotmarket/lynx-monochrome-icon/IconChevronDownSmallLine";
 import * as React from "@lynx-js/react";
-import { Field as SeedField, Select as SeedSelect } from "@seed-design/lynx-react";
+import { Field as SeedField, Select as SeedSelect, mergeProps } from "@seed-design/lynx-react";
 import type { LynxAccessibilityProps, LynxIconElementProps } from "@seed-design/lynx-react";
 
 type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
@@ -60,6 +60,10 @@ export const SelectRoot = React.forwardRef<FieldRootRef, SelectRootProps>(
     },
     ref,
   ) => {
+    const mergedRefProps = React.useMemo(
+      () => mergeProps({ ref }, { ref: fieldRef }),
+      [ref, fieldRef],
+    );
     const renderHeader = label != null || indicator != null;
     const renderErrorMessage = invalid && errorMessage != null;
     const renderDescription = description != null && !renderErrorMessage;
@@ -69,7 +73,7 @@ export const SelectRoot = React.forwardRef<FieldRootRef, SelectRootProps>(
 
     return (
       <SeedField.Root
-        ref={fieldRef ?? ref}
+        {...mergedRefProps}
         required={required}
         disabled={disabled}
         invalid={invalid}
