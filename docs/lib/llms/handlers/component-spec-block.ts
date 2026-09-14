@@ -5,8 +5,8 @@ import index from "@seed-design/rootage-artifacts/index.json" with { type: "json
 import type { LLMHandler } from "../types";
 
 /**
- * `<ComponentSpecBlock id="action-button" />` renders a spec table on screen; llms.txt
- * links the JSON the table is built from instead. Transcribing the table here needs the
+ * `<ComponentSpecBlock id="action-button" />` renders a spec table on screen; the
+ * markdown links the JSON the table is built from instead. Transcribing the table here needs the
  * spec files off disk, which the bundled build cannot reach, and the JSON is the source
  * of truth either way. `variants` only narrows what the on-screen table shows, so the
  * link ignores it.

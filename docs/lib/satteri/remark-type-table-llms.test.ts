@@ -77,7 +77,7 @@ async function compile(source: string) {
 
 describe("remarkTypeTableLlms", () => {
   // 이 파이프라인과 `lib/llms/type-table.ts`가 만나는 이음매를 함께 봅니다. 둘 중 한쪽만
-  // 보면 서로 다른 모양을 기대한 채로 통과하고, 표는 llms.txt에서 사라집니다.
+  // 보면 서로 다른 모양을 기대한 채로 통과하고, 표는 마크다운 버전에서 사라집니다.
   it("props 표를 llms 본문의 목록으로 남긴다", async () => {
     const result = await compile(
       '## Props\n\n<react-type-table path="./fixture.tsx" name="FixtureProps" />\n',

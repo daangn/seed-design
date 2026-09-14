@@ -65,7 +65,6 @@ async function main() {
     if (entries.length === 0) continue;
 
     // A category is one flat list, so two pages sharing a title are indistinguishable in it.
-    // Same disambiguation the llms.txt listings apply.
     const pages = entries.map(({ item, slugs }) => ({ data: { title: item.title }, slugs }));
 
     categories.push({

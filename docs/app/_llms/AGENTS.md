@@ -1,5 +1,5 @@
 ---
-description: llms.txt 섹션 레지스트리와 라우트 가이드
+description: 섹션 레지스트리와 문서별 마크다운 라우트 가이드
 alwaysApply: true
 ---
 
@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 llms.txt로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다.
+`docs/app/_llms`는 문서별 마크다운으로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다.
 
 ## 파일 작성 컨벤션
 

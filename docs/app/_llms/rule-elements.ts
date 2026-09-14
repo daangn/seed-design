@@ -18,10 +18,10 @@ import type { FilterElement } from "@/lib/satteri/remark-llms-filter";
  */
 /**
  * 위 목록에서 대응하는 핸들러가 없는 이름. 여기 없는 이름이 핸들러를 잃으면 그 MDX 태그가
- * llms.txt 본문으로 새어 나가므로, 의도한 예외만 적어 테스트가 나머지를 잡게 한다.
+ * 마크다운 본문으로 새어 나가므로, 의도한 예외만 적어 테스트가 나머지를 잡게 한다.
  *
- * `CatalogGrid`가 그 예외다. 카탈로그가 나열하는 문서는 CLI 인덱스와 섹션 llms.txt가 이미
- * 담고 있어 목록을 한 벌 더 펼칠 이유가 없지만, 태그마저 접으면 개요 페이지 본문이 통째로
+ * `CatalogGrid`가 그 예외다. 카탈로그가 나열하는 문서는 문서 인덱스가 이미 담고 있어
+ * 목록을 한 벌 더 펼칠 이유가 없지만, 태그마저 접으면 개요 페이지 본문이 통째로
  * 사라져 내용이 누락된 것처럼 보인다. 태그를 남겨 그 자리에 카탈로그가 있음을 알린다.
  */
 export const ELEMENTS_WITHOUT_RULE = ["CatalogGrid"] as const;

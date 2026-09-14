@@ -1,5 +1,5 @@
 ---
-description: llms.txt 컴파일 타임 핸들러 개발 가이드
+description: 문서별 마크다운 컴파일 타임 핸들러 개발 가이드
 alwaysApply: true
 ---
 
@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/lib/llms`는 MDX의 JSX 태그를 llms.txt용 마크다운으로 바꾸는 **컴파일 타임 핸들러**를 담는다. `app/source.tsx`가 `remarkLlms`에 여기의 옵션을 넘겨 문서를 컴파일할 때 한 번 실행되고, 결과는 페이지의 `processed` 익스포트로 굳는다. 그 결과를 어떤 주소로 내보낼지는 `app/_llms`가 정한다.
+`docs/lib/llms`는 MDX의 JSX 태그를 문서별 마크다운으로 바꾸는 **컴파일 타임 핸들러**를 담는다. `app/source.tsx`가 `remarkLlms`에 여기의 옵션을 넘겨 문서를 컴파일할 때 한 번 실행되고, 결과는 페이지의 `processed` 익스포트로 굳는다. 그 결과를 어떤 주소로 내보낼지는 `app/_llms`가 정한다.
 
 ## 파일 작성 컨벤션
 

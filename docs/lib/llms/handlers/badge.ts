@@ -1,7 +1,7 @@
 import type { LLMHandler } from "../types";
 
 /**
- * `<Badge>직접 판단 필요</Badge>` marks emphasis visually, which llms.txt cannot carry,
+ * `<Badge>직접 판단 필요</Badge>` marks emphasis visually, which markdown cannot carry,
  * so it becomes `[직접 판단 필요]`. Works from either position: `phrasing()` serializes
  * the children the same way whether the tag sits in a sentence or on its own line.
  */

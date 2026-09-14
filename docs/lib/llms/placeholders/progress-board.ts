@@ -47,7 +47,7 @@ function buildComponentTable(components: ComponentData[]): string {
 }
 
 /**
- * `<ProgressBoardTable />` renders live Sanity data, so llms.txt cannot read it off the
+ * `<ProgressBoardTable />` renders live Sanity data, so the markdown cannot read it off the
  * page — it refetches. An empty result keeps the tag rather than emitting empty tables,
  * which would read as "nothing is implemented" instead of "the fetch failed".
  *

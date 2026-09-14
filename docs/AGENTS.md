@@ -36,7 +36,7 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 
 - 컴포넌트·훅 문서를 새로 만들 때 frontmatter 직후에 `<AvailableSince />`를 넣는다. 패키지 매핑은 React→`react`+`css`, React Stackflow→`stackflow`+`css`, Lynx component→`lynx-react`+`lynx-css`, Lynx hook→`lynx-react`다.
 - React에서 다른 컴포넌트의 컨텍스트 안에서만 유효한 종속 컴포넌트는 상위 컴포넌트 문서의 하위 섹션으로 설명한다. 예: `AppBar`는 `AppScreen` 문서에서 다룬다.
-- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
+- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 문서의 마크다운 버전에 raw JSX가 그대로 새어나간다.
 - 산문에서는 `SEED Design` 대신 `SEED` 또는 `SEED Design System`을 사용한다.
 - `featured: true`는 동시에 소수의 최신 문서에만 사용한다.
 - `whenToRead`에는 에이전트가 CLI·docs-mcp 문서 목록에서 이 문서를 골라야 하는 상황을 쓰고 「~할 때 읽는다」로 끝맺는다. 같은 컴포넌트의 디자인 스펙·React·Lynx 문서가 서로 구별되도록 이 문서만 다루는 API·설정·제약을 넣는다. 다른 문서의 주소는 적지 않는다. 주소 안내를 더해도 에이전트가 문서를 더 잘 고르지 않았고, 주소가 바뀌면 문구도 함께 고쳐야 한다.
