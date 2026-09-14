@@ -18,9 +18,8 @@ export function useAppBar(_props: UseAppBarProps) {
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
-  const centeredTitlePaddingX = root
-    ? `${Math.max(leftOffset?.fromLeft ?? 0, rightOffset?.fromRight ?? 0)}px`
-    : "initial";
+  const leftExtent = root ? `${leftOffset?.fromLeft ?? 0}px` : "initial";
+  const rightExtent = root ? `${rightOffset?.fromRight ?? 0}px` : "initial";
 
   return useMemo(
     () => ({
@@ -34,10 +33,11 @@ export function useAppBar(_props: UseAppBarProps) {
         "data-part": appBarAnatomy.root,
         ...stateProps,
         style: {
-          "--centered-title-padding-x": centeredTitlePaddingX,
+          "--app-bar-left-extent": leftExtent,
+          "--app-bar-right-extent": rightExtent,
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, centeredTitlePaddingX],
+    [stateProps, leftExtent, rightExtent],
   );
 }
