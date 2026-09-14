@@ -53,6 +53,10 @@ const dialogPackageRanges = {
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const alertDialogPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
 
 const helpBubblePackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
@@ -107,6 +111,15 @@ export const registryUI: Registry = {
         {
           path: "bottom-sheet.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "alert-dialog",
+      snippets: [
+        {
+          path: "alert-dialog.tsx",
+          dependencies: alertDialogPackageRanges,
         },
       ],
     },
