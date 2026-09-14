@@ -15,21 +15,21 @@ const react: DocsIndexCategory = {
       id: "alert-dialog",
       title: "Alert Dialog",
       docUrl: "/react/components/alert-dialog",
-      llmsUrl: "/llms/react/components/alert-dialog.txt",
+      llmsUrl: "/react/components/alert-dialog.md",
     },
     {
       id: "button",
       title: "Button",
       docUrl: "/react/components/button",
-      llmsUrl: "/llms/react/components/button.txt",
+      llmsUrl: "/react/components/button.md",
     },
     {
       id: "alert-dialog",
       title: "Alert Dialog",
       docUrl: "/react/stackflow/alert-dialog",
-      llmsUrl: "/llms/react/stackflow/alert-dialog.txt",
+      llmsUrl: "/react/stackflow/alert-dialog.md",
     },
-    { id: "overview", title: "React", docUrl: "/react", llmsUrl: "/llms/react.txt" },
+    { id: "overview", title: "React", docUrl: "/react", llmsUrl: "/react.md" },
   ],
 };
 
@@ -53,7 +53,7 @@ describe("itemPath", () => {
       id: "button",
       title: "Button",
       docUrl: "/lynx/components/react/button",
-      llmsUrl: "/llms/lynx/components/react/button.txt",
+      llmsUrl: "/lynx/components/react/button.md",
     };
 
     expect(itemPath(react, stray)).toBe("/lynx/components/react/button");
@@ -72,8 +72,8 @@ describe("findItem", () => {
     expect(findItem(react, "button")?.docUrl).toBe("/react/components/button");
   });
 
-  it("tolerates a leading slash and a .txt suffix", () => {
-    expect(findItem(react, "/components/button.txt")?.docUrl).toBe("/react/components/button");
+  it("tolerates a leading slash and a .md suffix", () => {
+    expect(findItem(react, "/components/button.md")?.docUrl).toBe("/react/components/button");
   });
 
   // What is left of a `search_docs` address once the leading slash is dropped and the section
@@ -113,13 +113,13 @@ describe("searchResultLine", () => {
             title: "Button",
             description: "누르면 동작을 실행합니다.",
             docUrl: "/react/components/button",
-            llmsUrl: "/llms/react/components/button.txt",
+            llmsUrl: "/react/components/button.md",
           },
           {
             id: "alert-dialog",
             title: "Alert Dialog",
             docUrl: "/react/stackflow/alert-dialog",
-            llmsUrl: "/llms/react/stackflow/alert-dialog.txt",
+            llmsUrl: "/react/stackflow/alert-dialog.md",
             deprecated: true,
           },
           {
@@ -127,7 +127,7 @@ describe("searchResultLine", () => {
             title: "Bottom Sheet",
             description: "화면 아래에서\n  올라옵니다.",
             docUrl: "/react/components/bottom-sheet",
-            llmsUrl: "/llms/react/components/bottom-sheet.txt",
+            llmsUrl: "/react/components/bottom-sheet.md",
           },
           {
             id: "checkbox",
@@ -135,7 +135,7 @@ describe("searchResultLine", () => {
             description: "여러 항목을 고릅니다.",
             whenToRead: "체크박스 그룹을 만들 때 읽는다.",
             docUrl: "/react/components/checkbox",
-            llmsUrl: "/llms/react/components/checkbox.txt",
+            llmsUrl: "/react/components/checkbox.md",
           },
         ],
       },
