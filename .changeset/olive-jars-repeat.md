@@ -1,5 +1,5 @@
 ---
-"@seed-design/docs-mcp": major
+"@seed-design/docs-mcp": minor
 ---
 
 `discover_seed_docs`를 제거했습니다.
