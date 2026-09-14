@@ -5,15 +5,14 @@ const GITHUB_BRANCH = "dev";
 export interface SectionConfig {
   contentDir: string;
   baseUrl: string;
-  /** 루트 llms.txt 표와 CLI 인덱스의 카테고리 라벨 */
+  /** 문서 인덱스(`/__docs__/index.json`)의 카테고리 라벨 */
   label: string;
-  description: string;
 }
 
 /**
  * 섹션 하나를 추가할 때 손으로 고치는 유일한 곳.
  *
- * 선언 순서가 루트 llms.txt 표와 CLI 인덱스의 카테고리 순서다.
+ * 선언 순서가 문서 인덱스의 카테고리 순서다.
  *
  * fumadocs 소스를 여기서 import하면 안 된다. `scripts/generate-docs-index.ts`가
  * Next 밖에서 이 파일을 읽는데, `.source/server.ts`는 번들러 전용 쿼리스트링
@@ -25,61 +24,51 @@ export const sectionConfigs = {
     contentDir: "get-started",
     baseUrl: "/get-started",
     label: "Get Started",
-    description: "SEED 시작하기",
   },
   foundations: {
     contentDir: "foundations",
     baseUrl: "/foundations",
     label: "Foundations",
-    description: "색상, 타이포그래피, 간격 등 디자인 파운데이션",
   },
   components: {
     contentDir: "components",
     baseUrl: "/components",
     label: "Components",
-    description: "컴포넌트 디자인 스펙 (Anatomy, Properties, Guidelines)",
   },
   patterns: {
     contentDir: "patterns",
     baseUrl: "/patterns",
     label: "Patterns",
-    description: "디자인 패턴 및 가이드라인",
   },
   docs: {
     contentDir: "docs",
     baseUrl: "/docs",
     label: "Design Guidelines",
-    description: "마이그레이션 등 디자인 참고 문서",
   },
   react: {
     contentDir: "react",
     baseUrl: "/react",
     label: "React",
-    description: "React 컴포넌트 라이브러리, API 레퍼런스, 사용 예제",
   },
   breeze: {
     contentDir: "breeze",
     baseUrl: "/breeze",
     label: "Breeze",
-    description: "프로젝트에 바로 사용할 수 있는 유틸리티 UI 컴포넌트",
   },
   lynx: {
     contentDir: "lynx",
     baseUrl: "/lynx",
     label: "Lynx",
-    description: "Lynx 프레임워크",
   },
   "ai-integration": {
     contentDir: "ai-integration",
     baseUrl: "/ai-integration",
     label: "AI Integration",
-    description: "MCP, 문서별 마크다운 활용법 등 AI 도구 연동 가이드",
   },
   updates: {
     contentDir: "updates",
     baseUrl: "/updates",
     label: "Updates",
-    description: "SEED 업데이트 소식과 릴리즈 노트",
     // 섹션 인덱스 mdx가 없다 — 랜딩은 app/updates/page.tsx가 그린다.
   },
 } satisfies Record<string, SectionConfig>;

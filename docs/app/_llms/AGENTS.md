@@ -11,14 +11,14 @@ alwaysApply: true
 
 ## 파일 작성 컨벤션
 
-- `config.ts`가 섹션 레지스트리의 단일 진입점이다. 섹션의 콘텐츠 디렉토리·URL·라벨·설명을 한곳에 적는다.
+- `config.ts`가 섹션 레지스트리의 단일 진입점이다. 섹션의 콘텐츠 디렉토리·URL·라벨을 한곳에 적는다.
 - `config.ts`는 번들러 전용 모듈을 import하지 않는다. `scripts/generate-docs-index.ts`가 Next 밖에서 읽어야 한다. fumadocs 소스와 짝짓는 일은 `sources.ts`가 맡는다.
 - barrel file을 두지 않는다. 모듈은 파일 경로로 직접 import한다.
 
 ## 코드 작성 컨벤션
 
 - 섹션을 추가하면 `config.ts`의 `sectionConfigs`에 넣는다. `sources.ts`의 `Record<Section, ...>`가 소스를 안 붙인 섹션을 컴파일 에러로 잡는다.
-- 라벨·설명·URL을 손으로 적지 않는다. 전부 레지스트리에서 읽는다. 손으로 적은 링크가 IA 개편 때 통째로 썩었다.
+- 라벨·URL을 손으로 적지 않는다. 전부 레지스트리에서 읽는다. 손으로 적은 링크가 IA 개편 때 통째로 썩었다.
 - 섹션 소스는 비동기 getter다(`getReactSource()`). 호출 결과가 아니라 getter를 넘긴다.
 - 페이지 프론트매터는 `page.data.frontmatter.*`로 읽는다. `title`·`description`만 `page.data`에 직접 있다.
 
