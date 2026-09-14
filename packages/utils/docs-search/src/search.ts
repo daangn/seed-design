@@ -27,8 +27,14 @@ const TITLE_BOOST = 10;
 
 export interface SearchHit {
   id: string;
-  /** `page` opens each group; the `heading` and `text` rows under it carry a `#` anchor. */
-  type: "page" | "heading" | "text";
+  /**
+   * `page` opens each group; the `heading` and `text` rows under it carry a `#` anchor.
+   *
+   * `when-to-read` is the page's when-to-read line. It ranks as body text does, but it restates
+   * the page's frontmatter rather than quoting the page, so a caller that lists rows leaves it
+   * out.
+   */
+  type: "page" | "heading" | "text" | "when-to-read";
   /** Raw index text. Highlighting is the caller's business — a terminal wants none of it. */
   content: string;
   url: string;
@@ -93,7 +99,10 @@ export function createDocsSearch(dump: RawData) {
 
         hits.push({
           id: hit.id,
-          type: hit.document.type === "heading" ? "heading" : "text",
+          type:
+            hit.document.type === "heading" || hit.document.type === "when-to-read"
+              ? hit.document.type
+              : "text",
           content: hit.document.content,
           url: hit.document.url,
           ...(hit.document.breadcrumbs && { breadcrumbs: hit.document.breadcrumbs }),

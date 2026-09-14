@@ -100,3 +100,81 @@ describe("createDocsSearch", () => {
     ]);
   });
 });
+
+describe("whenToRead", () => {
+  type Page = Parameters<typeof buildDocsIndex>[0][number];
+
+  const layout: Page = {
+    id: "/foundations/layout",
+    url: "/foundations/layout",
+    title: "Layout",
+    description: "화면을 나누는 기준입니다.",
+    structuredData: { headings: [], contents: [{ content: "화면을 컬럼 단위로 나눕니다." }] },
+  };
+  const WHEN_TO_READ = "그리드의 컬럼·거터·마진을 정할 때 읽는다.";
+
+  const cli = async (pages: Page[], query: string) =>
+    addressesOf(
+      await createDocsSearch(await buildDocsIndex(pages)).search(query, {
+        limit: 200,
+        maxResultsPerPage: 1,
+      }),
+    );
+
+  it("reaches a page by a word only its whenToRead holds", async () => {
+    expect(await cli([{ ...layout, whenToRead: WHEN_TO_READ }], "거터")).toEqual([
+      "/foundations/layout",
+    ]);
+  });
+
+  it("hands the line back as its own type, for a caller that lists rows to leave out", async () => {
+    const docs = createDocsSearch(await buildDocsIndex([{ ...layout, whenToRead: WHEN_TO_READ }]));
+
+    expect(
+      (await docs.search("거터")).map(({ type, content, url }) => [type, content, url]),
+    ).toEqual([
+      ["page", "Layout", "/foundations/layout"],
+      ["when-to-read", WHEN_TO_READ, "/foundations/layout"],
+    ]);
+  });
+
+  it("adds no row to a page without one", async () => {
+    const docs = createDocsSearch(await buildDocsIndex([layout]));
+
+    expect((await docs.search("컬럼")).map(({ type, content }) => [type, content])).toEqual([
+      ["page", "Layout"],
+      ["text", "화면을 컬럼 단위로 나눕니다."],
+    ]);
+  });
+
+  it("leaves two pages that share a name in the order it found them without the line", async () => {
+    const spec: Page = {
+      id: "/components/segmented-control",
+      url: "/components/segmented-control",
+      title: "Segmented Control",
+      structuredData: { headings: [], contents: [{ content: "보기를 전환하는 컨트롤입니다." }] },
+    };
+    const react: Page = {
+      id: "/react/components/segmented-control",
+      url: "/react/components/segmented-control",
+      title: "Segmented Control",
+      structuredData: { headings: [], contents: [{ content: "SegmentedControl 을 씁니다." }] },
+    };
+
+    expect(await cli([spec, react], "segmented control")).toEqual([spec.url, react.url]);
+    // The React line repeats the name three times over; beside the title it would win the tie.
+    expect(
+      await cli(
+        [
+          { ...spec, whenToRead: "보기 전환에 Segmented Control을 쓸지 정할 때 읽는다." },
+          {
+            ...react,
+            whenToRead:
+              "React에서 SegmentedControl·SegmentedControlItem으로 SegmentedControl 값을 바꿀 때 읽는다.",
+          },
+        ],
+        "segmented control",
+      ),
+    ).toEqual([spec.url, react.url]);
+  });
+});

@@ -47,6 +47,8 @@ export interface IndexablePage {
   url: string;
   title: string;
   description?: string;
+  /** The page's frontmatter line on when to read it, which fumadocs' index has no place for. */
+  whenToRead?: string;
   breadcrumbs?: string[];
   tag?: string;
   structuredData: {
@@ -63,6 +65,11 @@ export interface IndexablePage {
  * all it takes to lift the page, while repeating the name down every row weights a page by
  * how many chunks it was cut into — which is how a long changelog comes to outrank the page
  * it merely mentions.
+ *
+ * `whenToRead` gets a row of its own too, typed so a reader can keep it off a list, and stays
+ * off the page's row: a component's spec and its React page share a title, and scored beside
+ * it the line breaks that tie toward whichever repeats the name more. Measured, that sank spec
+ * pages under their React pages for queries that did nothing but name the component.
  */
 function rowsOf(page: IndexablePage) {
   const shared = {
@@ -79,6 +86,9 @@ function rowsOf(page: IndexablePage) {
     { ...shared, id: page.id, type: "page", url: page.url, content: page.title, title: page.title },
     ...(page.description
       ? [{ ...shared, id: nextId(), type: "text", url: page.url, content: page.description }]
+      : []),
+    ...(page.whenToRead
+      ? [{ ...shared, id: nextId(), type: "when-to-read", url: page.url, content: page.whenToRead }]
       : []),
     ...page.structuredData.headings.map((heading) => ({
       ...shared,

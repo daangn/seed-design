@@ -1,6 +1,13 @@
 import type { SortedResult } from "fumadocs-core/search";
 
 /**
+ * A result as the dialog receives it. `rankOnly` marks the page's when-to-read line: it counts
+ * toward its page's rank like any body text, and is not listed, since it restates the page's
+ * frontmatter rather than quoting the page.
+ */
+export type RankedResult = SortedResult & { rankOnly?: boolean };
+
+/**
  * How close one row sits to the query. Advanced search flattens title, heading and body into
  * a single field with no field or all-terms weighting, so a partial ("Button"-only) body
  * snippet can outrank the "Action Button" page: score the exact phrase first, then how many
@@ -23,15 +30,23 @@ function rankRow(item: SortedResult, query: string, terms: string[]) {
  * Array#sort is stable, which leaves zbsearch's own order as the tie-break, and reordering is
  * safe because the list keys off item.id rather than array position.
  */
-export function rankGroups(items: SortedResult[], search: string) {
+export function rankGroups(items: RankedResult[], search: string) {
   const query = search.trim().toLowerCase();
   const terms = query.split(/\s+/).filter(Boolean);
-  const groups: { rows: SortedResult[]; rank: number; headed: boolean }[] = [];
+  const groups: { rows: RankedResult[]; rank: number; headed: boolean }[] = [];
   const nested = new Set<string>();
 
   for (const item of items) {
     const rank = rankRow(item, query, terms);
     const current = groups.at(-1);
+
+    // It lifts the group it belongs to without joining it, so with no group ahead of it there
+    // is nothing for it to do.
+    if (item.rankOnly) {
+      if (current) current.rank = Math.max(current.rank, rank);
+      continue;
+    }
+
     // A `page` row opens the group it heads; one arriving before any of them stands alone.
     if (!current || item.type === "page") {
       groups.push({ rows: [item], rank, headed: item.type === "page" });

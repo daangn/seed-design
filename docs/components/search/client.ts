@@ -1,6 +1,7 @@
 import { createDocsSearch } from "@seed-design/docs-search";
 import { createContentHighlighter } from "fumadocs-core/search";
 import type { SearchClient } from "fumadocs-core/search/client";
+import type { RankedResult } from "./rank-groups";
 
 /**
  * The dialog's search client, standing in for fumadocs' own `staticClient`.
@@ -35,13 +36,18 @@ export function docsSearchClient({ api, tag }: { api: string; tag?: string }): S
       const highlighter = createContentHighlighter(query);
       const hits = await (await load(api)).search(query, { ...(tag && { tag: [tag] }) });
 
-      return hits.map((hit) => ({
-        id: hit.id,
-        type: hit.type,
-        url: hit.url,
-        content: highlighter.highlightMarkdown(hit.content),
-        ...(hit.breadcrumbs && { breadcrumbs: hit.breadcrumbs }),
-      }));
+      return hits.map(
+        (hit): RankedResult => ({
+          id: hit.id,
+          // fumadocs knows three row types, so the when-to-read line goes as the body text it
+          // ranks as, marked for `rankGroups` to leave off the list.
+          type: hit.type === "when-to-read" ? "text" : hit.type,
+          ...(hit.type === "when-to-read" && { rankOnly: true }),
+          url: hit.url,
+          content: highlighter.highlightMarkdown(hit.content),
+          ...(hit.breadcrumbs && { breadcrumbs: hit.breadcrumbs }),
+        }),
+      );
     },
   };
 }
