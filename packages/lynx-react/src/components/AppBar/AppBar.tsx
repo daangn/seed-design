@@ -48,6 +48,56 @@ function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
   }
 }
 
+/**
+ * 아이콘 버튼의 bleed 보정 방향. `leading`은 좌측 가장자리(marginLeft), `trailing`은 우측 가장자리(marginRight).
+ */
+export type AppBarEdge = "leading" | "trailing";
+
+const AppBarEdgeContext = React.createContext<AppBarEdge | undefined>(undefined);
+
+/** Fragments and arrays do not create layout boxes; retain their keys and nesting. */
+function countEdgeChildren(children: React.ReactNode): number {
+  if (children == null || children === "" || typeof children === "boolean") return 0;
+  if (Array.isArray(children))
+    return children.reduce((count, child) => count + countEdgeChildren(child), 0);
+  if (
+    React.isValidElement<{ children?: React.ReactNode }>(children) &&
+    children.type === React.Fragment
+  ) {
+    return countEdgeChildren(children.props.children);
+  }
+  return 1;
+}
+
+function provideEdgeToChildren(children: React.ReactNode, edge: AppBarEdge): React.ReactNode {
+  const targetIndex = edge === "leading" ? 0 : countEdgeChildren(children) - 1;
+  let index = 0;
+
+  function visit(child: React.ReactNode): React.ReactNode {
+    if (child == null || child === "" || typeof child === "boolean") return child;
+    if (Array.isArray(child)) return child.map(visit);
+    if (
+      React.isValidElement<{ children?: React.ReactNode }>(child) &&
+      child.type === React.Fragment
+    ) {
+      return React.cloneElement(child, { children: visit(child.props.children) });
+    }
+
+    const isEdge = index++ === targetIndex;
+    if (!React.isValidElement(child)) return child;
+    // Native boxes and custom slots own their layout; do not pass an automatic edge into them.
+    const automaticEdge =
+      isEdge && typeof child.type !== "string" && child.type !== AppBarSlot ? edge : undefined;
+    return (
+      <AppBarEdgeContext.Provider key={child.key} value={automaticEdge}>
+        {child}
+      </AppBarEdgeContext.Provider>
+    );
+  }
+
+  return visit(children);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {}
@@ -113,7 +163,7 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
       )}
       className={clsx(classNames.left, className)}
     >
-      {children}
+      {provideEdgeToChildren(children, "leading")}
     </view>
   );
 });
@@ -148,7 +198,7 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
       )}
       className={clsx(classNames.right, className)}
     >
-      {children}
+      {provideEdgeToChildren(children, "trailing")}
     </view>
   );
 });
@@ -237,6 +287,11 @@ export interface AppBarIconButtonProps extends LynxElementProps, LynxPressablePr
   "accessibility-label"?: LynxViewProps["accessibility-label"];
   "accessibility-element"?: LynxViewProps["accessibility-element"];
   "accessibility-traits"?: LynxViewProps["accessibility-traits"];
+  /**
+   * 가장자리 정렬을 위한 bleed 보정 방향. 보통 `AppBarLeft`(leading)/`AppBarRight`(trailing)가
+   * 가장자리 위치를 Context로 전달하므로 직접 지정할 필요는 없다. 자동 보정 방향을 덮어쓰고 싶을 때만 명시한다.
+   */
+  edge?: AppBarEdge;
 }
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
@@ -244,12 +299,15 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
     children,
     className,
     icon,
+    edge,
     "accessibility-element": accessibilityElement = true,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits = "button",
     ...nativeProps
   } = props;
   const classNames = useAppBarClassNames("AppBarIconButton");
+  const automaticEdge = React.useContext(AppBarEdgeContext);
+  const resolvedEdge = edge ?? automaticEdge;
 
   if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
     console.warn("AppBarIconButton requires `accessibility-label` for accessibility.");
@@ -261,7 +319,11 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
       accessibility-element={accessibilityElement}
       accessibility-label={accessibilityLabel}
       accessibility-traits={accessibilityTraits}
-      className={clsx(classNames.iconButton, className)}
+      className={clsx(
+        classNames.iconButton,
+        resolvedEdge && `seed-app-bar__icon-button-edge-${resolvedEdge}`,
+        className,
+      )}
     >
       {icon ? <Icon className={classNames.icon} icon={icon} /> : children}
     </view>
@@ -269,19 +331,26 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
 });
 AppBarIconButton.displayName = "AppBarIconButton";
 
-export interface AppBarSlotProps extends LynxStyledElementProps {}
+export interface AppBarSlotProps extends LynxStyledElementProps {
+  /**
+   * @internal 커스텀 슬롯에서는 bleed 보정을 적용하지 않는다. 전달된 값은 native 속성에서 제외한다.
+   */
+  edge?: AppBarEdge;
+}
 
 export const AppBarSlot = React.forwardRef<unknown, AppBarSlotProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
+  const { children, className, edge: _edge, ...nativeProps } = props;
   const classNames = useAppBarClassNames("AppBarSlot");
 
   return (
-    <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      className={clsx(classNames.custom, className)}
-    >
-      {children}
-    </view>
+    <AppBarEdgeContext.Provider value={undefined}>
+      <view
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classNames.custom, className)}
+      >
+        {children}
+      </view>
+    </AppBarEdgeContext.Provider>
   );
 });
 AppBarSlot.displayName = "AppBarSlot";
