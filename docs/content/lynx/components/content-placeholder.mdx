@@ -27,14 +27,13 @@ npx @seed-design/cli add ui:content-placeholder
 설치한 snippet은 배경 박스(`Root`)와 중앙 정렬된 asset 박스(`Asset`)를 자동으로 조합한 `ContentPlaceholder`를 export 합니다. 웹과 달리 `type` 프리셋이 없으므로, 표시할 아이콘이나 이미지를 children으로 직접 넣습니다.
 
 ```tsx
-import { Icon } from "@seed-design/lynx-react";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
 import IconPictureFill from "@karrotmarket/lynx-monochrome-icon/IconPictureFill";
 
 export function App() {
   return (
     <ContentPlaceholder style={{ width: 160, height: 160 }}>
-      <Icon icon={<IconPictureFill />} />
+      <IconPictureFill />
     </ContentPlaceholder>
   );
 }
@@ -42,11 +41,11 @@ export function App() {
 
 ### 크기 지정
 
-`ContentPlaceholder`는 기본적으로 부모를 가득 채웁니다(`width: 100%`, `height: 100%`). 고정 크기가 필요하면 `style`로 `width` / `height`를 직접 지정합니다. asset 박스는 Root 높이의 절반을 기준으로 최소·최대 너비 토큰 범위 안에서 중앙에 배치됩니다. `Icon`은 이 박스를 가득 채웁니다.
+`ContentPlaceholder`는 기본적으로 부모를 가득 채웁니다(`width: 100%`, `height: 100%`). 고정 크기가 필요하면 `style`로 `width` / `height`를 직접 지정합니다. asset 박스는 Root 높이의 절반을 기준으로 최소·최대 너비 토큰 범위 안에서 중앙에 배치됩니다. 자식 아이콘 컴포넌트는 이 박스를 가득 채웁니다. 직접 넣는 `<image>`는 `style`로 크기를 명시합니다.
 
 ```tsx
 <ContentPlaceholder style={{ width: 200, height: 120 }}>
-  <Icon icon={<IconPictureFill />} />
+  <IconPictureFill />
 </ContentPlaceholder>
 ```
 
@@ -55,9 +54,7 @@ export function App() {
 웹 `ContentPlaceholder`의 `type="car"`, `type="food"` 같은 카테고리 프리셋은 Lynx에서 제공하지 않습니다. 대신 같은 카테고리의 `@karrotmarket/lynx-monochrome-icon` 아이콘을 children으로 넣어 동일한 의미를 표현합니다.
 
 ```tsx
-import { Icon } from "@seed-design/lynx-react";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-import { Icon } from "@seed-design/lynx-react";
 import IconCarFill from "@karrotmarket/lynx-monochrome-icon/IconCarFill";
 
 // 웹:  <ContentPlaceholder type="car" />
@@ -65,15 +62,31 @@ import IconCarFill from "@karrotmarket/lynx-monochrome-icon/IconCarFill";
 export function CarPlaceholder() {
   return (
     <ContentPlaceholder>
-      <Icon icon={<IconCarFill />} />
+      <IconCarFill />
     </ContentPlaceholder>
   );
 }
 ```
 
-단색 아이콘은 SEED `Icon`으로 감싸세요. Recipe가 `Icon`에 크기와 색상을 직접 적용하고, `Icon`이 해당 색상을 Lynx 이미지의 `tint-color`로 연결합니다. raw 아이콘에 CSS 색상이 자동 상속되지는 않습니다.
+단색 아이콘은 `Icon`으로 감싸지 않고 직접 넣습니다. `Asset`이 크기를 적용하고 Recipe의 색상을 `useIconColor`로 native 이미지의 `tint-color`에 연결합니다.
 
-사진 등 원래 색상을 유지할 이미지는 `<image mode="aspectFit" style={{ width: "100%", height: "100%" }} src={src} />`처럼 크기를 지정해 넣습니다.
+커스텀 아이콘 컴포넌트는 하나의 `<image>`를 렌더하고, 전달받은 `className`, `style`, `ref`, `main-thread:binduiappear`를 해당 요소에 연결해야 합니다. SEED 전용 아이콘인지 검사하지 않으므로 이 계약을 따르는 외부 아이콘도 사용할 수 있습니다. 여러 자식이나 Fragment 대신 하나의 아이콘 또는 이미지를 전달하세요.
+
+### 원래 색상 유지
+
+직접 전달한 `<image>`와 SEED 멀티컬러 아이콘은 기본적으로 원래 색상을 유지합니다. 다른 이미지 컴포넌트는 `preserveOriginalColor`를 지정하세요.
+
+```tsx
+<ContentPlaceholder>
+  <image src={photoUrl} mode="aspectFit" style={{ width: "100%", height: "100%" }} />
+</ContentPlaceholder>
+
+<ContentPlaceholder preserveOriginalColor>
+  <CustomIllustration />
+</ContentPlaceholder>
+```
+
+아이콘 컴포넌트에 `preserveOriginalColor={false}`를 명시하면 단색 tint를 적용합니다. 이 경우 native ref와 이벤트를 연결하는 동일한 계약이 필요합니다. 직접 넣은 `<image>`는 Lynx snapshot 요소이므로 복제하거나 tint를 주입하지 않고, 지정한 props 그대로 렌더합니다. `Root`·`Asset` 조합에서는 `Asset`에 이 prop을 지정합니다.
 
 ## Props
 
