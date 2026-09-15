@@ -2,18 +2,6 @@ import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
 import type { Page } from "fumadocs-core/source";
 import type { LynxCompatibility } from "@/lib/lynx-compatibility";
 
-export type Section =
-  | "get-started"
-  | "foundations"
-  | "components"
-  | "patterns"
-  | "react"
-  | "docs"
-  | "breeze"
-  | "lynx"
-  | "ai-integration"
-  | "updates";
-
 export type LLMPage = Page & {
   data: {
     title: string;
@@ -31,10 +19,3 @@ export type LLMPage = Page & {
     load: () => Promise<MarkdownRenderer<Record<string, unknown> & { processed?: string }>>;
   };
 };
-
-export interface SectionConfig {
-  contentDir: string;
-  baseUrl: string;
-  description: string;
-  excludePaths?: string[];
-}

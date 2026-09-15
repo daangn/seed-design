@@ -1,6 +1,5 @@
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getReactSource } from "@/app/source";
-import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { getComponentStatus } from "@/lib/rootage";
@@ -62,9 +61,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       lastUpdate={lastModified}
       tableOfContent={isChangelog ? { enabled: false } : { single: false }}
       showPageActions={page.slugs.length > 0}
-      section="react"
       markdownUrl={markdownUrl}
-      llmOptions={isChangelog ? <ChangelogLLMOptions fallbackUrl={markdownUrl} /> : undefined}
     >
       {body}
     </DocsPageRenderer>

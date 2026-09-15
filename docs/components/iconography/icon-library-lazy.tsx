@@ -16,8 +16,8 @@ import dynamic from "next/dynamic";
  * 내려받게 된다.
  *
  * `ssr: false`인 이유: nuqs URL 상태를 쓰는 브라우저 전용 아이콘 브라우저라 서버 HTML의
- * 가치가 없다. 에이전트용 마크다운은 `app/_llms/rules/icon-library.ts`가 빌드타임에 따로
- * 만들므로 영향받지 않는다.
+ * 가치가 없다. 에이전트용 마크다운은 `lib/llms/handlers/icon-library.ts`가 컴파일 타임에
+ * 따로 만들므로 영향받지 않는다.
  *
  * `mdx-components.tsx`는 서버 모듈이라 `ssr: false`를 직접 못 쓴다(Next 15+ 제약).
  * 이 파일이 클라이언트 경계 역할을 한다.

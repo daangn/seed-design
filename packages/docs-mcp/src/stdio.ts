@@ -5,7 +5,7 @@ import { initializeTools } from "./tools/index.js";
 
 async function main() {
   const transport = new StdioServerTransport();
-  await initializeTools(server);
+  initializeTools(server);
   await server.connect(transport);
 }
 

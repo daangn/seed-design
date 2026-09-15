@@ -44,9 +44,8 @@ const themed = ({ light, dark }: ThemedCss) =>
  * `layer-default`, the surface most content sits on, and `layer-basement`, the canvas
  * underneath it. Foreground, stroke and shadow tokens are all defined against those, so
  * previewing them on the dialog's own surface would misreport how they land — and picking
- * one of the two would still hide how the token reads on the other. docs/AGENTS.md steers
- * docs *chrome* away from opaque SEED greys; this box is content — the point is to show
- * the real backdrop.
+ * one of the two would still hide how the token reads on the other. Docs *chrome* stays away
+ * from opaque SEED greys; this box is content — the point is to show the real backdrop.
  *
  * Split down the middle rather than across: the box is 44px tall and the two layers sit
  * about 1.1 apart in contrast, so as a pair of 22px bands the seam would vanish.

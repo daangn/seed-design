@@ -67,20 +67,20 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 
 문서 목록과 지원 범위를 스킬에 복사하지 않습니다. 요청할 때마다 아래 인덱스를 먼저 읽고, 인덱스가 제공한 링크를 그대로 따라갑니다.
 
-- 전체 문서 인덱스: `https://seed-design.io/llms.txt`
-- React 문서 인덱스: `https://seed-design.io/react/llms.txt`
-- Lynx 문서 인덱스: `https://seed-design.io/lynx/llms.txt`
+- 문서 인덱스: `https://seed-design.io/__docs__/index.json`
 
-한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 전체 인덱스, 선택된 플랫폼 인덱스, 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
+인덱스는 `categories[].items[]` 구조입니다. 공통 문서는 `components`·`foundations`·`patterns` category에, 플랫폼 문서는 `react`·`lynx` category에 있고, 각 항목이 `title`·`description`·`docUrl`과 본문 주소인 `llmsUrl`을 담습니다.
+
+한 요청 실행 안에서는 URL을 정규화한 문서 풀을 유지합니다. 인덱스와 각 leaf 문서는 URL마다 한 번만 읽고 이후 단계와 룰에서 같은 내용을 재사용합니다. 리포트 `references`에 같은 URL을 반복하는 것은 출처를 보존하는 것이며 다시 읽으라는 뜻이 아닙니다. HTTP 캐시를 가정하지 않습니다.
 
 다음 순서를 지킵니다.
 
-1. 전체 문서 인덱스에서 공통 Components·Foundations·Patterns 또는 선택된 플랫폼의 현재 진입점을 찾습니다.
-2. 플랫폼 구현 요청이면 선택된 플랫폼 인덱스를 읽고, 제목·category·설명으로 필요한 문서를 찾습니다.
-3. 인덱스가 제공한 leaf URL을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
+1. 문서 인덱스에서 공통 Components·Foundations·Patterns category를 찾습니다.
+2. 플랫폼 구현 요청이면 `react` 또는 `lynx` category에서 제목·설명으로 필요한 문서를 찾습니다.
+3. 항목의 `llmsUrl`을 열어 실제 계약을 읽습니다. 기억한 경로나 URL 조합으로 leaf 문서를 만들지 않습니다.
 4. 인덱스를 정상적으로 읽었는데 관련 항목이 없으면 현재 공식 문서가 없다고 판단합니다. 인덱스 자체를 읽지 못했으면 부재로 확정하지 않습니다.
 
-CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 id를 확인합니다. URL 경로와 CLI id가 같다고 가정하지 말고, id를 확정할 수 없으면 인덱스의 URL을 직접 읽습니다.
+CLI의 `docs` 명령을 사용할 때도 먼저 인덱스에서 문서와 주소를 확인합니다. 기억한 주소를 조합하지 말고, 주소를 확정할 수 없으면 `docs search`로 찾거나 인덱스의 URL을 직접 읽습니다.
 
 ### 컴포넌트 답변 순서
 
@@ -102,6 +102,59 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 ### CLI 문서
 
 전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
+
+`docs`는 `list`, `search`, `read` 세 하위 명령으로 나뉩니다. `list`는 그 범위 바로 아래를 한
+단계 나열하고, `search`는 문서 본문까지 검색해 걸린 문서를 관련도 순으로 나열하며, `read`는 그
+주소의 문서 본문을 출력합니다. `docs`만 입력하면 안내를 stderr로 내고 종료 코드 `2`로 끝납니다.
+
+`list`와 `search`는 항목 하나를 한 줄로 출력합니다. 줄의 첫 필드가 주소이고, 문서 줄에는 그
+뒤에 `제목 — description — whenToRead`가 붙습니다. 마지막 조각은 그 문서를 언제 읽으면 되는지
+알려줍니다. 이 정보로 읽을 문서를 고른 다음, 그 줄의 첫 필드를 `read`에 넘깁니다. `grep`으로
+줄을 걸러도 설명이 함께 남고, `awk '{print $1}'`로 주소만 잘라낼 수 있습니다.
+
+주소는 문서 사이트 주소에서 도메인만 뺀 값입니다. 앞 슬래시가 붙으면 경로 전체와 완전히
+일치하는 고정 주소이고, 붙지 않으면 경로의 꼬리와 일치하는 질의라 여러 문서에 걸릴 수
+있으며, 뒤 슬래시가 붙으면 그 아래 전부를 뜻하는 범위입니다. 같은 컴포넌트라도 섹션에 따라
+다른 문서를 가리킵니다: `/components/{name}`은 **디자인 스펙**이고, React 구현은
+`/react/components/{name}`입니다.
+
+```bash
+npx @seed-design/cli@latest docs list                                 # 최상위 목록
+npx @seed-design/cli@latest docs list react/components/               # 그 아래 목록
+npx @seed-design/cli@latest docs search action-button                 # 본문까지 검색해 문서 찾기
+npx @seed-design/cli@latest docs read /components/action-button       # 디자인 스펙
+npx @seed-design/cli@latest docs read /react/components/action-button # React 구현
+npx @seed-design/cli@latest docs read /foundations/color              # 파운데이션
+npx @seed-design/cli@latest docs read /react                          # 카테고리 개요
+```
+
+세 명령 모두 아무것도 묻지 않고 종료 코드로 결과를 알립니다. `0`은 stdout에 답이 있다는
+뜻이고, `1`은 명령이 정상적으로 돌았지만 답이 부정적이라는 뜻이며, `2`는 답을 내지 못했다는
+뜻입니다. 이유는 stderr에 있습니다. `read`에 넘긴 주소가 여러 문서를
+가리키면 stdout은 비고 후보 주소가 stderr로 나가므로, 그중 하나를 앞 슬래시가 붙은 그대로 다시
+넘깁니다.
+
+### 스니펫 추가와 설정 생성
+
+에이전트가 실행하는 환경에서는 질문을 띄울 수 없으므로 `init`, `add`, `add-all`도 아무것도 묻지
+않습니다. 물었을 질문에 답할 인자를 처음부터 함께 넘깁니다. `init`은 `-y`가 없으면 무엇도 만들지
+않고 `2`로 끝납니다.
+
+```bash
+npx @seed-design/cli@latest init -y                                # 설정 파일 생성
+npx @seed-design/cli@latest add ui:action-button                   # 항목을 이름으로 지정
+npx @seed-design/cli@latest add ui:old-item --include-deprecated   # deprecated 항목
+npx @seed-design/cli@latest add-all ui                             # 레지스트리 전체
+```
+
+이 세 명령의 종료 코드는 `0`과 `2` 둘뿐입니다. `2`는 요청한 작업을 끝내지 못했다는 뜻이고,
+무엇을 넘기면 되는지가 stderr에 있습니다. 인자 없이 `add`를 실행하면 항목 선택기가 뜨는 대신
+`2`로 끝나므로, 어떤 항목이 있는지는 위의 레지스트리 인덱스에서 먼저 확인합니다.
+
+`add`는 이미 있는 파일과 새 스니펫의 내용이 다르면 그 파일을 건드리지 않고 남은 경로를 stderr에
+적은 뒤 `2`로 끝냅니다. `--on-diff overwrite`는 사용자가 손댄 내용을 지우는 선택이므로 임의로
+붙이지 않습니다. 남은 파일을 사용자에게 알리고 덮어쓸지, `--on-diff backup`으로 백업할지,
+`--on-diff skip`으로 그대로 둘지 확인합니다.
 
 ## 4. 판단이 필요한 절차
 

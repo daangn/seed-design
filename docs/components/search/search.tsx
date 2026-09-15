@@ -3,9 +3,7 @@
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import type { SortedResult } from "fumadocs-core/search";
 import { useDocsSearch } from "fumadocs-core/search/client";
-import { staticClient } from "fumadocs-core/search/client/orama-static";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import {
   SearchDialog,
@@ -16,18 +14,18 @@ import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { TAGS } from "@/app/api/search/constants";
 import { useRecentPages } from "@/hooks/useRecentPages";
+import { docsSearchClient } from "./client";
 import { ComponentResults } from "./component-results";
 import { SearchFooter } from "./footer";
 import { NoResults } from "./no-results";
+import { rankGroups } from "./rank-groups";
 import { RecentPages } from "./recent-pages";
 import { SearchResultItem } from "./search-result-item";
 import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
 import { TokenResults } from "./token-results";
-import { koreanTokenizer } from "./tokenizer";
 import { useComponentSearch } from "./use-component-search";
 import { useTokenSearch } from "./use-token-search";
-import { create } from "zbsearch";
 
 export interface DefaultSearchDialogProps extends SharedProps {
   /** Section tag preselected when the dialog opens (injected per-section layout). */
@@ -36,7 +34,9 @@ export interface DefaultSearchDialogProps extends SharedProps {
   tags?: TagItem[];
 
   /**
-   * Search API URL
+   * Where the static search index is served from. The `.json` name is what earns the response
+   * its compression: Cloudflare types an extensionless export as `application/octet-stream`
+   * and leaves it uncompressed, which sent this 21MB index over the wire in full.
    */
   api?: string;
 
@@ -53,15 +53,6 @@ export interface DefaultSearchDialogProps extends SharedProps {
  * which is what keeps the parts the browser paints — scrollbar, caret, autofill — out of dark.
  */
 const LIGHT_ONLY_PROPS = { "data-seed-color-mode": "light-only" };
-
-const searchDatabase = create({
-  schema: { _: "string" },
-  components: {
-    tokenizer: koreanTokenizer,
-  },
-});
-
-const initSearchDatabase = () => searchDatabase;
 
 /**
  * fumadocs ships the dialog at `z-50`. The docs header (`z-40`) sits under that, but the
@@ -96,56 +87,6 @@ function SearchInputPill() {
 }
 
 /**
- * How close one row sits to the query. Advanced search flattens title, heading and body into
- * a single field with no field or all-terms weighting, so a partial ("Button"-only) body
- * snippet can outrank the "Action Button" page: score the exact phrase first, then how many
- * terms matched, then title/heading over body text.
- */
-function rankRow(item: SortedResult, query: string, terms: string[]) {
-  const text = item.content.replace(/<\/?mark>/g, "").toLowerCase();
-  const phrase = terms.length > 1 && text.includes(query) ? 1 : 0;
-  const hits = terms.reduce((n, term) => n + (text.includes(term) ? 1 : 0), 0);
-  const kind = item.type === "text" ? 0 : 1;
-
-  return phrase * 100 + hits * 10 + kind;
-}
-
-/**
- * Advanced search returns each matched document as a `page` row — whose content is the
- * document title — followed by the heading and body rows that matched inside it. Ranking row
- * by row pulled that apart and sank the `page` rows to the bottom, leaving every snippet with
- * nothing to name the document it came from, so rank whole groups and move each as a unit.
- * Array#sort is stable, which leaves zbsearch's own order as the tie-break, and reordering is
- * safe because the list keys off item.id rather than array position.
- */
-function rankGroups(items: SortedResult[], search: string) {
-  const query = search.trim().toLowerCase();
-  const terms = query.split(/\s+/).filter(Boolean);
-  const groups: { rows: SortedResult[]; rank: number; headed: boolean }[] = [];
-  const nested = new Set<string>();
-
-  for (const item of items) {
-    const rank = rankRow(item, query, terms);
-    const current = groups.at(-1);
-    // A `page` row opens the group it heads; one arriving before any of them stands alone.
-    if (!current || item.type === "page") {
-      groups.push({ rows: [item], rank, headed: item.type === "page" });
-      continue;
-    }
-
-    // Only a group a `page` row opened has a title for the rest to indent under.
-    if (current.headed) nested.add(item.id);
-    current.rows.push(item);
-    current.rank = Math.max(current.rank, rank);
-  }
-
-  return {
-    rows: groups.sort((a, b) => b.rank - a.rank).flatMap(({ rows }) => rows),
-    nested,
-  };
-}
-
-/**
  * Components, tokens and documents scroll together in one box rather than each clipping
  * itself. Every block is then as tall as its own content, and what doesn't fit the first
  * screenful is reached by scrolling past the block above it — where three nested scroll
@@ -161,14 +102,14 @@ const BLOCK_START_CLASS_NAME = "[&:not(:first-child)]:mt-2";
 export default function DefaultSearchDialog({
   defaultTag,
   tags = [],
-  api,
+  api = "/api/search.json",
   contentClassName,
   lightOnly,
   ...props
 }: DefaultSearchDialogProps): ReactNode {
   const [tag, setTag] = useState<string | undefined>(defaultTag);
   const { search, setSearch, query } = useDocsSearch({
-    client: staticClient({ initDB: initSearchDatabase, from: api, tag }),
+    client: docsSearchClient({ api, tag }),
   });
 
   // Keep the tag in sync when navigating between sections re-mounts with a new defaultTag.

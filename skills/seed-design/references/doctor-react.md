@@ -4,11 +4,11 @@
 
 ## 고정 진입점
 
-- React 문서 인덱스: `https://seed-design.io/react/llms.txt`
+- React 문서: 문서 인덱스의 `react` category
 - registry namespace: `react`
 - 플랫폼 판별 후보: `@seed-design/react`, `@seed-design/css`와 React 앱 의존성
 
-전체 문서 인덱스는 공통 Doctor 절차가 제공합니다. 이 프로필은 React 진입점을 문서 풀에 등록하며 이미 로드된 URL을 다시 읽지 않습니다. 패키지 이름은 플랫폼 후보를 찾기 위한 앵커입니다. 구현·스타일·선택 패키지의 실제 역할과 호환 범위는 현재 인덱스가 연결한 설치·업그레이드 문서와 설치본 `package.json`에서 확정합니다.
+문서 인덱스는 공통 Doctor 절차가 제공합니다. 이 프로필은 그 인덱스에서 React category를 가리킬 뿐이며 이미 로드된 URL을 다시 읽지 않습니다. 패키지 이름은 플랫폼 후보를 찾기 위한 앵커입니다. 구현·스타일·선택 패키지의 실제 역할과 호환 범위는 현재 인덱스가 연결한 설치·업그레이드 문서와 설치본 `package.json`에서 확정합니다.
 
 ## 문서 발견
 
