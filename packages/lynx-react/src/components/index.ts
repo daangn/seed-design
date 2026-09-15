@@ -42,3 +42,5 @@ export * from "./Tabs";
 export * from "./TagGroup";
 export * from "./Text";
 export * from "./TextField";
+export * from "./AttachmentInput";
+export * from "./AttachmentDisplay";
