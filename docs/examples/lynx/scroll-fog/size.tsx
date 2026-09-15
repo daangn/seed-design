@@ -1,6 +1,6 @@
 import "./styles";
 
-import { ScrollFog, useSeedClassName } from "@seed-design/lynx-react";
+import { Box, ScrollFog, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
 const ITEMS = Array.from({ length: 20 }, (_, index) => index + 1);
 
@@ -8,19 +8,52 @@ export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-scroll-fog-root`}>
-      <view className="scroll-fog-example">
-        <ScrollFog className="scroll-fog-example__scroll" size={40} placement={["top", "bottom"]}>
-          <view className="scroll-fog-example__size-content">
-            <text className="scroll-fog-example__size-label">fog size: 40px</text>
-            {ITEMS.map((item) => (
-              <view key={item} className="scroll-fog-example__row">
-                <text className="scroll-fog-example__row-text">콘텐츠 {item}</text>
-              </view>
-            ))}
-          </view>
+    <Box
+      className={seedClassName}
+      height="full"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      bg="bg.layerDefault"
+    >
+      <Box
+        width="300px"
+        height="240px"
+        borderWidth={1}
+        borderColor="stroke.neutralWeak"
+        borderRadius="8px"
+        style={{ overflow: "hidden" }}
+      >
+        <ScrollFog
+          style={{ width: "100%", height: "100%" }}
+          size={40}
+          placement={["top", "bottom"]}
+        >
+          <VStack pt="40px" px="16px" pb="80px" gap="12px">
+            <Text color="fg.neutralMuted" fontSize="14px">
+              fog size: 40px
+            </Text>
+            <VStack gap="8px">
+              {ITEMS.map((item) => (
+                <Box
+                  key={item}
+                  height="40px"
+                  flexShrink={false}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius="4px"
+                  bg="bg.neutralWeak"
+                >
+                  <Text color="fg.neutral" fontSize="14px">
+                    콘텐츠 {item}
+                  </Text>
+                </Box>
+              ))}
+            </VStack>
+          </VStack>
         </ScrollFog>
-      </view>
-    </view>
+      </Box>
+    </Box>
   );
 }

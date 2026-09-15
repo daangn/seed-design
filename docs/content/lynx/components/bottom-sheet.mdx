@@ -139,7 +139,7 @@ Lynx의 `onOpenChange`는 변경된 `open` 값만 전달합니다. React 버전�
 
 ### Max Height
 
-Lynx의 `scroll-view`는 계산 가능한 높이가 필요합니다. 최대 300px인 스크롤 영역을 만들려면 `<BottomSheetBody>`에 `height`, `maxHeight`, `flex: "none"`을 함께 지정하세요. `maxHeight`만 지정하면 콘텐츠 크기를 높이로 계산하지 못해 영역이 0px로 축소될 수 있습니다.
+`BottomSheetBody`는 native `<view>`를 렌더링합니다. 최대 300px인 스크롤 영역을 만들려면 Body 안에 `<scroll-view>`를 배치하고 `height`, `maxHeight`, `flex: "none"`을 함께 지정하세요. Lynx의 `scroll-view`에 `maxHeight`만 지정하면 콘텐츠 크기를 높이로 계산하지 못해 영역이 0px로 축소될 수 있습니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/max-height" height={520}>
   ```json doc-gen:file
@@ -187,9 +187,9 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 
 ### With Scroll Fog
 
-`<BottomSheetBody scrollFog>`를 설정하면 Body가 렌더링하는 하나의 네이티브 `<scroll-view>`에 스크롤 힌트 효과를 적용합니다. 별도의 `ScrollFog`나 중첩 `<scroll-view>`를 추가하지 않아도 됩니다. `scrollFog`의 기본값은 `false`이므로 기존 `<BottomSheetBody>` 사용 결과는 그대로 유지됩니다.
+`BottomSheetBody`는 스크롤 방식을 정하지 않는 native `<view>`입니다. 스크롤 힌트가 필요하면 Body 안에 `ScrollFog`를 직접 배치하세요. 이 구조에서는 `size`, `placement`, `hideScrollBar`와 native scroll-view prop을 사용하는 곳에서 직접 제어할 수 있습니다.
 
-네이티브 `fading-edge-length`는 스크롤할 콘텐츠가 남아 있는 edge에서만 fog를 표시합니다. 처음에는 아래쪽, 끝까지 스크롤하면 위쪽에 표시됩니다. Harmony는 `fading-edge-length`를 지원하지 않으므로 fog가 표시되지 않습니다.
+네이티브 `fading-edge-length`는 스크롤할 콘텐츠가 남아 있는 edge에서만 fog를 표시합니다. 처음에는 아래쪽, 끝까지 스크롤하면 위쪽에 표시됩니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/with-scroll-fog" height={520}>
   ```json doc-gen:file
@@ -203,7 +203,7 @@ Lynx의 `BottomSheetContent`는 기기의 `safeAreaInsetBottom`을 내부 paddin
 
 ### Handle Only
 
-`<BottomSheetRoot>`에 `handleOnly`를 전달하면 Bottom Sheet를 움직이는 세로 제스처 영역이 Handle로 제한됩니다. 이 옵션은 `<BottomSheetContent showHandle>`과 함께 사용하세요. 본문이 길 때는 Body의 스크롤 제스처와 시트 드래그가 겹치지 않도록 이 조합을 권장합니다.
+`<BottomSheetRoot>`에 `handleOnly`를 전달하면 Bottom Sheet를 움직이는 세로 제스처 영역이 Handle로 제한됩니다. 이 옵션은 `<BottomSheetContent showHandle>`과 함께 사용하세요. 본문이 길 때는 Body 안의 스크롤 영역과 시트 드래그가 겹치지 않도록 이 조합을 권장합니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/handle-only" height={520}>
   ```json doc-gen:file

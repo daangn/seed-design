@@ -77,6 +77,7 @@ vi.mock("../../hooks/useSafeArea", () => ({
 }));
 
 import * as BottomSheet from "./BottomSheet.namespace";
+import { ScrollFog } from "../ScrollFog";
 
 describe("BottomSheet", () => {
   beforeEach(() => {
@@ -97,48 +98,28 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("renders Body as a vertical scroll-view without fog by default", () => {
-    const { container } = render(
-      <BottomSheet.Root>
-        <BottomSheet.Body>
-          <text>Scrollable content</text>
-        </BottomSheet.Body>
-      </BottomSheet.Root>,
-    );
-
-    const body = container.querySelector("scroll-view");
-
-    expect(body).not.toBeNull();
-    expect(body?.hasAttribute("scroll-y")).toBe(true);
-    expect(body).not.toHaveAttribute("fading-edge-length");
-  });
-
-  it("opts Body into a single vertical ScrollFog scroller", () => {
+  it("renders Body as a composable view with an explicit ScrollFog child", () => {
     const bodyRef = createRef<unknown>();
     const { container } = render(
       <BottomSheet.Root>
-        <BottomSheet.Body
-          ref={bodyRef}
-          scrollFog
-          className="custom-body"
-          style={{ height: "200px" }}
-        >
-          <text>Scrollable content</text>
+        <BottomSheet.Body ref={bodyRef} className="custom-body" style={{ height: "200px" }}>
+          <ScrollFog hideScrollBar placement={["top", "bottom"]}>
+            <text>Scrollable content</text>
+          </ScrollFog>
         </BottomSheet.Body>
       </BottomSheet.Root>,
     );
 
-    const body = container.querySelector("scroll-view");
+    const body = container.querySelector(".custom-body");
+    const scrollView = body?.querySelector("scroll-view");
 
-    expect(body).not.toBeNull();
-    expect(container.querySelectorAll("scroll-view")).toHaveLength(1);
-    expect(body).toHaveAttribute("scroll-orientation", "vertical");
-    expect(body).toHaveAttribute("fading-edge-length", "20px");
-    expect(body).toHaveAttribute("scroll-bar-enable", "false");
-    expect(body).not.toHaveAttribute("scroll-y");
-    expect(body).toHaveClass("custom-body");
+    expect(body?.tagName.toLowerCase()).toBe("view");
     expect(body).toHaveStyle({ height: "200px" });
     expect(bodyRef.current).not.toBeNull();
+    expect(scrollView).not.toBeNull();
+    expect(scrollView).toHaveAttribute("scroll-orientation", "vertical");
+    expect(scrollView).toHaveAttribute("fading-edge-length", "20px");
+    expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {

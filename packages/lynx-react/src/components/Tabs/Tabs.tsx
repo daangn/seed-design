@@ -463,7 +463,19 @@ function getTabsTriggerValues(children: React.ReactNode): string[] {
   return values;
 }
 
-export interface TabsListProps extends LynxStyledElementProps {
+export interface TabsListProps
+  extends LynxStyledElementProps,
+    Omit<
+      NativeScrollViewProps,
+      | "children"
+      | "className"
+      | "style"
+      | "scroll-orientation"
+      | "scroll-bar-enable"
+      | "bindlayoutchange"
+      | "bindscroll"
+      | "bindcontentsizechanged"
+    > {
   /** 선택한 tab을 목록 안에서 정렬할 방식입니다. @defaultValue "start" */
   scrollAlign?: "nearest" | "start" | "center" | "end";
 }

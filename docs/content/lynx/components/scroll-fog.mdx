@@ -3,7 +3,7 @@ title: Scroll Fog
 description: 스크롤 가능한 영역에서 추가 콘텐츠가 있음을 알리는 네이티브 페이드 힌트를 제공합니다.
 ---
 
-<AvailableSince packages="@seed-design/lynx-react@0.8.0" />
+<AvailableSince packages="@seed-design/lynx-react@1.0.0" />
 
 <LynxComponentExample name="lynx/scroll-fog/preview" height={320}>
   ```json doc-gen:file
@@ -111,6 +111,5 @@ React의 `placement={["top", "bottom", "left", "right"]}` 2축 fog는 Lynx에서
 | fade 표시 | 지정한 edge에 CSS mask를 표시 | 해당 edge에 추가 콘텐츠가 있을 때만 native fade 표시 |
 | 크기 | `size`와 edge별 `sizes` | 모든 edge에 같은 `size` 하나 |
 | 스크롤 indicator | CSS scrollbar 제어 | `hideScrollBar`가 `scroll-bar-enable`을 결정 |
-| Harmony | CSS mask 지원 | native `fading-edge-length` 미지원으로 효과 없음 |
 
-Android와 iOS에서는 native fading edge가 현재 위치에서 더 스크롤할 콘텐츠가 남아 있는 edge에만 보입니다. 콘텐츠가 viewport에 모두 들어오거나 해당 방향의 끝에 도달하면 그 edge의 fade는 사라집니다. Harmony는 native `fading-edge-length`를 지원하지 않으므로 `ScrollFog`를 사용해도 fog 효과가 나타나지 않습니다.
+네이티브 fading edge는 현재 위치에서 더 스크롤할 콘텐츠가 남아 있는 edge에만 보입니다. 콘텐츠가 viewport에 모두 들어오거나 해당 방향의 끝에 도달하면 그 edge의 fade는 사라집니다.
