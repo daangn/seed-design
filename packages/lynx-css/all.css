@@ -7211,9 +7211,3 @@ text {
   display: flex;
   color: var(--seed-color-palette-gray-400);
 }
-
-.seed-content-placeholder__asset .seed-icon {
-  width: 100%;
-  height: 100%;
-  color: var(--seed-color-palette-gray-400);
-}

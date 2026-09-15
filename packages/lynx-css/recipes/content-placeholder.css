@@ -6,7 +6,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: var(--seed-color-palette-gray-200);
+    background-color: var(--seed-color-palette-gray-200)
 }
 .seed-content-placeholder__asset {
     display: flex;
@@ -16,10 +16,5 @@
     min-width: var(--seed-dimension-x4);
     max-width: 160px;
     aspect-ratio: 1 / 1;
-    color: var(--seed-color-palette-gray-400);
-}
-.seed-content-placeholder__asset .seed-icon {
-    width: 100%;
-    height: 100%;
-    color: var(--seed-color-palette-gray-400);
+    color: var(--seed-color-palette-gray-400)
 }
