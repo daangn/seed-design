@@ -12,7 +12,7 @@ import type {
 import { useIconColor } from "../../hooks/useIconColor";
 import { mergeProps } from "../../utils/merge-props";
 import { mergeMainThreadRefs } from "../../utils/merge-refs";
-import { getIconSlotName, isMulticolorIcon } from "../Icon/Icon";
+import { isMulticolorIcon } from "../Icon/Icon";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -73,11 +73,10 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
     const isElement = React.isValidElement<LynxIconElementProps>(children);
     // Intrinsic elements are compiled snapshots, not ordinary cloneable icon components.
     const isNativeElement = isElement && typeof children.type === "string";
-    const isWrappedIcon = getIconSlotName(children) !== null;
     const shouldPreserveColor = preserveOriginalColor ?? isMulticolorIcon(children);
     const iconColor = useIconColor([classNames.asset, className, nativeProps.style?.color], {
       sourceRef,
-      enabled: isElement && !isNativeElement && !shouldPreserveColor && !isWrappedIcon,
+      enabled: isElement && !isNativeElement && !shouldPreserveColor,
     });
 
     if (
@@ -89,7 +88,7 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
     }
 
     let asset = children;
-    if (isElement && !isNativeElement && !isWrappedIcon) {
+    if (isElement && !isNativeElement) {
       const dimensions = { style: { width: "100%", height: "100%" } };
       if (shouldPreserveColor) {
         asset = React.cloneElement(children, mergeProps(children.props, dimensions));

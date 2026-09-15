@@ -33,11 +33,6 @@ const contentPlaceholder = defineSlotRecipe({
       maxWidth: vars.base.enabled.asset.maxWidth,
       aspectRatio: "1 / 1",
       color: vars.base.enabled.asset.color,
-      "& .seed-icon": {
-        width: "100%",
-        height: "100%",
-        color: vars.base.enabled.asset.color,
-      },
     },
   },
   // 웹과 달리 type 프리셋이 없으므로 variant는 없다. qvism core가 Object.entries를
