@@ -38,7 +38,7 @@ export default function AttachmentFieldCustomInset() {
             <TextFieldInput placeholder="홍길동" />
           </TextField>
           <AttachmentField
-            maxFiles={5}
+            maxFiles={8}
             label="첨부파일"
             defaultAcceptedFileEntries={MOCKED_FILES.map((file, index) => ({
               id: `${index}`,
