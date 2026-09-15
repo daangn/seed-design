@@ -205,7 +205,11 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
         ref ? { ref: ref as LynxViewRef } : {},
         nativeProps,
       )}
-      className={clsx(baseClassName, slotClassName, className)}
+      className={clsx(
+        slotClassName && baseClassName ? `${baseClassName}-slot` : baseClassName,
+        slotClassName,
+        className,
+      )}
       style={mergeWrapperStyle({ size, color, style })}
     >
       {cloneElement(icon, {
