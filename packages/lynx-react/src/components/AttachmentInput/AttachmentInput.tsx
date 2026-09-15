@@ -748,6 +748,7 @@ export const AttachmentInputItemName = React.forwardRef<NodesRef, AttachmentInpu
     );
   },
 );
+AttachmentInputItemName.displayName = "AttachmentInputItemName";
 
 export interface AttachmentInputItemSizeProps
   extends LynxStyledElementProps,
