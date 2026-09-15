@@ -773,16 +773,16 @@
               "docUrl": "/foundations/design-token/reference"
             },
             {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "화면 가장자리는 시스템 UI나 기기 형태에 가려질 수 있습니다. 요소를 가려지지 않는 안전 영역(Safe Area) 안에 둘지, 화면 끝까지 채울지 정하는 기준을 설명합니다.",
+              "docUrl": "/foundations/safe-area"
+            },
+            {
               "id": "scale",
               "title": "Scale",
               "description": "누를 수 있는 요소는 눌린 동안 살짝 작아집니다. SEED는 모든 요소에서 눌린 느낌의 양이 같도록 축소량을 배율이 아닌 거리로 정의합니다.",
               "docUrl": "/foundations/feedback/scale"
-            },
-            {
-              "id": "screen-edges",
-              "title": "Safe Area",
-              "description": "화면 가장자리는 시스템 UI나 기기 형태에 가려질 수 있습니다. 요소를 가려지지 않는 안전 영역(Safe Area) 안에 둘지, 화면 끝까지 채울지 정하는 기준을 설명합니다.",
-              "docUrl": "/foundations/screen-edges"
             },
             {
               "id": "spacing",
