@@ -638,12 +638,11 @@ AttachmentDisplayItem.displayName = "AttachmentDisplayItem";
 
 export const AttachmentDisplayItemSurface = React.forwardRef<NodesRef, LynxStyledElementProps>(
   (props, ref) => {
-    const { children, className, style, ...nativeProps } = props;
+    const { children, className, ...nativeProps } = props;
     const classes = useItemClassNames();
     return (
       <view
         {...mergeProps(ref ? { ref } : {}, nativeProps)}
-        style={{ ...style, overflow: "hidden" }}
         className={clsx(classes.surface, className)}
       >
         {children}
