@@ -55,6 +55,7 @@ export const TOOL_SECTIONS: readonly LegacySection[] = [
     items: [
       { page: "use-controllable-state", title: "useControllableState" },
       { page: "use-press-tap", title: "usePressTap" },
+      { page: "use-image", title: "useImage" },
     ],
   },
   {

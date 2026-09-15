@@ -18,6 +18,7 @@
     "@lynx-js/react": "0.123.3",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
+    "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/tailwind3-plugin": "workspace:*",
     "clsx": "^2.1.1",
     "lynx-console": "^0.3.0",
