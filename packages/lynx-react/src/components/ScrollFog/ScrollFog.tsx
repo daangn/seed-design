@@ -1,9 +1,9 @@
-import {
-  forwardRef,
-  type ForwardRefExoticComponent,
-  type PropsWithoutRef,
-  type ReactNode,
-  type RefAttributes,
+import * as React from "@lynx-js/react";
+import type {
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  ReactNode,
+  RefAttributes,
 } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
@@ -39,7 +39,7 @@ export interface ScrollFogProps
   hideScrollBar?: boolean;
 }
 
-export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = forwardRef<
+export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = React.forwardRef<
   NodesRef,
   ScrollFogProps
 >((props, forwardedRef) => {
