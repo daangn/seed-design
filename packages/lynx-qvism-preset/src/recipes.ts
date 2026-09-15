@@ -43,6 +43,11 @@ import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 import tabs from "./recipes/tabs";
 import textInput from "./recipes/text-input";
+import {
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
+} from "./recipes/attachment-input";
 
 /**
  * Recipes used by the Lynx preset build.
@@ -54,6 +59,9 @@ export const recipes = {
   appBarMain,
   badge,
   bottomSheet,
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
   bottomSheetHandle,
   callout,
   helpBubble,

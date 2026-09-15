@@ -25,6 +25,11 @@ const fieldButtonPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const attachmentPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
 
 const floatingActionButtonPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
@@ -181,11 +186,47 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "attachment-display-field",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
       id: "identity-placeholder",
       snippets: [
         {
           path: "identity-placeholder.tsx",
           dependencies: identityPlaceholderPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-field",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-display-field-reorderable.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-field-reorderable.tsx",
+          dependencies: attachmentPackageRanges,
         },
       ],
     },
