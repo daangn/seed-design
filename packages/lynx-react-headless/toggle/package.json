@@ -15,7 +15,12 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
@@ -42,5 +47,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "license": "Apache-2.0"
 }
