@@ -6,13 +6,22 @@
     position: relative;
     overflow: hidden
 }
+.seed-input-button__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none
+}
 .seed-input-button__button {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: var(--seed-color-bg-transparent)
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
 .seed-input-button__baseStroke {
     position: absolute;
@@ -80,6 +89,7 @@
     pointer-events: none
 }
 .seed-input-button__clearButton {
+    pointer-events: auto;
     flex-shrink: 0;
     color: var(--seed-color-fg-neutral-subtle)
 }
@@ -89,6 +99,9 @@
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3)
+}
+.seed-input-button__content--size_large {
+    gap: var(--seed-dimension-x2_5)
 }
 .seed-input-button__button--size_large {
     border-radius: var(--seed-radius-r3)
@@ -133,6 +146,9 @@
     padding-left: var(--seed-dimension-x3_5);
     padding-right: var(--seed-dimension-x3_5);
     border-radius: var(--seed-radius-r2)
+}
+.seed-input-button__content--size_medium {
+    gap: var(--seed-dimension-x2)
 }
 .seed-input-button__button--size_medium {
     border-radius: var(--seed-radius-r2)
@@ -206,4 +222,7 @@
 }
 .seed-input-button__placeholder--readOnly_true {
     color: var(--seed-color-fg-placeholder)
+}
+.seed-input-button__button--disabled_false-readOnly_false:active {
+    background-color: var(--seed-color-bg-transparent-pressed)
 }

@@ -152,7 +152,16 @@ export const menu = defineSlotRecipe({
 
 export const menuItem = defineSlotRecipe({
   name: "menu-item",
-  slots: ["root", "pressedOverlay", "body", "label", "description", "prefixIcon", "suffixIcon"],
+  slots: [
+    "root",
+    "scaleContent",
+    "pressedOverlay",
+    "body",
+    "label",
+    "description",
+    "prefixIcon",
+    "suffixIcon",
+  ],
   base: {
     root: {
       position: "relative",
@@ -160,6 +169,13 @@ export const menuItem = defineSlotRecipe({
       flexDirection: "row",
       alignItems: "center",
       flexShrink: 0,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      minWidth: 0,
     },
     pressedOverlay: {
       position: "absolute",
@@ -203,6 +219,8 @@ export const menuItem = defineSlotRecipe({
           paddingBottom: menuItemVars.sizeMedium.enabled.root.paddingY,
           paddingLeft: menuItemVars.sizeMedium.enabled.root.paddingX,
           paddingRight: menuItemVars.sizeMedium.enabled.root.paddingX,
+        },
+        scaleContent: {
           gap: menuItemVars.sizeMedium.enabled.root.gap,
         },
         label: {
@@ -228,6 +246,8 @@ export const menuItem = defineSlotRecipe({
           paddingBottom: menuItemVars.sizeSmall.enabled.root.paddingY,
           paddingLeft: menuItemVars.sizeSmall.enabled.root.paddingX,
           paddingRight: menuItemVars.sizeSmall.enabled.root.paddingX,
+        },
+        scaleContent: {
           gap: menuItemVars.sizeSmall.enabled.root.gap,
         },
         label: {
@@ -259,7 +279,9 @@ export const menuItem = defineSlotRecipe({
         prefixIcon: { color: menuItemVars.base.disabled.prefixIcon.color },
         suffixIcon: { color: menuItemVars.base.disabled.suffixIcon.color },
       },
-      false: {},
+      false: {
+        root: { "&:active .seed-menu-item__pressedOverlay": { opacity: 1 } },
+      },
     },
     pressed: {
       true: {},

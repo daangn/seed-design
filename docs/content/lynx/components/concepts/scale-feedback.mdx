@@ -97,8 +97,8 @@ function Pressable() {
 
 | Scope | Trigger | Target | 사용 예 |
 |---|---|---|---|
-| Self | Root | 같은 Root | Action Button, Chip, Tab, Page Banner의 Button·CloseButton |
-| Content | Root | 내부 content layer | Accordion |
+| Self | 해당 액션 영역 | 같은 액션 영역 | Action Button, Reaction Button, Chip, Tab, App Bar의 IconButton, Page Banner의 Button·CloseButton, Input Button의 ClearButton, Swipeable Menu Sheet의 CloseButton |
+| Content | 항목 또는 본문 액션 영역 | 내부 content layer | Accordion, List, Select Box, Segmented Control, Menu Item, Input Button 본문, actionable Page Banner, Swipeable Menu Sheet Item |
 
 Self Scale은 두 props를 같은 요소에 전달합니다. Content Scale은 trigger props를 바깥 요소에, target props를 안쪽 콘텐츠에 전달합니다.
 

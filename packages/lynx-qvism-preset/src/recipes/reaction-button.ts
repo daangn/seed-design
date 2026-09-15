@@ -1,11 +1,7 @@
 import { reactionButton as vars } from "../vars/component";
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 
 import { defineSlotRecipe } from "../utils/define";
-const ROOT_TRANSITION = `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${duration.pressedScale} ${timingFunction.pressedScale}`;
-const ROOT_TRANSITION_WITHOUT_BACKGROUND = `box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, transform ${duration.pressedScale} ${timingFunction.pressedScale}`;
+const ROOT_TRANSITION = `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`;
 
 const reactionButton = defineSlotRecipe({
   name: "reaction-button",
@@ -20,7 +16,6 @@ const reactionButton = defineSlotRecipe({
       flexShrink: 0,
       background: vars.base.enabled.root.color,
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
-      transform: "scale(1)",
       "--track-color": vars.base.enabled.progressCircle.trackColor,
       "--range-color": vars.base.enabled.progressCircle.rangeColor,
       transition: ROOT_TRANSITION,
@@ -144,7 +139,6 @@ const reactionButton = defineSlotRecipe({
       true: {
         root: {
           background: vars.base.loading.root.color,
-          transition: ROOT_TRANSITION_WITHOUT_BACKGROUND,
         },
         content: { opacity: 0 },
       },
@@ -155,30 +149,26 @@ const reactionButton = defineSlotRecipe({
     {
       selected: true,
       pressed: true,
+      disabled: false,
+      loading: false,
       css: {
         root: { background: vars.base.selectedPressed.root.color },
       },
     },
     {
-      size: "xsmall",
-      pressed: true,
+      selected: false,
+      disabled: false,
+      loading: false,
       css: {
-        root: { transform: `scale(${scale.s95})` },
-      },
-    },
-    {
-      size: "small",
-      pressed: true,
-      css: {
-        root: { transform: `scale(${scale.s97})` },
+        root: { "&:active": { background: vars.base.pressed.root.color } },
       },
     },
     {
       selected: true,
-      pressed: false,
+      disabled: false,
       loading: false,
       css: {
-        root: { transition: ROOT_TRANSITION_WITHOUT_BACKGROUND },
+        root: { "&:active": { background: vars.base.selectedPressed.root.color } },
       },
     },
     {

@@ -27,7 +27,7 @@ declare type InputButtonVariantMap = {
 
 export declare type InputButtonVariantProps = Partial<InputButtonVariant>;
 
-export declare type InputButtonSlotName = "root" | "button" | "baseStroke" | "stroke" | "value" | "placeholder" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon" | "clearButton";
+export declare type InputButtonSlotName = "root" | "button" | "content" | "baseStroke" | "stroke" | "value" | "placeholder" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon" | "clearButton";
 
 export declare const inputButtonVariantMap: InputButtonVariantMap;
 

@@ -11,6 +11,7 @@ const pageBanner = defineSlotRecipe({
   slots: [
     "root",
     "content",
+    "scaleContent",
     "body",
     "title",
     "description",
@@ -31,6 +32,14 @@ const pageBanner = defineSlotRecipe({
       paddingRight: vars.base.enabled.root.paddingX,
       paddingTop: vars.base.enabled.root.paddingY,
       paddingBottom: vars.base.enabled.root.paddingY,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-start",
+      flexGrow: 1,
+      flexShrink: 1,
+      minWidth: 0,
     },
     content: {
       display: "flex",
