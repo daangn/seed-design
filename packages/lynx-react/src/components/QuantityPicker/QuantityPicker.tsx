@@ -281,33 +281,35 @@ function renderActionContent(
 
 export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootProps>(
   (props, ref) => {
+    const { loading, ...propsWithoutLoading } = props;
+    const [variantProps, otherProps] = quantityPicker.splitVariantProps(propsWithoutLoading);
+    const {
+      disabled = false,
+      invalid = false,
+      layout: layoutProp = "hug",
+      size: sizeProp = "medium",
+    } = variantProps;
     const {
       children,
       className,
-      style,
       min,
       max,
       step: stepProp = 1,
       value: valueProp,
       defaultValue,
       onValueChange,
-      disabled = false,
-      invalid = false,
       readOnly = false,
-      loading,
       onRemove,
       getValueText = defaultGetValueText,
       dir = "ltr",
       removable = false,
       removeAccessibilityLabel,
-      layout: layoutProp = "hug",
-      size: sizeProp = "medium",
       "accessibility-element": accessibilityElement = true,
       "accessibility-role-description": accessibilityRoleDescription = "quantity picker",
       "accessibility-traits": accessibilityTraits,
       "accessibility-value": accessibilityValue,
       ...nativeProps
-    } = props;
+    } = otherProps;
 
     validateProps({ min, max, step: stepProp, value: valueProp, defaultValue });
     const initialValue = defaultValue ?? min;
@@ -415,7 +417,6 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
         <view
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
           className={clsx(classes.root, className)}
-          style={style}
           accessibility-element={accessibilityElement}
           accessibility-role-description={accessibilityRoleDescription}
           accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
