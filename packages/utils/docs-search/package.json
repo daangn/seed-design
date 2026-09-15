@@ -1,6 +1,7 @@
 {
   "name": "@seed-design/docs-search",
   "version": "0.1.0",
+  "private": true,
   "description": "Query layer for the seed-design.io documentation search index",
   "repository": {
     "type": "git",
@@ -27,8 +28,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "typecheck": "tsc --noEmit",
-    "lint:publish": "bun publint"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "zbsearch": "^3.3.4"
@@ -36,8 +36,5 @@
   "devDependencies": {
     "bunchee": "^6.3.2",
     "typescript": "^6.0.3"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
