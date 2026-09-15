@@ -161,17 +161,18 @@ describe("QuantityPicker", () => {
     expect(loadingNode.parentElement).toHaveClass("seed-quantity-picker__incrementIcon");
   });
 
-  it("formats the value and its width placeholder", () => {
+  it("formats the value and reserves width for a negative minimum", () => {
     const { container } = renderQuantityPicker({
-      max: 123,
-      defaultValue: 2,
+      min: -999,
+      max: 5,
+      defaultValue: -2,
       getValueText: (valueText, value) => `${valueText}개(${value})`,
     });
 
-    expect(getValueText(container)).toHaveTextContent("2개(2)");
+    expect(getValueText(container)).toHaveTextContent("-2개(-2)");
     expect(
       getElement(container, ".seed-quantity-picker__valueDisplayPlaceholder"),
-    ).toHaveTextContent("000개(000)");
+    ).toHaveTextContent("-000개(-000)");
   });
 
   it("inserts dividers only between adjacent actions and value, and reverses RTL children", () => {

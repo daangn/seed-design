@@ -56,6 +56,7 @@ type QuantityPickerRootBaseProps = Omit<LynxStyledElementProps, "children"> &
 type QuantityPickerRemovableProps = {
   removable: true;
   removeAccessibilityLabel: string;
+  onRemove: () => void;
 };
 
 type QuantityPickerNonRemovableProps = {
@@ -171,8 +172,9 @@ function getLoadingState(loading: QuantityPickerLoading | undefined) {
   };
 }
 
-function getValueDisplayPlaceholder(max: number) {
-  return String(max).replace(/\d/g, "0");
+function getValueDisplayPlaceholder(min: number, max: number) {
+  const boundary = String(min).length > String(max).length ? min : max;
+  return String(boundary).replace(/\d/g, "0");
 }
 
 function getAccessibleText(valueText: React.ReactNode, value: number) {
@@ -512,7 +514,7 @@ export const QuantityPickerValueDisplay = React.forwardRef<
     ...nativeProps
   } = props;
   const valueText = context.getValueText(String(context.value), context.value);
-  const placeholderText = getValueDisplayPlaceholder(context.max);
+  const placeholderText = getValueDisplayPlaceholder(context.min, context.max);
   return (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
