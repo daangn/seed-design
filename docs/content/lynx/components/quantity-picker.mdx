@@ -1,0 +1,158 @@
+---
+title: Quantity Picker
+description: 정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "2.1"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/quantity-picker/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:quantity-picker
+```
+
+<LynxManualInstallation name="quantity-picker" />
+
+## Props
+
+### Registry 편의 컴포넌트
+
+Registry의 `QuantityPicker`는 수량 선택에 필요한 세 슬롯을 하나의 컴포넌트로 제공하는 편의 API입니다.
+
+<react-type-table path="./registry/lynx/ui/quantity-picker.tsx" name="QuantityPickerProps" />
+
+`min`과 `max`는 필수이며 안전한 정수여야 합니다. `step`의 기본값은 `1`이고, `defaultValue`를 생략하면 `min`에서 시작합니다. `value`와 `onValueChange`를 함께 사용하면 외부 상태로 값을 제어할 수 있습니다.
+
+- `size`: `small`, `medium`(기본값), `large`
+- `layout`: `hug`(기본값), `fill`. `fill`에서는 Value Display 영역이 남은 너비를 채웁니다.
+- `loading`: `true`이면 Decrement와 Increment를 모두 막고, 객체로 전달하면 `{ decrement?: boolean, increment?: boolean }` 각 동작을 따로 막습니다.
+- `removable`: 최솟값에서 Decrement를 Remove 동작으로 바꿉니다. `onRemove`에서 상품 삭제 등을 처리합니다.
+- `getValueText`: 화면에 표시할 수량 텍스트를 바꿉니다. 실제 수량 값과 `onValueChange`의 인자는 숫자로 유지됩니다.
+
+### `@seed-design/lynx-react` compound API
+
+Registry를 사용하지 않고 저수준 API를 직접 조합할 때는 다음 네 가지 공개 컴포넌트를 사용합니다.
+
+```tsx
+import { QuantityPicker } from "@seed-design/lynx-react";
+
+<QuantityPicker.Root min={1} max={99} accessibility-label="상품 수량">
+  <QuantityPicker.DecrementButton accessibility-label="수량 줄이기" />
+  <QuantityPicker.ValueDisplay />
+  <QuantityPicker.IncrementButton accessibility-label="수량 늘리기" />
+</QuantityPicker.Root>;
+```
+
+`Root`에는 수량 범위와 상태(`min`, `max`, `step`, `value`, `defaultValue`, `onValueChange`, `disabled`, `invalid`, `readOnly`, `loading`, `removable`, `onRemove`, `getValueText`, `dir`, `layout`, `size`)를 전달합니다. `removable={true}`일 때는 `removeAccessibilityLabel`도 전달해야 합니다.
+
+`DecrementButton`, `ValueDisplay`, `IncrementButton`은 Root의 Context를 사용해 값과 상태를 공유합니다. 아이콘, loading indicator, 네이티브 `accessibility-*` 속성, Lynx 이벤트를 각 슬롯에 직접 전달할 수 있습니다. Registry 편의 컴포넌트의 `decrementAccessibilityLabel`, `incrementAccessibilityLabel`, `decrementIcon`, `incrementIcon`, `removeIcon`, `loadingIndicator`는 이 compound 슬롯을 대신 구성해 주는 props입니다. Lynx compound API에는 웹 전용 `HiddenInput` 슬롯이 없습니다.
+
+## Examples
+
+### Layout
+
+`layout="hug"`는 콘텐츠에 맞는 너비를 유지합니다. 부모가 Flex 레이아웃이고 남은 공간을 채워야 한다면 `layout="fill"`을 사용하세요. 양쪽 버튼 크기는 유지되고 Value Display 영역만 늘어납니다.
+
+<LynxComponentExample name="lynx/quantity-picker/layout">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/layout.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+이 예제에서 사용하는 Quantity Picker recipe는 `display: grid`를 사용합니다. Android/iOS Lynx engine 2.1 이상과 HarmonyOS Lynx engine 3.4 이상에서 호환됩니다.
+
+### Value Text
+
+`getValueText`를 사용하면 표시되는 수량에 단위나 보조 설명을 덧붙일 수 있습니다. 반환한 값은 Value Display와 접근성 값에 사용할 표시 텍스트이며, 내부 수량 상태나 증감 단위에는 영향을 주지 않습니다.
+
+<LynxComponentExample name="lynx/quantity-picker/value-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/value-text.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`value`와 `onValueChange`를 사용해 수량 상태를 앱의 상태로 제어할 수 있습니다. 변경 콜백에서 새 숫자를 저장하고, 저장한 값을 다시 `value`로 전달하세요.
+
+<LynxComponentExample name="lynx/quantity-picker/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Removable
+
+`removable`을 사용하면 값이 `min`에 도달했을 때 Decrement 버튼이 Remove 버튼으로 전환됩니다. 이때 Decrement를 누르면 수량을 변경하지 않고 `onRemove`만 호출합니다. 삭제나 목록에서 제거하는 동작은 `onRemove`에서 처리하세요.
+
+<LynxComponentExample name="lynx/quantity-picker/removable">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/removable.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Loading
+
+`loading`으로 모든 action 또는 특정 action의 실행을 일시적으로 막고 loading indicator를 표시할 수 있습니다. `loading={true}`는 Decrement와 Increment 모두에 적용되며, `loading={{ increment: true }}`처럼 객체를 전달하면 해당 action만 막습니다.
+
+<LynxComponentExample name="lynx/quantity-picker/loading">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/quantity-picker/loading.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`disabled`, `readOnly`, `loading`은 모두 action을 실행하지 못하게 합니다. `disabled`는 두 action을 비활성화하고 접근성 상태에도 disabled를 전달합니다. `readOnly`는 수량 변경과 Remove 콜백 호출을 막지만 값을 다른 상태로 바꾸지는 않습니다. `loading`은 지정된 action만 일시적으로 막으며, 해당 action의 indicator를 표시합니다. 따라서 `removable`의 최솟값에서도 Decrement가 disabled, readOnly 또는 decrement loading이면 `onRemove`가 호출되지 않습니다.
+
+### Form
+
+Lynx에는 HTML `<form>`, hidden `<input>`, `FormData` 제출 모델이 없으므로 웹의 `inputProps`와 hidden input 기반 Form 예제를 제공하지 않습니다. 수량을 제출해야 할 때는 `value`와 `onValueChange`로 앱 상태를 관리한 뒤, 제출 또는 네트워크 요청을 만드는 코드에서 그 상태를 payload에 직접 넣으세요. 이 방식은 UI 표시용 `getValueText`와 서버에 보낼 raw 숫자 값을 분리할 수 있습니다.
+
+## Accessibility
+
+Quantity Picker의 용도를 설명하는 `accessibility-label`을 Root에 제공하세요. Root는 기본적으로 `accessibility-role-description="quantity picker"`로 노출하며, 필요하면 `accessibility-role-description`, `accessibility-value` 같은 네이티브 접근성 속성을 직접 지정할 수 있습니다.
+
+Registry 편의 컴포넌트에서는 `decrementAccessibilityLabel`과 `incrementAccessibilityLabel`로 각 버튼의 접근성 이름을 지정합니다. `removable` 상태에서 최솟값에 도달하면 Decrement 버튼이 Remove 버튼으로 바뀌므로, Remove 동작을 설명하는 `removeAccessibilityLabel`도 지정하세요. Registry의 기본값은 각각 `수량 줄이기`, `수량 늘리기`, `상품 삭제`입니다. compound API에서는 Decrement/Increment 버튼에 `accessibility-label`을 직접 지정하고, Root에 `removeAccessibilityLabel`을 전달합니다.
+
+`disabled` 상태의 버튼은 접근성 traits에 disabled가 반영됩니다. `readOnly`와 `loading` 상태에서는 해당 action을 실행할 수 없으므로 상태와 제한을 주변 레이블이나 안내 텍스트로 함께 설명하세요. loading indicator는 시각적 표시 요소이며 접근성 요소에서 숨겨집니다.
+
+## 웹 버전과의 차이
+
+Lynx `QuantityPicker`는 React 웹 버전과 다음과 같은 차이가 있습니다.
+
+| | 웹 (React) | Lynx |
+|---|---|---|
+| **Registry API** | `QuantityPicker` 편의 컴포넌트와 `aria-*` props | `QuantityPicker` 편의 컴포넌트와 `accessibility-*` props |
+| **저수준 API** | `Root`, `DecrementButton`, `ValueDisplay`, `IncrementButton`, `HiddenInput` | `Root`, `DecrementButton`, `ValueDisplay`, `IncrementButton` |
+| **렌더링** | HTML 요소와 버튼을 렌더링 | Lynx native `<view>`와 접근성 요소를 렌더링하며 tap으로 동작 |
+| **접근성 이름** | `aria-label`, `decrementAriaLabel`, `incrementAriaLabel`, `removeAriaLabel` | Root와 슬롯의 `accessibility-label`, Registry의 `decrementAccessibilityLabel`, `incrementAccessibilityLabel`, `removeAccessibilityLabel` |
+| **Form 제출** | `inputProps`로 hidden input의 `name`/`value`를 HTML form에 제출 | HTML form, hidden input, `FormData`, `inputProps` 미지원. 앱 상태의 `value`를 요청 payload에 직접 포함 |
+| **Compound API** | HiddenInput으로 브라우저 form 모델과 연결 가능 | HiddenInput 없이 앱이 `value`와 `onValueChange`를 관리 |
+
+Lynx에는 브라우저의 HTML form 검증과 키보드 focus 모델이 없으므로, form 제출·required 검증·DOM 이벤트 대신 앱 상태, 네이티브 tap, Lynx 접근성 탐색을 사용합니다.
