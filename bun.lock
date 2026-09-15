@@ -282,6 +282,7 @@
         "@seed-design/lynx-css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/lynx-react-image": "workspace:*",
+        "@seed-design/lynx-react-toggle": "workspace:*",
         "@seed-design/lynx-react-use-controllable-state": "0.0.0",
         "@seed-design/lynx-react-use-press-tap": "0.0.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
@@ -546,6 +547,27 @@
       "version": "0.0.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.117.0",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
+      },
+    },
+    "packages/lynx-react-headless/toggle": {
+      "name": "@seed-design/lynx-react-toggle",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+        "@seed-design/lynx-react-use-press-tap": "0.0.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
@@ -3312,6 +3334,8 @@
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
 
     "@seed-design/lynx-react-image": ["@seed-design/lynx-react-image@workspace:packages/lynx-react-headless/image"],
+
+    "@seed-design/lynx-react-toggle": ["@seed-design/lynx-react-toggle@workspace:packages/lynx-react-headless/toggle"],
 
     "@seed-design/lynx-react-use-controllable-state": ["@seed-design/lynx-react-use-controllable-state@workspace:packages/lynx-react-headless/use-controllable-state"],
 
@@ -6839,6 +6863,10 @@
 
     "@seed-design/lynx-react-image/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
 
+    "@seed-design/lynx-react-toggle/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
+
+    "@seed-design/lynx-react-toggle/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
+
     "@seed-design/lynx-react-use-controllable-state/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
 
     "@seed-design/lynx-react-use-press-tap/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
@@ -7604,6 +7632,8 @@
     "@seed-design/lynx-qvism-preset/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-image/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
+
+    "@seed-design/lynx-react-toggle/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-use-press-tap/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
