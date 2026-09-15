@@ -1,1 +1,3 @@
-export { default } from "../../lynx-react/vitest.config";
+import { createLynxVitestConfig } from "@seed-design/lynx-vitest-config";
+
+export default await createLynxVitestConfig();
