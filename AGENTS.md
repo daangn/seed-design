@@ -23,6 +23,7 @@ alwaysApply: true
 - 검증 범위는 변경 위험과 저장소의 필수 검사에 맞춘다. 작은 수정에 무관한 전체 테스트를 반복하지 말고, 실패가 요청한 변경에서 비롯된 경우에만 고친 뒤 관련 검사를 다시 실행한다.
 - Rootage·Recipe 원천을 수정했을 때만 필요한 생성 명령을 실행하고, 생성 후 의도한 산출물만 바뀌었는지 확인한다.
 - 테스트나 명령을 실행하지 못하면 실행하지 못한 이유와 미검증 범위를 보고한다. 실행하지 않은 검증을 통과했다고 쓰지 않는다.
+- Lynx 온라인 검증은 `open`·reload·화면 조작 전에 [session 소유권과 Card 수명](skills/seed-verify-lynx-component/references/concurrency/session-ownership.md)을 읽고 따른다. 여러 에이전트·worktree가 같은 client를 쓰는 경우와 검증 후 page 정리에도 적용한다.
 
 ## 경계
 

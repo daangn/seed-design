@@ -83,6 +83,7 @@ Rootage와 Recipe, Recipe와 플랫폼, 플랫폼과 Registry처럼 변경을 �
 생성물 소비 검사는 해당 생성물의 완료만 기다린다. Lynx native 기본 장면은 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제로 확인한다. 전체 docs 빌드나 정적 bundle 서빙은 MDX 페이지·`LynxComponentExample` host·코드 탭·QR·Web preview·docs pipeline 자체를 바꾼 경우에만 해당 문서 변경 부분 확인으로 추가한다. 검증 인계는 `변경본 식별자 → 실행 명령/시나리오 → 판정과 기대·실제 결과 → 증거 → 실패 원천·영향 범위`로 짧게 남긴다. Lynx native 인계에는 SPA 예제 ID·query를 포함한 bundle URL·변경본과 환경 근거를 추가한다. 실패 또는 후속 수정 뒤에는 실패한 검사와 영향 범위의 검사만 다시 실행한다.
 
 - 전역 overlay·호스트 창·기기·캡처 대상·공유 산출물마다 한 조작 소유자를 둔다. 독립 호스트는 프로세스·창 또는 기기 식별자와 overlay·캡처 자원 공유 여부로 격리를 확인한다. session ID·포트·worktree만 다른 것은 호스트 격리 근거가 아니다.
+- Lynx 온라인 검증을 배정하기 전에 실행자가 [session 소유권과 Card 수명](../../seed-verify-lynx-component/references/concurrency/session-ownership.md)을 읽도록 한다. 공통 작업 메모에 생성 요청 client·host 식별 근거·공유 잠금 경로·소유자를 기록하고, 생성 후 점유한 client/session 쌍과 bundle URL을 추가한다. 다른 실행자는 그 쌍에 자기 bundle을 로드하거나 같은 URL의 Card를 재점유하지 않는다. 같은 PlayLynx client의 다음 실행자는 이전 Card 제거 확인과 잠금 해제가 끝난 뒤 시작한다. 다른 client도 host·기기·overlay·캡처 자원이 독립적이어야 함께 실행한다.
 - 변경 없는 서빙 출력에는 여러 읽기 전용 소비자가 연결될 수 있다. 서버의 시작·재시작·중지는 서버 수명 소유자가, 생성물 갱신은 해당 출력 소유자가 수행하며 소비 중인 변경본을 바꾸지 않는다.
 - CPU·메모리를 많이 쓰는 생성·빌드·타입 분석·대규모 회귀 검사는 최초에는 하나만 실행하고 여유를 확인해 조정한다. 자원 경합을 테스트 timeout 증가로 숨기지 않는다. 가벼운 독립 검사는 무거운 검사의 종료까지 기다리지 않아도 된다.
 
