@@ -20,8 +20,12 @@ function resolveProgressCircleProps(
   }
 }
 
-export interface QuantityPickerProps
-  extends Omit<SeedQuantityPicker.RootProps, "children" | "removeAccessibilityLabel"> {
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+export type QuantityPickerProps = DistributiveOmit<
+  SeedQuantityPicker.RootProps,
+  "children" | "removeAccessibilityLabel"
+> & {
   /**
    * Remove 버튼의 접근성 이름입니다.
    * @default "상품 삭제"
@@ -59,7 +63,7 @@ export interface QuantityPickerProps
    * @default <ProgressCircle.Root><ProgressCircle.Range /></ProgressCircle.Root>
    */
   loadingIndicator?: React.ReactNode;
-}
+};
 
 /**
  * @see https://seed-design.io/lynx/components/quantity-picker
@@ -88,13 +92,20 @@ export const QuantityPicker = React.forwardRef<unknown, QuantityPickerProps>(
         loadingIndicator
       );
 
+    const resolvedRootProps: SeedQuantityPicker.RootProps = rootProps.removable
+      ? {
+          ...rootProps,
+          removable: true,
+          removeAccessibilityLabel,
+        }
+      : {
+          ...rootProps,
+          removable: false,
+          removeAccessibilityLabel,
+        };
+
     return (
-      <SeedQuantityPicker.Root
-        ref={ref}
-        removeAccessibilityLabel={removeAccessibilityLabel}
-        size={size}
-        {...rootProps}
-      >
+      <SeedQuantityPicker.Root ref={ref} size={size} {...resolvedRootProps}>
         <SeedQuantityPicker.DecrementButton
           accessibility-label={decrementAccessibilityLabel}
           icon={decrementIcon}
