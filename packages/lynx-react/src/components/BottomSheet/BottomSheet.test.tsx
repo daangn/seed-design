@@ -1,3 +1,5 @@
+import "@testing-library/jest-dom";
+import { createRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -95,7 +97,7 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("renders Body as a vertical scroll-view", () => {
+  it("renders Body as a vertical scroll-view without fog by default", () => {
     const { container } = render(
       <BottomSheet.Root>
         <BottomSheet.Body>
@@ -108,6 +110,35 @@ describe("BottomSheet", () => {
 
     expect(body).not.toBeNull();
     expect(body?.hasAttribute("scroll-y")).toBe(true);
+    expect(body).not.toHaveAttribute("fading-edge-length");
+  });
+
+  it("opts Body into a single vertical ScrollFog scroller", () => {
+    const bodyRef = createRef<unknown>();
+    const { container } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Body
+          ref={bodyRef}
+          scrollFog
+          className="custom-body"
+          style={{ height: "200px" }}
+        >
+          <text>Scrollable content</text>
+        </BottomSheet.Body>
+      </BottomSheet.Root>,
+    );
+
+    const body = container.querySelector("scroll-view");
+
+    expect(body).not.toBeNull();
+    expect(container.querySelectorAll("scroll-view")).toHaveLength(1);
+    expect(body).toHaveAttribute("scroll-orientation", "vertical");
+    expect(body).toHaveAttribute("fading-edge-length", "20px");
+    expect(body).toHaveAttribute("scroll-bar-enable", "false");
+    expect(body).not.toHaveAttribute("scroll-y");
+    expect(body).toHaveClass("custom-body");
+    expect(body).toHaveStyle({ height: "200px" });
+    expect(bodyRef.current).not.toBeNull();
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {

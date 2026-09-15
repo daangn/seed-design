@@ -32,6 +32,7 @@ import {
 import clsx from "clsx";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
+import { ScrollFog } from "../ScrollFog";
 import type {
   LynxPressableProps,
   LynxStyledElementProps,
@@ -392,14 +393,32 @@ function createTextSlot(
 export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
-
-export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
+export interface BottomSheetBodyProps extends BottomSheetSlotProps {
+  /**
+   * Adds native fading edges to the body's existing vertical scroller.
+   * @defaultValue false
+   */
+  scrollFog?: boolean;
+}
 export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
   unknown,
   BottomSheetBodyProps
 >((props, ref) => {
-  const { children, className, style } = props;
+  const { children, className, scrollFog = false, style } = props;
   const classNames = useClassNames();
+
+  if (scrollFog) {
+    return (
+      <ScrollFog
+        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        hideScrollBar
+        className={clsx(classNames.body, className)}
+        style={style as never}
+      >
+        {children}
+      </ScrollFog>
+    );
+  }
 
   return (
     <scroll-view

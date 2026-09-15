@@ -187,7 +187,15 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 
 ### With Scroll Fog
 
-Lynx 패키지는 `ScrollFog`를 제공하지 않습니다. 긴 콘텐츠의 끝을 알려야 하면 Body의 위아래 여백을 충분히 두고, 필요한 경우 앱에서 스크롤 안내 문구를 추가하세요.
+`<BottomSheetBody scrollFog>`를 설정하면 Body가 렌더링하는 하나의 네이티브 `<scroll-view>`에 스크롤 힌트 효과를 적용합니다. 별도의 `ScrollFog`나 중첩 `<scroll-view>`를 추가하지 않아도 됩니다. `scrollFog`의 기본값은 `false`이므로 기존 `<BottomSheetBody>` 사용 결과는 그대로 유지됩니다.
+
+네이티브 `fading-edge-length`는 스크롤할 콘텐츠가 남아 있는 edge에서만 fog를 표시합니다. 처음에는 아래쪽, 끝까지 스크롤하면 위쪽에 표시됩니다. Harmony는 `fading-edge-length`를 지원하지 않으므로 fog가 표시되지 않습니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/with-scroll-fog" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/with-scroll-fog.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
 
 ### Bottom Inset
 
