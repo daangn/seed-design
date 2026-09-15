@@ -1,7 +1,5 @@
 import IconPictureFill from "@karrotmarket/lynx-monochrome-icon/IconPictureFill";
 
-import { Icon } from "@seed-design/lynx-react";
-
 import { ContentPlaceholder } from "../seed-design/ui/content-placeholder";
 
 /**
@@ -19,12 +17,12 @@ export function ContentPlaceholderPage() {
 
       <text className="t4-bold text-fg-neutral-subtle mb-x2">정사각형 (160 × 160)</text>
       <ContentPlaceholder style={{ width: "160px", height: "160px" }}>
-        <Icon icon={<IconPictureFill />} />
+        <IconPictureFill />
       </ContentPlaceholder>
 
       <text className="t4-bold text-fg-neutral-subtle mt-x4 mb-x2">가로형 (full × 120)</text>
       <ContentPlaceholder style={{ width: "100%", height: "120px" }}>
-        <Icon icon={<IconPictureFill />} />
+        <IconPictureFill />
       </ContentPlaceholder>
     </view>
   );
