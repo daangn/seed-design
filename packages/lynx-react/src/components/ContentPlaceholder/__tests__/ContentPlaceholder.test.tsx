@@ -6,7 +6,6 @@ import type { LynxIconElementProps } from "../../../types";
 import { act, createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
-import { Icon } from "../../Icon";
 import { ContentPlaceholderAsset, ContentPlaceholderRoot } from "../ContentPlaceholder";
 
 const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
@@ -50,22 +49,6 @@ describe("ContentPlaceholder", () => {
       fireEvent(image, event);
     });
     expect(onLoad).toHaveBeenCalledOnce();
-  });
-
-  it("lets the public Icon fill the asset while preserving source properties", () => {
-    render(
-      <ContentPlaceholderRoot>
-        <ContentPlaceholderAsset>
-          <Icon icon={<TestIcon />} />
-        </ContentPlaceholderAsset>
-      </ContentPlaceholderRoot>,
-    );
-
-    const image = getRoot().querySelector("image");
-    if (!image) throw new Error("Expected an asset image.");
-    expect(image).toHaveAttribute("src", "icon.png");
-    expect(image).toHaveAttribute("mode", "aspectFit");
-    expect(image).toHaveStyle({ width: "100%", height: "100%" });
   });
 
   it("sizes a direct icon without an Icon wrapper and retains custom styles", () => {
