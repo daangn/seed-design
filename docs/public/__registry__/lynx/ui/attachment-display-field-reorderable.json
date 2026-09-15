@@ -1,0 +1,32 @@
+{
+  "id": "attachment-display-field-reorderable",
+  "dependencies": [
+    "@karrotmarket/lynx-monochrome-icon",
+    "@seed-design/lynx-react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "attachment-display-field"
+      ]
+    },
+    {
+      "registryId": "lib",
+      "itemIds": [
+        "attachment-sortable"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "attachment-display-field-reorderable.tsx",
+      "content": "/**\n * @file ui:attachment-display-field-reorderable\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n * @requires @karrotmarket/lynx-monochrome-icon@>=1.20.0 <2.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport IconCameraFill from \"@karrotmarket/lynx-monochrome-icon/IconCameraFill\";\nimport { AttachmentDisplay as SeedAttachmentDisplay } from \"@seed-design/lynx-react\";\nimport {\n  AttachmentDisplayItem,\n  type AttachmentDisplayItemProps,\n  type AttachmentDisplayProps,\n} from \"./attachment-display-field\";\nimport { HorizontalReorderItem, HorizontalReorderList } from \"../lib/attachment-sortable\";\n\nconst LABEL_SELECT_FILE = \"파일 선택\";\nlet nextReorderInstanceId = 0;\n\ntype ReorderableContext = Parameters<NonNullable<AttachmentDisplayProps[\"children\"]>>[0];\n\nexport type AttachmentDisplayReorderableProps = {\n  onTriggerTap: AttachmentDisplayProps[\"onTriggerTap\"];\n  id?: string;\n  scrollEdgeOffset?: number;\n  onDragStateChange?: (dragging: boolean) => void;\n} & (\n  | { children: NonNullable<AttachmentDisplayProps[\"children\"]>; onRetry?: never }\n  | { children?: undefined; onRetry?: AttachmentDisplayProps[\"onRetry\"] }\n);\n\n/**\n * Horizontal native long-press reorder for AttachmentDisplay.\n *\n * The gesture only emits a reorder intent; AttachmentDisplay remains the\n * source of truth for entries and applies disabled/readOnly guards.\n *\n * @see https://seed-design.io/lynx/components/attachment-display-field\n */\nexport const AttachmentDisplayReorderable = React.forwardRef<\n  React.ComponentRef<typeof SeedAttachmentDisplay.Container>,\n  AttachmentDisplayReorderableProps\n>(({ onTriggerTap, children, onRetry, id, scrollEdgeOffset, onDragStateChange }, ref) => {\n  const [instanceId] = React.useState(() => nextReorderInstanceId++);\n  const boundaryId = id ? `${id}-container` : `attachment-display-reorder-container-${instanceId}`;\n  const reorderId = id ? `${id}-list` : `attachment-display-reorder-list-${instanceId}`;\n\n  return (\n    <SeedAttachmentDisplay.Context>\n      {(context: ReorderableContext) => (\n        <HorizontalReorderList\n          items={context.entries}\n          getItemKey={(entry) => entry.id}\n          disabled={context.disabled}\n          readOnly={context.readOnly}\n          id={reorderId}\n          scrollableBoundaryId={boundaryId}\n          scrollEdgeOffset={scrollEdgeOffset}\n          onReorder={context.reorderEntry}\n          onDragStateChange={onDragStateChange}\n        >\n          {({ onScroll, dragging }) => (\n            <SeedAttachmentDisplay.Container\n              ref={ref}\n              id={boundaryId}\n              main-thread:bindscroll={onScroll}\n              enable-scroll={!dragging}\n            >\n              <SeedAttachmentDisplay.Trigger\n                bindtap={() => {\n                  \"background only\";\n                  onTriggerTap({\n                    addEntries: context.addEntries,\n                    updateEntryStatus: context.updateEntryStatus,\n                  });\n                }}\n                accessibility-label={LABEL_SELECT_FILE}\n              >\n                <SeedAttachmentDisplay.TriggerIcon image={<IconCameraFill />} />\n                <SeedAttachmentDisplay.TriggerItemCount />\n              </SeedAttachmentDisplay.Trigger>\n              <SeedAttachmentDisplay.ItemGroup>\n                {typeof children === \"function\"\n                  ? children(context)\n                  : context.entries.map((entry, index) => (\n                      <SortableAttachmentDisplayItem\n                        key={entry.id}\n                        entry={entry}\n                        index={index}\n                        {...(onRetry\n                          ? {\n                              onRetry: () =>\n                                onRetry(entry, { updateEntryStatus: context.updateEntryStatus }),\n                            }\n                          : {})}\n                      />\n                    ))}\n              </SeedAttachmentDisplay.ItemGroup>\n            </SeedAttachmentDisplay.Container>\n          )}\n        </HorizontalReorderList>\n      )}\n    </SeedAttachmentDisplay.Context>\n  );\n});\nAttachmentDisplayReorderable.displayName = \"AttachmentDisplayReorderable\";\n\nexport type SortableAttachmentDisplayItemProps = AttachmentDisplayItemProps & {\n  index: number;\n};\n\nexport const SortableAttachmentDisplayItem = React.forwardRef<\n  React.ComponentRef<typeof AttachmentDisplayItem>,\n  SortableAttachmentDisplayItemProps\n>(({ index, entry, ...props }, ref) => (\n  <HorizontalReorderItem itemId={entry.id} index={index}>\n    {(dragging) => <AttachmentDisplayItem ref={ref} entry={entry} {...props} dragging={dragging} />}\n  </HorizontalReorderItem>\n));\nSortableAttachmentDisplayItem.displayName = \"SortableAttachmentDisplayItem\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+        "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+      }
+    }
+  ]
+}
