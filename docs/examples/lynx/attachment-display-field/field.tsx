@@ -29,9 +29,9 @@ export default function AttachmentDisplayFieldExample() {
           maxEntries={5}
           invalid={invalid}
           label="프로필 사진"
-          indicator="선택"
           description="최대 5장까지 첨부할 수 있어요"
           errorMessage="최소 1장은 첨부해야 해요"
+          required
           showRequiredIndicator
         >
           <AttachmentDisplay
