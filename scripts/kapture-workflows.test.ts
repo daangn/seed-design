@@ -24,7 +24,7 @@ interface Workflow {
   on: Record<string, { branches?: string[]; types?: string[]; workflows?: string[] }>;
   permissions: Record<string, string>;
   concurrency: { queue?: string; "cancel-in-progress": boolean };
-  jobs: Record<string, { if: string; steps: Step[] }>;
+  jobs: Record<string, { if: string; steps: Step[]; permissions?: Record<string, string> }>;
 }
 const workflows = Object.fromEntries(names.map((name) => [name, parse(sources[name])])) as Record<
   string,
@@ -60,7 +60,7 @@ describe("Kapture consumer workflows", () => {
       "${{ steps.cache.outputs.run-id }}",
     );
     expect(steps.find((s) => s.id === "restored-build")?.run).toBe(
-      "npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static",
+      "npx --yes @kaptures/cli@0.8.0 github validate-build --root . --directory docs/.kapture/storybook-static",
     );
     expect(steps.find((s) => s.id === "artifact")?.with["retention-days"]).toBe(1);
     expect(steps.filter((s) => s.with?.["retention-days"] === 7).length).toBe(1);
@@ -79,6 +79,39 @@ describe("Kapture consumer workflows", () => {
   test("removes the adoption-only preview job", () => {
     expect(workflows.capture.jobs.preview).toBeUndefined();
     expect(sources.capture).not.toContain("codex/kapture-shadow-experiment");
+  });
+
+  test("initial adoption captures only head and retains artifacts without publishing", () => {
+    expect(sources.capture).toContain(
+      "--allow-initial-adoption --adapter-package-json docs/package.json",
+    );
+    expect(workflows.capture.jobs["build-base"].if).toBe(
+      "needs.context.outputs.integration-mode == 'compare'",
+    );
+    expect(workflows.capture.jobs["build-head"].if).toContain(
+      "integration-mode == 'initial-adoption'",
+    );
+    const setup = workflows.capture.jobs["setup-capture"];
+    expect(setup.if).toBe("needs.context.outputs.integration-mode == 'initial-adoption'");
+    const capture = setup.steps.find((step) => step.id === "capture");
+    expect(capture?.run).toContain("setup capture");
+    expect(capture?.run).toContain("--locale ko-KR --timezone Asia/Seoul");
+    expect(capture?.run).not.toContain("--base-dir");
+    const artifact = setup.steps.find((step) => step.id === "artifact");
+    expect(artifact?.with.path).toContain("setup.json");
+    expect(artifact?.with.path).toContain("images/*.png");
+    expect(artifact?.with["retention-days"]).toBe(1);
+    expect(setup.steps.some((step) => step.run?.includes("GITHUB_STEP_SUMMARY"))).toBe(true);
+    expect(setup.steps.at(-1)?.run).toBe("exit 1");
+    expect(JSON.stringify(setup)).not.toMatch(/wrangler|publish-setup|publish-run|statuses: write/);
+    for (const job of ["publish", "finalize"]) {
+      expect(workflows.report.jobs[job].permissions?.contents).toBe("read");
+      expect(
+        workflows.report.jobs[job].steps.some((step) =>
+          step.run?.includes("--allow-initial-adoption --adapter-package-json docs/package.json"),
+        ),
+      ).toBe(true);
+    }
   });
 
   test("delegates production report trust and approval to the released CLI", () => {

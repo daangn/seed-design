@@ -60,7 +60,7 @@ jobs:
             dev|minor|major) ;;
             *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
           esac
-          npx --yes @kaptures/cli@0.7.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+          npx --yes @kaptures/cli@0.8.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         if: steps.context.outputs.integration-mode == 'compare'
@@ -127,7 +127,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: npx --yes @kaptures/cli@0.8.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         if: steps.restored-build.outcome != 'success'
       - name: Install project dependencies
@@ -145,7 +145,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: npx --yes @kaptures/cli@0.8.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -167,7 +167,7 @@ jobs:
           overwrite: true
   build-head:
     needs: context
-    if: needs.context.outputs.integration-mode == 'compare'
+    if: needs.context.outputs.integration-mode == 'compare' || needs.context.outputs.integration-mode == 'initial-adoption'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     outputs:
@@ -196,7 +196,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.7.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: npx --yes @kaptures/cli@0.8.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -206,6 +206,54 @@ jobs:
           include-hidden-files: true
           overwrite: true
           retention-days: 1
+  setup-capture:
+    needs: [context, build-head]
+    if: needs.context.outputs.integration-mode == 'initial-adoption'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      npm_config_registry: https://registry.npmjs.org/
+      npm_config_ignore_scripts: "true"
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - name: Install the project's pinned CJK font
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20230817+repack1-3
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          artifact-ids: ${{ needs.build-head.outputs.artifact-id }}
+          path: ${{ runner.temp }}/storybook
+      - id: capture
+        continue-on-error: true
+        run: >-
+          npx --yes @kaptures/cli@0.8.0 setup capture
+          --head-dir "${{ runner.temp }}/storybook"
+          --base-revision ${{ needs.context.outputs.base-sha }}
+          --head-revision ${{ needs.context.outputs.head-sha }}
+          --output "${{ runner.temp }}/setup-capture" --install-browser --browser-with-deps
+          --workers 4 --locale ko-KR --timezone Asia/Seoul
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        id: artifact
+        with:
+          name: kapture-setup-${{ needs.context.outputs.artifact-suffix }}
+          path: |
+            ${{ runner.temp }}/setup-capture/setup.json
+            ${{ runner.temp }}/setup-capture/images/*.png
+          if-no-files-found: error
+          retention-days: 1
+      - name: Link capture artifact
+        if: steps.artifact.outputs.artifact-url != ''
+        env:
+          KAPTURE_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: |
+          printf '\n[Download capture artifact](%s)\n' "$KAPTURE_ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"
+      - if: steps.capture.outcome != 'success'
+        run: exit 1
   capture:
     needs:
       - context
@@ -248,7 +296,7 @@ jobs:
           KAPTURE_BASE_ARTIFACT_DIGEST: ${{ needs.build-base.outputs.artifact-digest }}
           KAPTURE_HEAD_ARTIFACT_ID: ${{ needs.build-head.outputs.artifact-id }}
           KAPTURE_HEAD_ARTIFACT_DIGEST: ${{ needs.build-head.outputs.artifact-digest }}
-        run: npx --yes @kaptures/cli@0.7.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
+        run: npx --yes @kaptures/cli@0.8.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: kapture-visual-report-${{ needs.context.outputs.artifact-suffix }}
