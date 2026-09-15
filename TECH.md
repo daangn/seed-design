@@ -70,7 +70,7 @@
 | `docs/` | `bun docs:test` |
 | 전체 | `bun test:all` |
 
-`bun test:all`은 `test:unit`(루트 `bun test`에서 `packages/lynx-react`만 제외)과 `test:lynx-react`(typecheck + vitest)를 합친다. Rootage YAML을 수정하면 `bun rootage:test`가 validation과 Rootage 테스트를 함께 실행한다.
+`bun test:all`은 `test:unit`(루트 `bun test`에서 `**/lynx-react*/**` 제외)과 `test:lynx-react`(`@seed-design/lynx-react*` workspace의 typecheck + Vitest)를 합친다. Rootage YAML을 수정하면 `bun rootage:test`가 validation과 Rootage 테스트를 함께 실행한다.
 
 `bun rootage:test`의 validator는 미사용 schema property를 제거하며, `modelFixed`가 참이면 원본 YAML을 다시 쓴다. 실행 후에는 통과 여부와 별개로 `git diff`를 확인해 의도한 작업 트리 변경만 남았는지 검토한다.
 

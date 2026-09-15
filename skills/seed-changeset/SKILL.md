@@ -33,7 +33,7 @@ bun skills/seed-changeset/scripts/changeset-plan.ts --base-ref origin/dev
 
 [version-matrix.md](references/version-matrix.md)를 읽는다. 후보별 공개 export, 타입, prop, Recipe, 토큰, 렌더 결과, 접근성 동작을 직접 확인하고 `major`, `minor`, `patch`, `안함(제외)` 중 하나를 추천한다.
 
-표준 SemVer를 모든 패키지에 동일하게 적용한다. Lynx 패키지도 breaking은 `major`, 하위 호환 기능 추가는 `minor`, 버그 수정은 `patch`다.
+기본 SemVer 분류와 Lynx `0.x` 초기 개발 정책은 version matrix를 따른다. 새 Lynx 공개 패키지는 첫 `minor` changeset으로 `0.1.0`에서 시작하며, `1.0.0` 전환은 별도로 결정한다.
 
 역의존 패키지는 실제로 새 기능을 소비하거나 변경을 공개 표면에 노출할 때만 동반 bump 후보가 된다. 의존 관계가 있다는 사실만으로 동반 bump를 만들지 않는다. 이 판단은 changeset 범위를 정하기 위한 것이며 dependency range 편집을 허용하지 않는다.
 
