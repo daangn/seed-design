@@ -5556,6 +5556,7 @@ text {
   align-items: center;
   max-width: 160px;
   display: flex;
+  color: var(--seed-color-palette-gray-400);
 }
 
 .seed-content-placeholder__asset .seed-icon {
