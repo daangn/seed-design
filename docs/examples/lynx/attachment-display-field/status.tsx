@@ -26,10 +26,12 @@ function runFixtureUpload(
   id: string,
   updateEntryStatus: (id: string, details: AttachmentDisplayStatusDetails) => void,
 ) {
+  "background only";
+
   updateEntryStatus(id, { status: "uploading", progress: 0 });
-  updateEntryStatus(id, { status: "uploading", progress: 25 });
-  updateEntryStatus(id, { status: "uploading", progress: 60 });
-  updateEntryStatus(id, { status: "success" });
+  setTimeout(() => updateEntryStatus(id, { status: "uploading", progress: 25 }), 250);
+  setTimeout(() => updateEntryStatus(id, { status: "uploading", progress: 60 }), 500);
+  setTimeout(() => updateEntryStatus(id, { status: "success" }), 750);
 }
 
 export default function AttachmentDisplayStatus() {
