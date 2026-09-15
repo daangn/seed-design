@@ -32,6 +32,7 @@ const contentPlaceholder = defineSlotRecipe({
       minWidth: vars.base.enabled.asset.minWidth,
       maxWidth: vars.base.enabled.asset.maxWidth,
       aspectRatio: "1 / 1",
+      color: vars.base.enabled.asset.color,
       "& .seed-icon": {
         width: "100%",
         height: "100%",

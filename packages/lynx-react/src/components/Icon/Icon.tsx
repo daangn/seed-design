@@ -110,7 +110,7 @@ export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
   return ((node.type as IconSlotComponent)[iconSlotMarker] ?? null) as IconSlotName | null;
 }
 
-function isMulticolorIcon(node: React.ReactNode): boolean {
+export function isMulticolorIcon(node: React.ReactNode): boolean {
   if (!isValidElement(node)) return false;
   if (node.type == null || (typeof node.type !== "function" && typeof node.type !== "object")) {
     return false;
