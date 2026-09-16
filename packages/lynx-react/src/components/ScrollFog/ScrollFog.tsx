@@ -1,3 +1,4 @@
+import { scrollFog } from "@seed-design/lynx-css/recipes/scroll-fog";
 import { scrollFog as scrollFogVars } from "@seed-design/lynx-css/vars/component";
 import * as React from "@lynx-js/react";
 import type {
@@ -6,7 +7,8 @@ import type {
   ReactNode,
   RefAttributes,
 } from "@lynx-js/react";
-import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import clsx from "clsx";
 
 type NativeViewProps = Omit<IntrinsicElements["view"], `main-thread:${string}`>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -22,67 +24,33 @@ type SizesConfig = {
   right?: number;
 };
 
-const DIRECTIONS: Record<ScrollFogPlacement, string> = {
-  top: "to bottom",
-  bottom: "to top",
-  left: "to right",
-  right: "to left",
-};
-
-const OPAQUE_MASK = "linear-gradient(#000000ff, #000000ff)";
 const DEFAULT_SIZE = scrollFogVars.base.enabled.root.size;
-const FILL_STYLE = { width: "100%", height: "100%" } as const;
 
 function normalizeSize(size: number | string): string {
   return typeof size === "number" ? `${size}px` : size;
 }
 
-function buildGradient(direction: string): string {
-  const stops = scrollFogVars.base.enabled.root.gradient.stops
-    .map(({ color, position }) => `${color} ${Number((position * 100).toFixed(6))}%`)
-    .join(", ");
+function createRootStyle(
+  style: NativeViewProps["style"],
+  sizes: Record<ScrollFogPlacement, string>,
+): NativeViewProps["style"] {
+  const variables = {
+    "--scroll-fog-size-top": sizes.top,
+    "--scroll-fog-size-bottom": sizes.bottom,
+    "--scroll-fog-size-left": sizes.left,
+    "--scroll-fog-size-right": sizes.right,
+  };
 
-  return `linear-gradient(${direction}, ${stops})`;
-}
+  if (typeof style === "string") {
+    const variableStyle = Object.entries(variables)
+      .map(([property, value]) => `${property}: ${value}`)
+      .join("; ");
 
-function createMaskStyle(edge: ScrollFogPlacement, enabled: boolean, size: string): CSSProperties {
-  if (!enabled) {
-    return {
-      ...FILL_STYLE,
-      maskImage: OPAQUE_MASK,
-      maskPosition: "top left",
-      maskRepeat: "no-repeat",
-      maskSize: "100% 100%",
-      pointerEvents: "none",
-    };
+    return `${style}; ${variableStyle}`;
   }
 
-  const isVertical = edge === "top" || edge === "bottom";
-  const gradientPosition = edge;
-  const opaquePosition =
-    edge === "top" ? "bottom" : edge === "bottom" ? "top" : edge === "left" ? "right" : "left";
-
-  return {
-    ...FILL_STYLE,
-    maskImage: `${buildGradient(DIRECTIONS[edge])}, ${OPAQUE_MASK}`,
-    maskPosition: `${gradientPosition}, ${opaquePosition}`,
-    maskRepeat: "no-repeat",
-    maskSize: isVertical
-      ? `100% ${size}, 100% calc(100% - ${size})`
-      : `${size} 100%, calc(100% - ${size}) 100%`,
-    pointerEvents: "none",
-  };
+  return { ...style, ...variables } as NativeViewProps["style"];
 }
-
-const VERTICAL_SCROLL_VIEW_STYLE: CSSProperties = {
-  ...FILL_STYLE,
-  pointerEvents: "auto",
-};
-
-const HORIZONTAL_SCROLL_VIEW_STYLE: CSSProperties = {
-  width: "100%",
-  pointerEvents: "auto",
-};
 
 /**
  * @platform Lynx
@@ -132,46 +100,72 @@ export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = Reac
   const leftSize = sizes?.left ? normalizeSize(sizes.left) : normalizedSize;
   const rightSize = sizes?.right ? normalizeSize(sizes.right) : normalizedSize;
   const scrollBarEnabled = !hideScrollBar;
+  const classNames = scrollFog({
+    top: placement.includes("top"),
+    bottom: placement.includes("bottom"),
+    left: placement.includes("left"),
+    right: placement.includes("right"),
+  });
+  let content: ReactNode = (
+    <scroll-view
+      enable-nested-scroll
+      scroll-bar-enable={scrollBarEnabled}
+      scroll-orientation="vertical"
+      className={classNames.verticalScroll}
+    >
+      <scroll-view
+        enable-nested-scroll
+        scroll-bar-enable={scrollBarEnabled}
+        scroll-orientation="horizontal"
+        className={classNames.horizontalScroll}
+      >
+        {children}
+      </scroll-view>
+    </scroll-view>
+  );
+
+  if (placement.includes("right")) {
+    content = (
+      <view flatten={false} className={classNames.rightMask}>
+        {content}
+      </view>
+    );
+  }
+  if (placement.includes("left")) {
+    content = (
+      <view flatten={false} className={classNames.leftMask}>
+        {content}
+      </view>
+    );
+  }
+  if (placement.includes("bottom")) {
+    content = (
+      <view flatten={false} className={classNames.bottomMask}>
+        {content}
+      </view>
+    );
+  }
+  if (placement.includes("top")) {
+    content = (
+      <view flatten={false} className={classNames.topMask}>
+        {content}
+      </view>
+    );
+  }
 
   return (
     <view
       {...(forwardedRef ? ({ ref: forwardedRef } as Record<string, unknown>) : {})}
       {...rootProps}
-      className={className}
-      style={style}
+      className={clsx(classNames.root, className)}
+      style={createRootStyle(style, {
+        top: topSize,
+        bottom: bottomSize,
+        left: leftSize,
+        right: rightSize,
+      })}
     >
-      <view flatten={false} style={createMaskStyle("top", placement.includes("top"), topSize)}>
-        <view
-          flatten={false}
-          style={createMaskStyle("bottom", placement.includes("bottom"), bottomSize)}
-        >
-          <view
-            flatten={false}
-            style={createMaskStyle("left", placement.includes("left"), leftSize)}
-          >
-            <view
-              flatten={false}
-              style={createMaskStyle("right", placement.includes("right"), rightSize)}
-            >
-              <scroll-view
-                enable-nested-scroll
-                scroll-bar-enable={scrollBarEnabled}
-                scroll-orientation="vertical"
-                style={VERTICAL_SCROLL_VIEW_STYLE}
-              >
-                <scroll-view
-                  enable-nested-scroll
-                  scroll-bar-enable={scrollBarEnabled}
-                  scroll-orientation="horizontal"
-                  style={HORIZONTAL_SCROLL_VIEW_STYLE}
-                >
-                  {children}
-                </scroll-view>
-              </scroll-view>
-            </view>
-          </view>
-        </view>
-      </view>
+      {content}
     </view>
   );
 });

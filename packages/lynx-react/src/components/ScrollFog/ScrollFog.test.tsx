@@ -8,89 +8,7 @@ import { ScrollFog, type ScrollFogProps } from "./ScrollFog";
 
 type Edge = "top" | "bottom" | "left" | "right";
 
-const ROOTAGE_STOPS = [
-  { color: "#00000000", position: 0 },
-  { color: "#00000003", position: 0.08 },
-  { color: "#00000005", position: 0.16 },
-  { color: "#0000000d", position: 0.22 },
-  { color: "#00000014", position: 0.29 },
-  { color: "#00000021", position: 0.35 },
-  { color: "#0000002e", position: 0.41 },
-  { color: "#00000040", position: 0.47 },
-  { color: "#00000052", position: 0.53 },
-  { color: "#00000066", position: 0.59 },
-  { color: "#0000007a", position: 0.65 },
-  { color: "#00000094", position: 0.71 },
-  { color: "#000000ab", position: 0.78 },
-  { color: "#000000c7", position: 0.84 },
-  { color: "#000000e3", position: 0.92 },
-  { color: "#000000ff", position: 1 },
-] as const;
-
-const DIRECTIONS: Record<Edge, string> = {
-  top: "to bottom",
-  bottom: "to top",
-  left: "to right",
-  right: "to left",
-};
-
-const OPAQUE_MASK = "linear-gradient(#000000ff, #000000ff)";
-
-function buildExpectedGradient(edge: Edge) {
-  const stops = ROOTAGE_STOPS.map(
-    ({ color, position }) => `${color} ${Number((position * 100).toFixed(6))}%`,
-  ).join(", ");
-
-  return `linear-gradient(${DIRECTIONS[edge]}, ${stops})`;
-}
-
-function normalizeMaskImage(container: HTMLElement, value: string): string {
-  const element = container.ownerDocument.createElement("view");
-  element.style.maskImage = value;
-  return element.style.maskImage;
-}
-
-function expectedMaskSize(edge: Edge, size: string) {
-  return edge === "top" || edge === "bottom"
-    ? `100% ${size}, 100% calc(100% - ${size})`
-    : `${size} 100%, calc(100% - ${size}) 100%`;
-}
-
-function renderWithMaskSizeAssignments(ui: Parameters<typeof render>[0]) {
-  const stylePrototype = Object.getPrototypeOf(
-    document.documentElement.style,
-  ) as CSSStyleDeclaration;
-  const maskSizeSetter = vi.spyOn(stylePrototype, "maskSize", "set");
-
-  try {
-    const result = render(ui);
-    const maskSizes = maskSizeSetter.mock.calls.map(([value]) => value);
-    return { ...result, maskSizes };
-  } finally {
-    maskSizeSetter.mockRestore();
-  }
-}
-
-function expectEnabledMask(container: HTMLElement, edge: Edge) {
-  const mask = getMask(container, edge);
-  const opaquePosition =
-    edge === "top" ? "bottom" : edge === "bottom" ? "top" : edge === "left" ? "right" : "left";
-
-  expect(mask.style.maskImage).toBe(
-    normalizeMaskImage(container, `${buildExpectedGradient(edge)}, ${OPAQUE_MASK}`),
-  );
-  expect(mask.style.maskPosition).toBe(`${edge}, ${opaquePosition}`);
-  expect(mask.style.maskRepeat).toBe("no-repeat");
-}
-
-function expectOpaqueMask(container: HTMLElement, edge: Edge) {
-  const mask = getMask(container, edge);
-
-  expect(mask.style.maskImage).toBe(normalizeMaskImage(container, OPAQUE_MASK));
-  expect(mask.style.maskPosition).toBe("top left");
-  expect(mask.style.maskRepeat).toBe("no-repeat");
-  expect(mask.style.maskSize).toBe("100% 100%");
-}
+const EDGES: Edge[] = ["top", "bottom", "left", "right"];
 
 function getRoot(container: HTMLElement): HTMLElement {
   const root = container.firstElementChild;
@@ -101,20 +19,30 @@ function getRoot(container: HTMLElement): HTMLElement {
 }
 
 function getMask(container: HTMLElement, edge: Edge): HTMLElement {
-  const index = (Object.keys(DIRECTIONS) as Edge[]).indexOf(edge);
-  const mask = container.querySelectorAll("view").item(index + 1);
+  const mask = container.querySelector<HTMLElement>(`.seed-scroll-fog__${edge}Mask`);
   if (!mask) {
     throw new Error(`${edge} mask view가 렌더되어야 합니다.`);
   }
-  return mask as unknown as HTMLElement;
+  return mask;
+}
+
+function getMasks(container: HTMLElement): HTMLElement[] {
+  return Array.from(
+    container.querySelectorAll<HTMLElement>('[class*="seed-scroll-fog__"][class*="Mask"]'),
+  );
 }
 
 function getScrollViews(container: HTMLElement): [HTMLElement, HTMLElement] {
-  const scrollViews = Array.from(container.querySelectorAll("scroll-view"));
-  if (scrollViews.length !== 2) {
+  const vertical = container.querySelector<HTMLElement>(".seed-scroll-fog__verticalScroll");
+  const horizontal = container.querySelector<HTMLElement>(".seed-scroll-fog__horizontalScroll");
+  if (!vertical || !horizontal) {
     throw new Error("vertical 및 horizontal scroll-view가 렌더되어야 합니다.");
   }
-  return scrollViews as [HTMLElement, HTMLElement];
+  return [vertical, horizontal];
+}
+
+function expectEdgeVariant(container: HTMLElement, edge: Edge, enabled: boolean): void {
+  expect(getMask(container, edge)).toHaveClass(`seed-scroll-fog__${edge}Mask--${edge}_${enabled}`);
 }
 
 describe("ScrollFog", () => {
@@ -130,104 +58,95 @@ describe("ScrollFog", () => {
     expectTypeOf<ScrollFogProps>().toHaveProperty("bindtap");
   });
 
-  it("renders the default top and bottom Rootage masks with a 20px size", () => {
-    const { container, maskSizes } = renderWithMaskSizeAssignments(<ScrollFog />);
-
-    expectEnabledMask(container, "top");
-    expectEnabledMask(container, "bottom");
-    expectOpaqueMask(container, "left");
-    expectOpaqueMask(container, "right");
-    expect(maskSizes).toEqual([
-      expectedMaskSize("top", "20px"),
-      expectedMaskSize("bottom", "20px"),
-      "100% 100%",
-      "100% 100%",
-    ]);
-  });
-
-  it("supports arbitrary and four-direction placements", () => {
-    const arbitrary = renderWithMaskSizeAssignments(<ScrollFog placement={["bottom", "left"]} />);
-
-    expectOpaqueMask(arbitrary.container, "top");
-    expectEnabledMask(arbitrary.container, "bottom");
-    expectEnabledMask(arbitrary.container, "left");
-    expectOpaqueMask(arbitrary.container, "right");
-    expect(arbitrary.maskSizes).toEqual([
-      "100% 100%",
-      expectedMaskSize("bottom", "20px"),
-      expectedMaskSize("left", "20px"),
-      "100% 100%",
-    ]);
-    arbitrary.unmount();
-
-    const allDirections = renderWithMaskSizeAssignments(
-      <ScrollFog placement={["top", "bottom", "left", "right"]} />,
-    );
-    for (const edge of Object.keys(DIRECTIONS) as Edge[]) {
-      expectEnabledMask(allDirections.container, edge);
-    }
-    expect(allDirections.maskSizes).toEqual(
-      (Object.keys(DIRECTIONS) as Edge[]).map((edge) => expectedMaskSize(edge, "20px")),
-    );
-  });
-
-  it("converts numeric sizes to px and preserves string sizes", () => {
-    const numeric = renderWithMaskSizeAssignments(<ScrollFog placement={["top"]} size={32} />);
-    expectEnabledMask(numeric.container, "top");
-    expect(numeric.maskSizes[0]).toBe(expectedMaskSize("top", "32px"));
-    numeric.unmount();
-
-    const string = renderWithMaskSizeAssignments(<ScrollFog placement={["top"]} size="1.5rem" />);
-    expectEnabledMask(string.container, "top");
-    expect(string.maskSizes[0]).toBe(expectedMaskSize("top", "1.5rem"));
-  });
-
-  it("applies edge size overrides and falls back to the global size for zero", () => {
-    const { container, maskSizes } = renderWithMaskSizeAssignments(
-      <ScrollFog
-        placement={["top", "bottom", "left", "right"]}
-        size={40}
-        sizes={{ top: 12, left: 0 }}
-      />,
-    );
-
-    expectEnabledMask(container, "top");
-    expectEnabledMask(container, "bottom");
-    expectEnabledMask(container, "left");
-    expectEnabledMask(container, "right");
-    expect(maskSizes).toEqual([
-      expectedMaskSize("top", "12px"),
-      expectedMaskSize("bottom", "40px"),
-      expectedMaskSize("left", "40px"),
-      expectedMaskSize("right", "40px"),
-    ]);
-  });
-
-  it("keeps mask layers out of hit testing and both scroll axes interactive", () => {
+  it("renders the default mask and scroll slots without internal inline styles", () => {
     const { container } = render(<ScrollFog />);
-    const masks = (Object.keys(DIRECTIONS) as Edge[]).map((edge) => getMask(container, edge));
+    const root = getRoot(container);
     const [vertical, horizontal] = getScrollViews(container);
 
-    expect(masks).toHaveLength(4);
-    for (const mask of masks) {
-      expect(mask).toHaveStyle({ pointerEvents: "none" });
-    }
-    expect(vertical).toHaveStyle({ pointerEvents: "auto" });
-    expect(horizontal).toHaveStyle({ pointerEvents: "auto" });
-    expect(vertical).toHaveStyle({ width: "100%", height: "100%" });
-    expect(horizontal).toHaveStyle({ width: "100%" });
-    expect(horizontal).not.toHaveStyle({ height: "100%" });
-    expect(vertical).toHaveAttribute("scroll-orientation", "vertical");
-    expect(horizontal).toHaveAttribute("scroll-orientation", "horizontal");
+    expect(root).toHaveClass("seed-scroll-fog__root", "seed-scroll-fog__root--top_true");
+    expect(root).toHaveClass("seed-scroll-fog__root--bottom_true");
+    expectEdgeVariant(container, "top", true);
+    expectEdgeVariant(container, "bottom", true);
+    expect(getMasks(container)).toHaveLength(2);
     expect(vertical).toContainElement(horizontal);
+
+    for (const element of root.querySelectorAll("view, scroll-view")) {
+      expect(element).not.toHaveAttribute("style");
+    }
   });
 
-  it("shows or hides both native scrollbars", () => {
+  it("renders only the selected masks for an arbitrary placement", () => {
+    const { container } = render(<ScrollFog placement={["bottom", "left"]} />);
+
+    expectEdgeVariant(container, "bottom", true);
+    expectEdgeVariant(container, "left", true);
+    expect(container.querySelector(".seed-scroll-fog__topMask")).not.toBeInTheDocument();
+    expect(container.querySelector(".seed-scroll-fog__rightMask")).not.toBeInTheDocument();
+    expect(getMasks(container)).toHaveLength(2);
+  });
+
+  it("sets inherited edge-size variables and keeps the truthy zero fallback", () => {
+    const { container } = render(
+      <ScrollFog size="1.5rem" sizes={{ top: 12, bottom: 0, left: 32, right: 0 }} />,
+    );
+    const rootStyle = getRoot(container).style as CSSStyleDeclaration &
+      Record<`--${string}`, string>;
+
+    expect(rootStyle["--scroll-fog-size-top"]).toBe("12px");
+    expect(rootStyle["--scroll-fog-size-bottom"]).toBe("1.5rem");
+    expect(rootStyle["--scroll-fog-size-left"]).toBe("32px");
+    expect(rootStyle["--scroll-fog-size-right"]).toBe("1.5rem");
+  });
+
+  it("keeps computed sizes ahead of conflicting object styles", () => {
+    const { container } = render(
+      <ScrollFog
+        size="24px"
+        sizes={{ top: 12 }}
+        style={
+          {
+            "--scroll-fog-size-top": "99px",
+            "--scroll-fog-size-bottom": "88px",
+            height: "100px",
+          } as ScrollFogProps["style"]
+        }
+      />,
+    );
+    const rootStyle = getRoot(container).style as CSSStyleDeclaration &
+      Record<`--${string}`, string>;
+
+    expect(rootStyle["--scroll-fog-size-top"]).toBe("12px");
+    expect(rootStyle["--scroll-fog-size-bottom"]).toBe("24px");
+    expect(rootStyle.height).toBe("100px");
+  });
+
+  it("keeps computed sizes ahead of conflicting string styles", () => {
+    const { container } = render(
+      <ScrollFog
+        size="2rem"
+        sizes={{ right: 32 }}
+        style="--scroll-fog-size-left: 77px; --scroll-fog-size-right: 66px; width: 80px"
+      />,
+    );
+    const rootStyle = getRoot(container).style as CSSStyleDeclaration &
+      Record<`--${string}`, string>;
+
+    expect(rootStyle.getPropertyValue("--scroll-fog-size-left")).toBe("2rem");
+    expect(rootStyle.getPropertyValue("--scroll-fog-size-right")).toBe("32px");
+    expect(rootStyle.width).toBe("80px");
+  });
+
+  it("keeps two nested scroll axes and controls both native scrollbars", () => {
     const visible = render(<ScrollFog />);
-    for (const scrollView of getScrollViews(visible.container)) {
-      expect(scrollView).toHaveAttribute("scroll-bar-enable", "true");
-      expect(scrollView).not.toHaveAttribute("fading-edge-length");
-    }
+    const [visibleVertical, visibleHorizontal] = getScrollViews(visible.container);
+
+    expect(visibleVertical).toHaveAttribute("scroll-orientation", "vertical");
+    expect(visibleHorizontal).toHaveAttribute("scroll-orientation", "horizontal");
+    expect(visibleVertical).toHaveAttribute("enable-nested-scroll", "true");
+    expect(visibleHorizontal).toHaveAttribute("enable-nested-scroll", "true");
+    expect(visibleVertical).toHaveAttribute("scroll-bar-enable", "true");
+    expect(visibleHorizontal).toHaveAttribute("scroll-bar-enable", "true");
+    expect(visibleVertical).toContainElement(visibleHorizontal);
     visible.unmount();
 
     const hidden = render(<ScrollFog hideScrollBar />);
@@ -236,7 +155,7 @@ describe("ScrollFog", () => {
     }
   });
 
-  it("forwards class, style, allowed view props, events, and ref to the root view", () => {
+  it("forwards root props, merges class and style, and keeps children and ref on the root", () => {
     const bindtap = vi.fn();
     const rootRef = createRef<NodesRef>();
     const { container } = render(
@@ -255,7 +174,7 @@ describe("ScrollFog", () => {
     const root = getRoot(container);
     expect(root).toHaveAttribute("id", "scroll-fog");
     expect(root).toHaveAttribute("accessibility-label", "Scrollable content");
-    expect(root).toHaveClass("custom-scroll");
+    expect(root).toHaveClass("seed-scroll-fog__root", "custom-scroll");
     expect(root).toHaveStyle({ height: "100px" });
     expect(root.querySelector("text")?.textContent).toBe("Content");
     expect(root.querySelector("scroll-view")).not.toHaveAttribute("id");
@@ -271,5 +190,33 @@ describe("ScrollFog", () => {
 
     fireEvent.tap(root);
     expect(bindtap).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders all four masks in canonical order regardless of placement order", () => {
+    const { container } = render(<ScrollFog placement={["right", "left", "bottom", "top"]} />);
+
+    for (const edge of EDGES) {
+      expectEdgeVariant(container, edge, true);
+    }
+    expect(getMasks(container).map(({ classList }) => classList.item(0))).toEqual(
+      EDGES.map((edge) => `seed-scroll-fog__${edge}Mask`),
+    );
+  });
+
+  it("renders one mask for a single edge", () => {
+    const { container } = render(<ScrollFog placement={["right"]} />);
+
+    expectEdgeVariant(container, "right", true);
+    expect(getMasks(container)).toHaveLength(1);
+  });
+
+  it("renders the scroll views without a mask wrapper for an empty placement", () => {
+    const { container } = render(<ScrollFog placement={[]} />);
+    const root = getRoot(container);
+    const [vertical, horizontal] = getScrollViews(container);
+
+    expect(getMasks(container)).toHaveLength(0);
+    expect(root.firstElementChild).toBe(vertical);
+    expect(vertical).toContainElement(horizontal);
   });
 });
