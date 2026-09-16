@@ -1,0 +1,51 @@
+.docs-lynx-slider-root {
+  width: 100%;
+  height: 100%;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.slider-preview {
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.slider-basic {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.slider-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.slider-preview__actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.slider-preview__button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--seed-color-bg-neutral-weak);
+  color: var(--seed-color-fg-neutral);
+}

@@ -5,12 +5,19 @@ import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
+import helpBubble from "./recipes/help-bubble";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
+import chipTabs from "./recipes/chip-tabs";
+import contextualFloatingButton from "./recipes/contextual-floating-button";
+import contentDialog from "./recipes/content-dialog";
+import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
+import floatingActionButton from "./recipes/floating-action-button";
+import identityPlaceholder from "./recipes/identity-placeholder";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
@@ -27,12 +34,20 @@ import radiomark from "./recipes/radiomark";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
+import { select, selectItem, selectTrigger } from "./recipes/select";
+import skeleton from "./recipes/skeleton";
+import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import reactionButton from "./recipes/reaction-button";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 import tabs from "./recipes/tabs";
 import textInput from "./recipes/text-input";
+import {
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
+} from "./recipes/attachment-input";
 
 /**
  * Recipes used by the Lynx preset build.
@@ -44,14 +59,24 @@ export const recipes = {
   appBarMain,
   badge,
   bottomSheet,
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
   bottomSheetHandle,
   callout,
+  helpBubble,
   checkbox,
   checkboxGroup,
   checkmark,
   chip,
+  chipTabs,
+  contextualFloatingButton,
+  contentDialog,
+  dialog,
   field,
   fieldLabel,
+  floatingActionButton,
+  identityPlaceholder,
   mannerTemp,
   mannerTempBadge,
   menu,
@@ -70,9 +95,16 @@ export const recipes = {
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,
+  select,
+  selectItem,
+  selectTrigger,
+  slider,
+  sliderMarker,
+  sliderTick,
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
+  skeleton,
   switch: switchRecipe,
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,

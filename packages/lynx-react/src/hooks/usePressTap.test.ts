@@ -60,8 +60,8 @@ describe("usePressTap", () => {
       expect(onTap).toHaveBeenCalledTimes(1);
     });
 
-    it("clears pressed when bindtap fires before touchend", () => {
-      const { result } = renderHook(() => usePressTap({ onTap: vi.fn() }));
+    it("clears pressed on tap without requiring a callback", () => {
+      const { result } = renderHook(() => usePressTap());
 
       act(() => {
         result.current.bindtouchstart(fakeEvent);
@@ -72,19 +72,31 @@ describe("usePressTap", () => {
 
       expect(result.current.pressed).toBe(false);
     });
-
-    it("can be omitted without error", () => {
-      const { result } = renderHook(() => usePressTap());
-
-      expect(() => {
-        act(() => {
-          result.current.bindtap(fakeEvent);
-        });
-      }).not.toThrow();
-    });
   });
 
   describe("disabled", () => {
+    it("clears an active press without restoring it when re-enabled", () => {
+      const { result, rerender } = renderHook(({ disabled }) => usePressTap({ disabled }), {
+        initialProps: { disabled: false },
+      });
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+
+      rerender({ disabled: true });
+      expect(result.current.pressed).toBe(false);
+
+      rerender({ disabled: false });
+      expect(result.current.pressed).toBe(false);
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+    });
+
     it("does not update pressed on bindtouchstart", () => {
       const { result } = renderHook(() => usePressTap({ disabled: true }));
 
