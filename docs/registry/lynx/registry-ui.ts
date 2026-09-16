@@ -30,6 +30,11 @@ const attachmentPackageRanges = {
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const quantityPickerPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
 
 const floatingActionButtonPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
@@ -282,6 +287,15 @@ export const registryUI: Registry = {
             "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
             "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
           },
+        },
+      ],
+    },
+    {
+      id: "quantity-picker",
+      snippets: [
+        {
+          path: "quantity-picker.tsx",
+          dependencies: quantityPickerPackageRanges,
         },
       ],
     },
