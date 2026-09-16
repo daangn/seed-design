@@ -228,16 +228,22 @@ export function useNavigationMenuRoot(
   const group = useNextDelayGroup(context);
   const useGroupDelay = group.hasProvider && openDelay === undefined && closeDelay === undefined;
 
+  // Key the effect below on the reactive `context.elements`, not `refs.*`: the ref objects'
+  // identity never changes, so an effect keyed on them would not re-run as each element attaches.
+  const referenceElement = context.elements.reference;
+  const floatingElement = context.elements.floating;
+
+  // `context.update` rather than `context`: floating-ui rebuilds the context object on every
+  // position commit, so depending on it would tear autoUpdate's scroll listeners and observers
+  // down and rebuild them on every scroll frame. `update` keeps its identity across those commits.
+  const { update } = context;
+
   useEffect(() => {
     if (!mounted) return;
-    if (!floatingRefs.reference.current || !floatingRefs.floating.current) return;
+    if (!referenceElement || !floatingElement) return;
 
-    return autoUpdate(
-      floatingRefs.reference.current,
-      floatingRefs.floating.current,
-      context.update,
-    );
-  }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
+    return autoUpdate(referenceElement, floatingElement, update);
+  }, [mounted, referenceElement, floatingElement, update]);
 
   // Hover is gated to mouse pointers (`mouseOnly`) so touch falls back to the
   // click interaction. `safePolygon` keeps the flyout open while the pointer
