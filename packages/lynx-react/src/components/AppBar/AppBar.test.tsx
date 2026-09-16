@@ -1,4 +1,7 @@
 import "@testing-library/jest-dom";
+import * as React from "@lynx-js/react";
+import type { MainThread } from "@lynx-js/types";
+import type { LynxIconElementProps } from "../../types";
 import {
   act,
   fireEvent,
@@ -9,6 +12,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import * as AppBar from "./AppBar.namespace";
+import { Icon } from "../Icon/Icon";
 
 type TestSystemInfo = { platform?: string };
 
@@ -266,5 +270,27 @@ describe("AppBar", () => {
     await waitFor(() => {
       expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
     });
+  });
+});
+
+describe("AppBar icon recipe ownership", () => {
+  const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
+    <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />
+  ));
+  it.each(["prop", "children"])("connects the %s icon without fallback styles", (mode) => {
+    const icon = <TestIcon />;
+    const { container } = render(
+      <AppBar.Root theme="cupertino">
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Close" {...(mode === "prop" ? { icon } : {})}>
+            {mode === "children" ? <Icon icon={icon} /> : null}
+          </AppBar.IconButton>
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    const wrapper = container.querySelector(".seed-app-bar__icon")!;
+    expect(wrapper).not.toBeNull();
+    expect(wrapper.classList.contains("seed-icon-slot")).toBe(true);
+    expect(wrapper.classList.contains("seed-icon")).toBe(false);
   });
 });

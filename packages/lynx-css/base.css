@@ -2,7 +2,7 @@ text {
   background-color: var(--seed-color-bg-transparent);
 }
 
-.seed-icon, .seed-prefix-icon, .seed-suffix-icon {
+.seed-icon, .seed-prefix-icon, .seed-suffix-icon, .seed-icon-slot, .seed-prefix-icon-slot, .seed-suffix-icon-slot {
   flex-shrink: 0;
   justify-content: center;
   align-items: center;

@@ -69,7 +69,7 @@ describe("ReactionButton", () => {
     const queries = getQueriesForElement(getRenderedRoot());
 
     expect(root).toHaveClass("seed-reaction-button__root--size_small");
-    expect(root.querySelector(".seed-prefix-icon")).toHaveClass("seed-reaction-button__prefixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-reaction-button__prefixIcon");
     expect(queries.getByText("좋아요")).toHaveClass("seed-reaction-button__label");
     expect(queries.getByText("12")).toHaveClass("seed-count", "seed-reaction-button__count");
 

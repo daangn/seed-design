@@ -17,6 +17,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
+import { IconSlotProvider } from "../Icon/Icon";
 import { AppBarProvider, useAppBarContext } from "./context";
 import { getLayoutWidth, getMainLayoutStyle, useAppBar } from "./useAppBar";
 import { mergeProps } from "../../utils/merge-props";
@@ -263,7 +264,9 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
       accessibility-traits={accessibilityTraits}
       className={clsx(classNames.iconButton, className)}
     >
-      {icon ? <Icon className={classNames.icon} icon={icon} /> : children}
+      <IconSlotProvider value={{ classNames: { icon: classNames.icon }, deps: [classNames.icon] }}>
+        {icon ? <Icon icon={icon} /> : children}
+      </IconSlotProvider>
     </view>
   );
 });
