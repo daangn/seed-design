@@ -50,7 +50,11 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 
 가로 스크롤 영역도 `bleedX`와 `pl`, `pr`에 `"safeArea"`를 지정해 화면 끝까지 넓힙니다. 스크롤하기 전에는 첫 항목이 safe area 경계에서 화면 여백만큼 떨어져 시작하고, 끝까지 스크롤하면 마지막 항목 뒤에도 inset과 화면 여백이 남습니다.
 
-스크롤 컨테이너는 flex 컨테이너(`display="flex"`)로 두세요. WebKit은 block 스크롤 컨테이너의 끝쪽 padding을 스크롤 범위에 넣지 않아서, 끝까지 스크롤하면 마지막 항목이 오른쪽 inset 영역에 걸립니다.
+<Callout type="warning">
+
+가로 스크롤 컨테이너는 flex 컨테이너(`display="flex"`)로 두세요. iOS 26.4 미만의 WebKit은 block 컨테이너 안에서 block 레벨 요소가 가로로 넘치면, 컨테이너의 끝쪽 padding을 스크롤 범위에 넣지 않습니다. 이때는 `pr="safeArea"`로 지정한 inset이 스크롤 범위에서 빠져서, 끝까지 스크롤해도 마지막 항목이 오른쪽 inset 영역에 걸립니다.
+
+</Callout>
 
 `ChipTabsList`처럼 스크롤 영역이 화면 여백을 padding으로 직접 가지는 컴포넌트에는, 화면 여백과 inset을 더한 값을 padding으로 지정합니다. inset 값은 아래의 [CSS 변수](#css-변수)로 가져옵니다.
 
