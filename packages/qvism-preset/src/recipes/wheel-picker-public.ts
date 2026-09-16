@@ -95,6 +95,7 @@ const wheelPickerPublic = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       color: `var(${WHEEL_PICKER_PUBLIC_CUSTOM_PROPERTIES.itemColor})`,
+      outlineColor: "transparent",
       scrollSnapAlign: "center",
       userSelect: "none",
       "&[data-wheel-picker-indicator-overlap]": {
