@@ -24,6 +24,7 @@ import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import pageBanner from "./recipes/page-banner";
+import quantityPicker from "./recipes/quantity-picker";
 import inputButton from "./recipes/input-button";
 import list from "./recipes/list";
 import listHeader from "./recipes/list-header";
@@ -84,6 +85,7 @@ export const recipes = {
   menuItem,
   menuSheet,
   menuSheetItem,
+  quantityPicker,
   pageBanner,
   inputButton,
   list,

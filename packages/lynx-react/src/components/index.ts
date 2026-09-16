@@ -27,6 +27,7 @@ export * from "./NotificationBadge";
 export * from "./PageBanner";
 export * from "./List";
 export * from "./ProgressCircle";
+export * from "./QuantityPicker";
 export * from "./RadioGroup";
 export * from "./ReactionButton";
 export * from "./ScaleFeedback";
