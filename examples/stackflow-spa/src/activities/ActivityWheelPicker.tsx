@@ -29,6 +29,9 @@ const getLastDay = (year: string, month: string) =>
 const clampDay = (day: string, year: string, month: string) =>
   String(Math.min(Number(day), getLastDay(year, month)));
 
+const getNextDay = (day: string, year: string, month: string) =>
+  String((Number(day) % getLastDay(year, month)) + 1);
+
 const ActivityWheelPicker: StaticActivityComponentType<"ActivityWheelPicker"> = () => {
   const { pop } = useFlow();
   const activity = useActivity();
@@ -38,6 +41,13 @@ const ActivityWheelPicker: StaticActivityComponentType<"ActivityWheelPicker"> = 
     day: "20",
   });
   const lastDay = getLastDay(year, month);
+
+  const selectNextDay = () => {
+    setDate((current) => ({
+      ...current,
+      day: getNextDay(current.day, current.year, current.month),
+    }));
+  };
 
   return (
     <BottomSheetRoot open={activity.isActive} onOpenChange={(open) => !open && pop()}>
@@ -94,6 +104,9 @@ const ActivityWheelPicker: StaticActivityComponentType<"ActivityWheelPicker"> = 
                 {year}년 {month}월 {day}일
               </Text>
             </Box>
+            <ActionButton size="large" variant="neutralWeak" onClick={selectNextDay}>
+              다음 날로 변경
+            </ActionButton>
             <ActionButton size="large" variant="neutralSolid" onClick={pop}>
               완료
             </ActionButton>

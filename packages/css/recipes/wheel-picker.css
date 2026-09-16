@@ -66,6 +66,7 @@
     align-items: center;
     justify-content: var(--seed-wheel-picker-item-justify-content, center);
     color: var(--seed-wheel-picker-item-color);
+    outline-color: transparent;
     scroll-snap-align: center;
     user-select: none;
 }

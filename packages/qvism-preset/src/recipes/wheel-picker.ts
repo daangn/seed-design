@@ -88,6 +88,7 @@ const wheelPicker = defineSlotRecipe({
       alignItems: "center",
       justifyContent: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent}, center)`,
       color: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor})`,
+      outlineColor: "transparent",
       scrollSnapAlign: "center",
       userSelect: "none",
       "&[data-wheel-picker-indicator-overlap]": {
