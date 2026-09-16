@@ -66,8 +66,9 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           title="가로 스크롤"
           description="스크롤 영역은 bleedX로 화면 끝까지 넓히고, pl과 pr의 safeArea로 내용을 safe area 경계에서 시작해요. gutter는 안쪽 요소가 가져요."
         >
-          {/* WebKit leaves a block scroll container's end padding out of the scroll range; a flex
-              container keeps it, so the last item stops at the safe area edge. */}
+          {/* Before iOS 26.4, WebKit leaves a block scroll container's end padding out of the scroll
+              range when a block-level child overflows; a flex container keeps it, so the last item
+              stops at the safe area edge. */}
           <Box display="flex" bleedX="safeArea" pl="safeArea" pr="safeArea" overflowX="auto">
             <HStack gap="x2" px="spacingX.globalGutter" width="max-content">
               {Array.from({ length: 10 }, (_, index) => (
