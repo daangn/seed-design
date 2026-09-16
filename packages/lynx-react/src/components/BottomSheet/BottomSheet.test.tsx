@@ -1,3 +1,5 @@
+import "@testing-library/jest-dom";
+import { createRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -75,6 +77,7 @@ vi.mock("../../hooks/useSafeArea", () => ({
 }));
 
 import * as BottomSheet from "./BottomSheet.namespace";
+import { ScrollFog } from "../ScrollFog";
 
 describe("BottomSheet", () => {
   beforeEach(() => {
@@ -95,19 +98,31 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("renders Body as a vertical scroll-view", () => {
+  it("renders Body as a composable view with an explicit ScrollFog child", () => {
+    const bodyRef = createRef<unknown>();
     const { container } = render(
       <BottomSheet.Root>
-        <BottomSheet.Body>
-          <text>Scrollable content</text>
+        <BottomSheet.Body ref={bodyRef} className="custom-body" style={{ height: "200px" }}>
+          <ScrollFog hideScrollBar placement={["top", "bottom"]}>
+            <text>Scrollable content</text>
+          </ScrollFog>
         </BottomSheet.Body>
       </BottomSheet.Root>,
     );
 
-    const body = container.querySelector("scroll-view");
+    const body = container.querySelector(".custom-body");
+    const scrollViews = body?.querySelectorAll("scroll-view");
 
-    expect(body).not.toBeNull();
-    expect(body?.hasAttribute("scroll-y")).toBe(true);
+    expect(body?.tagName.toLowerCase()).toBe("view");
+    expect(body).toHaveStyle({ height: "200px" });
+    expect(bodyRef.current).not.toBeNull();
+    expect(scrollViews).toHaveLength(2);
+    expect(scrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
+    expect(scrollViews?.item(1)).toHaveAttribute("scroll-orientation", "horizontal");
+    for (const scrollView of scrollViews ?? []) {
+      expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
+      expect(scrollView).not.toHaveAttribute("fading-edge-length");
+    }
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {
