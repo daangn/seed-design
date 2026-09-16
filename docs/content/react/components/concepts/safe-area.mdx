@@ -1,0 +1,66 @@
+---
+title: Safe Area
+description: 기기의 safe area inset을 화면에 반영하고, 배경과 스크롤 영역을 화면 끝까지 채우는 방법을 알아봅니다.
+---
+
+요소를 safe area 안에 둘지, 화면 끝까지 채울지 정하는 기준은 [Safe Area 패턴](/patterns/safe-area)을 참고하세요. 이 문서는 그 기준을 React로 구현하는 방법을 설명합니다.
+
+## Viewport 설정
+
+safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 메타 태그를 사용하세요.
+
+```html
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+/>
+```
+
+이 설정이 없으면 iOS WebKit은 `env(safe-area-inset-*)`를 0으로 계산합니다. 따라서 아래에서 설명하는 컴포넌트와 속성도 inset을 반영하지 않습니다.
+
+## inset을 반영하는 컴포넌트
+
+다음 컴포넌트는 별도로 설정하지 않아도 inset을 반영합니다. 자세한 동작은 각 컴포넌트 문서를 참고하세요.
+
+| 컴포넌트 | 반영하는 방향 |
+| --- | --- |
+| [App Screen](/react/stackflow/app-screen#safe-area) | 좌우, `AppBar`의 상단. 콘텐츠의 상단과 하단은 `layerOffsetTop`, `layerOffsetBottom` 속성으로 조정합니다. |
+| [Bottom Sheet](/react/components/bottom-sheet) | 하단 |
+| [Side Panel](/react/components/side-panel) | 상단, 하단, 패널이 붙은 쪽 |
+| [Snackbar](/react/components/snackbar) | 좌우, 하단 |
+
+## 화면 끝까지 채우기
+
+`AppScreenContent`처럼 inset만큼 안쪽으로 들어간 컨테이너 안에서 요소를 화면 끝까지 넓히려면 `Box`의 속성에 `"safeArea"` 값을 지정합니다. 이 값을 받는 속성은 [Box의 Safe Area](/react/components/layout/box#safe-area)를 참고하세요.
+
+- 이미지처럼 요소 전체가 화면 끝까지 이어져야 하면 `bleedX="safeArea"`를 지정합니다.
+- 배경은 화면 끝까지 채우고 내용은 safe area 안에 두려면 `bleedX`와 함께 `pl`, `pr`에도 `"safeArea"`를 지정합니다. 화면 여백(`spacingX.globalGutter`)은 안쪽 요소에 지정합니다.
+- 화면 하단에 고정하는 바는 `pb="safeArea"`도 지정해서 하단 inset만큼 내용을 올립니다.
+
+<StackflowExample path="/safe-area-bleed">
+  ```json doc-gen:file
+  {
+    "file": "../examples/stackflow-spa/src/activities/ActivitySafeAreaBleed.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### 가로 스크롤 영역
+
+가로 스크롤 영역도 `bleedX`와 `pl`, `pr`에 `"safeArea"`를 지정해 화면 끝까지 넓힙니다. 스크롤하기 전에는 첫 항목이 safe area 경계에서 화면 여백만큼 떨어져 시작하고, 끝까지 스크롤하면 마지막 항목 뒤에도 inset과 화면 여백이 남습니다.
+
+스크롤 컨테이너는 flex 컨테이너(`display="flex"`)로 두세요. WebKit은 block 스크롤 컨테이너의 끝쪽 padding을 스크롤 범위에 넣지 않아서, 끝까지 스크롤하면 마지막 항목이 오른쪽 inset 영역에 걸립니다.
+
+`ChipTabsList`처럼 스크롤 영역이 화면 여백을 padding으로 직접 가지는 컴포넌트에는, 화면 여백과 inset을 더한 값을 padding으로 지정합니다. inset 값은 아래의 [CSS 변수](#css-변수)로 가져옵니다.
+
+## CSS 변수
+
+`@seed-design/css`는 각 방향의 inset을 다음 변수로 제공합니다. 기기에 inset이 없거나 브라우저가 `env(safe-area-inset-*)`를 지원하지 않으면 값은 `0px`입니다.
+
+- `--seed-safe-area-top`
+- `--seed-safe-area-right`
+- `--seed-safe-area-bottom`
+- `--seed-safe-area-left`
+
+`Box`의 속성으로 표현하기 어려운 스타일에서 이 변수를 사용하세요.
