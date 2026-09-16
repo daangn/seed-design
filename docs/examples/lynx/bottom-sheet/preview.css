@@ -40,3 +40,14 @@
   height: 100px;
   background-color: var(--seed-color-bg-layer-basement);
 }
+
+.bottom-sheet-preview__scroll-fog-body {
+  height: 300px;
+  max-height: 300px;
+  flex: none;
+}
+
+.bottom-sheet-preview__scroll-fog-content {
+  padding-top: 20px;
+  padding-bottom: 80px;
+}
