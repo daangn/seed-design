@@ -111,15 +111,18 @@ describe("BottomSheet", () => {
     );
 
     const body = container.querySelector(".custom-body");
-    const scrollView = body?.querySelector("scroll-view");
+    const scrollViews = body?.querySelectorAll("scroll-view");
 
     expect(body?.tagName.toLowerCase()).toBe("view");
     expect(body).toHaveStyle({ height: "200px" });
     expect(bodyRef.current).not.toBeNull();
-    expect(scrollView).not.toBeNull();
-    expect(scrollView).toHaveAttribute("scroll-orientation", "vertical");
-    expect(scrollView).toHaveAttribute("fading-edge-length", "20px");
-    expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
+    expect(scrollViews).toHaveLength(2);
+    expect(scrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
+    expect(scrollViews?.item(1)).toHaveAttribute("scroll-orientation", "horizontal");
+    for (const scrollView of scrollViews ?? []) {
+      expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
+      expect(scrollView).not.toHaveAttribute("fading-edge-length");
+    }
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {

@@ -14,18 +14,19 @@ description: 스크롤 가능한 영역에서 사용자에게 추가 콘텐츠�
   ```
 </LynxComponentExample>
 
-React 버전과 마찬가지로, Scroll Fog는 완전한 Scroll Area보다 간단한 스크롤 힌트를 위한 컴포넌트입니다. Lynx에서는 native `<scroll-view>`의 fading edge를 사용해 같은 목적을 구현합니다.
+Scroll Fog는 완전한 Scroll Area보다 간단한 스크롤 힌트를 위한 컴포넌트입니다. 스크롤 영역 위에 Rootage의 `gradient.fade-mask`를 사용하는 별도의 비인터랙티브 mask layer를 표시합니다.
 
 ## Installation
+
 ```package-install
 @seed-design/lynx-react
 ```
 
-Lynx의 `ScrollFog`는 Registry snippet이나 Recipe 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다. native `<scroll-view>`의 fading edge를 사용합니다.
+Lynx의 `ScrollFog`는 Registry snippet이나 Recipe 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
 
 ## Usage
 
-`ScrollFog`는 하나의 native `<scroll-view>`를 렌더링하고 `fading-edge-length`로 스크롤 방향의 가장자리를 페이드합니다. `placement`의 두 값이 세로 방향이면 vertical scroll-view를, 가로 방향이면 horizontal scroll-view를 만듭니다.
+`ScrollFog`는 React 버전과 동일하게 임의 방향의 `placement`, 공통 `size`, 방향별 `sizes`, `hideScrollBar`를 지원합니다. `placement`에 `top`, `bottom`, `left`, `right`를 원하는 조합으로 지정할 수 있습니다. Fog 레이어는 터치 입력을 가로채지 않으므로 콘텐츠를 스크롤하거나 조작할 수 있습니다.
 
 ```tsx
 import { ScrollFog } from "@seed-design/lynx-react";
@@ -43,21 +44,17 @@ export function App() {
 }
 ```
 
-`size`의 숫자 값은 px 단위로 변환됩니다. 기본 크기는 `20`이며 `size="2em"`처럼 문자열 단위도 전달할 수 있습니다. `hideScrollBar`의 기본값은 `false`이므로 native `scroll-bar-enable=true`가 되고, `true`로 설정하면 indicator를 숨기기 위해 `false`가 됩니다.
-
 ## Props
 
 ### Scroll Fog
 
 <react-type-table path="../packages/lynx-react/src/components/ScrollFog/ScrollFog.tsx" name="ScrollFogProps" />
 
-지원하는 `placement`는 `["top", "bottom"]` 또는 `["left", "right"]`입니다. 네이티브 `fading-edge-length`, `scroll-orientation`, `scroll-y`, `scroll-x`, `scroll-bar-enable`은 `ScrollFog`가 동작을 결정하므로 public native passthrough에서 제외됩니다. `main-thread:*` 이벤트도 공개 props에서 제외되며, 필요한 경우 native `<scroll-view>`를 직접 구성하세요.
-
 ## Examples
 
 ### Padding
 
-React 버전과 동일하게, 콘텐츠가 fog에 가려지지 않도록 지정한 방향에 충분한 padding이 필요합니다. Lynx의 native fog는 항상 표시되는 웹 mask와 달리 해당 edge에 스크롤할 콘텐츠가 더 있을 때만 나타납니다.
+ScrollFog는 항상 fog 효과를 표시하므로, 지정된 방향에 충분한 padding이 필요합니다.
 
 - **최소 padding**: 20px을 유지해야 합니다.
 - **화면 전체를 차지하는 세로 스크롤**: 하단 80px, 상단 20px padding을 권장합니다.
@@ -90,7 +87,7 @@ React 버전과 동일하게, 콘텐츠가 fog에 가려지지 않도록 지정�
 
 ### Size
 
-`size`를 사용해 활성 축 양쪽에 적용할 fog 효과의 길이를 조절할 수 있습니다. 다음 예제는 세로 fog를 `40px`로 설정합니다.
+`size`를 사용해 모든 방향의 fog 크기를 한 번에 조절할 수 있습니다. `sizes`를 사용하면 각 방향의 크기를 다르게 지정할 수 있습니다.
 
 <LynxComponentExample name="lynx/scroll-fog/size" height={320}>
   ```json doc-gen:file
@@ -101,15 +98,31 @@ React 버전과 동일하게, 콘텐츠가 fog에 가려지지 않도록 지정�
   ```
 </LynxComponentExample>
 
-React의 `sizes`처럼 edge마다 다른 길이를 지정하는 API는 Lynx에서 지원하지 않습니다. Native `<scroll-view>`가 활성 축에 하나의 `fading-edge-length`만 사용하기 때문입니다. Edge별 길이가 필요하면 앱에서 native scroll-view와 별도 overlay 또는 mask를 직접 조합하세요.
+<LynxComponentExample name="lynx/scroll-fog/sizes" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ### All Directions
 
-React 버전은 `placement={["top", "bottom", "left", "right"]}`로 2D fog를 지원합니다. Lynx의 [`<scroll-view>`](https://lynxjs.org/api/elements/built-in/scroll-view)는 `scroll-orientation`을 `"vertical"` 또는 `"horizontal"` 중 하나로만 지정하므로, 하나의 `ScrollFog`도 세로 또는 가로 한 축만 활성화할 수 있습니다. 2D 콘텐츠가 필요하면 앱에서 축별 scroll-view와 시각적 안내 레이어를 별도로 구성하세요.
+2D 스크롤이 필요한 경우 `placement={["top", "bottom", "left", "right"]}`를 사용하여 모든 방향에 fog 효과를 적용할 수 있습니다.
+
+<LynxComponentExample name="lynx/scroll-fog/all-directions" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/all-directions.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ### Hide Scrollbar
 
-`hideScrollBar`를 사용하면 React 버전과 동일하게 fog 효과는 유지하면서 native scroll indicator를 숨길 수 있습니다.
+`hideScrollBar`를 사용하면 fog 효과는 유지하면서 스크롤바를 숨길 수 있습니다.
 
 <LynxComponentExample name="lynx/scroll-fog/hide-scrollbar" height={320}>
   ```json doc-gen:file
@@ -119,15 +132,3 @@ React 버전은 `placement={["top", "bottom", "left", "right"]}`로 2D fog를 �
   }
   ```
 </LynxComponentExample>
-
-## 웹 버전과의 차이
-
-| 항목 | React Web | Lynx |
-| --- | --- | --- |
-| 렌더링 요소 | HTML overflow 영역과 CSS mask | native `<scroll-view>` 하나와 `fading-edge-length` |
-| 방향 | top/bottom, left/right, 두 축 조합 | `scroll-orientation`이 정하는 vertical 또는 horizontal 한 축 |
-| fade 표시 | 지정한 edge에 CSS mask를 항상 표시 | 해당 edge에 추가 콘텐츠가 있을 때만 native fade 표시 |
-| 크기 | `size`와 edge별 `sizes` | 활성 축 양쪽에 같은 `size` 하나 |
-| 스크롤 indicator | CSS scrollbar 제어 | `hideScrollBar`가 `scroll-bar-enable`을 결정 |
-
-네이티브 fading edge는 현재 위치에서 더 스크롤할 콘텐츠가 남아 있는 edge에만 보입니다. 콘텐츠가 viewport에 모두 들어오거나 해당 방향의 끝에 도달하면 그 edge의 fade는 사라집니다.
