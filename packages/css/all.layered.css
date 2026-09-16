@@ -13643,6 +13643,7 @@
     scroll-snap-align: center;
     -webkit-user-select: none;
     user-select: none;
+    outline-color: #0000;
     display: flex;
   }
 
@@ -13747,6 +13748,7 @@
     scroll-snap-align: center;
     -webkit-user-select: none;
     user-select: none;
+    outline-color: #0000;
     justify-content: center;
     align-items: center;
     display: flex;
