@@ -60,6 +60,22 @@ describe("Tabs", () => {
     expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
   });
 
+  it("passes native fading edges to the ChipTabs scroll-view", () => {
+    const { container } = render(
+      <ChipTabs.Root defaultValue="one">
+        <ChipTabs.List fading-edge-length="20px">
+          <ChipTabs.Trigger value="one">첫 번째</ChipTabs.Trigger>
+          <ChipTabs.Trigger value="two">두 번째</ChipTabs.Trigger>
+        </ChipTabs.List>
+      </ChipTabs.Root>,
+    );
+
+    expect(container.querySelector("scroll-view")).toHaveAttribute(
+      "fading-edge-length",
+      "20px",
+    );
+  });
+
   it("disables label and indicator transitions during the initial render", () => {
     const { container } = render(<BasicTabs defaultValue="two" />);
     const labels = container.querySelectorAll<HTMLElement>(".seed-tabs__triggerLabel");

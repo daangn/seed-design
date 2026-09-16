@@ -204,9 +204,9 @@ export function App() {
 
 ### With Scroll Fog
 
-`ScrollFog`는 Lynx Registry와 package에서 지원하지 않으므로 가장자리 fade를 제공하지 않습니다.
+`ChipTabsList`는 자체 native 가로 `scroll-view`를 렌더링하므로 `ScrollFog`로 감싸지 않고 `fading-edge-length`를 직접 전달합니다. `ScrollFog`와 같은 native fading edge가 스크롤할 콘텐츠가 남은 좌우 edge에 표시됩니다.
 
-대신 스크롤 가능한 목록으로 많은 탭을 표시할 수 있습니다. `ChipTabsList`는 native 가로 `scroll-view`를 사용하며, 아래 예제는 최대 너비 360px 안에 15개 라벨을 표시합니다. List의 내부 좌우 padding 16px을 그대로 사용하므로 추가 좌우 padding을 지정하지 않습니다. Web `ScrollFog` 예제의 20px padding은 fog 배치를 위한 값이며 Lynx 목록에 적용하지 않습니다.
+아래 예제는 최대 너비 360px 안에 15개 라벨을 표시하고 20px 크기의 fog를 적용합니다. List의 내부 좌우 padding 16px은 그대로 유지합니다.
 
 <LynxComponentExample name="lynx/chip-tabs/scrollable">
   ```json doc-gen:file
@@ -228,7 +228,6 @@ React 예제와 마찬가지로 Lynx에서도 Root 바깥에서 선택 값에 �
 
 ## Unsupported Lynx Features
 
-- `ScrollFog`와 가장자리 fade
 - 키보드 포커스와 roving focus
 - RTL 순서와 스와이프 방향 반전
 - `lazyMount`, `unmountOnExit`: native viewpager는 모든 page slot을 유지합니다.

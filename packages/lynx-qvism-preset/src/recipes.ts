@@ -38,6 +38,7 @@ import { select, selectItem, selectTrigger } from "./recipes/select";
 import skeleton from "./recipes/skeleton";
 import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import reactionButton from "./recipes/reaction-button";
+import scrollFog from "./recipes/scroll-fog";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
@@ -92,6 +93,7 @@ export const recipes = {
   radioGroup,
   radiomark,
   reactionButton,
+  scrollFog,
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,

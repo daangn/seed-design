@@ -9,7 +9,7 @@ export default function Example() {
   return (
     <view className={seedClassName} style={{ maxWidth: "360px" }}>
       <ChipTabsRoot defaultValue="1">
-        <ChipTabsList>
+        <ChipTabsList fading-edge-length="20px">
           <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
           <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
           <ChipTabsTrigger value="3">라벨3</ChipTabsTrigger>
