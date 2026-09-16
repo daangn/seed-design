@@ -3,7 +3,7 @@ import { Text, VStack } from "@seed-design/react";
 import { TablePagination } from "seed-design/ui/table-pagination";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { withChromaticParameters } from "./utils/parameters";
+import { withVisualTestParameters } from "./utils/parameters";
 
 const meta = preview.meta({
   component: TablePagination,
@@ -74,19 +74,19 @@ const CommonStoryTemplate = meta.story({
 });
 
 export const LightTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({}),
+  parameters: withVisualTestParameters({}),
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const LongNumbers = meta.story({
@@ -105,5 +105,5 @@ export const LongNumbers = meta.story({
       </VStack>
     );
   },
-  parameters: withChromaticParameters({}),
+  parameters: withVisualTestParameters({}),
 });
