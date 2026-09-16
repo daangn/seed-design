@@ -7,7 +7,7 @@ import type {
 } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
-type NativeScrollViewProps = IntrinsicElements["scroll-view"];
+type NativeScrollViewProps = Omit<IntrinsicElements["scroll-view"], `main-thread:${string}`>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
@@ -17,8 +17,7 @@ type ScrollFogPlacement = ["top", "bottom"] | ["left", "right"];
 /**
  * @platform Lynx
  *
- * A native scroll-view with fading edges at both ends of its scroll axis.
- * The native fading edge is not supported on Harmony.
+ * A native scroll-view with fading edges at both ends of one scroll axis.
  */
 export interface ScrollFogProps
   extends Omit<
@@ -34,8 +33,21 @@ export interface ScrollFogProps
   children?: ReactNode;
   className?: NativeScrollViewProps["className"];
   style?: NativeScrollViewProps["style"];
+  /**
+   * Fog 효과를 표시할 축입니다.
+   * @defaultValue ["top", "bottom"]
+   */
   placement?: ScrollFogPlacement;
+  /**
+   * 활성 축 양쪽에 적용할 Fog 효과의 길이입니다.
+   * 숫자는 px 단위로 처리합니다.
+   * @defaultValue 20
+   */
   size?: number | string;
+  /**
+   * Native scroll indicator를 숨깁니다.
+   * @defaultValue false
+   */
   hideScrollBar?: boolean;
 }
 

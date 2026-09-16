@@ -2,9 +2,9 @@ import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, expectTypeOf, it, vi } from "vitest";
 
-import { ScrollFog } from "./ScrollFog";
+import { ScrollFog, type ScrollFogProps } from "./ScrollFog";
 
 function getScrollView(container: HTMLElement): Element {
   const scrollView = container.querySelector("scroll-view");
@@ -15,6 +15,12 @@ function getScrollView(container: HTMLElement): Element {
 }
 
 describe("ScrollFog", () => {
+  it("does not expose main-thread handlers", () => {
+    type MainThreadProp = Extract<keyof ScrollFogProps, `main-thread:${string}`>;
+
+    expectTypeOf<MainThreadProp>().toEqualTypeOf<never>();
+  });
+
   it("renders a vertical scroll-view with the default fog and scrollbar", () => {
     const { container } = render(
       <ScrollFog>
