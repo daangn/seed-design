@@ -128,7 +128,7 @@ Intersection Observer를 사용해 `AppBar`의 `tone` 속성을 동적으로 변
 
 `tone="transparent"`와 `gradient`를 사용하는 경우, 일반적으로 `layerOffsetTop="none"`을 함께 설정하여 모바일 OS 상태바 영역까지 콘텐츠 영역을 확장합니다.
 
-safe area 처리에 필요한 viewport 설정은 [Safe Area](#safe-area)를 참고하세요.
+safe area 처리에 필요한 viewport 설정은 [Safe Area 구현 가이드](/react/components/concepts/safe-area#viewport-설정)를 참고하세요.
 
 <div className="grid grid-cols-3 gap-4">
 
@@ -147,15 +147,9 @@ safe area 처리에 필요한 viewport 설정은 [Safe Area](#safe-area)를 참�
 - 상단과 하단 inset은 `layerOffsetTop`, `layerOffsetBottom` 속성으로 조정합니다.
 - 좌우 inset은 항상 반영됩니다. `AppBar`와 `AppScreenContent`의 내용이 좌우 inset만큼 안쪽으로 들어가므로, 가로 모드처럼 좌우 inset이 있는 화면에서도 디스플레이 컷아웃에 가려지지 않습니다.
 
+좌우 inset이 반영되므로 `AppScreenContent` 안의 요소는 화면 끝까지 닿지 않습니다. 이미지, 가로 스크롤 영역, 배경처럼 화면 끝까지 채워야 하는 요소는 inset만큼 다시 넓혀야 합니다. 구현 방법은 [Safe Area 구현 가이드](/react/components/concepts/safe-area#화면-끝까지-채우기)를 참고하세요.
+
 요소를 safe area 안에 둘지, 화면 끝까지 채울지 정하는 기준은 [Safe Area 패턴](/patterns/safe-area)을 참고하세요.
-
-<Callout type="info">
-
-inset을 반영하려면 `viewport` 메타 태그에 `viewport-fit=cover`를 포함해야 합니다. 설정 방법은 [Safe Area 구현 가이드](/react/components/concepts/safe-area#viewport-설정)를 참고하세요.
-
-</Callout>
-
-이미지, 가로 스크롤 영역, 배경처럼 화면 끝까지 채우는 요소를 구현하는 방법은 [Safe Area 구현 가이드](/react/components/concepts/safe-area#화면-끝까지-채우기)를 참고하세요.
 
 ### Customizing App Bar
 

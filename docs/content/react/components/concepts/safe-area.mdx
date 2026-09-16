@@ -56,15 +56,4 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 
 </Callout>
 
-`ChipTabsList`처럼 스크롤 영역이 화면 여백을 padding으로 직접 가지는 컴포넌트에는, 화면 여백과 inset을 더한 값을 padding으로 지정합니다. inset 값은 아래의 [CSS 변수](#css-변수)로 가져옵니다.
-
-## CSS 변수
-
-`@seed-design/css`는 각 방향의 inset을 다음 변수로 제공합니다. 기기에 inset이 없거나 브라우저가 `env(safe-area-inset-*)`를 지원하지 않으면 값은 `0px`입니다.
-
-- `--seed-safe-area-top`
-- `--seed-safe-area-right`
-- `--seed-safe-area-bottom`
-- `--seed-safe-area-left`
-
-`Box`의 속성으로 표현하기 어려운 스타일에서 이 변수를 사용하세요.
+`ChipTabsList`처럼 스크롤 영역이 화면 여백을 padding으로 직접 가지는 컴포넌트에는, 화면 여백과 inset을 더한 값을 padding으로 지정합니다.
