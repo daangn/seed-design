@@ -13,7 +13,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { mergeProps } from "../../utils/merge-props";
 import { handleDimension, useStyleProps, type StyleProps } from "../../utils/styled";
 import { Badge, type BadgeProps } from "../Badge";
-import { Icon } from "../Icon";
+import { InternalIcon } from "../Icon/Icon";
 import { heartFillSource, heartLineSource } from "./heart-assets";
 
 /**
@@ -111,8 +111,8 @@ export interface ImageFrameFloaterProps extends Omit<LynxViewProps, "style"> {
 export const ImageFrameFloater = React.forwardRef<unknown, ImageFrameFloaterProps>((props, ref) => {
   const [variantProps, otherProps] = imageFrame.splitVariantProps(props);
   const {
-    offsetX = "x1_5",
-    offsetY = "x1_5",
+    offsetX = variantProps.placement?.endsWith("-center") ? 0 : "x1_5",
+    offsetY = variantProps.placement?.startsWith("middle-") ? 0 : "x1_5",
     zIndex,
     children,
     className,
@@ -151,7 +151,7 @@ export interface ImageFrameIconProps extends Omit<LynxViewProps, "children" | "s
 }
 export const ImageFrameIcon = React.forwardRef<unknown, ImageFrameIconProps>(
   ({ svg, children: _children, className, ...props }, ref) => (
-    <Icon
+    <InternalIcon
       {...(ref ? { ref } : {})}
       {...props}
       icon={svg}
