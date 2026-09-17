@@ -9,6 +9,14 @@ const { withRootProvider, withContext } = createSlotRecipeContext(alertDialog);
 
 export interface AlertDialogRootProps extends AlertDialogVariantProps, DialogPrimitive.RootProps {
   /**
+   * @default "alertdialog"
+   */
+  role?: DialogPrimitive.RootProps["role"];
+  /**
+   * @default false
+   */
+  closeOnInteractOutside?: DialogPrimitive.RootProps["closeOnInteractOutside"];
+  /**
    * @default true
    */
   lazyMount?: DialogPrimitive.RootProps["lazyMount"];
@@ -20,6 +28,8 @@ export interface AlertDialogRootProps extends AlertDialogVariantProps, DialogPri
 
 export const AlertDialogRoot = withRootProvider<AlertDialogRootProps>(DialogPrimitive.Root, {
   defaultProps: {
+    role: "alertdialog",
+    closeOnInteractOutside: false,
     lazyMount: true,
     unmountOnExit: true,
   },
