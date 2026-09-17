@@ -79,6 +79,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다."
     },
     {
+      "slug": "deprecated",
+      "title": "Deprecated Components",
+      "description": "더 이상 사용되지 않는 컴포넌트와 대체 컴포넌트를 안내합니다."
+    },
+    {
       "slug": "dialog",
       "title": "Dialog",
       "description": "사용자의 흐름을 일시 중지시키고, 중요한 정보를 전달하거나 특정 작업을 완료하도록 강제하는 모달형 컴포넌트입니다."
