@@ -12,12 +12,14 @@ export const globalCss = defineGlobalCss({
   text: {
     backgroundColor: "var(--seed-color-bg-transparent)",
   },
-  ".seed-icon, .seed-prefix-icon, .seed-suffix-icon": {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-  },
+  ".seed-icon, .seed-prefix-icon, .seed-suffix-icon, .seed-icon-slot, .seed-prefix-icon-slot, .seed-suffix-icon-slot":
+    {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+    },
+  // Keep existing fallback selectors for older React versions. Recipe-bound icons use layout-only classes.
   ".seed-icon": {
     width: "var(--seed-icon-size)",
     height: "var(--seed-icon-size)",
