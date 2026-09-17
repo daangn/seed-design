@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { Box, Flex, Text, VStack } from "@seed-design/react";
 import type { InstanceInfo } from "shared/types";
 import { useComponentSection } from "./context";
 import type { ReactNode } from "react";
@@ -56,7 +56,7 @@ export function ComponentSuggestionsList() {
             };
 
             return (
-              <Stack key={oldComponent.id} borderBottomWidth={1} borderColor="palette.gray200">
+              <VStack key={oldComponent.id} borderBottomWidth={1} borderColor="palette.gray200">
                 <ComponentLayer
                   item={oldComponent}
                   endElement={endElement}
@@ -65,7 +65,7 @@ export function ComponentSuggestionsList() {
                   onSwap={onSwap}
                   isAlreadyMigrated={isAlreadyMigrated}
                 />
-              </Stack>
+              </VStack>
             );
           })}
         </Box>
@@ -103,7 +103,7 @@ export function ComponentSuggestionsList() {
             ) : null;
 
             return (
-              <Stack key={newComponent.id} borderBottomWidth={1} borderColor="palette.gray200">
+              <VStack key={newComponent.id} borderBottomWidth={1} borderColor="palette.gray200">
                 <ComponentLayer
                   endElement={endElement}
                   item={newComponent}
@@ -111,7 +111,7 @@ export function ComponentSuggestionsList() {
                   onClick={() => focusComponent(newComponent)}
                   isAlreadyMigrated={isAlreadyMigrated}
                 />
-              </Stack>
+              </VStack>
             );
           })}
         </Box>
