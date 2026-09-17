@@ -264,6 +264,77 @@ SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transfor
   ```
 </ComponentExample>
 
+## Content Scale 적용하기
+
+배경은 그대로 두고 안쪽 콘텐츠만 줄여야 하는 요소에는 Content Scale을 적용합니다. 어떤 요소가 여기에 해당하는지는 [Scale](/foundations/feedback/scale#2-무엇이-줄어들지-정하기) 문서에서 확인하세요. SEED 컴포넌트 중 Content Scale을 사용하는 컴포넌트는 이 구조를 내부에서 렌더하므로 따로 적용할 필요가 없습니다.
+
+크기 측정은 위와 같지만, 배율을 적용하는 대상이 다릅니다.
+
+1. 배경을 그리는 요소를 `ScaleFeedback`으로 측정합니다. 콘텐츠도 이 요소의 크기로 계산한 배율만큼 줄어듭니다.
+2. 눌림 선택자에서 요소에 `scale`을 적용하는 대신 `--seed-content-scale`에 배율을 선언합니다.
+3. 요소의 콘텐츠를 `ContentScale`로 감쌉니다.
+
+```tsx title="MyRow.tsx"
+import { ContentScale, ScaleFeedback } from "@seed-design/react";
+
+function MyRow({ className, children, ...props }) {
+  return (
+    <ScaleFeedback>
+      <button className={className} {...props}>
+        {/* [!code highlight] */}
+        <ContentScale>{children}</ContentScale>
+      </button>
+    </ScaleFeedback>
+  );
+}
+```
+
+<Tabs items={['Tailwind CSS', 'CSS']}>
+
+<Tab value="Tailwind CSS">
+
+```tsx title="MyRow.tsx"
+<MyRow
+  className={clsx(
+    "flex items-center gap-x3 px-x4 py-x3",
+    "active:bg-bg-transparent-pressed",
+    "active:[--seed-content-scale:var(--seed-feedback-scale)]", // [!code highlight]
+  )}
+/>
+```
+
+</Tab>
+
+<Tab value="CSS">
+
+```css title="MyRow.css"
+.my-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.my-row:active {
+  background-color: var(--seed-color-bg-transparent-pressed);
+  --seed-content-scale: var(--seed-feedback-scale); /* [!code highlight] */
+}
+```
+
+</Tab>
+
+</Tabs>
+
+`ContentScale`은 요소의 유일한 자식으로 두세요. 요소의 `display`, `flex-direction`, `flex-wrap`, `align-items`, `justify-content`, `gap`을 이어받아 콘텐츠를 배치하므로, 레이아웃과 패딩은 지금처럼 요소에 작성하면 됩니다. 축소 트랜지션도 `ContentScale`에 포함되어 있습니다.
+
+`ContentScale`은 기본으로 `span`을 렌더합니다. 콘텐츠를 배치하는 요소가 이미 있다면 `asChild`로 그 요소를 대신 사용할 수 있습니다.
+
+```tsx
+<ContentScale asChild>
+  <div className="my-row-content">{children}</div>
+</ContentScale>
+```
+
 ## 자동으로 처리되는 것
 
 아래 두 가지는 별도로 처리할 필요가 없습니다.
@@ -285,7 +356,7 @@ SEED 컴포넌트는 축소를 `transform: scale()`이 아니라 개별 transfor
 
 `scale` 값이 있는 요소는 stacking context이자 `position: fixed` 자손의 containing block이 되므로, 이 요소 안에 `position: fixed` 요소가 있다면 뷰포트가 아니라 **이 요소를 기준으로 배치됩니다.**
 
-`ScaleFeedback`이 적용된 요소는 눌리지 않은 상태에서도 `scale: 1`을 유지하므로, 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지므로 `scale`을 적용한 요소 하위에 `position: fixed` 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
+`ScaleFeedback`이 적용된 요소와 그 안의 `ContentScale`은 눌리지 않은 상태에서도 `scale: 1`을 유지하므로, 누르는 동안 자손이 따라 움직이지는 않습니다. 다만 배치 기준 자체가 뷰포트와 달라지므로 `scale`을 적용한 요소 하위에 `position: fixed` 자손이 있다면 의도한 위치에 표시되는지 확인하세요.
 
 ## 프로젝트 전체에서 끄기
 
