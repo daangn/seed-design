@@ -115,17 +115,17 @@ describe("Dialog", () => {
       show: true,
       onShowChange: onOpenChange,
     });
-    expect(container.querySelector(".seed-content-dialog__positioner")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__backdrop")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__content")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__header")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__title")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__description")).not.toBeNull();
-    expect(container.querySelector(".seed-content-dialog__footer")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__positioner")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__backdrop")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__content")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__header")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__title")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__description")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__footer")).not.toBeNull();
 
     const body = container.querySelector<HTMLElement>("scroll-view");
 
-    expect(body?.classList.contains("seed-content-dialog__body")).toBe(true);
+    expect(body?.classList.contains("seed-dialog__body")).toBe(true);
     expect(body?.classList.contains("custom-body")).toBe(true);
     expect(body?.hasAttribute("scroll-y")).toBe(true);
     expect(body?.style.maxHeight).toBe("120px");

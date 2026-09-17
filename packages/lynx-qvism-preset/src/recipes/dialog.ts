@@ -1,8 +1,8 @@
 import { defineSlotRecipe } from "../utils/define";
 import { dialog as vars } from "../vars/component";
 
-const contentDialog = defineSlotRecipe({
-  name: "content-dialog",
+const dialog = defineSlotRecipe({
+  name: "dialog",
   slots: [
     "positioner",
     "backdrop",
@@ -163,4 +163,4 @@ const contentDialog = defineSlotRecipe({
   },
 });
 
-export default contentDialog;
+export default dialog;

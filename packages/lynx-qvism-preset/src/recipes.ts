@@ -13,7 +13,7 @@ import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
 import chipTabs from "./recipes/chip-tabs";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
-import contentDialog from "./recipes/content-dialog";
+import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import floatingActionButton from "./recipes/floating-action-button";
@@ -74,7 +74,7 @@ export const recipes = {
   chip,
   chipTabs,
   contextualFloatingButton,
-  contentDialog,
+  dialog,
   field,
   fieldLabel,
   floatingActionButton,
