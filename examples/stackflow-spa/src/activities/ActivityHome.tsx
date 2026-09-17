@@ -325,6 +325,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Avatar", ...to("ActivityAvatar", {}) },
         { title: "Avatar Stack", ...to("ActivityAvatarStack", {}) },
         { title: "Badge", ...to("ActivityBadge", {}) },
+        { title: "Tag Group", ...to("ActivityTagGroup", {}) },
         { title: "Manner Temp Badge", ...to("ActivityMannerTempLevel", {}) },
         { title: "Accordion", ...to("ActivityAccordion", {}) },
         { title: "Error State", ...to("ActivityErrorState", {}) },
