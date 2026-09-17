@@ -34,6 +34,31 @@ function nativeEvent(element: HTMLElement, name: string) {
 }
 
 describe("ImageFrame", () => {
+  it("centers the default floater without adding edge inset, preserving explicit offsets", () => {
+    const { rerender } = render(
+      <ImageFrameFloater placement="middle-center">
+        <text>+</text>
+      </ImageFrameFloater>,
+    );
+    expect(styleProperty(query(".seed-image-frame__floater"), "--seed-image-frame-offset-x")).toBe(
+      "0px",
+    );
+    expect(styleProperty(query(".seed-image-frame__floater"), "--seed-image-frame-offset-y")).toBe(
+      "0px",
+    );
+    rerender(
+      <ImageFrameFloater placement="top-center" offsetX="12px">
+        <text>+</text>
+      </ImageFrameFloater>,
+    );
+    expect(styleProperty(query(".seed-image-frame__floater"), "--seed-image-frame-offset-x")).toBe(
+      "12px",
+    );
+    expect(styleProperty(query(".seed-image-frame__floater"), "--seed-image-frame-offset-y")).toBe(
+      "var(--seed-dimension-x1_5)",
+    );
+  });
+
   it("keeps an image mounted under its fallback, then removes only fallback on load", () => {
     const onLoad = vi.fn();
     const onStatus = vi.fn();
