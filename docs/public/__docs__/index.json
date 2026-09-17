@@ -2593,6 +2593,12 @@
               "docUrl": "/lynx/hooks/use-seed-class-name"
             },
             {
+              "id": "use-toggle",
+              "title": "useToggle",
+              "description": "Lynx 요소의 선택 상태와 누르는 동안의 상태를 관리하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-toggle"
+            },
+            {
               "id": "v-stack",
               "title": "VStack",
               "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
