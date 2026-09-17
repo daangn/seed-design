@@ -1,9 +1,6 @@
 import preview from "../.storybook/preview";
 import { withChromaticParameters } from "@/stories/utils/parameters";
-import {
-  contentDialogVariantMap,
-  type ContentDialogVariantProps,
-} from "@seed-design/css/recipes/content-dialog";
+import { dialogVariantMap, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
 import { Box, HStack, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 import {
@@ -28,7 +25,7 @@ const DialogPreview = ({
   showCloseButton,
   overflow,
   showFooter,
-}: Pick<ContentDialogVariantProps, "size"> & {
+}: Pick<DialogVariantProps, "size"> & {
   title?: ReactNode;
   description?: ReactNode;
   showCloseButton?: boolean;
@@ -37,14 +34,14 @@ const DialogPreview = ({
 }) => (
   <Box p="x4">
     <style>{`
-      .seed-content-dialog__positioner {
+      .seed-dialog__positioner {
         position: relative !important;
         inset: unset !important;
       }
-      .seed-content-dialog__backdrop {
+      .seed-dialog__backdrop {
         display: none !important;
       }
-      .seed-content-dialog__content {
+      .seed-dialog__content {
         animation: none !important;
       }
     `}</style>
@@ -105,7 +102,7 @@ const CommonStoryTemplate = meta.story({
   render: (args, { component }) => (
     <VariantTable
       Component={component!}
-      variantMap={contentDialogVariantMap}
+      variantMap={dialogVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
