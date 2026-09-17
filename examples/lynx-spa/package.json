@@ -20,7 +20,9 @@
     "@seed-design/lynx-react": "workspace:*",
     "@seed-design/tailwind3-plugin": "workspace:*",
     "clsx": "^2.1.1",
-    "lynx-console": "^0.3.0"
+    "lynx-console": "^0.3.0",
+    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
+    "@seed-design/lynx-react-use-press-tap": "0.0.0"
   },
   "devDependencies": {
     "@lynx-js/config-rsbuild-plugin": "0.2.2",
