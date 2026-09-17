@@ -176,17 +176,10 @@ const sidePanel = defineSlotRecipe({
       overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
-      // real values, not `initial` — see https://webkit.org/b/241433
-      "--seed-box-height--responsive": "auto",
-      "--seed-box-min-height--responsive": "auto",
-      "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
       paddingInline: "var(--seed-box-padding-x)",
       paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
-      height: "var(--seed-box-height)",
-      minHeight: "var(--seed-box-min-height)",
-      maxHeight: "var(--seed-box-max-height)",
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
 
