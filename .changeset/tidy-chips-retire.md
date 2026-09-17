@@ -1,7 +1,7 @@
 ---
 "@seed-design/react": major
 "@seed-design/css": major
-"@seed-design/lynx-css": major
+"@seed-design/lynx-css": minor
 "@seed-design/rootage-artifacts": major
 ---
 
