@@ -1,0 +1,143 @@
+---
+title: SEED React 3
+description: SEED React 3으로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기능 등 전체 변경사항은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.
+
+<Callout type="info">
+  이 가이드는 `2.x`에서 `3`으로 업그레이드하는 경우를 기준으로 작성되었습니다.
+  2보다 낮은 버전을 사용 중이라면 [SEED React 2](/react/updates/upgrade/v2)
+  가이드를 따른 뒤 이 문서로 돌아와 주세요.
+</Callout>
+
+---
+
+<Steps>
+
+<Step>
+
+## 패키지 업그레이드
+
+프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드합니다.
+
+| 패키지               | 최소 버전 |
+| -------------------- | --------- |
+| `@seed-design/css`   | `3.0.0`   |
+| `@seed-design/react` | `3.0.0`   |
+
+```package-install
+@seed-design/react@latest @seed-design/css@latest
+```
+
+</Step>
+
+<Step>
+
+## 코드 변경
+
+### 코드 수정이 필요한 항목
+
+#### 1. Alert Dialog와 Dialog 이름 변경
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+Alert Dialog와 Dialog의 이름을 Figma와 snippet의 이름에 맞췄습니다. SEED React 2에서는 `Dialog`가 Alert Dialog를, `ContentDialog`가 Dialog를 가리켰습니다.
+
+| 컴포넌트     | 항목        | SEED React 2                                | SEED React 3                              |
+| ------------ | ----------- | ------------------------------------------- | ----------------------------------------- |
+| Alert Dialog | React       | `Dialog`                                    | `AlertDialog`                             |
+| Alert Dialog | recipe      | `@seed-design/css/recipes/dialog`           | `@seed-design/css/recipes/alert-dialog`   |
+| Alert Dialog | class name  | `.seed-dialog__*`                           | `.seed-alert-dialog__*`                   |
+| Dialog       | React       | `ContentDialog`                             | `Dialog`                                  |
+| Dialog       | recipe      | `@seed-design/css/recipes/content-dialog`   | `@seed-design/css/recipes/dialog`         |
+| Dialog       | class name  | `.seed-content-dialog__*`                   | `.seed-dialog__*`                         |
+| Dialog       | CSS 변수    | `--content-dialog-*`                        | `--dialog-*`                              |
+
+<Callout type="warn">
+
+`Dialog`, `@seed-design/css/recipes/dialog`, `.seed-dialog__*`는 이름이 그대로 남고 가리키는 대상만 바뀝니다. 기존 Alert Dialog 코드가 에러 없이 Dialog 스타일로 렌더링될 수 있으므로, 모든 항목에서 **Alert Dialog를 먼저** 옮긴 뒤 Dialog를 옮겨주세요.
+
+</Callout>
+
+**snippet을 사용하는 경우**
+
+`seed-design/ui/alert-dialog.tsx`와 `seed-design/ui/dialog.tsx` snippet을 다시 받습니다. snippet이 export하는 `AlertDialogRoot`, `DialogRoot` 등의 이름은 바뀌지 않으므로, snippet을 import하는 코드는 수정하지 않아도 됩니다.
+
+```package-install
+npx @seed-design/cli@latest add --on-diff backup ui:alert-dialog ui:dialog
+```
+
+**`@seed-design/react`에서 직접 import하는 경우**
+
+1. `Dialog`를 `AlertDialog`로 바꿉니다. `DialogRoot`, `DialogRootProps` 같은 개별 export도 `AlertDialogRoot`, `AlertDialogRootProps`로 바꿉니다.
+
+```tsx
+import { Dialog } from "@seed-design/react"; // [!code --]
+import { AlertDialog } from "@seed-design/react"; // [!code ++]
+```
+
+2. `ContentDialog`를 `Dialog`로 바꿉니다. `ContentDialogRoot`, `ContentDialogRootProps` 같은 개별 export도 `DialogRoot`, `DialogRootProps`로 바꿉니다.
+
+```tsx
+import { ContentDialog } from "@seed-design/react"; // [!code --]
+import { Dialog } from "@seed-design/react"; // [!code ++]
+```
+
+`AlertDialog.Root`는 `role="alertdialog"`와 `closeOnInteractOutside={false}`를 기본값으로 가집니다. 기존에 두 값을 직접 넘기고 있었다면 지워도 됩니다. 바깥을 눌러서 닫혀야 하는 경우에는 `closeOnInteractOutside`를 명시해주세요.
+
+**커스텀 스타일시트에서 selector를 사용 중인 경우**
+
+같은 순서로 class name을 바꿉니다. 먼저 `.seed-dialog__*`를 `.seed-alert-dialog__*`로 바꾼 뒤, `.seed-content-dialog__*`를 `.seed-dialog__*`로 바꿉니다.
+
+```css
+/* [!code --] */
+.seed-dialog__content {
+  /* [!code --] */
+  /* ... */
+  /* [!code --] */
+}
+/* [!code ++] */
+.seed-alert-dialog__content {
+  /* [!code ++] */
+  /* ... */
+  /* [!code ++] */
+}
+```
+
+```css
+/* [!code --] */
+.seed-content-dialog__content {
+  /* [!code --] */
+  /* ... */
+  /* [!code --] */
+}
+/* [!code ++] */
+.seed-dialog__content {
+  /* [!code ++] */
+  /* ... */
+  /* [!code ++] */
+}
+```
+
+`--content-dialog-default-width`, `--content-dialog-default-max-width`, `--content-dialog-size-width` CSS 변수를 참조하고 있었다면 `--dialog-*`로 바꿉니다.
+
+**커스텀 컴포넌트에서 recipe를 import하는 경우**
+
+같은 순서로 import 경로와 이름을 바꿉니다.
+
+```ts
+import { dialog } from "@seed-design/css/recipes/dialog"; // [!code --]
+import { alertDialog } from "@seed-design/css/recipes/alert-dialog"; // [!code ++]
+```
+
+```ts
+import { contentDialog } from "@seed-design/css/recipes/content-dialog"; // [!code --]
+import { dialog } from "@seed-design/css/recipes/dialog"; // [!code ++]
+```
+
+`DialogVariantProps`, `dialogVariantMap` 같은 타입과 값도 같은 규칙으로 바뀝니다.
+
+</Step>
+
+</Steps>
