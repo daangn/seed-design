@@ -1,5 +1,5 @@
 @layer seed-components {
-  .seed-content-dialog__positioner {
+  .seed-dialog__positioner {
     overscroll-behavior-y: none;
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
@@ -10,14 +10,14 @@
     inset: 0;
   }
 
-  .seed-content-dialog__backdrop {
+  .seed-dialog__backdrop {
     background: var(--seed-color-bg-overlay);
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     position: fixed;
     inset: 0;
   }
 
-  .seed-content-dialog__backdrop:is([data-state="open"], [data-open]) {
+  .seed-dialog__backdrop:is([data-state="open"], [data-open]) {
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d2);
@@ -27,7 +27,7 @@
     --seed-enter-scale: 1;
   }
 
-  .seed-content-dialog__backdrop:not(:is([data-state="open"], [data-open])) {
+  .seed-dialog__backdrop:not(:is([data-state="open"], [data-open])) {
     animation: seed-exit;
     animation-timing-function: var(--seed-timing-function-exit);
     animation-duration: var(--seed-duration-d2);
@@ -38,21 +38,21 @@
     animation-fill-mode: forwards;
   }
 
-  .seed-content-dialog__content {
+  .seed-dialog__content {
     box-sizing: border-box;
     word-break: break-all;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-r5);
-    --content-dialog-default-width: calc(.9 * 100vw);
-    --content-dialog-default-max-width: calc(.9 * 100%);
-    --seed-box-width-base: var(--content-dialog-default-width);
+    --dialog-default-width: calc(.9 * 100vw);
+    --dialog-default-max-width: calc(.9 * 100%);
+    --seed-box-width-base: var(--dialog-default-width);
     --seed-box-width-sm: var(--seed-box-width-base, initial);
     --seed-box-width-md: var(--seed-box-width-sm, initial);
     --seed-box-width-lg: var(--seed-box-width-md, initial);
     --seed-box-width-xl: var(--seed-box-width-lg, initial);
     --seed-box-width: var(--seed-box-width-base, initial);
-    --seed-box-max-width-base: var(--content-dialog-default-max-width);
+    --seed-box-max-width-base: var(--dialog-default-max-width);
     --seed-box-max-width-sm: var(--seed-box-max-width-base, initial);
     --seed-box-max-width-md: var(--seed-box-max-width-sm, initial);
     --seed-box-max-width-lg: var(--seed-box-max-width-md, initial);
@@ -70,13 +70,13 @@
   }
 
   @media (min-width: 768px) {
-    .seed-content-dialog__content {
-      --content-dialog-default-width: var(--content-dialog-size-width);
-      --content-dialog-default-max-width: calc(100vw - 2 * var(--seed-dimension-x5));
+    .seed-dialog__content {
+      --dialog-default-width: var(--dialog-size-width);
+      --dialog-default-max-width: calc(100vw - 2 * var(--seed-dimension-x5));
     }
   }
 
-  .seed-content-dialog__content:is([data-state="open"], [data-open]) {
+  .seed-dialog__content:is([data-state="open"], [data-open]) {
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter-expressive);
     animation-duration: var(--seed-duration-d4);
@@ -86,7 +86,7 @@
     --seed-enter-scale: 1.3;
   }
 
-  .seed-content-dialog__content:not(:is([data-state="open"], [data-open])) {
+  .seed-dialog__content:not(:is([data-state="open"], [data-open])) {
     animation: seed-exit;
     animation-timing-function: var(--seed-timing-function-exit);
     animation-duration: var(--seed-duration-d2);
@@ -97,7 +97,7 @@
     animation-fill-mode: forwards;
   }
 
-  .seed-content-dialog__header {
+  .seed-dialog__header {
     gap: var(--seed-dimension-x1_5);
     padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x6);
@@ -107,11 +107,11 @@
     display: flex;
   }
 
-  .seed-content-dialog__header[data-show-close-button] {
+  .seed-dialog__header[data-show-close-button] {
     padding-right: calc(var(--seed-dimension-x6) + 22px + var(--seed-dimension-x1_5));
   }
 
-  .seed-content-dialog__body {
+  .seed-dialog__body {
     box-sizing: border-box;
     --seed-box-padding-x-base: var(--seed-dimension-x6);
     --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
@@ -145,28 +145,28 @@
     overflow-y: auto;
   }
 
-  .seed-content-dialog__body[data-scrolled]:not(:first-child) {
+  .seed-dialog__body[data-scrolled]:not(:first-child) {
     box-shadow: inset 0 1px 0 0 var(--seed-color-stroke-neutral-muted);
   }
 
-  .seed-content-dialog__body[data-overflow] {
+  .seed-dialog__body[data-overflow] {
     padding-bottom: var(--seed-dimension-x12);
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
     mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
     -webkit-mask-image: linear-gradient(to top, transparent 0, black var(--seed-dimension-x12));
   }
 
-  .seed-content-dialog__body {
+  .seed-dialog__body {
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
-  .seed-content-dialog__body:is(:focus-visible, [data-focus-visible]) {
+  .seed-dialog__body:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
-  .seed-content-dialog__title {
+  .seed-dialog__title {
     color: var(--seed-color-fg-neutral);
     font-size: var(--seed-font-size-t8);
     line-height: var(--seed-line-height-t8);
@@ -174,7 +174,7 @@
     margin: 0;
   }
 
-  .seed-content-dialog__description {
+  .seed-dialog__description {
     color: var(--seed-color-fg-neutral-muted);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
@@ -183,7 +183,7 @@
     margin: 0;
   }
 
-  .seed-content-dialog__footer {
+  .seed-dialog__footer {
     padding-inline: var(--seed-dimension-x6);
     padding-top: var(--seed-dimension-x4);
     padding-bottom: var(--seed-dimension-x6);
@@ -193,7 +193,7 @@
     display: flex;
   }
 
-  .seed-content-dialog__closeButton {
+  .seed-dialog__closeButton {
     top: var(--seed-dimension-x7);
     right: var(--seed-dimension-x6);
     background: var(--seed-color-bg-transparent);
@@ -213,42 +213,42 @@
     position: absolute;
   }
 
-  .seed-content-dialog__closeButton:is(:focus-visible, [data-focus-visible]) {
+  .seed-dialog__closeButton:is(:focus-visible, [data-focus-visible]) {
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
   }
 
-  .seed-content-dialog__closeButton:is(:active, [data-active]) {
+  .seed-dialog__closeButton:is(:active, [data-active]) {
     scale: var(--seed-feedback-scale);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .seed-content-dialog__closeButton:is(:hover, [data-hover]) {
+    .seed-dialog__closeButton:is(:hover, [data-hover]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
-    .seed-content-dialog__closeButton:is(:active, [data-active]) {
+    .seed-dialog__closeButton:is(:active, [data-active]) {
       background: var(--seed-color-bg-transparent-pressed);
     }
   }
 
-  .seed-content-dialog__content--size_medium {
-    --content-dialog-size-width: 480px;
+  .seed-dialog__content--size_medium {
+    --dialog-size-width: 480px;
   }
 
-  .seed-content-dialog__content--size_large {
-    --content-dialog-size-width: 800px;
+  .seed-dialog__content--size_large {
+    --dialog-size-width: 800px;
   }
 
   @media (min-width: 480px) {
-    .seed-content-dialog__content {
+    .seed-dialog__content {
       --seed-box-width: var(--seed-box-width-sm, initial);
       --seed-box-max-width: var(--seed-box-max-width-sm, initial);
     }
 
-    .seed-content-dialog__body {
+    .seed-dialog__body {
       --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
       --seed-box-min-height: var(--seed-box-min-height-sm, initial);
       --seed-box-max-height: var(--seed-box-max-height-sm, initial);
@@ -256,12 +256,12 @@
   }
 
   @media (min-width: 768px) {
-    .seed-content-dialog__content {
+    .seed-dialog__content {
       --seed-box-width: var(--seed-box-width-md, initial);
       --seed-box-max-width: var(--seed-box-max-width-md, initial);
     }
 
-    .seed-content-dialog__body {
+    .seed-dialog__body {
       --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
       --seed-box-min-height: var(--seed-box-min-height-md, initial);
       --seed-box-max-height: var(--seed-box-max-height-md, initial);
@@ -269,12 +269,12 @@
   }
 
   @media (min-width: 1280px) {
-    .seed-content-dialog__content {
+    .seed-dialog__content {
       --seed-box-width: var(--seed-box-width-lg, initial);
       --seed-box-max-width: var(--seed-box-max-width-lg, initial);
     }
 
-    .seed-content-dialog__body {
+    .seed-dialog__body {
       --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
       --seed-box-min-height: var(--seed-box-min-height-lg, initial);
       --seed-box-max-height: var(--seed-box-max-height-lg, initial);
@@ -282,12 +282,12 @@
   }
 
   @media (min-width: 1440px) {
-    .seed-content-dialog__content {
+    .seed-dialog__content {
       --seed-box-width: var(--seed-box-width-xl, initial);
       --seed-box-max-width: var(--seed-box-max-width-xl, initial);
     }
 
-    .seed-content-dialog__body {
+    .seed-dialog__body {
       --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
       --seed-box-min-height: var(--seed-box-min-height-xl, initial);
       --seed-box-max-height: var(--seed-box-max-height-xl, initial);

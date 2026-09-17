@@ -393,7 +393,7 @@
         {
           "path": "dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0 || ^3.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],

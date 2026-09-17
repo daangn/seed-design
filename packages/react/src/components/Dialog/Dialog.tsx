@@ -1,8 +1,5 @@
 import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
-import {
-  contentDialog,
-  type ContentDialogVariantProps,
-} from "@seed-design/css/recipes/content-dialog";
+import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
 import { dataAttr } from "@seed-design/dom-utils";
 import { Dialog as DialogPrimitive } from "@seed-design/react-dialog";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -13,14 +10,14 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(contentDialog);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(dialog);
 
-const closeButtonTracker = createRenderTrackingContext("ContentDialogCloseButton");
+const closeButtonTracker = createRenderTrackingContext("DialogCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogRootProps
-  extends ContentDialogVariantProps,
+export interface DialogRootProps
+  extends DialogVariantProps,
     Omit<DialogPrimitive.RootProps, "role"> {
   /**
    * @default true
@@ -32,13 +29,13 @@ export interface ContentDialogRootProps
   unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
 }
 
-export function ContentDialogRoot(props: ContentDialogRootProps) {
-  const [variantProps, otherProps] = contentDialog.splitVariantProps({
+export function DialogRoot(props: DialogRootProps) {
+  const [variantProps, otherProps] = dialog.splitVariantProps({
     lazyMount: true,
     unmountOnExit: true,
     ...props,
   });
-  const classNames = contentDialog(variantProps);
+  const classNames = dialog(variantProps);
 
   return (
     <ClassNamesProvider value={classNames}>
@@ -51,46 +48,44 @@ export function ContentDialogRoot(props: ContentDialogRootProps) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogTriggerProps extends DialogPrimitive.TriggerProps {}
+export interface DialogTriggerProps extends DialogPrimitive.TriggerProps {}
 
-export const ContentDialogTrigger = DialogPrimitive.Trigger;
+export const DialogTrigger = DialogPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogPositionerProps extends DialogPrimitive.PositionerProps {}
+export interface DialogPositionerProps extends DialogPrimitive.PositionerProps {}
 
-export const ContentDialogPositioner = withContext<HTMLDivElement, ContentDialogPositionerProps>(
+export const DialogPositioner = withContext<HTMLDivElement, DialogPositionerProps>(
   DialogPrimitive.Positioner,
   "positioner",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogBackdropProps extends DialogPrimitive.BackdropProps {}
+export interface DialogBackdropProps extends DialogPrimitive.BackdropProps {}
 
-export const ContentDialogBackdrop = withContext<HTMLDivElement, ContentDialogBackdropProps>(
+export const DialogBackdrop = withContext<HTMLDivElement, DialogBackdropProps>(
   DialogPrimitive.Backdrop,
   "backdrop",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogContentProps
+export interface DialogContentProps
   extends DialogPrimitive.ContentProps,
     Pick<StyleProps, "width" | "maxWidth"> {}
 
-export const ContentDialogContent = withContext<HTMLDivElement, ContentDialogContentProps>(
+export const DialogContent = withContext<HTMLDivElement, DialogContentProps>(
   withStyleProps(DialogPrimitive.Content),
   "content",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface DialogHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const ContentDialogHeader = React.forwardRef<HTMLDivElement, ContentDialogHeaderProps>(
+export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   ({ className, ...props }, ref) => {
     const classNames = useClassNames();
     const { isRendered } = closeButtonTracker.useRenderTracking();
@@ -106,34 +101,34 @@ export const ContentDialogHeader = React.forwardRef<HTMLDivElement, ContentDialo
   },
 );
 
-ContentDialogHeader.displayName = "ContentDialogHeader";
+DialogHeader.displayName = "DialogHeader";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogTitleProps extends DialogPrimitive.TitleProps {}
+export interface DialogTitleProps extends DialogPrimitive.TitleProps {}
 
-export const ContentDialogTitle = withContext<HTMLHeadingElement, ContentDialogTitleProps>(
+export const DialogTitle = withContext<HTMLHeadingElement, DialogTitleProps>(
   DialogPrimitive.Title,
   "title",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogDescriptionProps extends DialogPrimitive.DescriptionProps {}
+export interface DialogDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
-export const ContentDialogDescription = withContext<
-  HTMLParagraphElement,
-  ContentDialogDescriptionProps
->(DialogPrimitive.Description, "description");
+export const DialogDescription = withContext<HTMLParagraphElement, DialogDescriptionProps>(
+  DialogPrimitive.Description,
+  "description",
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogBodyProps
+export interface DialogBodyProps
   extends PrimitiveProps,
     Pick<StyleProps, "paddingX" | "minHeight" | "maxHeight" | "justifyContent" | "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogBodyProps>(
+export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   (props, forwardedRef) => {
     const classNames = useClassNames();
     const { style, restProps } = useStyleProps(props);
@@ -181,44 +176,38 @@ export const ContentDialogBody = React.forwardRef<HTMLDivElement, ContentDialogB
   },
 );
 
-ContentDialogBody.displayName = "ContentDialogBody";
+DialogBody.displayName = "DialogBody";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ContentDialogFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface DialogFooterProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const ContentDialogFooter = withContext<HTMLDivElement, ContentDialogFooterProps>(
-  Primitive.div,
-  "footer",
+export const DialogFooter = withContext<HTMLDivElement, DialogFooterProps>(Primitive.div, "footer");
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface DialogActionProps extends DialogPrimitive.CloseButtonProps {}
+
+export const DialogAction = DialogPrimitive.CloseButton;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface DialogCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
+
+export const DialogCloseButton = React.forwardRef<HTMLButtonElement, DialogCloseButtonProps>(
+  ({ className, ...props }, ref) => {
+    const classNames = useClassNames();
+    const { trackRef } = closeButtonTracker.useRenderTracking();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+    return (
+      <DialogPrimitive.CloseButton
+        ref={useComposedRefs(scaleFeedbackRef, ref, trackRef)}
+        className={clsx(classNames.closeButton, scaleFeedbackClassName, className)}
+        {...props}
+      />
+    );
+  },
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ContentDialogActionProps extends DialogPrimitive.CloseButtonProps {}
-
-export const ContentDialogAction = DialogPrimitive.CloseButton;
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface ContentDialogCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
-
-export const ContentDialogCloseButton = React.forwardRef<
-  HTMLButtonElement,
-  ContentDialogCloseButtonProps
->(({ className, ...props }, ref) => {
-  const classNames = useClassNames();
-  const { trackRef } = closeButtonTracker.useRenderTracking();
-  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
-
-  return (
-    <DialogPrimitive.CloseButton
-      ref={useComposedRefs(scaleFeedbackRef, ref, trackRef)}
-      className={clsx(classNames.closeButton, scaleFeedbackClassName, className)}
-      {...props}
-    />
-  );
-});
-
-ContentDialogCloseButton.displayName = "ContentDialogCloseButton";
+DialogCloseButton.displayName = "DialogCloseButton";
