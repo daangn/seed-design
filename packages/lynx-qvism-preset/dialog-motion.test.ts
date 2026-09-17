@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
 import contentDialog from "./src/recipes/content-dialog";
-import alertDialog from "./src/recipes/dialog";
+import alertDialog from "./src/recipes/alert-dialog";
 import { alertDialog as alertDialogVars, dialog as dialogVars } from "./src/vars/component";
 
 describe("Lynx dialog motion", () => {

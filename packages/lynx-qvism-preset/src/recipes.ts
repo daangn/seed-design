@@ -1,5 +1,6 @@
 import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
+import alertDialog from "./recipes/alert-dialog";
 import { appBar, appBarMain } from "./recipes/app-bar";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
@@ -13,7 +14,6 @@ import chip from "./recipes/chip";
 import chipTabs from "./recipes/chip-tabs";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import contentDialog from "./recipes/content-dialog";
-import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import floatingActionButton from "./recipes/floating-action-button";
@@ -57,6 +57,7 @@ import {
 export const recipes = {
   accordion,
   actionButton,
+  alertDialog,
   appBar,
   appBarMain,
   badge,
@@ -74,7 +75,6 @@ export const recipes = {
   chipTabs,
   contextualFloatingButton,
   contentDialog,
-  dialog,
   field,
   fieldLabel,
   floatingActionButton,

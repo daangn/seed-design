@@ -1,8 +1,8 @@
 import { defineSlotRecipe } from "../utils/define";
 import { alertDialog as vars } from "../vars/component";
 
-const dialog = defineSlotRecipe({
-  name: "dialog",
+const alertDialog = defineSlotRecipe({
+  name: "alert-dialog",
   slots: [
     "positioner",
     "backdrop",
@@ -139,4 +139,4 @@ const dialog = defineSlotRecipe({
   },
 });
 
-export default dialog;
+export default alertDialog;
