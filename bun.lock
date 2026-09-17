@@ -565,6 +565,7 @@
         "@seed-design/lynx-react-field-button": "0.0.0",
         "@seed-design/lynx-react-file-upload": "0.0.0",
         "@seed-design/lynx-react-floating": "0.0.0",
+        "@seed-design/lynx-react-image": "0.1.0",
         "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "0.0.0",
         "@seed-design/lynx-react-loop-scroll": "0.0.0",
         "@seed-design/lynx-react-menu": "0.0.0",
