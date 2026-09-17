@@ -252,22 +252,7 @@ export const ResponsiveSidePanelDescription = React.forwardRef<
 ResponsiveSidePanelDescription.displayName = "ResponsiveSidePanelDescription";
 
 export interface ResponsiveSidePanelBodyProps
-  extends SharedProps<SidePanel.BodyProps, BottomSheet.BodyProps> {
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel로 렌더링될 때는 효과가 없습니다. Bottom Sheet로 렌더링될 때 본문 높이를 지정하려면 본문 안에 `Box`를 두고 높이를 지정하세요.
-   */
-  height?: SidePanel.BodyProps["height"];
-
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel로 렌더링될 때 푸터 위치를 깨뜨립니다. Bottom Sheet로 렌더링될 때 본문 높이를 지정하려면 본문 안에 `Box`를 두고 높이를 지정하세요.
-   */
-  minHeight?: SidePanel.BodyProps["minHeight"];
-
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel로 렌더링될 때 푸터 위치를 깨뜨립니다. Bottom Sheet로 렌더링될 때 본문 높이를 지정하려면 본문 안에 `Box`를 두고 높이를 지정하세요.
-   */
-  maxHeight?: SidePanel.BodyProps["maxHeight"];
-}
+  extends SharedProps<SidePanel.BodyProps, BottomSheet.BodyProps> {}
 
 export const ResponsiveSidePanelBody = React.forwardRef<
   HTMLDivElement,
