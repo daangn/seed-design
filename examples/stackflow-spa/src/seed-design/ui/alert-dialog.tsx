@@ -3,28 +3,12 @@ import { forwardRef } from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type * as React from "react";
 
-export interface AlertDialogRootProps extends AlertDialog.RootProps {
-  /**
-   * @default "alertdialog"
-   */
-  role?: AlertDialog.RootProps["role"];
-  /**
-   * @default false
-   */
-  closeOnInteractOutside?: AlertDialog.RootProps["closeOnInteractOutside"];
-}
+export interface AlertDialogRootProps extends AlertDialog.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/alert-dialog
  */
-export const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {
-  return (
-    <AlertDialog.Root role="alertdialog" closeOnInteractOutside={false} {...otherProps}>
-      {children}
-    </AlertDialog.Root>
-  );
-};
-AlertDialogRoot.displayName = "AlertDialogRoot";
+export const AlertDialogRoot = AlertDialog.Root;
 
 export interface AlertDialogContentProps extends AlertDialog.ContentProps {
   layerIndex?: number;
