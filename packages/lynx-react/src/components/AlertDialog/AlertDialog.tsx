@@ -19,7 +19,10 @@ import {
   type ReactElement,
   type RefAttributes,
 } from "@lynx-js/react";
-import { dialog, type DialogVariantProps } from "@seed-design/lynx-css/recipes/dialog";
+import {
+  alertDialog,
+  type AlertDialogVariantProps,
+} from "@seed-design/lynx-css/recipes/alert-dialog";
 import clsx from "clsx";
 
 import type {
@@ -48,7 +51,7 @@ type NativeLifecycleHandlers = {
 };
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
-  createSlotRecipeContext(dialog);
+  createSlotRecipeContext(alertDialog);
 
 function omitHeadlessLifecycleHandlers<Props extends object>(
   props: Props | undefined,
@@ -79,7 +82,7 @@ function useAlertDialogTransition(transition: boolean | undefined) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogRootProps
-  extends DialogVariantProps,
+  extends AlertDialogVariantProps,
     Omit<DialogPrimitiveRootProps, "show" | "defaultShow" | "onShowChange"> {
   /** Whether the alert dialog is open (controlled mode). */
   open?: boolean;
@@ -95,9 +98,9 @@ export interface AlertDialogRootProps
  * not supported by the Lynx primitive.
  */
 export const AlertDialogRoot = forwardRef<never, AlertDialogRootProps>((props, _ref) => {
-  const [variantProps, restProps] = dialog.splitVariantProps(props);
+  const [variantProps, restProps] = alertDialog.splitVariantProps(props);
   const { children, open, defaultOpen, onOpenChange, ...nativeProps } = restProps;
-  const classNames = dialog(variantProps);
+  const classNames = alertDialog(variantProps);
 
   return (
     <ClassNamesProvider value={classNames}>

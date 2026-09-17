@@ -19,10 +19,7 @@ import {
   type ReactElement,
   type RefAttributes,
 } from "@lynx-js/react";
-import {
-  contentDialog,
-  type ContentDialogVariantProps,
-} from "@seed-design/lynx-css/recipes/content-dialog";
+import { dialog, type DialogVariantProps } from "@seed-design/lynx-css/recipes/dialog";
 import clsx from "clsx";
 
 import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
@@ -45,7 +42,7 @@ type NativeLifecycleHandlers = {
 };
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
-  createSlotRecipeContext(contentDialog);
+  createSlotRecipeContext(dialog);
 
 function omitHeadlessLifecycleHandlers<Props extends object>(
   props: Props | undefined,
@@ -76,7 +73,7 @@ function useDialogTransition(transition: boolean | undefined) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogRootProps
-  extends ContentDialogVariantProps,
+  extends DialogVariantProps,
     Omit<DialogPrimitiveRootProps, "show" | "defaultShow" | "onShowChange"> {
   /**
    * Whether the dialog is open (controlled mode).
@@ -105,9 +102,9 @@ export interface DialogRootProps
  * underlying Lynx dialog when content must remain mounted while closed.
  */
 export const DialogRoot = forwardRef<never, DialogRootProps>((props, _ref) => {
-  const [variantProps, restProps] = contentDialog.splitVariantProps(props);
+  const [variantProps, restProps] = dialog.splitVariantProps(props);
   const { children, open, defaultOpen, onOpenChange, ...nativeProps } = restProps;
-  const classNames = contentDialog(variantProps);
+  const classNames = dialog(variantProps);
 
   return (
     <ClassNamesProvider value={classNames}>

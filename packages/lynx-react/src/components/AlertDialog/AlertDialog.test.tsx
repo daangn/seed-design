@@ -111,14 +111,14 @@ describe("AlertDialog", () => {
       show: true,
       onShowChange: onOpenChange,
     });
-    expect(container.querySelector(".seed-dialog__positioner")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__backdrop")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__content")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__header")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__title")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__description")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__footer")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__action")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__positioner")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__backdrop")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__content")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__header")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__title")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__description")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__footer")).not.toBeNull();
+    expect(container.querySelector(".seed-alert-dialog__action")).not.toBeNull();
   });
 
   it("does not dismiss from the backdrop by default and preserves explicit overrides", () => {
