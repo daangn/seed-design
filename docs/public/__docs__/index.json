@@ -35,25 +35,6 @@
               ]
             },
             {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
               "id": "alert-dialog",
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
@@ -176,23 +157,16 @@
               ]
             },
             {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "control-chip.tsx"
-                }
-              ]
-            },
-            {
               "id": "date-picker",
               "title": "Date Picker",
               "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
               "docUrl": "/components/date-picker"
+            },
+            {
+              "id": "deprecated",
+              "title": "Deprecated Components",
+              "description": "더 이상 사용되지 않는 컴포넌트와 대체 컴포넌트를 안내합니다.",
+              "docUrl": "/components/deprecated"
             },
             {
               "id": "dialog",
@@ -212,45 +186,6 @@
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/components/fab",
-              "deprecated": true
             },
             {
               "id": "field",
@@ -310,29 +245,10 @@
               "docUrl": "/components/image-frame"
             },
             {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
               "id": "input-button",
               "title": "Input Button",
               "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
               "docUrl": "/components/input-button"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/components/link-content",
-              "deprecated": true
             },
             {
               "id": "list",
@@ -925,25 +841,6 @@
               ]
             },
             {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/react/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/react/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
               "id": "alert-dialog",
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
@@ -1085,13 +982,6 @@
               ]
             },
             {
-              "id": "columns",
-              "title": "Columns",
-              "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns",
-              "deprecated": true
-            },
-            {
               "id": "composition",
               "title": "Composition",
               "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
@@ -1130,19 +1020,6 @@
               ]
             },
             {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/react/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "control-chip.tsx"
-                }
-              ]
-            },
-            {
               "id": "date-picker",
               "title": "Date Picker",
               "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
@@ -1166,45 +1043,6 @@
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/react/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/react/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/react/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/react/components/fab",
-              "deprecated": true
             },
             {
               "id": "field-button",
@@ -1302,26 +1140,6 @@
               "docUrl": "/react/components/image-frame"
             },
             {
-              "id": "inline",
-              "title": "Inline",
-              "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline",
-              "deprecated": true
-            },
-            {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/react/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
               "id": "interaction-states",
               "title": "Interaction States",
               "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
@@ -1332,12 +1150,6 @@
               "title": "Library",
               "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
               "docUrl": "/react/components/iconography/library"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/react/components/link-content",
-              "deprecated": true
             },
             {
               "id": "list",
@@ -1620,13 +1432,6 @@
               "title": "Snippet",
               "description": "자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.",
               "docUrl": "/react/components/concepts/snippet"
-            },
-            {
-              "id": "stack",
-              "title": "Stack",
-              "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack",
-              "deprecated": true
             },
             {
               "id": "swipeable-menu-sheet",

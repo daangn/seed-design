@@ -19,8 +19,11 @@ type CatalogSource =
 type TreeNode = CatalogSource["pageTree"]["children"][number];
 type FolderNode = Extract<TreeNode, { type: "folder" }>;
 
-/** Progress Board is surfaced in the section overview header, not as a catalog card. */
-const PROGRESS_BOARD_URL = "/components/progress-board";
+/**
+ * Guide pages in the components section that aren't components: Progress Board is surfaced in the
+ * section overview header, and the deprecated guide stays in the sidebar.
+ */
+const NON_CATALOG_URLS = new Set(["/components/progress-board", "/components/deprecated"]);
 
 async function getCatalogSource(pathPrefix: string): Promise<CatalogSource | undefined> {
   if (pathPrefix.startsWith("/components/")) return getComponentsSource();
@@ -71,7 +74,7 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
   if (pathPrefix.startsWith("/components/")) {
     for (const page of catalogSource.getPages()) {
       if (page.slugs.length !== 1) continue;
-      if (page.url === base || page.url === PROGRESS_BOARD_URL) continue;
+      if (page.url === base || NON_CATALOG_URLS.has(page.url)) continue;
       if (page.data.frontmatter.deprecated) continue;
       items.push({
         key: page.url,
@@ -104,7 +107,7 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
       continue;
     }
 
-    if (node.url === base || node.url === PROGRESS_BOARD_URL) continue;
+    if (node.url === base || NON_CATALOG_URLS.has(node.url)) continue;
     if (items.some((item) => item.url === node.url)) continue;
 
     const page = pageByUrl.get(node.url);
