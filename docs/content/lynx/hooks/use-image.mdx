@@ -1,0 +1,125 @@
+---
+title: useImage
+description: Lynx 이미지의 로딩 상태와 실패 시 대체 UI를 관리하는 훅입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react-image@0.1.0" />
+
+## Installation
+
+```package-install
+bun add @seed-design/lynx-react-image
+```
+
+## Import
+
+```ts
+import { useImage } from "@seed-design/lynx-react-image";
+```
+
+`useImage`는 스타일이나 요소를 렌더링하지 않는 headless 훅입니다. `@seed-design/lynx-react`에서 재export하지 않으므로 독립 패키지에서 가져옵니다.
+
+## Usage
+
+### 이미지와 Fallback
+
+```tsx
+import { useImage } from "@seed-design/lynx-react-image";
+
+function ProfileImage({ src }: { src?: string }) {
+  const { loadingStatus, isLoaded, handleLoad, handleError } = useImage({ src });
+
+  return (
+    <view style={{ position: "relative", width: 96, height: 96 }}>
+      {src ? (
+        <image
+          key={src}
+          src={src}
+          mode="aspectFill"
+          bindload={handleLoad}
+          binderror={handleError}
+          style={{ width: "100%", height: "100%" }}
+        />
+      ) : null}
+      {!isLoaded ? (
+        <view
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#eeeeee",
+          }}
+        >
+          <text>{loadingStatus === "loading" ? "불러오는 중" : "이미지 없음"}</text>
+        </view>
+      ) : null}
+    </view>
+  );
+}
+```
+
+이미지는 로딩 중에도 마운트해야 `bindload`·`binderror`를 받을 수 있습니다. `isLoaded`가 참일 때만 `<image>`를 렌더하면 로딩을 시작할 수 없습니다. Fallback을 별도 요소로 겹쳐 표시하고 성공하면 제거하세요.
+
+`src`가 바뀔 수 있으면 `<image key={src}>`로 native 이미지 인스턴스도 요청별로 구분합니다. 훅이 추적하는 `src`와 `<image>`의 `src`는 같아야 합니다.
+
+### 로딩 상태 관찰
+
+```tsx
+import { useImage } from "@seed-design/lynx-react-image";
+
+function ObservableImage({ src }: { src: string }) {
+  const image = useImage({
+    src,
+    onLoadingStatusChange: (status) => {
+      console.log("image status:", status);
+    },
+  });
+
+  return (
+    <image
+      key={src}
+      src={src}
+      mode="aspectFit"
+      bindload={image.handleLoad}
+      binderror={image.handleError}
+      style={{ width: 96, height: 96 }}
+    />
+  );
+}
+```
+
+초기 상태와 새 `src`의 상태도 콜백으로 전달합니다. 같은 요청에서 같은 상태의 이벤트가 반복되거나 콜백 함수만 교체되어도 알림을 중복 호출하지 않습니다. 사용자 load/error 동작을 추가하려면 훅의 handler와 함께 호출해 상태 갱신을 유지하세요.
+
+## API
+
+### Options
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `src` | `string` | - | 표시할 이미지 주소입니다. 없거나 빈 문자열이면 `error`입니다. |
+| `onLoadingStatusChange` | `(status: ImageLoadingStatus) => void` | - | 요청의 초기 상태 및 로딩 상태 변경을 전달합니다. |
+
+### Return
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `loadingStatus` | `"loading" \| "loaded" \| "error"` | 현재 요청의 상태입니다. |
+| `isLoaded` | `boolean` | `loadingStatus === "loaded"`입니다. |
+| `handleLoad` | `() => void` | native `<image>`의 `bindload`에 연결합니다. |
+| `handleError` | `() => void` | native `<image>`의 `binderror`에 연결합니다. |
+
+`ImageLoadingStatus`, `UseImageProps`, `UseImageReturn` 타입도 같은 패키지에서 export합니다.
+
+### 상태 전이
+
+- 유효한 `src`로 시작하거나 변경하면 `loading`, `bindload`가 오면 `loaded`, `binderror`가 오면 `error`가 됩니다.
+- 이전 요청의 handler가 늦게 호출되어도 현재 요청의 상태는 바뀌지 않습니다. `A → B → A`로 돌아오는 경우도 새 요청으로 구분합니다.
+- 동일한 `src`로 재렌더하는 것만으로 요청을 초기화하거나 재시도하지 않습니다. 훅을 소유한 컴포넌트를 새로 마운트하는 등 재시도 흐름은 소비자가 구성합니다.
+
+## 웹과의 차이
+
+웹 `@seed-design/react-image`는 DOM의 이미지 상태를 조회할 수 있지만, 이 훅은 Lynx `<image>`의 load/error 이벤트로 상태를 갱신합니다. 웹 `Image.Root`·`Image.Content`·`Image.Fallback`에 해당하는 요소나 Context는 이 패키지가 제공하지 않습니다.
+
+원형 이미지·테두리·Avatar 배지·Fallback 배치는 소비하는 컴포넌트가 담당합니다. 이 훅을 기반으로 Avatar를 구성할 수 있지만, 훅 설치만으로 Lynx Avatar 컴포넌트가 추가되지는 않습니다.
