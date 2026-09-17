@@ -23,7 +23,7 @@ const SidePanelControlled = () => {
       </ActionButton>
       <SidePanelRoot open={open} onOpenChange={setOpen}>
         <SidePanelContent title="제목" description="설명을 작성할 수 있어요">
-          <SidePanelBody minHeight="x16" paddingX="x6">
+          <SidePanelBody paddingX="x6">
             외부 상태로 패널을 열고 닫을 때도 본문과 푸터 구조는 동일하게 유지됩니다.
           </SidePanelBody>
           <SidePanelFooter>
