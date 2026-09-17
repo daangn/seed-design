@@ -28,6 +28,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { breakpoints } from "../utils/breakpoint";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 
 const SELECT_TRANSFORM_ORIGIN = "--seed-select-transform-origin";
 const SELECT_AVAILABLE_HEIGHT = "--seed-select-available-height";
@@ -90,6 +91,8 @@ export const selectTrigger = defineSlotRecipe({
       [pseudo(not("[data-disabled]"), not(readOnly), engaged)]: {
         backgroundColor: selectTriggerVars.base.pressed.root.color,
       },
+
+      [pseudo(not("[data-disabled]"), not(readOnly), active)]: createContentScaleStyles(),
 
       [pseudo(readOnly, not("[data-disabled]"))]: {
         cursor: "default",
@@ -492,6 +495,8 @@ export const selectItem = defineSlotRecipe({
         backgroundColor: selectItemVars.base.pressed.root.color,
         insetInline: selectItemVars.base.pressed.root.marginX,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",

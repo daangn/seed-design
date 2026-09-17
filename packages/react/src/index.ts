@@ -5,8 +5,8 @@ export type { ResponsiveValue, UnwrapResponsive, BreakpointThreshold } from "./t
 export { useBreakpoint } from "./hooks/useBreakpoint";
 export type { UseBreakpointOptions } from "./hooks/useBreakpoint";
 export { useBreakpointValue } from "./hooks/useBreakpointValue";
-export { useScaleFeedback, ScaleFeedback } from "@seed-design/react-scale-feedback";
-export type { ScaleFeedbackProps } from "@seed-design/react-scale-feedback";
+export { useScaleFeedback, ScaleFeedback, ContentScale } from "@seed-design/react-scale-feedback";
+export type { ScaleFeedbackProps, ContentScaleProps } from "@seed-design/react-scale-feedback";
 export { BreakpointProvider } from "./providers/BreakpointProvider";
 export type { BreakpointProviderProps } from "./providers/BreakpointProvider";
 

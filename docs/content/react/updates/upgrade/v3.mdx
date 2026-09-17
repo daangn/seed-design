@@ -1,0 +1,44 @@
+---
+title: SEED React 3
+description: SEED React 3로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+SEED React 3로 업그레이드하는 방법을 안내합니다. 신규 기능 등 전체 변경사항은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.
+
+## 코드 변경
+
+### 코드 수정이 필요할 수 있는 항목
+
+#### 1. Content Scale 적용으로 일부 컴포넌트의 DOM 구조 변경
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+누르는 동안 배경은 그대로 두고 콘텐츠만 줄어드는 [Content Scale](/react/components/concepts/scale-feedback#content-scale-적용하기)을 아래 컴포넌트에 적용합니다. 이를 위해 각 컴포넌트의 root 요소 안에 콘텐츠를 감싸는 박스(`<span class="seed-content-scale">`)가 추가됩니다.
+
+- Accordion `Trigger`
+- Menu `Item`, Navigation Menu `Item`
+- Swipeable Menu Sheet `Item`, Menu Sheet `Item`
+- Page Banner `Root`
+- Segmented Control `Item`
+- Check Select Box `Root`, Radio Select Box `Item`
+- Select `Trigger`, Select `Item`
+
+```html
+<!-- 변경 전 -->
+<button class="seed-accordion__trigger">
+  <div class="seed-accordion__body">…</div>
+</button>
+
+<!-- 변경 후 -->
+<button class="seed-accordion__trigger seed-scale-feedback">
+  <span class="seed-content-scale">
+    <div class="seed-accordion__body">…</div>
+  </span>
+</button>
+```
+
+박스가 root의 flex 레이아웃 값을 이어받으므로, SEED 스타일만 사용한다면 화면은 달라지지 않습니다. snippet도 다시 받을 필요가 없습니다. 다만 아래에 해당하는 코드가 있다면 확인하세요.
+
+- **root의 직계 자식을 가리키는 선택자:** `.seed-accordion__trigger > *`나 Tailwind CSS의 `space-x-*`, `divide-*`, `*:`, `[&>svg]:` 같은 선택자는 이제 박스 하나만 가리킵니다. 원래 자식에 적용하려면 박스를 기준으로 선택자를 바꾸세요.
+- **root의 자식 노드를 직접 참조하는 코드:** `firstElementChild`, `children` 등으로 root의 자식에 접근하던 코드(테스트 포함)는 박스를 한 단계 거쳐야 합니다.
+- **`asChild`로 넘긴 자식 컴포넌트:** 자식 컴포넌트가 받는 children은 박스로 감싸진 상태로 전달됩니다. children을 렌더하지 않고 props로 내용을 직접 그리는 컴포넌트라면 화면은 그려지지만 축소가 적용되지 않습니다. [Composition](/react/components/concepts/composition#3-컴포넌트는-받은-children을-렌더해야-합니다) 문서를 참고하세요.
