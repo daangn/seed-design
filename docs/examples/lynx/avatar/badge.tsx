@@ -1,3 +1,5 @@
+import shield_blue_checkmark from "./shield_blue_checkmark.webp";
+import flower_green_checkmark from "./flower_green_checkmark.webp";
 import "./styles";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { Avatar, AvatarBadge } from "@/components/ui/avatar";
@@ -25,7 +27,7 @@ export default function AvatarBadgeExample() {
           <AvatarBadge>
             <image
               className="avatar-badge-image"
-              src="https://seed-design.io/flower_green_checkmark.svg"
+              src={flower_green_checkmark}
               accessibility-label="인증된 프로필"
             />
           </AvatarBadge>
@@ -38,7 +40,7 @@ export default function AvatarBadgeExample() {
           <AvatarBadge>
             <image
               className="avatar-badge-image"
-              src="https://seed-design.io/shield_blue_checkmark.svg"
+              src={shield_blue_checkmark}
               accessibility-label="보호된 프로필"
             />
           </AvatarBadge>

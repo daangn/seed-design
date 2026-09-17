@@ -41,8 +41,7 @@
     position: absolute;
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1
+    justify-content: center
 }
 .seed-avatar__root--size_20 {
     width: 20px;
