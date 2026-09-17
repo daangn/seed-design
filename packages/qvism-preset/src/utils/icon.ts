@@ -6,7 +6,6 @@ export interface IconProps {
 
   fontSize?: Property.FontSize;
   fontWeight?: string;
-  verticalAlign?: Property.VerticalAlign;
 
   marginLeft?: Property.MarginLeft;
   marginRight?: Property.MarginRight;
@@ -34,10 +33,6 @@ export function prefixIcon(props: IconProps) {
 
   if (props.fontWeight) {
     result["--seed-prefix-icon-font-weight"] = props.fontWeight;
-  }
-
-  if (props.verticalAlign) {
-    result["--seed-prefix-icon-vertical-align"] = props.verticalAlign;
   }
 
   if (props.marginLeft) {
@@ -86,10 +81,6 @@ export function suffixIcon(props: IconProps) {
     result["--seed-suffix-icon-font-weight"] = props.fontWeight;
   }
 
-  if (props.verticalAlign) {
-    result["--seed-suffix-icon-vertical-align"] = props.verticalAlign;
-  }
-
   if (props.marginLeft) {
     result["--seed-suffix-icon-margin-left"] = props.marginLeft;
   }
@@ -134,10 +125,6 @@ export function onlyIcon(props: IconProps) {
 
   if (props.fontWeight) {
     result["--seed-icon-font-weight"] = props.fontWeight;
-  }
-
-  if (props.verticalAlign) {
-    result["--seed-icon-vertical-align"] = props.verticalAlign;
   }
 
   return result;

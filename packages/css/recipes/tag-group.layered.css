@@ -58,8 +58,13 @@
     display: inline-block;
   }
 
+  .seed-tag-group__root--truncate_false .seed-icon, .seed-tag-group__root--truncate_false .seed-prefix-icon, .seed-tag-group__root--truncate_false .seed-suffix-icon {
+    top: var(--tag-group-item-inline-icon-offset, 0px);
+    position: relative;
+  }
+
   .seed-tag-group__separator--truncate_false {
-    vertical-align: baseline;
+    vertical-align: middle;
   }
 
   .seed-tag-group__root--size_t2-truncate_false {

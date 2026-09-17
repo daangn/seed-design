@@ -11,44 +11,38 @@ function createItemIconAlignmentStyles({
   prefixIconSize,
   suffixIconSize,
   fontSize,
+  lineHeight,
 }: {
   iconSize: string;
   prefixIconSize: string;
   suffixIconSize: string;
   fontSize: string;
+  lineHeight: string;
 }) {
   return {
+    "--tag-group-item-inline-icon-offset": `calc(${
+      1 - GLYPH_CENTER_EM_RATIO_FALLBACK
+    }em - ${lineHeight} / 2)`,
     "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
     "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
     "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
     ...onlyIcon({
       size: iconSize,
       fontSize,
-      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${iconSize} / 2)`,
     }),
     ...prefixIcon({
       size: prefixIconSize,
       fontSize,
-      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${prefixIconSize} / 2)`,
     }),
     ...suffixIcon({
       size: suffixIconSize,
       fontSize,
-      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${suffixIconSize} / 2)`,
     }),
-    "@supports (vertical-align: 1cap)": {
+    "@supports (top: 1cap)": {
+      "--tag-group-item-inline-icon-offset": `calc(1em - ${lineHeight} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
       "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
       "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
       "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
-      ...onlyIcon({
-        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${iconSize} / 2)`,
-      }),
-      ...prefixIcon({
-        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${prefixIconSize} / 2)`,
-      }),
-      ...suffixIcon({
-        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${suffixIconSize} / 2)`,
-      }),
     },
   };
 }
@@ -127,9 +121,13 @@ export const tagGroup = defineSlotRecipe({
           "--tag-group-item-white-space": "normal",
 
           "--tag-group-item-align-items": "center",
+          "& .seed-icon, & .seed-prefix-icon, & .seed-suffix-icon": {
+            position: "relative",
+            top: "var(--tag-group-item-inline-icon-offset, 0px)",
+          },
         },
         separator: {
-          verticalAlign: "baseline",
+          verticalAlign: "middle",
         },
       },
     },
@@ -177,7 +175,7 @@ export const tagGroupItem = defineSlotRecipe({
       display: "var(--tag-group-item-display)",
 
       alignItems: "var(--tag-group-item-align-items, center)",
-      verticalAlign: "baseline",
+      verticalAlign: "middle",
 
       flexShrink: "var(--seed-box-flex-shrink, 1)",
       minWidth: 0,
@@ -194,7 +192,7 @@ export const tagGroupItem = defineSlotRecipe({
     },
     label: {
       display: "inline",
-      verticalAlign: "baseline",
+      verticalAlign: "middle",
 
       minWidth: 0,
 
@@ -223,6 +221,7 @@ export const tagGroupItem = defineSlotRecipe({
           prefixIconSize: itemVars.sizeT2.enabled.prefixIcon.size,
           suffixIconSize: itemVars.sizeT2.enabled.suffixIcon.size,
           fontSize: itemVars.sizeT2.enabled.label.fontSize,
+          lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
         }),
         label: {
           fontSize: itemVars.sizeT2.enabled.label.fontSize,
@@ -235,6 +234,7 @@ export const tagGroupItem = defineSlotRecipe({
           prefixIconSize: itemVars.sizeT3.enabled.prefixIcon.size,
           suffixIconSize: itemVars.sizeT3.enabled.suffixIcon.size,
           fontSize: itemVars.sizeT3.enabled.label.fontSize,
+          lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
         }),
         label: {
           fontSize: itemVars.sizeT3.enabled.label.fontSize,
@@ -247,6 +247,7 @@ export const tagGroupItem = defineSlotRecipe({
           prefixIconSize: itemVars.sizeT4.enabled.prefixIcon.size,
           suffixIconSize: itemVars.sizeT4.enabled.suffixIcon.size,
           fontSize: itemVars.sizeT4.enabled.label.fontSize,
+          lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
         }),
         label: {
           fontSize: itemVars.sizeT4.enabled.label.fontSize,
