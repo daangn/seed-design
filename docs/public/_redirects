@@ -39,3 +39,27 @@
 /react/components/check-select-box /react/components/select-box 301
 /react/components/radio-select-box /react/components/select-box 301
 /react/guides/theming /react/getting-started/styling/theming 301
+
+# SEED React 3.0.0에서 제거한 deprecated 컴포넌트. 디자인 문서는 대체 컴포넌트를 모아 둔 안내
+# 페이지로, React 문서는 각 대체 컴포넌트 페이지로 보낸다.
+/components/action-chip /components/deprecated 301
+/components/action-sheet /components/deprecated 301
+/components/control-chip /components/deprecated 301
+/components/error-state /components/deprecated 301
+/components/extended-action-sheet /components/deprecated 301
+/components/extended-fab /components/deprecated 301
+/components/fab /components/deprecated 301
+/components/inline-banner /components/deprecated 301
+/components/link-content /components/deprecated 301
+/react/components/action-chip /react/components/chip 301
+/react/components/action-sheet /react/components/swipeable-menu-sheet 301
+/react/components/columns /react/components/layout/h-stack 301
+/react/components/control-chip /react/components/chip 301
+/react/components/error-state /react/components/result-section 301
+/react/components/extended-action-sheet /react/components/swipeable-menu-sheet 301
+/react/components/extended-fab /react/components/contextual-floating-button 301
+/react/components/fab /react/components/contextual-floating-button 301
+/react/components/inline /react/components/layout/h-stack 301
+/react/components/inline-banner /react/components/page-banner 301
+/react/components/link-content /react/components/action-button 301
+/react/components/stack /react/components/layout/v-stack 301
