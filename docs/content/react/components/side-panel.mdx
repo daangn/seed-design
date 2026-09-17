@@ -61,6 +61,10 @@ npx @seed-design/cli@latest add ui:responsive-side-panel
 
 ### `SidePanelBody`
 
+<Callout title="Deprecated Props" type="warning">
+  `height`, `minHeight`, `maxHeight`는 더 이상 사용되지 않으며 SEED React 3.0.0에서 제거됩니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 세 prop은 효과가 없거나 푸터 위치를 깨뜨립니다. `ResponsiveSidePanelBody`에도 같은 내용이 적용됩니다.
+</Callout>
+
 <react-type-table
   path="./registry/react/ui/side-panel.tsx"
   name="SidePanelBodyProps"
