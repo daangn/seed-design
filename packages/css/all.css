@@ -47,7 +47,6 @@
 }
 
 .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
-  vertical-align: middle;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
@@ -58,12 +57,18 @@
   width: var(--seed-icon-size);
   height: var(--seed-icon-size);
   color: var(--seed-icon-color, currentColor);
+  font-size: var(--seed-icon-font-size, inherit);
+  font-weight: var(--seed-icon-font-weight, inherit);
+  vertical-align: var(--seed-icon-vertical-align, middle);
 }
 
 .seed-prefix-icon {
   width: var(--seed-prefix-icon-size);
   height: var(--seed-prefix-icon-size);
   color: var(--seed-prefix-icon-color, currentColor);
+  font-size: var(--seed-prefix-icon-font-size, inherit);
+  font-weight: var(--seed-prefix-icon-font-weight, inherit);
+  vertical-align: var(--seed-prefix-icon-vertical-align, middle);
   margin-left: var(--seed-prefix-icon-margin-left, 0);
   margin-right: var(--seed-prefix-icon-margin-right, 0);
   margin-top: var(--seed-prefix-icon-margin-top, 0);
@@ -76,6 +81,9 @@
   width: var(--seed-suffix-icon-size);
   height: var(--seed-suffix-icon-size);
   color: var(--seed-suffix-icon-color, currentColor);
+  font-size: var(--seed-suffix-icon-font-size, inherit);
+  font-weight: var(--seed-suffix-icon-font-weight, inherit);
+  vertical-align: var(--seed-suffix-icon-vertical-align, middle);
   margin-left: var(--seed-suffix-icon-margin-left, 0);
   margin-right: var(--seed-suffix-icon-margin-right, 0);
   margin-top: var(--seed-suffix-icon-margin-top, 0);
@@ -11801,9 +11809,25 @@
   --tag-group-item-overflow: hidden;
   --tag-group-item-text-overflow: ellipsis;
   --tag-group-item-white-space: nowrap;
+  --tag-group-item-align-items: baseline;
   align-items: center;
   max-width: 100%;
   display: inline-flex;
+}
+
+.seed-tag-group__root--truncate_true .seed-icon {
+  top: var(--tag-group-item-icon-flex-offset, 0px);
+  position: relative;
+}
+
+.seed-tag-group__root--truncate_true .seed-prefix-icon {
+  top: var(--tag-group-item-prefix-icon-flex-offset, 0px);
+  position: relative;
+}
+
+.seed-tag-group__root--truncate_true .seed-suffix-icon {
+  top: var(--tag-group-item-suffix-icon-flex-offset, 0px);
+  position: relative;
 }
 
 .seed-tag-group__root--truncate_false {
@@ -11811,12 +11835,13 @@
   --tag-group-item-overflow: visible;
   --tag-group-item-text-overflow: clip;
   --tag-group-item-white-space: normal;
+  --tag-group-item-align-items: center;
   font-size: 0;
   display: inline-block;
 }
 
 .seed-tag-group__separator--truncate_false {
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 
 .seed-tag-group__root--size_t2-truncate_false {
@@ -11833,14 +11858,14 @@
 
 .seed-tag-group-item__root {
   display: var(--tag-group-item-display);
-  vertical-align: middle;
+  align-items: var(--tag-group-item-align-items, center);
+  vertical-align: baseline;
   flex-shrink: var(--seed-box-flex-shrink, 1);
-  align-items: center;
   min-width: 0;
 }
 
 .seed-tag-group-item__label {
-  vertical-align: middle;
+  vertical-align: baseline;
   min-width: 0;
   overflow: var(--tag-group-item-overflow);
   text-overflow: var(--tag-group-item-text-overflow);
@@ -11858,9 +11883,29 @@
 }
 
 .seed-tag-group-item__root--size_t2 {
-  --seed-prefix-icon-size: var(--seed-dimension-x3);
-  --seed-suffix-icon-size: var(--seed-dimension-x3);
+  --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
+  --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
+  --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
   --seed-icon-size: var(--seed-dimension-x3);
+  --seed-icon-font-size: var(--seed-font-size-t2);
+  --seed-icon-vertical-align: calc(.35em - var(--seed-dimension-x3) / 2);
+  --seed-prefix-icon-size: var(--seed-dimension-x3);
+  --seed-prefix-icon-font-size: var(--seed-font-size-t2);
+  --seed-prefix-icon-vertical-align: calc(.35em - var(--seed-dimension-x3) / 2);
+  --seed-suffix-icon-size: var(--seed-dimension-x3);
+  --seed-suffix-icon-font-size: var(--seed-font-size-t2);
+  --seed-suffix-icon-vertical-align: calc(.35em - var(--seed-dimension-x3) / 2);
+}
+
+@supports (vertical-align: 1cap) {
+  .seed-tag-group-item__root--size_t2 {
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
+    --seed-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3) / 2);
+    --seed-prefix-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3) / 2);
+    --seed-suffix-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3) / 2);
+  }
 }
 
 .seed-tag-group-item__label--size_t2 {
@@ -11869,9 +11914,29 @@
 }
 
 .seed-tag-group-item__root--size_t3 {
-  --seed-prefix-icon-size: 13px;
-  --seed-suffix-icon-size: 13px;
+  --tag-group-item-icon-flex-offset: calc(13px / 2 - .35em);
+  --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .35em);
+  --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .35em);
   --seed-icon-size: 13px;
+  --seed-icon-font-size: var(--seed-font-size-t3);
+  --seed-icon-vertical-align: calc(.35em - 13px / 2);
+  --seed-prefix-icon-size: 13px;
+  --seed-prefix-icon-font-size: var(--seed-font-size-t3);
+  --seed-prefix-icon-vertical-align: calc(.35em - 13px / 2);
+  --seed-suffix-icon-size: 13px;
+  --seed-suffix-icon-font-size: var(--seed-font-size-t3);
+  --seed-suffix-icon-vertical-align: calc(.35em - 13px / 2);
+}
+
+@supports (vertical-align: 1cap) {
+  .seed-tag-group-item__root--size_t3 {
+    --tag-group-item-icon-flex-offset: calc(13px / 2 - .5cap);
+    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .5cap);
+    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .5cap);
+    --seed-icon-vertical-align: calc(.5cap - 13px / 2);
+    --seed-prefix-icon-vertical-align: calc(.5cap - 13px / 2);
+    --seed-suffix-icon-vertical-align: calc(.5cap - 13px / 2);
+  }
 }
 
 .seed-tag-group-item__label--size_t3 {
@@ -11880,9 +11945,29 @@
 }
 
 .seed-tag-group-item__root--size_t4 {
-  --seed-prefix-icon-size: var(--seed-dimension-x3_5);
-  --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+  --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
+  --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
+  --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
   --seed-icon-size: var(--seed-dimension-x3_5);
+  --seed-icon-font-size: var(--seed-font-size-t4);
+  --seed-icon-vertical-align: calc(.35em - var(--seed-dimension-x3_5) / 2);
+  --seed-prefix-icon-size: var(--seed-dimension-x3_5);
+  --seed-prefix-icon-font-size: var(--seed-font-size-t4);
+  --seed-prefix-icon-vertical-align: calc(.35em - var(--seed-dimension-x3_5) / 2);
+  --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+  --seed-suffix-icon-font-size: var(--seed-font-size-t4);
+  --seed-suffix-icon-vertical-align: calc(.35em - var(--seed-dimension-x3_5) / 2);
+}
+
+@supports (vertical-align: 1cap) {
+  .seed-tag-group-item__root--size_t4 {
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
+    --seed-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3_5) / 2);
+    --seed-prefix-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3_5) / 2);
+    --seed-suffix-icon-vertical-align: calc(.5cap - var(--seed-dimension-x3_5) / 2);
+  }
 }
 
 .seed-tag-group-item__label--size_t4 {
@@ -11890,8 +11975,20 @@
   line-height: var(--seed-line-height-t4);
 }
 
+.seed-tag-group-item__root--weight_regular {
+  --seed-icon-font-weight: var(--seed-font-weight-regular);
+  --seed-prefix-icon-font-weight: var(--seed-font-weight-regular);
+  --seed-suffix-icon-font-weight: var(--seed-font-weight-regular);
+}
+
 .seed-tag-group-item__label--weight_regular {
   font-weight: var(--seed-font-weight-regular);
+}
+
+.seed-tag-group-item__root--weight_bold {
+  --seed-icon-font-weight: var(--seed-font-weight-bold);
+  --seed-prefix-icon-font-weight: var(--seed-font-weight-bold);
+  --seed-suffix-icon-font-weight: var(--seed-font-weight-bold);
 }
 
 .seed-tag-group-item__label--weight_bold {

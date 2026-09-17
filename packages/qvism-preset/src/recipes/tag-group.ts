@@ -3,6 +3,56 @@ import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { not, pseudo } from "../utils/pseudo";
 
+const GLYPH_CENTER_CAP_RATIO = 0.5;
+const GLYPH_CENTER_EM_RATIO_FALLBACK = 0.35;
+
+function createItemIconAlignmentStyles({
+  iconSize,
+  prefixIconSize,
+  suffixIconSize,
+  fontSize,
+}: {
+  iconSize: string;
+  prefixIconSize: string;
+  suffixIconSize: string;
+  fontSize: string;
+}) {
+  return {
+    "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
+    "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
+    "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
+    ...onlyIcon({
+      size: iconSize,
+      fontSize,
+      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${iconSize} / 2)`,
+    }),
+    ...prefixIcon({
+      size: prefixIconSize,
+      fontSize,
+      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${prefixIconSize} / 2)`,
+    }),
+    ...suffixIcon({
+      size: suffixIconSize,
+      fontSize,
+      verticalAlign: `calc(${GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${suffixIconSize} / 2)`,
+    }),
+    "@supports (vertical-align: 1cap)": {
+      "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
+      "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
+      "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
+      ...onlyIcon({
+        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${iconSize} / 2)`,
+      }),
+      ...prefixIcon({
+        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${prefixIconSize} / 2)`,
+      }),
+      ...suffixIcon({
+        verticalAlign: `calc(${GLYPH_CENTER_CAP_RATIO}cap - ${suffixIconSize} / 2)`,
+      }),
+    },
+  };
+}
+
 export const tagGroup = defineSlotRecipe({
   name: "tag-group",
   slots: ["root", "separator"],
@@ -49,6 +99,20 @@ export const tagGroup = defineSlotRecipe({
           "--tag-group-item-overflow": "hidden",
           "--tag-group-item-text-overflow": "ellipsis",
           "--tag-group-item-white-space": "nowrap",
+
+          "--tag-group-item-align-items": "baseline",
+          "& .seed-icon": {
+            position: "relative",
+            top: "var(--tag-group-item-icon-flex-offset, 0px)",
+          },
+          "& .seed-prefix-icon": {
+            position: "relative",
+            top: "var(--tag-group-item-prefix-icon-flex-offset, 0px)",
+          },
+          "& .seed-suffix-icon": {
+            position: "relative",
+            top: "var(--tag-group-item-suffix-icon-flex-offset, 0px)",
+          },
         },
       },
       false: {
@@ -61,9 +125,11 @@ export const tagGroup = defineSlotRecipe({
           "--tag-group-item-overflow": "visible",
           "--tag-group-item-text-overflow": "clip",
           "--tag-group-item-white-space": "normal",
+
+          "--tag-group-item-align-items": "center",
         },
         separator: {
-          verticalAlign: "middle",
+          verticalAlign: "baseline",
         },
       },
     },
@@ -110,8 +176,8 @@ export const tagGroupItem = defineSlotRecipe({
     root: {
       display: "var(--tag-group-item-display)",
 
-      alignItems: "center", // for centering icon+label when inline-flex
-      verticalAlign: "middle", // for centering item itself when root display: inline
+      alignItems: "var(--tag-group-item-align-items, center)",
+      verticalAlign: "baseline",
 
       flexShrink: "var(--seed-box-flex-shrink, 1)",
       minWidth: 0,
@@ -128,7 +194,7 @@ export const tagGroupItem = defineSlotRecipe({
     },
     label: {
       display: "inline",
-      verticalAlign: "middle", // for centering label when item display: inline
+      verticalAlign: "baseline",
 
       minWidth: 0,
 
@@ -152,51 +218,36 @@ export const tagGroupItem = defineSlotRecipe({
   variants: {
     size: {
       t2: {
-        root: {
-          ...prefixIcon({
-            size: itemVars.sizeT2.enabled.prefixIcon.size,
-          }),
-          ...suffixIcon({
-            size: itemVars.sizeT2.enabled.suffixIcon.size,
-          }),
-          ...onlyIcon({
-            size: itemVars.sizeT2.enabled.prefixIcon.size,
-          }),
-        },
+        root: createItemIconAlignmentStyles({
+          iconSize: itemVars.sizeT2.enabled.icon.size,
+          prefixIconSize: itemVars.sizeT2.enabled.prefixIcon.size,
+          suffixIconSize: itemVars.sizeT2.enabled.suffixIcon.size,
+          fontSize: itemVars.sizeT2.enabled.label.fontSize,
+        }),
         label: {
           fontSize: itemVars.sizeT2.enabled.label.fontSize,
           lineHeight: itemVars.sizeT2.enabled.label.lineHeight,
         },
       },
       t3: {
-        root: {
-          ...prefixIcon({
-            size: itemVars.sizeT3.enabled.prefixIcon.size,
-          }),
-          ...suffixIcon({
-            size: itemVars.sizeT3.enabled.suffixIcon.size,
-          }),
-          ...onlyIcon({
-            size: itemVars.sizeT3.enabled.prefixIcon.size,
-          }),
-        },
+        root: createItemIconAlignmentStyles({
+          iconSize: itemVars.sizeT3.enabled.icon.size,
+          prefixIconSize: itemVars.sizeT3.enabled.prefixIcon.size,
+          suffixIconSize: itemVars.sizeT3.enabled.suffixIcon.size,
+          fontSize: itemVars.sizeT3.enabled.label.fontSize,
+        }),
         label: {
           fontSize: itemVars.sizeT3.enabled.label.fontSize,
           lineHeight: itemVars.sizeT3.enabled.label.lineHeight,
         },
       },
       t4: {
-        root: {
-          ...prefixIcon({
-            size: itemVars.sizeT4.enabled.prefixIcon.size,
-          }),
-          ...suffixIcon({
-            size: itemVars.sizeT4.enabled.suffixIcon.size,
-          }),
-          ...onlyIcon({
-            size: itemVars.sizeT4.enabled.prefixIcon.size,
-          }),
-        },
+        root: createItemIconAlignmentStyles({
+          iconSize: itemVars.sizeT4.enabled.icon.size,
+          prefixIconSize: itemVars.sizeT4.enabled.prefixIcon.size,
+          suffixIconSize: itemVars.sizeT4.enabled.suffixIcon.size,
+          fontSize: itemVars.sizeT4.enabled.label.fontSize,
+        }),
         label: {
           fontSize: itemVars.sizeT4.enabled.label.fontSize,
           lineHeight: itemVars.sizeT4.enabled.label.lineHeight,
@@ -205,11 +256,21 @@ export const tagGroupItem = defineSlotRecipe({
     },
     weight: {
       regular: {
+        root: {
+          ...onlyIcon({ fontWeight: itemVars.weightRegular.enabled.label.fontWeight }),
+          ...prefixIcon({ fontWeight: itemVars.weightRegular.enabled.label.fontWeight }),
+          ...suffixIcon({ fontWeight: itemVars.weightRegular.enabled.label.fontWeight }),
+        },
         label: {
           fontWeight: itemVars.weightRegular.enabled.label.fontWeight,
         },
       },
       bold: {
+        root: {
+          ...onlyIcon({ fontWeight: itemVars.weightBold.enabled.label.fontWeight }),
+          ...prefixIcon({ fontWeight: itemVars.weightBold.enabled.label.fontWeight }),
+          ...suffixIcon({ fontWeight: itemVars.weightBold.enabled.label.fontWeight }),
+        },
         label: {
           fontWeight: itemVars.weightBold.enabled.label.fontWeight,
         },

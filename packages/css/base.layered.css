@@ -48,7 +48,6 @@
   }
 
   .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
-    vertical-align: middle;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -59,12 +58,18 @@
     width: var(--seed-icon-size);
     height: var(--seed-icon-size);
     color: var(--seed-icon-color, currentColor);
+    font-size: var(--seed-icon-font-size, inherit);
+    font-weight: var(--seed-icon-font-weight, inherit);
+    vertical-align: var(--seed-icon-vertical-align, middle);
   }
 
   .seed-prefix-icon {
     width: var(--seed-prefix-icon-size);
     height: var(--seed-prefix-icon-size);
     color: var(--seed-prefix-icon-color, currentColor);
+    font-size: var(--seed-prefix-icon-font-size, inherit);
+    font-weight: var(--seed-prefix-icon-font-weight, inherit);
+    vertical-align: var(--seed-prefix-icon-vertical-align, middle);
     margin-left: var(--seed-prefix-icon-margin-left, 0);
     margin-right: var(--seed-prefix-icon-margin-right, 0);
     margin-top: var(--seed-prefix-icon-margin-top, 0);
@@ -77,6 +82,9 @@
     width: var(--seed-suffix-icon-size);
     height: var(--seed-suffix-icon-size);
     color: var(--seed-suffix-icon-color, currentColor);
+    font-size: var(--seed-suffix-icon-font-size, inherit);
+    font-weight: var(--seed-suffix-icon-font-weight, inherit);
+    vertical-align: var(--seed-suffix-icon-vertical-align, middle);
     margin-left: var(--seed-suffix-icon-margin-left, 0);
     margin-right: var(--seed-suffix-icon-margin-right, 0);
     margin-top: var(--seed-suffix-icon-margin-top, 0);

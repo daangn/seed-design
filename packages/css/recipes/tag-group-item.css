@@ -1,13 +1,13 @@
 .seed-tag-group-item__root {
     display: var(--tag-group-item-display);
-    align-items: center;
-    vertical-align: middle;
+    align-items: var(--tag-group-item-align-items, center);
+    vertical-align: baseline;
     flex-shrink: var(--seed-box-flex-shrink, 1);
     min-width: 0;
 }
 .seed-tag-group-item__label {
     display: inline;
-    vertical-align: middle;
+    vertical-align: baseline;
     min-width: 0;
     overflow: var(--tag-group-item-overflow);
     text-overflow: var(--tag-group-item-text-overflow);
@@ -21,34 +21,101 @@
     margin-right: var(--seed-dimension-x0_5);
 }
 .seed-tag-group-item__root--size_t2 {
-    --seed-prefix-icon-size: var(--seed-dimension-x3);
-    --seed-suffix-icon-size: var(--seed-dimension-x3);
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.35em);
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.35em);
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.35em);
     --seed-icon-size: var(--seed-dimension-x3);
+    --seed-icon-font-size: var(--seed-font-size-t2);
+    --seed-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3) / 2);
+    --seed-prefix-icon-size: var(--seed-dimension-x3);
+    --seed-prefix-icon-font-size: var(--seed-font-size-t2);
+    --seed-prefix-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3) / 2);
+    --seed-suffix-icon-size: var(--seed-dimension-x3);
+    --seed-suffix-icon-font-size: var(--seed-font-size-t2);
+    --seed-suffix-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3) / 2);
+}
+@supports (vertical-align: 1cap) {
+    .seed-tag-group-item__root--size_t2 {
+        --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.5cap);
+        --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.5cap);
+        --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - 0.5cap);
+        --seed-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3) / 2);
+        --seed-prefix-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3) / 2);
+        --seed-suffix-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3) / 2);
+    }
 }
 .seed-tag-group-item__label--size_t2 {
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
 }
 .seed-tag-group-item__root--size_t3 {
-    --seed-prefix-icon-size: 13px;
-    --seed-suffix-icon-size: 13px;
+    --tag-group-item-icon-flex-offset: calc(13px / 2 - 0.35em);
+    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - 0.35em);
+    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - 0.35em);
     --seed-icon-size: 13px;
+    --seed-icon-font-size: var(--seed-font-size-t3);
+    --seed-icon-vertical-align: calc(0.35em - 13px / 2);
+    --seed-prefix-icon-size: 13px;
+    --seed-prefix-icon-font-size: var(--seed-font-size-t3);
+    --seed-prefix-icon-vertical-align: calc(0.35em - 13px / 2);
+    --seed-suffix-icon-size: 13px;
+    --seed-suffix-icon-font-size: var(--seed-font-size-t3);
+    --seed-suffix-icon-vertical-align: calc(0.35em - 13px / 2);
+}
+@supports (vertical-align: 1cap) {
+    .seed-tag-group-item__root--size_t3 {
+        --tag-group-item-icon-flex-offset: calc(13px / 2 - 0.5cap);
+        --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - 0.5cap);
+        --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - 0.5cap);
+        --seed-icon-vertical-align: calc(0.5cap - 13px / 2);
+        --seed-prefix-icon-vertical-align: calc(0.5cap - 13px / 2);
+        --seed-suffix-icon-vertical-align: calc(0.5cap - 13px / 2);
+    }
 }
 .seed-tag-group-item__label--size_t3 {
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
 }
 .seed-tag-group-item__root--size_t4 {
-    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
-    --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.35em);
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.35em);
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.35em);
     --seed-icon-size: var(--seed-dimension-x3_5);
+    --seed-icon-font-size: var(--seed-font-size-t4);
+    --seed-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3_5) / 2);
+    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
+    --seed-prefix-icon-font-size: var(--seed-font-size-t4);
+    --seed-prefix-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3_5) / 2);
+    --seed-suffix-icon-size: var(--seed-dimension-x3_5);
+    --seed-suffix-icon-font-size: var(--seed-font-size-t4);
+    --seed-suffix-icon-vertical-align: calc(0.35em - var(--seed-dimension-x3_5) / 2);
+}
+@supports (vertical-align: 1cap) {
+    .seed-tag-group-item__root--size_t4 {
+        --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.5cap);
+        --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.5cap);
+        --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - 0.5cap);
+        --seed-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3_5) / 2);
+        --seed-prefix-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3_5) / 2);
+        --seed-suffix-icon-vertical-align: calc(0.5cap - var(--seed-dimension-x3_5) / 2);
+    }
 }
 .seed-tag-group-item__label--size_t4 {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
 }
+.seed-tag-group-item__root--weight_regular {
+    --seed-icon-font-weight: var(--seed-font-weight-regular);
+    --seed-prefix-icon-font-weight: var(--seed-font-weight-regular);
+    --seed-suffix-icon-font-weight: var(--seed-font-weight-regular);
+}
 .seed-tag-group-item__label--weight_regular {
     font-weight: var(--seed-font-weight-regular);
+}
+.seed-tag-group-item__root--weight_bold {
+    --seed-icon-font-weight: var(--seed-font-weight-bold);
+    --seed-prefix-icon-font-weight: var(--seed-font-weight-bold);
+    --seed-suffix-icon-font-weight: var(--seed-font-weight-bold);
 }
 .seed-tag-group-item__label--weight_bold {
     font-weight: var(--seed-font-weight-bold);
