@@ -2,6 +2,10 @@ declare interface ListItemVariant {
   /**
   * @default false
   */
+  interactive: boolean;
+/**
+  * @default false
+  */
   highlighted: boolean;
 /**
   * @default false

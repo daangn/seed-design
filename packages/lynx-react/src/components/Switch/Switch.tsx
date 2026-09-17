@@ -15,11 +15,9 @@ import type {
   LynxTextRef,
   LynxViewRef,
 } from "../../types";
-import {
-  useScaleFeedback,
-  type ScaleFeedbackTargetProps,
-} from "../../hooks/useScaleFeedback";
+import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
+import { ScaleFeedbackContentContext } from "../../contexts";
 
 /**
  * @platform Lynx
@@ -110,13 +108,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
 
-  const {
-    pressed,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    ...pressHandlers
-  } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: toggle,
   });
@@ -139,7 +131,15 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       toggle,
       scaleFeedbackTargetProps,
     }),
-    [checked, disabled, pressed, switchVariantProps, switchmarkVariantProps, toggle, scaleFeedbackTargetProps],
+    [
+      checked,
+      disabled,
+      pressed,
+      switchVariantProps,
+      switchmarkVariantProps,
+      toggle,
+      scaleFeedbackTargetProps,
+    ],
   );
 
   return (
@@ -175,6 +175,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
   const context = useSwitchContext("SwitchControl");
+  const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const switchmarkVariantProps: SwitchmarkVariantProps = {
     ...context.switchmarkVariantProps,
     ...variantProps,
@@ -190,7 +191,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       <view
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
-          context.scaleFeedbackTargetProps,
+          !hasScaledContent ? context.scaleFeedbackTargetProps : {},
           nativeProps,
         )}
         className={clsx(classes.root, className)}

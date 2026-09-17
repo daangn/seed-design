@@ -63,6 +63,11 @@ const callout = defineSlotRecipe({
       marginBottom: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
       marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: closeButtonVars.base.enabled.root.color,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}`,
+      "&:active": {
+        backgroundColor: closeButtonVars.base.pressed.root.color,
+      },
     },
     prefixIcon: {
       flexShrink: 0,
