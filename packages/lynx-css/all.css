@@ -7235,7 +7235,6 @@ text {
 }
 
 .seed-avatar__badge {
-  z-index: 1;
   justify-content: center;
   align-items: center;
   display: flex;
