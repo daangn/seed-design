@@ -35,6 +35,43 @@ jobs:
           node-version: "24"
       - id: review
         run: npx --yes @kaptures/cli@0.8.0 github prepare-review --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
+      # 완성된 배포 폴더의 한도만 검사합니다. 별도 API 호출·예약 작업·삭제는 없습니다.
+      - name: Check Pages upload limits
+        id: upload-limits
+        if: steps.review.outputs.ready == 'true'
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+        env:
+          KAPTURE_REPORT_DIRECTORY: ${{ runner.temp }}/kapture-review
+        with:
+          script: |
+            const { readdir, lstat } = require('node:fs/promises');
+            const { join } = require('node:path');
+            // 현재 Wrangler 업로드 경로의 보수적인 한도. 계정 플랜을 추정하지 않습니다.
+            const maxFiles = 20000;
+            const maxFileBytes = 25 * 1024 * 1024;
+            let files = 0, bytes = 0, largest = 0, images = 0;
+            async function inspect(path) {
+              const stat = await lstat(path);
+              if (stat.isSymbolicLink()) throw new Error('Symlinks are not allowed in the Pages upload');
+              if (stat.isDirectory()) {
+                for (const entry of await readdir(path)) await inspect(join(path, entry));
+              } else if (stat.isFile()) {
+                files++;
+                bytes += stat.size;
+                largest = Math.max(largest, stat.size);
+                if (path.endsWith('.png')) images++;
+              } else throw new Error('Unsupported file type in the Pages upload');
+            }
+            await inspect(process.env.KAPTURE_REPORT_DIRECTORY);
+            await core.summary.addHeading('Kapture Pages upload')
+              .addTable([
+                [{ data: 'Files', header: true }, { data: 'PNG images', header: true },
+                 { data: 'Total bytes', header: true }, { data: 'Largest file bytes', header: true }],
+                [String(files), String(images), String(bytes), String(largest)],
+              ]).write();
+            if (!files || files > maxFiles || largest > maxFileBytes) {
+              throw new Error(`Pages upload exceeds limits or is empty: ${files} files, largest ${largest} bytes`);
+            }
       - name: Deploy dashboard and Storybook together
         id: deploy
         if: steps.review.outputs.ready == 'true'
@@ -64,21 +101,6 @@ jobs:
         env:
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
         run: npx --yes @kaptures/cli@0.8.0 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
-      - name: Explain preview retention once per PR
-        if: steps.review.outputs.ready == 'true'
-        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
-        env:
-          PR_NUMBER: ${{ steps.review.outputs.pr-number }}
-        with:
-          script: |
-            const issue_number = Number(process.env.PR_NUMBER);
-            if (!Number.isSafeInteger(issue_number) || issue_number <= 0) throw new Error('Invalid PR number');
-            const marker = '<!-- seed-kapture-retention-policy -->';
-            const comments = await github.paginate(github.rest.issues.listComments, { ...context.repo, issue_number, per_page: 100 });
-            if (!comments.some(c => c.user?.type === 'Bot' && c.body?.includes(marker))) {
-              await github.rest.issues.createComment({ ...context.repo, issue_number,
-                body: `${marker}\nKapture Preview는 PR이 열린 동안 최신 결과와 승인 근거를 보관합니다. 보호 대상이 아닌 이전 결과는 7일 뒤, PR 머지·종료 후에는 모든 해당 Preview를 7일 뒤 정리합니다. 정리된 이미지·대시보드는 기존 링크와 MCP로 조회할 수 없습니다.` });
-            }
   finalize:
     needs: publish
     if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository

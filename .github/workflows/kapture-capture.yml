@@ -28,6 +28,10 @@ on:
 permissions:
   contents: read
   pull-requests: read
+env:
+  # Kapture의 capture-cache 기능 배포 후 CLI·adapter 버전을 함께 올리고 활성화합니다.
+  # 비활성 상태에서는 기존 0.8.0 경로를 그대로 사용합니다.
+  KAPTURE_CAPTURE_CACHE: "false"
 concurrency:
   group: kapture-capture-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
@@ -261,6 +265,10 @@ jobs:
       - build-head
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
     env:
       npm_config_ignore_scripts: "true"
       YARN_ENABLE_SCRIPTS: "false"
@@ -287,6 +295,19 @@ jobs:
         with:
           artifact-ids: ${{ needs.build-head.outputs.artifact-id }}
           path: ${{ runner.temp }}/kapture-storybook/head
+      # 캐시 탐색·검증은 Kapture가 담당합니다. SEED는 workflow 경로와 보관 기간만 정합니다.
+      - name: Restore merged head capture matching base
+        id: capture-cache
+        if: env.KAPTURE_CAPTURE_CACHE == 'true'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          npx --yes @kaptures/cli@0.8.0 github restore-capture
+          --base-dir "${{ runner.temp }}/kapture-storybook/base"
+          --head-dir "${{ runner.temp }}/kapture-storybook/head"
+          --base-revision ${{ needs.context.outputs.base-sha }}
+          --workflow .github/workflows/kapture-capture.yml
       - id: capture
         env:
           KAPTURE_ARTIFACT_SUFFIX: ${{ needs.context.outputs.artifact-suffix }}
@@ -296,7 +317,25 @@ jobs:
           KAPTURE_BASE_ARTIFACT_DIGEST: ${{ needs.build-base.outputs.artifact-digest }}
           KAPTURE_HEAD_ARTIFACT_ID: ${{ needs.build-head.outputs.artifact-id }}
           KAPTURE_HEAD_ARTIFACT_DIGEST: ${{ needs.build-head.outputs.artifact-digest }}
-        run: npx --yes @kaptures/cli@0.8.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul
+          KAPTURE_CACHE_DIRECTORY: ${{ steps.capture-cache.outputs.cache-directory }}
+          KAPTURE_HEAD_CACHE_DIRECTORY: ${{ steps.capture-cache.outputs.head-cache-directory }}
+        run: |
+          cache_args=()
+          if [ "$KAPTURE_CAPTURE_CACHE" = "true" ] && [ -n "$KAPTURE_CACHE_DIRECTORY" ] && [ -n "$KAPTURE_HEAD_CACHE_DIRECTORY" ]; then
+            cache_args+=(--capture-cache-dir "$KAPTURE_CACHE_DIRECTORY" --capture-cache-output "$KAPTURE_HEAD_CACHE_DIRECTORY")
+          fi
+          npx --yes @kaptures/cli@0.8.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
+      - name: Retain stable head capture for subsequent base comparisons
+        if: env.KAPTURE_CAPTURE_CACHE == 'true' && steps.capture-cache.outputs.head-cache-name != ''
+        continue-on-error: true
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ${{ steps.capture-cache.outputs.head-cache-name }}
+          path: ${{ steps.capture-cache.outputs.head-cache-directory }}
+          if-no-files-found: ignore
+          retention-days: 7
+          compression-level: 0
+          overwrite: true
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: kapture-visual-report-${{ needs.context.outputs.artifact-suffix }}

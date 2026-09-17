@@ -115,3 +115,9 @@ test("unsupported branches never use a default-branch fallback", async () => {
   await resolveBuildCache({ ...f.options, branch: "feature/stack" });
   expect(f.outputs).toEqual({ "cache-hit": "false", "cache-name": "" });
 });
+
+test("cache identity rejects unsupported branches and malformed revisions", () => {
+  expect(() => cacheName("feature/x", sha, "b".repeat(64))).toThrow();
+  expect(() => cacheName("dev", "latest", "b".repeat(64))).toThrow();
+  expect(() => cacheName("dev", sha, "invalid")).toThrow();
+});

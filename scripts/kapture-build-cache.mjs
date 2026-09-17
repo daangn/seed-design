@@ -1,3 +1,8 @@
+/**
+ * 일반 비교의 base 빌드 직전에, 동일 커밋·정책의 신뢰된 Storybook artifact를 찾습니다.
+ * 캐시가 없거나 검증할 수 없으면 정확한 base를 다시 빌드합니다.
+ * 캡처·승인을 생략하거나 기존 artifact와 Preview를 삭제하지 않습니다.
+ */
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
