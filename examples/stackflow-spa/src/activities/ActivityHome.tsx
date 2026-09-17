@@ -386,7 +386,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },
         { title: "Badge", onClick: () => push("ActivityBadge", {}) },
         { title: "MannerTempLevel", onClick: () => push("ActivityMannerTempLevel", {}) },
-        { title: "ErrorState", onClick: () => push("ActivityErrorState", {}) },
         { title: "ResultSection", onClick: () => push("ActivityResultSection", {}) },
         { title: "SideNavigation", onClick: () => replace("ActivitySideNavigation", {}) },
         { title: "SidePanel", onClick: () => push("ActivitySidePanel", {}) },
