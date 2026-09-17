@@ -1,5 +1,6 @@
 import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
+import alertDialog from "./recipes/alert-dialog";
 import article from "./recipes/article";
 import aspectRatio from "./recipes/aspect-ratio";
 import avatar from "./recipes/avatar";
@@ -17,7 +18,6 @@ import contentDialog from "./recipes/content-dialog";
 import contentPlaceholder from "./recipes/content-placeholder";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import datePicker from "./recipes/date-picker";
-import dialog from "./recipes/dialog";
 import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
 import {
@@ -81,6 +81,7 @@ import { appScreen } from "./stackflow/app-screen";
 export const recipes = {
   accordion,
   actionButton,
+  alertDialog,
   aspectRatio,
   appBar,
   appBarMain,
@@ -101,7 +102,6 @@ export const recipes = {
   contentPlaceholder,
   contextualFloatingButton,
   datePicker,
-  dialog,
   field,
   fieldLabel,
   attachmentInput,
