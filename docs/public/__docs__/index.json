@@ -1897,7 +1897,7 @@
             {
               "id": "menu-sheet",
               "title": "Menu Sheet",
-              "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+              "description": "Swipeable Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/menu-sheet",
               "snippetKey": "react/ui:menu-sheet",
               "snippets": [
