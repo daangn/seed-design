@@ -14,10 +14,10 @@ import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
 import chipTabs from "./recipes/chip-tabs";
-import contentDialog from "./recipes/content-dialog";
 import contentPlaceholder from "./recipes/content-placeholder";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import datePicker from "./recipes/date-picker";
+import dialog from "./recipes/dialog";
 import footer from "./recipes/footer";
 import { field, fieldLabel } from "./recipes/field";
 import {
@@ -98,10 +98,10 @@ export const recipes = {
   checkmark,
   chip,
   chipTabs,
-  contentDialog,
   contentPlaceholder,
   contextualFloatingButton,
   datePicker,
+  dialog,
   field,
   fieldLabel,
   attachmentInput,

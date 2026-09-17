@@ -1,8 +1,3 @@
-// NOTE: dialog naming is mid-rename; rootage/vars already use the new names, recipes and react components still use the old ones.
-// Semantically (= snippet naming), this recipe is the Dialog:
-//   snippet AlertDialog → react Dialog        → recipe "dialog"         → vars alertDialog
-//   snippet Dialog      → react ContentDialog → recipe "content-dialog" → vars dialog
-
 import { dialog as vars, dialogCloseButton as closeButtonVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { breakpoints } from "../utils/breakpoint";
@@ -16,8 +11,8 @@ import { onlyIcon } from "../utils/icon";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { active, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
-const contentDialog = defineSlotRecipe({
-  name: "content-dialog",
+const dialog = defineSlotRecipe({
+  name: "dialog",
   slots: [
     "positioner",
     "backdrop",
@@ -78,10 +73,10 @@ const contentDialog = defineSlotRecipe({
       // and the same pattern in side-panel. Mobile-first: viewport fraction below md,
       // size-capped token width at md+ (the cap is the only value that differs by size —
       // see variants). A consumer `width`/`maxWidth` StyleProp still wins via the chain.
-      "--content-dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
-      "--content-dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
-      "--seed-box-width--responsive": "var(--content-dialog-default-width)",
-      "--seed-box-max-width--responsive": "var(--content-dialog-default-max-width)",
+      "--dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
+      "--seed-box-width--responsive": "var(--dialog-default-width)",
+      "--seed-box-max-width--responsive": "var(--dialog-default-max-width)",
       width: "var(--seed-box-width)",
       maxWidth: "var(--seed-box-max-width)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
@@ -93,8 +88,8 @@ const contentDialog = defineSlotRecipe({
         `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh)`,
       ],
       [breakpoints.up("md")]: {
-        "--content-dialog-default-width": "var(--content-dialog-size-width)",
-        "--content-dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+        "--dialog-default-width": "var(--dialog-size-width)",
+        "--dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
       },
 
       [pseudo(open)]: enterAnimation({
@@ -227,15 +222,15 @@ const contentDialog = defineSlotRecipe({
   variants: {
     size: {
       // medium and large differ only in the md+ capped width,
-      // consumed by the base `--content-dialog-default-width` switch at md+.
+      // consumed by the base `--dialog-default-width` switch at md+.
       medium: {
         content: {
-          "--content-dialog-size-width": vars.sizeMedium.enabled.content.maxWidth,
+          "--dialog-size-width": vars.sizeMedium.enabled.content.maxWidth,
         },
       },
       large: {
         content: {
-          "--content-dialog-size-width": vars.sizeLarge.enabled.content.maxWidth,
+          "--dialog-size-width": vars.sizeLarge.enabled.content.maxWidth,
         },
       },
     },
@@ -245,4 +240,4 @@ const contentDialog = defineSlotRecipe({
   },
 });
 
-export default contentDialog;
+export default dialog;
