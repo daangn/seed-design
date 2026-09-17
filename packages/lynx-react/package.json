@@ -59,6 +59,7 @@
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
-    "@seed-design/lynx-react-use-press-tap": "0.1.0"
+    "@seed-design/lynx-react-use-press-tap": "0.1.0",
+    "@seed-design/lynx-react-image": "0.1.0"
   }
 }
