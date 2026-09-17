@@ -27,6 +27,7 @@ import {
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withContentScale } from "../../utils/withContentScale";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
@@ -114,32 +115,34 @@ export interface CheckSelectBoxRootProps
   footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
-export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
-  ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
-    const [variantProps, otherProps] = selectBox.splitVariantProps(props);
-    const classNames = selectBox({
-      ...useProps(),
-      ...variantProps,
-    });
+export const CheckSelectBoxRoot = withContentScale(
+  forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
+    ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
+      const [variantProps, otherProps] = selectBox.splitVariantProps(props);
+      const classNames = selectBox({
+        ...useProps(),
+        ...variantProps,
+      });
 
-    return (
-      <ClassNamesProvider value={classNames}>
-        <CheckboxPrimitive.Root
-          ref={ref}
-          className={clsx(classNames.root, className)}
-          {...otherProps}
-        >
-          {footerVisibility === "always" ? (
-            children
-          ) : (
-            <FooterVisibilityProvider footerVisibility={footerVisibility}>
-              {children}
-            </FooterVisibilityProvider>
-          )}
-        </CheckboxPrimitive.Root>
-      </ClassNamesProvider>
-    );
-  },
+      return (
+        <ClassNamesProvider value={classNames}>
+          <CheckboxPrimitive.Root
+            ref={ref}
+            className={clsx(classNames.root, className)}
+            {...otherProps}
+          >
+            {footerVisibility === "always" ? (
+              children
+            ) : (
+              <FooterVisibilityProvider footerVisibility={footerVisibility}>
+                {children}
+              </FooterVisibilityProvider>
+            )}
+          </CheckboxPrimitive.Root>
+        </ClassNamesProvider>
+      );
+    },
+  ),
 );
 
 export interface CheckSelectBoxTriggerProps
