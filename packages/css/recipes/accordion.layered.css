@@ -39,6 +39,10 @@
     cursor: not-allowed;
   }
 
+  .seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+  }
+
   .seed-accordion__prefix {
     --seed-icon-color: var(--seed-color-fg-neutral);
     flex-shrink: 0;

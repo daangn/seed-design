@@ -103,4 +103,8 @@
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
   }
+
+  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+  }
 }

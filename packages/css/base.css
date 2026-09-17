@@ -388,6 +388,7 @@
   --seed-dynamic-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
   --seed-dynamic-scale: calc((var(--seed-dynamic-scale-basis) - 2) / var(--seed-dynamic-scale-basis));
   --seed-feedback-scale: var(--seed-dynamic-scale, 1);
+  --seed-content-scale: 1;
   scale: 1;
 }
 
@@ -395,6 +396,20 @@
   .seed-scale-feedback {
     --seed-feedback-scale: 1;
   }
+}
+
+.seed-content-scale {
+  display: inherit;
+  flex-direction: inherit;
+  flex-wrap: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  gap: inherit;
+  min-width: 0;
+  scale: var(--seed-content-scale);
+  transition: var(--seed-feedback-scale-transition);
+  flex: auto;
+  align-self: stretch;
 }
 
 :root, [data-seed-color-mode="system"] {

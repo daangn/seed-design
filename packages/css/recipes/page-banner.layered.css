@@ -33,6 +33,10 @@
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
+  .seed-page-banner__root:is(button):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+  }
+
   .seed-page-banner__content {
     justify-content: space-between;
     align-items: center;

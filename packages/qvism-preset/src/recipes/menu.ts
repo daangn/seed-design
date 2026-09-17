@@ -3,6 +3,7 @@ import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item";
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
+  active,
   disabled,
   engaged,
   focus,
@@ -21,6 +22,7 @@ import {
 } from "../utils/focus-ring";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import { breakpoints } from "../utils/breakpoint";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 
 // implement when submenu is needed
 // const highlighted = "[data-highlighted]";
@@ -247,6 +249,8 @@ export const menuItem = defineSlotRecipe({
         insetInline: menuItemVars.base.pressed.root.marginX,
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
 
       [pseudo(focusVisible)]: {
         "&::after": createFocusRingStyles({ position: "inside" }),

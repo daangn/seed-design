@@ -32,6 +32,9 @@
     background-color: var(--seed-color-bg-transparent-pressed);
     inset-inline: var(--seed-dimension-x2);
 }
+.seed-select-item__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+}
 .seed-select-item__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
