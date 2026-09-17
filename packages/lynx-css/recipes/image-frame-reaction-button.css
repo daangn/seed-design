@@ -1,0 +1,20 @@
+.seed-image-frame-reaction-button__root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    background-color: transparent
+}
+.seed-image-frame-reaction-button__fillIcon {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    pointer-events: none
+}
+.seed-image-frame-reaction-button__lineIcon {
+    width: var(--seed-dimension-x6);
+    height: var(--seed-dimension-x6);
+    pointer-events: none
+}

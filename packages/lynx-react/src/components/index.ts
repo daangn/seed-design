@@ -49,3 +49,4 @@ export * from "./TextField";
 export * from "./AttachmentInput";
 export * from "./AttachmentDisplay";
 export * from "./WheelPicker";
+export * from "./ImageFrame";
