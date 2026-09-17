@@ -123,7 +123,7 @@ Trigger 외의 방식으로 Dialog를 열고 닫으려면 `open`과 `onOpenChang
 
 ### Body
 
-`<DialogBody>`는 `seed-content-dialog__body` selector가 적용되는 본문 slot입니다. literal native `<scroll-view scroll-y>`로 렌더링되어 Content의 최대 높이 안에서 세로로 스크롤하며, 기본 가로 패딩은 recipe의 body token(`x6`)에서 제공합니다.
+`<DialogBody>`는 `seed-dialog__body` selector가 적용되는 본문 slot입니다. literal native `<scroll-view scroll-y>`로 렌더링되어 Content의 최대 높이 안에서 세로로 스크롤하며, 기본 가로 패딩은 recipe의 body token(`x6`)에서 제공합니다.
 
 웹 버전과 달리 Lynx는 overflow 상태를 관찰해 헤더 구분선이나 하단 fade 마스크를 표시하지 않습니다.
 
@@ -203,7 +203,7 @@ React의 `ResponsiveDialog`와 같은 자동 전환 컴포넌트는 Lynx에서 �
 | 렌더링 요소 | HTML 요소와 Portal | native `<view>`, `<text>`, `<scroll-view>`와 overlay |
 | 상태 prop | `open`, `defaultOpen`, `onOpenChange` | 동일. 내부에서 lynx-ui-dialog의 `show`, `defaultShow`, `onShowChange`로 연결 |
 | Trigger 합성 | `asChild` 지원 | 미지원. Trigger가 자식 요소를 감싸는 view 렌더링 |
-| 본문 slot | `DialogBody` 제공 | `DialogBody` 제공. native `<scroll-view scroll-y>`와 `seed-content-dialog__body` selector를 사용하며 기본 가로 패딩은 recipe body token(`x6`)에서 제공 |
+| 본문 slot | `DialogBody` 제공 | `DialogBody` 제공. native `<scroll-view scroll-y>`와 `seed-dialog__body` selector를 사용하며 기본 가로 패딩은 recipe body token(`x6`)에서 제공 |
 | 닫기 버튼 | `showCloseButton` 지원 | Registry의 `DialogContent`에서 기본 지원. `showCloseButton={false}`로 숨김 |
 | 닫힘 원인 | `onOpenChange`의 `details.reason` 제공 | boolean `open` 값만 제공 |
 | Portal / overlay | `Portal` 컴포넌트 | `DialogContent`의 `container`, `overlayLevel` |

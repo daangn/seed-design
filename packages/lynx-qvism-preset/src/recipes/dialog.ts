@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { alertDialog as vars } from "../vars/component";
+import { dialog as vars } from "../vars/component";
 
 const dialog = defineSlotRecipe({
   name: "dialog",
@@ -8,6 +8,7 @@ const dialog = defineSlotRecipe({
     "backdrop",
     "content",
     "header",
+    "body",
     "footer",
     "action",
     "title",
@@ -52,18 +53,16 @@ const dialog = defineSlotRecipe({
     content: {
       position: "relative",
       display: "flex",
-      flex: 1,
       flexDirection: "column",
+      flex: "0 0 auto",
+      boxSizing: "border-box",
+      width: `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       opacity: vars.base.enabled.content.exitOpacity,
       transform: `scale(${vars.base.enabled.content.enterScale})`,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
       backgroundColor: vars.base.enabled.content.color,
-      maxWidth: vars.base.enabled.content.maxWidth,
-      marginTop: vars.base.enabled.content.marginY,
-      marginRight: vars.base.enabled.content.marginX,
-      marginBottom: vars.base.enabled.content.marginY,
-      marginLeft: vars.base.enabled.content.marginX,
       borderRadius: vars.base.enabled.content.cornerRadius,
       transitionProperty: "opacity, transform",
 
@@ -88,11 +87,33 @@ const dialog = defineSlotRecipe({
     header: {
       display: "flex",
       flexDirection: "column",
+      flexShrink: 0,
       gap: vars.base.enabled.header.gap,
       paddingTop: vars.base.enabled.header.paddingTop,
-      paddingLeft: vars.base.enabled.header.paddingX,
       paddingRight: vars.base.enabled.header.paddingX,
+      paddingBottom: vars.base.enabled.header.paddingBottom,
+      paddingLeft: vars.base.enabled.header.paddingX,
     },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+      flex: "1 1 auto",
+      minHeight: "0",
+      overflowY: "auto",
+      paddingLeft: vars.base.enabled.body.paddingX,
+      paddingRight: vars.base.enabled.body.paddingX,
+    },
+    footer: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      flexShrink: 0,
+      paddingTop: vars.base.enabled.footer.paddingTop,
+      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingBottom: vars.base.enabled.footer.paddingBottom,
+      paddingLeft: vars.base.enabled.footer.paddingX,
+    },
+    action: {},
     title: {
       color: vars.base.enabled.title.color,
       fontSize: vars.base.enabled.title.fontSize,
@@ -106,16 +127,6 @@ const dialog = defineSlotRecipe({
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
       margin: 0,
-    },
-    footer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "stretch",
-      gap: vars.base.enabled.footer.gap,
-      paddingTop: vars.base.enabled.footer.paddingTop,
-      paddingRight: vars.base.enabled.footer.paddingX,
-      paddingBottom: vars.base.enabled.footer.paddingBottom,
-      paddingLeft: vars.base.enabled.footer.paddingX,
     },
   },
   variants: {
@@ -133,9 +144,22 @@ const dialog = defineSlotRecipe({
       },
       false: {},
     },
+    size: {
+      medium: {
+        content: {
+          maxWidth: vars.sizeMedium.enabled.content.maxWidth,
+        },
+      },
+      large: {
+        content: {
+          maxWidth: vars.sizeLarge.enabled.content.maxWidth,
+        },
+      },
+    },
   },
   defaultVariants: {
     skipAnimation: false,
+    size: "medium",
   },
 });
 
