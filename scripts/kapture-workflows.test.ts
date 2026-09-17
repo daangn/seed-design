@@ -36,9 +36,9 @@ const commands = (steps: Step[]) =>
   );
 
 describe("Kapture consumer workflows", () => {
-  test("keeps unreleased capture-cache integration disabled and optional", () => {
+  test("enables released capture-cache integration while preserving optional fallback", () => {
     const capture = parse(sources.capture);
-    expect(capture.env.KAPTURE_CAPTURE_CACHE).toBe("false");
+    expect(capture.env.KAPTURE_CAPTURE_CACHE).toBe("true");
     const restore = capture.jobs.capture.steps.find(
       (step: { id?: string }) => step.id === "capture-cache",
     );
@@ -73,7 +73,7 @@ describe("Kapture consumer workflows", () => {
       "${{ steps.cache.outputs.run-id }}",
     );
     expect(steps.find((s) => s.id === "restored-build")?.run).toBe(
-      "npx --yes @kaptures/cli@0.8.0 github validate-build --root . --directory docs/.kapture/storybook-static",
+      "npx --yes @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static",
     );
     expect(steps.find((s) => s.id === "artifact")?.with["retention-days"]).toBe(1);
     expect(steps.filter((s) => s.with?.["retention-days"] === 7).length).toBe(1);

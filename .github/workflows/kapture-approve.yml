@@ -38,4 +38,4 @@ jobs:
       - env:
           GITHUB_TOKEN: ${{ github.token }}
         if: steps.policy.outputs.supported == 'true'
-        run: npx --yes @kaptures/cli@0.8.0 github approve --comment-language ko
+        run: npx --yes @kaptures/cli@0.9.0 github approve --comment-language ko
