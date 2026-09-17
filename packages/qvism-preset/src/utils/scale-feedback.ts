@@ -39,11 +39,13 @@ import * as timingFunction from "../vars/timing-function";
  * both live once in base.css, and the element opts in by carrying
  * `SCALE_FEEDBACK_CLASS_NAME`.
  *
- * Deliberately absent: a way to keep a slot's background fixed while only its
- * content shrinks (`scaleScope: content` in the component specs). That needs two
- * boxes at different scales, and every component declaring it is held for the
- * next major — so the specs carry the declaration while nothing here implements
- * it yet.
+ * Content scale (`scaleScope: content` in the component specs) keeps a slot's
+ * pressed background fixed while only its content shrinks, which takes two boxes.
+ * The measured element keeps its padding and background, and its recipe publishes
+ * the ratio through `createContentScaleStyles` instead of scaling itself. A single
+ * inner box carrying `CONTENT_SCALE_CLASS_NAME` consumes it. The ratio still comes
+ * from the measured element's size, so the content loses the same px it would have
+ * lost had the whole element scaled.
  */
 const WIDTH_DIVISOR = 4;
 const MIN_BASIS = 24;
@@ -60,6 +62,15 @@ const SCALE_DEPTH = 2;
  * puts it on theirs.
  */
 export const SCALE_FEEDBACK_CLASS_NAME = "seed-scale-feedback";
+
+// Duplicated in packages/utils/react-scale-feedback/src/contentScale.tsx
+// edit both together — nothing checks, and drift leaves the box unstyled
+
+/**
+ * Marks the box that shrinks by `--seed-content-scale`. `ContentScale` in
+ * `@seed-design/react` renders it inside the measured element.
+ */
+export const CONTENT_SCALE_CLASS_NAME = "seed-content-scale";
 
 /**
  * Hoisted into base.css rather than repeated by every recipe that scales on
@@ -90,12 +101,38 @@ export const scaleFeedbackGlobalStyles = {
     // Chrome 104+ (older browsers just skip the scale feedback).
     scale: "1",
 
+    // The content box's resting ratio. Declaring it on every measured element
+    // rather than once on `:root` also stops a pressed element's ratio from
+    // inheriting into a nested measured element's box.
+    "--seed-content-scale": "1",
+
     // Pin the output rather than zeroing a depth parameter: this is declared on
     // the same element as the derivation and after it, so no value a consumer
     // can set upstream brings the scale back.
     "@media (prefers-reduced-motion: reduce)": {
       "--seed-feedback-scale": "1",
     },
+  },
+
+  [`.${CONTENT_SCALE_CLASS_NAME}`]: {
+    // The box is the measured element's only in-flow child, which leaves the
+    // element's own flex container values with nothing to lay out. Inheriting
+    // them hands the layout — values a consumer sets on the element included —
+    // to the box.
+    display: "inherit",
+    flexDirection: "inherit",
+    flexWrap: "inherit",
+    alignItems: "inherit",
+    justifyContent: "inherit",
+    gap: "inherit",
+
+    flex: "1 1 auto",
+    alignSelf: "stretch",
+    minWidth: 0,
+
+    // Unset outside a measured element, which resolves `scale` to `none`.
+    scale: "var(--seed-content-scale)",
+    transition: "var(--seed-feedback-scale-transition)",
   },
 } satisfies Record<string, StyleObject>;
 
@@ -138,4 +175,13 @@ export const createScaleFeedbackStyles = ({
   scale: overridableBy
     ? `var(${overridableBy}, var(--seed-feedback-scale))`
     : "var(--seed-feedback-scale)",
+});
+
+/**
+ * Pressed styles for a slot whose content scales while its background stays put.
+ * Drop this into the same kind of gate as `createScaleFeedbackStyles`; the slot
+ * must render a `CONTENT_SCALE_CLASS_NAME` box around its content.
+ */
+export const createContentScaleStyles = (): StyleObject => ({
+  "--seed-content-scale": "var(--seed-feedback-scale)",
 });

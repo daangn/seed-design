@@ -38,6 +38,9 @@
 .seed-accordion__trigger:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
+.seed-accordion__trigger:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+}
 .seed-accordion__prefix {
     display: inline-flex;
     align-items: center;
