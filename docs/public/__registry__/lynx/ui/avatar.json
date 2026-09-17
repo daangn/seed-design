@@ -1,0 +1,16 @@
+{
+  "id": "avatar",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "avatar.tsx",
+      "content": "/**\n * @file ui:avatar\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport { Avatar as SeedAvatar } from \"@seed-design/lynx-react\";\n\nexport interface AvatarProps extends SeedAvatar.RootProps {\n  src?: string;\n  alt?: string;\n  fallback?: React.ReactNode;\n  /** Native image events, accessibility and decoding props. */\n  imageProps?: Omit<SeedAvatar.ImageProps, \"src\" | \"alt\">;\n}\n\n/** @see https://seed-design.io/lynx/components/avatar */\nexport const Avatar = React.forwardRef<unknown, AvatarProps>(\n  ({ src, alt, fallback, imageProps, children, ...otherProps }, ref) => (\n    <SeedAvatar.Root {...(ref ? { ref } : {})} {...otherProps}>\n      <SeedAvatar.Fallback>\n        {typeof fallback === \"string\" || typeof fallback === \"number\" ? (\n          <text>{fallback}</text>\n        ) : (\n          fallback\n        )}\n      </SeedAvatar.Fallback>\n      <SeedAvatar.Image src={src} alt={alt} {...imageProps} />\n      {children}\n    </SeedAvatar.Root>\n  ),\n);\nAvatar.displayName = \"Avatar\";\n\nexport interface AvatarBadgeProps extends SeedAvatar.BadgeProps {}\nexport const AvatarBadge = SeedAvatar.Badge;\nexport interface AvatarStackProps extends SeedAvatar.StackProps {}\nexport const AvatarStack = SeedAvatar.Stack;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0"
+      }
+    }
+  ]
+}
