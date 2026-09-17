@@ -1765,6 +1765,12 @@
               "title": "SEED React 2",
               "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
               "docUrl": "/react/updates/upgrade/v2"
+            },
+            {
+              "id": "v3",
+              "title": "SEED React 3",
+              "description": "SEED React 3으로 업그레이드할 때 필요한 작업을 안내합니다.",
+              "docUrl": "/react/updates/upgrade/v3"
             }
           ]
         },
