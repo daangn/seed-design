@@ -11,12 +11,12 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
-  MenuSheetContent,
-  MenuSheetGroup,
-  MenuSheetItem,
-  MenuSheetRoot,
-  MenuSheetTrigger,
-} from "seed-design/ui/menu-sheet";
+  SwipeableMenuSheetContent,
+  SwipeableMenuSheetGroup,
+  SwipeableMenuSheetItem,
+  SwipeableMenuSheetRoot,
+  SwipeableMenuSheetTrigger,
+} from "seed-design/ui/swipeable-menu-sheet";
 import {
   IconHouseLine,
   IconPencilLine,
@@ -75,39 +75,39 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
-          <MenuSheetTrigger asChild>
+        <SwipeableMenuSheetRoot open={open} onOpenChange={onOpenChange}>
+          <SwipeableMenuSheetTrigger asChild>
             <VStack p="x5" justify="center" gap="x4">
               <ActionButton variant="neutralSolid" flexGrow>
                 Menu Sheet 열기
               </ActionButton>
             </VStack>
-          </MenuSheetTrigger>
+          </SwipeableMenuSheetTrigger>
           <Portal>
-            <MenuSheetContent
+            <SwipeableMenuSheetContent
               title="Step"
               layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
             >
-              <MenuSheetGroup>
-                <MenuSheetItem
+              <SwipeableMenuSheetGroup>
+                <SwipeableMenuSheetItem
                   onClick={() => handleAction("add")}
                   label="추가"
                   prefixIcon={<IconPlusLine />}
                 />
-                <MenuSheetItem
+                <SwipeableMenuSheetItem
                   onClick={() => handleAction("edit")}
                   label="수정"
                   prefixIcon={<IconPencilLine />}
                 />
-                <MenuSheetItem
+                <SwipeableMenuSheetItem
                   onClick={() => handleAction("delete")}
                   tone="critical"
                   label="삭제"
                   prefixIcon={<IconTrashcanLine />}
                 />
-              </MenuSheetGroup>
-              <MenuSheetGroup labelAlign="center">
-                <MenuSheetItem
+              </SwipeableMenuSheetGroup>
+              <SwipeableMenuSheetGroup labelAlign="center">
+                <SwipeableMenuSheetItem
                   onClick={() => {
                     // 이 Menu Sheet는 Activity로 만들어지지 않았기 때문에, z-index 정리를 위해
                     // Menu Sheet를 먼저 닫고 다음 Activity를 push해야 합니다.
@@ -119,10 +119,10 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
                   }}
                   label="Push"
                 />
-              </MenuSheetGroup>
-            </MenuSheetContent>
+              </SwipeableMenuSheetGroup>
+            </SwipeableMenuSheetContent>
           </Portal>
-        </MenuSheetRoot>
+        </SwipeableMenuSheetRoot>
       </AppScreenContent>
     </AppScreen>
   );
