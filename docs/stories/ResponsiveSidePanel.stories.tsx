@@ -63,7 +63,7 @@ const ResponsiveSidePanelPreview = ({
         showCloseButton={showCloseButton}
         showHandle={showHandle}
       >
-        <ResponsiveSidePanelBody minHeight="x16">
+        <ResponsiveSidePanelBody>
           <Text textStyle="articleBody">Body content area</Text>
         </ResponsiveSidePanelBody>
         {showFooter && (
