@@ -1,17 +1,17 @@
-import { Dialog } from "@seed-design/react";
+import { AlertDialog } from "@seed-design/react";
 import { forwardRef } from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type * as React from "react";
 
-export interface AlertDialogRootProps extends Dialog.RootProps {
+export interface AlertDialogRootProps extends AlertDialog.RootProps {
   /**
    * @default "alertdialog"
    */
-  role?: Dialog.RootProps["role"];
+  role?: AlertDialog.RootProps["role"];
   /**
    * @default false
    */
-  closeOnInteractOutside?: Dialog.RootProps["closeOnInteractOutside"];
+  closeOnInteractOutside?: AlertDialog.RootProps["closeOnInteractOutside"];
 }
 
 /**
@@ -19,60 +19,60 @@ export interface AlertDialogRootProps extends Dialog.RootProps {
  */
 export const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {
   return (
-    <Dialog.Root role="alertdialog" closeOnInteractOutside={false} {...otherProps}>
+    <AlertDialog.Root role="alertdialog" closeOnInteractOutside={false} {...otherProps}>
       {children}
-    </Dialog.Root>
+    </AlertDialog.Root>
   );
 };
 AlertDialogRoot.displayName = "AlertDialogRoot";
 
-export interface AlertDialogContentProps extends Dialog.ContentProps {
+export interface AlertDialogContentProps extends AlertDialog.ContentProps {
   layerIndex?: number;
 }
 
 export const AlertDialogContent = forwardRef<HTMLDivElement, AlertDialogContentProps>(
   ({ children, layerIndex, ...otherProps }, ref) => {
     return (
-      <Dialog.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
-        <Dialog.Backdrop />
-        <Dialog.Content ref={ref} {...otherProps}>
+      <AlertDialog.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Content ref={ref} {...otherProps}>
           {children}
-        </Dialog.Content>
-      </Dialog.Positioner>
+        </AlertDialog.Content>
+      </AlertDialog.Positioner>
     );
   },
 );
 
-export interface AlertDialogTriggerProps extends Dialog.TriggerProps {}
+export interface AlertDialogTriggerProps extends AlertDialog.TriggerProps {}
 
-export const AlertDialogTrigger = Dialog.Trigger;
+export const AlertDialogTrigger = AlertDialog.Trigger;
 
-export interface AlertDialogHeaderProps extends Dialog.HeaderProps {}
+export interface AlertDialogHeaderProps extends AlertDialog.HeaderProps {}
 
-export const AlertDialogHeader = Dialog.Header;
+export const AlertDialogHeader = AlertDialog.Header;
 
-export interface AlertDialogTitleProps extends Dialog.TitleProps {}
+export interface AlertDialogTitleProps extends AlertDialog.TitleProps {}
 
-export const AlertDialogTitle = Dialog.Title;
+export const AlertDialogTitle = AlertDialog.Title;
 
-export interface AlertDialogDescriptionProps extends Dialog.DescriptionProps {}
+export interface AlertDialogDescriptionProps extends AlertDialog.DescriptionProps {}
 
-export const AlertDialogDescription = Dialog.Description;
+export const AlertDialogDescription = AlertDialog.Description;
 
-export interface AlertDialogFooterProps extends Dialog.FooterProps {}
+export interface AlertDialogFooterProps extends AlertDialog.FooterProps {}
 
-export const AlertDialogFooter = Dialog.Footer;
+export const AlertDialogFooter = AlertDialog.Footer;
 
 export interface AlertDialogActionProps
-  extends Omit<Dialog.ActionProps, "color">,
+  extends Omit<AlertDialog.ActionProps, "color">,
     ActionButtonProps {}
 
 export const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(
   (props, ref) => {
     return (
-      <Dialog.Action asChild>
+      <AlertDialog.Action asChild>
         <ActionButton {...props} ref={ref} />
-      </Dialog.Action>
+      </AlertDialog.Action>
     );
   },
 );

@@ -1,5 +1,6 @@
 export * from "./Accordion";
 export * from "./ActionButton";
+export * from "./AlertDialog";
 export * from "./Article";
 export * from "./AspectRatio";
 export * from "./Avatar";
@@ -17,7 +18,6 @@ export * from "./ContentPlaceholder";
 export * from "./ContextualFloatingButton";
 export * from "./Count";
 export * from "./DatePicker";
-export * from "./Dialog";
 export * from "./Divider";
 export * from "./Field";
 export * from "./FieldButton";
