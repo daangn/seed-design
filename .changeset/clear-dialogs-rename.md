@@ -3,7 +3,7 @@
 "@seed-design/react": major
 ---
 
-(BREAKING CHANGE: `Dialog`를 `AlertDialog`로 먼저 바꾼 뒤 `ContentDialog`를 `Dialog`로 바꾸고, Registry 컴포넌트 `ui:alert-dialog`와 `ui:dialog`를 다시 설치해야 합니다.) Alert Dialog와 Dialog의 이름을 Figma와 Registry 컴포넌트 이름에 맞춥니다.
+(BREAKING CHANGE: `Dialog`를 `AlertDialog`로 먼저 바꾼 뒤 `ContentDialog`를 `Dialog`로 바꾸고, Registry 컴포넌트 `ui:alert-dialog`와 `ui:dialog`를 다시 설치해야 합니다.) Alert Dialog와 Dialog의 이름을 Registry 컴포넌트 이름에 맞춥니다.
 
 - `@seed-design/react`의 `Dialog`를 `AlertDialog`로, `ContentDialog`를 `Dialog`로 변경합니다. `DialogRoot` 같은 개별 export와 Props 타입도 같은 규칙으로 바뀝니다.
 - `@seed-design/css/recipes/dialog`를 `@seed-design/css/recipes/alert-dialog`로, `@seed-design/css/recipes/content-dialog`를 `@seed-design/css/recipes/dialog`로 변경합니다. `dialog`, `dialogVariantMap` 같은 recipe export도 같은 규칙으로 바뀝니다.
