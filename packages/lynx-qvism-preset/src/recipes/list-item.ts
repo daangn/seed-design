@@ -1,7 +1,4 @@
 import { listItem as vars } from "../vars/component";
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 import { defineSlotRecipe } from "../utils/define";
 
 const listItem = defineSlotRecipe({
@@ -51,12 +48,12 @@ const listItem = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
-      borderRadius: 0,
+      borderRadius: vars.base.pressed.root.cornerRadius,
       backgroundColor: vars.base.pressed.root.color,
       opacity: 0,
       // Lynx의 background-color 보간은 transparent black을 거쳐 회색으로 보일 수 있다.
       // 상태별 배경색을 고정하고 opacity를 전환해 React와 같은 페이드를 만든다.
-      transition: `opacity ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, left ${vars.base.enabled.root.marginDuration} ${vars.base.enabled.root.marginTimingFunction}, right ${vars.base.enabled.root.marginDuration} ${vars.base.enabled.root.marginTimingFunction}, border-radius ${vars.base.enabled.root.borderRadiusDuration} ${vars.base.enabled.root.borderRadiusTimingFunction}`,
+      transition: `opacity ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, left ${vars.base.enabled.root.marginDuration} ${vars.base.enabled.root.marginTimingFunction}, right ${vars.base.enabled.root.marginDuration} ${vars.base.enabled.root.marginTimingFunction}`,
     },
     layout: {
       position: "relative",
@@ -64,8 +61,6 @@ const listItem = defineSlotRecipe({
       flexDirection: "row",
       alignItems: "center",
       width: "100%",
-      transform: "scale(1)",
-      transition: `transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
     },
     prefix: {
       display: "flex",
@@ -118,6 +113,7 @@ const listItem = defineSlotRecipe({
     },
   },
   variants: {
+    interactive: { true: {}, false: {} },
     highlighted: {
       true: {
         highlightedOverlay: {
@@ -134,11 +130,7 @@ const listItem = defineSlotRecipe({
         pressedOverlay: {
           right: vars.base.pressed.root.marginX,
           left: vars.base.pressed.root.marginX,
-          borderRadius: vars.base.pressed.root.cornerRadius,
           opacity: 1,
-        },
-        layout: {
-          transform: `scale(${scale.s98})`,
         },
       },
       false: {},
@@ -153,7 +145,23 @@ const listItem = defineSlotRecipe({
       false: {},
     },
   },
+  compoundVariants: [
+    {
+      interactive: true,
+      disabled: false,
+      css: {
+        root: {
+          "&:active .seed-list-item__pressedOverlay": {
+            right: vars.base.pressed.root.marginX,
+            left: vars.base.pressed.root.marginX,
+            opacity: 1,
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: {
+    interactive: false,
     highlighted: false,
     pressed: false,
     disabled: false,

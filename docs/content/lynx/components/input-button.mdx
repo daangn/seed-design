@@ -243,6 +243,8 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 ## Web Version Differences
 
+본문은 배경을 유지하고 콘텐츠만 축소하는 Content Scale을, ClearButton은 자체 영역을 축소하는 Root Scale을 적용합니다. Primitive를 직접 조합할 때는 Button을 Root의 직접 자식 또는 Fragment 안에 배치해야 본문 Content Scale이 연결됩니다. Button을 사용자 정의 컴포넌트로 감싸면 본문 Content Scale은 적용되지 않습니다.
+
 - HTML `<button>` 대신 Lynx `<view>`에 tap handler와 `accessibility-*` 속성을 적용합니다.
 - `onClick` 대신 `buttonProps.bindtap`을 사용합니다. main thread handler가 필요하면 `buttonProps["main-thread:bindtap"]`을 사용할 수 있습니다.
 - `aria-label` 대신 `buttonProps["accessibility-label"]`을 사용합니다.

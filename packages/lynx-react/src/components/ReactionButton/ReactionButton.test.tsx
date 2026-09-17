@@ -96,10 +96,11 @@ describe("ReactionButton", () => {
     expect(root).toHaveAttribute("accessibility-traits", "disabled");
   });
 
-  it("keeps content mounted and handles taps while loading", () => {
+  it("keeps content mounted but ignores taps while loading", () => {
     const onPressedChange = vi.fn();
+    const onTap = vi.fn();
     render(
-      <ReactionButton loading onPressedChange={onPressedChange}>
+      <ReactionButton loading onPressedChange={onPressedChange} bindtap={onTap}>
         좋아요
         <Count>12</Count>
       </ReactionButton>,
@@ -117,6 +118,7 @@ describe("ReactionButton", () => {
 
     fireEvent.tap(root);
 
-    expect(onPressedChange).toHaveBeenCalledWith(true);
+    expect(onPressedChange).not.toHaveBeenCalled();
+    expect(onTap).not.toHaveBeenCalled();
   });
 });
