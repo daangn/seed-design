@@ -54,7 +54,7 @@ import { ImageFrame } from "@seed-design/lynx-react";
 - `ratio`는 기본 `4 / 3`, `borderRadius`는 기본 `r2`입니다. React AspectRatio의 `as`/`asChild`, DOM 속성, 이미지 `loading`, `decoding`, `crossOrigin`, `referrerPolicy`, `sizes`, `srcSet`은 지원하지 않습니다.
 - `ImageFrameIcon`의 `svg`에는 Lynx 아이콘 컴포넌트를 전달합니다. 내부 `Icon`이 native 이미지 색상을 처리합니다.
 - `ImageFrameReactionButton`은 `useToggle`과 Scale Feedback을 사용합니다. `pressed`, `defaultPressed`, `onPressedChange`, `disabled`를 제공하며 접근성 이름은 `accessibility-label`로 지정합니다. HTML form·키보드 focus API는 제공하지 않습니다.
-- 좋아요 아이콘은 React와 동일한 path와 선택 그라디언트를 SVG 이미지로 제공합니다. 웹의 `filter: drop-shadow()` 효과는 적용하지 않습니다. SVG 이미지 렌더링은 호스트의 이미지 서비스 지원이 필요합니다.
+- 좋아요 아이콘은 React와 동일한 path와 선택 그라디언트를 WebP 이미지로 제공합니다. 웹의 `filter: drop-shadow()` 효과는 적용하지 않습니다. SVG 이미지 렌더링은 호스트의 이미지 서비스 지원이 필요합니다.
 
 ## Examples
 
@@ -151,7 +151,7 @@ import { ImageFrame } from "@seed-design/lynx-react";
 
 #### Offset
 
-`offsetX`, `offsetY` prop으로 오버레이의 여백을 조절할 수 있습니다. 기본값은 `6px`입니다.
+`offsetX`, `offsetY` prop으로 오버레이의 여백을 조절할 수 있습니다. 가장자리의 기본 여백은 `6px`이고 중앙 축의 기본 오프셋은 `0`입니다. 명시한 오프셋은 중앙 축에도 적용됩니다.
 
 <LynxComponentExample name="lynx/image-frame/overlay-inset">
   ```json doc-gen:file
