@@ -38,7 +38,7 @@ variant props는 반드시 아래 세 가지 패턴 중 하나로 처리한다. 
 | 유형 | 도구 | 예시 |
 |------|------|------|
 | 직접 splitVariantProps | `recipe.splitVariantProps(props)` | Badge |
-| 단일 슬롯 | `createRecipeContext` → `withContext` | Fab |
+| 단일 슬롯 | `createRecipeContext` → `withContext` | Skeleton |
 | 복합 슬롯 | `createSlotRecipeContext` → `withProvider`/`withContext` | Chip |
 | 다중 Recipe | `splitMultipleVariantsProps` | RadioGroup, Checkbox, Switch, TagGroup |
 
@@ -48,7 +48,7 @@ context 유틸 없이 컴포넌트 내부에서 `recipe.splitVariantProps(props)
 
 ### createRecipeContext (단일 슬롯)
 
-`createRecipeContext(recipe)`로 context를 생성하고, `withContext`로 Primitive 요소를 감싸면 내부에서 자동으로 `splitVariantProps`를 호출한다. Fab 컴포넌트가 대표적인 예시이다.
+`createRecipeContext(recipe)`로 context를 생성하고, `withContext`로 Primitive 요소를 감싸면 내부에서 자동으로 `splitVariantProps`를 호출한다. Skeleton 컴포넌트가 대표적인 예시이다.
 
 ### createSlotRecipeContext (복합 슬롯)
 
