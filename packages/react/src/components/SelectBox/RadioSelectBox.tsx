@@ -25,6 +25,7 @@ import {
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withContentScale } from "../../utils/withContentScale";
 import clsx from "clsx";
 
 const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
@@ -113,32 +114,34 @@ export interface RadioSelectBoxItemProps
   footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
-export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
-  ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
-    const [variantProps, otherProps] = selectBox.splitVariantProps(props);
-    const classNames = selectBox({
-      ...useProps(),
-      ...variantProps,
-    });
+export const RadioSelectBoxItem = withContentScale(
+  forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
+    ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
+      const [variantProps, otherProps] = selectBox.splitVariantProps(props);
+      const classNames = selectBox({
+        ...useProps(),
+        ...variantProps,
+      });
 
-    return (
-      <ClassNamesProvider value={classNames}>
-        <RadioGroupPrimitive.Item
-          ref={ref}
-          className={clsx(classNames.root, className)}
-          {...otherProps}
-        >
-          {footerVisibility === "always" ? (
-            children
-          ) : (
-            <FooterVisibilityProvider footerVisibility={footerVisibility}>
-              {children}
-            </FooterVisibilityProvider>
-          )}
-        </RadioGroupPrimitive.Item>
-      </ClassNamesProvider>
-    );
-  },
+      return (
+        <ClassNamesProvider value={classNames}>
+          <RadioGroupPrimitive.Item
+            ref={ref}
+            className={clsx(classNames.root, className)}
+            {...otherProps}
+          >
+            {footerVisibility === "always" ? (
+              children
+            ) : (
+              <FooterVisibilityProvider footerVisibility={footerVisibility}>
+                {children}
+              </FooterVisibilityProvider>
+            )}
+          </RadioGroupPrimitive.Item>
+        </ClassNamesProvider>
+      );
+    },
+  ),
 );
 
 export interface RadioSelectBoxTriggerProps

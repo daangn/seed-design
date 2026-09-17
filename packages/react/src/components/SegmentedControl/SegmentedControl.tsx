@@ -5,6 +5,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { SegmentedControl as SegmentedControlPrimitive } from "@seed-design/react-segmented-control";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withContentScale } from "../../utils/withContentScale";
 
 const { withProvider, withContext } = createSlotRecipeContext(segmentedControl);
 
@@ -28,9 +29,8 @@ export const SegmentedControlIndicator = withContext<
 
 export interface SegmentedControlItemProps extends SegmentedControlPrimitive.ItemProps {}
 
-export const SegmentedControlItem = withContext<HTMLLabelElement, SegmentedControlItemProps>(
-  SegmentedControlPrimitive.Item,
-  "item",
+export const SegmentedControlItem = withContentScale(
+  withContext<HTMLLabelElement, SegmentedControlItemProps>(SegmentedControlPrimitive.Item, "item"),
 );
 
 export interface SegmentedControlItemHiddenInputProps
