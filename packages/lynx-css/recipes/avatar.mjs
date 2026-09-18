@@ -7,6 +7,14 @@ const avatarSlotNames = [
     "seed-avatar__root"
   ],
   [
+    "imageContainer",
+    "seed-avatar__imageContainer"
+  ],
+  [
+    "pendingImageContainer",
+    "seed-avatar__pendingImageContainer"
+  ],
+  [
     "image",
     "seed-avatar__image"
   ],
@@ -29,12 +37,19 @@ const avatarSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": 48
+  "size": 48,
+  "badgeMask": "none"
 };
 
 const compoundVariants = [];
 
 export const avatarVariantMap = {
+  "badgeMask": [
+    "none",
+    "circle",
+    "flower",
+    "shield"
+  ],
   "size": [
     "20",
     "24",

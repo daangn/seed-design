@@ -1,5 +1,9 @@
 declare interface AvatarVariant {
   /**
+  * @default "none"
+  */
+  badgeMask: "none" | "circle" | "flower" | "shield";
+/**
   * @default 48
   */
   size: "20" | "24" | "36" | "42" | "48" | "56" | "64" | "80" | "96" | "108";
@@ -11,7 +15,7 @@ declare type AvatarVariantMap = {
 
 export declare type AvatarVariantProps = Partial<AvatarVariant>;
 
-export declare type AvatarSlotName = "root" | "image" | "pendingImage" | "fallback" | "badge" | "stroke";
+export declare type AvatarSlotName = "root" | "imageContainer" | "pendingImageContainer" | "image" | "pendingImage" | "fallback" | "badge" | "stroke";
 
 export declare const avatarVariantMap: AvatarVariantMap;
 
