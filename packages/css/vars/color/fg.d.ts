@@ -13,12 +13,24 @@ export declare const informative = "var(--seed-color-fg-informative)";
 export declare const informativeContrast = "var(--seed-color-fg-informative-contrast)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. */
 export declare const neutral = "var(--seed-color-fg-neutral)";
-/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted) */
+/** @deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다. */
 export declare const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted) */
 export declare const neutralMuted = "var(--seed-color-fg-neutral-muted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle) */
 export declare const neutralSubtle = "var(--seed-color-fg-neutral-subtle)";
+/** 브랜드 Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onBrandSolid = "var(--seed-color-fg-on-brand-solid)";
+/** Critical Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onCriticalSolid = "var(--seed-color-fg-on-critical-solid)";
+/** Informative Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onInformativeSolid = "var(--seed-color-fg-on-informative-solid)";
+/** Neutral Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onNeutralSolid = "var(--seed-color-fg-on-neutral-solid)";
+/** Positive Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onPositiveSolid = "var(--seed-color-fg-on-positive-solid)";
+/** Warning Solid 배경 위의 전경 요소에 사용됩니다. */
+export declare const onWarningSolid = "var(--seed-color-fg-on-warning-solid)";
 export declare const placeholder = "var(--seed-color-fg-placeholder)";
 /** 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. */
 export declare const positive = "var(--seed-color-fg-positive)";

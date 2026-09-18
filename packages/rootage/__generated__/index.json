@@ -96,9 +96,6 @@
       "path": "/components/contextual-floating-button.json"
     },
     {
-      "path": "/components/control-chip.json"
-    },
-    {
       "path": "/components/date-picker.json"
     },
     {
@@ -151,9 +148,6 @@
     },
     {
       "path": "/components/image-frame.json"
-    },
-    {
-      "path": "/components/inline-banner.json"
     },
     {
       "path": "/components/input-button.json"

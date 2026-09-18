@@ -106,7 +106,7 @@ data:
         root:
           color: $color.palette.gray-800
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
     tone=neutral, variant=outline:
       enabled:
         root:
@@ -125,7 +125,7 @@ data:
         root:
           color: $color.bg.brand-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
     tone=brand, variant=outline:
       enabled:
         root:
@@ -144,7 +144,7 @@ data:
         root:
           color: $color.bg.informative-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
     tone=informative, variant=outline:
       enabled:
         root:
@@ -163,7 +163,7 @@ data:
         root:
           color: $color.bg.positive-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
     tone=positive, variant=outline:
       enabled:
         root:
@@ -182,7 +182,7 @@ data:
         root:
           color: $color.bg.warning-solid
         label:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
     tone=warning, variant=outline:
       enabled:
         root:
@@ -201,7 +201,7 @@ data:
         root:
           color: $color.bg.critical-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
     tone=critical, variant=outline:
       enabled:
         root:

@@ -7,7 +7,7 @@
     display: flex;
     align-items: flex-start;
     box-sizing: border-box;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
@@ -50,7 +50,7 @@
 }
 .seed-help-bubble__arrowTip {
     display: block;
-    fill: var(--seed-color-bg-neutral-inverted);
+    fill: var(--seed-color-bg-neutral-solid);
     width: 12px;
     height: 8px;
 }
@@ -63,14 +63,14 @@
     min-width: 0;
 }
 .seed-help-bubble__title {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-bold);
     line-height: var(--seed-line-height-t3);
     white-space: pre-wrap;
 }
 .seed-help-bubble__description {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-regular);
     line-height: var(--seed-line-height-t3);
@@ -87,9 +87,9 @@
     margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-block: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     --seed-icon-size: var(--seed-dimension-x3_5);
-    --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+    --seed-icon-color: var(--seed-color-fg-on-neutral-solid);
     border-radius: var(--seed-radius-r3);
 }
 .seed-help-bubble__closeButton:is(:active, [data-active]) {

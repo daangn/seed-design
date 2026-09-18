@@ -328,7 +328,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tag Group", ...to("ActivityTagGroup", {}) },
         { title: "Manner Temp Badge", ...to("ActivityMannerTempLevel", {}) },
         { title: "Accordion", ...to("ActivityAccordion", {}) },
-        { title: "Error State", ...to("ActivityErrorState", {}) },
         { title: "Result Section", ...to("ActivityResultSection", {}) },
       ],
     },

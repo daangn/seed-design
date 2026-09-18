@@ -11,7 +11,7 @@ export const vars = {
         "layoutTimingFunction": "var(--seed-timing-function-easing)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)",
+        "color": "var(--seed-color-fg-on-brand-solid)",
         "sizeDuration": "var(--seed-duration-d4)",
         "sizeTimingFunction": "var(--seed-timing-function-easing)"
       }
@@ -34,7 +34,7 @@ export const vars = {
         "size": "var(--seed-dimension-x4)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)",
+        "color": "var(--seed-color-fg-on-brand-solid)",
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-bold)"

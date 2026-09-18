@@ -49,7 +49,7 @@ const ActivityChipButton: StaticActivityComponentType<"ActivityChipButton"> = ()
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain>Action Chip</AppBarMain>
+        <AppBarMain>Chip.Button</AppBarMain>
         <AppBarRight>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />

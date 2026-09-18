@@ -70,7 +70,6 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityDetail: lazy(() => import("../activities/ActivityDetail")),
     ActivityDialog: lazy(() => import("../activities/ActivityDialog")),
     ActivityE2EImageBehavior: lazy(() => import("../activities/ActivityE2EImageBehavior")),
-    ActivityErrorState: lazy(() => import("../activities/ActivityErrorState")),
     ActivityFontMultiplierLayout: lazy(() => import("../activities/ActivityFontMultiplierLayout")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
     ActivityIacvtLeak: lazy(() => import("../activities/ActivityIacvtLeak")),

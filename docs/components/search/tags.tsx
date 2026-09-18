@@ -22,7 +22,7 @@ function Chip({
       className={clsx(
         "shrink-0 cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
         active
-          ? "bg-bg-neutral-inverted text-fg-neutral-inverted"
+          ? "bg-bg-neutral-solid text-fg-on-neutral-solid"
           : "bg-bg-transparent-selected text-fg-neutral hover:bg-bg-transparent-selected-pressed",
       )}
     >
