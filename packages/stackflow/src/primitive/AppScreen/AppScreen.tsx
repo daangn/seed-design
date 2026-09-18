@@ -2,8 +2,8 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 import { forwardRef, useEffect, useRef } from "react";
+import { usePreventTouchDuringTransition } from "../private/usePreventTouchDuringTransition";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
 
@@ -29,9 +29,7 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackMove,
     onSwipeBackStart,
   });
-  usePreventTouchDuringTransition({
-    ref: innerRef as React.RefObject<HTMLDivElement>,
-  });
+  usePreventTouchDuringTransition({ ref: innerRef });
 
   // Focus the layer once after the enter animation completes.
   // onMountAutoFocus fires during enter-active and interrupts the CSS animation, so we

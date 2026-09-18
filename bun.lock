@@ -1501,13 +1501,12 @@
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/dom-utils": "^2.1.0",
         "@seed-design/react-primitive": "^2.0.1",
-        "@stackflow/react-ui-core": "^1.3.3",
         "clsx": "^2.1.1",
       },
       "devDependencies": {
         "@seed-design/css": "2.8.2",
-        "@stackflow/core": "^1.2.0",
-        "@stackflow/react": "^1.5.1",
+        "@stackflow/core": "^3.1.0",
+        "@stackflow/react": "^2.1.4",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.1",
         "@vitejs/plugin-react": "^6.0.0",
@@ -1519,8 +1518,8 @@
       },
       "peerDependencies": {
         "@seed-design/css": "^2.0.0",
-        "@stackflow/core": ">=1.1.0",
-        "@stackflow/react": ">=1.4.1",
+        "@stackflow/core": "^1.1.0 || ^2.0.0 || ^3.0.0",
+        "@stackflow/react": "^1.4.1 || ^2.0.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -6785,6 +6784,10 @@
     "@seed-design/rootage-cli/typescript": ["typescript@7.0.2", "", { "optionalDependencies": { "@typescript/typescript-aix-ppc64": "7.0.2", "@typescript/typescript-darwin-arm64": "7.0.2", "@typescript/typescript-darwin-x64": "7.0.2", "@typescript/typescript-freebsd-arm64": "7.0.2", "@typescript/typescript-freebsd-x64": "7.0.2", "@typescript/typescript-linux-arm": "7.0.2", "@typescript/typescript-linux-arm64": "7.0.2", "@typescript/typescript-linux-loong64": "7.0.2", "@typescript/typescript-linux-mips64el": "7.0.2", "@typescript/typescript-linux-ppc64": "7.0.2", "@typescript/typescript-linux-riscv64": "7.0.2", "@typescript/typescript-linux-s390x": "7.0.2", "@typescript/typescript-linux-x64": "7.0.2", "@typescript/typescript-netbsd-arm64": "7.0.2", "@typescript/typescript-netbsd-x64": "7.0.2", "@typescript/typescript-openbsd-arm64": "7.0.2", "@typescript/typescript-openbsd-x64": "7.0.2", "@typescript/typescript-sunos-x64": "7.0.2", "@typescript/typescript-win32-arm64": "7.0.2", "@typescript/typescript-win32-x64": "7.0.2" }, "bin": { "tsc": "bin/tsc" } }, "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA=="],
 
     "@seed-design/rsbuild-plugin-lynx-icon/@rsbuild/core": ["@rsbuild/core@1.7.3", "", { "dependencies": { "@rspack/core": "~1.7.5", "@rspack/lite-tapable": "~1.1.0", "@swc/helpers": "^0.5.18", "core-js": "~3.47.0", "jiti": "^2.6.1" }, "bin": { "rsbuild": "bin/rsbuild.js" } }, "sha512-kI1oQvCXbQYxUvQPnDLdjSX4gFsbrFNpuUj6jXEJ7IcJ74Q+n4oeFj74/8tKerhxhe0L90m/ZQfzLeN5ORGA9w=="],
+
+    "@seed-design/stackflow/@stackflow/core": ["@stackflow/core@3.1.0", "", { "dependencies": { "react-fast-compare": "^3.2.2" } }, "sha512-KnpBrzmUHQQK20oD99eswspAtLxgGK0iu5LLeLJ5RJrWkzv2X77i0OymaT5Fr4Lt8CBYfYWGq5VUFJLo3idHKw=="],
+
+    "@seed-design/stackflow/@stackflow/react": ["@stackflow/react@2.1.4", "", { "dependencies": { "react-fast-compare": "^3.2.2" }, "peerDependencies": { "@stackflow/config": "^2.0.0", "@stackflow/core": "^3.1.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-vp1ap4bcGnQShY4RdNKOP98eglQhUJL2XvW+vr9s7ACe6J2G3e8eUfR5OMbJRMcXcN/KD6npiGV2R1y2P99DCg=="],
 
     "@seed-design/stackflow/vite-plugin-dts": ["vite-plugin-dts@5.0.0", "", { "dependencies": { "unplugin-dts": "1.0.0" }, "peerDependencies": { "@microsoft/api-extractor": ">=7", "rollup": ">=3", "vite": ">=3" }, "optionalPeers": ["@microsoft/api-extractor", "rollup", "vite"] }, "sha512-VLNAUttBq7pLxxL/m/ztjd5zj5yiviiC7ijfPFVLK5c45FLcibvieBsdjSka3a4ag1qdrAF9K3OysH4/lW+rPQ=="],
 

@@ -1,7 +1,7 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useNullableActivity } from "@stackflow/react-ui-core";
 import { useMemo, useRef } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
+import { useNullableActivity } from "../private/useNullableActivity";
 import { useActivityZIndexBase } from "../../hooks";
 import { appScreenAnatomy } from "./anatomy";
 

@@ -1,4 +1,4 @@
-import { useNullableActivity } from "@stackflow/react-ui-core";
+import { useNullableActivity } from "../primitive/private/useNullableActivity";
 
 interface UseActivityZIndexBaseParams {
   /**
