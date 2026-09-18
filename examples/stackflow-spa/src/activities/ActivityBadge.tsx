@@ -24,7 +24,7 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
@@ -37,7 +37,7 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <VStack gap="x4" px="spacingX.globalGutter" py="x3" pb="safeArea">
+        <VStack gap="x4" px="spacingX.globalGutter" py="x3">
           <Text textStyle="t1Bold">t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.</Text>
           <HStack gap="x2" wrap>
             {badgeVariantMap.variant.map((variant) => (

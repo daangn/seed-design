@@ -34,7 +34,7 @@ const ActivityChipToggle: StaticActivityComponentType<"ActivityChipToggle"> = ()
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

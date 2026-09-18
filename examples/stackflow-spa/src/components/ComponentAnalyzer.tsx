@@ -30,14 +30,7 @@ export function ComponentAnalyzer<T extends Record<string, string[]>>(
   const gridColumns = getGridColumnCount(variantsMap, variants);
 
   return (
-    <VStack
-      gap="x2"
-      justify="space-between"
-      height="full"
-      ref={screenRef}
-      pb="safeArea"
-      style={{ boxSizing: "border-box" }}
-    >
+    <VStack gap="x2" justify="space-between" height="full" ref={screenRef}>
       <ComponentShowcase gridColumns={gridColumns}>
         {variantCombination.map((variant) => render(variant))}
       </ComponentShowcase>
