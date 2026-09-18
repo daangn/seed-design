@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
-    "@changesets/cli": "^2.29.2",
+    "@changesets/cli": "^3.0.3",
     "@figma/rest-api-spec": "^0.36.0",
     "@happy-dom/global-registrator": "^20.4.0",
     "@seed-design/figma-extractor": "workspace:*",

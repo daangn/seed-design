@@ -28,7 +28,7 @@ jobs:
       id-token: write
     outputs:
       published: ${{ steps.changesets.outputs.published }}
-      published-packages: ${{ steps.changesets.outputs.publishedPackages }}
+      published-packages: ${{ steps.changesets.outputs.published-packages }}
 
     steps:
       - name: Checkout repository
@@ -63,13 +63,14 @@ jobs:
 
       - name: Create or update the Version Packages PR, or publish packages
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          publish: bun release
-          version: bun version
-          title: "release: version packages"
+          github-token: ${{ steps.app-token.outputs.token }}
+          push-with-git-cli: true
+          publish-script: bun release
+          version-script: bun version
+          pr-title: "release: version packages"
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
