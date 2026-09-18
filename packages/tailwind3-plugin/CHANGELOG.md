@@ -1,5 +1,12 @@
 # @seed-design/tailwind3-plugin
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-css@0.12.0
+
 ## 2.4.1
 
 ### Patch Changes

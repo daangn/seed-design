@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react-toggle",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
-    "@seed-design/lynx-react-use-press-tap": "0.0.0"
+    "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+    "@seed-design/lynx-react-use-press-tap": "0.1.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",

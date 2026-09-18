@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -34,12 +34,12 @@
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.9.0",
-    "@seed-design/lynx-css": "0.0.0 || >=0.11.1 <1.0.0"
+    "@seed-design/lynx-css": "0.0.0 || >=0.12.0 <1.0.0"
   },
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.9.0",
-    "@seed-design/lynx-css": "0.11.1",
+    "@seed-design/lynx-css": "0.12.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
     "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
@@ -58,7 +58,7 @@
     "@lynx-js/lynx-ui-sheet": "^3.130.1",
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4",
-    "@seed-design/lynx-react-use-controllable-state": "0.0.0",
-    "@seed-design/lynx-react-use-press-tap": "0.0.0"
+    "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+    "@seed-design/lynx-react-use-press-tap": "0.1.0"
   }
 }

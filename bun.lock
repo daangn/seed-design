@@ -60,13 +60,13 @@
         "@seed-design/css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.4.2",
+        "@seed-design/react": "2.5.0",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "2.0.4",
-        "@seed-design/tailwind4-theme": "2.4.1",
+        "@seed-design/tailwind4-theme": "3.0.0",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -283,8 +283,8 @@
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/lynx-react-image": "workspace:*",
         "@seed-design/lynx-react-toggle": "workspace:*",
-        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
-        "@seed-design/lynx-react-use-press-tap": "0.0.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+        "@seed-design/lynx-react-use-press-tap": "0.1.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
         "clsx": "^2.1.1",
         "lynx-console": "^0.3.0",
@@ -309,7 +309,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@seed-design/css": "2.8.3",
-        "@seed-design/react": "2.4.2",
+        "@seed-design/react": "2.5.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -338,7 +338,7 @@
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "2.8.3",
-        "@seed-design/react": "2.4.2",
+        "@seed-design/react": "2.5.0",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.0.4",
@@ -491,7 +491,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.11.1",
+      "version": "0.12.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -513,21 +513,21 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.7.1",
+      "version": "0.8.0",
       "dependencies": {
         "@floating-ui/core": "^1.8.0",
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-dialog": "^3.133.1",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
-        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
-        "@seed-design/lynx-react-use-press-tap": "0.0.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+        "@seed-design/lynx-react-use-press-tap": "0.1.0",
         "clsx": "^2.1.1",
         "unicode-segmenter": "^0.14.4",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.9.0",
-        "@seed-design/lynx-css": "0.11.1",
+        "@seed-design/lynx-css": "0.12.0",
         "@seed-design/lynx-vitest-config": "0.0.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
@@ -539,12 +539,12 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.9.0",
-        "@seed-design/lynx-css": "0.0.0 || >=0.11.1 <1.0.0",
+        "@seed-design/lynx-css": "0.0.0 || >=0.12.0 <1.0.0",
       },
     },
     "packages/lynx-react-headless/image": {
       "name": "@seed-design/lynx-react-image",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
       },
@@ -563,11 +563,11 @@
     },
     "packages/lynx-react-headless/toggle": {
       "name": "@seed-design/lynx-react-toggle",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
-        "@seed-design/lynx-react-use-controllable-state": "0.0.0",
-        "@seed-design/lynx-react-use-press-tap": "0.0.0",
+        "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+        "@seed-design/lynx-react-use-press-tap": "0.1.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
@@ -584,7 +584,7 @@
     },
     "packages/lynx-react-headless/use-controllable-state": {
       "name": "@seed-design/lynx-react-use-controllable-state",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
       },
@@ -601,7 +601,7 @@
     },
     "packages/lynx-react-headless/use-press-tap": {
       "name": "@seed-design/lynx-react-use-press-tap",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
       },
@@ -673,7 +673,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.4.2",
+      "version": "2.5.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -1628,7 +1628,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "2.4.1",
+      "version": "3.0.0",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1644,7 +1644,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "2.4.1",
+      "version": "3.0.0",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
@@ -1784,7 +1784,7 @@
         "@seed-design/css": "2.8.3",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.4.2",
+        "@seed-design/react": "2.5.0",
         "@seed-design/vite-plugin": "2.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
