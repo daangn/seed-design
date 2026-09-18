@@ -2442,6 +2442,10 @@ text {
   transform: scale(1);
 }
 
+.seed-help-bubble__motion--positioned_true {
+  width: calc(100% + 16px);
+}
+
 .seed-help-bubble__arrow--side_top {
   transform: rotate(0);
 }

@@ -815,13 +815,7 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
 
   const motionClassName = useClassNames().motion;
   return (
-    <view
-      className={motionClassName}
-      style={{
-        width: context.position ? "calc(100% + 16px)" : undefined,
-      }}
-      bindtransitionend={handleTransitionEnd}
-    >
+    <view className={motionClassName} bindtransitionend={handleTransitionEnd}>
       <view
         ref={handleRef as LynxViewRef}
         className={clsx(useClassNames().content, className)}

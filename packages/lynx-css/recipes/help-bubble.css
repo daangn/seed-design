@@ -81,6 +81,9 @@
     transform: scale(1);
     transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
 }
+.seed-help-bubble__motion--positioned_true {
+    width: calc(100% + 16px)
+}
 .seed-help-bubble__arrow--side_top {
     transform: rotate(0deg)
 }

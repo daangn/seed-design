@@ -112,7 +112,9 @@ const helpBubble = defineSlotRecipe({
       false: {},
     },
     positioned: {
-      true: {},
+      true: {
+        motion: { width: "calc(100% + 16px)" },
+      },
       false: {},
     },
     side: {
