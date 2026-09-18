@@ -57,17 +57,22 @@ export const globalCss = defineGlobalCss({
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
-    verticalAlign: "middle",
   },
   ".seed-icon": {
     width: "var(--seed-icon-size)",
     height: "var(--seed-icon-size)",
     color: "var(--seed-icon-color, currentColor)",
+    fontSize: "var(--seed-icon-font-size, inherit)",
+    fontWeight: "var(--seed-icon-font-weight, inherit)",
+    verticalAlign: "middle",
   },
   ".seed-prefix-icon": {
     width: "var(--seed-prefix-icon-size)",
     height: "var(--seed-prefix-icon-size)",
     color: "var(--seed-prefix-icon-color, currentColor)",
+    fontSize: "var(--seed-prefix-icon-font-size, inherit)",
+    fontWeight: "var(--seed-prefix-icon-font-weight, inherit)",
+    verticalAlign: "middle",
 
     marginLeft: "var(--seed-prefix-icon-margin-left, 0)",
     marginRight: "var(--seed-prefix-icon-margin-right, 0)",
@@ -81,6 +86,9 @@ export const globalCss = defineGlobalCss({
     width: "var(--seed-suffix-icon-size)",
     height: "var(--seed-suffix-icon-size)",
     color: "var(--seed-suffix-icon-color, currentColor)",
+    fontSize: "var(--seed-suffix-icon-font-size, inherit)",
+    fontWeight: "var(--seed-suffix-icon-font-weight, inherit)",
+    verticalAlign: "middle",
 
     marginLeft: "var(--seed-suffix-icon-margin-left, 0)",
     marginRight: "var(--seed-suffix-icon-margin-right, 0)",
