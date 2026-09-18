@@ -2,8 +2,9 @@
 "@seed-design/lynx-react-image": minor
 ---
 
-Lynx 이미지의 로딩·성공·실패 상태를 추적하는 `useImage` 훅과 headless Image 컴포넌트를 제공합니다.
+Lynx 이미지의 로딩 상태와 대체 콘텐츠를 구성하는 headless `Image` 컴포넌트를 추가합니다.
 
-- `bindload`와 `binderror`로 상태를 갱신하고 fallback 표시 여부를 판단할 수 있습니다.
-- 이미지 주소 변경 시 상태를 초기화하고 이전 요청의 콜백과 중복 상태 알림을 무시합니다.
-- `Image.Root`, `Image.Content`, `Image.Fallback`으로 상태 공유·이벤트 연결·fallback 표시를 구성합니다.
+- `Image.Root`가 로딩 상태를 공유하고, native `image` 요소를 렌더링하는 `Image.Content`가 로드·오류 이벤트를 상태에 연결합니다.
+- `Image.Fallback`은 이미지가 로딩 중이거나 로드에 실패했을 때 대체 콘텐츠를 표시하고, 로드에 성공하면 숨깁니다.
+- 이미지 주소가 변경되면 상태를 초기화하고 이전 요청에서 발생한 이벤트를 무시합니다.
+- 직접 동작을 구성하는 `useImage`와 하위 컴포넌트에서 상태를 읽는 `useImageContext`를 함께 제공합니다. 시각적 스타일은 사용처에서 지정합니다.
