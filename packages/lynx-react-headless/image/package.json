@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "bunchee",
+    "build": "tsc -p tsconfig.json",
     "lint:publish": "bun publint",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
