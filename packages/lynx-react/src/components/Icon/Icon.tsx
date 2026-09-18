@@ -258,10 +258,19 @@ export const SuffixIcon = createIconComponent<SuffixIconProps>(
 export interface InternalIconProps extends LynxStyledElementProps {
   icon: ReactElement<LynxIconElementProps>;
   deps?: DependencyList;
+  disableDefaultResize?: boolean;
 }
 
 export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props, ref) => {
-  const { icon, deps = [], className, style, children: _children, ...nativeProps } = props;
+  const {
+    icon,
+    deps = [],
+    className,
+    style,
+    children: _children,
+    disableDefaultResize = false,
+    ...nativeProps
+  } = props;
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const styleColor = getStyleColor(style);
   const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });
@@ -280,6 +289,7 @@ export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props,
     >
       {cloneElement(icon, {
         ...iconColor,
+        ...(disableDefaultResize ? { "disable-default-resize": true } : {}),
         className: icon.props.className,
         style: {
           ...icon.props.style,

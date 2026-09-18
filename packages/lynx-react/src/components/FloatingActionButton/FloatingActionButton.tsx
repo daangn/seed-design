@@ -152,6 +152,7 @@ export const FloatingActionButtonIcon = React.forwardRef<unknown, FloatingAction
         {...mergeProps(ref ? { ref } : {}, iconProps)}
         className={className}
         deps={[classNames.icon]}
+        disableDefaultResize={true}
         accessibility-elements-hidden={true}
       />
     );
