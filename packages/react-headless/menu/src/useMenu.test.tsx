@@ -1,7 +1,8 @@
+import * as FloatingUI from "@floating-ui/react";
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, jest } from "bun:test";
+import { afterAll, beforeEach, describe, expect, it, jest, mock } from "bun:test";
 
 import * as React from "react";
 
@@ -15,6 +16,30 @@ import {
   MenuGroupLabel,
   type MenuRootProps,
 } from "./index";
+
+const actualFloatingUI = { ...FloatingUI };
+
+let setups = 0;
+let teardowns = 0;
+
+mock.module("@floating-ui/react", () => ({
+  ...actualFloatingUI,
+  autoUpdate: (...args: Parameters<typeof actualFloatingUI.autoUpdate>) => {
+    setups += 1;
+    const cleanup = actualFloatingUI.autoUpdate(...args);
+
+    return () => {
+      teardowns += 1;
+      cleanup();
+    };
+  },
+}));
+
+// Module mocks outlive this file and `mock.restore()` leaves them in place, so hand the
+// real exports back to the test files that run after this one.
+afterAll(() => {
+  mock.module("@floating-ui/react", () => actualFloatingUI);
+});
 
 type UseMenuProps = MenuRootProps;
 
@@ -1001,6 +1026,62 @@ describe("useMenu", () => {
       // With the ancestor trap active again, focus cannot settle outside its container.
       act(() => getByText("Outside").focus());
       expect(getByText("Outside")).not.toHaveFocus();
+    });
+  });
+
+  describe("autoUpdate lifecycle", () => {
+    function PositionedMenu({ open }: { open: boolean }) {
+      return (
+        <Menu open={open}>
+          <MenuTrigger>Open Menu</MenuTrigger>
+          <MenuPositioner data-testid="positioner">
+            <MenuContent>
+              <MenuItem>Item 1</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
+        </Menu>
+      );
+    }
+
+    // happy-dom has no layout, so stand in for a page scroll that carries the trigger elsewhere.
+    function scrollTriggerTo(trigger: HTMLElement, top: number) {
+      trigger.getBoundingClientRect = () => new DOMRect(0, top, 40, 20);
+      window.dispatchEvent(new Event("scroll"));
+    }
+
+    beforeEach(() => {
+      setups = 0;
+      teardowns = 0;
+    });
+
+    it("keeps one autoUpdate subscription across position updates", async () => {
+      const { getByText, getByTestId } = render(<PositionedMenu open />);
+      await waitForPositioning();
+      expect(setups - teardowns).toBe(1);
+
+      const positioner = getByTestId("positioner");
+      const counts = { setups, teardowns };
+      const transform = positioner.style.transform;
+
+      scrollTriggerTo(getByText("Open Menu"), 200);
+
+      await waitFor(() => expect(positioner.style.transform).not.toBe(transform));
+      expect({ setups, teardowns }).toEqual(counts);
+    });
+
+    it("keeps autoUpdate through the exit transition and stops once it finishes", async () => {
+      const { getByTestId, rerender } = render(<PositionedMenu open />);
+      await waitForPositioning();
+      const positioner = getByTestId("positioner");
+
+      rerender(<PositionedMenu open={false} />);
+      expect(positioner).not.toHaveAttribute("data-hidden");
+      expect(setups - teardowns).toBe(1);
+
+      await waitFor(() => {
+        expect(positioner).toHaveAttribute("data-hidden");
+        expect(setups - teardowns).toBe(0);
+      });
     });
   });
 });
