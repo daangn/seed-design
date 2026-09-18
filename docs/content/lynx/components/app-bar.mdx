@@ -161,6 +161,48 @@ export function Header({ goBack }: { goBack: () => void }) {
 }
 ```
 
+### Multiple / Conditional Actions
+
+슬롯에 여러 버튼을 넣으면 첫 번째와 마지막 버튼에만 가장자리 여백 보정이 적용됩니다. 가운데 버튼의 터치 영역은 그대로 유지됩니다. 조건부 렌더링으로 버튼이 하나만 남으면 양쪽 여백 보정으로 자동 변경됩니다.
+
+아래 예제에서 검색·닫기를 숨기거나 다시 표시해도 제목은 가운데에 유지됩니다. 각 아이콘 버튼을 눌러 마지막 액션도 확인할 수 있습니다.
+
+<LynxComponentExample name="lynx/app-bar/multiple-actions">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/multiple-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Custom Slot / Explicit Edge
+
+직접 만든 레이아웃 박스나 `AppBarSlot` 안의 버튼에는 가장자리 보정을 자동 적용하지 않습니다. 내부 배치를 직접 관리할 때만 `edge`로 방향을 지정하세요. 일반적인 `AppBarLeft` / `AppBarRight`의 버튼에는 지정할 필요가 없습니다.
+
+```tsx
+<AppBarRight>
+  <AppBarSlot>
+    <AppBarCloseButton edge="trailing" bindtap={close} />
+  </AppBarSlot>
+</AppBarRight>
+```
+
+`leading`은 왼쪽, `trailing`은 오른쪽, `both`는 양쪽 여백을 보정합니다. 명시한 값은 자동 보정보다 우선하며, 버튼의 터치 영역 크기는 바뀌지 않습니다.
+
+### Tone
+
+기본값인 `tone="layer"`는 레이어 배경을 표시합니다. `tone="transparent"`는 배경을 투명하게 하고 제목과 아이콘에 밝은 색상을 적용하므로 사진이나 어두운 배경 위에서 사용하세요. 배경과 스크롤에 따른 tone 전환은 호출부에서 관리합니다.
+
+<LynxComponentExample name="lynx/app-bar/transparent">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/transparent.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Accessibility
 
 Lynx에서는 HTML ARIA 속성 대신 Lynx native 접근성 속성을 사용합니다. `AppBarIconButton`은 기본적으로 `accessibility-element={true}`와 `accessibility-traits="button"`을 적용하며, 아이콘만으로 의미를 알 수 없는 버튼에는 `accessibility-label`을 전달해야 합니다.
