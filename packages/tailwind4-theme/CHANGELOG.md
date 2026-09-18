@@ -1,5 +1,24 @@
 # @seed-design/tailwind4-theme
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-css@0.12.0
+
 ## 2.4.1
 
 ### Patch Changes
