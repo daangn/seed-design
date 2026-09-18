@@ -7,6 +7,7 @@ export {
   AppBarSlot as Slot,
   AppBarSubtitle as Subtitle,
   AppBarTitle as Title,
+  type AppBarEdge as Edge,
   type AppBarIconButtonProps as IconButtonProps,
   type AppBarLeftProps as LeftProps,
   type AppBarMainProps as MainProps,
