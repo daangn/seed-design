@@ -38,7 +38,7 @@
   "peerDependencies": {
     "@seed-design/css": "^2.7.0",
     "tailwindcss": "4",
-    "@seed-design/lynx-css": "^0.11.0"
+    "@seed-design/lynx-css": "^0.12.0"
   },
   "peerDependenciesMeta": {
     "@seed-design/css": {
