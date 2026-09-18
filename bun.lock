@@ -60,13 +60,13 @@
         "@seed-design/css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.4.1",
+        "@seed-design/react": "2.4.2",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "2.0.4",
-        "@seed-design/tailwind4-theme": "2.4.0",
+        "@seed-design/tailwind4-theme": "2.4.1",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -304,8 +304,8 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "2.8.2",
-        "@seed-design/react": "2.4.1",
+        "@seed-design/css": "2.8.3",
+        "@seed-design/react": "2.4.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -333,8 +333,8 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "2.8.2",
-        "@seed-design/react": "2.4.1",
+        "@seed-design/css": "2.8.3",
+        "@seed-design/react": "2.4.2",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.0.4",
@@ -439,7 +439,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.8.2",
+      "version": "2.8.3",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -487,7 +487,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.11.0",
+      "version": "0.11.1",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -509,7 +509,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "dependencies": {
         "@floating-ui/core": "^1.8.0",
         "@lynx-js/lynx-ui-common": "^3.130.0",
@@ -520,7 +520,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.9.0",
-        "@seed-design/lynx-css": "0.11.0",
+        "@seed-design/lynx-css": "0.11.1",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
         "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26",
@@ -576,7 +576,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.4.1",
+      "version": "2.4.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -1505,7 +1505,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "2.8.2",
+        "@seed-design/css": "2.8.3",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -1531,7 +1531,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "2.4.0",
+      "version": "2.4.1",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1547,7 +1547,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "2.4.0",
+      "version": "2.4.1",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
@@ -1684,10 +1684,10 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "2.8.2",
+        "@seed-design/css": "2.8.3",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.4.1",
+        "@seed-design/react": "2.4.2",
         "@seed-design/vite-plugin": "2.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
