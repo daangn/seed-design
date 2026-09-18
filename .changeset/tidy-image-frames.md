@@ -9,3 +9,4 @@ ImageFrame과 이미지 위에 배치하는 오버레이 컴포넌트를 제공�
 - Floater, Badge, Icon, Indicator와 `useToggle` 기반 ReactionButton을 함께 제공합니다.
 - 가운데 배치는 기본 오프셋 없이 정렬하고, 아이콘 크기·색상은 Recipe를 따릅니다.
 - 좋아요 아이콘은 SVG 디코딩에 의존하지 않는 WebP로 제공합니다.
+- 이미지·fallback과 좋아요 입력·접근성 처리를 headless Image·Toggle에 위임합니다.
