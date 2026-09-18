@@ -91,9 +91,11 @@ function cancelTintColorSync(frameRef: RefObject<number>) {
   }
 }
 
-function restoreTintColor(tintRef: RefObject<TintState | null>) {
+function restoreTintColor(tintRef: RefObject<TintState | null>, frameRef: RefObject<number>) {
   "main thread";
 
+  // uiappear may schedule a frame before the first effect installs cleanup.
+  cancelTintColorSync(frameRef);
   const previous = tintRef.current;
   if (!previous) return;
   if (previous.target.getAttribute("tint-color") === previous.applied) {
@@ -140,7 +142,7 @@ export function useIconColor(
     }
 
     if (!enabled) {
-      runOnMainThread(restoreTintColor)(tintRef);
+      runOnMainThread(restoreTintColor)(tintRef, frameRef);
       return;
     }
 

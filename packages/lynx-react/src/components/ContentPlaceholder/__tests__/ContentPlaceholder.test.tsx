@@ -71,6 +71,7 @@ describe("ContentPlaceholder", () => {
     "original",
     "marked",
     "custom-tint",
+    "initial-appear",
   ])("handles %s tint without losing the child's Main Thread ref", async (mode) => {
     let frame: FrameRequestCallback | undefined;
     lynxTestingEnv.mainThread.globalThis["SystemInfo"] = { ...SystemInfo, lynxSdkVersion: "3.5" };
@@ -138,6 +139,22 @@ describe("ContentPlaceholder", () => {
       enableBackgroundThread: true,
     });
     await waitSchedule();
+    if (mode === "initial-appear") {
+      const image = getRoot().querySelector("image");
+      if (!image) throw new Error("Expected an asset image.");
+      const init = { eventType: "bindEvent", eventName: "uiappear", detail: {} };
+      const appear = createEvent("bindEvent:uiappear", image, init);
+      Object.assign(appear, init);
+      fireEvent(image, appear);
+      await waitSchedule();
+      expect(image.getAttribute("tint-color")).toBe("rgb(220, 222, 227)");
+      expect(frame).toBeDefined();
+      rerender(<Example className="preserved" report={report} />);
+      await waitSchedule();
+      expect(image.getAttribute("tint-color")).toBeNull();
+      expect(frame).toBeUndefined();
+      return;
+    }
     rerender(<Example className="after" report={report} />);
     await waitSchedule();
     if (frame) {
