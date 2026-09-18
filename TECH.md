@@ -53,6 +53,7 @@
 | `bun lynx:generate` | Lynx React와 Tailwind plugin 빌드 |
 | `bun packages:build` | 모든 패키지 빌드 |
 | `bun headless:build` | react-headless family 빌드 |
+| `bun lynx-headless:build` | Lynx headless family와 빌드 의존성 빌드 |
 
 ### 테스트
 

@@ -540,6 +540,42 @@
         "@seed-design/lynx-css": "0.0.0 || >=0.11.0 <1.0.0",
       },
     },
+    "packages/lynx-react-headless/use-controllable-state": {
+      "name": "@seed-design/lynx-react-use-controllable-state",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.117.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+      },
+    },
+    "packages/lynx-react-headless/use-press-tap": {
+      "name": "@seed-design/lynx-react-use-press-tap",
+      "version": "0.0.0",
+      "dependencies": {
+        "@lynx-js/lynx-ui-common": "^3.130.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.117.0",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
+      },
+    },
     "packages/lynx-vitest-config": {
       "name": "@seed-design/lynx-vitest-config",
       "version": "0.0.0",
@@ -1584,42 +1620,6 @@
       "peerDependencies": {
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/utils/lynx-react-use-controllable-state": {
-      "name": "@seed-design/lynx-react-use-controllable-state",
-      "version": "0.0.0",
-      "dependencies": {
-        "@lynx-js/lynx-ui-common": "^3.130.0",
-      },
-      "devDependencies": {
-        "@lynx-js/react": "^0.117.0",
-        "@seed-design/lynx-vitest-config": "0.0.0",
-        "@testing-library/jest-dom": "^6.9.1",
-        "jsdom": "^29.0.2",
-        "vitest": "^3.2.4",
-      },
-      "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
-      },
-    },
-    "packages/utils/lynx-react-use-press-tap": {
-      "name": "@seed-design/lynx-react-use-press-tap",
-      "version": "0.0.0",
-      "dependencies": {
-        "@lynx-js/lynx-ui-common": "^3.130.0",
-      },
-      "devDependencies": {
-        "@lynx-js/react": "^0.117.0",
-        "@lynx-js/types": "^3.7.0",
-        "@seed-design/lynx-vitest-config": "0.0.0",
-        "@testing-library/jest-dom": "^6.9.1",
-        "jsdom": "^29.0.2",
-        "vitest": "^3.2.4",
-      },
-      "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
-        "@lynx-js/types": ">=3.7.0",
       },
     },
     "packages/utils/react-scale-feedback": {
@@ -3291,9 +3291,9 @@
 
     "@seed-design/lynx-react": ["@seed-design/lynx-react@workspace:packages/lynx-react"],
 
-    "@seed-design/lynx-react-use-controllable-state": ["@seed-design/lynx-react-use-controllable-state@workspace:packages/utils/lynx-react-use-controllable-state"],
+    "@seed-design/lynx-react-use-controllable-state": ["@seed-design/lynx-react-use-controllable-state@workspace:packages/lynx-react-headless/use-controllable-state"],
 
-    "@seed-design/lynx-react-use-press-tap": ["@seed-design/lynx-react-use-press-tap@workspace:packages/utils/lynx-react-use-press-tap"],
+    "@seed-design/lynx-react-use-press-tap": ["@seed-design/lynx-react-use-press-tap@workspace:packages/lynx-react-headless/use-press-tap"],
 
     "@seed-design/lynx-vitest-config": ["@seed-design/lynx-vitest-config@workspace:packages/lynx-vitest-config"],
 

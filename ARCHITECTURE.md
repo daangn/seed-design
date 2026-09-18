@@ -146,3 +146,7 @@ bun skills/seed-token-analysis/scripts/token-map.ts '$color.fg.neutral'
 - `ARCHITECTURE.md`: 저장소 구조, 의존성 방향, 작업 시작 경로
 - `TECH.md`: 기술 스택, 구현 규칙, 생성·검증 명령
 - `README.md`: 사람 대상 저장소 소개와 패키지 목록
+
+### Lynx headless
+
+`packages/lynx-react-headless/*`는 Lynx 상태·입력 훅과 스타일 없는 컴포넌트를 관리합니다. `use-press-tap`, `use-controllable-state`의 공개 패키지 이름은 유지하며, styled UI와 Recipe는 `packages/lynx-react`에서 조합합니다. `bun lynx-headless:build`로 소비 패키지보다 먼저 빌드합니다.
