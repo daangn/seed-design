@@ -2,7 +2,8 @@
     position: relative
 }
 .seed-chip-tabs__list {
-    position: relative
+    position: relative;
+    width: 100%
 }
 .seed-chip-tabs__listContent {
     display: flex;
