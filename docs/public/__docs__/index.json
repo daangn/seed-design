@@ -2575,12 +2575,6 @@
               "docUrl": "/lynx/hooks/use-icon-color"
             },
             {
-              "id": "use-image",
-              "title": "useImage",
-              "description": "Lynx 이미지의 로딩 상태와 실패 시 대체 UI를 관리하는 훅입니다.",
-              "docUrl": "/lynx/hooks/use-image"
-            },
-            {
               "id": "use-press-tap",
               "title": "usePressTap",
               "description": "Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.",

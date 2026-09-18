@@ -3,7 +3,6 @@
   "pages": [
     "use-controllable-state",
     "use-icon-color",
-    "use-image",
     "use-press-tap",
     "use-safe-area",
     "use-seed-class-name"
