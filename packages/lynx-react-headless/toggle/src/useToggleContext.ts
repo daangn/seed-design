@@ -1,5 +1,5 @@
 import { createContext, useContext, type Context } from "@lynx-js/react";
-import type { UseToggleReturn } from "./useToggle";
+import type { UseToggleReturn } from "./useToggle.js";
 
 export interface UseToggleContext extends UseToggleReturn {}
 

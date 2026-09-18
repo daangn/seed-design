@@ -19,6 +19,25 @@ import { useToggle } from "@seed-design/lynx-react-toggle";
 
 `useToggle`은 [useControllableState](/lynx/hooks/use-controllable-state)와 [usePressTap](/lynx/hooks/use-press-tap)을 조합한 headless 훅입니다. 이 두 훅은 패키지의 의존성으로 설치됩니다. `useToggle`을 `@seed-design/lynx-react`에서 재export하지는 않습니다.
 
+## Headless 컴포넌트
+
+`Toggle.Root`는 스타일 없는 고정 `<view>`를 렌더링하고, 상태와 입력 이벤트를 연결하며 native 접근성 상태를 제공합니다. `as`/`asChild`는 제공하지 않습니다.
+
+```tsx
+import { Toggle, useToggleContext } from "@seed-design/lynx-react-toggle";
+
+function Label() {
+  const { pressed } = useToggleContext();
+  return <text>{pressed ? "선택됨" : "선택 안 됨"}</text>;
+}
+
+<Toggle.Root defaultPressed onPressedChange={console.log}>
+  <Label />
+</Toggle.Root>
+```
+
+`pressed`, `defaultPressed`, `onPressedChange`, `disabled`는 훅과 동일합니다. 사용자 `bindtap`과 내부 토글을 함께 실행하며, disabled에서는 background/main-thread tap을 모두 차단합니다. 터치 핸들러와 ref는 native 요소로 전달합니다. 하위 컴포넌트는 `useToggleContext()`로 `pressed`·`active`·`disabled`를 읽어 Recipe를 선택할 수 있습니다. Scale Feedback과 아이콘은 styled 컴포넌트가 담당합니다.
+
 ## Usage
 
 ### Uncontrolled
