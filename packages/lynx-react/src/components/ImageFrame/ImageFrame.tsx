@@ -51,8 +51,23 @@ export const ImageFrame = React.forwardRef<unknown, ImageFrameProps>((props, ref
   const classNames = imageFrame(variantProps);
   const frameStyle = {
     "--seed-image-frame-ratio": String(ratio),
-    "--seed-image-frame-radius": String(style.borderRadius ?? 0),
+    "--seed-image-frame-radius": handleDimension(style.borderRadius ?? 0),
     ...style,
+  };
+
+  // Forward resolved caller corner overrides to the stroke as well as the
+  // clipping root. Keep the shorthand in the recipe so multi-value radii work.
+  const {
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomRightRadius,
+    borderBottomLeftRadius,
+  } = style;
+  const strokeStyle = {
+    borderTopLeftRadius: borderTopLeftRadius ?? "",
+    borderTopRightRadius: borderTopRightRadius ?? "",
+    borderBottomRightRadius: borderBottomRightRadius ?? "",
+    borderBottomLeftRadius: borderBottomLeftRadius ?? "",
   };
 
   return (
@@ -68,7 +83,7 @@ export const ImageFrame = React.forwardRef<unknown, ImageFrameProps>((props, ref
       <FrameImage src={src} alt={alt} bindload={bindload} binderror={binderror} />
       {children}
       {variantProps.stroke ? (
-        <view className={classNames.stroke} accessibility-elements-hidden />
+        <view className={classNames.stroke} style={strokeStyle} accessibility-elements-hidden />
       ) : null}
     </Image.Root>
   );

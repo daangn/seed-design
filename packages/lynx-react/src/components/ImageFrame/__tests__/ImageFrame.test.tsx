@@ -135,6 +135,36 @@ describe("ImageFrame", () => {
     expect(query(".seed-image-frame__root")).toHaveTextContent("Overlay");
   });
 
+  it("matches stroke corners to resolved caller overrides and resets them", () => {
+    const { rerender } = render(
+      <ImageFrame
+        src=""
+        alt=""
+        stroke
+        borderRadius="r1"
+        borderTopLeftRadius="r4"
+        borderTopRightRadius="20px"
+        borderBottomRightRadius={0}
+        style={{ borderBottomLeftRadius: "30px" }}
+      />,
+    );
+    const stroke = query(".seed-image-frame__stroke");
+    expect(stroke.style.borderTopLeftRadius).toBe("var(--seed-radius-r4)");
+    expect(stroke.style.borderTopRightRadius).toBe("20px");
+    expect(stroke.style.borderBottomRightRadius).toBe("0px");
+    expect(stroke.style.borderBottomLeftRadius).toBe("30px");
+    rerender(<ImageFrame src="" alt="" stroke style={{ borderRadius: 16 }} />);
+    expect(styleProperty(query(".seed-image-frame__root"), "--seed-image-frame-radius")).toBe(
+      "16px",
+    );
+    expect(query(".seed-image-frame__stroke").style.borderTopLeftRadius).toBe("");
+    expect(query(".seed-image-frame__stroke").style.borderBottomLeftRadius).toBe("");
+    rerender(<ImageFrame src="" alt="" stroke style={{ borderRadius: "4px 12px" }} />);
+    expect(styleProperty(query(".seed-image-frame__root"), "--seed-image-frame-radius")).toBe(
+      "4px 12px",
+    );
+  });
+
   it("preserves explicit zero offsets and places overlay in the requested corner", () => {
     render(
       <ImageFrameFloater placement="top-start" offsetX={0} offsetY={0}>
