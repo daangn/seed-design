@@ -1537,8 +1537,13 @@
       },
       "peerDependencies": {
         "@seed-design/css": "^2.2.0",
+        "@seed-design/lynx-css": "^0.11.0",
         "tailwindcss": "3",
       },
+      "optionalPeers": [
+        "@seed-design/css",
+        "@seed-design/lynx-css",
+      ],
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
@@ -1548,8 +1553,13 @@
       },
       "peerDependencies": {
         "@seed-design/css": "^2.2.0",
+        "@seed-design/lynx-css": "^0.11.0",
         "tailwindcss": "4",
       },
+      "optionalPeers": [
+        "@seed-design/css",
+        "@seed-design/lynx-css",
+      ],
     },
     "packages/utils/dom-utils": {
       "name": "@seed-design/dom-utils",

@@ -2320,12 +2320,6 @@
               ]
             },
             {
-              "id": "styling",
-              "title": "Styling with Tailwind",
-              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
-              "docUrl": "/lynx/foundation/layout/styling"
-            },
-            {
               "id": "swipeable-menu-sheet",
               "title": "Swipeable Menu Sheet",
               "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
@@ -2378,6 +2372,18 @@
               ]
             },
             {
+              "id": "tailwind-css-3",
+              "title": "Tailwind CSS 3",
+              "description": "Lynx에서 Tailwind CSS v3와 SEED 디자인 토큰을 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/tailwind-css-3"
+            },
+            {
+              "id": "tailwind-css-4",
+              "title": "Tailwind CSS 4",
+              "description": "Lynx에서 Tailwind CSS v4를 사용하기 위한 PostCSS 설정과 호환성 제한을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/tailwind-css-4"
+            },
+            {
               "id": "text",
               "title": "Text",
               "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
@@ -2399,7 +2405,7 @@
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/theming"
+              "docUrl": "/lynx/getting-started/styling/theming"
             },
             {
               "id": "use-controllable-state",
