@@ -70,6 +70,7 @@ describe("ContentPlaceholder", () => {
     "monochrome",
     "original",
     "marked",
+    "custom-tint",
   ])("handles %s tint without losing the child's Main Thread ref", async (mode) => {
     let frame: FrameRequestCallback | undefined;
     lynxTestingEnv.mainThread.globalThis["SystemInfo"] = { ...SystemInfo, lynxSdkVersion: "3.5" };
@@ -111,13 +112,19 @@ describe("ContentPlaceholder", () => {
           <ContentPlaceholderRoot>
             <ContentPlaceholderAsset
               className={className}
-              preserveOriginalColor={mode === "original" ? true : undefined}
+              preserveOriginalColor={
+                className === "preserved" || mode === "original" ? true : undefined
+              }
             >
               {show ? (
                 mode === "marked" ? (
                   <MarkedIcon ref={target} main-thread:binduiappear={onAppear} />
                 ) : (
-                  <TestIcon ref={target} main-thread:binduiappear={onAppear} />
+                  <TestIcon
+                    ref={target}
+                    tint-color={mode === "custom-tint" ? "#ff6600" : undefined}
+                    main-thread:binduiappear={onAppear}
+                  />
                 )
               ) : null}
             </ContentPlaceholderAsset>
@@ -141,7 +148,7 @@ describe("ContentPlaceholder", () => {
     const image = getRoot().querySelector("image");
     if (!image) throw new Error("Expected an asset image.");
     expect(image.getAttribute("tint-color")).toBe(
-      mode === "monochrome" ? "rgb(220, 222, 227)" : null,
+      mode === "monochrome" || mode === "custom-tint" ? "rgb(220, 222, 227)" : null,
     );
     const init = { eventType: "bindEvent", eventName: "uiappear", detail: {} };
     const appear = createEvent("bindEvent:uiappear", image, init);
@@ -154,6 +161,18 @@ describe("ContentPlaceholder", () => {
     fireEvent.tap(inspect);
     await waitSchedule();
     expect(report).toHaveBeenLastCalledWith(true);
+    if (mode === "monochrome" || mode === "custom-tint") {
+      rerender(<Example className="preserved" report={report} />);
+      await waitSchedule();
+      expect(getRoot().querySelector("image")).toBe(image);
+      expect(image.getAttribute("tint-color")).toBe(mode === "custom-tint" ? "#ff6600" : null);
+      fireEvent.tap(inspect);
+      await waitSchedule();
+      expect(report).toHaveBeenLastCalledWith(true);
+      rerender(<Example className="tinted-again" report={report} />);
+      await waitSchedule();
+      expect(image.getAttribute("tint-color")).toBe("rgb(220, 222, 227)");
+    }
     rerender(<Example className="after" show={false} report={report} />);
     await waitSchedule();
     fireEvent.tap(inspect);
