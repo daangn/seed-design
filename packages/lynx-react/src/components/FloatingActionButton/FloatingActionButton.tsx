@@ -138,7 +138,8 @@ FloatingActionButtonRoot.displayName = "FloatingActionButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FloatingActionButtonIconProps extends Omit<InternalIconProps, "deps"> {}
+export interface FloatingActionButtonIconProps
+  extends Omit<InternalIconProps, "deps" | "disableDefaultResize"> {}
 
 const StyledIcon = withContext<unknown, InternalIconProps>(InternalIcon, "icon");
 
@@ -152,6 +153,7 @@ export const FloatingActionButtonIcon = React.forwardRef<unknown, FloatingAction
         {...mergeProps(ref ? { ref } : {}, iconProps)}
         className={className}
         deps={[classNames.icon]}
+        disableDefaultResize={true}
         accessibility-elements-hidden={true}
       />
     );
