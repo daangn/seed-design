@@ -28,7 +28,7 @@ import { IdentityPlaceholder } from "@/components/ui/identity-placeholder";
 <Avatar src="https://avatars.githubusercontent.com/u/54893898?v=4" alt="사용자 프로필" fallback={<IdentityPlaceholder />} />
 ```
 
-`@seed-design/lynx-react-image`의 `useImage`로 로딩 상태를 관리합니다. 이미지가 로딩 중이거나 실패한 동안 `fallback`을 표시하고, `bindload`를 받으면 이미지를 표시합니다. `src`가 바뀌면 새 요청을 시작하며 이전 요청의 이벤트는 상태에 반영하지 않습니다. 이미지는 로딩 중에도 마운트되어 있습니다.
+`@seed-design/lynx-react-image`의 headless Image 컴포넌트로 로딩 상태를 관리합니다. 이미지가 로딩 중이거나 실패한 동안 `fallback`을 표시하고, `bindload`를 받으면 이미지를 표시합니다. `src`가 바뀌면 새 요청을 시작하며 이전 요청의 이벤트는 상태에 반영하지 않습니다. 이미지는 로딩 중에도 마운트되어 있습니다.
 
 `onLoadingStatusChange`로 `"loading"`, `"loaded"`, `"error"`를 관찰할 수 있습니다. 개별 native 이미지 이벤트와 접근성 속성은 `imageProps`에 전달합니다.
 
@@ -79,7 +79,11 @@ import { Avatar } from "@seed-design/lynx-react";
 
 ### Badge & Badge Mask
 
-배지를 지정된 위치에 겹쳐 표시합니다. 아래 예제는 React와 같은 원·꽃·방패 모양의 배지를 사용하지만, **이미지에서 배지 모양을 파내는 `badgeMask`는 지원하지 않습니다.** 따라서 배지 주위의 투명한 여백이 필요한 디자인은 앱에서 준비한 이미지를 사용하세요.
+`badgeMask="circle"`, `"flower"`, `"shield"`로 이미지·fallback·테두리에서 배지 주변을 투명하게 잘라냅니다. 기본값 `"none"`은 잘라내지 않고 배지만 겹칩니다. `size="20"`에서는 배지와 마스크를 모두 표시하지 않습니다.
+
+React와 같은 모양 및 크기별 위치를 미리 합성한 PNG alpha 마스크로 적용합니다. 배경색을 칠하는 테두리가 아니므로 그라데이션이나 이미지 배경이 여백을 통해 그대로 보이는 것이 기대 결과입니다. SVG 마스크와 `mask-composite`는 사용하지 않습니다.
+
+[Lynx 3.6](https://lynxjs.org/3.6/api/css/properties/mask-image.md)과 [4.1 공식 문서](https://lynxjs.org/4.1/api/css/properties/mask-image.md)는 iOS·Android의 bitmap `mask-image`를 Engine 2.13부터 부분 지원으로 표기합니다. 이는 기반 CSS 기능의 지원 버전이며 Avatar 전체의 최소 지원 버전을 의미하지 않습니다. 로컬 PlayLynx의 iOS 렌더러 / Engine 4.1에서 이미지·fallback, 세 모양과 `none` 전환, 10가지 크기를 확인했습니다. Engine 3.6 및 iOS·Android 실기기는 아직 미검증입니다.
 
 <LynxComponentExample name="lynx/avatar/badge" height={240}>
   ```json doc-gen:file
@@ -117,6 +121,6 @@ import { Avatar } from "@seed-design/lynx-react";
 ## Unsupported Lynx Features
 
 - `asChild`, `srcSet`, DOM 이벤트/속성은 지원하지 않습니다. native props와 literal `<view>`, `<image>` 구조를 사용하세요.
-- `badgeMask`는 지원하지 않습니다. React 구현은 SVG mask 합성과 subtract에 의존하며, [Lynx mask 문서](https://lynxjs.org/api/css/properties/mask)는 같은 모바일 지원을 보장하지 않습니다. 배지는 오버레이로 지원하며, 원·꽃·방패 모양의 투명한 cutout을 제공한다고 가정하지 마세요.
+- React의 SVG mask 합성 대신 native `<view>`에 bitmap alpha 마스크를 적용합니다. 마스크는 공식 크기별로 준비되므로 `size` prop으로 크기를 선택하세요.
 
-실제 iOS·Android에서 이미지 전환, 배지 및 Stack 겹침의 시각 검증은 아직 수행하지 않았습니다.
+이 검증은 로컬 PlayLynx 결과이며, iOS·Android 실기기 전체 동작을 검증한 결과는 아닙니다.

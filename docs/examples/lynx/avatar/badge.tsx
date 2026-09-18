@@ -12,6 +12,7 @@ export default function AvatarBadgeExample() {
       <view className="avatar-row">
         <Avatar
           size="64"
+          badgeMask="circle"
           src="https://avatars.githubusercontent.com/u/54893898?v=4"
           fallback={<IdentityPlaceholder />}
         >
@@ -21,6 +22,7 @@ export default function AvatarBadgeExample() {
         </Avatar>
         <Avatar
           size="64"
+          badgeMask="flower"
           src="https://avatars.githubusercontent.com/u/54893898?v=4"
           fallback={<IdentityPlaceholder />}
         >
@@ -34,6 +36,7 @@ export default function AvatarBadgeExample() {
         </Avatar>
         <Avatar
           size="64"
+          badgeMask="shield"
           src="https://avatars.githubusercontent.com/u/54893898?v=4"
           fallback={<IdentityPlaceholder />}
         >

@@ -13,7 +13,7 @@ import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(avatar);
-/** @platform Lynx Native view props replace DOM/asChild props. SVG badge cutouts are not supported. */
+/** @platform Lynx Native view props replace DOM/asChild props. Badge cutouts use precomposed bitmap masks on native views. */
 export interface AvatarRootProps extends AvatarVariantProps, LynxViewProps {
   onLoadingStatusChange?: (status: ImageLoadingStatus) => void;
 }
@@ -32,7 +32,7 @@ export const AvatarRoot = React.forwardRef<unknown, AvatarRootProps>((props, ref
           className={clsx(classes.root, className)}
         >
           {children}
-          <view className={classes.stroke} accessibility-elements-hidden={true} />
+          <view flatten={false} className={classes.stroke} accessibility-elements-hidden={true} />
         </Image.Root>
       </PropsProvider>
     </ClassNamesProvider>
@@ -47,12 +47,17 @@ export const AvatarImage = React.forwardRef<unknown, AvatarImageProps>((props, r
   const classes = useClassNames();
   const { isLoaded } = useImageContext();
   return (
-    <Image.Content
-      mode="aspectFill"
-      {...nativeProps}
-      {...(ref ? { ref } : {})}
-      className={clsx(classes.image, !isLoaded && classes.pendingImage, className)}
-    />
+    <view
+      flatten={false}
+      className={clsx(classes.imageContainer, !isLoaded && classes.pendingImageContainer)}
+    >
+      <Image.Content
+        mode="aspectFill"
+        {...nativeProps}
+        {...(ref ? { ref } : {})}
+        className={clsx(classes.image, !isLoaded && classes.pendingImage, className)}
+      />
+    </view>
   );
 });
 AvatarImage.displayName = "AvatarImage";
@@ -64,6 +69,7 @@ export const AvatarFallback = React.forwardRef<unknown, AvatarFallbackProps>(
     return (
       <Image.Fallback
         {...nativeProps}
+        flatten={false}
         {...(ref ? { ref } : {})}
         className={clsx(classes.fallback, className)}
       >
