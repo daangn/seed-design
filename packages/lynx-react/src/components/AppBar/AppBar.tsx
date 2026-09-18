@@ -50,9 +50,9 @@ function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
 }
 
 /**
- * 아이콘 버튼의 bleed 보정 방향. `leading`은 좌측 가장자리(marginLeft), `trailing`은 우측 가장자리(marginRight).
+ * 아이콘 버튼의 bleed 보정 방향. `leading`은 왼쪽, `trailing`은 오른쪽, `both`는 양쪽.
  */
-export type AppBarEdge = "leading" | "trailing";
+export type AppBarEdge = "leading" | "trailing" | "both";
 
 const AppBarEdgeContext = React.createContext<AppBarEdge | undefined>(undefined);
 
@@ -70,8 +70,10 @@ function countEdgeChildren(children: React.ReactNode): number {
   return 1;
 }
 
-function provideEdgeToChildren(children: React.ReactNode, edge: AppBarEdge): React.ReactNode {
-  const targetIndex = edge === "leading" ? 0 : countEdgeChildren(children) - 1;
+// Lynx lacks :first-child/:last-child; pass both slot edges through Context to match
+// web spacing without shrinking the icon button's touch target.
+function provideEdgeToChildren(children: React.ReactNode): React.ReactNode {
+  const lastIndex = countEdgeChildren(children) - 1;
   let index = 0;
 
   function visit(child: React.ReactNode): React.ReactNode {
@@ -84,11 +86,19 @@ function provideEdgeToChildren(children: React.ReactNode, edge: AppBarEdge): Rea
       return React.cloneElement(child, { children: visit(child.props.children) });
     }
 
-    const isEdge = index++ === targetIndex;
+    const childIndex = index++;
+    const edge =
+      childIndex === 0
+        ? childIndex === lastIndex
+          ? "both"
+          : "leading"
+        : childIndex === lastIndex
+          ? "trailing"
+          : undefined;
     if (!React.isValidElement(child)) return child;
     // Native boxes and custom slots own their layout; do not pass an automatic edge into them.
     const automaticEdge =
-      isEdge && typeof child.type !== "string" && child.type !== AppBarSlot ? edge : undefined;
+      typeof child.type !== "string" && child.type !== AppBarSlot ? edge : undefined;
     return (
       <AppBarEdgeContext.Provider key={child.key} value={automaticEdge}>
         {child}
@@ -164,7 +174,7 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
       )}
       className={clsx(classNames.left, className)}
     >
-      {provideEdgeToChildren(children, "leading")}
+      {provideEdgeToChildren(children)}
     </view>
   );
 });
@@ -199,7 +209,7 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
       )}
       className={clsx(classNames.right, className)}
     >
-      {provideEdgeToChildren(children, "trailing")}
+      {provideEdgeToChildren(children)}
     </view>
   );
 });
@@ -291,8 +301,8 @@ export interface AppBarIconButtonProps
   "accessibility-element"?: LynxViewProps["accessibility-element"];
   "accessibility-traits"?: LynxViewProps["accessibility-traits"];
   /**
-   * 가장자리 정렬을 위한 bleed 보정 방향. 보통 `AppBarLeft`(leading)/`AppBarRight`(trailing)가
-   * 가장자리 위치를 Context로 전달하므로 직접 지정할 필요는 없다. 자동 보정 방향을 덮어쓰고 싶을 때만 명시한다.
+   * 슬롯의 첫·마지막 자식이 아이콘 버튼이면 해당 방향을, 유일한 자식이면 양쪽을 자동 보정한다.
+   * 명시하면 `AppBarLeft` / `AppBarRight`에서 감지한 자동 보정 방향을 덮어쓴다.
    */
   edge?: AppBarEdge;
 }
@@ -331,7 +341,10 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
       accessibility-traits={accessibilityTraits}
       className={clsx(
         classNames.iconButton,
-        resolvedEdge && `seed-app-bar__icon-button-edge-${resolvedEdge}`,
+        (resolvedEdge === "leading" || resolvedEdge === "both") &&
+          "seed-app-bar__icon-button-edge-leading",
+        (resolvedEdge === "trailing" || resolvedEdge === "both") &&
+          "seed-app-bar__icon-button-edge-trailing",
         className,
       )}
     >

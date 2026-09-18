@@ -269,54 +269,79 @@ describe("AppBar", () => {
     });
   });
 
-  it("applies leading bleed to the first icon button in the left slot", () => {
+  it.each([
+    "left",
+    "right",
+  ] as const)("bleeds both sides of a single button in the %s slot", (side) => {
+    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
     render(
       <AppBar.Root>
-        <AppBar.Left>
+        <Slot>
           <AppBar.IconButton accessibility-label="Back" />
-        </AppBar.Left>
+        </Slot>
       </AppBar.Root>,
     );
-
-    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
-    expect(iconButton).toBeInTheDocument();
-    expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-leading");
-    expect(iconButton!.style.getPropertyValue("margin-right")).toBe("");
+    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button).toHaveClass("seed-app-bar__icon-button-edge-trailing");
   });
 
-  it("applies trailing bleed to the last icon button in the right slot", () => {
+  it.each([
+    "left",
+    "right",
+  ] as const)("bleeds only the outer sides of buttons in the %s slot", (side) => {
+    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
     render(
       <AppBar.Root>
-        <AppBar.Right>
-          <AppBar.IconButton accessibility-label="Close" />
-        </AppBar.Right>
-      </AppBar.Root>,
-    );
-
-    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
-    expect(iconButton).toBeInTheDocument();
-    expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-trailing");
-    expect(iconButton!.style.getPropertyValue("margin-left")).toBe("");
-  });
-
-  it("only bleeds the trailing-most icon button when several are in the right slot", () => {
-    render(
-      <AppBar.Root>
-        <AppBar.Right>
+        <Slot>
           <AppBar.IconButton accessibility-label="Search" />
+          <AppBar.IconButton accessibility-label="Share" />
           <AppBar.IconButton accessibility-label="Close" />
-        </AppBar.Right>
+        </Slot>
       </AppBar.Root>,
     );
+    const buttons = getAppBarRoot().querySelectorAll(".seed-app-bar__iconButton");
+    expect(buttons).toHaveLength(3);
+    expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[2]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[2]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  });
 
-    const iconButtons = getAppBarRoot().querySelectorAll<HTMLElement>(".seed-app-bar__iconButton");
-    expect(iconButtons).toHaveLength(2);
-    // 선두(Search) 버튼은 가장자리가 아니므로 보정하지 않는다.
-    expect(iconButtons[0].style.getPropertyValue("margin-left")).toBe("");
-    expect(iconButtons[0].style.getPropertyValue("margin-right")).toBe("");
-    // 마지막(Close) 버튼만 trailing 보정을 받는다.
-    expect(iconButtons[1]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
-    expect(iconButtons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  it("updates both edges when a conditional sibling changes without remounting the button", () => {
+    const mount = vi.fn();
+    function WrappedButton() {
+      useEffect(() => {
+        mount();
+      }, []);
+      return <AppBar.IconButton accessibility-label="Back" />;
+    }
+    function Example({ showCustom }: { showCustom: boolean }) {
+      return (
+        <AppBar.Root>
+          <AppBar.Left>
+            <WrappedButton />
+            {showCustom && (
+              <AppBar.Slot>
+                <text>Done</text>
+              </AppBar.Slot>
+            )}
+          </AppBar.Left>
+        </AppBar.Root>
+      );
+    }
+    const { rerender } = render(<Example showCustom={false} />);
+    const button = () => getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    rerender(<Example showCustom />);
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button()).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    rerender(<Example showCustom={false} />);
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(mount).toHaveBeenCalledTimes(1);
   });
 
   it("does not bleed a custom slot sitting at the slot edge", () => {
@@ -355,19 +380,25 @@ describe("AppBar", () => {
     expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-trailing");
   });
 
-  it("respects an explicitly provided edge over auto-injection", () => {
+  it.each([
+    "leading",
+    "trailing",
+    "both",
+  ] as const)("respects explicit edge=%s over automatic edges", (edge) => {
     render(
       <AppBar.Root>
         <AppBar.Left>
-          <AppBar.IconButton accessibility-label="Back" edge="trailing" />
+          <AppBar.IconButton accessibility-label="Back" edge={edge} />
         </AppBar.Left>
       </AppBar.Root>,
     );
-
-    const iconButton = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
-    // Left 슬롯이지만 명시한 trailing이 유지되고 leading을 덮어쓰지 않는다.
-    expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-trailing");
-    expect(iconButton!.style.getPropertyValue("margin-left")).toBe("");
+    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button?.classList.contains("seed-app-bar__icon-button-edge-leading")).toBe(
+      edge !== "trailing",
+    );
+    expect(button?.classList.contains("seed-app-bar__icon-button-edge-trailing")).toBe(
+      edge !== "leading",
+    );
   });
 
   it("preserves caller styles when automatic edge compensation applies", () => {
@@ -404,7 +435,9 @@ describe("AppBar", () => {
     );
     const buttons = getAppBarRoot().querySelectorAll<HTMLElement>(".seed-app-bar__iconButton");
     expect(buttons).toHaveLength(2);
+    expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
     expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
     expect(buttons[1]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
   });
 

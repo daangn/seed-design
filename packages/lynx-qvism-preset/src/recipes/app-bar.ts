@@ -5,11 +5,8 @@ import {
   topNavigationIconButton as iconButtonVars,
 } from "../vars/component";
 
-// The spec moved Top Navigation to button-box-based spacing (`root.paddingX` and
-// `main.paddingLeft` are now `$dimension.x1_5`), but this recipe has no negative-margin
-// compensation on the icon buttons the way the web one does, so following the spec would shift
-// the icon gap from 26px to 16px. Pinned to the pre-change values until DES-2511 settles which
-// of the two platforms is right.
+// Keep the web recipe's icon-based spacing and negative margins together until DES-2511
+// migrates both platforms to button-box-based spacing.
 const PINNED_ROOT_PADDING_X = dimension.x4;
 const PINNED_LEFT_PADDING_RIGHT = "16px";
 

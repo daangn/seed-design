@@ -120,7 +120,9 @@ export function Header() {
 
 왼쪽과 오른쪽에는 icon button 또는 custom slot을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 읽어 가운데 title이 치우치지 않도록 padding을 보정합니다.
 
-가장자리에 놓인 아이콘 버튼(왼쪽 슬롯의 첫 번째, 오른쪽 슬롯의 마지막)은 아이콘 버튼의 투명 여백(터치 타겟이 아이콘보다 큼)만큼 자동으로 바깥으로 당겨져 아이콘이 화면 콘텐츠 여백에 정렬됩니다. `AppBarLeft` / `AppBarRight`가 가장자리 위치를 Context로 전달하므로 별도 prop 없이 동작하며, `AppBarBackButton` / `AppBarCloseButton`뿐 아니라 직접 만든 `AppBarIconButton`에도 동일하게 적용됩니다. 보정은 아이콘 버튼에만 적용되어 `AppBarSlot`(custom)이나 인접한 다른 버튼은 영향을 받지 않습니다.
+`AppBarLeft`와 `AppBarRight` 모두 첫 번째 자식이 아이콘 버튼이면 왼쪽, 마지막 자식이 아이콘 버튼이면 오른쪽 여백을 보정합니다. 버튼 하나만 있으면 양쪽을 모두 보정합니다. 44px 터치 영역과 24px 아이콘 사이의 여백만큼 음수 margin을 적용해, 터치 영역을 유지하면서 화면 가장자리와 제목 쪽 간격을 React의 슬롯 보정 규칙에 맞춥니다.
+
+슬롯이 가장자리 위치를 Context로 전달하므로 `AppBarBackButton` / `AppBarCloseButton`과 직접 만든 `AppBarIconButton`에 자동으로 적용됩니다. Fragment와 조건부 자식을 지원하며, `AppBarSlot`이나 native 레이아웃 박스 내부에는 자동 보정을 전달하지 않습니다. `edge="leading" | "trailing" | "both"`를 명시하면 자동 보정 방향을 덮어쓸 수 있습니다.
 
 <LynxComponentExample name="lynx/app-bar/left-and-right-actions">
   ```json doc-gen:file
