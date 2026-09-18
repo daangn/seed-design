@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
-  "changelog": "./changelog.cjs",
+  "changelog": "@changesets/cli/changelog",
   "commit": false,
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
