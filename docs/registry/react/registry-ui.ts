@@ -17,11 +17,19 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "app-screen.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: {
+            "@seed-design/react": "^2.0.0",
+            "@seed-design/css": "^2.0.0",
+            "@stackflow/react": "^2.0.0",
+          },
         },
         {
           path: "app-bar.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: {
+            "@seed-design/react": "^2.0.0",
+            "@seed-design/css": "^2.0.0",
+            "@stackflow/react": "^2.0.0",
+          },
         },
       ],
     },
