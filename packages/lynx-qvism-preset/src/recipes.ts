@@ -1,3 +1,5 @@
+import avatar from "./recipes/avatar";
+import avatarStack from "./recipes/avatar-stack";
 import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
 import alertDialog from "./recipes/alert-dialog";
@@ -55,6 +57,8 @@ import {
  * Recipes used by the Lynx preset build.
  */
 export const recipes = {
+  avatar,
+  avatarStack,
   accordion,
   actionButton,
   alertDialog,

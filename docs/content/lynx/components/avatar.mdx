@@ -1,0 +1,126 @@
+---
+title: Avatar
+description: 사용자의 프로필 이미지를 표시하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/avatar/preview" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/avatar/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:avatar
+```
+
+<LynxManualInstallation name="avatar" />
+
+## Usage
+
+```tsx
+import { Avatar } from "@/components/ui/avatar";
+import { IdentityPlaceholder } from "@/components/ui/identity-placeholder";
+
+<Avatar src="https://avatars.githubusercontent.com/u/54893898?v=4" alt="사용자 프로필" fallback={<IdentityPlaceholder />} />
+```
+
+`@seed-design/lynx-react-image`의 headless Image 컴포넌트로 로딩 상태를 관리합니다. 이미지가 로딩 중이거나 실패한 동안 `fallback`을 표시하고, `bindload`를 받으면 이미지를 표시합니다. `src`가 바뀌면 새 요청을 시작하며 이전 요청의 이벤트는 상태에 반영하지 않습니다. 이미지는 로딩 중에도 마운트되어 있습니다.
+
+`onLoadingStatusChange`로 `"loading"`, `"loaded"`, `"error"`를 관찰할 수 있습니다. 개별 native 이미지 이벤트와 접근성 속성은 `imageProps`에 전달합니다.
+
+```tsx
+<Avatar
+  src="https://avatars.githubusercontent.com/u/54893898?v=4"
+  alt="사용자 프로필"
+  imageProps={{
+    binderror: () => { "background only"; console.log("프로필 이미지 로딩 실패"); },
+  }}
+/>
+```
+
+이미지와 fallback을 직접 구성하려면 패키지의 compound API를 사용합니다. 하나의 `Root`에 하나의 `Image`를 배치합니다.
+
+```tsx
+import { Avatar } from "@seed-design/lynx-react";
+
+<Avatar.Root size="64">
+  <Avatar.Fallback><text>김</text></Avatar.Fallback>
+  <Avatar.Image src="https://avatars.githubusercontent.com/u/54893898?v=4" alt="사용자 프로필" />
+</Avatar.Root>
+```
+
+## Props
+
+### `Avatar`
+
+<react-type-table path="./registry/lynx/ui/avatar.tsx" name="AvatarProps" />
+
+### `AvatarBadge`
+
+<react-type-table path="./registry/lynx/ui/avatar.tsx" name="AvatarBadgeProps" />
+
+### `AvatarStack`
+
+<react-type-table path="./registry/lynx/ui/avatar.tsx" name="AvatarStackProps" />
+
+## Examples
+
+### Size
+
+<LynxComponentExample name="lynx/avatar/size" height={340}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/avatar/size.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Badge & Badge Mask
+
+`badgeMask="circle"`, `"flower"`, `"shield"`로 이미지·fallback·테두리에서 배지 주변을 투명하게 잘라냅니다. 기본값 `"none"`은 잘라내지 않고 배지만 겹칩니다. `size="20"`에서는 배지와 마스크를 모두 표시하지 않습니다.
+
+React와 같은 모양 및 크기별 위치를 미리 합성한 PNG alpha 마스크로 적용합니다. 배경색을 칠하는 테두리가 아니므로 그라데이션이나 이미지 배경이 여백을 통해 그대로 보이는 것이 기대 결과입니다. SVG 마스크와 `mask-composite`는 사용하지 않습니다.
+
+[Lynx 3.6](https://lynxjs.org/3.6/api/css/properties/mask-image.md)과 [4.1 공식 문서](https://lynxjs.org/4.1/api/css/properties/mask-image.md)는 iOS·Android의 bitmap `mask-image`를 Engine 2.13부터 부분 지원으로 표기합니다. 이는 기반 CSS 기능의 지원 버전이며 Avatar 전체의 최소 지원 버전을 의미하지 않습니다. 로컬 PlayLynx의 iOS 렌더러 / Engine 4.1에서 이미지·fallback, 세 모양과 `none` 전환, 10가지 크기를 확인했습니다. Engine 3.6 및 iOS·Android 실기기는 아직 미검증입니다.
+
+<LynxComponentExample name="lynx/avatar/badge" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/avatar/badge.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Stack
+
+`AvatarStack`은 자식 Avatar에 `size`를 전달하고, React와 같은 겹침 간격과 구분선을 적용합니다. 개별 Avatar에 명시한 `size`가 우선합니다.
+
+<LynxComponentExample name="lynx/avatar/stack" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/avatar/stack.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Fallback Image
+
+`fallback` prop으로 이미지가 로드되지 않았을 때 보여질 요소를 지정할 수 있습니다. 주로 [IdentityPlaceholder](/lynx/components/identity-placeholder)를 사용합니다. 문자열·숫자는 snippet이 `<text>`로 감싸며, compound `Avatar.Fallback`에서는 `<text>`를 직접 사용하세요.
+
+<LynxComponentExample name="lynx/avatar/fallback" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/avatar/fallback.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+- React와 같은 `Root`, `Image`, `Fallback`, `Badge`, `Stack` 구조 및 20~108 크기를 제공합니다. `size="20"`에서는 React처럼 배지를 숨깁니다.
+- DOM `<img>` 대신 native `<image mode="aspectFill">`을 사용합니다. `alt`는 `accessibility-label`로 전달하고, 같은 native 속성을 직접 지정하면 직접 지정한 값이 우선합니다.
+- `onLoad`/`onError` 대신 `imageProps.bindload`/`imageProps.binderror`를 사용합니다. 사용자 핸들러와 내부 로딩 처리는 함께 실행됩니다.
+- Stack의 구조·음수 간격은 React와 같으며 웹의 `:first-child` 대신 각 항목에 겹침 클래스를 적용합니다.
+
+## Unsupported Lynx Features
+
+- `asChild`, `srcSet`, DOM 이벤트/속성은 지원하지 않습니다. native props와 literal `<view>`, `<image>` 구조를 사용하세요.
+- React의 SVG mask 합성 대신 native `<view>`에 bitmap alpha 마스크를 적용합니다. 마스크는 공식 크기별로 준비되므로 `size` prop으로 크기를 선택하세요.
+
+이 검증은 로컬 PlayLynx 결과이며, iOS·Android 실기기 전체 동작을 검증한 결과는 아닙니다.
