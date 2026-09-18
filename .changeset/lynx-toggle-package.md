@@ -2,8 +2,9 @@
 "@seed-design/lynx-react-toggle": minor
 ---
 
-Lynx의 선택 상태와 누름 상태를 관리하는 `useToggle` 훅을 제공합니다.
+Lynx 요소의 선택 상태와 사용자 입력을 관리하는 headless `Toggle` 컴포넌트를 추가합니다.
 
-- controlled/uncontrolled 상태, `disabled`, tap·touch 이벤트를 지원합니다.
-- 연속 토글과 재렌더 이후의 최신 상태·콜백을 반영하고, 누르는 도중 비활성화되면 누름 상태를 해제합니다.
-- `Toggle.Root`로 native 입력·접근성 상태와 하위 Context를 함께 구성할 수 있습니다.
+- `Toggle.Root`가 native `view` 요소에 tap·touch 이벤트와 접근성 속성을 연결하고, 하위 컴포넌트에 상태를 공유합니다.
+- `pressed`, `defaultPressed`, `onPressedChange`로 controlled/uncontrolled 선택 상태를 구성하고, `disabled`로 사용자 입력에 의한 토글을 막을 수 있습니다.
+- 선택 상태와 별도로 터치 중인 상태를 관리하며, 터치가 취소되거나 비활성화되면 터치 중인 상태를 해제합니다.
+- 직접 동작을 구성하는 `useToggle`과 하위 컴포넌트에서 상태를 읽는 `useToggleContext`를 함께 제공합니다. 시각적 스타일은 사용처에서 지정합니다.
