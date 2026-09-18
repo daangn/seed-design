@@ -5,8 +5,8 @@ import {
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { Fragment } from "react";
 import {
   AppBar,

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { ActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed-design/ui/tabs";
@@ -19,7 +19,7 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { ARTICLES, CATEGORIES, type Article, type Category } from "../demo-data";
-import { useFlow } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { formatDate } from "../utils/date";

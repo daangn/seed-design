@@ -1,6 +1,6 @@
 import { Box } from "@seed-design/react";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { useState } from "react";
 import {
   AppBar,

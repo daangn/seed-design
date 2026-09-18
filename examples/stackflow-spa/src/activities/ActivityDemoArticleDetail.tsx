@@ -1,4 +1,4 @@
-import type { ActivityComponentType } from "@stackflow/react/future";
+import type { ActivityComponentType } from "@stackflow/react";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
   AppBar,

@@ -180,7 +180,7 @@ Lynx `AppBar`는 React `AppBar`와 같은 역할과 variant 이름을 제공하�
 
 | 기능 | 웹 대응 | 대체 방법 |
 |------|---------|-----------|
-| Stackflow activity 연동 | `useActivity`, `useActions` 기반 back/close 처리 | `bindtap`에서 앱의 navigation 함수를 직접 호출 |
+| Stackflow activity 연동 | `useActivity`, `useFlow` 기반 back/close 처리 | `bindtap`에서 앱의 navigation 함수를 직접 호출 |
 | swipe-back 전환 애니메이션 | Stackflow screen transition | 화면 전환을 소유한 navigation 계층에서 처리 |
 | `data-*` selector 기반 상태 스타일 | 웹 recipe selector | `theme`, `tone` variant className 사용 |
 | HTML button 속성 | `type`, DOM click event | Lynx `<view>` 기반 `AppBarIconButton`과 `bindtap` 사용 |

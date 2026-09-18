@@ -1,6 +1,6 @@
 import { PullToRefreshRoot, PullToRefreshContent, PullToRefreshIndicator } from "./pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
-import { useActions, useActivity } from "@stackflow/react";
+import { useActivity, useFlow } from "@stackflow/react";
 import { forwardRef } from "react";
 
 export interface AppScreenProps extends SeedAppScreen.RootProps {
@@ -9,7 +9,7 @@ export interface AppScreenProps extends SeedAppScreen.RootProps {
 
 export const AppScreen = forwardRef<HTMLDivElement, AppScreenProps>(
   ({ children, onSwipeBackEnd, preventSwipeBack, ...otherProps }, ref) => {
-    const { pop } = useActions();
+    const { pop } = useFlow();
     const { isRoot } = useActivity();
     const shouldSwipeBack = !isRoot && !preventSwipeBack;
 

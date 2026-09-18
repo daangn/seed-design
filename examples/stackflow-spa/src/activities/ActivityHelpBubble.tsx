@@ -1,5 +1,5 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { useState, type ReactNode } from "react";
 
 import { HelpBubble as SeedHelpBubble } from "@seed-design/react";

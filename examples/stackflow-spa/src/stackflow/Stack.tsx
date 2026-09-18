@@ -3,7 +3,7 @@ import { seedPlugin } from "@seed-design/stackflow";
 import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
 import { iframeSyncPlugin } from "./iframeSyncPlugin";
-import { stackflow, lazy } from "@stackflow/react/future";
+import { stackflow, lazy } from "@stackflow/react";
 import { config } from "./stackflow.config";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";

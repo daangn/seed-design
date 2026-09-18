@@ -1,5 +1,5 @@
 import { useActivityZIndexBase } from "@seed-design/stackflow";
-import { type StaticActivityComponentType, useFlow } from "@stackflow/react/future";
+import { type StaticActivityComponentType, useFlow } from "@stackflow/react";
 import {
   AlertDialogAction,
   AlertDialogContent,

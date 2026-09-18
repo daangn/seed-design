@@ -26,12 +26,14 @@ AppScreen 컴포넌트에 대해 자세히 알아봅니다.
 npm install @seed-design/stackflow
 ```
 
+`@seed-design/stackflow`는 Stackflow v1(`@stackflow/react` 1.4.1 이상)과 v2를 모두 지원합니다.
+
 ## Usage
 
 Stackflow 설정 시 `plugins` 배열에 `seedPlugin`을 추가합니다.
 
 ```tsx
-import { stackflow } from "@stackflow/react/future";
+import { stackflow } from "@stackflow/react";
 import { seedPlugin } from "@seed-design/stackflow";
 
 export const { Stack, actions } = stackflow({
@@ -55,7 +57,7 @@ export const { Stack, actions } = stackflow({
 SSR 환경 등에서 theme을 동적으로 결정해야 하는 경우, Stack에 제공한 `initialContext`를 통해 `seedPlugin` 옵션을 설정할 수 있습니다.
 
 ```tsx title="stackflow.ts"
-import { stackflow } from "@stackflow/react/future";
+import { stackflow } from "@stackflow/react";
 import { seedPlugin } from "@seed-design/stackflow";
 
 export const { Stack, actions } = stackflow({

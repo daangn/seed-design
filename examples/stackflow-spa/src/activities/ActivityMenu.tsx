@@ -1,5 +1,5 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { useRef, useState, type CSSProperties } from "react";
 
 import {

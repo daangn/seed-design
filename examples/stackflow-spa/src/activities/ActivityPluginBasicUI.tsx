@@ -1,7 +1,7 @@
 import { IconHouseFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon, VStack } from "@seed-design/react";
 import { AppScreen } from "@stackflow/plugin-basic-ui";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import { ActionButton } from "seed-design/ui/action-button";
 
 declare module "@stackflow/config" {

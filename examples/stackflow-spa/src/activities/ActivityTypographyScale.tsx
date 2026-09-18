@@ -4,7 +4,7 @@ import { vars, type FontWeight } from "@seed-design/css/vars";
 import { vars as typographyVars } from "@seed-design/css/vars/component/typography";
 import fontSizeArtifact from "@seed-design/rootage-artifacts/font-size";
 import lineHeightArtifact from "@seed-design/rootage-artifacts/line-height";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";

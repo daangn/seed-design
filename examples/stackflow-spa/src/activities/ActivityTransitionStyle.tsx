@@ -1,5 +1,5 @@
 import { VStack, Text } from "@seed-design/react";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import {
   AppBar,
   AppBarBackButton,

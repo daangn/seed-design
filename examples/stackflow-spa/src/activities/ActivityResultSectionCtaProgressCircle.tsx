@@ -5,7 +5,7 @@ import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Flex, Icon, VStack } from "@seed-design/react";
-import { type StaticActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react";
 import { useEffect, useState, type ComponentProps } from "react";
 
 declare module "@stackflow/config" {

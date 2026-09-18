@@ -1,6 +1,6 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Flex, Grid, ResponsivePair, Skeleton, useBreakpoint } from "@seed-design/react";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import type * as React from "react";
 import { LeakCase } from "../components/IacvtProbe";
 import {

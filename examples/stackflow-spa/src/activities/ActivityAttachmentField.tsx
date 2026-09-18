@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
   AppBar,

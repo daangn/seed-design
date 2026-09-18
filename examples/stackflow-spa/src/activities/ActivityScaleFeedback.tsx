@@ -6,7 +6,7 @@ import {
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 import { HStack, Icon, Callout as SeedCallout, SuffixIcon } from "@seed-design/react";
 import { RadioGroup } from "@seed-design/react/primitive";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

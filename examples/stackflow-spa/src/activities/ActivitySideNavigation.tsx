@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import {
   SideNavigationProvider,
   SideNavigationInset,

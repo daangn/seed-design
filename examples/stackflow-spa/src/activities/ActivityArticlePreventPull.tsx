@@ -1,5 +1,5 @@
 import { VStack, Icon, Text, Article, Divider, PullToRefresh } from "@seed-design/react";
-import { type StaticActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {

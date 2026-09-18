@@ -1,6 +1,6 @@
 import { VStack } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

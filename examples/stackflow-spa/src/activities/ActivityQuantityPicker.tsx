@@ -11,7 +11,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
 import { Field, HStack, PrefixIcon, Text, VStack } from "@seed-design/react";
 import { IconExclamationmarkCircleFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 
 declare module "@stackflow/config" {
