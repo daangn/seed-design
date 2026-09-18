@@ -5,8 +5,9 @@ import path from "path";
 import type { PublicRegistry } from "@/src/schema";
 import {
   analyzeRegistryItemCompatibility,
+  checkRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
-  getProjectSeedPackageVersionSpecs,
+  getProjectPackageVersionSpecs,
 } from "../utils/compatibility";
 
 const registries: PublicRegistry[] = [
@@ -37,6 +38,18 @@ const registries: PublicRegistry[] = [
           },
         ],
       },
+      {
+        id: "app-screen",
+        snippets: [
+          {
+            path: "app-screen.tsx",
+            dependencies: {
+              "@seed-design/react": "^2.0.0",
+              "@stackflow/react": "^2.0.0",
+            },
+          },
+        ],
+      },
     ],
   },
 ];
@@ -52,7 +65,30 @@ describe("analyzeRegistryItemCompatibility", () => {
       },
     });
 
+    expect(report.checkedPackageNames).toEqual(["@seed-design/react", "@seed-design/css"]);
     expect(report.issues).toHaveLength(0);
+  });
+
+  it("스니펫이 선언하면 @seed-design 밖의 패키지도 검사해야 함", () => {
+    const report = analyzeRegistryItemCompatibility({
+      publicRegistries: registries,
+      itemKeys: ["ui:app-screen"],
+      projectPackageVersions: {
+        "@seed-design/react": "2.4.1",
+        "@stackflow/react": "^1.9.0",
+      },
+    });
+
+    expect(report.checkedPackageNames).toEqual(["@seed-design/react", "@stackflow/react"]);
+    expect(report.issues).toEqual([
+      {
+        itemKey: "ui:app-screen",
+        packageName: "@stackflow/react",
+        requiredRanges: ["^2.0.0"],
+        installedVersionSpec: "^1.9.0",
+        type: "incompatible-version",
+      },
+    ]);
   });
 
   it("요구 범위를 만족하지 못하면 incompatible 이슈를 리턴해야 함", () => {
@@ -148,7 +184,63 @@ describe("findInstalledSnippetItemKeys", () => {
   });
 });
 
-describe("getProjectSeedPackageVersionSpecs", () => {
+describe("checkRegistryItemCompatibility", () => {
+  const tempDirs: string[] = [];
+
+  afterEach(async () => {
+    while (tempDirs.length > 0) {
+      const dir = tempDirs.pop();
+      if (dir) await fs.remove(dir);
+    }
+  });
+
+  async function makeProject() {
+    const rootPath = await fs.mkdtemp(path.join(os.tmpdir(), "seed-cli-check-"));
+    tempDirs.push(rootPath);
+    await fs.writeJSON(path.join(rootPath, "package.json"), {
+      name: "app",
+      dependencies: {
+        "@seed-design/react": "^2.4.1",
+        "@seed-design/css": "^2.8.2",
+        "@stackflow/react": "^1.9.0",
+      },
+    });
+    return rootPath;
+  }
+
+  it("검사 대상 항목이 선언한 패키지만 프로젝트에서 조회해야 함", async () => {
+    const report = checkRegistryItemCompatibility({
+      publicRegistries: registries,
+      itemKeys: ["ui:action-button"],
+      cwd: await makeProject(),
+    });
+
+    expect(report.projectPackageVersions).toEqual({
+      "@seed-design/react": "^2.4.1",
+      "@seed-design/css": "^2.8.2",
+    });
+  });
+
+  it("선언한 패키지의 설치 버전이 범위를 벗어나면 이슈를 리턴해야 함", async () => {
+    const report = checkRegistryItemCompatibility({
+      publicRegistries: registries,
+      itemKeys: ["ui:app-screen"],
+      cwd: await makeProject(),
+    });
+
+    expect(report.issues).toEqual([
+      {
+        itemKey: "ui:app-screen",
+        packageName: "@stackflow/react",
+        requiredRanges: ["^2.0.0"],
+        installedVersionSpec: "^1.9.0",
+        type: "incompatible-version",
+      },
+    ]);
+  });
+});
+
+describe("getProjectPackageVersionSpecs", () => {
   const tempDirs: string[] = [];
 
   afterEach(async () => {
@@ -176,12 +268,16 @@ describe("getProjectSeedPackageVersionSpecs", () => {
       dependencies: { "@seed-design/react": "^2.0.0" },
     });
 
-    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("^2.0.0");
+    expect(getProjectPackageVersionSpecs(rootPath, ["@seed-design/react"])).toEqual({
+      "@seed-design/react": "^2.0.0",
+    });
   });
 
   it("선언이 없어도 설치본이 있으면 미설치로 보지 않는다 (모노레포 호이스팅)", async () => {
     const rootPath = await makeProject({ name: "app" });
 
-    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("2.0.4");
+    expect(getProjectPackageVersionSpecs(rootPath, ["@seed-design/react"])).toEqual({
+      "@seed-design/react": "2.0.4",
+    });
   });
 });

@@ -11,11 +11,7 @@ import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import { readRawOptionValue, resolveSeedVersion } from "../utils/registry-source";
-import {
-  analyzeRegistryItemCompatibility,
-  getProjectSeedPackageVersionSpecs,
-  logCompatibilityReport,
-} from "../utils/compatibility";
+import { checkRegistryItemCompatibility, logCompatibilityReport } from "../utils/compatibility";
 import {
   CliCancelError,
   CliError,
@@ -191,19 +187,17 @@ export const addAllCommand = (cli: CAC) => {
           publicRegistries,
         });
 
-        const compatibilityReport = analyzeRegistryItemCompatibility({
+        const compatibilityReport = checkRegistryItemCompatibility({
           publicRegistries,
           itemKeys: registryItemsToAdd.flatMap(({ registryId, items }) =>
             items.map((item) => `${registryId}:${item.id}`),
           ),
-          projectPackageVersions: getProjectSeedPackageVersionSpecs(options.cwd, framework),
-          framework,
+          cwd: options.cwd,
         });
 
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않을 수 있는 스니펫이 있어요.",
-          framework,
         });
 
         await writeRegistryItemSnippets({
