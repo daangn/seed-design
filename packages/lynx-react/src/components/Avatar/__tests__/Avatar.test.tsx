@@ -133,6 +133,40 @@ describe("Avatar", () => {
     expect(Array.from(avatars, (avatar) => avatar.id)).toEqual(["a", "c", "d"]);
   });
 
+  it("masks image views, fallback and stroke without clipping the badge", () => {
+    const { rerender } = render(
+      <Avatar.Root size="64" badgeMask="flower">
+        <Avatar.Fallback>
+          <text>fallback</text>
+        </Avatar.Fallback>
+        <Avatar.Image src="a.png" />
+        <Avatar.Badge>
+          <text>badge</text>
+        </Avatar.Badge>
+      </Avatar.Root>,
+    );
+    const container = root().querySelector(".seed-avatar__imageContainer");
+    expect(container?.tagName.toLowerCase()).toBe("view");
+    expect(container?.className).toContain("badgeMask_flower");
+    expect(container?.contains(image())).toBe(true);
+    expect(container?.className.split(" ")).not.toContain("seed-avatar__pendingImage");
+    const badge = root().querySelector(".seed-avatar__badge");
+    expect(container?.contains(badge)).toBe(false);
+    expect(root().querySelector(".seed-avatar__fallback")?.className).toContain("badgeMask_flower");
+    expect(root().querySelector(".seed-avatar__stroke")?.className).toContain("badgeMask_flower");
+    emit(image(), "load");
+    expect(root().querySelector(".seed-avatar__fallback")).toBeNull();
+    expect(root().querySelector(".seed-avatar__badge")?.textContent).toBe("badge");
+    rerender(
+      <Avatar.Root size="64" badgeMask="none">
+        <Avatar.Image src="a.png" />
+      </Avatar.Root>,
+    );
+    expect(root().querySelector(".seed-avatar__imageContainer")?.className).not.toContain(
+      "badgeMask_flower",
+    );
+  });
+
   it("rejects slots without a Root provider", () => {
     expect(() => render(<Avatar.Image src="a.png" />)).toThrow();
   });
