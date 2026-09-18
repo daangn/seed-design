@@ -90,17 +90,12 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
     let asset = children;
     if (isElement && !isNativeElement) {
       const dimensions = { style: { width: "100%", height: "100%" } };
-      if (shouldPreserveColor) {
-        asset = React.cloneElement(children, mergeProps(children.props, dimensions));
-      } else {
-        const { ref: tintRef, ...tintEvents } = iconColor;
-        const childRef = (children as { ref?: LynxMainThreadRef }).ref ?? children.props.ref;
-        asset = React.cloneElement(children, {
-          ...mergeProps(tintEvents, children.props, dimensions),
-          // Icon components forward this ref to their image's main-thread:ref.
-          ref: childRef ? mergeMainThreadRefs(tintRef, childRef) : tintRef,
-        });
-      }
+      const { ref: tintRef, ...tintEvents } = iconColor;
+      const childRef = (children as { ref?: LynxMainThreadRef }).ref ?? children.props.ref;
+      asset = React.cloneElement(children, {
+        ...mergeProps(tintEvents, children.props, dimensions),
+        ref: childRef ? mergeMainThreadRefs(tintRef, childRef) : tintRef,
+      });
     }
 
     return (
