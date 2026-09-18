@@ -138,7 +138,8 @@ FloatingActionButtonRoot.displayName = "FloatingActionButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FloatingActionButtonIconProps extends Omit<InternalIconProps, "deps"> {}
+export interface FloatingActionButtonIconProps
+  extends Omit<InternalIconProps, "deps" | "disableDefaultResize"> {}
 
 const StyledIcon = withContext<unknown, InternalIconProps>(InternalIcon, "icon");
 
