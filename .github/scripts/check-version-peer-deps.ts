@@ -1,7 +1,7 @@
 import { appendFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { compareStableVersions, parseStableVersion } from "./bump-peer-deps";
+import { compareStableVersions, createLynxCssPeerRange } from "./bump-peer-deps";
 
 const CSS_PACKAGE = "@seed-design/css";
 const CSS_MANIFEST_PATH = "packages/css/package.json";
@@ -121,7 +121,7 @@ function validatePair(input: {
   dependencyName: string;
   dependentManifestPath: string;
   dependentName: string;
-  desiredRange: (dependencyVersion: string) => string;
+  desiredRange: (dependencyVersion: string, baseRange: string) => string;
   sourceDependencyManifest: string;
   sourceDependentManifest: string;
 }): PairValidationResult {
@@ -174,7 +174,7 @@ function validatePair(input: {
     input.dependentManifestPath,
     input.dependencyName,
   );
-  const desiredPeerRange = input.desiredRange(dependencyVersion);
+  const desiredPeerRange = input.desiredRange(dependencyVersion, basePeerRange);
 
   assertPeerRange({
     baseRange: basePeerRange,
@@ -185,16 +185,6 @@ function validatePair(input: {
   });
 
   return { checked: true, dependencyVersion, dependentVersion };
-}
-
-function createLynxCssPeerRange(version: string): string {
-  const [major, minor] = parseStableVersion(version);
-
-  if (major !== 0) {
-    throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${version}`);
-  }
-
-  return `0.0.0 || >=0.${minor}.0 <1.0.0`;
 }
 
 export function validateVersionPeerDependencies(input: {

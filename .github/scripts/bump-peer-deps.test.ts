@@ -133,6 +133,21 @@ describe("Lynx peer dependency 동기화", () => {
     expect(result.desiredRange).toBe("0.0.0 || >=0.8.0 <1.0.0");
   });
 
+  test("patch 하한을 허용하고 새 마이너 범위로 갱신한다", () => {
+    const fixture = createLynxFixture("0.0.0 || >=0.11.1 <1.0.0", "0.12.0");
+    const result = synchronizeLynxPeerDependencyText(fixture);
+
+    expect(result.desiredRange).toBe("0.0.0 || >=0.12.0 <1.0.0");
+  });
+
+  test("같은 마이너의 patch 릴리스에서는 기존 patch 하한을 보존한다", () => {
+    const fixture = createLynxFixture("0.0.0 || >=0.11.1 <1.0.0", "0.11.2");
+    const result = synchronizeLynxPeerDependencyText(fixture);
+
+    expect(result.changed).toBe(false);
+    expect(result.desiredRange).toBe("0.0.0 || >=0.11.1 <1.0.0");
+  });
+
   test("이미 같은 마이너 범위이면 변경하지 않는다", () => {
     const fixture = createLynxFixture("0.0.0 || >=0.8.0 <1.0.0", "0.8.3");
     const result = synchronizeLynxPeerDependencyText(fixture);
