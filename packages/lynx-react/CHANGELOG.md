@@ -1,5 +1,63 @@
 # @seed-design/lynx-react
 
+## 0.8.0
+
+### Minor Changes
+
+- fa699aa: Lynx에 Attachment Field와 Attachment Display Field를 추가합니다. 호스트 네이티브 파일 선택 연동, 파일 검증, 업로드 상태 표시와 첨부 항목 관리를 지원합니다.
+- fa699aa: Dialog와 Alert Dialog 컴포넌트를 추가합니다.
+
+  - Dialog와 Alert Dialog 콘텐츠는 열릴 때 opacity와 scale 애니메이션을 제공하고, 닫힐 때 opacity로 사라집니다.
+  - Alert Dialog는 중요한 작업에 대한 사용자 확인 흐름을 제공하며 기본적으로 backdrop 탭으로 닫히지 않습니다.
+
+- fa699aa: `ScrollFog` 컴포넌트를 추가하고, `BottomSheetBody`를 스크롤 방식을 직접 구성할 수 있는 `view`로 변경합니다. `TabsList`와 `ChipTabsList`는 native scroll-view prop을 전달받아 같은 fading edge를 직접 적용할 수 있습니다.
+- fa699aa: Lynx에 `Skeleton` 컴포넌트를 추가합니다.
+
+  - `radius`, `tone`, `width`, `height`로 형태와 크기를 조절할 수 있습니다.
+
+- fa699aa: Lynx용 `FloatingActionButton` 컴포넌트를 추가합니다. `extended`로 라벨 표시와 버튼 형태를 전환할 수 있습니다.
+- fa699aa: Lynx 플랫폼에 Chip Tabs 컴포넌트를 추가합니다.
+- fa699aa: Lynx에 `IdentityPlaceholder` 컴포넌트를 추가합니다. 사람과 매장 도형은 기존 SVG에서 변환한 640×640 WebP 이미지로 제공합니다.
+- fa699aa: Lynx에서 Quantity Picker의 수량 증감, 개별 로딩, 삭제 전환, 레이아웃과 값 포매팅을 사용할 수 있도록 컴포넌트와 스타일을 추가합니다.
+- fa699aa: Lynx 플랫폼에 단일·다중 선택을 지원하는 `Select` 컴포넌트를 추가합니다.
+- fa699aa: Lynx에 `ContextualFloatingButton` 컴포넌트를 추가합니다.
+
+  - `solid`, `layer` 변형과 텍스트·아이콘 전용 레이아웃을 지원합니다.
+  - 눌림 피드백, 로딩 표시와 비활성 상태를 제공합니다.
+
+- fa699aa: Lynx에서 사용할 수 있는 `HelpBubble` 컴포넌트를 추가합니다.
+- fa699aa: Lynx `AppBar` 아이콘 버튼의 슬롯 양쪽 여백을 React와 같은 규칙으로 자동 보정합니다.
+
+  - 왼쪽·오른쪽 슬롯 모두 첫 자식이 아이콘 버튼이면 왼쪽, 마지막 자식이 아이콘 버튼이면 오른쪽 여백을 보정합니다. 버튼 하나는 양쪽을 보정하며, 44px 터치 영역은 유지합니다.
+  - Fragment와 조건부 자식을 지원하며, `edge="leading" | "trailing" | "both"`으로 자동 보정 방향을 덮어쓸 수 있습니다.
+  - 커스텀 슬롯의 배치와 기존 사용자 스타일을 유지합니다.
+
+- fa699aa: Lynx에 `Slider` 컴포넌트를 추가합니다. 터치 드래그, 다중 범위, 단계·허용값, RTL, 값 표시와 접근성 레이블을 지원합니다.
+- fa699aa: React·Rootage 명세에 맞춰 Lynx 컴포넌트의 Scale Feedback과 배경색 전환을 보완하고, List를 처음 누를 때 모서리 형태가 바뀌는 문제를 수정합니다.
+
+  컴포넌트별 Feedback 변경 사항은 다음과 같습니다.
+
+  - `AppBar.IconButton`: 버튼 전체에 Scale Feedback을 추가합니다.
+  - `ReactionButton`: 고정 축소율을 공통 Scale Feedback으로 교체하고, 선택 상태의 배경색 전환과 비활성·로딩 상태의 Feedback 처리를 보완합니다.
+  - `InputButton`: 내용 영역에 Scale Feedback과 버튼 배경색 전환을 추가하고, `ClearButton`에는 독립적인 Scale Feedback을 추가합니다.
+  - `List.ButtonItem`, `List.CheckboxItem`, `List.RadioItem`, `List.SwitchItem`: 내용 영역에 공통 Scale Feedback을 연결하고, 누름 배경이 처음부터 둥근 모서리를 유지하도록 수정합니다. 내부 선택 컨트롤이 중복으로 축소되지 않도록 처리합니다.
+  - `Menu.Item`: 내용 영역에 Scale Feedback을 추가하고, 누름 배경 Feedback을 보완합니다.
+  - `SwipeableMenuSheet.Item`, `SwipeableMenuSheet.CloseButton`: 항목의 내용 영역과 닫기 버튼 전체에 각각 Scale Feedback을 추가하고, 누름 배경 Feedback을 보완합니다.
+  - `PageBanner`: 상호작용 가능한 배너의 내용 영역에 Scale Feedback을 추가하고, 내부 `Button`·`CloseButton`의 Feedback이 배너의 Feedback과 독립적으로 동작하도록 보완합니다.
+  - `Callout.CloseButton`: 누름 상태의 배경색과 배경색 전환을 추가합니다.
+
+### Patch Changes
+
+- fa699aa: 컴포넌트를 누르는 도중 비활성화하면 눌림 상태를 초기화하여, 다시 활성화했을 때 눌림 스타일이 남지 않도록 수정합니다.
+- fa699aa: Lynx 상태·press/tap 훅을 독립 패키지로 분리합니다.
+
+  - 기존 `@seed-design/lynx-react`의 훅 import와 Scale Feedback 연동을 유지합니다.
+  - 누르는 도중 `disabled`로 바뀌면 pressed 상태를 해제합니다.
+
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-react-use-controllable-state@0.1.0
+  - @seed-design/lynx-react-use-press-tap@0.1.0
+
 ## 0.7.1
 
 ### Patch Changes
