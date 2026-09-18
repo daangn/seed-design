@@ -12,20 +12,18 @@ export type UseAppBarReturn = ReturnType<typeof useAppBar>;
 export function useAppBar(_props: UseAppBarProps) {
   const { stateProps } = useAppScreenContext();
 
-  const [root, rootRef] = useState<HTMLElement | null>(null);
   const [left, leftRef] = useState<HTMLElement | null>(null);
   const [right, rightRef] = useState<HTMLElement | null>(null);
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
-  const centeredTitlePaddingX = root
-    ? `${Math.max(leftOffset?.fromLeft ?? 0, rightOffset?.fromRight ?? 0)}px`
-    : "initial";
+  // `initial` leaves the variable unset, which the recipe reads as a missing area.
+  const leftExtent = leftOffset ? `${leftOffset.fromLeft}px` : "initial";
+  const rightExtent = rightOffset ? `${rightOffset.fromRight}px` : "initial";
 
   return useMemo(
     () => ({
       refs: {
-        root: rootRef,
         left: leftRef,
         right: rightRef,
       },
@@ -34,10 +32,11 @@ export function useAppBar(_props: UseAppBarProps) {
         "data-part": appBarAnatomy.root,
         ...stateProps,
         style: {
-          "--centered-title-padding-x": centeredTitlePaddingX,
+          "--app-bar-left-extent": leftExtent,
+          "--app-bar-right-extent": rightExtent,
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, centeredTitlePaddingX],
+    [stateProps, leftExtent, rightExtent],
   );
 }
