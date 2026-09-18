@@ -1,6 +1,6 @@
 import "./styles";
 
-import { useSeedClassName } from "@seed-design/lynx-react";
+import { ScrollFog, useSeedClassName } from "@seed-design/lynx-react";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "@/components/ui/chip-tabs";
 
 export default function Example() {
@@ -9,23 +9,25 @@ export default function Example() {
   return (
     <view className={seedClassName} style={{ maxWidth: "360px" }}>
       <ChipTabsRoot defaultValue="1">
-        <ChipTabsList fading-edge-length="20px">
-          <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
-          <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
-          <ChipTabsTrigger value="3">라벨3</ChipTabsTrigger>
-          <ChipTabsTrigger value="4">라벨4</ChipTabsTrigger>
-          <ChipTabsTrigger value="5">라벨5</ChipTabsTrigger>
-          <ChipTabsTrigger value="6">라벨6</ChipTabsTrigger>
-          <ChipTabsTrigger value="7">라벨7</ChipTabsTrigger>
-          <ChipTabsTrigger value="8">라벨8</ChipTabsTrigger>
-          <ChipTabsTrigger value="9">라벨9</ChipTabsTrigger>
-          <ChipTabsTrigger value="10">라벨10</ChipTabsTrigger>
-          <ChipTabsTrigger value="11">라벨11</ChipTabsTrigger>
-          <ChipTabsTrigger value="12">라벨12</ChipTabsTrigger>
-          <ChipTabsTrigger value="13">라벨13</ChipTabsTrigger>
-          <ChipTabsTrigger value="14">라벨14</ChipTabsTrigger>
-          <ChipTabsTrigger value="15">라벨15</ChipTabsTrigger>
-        </ChipTabsList>
+        <ScrollFog style={{ width: "100%", height: "36px" }} placement={["left", "right"]}>
+          <ChipTabsList>
+            <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
+            <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
+            <ChipTabsTrigger value="3">라벨3</ChipTabsTrigger>
+            <ChipTabsTrigger value="4">라벨4</ChipTabsTrigger>
+            <ChipTabsTrigger value="5">라벨5</ChipTabsTrigger>
+            <ChipTabsTrigger value="6">라벨6</ChipTabsTrigger>
+            <ChipTabsTrigger value="7">라벨7</ChipTabsTrigger>
+            <ChipTabsTrigger value="8">라벨8</ChipTabsTrigger>
+            <ChipTabsTrigger value="9">라벨9</ChipTabsTrigger>
+            <ChipTabsTrigger value="10">라벨10</ChipTabsTrigger>
+            <ChipTabsTrigger value="11">라벨11</ChipTabsTrigger>
+            <ChipTabsTrigger value="12">라벨12</ChipTabsTrigger>
+            <ChipTabsTrigger value="13">라벨13</ChipTabsTrigger>
+            <ChipTabsTrigger value="14">라벨14</ChipTabsTrigger>
+            <ChipTabsTrigger value="15">라벨15</ChipTabsTrigger>
+          </ChipTabsList>
+        </ScrollFog>
       </ChipTabsRoot>
     </view>
   );
