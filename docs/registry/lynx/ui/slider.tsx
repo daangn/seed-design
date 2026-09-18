@@ -140,7 +140,9 @@ export const Slider = React.forwardRef<SliderRootRef, SliderProps>(
               <React.Fragment key={index}>
                 {!hideValueIndicator ? (
                   <SeedSlider.ValueIndicatorRoot index={index}>
-                    <SeedSlider.ValueIndicatorArrow />
+                    <SeedSlider.ValueIndicatorArrow>
+                      <SeedSlider.ValueIndicatorArrowTip />
+                    </SeedSlider.ValueIndicatorArrow>
                     <SeedSlider.ValueIndicatorLabel index={index} />
                   </SeedSlider.ValueIndicatorRoot>
                 ) : null}

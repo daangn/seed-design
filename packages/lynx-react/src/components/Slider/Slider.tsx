@@ -103,6 +103,9 @@ export interface SliderValueIndicatorRootProps extends SliderNativeProps {
 export interface SliderValueIndicatorArrowProps extends SliderNativeProps {
   children?: React.ReactNode;
 }
+export interface SliderValueIndicatorArrowTipProps extends SliderNativeProps {
+  children?: React.ReactNode;
+}
 export interface SliderValueIndicatorLabelProps
   extends Omit<LynxTextProps, "children" | "className" | "style">,
     LynxStyledElementProps {
@@ -117,8 +120,10 @@ export interface SliderClassNames {
   range: string;
   thumb: string;
   markers: string;
+  valueIndicatorMotion: string;
   valueIndicatorRoot: string;
   valueIndicatorArrow: string;
+  valueIndicatorArrowTip: string;
   valueIndicatorLabel: string;
 }
 
@@ -785,31 +790,35 @@ export const SliderValueIndicatorRoot = React.forwardRef<NodesRef, SliderValueIn
     );
     const shown = context.dragging && context.activeThumbIndex === index;
     const visible = !context.disabled && !context.readOnly && shown;
+    const classes = context.getClasses({
+      disabled: context.disabled,
+      dragging: context.dragging,
+      valueIndicatorShown: visible,
+      valueIndicatorEverShown: context.valueIndicatorEverShown,
+    });
     return (
       <view
-        {...mergeProps(
-          nativeProps,
-          ref ? { ref } : {},
-          { ref: localRef },
-          { bindlayoutchange: handleLayoutChange },
-        )}
-        className={clsx(
-          context.getClasses({
-            disabled: context.disabled,
-            dragging: context.dragging,
-            valueIndicatorShown: visible,
-            valueIndicatorEverShown: context.valueIndicatorEverShown,
-          }).valueIndicatorRoot,
-          className,
-        )}
-        style={dynamicStyle(style, {
+        className={classes.valueIndicatorMotion}
+        style={dynamicStyle(undefined, {
           "--slider-value-indicator-left": `${physicalPercent}%`,
           "--slider-value-indicator-offset": `${indicatorOffset}px`,
           "--slider-thumb-offset": `${thumbOffset}px`,
         })}
         accessibility-elements-hidden={true}
       >
-        {children}
+        <view
+          {...mergeProps(
+            nativeProps,
+            ref ? { ref } : {},
+            { ref: localRef },
+            { bindlayoutchange: handleLayoutChange },
+          )}
+          className={clsx(classes.valueIndicatorRoot, className)}
+          style={style}
+          accessibility-elements-hidden={true}
+        >
+          {children}
+        </view>
       </view>
     );
   },
@@ -835,6 +844,27 @@ export const SliderValueIndicatorArrow = React.forwardRef<NodesRef, SliderValueI
   },
 );
 SliderValueIndicatorArrow.displayName = "SliderValueIndicatorArrow";
+
+export const SliderValueIndicatorArrowTip = React.forwardRef<
+  NodesRef,
+  SliderValueIndicatorArrowTipProps
+>((props, ref) => {
+  const { children, className, ...nativeProps } = props;
+  const context = useSliderContext("Slider.ValueIndicatorArrowTip");
+  return (
+    <view
+      {...mergeProps(ref ? { ref } : {}, nativeProps)}
+      className={clsx(
+        context.getClasses({ disabled: context.disabled, dragging: context.dragging })
+          .valueIndicatorArrowTip,
+        className,
+      )}
+    >
+      {children}
+    </view>
+  );
+});
+SliderValueIndicatorArrowTip.displayName = "SliderValueIndicatorArrowTip";
 
 export const SliderValueIndicatorLabel = React.forwardRef<NodesRef, SliderValueIndicatorLabelProps>(
   (props, ref) => {

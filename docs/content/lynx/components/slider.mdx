@@ -42,7 +42,7 @@ Registry 래퍼는 다음 두 종류의 prop을 제공합니다.
 
 ## Usage
 
-Registry의 조합이 아닌 `@seed-design/lynx-react` primitive를 직접 사용할 수도 있습니다. `SliderRoot` 안에서 `SliderControl`과 `SliderTrack`을 조합하고, track 안에 `SliderRange`와 필요한 `SliderTick`을 배치합니다. 각 thumb은 `SliderThumb`로 만들며 Value Indicator는 `SliderValueIndicatorRoot`, `SliderValueIndicatorArrow`, `SliderValueIndicatorLabel`로 구성합니다. 마커가 필요하면 `SliderMarkers` 안에 `SliderMarker`를 둡니다.
+Registry의 조합이 아닌 `@seed-design/lynx-react` primitive를 직접 사용할 수도 있습니다. `SliderRoot` 안에서 `SliderControl`과 `SliderTrack`을 조합하고, track 안에 `SliderRange`와 필요한 `SliderTick`을 배치합니다. 각 thumb은 `SliderThumb`로 만들며 Value Indicator는 `SliderValueIndicatorRoot`, `SliderValueIndicatorArrow`와 그 안의 `SliderValueIndicatorArrowTip`, `SliderValueIndicatorLabel`로 구성합니다. 마커가 필요하면 `SliderMarkers` 안에 `SliderMarker`를 둡니다.
 
 ```tsx
 import { useState } from "@lynx-js/react";
@@ -57,6 +57,7 @@ import {
   SliderTick,
   SliderTrack,
   SliderValueIndicatorArrow,
+  SliderValueIndicatorArrowTip,
   SliderValueIndicatorLabel,
   SliderValueIndicatorRoot,
 } from "@seed-design/lynx-react";
@@ -87,7 +88,9 @@ export function PriceSlider() {
             <SliderTick value={100} />
           </SliderTrack>
           <SliderValueIndicatorRoot index={0}>
-            <SliderValueIndicatorArrow />
+            <SliderValueIndicatorArrow>
+              <SliderValueIndicatorArrowTip />
+            </SliderValueIndicatorArrow>
             <SliderValueIndicatorLabel index={0} />
           </SliderValueIndicatorRoot>
           <SliderThumb index={0} />

@@ -9,6 +9,7 @@ export {
   SliderMarker,
   SliderValueIndicatorRoot,
   SliderValueIndicatorArrow,
+  SliderValueIndicatorArrowTip,
   SliderValueIndicatorLabel,
   type SliderClassNames,
   type SliderValues,
@@ -22,6 +23,7 @@ export {
   type SliderMarkerProps,
   type SliderValueIndicatorRootProps,
   type SliderValueIndicatorArrowProps,
+  type SliderValueIndicatorArrowTipProps,
   type SliderValueIndicatorLabelProps,
 } from "./Slider";
 

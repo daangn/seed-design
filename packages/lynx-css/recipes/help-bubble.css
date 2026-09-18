@@ -1,35 +1,46 @@
 .seed-help-bubble__positioner {
     position: fixed
 }
-.seed-help-bubble__content {
-    position: relative;
+.seed-help-bubble__motion {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    background-color: var(--seed-color-bg-neutral-inverted);
-    padding-top: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x3);
-    padding-bottom: var(--seed-dimension-x2_5);
-    padding-left: var(--seed-dimension-x3);
-    border-radius: var(--seed-radius-r3);
-    max-width: 280px;
+    align-items: stretch;
+    padding: 8px;
+    margin: -8px;
+    overflow: visible;
     opacity: 0;
     transform: scale(1);
     transition-property: opacity, transform;
     transition-duration: var(--seed-duration-d4);
     transition-timing-function: var(--seed-timing-function-easing)
 }
+.seed-help-bubble__content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    overflow: visible;
+    background-color: var(--seed-color-bg-neutral-inverted);
+    padding-top: var(--seed-dimension-x2_5);
+    padding-right: var(--seed-dimension-x3);
+    padding-bottom: var(--seed-dimension-x2_5);
+    padding-left: var(--seed-dimension-x3);
+    border-radius: var(--seed-radius-r3);
+    max-width: 280px
+}
 .seed-help-bubble__arrow {
     position: absolute;
     width: 12px;
     height: 12px;
+    overflow: visible;
     transform: rotate(0deg)
 }
 .seed-help-bubble__arrowTip {
     width: 12px;
-    height: 8px;
+    height: calc(8px + 1px);
     background-color: var(--seed-color-bg-neutral-inverted);
-    clip-path: path("M 0 0 H 12 L 8 6 Q 6 8 4 6 Z")
+    clip-path: path("M0 0 H12 V1 L8 7 Q6 9 4 7 L0 1 Z");
+    transform: translateY(-1px)
 }
 .seed-help-bubble__body {
     display: flex;
@@ -37,6 +48,7 @@
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 0;
+    overflow: visible;
     gap: var(--seed-dimension-x0_5)
 }
 .seed-help-bubble__title {
@@ -69,6 +81,9 @@
     transform: scale(1);
     transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
 }
+.seed-help-bubble__motion--positioned_true {
+    width: calc(100% + 16px)
+}
 .seed-help-bubble__arrow--side_top {
     transform: rotate(0deg)
 }
@@ -79,17 +94,17 @@
     transform: rotate(180deg)
 }
 .seed-help-bubble__arrow--side_left {
-    transform: rotate(-90deg)
+    transform: rotate(270deg)
 }
 .seed-help-bubble__closeButton--pressed_true {
     transform: scale(var(--seed-scale-s97))
 }
-.seed-help-bubble__content--positioned_false {
+.seed-help-bubble__motion--positioned_false {
     opacity: 0;
     transform: scale(0.9);
     transition-duration: 0s
 }
-.seed-help-bubble__content--open_true-positioned_true {
+.seed-help-bubble__motion--open_true-positioned_true {
     opacity: 1;
     transform: scale(1);
     transition-duration: var(--seed-duration-d4);

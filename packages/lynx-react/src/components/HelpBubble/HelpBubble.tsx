@@ -813,16 +813,21 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
     [context.open, finishClose],
   );
 
+  const motionClassName = useClassNames().motion;
   return (
-    <view
-      ref={handleRef as LynxViewRef}
-      className={clsx(useClassNames().content, className)}
-      style={{ ...style, ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}) }}
-      bindlayoutchange={handleLayoutChange}
-      bindtransitionend={handleTransitionEnd}
-      {...nativeProps}
-    >
-      {children}
+    <view className={motionClassName} bindtransitionend={handleTransitionEnd}>
+      <view
+        ref={handleRef as LynxViewRef}
+        className={clsx(useClassNames().content, className)}
+        style={{
+          ...style,
+          ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
+        }}
+        bindlayoutchange={handleLayoutChange}
+        {...nativeProps}
+      >
+        {children}
+      </view>
     </view>
   );
 });

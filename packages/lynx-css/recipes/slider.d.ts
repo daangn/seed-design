@@ -27,7 +27,7 @@ declare type SliderVariantMap = {
 
 export declare type SliderVariantProps = Partial<SliderVariant>;
 
-export declare type SliderSlotName = "root" | "control" | "track" | "range" | "thumb" | "markers" | "valueIndicatorRoot" | "valueIndicatorArrow" | "valueIndicatorLabel";
+export declare type SliderSlotName = "root" | "control" | "track" | "range" | "thumb" | "markers" | "valueIndicatorMotion" | "valueIndicatorRoot" | "valueIndicatorArrow" | "valueIndicatorArrowTip" | "valueIndicatorLabel";
 
 export declare const sliderVariantMap: SliderVariantMap;
 
