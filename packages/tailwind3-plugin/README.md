@@ -4,23 +4,28 @@ SEED 디자인 시스템의 디자인 토큰을 Tailwind CSS 3.x에서 쉽게 �
 
 ## 설치
 
-```bash
-npm install @seed-design/tailwind3-plugin
-```
-
-또는
+웹에서는 `@seed-design/css`, Lynx에서는 `@seed-design/lynx-css`를 함께 설치하세요. 두 패키지는 optional peer이므로 패키지 매니저가 둘 중 하나의 설치를 강제하지 않습니다. 플랫폼에 맞는 패키지를 직접 설치하고 토큰 CSS를 import해야 합니다.
 
 ```bash
-yarn add @seed-design/tailwind3-plugin
+# 웹
+bun add @seed-design/tailwind3-plugin @seed-design/css tailwindcss@3
+
+# Lynx
+bun add @seed-design/tailwind3-plugin @seed-design/lynx-css tailwindcss@3
 ```
+
+Lynx peer 범위는 토큰 제공을 확인한 `@seed-design/lynx-css@^0.11.0`입니다. 더 낮은 버전의 호환성을 의미하지는 않습니다.
+Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-design.io/lynx/getting-started/styling/tailwind-css-3)를 참고하세요. 아래 예제는 웹 기준입니다.
 
 ## 사용 방법
 
 1. 프로젝트에 SEED 디자인 토큰 CSS 파일이 먼저 로드되어 있어야 합니다.
    ```js
    import '@seed-design/css/base.css';
-   // or
+   // 또는 컴포넌트 스타일까지 포함
    import '@seed-design/css/all.css';
+   // Lynx에서는 위 웹 CSS 대신 사용
+   // import '@seed-design/lynx-css/base.css';
    ```
 
 2. Tailwind CSS 구성 파일에 플러그인을 추가합니다.
@@ -121,4 +126,4 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ## 버전 호환성
 
-이 패키지는 Tailwind CSS 3.x 버전에서 사용할 수 있습니다. Tailwind CSS 4.0 이상 버전은 `@seed-design/tailwind4`를 사용하세요.
+이 패키지는 Tailwind CSS 3.x 버전에서 사용할 수 있습니다. Tailwind CSS 4.0 이상 버전은 `@seed-design/tailwind4-theme`를 사용하세요.

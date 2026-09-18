@@ -1,17 +1,13 @@
 ---
-title: Styling with Tailwind
-description: Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.
+title: Tailwind CSS 3
+description: Lynx에서 Tailwind CSS v3와 SEED 디자인 토큰을 사용하는 방법을 안내합니다.
 ---
 
 ## Overview
 
-Lynx에서는 `@seed-design/tailwind3-plugin`과 Tailwind CSS v3를 사용하여 SEED 디자인 토큰을 적용합니다. 네이티브 `<view>`, `<text>` 엘리먼트에 Tailwind 클래스를 직접 사용합니다.
-
-<Callout type="info">
-  Lynx 앱 코드에서는 성능 최적화를 위해 정적인 레이아웃/색상/간격을 런타임
-  StyleProps보다 빌드 타임 Tailwind CSS 클래스로 표현하는 방식을 우선
-  고려하세요. 런타임에 결정되는 값은 inline style을 제한적으로 사용합니다.
-</Callout>
+`@seed-design/tailwind3-plugin`으로 SEED 토큰을 네이티브 `<view>`, `<text>`의 유틸리티 클래스로 사용할 수 있습니다.
+Tailwind CSS v4를 사용하는 프로젝트는 [v4 설정](/lynx/getting-started/styling/tailwind-css-4)을 참고하세요.
+테마 설정은 [Theming](/lynx/getting-started/styling/theming)에서 안내합니다.
 
 ## Setup
 
@@ -88,17 +84,17 @@ Tailwind의 Flexbox 유틸리티를 네이티브 `<view>` 엘리먼트에 사용
 
 ```tsx
 // Flex row (HStack)
-<view className="flex flex-row gap-2 items-center">
-  <view className="bg-bg-brand-weak px-3 py-2 rounded">
+<view className="flex flex-row gap-x2 items-center">
+  <view className="bg-bg-brand-weak px-x3 py-x2 rounded-r2">
     <text>A</text>
   </view>
-  <view className="bg-bg-brand-weak px-3 py-2 rounded">
+  <view className="bg-bg-brand-weak px-x3 py-x2 rounded-r2">
     <text>B</text>
   </view>
 </view>
 
 // Flex column (VStack)
-<view className="flex flex-col gap-2">
+<view className="flex flex-col gap-x2">
   <text className="t5-regular text-fg-neutral">Item 1</text>
   <text className="t5-regular text-fg-neutral">Item 2</text>
 </view>

@@ -1,0 +1,183 @@
+---
+title: Tailwind CSS 4
+description: Lynx에서 Tailwind CSS v4를 사용하기 위한 PostCSS 설정과 호환성 제한을 안내합니다.
+---
+
+[Lynx 공식 가이드](https://lynxjs.org/rspeedy/styling#using-tailwind-css)는 v3와 `@lynx-js/tailwind-preset`의 연동을 안내합니다. 해당 preset은 v4와 호환되지 않습니다.
+[Rsbuild 자체는 v4를 지원합니다](https://rsbuild.rs/guide/styling/tailwindcss). 아래 구성은 해당 preset 없이 SEED theme과 Lynx용 후처리를 사용합니다.
+기존 v3 프로젝트는 [Tailwind CSS 3](/lynx/getting-started/styling/tailwind-css-3) 설정을 유지할 수 있습니다.
+
+Tailwind CSS v4는 `@seed-design/tailwind4-theme`와 Lynx용 PostCSS 후처리로 사용할 수 있습니다.
+다음은 기본 SEED 유틸리티의 색상, 타이포그래피, 간격, 모서리, 상태별 클래스 교체와 루트 테마 전환을 확인한 구성입니다.
+Tailwind v4 전체 기능이나 모든 Lynx Engine에서의 호환성을 의미하지 않습니다.
+
+## 요구사항과 설치
+
+이 가이드는 **Rspeedy 0.15 이상에서 도입된 Rsbuild 2·Rspack 2 기반 구성**을 기준으로 합니다.
+
+| 패키지 | 조건 |
+| --- | --- |
+| `@lynx-js/rspeedy` | `0.15.0` 이상, Rsbuild 2·Rspack 2 기반 버전 |
+| `tailwindcss`, `@tailwindcss/postcss` | `4.x` |
+| `postcss` | `8.x` |
+
+Rsbuild와 Rspack은 Rspeedy의 의존성으로 설치되므로 앱에서 별도로 설치하거나 버전을 강제할 필요는 없습니다.
+ReactLynx와 React 플러그인은 선택한 Rspeedy와 호환되는 버전을 사용하세요.
+Node 요구사항과 기존 설정 변경은 [Rspeedy 업그레이드 가이드](https://lynxjs.org/rspeedy/upgrade.html)를 참고하세요.
+이 기준은 아래 설정을 적용할 빌드 환경이며, Tailwind 4 자체가 Rsbuild 2에서만 동작한다는 의미는 아닙니다.
+
+```package-install
+@seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4 @tailwindcss/postcss@4 postcss@8
+```
+
+Tailwind의 특정 patch 버전에 고정할 필요는 없습니다. 다만 모든 4.x 버전의 Lynx 호환성을 검증한 것은 아니므로,
+업데이트 후에는 아래 CSS 후처리와 실제 화면을 확인하세요.
+SEED 토큰은 `@seed-design/lynx-css/base.css`로 제공하며 웹용 `@seed-design/css`는 import하지 않습니다.
+
+## postcss.config.js
+
+Tailwind 처리 후 `OnceExit`에서 생성 CSS를 변환합니다. 이 파일은 **Lynx 앱 전용**이며 웹 앱에 적용하지 마세요.
+
+```js title="postcss.config.js"
+import tailwindcss from "@tailwindcss/postcss";
+
+function lynxTailwindCompatibility() {
+  return {
+    postcssPlugin: "lynx-tailwind-compatibility",
+    OnceExit(root) {
+      root.walkRules((rule) => {
+        // Tailwind의 테마 변수 선언만 변환합니다.
+        // 공백과 선택자 순서에 관계없이 :root와 :host의 조합을 찾습니다.
+        const selectors = rule.selectors;
+        if (
+          selectors.length === 2 &&
+          selectors.includes(":root") &&
+          selectors.includes(":host")
+        ) {
+          rule.selector = ":root";
+        }
+      });
+
+      // layer 순서를 재현하지 않습니다. 선언된 위치에 내용을 펼칩니다.
+      const layers = [];
+      root.walkAtRules("layer", (rule) => {
+        layers.push(rule);
+      });
+      for (const rule of layers.reverse()) {
+        if (rule.nodes) rule.replaceWith(rule.nodes);
+        else rule.remove();
+      }
+    },
+  };
+}
+
+export default {
+  plugins: [tailwindcss(), lynxTailwindCompatibility()],
+};
+```
+
+Tailwind v4는 `@theme`의 변수를 `:root, :host`에 출력합니다. `:host`는 웹 Shadow DOM용 선택자입니다.
+확인한 Lynx 컴파일러에서는 `Unsupported selector ":host,:root" was removed during template encode` 경고와 함께
+묶인 규칙이 제거되어 테마 변수까지 사라졌습니다. 따라서 `:host`만 제외하고 `:root`와 변수 선언을 보존합니다.
+이 코드는 `:host(...)`나 임의의 Shadow DOM CSS를 Lynx CSS로 변환하는 도구가 아닙니다.
+
+## CSS import
+
+```css title="src/styles/global.css"
+@import "@seed-design/lynx-css/base.css";
+@import "tailwindcss/theme.css" layer(theme);
+@import "@seed-design/tailwind4-theme";
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* 이 CSS 파일을 기준으로 src 디렉터리를 탐색합니다. */
+@source "../";
+```
+
+앱 entry에서 이 CSS를 import하세요.
+
+```ts title="src/index.tsx"
+import "./styles/global.css";
+```
+
+`@import "tailwindcss"`는 웹용 Preflight도 포함하므로 위처럼 theme과 utilities를 나누어 불러옵니다.
+`@source` 경로는 CSS 파일 위치에 맞춰 바꾸세요. 클래스는 `selected ? "bg-bg-brand-solid" : "bg-bg-neutral-weak"`처럼
+전체 문자열로 작성해야 빌드 시 탐지할 수 있습니다.
+
+## 제한사항과 확인 항목
+
+- 이 구성은 `@lynx-js/tailwind-preset`을 사용하지 않습니다. Rsbuild의 v4 지원만으로 Lynx CSS 호환성이 보장되지는 않습니다.
+- `@layer`를 펼치면 layer 간 우선순위와 `!important`의 layer 순서가 사라집니다. 남은 CSS의 선택자 우선순위와 선언 순서가 적용됩니다. 특히 SEED recipe와 utility를 함께 쓰거나 외부 layered CSS를 추가하면 결과를 다시 확인하세요. 이 후처리는 일반적인 cascade layer polyfill이 아닙니다.
+- 루트 `<page>`의 SEED 테마를 사용하세요. 하위 영역의 테마 덮어쓰기는 Tailwind v4 alias 변수와 직접 SEED 토큰 참조의 색상이 달라질 수 있습니다. [테마 가이드](/lynx/getting-started/styling/theming#tailwind-css와-함께-사용하기)를 참고하세요.
+- `@property`, `@supports`, 웹 전용 선택자, 단위와 CSS 함수 등 다른 Tailwind 출력은 이 플러그인이 변환하지 않습니다. shadow, ring, gradient, transform 등의 추가 유틸리티는 사용할 때 대상 Engine에서 확인하세요.
+- 빌드 성공만으로 화면 호환성을 판단하지 마세요. 실제 host에서 색상·글자·간격·상태 변경과 기기 테마 전환을 확인하세요.
+
+## v3에서 이전하기
+
+1. 위 요구사항에 맞게 빌드 도구를 준비하고 `@tailwindcss/postcss`, `@seed-design/tailwind4-theme`를 설치합니다.
+2. PostCSS 설정과 전역 CSS를 위 예제로 교체합니다.
+3. `tailwind.config.ts`의 사용자 정의 설정이 있다면 v4 설정으로 옮긴 뒤 파일과 `@seed-design/tailwind3-plugin` 의존성을 제거합니다. v4는 기존 JS 설정을 자동으로 읽지 않습니다.
+4. SEED 유틸리티 외에 사용한 클래스는 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)에 따라 확인합니다.
+5. 기기 라이트·다크 모드, 대표 컴포넌트와 utility override, 개발 서버·프로덕션 번들을 검증합니다.
+
+## Color
+
+SEED 색상 토큰은 Tailwind의 `bg-`, `text-`, `border-` 접두사로 사용합니다.
+
+```tsx
+// 배경색
+<view className="bg-bg-layer-default" />
+<view className="bg-bg-neutral-weak" />
+<view className="bg-bg-brand-solid" />
+
+// 텍스트 색상
+<text className="text-fg-neutral">기본 텍스트</text>
+<text className="text-fg-brand">브랜드 텍스트</text>
+<text className="text-fg-critical">에러 텍스트</text>
+
+// 테두리 색상
+<view className="border border-stroke-neutral-muted" />
+```
+
+## Typography
+
+SEED 타이포그래피 토큰은 컴포넌트 클래스로 제공됩니다.
+
+```tsx
+<text className="t1-regular">가장 작은 텍스트</text>
+<text className="t5-regular">기본 본문</text>
+<text className="t5-bold">굵은 본문</text>
+<text className="t7-bold">큰 제목</text>
+<text className="t10-bold">가장 큰 제목</text>
+```
+
+## Layout
+
+Tailwind의 Flexbox 유틸리티를 네이티브 `<view>` 엘리먼트에 사용합니다.
+
+```tsx
+// Flex row (HStack)
+<view className="flex flex-row gap-x2 items-center">
+  <view className="bg-bg-brand-weak px-x3 py-x2 rounded-r2">
+    <text>A</text>
+  </view>
+  <view className="bg-bg-brand-weak px-x3 py-x2 rounded-r2">
+    <text>B</text>
+  </view>
+</view>
+
+// Flex column (VStack)
+<view className="flex flex-col gap-x2">
+  <text className="t5-regular text-fg-neutral">Item 1</text>
+  <text className="t5-regular text-fg-neutral">Item 2</text>
+</view>
+```
+
+## Lynx 플랫폼 참고 사항
+
+<Callout>
+- `overflow: scroll`은 지원되지 않습니다. 스크롤이 필요하면 `<scroll-view>` 엘리먼트를 사용하세요.
+- `position`의 기본값은 `relative`입니다 (웹의 `static`과 다름).
+- `<list>` + `<list-item>`은 가상화된 리스트에 사용합니다. `item-key`가 필수입니다.
+- CSS `initial`, `inherit`, `unset` 키워드는 지원되지 않습니다.
+- `inset` shorthand는 Lynx 3.7 기준으로 사용하지 않습니다. `top`, `right`, `bottom`, `left` longhand를 직접 작성하세요.
+</Callout>

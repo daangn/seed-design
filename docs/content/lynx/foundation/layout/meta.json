@@ -1,5 +1,5 @@
 {
   "title": "Layout",
-  "pages": ["styling", "box", "v-stack", "h-stack"],
+  "pages": ["box", "v-stack", "h-stack"],
   "defaultOpen": true
 }
