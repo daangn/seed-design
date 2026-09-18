@@ -11,27 +11,28 @@ Tailwind CSS v4는 `@seed-design/tailwind4-theme`와 Lynx용 PostCSS 후처리�
 다음은 기본 SEED 유틸리티의 색상, 타이포그래피, 간격, 모서리, 상태별 클래스 교체와 루트 테마 전환을 확인한 구성입니다.
 Tailwind v4 전체 기능이나 모든 Lynx Engine에서의 호환성을 의미하지 않습니다.
 
-## 확인한 버전 조합
+## 요구사항과 설치
 
-| 패키지 | 버전 |
+이 가이드는 **Rspeedy 0.15 이상에서 도입된 Rsbuild 2·Rspack 2 기반 구성**을 기준으로 합니다.
+
+| 패키지 | 조건 |
 | --- | --- |
-| `@lynx-js/rspeedy` | `0.15.0` (Rsbuild `2.0.11`, Rspack `2.0.8`) |
-| `@lynx-js/react` | `0.121.0` |
-| `@lynx-js/react-rsbuild-plugin` | `0.17.2` |
-| `tailwindcss`, `@tailwindcss/postcss` | `4.3.3` |
-| `@seed-design/tailwind4-theme` | `2.4.0` |
+| `@lynx-js/rspeedy` | `0.15.0` 이상, Rsbuild 2·Rspack 2 기반 버전 |
+| `tailwindcss`, `@tailwindcss/postcss` | `4.x` |
+| `postcss` | `8.x` |
 
-이 표는 재현 기준이며 최소 지원 버전 표가 아닙니다. Rspeedy `0.15.0`의 Node 요구사항은 `^20.19.0 || >=22.12.0`입니다.
-Rspeedy만 단독으로 올리지 말고 ReactLynx 플러그인과 함께 확인하세요.
-이 조합에서 확인한 bundle target은 `engineVersion: "3.5"`이며, 실제 서비스의 최소 지원 Engine 검증은 별도로 필요합니다.
-기존 설정 이전은 [Rspeedy 업그레이드 가이드](https://lynxjs.org/rspeedy/upgrade.html)를 참고하세요.
+Rsbuild와 Rspack은 Rspeedy의 의존성으로 설치되므로 앱에서 별도로 설치하거나 버전을 강제할 필요는 없습니다.
+ReactLynx와 React 플러그인은 선택한 Rspeedy와 호환되는 버전을 사용하세요.
+Node 요구사항과 기존 설정 변경은 [Rspeedy 업그레이드 가이드](https://lynxjs.org/rspeedy/upgrade.html)를 참고하세요.
+이 기준은 아래 설정을 적용할 빌드 환경이며, Tailwind 4 자체가 Rsbuild 2에서만 동작한다는 의미는 아닙니다.
 
 ```package-install
-@seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
+@seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4 @tailwindcss/postcss@4 postcss@8
 ```
 
-`tailwind4-theme@2.4.0`의 배포 manifest는 웹용 `@seed-design/css`를 필수 peer로 요구합니다.
-Lynx에서는 해당 웹 CSS를 import하지 마세요. CSS 패키지를 optional peer로 전환한 릴리스부터는 플랫폼에 맞는 `lynx-css`만 직접 설치할 수 있습니다.
+Tailwind의 특정 patch 버전에 고정할 필요는 없습니다. 다만 모든 4.x 버전의 Lynx 호환성을 검증한 것은 아니므로,
+업데이트 후에는 아래 CSS 후처리와 실제 화면을 확인하세요.
+SEED 토큰은 `@seed-design/lynx-css/base.css`로 제공하며 웹용 `@seed-design/css`는 import하지 않습니다.
 
 ## postcss.config.js
 
@@ -112,7 +113,7 @@ import "./styles/global.css";
 
 ## v3에서 이전하기
 
-1. 위 버전 조합으로 빌드 도구를 맞추고 `@tailwindcss/postcss`, `@seed-design/tailwind4-theme`를 설치합니다.
+1. 위 요구사항에 맞게 빌드 도구를 준비하고 `@tailwindcss/postcss`, `@seed-design/tailwind4-theme`를 설치합니다.
 2. PostCSS 설정과 전역 CSS를 위 예제로 교체합니다.
 3. `tailwind.config.ts`의 사용자 정의 설정이 있다면 v4 설정으로 옮긴 뒤 파일과 `@seed-design/tailwind3-plugin` 의존성을 제거합니다. v4는 기존 JS 설정을 자동으로 읽지 않습니다.
 4. SEED 유틸리티 외에 사용한 클래스는 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)에 따라 확인합니다.
