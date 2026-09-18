@@ -14,7 +14,7 @@ bun add @seed-design/tailwind3-plugin @seed-design/css tailwindcss@3
 bun add @seed-design/tailwind3-plugin @seed-design/lynx-css tailwindcss@3
 ```
 
-Lynx peer 범위는 토큰 제공을 확인한 `@seed-design/lynx-css@^0.11.0`입니다. 더 낮은 버전의 호환성을 의미하지는 않습니다.
+Lynx peer 범위는 토큰 제공을 확인한 `@seed-design/lynx-css`의 `^0.11.0 || ^0.12.0`입니다. 더 낮은 버전의 호환성을 의미하지는 않습니다.
 Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-design.io/lynx/getting-started/styling/tailwind-css-3)를 참고하세요. 아래 예제는 웹 기준입니다.
 
 ## 사용 방법
