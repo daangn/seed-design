@@ -4,8 +4,8 @@ import { imageFrame, type ImageFrameVariantProps } from "@seed-design/lynx-css/r
 import { imageFrameIcon } from "@seed-design/lynx-css/recipes/image-frame-icon";
 import { imageFrameIndicator } from "@seed-design/lynx-css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/lynx-css/recipes/image-frame-reaction-button";
-import { useImage, type UseImageProps } from "@seed-design/lynx-react-image";
-import { useToggle, type UseToggleProps } from "@seed-design/lynx-react-toggle";
+import { Image, useImageContext, type UseImageProps } from "@seed-design/lynx-react-image";
+import { Toggle, useToggleContext, type UseToggleProps } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxIconElementProps, LynxViewProps, LynxViewRef } from "../../types";
@@ -48,8 +48,7 @@ export const ImageFrame = React.forwardRef<unknown, ImageFrameProps>((props, ref
   } = otherProps;
   const { style, restProps } = useStyleProps({ borderRadius, ...rest });
   const { children, className, ...nativeProps } = restProps;
-  const { isLoaded, handleLoad, handleError } = useImage({ src, onLoadingStatusChange });
-  const classNames = imageFrame({ ...variantProps, loaded: isLoaded });
+  const classNames = imageFrame(variantProps);
   const frameStyle = {
     "--seed-image-frame-ratio": String(ratio),
     "--seed-image-frame-radius": String(style.borderRadius ?? 0),
@@ -57,44 +56,32 @@ export const ImageFrame = React.forwardRef<unknown, ImageFrameProps>((props, ref
   };
 
   return (
-    <view
+    <Image.Root
+      onLoadingStatusChange={onLoadingStatusChange}
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.root, className)}
       style={frameStyle}
     >
-      {!isLoaded && fallback != null ? (
-        <view className={classNames.fallback}>{fallback}</view>
+      {fallback != null ? (
+        <Image.Fallback className={classNames.fallback}>{fallback}</Image.Fallback>
       ) : null}
-      <FrameImage
-        key={src}
-        src={src}
-        alt={alt}
-        className={classNames.content}
-        {...mergeProps({ bindload: handleLoad, binderror: handleError }, { bindload, binderror })}
-      />
+      <FrameImage src={src} alt={alt} bindload={bindload} binderror={binderror} />
       {children}
       {variantProps.stroke ? (
         <view className={classNames.stroke} accessibility-elements-hidden />
       ) : null}
-    </view>
+    </Image.Root>
   );
 });
 ImageFrame.displayName = "ImageFrame";
 
-// Key the component boundary, so the compiled native image snapshot is recreated per request.
-function FrameImage({
-  src,
-  alt,
-  ...props
-}: Pick<ImageFrameProps, "src" | "alt" | "bindload" | "binderror" | "className">) {
+function FrameImage(props: Pick<ImageFrameProps, "src" | "alt" | "bindload" | "binderror">) {
+  const { isLoaded } = useImageContext();
   return (
-    <image
+    <Image.Content
       {...props}
-      src={src}
       mode="aspectFill"
-      accessibility-element={alt.length > 0}
-      accessibility-label={alt}
-      accessibility-traits="image"
+      className={imageFrame({ loaded: isLoaded }).content}
     />
   );
 }
@@ -187,7 +174,8 @@ export interface ImageFrameReactionButtonProps
 }
 const { ClassNamesProvider: ReactionClassNamesProvider, useClassNames: useReactionClassNames } =
   createSlotRecipeContext(imageFrameReactionButton);
-function ReactionIcon({ pressed }: { pressed: boolean }) {
+function ReactionIcon() {
+  const { pressed } = useToggleContext();
   const classNames = useReactionClassNames();
   return (
     <image
@@ -199,48 +187,25 @@ function ReactionIcon({ pressed }: { pressed: boolean }) {
 }
 export const ImageFrameReactionButton = React.forwardRef<unknown, ImageFrameReactionButtonProps>(
   (props, ref) => {
-    const {
-      children: _children,
-      pressed,
-      defaultPressed,
-      onPressedChange,
-      disabled = false,
-      className,
-      bindtap,
-      "main-thread:bindtap": mainThreadBindtap,
-      ...nativeProps
-    } = props;
-    const toggle = useToggle({ pressed, defaultPressed, onPressedChange, disabled });
+    const { children: _children, disabled = false, className, ...nativeProps } = props;
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({ disabled });
     const classNames = imageFrameReactionButton();
     return (
       <ReactionClassNamesProvider value={classNames}>
-        <view
+        <Toggle.Root
           {...mergeProps(
             ref ? { ref: ref as LynxViewRef } : {},
             scaleFeedbackTargetProps,
             scaleFeedbackTriggerProps,
-            toggle.rootProps,
             nativeProps,
-            {
-              bindtap: disabled ? undefined : bindtap,
-              "main-thread:bindtap": disabled ? undefined : mainThreadBindtap,
-            },
           )}
+          disabled={disabled}
           flatten={false}
           hit-slop={props["hit-slop"] ?? "8px"}
           className={clsx(classNames.root, className)}
-          accessibility-element={props["accessibility-element"] ?? true}
-          accessibility-traits={disabled ? "disabled" : "button"}
-          accessibility-role-description={
-            props["accessibility-role-description"] ?? "toggle button"
-          }
-          accessibility-value={
-            props["accessibility-value"] ?? (toggle.pressed ? "pressed" : "not pressed")
-          }
         >
-          <ReactionIcon pressed={toggle.pressed} />
-        </view>
+          <ReactionIcon />
+        </Toggle.Root>
       </ReactionClassNamesProvider>
     );
   },
