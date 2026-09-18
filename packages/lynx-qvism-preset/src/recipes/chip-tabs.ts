@@ -19,6 +19,7 @@ const chipTabs = defineSlotRecipe({
     },
     list: {
       position: "relative",
+      width: "100%",
     },
     listContent: {
       display: "flex",

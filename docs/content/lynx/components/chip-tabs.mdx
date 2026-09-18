@@ -204,9 +204,7 @@ export function App() {
 
 ### With Scroll Fog
 
-`ChipTabsList`는 자체 native 가로 `scroll-view`를 렌더링하므로 `ScrollFog`로 감싸지 않고 `fading-edge-length`를 직접 전달합니다. `ScrollFog`와 같은 native fading edge가 스크롤할 콘텐츠가 남은 좌우 edge에 표시됩니다.
-
-아래 예제는 최대 너비 360px 안에 15개 라벨을 표시하고 20px 크기의 fog를 적용합니다. List의 내부 좌우 padding 16px은 그대로 유지합니다.
+`ScrollFog`는 Registry snippet이나 Recipe 없이 `@seed-design/lynx-react` 패키지에서 직접 제공되는 package-only 공개 컴포넌트입니다. `ChipTabsList`를 `placement={["left", "right"]}`인 `ScrollFog`로 감싸면 기본 20px fog가 좌우 edge에 표시됩니다. List의 내부 좌우 padding 16px은 그대로 유지합니다.
 
 <LynxComponentExample name="lynx/chip-tabs/scrollable">
   ```json doc-gen:file
