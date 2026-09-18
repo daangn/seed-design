@@ -10,7 +10,7 @@ import {
 } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "./utils/parameters";
+import { withVisualTestParameters } from "./utils/parameters";
 
 type DatePickerPreviewProps = DatePickerProps & {
   previewWidth?: string;
@@ -106,15 +106,15 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const Continuous = meta.story({
