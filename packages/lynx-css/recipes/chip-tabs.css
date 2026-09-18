@@ -100,6 +100,18 @@
 .seed-chip-tabs__content--selected_false {
     display: none
 }
+.seed-chip-tabs__trigger--variant_neutralSolid-selected_false-disabled_false:active {
+    background-color: var(--seed-color-bg-neutral-weak-alpha-pressed)
+}
+.seed-chip-tabs__trigger--variant_neutralSolid-selected_true-disabled_false:active {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+}
+.seed-chip-tabs__trigger--variant_neutralOutline-selected_false-disabled_false:active {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
+.seed-chip-tabs__trigger--variant_neutralOutline-selected_true-disabled_false:active {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+}
 .seed-chip-tabs__trigger--variant_neutralSolid-selected_true {
     background-color: var(--seed-color-bg-neutral-inverted)
 }

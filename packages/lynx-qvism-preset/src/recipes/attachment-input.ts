@@ -71,7 +71,7 @@ const attachmentInputTrigger = defineSlotRecipe({
       boxShadow: `inset 0 0 0 ${triggerVars.base.enabled.root.strokeWidth} ${triggerVars.base.enabled.root.strokeColor}`,
       padding: 0,
       backgroundColor: "transparent",
-      transition: `background-color ${duration.colorTransition}, ${PRESS_TRANSITION}`,
+      transition: "background-color 0.2s",
     },
     icon: {
       width: triggerVars.base.enabled.icon.size,
@@ -101,12 +101,7 @@ const attachmentInputTrigger = defineSlotRecipe({
   },
   variants: {
     pressed: {
-      true: {
-        root: {
-          backgroundColor: triggerVars.base.pressed.root.color,
-          transform: `scale(${scale.s98})`,
-        },
-      },
+      true: {},
       false: {},
     },
     disabled: {
@@ -115,9 +110,18 @@ const attachmentInputTrigger = defineSlotRecipe({
         itemCount: { color: triggerVars.base.disabled.itemCount.color },
         maxItemCount: { color: triggerVars.base.disabled.maxItemCount.color },
       },
-      false: {},
+      false: {
+        root: { "&:active": { backgroundColor: triggerVars.base.pressed.root.color } },
+      },
     },
   },
+  compoundVariants: [
+    {
+      disabled: false,
+      pressed: true,
+      css: { root: { backgroundColor: triggerVars.base.pressed.root.color } },
+    },
+  ],
   defaultVariants: {
     pressed: false,
     disabled: false,
@@ -271,7 +275,7 @@ const attachmentInputItem = defineSlotRecipe({
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
       boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.enabled.root.strokeWidth} ${itemRemoveButtonVars.base.enabled.root.strokeColor}`,
       color: itemRemoveButtonVars.base.enabled.icon.color,
-      transition: `background-color ${duration.colorTransition}, ${PRESS_TRANSITION}`,
+      transition: "background-color 0.2s",
     },
     removeIcon: {
       width: itemRemoveButtonVars.base.enabled.icon.size,
@@ -357,6 +361,10 @@ const attachmentInputItem = defineSlotRecipe({
         },
       },
     },
+    removePressed: {
+      true: {},
+      false: {},
+    },
     pressed: {
       true: {
         root: { transform: `scale(${scale.s98})` },
@@ -401,6 +409,23 @@ const attachmentInputItem = defineSlotRecipe({
   },
   compoundVariants: [
     {
+      disabled: false,
+      readOnly: false,
+      css: {
+        removeButton: {
+          "&:active": { backgroundColor: itemRemoveButtonVars.base.pressed.root.color },
+        },
+      },
+    },
+    {
+      disabled: false,
+      readOnly: false,
+      removePressed: true,
+      css: {
+        removeButton: { backgroundColor: itemRemoveButtonVars.base.pressed.root.color },
+      },
+    },
+    {
       type: "image",
       readOnly: true,
       css: {
@@ -417,6 +442,7 @@ const attachmentInputItem = defineSlotRecipe({
   ],
   defaultVariants: {
     type: "general",
+    removePressed: false,
     pressed: false,
     readOnly: false,
     dragging: false,
