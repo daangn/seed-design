@@ -241,8 +241,15 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain("permission-contents: write");
     expect(workflow).toContain("permission-pull-requests: write");
     expect(workflow).toContain(
-      `GITHUB_TOKEN: ${githubExpression("steps.app-token.outputs.token")}`,
+      `github-token: ${githubExpression("steps.app-token.outputs.token")}`,
     );
     expect(workflow).not.toContain(`GITHUB_TOKEN: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).not.toContain(`github-token: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).toContain("publish-script: bun release");
+    expect(workflow).toContain("version-script: bun version");
+    expect(workflow).toContain("push-with-git-cli: true");
+    expect(workflow).toContain(
+      `published-packages: ${githubExpression("steps.changesets.outputs.published-packages")}`,
+    );
   });
 });
