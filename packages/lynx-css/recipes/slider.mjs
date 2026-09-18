@@ -27,12 +27,20 @@ const sliderSlotNames = [
     "seed-slider__markers"
   ],
   [
+    "valueIndicatorMotion",
+    "seed-slider__valueIndicatorMotion"
+  ],
+  [
     "valueIndicatorRoot",
     "seed-slider__valueIndicatorRoot"
   ],
   [
     "valueIndicatorArrow",
     "seed-slider__valueIndicatorArrow"
+  ],
+  [
+    "valueIndicatorArrowTip",
+    "seed-slider__valueIndicatorArrowTip"
   ],
   [
     "valueIndicatorLabel",

@@ -3,7 +3,6 @@ import {
   sliderThumb as thumbVars,
   sliderTick as tickVars,
 } from "../vars/component";
-import * as dimension from "../vars/dimension";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 
 const slider = defineSlotRecipe({
@@ -15,8 +14,10 @@ const slider = defineSlotRecipe({
     "range",
     "thumb",
     "markers",
+    "valueIndicatorMotion",
     "valueIndicatorRoot",
     "valueIndicatorArrow",
+    "valueIndicatorArrowTip",
     "valueIndicatorLabel",
   ],
   base: {
@@ -66,13 +67,27 @@ const slider = defineSlotRecipe({
       position: "relative",
       height: vars.base.enabled.marker.lineHeight,
     },
+    valueIndicatorMotion: {
+      display: "flex",
+      alignItems: "flex-start",
+      position: "absolute",
+      top: "50%",
+      left: "calc(var(--slider-value-indicator-left, 0%) + var(--slider-value-indicator-offset, 0px))",
+      width: "max-content",
+      paddingTop: 8,
+      paddingRight: 8,
+      paddingBottom: 8,
+      paddingLeft: 8,
+      opacity: 0,
+      // The wrapper is 16px taller than the body, so add 8px to preserve its origin.
+      transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY} + 8px)) scale(1)`,
+      transition: `opacity ${vars.base.enabled.valueIndicatorRoot.exitDuration} ${vars.base.enabled.valueIndicatorRoot.exitTimingFunction}, transform ${vars.base.enabled.valueIndicatorRoot.exitDuration} ${vars.base.enabled.valueIndicatorRoot.exitTimingFunction}`,
+    },
     valueIndicatorRoot: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      position: "absolute",
-      top: "50%",
-      left: "calc(var(--slider-value-indicator-left, 0%) + var(--slider-value-indicator-offset, 0px))",
+      position: "relative",
       background: vars.base.enabled.valueIndicatorRoot.color,
       paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
       paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
@@ -84,27 +99,26 @@ const slider = defineSlotRecipe({
       flexShrink: 0,
       minHeight: `calc(${vars.base.enabled.valueIndicatorLabel.lineHeight} + ${vars.base.enabled.valueIndicatorRoot.paddingY} * 2)`,
       overflow: "visible",
-      transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY})) scale(1)`,
-      opacity: 0,
-      transition: `opacity ${vars.base.enabled.valueIndicatorRoot.exitDuration} ${vars.base.enabled.valueIndicatorRoot.exitTimingFunction}, transform ${vars.base.enabled.valueIndicatorRoot.exitDuration} ${vars.base.enabled.valueIndicatorRoot.exitTimingFunction}`,
     },
+    // Keep positioning separate from the tip's clipping path and the shared motion layer.
     valueIndicatorArrow: {
       position: "absolute",
       top: "100%",
       left: "calc(50% + (var(--slider-thumb-offset, 0px) - var(--slider-value-indicator-offset, 0px)))",
-      width: 0,
-      height: 0,
-      borderLeftWidth: dimension.x1,
-      borderLeftStyle: "solid",
-      borderLeftColor: "transparent",
-      borderRightWidth: dimension.x1,
-      borderRightStyle: "solid",
-      borderRightColor: "transparent",
-      borderTopWidth: vars.base.enabled.valueIndicatorArrow.height,
-      borderTopStyle: "solid",
-      borderTopColor: vars.base.enabled.valueIndicatorArrow.color,
+      width: vars.base.enabled.valueIndicatorArrow.width,
+      height: vars.base.enabled.valueIndicatorArrow.width,
+      overflow: "visible",
       transform: "translateX(-50%)",
       transition: `left ${vars.base.enabled.valueIndicatorRoot.translateDuration} ${vars.base.enabled.valueIndicatorRoot.translateTimingFunction}`,
+    },
+    valueIndicatorArrowTip: {
+      width: vars.base.enabled.valueIndicatorArrow.width,
+      height: `calc(${vars.base.enabled.valueIndicatorArrow.height} + 1px)`,
+      backgroundColor: vars.base.enabled.valueIndicatorArrow.color,
+      // React's 8×6 SVG with tipRadius=2, shifted down 1px to add a body overlap.
+      // The curve stays unchanged below the join; only the top edge extends into the body.
+      clipPath: 'path("M0 0 H8 V1 L6 5 Q4 7 2 5 L0 1 Z")',
+      transform: "translateY(-1px)",
     },
     valueIndicatorLabel: {
       color: vars.base.enabled.valueIndicatorLabel.color,
@@ -144,24 +158,24 @@ const slider = defineSlotRecipe({
     },
     valueIndicatorShown: {
       true: {
-        valueIndicatorRoot: {
+        valueIndicatorMotion: {
           opacity: 1,
-          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY})) scale(1)`,
+          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - ${vars.base.enabled.valueIndicatorRoot.offsetY} + 8px)) scale(1)`,
           transition: `opacity ${vars.base.enabled.valueIndicatorRoot.enterDuration} ${vars.base.enabled.valueIndicatorRoot.enterTimingFunction}, transform ${vars.base.enabled.valueIndicatorRoot.enterDuration} ${vars.base.enabled.valueIndicatorRoot.enterTimingFunction}`,
         },
       },
       false: {
-        valueIndicatorRoot: {
+        valueIndicatorMotion: {
           opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
           // Match React's enter/exit motion by moving the hidden bubble closer to the thumb.
-          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 5px)) scale(${vars.base.enabled.valueIndicatorRoot.exitScale})`,
+          transform: `translate(-50%, calc(-100% - ${vars.base.enabled.thumb.size} / 2 - 5px + 8px)) scale(${vars.base.enabled.valueIndicatorRoot.exitScale})`,
         },
       },
     },
     valueIndicatorEverShown: {
       true: {},
       false: {
-        valueIndicatorRoot: {
+        valueIndicatorMotion: {
           transitionDuration: "0s",
         },
       },

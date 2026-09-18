@@ -8,6 +8,7 @@ const helpBubble = defineSlotRecipe({
   name: "help-bubble",
   slots: [
     "positioner",
+    "motion",
     "content",
     "arrow",
     "arrowTip",
@@ -23,11 +24,25 @@ const helpBubble = defineSlotRecipe({
     positioner: {
       position: "fixed",
     },
+    motion: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "stretch",
+      padding: "8px",
+      margin: "-8px",
+      overflow: "visible",
+      opacity: vars.base.enabled.root.exitOpacity,
+      transform: `scale(${vars.base.enabled.root.exitScale})`,
+      transitionProperty: "opacity, transform",
+      transitionDuration: vars.base.enabled.root.exitDuration,
+      transitionTimingFunction: vars.base.enabled.root.exitTimingFunction,
+    },
     content: {
       position: "relative",
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
+      overflow: "visible",
       backgroundColor: vars.base.enabled.root.color,
       paddingTop: vars.base.enabled.root.paddingY,
       paddingRight: vars.base.enabled.root.paddingX,
@@ -35,25 +50,21 @@ const helpBubble = defineSlotRecipe({
       paddingLeft: vars.base.enabled.root.paddingX,
       borderRadius: vars.base.enabled.root.cornerRadius,
       maxWidth: vars.base.enabled.root.maxWidth,
-      opacity: vars.base.enabled.root.exitOpacity,
-      transform: `scale(${vars.base.enabled.root.exitScale})`,
-      transitionProperty: "opacity, transform",
-      transitionDuration: vars.base.enabled.root.exitDuration,
-      transitionTimingFunction: vars.base.enabled.root.exitTimingFunction,
     },
     arrow: {
       position: "absolute",
       width: vars.base.enabled.arrow.width,
       height: vars.base.enabled.arrow.width,
+      overflow: "visible",
       transform: "rotate(0deg)",
     },
-    // Mirrors getHelpBubbleArrowTipPath(12, 8, 2). A clipped view, rather
-    // than inline SVG markup, lets the generated color token update for themes.
     arrowTip: {
       width: vars.base.enabled.arrow.width,
-      height: vars.base.enabled.arrow.height,
+      height: `calc(${vars.base.enabled.arrow.height} + 1px)`,
       backgroundColor: vars.base.enabled.arrow.color,
-      clipPath: 'path("M 0 0 H 12 L 8 6 Q 6 8 4 6 Z")',
+      // React's 12×8 SVG with tipRadius=2, plus a 1px overlap inside the body.
+      clipPath: 'path("M0 0 H12 V1 L8 7 Q6 9 4 7 L0 1 Z")',
+      transform: "translateY(-1px)",
     },
     body: {
       display: "flex",
@@ -61,6 +72,7 @@ const helpBubble = defineSlotRecipe({
       flexGrow: 1,
       flexShrink: 1,
       minWidth: "0",
+      overflow: "visible",
       gap: vars.base.enabled.body.gap,
     },
     title: {
@@ -107,7 +119,7 @@ const helpBubble = defineSlotRecipe({
       top: { arrow: { transform: "rotate(0deg)" } },
       right: { arrow: { transform: "rotate(90deg)" } },
       bottom: { arrow: { transform: "rotate(180deg)" } },
-      left: { arrow: { transform: "rotate(-90deg)" } },
+      left: { arrow: { transform: "rotate(270deg)" } },
     },
     pressed: {
       true: { closeButton: { transform: `scale(${scale.s97})` } },
@@ -118,7 +130,7 @@ const helpBubble = defineSlotRecipe({
     {
       positioned: false,
       css: {
-        content: {
+        motion: {
           opacity: vars.base.enabled.root.enterOpacity,
           transform: `scale(${vars.base.enabled.root.enterScale})`,
           transitionDuration: "0s",
@@ -129,7 +141,7 @@ const helpBubble = defineSlotRecipe({
       open: true,
       positioned: true,
       css: {
-        content: {
+        motion: {
           opacity: 1,
           transform: "scale(1)",
           transitionDuration: vars.base.enabled.root.enterDuration,
