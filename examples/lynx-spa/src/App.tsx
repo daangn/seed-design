@@ -41,6 +41,8 @@ import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
 import { TextFieldPage } from "./pages/TextFieldPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
+import { UseImagePage } from "./pages/UseImagePage.jsx";
+import { UseTogglePage } from "./pages/UseTogglePage.jsx";
 import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
 import { formatLynxExampleName } from "./utils/lynx-example.js";
 
@@ -77,7 +79,9 @@ export type Page =
   | "css-selector-test"
   | "icon-color-poc"
   | "use-controllable-state"
-  | "use-press-tap";
+  | "use-press-tap"
+  | "use-image"
+  | "use-toggle";
 
 type LegacyPage = Exclude<Page, "home">;
 
@@ -195,6 +199,8 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "icon-color-poc" && <IconColorPOCPage />}
       {page === "use-controllable-state" && <UseControllableStatePage />}
       {page === "use-press-tap" && <UsePressTapPage />}
+      {page === "use-image" && <UseImagePage />}
+      {page === "use-toggle" && <UseTogglePage />}
     </>
   );
 }

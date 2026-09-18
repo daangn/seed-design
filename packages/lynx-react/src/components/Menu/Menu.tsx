@@ -8,6 +8,8 @@ import { menuItem, type MenuItemVariantProps } from "@seed-design/lynx-css/recip
 import { menu as menuVars } from "@seed-design/lynx-css/vars/component";
 
 import { useControllableState } from "../../hooks/useControllableState";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 import { usePressTap } from "../../hooks/usePressTap";
 import type {
   LynxAccessibilityProps,
@@ -38,6 +40,7 @@ type MenuClassNames = {
 };
 type MenuItemClassNames = {
   root: string;
+  scaleContent: string;
   pressedOverlay: string;
   body: string;
   label: string;
@@ -782,10 +785,16 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
     },
     [bindtap, context],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classes = menuItem({
     ...variantProps,
@@ -812,11 +821,12 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
           accessibility-label={accessibilityLabel}
           accessibility-role-description="button"
           accessibility-traits={disabled ? "disabled" : (accessibilityTraits ?? "button")}
-          {...nativeProps}
-          {...pressHandlers}
+          {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-          {children}
+          <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+            {children}
+          </view>
         </view>
       </IconSlotProvider>
     </MenuItemClassNamesContext.Provider>

@@ -5,6 +5,11 @@ const lynxSeedPackageRanges = {
   "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
 };
 
+const identityPlaceholderPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+
 const fieldPackageRanges = {
   "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.8.0 <1.0.0",
@@ -20,15 +25,59 @@ const fieldButtonPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const attachmentPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+const quantityPickerPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+
+const floatingActionButtonPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+const chipTabsPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
 
 const selectBoxPackageRanges = {
   "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const sliderPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
 const menuPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+};
+const dialogPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+const alertDialogPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+
+const helpBubblePackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+};
+
+const selectPackageRanges = {
+  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
 const listPackageRanges = {
@@ -76,6 +125,24 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "alert-dialog",
+      snippets: [
+        {
+          path: "alert-dialog.tsx",
+          dependencies: alertDialogPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: dialogPackageRanges,
+        },
+      ],
+    },
+    {
       id: "callout",
       snippets: [
         {
@@ -97,11 +164,74 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "chip-tabs",
+      snippets: [
+        {
+          path: "chip-tabs.tsx",
+          dependencies: chipTabsPackageRanges,
+        },
+      ],
+    },
+    {
       id: "field-button",
       snippets: [
         {
           path: "field-button.tsx",
           dependencies: fieldButtonPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "floating-action-button",
+      snippets: [
+        {
+          path: "floating-action-button.tsx",
+          dependencies: floatingActionButtonPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "identity-placeholder",
+      snippets: [
+        {
+          path: "identity-placeholder.tsx",
+          dependencies: identityPlaceholderPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-field",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-display-field-reorderable.tsx",
+          dependencies: attachmentPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "attachment-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-field-reorderable.tsx",
+          dependencies: attachmentPackageRanges,
         },
       ],
     },
@@ -131,6 +261,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "help-bubble",
+      snippets: [
+        {
+          path: "help-bubble.tsx",
+          dependencies: helpBubblePackageRanges,
+        },
+      ],
+    },
+    {
       id: "progress-circle",
       snippets: [
         {
@@ -148,6 +287,15 @@ export const registryUI: Registry = {
             "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
             "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
           },
+        },
+      ],
+    },
+    {
+      id: "quantity-picker",
+      snippets: [
+        {
+          path: "quantity-picker.tsx",
+          dependencies: quantityPickerPackageRanges,
         },
       ],
     },
@@ -182,11 +330,29 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "select",
+      snippets: [
+        {
+          path: "select.tsx",
+          dependencies: selectPackageRanges,
+        },
+      ],
+    },
+    {
       id: "select-box",
       snippets: [
         {
           path: "select-box.tsx",
           dependencies: selectBoxPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "slider",
+      snippets: [
+        {
+          path: "slider.tsx",
+          dependencies: sliderPackageRanges,
         },
       ],
     },

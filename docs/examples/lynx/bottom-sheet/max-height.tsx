@@ -21,13 +21,15 @@ export default function Example() {
             <ActionButton variant="neutralSolid">Open</ActionButton>
           </BottomSheetTrigger>
           <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-            <BottomSheetBody style={{ height: "300px", maxHeight: "300px", flex: "none" }}>
-              <VStack className="bottom-sheet-preview__blocks" gap="x4">
-                <view className="bottom-sheet-preview__block" />
-                <view className="bottom-sheet-preview__block" />
-                <view className="bottom-sheet-preview__block" />
-                <view className="bottom-sheet-preview__block" />
-              </VStack>
+            <BottomSheetBody style={{ flex: "none" }}>
+              <scroll-view scroll-y style={{ height: "300px", maxHeight: "300px", flex: "none" }}>
+                <VStack className="bottom-sheet-preview__blocks" gap="x4">
+                  <view className="bottom-sheet-preview__block" />
+                  <view className="bottom-sheet-preview__block" />
+                  <view className="bottom-sheet-preview__block" />
+                  <view className="bottom-sheet-preview__block" />
+                </VStack>
+              </scroll-view>
             </BottomSheetBody>
             <BottomSheetFooter>
               <ActionButton variant="neutralSolid">확인</ActionButton>

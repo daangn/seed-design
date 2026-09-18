@@ -118,6 +118,7 @@ const menuSheet = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: closeButtonVars.base.enabled.root.color,
+      "&:active": { backgroundColor: closeButtonVars.base.pressed.root.color },
       minHeight: closeButtonVars.base.enabled.root.minHeight,
       paddingTop: closeButtonVars.base.enabled.root.paddingY,
       paddingRight: closeButtonVars.base.enabled.root.paddingX,

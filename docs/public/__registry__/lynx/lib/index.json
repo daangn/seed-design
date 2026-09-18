@@ -1,0 +1,14 @@
+{
+  "id": "lib",
+  "hideFromCLICatalog": true,
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "attachment-sortable.tsx"
+        }
+      ],
+      "id": "attachment-sortable"
+    }
+  ]
+}

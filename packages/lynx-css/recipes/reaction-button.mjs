@@ -39,19 +39,18 @@ const defaultVariant = {
 const compoundVariants = [
   {
     "selected": true,
-    "pressed": true
+    "pressed": true,
+    "disabled": false,
+    "loading": false
   },
   {
-    "size": "xsmall",
-    "pressed": true
-  },
-  {
-    "size": "small",
-    "pressed": true
+    "selected": false,
+    "disabled": false,
+    "loading": false
   },
   {
     "selected": true,
-    "pressed": false,
+    "disabled": false,
     "loading": false
   },
   {

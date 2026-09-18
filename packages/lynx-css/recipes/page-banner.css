@@ -9,6 +9,14 @@
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
 }
+.seed-page-banner__scaleContent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+}
 .seed-page-banner__content {
     display: flex;
     flex-direction: row;

@@ -7,10 +7,9 @@
     flex-shrink: 0;
     background: var(--seed-color-bg-transparent);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-    transform: scale(1);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
 .seed-reaction-button__content {
     display: flex;
@@ -119,23 +118,19 @@
     color: var(--seed-color-fg-disabled)
 }
 .seed-reaction-button__root--loading_true {
-    background: var(--seed-color-bg-neutral-weak-pressed);
-    transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+    background: var(--seed-color-bg-neutral-weak-pressed)
 }
 .seed-reaction-button__content--loading_true {
     opacity: 0
 }
-.seed-reaction-button__root--selected_true-pressed_true {
+.seed-reaction-button__root--selected_true-pressed_true-disabled_false-loading_false {
     background: var(--seed-color-bg-transparent-pressed)
 }
-.seed-reaction-button__root--size_xsmall-pressed_true {
-    transform: scale(var(--seed-scale-s95))
+.seed-reaction-button__root--selected_false-disabled_false-loading_false:active {
+    background: var(--seed-color-bg-transparent-pressed)
 }
-.seed-reaction-button__root--size_small-pressed_true {
-    transform: scale(var(--seed-scale-s97))
-}
-.seed-reaction-button__root--selected_true-pressed_false-loading_false {
-    transition: box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+.seed-reaction-button__root--selected_true-disabled_false-loading_false:active {
+    background: var(--seed-color-bg-transparent-pressed)
 }
 .seed-reaction-button__root--selected_true-loading_true {
     background: var(--seed-color-bg-transparent-pressed);

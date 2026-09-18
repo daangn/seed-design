@@ -6,6 +6,8 @@ import { cloneElement, useMemo } from "@lynx-js/react";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -27,7 +29,7 @@ import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
  */
 export interface ReactionButtonProps
   extends Omit<ReactionButtonVariantProps, "selected" | "pressed" | "disabled" | "loading">,
-    LynxStyledElementProps,
+    Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {
   pressed?: boolean;
@@ -51,12 +53,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const {
-    size,
-    pressed: pressedProp,
-    disabled = false,
-    loading = false,
-  } = variantProps;
+  const { size, pressed: pressedProp, disabled = false, loading = false } = variantProps;
   const [selected, setSelected] = useControllableState({
     value: pressedProp,
     defaultValue: defaultPressed,
@@ -69,10 +66,16 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     },
     [bindtap, selected, setSelected],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
-    disabled,
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+    disabled: disabled || loading,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: disabled || loading,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classNames = reactionButton({ ...variantProps, selected, pressed, disabled, loading });
   const iconSlotContextValue = useMemo(
@@ -104,15 +107,20 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
   return (
     <IconSlotProvider value={iconSlotContextValue}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          pressHandlers,
+          nativeProps,
+        )}
+        flatten={false}
         className={clsx(classNames.root, className)}
         style={style}
         accessibility-element={accessibilityElement}
         accessibility-traits={
           disabled ? "disabled" : selected ? "selected" : (accessibilityTraits ?? "button")
         }
-        {...pressHandlers}
       >
         <view className={classNames.content}>
           {prefixIconChildren}

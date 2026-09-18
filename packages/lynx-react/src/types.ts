@@ -41,6 +41,7 @@ export interface LynxIconElementProps {
   className?: IntrinsicElements["image"]["className"];
   style?: LynxStyle;
   ref?: LynxMainThreadRef;
+  "disable-default-resize"?: boolean;
   "main-thread:binduiappear"?: IntrinsicElements["image"]["main-thread:binduiappear"];
 }
 

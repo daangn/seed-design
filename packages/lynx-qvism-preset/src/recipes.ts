@@ -1,22 +1,30 @@
 import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
+import alertDialog from "./recipes/alert-dialog";
 import { appBar, appBarMain } from "./recipes/app-bar";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
+import helpBubble from "./recipes/help-bubble";
 import checkbox from "./recipes/checkbox";
 import checkboxGroup from "./recipes/checkbox-group";
 import checkmark from "./recipes/checkmark";
 import chip from "./recipes/chip";
+import chipTabs from "./recipes/chip-tabs";
+import contextualFloatingButton from "./recipes/contextual-floating-button";
+import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
+import floatingActionButton from "./recipes/floating-action-button";
+import identityPlaceholder from "./recipes/identity-placeholder";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import { menu, menuItem } from "./recipes/menu";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import pageBanner from "./recipes/page-banner";
+import quantityPicker from "./recipes/quantity-picker";
 import inputButton from "./recipes/input-button";
 import list from "./recipes/list";
 import listHeader from "./recipes/list-header";
@@ -27,12 +35,21 @@ import radiomark from "./recipes/radiomark";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import segmentedControl from "./recipes/segmented-control";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
+import { select, selectItem, selectTrigger } from "./recipes/select";
+import skeleton from "./recipes/skeleton";
+import { slider, sliderMarker, sliderTick } from "./recipes/slider";
 import reactionButton from "./recipes/reaction-button";
+import scrollFog from "./recipes/scroll-fog";
 import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 import tabs from "./recipes/tabs";
 import textInput from "./recipes/text-input";
+import {
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
+} from "./recipes/attachment-input";
 
 /**
  * Recipes used by the Lynx preset build.
@@ -40,24 +57,35 @@ import textInput from "./recipes/text-input";
 export const recipes = {
   accordion,
   actionButton,
+  alertDialog,
   appBar,
   appBarMain,
   badge,
   bottomSheet,
+  attachmentInput,
+  attachmentInputItem,
+  attachmentInputTrigger,
   bottomSheetHandle,
   callout,
+  helpBubble,
   checkbox,
   checkboxGroup,
   checkmark,
   chip,
+  chipTabs,
+  contextualFloatingButton,
+  dialog,
   field,
   fieldLabel,
+  floatingActionButton,
+  identityPlaceholder,
   mannerTemp,
   mannerTempBadge,
   menu,
   menuItem,
   menuSheet,
   menuSheetItem,
+  quantityPicker,
   pageBanner,
   inputButton,
   list,
@@ -67,12 +95,20 @@ export const recipes = {
   radioGroup,
   radiomark,
   reactionButton,
+  scrollFog,
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,
+  select,
+  selectItem,
+  selectTrigger,
+  slider,
+  sliderMarker,
+  sliderTick,
   selectBox,
   selectBoxCheckmark,
   selectBoxGroup,
+  skeleton,
   switch: switchRecipe,
   switchmark: switchmarkRecipe,
   tagGroup: lynxTagGroup,

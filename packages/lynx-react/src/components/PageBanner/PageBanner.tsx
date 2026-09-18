@@ -16,7 +16,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
-import { ScaleFeedback } from "../ScaleFeedback";
+import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
@@ -48,6 +48,9 @@ function usePageBannerContext(consumer: string) {
  * Differences from React Web:
  * - Uses Lynx native `<view>` and `bindtap` instead of `asChild` and DOM events.
  * - Does not provide a web focus ring.
+ * - Actionable banners group their children for Content Scale. Render CloseButton
+ *   directly under Root (or in a Fragment) to exclude it from that group.
+ *   A CloseButton hidden inside a custom component remains in the content group.
  */
 export interface PageBannerRootProps
   extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
@@ -94,6 +97,15 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: !isInteractive,
+    onTouchStart: pressTap.bindtouchstart,
+    onTouchEnd: pressTap.bindtouchend,
+    onTouchCancel: pressTap.bindtouchcancel,
+  });
+  const childArray = flattenPageBannerChildren(children);
+  const closeButtons = childArray.filter(isPageBannerCloseButton);
+  const scaleChildren = childArray.filter((child) => !isPageBannerCloseButton(child));
   const classNames = pageBanner({
     ...variantProps,
     pressed: pressTap.pressed,
@@ -134,6 +146,7 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
               {...mergeProps(
                 ref ? { ref: ref as LynxViewRef } : {},
                 isInteractive ? pressTap : {},
+                isInteractive ? scaleFeedbackTriggerProps : {},
                 nativeProps,
               )}
               accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
@@ -141,7 +154,16 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
               className={clsx(classNames.root, className)}
               style={style}
             >
-              {children}
+              {isInteractive ? (
+                <>
+                  <view {...scaleFeedbackTargetProps} className={classNames.scaleContent}>
+                    {scaleChildren}
+                  </view>
+                  {closeButtons}
+                </>
+              ) : (
+                children
+              )}
             </view>
           </IconSlotProvider>
         </PropsProvider>
@@ -253,19 +275,26 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
     ...nativeProps
   } = props;
   const classNames = useClassNames();
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
   return (
-    <ScaleFeedback>
-      <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-        accessibility-element={accessibilityElement}
-        accessibility-traits={accessibilityTraits}
-        className={clsx(classNames.button, className)}
-        style={style}
-      >
-        {children}
-      </text>
-    </ScaleFeedback>
+    <text
+      {...independentActionProps(
+        mergeProps(
+          ref ? { ref: ref as LynxTextRef } : {},
+          scaleFeedbackTriggerProps,
+          scaleFeedbackTargetProps,
+          nativeProps,
+        ),
+      )}
+      accessibility-element={accessibilityElement}
+      accessibility-traits={accessibilityTraits}
+      className={clsx(classNames.button, className)}
+      style={style}
+      flatten={false}
+    >
+      {children}
+    </text>
   );
 });
 PageBannerButton.displayName = "PageBannerButton";
@@ -326,12 +355,14 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
     return (
       <IconSlotProvider value={iconSlotContextValue}>
         <view
-          {...mergeProps(
-            ref ? { ref: ref as LynxViewRef } : {},
-            pressTapHandlers,
-            scaleFeedbackTriggerProps,
-            scaleFeedbackTargetProps,
-            nativeProps,
+          {...independentActionProps(
+            mergeProps(
+              ref ? { ref: ref as LynxViewRef } : {},
+              pressTapHandlers,
+              scaleFeedbackTriggerProps,
+              scaleFeedbackTargetProps,
+              nativeProps,
+            ),
           )}
           accessibility-element={accessibilityElement}
           accessibility-label={accessibilityLabel}
@@ -347,3 +378,36 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
   },
 );
 PageBannerCloseButton.displayName = "PageBannerCloseButton";
+
+function isPageBannerCloseButton(node: React.ReactNode) {
+  return React.isValidElement(node) && node.type === PageBannerCloseButton;
+}
+
+function flattenPageBannerChildren(children: React.ReactNode): React.ReactNode[] {
+  return toArray(children).flatMap((child) =>
+    React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === React.Fragment
+      ? flattenPageBannerChildren(child.props.children)
+      : [child],
+  );
+}
+
+// Native catch handlers keep independent actions from starting the banner's feedback or tap.
+function independentActionProps(props: Record<string, unknown>) {
+  const result = { ...props };
+  for (const event of ["tap", "touchstart", "touchend", "touchcancel"]) {
+    const bind = `bind${event}`;
+    const catchKey = `catch${event}`;
+    const mainBind = `main-thread:${bind}`;
+    const mainCatch = `main-thread:${catchKey}`;
+    const caught = mergeProps(
+      { [catchKey]: result[bind] ?? (() => {}) },
+      { [catchKey]: result[catchKey] },
+      { [mainCatch]: result[mainBind] },
+      { [mainCatch]: result[mainCatch] },
+    );
+    delete result[bind];
+    delete result[mainBind];
+    Object.assign(result, caught);
+  }
+  return result;
+}
