@@ -1,0 +1,6 @@
+.docs-lynx-content-placeholder-root {
+  padding: 20px;
+  gap: 20px;
+  align-items: center;
+  background-color: var(--seed-color-bg-layer-default);
+}
