@@ -35,7 +35,8 @@ jobs:
         if: steps.policy.outputs.supported == 'true'
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - env:
           GITHUB_TOKEN: ${{ github.token }}
         if: steps.policy.outputs.supported == 'true'
-        run: npx --yes @kaptures/cli@0.9.0 github approve --comment-language ko
+        run: bunx @kaptures/cli@0.9.0 github approve --comment-language ko

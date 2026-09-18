@@ -54,6 +54,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - id: context
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -63,7 +64,7 @@ jobs:
             dev|minor|major) ;;
             *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
           esac
-          npx --yes @kaptures/cli@0.9.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+          bunx @kaptures/cli@0.9.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         if: steps.context.outputs.integration-mode == 'compare'
@@ -123,6 +124,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - name: Validate restored build
         id: restored-build
         if: steps.restore.outcome == 'success'
@@ -130,9 +132,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
-        if: steps.restored-build.outcome != 'success'
+        run: bunx @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - name: Install project dependencies
         if: steps.restored-build.outcome != 'success'
         run: |
@@ -148,7 +148,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: bunx @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -199,7 +199,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: npx --yes @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: bunx @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -221,6 +221,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - name: Install the project's pinned CJK font
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -234,7 +235,7 @@ jobs:
       - id: capture
         continue-on-error: true
         run: >-
-          npx --yes @kaptures/cli@0.9.0 setup capture
+          bunx @kaptures/cli@0.9.0 setup capture
           --head-dir "${{ runner.temp }}/storybook"
           --base-revision ${{ needs.context.outputs.base-sha }}
           --head-revision ${{ needs.context.outputs.head-sha }}
@@ -275,6 +276,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
           artifact-ids: ${{ needs.context.outputs.context-artifact-id }}
@@ -302,7 +304,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          npx --yes @kaptures/cli@0.9.0 github restore-capture
+          bunx @kaptures/cli@0.9.0 github restore-capture
           --base-dir "${{ runner.temp }}/kapture-storybook/base"
           --head-dir "${{ runner.temp }}/kapture-storybook/head"
           --base-revision ${{ needs.context.outputs.base-sha }}
@@ -323,7 +325,7 @@ jobs:
           if [ "$KAPTURE_CAPTURE_CACHE" = "true" ] && [ -n "$KAPTURE_CACHE_DIRECTORY" ] && [ -n "$KAPTURE_HEAD_CACHE_DIRECTORY" ]; then
             cache_args+=(--capture-cache-dir "$KAPTURE_CACHE_DIRECTORY" --capture-cache-output "$KAPTURE_HEAD_CACHE_DIRECTORY")
           fi
-          npx --yes @kaptures/cli@0.9.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
+          bunx @kaptures/cli@0.9.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
       - name: Retain stable head capture for subsequent base comparisons
         if: env.KAPTURE_CAPTURE_CACHE == 'true' && steps.capture-cache.outputs.head-cache-name != ''
         continue-on-error: true

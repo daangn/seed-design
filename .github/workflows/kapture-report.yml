@@ -33,8 +33,9 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - id: review
-        run: npx --yes @kaptures/cli@0.9.0 github prepare-review --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
+        run: bunx @kaptures/cli@0.9.0 github prepare-review --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
       # 완성된 배포 폴더의 한도만 검사합니다. 별도 API 호출·예약 작업·삭제는 없습니다.
       - name: Check Pages upload limits
         id: upload-limits
@@ -100,7 +101,7 @@ jobs:
         if: steps.review.outputs.ready == 'true'
         env:
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
-        run: npx --yes @kaptures/cli@0.9.0 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
+        run: bunx @kaptures/cli@0.9.0 github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
   finalize:
     needs: publish
     if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository
@@ -118,4 +119,5 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
-      - run: npx --yes @kaptures/cli@0.9.0 github finalize-run --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --capture-workflow-path .github/workflows/kapture-capture.yml
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+      - run: bunx @kaptures/cli@0.9.0 github finalize-run --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --capture-workflow-path .github/workflows/kapture-capture.yml

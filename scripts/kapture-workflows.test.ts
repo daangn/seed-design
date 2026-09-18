@@ -36,6 +36,25 @@ const commands = (steps: Step[]) =>
   );
 
 describe("Kapture consumer workflows", () => {
+  test("prepares Bun once before CLI calls while retaining Node 24", () => {
+    for (const workflow of Object.values(workflows)) {
+      for (const job of Object.values(workflow.jobs)) {
+        const firstCli = job.steps.findIndex((step) => step.run?.includes("bunx @kaptures/cli"));
+        if (firstCli < 0) continue;
+        const bunSteps = job.steps.filter((step) => step.uses?.startsWith("oven-sh/setup-bun@"));
+        expect(bunSteps).toHaveLength(1);
+        expect(bunSteps[0]).not.toHaveProperty("if");
+        expect(job.steps.indexOf(bunSteps[0])).toBeLessThan(firstCli);
+        expect(
+          job.steps.find((step) => step.uses?.startsWith("actions/setup-node@"))?.with["node-version"],
+        ).toBe("24");
+        for (const step of job.steps) {
+          expect(step.run ?? "").not.toContain("npx ");
+          expect(step.run ?? "").not.toContain("bunx --bun");
+        }
+      }
+    }
+  });
   test("enables released capture-cache integration while preserving optional fallback", () => {
     const capture = parse(sources.capture);
     expect(capture.env.KAPTURE_CAPTURE_CACHE).toBe("true");
@@ -73,7 +92,7 @@ describe("Kapture consumer workflows", () => {
       "${{ steps.cache.outputs.run-id }}",
     );
     expect(steps.find((s) => s.id === "restored-build")?.run).toBe(
-      "npx --yes @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static",
+      "bunx @kaptures/cli@0.9.0 github validate-build --root . --directory docs/.kapture/storybook-static",
     );
     expect(steps.find((s) => s.id === "artifact")?.with["retention-days"]).toBe(1);
     expect(steps.filter((s) => s.with?.["retention-days"] === 7).length).toBe(1);
