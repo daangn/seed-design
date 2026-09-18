@@ -1,4 +1,4 @@
-import type { StackflowReactPlugin } from "@stackflow/react/future";
+import type { StackflowReactPlugin } from "@stackflow/react";
 import { StackSyncObserver } from "../components/StackSyncObserver";
 
 export const iframeSyncPlugin = (): StackflowReactPlugin => () => ({

@@ -4,7 +4,7 @@ import {
   IconPersonCircleLine,
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import { Icon, Portal } from "@seed-design/react";
 import * as React from "react";
 import { Fragment } from "react";

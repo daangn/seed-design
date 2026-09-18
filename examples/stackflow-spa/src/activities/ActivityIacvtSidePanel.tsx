@@ -1,6 +1,6 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, useBreakpoint } from "@seed-design/react";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import {
   AppBar,

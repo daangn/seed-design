@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import { Box, Text, VStack } from "@seed-design/react";
 import * as React from "react";
 

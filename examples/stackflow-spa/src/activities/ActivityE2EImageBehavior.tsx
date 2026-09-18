@@ -9,7 +9,7 @@ import {
   ImageFrameReactionButton,
   VStack,
 } from "@seed-design/react";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import { useState } from "react";
 import {
   AppBar,

@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 

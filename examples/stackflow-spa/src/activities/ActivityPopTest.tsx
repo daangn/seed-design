@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react";
 import { useState } from "react";
 import {
   AppBar,

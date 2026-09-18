@@ -1,7 +1,7 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { HStack, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

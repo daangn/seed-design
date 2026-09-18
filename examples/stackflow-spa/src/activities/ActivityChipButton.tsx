@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import {
   AppBar,
   AppBarBackButton,
@@ -18,7 +18,7 @@ import { Chip, type ButtonChipProps } from "seed-design/ui/chip";
 import { Icon } from "@seed-design/react";
 
 import { useEffect } from "react";
-import { useActivity, useFlow } from "@stackflow/react/future";
+import { useActivity, useFlow } from "@stackflow/react";
 
 const initialVariants = {
   size: "medium",

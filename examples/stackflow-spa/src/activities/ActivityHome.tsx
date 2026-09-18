@@ -10,7 +10,7 @@ import {
 } from "@seed-design/react";
 import { vars } from "@seed-design/css/vars";
 import type { InferActivityParams, RegisteredActivityName } from "@stackflow/config";
-import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import {

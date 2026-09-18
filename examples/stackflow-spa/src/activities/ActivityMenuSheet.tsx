@@ -1,4 +1,4 @@
-import { useActivity, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useActivity, type StaticActivityComponentType } from "@stackflow/react";
 
 import { IconPencilLine, IconPlusLine } from "@karrotmarket/react-monochrome-icon";
 import {

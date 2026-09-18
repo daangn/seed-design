@@ -1,5 +1,5 @@
 import type { InferActivityParams, RegisteredActivityName } from "@stackflow/config";
-import { useFlow } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react";
 import { useEffect } from "react";
 
 export interface CallbackActivity<ID extends RegisteredActivityName, Type> {

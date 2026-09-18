@@ -1,5 +1,5 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { Avatar } from "seed-design/ui/avatar";

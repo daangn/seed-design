@@ -1,4 +1,4 @@
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import {
   AppBar,
   AppBarBackButton,
@@ -8,7 +8,7 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { useFlow } from "@stackflow/react/future";
+import { useFlow } from "@stackflow/react";
 
 import { chipVariantMap } from "@seed-design/css/recipes/chip";
 

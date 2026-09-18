@@ -1,7 +1,7 @@
 import { Icon } from "@seed-design/react";
 import { RadioGroup } from "@seed-design/react/primitive";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { Fragment } from "react";
 import {
   AppBar,

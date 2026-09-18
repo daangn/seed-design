@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useFlow } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
+import { useFlow } from "@stackflow/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { Text, TimePicker, VStack, type TimePickerValue } from "@seed-design/react";
 import {

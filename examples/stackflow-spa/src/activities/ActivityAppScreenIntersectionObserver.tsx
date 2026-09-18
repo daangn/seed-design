@@ -1,6 +1,6 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
-import type { StaticActivityComponentType } from "@stackflow/react/future";
+import type { StaticActivityComponentType } from "@stackflow/react";
 import { useEffect, useRef, useState } from "react";
 import {
   AppBar,

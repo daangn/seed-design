@@ -1,6 +1,6 @@
 import { VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
-import { type StaticActivityComponentType, useActivity, useFlow } from "@stackflow/react/future";
+import { type StaticActivityComponentType, useActivity, useFlow } from "@stackflow/react";
 import * as React from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

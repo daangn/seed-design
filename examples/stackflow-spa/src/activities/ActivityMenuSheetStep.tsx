@@ -5,7 +5,7 @@ import {
   useFlow,
   useStepFlow,
   type StaticActivityComponentType,
-} from "@stackflow/react/future";
+} from "@stackflow/react";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";

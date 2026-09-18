@@ -1,5 +1,5 @@
 import { AppBar, AppScreen } from "@seed-design/stackflow";
-import { type StaticActivityComponentType } from "@stackflow/react/future";
+import { type StaticActivityComponentType } from "@stackflow/react";
 import { VStack } from "@seed-design/react";
 import {
   PullToRefreshContent,

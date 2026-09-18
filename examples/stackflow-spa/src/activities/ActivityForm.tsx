@@ -1,4 +1,4 @@
-import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { useFlow, type StaticActivityComponentType } from "@stackflow/react";
 import { receive } from "@stackflow/compat-await-push";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";

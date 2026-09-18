@@ -1,5 +1,5 @@
 import type { RegisteredActivityName } from "@stackflow/config";
-import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react/future";
+import { useActivity, useActivityParams, useStepFlow } from "@stackflow/react";
 import { useCallback, useId, useMemo, useState } from "react";
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 
