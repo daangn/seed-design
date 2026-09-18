@@ -2373,13 +2373,13 @@
             },
             {
               "id": "tailwind-css-3",
-              "title": "Tailwind 3",
+              "title": "Tailwind CSS 3",
               "description": "Lynx에서 Tailwind CSS v3와 SEED 디자인 토큰을 사용하는 방법을 안내합니다.",
               "docUrl": "/lynx/getting-started/styling/tailwind-css-3"
             },
             {
               "id": "tailwind-css-4",
-              "title": "Tailwind 4",
+              "title": "Tailwind CSS 4",
               "description": "Lynx에서 Tailwind CSS v4를 사용하기 위한 PostCSS 설정과 호환성 제한을 안내합니다.",
               "docUrl": "/lynx/getting-started/styling/tailwind-css-4"
             },
