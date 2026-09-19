@@ -63,6 +63,18 @@ export declare const componentItemNowBarDefault: {
   }
 };
 
+export declare const privateComponentPageBannerSuffixChevron: {
+  "name": "privateComponentPageBannerSuffixChevron",
+  "key": "6f570f3b2b50649b0fd81190ebb42604ae3aa3a5",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const privateComponentPageBannerSuffixCustom: {
+  "name": "privateComponentPageBannerSuffixCustom",
+  "key": "40f2b4754bf16fa268941d03499dea575baa7e26",
+  "componentPropertyDefinitions": {}
+};
+
 export declare const privateComponentSidebarMenuGroup: {
   "name": "privateComponentSidebarMenuGroup",
   "key": "06a3f8ec77ea5d4992e656a1ef75da843d2ed040",
@@ -94,16 +106,6 @@ export declare const privateComponentSliderItemTrack: {
   "componentPropertyDefinitions": {}
 };
 
-export declare const privateComponentTopNavigationLeftIconButton: {
-  "name": "privateComponentTopNavigationLeftIconButton",
-  "key": "c3e708bab11d8ea90a909b4539b6ba6b2a4e7b9c",
-  "componentPropertyDefinitions": {
-    "Icon#33580:0": {
-      "type": "INSTANCE_SWAP"
-    }
-  }
-};
-
 export declare const componentFilterBar: {
   "name": "componentFilterBar",
   "key": "ec0cea376d2d446f3e02835c21dc224fb11bfcc1",
@@ -120,6 +122,18 @@ export declare const componentFilterBar: {
 export declare const componentIcon: {
   "name": "componentIcon",
   "key": "4a6fdb3425a44a8bc1fe1502d830fa6e82decef7",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentPullToRefresh: {
+  "name": "componentPullToRefresh",
+  "key": "2af79fe64e701bf6e3acf9f88509814013860d11",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentTablePagination: {
+  "name": "componentTablePagination",
+  "key": "f1cea1a1a2e3c6755ef7ec849d03cfb6b5972030",
   "componentPropertyDefinitions": {}
 };
 
@@ -166,7 +180,11 @@ export declare const componentAccordionItemContentsSlotDescription: {
 export declare const componentAccordionItemPrefixCustom: {
   "name": "componentAccordionItemPrefixCustom",
   "key": "99419495e8c42b6aa0ec9ad3ae25d6221254266c",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#19948:2": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentAccordionItemPrefixIcon: {
@@ -237,6 +255,12 @@ export declare const componentChipItemPrefixMediumImage: {
   "componentPropertyDefinitions": {}
 };
 
+export declare const componentChipItemPrefixMediumSlot: {
+  "name": "componentChipItemPrefixMediumSlot",
+  "key": "79bf189f66f777d8e5a881842baf84580171d00a",
+  "componentPropertyDefinitions": {}
+};
+
 export declare const componentChipItemPrefixSmallAvatar: {
   "name": "componentChipItemPrefixSmallAvatar",
   "key": "4949a78c7f9c5aff60135ec34a9e5b1e9bc0ee82",
@@ -256,6 +280,12 @@ export declare const componentChipItemPrefixSmallIcon: {
 export declare const componentChipItemPrefixSmallImage: {
   "name": "componentChipItemPrefixSmallImage",
   "key": "71710fc8ad7af696a8d04a511eb25cc1e18d6212",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentChipItemPrefixSmallSlot: {
+  "name": "componentChipItemPrefixSmallSlot",
+  "key": "fa04bbf76667bb3dacf74726380d705d4595d69a",
   "componentPropertyDefinitions": {}
 };
 
@@ -295,6 +325,18 @@ export declare const componentChipItemSuffixSmallDismiss: {
   "componentPropertyDefinitions": {}
 };
 
+export declare const componentFooterItemLinkTitle: {
+  "name": "componentFooterItemLinkTitle",
+  "key": "d2c5cec9232dc4b83d2b64198b976df56e9b1af2",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentFooterItemLogo: {
+  "name": "componentFooterItemLogo",
+  "key": "9a0fdf6421122ec0b44788ba4ffd16f89f3ab22e",
+  "componentPropertyDefinitions": {}
+};
+
 export declare const componentImageFrameBadge: {
   "name": "componentImageFrameBadge",
   "key": "6a1feb47139040d6f7522528f7c91bf4fe7bcc84",
@@ -330,7 +372,11 @@ export declare const componentImageFrameOverlayIndicator: {
 export declare const componentListItemDetailCustom: {
   "name": "componentListItemDetailCustom",
   "key": "d56900622b320739b5ce9dc9b12af1bcd1f6eeb4",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#20032:1": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentListItemDetailSubText_07e: {
@@ -354,7 +400,11 @@ export declare const componentListItemDetailTagGroup: {
 export declare const componentListItemPrefixAvatar: {
   "name": "componentListItemPrefixAvatar",
   "key": "27e33754113178be97e07195528c4ea020b3d3b7",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Avatar#19947:1": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentListItemPrefixCheckbox: {
@@ -366,7 +416,11 @@ export declare const componentListItemPrefixCheckbox: {
 export declare const componentListItemPrefixCustom: {
   "name": "componentListItemPrefixCustom",
   "key": "b8059f5e0f85e0745fc61ff70f04571177c2cdfc",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#19948:3": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentListItemPrefixIcon: {
@@ -382,7 +436,11 @@ export declare const componentListItemPrefixIcon: {
 export declare const componentListItemPrefixImage: {
   "name": "componentListItemPrefixImage",
   "key": "d06216ff143a960844799c0b8f9212628f78c69d",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Image Frame#19947:0": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentListItemPrefixRadiomark: {
@@ -423,7 +481,11 @@ export declare const componentListItemSuffixChevronWithText: {
 export declare const componentListItemSuffixCustom: {
   "name": "componentListItemSuffixCustom",
   "key": "26b86c9f8965d38aa5a1181a5cdc89fa487988d1",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#20033:1": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentListItemSuffixIcon: {
@@ -466,34 +528,6 @@ export declare const componentMenuItemSuffixChevron: {
   "componentPropertyDefinitions": {}
 };
 
-export declare const componentPageBannerSuffixAction: {
-  "name": "componentPageBannerSuffixAction",
-  "key": "1bbd6fff9a32b4211bbe3eeb09fde4e12e87caed",
-  "componentPropertyDefinitions": {
-    "Label#39890:0": {
-      "type": "TEXT"
-    }
-  }
-};
-
-export declare const componentPageBannerSuffixCustom: {
-  "name": "componentPageBannerSuffixCustom",
-  "key": "40f2b4754bf16fa268941d03499dea575baa7e26",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const componentPageBannerSuffixDismiss: {
-  "name": "componentPageBannerSuffixDismiss",
-  "key": "7bdf687e01996f3582b4056954fcb65f0bc67b2f",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const componentPageBannerSuffixChevron: {
-  "name": "componentPageBannerSuffixChevron",
-  "key": "6f570f3b2b50649b0fd81190ebb42604ae3aa3a5",
-  "componentPropertyDefinitions": {}
-};
-
 export declare const componentResultSectionAssetTown: {
   "name": "componentResultSectionAssetTown",
   "key": "fb790e6aac3dea61df651faeb68078835c3e59ab",
@@ -509,12 +543,6 @@ export declare const componentResultSectionBridgeLottie: {
 export declare const componentResultSectionCompleteLottie: {
   "name": "componentResultSectionCompleteLottie",
   "key": "8c337e54aa38b7eb1eec9281c4934c5f0f87124c",
-  "componentPropertyDefinitions": {}
-};
-
-export declare const componentResultSectionCustom: {
-  "name": "componentResultSectionCustom",
-  "key": "c99bcc071b3ec4243ecdc1502545f427250a7286",
   "componentPropertyDefinitions": {}
 };
 
@@ -548,16 +576,40 @@ export declare const componentResultSectionIconEmptySearch: {
   "componentPropertyDefinitions": {}
 };
 
+export declare const componentResultSectionProgressCircle: {
+  "name": "componentResultSectionProgressCircle",
+  "key": "99402bf364db4064bce6d67a68969028544046e7",
+  "componentPropertyDefinitions": {}
+};
+
+export declare const componentResultSectionSlot: {
+  "name": "componentResultSectionSlot",
+  "key": "f9070757313913615d4408426a1844f92b253a65",
+  "componentPropertyDefinitions": {
+    "Slot#20627:3": {
+      "type": "SLOT"
+    }
+  }
+};
+
 export declare const componentSelectBoxSuffixCustom: {
   "name": "componentSelectBoxSuffixCustom",
   "key": "2ba92fc0cd161281686bf04767e8f2322c8a17f4",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#20033:0": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentSelectBoxItemPrefixAvatar: {
   "name": "componentSelectBoxItemPrefixAvatar",
   "key": "3d1ea583297f35880d9ec588326d9b82608565cc",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Avatar#20029:0": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentSelectBoxItemPrefixBadge: {
@@ -569,7 +621,11 @@ export declare const componentSelectBoxItemPrefixBadge: {
 export declare const componentSelectBoxItemPrefixCustom: {
   "name": "componentSelectBoxItemPrefixCustom",
   "key": "8129b7b7804c8b22cf67d42df2383c1f5152298e",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Slot#20029:2": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentSelectBoxItemPrefixIcon: {
@@ -585,7 +641,11 @@ export declare const componentSelectBoxItemPrefixIcon: {
 export declare const componentSelectBoxItemPrefixImage: {
   "name": "componentSelectBoxItemPrefixImage",
   "key": "d4a3d2da63f6da1552f5d8f947105390248c9018",
-  "componentPropertyDefinitions": {}
+  "componentPropertyDefinitions": {
+    "Image Frame#20029:1": {
+      "type": "SLOT"
+    }
+  }
 };
 
 export declare const componentSelectBoxItemSuffixCheck: {
