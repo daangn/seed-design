@@ -27,7 +27,8 @@
 /foundations/iconography/library.md /foundations/iconography.md 301
 
 # AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
-# `llms-txt` 페이지는 삭제됐고, 그것을 대신하던 `/llms.txt` 라우트도 지금은 없다.
+# `llms-txt` 페이지는 삭제됐다. `/llms.txt`는 이제 docs-mcp와 CLI로 안내하는 두 문장뿐이라
+# 사람이 보던 이 페이지들은 `/ai-integration`으로 보낸다.
 /react/ai-integration/llms-txt /ai-integration 301
 /docs/ai-integration/llms-txt /ai-integration 301
 /breeze/ai-integration/llms-txt /ai-integration 301
@@ -52,6 +53,8 @@
 # 경로 전체를 잡는다. 패키지·버전별로 나뉘어 있던 changelog 파일은 없어졌고 changelog 문서가 원본을
 # 안내한다. 그 규칙은 splat 규칙보다 먼저 와야 `/react/updates/changelog/<패키지>/...md`(없음)로
 # 떨어지지 않는다.
-# 섹션 목록 `/{섹션}/llms.txt`, 루트 `/llms.txt`, `/{섹션}/llms-full.txt`는 대응하는 문서가 없어 보내지 않는다.
+# `/llms.txt`, `/docs/llms.txt`, `/react/llms.txt`는 목록 대신 docs-mcp와 CLI로 안내하는 문서를 낸다
+# (`app/_llms/llms-txt-notice.ts`). 나머지 `/{섹션}/llms.txt`와 `/{섹션}/llms-full.txt`는 대응하는
+# 문서가 없어 보내지 않는다.
 /llms/react/updates/changelog/* /react/updates/changelog.md 301
 /llms/*.txt /:splat.md 301

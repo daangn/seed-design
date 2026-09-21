@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 문서별 마크다운으로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다. CLI와 docs-mcp가 읽는 문서 인덱스(`/__docs__/index.json`)는 `app/%5F_docs__/index.json/route.ts`가 같은 섹션 소스로 조립해 서빙한다.
+`docs/app/_llms`는 문서별 마크다운으로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다. CLI와 docs-mcp가 읽는 문서 인덱스(`/__docs__/index.json`)는 `app/%5F_docs__/index.json/route.ts`가 같은 섹션 소스로 조립해 서빙한다. `/llms.txt`, `/docs/llms.txt`, `/react/llms.txt`는 목록이 아니라 docs-mcp와 CLI로 안내하는 문서이고, 본문은 `llms-txt-notice.ts`가 만든다.
 
 ## 파일 작성 컨벤션
 
