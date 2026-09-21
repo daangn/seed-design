@@ -35,7 +35,6 @@ export const RULE_ELEMENT_NAMES = [
   "ComponentExample",
   "LynxComponentExample",
   "ComponentSpecBlock",
-  "IconLibrary",
   "LLMOnly",
   "ProgressBoardTable",
   "TokenReference",

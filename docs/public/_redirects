@@ -22,6 +22,10 @@
 /foundations/typography/overview /foundations/typography 301
 /foundations/safe-area /patterns/safe-area 301
 
+# 아이콘 목록을 보여 주던 Iconography의 Library 탭은 삭제됐다. 에이전트가 읽던 markdown 주소도 함께 보낸다.
+/foundations/iconography/library /foundations/iconography 301
+/foundations/iconography/library.md /foundations/iconography.md 301
+
 # AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
 # `llms-txt` 페이지는 삭제됐고, 그것을 대신하던 `/llms.txt` 라우트도 지금은 없다.
 /react/ai-integration/llms-txt /ai-integration 301

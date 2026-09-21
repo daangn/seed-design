@@ -3,7 +3,6 @@ import { badgeHandler } from "./handlers/badge";
 import { codeBlockTabsHandler } from "./handlers/codeblock-tabs";
 import { componentExampleHandler } from "./handlers/component-example";
 import { componentSpecBlockHandler } from "./handlers/component-spec-block";
-import { iconLibraryHandler } from "./handlers/icon-library";
 import { llmOnlyHandler } from "./handlers/llm-only";
 import { tokenReferenceHandler } from "./handlers/token-reference";
 import { progressBoardPlaceholder } from "./placeholders/progress-board";
@@ -22,7 +21,6 @@ export const handlers: LLMHandler[] = [
   codeBlockTabsHandler,
   componentExampleHandler,
   componentSpecBlockHandler,
-  iconLibraryHandler,
   llmOnlyHandler,
   tokenReferenceHandler,
 ];

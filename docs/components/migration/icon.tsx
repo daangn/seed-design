@@ -1,8 +1,6 @@
 import * as V3Icons from "@karrotmarket/react-monochrome-icon";
 import * as V3ColorIcons from "@karrotmarket/react-multicolor-icon";
 import * as V2Icons from "@seed-design/react-icon";
-import Link from "fumadocs-core/link";
-import * as changecase from "change-case";
 
 export const V3Icon = ({
   name,
@@ -18,15 +16,10 @@ export const V3Icon = ({
     return <code>{name}</code>;
   }
 
-  const snakeCase = changecase.snakeCase(name);
   return (
     <div className="flex items-center gap-2">
       <NewIcon size={20} />
-      <Link
-        href={`/foundations/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`}
-      >
-        <code>{name}</code>
-      </Link>
+      <code>{name}</code>
     </div>
   );
 };
