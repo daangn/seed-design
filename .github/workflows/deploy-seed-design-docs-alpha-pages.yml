@@ -159,6 +159,13 @@ jobs:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
+      # 2.0은 preview alias로 제공하지만 공개된 유지보수 문서이므로 배포 전에 검사한다.
+      - name: Validate versioned docs links before deployment
+        if: ${{ github.ref_name == '2.0' }}
+        uses: ./.github/actions/check-docs-links
+        with:
+          out-dir: ${{ github.workspace }}/docs/out
+
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
         id: deploy
         uses: cloudflare/wrangler-action@v4
@@ -170,8 +177,9 @@ jobs:
 
       # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
       # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
-      # 차단은 prod 워크플로가 배포 전에 한다.
+      # 차단은 prod 워크플로와 위의 2.0 전용 단계가 배포 전에 한다.
       - name: Validate docs links
+        if: ${{ github.ref_name != '2.0' }}
         id: links
         continue-on-error: true
         uses: ./.github/actions/check-docs-links
