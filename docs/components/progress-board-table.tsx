@@ -4,7 +4,7 @@ import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
-import { Badge } from "@seed-design/react";
+import { BadgeLabel, BadgeRoot } from "@seed-design/react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
@@ -47,17 +47,17 @@ function StatusBadge({
 
   if (!note || !showNote) {
     return (
-      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
-        {label}
-      </Badge>
+      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
+        <BadgeLabel>{label}</BadgeLabel>
+      </BadgeRoot>
     );
   }
 
   return (
     <div className="inline-flex items-center gap-1.5">
-      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
-        {label}
-      </Badge>
+      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
+        <BadgeLabel>{label}</BadgeLabel>
+      </BadgeRoot>
       <HelpBubbleTooltipTrigger title={note} placement="top">
         <button
           type="button"
