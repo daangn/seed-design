@@ -42,7 +42,11 @@ export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) 
   const [variantProps, otherProps] = badge.splitVariantProps(props);
   const classes = badge(variantProps);
   const { children, className, ...nativeProps } = otherProps;
-  const contextValue: BadgeContextValue = { variantProps };
+  const { size, variant, tone, pressed } = variantProps;
+  const contextValue = React.useMemo<BadgeContextValue>(
+    () => ({ variantProps: { size, variant, tone, pressed } }),
+    [size, variant, tone, pressed],
+  );
 
   return (
     <ClassNamesProvider value={classes}>
