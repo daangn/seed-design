@@ -27,7 +27,6 @@ PR snapshot은 `0.0.0-snapshot.pr-{PR 번호}.sha-{40자리 head SHA}` 버전을
 - `bun tools/rootage-cdn/src/snapshot-input.ts detect ...`: exact PR diff에서 Rootage 변경을 찾는다.
 - `bun tools/rootage-cdn/src/snapshot-input.ts prepare ...`: package·생성 JSON에 사용할 snapshot 버전을 준비한다.
 - `bun tools/rootage-cdn/src/cli.ts publish-snapshot ...`: `pkg.pr.new` tarball의 URL·SHA-1·package identity·SHA-512를 검증하고 불변 snapshot을 게시
-- `bun tools/rootage-cdn/src/cli.ts cleanup-snapshots ...`: PR이 닫힌 지 30일 지난 완료 snapshot을 manifest부터 제거
 
 ## 인증·운영 경계
 
@@ -37,11 +36,10 @@ PR snapshot은 `0.0.0-snapshot.pr-{PR 번호}.sha-{40자리 head SHA}` 버전을
 |---|---|
 | `publish`, `publish-snapshot`, `set-stable` | `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`, `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY`, `ROOTAGE_PUBLIC_BASE_URL` |
 | `cleanup` | `CF_ACCOUNT_ID`, `ROOTAGE_R2_BUCKET`, `ROOTAGE_R2_ACCESS_KEY_ID`, `ROOTAGE_R2_SECRET_ACCESS_KEY` |
-| `cleanup-snapshots` | 위 R2 변수와 `ROOTAGE_GITHUB_TOKEN` |
 | `route` | `CF_ZONE_ID`, `CLOUDFLARE_API_TOKEN` |
 
 `ROOTAGE_R2_DIAGNOSTICS=true`를 설정하면 stable pointer CAS 진단을 stderr에 기록한다. 접근 키와 서명 헤더는 기록하지 않는다.
 
-mutation job은 `rootage-production` protected environment와 workflow별 신뢰 경계를 따른다. release publish는 자동 workflow에서 실행되고, snapshot cleanup은 schedule 또는 수동 dispatch로 실행된다. PR build에는 R2 자격 증명을 전달하지 않으며, snapshot은 stable pointer를 변경하지 않는다.
+mutation job은 `rootage-production` protected environment와 workflow별 신뢰 경계를 따른다. release publish는 자동 workflow에서 실행된다. snapshot 정리는 필요할 때 수동으로 수행하며, 전용 workflow나 CLI를 제공하지 않는다. PR build에는 R2 자격 증명을 전달하지 않으며, snapshot은 stable pointer를 변경하지 않는다.
 
 production Worker deploy는 기존 단일 100% deployment와 exact Worker version을 확인한 뒤 smoke한다. 소유권이 확인된 경우에만 자동 rollback하며, 기존 deployment history가 없는 최초 bootstrap은 fail-closed한다. 상세 guard·workflow 계약은 `src/deployment-guard.ts`, `src/verify-deployment.ts`, `src/operations.ts`와 `.github/workflows/`를 함께 확인한다.

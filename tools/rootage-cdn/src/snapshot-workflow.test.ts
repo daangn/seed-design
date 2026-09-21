@@ -95,19 +95,6 @@ describe("Rootage snapshot workflows", () => {
     expect(publishJob).not.toContain("--stable");
   });
 
-  test("정기 정리는 dev와 production environment에서 snapshot 명령만 실행한다", async () => {
-    const workflow = await Bun.file(
-      join(repositoryRoot, ".github/workflows/rootage-snapshot-cleanup.yml"),
-    ).text();
-
-    expect(workflow).toContain("github.ref == 'refs/heads/dev'");
-    expect(workflow).toContain("environment: rootage-production");
-    expect(workflow).toContain("cli.ts cleanup-snapshots");
-    expect(workflow).toContain('--older-than-days "30"');
-    expect(workflow).toContain('--confirm "DELETE-SNAPSHOTS"');
-    expect(workflow).not.toContain("cleanup-incomplete");
-  });
-
   test("pkg-pr-new CLI는 개발 의존성 없이 bunx의 exact 버전으로 실행한다", async () => {
     const packageJson = (await Bun.file(join(repositoryRoot, "package.json")).json()) as {
       devDependencies: Record<string, string>;
