@@ -116,10 +116,10 @@ import "./styles/global.css";
 
 ### 1. 패키지 교체하기
 
-```bash
-bun remove @seed-design/tailwind3-plugin
-bun add @seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4
-bun add -d @tailwindcss/postcss@4 postcss@8
+```package-install
+npm uninstall @seed-design/tailwind3-plugin
+npm install @seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4
+npm install -D @tailwindcss/postcss@4 postcss@8
 ```
 
 `@seed-design/lynx-css`는 theme 패키지의 peer 범위에 맞는 버전을 사용하세요.
