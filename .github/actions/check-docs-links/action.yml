@@ -16,9 +16,9 @@ runs:
     # `--remap` 값은 작은따옴표로 감싼다. 액션 진입점이 `eval lychee ... ${ARGS}`로
     # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
     #
-    # 두 단계 모두 changelog를 뺀다. 본문이 `packages/*/CHANGELOG.md`에서 와서 거기서 썩은
-    # 링크는 원천에서 고칠 수 없고, 그 안의 옛 URL은 lychee가 오프라인에서 볼 수 없는
-    # `_redirects`로 풀린다.
+    # changelog 페이지는 뺀다. 본문이 `packages/*/CHANGELOG.md`에서 와서 거기서 썩은 링크는
+    # 원천에서 고칠 수 없고, 그 안의 옛 URL은 lychee가 오프라인에서 볼 수 없는 `_redirects`로
+    # 풀린다. changelog의 markdown은 본문 대신 저장소 안내만 담아서 아래 단계에서 빼지 않는다.
     - name: Check links in the exported HTML
       uses: lycheeverse/lychee-action@v2
       with:
@@ -40,6 +40,10 @@ runs:
     # 문서마다 나가는 `<문서 URL>.md`를 검사한다. `#heading` 링크는 그 파일 자신을 가리키므로,
     # 이 단계의 프래그먼트 검사는 파일이 실제 heading을 담고 있어야만 성립한다. heading을 잃은
     # 채로 켜면 페이지에 멀쩡히 있는 앵커가 전부 깨진 걸로 잡힌다.
+    #
+    # `llms.txt`는 `--extensions md`에 걸리므로 glob 입력으로 따로 넘긴다. glob은 작은따옴표로
+    # 감싼다. 그러지 않으면 eval 전에 bash가 먼저 펼치는데, globstar가 꺼져 있어 `**`가 한
+    # 단계만 맞고 루트의 `llms.txt`가 빠진다.
     - name: Check links in the markdown outputs
       uses: lycheeverse/lychee-action@v2
       with:
@@ -53,7 +57,7 @@ runs:
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
           --include-fragments=anchor-only
-          --exclude-path '/react/updates/changelog\.md$'
           --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
           --
           ${{ inputs.out-dir }}
+          '${{ inputs.out-dir }}/**/llms.txt'
