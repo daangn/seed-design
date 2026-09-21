@@ -46,7 +46,9 @@ const VISUAL_TEST_PARAMETERS = {
   },
 } satisfies { kapture: KaptureStoryParameters; chromatic: object };
 
-export function withVisualTestParameters<R>(parameters: R): R & typeof VISUAL_TEST_PARAMETERS {
+export function withVisualTestParameters<R>(
+  parameters: R,
+): Omit<typeof VISUAL_TEST_PARAMETERS, keyof R> & R {
   return {
     ...VISUAL_TEST_PARAMETERS,
     ...parameters,

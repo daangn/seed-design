@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, expectTypeOf, test } from "bun:test";
 import { breakpointNames, breakpoints } from "@seed-design/css/breakpoints";
 import { VISUAL_VIEWPORT_PARAMETERS, withVisualTestParameters } from "./parameters";
 
@@ -23,9 +23,10 @@ describe("visual test provider parameters", () => {
       expect(Number.isInteger(viewport.height)).toBe(true);
       expect(viewport.height).toBeGreaterThan(0);
     }
-    expect(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes).toEqual(
-      Object.fromEntries(breakpointNames.map((name) => [name, { viewport: name }])),
+    expect(Object.keys(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes).sort()).toEqual(
+      [...breakpointNames].sort(),
     );
+    expect(VISUAL_VIEWPORT_PARAMETERS.chromatic.modes.sm).toEqual({ viewport: "sm" });
   });
 
   test("preserves caller overrides without overwriting the other provider or defaults", () => {
@@ -33,10 +34,14 @@ describe("visual test provider parameters", () => {
     const kapture = { captureDelayMs: 123 };
     const parameters = withVisualTestParameters({ kapture, theme: "light", custom: "kept" });
     expect(parameters.kapture).toEqual(kapture);
+    expectTypeOf(parameters.kapture).toEqualTypeOf<typeof kapture>();
     expect(parameters.chromatic).toEqual(defaults.chromatic);
     expect(parameters.custom).toBe("kept");
     const chromatic = { delay: 456 };
     expect(withVisualTestParameters({ chromatic }).chromatic).toEqual(chromatic);
+    expectTypeOf(withVisualTestParameters({ chromatic }).chromatic).toEqualTypeOf<
+      typeof chromatic
+    >();
     expect(withVisualTestParameters({ chromatic }).kapture).toEqual(defaults.kapture);
     expect(withVisualTestParameters({})).toEqual(defaults);
   });

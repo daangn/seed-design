@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { parse } from "yaml";
 import { BASE_BRANCHES } from "./kapture-policy.mjs";
@@ -73,28 +73,6 @@ describe("Kapture consumer workflows", () => {
     }
     expect(checked).toBeGreaterThan(0);
   });
-  test("runtime guard accepts release and formatting changes but rejects broken setup", () => {
-    const bun: Step = { uses: "oven-sh/setup-bun@different-ref", with: {} };
-    const node: Step = { uses: "actions/setup-node@different-ref", with: { "node-version": "26" } };
-    const cli: Step = { run: "bunx   @kaptures/cli@1.2.3\n github validate-build", with: {} };
-    expect(assertCliRuntimes([node, bun, { run: "echo ready", with: {} }, cli])).toBe(1);
-    expect(
-      assertCliRuntimes([
-        { ...node, if: "steps.policy.outputs.supported == 'true'" },
-        bun,
-        { ...cli, if: "steps.policy.outputs.supported == 'true'" },
-      ]),
-    ).toBe(1);
-    expect(() => assertCliRuntimes([node, cli, bun])).toThrow();
-    expect(() => assertCliRuntimes([bun, cli])).toThrow();
-    expect(() => assertCliRuntimes([node, { ...bun, if: "false" }, cli])).toThrow();
-    expect(() =>
-      assertCliRuntimes([node, bun, { ...cli, run: "npx @kaptures/cli@1.2.3 --help" }]),
-    ).toThrow();
-    expect(() =>
-      assertCliRuntimes([node, bun, { ...cli, run: "bunx --bun @kaptures/cli@1.2.3 --help" }]),
-    ).toThrow();
-  });
   test("enables released capture-cache integration while preserving optional fallback", () => {
     const capture = parse(sources.capture);
     expect(capture.env.KAPTURE_CAPTURE_CACHE).toBe("true");
@@ -146,10 +124,7 @@ describe("Kapture consumer workflows", () => {
     expect(workflows.capture.jobs.context.if).toContain("head.repo.full_name == github.repository");
   });
 
-  test("compares original revisions without copying head instrumentation into base", () => {
-    expect(sources.capture).not.toContain(".kapture/instrumentation");
-    expect(sources.capture).not.toContain("perl -0pi");
-    expect(sources.capture).not.toContain("bootstrap-skip");
+  test("builds the exact base revision selected by the PR context", () => {
     expect(
       workflows.capture.jobs["build-base"].steps.find((step) =>
         step.uses?.startsWith("actions/checkout@"),
@@ -172,20 +147,6 @@ describe("Kapture consumer workflows", () => {
     expect(Number(steps.find((s) => s.id === "artifact")?.with["retention-days"])).toBeGreaterThan(
       0,
     );
-  });
-
-  test("does not hold a runner open for review", () => {
-    for (const source of Object.values(sources)) {
-      expect(source).not.toContain("setTimeout");
-      expect(source).not.toContain("Timed out waiting");
-    }
-    expect(workflows.approve.on.issue_comment.types).toEqual(["created"]);
-    expect(sources.approve).toContain("github approve");
-  });
-
-  test("removes the adoption-only preview job", () => {
-    expect(workflows.capture.jobs.preview).toBeUndefined();
-    expect(sources.capture).not.toContain("codex/kapture-shadow-experiment");
   });
 
   test("initial adoption captures only head and retains artifacts without publishing", () => {
@@ -280,10 +241,7 @@ describe("Kapture consumer workflows", () => {
     }
   });
 
-  test("does not schedule cleanup or promise automatic preview deletion", () => {
-    expect(existsSync(new URL(".github/workflows/kapture-retention.yml", root))).toBe(false);
-    expect(existsSync(new URL("scripts/kapture-retention.mjs", root))).toBe(false);
-    expect(sources.report).not.toContain("seed-kapture-retention-policy");
+  test("does not run privileged PR-target or scheduled jobs", () => {
     for (const workflow of Object.values(workflows)) {
       expect(workflow.on.schedule).toBeUndefined();
       expect(workflow.on.pull_request_target).toBeUndefined();

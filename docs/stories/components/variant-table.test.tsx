@@ -1,12 +1,20 @@
 import { expect, test } from "bun:test";
 import { render } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { VariantTable } from "./variant-table";
 
-test.each([
-  { size: ["small", "large"], tone: ["neutral", "brand"] },
-  { size: ["small", "medium", "large"] },
-  {},
-])("VariantTable ignores scaffolding but preserves every component (%j)", (variantMap) => {
+const cases: {
+  variantMap: ComponentProps<typeof VariantTable>["variantMap"];
+  combinations: number;
+}[] = [
+  { variantMap: { size: ["small", "large"], tone: ["neutral", "brand"] }, combinations: 4 },
+  { variantMap: { size: ["small", "medium", "large"] }, combinations: 3 },
+  { variantMap: {}, combinations: 1 },
+];
+test.each(cases)("VariantTable ignores scaffolding but preserves every component (%j)", ({
+  variantMap,
+  combinations,
+}) => {
   const { container } = render(
     <VariantTable
       variantMap={variantMap}
@@ -19,10 +27,6 @@ test.each([
   expect(kapture).toEqual(chromatic);
   expect(container.querySelector("thead")?.getAttribute("data-kapture")).toBe("ignore");
   const rows = [...container.querySelectorAll("tbody tr")];
-  const combinations = Object.values(variantMap).reduce(
-    (count, values) => count * values.length,
-    1,
-  );
   expect(rows).toHaveLength(combinations);
   for (const row of rows) {
     const cells = [...row.querySelectorAll("td")];
