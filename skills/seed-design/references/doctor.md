@@ -101,7 +101,11 @@ scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
 | `not-applicable` | 역할·사용 증거가 없거나, 정상적으로 읽은 현재 인덱스에 필요한 공식 계약이 없음 |
 | `not-verified` | 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함 |
 
-`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서를 발견한 check는 플랫폼 인덱스와 실제로 읽은 leaf 문서를 함께 기록하고, 문서 부재 check는 확인한 플랫폼 인덱스를 기록합니다.
+`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서 인덱스는 문서를 찾는 경로일 뿐 근거가 아니므로 `references`에 넣지 않습니다. HTML 리포트의 "읽어보기"는 첫 reference를 열기 때문에 첫 항목은 사람이 읽을 계약 문서여야 합니다.
+
+- 룰의 계약을 담은 현재 leaf 문서를 찾은 check: 그 문서. 판정에 여러 문서를 읽었으면 모두 기록합니다.
+- 인덱스를 읽었지만 계약 문서가 없는 check: 선택된 플랫폼 category의 개요 문서
+- 인덱스를 읽지 못한 check: `https://seed-design.io`
 
 각 `check.rule`은 리포트 안에서 유일해야 합니다. finding은 동일한 `rule`의 `fail` check가 있을 때만 만들고, 각 `fail` check에는 적어도 하나의 finding이 있어야 합니다. `pass`·`not-applicable`·`not-verified` check의 rule은 findings에 나오면 안 됩니다.
 
@@ -139,28 +143,25 @@ checks:
     status: pass
     evidence: seed-design.json의 framework·path와 alias가 일치함
     references:
-      - https://seed-design.io/__docs__/index.json
       - "{configurationLeafUrlResolvedFromIndex}"
   - rule: seed/library-authors
     category: library
     status: fail
     evidence: package.json은 소비 진입점을 내보내지만 SEED가 dependencies에 선언됨
     references:
-      - https://seed-design.io/__docs__/index.json
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
   - rule: seed/snippet-generation
     category: compatibility
     status: not-applicable
     reason: 설치 스니펫이 없음
     references:
-      - https://seed-design.io/__docs__/index.json
+      - "{cliLeafUrlResolvedFromIndex}"
 findings:
   - rule: seed/library-authors
     severity: warn
     message: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
     file: packages/ui/package.json
     references:
-      - https://seed-design.io/__docs__/index.json
       - "{libraryAuthorsLeafUrlResolvedFromIndex}"
     remediation: |-
       다음 SEED Doctor finding을 수정해 주세요.
@@ -175,7 +176,6 @@ findings:
       - 공개 API와 관련 없는 파일은 변경하지 마세요.
 
       근거:
-      - https://seed-design.io/__docs__/index.json
       - {libraryAuthorsLeafUrlResolvedFromIndex}
 
       먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.

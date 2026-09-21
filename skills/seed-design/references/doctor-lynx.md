@@ -15,9 +15,9 @@
 1. 문서 풀의 전체 인덱스에서 공통 Components·Foundations·Design Guidelines와 Lynx 진입점을 찾습니다.
 2. 문서 풀의 Lynx 인덱스에서 요청한 룰과 의미가 맞는 문서를 찾습니다. 제목이나 category가 바뀔 수 있으므로 고정 경로를 조합하지 않습니다.
 3. 문서 풀에 없는 leaf만 읽고 그 실행에서만 capability와 판정 기준을 구성합니다.
-4. 리포트 `references`에는 Lynx 인덱스와 실제로 읽은 leaf 문서를 함께 기록합니다.
+4. 리포트 `references`는 [doctor.md](doctor.md)의 룰 상태 규칙을 따릅니다.
 
-Lynx 인덱스를 정상적으로 읽었는데 필요한 공식 계약이 없으면 해당 check를 `not-applicable`로 두고 인덱스 부재를 이유로 남깁니다. 인덱스나 연결 문서를 읽지 못했으면 `not-verified`입니다. 현재 없는 문서가 나중에 추가될 수 있으므로 부재를 프로필의 영구 정책으로 적지 않습니다.
+Lynx 인덱스를 정상적으로 읽었는데 필요한 공식 계약이 없으면 해당 check를 `not-applicable`로 두고 현재 Lynx 문서에 계약이 없다는 것을 이유로 남깁니다. 인덱스나 연결 문서를 읽지 못했으면 `not-verified`입니다. 현재 없는 문서가 나중에 추가될 수 있으므로 부재를 프로필의 영구 정책으로 적지 않습니다.
 
 ## 컴포넌트·registry 연결
 
