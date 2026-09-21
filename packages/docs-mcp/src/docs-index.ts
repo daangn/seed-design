@@ -44,70 +44,37 @@ export function findSection(index: DocsIndex, sectionId: string): DocsIndexCateg
 }
 
 /**
- * The path `get_doc` accepts for an item: its `docUrl` with the section prefix removed.
- * A section's own landing page sits at the prefix itself, so it is addressed by id.
+ * The document at `address`, a `docUrl` exactly as `search_docs` and `list_docs` print it.
+ *
+ * An `#anchor` is the one part set aside: it names a place inside the document, as a URL
+ * fragment does, so a search result carrying one opens as printed. Nothing else is repaired, so
+ * `react/components/button` without its leading slash names no document, like a path the index
+ * never carried.
  */
-export function itemPath(category: DocsIndexCategory, item: DocsIndexItem): string {
-  if (item.docUrl === `/${category.id}`) return item.id;
-
-  // Not `replace`, which strips the first occurrence wherever it sits: an item filed
-  // outside its own section would come back mangled rather than merely unaddressable.
-  const prefix = `/${category.id}/`;
-  return item.docUrl.startsWith(prefix) ? item.docUrl.slice(prefix.length) : item.docUrl;
-}
-
-/**
- * Resolve a `get_doc` path such as `components/button` or `color` within a section.
- *
- * Matches the full docUrl first so a path that names its category stays unambiguous,
- * then falls back to a bare item id.
- *
- * Everything `search_docs` prints is accepted back as typed, which is what makes an address
- * pasted from a search result reach the document it named: an `#anchor` is dropped, because a
- * document has one text and the heading that matched names no less than the whole of it, and
- * nothing at all is the section's own page, because splitting a one-segment address leaves the
- * section id and no path behind it.
- *
- * @throws when the bare id names more than one document. `react` carries `alert-dialog`,
- * `bottom-sheet` and `menu-sheet` under both `components` and `stackflow`; answering with
- * whichever came first left the other unreachable through this argument.
- */
-export function findItem(category: DocsIndexCategory, docPath: string): DocsIndexItem | undefined {
-  const normalized = docPath.split("#")[0].replace(/^\/+|\.md$/g, "");
-  const all = category.items;
-
-  if (normalized.length === 0) return all.find((item) => item.docUrl === `/${category.id}`);
-
-  const byDocUrl = all.find((item) => item.docUrl === `/${category.id}/${normalized}`);
-  if (byDocUrl) return byDocUrl;
-
-  const byId = all.filter((item) => item.id === normalized);
-  if (byId.length > 1) {
-    const paths = byId.map((item) => itemPath(category, item)).join(", ");
-    throw new Error(
-      `'${normalized}' is ambiguous in section '${category.id}'. Use one of: ${paths}`,
-    );
-  }
-
-  return byId[0];
-}
-
-/**
- * One `search_docs` result: the address as the search printed it, then the title and
- * description of the document at that path.
- *
- * Kept to one line whatever the index holds, so a result never spills into the next one. An
- * address the index lists no page for is left bare rather than dropped, since the count printed
- * above the list includes it.
- */
-export function searchResultLine(index: DocsIndex, address: string): string {
+export function findItem(index: DocsIndex, address: string): DocsIndexItem | undefined {
   const docUrl = address.split("#")[0];
-  const item = index.categories
+  return index.categories
     .flatMap((category) => category.items)
-    .find((entry) => entry.docUrl === docUrl);
-  if (!item) return address;
+    .find((item) => item.docUrl === docUrl);
+}
 
+/**
+ * One listed document: the address, then the title and description of the document at it.
+ *
+ * Kept to one line whatever the index holds, so an entry never spills into the next one.
+ */
+export function docLine(address: string, item: DocsIndexItem): string {
   const title = item.deprecated ? `${item.title} (deprecated)` : item.title;
   const summary = item.description ? `${title} — ${item.description}` : title;
   return `${address}  ${summary.replace(/\s+/g, " ").trim()}`;
+}
+
+/**
+ * One `search_docs` result, its address as the search printed it. An address the index lists
+ * no page for is left bare rather than dropped, since the count printed above the list
+ * includes it.
+ */
+export function searchResultLine(index: DocsIndex, address: string): string {
+  const item = findItem(index, address);
+  return item ? docLine(address, item) : address;
 }

@@ -11,9 +11,7 @@ import {
   docsIndexSchema,
   findItem,
   findSection,
-  itemPath,
 } from "./docs-index.js";
-import type { DocInfo } from "./types.js";
 
 // biome-ignore lint/suspicious/noExplicitAny: cache stores various types
 const cache = new LRUCache<string, any>({
@@ -85,25 +83,18 @@ export async function requireSection(sectionId: string): Promise<DocsIndexCatego
   return section;
 }
 
-export async function fetchDocsList(sectionId: string): Promise<DocInfo[]> {
-  const section = await requireSection(sectionId);
+/** Every document in one section, or in every section when none is named. */
+export async function fetchDocsList(sectionId?: string) {
+  if (sectionId !== undefined) return (await requireSection(sectionId)).items;
 
-  return section.items.map((item) => ({
-    title: item.title,
-    path: itemPath(section, item),
-    ...(item.description && { description: item.description }),
-    ...(item.deprecated && { deprecated: true }),
-  }));
+  return (await fetchDocsIndex()).categories.flatMap((category) => category.items);
 }
 
-export async function fetchDoc(sectionId: string, docPath: string): Promise<string> {
-  const section = await requireSection(sectionId);
-  const item = findItem(section, docPath);
+export async function fetchDoc(address: string): Promise<string> {
+  const item = findItem(await fetchDocsIndex(), address);
 
   if (!item) {
-    throw new Error(
-      `No document at '${docPath}' in section '${sectionId}'. Use list_docs to see available paths.`,
-    );
+    throw new Error(`No document at '${address}'. Find its address with search_docs or list_docs.`);
   }
 
   return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${item.llmsUrl}`);
@@ -128,8 +119,7 @@ export async function fetchRootageIndex(): Promise<RootageIndex> {
  */
 export async function fetchRootageResource(path: string): Promise<unknown> {
   const index = await fetchRootageIndex();
-  const normalized = path.startsWith("/") ? path : `/${path}`;
-  const resource = index.resources.find((entry) => entry.path === normalized);
+  const resource = index.resources.find((entry) => entry.path === path);
 
   if (!resource) {
     throw new Error(

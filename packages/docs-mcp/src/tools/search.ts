@@ -17,13 +17,10 @@ export function registerSearchDocsTool(server: McpServer): void {
         "Search the full text of SEED Design documentation and get back the matching documents, " +
         "one per line: the address first, then the document's title and description. " +
         "Use this when you do not already know which section or document holds the answer. " +
-        "An address is the document's own path on the site: a leading slash, then the section " +
-        "id, then the path within that section. Drop the leading slash and split at the next " +
-        'one, so `/react/components/action-button` means section="react", ' +
-        'path="components/action-button" for get_doc, and a one-segment address such as ' +
-        '`/react` means section="react" with an empty path. An address may carry a `#anchor` ' +
-        "naming the heading that matched; get_doc takes it as it stands and reads the whole " +
-        "document. " +
+        "An address is the document's own path on the site, such as " +
+        "`/react/components/action-button`; pass it to get_doc as it stands. An address may " +
+        "carry a `#anchor` naming the heading that matched, which get_doc accepts and ignores, " +
+        "returning the whole document. " +
         "Queries are matched word by word without morpheme analysis, so `액션 버튼` finds what " +
         "`액션버튼` does not.",
       inputSchema: z.object({
@@ -62,7 +59,7 @@ export function registerSearchDocsTool(server: McpServer): void {
           content: [
             {
               type: "text" as const,
-              text: `# Search: ${query}\n\n${shown}\n\n${addresses.map((address) => `- ${searchResultLine(index, address)}`).join("\n")}\n\n## Usage\n\nEach line opens with an address. Drop its leading slash and split at the next one: the first segment is \`section\`, whatever follows it is \`path\` for get_doc. Pass any \`#anchor\` through as it stands.`,
+              text: `# Search: ${query}\n\n${shown}\n\n${addresses.map((address) => `- ${searchResultLine(index, address)}`).join("\n")}\n\n## Usage\n\nEach line opens with an address. Pass it to get_doc as it stands, \`#anchor\` included.`,
             },
           ],
         };

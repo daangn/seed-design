@@ -14,4 +14,5 @@ SEED Design 문서를 위한 **MCP(Model Context Protocol) 서버**. AI 도구�
 
 - 외부 요청: `src/fetch.ts`의 `fetchWithCache<T>()` 사용. 검색 색인만 예외로 `src/search.ts`가 프로세스 수명 동안 들고 있는다
 - 문서 구조는 `/__docs__/index.json`에서 읽으므로 `docs/content/`가 바뀌어도 이 패키지에서 할 일이 없다. 그 응답의 형태를 아는 곳은 `src/docs-index.ts` 하나이고, 게시하는 쪽은 `docs/app/%5F_docs__/index.json/route.ts`다
-- `search_docs`가 출력하는 주소를 `get_doc`이 그대로 받도록 유지한다. 두 도구가 주소를 다르게 읽으면 검색 결과를 이어서 열 수 없다
+- `search_docs`·`list_docs`가 출력하는 주소를 `get_doc`이 그대로 받도록 유지한다. 도구끼리 주소를 다르게 읽으면 결과를 이어서 열 수 없다
+- 입력을 고쳐서 받지 않는다. tool description에 적힌 형식과 다른 값은 없는 값과 똑같이 답하고, 올바른 형식은 description만으로 알 수 있게 쓴다. 예: `get_doc({ path: "react/components/action-button" })`에 앞 슬래시를 붙여 주지 않는다. `get_doc`이 주소 뒤의 `#앵커`를 무시하는 것은 고치기가 아니라, URL fragment와 같은 뜻이라서 description에 적어 둔 문법이다

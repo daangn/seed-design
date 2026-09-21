@@ -3,7 +3,7 @@
 "@seed-design/docs-mcp": major
 ---
 
-(BREAKING CHANGE: CLI의 기존 `docs` 호출을 `docs list`, `docs search`, `docs read`로 변경하고, 제거된 MCP 도구를 사용하는 설정·프롬프트를 갱신해야 합니다.) CLI와 Docs MCP에서 문서를 검색하고 읽는 방법을 정리합니다.
+(BREAKING CHANGE: CLI의 기존 `docs` 호출을 `docs list`, `docs search`, `docs read`로 변경하고, 제거된 MCP 도구와 바뀐 `get_doc` 인자를 사용하는 설정·프롬프트를 갱신해야 합니다.) CLI와 Docs MCP에서 문서를 검색하고 읽는 방법을 정리합니다.
 
 ## CLI
 
@@ -50,12 +50,12 @@
 ## Docs MCP
 
 - `search_docs({ query: "액션 버튼" })`를 추가합니다. CLI와 같은 색인·검색 로직을 사용해 관련 문서를 최대 20개 반환합니다. 결과에는 주소·제목·설명·deprecated 여부가 포함됩니다.
-- 검색 주소 `/react/components/action-button#usage`는 `get_doc({ section: "react", path: "components/action-button#usage" })`로 읽습니다. 앵커는 무시하고 전체 본문을 반환합니다. `/react` 같은 섹션 개요는 `path: ""`로 읽습니다.
-- `list_docs`와 `get_doc`은 사이트의 문서 인덱스에서 최신 섹션·문서 목록을 읽습니다. 디자인 스펙·파운데이션·패턴·업데이트·시작하기 섹션도 조회할 수 있습니다. `list_docs`는 경로순 목록에 설명·deprecated 여부를 표시하며, `category` 필터를 제거합니다.
-- `get_doc`은 인덱스에 있는 문서만 읽습니다. `.txt`가 붙은 기존 `path`는 목록에 표시되는 경로로 바꿔야 합니다. 같은 이름의 문서가 여러 개면 후보 경로를 안내하고 거부합니다.
-- `discover_seed_docs`와 `get_full_docs`를 제거합니다. `search_docs` 또는 `list_docs({ section })`로 문서를 찾고 필요한 문서를 `get_doc`으로 읽도록 설정·프롬프트를 변경해야 합니다.
+- `get_doc`의 `section` 인자를 제거하고, `path`에 목록·검색 결과에 출력된 주소를 그대로 받습니다. 검색 주소 `/react/components/action-button#usage`는 `get_doc({ path: "/react/components/action-button#usage" })`로 읽으며, 앵커는 무시하고 전체 본문을 반환합니다. `/react` 같은 섹션 개요도 `get_doc({ path: "/react" })`로 읽습니다.
+- `list_docs`와 `get_doc`은 사이트의 문서 인덱스에서 최신 섹션·문서 목록을 읽습니다. 디자인 스펙·파운데이션·패턴·업데이트·시작하기 섹션도 조회할 수 있습니다. `list_docs`는 `search_docs`와 같은 형식으로 주소·제목·설명·deprecated 여부를 표시하고, `section`을 생략하면 모든 문서를 나열합니다. `category` 필터를 제거합니다.
+- `get_doc`은 인덱스에 있는 문서의 주소와 정확히 같을 때만 읽습니다. 앞 슬래시가 없는 경로, `.txt`·`.md`가 붙은 경로, `action-button` 같은 짧은 이름은 찾지 못한 것으로 답하므로 목록에 표시되는 주소로 바꿔야 합니다.
+- `discover_seed_docs`와 `get_full_docs`를 제거합니다. `search_docs` 또는 `list_docs`로 문서를 찾고 필요한 문서를 `get_doc`으로 읽도록 설정·프롬프트를 변경해야 합니다.
 - `list_icons`, `search_icons`, `get_icon_details`를 제거합니다. 아이콘은 [아이콘 라이브러리](https://seed-design.io/foundations/iconography/library)에서 확인합니다.
-- `get_rootage`는 인덱스에 등록된 리소스 경로만 조회하도록 제한합니다.
+- `get_rootage`는 인덱스에 등록된 리소스 경로만 조회하도록 제한합니다. 경로는 앞 슬래시까지 인덱스와 같아야 하며, 빈 `path`는 인덱스를 반환하지 않고 찾지 못한 것으로 답합니다.
 - `SEED_DOCS_BASE_URL` 환경 변수로 문서 사이트를 지정할 수 있습니다. 문서·검색·rootage 요청에 30초 제한을 적용하고, 검색 색인은 캐시해 30분마다 재검증합니다.
 - 공개 함수 `initializeTools`가 `Promise<void>` 대신 `void`를 반환합니다. `.then()`을 연결한 코드는 직접 호출하거나 `await initializeTools(server)`로 변경해야 합니다.
 
