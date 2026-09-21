@@ -21,8 +21,6 @@ Tailwind v4 전체 기능이나 모든 Lynx Engine에서의 호환성을 의미�
 | `tailwindcss`, `@tailwindcss/postcss` | `4.x` |
 | `postcss` | `8.x` |
 
-Rsbuild와 Rspack은 Rspeedy의 의존성으로 설치됩니다. 다만 기존 플러그인의 peer dependency로
-다른 major가 함께 설치되는 앱에서는 [업그레이드 절차](#tailwind-css-3에서-업그레이드)처럼 앱의 해석 버전도 맞춰야 합니다.
 ReactLynx와 React 플러그인은 선택한 Rspeedy와 호환되는 버전을 사용하세요.
 Node 요구사항과 기존 설정 변경은 [Rspeedy 업그레이드 가이드](https://lynxjs.org/rspeedy/upgrade.html)를 참고하세요.
 이 기준은 아래 설정을 적용할 빌드 환경이며, Tailwind 4 자체가 Rsbuild 2에서만 동작한다는 의미는 아닙니다.
@@ -114,111 +112,37 @@ import "./styles/global.css";
 
 ## Tailwind CSS 3에서 업그레이드
 
-기존 v3 앱에서도 위 PostCSS 설정과 CSS import를 사용합니다. 다음은
-[`create-lynx-app`](https://github.com/karrot-emu/lynx-tools/tree/main/packages/create-lynx-app)의
-Rspeedy 0.13·ReactLynx 0.117·Tailwind 3 기반 앱을 이전하는 순서입니다.
+먼저 프로젝트의 빌드 도구가 위 [요구사항](#요구사항과-설치)을 충족하는지 확인하세요.
 
-### 1. 빌드 도구 함께 업데이트하기
-
-Node.js는 Rspeedy의 요구사항인 `^20.19.0 || >=22.12.0`을 충족해야 합니다.
-Rspeedy만 올리지 말고 ReactLynx와 React 플러그인을 함께 업데이트하세요.
-다음은 이 scaffold에서 개발·프로덕션 빌드를 확인한 조합이며 최소 버전을 뜻하지 않습니다.
-
-```bash
-bun add @lynx-js/react@0.125.0
-bun add -d @lynx-js/rspeedy@0.17.2 @lynx-js/react-rsbuild-plugin@0.20.2
-```
-
-이 조합은 Rsbuild 2·Rspack 2를 사용합니다.
-기존 `@lynx-js/react@0.117`을 유지하면 `Package subpath './hooks' is not defined by "exports"`로
-빌드가 실패할 수 있습니다. React 플러그인 0.17.2와 새 Rspeedy의 조합에서는 프로덕션 빌드는 성공해도
-개발 빌드가 `chunkGroups is not iterable`로 실패했으므로 두 빌드를 모두 확인하세요.
-
-scaffold에 포함된 config·아이콘 플러그인도 함께 확인합니다. 이번에 확인한 구성은 다음과 같습니다.
-
-```bash
-bun add @lynx-js/config-rsbuild-plugin@0.2.3
-bun add -d @seed-design/rsbuild-plugin-lynx-icon@0.2.1 @rsbuild/core@2.2.4 @rspack/core@2.2.6
-```
-
-아이콘 플러그인 0.2.1은 Rsbuild 1 peer를 선언하므로 Rsbuild 1과 2가 함께 설치될 수 있습니다.
-이때 HMR이 앱 루트의 Rspack 1 emitter를 참조하면 초기 화면은 표시돼도
-`cannot read property 'on' of undefined`로 이벤트가 실행되지 않았습니다.
-위 명령은 앱 루트에서 참조할 Rsbuild·Rspack을 Rspeedy가 사용하는 버전과 맞춥니다.
-Rspeedy를 다시 업데이트할 때도 실제 의존성 트리를 확인하세요.
-
-config 플러그인 0.2.3에서는 기존 `pluginLynxConfig`에 있던 다음 옵션을 제거해야 합니다.
-새 플러그인이 이 옵션들을 `Unsupported configuration`으로 거부합니다.
-
-```diff
- pluginLynxConfig({
--  enableMultiTouchParamsCompatible: true,
--  enableCSSSelector: true,
--  enableCSSInvalidation: true,
--  enableCSSStrictMode: false,
--  enableTextRefactor: true,
-   // 나머지 앱 설정 유지
- })
-```
-
-### 2. Tailwind 패키지 교체하기
+### 1. 패키지 교체하기
 
 ```bash
 bun remove @seed-design/tailwind3-plugin
-bun add @seed-design/lynx-css@0.12 @seed-design/tailwind4-theme@2.4.2 tailwindcss@4
+bun add @seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4
 bun add -d @tailwindcss/postcss@4 postcss@8
 ```
 
-`@seed-design/tailwind4-theme@2.4.2`의 Lynx CSS peer 범위는 `^0.11.0 || ^0.12.0`입니다.
-scaffold의 `@seed-design/lynx-css@0.4.1`도 함께 업데이트합니다. 다른 버전을 선택할 때는 해당 theme의
-peer 범위와 앱에서 사용하는 SEED 컴포넌트의 호환성을 확인하세요.
-`@lynx-js/tailwind-preset`을 별도로 설치했다면 사용처를 제거하고 해당 패키지도 삭제합니다.
+`@seed-design/lynx-css`는 theme 패키지의 peer 범위에 맞는 버전을 사용하세요.
+`@lynx-js/tailwind-preset`을 사용 중이라면 설정과 의존성에서 제거합니다.
 
-SEED 컴포넌트도 함께 업데이트한다면 `@seed-design/lynx-react@0.8.0`과
-`@seed-design/lynx-css@0.12.0`을 사용할 수 있습니다. 이 React 패키지는
-`@lynx-js/types >=3.9.0`을 요구하므로 타입 패키지도 함께 맞추세요.
-컴포넌트 업데이트는 Tailwind 전환과 별개이며, 기존 컴포넌트의 API와 화면도 확인해야 합니다.
+### 2. PostCSS와 CSS 교체하기
 
-### 3. PostCSS와 CSS entry 교체하기
+- 기존 PostCSS의 `tailwindcss` 플러그인을 위 [PostCSS 설정](#postcssconfigjs)으로 교체합니다. Lynx용 후처리도 함께 적용하세요.
+- `@tailwind` 지시문을 위 [CSS import](#css-import)로 교체합니다. 웹용 Preflight는 포함하지 않습니다.
+- `@source` 경로를 앱 소스 위치에 맞추고, 앱 entry에서 전역 CSS를 import합니다.
 
-위 [PostCSS 설정](#postcssconfigjs)과 [CSS import](#css-import)를 그대로 적용합니다.
-`@tailwind components`·`@tailwind utilities`는 v4 import로 교체하고, 앱 entry에서
-`import "./styles/global.css"`를 불러오세요. `@seed-design/lynx-css/base.css`만 직접 import하던
-scaffold에서는 해당 import를 전역 CSS import로 교체해야 Tailwind 유틸리티가 포함됩니다.
+### 3. 기존 설정 이전하기
 
-`@source "../"`는 `src/styles/global.css` 기준으로 `src`를 가리킵니다.
-CSS 파일 위치를 바꾸면 경로도 함께 바꾸세요.
+v4는 `tailwind.config.ts`를 자동으로 읽지 않습니다. SEED plugin과 `content`만 사용했다면
+위 theme import와 `@source`가 이를 대체합니다. 사용자 정의 설정이 있다면
+`@theme`·`@utility`·`@plugin`으로 이전한 뒤 기존 설정 파일을 제거하세요.
 
-Biome을 사용하는 scaffold에서는 `@source`를 파싱하도록 기존 `biome.json`의
-`css.parser`에 `"tailwindDirectives": true`를 추가합니다. 그렇지 않으면 앱 빌드와 별개로
-lint가 `Tailwind-specific syntax is disabled`로 실패합니다.
+SEED 외의 유틸리티 변경은 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)를 참고하세요.
 
-### 4. 기존 설정과 클래스 이전하기
+### 4. 화면 확인하기
 
-v4는 `tailwind.config.ts`를 자동으로 읽지 않습니다. SEED plugin과 `content`만 있었다면
-위 theme import와 `@source`가 이를 대체하므로 기존 설정 파일을 제거할 수 있습니다.
-사용자 정의 색상·간격·플러그인이 있으면 먼저 v4의 `@theme`·`@utility`·`@plugin`으로 이전하세요.
-
-SEED 유틸리티 외의 클래스 변경은 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)를
-확인하세요. 웹용 자동 마이그레이션만으로 Lynx 호환성 후처리와 Preflight 제외가 적용되지는 않습니다.
-vanilla-extract를 함께 쓰는 앱은 기존 스타일과 플러그인을 유지할 수 있습니다.
-
-### 5. 개발 서버와 배포 번들 확인하기
-
-```bash
-bun run typecheck
-bun run build
-bun run dev
-```
-
-개발 서버와 프로덕션 번들을 각각 실제 host에서 열어 색상, 타이포그래피, 간격, 모서리,
-선택 상태의 클래스 교체와 루트 라이트·다크 테마를 확인하세요.
-기존 SEED 컴포넌트와 vanilla-extract 스타일도 함께 확인합니다.
-개발 중에는 기존 파일에 새 클래스를 추가하거나 새 TSX 파일을 만들어,
-서버 재시작 없이 스타일이 반영되는지도 확인하세요. 이미 생성된 클래스만 바꾸면
-Tailwind의 새 유틸리티 탐지와 HMR 동작을 놓칠 수 있습니다.
-기기에서는 개발 서버가 출력한 LAN bundle URL을 사용하세요. `server.host`를 `0.0.0.0`으로
-강제하면 QR에도 그 주소가 들어갈 수 있으므로, scaffold에서는 Rspeedy의 기본 LAN 주소 선택을 유지합니다.
+개발 서버와 프로덕션 번들에서 색상·타이포그래피·간격·상태 변경·루트 테마 전환을 확인하세요.
+새 클래스를 추가했을 때 서버 재시작 없이 스타일이 반영되는지도 확인합니다.
 
 ## Color
 
