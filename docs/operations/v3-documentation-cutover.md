@@ -54,7 +54,7 @@ git push origin refs/heads/2.0:refs/heads/2.0
 ```
 
 원격에 `2.0`이 이미 생겼다면 위 명령을 재실행하거나 강제 push하지 말고 기존 브랜치와 SHA를 비교한다.
-별도 worktree에서 `2.0` 대상 준비 PR을 만들고, alpha workflow의 배포 전 링크 검사만 먼저 반영한다.
+기존 alpha workflow를 수정 없이 사용한다.
 메뉴는 출시 전에는 `v2.0 (latest)`를 유지한다. 아래 출시용 메뉴 변경은 `2.0` 대상 별도 PR로 준비해 10월 1일에 반영한다.
 
 - 이 major PR의 메뉴 목록과 배너 변경만 가져온다.
@@ -73,8 +73,8 @@ gh run list --workflow deploy-seed-design-docs-alpha-pages.yml --branch 2.0 --li
 ```
 
 첫 브랜치 push는 path filter 때문에 배포되지 않을 수 있으므로 수동 실행 결과를 확인한다.
-첫 배포 전에 `2.0` 브랜치에 배포 전 링크 검사 단계가 포함됐는지 확인한다.
-이후 docs 등 workflow 대상 경로 변경은 push로 배포된다. 일반 PR은 기존처럼 preview 배포 후 링크 검사한다.
+이후 docs 등 workflow 대상 경로 변경은 push로 배포된다. 링크 검사는 기존처럼 preview 배포 후 실행되므로,
+도메인을 연결하기 전에 배포와 링크 검사 모두 성공했는지 확인한다.
 
 Cloudflare Deployment details에 표시된 alias를 기록한다. 예상값은 `2-0.seed-design-v3.pages.dev`다.
 고유 배포 hash URL은 복구 증거로 보관하고, 유지보수 도메인에는 계속 갱신되는 브랜치 alias를 사용한다.
