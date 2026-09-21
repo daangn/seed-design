@@ -1,9 +1,12 @@
+"use client";
+
 import {
   IconCarLine,
   IconFigureBikeLine,
   IconMetroFrontsideLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Box, HStack } from "@seed-design/react";
+import { Box, HStack } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import {
   SelectContent,
   SelectGroup,

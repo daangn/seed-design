@@ -43,9 +43,11 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
             {badgeVariantMap.variant.map((variant) => (
               <VStack key={variant} gap="x2">
                 {badgeVariantMap.tone.map((tone) => (
-                  <Badge key={tone} size="medium" variant={variant} tone={tone}>
-                    t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
-                  </Badge>
+                  <Badge.Root key={tone} size="medium" variant={variant} tone={tone}>
+                    <Badge.Label>
+                      t1 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                    </Badge.Label>
+                  </Badge.Root>
                 ))}
               </VStack>
             ))}
@@ -55,9 +57,11 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
             {badgeVariantMap.variant.map((variant) => (
               <VStack key={variant} gap="x2">
                 {badgeVariantMap.tone.map((tone) => (
-                  <Badge key={tone} size="large" variant={variant} tone={tone}>
-                    t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
-                  </Badge>
+                  <Badge.Root key={tone} size="large" variant={variant} tone={tone}>
+                    <Badge.Label>
+                      t2 Est eiusmod sit do minim sunt incididunt aliqua et sit.
+                    </Badge.Label>
+                  </Badge.Root>
                 ))}
               </VStack>
             ))}

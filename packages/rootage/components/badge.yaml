@@ -8,14 +8,13 @@ data:
     slots:
       root:
         properties:
-          maxWidth:
-            type: dimension
-            description: 10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다.
           minHeight:
             type: dimension
           paddingX:
             type: dimension
           paddingY:
+            type: dimension
+          gap:
             type: dimension
           cornerRadius:
             type: dimension
@@ -25,6 +24,10 @@ data:
             type: color
           color:
             type: color
+      prefix:
+        properties:
+          size:
+            type: dimension
       label:
         properties:
           fontSize:
@@ -35,6 +38,10 @@ data:
             type: number
           color:
             type: color
+      action:
+        properties:
+          size:
+            type: dimension
     variants:
       variant:
         values:
@@ -60,22 +67,30 @@ data:
     size=large:
       enabled:
         root:
-          maxWidth: 6.75rem # 108px ÷ 16
           minHeight: $dimension.x6
           paddingX: $dimension.x2
           paddingY: $dimension.x1
           cornerRadius: $radius.r1_5
+          gap: $dimension.x0_5
+        prefix:
+          size: $dimension.x3_5
+        action:
+          size: $dimension.x3_5
         label:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
     size=medium:
       enabled:
         root:
-          maxWidth: 7.5rem # 120px ÷ 16
           minHeight: $dimension.x5
           paddingX: $dimension.x1_5
           paddingY: $dimension.x0_5
           cornerRadius: $radius.r1
+          gap: $dimension.x0_5
+        prefix:
+          size: $dimension.x3
+        action:
+          size: $dimension.x3
         label:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1

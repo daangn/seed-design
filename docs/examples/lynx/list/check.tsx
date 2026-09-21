@@ -2,8 +2,9 @@ import "./styles";
 
 import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
 
-import { Badge, Checkbox, HStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Checkbox, HStack, useSeedClassName } from "@seed-design/lynx-react";
 
+import { Badge } from "@/components/ui/badge";
 import { List, ListCheckItem, ListDivider } from "@/components/ui/list";
 
 export default function Example() {
