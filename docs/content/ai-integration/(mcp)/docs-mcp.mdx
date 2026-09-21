@@ -108,43 +108,23 @@ codex mcp add seed-docs -- npx -y @seed-design/docs-mcp
 
 ## 사용 가능한 도구
 
-서버가 등록하는 도구는 네 개입니다.
-
-섹션 목록은 서버 안에 상수로 들어 있지 않고, 문서 사이트가 게시하는 인덱스를 호출 시점에 읽어옵니다. 사이트 구조가 바뀌면 이미 설치된 버전도 그대로 따라가므로, 섹션 이름을 외워서 넘기는 대신 `search_docs`가 출력한 주소를 나눠서 씁니다.
+도구는 호출할 때마다 문서 사이트에서 최신 내용을 읽어오므로, 문서가 추가되거나 옮겨져도 서버를 업데이트할 필요가 없습니다.
 
 ### 검색
 
 #### `search_docs`
 
-문서 본문까지 검색해 관련 문서를 관련도 순으로 반환합니다. 어느 섹션에 답이 있는지 모를 때 쓰는 도구이고, 문서 사이트의 검색창과 같은 색인, 같은 순위를 씁니다. 결과 한 줄에 문서 하나가 주소, 제목, 설명 순서로 담겨 있어서, 문서를 열어 보기 전에 어느 것을 읽을지 고를 수 있습니다.
+문서 본문을 검색해 관련 문서를 관련도 순으로 반환합니다. 어느 문서에 답이 있는지 모를 때 사용하며, 결과는 문서 사이트의 검색과 같습니다. 각 결과에는 `get_doc`으로 읽을 수 있는 주소와 제목, 설명이 함께 나옵니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `query` | string | 찾을 말. 한국어와 영어 모두 동작하며 단어는 공백으로 구분합니다 |
+| `query` | string | 검색어. 한국어와 영어를 모두 지원합니다 |
 
 **예시:**
 ```
 search_docs({ query: "액션 버튼" })
 ```
-
-**예시 응답 (발췌):**
-```
-# Search: 액션 버튼
-
-Showing the top 20 of 71 matches
-
-- /components/action-button#hierarchy  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-- /components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
-- /react/components/floating-action-button  Floating Action Button — 화면 상에 떠 있으며 주요 액션을 실행하는 버튼입니다.
-...
-```
-
-각 줄은 주소로 시작하고, 주소는 그 문서가 사이트에서 갖는 경로 그대로입니다. 앞의 슬래시를 떼고 그다음 슬래시에서 자르면 앞이 `section`, 뒤가 `get_doc`에 넘길 `path`입니다. `/components/action-button#hierarchy`는 `get_doc({ section: "components", path: "action-button#hierarchy" })`가 됩니다. 조각이 하나뿐인 `/react` 같은 주소는 `section`이 `react`이고 `path`가 빈 문자열입니다.
-
-주소에 붙은 `#앵커`는 어느 제목이 걸렸는지 알려주는 표시일 뿐이고, `get_doc`이 그대로 받아 문서 전체를 반환하므로 떼지 않아도 됩니다.
-
-질의어는 형태소 분석 없이 단어 단위로 맞춰봅니다. 그래서 `액션 버튼`은 찾지만 `액션버튼`은 찾지 못합니다.
 
 ---
 
@@ -152,34 +132,17 @@ Showing the top 20 of 71 matches
 
 #### `list_docs`
 
-섹션 안의 문서 목록을 반환합니다. 각 항목에 `get_doc`으로 넘길 `path`와 설명, deprecated 표시가 함께 나옵니다. 목록은 `path` 순으로 정렬되므로 같은 경로 아래 있는 문서끼리 모여서 나옵니다.
+섹션 안의 문서 목록을 제목, 설명과 함께 반환합니다.
 
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `section` | string | 섹션 id. `search_docs`가 출력한 주소의 첫 조각입니다 |
+| `section` | string | 섹션 이름. 문서 사이트 주소의 첫 경로입니다 (예: `react`, `components`, `foundations`) |
 
 **예시:**
 ```
 list_docs({ section: "react" })
 ```
-
-**예시 응답:**
-```
-# React Documentation
-
-Total: 110 documents
-
-- Accordion (path: components/accordion) — 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
-- Action Button (path: components/action-button) — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-...
-
-## Usage
-
-Use get_doc with section="react" and a path above to read a document.
-```
-
-없는 섹션을 넘기면 실제 섹션 목록을 담아 거부하므로, 한 번의 재시도로 바로잡을 수 있습니다.
 
 #### `get_doc`
 
@@ -188,8 +151,8 @@ Use get_doc with section="react" and a path above to read a document.
 **파라미터:**
 | 이름 | 타입 | 설명 |
 |------|------|------|
-| `section` | string | 섹션 id |
-| `path` | string | 섹션 기준 상대 경로 (예: `components/action-button`, `color`). 빈 문자열은 그 섹션 자체의 페이지를 가리키고, `#앵커`가 붙어 있으면 무시합니다 |
+| `section` | string | 섹션 이름 |
+| `path` | string | 섹션 안의 문서 경로 (예: `components/action-button`, `color`) |
 
 **예시:**
 
@@ -207,10 +170,6 @@ get_doc({ section: "react", path: "components/action-button" })
 ```
 get_doc({ section: "foundations", path: "color" })
 ```
-
-이름만 넘겼는데 그 이름을 가진 문서가 섹션 안에 둘 이상이면, 앞의 것을 돌려주지 않고 후보 경로를 담아 거부합니다. `react` 섹션의 `alert-dialog`, `bottom-sheet`, `menu-sheet`가 여기에 해당하므로 `components/` 또는 `stackflow/`까지 붙여서 넘겨야 합니다.
-
-`search_docs`가 출력한 주소는 나눈 그대로 넘기면 됩니다. 앵커를 떼거나 섹션 개요 문서의 이름을 따로 찾아볼 필요가 없습니다.
 
 ---
 
@@ -238,8 +197,6 @@ get_rootage()
 ```
 get_rootage({ path: "/components/action-button.json" })
 ```
-
-경로는 인덱스와 대조한 뒤 가져오므로, `/rootage` 밖을 가리키는 값은 거부됩니다.
 
 ---
 
@@ -269,35 +226,4 @@ initializeTools(server);
 
 // 원하는 transport와 함께 사용 (stdio, Streamable HTTP 등)
 await server.connect(new StdioServerTransport());
-```
-
----
-
-## 개발
-
-로컬에서 개발하거나 테스트할 때 사용하는 명령어입니다.
-
-```bash
-# 의존성 설치
-bun install
-
-# 개발 모드 실행 (stdio)
-bun run dev
-
-# 빌드
-bun run build
-
-# 린트
-bun run lint
-
-# 타입 검사
-bun run typecheck
-```
-
-### MCP Inspector로 테스트
-
-[MCP Inspector](https://github.com/modelcontextprotocol/inspector)를 사용하면 브라우저에서 도구를 테스트할 수 있습니다:
-
-```bash
-npx @modelcontextprotocol/inspector bun ./dist/stdio.js
 ```
