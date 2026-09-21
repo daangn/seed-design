@@ -28,7 +28,7 @@ async function compile(mdx: string): Promise<string> {
   return String((file as { data: { markdown?: string } }).data.markdown ?? "");
 }
 
-/** 합성 placeholder로 채운다. 등록된 것은 Sanity를 읽으므로 여기서 쓰지 않는다. */
+/** 합성 placeholder로 채운다. 등록된 것은 빌드 전에 받아 둔 Sanity 데이터를 읽으므로 여기서 쓰지 않는다. */
 const fill = (markdown: string, entries: LLMPlaceholder[]) =>
   renderPlaceholdersWith(markdown, entries).then(tidyLLMMarkdown);
 
@@ -100,8 +100,7 @@ describe("progress board placeholder", () => {
     expect(actual.endsWith("뒤 문단")).toBe(true);
   });
 
-  // 빈 표를 내보내면 "아무것도 구현 안 됨"으로 읽힌다. 가져오기가 실패했다는 사실이
-  // 출력에 남아야 해서 태그를 되살린다.
+  // 빈 표를 내보내면 "아무것도 구현 안 됨"으로 읽혀서 태그를 되살린다.
   it("restores the tag rather than emitting empty tables", async () => {
     const empty = createProgressBoardPlaceholder(async () => []);
 

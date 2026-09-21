@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "bun run prepare:figma-images && bun run typecheck && bun run build:lynx-examples && bun run build:turbopack",
-    "build:turbopack": "bun run prepare:git-timestamps && SEED_USE_GIT_TIMESTAMPS_MANIFEST=1 NEXT_EXTERNAL_TYPECHECK=1 next build --turbopack",
+    "build:turbopack": "bun run prepare:git-timestamps && bun run prepare:sanity-components && SEED_USE_GIT_TIMESTAMPS_MANIFEST=1 NEXT_EXTERNAL_TYPECHECK=1 next build --turbopack",
     "dev": "bun run prepare:lynx-workspace && local-md dev -- concurrently \"bun --filter @seed-design/lynx-react build --watch\" \"bun run dev:lynx-examples\" \"bun --filter @seed-design/stackflow-spa dev\" \"next dev --webpack\"",
     "start": "concurrently \"bun --filter @seed-design/stackflow-spa dev\" \"next start\"",
     "sanity:dev": "sanity dev",
@@ -12,6 +12,7 @@
     "sanity:build": "sanity build",
     "prepare:figma-images": "bun scripts/prepare-figma-images.ts",
     "prepare:git-timestamps": "bun scripts/prepare-git-timestamps.ts",
+    "prepare:sanity-components": "bun scripts/prepare-sanity-components.ts",
     "gen": "bun generate:all",
     "generate:all": "bun generate:registry",
     "generate:registry": "bun scripts/generate-registry.ts",

@@ -1,17 +1,13 @@
-import { createClient } from "@sanity/client";
-import { apiVersion, dataset, projectId } from "@/sanity-studio/env";
-import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { escapeCell, markdownRow } from "@/lib/llms/markdown-table";
+import { readSanityComponents } from "@/lib/llms/sanity-components";
 
 // 룰이 아니라 마크다운 헬퍼다. 그래서 `-rule` 접미사를 쓰지 않는다.
 //
 // 컴포넌트 문서 페이지엔 본문 <PlatformStatusTable> 노드가 없다(플랫폼 상태를 헤더에서 렌더).
 // 붙일 노드가 없으니 핸들러도 placeholder도 될 수 없고, get-llm-text.ts가 본문 앞에
 // 직접 끼워 넣는다. 그래서 rules/가 사라진 뒤에도 여기 남아 있다.
-
-const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
 
 type Row = Record<string, string>;
 
@@ -46,30 +42,7 @@ export function generateMarkdownTable(component: ComponentData): string {
   ].join("\n");
 }
 
-let componentDataCache: Map<string, ComponentData> | null = null;
-let initPromise: Promise<void> | null = null;
-
-async function fetchAndCacheComponentData(): Promise<void> {
-  const cache = new Map<string, ComponentData>();
-  try {
-    const components = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY, {}, {
-      cache: "no-store",
-    });
-    for (const component of components) {
-      cache.set(component.id, component);
-    }
-  } catch {
-    // Sanity fetch 실패 시 빈 캐시 사용
-  }
-  componentDataCache = cache;
-}
-
-async function init(): Promise<void> {
-  if (!initPromise) {
-    initPromise = fetchAndCacheComponentData();
-  }
-  await initPromise;
-}
+let componentsById: Promise<Map<string, ComponentData>> | null = null;
 
 /**
  * componentIds의 각 컴포넌트에 대한 플랫폼 상태 마크다운 테이블을 만든다.
@@ -77,10 +50,14 @@ async function init(): Promise<void> {
  * 문서가 없는 id는 건너뛰고, 하나도 없으면 빈 문자열을 반환한다.
  */
 export async function getPlatformStatusMarkdown(componentIds: string[]): Promise<string> {
-  await init();
+  componentsById ??= readSanityComponents().then(
+    (components) => new Map(components.map((component) => [component.id, component])),
+  );
+  const byId = await componentsById;
+
   const showHeading = componentIds.length > 1;
   const parts = componentIds
-    .map((id) => componentDataCache?.get(id))
+    .map((id) => byId.get(id))
     .filter((component): component is ComponentData => Boolean(component))
     .map((component) =>
       showHeading

@@ -1,12 +1,8 @@
-import { createClient } from "@sanity/client";
 import { escapeCell, markdownRow } from "../markdown-table";
 import { type PlatformKey, PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
-import { apiVersion, dataset, projectId } from "@/sanity-studio/env";
-import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
+import { readSanityComponents } from "../sanity-components";
 import type { LLMPlaceholder } from "../types";
-
-const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
 
 function formatStatusCell(component: ComponentData, key: PlatformKey): string {
   const status = component[`${key}Status`] as PlatformStatus | undefined;
@@ -48,16 +44,16 @@ function buildComponentTable(components: ComponentData[]): string {
 
 /**
  * `<ProgressBoardTable />` renders live Sanity data, so the markdown cannot read it off the
- * page — it refetches. An empty result keeps the tag rather than emitting empty tables,
- * which would read as "nothing is implemented" instead of "the fetch failed".
+ * page — it reads the copy taken before the build. An empty result keeps the tag rather
+ * than emitting empty tables, which would read as "nothing is implemented".
  *
- * 컴포넌트를 가져오는 일은 인자로 받는다. 테스트가 Sanity를 타지 않게 하려는 것이고,
- * 그래야 네트워크 상태에 따라 결과가 갈리지 않는다.
+ * 컴포넌트 목록은 인자로 받는다. 테스트가 빌드 전에 받아 둔 Sanity 데이터에 묶이지 않게 하려는
+ * 것이다.
  */
 export function createProgressBoardPlaceholder(
   load: () => Promise<ComponentData[]>,
 ): LLMPlaceholder {
-  // Fetched once per process; every page embedding the tag wants the same board.
+  // Read once per process; every page embedding the tag wants the same board.
   let components: Promise<ComponentData[]> | null = null;
 
   return {
@@ -77,16 +73,4 @@ export function createProgressBoardPlaceholder(
   };
 }
 
-export const progressBoardPlaceholder = createProgressBoardPlaceholder(async () => {
-  try {
-    return await sanityClient.fetch<ComponentData[]>(
-      ALL_COMPONENTS_QUERY,
-      {},
-      {
-        cache: "no-store",
-      },
-    );
-  } catch {
-    return [];
-  }
-});
+export const progressBoardPlaceholder = createProgressBoardPlaceholder(readSanityComponents);
