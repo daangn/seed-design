@@ -7,12 +7,12 @@ alwaysApply: true
 
 ## 디렉토리 개요
 
-`docs/app/_llms`는 문서별 마크다운으로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다.
+`docs/app/_llms`는 문서별 마크다운으로 내보낼 **섹션의 정의와 문서 조립**을 담는다. MDX를 LLM 친화 텍스트로 바꾸는 일 자체는 컴파일 타임에 `lib/llms`의 핸들러가 하고(`lib/llms/AGENTS.md` 참조), 이 폴더는 그 결과에 제목·출처·플랫폼 상태를 얹어 한 문서로 만든다. 입력인 `processed` 익스포트는 상위 `app/source.tsx`가 만들고, 완성된 문서는 `app/[...slug]/route.ts` 하나가 서빙한다. CLI와 docs-mcp가 읽는 문서 인덱스(`/__docs__/index.json`)는 `app/%5F_docs__/index.json/route.ts`가 같은 섹션 소스로 조립해 서빙한다.
 
 ## 파일 작성 컨벤션
 
 - `config.ts`가 섹션 레지스트리의 단일 진입점이다. 섹션의 콘텐츠 디렉토리·URL·라벨을 한곳에 적는다.
-- `config.ts`는 번들러 전용 모듈을 import하지 않는다. `scripts/generate-docs-index.ts`가 Next 밖에서 읽어야 한다. fumadocs 소스와 짝짓는 일은 `sources.ts`가 맡는다.
+- `config.ts`는 번들러 전용 모듈을 import하지 않는다. `bun test`가 Next 밖에서 읽어야 한다. fumadocs 소스와 짝짓는 일은 `sources.ts`가 맡는다.
 - barrel file을 두지 않는다. 모듈은 파일 경로로 직접 import한다.
 
 ## 코드 작성 컨벤션
@@ -28,7 +28,6 @@ alwaysApply: true
 2. 새 MDX 컴포넌트를 문서에 도입하면 `lib/llms`에 핸들러를 만들고 `rule-elements.ts`의 `RULE_ELEMENT_NAMES`에 이름을 추가한다.
 3. 아래 검증을 통과시킨다.
    - `bun test docs/app/_llms docs/lib/llms` (저장소 루트에서 — DOM preload가 `bunfig.toml`에 있다)
-   - `cd docs && bun run generate:all`
 
 ## 변경되지 않는 중요 규칙
 

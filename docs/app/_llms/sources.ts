@@ -22,12 +22,7 @@ import type { LLMPage } from "./types";
  */
 interface SectionSource {
   getPage(slugs: string[]): LLMPage | undefined;
-  getPages(): Array<{
-    url: string;
-    slugs: string[];
-    path: string;
-    absolutePath?: string;
-  }>;
+  getPages(): LLMPage[];
   generateParams(): Array<{ slug?: string[] }>;
 }
 
@@ -38,7 +33,7 @@ interface SectionSource {
  * 소스를 안 붙인 섹션이 조용히 넘어가지 않는다.
  *
  * `config.ts`와 분리된 이유: 이 파일은 `@/app/source`를 값으로 import하고, 그건
- * 번들러 전용인 `.source/server.ts`로 이어진다. `scripts/generate-docs-index.ts`가
+ * 번들러 전용인 `.source/server.ts`로 이어진다. `bun test`가
  * Next 밖에서 `config.ts`를 읽어야 해서 그쪽에는 이 의존을 둘 수 없다.
  */
 export const sectionSources: Record<Section, () => Promise<SectionSource>> = {

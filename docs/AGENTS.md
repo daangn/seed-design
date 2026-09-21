@@ -2,7 +2,7 @@
 
 ## 디렉터리 개요
 
-SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조는 `public/__docs__/index.json`으로 게시되고, `@seed-design/cli`와 `@seed-design/docs-mcp`가 그 인덱스를 실행 시점에 읽는다.
+SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조는 빌드할 때 `/__docs__/index.json`으로 게시되고, `@seed-design/cli`와 `@seed-design/docs-mcp`가 그 인덱스를 실행 시점에 읽는다.
 
 ## 파일 작성 컨벤션
 

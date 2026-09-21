@@ -1,23 +1,12 @@
 import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
-import {
-  type Section,
-  getDocUrl,
-  getLLMMarkdownUrl,
-  sectionConfigs,
-  sections,
-} from "../app/_llms/config";
+import { getDocUrl, getLLMMarkdownUrl, sectionConfigs, sections } from "../app/_llms/config";
 import { listSectionPages } from "./content-pages";
-import type { DocsIndex } from "../../packages/cli/src/schema";
 
 const docsRoot = path.resolve(import.meta.dir, "..");
 const repoRoot = path.resolve(docsRoot, "..");
 const contentRoot = path.join(docsRoot, "content");
-
-const docsIndex = JSON.parse(
-  readFileSync(path.join(docsRoot, "public/__docs__/index.json"), "utf-8"),
-) as DocsIndex;
 
 /** `/{section}/{...slugs}.md` — the document URL with `.md` behind it — for every routable page. */
 const servedLlmsUrls = new Set(
@@ -60,46 +49,6 @@ describe("section registry ↔ routes", () => {
   });
 });
 
-describe("docs index ↔ content", () => {
-  it("holds every routable page exactly once", () => {
-    const indexed = docsIndex.categories.flatMap((c) => c.items.map((i) => i.docUrl)).sort();
-
-    // Pages without a frontmatter title are skipped by the generator, so the index is a
-    // subset — but it must never contain a docUrl the content tree cannot serve.
-    expect(indexed.filter((url) => !servedDocUrls.has(url))).toEqual([]);
-    expect(indexed.length).toBeGreaterThan(200);
-  });
-
-  const allItems = docsIndex.categories.flatMap((c) => c.items);
-
-  it("points every item at a served markdown URL", () => {
-    expect(allItems.filter((item) => !item.llmsUrl || !servedLlmsUrls.has(item.llmsUrl))).toEqual(
-      [],
-    );
-  });
-
-  // 인덱스에서 페이지를 빼는 장치는 이제 없다. 제목이 있는 페이지는 예외 없이 실려야 하고,
-  // 이 단언이 무엇을 놓치는지는 제목 없는 페이지 목록이 스스로 말한다.
-  it("holds every titled page in the content tree", () => {
-    const indexed = new Set(docsIndex.categories.flatMap((c) => c.items.map((i) => i.docUrl)));
-
-    const missing = sections.flatMap((section) =>
-      listSectionPages(section, contentRoot)
-        .filter(({ relPath }) => {
-          const source = readFileSync(
-            path.join(contentRoot, sectionConfigs[section].contentDir, relPath),
-            "utf-8",
-          );
-          return /^---\r?\n[\s\S]*?^title:/m.test(source);
-        })
-        .map(({ slugs }) => getDocUrl(section, slugs))
-        .filter((url) => !indexed.has(url)),
-    );
-
-    expect(missing).toEqual([]);
-  });
-});
-
 describe("skills reference live docs URLs", () => {
   const skillUrls = (() => {
     const found = new Set<string>();
@@ -115,41 +64,6 @@ describe("skills reference live docs URLs", () => {
 
   it("resolves every referenced markdown URL", () => {
     expect(skillUrls.filter((url) => !servedLlmsUrls.has(url))).toEqual([]);
-  });
-});
-
-describe("CLI query resolution invariants", () => {
-  const categoryIds = docsIndex.categories.map((c) => c.id);
-
-  it("keeps category ids aligned with registry sections", () => {
-    expect(categoryIds.filter((id) => !sections.includes(id as Section))).toEqual([]);
-  });
-
-  // 같은 id가 카테고리 여러 곳에 실린다(디자인 스펙과 그 React 구현). CLI가 둘을 구별하는
-  // 근거는 각 항목이 자기 카테고리의 baseUrl 아래 있다는 것뿐이라, 그 관계가 깨지면
-  // `components/x`와 `react/components/x`가 같은 곳을 가리키게 된다. 어느 컴포넌트가
-  // 그런지는 문서가 늘고 줄면 바뀌므로 이름을 박지 않는다.
-  it("keeps every item under its own category's base URL", () => {
-    const misplaced = docsIndex.categories.flatMap((category) => {
-      const { baseUrl } = sectionConfigs[category.id as Section];
-
-      return category.items
-        .filter((item) => item.docUrl !== baseUrl && !item.docUrl.startsWith(`${baseUrl}/`))
-        .map((item) => `${category.id}: ${item.docUrl}`);
-    });
-
-    expect(misplaced).toEqual([]);
-  });
-
-  it("has at least one id that two categories both carry", () => {
-    const idsPerCategory = docsIndex.categories.map(
-      (category) => new Set(category.items.map((i) => i.id)),
-    );
-    const shared = idsPerCategory.flatMap((ids, index) =>
-      [...ids].filter((id) => idsPerCategory.some((other, i) => i !== index && other.has(id))),
-    );
-
-    expect(shared.length).toBeGreaterThan(0);
   });
 });
 

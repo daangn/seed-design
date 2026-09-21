@@ -14,9 +14,9 @@ export interface SectionConfig {
  *
  * 선언 순서가 문서 인덱스의 카테고리 순서다.
  *
- * fumadocs 소스를 여기서 import하면 안 된다. `scripts/generate-docs-index.ts`가
- * Next 밖에서 이 파일을 읽는데, `.source/server.ts`는 번들러 전용 쿼리스트링
- * import(`?collection=...&only=frontmatter`)를 쓰므로 스크립트에서 해석되지 않는다.
+ * fumadocs 소스를 여기서 import하면 안 된다. `bun test`가 Next 밖에서 이 파일을
+ * 읽는데, `.source/server.ts`는 번들러 전용 쿼리스트링
+ * import(`?collection=...&only=frontmatter`)를 쓰므로 Next 밖에서 해석되지 않는다.
  * 섹션 ↔ 소스 짝은 `sources.ts`가 들고 있다.
  */
 export const sectionConfigs = {

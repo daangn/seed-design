@@ -27,7 +27,6 @@ packages/lynx-qvism-preset/src/tokens.ts    linguist-generated
 packages/tailwind3-plugin/src/index.ts      linguist-generated
 packages/tailwind4-theme/index.css          linguist-generated
 packages/rootage/components/schema.json     linguist-generated
-docs/public/__docs__/index.json             linguist-generated
 **/__generated__/**                         linguist-generated
 **/__registry__/**                          linguist-generated
 
