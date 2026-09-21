@@ -2,25 +2,46 @@ import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { getDocUrl, getLLMMarkdownUrl, sectionConfigs, sections } from "../app/_llms/config";
-import { listSectionPages } from "./content-pages";
 
 const docsRoot = path.resolve(import.meta.dir, "..");
 const repoRoot = path.resolve(docsRoot, "..");
 const contentRoot = path.join(docsRoot, "content");
 
+/** Every routable page, as the section it sits in and its slugs within that section. */
+const servedPages = sections.flatMap((section) => {
+  const sourceDir = path.join(contentRoot, sectionConfigs[section].contentDir);
+
+  return listFiles(sourceDir, /\.mdx$/).map((file) => ({
+    section,
+    slugs: filePathToSlugs(path.relative(sourceDir, file)),
+  }));
+});
+
 /** `/{section}/{...slugs}.md` — the document URL with `.md` behind it — for every routable page. */
 const servedLlmsUrls = new Set(
-  sections.flatMap((section) =>
-    listSectionPages(section, contentRoot).map(({ slugs }) => getLLMMarkdownUrl(section, slugs)),
-  ),
+  servedPages.map(({ section, slugs }) => getLLMMarkdownUrl(section, slugs)),
 );
 
 /** `/{section}/{...slugs}` for every routable page in the content tree. */
-const servedDocUrls = new Set(
-  sections.flatMap((section) =>
-    listSectionPages(section, contentRoot).map(({ slugs }) => getDocUrl(section, slugs)),
-  ),
-);
+const servedDocUrls = new Set(servedPages.map(({ section, slugs }) => getDocUrl(section, slugs)));
+
+/**
+ * Convert a file path relative to its content dir into URL slugs.
+ * Strips route groups (parenthesized dirs) and the .mdx extension.
+ *
+ * The section root `index.mdx` yields an empty array — it is a real page (the section
+ * landing) that simply has no slug of its own.
+ */
+function filePathToSlugs(relPath: string): string[] {
+  let clean = relPath.replace(/\.mdx$/, "").replace(/\([^)]+\)\//g, "");
+
+  if (clean === "index") return [];
+  if (clean.endsWith("/index")) {
+    clean = clean.replace(/\/index$/, "");
+  }
+
+  return clean.split("/").filter(Boolean);
+}
 
 /** Every file under `dir` whose name matches `pattern`, recursively. */
 function listFiles(dir: string, pattern: RegExp): string[] {
