@@ -18,4 +18,3 @@ npm에 게시된 Rootage JSON을 검증해 비공개 R2에 불변 저장하고, 
 - Worker는 R2 읽기만 수행하고 외부 쓰기·삭제 API를 제공하지 않는다.
 - npm 게시 결과 변환은 레지스트리를 읽고 workflow output만 기록하며 R2·Git·npm을 변경하지 않는다.
 - PR 코드를 실행하는 snapshot job에는 R2 자격 증명을 전달하지 않는다. snapshot 게시기는 신뢰된 `dev` 코드에서 `pkg.pr.new` tarball을 다시 검증하고 stable 포인터를 변경하지 않는다.
-- 완료 snapshot 정리는 snapshot 버전 패턴과 PR 종료 시점을 모두 검증하고 완료 manifest를 먼저 삭제한다.

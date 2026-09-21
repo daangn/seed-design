@@ -1,12 +1,7 @@
 import { appendFile } from "node:fs/promises";
 import { publishRootage, publishRootageSnapshot, verifyPublic } from "./publisher";
 import { R2ObjectStore } from "./r2-object-store";
-import {
-  cleanupCompletedSnapshots,
-  cleanupIncompleteVersions,
-  setStablePointer,
-  updateWorkerRoute,
-} from "./operations";
+import { cleanupIncompleteVersions, setStablePointer, updateWorkerRoute } from "./operations";
 import { manifestKey, parseManifest } from "./contract";
 
 function required(name: string): string {
@@ -44,10 +39,7 @@ if (command === "route") {
   await output({ result });
   process.exit(0);
 }
-if (
-  !command ||
-  !["publish", "publish-snapshot", "set-stable", "cleanup", "cleanup-snapshots"].includes(command)
-) {
+if (!command || !["publish", "publish-snapshot", "set-stable", "cleanup"].includes(command)) {
   throw new Error(`지원하지 않는 명령입니다: ${command ?? ""}`);
 }
 const accountId = required("CF_ACCOUNT_ID");
@@ -83,41 +75,6 @@ if (command === "cleanup") {
   const result = await cleanupIncompleteVersions(store, {
     olderThanDays: Number(argument("older-than-days")),
     apply,
-  });
-  await output({ candidates: result.candidates.join(","), deleted: result.deleted });
-  process.exit(0);
-}
-if (command === "cleanup-snapshots") {
-  const apply = argument("apply") === "true";
-  if (apply && argument("confirm") !== "DELETE-SNAPSHOTS") {
-    throw new Error("Snapshot 삭제 확인 문구가 올바르지 않습니다.");
-  }
-  const githubToken = required("ROOTAGE_GITHUB_TOKEN");
-  const result = await cleanupCompletedSnapshots(store, {
-    olderThanDays: Number(argument("older-than-days")),
-    apply,
-    getPullRequest: async (prNumber) => {
-      const response = await fetch(
-        `https://api.github.com/repos/daangn/seed-design/pulls/${prNumber}`,
-        {
-          headers: {
-            accept: "application/vnd.github+json",
-            authorization: `Bearer ${githubToken}`,
-            "x-github-api-version": "2022-11-28",
-          },
-          signal: AbortSignal.timeout(15_000),
-        },
-      );
-      if (!response.ok) throw new Error(`GitHub PR #${prNumber} 조회 실패: ${response.status}`);
-      const pullRequest = (await response.json()) as { state?: unknown; closed_at?: unknown };
-      if (
-        (pullRequest.state !== "open" && pullRequest.state !== "closed") ||
-        (pullRequest.closed_at !== null && typeof pullRequest.closed_at !== "string")
-      ) {
-        throw new Error(`GitHub PR #${prNumber} 응답 형식이 올바르지 않습니다.`);
-      }
-      return { state: pullRequest.state, closedAt: pullRequest.closed_at };
-    },
   });
   await output({ candidates: result.candidates.join(","), deleted: result.deleted });
   process.exit(0);
