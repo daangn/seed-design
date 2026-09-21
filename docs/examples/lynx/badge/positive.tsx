@@ -1,6 +1,7 @@
 import "./styles";
 
-import { Badge, HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { HStack, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 
 export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });

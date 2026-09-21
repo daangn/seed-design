@@ -2,12 +2,17 @@ export declare const vars: {
   "sizeLarge": {
     "enabled": {
       "root": {
-        /** 10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다. */
-        "maxWidth": "6.75rem",
         "minHeight": "var(--seed-dimension-x6)",
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x1)",
-        "cornerRadius": "var(--seed-radius-r1_5)"
+        "cornerRadius": "var(--seed-radius-r1_5)",
+        "gap": "var(--seed-dimension-x0_5)"
+      },
+      "prefix": {
+        "size": "var(--seed-dimension-x3_5)"
+      },
+      "action": {
+        "size": "var(--seed-dimension-x3_5)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t2)",
@@ -18,12 +23,17 @@ export declare const vars: {
   "sizeMedium": {
     "enabled": {
       "root": {
-        /** 10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다. */
-        "maxWidth": "7.5rem",
         "minHeight": "var(--seed-dimension-x5)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x0_5)",
-        "cornerRadius": "var(--seed-radius-r1)"
+        "cornerRadius": "var(--seed-radius-r1)",
+        "gap": "var(--seed-dimension-x0_5)"
+      },
+      "prefix": {
+        "size": "var(--seed-dimension-x3)"
+      },
+      "action": {
+        "size": "var(--seed-dimension-x3)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t1)",

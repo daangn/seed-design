@@ -101,9 +101,9 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
           <VStack gap="x6" pb="x4">
             <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault" align="flex-start">
               {article.isPopular && (
-                <Badge variant="outline" tone="brand" size="large">
-                  인기
-                </Badge>
+                <Badge.Root variant="outline" tone="brand" size="large">
+                  <Badge.Label>인기</Badge.Label>
+                </Badge.Root>
               )}
               <VStack gap="x2" asChild>
                 <SeedArticle>
