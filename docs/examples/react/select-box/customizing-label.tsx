@@ -1,4 +1,7 @@
-import { Badge, HStack } from "@seed-design/react";
+"use client";
+
+import { HStack } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,

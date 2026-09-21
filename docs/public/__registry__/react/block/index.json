@@ -193,6 +193,7 @@
           "registryId": "ui",
           "itemIds": [
             "avatar",
+            "badge",
             "identity-placeholder",
             "menu",
             "side-navigation"
