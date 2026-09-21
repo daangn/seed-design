@@ -43,8 +43,6 @@
 # Lynx Styling: Getting started 아래 버전별 가이드와 Theming으로 이동
 /lynx/foundation/layout/styling /lynx/getting-started/styling/tailwind-css-3 301
 /lynx/getting-started/theming /lynx/getting-started/styling/theming 301
-/llms/lynx/foundation/layout/styling /llms/lynx/getting-started/styling/tailwind-css-3 301
-/llms/lynx/getting-started/theming /llms/lynx/getting-started/styling/theming 301
 
 # 문서별 markdown이 `/llms/<문서 URL>.txt`에서 `<문서 URL>.md`로 옮겨졌다. splat은 `/`를 건너
 # 경로 전체를 잡는다. 패키지·버전별로 나뉘어 있던 changelog 파일은 한 문서로 합쳐졌고, splat
