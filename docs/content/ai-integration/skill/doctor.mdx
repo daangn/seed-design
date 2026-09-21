@@ -9,13 +9,7 @@ Doctor는 SEED를 쓰는 워크스페이스를 찾아 **그 맥락에 적용되�
 
 ## 문서와 스킬의 관계
 
-지원 범위와 문서 목록은 스킬에 복사하지 않습니다. Doctor는 실행할 때마다 다음 인덱스를 읽습니다.
-
-- [SEED 문서 인덱스](https://seed-design.io/__docs__/index.json)
-
-인덱스의 `components`·`foundations` category에서 공통 문서를 찾고, 선택된 플랫폼 category에서 설치·업그레이드·컴포넌트·저자 문서처럼 이번 진단에 필요한 현재 문서를 찾습니다. 인덱스를 정상적으로 읽었는데 계약 문서가 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
-
-Doctor 요청 하나는 URL 기준 문서 풀 하나를 사용합니다. 인덱스와 leaf 문서는 URL마다 한 번만 읽고 같은 실행의 workspace와 rule이 재사용합니다. 결과의 `references`에 같은 URL이 반복되어도 출처를 표시하는 것이며 문서를 다시 요청한다는 뜻은 아닙니다.
+지원 범위와 문서 목록은 스킬에 복사하지 않습니다. Doctor는 실행할 때마다 SEED 문서 사이트에서 공통 Components·Foundations 문서와, 선택된 플랫폼의 설치·업그레이드·컴포넌트·저자 문서처럼 이번 진단에 필요한 현재 문서를 찾습니다. 공식 문서에 해당 계약이 없으면 `not-applicable`, 문서를 읽지 못해 확인할 수 없으면 `not-verified`입니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
 
 ## 사용법
 
@@ -32,7 +26,7 @@ Quick/Deep 모드는 없습니다. 일반 진단은 적용 가능한 룰 전체�
 
 ## 결과물
 
-워크스페이스마다 `doctor-report.yaml`과 `doctor-report.html`을 함께 만듭니다. YAML은 판정과 근거의 단일 원천이고, HTML은 검증을 통과한 YAML을 `report-template.html`에 렌더링한 읽기용 결과입니다. 두 파일 모두 대상 프로젝트가 아닌 같은 임시 디렉토리에 저장합니다. 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
+워크스페이스마다 `doctor-report.yaml`과 `doctor-report.html`을 함께 만듭니다. YAML은 판정과 근거의 단일 원천이고, HTML은 검증을 통과한 YAML을 렌더링한 읽기용 결과입니다. 두 파일 모두 대상 프로젝트가 아닌 같은 임시 디렉토리에 저장합니다. 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
 
 ## 탐색 순서
 
@@ -58,106 +52,16 @@ Quick/Deep 모드는 없습니다. 일반 진단은 적용 가능한 룰 전체�
 | `outdated-version` | compatibility | 설치 패키지의 최신 세대 격차만 |
 | `snippet-generation` | compatibility | 설치 스니펫과 최신 registry의 세대 차이만 |
 | `no-deprecated-component` | components | 플랫폼에 유효한 출처가 있는 deprecated 사용 |
-| `component-guidelines` | components | 현재 공통 가이드라인과 플랫폼 인덱스로 연결한 구현의 대조 |
+| `component-guidelines` | components | 현재 공통 가이드라인과 선택된 플랫폼 구현의 대조 |
 
 실제 호환 오류·필수 셋업 누락은 `error`, deprecated·내부 API·배포 위험은 `warn`, 최신 세대 격차는 `info`입니다. Foundations에서는 하드코딩이나 semantic token 선택의 적절성을 추론하지 않고 계약 위반만 판정합니다.
 
 `component-guidelines`의 기준은 룰 파일에 고정돼 있지 않습니다. 각 [컴포넌트 가이드라인](/components)에서 실행 시점에 도출하므로 문서의 Do/Don't가 바뀌면 판정 기준도 함께 바뀝니다.
 
-### project-config.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/project-config.md",
-  "codeblock": true
-}
-```
-
-### package-compatibility.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/package-compatibility.md",
-  "codeblock": true
-}
-```
-
-### project-setup.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/project-setup.md",
-  "codeblock": true
-}
-```
-
-### snippet-compatibility.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/snippet-compatibility.md",
-  "codeblock": true
-}
-```
-
-### foundation-contract.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/foundation-contract.md",
-  "codeblock": true
-}
-```
-
-### library-authors.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/library-authors.md",
-  "codeblock": true
-}
-```
-
-### outdated-version.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/outdated-version.md",
-  "codeblock": true
-}
-```
-
-### snippet-generation.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/snippet-generation.md",
-  "codeblock": true
-}
-```
-
-### no-deprecated-component.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/no-deprecated-component.md",
-  "codeblock": true
-}
-```
-
-### component-guidelines.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/rules/component-guidelines.md",
-  "codeblock": true
-}
-```
-
 ## 결과 형식
 
 YAML은 진단 결과의 단일 원천입니다. 채팅 요약과 기본으로 함께 만드는 HTML 리포트는 이 파일에서 파생됩니다.
-예시의 `{...LeafUrlResolvedFromIndex}`는 실행 시 선택한 플랫폼 인덱스에서 찾은 실제 leaf URL로 바꿉니다.
+예시의 `{...DocUrl}`은 실행 시 찾은 실제 문서 URL로 바꿉니다.
 
 ```yaml
 schemaVersion: 2
@@ -176,29 +80,26 @@ checks:
     status: pass
     evidence: framework·path와 TypeScript alias가 일치함
     references:
-      - https://seed-design.io/__docs__/index.json
-      - "{configurationLeafUrlResolvedFromIndex}"
+      - "{configurationDocUrl}"
   - rule: seed/library-authors
     category: library
     status: fail
     evidence: 소비 진입점이 있지만 @seed-design/react가 dependencies에 있음
     references:
-      - https://seed-design.io/__docs__/index.json
-      - "{libraryAuthorsLeafUrlResolvedFromIndex}"
+      - "{libraryAuthorsDocUrl}"
   - rule: seed/snippet-generation
     category: compatibility
     status: not-applicable
     reason: 설치 스니펫이 없음
     references:
-      - https://seed-design.io/__docs__/index.json
+      - "{cliDocUrl}"
 findings:
   - rule: seed/library-authors
     severity: warn
     message: 소비 가능한 패키지가 @seed-design/react를 dependencies에 선언합니다.
     file: packages/ui/package.json
     references:
-      - https://seed-design.io/__docs__/index.json
-      - "{libraryAuthorsLeafUrlResolvedFromIndex}"
+      - "{libraryAuthorsDocUrl}"
     remediation: |-
       다음 SEED Doctor finding을 수정해 주세요.
 
@@ -212,8 +113,7 @@ findings:
       - 공개 API와 관련 없는 파일은 변경하지 마세요.
 
       근거:
-      - https://seed-design.io/__docs__/index.json
-      - {libraryAuthorsLeafUrlResolvedFromIndex}
+      - {libraryAuthorsDocUrl}
 
       먼저 저장소의 AGENTS.md와 package scripts를 확인하세요. 수정 후 package scripts에서 변경 범위에 맞는 검증을 선택해 실행하고 결과를 알려 주세요.
 verdicts: []
@@ -241,44 +141,14 @@ check status는 `pass | fail | not-applicable | not-verified`, category는 `conf
 
 `findings[].remediation`은 설명문이 아니라 해당 finding만 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. 대상 프로젝트와 파일, 확인된 문제, 구체적인 요구사항, 변경 제약, 공식 근거 전체, 저장소 지침과 package scripts를 확인한 뒤 적절한 검증을 실행하라는 요청을 포함합니다. Doctor는 프롬프트를 생성만 하며 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
 
-### 스키마
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/assets/doctor-report.schema.json",
-  "codeblock": true
-}
-```
-
 ## HTML 리포트
 
 HTML은 검증된 YAML과 같은 임시 디렉토리에 기본으로 만듭니다. 사용자가 "YAML만"을 요청한 경우에만 생략합니다. "먼저 할 것" 다음에 프로젝트 역할·범주별 검사 범위·coverage를 보여 주고, `not-applicable`·`not-verified` 이유를 접어서 볼 수 있습니다. finding마다 공식 근거와 접어 둔 "수정 프롬프트"를 제공하며, 판정 표에는 `pass | fail | unknown | not-verified` 실제 상태와 근거를 보존합니다. 외부 CDN·JavaScript 없이 한 파일로 열립니다.
 
-## Doctor references
+## 원본
 
-### doctor.md
+Doctor를 이루는 파일은 GitHub의 [`skills/seed-design`](https://github.com/daangn/seed-design/tree/dev/skills/seed-design)에 있습니다.
 
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/references/doctor.md",
-  "codeblock": true
-}
-```
-
-### doctor-react.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/references/doctor-react.md",
-  "codeblock": true
-}
-```
-
-### doctor-lynx.md
-
-```json doc-gen:file
-{
-  "file": "../skills/seed-design/references/doctor-lynx.md",
-  "codeblock": true
-}
-```
+- [`references/doctor.md`](https://github.com/daangn/seed-design/blob/dev/skills/seed-design/references/doctor.md): 공통 실행 절차와 리포트 계약. 플랫폼별 프로필은 같은 폴더의 `doctor-react.md`·`doctor-lynx.md`입니다
+- [`rules/`](https://github.com/daangn/seed-design/tree/dev/skills/seed-design/rules): 룰마다 적용 조건, 판정 방법, 수정 방법
+- [`assets/doctor-report.schema.json`](https://github.com/daangn/seed-design/blob/dev/skills/seed-design/assets/doctor-report.schema.json): 리포트 YAML의 JSON Schema
