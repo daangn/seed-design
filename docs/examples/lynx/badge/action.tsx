@@ -1,13 +1,13 @@
-import { root } from "@lynx-js/react";
-import { useSeedClassName } from "@seed-design/lynx-react";
-import { Badge } from "@/components/ui/badge";
 import "./styles";
 
-function Root() {
+import { useSeedClassName } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
+
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-badge-root`}>
       <view className="badge-preview">
         <Badge
           actionProps={{
@@ -18,8 +18,6 @@ function Root() {
           판매 완료
         </Badge>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);

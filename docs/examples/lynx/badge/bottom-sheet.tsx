@@ -1,6 +1,6 @@
 import "./styles";
 
-import { root, useState } from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
 import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,7 +10,7 @@ import {
   BottomSheetRoot,
 } from "@/components/ui/bottom-sheet";
 
-function Root() {
+export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
 
@@ -25,7 +25,7 @@ function Root() {
   }
 
   return (
-    <page className={seedClassName}>
+    <view className={`${seedClassName} docs-lynx-badge-root`}>
       <view className="badge-preview">
         <BottomSheetRoot open={open} onOpenChange={setOpen}>
           <Badge
@@ -54,8 +54,6 @@ function Root() {
           </BottomSheetContent>
         </BottomSheetRoot>
       </view>
-    </page>
+    </view>
   );
 }
-
-root.render(<Root />);
