@@ -9,8 +9,13 @@ export function LatestVersionBanner() {
 
   useEffect(() => {
     const host = window.location.hostname;
-    // latest(루트)가 아닌 모든 곳(버전 서브도메인·프리뷰·alpha)에서 안내 배너 노출. dev·프리뷰는 숨김.
-    setShow(host !== "seed-design.io" && host !== "localhost" && host !== "127.0.0.1");
+    // 최신 문서의 두 도메인과 로컬 개발에서는 숨기고, 이전 버전·프리뷰에서 안내한다.
+    setShow(
+      host !== "seed-design.io" &&
+        host !== "v3.seed-design.io" &&
+        host !== "localhost" &&
+        host !== "127.0.0.1",
+    );
   }, []);
 
   if (!show) return null;
