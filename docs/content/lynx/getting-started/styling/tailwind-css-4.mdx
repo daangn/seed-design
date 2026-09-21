@@ -21,7 +21,6 @@ Tailwind v4 전체 기능이나 모든 Lynx Engine에서의 호환성을 의미�
 | `tailwindcss`, `@tailwindcss/postcss` | `4.x` |
 | `postcss` | `8.x` |
 
-Rsbuild와 Rspack은 Rspeedy의 의존성으로 설치되므로 앱에서 별도로 설치하거나 버전을 강제할 필요는 없습니다.
 ReactLynx와 React 플러그인은 선택한 Rspeedy와 호환되는 버전을 사용하세요.
 Node 요구사항과 기존 설정 변경은 [Rspeedy 업그레이드 가이드](https://lynxjs.org/rspeedy/upgrade.html)를 참고하세요.
 이 기준은 아래 설정을 적용할 빌드 환경이며, Tailwind 4 자체가 Rsbuild 2에서만 동작한다는 의미는 아닙니다.
@@ -111,13 +110,39 @@ import "./styles/global.css";
 - `@property`, `@supports`, 웹 전용 선택자, 단위와 CSS 함수 등 다른 Tailwind 출력은 이 플러그인이 변환하지 않습니다. shadow, ring, gradient, transform 등의 추가 유틸리티는 사용할 때 대상 Engine에서 확인하세요.
 - 빌드 성공만으로 화면 호환성을 판단하지 마세요. 실제 host에서 색상·글자·간격·상태 변경과 기기 테마 전환을 확인하세요.
 
-## v3에서 이전하기
+## Tailwind CSS 3에서 업그레이드
 
-1. 위 요구사항에 맞게 빌드 도구를 준비하고 `@tailwindcss/postcss`, `@seed-design/tailwind4-theme`를 설치합니다.
-2. PostCSS 설정과 전역 CSS를 위 예제로 교체합니다.
-3. `tailwind.config.ts`의 사용자 정의 설정이 있다면 v4 설정으로 옮긴 뒤 파일과 `@seed-design/tailwind3-plugin` 의존성을 제거합니다. v4는 기존 JS 설정을 자동으로 읽지 않습니다.
-4. SEED 유틸리티 외에 사용한 클래스는 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)에 따라 확인합니다.
-5. 기기 라이트·다크 모드, 대표 컴포넌트와 utility override, 개발 서버·프로덕션 번들을 검증합니다.
+먼저 프로젝트의 빌드 도구가 위 [요구사항](#요구사항과-설치)을 충족하는지 확인하세요.
+
+### 1. 패키지 교체하기
+
+```package-install
+npm uninstall @seed-design/tailwind3-plugin
+npm install @seed-design/lynx-css @seed-design/tailwind4-theme tailwindcss@4
+npm install -D @tailwindcss/postcss@4 postcss@8
+```
+
+`@seed-design/lynx-css`는 theme 패키지의 peer 범위에 맞는 버전을 사용하세요.
+`@lynx-js/tailwind-preset`을 사용 중이라면 설정과 의존성에서 제거합니다.
+
+### 2. PostCSS와 CSS 교체하기
+
+- 기존 PostCSS의 `tailwindcss` 플러그인을 위 [PostCSS 설정](#postcssconfigjs)으로 교체합니다. Lynx용 후처리도 함께 적용하세요.
+- `@tailwind` 지시문을 위 [CSS import](#css-import)로 교체합니다. 웹용 Preflight는 포함하지 않습니다.
+- `@source` 경로를 앱 소스 위치에 맞추고, 앱 entry에서 전역 CSS를 import합니다.
+
+### 3. 기존 설정 이전하기
+
+v4는 `tailwind.config.ts`를 자동으로 읽지 않습니다. SEED plugin과 `content`만 사용했다면
+위 theme import와 `@source`가 이를 대체합니다. 사용자 정의 설정이 있다면
+`@theme`·`@utility`·`@plugin`으로 이전한 뒤 기존 설정 파일을 제거하세요.
+
+SEED 외의 유틸리티 변경은 [Tailwind v4 업그레이드 가이드](https://tailwindcss.com/docs/upgrade-guide)를 참고하세요.
+
+### 4. 화면 확인하기
+
+개발 서버와 프로덕션 번들에서 색상·타이포그래피·간격·상태 변경·루트 테마 전환을 확인하세요.
+새 클래스를 추가했을 때 서버 재시작 없이 스타일이 반영되는지도 확인합니다.
 
 ## Color
 
