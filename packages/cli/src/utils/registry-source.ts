@@ -23,10 +23,9 @@ const SEED_REACT_VERSION_BASE_URLS: Record<string, string> = {
 export function resolveSeedVersion(opts: {
   seedReactVersion?: string;
 }): { framework: "react"; baseUrl: string } | null {
-  const version = opts.seedReactVersion?.trim();
-  if (!version) return null;
+  if (opts.seedReactVersion === undefined) return null;
 
-  const baseUrl = SEED_REACT_VERSION_BASE_URLS[version];
+  const baseUrl = SEED_REACT_VERSION_BASE_URLS[opts.seedReactVersion];
   if (!baseUrl) {
     throw new CliError({
       message: `지원하지 않는 SEED React 버전이에요: "${opts.seedReactVersion}"`,

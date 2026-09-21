@@ -103,9 +103,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       ),
     );
 
-    const targetInputs = Array.from(
-      new Set(options.itemIds.map((value) => value.trim().replace(/\s+/g, "-")).filter(Boolean)),
-    );
+    const targetInputs = Array.from(new Set(options.itemIds));
 
     const targetItemKeys = (() => {
       if (options.all) {
