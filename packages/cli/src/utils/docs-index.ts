@@ -1,11 +1,9 @@
 import type { DocsCategory } from "@/src/schema";
-import { containersOf, entriesOf } from "./docs-address";
 
 /**
- * How a listing is laid out, and what a failed lookup offers instead. The address grammar the
- * three subcommands share lives in `docs-address.ts`; this file only reads the index through
- * it. Searching does not pass through here at all — `docs-search.ts` queries the site's
- * full-text index instead.
+ * How a listing is laid out, and what a failed lookup offers instead. What the subcommands take
+ * lives in `docs-address.ts`. Searching does not pass through here at all — `docs-search.ts`
+ * queries the site's full-text index instead.
  */
 
 /**
@@ -31,11 +29,10 @@ function levenshtein(a: string, b: string): number {
 }
 
 /**
- * Addresses within `maxDistance` edits of `query`, nearest first.
+ * Document addresses within `maxDistance` edits of `query`, nearest first.
  *
  * Only ever reached once a lookup has already failed, so nothing it returns can stand in
- * for an answer. Container paths are in the pool because a typo lands on one as readily as
- * on a document.
+ * for an answer.
  */
 export function similarAddresses(
   categories: DocsCategory[],
@@ -43,14 +40,10 @@ export function similarAddresses(
   limit = 3,
   maxDistance = 5,
 ): string[] {
-  const candidates = [
-    ...containersOf(categories),
-    ...entriesOf(categories).map((entry) => entry.address),
-  ];
-
   return (
-    candidates
-      .map((address) => ({
+    categories
+      .flatMap((category) => category.items)
+      .map(({ docUrl: address }) => ({
         address,
         dist: levenshtein(query.toLowerCase(), address.toLowerCase()),
       }))

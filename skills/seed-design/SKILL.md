@@ -103,24 +103,25 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 
 전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서 또는 설치한 CLI 소스가 명시한 값만 사용합니다.
 
-`docs`는 `list`, `search`, `read` 세 하위 명령으로 나뉩니다. `list`는 그 범위 바로 아래를 한
-단계 나열하고, `search`는 문서 본문까지 검색해 걸린 문서를 관련도 순으로 나열하며, `read`는 그
-주소의 문서 본문을 출력합니다. `docs`만 입력하면 안내를 stderr로 내고 종료 코드 `2`로 끝납니다.
+`docs`는 `list`, `search`, `read` 세 하위 명령으로 나뉩니다. `list`는 모든 문서를, 섹션을 넣으면
+그 섹션의 문서를 나열하고, `search`는 문서 본문까지 검색해 걸린 문서를 관련도 순으로 나열하며,
+`read`는 그 주소의 문서 본문을 출력합니다. `docs`만 입력하면 안내를 stderr로 내고 종료 코드
+`2`로 끝납니다.
 
-`list`와 `search`는 항목 하나를 한 줄로 출력합니다. 줄의 첫 필드가 주소이고, 문서 줄에는 그
-뒤에 `제목 — description`이 붙습니다. 제목과 설명으로 읽을 문서를 고른 다음, 그 줄의 첫 필드를
+`list`와 `search`는 문서 하나를 한 줄로 출력합니다. 줄의 첫 필드가 주소이고, 그 뒤에
+`제목 — description`이 붙습니다. 제목과 설명으로 읽을 문서를 고른 다음, 그 줄의 첫 필드를
 `read`에 넘깁니다. `grep`으로 줄을 걸러도 설명이 함께 남고, `awk '{print $1}'`로 주소만 잘라낼
 수 있습니다.
 
-주소는 문서 사이트 주소에서 도메인만 뺀 값입니다. 앞 슬래시가 붙으면 경로 전체와 완전히
-일치하는 고정 주소이고, 붙지 않으면 경로의 꼬리와 일치하는 질의라 여러 문서에 걸릴 수
-있으며, 뒤 슬래시가 붙으면 그 아래 전부를 뜻하는 범위입니다. 같은 컴포넌트라도 섹션에 따라
-다른 문서를 가리킵니다: `/components/{name}`은 **디자인 스펙**이고, React 구현은
-`/react/components/{name}`입니다.
+주소는 문서 사이트 주소에서 도메인만 뺀 값입니다. `read`는 출력된 주소를 슬래시까지 그대로
+받고, `list`는 주소의 첫 경로를 슬래시 없이 섹션으로 받습니다. 입력을 고쳐 읽지 않으므로 앞
+슬래시가 빠지거나 뒤에 슬래시가 붙거나 문서 이름만 넣으면 없는 주소로 실패합니다. 주소 뒤의
+`#앵커`만은 무시하고 문서 전체를 출력합니다. 같은 컴포넌트라도 섹션에 따라 다른 문서를
+가리킵니다: `/components/{name}`은 **디자인 스펙**이고, React 구현은 `/react/components/{name}`입니다.
 
 ```bash
-npx @seed-design/cli@latest docs list                                 # 최상위 목록
-npx @seed-design/cli@latest docs list react/components/               # 그 아래 목록
+npx @seed-design/cli@latest docs list                                 # 모든 문서
+npx @seed-design/cli@latest docs list react                           # 한 섹션의 문서
 npx @seed-design/cli@latest docs search action-button                 # 본문까지 검색해 문서 찾기
 npx @seed-design/cli@latest docs read /components/action-button       # 디자인 스펙
 npx @seed-design/cli@latest docs read /react/components/action-button # React 구현
@@ -130,9 +131,8 @@ npx @seed-design/cli@latest docs read /react                          # 카테�
 
 세 명령 모두 아무것도 묻지 않고 종료 코드로 결과를 알립니다. `0`은 stdout에 답이 있다는
 뜻이고, `1`은 명령이 정상적으로 돌았지만 답이 부정적이라는 뜻이며, `2`는 답을 내지 못했다는
-뜻입니다. 이유는 stderr에 있습니다. `read`에 넘긴 주소가 여러 문서를
-가리키면 stdout은 비고 후보 주소가 stderr로 나가므로, 그중 하나를 앞 슬래시가 붙은 그대로 다시
-넘깁니다.
+뜻입니다. 이유는 stderr에 있습니다. `read`에 넘긴 주소와 같은 문서가 없으면 stdout은 비고
+비슷한 주소가 stderr로 나가므로, 맞는 주소를 슬래시까지 그대로 다시 넘깁니다.
 
 ### 스니펫 추가와 설정 생성
 

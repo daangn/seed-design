@@ -7,16 +7,7 @@ import { string } from "@optique/core/valueparser";
 import { analytics } from "../utils/analytics";
 import { baseUrlOption, type ParsedOptions } from "../utils/cli-options";
 import { highlight } from "../utils/color";
-import {
-  byAddress,
-  childrenOf,
-  type DocsListing,
-  entriesOf,
-  parseAddress,
-  resolveDocuments,
-  resolveScopes,
-  summaryOf,
-} from "../utils/docs-address";
+import { documentListings, findDocument, summaryOf } from "../utils/docs-address";
 import { alignedLines, similarAddresses } from "../utils/docs-index";
 import { searchDocs } from "../utils/docs-search";
 import { CliError, ExitCode, exitCodeFor, reportCliError } from "../utils/error";
@@ -27,7 +18,7 @@ import type { DocsCategory } from "../schema";
  * Three subcommands, one for each kind of answer, so what comes back is settled by the name
  * the caller typed rather than by the shape of the argument they passed.
  *
- *   docs list [주소]      what the scope holds, one level down
+ *   docs list [섹션]      every document, or every document in one section
  *   docs search <질의>    the documents a query reaches, body text included
  *   docs read <주소>      that document's own text
  *
@@ -56,23 +47,23 @@ function suggestionFor(categories: DocsCategory[], query: string): string {
   return `\n\n💡 이것을 의미했나요?\n${similar.map((address) => `   - ${address}`).join("\n")}`;
 }
 
-function print(listings: DocsListing[]) {
-  console.log(alignedLines(listings).join("\n"));
-}
-
 const listParser = command(
   "list",
   object({
     command: constant("docs list"),
-    address: optional(argument(string({ metavar: "ADDRESS" }))),
+    section: optional(
+      argument(string({ metavar: "SECTION" }), {
+        description: message`나열할 섹션의 id입니다. 주소의 첫 경로를 슬래시 없이 씁니다(예: react). 생략하면 모든 문서를 나열합니다.`,
+      }),
+    ),
     baseUrl: baseUrlOption,
   }),
   {
-    brief: message`주소 아래 한 단계에 무엇이 있는지 나열합니다.`,
+    brief: message`문서를 한 줄에 하나씩 주소순으로 나열합니다.`,
     footer: exampleFooter([
       "seed-design docs list",
-      "seed-design docs list react/",
-      "seed-design docs list react/components/",
+      "seed-design docs list react",
+      "seed-design docs list foundations",
     ]),
   },
 );
@@ -103,6 +94,7 @@ const readParser = command(
   object({
     command: constant("docs read"),
     address: argument(string({ metavar: "ADDRESS" }), {
+      description: message`읽을 문서의 주소입니다. docs list·docs search가 출력한 주소를 슬래시까지 그대로 씁니다. 뒤에 붙은 #앵커는 무시하고 문서 전체를 출력합니다.`,
       errors: {
         endOfInput: message`읽을 문서가 필요합니다. 예: seed-design docs read /react/components/action-button`,
       },
@@ -113,7 +105,7 @@ const readParser = command(
     brief: message`문서 본문을 출력합니다.`,
     footer: exampleFooter([
       "seed-design docs read /react/components/action-button",
-      "seed-design docs read action-button",
+      "seed-design docs read /react/components/action-button#usage",
       "seed-design docs read /react",
     ]),
   },
@@ -174,29 +166,23 @@ async function emit(
   }
 }
 
-export async function runDocsList({ address, baseUrl, verbose }: ParsedOptions<typeof listParser>) {
+export async function runDocsList({ section, baseUrl, verbose }: ParsedOptions<typeof listParser>) {
   await emit("docs-list", verbose, async () => {
     const { categories } = await fetchDocsIndex({ baseUrl });
-    const parsed = parseAddress(address ?? "");
-    const scopes = resolveScopes(categories, parsed);
+    const listed =
+      section === undefined ? categories : categories.filter((category) => category.id === section);
 
-    const listings = Array.from(
-      new Map(
-        scopes
-          .flatMap((scope) => childrenOf(categories, scope))
-          .map((entry) => [entry.address, entry]),
-      ).values(),
-    ).sort(byAddress);
-
-    if (listings.length === 0) {
+    if (section !== undefined && listed.length === 0) {
       throw new CliError({
-        message: `${highlight(address ?? "/")}: 하위 항목이 없어요.${suggestionFor(categories, address ?? "")}`,
-        hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
+        message: `${highlight(section)}: 없는 섹션이에요.\n\n${categories
+          .map((category) => `   - ${category.id}`)
+          .join("\n")}`,
+        hint: "위에 나온 섹션 id 중 하나를 그대로 넣어주세요. 섹션 없이 `seed-design docs list`를 실행하면 모든 문서를 나열해요.",
         exit: ExitCode.answeredNegatively,
       });
     }
 
-    print(listings);
+    console.log(alignedLines(documentListings(listed)).join("\n"));
     return { result: "listing" };
   });
 }
@@ -208,8 +194,7 @@ export async function runDocsSearch({
 }: ParsedOptions<typeof searchParser>) {
   await emit("docs-search", verbose, async () => {
     // A blank query matches every document, which is a listing wearing a search's clothes.
-    const term = query.trim();
-    if (term.length === 0) {
+    if (query.trim().length === 0) {
       throw new CliError({
         message: "검색어가 필요해요.",
         hint: "예: `seed-design docs search 액션 버튼`. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
@@ -217,13 +202,13 @@ export async function runDocsSearch({
     }
 
     const [{ addresses, total }, { categories }] = await Promise.all([
-      searchDocs({ baseUrl, query: term }),
+      searchDocs({ baseUrl, query }),
       fetchDocsIndex({ baseUrl }),
     ]);
 
     if (addresses.length === 0) {
       throw new CliError({
-        message: `${highlight(term)}: 일치하는 문서가 없어요.${suggestionFor(categories, term)}`,
+        message: `${highlight(query)}: 일치하는 문서가 없어요.${suggestionFor(categories, query)}`,
         hint: "띄어쓰기를 바꾸거나 더 짧은 검색어로 찾아보세요. 전체 목록은 `seed-design docs list`로 확인할 수 있어요.",
         exit: ExitCode.answeredNegatively,
       });
@@ -238,11 +223,10 @@ export async function runDocsSearch({
 
     // Unpadded, unlike a listing: an anchor's Hangul takes two columns that a character count
     // cannot line up.
-    const documents = new Map(entriesOf(categories).map((entry) => [entry.address, entry.item]));
     console.log(
       addresses
         .map((address) => {
-          const item = documents.get(address.split("#")[0]);
+          const item = findDocument(categories, address);
           return item ? `${address}  ${summaryOf(item)}` : address;
         })
         .join("\n"),
@@ -254,43 +238,19 @@ export async function runDocsSearch({
 
 export async function runDocsRead({ address, baseUrl, verbose }: ParsedOptions<typeof readParser>) {
   await emit("docs-read", verbose, async () => {
-    // `search` prints anchors, because a result reads better when it says which part of the
-    // document matched. A document has one text, though, so an anchor names no less than the
-    // whole of it — pasting a search result back in works, and prints the same thing.
-    const parsed = parseAddress(address.split("#")[0]);
-
-    // A trailing slash names a container, and a container has no text of its own. Answering
-    // with whatever single document happens to sit underneath would make the same input mean
-    // different things as the site grows.
-    if (parsed.kind === "scope") {
-      throw new CliError({
-        message: `${highlight(address)}: 문서가 아니라 하위 항목들을 가리키는 주소예요.`,
-        hint: `\`seed-design docs list ${address}\`로 하위 항목들을 확인할 수 있어요.`,
-      });
-    }
-
     const { categories } = await fetchDocsIndex({ baseUrl });
-    const documents = resolveDocuments(categories, parsed);
+    const item = findDocument(categories, address);
 
-    if (documents.length === 1) {
-      // Not `console.log`: stdout carries the bytes the site sent and not one of ours, and
-      // `console.log` would append a newline the document did not have.
-      process.stdout.write(await fetchLlmsTxt({ url: `${baseUrl}${documents[0].item.llmsUrl}` }));
-      return { result: "item", itemId: documents[0].item.id };
-    }
-
-    if (documents.length > 1) {
+    if (!item) {
       throw new CliError({
-        message: `${highlight(address)}: 여러 문서를 가리켜요.\n\n${documents
-          .map((entry) => `   - ${entry.address}`)
-          .join("\n")}`,
-        hint: "위에 나온 주소 중 하나를 그대로 넣어주세요.",
+        message: `${highlight(address)}: 문서가 없어요.${suggestionFor(categories, address)}`,
+        hint: "주소는 `seed-design docs list`나 `seed-design docs search <검색어>`가 출력한 그대로 넣어주세요.",
       });
     }
 
-    throw new CliError({
-      message: `${highlight(address)}: 문서가 없어요.${suggestionFor(categories, address)}`,
-      hint: "전체 목록은 `seed-design docs list`로, 이름 검색은 `seed-design docs search <이름>`으로 확인할 수 있어요.",
-    });
+    // Not `console.log`: stdout carries the bytes the site sent and not one of ours, and
+    // `console.log` would append a newline the document did not have.
+    process.stdout.write(await fetchLlmsTxt({ url: `${baseUrl}${item.llmsUrl}` }));
+    return { result: "item", itemId: item.id };
   });
 }

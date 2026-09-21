@@ -34,7 +34,7 @@ const docsIndex = {
       label: "React",
       items: [
         // The category's own landing page, which has no slug of its own: `/react` is that
-        // document, and `react/` is what the category holds.
+        // document, and `react/` is no address at all.
         {
           id: "overview",
           title: "Overview",
@@ -310,48 +310,55 @@ describe("docs command", () => {
   });
 
   describe("list", () => {
-    it("names the categories, and the landing page beside its container", async () => {
+    it("lists every document in address order, aligned on the widest address", async () => {
       const result = await runDocs(["list"]);
 
       expectSuccess(result);
       expect(result.stdout.trimEnd()).toBe(
-        ["/lynx/   문서 2개", "/react   Overview", "/react/  문서 6개"].join("\n"),
+        [
+          "/lynx/components/action-button             Action Button",
+          "/lynx/components/checkbox                  Checkbox (deprecated) — 여러 선택지 중 하나 이상을 고를 때 씁니다.",
+          "/react                                     Overview",
+          "/react/components/action-button            Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
+          "/react/components/bottom-sheet             Bottom Sheet — 화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
+          "/react/components/concepts/composition     Composition (Concepts)",
+          "/react/components/iconography/composition  Composition (Iconography)",
+          "/react/stackflow/bottom-sheet              Bottom Sheet",
+          "/react/updates/changelog                   Changelog",
+        ].join("\n"),
+      );
+    });
+
+    it("lists only the documents of the section it is given", async () => {
+      const result = await runDocs(["list", "lynx"]);
+
+      expectSuccess(result);
+      expect(result.stdout.trimEnd()).toBe(
+        [
+          "/lynx/components/action-button  Action Button",
+          "/lynx/components/checkbox       Checkbox (deprecated) — 여러 선택지 중 하나 이상을 고를 때 씁니다.",
+        ].join("\n"),
       );
     });
 
     it("answers the same way from a project that configures a framework", async () => {
       const [fromRepo, fromProject] = await Promise.all([
-        runDocs(["list", "react/"]),
-        runDocs(["list", "react/"], reactProjectDir),
+        runDocs(["list", "react"]),
+        runDocs(["list", "react"], reactProjectDir),
       ]);
 
       expectSuccess(fromProject);
       expect(fromProject.stdout).toBe(fromRepo.stdout);
     });
 
-    it("lists under every container a shortened scope reaches, merged and sorted as one", async () => {
-      // `resolveScopes` answers with both containers, and the listings are flattened, deduped
-      // by address and re-sorted here rather than printed one block per scope.
-      const result = await runDocs(["list", "components/"]);
+    it("exits 1 on anything but a section id, naming the sections there are", async () => {
+      for (const section of ["/react", "react/", "nonexistent"]) {
+        const result = await runDocs(["list", section]);
 
-      expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe(
-        [
-          "/lynx/components/action-button   Action Button",
-          "/lynx/components/checkbox        Checkbox (deprecated) — 여러 선택지 중 하나 이상을 고를 때 씁니다.",
-          "/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.",
-          "/react/components/bottom-sheet   Bottom Sheet — 화면 하단에서 올라와 추가 정보나 작업을 보여줍니다.",
-          "/react/components/concepts/      문서 1개",
-          "/react/components/iconography/   문서 1개",
-        ].join("\n"),
-      );
-    });
-
-    it("exits 1 when the address reaches nothing", async () => {
-      const result = await runDocs(["list", "nonexistent/"]);
-
-      expect(result.exitCode).toBe(1);
-      expect(result.stdout).toBe("");
+        expect(result.exitCode).toBe(1);
+        expect(result.stdout).toBe("");
+        expect(result.stderr).toContain("   - lynx\n   - react");
+      }
     });
   });
 
@@ -447,22 +454,11 @@ describe("docs command", () => {
       expect(result.stdout.trimEnd()).toBe("# served /react.md");
     });
 
-    it("follows a tail query through to the document it reaches", async () => {
-      // The only success path that runs on the tail resolver's output rather than an exact
-      // address: what it settles on has to reach the fetch the same way.
-      const result = await runDocs(["read", "concepts/composition"]);
+    it("reads a search result's address, anchor and all", async () => {
+      const result = await runDocs(["read", "/react/components/action-button#로딩-상태"]);
 
       expectSuccess(result);
-      expect(result.stdout.trimEnd()).toBe("# served /react/components/concepts/composition.md");
-    });
-
-    it("fails on a tail query that reaches several, naming each", async () => {
-      const result = await runDocs(["read", "action-button"]);
-
-      expect(result.exitCode).toBe(2);
-      expect(result.stdout).toBe("");
-      expect(result.stderr).toContain("/lynx/components/action-button");
-      expect(result.stderr).toContain("/react/components/action-button");
+      expect(result.stdout).toBe("# served /react/components/action-button.md");
     });
 
     it("reports a miss for an address the index does not carry", async () => {
@@ -473,21 +469,31 @@ describe("docs command", () => {
       expect(result.stderr).toContain("seed-design docs search");
     });
 
+    it("reports a miss for any other form of an address, even one only a document fits", async () => {
+      for (const address of [
+        "concepts/composition",
+        "react/components/concepts/composition",
+        "/react/components/concepts/composition/",
+        "react/updates/",
+      ]) {
+        const result = await runDocs(["read", address]);
+
+        expect(result.exitCode).toBe(2);
+        expect(result.stdout).toBe("");
+      }
+    });
+
+    it("suggests the address a near miss was one edit away from", async () => {
+      const result = await runDocs(["read", "react/components/concepts/composition"]);
+
+      expect(result.stderr).toContain("   - /react/components/concepts/composition");
+    });
+
     it("exits 2 when given no address", async () => {
       const result = await runDocs(["read"]);
 
       expect(result.exitCode).toBe(2);
       expect(result.stdout).toBe("");
-    });
-
-    it("refuses a container address instead of reading what sits under it", async () => {
-      // `/react/updates` holds exactly one document, so picking it would look like success
-      // until the site grew a second one.
-      const result = await runDocs(["read", "react/updates/"]);
-
-      expect(result.exitCode).toBe(2);
-      expect(result.stdout).toBe("");
-      expect(result.stderr).toContain("seed-design docs list");
     });
 
     it("refuses the root address", async () => {

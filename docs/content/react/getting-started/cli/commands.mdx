@@ -256,7 +256,7 @@ npx @seed-design/cli@latest compat --all
 
 | 명령 | 하는 일 |
 |------|---------|
-| `docs list [주소]` | 그 범위 바로 아래에 무엇이 있는지 한 단계 나열해요 |
+| `docs list [섹션]` | 모든 문서를 한 줄에 하나씩 나열해요. 섹션을 넣으면 그 섹션의 문서만 나열해요 |
 | `docs search <질의>` | 문서 본문까지 검색해 걸린 문서를 출력해요 |
 | `docs read <주소>` | 그 주소의 문서 본문을 출력해요 |
 
@@ -267,68 +267,52 @@ npx @seed-design/cli@latest compat --all
 문서를 답할지 정할 때 작업 디렉토리와 프로젝트 설정 파일을 읽지 않기 때문에, 같은 입력은
 어디서 실행하든 같은 문서를 가리켜요.
 
-### 주소 문법
+### 주소
 
-주소는 문서 사이트 주소에서 도메인만 뺀 값이고, 세 명령이 같은 문법을 공유해요.
+주소는 문서 사이트 주소에서 도메인만 뺀 값이에요. `docs list`와 `docs search`가 줄 맨 앞에
+출력하고, `docs read`가 그대로 받아요.
 
-| 형태 | 뜻 | 결과 |
-|------|----|------|
-| `/react/components/action-button` | 고정 주소. 경로 전체와 완전히 일치해요 | 0개 또는 1개 |
-| `action-button` | 꼬리 질의. 경로의 마지막 조각들과 일치해요 | 0개 이상 |
-| `react/` | 범위. 그 아래 전부예요 | 0개 이상 |
+| 인자 | 받는 값 | 예 |
+|------|---------|----|
+| `docs list`의 섹션 | 주소의 첫 경로를 슬래시 없이 | `react`, `foundations` |
+| `docs read`의 주소 | 출력된 주소를 슬래시까지 그대로 | `/react/components/action-button`, `/react` |
 
-앞의 슬래시가 고정 주소와 짧게 친 이름을 갈라요. 문서 경로 51개가 다른 문서 경로의 꼬리라서,
-`components/bottom-sheet`처럼 그 자체로 완전한 경로도 꼬리 규칙만으로는 여러 문서에 걸리거든요.
+입력을 고쳐서 읽지 않아요. 앞 슬래시가 빠지거나(`react/components/action-button`), 뒤에
+슬래시가 붙거나(`/react/`), 문서 이름만 넣으면(`action-button`) 없는 주소와 똑같이 실패해요.
+문서 이름만으로 찾지 않는 이유는 같은 이름의 문서가 여러 섹션에 있어서, 이름만으로는 어느
+문서인지 정해지지 않기 때문이에요.
 
-뒤의 슬래시는 컨테이너와, 같은 자리에 있는 문서를 갈라요. `/react`는 React 카테고리의 개요
-문서이고, `react/`는 그 카테고리가 담고 있는 것들이에요. 그래서 `docs read`에 뒤 슬래시가 붙은
-주소를 넘기면 실패해요. 컨테이너에는 본문이 없고, 그 아래 문서가 지금 하나뿐이라고 해서
-그것을 대신 주면 사이트가 자라는 순간 같은 입력이 다른 뜻이 되니까요.
-
-앞 슬래시와 뒤 슬래시는 서로 독립이에요. `stackflow/`는 짧게 친 범위라서 `/react/stackflow`에
-닿고, `/stackflow/`는 최상위에 그 이름의 컨테이너가 있어야 해요.
+예외는 주소 뒤의 `#앵커` 하나예요. URL에서처럼 문서 안의 위치를 가리킬 뿐이라서, `docs read`는
+앵커를 무시하고 그 문서 전체를 출력해요.
 
 ## docs list
 
-그 범위 바로 아래에 무엇이 있는지 한 단계만 나열해요. 주소를 생략하면 최상위부터 보여줘요.
+모든 문서를 주소순으로 한 줄에 하나씩 나열해요. 섹션을 넣으면 그 섹션의 문서만 나열해요.
 
 ```package-install
-npx @seed-design/cli@latest docs list
+npx @seed-design/cli@latest docs list foundations
 ```
 
 ```sh copy
-/ai-integration/  문서 4개
-/breeze/          문서 2개
-/components/      문서 62개
-/docs/            문서 2개
-/foundations/     문서 20개
-/lynx/            문서 32개
-/patterns/        문서 1개
-/react/           문서 109개
-/updates/         문서 5개
-```
-
-범위를 좁혀 가면 그 아래를 이어서 볼 수 있어요.
-
-```sh copy
-npx @seed-design/cli@latest docs list react/              # react가 담은 것들
-npx @seed-design/cli@latest docs list react/components/   # 그 아래 문서들
-```
-
-주소 끝의 슬래시가 그 줄을 다음에 어느 명령으로 넘길지 알려줘요. 슬래시로 끝나면 컨테이너라서
-`docs list`로 한 단계 더 들어가고, 슬래시가 없으면 문서라서 `docs read`로 읽어요.
-
-```sh copy
-/react/components/action-button  Action Button — 명확한 액션을 쉽게 수행할 수 있도록 돕는 기본 인터랙션 컴포넌트입니다.
-/react/components/bottom-sheet   Bottom Sheet (Components) — 화면 하단에서 올라오는 모달 컴포넌트입니다. 추가 정보나 액션 목록을 제공하면서도 현재 컨텍스트를 유지할 때 사용됩니다.
-/react/components/concepts/      문서 5개
+/foundations/color                   Overview — SEED 색상 시스템은 접근성을 고려하며 제품의 계층, 상태, 브랜드를 표현할 수 있도록 돕습니다.
+/foundations/color/color-role        Roles — 역할이 부여된 색상은 색상에 특정 기능적 역할(주요 액션, 오류, 정보 등)을 할당하여 사용자 인터페이스 전반에 걸쳐 일관성, 명확성, 접근성을 보장합니다.
+/foundations/color/palette           Palette
+/foundations/design-token            Overview — 디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.
+/foundations/design-token/reference  Reference — SEED 디자인 토큰의 전체 목록을 제공합니다.
+...
 ```
 
 문서 줄에는 주소 뒤에 제목과 설명이 붙어요. 문서 하나가 늘 한 줄이고 주소가 맨 앞에 있어서,
-`grep`으로 줄을 걸러도 설명이 함께 남고 `awk '{print $1}'`로 주소만 잘라낼 수 있어요.
+`grep`으로 줄을 걸러도 설명이 함께 남고 `awk '{print $1}'`로 주소만 잘라낼 수 있어요. 섹션 없이
+모든 문서를 받아서 거를 때도 같은 방법을 써요.
 
-카테고리는 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
-`patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`, `updates`를 쓸 수 있어요.
+```sh copy
+npx @seed-design/cli@latest docs list | grep bottom-sheet
+```
+
+섹션은 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
+`patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`, `updates`를 쓸 수 있어요. 없는
+섹션을 넣으면 쓸 수 있는 섹션을 알려주고 종료 코드 `1`로 끝나요.
 
 <Callout type="info">
   `components`는 **디자인 스펙**(Anatomy, Properties, Guidelines) 카테고리예요.
@@ -419,27 +403,26 @@ CLI가 보태지 않아요. `docs read <주소> | sha256sum`이 원본과 같은
   ```
 </Callout>
 
-### 여러 문서를 가리켰을 때
+### 문서를 찾지 못했을 때
 
-`action-button` 같은 꼬리 질의는 여러 문서에 걸려요. `docs read`는 그중 하나를 고르지 않고
-후보를 알려준 뒤 종료 코드 `2`로 끝나요. 잘못된 문서를 조용히 받아서 그것을 근거로 작업하는
-것이 가장 나쁜 결과이기 때문이에요.
+주소가 어떤 문서의 주소와도 정확히 같지 않으면 종료 코드 `2`로 끝나요. 비슷한 주소가 있으면
+함께 알려줘요.
 
 ```sh copy
-$ npx @seed-design/cli@latest docs read action-button
+$ npx @seed-design/cli@latest docs read react/components/action-button
 문서 조회에 실패했어요.
-원인: action-button: 여러 문서를 가리켜요.
+원인: react/components/action-button: 문서가 없어요.
 
-   - /components/action-button
+💡 이것을 의미했나요?
    - /react/components/action-button
-   - /lynx/components/action-button
-
-해결 힌트: 앞에 슬래시를 붙인 전체 주소를 그대로 넣으면 하나로 좁혀져요.
+   - /components/action-button
+해결 힌트: 주소는 `seed-design docs list`나 `seed-design docs search <검색어>`가 출력한 그대로 넣어주세요.
 ```
 
-후보 목록은 답이 아니라 답을 좁히라는 안내라서 stderr로 가요. `docs search`가 내놓는 검색
-결과는 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지 아닌지를
-말해줘요.
+비슷한 주소를 대신 읽어 주지는 않아요. 잘못된 문서를 조용히 받아서 그것을 근거로 작업하는 것이
+가장 나쁜 결과이기 때문이에요. 그래서 제안은 답이 아니라 안내로서 stderr로 가요. `docs search`가
+내놓는 검색 결과는 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지
+아닌지를 말해줘요.
 
 ## 스트림과 종료 코드
 
@@ -450,13 +433,13 @@ $ npx @seed-design/cli@latest docs read action-button
 | 스트림 | 담는 것 |
 |--------|---------|
 | stdout | 질의에 대한 답만 담아요 |
-| stderr | 그 밖의 전부예요. 실패 이유, 후보 목록, 찾은 개수, 텔레메트리 안내가 모두 여기로 가요 |
+| stderr | 그 밖의 전부예요. 실패 이유, 비슷한 주소 제안, 찾은 개수, 텔레메트리 안내가 모두 여기로 가요 |
 
 | 코드 | 의미 |
 |------|------|
 | `0` | stdout에 답이 있어요 |
-| `1` | 명령은 정상적으로 돌았고 답이 부정적이에요. `docs list`가 그 아래에서 아무것도 찾지 못했거나, `docs search`에 걸리는 문서가 하나도 없는 경우예요 |
-| `2` | 답을 낼 수 없었어요. 네트워크 실패, 잘못된 주소나 옵션, 여러 문서를 가리키는 주소가 여기예요. 이유는 stderr에 있어요 |
+| `1` | 명령은 정상적으로 돌았고 답이 부정적이에요. `docs list`에 없는 섹션을 넣었거나, `docs search`에 걸리는 문서가 하나도 없는 경우예요 |
+| `2` | 답을 낼 수 없었어요. 네트워크 실패, 잘못된 주소나 옵션이 여기예요. 이유는 stderr에 있어요 |
 
 `init`, `add`, `add-all`은 부정적인 답이라는 것이 없어서 `1`을 쓰지 않아요. 요청한 작업을 끝냈으면 `0`, 끝내지 못했으면 `2`예요. 터미널이 없어서 물어보지 못한 경우와 내용이 다른 파일을 남긴 경우가 모두 `2`에 해당해요.
 
@@ -475,7 +458,7 @@ $ npx @seed-design/cli@latest docs read action-button
 | 지금까지 | 앞으로 |
 |----------|--------|
 | `seed-design docs` | `seed-design docs list` |
-| `seed-design docs react` | `seed-design docs list react/` |
+| `seed-design docs react` | `seed-design docs list react` |
 | `seed-design docs react/components/action-button` | `seed-design docs read /react/components/action-button` |
 | `seed-design docs react/overview` | `seed-design docs read /react` |
 | `seed-design docs-search action-button` | `seed-design docs search action-button` |

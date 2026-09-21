@@ -11,11 +11,11 @@
 
 기존 대화형 `docs` 명령을 세 하위 명령으로 나눕니다.
 
-- `seed-design docs list`: 최상위 목록을 출력합니다. `seed-design docs list /react/`처럼 범위를 지정하면 그 아래 한 단계만 나열합니다.
+- `seed-design docs list`: 모든 문서를 주소순으로 출력합니다. `seed-design docs list react`처럼 섹션을 지정하면 그 섹션의 문서만 나열합니다.
 - `seed-design docs search "액션 버튼"`: 문서의 제목·본문을 검색해 관련도 순으로 최대 20개 문서를 출력합니다.
 - `seed-design docs read /react/components/action-button`: 링크 대신 Markdown 본문을 stdout에 출력합니다. `--raw`는 제거합니다.
 
-목록과 검색 결과는 주소를 첫 필드로 두고 제목·설명·deprecated 여부를 한 줄에 표시합니다. 문서 주소는 `docs read`에, `/`로 끝나는 폴더 주소는 `docs list`에 넘깁니다. 검색 결과의 `#앵커`를 읽으면 해당 문서 전체를 반환합니다.
+목록과 검색 결과는 주소를 첫 필드로 두고 제목·설명·deprecated 여부를 한 줄에 표시합니다. 이 주소를 `docs read`에 그대로 넘깁니다. 검색 결과의 `#앵커`를 읽으면 해당 문서 전체를 반환합니다.
 
 | 기존 호출 | 변경할 호출 |
 | --- | --- |
@@ -24,7 +24,7 @@
 | `seed-design docs components/action-button --framework react` | `seed-design docs read /react/components/action-button` |
 | `seed-design docs react components action-button` | `seed-design docs read /react/components/action-button` |
 
-문서 명령의 `--cwd`와 `--framework`를 제거하고 프로젝트 설정과 무관하게 사이트 경로를 사용합니다. `/components/action-button`은 디자인 스펙, `/react/components/action-button`은 React 구현 문서입니다. `/react`는 개요 문서이며 `/react/`는 하위 목록입니다. 짧은 이름이 여러 문서에 일치하면 후보 주소를 안내하고 실패합니다.
+문서 명령의 `--cwd`와 `--framework`를 제거하고 프로젝트 설정과 무관하게 사이트 경로를 사용합니다. `/components/action-button`은 디자인 스펙, `/react/components/action-button`은 React 구현 문서입니다. `/react`는 개요 문서입니다. 주소는 고쳐 읽지 않고 목록·검색 결과에 출력된 그대로만 받습니다. 앞 슬래시가 없거나 뒤 슬래시가 붙은 주소, `action-button` 같은 짧은 이름은 없는 주소로 보고 비슷한 주소를 안내합니다.
 
 문서 인덱스에 있는 주소만 읽습니다. 기존 버전별 changelog 주소는 제거하며, 패키지별 변경 이력은 GitHub 저장소에 있는 각 패키지의 `CHANGELOG.md`에서 확인합니다. 기존 스니펫 링크 출력은 제거하며, 스니펫은 `seed-design add ui:action-button`처럼 설치합니다.
 
@@ -32,7 +32,7 @@
 
 ### 자동화 실행
 
-- 종료 코드 `1`은 `compat`의 비호환 판정, `docs search`의 검색 결과 없음, `docs list`의 하위 항목 없음에 사용합니다. 잘못된 명령·옵션·주소, 모호한 문서 주소, 네트워크·설정·파일 처리 실패는 `2`로 구분합니다. 종료 코드 `1`만 실패로 처리하던 스크립트는 갱신해야 합니다.
+- 종료 코드 `1`은 `compat`의 비호환 판정, `docs search`의 검색 결과 없음, `docs list`에 지정한 섹션 없음에 사용합니다. 잘못된 명령·옵션·주소, 네트워크·설정·파일 처리 실패는 `2`로 구분합니다. 종료 코드 `1`만 실패로 처리하던 스크립트는 갱신해야 합니다.
 - `docs`와 `compat`은 결과를 stdout에, 오류·건수·검사 대상·해결 안내를 stderr에 출력합니다. `compat`은 비호환 보고가 있을 때만 stdout을 출력합니다. 모든 명령의 오류 상세와 텔레메트리 수집 안내를 stderr로 옮깁니다.
 - stdin 또는 stdout이 터미널이 아니면 질문을 띄우지 않습니다. `init`은 `-y`, `add`는 항목 인자, `add-all`은 레지스트리 인자 또는 `--all`을 지정해야 합니다. 설정 파일이 없으면 `seed-design init -y`를 먼저 실행합니다.
 - `add --include-deprecated`로 deprecated 항목 추가를 명시하고, `add`·`add-all`의 `--on-diff overwrite|backup|skip`으로 기존 파일 처리 방식을 지정할 수 있습니다. 비대화형 실행에서 처리 방식을 지정하지 않은 충돌 파일은 보존하고 나머지 작업 후 `2`로 종료합니다.

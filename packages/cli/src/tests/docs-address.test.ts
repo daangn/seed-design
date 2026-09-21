@@ -1,25 +1,18 @@
 import { describe, expect, it } from "bun:test";
 
 import type { DocsCategory } from "@/src/schema";
-import {
-  byAddress,
-  childrenOf,
-  parseAddress,
-  resolveDocuments,
-  resolveScopes,
-  summaryOf,
-} from "@/src/utils/docs-address";
+import { byAddress, documentListings, findDocument, summaryOf } from "@/src/utils/docs-address";
 import { alignedLines } from "@/src/utils/docs-index";
 
 /**
- * The address grammar, read off the functions that implement it rather than through a spawned
- * CLI. Every rule here is answered by the index alone, so none of it needs a server, a process
- * or a working directory — what `docs-command.test.ts` still spawns for is the wiring around
- * these answers, and the streams and exit codes only a process has.
+ * What the subcommands take and print, read off the functions that implement it rather than
+ * through a spawned CLI. Every rule here is answered by the index alone, so none of it needs a
+ * server, a process or a working directory — what `docs-command.test.ts` still spawns for is the
+ * wiring around these answers, and the streams and exit codes only a process has.
  *
- * The shapes that make the rules bite are all present below: a landing page sitting at the path
- * of a container, one id under two containers of a single category, the same id in two
- * categories, and a container nested inside another.
+ * The index below carries the shapes a lenient reader would guess at: a landing page at its
+ * category's own path, one id in two categories and in two places of one category, and a path
+ * nested a level deeper than its neighbours.
  */
 const categories: DocsCategory[] = [
   {
@@ -81,132 +74,64 @@ const categories: DocsCategory[] = [
   },
 ];
 
-const addressesOf = (input: string) =>
-  resolveDocuments(categories, parseAddress(input)).map((entry) => entry.address);
+const addressOf = (input: string) => findDocument(categories, input)?.docUrl;
 
-const scopesOf = (input: string) => resolveScopes(categories, parseAddress(input));
-
-describe("parseAddress", () => {
-  it("reads a leading slash as the whole path, and its absence as a tail", () => {
-    expect(parseAddress("/react/components/action-button")).toEqual({
-      kind: "exact",
-      segments: ["react", "components", "action-button"],
-    });
-    expect(parseAddress("action-button")).toEqual({ kind: "tail", segments: ["action-button"] });
+describe("findDocument", () => {
+  it("finds a document by its address, in any category", () => {
+    expect(addressOf("/react/components/action-button")).toBe("/react/components/action-button");
+    expect(addressOf("/lynx/components/action-button")).toBe("/lynx/components/action-button");
+    expect(addressOf("/react/components/concepts/composition")).toBe(
+      "/react/components/concepts/composition",
+    );
   });
 
-  it("reads a trailing slash as a container, and keeps the two slashes independent", () => {
-    expect(parseAddress("react/")).toEqual({
-      kind: "scope",
-      anchored: false,
-      segments: ["react"],
-    });
-    expect(parseAddress("/react/")).toEqual({
-      kind: "scope",
-      anchored: true,
-      segments: ["react"],
-    });
+  it("finds a category's landing page at the category's own path", () => {
+    expect(addressOf("/react")).toBe("/react");
   });
 
-  it("reads nothing at all as the root scope", () => {
-    for (const input of ["", "   ", "/"]) {
-      expect(parseAddress(input)).toEqual({ kind: "scope", anchored: true, segments: [] });
+  it("ignores the anchor a search result names its matching heading with", () => {
+    expect(addressOf("/react/components/bottom-sheet#스냅-포인트")).toBe(
+      "/react/components/bottom-sheet",
+    );
+  });
+
+  it("finds nothing for any other form of the address", () => {
+    for (const input of [
+      "react/components/action-button",
+      "/react/components/action-button/",
+      " /react/components/action-button",
+      "/react/components/action-button.md",
+      "action-button",
+      "concepts/composition",
+      "/components/bottom-sheet",
+      "react/",
+      "/",
+      "",
+    ]) {
+      expect(addressOf(input)).toBeUndefined();
     }
   });
 });
 
-describe("resolveDocuments", () => {
-  it("matches an exact address against the whole path and nothing less", () => {
-    expect(addressesOf("/react/components/action-button")).toEqual([
-      "/react/components/action-button",
-    ]);
-    // Nobody's path, though two documents end with it.
-    expect(addressesOf("/components/bottom-sheet")).toEqual([]);
-  });
-
-  it("reaches every document a tail ends, across categories and within one", () => {
-    expect(addressesOf("action-button")).toEqual([
-      "/lynx/components/action-button",
-      "/react/components/action-button",
-    ]);
-    expect(addressesOf("bottom-sheet")).toEqual([
-      "/react/components/bottom-sheet",
-      "/react/stackflow/bottom-sheet",
-    ]);
-  });
-
-  it("reaches one document once the tail is long enough to separate them", () => {
-    expect(addressesOf("concepts/composition")).toEqual(["/react/components/concepts/composition"]);
-  });
-
-  it("separates a landing page from the container sitting at the same path", () => {
-    expect(addressesOf("/react")).toEqual(["/react"]);
-    expect(addressesOf("react/")).toEqual([]);
-  });
-
-  it("reaches nothing from a container, so nothing underneath is picked on the caller's behalf", () => {
-    expect(addressesOf("react/updates/")).toEqual([]);
-    expect(addressesOf("/")).toEqual([]);
-  });
-
-  it("reaches nothing for an address the index does not carry", () => {
-    expect(addressesOf("/react/nope")).toEqual([]);
-  });
-});
-
-describe("resolveScopes", () => {
-  it("answers the root scope with the empty prefix", () => {
-    expect(scopesOf("")).toEqual([""]);
-  });
-
-  it("takes an anchored container as given", () => {
-    expect(scopesOf("/react/stackflow/")).toEqual(["/react/stackflow"]);
-  });
-
-  it("reaches the anchored container from a shortened one", () => {
-    expect(scopesOf("stackflow/")).toEqual(scopesOf("/react/stackflow/"));
-    expect(scopesOf("stackflow/")).toEqual(["/react/stackflow"]);
-  });
-
-  it("reaches every container a shortened name ends", () => {
-    expect(scopesOf("components/")).toEqual(["/lynx/components", "/react/components"]);
-  });
-
-  it("reaches nothing for a name no path ends with", () => {
-    expect(scopesOf("nonexistent/")).toEqual([]);
-  });
-});
-
-describe("childrenOf", () => {
-  it("lists the categories, and a landing page beside the container of the same name", () => {
-    expect(childrenOf(categories, "")).toEqual([
-      { address: "/lynx/", note: "문서 2개" },
+describe("documentListings", () => {
+  it("lists every document in address order, each with what its line says about it", () => {
+    expect(documentListings(categories)).toEqual([
+      { address: "/lynx/components/action-button", note: "Action Button" },
+      { address: "/lynx/components/checkbox", note: "Checkbox (deprecated)" },
       { address: "/react", note: "Overview" },
-      { address: "/react/", note: "문서 5개" },
-    ]);
-  });
-
-  it("descends exactly one level, counting everything below each container", () => {
-    expect(childrenOf(categories, "/react")).toEqual([
-      { address: "/react/components/", note: "문서 3개" },
-      { address: "/react/stackflow/", note: "문서 1개" },
-      { address: "/react/updates/", note: "문서 1개" },
-    ]);
-  });
-
-  it("marks a container with a trailing slash and leaves a document without one", () => {
-    expect(childrenOf(categories, "/react/components")).toEqual([
       {
         address: "/react/components/action-button",
         note: "Action Button — 명확한 액션을 수행하는 버튼입니다.",
       },
       { address: "/react/components/bottom-sheet", note: "Bottom Sheet" },
-      { address: "/react/components/concepts/", note: "문서 1개" },
+      { address: "/react/components/concepts/composition", note: "Composition" },
+      { address: "/react/stackflow/bottom-sheet", note: "Bottom Sheet" },
+      { address: "/react/updates/changelog", note: "Changelog" },
     ]);
   });
 
-  it("marks a deprecated document", () => {
-    expect(childrenOf(categories, "/lynx/components")).toEqual([
+  it("lists nothing outside the categories it is given", () => {
+    expect(documentListings(categories.filter((category) => category.id === "lynx"))).toEqual([
       { address: "/lynx/components/action-button", note: "Action Button" },
       { address: "/lynx/components/checkbox", note: "Checkbox (deprecated)" },
     ]);
@@ -266,10 +191,10 @@ describe("alignedLines", () => {
   it("pads every address to the widest one, so the notes line up", () => {
     expect(
       alignedLines([
-        { address: "/react/components/", note: "문서 3개" },
-        { address: "/react/updates/", note: "문서 1개" },
+        { address: "/react", note: "Overview" },
+        { address: "/react/updates/changelog", note: "Changelog" },
       ]),
-    ).toEqual(["/react/components/  문서 3개", "/react/updates/     문서 1개"]);
+    ).toEqual(["/react                    Overview", "/react/updates/changelog  Changelog"]);
   });
 
   it("leaves an address carrying no note bare, with no padding behind it", () => {
