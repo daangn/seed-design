@@ -7,15 +7,24 @@ const badgeSlotNames = [
     "seed-badge__root"
   ],
   [
+    "prefix",
+    "seed-badge__prefix"
+  ],
+  [
     "label",
     "seed-badge__label"
+  ],
+  [
+    "action",
+    "seed-badge__action"
   ]
 ];
 
 const defaultVariant = {
   "size": "medium",
   "variant": "solid",
-  "tone": "neutral"
+  "tone": "neutral",
+  "pressed": false
 };
 
 const compoundVariants = [
@@ -90,6 +99,14 @@ const compoundVariants = [
   {
     "tone": "critical",
     "variant": "outline"
+  },
+  {
+    "size": "medium",
+    "pressed": true
+  },
+  {
+    "size": "large",
+    "pressed": true
   }
 ];
 
@@ -110,6 +127,10 @@ export const badgeVariantMap = {
     "positive",
     "warning",
     "critical"
+  ],
+  "pressed": [
+    true,
+    false
   ]
 };
 

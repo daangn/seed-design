@@ -322,9 +322,9 @@ export function ArticleListItem(article: ArticleProps) {
         </VStack>
         <HStack align="center" gap="x2">
           {isPopular && (
-            <Badge variant="outline" tone="brand">
-              인기
-            </Badge>
+            <Badge.Root variant="outline" tone="brand">
+              <Badge.Label>인기</Badge.Label>
+            </Badge.Root>
           )}
           <TagGroupRoot size="t4" tone="neutralSubtle">
             <TagGroupItem label={categoryName} />
