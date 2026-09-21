@@ -26,7 +26,7 @@
 
 문서 명령의 `--cwd`와 `--framework`를 제거하고 프로젝트 설정과 무관하게 사이트 경로를 사용합니다. `/components/action-button`은 디자인 스펙, `/react/components/action-button`은 React 구현 문서입니다. `/react`는 개요 문서이며 `/react/`는 하위 목록입니다. 짧은 이름이 여러 문서에 일치하면 후보 주소를 안내하고 실패합니다.
 
-문서 인덱스에 있는 주소만 읽습니다. 기존 버전별 changelog 주소 대신 `seed-design docs read /react/updates/changelog`를 사용합니다. 기존 스니펫 링크 출력은 제거하며, 스니펫은 `seed-design add ui:action-button`처럼 설치합니다.
+문서 인덱스에 있는 주소만 읽습니다. 기존 버전별 changelog 주소는 제거하며, 패키지별 변경 이력은 GitHub 저장소에 있는 각 패키지의 `CHANGELOG.md`에서 확인합니다. 기존 스니펫 링크 출력은 제거하며, 스니펫은 `seed-design add ui:action-button`처럼 설치합니다.
 
 검색 색인을 디스크에 캐시하고 변경 여부를 확인해 재사용합니다. `SEED_CACHE_DIR`로 캐시 위치를 지정할 수 있습니다.
 

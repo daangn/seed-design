@@ -25,6 +25,7 @@ import { markFeatured } from "@/lib/featured";
 import { lynxCompatibilitySchema } from "@/lib/lynx-compatibility";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
+import { remarkDropLlmOnly } from "@/lib/satteri/remark-drop-llm-only";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
 import { remarkTypeTableLlms } from "@/lib/satteri/remark-type-table-llms";
 import {
@@ -137,6 +138,8 @@ const customMdastPlugins = [
   remarkApplyLlmsFilter(filterLlmsElement),
   typeTableLlms.emitLlmsForm,
   remarkLlms(llmsOptions),
+  // `remarkLlms` 뒤여야 한다. 앞에 두면 `<LLMOnly>`가 마크다운에서도 빠진다.
+  remarkDropLlmOnly(),
 ];
 
 function createSatteriOptions(): SatteriPresetOptions {

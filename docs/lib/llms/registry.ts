@@ -4,8 +4,8 @@ import { codeBlockTabsHandler } from "./handlers/codeblock-tabs";
 import { componentExampleHandler } from "./handlers/component-example";
 import { componentSpecBlockHandler } from "./handlers/component-spec-block";
 import { iconLibraryHandler } from "./handlers/icon-library";
+import { llmOnlyHandler } from "./handlers/llm-only";
 import { tokenReferenceHandler } from "./handlers/token-reference";
-import { changelogPagePlaceholder } from "./placeholders/changelog-page";
 import { progressBoardPlaceholder } from "./placeholders/progress-board";
 import type { LLMHandler, LLMPlaceholder } from "./types";
 
@@ -23,8 +23,9 @@ export const handlers: LLMHandler[] = [
   componentExampleHandler,
   componentSpecBlockHandler,
   iconLibraryHandler,
+  llmOnlyHandler,
   tokenReferenceHandler,
 ];
 
 /** Tags deferred to read time. Same preservation rule as `handlers`. */
-export const placeholders: LLMPlaceholder[] = [changelogPagePlaceholder, progressBoardPlaceholder];
+export const placeholders: LLMPlaceholder[] = [progressBoardPlaceholder];

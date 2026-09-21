@@ -419,12 +419,6 @@ Source: https://github.com/daangn/seed-design/blob/dev/docs/content/react/compon
 stdout에는 사이트가 준 바이트만 나가요. 구분자와 머리말은 물론이고 끝의 개행 한 글자까지
 CLI가 보태지 않아요. `docs read <주소> | sha256sum`이 원본과 같은 값을 내요.
 
-패키지 changelog처럼 문서 목록에 없는 주소도 가져올 수 있어요.
-
-```package-install
-npx @seed-design/cli@latest docs read /react/updates/changelog/react/1.2.5
-```
-
 <Callout type="info">
   스니펫 원본은 `add` 명령으로 받아요. 레지스트리를 거치므로 의존성과 버전이 함께 맞춰져요.
 
