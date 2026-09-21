@@ -232,12 +232,6 @@ npx @seed-design/cli@latest compat
 npx @seed-design/cli@latest compat ui:action-button ui:alert-dialog
 ```
 
-항목 shorthand를 쓸 때는 `-c` 옵션을 사용해요.
-
-```package-install
-npx @seed-design/cli@latest compat -c action-button -c alert-dialog
-```
-
 모든 registry 항목을 검사하려면 `--all`을 사용하세요.
 
 ```package-install
@@ -248,10 +242,8 @@ npx @seed-design/cli@latest compat --all
 
 | 옵션 | 설명 |
 |------|------|
-| `-c, --component <component>` | 검사할 항목 ID. 플래그를 반복하거나, 값을 쉼표로 이어 지정 가능 |
-| `-r, --registry <registryId>` | `--component`에 shorthand를 사용할 때 기본 registry 지정 |
 | `-a, --all` | 모든 registry 항목 검사 |
-| `--cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
+| `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
@@ -487,6 +479,12 @@ $ npx @seed-design/cli@latest docs read action-button
 | `seed-design docs react/components/action-button` | `seed-design docs read /react/components/action-button` |
 | `seed-design docs react/overview` | `seed-design docs read /react` |
 | `seed-design docs-search action-button` | `seed-design docs search action-button` |
+| `seed-design compat action-button` | `seed-design compat ui:action-button` |
+| `seed-design compat -c action-button,alert-dialog` | `seed-design compat ui:action-button ui:alert-dialog` |
 
-하위 명령 없는 형태는 남겨 두지 않았어요. 무엇을 요청하는지가 이름에 드러나지 않는 호출을
+`docs`의 하위 명령 없는 형태는 남겨 두지 않았어요. 무엇을 요청하는지가 이름에 드러나지 않는 호출을
 없애는 것이 이 변경의 목적이라서, 하위 호환을 위해 예전 형태를 유지하면 그 목적이 사라져요.
+
+`compat`은 이제 `add`처럼 레지스트리를 포함한 항목 이름만 받아요. `-c`는 다른 명령과 같이 `--cwd`의 짧은 이름이
+됐어요. 예전 호출을 그대로 두면 `compat -c action-button`이 `action-button`을 작업 디렉토리로 읽으니, 스크립트에
+남은 `-c`를 위 표처럼 바꿔주세요.

@@ -30,17 +30,6 @@ export const cwdOption = withDefault(
 );
 
 /**
- * The same option for the commands that cannot spare `-c`: `compat` spends it on
- * `--component`, and `docs` and `docs-search` never had a short form to keep.
- */
-export const cwdLongOption = withDefault(
-  option("--cwd", path({ metavar: "CWD" }), {
-    description: message`작업 디렉토리. 기본값은 현재 디렉토리입니다.`,
-  }),
-  () => process.cwd(),
-);
-
-/**
  * Every multi-word option answers to both the kebab and the camel spelling, here and in
  * `add-all`. cac derived the counterpart of a declared name on its own, so a script written
  * against any earlier release may carry either one; Optique knows only the names it is given.

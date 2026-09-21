@@ -143,7 +143,6 @@ describe("cli parser", () => {
       [
         "예시:",
         "  seed-design compat",
-        "  seed-design compat -c action-button",
         "  seed-design compat ui:action-button ui:alert-dialog",
         "  seed-design compat --all",
       ].join("\n"),
@@ -157,6 +156,26 @@ describe("cli parser", () => {
     ]);
 
     expect(help.stdout).not.toContain("--default");
+    expect(run.exitCode).toBe(2);
+  });
+
+  it("gives -c to --cwd in every command that takes a working directory", async () => {
+    const results = await Promise.all(
+      ["add", "add-all", "compat", "init"].map((name) => runCli(["help", name])),
+    );
+
+    for (const result of results) {
+      expect(result.stdout).toContain("-c, --cwd");
+    }
+  });
+
+  it("no longer takes compat's --component", async () => {
+    const [help, run] = await Promise.all([
+      runCli(["help", "compat"]),
+      runCli(["compat", "--component", "action-button"]),
+    ]);
+
+    expect(help.stdout).not.toContain("--component");
     expect(run.exitCode).toBe(2);
   });
 });

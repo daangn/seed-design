@@ -40,6 +40,7 @@
 ### 기타 변경
 
 - `init --default`를 제거합니다. `init --yes` 또는 `init -y`로 변경해야 합니다. 이미 폐기된 `add --all`·`add -a`도 제거하며, 전체 추가에는 `add-all`을 사용합니다.
+- `compat`의 `-c`·`--component`와 `-r`·`--registry`를 제거합니다. 검사할 항목은 `add`와 같이 `seed-design compat ui:action-button ui:alert-dialog`처럼 레지스트리를 포함해 인자로 지정해야 하며, `action-button`처럼 레지스트리를 생략한 이름은 거부합니다. `-c`는 다른 명령과 같이 `--cwd`의 짧은 이름이 되므로, `compat -c action-button`을 그대로 실행하면 `action-button`을 작업 디렉터리로 해석합니다.
 - 여러 단어로 된 옵션의 camelCase·kebab-case 표기를 유지하며, `--seedReactVersion`에 지정한 버전이 실제로 적용되도록 수정합니다.
 - `--version`이 실행한 프로젝트 대신 CLI 자체 버전을 표시합니다. `--help`, `--version`, 문서 명령을 `package.json`이 없는 디렉터리에서도 사용할 수 있습니다.
 - 기존 파일과 내용이 다를 때 대화형 선택의 기본값을 백업으로 변경합니다.

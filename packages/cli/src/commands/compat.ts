@@ -1,17 +1,8 @@
-/**
- * TODO: Drop `-c`/`-r` and name a target the way `add`/`add-all` does — the positional
- * `ITEM_ID`, spelled in full as `ui:action-button`. `-c` accepts exactly what the positional
- * argument accepts, `-r` exists only to fill in the registry a bare name leaves out, and
- * `resolveExplicitItemKeys` carries the guessing that follows from allowing a bare name at
- * all. `add` refuses one outright, so the same input means two different things depending on
- * which command reads it.
- */
-
 import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { getRawConfig } from "@/src/utils/get-config";
 import { object } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
-import { multiple, optional } from "@optique/core/modifiers";
+import { multiple } from "@optique/core/modifiers";
 import { argument, command, constant, option } from "@optique/core/primitives";
 import { string } from "@optique/core/valueparser";
 import path from "path";
@@ -20,7 +11,7 @@ import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import {
   baseUrlOption,
-  cwdLongOption,
+  cwdOption,
   frameworkOption,
   type ParsedOptions,
 } from "../utils/cli-options";
@@ -34,31 +25,12 @@ import {
 } from "../utils/compatibility";
 import { CliError, ExitCode, exitCodeFor, isCliCancelError, reportCliError } from "../utils/error";
 
-function parseTargetInputs({
-  itemIds,
-  component,
-}: {
-  itemIds: readonly string[];
-  component: readonly string[];
-}) {
-  const normalizeInput = (value: string) => value.trim().replace(/\s+/g, "-");
-  const itemInputs = itemIds.map(normalizeInput).filter(Boolean);
-  const componentInputs = component
-    .flatMap((value) => value.split(","))
-    .map(normalizeInput)
-    .filter(Boolean);
-
-  return Array.from(new Set([...itemInputs, ...componentInputs]));
-}
-
-function resolveExplicitItemKeys({
+function validateItemKeys({
   publicRegistries,
-  targetInputs,
-  defaultRegistry,
+  itemKeys,
 }: {
   publicRegistries: Array<{ id?: string; items?: Array<{ id?: string }> }>;
-  targetInputs: string[];
-  defaultRegistry?: string;
+  itemKeys: string[];
 }) {
   const allItemKeys = publicRegistries
     .filter((registry): registry is { id: string; items: Array<{ id: string }> } => {
@@ -69,43 +41,25 @@ function resolveExplicitItemKeys({
         .filter((item): item is { id: string } => typeof item.id === "string")
         .map((item) => `${registry.id}:${item.id}`),
     );
-  const result = new Set<string>();
 
-  for (const input of targetInputs) {
-    const itemKey = input.includes(":")
-      ? input
-      : defaultRegistry
-        ? `${defaultRegistry}:${input}`
-        : (() => {
-            const matchedItemKeys = allItemKeys.filter((itemKey) => itemKey.endsWith(`:${input}`));
-            if (!matchedItemKeys.length) {
-              throw new CliError({
-                message: `${highlight(input)}: 항목을 찾을 수 없어요.`,
-                hint: `${highlight("ui:action-button")}처럼 레지스트리를 포함해서 입력해보세요.`,
-              });
-            }
+  for (const itemKey of itemKeys) {
+    const [registryId, ...rest] = itemKey.split(":");
 
-            if (matchedItemKeys.length > 1) {
-              throw new CliError({
-                message: `${highlight(input)}: 같은 이름의 항목이 여러 레지스트리에 있어요.`,
-                details: matchedItemKeys.map((itemKey) => `- ${itemKey}`),
-                hint: `${highlight("ui:action-button")}처럼 레지스트리를 포함해서 입력해보세요.`,
-              });
-            }
-
-            return matchedItemKeys[0];
-          })();
+    if (!registryId || !rest.join(":")) {
+      throw new CliError({
+        message: `${highlight(itemKey)}: 항목 이름이 잘못되었어요.`,
+        hint: `${highlight("ui:action-button")}과 같은 형식으로 입력해보세요.`,
+      });
+    }
 
     if (!allItemKeys.includes(itemKey)) {
       throw new CliError({
         message: `${highlight(itemKey)}: 항목을 찾을 수 없어요.`,
       });
     }
-
-    result.add(itemKey);
   }
 
-  return Array.from(result);
+  return itemKeys;
 }
 
 export const compatParser = command(
@@ -113,18 +67,8 @@ export const compatParser = command(
   object({
     command: constant("compat"),
     itemIds: multiple(argument(string({ metavar: "ITEM_ID" }))),
-    component: multiple(
-      option("-c", "--component", string({ metavar: "COMPONENT" }), {
-        description: message`검사할 항목입니다. 플래그를 반복하거나, 값을 쉼표로 이어 지정할 수 있습니다.`,
-      }),
-    ),
     all: option("-a", "--all", { description: message`모든 레지스트리 항목을 검사합니다.` }),
-    registry: optional(
-      option("-r", "--registry", string({ metavar: "REGISTRY_ID" }), {
-        description: message`항목 이름만 입력했을 때 사용할 기본 레지스트리입니다.`,
-      }),
-    ),
-    cwd: cwdLongOption,
+    cwd: cwdOption,
     baseUrl: baseUrlOption,
     framework: frameworkOption,
   }),
@@ -132,7 +76,6 @@ export const compatParser = command(
     brief: message`다운로드된 항목의 호환성을 검사합니다.`,
     footer: exampleFooter([
       "seed-design compat",
-      "seed-design compat -c action-button",
       "seed-design compat ui:action-button ui:alert-dialog",
       "seed-design compat --all",
     ]),
@@ -160,10 +103,9 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       ),
     );
 
-    const targetInputs = parseTargetInputs({
-      itemIds: options.itemIds,
-      component: options.component,
-    });
+    const targetInputs = Array.from(
+      new Set(options.itemIds.map((value) => value.trim().replace(/\s+/g, "-")).filter(Boolean)),
+    );
 
     const targetItemKeys = (() => {
       if (options.all) {
@@ -173,11 +115,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
       }
 
       if (targetInputs.length > 0) {
-        return resolveExplicitItemKeys({
-          publicRegistries,
-          targetInputs,
-          defaultRegistry: options.registry,
-        });
+        return validateItemKeys({ publicRegistries, itemKeys: targetInputs });
       }
 
       const rawConfigPromise = getRawConfig(options.cwd);
@@ -192,7 +130,7 @@ export async function runCompat({ verbose, ...options }: ParsedOptions<typeof co
             throw new CliError({
               message:
                 "seed-design.json 파일이 없어 다운로드된 항목이 어떤 위치에 존재하는지 알 수 없어요.",
-              hint: "`seed-design init`으로 설정을 만든 뒤 실행하거나, `--all`/`-c`로 검사 대상을 직접 지정해주세요.",
+              hint: "`seed-design init`으로 설정을 만든 뒤 실행하거나, `seed-design compat ui:action-button`처럼 항목을 인자로 넘기거나 `--all`로 검사 대상을 직접 지정해주세요.",
             });
           }
 
