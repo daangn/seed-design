@@ -25,6 +25,10 @@
     }
   }
 
+  .seed-menu-sheet-item__root:is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+  }
+
   .seed-menu-sheet-item__root:first-child {
     border-top-left-radius: var(--seed-radius-r4);
     border-top-right-radius: var(--seed-radius-r4);

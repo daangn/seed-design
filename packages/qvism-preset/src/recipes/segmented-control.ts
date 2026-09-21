@@ -4,7 +4,8 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -111,6 +112,8 @@ const segmentedControl = defineSlotRecipe({
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
     },
   },
   variants: {},
