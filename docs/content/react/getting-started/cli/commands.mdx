@@ -13,11 +13,11 @@ description: "@seed-design/cli 명령어를 안내해요."
 - 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
 - `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
 - 실패 원인을 자세히 확인하려면 `--verbose` 옵션을 사용할 수 있어요.
-- 모든 명령어는 실패 원인을 stderr로 내보내요. stdout만 보고 있으면 실패를 알 수 없고, stderr만 감시하는 자동화는 어느 명령어의 실패든 놓치지 않아요.
+- 모든 명령어는 실패 원인을 stderr로 내보내요.
 
 ### 질문에 답할 수 없는 환경에서
 
-CI나 AI 코딩 에이전트처럼 입력이나 출력이 터미널에 연결되지 않은 환경에서는 어떤 명령어도 프롬프트를 띄우지 않아요. 출력만 파일로 넘겨도(`seed-design init > log.txt`) 여기에 해당해요. 질문에 미리 답해 둔 인자가 있으면 그 값을 쓰고, 없으면 어떤 인자를 넘기면 되는지 알려준 뒤 종료 코드 `2`로 끝나요. 답을 받지 못한 채 아무 일도 하지 않고 `0`으로 끝나는 경우는 없어요.
+CI나 AI 코딩 에이전트처럼 입력이나 출력이 터미널에 연결되지 않은 환경에서는 어떤 명령어도 프롬프트를 띄우지 않아요. 질문에 미리 답해 둔 인자가 있으면 그 값을 쓰고, 없으면 어떤 인자를 넘기면 되는지 알려준 뒤 종료 코드 `2`로 끝나요.
 
 | 프롬프트가 뜨던 상황 | 답할 수 없을 때 |
 |----------------------|------------------|
@@ -27,8 +27,6 @@ CI나 AI 코딩 에이전트처럼 입력이나 출력이 터미널에 연결되
 | `add`에 넘긴 항목이 deprecated일 때 | `--include-deprecated`를 함께 넘기라고 알려줘요 |
 | `add-all`에 레지스트리도 `--all`도 없을 때 | 사용 가능한 레지스트리 목록을 알려줘요 |
 | 기존 파일과 내용이 다를 때 | 그 파일을 그대로 두고 경로를 알려줘요. `--on-diff`로 처리 방식을 정하면 돼요 |
-
-판단 기준은 표준 입력과 표준 출력이 **둘 다** 터미널인지예요. 출력을 파이프로 넘기기만 해도 비대화형으로 동작해요. 터미널에서 이 동작을 확인하고 싶으면 `seed-design add < /dev/null`처럼 실행해보세요.
 
 ## init
 
@@ -56,16 +54,16 @@ npx @seed-design/cli@latest init
 ### seed-design 설정
 
 ```sh
-◇  TypeScript를 사용중이신가요?
+◇  TypeScript를 사용 중이신가요?
 │  Yes
 │
-◇  React Server Components를 사용중이신가요?
+◇  React Server Components를 사용 중이신가요?
 │  No
 │
 ◇  어떤 프레임워크를 사용하시나요?
 │  React
 │
-◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트입니다.)
 │  ./seed-design
 │
 ◇  개선을 위해 익명 사용 데이터를 수집할까요?
@@ -151,8 +149,6 @@ deprecated 항목을 지정하면 터미널에서는 추가할지 물어봐요. 
 npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
 ```
 
-버전 옵션은 base URL과 프레임워크(react)를 함께 결정하므로 `--baseUrl` / `--framework`보다 우선해요.
-
 #### baseUrl 직접 지정
 
 레지스트리 주소를 직접 지정하려면 `--baseUrl`을 사용하세요. 기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
@@ -222,9 +218,7 @@ npx @seed-design/cli@latest compat
 
 기본값은 `seed-design.json`의 `path` 아래에 이미 추가된 항목만 검사해요.
 
-종료 코드가 세 갈래예요. 문제가 없으면 `0`, 검사해서 호환성 이슈를 찾았으면 `1`, 검사 자체를 하지 못했으면 `2`예요. 레지스트리에 닿지 못했거나 없는 항목을 넘겼거나 `seed-design.json`이 없어서 무엇을 검사할지 모르는 경우가 `2`에 해당해요. CI에서 `1`과 `2`를 나눠 다루면 네트워크 장애를 프로젝트의 문제로 읽지 않아요.
-
-`compat`은 `docs`와 마찬가지로 터미널 장식을 그리지 않아요. 찾아낸 비호환 항목만 stdout으로 나가고, 검사 대상과 결과 요약, 해결 힌트, 실패 원인은 모두 stderr로 나가요. 그래서 `compat > report.txt`로 받으면 보고서만 파일에 남고, 문제가 없으면 그 파일은 비어 있어요.
+종료 코드가 세 갈래예요. 문제가 없으면 `0`, 검사해서 호환성 이슈를 찾았으면 `1`, 검사 자체를 하지 못했으면 `2`예요. 레지스트리에 닿지 못했거나 없는 항목을 넘겼거나 `seed-design.json`이 없어서 무엇을 검사할지 모르는 경우가 `2`에 해당해요.
 
 특정 항목만 검사할 수도 있어요.
 
@@ -251,8 +245,7 @@ npx @seed-design/cli@latest compat --all
 
 ## docs
 
-문서를 나열하고, 찾고, 읽는 명령어예요. 세 개의 하위 명령으로 나뉘어 있어서, 무엇이 돌아올지가
-인자의 모양이 아니라 명령 이름으로 정해져요.
+문서를 나열하고, 찾고, 읽는 명령어예요.
 
 | 명령 | 하는 일 |
 |------|---------|
@@ -260,34 +253,24 @@ npx @seed-design/cli@latest compat --all
 | `docs search <질의>` | 문서 본문까지 검색해 걸린 문서를 출력해요 |
 | `docs read <주소>` | 그 주소의 문서 본문을 출력해요 |
 
-`docs`만 입력하면 하위 명령 안내를 stderr로 내보내고 종료 코드 `2`로 끝나요. 뒤에 붙은 값을
-주소로 해석하지 않아요.
-
-세 명령 모두 순수 텍스트로 출력하므로 LLM 파이프나 스크립트에 그대로 넘길 수 있어요. 어떤
-문서를 답할지 정할 때 작업 디렉토리와 프로젝트 설정 파일을 읽지 않기 때문에, 같은 입력은
-어디서 실행하든 같은 문서를 가리켜요.
-
 ### 주소
 
-주소는 문서 사이트 주소에서 도메인만 뺀 값이에요. `docs list`와 `docs search`가 줄 맨 앞에
-출력하고, `docs read`가 그대로 받아요.
+주소는 문서 사이트 주소에서 도메인만 뺀 값이에요(`/react/components/action-button`).
+`docs list`와 `docs search`가 줄 맨 앞에 출력한 주소를 그대로 `docs read`에 넘기면 돼요.
 
-| 인자 | 받는 값 | 예 |
-|------|---------|----|
-| `docs list`의 섹션 | 주소의 첫 경로를 슬래시 없이 | `react`, `foundations` |
-| `docs read`의 주소 | 출력된 주소를 슬래시까지 그대로 | `/react/components/action-button`, `/react` |
+### 옵션
 
-입력을 고쳐서 읽지 않아요. 앞 슬래시가 빠지거나(`react/components/action-button`), 뒤에
-슬래시가 붙거나(`/react/`), 문서 이름만 넣으면(`action-button`) 없는 주소와 똑같이 실패해요.
-문서 이름만으로 찾지 않는 이유는 같은 이름의 문서가 여러 섹션에 있어서, 이름만으로는 어느
-문서인지 정해지지 않기 때문이에요.
+세 하위 명령이 같은 옵션을 받아요.
 
-예외는 주소 뒤의 `#앵커` 하나예요. URL에서처럼 문서 안의 위치를 가리킬 뿐이라서, `docs read`는
-앵커를 무시하고 그 문서 전체를 출력해요.
+| 옵션 | 설명 |
+|------|------|
+| `-u, --baseUrl <baseUrl>` | 문서 사이트 base URL |
+| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
+| `-h, --help` | 도움말 출력 |
 
 ## docs list
 
-모든 문서를 주소순으로 한 줄에 하나씩 나열해요. 섹션을 넣으면 그 섹션의 문서만 나열해요.
+모든 문서를 주소순으로 한 줄에 하나씩 나열해요.
 
 ```package-install
 npx @seed-design/cli@latest docs list foundations
@@ -302,17 +285,13 @@ npx @seed-design/cli@latest docs list foundations
 ...
 ```
 
-문서 줄에는 주소 뒤에 제목과 설명이 붙어요. 문서 하나가 늘 한 줄이고 주소가 맨 앞에 있어서,
-`grep`으로 줄을 걸러도 설명이 함께 남고 `awk '{print $1}'`로 주소만 잘라낼 수 있어요. 섹션 없이
-모든 문서를 받아서 거를 때도 같은 방법을 써요.
+모든 문서를 받아 `grep`으로 거를 수도 있어요.
 
 ```sh copy
 npx @seed-design/cli@latest docs list | grep bottom-sheet
 ```
 
-섹션은 문서 사이트의 최상위 섹션과 같아요. `get-started`, `foundations`, `components`,
-`patterns`, `docs`, `react`, `breeze`, `lynx`, `ai-integration`, `updates`를 쓸 수 있어요. 없는
-섹션을 넣으면 쓸 수 있는 섹션을 알려주고 종료 코드 `1`로 끝나요.
+섹션은 문서 사이트의 최상위 섹션과 같아요. 없는 섹션을 넣으면 쓸 수 있는 섹션을 알려줘요.
 
 <Callout type="info">
   `components`는 **디자인 스펙**(Anatomy, Properties, Guidelines) 카테고리예요.
@@ -329,8 +308,7 @@ npx @seed-design/cli@latest docs list | grep bottom-sheet
 
 ## docs search
 
-문서 본문까지 검색해서 걸린 문서를 출력해요. 문서 사이트의 검색창과 같은 색인을 쓰기 때문에,
-이름을 몰라도 내용을 설명하는 말로 찾을 수 있어요.
+문서 본문까지 검색해서 걸린 문서를 출력해요. 이름을 몰라도 내용을 설명하는 말로 찾을 수 있어요.
 
 ```package-install
 npx @seed-design/cli@latest docs search "액션 버튼"
@@ -344,16 +322,7 @@ npx @seed-design/cli@latest docs search "액션 버튼"
 /components/top-navigation#우측-액션-영역-사용하기  Top Navigation — 화면 상단에 위치하여 탐색 인터페이스를 제공하는 네비게이션 컴포넌트입니다.
 ```
 
-문서 하나에 한 줄씩 나가요. 본문에서 걸린 자리가 있으면 주소의 `#` 뒤에 그 제목이 붙고, 주소
-뒤에는 `docs list`와 같은 모양으로 문서의 제목과 설명이 붙어요. 관련도가 높은 순서이며
-위에서부터 20개까지 보여줘요. 결과가 여러 개인 것은 정상이라서 종료 코드는 `0`이고, 하나도
-없을 때만 `1`이에요.
-
-stdout에는 결과만 나가고, 찾은 개수는 stderr로 나가요. 주소가 줄의 첫 필드라서
-`docs search 시트 | awk '{print $1}'`처럼 주소만 잘라 이어 쓸 수 있어요.
-
-출력된 주소는 `docs read`가 그대로 받는 값이에요. `#` 뒤가 붙어 있어도 그대로 넘기면 되고,
-`docs read`는 그 문서 전체를 출력해요.
+관련도가 높은 순서로 20개까지 보여줘요.
 
 ```sh copy
 npx @seed-design/cli@latest docs search "체크박스 접근성"
@@ -367,8 +336,7 @@ npx @seed-design/cli@latest docs read /lynx/components/checkbox
 </Callout>
 
 <Callout type="info">
-  검색 색인은 한 번 내려받아 캐시해 두고, 다음 실행부터는 바뀌었는지만 확인해요. 캐시 위치는
-  운영체제의 기본 캐시 디렉토리이고 `SEED_CACHE_DIR`로 옮길 수 있어요.
+  검색 색인은 운영체제의 기본 캐시 디렉토리에 저장해요. `SEED_CACHE_DIR`로 위치를 옮길 수 있어요.
 </Callout>
 
 ## docs read
@@ -392,9 +360,6 @@ Source: https://github.com/daangn/seed-design/blob/dev/docs/content/react/compon
 ...
 ```
 
-stdout에는 사이트가 준 바이트만 나가요. 구분자와 머리말은 물론이고 끝의 개행 한 글자까지
-CLI가 보태지 않아요. `docs read <주소> | sha256sum`이 원본과 같은 값을 내요.
-
 <Callout type="info">
   스니펫 원본은 `add` 명령으로 받아요. 레지스트리를 거치므로 의존성과 버전이 함께 맞춰져요.
 
@@ -405,8 +370,7 @@ CLI가 보태지 않아요. `docs read <주소> | sha256sum`이 원본과 같은
 
 ### 문서를 찾지 못했을 때
 
-주소가 어떤 문서의 주소와도 정확히 같지 않으면 종료 코드 `2`로 끝나요. 비슷한 주소가 있으면
-함께 알려줘요.
+주소에 해당하는 문서가 없으면 종료 코드 `2`로 끝나요. 비슷한 주소가 있으면 함께 알려줘요.
 
 ```sh copy
 $ npx @seed-design/cli@latest docs read react/components/action-button
@@ -419,16 +383,9 @@ $ npx @seed-design/cli@latest docs read react/components/action-button
 해결 힌트: 주소는 `seed-design docs list`나 `seed-design docs search <검색어>`가 출력한 그대로 넣어주세요.
 ```
 
-비슷한 주소를 대신 읽어 주지는 않아요. 잘못된 문서를 조용히 받아서 그것을 근거로 작업하는 것이
-가장 나쁜 결과이기 때문이에요. 그래서 제안은 답이 아니라 안내로서 stderr로 가요. `docs search`가
-내놓는 검색 결과는 그 자체가 답이라서 stdout으로 가고요. 어느 스트림에 있느냐가 그것이 답인지
-아닌지를 말해줘요.
-
 ## 스트림과 종료 코드
 
-`docs`의 세 명령은 `compat`과 함께 터미널 장식을 그리지 않는 쪽에 속해요. 파이프로 넘기거나
-그대로 다시 입력하기 위한 출력이라서예요. 반대로 `init`, `add`, `add-all`은 사람이 대화형으로
-쓰는 명령어라서 진행 상황을 장식과 함께 보여줘요.
+`docs`의 세 명령과 `compat`은 출력을 두 스트림으로 나눠요.
 
 | 스트림 | 담는 것 |
 |--------|---------|
@@ -441,33 +398,4 @@ $ npx @seed-design/cli@latest docs read react/components/action-button
 | `1` | 명령은 정상적으로 돌았고 답이 부정적이에요. `docs list`에 없는 섹션을 넣었거나, `docs search`에 걸리는 문서가 하나도 없는 경우예요 |
 | `2` | 답을 낼 수 없었어요. 네트워크 실패, 잘못된 주소나 옵션이 여기예요. 이유는 stderr에 있어요 |
 
-`init`, `add`, `add-all`은 부정적인 답이라는 것이 없어서 `1`을 쓰지 않아요. 요청한 작업을 끝냈으면 `0`, 끝내지 못했으면 `2`예요. 터미널이 없어서 물어보지 못한 경우와 내용이 다른 파일을 남긴 경우가 모두 `2`에 해당해요.
-
-### 옵션
-
-세 하위 명령이 같은 옵션을 받아요.
-
-| 옵션 | 설명 |
-|------|------|
-| `-u, --baseUrl <baseUrl>` | 문서 사이트 base URL |
-| `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
-| `-h, --help` | 도움말 출력 |
-
-## 이전 버전에서 옮겨오기
-
-| 지금까지 | 앞으로 |
-|----------|--------|
-| `seed-design docs` | `seed-design docs list` |
-| `seed-design docs react` | `seed-design docs list react` |
-| `seed-design docs react/components/action-button` | `seed-design docs read /react/components/action-button` |
-| `seed-design docs react/overview` | `seed-design docs read /react` |
-| `seed-design docs-search action-button` | `seed-design docs search action-button` |
-| `seed-design compat action-button` | `seed-design compat ui:action-button` |
-| `seed-design compat -c action-button,alert-dialog` | `seed-design compat ui:action-button ui:alert-dialog` |
-
-`docs`의 하위 명령 없는 형태는 남겨 두지 않았어요. 무엇을 요청하는지가 이름에 드러나지 않는 호출을
-없애는 것이 이 변경의 목적이라서, 하위 호환을 위해 예전 형태를 유지하면 그 목적이 사라져요.
-
-`compat`은 이제 `add`처럼 레지스트리를 포함한 항목 이름만 받아요. `-c`는 다른 명령과 같이 `--cwd`의 짧은 이름이
-됐어요. 예전 호출을 그대로 두면 `compat -c action-button`이 `action-button`을 작업 디렉토리로 읽으니, 스크립트에
-남은 `-c`를 위 표처럼 바꿔주세요.
+`init`, `add`, `add-all`은 `1`을 쓰지 않아요. 작업을 끝냈거나 프롬프트에서 취소했으면 `0`, 끝내지 못했으면 `2`예요.

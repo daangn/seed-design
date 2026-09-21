@@ -2,21 +2,13 @@
 
 프로젝트가 SEED를 쓰는 맥락을 먼저 찾고, 그 맥락에 적용되는 건강검진을 선택 실행하는 공통 절차입니다. 컴포넌트뿐 아니라 설정·패키지 호환·앱 셋업·Foundations 계약·라이브러리 배포 계약까지 봅니다.
 
-Doctor는 Markdown 기반 Skill입니다. 별도 실행 스크립트나 Quick/Deep 모드는 두지 않습니다. 일반 요청은 적용 가능한 룰 전체를, 범주가 지정된 요청은 그 범주만 실행합니다.
-
 ## 문서 단일 원천
 
-진단을 시작할 때 문서 인덱스 `https://seed-design.io/__docs__/index.json`를 읽고, 선택된 플랫폼의 `react` 또는 `lynx` category를 사용합니다. 지원 범위·leaf 문서 목록·컴포넌트 id 매핑을 이 파일이나 플랫폼 프로필에 유지하지 않습니다.
-
-플랫폼 프로필은 인덱스·패키지·registry namespace의 시작점만 제공합니다. 현재 capability는 인덱스가 연결한 문서와 설치본 package metadata로 실행 시점에 판단합니다. 문서가 새로 생기거나 사라지면 스킬을 수정하지 않고 다음 진단부터 그 인덱스 상태를 따릅니다.
+진단을 시작할 때 문서 인덱스 `https://seed-design.io/__docs__/index.json`를 읽고, 선택된 플랫폼의 `react` 또는 `lynx` category를 사용합니다. 현재 capability는 인덱스가 연결한 문서와 설치본 package metadata로 실행 시점에 판단합니다.
 
 ### 실행 문서 풀
 
-- Doctor 요청 하나에 문서 풀 하나를 만들고, 인덱스가 제공한 절대 URL에서 fragment를 제외한 값을 key로 사용합니다.
-- 문서 인덱스는 실행당 한 번만 읽습니다. 같은 실행의 여러 workspace와 rule이 공유합니다.
-- leaf 문서도 처음 필요한 때 한 번만 읽고 이후 rule은 저장한 내용을 재사용합니다. rule 파일의 "문서 풀에서 사용할 근거"는 새 fetch 명령이 아닙니다.
-- 리포트의 `references`는 근거의 provenance입니다. 같은 URL이 여러 check·finding에 있어도 다시 읽지 않습니다.
-- HTTP·도구 캐시는 보장으로 간주하지 않습니다. 하위 에이전트가 문서 내용을 전달받지 못했다면 그 하위 실행 안에서만 동일한 중복 제거를 다시 적용합니다.
+Doctor 요청 하나에 [`SKILL.md`](../SKILL.md)의 문서 풀 하나를 두고, 같은 실행의 여러 workspace와 rule이 공유합니다. 하위 에이전트가 문서 내용을 전달받지 못했다면 그 하위 실행 안에서만 같은 중복 제거를 다시 적용합니다. 리포트의 `references`는 출처 기록이므로 같은 URL이 여러 check·finding에 있어도 다시 읽지 않습니다.
 
 ## 원칙
 
@@ -41,15 +33,7 @@ Doctor는 Markdown 기반 Skill입니다. 별도 실행 스크립트나 Quick/De
 
 ### 플랫폼
 
-워크스페이스마다 아래 우선순위를 적용합니다.
-
-1. 사용자 명시
-2. `seed-design.json.framework`
-3. 직접 의존성
-   - React: `@seed-design/react`, `@seed-design/css`
-   - Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`, `@lynx-js/react`
-
-높은 순위 단서를 낮은 순위 단서로 덮어쓰지 않습니다. 설정과 의존성이 충돌하면 선택된 플랫폼은 우선순위대로 유지하되 `project-config`가 실제 충돌을 finding으로 냅니다. 같은 순위에서 React·Lynx가 동시에 잡혀 플랫폼을 정할 수 없으면 사용자에게 확인합니다. React를 기본값으로 추측하지 않습니다.
+워크스페이스마다 [`SKILL.md`](../SKILL.md)의 플랫폼 판별을 적용하되, 설정과 의존성이 충돌하면 사용자에게 묻지 않고 높은 순위 단서로 정합니다. 그 충돌은 `project-config`가 finding으로 냅니다.
 
 ### app·library 역할
 
@@ -63,7 +47,7 @@ Doctor는 Markdown 기반 Skill입니다. 별도 실행 스크립트나 Quick/De
 ## Step 3: 인덱스·프로필 로드와 사실 수집
 
 1. 실행 문서 풀을 만들고 전체 문서 인덱스를 한 번 읽어 넣습니다.
-2. 선택된 [React 프로필](doctor-react.md) 또는 [Lynx 프로필](doctor-lynx.md)에서 플랫폼 인덱스·패키지 후보·registry namespace를 받고, 아직 문서 풀에 없는 플랫폼 인덱스만 읽습니다.
+2. 선택된 [React 프로필](doctor-react.md) 또는 [Lynx 프로필](doctor-lynx.md)에서 플랫폼 인덱스·registry namespace를 받고, 아직 문서 풀에 없는 플랫폼 인덱스만 읽습니다.
 3. 문서 풀의 인덱스에서 이번 scope의 룰에 필요한 문서를 제목·category·설명으로 찾습니다. leaf URL이 문서 풀에 없을 때만 읽고, 경로를 기억하거나 조합하지 않습니다.
 4. 공통 컴포넌트는 문서 풀의 전체 인덱스가 연결한 Components 문서와 각 문서의 Platform 표에서 현재 매핑을 찾습니다.
 
@@ -101,13 +85,11 @@ scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
 | `not-applicable` | 역할·사용 증거가 없거나, 정상적으로 읽은 현재 인덱스에 필요한 공식 계약이 없음 |
 | `not-verified` | 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함 |
 
-`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서 인덱스는 문서를 찾는 경로일 뿐 근거가 아니므로 `references`에 넣지 않습니다. HTML 리포트의 "읽어보기"는 첫 reference를 열기 때문에 첫 항목은 사람이 읽을 계약 문서여야 합니다.
+`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요하며, 인덱스의 상대 경로는 `https://seed-design.io` 기준의 절대 URL로 적습니다. 문서 인덱스는 문서를 찾는 경로일 뿐 근거가 아니므로 `references`에 넣지 않습니다. HTML 리포트의 "읽어보기"는 첫 reference를 열기 때문에 첫 항목은 사람이 읽을 계약 문서여야 합니다.
 
 - 룰의 계약을 담은 현재 leaf 문서를 찾은 check: 그 문서. 판정에 여러 문서를 읽었으면 모두 기록합니다.
 - 인덱스를 읽었지만 계약 문서가 없는 check: 선택된 플랫폼 category의 개요 문서
 - 인덱스를 읽지 못한 check: `https://seed-design.io`
-
-각 `check.rule`은 리포트 안에서 유일해야 합니다. finding은 동일한 `rule`의 `fail` check가 있을 때만 만들고, 각 `fail` check에는 적어도 하나의 finding이 있어야 합니다. `pass`·`not-applicable`·`not-verified` check의 rule은 findings에 나오면 안 됩니다.
 
 [component-guidelines](../rules/component-guidelines.md)는 현재 공통 문서와 플랫폼 인덱스로 연결 가능한 컴포넌트마다 반복하고 `coverage`·`verdicts`를 채웁니다. 공식 계약을 찾지 못한 룰도 조용히 빼지 말고 해당 범주가 scope라면 `not-applicable`로 남깁니다.
 
@@ -194,7 +176,7 @@ rejected: []
 - `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`). `expected != judged`면 실행 결함입니다.
 - `rejected`: 실제 검토했지만 공식 기준이 허용하거나 증거가 부족해 finding으로 만들지 않은 후보입니다.
 
-JSON Schema는 배열 간 동적 `rule` 일치를 표현하지 못하므로, YAML을 저장하기 전에 다음 의미 검증을 별도로 수행합니다.
+YAML을 저장하기 전에 JSON Schema 검증과 별도로 다음을 확인합니다.
 
 1. `checks[].rule`이 중복되지 않음
 2. 모든 `findings[].rule`에 동일한 rule의 `fail` check가 정확히 하나 있음

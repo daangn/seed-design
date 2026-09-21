@@ -1,8 +1,6 @@
 # Component Guidelines
 
-컴포넌트 사용이 현재 공통 디자인 가이드라인에 맞는지 판정합니다. category: `components`. 기본 severity는 `warn`, 실제 동작이 깨지는 위반은 `error`, 교체 기회는 `info`입니다.
-
-판정 기준과 플랫폼 지원 목록은 이 파일에 두지 않습니다. 실행할 때 전체 문서 인덱스가 연결한 Components 인덱스와 개별 문서에서 도출합니다.
+컴포넌트 사용이 현재 공통 디자인 가이드라인에 맞는지 판정합니다. category: `components`. 기본 severity는 `warn`, 실제 동작이 깨지는 위반은 `error`, 교체 기회는 `info`입니다. 판정 기준은 실행할 때 전체 문서 인덱스가 연결한 Components 인덱스와 개별 문서에서 도출합니다.
 
 ## 적용 조건
 
@@ -13,7 +11,7 @@
 1. 문서 풀의 전체 인덱스에서 현재 Components 진입점을 찾습니다.
 2. Components 인덱스에서 컴포넌트 문서를 찾고, 인덱스가 제공한 raw URL을 읽습니다.
 3. 공통 문서의 Platform 표 → 문서 풀의 플랫폼 인덱스 → 플랫폼 registry 전체 인덱스 → 재export를 따라간 설치본 package exports 순으로 실제 구현·registry id를 찾습니다.
-4. id 매핑과 지원 컴포넌트 목록을 룰이나 프로필에 유지하지 않습니다. 빈 문서·낡은 링크·문서 충돌은 `doc-conflict` 근거로 남깁니다.
+4. 빈 문서·낡은 링크·문서 충돌은 `doc-conflict` 근거로 남깁니다.
 
 ## 대상 선정
 

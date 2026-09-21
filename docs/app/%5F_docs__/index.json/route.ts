@@ -33,7 +33,7 @@ export async function GET() {
         items: pages
           .map((page) => ({
             // 섹션 루트 index.mdx만 slug가 없다. frontmatter title이 죄다 "Overview"라
-            // 제목에서 뽑을 수도 없어서, CLI가 `docs react/overview`로 부를 이름을 여기서 준다.
+            // 제목에서 뽑을 수도 없어서, CLI 텔레메트리가 `item_id`로 보낼 이름을 여기서 준다.
             id: page.slugs.at(-1) ?? "overview",
             // A category is one flat list, so two pages sharing a title are indistinguishable in it.
             title: getDisplayTitle(page, pages),

@@ -36,7 +36,7 @@ export const cwdOption = withDefault(
  */
 export const baseUrlOption = withDefault(
   option("-u", "--baseUrl", "--base-url", string({ metavar: "BASE_URL" }), {
-    description: message`레지스트리의 기본 URL입니다.`,
+    description: message`SEED Design 사이트의 기본 URL입니다.`,
   }),
   BASE_URL,
 );

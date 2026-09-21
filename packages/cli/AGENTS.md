@@ -1,6 +1,6 @@
 ## 디렉토리 개요
 
-`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령과 `seed-design docs list/search/read` 하위 명령을 제공한다. 사용자 문서는 `docs/content/react/getting-started/cli/`와 동기화한다. 저장소 전체 의존성과 작업 경로는 루트 `ARCHITECTURE.md`를 먼저 참고한다.
+`packages/cli`는 `@seed-design/cli` 패키지의 소스와 빌드 설정을 관리하며, `seed-design init/add/add-all/compat` 명령과 `seed-design docs list/search/read` 하위 명령을 제공한다. 함께 갱신할 사용자 문서는 「파일 작성 컨벤션」의 목록을 따른다. 저장소 전체 의존성과 작업 경로는 루트 `ARCHITECTURE.md`를 먼저 참고한다.
 
 - 런타임은 Node.js >= 20.19.0이고, TypeScript ESM으로 쓴다.
 - 핵심 의존성은 `@optique/core`, `@optique/run`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`다.
@@ -38,6 +38,7 @@ src/utils/
 - CLI 옵션이나 동작을 바꾸면 아래 문서를 함께 갱신한다.
   - `docs/content/react/getting-started/cli/commands.mdx`
   - `docs/content/react/getting-started/cli/configuration.mdx`
+  - `docs/content/lynx/getting-started/cli.mdx`
   - `skills/seed-design/SKILL.md`
 - 배포 가능한 변경은 `.changeset/*.md`를 함께 추가한다.
 
