@@ -11,10 +11,6 @@ declare const artifact: {
       "slots": {
         "root": {
           "properties": {
-            "maxWidth": {
-              "type": "dimension";
-              "description": "10글자 이상의 텍스트를 말줄임 처리하기 위해 설정된 최대 너비입니다.";
-            };
             "minHeight": {
               "type": "dimension";
             };
@@ -22,6 +18,9 @@ declare const artifact: {
               "type": "dimension";
             };
             "paddingY": {
+              "type": "dimension";
+            };
+            "gap": {
               "type": "dimension";
             };
             "cornerRadius": {
@@ -38,6 +37,13 @@ declare const artifact: {
             };
           };
         };
+        "prefix": {
+          "properties": {
+            "size": {
+              "type": "dimension";
+            };
+          };
+        };
         "label": {
           "properties": {
             "fontSize": {
@@ -51,6 +57,13 @@ declare const artifact: {
             };
             "color": {
               "type": "color";
+            };
+          };
+        };
+        "action": {
+          "properties": {
+            "size": {
+              "type": "dimension";
             };
           };
         };
@@ -112,13 +125,6 @@ declare const artifact: {
             ];
             "slots": {
               "root": {
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 6.75;
-                    "unit": "rem";
-                  };
-                };
                 "minHeight": {
                   "type": "dimension";
                   "value": "$dimension.x6";
@@ -134,6 +140,22 @@ declare const artifact: {
                 "cornerRadius": {
                   "type": "dimension";
                   "value": "$radius.r1_5";
+                };
+                "gap": {
+                  "type": "dimension";
+                  "value": "$dimension.x0_5";
+                };
+              };
+              "prefix": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x3_5";
+                };
+              };
+              "action": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x3_5";
                 };
               };
               "label": {
@@ -161,13 +183,6 @@ declare const artifact: {
             ];
             "slots": {
               "root": {
-                "maxWidth": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 7.5;
-                    "unit": "rem";
-                  };
-                };
                 "minHeight": {
                   "type": "dimension";
                   "value": "$dimension.x5";
@@ -183,6 +198,22 @@ declare const artifact: {
                 "cornerRadius": {
                   "type": "dimension";
                   "value": "$radius.r1";
+                };
+                "gap": {
+                  "type": "dimension";
+                  "value": "$dimension.x0_5";
+                };
+              };
+              "prefix": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x3";
+                };
+              };
+              "action": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x3";
                 };
               };
               "label": {
