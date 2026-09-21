@@ -44,7 +44,7 @@ const ActivityChipButton: StaticActivityComponentType<"ActivityChipButton"> = ()
   }, [activity.id]);
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
