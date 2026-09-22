@@ -56,7 +56,7 @@ export async function promptInitConfig(cwd: string): Promise<Config> {
         }),
       path: () =>
         p.text({
-          message: `${highlight("seed-design 폴더")} 경로를 입력해주세요. (기본값은 프로젝트 루트입니다.)`,
+          message: `${highlight("seed-design 폴더")} 경로를 입력해주세요. (기본값은 ${DEFAULT_INIT_CONFIG.path}입니다.)`,
           initialValue: DEFAULT_INIT_CONFIG.path,
           defaultValue: DEFAULT_INIT_CONFIG.path,
           placeholder: DEFAULT_INIT_CONFIG.path,

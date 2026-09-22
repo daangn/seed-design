@@ -39,6 +39,7 @@ src/utils/
   - `docs/content/react/getting-started/cli/commands.mdx`
   - `docs/content/react/getting-started/cli/configuration.mdx`
   - `docs/content/lynx/getting-started/cli.mdx`
+  - `init` 프롬프트를 옮겨 적은 설치 문서: `docs/content/react/getting-started/installation/*.mdx`, `docs/content/lynx/getting-started/installation.mdx`
   - `skills/seed-design/SKILL.md`
 - 배포 가능한 변경은 `.changeset/*.md`를 함께 추가한다.
 
