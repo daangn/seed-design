@@ -2419,8 +2419,8 @@
     text-align: center;
     top: var(--seed-safe-area-top);
     bottom: 0;
-    padding-left: calc(var(--seed-safe-area-left) + max(calc(var(--seed-dimension-x4) + var(--app-bar-left-extent, calc(-1 * var(--seed-dimension-x4)))), calc(var(--seed-dimension-x4) + var(--app-bar-right-extent, calc(-1 * var(--seed-dimension-x4)))), 0px));
-    padding-right: calc(var(--seed-safe-area-right) + max(calc(var(--seed-dimension-x4) + var(--app-bar-left-extent, calc(-1 * var(--seed-dimension-x4)))), calc(var(--seed-dimension-x4) + var(--app-bar-right-extent, calc(-1 * var(--seed-dimension-x4)))), 0px));
+    padding-left: calc(var(--seed-safe-area-left) + max(calc(var(--seed-dimension-x4) + var(--app-bar-area-extent, calc(-1 * var(--seed-dimension-x4)))), 0px));
+    padding-right: calc(var(--seed-safe-area-right) + max(calc(var(--seed-dimension-x4) + var(--app-bar-area-extent, calc(-1 * var(--seed-dimension-x4)))), 0px));
     pointer-events: none;
     justify-content: center;
     align-items: center;
