@@ -6,6 +6,9 @@ description: Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법�
 ## 개요
 
 SEED는 라이트 모드와 다크 모드를 지원하는 테마 시스템을 제공합니다.
+[Vanilla Extract](/lynx/getting-started/styling/vanilla-extract) 또는
+[Tailwind CSS v4](/lynx/getting-started/styling/tailwind-css-4) 중 어떤 방식을 사용하더라도
+아래의 루트 테마 설정을 공통으로 적용합니다.
 
 웹 환경에서는 `data-*` 속성 셀렉터를 통해 테마를 제어하지만, Lynx에서는 `data-*` 속성 셀렉터를 지원하지 않기 때문에 CSS 클래스 이름을 사용합니다.
 스타일시트에 선언된 CSS 커스텀 프로퍼티(변수)는 Lynx에서도 상속되므로, 루트 요소에 설정된 테마 토큰이 하위 요소에 자연스럽게 적용됩니다.
@@ -85,9 +88,41 @@ SEED CSS는 클래스 이름의 조합을 통해 적절한 색상 토큰을 적�
 - `:root.seed-user-color-scheme-*` 셀렉터는 루트 요소에 설정된 전역 테마를 처리합니다.
 - `.seed-color-mode-*-only` 셀렉터는 하위 요소에서의 테마 오버라이드를 처리합니다. `:root` 접두사가 있는 셀렉터와 없는 셀렉터 모두 포함되어 있어, 루트 요소와 자식 요소 모두에서 동작합니다.
 
+## Vanilla Extract와 함께 사용하기
+
+`@seed-design/lynx-css/base.css`를 불러온 뒤, `.css.ts`에서 `@seed-design/lynx-css/vars`의 토큰을 참조하세요.
+토큰은 CSS 변수 참조이므로 색상 값을 직접 지정하지 않아도 루트 테마에 따라 색상이 바뀝니다.
+
+```ts title="Content.css.ts"
+import { vars } from "@seed-design/lynx-css/vars";
+import { style } from "@vanilla-extract/css";
+
+export const content = style({
+  backgroundColor: vars.$color.bg.layerDefault,
+});
+
+export const label = style({
+  color: vars.$color.fg.neutral,
+});
+```
+
+```tsx title="Content.tsx"
+import * as styles from "./Content.css";
+
+export function Content() {
+  return (
+    <view className={styles.content}>
+      <text className={styles.label}>테마에 반응하는 텍스트</text>
+    </view>
+  );
+}
+```
+
+플러그인과 CSS import 설정은 [Vanilla Extract 가이드](/lynx/getting-started/styling/vanilla-extract)를 참고하세요.
+
 ## Tailwind CSS와 함께 사용하기
 
-SEED 토큰은 v3의 `@seed-design/tailwind3-plugin` 또는 v4의 `@seed-design/tailwind4-theme`으로 사용할 수 있습니다.
+Tailwind CSS v4를 선택했다면 `@seed-design/tailwind4-theme`으로 SEED 토큰을 사용할 수 있습니다. 기존 v3 프로젝트에서는 `@seed-design/tailwind3-plugin`을 사용합니다.
 
 ```tsx
 // 테마에 따라 자동으로 색상이 변경됩니다

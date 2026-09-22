@@ -1,5 +1,11 @@
 {
   "title": "Styling",
   "icon": "Palette",
-  "pages": ["theming", "tailwind-css-4", "tailwind-css-3"]
+  "pages": [
+    "index",
+    "theming",
+    "vanilla-extract",
+    "tailwind-css-4",
+    "tailwind-css-3"
+  ]
 }

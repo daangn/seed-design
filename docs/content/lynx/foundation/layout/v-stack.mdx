@@ -3,6 +3,11 @@ title: VStack
 description: VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.
 ---
 
+<Callout type="warning" title="사용을 권장하지 않아요">
+레이아웃은 사용 중인 zero-runtime 스타일링 라이브러리로 구성하는 것을 권장해요.
+이유와 대체 예제는 [Styling 가이드](/lynx/getting-started/styling)에서 확인하세요.
+</Callout>
+
 ## Installation
 
 ```package-install
@@ -29,10 +34,6 @@ export function App() {
 ```
 
 `VStack`은 Lynx 네이티브 `<view>`를 직접 렌더링하며 `display="flex"`와 `flexDirection="column"`을 기본 적용합니다. `Box`를 내부에서 합성하지 않아 반복 렌더링에서 primitive 컴포넌트 단계를 줄입니다.
-
-<Callout type="warning">
-성능에 민감한 반복 레이아웃을 앱 코드에서 구성할 때는 native `<view>`/`<text>`에 Tailwind utility className을 직접 사용하는 방식을 우선 고려하세요. 패키지 컴포넌트 내부에서는 native tag와 recipe className을 사용하고, inline style은 런타임 값이 필요한 경우에만 제한적으로 사용합니다.
-</Callout>
 
 ## Props
 

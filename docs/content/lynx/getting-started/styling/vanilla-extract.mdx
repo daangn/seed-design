@@ -1,0 +1,100 @@
+---
+title: Vanilla Extract
+description: Lynx에서 Vanilla Extract로 정적 CSS를 생성하고 SEED 토큰을 사용하는 방법을 안내합니다.
+---
+
+Vanilla Extract는 TypeScript로 작성한 스타일을 빌드 시 CSS로 추출해요.
+`.css.ts`에서 스타일을 정의하고, 생성된 클래스 이름을 Lynx 네이티브 엘리먼트의 `className`에 적용하세요.
+정적인 스타일을 렌더링할 때마다 JavaScript에서 생성할 필요가 없어요.
+
+## 요구사항과 설치
+
+`rspeedy-plugin-vanilla-extract`는 Vanilla Extract의 webpack 플러그인에 Rspeedy 호환 처리를 추가해요.
+이 가이드는 배포된 플러그인 **0.2.0**의 의존성 조건을 기준으로 해요.
+
+| 패키지 | 조건 |
+| --- | --- |
+| `@rsbuild/core` | `1.x` |
+| `webpack` | `5.x` |
+| Rspeedy·ReactLynx 플러그인 | 위 Rsbuild 환경과 호환되는 버전 |
+
+<Callout type="warning">
+먼저 프로젝트에서 사용하는 Rspeedy의 Rsbuild 버전을 확인하세요. 플러그인 `0.2.0`의 peer dependency는 `@rsbuild/core: ^1`이에요.
+Rsbuild 2 기반 프로젝트에 `@rsbuild/core@1`을 추가로 설치하는 것만으로 호환성이 확보되지는 않아요.
+Rsbuild 2를 사용 중이라면 이를 지원하는 플러그인 버전을 확인하거나, [Tailwind CSS 4 가이드](/lynx/getting-started/styling/tailwind-css-4)를 참고하세요.
+</Callout>
+
+공통 SEED 패키지는 [Installation](/lynx/getting-started/installation)에서 설치하고, 다음 의존성을 추가하세요.
+
+```package-install
+npm install @vanilla-extract/css
+npm install -D rspeedy-plugin-vanilla-extract@0.2.0 @rsbuild/core@1 webpack@5
+```
+
+## Rspeedy 설정
+
+기존 `lynx.config.ts`의 플러그인 목록에 `pluginVanillaExtract({})`를 추가하세요.
+기존 ReactLynx 플러그인과 SEED feature flags 설정은 유지해요.
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginVanillaExtract } from "rspeedy-plugin-vanilla-extract";
+
+export default defineConfig({
+  // ... 기존 설정
+  plugins: [
+    // ... 기존 플러그인
+    pluginVanillaExtract({}),
+  ],
+});
+```
+
+## SEED CSS 불러오기
+
+```css title="src/styles/global.css"
+@import "@seed-design/lynx-css/base.css";
+```
+
+```ts title="src/index.tsx"
+import "./styles/global.css";
+```
+
+토큰의 TypeScript 참조를 import하는 것만으로 토큰 값이 선언되지는 않으므로 `base.css`도 반드시 불러오세요.
+Lynx에서는 웹용 `@seed-design/css` 대신 `@seed-design/lynx-css`를 사용해요.
+루트 `<page>`의 색상 모드 설정은 [Theming](/lynx/getting-started/styling/theming)을 참고하세요.
+
+## 스타일과 SEED 토큰 사용하기
+
+```ts title="src/App.css.ts"
+import { vars } from "@seed-design/lynx-css/vars";
+import { style } from "@vanilla-extract/css";
+
+export const root = style({
+  display: "flex",
+  flexDirection: "column",
+  rowGap: vars.$dimension.x2,
+  padding: vars.$dimension.x4,
+  backgroundColor: vars.$color.bg.layerDefault,
+  borderRadius: vars.$radius.r3,
+});
+
+export const label = style({
+  color: vars.$color.fg.neutral,
+  fontSize: vars.$fontSize.t4,
+  lineHeight: vars.$lineHeight.t4,
+  fontWeight: vars.$fontWeight.medium,
+});
+```
+
+```tsx title="src/App.tsx"
+import * as styles from "./App.css";
+
+export function App() {
+  return (
+    <view className={styles.root}>
+      <text className={styles.label}>첫 번째 항목</text>
+      <text className={styles.label}>두 번째 항목</text>
+    </view>
+  );
+}
+```
