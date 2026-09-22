@@ -35,7 +35,7 @@
     left: calc(var(--slider-thumb-left, 0%) + var(--slider-thumb-offset, 0px));
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5);
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-full);
     transform: translate(-50%, -50%);
     transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), transform var(--seed-duration-d3) var(--seed-timing-function-easing)
@@ -64,7 +64,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     padding-top: var(--seed-dimension-x1);
     padding-right: var(--seed-dimension-x2);
     padding-bottom: var(--seed-dimension-x1);
@@ -89,12 +89,12 @@
 .seed-slider__valueIndicatorArrowTip {
     width: var(--seed-dimension-x2);
     height: calc(var(--seed-dimension-x1_5) + 1px);
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     clip-path: path("M0 0 H8 V1 L6 5 Q4 7 2 5 L0 1 Z");
     transform: translateY(-1px)
 }
 .seed-slider__valueIndicatorLabel {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-medium);
