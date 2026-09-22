@@ -10,10 +10,6 @@ bun dev
 
 브라우저에서 <http://localhost:3000>을 엽니다.
 
-## 버전 문서 배포
-
-[v3 문서 도메인 전환 체크리스트](operations/v3-documentation-cutover.md)에서 `2.0` 브랜치 준비, Cloudflare 연결 순서와 복구 방법을 확인합니다.
-
 ## Docs cold/warm 빌드 측정
 
 `deploy-seed-design-docs-alpha-pages` 워크플로를 같은 커밋에서 연속 두 번 실행하면, Next.js Actions 캐시에 포함된 Turbopack·Rspeedy 캐시와 전체 Docs 빌드 시간을 비교할 수 있습니다. 실제 배포가 발생하므로 배포가 허용된 테스트 브랜치에서만 실행합니다.
