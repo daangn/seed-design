@@ -31,6 +31,8 @@ export const appScreen = defineSlotRecipe({
       width: "100%",
       height: "100%",
       insetInline: 0,
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
       overflowY: "scroll",
       WebkitOverflowScrolling: "touch",
       "&::-webkit-scrollbar": {
@@ -153,6 +155,9 @@ export const appScreen = defineSlotRecipe({
             insetInline: 0,
             top: 0,
             marginBottom: `calc(-1 * (66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top)))`,
+            // cancel the layer's safe-area padding so the gradient still spans the full width
+            marginLeft: "calc(-1 * var(--seed-safe-area-left))",
+            marginRight: "calc(-1 * var(--seed-safe-area-right))",
             height: `calc(66px + ${OVERSCROLL_GRADIENT_OFFSET} + var(--seed-safe-area-top))`,
 
             // since we're using sticky, when iOS overscroll happens the before pseudoelement will stick to the top of `layer` and won't show the gradient in the overscroll area.

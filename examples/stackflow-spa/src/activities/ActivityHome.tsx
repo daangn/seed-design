@@ -108,6 +108,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
         { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
+        { title: "좌우 safe area와 bleed", ...to("ActivitySafeAreaBleed", {}) },
         { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
         { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
         { title: "스와이프백 키보드", ...to("ActivitySwipeBackKeyboard", {}) },
