@@ -17,9 +17,11 @@ export function useAppBar(_props: UseAppBarProps) {
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
-  // `initial` leaves the variable unset, which the recipe reads as a missing area.
-  const leftExtent = leftOffset ? `${leftOffset.fromLeft}px` : "initial";
-  const rightExtent = rightOffset ? `${rightOffset.fromRight}px` : "initial";
+  const extents = [leftOffset?.fromLeft, rightOffset?.fromRight].filter(
+    (extent) => extent !== undefined,
+  );
+  // `initial` leaves the variable unset, which the recipe reads as having no area to clear.
+  const areaExtent = extents.length > 0 ? `${Math.max(...extents)}px` : "initial";
 
   return useMemo(
     () => ({
@@ -32,11 +34,10 @@ export function useAppBar(_props: UseAppBarProps) {
         "data-part": appBarAnatomy.root,
         ...stateProps,
         style: {
-          "--app-bar-left-extent": leftExtent,
-          "--app-bar-right-extent": rightExtent,
+          "--app-bar-area-extent": areaExtent,
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, leftExtent, rightExtent],
+    [stateProps, areaExtent],
   );
 }

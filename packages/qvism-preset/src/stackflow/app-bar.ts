@@ -72,15 +72,15 @@ export const appBarMain = defineSlotRecipe({
           bottom: 0,
           insetInline: 0,
           // The title keeps the same distance past each side's safe-area inset, so it stays centered
-          // in the safe area. That distance clears whichever left/right area reaches further: the
-          // bar's padding plus the extent `useAppBar` measures from the bar's content edge. A missing
-          // area leaves its extent unset, and the fallback cancels the padding so the area clears
-          // nothing.
+          // in the safe area. That distance is the bar's padding plus `--app-bar-area-extent`: how
+          // far the further-reaching left/right area extends from the bar's content edge, as
+          // `useAppBar` measures it. With no area the variable is unset, and the fallback cancels the
+          // padding so the title clears nothing.
           // NOTE: the spec's `root.titleMinGap` (the minimum gap between the title and the left/right
           // areas) is not applied yet; consuming it means adding
-          // `${vars.themeIos.enabled.root.titleMinGap}` to each `--app-bar-*-extent`.
-          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-left-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-right-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
-          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-left-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-right-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          // `${vars.themeIos.enabled.root.titleMinGap}` to `--app-bar-area-extent`.
+          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
           pointerEvents: "none",
         },
       },
