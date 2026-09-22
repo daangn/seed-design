@@ -4,7 +4,9 @@
 
 ## 규칙
 
-손으로 쓰는 원천은 `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs`다. 생성 명령은 이 경로를 만들지도 고치지도 않는다.
+손으로 쓰는 원천은 `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs`, `rootage.config.ts`다. 생성 명령은 이 경로를 만들지도 고치지도 않는다.
+
+- `vars/component/`에는 `rootage.config.ts`의 filter를 통과한 컴포넌트 스펙만 생성된다(현재 `typography`). 나머지 컴포넌트 변수는 `packages/qvism-preset/src/vars/component/`에 있다.
 
 - `theming/` 수정 → `.mjs`, `.cjs`, `.d.ts`를 함께 맞춘다.
 - `breakpoints/`, `scale-feedback/` 수정 → `.mjs`와 `.d.ts`를 함께 맞춘다.
