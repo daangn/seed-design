@@ -447,6 +447,7 @@
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
+        "@seed-design/rootage-cli": "0.0.0",
       },
     },
     "packages/design-token": {
