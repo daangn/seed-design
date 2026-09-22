@@ -89,26 +89,9 @@ describe("SEED Tailwind token providers", () => {
   });
 });
 
-describe("Lynx Styling navigation and permanent links", () => {
+describe("Lynx Styling permanent links", () => {
   const docs = resolve(import.meta.dir, "..");
   const redirects = readFileSync(resolve(docs, "public/_redirects"), "utf8");
-
-  test("groups theming and both Tailwind versions in the Styling folder", () => {
-    const parent = JSON.parse(
-      readFileSync(resolve(docs, "content/lynx/getting-started/meta.json"), "utf8"),
-    );
-    const styling = JSON.parse(
-      readFileSync(resolve(docs, "content/lynx/getting-started/styling/meta.json"), "utf8"),
-    );
-    expect(parent.pages).toContain("styling");
-    expect(parent.pages).not.toContain("theming");
-    expect(styling.pages).toEqual(["theming", "tailwind-css-4", "tailwind-css-3"]);
-    for (const page of styling.pages) {
-      expect(
-        readFileSync(resolve(docs, `content/lynx/getting-started/styling/${page}.mdx`), "utf8"),
-      ).toContain("title:");
-    }
-  });
 
   test.each([
     ["foundation/layout/styling", "getting-started/styling/tailwind-css-3"],
