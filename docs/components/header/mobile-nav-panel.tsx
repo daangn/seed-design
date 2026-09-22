@@ -157,6 +157,7 @@ function MobileSectionFolder({ item, onClose }: { item: SidebarFolderItem; onClo
         title={item.label}
         current={item.current}
         defaultOpen={item.defaultOpen}
+        collapsible={item.collapsible}
         index={item.index}
       >
         <DocsMobileNavList className="mt-2">

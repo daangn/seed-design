@@ -145,6 +145,7 @@ interface DocsMobileNavAccordionProps {
   title: ReactNode;
   current?: boolean;
   defaultOpen?: boolean;
+  collapsible?: boolean;
   index?: SidebarLeafItem;
   children: ReactNode;
 }
@@ -154,10 +155,11 @@ export function DocsMobileNavAccordion({
   title,
   current = false,
   defaultOpen,
+  collapsible = true,
   index,
   children,
 }: DocsMobileNavAccordionProps) {
-  const [open, setOpen] = usePersistentOpenState(defaultOpen ?? false, current, index);
+  const [open, setOpen] = usePersistentOpenState(defaultOpen ?? false, current, index, collapsible);
   const triggerCurrent = index ? index.current : current;
 
   return (
@@ -165,7 +167,7 @@ export function DocsMobileNavAccordion({
       values={open ? [value] : []}
       onValuesChange={(values) => setOpen(values.includes(value))}
     >
-      <AccordionItem value={value}>
+      <AccordionItem value={value} disabled={!collapsible && !index}>
         <AccordionTrigger
           headingLevel={2}
           aria-current={index?.current ? "page" : undefined}
@@ -175,7 +177,7 @@ export function DocsMobileNavAccordion({
               {index?.featured && <SidebarFeaturedDot />}
             </span>
           }
-          suffixIcon={<IconChevronDownSmallLine />}
+          suffixIcon={collapsible && <IconChevronDownSmallLine />}
           className={clsx(
             "justify-between",
             MOBILE_NAV_ACCORDION_TRIGGER_CLASS,

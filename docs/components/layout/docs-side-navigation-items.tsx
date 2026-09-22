@@ -69,6 +69,7 @@ export function usePersistentOpenState(
   defaultOpen: boolean,
   current: boolean,
   index?: SidebarLeafItem,
+  collapsible = true,
 ) {
   const router = useRouter();
   const [open, setOpen] = useState(defaultOpen || current);
@@ -83,12 +84,12 @@ export function usePersistentOpenState(
     if (index && !index.current) {
       setOpen(true);
       router.push(index.href);
-    } else {
+    } else if (collapsible) {
       setOpen(nextOpen);
     }
   };
 
-  return [open, onOpenChange] as const;
+  return [collapsible ? open : true, onOpenChange] as const;
 }
 
 /** Whether this node contains the current route. */
@@ -189,6 +190,7 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
         key: node.$id ?? `folder-${index}`,
         label: node.name,
         defaultOpen: node.defaultOpen ?? false,
+        collapsible: node.collapsible ?? true,
         current: containsActive(node, pathname),
         index: indexPage ? leaf(indexPage, index, 0) : undefined,
         items: node.children
@@ -236,7 +238,12 @@ function DocsSideNavigationItem({ item }: { item: SidebarLeafItem }) {
 
 function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
   const { collapsed } = useSideNavigationContext();
-  const [open, setOpen] = usePersistentOpenState(item.defaultOpen, item.current, item.index);
+  const [open, setOpen] = usePersistentOpenState(
+    item.defaultOpen,
+    item.current,
+    item.index,
+    item.collapsible,
+  );
   const triggerCurrent = item.index?.current || (collapsed && item.current);
 
   return (
@@ -244,6 +251,8 @@ function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
       <SeedSideNavigation.ItemCollapsibleTrigger
         current={triggerCurrent}
         aria-current={item.index?.current ? "page" : undefined}
+        aria-disabled={!item.collapsible && !item.index ? true : undefined}
+        tabIndex={!item.collapsible && !item.index ? -1 : undefined}
         className={getSidebarItemRootClass(triggerCurrent)}
         style={getSidebarItemRootStyle()}
       >
@@ -254,13 +263,15 @@ function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
           {item.label}
           {item.index?.featured && <SidebarFeaturedDot />}
         </SeedSideNavigation.ItemLabel>
-        <SeedSideNavigation.ItemSuffixIcon
-          svg={
-            <IconChevronUpSmallFill
-              className={triggerCurrent ? "text-fd-foreground" : "text-fd-muted-foreground/80"}
-            />
-          }
-        />
+        {item.collapsible && (
+          <SeedSideNavigation.ItemSuffixIcon
+            svg={
+              <IconChevronUpSmallFill
+                className={triggerCurrent ? "text-fd-foreground" : "text-fd-muted-foreground/80"}
+              />
+            }
+          />
+        )}
       </SeedSideNavigation.ItemCollapsibleTrigger>
       <SeedSideNavigation.ItemCollapsibleContent
         // 2px gap between nested folder items, matching top-level item spacing.

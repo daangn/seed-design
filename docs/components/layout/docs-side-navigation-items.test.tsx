@@ -61,6 +61,7 @@ for (const mobile of [false, true]) {
                 title={item.label}
                 current={item.current}
                 defaultOpen={item.defaultOpen}
+                collapsible={item.collapsible}
                 index={item.index}
               >
                 {item.items.map((child) => (
@@ -133,6 +134,37 @@ for (const mobile of [false, true]) {
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
       fireEvent.click(trigger);
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
+      expect(destination()).toBe("/other");
+    });
+
+    it("keeps non-collapsible folders open while retaining access to their index", () => {
+      const { trigger, destination, navigate } = setup("/other", {
+        ...folder,
+        collapsible: false,
+      });
+      expect(trigger.getAttribute("aria-expanded")).toBe("true");
+      fireEvent.click(trigger);
+      expect(destination()).toBe("/styling");
+      navigate("/styling");
+      fireEvent.click(trigger);
+      expect(trigger.getAttribute("aria-expanded")).toBe("true");
+      expect(screen.getByRole("link", { name: "Theming" }).getAttribute("href")).toBe(
+        "/styling/theming",
+      );
+    });
+
+    it("does nothing when a non-collapsible folder without an index is activated", async () => {
+      const user = userEvent.setup();
+      const { trigger, destination } = setup("/other", {
+        ...folder,
+        index: undefined,
+        collapsible: false,
+      });
+      expect(trigger.getAttribute("aria-expanded")).toBe("true");
+      expect(trigger.getAttribute("aria-disabled")).toBe("true");
+      await user.click(trigger);
+      await user.keyboard("{Enter} ");
+      expect(trigger.getAttribute("aria-expanded")).toBe("true");
       expect(destination()).toBe("/other");
     });
   });
