@@ -34,7 +34,7 @@ Lynx 패키지는 안정화 전까지 `0.x`를 유지한다. 이 기간에는 �
 
 DOM 또는 Lynx native element 구조와 styling 전용 `data-*`는 자동으로 공개 계약이 되지 않는다. 문서나 API에서 소비자 사용을 보장했다면 공개 표면으로 본다. 공개하지 않은 내부 배선 변경은 최종 렌더 결과와 접근성 동작으로 bump를 판단한다.
 
-`@seed-design/css/vars/component/*`와 대응하는 Lynx 생성 값은 기본적으로 Recipe 구현용 내부 산출물이다. 직접 사용을 문서로 보장한 export는 예외다. `typography`처럼 직접 소비하도록 안내한 값도 공개 표면으로 취급한다.
+`@seed-design/css/vars/component`는 공개 표면인 `typography`만 export한다. 대응하는 Lynx 생성 값(`@seed-design/lynx-css/vars/component/*`)은 export되어 있지만 Recipe 구현용 내부 산출물이다. 직접 사용을 문서로 보장한 값만 예외로 공개 표면으로 취급한다.
 
 ## 대표 변경 매트릭스
 
