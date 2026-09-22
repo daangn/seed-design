@@ -41,7 +41,7 @@
 
 - `init --default`를 제거합니다. `init --yes` 또는 `init -y`로 변경해야 합니다. 이미 폐기된 `add --all`·`add -a`도 제거하며, 전체 추가에는 `add-all`을 사용합니다.
 - `compat`의 `-c`·`--component`와 `-r`·`--registry`를 제거합니다. 검사할 항목은 `add`와 같이 `seed-design compat ui:action-button ui:alert-dialog`처럼 레지스트리를 포함해 인자로 지정해야 하며, `action-button`처럼 레지스트리를 생략한 이름은 거부합니다. `-c`는 다른 명령과 같이 `--cwd`의 짧은 이름이 되므로, `compat -c action-button`을 그대로 실행하면 `action-button`을 작업 디렉터리로 해석합니다.
-- `compat`의 항목 인자와 `--seedReactVersion` 값을 고쳐 읽지 않습니다. 앞뒤 공백을 제거하거나 가운데 공백을 `-`로 바꾸지 않으며, 빈 `--seedReactVersion`은 지정하지 않은 것으로 보지 않고 지원하지 않는 버전으로 거부합니다.
+- `compat`의 항목 인자와 `add`·`add-all`의 `--seedReactVersion` 값을 고쳐 읽지 않습니다. 앞뒤 공백을 제거하거나 가운데 공백을 `-`로 바꾸지 않으며, 빈 `--seedReactVersion`은 지정하지 않은 것으로 보지 않고 지원하지 않는 버전으로 거부합니다.
 - 여러 단어로 된 옵션의 camelCase·kebab-case 표기를 유지하며, `--seedReactVersion`에 지정한 버전이 실제로 적용되도록 수정합니다.
 - `--version`이 실행한 프로젝트 대신 CLI 자체 버전을 표시합니다. `--help`, `--version`, 문서 명령을 `package.json`이 없는 디렉터리에서도 사용할 수 있습니다.
 - 기존 파일과 내용이 다를 때 대화형 선택의 기본값을 백업으로 변경합니다.
@@ -54,7 +54,7 @@
 - `list_docs`와 `get_doc`은 사이트의 문서 인덱스에서 최신 섹션·문서 목록을 읽습니다. 디자인 스펙·파운데이션·패턴·업데이트·시작하기 섹션도 조회할 수 있습니다. `list_docs`는 `search_docs`와 같은 형식으로 주소·제목·설명·deprecated 여부를 표시하고, `section`을 생략하면 모든 문서를 나열합니다. `category` 필터를 제거합니다.
 - `get_doc`은 인덱스에 있는 문서의 주소와 정확히 같을 때만 읽습니다. 앞 슬래시가 없는 경로, `.txt`·`.md`가 붙은 경로, `action-button` 같은 짧은 이름은 찾지 못한 것으로 답하므로 목록에 표시되는 주소로 바꿔야 합니다.
 - `discover_seed_docs`와 `get_full_docs`를 제거합니다. `search_docs` 또는 `list_docs`로 문서를 찾고 필요한 문서를 `get_doc`으로 읽도록 설정·프롬프트를 변경해야 합니다.
-- `list_icons`, `search_icons`, `get_icon_details`를 제거합니다. 아이콘은 [아이콘 라이브러리](https://seed-design.io/foundations/iconography/library)에서 확인합니다.
+- `list_icons`, `search_icons`, `get_icon_details`를 제거합니다.
 - `get_rootage`는 인덱스에 등록된 리소스 경로만 조회하도록 제한합니다. 경로는 앞 슬래시까지 인덱스와 같아야 하며, 빈 `path`는 인덱스를 반환하지 않고 찾지 못한 것으로 답합니다.
 - `SEED_DOCS_BASE_URL` 환경 변수로 문서 사이트를 지정할 수 있습니다. 문서·검색·rootage 요청에 30초 제한을 적용하고, 검색 색인은 캐시해 30분마다 재검증합니다.
 - 공개 함수 `initializeTools`가 `Promise<void>` 대신 `void`를 반환합니다. `.then()`을 연결한 코드는 직접 호출하거나 `await initializeTools(server)`로 변경해야 합니다.
