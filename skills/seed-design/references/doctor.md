@@ -1,12 +1,8 @@
 # 사용 상태 진단 (Doctor)
 
-프로젝트가 SEED를 쓰는 맥락을 먼저 찾고, 그 맥락에 적용되는 건강검진을 선택 실행하는 공통 절차입니다. 컴포넌트뿐 아니라 설정·패키지 호환·앱 셋업·Foundations 계약·라이브러리 배포 계약까지 봅니다.
+프로젝트가 SEED를 쓰는 맥락을 먼저 찾고, 그 맥락에 적용되는 건강검진을 선택 실행하는 절차입니다. 컴포넌트뿐 아니라 설정·패키지 호환·앱 셋업·Foundations 계약·라이브러리 배포 계약까지 봅니다.
 
-## 문서 단일 원천
-
-진단을 시작할 때 문서 인덱스 `https://seed-design.io/__docs__/index.json`를 읽고, 선택된 플랫폼의 `react` 또는 `lynx` category를 사용합니다. 현재 capability는 인덱스가 연결한 문서와 설치본 package metadata로 실행 시점에 판단합니다.
-
-### 실행 문서 풀
+## 실행 문서 풀
 
 Doctor 요청 하나에 [`SKILL.md`](../SKILL.md)의 문서 풀 하나를 두고, 같은 실행의 여러 workspace와 rule이 공유합니다. 하위 에이전트가 문서 내용을 전달받지 못했다면 그 하위 실행 안에서만 같은 중복 제거를 다시 적용합니다. 리포트의 `references`는 출처 기록이므로 같은 URL이 여러 check·finding에 있어도 다시 읽지 않습니다.
 
@@ -15,8 +11,9 @@ Doctor 요청 하나에 [`SKILL.md`](../SKILL.md)의 문서 풀 하나를 두고
 - **read-only**: 대상 프로젝트의 코드·설정·의존성·산출물을 만들거나 바꾸지 않습니다. `compat`처럼 읽기 전용 명령만 실행합니다.
 - **근거 우선**: 전체·플랫폼 인덱스에서 이번 실행에 발견한 공식 문서, 설치본 package metadata, 실제 코드의 파일:줄을 근거로 씁니다.
 - **검증 공백 보존**: 확인하지 못한 것을 pass나 fail로 바꾸지 않습니다.
-- **플랫폼 격리**: 선택된 플랫폼 문서·패키지·registry만 사용합니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다.
+- **플랫폼 격리**: 선택된 플랫폼 문서·패키지·registry만 사용합니다. 다른 플랫폼 문서로 빈칸을 채우지 않습니다. CLI 문서의 예외는 [`SKILL.md`](../SKILL.md) 「CLI 사용법 문서」를 따릅니다.
 - **계약과 디자인 판단 분리**: Foundations는 공개성·존재·제거·내부 API 의존만 판정하고 하드코딩이나 semantic token 선택의 적절성은 추론하지 않습니다.
+- **충돌 보존**: 패키지 metadata와 공식 문서가 충돌하면 둘 다 evidence에 남기고 임의로 합의하지 않습니다.
 
 ## Step 1: 대상 워크스페이스 찾기
 
@@ -27,7 +24,7 @@ Doctor 요청 하나에 [`SKILL.md`](../SKILL.md)의 문서 풀 하나를 두고
 3. 설정 파일 발견 여부와 관계없이 workspace manifest를 따라 `@seed-design/*` 직접 의존성이 있는 워크스페이스도 함께 찾습니다. 설정 부재만으로 SEED 미사용이라고 결론내리지 않습니다.
 4. `seed-design.json`이 속한 package와 직접 의존성이 선언된 package를 같은 package 경계로 정규화해 중복 제거합니다. 같은 경계에 두 단서가 있으면 하나의 리포트 단위에 모두 유지합니다.
 
-여러 워크스페이스가 발견되면 어느 대상을 진단할지 확인합니다. 사용자가 "전체"를 요청했다면 **워크스페이스별 YAML을 각각** 생성합니다. 서로 다른 `meta`를 가진 결과를 하나로 합치지 않습니다.
+대상을 정하지 않았는데 여러 워크스페이스가 발견되면 어느 대상을 진단할지 확인합니다.
 
 ## Step 2: 플랫폼과 프로젝트 역할 확정
 
@@ -44,14 +41,12 @@ Doctor 요청 하나에 [`SKILL.md`](../SKILL.md)의 문서 풀 하나를 두고
 
 `private: true`나 사내 배포는 library를 배제하지 않습니다. 반대로 `build` 스크립트 하나만으로 library라 부르지 않습니다. 어느 역할도 증명되지 않으면 `projectKinds: []`로 두고 setup·library check에 적용 제외 이유를 남깁니다.
 
-## Step 3: 인덱스·프로필 로드와 사실 수집
+## Step 3: 인덱스 로드와 사실 수집
 
 1. 실행 문서 풀을 만들고 전체 문서 인덱스를 한 번 읽어 넣습니다.
-2. 선택된 [React 프로필](doctor-react.md) 또는 [Lynx 프로필](doctor-lynx.md)에서 플랫폼 인덱스·registry namespace를 받고, 아직 문서 풀에 없는 플랫폼 인덱스만 읽습니다.
+2. 선택된 플랫폼의 `react` 또는 `lynx` category를 플랫폼 인덱스로, 같은 이름을 registry namespace로 사용합니다.
 3. 문서 풀의 인덱스에서 이번 scope의 룰에 필요한 문서를 제목·category·설명으로 찾습니다. leaf URL이 문서 풀에 없을 때만 읽고, 경로를 기억하거나 조합하지 않습니다.
 4. 공통 컴포넌트는 문서 풀의 전체 인덱스가 연결한 Components 문서와 각 문서의 Platform 표에서 현재 매핑을 찾습니다.
-
-인덱스를 정상적으로 읽었는데 관련 문서가 없으면 공식 capability 부재입니다. 인덱스 또는 연결 문서를 읽지 못했으면 부재가 아니라 검증 실패입니다.
 
 그다음 대상에서 필요한 사실만 읽습니다.
 
@@ -68,7 +63,7 @@ lockfile로 패키지 매니저를 정할 때는 대상에 가장 가까운 파�
 
 ### 범위 선택
 
-- "SEED 잘 쓰고 있나" 같은 일반 진단: `SKILL.md`의 공통 Doctor 룰 전체를 scope에 넣습니다.
+- "SEED 잘 쓰고 있나" 같은 일반 진단: [`SKILL.md`](../SKILL.md) §5의 룰 전체를 scope에 넣습니다.
 - "셋업만", "라이브러리 배포 계약만" 같은 요청: 해당 category만 scope에 넣습니다.
 - 탐색에 config를 읽더라도 범주 지정 요청에서 config category 룰까지 자동으로 확대하지 않습니다.
 
@@ -85,7 +80,7 @@ scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
 | `not-applicable` | 역할·사용 증거가 없거나, 정상적으로 읽은 현재 인덱스에 필요한 공식 계약이 없음 |
 | `not-verified` | 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함 |
 
-`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요하며, 인덱스의 상대 경로는 `https://seed-design.io` 기준의 절대 URL로 적습니다. 문서 인덱스는 문서를 찾는 경로일 뿐 근거가 아니므로 `references`에 넣지 않습니다. HTML 리포트의 "읽어보기"는 첫 reference를 열기 때문에 첫 항목은 사람이 읽을 계약 문서여야 합니다.
+`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요하며, 항목의 `docUrl`을 `https://seed-design.io` 기준의 절대 URL로 적습니다. 문서 인덱스는 문서를 찾는 경로일 뿐 근거가 아니므로 `references`에 넣지 않습니다. HTML 리포트의 "읽어보기"는 첫 reference를 열기 때문에 첫 항목은 사람이 읽을 계약 문서여야 합니다.
 
 - 룰의 계약을 담은 현재 leaf 문서를 찾은 check: 그 문서. 판정에 여러 문서를 읽었으면 모두 기록합니다.
 - 인덱스를 읽었지만 계약 문서가 없는 check: 선택된 플랫폼 category의 개요 문서
@@ -99,12 +94,12 @@ scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
 - `warn`: deprecated 사용, 내부 component vars/API, 컴포넌트 가이드라인 이탈, peer·external·CSS 소유권 같은 라이브러리 배포 위험
 - `info`: 최신 세대와의 격차, minor·patch 최신성, 알아두면 되는 교체 기회
 
-같은 원인과 같은 수정으로 사라지는 finding은 하나로 묶고 전체 파일은 `files[]`에 둡니다. 룰 간 책임 경계는 각 룰의 "중복 경계"를 따릅니다.
+같은 원인과 같은 수정으로 사라지는 finding은 하나로 묶어 대표 파일을 `file`에, 전체 파일을 `files[]`에 둡니다. 룰 간 책임 경계는 각 룰의 "중복 경계"를 따릅니다.
 
 ## Step 5: YAML 출력
 
 결과의 단일 원천은 schema v2 YAML입니다. 스키마는 `assets/doctor-report.schema.json`입니다.
-예시의 `{...LeafUrlResolvedFromIndex}`는 실행 시 선택한 플랫폼 인덱스에서 찾은 실제 leaf URL로 바꿉니다.
+예시의 `{...LeafUrlResolvedFromIndex}`는 위 「룰 상태」의 규칙대로 적은 reference URL입니다.
 
 ```yaml
 schemaVersion: 2
@@ -170,11 +165,11 @@ rejected: []
 
 - `checks`: 실제 검사 범위. 통과·실패·적용 제외·미검증을 모두 보여 줍니다.
 - `findings`: 고칠 것만. `checks.status: fail`인 룰에서 나옵니다.
-- `findings[].remediation`: finding 하나를 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. Doctor가 프롬프트를 실행했다는 뜻은 아닙니다.
+- `findings[].remediation`: 아래 「수정 프롬프트 계약」을 따르는 수정 프롬프트입니다.
 - `summary`: findings를 severity별로 다시 센 값입니다. 손으로 추정하지 않습니다.
 - `verdicts`: component-guidelines의 기준별 판정 전체. `pass | fail | unknown | not-verified`를 유지합니다.
-- `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`). `expected != judged`면 실행 결함입니다.
-- `rejected`: 실제 검토했지만 공식 기준이 허용하거나 증거가 부족해 finding으로 만들지 않은 후보입니다.
+- `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`).
+- `rejected`: 검토했지만 finding으로 만들지 않은 후보입니다.
 
 YAML을 저장하기 전에 JSON Schema 검증과 별도로 다음을 확인합니다.
 
@@ -185,7 +180,7 @@ YAML을 저장하기 전에 JSON Schema 검증과 별도로 다음을 확인합�
 
 하나라도 실패하면 리포트를 완료한 것으로 보고하지 말고 판정·집계를 먼저 바로잡습니다.
 
-`verdicts.unknown`은 문서 임계값 부재·런타임 의존·코드 밖 정보·문서 충돌처럼 기준별 판정이 불가능할 때 사용합니다. 룰 실행 자체의 적용 여부를 나타내는 `checks.status`와 혼동하지 않습니다.
+`verdicts.unknown`은 기준별 판정이 불가능할 때 사용합니다. 룰 실행 자체의 적용 여부를 나타내는 `checks.status`와 혼동하지 않습니다.
 
 `verdicts.unknownReason`은 다음 네 값으로 이유를 보존합니다.
 
@@ -196,7 +191,7 @@ YAML을 저장하기 전에 JSON Schema 검증과 별도로 다음을 확인합�
 | `not-in-code` | 코드만으로 확인할 수 없음 | 프로젝트 |
 | `doc-conflict` | 공식 문서 문장끼리 충돌하거나 두 가지로 읽힘 | SEED 문서 |
 
-component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criterionIds`, 2단계 판단 기준에서 나왔으면 `criterion`으로 verdict와 연결합니다. 같은 기준의 위반이 여러 파일에 있으면 파일별로 내되, 공유 구현 하나가 원인이거나 수정 한 번으로 모두 사라지면 대표 `file` 한 건과 `files[]` 전체 목록으로 묶습니다.
+component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criterionIds`, 2단계 판단 기준에서 나왔으면 `criterion`으로 verdict와 연결합니다.
 
 `rejected`는 실제로 살펴본 후보만 적습니다. 공식 문서가 허용하거나, 증거가 부족하거나, 역할이 다른 구현이거나, 의도적인 도메인 선택으로 보이는 경우에 candidate·reason·file을 남깁니다. 칸을 채우기 위해 후보를 만들지 않습니다.
 
@@ -211,7 +206,7 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 5. finding의 `references` 전체
 6. 저장소 지침과 package scripts를 먼저 확인하고 변경 범위에 맞게 검증하라는 요청
 
-존재하지 않는 명령·파일·대체 API를 프롬프트에 추측해서 넣지 않습니다. 여러 finding이 같은 원인과 한 번의 수정으로 해결되면 기존 묶음 규칙대로 하나의 finding과 하나의 프롬프트를 만듭니다. Doctor는 이 프롬프트를 생성만 하며, 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
+존재하지 않는 명령·파일·대체 API를 프롬프트에 추측해서 넣지 않습니다. Doctor는 이 프롬프트를 생성만 하며, 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
 
 ## 저장과 다중 워크스페이스
 
@@ -228,5 +223,5 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 - 한 파일로 완결합니다. CDN·외부 폰트·JavaScript를 쓰지 않고 `<details>`로 접습니다.
 - "먼저 할 것" 다음에 **범주별 검사 범위**를 보여 줍니다.
 - `not-applicable`·`not-verified` 이유와 references를 숨기지 않습니다.
-- 기존 finding 근거·수정 프롬프트, 판정 표, coverage, 기각 목록, severity count를 보존합니다.
+- finding 근거·수정 프롬프트, 판정 표, coverage, 기각 목록, severity count를 보존합니다.
 - footer에 대상 코드를 수정하지 않았음을 명시합니다.

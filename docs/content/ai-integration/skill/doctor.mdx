@@ -18,11 +18,11 @@ SEED 잘 쓰고 있나 봐줘
 이 모노레포의 SEED 워크스페이스를 전부 진단해줘
 ```
 
-일반 진단은 적용 가능한 룰 전체를, 범주가 지정된 요청은 해당 범주만 실행합니다. `seed-design.json`이 없어도 `@seed-design/*` 패키지를 직접 쓰는 워크스페이스는 진단하며, 여러 워크스페이스가 발견되면 어느 것을 진단할지 확인합니다.
+일반 진단은 적용 가능한 룰 전체를, 범주가 지정된 요청은 해당 범주만 실행합니다. `seed-design.json`이 없어도 `@seed-design/*` 패키지를 직접 쓰는 워크스페이스는 진단하며, 대상을 정하지 않았는데 여러 워크스페이스가 발견되면 어느 것을 진단할지 확인합니다.
 
 ## 결과물
 
-워크스페이스마다 YAML 리포트와 HTML 리포트를 함께 만듭니다. HTML은 YAML과 같은 내용을 사람이 읽기 좋게 보여 줍니다. 두 파일 모두 대상 프로젝트가 아닌 임시 디렉토리에 저장하며, 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
+워크스페이스마다 YAML 리포트와 HTML 리포트를 함께 만듭니다. HTML은 YAML과 같은 내용을 "먼저 할 것"부터 보여 주며, 브라우저에서 파일 하나로 열립니다. 두 파일 모두 대상 프로젝트가 아닌 임시 디렉토리에 저장하며, 사용자가 명시적으로 "YAML만"을 요청한 경우에만 HTML을 생략합니다.
 
 ## Rules
 
@@ -45,24 +45,20 @@ SEED 잘 쓰고 있나 봐줘
 
 ## 결과 형식
 
-| 키 | 무엇 | 왜 |
-| --- | --- | --- |
-| `meta.projectKinds` | `app`·`library` 역할 배열 | 역할이 비배타적이며, 역할 증거가 없으면 빈 배열일 수 있습니다 |
-| `checks` | 요청 범위의 모든 룰 상태 | pass/fail뿐 아니라 적용 제외·미검증 이유까지 실제 검사 범위를 보여 줍니다 |
-| `summary` | findings의 severity별 개수 | 점수나 등급을 만들지 않습니다 |
-| `findings` | 고칠 것만 | 공식 근거와 복사 가능한 수정 프롬프트를 함께 둡니다 |
-| `verdicts` | 컴포넌트 기준별 판정 전체 | 통과와 `unknown`·`not-verified`를 숨기지 않습니다 |
-| `coverage` | 기계 수집 기준과 실제 판정 수 | component-guidelines의 기준 건너뛰기를 드러냅니다 |
-| `rejected` | 검토했지만 기각한 후보 | 보지 않은 것과 보고 뺀 것을 구분합니다 |
-
-## HTML 리포트
-
-HTML 리포트는 "먼저 할 것"부터 보여 주며, 브라우저에서 파일 하나로 열립니다.
+| 키 | 담는 것 |
+| --- | --- |
+| `meta.projectKinds` | `app`·`library` 역할 배열. 둘 다 들어가거나, 역할 증거가 없으면 비어 있을 수 있습니다 |
+| `checks` | 요청 범위의 모든 룰 상태. 적용 제외·미검증 이유도 포함합니다 |
+| `summary` | findings의 severity별 개수 |
+| `findings` | 고칠 것. 공식 근거와 복사해 쓸 수 있는 수정 프롬프트를 함께 둡니다 |
+| `verdicts` | 컴포넌트 기준별 판정 전체 |
+| `coverage` | component-guidelines의 기계 수집 기준 수와 실제 판정 수 |
+| `rejected` | 검토했지만 finding으로 만들지 않은 후보 |
 
 ## 원본
 
 Doctor를 이루는 파일은 GitHub의 [`skills/seed-design`](https://github.com/daangn/seed-design/tree/dev/skills/seed-design)에 있습니다.
 
-- [`references/doctor.md`](https://github.com/daangn/seed-design/blob/dev/skills/seed-design/references/doctor.md): 공통 실행 절차와 리포트 계약. 플랫폼별 프로필은 같은 폴더의 `doctor-react.md`·`doctor-lynx.md`입니다
+- [`references/doctor.md`](https://github.com/daangn/seed-design/blob/dev/skills/seed-design/references/doctor.md): 실행 절차와 리포트 계약
 - [`rules/`](https://github.com/daangn/seed-design/tree/dev/skills/seed-design/rules): 룰마다 적용 조건, 판정 방법, 수정 방법
 - [`assets/doctor-report.schema.json`](https://github.com/daangn/seed-design/blob/dev/skills/seed-design/assets/doctor-report.schema.json): 리포트 YAML의 JSON Schema

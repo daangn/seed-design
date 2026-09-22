@@ -8,7 +8,7 @@ SEED 토큰 import, vars 접근, SEED CSS 변수 또는 스타일 패키지 impo
 
 ## 판정 방법
 
-1. 전체 인덱스의 Foundations 진입점과 선택된 플랫폼 인덱스에서 관련 문서를 찾습니다.
+1. 인덱스의 `foundations` category와 선택된 플랫폼 인덱스에서 관련 문서를 찾습니다.
 2. 선택된 플랫폼의 설치본 package exports, 타입 선언, 생성된 공개 변수 목록을 읽습니다.
 3. 코드의 import path·vars 접근·CSS 변수 이름이 현재 설치본에 존재하고 공식 문서 또는 package exports에서 공개됐는지 확인합니다. 해석되지 않는 사용은 `error`입니다.
 4. 존재하더라도 문서·exports가 공개하지 않은 component 전용 변수나 내부 경로 의존은 `warn`입니다.
@@ -22,10 +22,8 @@ SEED 토큰 import, vars 접근, SEED CSS 변수 또는 스타일 패키지 impo
 - semantic token 선택이 디자인 맥락에 적절한지
 - 토큰 값 자체가 화면 의도에 맞는지
 
-Doctor는 존재·공개성·제거·내부 API 의존 같은 계약 위반만 판정합니다.
-
 ## 문서 풀에서 사용할 근거
 
-- 전체 인덱스가 연결한 Foundations 인덱스
+- 인덱스의 `foundations` category가 연결한 문서
 - 선택된 플랫폼 인덱스가 연결한 스타일·토큰 문서
 - 대상의 실제 설치본 package exports

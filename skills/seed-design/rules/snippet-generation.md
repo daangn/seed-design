@@ -9,12 +9,12 @@
 ## 판정 방법
 
 1. snippet root에서 파일 헤더의 `@file`과 `@requires`를 수집합니다.
-2. 선택된 플랫폼의 현재 registry 전체 인덱스에서 같은 `(registryId, itemId, snippetPath)`의 canonical dependencies를 찾습니다.
+2. 선택된 플랫폼의 현재 registry 인덱스(`{registryId}/index.json`)에서 같은 `(registryId, itemId, snippetPath)`의 canonical dependencies를 찾습니다.
 3. 현재 공식 CLI·registry 문서가 설치 세대 registry를 제공하면 같은 키로 요구 범위를 비교합니다.
 4. `@file` 헤더가 없거나 세대 원본을 식별할 수 없으면 경로로 추측하지 않고 `not-verified`로 남깁니다.
 5. 로컬 코드 해시 차이는 변환·커스터마이징과 구별할 수 없으므로 이 룰에서 판정하지 않습니다.
 
-현재 설치 패키지와 스니펫의 실제 호환은 [snippet-compatibility](./snippet-compatibility.md)가 소유합니다. 스니펫 전건이 같은 이유로 뒤졌다면 한 finding과 `files[]`로 묶습니다.
+현재 설치 패키지와 스니펫의 실제 호환은 [snippet-compatibility](./snippet-compatibility.md)가 소유합니다.
 
 ## 수정 방법
 

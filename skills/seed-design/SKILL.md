@@ -7,8 +7,6 @@ argument-hint: "[질문 또는 주제]"
 
 # SEED Design
 
-SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 질문은 **공통 디자인 지식 → 플랫폼 구현 → 플랫폼별 Doctor** 순서로 탐색하고 판정합니다.
-
 ## 1. 요청을 먼저 분류
 
 프로젝트를 조사하기 전에 요청을 다음 중 하나로 분류합니다.
@@ -46,11 +44,11 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 질�
 
 ## 3. 공식 문서 라우팅
 
-요청할 때마다 아래 인덱스를 먼저 읽고, 인덱스가 제공한 링크를 그대로 따라갑니다.
+문서는 아래 인덱스에서 찾고, 인덱스가 제공한 링크를 그대로 따라갑니다. CLI를 쓰는 경우는 아래 「CLI로 문서 읽기」를 따릅니다.
 
 - 문서 인덱스: `https://seed-design.io/__docs__/index.json`
 
-공통 문서는 `components`·`foundations`·`patterns`·`docs`(Design Guidelines) category에, 플랫폼 문서는 `react`·`lynx` category에 있습니다. 한 요청 안에서 읽은 인덱스와 문서는 문서 풀에 모아 두고, 같은 URL을 다시 읽지 않고 이후 단계와 룰에서 재사용합니다.
+공통 문서는 `components`·`foundations`·`patterns`·`docs`(Design Guidelines) category에, 플랫폼 문서는 `react`·`lynx` category에 있습니다. 한 요청 안에서 읽은 인덱스와 문서는 문서 풀에 모아 두고, 같은 URL(`#` 뒤는 빼고 비교)을 다시 읽지 않고 이후 단계와 룰에서 재사용합니다.
 
 다음 순서를 지킵니다.
 
@@ -70,13 +68,10 @@ npx @seed-design/cli@latest docs read /components/action-button
 npx @seed-design/cli@latest docs read /react/components/action-button
 ```
 
-### 컴포넌트 답변 순서
+### 컴포넌트 구현과 스니펫
 
-1. 스펙 질문이면 공통 컴포넌트 문서만 읽습니다.
-2. 구현 질문이면 플랫폼을 판별하고 해당 플랫폼 문서를 읽습니다.
-3. 스펙과 구현을 함께 묻는다면 공통 문서를 먼저 읽고, 판별된 플랫폼 문서를 이어서 읽습니다.
-4. 공통 문서 id와 구현 문서 id가 다르면 공통 문서의 Platform 표와 선택된 플랫폼 인덱스로 실제 id를 찾습니다.
-5. 선택한 플랫폼 문서나 registry 항목이 없으면 그 플랫폼의 구현·문서가 없다고 알립니다. 다른 플랫폼 문서로 대체하지 않습니다.
+1. 공통 문서 id와 구현 문서 id가 다르면 공통 문서의 Platform 표와 선택된 플랫폼 인덱스로 실제 id를 찾습니다.
+2. 선택한 플랫폼 문서나 registry 항목이 없으면 그 플랫폼의 구현·문서가 없다고 알립니다. 다른 플랫폼 문서로 대체하지 않습니다.
 
 스니펫이 필요하면 선택한 플랫폼 registry만 사용합니다.
 
@@ -86,15 +81,15 @@ https://seed-design.io/__registry__/{react|lynx}/{registryId}/index.json
 https://seed-design.io/__registry__/{react|lynx}/{registryId}/{itemId}.json
 ```
 
-첫 주소는 플랫폼의 registry 전체 인덱스로, 사용할 수 있는 `registryId` 목록입니다.
+첫 주소는 그 플랫폼의 `registryId` 목록이고, 둘째 주소인 registry 인덱스가 registry 하나의 모든 항목과 스니펫별 의존성을 담습니다.
 
-### CLI 문서
+### CLI 사용법 문서
 
-전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 명령·플래그·설정 필드는 연결된 문서나 `npx @seed-design/cli@latest <명령> --help`가 명시한 값만 사용합니다.
+전체·플랫폼 인덱스에서 `CLI`, `Commands`, `Configuration`에 해당하는 현재 링크를 찾고 내용을 읽습니다. 문서가 어느 플랫폼 트리 아래에 있는지만으로 지원 플랫폼이나 옵션을 추론하지 않습니다. 본문이 선택된 플랫폼 지원을 명시한 CLI 문서는 어느 섹션에 있든 사용합니다. 명령·플래그는 연결된 문서나 `npx @seed-design/cli@latest <명령> --help`가, 설정 필드는 연결된 문서나 설치한 CLI 소스가 명시한 값만 사용합니다.
 
 ### 스니펫 추가와 설정 생성
 
-에이전트가 실행하는 환경에서는 `init`, `add`, `add-all`이 질문을 띄우지 않으므로, 물었을 질문에 답할 인자를 처음부터 함께 넘깁니다. 어떤 항목이 있는지는 위의 레지스트리 인덱스에서 먼저 확인합니다.
+`init`, `add`, `add-all`에는 터미널에서 묻는 질문의 답을 인자로 처음부터 함께 넘깁니다. 어떤 항목이 있는지는 위의 registry 인덱스에서 먼저 확인합니다.
 
 ```bash
 npx @seed-design/cli@latest init -y
@@ -102,7 +97,7 @@ npx @seed-design/cli@latest add ui:action-button
 npx @seed-design/cli@latest add-all ui
 ```
 
-`add`가 내용이 다른 기존 파일을 남기고 끝나면 `--on-diff overwrite`를 임의로 붙이지 않습니다. 사용자가 손댄 내용을 지우는 선택이기 때문입니다. 남은 파일을 사용자에게 알리고 덮어쓸지, `--on-diff backup`으로 백업할지, `--on-diff skip`으로 그대로 둘지 확인합니다.
+`--on-diff overwrite`는 사용자가 손댄 내용을 지우므로 처음 실행할 때도 임의로 붙이지 않습니다. `add`·`add-all`이 내용이 다른 기존 파일을 남기고 끝나면 남은 파일을 사용자에게 알리고 덮어쓸지, `--on-diff backup`으로 백업할지, `--on-diff skip`으로 그대로 둘지 확인합니다.
 
 ## 4. 판단이 필요한 절차
 
@@ -114,16 +109,11 @@ npx @seed-design/cli@latest add-all ui
 
 마이그레이션과 업그레이드도 플랫폼을 먼저 판별합니다. React 문서의 전용 옵션(`--seed-react-version` 등)이나 호환표를 Lynx에 적용하지 말고, 선택된 플랫폼의 패키지와 changelog만 대조합니다.
 
-Doctor 요청은 [doctor.md](references/doctor.md)의 적응형 탐색 절차를 먼저 따릅니다.
-
-- React Doctor: [doctor-react.md](references/doctor-react.md)를 함께 읽습니다.
-- Lynx Doctor: [doctor-lynx.md](references/doctor-lynx.md)를 함께 읽습니다.
-
 Doctor는 문제를 찾는 진단이고, `upgrade.md`는 실제로 버전을 올리는 절차입니다. 진단이 버전 격차를 알려도 사용자가 수정을 요청하기 전에는 업그레이드를 실행하지 않습니다.
 
 ## 5. 코드 작성과 기존 코드 진단
 
-`rules/`의 룰은 SEED 코드를 작성할 때 지키는 계약이자 Doctor의 판정 기준입니다. Doctor에서는 선택된 플랫폼 프로필과 각 룰의 적용 조건을 함께 사용합니다.
+`rules/`의 룰은 SEED 코드를 작성할 때 지키는 계약이자 Doctor의 판정 기준입니다.
 
 - [project-config](rules/project-config.md): 현재 CLI 설정 계약, framework 충돌, snippet path·alias 연결
 - [package-compatibility](rules/package-compatibility.md): 플랫폼 패키지 설치본 조합

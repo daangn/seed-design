@@ -10,7 +10,7 @@
 
 1. 전체·플랫폼 인덱스에서 현재 `Configuration` 또는 같은 역할의 CLI 문서를 찾습니다. 설치한 CLI 소스의 설정 schema를 읽을 수 있으면 함께 대조합니다.
 2. 현재 schema가 허용한 키·타입·필수값으로 `seed-design.json`을 검사합니다. CLI 실행을 막는 schema 오류는 `error`입니다.
-3. [`SKILL.md`](../SKILL.md)의 플랫폼 판별로 정한 플랫폼과 설정·직접 의존성을 대조합니다. 충돌하면 높은 순위 단서를 유지하고 충돌한 파일·패키지를 근거로 `error`를 냅니다.
+3. [doctor.md](../references/doctor.md) Step 2로 정한 플랫폼과 설정·직접 의존성을 대조합니다. 충돌하면 높은 순위 단서를 유지하고 충돌한 파일·패키지를 근거로 `error`를 냅니다.
 4. 설정의 snippet path를 설정 파일 위치 기준으로 해석하고 실제 사용처와 연결합니다. 디렉토리가 없더라도 snippet import·`@file` 헤더·alias처럼 그 경로를 사용한다는 증거가 없다면 finding을 만들지 않고 evidence에만 기록합니다. 사용 증거가 있는데 디렉토리가 없으면 `error`입니다.
 5. TypeScript paths와 번들러/runtime alias가 snippet path와 같은 디렉토리를 가리키는지 확인합니다. alias 자체가 필요한지는 [project-setup](./project-setup.md)이 현재 설치 문서에서 판단하고, 이 룰은 존재하는 연결끼리의 불일치만 판정합니다.
 

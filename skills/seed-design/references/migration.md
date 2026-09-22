@@ -5,7 +5,7 @@
 ## 문서 발견
 
 1. 문서 인덱스 `https://seed-design.io/__docs__/index.json`를 읽습니다.
-2. 선택된 플랫폼 category에서 현재 CLI·Commands·Configuration·registry 문서를 찾습니다.
+2. 전체·플랫폼 인덱스에서 선택된 플랫폼을 지원하는 현재 CLI·Commands·Configuration·registry 문서를 찾습니다.
 3. 인덱스가 연결한 문서에서 호환 검사, 버전 선택, 파일 충돌 처리에 관한 현재 명령과 옵션을 읽습니다.
 
 ## 절차

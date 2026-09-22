@@ -13,8 +13,6 @@
 3. 문서가 현재 선택된 플랫폼을 지원한다고 명시한 방식으로 읽기 전용 호환 검사를 실행합니다.
 4. 명령이 검사한 항목·출력·종료 코드를 evidence로 보존해 pass/fail을 정합니다. 네트워크·실행기·registry 접근 문제는 `not-verified`입니다.
 
-호환 검사는 읽기 전용으로만 실행합니다. 패키지 설치, snippet add·upgrade 같은 변경 명령은 실행하지 않습니다.
-
 ## 중복 경계
 
 - 최신 registry와 설치 세대의 차이는 [snippet-generation](./snippet-generation.md)만 판단합니다.
