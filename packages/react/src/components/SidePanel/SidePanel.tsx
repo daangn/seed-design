@@ -138,22 +138,7 @@ SidePanelDescription.displayName = "SidePanelDescription";
 export interface SidePanelBodyProps
   extends PrimitiveProps,
     Pick<StyleProps, "paddingX" | "justifyContent" | "alignItems">,
-    React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로 이 prop은 효과가 없습니다. 콘텐츠의 높이를 지정하려면 본문 안에 `Box`를 두고 `height`를 지정하세요.
-   */
-  height?: StyleProps["height"];
-
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 남은 높이보다 큰 값을 주면 푸터가 패널 밖으로 밀려납니다. 콘텐츠의 최소 높이를 지정하려면 본문 안에 `Box`를 두고 `minHeight`를 지정하세요.
-   */
-  minHeight?: StyleProps["minHeight"];
-
-  /**
-   * @deprecated SEED React 3.0.0에서 제거됩니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 남은 높이보다 작은 값을 주면 푸터가 패널 중간에 뜹니다. 콘텐츠의 최대 높이를 지정하려면 본문 안에 `Box`를 두고 `maxHeight`를 지정하세요.
-   */
-  maxHeight?: StyleProps["maxHeight"];
-}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelBody = React.forwardRef<HTMLDivElement, SidePanelBodyProps>(
   (props, forwardedRef) => {
