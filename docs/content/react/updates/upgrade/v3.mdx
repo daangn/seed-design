@@ -165,68 +165,7 @@ const classes = "bg-bg-neutral-solid active:bg-bg-neutral-solid-pressed text-fg-
 
 <Step>
 
-#### 컴포넌트 vars import 교체
-
-**수정 대상:** `@seed-design/css/vars/component` 또는 그 하위 경로에서 vars를 import하는 코드입니다. `@seed-design/css/vars/component/typography`만 사용한다면 이 단계를 건너뛰세요.
-
-<Badge tone="positive">에러로 발견 가능</Badge>
-
-`@seed-design/css/vars/component`에서는 `typography`만 제공합니다. 다른 컴포넌트의 vars는 2.x에서도 SemVer 보장 대상이 아니었으므로, 3.0에서 export를 제거했습니다.
-
-**index에서 `typography`를 가져오는 경우**
-
-`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정하세요.
-
-```ts
-import { typography } from "@seed-design/css/vars/component"; // [!code --]
-import { vars as typography } from "@seed-design/css/vars/component/typography"; // [!code ++]
-```
-
-**컴포넌트의 vars를 import하는 경우**
-
-같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꾸세요. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)은 필요한 값을 직접 지정하세요.
-
-```ts
-import { badge } from "@seed-design/css/vars/component"; // [!code --]
-import { vars } from "@seed-design/css/vars"; // [!code ++]
-
-const minHeight = badge.sizeMedium.enabled.root.minHeight; // [!code --]
-const minHeight = vars.$dimension.x5; // [!code ++]
-```
-
-</Step>
-
-<Step>
-
-#### Side Panel 본문의 높이 prop 제거
-
-**수정 대상:** `SidePanelBody` 또는 `ResponsiveSidePanelBody`에 `height`, `minHeight`, `maxHeight`를 전달하는 코드입니다. 이 props를 사용하지 않는다면 이 단계를 건너뛰세요.
-
-<Badge tone="positive">에러로 발견 가능</Badge>
-
-Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채웁니다. 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠기 때문에 제거했습니다.
-
-`SidePanelBody`에서는 해당 prop을 지우세요. `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정하세요.
-
-```tsx
-function Body({ children }: { children: React.ReactNode }) {
-  const { shouldUseBottomSheet } = useResponsiveSidePanelContext(); // [!code ++]
-
-  return (
-    {/* [!code --] */}
-    <ResponsiveSidePanelBody minHeight="x40">
-    {/* [!code ++] */}
-    <ResponsiveSidePanelBody>
-      {/* [!code --] */}
-      {children}
-      {/* [!code ++] */}
-      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box>
-    </ResponsiveSidePanelBody>
-  );
-}
-```
-
-#### 3. Alert Dialog와 Dialog 이름 변경
+#### Alert Dialog와 Dialog 이름 변경
 
 <Badge tone="critical">에러 없이 스타일·동작 변경</Badge>
 
@@ -407,6 +346,71 @@ import "@seed-design/css/recipes/dialog.css"; // [!code ++]
 - 작업 전에 Alert Dialog로 분류한 사용처는 모두 `AlertDialog`, `recipes/alert-dialog`, `.seed-alert-dialog__*`를 사용합니다. snippet 파일을 제외하고, 코드에 남은 `@seed-design/react`의 `Dialog`, `recipes/dialog`, `.seed-dialog__*`는 모두 Dialog로 분류한 사용처에서 옮긴 것입니다.
 - snippet을 import하는 코드(`ui/alert-dialog`, `ui/dialog` 경로의 import)가 바뀌지 않았습니다.
 - `@seed-design/react`의 `Dialog.Root`나 `DialogRoot`에서 옮긴 `AlertDialog.Root`, `AlertDialogRoot`마다 `role`과 `closeOnInteractOutside`를 확인했습니다.
+
+</Step>
+
+<Step>
+
+#### 컴포넌트 vars import 교체
+
+**수정 대상:** `@seed-design/css/vars/component` 또는 그 하위 경로에서 vars를 import하는 코드입니다. `@seed-design/css/vars/component/typography`만 사용한다면 이 단계를 건너뛰세요.
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/css/vars/component`에서는 `typography`만 제공합니다. 다른 컴포넌트의 vars는 2.x에서도 SemVer 보장 대상이 아니었으므로, 3.0에서 export를 제거했습니다.
+
+**index에서 `typography`를 가져오는 경우**
+
+`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정하세요.
+
+```ts
+import { typography } from "@seed-design/css/vars/component"; // [!code --]
+import { vars as typography } from "@seed-design/css/vars/component/typography"; // [!code ++]
+```
+
+**컴포넌트의 vars를 import하는 경우**
+
+같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꾸세요. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)은 필요한 값을 직접 지정하세요.
+
+```ts
+import { badge } from "@seed-design/css/vars/component"; // [!code --]
+import { vars } from "@seed-design/css/vars"; // [!code ++]
+
+const minHeight = badge.sizeMedium.enabled.root.minHeight; // [!code --]
+const minHeight = vars.$dimension.x5; // [!code ++]
+```
+
+</Step>
+
+<Step>
+
+#### Side Panel 본문의 높이 prop 제거
+
+**수정 대상:** `SidePanelBody` 또는 `ResponsiveSidePanelBody`에 `height`, `minHeight`, `maxHeight`를 전달하는 코드입니다. 이 props를 사용하지 않는다면 이 단계를 건너뛰세요.
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채웁니다. 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠기 때문에 제거했습니다.
+
+`SidePanelBody`에서는 해당 prop을 지우세요. `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정하세요.
+
+```tsx
+function Body({ children }: { children: React.ReactNode }) {
+  const { shouldUseBottomSheet } = useResponsiveSidePanelContext(); // [!code ++]
+
+  return (
+    {/* [!code --] */}
+    <ResponsiveSidePanelBody minHeight="x40">
+    {/* [!code ++] */}
+    <ResponsiveSidePanelBody>
+      {/* [!code --] */}
+      {children}
+      {/* [!code ++] */}
+      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box>
+    </ResponsiveSidePanelBody>
+  );
+}
+```
 
 </Step>
 
