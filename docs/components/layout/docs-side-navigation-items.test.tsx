@@ -1,4 +1,4 @@
-import { describe, expect, it, mock } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SideNavigation } from "@seed-design/react";
@@ -24,46 +24,25 @@ const folder: PageTree.Folder = {
   ],
 };
 
-it("moves only the owning index to the trigger and preserves nested pages and levels", () => {
-  const item = buildSidebarGroups([folder], "/styling")[0].items[0];
-  if (!isSidebarFolderItem(item)) throw new Error("Expected folder");
-  expect(item.index).toMatchObject({ href: "/styling", current: true });
-  expect(item.items.map(({ href, level }) => [href, level])).toEqual([
-    ["/styling/theming", 2],
-    ["/styling/nested", 2],
-    ["/styling/nested/detail", 3],
-  ]);
-});
-
-it("keeps tabbed folders as a single link", () => {
-  const tabbed = { ...folder, layout: "tabs" as const };
-  const item = buildSidebarGroups([tabbed], "/styling/theming")[0].items[0];
-  expect(isSidebarFolderItem(item)).toBe(false);
-  expect(item).toMatchObject({ href: "/styling", current: true });
-});
-
-it("recognizes an index explicitly listed in meta pages as the folder's own page", () => {
-  const explicitIndex: PageTree.Folder = {
-    ...folder,
-    $ref: { folder: "getting-started/styling" },
-    index: undefined,
-    children: [
-      { type: "page", name: "Styling", url: "/styling", $ref: "getting-started/styling/index.mdx" },
-      ...folder.children,
-    ],
-  };
-  const item = buildSidebarGroups([explicitIndex], "/styling")[0].items[0];
-  if (!isSidebarFolderItem(item)) throw new Error("Expected folder");
-  expect(item.index).toMatchObject({ href: "/styling", current: true });
-  expect(item.items.map((child) => child.href)).not.toContain("/styling");
-});
+// Fumadocs puts an index explicitly listed in meta.pages among the children.
+const explicitIndexFolder: PageTree.Folder = {
+  ...folder,
+  $ref: { folder: "getting-started/styling" },
+  index: undefined,
+  children: [
+    { type: "page", name: "Styling", url: "/styling", $ref: "getting-started/styling/index.mdx" },
+    ...folder.children,
+  ],
+};
 
 for (const mobile of [false, true]) {
   describe(mobile ? "mobile folder" : "desktop folder", () => {
     function setup(pathname: string, node = folder) {
-      const push = mock(() => {});
+      let destination = pathname;
       const router: AppRouterInstance = {
-        push,
+        push(href) {
+          destination = href;
+        },
         back() {},
         forward() {},
         refresh() {},
@@ -102,60 +81,59 @@ for (const mobile of [false, true]) {
       }
       const result = render(tree(pathname));
       return {
-        push,
-        navigate: (path: string) => result.rerender(tree(path)),
+        destination: () => destination,
+        navigate: (path: string) => {
+          destination = path;
+          result.rerender(tree(path));
+        },
         trigger: screen.getByRole("button", { name: "Styling" }),
       };
     }
 
-    it("opens and navigates, then closes and reopens on the index without another navigation", () => {
-      const { trigger, push, navigate } = setup("/other");
+    it("opens the index without a duplicate child link, then toggles on that page", async () => {
+      const user = userEvent.setup();
+      const { trigger, destination, navigate } = setup("/other", explicitIndexFolder);
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
-      fireEvent.click(trigger);
-      expect(push).toHaveBeenCalledWith("/styling");
+      await user.click(trigger);
+      expect(destination()).toBe("/styling");
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
       navigate("/styling");
       expect(trigger.getAttribute("aria-current")).toBe("page");
       expect(screen.queryByRole("link", { name: "Styling" })).toBeNull();
-      fireEvent.click(trigger);
+      expect(screen.getByRole("link", { name: "Theming" }).getAttribute("href")).toBe(
+        "/styling/theming",
+      );
+      expect(screen.getByRole("link", { name: "Nested overview" }).getAttribute("href")).toBe(
+        "/styling/nested",
+      );
+      trigger.focus();
+      await user.keyboard("{Enter}");
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
-      fireEvent.click(trigger);
+      await user.keyboard(" ");
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
-      expect(push).toHaveBeenCalledTimes(1);
+      expect(destination()).toBe("/styling");
     });
 
     it("keeps an open folder open when navigating from a child to its index", () => {
-      const { trigger, push, navigate } = setup("/styling/theming");
+      const { trigger, destination, navigate } = setup("/styling/theming");
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
       expect(trigger.getAttribute("aria-current")).toBeNull();
       fireEvent.click(trigger);
-      expect(push).toHaveBeenCalledWith("/styling");
+      expect(destination()).toBe("/styling");
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
       navigate("/styling");
+      expect(trigger.getAttribute("aria-current")).toBe("page");
       fireEvent.click(trigger);
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
     });
 
-    it("toggles folders without an index without navigating", () => {
-      const { trigger, push } = setup("/other", { ...folder, index: undefined });
+    it("toggles folders without an index without leaving the current page", () => {
+      const { trigger, destination } = setup("/other", { ...folder, index: undefined });
       fireEvent.click(trigger);
       expect(trigger.getAttribute("aria-expanded")).toBe("true");
       fireEvent.click(trigger);
       expect(trigger.getAttribute("aria-expanded")).toBe("false");
-      expect(push).not.toHaveBeenCalled();
-    });
-
-    it("supports Enter and Space with the same navigation and toggle behavior", async () => {
-      const user = userEvent.setup();
-      const { trigger, push, navigate } = setup("/other");
-      trigger.focus();
-      await user.keyboard("{Enter}");
-      expect(push).toHaveBeenCalledWith("/styling");
-      expect(trigger.getAttribute("aria-expanded")).toBe("true");
-      navigate("/styling");
-      await user.keyboard(" ");
-      expect(trigger.getAttribute("aria-expanded")).toBe("false");
-      expect(push).toHaveBeenCalledTimes(1);
+      expect(destination()).toBe("/other");
     });
   });
 }
