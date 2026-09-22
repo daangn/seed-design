@@ -262,23 +262,9 @@ B(한 코드베이스로 1.x·2.0 동시 지원)는 컴포넌트가 양쪽에 �
 
 ## 컴포넌트 vars를 직접 import하지 않기
 
-`@seed-design/css/vars/component/*`는 컴포넌트 recipe 구현을 위해 생성되는 내부 성격의 변수예요.
+3.0부터 컴포넌트 vars는 `@seed-design/css/vars/component/typography`만 공개해요.
 
-<Callout type="warn">
-
-`typography`를 제외한 `@seed-design/css/vars/component/*` 경로는 [SemVer 보장 대상이 아니에요](/react/updates/upgrade#버저닝-정책). rootage component spec이 바뀌면 minor·patch에서도 이름·구조가 바뀔 수 있어요.
-
-</Callout>
-
-라이브러리 공개 API나 런타임 로직에서 이 경로를 직접 사용하면, 프로젝트의 SEED minor·patch 업그레이드만으로도 깨질 수 있어요. 필요한 스타일은 공개 컴포넌트와 recipe 클래스를 쓰거나, 값이 직접 필요하면 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 쓰세요.
-
-디자인 토큰으로 옮기면 무엇을 보장받는지가 두 경로의 차이예요. 토큰은 **이름도 값도 major에서만 바뀝니다** — 이름이 바뀌거나 사라지는 것은 물론이고, 디자인 판단에 따라 색이 달라지는 것도 major에서만 일어나요. 반면 component vars는 minor·patch에서도 바뀝니다. 라이브러리는 자기 소비자에게 버전 약속을 다시 전달해야 하는 입장이라, 이 차이가 특히 중요해요. 자세한 규칙은 [버저닝 정책](/react/updates/upgrade#버저닝-정책)에 있어요.
-
-<Callout type="warn">
-
-컴포넌트 내부 CSS 변수(`--seed-action-button-*` 등)도 같은 `--seed-` 접두사를 갖지만 이건 공개 표면이 아니에요. 버튼 배경색이 필요하다면 버튼의 내부 변수를 꺼내 쓰지 말고, 같은 값을 디자인 토큰(`fg`/`bg`/`palette`)에서 찾아 쓰세요.
-
-</Callout>
+스타일이 필요하면 SEED 컴포넌트를 그대로 쓰고, 값이 직접 필요하면 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)을 쓰세요. 2.x에서 다른 컴포넌트 vars를 import하고 있었다면 SEED 3.0으로 올리기 전에 디자인 토큰으로 옮겨야 해요.
 
 ## 스니펫을 라이브러리에 설치할 때
 
@@ -302,8 +288,8 @@ https://seed-design.io/react/getting-started/library-authors 가이드를 기준
    어디에, 어떤 범위로 선언됐는지 확인하고 문제점을 지적해줘.
 2. 빌드 설정(vite/tsup 등)에서 @seed-design/*가 external 처리되는지 확인해줘.
 3. 라이브러리 코드에서 @seed-design/css의 *.css를 직접 import하는 곳을 찾아줘.
-4. @seed-design/css/vars/component/* 직접 import가 있는지 찾고,
-   typography를 제외한 component vars 사용이 공개 API나 런타임 로직에 새지 않았는지 확인해줘.
+4. typography를 제외한 @seed-design/css/vars/component/* import가 있는지 찾아줘.
+   SEED 3.0에서 제거된 경로이니, 같은 값을 디자인 토큰(@seed-design/css/vars)에서 찾아 대체안을 제시해줘.
 5. 내가 실제로 사용하는 SEED 컴포넌트/훅을 찾고, changelog에서 SEED 2.0의
    breaking change 중 그 목록에 걸리는 게 있는지 확인해줘.
    1.x 범위를 정할 때는 https://seed-design.io/react/updates/upgrade/v1 의

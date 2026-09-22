@@ -91,7 +91,7 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
 ╚════════════════════════════════════════════╝
 
 수정된 생성 파일:
-  - packages/css/vars/component/action-button.mjs
+  - packages/qvism-preset/src/vars/component/action-button.mjs
 
 이 파일은 rootage에서 자동 생성됩니다.
 직접 수정하지 말고 소스를 수정하세요:
@@ -115,7 +115,7 @@ git diff --name-only HEAD | grep "packages/rootage/" && \
   $ bun rootage:generate
 
 영향받는 파일:
-  - packages/css/vars/component/chip.mjs
+  - packages/qvism-preset/src/vars/component/chip.mjs
 ```
 
 ## 사용 예시
