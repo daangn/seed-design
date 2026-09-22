@@ -42,11 +42,11 @@ SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기�
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
-`@seed-design/css/vars/component`에서는 `typography`만 제공합니다. 다른 컴포넌트의 vars는 recipe 구현용 내부 값이어서 2.x에서도 SemVer 보장 대상이 아니었고, 3.0에서 export를 제거했습니다.
+`@seed-design/css/vars/component`에서는 `typography`만 제공합니다. 다른 컴포넌트의 vars는 2.x에서도 SemVer 보장 대상이 아니었으므로, 3.0에서 export를 제거했습니다.
 
 **index에서 `typography`를 가져오는 경우**
 
-`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져옵니다.
+`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정합니다.
 
 ```ts
 import { typography } from "@seed-design/css/vars/component"; // [!code --]
@@ -55,7 +55,7 @@ import { vars as typography } from "@seed-design/css/vars/component/typography";
 
 **다른 컴포넌트의 vars를 가져오는 경우**
 
-같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꿉니다. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)은 컴포넌트 구현 세부 사항이므로 필요한 값을 직접 지정합니다.
+같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꿉니다. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)의 경우 필요한 값을 직접 지정합니다.
 
 ```ts
 import { badge } from "@seed-design/css/vars/component"; // [!code --]
