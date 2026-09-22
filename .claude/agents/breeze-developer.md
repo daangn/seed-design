@@ -30,13 +30,9 @@ docs/registry/registry-breeze.ts      # 레지스트리에 컴포넌트 등록
 docs/content/breeze/meta.json         # 페이지 순서에 추가
 ```
 
-### 3. LLM 문서 라우트 (자동 생성)
+### 3. LLM용 마크다운 (자동 생성)
 
-```
-docs/app/breeze/
-├── llms.txt/route.ts                 # Breeze 목록
-└── llms/[...path]/route.ts           # 개별 컴포넌트
-```
+`docs/app/[...slug]/route.ts`가 모든 섹션의 문서마다 `<문서 URL>.md`를 만들므로 따로 추가할 파일이 없습니다.
 
 ## 필수 명령어
 

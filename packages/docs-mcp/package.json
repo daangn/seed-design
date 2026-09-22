@@ -50,12 +50,12 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "@karrotmarket/icon-data": "^1.34.0",
     "@modelcontextprotocol/server": "^2.0.0",
     "lru-cache": "^11.0.2",
     "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@seed-design/docs-search": "workspace:*",
     "@types/node": "^25.0.0",
     "bunchee": "^6.3.2",
     "typescript": "^6.0.3"

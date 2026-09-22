@@ -6,9 +6,18 @@ import path from "path";
 import { createPatch } from "diff";
 import colorize from "@npmcli/disparity-colors";
 import { highlight } from "./color";
+import { canPrompt } from "./interactive";
 import type { Config } from "@/src/utils/get-config";
 import type { PublicRegistry } from "@/src/schema";
 
+/**
+ * Writes the snippets, and names back the files it could not settle.
+ *
+ * A file already on disk whose contents differ needs a decision, and where nobody can be asked
+ * for one the file is left exactly as it was. The caller gets those paths because leaving them
+ * behind is not the same ending as writing everything: reported as success, it is a snippet
+ * that silently stayed at an old version.
+ */
 export async function writeRegistryItemSnippets({
   registryItemsToAdd,
   rootPath,
@@ -24,9 +33,10 @@ export async function writeRegistryItemSnippets({
   baseUrl: string;
   framework: string;
   config: Config;
-  onDiff?: "overwrite" | "backup";
+  onDiff?: "overwrite" | "backup" | "skip";
 }) {
   const registryResult: { name: string; path: string }[] = [];
+  const unresolved: string[] = [];
 
   for (const { registryId, items } of registryItemsToAdd) {
     const registryPath = path.join(rootPath, registryId);
@@ -87,6 +97,11 @@ export async function writeRegistryItemSnippets({
           const action = await (async () => {
             if (onDiff) return onDiff;
 
+            // Neither branch is ours to pick unasked: overwriting destroys customisations
+            // nobody agreed to lose, and skipping reports success over a file that never
+            // changed.
+            if (!canPrompt()) return null;
+
             // interactive mode
             const patch = createPatch(relativePath, existingContent, content);
             const coloredDiff = colorize(patch);
@@ -96,19 +111,28 @@ export async function writeRegistryItemSnippets({
             );
             p.log.message(coloredDiff);
 
+            // With no `initialValue`, clack rests the cursor on the first option, so this
+            // order is the answer an unread Enter gives. Backup leads because it is the only
+            // branch that loses nothing.
             return p.select({
               message:
                 "현재 파일에 스타일 변경, 로깅 등 커스터마이징이 적용되어 있는 경우 신규 파일에 동일한 커스터마이징을 적용하는 것을 검토해보세요.",
               options: [
-                { value: "overwrite", label: `${filename} 덮어쓰기` },
                 {
                   value: "backup",
                   label: `기존 파일 내용을 ${legacyFilename}으로 옮기고 ${filename} 받기`,
                 },
+                { value: "overwrite", label: `${filename} 덮어쓰기` },
                 { value: "skip", label: "새 파일 받지 않고 그대로 두기" },
               ],
             });
           })();
+
+          if (action === null) {
+            unresolved.push(relativePath);
+            p.log.warn(`${highlight(relativePath)}: 내용이 달라 그대로 두었어요.`);
+            continue;
+          }
 
           if (p.isCancel(action) || action === "skip") {
             p.log.info(`${highlight(relativePath)}: 파일을 받지 않고 건너뛰었어요.`);
@@ -143,4 +167,6 @@ export async function writeRegistryItemSnippets({
       }
     }
   }
+
+  return { unresolved };
 }

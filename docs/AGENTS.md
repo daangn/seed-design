@@ -2,12 +2,12 @@
 
 ## 디렉터리 개요
 
-SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조를 변경하면 `packages/docs-mcp/src/config.ts`의 매핑 영향을 확인한다.
+SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조는 빌드할 때 `/__docs__/index.json`으로 게시되고, `@seed-design/cli`와 `@seed-design/docs-mcp`가 그 인덱스를 실행 시점에 읽는다.
 
 ## 파일 작성 컨벤션
 
 - 문서는 역할 중심 도메인으로 배치하고 MDX 파일명은 `kebab-case`를 사용한다.
-- 새 문서 영역·콘텐츠 구조 추가뿐 아니라 기존 문서의 이동·이름 변경·삭제 등 콘텐츠 경로가 바뀔 때도 `packages/docs-mcp/src/config.ts`의 매핑과 관련 동기화 규칙을 검토하고 필요한 항목을 갱신한다.
+- 새 문서 영역·콘텐츠 구조 추가뿐 아니라 기존 문서의 이동·이름 변경·삭제 등 콘텐츠 경로가 바뀔 때도 `app/_llms/config.ts`의 섹션 등록을 함께 갱신한다. CLI와 docs-mcp에게는 게시된 인덱스가 유일한 구조 정보라, 등록이 빠지면 그 문서는 조용히 사라진다.
 - `content/` 아래에는 `AGENTS.md`를 추가하지 않는다. Fumadocs가 문서 콘텐츠로 인식할 수 있다.
 
 ## 코드 작성 컨벤션
@@ -36,6 +36,6 @@ SEED Design 문서 사이트다. Next.js와 Fumadocs 기반으로 컴포넌트 �
 
 - 컴포넌트·훅 문서를 새로 만들 때 frontmatter 직후에 `<AvailableSince />`를 넣는다. 패키지 매핑은 React→`react`+`css`, React Stackflow→`stackflow`+`css`, Lynx component→`lynx-react`+`lynx-css`, Lynx hook→실제로 훅을 제공하는 공개 패키지다. 독립 훅 패키지가 있으면 해당 패키지의 출시 버전을 표기하고, 기존 `lynx-react` 재export는 본문에서 따로 설명한다.
 - React에서 다른 컴포넌트의 컨텍스트 안에서만 유효한 종속 컴포넌트는 상위 컴포넌트 문서의 하위 섹션으로 설명한다. 예: `AppBar`는 `AppScreen` 문서에서 다룬다.
-- 문서에 새 MDX 컴포넌트를 도입하면 `app/_llms`의 관련 룰과 fixture를 갱신한다. 단순 문서 내용 변경에는 적용하지 않는다.
+- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 핸들러를 함께 추가한다 ([lib/llms/AGENTS.md](lib/llms/AGENTS.md) 참조). 핸들러가 없으면 문서의 마크다운 버전에 raw JSX가 그대로 새어나간다.
 - 산문에서는 `SEED Design` 대신 `SEED` 또는 `SEED Design System`을 사용한다.
 - `featured: true`는 동시에 소수의 최신 문서에만 사용한다.

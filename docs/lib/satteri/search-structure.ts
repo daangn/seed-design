@@ -96,7 +96,7 @@ export const structureOptions: StructureOptions = {
   types: ["heading", "paragraph", "tableCell", "mdxJsxFlowElement"],
   mdxTypes(node) {
     // Card는 children이 이미 각자 별도 row로 색인되고, 검색 결과의 URL은 카드가 놓인 페이지라
-    // 카드가 가리키는 문서로 데려가지도 못한다. 검색에서만 제외하며 llms.txt에는 그대로 남는다
+    // 카드가 가리키는 문서로 데려가지도 못한다. 검색에서만 제외하며 마크다운 버전에는 그대로 남는다
     // (mdxTypes는 remarkStructure 전용, filterElement는 remarkLlms와 공유).
     if ("name" in node && node.name === "Card") return false;
     // 아래 빈-자식 규칙보다 먼저 물어야 한다. 자기 닫는 `<Callout />`은 그 규칙에 걸려 row가

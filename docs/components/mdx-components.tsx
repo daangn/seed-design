@@ -41,7 +41,6 @@ import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
 import { IconComponent, IconTerminal } from "./icons";
-import { IconLibrary } from "./iconography/icon-library-lazy";
 import { InlineCode } from "./inline-code";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { IconographyMigrationIndex, V2Icon, V2IconColor, V3Icon } from "./migration/lazy";
@@ -127,7 +126,6 @@ export const mdxComponents: MDXComponents = {
   V3Icon,
   V2Icon,
   V2IconColor,
-  IconLibrary,
   ColorMigrationIndex,
   TypographyMigrationIndex,
   IconographyMigrationIndex,

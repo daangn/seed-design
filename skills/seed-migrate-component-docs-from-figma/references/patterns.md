@@ -200,7 +200,7 @@ Used when you want to display a group of tokens as a table, typically in foundat
 
 The `Guidelines` section is not just prose for humans — the `seed-design` skill's diagnosis
 reads this section as the **source of its review criteria** (it derives them from the published
-`/llms/components/{id}.txt`, not from a hardcoded list), so writing a guideline is what turns on
+`/components/{id}.md`, not from a hardcoded list), so writing a guideline is what turns on
 review for that component. Write it so each rule can be judged pass/fail:
 
 - **State the rule, not the background.** "Snap Point를 추가하는 경우 Handle을 반드시 표시해야

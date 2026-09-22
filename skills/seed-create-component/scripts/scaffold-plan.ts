@@ -153,7 +153,6 @@ function documentationItems(platform: ComponentPlatform, kebab: string): Scaffol
       "reference",
       `${platform} 실행 예제`,
     ),
-    item("docs/public/__docs__/index.json", "generate", "generated", "문서 생성물"),
   ];
 }
 

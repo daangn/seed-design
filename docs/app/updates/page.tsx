@@ -1,5 +1,4 @@
 import { env } from "@/app/env";
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getUpdatesSource } from "@/app/source";
 import {
   createFigmaClient,
@@ -7,7 +6,6 @@ import {
 } from "@/components/figma-image/fetch-figma-image-urls";
 import { BLOG_POSTS } from "@/components/landing/lib/landing-content";
 import { ProsePage } from "@/components/layout/prose-page";
-import { LlmsLinkRels } from "@/components/llms-link-rels";
 import { formatPublishedDate } from "@/lib/format-date";
 import { buildSeoMetadata, resolveCoverImage } from "@/lib/seo";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
@@ -126,9 +124,7 @@ function UpdateCardLink({ card }: { card: UpdateCard }) {
         </time>
       )}
       <div className="mt-1 flex items-start justify-between gap-2">
-        <h3 className="text-balance text-lg font-medium [word-break:auto-phrase]">
-          {card.title}
-        </h3>
+        <h3 className="text-balance text-lg font-medium [word-break:auto-phrase]">{card.title}</h3>
         {/* 내부 링크는 클릭하면 같은 사이트 안에서 이동하므로 화살표가 정보를 더하지 않는다.
             새 탭으로 나가는 외부 글에만 ↗를 남긴다. */}
         {card.external && (
@@ -172,7 +168,6 @@ export default async function Page() {
       titleClassName="text-balance [word-break:auto-phrase]"
       description={UPDATES_DESCRIPTION}
     >
-      <LlmsLinkRels section="updates" markdownUrl={getLLMMarkdownUrl("updates", [])} />
       <div className="not-prose mb-8 md:mb-10">
         <img
           src={cover.thumbnail}

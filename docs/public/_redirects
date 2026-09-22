@@ -22,11 +22,16 @@
 /foundations/typography/overview /foundations/typography 301
 /foundations/safe-area /patterns/safe-area 301
 
+# 아이콘 목록을 보여 주던 Iconography의 Library 탭은 삭제됐다. 에이전트가 읽던 markdown 주소도 함께 보낸다.
+/foundations/iconography/library /foundations/iconography 301
+/foundations/iconography/library.md /foundations/iconography.md 301
+
 # AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
-# `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
-/react/ai-integration/llms-txt /llms.txt 301
-/docs/ai-integration/llms-txt /llms.txt 301
-/breeze/ai-integration/llms-txt /llms.txt 301
+# `llms-txt` 페이지는 삭제됐다. `/llms.txt`는 이제 docs-mcp와 CLI로 안내하는 두 문장뿐이라
+# 사람이 보던 이 페이지들은 `/ai-integration`으로 보낸다.
+/react/ai-integration/llms-txt /ai-integration 301
+/docs/ai-integration/llms-txt /ai-integration 301
+/breeze/ai-integration/llms-txt /ai-integration 301
 /react/ai-integration/mcp /ai-integration/figma-mcp 301
 
 # Library Authors: 별도 섹션 → Getting Started 마지막 문서로 이동
@@ -43,5 +48,13 @@
 # Lynx Styling: Getting started 아래 버전별 가이드와 Theming으로 이동
 /lynx/foundation/layout/styling /lynx/getting-started/styling/tailwind-css-3 301
 /lynx/getting-started/theming /lynx/getting-started/styling/theming 301
-/llms/lynx/foundation/layout/styling /llms/lynx/getting-started/styling/tailwind-css-3 301
-/llms/lynx/getting-started/theming /llms/lynx/getting-started/styling/theming 301
+
+# 문서별 markdown이 `/llms/<문서 URL>.txt`에서 `<문서 URL>.md`로 옮겨졌다. splat은 `/`를 건너
+# 경로 전체를 잡는다. 패키지·버전별로 나뉘어 있던 changelog 파일은 없어졌고 changelog 문서가 원본을
+# 안내한다. 그 규칙은 splat 규칙보다 먼저 와야 `/react/updates/changelog/<패키지>/...md`(없음)로
+# 떨어지지 않는다.
+# `/llms.txt`, `/docs/llms.txt`, `/react/llms.txt`는 목록 대신 docs-mcp와 CLI로 안내하는 문서를 낸다
+# (`app/_llms/llms-txt-notice.ts`). 나머지 `/{섹션}/llms.txt`와 `/{섹션}/llms-full.txt`는 대응하는
+# 문서가 없어 보내지 않는다.
+/llms/react/updates/changelog/* /react/updates/changelog.md 301
+/llms/*.txt /:splat.md 301

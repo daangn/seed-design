@@ -1,81 +1,68 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/server";
-import { SECTIONS, SECTION_IDS, isValidSection, type SectionId } from "../config.js";
-import { fetchDocsList, fetchDoc, fetchSectionFull } from "../fetch.js";
+import { docLine } from "../docs-index.js";
+import { fetchDocsList, fetchDoc, requireSection } from "../fetch.js";
 
-const sectionEnum = z.enum(SECTION_IDS as [SectionId, ...SectionId[]]);
+function errorResult(error: unknown) {
+  return {
+    content: [
+      {
+        type: "text" as const,
+        text: error instanceof Error ? error.message : `Unknown error: ${String(error)}`,
+      },
+    ],
+    isError: true,
+  };
+}
 
 export function registerListDocsTool(server: McpServer): void {
   server.registerTool(
     "list_docs",
     {
       description:
-        "List available documents in a SEED Design documentation section. " +
-        "Use discover_seed_docs first to see all available sections and categories.",
+        "List SEED Design documents, one per line: the address first, then the document's title " +
+        "and description. Pass an address to get_doc as it stands. Without `section` this lists " +
+        "every document on the site, a few hundred lines; name a section to list only its " +
+        "documents, or use search_docs when you know what you are looking for.",
       inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
-        category: z
+        /**
+         * Sections come from the published index, so they cannot be an enum baked into the
+         * schema — that is what left this server advertising categories the site had already
+         * removed. Unknown values are rejected at call time with the live list attached, which
+         * lets a caller working from a stale prompt correct itself in one retry.
+         */
+        section: z
           .string()
           .optional()
           .describe(
-            "Optional category filter (e.g., 'components', 'foundation', 'getting-started')",
+            "Section id alone, without slashes, such as `react` or `foundations`: the first " +
+              "segment of an address. An unknown id is rejected with the current list.",
           ),
       }),
     },
-    async ({ section, category }) => {
-      if (!isValidSection(section)) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-            },
-          ],
-          isError: true,
-        };
-      }
-
+    async ({ section }) => {
       try {
-        const docs = await fetchDocsList(section, category);
-        const config = SECTIONS[section];
+        const heading =
+          section === undefined ? "SEED Design" : (await requireSection(section)).label;
+        const docs = await fetchDocsList(section);
 
-        const groupedByCategory: Record<string, typeof docs> = {};
-        for (const doc of docs) {
-          const cat = doc.category || "root";
-          if (!groupedByCategory[cat]) {
-            groupedByCategory[cat] = [];
-          }
-          groupedByCategory[cat].push(doc);
-        }
-
-        const formatted = Object.entries(groupedByCategory)
-          .map(([cat, catDocs]) => {
-            const categoryName = cat === "root" ? "Documents" : cat;
-            const docList = catDocs.map((d) => `  - ${d.title} (path: ${d.path})`).join("\n");
-            return `### ${categoryName}\n\n${docList}`;
-          })
-          .join("\n\n");
+        // Sorted by address, so documents sharing a prefix sit together and the listing shows
+        // the site's shape without the index declaring one.
+        const formatted = [...docs]
+          .sort((a, b) => (a.docUrl < b.docUrl ? -1 : a.docUrl > b.docUrl ? 1 : 0))
+          .map((doc) => `- ${docLine(doc.docUrl, doc)}`)
+          .join("\n");
 
         return {
           content: [
             {
-              type: "text",
-              text: `# ${config.name} Documentation\n\n${config.description}\n\nTotal: ${docs.length} documents${category ? ` (filtered by: ${category})` : ""}\n\n${formatted}\n\n## Usage\n\nUse get_doc with section="${section}" and the path to get document content.`,
+              type: "text" as const,
+              text: `# ${heading} Documentation\n\nTotal: ${docs.length} documents\n\n${formatted}\n\n## Usage\n\nPass an address above to get_doc as it stands.`,
             },
           ],
         };
       } catch (error) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Error fetching docs list: ${error instanceof Error ? error.message : "Unknown error"}`,
-            },
-          ],
-          isError: true,
-        };
+        return errorResult(error);
       }
     },
   );
@@ -86,95 +73,24 @@ export function registerGetDocTool(server: McpServer): void {
     "get_doc",
     {
       description:
-        "Get the content of a specific SEED Design document. " +
-        "Use list_docs first to see available documents and their paths.",
+        "Get the full markdown of one SEED Design document by its address, " +
+        "as search_docs or list_docs prints it.",
       inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
         path: z
           .string()
           .describe(
-            "Document path (e.g., 'components/button', 'getting-started/installation', 'figma-mcp')",
+            "The document's address, starting with a slash: `/react/components/action-button`, " +
+              "`/foundations/color`, or `/react` for a section's own page. A trailing `#anchor` " +
+              "is ignored and the whole document comes back. Any other form, such as a path " +
+              "without its leading slash or a bare name like `action-button`, finds nothing.",
           ),
       }),
     },
-    async ({ section, path }) => {
-      if (!isValidSection(section)) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-            },
-          ],
-          isError: true,
-        };
-      }
-
+    async ({ path }) => {
       try {
-        const content = await fetchDoc(section, path);
-
-        return {
-          content: [{ type: "text", text: content }],
-        };
+        return { content: [{ type: "text" as const, text: await fetchDoc(path) }] };
       } catch (error) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Error fetching document '${path}' from section '${section}': ${error instanceof Error ? error.message : "Unknown error"}\n\nUse list_docs to see available documents.`,
-            },
-          ],
-          isError: true,
-        };
-      }
-    },
-  );
-}
-
-export function registerGetFullDocsTool(server: McpServer): void {
-  server.registerTool(
-    "get_full_docs",
-    {
-      description:
-        "Get all documents from a section combined into a single text. " +
-        "Useful for comprehensive analysis or when you need complete context.",
-      inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
-      }),
-    },
-    async ({ section }) => {
-      if (!isValidSection(section)) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Invalid section: ${section}. Valid sections: ${SECTION_IDS.join(", ")}`,
-            },
-          ],
-          isError: true,
-        };
-      }
-
-      try {
-        const content = await fetchSectionFull(section);
-
-        return {
-          content: [{ type: "text", text: content }],
-        };
-      } catch (error) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: `Error fetching full docs for section '${section}': ${error instanceof Error ? error.message : "Unknown error"}`,
-            },
-          ],
-          isError: true,
-        };
+        return errorResult(error);
       }
     },
   );

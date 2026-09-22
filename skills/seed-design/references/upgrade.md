@@ -1,15 +1,12 @@
 # Upgrade & Compatibility
 
-설치된 SEED 패키지와 스니펫의 현재 상태를 공식 upgrade·changelog 문서에 연결해 업그레이드 경로를 구성합니다. CLI와 registry는 데이터를 제공하고, 이 절차는 프로젝트 영향과 순서를 해석합니다.
+설치된 SEED 패키지와 스니펫의 현재 상태를 공식 upgrade·changelog 문서에 연결해 업그레이드 경로를 구성합니다.
 
 ## 문서 발견
 
-1. `https://seed-design.io/llms.txt`에서 선택된 플랫폼 진입점을 찾습니다.
-2. 선택된 플랫폼의 `llms.txt`에서 현재 upgrade·migration·changelog·CLI 문서를 찾습니다.
+1. 문서 인덱스 `https://seed-design.io/__docs__/index.json`에서 선택된 플랫폼 category를 찾습니다.
+2. 그 category에서 현재 upgrade·migration·changelog·CLI 문서를 찾습니다.
 3. 공유 라이브러리이면 같은 인덱스에서 Library Authors 또는 같은 역할의 배포 계약 문서를 추가로 찾습니다.
-4. 인덱스가 제공한 leaf URL과 문서가 안내한 CLI id만 사용합니다. 버전 경계·changelog 경로·호환표를 이 파일에 복사하지 않습니다.
-
-인덱스를 정상적으로 읽었는데 업그레이드 문서가 없으면 공식 경로 부재를 알리고 다른 플랫폼 문서를 이식하지 않습니다. 인덱스나 연결 문서를 읽지 못하면 부재로 확정하지 않습니다.
 
 ## Workflow
 
@@ -29,8 +26,7 @@
 
 ### 3. 변경사항 수집
 
-- 플랫폼 인덱스가 연결한 changelog에서 현재 설치본 이후 목표 버전까지의 항목을 가져옵니다.
-- 문서가 제공하는 package slug·버전 조회 방식을 그대로 사용합니다.
+- 플랫폼 인덱스가 연결한 changelog 문서가 안내하는 원본에서 현재 설치본 이후 목표 버전까지의 항목을 가져옵니다.
 - 목표 버전보다 높은 항목은 SemVer로 필터링합니다.
 - breaking, 재설치 필요, 동작 변경, updated dependencies를 구분합니다.
 

@@ -28,6 +28,7 @@ Lynx 프로젝트에서 생성되는 설정 파일 예시예요.
 
 ```json title="seed-design.json"
 {
+  "rsc": false,
   "tsx": true,
   "framework": "lynx",
   "path": "./seed-design",
@@ -37,7 +38,7 @@ Lynx 프로젝트에서 생성되는 설정 파일 예시예요.
 
 <Callout>
 
-`rsc` 옵션은 React Server Components 전용이므로 Lynx에서는 사용하지 않아요.
+`rsc`는 React Server Components 전용 옵션이라 Lynx에서는 쓰이지 않아요. 생성된 값을 그대로 두면 돼요.
 
 </Callout>
 
@@ -49,11 +50,7 @@ Lynx 프로젝트에서 생성되는 설정 파일 예시예요.
 npx @seed-design/cli add ui:switch --framework lynx
 ```
 
-`add`, `add-all`, `compat`, `docs` 명령어에서 모두 사용할 수 있어요. 이 플래그는 `seed-design.json`의 `framework` 값을 일시적으로 덮어써요.
-
-```package-install
-npx @seed-design/cli docs ui:switch --framework lynx
-```
+`add`, `add-all`, `compat` 명령어에서 모두 사용할 수 있어요. 이 플래그는 `seed-design.json`의 `framework` 값을 일시적으로 덮어써요.
 
 ## 호환성 검사
 

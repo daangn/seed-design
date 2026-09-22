@@ -23,10 +23,9 @@ const SEED_REACT_VERSION_BASE_URLS: Record<string, string> = {
 export function resolveSeedVersion(opts: {
   seedReactVersion?: string;
 }): { framework: "react"; baseUrl: string } | null {
-  const version = opts.seedReactVersion?.trim();
-  if (!version) return null;
+  if (opts.seedReactVersion === undefined) return null;
 
-  const baseUrl = SEED_REACT_VERSION_BASE_URLS[version];
+  const baseUrl = SEED_REACT_VERSION_BASE_URLS[opts.seedReactVersion];
   if (!baseUrl) {
     throw new CliError({
       message: `지원하지 않는 SEED React 버전이에요: "${opts.seedReactVersion}"`,
@@ -35,20 +34,4 @@ export function resolveSeedVersion(opts: {
   }
 
   return { framework: "react", baseUrl };
-}
-
-/**
- * CLI rawArgs에서 옵션의 원본 문자열 값을 직접 읽는다.
- *
- * CAC(내부 mri)는 `--seed-react-version 1.0`의 값을 숫자 1로 강제변환해 trailing zero를
- * 잃는다(→ z.string() 검증도 깨진다). 원본 문자열은 rawArgs에 그대로 남아있으므로 여기서
- * 직접 읽어 coercion을 우회한다. `--flag value`와 `--flag=value` 두 형식을 지원한다.
- */
-export function readRawOptionValue(rawArgs: string[], flag: string): string | undefined {
-  for (let i = 0; i < rawArgs.length; i++) {
-    const arg = rawArgs[i];
-    if (arg === flag) return rawArgs[i + 1];
-    if (arg.startsWith(`${flag}=`)) return arg.slice(flag.length + 1);
-  }
-  return undefined;
 }

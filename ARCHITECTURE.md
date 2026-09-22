@@ -65,10 +65,10 @@
 | Headless | `packages/react-headless/*/` | React 스타일과 무관한 상태·접근성·이벤트 로직을 독립 패키지로 제공 | 가능 |
 | Styled React | `packages/react/` | CSS Recipe와 Headless 로직을 조합한 공개 컴포넌트 | 가능 |
 | Styled Lynx | `packages/lynx-react/` | Lynx native element와 Lynx CSS를 사용하는 컴포넌트 | 가능 |
-| 문서·snippet | `docs/content/`, `docs/registry/`, `docs/public/__registry__/`, `docs/public/__docs__/` | 문서, 복사 가능한 예제, registry·docs index 생성물 | source만 수정 |
+| 문서·snippet | `docs/content/`, `docs/registry/`, `docs/public/__registry__/` | 문서, 복사 가능한 예제, registry 생성물 | source만 수정 |
 | 통합·도구 | `packages/figma/`, `packages/mcp/`, `packages/docs-mcp/`, `packages/cli/`, `tools/`, `ecosystem/` | Figma·MCP·CLI·생성·배포 실행 경로 | 대상 AGENTS 참고 |
 
-`.gitattributes`가 저장소의 generated 파일 단일 원천이다. 여기에 표시된 `packages/qvism-preset/src/token.css`, `packages/qvism-preset/src/tokens.ts`, Lynx preset의 같은 파일, Tailwind plugin/theme, `packages/rootage/components/schema.json`, `docs/public/__docs__/index.json`, `**/__generated__/**`, `**/__registry__/**`, `lib/`, `dist/`도 직접 수정하지 않는다. 생성 패키지 안의 수동 source와 `packages/lynx-css/recipes/progress-circle.css` 예외는 대상 `AGENTS.md`를 따른다.
+`.gitattributes`가 저장소의 generated 파일 단일 원천이다. 여기에 표시된 `packages/qvism-preset/src/token.css`, `packages/qvism-preset/src/tokens.ts`, Lynx preset의 같은 파일, Tailwind plugin/theme, `packages/rootage/components/schema.json`, `**/__generated__/**`, `**/__registry__/**`, `lib/`, `dist/`도 직접 수정하지 않는다. 생성 패키지 안의 수동 source와 `packages/lynx-css/recipes/progress-circle.css` 예외는 대상 `AGENTS.md`를 따른다.
 
 ## 작업 경로 라우팅
 
@@ -81,8 +81,8 @@
 | Lynx 컴포넌트 | `packages/lynx-react/` | `packages/lynx-css/`, `docs/content/lynx/`, `docs/examples/lynx/` |
 | CLI 동작 | `packages/cli/` | `docs/content/react/getting-started/cli/`, registry 경로 |
 | Figma 변환·codegen | `packages/figma/` | `tools/figma-codegen/`, `packages/mcp/`, `scripts/` |
-| MCP 도구 | `packages/mcp/` 또는 `packages/docs-mcp/` | REST/WebSocket 또는 docs config의 실제 소비 경로 |
-| 문서·registry | `docs/`의 대상 하위 경로 | `packages/docs-mcp/src/config.ts`, 생성 registry, vendored consumer |
+| MCP 도구 | `packages/mcp/` 또는 `packages/docs-mcp/` | REST/WebSocket 또는 게시된 docs 인덱스의 실제 소비 경로 |
+| 문서·registry | `docs/`의 대상 하위 경로 | `docs/app/_llms/config.ts`, 생성 registry, vendored consumer |
 | Rootage CDN·릴리스 | `tools/rootage-cdn/` | `packages/rootage/`, GitHub workflow, 환경별 AGENTS |
 
 ## 변경 전 영향도 분석
@@ -122,7 +122,7 @@ bun skills/seed-token-analysis/scripts/token-map.ts '$color.fg.neutral'
 
 ### 문서와 MCP
 
-`docs/content/`가 문서 source이며 docs 생성 스크립트가 index·registry·LLM용 산출물을 만든다. `packages/docs-mcp/src/config.ts`는 문서 section 매핑을 관리하므로 content 영역이나 section 구조를 바꿀 때만 함께 확인한다.
+`docs/content/`가 문서 source다. registry는 docs 생성 스크립트가 만들고, 문서 인덱스(`/__docs__/index.json`)와 문서별 markdown은 빌드할 때 `docs/app`의 라우트가 content에서 만든다. section 등록은 `docs/app/_llms/config.ts`가 관리한다. `@seed-design/cli`와 `@seed-design/docs-mcp`는 배포된 인덱스를 실행 시점에 읽으므로, 인덱스 형태를 바꿀 때 `docs/app/%5F_docs__/index.json/route.ts`와 두 패키지의 인덱스 스키마를 함께 확인한다.
 
 ### Figma와 MCP
 
