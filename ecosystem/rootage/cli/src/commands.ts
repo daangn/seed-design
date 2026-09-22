@@ -9,6 +9,7 @@ import {
   getTokenCollectionDeclarations,
   getTokenDeclarations,
   jsonschema,
+  type RootageCtx,
   typescript,
   tailwind3,
   tailwind4,
@@ -20,6 +21,8 @@ import path from "node:path";
 import YAML from "yaml";
 import { createRequire } from "node:module";
 import type { Argv, CommandModule } from "yargs";
+
+import { type Config, loadConfig } from "./config";
 
 const require = createRequire(import.meta.url);
 
@@ -122,7 +125,24 @@ async function writeTokenTs(dir: string, prefix?: string) {
   }
 }
 
-async function writeComponentSpec(dir: string, prefix?: string) {
+export function getComponentSpecEntries(ctx: RootageCtx) {
+  return getSourceFiles(ctx).flatMap(({ fileName, ast }) =>
+    ast.kind === "ComponentSpecDocument"
+      ? [
+          {
+            path: path.relative(artifactsDir, fileName).split(path.sep).join(path.posix.sep),
+            spec: ast.data,
+          },
+        ]
+      : [],
+  );
+}
+
+async function writeComponentSpec(
+  dir: string,
+  prefix?: string,
+  filter?: NonNullable<Config["component-spec"]>["filter"],
+) {
   const { ctx } = await prepare();
 
   const tsStringifier = typescript.createStringifier({
@@ -130,7 +150,10 @@ async function writeComponentSpec(dir: string, prefix?: string) {
     resolveTokenValues: createTokenValuesResolver(ctx),
   });
 
-  const specs = getComponentSpecDeclarations(ctx);
+  const specs = getComponentSpecEntries(ctx)
+    .filter((entry) => filter?.(entry) ?? true)
+    .map(({ spec }) => spec);
+
   for (const spec of specs) {
     const mjsCode = tsStringifier.getComponentSpecMjs(spec);
     const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
@@ -412,10 +435,15 @@ export const commands = {
   "component-spec": defineCommand({
     args: "<dir>",
     describe: "Generate component specs",
-    builder: (yargs) => yargs.positional("dir", dirPositional).option("prefix", prefixOption),
-    handler: async ({ dir, prefix }) => {
+    builder: (yargs) =>
+      yargs.positional("dir", dirPositional).option("prefix", prefixOption).option("config", {
+        describe: "Path to a config file (searched in the working directory when omitted)",
+        type: "string",
+      }),
+    handler: async ({ dir, prefix, config }) => {
       console.log("Start");
-      await writeComponentSpec(dir, prefix);
+      const { "component-spec": options } = await loadConfig(config);
+      await writeComponentSpec(dir, prefix, options?.filter);
       console.log("Done");
     },
   }),
