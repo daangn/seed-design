@@ -25,6 +25,8 @@ export interface SidebarFolderItem {
   label: ReactNode;
   defaultOpen: boolean;
   current: boolean;
+  /** The folder's own page; rendered on the trigger rather than in the child list. */
+  index?: SidebarLeafItem;
   items: SidebarLeafItem[];
 }
 

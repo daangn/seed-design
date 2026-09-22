@@ -7,6 +7,7 @@ import { useSideNavigationContext } from "@seed-design/react/primitive";
 import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { isTabbedFolder } from "@/lib/tabbed";
@@ -64,7 +65,12 @@ function getSidebarItemLabelStyle(level: number): CSSProperties {
   };
 }
 
-export function usePersistentOpenState(defaultOpen: boolean, current: boolean) {
+export function usePersistentOpenState(
+  defaultOpen: boolean,
+  current: boolean,
+  index?: SidebarLeafItem,
+) {
+  const router = useRouter();
   const [open, setOpen] = useState(defaultOpen || current);
   const wasCurrent = useRef(current);
 
@@ -73,7 +79,16 @@ export function usePersistentOpenState(defaultOpen: boolean, current: boolean) {
     wasCurrent.current = current;
   }, [current]);
 
-  return [open, setOpen] as const;
+  const onOpenChange = (nextOpen: boolean) => {
+    if (index && !index.current) {
+      setOpen(true);
+      router.push(index.href);
+    } else {
+      setOpen(nextOpen);
+    }
+  };
+
+  return [open, onOpenChange] as const;
 }
 
 /** Whether this node contains the current route. */
@@ -144,7 +159,18 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
       return;
     }
     if (node.type === "folder") {
-      const indexUrl = node.index?.url;
+      // An explicit "index" in meta.pages is placed in children instead of node.index.
+      // Match its source path, not its label or position, to avoid promoting ordinary pages.
+      const indexPath = node.$ref ? `${node.$ref.folder}/index` : undefined;
+      const indexPage =
+        node.index ??
+        node.children.find(
+          (child): child is PageTree.Item =>
+            child.type === "page" &&
+            indexPath != null &&
+            (child.$ref === `${indexPath}.mdx` || child.$ref === `${indexPath}.md`),
+        );
+      const indexUrl = indexPage?.url;
       // 탭형 subject 폴더(meta.json layout: "tabs")는 펼치지 않고 leaf 하나로(인덱스로 링크).
       // 자식(facet)은 사이드바에 노출하지 않고 페이지 상단 탭 스트립(DocsTabStrip)에서만 보여준다.
       if (isTabbedFolder(node) && indexUrl != null) {
@@ -154,7 +180,7 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
           level: 0,
           current: containsActive(node, pathname),
           // 폴더 라벨은 meta.json `title`이지만 `featured`는 인덱스 페이지 frontmatter에서 온다.
-          featured: node.index != null && isFeatured(node.index),
+          featured: indexPage != null && isFeatured(indexPage),
           href: indexUrl,
         });
         return;
@@ -164,7 +190,11 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
         label: node.name,
         defaultOpen: node.defaultOpen ?? false,
         current: containsActive(node, pathname),
-        items: flattenPages(node).map(({ page, level }, pageIndex) => leaf(page, pageIndex, level)),
+        index: indexPage ? leaf(indexPage, index, 0) : undefined,
+        items: node.children
+          .filter((child) => child.type !== "page" || child.url !== indexUrl)
+          .flatMap((child) => flattenPages(child, 2))
+          .map(({ page, level }, pageIndex) => leaf(page, pageIndex, level)),
       });
     }
   });
@@ -206,13 +236,14 @@ function DocsSideNavigationItem({ item }: { item: SidebarLeafItem }) {
 
 function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
   const { collapsed } = useSideNavigationContext();
-  const [open, setOpen] = usePersistentOpenState(item.defaultOpen, item.current);
-  const triggerCurrent = collapsed && item.current;
+  const [open, setOpen] = usePersistentOpenState(item.defaultOpen, item.current, item.index);
+  const triggerCurrent = item.index?.current || (collapsed && item.current);
 
   return (
     <SeedSideNavigation.ItemCollapsibleRoot open={open} onOpenChange={setOpen}>
       <SeedSideNavigation.ItemCollapsibleTrigger
         current={triggerCurrent}
+        aria-current={item.index?.current ? "page" : undefined}
         className={getSidebarItemRootClass(triggerCurrent)}
         style={getSidebarItemRootStyle()}
       >
@@ -221,6 +252,7 @@ function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
           style={getSidebarItemLabelStyle(0)}
         >
           {item.label}
+          {item.index?.featured && <SidebarFeaturedDot />}
         </SeedSideNavigation.ItemLabel>
         <SeedSideNavigation.ItemSuffixIcon
           svg={
