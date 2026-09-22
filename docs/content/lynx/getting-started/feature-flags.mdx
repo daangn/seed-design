@@ -1,282 +1,18 @@
 ---
 title: Feature Flags
-description: SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.
+description: SEED에 중요한 Lynx 플래그와 엔진·빌드 도구 버전별 유지 및 생략 조건을 안내합니다.
 ---
 
-Lynx는 다양한 피쳐 플래그를 통해 CSS 엔진, 텍스트 렌더링, 레이아웃, 이벤트 처리 등의 동작을 제어합니다.
-SEED를 Lynx에서 사용할 때는 웹과의 동작 일관성을 위해 아래 플래그들을 활성화하는 것을 권장합니다.
+Lynx 플래그는 **SEED의 스타일과 동작에 필요한 기능**과 **화면에 따라 선택하는 기능**으로 나누어 설정하세요.
+기능이 필요하더라도 플러그인이 이미 켜 주면 설정을 생략할 수 있습니다. 반대로 빌드 도구에서 옵션이 사라졌다고 엔진의 기능까지 제거된 것은 아닙니다.
 
-## 플러그인 구조
+SEED의 최소 지원 Lynx Engine은 **3.6**입니다. 이 문서는 엔진 버전을 올리도록 요구하는 대신, 각 플래그를 언제 유지하고 언제 지울 수 있는지 설명합니다.
 
-Lynx의 피쳐 플래그는 두 개의 rsbuild 플러그인을 통해 설정합니다.
+## 최소 권장 설정
 
-| 플러그인           | 패키지                           | 역할                                                                                        |
-| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------- |
-| `pluginReactLynx`  | `@lynx-js/react-rsbuild-plugin`  | React 빌드 변환 (JSX, tree-shaking 등). CSS 셀렉터, 무효화 등 일부 플래그가 **기본 활성화** |
-| `pluginLynxConfig` | `@lynx-js/config-rsbuild-plugin` | Lynx 런타임/컴파일러 설정. 모든 피쳐 플래그를 설정 가능                                     |
-
-`pluginLynxConfig`에 설정한 값은 `pluginReactLynx`가 자동으로 읽어가므로, `pluginLynxConfig` 한 곳에서 모든 플래그를 관리하면 됩니다.
-
----
-
-## 기본 활성화 플래그
-
-`pluginReactLynx`를 사용하면 아래 플래그들이 기본적으로 켜져 있습니다.
-별도 설정 없이도 이미 활성화되어 있지만, 명시적으로 `pluginLynxConfig`에도 넣어두는 것을 권장합니다.
-
-### `enableCSSSelector`
-
-Lynx CSS를 기존 `pseudo_map` 기반 매칭이 아니라 `LynxCSSSelector` / `RuleSet` 기반의 새 selector 파이프라인으로 파싱하고 매칭합니다.
-이 플래그는 CSS selector 엔진 경로를 켜는 옵션이지, Web에서 쓰는 모든 selector를 동일하게 지원한다는 의미는 아닙니다.
-
-|                      | 설명                                                                                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | CSS rule을 레거시 selector string / `pseudo_map` 중심으로 처리합니다. 복합 selector, combinator, cascade specificity 처리 범위가 제한적입니다                            |
-| **켜면**             | CSS rule을 `LynxCSSSelector` tuple로 인코딩하고 `RuleSet`에서 type, class, id, combinator, 일부 pseudo-class(`:active`, `:focus`, `:hover`, `:root`, `:not()`)를 매칭합니다 |
-| **주의**             | 현재 styling 경로에서 `[data-*]`, `[attr=value]`, `[attr*=value]` 같은 attribute selector는 public release surface로 보지 않습니다                                         |
-| **SEED 이점** | theme/platform class, component className, descendant/child selector, `:root` 토큰 선언처럼 class 기반 CSS를 안정적으로 적용할 수 있습니다                                 |
-
-<Callout type="warn">
-  `enableCSSSelector`가 켜져 있어도 Web처럼 `data-*` attribute selector로
-  컴포넌트 상태 스타일을 표현하지 마세요. Lynx implementation에는 attribute
-  selector parser/indexing 흔적이 있지만, 현재 CSS styling matcher는
-  attribute selector를 실제 매칭 대상으로 처리하지 않습니다. SEED Lynx
-  컴포넌트는 `pressed`, `checked`, `disabled`, `loading` 같은 상태를 recipe
-  boolean variant로 className에 반영합니다.
-</Callout>
-
-### `enableCSSInvalidation`
-
-`RuleInvalidationSet`을 사용한 선택적 스타일 재계산을 활성화합니다.
-
-|                      | 설명                                                                                                           |
-| -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | class, id, pseudo-state가 변경될 때마다 **전체 스타일을 재계산**합니다. 컴포넌트가 많아질수록 성능 저하가 심해집니다 |
-| **켜면**             | 변경된 셀렉터에 영향받는 요소만 재계산합니다. 현재 구현은 class/id/pseudo-class별 invalidation 맵을 중심으로 관리합니다 |
-| **SEED 이점** | 버튼 hover, checkbox 체크 등 상태 변경 시 해당 컴포넌트만 스타일을 업데이트합니다                              |
-
-<Callout>
-  `enableCSSSelector`와 `enableCSSInvalidation`은 항상 함께 활성화하세요. 셀렉터
-  없이 무효화만 켜면 의미가 없고, 무효화 없이 셀렉터만 켜면 성능 문제가 발생할
-  수 있습니다.
-</Callout>
-
----
-
-## 추가 필수 설정
-
-`pluginLynxConfig`에서 추가로 활성화해야 하는 플래그들입니다.
-
-### CSS
-
-#### `enableCSSStrictMode`
-
-CSS 값 파싱을 웹 표준과 동일하게 엄격하게 적용합니다.
-
-|                      | 설명                                                                                        |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| **끄면**             | 잘못된 CSS 값(예: 단위 없는 길이값)도 관대하게 파싱합니다. 웹과 다르게 동작할 수 있습니다   |
-| **켜면**             | 유효하지 않은 `<length>` 값을 드롭합니다. `width: 100`처럼 단위가 빠진 값은 무시됩니다      |
-| **SEED 이점** | SEED의 CSS가 웹과 Lynx에서 동일하게 파싱됩니다. 플랫폼 간 스타일 불일치를 방지합니다 |
-
-<Callout type="warn">
-  `enableCSSStrictMode`를 활성화하면 일부 CSS 속성이 Lynx에서 올바르게 파싱되지 않는 호환성 문제가 있습니다.
-  현재는 비활성화(`false`)를 권장합니다.
-</Callout>
-
-#### `enableCSSInheritance`
-
-CSS 속성 상속을 활성화합니다.
-
-|                      | 설명                                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | `color`, `font-size`, `font-family` 등이 자식 요소에 상속되지 않습니다. 모든 요소에 직접 스타일을 지정해야 합니다         |
-| **켜면**             | 웹과 동일하게 상속 가능한 CSS 속성이 자식 요소에 전파됩니다                                                               |
-| **SEED 이점** | 디자인 토큰(색상, 타이포그래피)이 컴포넌트 트리를 따라 자연스럽게 전파됩니다. 테마 설정이 하위 컴포넌트에 자동 적용됩니다 |
-
-<Callout>
-  `customCSSInheritanceList` 옵션으로 상속 가능한 CSS 속성 목록을 커스터마이징할
-  수 있습니다.
-</Callout>
-
-#### `enableCSSInlineVariables`
-
-JS에서 설정한 CSS 변수를 인라인 스타일처럼 처리합니다.
-
-|                      | 설명                                                                                                               |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **끄면**             | CSS 변수는 스타일시트에서만 정의 가능합니다                                                                        |
-| **켜면**             | JS에서 동적으로 CSS 변수를 설정하고 변경할 수 있습니다. 변수 업데이트가 bulk 처리되어 성능이 최적화됩니다          |
-| **SEED 이점** | 런타임에 디자인 토큰을 오버라이드할 수 있습니다. 다크모드 전환, 브랜드 커스터마이징 등 동적 테마 변경에 필요합니다 |
-
-### 텍스트 & 레이아웃
-
-#### `enableTextRefactor`
-
-텍스트 렌더링을 웹 표준에 맞게 개선합니다.
-
-|                      | 설명                                                                                           |
-| -------------------- | ---------------------------------------------------------------------------------------------- |
-| **끄면**             | Lynx 고유의 레거시 텍스트 렌더링을 사용합니다. 웹과 미묘한 차이가 발생할 수 있습니다           |
-| **켜면**             | 텍스트 렌더링이 웹 브라우저와 더 일관되게 동작합니다. 폰트 스케일 처리가 명시적으로 적용됩니다 |
-| **SEED 이점** | SEED의 타이포그래피 스케일(t1~t10)이 웹과 Lynx에서 동일하게 렌더링됩니다                |
-
-#### `fontScaleEffectiveOnlyOnSp`
-
-시스템 폰트 크기 설정의 영향 범위를 `sp` 단위로 제한합니다.
-
-|                      | 설명                                                                                                                                                                                                                                                                                                                |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**             | 시스템 폰트 크기 변경이 **모든 단위**(px, em 포함)에 적용됩니다. 아이콘 크기, 여백 등이 의도치 않게 변경될 수 있습니다                                                                                                                                                                                              |
-| **켜면**             | 폰트 스케일이 `sp` 단위에만 적용됩니다. px로 지정된 레이아웃 값은 영향받지 않습니다                                                                                                                                                                                                                                 |
-| **SEED 이점** | SEED는 Dynamic 타이포그래피 토큰(`t1`~`t10`)을 `sp` 단위로, Static 토큰(`t1-static`~`t10-static`)을 `px` 단위로 제공합니다. 이 플래그가 켜지면 Dynamic 텍스트만 시스템 폰트 크기에 반응하고, Static 텍스트와 레이아웃은 고정됩니다 |
-
-#### `enableFixedNew`
-
-`position: fixed` 요소의 처리를 개선합니다.
-
-|                      | 설명                                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------- |
-| **끄면**             | fixed 요소가 페이지 루트에 즉시 재삽입됩니다. 부모가 없어도 강제로 변환을 시도하여 불안정합니다 |
-| **켜면**             | fixed 요소가 논리적 부모를 기준으로 안정적으로 레이아웃 트리에 연결됩니다                       |
-| **SEED 이점** | Modal, BottomSheet, Toast, Snackbar 등 오버레이 컴포넌트가 안정적으로 동작합니다                |
-
-#### `enableFlexBasisZeroPercent`
-
-`flex` 축약 속성에서 생략된 `flex-basis`를 `0%`로 처리합니다 (웹 브라우저 동작과 동일).
-
-|                      | 설명                                                                                        |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| **끄면**             | `flex: 1`에서 flex-basis가 `0` (숫자)으로 설정됩니다. 웹과 레이아웃 결과가 다를 수 있습니다 |
-| **켜면**             | `flex: 1`에서 flex-basis가 `0%` (퍼센트)로 설정됩니다. 웹 브라우저와 동일한 동작입니다      |
-| **SEED 이점** | Flex 레이아웃을 사용하는 컴포넌트(ActionButton group, Tabs 등)가 웹과 동일하게 배치됩니다   |
-
----
-
-## 상황별 설정
-
-모든 프로젝트에 필수는 아니지만, 특정 기능을 사용할 때 활성화하면 좋은 플래그들입니다.
-모두 `pluginLynxConfig`에서 설정합니다.
-
-### 이벤트 & 제스처
-
-#### `enableNewGesture`
-
-Gesture Handler API를 활성화합니다.
-
-|                 | 설명                                                                                                                                          |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**        | 레거시 터치 이벤트 시스템만 사용 가능합니다                                                                                                   |
-| **켜면**        | Pan, Fling, Tap, Long Press, Rotation, Pinch 등의 제스처를 감지하고, 제스처 간 관계(simultaneous, waitFor, continueWith)를 설정할 수 있습니다 |
-| **언제 켜나요** | 스와이프로 삭제, 드래그 앤 드롭, 핀치 줌 등의 인터랙션이 있는 화면에서 사용합니다                                                             |
-
-#### `enableEventHandleRefactor`
-
-이벤트 처리 로직을 리팩토링하여 동적 이벤트 리스너 등록을 지원합니다.
-
-|                 | 설명                                                                       |
-| --------------- | -------------------------------------------------------------------------- |
-| **끄면**        | 정적 이벤트 바인딩만 지원합니다. 런타임에 리스너를 추가/제거할 수 없습니다 |
-| **켜면**        | 동적 이벤트 리스너 등록/제거, 이벤트 인터셉션 등을 지원합니다              |
-| **언제 켜나요** | 조건부 이벤트 핸들링이나 이벤트 위임 패턴을 사용할 때 활성화합니다         |
-
-#### `enablePlatformGesture`
-
-네이티브 플랫폼과 Lynx 간의 제스처 충돌을 해결합니다.
-
-|                 | 설명                                                                                                                               |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **끄면**        | Lynx 제스처와 네이티브 제스처가 충돌할 수 있습니다                                                                                 |
-| **켜면**        | Shadow gesture를 통해 네이티브/Lynx 제스처 충돌을 관리합니다                                                                       |
-| **언제 켜나요** | Lynx 뷰가 네이티브 스크롤 컨테이너 안에 있거나, 네이티브 제스처와 경합하는 경우에 사용합니다. `enableNewGesture`와 함께 사용하세요 |
-
-#### `enableTransformedTouchPosition`
-
-`transform`이 적용된 요소에서 터치 좌표를 올바르게 계산합니다.
-
-|                 | 설명                                                                                                          |
-| --------------- | ------------------------------------------------------------------------------------------------------------- |
-| **끄면**        | transform된 요소의 터치 좌표가 변환을 고려하지 않습니다. 회전/스케일된 요소를 탭하면 잘못된 위치가 감지됩니다 |
-| **켜면**        | 터치 좌표가 transform 변환을 반영하여 정확하게 계산됩니다                                                     |
-| **언제 켜나요** | `transform: rotate()`, `scale()` 등이 적용된 인터랙티브 요소가 있을 때 활성화합니다                           |
-
-### 관찰 & 렌더링
-
-#### `enableNewIntersectionObserver`
-
-IntersectionObserver가 스크롤 이벤트 없이도 독립적으로 동작합니다.
-
-|                 | 설명                                                                                      |
-| --------------- | ----------------------------------------------------------------------------------------- |
-| **끄면**        | IntersectionObserver가 스크롤 이벤트에 바인딩되어, 스크롤이 발생할 때만 교차를 감지합니다 |
-| **켜면**        | 레이아웃 업데이트, 화면 새로고침 등 다양한 트리거로 교차를 감지합니다                     |
-| **언제 켜나요** | Lazy loading, 가시성 기반 애니메이션, 무한 스크롤 등에서 사용합니다                       |
-
-#### `enableVsyncAlignedFlush`
-
-VSync 신호에 맞춰 UI 업데이트를 동기화합니다.
-
-|                 | 설명                                                                                   |
-| --------------- | -------------------------------------------------------------------------------------- |
-| **끄면**        | UI 업데이트가 즉시 처리됩니다. JS 업데이트가 빈번하면 프레임 드롭이 발생할 수 있습니다 |
-| **켜면**        | UI 작업이 VSync 타이밍에 맞춰 배치 처리되어 점진적 렌더링 효과를 제공합니다            |
-| **언제 켜나요** | 애니메이션이 많거나 JS 기반 UI 업데이트가 빈번한 화면에서 활성화합니다                 |
-
-#### `unifyVWVHBehavior`
-
-`vw`/`vh` 단위가 뷰포트 변경에 따라 동적으로 재계산됩니다.
-
-|                 | 설명                                                                  |
-| --------------- | --------------------------------------------------------------------- |
-| **끄면**        | vw/vh가 초기 뷰포트 크기 기준으로 고정됩니다                          |
-| **켜면**        | 뷰포트 크기가 변경되면(화면 회전 등) vw/vh 값이 자동으로 재계산됩니다 |
-| **언제 켜나요** | 화면 회전을 지원하거나 반응형 레이아웃이 필요한 경우에 사용합니다     |
-
-### 성능 최적화
-
-#### `enableCSSLazyImport`
-
-CSS import 규칙을 지연 디코딩합니다.
-
-|                 | 설명                                                                                |
-| --------------- | ----------------------------------------------------------------------------------- |
-| **끄면**        | 모든 CSS import가 즉시 파싱됩니다                                                   |
-| **켜면**        | CSS 스코프가 처음 적용될 때만 해당 import를 파싱합니다. 초기 로드 성능이 향상됩니다 |
-| **언제 켜나요** | CSS 파일이 많고 초기 로드 성능이 중요한 경우에 사용합니다                           |
-
-#### `enableTextLayoutCache`
-
-텍스트 레이아웃 결과를 캐시하여 재사용합니다.
-
-|                 | 설명                                                            |
-| --------------- | --------------------------------------------------------------- |
-| **끄면**        | 동일한 텍스트도 매번 레이아웃을 재계산합니다                    |
-| **켜면**        | 이전에 계산한 텍스트 레이아웃을 캐시에서 가져옵니다             |
-| **언제 켜나요** | 텍스트가 많은 리스트나 반복 렌더링이 빈번한 화면에서 사용합니다 |
-
-#### `enableCSSClassMerge`
-
-중복되는 CSS 클래스를 빌드 시점에 병합합니다.
-
-|                 | 설명                                              |
-| --------------- | ------------------------------------------------- |
-| **끄면**        | CSS 클래스가 원본 그대로 유지됩니다               |
-| **켜면**        | 겹치는 CSS 클래스를 병합하여 번들 크기를 줄입니다 |
-| **언제 켜나요** | CSS 번들 크기 최적화가 필요한 경우에 사용합니다   |
-
-#### `enableSimpleStyling`
-
-간소화된 스타일링 모듈을 사용합니다.
-
-|                 | 설명                                                                                                        |
-| --------------- | ----------------------------------------------------------------------------------------------------------- |
-| **끄면**        | 기본 CSS 파싱/적용 파이프라인을 사용합니다                                                                  |
-| **켜면**        | StyleObject 기반의 간소화된 스타일 적용 방식으로 렌더링 성능이 향상됩니다                                   |
-| **언제 켜나요** | 스타일 적용 성능이 병목인 경우에 사용합니다. `enablePropertyBasedSimpleStyle`과 함께 사용하면 더 유연합니다 |
-
----
-
-## 전체 권장 설정
+다음은 SEED의 CSS 상속, 인라인 변수, Dynamic/Static 타이포그래피, fixed 요소를 사용하는 앱의 기본 구성입니다.
+Selector와 Invalidation은 `pluginReactLynx`의 기본값을 사용합니다.
+여러 손가락의 터치 정보를 사용하는 화면에서는 `enableMultiTouch: true`를 추가하고, 테마·모션 설정의 런타임 갱신은 아래 `globalPropsMode` 설명도 확인하세요.
 
 ```ts title="lynx.config.ts"
 import { defineConfig } from "@lynx-js/rspeedy";
@@ -285,42 +21,232 @@ import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 export default defineConfig({
   plugins: [
-    pluginReactLynx(),
+    pluginReactLynx({
+      engineVersion: "3.6", // 앱이 지원할 최소 Engine. 실제 실행 엔진을 바꾸지는 않습니다.
+    }),
     pluginLynxConfig({
-      // 기본 활성화이지만 명시적으로 설정
-      enableCSSSelector: true,
-      enableCSSInvalidation: true,
-
-      // CSS
       enableCSSInheritance: true,
       enableCSSInlineVariables: true,
-      // enableCSSStrictMode: false (CSS 속성 호환성 이슈로 비활성화 권장)
-
-      // 텍스트 & 레이아웃
-      enableTextRefactor: true,
       fontScaleEffectiveOnlyOnSp: true,
       enableFixedNew: true,
-      enableFlexBasisZeroPercent: true,
-
-      // 이벤트 (필요 시)
-      // enableNewGesture: true,
-      // enableEventHandleRefactor: true,
-      // enablePlatformGesture: true,
-      // enableTransformedTouchPosition: true,
-
-      // 관찰 & 렌더링 (필요 시)
-      // enableNewIntersectionObserver: true,
-      // enableVsyncAlignedFlush: true,
-      // unifyVWVHBehavior: true,
-
-      // 성능 (필요 시)
-      // enableCSSLazyImport: true,
-      // enableTextLayoutCache: true,
     }),
   ],
 });
 ```
 
+예제의 옵션과 기본값은 다음 출시 패키지 조합을 기준으로 확인했습니다. 다른 버전에서는 설치된 패키지의 타입과 changelog도 확인하세요.
+
+| `@lynx-js/react-rsbuild-plugin` | `@lynx-js/config-rsbuild-plugin` | config 플러그인이 사용하는 `@lynx-js/type-config` | `@lynx-js/rspeedy` |
+| --- | --- | --- | --- |
+| `0.18.3` | `0.2.2` | `4.1.3` | `0.16.4` |
+| `0.20.2` | `0.2.3` | `4.2.0` | `0.17.2` |
+
 <Callout>
-  각 플래그의 공식 설명은 [Lynx 공식 문서](https://lynxjs.org)를 참고하세요.
+  `@lynx-js/type-config`는 빌드에서 허용할 설정의 타입과 키 목록입니다.
+  버전이 `4.2.0`이라고 앱이 Engine 4.2에서 실행되거나, Engine 4.2가 출시되었다는 뜻은 아닙니다.
+  실행 엔진의 출시 여부는 [Lynx versions](https://lynxjs.org/versions)를 확인하세요.
 </Callout>
+
+### 설정 위치와 버전 읽는 법
+
+| 구분 | 의미 |
+| --- | --- |
+| 실제 Lynx Engine | 앱의 네이티브 호스트가 사용하는 엔진입니다. 설정을 실제로 읽고 실행합니다. |
+| `engineVersion` / `targetSdkVersion` | 번들의 대상 버전입니다. 일부 기본값의 호환성 분기를 결정합니다. 엔진을 업그레이드하지 않습니다. |
+| 플러그인 기본값 | 번들을 만들 때 플러그인이 넣는 값입니다. 엔진 자체의 기본값과 다를 수 있습니다. |
+| 호스트 settings / native config | 일부 플래그를 생략했을 때 엔진이 읽는 앱·플랫폼 설정입니다. 앱마다 결과가 달라질 수 있습니다. |
+
+React 플러그인 **0.9.0부터** `targetSdkVersion`이 deprecated되었고 `engineVersion`의 별칭으로 유지됩니다. 확인한 `0.18.3`·`0.20.2`는 둘 다 허용하지만, 새 설정에는 `engineVersion`을 사용하세요. 둘을 함께 지정하면 `engineVersion`이 우선하며, 둘 다 생략한 플러그인 기본값은 `3.2`입니다. 아래에서 **target SDK**라고 할 때는 엔진에 전달된 이 대상 버전을 뜻합니다. [패키지 변경 이력][react-changelog]
+
+| 플러그인 | 설정할 항목 |
+| --- | --- |
+| `pluginReactLynx` | `enableCSSSelector`, `enableCSSInvalidation`, `enableCSSInheritance`, `customCSSInheritanceList`, `enableNewGesture` 등 React 빌드에 공개된 옵션 |
+| `pluginLynxConfig` | 해당 버전의 `Config`·`CompilerOptions`에 공개된 옵션. 최소 예제의 네 항목 및 지원되는 이벤트·레이아웃 옵션 |
+
+두 플러그인에 모두 있는 키도 있지만, **모든 플래그를 `pluginLynxConfig`에 모을 수는 없습니다.**
+확인한 React 플러그인은 공유된 config 중 자신의 기본 옵션 목록에 있는 키만 읽어 덮어씁니다. config 플러그인은 공개 키를 검증한 뒤 컴파일러·페이지 설정으로 전달하며, 목록 밖의 키는 오류로 거부합니다. 같은 키는 한 곳에서만 설정하세요. [React 구현][react-source] · [Config 구현][config-source]
+
+## SEED에서 중요한 플래그
+
+**활성화 유지**는 기능이 필요하다는 뜻이고, **명시 설정 유지**는 코드에 옵션을 남겨야 한다는 뜻입니다.
+다음 표는 확인한 Engine 3.6·3.7·3.8·3.9·4.0·4.1 출시 tag의 설정을 기준으로 합니다. `true`/`false`는 별도 호스트 override가 없을 때의 값이며, 예외는 아래에 설명합니다.
+
+| 플래그 | SEED에서 중요한 이유 | Engine 3.6–3.7 | Engine 3.8–4.0 | Engine 4.1 | 설정 위치 |
+| --- | --- | --- | --- | --- | --- |
+| `enableCSSSelector` | class, descendant/child selector 등 SEED CSS 매칭 | 활성화 유지, React 기본값으로 생략 | 동일 | 동일 | React |
+| `enableCSSInvalidation` | 상위 class 등의 변경에 따른 결합 선택자 스타일 갱신 | 활성화 유지, React 기본값으로 생략 | 동일 | 동일 | React |
+| `enableCSSInheritance` | 자식 텍스트의 색상·타이포그래피 상속 | `true` 명시 | `true` 명시 | `true` 명시 | Config 또는 React |
+| `enableCSSInlineVariables` | 컴포넌트가 인라인으로 전달하는 CSS 변수 | `true` 명시 | `true` 명시 | `true` 명시 | Config |
+| `fontScaleEffectiveOnlyOnSp` | Dynamic(`sp`)·Static(`px`) 타이포그래피 구분 | `true` 명시 | `true` 명시 | `true` 명시 | Config |
+| `enableFixedNew` | fixed 요소의 레이아웃·삽입 처리 | fixed 사용 시 `true` 권장 | 동일 | 다른 unified fixed 경로가 켜진 경우 아래 설명 참고 | Config |
+| `enableMultiTouch` | 터치 기반 컴포넌트·화면에서 여러 손가락의 이벤트 정보 사용 | 멀티터치가 필요하면 `true` 명시 | 동일 | 동일 | Config |
+| `globalPropsMode` | 테마·reduced motion 등 호스트 설정 변경을 SEED 훅에 전달 | 기본 `"reactive"` 또는 이벤트 구독 방식의 `"event"` 선택 | 동일 | 동일 | React |
+| `enableTextRefactor` | 텍스트 측정·baseline 등의 개선 경로 | target SDK ≥ 2.2이면 생략 | 동일 | 동일 | 최신 Config에 공개되지 않음 |
+| `enableFlexBasisZeroPercent` | 웹과 같은 `flex` 축약 해석을 선택할 때 | 지원 안 함 | 필요 시 `true` | target SDK ≥ 4.1이면 생략 가능, 그 미만이면 필요 시 `true` | Config |
+
+Selector·Invalidation의 생략 조건은 **React 플러그인 `0.18.3`·`0.20.2`에서 기본값 `true`를 확인했다는 것**입니다. “Engine 3.6 이상에서 항상 켜진다”는 뜻이 아닙니다. 더 오래된 플러그인의 기본값 변경 최초 버전은 미확인입니다.
+
+### CSS 매칭과 갱신
+
+`enableCSSSelector`와 `enableCSSInvalidation`의 엔진 컴파일러 설정 기본값은 모두 `false`입니다. React 플러그인이 둘 다 `true`를 넣으므로 최소 예제에 반복하지 않아도 됩니다. 명시할 필요가 있다면 다음 위치를 사용하세요. [엔진 설정][engine-36] · [React 옵션][react-options]
+
+둘 다 공통 CSS 컴파일러·스타일 엔진의 옵션이며, 설정 정의의 도입 기록은 Selector `2.8`, Invalidation `2.10`입니다. 이 도입 기록은 React 플러그인의 기본 활성화 시점을 뜻하지 않습니다.
+
+```ts
+pluginReactLynx({
+  enableCSSSelector: true,
+  enableCSSInvalidation: true,
+});
+```
+
+Invalidation은 `.a .b` 같은 선택자가 있을 때 상위 요소의 class가 바뀌면 영향을 받는 하위 요소의 스타일을 다시 계산하도록 합니다. **끄면 전체 스타일을 재계산하는 것이 아니라, 결합 선택자가 처음에는 맞더라도 후속 변경에 따른 관련 스타일 갱신이 수행되지 않을 수 있습니다.**
+
+영향받는 요소를 모으고 갱신하는 데에도 비용이 있습니다. 공식 문서는 이런 선택자 사용이 없다면 성능을 위해 끌 수 있다고 설명하지만, SEED와 앱의 상태·테마 갱신에 필요한지 확인 없이 끄지 마세요. [공식 설명][invalidation-doc] · [3.6 문서 원본][invalidation-36]
+
+이 플래그가 웹의 모든 선택자를 지원한다는 뜻은 아닙니다. SEED Lynx의 상태 스타일은 recipe variant가 만든 className을 사용합니다. 웹의 `data-*` attribute selector를 그대로 옮길 수 있다고 가정하지 마세요.
+
+### CSS 상속과 인라인 변수
+
+두 옵션은 서로 다른 기능입니다. [공식 Config 설명][config-doc] · [3.6 설정 정의][engine-36]
+
+| 플래그 | 플랫폼·도입 기록 | 기본값과 유지 조건 |
+| --- | --- | --- |
+| `enableCSSInheritance` | Android·iOS·HarmonyOS, 설정 정의의 Since `1.6` | 엔진·React 기본값 `false`. SEED의 상속되는 텍스트 스타일을 위해 `true` 유지. 확인한 4.1까지 일괄 생략할 엔진 버전 경계 없음 |
+| `enableCSSInlineVariables` | 공통 스타일 엔진, Since `3.6` | 정의상 `false`, 생략 시 native/settings fallback 가능. SEED 컴포넌트가 인라인으로 넘기는 CSS 변수를 위해 `true` 유지. 호스트 활성화가 보장되지 않으면 생략하지 않음 |
+
+CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모든 속성이 동일하게 상속된다는 뜻은 아닙니다.
+상속 목록을 바꿔야 한다면 `pluginReactLynx`의 `customCSSInheritanceList`를 사용하세요. 기본 목록에 추가하는 방식이 아니라 목록을 지정하는 옵션이므로 SEED가 사용하는 상속 속성을 빠뜨리지 않도록 확인하세요.
+
+`enableCSSInlineVariables`를 끈다고 스타일시트의 CSS 변수 자체가 없어지는 것은 아닙니다. 또한 class를 바꾸는 테마 전환과 인라인 변수 갱신을 같은 기능으로 보지 마세요.
+
+### 텍스트와 레이아웃
+
+| 플래그 | 플랫폼·도입 기록 | 언제 설정하고 언제 생략하나요? |
+| --- | --- | --- |
+| `fontScaleEffectiveOnlyOnSp` | Android·iOS·HarmonyOS, Since `2.4` | 기본값 `false`. SEED의 Dynamic 토큰은 `sp`, Static 토큰은 `px`이므로 `true` 유지. 모든 px 여백·아이콘까지 시스템 배율이 적용된다는 설명은 부정확하며, 이 옵션은 폰트 관련 길이의 배율 적용을 제어 |
+| `enableFixedNew` | Android·iOS·HarmonyOS, Since `2.10` | 기본값 `false`, settings fallback 가능. fixed 요소 사용 시 `true` 권장. 4.1에는 unified fixed 경로도 있으므로 해당 경로를 호스트가 켜는 경우는 구분하되, Engine 버전만 보고 삭제하지 않음 |
+| `enableTextRefactor` | Android·iOS, Since `2.2` | 정의상 `false`지만 미지정 시 target SDK ≥ 2.2에서 `true`. 확인한 React 플러그인의 기본 target SDK도 3.2이므로 별도 `true` 불필요. 웹과 동일한 글자 크기·측정 결과를 보장하는 옵션은 아님 |
+| `enableFlexBasisZeroPercent` | Android·iOS·HarmonyOS, Since `3.8` | `flex: 1` 등의 생략된 basis를 `0` 대신 `0%`로 처리. SEED 전체 필수 조건으로 권장하지 않음. 3.8–4.0은 기본 `false`, 4.1은 target SDK ≥ 4.1에서 기본 `true` |
+
+[3.6 정의][engine-36] · [3.8 정의][engine-38] · [4.1 정의][engine-41] · [4.1 decoder][decoder-41] · [fixed 처리][fixed-41]
+
+<Callout>
+  Engine 4.1에서 실행하더라도 `engineVersion: "3.6"`인 번들의 flex-basis 기본값은 자동으로 바뀌지 않습니다.
+  이 동작만 필요하다면 지원되는 엔진에서 해당 플래그를 설정하세요. 기본값을 바꾸려고 앱의 최소 대상 버전을 올리지 마세요.
+  Engine 3.6에는 이 플래그가 없으므로 `true`를 넣어도 같은 동작을 보장할 수 없습니다.
+</Callout>
+
+### 터치와 호스트 설정 갱신
+
+`enableMultiTouch`와 `globalPropsMode`는 SEED를 사용하는 화면의 상호작용과 설정 갱신에 중요하지만, 모든 화면에서 특정 값을 강제하는 옵션은 아닙니다.
+
+| 설정 | 기본값과 SEED에서의 의미 | 유지·생략 조건 |
+| --- | --- | --- |
+| `enableMultiTouch: true` | 기본 `false`, 미지정 시 settings fallback 가능. Android·iOS·HarmonyOS의 터치 이벤트에 여러 손가락 정보를 포함합니다. 엔진 정의의 Since는 `2.14`이며 현재 공개 API 문서는 `3.2`로 표기합니다. SEED Slider 등은 `touches`·`changedTouches`를 읽지만 단일 터치 좌표 fallback도 지원합니다. | 여러 손가락 정보를 사용하는 기능에서는 `true` 유지. 단일 터치만 사용하는 모든 SEED 컴포넌트에 필수라고 보지는 않습니다. 확인한 3.6–4.1에서 엔진 버전만으로 일괄 생략할 근거는 없습니다. |
+| `globalPropsMode: "event"` | React 플러그인 기본값은 `"reactive"`. `"event"`는 global props 변경을 이벤트 구독으로 전달합니다. SEED의 `useSeedClassName`, 아이콘 색상·ScaleFeedback 훅은 `useGlobalProps()`를 통해 theme·motion 변경을 읽습니다. | 이벤트 구독 방식이면 `"event"` 유지. 기본 `"reactive"`도 사용할 수 있으므로 `"event"`가 SEED의 필수 값은 아닙니다. 엔진 버전 때문에 삭제하는 플래그가 아니라 React의 갱신 방식 선택입니다. |
+
+[멀티터치 공식 설명][multitouch-doc] · [3.6 설정 정의][engine-36] · [globalPropsMode 공식 설명][global-props-doc]
+
+확인한 React `0.125.0`에서 `useGlobalProps()`는 `"event"` 모드의 변경 이벤트를 직접 구독합니다. 따라서 이 훅을 쓰는 SEED 컴포넌트에 별도 이벤트 리스너를 중복 추가할 필요는 없습니다. 반면 앱 코드가 `lynx.__globalProps`를 직접 읽기만 하면 변경을 구독하지 않으므로, 테마 등 런타임 변경에 반응해야 하는 곳에서는 훅이나 명시적인 이벤트 구독을 사용하세요. [React 구현][global-props-source]
+
+`enableMultiTouchParamsCompatible`는 멀티터치 활성화와 별개의 payload 호환 옵션입니다. 공개 설정에서 빠진 이 옵션을 대신 넣지 말고, 필요한 기능에 맞춰 `enableMultiTouch`를 설정하세요.
+
+## 기능을 사용할 때 선택하는 플래그
+
+다음 옵션은 SEED 전체의 필수 설정이 아닙니다. 각 화면이 해당 API나 동작에 의존할 때 선택하세요.
+표의 도입 기록은 엔진 설정 정의의 Since입니다. 플랫폼별 실제 지원이 불명확한 항목은 별도로 표시했습니다.
+
+### 이벤트와 제스처
+
+| 플래그 | 역할·플랫폼·도입 기록 | 기본값과 설정 조건 | 현재 설정 위치 |
+| --- | --- | --- | --- |
+| `enableNewGesture` | Gesture Handler 경로. Android·iOS·HarmonyOS, Since `2.16` | 엔진·React 기본 `false`. Gesture Handler API를 쓰는 화면에서 `true`; 일반 `bindtap`만으로 필수는 아님. 확인한 3.6–4.1에 일괄 생략 경계 없음 | React 권장. Config에도 공개됨 |
+| `enableEventHandleRefactor` | 이벤트 리스너 재바인딩·dispatch 경로. Android·iOS·HarmonyOS, Since `3.5` | 정의상 `false`, 미지정 시 settings 사용. 해당 경로가 필요하면 `true` 유지. 일반 React 이벤트 핸들러의 동적 변경이 전부 불가능하다는 뜻은 아님 | Config `0.2.1`부터 다시 공개(type-config `4.1.2`에 추가, 해당 플러그인은 `4.1.3` 사용) |
+| `enablePlatformGesture` | 네이티브와 Lynx의 제스처 조정 계층. Android·iOS, Since `3.6` | 기본 `false`. 네이티브 제스처와의 경합을 조정할 때 검토. 엔진 4.1에도 사용처가 있으므로 기능 제거로 분류하지 않음 | Config `0.2.0`부터 공개 설정 제외 |
+| `enableTransformedTouchPosition` | transform을 반영한 터치 좌표. Android·HarmonyOS | 기본 `false`. 변형된 요소의 좌표를 사용하는 기능에서 검토. 공식 Since는 `3.6`이나 3.6.0 tag에는 설정 정의가 없고 3.7.0에는 존재하므로 **3.6 도입 경계 미확인** | 현재 Config에 공개됨 |
+| `enableMultiTouchParamsCompatible` | 멀티터치 payload를 단일 터치 형식과 호환. Android·iOS·HarmonyOS, Since `3.2` | 정의상 `false`, 미지정 시 호스트의 multi-touch 환경 설정 사용. 예전 payload에 의존하면 구형 설정을 무조건 삭제하지 말고 이벤트 소비 코드를 확인. `enableMultiTouch` 자체와 별개 | Config `0.2.0`부터 공개 설정 제외 |
+
+[공식 Config 설명][config-doc] · [3.6 정의와 fallback][decoder-36] · [4.1 정의][engine-41] · [Config changelog][config-changelog]
+
+`enableMultiTouch`는 현재 Config에도 공개되어 있습니다. `enableMultiTouchParamsCompatible`가 사라졌다는 이유로 멀티터치 자체가 지원 종료되었다고 해석하지 마세요. 최신 공개 API에서 빠진 옵션을 계속 제어해야 하는 앱은 호스트의 설정 경로와 기존 동작을 확인해야 하며, 단순히 React 플러그인으로 옮기면 안 됩니다.
+
+### 관찰과 렌더링
+
+| 플래그 | 역할·플랫폼·도입 기록 | 기본값과 유지·생략 조건 | 현재 설정 위치 |
+| --- | --- | --- | --- |
+| `enableNewIntersectionObserver` | scroll 이벤트 바인딩에 의존하지 않는 observer 경로. Android·iOS, Since `2.8` | 아래의 확인한 React 빌드 조합에서는 템플릿이 `true`를 넣으므로 생략 가능. 다른 빌드 경로에서는 엔진 버전만으로 삭제하지 않음 | Config |
+| `enableVsyncAlignedFlush` | UI 작업 flush를 VSync에 맞추는 경로. 설정 정의상 Android `2.11`, iOS `3.2` | 기본 `false`. 업데이트 빈도가 높은 화면에서 성능·지연을 측정한 뒤 선택. 설정 정의만으로 iOS에서도 Android와 동일한 효과가 있다고 보장하지 않음 | Config `0.2.0`부터 공개 설정 제외 |
+| `unifyVWVHBehavior` | 레이아웃·동적 스타일의 viewport 단위 계산 통일. Android·iOS·HarmonyOS, Since `2.3` | 정의상 `false`, target SDK ≥ 2.3이면 기본 `true`. 확인한 React 플러그인의 기본 대상 버전에서 생략 가능. 비활성화 시 모든 vw/vh가 항상 초기 값에 고정된다는 뜻은 아님 | Config |
+
+[Observer 기본값 변경][observer-change] · [3.9 decoder][decoder-39] · [3.9 settings fallback][env-39] · [4.1 decoder][decoder-41] · [4.1 settings fallback][env-41]
+
+Observer는 빌드와 엔진을 함께 확인해야 합니다.
+
+- **React 빌드:** 위에서 확인한 두 조합의 `@lynx-js/template-webpack-plugin` `0.15.0`·`0.16.1`은 페이지 설정에 `enableNewIntersectionObserver: true`를 넣습니다. Config나 다른 플러그인으로 덮어쓰지 않았다면 명시 설정을 생략할 수 있습니다. 이 빌드 기본값의 최초 도입 버전은 미확인입니다. [출시 템플릿 코드][template-source]
+- **엔진:** 설정 정의 기본값은 3.8.1까지 `false`, 3.9.0부터 `true`입니다. 하지만 3.9·4.1 decoder도 번들에 값이 없으면 settings를 읽으며, 그 fallback은 `false`입니다. 다른 빌드 경로를 쓰는 앱에서 Engine 3.9 이상이라는 이유만으로 삭제하면 안 됩니다.
+
+### 성능·대체 스타일 경로
+
+아래 항목은 모두 config 플러그인 **0.2.0부터 기본 공개 설정에서 제외**되었습니다. 최신 예제에 추가하지 마세요.
+구형 config 플러그인 `0.1.1`에서는 허용되지만, SEED에 필요한 일반적인 최적화 설정으로 일괄 권장하지 않습니다. [Config changelog][config-changelog] · [현재 타입][config-doc]
+
+| 플래그 | 역할·플랫폼·도입 기록 | 기본값과 판단 |
+| --- | --- | --- |
+| `enableCSSLazyImport` | scoped CSS의 import 의존성을 필요할 때 처리. Android·iOS·HarmonyOS, Since `2.18` | 미지정 값에서 환경 설정으로 fallback하며 기본 fallback은 `false`. scoped CSS 사용·초기 비용을 확인한 뒤 선택. 확인한 4.1에도 엔진 경로 존재 |
+| `enableTextLayoutCache` | 텍스트 레이아웃·renderer 재사용. Android·iOS, Since `3.3` | 미지정 시 플랫폼 환경 설정에 따름. 모든 플랫폼에서 동일한 기본값·성능 향상을 보장하지 않음. 확인한 4.1 iOS에도 캐시 옵션 사용처 존재 |
+| `enableCSSClassMerge` | 같은 선택자의 CSS 선언을 합치는 구형 컴파일러 경로. 공통 CSS 컴파일러, Since `2.1` | 정의 기본 `false`. 새 Selector 경로는 자체적으로 선언을 병합하므로 React 기본 Selector 경로에서는 별도 플래그 불필요. 단순 번들 크기 최적화 옵션으로 설명하지 않음 |
+| `enableSimpleStyling` | StyleObject 기반의 별도 스타일 경로. 공통 스타일 엔진, Since `3.3` | 기본 `false`. 일반 SEED CSS 설정에 추가하지 않음. 설정·관련 구현이 남아 있는 사실을 기능 제거 또는 항상 활성화로 해석하지 않음 |
+| `enablePropertyBasedSimpleStyle` | SimpleStyle 갱신을 StyleObject 단위에서 속성 단위로 변경. 공통 스타일 엔진, Since `3.5` | 기본 `false`. 속성이 겹치는 StyleObject 처리와 성능의 선택이며, 더 빠른 일반 최적화라는 의미가 아님 |
+
+[3.6 정의][engine-36] · [4.1 정의][engine-41] · [CSS class 병합 구현][class-merge] · [SimpleStyle 구현][simple-style] · [텍스트 캐시 사용처][text-renderer]
+
+## 이전 설정 정리하기
+
+먼저 **빌드 패키지 버전**을 확인하고, 그 다음 **기존 앱의 동작 의존성**을 확인하세요.
+`@lynx-js/config-rsbuild-plugin`은 `0.1.1`에서 type-config `3.6.0`을 사용하다가, **0.2.0에서 `4.1.1`의 공개 목록으로 전환**했습니다. 아래 제외된 키는 별도 deprecated 유예 없이 기본 타입·검증에서 빠졌습니다. [변경 이력][config-changelog]
+
+| 기존 설정 | 최신 설정에서의 판단 | 구형 도구·엔진을 계속 사용할 때 |
+| --- | --- | --- |
+| Config의 `enableCSSSelector: true`·`enableCSSInvalidation: true` | Config에서는 제거. React `0.18.3`·`0.20.2`의 기본값에 맡기거나 React 옵션으로 이동 | 엔진 기능은 계속 필요. 사용 중인 React 기본값이 다르거나 다른 빌드 경로이면 명시 활성화 유지 |
+| `enableCSSStrictMode: false` | Config `0.2.0`부터 공개되지 않으며 최소 예제에서 제거 | 설정 정의 Since `1.6`, 기본 `false`. 공통 CSS 파서의 strict 처리·진단 옵션이며 `false`가 SEED 사용의 필수 우회라는 재현 근거는 미확인 |
+| `enableTextRefactor: true` | Config `0.2.0`부터 공개되지 않음. target SDK ≥ 2.2이면 명시 설정 불필요 | 엔진 3.6·4.1에 조건부 decoder와 iOS 사용처가 존재. 기능 제거·항상 활성화가 아니라 target SDK 기본값을 근거로 생략 |
+| `enableMultiTouchParamsCompatible` | Config 공개 설정에서 제거되었지만 멀티터치 기능 제거는 아님 | payload 호환성이 필요하고 구형 도구가 허용하면 유지. 미지정 시 호스트 fallback 확인 |
+| `enablePlatformGesture`·`enableVsyncAlignedFlush` 및 위 성능 옵션 | Config `0.2.0`부터 공개되지 않음. 새 예제에서 제외 | 기존 기능이 필요하면 구형 설정의 의미를 확인. 대체 공개 옵션이나 엔진 무시 버전을 추정해서 안내하지 않음 |
+| `enableEventHandleRefactor` | Config `0.2.0`에서는 제외되었지만 **0.2.1부터 재공개** | 버전별 공개 목록을 확인. 계속 지원 종료된 옵션으로 분류하지 않음 |
+
+`enableCSSStrictMode`는 확인한 Engine 3.6·4.1에도 파서 설정과 사용처가 남아 있습니다. 예를 들어 length 파서는 이 값에 따라 잘못된 값의 진단을 출력하지만, 그 예만으로 `false`이면 모든 잘못된 길이를 허용한다거나 `true`이면 웹과 완전히 같은 파싱이 된다고 설명할 수 없습니다. [파서 구현][strict-parser]
+
+## 근거와 확인 범위
+
+이 문서는 출시된 패키지의 타입·기본값·설정 전달 코드, 공식 버전 문서, Engine release tag를 비교한 결과입니다. 네이티브 기기에서 각 조합을 실행한 결과는 아닙니다.
+
+- **도입 기록:** 표의 Since는 [3.6 설정 정의][engine-36]와 [4.1 설정 정의][engine-41]의 기록입니다. 현재 API 문서에는 일부 과거 기능이 Since 3.2로 표기되어 있어, 도입 기록과 기본 활성화 시점을 혼동하지 않도록 이전 tag를 함께 참고했습니다. 3.2 이전 항목의 최초 출시 tag와 플랫폼별 도입 시점은 별도로 확정하지 못했습니다.
+- **정확한 경계 미확인:** `enableTransformedTouchPosition`의 3.6 도입 기록과 3.6.0 tag 사이의 차이, Selector·Invalidation이 React 기본 `true`가 된 최초 패키지 버전, Observer의 템플릿 기본 활성화 최초 버전, VSync flush의 플랫폼별 효과·변경 경계는 미확인입니다.
+- **삭제 판단:** 공개 설정 제외를 엔진 기능 제거로 표시하지 않았습니다. 호스트 fallback이나 다른 실행 경로가 있는 플래그는 엔진 버전만으로 “설정 불필요”라고 단정하지 않습니다. 확인하지 않은 이후 버전과 `next`/`main`의 미출시 변경도 적용하지 않습니다.
+
+[react-options]: https://lynxjs.org/api/rspeedy/react-rsbuild-plugin.pluginreactlynxoptions
+[config-doc]: https://lynxjs.org/api/rspeedy/type-config.config
+[react-changelog]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/react-rsbuild-plugin%400.20.2/packages/rspeedy/plugin-react/CHANGELOG.md
+[config-changelog]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/config-rsbuild-plugin%400.2.3/packages/rspeedy/plugin-config/CHANGELOG.md
+[react-source]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/react-rsbuild-plugin%400.20.2/packages/rspeedy/plugin-react/src/index.ts
+[config-source]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/config-rsbuild-plugin%400.2.3/packages/rspeedy/plugin-config/src/index.ts
+[engine-36]: https://github.com/lynx-family/lynx/blob/3.6.0/core/template_bundle/template_codec/binary_decoder/lynx_config.yml
+[engine-38]: https://github.com/lynx-family/lynx/blob/3.8.0/core/template_bundle/template_codec/binary_decoder/lynx_config.yml
+[engine-41]: https://github.com/lynx-family/lynx/blob/4.1.0/core/template_bundle/template_codec/binary_decoder/lynx_config.yml
+[decoder-36]: https://github.com/lynx-family/lynx/blob/3.6.0/core/template_bundle/template_codec/binary_decoder/lynx_binary_config_decoder.cc
+[decoder-39]: https://github.com/lynx-family/lynx/blob/3.9.0/core/template_bundle/template_codec/binary_decoder/lynx_config_decoder.h
+[decoder-41]: https://github.com/lynx-family/lynx/blob/4.1.0/core/template_bundle/template_codec/binary_decoder/lynx_config_decoder.h
+[env-39]: https://github.com/lynx-family/lynx/blob/3.9.0/core/renderer/utils/lynx_env.cc
+[env-41]: https://github.com/lynx-family/lynx/blob/4.1.0/core/renderer/utils/lynx_env.cc
+[invalidation-doc]: https://lynxjs.org/api/rspeedy/react-rsbuild-plugin.pluginreactlynxoptions.enablecssinvalidation
+[invalidation-36]: https://github.com/lynx-family/lynx-website/blob/release/3.6/docs/en/api/rspeedy/react-rsbuild-plugin.pluginreactlynxoptions.enablecssinvalidation.md
+[observer-change]: https://github.com/lynx-family/lynx/commit/2e3436b21f4e7ee0827050aa79bbc0f4e49d9ca8
+[fixed-41]: https://github.com/lynx-family/lynx/blob/4.1.0/core/renderer/dom/fiber/fiber_element.cc
+[class-merge]: https://github.com/lynx-family/lynx/blob/4.1.0/core/template_bundle/template_codec/binary_encoder/css_encoder/css_parser.cc
+[simple-style]: https://github.com/lynx-family/lynx/blob/4.1.0/core/renderer/dom/style_resolver.cc
+[text-renderer]: https://github.com/lynx-family/lynx/blob/4.1.0/platform/darwin/ios/lynx/shadow_node/text/LynxTextShadowNode.m
+[strict-parser]: https://github.com/lynx-family/lynx/blob/4.1.0/core/renderer/css/parser/length_handler.cc
+[template-source]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/react-rsbuild-plugin%400.20.2/packages/webpack/template-webpack-plugin/src/LynxTemplatePlugin.ts
+[multitouch-doc]: https://lynxjs.org/api/rspeedy/type-config.config.enablemultitouch
+[global-props-doc]: https://lynxjs.org/api/rspeedy/react-rsbuild-plugin.pluginreactlynxoptions.globalpropsmode
+[global-props-source]: https://github.com/lynx-family/lynx-stack/blob/%40lynx-js/react%400.125.0/packages/react/runtime/src/core/initData.ts
