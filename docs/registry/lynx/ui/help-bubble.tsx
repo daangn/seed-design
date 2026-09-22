@@ -123,9 +123,9 @@ function HelpBubbleContent({
         {showCloseButton ? (
           <SeedHelpBubble.CloseButton accessibility-label="닫기">
             <Icon
-              icon={<IconXmarkLine color="var(--seed-color-fg-neutral-inverted)" />}
+              icon={<IconXmarkLine color="var(--seed-color-fg-on-neutral-solid)" />}
               size={14}
-              color="fg.neutralInverted"
+              color="fg.onNeutralSolid"
             />
           </SeedHelpBubble.CloseButton>
         ) : null}
