@@ -70,7 +70,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "alert-dialog.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^3.0.0" },
         },
       ],
     },
@@ -79,7 +79,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "dialog.tsx",
-          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^3.0.0" },
         },
       ],
     },

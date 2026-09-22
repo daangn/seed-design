@@ -1,6 +1,6 @@
 import preview from "../.storybook/preview";
 import { withChromaticParameters } from "@/stories/utils/parameters";
-import { dialogVariantMap } from "@seed-design/css/recipes/dialog";
+import { alertDialogVariantMap } from "@seed-design/css/recipes/alert-dialog";
 import { Box, ResponsivePair, VStack } from "@seed-design/react";
 import {
   AlertDialogRoot,
@@ -27,14 +27,14 @@ const AlertDialogPreview = ({
   return (
     <Box width="400px" p="x4">
       <style>{`
-        .seed-dialog__positioner {
+        .seed-alert-dialog__positioner {
           position: relative !important;
           inset: unset !important;
         }
-        .seed-dialog__backdrop {
+        .seed-alert-dialog__backdrop {
           display: none !important;
         }
-        .seed-dialog__content {
+        .seed-alert-dialog__content {
           animation: none !important;
         }
       `}</style>
@@ -55,7 +55,7 @@ const meta = preview.meta({
   component: AlertDialogPreview,
   decorators: [SeedThemeDecorator],
 });
-const { skipAnimation: _skipAnimation, ...restVariantMap } = dialogVariantMap;
+const { skipAnimation: _skipAnimation, ...restVariantMap } = alertDialogVariantMap;
 
 const conditionMap = {
   body: {

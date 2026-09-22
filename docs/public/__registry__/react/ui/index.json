@@ -45,8 +45,8 @@
         {
           "path": "alert-dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0"
           }
         }
       ],
@@ -393,8 +393,8 @@
         {
           "path": "dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0",
-            "@seed-design/css": "^2.3.0"
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0"
           }
         }
       ],
