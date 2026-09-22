@@ -2,11 +2,12 @@
 
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { ReactVersionSwitcher } from "@/components/react-version-switcher";
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   type SidebarFolderItem,
   type SidebarGroup,
@@ -264,6 +265,10 @@ function SectionView({
   onBack: () => void;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const versionContainer = useRef<HTMLDivElement>(null);
+  const isReact = pathname === "/react" || pathname.startsWith("/react/");
+
   return (
     <>
       <SeedSidePanel.Header className={clsx(PANEL_HEADER_CLASS, "justify-between")}>
@@ -280,6 +285,11 @@ function SectionView({
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
+      {isReact && (
+        <div ref={versionContainer} className="relative z-10 px-5 pb-2">
+          <ReactVersionSwitcher positionerContainer={versionContainer} />
+        </div>
+      )}
       <ScrollFog
         hideScrollBar
         placement={["top", "bottom"]}
