@@ -132,7 +132,7 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 |------|------|
 | `--include-deprecated` | deprecated 항목도 추가 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
-| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-u, --baseUrl <baseUrl>` | SEED Design 사이트 base URL |
 | `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (예: `1.2`). `--baseUrl`/`--framework`보다 우선 |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite`, `backup`, `skip`) |
@@ -151,7 +151,7 @@ npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
 
 #### baseUrl 직접 지정
 
-레지스트리 주소를 직접 지정하려면 `--baseUrl`을 사용하세요. 기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
+레지스트리를 받아 올 사이트를 직접 지정하려면 `--baseUrl`을 사용하세요. 기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
 
 ```package-install
 npx @seed-design/cli@latest add --baseUrl https://v1-2.seed-design.io
@@ -201,7 +201,7 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `-a, --all` | 모든 레지스트리의 모든 항목 추가 |
 | `--include-deprecated` | deprecated 항목 포함 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
-| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-u, --baseUrl <baseUrl>` | SEED Design 사이트 base URL |
 | `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (예: `1.2`). `--baseUrl`/`--framework`보다 우선 |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite`, `backup`, `skip`) |
@@ -217,8 +217,6 @@ npx @seed-design/cli@latest compat
 ```
 
 기본값은 `seed-design.json`의 `path` 아래에 이미 추가된 항목만 검사해요.
-
-종료 코드가 세 갈래예요. 문제가 없으면 `0`, 검사해서 호환성 이슈를 찾았으면 `1`, 검사 자체를 하지 못했으면 `2`예요. 레지스트리에 닿지 못했거나 없는 항목을 넘겼거나 `seed-design.json`이 없어서 무엇을 검사할지 모르는 경우가 `2`에 해당해요.
 
 특정 항목만 검사할 수도 있어요.
 
@@ -238,7 +236,7 @@ npx @seed-design/cli@latest compat --all
 |------|------|
 | `-a, --all` | 모든 registry 항목 검사 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
-| `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
+| `-u, --baseUrl <baseUrl>` | SEED Design 사이트 base URL |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
@@ -264,13 +262,13 @@ npx @seed-design/cli@latest compat --all
 
 | 옵션 | 설명 |
 |------|------|
-| `-u, --baseUrl <baseUrl>` | 문서 사이트 base URL |
+| `-u, --baseUrl <baseUrl>` | SEED Design 사이트 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
 
 ## docs list
 
-모든 문서를 주소순으로 한 줄에 하나씩 나열해요.
+모든 문서를 주소순으로 한 줄에 하나씩 나열해요. 섹션을 넣으면 그 섹션의 문서만 나열해요.
 
 ```package-install
 npx @seed-design/cli@latest docs list foundations
@@ -323,11 +321,6 @@ npx @seed-design/cli@latest docs search "액션 버튼"
 ```
 
 관련도가 높은 순서로 20개까지 보여줘요.
-
-```sh copy
-npx @seed-design/cli@latest docs search "체크박스 접근성"
-npx @seed-design/cli@latest docs read /lynx/components/checkbox
-```
 
 <Callout type="info">
   검색은 띄어쓴 낱말 단위로 대조해요. 형태소를 분석하지 않기 때문에 `액션 버튼`으로는
@@ -394,8 +387,8 @@ $ npx @seed-design/cli@latest docs read react/components/action-button
 
 | 코드 | 의미 |
 |------|------|
-| `0` | stdout에 답이 있어요 |
-| `1` | 명령은 정상적으로 돌았고 답이 부정적이에요. `docs list`에 없는 섹션을 넣었거나, `docs search`에 걸리는 문서가 하나도 없는 경우예요 |
-| `2` | 답을 낼 수 없었어요. 네트워크 실패, 잘못된 주소나 옵션이 여기예요. 이유는 stderr에 있어요 |
+| `0` | 답을 냈어요. `compat`이 문제를 찾지 못하면 stdout은 비어요 |
+| `1` | 명령은 정상적으로 돌았고 답이 부정적이에요. `compat`이 호환되지 않는 항목을 찾았거나, `docs list`에 없는 섹션을 넣었거나, `docs search`에 걸리는 문서가 하나도 없는 경우예요 |
+| `2` | 답을 낼 수 없었어요. 네트워크 실패, 잘못된 주소·항목·옵션, `seed-design.json`이 없어서 `compat`이 검사할 대상을 모르는 경우가 여기예요. 이유는 stderr에 있어요 |
 
 `init`, `add`, `add-all`은 `1`을 쓰지 않아요. 작업을 끝냈거나 프롬프트에서 취소했으면 `0`, 끝내지 못했으면 `2`예요.
