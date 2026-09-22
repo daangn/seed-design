@@ -17,14 +17,6 @@ const PINNED_ROOT_PADDING_X = tokens.$dimension.x4;
 const PINNED_LEFT_PADDING_RIGHT = "16px";
 const ICON_BASIS_OFFSET = `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`;
 
-// The centered title keeps the same distance past each side's safe-area inset, so it stays centered
-// in the safe area. That distance clears whichever left/right area reaches further: the bar's
-// padding plus the extent `useAppBar` measures from the bar's content edge. A missing area leaves
-// its extent unset, and the fallback cancels the padding so the area clears nothing.
-const areaClearance = (side: "left" | "right") =>
-  `calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-${side}-extent, calc(-1 * ${PINNED_ROOT_PADDING_X})))`;
-const CENTERED_TITLE_CLEARANCE = `max(${areaClearance("left")}, ${areaClearance("right")}, 0px)`;
-
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
   slots: ["root", "title", "subtitle"],
@@ -79,11 +71,16 @@ export const appBarMain = defineSlotRecipe({
           top: "var(--seed-safe-area-top)",
           bottom: 0,
           insetInline: 0,
+          // The title keeps the same distance past each side's safe-area inset, so it stays centered
+          // in the safe area. That distance clears whichever left/right area reaches further: the
+          // bar's padding plus the extent `useAppBar` measures from the bar's content edge. A missing
+          // area leaves its extent unset, and the fallback cancels the padding so the area clears
+          // nothing.
           // NOTE: the spec's `root.titleMinGap` (the minimum gap between the title and the left/right
           // areas) is not applied yet; consuming it means adding
-          // `${vars.themeIos.enabled.root.titleMinGap}` to the measured extent in `areaClearance`.
-          paddingLeft: `calc(var(--seed-safe-area-left) + ${CENTERED_TITLE_CLEARANCE})`,
-          paddingRight: `calc(var(--seed-safe-area-right) + ${CENTERED_TITLE_CLEARANCE})`,
+          // `${vars.themeIos.enabled.root.titleMinGap}` to each `--app-bar-*-extent`.
+          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-left-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-right-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-left-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-right-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
           pointerEvents: "none",
         },
       },
