@@ -4,6 +4,8 @@ import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { CSSProperties, ReactNode } from "react";
 import { usePersistentOpenState } from "../layout/docs-side-navigation-items";
+import type { SidebarLeafItem } from "../layout/lib/sidebar-items";
+import { SidebarFeaturedDot } from "../layout/sidebar-featured-dot";
 import {
   Accordion,
   AccordionContent,
@@ -143,6 +145,8 @@ interface DocsMobileNavAccordionProps {
   title: ReactNode;
   current?: boolean;
   defaultOpen?: boolean;
+  collapsible?: boolean;
+  index?: SidebarLeafItem;
   children: ReactNode;
 }
 
@@ -151,28 +155,33 @@ export function DocsMobileNavAccordion({
   title,
   current = false,
   defaultOpen,
+  collapsible = true,
+  index,
   children,
 }: DocsMobileNavAccordionProps) {
-  const [open, setOpen] = usePersistentOpenState(defaultOpen ?? false, current);
+  const [open, setOpen] = usePersistentOpenState(defaultOpen ?? false, current, index, collapsible);
+  const triggerCurrent = index ? index.current : current;
 
   return (
     <Accordion
       values={open ? [value] : []}
       onValuesChange={(values) => setOpen(values.includes(value))}
     >
-      <AccordionItem value={value}>
+      <AccordionItem value={value} disabled={!collapsible && !index}>
         <AccordionTrigger
           headingLevel={2}
+          aria-current={index?.current ? "page" : undefined}
           title={
             <span className="block truncate t8-regular text-inherit" style={MOBILE_NAV_ITEM_STYLE}>
               {title}
+              {index?.featured && <SidebarFeaturedDot />}
             </span>
           }
-          suffixIcon={<IconChevronDownSmallLine />}
+          suffixIcon={collapsible && <IconChevronDownSmallLine />}
           className={clsx(
             "justify-between",
             MOBILE_NAV_ACCORDION_TRIGGER_CLASS,
-            current && MOBILE_NAV_SELECTED_ACCORDION_TRIGGER_CLASS,
+            triggerCurrent && MOBILE_NAV_SELECTED_ACCORDION_TRIGGER_CLASS,
           )}
           style={MOBILE_NAV_ITEM_STYLE}
         />
