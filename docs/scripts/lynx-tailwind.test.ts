@@ -93,7 +93,7 @@ describe("Lynx Styling navigation and permanent links", () => {
   const docs = resolve(import.meta.dir, "..");
   const redirects = readFileSync(resolve(docs, "public/_redirects"), "utf8");
 
-  test("groups theming and both Tailwind versions in the Styling folder", () => {
+  test("groups the overview, theming, Vanilla Extract, and both Tailwind versions in the Styling folder", () => {
     const parent = JSON.parse(
       readFileSync(resolve(docs, "content/lynx/getting-started/meta.json"), "utf8"),
     );
@@ -102,7 +102,13 @@ describe("Lynx Styling navigation and permanent links", () => {
     );
     expect(parent.pages).toContain("styling");
     expect(parent.pages).not.toContain("theming");
-    expect(styling.pages).toEqual(["theming", "tailwind-css-4", "tailwind-css-3"]);
+    expect(styling.pages).toEqual([
+      "index",
+      "theming",
+      "vanilla-extract",
+      "tailwind-css-4",
+      "tailwind-css-3",
+    ]);
     for (const page of styling.pages) {
       expect(
         readFileSync(resolve(docs, `content/lynx/getting-started/styling/${page}.mdx`), "utf8"),
