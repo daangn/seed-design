@@ -36,7 +36,7 @@
 
 DOM이나 Lynx native element 구조와 styling 전용 `data-*`는 자동으로 공개 계약이 되지 않는다. 문서나 API가 소비자 사용을 보장했으면 공개 표면으로 본다. 공개하지 않은 내부 배선 변경은 최종 렌더 결과와 접근성 동작으로 bump를 정한다.
 
-`@seed-design/css/vars/component/*`와 대응하는 Lynx 생성 값은 기본적으로 Recipe 구현용 내부 산출물이다. 문서로 직접 사용을 보장한 export와, `typography`처럼 직접 소비하라고 안내한 값은 공개 표면으로 본다.
+`@seed-design/css/vars/component`는 공개 표면인 `typography`만 export한다. 대응하는 Lynx 생성 값(`@seed-design/lynx-css/vars/component/*`)은 export되어 있지만 Recipe 구현용 내부 산출물이다. 문서로 직접 사용을 보장한 값만 공개 표면으로 본다.
 
 ## 대표 변경 매트릭스
 

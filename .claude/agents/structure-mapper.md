@@ -36,7 +36,7 @@ tools: Read, Glob, Grep, Bash
 - packages/lynx-qvism-preset/src/recipes/<id>.ts
 
 ### 생성물
-- packages/css/vars/component/<id>.mjs
+- packages/qvism-preset/src/vars/component/<id>.mjs
 - packages/css/recipes/<id>.css
 
 ### 구현
