@@ -109,3 +109,15 @@ Tailwind의 Flexbox 유틸리티를 네이티브 `<view>` 엘리먼트에 사용
 - CSS `initial`, `inherit`, `unset` 키워드는 지원되지 않습니다.
 - `inset` shorthand는 Lynx 3.7 기준으로 사용하지 않습니다. `top`, `right`, `bottom`, `left` longhand를 직접 작성하세요.
 </Callout>
+
+## Gradient 토큰
+
+`fade-mask`, `glow-magic`, `glow-magic-pressed`, `highlight-magic`, `highlight-magic-pressed`, `shimmer-magic`, `shimmer-neutral`을 사용할 수 있습니다.
+
+- 방향: `bg-shimmer-neutral-to-r` 또는 `bg-gradient-shimmer-neutral-to-r`. `t`, `tr`, `r`, `br`, `b`, `bl`, `l`, `tl`을 지원합니다.
+- 각도: `bg-gradient-glow-magic-[120deg]`. 정수·소수·음수 모두 대괄호 문법을 사용합니다.
+- 임의 각도: `bg-gradient-fade-mask-[45.5deg]`, `bg-gradient-glow-magic-[-45deg]`, `bg-gradient-highlight-magic-[0.25turn]`.
+
+`@seed-design/lynx-css/base.css`를 불러오면 `--seed-gradient-*`의 light/dark stop을 사용합니다. 모드 선택은 Lynx 토큰 CSS의 `seed-color-mode-light-only` / `seed-color-mode-dark-only` 클래스를 따릅니다. CSS 생성 성공과 native 렌더링 지원은 별도로 확인해야 합니다. 사용하는 Engine과 host에서 방향·각도·모드 전환을 검증하세요.
+
+`fade-mask`는 양쪽 모드에서 동일한 16개 alpha stop을 사용합니다. 이 유틸리티는 배경이며 마스크를 자동으로 적용하지 않습니다.
