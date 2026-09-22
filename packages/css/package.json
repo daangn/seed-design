@@ -18,7 +18,6 @@
   ],
   "type": "module",
   "exports": {
-    "./*.css": "./*.css",
     "./base.css": "./base.css",
     "./base.min.css": "./base.min.css",
     "./base.layered.css": "./base.layered.css",
@@ -45,14 +44,12 @@
       "types": "./vars/*.d.ts",
       "import": "./vars/*.mjs"
     },
-    "./vars/component": {
-      "types": "./vars/component/index.d.ts",
-      "import": "./vars/component/index.mjs"
+    "./vars/component": null,
+    "./vars/component/typography": {
+      "types": "./vars/component/typography.d.ts",
+      "import": "./vars/component/typography.mjs"
     },
-    "./vars/component/*": {
-      "types": "./vars/component/*.d.ts",
-      "import": "./vars/component/*.mjs"
-    },
+    "./vars/component/*": null,
     "./theming": {
       "types": "./theming/index.d.ts",
       "import": "./theming/index.mjs",
@@ -75,14 +72,14 @@
     "theming",
     "breakpoints",
     "scale-feedback",
-    "utils",
     "*.css",
     "LICENSE",
     "NOTICE"
   ],
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0"
+    "@seed-design/qvism-preset": "0.0.0",
+    "@seed-design/rootage-cli": "0.0.0"
   },
   "publishConfig": {
     "access": "public"
