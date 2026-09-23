@@ -16,6 +16,7 @@ docs/.next
 docs/.source
 docs/out
 docs/plans
+docs/superpowers
 examples/stackflow-spa/test-results
 examples/stackflow-spa/playwright-report
 docs/public/__lynx__
