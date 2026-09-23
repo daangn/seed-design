@@ -99,17 +99,8 @@ export function CarPlaceholder() {
 <Callout type="warning">
 Lynx `ContentPlaceholder`는 React `ContentPlaceholder`와 다음과 같은 차이가 있습니다.
 
-- **`type` 프리셋 제거**: 웹은 `type`(default / car / food / realty 등 12종) prop으로 전용 일러스트를 자동 표시하지만, Lynx는 해당 일러스트를 포팅하지 않습니다. 아이콘이나 이미지를 children으로 직접 주입합니다.
-- **아이콘 주입 방식**: 웹은 inline `<svg>` 프리셋을 사용하지만, Lynx는 `@karrotmarket/lynx-monochrome-icon` 같은 Lynx 아이콘 또는 `<image>`를 children으로 넣습니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
+- **`type` 프리셋 미제공**: 웹은 `type`(default / car / food / realty 등 12종) prop으로 전용 일러스트를 표시합니다. 현재 Lynx 구현에는 이 프리셋을 포팅하지 않았으며, 플랫폼상 구현이 불가능하다는 의미는 아닙니다. 아이콘이나 일러스트 이미지를 children으로 직접 넣으세요.
+- **아이콘 주입 방식**: 웹의 inline SVG와 `currentColor` 대신 Lynx 아이콘의 native 이미지에 `tint-color`를 적용합니다. 이 컴포넌트의 Asset은 raw `<svg>` 대신 Lynx 아이콘 또는 `<image>`를 받습니다.
 - **렌더링 요소**: HTML `<div>` 대신 네이티브 `<view>`를 렌더링합니다.
 - **Compound 구조**: `ContentPlaceholder.Root` → `ContentPlaceholder.Asset` 구성과 Context로 slot className을 공유하는 흐름은 웹과 동일합니다.
 </Callout>
-
-## Lynx 미지원 기능
-
-현재 Lynx 플랫폼 제약으로 다음이 지원되지 않습니다.
-
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `type` 프리셋 | `type="car"` 등 12종 | 전용 일러스트 SVG. 일부 `fill-rule="evenodd"`가 Lynx clipPath에서 깨지므로 포팅하지 않습니다. 카테고리 아이콘을 children으로 주입해 대체합니다 |
-| asset의 raw `<svg>` | inline SVG | Lynx는 임의 `<svg>` 스타일링을 지원하지 않습니다. Lynx 아이콘 element나 `<image>`를 사용합니다 |
