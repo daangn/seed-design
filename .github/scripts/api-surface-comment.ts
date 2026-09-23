@@ -46,7 +46,7 @@ export function buildComment(diffs: PackageDiff[], { baseLabel }: { baseLabel: s
   const header = [
     "## API surface changes",
     "",
-    `\`${baseLabel}\` 대비 공개 API 표면이 바뀐 패키지예요. 로컬에서 비교하는 방법은 \`tools/extract-api-surface/README.md\`에 있어요.`,
+    `\`${baseLabel}\` 대비 공개 API 표면이 바뀐 패키지예요.`,
     "",
     "| Package | + | - |",
     "| --- | --: | --: |",

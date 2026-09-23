@@ -86,7 +86,7 @@
 | `bun --filter @seed-design/docs dev` | 문서 사이트 개발 서버 |
 | `bun --filter @seed-design/docs storybook` | Storybook 실행 |
 | `bun figma:sync` | Figma에서 토큰 동기화 |
-| `bun extract-api-surface` | 공개 API 표면 출력. 두 시점 비교는 `tools/extract-api-surface/README.md` 참고 |
+| `bun extract-api-surface <package>...` | 지정한 패키지의 공개 API 표면 출력 |
 
 ### 린트/포맷
 

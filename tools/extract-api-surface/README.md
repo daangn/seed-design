@@ -1,6 +1,6 @@
 # extract-api-surface
 
-지정한 workspace 패키지의 공개 API 표면을 추출한다. PR CI는 public으로 배포되는 패키지 전체를 두 시점에서 추출해 비교한다. 변경이 breaking change인지 판단할 근거를 PR에서 바로 보이게 하는 것이 목적이다.
+지정한 workspace 패키지의 공개 API 표면을 추출한다. 변경이 breaking change인지 판단할 근거를 PR에서 바로 보이게 하는 것이 목적이다.
 
 ## 사용법
 
@@ -15,24 +15,6 @@ bun extract-api-surface $(bun .github/scripts/api-surface-packages.ts)  # CI처�
 
 다른 workspace 패키지에서 온 타입은 대상 패키지가 `package.json`에 선언한 workspace 의존성(`dependencies`·`peerDependencies`·`devDependencies`)을 따라 소스에서 읽는다.
 
-두 시점의 비교는 `git diff --no-index`로 한다. `--out-dir`는 비어 있거나 없는 디렉터리만 받는다. 이전 실행이 남긴 파일이 있으면 사라진 패키지가 그대로 있는 것처럼 비교되기 때문이다.
-
-### 로컬에서 base와 비교하기
-
-```sh
-git worktree add --detach ../seed-design-base "$(git merge-base origin/dev HEAD)"
-bun install --cwd ../seed-design-base
-
-bun extract-api-surface --root ../seed-design-base --out-dir /tmp/api-surface/base \
-  $(bun .github/scripts/api-surface-packages.ts ../seed-design-base)
-bun extract-api-surface --out-dir /tmp/api-surface/head $(bun .github/scripts/api-surface-packages.ts)
-git diff --no-index /tmp/api-surface/base /tmp/api-surface/head
-
-git worktree remove ../seed-design-base
-```
-
-base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react` 등)이 해석된다. 두 시점 모두 현재 checkout의 CLI로 추출하므로, base에 이 도구가 없어도 된다.
-
 저장소 소스의 import 중 하나라도 해석되지 않으면 목록을 출력하고 exit 1로 멈춘다. 해석되지 않은 import에서 흘러나온 타입은 오류 없이 `any`가 되어 표면이 조용히 틀어지기 때문이다. 의존성을 설치하지 않은 경우도 이 규칙으로 잡힌다.
 
 ## 표면에 담기는 것
@@ -46,10 +28,6 @@ base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react
 - 같은 entrypoint에서 이미 기술한 심볼의 다른 이름(`SidePanelBody`와 `SidePanel.Body`)은 `alias` 한 줄로 기록한다.
 
 타입 이름은 선언이 있는 파일의 import 방식을 따라 출력되므로(`ReactNode`와 `React.ReactNode`), import 방식만 바꿔도 diff가 생길 수 있다.
-
-## CI
-
-`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치하고, 시점마다 `.github/scripts/api-surface-packages.ts`로 고른 public 패키지를 추출한다. 그다음 `.github/scripts/api-surface-comment.ts`가 두 표면의 `git diff --no-index`로 코멘트 본문을 만든다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
 
 ## 개발
 

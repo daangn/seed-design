@@ -83,7 +83,7 @@ describe("PR 코멘트", () => {
       buildComment([{ name: "@seed-design/react", patch, added: 1, removed: 1 }], meta),
     ).toBe(`## API surface changes
 
-\`origin/dev (012345678)\` 대비 공개 API 표면이 바뀐 패키지예요. 로컬에서 비교하는 방법은 \`tools/extract-api-surface/README.md\`에 있어요.
+\`origin/dev (012345678)\` 대비 공개 API 표면이 바뀐 패키지예요.
 
 | Package | + | - |
 | --- | --: | --: |
