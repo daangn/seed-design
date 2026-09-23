@@ -57,8 +57,6 @@ import {
  * Recipes used by the Lynx preset build.
  */
 export const recipes = {
-  avatar,
-  avatarStack,
   accordion,
   actionButton,
   alertDialog,
@@ -119,4 +117,6 @@ export const recipes = {
   tagGroupItem: lynxTagGroupItem,
   tabs,
   textInput,
+  avatar,
+  avatarStack,
 };

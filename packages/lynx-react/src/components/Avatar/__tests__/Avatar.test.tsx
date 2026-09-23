@@ -167,6 +167,31 @@ describe("Avatar", () => {
     );
   });
 
+  it("keeps the loaded image and fallback state through repeated mask cycles", () => {
+    const onStatus = vi.fn();
+    function MaskedProfile({ mask }: { mask: "circle" | "flower" | "shield" | "none" }) {
+      return (
+        <Avatar.Root size="64" badgeMask={mask} onLoadingStatusChange={onStatus}>
+          <Avatar.Fallback><text>fallback</text></Avatar.Fallback>
+          <Avatar.Image src="a.png" />
+          <Avatar.Badge><text>badge</text></Avatar.Badge>
+        </Avatar.Root>
+      );
+    }
+    const { rerender } = render(<MaskedProfile mask="circle" />);
+    emit(image(), "load");
+    const loadedImage = image();
+    for (let cycle = 0; cycle < 3; cycle++) {
+      for (const mask of ["flower", "shield", "none", "circle"] as const) {
+        rerender(<MaskedProfile mask={mask} />);
+        expect(image()).toBe(loadedImage);
+        expect(root().querySelector(".seed-avatar__fallback")).toBeNull();
+        expect(root().querySelector(".seed-avatar__badge")?.textContent).toBe("badge");
+      }
+    }
+    expect(onStatus.mock.calls).toEqual([["loading"], ["loaded"]]);
+  });
+
   it("rejects slots without a Root provider", () => {
     expect(() => render(<Avatar.Image src="a.png" />)).toThrow();
   });
