@@ -7,10 +7,7 @@ description: 이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 �
 
 <LynxComponentExample name="lynx/content-placeholder/preview" height={360}>
   ```json doc-gen:file
-  {
-    "file": "examples/lynx/content-placeholder/preview.tsx",
-    "codeblock": true
-  }
+  { "file": "examples/lynx/content-placeholder/preview.tsx", "codeblock": true }
   ```
 </LynxComponentExample>
 
@@ -24,83 +21,52 @@ npx @seed-design/cli add ui:content-placeholder
 
 ## Usage
 
-설치한 snippet은 배경 박스(`Root`)와 중앙 정렬된 asset 박스(`Asset`)를 자동으로 조합한 `ContentPlaceholder`를 export 합니다. 웹과 달리 `type` 프리셋이 없으므로, 표시할 아이콘이나 이미지를 children으로 직접 넣습니다.
-
 ```tsx
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-import IconPictureFill from "@karrotmarket/lynx-monochrome-icon/IconPictureFill";
 
-export function App() {
-  return (
-    <ContentPlaceholder style={{ width: 160, height: 160 }}>
-      <IconPictureFill />
-    </ContentPlaceholder>
-  );
-}
+<ContentPlaceholder type="car" width="160px" height="160px" />
 ```
 
-### 크기 지정
+## Examples
 
-`ContentPlaceholder`는 기본적으로 부모를 가득 채웁니다(`width: 100%`, `height: 100%`). 고정 크기가 필요하면 `style`로 `width` / `height`를 직접 지정합니다. asset 박스는 Root 높이의 절반을 기준으로 최소·최대 너비 토큰 범위 안에서 중앙에 배치됩니다. 자식 아이콘 컴포넌트는 이 박스를 가득 채웁니다. 직접 넣는 `<image>`는 `style`로 크기를 명시합니다.
+### Type Preset
 
-```tsx
-<ContentPlaceholder style={{ width: 200, height: 120 }}>
-  <IconPictureFill />
-</ContentPlaceholder>
-```
+React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `default`를 표시합니다. 프리셋은 React SVG와 SEED 토큰에서 생성한 WebP이며, SEED 테마 클래스에 따라 미리 착색된 light/dark 에셋을 표시합니다.
 
-### 웹 `type` 프리셋 재현
+<LynxComponentExample name="lynx/content-placeholder/type" height={540}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/type.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-웹 `ContentPlaceholder`의 `type="car"`, `type="food"` 같은 카테고리 프리셋은 Lynx에서 제공하지 않습니다. 대신 같은 카테고리의 `@karrotmarket/lynx-monochrome-icon` 아이콘을 children으로 넣어 동일한 의미를 표현합니다.
+### Sizes
 
-```tsx
-import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-import IconCarFill from "@karrotmarket/lynx-monochrome-icon/IconCarFill";
+`width`와 `height`로 영역의 크기를 지정합니다. 에셋은 영역 높이의 절반으로 표시되며 최대 너비는 160px입니다.
 
-// 웹:  <ContentPlaceholder type="car" />
-// Lynx: 카테고리 아이콘을 직접 주입
-export function CarPlaceholder() {
-  return (
-    <ContentPlaceholder>
-      <IconCarFill />
-    </ContentPlaceholder>
-  );
-}
-```
+<LynxComponentExample name="lynx/content-placeholder/sizes" height={400}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/sizes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-단색 아이콘은 `Icon`으로 감싸지 않고 직접 넣습니다. `Asset`이 크기를 적용하고 Recipe의 색상을 `useIconColor`로 native 이미지의 `tint-color`에 연결합니다.
+### Customizing Asset
 
-커스텀 아이콘 컴포넌트는 하나의 `<image>`를 렌더하고, 전달받은 `className`, `style`, `ref`, `main-thread:binduiappear`를 해당 요소에 연결해야 합니다. SEED 전용 아이콘인지 검사하지 않으므로 이 계약을 따르는 외부 아이콘도 사용할 수 있습니다. 여러 자식이나 Fragment 대신 하나의 아이콘 또는 이미지를 전달하세요.
+하나의 아이콘이나 이미지를 `children`으로 전달하면 프리셋을 대체합니다. 컴포넌트는 크기와 정렬만 처리하며 색을 변경하지 않습니다. 모노크롬 아이콘에는 첫 렌더부터 최종 색이 적용되도록 `tint-color`를 지정하세요. CSS `color`를 자동 변환하거나 표시 후 색을 동기화하지 않습니다.
 
-### 원래 색상 유지
+<LynxComponentExample name="lynx/content-placeholder/svg" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/svg.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
 
-직접 전달한 `<image>`와 SEED 멀티컬러 아이콘은 기본적으로 원래 색상을 유지합니다. 다른 이미지 컴포넌트는 `preserveOriginalColor`를 지정하세요.
-
-```tsx
-<ContentPlaceholder>
-  <image src={photoUrl} mode="aspectFit" style={{ width: "100%", height: "100%" }} />
-</ContentPlaceholder>
-
-<ContentPlaceholder preserveOriginalColor>
-  <CustomIllustration />
-</ContentPlaceholder>
-```
-
-아이콘 컴포넌트에 `preserveOriginalColor={false}`를 명시하면 단색 tint를 적용합니다. 실행 중 `true`로 바꾸면 아이콘을 다시 마운트하지 않고 원래 tint 또는 멀티컬러 색상을 복원합니다. 이 경우 native ref와 이벤트를 연결하는 동일한 계약이 필요합니다. 직접 넣은 `<image>`는 Lynx snapshot 요소이므로 복제하거나 tint를 주입하지 않고, 지정한 props 그대로 렌더합니다. `Root`·`Asset` 조합에서는 `Asset`에 이 prop을 지정합니다.
+커스텀 아이콘 컴포넌트는 전달받은 `style`과 `tint-color`를 실제 `<image>`에 연결해야 합니다. 직접 넣는 `<image>`에는 `mode="aspectFit"`과 `style={{ width: "100%", height: "100%" }}`를 지정하세요. 프리셋 색을 바꾸려면 원하는 색의 커스텀 에셋을 사용합니다.
 
 ## Props
-
-### `ContentPlaceholder`
 
 <react-type-table path="./registry/lynx/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx `ContentPlaceholder`는 React `ContentPlaceholder`와 다음과 같은 차이가 있습니다.
-
-- **`type` 프리셋 미제공**: 웹은 `type`(default / car / food / realty 등 12종) prop으로 전용 일러스트를 표시합니다. 현재 Lynx 구현에는 이 프리셋을 포팅하지 않았으며, 플랫폼상 구현이 불가능하다는 의미는 아닙니다. 아이콘이나 일러스트 이미지를 children으로 직접 넣으세요.
-- **아이콘 주입 방식**: 웹의 inline SVG와 `currentColor` 대신 Lynx 아이콘의 native 이미지에 `tint-color`를 적용합니다. 이 컴포넌트의 Asset은 raw `<svg>` 대신 Lynx 아이콘 또는 `<image>`를 받습니다.
-- **렌더링 요소**: HTML `<div>` 대신 네이티브 `<view>`를 렌더링합니다.
-- **Compound 구조**: `ContentPlaceholder.Root` → `ContentPlaceholder.Asset` 구성과 Context로 slot className을 공유하는 흐름은 웹과 동일합니다.
-</Callout>
+- HTML/SVG 대신 native `view`와 `image`를 사용합니다. `Root`·`Asset` 구성과 `type` 프리셋은 React와 같습니다.
+- 프리셋은 테마별로 미리 착색되어 표시 후 tint 변경이 없습니다. 앱에 `useSeedClassName`으로 SEED 테마 클래스를 적용하세요.
+- 커스텀 SVG의 `currentColor` 상속 대신 아이콘의 `tint-color`를 직접 지정합니다. `preserveOriginalColor`나 자동 색상 동기화는 제공하지 않습니다.

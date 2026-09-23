@@ -1,17 +1,9 @@
 import { contentPlaceholder as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
-/**
- * Lynx ContentPlaceholder recipe.
- *
- * 웹(`packages/qvism-preset/src/recipes/content-placeholder.ts`)과의 차이:
- * - Lynx 미지원 CSS 제거: `boxSizing`, `verticalAlign`, asset의 `fill`/`stroke`/`objectFit`.
- * - `type` variant 제거: 웹은 type별 프리셋 일러스트를 제공하지만, Lynx는 전용 일러스트 SVG를
- *   포팅하지 않고 소비자가 아이콘/이미지를 children으로 주입한다. (docs에 parity 차이 명시)
- */
 const contentPlaceholder = defineSlotRecipe({
   name: "content-placeholder",
-  slots: ["root", "asset"],
+  slots: ["root", "asset", "presetLight", "presetDark"],
   base: {
     root: {
       position: "relative",
@@ -32,12 +24,27 @@ const contentPlaceholder = defineSlotRecipe({
       minWidth: vars.base.enabled.asset.minWidth,
       maxWidth: vars.base.enabled.asset.maxWidth,
       aspectRatio: "1 / 1",
-      color: vars.base.enabled.asset.color,
+    },
+    presetLight: { width: "100%", height: "100%", display: "flex" },
+    presetDark: { width: "100%", height: "100%", display: "none" },
+  },
+  variants: {
+    type: {
+      default: {},
+      buySell: {},
+      car: {},
+      commerce: {},
+      coupon: {},
+      food: {},
+      group: {},
+      image: {},
+      jobs: {},
+      business: {},
+      post: {},
+      realty: {},
     },
   },
-  // 웹과 달리 type 프리셋이 없으므로 variant는 없다. qvism core가 Object.entries를
-  // 호출하므로 빈 객체를 명시한다.
-  variants: {},
+  defaultVariants: { type: "default" },
 });
 
 export default contentPlaceholder;

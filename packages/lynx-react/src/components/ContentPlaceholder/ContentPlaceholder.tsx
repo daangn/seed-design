@@ -1,54 +1,47 @@
-import { contentPlaceholder } from "@seed-design/lynx-css/recipes/content-placeholder";
+import {
+  contentPlaceholder,
+  type ContentPlaceholderVariantProps,
+} from "@seed-design/lynx-css/recipes/content-placeholder";
 import clsx from "clsx";
-import type { MainThread } from "@lynx-js/types";
 import * as React from "@lynx-js/react";
 
-import type {
-  LynxIconElementProps,
-  LynxMainThreadRef,
-  LynxStyledElementProps,
-  LynxViewRef,
-} from "../../types";
-import { useIconColor } from "../../hooks/useIconColor";
+import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
-import { mergeMainThreadRefs } from "../../utils/merge-refs";
-import { isMulticolorIcon } from "../Icon/Icon";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
+import { contentPlaceholderPresets } from "./presets";
+
 // withProvider/withContext는 intrinsic tag를 감싸지 못하므로(Lynx BackgroundSnapshot 제약),
 // ClassNamesProvider + useClassNames로 slot className만 공유하고 native <view>는 literal로 렌더한다.
-const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(contentPlaceholder);
+const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
+  createSlotRecipeContext(contentPlaceholder);
 
-/**
- * @platform Lynx
- *
- * `ContentPlaceholder`는 이미지/콘텐츠가 없거나 로딩 전인 영역을 채우는 플레이스홀더다.
- * 배경 박스(`Root`)와 중앙 정렬된 asset 박스(`Asset`)로 구성되며, asset에는 아이콘이나
- * 이미지를 children으로 넣는다.
- *
- * 웹 `@seed-design/react`의 ContentPlaceholder는 `type` 프리셋(default/car/food 등 전용
- * 일러스트 SVG)을 제공하지만, Lynx는 해당 SVG를 포팅하지 않고 소비자가
- * `@karrotmarket/lynx-monochrome-icon` 같은 아이콘이나 이미지를 Asset의 children으로 직접 주입한다.
- */
-export interface ContentPlaceholderRootProps extends StyleProps, LynxStyledElementProps {}
+/** @platform Lynx */
+export interface ContentPlaceholderRootProps
+  extends ContentPlaceholderVariantProps,
+    StyleProps,
+    LynxStyledElementProps {}
 
 export const ContentPlaceholderRoot = React.forwardRef<unknown, ContentPlaceholderRootProps>(
   (props, ref) => {
-    const classNames = contentPlaceholder();
-    const { style, restProps } = useStyleProps(props);
+    const [variantProps, otherProps] = contentPlaceholder.splitVariantProps(props);
+    const classNames = contentPlaceholder(variantProps);
+    const { style, restProps } = useStyleProps(otherProps);
     const { children, className, ...nativeProps } = restProps;
 
     return (
       <ClassNamesProvider value={classNames}>
-        <view
-          {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
-          className={clsx(classNames.root, className)}
-          style={style}
-        >
-          {children}
-        </view>
+        <PropsProvider value={variantProps}>
+          <view
+            {...(ref ? { ref: ref as LynxViewRef } : {})}
+            {...nativeProps}
+            className={clsx(classNames.root, className)}
+            style={style}
+          >
+            {children}
+          </view>
+        </PropsProvider>
       </ClassNamesProvider>
     );
   },
@@ -56,29 +49,15 @@ export const ContentPlaceholderRoot = React.forwardRef<unknown, ContentPlacehold
 
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
-export interface ContentPlaceholderAssetProps extends LynxStyledElementProps {
-  /**
-   * 커스텀 아이콘의 원래 색상을 유지합니다. SEED 멀티컬러 아이콘은 기본적으로 유지합니다.
-   * 직접 전달한 native <image>는 복제하지 않고 원래 props 그대로 렌더합니다.
-   * 커스텀 아이콘은 className, style, ref와 main-thread:binduiappear를 실제 image에 전달해야 합니다.
-   */
-  preserveOriginalColor?: boolean;
-}
+/** Custom assets own their color. Pass an initial tint-color to monochrome icons. */
+export interface ContentPlaceholderAssetProps extends LynxStyledElementProps {}
 
 export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlaceholderAssetProps>(
   (props, ref) => {
     const classNames = useClassNames();
-    const { children, className, preserveOriginalColor, ...nativeProps } = props;
-    const sourceRef = React.useMainThreadRef<MainThread.Element>(null);
+    const parentProps = useProps();
+    const { children, className, ...nativeProps } = props;
     const isElement = React.isValidElement<LynxIconElementProps>(children);
-    // Intrinsic elements are compiled snapshots, not ordinary cloneable icon components.
-    const isNativeElement = isElement && typeof children.type === "string";
-    const shouldPreserveColor = preserveOriginalColor ?? isMulticolorIcon(children);
-    const iconColor = useIconColor([classNames.asset, className, nativeProps.style?.color], {
-      sourceRef,
-      enabled: isElement && !isNativeElement && !shouldPreserveColor,
-    });
-
     if (
       children != null &&
       children !== false &&
@@ -86,31 +65,38 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
     ) {
       throw new Error("ContentPlaceholder.Asset expects a single icon or image element.");
     }
-
-    let asset = children;
-    if (isElement && !isNativeElement) {
-      const dimensions = { style: { width: "100%", height: "100%" } };
-      const { ref: tintRef, ...tintEvents } = iconColor;
-      const childRef = (children as { ref?: LynxMainThreadRef }).ref ?? children.props.ref;
-      asset = React.cloneElement(children, {
-        ...mergeProps(tintEvents, children.props, dimensions),
-        ref: childRef ? mergeMainThreadRefs(tintRef, childRef) : tintRef,
-      });
-    }
+    const preset = contentPlaceholderPresets[parentProps?.type ?? "default"];
+    const asset =
+      isElement && typeof children.type !== "string"
+        ? React.cloneElement(
+            children,
+            mergeProps(children.props, { style: { width: "100%", height: "100%" } }),
+          )
+        : children;
 
     return (
       <view
-        {...mergeProps(
-          { "main-thread:ref": sourceRef },
-          ref ? { ref: ref as LynxViewRef } : {},
-          nativeProps,
-        )}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classNames.asset, className)}
       >
-        {asset}
+        {asset || (
+          <>
+            <image
+              src={preset.light}
+              mode="aspectFit"
+              className={classNames.presetLight}
+              accessibility-hidden
+            />
+            <image
+              src={preset.dark}
+              mode="aspectFit"
+              className={classNames.presetDark}
+              accessibility-hidden
+            />
+          </>
+        )}
       </view>
     );
   },
 );
-
 ContentPlaceholderAsset.displayName = "ContentPlaceholderAsset";

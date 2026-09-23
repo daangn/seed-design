@@ -6,8 +6,8 @@ const lynxSeedPackageRanges = {
 };
 
 const contentPlaceholderPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+  "@seed-design/lynx-react": ">=0.9.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.13.0 <1.0.0",
 };
 
 const identityPlaceholderPackageRanges = {
