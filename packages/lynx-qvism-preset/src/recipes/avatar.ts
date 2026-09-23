@@ -2,13 +2,17 @@ import { avatarBadgeMasks } from "../utils/avatar-badge-masks";
 import { avatar as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
+// Keep the mask layer and its geometry present across `none` transitions.
+// Only swap its image; removing and reapplying the mask can lose the cutout on older hosts.
+const maskBase = {
+  maskImage: "linear-gradient(#000, #000)",
+  maskSize: "100% 100%",
+  maskPosition: "0px 0px",
+  maskRepeat: "no-repeat",
+} as const;
+
 const maskedSlots = (shape: "circle" | "flower" | "shield") => {
-  const mask = {
-    maskImage: `var(--avatar-badge-mask-${shape})`,
-    maskSize: "100% 100%",
-    maskPosition: "0px 0px",
-    maskRepeat: "no-repeat",
-  } as const;
+  const mask = { maskImage: `var(--avatar-badge-mask-${shape})` } as const;
   return { imageContainer: mask, fallback: mask, stroke: mask };
 };
 
@@ -33,7 +37,7 @@ export default defineSlotRecipe({
       justifyContent: "center",
       borderRadius: vars.base.enabled.root.cornerRadius,
     },
-    imageContainer: { width: "100%", height: "100%" },
+    imageContainer: { ...maskBase, width: "100%", height: "100%" },
     image: {
       width: "100%",
       height: "100%",
@@ -43,6 +47,7 @@ export default defineSlotRecipe({
     pendingImageContainer: { pointerEvents: "none" },
     pendingImage: { opacity: 0, pointerEvents: "none" },
     fallback: {
+      ...maskBase,
       position: "absolute",
       top: 0,
       left: 0,
@@ -55,6 +60,7 @@ export default defineSlotRecipe({
       overflow: "hidden",
     },
     stroke: {
+      ...maskBase,
       position: "absolute",
       top: 0,
       left: 0,
