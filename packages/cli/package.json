@@ -57,6 +57,7 @@
     "dotenv": "^17.2.3",
     "env-paths": "^4.0.0",
     "esbuild": "^0.27.0",
+    "skills-npm": "1.2.0",
     "type-fest": "^5.0.0",
     "typescript": "^7.0.2",
     "zbsearch": "^3.3.4"
