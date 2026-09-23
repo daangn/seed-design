@@ -20,6 +20,7 @@ describe("release publish workflow", () => {
     expect(workflow).toContain("id-token: write");
     expect(workflow).toContain("publish-script: bun release");
     expect(workflow).toContain("version-script: bun version");
+    expect(workflow).toContain("changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51");
     expect(workflow).toContain('registry-url: "https://registry.npmjs.org"');
     expect(workflow).toContain("package-manager-cache: false");
     expect(workflow).not.toContain("NPM_TOKEN");
