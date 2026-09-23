@@ -1,23 +1,19 @@
 import { HStack } from "@seed-design/react";
 import { useState } from "react";
+import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { PopoverAnchor, PopoverBody, PopoverContent, PopoverRoot } from "seed-design/ui/popover";
-import { Switch } from "seed-design/ui/switch";
 
 export default function PopoverAnchorExample() {
   const [open, setOpen] = useState(false);
 
   return (
     <HStack align="center" justify="space-between" width="full">
-      <Switch tone="neutral" label="Popover" checked={open} onCheckedChange={setOpen} />
-      <PopoverRoot
-        open={open}
-        onOpenChange={(nextOpen, details) => {
-          if (!nextOpen && details?.reason === "interactOutside") return;
-          setOpen(nextOpen);
-        }}
-      >
+      <ActionButton variant="neutralSolid" onClick={() => setOpen(true)}>
+        Popover 열기
+      </ActionButton>
+      <PopoverRoot open={open} onOpenChange={setOpen}>
         <PopoverAnchor asChild>
           <Avatar
             size="80"
