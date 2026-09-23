@@ -4,7 +4,10 @@
 
 ## 적용 조건
 
-`meta.projectKinds`에 `library`가 있을 때 플랫폼 인덱스에서 Library Authors 또는 같은 역할의 공식 배포 계약 문서를 찾습니다. 인덱스를 정상적으로 읽었는데 해당 계약이 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다. 다른 플랫폼의 저자 정책을 이식하지 않습니다.
+`meta.projectKinds`에 `library`가 있을 때 플랫폼 인덱스에서 Library Authors 또는 같은 역할의 공식 배포 계약 문서를 찾습니다. 다른 플랫폼의 저자 정책을 이식하지 않습니다.
+
+- 인덱스를 정상적으로 읽었는데 해당 계약이 없음 → `not-applicable`
+- 인덱스나 연결 문서를 읽지 못함 → `not-verified`
 
 소비 가능 여부는 `private`나 npm 공개 여부만으로 판단하지 않습니다. package entry와 library build·publish artifact 증거를 함께 봅니다.
 
@@ -19,7 +22,7 @@
 
 ## 수정 방법
 
-발견한 공식 저자 문서가 요구하는 순서와 용어로 수정안을 안내합니다. peer 이동처럼 소비자 설치 동작을 바꾸는 조치는 자동 수정하지 않습니다.
+발견한 공식 저자 문서가 요구하는 순서와 용어로 수정안을 안내합니다. peer 이동처럼 소비자 설치 동작을 바꾸는 조치는 자동 수정하지 않고 finding의 수정 프롬프트로만 제시합니다.
 
 ## 문서 풀에서 사용할 근거
 

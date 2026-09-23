@@ -61,7 +61,7 @@ try {
 
 .gitattributes가 이 경로를 linguist-generated로 표시했습니다.
 직접 수정하지 말고 원천 파일을 수정하세요.
-원천과 생성 명령은 TECH.md의 「생성 파이프라인」 표를 보세요.
+원천과 생성 명령은 ARCHITECTURE.md의 「생성 파이프라인」을 보세요.
 
 재생성 명령어:
   $ ${regenerateCommand(filePath)}

@@ -1,66 +1,34 @@
 # examples/stackflow-spa
 
-## 디렉토리 개요
-
-SEED React 컴포넌트를 Stackflow SPA 환경에서 검증하기 위한 예제 앱. 각 컴포넌트 / feature 별로 `Activity*.tsx` 파일을 두고 실제 사용 시나리오를 보여준다. `src/seed-design/ui/`는 SEED CLI가 배포하는 snippet의 로컬 복사본 (`docs/registry/react/ui/`와 동기화).
-
-## 파일 작성 컨벤션
-
-- Activity 파일: `src/activities/Activity<Name>.tsx`, `PascalCase` 접두 `Activity`.
-- Snippet 파일: `src/seed-design/ui/<kebab-case>.tsx`, `docs/registry/react/ui/<kebab-case>.tsx`의 복사본. `"use client"` 지시어만 제거하고 나머지는 완전히 동일해야 한다.
-- 파일 하나당 하나의 activity를 `export default`로 내보낸다.
-
-## 코드 작성 컨벤션
-
-- Activity 컴포넌트는 `StaticActivityComponentType<"ActivityName">` 타입.
-- 모든 activity는 `AppScreen` + `AppBar` 구조를 기본으로 쓴다 (기존 activity 참고).
-- Stackflow params가 없는 activity는 `declare module "@stackflow/config"` 블록에서 `{}`로 선언.
-- Box 기반 컴포넌트의 시각적 검증용 activity는 `ActivityHome`의 적절한 섹션에 링크를 추가한다.
-- `src/seed-design/ui/`는 generated snippet의 vendored copy로 취급한다. registry snippet API가 바뀌면 이 경로도 같이 업데이트한다.
-- snippet이 존재하는 컴포넌트는 direct package import보다 `seed-design/ui/*` consumption을 우선한다.
-- snippet 변경 후에는 이 예제 앱 build를 확인하여 실제 소비자 코드가 깨지지 않았는지 검증한다.
-- vendored snippet을 앱 코드에서 임시로 우회 수정하기보다, 가능한 한 `docs/registry/react/ui/`의 public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
-- Activity 예시는 컴포넌트가 자체 제공하는 권장 layout을 우선 보여준다. `Footer`, `Body`처럼 recipe가 gap/stretch/layout을 이미 가진 slot에는 검증 목적 없는 추가 layout wrapper를 넣지 않는다.
-
-## Activity 등록 체크리스트
-
-새 activity를 만들 때 아래 세 가지를 모두 업데이트해야 한다. 하나라도 빠지면 타입 에러나 라우트 404가 발생할 수 있다. `ActivityHome` 링크는 홈 화면에서 해당 activity를 노출할 때만 추가한다.
-
-1. **Activity 파일 생성**: `src/activities/Activity<Name>.tsx`
-   - `declare module "@stackflow/config" { interface Register { Activity<Name>: {}; } }`
-   - `const Activity<Name>: StaticActivityComponentType<"Activity<Name>"> = () => { ... }`
-   - `export default Activity<Name>;`
-
-2. **`src/stackflow/Stack.tsx`의 `components` 객체에 등록**:
-   ```ts
-   Activity<Name>: lazy(() => import("../activities/Activity<Name>")),
-   ```
-   알파벳 순서 유지.
-
-3. **`src/stackflow/stackflow.config.ts`의 `activities` 배열에 라우트 등록**:
-   ```ts
-   { route: "/<kebab-case-name>", name: "Activity<Name>" },
-   ```
-   알파벳 순서 유지. 등록하지 않으면 `push()`는 호출되지만 URL 라우팅이 안 된다.
-
-4. **`src/activities/ActivityHome.tsx`의 섹션에 링크 추가** (홈 화면에 노출할 때만):
-   ```ts
-   { title: "<Display Name>", onClick: () => push("Activity<Name>", {}) }
-   ```
-
-## Snippet 동기화
-
-`src/seed-design/ui/*.tsx`는 `docs/registry/react/ui/*.tsx`와 같아야 한다 (첫 줄 `"use client";` 제거 제외). snippet을 수정할 때:
-
-1. 원본 `docs/registry/react/ui/<file>.tsx` 수정
-2. `examples/stackflow-spa/src/seed-design/ui/<file>.tsx`에 동일 변경을 적용 (첫 줄 `"use client";` + 빈 줄 제외)
-3. `bun generate:all`로 `docs/public/__registry__/`의 생성 파일도 갱신
-4. `diff` 로 `"use client"` 한 줄만 차이나는지 검증
+SEED React 컴포넌트를 Stackflow SPA에서 검증하는 예제 앱이다. 컴포넌트·기능별 `src/activities/Activity<Name>.tsx`가 사용 시나리오를 보여주고, `src/seed-design/ui/`는 `docs/registry/react/ui/` snippet의 vendored copy다.
 
 ## 검증
 
-```sh
-bun --filter @seed-design/stackflow-spa build
-```
+- `bun --filter @seed-design/stackflow-spa build`. `vite-plugin-checker`가 타입 오류를 빌드 실패로 올리므로 타입 오류와 라우트 등록 누락이 여기서 잡힌다. snippet을 바꿨을 때도 실행해 소비 코드가 깨지지 않았는지 확인한다.
+- E2E → `e2e/AGENTS.md`
 
-타입 에러나 라우트 불일치는 이 단계에서 잡힌다.
+## 작업 절차
+
+### Activity를 추가할 때
+
+1–3 중 하나라도 빠지면 타입 오류나 라우트 404가 난다.
+
+1. `src/activities/Activity<Name>.tsx`를 만든다. params가 없으면 `declare module "@stackflow/config" { interface Register { Activity<Name>: {}; } }`로 선언하고, `const Activity<Name>: StaticActivityComponentType<"Activity<Name>">`를 `export default`한다. 파일 하나에 activity 하나다.
+2. `src/stackflow/Stack.tsx`의 `components`에 `Activity<Name>: lazy(() => import("../activities/Activity<Name>")),`를 알파벳 순 위치에 넣는다.
+3. `src/stackflow/stackflow.config.ts`의 `activities`에 `{ route: "/<kebab-case-name>", name: "Activity<Name>" },`를 알파벳 순 위치에 넣는다. 빠뜨리면 `push()`는 호출되지만 URL 라우팅이 안 된다.
+4. 홈 화면에 노출할 때만 `src/activities/ActivityHome.tsx`의 `navigationSections` 중 알맞은 섹션 `items`에 `{ title: "<Display Name>", ...to("Activity<Name>", {}) },`를 넣는다. Box 기반 컴포넌트의 시각 검증용 activity는 노출한다.
+
+### Snippet 동기화
+
+`src/seed-design/ui/<file>.tsx`는 `docs/registry/react/ui/<file>.tsx`에서 첫 줄 `"use client";`와 뒤 빈 줄만 뺀 사본이다.
+
+1. 원본 `docs/registry/react/ui/<file>.tsx`를 고친다. 앱 쪽 사본을 임시로 우회 수정하지 않는다 → public snippet contract를 먼저 바로잡고 여기로 내려보낸다.
+2. 같은 변경을 `examples/stackflow-spa/src/seed-design/ui/<file>.tsx`에 적용한다.
+3. 루트 `AGENTS.md`「생성」대로 `bun docs:generate`를 실행한다.
+4. `diff docs/registry/react/ui/<file>.tsx examples/stackflow-spa/src/seed-design/ui/<file>.tsx`의 차이가 `"use client";`와 빈 줄뿐인지 확인한다.
+
+## 규칙
+
+- activity는 `AppScreen` + `AppBar` 구조를 기본으로 쓴다.
+- snippet이 있는 컴포넌트는 `@seed-design/react` 직접 import 대신 `seed-design/ui/*`를 쓴다.
+- 컴포넌트가 제공하는 권장 layout을 먼저 보여준다. `Footer`, `Body`처럼 recipe가 gap·stretch·layout을 가진 slot에는 검증 목적 없는 layout wrapper를 넣지 않는다.

@@ -92,20 +92,18 @@ category는 `config | compatibility | setup | foundations | components | library
 
 ### 룰 상태
 
-scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다.
+scope에 들어온 룰마다 `checks[]`를 하나 이상 만듭니다. `check.rule`은 `seed/<룰 파일 이름>` 형식입니다(예: `seed/project-config`).
 
-| status | 사용 조건 |
-|---|---|
-| `pass` | 적용 조건이 성립하고, 정적 진단을 끝냈으며 finding이 없음 |
-| `fail` | 적용 조건이 성립하고 finding이 하나 이상 있음 |
-| `not-applicable` | 역할·사용 증거가 없거나, 정상적으로 읽은 현재 인덱스에 필요한 공식 계약이 없음 |
-| `not-verified` | 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함 |
+- `pass`: 적용 조건이 성립하고, 정적 진단을 끝냈으며 finding이 없음. `evidence`를 씁니다.
+- `fail`: 적용 조건이 성립하고 finding이 하나 이상 있음. `evidence`를 씁니다.
+- `not-applicable`: 역할·사용 증거가 없거나, 정상적으로 읽은 현재 인덱스에 필요한 공식 계약이 없음. `reason`을 씁니다.
+- `not-verified`: 인덱스·연결 문서·네트워크·도구·설치본·경로를 확인하지 못함. `reason`을 씁니다.
 
-`pass`·`fail`은 `evidence`, 적용 제외·미검증은 `reason`을 씁니다. 모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서를 발견한 check는 플랫폼 인덱스와 실제로 읽은 leaf 문서를 함께 기록하고, 문서 부재 check는 확인한 플랫폼 인덱스를 기록합니다.
+모든 check에는 판정 또는 적용 제외를 뒷받침하는 공식 `references`가 필요합니다. 문서를 발견한 check는 플랫폼 인덱스와 실제로 읽은 leaf 문서를 함께 기록하고, 문서 부재 check는 확인한 플랫폼 인덱스를 기록합니다.
 
 각 `check.rule`은 리포트 안에서 유일해야 합니다. finding은 동일한 `rule`의 `fail` check가 있을 때만 만들고, 각 `fail` check에는 적어도 하나의 finding이 있어야 합니다. `pass`·`not-applicable`·`not-verified` check의 rule은 findings에 나오면 안 됩니다.
 
-[component-guidelines](../rules/component-guidelines.md)는 현재 공통 문서와 플랫폼 인덱스로 연결 가능한 컴포넌트마다 반복하고 `coverage`·`verdicts`를 채웁니다. 공식 계약을 찾지 못한 룰도 조용히 빼지 말고 해당 범주가 scope라면 `not-applicable`로 남깁니다.
+[component-guidelines](../rules/component-guidelines.md)는 현재 공통 문서와 플랫폼 인덱스로 연결 가능한 컴포넌트마다 반복하고, rule에 컴포넌트 문서 id를 붙여 유일하게 만듭니다(예: `seed/component-guidelines/bottom-sheet`). `coverage`·`verdicts`도 채웁니다. 공식 계약을 찾지 못한 룰도 조용히 빼지 말고 해당 범주가 scope라면 `not-applicable`로 남깁니다.
 
 ### severity
 
@@ -191,8 +189,10 @@ rejected: []
 - `findings[].remediation`: finding 하나를 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트입니다. Doctor가 프롬프트를 실행했다는 뜻은 아닙니다.
 - `summary`: findings를 severity별로 다시 센 값입니다. 손으로 추정하지 않습니다.
 - `verdicts`: component-guidelines의 기준별 판정 전체. `pass | fail | unknown | not-verified`를 유지합니다.
-- `coverage`: component-guidelines의 기계 수집 기준 수(`expected`)와 실제 판정 수(`judged`), 판단 보충 수(`derived`). `expected != judged`면 실행 결함입니다.
+- `coverage`: component-guidelines 컴포넌트마다 1단계 기계 수집 기준 수(`expected`), `verdicts`에 실제로 나온 1단계 기준 수(`judged`), 2단계 판단 보충 수(`derived`). `expected != judged`면 기준을 건너뛴 실행 결함입니다.
 - `rejected`: 실제 검토했지만 공식 기준이 허용하거나 증거가 부족해 finding으로 만들지 않은 후보입니다.
+
+### 저장 전 의미 검증
 
 JSON Schema는 배열 간 동적 `rule` 일치를 표현하지 못하므로, YAML을 저장하기 전에 다음 의미 검증을 별도로 수행합니다.
 
@@ -203,18 +203,20 @@ JSON Schema는 배열 간 동적 `rule` 일치를 표현하지 못하므로, YAM
 
 하나라도 실패하면 리포트를 완료한 것으로 보고하지 말고 판정·집계를 먼저 바로잡습니다.
 
+### verdict의 unknown
+
 `verdicts.unknown`은 문서 임계값 부재·런타임 의존·코드 밖 정보·문서 충돌처럼 기준별 판정이 불가능할 때 사용합니다. 룰 실행 자체의 적용 여부를 나타내는 `checks.status`와 혼동하지 않습니다.
 
-`verdicts.unknownReason`은 다음 네 값으로 이유를 보존합니다.
+`verdicts.unknownReason`은 다음 네 값으로 이유와 조치 주체를 보존합니다.
 
-| 값 | 뜻 | 조치 주체 |
-|---|---|---|
-| `no-threshold` | 문서가 위반 임계값을 정하지 않음 | SEED 문서 |
-| `runtime-dependent` | 런타임 데이터에 따라 달라짐 | 프로젝트 |
-| `not-in-code` | 코드만으로 확인할 수 없음 | 프로젝트 |
-| `doc-conflict` | 공식 문서 문장끼리 충돌하거나 두 가지로 읽힘 | SEED 문서 |
+- `no-threshold`: 문서가 위반 임계값을 정하지 않음. 조치 주체는 SEED 문서입니다.
+- `runtime-dependent`: 런타임 데이터에 따라 달라짐. 조치 주체는 프로젝트입니다.
+- `not-in-code`: 코드만으로 확인할 수 없음. 조치 주체는 프로젝트입니다.
+- `doc-conflict`: 공식 문서 문장끼리 충돌하거나 두 가지로 읽힘. 조치 주체는 SEED 문서입니다.
 
-component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criterionIds`, 2단계 판단 기준에서 나왔으면 `criterion`으로 verdict와 연결합니다. 같은 기준의 위반이 여러 파일에 있으면 파일별로 내되, 공유 구현 하나가 원인이거나 수정 한 번으로 모두 사라지면 대표 `file` 한 건과 `files[]` 전체 목록으로 묶습니다.
+### component-guidelines finding 연결
+
+component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criterionIds`, 2단계 판단 기준에서 나왔으면 `criterion`으로 verdict와 연결합니다. `criterion`에 id 문자열을 섞지 않습니다. 같은 기준의 위반이 여러 파일에 있으면 파일별로 내되, 공유 구현 하나가 원인이거나 수정 한 번으로 모두 사라지면 대표 `file` 한 건과 `files[]` 전체 목록으로 묶습니다.
 
 `rejected`는 실제로 살펴본 후보만 적습니다. 공식 문서가 허용하거나, 증거가 부족하거나, 역할이 다른 구현이거나, 의도적인 도메인 선택으로 보이는 경우에 candidate·reason·file을 남깁니다. 칸을 채우기 위해 후보를 만들지 않습니다.
 
@@ -229,7 +231,7 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 5. finding의 `references` 전체
 6. 저장소 지침과 package scripts를 먼저 확인하고 변경 범위에 맞게 검증하라는 요청
 
-존재하지 않는 명령·파일·대체 API를 프롬프트에 추측해서 넣지 않습니다. 여러 finding이 같은 원인과 한 번의 수정으로 해결되면 기존 묶음 규칙대로 하나의 finding과 하나의 프롬프트를 만듭니다. Doctor는 이 프롬프트를 생성만 하며, 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
+존재하지 않는 명령·파일·대체 API를 프롬프트에 추측해서 넣지 않습니다. 확인한 것만 쓰고, 확인하지 못한 부분은 공식 문서를 확인하라고 적습니다. 여러 finding이 같은 원인과 한 번의 수정으로 해결되면 기존 묶음 규칙대로 하나의 finding과 하나의 프롬프트를 만듭니다. Doctor는 이 프롬프트를 생성만 하며, 사용자가 실제 수정을 요청하기 전에는 실행하지 않습니다.
 
 ## 저장과 다중 워크스페이스
 
@@ -241,7 +243,7 @@ component-guidelines finding은 1단계 기계 기준에서 나왔으면 `criter
 
 ## HTML 리포트
 
-스키마와 필드 관계 검증을 통과한 YAML만 입력으로 사용해 `assets/report-template.html`의 구조를 채웁니다. HTML에서 판정이나 집계를 별도로 만들지 않습니다. 렌더링에 실패하면 검증된 YAML은 보존하고 실패 이유를 알리며, HTML까지 생성된 것처럼 보고하지 않습니다.
+스키마와 저장 전 의미 검증을 통과한 YAML만 입력으로 사용해 `assets/report-template.html`의 구조를 채웁니다. HTML에서 판정이나 집계를 별도로 만들지 않습니다. 렌더링에 실패하면 검증된 YAML은 보존하고 실패 이유를 알리며, HTML까지 생성된 것처럼 보고하지 않습니다.
 
 - 한 파일로 완결합니다. CDN·외부 폰트·JavaScript를 쓰지 않고 `<details>`로 접습니다.
 - "먼저 할 것" 다음에 **범주별 검사 범위**를 보여 줍니다.

@@ -4,7 +4,10 @@
 
 ## 적용 조건
 
-유효한 snippet path 아래에 설치 스니펫이 있고, 현재 CLI·registry 문서가 설치 세대와 canonical registry를 대조할 근거를 제공할 때 적용합니다. 설정·스니펫·세대 근거 중 하나가 없으면 `not-applicable`, 필요한 문서나 registry를 읽지 못하면 `not-verified`입니다.
+유효한 snippet path 아래에 설치 스니펫이 있고, 현재 CLI·registry 문서가 설치 세대와 canonical registry를 대조할 근거를 제공할 때 적용합니다.
+
+- 설정·스니펫·세대 근거 중 하나가 없음 → `not-applicable`
+- 필요한 문서나 registry를 읽지 못함 → `not-verified`
 
 ## 판정 방법
 
