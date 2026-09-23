@@ -1,0 +1,72 @@
+---
+title: ContentPlaceholder
+description: 이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 채우는 플레이스홀더 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.9.0, @seed-design/lynx-css@0.13.0" />
+
+<LynxComponentExample name="lynx/content-placeholder/preview" height={360}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/preview.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:content-placeholder
+```
+
+<LynxManualInstallation name="content-placeholder" />
+
+## Usage
+
+```tsx
+import { ContentPlaceholder } from "@/components/ui/content-placeholder";
+
+<ContentPlaceholder type="car" width="160px" height="160px" />
+```
+
+## Examples
+
+### Type Preset
+
+React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `default`를 표시합니다. 프리셋은 React SVG와 SEED 토큰에서 생성한 WebP이며, SEED 테마 클래스에 따라 미리 착색된 light/dark 에셋을 표시합니다.
+
+<LynxComponentExample name="lynx/content-placeholder/type" height={540}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/type.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Sizes
+
+`width`와 `height`로 영역의 크기를 지정합니다. 에셋은 영역 높이의 절반으로 표시되며 최대 너비는 160px입니다.
+
+<LynxComponentExample name="lynx/content-placeholder/sizes" height={400}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/sizes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Customizing Asset
+
+하나의 아이콘이나 이미지를 `children`으로 전달하면 프리셋을 대체합니다. 컴포넌트는 크기와 정렬만 처리하며 색을 변경하지 않습니다. 모노크롬 아이콘에는 첫 렌더부터 최종 색이 적용되도록 `tint-color`를 지정하세요. CSS `color`를 자동 변환하거나 표시 후 색을 동기화하지 않습니다.
+
+<LynxComponentExample name="lynx/content-placeholder/svg" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/content-placeholder/svg.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+커스텀 아이콘 컴포넌트는 전달받은 `style`과 `tint-color`를 실제 `<image>`에 연결해야 합니다. 직접 넣는 `<image>`에는 `mode="aspectFit"`과 `style={{ width: "100%", height: "100%" }}`를 지정하세요. 프리셋 색을 바꾸려면 원하는 색의 커스텀 에셋을 사용합니다.
+
+## Props
+
+<react-type-table path="./registry/lynx/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
+
+## 웹 버전과의 차이
+
+- HTML/SVG 대신 native `view`와 `image`를 사용합니다. `Root`·`Asset` 구성과 `type` 프리셋은 React와 같습니다.
+- 프리셋은 테마별로 미리 착색되어 표시 후 tint 변경이 없습니다. 앱에 `useSeedClassName`으로 SEED 테마 클래스를 적용하세요.
+- 커스텀 SVG의 `currentColor` 상속 대신 아이콘의 `tint-color`를 직접 지정합니다. `preserveOriginalColor`나 자동 색상 동기화는 제공하지 않습니다.

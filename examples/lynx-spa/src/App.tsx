@@ -10,6 +10,7 @@ import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
+import { ContentPlaceholderPage } from "./pages/ContentPlaceholderPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
@@ -55,6 +56,7 @@ export type Page =
   | "badge"
   | "bottom-sheet"
   | "callout"
+  | "content-placeholder"
   | "checkbox"
   | "manner-temp"
   | "page-banner"
@@ -172,6 +174,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "bottom-sheet" && <BottomSheetPage />}
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
+      {page === "content-placeholder" && <ContentPlaceholderPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "page-banner" && <PageBannerPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
