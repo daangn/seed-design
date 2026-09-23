@@ -155,6 +155,14 @@ type ChipProps
     );
   });
 
+  test("public 패키지가 아닌 이름을 지정하면 추출을 멈춘다", () => {
+    const root = createFixture();
+
+    expect(() =>
+      extractSurface(root, { packages: ["@fixture/styled", "@fixture/internal", "@fixture/typo"] }),
+    ).toThrow("public 패키지가 아닙니다: @fixture/internal, @fixture/typo");
+  });
+
   test("해석하지 못한 import가 있으면 목록과 함께 추출을 멈춘다", () => {
     const root = createFixture();
     writeFiles(root, {

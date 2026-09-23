@@ -49,6 +49,11 @@ export interface ExtractOptions {
 
 export function extractSurface(root: string, options: ExtractOptions = {}): PackageSurface[] {
   const publicPackages = findPublicPackages(root);
+  const unknown = (options.packages ?? []).filter(
+    (name) => !publicPackages.some((pkg) => pkg.name === name),
+  );
+  if (unknown.length > 0) throw new Error(`public 패키지가 아닙니다: ${unknown.join(", ")}`);
+
   const packages = publicPackages.filter(
     (pkg) => !options.packages || options.packages.includes(pkg.name),
   );
