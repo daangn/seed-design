@@ -10,7 +10,7 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverDescription,
-  PopoverPositionerPortal,
+  PopoverPositioner,
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
@@ -82,13 +82,13 @@ function BasicPopover(props: Omit<PopoverRootProps, "children">) {
   return (
     <PopoverRoot {...props}>
       <PopoverTrigger>Open Popover</PopoverTrigger>
-      <PopoverPositionerPortal data-testid="positioner">
+      <PopoverPositioner data-testid="positioner">
         <PopoverContent data-testid="content">
           <PopoverTitle>Title</PopoverTitle>
           <input aria-label="Note" />
           <PopoverCloseButton>Close</PopoverCloseButton>
         </PopoverContent>
-      </PopoverPositionerPortal>
+      </PopoverPositioner>
     </PopoverRoot>
   );
 }
@@ -336,11 +336,11 @@ describe("usePopover", () => {
       const { getByText, getByTestId } = render(
         <PopoverRoot>
           <PopoverTrigger>Open Popover</PopoverTrigger>
-          <PopoverPositionerPortal>
+          <PopoverPositioner>
             <PopoverContent data-testid="content">
               <PopoverDescription>Description</PopoverDescription>
             </PopoverContent>
-          </PopoverPositionerPortal>
+          </PopoverPositioner>
         </PopoverRoot>,
       );
       await waitForPositioning();
@@ -358,9 +358,9 @@ describe("usePopover", () => {
       const { getByTestId } = render(
         <PopoverRoot>
           <PopoverTrigger>Open Popover</PopoverTrigger>
-          <PopoverPositionerPortal>
+          <PopoverPositioner>
             <PopoverContent data-testid="content" aria-label="Popover" />
-          </PopoverPositionerPortal>
+          </PopoverPositioner>
         </PopoverRoot>,
       );
       await waitForPositioning();
@@ -544,13 +544,13 @@ describe("usePopover", () => {
       const { getByText, getByTestId } = render(
         <PopoverRoot>
           <PopoverTrigger>Open Popover</PopoverTrigger>
-          <PopoverPositionerPortal>
+          <PopoverPositioner>
             <PopoverContent data-testid="content" aria-label="Popover">
               <PopoverCloseButton onClick={(event) => event.preventDefault()}>
                 Close
               </PopoverCloseButton>
             </PopoverContent>
-          </PopoverPositionerPortal>
+          </PopoverPositioner>
         </PopoverRoot>,
       );
       await waitForPositioning();

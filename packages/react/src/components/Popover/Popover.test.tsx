@@ -7,7 +7,7 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  PopoverPositionerPortal,
+  PopoverPositioner,
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
@@ -47,11 +47,11 @@ function BasicPopover(props: Omit<PopoverRootProps, "children">) {
   return (
     <PopoverRoot {...props}>
       <PopoverTrigger>Open Popover</PopoverTrigger>
-      <PopoverPositionerPortal>
+      <PopoverPositioner>
         <PopoverContent aria-label="Popover">
           <PopoverBody data-testid="body">Body</PopoverBody>
         </PopoverContent>
-      </PopoverPositionerPortal>
+      </PopoverPositioner>
     </PopoverRoot>
   );
 }
@@ -157,14 +157,14 @@ describe("PopoverHeader", () => {
     const { getByTestId } = render(
       <PopoverRoot defaultOpen>
         <PopoverTrigger>Open Popover</PopoverTrigger>
-        <PopoverPositionerPortal>
+        <PopoverPositioner>
           <PopoverContent aria-label="Popover">
             <PopoverHeader data-testid="header">
               <PopoverTitle>Title</PopoverTitle>
               <PopoverCloseButton>Close</PopoverCloseButton>
             </PopoverHeader>
           </PopoverContent>
-        </PopoverPositionerPortal>
+        </PopoverPositioner>
       </PopoverRoot>,
     );
     await waitForPositioning();
@@ -176,13 +176,13 @@ describe("PopoverHeader", () => {
     const { getByTestId } = render(
       <PopoverRoot defaultOpen>
         <PopoverTrigger>Open Popover</PopoverTrigger>
-        <PopoverPositionerPortal>
+        <PopoverPositioner>
           <PopoverContent aria-label="Popover">
             <PopoverHeader data-testid="header">
               <PopoverTitle>Title</PopoverTitle>
             </PopoverHeader>
           </PopoverContent>
-        </PopoverPositionerPortal>
+        </PopoverPositioner>
       </PopoverRoot>,
     );
     await waitForPositioning();

@@ -10,7 +10,7 @@ import type * as React from "react";
 import { forwardRef, useRef } from "react";
 import { usePopover, type UsePopoverProps } from "./usePopover";
 import { PopoverProvider, usePopoverContext } from "./usePopoverContext";
-import { FloatingFocusManager, FloatingPortal, type FloatingPortalProps } from "@floating-ui/react";
+import { FloatingFocusManager, FloatingPortal } from "@floating-ui/react";
 
 export interface PopoverRootProps extends UsePopoverProps {
   children: React.ReactNode;
@@ -101,44 +101,33 @@ const PopoverDismissibleLayer = ({ children }: { children: React.ReactNode }) =>
 
 export interface PopoverPositionerProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * The container element to render the portal into.
+   * @default document.body
+   */
+  container?: React.RefObject<HTMLElement | null>;
+}
 
 export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerProps>(
-  (props, ref) => {
-    const api = usePopoverContext();
-    return (
-      <PopoverDismissibleLayer>
-        <Primitive.div
-          ref={composeRefs(api.refs.positioner, ref)}
-          {...mergeProps(api.positionerProps, props)}
-        />
-      </PopoverDismissibleLayer>
-    );
-  },
-);
-PopoverPositioner.displayName = "PopoverPositioner";
-
-export interface PopoverPositionerPortalProps
-  extends PopoverPositionerProps,
-    Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
-
-export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositionerPortalProps>(
-  ({ id, root, preserveTabOrder, ...otherProps }, ref) => {
+  ({ container, ...props }, ref) => {
     const api = usePopoverContext();
 
+    // FloatingPortal (not a generic portal) so that FloatingFocusManager
+    // detects the portal context and renders focus-guard sentinels.
     return (
-      <FloatingPortal id={id} root={root} preserveTabOrder={preserveTabOrder}>
+      <FloatingPortal root={container ?? undefined}>
         <PopoverDismissibleLayer>
           <Primitive.div
             ref={composeRefs(api.refs.positioner, ref)}
-            {...mergeProps(api.positionerProps, otherProps)}
+            {...mergeProps(api.positionerProps, props)}
           />
         </PopoverDismissibleLayer>
       </FloatingPortal>
     );
   },
 );
-PopoverPositionerPortal.displayName = "PopoverPositionerPortal";
+PopoverPositioner.displayName = "PopoverPositioner";
 
 /**
  * Holds a Radix FocusScope registration for as long as the popover is open, so parent

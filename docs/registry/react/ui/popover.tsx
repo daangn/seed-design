@@ -29,10 +29,15 @@ export interface PopoverContentProps extends Omit<SeedPopover.ContentProps, "tit
    * @default true
    */
   showCloseButton?: boolean;
+
+  positionerContainer?: SeedPopover.PositionerProps["container"];
 }
 
 export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
-  ({ children, title, description, showCloseButton = true, ...otherProps }, ref) => {
+  (
+    { children, title, description, showCloseButton = true, positionerContainer, ...otherProps },
+    ref,
+  ) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -47,7 +52,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     const shouldRenderHeader = title || description || showCloseButton;
 
     return (
-      <SeedPopover.PositionerPortal>
+      <SeedPopover.Positioner container={positionerContainer}>
         <SeedPopover.Content ref={ref} {...otherProps}>
           {shouldRenderHeader && (
             <SeedPopover.Header>
@@ -63,7 +68,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
           )}
           {children}
         </SeedPopover.Content>
-      </SeedPopover.PositionerPortal>
+      </SeedPopover.Positioner>
     );
   },
 );
