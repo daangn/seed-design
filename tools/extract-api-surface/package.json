@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@optique/core": "1.2.4",
-    "@optique/run": "1.2.4"
+    "@optique/run": "1.2.4",
+    "skills-npm": "1.2.0"
   }
 }

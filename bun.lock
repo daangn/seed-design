@@ -20,7 +20,6 @@
         "figma-api": "2.1.4-beta",
         "knip": "^6.0.0",
         "publint": "^0.3.12",
-        "skills-npm": "1.2.0",
         "typescript": "^6.0.3",
         "ultra-runner": "^3.10.5",
         "watchlist": "^0.3.1",
@@ -1733,6 +1732,7 @@
       "devDependencies": {
         "@optique/core": "1.2.4",
         "@optique/run": "1.2.4",
+        "skills-npm": "1.2.0",
       },
     },
     "tools/figma-checklist-widget": {
