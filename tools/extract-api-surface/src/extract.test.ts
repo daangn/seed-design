@@ -198,7 +198,7 @@ type Pair = [string, number]
     const root = createFixture();
 
     expect(() => extractSurface(root, ["@fixture/styled", "@fixture/typo"])).toThrow(
-      "workspace 패키지가 아닙니다: @fixture/typo",
+      "Not a workspace package: @fixture/typo",
     );
   });
 
@@ -231,7 +231,7 @@ function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
     });
 
     expect(() => extractSurface(root, TARGETS)).toThrow(
-      "해석하지 못한 import가 1개 있어 표면을 정확히 추출할 수 없습니다.\n  missing-lib  (packages/headless/src/index.ts)",
+      "Cannot extract the surface accurately: 1 unresolved import(s).\n  missing-lib  (packages/headless/src/index.ts)",
     );
   });
 
@@ -239,6 +239,6 @@ function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
     const root = createFixture();
     rmSync(path.join(root, "node_modules"), { recursive: true });
 
-    expect(() => extractSurface(root, TARGETS)).toThrow("node_modules가 없습니다");
+    expect(() => extractSurface(root, TARGETS)).toThrow("has no node_modules");
   });
 });

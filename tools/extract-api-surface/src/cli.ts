@@ -22,9 +22,9 @@ function emptyDirectory(): ValueParser<"sync", string> {
 
       // `path()` checks `type` only when `mustExist` is set, which a missing directory can't be.
       if (!statSync(result.value).isDirectory())
-        return { success: false, error: message`디렉터리가 아닙니다: ${input}` };
+        return { success: false, error: message`Not a directory: ${input}.` };
       if (readdirSync(result.value).length > 0)
-        return { success: false, error: message`비어 있지 않은 디렉터리입니다: ${input}` };
+        return { success: false, error: message`Directory is not empty: ${input}.` };
 
       return result;
     },
@@ -37,26 +37,26 @@ const textOutput = (hidden?: "doc") =>
   object({
     outDir: optional(
       option("--out-dir", emptyDirectory(), {
-        description: message`text 표면을 패키지별 <DIR>/<패키지 이름>.txt 파일로 씁니다. 디렉터리는 비어 있거나 없어야 합니다.`,
+        description: message`Write each package's text surface to <DIR>/<package name>.txt. The directory must be empty or not exist.`,
         hidden,
       }),
     ),
   });
 
-const noPackages = message`추출할 패키지를 하나 이상 지정해 주세요.`;
+const noPackages = message`Specify at least one package to extract.`;
 
 // The empty command line fails in `object()` and one with only options fails in `multiple()`.
 const parser = object(
   {
     root: withDefault(
       option("--root", path({ metavar: "DIR", type: "directory", mustExist: true }), {
-        description: message`추출할 모노레포 루트입니다.`,
+        description: message`Root of the monorepo to extract from.`,
       }),
       ".",
     ),
     output: conditional(
       option("--format", choice(["text", "json"]), {
-        description: message`출력 형식입니다. 기본값은 text입니다.`,
+        description: message`Output format. Defaults to text.`,
       }),
       { text: textOutput("doc"), json: object({}) },
       textOutput(),
@@ -75,7 +75,7 @@ const {
   packages,
 } = run(parser, {
   programName: "extract-api-surface",
-  brief: message`지정한 workspace 패키지의 공개 API 표면을 출력합니다.`,
+  brief: message`Print the public API surface of the given workspace packages.`,
   help: { option: { names: ["-h", "--help"] } },
   showDefault: true,
   showChoices: true,

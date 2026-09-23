@@ -52,7 +52,7 @@ export interface PackageSurface {
 export function extractSurface(root: string, packageNames: readonly string[]): PackageSurface[] {
   const workspace = findWorkspacePackages(root);
   const unknown = packageNames.filter((name) => !workspace.some((pkg) => pkg.name === name));
-  if (unknown.length > 0) throw new Error(`workspace 패키지가 아닙니다: ${unknown.join(", ")}`);
+  if (unknown.length > 0) throw new Error(`Not a workspace package: ${unknown.join(", ")}`);
 
   const resolved = workspace
     .filter((pkg) => packageNames.includes(pkg.name))
@@ -83,17 +83,14 @@ export function extractSurface(root: string, packageNames: readonly string[]): P
       .map(({ specifier, file }) => `  ${specifier}  (${path.relative(root, file)})`);
     const install = existsSync(path.join(root, "node_modules"))
       ? []
-      : [
-          "",
-          `${root}에 node_modules가 없습니다. 먼저 \`bun install --cwd ${root}\`를 실행해 주세요.`,
-        ];
+      : ["", `${root} has no node_modules. Run \`bun install --cwd ${root}\` first.`];
 
     throw new Error(
       [
-        `해석하지 못한 import가 ${unresolved.length}개 있어 표면을 정확히 추출할 수 없습니다.`,
+        `Cannot extract the surface accurately: ${unresolved.length} unresolved import(s).`,
         ...listed,
         ...(unresolved.length > listed.length
-          ? [`  … 외 ${unresolved.length - listed.length}개`]
+          ? [`  … and ${unresolved.length - listed.length} more`]
           : []),
         ...install,
       ].join("\n"),
