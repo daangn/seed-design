@@ -1,18 +1,18 @@
-import { avatarBadgeMasks } from "../utils/avatar-badge-masks";
+import { avatarBadgeClipPaths } from "../utils/avatar-badge-clip-paths";
 import { avatar as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
-// Keep the mask layer and its geometry present across `none` transitions.
-// Only swap its image; removing and reapplying the mask can lose the cutout on older hosts.
+// A transparent gradient creates an Android Drawable so beforeDraw applies
+// clip-path even when the view has no visible background. Keep the full path
+// for `none` too, so toggling a cutout does not remove the clipping layer.
 const maskBase = {
-  maskImage: "linear-gradient(#000, #000)",
-  maskSize: "100% 100%",
-  maskPosition: "0px 0px",
-  maskRepeat: "no-repeat",
+  backgroundImage: "linear-gradient(transparent, transparent)",
+  clipPath: "var(--avatar-badge-clip-none)",
+  overflow: "hidden",
 } as const;
 
 const maskedSlots = (shape: "circle" | "flower" | "shield") => {
-  const mask = { maskImage: `var(--avatar-badge-mask-${shape})` } as const;
+  const mask = { clipPath: `var(--avatar-badge-clip-${shape})` } as const;
   return { imageContainer: mask, fallback: mask, stroke: mask };
 };
 
@@ -88,9 +88,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size20.enabled.root.size,
           height: vars.size20.enabled.root.size,
-          "--avatar-badge-mask-circle": "linear-gradient(#000, #000)",
-          "--avatar-badge-mask-flower": "linear-gradient(#000, #000)",
-          "--avatar-badge-mask-shield": "linear-gradient(#000, #000)",
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[20].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[20].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[20].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[20].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size20.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -101,9 +102,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size24.enabled.root.size,
           height: vars.size24.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[24].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[24].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[24].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[24].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[24].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[24].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[24].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size24.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -119,9 +121,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size36.enabled.root.size,
           height: vars.size36.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[36].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[36].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[36].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[36].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[36].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[36].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[36].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size36.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -137,9 +140,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size42.enabled.root.size,
           height: vars.size42.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[42].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[42].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[42].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[42].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[42].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[42].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[42].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size42.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -155,9 +159,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size48.enabled.root.size,
           height: vars.size48.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[48].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[48].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[48].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[48].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[48].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[48].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[48].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size48.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -173,9 +178,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size56.enabled.root.size,
           height: vars.size56.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[56].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[56].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[56].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[56].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[56].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[56].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[56].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size56.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -191,9 +197,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size64.enabled.root.size,
           height: vars.size64.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[64].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[64].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[64].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[64].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[64].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[64].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[64].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size64.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -209,9 +216,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size80.enabled.root.size,
           height: vars.size80.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[80].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[80].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[80].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[80].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[80].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[80].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[80].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size80.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -227,9 +235,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size96.enabled.root.size,
           height: vars.size96.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[96].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[96].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[96].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[96].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[96].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[96].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[96].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size96.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -245,9 +254,10 @@ export default defineSlotRecipe({
         root: {
           width: vars.size108.enabled.root.size,
           height: vars.size108.enabled.root.size,
-          "--avatar-badge-mask-circle": avatarBadgeMasks[108].circle,
-          "--avatar-badge-mask-flower": avatarBadgeMasks[108].flower,
-          "--avatar-badge-mask-shield": avatarBadgeMasks[108].shield,
+          "--avatar-badge-clip-none": avatarBadgeClipPaths[108].none,
+          "--avatar-badge-clip-circle": avatarBadgeClipPaths[108].circle,
+          "--avatar-badge-clip-flower": avatarBadgeClipPaths[108].flower,
+          "--avatar-badge-clip-shield": avatarBadgeClipPaths[108].shield,
         },
         stroke: {
           boxShadow: `inset 0 0 0 ${vars.size108.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,

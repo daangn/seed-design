@@ -83,9 +83,9 @@ import { Avatar } from "@seed-design/lynx-react";
 
 `AvatarBadge`에는 커스텀 요소나 이미지를 넣을 수 있습니다. React와 마찬가지로 `badgeMask`는 선택한 모양으로 아바타를 잘라내며, 배지 자식의 윤곽을 분석하거나 자식 자체를 자르지는 않습니다. 원·꽃·방패에 맞지 않는 콘텐츠는 `badgeMask="none"`을 사용하고 필요한 테두리를 직접 지정하세요.
 
-React와 같은 모양 및 크기별 위치를 미리 합성한 PNG alpha 마스크로 적용합니다. 배경색을 칠하는 테두리가 아니므로 그라데이션이나 이미지 배경이 여백을 통해 그대로 보이는 것이 기대 결과입니다. SVG 마스크와 `mask-composite`는 사용하지 않습니다.
+React와 같은 도형 정의와 크기별 위치에서 생성한 `clip-path`로 잘라냅니다. 배경을 칠하는 테두리가 아니므로 그라데이션이나 이미지 배경도 여백을 통해 보입니다. Android에서 그리기가 생략되지 않도록 내부 view에 완전 투명한 그라데이션 배경을 유지합니다.
 
-[Lynx 3.6](https://lynxjs.org/3.6/api/css/properties/mask-image.md)과 [4.1 공식 문서](https://lynxjs.org/4.1/api/css/properties/mask-image.md)는 iOS·Android의 bitmap `mask-image`를 Engine 2.13부터 부분 지원으로 표기합니다. 이는 기반 CSS 기능의 지원 버전이며 Avatar 전체의 최소 지원 버전을 의미하지 않습니다. 로컬 PlayLynx의 iOS 렌더러 / Engine 4.1에서 이미지·fallback, 세 모양과 `none` 전환, 10가지 크기를 확인했습니다. Engine 3.6 및 iOS·Android 실기기는 아직 미검증입니다.
+PNG 마스크 로딩이나 SVG 마스크 합성에 의존하지 않습니다. 경로는 공식 크기별로 생성되므로 `size` prop으로 크기를 선택하세요.
 
 <LynxComponentExample name="lynx/avatar/badge" height={240}>
   ```json doc-gen:file
@@ -125,6 +125,6 @@ React와 같은 모양 및 크기별 위치를 미리 합성한 PNG alpha 마스
 ## Unsupported Lynx Features
 
 - `asChild`, `srcSet`, DOM 이벤트/속성은 지원하지 않습니다. native props와 literal `<view>`, `<image>` 구조를 사용하세요.
-- React의 SVG mask 합성 대신 native `<view>`에 bitmap alpha 마스크를 적용합니다. 마스크는 공식 크기별로 준비되므로 `size` prop으로 크기를 선택하세요.
+- React의 SVG mask 합성 대신 native `<view>`에 생성된 `clip-path`를 적용합니다. 사용자 API와 커스텀 배지의 동작은 같습니다.
 
 이 검증은 로컬 PlayLynx 결과이며, iOS·Android 실기기 전체 동작을 검증한 결과는 아닙니다.
