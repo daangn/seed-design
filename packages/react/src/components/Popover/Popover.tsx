@@ -248,7 +248,15 @@ PopoverCloseButton.displayName = "PopoverCloseButton";
 
 export interface PopoverArrowProps extends PopoverPrimitive.ArrowProps {}
 
-// Placeholder: the arrow part is part of the public surface but renders nothing yet.
+// Arrow and ArrowTip are placeholders so future arrow support does not require snippet updates.
 export const PopoverArrow = forwardRef<HTMLDivElement, PopoverArrowProps>(() => null);
 
 PopoverArrow.displayName = "PopoverArrow";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface PopoverArrowTipProps extends React.SVGProps<SVGSVGElement> {}
+
+export const PopoverArrowTip = forwardRef<SVGSVGElement, PopoverArrowTipProps>(() => null);
+
+PopoverArrowTip.displayName = "PopoverArrowTip";

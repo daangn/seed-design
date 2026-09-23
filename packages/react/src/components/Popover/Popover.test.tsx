@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";
 
 import {
+  PopoverArrow,
+  PopoverArrowTip,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
@@ -50,6 +52,9 @@ function BasicPopover(props: Omit<PopoverRootProps, "children">) {
       <PopoverPositioner>
         <PopoverContent aria-label="Popover">
           <PopoverBody data-testid="body">Body</PopoverBody>
+          <PopoverArrow>
+            <PopoverArrowTip />
+          </PopoverArrow>
         </PopoverContent>
       </PopoverPositioner>
     </PopoverRoot>

@@ -1,6 +1,7 @@
 export {
   PopoverAnchor,
   PopoverArrow,
+  PopoverArrowTip,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
@@ -13,6 +14,7 @@ export {
   PopoverTrigger,
   type PopoverAnchorProps,
   type PopoverArrowProps,
+  type PopoverArrowTipProps,
   type PopoverBodyProps,
   type PopoverCloseButtonProps,
   type PopoverContentProps,
