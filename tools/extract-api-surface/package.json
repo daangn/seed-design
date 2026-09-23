@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "skills-npm --cwd . --no-gitignore",
     "test": "bun test src",
     "typecheck": "tsc --noEmit"
   },
