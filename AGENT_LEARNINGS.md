@@ -2,6 +2,20 @@
 
 에이전트가 실수에서 얻은 교훈을 쌓는 외부 메모리다. 읽기·갱신·커밋 규칙과 항목 형식은 루트 `AGENTS.md`의 학습 기록 섹션에 있다.
 
+## Testing Library bound query의 제네릭 지원을 가정하지 않는다
+
+### Mistake Made
+- Description: `render()`가 반환한 `getByTestId`에도 `getByTestId<HTMLDivElement>()`를 쓸 수 있다고 가정했다. 이 저장소의 bound query 타입은 타입 인자를 받지 않는다.
+- Impact: 원래 matcher 타입 오류를 해결하지 못하고 TS2558을 추가했다. 런타임 테스트는 통과해 직접 타입 검사에서 발견했다.
+
+### Patterns to Avoid
+- Pattern: 라이브러리의 일반적인 사용법이나 런타임 테스트 통과만으로 타입 수정의 유효성을 판단하는 것.
+- Risk: 원본 query와 `render()`에 바인딩된 query의 타입 차이를 놓쳐 빌드 오류가 남는다.
+
+### Better Approaches
+- Recommendation: 설치된 버전에서 실제 호출 지점의 타입을 확인하고 타입 수정은 직접 컴파일러로 검증한다.
+- Solutions: `bun node_modules/typescript/bin/tsc --project packages/react/tsconfig.json --noEmit`을 실행한다. query의 타입 인자가 지원되지 않으면 반환 타입을 단언하지 말고 matcher의 비교 타입을 조정하거나 런타임 guard로 좁힌다.
+
 ## 새 worktree는 설치 상태부터 확인한다
 
 ### Mistake Made
