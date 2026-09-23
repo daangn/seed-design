@@ -16,6 +16,6 @@ import { ToggleTip } from "@seed-design/react-toggle-tip";
 </ToggleTip.Root>;
 ```
 
-`Root` accepts controlled or uncontrolled open state, positioning options, and `closeOnInteractOutside`. `Anchor`, `Arrow`, `useToggleTip`, and `useToggleTipContext` support custom composition.
+`Root` accepts controlled or uncontrolled open state, positioning options, and `closeOnInteractOutside`. `Anchor`, `Arrow`, and `useToggleTipContext` support custom composition.
 
 When migrating the previous HelpBubble primitives from `@seed-design/react-popover`, replace `Popover` with `ToggleTip` and `usePopoverContext` with `useToggleTipContext`. Existing styled `HelpBubble` usage does not change.

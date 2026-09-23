@@ -18,5 +18,3 @@ export {
 export { useToggleTipContext, type UseToggleTipContext } from "./useToggleTipContext";
 
 export * as ToggleTip from "./ToggleTip.namespace";
-
-export { useToggleTip, type UseToggleTipProps, type UseToggleTipReturn } from "./useToggleTip";
