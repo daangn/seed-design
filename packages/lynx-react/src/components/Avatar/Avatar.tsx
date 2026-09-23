@@ -32,7 +32,12 @@ export const AvatarRoot = React.forwardRef<unknown, AvatarRootProps>((props, ref
           className={clsx(classes.root, className)}
         >
           {children}
-          <view flatten={false} className={classes.stroke} accessibility-elements-hidden={true} />
+          <view
+            flatten={false}
+            className={classes.stroke}
+            user-interaction-enabled={false}
+            accessibility-elements-hidden={true}
+          />
         </Image.Root>
       </PropsProvider>
     </ClassNamesProvider>
@@ -49,6 +54,8 @@ export const AvatarImage = React.forwardRef<unknown, AvatarImageProps>((props, r
   return (
     <view
       flatten={false}
+      // Explicit native gating keeps pending image layers from intercepting fallback taps.
+      user-interaction-enabled={isLoaded}
       className={clsx(classes.imageContainer, !isLoaded && classes.pendingImageContainer)}
     >
       <Image.Content
