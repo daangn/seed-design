@@ -9,14 +9,39 @@ const contentPlaceholderSlotNames = [
   [
     "asset",
     "seed-content-placeholder__asset"
+  ],
+  [
+    "presetLight",
+    "seed-content-placeholder__presetLight"
+  ],
+  [
+    "presetDark",
+    "seed-content-placeholder__presetDark"
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "type": "default"
+};
 
 const compoundVariants = [];
 
-export const contentPlaceholderVariantMap = {};
+export const contentPlaceholderVariantMap = {
+  "type": [
+    "default",
+    "buySell",
+    "car",
+    "commerce",
+    "coupon",
+    "food",
+    "group",
+    "image",
+    "jobs",
+    "business",
+    "post",
+    "realty"
+  ]
+};
 
 export const contentPlaceholderVariantKeys = Object.keys(contentPlaceholderVariantMap);
 

@@ -1,14 +1,17 @@
 import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
-import { runOnBackground } from "@lynx-js/react";
-import type { MainThread } from "@lynx-js/types";
+import type { MainThread, IntrinsicElements } from "@lynx-js/types";
 import type { LynxIconElementProps } from "../../../types";
 import { act, createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { contentPlaceholderPresets } from "../presets";
 import { ContentPlaceholderAsset, ContentPlaceholderRoot } from "../ContentPlaceholder";
 
-const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
+const TestIcon = React.forwardRef<
+  MainThread.Element,
+  LynxIconElementProps & Pick<IntrinsicElements["image"], "binduiappear" | "tint-color">
+>((props, ref) => (
   <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} src="icon.png" mode="aspectFit" />
 ));
 TestIcon.displayName = "TestIcon";
@@ -66,134 +69,69 @@ describe("ContentPlaceholder", () => {
     });
   });
 
-  it.each([
-    "monochrome",
-    "original",
-    "marked",
-    "custom-tint",
-    "initial-appear",
-  ])("handles %s tint without losing the child's Main Thread ref", async (mode) => {
-    let frame: FrameRequestCallback | undefined;
-    lynxTestingEnv.mainThread.globalThis["SystemInfo"] = { ...SystemInfo, lynxSdkVersion: "3.5" };
-    lynxTestingEnv.mainThread.globalThis["__GetComputedStyleByKey"] = () => "rgb(220, 222, 227)";
-    lynxTestingEnv.mainThread.globalThis["requestAnimationFrame"] = (
-      callback: FrameRequestCallback,
-    ) => {
-      frame = callback;
-      return 1;
-    };
-    lynxTestingEnv.mainThread.globalThis["cancelAnimationFrame"] = () => {
-      frame = undefined;
-    };
-    const MarkedIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
-      <TestIcon {...props} ref={ref} />
-    ));
-    Object.assign(MarkedIcon, { [Symbol.for("@seed-design/multicolor-icon")]: true });
-    function Example({
-      className,
-      show = true,
-      report,
-    }: {
-      className: string;
-      show?: boolean;
-      report: (value: boolean | "appear") => void;
-    }) {
-      const target = React.useMainThreadRef<MainThread.Element>(null);
-      function inspect() {
-        "main thread";
-        runOnBackground(report)(target.current !== null);
-      }
-      function onAppear() {
-        "main thread";
-        runOnBackground(report)("appear");
-      }
-      return (
-        <view>
-          <view id="inspect-asset-ref" main-thread:bindtap={inspect} />
-          <ContentPlaceholderRoot>
-            <ContentPlaceholderAsset
-              className={className}
-              preserveOriginalColor={
-                className === "preserved" || mode === "original" ? true : undefined
-              }
-            >
-              {show ? (
-                mode === "marked" ? (
-                  <MarkedIcon ref={target} main-thread:binduiappear={onAppear} />
-                ) : (
-                  <TestIcon
-                    ref={target}
-                    tint-color={mode === "custom-tint" ? "#ff6600" : undefined}
-                    main-thread:binduiappear={onAppear}
-                  />
-                )
-              ) : null}
-            </ContentPlaceholderAsset>
-          </ContentPlaceholderRoot>
-        </view>
-      );
-    }
-    const report = vi.fn();
-    const { container, rerender } = render(<Example className="before" report={report} />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
+  it.each(
+    Object.keys(contentPlaceholderPresets) as Array<keyof typeof contentPlaceholderPresets>,
+  )("renders %s with precolored theme assets on the first render", (type) => {
+    render(
+      <ContentPlaceholderRoot type={type}>
+        <ContentPlaceholderAsset />
+      </ContentPlaceholderRoot>,
+    );
+    const images = getRoot().querySelectorAll("image");
+    expect(images).toHaveLength(2);
+    expect(images[0]).toHaveAttribute("src", contentPlaceholderPresets[type].light);
+    expect(images[1]).toHaveAttribute("src", contentPlaceholderPresets[type].dark);
+    for (const image of images) expect(image.getAttribute("tint-color")).toBeNull();
+  });
+
+  it("uses default preset and updates the selected type", async () => {
+    const { rerender } = render(
+      <ContentPlaceholderRoot>
+        <ContentPlaceholderAsset />
+      </ContentPlaceholderRoot>,
+    );
+    expect(getRoot().querySelector("image")).toHaveAttribute(
+      "src",
+      contentPlaceholderPresets.default.light,
+    );
+    rerender(
+      <ContentPlaceholderRoot type="car">
+        <ContentPlaceholderAsset />
+      </ContentPlaceholderRoot>,
+    );
+    await waitSchedule();
+    expect(getRoot().querySelector("image")).toHaveAttribute(
+      "src",
+      contentPlaceholderPresets.car.light,
+    );
+  });
+
+  it("keeps the caller's tint on first render, appearance and updates without adding a preset", async () => {
+    const appear = vi.fn();
+    const Example = ({ tint }: { tint: string }) => (
+      <ContentPlaceholderRoot type="car">
+        <ContentPlaceholderAsset>
+          <TestIcon tint-color={tint} binduiappear={appear} />
+        </ContentPlaceholderAsset>
+      </ContentPlaceholderRoot>
+    );
+    const { rerender } = render(<Example tint="#ff6600" />);
+    const image = getRoot().querySelector("image");
+    if (!image) throw new Error("Expected custom image");
+    expect(getRoot().querySelectorAll("image")).toHaveLength(1);
+    expect(image).toHaveAttribute("tint-color", "#ff6600");
+    const init = { eventType: "bindEvent", eventName: "uiappear", detail: {} };
+    const event = createEvent("bindEvent:uiappear", image, init);
+    Object.assign(event, init);
+    act(() => {
+      fireEvent(image, event);
     });
     await waitSchedule();
-    if (mode === "initial-appear") {
-      const image = getRoot().querySelector("image");
-      if (!image) throw new Error("Expected an asset image.");
-      const init = { eventType: "bindEvent", eventName: "uiappear", detail: {} };
-      const appear = createEvent("bindEvent:uiappear", image, init);
-      Object.assign(appear, init);
-      fireEvent(image, appear);
-      await waitSchedule();
-      expect(image.getAttribute("tint-color")).toBe("rgb(220, 222, 227)");
-      expect(frame).toBeDefined();
-      rerender(<Example className="preserved" report={report} />);
-      await waitSchedule();
-      expect(image.getAttribute("tint-color")).toBeNull();
-      expect(frame).toBeUndefined();
-      return;
-    }
-    rerender(<Example className="after" report={report} />);
+    expect(appear).toHaveBeenCalledOnce();
+    expect(image).toHaveAttribute("tint-color", "#ff6600");
+    rerender(<Example tint="#009978" />);
     await waitSchedule();
-    if (frame) {
-      lynxTestingEnv.switchToMainThread();
-      act(() => frame?.(16));
-      lynxTestingEnv.switchToBackgroundThread();
-    }
-    const image = getRoot().querySelector("image");
-    if (!image) throw new Error("Expected an asset image.");
-    expect(image.getAttribute("tint-color")).toBe(
-      mode === "monochrome" || mode === "custom-tint" ? "rgb(220, 222, 227)" : null,
-    );
-    const init = { eventType: "bindEvent", eventName: "uiappear", detail: {} };
-    const appear = createEvent("bindEvent:uiappear", image, init);
-    Object.assign(appear, init);
-    fireEvent(image, appear);
-    await waitSchedule();
-    expect(report).toHaveBeenCalledExactlyOnceWith("appear");
-    const inspect = container.querySelector("#inspect-asset-ref");
-    if (!inspect) throw new Error("Expected the ref inspection control.");
-    fireEvent.tap(inspect);
-    await waitSchedule();
-    expect(report).toHaveBeenLastCalledWith(true);
-    if (mode === "monochrome" || mode === "custom-tint") {
-      rerender(<Example className="preserved" report={report} />);
-      await waitSchedule();
-      expect(getRoot().querySelector("image")).toBe(image);
-      expect(image.getAttribute("tint-color")).toBe(mode === "custom-tint" ? "#ff6600" : null);
-      fireEvent.tap(inspect);
-      await waitSchedule();
-      expect(report).toHaveBeenLastCalledWith(true);
-      rerender(<Example className="tinted-again" report={report} />);
-      await waitSchedule();
-      expect(image.getAttribute("tint-color")).toBe("rgb(220, 222, 227)");
-    }
-    rerender(<Example className="after" show={false} report={report} />);
-    await waitSchedule();
-    fireEvent.tap(inspect);
-    await waitSchedule();
-    expect(report).toHaveBeenLastCalledWith(false);
+    expect(getRoot().querySelector("image")).toBe(image);
+    expect(image).toHaveAttribute("tint-color", "#009978");
   });
 });

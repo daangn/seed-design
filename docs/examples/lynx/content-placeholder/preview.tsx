@@ -1,20 +1,12 @@
 import "./styles";
-
-import IconPictureFill from "@karrotmarket/lynx-monochrome-icon/IconPictureFill";
 import { useSeedClassName } from "@seed-design/lynx-react";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
+  const theme = useSeedClassName();
   return (
-    <view className={`${seedClassName} docs-lynx-content-placeholder-root`}>
-      <ContentPlaceholder style={{ width: "160px", height: "160px" }}>
-        <IconPictureFill />
-      </ContentPlaceholder>
-      <ContentPlaceholder style={{ width: "240px", height: "120px" }}>
-        <IconPictureFill />
-      </ContentPlaceholder>
+    <view className={`${theme} docs-lynx-content-placeholder-root`}>
+      <ContentPlaceholder width="160px" height="160px" />
+      <ContentPlaceholder type="car" width="240px" height="120px" />
     </view>
   );
 }

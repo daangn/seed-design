@@ -3,9 +3,8 @@
 "@seed-design/lynx-css": minor
 ---
 
-Lynx `ContentPlaceholder` 컴포넌트를 추가합니다.
+Lynx `ContentPlaceholder`와 React에 대응하는 12개 프리셋을 추가합니다.
 
-- `Root`와 `Asset`으로 이미지나 콘텐츠가 없는 영역에 배경과 중앙 정렬된 시각 요소를 표시합니다.
-- 웹의 `type` 프리셋 대신 아이콘이나 이미지를 `children`으로 전달합니다. 단색 아이콘을 직접 넣으면 `Asset`이 크기와 색상을 적용합니다. 사진과 멀티컬러 아이콘은 원래 색상을 유지합니다.
-- `npx @seed-design/cli@latest add ui:content-placeholder`로 Registry 컴포넌트를 설치할 수 있습니다.
-- `preserveOriginalColor` 전환 시 같은 아이콘을 유지하면서 기존 tint를 복원합니다.
+- `Root`·`Asset`과 Registry snippet으로 비어 있는 콘텐츠 영역을 구성합니다.
+- 프리셋은 React SVG와 SEED 토큰에서 생성한 테마별 WebP로 표시하며, 표시 후 색을 덮어쓰지 않습니다.
+- 커스텀 아이콘·이미지는 크기와 정렬만 적용합니다. 모노크롬 아이콘의 색은 `tint-color`로 직접 지정합니다.
