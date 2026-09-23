@@ -280,17 +280,14 @@ function OpenChangeSection() {
 }
 
 function LayerSection() {
-  const [raised, setRaised] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const layerIndex = useActivityZIndexBase({ activityOffset: 1 });
 
   return (
     <Section
       title="다른 레이어 위의 popover"
-      hint="BottomSheet / Dialog 안에서 열고, 스크림 위로 올라오는지와 닫을 때 focus가 어디로 돌아가는지 확인하세요. zIndexOffset은 popover만 한 단계 더 끌어올립니다."
+      hint="BottomSheet / Dialog 안에서 열고, 스크림 위로 올라오는지와 닫을 때 focus가 어디로 돌아가는지 확인하세요."
     >
-      <Switch label="zIndexOffset 100 적용" checked={raised} onCheckedChange={setRaised} />
-
       <Row>
         <ActionButton variant="neutralSolid" onClick={() => setSheetOpen(true)}>
           BottomSheet 안에서
@@ -304,7 +301,7 @@ function LayerSection() {
                   <PopoverTrigger asChild>
                     <ActionButton variant="neutralSolid">popover 열기</ActionButton>
                   </PopoverTrigger>
-                  <PopoverContent title="sheet 위의 popover" {...(raised && { zIndexOffset: 100 })}>
+                  <PopoverContent title="sheet 위의 popover">
                     <PopoverBody>시트 스크림 위로 올라와야 합니다.</PopoverBody>
                   </PopoverContent>
                 </PopoverRoot>
@@ -325,10 +322,7 @@ function LayerSection() {
                   <PopoverTrigger asChild>
                     <ActionButton variant="neutralSolid">popover 열기</ActionButton>
                   </PopoverTrigger>
-                  <PopoverContent
-                    title="dialog 위의 popover"
-                    {...(raised && { zIndexOffset: 100 })}
-                  >
+                  <PopoverContent title="dialog 위의 popover">
                     <PopoverBody>
                       Escape 한 번에 popover만 닫히고 dialog는 남아 있어야 합니다.
                     </PopoverBody>

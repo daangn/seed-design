@@ -25,8 +25,6 @@ export interface PopoverContentProps extends Omit<SeedPopover.ContentProps, "tit
 
   description?: React.ReactNode;
 
-  zIndexOffset?: number;
-
   /**
    * @default true
    */
@@ -34,7 +32,7 @@ export interface PopoverContentProps extends Omit<SeedPopover.ContentProps, "tit
 }
 
 export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
-  ({ children, title, description, zIndexOffset, showCloseButton = true, ...otherProps }, ref) => {
+  ({ children, title, description, showCloseButton = true, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -49,9 +47,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     const shouldRenderHeader = title || description || showCloseButton;
 
     return (
-      <SeedPopover.PositionerPortal
-        style={{ "--z-index-offset": zIndexOffset } as React.CSSProperties}
-      >
+      <SeedPopover.PositionerPortal>
         <SeedPopover.Content ref={ref} {...otherProps}>
           {shouldRenderHeader && (
             <SeedPopover.Header>
