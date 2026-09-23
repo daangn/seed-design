@@ -1,18 +1,19 @@
 # extract-api-surface
 
-public으로 배포되는 workspace 패키지의 공개 API 표면을 추출하고, 두 시점의 표면을 비교한다. 변경이 breaking change인지 판단할 근거를 PR에서 바로 보이게 하는 것이 목적이며, bump를 자동으로 정하거나 merge를 막지 않는다.
+지정한 workspace 패키지의 공개 API 표면을 추출한다. PR CI는 public으로 배포되는 패키지 전체를 두 시점에서 추출해 비교한다. 변경이 breaking change인지 판단할 근거를 PR에서 바로 보이게 하는 것이 목적이다.
 
 ## 사용법
 
 ```sh
-bun extract-api-surface                                  # 현재 작업 트리의 표면
-bun extract-api-surface --package @seed-design/react     # 특정 패키지만
-bun extract-api-surface --format json                    # 구조화된 출력
-bun extract-api-surface --root <dir>                     # 다른 checkout의 표면
-bun extract-api-surface --out-dir <dir>                  # 패키지별 <dir>/<패키지 이름>.txt 파일로 저장
+bun extract-api-surface @seed-design/react                           # 현재 작업 트리의 표면
+bun extract-api-surface @seed-design/react @seed-design/css          # 여러 패키지
+bun extract-api-surface --format json @seed-design/react             # 구조화된 출력
+bun extract-api-surface --root <dir> @seed-design/react              # 다른 checkout의 표면
+bun extract-api-surface --out-dir <dir> @seed-design/react           # 패키지별 <dir>/<패키지 이름>.txt 파일로 저장
+bun extract-api-surface $(bun .github/scripts/api-surface-packages.ts)  # CI처럼 public 패키지 전체
 ```
 
-CLI는 git을 다루지 않는다. 비교할 시점의 checkout은 호출하는 쪽이 준비한다.
+다른 workspace 패키지에서 온 타입은 대상 패키지가 `package.json`에 선언한 workspace 의존성(`dependencies`·`peerDependencies`·`devDependencies`)을 따라 소스에서 읽는다.
 
 두 시점의 비교는 `git diff --no-index`로 한다. `--out-dir`는 비어 있거나 없는 디렉터리만 받는다. 이전 실행이 남긴 파일이 있으면 사라진 패키지가 그대로 있는 것처럼 비교되기 때문이다.
 
@@ -22,8 +23,9 @@ CLI는 git을 다루지 않는다. 비교할 시점의 checkout은 호출하는 
 git worktree add --detach ../seed-design-base "$(git merge-base origin/dev HEAD)"
 bun install --cwd ../seed-design-base
 
-bun extract-api-surface --root ../seed-design-base --out-dir /tmp/api-surface/base
-bun extract-api-surface --out-dir /tmp/api-surface/head
+bun extract-api-surface --root ../seed-design-base --out-dir /tmp/api-surface/base \
+  $(bun .github/scripts/api-surface-packages.ts ../seed-design-base)
+bun extract-api-surface --out-dir /tmp/api-surface/head $(bun .github/scripts/api-surface-packages.ts)
 git diff --no-index /tmp/api-surface/base /tmp/api-surface/head
 
 git worktree remove ../seed-design-base
@@ -35,7 +37,7 @@ base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react
 
 ## 표면에 담기는 것
 
-- `package.json`의 `exports` 각 subpath. `types`가 `lib/`·`dist/`를 가리키면 대응하는 `src/` 파일을 읽으므로 빌드가 필요 없다. wildcard는 실제 파일로 펼친다.
+- `package.json`의 `exports` 각 subpath. `types`가 `lib/`·`dist/`를 가리키면 대응하는 `src/` 파일을 읽는다. wildcard는 실제 파일로 펼친다.
 - import는 그 파일이 속한 패키지의 tsconfig `paths`(예: `packages/figma`의 `@/*`)로 해석하고, tsconfig가 포함하는 ambient 선언(`declare module "*.webp"` 등)도 함께 읽는다.
 - `types`가 없는 export(CSS·JSON 등)는 대상 파일 목록만, `bin`은 명령 이름만 기록한다.
 - 컴포넌트는 props를, 타입은 멤버를 `extends`·`Omit`·intersection까지 펼쳐 기록한다. 다른 workspace 패키지에서 온 멤버에는 `[패키지]`를 붙인다.
@@ -47,7 +49,7 @@ base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react
 
 ## CI
 
-`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치해 추출하고, `.github/scripts/api-surface-comment.ts`가 두 표면의 `git diff --no-index`로 코멘트 본문을 만든다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
+`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치하고, 시점마다 `.github/scripts/api-surface-packages.ts`로 고른 public 패키지를 추출한다. 그다음 `.github/scripts/api-surface-comment.ts`가 두 표면의 `git diff --no-index`로 코멘트 본문을 만든다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
 
 ## 개발
 

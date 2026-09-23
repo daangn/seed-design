@@ -43,6 +43,7 @@ export const useHeadless = (props: HeadlessProps) => props.value;
   "packages/styled/package.json": JSON.stringify({
     name: "@fixture/styled",
     bin: { "styled-cli": "./cli.js" },
+    dependencies: { "@fixture/headless": "workspace:*" },
     exports: {
       ".": { types: "./lib/index.d.ts", import: "./lib/index.js" },
       "./tokens.css": "./tokens.css",
@@ -71,6 +72,8 @@ export * as Group from "./group";
 `,
 };
 
+const TARGETS = ["@fixture/headless", "@fixture/styled"];
+
 function createFixture() {
   const root = mkdtempSync(path.join(tmpdir(), "extract-api-surface-test-"));
   temporaryDirectories.push(root);
@@ -83,7 +86,7 @@ describe("공개 API 표면 추출", () => {
   test("상속한 멤버를 펼치고 선언 패키지를 표시하며 외부 타입은 개수로 압축한다", () => {
     const root = createFixture();
 
-    expect(renderSurface(extractSurface(root))).toBe(`# @fixture/headless
+    expect(renderSurface(extractSurface(root, TARGETS))).toBe(`# @fixture/headless
 
 ## .
 type HeadlessProps
@@ -144,7 +147,7 @@ export interface ChipProps {
 `,
     });
 
-    expect(renderSurface(extractSurface(root, { packages: ["@fixture/aliased"] }))).toBe(
+    expect(renderSurface(extractSurface(root, ["@fixture/aliased"]))).toBe(
       `# @fixture/aliased
 
 ## .
@@ -172,7 +175,7 @@ export type Pair = [string, number];
 `,
     });
 
-    expect(renderSurface(extractSurface(root, { packages: ["@fixture/shapes"] }))).toBe(
+    expect(renderSurface(extractSurface(root, ["@fixture/shapes"]))).toBe(
       `# @fixture/shapes
 
 ## .
@@ -191,12 +194,34 @@ type Pair = [string, number]
     );
   });
 
-  test("public 패키지가 아닌 이름을 지정하면 추출을 멈춘다", () => {
+  test("workspace에 없는 이름을 지정하면 추출을 멈춘다", () => {
     const root = createFixture();
 
-    expect(() =>
-      extractSurface(root, { packages: ["@fixture/styled", "@fixture/internal", "@fixture/typo"] }),
-    ).toThrow("public 패키지가 아닙니다: @fixture/internal, @fixture/typo");
+    expect(() => extractSurface(root, ["@fixture/styled", "@fixture/typo"])).toThrow(
+      "workspace 패키지가 아닙니다: @fixture/typo",
+    );
+  });
+
+  test("대상이 선언한 의존성만 program에 넣어 무관한 패키지의 해석 실패에 걸리지 않는다", () => {
+    const root = createFixture();
+    writeFiles(root, {
+      "packages/unrelated/package.json": JSON.stringify({
+        name: "@fixture/unrelated",
+        exports: { ".": { types: "./lib/index.d.ts" } },
+      }),
+      "packages/unrelated/tsconfig.json": JSON.stringify({ include: ["src"] }),
+      "packages/unrelated/src/env.d.ts": 'export type { Missing } from "missing-lib";\n',
+    });
+
+    expect(renderSurface(extractSurface(root, ["@fixture/headless"]))).toBe(`# @fixture/headless
+
+## .
+type HeadlessProps
+  value?: "a" | "b" | undefined
+    // Current value. @default "a"
+  ...ext (2)
+function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
+`);
   });
 
   test("해석하지 못한 import가 있으면 목록과 함께 추출을 멈춘다", () => {
@@ -205,7 +230,7 @@ type Pair = [string, number]
       "packages/headless/src/index.ts": `import type { Missing } from "missing-lib";\n${FIXTURE["packages/headless/src/index.ts"]}export type Broken = Missing;\n`,
     });
 
-    expect(() => extractSurface(root)).toThrow(
+    expect(() => extractSurface(root, TARGETS)).toThrow(
       "해석하지 못한 import가 1개 있어 표면을 정확히 추출할 수 없습니다.\n  missing-lib  (packages/headless/src/index.ts)",
     );
   });
@@ -214,6 +239,6 @@ type Pair = [string, number]
     const root = createFixture();
     rmSync(path.join(root, "node_modules"), { recursive: true });
 
-    expect(() => extractSurface(root)).toThrow("node_modules가 없습니다");
+    expect(() => extractSurface(root, TARGETS)).toThrow("node_modules가 없습니다");
   });
 });

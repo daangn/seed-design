@@ -1,7 +1,13 @@
 import { existsSync, readFileSync, realpathSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
-import { binNames, findPublicPackages, resolveEntrypoints, type PublicPackage } from "./packages";
+import {
+  binNames,
+  findWorkspacePackages,
+  resolveEntrypoints,
+  withWorkspaceDependencies,
+  type WorkspacePackage,
+} from "./packages";
 import { createSurfaceProgram } from "./program";
 
 export interface Member {
@@ -42,25 +48,21 @@ export interface PackageSurface {
   entries: EntrySurface[];
 }
 
-export interface ExtractOptions {
-  /** Only describe these packages. Every public package when omitted. */
-  packages?: string[];
-}
+/** Describes the named workspace packages, in name order. */
+export function extractSurface(root: string, packageNames: string[]): PackageSurface[] {
+  const workspace = findWorkspacePackages(root);
+  const unknown = packageNames.filter((name) => !workspace.some((pkg) => pkg.name === name));
+  if (unknown.length > 0) throw new Error(`workspace 패키지가 아닙니다: ${unknown.join(", ")}`);
 
-export function extractSurface(root: string, options: ExtractOptions = {}): PackageSurface[] {
-  const publicPackages = findPublicPackages(root);
-  const unknown = (options.packages ?? []).filter(
-    (name) => !publicPackages.some((pkg) => pkg.name === name),
-  );
-  if (unknown.length > 0) throw new Error(`public 패키지가 아닙니다: ${unknown.join(", ")}`);
-
-  const packages = publicPackages.filter(
-    (pkg) => !options.packages || options.packages.includes(pkg.name),
-  );
-  const resolved = packages.map((pkg) => ({ pkg, entrypoints: resolveEntrypoints(pkg) }));
+  const resolved = workspace
+    .filter((pkg) => packageNames.includes(pkg.name))
+    .map((pkg) => ({ pkg, entrypoints: resolveEntrypoints(pkg) }));
+  // Imports across packages follow declared dependencies, so this is all the program has to
+  // resolve to source; the rest of the monorepo, docs included, stays out of it.
+  const reachable = withWorkspaceDependencies(workspace, packageNames);
 
   const specifierPaths = Object.fromEntries(
-    publicPackages.flatMap((pkg) =>
+    reachable.flatMap((pkg) =>
       resolveEntrypoints(pkg).flatMap((entry) =>
         entry.kind === "types" ? [[`${pkg.name}${entry.subpath.slice(1)}`, [entry.file]]] : [],
       ),
@@ -71,7 +73,7 @@ export function extractSurface(root: string, options: ExtractOptions = {}): Pack
   );
   const { program, unresolved } = createSurfaceProgram({
     root,
-    packageDirs: publicPackages.map((pkg) => pkg.dir),
+    packageDirs: reachable.map((pkg) => pkg.dir),
     entryFiles,
     specifierPaths,
   });
@@ -244,7 +246,7 @@ function createDescriber(program: ts.Program) {
     return doc || undefined;
   }
 
-  function describeMembers(type: ts.Type, at: ts.Node, pkg: PublicPackage) {
+  function describeMembers(type: ts.Type, at: ts.Node, pkg: WorkspacePackage) {
     const members: Member[] = [];
     const external = new Map<string, number>();
 
@@ -297,7 +299,7 @@ function createDescriber(program: ts.Program) {
   function describeSymbol(
     name: string,
     exported: ts.Symbol,
-    pkg: PublicPackage,
+    pkg: WorkspacePackage,
     seen: Map<ts.Symbol, string>,
   ): ExportSurface[] {
     const symbol =
@@ -391,7 +393,7 @@ function createDescriber(program: ts.Program) {
     name: string,
     symbol: ts.Symbol,
     declaration: ts.Declaration,
-    pkg: PublicPackage,
+    pkg: WorkspacePackage,
     doc: string | undefined,
   ): ExportSurface {
     const type = checker.getTypeOfSymbolAtLocation(symbol, declaration);
@@ -431,7 +433,7 @@ function createDescriber(program: ts.Program) {
     return { name, kind: "const", signatures: [printType(type, declaration)], ...(doc && { doc }) };
   }
 
-  function describeFile(file: string, pkg: PublicPackage) {
+  function describeFile(file: string, pkg: WorkspacePackage) {
     const sourceFile = program.getSourceFile(file);
     const moduleSymbol = sourceFile && checker.getSymbolAtLocation(sourceFile);
     if (!moduleSymbol) return [];

@@ -9,10 +9,13 @@ export interface PackageManifest {
   typings?: string;
   main?: string;
   bin?: string | Record<string, string>;
+  dependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
   workspaces?: string[];
 }
 
-export interface PublicPackage {
+export interface WorkspacePackage {
   name: string;
   /** Absolute path to the package directory. */
   dir: string;
@@ -33,7 +36,7 @@ export function readManifest(file: string): PackageManifest {
   return JSON.parse(readFileSync(file, "utf8"));
 }
 
-export function findPublicPackages(root: string) {
+export function findWorkspacePackages(root: string) {
   const { workspaces = [] } = readManifest(path.join(root, "package.json"));
 
   return workspaces
@@ -47,8 +50,27 @@ export function findPublicPackages(root: string) {
         manifest,
       };
     })
-    .filter((pkg): pkg is PublicPackage => !pkg.manifest.private && pkg.name !== "")
+    .filter((pkg) => pkg.name !== "")
     .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** `names` and every workspace package they depend on, directly or through another one. */
+export function withWorkspaceDependencies(workspace: WorkspacePackage[], names: string[]) {
+  const byName = new Map(workspace.map((pkg) => [pkg.name, pkg]));
+  const reached = new Set<string>();
+  const pending = [...names];
+
+  for (let name = pending.pop(); name !== undefined; name = pending.pop()) {
+    const pkg = byName.get(name);
+    if (!pkg || reached.has(name)) continue;
+
+    reached.add(name);
+
+    const { dependencies, peerDependencies, devDependencies } = pkg.manifest;
+    pending.push(...Object.keys({ ...dependencies, ...peerDependencies, ...devDependencies }));
+  }
+
+  return workspace.filter((pkg) => reached.has(pkg.name));
 }
 
 export const binNames = (manifest: PackageManifest) =>
@@ -61,7 +83,7 @@ export const binNames = (manifest: PackageManifest) =>
  * Declarations under a build directory are mapped back to `src/`, so the surface can be read
  * without building.
  */
-export function resolveEntrypoints(pkg: PublicPackage, glob = globFiles): Entrypoint[] {
+export function resolveEntrypoints(pkg: WorkspacePackage, glob = globFiles): Entrypoint[] {
   const { exports, types, typings, main } = pkg.manifest;
 
   const exportMap: Record<string, unknown> =

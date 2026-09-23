@@ -5,12 +5,11 @@ import { extractSurface } from "./extract";
 import { renderPackage, renderSurface } from "./render";
 
 const USAGE = `Usage:
-  bun extract-api-surface [--root <dir>] [--package <name>]... [--format text|json] [--out-dir <dir>]
+  bun extract-api-surface [--root <dir>] [--format text|json] [--out-dir <dir>] <package>...
 
-공개 API 표면을 출력합니다.
+지정한 workspace 패키지의 공개 API 표면을 출력합니다.
 
   --root <dir>          추출할 모노레포 루트입니다. 기본값은 현재 디렉터리입니다.
-  --package <name>      이 패키지만 추출합니다. 여러 번 줄 수 있습니다.
   --format text|json    출력 형식입니다. 기본값은 text입니다.
   --out-dir <dir>       text 표면을 패키지별 <dir>/<패키지 이름>.txt 파일로 씁니다. 디렉터리는
                         비어 있거나 없어야 합니다. 두 시점을 이렇게 쓰고 git diff --no-index로 비교합니다.`;
@@ -24,7 +23,6 @@ function run() {
     allowPositionals: true,
     options: {
       root: { type: "string", default: "." },
-      package: { type: "string", multiple: true },
       format: { type: "string", default: "text" },
       "out-dir": { type: "string" },
       help: { type: "boolean", short: "h" },
@@ -37,8 +35,7 @@ function run() {
     return;
   }
 
-  const [command] = positionals;
-  if (command !== undefined) throw new UsageError(`지원하지 않는 명령입니다: ${command}`);
+  if (positionals.length === 0) throw new UsageError("추출할 패키지를 하나 이상 지정해 주세요.");
   if (values.format !== "text" && values.format !== "json")
     throw new UsageError(`지원하지 않는 형식입니다: ${values.format}`);
 
@@ -49,7 +46,7 @@ function run() {
   if (outDir !== undefined && existsSync(outDir) && readdirSync(outDir).length > 0)
     throw new UsageError(`--out-dir가 비어 있지 않습니다: ${outDir}`);
 
-  const surface = extractSurface(path.resolve(values.root), { packages: values.package });
+  const surface = extractSurface(path.resolve(values.root), positionals);
 
   if (outDir === undefined) {
     console.log(
