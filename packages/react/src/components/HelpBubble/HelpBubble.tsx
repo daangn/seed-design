@@ -1,4 +1,7 @@
-import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
+import {
+  ToggleTip as ToggleTipPrimitive,
+  useToggleTipContext,
+} from "@seed-design/react-toggle-tip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
@@ -11,30 +14,30 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(helpBubble);
-const withStateProps = createWithStateProps([usePopoverContext]);
+const withStateProps = createWithStateProps([useToggleTipContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrimitive.RootProps {
+export interface HelpBubbleRootProps extends HelpBubbleVariantProps, ToggleTipPrimitive.RootProps {
   /**
    * @default "top"
    */
-  placement?: PopoverPrimitive.RootProps["placement"];
+  placement?: ToggleTipPrimitive.RootProps["placement"];
   /**
    * @default 4
    */
-  gutter?: PopoverPrimitive.RootProps["gutter"];
+  gutter?: ToggleTipPrimitive.RootProps["gutter"];
   /**
    * @default 16
    */
-  overflowPadding?: PopoverPrimitive.RootProps["overflowPadding"];
+  overflowPadding?: ToggleTipPrimitive.RootProps["overflowPadding"];
   /**
    * @default 14
    */
-  arrowPadding?: PopoverPrimitive.RootProps["arrowPadding"];
+  arrowPadding?: ToggleTipPrimitive.RootProps["arrowPadding"];
 }
 
-export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
+export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(ToggleTipPrimitive.Root, {
   defaultProps: {
     placement: "top",
     gutter: 4, // TODO: get value from rootage spec
@@ -45,31 +48,31 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleAnchorProps extends PopoverPrimitive.AnchorProps {}
+export interface HelpBubbleAnchorProps extends ToggleTipPrimitive.AnchorProps {}
 
-export const HelpBubbleAnchor = PopoverPrimitive.Anchor;
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface HelpBubbleTriggerProps extends PopoverPrimitive.TriggerProps {}
-
-export const HelpBubbleTrigger = PopoverPrimitive.Trigger;
+export const HelpBubbleAnchor = ToggleTipPrimitive.Anchor;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubblePositionerProps extends PopoverPrimitive.PositionerProps {}
+export interface HelpBubbleTriggerProps extends ToggleTipPrimitive.TriggerProps {}
+
+export const HelpBubbleTrigger = ToggleTipPrimitive.Trigger;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface HelpBubblePositionerProps extends ToggleTipPrimitive.PositionerProps {}
 
 export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositionerProps>(
-  PopoverPrimitive.Positioner,
+  ToggleTipPrimitive.Positioner,
   "positioner",
 );
 
-export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
+export interface HelpBubblePositionerPortalProps extends ToggleTipPrimitive.PositionerPortalProps {}
 
 export const HelpBubblePositionerPortal = withContext<
   HTMLDivElement,
   HelpBubblePositionerPortalProps
->(PopoverPrimitive.PositionerPortal, "positioner");
+>(ToggleTipPrimitive.PositionerPortal, "positioner");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -85,10 +88,10 @@ export const HelpBubbleContent = withContext<HTMLDivElement, HelpBubbleContentPr
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleArrowProps extends PopoverPrimitive.ArrowProps {}
+export interface HelpBubbleArrowProps extends ToggleTipPrimitive.ArrowProps {}
 
 export const HelpBubbleArrow = withContext<HTMLDivElement, HelpBubbleArrowProps>(
-  PopoverPrimitive.Arrow,
+  ToggleTipPrimitive.Arrow,
   "arrow",
 );
 
@@ -109,7 +112,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
       className,
       ...otherProps
     } = props;
-    const api = usePopoverContext();
+    const api = useToggleTipContext();
 
     const classNames = useClassNames();
 
@@ -136,11 +139,11 @@ HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleCloseButtonProps extends PopoverPrimitive.CloseButtonProps {}
+export interface HelpBubbleCloseButtonProps extends ToggleTipPrimitive.CloseButtonProps {}
 
 export const HelpBubbleCloseButton = withScaleFeedback(
   withContext<HTMLButtonElement, HelpBubbleCloseButtonProps>(
-    PopoverPrimitive.CloseButton,
+    ToggleTipPrimitive.CloseButton,
     "closeButton",
   ),
 );
