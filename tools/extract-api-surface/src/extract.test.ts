@@ -125,7 +125,52 @@ asset ./tokens.css
 `);
   });
 
-  test("의존성이 설치되지 않은 루트는 추출하지 않는다", () => {
+  test("패키지 tsconfig의 paths 별칭과 tsconfig로만 포함된 선언을 해석한다", () => {
+    const root = createFixture();
+    writeFiles(root, {
+      "packages/aliased/package.json": JSON.stringify({
+        name: "@fixture/aliased",
+        exports: { ".": { types: "./lib/index.d.ts" } },
+      }),
+      "packages/aliased/tsconfig.json": JSON.stringify({
+        compilerOptions: { paths: { "@/*": ["./src/*"] } },
+      }),
+      "packages/aliased/src/size.ts": 'export type Size = "s" | "m";\n',
+      "packages/aliased/src/assets.d.ts":
+        'declare module "*.webp" {\n  const src: string;\n  export default src;\n}\n',
+      "packages/aliased/src/index.ts": `import type { Size } from "@/size";
+import icon from "./icon.webp";
+
+export interface ChipProps {
+  size: Size;
+  icon: typeof icon;
+}
+`,
+    });
+
+    expect(renderSurface(extractSurface(root, { packages: ["@fixture/aliased"] }))).toBe(
+      `# @fixture/aliased
+
+## .
+type ChipProps
+  icon: string
+  size: Size
+`,
+    );
+  });
+
+  test("해석하지 못한 import가 있으면 목록과 함께 추출을 멈춘다", () => {
+    const root = createFixture();
+    writeFiles(root, {
+      "packages/headless/src/index.ts": `import type { Missing } from "missing-lib";\n${FIXTURE["packages/headless/src/index.ts"]}export type Broken = Missing;\n`,
+    });
+
+    expect(() => extractSurface(root)).toThrow(
+      "해석하지 못한 import가 1개 있어 표면을 정확히 추출할 수 없습니다.\n  missing-lib  (packages/headless/src/index.ts)",
+    );
+  });
+
+  test("의존성이 설치되지 않은 루트에서는 설치 방법을 함께 알린다", () => {
     const root = createFixture();
     rmSync(path.join(root, "node_modules"), { recursive: true });
 

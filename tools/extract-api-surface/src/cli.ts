@@ -20,6 +20,9 @@ const USAGE = `Usage:
 
 종료 코드: 0은 변화 없음, 1은 compare에서 변화 있음, 2는 오류입니다.`;
 
+/** An error in how the CLI was invoked, reported together with the usage text. */
+class UsageError extends Error {}
+
 function run() {
   const { values, positionals } = parseArgs({
     args: Bun.argv.slice(2),
@@ -43,7 +46,7 @@ function run() {
 
   if (command === "compare") {
     const [basePath, headPath] = files;
-    if (!basePath || !headPath) throw new Error("compare에는 두 표면 파일이 필요합니다.");
+    if (!basePath || !headPath) throw new UsageError("compare에는 두 표면 파일이 필요합니다.");
 
     const read = (file: string): PackageSurface[] => JSON.parse(readFileSync(file, "utf8"));
     const diffs = diffSurfaces(read(basePath), read(headPath));
@@ -64,9 +67,9 @@ function run() {
     return diffs.length === 0 ? 0 : 1;
   }
 
-  if (command !== undefined) throw new Error(`지원하지 않는 명령입니다: ${command}`);
+  if (command !== undefined) throw new UsageError(`지원하지 않는 명령입니다: ${command}`);
   if (values.format !== "text" && values.format !== "json")
-    throw new Error(`지원하지 않는 형식입니다: ${values.format}`);
+    throw new UsageError(`지원하지 않는 형식입니다: ${values.format}`);
 
   const surface = extractSurface(path.resolve(values.root), { packages: values.package });
   console.log(values.format === "json" ? JSON.stringify(surface, null, 2) : renderSurface(surface));
@@ -78,6 +81,10 @@ function run() {
 try {
   process.exitCode = run();
 } catch (error) {
-  console.error(`${error instanceof Error ? error.message : String(error)}\n\n${USAGE}`);
+  const message = error instanceof Error ? error.message : String(error);
+  const isUsage =
+    error instanceof UsageError ||
+    (error instanceof Error && "code" in error && String(error.code).startsWith("ERR_PARSE_ARGS"));
+  console.error(isUsage ? `${message}\n\n${USAGE}` : message);
   process.exitCode = 2;
 }

@@ -31,9 +31,12 @@ git worktree remove ../seed-design-base
 
 base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react` 등)이 해석된다. 두 시점 모두 현재 checkout의 CLI로 추출하므로, base에 이 도구가 없어도 된다.
 
+저장소 소스의 import 중 하나라도 해석되지 않으면 목록을 출력하고 exit 2로 멈춘다. 해석되지 않은 import에서 흘러나온 타입은 오류 없이 `any`가 되어 표면이 조용히 틀어지기 때문이다. 의존성을 설치하지 않은 경우도 이 규칙으로 잡힌다.
+
 ## 표면에 담기는 것
 
 - `package.json`의 `exports` 각 subpath. `types`가 `lib/`·`dist/`를 가리키면 대응하는 `src/` 파일을 읽으므로 빌드가 필요 없다. wildcard는 실제 파일로 펼친다.
+- import는 그 파일이 속한 패키지의 tsconfig `paths`(예: `packages/figma`의 `@/*`)로 해석하고, tsconfig가 포함하는 ambient 선언(`declare module "*.webp"` 등)도 함께 읽는다.
 - `types`가 없는 export(CSS·JSON 등)는 대상 파일 목록만, `bin`은 명령 이름만 기록한다.
 - 컴포넌트는 props를, 타입은 멤버를 `extends`·`Omit`·intersection까지 펼쳐 기록한다. 다른 workspace 패키지에서 온 멤버에는 `[패키지]`를 붙인다.
 - 저장소 밖 패키지(`@types/react` 등)에서 온 멤버는 `...@types/react (280)`처럼 패키지별 개수로 줄인다. `Omit`으로 속성을 빼거나 기반 요소가 바뀌면 개수가 달라진다.

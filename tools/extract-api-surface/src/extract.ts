@@ -2,6 +2,7 @@ import { existsSync, readFileSync, realpathSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 import { binNames, findPublicPackages, resolveEntrypoints, type PublicPackage } from "./packages";
+import { createSurfaceProgram } from "./program";
 
 export interface Member {
   name: string;
@@ -47,41 +48,51 @@ export interface ExtractOptions {
 }
 
 export function extractSurface(root: string, options: ExtractOptions = {}): PackageSurface[] {
-  // Without dependencies, types from outside the repo fail to resolve silently and the
-  // surface comes out wrong instead of erroring.
-  if (!existsSync(path.join(root, "node_modules")))
-    throw new Error(
-      `${root}에 node_modules가 없습니다. 먼저 \`bun install --cwd ${root}\`를 실행해 주세요.`,
-    );
-
-  const packages = findPublicPackages(root).filter(
+  const publicPackages = findPublicPackages(root);
+  const packages = publicPackages.filter(
     (pkg) => !options.packages || options.packages.includes(pkg.name),
   );
   const resolved = packages.map((pkg) => ({ pkg, entrypoints: resolveEntrypoints(pkg) }));
 
   const specifierPaths = Object.fromEntries(
-    findPublicPackages(root).flatMap((pkg) =>
+    publicPackages.flatMap((pkg) =>
       resolveEntrypoints(pkg).flatMap((entry) =>
         entry.kind === "types" ? [[`${pkg.name}${entry.subpath.slice(1)}`, [entry.file]]] : [],
       ),
     ),
   );
-  const rootFiles = resolved.flatMap(({ entrypoints }) =>
+  const entryFiles = resolved.flatMap(({ entrypoints }) =>
     entrypoints.flatMap((entry) => (entry.kind === "types" ? [entry.file] : [])),
   );
-  const program = ts.createProgram(rootFiles, {
-    target: ts.ScriptTarget.ESNext,
-    module: ts.ModuleKind.ESNext,
-    moduleResolution: ts.ModuleResolutionKind.Bundler,
-    jsx: ts.JsxEmit.ReactJSX,
-    lib: ["lib.esnext.d.ts", "lib.dom.d.ts", "lib.dom.iterable.d.ts"],
-    strict: true,
-    skipLibCheck: true,
-    resolveJsonModule: true,
-    noEmit: true,
-    types: [],
-    paths: specifierPaths,
+  const { program, unresolved } = createSurfaceProgram({
+    root,
+    packageDirs: publicPackages.map((pkg) => pkg.dir),
+    entryFiles,
+    specifierPaths,
   });
+  if (unresolved.length > 0) {
+    const listed = unresolved
+      .slice(0, 20)
+      .map(({ specifier, file }) => `  ${specifier}  (${path.relative(root, file)})`);
+    const install = existsSync(path.join(root, "node_modules"))
+      ? []
+      : [
+          "",
+          `${root}에 node_modules가 없습니다. 먼저 \`bun install --cwd ${root}\`를 실행해 주세요.`,
+        ];
+
+    throw new Error(
+      [
+        `해석하지 못한 import가 ${unresolved.length}개 있어 표면을 정확히 추출할 수 없습니다.`,
+        ...listed,
+        ...(unresolved.length > listed.length
+          ? [`  … 외 ${unresolved.length - listed.length}개`]
+          : []),
+        ...install,
+      ].join("\n"),
+    );
+  }
+
   const describer = createDescriber(program);
 
   return resolved.map(({ pkg, entrypoints }) => ({
