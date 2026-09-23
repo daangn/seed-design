@@ -1,56 +1,128 @@
 import preview from "../.storybook/preview";
-
-import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import { Icon, Popover } from "@seed-design/react";
-import { ActionButton } from "seed-design/ui/action-button";
 import { withChromaticParameters } from "@/stories/utils/parameters";
+import { popoverVariantMap } from "@seed-design/css/recipes/popover";
+import { type ReactNode, useCallback, useRef, useState } from "react";
+import { ActionButton } from "seed-design/ui/action-button";
+import { PopoverBody, PopoverContent, PopoverFooter, PopoverRoot } from "seed-design/ui/popover";
 import { SeedThemeDecorator } from "./components/decorator";
+import { VariantTable } from "./components/variant-table";
 import { VIEWPORT_MODES } from "./utils/parameters";
 
-// Render the popover open and inline: the positioner is normally fixed/absolute via
-// floating-ui, so force it back into flow and drop the enter animation for a stable snapshot.
-const PopoverPreview = () => {
+const BODY_LINES = Array.from(
+  { length: 8 },
+  (_, index) => `${index + 1}. Body가 넘치면 하단에 scroll fog와 padding-bottom이 적용됩니다.`,
+);
+
+function PopoverPreview({
+  title,
+  description,
+  showCloseButton,
+  overflow,
+  showFooter,
+}: {
+  title?: ReactNode;
+  description?: ReactNode;
+  showCloseButton?: boolean;
+  overflow?: boolean;
+  showFooter?: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  const setRef = useCallback((node: HTMLDivElement | null) => {
+    containerRef.current = node;
+    setMounted(!!node);
+  }, []);
+
   return (
-    <div style={{ padding: 16, position: "relative" }}>
-      <style>{`
-        .seed-popover__positioner {
-          position: relative !important;
-          inset: unset !important;
-          transform: none !important;
-        }
-        .seed-popover__content {
-          animation: none !important;
-        }
-      `}</style>
-      <Popover.Root open>
-        <Popover.Positioner>
-          <Popover.Content>
-            <Popover.Header>
-              <Popover.Title>제목</Popover.Title>
-              <Popover.Description>설명을 작성할 수 있어요</Popover.Description>
-              <Popover.CloseButton aria-label="닫기">
-                <Icon svg={<IconXmarkLine />} />
-              </Popover.CloseButton>
-            </Popover.Header>
-            <Popover.Body>
-              Popover 본문에는 사용자가 확인해야 할 내용이나 추가 액션을 배치할 수 있습니다.
-            </Popover.Body>
-            <Popover.Footer>
-              <ActionButton variant="neutralSolid">확인</ActionButton>
-            </Popover.Footer>
-          </Popover.Content>
-        </Popover.Positioner>
-      </Popover.Root>
+    <div ref={setRef}>
+      {/* The positioner portals into containerRef, which is still null on the first render. */}
+      {mounted && (
+        <PopoverRoot open>
+          <PopoverContent
+            title={title}
+            description={description}
+            showCloseButton={showCloseButton}
+            positionerContainer={containerRef}
+          >
+            {/* The default cap follows the viewport, so pin it and let the line count alone
+                decide whether the body overflows. */}
+            <PopoverBody maxHeight="120px">
+              {BODY_LINES.slice(0, overflow ? BODY_LINES.length : 1).map((line) => (
+                <p key={line} style={{ margin: 0 }}>
+                  {line}
+                </p>
+              ))}
+            </PopoverBody>
+            {showFooter && (
+              <PopoverFooter>
+                <ActionButton variant="neutralSolid">확인</ActionButton>
+              </PopoverFooter>
+            )}
+          </PopoverContent>
+        </PopoverRoot>
+      )}
     </div>
   );
-};
+}
 
 const meta = preview.meta({
   component: PopoverPreview,
-  decorators: [SeedThemeDecorator],
+  decorators: [
+    // floating-ui places the positioner absolutely; pull it back into the table cell and drop
+    // the enter animation for a stable snapshot.
+    (Story) => (
+      <>
+        <style>{`
+          .seed-popover__positioner {
+            position: relative !important;
+            inset: unset !important;
+            transform: none !important;
+          }
+          .seed-popover__content {
+            animation: none !important;
+          }
+        `}</style>
+        <Story />
+      </>
+    ),
+    SeedThemeDecorator,
+  ],
 });
 
-const CommonStoryTemplate = meta.story({});
+const TITLE = "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.";
+const DESCRIPTION =
+  "이것은 매우 긴 설명 텍스트입니다. Deserunt id enim quis nisi est tempor officia.";
+
+const conditionMap = {
+  header: {
+    title: { title: TITLE, description: undefined },
+    titleDescription: { title: TITLE, description: DESCRIPTION },
+  },
+  showCloseButton: {
+    true: { showCloseButton: true },
+    false: { showCloseButton: false },
+  },
+  overflow: {
+    true: { overflow: true },
+    false: { overflow: false },
+  },
+  showFooter: {
+    true: { showFooter: true },
+    false: { showFooter: false },
+  },
+};
+
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
+    <VariantTable
+      Component={component!}
+      variantMap={popoverVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
+  ),
+});
 
 export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
