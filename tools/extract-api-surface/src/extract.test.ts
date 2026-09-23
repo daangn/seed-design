@@ -1,0 +1,200 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { afterEach, describe, expect, test } from "bun:test";
+import { diffSurfaces } from "./diff";
+import { extractSurface } from "./extract";
+import { renderSurface } from "./render";
+
+const temporaryDirectories: string[] = [];
+
+afterEach(() => {
+  for (const dir of temporaryDirectories.splice(0)) rmSync(dir, { recursive: true, force: true });
+});
+
+function writeFiles(root: string, files: Record<string, string>) {
+  for (const [file, content] of Object.entries(files)) {
+    mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
+    writeFileSync(path.join(root, file), content);
+  }
+}
+
+const FIXTURE = {
+  "package.json": JSON.stringify({ name: "fixture", private: true, workspaces: ["packages/*"] }),
+  "node_modules/ext/package.json": JSON.stringify({ name: "ext", types: "index.d.ts" }),
+  "node_modules/ext/index.d.ts":
+    "export interface ExternalAttributes { id?: string; hidden?: boolean; title?: string }\n",
+  "packages/internal/package.json": JSON.stringify({ name: "@fixture/internal", private: true }),
+  "packages/headless/package.json": JSON.stringify({
+    name: "@fixture/headless",
+    exports: { ".": { types: "./lib/index.d.ts", import: "./lib/index.js" } },
+  }),
+  "packages/headless/src/index.ts": `import type { ExternalAttributes } from "ext";
+
+export interface HeadlessProps extends Omit<ExternalAttributes, "hidden"> {
+  /**
+   * Current value.
+   * @default "a"
+   */
+  value?: "b" | "a";
+}
+
+export const useHeadless = (props: HeadlessProps) => props.value;
+`,
+  "packages/styled/package.json": JSON.stringify({
+    name: "@fixture/styled",
+    bin: { "styled-cli": "./cli.js" },
+    exports: {
+      ".": { types: "./lib/index.d.ts", import: "./lib/index.js" },
+      "./tokens.css": "./tokens.css",
+      "./package.json": "./package.json",
+    },
+  }),
+  "packages/styled/src/index.ts": `import type { HeadlessProps } from "@fixture/headless";
+
+export interface ButtonProps extends HeadlessProps {
+  tone?: "neutral" | "brand";
+}
+
+/** A button. */
+export function Button(props: ButtonProps) {
+  return props.tone ?? null;
+}
+Button.displayName = "Button";
+
+export type IconProps = { [K in "icon"]: string };
+
+export const Icon = (props: IconProps) => props.icon;
+
+export * as Group from "./group";
+`,
+  "packages/styled/src/group.ts": `export { Button as Root, type ButtonProps as RootProps } from "./index";
+`,
+};
+
+/** An empty line of context in a unified diff: a single space. */
+const CONTEXT_BLANK = " ";
+
+function createFixture() {
+  const root = mkdtempSync(path.join(tmpdir(), "extract-api-surface-test-"));
+  temporaryDirectories.push(root);
+  writeFiles(root, FIXTURE);
+
+  return root;
+}
+
+describe("공개 API 표면 추출", () => {
+  test("상속한 멤버를 펼치고 선언 패키지를 표시하며 외부 타입은 개수로 압축한다", () => {
+    const root = createFixture();
+
+    expect(renderSurface(extractSurface(root))).toBe(`# @fixture/headless
+
+## .
+type HeadlessProps
+  value?: "a" | "b" | undefined
+    // Current value. @default "a"
+  ...ext (2)
+function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
+
+# @fixture/styled
+bin styled-cli
+
+## .
+component Button
+  // A button.
+  tone?: "brand" | "neutral" | undefined
+  value?: "a" | "b" | undefined  [@fixture/headless]
+    // Current value. @default "a"
+  ...ext (2)
+  static displayName: string
+type ButtonProps
+  tone?: "brand" | "neutral" | undefined
+  value?: "a" | "b" | undefined  [@fixture/headless]
+    // Current value. @default "a"
+  ...ext (2)
+namespace Group
+alias Group.Root = Button
+alias Group.RootProps = ButtonProps
+component Icon
+  icon: string
+type IconProps
+  icon: string
+
+## ./tokens.css
+asset ./tokens.css
+`);
+  });
+
+  test("의존성이 설치되지 않은 루트는 추출하지 않는다", () => {
+    const root = createFixture();
+    rmSync(path.join(root, "node_modules"), { recursive: true });
+
+    expect(() => extractSurface(root)).toThrow("node_modules가 없습니다");
+  });
+
+  test("두 시점의 표면 차이를 패키지별 diff로 돌려준다", () => {
+    const root = createFixture();
+    const base = extractSurface(root);
+
+    writeFiles(root, {
+      "packages/headless/src/index.ts": FIXTURE["packages/headless/src/index.ts"].replace(
+        '"b" | "a"',
+        '"b" | "a" | "c"',
+      ),
+      "packages/styled/src/index.ts": FIXTURE["packages/styled/src/index.ts"].replace(
+        /export type IconProps[\s\S]*?props\.icon;\n\n/,
+        "",
+      ),
+    });
+
+    const diffs = diffSurfaces(base, extractSurface(root));
+
+    expect(diffs).toEqual([
+      {
+        name: "@fixture/headless",
+        patch: `@@ -2,7 +2,7 @@
+${CONTEXT_BLANK}
+ ## .
+ type HeadlessProps
+-  value?: "a" | "b" | undefined
++  value?: "a" | "b" | "c" | undefined
+     // Current value. @default "a"
+   ...ext (2)
+-function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
++function useHeadless: (props: HeadlessProps) => "a" | "b" | "c" | undefined`,
+        added: 2,
+        removed: 2,
+      },
+      {
+        name: "@fixture/styled",
+        patch: `@@ -5,22 +5,18 @@ bin styled-cli
+ component Button
+   // A button.
+   tone?: "brand" | "neutral" | undefined
+-  value?: "a" | "b" | undefined  [@fixture/headless]
++  value?: "a" | "b" | "c" | undefined  [@fixture/headless]
+     // Current value. @default "a"
+   ...ext (2)
+   static displayName: string
+ type ButtonProps
+   tone?: "brand" | "neutral" | undefined
+-  value?: "a" | "b" | undefined  [@fixture/headless]
++  value?: "a" | "b" | "c" | undefined  [@fixture/headless]
+     // Current value. @default "a"
+   ...ext (2)
+ namespace Group
+ alias Group.Root = Button
+ alias Group.RootProps = ButtonProps
+-component Icon
+-  icon: string
+-type IconProps
+-  icon: string
+${CONTEXT_BLANK}
+ ## ./tokens.css
+ asset ./tokens.css`,
+        added: 2,
+        removed: 6,
+      },
+    ]);
+  }, 30_000);
+});

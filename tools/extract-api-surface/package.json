@@ -1,0 +1,10 @@
+{
+  "name": "@seed-design/extract-api-surface",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test src",
+    "typecheck": "tsc --noEmit"
+  }
+}

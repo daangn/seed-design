@@ -1,0 +1,54 @@
+# extract-api-surface
+
+public으로 배포되는 workspace 패키지의 공개 API 표면을 추출하고, 두 시점의 표면을 비교한다. 변경이 breaking change인지 판단할 근거를 PR에서 바로 보이게 하는 것이 목적이며, bump를 자동으로 정하거나 merge를 막지 않는다.
+
+## 사용법
+
+```sh
+bun extract-api-surface                                  # 현재 작업 트리의 표면
+bun extract-api-surface --package @seed-design/react     # 특정 패키지만
+bun extract-api-surface --format json                    # 구조화된 출력
+bun extract-api-surface --root <dir>                     # 다른 checkout의 표면
+bun extract-api-surface compare base.json head.json      # --format json으로 저장한 두 표면 비교
+```
+
+CLI는 git을 다루지 않는다. 비교할 시점의 checkout은 호출하는 쪽이 준비한다.
+
+종료 코드는 `diff`와 같다. 0은 변화 없음, 1은 `compare`에서 변화 있음, 2는 오류다.
+
+### 로컬에서 base와 비교하기
+
+```sh
+git worktree add --detach ../seed-design-base "$(git merge-base origin/dev HEAD)"
+bun install --cwd ../seed-design-base
+
+bun extract-api-surface --root ../seed-design-base --format json > base.json
+bun extract-api-surface --format json > head.json
+bun extract-api-surface compare base.json head.json
+
+git worktree remove ../seed-design-base
+```
+
+base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react` 등)이 해석된다. 두 시점 모두 현재 checkout의 CLI로 추출하므로, base에 이 도구가 없어도 된다.
+
+## 표면에 담기는 것
+
+- `package.json`의 `exports` 각 subpath. `types`가 `lib/`·`dist/`를 가리키면 대응하는 `src/` 파일을 읽으므로 빌드가 필요 없다. wildcard는 실제 파일로 펼친다.
+- `types`가 없는 export(CSS·JSON 등)는 대상 파일 목록만, `bin`은 명령 이름만 기록한다.
+- 컴포넌트는 props를, 타입은 멤버를 `extends`·`Omit`·intersection까지 펼쳐 기록한다. 다른 workspace 패키지에서 온 멤버에는 `[패키지]`를 붙인다.
+- 저장소 밖 패키지(`@types/react` 등)에서 온 멤버는 `...@types/react (280)`처럼 패키지별 개수로 줄인다. `Omit`으로 속성을 빼거나 기반 요소가 바뀌면 개수가 달라진다.
+- JSDoc 설명과 `@default`·`@deprecated`는 멤버 아래에 `// ` 줄로 따로 기록해, 타입 변경과 문서 변경이 서로 다른 diff 줄로 나오게 한다.
+- 같은 entrypoint에서 이미 기술한 심볼의 다른 이름(`SidePanelBody`와 `SidePanel.Body`)은 `alias` 한 줄로 기록한다.
+
+타입 이름은 선언이 있는 파일의 import 방식을 따라 출력되므로(`ReactNode`와 `React.ReactNode`), import 방식만 바꿔도 diff가 생길 수 있다.
+
+## CI
+
+`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치해 추출하고 비교한다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
+
+## 개발
+
+```sh
+bun --filter @seed-design/extract-api-surface test
+bun --filter @seed-design/extract-api-surface typecheck
+```
