@@ -145,7 +145,7 @@ Popover는 열릴 때 콘텐츠로 포커스를 옮기지만 가두지 않습니
 
 ### Scroll
 
-`<PopoverContent>`의 `max-height`(600px)를 넘는 긴 콘텐츠는 `<PopoverBody>`가 스크롤됩니다. 스크롤 시 Body 상단에 divider가 나타나고, 하단에는 항상 scroll fog가 표시됩니다. 뷰포트가 작으면 `max-height`는 가용 높이에 맞춰 줄어듭니다.
+`<PopoverContent>`의 `max-height`(600px)를 넘는 긴 콘텐츠는 `<PopoverBody>`가 스크롤됩니다. 콘텐츠가 실제로 넘칠 때에만 하단에 scroll fog가 표시되고, 위에 Header가 있는 Body를 아래로 스크롤하면 상단에 divider가 나타납니다. 뷰포트가 작으면 `max-height`는 가용 높이에 맞춰 줄어듭니다.
 
 <ComponentExample name="react/popover/scroll">
   ```json doc-gen:file
