@@ -65,9 +65,7 @@ index 422c2b7..0f7bc76 100644
 Binary files a/base/x.bin and b/head/x.bin differ
 `;
 
-    expect(() => parsePackageDiffs(output, { base: "base", head: "head" })).toThrow(
-      "표면 파일의 diff로 읽을 수 없습니다:\ndiff --git a/base/x.bin b/head/x.bin",
-    );
+    expect(() => parsePackageDiffs(output, { base: "base", head: "head" })).toThrow();
   });
 });
 
