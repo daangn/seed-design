@@ -18,6 +18,7 @@
     "@lynx-js/react": "0.123.3",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
+    "@seed-design/lynx-react-accordion": "workspace:*",
     "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/lynx-react-toggle": "workspace:*",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
