@@ -19,34 +19,39 @@ const closeButtonTracker = createRenderTrackingContext("PopoverCloseButton");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// `popover.yaml` declares these as `$dimension.x2` / `$dimension.x4`, but the generated
-// `@seed-design/css` vars publish them as `var(--seed-dimension-*)` strings, and floating-ui
-// positions with numbers — so the token cannot be read back here and the px values are
-// mirrored by hand. Move them together with the YAML.
-const DEFAULT_GUTTER = 8;
-const DEFAULT_OVERFLOW_PADDING = 16;
-
 export interface PopoverRootProps extends PopoverVariantProps, PopoverPrimitive.RootProps {
-  /** @default "bottom" */
+  /**
+   * @default "bottom"
+   */
   placement?: PopoverPrimitive.RootProps["placement"];
-  /** @default 8 */
+  /**
+   * @default 8
+   */
   gutter?: PopoverPrimitive.RootProps["gutter"];
-  /** @default 16 */
+  /**
+   * @default 16
+   */
   overflowPadding?: PopoverPrimitive.RootProps["overflowPadding"];
   /**
    * @default true
    */
   lazyMount?: PopoverPrimitive.RootProps["lazyMount"];
-  /**
-   * Kept off by default: a popover is an anchored surface like Menu and Select, which never
-   * unmount their content, and discarding it on close would throw away form state and the
-   * body's scroll position every time.
-   * @default false
-   */
-  unmountOnExit?: PopoverPrimitive.RootProps["unmountOnExit"];
 }
 
-export function PopoverRoot(props: PopoverRootProps) {
+// NOTE: `gutter` and `overflowPadding` are specified in Rootage (`popover.yaml`,
+// `$dimension.x2` / `$dimension.x4`) and generated into `@seed-design/css`, but nothing
+// reads them: floating-ui's `offset`/`shift` take numbers, not CSS custom properties,
+// so the headless layer falls back to its own `0` / `8`. Those defaults stay
+// design-system-agnostic on purpose — this layer is the one that owns the
+// Rootage binding, so seed the spec values through destructuring defaults here,
+// the way `HelpBubbleRoot` passes `gutter` through `defaultProps`.
+export function PopoverRoot({
+  placement = "bottom",
+  gutter = 8, // TODO: get value from rootage spec
+  overflowPadding = 16, // TODO: get value from rootage spec
+  lazyMount = true,
+  ...props
+}: PopoverRootProps) {
   const [variantProps, otherProps] = popover.splitVariantProps(props);
   const classNames = popover(variantProps);
 
@@ -54,10 +59,10 @@ export function PopoverRoot(props: PopoverRootProps) {
     <ClassNamesProvider value={classNames}>
       <closeButtonTracker.Provider>
         <PopoverPrimitive.Root
-          placement="bottom"
-          gutter={DEFAULT_GUTTER}
-          overflowPadding={DEFAULT_OVERFLOW_PADDING}
-          lazyMount
+          placement={placement}
+          gutter={gutter}
+          overflowPadding={overflowPadding}
+          lazyMount={lazyMount}
           {...otherProps}
         />
       </closeButtonTracker.Provider>
