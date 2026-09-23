@@ -1,24 +1,19 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { buildComment } from "./comment";
-import { diffSurfaces } from "./diff";
-import { extractSurface, type PackageSurface } from "./extract";
-import { renderSurface } from "./render";
+import { extractSurface } from "./extract";
+import { renderPackage, renderSurface } from "./render";
 
 const USAGE = `Usage:
-  bun extract-api-surface [--root <dir>] [--package <name>]... [--format text|json]
-  bun extract-api-surface compare <base.json> <head.json> [--base-label <label>] [--comment <file>]
+  bun extract-api-surface [--root <dir>] [--package <name>]... [--format text|json] [--out-dir <dir>]
 
-공개 API 표면을 출력하거나(extract), --format json으로 저장한 두 표면을 비교합니다(compare).
+공개 API 표면을 출력합니다.
 
   --root <dir>          추출할 모노레포 루트입니다. 기본값은 현재 디렉터리입니다.
   --package <name>      이 패키지만 추출합니다. 여러 번 줄 수 있습니다.
   --format text|json    출력 형식입니다. 기본값은 text입니다.
-  --base-label <label>  코멘트에 표시할 base 이름입니다. 기본값은 base 파일 경로입니다.
-  --comment <file>      PR 코멘트 본문을 파일로 씁니다. 변화가 없으면 빈 파일을 씁니다.
-
-종료 코드: 0은 변화 없음, 1은 compare에서 변화 있음, 2는 오류입니다.`;
+  --out-dir <dir>       text 표면을 패키지별 <dir>/<패키지 이름>.txt 파일로 씁니다. 디렉터리는
+                        비어 있거나 없어야 합니다. 두 시점을 이렇게 쓰고 git diff --no-index로 비교합니다.`;
 
 /** An error in how the CLI was invoked, reported together with the usage text. */
 class UsageError extends Error {}
@@ -31,60 +26,53 @@ function run() {
       root: { type: "string", default: "." },
       package: { type: "string", multiple: true },
       format: { type: "string", default: "text" },
-      "base-label": { type: "string" },
-      comment: { type: "string" },
+      "out-dir": { type: "string" },
       help: { type: "boolean", short: "h" },
     },
   });
-  const [command, ...files] = positionals;
 
   if (values.help) {
     console.log(USAGE);
 
-    return 0;
+    return;
   }
 
-  if (command === "compare") {
-    const [basePath, headPath] = files;
-    if (!basePath || !headPath) throw new UsageError("compare에는 두 표면 파일이 필요합니다.");
-
-    const read = (file: string): PackageSurface[] => JSON.parse(readFileSync(file, "utf8"));
-    const diffs = diffSurfaces(read(basePath), read(headPath));
-
-    console.log(
-      diffs.length === 0
-        ? "공개 API 표면에 변화가 없습니다."
-        : diffs
-            .map((diff) => `# ${diff.name} (+${diff.added} -${diff.removed})\n${diff.patch}\n`)
-            .join("\n"),
-    );
-
-    if (values.comment) {
-      const body = buildComment(diffs, { baseLabel: values["base-label"] ?? basePath });
-      writeFileSync(values.comment, body ?? "");
-    }
-
-    return diffs.length === 0 ? 0 : 1;
-  }
-
+  const [command] = positionals;
   if (command !== undefined) throw new UsageError(`지원하지 않는 명령입니다: ${command}`);
   if (values.format !== "text" && values.format !== "json")
     throw new UsageError(`지원하지 않는 형식입니다: ${values.format}`);
 
-  const surface = extractSurface(path.resolve(values.root), { packages: values.package });
-  console.log(values.format === "json" ? JSON.stringify(surface, null, 2) : renderSurface(surface));
+  const outDir = values["out-dir"];
+  if (outDir !== undefined && values.format !== "text")
+    throw new UsageError("--out-dir는 text 형식만 씁니다.");
+  // A file left from an earlier run would diff as a package that still exists.
+  if (outDir !== undefined && existsSync(outDir) && readdirSync(outDir).length > 0)
+    throw new UsageError(`--out-dir가 비어 있지 않습니다: ${outDir}`);
 
-  return 0;
+  const surface = extractSurface(path.resolve(values.root), { packages: values.package });
+
+  if (outDir === undefined) {
+    console.log(
+      values.format === "json" ? JSON.stringify(surface, null, 2) : renderSurface(surface),
+    );
+
+    return;
+  }
+
+  for (const pkg of surface) {
+    const file = path.join(outDir, `${pkg.name}.txt`);
+    mkdirSync(path.dirname(file), { recursive: true });
+    writeFileSync(file, renderPackage(pkg));
+  }
 }
 
-// Like `diff`: 1 means the surfaces differ, so failures must not exit with 1 as well.
 try {
-  process.exitCode = run();
+  run();
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   const isUsage =
     error instanceof UsageError ||
     (error instanceof Error && "code" in error && String(error.code).startsWith("ERR_PARSE_ARGS"));
   console.error(isUsage ? `${message}\n\n${USAGE}` : message);
-  process.exitCode = 2;
+  process.exitCode = 1;
 }

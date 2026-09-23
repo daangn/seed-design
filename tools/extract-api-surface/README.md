@@ -9,12 +9,12 @@ bun extract-api-surface                                  # 현재 작업 트리�
 bun extract-api-surface --package @seed-design/react     # 특정 패키지만
 bun extract-api-surface --format json                    # 구조화된 출력
 bun extract-api-surface --root <dir>                     # 다른 checkout의 표면
-bun extract-api-surface compare base.json head.json      # --format json으로 저장한 두 표면 비교
+bun extract-api-surface --out-dir <dir>                  # 패키지별 <dir>/<패키지 이름>.txt 파일로 저장
 ```
 
 CLI는 git을 다루지 않는다. 비교할 시점의 checkout은 호출하는 쪽이 준비한다.
 
-종료 코드는 `diff`와 같다. 0은 변화 없음, 1은 `compare`에서 변화 있음, 2는 오류다.
+두 시점의 비교는 `git diff --no-index`로 한다. `--out-dir`는 비어 있거나 없는 디렉터리만 받는다. 이전 실행이 남긴 파일이 있으면 사라진 패키지가 그대로 있는 것처럼 비교되기 때문이다.
 
 ### 로컬에서 base와 비교하기
 
@@ -22,16 +22,16 @@ CLI는 git을 다루지 않는다. 비교할 시점의 checkout은 호출하는 
 git worktree add --detach ../seed-design-base "$(git merge-base origin/dev HEAD)"
 bun install --cwd ../seed-design-base
 
-bun extract-api-surface --root ../seed-design-base --format json > base.json
-bun extract-api-surface --format json > head.json
-bun extract-api-surface compare base.json head.json
+bun extract-api-surface --root ../seed-design-base --out-dir /tmp/api-surface/base
+bun extract-api-surface --out-dir /tmp/api-surface/head
+git diff --no-index /tmp/api-surface/base /tmp/api-surface/head
 
 git worktree remove ../seed-design-base
 ```
 
 base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react` 등)이 해석된다. 두 시점 모두 현재 checkout의 CLI로 추출하므로, base에 이 도구가 없어도 된다.
 
-저장소 소스의 import 중 하나라도 해석되지 않으면 목록을 출력하고 exit 2로 멈춘다. 해석되지 않은 import에서 흘러나온 타입은 오류 없이 `any`가 되어 표면이 조용히 틀어지기 때문이다. 의존성을 설치하지 않은 경우도 이 규칙으로 잡힌다.
+저장소 소스의 import 중 하나라도 해석되지 않으면 목록을 출력하고 exit 1로 멈춘다. 해석되지 않은 import에서 흘러나온 타입은 오류 없이 `any`가 되어 표면이 조용히 틀어지기 때문이다. 의존성을 설치하지 않은 경우도 이 규칙으로 잡힌다.
 
 ## 표면에 담기는 것
 
@@ -47,7 +47,7 @@ base checkout에도 의존성을 설치해야 저장소 밖 타입(`@types/react
 
 ## CI
 
-`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치해 추출하고 비교한다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
+`.github/workflows/api-surface.yml`이 PR merge commit과 그 첫 번째 부모(base branch)를 각각 checkout·설치해 추출하고, `.github/scripts/api-surface-comment.ts`가 두 표면의 `git diff --no-index`로 코멘트 본문을 만든다. `.github/workflows/api-surface-comment.yml`이 결과를 PR 코멘트 하나로 갱신하며, 표면에 변화가 없으면 코멘트를 지운다.
 
 ## 개발
 

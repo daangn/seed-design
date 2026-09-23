@@ -6,6 +6,7 @@ on:
       - "packages/**"
       - "ecosystem/**"
       - "tools/extract-api-surface/**"
+      - ".github/scripts/api-surface-comment*.ts"
       - "package.json"
       - "bun.lock"
       - ".bun-version"
@@ -61,21 +62,19 @@ jobs:
         run: |
           bun --filter @seed-design/extract-api-surface test
           bun --filter @seed-design/extract-api-surface typecheck
+          bun test ./.github/scripts/api-surface-comment.test.ts
 
       # Both sides are read by this PR's CLI, so the base needs no copy of the tool.
       - name: Extract public API surface
         run: |
-          bun tools/extract-api-surface/src/cli.ts --format json > head.json
-          bun tools/extract-api-surface/src/cli.ts --root .base --format json > base.json
+          bun tools/extract-api-surface/src/cli.ts --out-dir api-surface/head
+          bun tools/extract-api-surface/src/cli.ts --root .base --out-dir api-surface/base
 
-      - name: Compare public API surface
+      # The full diff goes to this step's log; stdout is only the comment body.
+      - name: Build comment
         env:
           BASE_LABEL: origin/${{ github.base_ref }} (${{ steps.base.outputs.short-sha }})
-        # Exit 1 means the surfaces differ, which is what the comment reports; only 2 is a failure.
-        run: |
-          status=0
-          bun tools/extract-api-surface/src/cli.ts compare base.json head.json --base-label "$BASE_LABEL" --comment api-surface-comment.md || status=$?
-          if [ "$status" -gt 1 ]; then exit "$status"; fi
+        run: bun .github/scripts/api-surface-comment.ts api-surface/base api-surface/head --base-label "$BASE_LABEL" > api-surface-comment.md
 
       # This job has no write token; api-surface-comment.yml posts the comment from a trusted context.
       - name: Upload comment

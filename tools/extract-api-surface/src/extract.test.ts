@@ -2,7 +2,6 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, test } from "bun:test";
-import { diffSurfaces } from "./diff";
 import { extractSurface } from "./extract";
 import { renderSurface } from "./render";
 
@@ -71,9 +70,6 @@ export * as Group from "./group";
   "packages/styled/src/group.ts": `export { Button as Root, type ButtonProps as RootProps } from "./index";
 `,
 };
-
-/** An empty line of context in a unified diff: a single space. */
-const CONTEXT_BLANK = " ";
 
 function createFixture() {
   const root = mkdtempSync(path.join(tmpdir(), "extract-api-surface-test-"));
@@ -176,70 +172,4 @@ type ChipProps
 
     expect(() => extractSurface(root)).toThrow("node_modules가 없습니다");
   });
-
-  test("두 시점의 표면 차이를 패키지별 diff로 돌려준다", () => {
-    const root = createFixture();
-    const base = extractSurface(root);
-
-    writeFiles(root, {
-      "packages/headless/src/index.ts": FIXTURE["packages/headless/src/index.ts"].replace(
-        '"b" | "a"',
-        '"b" | "a" | "c"',
-      ),
-      "packages/styled/src/index.ts": FIXTURE["packages/styled/src/index.ts"].replace(
-        /export type IconProps[\s\S]*?props\.icon;\n\n/,
-        "",
-      ),
-    });
-
-    const diffs = diffSurfaces(base, extractSurface(root));
-
-    expect(diffs).toEqual([
-      {
-        name: "@fixture/headless",
-        patch: `@@ -2,7 +2,7 @@
-${CONTEXT_BLANK}
- ## .
- type HeadlessProps
--  value?: "a" | "b" | undefined
-+  value?: "a" | "b" | "c" | undefined
-     // Current value. @default "a"
-   ...ext (2)
--function useHeadless: (props: HeadlessProps) => "a" | "b" | undefined
-+function useHeadless: (props: HeadlessProps) => "a" | "b" | "c" | undefined`,
-        added: 2,
-        removed: 2,
-      },
-      {
-        name: "@fixture/styled",
-        patch: `@@ -5,22 +5,18 @@ bin styled-cli
- component Button
-   // A button.
-   tone?: "brand" | "neutral" | undefined
--  value?: "a" | "b" | undefined  [@fixture/headless]
-+  value?: "a" | "b" | "c" | undefined  [@fixture/headless]
-     // Current value. @default "a"
-   ...ext (2)
-   static displayName: string
- type ButtonProps
-   tone?: "brand" | "neutral" | undefined
--  value?: "a" | "b" | undefined  [@fixture/headless]
-+  value?: "a" | "b" | "c" | undefined  [@fixture/headless]
-     // Current value. @default "a"
-   ...ext (2)
- namespace Group
- alias Group.Root = Button
- alias Group.RootProps = ButtonProps
--component Icon
--  icon: string
--type IconProps
--  icon: string
-${CONTEXT_BLANK}
- ## ./tokens.css
- asset ./tokens.css`,
-        added: 2,
-        removed: 6,
-      },
-    ]);
-  }, 30_000);
 });
