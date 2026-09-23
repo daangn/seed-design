@@ -26,7 +26,7 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "seed-design/ui/dialog";
-import { Portal } from "@seed-design/react";
+import { HStack, Portal } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   PopoverBody,
@@ -225,33 +225,37 @@ function OpenChangeSection() {
           <PopoverContent title="바깥 레이어" description="여기서 안쪽 popover를 열 수 있어요">
             <PopoverBody>Escape / 바깥 클릭 / 닫기 버튼으로 각각 닫아보세요.</PopoverBody>
             <PopoverFooter>
-              <PopoverRoot
-                placement="bottom-end"
-                onOpenChange={(open, details) => append("nested", open, details?.reason)}
-              >
-                <PopoverTrigger asChild>
-                  <ActionButton variant="neutralSolid">안쪽 popover</ActionButton>
-                </PopoverTrigger>
-                <PopoverContent title="안쪽 레이어">
-                  <PopoverBody>
-                    아래 버튼으로 부모 레이어를 먼저 닫으면, 남아 있던 이 popover가 cascadeDismiss로
-                    닫힙니다.
-                  </PopoverBody>
-                  <PopoverFooter>
-                    <ActionButton
-                      variant="neutralSolid"
-                      onClick={() => {
-                        // 제어된 상태를 직접 내리는 경로라 바깥 popover의 onOpenChange는 호출되지
-                        // 않는다. 로그에 남기려면 여기서 같이 찍어야 한다.
-                        setOuterOpen(false);
-                        append("outer", false);
-                      }}
-                    >
-                      바깥 popover 닫기
-                    </ActionButton>
-                  </PopoverFooter>
-                </PopoverContent>
-              </PopoverRoot>
+              <HStack gap="x2" justify="flex-end">
+                <PopoverRoot
+                  placement="bottom-end"
+                  onOpenChange={(open, details) => append("nested", open, details?.reason)}
+                >
+                  <PopoverTrigger asChild>
+                    <ActionButton variant="neutralSolid">안쪽 popover</ActionButton>
+                  </PopoverTrigger>
+                  <PopoverContent title="안쪽 레이어">
+                    <PopoverBody>
+                      아래 버튼으로 부모 레이어를 먼저 닫으면, 남아 있던 이 popover가
+                      cascadeDismiss로 닫힙니다.
+                    </PopoverBody>
+                    <PopoverFooter>
+                      <HStack gap="x2" justify="flex-end">
+                        <ActionButton
+                          variant="neutralSolid"
+                          onClick={() => {
+                            // 제어된 상태를 직접 내리는 경로라 바깥 popover의 onOpenChange는 호출되지
+                            // 않는다. 로그에 남기려면 여기서 같이 찍어야 한다.
+                            setOuterOpen(false);
+                            append("outer", false);
+                          }}
+                        >
+                          바깥 popover 닫기
+                        </ActionButton>
+                      </HStack>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </PopoverRoot>
+              </HStack>
             </PopoverFooter>
           </PopoverContent>
         </PopoverRoot>
@@ -382,7 +386,9 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 <PopoverContent title="제목" description="설명을 작성할 수 있어요">
                   <PopoverBody>Header / Body / Footer 구조를 가진 기본 Popover입니다.</PopoverBody>
                   <PopoverFooter>
-                    <ActionButton variant="neutralSolid">확인</ActionButton>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
                   </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
@@ -419,7 +425,9 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 <PopoverContent aria-label="필터" showCloseButton={false}>
                   <PopoverBody>Header 슬롯 자체가 렌더되지 않습니다.</PopoverBody>
                   <PopoverFooter>
-                    <ActionButton variant="neutralSolid">적용</ActionButton>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">적용</ActionButton>
+                    </HStack>
                   </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
@@ -451,7 +459,9 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                     ))}
                   </PopoverBody>
                   <PopoverFooter>
-                    <ActionButton variant="neutralSolid">동의</ActionButton>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">동의</ActionButton>
+                    </HStack>
                   </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
@@ -570,7 +580,9 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 <PopoverContent title="경계 테스트">
                   <PopoverBody>Tab / Shift+Tab이 dialog 안에서 어떻게 도는지 봅니다.</PopoverBody>
                   <PopoverFooter>
-                    <ActionButton variant="neutralSolid">확인</ActionButton>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
                   </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
