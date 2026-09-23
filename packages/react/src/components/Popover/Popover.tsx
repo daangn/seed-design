@@ -86,13 +86,6 @@ export const PopoverPositioner = withContext<HTMLDivElement, PopoverPositionerPr
   "positioner",
 );
 
-export interface PopoverPositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
-
-export const PopoverPositionerPortal = withContext<HTMLDivElement, PopoverPositionerPortalProps>(
-  PopoverPrimitive.PositionerPortal,
-  "positioner",
-);
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverContentProps
