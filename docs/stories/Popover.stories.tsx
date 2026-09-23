@@ -1,6 +1,7 @@
 import preview from "../.storybook/preview";
 import { withChromaticParameters } from "@/stories/utils/parameters";
 import { popoverVariantMap } from "@seed-design/css/recipes/popover";
+import { HStack } from "@seed-design/react";
 import { type ReactNode, useCallback, useRef, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { PopoverBody, PopoverContent, PopoverFooter, PopoverRoot } from "seed-design/ui/popover";
@@ -56,7 +57,9 @@ function PopoverPreview({
             </PopoverBody>
             {showFooter && (
               <PopoverFooter>
-                <ActionButton variant="neutralSolid">확인</ActionButton>
+                <HStack gap="x2" justify="flex-end">
+                  <ActionButton variant="neutralSolid">확인</ActionButton>
+                </HStack>
               </PopoverFooter>
             )}
           </PopoverContent>
