@@ -34,7 +34,7 @@ const textOutput = (hidden?: "doc") =>
   object({
     outDir: optional(
       option("--out-dir", emptyDirectory(), {
-        description: message`text 표면을 패키지별 <DIR>/<패키지 이름>.txt 파일로 씁니다. 두 시점을 이렇게 쓰고 git diff --no-index로 비교합니다.`,
+        description: message`text 표면을 패키지별 <DIR>/<패키지 이름>.txt 파일로 씁니다. 디렉터리는 비어 있거나 없어야 합니다.`,
         hidden,
       }),
     ),
