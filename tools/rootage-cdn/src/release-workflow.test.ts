@@ -18,9 +18,8 @@ describe("release publish workflow", () => {
     expect(workflow).toContain("cancel-in-progress: false");
     expect(workflow).not.toContain("environment: npm-production");
     expect(workflow).toContain("id-token: write");
-    expect(workflow).toContain("publish: bun release");
-    expect(workflow).toContain("version: bun version");
-    expect(workflow).toContain("changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d");
+    expect(workflow).toContain("publish-script: bun release");
+    expect(workflow).toContain("version-script: bun version");
     expect(workflow).toContain('registry-url: "https://registry.npmjs.org"');
     expect(workflow).toContain("package-manager-cache: false");
     expect(workflow).not.toContain("NPM_TOKEN");
