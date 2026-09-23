@@ -34,7 +34,7 @@ export declare const vars: {
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. 본문이 오버플로되어 스크롤 가능한 경우에만 적용됩니다. */
-        "paddingBottom": "var(--seed-dimension-x8)",
+        "paddingBottom": "var(--seed-dimension-x12)",
         "strokeDuration": "var(--seed-duration-color-transition)",
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
@@ -46,8 +46,8 @@ export declare const vars: {
       },
       "title": {
         "color": "var(--seed-color-fg-neutral)",
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)",
+        "fontSize": "var(--seed-font-size-t7)",
+        "lineHeight": "var(--seed-line-height-t7)",
         "fontWeight": "var(--seed-font-weight-bold)"
       },
       "description": {
@@ -57,8 +57,8 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "fromTop": "20px",
-        "fromRight": "20px"
+        "fromTop": "27px",
+        "fromRight": "24px"
       }
     },
     "scrolled": {
