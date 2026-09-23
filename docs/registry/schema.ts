@@ -41,8 +41,9 @@ export interface Registry {
        */
       path: string;
       /**
-       * @description 스니펫 파일에서 의존하는 \@seed-design/* 패키지와 버전. 스니펫 내부에 \@requires로 기록됨
+       * @description 스니펫 파일이 요구하는 패키지와 버전 범위. 스니펫 내부에 \@requires로 기록되고, CLI가 프로젝트에 설치된 버전과 비교함
        * @example { "@seed-design/react": "^1.1.0", "@seed-design/css": "^1.1.0" }
+       * @example { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0", "@stackflow/react": "^2.0.0" }
        * @see https://github.com/npm/node-semver#caret-ranges-123-025-004
        */
       dependencies?: Record<string, string>;
