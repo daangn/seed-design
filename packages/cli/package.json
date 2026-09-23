@@ -21,6 +21,7 @@
     "node": ">=20.19.0"
   },
   "scripts": {
+    "prepare": "skills-npm --cwd . --no-gitignore",
     "build": "ENV=prod bun ./build.mjs",
     "dev": "ENV=dev bun ./dev.mjs",
     "typecheck": "tsc --noEmit",
