@@ -1,6 +1,6 @@
 # Lynx 검증 런북
 
-이 문서는 `seed-write-lynx-component-docs`와 `seed-verify-lynx-component`가 공유하는 실행 절차다. 기본 native 검증은 `examples/lynx-spa` 개발 서버에서 실제 문서 예제를 선택하거나 query로 직접 여는 경로다. docs build·정적 serve·manifest는 문서 인프라 자체를 바꾼 경우에만 쓴다.
+이 문서는 `seed-component`의 Lynx 문서 분기와 `seed-verify-lynx-component`가 공유하는 실행 절차다. 기본 native 검증은 `examples/lynx-spa` 개발 서버에서 실제 문서 예제를 선택하거나 query로 직접 여는 경로다. docs build·정적 serve·manifest는 문서 인프라 자체를 바꾼 경우에만 쓴다.
 
 온라인 실행 전 [session 소유권과 Card 수명](concurrency/session-ownership.md)을 읽는다. URL은 미리 준비하되 실제 page 열기·화면 검증은 공유 lifecycle lock 안에서 수행한다. 같은 Card 재검증과 종료는 해당 절차를 따른다. CLI·MCP·OS 딥 링크 중 어느 경로도 잠금과 소유권 확인을 생략하지 않는다.
 
@@ -101,7 +101,7 @@ docs Lynx watcher와 정적 빌드는 `docs/public/__lynx__`를 함께 갱신하
 | 문서용 production 예제 bundle·manifest | `bun --filter @seed-design/docs build:lynx-examples` |
 | 문서용 development 예제 bundle | `bun --filter @seed-design/docs build:lynx-examples:development` |
 
-문서 예제·도구의 타입·회귀 검사는 [공통 자동 검증](../../seed-create-component/references/verification-checklist.md#자동-검증)에 따라 `bun docs:test` 등 해당 경로의 기존 명령으로 확인한다. bundle 빌드 성공을 타입 검사나 실제 화면 확인으로 대체하지 않는다.
+문서 예제·도구의 타입·회귀 검사는 [공통 자동 검증](../../seed-component/references/verification-checklist.md#자동-검증)에 따라 `bun docs:test` 등 해당 경로의 기존 명령으로 확인한다. bundle 빌드 성공을 타입 검사나 실제 화면 확인으로 대체하지 않는다.
 
 ### 서빙과 소비 경로
 

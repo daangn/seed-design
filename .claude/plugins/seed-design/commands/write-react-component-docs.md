@@ -5,7 +5,7 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 
 # React 컴포넌트 문서 작성
 
-`seed-create-component` 스킬의 React `docs-only` 경로로 컴포넌트 문서를 만들거나 갱신합니다.
+`seed-component` 스킬의 React 문서 전용 경로로 컴포넌트 문서를 만들거나 갱신합니다.
 
 ## 인자
 

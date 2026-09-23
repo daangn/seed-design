@@ -1,6 +1,6 @@
 ---
 name: seed-design
-description: SEED Design 사용법·진단·저장소 작업의 공식 문서와 전용 Skill을 라우팅할 때 사용한다.
+description: SEED Design을 사용하는 프로젝트의 공식 문서·CLI 안내나 설치·업그레이드 진단이 필요할 때 사용한다.
 user-invocable: true
 argument-hint: "[질문 또는 주제]"
 ---
@@ -27,18 +27,12 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 
 | 요청 | 사용할 스킬 |
 |---|---|
-| 기존 컴포넌트의 원천·구현·공개 표면 조회 | [`seed-component-map`](../seed-component-map/SKILL.md) |
-| React와 Lynx 공개 API 차이 확인 | [`seed-api-parity`](../seed-api-parity/SKILL.md) |
-| 색상 토큰의 정의·사용처·생성 표면·대비 분석 | [`seed-token-analysis`](../seed-token-analysis/SKILL.md) |
-| 컴포넌트 추가·변경 계획과 구현 | [`seed-create-component`](../seed-create-component/SKILL.md) |
-| Lynx 컴포넌트 문서·예제 작성 | [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md) |
-| 변경 영향·검증·PR 기준 브랜치 계획 | [`seed-change-plan`](../seed-change-plan/SKILL.md) |
-| 배포 후보와 bump·메시지 확정 | [`seed-changeset`](../seed-changeset/SKILL.md) |
-| 기준 브랜치 리베이스·커밋·push·PR base 정렬 | [`seed-submit-change`](../seed-submit-change/SKILL.md) |
+| 컴포넌트 경로·API 비교·색상 토큰 조사, 구현·문서 작성 | [`seed-component`](../seed-component/SKILL.md) |
+| 변경 영향·검증·기준 브랜치 계획, changeset, 명시 요청된 제출 | [`seed-change`](../seed-change/SKILL.md) |
 | deprecated 표시·마이그레이션·제거 | [`seed-deprecation`](../seed-deprecation/SKILL.md) |
 | PR snapshot 생성과 결과 확인 | [`seed-snapshot-release`](../seed-snapshot-release/SKILL.md) |
 
-여러 단계가 이어지면 조회와 계획을 먼저 실행하고 쓰기 작업을 나중에 실행합니다. `seed-change-plan`의 브랜치 결과가 `unknown`이면 `seed-submit-change`로 넘어가지 않습니다.
+조회와 계획 결과만으로 파일 작성이나 제출을 시작하지 않습니다. `seed-change`의 브랜치 결과가 `unknown`이면 제출하지 않습니다.
 
 ## 2. 플랫폼 판별
 

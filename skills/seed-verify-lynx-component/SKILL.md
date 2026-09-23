@@ -18,14 +18,14 @@ GPT-6-Astra와 GPT-5.6 Luna·Terra·Sol에 같은 필수 검사·수락 기준·
 - 협업에서는 통합 담당이 넘긴 변경본 식별 정보와 bundle을 확인한다. 후속 수정이 있으면 영향받은 항목을 `미확인`으로 되돌린다. [검증 분담과 자원](../seed-orchestrate-component/references/collaboration.md#검증-분담과-자원)에 따라 공유 서버·host app·기기·전역 overlay·캡처 자원별 조작 소유자를 정한다. 조율자는 결과를 통합·승인하며, 모든 검사를 직접 실행하지 않는다.
 - 기존 서버·사용자 session·사용자 변경을 임의로 종료·되돌리지 않는다. `examples/lynx-spa` 서버를 새로 시작·재시작·중지하는 일은 그 host 소유자만 한다.
 
-문서와 예제를 작성하거나 수정하는 요청이면 [`seed-write-lynx-component-docs`](../seed-write-lynx-component-docs/SKILL.md)를 사용한다. 이 스킬은 실행 가능한 기본 장면부터 적용하고, 나머지 범위를 구현한 뒤 최종 검증에도 사용한다.
+문서와 예제를 작성하거나 수정하는 요청이면 [`seed-component`의 Lynx 문서 분기](../seed-component/SKILL.md)를 사용한다. 이 스킬은 실행 가능한 기본 장면부터 적용하고, 나머지 범위를 구현한 뒤 최종 검증에도 사용한다.
 
 ## 함께 사용하는 스킬
 
 검증 목적에 따라 필요한 스킬만 사용한다.
 
-- [`seed-component-map`](../seed-component-map/SKILL.md): 실제 package, Recipe, 공개 export, 문서 예제와 SPA 소비 경로 확인
-- [`seed-api-parity`](../seed-api-parity/SKILL.md): React와 Lynx의 공개 API, 상태, 이벤트, 접근성 차이 확인
+- [`seed-component`의 경로 조회](../seed-component/SKILL.md): 실제 package, Recipe, 공개 export, 문서 예제와 SPA 소비 경로 확인
+- [`seed-component`의 API 비교](../seed-component/SKILL.md): React와 Lynx의 공개 API, 상태, 이벤트, 접근성 차이 확인
 - `lynx-api-docs`: Lynx element, layout, API 동작 확인
 - `lynx-check-css-support`: CSS 속성·값의 backend와 Engine 버전 확인
 - `lynx-devtool`: 온라인 검증의 CLI 사용법과 DOM, layout, console, screenshot 증거 수집
@@ -39,14 +39,14 @@ GPT-6-Astra와 GPT-5.6 Luna·Terra·Sol에 같은 필수 검사·수락 기준·
 
 ### 1. 대상·소비 경로·필수 환경 고정
 
-대상 컴포넌트·시나리오·기대 결과와 이번 변경에 필요한 환경만 기록한다. 대상 경로·공개 소비 경로가 불명확할 때만 `seed-component-map`을 사용하고, 공개 API 차이가 검증 대상일 때만 `seed-api-parity`를 사용한다.
+대상 컴포넌트·시나리오·기대 결과와 이번 변경에 필요한 환경만 기록한다. 대상 경로·공개 소비 경로가 불명확할 때만 `seed-component`의 읽기 전용 경로 조회를 사용하고, 공개 API 차이가 검증 대상일 때만 읽기 전용 API 비교를 사용한다.
 
 - 문서 URL, React 예제와 Lynx 예제 ID, SPA query ID `lynx/<component>/<scenario>`
 - package 공개 export에서 예제까지 이어지는 실제 소비 경로
 - 변경한 사용자 결과와 기대 결과
 - 필수·선택 환경과 사용할 수 없는 경우의 처리
 
-원래 요청·참조 화면·시나리오를 직접 받아 [관찰 가능한 결과 판정](../seed-create-component/references/verification-checklist.md#관찰-가능한-결과-판정)으로 승인 조건을 고정한다. 구현자의 지원 목록이나 완료 요약에서 기대 결과를 역으로 만들지 않는다. 기본 장면의 통과와 요청 범위 전체의 통과를 구분한다.
+원래 요청·참조 화면·시나리오를 직접 받아 [관찰 가능한 결과 판정](../seed-component/references/verification-checklist.md#관찰-가능한-결과-판정)으로 승인 조건을 고정한다. 구현자의 지원 목록이나 완료 요약에서 기대 결과를 역으로 만들지 않는다. 기본 장면의 통과와 요청 범위 전체의 통과를 구분한다.
 
 문구·코드 노출만 바뀐 작업은 내용·링크·형식을 확인하고, 문서 페이지의 렌더링을 바꾼 경우에만 브라우저를 사용한다. native 동작을 새로 주장하거나 실행 결과가 바뀐 작업은 `examples/lynx-spa`를 로컬 Lynx 런타임 또는 실제 host app에서 실행한다. PlayLynx의 query 선택처럼 host의 page URL에 의존하는 경로를 바꾸면 해당 host에서 직접 확인한다.
 
@@ -81,7 +81,7 @@ package public export → SPA example import → lynx/<component>/<scenario> →
 
 변경한 표면과 필수 환경에 맞는 [검증 런북](references/verification.md) 항목만 선택한다. 기본 native 경로는 `examples/lynx-spa`를 열고 문서 예제를 선택하거나 `example` query로 직접 진입하는 것이다. bundle URL·딥 링크·새 client/session 식별·뒤로 가기·없는 ID 확인은 런북의 순서를 따른다.
 
-코드·공개 예제·Registry·생성물 변경은 [공통 체크리스트의 자동 검증](../seed-create-component/references/verification-checklist.md#자동-검증)을 따른다. 변경으로 영향받는 문서 소비 경로의 타입·회귀·생성 검사도 포함한다. docs 전체 빌드 제외는 이 검사의 면제를 뜻하지 않는다. 필수 검사가 통과하면 새 변경·실패·미해결 우려가 있을 때만 검사를 반복하거나 넓힌다.
+코드·공개 예제·Registry·생성물 변경은 [공통 체크리스트의 자동 검증](../seed-component/references/verification-checklist.md#자동-검증)을 따른다. 변경으로 영향받는 문서 소비 경로의 타입·회귀·생성 검사도 포함한다. docs 전체 빌드 제외는 이 검사의 면제를 뜻하지 않는다. 필수 검사가 통과하면 새 변경·실패·미해결 우려가 있을 때만 검사를 반복하거나 넓힌다.
 
 정적 문서의 MDX·코드 탭·QR·Web preview·docs build pipeline 자체를 변경했을 때는 [문서 인프라 검증](references/verification.md#6-문서-인프라를-실제로-바꾼-경우만)을 추가한다. 이 조건은 native 컴포넌트 검증의 선행조건도, 단순 컴포넌트 변경의 최종 의무도 아니다.
 

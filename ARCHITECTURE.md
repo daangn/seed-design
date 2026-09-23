@@ -90,25 +90,25 @@
 
 ### 컴포넌트 영향도
 
-컴포넌트 변경은 먼저 `seed-component-map`을 한 번 실행한다.
+컴포넌트 변경은 먼저 `seed-component`의 읽기 전용 경로 조회를 한 번 실행한다.
 
 ```bash
-bun skills/seed-component-map/scripts/component-map.ts <ComponentName>
+bun skills/seed-component/scripts/component-map.ts <ComponentName>
 ```
 
 결과의 `rootage`, `recipeSources`, `generatedOutputs`, `headless`, `implementations`, `packageExports`, `registry`, `docs`, `examples`, `tests` 경로만 필요한 범위에서 연다. `generatedOutputs`는 실제 배포 표면 확인용이며 직접 수정하지 않는다. 한 번에 한 컴포넌트만 조회하고 `ambiguous`면 결과의 후보 이름으로 다시 조회한다.
 
 ### 토큰 영향도
 
-색상 토큰 변경은 먼저 `seed-token-analysis`로 원천·alias·사용처·생성 표면을 확인한다.
+색상 토큰 변경은 먼저 `seed-component`의 읽기 전용 토큰 분석으로 원천·alias·사용처·생성 표면을 확인한다.
 
 ```bash
-bun skills/seed-token-analysis/scripts/token-map.ts '$color.fg.neutral'
+bun skills/seed-component/scripts/token-map.ts '$color.fg.neutral'
 ```
 
 결과의 `definition`, `resolvedValues`, `dependentTokens`, `componentUsages`, `generatedSurfaces`를 순서대로 읽는다. 대비가 영향을 받으면 `token-contrast.ts`로 전경·배경·theme 조합을 추가 검사한다. `unresolved`나 `needs-backdrop`을 다른 mode 값으로 대체하지 않는다. 한 번에 한 토큰만 분석하며 생성 결과는 직접 수정하지 않는다.
 
-두 분석 결과로 여러 패키지·플랫폼의 변경 순서와 changeset 범위를 판단할 수 없으면 `seed-change-plan`을 추가로 사용한다.
+두 분석 결과로 여러 패키지·플랫폼의 변경 순서와 changeset 범위를 판단할 수 없으면 `seed-change`의 읽기 전용 계획을 추가로 사용한다.
 
 
 ## 공개 소비 경로

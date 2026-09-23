@@ -114,19 +114,21 @@ bun test skills/seed-component-map/scripts/component-map.test.ts
 
 ## 주요 파일 지도
 
-### seed-design의 현재 원본
+### seed-design의 최초 이관 당시 원본
 
-| 역할 | 경로 | 현재 맥락 |
+현재 통합 원천은 [`seed-component`](../../skills/seed-component/SKILL.md)와 [`seed-change`](../../skills/seed-change/SKILL.md)다. 아래 표는 당시 경로를 기록한 스냅샷이며 현재 실행 경로가 아니다.
+
+| 역할 | 당시 경로 | 당시 맥락 |
 |---|---|---|
-| 컴포넌트 작업 라우터 | [`skills/seed-create-component/SKILL.md`](../../skills/seed-create-component/SKILL.md) | 이름 전환과 책임 정리를 마친 현재 원본이다. |
-| 컴포넌트 경로 조회 | [`skills/seed-component-map/SKILL.md`](../../skills/seed-component-map/SKILL.md) | 이번 전환의 첫 기준 구현이다. |
-| 컴포넌트 맵 스크립트 | [`skills/seed-component-map/scripts/component-map.ts`](../../skills/seed-component-map/scripts/component-map.ts) | 읽기 전용이며 한 컴포넌트의 표면을 JSON으로 반환한다. |
-| Lynx 문서 작업 | [`skills/seed-write-lynx-component-docs/SKILL.md`](../../skills/seed-write-lynx-component-docs/SKILL.md) | 문서 작성과 확인 범위를 정리한 현재 원본이다. |
-| Lynx 런타임 분류 | [`skills/seed-write-lynx-component-docs/references/preview-runtime.md`](../../skills/seed-write-lynx-component-docs/references/preview-runtime.md) | 브라우저 미리보기와 실제 Lynx의 확인 범위를 구분한다. |
-| Lynx 문서 검증 | [`skills/seed-write-lynx-component-docs/references/verification.md`](../../skills/seed-write-lynx-component-docs/references/verification.md) | 정적 검증과 실제 Lynx 확인의 경계를 설명한다. |
-| 릴리스 작업 | [`skills/seed-changeset/SKILL.md`](../../skills/seed-changeset/SKILL.md) | 후보 계산과 사용자 확인 절차를 정리한 현재 원본이다. |
-| 버전 정책 | [`skills/seed-changeset/references/version-matrix.md`](../../skills/seed-changeset/references/version-matrix.md) | bump와 내부 의존성 전파의 단일 기준이다. |
-| 메시지 정책 | [`skills/seed-changeset/references/patterns.md`](../../skills/seed-changeset/references/patterns.md) | 사용자 관점 changeset 문구를 정의한다. |
+| 컴포넌트 작업 라우터 | `skills/seed-create-component/SKILL.md` | 이름 전환과 책임 정리를 마친 당시 원본이다. |
+| 컴포넌트 경로 조회 | `skills/seed-component-map/SKILL.md` | 이번 전환의 첫 기준 구현이다. |
+| 컴포넌트 맵 스크립트 | `skills/seed-component-map/scripts/component-map.ts` | 읽기 전용이며 한 컴포넌트의 표면을 JSON으로 반환한다. |
+| Lynx 문서 작업 | `skills/seed-write-lynx-component-docs/SKILL.md` | 문서 작성과 확인 범위를 정리한 당시 원본이다. |
+| Lynx 런타임 분류 | `skills/seed-write-lynx-component-docs/references/preview-runtime.md` | 브라우저 미리보기와 실제 Lynx의 확인 범위를 구분한다. |
+| Lynx 문서 검증 | `skills/seed-write-lynx-component-docs/references/verification.md` | 정적 검증과 실제 Lynx 확인의 경계를 설명한다. |
+| 릴리스 작업 | `skills/seed-changeset/SKILL.md` | 후보 계산과 사용자 확인 절차를 정리한 당시 원본이다. |
+| 버전 정책 | `skills/seed-changeset/references/version-matrix.md` | bump와 내부 의존성 전파의 당시 단일 기준이다. |
+| 메시지 정책 | `skills/seed-changeset/references/patterns.md` | 사용자 관점 changeset 문구를 정의한다. |
 | 범용 SEED 안내 | [`skills/seed-design/SKILL.md`](../../skills/seed-design/SKILL.md) | 소비자 프로젝트 안내와 Doctor 라우팅이 중심이다. |
 
 `seed_lynx_example_verify`의 스킬 전환은 후속 재설계 대상으로 돌렸다. `skills/seed-submit-change`는 변경 계획에서 확정한 기준 브랜치로 feature 커밋만 옮기고 같은 PR base를 사용하는 절차를 맡는다.

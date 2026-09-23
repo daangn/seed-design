@@ -5,7 +5,7 @@ allowed-tools: Read, Glob, Grep, Bash
 
 # 문서 일관성 확인
 
-`seed-component-map` 스킬로 각 컴포넌트의 현재 경로를 수집합니다. `full` 또는 `props-only` 모드에서는 `seed-api-parity`도 사용하고, 확인하지 못한 차원은 추측하지 말고 `unknown`으로 보고합니다.
+`seed-component`의 읽기 전용 경로 조회 분기로 각 컴포넌트의 현재 경로를 수집합니다. `full` 또는 `props-only` 모드에서는 읽기 전용 API 비교 분기도 사용하고, 확인하지 못한 차원은 추측하지 말고 `unknown`으로 보고합니다.
 
 ## 인자
 

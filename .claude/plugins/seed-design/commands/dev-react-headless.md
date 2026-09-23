@@ -5,7 +5,7 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 
 # React Headless 개발
 
-`seed-create-component` 스킬의 React 플랫폼 게이트와 Headless 참고 문서를 사용해 스타일 없는 React Headless 컴포넌트를 구현합니다.
+`seed-component` 스킬의 React 플랫폼 게이트와 Headless 참고 문서를 사용해 스타일 없는 React Headless 컴포넌트를 구현합니다.
 
 ## 인자
 
