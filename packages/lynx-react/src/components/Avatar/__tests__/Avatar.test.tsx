@@ -72,6 +72,28 @@ describe("Avatar", () => {
     expect(root().querySelector(".seed-avatar__fallback")).toBeNull();
   });
 
+  it("disables native interaction on decorative and pending layers without removing the image", () => {
+    const { rerender } = render(<Profile src="a.png" />);
+    const container = root().querySelector(".seed-avatar__imageContainer");
+    const stroke = root().querySelector(".seed-avatar__stroke");
+    const request = image();
+    expect(container).toHaveAttribute("user-interaction-enabled", "false");
+    expect(stroke).toHaveAttribute("user-interaction-enabled", "false");
+
+    emit(request, "load");
+    expect(image()).toBe(request);
+    expect(container).toHaveAttribute("user-interaction-enabled", "true");
+    expect(stroke).toHaveAttribute("user-interaction-enabled", "false");
+
+    emit(request, "error");
+    expect(container).toHaveAttribute("user-interaction-enabled", "false");
+    expect(root().querySelector(".seed-avatar__fallback")).not.toBeNull();
+
+    rerender(<Profile src="" />);
+    expect(container).toHaveAttribute("user-interaction-enabled", "false");
+    expect(image()).toHaveAttribute("src", "");
+  });
+
   it("replaces the native request even when both sources are still loading", () => {
     const { rerender } = render(<Profile src="a.png" />);
     const pending = image();
