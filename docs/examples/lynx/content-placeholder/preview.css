@@ -4,3 +4,12 @@
   align-items: center;
   background-color: var(--seed-color-bg-layer-default);
 }
+
+.docs-lynx-content-placeholder-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--seed-color-bg-layer-default);
+}
