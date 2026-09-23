@@ -1,8 +1,8 @@
-name: API Surface Comment
+name: API Surface Diff Comment
 
 on:
   workflow_run:
-    workflows: ["API Surface"]
+    workflows: ["API Surface Diff"]
     types: [completed]
 
 permissions:
@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download comment
+      - name: Download diff comment
         uses: actions/download-artifact@v5
         with:
-          name: api-surface-comment
+          name: api-surface-diff-comment
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
@@ -32,7 +32,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const MARKER = '<!-- extract-api-surface -->';
+            const MARKER = '<!-- api-surface-diff -->';
             const { owner, repo } = context.repo;
 
             const { data: pulls } = await github.rest.pulls.list({
@@ -57,7 +57,7 @@ jobs:
               (comment) => comment.user?.type === 'Bot' && comment.body?.startsWith(MARKER),
             );
 
-            const body = fs.readFileSync('api-surface-comment.md', 'utf8').trim().slice(0, 65000);
+            const body = fs.readFileSync('api-surface-diff-comment.md', 'utf8').trim().slice(0, 65000);
             if (!body) {
               if (existing) await github.rest.issues.deleteComment({ owner, repo, comment_id: existing.id });
               return;

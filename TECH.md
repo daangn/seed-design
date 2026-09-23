@@ -68,7 +68,7 @@
 | `packages/rootage/`, `ecosystem/rootage/` | `bun rootage:test` |
 | `tools/rootage-cdn/` | `bun --filter @seed-design/rootage-cdn test && bun --filter @seed-design/rootage-cdn typecheck && WRANGLER_LOG_PATH=/tmp/wrangler-rootage-dry-run.log bun --filter @seed-design/rootage-cdn wrangler:dry-run` |
 | `tools/extract-api-surface/` | `bun --filter @seed-design/extract-api-surface test && bun --filter @seed-design/extract-api-surface typecheck` |
-| `.github/scripts/api-surface-*.ts` | `bun test ./.github/scripts/api-surface-comment.test.ts ./.github/scripts/api-surface-packages.test.ts` |
+| `.github/scripts/build-api-surface-diff-comment.ts`, `.github/scripts/list-public-packages.ts` | `bun test ./.github/scripts/build-api-surface-diff-comment.test.ts ./.github/scripts/list-public-packages.test.ts` |
 | `ecosystem/qvism/` | `bun test ecosystem/qvism` |
 | `docs/` | `bun docs:test` |
 | 전체 | `bun test:all` |

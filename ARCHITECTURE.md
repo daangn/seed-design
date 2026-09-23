@@ -84,7 +84,7 @@
 | MCP 도구 | `packages/mcp/` 또는 `packages/docs-mcp/` | REST/WebSocket 또는 docs config의 실제 소비 경로 |
 | 문서·registry | `docs/`의 대상 하위 경로 | `packages/docs-mcp/src/config.ts`, 생성 registry, vendored consumer |
 | Rootage CDN·릴리스 | `tools/rootage-cdn/` | `packages/rootage/`, GitHub workflow, 환경별 AGENTS |
-| 공개 API 표면 diff | `tools/extract-api-surface/` | `.github/workflows/api-surface*.yml`, `.github/scripts/api-surface-*.ts` |
+| 공개 API 표면 diff | `tools/extract-api-surface/` | `.github/workflows/api-surface-diff*.yml`, `.github/scripts/build-api-surface-diff-comment.ts`, `.github/scripts/list-public-packages.ts` |
 
 ## 변경 전 영향도 분석
 

@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { findPublicPackages } from "./api-surface-packages";
+import { findPublicPackages } from "./list-public-packages";
 
 const temporaryDirectories: string[] = [];
 
@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 test("workspace에서 private이 아니고 이름이 있는 패키지를 이름순으로 고른다", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "api-surface-packages-"));
+  const root = mkdtempSync(path.join(tmpdir(), "list-public-packages-"));
   temporaryDirectories.push(root);
 
   const manifests = {

@@ -97,7 +97,7 @@ function main() {
   const [base, head] = positionals;
   if (!base || !head)
     throw new Error(
-      "Usage: bun .github/scripts/api-surface-comment.ts <base-dir> <head-dir> [--base-label <label>]",
+      "Usage: bun .github/scripts/build-api-surface-diff-comment.ts <base-dir> <head-dir> [--base-label <label>]",
     );
 
   // Prefixes are pinned so a user's diff.noprefix or diff.mnemonicPrefix can't change the paths parsed above.

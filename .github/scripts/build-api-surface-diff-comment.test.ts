@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { buildComment, parsePackageDiffs } from "./api-surface-comment";
+import { buildComment, parsePackageDiffs } from "./build-api-surface-diff-comment";
 
 const meta = { baseLabel: "origin/dev (012345678)" };
 

@@ -10,7 +10,7 @@ bun extract-api-surface @seed-design/react @seed-design/css          # 여러 �
 bun extract-api-surface --format json @seed-design/react             # 구조화된 출력
 bun extract-api-surface --root <dir> @seed-design/react              # 다른 checkout의 표면
 bun extract-api-surface --out-dir <dir> @seed-design/react           # 패키지별 <dir>/<패키지 이름>.txt 파일로 저장
-bun extract-api-surface $(bun .github/scripts/api-surface-packages.ts)  # CI처럼 public 패키지 전체
+bun extract-api-surface $(bun .github/scripts/list-public-packages.ts)  # CI처럼 public 패키지 전체
 ```
 
 다른 workspace 패키지에서 온 타입은 대상 패키지가 `package.json`에 선언한 workspace 의존성(`dependencies`·`peerDependencies`·`devDependencies`)을 따라 소스에서 읽는다.
