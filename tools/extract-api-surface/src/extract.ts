@@ -160,15 +160,11 @@ function createDescriber(program: ts.Program) {
   const printType = (type: ts.Type, at: ts.Node, extraFlags = ts.NodeBuilderFlags.None) =>
     printNormalized(checker.typeToTypeNode(type, at, NODE_FLAGS | extraFlags));
 
-  const printSignature = (signature: ts.Signature, at: ts.Node) =>
-    printNormalized(
-      checker.signatureToSignatureDeclaration(
-        signature,
-        ts.SyntaxKind.FunctionType,
-        at,
-        NODE_FLAGS,
-      ),
-    );
+  const printSignature = (
+    signature: ts.Signature,
+    at: ts.Node,
+    kind: ts.SyntaxKind.FunctionType | ts.SyntaxKind.ConstructorType = ts.SyntaxKind.FunctionType,
+  ) => printNormalized(checker.signatureToSignatureDeclaration(signature, kind, at, NODE_FLAGS));
 
   const realPaths = new Map<string, string>();
   function realPathOf(declaration: ts.Declaration) {
@@ -276,6 +272,15 @@ function createDescriber(program: ts.Program) {
       });
     }
 
+    for (const info of checker.getIndexInfosOfType(type)) {
+      const key = info.declaration?.parameters[0]?.name.getText() ?? "x";
+      members.push({
+        name: `${info.isReadonly ? "readonly " : ""}[${key}: ${printType(info.keyType, at)}]`,
+        optional: false,
+        type: printType(info.type, info.declaration ?? at),
+      });
+    }
+
     return {
       members: members.sort((a, b) => a.name.localeCompare(b.name)),
       external: [...external]
@@ -334,16 +339,28 @@ function createDescriber(program: ts.Program) {
           : [];
       const typeName =
         parameters.length > 0 ? `${name}<${parameters.map(print).join(", ")}>` : name;
+      // Arrays and tuples are objects too, but their members are the lib's array methods.
       const isObject =
         !(symbol.flags & ts.SymbolFlags.Enum) &&
         !type.isUnion() &&
-        (type.flags & ts.TypeFlags.Object || type.isIntersection());
+        (type.flags & ts.TypeFlags.Object || type.isIntersection()) &&
+        !checker.isArrayType(type) &&
+        !checker.isTupleType(type);
+      const signatures = [
+        ...type.getCallSignatures().map((signature) => printSignature(signature, declaration)),
+        ...type
+          .getConstructSignatures()
+          .map((signature) =>
+            printSignature(signature, declaration, ts.SyntaxKind.ConstructorType),
+          ),
+      ];
 
       surfaces.push(
         isObject
           ? {
               name: typeName,
               kind: "type",
+              ...(signatures.length > 0 && { signatures }),
               ...(doc && { doc }),
               ...describeMembers(type, declaration, pkg),
             }

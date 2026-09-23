@@ -155,6 +155,42 @@ type ChipProps
     );
   });
 
+  test("객체 타입의 call·construct signature와 index signature를 기록하고 배열·튜플은 본문을 기록한다", () => {
+    const root = createFixture();
+    writeFiles(root, {
+      "packages/shapes/package.json": JSON.stringify({
+        name: "@fixture/shapes",
+        exports: { ".": { types: "./lib/index.d.ts" } },
+      }),
+      "packages/shapes/src/index.ts": `export type OnChange = (value: string) => void;
+export interface Ctor { new (a: number): Date }
+export interface Callable { (a: number): string; y: number }
+export interface Lookup { readonly [key: string]: number | boolean; x: number }
+export type Dict = Record<string, number>;
+export type Ids = string[];
+export type Pair = [string, number];
+`,
+    });
+
+    expect(renderSurface(extractSurface(root, { packages: ["@fixture/shapes"] }))).toBe(
+      `# @fixture/shapes
+
+## .
+type Callable = (a: number) => string
+  y: number
+type Ctor = new (a: number) => Date
+type Dict
+  [x: string]: number
+type Ids = string[]
+type Lookup
+  readonly [key: string]: boolean | number
+  x: number
+type OnChange = (value: string) => void
+type Pair = [string, number]
+`,
+    );
+  });
+
   test("public 패키지가 아닌 이름을 지정하면 추출을 멈춘다", () => {
     const root = createFixture();
 
