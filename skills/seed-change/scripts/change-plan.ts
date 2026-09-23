@@ -174,7 +174,7 @@ const FOCUSED_VERIFICATION_RULES: Array<{
     id: "cli-test",
     pattern: /^packages\/cli\//,
     command: "bun test packages/cli",
-    source: "TECH.md#테스트",
+    source: "AGENTS.md#검증",
   },
   {
     id: "rootage-test",
@@ -186,7 +186,7 @@ const FOCUSED_VERIFICATION_RULES: Array<{
     id: "qvism-test",
     pattern: /^ecosystem\/qvism\//,
     command: "bun test ecosystem/qvism",
-    source: "TECH.md#테스트",
+    source: "AGENTS.md#검증",
   },
   {
     id: "docs-test",
@@ -609,7 +609,7 @@ function requiredVerificationSteps(paths: string[]): VerificationStep[] {
       command: "bun generate:all",
       reason: "저장소 작업 뒤 생성물을 현재 원천과 맞춥니다.",
       evidence: paths,
-      source: "AGENTS.md#Boundaries, package.json#scripts.generate:all",
+      source: "AGENTS.md#생성, package.json#scripts.generate:all",
     },
     {
       id: "test-all",
@@ -617,7 +617,7 @@ function requiredVerificationSteps(paths: string[]): VerificationStep[] {
       command: "bun test:all",
       reason: "커밋 전에 전체 회귀를 확인합니다.",
       evidence: paths,
-      source: "AGENTS.md#Boundaries, package.json#scripts.test:all",
+      source: "AGENTS.md#검증, package.json#scripts.test:all",
     },
   ];
 }
@@ -666,7 +666,7 @@ async function skillTestStep(root: string, paths: string[]): Promise<Verificatio
     command: `bun test ${tests.join(" ")}`,
     reason: "수정한 스킬의 기존 집중 테스트를 실행합니다.",
     evidence: tests,
-    source: "AGENTS.md#테스트",
+    source: "AGENTS.md#검증",
   };
 }
 

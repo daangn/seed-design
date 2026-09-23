@@ -38,7 +38,7 @@ bun packages:build
 | 전체 테스트 | `bun test:all` |
 | 포맷 정리 | `bun biome format --fix` |
 
-패키지별 빌드·테스트 명령어는 [TECH.md](./TECH.md)의 「주요 명령어」에 정리돼 있습니다.
+경로별 테스트 명령어는 [AGENTS.md](./AGENTS.md)의 「검증」에 정리돼 있습니다.
 
 ## 컴포넌트 작업
 
@@ -72,7 +72,7 @@ docs: update component rules
 
 토큰과 스타일 CSS의 일부 경로는 rootage·qvism이 만들어내는 산출물입니다. 직접 수정하면 다음 생성 때 덮어써집니다. 원천 파일을 고친 뒤 `bun generate:all`을 실행해서 생성물을 함께 커밋해 주세요.
 
-어느 경로가 생성물인지는 [TECH.md](./TECH.md)의 「생성 파일 직접 수정 금지」에 있습니다. 컴포넌트 작업이라면 `seed-component` 스킬에 원천·생성물 대응표가 있습니다.
+어느 경로가 생성물인지는 `.gitattributes`가 정합니다. `git check-attr linguist-generated -- <파일>`이 `set`이면 생성물입니다. 원천과 생성 명령의 대응은 [ARCHITECTURE.md](./ARCHITECTURE.md)의 「생성 파이프라인」에 있습니다.
 
 ## 라이선스
 

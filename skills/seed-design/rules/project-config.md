@@ -16,13 +16,13 @@
 
 설정이 없을 때는 다음처럼 나눕니다.
 
-- 스니펫 import 또는 `@file` 헤더가 있으면 CLI가 위치를 확정할 수 없으므로 `warn`.
-- 직접 패키지만 사용하고 스니펫 증거가 없으면 finding을 만들지 않습니다. 설정이 전제인 스니펫 check에는 `not-applicable` 이유를 남깁니다.
+- 스니펫 import 또는 `@file` 헤더가 있음 → CLI가 위치를 확정할 수 없으므로 `warn`.
+- 직접 패키지만 사용하고 스니펫 증거가 없음 → finding을 만들지 않습니다. 설정이 전제인 스니펫 check에는 `not-applicable` 이유를 남깁니다.
 
 ## 중복 경계
 
-- 설치 절차가 완성됐는지는 `project-setup`이 판단합니다.
-- 설치 패키지끼리 맞는지는 `package-compatibility`, 스니펫과 패키지가 맞는지는 `snippet-compatibility`가 판단합니다.
+- 설치 절차가 완성됐는지는 [project-setup](./project-setup.md)이 판단합니다.
+- 설치 패키지끼리 맞는지는 [package-compatibility](./package-compatibility.md), 스니펫과 패키지가 맞는지는 [snippet-compatibility](./snippet-compatibility.md)가 판단합니다.
 - 설정이 유효하면 최신 버전이 아니더라도 이 룰은 통과입니다.
 
 ## 문서 풀에서 사용할 근거

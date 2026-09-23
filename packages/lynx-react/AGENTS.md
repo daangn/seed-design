@@ -1,74 +1,47 @@
 # packages/lynx-react
 
-## 디렉터리 개요
+`@seed-design/react`의 Lynx 대응 스타일드 컴포넌트 패키지(`@seed-design/lynx-react`)다. `@seed-design/lynx-css` Recipe와 `packages/lynx-react-headless/*` 로직을 조합하며 Lynx 런타임 제약을 따른다.
 
-Lynx 플랫폼용 스타일드 React 컴포넌트 패키지다. `@seed-design/react`의 Lynx 대응 구현을 제공하며 Lynx 런타임 제약을 함께 반영한다.
+## 검증
 
-## 런타임 불변식
+루트 `bun test:lynx-react`가 기본이다. 이 패키지만 빠르게 돌릴 때:
 
-- `{...nativeProps}`에 `children`을 포함하지 않는다. `children`을 분리해 JSX children으로 전달한다.
-- `forwardRef`에서 null ref를 Lynx primitive에 전달하지 않는다.
-- Lynx가 지원하지 않는 CSS `inherit` 패턴에 의존하지 않는다. 필요한 값은 요소에 직접 적용한다.
-- `<view>`, `<text>`, `<image>` 같은 intrinsic tag는 컴포넌트 파일 안에서 리터럴 JSX로 렌더링한다. 런타임 변수 tag, `React.createElement("view", ...)`, 공통 유틸 파일의 native tag factory를 사용하지 않는다.
+- `bun --filter @seed-design/lynx-react test`: Vitest와 ReactLynx Testing Library
+- `bun --filter @seed-design/lynx-react typecheck`: 소스와 테스트 tsconfig를 둘 다 검사
 
-```tsx
-const { children, ...nativeProps } = restProps;
+## 규칙
 
-return (
-  <view {...(ref ? { ref } : {})} {...nativeProps}>
-    {children}
-  </view>
-);
-```
+### 런타임 불변식
 
-## 파일 작성 컨벤션
+어기면 타입 검사는 통과하고 기기에서만 깨진다.
 
-- 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx`와 `index.ts`
-- 훅: `src/hooks/<useName>.ts`
-- 유틸리티: `src/utils/<util-name>.ts`
-- 테스트: 각 영역의 `__tests__/<file>.test.{ts,tsx}`
-- 최상위 `src/index.ts`와 각 폴더의 `index.ts`에서 공개 모듈을 명시적으로 re-export한다.
+- intrinsic tag(`<view>`, `<text>`, `<image>`) → 컴포넌트 파일 안에서 리터럴 JSX로 렌더링한다. 변수 tag, `React.createElement("view", ...)`, 공통 유틸의 native tag factory, `withProvider`·`withContext`에 intrinsic string 전달을 쓰지 않는다. `React.createElement` 형태로 컴파일되어 Lynx 컴파일러의 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 오류를 낸다(`src/utils/create-slot-recipe-context.tsx`의 `assertNotIntrinsicComponent`가 막는다). slot factory가 필요하면 `components/SwipeableMenuSheet/SwipeableMenuSheet.tsx`의 `createViewSlot`처럼 파일 안에서 리터럴 JSX를 반환한다.
+- `children` → `{...nativeProps}`에 섞지 않는다. `const { children, ...nativeProps } = restProps`로 분리해 JSX children으로 넘긴다.
+- ref → `forwardRef`에서 null ref를 Lynx primitive에 넘기지 않는다. `{...(ref ? { ref } : {})}`로 있을 때만 전달한다.
+- CSS `inherit` → Lynx가 지원하지 않는다. 필요한 값은 요소에 직접 적용한다.
 
-## 코드 작성 컨벤션
+### 파일과 공개 API
 
-- 모든 컴포넌트는 `React.forwardRef`와 `displayName`을 사용한다.
-- Recipe는 `@seed-design/lynx-css/recipes/<name>`에서 import한다.
-- Recipe className과 사용자 `className`은 `clsx`로 병합한다.
-- React 레이어에 직접 `style`을 작성하지 않고 Recipe에서 스타일을 관리한다.
-- compound component의 Recipe slot은 `createSlotRecipeContext`로 연결한다. import 경로는 `../../utils/create-slot-recipe-context`다.
-- native `<view>`/`<text>` slot은 `withContext`에 intrinsic string을 전달하지 않는다. 필요한 factory는 해당 컴포넌트 파일 안에서 리터럴 JSX를 렌더링하도록 작성한다.
+- 컴포넌트는 `src/components/<ComponentName>/`에 `<ComponentName>.tsx`, `index.ts`, 필요하면 `<ComponentName>.namespace.ts`를 둔다. 훅은 `src/hooks/<useName>.ts`, 유틸은 `src/utils/<util-name>.ts`에 둔다.
+- 테스트는 대상 옆 `<file>.test.{ts,tsx}`에 둔다(`Menu/__tests__/`만 예외).
+- 새 공개 모듈 → 컴포넌트 `index.ts`에서 이름으로 re-export하고 `src/index.ts`까지 연결해야 공개된다.
 
-### Variant props
+### 컴포넌트 구성
 
-- variant props(`size`, `tone`, `variant` 등)는 수동 destructuring하거나 타입 캐스트로 분리하지 않는다.
-- 단일 Recipe는 `recipe.splitVariantProps(props)`를 사용한다.
-- 여러 Recipe는 `splitMultipleVariantsProps(props, recipes)`를 사용한다.
-- compound Recipe는 `createSlotRecipeContext`가 제공하는 분리·slot 연결 도구를 사용한다.
-
-### Compound context
-
-- `createSlotRecipeContext`는 Recipe className과 slot 연결을 담당한다.
-- checked, disabled, 계산된 문자열, ref 같은 런타임 상태는 컴포넌트 파일의 `React.createContext`로 전달한다.
-- context가 없을 때는 throw해 잘못된 조합을 숨기지 않는다.
+- 모든 컴포넌트는 `React.forwardRef`와 `displayName`을 쓴다.
+- Recipe는 `@seed-design/lynx-css/recipes/<name>`에서 import하고, Recipe className과 사용자 `className`을 `clsx`로 병합한다. React 레이어에 `style`을 직접 쓰지 않는다 → Recipe로 옮긴다.
+- variant props(`size`, `tone`, `variant` 등)를 손으로 destructuring하거나 타입 캐스트로 분리하지 않는다 → 단일 Recipe는 `recipe.splitVariantProps(props)`, 여러 Recipe는 `src/utils/split-multiple-variants-props.ts`의 `splitMultipleVariantsProps(props, recipes)`, compound Recipe는 `createSlotRecipeContext`가 주는 분리 도구를 쓴다.
+- compound Recipe의 className·slot 연결 → `../../utils/create-slot-recipe-context`의 `createSlotRecipeContext`. 이 도구는 className·slot 연결만 맡는다.
+- checked, disabled, 계산된 문자열, ref 같은 런타임 상태 → 컴포넌트 파일의 `React.createContext`로 전달한다. context가 없으면 throw해 잘못된 조합을 드러낸다.
 
 ### 애니메이션
 
-- 프레임 기반 애니메이션은 `requestAnimationFrame`을 사용하고 `setInterval`을 사용하지 않는다.
-- main-thread 애니메이션은 `useMainThreadRef`, `main-thread:ref`, `"main thread"` directive 등 기존 Lynx 패턴을 따른다.
-- 반복 애니메이션은 React state보다 `setStyleProperty`/`setStyleProperties`를 우선해 직접 스타일을 갱신한다.
-- main thread와 background thread 사이에서 공유할 함수는 각 실행 환경의 directive 규칙을 확인한다.
+- 프레임 기반 → `requestAnimationFrame`을 쓴다. `setInterval`을 쓰지 않는다.
+- main thread 애니메이션 → `useMainThreadRef`, `main-thread:ref`, `"main thread"` directive 같은 기존 패턴을 따른다. thread 사이에 공유하는 함수는 각 실행 환경의 directive 규칙을 확인한다.
+- 반복 애니메이션 → React state 대신 `setStyleProperty`·`setStyleProperties`로 스타일을 직접 갱신한다.
 
-## 웹과의 차이 문서화
+### 웹과의 차이 문서화
 
-- Lynx에서 지원하지 않는 prop은 `Omit`과 `@platform Lynx` JSDoc으로 타입에 반영한다.
-- 컴포넌트의 Lynx 지원 차이를 변경하면 해당 `docs/content/lynx/<component>.mdx`도 확인한다.
-- 확정된 Lynx Engine 최소 버전과 XElement가 있을 때만 문서 frontmatter의 `compatibility.lynx`에 기록한다.
-
-## 테스트
-
-`vitest`와 ReactLynx Testing Library를 사용한다.
-
-```bash
-bun run test
-bun test:lynx-react
-```
+- Lynx가 지원하지 않는 prop → 타입에서 `Omit`하고 `@platform Lynx` JSDoc을 단다.
+- Lynx 지원 범위를 바꿈 → `docs/content/lynx/components/<component>.mdx`도 확인한다.
+- frontmatter `compatibility.lynx` → 확정된 Lynx Engine 최소 버전과 XElement가 있을 때만 쓴다.

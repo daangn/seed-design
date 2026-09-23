@@ -14,7 +14,7 @@ SEED 토큰 import, vars 접근, SEED CSS 변수 또는 스타일 패키지 impo
 4. 존재하더라도 문서·exports가 공개하지 않은 component 전용 변수나 내부 경로 의존은 `warn`입니다. 특정 예외 경로나 변수 이름을 이 룰에 유지하지 않고 현재 exports와 문서로 판단합니다.
 5. deprecated·제거 예정 토큰은 현재 공식 deprecation 출처가 있을 때 [no-deprecated-component](./no-deprecated-component.md)가 소유합니다.
 
-다른 플랫폼의 토큰 표기나 exports를 이식하지 않습니다. `--seed-` 같은 접두사만으로 공개·내부를 추측하지 않습니다.
+다른 플랫폼의 토큰 표기나 exports를 이식하지 않습니다. `--seed-` 같은 접두사만으로 공개·내부를 추측하지 않고, 현재 설치본 exports와 문서로 확인합니다.
 
 ## 하지 않는 판단
 

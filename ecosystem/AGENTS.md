@@ -1,17 +1,14 @@
 # ecosystem
 
-## 디렉토리 개요
+생성 파이프라인의 실행 도구 workspace다. `rootage/`·`qvism/`은 Rootage YAML과 qvism Recipe를 산출물로 바꾸고, `figma-extractor/`는 Figma REST 데이터를 추출하며, `postcss-engaged/`·`postcss-responsive/`는 `packages/qvism-preset`이 쓰는 PostCSS plugin이다.
 
-SEED Design의 생성 파이프라인을 담당하는 CLI/코어 워크스페이스다. `packages/rootage`, `packages/qvism-preset`, `packages/figma`를 입력으로 받아 코드 생성에 필요한 실행 로직을 제공한다.
+## 검증
 
-## 파일 작성 컨벤션
+- 생성 로직 변경 → `bun ecosystem:build` 후 영향받는 생성 명령을 실행하고 `git diff`로 산출물 변화를 확인한다. 단계별 명령은 `ARCHITECTURE.md`「생성 파이프라인」에 있다.
+- `postcss-engaged/`·`postcss-responsive/` 변경 → 같은 방식으로 빌드한 뒤 `bun qvism:generate`로 `packages/css/recipes/` 결과를 확인한다. `:--engaged` 전개를 바꾸면 웹 Recipe 전체의 interactive 상태가 바뀐다.
 
-- 도구별 워크스페이스는 `core/`와 `cli/`를 분리한다.
-- 실행 진입점과 옵션 파싱은 `cli/`, 변환/파싱/출력 로직은 `core/`에 둔다.
-- 생성 대상 경로(`packages/css/vars`, `packages/css/recipes`, `packages/qvism-preset/src/vars`)는 출력물로 취급한다.
+## 규칙
 
-## 코드 작성 컨벤션
-
-- 생성 로직은 source 패키지(`packages/rootage`, `packages/qvism-preset`)를 기준으로 작성하고 출력 파일 역수정에 의존하지 않는다.
-- Rootage·Qvism source 또는 생성 로직을 변경해 출력물에 영향을 줄 때는 `bun generate:all`을 실행한다. 단일 단계만 영향을 받으면 `bun rootage:generate` 또는 `bun qvism:generate` 같은 좁은 검증을 우선한다.
-- CLI와 core는 TypeScript ESM 패턴을 유지하고 공통 타입을 명시적으로 공유한다.
+- `rootage/`·`qvism/`은 `core/`(파싱·변환·출력 문자열 생성)와 `cli/`(실행 진입점·옵션 파싱·파일 쓰기)로 나눈다. 변환 로직은 `core/`에 두고 `core/`의 테스트로 검증한다.
+- 생성 결과가 틀림 → 산출물을 고치지 않고 `core/` 로직이나 `packages/`의 원천을 고친다.
+- `figma-extractor/`는 루트 `bun figma:sync`와 `packages/figma`의 `sync-entities`가 쓴다. 실행에는 `FIGMA_PERSONAL_ACCESS_TOKEN`과 file key가 필요하다 → 실행 전에 사용자에게 확인한다.

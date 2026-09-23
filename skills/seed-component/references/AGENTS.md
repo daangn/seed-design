@@ -1,18 +1,11 @@
 # skills/seed-component/references
 
-## 디렉토리 개요
+`seed-component` Skill의 분기 절차와 여러 레이어가 재사용하는 판단 기준 모음이다. `SKILL.md`가 직접 가리키는 분기 절차 문서는 `component-map.md`, `api-parity.md`, `color-token-analysis.md`, `implementation-workflow.md`, `lynx-docs.md`이고, 나머지는 이 문서들이 필요할 때 연결한다.
 
-`seed-component` 스킬의 분기별 절차와 **canonical reference 집합**이다. 분기 절차 문서(`component-map.md`, `api-parity.md`, `color-token-analysis.md`, `implementation-workflow.md`, `lynx-docs.md`)는 `SKILL.md`가 직접 가리키고, 나머지는 여러 레이어에서 재사용되는 원칙과 판단 기준을 담는다. 컴포넌트별 예시 모음이 아니다.
+## 규칙
 
-## 파일 작성 컨벤션
-
-- 문서는 역할별로 분리한다. 아키텍처 결정, API 설계, React 패턴, recipe 패턴처럼 질문 축이 다르면 파일도 분리한다.
-- 파일명은 `kebab-case`를 사용하고, 특정 컴포넌트 이름을 제목이나 파일명에 직접 박아 넣는 대신 범용 원칙 중심으로 작성한다.
-- 같은 규칙을 여러 reference 파일에 중복 작성하지 않고, 가장 직접적인 문서 한 곳에만 적고 다른 문서에서는 참조만 남긴다.
-- `scripts/`의 CLI 인자·JSON 필드를 설명하는 기준은 해당 분기 절차 문서 한 곳에 둔다.
-
-## 코드 작성 컨벤션
-
-- 이 폴더의 문서는 구현 명령서가 아니라 **판단 기준**을 제공해야 한다. "언제 이 패턴을 쓰는가"와 "어떤 trade-off가 있는가"를 우선 설명한다.
-- component-specific one-off 예시는 최소화하고, 넣더라도 범용 규칙을 설명하는 짧은 예시로 제한한다.
-- 새 규칙을 추가할 때는 rootage, recipe, react, snippet, docs 중 어느 레이어 판단에 영향을 주는지 드러나게 작성한다.
+- 규칙을 추가하기 전에 같은 규칙이 다른 reference에 있는지 찾는다 → 있으면 가장 직접적인 문서 한 곳에만 두고 다른 문서에는 링크만 남긴다.
+- `scripts/`의 CLI 인자·JSON 필드 설명은 해당 분기 절차 문서 한 곳에만 둔다.
+- 구현 명령서가 아니라 판단 기준을 쓴다: 언제 이 패턴을 쓰는가, 어떤 trade-off가 있는가. 새 규칙에는 rootage, recipe, react, snippet, docs 중 어느 레이어 판단에 영향을 주는지 드러낸다.
+- 질문 축(아키텍처 결정, API 설계, React 패턴, recipe 패턴 등)이 다르면 파일을 나눈다. 파일명은 kebab-case다.
+- 특정 컴포넌트 이름을 제목·파일명에 넣지 않는다 → 범용 원칙으로 쓰고, 예시가 필요하면 규칙을 설명하는 짧은 예시만 둔다.

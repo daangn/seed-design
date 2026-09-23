@@ -6,10 +6,8 @@
 
 Chromatic has two separate credential systems, and the more widely known one is the wrong one here:
 
-| Credential | Where it comes from | What it opens |
-| --- | --- | --- |
-| Project token (`CHROMATIC_PROJECT_TOKEN`) | Chromatic project settings; used by the CLI and CI | `index.chromatic.com`, the CLI's own endpoint |
-| OAuth access token | Signing in from the Storybook Visual Tests addon | `www.chromatic.com/api`, which this skill uses |
+- Project token (`CHROMATIC_PROJECT_TOKEN`): issued in Chromatic project settings and used by the CLI and CI. Opens only `index.chromatic.com`, the CLI's own endpoint.
+- OAuth access token: issued by signing in from the Storybook Visual Tests addon. Opens `www.chromatic.com/api`, which this skill uses.
 
 A project token will not authenticate any request this skill makes. The CLI never writes a credential to disk either — it reads `CHROMATIC_PROJECT_TOKEN` from the environment and nothing else — so there is no existing file to reuse.
 
@@ -42,4 +40,4 @@ The addon showing **"You must be a beta user to use this addon at this time."** 
 
 ## Renewing
 
-These tokens last 30 days, and the scripts fail with a clear message once one has expired. Repeat the steps above to refresh it.
+These tokens last 30 days. An expired token fails API calls with a generic authorization error that reads like a permissions problem, so `scripts/preflight.ts` decodes the expiry up front and reports `token EXPIRED Nd ago`. Repeat the steps above to refresh it.

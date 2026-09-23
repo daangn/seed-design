@@ -1,31 +1,16 @@
 # React 컴포넌트 작성 패턴
 
-`packages/react/AGENTS.md`에 기본 컨벤션이 있다. 이 문서는 React Web 컴포넌트 공통 패턴을 보충한다.
+React Web Styled UI(`packages/react/src/components/`)를 구현하기 전에 읽는다.
 
-target platform이 `lynx` 또는 `cross-platform`의 Lynx 구현이면 이 문서를 API/semantic 비교용으로만 사용하고, 실제 구현 패턴은 [lynx-patterns.md](lynx-patterns.md)와 `packages/lynx-react/AGENTS.md`를 따른다.
+1. `packages/react/AGENTS.md`와 `packages/react/src/components/AGENTS.md`를 읽는다. `forwardRef`·`displayName`, `Primitive.*`, `clsx`, variant props 분리, Recipe·headless import 경로, 공개 slot 기준, headless `stateProps`·hook props 재사용 규칙은 그곳에 있다.
+2. [pattern-catalog.md](pattern-catalog.md)에서 카테고리의 레퍼런스 파일을 연다.
+3. 아래에서 필요한 절만 읽는다.
 
-## 필수 규칙 (모든 카테고리)
-
-- `forwardRef` + `displayName` 필수
-- `Primitive.*` 사용 (`@seed-design/react-primitive`)
-- `clsx`로 className 병합
-- variant props는 반드시 `splitVariantProps` 또는 context 유틸 사용 (수동 destructuring 금지)
-- recipe는 `@seed-design/css/recipes/{name}`에서 import
-- primitive prop이 union인 경우 `interface extends` 대신 `type Props = PrimitiveProps & VariantProps` 형태를 허용한다
-
-## 공개 Export Surface
-
-React 레이어의 export는 구현 편의가 아니라 **사용자 의미**를 기준으로 잡는다.
-
-- `index.ts`와 namespace에는 user-meaningful slot을 우선 export한다
-- animation/layout/padding 분리를 위한 helper slot은 기본적으로 비공개로 둔다
-- helper slot을 공개하려면 direct composition이나 styling escape hatch 같은 명확한 사용자 시나리오가 있어야 한다
-
-예: `Content`, `Label`, `Description`은 공개 후보가 될 수 있지만, `ContentInner` 같은 implementation helper는 기본적으로 내부에 남긴다.
+- target platform이 `lynx`이거나 `cross-platform`의 Lynx 구현 → 이 문서는 API·의미 비교에만 쓰고 [lynx-patterns.md](lynx-patterns.md)와 `packages/lynx-react/AGENTS.md`를 따른다.
+- primitive prop이 union → `interface extends` 대신 `type Props = PrimitiveProps & VariantProps`로 선언한다. `interface`는 union을 확장할 수 없다.
+- helper slot 공개 여부 판단 예: `Content`, `Label`, `Description`은 공개 후보이고, `ContentInner`처럼 animation·layout·padding 분리용 helper는 내부에 남긴다. namespace에도 같은 기준을 적용한다.
 
 ## createSlotRecipeContext 사용법
-
-slot recipe 기반 컴포넌트의 className 관리를 자동화한다.
 
 ```typescript
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
@@ -34,50 +19,35 @@ import { textInput } from "@seed-design/css/recipes/text-input";
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textInput);
 ```
 
-**반환값**:
-- `withRootProvider(Component, options?)` — root에서 variant props 분리, ClassNames context 제공
-- `withProvider(Component, slot, options?)` — slot에서 새 ClassNames context 생성
-- `withContext(Component, slot)` — 기존 ClassNames context 소비, slot className 적용
-- `useClassNames()` — context에서 classNames 객체 직접 접근
-- `ClassNamesProvider` / `PropsProvider` — 저수준 context provider
+- Root가 DOM을 렌더한다 → `withProvider(Component, "root", options?)`. variant props를 분리하고 slot className과 ref를 붙이고 ClassNames context를 연다. 예: `AvatarRoot`, `TextFieldRoot`.
+- Root가 DOM 없는 headless Root다(`Dialog`·`Popover` 계열 Root 등) → `withRootProvider(Component, options?)`. variant props 분리와 ClassNames context만 제공하고 className·ref는 붙이지 않는다. 예: `DialogRoot`, `HelpBubbleRoot`, `MenuSheetRoot`, `ActionSheetRoot`.
+- 자식 slot → `withContext(Component, slot)`. 부모가 연 context의 slot className을 붙인다.
+- `forwardRef` 안에서 className을 직접 조합해야 한다 → `useClassNames()`. provider 밖에서 호출하면 에러를 던진다.
+- 저수준 제어가 필요하다 → `ClassNamesProvider`, `PropsProvider`, `useProps`
 
-**언제 무엇을 사용하는지**:
-- Root 컴포넌트: `withRootProvider` (variant props 분리 담당)
-- Root가 headless wrapper인 경우: `withProvider` (variant props를 직접 분리해야 할 때)
-- 자식 slot: `withContext` (부모가 제공한 classNames 소비)
-- 직접 className 접근이 필요한 경우: `useClassNames()` (forwardRef 내부에서)
+`withProvider`·`withRootProvider`의 `options.defaultProps`로 variant 기본값을 준다.
 
 ## createWithStateProps 사용법
 
-부모 context의 state props(`data-disabled`, `data-checked` 등)를 자식 컴포넌트에 자동 전파한다.
+부모 context의 `stateProps`(`data-disabled`, `data-checked` 등)를 자식에 전파한다.
 
 ```typescript
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-// 단일 context (strict)
-const withStateProps = createWithStateProps([useCheckboxContext]);
-
-// 다중 context (strict + non-strict 혼합)
 const withStateProps = createWithStateProps([
-  useTextFieldContext,                          // strict: true (default)
-  { useContext: useFieldContext, strict: false } // Field는 선택적 wrapper
+  useTextFieldContext,                            // 함수로 넘기면 strict: true
+  { useContext: useFieldContext, strict: false }, // 객체로 넘기면 strict 기본값 false
 ]);
 ```
 
-- `strict: true` (default) → context 없으면 에러 (반드시 해당 wrapper 안에서 사용)
-- `strict: false` → context 없으면 null 반환 (wrapper가 선택적일 때)
+- wrapper가 반드시 있어야 한다 → 훅을 함수로 넘긴다. context가 없으면 에러가 난다.
+- wrapper가 선택적이다(Field 등) → `{ useContext, strict: false }`로 넘긴다. context가 없으면 건너뛴다.
 
 ### Headless context stateProps 재사용
 
-headless context가 이미 `stateProps`, `triggerProps`, `contentProps`처럼 slot contract를 제공한다면 styled React 레이어에서 같은 helper를 다시 export하거나 다시 계산하지 않는다.
-
-- styled 컴포넌트에서는 headless context hook을 `createWithStateProps([useComponentItemContext])`에 직접 연결한다.
-- 같은 `data-*` state를 만들기 위한 별도 `useComponentItemStateProps` helper는 중복 API가 되기 쉬우므로 피한다.
-- state props는 DOM에 퍼뜨릴 최종 contract다. React 레이어는 className/variant wiring을 더하고, headless 레이어가 만든 ARIA/id/keyboard/data-state를 다시 만들지 않는다.
+규칙은 `packages/react/src/components/AGENTS.md`에 있다. headless context hook을 `createWithStateProps([useComponentItemContext])`에 직접 연결한다. 같은 `data-*`를 만드는 `useComponentItemStateProps` 같은 helper를 새로 만들지 않는다. React 레이어는 className·variant 연결만 더하고 headless가 만든 ARIA·id·keyboard·data-state를 다시 만들지 않는다.
 
 ### Hook props와 component props 중복 선언 방지
-
-headless 훅이 받는 props와 headless primitive component가 받는 props는 같은 source를 공유한다.
 
 ```typescript
 export interface ComponentItemProps
@@ -86,123 +56,80 @@ export interface ComponentItemProps
     React.HTMLAttributes<HTMLDivElement> {}
 ```
 
-- hook props를 component props에 다시 손으로 선언하지 않는다.
-- hook props가 union이면 component props도 union/type alias로 surface를 유지한다.
-- wrapper가 hook props를 재조합해야 할 때는 mode별 branch를 만들어 불가능한 조합이 섞이지 않게 한다.
+- hook props를 component props에 손으로 다시 선언하지 않는다 → hook props 타입을 확장한다.
+- hook props가 union → component props도 union·type alias로 유지한다.
+- wrapper가 hook props를 재조합해야 한다 → mode별 branch로 나눠 불가능한 조합이 섞이지 않게 한다.
 
 ### Headless primitive wrapper의 props source
 
-styled React 컴포넌트가 headless primitive를 감싸는 경우, subcomponent props는 headless primitive props를 source of truth로 삼는다. `PrimitiveProps + React.HTMLAttributes`를 다시 선언하면 headless가 제공하는 전용 prop, ARIA contract, event signature가 styled wrapper에서 누락될 수 있다.
+styled 컴포넌트가 headless primitive를 감싸면 headless primitive props를 원천으로 삼는다. `PrimitiveProps + React.HTMLAttributes`를 다시 선언하면 headless 전용 prop, ARIA 계약, event signature가 빠진다.
 
-- `Drawer.Trigger`를 감싸면 `ComponentTriggerProps extends Drawer.TriggerProps`처럼 선언한다.
-- `Drawer.Content`, `Drawer.Title`, `Drawer.CloseButton` 등도 각각 대응하는 `Drawer.*Props`를 따른다.
-- styled layer에서 추가하는 recipe/style prop만 별도로 교차한다. 예: `Drawer.ContentProps & Pick<StyleProps, "width" | "maxWidth">`.
-- 새 wrapper를 만들기 전에 같은 headless를 쓰는 패턴 컴포넌트(BottomSheet 등)의 props 선언을 먼저 확인한다.
+1. 같은 headless를 쓰는 기존 컴포넌트의 props 선언을 연다. 예: `packages/react/src/components/SidePanel/SidePanel.tsx`
+2. subcomponent props를 대응 headless props로 선언한다. 예: `SidePanelTriggerProps extends Drawer.TriggerProps`. Content·Title·CloseButton도 대응하는 `Drawer.*Props`를 쓴다.
+3. styled 레이어가 더하는 recipe·style prop만 교차한다. 예: `Drawer.ContentProps & Pick<StyleProps, "width" | "maxWidth">`
 
 ## Form/Field 통합 패턴
 
-form 요소가 `<Field.Root>` 안에서 사용될 수 있는 경우 TextField를 canonical reference로 따른다.
+form 요소가 `<Field.Root>` 안에서 쓰일 수 있으면 `packages/react/src/components/TextField/TextField.tsx`를 따른다.
 
-### 핵심 패턴 (TextField 기준)
+1. state props wrapper를 둘 만든다. Root용 `withFieldStateProps`는 Field만(non-strict), 자식 slot용 `withStateProps`는 자체 context(strict) + Field(non-strict)를 본다.
+2. Root는 `withProvider(withFieldStateProps(TextField.Root), "root")`로 Field state만 받는다.
+3. 자식 slot은 `withContext(withStateProps(InternalIcon), "prefixIcon")`처럼 두 state를 모두 받는다.
+4. Input은 `useFieldContext({ strict: false })`로 Field를 읽고 `mergeProps`로 합성한다.
 
 ```typescript
-// 1. 두 종류의 state props wrapper
-const withFieldStateProps = createWithStateProps([
-  { useContext: useFieldContext, strict: false }  // Field만 (root에 적용)
-]);
-const withStateProps = createWithStateProps([
-  useTextFieldContext,                            // 자체 context (strict)
-  { useContext: useFieldContext, strict: false }   // Field context (non-strict)
-]);
-
-// 2. Root에는 Field state만
-export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
-  withFieldStateProps(TextField.Root), "root"
-);
-
-// 3. 자식 slot에는 자체 + Field state 모두
-export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIconProps>(
-  withStateProps(InternalIcon), "prefixIcon"
-);
-
-// 4. Input에서는 mergeProps로 모든 props 합성
 const mergedProps = mergeProps(
   fieldContext ? fieldContext.stateProps : {},
   fieldContext ? fieldContext.inputAriaAttributes : {},
   textFieldContext.inputProps,
+  fieldContext ? fieldContext.inputProps : {},
   otherProps,
 );
 ```
 
-### 금지 패턴
+금지와 대신 할 일:
 
-- SEED Design headless 컴포넌트에서는 네이티브 폼 검증 대신 커스텀 검증을 사용하므로, HTML `required` 속성 대신 `aria-required`로 보조 기술에 필수 필드임을 알린다. 네이티브 폼 검증이 필요한 경우 `required`와 `aria-required`를 함께 사용할 수 있다
-- `useId()`로 직접 ID 생성하지 않음 (Field context가 관리)
-- `useFieldContext({ strict: true })`로 Field를 필수로 만들지 않음 (Field 래핑은 선택적)
+- 필수 필드를 HTML `required`만으로 표시하지 않는다 → SEED headless는 커스텀 검증을 쓰므로 `aria-required`를 쓴다. 네이티브 폼 검증도 필요하면 `required`와 `aria-required`를 함께 쓴다.
+- `useId()`로 ID를 직접 만들지 않는다 → Field context가 준 ID·ARIA 속성(`inputAriaAttributes`)을 `mergeProps`로 받는다.
+- `useFieldContext({ strict: true })`로 Field를 필수로 만들지 않는다 → `strict: false`로 읽고 Field 없이도 동작하게 한다.
 
 ## Namespace 패턴
 
-compound 컴포넌트(카테고리 B/C/D)에서 `ComponentName.Root`, `ComponentName.Label` 형태의 API를 제공한다.
+compound 컴포넌트(카테고리 B·C·D)에만 `ComponentName.Root` 형태의 namespace를 만든다. 단일 컴포넌트(A)와 레이아웃(E)에는 만들지 않는다.
 
-**파일 구조**:
 ```text
 Component/
-├── Component.tsx           # 실제 구현 (export ComponentRoot, ComponentLabel, ...)
+├── Component.tsx           # 구현 (ComponentRoot, ComponentLabel, ...)
 ├── Component.namespace.ts  # 짧은 이름 re-export
-└── index.ts               # 공개 API
+└── index.ts                # 공개 API
 ```
 
-**Component.namespace.ts**:
 ```typescript
+// Component.namespace.ts
 export {
   ComponentRoot as Root,
   ComponentLabel as Label,
-  ComponentPrefixIcon as PrefixIcon,
   type ComponentRootProps as RootProps,
   type ComponentLabelProps as LabelProps,
 } from "./Component";
-```
 
-**index.ts**:
-```typescript
-export { ComponentRoot, ComponentLabel, ... } from "./Component";
+// index.ts
+export { ComponentRoot, ComponentLabel } from "./Component";
 export * as ComponentName from "./Component.namespace";
-export type { ComponentRootProps, ... } from "./Component";
+export type { ComponentRootProps, ComponentLabelProps } from "./Component";
 ```
-
-**사용 조건**: compound 컴포넌트에만. 단일 컴포넌트(카테고리 A)와 레이아웃(카테고리 E)에는 namespace를 만들지 않는다.
-
-namespace export에도 동일한 기준을 적용한다. 짧은 이름 re-export가 가능하더라도 helper slot은 namespace surface에 올리지 않는다.
 
 ## Multi-Recipe 패턴
 
-2개 이상의 독립 recipe를 사용하는 컴포넌트(Checkbox, Switch).
+레퍼런스: `packages/react/src/components/Checkbox/Checkbox.tsx`, `Switch/Switch.tsx`.
 
-```typescript
-import { splitMultipleVariantsProps } from "@seed-design/css";
-
-const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, otherProps] =
-  splitMultipleVariantsProps(props, { checkbox, checkmark });
-```
-
-각 recipe별로 별도의 context를 생성한다:
-```typescript
-const { withContext: withGroupContext } = createRecipeContext(checkboxGroup);
-const { ClassNamesProvider, withContext } = createSlotRecipeContext(checkbox);
-const { withProvider: withCheckmarkProvider } = createSlotRecipeContext(checkmark);
-```
-
-Headless primitive을 노출하는 패턴:
-```typescript
-export const CheckboxRoot = Object.assign(
-  forwardRef<HTMLLabelElement, CheckboxRootProps>((...) => { ... }),
-  { Primitive: CheckboxPrimitive.Root }
-);
-```
+1. recipe마다 context를 만든다. 그룹은 `createRecipeContext(checkboxGroup)`, 각 slot recipe는 `createSlotRecipeContext(checkbox)`, `createSlotRecipeContext(checkmark)`.
+2. Root에서 `splitMultipleVariantsProps(props, { checkbox, checkmark })`로 variant props를 한 번에 나눈다. import는 `../../utils/splitMultipleVariantsProps`다.
+3. headless primitive를 함께 노출하려면 `Object.assign(forwardRef(...), { Primitive: CheckboxPrimitive.Root })`로 Root를 만든다.
 
 ## 접근성 경고 패턴
 
-standalone으로 사용되는 컴포넌트(Field 밖에서)에 접근성 경고를 표시한다:
+Field 밖에서 단독으로 쓰일 수 있는 입력 컴포넌트는 label이 없을 때 `console.warn`으로 알린다. 새 경고는 개발 모드에서만 낸다(`packages/react/src/components/Icon/Icon.tsx` 방식). `TextFieldInput`·`TextFieldTextarea`의 기존 경고는 이 조건 없이 호출된다.
 
 ```typescript
 if (process.env.NODE_ENV !== "production") {
