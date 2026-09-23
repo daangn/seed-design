@@ -1,0 +1,87 @@
+name: API Surface
+
+on:
+  pull_request:
+    paths:
+      - "packages/**"
+      - "ecosystem/**"
+      - "tools/extract-api-surface/**"
+      - "package.json"
+      - "bun.lock"
+      - ".bun-version"
+      - ".github/workflows/api-surface.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-surface-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+
+      # The PR merge commit's first parent is the base branch it merges into.
+      - name: Resolve base commit
+        id: base
+        run: |
+          echo "sha=$(git rev-parse HEAD^1)" >> "$GITHUB_OUTPUT"
+          echo "short-sha=$(git rev-parse --short=9 HEAD^1)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.base.outputs.sha }}
+          path: .base
+
+      - uses: oven-sh/setup-bun@v2
+        id: setup-bun
+        with:
+          bun-version-file: .bun-version
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-${{ hashFiles('**/bun.lock', '**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-
+
+      - name: Install dependencies
+        run: |
+          bun install --frozen-lockfile --ignore-scripts
+          bun install --frozen-lockfile --ignore-scripts --cwd .base
+
+      - name: Test extract-api-surface
+        run: |
+          bun --filter @seed-design/extract-api-surface test
+          bun --filter @seed-design/extract-api-surface typecheck
+
+      # Both sides are read by this PR's CLI, so the base needs no copy of the tool.
+      - name: Extract public API surface
+        run: |
+          bun tools/extract-api-surface/src/cli.ts --format json > head.json
+          bun tools/extract-api-surface/src/cli.ts --root .base --format json > base.json
+
+      - name: Compare public API surface
+        env:
+          BASE_LABEL: origin/${{ github.base_ref }} (${{ steps.base.outputs.short-sha }})
+        # Exit 1 means the surfaces differ, which is what the comment reports; only 2 is a failure.
+        run: |
+          status=0
+          bun tools/extract-api-surface/src/cli.ts compare base.json head.json --base-label "$BASE_LABEL" --comment api-surface-comment.md || status=$?
+          if [ "$status" -gt 1 ]; then exit "$status"; fi
+
+      # This job has no write token; api-surface-comment.yml posts the comment from a trusted context.
+      - name: Upload comment
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-surface-comment
+          path: api-surface-comment.md
+          if-no-files-found: error
+          retention-days: 1

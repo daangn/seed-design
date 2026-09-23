@@ -1,0 +1,71 @@
+name: API Surface Comment
+
+on:
+  workflow_run:
+    workflows: ["API Surface"]
+    types: [completed]
+
+permissions:
+  actions: read
+  pull-requests: write
+
+jobs:
+  comment:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download comment
+        uses: actions/download-artifact@v5
+        with:
+          name: api-surface-comment
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # The artifact comes from PR code, so it is only ever posted as comment text. The PR is found
+      # from the event, not from the artifact, and only while its head is still the commit that ran.
+      - name: Update PR comment
+        uses: actions/github-script@v9
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_LABEL: ${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}
+        with:
+          script: |
+            const fs = require('fs');
+            const MARKER = '<!-- extract-api-surface -->';
+            const { owner, repo } = context.repo;
+
+            const { data: pulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: process.env.HEAD_LABEL,
+            });
+            const pull = pulls.find((item) => item.head.sha === process.env.HEAD_SHA);
+            if (!pull) {
+              core.info('이 head를 가진 열린 PR이 없어요. 더 최신 실행이 코멘트를 갱신해요.');
+              return;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: pull.number,
+              per_page: 100,
+            });
+            const existing = comments.find(
+              (comment) => comment.user?.type === 'Bot' && comment.body?.startsWith(MARKER),
+            );
+
+            const body = fs.readFileSync('api-surface-comment.md', 'utf8').trim().slice(0, 65000);
+            if (!body) {
+              if (existing) await github.rest.issues.deleteComment({ owner, repo, comment_id: existing.id });
+              return;
+            }
+
+            const content = `${MARKER}\n${body}`;
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body: content });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pull.number, body: content });
+            }
