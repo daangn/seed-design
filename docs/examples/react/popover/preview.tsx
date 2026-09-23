@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "seed-design/ui/popover";
 
-const PopoverPreview = () => {
+export default function PopoverPreview() {
   return (
     <PopoverRoot>
       <PopoverTrigger asChild>
@@ -23,6 +23,4 @@ const PopoverPreview = () => {
       </PopoverContent>
     </PopoverRoot>
   );
-};
-
-export default PopoverPreview;
+}

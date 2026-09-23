@@ -2,7 +2,7 @@ import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from "seed-design/ui/popover";
 
-const PopoverShowCloseButton = () => {
+export default function PopoverShowCloseButton() {
   return (
     <HStack gap="x3">
       <PopoverRoot>
@@ -26,6 +26,4 @@ const PopoverShowCloseButton = () => {
       </PopoverRoot>
     </HStack>
   );
-};
-
-export default PopoverShowCloseButton;
+}

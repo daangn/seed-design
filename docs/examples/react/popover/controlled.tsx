@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from "seed-design/ui/popover";
 
-const PopoverControlled = () => {
+export default function PopoverControlled() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -15,6 +15,4 @@ const PopoverControlled = () => {
       </PopoverContent>
     </PopoverRoot>
   );
-};
-
-export default PopoverControlled;
+}
