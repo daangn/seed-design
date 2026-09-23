@@ -715,7 +715,7 @@
         "@seed-design/react-text-field": "^2.0.1",
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
-        "@seed-design/react-toggle-tip": "workspace:*",
+        "@seed-design/react-toggle-tip": "^1.0.0",
         "@seed-design/react-tooltip": "^1.0.1",
         "@seed-design/react-wheel-picker": "^1.1.0",
         "clsx": "^2.1.1",
@@ -1511,12 +1511,14 @@
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
-        "@seed-design/dom-utils": "workspace:*",
-        "@seed-design/react-floating": "workspace:*",
-        "@seed-design/react-primitive": "workspace:*",
+        "@seed-design/dom-utils": "^2.0.1",
+        "@seed-design/react-floating": "^1.0.1",
+        "@seed-design/react-primitive": "^2.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
       },
       "peerDependencies": {
         "react": ">=18.0.0",
