@@ -67,6 +67,7 @@
 | `packages/cli/` | `bun test packages/cli` |
 | `packages/rootage/`, `ecosystem/rootage/` | `bun rootage:test` |
 | `tools/rootage-cdn/` | `bun --filter @seed-design/rootage-cdn test && bun --filter @seed-design/rootage-cdn typecheck && WRANGLER_LOG_PATH=/tmp/wrangler-rootage-dry-run.log bun --filter @seed-design/rootage-cdn wrangler:dry-run` |
+| `tools/extract-api-surface/` | `bun --filter @seed-design/extract-api-surface test && bun --filter @seed-design/extract-api-surface typecheck` |
 | `ecosystem/qvism/` | `bun test ecosystem/qvism` |
 | `docs/` | `bun docs:test` |
 | 전체 | `bun test:all` |
@@ -84,6 +85,7 @@
 | `bun --filter @seed-design/docs dev` | 문서 사이트 개발 서버 |
 | `bun --filter @seed-design/docs storybook` | Storybook 실행 |
 | `bun figma:sync` | Figma에서 토큰 동기화 |
+| `bun extract-api-surface` | 공개 API 표면 출력. 두 시점 비교는 `tools/extract-api-surface/README.md` 참고 |
 
 ### 린트/포맷
 
