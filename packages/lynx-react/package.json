@@ -29,7 +29,8 @@
     "build": "vite build",
     "lint:publish": "bun publint",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test:published": "bun run build && vitest run --config vitest.published.config.ts"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
@@ -59,6 +60,7 @@
     "clsx": "^2.1.1",
     "unicode-segmenter": "^0.14.4",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
-    "@seed-design/lynx-react-use-press-tap": "0.1.0"
+    "@seed-design/lynx-react-use-press-tap": "0.1.0",
+    "@seed-design/lynx-react-image": "0.1.0"
   }
 }
