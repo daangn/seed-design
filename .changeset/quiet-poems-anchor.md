@@ -1,6 +1,6 @@
 ---
-"@seed-design/react": minor
-"@seed-design/css": minor
+"@seed-design/react": major
+"@seed-design/css": major
 "@seed-design/rootage-artifacts": minor
 ---
 
