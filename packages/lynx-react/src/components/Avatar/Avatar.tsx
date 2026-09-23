@@ -13,7 +13,7 @@ import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(avatar);
-/** @platform Lynx Native view props replace DOM/asChild props. Badge cutouts use precomposed bitmap masks on native views. */
+/** @platform Lynx Native view props replace DOM/asChild props. Badge cutouts use generated clip paths on native views. */
 export interface AvatarRootProps extends AvatarVariantProps, LynxViewProps {
   onLoadingStatusChange?: (status: ImageLoadingStatus) => void;
 }
