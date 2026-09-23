@@ -14,7 +14,7 @@
 
 ### Better Approaches
 - Recommendation: 작업을 배정하기 전에 조율자가 설치 상태를 한 번 확인하고 고친다. 새 workspace 패키지나 의존성을 추가한 뒤에도 조율자만 `bun install`을 실행한다.
-- Solutions: `ls node_modules/.bin | wc -l`이 0이면 `bun install --ignore-scripts && bun install`을 실행한다(첫 실행이 `skills-npm` bin을 만들어 두 번째 실행의 `prepare`가 통과한다). 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
+- Solutions: `ls node_modules/.bin | wc -l`이 0이면 조율자가 `bun install`을 실행한다. `9c4356857`(`fix(extract-api-surface): declare skills-npm where prepare runs it`) 이전 기준에서 `prepare`가 `skills-npm: command not found`로 멈추면 `bun install --ignore-scripts && bun install`로 우회한다. 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
 
 ## 기준 결과는 작업 트리와 분리해 고정한다
 
