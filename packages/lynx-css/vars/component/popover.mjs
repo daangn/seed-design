@@ -28,7 +28,7 @@ export const vars = {
       },
       "body": {
         "paddingX": "var(--seed-dimension-x6)",
-        "paddingBottom": "var(--seed-dimension-x8)",
+        "paddingBottom": "var(--seed-dimension-x12)",
         "strokeDuration": "var(--seed-duration-color-transition)",
         "strokeTimingFunction": "var(--seed-timing-function-easing)"
       },
@@ -39,8 +39,8 @@ export const vars = {
       },
       "title": {
         "color": "var(--seed-color-fg-neutral)",
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)",
+        "fontSize": "var(--seed-font-size-t7)",
+        "lineHeight": "var(--seed-line-height-t7)",
         "fontWeight": "var(--seed-font-weight-bold)"
       },
       "description": {
@@ -50,8 +50,8 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "fromTop": "20px",
-        "fromRight": "20px"
+        "fromTop": "27px",
+        "fromRight": "24px"
       }
     },
     "scrolled": {

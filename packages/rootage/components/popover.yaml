@@ -134,7 +134,7 @@ data:
           closeButtonGap: $dimension.x1_5
         body:
           paddingX: $dimension.x6
-          paddingBottom: $dimension.x8
+          paddingBottom: $dimension.x12
           strokeDuration: $duration.color-transition
           strokeTimingFunction: $timing-function.easing
         footer:
@@ -143,8 +143,8 @@ data:
           paddingBottom: $dimension.x6
         title:
           color: $color.fg.neutral
-          fontSize: $font-size.t6
-          lineHeight: $line-height.t6
+          fontSize: $font-size.t7
+          lineHeight: $line-height.t7
           fontWeight: $font-weight.bold
         description:
           color: $color.fg.neutral-muted
@@ -152,8 +152,8 @@ data:
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
         closeButton:
-          fromTop: 20px
-          fromRight: 20px
+          fromTop: 27px
+          fromRight: 24px
       scrolled:
         body:
           strokeWidth: 1px

@@ -279,7 +279,7 @@ declare const artifact: {
                 };
                 "paddingBottom": {
                   "type": "dimension";
-                  "value": "$dimension.x8";
+                  "value": "$dimension.x12";
                 };
                 "strokeDuration": {
                   "type": "duration";
@@ -311,11 +311,11 @@ declare const artifact: {
                 };
                 "fontSize": {
                   "type": "dimension";
-                  "value": "$font-size.t6";
+                  "value": "$font-size.t7";
                 };
                 "lineHeight": {
                   "type": "dimension";
-                  "value": "$line-height.t6";
+                  "value": "$line-height.t7";
                 };
                 "fontWeight": {
                   "type": "number";
@@ -344,14 +344,14 @@ declare const artifact: {
                 "fromTop": {
                   "type": "dimension";
                   "value": {
-                    "value": 20;
+                    "value": 27;
                     "unit": "px";
                   };
                 };
                 "fromRight": {
                   "type": "dimension";
                   "value": {
-                    "value": 20;
+                    "value": 24;
                     "unit": "px";
                   };
                 };
