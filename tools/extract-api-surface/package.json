@@ -6,5 +6,9 @@
   "scripts": {
     "test": "bun test src",
     "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@optique/core": "1.2.4",
+    "@optique/run": "1.2.4"
   }
 }

@@ -1,75 +1,95 @@
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import { parseArgs } from "node:util";
+import nodePath from "node:path";
+import { conditional, object } from "@optique/core/constructs";
+import { message } from "@optique/core/message";
+import { multiple, optional, withDefault } from "@optique/core/modifiers";
+import { argument, option } from "@optique/core/primitives";
+import { choice, string, type ValueParser } from "@optique/core/valueparser";
+import { run } from "@optique/run";
+import { path } from "@optique/run/valueparser";
 import { extractSurface } from "./extract";
 import { renderPackage, renderSurface } from "./render";
 
-const USAGE = `Usage:
-  bun extract-api-surface [--root <dir>] [--format text|json] [--out-dir <dir>] <package>...
+// A file left from an earlier run would diff as a package that still exists.
+function emptyDirectory(): ValueParser<"sync", string> {
+  const base = path({ metavar: "DIR", type: "directory" });
 
-지정한 workspace 패키지의 공개 API 표면을 출력합니다.
+  return {
+    ...base,
+    parse(input) {
+      const result = base.parse(input);
+      if (!result.success) return result;
 
-  --root <dir>          추출할 모노레포 루트입니다. 기본값은 현재 디렉터리입니다.
-  --format text|json    출력 형식입니다. 기본값은 text입니다.
-  --out-dir <dir>       text 표면을 패키지별 <dir>/<패키지 이름>.txt 파일로 씁니다. 디렉터리는
-                        비어 있거나 없어야 합니다. 두 시점을 이렇게 쓰고 git diff --no-index로 비교합니다.`;
+      if (existsSync(result.value) && readdirSync(result.value).length > 0)
+        return { success: false, error: message`비어 있지 않은 디렉터리입니다: ${input}` };
 
-/** An error in how the CLI was invoked, reported together with the usage text. */
-class UsageError extends Error {}
-
-function run() {
-  const { values, positionals } = parseArgs({
-    args: Bun.argv.slice(2),
-    allowPositionals: true,
-    options: {
-      root: { type: "string", default: "." },
-      format: { type: "string", default: "text" },
-      "out-dir": { type: "string" },
-      help: { type: "boolean", short: "h" },
+      return result;
     },
-  });
-
-  if (values.help) {
-    console.log(USAGE);
-
-    return;
-  }
-
-  if (positionals.length === 0) throw new UsageError("추출할 패키지를 하나 이상 지정해 주세요.");
-  if (values.format !== "text" && values.format !== "json")
-    throw new UsageError(`지원하지 않는 형식입니다: ${values.format}`);
-
-  const outDir = values["out-dir"];
-  if (outDir !== undefined && values.format !== "text")
-    throw new UsageError("--out-dir는 text 형식만 씁니다.");
-  // A file left from an earlier run would diff as a package that still exists.
-  if (outDir !== undefined && existsSync(outDir) && readdirSync(outDir).length > 0)
-    throw new UsageError(`--out-dir가 비어 있지 않습니다: ${outDir}`);
-
-  const surface = extractSurface(path.resolve(values.root), positionals);
-
-  if (outDir === undefined) {
-    console.log(
-      values.format === "json" ? JSON.stringify(surface, null, 2) : renderSurface(surface),
-    );
-
-    return;
-  }
-
-  for (const pkg of surface) {
-    const file = path.join(outDir, `${pkg.name}.txt`);
-    mkdirSync(path.dirname(file), { recursive: true });
-    writeFileSync(file, renderPackage(pkg));
-  }
+  };
 }
 
+// The `text` branch and the default branch accept the same options; hiding one copy keeps
+// help from listing `--out-dir` twice.
+const textOutput = (hidden?: "doc") =>
+  object({
+    outDir: optional(
+      option("--out-dir", emptyDirectory(), {
+        description: message`text 표면을 패키지별 <DIR>/<패키지 이름>.txt 파일로 씁니다. 두 시점을 이렇게 쓰고 git diff --no-index로 비교합니다.`,
+        hidden,
+      }),
+    ),
+  });
+
+const noPackages = message`추출할 패키지를 하나 이상 지정해 주세요.`;
+
+// The empty command line fails in `object()` and one with only options fails in `multiple()`.
+const parser = object(
+  {
+    root: withDefault(
+      option("--root", path({ metavar: "DIR", type: "directory", mustExist: true }), {
+        description: message`추출할 모노레포 루트입니다.`,
+      }),
+      ".",
+    ),
+    output: conditional(
+      option("--format", choice(["text", "json"]), {
+        description: message`출력 형식입니다. 기본값은 text입니다.`,
+      }),
+      { text: textOutput("doc"), json: object({}) },
+      textOutput(),
+    ),
+    packages: multiple(argument(string({ metavar: "PACKAGE" })), {
+      min: 1,
+      errors: { tooFew: noPackages },
+    }),
+  },
+  { errors: { endOfInput: noPackages } },
+);
+
+const {
+  root,
+  output: [format, outputOptions],
+  packages,
+} = run(parser, {
+  programName: "extract-api-surface",
+  brief: message`지정한 workspace 패키지의 공개 API 표면을 출력합니다.`,
+  help: { option: { names: ["-h", "--help"] } },
+  showDefault: true,
+  showChoices: true,
+});
+
 try {
-  run();
+  const surface = extractSurface(nodePath.resolve(root), packages);
+
+  if (format === "json") console.log(JSON.stringify(surface, null, 2));
+  else if (outputOptions.outDir === undefined) console.log(renderSurface(surface));
+  else
+    for (const pkg of surface) {
+      const file = nodePath.join(outputOptions.outDir, `${pkg.name}.txt`);
+      mkdirSync(nodePath.dirname(file), { recursive: true });
+      writeFileSync(file, renderPackage(pkg));
+    }
 } catch (error) {
-  const message = error instanceof Error ? error.message : String(error);
-  const isUsage =
-    error instanceof UsageError ||
-    (error instanceof Error && "code" in error && String(error.code).startsWith("ERR_PARSE_ARGS"));
-  console.error(isUsage ? `${message}\n\n${USAGE}` : message);
+  console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 }

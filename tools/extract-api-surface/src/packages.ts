@@ -55,7 +55,7 @@ export function findWorkspacePackages(root: string) {
 }
 
 /** `names` and every workspace package they depend on, directly or through another one. */
-export function withWorkspaceDependencies(workspace: WorkspacePackage[], names: string[]) {
+export function withWorkspaceDependencies(workspace: WorkspacePackage[], names: readonly string[]) {
   const byName = new Map(workspace.map((pkg) => [pkg.name, pkg]));
   const reached = new Set<string>();
   const pending = [...names];

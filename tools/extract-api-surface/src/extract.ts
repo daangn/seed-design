@@ -49,7 +49,7 @@ export interface PackageSurface {
 }
 
 /** Describes the named workspace packages, in name order. */
-export function extractSurface(root: string, packageNames: string[]): PackageSurface[] {
+export function extractSurface(root: string, packageNames: readonly string[]): PackageSurface[] {
   const workspace = findWorkspacePackages(root);
   const unknown = packageNames.filter((name) => !workspace.some((pkg) => pkg.name === name));
   if (unknown.length > 0) throw new Error(`workspace 패키지가 아닙니다: ${unknown.join(", ")}`);
