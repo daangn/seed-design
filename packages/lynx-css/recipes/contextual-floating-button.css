@@ -36,18 +36,18 @@
     left: 0
 }
 .seed-contextual-floating-button__root--variant_solid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     --track-color: var(--seed-color-palette-gray-700);
-    --range-color: var(--seed-color-fg-neutral-inverted)
+    --range-color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-contextual-floating-button__text--variant_solid {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-contextual-floating-button__prefixIcon--variant_solid {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-contextual-floating-button__icon--variant_solid {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-contextual-floating-button__root--variant_layer {
     background: var(--seed-color-bg-layer-floating);
@@ -94,7 +94,7 @@
     opacity: 0
 }
 .seed-contextual-floating-button__root--variant_solid-pressed_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-contextual-floating-button__root--variant_layer-pressed_true {
     background: var(--seed-color-bg-layer-floating-pressed)
@@ -124,7 +124,7 @@
     color: var(--seed-color-fg-disabled)
 }
 .seed-contextual-floating-button__root--variant_solid-loading_true {
-    background: var(--seed-color-bg-neutral-inverted-pressed)
+    background: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-contextual-floating-button__root--variant_layer-loading_true {
     background: var(--seed-color-bg-layer-floating-pressed)

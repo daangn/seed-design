@@ -14,13 +14,13 @@
 }
 .seed-floating-action-button__icon {
     flex-shrink: 0;
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     transition: width var(--seed-duration-d4) var(--seed-timing-function-easing), height var(--seed-duration-d4) var(--seed-timing-function-easing)
 }
 .seed-floating-action-button__label {
     width: max-content;
     flex-shrink: 0;
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold)

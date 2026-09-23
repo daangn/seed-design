@@ -21,12 +21,10 @@ description: 컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과
 ### 요소 타입 변경하기
 
 ```jsx
-// FAB는 기본적으로 button 태그를 사용하지만, asChild를 사용해 링크로 변경할 수 있습니다.
-<FAB asChild>
-  <a href="/create">
-    <Icon svg={<IconPlusLine />} />
-  </a>
-</FAB>
+// ActionButton은 기본적으로 button 태그를 사용하지만, asChild를 사용해 링크로 변경할 수 있습니다.
+<ActionButton asChild>
+  <a href="/create">글쓰기</a>
+</ActionButton>
 ```
 
 > 기본 요소 타입을 변경하는 경우, 해당 요소가 접근성을 유지하고 올바르게 작동하는지 확인하는 것은 개발자의 책임입니다. 예를 들어, 버튼을 `div`로 변경하면 더 이상 키보드로 접근할 수 없게 될 수 있습니다.

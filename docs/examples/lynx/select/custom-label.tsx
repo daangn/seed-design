@@ -3,7 +3,8 @@ import "./styles";
 import IconCarLine from "@karrotmarket/lynx-monochrome-icon/IconCarLine";
 import IconFigureBikeLine from "@karrotmarket/lynx-monochrome-icon/IconFigureBikeLine";
 import IconMetroFrontsideLine from "@karrotmarket/lynx-monochrome-icon/IconMetroFrontsideLine";
-import { Badge, Box, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Box, HStack, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Badge } from "@/components/ui/badge";
 import {
   SelectContent,
   SelectGroup,

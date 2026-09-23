@@ -31,12 +31,12 @@ figma, mcp, docs
 특정 컴포넌트의 모든 관련 파일을 찾습니다:
 
 ```
-packages/rootage/components/[name].yaml          # 정의
-packages/css/vars/component/[name].mjs           # 스타일 변수 (생성)
-packages/css/recipes/[name].css                  # Recipe CSS (생성)
-packages/react-headless/[name]/src/              # 로직
-packages/react/src/components/[PascalName]/      # UI
-docs/content/**/components/[name].mdx            # 문서
+packages/rootage/components/[name].yaml              # 정의
+packages/qvism-preset/src/vars/component/[name].mjs  # 스타일 변수 (생성)
+packages/css/recipes/[name].css                      # Recipe CSS (생성)
+packages/react-headless/[name]/src/                  # 로직
+packages/react/src/components/[PascalName]/          # UI
+docs/content/**/components/[name].mdx                # 문서
 ```
 
 ### 2. 생성 파일 식별
@@ -44,8 +44,8 @@ docs/content/**/components/[name].mdx            # 문서
 생성 파일 목록을 여기 두지 않는다. `.gitattributes`가 단일 소스이므로 `git check-attr`로 판정하고, 결과가 `set`이면 생성물로 표시한다.
 
 ```bash
-git check-attr linguist-generated -- packages/css/vars/component/action-button.mjs
-# → packages/css/vars/component/action-button.mjs: linguist-generated: set
+git check-attr linguist-generated -- packages/qvism-preset/src/vars/component/action-button.mjs
+# → packages/qvism-preset/src/vars/component/action-button.mjs: linguist-generated: set
 ```
 
 판정 단위는 패키지가 아니라 경로다. 같은 패키지 안에서도 갈리므로 파일마다 묻되, 디렉토리 경로를 넘기면 `**` 패턴이 맞지 않아 `unspecified`가 나오니 반드시 파일 경로로 묻는다.
@@ -73,7 +73,7 @@ grep -rn --exclude-dir=node_modules "from ['\"]@seed-design/" packages/
 - packages/rootage/components/[name].yaml
 
 ### 스타일 (CSS) - 자동생성
-- packages/css/vars/component/[name].mjs ⚠️ 생성파일
+- packages/qvism-preset/src/vars/component/[name].mjs ⚠️ 생성파일
 - packages/css/recipes/[name].css ⚠️ 생성파일
 
 ### 로직 (Headless)

@@ -6,34 +6,89 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     align-items: center;
+    min-width: 0;
     text-decoration: none;
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .seed-badge__prefix {
+    color: inherit;
+    --seed-icon-size: 100%;
+    --seed-icon-color: currentColor;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
     display: inline-flex;
   }
 
   .seed-badge__label {
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
     overflow: hidden;
   }
 
+  .seed-badge__action {
+    border-radius: inherit;
+    color: inherit;
+    cursor: pointer;
+    --seed-icon-size: 100%;
+    --seed-icon-color: currentColor;
+    background-color: #0000;
+    border: none;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-family: inherit;
+    display: inline-flex;
+  }
+
+  .seed-badge__action:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-badge__action {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-badge__action:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
   .seed-badge__root--size_medium {
-    max-width: clamp(calc(108px * var(--seed-font-size-limit-min)), 7.5rem, calc(108px * var(--seed-font-size-limit-max)));
     min-height: var(--seed-dimension-x5);
     padding-inline: var(--seed-dimension-x1_5);
     padding-block: var(--seed-dimension-x0_5);
     border-radius: var(--seed-radius-r1);
+    gap: var(--seed-dimension-x0_5);
     font-size: var(--seed-font-size-t1);
     line-height: var(--seed-line-height-t1);
   }
 
+  .seed-badge__prefix--size_medium, .seed-badge__action--size_medium {
+    width: var(--seed-dimension-x3);
+    height: var(--seed-dimension-x3);
+  }
+
   .seed-badge__root--size_large {
-    max-width: clamp(calc(120px * var(--seed-font-size-limit-min)), 6.75rem, calc(120px * var(--seed-font-size-limit-max)));
     min-height: var(--seed-dimension-x6);
     padding-inline: var(--seed-dimension-x2);
     padding-block: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-r1_5);
+    gap: var(--seed-dimension-x0_5);
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
+  }
+
+  .seed-badge__prefix--size_large, .seed-badge__action--size_large {
+    width: var(--seed-dimension-x3_5);
+    height: var(--seed-dimension-x3_5);
   }
 
   .seed-badge__root--variant_weak {
@@ -51,7 +106,7 @@
 
   .seed-badge__root--tone_neutral-variant_solid {
     background-color: var(--seed-color-palette-gray-800);
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-badge__root--tone_neutral-variant_outline {
@@ -66,7 +121,7 @@
 
   .seed-badge__root--tone_brand-variant_solid {
     background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-badge__root--tone_brand-variant_outline {
@@ -81,7 +136,7 @@
 
   .seed-badge__root--tone_informative-variant_solid {
     background-color: var(--seed-color-bg-informative-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
   }
 
   .seed-badge__root--tone_informative-variant_outline {
@@ -96,7 +151,7 @@
 
   .seed-badge__root--tone_positive-variant_solid {
     background-color: var(--seed-color-bg-positive-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
   }
 
   .seed-badge__root--tone_positive-variant_outline {
@@ -111,7 +166,7 @@
 
   .seed-badge__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
   }
 
   .seed-badge__root--tone_warning-variant_outline {
@@ -126,7 +181,7 @@
 
   .seed-badge__root--tone_critical-variant_solid {
     background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
   }
 
   .seed-badge__root--tone_critical-variant_outline {

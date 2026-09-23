@@ -107,7 +107,7 @@
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-page-banner__root--tone_neutral-variant_solid-interactive_true:active {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-page-banner__root--tone_informative-variant_weak-interactive_true:active {
     background-color: var(--seed-color-bg-informative-weak-pressed);
@@ -158,25 +158,25 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-page-banner__root--tone_neutral-variant_solid {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
 }
 .seed-page-banner__title--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__description--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__button--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__prefixIcon--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__suffixIcon--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__closeButtonIcon--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
 }
 .seed-page-banner__root--tone_informative-variant_weak {
     background-color: var(--seed-color-bg-informative-weak);
@@ -203,19 +203,19 @@
     background-color: var(--seed-color-bg-informative-solid);
 }
 .seed-page-banner__title--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
 }
 .seed-page-banner__description--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
 }
 .seed-page-banner__button--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
 }
 .seed-page-banner__prefixIcon--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
 }
 .seed-page-banner__suffixIcon--tone_informative-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-informative-solid);
 }
 .seed-page-banner__closeButtonIcon--tone_informative-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -245,19 +245,19 @@
     background-color: var(--seed-color-bg-positive-solid);
 }
 .seed-page-banner__title--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
 }
 .seed-page-banner__description--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
 }
 .seed-page-banner__button--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
 }
 .seed-page-banner__prefixIcon--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
 }
 .seed-page-banner__suffixIcon--tone_positive-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-positive-solid);
 }
 .seed-page-banner__closeButtonIcon--tone_positive-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -287,19 +287,19 @@
     background-color: var(--seed-color-bg-warning-solid);
 }
 .seed-page-banner__title--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
 }
 .seed-page-banner__description--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
 }
 .seed-page-banner__button--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
 }
 .seed-page-banner__prefixIcon--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
 }
 .seed-page-banner__suffixIcon--tone_warning-variant_solid {
-    color: var(--seed-color-palette-static-black-alpha-900);
+    color: var(--seed-color-fg-on-warning-solid);
 }
 .seed-page-banner__closeButtonIcon--tone_warning-variant_solid {
     color: var(--seed-color-palette-static-black-alpha-900);
@@ -329,19 +329,19 @@
     background-color: var(--seed-color-bg-critical-solid);
 }
 .seed-page-banner__title--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
 }
 .seed-page-banner__description--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
 }
 .seed-page-banner__button--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
 }
 .seed-page-banner__prefixIcon--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
 }
 .seed-page-banner__suffixIcon--tone_critical-variant_solid {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-critical-solid);
 }
 .seed-page-banner__closeButtonIcon--tone_critical-variant_solid {
     color: var(--seed-color-palette-static-white);
@@ -371,7 +371,7 @@
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .seed-page-banner__root--tone_neutral-variant_solid-pressed_true {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 .seed-page-banner__root--tone_informative-variant_weak-pressed_true {
     background-color: var(--seed-color-bg-informative-weak-pressed);

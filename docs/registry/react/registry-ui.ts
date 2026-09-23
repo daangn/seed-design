@@ -26,12 +26,15 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "error-state",
-      deprecated: true,
+      id: "badge",
       snippets: [
         {
-          path: "error-state.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          path: "badge.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0",
+          },
         },
       ],
     },
@@ -120,26 +123,6 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "action-sheet",
-      snippets: [
-        {
-          path: "action-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
-    },
-    {
-      id: "extended-action-sheet",
-      snippets: [
-        {
-          path: "extended-action-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
-    },
-    {
       id: "avatar",
       snippets: [
         {
@@ -203,16 +186,6 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "control-chip",
-      snippets: [
-        {
-          path: "control-chip.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
-    },
-    {
       id: "chip",
       snippets: [
         {
@@ -247,16 +220,6 @@ export const registryUI: Registry = {
           dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
         },
       ],
-    },
-    {
-      id: "inline-banner",
-      snippets: [
-        {
-          path: "inline-banner.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
     },
     {
       id: "menu",

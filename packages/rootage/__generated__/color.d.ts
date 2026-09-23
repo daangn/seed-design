@@ -1250,7 +1250,7 @@ declare const artifact: {
             "value": "$color.palette.gray-100";
           };
         };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)";
+        "description": "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다.";
       };
       "$color.fg.neutral-muted": {
         "values": {
@@ -1277,6 +1277,84 @@ declare const artifact: {
           };
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)";
+      };
+      "$color.fg.on-brand-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+        };
+        "description": "브랜드 Solid 배경 위의 전경 요소에 사용됩니다.";
+      };
+      "$color.fg.on-critical-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+        };
+        "description": "Critical Solid 배경 위의 전경 요소에 사용됩니다.";
+      };
+      "$color.fg.on-informative-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+        };
+        "description": "Informative Solid 배경 위의 전경 요소에 사용됩니다.";
+      };
+      "$color.fg.on-neutral-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-00";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-100";
+          };
+        };
+        "description": "Neutral Solid 배경 위의 전경 요소에 사용됩니다.";
+      };
+      "$color.fg.on-positive-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.static-white";
+          };
+        };
+        "description": "Positive Solid 배경 위의 전경 요소에 사용됩니다.";
+      };
+      "$color.fg.on-warning-solid": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.static-black-alpha-900";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.static-black-alpha-900";
+          };
+        };
+        "description": "Warning Solid 배경 위의 전경 요소에 사용됩니다.";
       };
       "$color.fg.placeholder": {
         "values": {
@@ -1611,7 +1689,7 @@ declare const artifact: {
             "value": "$color.palette.gray-1000";
           };
         };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)";
+        "description": "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다.";
       };
       "$color.bg.neutral-inverted-pressed": {
         "values": {
@@ -1630,14 +1708,27 @@ declare const artifact: {
         "values": {
           "theme-light": {
             "type": "color";
-            "value": "$color.palette.gray-1000";
+            "value": "$color.palette.gray-900";
           };
           "theme-dark": {
             "type": "color";
-            "value": "$color.palette.gray-300";
+            "value": "$color.palette.gray-1000";
           };
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)";
+      };
+      "$color.bg.neutral-solid-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-800";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-800";
+          };
+        };
+        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)";
       };
       "$color.bg.neutral-weak": {
         "values": {

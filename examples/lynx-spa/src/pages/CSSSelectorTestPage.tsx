@@ -60,7 +60,7 @@ function ResultBox({
 }
 
 function ResultText({ children }: { children: string }) {
-  return <text className="t3-bold text-fg-neutral-inverted">{children}</text>;
+  return <text className="t3-bold text-fg-on-neutral-solid">{children}</text>;
 }
 
 export function CSSSelectorTestPage() {
@@ -195,7 +195,7 @@ export function CSSSelectorTestPage() {
             data-sel-test="5-3-trigger"
             className="flex-1 p-x2_5 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
           >
-            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
+            <text className="t3-bold text-fg-on-neutral-solid">trigger</text>
           </view>
           <ResultBox data-sel-test="5-3-target" className="flex-1">
             <ResultText>+ 인접 → 초록이면 OK</ResultText>
@@ -209,10 +209,10 @@ export function CSSSelectorTestPage() {
             data-sel-test="5-4-trigger"
             className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center"
           >
-            <text className="t3-bold text-fg-neutral-inverted">trigger</text>
+            <text className="t3-bold text-fg-on-neutral-solid">trigger</text>
           </view>
           <view className="p-x2 bg-bg-neutral-solid rounded-r1_5 flex items-center justify-center">
-            <text className="t3-bold text-fg-neutral-inverted">중간 형제</text>
+            <text className="t3-bold text-fg-on-neutral-solid">중간 형제</text>
           </view>
           <ResultBox data-sel-test="5-4-target">
             <ResultText>~ 일반형제 → 초록이면 OK</ResultText>

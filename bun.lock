@@ -113,7 +113,6 @@
         "tailwind-merge": "^3.5.0",
         "unified": "^11.0.5",
         "unist-util-visit": "^5.0.0",
-        "yaml": "^2.9.0",
         "zbsearch": "^3.3.4",
       },
       "devDependencies": {
@@ -449,6 +448,7 @@
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
+        "@seed-design/rootage-cli": "0.0.0",
       },
     },
     "packages/design-token": {

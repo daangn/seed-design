@@ -49,17 +49,14 @@ function PressTapDemo({
       )}
     >
       <text
-        className={clsx(
-          "t4-bold",
-          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
-        )}
+        className={clsx("t4-bold", disabled ? "text-fg-neutral-subtle" : "text-fg-on-brand-solid")}
       >
         {label}
       </text>
       <text
         className={clsx(
           "t2-regular mt-x1",
-          disabled ? "text-fg-neutral-subtle" : "text-fg-neutral-inverted",
+          disabled ? "text-fg-neutral-subtle" : "text-fg-on-brand-solid",
         )}
       >
         {`pressed: ${String(pressed)} · taps: ${tapCount} · main-thread:bindtap: ${String(hasMainThread)}`}

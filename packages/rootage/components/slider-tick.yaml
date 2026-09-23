@@ -16,7 +16,7 @@ data:
     base:
       enabled:
         root:
-          color: $color.fg.neutral-inverted # fg 토큰인데 적절할까?      
+          color: $color.fg.on-neutral-solid
     weight=thin:
       enabled:
         root:

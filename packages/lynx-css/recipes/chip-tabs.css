@@ -101,17 +101,17 @@
     display: none
 }
 .seed-chip-tabs__trigger--variant_neutralSolid-selected_true {
-    background-color: var(--seed-color-bg-neutral-inverted)
+    background-color: var(--seed-color-bg-neutral-solid)
 }
 .seed-chip-tabs__triggerLabel--variant_neutralSolid-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip-tabs__trigger--variant_neutralOutline-selected_true {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
     box-shadow: inset 0 0 0 1px transparent
 }
 .seed-chip-tabs__triggerLabel--variant_neutralOutline-selected_true {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-chip-tabs__trigger--variant_neutralSolid-selected_false-pressed_true-disabled_false {
     background-color: var(--seed-color-bg-neutral-weak-alpha-pressed)
@@ -120,10 +120,10 @@
     background-color: var(--seed-color-bg-transparent-pressed)
 }
 .seed-chip-tabs__trigger--variant_neutralSolid-selected_true-pressed_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-chip-tabs__trigger--variant_neutralOutline-selected_true-pressed_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }
 .seed-chip-tabs__trigger--variant_neutralSolid-disabled_true {
     opacity: 0.5

@@ -174,23 +174,26 @@ const recipe = defineRecipe({
 
 ## React 컴포넌트 패턴
 
-### 단일 컴포넌트 (ActionChip 등)
+### 단일 컴포넌트 (MannerTempBadge 등)
 
 ```typescript
-import { actionChip, type ActionChipVariantProps } from "@seed-design/css/recipes/action-chip";
+import {
+  mannerTempBadge,
+  type MannerTempBadgeVariantProps,
+} from "@seed-design/css/recipes/manner-temp-badge";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withContext } = createRecipeContext(actionChip);
+const { withContext } = createRecipeContext(mannerTempBadge);
 
-interface ActionChipProps
-  extends ActionChipVariantProps,
+interface MannerTempBadgeProps
+  extends MannerTempBadgeVariantProps,
     PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+    React.HTMLAttributes<HTMLSpanElement> {}
 
-export const ActionChip = withContext<HTMLButtonElement, ActionChipProps>(Primitive.button);
-ActionChip.displayName = "ActionChip";
+export const MannerTempBadge = withContext<HTMLSpanElement, MannerTempBadgeProps>(Primitive.span);
+MannerTempBadge.displayName = "MannerTempBadge";
 ```
 
 ### 복합 컴포넌트 (Accordion 등)

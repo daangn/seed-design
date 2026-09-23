@@ -63,7 +63,7 @@ data:
     tone=neutral, variant=solid:
       enabled:
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
     tone=positive, variant=weak:
       enabled:
         icon:

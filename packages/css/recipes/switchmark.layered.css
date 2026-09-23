@@ -34,7 +34,7 @@
   }
 
   .seed-switchmark__root--tone_neutral:is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
   }
 
   .seed-switchmark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
@@ -42,7 +42,7 @@
   }
 
   .seed-switchmark__thumb--tone_neutral {
-    background: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-switchmark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {

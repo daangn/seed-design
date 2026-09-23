@@ -11,7 +11,7 @@
 | `vars/` | `rootage/*.yaml` |
 | `recipes/` | `qvism-preset/src/recipes/*.ts` |
 | `*.css` (루트) | qvism-preset |
-| `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs` | 없음 (손으로 작성) |
+| `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs`, `rootage.config.ts` | 없음 (손으로 작성) |
 
 수정 가능 여부는 이 표가 아니라 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <파일 경로>`가 `set`이면 생성물이다.
 
@@ -29,7 +29,7 @@
 | 소스 | 생성 명령 | 생성물 |
 |------|----------|--------|
 | `packages/qvism-preset/src/recipes/*.ts` | `bun qvism:generate` | `packages/css/recipes/*.{css,mjs,d.ts}` |
-| `packages/rootage/components/*.yaml` | `bun rootage:generate` | `packages/css/vars/component/*.{mjs,d.ts}` |
+| `packages/rootage/components/*.yaml` 중 `rootage.config.ts`의 filter를 통과한 것(현재 `typography.yaml`) | `bun rootage:generate` | `packages/css/vars/component/*.{mjs,d.ts}` |
 
 ## defineRecipe vs defineSlotRecipe 생성물 차이
 

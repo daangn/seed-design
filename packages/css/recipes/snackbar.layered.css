@@ -1,7 +1,7 @@
 @layer seed-components {
   .seed-snackbar__root {
     box-sizing: border-box;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-r2);
     width: 100%;
     max-width: 464px;
@@ -51,7 +51,7 @@
   }
 
   .seed-snackbar__message {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);

@@ -1,0 +1,92 @@
+---
+title: SEED React 3
+description: SEED React 3으로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기능 등 전체 변경사항은 [Changelog](/react/updates/changelog)에서 확인할 수 있습니다.
+
+<Callout type="info">
+  이 가이드는 `2.x`에서 `3`으로 업그레이드하는 경우를 기준으로 작성되었습니다.
+  2보다 낮은 버전을 사용 중이라면 [SEED React 2](/react/updates/upgrade/v2)
+  가이드를 따른 뒤 이 문서로 돌아와 주세요.
+</Callout>
+
+---
+
+<Steps>
+
+<Step>
+
+## 패키지 업그레이드
+
+프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드합니다.
+
+| 패키지               | 최소 버전 |
+| -------------------- | --------- |
+| `@seed-design/css`   | `3.0.0`   |
+| `@seed-design/react` | `3.0.0`   |
+
+```package-install
+@seed-design/react@latest @seed-design/css@latest
+```
+
+</Step>
+
+<Step>
+
+## 코드 변경
+
+### 코드 수정이 필요한 항목
+
+#### 1. `@seed-design/css/vars/component`에서 `typography` 외 경로 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/css/vars/component`에서는 `typography`만 제공합니다. 다른 컴포넌트의 vars는 2.x에서도 SemVer 보장 대상이 아니었으므로, 3.0에서 export를 제거했습니다.
+
+**index에서 `typography`를 가져오는 경우**
+
+`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정합니다.
+
+```ts
+import { typography } from "@seed-design/css/vars/component"; // [!code --]
+import { vars as typography } from "@seed-design/css/vars/component/typography"; // [!code ++]
+```
+
+**다른 컴포넌트의 vars를 가져오는 경우**
+
+같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꿉니다. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)의 경우 필요한 값을 직접 지정합니다.
+
+```ts
+import { badge } from "@seed-design/css/vars/component"; // [!code --]
+import { vars } from "@seed-design/css/vars"; // [!code ++]
+
+const minHeight = badge.sizeMedium.enabled.root.minHeight; // [!code --]
+const minHeight = vars.$dimension.x5; // [!code ++]
+```
+
+#### 2. Side Panel 본문의 높이 prop 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`SidePanelBody`와 `ResponsiveSidePanelBody`에서 `height`, `minHeight`, `maxHeight`를 제거했습니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠습니다.
+
+`SidePanelBody`에서는 prop을 지웁니다. `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정합니다.
+
+```tsx
+function Body({ children }: { children: React.ReactNode }) {
+  const { shouldUseBottomSheet } = useResponsiveSidePanelContext(); // [!code ++]
+
+  return (
+    <ResponsiveSidePanelBody minHeight="x40"> // [!code --]
+    <ResponsiveSidePanelBody> // [!code ++]
+      {children} // [!code --]
+      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box> // [!code ++]
+    </ResponsiveSidePanelBody>
+  );
+}
+```
+
+</Step>
+
+</Steps>
