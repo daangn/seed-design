@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import nodePath from "node:path";
 import { conditional, object } from "@optique/core/constructs";
 import { message } from "@optique/core/message";
@@ -18,9 +18,12 @@ function emptyDirectory(): ValueParser<"sync", string> {
     ...base,
     parse(input) {
       const result = base.parse(input);
-      if (!result.success) return result;
+      if (!result.success || !existsSync(result.value)) return result;
 
-      if (existsSync(result.value) && readdirSync(result.value).length > 0)
+      // `path()` checks `type` only when `mustExist` is set, which a missing directory can't be.
+      if (!statSync(result.value).isDirectory())
+        return { success: false, error: message`디렉터리가 아닙니다: ${input}` };
+      if (readdirSync(result.value).length > 0)
         return { success: false, error: message`비어 있지 않은 디렉터리입니다: ${input}` };
 
       return result;
