@@ -39,10 +39,12 @@ const popover = defineSlotRecipe({
       boxSizing: "border-box",
       display: "flex",
       flexDirection: "column",
-      overflow: "hidden",
 
       background: vars.base.enabled.content.color,
       borderRadius: vars.base.enabled.content.cornerRadius,
+      // NOTE: To shadow content and arrow together, replace boxShadow with filter: drop-shadow(...).
+      // Keep offsets/color, halve the blur, and omit the zero spread (see image-frame-reaction-button.ts);
+      // drop-shadow does not support nonzero spread.
       boxShadow: vars.base.enabled.content.shadow,
 
       // The width family goes through the box responsive vars so StyleProps can override it

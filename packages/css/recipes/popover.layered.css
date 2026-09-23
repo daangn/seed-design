@@ -45,7 +45,6 @@
     flex-direction: column;
     display: flex;
     position: relative;
-    overflow: hidden;
   }
 
   .seed-popover__content[data-alignment="start"] {

@@ -9,7 +9,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-r5);
     box-shadow: var(--seed-shadow-s3);
