@@ -5,7 +5,7 @@ import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { PopoverAnchor, PopoverBody, PopoverContent, PopoverRoot } from "seed-design/ui/popover";
 import { Switch } from "seed-design/ui/switch";
 
-const PopoverAnchorExample = () => {
+export default function PopoverAnchorExample() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,6 +33,4 @@ const PopoverAnchorExample = () => {
       </PopoverRoot>
     </HStack>
   );
-};
-
-export default PopoverAnchorExample;
+}

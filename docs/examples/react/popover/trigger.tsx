@@ -1,7 +1,7 @@
 import { ActionButton } from "seed-design/ui/action-button";
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from "seed-design/ui/popover";
 
-const PopoverTriggerExample = () => {
+export default function PopoverTriggerExample() {
   return (
     <PopoverRoot>
       <PopoverTrigger asChild>
@@ -12,6 +12,4 @@ const PopoverTriggerExample = () => {
       </PopoverContent>
     </PopoverRoot>
   );
-};
-
-export default PopoverTriggerExample;
+}

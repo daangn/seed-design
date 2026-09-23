@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "seed-design/ui/popover";
 
-const PopoverScroll = () => {
+export default function PopoverScroll() {
   return (
     <PopoverRoot>
       <PopoverTrigger asChild>
@@ -28,6 +28,4 @@ const PopoverScroll = () => {
       </PopoverContent>
     </PopoverRoot>
   );
-};
-
-export default PopoverScroll;
+}

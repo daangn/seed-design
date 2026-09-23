@@ -1,7 +1,7 @@
 import { ActionButton } from "seed-design/ui/action-button";
 import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from "seed-design/ui/popover";
 
-const PopoverPlacement = () => {
+export default function PopoverPlacement() {
   return (
     <PopoverRoot placement="right-start">
       <PopoverTrigger asChild>
@@ -15,6 +15,4 @@ const PopoverPlacement = () => {
       </PopoverContent>
     </PopoverRoot>
   );
-};
-
-export default PopoverPlacement;
+}
