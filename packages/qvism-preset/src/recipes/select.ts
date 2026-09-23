@@ -308,6 +308,7 @@ export const select = defineSlotRecipe({
     positioner: {
       // helps the listbox open at the top of the stackflow stack; it won't have any AppScreen on top of it
       "--select-z-index": "99999",
+      // `--z-index-offset` is a CSS escape hatch, deliberately not exposed as a snippet prop.
       zIndex: "calc(var(--select-z-index) + var(--z-index-offset, 0))",
       outline: "none",
     },

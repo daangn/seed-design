@@ -26,6 +26,7 @@ const popover = defineSlotRecipe({
     positioner: {
       // helps the popover open at the top of the stackflow stack; it won't have any AppScreen on top of it
       "--popover-z-index": "99999",
+      // `--z-index-offset` is a CSS escape hatch, deliberately not exposed as a snippet prop.
       zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
       outline: "none",
 
