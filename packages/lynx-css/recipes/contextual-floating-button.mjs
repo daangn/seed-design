@@ -39,6 +39,16 @@ const defaultVariant = {
 const compoundVariants = [
   {
     "variant": "solid",
+    "disabled": false,
+    "loading": false
+  },
+  {
+    "variant": "layer",
+    "disabled": false,
+    "loading": false
+  },
+  {
+    "variant": "solid",
     "pressed": true
   },
   {

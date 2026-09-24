@@ -50,6 +50,26 @@ const defaultVariant = {
 const compoundVariants = [
   {
     "variant": "neutralSolid",
+    "selected": false,
+    "disabled": false
+  },
+  {
+    "variant": "neutralSolid",
+    "selected": true,
+    "disabled": false
+  },
+  {
+    "variant": "neutralOutline",
+    "selected": false,
+    "disabled": false
+  },
+  {
+    "variant": "neutralOutline",
+    "selected": true,
+    "disabled": false
+  },
+  {
+    "variant": "neutralSolid",
     "selected": true
   },
   {

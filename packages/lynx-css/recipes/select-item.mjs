@@ -7,6 +7,10 @@ const selectItemSlotNames = [
     "seed-select-item__root"
   ],
   [
+    "scaleContent",
+    "seed-select-item__scaleContent"
+  ],
+  [
     "pressedOverlay",
     "seed-select-item__pressedOverlay"
   ],

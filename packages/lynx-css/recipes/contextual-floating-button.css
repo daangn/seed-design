@@ -93,6 +93,12 @@
 .seed-contextual-floating-button__content--loading_true {
     opacity: 0
 }
+.seed-contextual-floating-button__root--variant_solid-disabled_false-loading_false:active {
+    background: var(--seed-color-bg-neutral-inverted-pressed)
+}
+.seed-contextual-floating-button__root--variant_layer-disabled_false-loading_false:active {
+    background: var(--seed-color-bg-layer-floating-pressed)
+}
 .seed-contextual-floating-button__root--variant_solid-pressed_true {
     background: var(--seed-color-bg-neutral-inverted-pressed)
 }
