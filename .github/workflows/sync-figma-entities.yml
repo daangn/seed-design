@@ -20,7 +20,7 @@ jobs:
         with:
           ref: dev
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version-file: .bun-version
 
@@ -68,7 +68,7 @@ jobs:
         id: claude-fix
         if: steps.existing-pr-check.outputs.skip != 'true' && steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
         continue-on-error: true
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@756cc22e19660d20e8cc9496b4f242475a7f7790 # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           prompt: |
