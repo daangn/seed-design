@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
-    "vitest": "^3.2.4",
+    "vitest": "^4.1.11",
     "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26"
   }
 }
