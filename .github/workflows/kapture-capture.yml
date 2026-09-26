@@ -24,17 +24,39 @@ on:
       - bun.lock
       - package.json
       - scripts/kapture-*.mjs
+      - scripts/kapture-*.test.ts
       - .github/workflows/kapture-*.yml
 permissions:
   contents: read
   pull-requests: read
 env:
+  KAPTURE_CLI_VERSION: "0.10.0"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
+  KAPTURE_CACHE_RETENTION_DAYS: "7"
+  KAPTURE_BUILD_CACHE_PREFIX: "seed-kapture-build-"
+  KAPTURE_CAPTURE_WORKFLOW: .github/workflows/kapture-capture.yml
 concurrency:
   group: kapture-capture-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
+  workflow-tests:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: bun test scripts/kapture-workflows.test.ts scripts/kapture-build-cache.test.ts
   context:
     if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.action != 'edited' || github.event.changes.base)
     runs-on: ubuntu-24.04
@@ -60,11 +82,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
-          case "$KAPTURE_BASE_BRANCH" in
-            dev|minor|major) ;;
-            *) echo 'Unsupported Kapture base branch' >&2; exit 1 ;;
-          esac
-          bunx @kaptures/cli@0.10.0 github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         if: steps.context.outputs.integration-mode == 'compare'
@@ -98,7 +116,9 @@ jobs:
           ref: ${{ needs.context.outputs.head-sha }}
           path: _kapture-policy
           persist-credentials: false
-          sparse-checkout: scripts
+          sparse-checkout: |
+            scripts
+            .github/workflows
       - name: Look up an exact-base build
         id: cache
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
@@ -110,7 +130,8 @@ jobs:
             const { resolveBuildCache } = await import(`${process.env.GITHUB_WORKSPACE}/_kapture-policy/scripts/kapture-build-cache.mjs`);
             await resolveBuildCache({ github, context, core,
               policyRoot: `${process.env.GITHUB_WORKSPACE}/_kapture-policy`,
-              branch: process.env.KAPTURE_BASE_BRANCH, sha: process.env.KAPTURE_BASE_SHA });
+              branch: process.env.KAPTURE_BASE_BRANCH, sha: process.env.KAPTURE_BASE_SHA,
+              workflow: process.env.KAPTURE_CAPTURE_WORKFLOW, prefix: process.env.KAPTURE_BUILD_CACHE_PREFIX });
       - name: Restore base build
         id: restore
         if: steps.cache.outputs.cache-hit == 'true'
@@ -132,7 +153,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: bunx @kaptures/cli@0.10.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github validate-build --root . --directory docs/.kapture/storybook-static
       - name: Install project dependencies
         if: steps.restored-build.outcome != 'success'
         run: |
@@ -148,7 +169,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: bunx @kaptures/cli@0.10.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -166,7 +187,7 @@ jobs:
           path: docs/.kapture/storybook-static
           if-no-files-found: error
           include-hidden-files: true
-          retention-days: 7
+          retention-days: ${{ env.KAPTURE_CACHE_RETENTION_DAYS }}
           overwrite: true
   build-head:
     needs: context
@@ -199,7 +220,7 @@ jobs:
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: bunx @kaptures/cli@0.10.0 github validate-build --root . --directory docs/.kapture/storybook-static
+        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github validate-build --root . --directory docs/.kapture/storybook-static
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         with:
@@ -235,7 +256,7 @@ jobs:
       - id: capture
         continue-on-error: true
         run: >-
-          bunx @kaptures/cli@0.10.0 setup capture
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" setup capture
           --head-dir "${{ runner.temp }}/storybook"
           --base-revision ${{ needs.context.outputs.base-sha }}
           --head-revision ${{ needs.context.outputs.head-sha }}
@@ -304,7 +325,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: >-
-          bunx @kaptures/cli@0.10.0 github restore-capture
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github restore-capture
           --base-dir "${{ runner.temp }}/kapture-storybook/base"
           --head-dir "${{ runner.temp }}/kapture-storybook/head"
           --base-revision ${{ needs.context.outputs.base-sha }}
@@ -325,7 +346,7 @@ jobs:
           if [ "$KAPTURE_CAPTURE_CACHE" = "true" ] && [ -n "$KAPTURE_CACHE_DIRECTORY" ] && [ -n "$KAPTURE_HEAD_CACHE_DIRECTORY" ]; then
             cache_args+=(--capture-cache-dir "$KAPTURE_CACHE_DIRECTORY" --capture-cache-output "$KAPTURE_HEAD_CACHE_DIRECTORY")
           fi
-          bunx @kaptures/cli@0.10.0 test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
       - name: Retain stable head capture for subsequent base comparisons
         if: env.KAPTURE_CAPTURE_CACHE == 'true' && steps.capture-cache.outputs.head-cache-name != ''
         continue-on-error: true
@@ -334,7 +355,7 @@ jobs:
           name: ${{ steps.capture-cache.outputs.head-cache-name }}
           path: ${{ steps.capture-cache.outputs.head-cache-directory }}
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: ${{ env.KAPTURE_CACHE_RETENTION_DAYS }}
           compression-level: 0
           overwrite: true
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f

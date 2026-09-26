@@ -6,14 +6,19 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import {
-  BASE_BRANCHES,
-  CAPTURE_WORKFLOW,
-  DAY,
-  POLICY_FILES,
-  RETENTION_DAYS,
-  cacheName,
-} from "./kapture-policy.mjs";
+// Temporary consumer implementation until Kapture's restore-build is released.
+// Workflow values own storage policy; GitHub artifact expiration owns the TTL.
+export function cacheName(prefix, branch, sha, policyDigest) {
+  if (
+    !/^[a-zA-Z0-9_-]+$/.test(prefix) ||
+    !/^[a-zA-Z0-9_-]+$/.test(branch) ||
+    !/^[a-f0-9]{40}$/.test(sha) ||
+    !/^[a-f0-9]{64}$/.test(policyDigest)
+  ) {
+    throw new Error("Invalid build cache identity");
+  }
+  return `${prefix}${branch}-${sha}-${policyDigest}`;
+}
 
 async function readRemote(github, repo, ref, path) {
   const { data } = await github.rest.repos.getContent({ ...repo, ref, path });
@@ -21,10 +26,19 @@ async function readRemote(github, repo, ref, path) {
   return Buffer.from(data.content, "base64");
 }
 
-export async function resolveBuildCache({ github, context, core, policyRoot, branch, sha }) {
+export async function resolveBuildCache({
+  github,
+  context,
+  core,
+  policyRoot,
+  branch,
+  sha,
+  workflow,
+  prefix,
+}) {
   core.setOutput("cache-hit", "false");
   core.setOutput("cache-name", "");
-  if (!BASE_BRANCHES.includes(branch)) return;
+  const policyFiles = [workflow, "scripts/kapture-build-cache.mjs"];
   try {
     const { data: repository } = await github.rest.repos.get(context.repo);
     const { data: defaultRef } = await github.rest.repos.getBranch({
@@ -32,11 +46,9 @@ export async function resolveBuildCache({ github, context, core, policyRoot, bra
       branch: repository.default_branch,
     });
     const trustedSha = defaultRef.commit.sha;
-    const local = await Promise.all(
-      POLICY_FILES.map((file) => readFile(resolve(policyRoot, file))),
-    );
+    const local = await Promise.all(policyFiles.map((file) => readFile(resolve(policyRoot, file))));
     const trusted = await Promise.all(
-      POLICY_FILES.map((file) => readRemote(github, context.repo, trustedSha, file)),
+      policyFiles.map((file) => readRemote(github, context.repo, trustedSha, file)),
     );
     if (!local.every((value, index) => value.equals(trusted[index]))) {
       core.info("Build reuse disabled: policy is not yet on the default branch");
@@ -44,9 +56,9 @@ export async function resolveBuildCache({ github, context, core, policyRoot, bra
     }
     const digest = createHash("sha256");
     local.forEach((value, index) => {
-      digest.update(POLICY_FILES[index]).update("\0").update(value).update("\0");
+      digest.update(policyFiles[index]).update("\0").update(value).update("\0");
     });
-    const name = cacheName(branch, sha, digest.digest("hex"));
+    const name = cacheName(prefix, branch, sha, digest.digest("hex"));
     core.setOutput("cache-name", name);
     const artifacts = await github.paginate(github.rest.actions.listArtifactsForRepo, {
       ...context.repo,
@@ -54,12 +66,7 @@ export async function resolveBuildCache({ github, context, core, policyRoot, bra
       per_page: 100,
     });
     for (const artifact of artifacts
-      .filter(
-        (a) =>
-          !a.expired &&
-          a.name === name &&
-          Date.now() - Date.parse(a.created_at) < RETENTION_DAYS * DAY,
-      )
+      .filter((a) => !a.expired && a.name === name)
       .sort((a, b) => b.id - a.id)) {
       const { data: run } = await github.rest.actions.getWorkflowRun({
         ...context.repo,
@@ -69,13 +76,13 @@ export async function resolveBuildCache({ github, context, core, policyRoot, bra
         run.status !== "completed" ||
         run.conclusion !== "success" ||
         run.event !== "pull_request" ||
-        run.path !== CAPTURE_WORKFLOW ||
+        run.path !== workflow ||
         run.head_repository?.id !== repository.id ||
         artifact.workflow_run.head_repository_id !== repository.id
       )
         continue;
       const producer = await Promise.all(
-        POLICY_FILES.map((file) => readRemote(github, context.repo, run.head_sha, file)),
+        policyFiles.map((file) => readRemote(github, context.repo, run.head_sha, file)),
       );
       if (!producer.every((value, index) => value.equals(trusted[index]))) continue;
       if (!/^sha256:[a-f0-9]{64}$/.test(artifact.digest ?? "")) continue;

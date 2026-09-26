@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { parse } from "yaml";
-import { BASE_BRANCHES } from "./kapture-policy.mjs";
 
 const root = new URL("../", import.meta.url);
 const adapterVersion = JSON.parse(readFileSync(new URL("docs/package.json", root), "utf8"))
@@ -47,7 +46,7 @@ const commandText = (step?: Step) =>
 function assertCliRuntimes(steps: Step[]) {
   const cliSteps = steps.filter((step) => /@kaptures\/cli(?:@|\s)/.test(step.run ?? ""));
   for (const cli of cliSteps) {
-    expect(commandText(cli)).toMatch(/\bbunx\s+@kaptures\/cli@/);
+    expect(commandText(cli)).toMatch(/\bbunx\s+"?@kaptures\/cli@/);
     const preceding = steps.slice(0, steps.indexOf(cli));
     for (const action of ["oven-sh/setup-bun@", "actions/setup-node@"]) {
       const setup = preceding.find((step) => step.uses?.startsWith(action));
@@ -119,9 +118,35 @@ describe("Kapture consumer workflows", () => {
     }
   });
   test("supports all release lanes without special stacked branches", () => {
-    expect(new Set(workflows.capture.on.pull_request.branches)).toEqual(new Set(BASE_BRANCHES));
+    expect(new Set(workflows.capture.on.pull_request.branches)).toEqual(
+      new Set(["dev", "minor", "major"]),
+    );
     expect(sources.capture).toContain('--base-branch "$KAPTURE_BASE_BRANCH"');
     expect(workflows.capture.jobs.context.if).toContain("head.repo.full_name == github.repository");
+  });
+
+  test("checks out every policy file and runs consumer contracts in CI", () => {
+    const policy = workflows.capture.jobs["build-base"].steps.find(
+      (step) => step.with?.path === "_kapture-policy",
+    )!;
+    expect(policy.with["sparse-checkout"].split(/\s+/)).toContain(".github/workflows");
+    expect(policy.with["sparse-checkout"].split(/\s+/)).toContain("scripts");
+    const tests = workflows.capture.jobs["workflow-tests"];
+    expect(
+      tests.steps.some((step) =>
+        step.run?.includes(
+          "bun test scripts/kapture-workflows.test.ts scripts/kapture-build-cache.test.ts",
+        ),
+      ),
+    ).toBe(true);
+    expect(sources.capture).toContain("scripts/kapture-*.test.ts");
+    const yaml = parse(sources.capture);
+    const uploads = [yaml.jobs["build-base"], yaml.jobs.capture]
+      .flatMap((job) => job.steps)
+      .filter((step) => step.name?.startsWith("Retain"));
+    expect(uploads).toHaveLength(2);
+    for (const step of uploads)
+      expect(step.with["retention-days"]).toBe("${{ env.KAPTURE_CACHE_RETENTION_DAYS }}");
   });
 
   test("builds the exact base revision selected by the PR context", () => {
@@ -210,9 +235,10 @@ describe("Kapture consumer workflows", () => {
   test("pins every CLI invocation to the installed adapter version", () => {
     expect(adapterVersion).toMatch(/^\d+\.\d+\.\d+$/);
     for (const name of names) {
+      expect(parse(sources[name]).env.KAPTURE_CLI_VERSION).toBe(adapterVersion);
       const versions = [...sources[name].matchAll(/@kaptures\/cli@([^\s]+)/g)];
       expect(versions.length).toBeGreaterThan(0);
-      for (const [, version] of versions) expect(version).toBe(adapterVersion);
+      for (const [, version] of versions) expect(version).toBe('$KAPTURE_CLI_VERSION"');
     }
   });
 

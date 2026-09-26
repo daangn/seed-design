@@ -227,3 +227,11 @@ export const AccordionItem = withContext(AccordionPrimitive.Item, "item");
 |------|------|------|
 | `FIGMA_FILE_KEY` | Figma 파일 식별자 | `figma:sync` 시 |
 | `FIGMA_PERSONAL_ACCESS_TOKEN` | Figma API 토큰 | `figma:sync` 시 |
+
+## Kapture workflow ownership
+
+Kapture 지원 브랜치와 빌드 명령은 `.github/workflows/kapture-capture.yml`에서 관리한다. 캐시 보관 기간은 `KAPTURE_CACHE_RETENTION_DAYS`, CLI 버전은 각 workflow의 `KAPTURE_CLI_VERSION`이며 설치된 adapter와 같은 버전인지 계약 테스트로 확인한다. Capture, Report, Approve는 실행 이벤트와 권한 경계가 달라 분리한다.
+
+`workflow-tests` job이 `scripts/kapture-workflows.test.ts`와 `scripts/kapture-build-cache.test.ts`를 실행한다. 캐시 조회용 sparse checkout에는 스크립트와 비교 대상 workflow가 모두 포함되어야 한다. 만료는 GitHub artifact의 retention/expired 상태를 따른다.
+
+현재 0.10.0에는 `github restore-build`가 없어 `scripts/kapture-build-cache.mjs`를 임시 유지한다. 해당 명령이 배포되면 CLI·adapter를 함께 올리고, 별도 policy checkout과 조회·download·restored validation 단계를 CLI 호출로 대체한다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고, 복원 여부와 무관하게 현재 실행의 base artifact를 게시한다. 전환 시 임시 조회 스크립트와 그 단위 테스트는 제거하고 YAML 연결 테스트는 유지한다. 빌드 명령·지원 브랜치·보관 기간은 SEED에 남는다.

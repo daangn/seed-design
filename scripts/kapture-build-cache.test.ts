@@ -1,25 +1,19 @@
-import { afterEach, beforeEach, expect, spyOn, test } from "bun:test";
+import { expect, test } from "bun:test";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveBuildCache } from "./kapture-build-cache.mjs";
-import {
-  cacheName,
-  CAPTURE_WORKFLOW,
-  DAY,
-  POLICY_FILES,
-  RETENTION_DAYS,
-} from "./kapture-policy.mjs";
+import { parse } from "yaml";
+import { cacheName } from "./kapture-build-cache.mjs";
 
+const CAPTURE_WORKFLOW = ".github/workflows/kapture-capture.yml";
+const config = parse(await readFile(new URL(`../${CAPTURE_WORKFLOW}`, import.meta.url), "utf8"));
+const POLICY_FILES = [config.env.KAPTURE_CAPTURE_WORKFLOW, "scripts/kapture-build-cache.mjs"];
+const prefix = config.env.KAPTURE_BUILD_CACHE_PREFIX;
 const now = Date.UTC(2026, 0, 1);
-let clock: ReturnType<typeof spyOn>;
-beforeEach(() => {
-  clock = spyOn(Date, "now").mockReturnValue(now);
-});
-afterEach(() => {
-  clock.mockRestore();
-});
-
 const policyRoot = fileURLToPath(new URL("../", import.meta.url));
 const sha = "a".repeat(40);
 const source = new Map(
@@ -32,7 +26,7 @@ const source = new Map(
 );
 const hash = createHash("sha256");
 for (const [path, content] of source) hash.update(path).update("\0").update(content).update("\0");
-const name = cacheName("minor", sha, hash.digest("hex"));
+const name = cacheName(prefix, "minor", sha, hash.digest("hex"));
 
 function fixture({
   changedPolicy = false,
@@ -99,6 +93,8 @@ function fixture({
         },
       },
       policyRoot,
+      workflow: config.env.KAPTURE_CAPTURE_WORKFLOW,
+      prefix,
       branch: "minor",
       sha,
     },
@@ -132,34 +128,15 @@ test("failed and fork producers cannot supply builds", async () => {
   }
 });
 
-test("unsupported branches never use a default-branch fallback", async () => {
-  const f = fixture();
-  await resolveBuildCache({ ...f.options, branch: "feature/stack" });
-  expect(f.outputs).toEqual({ "cache-hit": "false", "cache-name": "" });
-});
-
-test("cache identity rejects unsupported branches and malformed revisions", () => {
-  expect(() => cacheName("feature/x", sha, "b".repeat(64))).toThrow();
-  expect(() => cacheName("dev", "latest", "b".repeat(64))).toThrow();
-  expect(() => cacheName("dev", sha, "invalid")).toThrow();
-});
-
-test("cache age accepts just before retention and rejects the exact boundary", async () => {
-  for (const [age, hit] of [
-    [RETENTION_DAYS * DAY - 1, "true"],
-    [RETENTION_DAYS * DAY, "false"],
-  ] as const) {
-    const f = fixture();
-    f.artifact.created_at = new Date(now - age).toISOString();
-    await resolveBuildCache(f.options);
-    expect(f.outputs["cache-hit"]).toBe(hit);
-  }
+test("cache identity rejects unsafe names and malformed revisions", () => {
+  expect(() => cacheName(prefix, "feature/x", sha, "b".repeat(64))).toThrow();
+  expect(() => cacheName(prefix, "dev", "latest", "b".repeat(64))).toThrow();
+  expect(() => cacheName(prefix, "dev", sha, "invalid")).toThrow();
 });
 
 test.each([
   ["expired", { expired: true }],
   ["different identity", { name: "another-cache" }],
-  ["invalid date", { created_at: "not-a-date" }],
   ["missing digest", { digest: "" }],
   ["invalid digest", { digest: "sha256:invalid" }],
   ["fork artifact", { workflow_run: { id: 99, head_repository_id: 2 } }],
@@ -197,4 +174,46 @@ test("API failures are cache misses, not capture failures", async () => {
   await expect(resolveBuildCache(f.options)).resolves.toBeUndefined();
   expect(f.outputs["cache-hit"]).toBe("false");
   expect(f.outputs).not.toHaveProperty("artifact-id");
+});
+
+// Reproduce the actual Git sparse-checkout boundary, not a full-checkout mock.
+test("the workflow sparse checkout contains every cache policy input", async () => {
+  const checkout = config.jobs["build-base"].steps.find(
+    (step: any) => step.with?.path === "_kapture-policy",
+  );
+  const directory = await mkdtemp(join(tmpdir(), "seed-kapture-checkout-"));
+  const git = (...args: string[]) => {
+    const result = spawnSync("git", args, { cwd: directory, encoding: "utf8" });
+    expect({ code: result.status, error: result.stderr }).toEqual({ code: 0, error: "" });
+  };
+  try {
+    for (const [path, bytes] of source) {
+      await mkdir(dirname(join(directory, path)), { recursive: true });
+      await writeFile(join(directory, path), bytes);
+    }
+    git("init", "-q");
+    git("add", ".");
+    git(
+      "-c",
+      "user.name=Fixture",
+      "-c",
+      "user.email=fixture@example.com",
+      "-c",
+      "commit.gpgsign=false",
+      "commit",
+      "-qm",
+      "fixture",
+    );
+    git(
+      "sparse-checkout",
+      "set",
+      "--cone",
+      ...checkout.with["sparse-checkout"].trim().split(/\s+/),
+    );
+    const f = fixture();
+    await resolveBuildCache({ ...f.options, policyRoot: directory });
+    expect(f.outputs["cache-hit"]).toBe("true");
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });

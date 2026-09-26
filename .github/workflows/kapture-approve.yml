@@ -9,6 +9,7 @@ concurrency:
   cancel-in-progress: false
   queue: max
 env:
+  KAPTURE_CLI_VERSION: "0.10.0"
   npm_config_registry: https://registry.npmjs.org/
   npm_config_ignore_scripts: "true"
   YARN_ENABLE_SCRIPTS: "false"
@@ -39,4 +40,4 @@ jobs:
       - env:
           GITHUB_TOKEN: ${{ github.token }}
         if: steps.policy.outputs.supported == 'true'
-        run: bunx @kaptures/cli@0.10.0 github approve --comment-language ko
+        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github approve --comment-language ko
