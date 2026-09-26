@@ -23,18 +23,16 @@ on:
       - ecosystem/rootage/**
       - bun.lock
       - package.json
-      - scripts/kapture-*.mjs
       - scripts/kapture-*.test.ts
       - .github/workflows/kapture-*.yml
 permissions:
   contents: read
   pull-requests: read
 env:
-  KAPTURE_CLI_VERSION: "0.10.0"
+  KAPTURE_CLI_VERSION: "0.11.0"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
   KAPTURE_CACHE_RETENTION_DAYS: "7"
-  KAPTURE_BUILD_CACHE_PREFIX: "seed-kapture-build-"
   KAPTURE_CAPTURE_WORKFLOW: .github/workflows/kapture-capture.yml
 concurrency:
   group: kapture-capture-${{ github.repository }}-pr-${{ github.event.pull_request.number }}
@@ -56,7 +54,7 @@ jobs:
           node-version: "24"
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - run: bun install --frozen-lockfile --ignore-scripts
-      - run: bun test scripts/kapture-workflows.test.ts scripts/kapture-build-cache.test.ts
+      - run: bun test scripts/kapture-workflows.test.ts
   context:
     if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.action != 'edited' || github.event.changes.base)
     runs-on: ubuntu-24.04
@@ -101,6 +99,7 @@ jobs:
     permissions:
       contents: read
       actions: read
+      pull-requests: read
     outputs:
       artifact-id: ${{ steps.artifact.outputs.artifact-id }}
       artifact-digest: ${{ steps.artifact.outputs.artifact-digest }}
@@ -110,62 +109,33 @@ jobs:
           repository: ${{ needs.context.outputs.base-repository }}
           ref: ${{ needs.context.outputs.base-sha }}
           persist-credentials: false
-      - name: Check out storage policy (read-only job)
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
-        with:
-          ref: ${{ needs.context.outputs.head-sha }}
-          path: _kapture-policy
-          persist-credentials: false
-          sparse-checkout: |
-            scripts
-            .github/workflows
-      - name: Look up an exact-base build
-        id: cache
-        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
-        env:
-          KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-          KAPTURE_BASE_SHA: ${{ needs.context.outputs.base-sha }}
-        with:
-          script: |
-            const { resolveBuildCache } = await import(`${process.env.GITHUB_WORKSPACE}/_kapture-policy/scripts/kapture-build-cache.mjs`);
-            await resolveBuildCache({ github, context, core,
-              policyRoot: `${process.env.GITHUB_WORKSPACE}/_kapture-policy`,
-              branch: process.env.KAPTURE_BASE_BRANCH, sha: process.env.KAPTURE_BASE_SHA,
-              workflow: process.env.KAPTURE_CAPTURE_WORKFLOW, prefix: process.env.KAPTURE_BUILD_CACHE_PREFIX });
-      - name: Restore base build
-        id: restore
-        if: steps.cache.outputs.cache-hit == 'true'
-        continue-on-error: true
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
-        with:
-          github-token: ${{ github.token }}
-          run-id: ${{ steps.cache.outputs.run-id }}
-          artifact-ids: ${{ steps.cache.outputs.artifact-id }}
-          path: docs/.kapture/storybook-static
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
           node-version: "24"
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
-      - name: Validate restored build
-        id: restored-build
-        if: steps.restore.outcome == 'success'
+      - name: Restore verified exact-base build
+        id: cache
         continue-on-error: true
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
-        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github validate-build --root . --directory docs/.kapture/storybook-static
+        run: >-
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github restore-build
+          --workflow "$KAPTURE_CAPTURE_WORKFLOW"
       - name: Install project dependencies
-        if: steps.restored-build.outcome != 'success'
+        if: steps.cache.outputs.cache-directory == ''
         run: |
           bun install --frozen-lockfile
           bun ecosystem:build
           bun install --frozen-lockfile
           bun packages:build
       - name: Build Storybook
-        if: steps.restored-build.outcome != 'success'
+        if: steps.cache.outputs.cache-directory == ''
         run: |
           bun storybook:build -- --output-dir "$PWD/docs/.kapture/storybook-static"
       - name: Validate build boundary
+        if: steps.cache.outputs.cache-directory == ''
         env:
           npm_config_registry: https://registry.npmjs.org/
           npm_config_ignore_scripts: "true"
@@ -174,13 +144,14 @@ jobs:
         id: artifact
         with:
           name: kapture-storybook-base-${{ needs.context.outputs.artifact-suffix }}
-          path: docs/.kapture/storybook-static
+          path: ${{ steps.cache.outputs.cache-directory || 'docs/.kapture/storybook-static' }}
           if-no-files-found: error
           include-hidden-files: true
           overwrite: true
           retention-days: 1
       - name: Retain reusable base build
-        if: steps.cache.outputs.cache-name != '' && steps.restored-build.outcome != 'success'
+        continue-on-error: true
+        if: steps.cache.outputs.cache-name != '' && steps.cache.outputs.cache-directory == ''
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: ${{ steps.cache.outputs.cache-name }}

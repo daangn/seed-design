@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: false
   queue: max
 env:
-  KAPTURE_CLI_VERSION: "0.10.0"
+  KAPTURE_CLI_VERSION: "0.11.0"
   npm_config_registry: https://registry.npmjs.org/
   npm_config_ignore_scripts: "true"
   YARN_ENABLE_SCRIPTS: "false"

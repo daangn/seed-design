@@ -125,19 +125,10 @@ describe("Kapture consumer workflows", () => {
     expect(workflows.capture.jobs.context.if).toContain("head.repo.full_name == github.repository");
   });
 
-  test("checks out every policy file and runs consumer contracts in CI", () => {
-    const policy = workflows.capture.jobs["build-base"].steps.find(
-      (step) => step.with?.path === "_kapture-policy",
-    )!;
-    expect(policy.with["sparse-checkout"].split(/\s+/)).toContain(".github/workflows");
-    expect(policy.with["sparse-checkout"].split(/\s+/)).toContain("scripts");
+  test("runs consumer contracts in CI and leaves storage policy in YAML", () => {
     const tests = workflows.capture.jobs["workflow-tests"];
     expect(
-      tests.steps.some((step) =>
-        step.run?.includes(
-          "bun test scripts/kapture-workflows.test.ts scripts/kapture-build-cache.test.ts",
-        ),
-      ),
+      tests.steps.some((step) => step.run?.includes("bun test scripts/kapture-workflows.test.ts")),
     ).toBe(true);
     expect(sources.capture).toContain("scripts/kapture-*.test.ts");
     const yaml = parse(sources.capture);
@@ -157,21 +148,41 @@ describe("Kapture consumer workflows", () => {
     ).toBe("${{ needs.context.outputs.base-sha }}");
   });
 
-  test("restored builds are validated and republished as current-run artifacts", () => {
-    const steps = workflows.capture.jobs["build-base"].steps;
-    expect(steps.find((s) => s.id === "restore")?.with["run-id"]).toBe(
-      "${{ steps.cache.outputs.run-id }}",
+  test("delegates build restoration and safely falls back to exact-base builds", () => {
+    const capture = parse(sources.capture);
+    const job = capture.jobs["build-base"];
+    const steps: Step[] = job.steps;
+    const restore = job.steps.find((step: Step) => step.id === "cache");
+    expect(commandText(restore)).toContain("github restore-build");
+    expect(restore["continue-on-error"]).toBe(true);
+    expect(restore.env.GITHUB_TOKEN).toBe("${{ github.token }}");
+    expect(job.permissions).toEqual({ contents: "read", actions: "read", "pull-requests": "read" });
+    expect(steps.filter((step) => step.uses?.startsWith("actions/checkout@"))).toHaveLength(1);
+    expect(steps.some((step) => step.uses?.startsWith("actions/download-artifact@"))).toBe(false);
+    expect(sources.capture).not.toContain("_kapture-policy");
+    expect(sources.capture).not.toContain("kapture-build-cache.mjs");
+    for (const name of [
+      "Install project dependencies",
+      "Build Storybook",
+      "Validate build boundary",
+    ]) {
+      expect(job.steps.find((step: { name?: string }) => step.name === name).if).toBe(
+        "steps.cache.outputs.cache-directory == ''",
+      );
+    }
+    const artifact = steps.find((step) => step.id === "artifact")!;
+    expect(artifact.if).toBeUndefined();
+    expect(artifact.with.path).toBe(
+      "${{ steps.cache.outputs.cache-directory || 'docs/.kapture/storybook-static' }}",
     );
-    const validate = commandText(steps.find((s) => s.id === "restored-build"));
-    expect(validate).toContain("github validate-build");
-    const directory = validate.match(/--directory\s+(?:"([^"]+)"|'([^']+)'|(\S+))/);
-    expect(directory).not.toBeNull();
-    expect(directory?.[1] ?? directory?.[2] ?? directory?.[3]).toBe(
-      steps.find((s) => s.id === "restore")?.with.path,
+    expect(Number(artifact.with["retention-days"])).toBeGreaterThan(0);
+    const retained = job.steps.find(
+      (step: { name?: string }) => step.name === "Retain reusable base build",
     );
-    expect(Number(steps.find((s) => s.id === "artifact")?.with["retention-days"])).toBeGreaterThan(
-      0,
+    expect(retained.if).toBe(
+      "steps.cache.outputs.cache-name != '' && steps.cache.outputs.cache-directory == ''",
     );
+    expect(retained["continue-on-error"]).toBe(true);
   });
 
   test("initial adoption captures only head and retains artifacts without publishing", () => {
