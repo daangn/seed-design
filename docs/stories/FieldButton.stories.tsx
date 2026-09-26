@@ -3,7 +3,7 @@ import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-desi
 import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES, withChromaticParameters } from "@/stories/utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS, withVisualTestParameters } from "@/stories/utils/parameters";
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 
 const meta = preview.meta({
@@ -76,18 +76,18 @@ const CommonStoryTemplate = meta.story({
 
 export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
