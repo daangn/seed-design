@@ -22,7 +22,7 @@ export async function LynxComponentExample({ name, height, children }: LynxCompo
           <LynxComponentPreview url={entry.web} height={height} />
         </Tab>
         <Tab value="QR 코드">
-          <LynxComponentQRCode bundlePath={entry.lynx} />
+          <LynxComponentQRCode name={name} bundlePath={entry.lynx} />
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>

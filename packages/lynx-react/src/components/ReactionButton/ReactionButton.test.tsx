@@ -69,7 +69,7 @@ describe("ReactionButton", () => {
     const queries = getQueriesForElement(getRenderedRoot());
 
     expect(root).toHaveClass("seed-reaction-button__root--size_small");
-    expect(root.querySelector(".seed-prefix-icon")).toHaveClass("seed-reaction-button__prefixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-reaction-button__prefixIcon");
     expect(queries.getByText("좋아요")).toHaveClass("seed-reaction-button__label");
     expect(queries.getByText("12")).toHaveClass("seed-count", "seed-reaction-button__count");
 
@@ -96,10 +96,11 @@ describe("ReactionButton", () => {
     expect(root).toHaveAttribute("accessibility-traits", "disabled");
   });
 
-  it("keeps content mounted and handles taps while loading", () => {
+  it("keeps content mounted but ignores taps while loading", () => {
     const onPressedChange = vi.fn();
+    const onTap = vi.fn();
     render(
-      <ReactionButton loading onPressedChange={onPressedChange}>
+      <ReactionButton loading onPressedChange={onPressedChange} bindtap={onTap}>
         좋아요
         <Count>12</Count>
       </ReactionButton>,
@@ -117,6 +118,7 @@ describe("ReactionButton", () => {
 
     fireEvent.tap(root);
 
-    expect(onPressedChange).toHaveBeenCalledWith(true);
+    expect(onPressedChange).not.toHaveBeenCalled();
+    expect(onTap).not.toHaveBeenCalled();
   });
 });

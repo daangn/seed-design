@@ -1,3 +1,4 @@
+import { HStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -23,11 +24,13 @@ const SidePanelControlled = () => {
       </ActionButton>
       <SidePanelRoot open={open} onOpenChange={setOpen}>
         <SidePanelContent title="제목" description="설명을 작성할 수 있어요">
-          <SidePanelBody minHeight="x16" paddingX="x6">
+          <SidePanelBody paddingX="x6">
             외부 상태로 패널을 열고 닫을 때도 본문과 푸터 구조는 동일하게 유지됩니다.
           </SidePanelBody>
           <SidePanelFooter>
-            <ActionButton variant="neutralSolid">확인</ActionButton>
+            <HStack gap="x2" justify="flex-end">
+              <ActionButton variant="neutralSolid">확인</ActionButton>
+            </HStack>
           </SidePanelFooter>
         </SidePanelContent>
       </SidePanelRoot>

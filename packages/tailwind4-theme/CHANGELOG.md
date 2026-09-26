@@ -1,5 +1,21 @@
 # @seed-design/tailwind4-theme
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-css@0.12.0
+
+## 2.4.1
+
+### Patch Changes
+
+- dcf17cb: 그라디언트 토큰 참조에 필요한 `@seed-design/css`의 peer dependency 범위를 `^2.7.0`으로 수정합니다. 웹에서 사용하는 경우 `--seed-gradient-fade-mask` 토큰이 제공되는 `2.7.0` 이상 2.x 버전을 설치해야 합니다.
+- dcf17cb: Lynx에서 웹용 CSS 패키지를 필수로 요구하던 문제를 수정합니다.
+
+  `@seed-design/css`와 `@seed-design/lynx-css`를 optional peer로 변경합니다. 웹에서는 `@seed-design/css`, Lynx에서는 `@seed-design/lynx-css`를 설치하고 해당 패키지의 토큰 CSS를 불러와야 합니다.
+
 ## 2.4.0
 
 ### Minor Changes

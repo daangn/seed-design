@@ -5,11 +5,8 @@ import {
   topNavigationIconButton as iconButtonVars,
 } from "../vars/component";
 
-// The spec moved Top Navigation to button-box-based spacing (`root.paddingX` and
-// `main.paddingLeft` are now `$dimension.x1_5`), but this recipe has no negative-margin
-// compensation on the icon buttons the way the web one does, so following the spec would shift
-// the icon gap from 26px to 16px. Pinned to the pre-change values until DES-2511 settles which
-// of the two platforms is right.
+// Keep the web recipe's icon-based spacing and negative margins together until DES-2511
+// migrates both platforms to button-box-based spacing.
 const PINNED_ROOT_PADDING_X = dimension.x4;
 const PINNED_LEFT_PADDING_RIGHT = "16px";
 
@@ -164,6 +161,13 @@ export const appBar = defineSlotRecipe({
       background: "#00000000",
       padding: 0,
       borderRadius: "var(--seed-radius-r1)",
+      // Keep per-button edge compensation in the recipe so caller styles remain intact.
+      "&.seed-app-bar__icon-button-edge-leading": {
+        marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
+      "&.seed-app-bar__icon-button-edge-trailing": {
+        marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
     },
     icon: {
       flexShrink: 0,

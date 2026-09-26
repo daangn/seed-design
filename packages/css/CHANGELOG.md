@@ -1,5 +1,17 @@
 # @seed-design/css
 
+## 2.8.3
+
+### Patch Changes
+
+- b956124: `TagGroup` 아이콘을 텍스트의 cap-height 중심에 맞추고, 인라인 높이가 늘어나지 않도록 수정합니다.
+
+## 2.8.2
+
+### Patch Changes
+
+- adac29a: `Wheel Picker`의 선택 항목이 바뀔 때 회색 테두리가 잠깐 나타나는 문제를 수정합니다.
+
 ## 2.8.1
 
 ### Patch Changes

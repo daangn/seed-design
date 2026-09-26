@@ -879,6 +879,12 @@
               "title": "Loading",
               "description": "로딩을 관리하는 데 필요한 요소, 시간에 따른 적합한 선택지와 단계별로 사용자 경험을 최적화하는 방법에 대해 소개합니다.",
               "docUrl": "/patterns/loading"
+            },
+            {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "화면 가장자리는 시스템 UI나 기기 형태에 가려질 수 있습니다. 요소를 가려지지 않는 안전 영역(Safe Area) 안에 둘지, 화면 끝까지 채울지 정하는 기준을 설명합니다.",
+              "docUrl": "/patterns/safe-area"
             }
           ]
         }
@@ -1891,7 +1897,7 @@
             {
               "id": "menu-sheet",
               "title": "Menu Sheet",
-              "description": "Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
+              "description": "Swipeable Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.",
               "docUrl": "/react/stackflow/menu-sheet",
               "snippetKey": "react/ui:menu-sheet",
               "snippets": [
@@ -2064,6 +2070,19 @@
               "docUrl": "/lynx/components/action-button"
             },
             {
+              "id": "alert-dialog",
+              "title": "Alert Dialog",
+              "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/alert-dialog",
+              "snippetKey": "lynx/ui:alert-dialog",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "alert-dialog.tsx"
+                }
+              ]
+            },
+            {
               "id": "app-bar",
               "title": "AppBar",
               "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
@@ -2073,6 +2092,32 @@
                 {
                   "label": "react",
                   "path": "app-bar.tsx"
+                }
+              ]
+            },
+            {
+              "id": "attachment-display-field",
+              "title": "Attachment Display Field",
+              "description": "외부 소스에서 제공된 미디어를 표시하고 호스트 동작으로 관리하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/attachment-display-field",
+              "snippetKey": "lynx/ui:attachment-display-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-display-field.tsx"
+                }
+              ]
+            },
+            {
+              "id": "attachment-field",
+              "title": "Attachment Field",
+              "description": "호스트 네이티브 파일 선택 결과를 받아 첨부 항목을 표시하고 관리하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/attachment-field",
+              "snippetKey": "lynx/ui:attachment-field",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "attachment-field.tsx"
                 }
               ]
             },
@@ -2134,10 +2179,42 @@
               "docUrl": "/lynx/components/chip"
             },
             {
+              "id": "chip-tabs",
+              "title": "Chip Tabs",
+              "description": "Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용합니다.",
+              "docUrl": "/lynx/components/chip-tabs",
+              "snippetKey": "lynx/ui:chip-tabs",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "chip-tabs.tsx"
+                }
+              ]
+            },
+            {
               "id": "cli",
               "title": "CLI",
               "description": "Lynx 프로젝트에서 SEED CLI를 사용하는 방법을 안내해요.",
               "docUrl": "/lynx/getting-started/cli"
+            },
+            {
+              "id": "contextual-floating-button",
+              "title": "Contextual Floating Button",
+              "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
+              "docUrl": "/lynx/components/contextual-floating-button"
+            },
+            {
+              "id": "dialog",
+              "title": "Dialog",
+              "description": "화면 중앙에 떠서 사용자의 주의를 모으고, 제목·본문·푸터를 담는 모달형 컴포넌트입니다.",
+              "docUrl": "/lynx/components/dialog",
+              "snippetKey": "lynx/ui:dialog",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "dialog.tsx"
+                }
+              ]
             },
             {
               "id": "divider",
@@ -2152,16 +2229,55 @@
               "docUrl": "/lynx/getting-started/feature-flags"
             },
             {
+              "id": "floating-action-button",
+              "title": "Floating Action Button",
+              "description": "화면 위에 떠 있으며 주요 액션을 실행하는 버튼입니다.",
+              "docUrl": "/lynx/components/floating-action-button",
+              "snippetKey": "lynx/ui:floating-action-button",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "floating-action-button.tsx"
+                }
+              ]
+            },
+            {
               "id": "h-stack",
               "title": "HStack",
               "description": "HStack 컴포넌트는 Lynx에서 자식 요소를 가로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
               "docUrl": "/lynx/foundation/layout/h-stack"
             },
             {
+              "id": "help-bubble",
+              "title": "Help Bubble",
+              "description": "사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 말풍선입니다.",
+              "docUrl": "/lynx/components/help-bubble",
+              "snippetKey": "lynx/ui:help-bubble",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "help-bubble.tsx"
+                }
+              ]
+            },
+            {
               "id": "iconography",
               "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
               "docUrl": "/lynx/foundation/iconography"
+            },
+            {
+              "id": "identity-placeholder",
+              "title": "Identity Placeholder",
+              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+              "docUrl": "/lynx/components/identity-placeholder",
+              "snippetKey": "lynx/ui:identity-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "identity-placeholder.tsx"
+                }
+              ]
             },
             {
               "id": "input-button",
@@ -2250,6 +2366,19 @@
               ]
             },
             {
+              "id": "quantity-picker",
+              "title": "Quantity Picker",
+              "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/quantity-picker",
+              "snippetKey": "lynx/ui:quantity-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "quantity-picker.tsx"
+                }
+              ]
+            },
+            {
               "id": "radio-group",
               "title": "Radio Group",
               "description": "사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.",
@@ -2288,6 +2417,12 @@
               "docUrl": "/lynx/components/concepts/scale-feedback"
             },
             {
+              "id": "scroll-fog",
+              "title": "Scroll Fog",
+              "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
+              "docUrl": "/lynx/components/scroll-fog"
+            },
+            {
               "id": "segmented-control",
               "title": "Segmented Control",
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
@@ -2297,6 +2432,19 @@
                 {
                   "label": "react",
                   "path": "segmented-control.tsx"
+                }
+              ]
+            },
+            {
+              "id": "select",
+              "title": "Select",
+              "description": "트리거를 눌러 native overlay의 목록에서 값을 선택하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/select",
+              "snippetKey": "lynx/ui:select",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "select.tsx"
                 }
               ]
             },
@@ -2314,10 +2462,23 @@
               ]
             },
             {
-              "id": "styling",
-              "title": "Styling with Tailwind",
-              "description": "Lynx에서 SEED 디자인 토큰을 Tailwind CSS v3 유틸리티 클래스로 사용하는 방법을 안내합니다.",
-              "docUrl": "/lynx/foundation/layout/styling"
+              "id": "skeleton",
+              "title": "Skeleton",
+              "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+              "docUrl": "/lynx/components/skeleton"
+            },
+            {
+              "id": "slider",
+              "title": "Slider",
+              "description": "지정된 범위에서 하나 또는 두 개의 값을 선택하는 슬라이더 컴포넌트입니다.",
+              "docUrl": "/lynx/components/slider",
+              "snippetKey": "lynx/ui:slider",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "slider.tsx"
+                }
+              ]
             },
             {
               "id": "swipeable-menu-sheet",
@@ -2372,6 +2533,18 @@
               ]
             },
             {
+              "id": "tailwind-css-3",
+              "title": "Tailwind CSS 3",
+              "description": "Lynx에서 Tailwind CSS v3와 SEED 디자인 토큰을 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/tailwind-css-3"
+            },
+            {
+              "id": "tailwind-css-4",
+              "title": "Tailwind CSS 4",
+              "description": "Lynx에서 Tailwind CSS v4를 사용하기 위한 PostCSS 설정과 호환성 제한을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/tailwind-css-4"
+            },
+            {
               "id": "text",
               "title": "Text",
               "description": "Text 컴포넌트는 Lynx에서 SEED 타이포그래피 토큰을 적용해 텍스트를 렌더링하는 컴포넌트입니다.",
@@ -2393,7 +2566,7 @@
               "id": "theming",
               "title": "Theming",
               "description": "Lynx 환경에서 SEED의 테마 시스템을 활용하는 방법을 알아봅니다.",
-              "docUrl": "/lynx/getting-started/theming"
+              "docUrl": "/lynx/getting-started/styling/theming"
             },
             {
               "id": "use-controllable-state",

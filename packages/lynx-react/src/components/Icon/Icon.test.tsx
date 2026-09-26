@@ -1,10 +1,13 @@
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+
 import * as React from "@lynx-js/react";
 import { act, render, waitSchedule } from "@lynx-js/react/testing-library";
 import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
-import { InternalIcon, PrefixIcon } from "./Icon";
+import { Icon, IconSlotProvider, InternalIcon, PrefixIcon, SuffixIcon } from "./Icon";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -94,15 +97,13 @@ describe("InternalIcon", () => {
     await waitSchedule();
 
     const { image } = getSourceAndImage();
-    expect(frames.size).toBe(0);
-    expect(image.getAttribute("tint-color")).toBeNull();
 
     rerender(renderIcon("checked"));
     await waitSchedule();
 
     expect(frames.size).toBe(1);
-    expect(image.getAttribute("tint-color")).toBeNull();
-
+    // The immediate read uses the old native style; the next frame must refresh it.
+    expect(image.getAttribute("tint-color")).toBe("rgb(134, 139, 148)");
     computedColor = "rgb(255, 102, 0)";
     runNextFrame();
 
@@ -147,5 +148,56 @@ describe("PrefixIcon", () => {
 
     expect(frames.size).toBe(0);
     expect(getSourceAndImage().image.getAttribute("tint-color")).toBeNull();
+  });
+});
+
+describe("icon recipe ownership", () => {
+  it.each([
+    [Icon, "icon", "seed-icon"],
+    [PrefixIcon, "prefixIcon", "seed-prefix-icon"],
+    [SuffixIcon, "suffixIcon", "seed-suffix-icon"],
+  ] as const)("keeps fallback styles exclusive to unbound %s", (Component, slot, baseClass) => {
+    const { container, rerender } = render(<Component icon={<TestIcon />} />);
+    expect(container.querySelector(`.${baseClass}`)).not.toBeNull();
+    rerender(
+      <IconSlotProvider value={{ classNames: { [slot]: "test-recipe-icon" }, deps: [] }}>
+        <Component size={28} color="#2475e8" className="user-icon" icon={<TestIcon />} />
+      </IconSlotProvider>,
+    );
+    const wrapper = container.querySelector(".test-recipe-icon")!;
+    expect(wrapper.classList.contains(`${baseClass}-slot`)).toBe(true);
+    expect(wrapper.classList.contains("user-icon")).toBe(true);
+    expect(wrapper.classList.contains(baseClass)).toBe(false);
+    expect(wrapper.getAttribute("style")).toContain("28px");
+  });
+});
+
+// This checks generated CSS cascade only; native state/theme invalidation is verified separately.
+describe("generated icon CSS import order", () => {
+  const { JSDOM } = createRequire(`${process.cwd()}/package.json`)("jsdom") as {
+    JSDOM: new (html: string) => { window: Window & typeof globalThis };
+  };
+  const base = readFileSync("../lynx-css/base.css", "utf8");
+  const recipe = readFileSync("../lynx-css/recipes/callout.css", "utf8");
+
+  it("keeps the legacy standalone fallback selectors", () => {
+    const dom = new JSDOM(`<style>${base}</style><div class="seed-suffix-icon"></div>`);
+    const style = dom.window.getComputedStyle(dom.window.document.querySelector("div")!);
+    expect(style.width).toBe("var(--seed-suffix-icon-size)");
+    expect(style.height).toBe("var(--seed-suffix-icon-size)");
+    expect(style.color).toBe("var(--seed-suffix-icon-color, currentcolor)");
+    dom.window.close();
+  });
+
+  it.each(["base-first", "recipe-first"])("preserves Callout slot styles with %s", (order) => {
+    const dom = new JSDOM(`<style>${order === "base-first" ? base + recipe : recipe + base}</style>
+      <div class="seed-suffix-icon-slot seed-callout__suffixIcon seed-callout__suffixIcon--tone_neutral"></div>`);
+    const icon = dom.window.document.querySelector("div")!;
+    const style = dom.window.getComputedStyle(icon);
+    expect(style.width).toBe("var(--seed-dimension-x4)");
+    expect(style.height).toBe("var(--seed-dimension-x4)");
+    expect(style.color).toBe("var(--seed-color-fg-neutral)");
+    expect(style.flexShrink).toBe("0");
+    dom.window.close();
   });
 });

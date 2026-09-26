@@ -176,10 +176,10 @@ test("API failures are cache misses, not capture failures", async () => {
   expect(f.outputs).not.toHaveProperty("artifact-id");
 });
 
-// Reproduce the actual Git sparse-checkout boundary, not a full-checkout mock.
+// 전체 checkout mock이 놓치는 파일 누락을 실제 Git sparse checkout으로 재현한다.
 test("the workflow sparse checkout contains every cache policy input", async () => {
   const checkout = config.jobs["build-base"].steps.find(
-    (step: any) => step.with?.path === "_kapture-policy",
+    (step: { with?: Record<string, string> }) => step.with?.path === "_kapture-policy",
   );
   const directory = await mkdtemp(join(tmpdir(), "seed-kapture-checkout-"));
   const git = (...args: string[]) => {

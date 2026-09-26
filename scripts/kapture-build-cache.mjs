@@ -6,8 +6,7 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-// Temporary consumer implementation until Kapture's restore-build is released.
-// Workflow values own storage policy; GitHub artifact expiration owns the TTL.
+// Kapture restore-build 배포 전까지 유지한다. 보관 정책은 YAML과 GitHub 만료 상태를 따른다.
 export function cacheName(prefix, branch, sha, policyDigest) {
   if (
     !/^[a-zA-Z0-9_-]+$/.test(prefix) ||

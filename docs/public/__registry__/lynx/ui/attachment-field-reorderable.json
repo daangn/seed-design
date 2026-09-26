@@ -1,0 +1,32 @@
+{
+  "id": "attachment-field-reorderable",
+  "dependencies": [
+    "@karrotmarket/lynx-monochrome-icon",
+    "@seed-design/lynx-react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "attachment-field"
+      ]
+    },
+    {
+      "registryId": "lib",
+      "itemIds": [
+        "attachment-sortable"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "attachment-field-reorderable.tsx",
+      "content": "/**\n * @file ui:attachment-field-reorderable\n * @requires @seed-design/lynx-react@>=0.8.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.12.0 <1.0.0\n * @requires @karrotmarket/lynx-monochrome-icon@>=1.20.0 <2.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport { AttachmentInput as SeedAttachmentInput } from \"@seed-design/lynx-react\";\nimport IconCameraFill from \"@karrotmarket/lynx-monochrome-icon/IconCameraFill\";\nimport IconPaperclipFill from \"@karrotmarket/lynx-monochrome-icon/IconPaperclipFill\";\nimport {\n  AttachmentInputItem,\n  type AttachmentInputItemProps,\n  type AttachmentInputProps,\n} from \"./attachment-field\";\nimport { HorizontalReorderItem, HorizontalReorderList } from \"../lib/attachment-sortable\";\ntype AttachmentInputContext = React.ComponentProps<typeof SeedAttachmentInput.Context>;\nlet nextAttachmentReorderId = 0;\nexport type AttachmentInputReorderableProps = {\n  id?: string;\n  scrollEdgeOffset?: number;\n  onDragStateChange?: (dragging: boolean) => void;\n} & (\n  | { children: AttachmentInputContext[\"children\"]; onRetry?: never }\n  | { children?: undefined; onRetry?: AttachmentInputProps[\"onRetry\"] }\n);\n\n/**\n * Horizontal native long-press reorder for AttachmentInput.\n *\n * The gesture only emits a reorder intent; AttachmentInput remains the source\n * of truth for entries and applies disabled/readOnly guards.\n *\n * @see https://seed-design.io/lynx/components/attachment-field\n */\nexport const AttachmentInputReorderable = React.forwardRef<\n  React.ComponentRef<typeof SeedAttachmentInput.Container>,\n  AttachmentInputReorderableProps\n>(({ children, onRetry, id, scrollEdgeOffset, onDragStateChange }, ref) => {\n  const [generatedId] = React.useState(() => `instance-${nextAttachmentReorderId++}`);\n  const boundaryId = id ? `${id}-container` : `attachment-input-reorder-container-${generatedId}`;\n  const reorderId = id ? `${id}-list` : `attachment-input-reorder-list-${generatedId}`;\n\n  return (\n    <SeedAttachmentInput.Context>\n      {(context) => {\n        const { acceptedFileEntries, reorderFileEntry, disabled, readOnly, updateFileEntryStatus } =\n          context;\n        return (\n          <HorizontalReorderList\n            items={acceptedFileEntries}\n            getItemKey={(entry) => entry.id}\n            disabled={disabled}\n            readOnly={readOnly}\n            id={reorderId}\n            scrollableBoundaryId={boundaryId}\n            scrollEdgeOffset={scrollEdgeOffset}\n            onReorder={reorderFileEntry}\n            onDragStateChange={onDragStateChange}\n          >\n            {({ onScroll, dragging }) => (\n              <SeedAttachmentInput.Container\n                ref={ref}\n                id={boundaryId}\n                enable-scroll={!dragging}\n                main-thread:bindscroll={onScroll}\n              >\n                <SeedAttachmentInput.Trigger accessibility-label=\"파일 선택\">\n                  <SeedAttachmentInput.TriggerIcon\n                    image={<IconCameraFill />}\n                    general={<IconPaperclipFill />}\n                  />\n                  <SeedAttachmentInput.TriggerItemCount />\n                </SeedAttachmentInput.Trigger>\n                <SeedAttachmentInput.ItemGroup>\n                  <SeedAttachmentInput.Context>\n                    {typeof children === \"function\"\n                      ? children\n                      : ({ acceptedFileEntries: entries }) =>\n                          entries.map((fileEntry, index) => (\n                            <SortableAttachmentInputItem\n                              key={fileEntry.id}\n                              fileEntry={fileEntry}\n                              index={index}\n                              {...(onRetry\n                                ? {\n                                    onRetry: () => onRetry(fileEntry, { updateFileEntryStatus }),\n                                  }\n                                : {})}\n                            />\n                          ))}\n                  </SeedAttachmentInput.Context>\n                </SeedAttachmentInput.ItemGroup>\n              </SeedAttachmentInput.Container>\n            )}\n          </HorizontalReorderList>\n        );\n      }}\n    </SeedAttachmentInput.Context>\n  );\n});\nAttachmentInputReorderable.displayName = \"AttachmentInputReorderable\";\n\nexport type SortableAttachmentInputItemProps = AttachmentInputItemProps & {\n  index: number;\n  children?: (dragging: boolean) => React.ReactNode;\n};\n\nexport const SortableAttachmentInputItem = React.forwardRef<\n  React.ComponentRef<typeof AttachmentInputItem>,\n  SortableAttachmentInputItemProps\n>(({ index, fileEntry, children, ...props }, ref) => (\n  <HorizontalReorderItem itemId={fileEntry.id} index={index}>\n    {(dragging) =>\n      children ? (\n        children(dragging)\n      ) : (\n        <AttachmentInputItem ref={ref} fileEntry={fileEntry} dragging={dragging} {...props} />\n      )\n    }\n  </HorizontalReorderItem>\n));\nSortableAttachmentInputItem.displayName = \"SortableAttachmentInputItem\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+        "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+      }
+    }
+  ]
+}

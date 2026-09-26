@@ -1,0 +1,211 @@
+---
+title: Alert Dialog
+description: 사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - overlay
+featured: true
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/alert-dialog/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:alert-dialog
+```
+
+<LynxManualInstallation name="alert-dialog" />
+
+`@seed-design/lynx-react`는 `AlertDialog` namespace API를 제공합니다. 저수준 package API에서는 `AlertDialog.Root`, `AlertDialog.Trigger`, `AlertDialog.Positioner`, `AlertDialog.Backdrop`, `AlertDialog.Content`와 slot 컴포넌트를 조합할 수 있습니다. Registry는 자주 사용하는 조합을 flat export로 제공하므로 `AlertDialogRoot`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogFooter`, `AlertDialogAction`을 `@/components/ui/alert-dialog`에서 가져옵니다. Registry의 `AlertDialogContent`는 `Positioner`와 `Backdrop(clickToClose={false})`를 내부에서 조립합니다.
+
+## Usage
+
+```tsx
+import { ActionButton } from "@seed-design/lynx-react";
+import {
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+export function App() {
+  return (
+    <AlertDialogRoot>
+      <AlertDialogTrigger>
+        <ActionButton variant="neutralSolid">열기</ActionButton>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>주의</AlertDialogTitle>
+          <AlertDialogDescription>이 작업은 되돌릴 수 없습니다.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
+          <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialogRoot>
+  );
+}
+```
+
+`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
+
+## Props
+
+### `AlertDialogRoot`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogRootProps" />
+
+`open`, `defaultOpen`, `onOpenChange`로 상태를 제어할 수 있으며 `skipAnimation`으로 열림·닫힘 transition을 건너뛸 수 있습니다.
+
+### `AlertDialogTrigger`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogTriggerProps" />
+
+### `AlertDialogContent`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogContentProps" />
+
+`container`와 `overlayLevel`은 내부 Positioner의 overlay 렌더링 위치와 순서를 지정합니다.
+
+### `AlertDialogHeader`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogHeaderProps" />
+
+### `AlertDialogTitle`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogTitleProps" />
+
+### `AlertDialogDescription`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogDescriptionProps" />
+
+### `AlertDialogFooter`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogFooterProps" />
+
+### `AlertDialogAction`
+
+<react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogActionProps" />
+
+`AlertDialogAction`은 `ActionButton`의 variant, size 등 공개 props를 함께 사용할 수 있습니다.
+
+## Examples
+
+### Responsive Wrapping
+
+React의 `ResponsivePair` 대신 Footer 안에 명시적인 세로 action layout을 구성합니다. Lynx에서는 native `view`의 `flex-direction` 등을 사용해 긴 버튼 레이블이 세로로 배치되도록 조정합니다.
+
+<LynxComponentExample name="lynx/alert-dialog/wrap" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/wrap.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Single Action
+
+확인 또는 닫기처럼 하나의 action만 제공하는 Alert Dialog입니다.
+
+<LynxComponentExample name="lynx/alert-dialog/single" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/single.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Neutral Secondary Action
+
+보조 action에 `neutralWeak`를 사용하고, 주요 action과 시각적 우선순위를 구분합니다.
+
+<LynxComponentExample name="lynx/alert-dialog/neutral" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/neutral.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Nonpreferred
+
+주요 흐름에서 권장하지 않는 action 조합을 표현하는 예제입니다.
+
+<LynxComponentExample name="lynx/alert-dialog/nonpreferred" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/nonpreferred.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Critical Action
+
+삭제처럼 되돌리기 어렵거나 위험한 action에는 `criticalSolid`를 사용합니다.
+
+<LynxComponentExample name="lynx/alert-dialog/critical" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/critical.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Alert Dialog를 열고 닫으려면 `open`과 boolean을 받는 `onOpenChange`로 상태를 제어합니다.
+
+<LynxComponentExample name="lynx/alert-dialog/controlled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Prevent Close
+
+Lynx의 `AlertDialogAction`에는 React 이벤트의 `preventDefault()` 방식이 없습니다. controlled Root에서 `onOpenChange(false)` 요청을 조건에 따라 무시하면 닫힘을 막을 수 있습니다.
+
+<LynxComponentExample name="lynx/alert-dialog/prevent-close" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/prevent-close.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Portalled
+
+`AlertDialogContent`의 `container`를 지정하면 native overlay 레이어에 렌더링됩니다. `overlayLevel`로 overlay 레이어의 표시 순서를 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/alert-dialog/portalled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/portalled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Skip Animation
+
+`AlertDialogRoot`의 `skipAnimation` prop을 사용하여 Alert Dialog의 enter/exit transition을 건너뛸 수 있습니다.
+
+<LynxComponentExample name="lynx/alert-dialog/skip-animation" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/skip-animation.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- **상태 callback**: Lynx UI Dialog의 `onShowChange`는 boolean만 전달합니다. 따라서 React의 `onOpenChange` 두 번째 인자인 `details.reason`과 `open-change-reason` 예제는 지원하지 않습니다. 원인이 필요하면 앱이 소유한 Trigger나 action의 이벤트 핸들러에서 원인을 별도 상태로 기록하고, `onOpenChange(open: boolean)`으로 열린 상태를 반영하세요.
+- **닫힘 동작**: Registry의 Backdrop은 `clickToClose={false}`로 조립됩니다. 웹의 외부 영역 클릭·ESC 키 기반 닫힘 원인을 Lynx에서 구분하거나 권장할 수 없습니다. 필요한 닫기 흐름은 앱이 소유한 버튼과 controlled 상태로 구성하세요.
+- **Trigger 합성**: Lynx는 React의 `asChild`를 제공하지 않으며 Trigger가 자식을 감싸는 native `view`를 렌더링합니다.
+- **ref와 focus**: DOM ref forwarding이나 웹의 자동 focus 관리 API를 제공하지 않습니다. Lynx native 접근성 속성과 host의 접근성 흐름을 사용하세요.
+- **Portal / overlay**: React Portal 대신 `AlertDialogContent`의 `container`, `overlayLevel`로 native overlay 위치와 순서를 지정합니다.
+- **Responsive action layout**: React의 `ResponsivePair`는 제공하지 않습니다. Footer 안의 native `view`에 명시적인 방향·간격 스타일을 지정하세요.
+
+### Stackflow
+
+React의 `stackflow` 예제는 React/Stackflow 전용 내비게이션 통합을 다루므로 Lynx에서는 직접 대응 예제를 제공하지 않습니다. Lynx 앱에서 Alert Dialog와 화면 전환을 함께 사용해야 한다면 앱의 내비게이션 계층에서 Stackflow에 해당하는 내비게이션 상태와 Alert Dialog의 `open` 상태를 연결하세요.

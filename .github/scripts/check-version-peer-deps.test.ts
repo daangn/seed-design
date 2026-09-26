@@ -187,6 +187,21 @@ describe("Version Packages peer dependency 검사", () => {
     ).toMatchObject({ lynxReact: { checked: true } });
   });
 
+  test("Lynx CSS patch 하한을 같은 마이너의 후속 릴리스에서 보존한다", () => {
+    expect(
+      validateVersionPeerDependencies(
+        createLynxFixture({
+          baseLynxCssVersion: "0.11.1",
+          baseLynxReactVersion: "0.7.1",
+          basePeerRange: "0.0.0 || >=0.11.1 <1.0.0",
+          lynxCssVersion: "0.11.2",
+          lynxReactVersion: "0.7.2",
+          peerRange: "0.0.0 || >=0.11.1 <1.0.0",
+        }),
+      ),
+    ).toMatchObject({ lynxReact: { checked: true } });
+  });
+
   test("Version Packages PR에서 신뢰된 검사 코드로 정확한 head를 검사한다", async () => {
     const workflow = await Bun.file(
       join(repositoryRoot, ".github/workflows/version-peer-deps-merge-blocker.yml"),
@@ -226,8 +241,15 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain("permission-contents: write");
     expect(workflow).toContain("permission-pull-requests: write");
     expect(workflow).toContain(
-      `GITHUB_TOKEN: ${githubExpression("steps.app-token.outputs.token")}`,
+      `github-token: ${githubExpression("steps.app-token.outputs.token")}`,
     );
     expect(workflow).not.toContain(`GITHUB_TOKEN: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).not.toContain(`github-token: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).toContain("publish-script: bun release");
+    expect(workflow).toContain("version-script: bun version");
+    expect(workflow).toContain("push-with-git-cli: true");
+    expect(workflow).toContain(
+      `published-packages: ${githubExpression("steps.changesets.outputs.published-packages")}`,
+    );
   });
 });

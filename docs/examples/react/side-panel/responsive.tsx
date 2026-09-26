@@ -1,4 +1,4 @@
-import { Box, VStack } from "@seed-design/react";
+import { Box, HStack, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   ResponsiveSidePanelBody,
@@ -26,7 +26,9 @@ const SidePanelResponsive = () => {
           </VStack>
         </ResponsiveSidePanelBody>
         <ResponsiveSidePanelFooter>
-          <ActionButton variant="neutralSolid">확인</ActionButton>
+          <HStack gap="x2" justify="flex-end">
+            <ActionButton variant="neutralSolid">확인</ActionButton>
+          </HStack>
         </ResponsiveSidePanelFooter>
       </ResponsiveSidePanelContent>
     </ResponsiveSidePanelRoot>

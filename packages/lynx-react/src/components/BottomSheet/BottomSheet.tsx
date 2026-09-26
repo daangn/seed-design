@@ -392,26 +392,8 @@ function createTextSlot(
 export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
-
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
-export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
-  unknown,
-  BottomSheetBodyProps
->((props, ref) => {
-  const { children, className, style } = props;
-  const classNames = useClassNames();
-
-  return (
-    <scroll-view
-      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-      scroll-y
-      className={clsx(classNames.body, className)}
-      style={style as never}
-    >
-      {children}
-    </scroll-view>
-  );
-});
+export const BottomSheetBody = createViewSlot("body");
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}

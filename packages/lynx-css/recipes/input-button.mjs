@@ -11,6 +11,10 @@ const inputButtonSlotNames = [
     "seed-input-button__button"
   ],
   [
+    "content",
+    "seed-input-button__content"
+  ],
+  [
     "baseStroke",
     "seed-input-button__baseStroke"
   ],
@@ -56,7 +60,12 @@ const defaultVariant = {
   "readOnly": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "disabled": false,
+    "readOnly": false
+  }
+];
 
 export const inputButtonVariantMap = {
   "size": [

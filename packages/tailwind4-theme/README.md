@@ -4,23 +4,29 @@ SEED 디자인 시스템의 디자인 토큰을 Tailwind CSS 4.0에서 사용할
 
 ## 설치
 
-```bash
-npm install @seed-design/tailwind4-theme
-```
-
-또는
+웹에서는 `@seed-design/css`, Lynx에서는 `@seed-design/lynx-css`를 함께 설치하세요. 두 패키지는 optional peer이므로 패키지 매니저가 둘 중 하나의 설치를 강제하지 않습니다. 플랫폼에 맞는 패키지를 직접 설치하고 토큰 CSS를 import해야 합니다.
 
 ```bash
-yarn add @seed-design/tailwind4-theme
+# 웹
+bun add @seed-design/tailwind4-theme @seed-design/css tailwindcss@4
+
+# Lynx
+bun add @seed-design/tailwind4-theme @seed-design/lynx-css tailwindcss@4
 ```
+
+웹 CSS peer 범위는 `^2.7.0`입니다. 이 버전부터 theme이 참조하는 `--seed-gradient-fade-mask` 토큰을 제공합니다.
+
+Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-design.io/lynx/getting-started/styling/tailwind-css-4)를 참고하세요. 아래 예제는 웹 기준입니다.
 
 ## 사용 방법
 
 1. 프로젝트에 SEED 디자인 토큰 CSS 파일이 먼저 로드되어 있어야 합니다.
    ```js
    import '@seed-design/css/base.css';
-   // or
+   // 또는 컴포넌트 스타일까지 포함
    import '@seed-design/css/all.css';
+   // Lynx에서는 위 웹 CSS 대신 사용
+   // import '@seed-design/lynx-css/base.css';
    ```
 
 2. CSS 파일에 Tailwind CSS와 SEED 디자인 토큰을 가져옵니다.

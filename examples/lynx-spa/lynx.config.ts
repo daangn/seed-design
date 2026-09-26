@@ -11,6 +11,7 @@ import { pluginLynxPlayground } from "../../docs/scripts/lynx-examples/playgroun
 const LYNX_ICON_ASSET_PATTERN =
   /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//;
 const CONFIG_DIRECTORY = dirname(fileURLToPath(import.meta.url));
+const ASSET_PREFIX = process.env.ASSET_PREFIX ?? process.env.PORTLESS_URL;
 
 function pluginCompatibleQRCode(): RsbuildPlugin {
   return {
@@ -64,8 +65,6 @@ export default defineConfig(async () => ({
     pluginReactLynx({
       targetSdkVersion: "3.9",
       globalPropsMode: "reactive",
-      enableCSSSelector: true,
-      enableCSSInvalidation: true,
     }),
     pluginLynxConfig({
       enableCSSInheritance: true,
@@ -75,6 +74,7 @@ export default defineConfig(async () => ({
     }),
   ],
   dev: {
+    assetPrefix: ASSET_PREFIX,
     writeToDisk: false,
   },
   resolve: {
@@ -86,7 +86,7 @@ export default defineConfig(async () => ({
     port: Number(process.env.PORT) || 3000,
   },
   output: {
-    assetPrefix: process.env.ASSET_PREFIX ?? process.env.PORTLESS_URL ?? "/",
+    assetPrefix: ASSET_PREFIX ?? "/",
     filename: {
       bundle: "[name].[platform].bundle",
     },

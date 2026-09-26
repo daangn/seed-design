@@ -65,7 +65,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
           __html: "::-webkit-scrollbar{display:none}",
         }}
       />
-      <AppScreen>
+      <AppScreen layerOffsetBottom="safeArea">
         <AppBar>
           <AppBarMain title="Demo" />
         </AppBar>
@@ -89,7 +89,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
                 <Recommendations />
               </TabsContent>
               <TabsContent value={TABS[1].value}>
-                <VStack py="x12" pb="safeArea">
+                <VStack py="x12">
                   <ResultSection
                     asset={
                       <Box pb="x4">
@@ -156,7 +156,7 @@ export function Recommendations() {
   };
 
   return (
-    <VStack gap="spacingY.componentDefault" py="x4" pb="safeArea">
+    <VStack gap="spacingY.componentDefault" py="x4">
       <Flex
         gap="spacingX.betweenChips"
         px="spacingX.globalGutter"

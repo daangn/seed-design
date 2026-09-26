@@ -11,6 +11,10 @@ const pageBannerSlotNames = [
     "seed-page-banner__content"
   ],
   [
+    "scaleContent",
+    "seed-page-banner__scaleContent"
+  ],
+  [
     "body",
     "seed-page-banner__body"
   ],

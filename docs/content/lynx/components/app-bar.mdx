@@ -120,10 +120,84 @@ export function Header() {
 
 왼쪽과 오른쪽에는 icon button 또는 custom slot을 배치할 수 있습니다. Cupertino theme에서는 좌우 슬롯 폭을 읽어 가운데 title이 치우치지 않도록 padding을 보정합니다.
 
+`AppBarLeft`와 `AppBarRight` 모두 첫 번째 자식이 아이콘 버튼이면 왼쪽, 마지막 자식이 아이콘 버튼이면 오른쪽 여백을 보정합니다. 버튼 하나만 있으면 양쪽을 모두 보정합니다. 44px 터치 영역과 24px 아이콘 사이의 여백만큼 음수 margin을 적용해, 터치 영역을 유지하면서 화면 가장자리와 제목 쪽 간격을 React의 슬롯 보정 규칙에 맞춥니다.
+
+슬롯이 가장자리 위치를 Context로 전달하므로 `AppBarBackButton` / `AppBarCloseButton`과 직접 만든 `AppBarIconButton`에 자동으로 적용됩니다. Fragment와 조건부 자식을 지원하며, `AppBarSlot`이나 native 레이아웃 박스 내부에는 자동 보정을 전달하지 않습니다. `edge="leading" | "trailing" | "both"`를 명시하면 자동 보정 방향을 덮어쓸 수 있습니다.
+
 <LynxComponentExample name="lynx/app-bar/left-and-right-actions">
   ```json doc-gen:file
   {
     "file": "examples/lynx/app-bar/left-and-right-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`AppBarBackButton` / `AppBarCloseButton` 외에 다른 아이콘을 쓰고 싶다면 `AppBarIconButton`의 `icon` prop에 Lynx 아이콘을 전달해 직접 구성합니다. 가장자리에 놓이면 위와 동일하게 자동으로 정렬됩니다.
+
+```tsx
+import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "@/components/ui/app-bar";
+
+export function Header({ goBack }: { goBack: () => void }) {
+  return (
+    <AppBar>
+      <AppBarLeft>
+        <AppBarBackButton bindtap={goBack} />
+      </AppBarLeft>
+      <AppBarMain title="동네생활" />
+      <AppBarRight>
+        <AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
+      </AppBarRight>
+    </AppBar>
+  );
+}
+```
+
+### Multiple / Conditional Actions
+
+슬롯에 여러 버튼을 넣으면 첫 번째와 마지막 버튼에만 가장자리 여백 보정이 적용됩니다. 가운데 버튼의 터치 영역은 그대로 유지됩니다. 조건부 렌더링으로 버튼이 하나만 남으면 양쪽 여백 보정으로 자동 변경됩니다.
+
+아래 예제에서 검색·닫기를 숨기거나 다시 표시해도 제목은 가운데에 유지됩니다. 각 아이콘 버튼을 눌러 마지막 액션도 확인할 수 있습니다.
+
+<LynxComponentExample name="lynx/app-bar/multiple-actions">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/multiple-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Custom Slot / Explicit Edge
+
+직접 만든 레이아웃 박스나 `AppBarSlot` 안의 버튼에는 가장자리 보정을 자동 적용하지 않습니다. 내부 배치를 직접 관리할 때만 `edge`로 방향을 지정하세요. 일반적인 `AppBarLeft` / `AppBarRight`의 버튼에는 지정할 필요가 없습니다.
+
+```tsx
+<AppBarRight>
+  <AppBarSlot>
+    <AppBarCloseButton edge="trailing" bindtap={close} />
+  </AppBarSlot>
+</AppBarRight>
+```
+
+`leading`은 왼쪽, `trailing`은 오른쪽, `both`는 양쪽 여백을 보정합니다. 명시한 값은 자동 보정보다 우선하며, 버튼의 터치 영역 크기는 바뀌지 않습니다.
+
+### Tone
+
+기본값인 `tone="layer"`는 레이어 배경을 표시합니다. `tone="transparent"`는 배경을 투명하게 하고 제목과 아이콘에 밝은 색상을 적용하므로 사진이나 어두운 배경 위에서 사용하세요. 배경과 스크롤에 따른 tone 전환은 호출부에서 관리합니다.
+
+<LynxComponentExample name="lynx/app-bar/transparent">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/transparent.tsx",
     "codeblock": true
   }
   ```
@@ -172,6 +246,7 @@ Lynx `AppBar`는 React `AppBar`와 같은 역할과 variant 이름을 제공하�
 - **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
 - **platform theme**: 웹처럼 `data-*` selector에 의존하지 않고, recipe variant className으로 `"cupertino"` / `"android"` 디자인을 적용합니다.
 - **navigation 책임**: `AppBarBackButton`과 `AppBarCloseButton`은 이동을 자동 실행하지 않습니다. Stackflow `pop()` 같은 동작은 호출부에서 연결합니다.
+- **가장자리 아이콘 정렬**: 웹은 `iconButton:first-child` / `:last-child` selector로 bleed를 보정하지만, Lynx는 해당 가상 클래스를 지원하지 않아 `AppBarLeft` / `AppBarRight`가 가장자리 위치를 Context로 전달하고 아이콘 버튼의 Recipe class로 보정합니다. 다중 버튼·custom slot에서도 가장자리 아이콘 버튼에만 정확히 적용됩니다.
 </Callout>
 
 ## Unsupported Lynx Features

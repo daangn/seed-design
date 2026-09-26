@@ -1,3 +1,4 @@
+import { HStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -21,9 +22,11 @@ const SidePanelDismissible = () => {
           Escape 키, 외부 클릭으로 닫을 수 없습니다. 프로그래밍 방식으로만 닫을 수 있습니다.
         </SidePanelBody>
         <SidePanelFooter>
-          <ActionButton variant="neutralSolid" onClick={() => setOpen(false)}>
-            닫기
-          </ActionButton>
+          <HStack gap="x2" justify="flex-end">
+            <ActionButton variant="neutralSolid" onClick={() => setOpen(false)}>
+              닫기
+            </ActionButton>
+          </HStack>
         </SidePanelFooter>
       </SidePanelContent>
     </SidePanelRoot>

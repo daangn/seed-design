@@ -1,0 +1,88 @@
+name: API Surface Diff
+
+on:
+  pull_request:
+    paths:
+      - "packages/**"
+      - "ecosystem/**"
+      - "tools/extract-api-surface/**"
+      - ".github/scripts/build-api-surface-diff-comment*.ts"
+      - ".github/scripts/list-public-packages*.ts"
+      - "package.json"
+      - "bun.lock"
+      - ".bun-version"
+      - ".github/workflows/api-surface-diff.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-surface-diff-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+
+      # The PR merge commit's first parent is the base branch it merges into.
+      - name: Resolve base commit
+        id: base
+        run: |
+          echo "sha=$(git rev-parse HEAD^1)" >> "$GITHUB_OUTPUT"
+          echo "short-sha=$(git rev-parse --short=9 HEAD^1)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.base.outputs.sha }}
+          path: .base
+
+      - uses: oven-sh/setup-bun@v2
+        id: setup-bun
+        with:
+          bun-version-file: .bun-version
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-${{ hashFiles('**/bun.lock', '**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-${{ steps.setup-bun.outputs.bun-version }}-
+
+      - name: Install dependencies
+        run: |
+          bun install --frozen-lockfile --ignore-scripts
+          bun install --frozen-lockfile --ignore-scripts --cwd .base
+
+      - name: Test extract-api-surface
+        run: |
+          bun --filter @seed-design/extract-api-surface test
+          bun --filter @seed-design/extract-api-surface typecheck
+          bun test ./.github/scripts/build-api-surface-diff-comment.test.ts ./.github/scripts/list-public-packages.test.ts
+
+      # Both sides are read by this PR's CLI and scripts, so the base needs no copy of either. Each
+      # side lists its own packages, since a PR can add or remove one.
+      - name: Extract base and head surfaces
+        run: |
+          bun tools/extract-api-surface/src/cli.ts --out-dir api-surface/head $(bun .github/scripts/list-public-packages.ts .)
+          bun tools/extract-api-surface/src/cli.ts --root .base --out-dir api-surface/base $(bun .github/scripts/list-public-packages.ts .base)
+
+      # The full diff goes to this step's log; stdout is only the comment body.
+      - name: Build diff comment
+        env:
+          BASE_LABEL: origin/${{ github.base_ref }} (${{ steps.base.outputs.short-sha }})
+        run: bun .github/scripts/build-api-surface-diff-comment.ts api-surface/base api-surface/head --base-label "$BASE_LABEL" > api-surface-diff-comment.md
+
+      # This job has no write token; api-surface-diff-comment.yml posts the comment from a trusted context.
+      - name: Upload diff comment
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-surface-diff-comment
+          path: api-surface-diff-comment.md
+          if-no-files-found: error
+          retention-days: 1

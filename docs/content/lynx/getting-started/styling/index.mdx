@@ -1,0 +1,49 @@
+---
+title: Styling
+description: Lynx에서 스타일링 라이브러리를 선택하고 정적 CSS로 레이아웃을 구성하는 방법을 안내합니다.
+---
+
+Lynx에서는 **Vanilla Extract 또는 Tailwind CSS v4** 중 프로젝트에 맞는 스타일링 방식을 선택하세요.
+두 방식 모두 빌드 시 CSS를 생성하며, 네이티브 `<view>`와 `<text>`의 `className`에 적용할 수 있어요.
+
+- [Vanilla Extract](/lynx/getting-started/styling/vanilla-extract): `.css.ts`에서 타입이 있는 스타일과 SEED 토큰을 작성해요.
+- [Tailwind CSS v4](/lynx/getting-started/styling/tailwind-css-4): `className`에 utility class를 조합해요.
+
+선택한 가이드의 빌드 환경 요구사항과 설치 설정을 먼저 확인하세요.
+테마 설정은 [Theming](/lynx/getting-started/styling/theming)을 참고하세요.
+
+<Callout type="warning" title="Layout 컴포넌트 사용을 권장하지 않아요">
+정적인 레이아웃은 `Box`, `HStack`, `VStack` 대신 네이티브 `<view>`에 사용 중인 zero-runtime 스타일링 라이브러리의 클래스를 적용해 구성하세요.
+반복 항목이 많을수록 Layout 컴포넌트의 렌더링과 스타일 변환 비용이 누적될 수 있어요.
+</Callout>
+
+## 정적 CSS를 권장하는 이유
+
+`Box`, `HStack`, `VStack`은 렌더링할 때 스타일 prop을 해석하고 토큰·별칭을 변환해
+`<view style={...}>`에 전달할 객체를 만들어요. 이 JavaScript 처리와 컴포넌트 렌더링 비용은
+Lynx 엔진이 요소의 실제 크기와 위치를 계산하는 레이아웃 작업과 별개예요.
+
+Vanilla Extract와 Tailwind v4로 정적인 스타일을 빌드 시 CSS로 만들면,
+네이티브 `<view>`에 클래스를 적용할 때 Layout 컴포넌트의 prop 해석과 style 객체 생성 과정을 생략할 수 있어요.
+CSS를 적용하고 레이아웃을 계산하는 엔진의 작업까지 없어지는 것은 아니에요.
+
+### 웹 React와는 무엇이 다른가요?
+
+웹 React의 Layout 컴포넌트도 런타임에서 prop을 해석해요. 웹 구현은 미리 정의된 클래스에 CSS 변수를 전달하고,
+브라우저가 해당 CSS를 적용해요. 현재 Lynx 구현은 지원하는 스타일 prop을 직접 style 객체로 구성해 전달해요.
+따라서 React에서는 비용이 없거나 Lynx에서는 Layout 컴포넌트가 동작하지 않는다는 의미는 아니에요.
+
+[ReactLynx의 초기 렌더링](https://lynxjs.org/react/thinking-in-reactlynx)은 메인 스레드에서 첫 화면을 구성하고
+백그라운드 스레드에서도 컴포넌트를 실행해요. 렌더링 경로의 스타일 변환도 이 초기 작업에 포함될 수 있으므로,
+정적인 레이아웃은 빌드 시 생성한 CSS로 표현하는 방식을 권장해요.
+특히 반복 항목이 많은 화면에서는 불필요한 컴포넌트와 스타일 변환 비용을 줄일 수 있어요.
+실제 성능 차이는 화면과 실행 환경에 따라 달라요.
+
+측정값이나 연속적으로 바뀌는 값처럼 런타임에 결정되는 속성은 필요한 부분만 inline `style`로 전달하세요.
+
+## 권장하는 작성 방법
+
+사용 중인 라이브러리의 가이드에서 설정과 작성 예제를 확인하세요.
+
+- [Vanilla Extract: 스타일과 SEED 토큰 사용하기](/lynx/getting-started/styling/vanilla-extract#스타일과-seed-토큰-사용하기)
+- [Tailwind CSS v4: Layout](/lynx/getting-started/styling/tailwind-css-4#layout)

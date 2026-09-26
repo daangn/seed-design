@@ -8,64 +8,30 @@ description: Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을
 
 ### 의존성 설치
 
-필요한 의존성들을 설치해요.
+필요한 공통 의존성을 설치해요. 스타일링 라이브러리는 다음 단계에서 선택해요.
 
 ```package-install
-@seed-design/lynx-react @seed-design/lynx-css @seed-design/tailwind3-plugin tailwindcss@3
-```
-
-<Callout type="warning">
-  Lynx는 현재 Tailwind CSS v3만 지원합니다. Tailwind v4는 Rsbuild에서 아직
-  미지원이므로 반드시 `tailwindcss@3`을 설치하세요.
-</Callout>
-
-</Step>
-
-<Step>
-
-### Tailwind CSS 설정하기
-
-Lynx에서 SEED 디자인 토큰을 사용하려면 Tailwind CSS v3와 `@seed-design/tailwind3-plugin`을 설정해야 해요.
-
-자세한 내용은 [`@seed-design/tailwind3-plugin` README](https://github.com/daangn/seed-design/tree/dev/packages/tailwind3-plugin)를 참고하세요.
-
-```ts title="tailwind.config.ts"
-import type { Config } from "tailwindcss";
-import seedDesignPlugin from "@seed-design/tailwind3-plugin";
-
-export default {
-  content: ["./src/**/*.{jsx,tsx}"],
-  corePlugins: { preflight: false },
-  plugins: [seedDesignPlugin],
-} satisfies Config;
-```
-
-```js title="postcss.config.js"
-export default {
-  plugins: {
-    tailwindcss: {},
-  },
-};
+@seed-design/lynx-react @seed-design/lynx-css
 ```
 
 </Step>
 
 <Step>
 
-### base.css와 Tailwind import하기
+### 스타일링 라이브러리 선택하기
 
-앱 entry에서는 전역 CSS 파일을 import하고, CSS 파일 안에서 SEED `base.css`와 Tailwind 디렉티브를 함께 불러와요.
+**Vanilla Extract 또는 Tailwind CSS v4 중 프로젝트에 맞는 방식을 선택하세요.**
+정적 CSS를 권장하는 이유와 레이아웃 작성 예제는 [Styling 가이드](/lynx/getting-started/styling)에서 확인하세요.
 
-```ts title="src/index.tsx"
-import "./styles/global.css";
-```
+| 스타일링 방식 | 작성 방법 | 설정 가이드 |
+| --- | --- | --- |
+| Vanilla Extract | `.css.ts`에서 타입이 있는 스타일과 SEED 토큰을 작성해요. | [Vanilla Extract](/lynx/getting-started/styling/vanilla-extract) |
+| Tailwind CSS v4 | `className`에 utility class를 조합해요. | [Tailwind CSS 4](/lynx/getting-started/styling/tailwind-css-4) |
 
-```css title="src/styles/global.css"
-@import "@seed-design/lynx-css/base.css";
-
-@tailwind components;
-@tailwind utilities;
-```
+선택한 가이드에서 의존성, 빌드 설정, SEED `base.css`와 앱 entry의 CSS import까지 적용한 뒤 다음 단계로 진행하세요.
+각 가이드의 Rspeedy·Rsbuild 요구사항을 먼저 확인하세요. Vanilla Extract 플러그인 `0.2.0`은 Rsbuild 1을 요구하며,
+Tailwind v4 가이드는 Rsbuild 2 기반 구성을 다뤄요.
+기존 Tailwind v3 프로젝트는 [Tailwind CSS 3](/lynx/getting-started/styling/tailwind-css-3) 설정을 유지할 수 있어요.
 
 </Step>
 
@@ -197,7 +163,9 @@ export default defineConfig({
 
 ### Lynx 피쳐 플래그 설정하기
 
-SEED 컴포넌트가 Lynx에서 정상 동작하려면 `pluginLynxConfig`로 피쳐 플래그를 설정해야 해요.
+SEED의 CSS 상속, 인라인 변수, Dynamic/Static 타이포그래피, fixed 요소를 위한 기본 설정이에요.
+CSS Selector와 Invalidation은 `pluginReactLynx`의 기본값을 사용하므로 반복해서 설정하지 않아도 돼요.
+아래 예제는 React 플러그인 `0.18.3`·`0.20.2`, config 플러그인 `0.2.2`·`0.2.3`에서 허용되는 옵션을 사용해요.
 
 ```package-install
 @lynx-js/config-rsbuild-plugin
@@ -205,18 +173,18 @@ SEED 컴포넌트가 Lynx에서 정상 동작하려면 `pluginLynxConfig`로 피
 
 ```ts title="lynx.config.ts"
 import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 
 export default defineConfig({
   plugins: [
+    pluginReactLynx({
+      engineVersion: "3.6",
+    }),
     // ... 기존 플러그인들
     pluginLynxConfig({
-      enableCSSSelector: true,
-      enableCSSInvalidation: true,
       enableCSSInheritance: true,
       enableCSSInlineVariables: true,
-      enableCSSStrictMode: false,
-      enableTextRefactor: true,
       fontScaleEffectiveOnlyOnSp: true,
       enableFixedNew: true,
     }),
@@ -224,8 +192,12 @@ export default defineConfig({
 });
 ```
 
+기존 `pluginReactLynx` 호출에 옵션을 합쳐 사용하고, 같은 플러그인을 중복 등록하지 마세요.
+`engineVersion`은 앱의 최소 대상 버전이에요. 기존 앱이 더 높은 버전을 요구한다면 그 값을 유지하세요.
+`enableTextRefactor`는 이 대상 버전에서 기본 활성화되며, `enableCSSStrictMode: false`를 SEED의 필수 설정으로 추가할 필요는 없어요.
+
 <Callout>
-  각 플래그의 역할과 상황별 추가 설정은 [Feature
+  엔진·빌드 도구 버전별로 유지하거나 생략할 설정과 선택 옵션은 [Feature
   Flags](/lynx/getting-started/feature-flags)에서 확인하세요.
 </Callout>
 

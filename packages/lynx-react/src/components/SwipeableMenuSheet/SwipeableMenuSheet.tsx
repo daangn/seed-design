@@ -7,6 +7,8 @@ import { forwardRef, isValidElement } from "@lynx-js/react";
 import type { ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from "@lynx-js/react";
 import clsx from "clsx";
 
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 import { usePressTap } from "../../hooks/usePressTap";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
@@ -54,6 +56,7 @@ interface SwipeableMenuSheetClassNames {
 
 interface SwipeableMenuSheetItemClassNames {
   root: string;
+  scaleContent: string;
   content: string;
   label: string;
   description: string;
@@ -457,6 +460,7 @@ export const SwipeableMenuSheetCloseButton: LynxForwardRefComponent<
     "accessibility-actions": accessibilityActions,
     "accessibility-exclusive-focus": accessibilityExclusiveFocus,
     "ios-platform-accessibility-id": iosPlatformAccessibilityId,
+    ...nativeProps
   } = props;
   const { rootRef, setPendingReason, skipAnimation } = useSwipeableMenuSheetContext();
   const handleTap = React.useCallback<NonNullable<LynxPressableProps["bindtap"]>>(
@@ -467,16 +471,26 @@ export const SwipeableMenuSheetCloseButton: LynxForwardRefComponent<
     },
     [rootRef, setPendingReason, skipAnimation, userBindtap],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     onTap: handleTap,
     mainThreadOnTap: userMainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const classNames = menuSheet({ skipAnimation, closeButtonPressed: pressed });
 
   return (
     <view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-      {...pressHandlers}
+      {...mergeProps(
+        scaleFeedbackTriggerProps,
+        scaleFeedbackTargetProps,
+        pressHandlers,
+        nativeProps,
+      )}
       className={clsx(classNames.closeButton, className)}
       style={style as never}
       accessibility-element={accessibilityElement}
@@ -541,14 +555,21 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
       "accessibility-actions": accessibilityActions,
       "accessibility-exclusive-focus": accessibilityExclusiveFocus,
       "ios-platform-accessibility-id": iosPlatformAccessibilityId,
+      ...nativeProps
     } = props;
     const groupLabelAlign = React.useContext(GroupLabelAlignContext);
     const contentLabelAlign = React.useContext(ContentLabelAlignContext);
     const { isLast } = React.useContext(SwipeableMenuSheetItemPositionContext);
     const resolvedLabelAlign = labelAlign ?? groupLabelAlign ?? contentLabelAlign ?? "left";
-    const { pressed, ...pressHandlers } = usePressTap({
-      onTap: userBindtap,
-      mainThreadOnTap: userMainThreadBindtap,
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } =
+      usePressTap({
+        onTap: userBindtap,
+        mainThreadOnTap: userMainThreadBindtap,
+      });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
     });
     const classNames = menuSheetItem({ tone, labelAlign: resolvedLabelAlign, pressed });
     const itemContext = React.useMemo<SwipeableMenuSheetItemContextValue>(
@@ -566,7 +587,7 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
         >
           <view
             {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-            {...pressHandlers}
+            {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
             className={clsx(classNames.root, className)}
             style={style as never}
             accessibility-element={accessibilityElement}
@@ -580,7 +601,9 @@ export const SwipeableMenuSheetItem: LynxForwardRefComponent<unknown, SwipeableM
             accessibility-exclusive-focus={accessibilityExclusiveFocus}
             ios-platform-accessibility-id={iosPlatformAccessibilityId}
           >
-            {children}
+            <view className={classNames.scaleContent} {...scaleFeedbackTargetProps}>
+              {children}
+            </view>
           </view>
           {!isLast ? (
             <view className={classNames.divider} accessibility-elements-hidden={true} />

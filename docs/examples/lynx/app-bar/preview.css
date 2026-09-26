@@ -72,3 +72,16 @@
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;
 }
+
+.app-bar-preview__controls {
+  gap: 16px;
+}
+
+.app-bar-preview--transparent {
+  background: linear-gradient(135deg, #18364b, #43665b);
+}
+
+.app-bar-preview__overlay-text {
+  color: var(--seed-color-palette-static-white);
+  font-size: 14px;
+}

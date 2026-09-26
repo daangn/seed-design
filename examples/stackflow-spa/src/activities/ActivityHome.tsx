@@ -325,6 +325,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Avatar", ...to("ActivityAvatar", {}) },
         { title: "Avatar Stack", ...to("ActivityAvatarStack", {}) },
         { title: "Badge", ...to("ActivityBadge", {}) },
+        { title: "Tag Group", ...to("ActivityTagGroup", {}) },
         { title: "Manner Temp Badge", ...to("ActivityMannerTempLevel", {}) },
         { title: "Accordion", ...to("ActivityAccordion", {}) },
         { title: "Error State", ...to("ActivityErrorState", {}) },
@@ -503,7 +504,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   }
 
   return (
-    <AppScreen transitionStyle={params.transitionStyle}>
+    <AppScreen transitionStyle={params.transitionStyle} layerOffsetBottom="safeArea">
       <AppBar bg="bg.layerBasement">
         {activityIndex > 0 && (
           <AppBarLeft>
@@ -527,7 +528,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <VStack pb="safeArea" minHeight="100%">
+        <VStack minHeight="100%">
           <Box ref={stripRef} position="sticky" top={0} zIndex={2} bg="bg.layerBasement">
             <ChipTabsRoot
               value={activeSection}

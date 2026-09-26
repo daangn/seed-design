@@ -6,6 +6,7 @@ const inputButton = defineSlotRecipe({
   slots: [
     "root",
     "button",
+    "content",
     "baseStroke",
     "stroke",
     "value",
@@ -25,6 +26,14 @@ const inputButton = defineSlotRecipe({
       position: "relative",
       overflow: "hidden",
     },
+    content: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+    },
     button: {
       position: "absolute",
       top: 0,
@@ -32,6 +41,7 @@ const inputButton = defineSlotRecipe({
       bottom: 0,
       left: 0,
       backgroundColor: vars.base.enabled.root.color,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     baseStroke: {
       position: "absolute",
@@ -99,6 +109,7 @@ const inputButton = defineSlotRecipe({
       pointerEvents: "none",
     },
     clearButton: {
+      pointerEvents: "auto",
       flexShrink: 0,
       color: vars.base.enabled.clearButton.color,
     },
@@ -113,6 +124,7 @@ const inputButton = defineSlotRecipe({
           paddingRight: vars.sizeLarge.enabled.root.paddingX,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
         },
+        content: { gap: vars.sizeLarge.enabled.root.gap },
         button: { borderRadius: vars.sizeLarge.enabled.root.cornerRadius },
         baseStroke: { borderRadius: vars.sizeLarge.enabled.root.cornerRadius },
         stroke: { borderRadius: vars.sizeLarge.enabled.root.cornerRadius },
@@ -153,6 +165,7 @@ const inputButton = defineSlotRecipe({
           paddingRight: vars.sizeMedium.enabled.root.paddingX,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
         },
+        content: { gap: vars.sizeMedium.enabled.root.gap },
         button: { borderRadius: vars.sizeMedium.enabled.root.cornerRadius },
         baseStroke: { borderRadius: vars.sizeMedium.enabled.root.cornerRadius },
         stroke: { borderRadius: vars.sizeMedium.enabled.root.cornerRadius },
@@ -219,6 +232,15 @@ const inputButton = defineSlotRecipe({
       false: {},
     },
   },
+  compoundVariants: [
+    {
+      disabled: false,
+      readOnly: false,
+      css: {
+        button: { "&:active": { backgroundColor: vars.base.pressed.root.color } },
+      },
+    },
+  ],
   defaultVariants: {
     size: "large",
     pressed: false,

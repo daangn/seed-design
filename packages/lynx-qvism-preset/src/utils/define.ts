@@ -56,10 +56,6 @@ type ForbiddenLynxStyleKey =
   | "objectFit"
   | "objectPosition"
   | "mask"
-  | "maskImage"
-  | "maskSize"
-  | "maskPosition"
-  | "maskRepeat"
   | "maskComposite"
   | "backdropFilter"
   | "mixBlendMode"
@@ -130,6 +126,11 @@ export type LynxStyleObject = LynxStyleProperties & {
   "&::placeholder"?: LynxStyleProperties;
   "&:active"?: LynxStyleProperties;
   [selector: `&:active ${string}`]: LynxStyleProperties | undefined;
+  "&.ui-open"?: LynxStyleProperties;
+  "&.ui-closed"?: LynxStyleProperties;
+  "&.ui-entering"?: LynxStyleProperties;
+  "&.ui-leaving"?: LynxStyleProperties;
+  "&.ui-animating"?: LynxStyleProperties;
 };
 
 type LynxSlotRecord<S extends string> = Partial<Record<S, LynxStyleObject>>;

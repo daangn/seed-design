@@ -23,7 +23,7 @@ Lynx 인덱스를 정상적으로 읽었는데 필요한 공식 계약이 없으
 
 공통 컴포넌트 문서의 Platform 표 → Lynx 인덱스 → Lynx registry 전체 인덱스 → 재export를 따라간 설치본 package exports 순으로 실제 구현·registry id를 찾습니다. id 매핑과 지원 컴포넌트 목록을 이 프로필에 유지하지 않습니다.
 
-registry URL 구조는 공통 Doctor 절차의 형식을 사용하되, 아이템·세대의 존재 여부는 현재 registry와 인덱스 응답으로 확인합니다. 연결 실패를 아이템 부재로 바꾸지 않습니다.
+registry URL 구조는 `SKILL.md`「컴포넌트 답변 순서」의 형식을 사용하되, 아이템·세대의 존재 여부는 현재 registry와 인덱스 응답으로 확인합니다. 연결 실패를 아이템 부재로 바꾸지 않습니다.
 
 ## 적용 원칙
 

@@ -1,0 +1,176 @@
+---
+title: Help Bubble
+description: 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 말풍선입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/help-bubble/preview" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:help-bubble
+```
+
+<LynxManualInstallation name="help-bubble" />
+
+## Usage
+
+설치한 스니펫은 `HelpBubbleTrigger`와 `HelpBubbleAnchor`로 위치 기준점, 말풍선 콘텐츠, 화살표, 선택적인 닫기 버튼을 함께 조립합니다.
+
+```tsx
+import IconILowercaseSerifCircleFill from "@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleFill";
+import { ActionButton, Icon } from "@seed-design/lynx-react";
+
+import { HelpBubbleTrigger } from "@/components/ui/help-bubble";
+
+export function App() {
+  return (
+    <HelpBubbleTrigger defaultOpen title="추가 정보를 확인하세요.">
+      <ActionButton variant="ghost" size="small" layout="iconOnly" accessibility-label="도움말">
+        <Icon icon={<IconILowercaseSerifCircleFill />} />
+      </ActionButton>
+    </HelpBubbleTrigger>
+  );
+}
+```
+
+- `HelpBubbleTrigger`는 자식을 탭하면 말풍선을 열고 닫습니다.
+- `HelpBubbleAnchor`는 위치 기준점만 만듭니다. `defaultOpen`으로 초기 열림 상태를 정하거나, `open`과 `onOpenChange`로 열림 상태를 직접 제어할 수 있습니다.
+- 기본 배치는 `"top"`입니다. `placement`, `flip`, `gutter`, `overflowPadding`, `arrowPadding`으로 위치를 조정할 수 있습니다.
+- `showCloseButton`을 지정하면 기본 닫기 아이콘을 포함한 닫기 버튼을 추가합니다.
+- `contentProps.maxWidth`의 기본값은 `280px`이고, `"none"`으로 최대 너비 제한을 없앨 수 있습니다. `contentProps.style.width`를 함께 지정했을 때는 `maxWidth`가 더 좁으면 `maxWidth`가 적용됩니다.
+- `zIndexOffset`은 Positioner의 기본 z-index `99`에 더합니다.
+
+## Props
+
+### `HelpBubbleTrigger`
+
+<react-type-table path="./registry/lynx/ui/help-bubble.tsx" name="HelpBubbleTriggerProps" />
+
+### `HelpBubbleAnchor`
+
+<react-type-table path="./registry/lynx/ui/help-bubble.tsx" name="HelpBubbleAnchorProps" />
+
+## Examples
+
+### Trigger
+
+`HelpBubbleTrigger`를 탭하면 말풍선이 열리고 닫힙니다. 이 예제는 처음 열린 uncontrolled Trigger와 `open`, `onOpenChange`로 상태를 제어하는 Trigger를 함께 보여줍니다. 두 경우 모두 닫기 버튼으로 닫을 수 있습니다.
+
+<LynxComponentExample name="lynx/help-bubble/trigger" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/trigger.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Anchor
+
+`HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 열고 닫히지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor와 `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 각각 닫기 버튼과 `열림` Switch로 바꿉니다.
+
+<LynxComponentExample name="lynx/help-bubble/anchor" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/anchor.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Close On Interact Outside
+
+`closeOnInteractOutside`의 기본값은 `true`입니다. native에서 `true`인 말풍선의 첫 바깥 탭은 말풍선만 닫고 아래 요소에는 전달되지 않습니다. `false`이면 말풍선은 열린 채로 유지되고, 바깥 탭은 아래 요소에 그대로 전달됩니다.
+
+<LynxComponentExample name="lynx/help-bubble/close-on-interact-outside" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/close-on-interact-outside.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Placement
+
+`placement`로 기준 요소의 12개 방향에 말풍선을 배치합니다. 이 예제는 각 배치를 열린 상태로 표시하며, `flip={false}`로 지정한 방향을 유지합니다.
+
+<LynxComponentExample name="lynx/help-bubble/placement" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/placement.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Flip
+
+`flip={false}`를 지정하면 화면 경계에서 공간이 부족해도 말풍선의 방향을 바꾸지 않습니다.
+
+<LynxComponentExample name="lynx/help-bubble/flip" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/flip.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Close Button
+
+`showCloseButton`으로 말풍선에 닫기 버튼을 추가할 수 있습니다. 닫기 버튼을 탭하면 말풍선이 닫히고, Trigger를 다시 탭하면 다시 엽니다.
+
+<LynxComponentExample name="lynx/help-bubble/close-button" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Description
+
+`description`을 사용하여 `title` 아래에 설명을 추가할 수 있습니다.
+
+<LynxComponentExample name="lynx/help-bubble/description" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/description.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Title Only
+
+`description` 없이 `title`만 전달할 수 있습니다.
+
+<LynxComponentExample name="lynx/help-bubble/title-only" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/title-only.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Setting Width Manually
+
+Content에는 기본 최대 너비가 있습니다. `contentProps.maxWidth`로 이 값을 덮어쓰고, `"none"`으로 최대 너비 제한을 없앨 수 있습니다. `contentProps.style.width`를 함께 지정했을 때 `maxWidth`가 더 좁으면 `maxWidth`가 우선합니다.
+
+<LynxComponentExample name="lynx/help-bubble/width" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/width.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Line Breaks
+
+React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변환합니다. 문자열의 줄바꿈 문자도 title에 전달할 수 있습니다.
+
+<LynxComponentExample name="lynx/help-bubble/line-breaks" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/line-breaks.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `z-index` Offset
+
+`zIndexOffset`으로 Positioner의 기본 z-index `99`에 값을 더합니다. 이 예제는 SegmentedControl로 offset을 바꾸며 말풍선의 현재 z-index를 확인합니다.
+
+<LynxComponentExample name="lynx/help-bubble/z-index-offset" height={480}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/z-index-offset.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- Lynx의 Trigger와 Anchor는 자식을 native `view`로 감쌉니다. DOM `asChild`, HTML ARIA 속성, 키보드 포커스·ESC 닫힘, portal은 제공하지 않습니다. 필요한 접근성은 Lynx의 `accessibility-*` prop과 host의 native 접근성 흐름으로 확인하세요.
+- `closeOnInteractOutside`가 `true`이면 첫 번째 바깥 탭은 말풍선만 닫고 아래 요소로 전달되지 않습니다. `false`이면 말풍선은 열린 채로 바깥 탭이 아래 요소로 전달됩니다.
+- Positioner는 portal이나 fullscreen overlay가 아닌 고정 native `view`입니다. `zIndexOffset`으로 같은 화면의 형제 요소와의 z-index 순서를 조정합니다.

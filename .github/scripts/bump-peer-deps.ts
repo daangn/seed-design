@@ -12,7 +12,7 @@ const LOCKFILE_PATH = "bun.lock";
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 const STABLE_VERSION_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const CARET_STABLE_RANGE_PATTERN = /^\^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
-const LYNX_RANGE_PATTERN = /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.0 <1\.0\.0$/;
+const LYNX_RANGE_PATTERN = /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.(0|[1-9]\d*) <1\.0\.0$/;
 
 type JsonRecord = Record<string, unknown>;
 
@@ -65,6 +65,25 @@ export function compareStableVersions(left: string, right: string): number {
   }
 
   return 0;
+}
+
+export function createLynxCssPeerRange(version: string, previousRange: string): string {
+  const [major, minor] = parseStableVersion(version);
+  if (major !== 0) {
+    throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${version}`);
+  }
+
+  const previousRangeMatch = LYNX_RANGE_PATTERN.exec(previousRange);
+  if (!previousRangeMatch) {
+    throw new Error(
+      `${LYNX_CSS_PACKAGE} peerDependency 범위가 올바르지 않습니다: ${previousRange}`,
+    );
+  }
+
+  const previousMinor = Number(previousRangeMatch[1]);
+  if (previousMinor === minor) return previousRange;
+
+  return `0.0.0 || >=0.${minor}.0 <1.0.0`;
 }
 
 function findWorkspaceBlock(lockfile: string, workspacePath: string): [number, number] {
@@ -212,11 +231,6 @@ export function synchronizeLynxPeerDependencyText(input: {
     throw new Error(`${LYNX_CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
   }
 
-  const [major, minor] = parseStableVersion(lynxCssVersion);
-  if (major !== 0) {
-    throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${lynxCssVersion}`);
-  }
-
   if (!isRecord(lynxReactManifest.peerDependencies)) {
     throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 peerDependencies가 없습니다.`);
   }
@@ -225,13 +239,7 @@ export function synchronizeLynxPeerDependencyText(input: {
   if (typeof previousRange !== "string") {
     throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 ${LYNX_CSS_PACKAGE} peerDependency가 없습니다.`);
   }
-  if (!LYNX_RANGE_PATTERN.test(previousRange)) {
-    throw new Error(
-      `${LYNX_CSS_PACKAGE} peerDependency 범위가 올바르지 않습니다: ${previousRange}`,
-    );
-  }
-
-  const desiredRange = `0.0.0 || >=0.${minor}.0 <1.0.0`;
+  const desiredRange = createLynxCssPeerRange(lynxCssVersion, previousRange);
   const nextLockfile = updateLockfilePeerRange(
     input.lockfile,
     LYNX_REACT_MANIFEST_PATH.replace("/package.json", ""),

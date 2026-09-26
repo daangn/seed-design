@@ -1,22 +1,22 @@
 ---
 title: Menu Sheet
-description: Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
+description: Swipeable Menu Sheet를 Stackflow와 함께 사용하는 방법을 안내합니다.
 ---
 
-<AvailableSince packages="@seed-design/stackflow@1.1.5, @seed-design/css@1.1.5" />
+<AvailableSince packages="@seed-design/stackflow@2.0.0, @seed-design/react@2.0.0, @seed-design/css@2.0.0" />
 
-<Card title="Menu Sheet" href="/react/components/menu-sheet">
+<Card title="Swipeable Menu Sheet" href="/react/components/swipeable-menu-sheet">
 
-Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
+Swipeable Menu Sheet 컴포넌트에 대해 자세히 알아봅니다.
 
 </Card>
 
-## Making a Menu Sheet Activity
+## Making a Swipeable Menu Sheet Activity
 
-**일반적인 경우 Menu Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
+**일반적인 경우 Swipeable Menu Sheet를 [Activity](https://stackflow.so/docs/get-started/activity)로 만들어 사용하는 것을 권장합니다.**
 
 - Activity로 관리되므로, 하위 Activity보다 높고 상위 Activity보다는 낮은 z-index를 갖도록 관리하기 쉽습니다.
-- 딥링킹이 가능합니다. (URL 접속으로 Menu Sheet를 열 수 있습니다.)
+- 딥링킹이 가능합니다. (URL 접속으로 Swipeable Menu Sheet를 열 수 있습니다.)
 - [@stackflow/plugin-basic-ui](https://www.npmjs.com/package/@stackflow/plugin-basic-ui) `BottomSheet`에서의 마이그레이션이 쉽습니다.
 
 <StackflowExample path="/menu-sheet-activity">
@@ -45,7 +45,7 @@ import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useActivity, useFlow, type ActivityComponentType } from "@stackflow/react/future";
 // ... more imports
 
-const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
+const ActivitySwipeableMenuSheet: ActivityComponentType<"ActivitySwipeableMenuSheet"> = () => {
   const { pop } = useFlow();
 
   const handleAction = (action: string) => {
@@ -56,89 +56,56 @@ const ActivityMenuSheet: ActivityComponentType<"ActivityMenuSheet"> = () => {
 
   return (
     {/* [!code highlight] */}
-    <MenuSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
-      <MenuSheetContent
+    <SwipeableMenuSheetRoot open={useActivity().isActive} onOpenChange={(open) => !open && pop()}>
+      <SwipeableMenuSheetContent
         title="Actions"
         // [!code highlight]
         layerIndex={useActivityZIndexBase()}
       >
-        <MenuSheetGroup>
-          <MenuSheetItem
+        <SwipeableMenuSheetGroup>
+          <SwipeableMenuSheetItem
             onClick={() => handleAction("add")}
             label="추가"
             prefixIcon={<IconPlusLine />}
           />
-          <MenuSheetItem
+          <SwipeableMenuSheetItem
             onClick={() => handleAction("edit")}
             label="수정"
             prefixIcon={<IconPencilLine />}
           />
-          <MenuSheetItem
+          <SwipeableMenuSheetItem
             onClick={() => handleAction("delete")}
             tone="critical"
             label="삭제"
             prefixIcon={<IconTrashcanLine />}
           />
-        </MenuSheetGroup>
-      </MenuSheetContent>
-    </MenuSheetRoot>
+        </SwipeableMenuSheetGroup>
+      </SwipeableMenuSheetContent>
+    </SwipeableMenuSheetRoot>
   );
 };
 ```
 
-1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Menu Sheet가 열리도록 합니다.
-1. `onOpenChange`를 통해 Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다.
-1. `layerIndex={useActivityZIndexBase()}`로 Menu Sheet Activity의 z-index 기준점을 전달합니다.
+1. `open` prop에 `useActivity().isActive`를 전달하여 Activity가 활성화될 때 Swipeable Menu Sheet가 열리도록 합니다.
+1. `onOpenChange`를 통해 Swipeable Menu Sheet가 닫힐 때 `pop()`을 실행하여 Activity를 종료합니다. swipe 제스처로 닫는 경우에도 `onOpenChange`가 호출되므로 Activity가 함께 종료됩니다.
+1. `layerIndex={useActivityZIndexBase()}`로 Swipeable Menu Sheet Activity의 z-index 기준점을 전달합니다.
 
 - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
-#### Keeping Menu Sheet Mounted
+## Syncing Swipeable Menu Sheet State with a Step
 
-Menu Sheet Activity 위에 다른 Activity를 push할 때 Menu Sheet가 unmount되는 것을 방지하려면,
+Swipeable Menu Sheet를 Activity로 만들 수 없는 경우, Swipeable Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
 
-- `open` 상태를 `isActive` 대신 `transitionState`로 관리하고
-- `modal` prop을 `isActive`로 설정하고
-- `onOpenChange` 핸들러에서 `!isOpen && isActive`인 경우 `pop()`을 실행하도록 합니다.
-
-이 패턴은 Menu Sheet 액티비티 위에 다른 오버레이 컴포넌트 액티비티를 중첩하여 표시하고 싶은 경우 유용합니다.
-
-```tsx
-const { isActive, transitionState } = useActivity();
-
-return (
-  <MenuSheetRoot
-    open={
-      // [!code highlight]
-      transitionState === "enter-active" || transitionState === "enter-done"
-    }
-    // [!code highlight]
-    modal={isActive}
-    // [!code highlight]
-    onOpenChange={(open) => !open && isActive && pop()}
-  >
-    {/* ... */}
-  </MenuSheetRoot>
-);
-```
-
-1. `open`을 `transitionState`로 관리하여 다른 Activity가 위에 push되어도 Menu Sheet가 unmount되지 않도록 합니다.
-1. `modal={isActive}`로 Menu Sheet Activity가 비활성 상태일 때 `modal`을 `false`로 설정합니다. 이렇게 하지 않으면, 위에 push된 Activity에서 포커스 및 스크린 리더 접근이 동작하지 않습니다.
-1. `onOpenChange` 핸들러에서 `isActive`인 경우에만 `pop()`을 실행하여, 비활성 상태에서의 의도치 않은 Activity 종료를 방지합니다.
-
-## Syncing Menu Sheet State with a Step
-
-Menu Sheet를 Activity로 만들 수 없는 경우, Menu Sheet가 표시된 상태를 [Step](https://stackflow.so/docs/get-started/navigating-step)으로 만들 수 있습니다.
-
-- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Menu Sheet를 닫을 수 있습니다.
-- `MenuSheetTrigger`를 사용하여 Menu Sheet를 열고 닫을 수 있습니다.
+- 현재 Activity를 유지하면서도, 뒤로 가기 버튼 등으로 Swipeable Menu Sheet를 닫을 수 있습니다.
+- `SwipeableMenuSheetTrigger`를 사용하여 Swipeable Menu Sheet를 열고 닫을 수 있습니다.
 
 <Callout type="warn" title="제약 사항">
 
-**Activity로 만들지 않은 Menu Sheet에서 다른 Activity를 push하는 경우, push하기 전 Menu Sheet를 닫으세요.**
+**Activity로 만들지 않은 Swipeable Menu Sheet에서 다른 Activity를 push하는 경우, push하기 전 Swipeable Menu Sheet를 닫으세요.**
 
-Menu Sheet를 닫을 수 없거나, Menu Sheet를 연 Activity로 돌아왔을 때 Menu Sheet가 열린 상태를 유지해야 하는 경우 [Menu Sheet를 Activity로](#making-a-menu-sheet-activity) 만들어 사용하는 것을 권장합니다.
+Swipeable Menu Sheet를 닫을 수 없거나, Swipeable Menu Sheet를 연 Activity로 돌아왔을 때 Swipeable Menu Sheet가 열린 상태를 유지해야 하는 경우 [Swipeable Menu Sheet를 Activity로](#making-a-swipeable-menu-sheet-activity) 만들어 사용하는 것을 권장합니다.
 
-Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Menu Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
+Activity 간 유려한 트랜지션을 제공하기 위해 하위 AppScreen 요소 중 일부가 상위 AppScreen 요소보다 위에 위치합니다. 이 제약으로 인해, 열린 상태의 Swipeable Menu Sheet는 독립적인 Activity로 만들지 않는 경우 하위 Activity와 상위 Activity 사이에 위치시키는 것이 불가능합니다.
 
 </Callout>
 
@@ -216,46 +183,46 @@ const ActivityHome: ActivityComponentType<"ActivityHome"> = () => {
 
   return (
     <AppScreen>
-      <MenuSheetRoot open={open} onOpenChange={onOpenChange}>
-        <MenuSheetTrigger asChild>
+      <SwipeableMenuSheetRoot open={open} onOpenChange={onOpenChange}>
+        <SwipeableMenuSheetTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </MenuSheetTrigger>
+        </SwipeableMenuSheetTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <MenuSheetContent
+          <SwipeableMenuSheetContent
             title="Actions"
             // [!code highlight]
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
-            <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
-              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
-              <MenuSheetItem
+            <SwipeableMenuSheetGroup>
+              <SwipeableMenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <SwipeableMenuSheetItem onClick={() => handleAction("edit")} label="수정" />
+              <SwipeableMenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Swipeable Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
                 label="Push"
               />
-              <MenuSheetItem
+              <SwipeableMenuSheetItem
                 onClick={() => handleAction("delete")}
                 tone="critical"
                 label="삭제"
               />
-            </MenuSheetGroup>
-          </MenuSheetContent>
+            </SwipeableMenuSheetGroup>
+          </SwipeableMenuSheetContent>
           {/* [!code highlight] */}
         </Portal>
-      </MenuSheetRoot>
+      </SwipeableMenuSheetRoot>
     </AppScreen>
   );
 };
 ```
 
-1. `Portal`을 사용하여 Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
+1. `Portal`을 사용하여 Swipeable Menu Sheet가 DOM 상 현재 Activity 밖에 렌더링되도록 합니다.
 1. `open` prop를 관리하고, `onOpenChange` 핸들러를 통해 Step 상태와 동기화합니다.
-1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Menu Sheet의 `open` 상태를 동기화합니다.
+1. 뒤로 가기 버튼 등을 통해 Activity 파라미터가 변경될 때 Swipeable Menu Sheet의 `open` 상태를 동기화합니다.
 1. `layerIndex={useActivityZIndexBase({ activityOffset: 1 })}`로 현재 Activity보다 한 단계 높은 z-index 기준점을 전달합니다.
    - [`useActivityZIndexBase`에 대해 자세히 알아보기](#about-useactivityzindexbase)
 
@@ -283,38 +250,38 @@ const MyActivity: ActivityComponentType = () => {
   return (
     <AppScreen>
       {/* [!code highlight] */}
-      <MenuSheetRoot {...overlayProps}>
-        <MenuSheetTrigger asChild>
+      <SwipeableMenuSheetRoot {...overlayProps}>
+        <SwipeableMenuSheetTrigger asChild>
           <ActionButton>Open</ActionButton>
-        </MenuSheetTrigger>
+        </SwipeableMenuSheetTrigger>
         {/* [!code highlight] */}
         <Portal>
-          <MenuSheetContent
+          <SwipeableMenuSheetContent
             title="Actions"
             // [!code highlight]
             layerIndex={useActivityZIndexBase({ activityOffset: 1 })}
           >
-            <MenuSheetGroup>
-              <MenuSheetItem onClick={() => handleAction("add")} label="추가" />
-              <MenuSheetItem onClick={() => handleAction("edit")} label="수정" />
-              <MenuSheetItem
+            <SwipeableMenuSheetGroup>
+              <SwipeableMenuSheetItem onClick={() => handleAction("add")} label="추가" />
+              <SwipeableMenuSheetItem onClick={() => handleAction("edit")} label="수정" />
+              <SwipeableMenuSheetItem
                 onClick={() => {
                   // [!code highlight]
-                  setOpen(false); // 다른 Activity로 이동하기 전에는 Menu Sheet를 닫으세요.
+                  setOpen(false); // 다른 Activity로 이동하기 전에는 Swipeable Menu Sheet를 닫으세요.
                   push("ActivityNext");
                 }}
                 label="Push"
               />
-              <MenuSheetItem
+              <SwipeableMenuSheetItem
                 onClick={() => handleAction("delete")}
                 tone="critical"
                 label="삭제"
               />
-            </MenuSheetGroup>
-          </MenuSheetContent>
+            </SwipeableMenuSheetGroup>
+          </SwipeableMenuSheetContent>
           {/* [!code highlight] */}
         </Portal>
-      </MenuSheetRoot>
+      </SwipeableMenuSheetRoot>
     </AppScreen>
   );
 };

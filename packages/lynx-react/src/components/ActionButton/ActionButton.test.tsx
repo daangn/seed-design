@@ -88,9 +88,9 @@ describe("ActionButton", () => {
     const { getByText } = getRenderedQueries();
     const root = getRenderedRoot();
 
-    expect(root.querySelector(".seed-prefix-icon")).toHaveClass("seed-action-button__prefixIcon");
-    expect(root.querySelector(".seed-suffix-icon")).toHaveClass("seed-action-button__suffixIcon");
-    expect(root.querySelector(".seed-prefix-icon image")).toHaveStyle({
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-action-button__prefixIcon");
+    expect(root.querySelector(".seed-suffix-icon-slot")).toHaveClass("seed-action-button__suffixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot image")).toHaveStyle({
       width: "100%",
       height: "100%",
     });
@@ -106,8 +106,8 @@ describe("ActionButton", () => {
 
     const root = getRenderedRoot();
 
-    expect(root.querySelector(".seed-prefix-icon")).toHaveClass("seed-action-button__prefixIcon");
-    expect(root.querySelector(".seed-suffix-icon")).toHaveClass("seed-action-button__suffixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-action-button__prefixIcon");
+    expect(root.querySelector(".seed-suffix-icon-slot")).toHaveClass("seed-action-button__suffixIcon");
   });
 
   it("supports icon-only child slot", () => {
@@ -119,7 +119,7 @@ describe("ActionButton", () => {
 
     const root = getRenderedRoot();
 
-    expect(root.querySelector(".seed-icon")).toHaveClass("seed-action-button__icon");
+    expect(root.querySelector(".seed-icon-slot")).toHaveClass("seed-action-button__icon");
   });
 
   it("maps accessibility props to the root view", () => {
@@ -141,7 +141,7 @@ describe("ActionButton", () => {
 
     const root = getRenderedRoot();
 
-    expect(root.querySelector(".seed-icon")).toHaveClass("seed-action-button__icon");
+    expect(root.querySelector(".seed-icon-slot")).toHaveClass("seed-action-button__icon");
   });
 
   it("throws in development when icon-only layout has no Icon child", () => {

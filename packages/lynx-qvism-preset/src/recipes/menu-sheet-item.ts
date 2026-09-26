@@ -5,12 +5,11 @@ import { defineSlotRecipe } from "../utils/define";
  * Lynx MenuSheet item recipe.
  *
  * Group clipping supplies corner geometry and an explicit divider slot replaces
- * web-only sibling selectors. Press feedback is provided by the `pressed`
- * variant because Lynx does not expose the web pseudo-state surface.
+ * web-only sibling selectors. Native :active starts press feedback immediately.
  */
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
-  slots: ["root", "content", "label", "description", "prefixIcon", "divider"],
+  slots: ["root", "scaleContent", "content", "label", "description", "prefixIcon", "divider"],
   base: {
     root: {
       display: "flex",
@@ -23,8 +22,18 @@ const menuSheetItem = defineSlotRecipe({
       paddingRight: vars.base.enabled.root.paddingX,
       paddingBottom: vars.base.enabled.root.paddingY,
       paddingLeft: vars.base.enabled.root.paddingX,
-      gap: vars.base.enabled.root.gap,
+
       backgroundColor: vars.base.enabled.root.color,
+      "&:active": { backgroundColor: vars.base.pressed.root.color },
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "100%",
+      minWidth: 0,
+      gap: vars.base.enabled.root.gap,
     },
     content: {
       display: "flex",
@@ -83,7 +92,7 @@ const menuSheetItem = defineSlotRecipe({
         },
       },
       center: {
-        root: {
+        scaleContent: {
           justifyContent: "center",
         },
         content: {

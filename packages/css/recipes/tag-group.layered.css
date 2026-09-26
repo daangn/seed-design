@@ -27,9 +27,25 @@
     --tag-group-item-overflow: hidden;
     --tag-group-item-text-overflow: ellipsis;
     --tag-group-item-white-space: nowrap;
+    --tag-group-item-align-items: baseline;
     align-items: center;
     max-width: 100%;
     display: inline-flex;
+  }
+
+  .seed-tag-group__root--truncate_true .seed-icon {
+    top: var(--tag-group-item-icon-flex-offset, 0px);
+    position: relative;
+  }
+
+  .seed-tag-group__root--truncate_true .seed-prefix-icon {
+    top: var(--tag-group-item-prefix-icon-flex-offset, 0px);
+    position: relative;
+  }
+
+  .seed-tag-group__root--truncate_true .seed-suffix-icon {
+    top: var(--tag-group-item-suffix-icon-flex-offset, 0px);
+    position: relative;
   }
 
   .seed-tag-group__root--truncate_false {
@@ -37,8 +53,14 @@
     --tag-group-item-overflow: visible;
     --tag-group-item-text-overflow: clip;
     --tag-group-item-white-space: normal;
+    --tag-group-item-align-items: center;
     font-size: 0;
     display: inline-block;
+  }
+
+  .seed-tag-group__root--truncate_false .seed-icon, .seed-tag-group__root--truncate_false .seed-prefix-icon, .seed-tag-group__root--truncate_false .seed-suffix-icon {
+    top: var(--tag-group-item-inline-icon-offset, 0px);
+    position: relative;
   }
 
   .seed-tag-group__separator--truncate_false {

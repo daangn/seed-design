@@ -1,28 +1,30 @@
 # packages/react-headless
 
-## 디렉토리 개요
+스타일 없는 상태·접근성·이벤트 로직을 컴포넌트별 독립 패키지(`packages/react-headless/<name>/`, `@seed-design/react-<name>`)로 제공한다. `packages/react`가 여기에 Recipe를 입힌다.
 
-**Headless UI 컴포넌트**를 제공하는 패키지. 스타일 없이 순수한 로직(상태 관리, 접근성, 이벤트 처리)만 담당한다. `packages/react`에서 이 패키지의 컴포넌트에 스타일을 적용한다.
+## 규칙
 
-## 파일 작성 컨벤션
+### 경계
 
-- 컴포넌트 단위 디렉토리에서 훅, 프리미티브 구현, 멀티파트 바렐을 역할별 아티팩트로 분리한다.
-- 파일은 역할이 겹치지 않도록 단일 책임으로 구성하고 공개 경로는 배럴을 통해 정리한다.
+- 스타일 로직을 넣지 않는다 → CSS·className 코드는 `packages/react`와 Recipe에 둔다. 접근성용 인라인 스타일(`visuallyHidden` 등)만 예외다.
+- 상태는 `data-*` 속성(`data-checked`, `data-disabled` 등)으로 드러낸다.
+- controlled·uncontrolled는 `@seed-design/react-use-controllable-state`의 `useControllableState`로 지원한다.
+- 컴포넌트는 `forwardRef`로 감싼다.
 
-## 코드 작성 컨벤션
+### 훅과 컴포넌트 분담
 
-- **스타일 로직 금지**: CSS나 className 관련 코드 없어야 함. 단, `visuallyHidden` 등 접근성을 위한 인라인 스타일은 예외.
-- `data-*` 속성으로 상태 표현 (data-checked, data-disabled 등)
-- `useControllableState`로 controlled/uncontrolled 지원
-- `forwardRef` 필수
-- APG가 heading hierarchy나 landmark 구조를 요구하면 native heading을 hardcode하기 전에 `hardcode`, `asChild`, `aria-level override` 중 어떤 escape hatch를 줄지 먼저 정한다.
-- 기존 primitive/hook 조합으로 해결할 수 있으면 재사용을 우선한다. 새 hook abstraction은 duplication이 분명할 때만 추가한다.
-- 공개 API를 새로 설계하거나 변경할 때는 내부 상태 구현의 단순함보다 consumer ergonomics와 기존 외부 API 일관성을 우선 검토한다.
-- binary mode의 표현은 실제 가능한 상태 수와 기존 API 호환성을 기준으로 선택한다. 단순한 이진 옵션이면 boolean prop을, 구별되는 동작 상태가 있으면 discriminated union이나 enum을 사용한다.
-- 특정 mode에서만 유효한 prop은 런타임에서 무시하지 말고 discriminated union으로 차단한다. 문서와 테스트도 같은 contract를 설명해야 한다.
-- 재사용 가능한 상태 전이, 키보드 인터랙션, DOM querying, 내부 id 생성 로직은 가능하면 `use*` 훅으로 내리고 컴포넌트는 hook이 만든 props와 refs를 연결하는 역할에 집중한다.
-- `AccordionTrigger` 같은 leaf component에 이벤트 핸들러가 길어지기 시작하면 먼저 `useItem` 계열 훅으로 옮길 수 있는지 검토한다.
-- root/item/trigger/content처럼 역할이 나뉘는 compound stateful 컴포넌트는 `useRootState`와 `useItemState`로 책임을 나누고, 컴포넌트 파일에는 render wiring만 남기는 방향을 기본값으로 본다.
-- DOM query가 필요하면 ref `Set` 등록보다 내부 id + `data-ownedby` 같은 안정적인 query contract를 먼저 검토한다.
-- hook이 반환하는 props는 ARIA, keyboard handler, ids, `data-*` state까지 포함한 "slot contract"를 목표로 하고, React 컴포넌트가 같은 로직을 다시 계산하지 않게 한다.
-- hook props와 primitive component props를 따로 손으로 맞추지 않는다. item/root props는 가능한 한 `Use*Props`를 component props가 확장하거나 재사용하도록 만들어 타입 contract가 한 곳에서 바뀌게 한다.
+컴포넌트 파일에는 훅이 만든 props·ref를 연결하는 render wiring만 남긴다.
+
+- 재사용할 상태 전이, 키보드 인터랙션, DOM query, 내부 id 생성 → `use*` 훅으로 내린다.
+- root/item/trigger/content로 나뉘는 compound stateful 컴포넌트 → root 상태는 `use<Name>`, item 상태는 `use<Name>Item`으로 나눈다. 예: `accordion/src/useAccordion.ts`, `useAccordionItem.ts`.
+- leaf 컴포넌트(`AccordionTrigger` 등)의 이벤트 핸들러가 길어짐 → `use<Name>Item` 계열 훅으로 옮길 수 있는지 먼저 본다.
+- 훅 반환 props → ARIA, keyboard handler, id, `data-*` state까지 담은 slot contract로 만들어 `packages/react`가 같은 로직을 다시 계산하지 않게 한다.
+- DOM query가 필요함 → ref `Set` 등록보다 내부 id + `data-ownedby` 같은 안정적인 query contract를 먼저 검토한다. 예: `accordion/src/dom.ts`.
+
+### 공개 API와 타입
+
+- component props → 훅의 `Use*Props`를 확장하거나 재사용해 타입 contract가 한 곳에서 바뀌게 한다. 같은 prop을 손으로 다시 선언하지 않는다.
+- 특정 mode에서만 유효한 prop → 런타임에서 무시하지 말고 discriminated union으로 막는다. 문서와 테스트도 같은 contract를 설명한다.
+- 이진 옵션 → 단순하면 boolean prop, 구별되는 동작 상태가 있으면 discriminated union이나 enum을 쓴다. 실제 가능한 상태 수와 기존 API 호환성으로 고른다.
+- APG가 heading hierarchy나 landmark 구조를 요구함 → native heading을 hardcode하기 전에 `hardcode`, `asChild`, `aria-level` override 중 어떤 escape hatch를 줄지 먼저 정한다.
+- 새 훅 추상화 → 기존 primitive·훅 조합으로 안 되고 중복이 분명할 때만 만든다. 공개 API는 내부 구현의 단순함보다 consumer ergonomics와 기존 외부 API 일관성을 우선한다.

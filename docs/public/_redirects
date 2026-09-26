@@ -20,6 +20,7 @@
 /foundations/design-token-reference /foundations/design-token/reference 301
 /foundations/iconography/overview /foundations/iconography 301
 /foundations/typography/overview /foundations/typography 301
+/foundations/safe-area /patterns/safe-area 301
 
 # AI Integration 통합: react/docs/breeze 아래 있던 문서를 `/ai-integration`으로 옮겼다.
 # `llms-txt` 페이지는 삭제되고 `/llms.txt` 라우트로 대체됐다.
@@ -38,3 +39,9 @@
 /react/components/check-select-box /react/components/select-box 301
 /react/components/radio-select-box /react/components/select-box 301
 /react/guides/theming /react/getting-started/styling/theming 301
+
+# Lynx Styling: Getting started 아래 버전별 가이드와 Theming으로 이동
+/lynx/foundation/layout/styling /lynx/getting-started/styling/tailwind-css-3 301
+/lynx/getting-started/theming /lynx/getting-started/styling/theming 301
+/llms/lynx/foundation/layout/styling /llms/lynx/getting-started/styling/tailwind-css-3 301
+/llms/lynx/getting-started/theming /llms/lynx/getting-started/styling/theming 301

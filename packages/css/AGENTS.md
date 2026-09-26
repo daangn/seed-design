@@ -1,39 +1,13 @@
 # packages/css
 
-## 디렉토리 개요
+웹 CSS 변수·Recipe를 배포하는 `@seed-design/css` 패키지다. 대부분 `packages/rootage/`와 `packages/qvism-preset/`에서 생성되고, 아래 손으로 쓰는 모듈만 이 패키지가 원천이다.
 
-**CSS 변수와 Recipe를 제공**하는 패키지. `vars/`, `recipes/`, 루트 `*.css`는 **자동 생성**이므로 직접 수정 금지. 나머지는 손으로 쓰는 소스다.
+## 규칙
 
-## 파일 작성 컨벤션
+손으로 쓰는 원천은 `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs`다. 생성 명령은 이 경로를 만들지도 고치지도 않는다.
 
-| 경로 | 생성 원천 |
-|------|-----------|
-| `vars/` | `rootage/*.yaml` |
-| `recipes/` | `qvism-preset/src/recipes/*.ts` |
-| `*.css` (루트) | qvism-preset |
-| `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs` | 없음 (손으로 작성) |
-
-수정 가능 여부는 이 표가 아니라 `.gitattributes`가 정한다. `git check-attr linguist-generated -- <파일 경로>`가 `set`이면 생성물이다.
-
-`theming/`, `breakpoints/`, `scale-feedback/`는 `.mjs`와 `.cjs`, `.d.ts`를 손으로 함께 맞춘다. `bun generate:all`은 이 디렉토리를 건드리지 않는다.
-
-## 코드 작성 컨벤션
-
-스타일 변경이 필요하면:
-1. 토큰 → `packages/rootage/*.yaml` 수정
-2. Recipe → `packages/qvism-preset/src/recipes/*.ts` 수정
-3. `bun generate:all` 실행
-
-## 소스-생성물 관계
-
-| 소스 | 생성 명령 | 생성물 |
-|------|----------|--------|
-| `packages/qvism-preset/src/recipes/*.ts` | `bun qvism:generate` | `packages/css/recipes/*.{css,mjs,d.ts}` |
-| `packages/rootage/components/*.yaml` | `bun rootage:generate` | `packages/css/vars/component/*.{mjs,d.ts}` |
-
-## defineRecipe vs defineSlotRecipe 생성물 차이
-
-| Recipe 타입 | 클래스명 패턴 | 예시 |
-|------------|-------------|------|
-| `defineRecipe` | `.seed-{name}` | `.seed-button` |
-| `defineSlotRecipe` | `.seed-{name}__{slot}` | `.seed-avatar__root`, `.seed-avatar__fallback` |
+- `theming/` 수정 → `.mjs`, `.cjs`, `.d.ts`를 함께 맞춘다.
+- `breakpoints/`, `scale-feedback/` 수정 → `.mjs`와 `.d.ts`를 함께 맞춘다.
+- `scale-feedback/`의 class·값 이름은 소비자 CSS가 직접 참조하는 공개 API다. 이름을 바꾸면 changeset에 breaking 여부를 밝히고, `SCALE_FEEDBACK_CLASS_NAME`은 `packages/qvism-preset/src/utils/scale-feedback.ts`의 같은 값도 고친다. 둘을 대조하는 검사가 없다.
+- `theming/`의 inline script template literal 안에는 주석을 쓰지 않는다. 문자열 그대로 모든 페이지에 실린다 → 설명은 template literal 밖에 쓴다.
+- 생성된 스타일을 바꿔야 함 → 토큰은 `packages/rootage/`, Recipe는 `packages/qvism-preset/src/recipes/`를 고치고 루트 `AGENTS.md`「생성」을 따른다.

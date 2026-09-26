@@ -127,7 +127,10 @@ jobs:
           bun --filter @seed-design/rootage-artifacts rootage:generate
 
       - name: Generate CSS bundles
-        run: bun qvism:build && bun qvism:generate
+        run: |
+          bun ecosystem:build
+          bun install --frozen-lockfile
+          bun qvism:generate
 
       - name: Build packages
         run: bun packages:build
