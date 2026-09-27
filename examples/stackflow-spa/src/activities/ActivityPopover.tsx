@@ -29,6 +29,7 @@ import {
 import { HStack, Portal } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
+  PopoverAction,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
@@ -159,7 +160,7 @@ function PlacementSection() {
             <PopoverBody>요청 placement: {placement}</PopoverBody>
             <PopoverFooter>
               <HStack gap="x2" justify="flex-end">
-                <ActionButton variant="neutralSolid">확인</ActionButton>
+                <PopoverAction variant="neutralSolid">확인</PopoverAction>
               </HStack>
             </PopoverFooter>
           </PopoverContent>
@@ -192,7 +193,7 @@ function PositioningOptionsSection() {
             </PopoverBody>
             <PopoverFooter>
               <HStack gap="x2" justify="flex-end">
-                <ActionButton variant="neutralSolid">확인</ActionButton>
+                <PopoverAction variant="neutralSolid">확인</PopoverAction>
               </HStack>
             </PopoverFooter>
           </PopoverContent>
@@ -319,7 +320,7 @@ function LayerSection() {
                     <PopoverBody>시트 스크림 위로 올라와야 합니다.</PopoverBody>
                     <PopoverFooter>
                       <HStack gap="x2" justify="flex-end">
-                        <ActionButton variant="neutralSolid">확인</ActionButton>
+                        <PopoverAction variant="neutralSolid">확인</PopoverAction>
                       </HStack>
                     </PopoverFooter>
                   </PopoverContent>
@@ -347,7 +348,7 @@ function LayerSection() {
                     </PopoverBody>
                     <PopoverFooter>
                       <HStack gap="x2" justify="flex-end">
-                        <ActionButton variant="neutralSolid">확인</ActionButton>
+                        <PopoverAction variant="neutralSolid">확인</PopoverAction>
                       </HStack>
                     </PopoverFooter>
                   </PopoverContent>
@@ -385,7 +386,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
               </PopoverBody>
               <PopoverFooter>
                 <HStack gap="x2" justify="flex-end">
-                  <ActionButton variant="neutralSolid">확인</ActionButton>
+                  <PopoverAction variant="neutralSolid">확인</PopoverAction>
                 </HStack>
               </PopoverFooter>
             </PopoverContent>
@@ -412,7 +413,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>Header / Body / Footer 구조를 가진 기본 Popover입니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -430,10 +431,10 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <ActionButton variant="neutralSolid">닫기 버튼 없음</ActionButton>
                 </PopoverTrigger>
                 <PopoverContent title="showCloseButton=false" showCloseButton={false}>
-                  <PopoverBody>Escape 키나 바깥 클릭으로 닫을 수 있습니다.</PopoverBody>
+                  <PopoverBody>Escape 키, 바깥 클릭, 확인 버튼으로 닫을 수 있습니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -447,7 +448,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>aria-describedby만 Description을 가리켜야 합니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -461,7 +462,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>Header 슬롯 자체가 렌더되지 않습니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">적용</ActionButton>
+                      <PopoverAction variant="neutralSolid">적용</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -495,7 +496,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   </PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">동의</ActionButton>
+                      <PopoverAction variant="neutralSolid">동의</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -516,7 +517,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>콘텐츠 길이와 무관하게 너비가 고정됩니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -536,7 +537,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   </PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -561,7 +562,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>바깥 아무 데나 눌러보세요.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -586,7 +587,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   </PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -604,7 +605,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   </PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -618,7 +619,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>열기 전에도 content가 DOM에 있습니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
@@ -646,7 +647,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                   <PopoverBody>Tab / Shift+Tab이 dialog 안에서 어떻게 도는지 봅니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
-                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                      <PopoverAction variant="neutralSolid">확인</PopoverAction>
                     </HStack>
                   </PopoverFooter>
                 </PopoverContent>
