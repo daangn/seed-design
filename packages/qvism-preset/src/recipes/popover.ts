@@ -178,8 +178,6 @@ const popover = defineSlotRecipe({
       border: "none",
       background: closeButtonVars.base.enabled.root.color,
 
-      // No safe-area folding here: floating-ui's collision padding already keeps the popover
-      // below the top safe area, unlike the edge-anchored Side Panel.
       top: vars.base.enabled.closeButton.fromTop,
       right: vars.base.enabled.closeButton.fromRight,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
