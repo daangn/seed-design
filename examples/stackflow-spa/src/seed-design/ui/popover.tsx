@@ -2,6 +2,7 @@ import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, Popover as SeedPopover } from "@seed-design/react";
 import type * as React from "react";
 import { forwardRef } from "react";
+import { ActionButton, type ActionButtonProps } from "./action-button";
 
 export interface PopoverRootProps extends SeedPopover.RootProps {}
 
@@ -83,3 +84,17 @@ export const PopoverBody = SeedPopover.Body;
 export interface PopoverFooterProps extends SeedPopover.FooterProps {}
 
 export const PopoverFooter = SeedPopover.Footer;
+
+export interface PopoverActionProps
+  extends Omit<SeedPopover.ActionProps, "color">,
+    ActionButtonProps {}
+
+export const PopoverAction = forwardRef<HTMLButtonElement, PopoverActionProps>((props, ref) => {
+  return (
+    <SeedPopover.Action asChild>
+      <ActionButton {...props} ref={ref} />
+    </SeedPopover.Action>
+  );
+});
+
+PopoverAction.displayName = "PopoverAction";
