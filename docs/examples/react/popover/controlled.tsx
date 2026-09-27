@@ -15,6 +15,7 @@ export default function PopoverControlled() {
 
   return (
     <VStack gap="spacingY.componentDefault" align="center">
+      <Switch size="24" tone="neutral" label="열림" checked={open} onCheckedChange={setOpen} />
       <PopoverRoot open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <ActionButton variant="neutralSolid">Popover</ActionButton>
@@ -28,7 +29,6 @@ export default function PopoverControlled() {
           </PopoverFooter>
         </PopoverContent>
       </PopoverRoot>
-      <Switch size="24" tone="neutral" label="열림" checked={open} onCheckedChange={setOpen} />
     </VStack>
   );
 }
