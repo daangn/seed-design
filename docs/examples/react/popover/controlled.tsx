@@ -15,7 +15,7 @@ export default function PopoverControlled() {
 
   return (
     <VStack gap="spacingY.componentDefault" align="center">
-      <PopoverRoot open={open} onOpenChange={setOpen} closeOnInteractOutside={false}>
+      <PopoverRoot open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <ActionButton variant="neutralSolid">Popover</ActionButton>
         </PopoverTrigger>
