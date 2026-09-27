@@ -2,7 +2,6 @@ import {
   arrow,
   autoUpdate,
   flip,
-  limitShift,
   offset,
   shift,
   size,
@@ -11,6 +10,7 @@ import {
   type ExtendedRefs,
   type FloatingContext,
   type Middleware,
+  type Padding,
   type Placement,
   type Rect,
   type ReferenceType,
@@ -65,6 +65,11 @@ const defaultPositioningOptions: PositioningOptions = {
   arrowPadding: 4,
 };
 
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+} as CSSProperties;
+
 function getArrowMiddleware(arrowElement: HTMLElement | null, opts: PositioningOptions) {
   if (!arrowElement) return;
   return arrow({ element: arrowElement, padding: opts.arrowPadding });
@@ -75,26 +80,25 @@ function getOffsetMiddleware(arrowOffset: number, opts: PositioningOptions) {
   return offset(offsetMainAxis);
 }
 
-function getFlipMiddleware(opts: PositioningOptions) {
+function getFlipMiddleware(opts: PositioningOptions, collisionPadding: Padding) {
   if (!opts.flip) return;
   return flip({
-    padding: opts.overflowPadding,
+    padding: collisionPadding,
     fallbackPlacements: opts.flip === true ? undefined : opts.flip,
   });
 }
 
-function getShiftMiddleware(opts: PositioningOptions) {
+function getShiftMiddleware(opts: PositioningOptions, collisionPadding: Padding) {
   if (!opts.slide) return;
   return shift({
     mainAxis: opts.slide,
-    padding: opts.overflowPadding,
-    limiter: limitShift(),
+    padding: collisionPadding,
   });
 }
 
-function getSizeMiddleware(opts: PositioningOptions) {
+function getSizeMiddleware(collisionPadding: Padding) {
   return size({
-    padding: opts.overflowPadding,
+    padding: collisionPadding,
     apply({ availableWidth, elements }) {
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
@@ -162,6 +166,7 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
   props: UsePositionedFloatingProps,
 ): UsePositionedFloatingReturn<RT> {
   const options = { ...defaultPositioningOptions, ...props };
+  const { overflowPadding = 8 } = options;
 
   const [open, onOpenChange] = useControllableState({
     prop: props.open,
@@ -170,6 +175,14 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
   });
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
   const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
+  const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
+
+  const collisionPadding = {
+    top: safeArea.top || overflowPadding,
+    right: overflowPadding,
+    bottom: safeArea.bottom || overflowPadding,
+    left: overflowPadding,
+  };
 
   const arrowTipWidth = arrowTipEl?.clientWidth ?? 0;
   const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
@@ -182,9 +195,9 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
     onOpenChange: onOpenChange,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
-      getFlipMiddleware(options),
-      getShiftMiddleware(options),
-      getSizeMiddleware(options),
+      getFlipMiddleware(options, collisionPadding),
+      getShiftMiddleware(options, collisionPadding),
+      getSizeMiddleware(collisionPadding),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
@@ -198,6 +211,31 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
 
     return autoUpdate(refs.reference.current, refs.floating.current, context.update);
   }, [open, refs.reference, refs.floating, context]);
+
+  const floatingElement = context.elements.floating;
+
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const element = floatingElement;
+    function read() {
+      const styles = getComputedStyle(element);
+      setSafeArea({
+        top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
+        bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
+      });
+    }
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
+
+  const resolvedFloatingStyles = useMemo(
+    () => ({ ...SAFE_AREA_STYLE, ...floatingStyles }),
+    [floatingStyles],
+  );
 
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 
@@ -235,7 +273,7 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
       side,
       alignment,
       context,
-      floatingStyles,
+      floatingStyles: resolvedFloatingStyles,
       arrowStyles,
     }),
     [
@@ -248,7 +286,7 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
       context,
       side,
       alignment,
-      floatingStyles,
+      resolvedFloatingStyles,
       arrowStyles,
       isPositioned,
       arrowTipWidth,
