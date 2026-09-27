@@ -1,7 +1,7 @@
 import { popover, type PopoverVariantProps } from "@seed-design/css/recipes/popover";
 import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { useComposedRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import clsx from "clsx";
 import * as React from "react";
@@ -184,19 +184,12 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>((props, 
   const { style, restProps } = useStyleProps(props);
   const { className, ...otherProps } = restProps;
 
+  const ref = React.useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = React.useState(false);
   const [overflowing, setOverflowing] = React.useState(false);
 
-  const teardownRef = React.useRef<(() => void) | null>(null);
-
-  // The node can attach at any point in the component's life: `lazyMount` holds the whole
-  // content subtree out of the DOM until the first open, and an `asChild` child may hand its
-  // node over later still. Measurement therefore hangs off the ref, which sees every attach
-  // and detach — a mount effect reads the node once and has no way to retry.
-  const observeRef = React.useCallback((element: HTMLDivElement | null) => {
-    teardownRef.current?.();
-    teardownRef.current = null;
-
+  React.useEffect(() => {
+    const element = ref.current;
     if (!element) return;
 
     const check = () => {
@@ -214,17 +207,15 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>((props, 
     const observer = new ResizeObserver(check);
     observer.observe(element);
 
-    teardownRef.current = () => {
+    return () => {
       element.removeEventListener("scroll", check);
       observer.disconnect();
     };
   }, []);
 
-  const ref = useComposedRefs(observeRef, forwardedRef);
-
   return (
     <Primitive.div
-      ref={ref}
+      ref={composeRefs(ref, forwardedRef)}
       data-scrolled={dataAttr(scrolled)}
       data-overflow={dataAttr(overflowing)}
       className={clsx(classNames.body, className)}
