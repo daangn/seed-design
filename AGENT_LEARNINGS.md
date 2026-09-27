@@ -70,7 +70,7 @@
 
 ### Better Approaches
 - Recommendation: 새 worktree에서는 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
-- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`. `examples/stackflow-spa` dev 서버·e2e 전 `bun --filter @seed-design/vite-plugin build`를 추가로 실행한다(`ecosystem:build`에 포함되지 않는다).
+- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`. `examples/stackflow-spa` dev 서버·e2e 전 `bun --filter @seed-design/vite-plugin build && bun --filter @seed-design/stackflow build`를 추가로 실행한다. 둘 다 `ecosystem:build`·`headless:build`에 포함되지 않고, stackflow가 없으면 `AppScreen` 타입 오류 오버레이가 화면을 덮는다.
 
 ## Headless 분리 리팩터링은 native tree 직렬화로 회귀를 막는다
 
