@@ -715,7 +715,6 @@
         "@seed-design/react-text-field": "^2.0.1",
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
-        "@seed-design/react-toggle-tip": "^1.0.0",
         "@seed-design/react-tooltip": "^1.0.1",
         "@seed-design/react-wheel-picker": "^1.1.0",
         "clsx": "^2.1.1",
@@ -1493,26 +1492,6 @@
       "dependencies": {
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "^2.0.1",
-        "@seed-design/react-primitive": "^2.0.1",
-      },
-      "devDependencies": {
-        "@types/react": "^19.1.6",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-      },
-      "peerDependencies": {
-        "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
-    "packages/react-headless/toggle-tip": {
-      "name": "@seed-design/react-toggle-tip",
-      "version": "1.0.0",
-      "dependencies": {
-        "@floating-ui/react": "^0.27.0",
-        "@radix-ui/react-compose-refs": "^1.1.2",
-        "@seed-design/dom-utils": "^2.0.1",
-        "@seed-design/react-floating": "^1.0.1",
         "@seed-design/react-primitive": "^2.0.1",
       },
       "devDependencies": {
@@ -3494,8 +3473,6 @@
     "@seed-design/react-time-picker": ["@seed-design/react-time-picker@workspace:packages/react-headless/time-picker"],
 
     "@seed-design/react-toggle": ["@seed-design/react-toggle@workspace:packages/react-headless/toggle"],
-
-    "@seed-design/react-toggle-tip": ["@seed-design/react-toggle-tip@workspace:packages/react-headless/toggle-tip"],
 
     "@seed-design/react-tooltip": ["@seed-design/react-tooltip@workspace:packages/react-headless/tooltip"],
 

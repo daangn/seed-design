@@ -15,4 +15,3 @@ export * from "@seed-design/react-snackbar";
 export * from "@seed-design/react-switch";
 export * from "@seed-design/react-tabs";
 export * from "@seed-design/react-toggle";
-export * from "@seed-design/react-toggle-tip";
