@@ -121,3 +121,17 @@
 ### Better Approaches
 - Recommendation: 대상이 몇 개 안 되는 여러 줄 편집은 Edit 도구로 정확한 문자열을 치환한다. 스크립트가 꼭 필요하면 쓰기 전에 매칭 범위를 출력해 확인한다.
 - Solutions: 시작점이 반복되는 토큰이면 `(?:(?!\*/).)*`처럼 블록 종료 토큰을 넘지 않게 제한한다. 적용 전에 `print(m.group(0))` 또는 `diff`로 매칭된 줄 수를 확인하고, 적용 후 `git diff --stat`으로 파일별 삭제 줄 수가 예상과 같은지 본다.
+
+## 포인터 입력의 포커스 순서는 happy-dom 결과로 판정하지 않는다
+
+### Mistake Made
+- Description: Popover·HelpBubble이 바깥을 눌러 닫힐 때의 포커스 결과를 happy-dom과 `userEvent.click`으로 비교했다. 텍스트 필드를 누르면 포커스가 trigger에 남는다는 결과가 나왔지만, Chrome에서 실제 마우스 입력으로 확인하니 trigger를 약 10ms 거친 뒤 텍스트 필드로 이동했다.
+- Impact: 존재하지 않는 회귀를 보고할 뻔했고, 브라우저 재검증을 따로 해야 했다.
+
+### Patterns to Avoid
+- Pattern: pointerdown에서 닫힘 → 포커스 복귀(microtask) → mousedown 기본 동작으로 포커스 이동처럼, 이벤트 사이 순서에 결과가 달린 시나리오를 happy-dom 테스트만으로 판정하는 것.
+- Risk: happy-dom의 `userEvent`는 mousedown 기본 포커스 이동과 포커스 불가 영역의 blur를 실제 브라우저와 다른 순서로 처리해, 최종 포커스 위치가 다르게 나온다.
+
+### Better Approaches
+- Recommendation: 키보드·프로그래밍 방식 포커스(Tab, Escape, `focus()`)는 happy-dom으로 판정해도 된다. 포인터로 바깥을 누르는 시나리오는 실제 브라우저에서 CDP 입력으로 확인한다.
+- Solutions: stackflow-spa에 임시 activity를 만들고 `document`의 `focusin`을 시각과 함께 화면에 기록한다. chrome-devtools `click`(CDP 마우스 이벤트)으로 누른 뒤 `evaluate_script`로 `document.activeElement`와 기록을 읽는다. 자동 회귀 테스트가 필요하면 `examples/stackflow-spa/e2e/`의 Playwright로 작성한다.
