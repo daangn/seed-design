@@ -61,8 +61,8 @@
 ## 새 worktree의 테스트·타입 검사는 선행 lib 빌드가 필요하다
 
 ### Mistake Made
-- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다. headless 패키지의 `bun test`와 `tsc`도 `bun install` 직후 바로 실행했다.
-- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow`, `@seed-design/react-primitive`, `@seed-design/react-dismissible-layer` 같은 workspace 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
+- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다. headless 패키지의 `bun test`와 `tsc`도 `bun install` 직후 바로 실행했다. `bun ecosystem:build`·`bun headless:build`·`@seed-design/react` 빌드까지 마친 새 worktree에서 `examples/stackflow-spa`의 vite dev 서버를 띄웠다.
+- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow`, `@seed-design/react-primitive`, `@seed-design/react-dismissible-layer` 같은 workspace 모듈을 찾지 못해 실패했다. stackflow-spa dev 서버는 `Failed to resolve entry for package "@seed-design/vite-plugin"`으로 시작하지 못했다. 변경과 무관한 실패였지만 재실행이 필요했다.
 
 ### Patterns to Avoid
 - Pattern: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 변경의 실패로 판정하는 것.
@@ -70,7 +70,7 @@
 
 ### Better Approaches
 - Recommendation: 새 worktree에서는 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
-- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
+- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`. `examples/stackflow-spa` dev 서버·e2e 전 `bun --filter @seed-design/vite-plugin build`를 추가로 실행한다(`ecosystem:build`에 포함되지 않는다).
 
 ## Headless 분리 리팩터링은 native tree 직렬화로 회귀를 막는다
 
