@@ -7,7 +7,15 @@ import {
   type ReferenceType,
 } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   usePositionedFloating,
   type UsePositionedFloatingProps,
@@ -63,6 +71,19 @@ export interface UsePopoverProps extends UsePositionedFloatingProps<PopoverChang
    * @default false
    */
   unmountOnExit?: boolean;
+}
+
+function getTransformOrigin(placement: string) {
+  const [side, align] = placement.split("-");
+  const facing =
+    { top: "bottom", bottom: "top", left: "right", right: "left" }[side ?? ""] ?? "top";
+  if (side === "left" || side === "right") {
+    const y = { start: "top", end: "bottom" }[align ?? ""] ?? "center";
+    return `${facing} ${y}`;
+  }
+
+  const x = { start: "left", end: "right" }[align ?? ""] ?? "center";
+  return `${x} ${facing}`;
 }
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
@@ -189,6 +210,9 @@ export function usePopover({
       contentProps: elementProps({
         ...triggerInteractions.getFloatingProps(),
         ...stateProps,
+        style: {
+          "--seed-popover-transform-origin": getTransformOrigin(context.placement),
+        } as CSSProperties,
         ...(isTitleRendered && { "aria-labelledby": getTitleId(id) }),
         ...(isDescriptionRendered && { "aria-describedby": getDescriptionId(id) }),
       }),
