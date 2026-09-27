@@ -157,6 +157,11 @@ function PlacementSection() {
           </PopoverTrigger>
           <PopoverContent title={placement} showCloseButton={false}>
             <PopoverBody>요청 placement: {placement}</PopoverBody>
+            <PopoverFooter>
+              <HStack gap="x2" justify="flex-end">
+                <ActionButton variant="neutralSolid">확인</ActionButton>
+              </HStack>
+            </PopoverFooter>
           </PopoverContent>
         </PopoverRoot>
       </Row>
@@ -185,6 +190,11 @@ function PositioningOptionsSection() {
             <PopoverBody>
               flip {String(flip)} / slide {String(slide)}
             </PopoverBody>
+            <PopoverFooter>
+              <HStack gap="x2" justify="flex-end">
+                <ActionButton variant="neutralSolid">확인</ActionButton>
+              </HStack>
+            </PopoverFooter>
           </PopoverContent>
         </PopoverRoot>
       </Row>
@@ -307,6 +317,11 @@ function LayerSection() {
                   </PopoverTrigger>
                   <PopoverContent title="sheet 위의 popover">
                     <PopoverBody>시트 스크림 위로 올라와야 합니다.</PopoverBody>
+                    <PopoverFooter>
+                      <HStack gap="x2" justify="flex-end">
+                        <ActionButton variant="neutralSolid">확인</ActionButton>
+                      </HStack>
+                    </PopoverFooter>
                   </PopoverContent>
                 </PopoverRoot>
               </BottomSheetFooter>
@@ -330,6 +345,11 @@ function LayerSection() {
                     <PopoverBody>
                       Escape 한 번에 popover만 닫히고 dialog는 남아 있어야 합니다.
                     </PopoverBody>
+                    <PopoverFooter>
+                      <HStack gap="x2" justify="flex-end">
+                        <ActionButton variant="neutralSolid">확인</ActionButton>
+                      </HStack>
+                    </PopoverFooter>
                   </PopoverContent>
                 </PopoverRoot>
               </DialogFooter>
@@ -363,6 +383,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 상단 safe-area 바로 아래에서 열립니다. 노치가 있는 기기에서 잘리지 않는지
                 확인하세요.
               </PopoverBody>
+              <PopoverFooter>
+                <HStack gap="x2" justify="flex-end">
+                  <ActionButton variant="neutralSolid">확인</ActionButton>
+                </HStack>
+              </PopoverFooter>
             </PopoverContent>
           </PopoverRoot>
           <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
@@ -406,6 +431,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 </PopoverTrigger>
                 <PopoverContent title="showCloseButton=false" showCloseButton={false}>
                   <PopoverBody>Escape 키나 바깥 클릭으로 닫을 수 있습니다.</PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
 
@@ -415,6 +445,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 </PopoverTrigger>
                 <PopoverContent aria-label="설명 전용" description="이 popover는 title이 없습니다.">
                   <PopoverBody>aria-describedby만 Description을 가리켜야 합니다.</PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
 
@@ -479,6 +514,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 </PopoverTrigger>
                 <PopoverContent title="width=280px" width="280px">
                   <PopoverBody>콘텐츠 길이와 무관하게 너비가 고정됩니다.</PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
 
@@ -494,6 +534,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                       </p>
                     ))}
                   </PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
             </Row>
@@ -514,6 +559,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 </PopoverTrigger>
                 <PopoverContent title="closeOnInteractOutside=false">
                   <PopoverBody>바깥 아무 데나 눌러보세요.</PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
             </Row>
@@ -534,6 +584,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                       <TextFieldInput placeholder="적고 닫아보세요" />
                     </TextField>
                   </PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
 
@@ -547,6 +602,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                       <TextFieldInput placeholder="닫으면 사라집니다" />
                     </TextField>
                   </PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
 
@@ -556,6 +616,11 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 </PopoverTrigger>
                 <PopoverContent title="선마운트">
                   <PopoverBody>열기 전에도 content가 DOM에 있습니다.</PopoverBody>
+                  <PopoverFooter>
+                    <HStack gap="x2" justify="flex-end">
+                      <ActionButton variant="neutralSolid">확인</ActionButton>
+                    </HStack>
+                  </PopoverFooter>
                 </PopoverContent>
               </PopoverRoot>
             </Row>

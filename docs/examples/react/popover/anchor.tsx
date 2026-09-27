@@ -3,7 +3,13 @@ import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { PopoverAnchor, PopoverBody, PopoverContent, PopoverRoot } from "seed-design/ui/popover";
+import {
+  PopoverAnchor,
+  PopoverBody,
+  PopoverContent,
+  PopoverFooter,
+  PopoverRoot,
+} from "seed-design/ui/popover";
 
 export default function PopoverAnchorExample() {
   const [open, setOpen] = useState(false);
@@ -25,6 +31,11 @@ export default function PopoverAnchorExample() {
           <PopoverBody>
             트리거와 분리된 요소를 기준으로 Popover의 위치를 잡을 수 있습니다.
           </PopoverBody>
+          <PopoverFooter>
+            <HStack gap="x2" justify="flex-end">
+              <ActionButton variant="neutralSolid">확인</ActionButton>
+            </HStack>
+          </PopoverFooter>
         </PopoverContent>
       </PopoverRoot>
     </HStack>

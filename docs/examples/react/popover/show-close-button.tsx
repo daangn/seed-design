@@ -1,6 +1,12 @@
 import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { PopoverBody, PopoverContent, PopoverRoot, PopoverTrigger } from "seed-design/ui/popover";
+import {
+  PopoverBody,
+  PopoverContent,
+  PopoverFooter,
+  PopoverRoot,
+  PopoverTrigger,
+} from "seed-design/ui/popover";
 
 export default function PopoverShowCloseButton() {
   return (
@@ -11,6 +17,11 @@ export default function PopoverShowCloseButton() {
         </PopoverTrigger>
         <PopoverContent title="닫기 버튼" showCloseButton>
           <PopoverBody>기본적으로 Header 우측에 닫기 버튼이 표시됩니다.</PopoverBody>
+          <PopoverFooter>
+            <HStack gap="x2" justify="flex-end">
+              <ActionButton variant="neutralSolid">확인</ActionButton>
+            </HStack>
+          </PopoverFooter>
         </PopoverContent>
       </PopoverRoot>
 
@@ -22,6 +33,11 @@ export default function PopoverShowCloseButton() {
           <PopoverBody>
             닫기 버튼을 숨길 때는 본문이나 푸터에 닫을 수 있는 액션을 제공하세요.
           </PopoverBody>
+          <PopoverFooter>
+            <HStack gap="x2" justify="flex-end">
+              <ActionButton variant="neutralSolid">확인</ActionButton>
+            </HStack>
+          </PopoverFooter>
         </PopoverContent>
       </PopoverRoot>
     </HStack>
