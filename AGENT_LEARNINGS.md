@@ -106,3 +106,18 @@
 ### Better Approaches
 - Recommendation: 같은 컴포넌트를 다루는 기존 activity의 AppScreen·AppBar 구조를 복사해서 시작하고, 첫 로드 직후 console error를 확인한다.
 - Solutions: `examples/stackflow-spa/src/activities/ActivityPopover.tsx`처럼 `<AppBarMain>제목</AppBarMain>`으로 쓴다. chrome-devtools로 연 뒤 `list_console_messages`(`types: ["error"]`)를 먼저 보고, 오류가 없을 때만 시나리오 스크립트를 실행한다.
+
+
+## 여러 파일에 적용하는 정규식 치환은 매칭 범위를 먼저 확인한다
+
+### Mistake Made
+- Description: `/\*\*\n((?: \*.*\n)*?) \*/\nconst X = ...` 형태의 Python 정규식으로 Menu·Select의 JSDoc과 정의를 한 번에 지웠다. 비탐욕 수량자도 매칭 시작점을 뒤로 당기지 못해, Select에서는 파일의 첫 `/**`부터 대상 JSDoc까지 사이에 있던 `SelectValue`·`SelectPlaceholder`·`SelectPositioner` 정의가 함께 지워졌다. 적용 전에 dry-run을 하지 않았다.
+- Impact: 정의 세 개가 사라지고 그 JSDoc들이 JSX 주석으로 옮겨졌다. `git diff`에서 발견해 파일을 되돌리고 Edit 도구로 다시 작업했다.
+
+### Patterns to Avoid
+- Pattern: 여러 줄에 걸친 블록을 정규식으로 지우면서 파일에 바로 쓰는 것. 특히 `/**`처럼 파일에 여러 번 나오는 토큰을 시작점으로 잡는 것.
+- Risk: 정규식 엔진은 가장 왼쪽 시작점에서 매칭을 확정하므로, 대상 블록 앞에 있는 무관한 코드까지 삼킨다. 파일마다 앞선 내용이 달라서 한 파일에서 맞았다고 다른 파일도 맞는 것은 아니다.
+
+### Better Approaches
+- Recommendation: 대상이 몇 개 안 되는 여러 줄 편집은 Edit 도구로 정확한 문자열을 치환한다. 스크립트가 꼭 필요하면 쓰기 전에 매칭 범위를 출력해 확인한다.
+- Solutions: 시작점이 반복되는 토큰이면 `(?:(?!\*/).)*`처럼 블록 종료 토큰을 넘지 않게 제한한다. 적용 전에 `print(m.group(0))` 또는 `diff`로 매칭된 줄 수를 확인하고, 적용 후 `git diff --stat`으로 파일별 삭제 줄 수가 예상과 같은지 본다.
