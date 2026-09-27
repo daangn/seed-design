@@ -119,7 +119,7 @@ export function usePopover({
 
         // Removing portal guards between native focusout and focusin lets an ancestor
         // Radix FocusScope's mutation observer steal focus while activeElement is body.
-        // https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/focus-scope.tsx
+        // https://github.com/radix-ui/primitives/issues/2436
         clearTimeout(focusOutTimeout.current);
         focusOutTimeout.current = setTimeout(() => context.onOpenChange(...args), 0);
       },
