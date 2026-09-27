@@ -2560,12 +2560,13 @@ describe("useSelect positioning", () => {
     expect(positioner.style.getPropertyValue("--seed-select-reference-width")).toBe("0px");
   });
 
-  // y from side, x from alignment
   it.each([
     ["bottom", "center top"],
     ["bottom-start", "left top"],
-    ["bottom-end", "right top"],
-    ["right", "center center"],
+    ["top-end", "right bottom"],
+    ["right", "left center"],
+    ["right-end", "left bottom"],
+    ["left-start", "right top"],
   ] as const)("derives --seed-select-transform-origin from the resolved placement (%s)", async (placement, expected) => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect placement={placement} />);
