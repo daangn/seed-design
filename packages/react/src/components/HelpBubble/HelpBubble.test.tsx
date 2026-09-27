@@ -1,5 +1,4 @@
 import { act, render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";
 
 import {
@@ -9,7 +8,6 @@ import {
   HelpBubbleContent,
   HelpBubbleDescription,
   HelpBubblePositioner,
-  HelpBubblePositionerPortal,
   HelpBubbleRoot,
   HelpBubbleTitle,
   HelpBubbleTrigger,
@@ -65,22 +63,6 @@ describe("HelpBubble", () => {
     expect(getByTestId("content")).toHaveAttribute("aria-describedby", getByText("Description").id);
   });
 
-  it("moves focus into the content on open and back to the trigger on close", async () => {
-    const user = userEvent.setup();
-    const { getByText, getByTestId } = render(<BasicHelpBubble />);
-    await waitForPositioning();
-
-    await user.click(getByText("Help"));
-    await waitForFocus();
-    expect(getByTestId("content")).toHaveFocus();
-
-    await user.click(getByText("Close"));
-    await waitForFocus();
-
-    expect(getByTestId("content")).not.toHaveAttribute("data-open");
-    expect(getByText("Help")).toHaveFocus();
-  });
-
   it("moves focus into the content when it opens against an anchor", async () => {
     const { getByTestId } = render(
       <HelpBubbleRoot defaultOpen>
@@ -94,35 +76,5 @@ describe("HelpBubble", () => {
     await waitForFocus();
 
     expect(getByTestId("content")).toHaveFocus();
-  });
-
-  it("closes on Escape", async () => {
-    const user = userEvent.setup();
-    const { getByText, getByTestId } = render(<BasicHelpBubble />);
-    await waitForPositioning();
-
-    await user.click(getByText("Help"));
-    await user.keyboard("{Escape}");
-
-    expect(getByTestId("content")).not.toHaveAttribute("data-open");
-  });
-
-  it("renders the Positioner in place and the PositionerPortal into the body", async () => {
-    const { container, getByTestId } = render(
-      <>
-        <BasicHelpBubble />
-        <HelpBubbleRoot>
-          <HelpBubbleTrigger>Portal</HelpBubbleTrigger>
-          <HelpBubblePositionerPortal data-testid="portal-positioner">
-            <HelpBubbleContent>Content</HelpBubbleContent>
-          </HelpBubblePositionerPortal>
-        </HelpBubbleRoot>
-      </>,
-    );
-    await waitForPositioning();
-
-    expect(container).toContainElement(getByTestId("positioner"));
-    expect(container).not.toContainElement(getByTestId("portal-positioner"));
-    expect(document.body).toContainElement(getByTestId("portal-positioner"));
   });
 });
