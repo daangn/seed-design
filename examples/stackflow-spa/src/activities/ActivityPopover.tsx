@@ -506,14 +506,14 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
 
           <Section
             title="크기 style props"
-            hint="Content는 width / minWidth / maxWidth를, Body는 maxHeight / paddingX를 받습니다."
+            hint="Content는 width / maxWidth를, Body는 maxHeight / paddingX를 받습니다."
           >
             <Row>
               <PopoverRoot>
                 <PopoverTrigger asChild>
                   <ActionButton variant="neutralSolid">width 고정</ActionButton>
                 </PopoverTrigger>
-                <PopoverContent title="width=280px" width="280px">
+                <PopoverContent title="width=400px" width="400px">
                   <PopoverBody>콘텐츠 길이와 무관하게 너비가 고정됩니다.</PopoverBody>
                   <PopoverFooter>
                     <HStack gap="x2" justify="flex-end">
@@ -527,7 +527,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
                 <PopoverTrigger asChild>
                   <ActionButton variant="neutralSolid">Body 높이 제한</ActionButton>
                 </PopoverTrigger>
-                <PopoverContent title="maxHeight=120px" maxWidth="240px">
+                <PopoverContent title="maxHeight=120px" maxWidth="360px">
                   <PopoverBody maxHeight="120px" paddingX="24px">
                     {Array.from({ length: 12 }, (_, index) => (
                       <p key={index} style={{ margin: 0 }}>
