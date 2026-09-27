@@ -168,6 +168,17 @@ describe("PopoverContent", () => {
       expect(getByTestId("content")).toHaveFocus();
     });
 
+    it("leaves focus on the trigger on open when autoFocus is off", async () => {
+      const user = userEvent.setup();
+      const { getByText } = render(<BasicPopover autoFocus={false} />);
+      await waitForPositioning();
+
+      await user.click(getByText("Open Popover"));
+      await waitForFocus();
+
+      expect(getByText("Open Popover")).toHaveFocus();
+    });
+
     // Non-modal: focus is managed, not trapped, so a keyboard user is never walled in.
     it("lets focus leave the popover while it is open", async () => {
       const user = userEvent.setup();

@@ -148,12 +148,14 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
   const api = usePopoverContext();
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Focus is managed, not trapped. Opening moves focus into the content, closing returns it
-  // to the trigger, and Tab past the last control leaves for the rest of the page instead of
-  // wrapping. The background stays live throughout: nothing is inerted or scroll-locked.
+  // Focus is managed, not trapped. Opening moves focus into the content (unless `autoFocus` is
+  // off), closing returns it to the trigger, and Tab past the last control leaves for the rest
+  // of the page instead of wrapping. The background stays live throughout: nothing is inerted
+  // or scroll-locked.
   //
   // `initialFocus` names the content container (tabIndex={-1}) instead of the default first
-  // tabbable, so opening never lands on the header close button.
+  // tabbable, so opening never lands on the header close button. A negative index is
+  // floating-ui's way of skipping initial focus altogether.
   //
   // Disabled rather than unmounted while closed: FloatingFocusManager sits outside Presence so
   // it survives an `unmountOnExit` unmount, and its return-focus cleanup still runs off the
@@ -168,7 +170,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
         context={api.floatingContext}
         disabled={!api.open}
         modal={false}
-        initialFocus={contentRef}
+        initialFocus={api.autoFocus ? contentRef : -1}
         // Without a portal, pressing a focusable element outside blurs the content and reads
         // as focus-out, so an opted-out outside press would still close through this path.
         // https://github.com/floating-ui/floating-ui/issues/2017
