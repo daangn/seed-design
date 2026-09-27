@@ -153,9 +153,14 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
   // of the page instead of wrapping. The background stays live throughout: nothing is inerted
   // or scroll-locked.
   //
-  // `initialFocus` names the content container (tabIndex={-1}) instead of the default first
-  // tabbable, so opening never lands on the header close button. A negative index is
-  // floating-ui's way of skipping initial focus altogether.
+  // `initialFocus` names the content container instead of the default first tabbable, so
+  // opening never lands on the header close button. A negative index is floating-ui's way of
+  // skipping initial focus altogether.
+  //
+  // `order` makes the container a tab stop of its own, ahead of its controls, so Tab from the
+  // trigger lands where `autoFocus` would have. Without it floating-ui derives the container's
+  // tabindex from whether it holds tabbables, and checks on the open commit while the content
+  // is still `display: none`: the stop exists for the first visit and is gone after it.
   //
   // Disabled rather than unmounted while closed: FloatingFocusManager sits outside Presence so
   // it survives an `unmountOnExit` unmount, and its return-focus cleanup still runs off the
@@ -171,6 +176,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
         disabled={!api.open}
         modal={false}
         initialFocus={api.autoFocus ? contentRef : -1}
+        order={["floating", "content"]}
         // Without a portal, pressing a focusable element outside blurs the content and reads
         // as focus-out, so an opted-out outside press would still close through this path.
         // https://github.com/floating-ui/floating-ui/issues/2017
@@ -179,7 +185,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
         <Presence present={api.open} lazyMount={api.lazyMount} unmountOnExit={api.unmountOnExit}>
           <Primitive.div
             ref={composeRefs(contentRef, ref)}
-            tabIndex={-1}
+            tabIndex={0}
             {...mergeProps(api.contentProps, props)}
           />
         </Presence>

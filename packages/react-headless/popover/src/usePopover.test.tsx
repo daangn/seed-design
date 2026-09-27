@@ -179,6 +179,24 @@ describe("PopoverContent", () => {
       expect(getByText("Open Popover")).toHaveFocus();
     });
 
+    it("stops on the content container before its controls when tabbing in", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByTestId, getByLabelText } = render(<BasicPopover autoFocus={false} />);
+      await waitForPositioning();
+
+      await user.click(getByText("Open Popover"));
+      await waitForFocus();
+
+      await user.tab();
+      expect(getByTestId("content")).toHaveFocus();
+
+      await user.tab();
+      expect(getByLabelText("Note")).toHaveFocus();
+
+      await user.tab({ shift: true });
+      expect(getByTestId("content")).toHaveFocus();
+    });
+
     // Non-modal: focus is managed, not trapped, so a keyboard user is never walled in.
     it("lets focus leave the popover while it is open", async () => {
       const user = userEvent.setup();
