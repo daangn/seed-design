@@ -187,8 +187,22 @@ export function useMenu(props: UseMenuProps) {
     [disabled, setOpenState],
   );
 
+  const focusOutTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(focusOutTimeout.current), [open]);
+
   const handleFloatingOpenChange = useCallback(
     (nextOpen: boolean, event?: Event, reason?: string) => {
+      if (reason === "focus-out") {
+        // Removing portal guards between native focusout and focusin lets an ancestor
+        // Radix FocusScope's mutation observer steal focus while activeElement is body.
+        // https://github.com/radix-ui/primitives/issues/2436
+        clearTimeout(focusOutTimeout.current);
+        focusOutTimeout.current = setTimeout(() => setOpen(nextOpen), 0);
+
+        return;
+      }
+
       if (reason === "click" && event) {
         // NOTE: floating-ui passes click/mousedown/keydown on "click" reason
         setOpen(nextOpen, { reason: "trigger", event: event as MouseEvent | KeyboardEvent });

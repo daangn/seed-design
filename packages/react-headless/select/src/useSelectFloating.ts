@@ -9,7 +9,7 @@ import {
   type OpenChangeReason,
   type Placement,
 } from "@floating-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type * as React from "react";
 import type { SelectOpenChangeDetails } from "./useSelect";
 
@@ -91,10 +91,22 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
 
   // Every other open/close runs through our own handlers; the one state change
   // floating-ui drives on its own is FloatingFocusManager's closeOnFocusOut.
+  const focusOutTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(focusOutTimeout.current), [open]);
+
   const handleOpenChange = useCallback(
     (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
       if (reason === "focus-out" && event instanceof FocusEvent) {
-        setOpen(nextOpen, { reason: "focusOut", event });
+        // Removing portal guards between native focusout and focusin lets an ancestor
+        // Radix FocusScope's mutation observer steal focus while activeElement is body.
+        // https://github.com/radix-ui/primitives/issues/2436
+        clearTimeout(focusOutTimeout.current);
+        focusOutTimeout.current = setTimeout(
+          () => setOpen(nextOpen, { reason: "focusOut", event }),
+          0,
+        );
+
         return;
       }
 
