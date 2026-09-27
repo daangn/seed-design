@@ -13,5 +13,5 @@
 - 테스트 전용 UI는 `src/activities`의 activity로 만들고 route는 `/e2e/*`에 둔다. 홈 화면에 링크하지 않는다. 공개 패키지 API는 테스트를 위해 바꾸지 않는다.
 - barrel file을 만들지 않고 도우미는 파일에서 직접 import한다.
 - locator는 접근성 role이나 `data-testid`로 잡는다. CSS class와 인라인 style 문자열에 의존하지 않는다.
-- WebKit 프로필의 Tab은 Safari 기본값처럼 button을 건너뛰고 input 같은 텍스트 컨트롤로만 이동한다. button 사이의 Tab 이동을 단언하는 테스트는 파일 첫머리에 `test.skip(({ browserName }) => browserName === "webkit", "WebKit's Tab skips buttons")`를 둔다.
+- macOS에서 WebKit 프로필의 Tab은 시스템 키보드 탐색 기본값을 따라 button을 건너뛰고 input 같은 텍스트 컨트롤로만 이동한다. CI(Linux)의 WebKit은 button에도 멈춘다. button 사이의 Tab 이동을 단언하는 테스트는 파일 첫머리에 `test.skip(({ browserName }) => browserName === "webkit" && process.platform === "darwin", "macOS WebKit's Tab skips buttons")`를 둔다. WebKit 전체를 skip하면 CI 검증까지 사라진다.
 - 이미지의 공개 loading 상태, 실제 레이아웃, hit-test 결과처럼 사용자에게 관측되는 값을 단언한다. screenshot이나 AppScreen transition 내부 상태는 단언하지 않는다.
