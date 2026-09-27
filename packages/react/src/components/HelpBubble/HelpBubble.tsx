@@ -32,6 +32,11 @@ export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrim
    * @default 14
    */
   arrowPadding?: PopoverPrimitive.RootProps["arrowPadding"];
+  /**
+   * Whether to move focus into the content when it opens. Off by default so a bubble shown on page load keeps focus where the page put it; set `true` to follow the dialog pattern and move focus in.
+   * @default false
+   */
+  autoFocus?: PopoverPrimitive.RootProps["autoFocus"];
 }
 
 export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
@@ -40,6 +45,7 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimi
     gutter: 4, // TODO: get value from rootage spec
     overflowPadding: 16, // TODO: get value from rootage spec
     arrowPadding: 14,
+    autoFocus: false,
   },
 });
 
@@ -79,7 +85,7 @@ export interface HelpBubbleContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleContent = withContext<HTMLDivElement, HelpBubbleContentProps>(
-  withStyleProps(withStateProps(Primitive.div)),
+  withStyleProps(withStateProps(PopoverPrimitive.Content)),
   "content",
 );
 
@@ -159,7 +165,12 @@ export interface HelpBubbleTitleProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps>(
-  withStateProps(Primitive.span),
+  forwardRef<HTMLSpanElement, HelpBubbleTitleProps>((props, ref) => (
+    // An h2 is too noisy for something as small as a help bubble, so keep a plain span.
+    <PopoverPrimitive.Title asChild>
+      <Primitive.span ref={ref} {...props} />
+    </PopoverPrimitive.Title>
+  )),
   "title",
 );
 
@@ -168,6 +179,11 @@ export interface HelpBubbleDescriptionProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleDescription = withContext<HTMLDivElement, HelpBubbleDescriptionProps>(
-  withStateProps(Primitive.div),
+  forwardRef<HTMLDivElement, HelpBubbleDescriptionProps>((props, ref) => (
+    // A p is too noisy for something as small as a help bubble, so keep a plain div.
+    <PopoverPrimitive.Description asChild>
+      <Primitive.div ref={ref} {...props} />
+    </PopoverPrimitive.Description>
+  )),
   "description",
 );

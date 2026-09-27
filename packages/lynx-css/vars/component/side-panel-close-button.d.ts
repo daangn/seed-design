@@ -10,9 +10,7 @@ export declare const vars: {
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral-subtle)",
-        "size": "22px",
-        "colorDuration": "var(--seed-duration-color-transition)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)"
+        "size": "22px"
       }
     },
     "pressed": {

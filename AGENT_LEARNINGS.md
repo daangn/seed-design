@@ -58,19 +58,19 @@
 - Recommendation: 실기기 native 검증과 전후 비교는 같은 길이의 LAN origin을 절대 prefix로 넣은 production build로 한다.
 - Solutions: `ASSET_PREFIX=http://<LAN IP>:<4자리 port>/ bun --filter lynx-spa build` → hub process로 `examples/lynx-spa/dist`를 같은 port에서 정적 서빙한다 → `http://<LAN IP>:<port>/main.lynx.bundle?example=lynx%2F<component>%2F<scenario>`. 기준과 변경본의 port 자릿수를 맞추면 bundle byte 비교에 prefix 차이가 섞이지 않는다.
 
-## 새 worktree의 docs 검증은 선행 lib 빌드가 필요하다
+## 새 worktree의 테스트·타입 검사는 선행 lib 빌드가 필요하다
 
 ### Mistake Made
-- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다.
-- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow` 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
+- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다. headless 패키지의 `bun test`와 `tsc`도 `bun install` 직후 바로 실행했다. `bun ecosystem:build`·`bun headless:build`·`@seed-design/react` 빌드까지 마친 새 worktree에서 `examples/stackflow-spa`의 vite dev 서버를 띄웠다.
+- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow`, `@seed-design/react-primitive`, `@seed-design/react-dismissible-layer` 같은 workspace 모듈을 찾지 못해 실패했다. stackflow-spa dev 서버는 `Failed to resolve entry for package "@seed-design/vite-plugin"`으로 시작하지 못했다. 변경과 무관한 실패였지만 재실행이 필요했다.
 
 ### Patterns to Avoid
-- Pattern: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 docs 변경의 실패로 판정하는 것.
+- Pattern: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 변경의 실패로 판정하는 것.
 - Risk: 잘못된 실패 판정을 내리거나, 검증을 건너뛰고 미검증으로 남긴다.
 
 ### Better Approaches
-- Recommendation: docs 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
-- Solutions: `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
+- Recommendation: 새 worktree에서는 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
+- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`. `examples/stackflow-spa` dev 서버·e2e 전 `bun --filter @seed-design/vite-plugin build && bun --filter @seed-design/stackflow build`를 추가로 실행한다. 둘 다 `ecosystem:build`·`headless:build`에 포함되지 않고, stackflow가 없으면 `AppScreen` 타입 오류 오버레이가 화면을 덮는다.
 
 ## Headless 분리 리팩터링은 native tree 직렬화로 회귀를 막는다
 
@@ -92,3 +92,36 @@
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
+
+
+## 스크립트로 블록을 지울 때는 경계 토큰의 매칭 범위를 먼저 확인한다
+
+### Mistake Made
+- Description: `/\*\*\n((?: \*.*\n)*?) \*/\nconst X = ...` 형태의 Python 정규식으로 Menu·Select의 JSDoc과 정의를 한 번에 지웠다. 비탐욕 수량자도 매칭 시작점을 뒤로 당기지 못해, Select에서는 파일의 첫 `/**`부터 대상 JSDoc까지 사이에 있던 `SelectValue`·`SelectPlaceholder`·`SelectPositioner` 정의가 함께 지워졌다. 적용 전에 dry-run을 하지 않았다.
+- Description: `AGENT_LEARNINGS.md`에서 항목 하나를 지우려고 Python `s.index('## ', start)`로 다음 항목의 시작을 찾았다. `## `가 `### Mistake Made` 안에서도 매칭되어 제목 두 줄만 지워지고 본문이 남았다.
+- Impact: 정의 세 개가 사라지고 그 JSDoc들이 JSX 주석으로 옮겨졌다. `git diff`에서 발견해 파일을 되돌리고 Edit 도구로 다시 작업했다. Markdown 항목 삭제에서도 구조가 깨져 `git checkout`으로 되돌린 뒤 다시 작업했다.
+
+### Patterns to Avoid
+- Pattern: 여러 줄에 걸친 블록을 정규식으로 지우면서 파일에 바로 쓰는 것. 특히 `/**`처럼 파일에 여러 번 나오는 토큰을 시작점으로 잡거나, `## `처럼 더 긴 토큰(`### `)의 일부이기도 한 문자열을 경계로 잡는 것.
+- Risk: 정규식 엔진은 가장 왼쪽 시작점에서 매칭을 확정하므로, 대상 블록 앞에 있는 무관한 코드까지 삼킨다. 파일마다 앞선 내용이 달라서 한 파일에서 맞았다고 다른 파일도 맞는 것은 아니다.
+
+### Better Approaches
+- Recommendation: 대상이 몇 개 안 되는 여러 줄 편집은 Edit 도구로 정확한 문자열을 치환한다. 스크립트가 꼭 필요하면 쓰기 전에 매칭 범위를 출력해 확인한다.
+- Solutions: 시작점이 반복되는 토큰이면 `(?:(?!\*/).)*`처럼 블록 종료 토큰을 넘지 않게 제한한다. 적용 전에 `print(m.group(0))` 또는 `diff`로 매칭된 줄 수를 확인하고, 적용 후 `git diff --stat`으로 파일별 삭제 줄 수가 예상과 같은지 본다. Markdown 제목 경계는 `'\n## '`처럼 줄 시작을 포함하거나 다음 항목 제목 전체를 끝점으로 잡는다.
+
+## 포커스 순서는 happy-dom 결과만으로 판정하지 않는다
+
+### Mistake Made
+- Description: Popover·HelpBubble이 바깥을 눌러 닫힐 때의 포커스 결과를 happy-dom과 `userEvent.click`으로 비교했다. 텍스트 필드를 누르면 포커스가 trigger에 남는다는 결과가 나왔지만, Chrome에서 실제 마우스 입력으로 확인하니 trigger를 약 10ms 거친 뒤 텍스트 필드로 이동했다.
+- Description: `autoFocus={false}`인 HelpBubble에서 trigger 다음 Tab이 close button이 아니라 content에 멈추는 문제가 Chrome에서만 재현됐다. floating-ui가 open 첫 commit에서 content가 아직 `data-hidden`(`display: none`)일 때 tabbable을 검사해 container를 `tabindex="0"`으로 두었기 때문이다. happy-dom에서는 floating-ui의 tabbable `displayCheck`가 `'none'`이 되어 이 검사가 보이는 상태와 무관하게 통과한다.
+- Description: 같은 조사에서 닫힌 content를 trigger의 `aria-controls`로 찾았다. 닫힌 trigger에는 `aria-controls`가 없어 content가 unmount됐다고 잘못 판단했다.
+- Impact: 존재하지 않는 회귀를 보고할 뻔했고, 브라우저 재검증을 따로 해야 했다. 실제 버그는 단위 테스트로 재현되지 않아 원인 추적에 브라우저 계측이 필요했다.
+
+### Patterns to Avoid
+- Pattern: pointerdown에서 닫힘 → 포커스 복귀(microtask) → mousedown 기본 동작으로 포커스 이동처럼, 이벤트 사이 순서에 결과가 달린 시나리오를 happy-dom 테스트만으로 판정하는 것.
+- Pattern: 요소가 보이는지(`display`, client rect)에 따라 tabbable·tabindex가 달라지는 동작을 happy-dom 통과만으로 정상이라고 판단하는 것.
+- Risk: happy-dom의 `userEvent`는 mousedown 기본 포커스 이동과 포커스 불가 영역의 blur를 실제 브라우저와 다른 순서로 처리한다. 레이아웃이 없어서 floating-ui·tabbable의 가시성 검사도 꺼진다. 두 경우 모두 최종 포커스 위치가 브라우저와 다르게 나온다.
+
+### Better Approaches
+- Recommendation: 이벤트 순서와 가시성에 의존하지 않는 키보드·프로그래밍 방식 포커스(Tab, Escape, `focus()`)는 happy-dom으로 판정해도 된다. 포인터로 바깥을 누르는 시나리오와 열림 직후의 Tab 순서는 실제 브라우저에서 CDP 입력으로 확인한다.
+- Solutions: stackflow-spa에 임시 activity를 만들고 `document`의 `focusin`을 시각과 함께 화면에 기록한다. chrome-devtools `click`·`press_key`(CDP 입력)로 조작한 뒤 `evaluate_script`로 `document.activeElement`와 기록을 읽는다. 속성이 바뀌는 순간의 DOM 상태가 필요하면 `navigate_page`의 `initScript`로 `Element.prototype.setAttribute`·`removeAttribute`를 감싸서 동기로 기록한다. content는 `aria-controls`가 아니라 class나 `data-*` 선택자로 찾는다. 자동 회귀 테스트가 필요하면 `examples/stackflow-spa/e2e/`의 Playwright로 작성한다.

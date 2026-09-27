@@ -1,6 +1,6 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, focus, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
@@ -70,6 +70,10 @@ const helpBubble = defineSlotRecipe({
 
       [pseudo(hidden)]: {
         display: "none !important",
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
       },
     },
     arrow: {
