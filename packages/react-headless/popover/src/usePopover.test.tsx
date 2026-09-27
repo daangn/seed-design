@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverDescription,
   PopoverPositioner,
+  PopoverPositionerPortal,
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
@@ -600,5 +601,53 @@ describe("usePopover", () => {
 
       expect(onAncestorEscapeKeyDown).toHaveBeenCalledTimes(1);
     });
+  });
+});
+
+describe("PopoverPositionerPortal", () => {
+  function PortalPopover({ root }: { root?: HTMLElement }) {
+    return (
+      <PopoverRoot>
+        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverPositionerPortal root={root} data-testid="positioner">
+          <PopoverContent data-testid="content">Content</PopoverContent>
+        </PopoverPositionerPortal>
+      </PopoverRoot>
+    );
+  }
+
+  it("portals the positioner out of the trigger's tree", async () => {
+    const { container, getByTestId } = render(<PortalPopover />);
+    await waitForPositioning();
+
+    expect(container).not.toContainElement(getByTestId("positioner"));
+    expect(document.body).toContainElement(getByTestId("positioner"));
+  });
+
+  it("portals into the given root", async () => {
+    const root = document.createElement("div");
+    document.body.append(root);
+
+    const { getByTestId } = render(<PortalPopover root={root} />);
+    await waitForPositioning();
+
+    expect(root).toContainElement(getByTestId("positioner"));
+    root.remove();
+  });
+
+  it("joins the layer stack and returns focus to the trigger on Escape", async () => {
+    const user = userEvent.setup();
+    const { getByText, getByTestId } = render(<PortalPopover />);
+    await waitForPositioning();
+
+    await user.click(getByText("Open Popover"));
+    await waitForFocus();
+    expect(getByTestId("content")).toHaveFocus();
+
+    await user.keyboard("{Escape}");
+    await waitForFocus();
+
+    expect(getByTestId("content")).not.toHaveAttribute("data-open");
+    expect(getByText("Open Popover")).toHaveFocus();
   });
 });
