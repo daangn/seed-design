@@ -93,34 +93,21 @@
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
 
-## 검증용 activity는 기존 activity의 조립 방식을 그대로 따른다
 
-### Mistake Made
-- Description: stackflow-spa에 임시 검증 activity를 만들면서 `AppBarMain`이 `title` prop을 받는다고 추측했다. 실제로는 children으로 제목을 받고, `title`을 넘기면 내부 `Primitive.span`이 `ClassNamesProvider` 밖에서 렌더링된다.
-- Impact: `useClassNames must be used within a ClassNamesProvider` 오류가 반복되며 화면 전체가 비었고, 브라우저 검증 스크립트가 trigger를 찾지 못해 실패했다.
-
-### Patterns to Avoid
-- Pattern: snippet 컴포넌트의 prop을 이름만 보고 추측해서 새 activity를 조립하는 것.
-- Risk: 검증 대상과 무관한 렌더링 오류가 나서 원인을 찾는 데 시간을 쓰고, 검증 결과를 잘못 해석할 수 있다.
-
-### Better Approaches
-- Recommendation: 같은 컴포넌트를 다루는 기존 activity의 AppScreen·AppBar 구조를 복사해서 시작하고, 첫 로드 직후 console error를 확인한다.
-- Solutions: `examples/stackflow-spa/src/activities/ActivityPopover.tsx`처럼 `<AppBarMain>제목</AppBarMain>`으로 쓴다. chrome-devtools로 연 뒤 `list_console_messages`(`types: ["error"]`)를 먼저 보고, 오류가 없을 때만 시나리오 스크립트를 실행한다.
-
-
-## 여러 파일에 적용하는 정규식 치환은 매칭 범위를 먼저 확인한다
+## 스크립트로 블록을 지울 때는 경계 토큰의 매칭 범위를 먼저 확인한다
 
 ### Mistake Made
 - Description: `/\*\*\n((?: \*.*\n)*?) \*/\nconst X = ...` 형태의 Python 정규식으로 Menu·Select의 JSDoc과 정의를 한 번에 지웠다. 비탐욕 수량자도 매칭 시작점을 뒤로 당기지 못해, Select에서는 파일의 첫 `/**`부터 대상 JSDoc까지 사이에 있던 `SelectValue`·`SelectPlaceholder`·`SelectPositioner` 정의가 함께 지워졌다. 적용 전에 dry-run을 하지 않았다.
-- Impact: 정의 세 개가 사라지고 그 JSDoc들이 JSX 주석으로 옮겨졌다. `git diff`에서 발견해 파일을 되돌리고 Edit 도구로 다시 작업했다.
+- Description: `AGENT_LEARNINGS.md`에서 항목 하나를 지우려고 Python `s.index('## ', start)`로 다음 항목의 시작을 찾았다. `## `가 `### Mistake Made` 안에서도 매칭되어 제목 두 줄만 지워지고 본문이 남았다.
+- Impact: 정의 세 개가 사라지고 그 JSDoc들이 JSX 주석으로 옮겨졌다. `git diff`에서 발견해 파일을 되돌리고 Edit 도구로 다시 작업했다. Markdown 항목 삭제에서도 구조가 깨져 `git checkout`으로 되돌린 뒤 다시 작업했다.
 
 ### Patterns to Avoid
-- Pattern: 여러 줄에 걸친 블록을 정규식으로 지우면서 파일에 바로 쓰는 것. 특히 `/**`처럼 파일에 여러 번 나오는 토큰을 시작점으로 잡는 것.
+- Pattern: 여러 줄에 걸친 블록을 정규식으로 지우면서 파일에 바로 쓰는 것. 특히 `/**`처럼 파일에 여러 번 나오는 토큰을 시작점으로 잡거나, `## `처럼 더 긴 토큰(`### `)의 일부이기도 한 문자열을 경계로 잡는 것.
 - Risk: 정규식 엔진은 가장 왼쪽 시작점에서 매칭을 확정하므로, 대상 블록 앞에 있는 무관한 코드까지 삼킨다. 파일마다 앞선 내용이 달라서 한 파일에서 맞았다고 다른 파일도 맞는 것은 아니다.
 
 ### Better Approaches
 - Recommendation: 대상이 몇 개 안 되는 여러 줄 편집은 Edit 도구로 정확한 문자열을 치환한다. 스크립트가 꼭 필요하면 쓰기 전에 매칭 범위를 출력해 확인한다.
-- Solutions: 시작점이 반복되는 토큰이면 `(?:(?!\*/).)*`처럼 블록 종료 토큰을 넘지 않게 제한한다. 적용 전에 `print(m.group(0))` 또는 `diff`로 매칭된 줄 수를 확인하고, 적용 후 `git diff --stat`으로 파일별 삭제 줄 수가 예상과 같은지 본다.
+- Solutions: 시작점이 반복되는 토큰이면 `(?:(?!\*/).)*`처럼 블록 종료 토큰을 넘지 않게 제한한다. 적용 전에 `print(m.group(0))` 또는 `diff`로 매칭된 줄 수를 확인하고, 적용 후 `git diff --stat`으로 파일별 삭제 줄 수가 예상과 같은지 본다. Markdown 제목 경계는 `'\n## '`처럼 줄 시작을 포함하거나 다음 항목 제목 전체를 끝점으로 잡는다.
 
 ## 포인터 입력의 포커스 순서는 happy-dom 결과로 판정하지 않는다
 
