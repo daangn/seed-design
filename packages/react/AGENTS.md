@@ -15,4 +15,4 @@
 
 - 여러 slot을 가진 compound 컴포넌트 → `../../utils/createSlotRecipeContext`의 `createSlotRecipeContext`에 slot Recipe 함수를 직접 넘긴다.
 - Root가 root slot DOM을 렌더링함 → `withProvider`로 연결하고 두 번째 인자로 slot 이름을 준다. 하위 slot은 `withContext`로 같은 방식으로 연결한다.
-- Root가 DOM 없는 headless Root임(`Dialog`, `ActionSheet`, `MenuSheet` 등) → slot 이름 없이 `withRootProvider`로 props만 전달한다. 예: `Dialog/Dialog.tsx`의 `DialogRoot`.
+- Root가 DOM 없는 headless Root임(`Dialog`, `MenuSheet` 등) → slot 이름 없이 `withRootProvider`로 props만 전달한다. 예: `Dialog/Dialog.tsx`의 `DialogRoot`.
