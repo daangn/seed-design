@@ -1,7 +1,4 @@
-import {
-  ToggleTip as ToggleTipPrimitive,
-  useToggleTipContext,
-} from "@seed-design/react-toggle-tip";
+import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
@@ -14,30 +11,30 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 
 const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(helpBubble);
-const withStateProps = createWithStateProps([useToggleTipContext]);
+const withStateProps = createWithStateProps([usePopoverContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleRootProps extends HelpBubbleVariantProps, ToggleTipPrimitive.RootProps {
+export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrimitive.RootProps {
   /**
    * @default "top"
    */
-  placement?: ToggleTipPrimitive.RootProps["placement"];
+  placement?: PopoverPrimitive.RootProps["placement"];
   /**
    * @default 4
    */
-  gutter?: ToggleTipPrimitive.RootProps["gutter"];
+  gutter?: PopoverPrimitive.RootProps["gutter"];
   /**
    * @default 16
    */
-  overflowPadding?: ToggleTipPrimitive.RootProps["overflowPadding"];
+  overflowPadding?: PopoverPrimitive.RootProps["overflowPadding"];
   /**
    * @default 14
    */
-  arrowPadding?: ToggleTipPrimitive.RootProps["arrowPadding"];
+  arrowPadding?: PopoverPrimitive.RootProps["arrowPadding"];
 }
 
-export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(ToggleTipPrimitive.Root, {
+export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
   defaultProps: {
     placement: "top",
     gutter: 4, // TODO: get value from rootage spec
@@ -48,31 +45,31 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(ToggleTipPri
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleAnchorProps extends ToggleTipPrimitive.AnchorProps {}
+export interface HelpBubbleAnchorProps extends PopoverPrimitive.AnchorProps {}
 
-export const HelpBubbleAnchor = ToggleTipPrimitive.Anchor;
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface HelpBubbleTriggerProps extends ToggleTipPrimitive.TriggerProps {}
-
-export const HelpBubbleTrigger = ToggleTipPrimitive.Trigger;
+export const HelpBubbleAnchor = PopoverPrimitive.Anchor;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubblePositionerProps extends ToggleTipPrimitive.PositionerProps {}
+export interface HelpBubbleTriggerProps extends PopoverPrimitive.TriggerProps {}
+
+export const HelpBubbleTrigger = PopoverPrimitive.Trigger;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface HelpBubblePositionerProps extends PopoverPrimitive.PositionerProps {}
 
 export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositionerProps>(
-  ToggleTipPrimitive.Positioner,
+  PopoverPrimitive.Positioner,
   "positioner",
 );
 
-export interface HelpBubblePositionerPortalProps extends ToggleTipPrimitive.PositionerPortalProps {}
+export interface HelpBubblePositionerPortalProps extends PopoverPrimitive.PositionerPortalProps {}
 
 export const HelpBubblePositionerPortal = withContext<
   HTMLDivElement,
   HelpBubblePositionerPortalProps
->(ToggleTipPrimitive.PositionerPortal, "positioner");
+>(PopoverPrimitive.PositionerPortal, "positioner");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,16 +79,16 @@ export interface HelpBubbleContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleContent = withContext<HTMLDivElement, HelpBubbleContentProps>(
-  withStyleProps(withStateProps(Primitive.div)),
+  withStyleProps(withStateProps(PopoverPrimitive.Content)),
   "content",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleArrowProps extends ToggleTipPrimitive.ArrowProps {}
+export interface HelpBubbleArrowProps extends PopoverPrimitive.ArrowProps {}
 
 export const HelpBubbleArrow = withContext<HTMLDivElement, HelpBubbleArrowProps>(
-  ToggleTipPrimitive.Arrow,
+  PopoverPrimitive.Arrow,
   "arrow",
 );
 
@@ -112,7 +109,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
       className,
       ...otherProps
     } = props;
-    const api = useToggleTipContext();
+    const api = usePopoverContext();
 
     const classNames = useClassNames();
 
@@ -139,11 +136,11 @@ HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleCloseButtonProps extends ToggleTipPrimitive.CloseButtonProps {}
+export interface HelpBubbleCloseButtonProps extends PopoverPrimitive.CloseButtonProps {}
 
 export const HelpBubbleCloseButton = withScaleFeedback(
   withContext<HTMLButtonElement, HelpBubbleCloseButtonProps>(
-    ToggleTipPrimitive.CloseButton,
+    PopoverPrimitive.CloseButton,
     "closeButton",
   ),
 );
@@ -162,7 +159,12 @@ export interface HelpBubbleTitleProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps>(
-  withStateProps(Primitive.span),
+  forwardRef<HTMLSpanElement, HelpBubbleTitleProps>((props, ref) => (
+    // An h2 is too noisy for something as small as a help bubble, so keep a plain span.
+    <PopoverPrimitive.Title asChild>
+      <Primitive.span ref={ref} {...props} />
+    </PopoverPrimitive.Title>
+  )),
   "title",
 );
 
@@ -171,6 +173,11 @@ export interface HelpBubbleDescriptionProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleDescription = withContext<HTMLDivElement, HelpBubbleDescriptionProps>(
-  withStateProps(Primitive.div),
+  forwardRef<HTMLDivElement, HelpBubbleDescriptionProps>((props, ref) => (
+    // A p is too noisy for something as small as a help bubble, so keep a plain div.
+    <PopoverPrimitive.Description asChild>
+      <Primitive.div ref={ref} {...props} />
+    </PopoverPrimitive.Description>
+  )),
   "description",
 );
