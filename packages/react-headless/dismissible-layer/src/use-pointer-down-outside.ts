@@ -118,7 +118,7 @@ export function usePointerDownOutside(
           }
           handleAndDispatch();
         } else {
-          // "eager" (default): mouse immediate, touch defers to click
+          // "eager": mouse immediate, touch defers to click
           if (event.pointerType === "touch") {
             deferToClick(handleAndDispatch);
           } else {
