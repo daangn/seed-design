@@ -1,5 +1,12 @@
 import { expect, test } from "@playwright/test";
 
+// WebKit on macOS follows the system keyboard navigation setting, whose default makes
+// Tab skip buttons. Linux WebKit (CI) tabs through them.
+test.skip(
+  ({ browserName }) => browserName === "webkit" && process.platform === "darwin",
+  "macOS WebKit's Tab skips buttons",
+);
+
 test("Shift+Tab leaves the popover on the previous button inside AppScreen", async ({ page }) => {
   await page.goto("/popover", { waitUntil: "networkidle" });
   const trigger = page.getByRole("button", { name: "가운데 trigger", exact: true });
