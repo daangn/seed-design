@@ -45,6 +45,7 @@ import { notificationBadge, notificationBadgePositioner } from "./recipes/notifi
 import pageBanner from "./recipes/page-banner";
 import paginationButton from "./recipes/pagination-button";
 import paginationPageItem from "./recipes/pagination-page-item";
+import popover from "./recipes/popover";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
 import quantityPicker from "./recipes/quantity-picker";
@@ -130,6 +131,7 @@ export const recipes = {
   pageBanner,
   paginationButton,
   paginationPageItem,
+  popover,
   progressCircle,
   pullToRefresh,
   quantityPicker,
