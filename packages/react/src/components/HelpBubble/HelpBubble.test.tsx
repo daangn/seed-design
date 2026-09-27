@@ -63,9 +63,40 @@ describe("HelpBubble", () => {
     expect(getByTestId("content")).toHaveAttribute("aria-describedby", getByText("Description").id);
   });
 
-  it("moves focus into the content when it opens against an anchor", async () => {
+  it("leaves focus where the page put it when it opens", async () => {
     const { getByTestId } = render(
-      <HelpBubbleRoot defaultOpen>
+      <>
+        {/* biome-ignore lint/a11y/noAutofocus: reproduces a page that focuses a field on load */}
+        <input data-testid="field" autoFocus />
+        <BasicHelpBubble defaultOpen />
+      </>,
+    );
+    await waitForPositioning();
+    await waitForFocus();
+
+    expect(getByTestId("field")).toHaveFocus();
+  });
+
+  it("stays open when the page focuses a field after it opens", async () => {
+    const { getByTestId, getByText } = render(
+      <>
+        <input data-testid="field" />
+        <BasicHelpBubble defaultOpen />
+      </>,
+    );
+    await waitForPositioning();
+    await waitForFocus();
+
+    act(() => getByTestId("field").focus());
+    await waitForFocus();
+
+    expect(getByTestId("field")).toHaveFocus();
+    expect(getByText("Help")).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("moves focus into the content when it opens against an anchor with autoFocus", async () => {
+    const { getByTestId } = render(
+      <HelpBubbleRoot defaultOpen autoFocus>
         <HelpBubbleAnchor>Anchor</HelpBubbleAnchor>
         <HelpBubblePositioner>
           <HelpBubbleContent data-testid="content">Content</HelpBubbleContent>

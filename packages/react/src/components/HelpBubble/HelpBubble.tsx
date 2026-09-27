@@ -32,6 +32,11 @@ export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrim
    * @default 14
    */
   arrowPadding?: PopoverPrimitive.RootProps["arrowPadding"];
+  /**
+   * Whether to move focus into the content when it opens. Off by default so a bubble shown on page load keeps focus where the page put it; set `true` to follow the dialog pattern and move focus in.
+   * @default false
+   */
+  autoFocus?: PopoverPrimitive.RootProps["autoFocus"];
 }
 
 export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
@@ -40,6 +45,7 @@ export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimi
     gutter: 4, // TODO: get value from rootage spec
     overflowPadding: 16, // TODO: get value from rootage spec
     arrowPadding: 14,
+    autoFocus: false,
   },
 });
 
