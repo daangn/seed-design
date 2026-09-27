@@ -1,4 +1,5 @@
 ---
+"@seed-design/react": patch
 "@seed-design/react-navigation-menu": patch
 ---
 
