@@ -58,19 +58,19 @@
 - Recommendation: 실기기 native 검증과 전후 비교는 같은 길이의 LAN origin을 절대 prefix로 넣은 production build로 한다.
 - Solutions: `ASSET_PREFIX=http://<LAN IP>:<4자리 port>/ bun --filter lynx-spa build` → hub process로 `examples/lynx-spa/dist`를 같은 port에서 정적 서빙한다 → `http://<LAN IP>:<port>/main.lynx.bundle?example=lynx%2F<component>%2F<scenario>`. 기준과 변경본의 port 자릿수를 맞추면 bundle byte 비교에 prefix 차이가 섞이지 않는다.
 
-## 새 worktree의 docs 검증은 선행 lib 빌드가 필요하다
+## 새 worktree의 테스트·타입 검사는 선행 lib 빌드가 필요하다
 
 ### Mistake Made
-- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다.
-- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow` 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
+- Description: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다. headless 패키지의 `bun test`와 `tsc`도 `bun install` 직후 바로 실행했다.
+- Impact: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow`, `@seed-design/react-primitive`, `@seed-design/react-dismissible-layer` 같은 workspace 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
 
 ### Patterns to Avoid
-- Pattern: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 docs 변경의 실패로 판정하는 것.
+- Pattern: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 변경의 실패로 판정하는 것.
 - Risk: 잘못된 실패 판정을 내리거나, 검증을 건너뛰고 미검증으로 남긴다.
 
 ### Better Approaches
-- Recommendation: docs 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
-- Solutions: `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
+- Recommendation: 새 worktree에서는 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
+- Solutions: headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`. `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
 
 ## Headless 분리 리팩터링은 native tree 직렬화로 회귀를 막는다
 
