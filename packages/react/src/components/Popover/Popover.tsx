@@ -229,6 +229,12 @@ export const PopoverFooter = withContext<HTMLDivElement, PopoverFooterProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface PopoverActionProps extends PopoverPrimitive.CloseButtonProps {}
+
+export const PopoverAction = PopoverPrimitive.CloseButton;
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface PopoverCloseButtonProps extends PopoverPrimitive.CloseButtonProps {}
 
 export const PopoverCloseButton = forwardRef<HTMLButtonElement, PopoverCloseButtonProps>(

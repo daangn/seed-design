@@ -1,4 +1,5 @@
 export {
+  PopoverAction as Action,
   PopoverAnchor as Anchor,
   PopoverArrow as Arrow,
   PopoverArrowTip as ArrowTip,
@@ -12,6 +13,7 @@ export {
   PopoverRoot as Root,
   PopoverTitle as Title,
   PopoverTrigger as Trigger,
+  type PopoverActionProps as ActionProps,
   type PopoverAnchorProps as AnchorProps,
   type PopoverArrowProps as ArrowProps,
   type PopoverArrowTipProps as ArrowTipProps,

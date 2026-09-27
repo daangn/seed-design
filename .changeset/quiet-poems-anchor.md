@@ -9,6 +9,7 @@ Popover 컴포넌트를 추가합니다.
 - 트리거 또는 `PopoverAnchor`에 앵커링되어 화면 위에 떠 있는 컨테이너로, Header/Body/Footer 구조를 제공합니다.
 - `placement`로 트리거 기준 위치를 지정하며, 뷰포트 경계를 벗어나면 자동으로 뒤집히거나(flip) 이동합니다(shift).
 - `PopoverBody`는 콘텐츠가 실제로 넘칠 때에만 상단 divider와 하단 scroll fog를 표시합니다.
+- `PopoverFooter` 안에 `PopoverAction`을 두면 누를 때 Popover가 닫힙니다. `onClick`에서 `e.preventDefault()`를 호출하면 닫히지 않습니다.
 - `PopoverContent`에 `title`, `description`을 전달하면 `aria-labelledby`, `aria-describedby`가 함께 연결됩니다. 전달하지 않으면 해당 속성을 노출하지 않으므로, 직접 지정한 `aria-label`을 덮어쓰지 않습니다.
 - 열릴 때 콘텐츠로 포커스를 옮기고 닫힐 때 트리거로 되돌립니다. 포커스를 가두지는 않아 `Tab`으로 Popover 밖으로 나갈 수 있고, 배경도 계속 조작할 수 있습니다.
 - `lazyMount`(기본 `true`), `unmountOnExit`(기본 `false`)로 콘텐츠의 마운트 시점을 제어할 수 있습니다.
@@ -22,7 +23,7 @@ Popover 컴포넌트를 추가합니다.
   <PopoverContent title="제목" description="설명을 작성할 수 있어요">
     <PopoverBody>본문 내용</PopoverBody>
     <PopoverFooter>
-      <ActionButton variant="neutralSolid">확인</ActionButton>
+      <PopoverAction variant="neutralSolid">확인</PopoverAction>
     </PopoverFooter>
   </PopoverContent>
 </PopoverRoot>

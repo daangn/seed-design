@@ -3,11 +3,13 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";
 
 import {
+  PopoverAction,
   PopoverArrow,
   PopoverArrowTip,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverFooter,
   PopoverHeader,
   PopoverPositioner,
   PopoverRoot,
@@ -186,6 +188,29 @@ describe("PopoverHeader", () => {
             <PopoverHeader data-testid="header">
               <PopoverTitle>Title</PopoverTitle>
             </PopoverHeader>
+          </PopoverContent>
+        </PopoverPositioner>
+      </PopoverRoot>,
+    );
+    await waitForPositioning();
+
+    expect(getByTestId("header")).not.toHaveAttribute("data-show-close-button");
+  });
+
+  // PopoverAction shares the close button's headless props but not its render tracking, so a
+  // footer action must not claim the header's trailing space.
+  it("leaves the header unflagged with only a footer action", async () => {
+    const { getByTestId } = render(
+      <PopoverRoot defaultOpen>
+        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverPositioner>
+          <PopoverContent aria-label="Popover">
+            <PopoverHeader data-testid="header">
+              <PopoverTitle>Title</PopoverTitle>
+            </PopoverHeader>
+            <PopoverFooter>
+              <PopoverAction>Confirm</PopoverAction>
+            </PopoverFooter>
           </PopoverContent>
         </PopoverPositioner>
       </PopoverRoot>,

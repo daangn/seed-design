@@ -1,4 +1,5 @@
 export {
+  PopoverAction,
   PopoverAnchor,
   PopoverArrow,
   PopoverArrowTip,
@@ -12,6 +13,7 @@ export {
   PopoverRoot,
   PopoverTitle,
   PopoverTrigger,
+  type PopoverActionProps,
   type PopoverAnchorProps,
   type PopoverArrowProps,
   type PopoverArrowTipProps,
