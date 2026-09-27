@@ -1,4 +1,5 @@
 import { HStack } from "@seed-design/react";
+import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   PopoverBody,
@@ -9,9 +10,12 @@ import {
 } from "seed-design/ui/popover";
 
 export default function PopoverShowCloseButton() {
+  const [withCloseButtonOpen, setWithCloseButtonOpen] = useState(false);
+  const [withoutCloseButtonOpen, setWithoutCloseButtonOpen] = useState(false);
+
   return (
     <HStack gap="x3">
-      <PopoverRoot>
+      <PopoverRoot open={withCloseButtonOpen} onOpenChange={setWithCloseButtonOpen}>
         <PopoverTrigger asChild>
           <ActionButton variant="neutralSolid">닫기 버튼 있음</ActionButton>
         </PopoverTrigger>
@@ -19,13 +23,15 @@ export default function PopoverShowCloseButton() {
           <PopoverBody>기본적으로 Header 우측에 닫기 버튼이 표시됩니다.</PopoverBody>
           <PopoverFooter>
             <HStack gap="x2" justify="flex-end">
-              <ActionButton variant="neutralSolid">확인</ActionButton>
+              <ActionButton variant="neutralSolid" onClick={() => setWithCloseButtonOpen(false)}>
+                확인
+              </ActionButton>
             </HStack>
           </PopoverFooter>
         </PopoverContent>
       </PopoverRoot>
 
-      <PopoverRoot>
+      <PopoverRoot open={withoutCloseButtonOpen} onOpenChange={setWithoutCloseButtonOpen}>
         <PopoverTrigger asChild>
           <ActionButton variant="neutralSolid">닫기 버튼 없음</ActionButton>
         </PopoverTrigger>
@@ -35,7 +41,9 @@ export default function PopoverShowCloseButton() {
           </PopoverBody>
           <PopoverFooter>
             <HStack gap="x2" justify="flex-end">
-              <ActionButton variant="neutralSolid">확인</ActionButton>
+              <ActionButton variant="neutralSolid" onClick={() => setWithoutCloseButtonOpen(false)}>
+                확인
+              </ActionButton>
             </HStack>
           </PopoverFooter>
         </PopoverContent>
