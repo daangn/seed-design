@@ -27,10 +27,6 @@ data:
             type: color
           size:
             type: dimension
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
   definitions:
     base:
       enabled:
@@ -43,8 +39,6 @@ data:
         icon:
           color: $color.fg.neutral-subtle
           size: 22px
-          colorDuration: $duration.color-transition
-          colorTimingFunction: $timing-function.easing
       pressed:
         root:
           color: $color.bg.transparent-pressed
