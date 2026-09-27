@@ -92,3 +92,17 @@
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
+
+## 검증용 activity는 기존 activity의 조립 방식을 그대로 따른다
+
+### Mistake Made
+- Description: stackflow-spa에 임시 검증 activity를 만들면서 `AppBarMain`이 `title` prop을 받는다고 추측했다. 실제로는 children으로 제목을 받고, `title`을 넘기면 내부 `Primitive.span`이 `ClassNamesProvider` 밖에서 렌더링된다.
+- Impact: `useClassNames must be used within a ClassNamesProvider` 오류가 반복되며 화면 전체가 비었고, 브라우저 검증 스크립트가 trigger를 찾지 못해 실패했다.
+
+### Patterns to Avoid
+- Pattern: snippet 컴포넌트의 prop을 이름만 보고 추측해서 새 activity를 조립하는 것.
+- Risk: 검증 대상과 무관한 렌더링 오류가 나서 원인을 찾는 데 시간을 쓰고, 검증 결과를 잘못 해석할 수 있다.
+
+### Better Approaches
+- Recommendation: 같은 컴포넌트를 다루는 기존 activity의 AppScreen·AppBar 구조를 복사해서 시작하고, 첫 로드 직후 console error를 확인한다.
+- Solutions: `examples/stackflow-spa/src/activities/ActivityPopover.tsx`처럼 `<AppBarMain>제목</AppBarMain>`으로 쓴다. chrome-devtools로 연 뒤 `list_console_messages`(`types: ["error"]`)를 먼저 보고, 오류가 없을 때만 시나리오 스크립트를 실행한다.
