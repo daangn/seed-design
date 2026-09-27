@@ -176,9 +176,27 @@ export function useNavigationMenuRoot(
 
   const placement: Placement = props.placement ?? rootPlacement;
 
+  const focusOutTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(focusOutTimeout.current), [open]);
+
   const onOpenChange = useCallback(
     (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
       if (disabled && nextOpen) return;
+
+      if (reason === "focus-out") {
+        // Removing portal guards between native focusout and focusin lets an ancestor
+        // Radix FocusScope's mutation observer steal focus while activeElement is body.
+        // https://github.com/radix-ui/primitives/issues/2436
+        clearTimeout(focusOutTimeout.current);
+        focusOutTimeout.current = setTimeout(
+          () => setValue((prev) => (prev === itemValue ? null : prev)),
+          0,
+        );
+
+        return;
+      }
+
       // Manage focus only for keyboard activation. A keyboard-activated
       // <button> dispatches a click with `detail === 0`; mouse clicks report
       // `detail >= 1` and hover reports reason "hover" — neither should pull
