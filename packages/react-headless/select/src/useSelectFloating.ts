@@ -27,9 +27,15 @@ const SAFE_AREA_STYLE = {
 
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
+  const facing =
+    { top: "bottom", bottom: "top", left: "right", right: "left" }[side ?? ""] ?? "top";
+  if (side === "left" || side === "right") {
+    const y = { start: "top", end: "bottom" }[align ?? ""] ?? "center";
+    return `${facing} ${y}`;
+  }
+
   const x = { start: "left", end: "right" }[align ?? ""] ?? "center";
-  const y = { top: "bottom", bottom: "top", left: "center", right: "center" }[side ?? ""] ?? "top";
-  return `${x} ${y}`;
+  return `${x} ${facing}`;
 }
 
 export interface UseSelectPositioningProps {
