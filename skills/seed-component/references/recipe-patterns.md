@@ -108,7 +108,7 @@ height를 애니메이션하는 요소에 padding을 두지 않는다 → paddin
 
 ### Modal/Sheet 진입/퇴장
 
-`packages/qvism-preset/src/utils/animation.ts`의 `enterAnimation`·`exitAnimation`을 쓴다. 레퍼런스: `dialog.ts`, `action-sheet.ts`, `menu-sheet.ts`.
+`packages/qvism-preset/src/utils/animation.ts`의 `enterAnimation`·`exitAnimation`을 쓴다. 레퍼런스: `dialog.ts`, `menu-sheet.ts`.
 
 ```typescript
 [pseudo(open)]: enterAnimation({
