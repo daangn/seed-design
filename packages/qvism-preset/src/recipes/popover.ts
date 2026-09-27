@@ -94,7 +94,6 @@ const popover = defineSlotRecipe({
       },
     },
     header: {
-      position: "relative",
       display: "flex",
       flexDirection: "column",
       flexShrink: 0,

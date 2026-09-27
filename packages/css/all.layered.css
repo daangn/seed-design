@@ -8347,7 +8347,6 @@
     flex-direction: column;
     flex-shrink: 0;
     display: flex;
-    position: relative;
   }
 
   .seed-popover__header[data-show-close-button] {
