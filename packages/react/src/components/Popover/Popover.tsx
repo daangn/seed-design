@@ -84,12 +84,30 @@ export const PopoverAnchor = PopoverPrimitive.Anchor;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PopoverPositionerProps extends PopoverPrimitive.PositionerProps {}
+// Portals into a `container` ref and keeps FloatingPortal's other props out of reach, matching Menu and Select.
+export interface PopoverPositionerProps extends Omit<PopoverPrimitive.PositionerProps, "id"> {
+  /**
+   * The container element to render the portal into.
+   * @default document.body
+   */
+  container?: React.RefObject<HTMLElement | null>;
+}
 
-export const PopoverPositioner = withContext<HTMLDivElement, PopoverPositionerProps>(
-  PopoverPrimitive.Positioner,
-  "positioner",
+export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerProps>(
+  ({ container, className, ...props }, ref) => {
+    const classNames = useClassNames();
+
+    return (
+      <PopoverPrimitive.PositionerPortal
+        ref={ref}
+        root={container ?? undefined}
+        className={clsx(classNames.positioner, className)}
+        {...props}
+      />
+    );
+  },
 );
+PopoverPositioner.displayName = "PopoverPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
