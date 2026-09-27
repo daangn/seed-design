@@ -4,6 +4,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import {
+  PopoverAction,
   PopoverAnchor,
   PopoverBody,
   PopoverContent,
@@ -33,7 +34,7 @@ export default function PopoverAnchorExample() {
           </PopoverBody>
           <PopoverFooter>
             <HStack gap="x2" justify="flex-end">
-              <ActionButton variant="neutralSolid">확인</ActionButton>
+              <PopoverAction variant="neutralSolid">확인</PopoverAction>
             </HStack>
           </PopoverFooter>
         </PopoverContent>

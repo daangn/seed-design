@@ -1,6 +1,7 @@
 import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
+  PopoverAction,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
@@ -21,7 +22,7 @@ export default function PopoverPlacement() {
         </PopoverBody>
         <PopoverFooter>
           <HStack gap="x2" justify="flex-end">
-            <ActionButton variant="neutralSolid">확인</ActionButton>
+            <PopoverAction variant="neutralSolid">확인</PopoverAction>
           </HStack>
         </PopoverFooter>
       </PopoverContent>

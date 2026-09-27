@@ -1,6 +1,7 @@
 import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
+  PopoverAction,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
@@ -25,7 +26,7 @@ export default function PopoverScroll() {
         </PopoverBody>
         <PopoverFooter>
           <HStack gap="x2" justify="flex-end">
-            <ActionButton variant="neutralSolid">동의</ActionButton>
+            <PopoverAction variant="neutralSolid">동의</PopoverAction>
           </HStack>
         </PopoverFooter>
       </PopoverContent>

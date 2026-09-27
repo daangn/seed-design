@@ -1,6 +1,7 @@
 import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
+  PopoverAction,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
@@ -18,7 +19,7 @@ export default function PopoverTriggerExample() {
         <PopoverBody>트리거를 눌러 Popover를 열 수 있습니다.</PopoverBody>
         <PopoverFooter>
           <HStack gap="x2" justify="flex-end">
-            <ActionButton variant="neutralSolid">확인</ActionButton>
+            <PopoverAction variant="neutralSolid">확인</PopoverAction>
           </HStack>
         </PopoverFooter>
       </PopoverContent>

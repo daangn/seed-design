@@ -67,6 +67,13 @@ npx @seed-design/cli@latest add ui:popover
   name="PopoverFooterProps"
 />
 
+### `PopoverAction`
+
+<react-type-table
+  path="./registry/react/ui/popover.tsx"
+  name="PopoverActionProps"
+/>
+
 ## Examples
 
 ### Trigger
@@ -100,7 +107,7 @@ Trigger 외의 방식으로 Popover를 열고 닫을 수 있습니다. 이 경�
 `onOpenChange(open, details)`에서 열림 상태가 바뀐 이유를 확인할 수 있습니다.
 
 - `trigger`: 트리거로 열거나 닫음
-- `closeButton`: 닫기 버튼으로 닫음
+- `closeButton`: `PopoverAction` 또는 닫기 버튼으로 닫음
 - `escapeKeyDown`: Escape 키로 닫음
 - `interactOutside`: 외부 영역을 눌러 닫음
 - `focusOut`: Tab 등으로 포커스가 밖으로 이동하여 닫음

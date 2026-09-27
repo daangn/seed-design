@@ -2,6 +2,7 @@ import { HStack, VStack } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
+  PopoverAction,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
@@ -24,7 +25,7 @@ export default function PopoverControlled() {
           <PopoverBody>open prop으로 Popover의 열림 상태를 직접 제어합니다.</PopoverBody>
           <PopoverFooter>
             <HStack gap="x2" justify="flex-end">
-              <ActionButton variant="neutralSolid">확인</ActionButton>
+              <PopoverAction variant="neutralSolid">확인</PopoverAction>
             </HStack>
           </PopoverFooter>
         </PopoverContent>
