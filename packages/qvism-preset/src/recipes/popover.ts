@@ -60,17 +60,7 @@ const popover = defineSlotRecipe({
       maxWidth: "var(--seed-box-max-width)",
       maxHeight: `min(${vars.base.enabled.content.maxHeight}, var(--seed-popover-available-height, ${vars.base.enabled.content.maxHeight}))`,
 
-      // Scale from the edge nearest the trigger. data-side/-alignment come from usePopover's
-      // stateProps; alignment rules run before side rules so the side axis wins on left/right.
-      "--seed-popover-origin-x": "center",
-      "--seed-popover-origin-y": "center",
-      transformOrigin: "var(--seed-popover-origin-x) var(--seed-popover-origin-y)",
-      [pseudo("[data-alignment='start']")]: { "--seed-popover-origin-x": "left" },
-      [pseudo("[data-alignment='end']")]: { "--seed-popover-origin-x": "right" },
-      [pseudo("[data-side='top']")]: { "--seed-popover-origin-y": "bottom" },
-      [pseudo("[data-side='bottom']")]: { "--seed-popover-origin-y": "top" },
-      [pseudo("[data-side='left']")]: { "--seed-popover-origin-x": "right" },
-      [pseudo("[data-side='right']")]: { "--seed-popover-origin-x": "left" },
+      transformOrigin: "var(--seed-popover-transform-origin)",
 
       [pseudo(open)]: enterAnimation({
         scale: vars.base.enabled.content.enterScale,
