@@ -142,32 +142,6 @@ export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositio
 );
 PopoverPositionerPortal.displayName = "PopoverPositionerPortal";
 
-/**
- * Holds a Radix FocusScope registration for as long as the popover is open, so parent
- * FocusScopes (Dialog, Drawer, BottomSheet, the Stackflow AppScreen) pause their trap and
- * focus can reach content rendered in a portal.
- *
- * The scope needs no behavior of its own — trapping and the tab loop stay off and both
- * autofocus events are prevented — so all it does is enter Radix's focusScopesStack, which
- * is keyed on mount, not on the element it wraps. Hence this empty hidden element rather
- * than a wrapper around the content: wrapping swaps the element type at the content's
- * position on every open/close, and React responds by remounting the whole popover subtree,
- * throwing away form state and scroll position and handing the exit transition a node that
- * was just built from scratch.
- *
- * Mounting only while open is what lands it on top of the stack — a permanently mounted
- * scope would register at page load, below any Dialog opened later.
- */
-const FocusScopeRegistration = () => (
-  <FocusScope
-    hidden
-    trapped={false}
-    loop={false}
-    onMountAutoFocus={(event) => event.preventDefault()}
-    onUnmountAutoFocus={(event) => event.preventDefault()}
-  />
-);
-
 export interface PopoverContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((props, ref) => {
@@ -208,7 +182,31 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
           />
         </Presence>
       </FloatingFocusManager>
-      {api.open && <FocusScopeRegistration />}
+      {/*
+        Holds a Radix FocusScope registration for as long as the popover is open, so parent
+        FocusScopes (Dialog, Drawer, BottomSheet, the Stackflow AppScreen) pause their trap and
+        focus can reach content rendered in a portal.
+
+        The scope needs no behavior of its own — trapping and the tab loop stay off and both
+        autofocus events are prevented — so all it does is enter Radix's focusScopesStack, which
+        is keyed on mount, not on the element it wraps. Hence this empty hidden element rather
+        than a wrapper around the content: wrapping swaps the element type at the content's
+        position on every open/close, and React responds by remounting the whole popover subtree,
+        throwing away form state and scroll position and handing the exit transition a node that
+        was just built from scratch.
+
+        Mounting only while open is what lands it on top of the stack — a permanently mounted
+        scope would register at page load, below any Dialog opened later.
+      */}
+      {api.open && (
+        <FocusScope
+          hidden
+          trapped={false}
+          loop={false}
+          onMountAutoFocus={(event) => event.preventDefault()}
+          onUnmountAutoFocus={(event) => event.preventDefault()}
+        />
+      )}
     </>
   );
 });
