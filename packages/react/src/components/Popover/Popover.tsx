@@ -47,8 +47,8 @@ export interface PopoverRootProps extends PopoverVariantProps, PopoverPrimitive.
 // the way `HelpBubbleRoot` passes `gutter` through `defaultProps`.
 export function PopoverRoot({
   placement = "bottom",
-  gutter = 8, // TODO: get value from rootage spec
-  overflowPadding = 16, // TODO: get value from rootage spec
+  gutter = 8,
+  overflowPadding = 16,
   lazyMount = true,
   ...props
 }: PopoverRootProps) {
