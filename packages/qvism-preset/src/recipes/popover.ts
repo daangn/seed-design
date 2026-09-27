@@ -54,11 +54,10 @@ const popover = defineSlotRecipe({
       "--seed-box-width--responsive": "auto", // real value, not `initial` — see https://webkit.org/b/241433
       "--seed-box-min-width--responsive": vars.base.enabled.content.minWidth,
       "--seed-box-max-width--responsive": `min(${vars.base.enabled.content.maxWidth}, var(--seed-popover-available-width, ${vars.base.enabled.content.maxWidth}))`,
-      "--seed-box-max-height--responsive": `min(${vars.base.enabled.content.maxHeight}, var(--seed-popover-available-height, ${vars.base.enabled.content.maxHeight}))`,
       width: "var(--seed-box-width)",
       minWidth: "var(--seed-box-min-width)",
       maxWidth: "var(--seed-box-max-width)",
-      maxHeight: "var(--seed-box-max-height)",
+      maxHeight: `min(${vars.base.enabled.content.maxHeight}, var(--seed-popover-available-height, ${vars.base.enabled.content.maxHeight}))`,
 
       // Scale from the edge nearest the trigger. data-side/-alignment come from usePopover's
       // stateProps; alignment rules run before side rules so the side axis wins on left/right.
