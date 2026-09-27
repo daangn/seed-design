@@ -195,6 +195,10 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
         disabled={!api.open}
         modal={false}
         initialFocus={contentRef}
+        // Without a portal, pressing a focusable element outside blurs the content and reads
+        // as focus-out, so an opted-out outside press would still close through this path.
+        // https://github.com/floating-ui/floating-ui/issues/2017
+        closeOnFocusOut={api.closeOnInteractOutside}
       >
         <Presence present={api.open} lazyMount={api.lazyMount} unmountOnExit={api.unmountOnExit}>
           <Primitive.div

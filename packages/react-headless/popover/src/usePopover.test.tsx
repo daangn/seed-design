@@ -525,8 +525,29 @@ describe("usePopover", () => {
       expect(getByTestId("content")).toHaveAttribute("data-open");
     });
 
-    // Opting out of outside presses is not opting out of dismissal: Escape is the keyboard
-    // user's only way out, and the opt-out lives in the press handler alone.
+    it("keeps the popover open when focus tabs out while closeOnInteractOutside is off", async () => {
+      const user = userEvent.setup();
+      const { getByText, getByTestId } = render(
+        <>
+          <BasicPopover closeOnInteractOutside={false} />
+          <button type="button">After</button>
+        </>,
+      );
+      await waitForPositioning();
+
+      await user.click(getByText("Open Popover"));
+      await waitForFocus();
+      await user.tab();
+      await user.tab();
+      await user.tab();
+      await waitForFocus();
+
+      expect(getByText("After")).toHaveFocus();
+      expect(getByTestId("content")).toHaveAttribute("data-open");
+    });
+
+    // Opting out of outside interactions is not opting out of dismissal: Escape is the
+    // keyboard user's only way out, and the opt-out covers presses and focus leaving alone.
     it("still closes on Escape when closeOnInteractOutside is off", async () => {
       const user = userEvent.setup();
       const { getByText, getByTestId } = render(<BasicPopover closeOnInteractOutside={false} />);
@@ -605,9 +626,12 @@ describe("usePopover", () => {
 });
 
 describe("PopoverPositionerPortal", () => {
-  function PortalPopover({ root }: { root?: HTMLElement }) {
+  function PortalPopover({
+    root,
+    ...props
+  }: Omit<PopoverRootProps, "children"> & { root?: HTMLElement }) {
     return (
-      <PopoverRoot>
+      <PopoverRoot {...props}>
         <PopoverTrigger>Open Popover</PopoverTrigger>
         <PopoverPositionerPortal root={root} data-testid="positioner">
           <PopoverContent data-testid="content">Content</PopoverContent>
@@ -633,6 +657,25 @@ describe("PopoverPositionerPortal", () => {
 
     expect(root).toContainElement(getByTestId("positioner"));
     root.remove();
+  });
+
+  it("keeps the popover open when focus tabs out while closeOnInteractOutside is off", async () => {
+    const user = userEvent.setup();
+    const { getByText, getByTestId } = render(
+      <>
+        <PortalPopover closeOnInteractOutside={false} />
+        <button type="button">After</button>
+      </>,
+    );
+    await waitForPositioning();
+
+    await user.click(getByText("Open Popover"));
+    await waitForFocus();
+    await user.tab();
+    await waitForFocus();
+
+    expect(getByText("After")).toHaveFocus();
+    expect(getByTestId("content")).toHaveAttribute("data-open");
   });
 
   it("joins the layer stack and returns focus to the trigger on Escape", async () => {

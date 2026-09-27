@@ -47,7 +47,7 @@ function getFloatingChangeDetails(
 
 export interface UsePopoverProps extends UsePositionedFloatingProps<PopoverChangeDetails> {
   /**
-   * Whether to close the popover when clicking outside of it.
+   * Whether to close the popover when pressing outside of it or moving focus out of it.
    * @default true
    */
   closeOnInteractOutside?: boolean;
