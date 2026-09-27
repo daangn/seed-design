@@ -1,6 +1,8 @@
-import { render } from "@testing-library/react";
+import { FocusScope } from "@radix-ui/react-focus-scope";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";
+import type * as React from "react";
 import { NavigationMenu } from "./index";
 import type { UseNavigationMenuProps } from "./useNavigationMenu";
 
@@ -137,5 +139,60 @@ describe("useNavigationMenu (group labelling)", () => {
 
     const unlabeledGroup = document.querySelectorAll('[role="group"]')[1];
     expect(unlabeledGroup).not.toHaveAttribute("aria-labelledby");
+  });
+});
+
+// Flush rAF-deferred focus from FloatingFocusManager. happy-dom mocks rAF with
+// setImmediate, so a short timer is needed for the focus to land.
+const waitForFocus = () =>
+  act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  });
+
+// Stands in for Dialog, Drawer and AppScreen, which are thin wrappers over this scope.
+function TrappedAncestor({ children }: { children: React.ReactNode }) {
+  return (
+    <FocusScope trapped onMountAutoFocus={(event) => event.preventDefault()}>
+      {children}
+    </FocusScope>
+  );
+}
+
+describe("useNavigationMenu (trapped ancestor)", () => {
+  it("moves focus into the flyout opened by keyboard", async () => {
+    const user = userEvent.setup();
+    const { getByText } = render(
+      <TrappedAncestor>
+        <Harness />
+      </TrappedAncestor>,
+    );
+
+    getByText("Products").focus();
+    await user.keyboard("{Enter}");
+    await waitForFocus();
+
+    expect(getByText("Item A")).toHaveFocus();
+  });
+
+  it("lets a trapped ancestor resume once closed", async () => {
+    const user = userEvent.setup();
+    const { getByText } = render(
+      <>
+        <button type="button">Outside</button>
+        <TrappedAncestor>
+          <Harness />
+        </TrappedAncestor>
+      </>,
+    );
+
+    getByText("Products").focus();
+    await user.keyboard("{Enter}");
+    await waitForFocus();
+    await user.keyboard("{Escape}");
+    await waitForFocus();
+
+    // With the ancestor trap active again, focus cannot settle outside its container.
+    act(() => getByText("Outside").focus());
+    expect(getByText("Outside")).not.toHaveFocus();
   });
 });
