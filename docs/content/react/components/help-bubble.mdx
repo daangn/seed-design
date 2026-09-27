@@ -80,12 +80,27 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Close On Interact Outside
 
-`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
+`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭하거나 포커스가 밖으로 이동해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
 
 <ComponentExample name="react/help-bubble/close-on-interact-outside" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/close-on-interact-outside.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Auto Focus
+
+Help Bubble은 기본적으로 열릴 때 포커스를 옮기지 않습니다. 페이지 진입과 함께 열리는 Help Bubble이 입력 필드 등 페이지가 준 포커스를 가져가지 않도록 하기 위함입니다.
+
+`autoFocus` prop을 설정하면 열릴 때 Help Bubble 안으로 포커스를 옮깁니다. 키보드와 스크린 리더 사용자가 Help Bubble 내용을 바로 읽을 수 있어 접근성 권장 동작에 가깝습니다. 어느 쪽이든 Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스는 trigger로 돌아갑니다.
+
+<ComponentExample name="react/help-bubble/auto-focus" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/auto-focus.tsx",
     "codeblock": true
   }
   ```

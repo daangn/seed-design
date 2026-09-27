@@ -44,6 +44,9 @@
 .seed-help-bubble__content:is([hidden], [data-hidden]) {
     display: none !important;
 }
+.seed-help-bubble__content:is(:focus, [data-focus]) {
+    outline: none;
+}
 .seed-help-bubble__arrow {
     width: 12px;
     height: 12px;

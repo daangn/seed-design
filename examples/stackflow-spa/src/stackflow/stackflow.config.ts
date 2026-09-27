@@ -65,6 +65,7 @@ export const config = defineConfig({
     { route: "/partial-dark-mode", name: "ActivityPartialDarkMode" },
     { route: "/perf-check", name: "ActivityPerfCheck" },
     { route: "/plugin-basic-ui", name: "ActivityPluginBasicUI" },
+    { route: "/popover", name: "ActivityPopover" },
     { route: "/quantity-picker", name: "ActivityQuantityPicker" },
     { route: "/pagination", name: "ActivityPagination" },
     { route: "/radio-group", name: "ActivityRadioGroup" },
