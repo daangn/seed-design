@@ -5,7 +5,9 @@ export declare const vars: {
         "color": "var(--seed-color-bg-layer-floating)",
         "cornerRadius": "var(--seed-radius-r5)",
         "shadow": "var(--seed-shadow-s3)",
+        /** viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다. */
         "minWidth": "320px",
+        /** viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다. */
         "maxWidth": "480px",
         /** viewport가 이보다 작으면 overflowPadding과 safe-area를 뺀 가용 높이로 축소됩니다. */
         "maxHeight": "600px",

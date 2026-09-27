@@ -47,15 +47,16 @@ const popover = defineSlotRecipe({
       // drop-shadow does not support nonzero spread.
       boxShadow: vars.base.enabled.content.shadow,
 
-      // The width family goes through the box responsive vars so StyleProps can override it
-      // (height is not exposed — the content grows with the body, capped below).
-      // maxWidth/maxHeight fall back to the design cap, but shrink to the space floating-ui's
-      // size() middleware leaves once the viewport (minus overflowPadding + safe-area) is smaller.
+      // width/maxWidth go through the box responsive vars so StyleProps can override them
+      // (minWidth and height are not exposed — the content grows with the body, capped below).
+      // minWidth/maxWidth/maxHeight fall back to the design value, but shrink to the space
+      // floating-ui's size() middleware leaves once the viewport is smaller: minus overflowPadding
+      // across, minus overflowPadding and the top/bottom safe area down. minWidth has to shrink
+      // too: CSS lets min-width win over max-width.
       "--seed-box-width--responsive": "auto", // real value, not `initial` — see https://webkit.org/b/241433
-      "--seed-box-min-width--responsive": vars.base.enabled.content.minWidth,
       "--seed-box-max-width--responsive": `min(${vars.base.enabled.content.maxWidth}, var(--seed-popover-available-width, ${vars.base.enabled.content.maxWidth}))`,
       width: "var(--seed-box-width)",
-      minWidth: "var(--seed-box-min-width)",
+      minWidth: `min(${vars.base.enabled.content.minWidth}, var(--seed-popover-available-width, ${vars.base.enabled.content.minWidth}))`,
       maxWidth: "var(--seed-box-max-width)",
       maxHeight: `min(${vars.base.enabled.content.maxHeight}, var(--seed-popover-available-height, ${vars.base.enabled.content.maxHeight}))`,
 

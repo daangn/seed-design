@@ -113,7 +113,7 @@ PopoverPositioner.displayName = "PopoverPositioner";
 
 export interface PopoverContentProps
   extends PrimitiveProps,
-    Pick<StyleProps, "width" | "minWidth" | "maxWidth">,
+    Pick<StyleProps, "width" | "maxWidth">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverContent = withContext<HTMLDivElement, PopoverContentProps>(

@@ -22,9 +22,11 @@ declare const artifact: {
             };
             "minWidth": {
               "type": "dimension";
+              "description": "viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다.";
             };
             "maxWidth": {
               "type": "dimension";
+              "description": "viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다.";
             };
             "maxHeight": {
               "type": "dimension";

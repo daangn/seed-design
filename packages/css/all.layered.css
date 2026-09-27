@@ -8267,12 +8267,6 @@
     --seed-box-width-lg: var(--seed-box-width-md, initial);
     --seed-box-width-xl: var(--seed-box-width-lg, initial);
     --seed-box-width: var(--seed-box-width-base, initial);
-    --seed-box-min-width-base: 320px;
-    --seed-box-min-width-sm: var(--seed-box-min-width-base, initial);
-    --seed-box-min-width-md: var(--seed-box-min-width-sm, initial);
-    --seed-box-min-width-lg: var(--seed-box-min-width-md, initial);
-    --seed-box-min-width-xl: var(--seed-box-min-width-lg, initial);
-    --seed-box-min-width: var(--seed-box-min-width-base, initial);
     --seed-box-max-width-base: min(480px, var(--seed-popover-available-width, 480px));
     --seed-box-max-width-sm: var(--seed-box-max-width-base, initial);
     --seed-box-max-width-md: var(--seed-box-max-width-sm, initial);
@@ -8280,7 +8274,7 @@
     --seed-box-max-width-xl: var(--seed-box-max-width-lg, initial);
     --seed-box-max-width: var(--seed-box-max-width-base, initial);
     width: var(--seed-box-width);
-    min-width: var(--seed-box-min-width);
+    min-width: min(320px, var(--seed-popover-available-width, 320px));
     max-width: var(--seed-box-max-width);
     max-height: min(600px, var(--seed-popover-available-height, 600px));
     --seed-popover-origin-x: center;
@@ -13402,7 +13396,6 @@
 
     .seed-popover__content {
       --seed-box-width: var(--seed-box-width-sm, initial);
-      --seed-box-min-width: var(--seed-box-min-width-sm, initial);
       --seed-box-max-width: var(--seed-box-max-width-sm, initial);
     }
 
@@ -13479,7 +13472,6 @@
 
     .seed-popover__content {
       --seed-box-width: var(--seed-box-width-md, initial);
-      --seed-box-min-width: var(--seed-box-min-width-md, initial);
       --seed-box-max-width: var(--seed-box-max-width-md, initial);
     }
 
@@ -13556,7 +13548,6 @@
 
     .seed-popover__content {
       --seed-box-width: var(--seed-box-width-lg, initial);
-      --seed-box-min-width: var(--seed-box-min-width-lg, initial);
       --seed-box-max-width: var(--seed-box-max-width-lg, initial);
     }
 
@@ -13633,7 +13624,6 @@
 
     .seed-popover__content {
       --seed-box-width: var(--seed-box-width-xl, initial);
-      --seed-box-min-width: var(--seed-box-min-width-xl, initial);
       --seed-box-max-width: var(--seed-box-max-width-xl, initial);
     }
 
