@@ -38,7 +38,7 @@
             },
             "overflowPadding": {
               "type": "dimension",
-              "description": "popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. safe-area가 있으면 그 안쪽으로 배치됩니다."
+              "description": "popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. 위아래에 safe-area가 있으면 그 안쪽으로 배치됩니다."
             },
             "enterDuration": {
               "type": "duration"

@@ -13,7 +13,7 @@ export declare const vars: {
         "maxHeight": "600px",
         /** 트리거와 popover 사이의 간격을 정의합니다. */
         "gutter": "var(--seed-dimension-x2)",
-        /** popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. safe-area가 있으면 그 안쪽으로 배치됩니다. */
+        /** popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. 위아래에 safe-area가 있으면 그 안쪽으로 배치됩니다. */
         "overflowPadding": "var(--seed-dimension-x4)",
         "enterDuration": "var(--seed-duration-d3)",
         "enterTimingFunction": "var(--seed-timing-function-enter)",
