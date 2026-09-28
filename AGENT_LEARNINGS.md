@@ -154,7 +154,8 @@
 - Solutions:
   - 선례 찾기: `git log --all --oneline -i --grep='<선례 컴포넌트>'` → `git branch -a --contains <sha>` → `git show origin/minor:<경로>`.
   - 학습 커밋: `git worktree add /tmp/<ticket>/learnings docs/<ticket>-agent-learnings`(없으면 `-b`와 `origin/dev`로 생성) → 그 안에서 편집·커밋 → `git worktree remove`. 선례: `docs/des-2611-agent-learnings`.
-  - minor checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다.
+  - minor checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다. 스크립트는 `git archive origin/dev skills/seed-change | tar -x -C /tmp/<ticket>/skills-dev` 뒤 저장소 루트에서 `bun /tmp/<ticket>/skills-dev/skills/seed-change/scripts/change-plan.ts --base-ref origin/minor ...`로 실행한다.
+  - 기준을 옮긴 뒤 남은 `docs/public/__docs__/index.json` 같은 수정은 사용자 작업이 아니라 이전 기준의 생성물일 수 있다. `git check-attr linguist-generated -- <파일>`로 확인하고, 백업(`$(git rev-parse --git-dir)/backups/<ticket>/`) 후 `bun generate:all`로 새 기준에 맞춘다. DES-2612에서는 재생성 결과가 `origin/minor`와 같아져 diff가 사라졌다.
 
 ## loading 중 tap 차단은 overlay의 자식 ref와 시간 창으로 기기에서 확인한다
 
