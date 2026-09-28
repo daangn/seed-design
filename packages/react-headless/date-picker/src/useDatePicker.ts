@@ -825,6 +825,15 @@ export function useDatePicker(props: UseDatePickerProps) {
     return months;
   }, [createMonth, viewDate, visibleRange]);
 
+  // 제목과 Wheel Picker가 가리키는 월입니다. Week가 두 달에 걸치면 다음 달을 쓰고,
+  // 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 씁니다.
+  const displayMonthDate = React.useMemo(() => {
+    if (visibleRange !== "week") return viewDate;
+    const weekStart = getWeekStart(viewDate, locale, props.weekStartsOn);
+    const weekEnd = addDays(weekStart, 6);
+    return compareYearMonths(weekEnd, monthRange.end) > 0 ? weekStart : weekEnd;
+  }, [locale, monthRange.end, props.weekStartsOn, viewDate, visibleRange]);
+
   const weekMonth = React.useMemo<DatePickerMonth | undefined>(() => {
     if (visibleRange !== "week") return undefined;
     const weekStart = getWeekStart(viewDate, locale, props.weekStartsOn);
@@ -832,10 +841,18 @@ export function useDatePicker(props: UseDatePickerProps) {
     return {
       key: dateKey(weekStart),
       date: weekStart,
-      label: formatMonth(weekStart),
+      label: formatMonth(displayMonthDate),
       weeks: [{ key: dateKey(weekStart), cells }],
     };
-  }, [formatMonth, getDateCell, locale, props.weekStartsOn, viewDate, visibleRange]);
+  }, [
+    displayMonthDate,
+    formatMonth,
+    getDateCell,
+    locale,
+    props.weekStartsOn,
+    viewDate,
+    visibleRange,
+  ]);
 
   const [continuousMonthHeights, setContinuousMonthHeights] = React.useState<
     ReadonlyMap<string, number>
@@ -1025,7 +1042,7 @@ export function useDatePicker(props: UseDatePickerProps) {
   const headerLabel =
     visibleRange === "twoMonths"
       ? `${formatMonth(viewDate)} – ${formatMonth(addMonths(viewDate, 1))}`
-      : formatMonth(viewDate);
+      : formatMonth(displayMonthDate);
   const previousLabel =
     visibleRange === "week" ? ariaLabels.previousWeek : ariaLabels.previousMonth;
   const nextLabel = visibleRange === "week" ? ariaLabels.nextWeek : ariaLabels.nextMonth;
@@ -1079,16 +1096,28 @@ export function useDatePicker(props: UseDatePickerProps) {
   const changeWheelMonth = React.useCallback((monthValue: string) => {
     setWheelViewDate((current) => getDateForMonthAndDay(current.year, Number(monthValue), 1));
   }, []);
+  const closeWheel = React.useCallback(() => {
+    if (!isWheelOpen) return;
+    setIsWheelOpen(false);
+    setViewDate(wheelViewDate);
+    if (compareYearMonths(wheelViewDate, displayMonthDate) === 0) return;
+
+    // 이전·다음 이동처럼 새 월의 첫날을 roving focus 대상으로 삼습니다. Week popover에서 Tab으로
+    // 달력에 들어온 뒤 닫히면 포커스된 이전 주의 셀이 사라지므로 새 셀로 DOM 포커스를 옮깁니다.
+    shouldMoveDomFocusRef.current =
+      rootRef.current?.querySelector('[role="grid"]')?.contains(document.activeElement) ?? false;
+    setFocusedDate(clampDateToMonthRange(wheelViewDate, monthRange));
+  }, [displayMonthDate, isWheelOpen, monthRange, setViewDate, wheelViewDate]);
   const toggleWheel = React.useCallback(() => {
     if (isWheelOpen) {
-      setIsWheelOpen(false);
-      setViewDate(wheelViewDate);
+      closeWheel();
       return;
     }
 
-    setWheelViewDate(viewDate);
+    // Week에서 displayMonthDate는 현재 주 안의 날짜라 바꾸지 않고 닫으면 같은 주에 머뭅니다.
+    setWheelViewDate(displayMonthDate);
     setIsWheelOpen(true);
-  }, [isWheelOpen, setViewDate, viewDate, wheelViewDate]);
+  }, [closeWheel, displayMonthDate, isWheelOpen]);
 
   return {
     selectionMode,
@@ -1110,6 +1139,8 @@ export function useDatePicker(props: UseDatePickerProps) {
           : [weekMonth],
     headerLabel,
     isWheelOpen,
+    /** 연·월 Wheel Picker에서 고른 월을 표시 날짜에 반영하고 닫습니다. 닫혀 있으면 아무것도 하지 않습니다. */
+    closeWheel,
     ariaLabels,
     actions,
     wheel: {

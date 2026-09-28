@@ -12,6 +12,7 @@ import {
   type DatePickerVisibleRange,
   type UseDatePickerProps,
 } from "@seed-design/react-date-picker";
+import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/react-popover";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
@@ -19,9 +20,12 @@ import { ActionButton } from "../ActionButton/ActionButton";
 import { Box, type BoxProps } from "../Box/Box";
 import { Icon } from "../Icon/Icon";
 
-// 44px × 7개 항목으로 308px viewport를 만들고, 336px 컨테이너 안에 중앙 정렬합니다.
-const WHEEL_ITEM_SIZE = 44;
-const WHEEL_VISIBLE_ITEM_COUNT = 7;
+// Month는 44px × 7개 항목으로 308px viewport를 만들고, 336px 컨테이너 안에 중앙 정렬합니다.
+// Week는 Wheel Picker small 크기(36px × 5개 항목)를 popover 안에 그대로 사용합니다.
+const MONTH_WHEEL_ITEM_SIZE = 44;
+const MONTH_WHEEL_VISIBLE_ITEM_COUNT = 7;
+const MONTH_WHEEL_SCROLL_FOG_SIZE = 102;
+const WEEK_WHEEL_POPOVER_GUTTER = 4;
 
 type DatePickerCssProperties = React.CSSProperties & {
   "--seed-date-picker-continuous-spacer-height"?: string;
@@ -257,6 +261,8 @@ export interface DatePickerHeaderProps {
 export const DatePickerHeader = React.forwardRef<HTMLDivElement, DatePickerHeaderProps>(
   ({ leftIcon, rightIcon, headerIcon }, ref) => {
     const { api, classNames } = useDatePickerContext();
+    // Week의 연·월 Wheel popover는 제목 버튼에 붙습니다.
+    const popover = usePopoverContext();
 
     if (api.visibleRange === "continuous" || api.visibleRange === "twoMonths") return null;
 
@@ -266,6 +272,7 @@ export const DatePickerHeader = React.forwardRef<HTMLDivElement, DatePickerHeade
     return (
       <Primitive.div ref={ref} className={classNames.header}>
         <Primitive.button
+          ref={popover.refs.anchor}
           {...api.monthYearButtonProps}
           id={`${api.rootProps.id}-header-label`}
           className={classNames.headerLabel}
@@ -340,16 +347,17 @@ export interface DatePickerWheelColumn {
   value: string;
   onValueChange: (value: string) => void;
   loop: boolean;
-  renderLabel: (option: { value: string; label: React.ReactNode }) => React.ReactNode;
 }
 
 export interface DatePickerWheelRenderProps {
   rootProps: React.HTMLAttributes<HTMLDivElement> & {
-    itemSize: number;
-    visibleItemCount: number;
+    /** Month는 `medium`, Week popover는 `small` 크기를 사용합니다. */
+    size: "small" | "medium";
+    itemSize?: number;
+    visibleItemCount?: number;
     disabled: boolean;
     readOnly: boolean;
-    scrollFogSize: number;
+    scrollFogSize?: number;
   };
   columns: readonly DatePickerWheelColumn[];
 }
@@ -375,9 +383,6 @@ export const DatePickerWheel = React.forwardRef<HTMLDivElement, DatePickerWheelP
         value: api.wheel.yearValue,
         onValueChange: api.wheel.onYearValueChange,
         loop: false,
-        renderLabel: (option) => (
-          <Primitive.div className={classNames.wheelItem}>{option.label}</Primitive.div>
-        ),
       },
       {
         id: "month",
@@ -387,24 +392,41 @@ export const DatePickerWheel = React.forwardRef<HTMLDivElement, DatePickerWheelP
         value: api.wheel.monthValue,
         onValueChange: api.wheel.onMonthValueChange,
         loop: true,
-        renderLabel: (option) => (
-          <Primitive.div className={classNames.wheelItem}>{option.label}</Primitive.div>
-        ),
       },
     ];
+
+    const sharedRootProps = {
+      ...api.wheelProps,
+      disabled: api.disabled,
+      readOnly: api.readOnly,
+      "aria-label": api.headerLabel,
+      className: classNames.wheelView,
+    };
+
+    if (api.visibleRange === "week") {
+      // Popover가 Escape·바깥 누르기·상위 layer 닫힘과 focus 이동·복귀를 맡습니다.
+      return (
+        <PopoverPrimitive.Positioner className={classNames.wheelPositioner}>
+          <PopoverPrimitive.Content
+            ref={ref}
+            aria-labelledby={`${api.rootProps.id}-header-label`}
+            className={classNames.wheelPopover}
+          >
+            {children({ rootProps: { ...sharedRootProps, size: "small" }, columns })}
+          </PopoverPrimitive.Content>
+        </PopoverPrimitive.Positioner>
+      );
+    }
 
     return (
       <Primitive.div ref={ref} className={classNames.wheelContainer}>
         {children({
           rootProps: {
-            ...api.wheelProps,
-            itemSize: WHEEL_ITEM_SIZE,
-            visibleItemCount: WHEEL_VISIBLE_ITEM_COUNT,
-            disabled: api.disabled,
-            readOnly: api.readOnly,
-            "aria-label": api.headerLabel,
-            className: classNames.wheelView,
-            scrollFogSize: 102,
+            ...sharedRootProps,
+            size: "medium",
+            itemSize: MONTH_WHEEL_ITEM_SIZE,
+            visibleItemCount: MONTH_WHEEL_VISIBLE_ITEM_COUNT,
+            scrollFogSize: MONTH_WHEEL_SCROLL_FOG_SIZE,
           },
           columns,
         })}
@@ -467,8 +489,8 @@ export const DatePickerCalendar = React.forwardRef<HTMLDivElement, DatePickerCal
     return (
       <Primitive.div
         ref={ref}
-        data-wheel-open={api.isWheelOpen && api.visibleRange !== "twoMonths" ? "" : undefined}
-        aria-hidden={api.isWheelOpen && api.visibleRange !== "twoMonths" ? true : undefined}
+        data-wheel-open={api.isWheelOpen && api.visibleRange === "month" ? "" : undefined}
+        aria-hidden={api.isWheelOpen && api.visibleRange === "month" ? true : undefined}
         className={classNames.months}
       >
         {api.months.map((month, index) => (
@@ -562,21 +584,31 @@ export const DatePickerRoot = React.forwardRef<HTMLDivElement, DatePickerRootPro
       <DatePickerContext.Provider
         value={{ api, classNames, renderDateCellContent, renderDateCellSupplement }}
       >
-        <Box
-          ref={composeRefs(forwardedRef, api.refs.root)}
-          {...mergeProps(api.rootProps, rootProps)}
-          aria-label={rootAriaLabel}
-          aria-labelledby={ariaLabelledby}
-          className={clsx(classNames.root, className)}
-          height={height}
-          minHeight={minHeight}
-          maxHeight={maxHeight}
+        <PopoverPrimitive.Root
+          open={api.visibleRange === "week" && api.isWheelOpen}
+          // 바깥 누르기·Escape로 닫아도 제목 버튼으로 닫을 때처럼 고른 월을 반영합니다.
+          onOpenChange={(open) => {
+            if (!open) api.closeWheel();
+          }}
+          placement="bottom-start"
+          gutter={WEEK_WHEEL_POPOVER_GUTTER}
         >
-          {children}
-          <Primitive.span {...api.liveRegionProps} className={classNames.liveRegion}>
-            {api.headerLabel}
-          </Primitive.span>
-        </Box>
+          <Box
+            ref={composeRefs(forwardedRef, api.refs.root)}
+            {...mergeProps(api.rootProps, rootProps)}
+            aria-label={rootAriaLabel}
+            aria-labelledby={ariaLabelledby}
+            className={clsx(classNames.root, className)}
+            height={height}
+            minHeight={minHeight}
+            maxHeight={maxHeight}
+          >
+            {children}
+            <Primitive.span {...api.liveRegionProps} className={classNames.liveRegion}>
+              {api.headerLabel}
+            </Primitive.span>
+          </Box>
+        </PopoverPrimitive.Root>
       </DatePickerContext.Provider>
     );
   },

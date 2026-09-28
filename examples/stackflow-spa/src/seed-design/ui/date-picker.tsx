@@ -58,11 +58,11 @@ const DatePickerImplementation = React.forwardRef<HTMLDivElement, DatePickerImpl
         rightIcon={<IconChevronRightLine />}
         headerIcon={<IconChevronDownSmallLine />}
       />
+      <SeedDatePicker.Wheel>{renderWheelPicker}</SeedDatePicker.Wheel>
       <SeedDatePicker.Calendar
         leftIcon={<IconChevronLeftLine />}
         rightIcon={<IconChevronRightLine />}
       />
-      <SeedDatePicker.Wheel>{renderWheelPicker}</SeedDatePicker.Wheel>
     </SeedDatePicker.Root>
   ),
 );

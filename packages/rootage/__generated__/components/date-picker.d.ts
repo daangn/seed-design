@@ -160,20 +160,24 @@ declare const artifact: {
             };
           };
         };
+        "wheelPopover": {
+          "properties": {
+            "width": {
+              "type": "dimension";
+            };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+            "shadow": {
+              "type": "shadow";
+            };
+          };
+        };
         "wheelItem": {
           "properties": {
-            "paddingX": {
-              "type": "dimension";
-            };
-            "fontSize": {
-              "type": "dimension";
-            };
-            "lineHeight": {
-              "type": "dimension";
-            };
-            "fontWeight": {
-              "type": "number";
-            };
             "color": {
               "type": "color";
             };
@@ -358,23 +362,28 @@ declare const artifact: {
                   };
                 };
               };
+              "wheelPopover": {
+                "width": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 240;
+                    "unit": "px";
+                  };
+                };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.r3";
+                };
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.layer-floating";
+                };
+                "shadow": {
+                  "type": "shadow";
+                  "value": "$shadow.s3";
+                };
+              };
               "wheelItem": {
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-                "fontSize": {
-                  "type": "dimension";
-                  "value": "$font-size.t10-static";
-                };
-                "lineHeight": {
-                  "type": "dimension";
-                  "value": "$line-height.t10-static";
-                };
-                "fontWeight": {
-                  "type": "number";
-                  "value": "$font-weight.medium";
-                };
                 "color": {
                   "type": "color";
                   "value": "$color.fg.disabled";

@@ -11,7 +11,7 @@ declare type DatePickerVariantMap = {
 
 export declare type DatePickerVariantProps = Partial<DatePickerVariant>;
 
-export declare type DatePickerSlotName = "root" | "header" | "headerLabel" | "headerChevron" | "navigation" | "navigationButton" | "twoMonthHeader" | "twoMonthLabel" | "twoMonthNavigationButton" | "weekdayRow" | "weekday" | "months" | "month" | "monthLabel" | "grid" | "weekRow" | "dateCell" | "dateButton" | "dateContent" | "emptyCell" | "continuousScroll" | "continuousContent" | "continuousSpacer" | "wheelContainer" | "wheelView" | "yearColumn" | "monthColumn" | "wheelItem" | "liveRegion";
+export declare type DatePickerSlotName = "root" | "header" | "headerLabel" | "headerChevron" | "navigation" | "navigationButton" | "twoMonthHeader" | "twoMonthLabel" | "twoMonthNavigationButton" | "weekdayRow" | "weekday" | "months" | "month" | "monthLabel" | "grid" | "weekRow" | "dateCell" | "dateButton" | "dateContent" | "emptyCell" | "continuousScroll" | "continuousContent" | "continuousSpacer" | "wheelContainer" | "wheelPositioner" | "wheelPopover" | "wheelView" | "yearColumn" | "monthColumn" | "liveRegion";
 
 export declare const datePickerVariantMap: DatePickerVariantMap;
 

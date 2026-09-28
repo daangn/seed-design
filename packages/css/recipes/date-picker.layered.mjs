@@ -99,6 +99,14 @@ const datePickerSlotNames = [
     "seed-date-picker__wheelContainer"
   ],
   [
+    "wheelPositioner",
+    "seed-date-picker__wheelPositioner"
+  ],
+  [
+    "wheelPopover",
+    "seed-date-picker__wheelPopover"
+  ],
+  [
     "wheelView",
     "seed-date-picker__wheelView"
   ],
@@ -109,10 +117,6 @@ const datePickerSlotNames = [
   [
     "monthColumn",
     "seed-date-picker__monthColumn"
-  ],
-  [
-    "wheelItem",
-    "seed-date-picker__wheelItem"
   ],
   [
     "liveRegion",
