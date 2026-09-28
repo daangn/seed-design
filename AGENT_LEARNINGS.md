@@ -137,3 +137,17 @@
 ### Better Approaches
 - Recommendation: diff 비교로 후보만 좁히고, 기준 브랜치에서 같은 실패가 재현될 때만 기존 실패로 보고한다. 재현되지 않으면 현재 변경의 간접 영향으로 보고 조사한다. 어느 경우든 변경 경로의 검증 명령은 따로 실행해 결과를 보고한다.
 - Solutions: `git diff --stat origin/dev -- <테스트 파일> <대상 파일>`이 비어 있으면 후보다 → `git worktree add --detach <scratch 경로> origin/dev` → 그 안에서 `bun install --frozen-lockfile --ignore-scripts`와 같은 `bun test <테스트 파일>`을 실행한다 → 같은 단언으로 실패할 때만 기존 실패로 적고, 끝나면 `git worktree remove`한다.
+
+## Lynx 1.0 분리 선례는 작업 브랜치가 아니라 대상 기준 브랜치에서 찾는다
+
+### Mistake Made
+- Description: DES-2612(ActionButton) 계획 중 `origin/dev` 기반 worktree에서 `packages/lynx-react-headless/`만 보고 Headless 선례를 찾았다. DES-2611 Accordion 분리(#2270, `@seed-design/lynx-react-accordion`)는 `origin/minor`에만 있어 목록에 없었다.
+- Impact: `git log --all`로 커밋을 찾기 전까지 선례 없이 패키지 구조·changeset·vite external을 설계할 뻔했고, 작업 브랜치의 기준이 선례와 다르다는 사실도 늦게 알았다.
+
+### Patterns to Avoid
+- Pattern: 현재 checkout의 파일 목록만으로 "아직 분리된 선례가 없다"거나 기준 브랜치가 맞다고 판단하는 것.
+- Risk: 형제 티켓(DES-2608 하위)마다 다른 패키지 구조를 만들거나, 선례가 없는 기준에서 구현해 rebase 충돌과 중복 작업이 생긴다.
+
+### Better Approaches
+- Recommendation: Lynx 1.0 분리 티켓을 시작할 때 선례 커밋이 어느 원격 브랜치에 있는지 먼저 확인하고, 작업 브랜치 기준을 그 브랜치와 대조한다.
+- Solutions: `git log --all --oneline -i --grep='<선례 컴포넌트>'` → `git branch -a --contains <sha>` → `git ls-tree -d --name-only origin/minor packages/lynx-react-headless/`. 선례 파일은 `git show origin/minor:<경로>`로 읽는다.
