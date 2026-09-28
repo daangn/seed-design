@@ -74,10 +74,6 @@ export interface UseDrawerProps {
    * @default true
    */
   modal?: boolean;
-  /**
-   * @deprecated 동작에 영향을 주지 않는 dead prop입니다. @seed-design/react-drawer@3.0.0에서 제거됩니다. 대체 prop 없이 삭제하세요.
-   */
-  nested?: boolean;
   onClose?: () => void;
   /**
    * Direction of the drawer. Can be `top` or `bottom`, `left`, `right`.
