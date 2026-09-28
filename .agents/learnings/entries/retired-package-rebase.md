@@ -13,6 +13,8 @@ related: ["public-api-change-notes", "resolve-paths-from-manifests"]
 - file location 충돌은 기준 브랜치에서 원래 디렉터리에 새로 추가된 파일을 확인해 해결한다. 최종 삭제가 목적이면 이동 이후 생긴 README도 삭제 범위에 포함한다.
 - 대체 API는 실제 소유 패키지의 소스와 빌드된 공개 진입점에서 확인한다. Headless Avatar의 대체는 `@seed-design/react-image`의 `Image`·`useImageContext`다.
 
+- 제거 API 역시 기존 공개 진입점에서 확인한다. Avatar 컴포넌트와 useAvatarContext는 공개됐지만 내부 useAvatar 훅은 재수출되지 않아 제거 안내 대상이 아니었다.
+
 ## 발생 근거와 적용 조건
 
 - 오래된 Avatar archive PR을 major로 rebase할 때 새 README가 file location 충돌을 일으켰다. changeset은 Image를 재수출하지 않는 `@seed-design/react/primitive`를 대체 진입점으로 안내해 소비자 코드가 빌드되지 않는 상태였다.
@@ -20,3 +22,4 @@ related: ["public-api-change-notes", "resolve-paths-from-manifests"]
 ## 변경 이력
 
 - 2026-09-29: #1894 rebase에서 원문 commit `f90da67fa`의 교훈을 새 구조로 이관했다. 이관 과정에서 실행 재검증하지 않았다.
+- 2026-09-29: 원문 commit `66a655500`의 공개 export 확인 근거를 반영했다.
