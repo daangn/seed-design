@@ -86,8 +86,8 @@
 - Risk: iOS 기기는 `.test` 호스트와 schema 없는 `/lazy-bundle/...` 경로를 불러오지 못한다. main bundle 로드 성공만 보고 환경이 정상이라고 오판한다.
 
 ### Better Approaches
-- Recommendation: 실기기 native 검증과 전후 비교는 같은 길이의 LAN origin을 절대 prefix로 넣은 production build로 한다.
-- Solutions: `ASSET_PREFIX=http://<LAN IP>:<4자리 port>/ bun --filter lynx-spa build` → hub process로 `examples/lynx-spa/dist`를 같은 port에서 정적 서빙한다 → `http://<LAN IP>:<port>/main.lynx.bundle?example=lynx%2F<component>%2F<scenario>`. 기준과 변경본의 port 자릿수를 맞추면 bundle byte 비교에 prefix 차이가 섞이지 않는다.
+- Recommendation: 실기기 native 검증과 전후 비교는 동일한 LAN origin을 절대 prefix로 넣은 production build로 한다.
+- Solutions: `ASSET_PREFIX=http://<LAN IP>:<port>/ bun --filter lynx-spa build` → hub process로 `examples/lynx-spa/dist`를 같은 port에서 정적 서빙한다 → `http://<LAN IP>:<port>/main.lynx.bundle?example=lynx%2F<component>%2F<scenario>`. prefix는 `main.lynx.bundle`에 그대로 들어가므로, 기준과 변경본은 IP와 port 값까지 같은 `ASSET_PREFIX`로 빌드한다. port 자릿수만 맞추면 크기는 같아도 byte 비교가 달라진다. 같은 origin을 쓸 수 없으면 비교 전에 두 bundle의 prefix 문자열을 같은 값으로 치환한다.
 
 ## 새 worktree의 docs 검증은 선행 lib 빌드가 필요하다
 
