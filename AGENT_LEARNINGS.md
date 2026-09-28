@@ -139,23 +139,23 @@
 - Recommendation: diff 비교로 후보만 좁히고, 기준 브랜치에서 같은 실패가 재현될 때만 기존 실패로 보고한다. 재현되지 않으면 현재 변경의 간접 영향으로 보고 조사한다. 어느 경우든 변경 경로의 검증 명령은 따로 실행해 결과를 보고한다.
 - Solutions: `git diff --stat origin/dev -- <테스트 파일> <대상 파일>`이 비어 있으면 후보다 → `git worktree add --detach <scratch 경로> origin/dev` → 그 안에서 `bun install --frozen-lockfile --ignore-scripts`와 같은 `bun test <테스트 파일>`을 실행한다 → 같은 단언으로 실패할 때만 기존 실패로 적고, 끝나면 `git worktree remove`한다.
 
-## Lynx 1.0 분리 작업은 origin/minor 기준으로 하고 dev 전용 파일과 분리한다
+## Lynx 1.0 분리 작업의 기준 브랜치는 선례가 지금 있는 원격 브랜치로 매번 확인한다
 
 ### Mistake Made
-- Description: DES-2612(ActionButton) 계획 중 `origin/dev` 기반 worktree에서 `packages/lynx-react-headless/`만 보고 Headless 선례를 찾았다. DES-2611 Accordion 분리(#2270, `@seed-design/lynx-react-accordion`)는 `origin/minor`에만 있어 목록에 없었다. 이어서 학습 커밋이 얹힌 브랜치를 `git rebase --onto origin/minor origin/dev`로 옮기다 `AGENT_LEARNINGS.md` modify/delete 충돌이 났다. `origin/minor`에는 이 파일과 `skills/seed-change/`가 없다.
-- Impact: 선례 없이 패키지 구조·changeset·vite external을 설계할 뻔했다. rebase를 멈추고 학습 커밋을 별도 브랜치로 옮겨야 했고, minor checkout에서는 `skill://seed-change` reference를 읽을 수 없었다.
+- Description: DES-2612(ActionButton) 계획 중 `origin/dev` 기반 worktree에서 `packages/lynx-react-headless/`만 보고 Headless 선례를 찾았다. 당시 DES-2611 Accordion 분리(#2270)는 `origin/minor`에만 있어 목록에 없었다. 작업을 minor로 옮기고 PR(#2293)을 올린 뒤 #2270이 minor에서 revert(#2294)되고 dev 기반 `refactor-lynx-components`로 다시 들어가(#2295) PR이 충돌했다. 같은 PR에 넣은 `AGENT_LEARNINGS.md` 커밋도 rebase에서 add/add·modify/delete 충돌을 냈다.
+- Impact: 선례 없이 패키지 구조·changeset·vite external을 설계할 뻔했다. 기준을 두 번 옮기고 PR base를 바꿔야 했으며, 학습 커밋을 기능 PR에서 빼 dev 대상 PR로 다시 올렸다.
 
 ### Patterns to Avoid
-- Pattern: 현재 checkout의 파일 목록만으로 선례 유무나 기준 브랜치를 판단하는 것. dev 전용 파일(`AGENT_LEARNINGS.md`, 최신 `skills/`) 커밋을 minor 기반 작업 브랜치에 섞는 것.
-- Risk: 형제 티켓(DES-2608 하위)마다 다른 패키지 구조를 만들고, minor PR에 dev 전용 파일이 들어가거나 rebase가 충돌한다.
+- Pattern: 현재 checkout의 파일 목록이나 한 번 확인한 결과만으로 선례 위치와 기준 브랜치를 고정하는 것. 학습 커밋을 기능 PR에 섞는 것.
+- Risk: 형제 티켓(DES-2608 하위)마다 다른 기준에서 작업하고, 선례가 옮겨지면 PR이 충돌한다. 기능 PR의 기준에 `AGENT_LEARNINGS.md`가 없거나 다른 내용이면 rebase가 멈춘다.
 
 ### Better Approaches
-- Recommendation: Lynx 1.0 분리 티켓은 시작 시 선례 커밋의 원격 브랜치를 확인하고 작업 브랜치를 그 기준으로 맞춘다. 학습 기록은 dev 기반 별도 브랜치에 커밋한다.
+- Recommendation: 작업 시작과 제출 직전에 선례 커밋이 있는 원격 브랜치를 확인해 기준과 PR base를 맞춘다. 학습 커밋은 항상 dev 대상 별도 PR로 올린다.
 - Solutions:
-  - 선례 찾기: `git log --all --oneline -i --grep='<선례 컴포넌트>'` → `git branch -a --contains <sha>` → `git show origin/minor:<경로>`.
-  - 학습 커밋: `git worktree add /tmp/<ticket>/learnings docs/<ticket>-agent-learnings`(없으면 `-b`와 `origin/dev`로 생성) → 그 안에서 편집·커밋 → `git worktree remove`. 선례: `docs/des-2611-agent-learnings`.
-  - minor checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다. 스크립트는 `git archive origin/dev skills/seed-change | tar -x -C /tmp/<ticket>/skills-dev` 뒤 저장소 루트에서 `bun /tmp/<ticket>/skills-dev/skills/seed-change/scripts/change-plan.ts --base-ref origin/minor ...`로 실행한다.
-  - 기준을 옮긴 뒤 남은 `docs/public/__docs__/index.json` 같은 수정은 사용자 작업이 아니라 이전 기준의 생성물일 수 있다. `git check-attr linguist-generated -- <파일>`로 확인하고, 백업(`$(git rev-parse --git-dir)/backups/<ticket>/`) 후 `bun generate:all`로 새 기준에 맞춘다. DES-2612에서는 재생성 결과가 `origin/minor`와 같아져 diff가 사라졌다.
+  - 선례 찾기: `gh pr list --state all --search '<선례 컴포넌트> headless' --json number,title,baseRefName,state` → `git branch -a --contains <sha>` → `git show origin/<branch>:<경로>`. 2026-09-28 기준 Lynx 1.0 분리는 `refactor-lynx-components`(dev 기반)에 있다.
+  - 학습 커밋: `git worktree add -b docs/<ticket>-agent-learnings /tmp/<ticket>/learnings origin/dev` → 그 안에서 편집·커밋 → `gh pr create --base dev`. 선례: #2269.
+  - dev가 아닌 checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다. 스크립트는 `git archive origin/dev skills/seed-change | tar -x -C /tmp/<ticket>/skills-dev` 뒤 저장소 루트에서 실행한다. `change-plan.ts`의 `--base-ref`는 `origin/dev|minor|major`만 받는다.
+  - 기준을 옮긴 뒤 `bun generate:all`이 `docs/public/__docs__/index.json`처럼 이번 변경과 무관한 생성물을 바꾸면 기준 브랜치의 기존 차이일 수 있다. diff 항목이 자신의 문서 변경과 관련 없으면 되돌리고 PR에 섞지 않는다.
 
 ## loading 중 tap 차단은 overlay의 자식 ref와 시간 창으로 기기에서 확인한다
 
