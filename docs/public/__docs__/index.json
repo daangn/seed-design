@@ -2198,6 +2198,19 @@
               "docUrl": "/lynx/getting-started/cli"
             },
             {
+              "id": "content-placeholder",
+              "title": "ContentPlaceholder",
+              "description": "이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 채우는 플레이스홀더 컴포넌트입니다.",
+              "docUrl": "/lynx/components/content-placeholder",
+              "snippetKey": "lynx/ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "contextual-floating-button",
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",

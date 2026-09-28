@@ -44,6 +44,6 @@ describe("useIconColor", () => {
     testState.theme = "dark";
     rerender();
 
-    expect(testState.workletCalls).toEqual([3]);
+    expect(testState.workletCalls).toEqual([4]);
   });
 });

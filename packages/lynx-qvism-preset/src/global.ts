@@ -1,6 +1,10 @@
 import { defineGlobalCss } from "./utils/define";
 
 export const globalCss = defineGlobalCss({
+  // Precolored placeholder assets follow the same explicit theme scope as SEED tokens.
+  ".seed-user-color-scheme-dark .seed-content-placeholder__presetLight": { display: "none" },
+  ".seed-user-color-scheme-dark .seed-content-placeholder__presetDark": { display: "flex" },
+
   // Lynx 테마 색상 갱신 워크어라운드.
   // SEED <text>는 `color`를 inline style의 var()로 거는데, Lynx 엔진은 테마가 바뀔 때
   // inline var()를 재계산하지 않는다 — rule(class/type selector) 기반 var()만 style
