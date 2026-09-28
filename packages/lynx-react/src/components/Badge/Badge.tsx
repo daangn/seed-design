@@ -17,7 +17,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(badge);
 
 interface BadgeContextValue {
-  variantProps: BadgeVariantProps;
+  variantProps: Omit<BadgeVariantProps, "pressed">;
 }
 
 const BadgeContext = React.createContext<BadgeContextValue | null>(null);
@@ -42,10 +42,10 @@ export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) 
   const [variantProps, otherProps] = badge.splitVariantProps(props);
   const classes = badge(variantProps);
   const { children, className, ...nativeProps } = otherProps;
-  const { size, variant, tone, pressed } = variantProps;
+  const { size, variant, tone } = variantProps;
   const contextValue = React.useMemo<BadgeContextValue>(
-    () => ({ variantProps: { size, variant, tone, pressed } }),
-    [size, variant, tone, pressed],
+    () => ({ variantProps: { size, variant, tone } }),
+    [size, variant, tone],
   );
 
   return (
