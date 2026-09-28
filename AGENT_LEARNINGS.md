@@ -123,6 +123,7 @@
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
+  - headless Root가 BG `bindtouch*`로 pressed를 관리하면 소비자의 `main-thread:bindtouch*`가 같은 native 이벤트를 대체해 pressed가 켜지지 않는다(테스트 환경도 `bindEvent:touchstart` key 하나를 덮어쓴다). 소비자 MT 핸들러를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성을 넣고, `render(..., { enableMainThread: true, enableBackgroundThread: true })` 테스트로 합성 전 실패를 먼저 확인한다. 예: `packages/lynx-react-headless/action-button/src/ActionButton.tsx`.
 
 ## 전체 검증 실패는 기준 브랜치에서 재현되는지부터 가른다
 
@@ -138,16 +139,33 @@
 - Recommendation: diff 비교로 후보만 좁히고, 기준 브랜치에서 같은 실패가 재현될 때만 기존 실패로 보고한다. 재현되지 않으면 현재 변경의 간접 영향으로 보고 조사한다. 어느 경우든 변경 경로의 검증 명령은 따로 실행해 결과를 보고한다.
 - Solutions: `git diff --stat origin/dev -- <테스트 파일> <대상 파일>`이 비어 있으면 후보다 → `git worktree add --detach <scratch 경로> origin/dev` → 그 안에서 `bun install --frozen-lockfile --ignore-scripts`와 같은 `bun test <테스트 파일>`을 실행한다 → 같은 단언으로 실패할 때만 기존 실패로 적고, 끝나면 `git worktree remove`한다.
 
-## Lynx 1.0 분리 선례는 작업 브랜치가 아니라 대상 기준 브랜치에서 찾는다
+## Lynx 1.0 분리 작업은 origin/minor 기준으로 하고 dev 전용 파일과 분리한다
 
 ### Mistake Made
-- Description: DES-2612(ActionButton) 계획 중 `origin/dev` 기반 worktree에서 `packages/lynx-react-headless/`만 보고 Headless 선례를 찾았다. DES-2611 Accordion 분리(#2270, `@seed-design/lynx-react-accordion`)는 `origin/minor`에만 있어 목록에 없었다.
-- Impact: `git log --all`로 커밋을 찾기 전까지 선례 없이 패키지 구조·changeset·vite external을 설계할 뻔했고, 작업 브랜치의 기준이 선례와 다르다는 사실도 늦게 알았다.
+- Description: DES-2612(ActionButton) 계획 중 `origin/dev` 기반 worktree에서 `packages/lynx-react-headless/`만 보고 Headless 선례를 찾았다. DES-2611 Accordion 분리(#2270, `@seed-design/lynx-react-accordion`)는 `origin/minor`에만 있어 목록에 없었다. 이어서 학습 커밋이 얹힌 브랜치를 `git rebase --onto origin/minor origin/dev`로 옮기다 `AGENT_LEARNINGS.md` modify/delete 충돌이 났다. `origin/minor`에는 이 파일과 `skills/seed-change/`가 없다.
+- Impact: 선례 없이 패키지 구조·changeset·vite external을 설계할 뻔했다. rebase를 멈추고 학습 커밋을 별도 브랜치로 옮겨야 했고, minor checkout에서는 `skill://seed-change` reference를 읽을 수 없었다.
 
 ### Patterns to Avoid
-- Pattern: 현재 checkout의 파일 목록만으로 "아직 분리된 선례가 없다"거나 기준 브랜치가 맞다고 판단하는 것.
-- Risk: 형제 티켓(DES-2608 하위)마다 다른 패키지 구조를 만들거나, 선례가 없는 기준에서 구현해 rebase 충돌과 중복 작업이 생긴다.
+- Pattern: 현재 checkout의 파일 목록만으로 선례 유무나 기준 브랜치를 판단하는 것. dev 전용 파일(`AGENT_LEARNINGS.md`, 최신 `skills/`) 커밋을 minor 기반 작업 브랜치에 섞는 것.
+- Risk: 형제 티켓(DES-2608 하위)마다 다른 패키지 구조를 만들고, minor PR에 dev 전용 파일이 들어가거나 rebase가 충돌한다.
 
 ### Better Approaches
-- Recommendation: Lynx 1.0 분리 티켓을 시작할 때 선례 커밋이 어느 원격 브랜치에 있는지 먼저 확인하고, 작업 브랜치 기준을 그 브랜치와 대조한다.
-- Solutions: `git log --all --oneline -i --grep='<선례 컴포넌트>'` → `git branch -a --contains <sha>` → `git ls-tree -d --name-only origin/minor packages/lynx-react-headless/`. 선례 파일은 `git show origin/minor:<경로>`로 읽는다.
+- Recommendation: Lynx 1.0 분리 티켓은 시작 시 선례 커밋의 원격 브랜치를 확인하고 작업 브랜치를 그 기준으로 맞춘다. 학습 기록은 dev 기반 별도 브랜치에 커밋한다.
+- Solutions:
+  - 선례 찾기: `git log --all --oneline -i --grep='<선례 컴포넌트>'` → `git branch -a --contains <sha>` → `git show origin/minor:<경로>`.
+  - 학습 커밋: `git worktree add /tmp/<ticket>/learnings docs/<ticket>-agent-learnings`(없으면 `-b`와 `origin/dev`로 생성) → 그 안에서 편집·커밋 → `git worktree remove`. 선례: `docs/des-2611-agent-learnings`.
+  - minor checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다.
+
+## loading 중 tap 차단은 overlay의 자식 ref와 시간 창으로 기기에서 확인한다
+
+### Mistake Made
+- Description: PlayLynx에서 ActionButton loading 중 재탭을 검증하려고 root ref를 탭했다. `agent-lynx` 0.14.2는 absolute loading indicator가 덮은 ref를 `Ref @eN is covered`로 거부했고, 다음 시도에서는 `{hidden}` 노드를 골라 `is not visible`로 실패했다.
+- Impact: 두 번째 tap이 실제로 전달되지 않아 차단 여부를 판정할 수 없는 실행이 두 번 생겼다.
+
+### Patterns to Avoid
+- Pattern: loading 전 snapshot의 root ref를 그대로 재사용하거나, snapshot 트리에서 마지막 ref를 기계적으로 고르는 것. tap 명령 반환 시각을 실제 tap 시각으로 보는 것.
+- Risk: 거부된 tap을 "차단됨"으로 오판한다. `bunx` 호출마다 약 0.6초가 걸려 시간 판정이 뒤섞인다.
+
+### Better Approaches
+- Recommendation: 첫 tap 뒤 snapshot을 다시 찍고 root의 첫 자식인 loading indicator view를 탭한다. 차단 여부는 loading 종료 시각으로 판정한다.
+- Solutions: `agent-lynx tap <root> --client C --session S` → `agent-lynx snapshot ...` → root 바로 아래 `{hidden}`이 아닌 view를 `tap` → 첫 tap 기준 2~3초 사이에 CDP `DOM.getDocument`로 root class의 `loading_true|false`를 읽는다. 예제 loading이 2초이면 차단 시 `loading_false`, 미차단 시 두 번째 tap 기준 2초까지 `loading_true`다.
