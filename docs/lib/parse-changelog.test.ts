@@ -210,5 +210,8 @@ describe("parseChangelogSources", () => {
     expect(block.html).toContain("<strong>Array&#x3C;string></strong>");
     expect(block.html).toContain("/commit/77cdc0e");
     expect(block.html).not.toContain("<img");
+    expect(block.plainText).toBe(
+      "<Dialog> 안에서 Array<string> 타입을 받습니다. <img src=x onerror=alert(1)> 77cdc0e",
+    );
   });
 });

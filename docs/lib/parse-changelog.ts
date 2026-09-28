@@ -8,6 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import type { ShikiTransformer } from "shiki";
 import type { Processor } from "unified";
+import { visit } from "unist-util-visit";
 
 const CHANGELOG_FILENAME = "CHANGELOG.md";
 
@@ -274,17 +275,19 @@ function formatDisplayBlock(
     : `${block.slice(0, idx)} ${commitLink}\n${block.slice(idx + 1)}`;
 }
 
-/** @description 마크다운 문자열을 HTML로 변환합니다. */
-async function mdToHtml(md: string): Promise<string> {
-  const result = await processor.process(md);
-  return String(result);
-}
+/** @description 마크다운 문자열을 HTML과, 엔티티를 디코딩한 plain text로 변환합니다. */
+async function renderMarkdown(md: string) {
+  const tree = await processor.run(processor.parse(md));
 
-function stripHtmlTags(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  const texts: string[] = [];
+  visit(tree, "text", (node) => {
+    texts.push(node.value);
+  });
+
+  return {
+    html: processor.stringify(tree),
+    plainText: texts.join(" ").replace(/\s+/g, " ").trim(),
+  };
 }
 
 /** @description 단일 `<li>` 항목만 있는 `<ul>` 태그를 벗겨냅니다. 단일 항목 변경사항의 불필요한 리스트 래핑을 제거합니다. */
@@ -313,13 +316,14 @@ async function parseContentBlocks(markdown: string): Promise<ChangelogContentBlo
 
     if (!chunk) return;
 
-    const html = unwrapSingleListItem(await mdToHtml(chunk));
+    const rendered = await renderMarkdown(chunk);
+    const html = unwrapSingleListItem(rendered.html);
     if (!html) return;
 
     blocks.push({
       type: "markdown",
       html,
-      plainText: stripHtmlTags(html),
+      plainText: rendered.plainText,
     });
   };
 
