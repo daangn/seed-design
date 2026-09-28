@@ -67,8 +67,8 @@ export const appBarMain = defineSlotRecipe({
           // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
           // is measured from the left/right areas and has no floor, so consuming it means
           // `max(var(--centered-title-padding-x, 0), ${vars.themeIos.enabled.root.titleMinGap})`.
-          paddingLeft: "var(--centered-title-padding-x, 0)",
-          paddingRight: "var(--centered-title-padding-x, 0)",
+          paddingLeft: "calc(var(--seed-safe-area-left) + var(--centered-title-padding-x, 0px))",
+          paddingRight: "calc(var(--seed-safe-area-right) + var(--centered-title-padding-x, 0px))",
         },
       },
       android: {
@@ -183,8 +183,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: PINNED_ROOT_PADDING_X,
-          paddingRight: PINNED_ROOT_PADDING_X,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
@@ -205,8 +205,8 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: PINNED_ROOT_PADDING_X,
-          paddingRight: PINNED_ROOT_PADDING_X,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {

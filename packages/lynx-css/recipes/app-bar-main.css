@@ -38,8 +38,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    padding-left: var(--centered-title-padding-x, 0);
-    padding-right: var(--centered-title-padding-x, 0)
+    padding-left: calc(var(--seed-safe-area-left) + var(--centered-title-padding-x, 0px));
+    padding-right: calc(var(--seed-safe-area-right) + var(--centered-title-padding-x, 0px))
 }
 .seed-app-bar-main__root--theme_android {
     align-items: flex-start;

@@ -22,7 +22,9 @@ interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
       safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
       safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
     };
   };
   lynxTestingEnv?: {
@@ -158,6 +160,17 @@ describe("AppBar", () => {
     });
   });
 
+  it("adds left and right safe area insets to the root padding", () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
+    render(<AppBar.Root theme="cupertino" />);
+
+    expectStyle(getAppBarRoot().style, {
+      "padding-left": "calc(var(--seed-dimension-x4) + 59px)",
+      "padding-right": "calc(var(--seed-dimension-x4) + 0px)",
+    });
+  });
+
   it("does not read the safe area CSS variable override as the JS layout source", () => {
     setGlobalProps({ safeAreaInsetTop: 47 });
 
@@ -240,6 +253,8 @@ describe("AppBar", () => {
   });
 
   it("updates centered title padding from left and right layout widths", async () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
     render(
       <AppBar.Root>
         <AppBar.Left>
@@ -269,7 +284,10 @@ describe("AppBar", () => {
     });
 
     await waitFor(() => {
-      expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
+      expect(main).toHaveStyle({
+        paddingLeft: "calc(59px + 72px)",
+        paddingRight: "calc(0px + 72px)",
+      });
     });
   });
 

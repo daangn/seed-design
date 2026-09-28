@@ -128,7 +128,9 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           className={clsx(classNames.root, className)}
           style={
             {
-              "--seed-safe-area-top": contextValue.safeAreaInsetTop,
+              "--seed-safe-area-top": contextValue.safeArea.safeAreaInsetTop,
+              "--seed-safe-area-left": contextValue.safeArea.safeAreaInsetLeft,
+              "--seed-safe-area-right": contextValue.safeArea.safeAreaInsetRight,
               "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
               ...rootLayoutStyle,
               ...style,
@@ -221,8 +223,7 @@ AppBarRight.displayName = "AppBarRight";
 export interface AppBarMainProps extends AppBarMainVariantProps, LynxStyledElementProps {}
 
 export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref) => {
-  const { centeredTitlePaddingX, safeAreaInsetTop, sharedVariantProps } =
-    useAppBarContext("AppBarMain");
+  const { centeredTitlePaddingX, safeArea, sharedVariantProps } = useAppBarContext("AppBarMain");
   const [variantProps, otherProps] = appBarMain.splitVariantProps({
     ...sharedVariantProps,
     ...props,
@@ -230,13 +231,6 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
   const resolvedTheme = variantProps.theme ?? "cupertino";
   const classNames = appBarMain(variantProps);
   const { children, className, style, ...nativeProps } = otherProps;
-  const centeredTitleStyle =
-    variantProps.theme === "cupertino"
-      ? {
-          paddingLeft: centeredTitlePaddingX,
-          paddingRight: centeredTitlePaddingX,
-        }
-      : undefined;
 
   return (
     <AppBarMainClassNamesProvider value={classNames}>
@@ -245,8 +239,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
         className={clsx(classNames.root, className)}
         style={
           {
-            ...centeredTitleStyle,
-            ...getMainLayoutStyle(resolvedTheme, safeAreaInsetTop),
+            ...getMainLayoutStyle(resolvedTheme, safeArea, centeredTitlePaddingX),
             ...style,
           } as LynxViewProps["style"]
         }

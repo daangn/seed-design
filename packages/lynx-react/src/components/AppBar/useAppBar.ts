@@ -1,9 +1,10 @@
 import type { AppBarVariantProps } from "@seed-design/lynx-css/recipes/app-bar";
 import type { AppBarMainVariantProps } from "@seed-design/lynx-css/recipes/app-bar-main";
+import { vars } from "@seed-design/lynx-css/vars";
 import { topNavigation as topNavigationVars } from "@seed-design/lynx-css/vars/component";
 import * as React from "@lynx-js/react";
 
-import { useSafeArea } from "../../hooks/useSafeArea";
+import { type UseSafeAreaReturn, useSafeArea } from "../../hooks/useSafeArea";
 import type { LynxViewProps } from "../../types";
 import type { AppBarContextValue, SharedAppBarVariantProps } from "./context";
 
@@ -38,27 +39,33 @@ function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string 
   return `${Math.max(leftWidth, rightWidth)}px`;
 }
 
-function getRootLayoutStyle(safeAreaInsetTop: string): AppBarStyleObject {
+function getRootLayoutStyle(safeArea: UseSafeAreaReturn): AppBarStyleObject {
   return {
-    height: `calc(${topNavigationVars.base.enabled.root.height} + ${safeAreaInsetTop})`,
-    paddingTop: safeAreaInsetTop,
+    height: `calc(${topNavigationVars.base.enabled.root.height} + ${safeArea.safeAreaInsetTop})`,
+    paddingTop: safeArea.safeAreaInsetTop,
+    paddingLeft: `calc(${vars.$dimension.x4} + ${safeArea.safeAreaInsetLeft})`,
+    paddingRight: `calc(${vars.$dimension.x4} + ${safeArea.safeAreaInsetRight})`,
   };
 }
 
+// The title clears the same distance past each side's inset, so it stays centered in the safe area.
 export function getMainLayoutStyle(
   theme: AppBarMainVariantProps["theme"],
-  safeAreaInsetTop: string,
+  safeArea: UseSafeAreaReturn,
+  centeredTitlePaddingX: string,
 ): AppBarStyleObject | undefined {
   if (theme !== "cupertino") return undefined;
 
   return {
-    top: safeAreaInsetTop,
+    top: safeArea.safeAreaInsetTop,
     bottom: "0px",
+    paddingLeft: `calc(${safeArea.safeAreaInsetLeft} + ${centeredTitlePaddingX})`,
+    paddingRight: `calc(${safeArea.safeAreaInsetRight} + ${centeredTitlePaddingX})`,
   };
 }
 
 export function useAppBar(variantProps: AppBarVariantProps) {
-  const { safeAreaInsetTop } = useSafeArea();
+  const safeArea = useSafeArea();
   const [leftWidth, setLeftWidth] = React.useState(0);
   const [rightWidth, setRightWidth] = React.useState(0);
   const resolvedTheme = variantProps.theme ?? getDefaultAppBarTheme();
@@ -68,7 +75,7 @@ export function useAppBar(variantProps: AppBarVariantProps) {
     theme: resolvedTheme,
   };
   const centeredTitlePaddingX = getCenteredTitlePadding(leftWidth, rightWidth);
-  const rootLayoutStyle = getRootLayoutStyle(safeAreaInsetTop);
+  const rootLayoutStyle = getRootLayoutStyle(safeArea);
   const sharedVariantProps = React.useMemo<SharedAppBarVariantProps>(
     () => ({
       theme: resolvedVariantProps.theme,
@@ -80,12 +87,12 @@ export function useAppBar(variantProps: AppBarVariantProps) {
   const contextValue = React.useMemo<AppBarContextValue>(
     () => ({
       centeredTitlePaddingX,
-      safeAreaInsetTop,
+      safeArea,
       sharedVariantProps,
       setLeftWidth,
       setRightWidth,
     }),
-    [centeredTitlePaddingX, safeAreaInsetTop, sharedVariantProps],
+    [centeredTitlePaddingX, safeArea, sharedVariantProps],
   );
 
   return {
