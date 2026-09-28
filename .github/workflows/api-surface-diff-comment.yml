@@ -1,8 +1,8 @@
-name: API Surface Diff Comment
+name: Review / API Surface Diff Comment
 
 on:
   workflow_run:
-    workflows: ["API Surface Diff"]
+    workflows: ["API Surface Diff", "Review / API Surface Diff"]
     types: [completed]
 
 permissions:

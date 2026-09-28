@@ -1,4 +1,4 @@
-name: Kapture Approval
+name: Review / Kapture Approval
 on:
   issue_comment:
     types:

@@ -1,4 +1,4 @@
-name: Sync Figma Entities
+name: Maintenance / Sync Figma Entities
 
 on:
   schedule:

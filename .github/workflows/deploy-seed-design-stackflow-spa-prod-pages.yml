@@ -17,7 +17,7 @@ on:
 permissions:
   contents: read
 
-name: deploy-seed-design-stackflow-spa-prod-pages
+name: Deployment / Stackflow SPA (Production)
 
 jobs:
   deploy:

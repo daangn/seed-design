@@ -1,8 +1,9 @@
-name: Kapture Report
+name: Review / Kapture Report
 on:
   workflow_run:
     workflows:
       - Kapture Capture
+      - Review / Kapture Capture
     types:
       - in_progress
       - completed

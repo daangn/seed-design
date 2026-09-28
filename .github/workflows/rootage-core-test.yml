@@ -1,4 +1,4 @@
-name: Test Rootage Core
+name: Test / Rootage Core
 
 on:
   push:

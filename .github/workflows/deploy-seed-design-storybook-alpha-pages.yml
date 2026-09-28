@@ -19,7 +19,7 @@ permissions:
   contents: read
   pull-requests: write
 
-name: deploy-seed-design-storybook-alpha-pages
+name: Deployment / Storybook (Alpha)
 
 jobs:
   deploy:

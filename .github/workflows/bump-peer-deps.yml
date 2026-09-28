@@ -1,4 +1,4 @@
-name: Bump peer dependencies
+name: Maintenance / Bump Peer Dependencies
 
 on:
   issue_comment:

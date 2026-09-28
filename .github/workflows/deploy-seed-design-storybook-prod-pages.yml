@@ -16,7 +16,7 @@ on:
 permissions:
   contents: read
 
-name: deploy-seed-design-storybook-prod-pages
+name: Deployment / Storybook (Production)
 
 jobs:
   deploy:

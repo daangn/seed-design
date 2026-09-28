@@ -1,4 +1,4 @@
-name: Operate Rootage CDN
+name: Maintenance / Rootage CDN Operations
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Version Packages peer dependency merge blocker
+name: Review / Release Peer Dependencies
 
 on:
   pull_request_target:

@@ -4,7 +4,7 @@
 
 ## 1. 실행 identity
 
-`.github/workflows/continuous-releases.yml`(workflow 이름 `Continuous Releases`)은 PR 댓글이 `/snapshot`으로 시작하고 작성자 association이 `OWNER`·`MEMBER`·`COLLABORATOR`일 때 실행된다. 실행마다 다음 metadata를 남긴다.
+`.github/workflows/continuous-releases.yml`(workflow 이름 `Release / Snapshots`)은 PR 댓글이 `/snapshot`으로 시작하고 작성자 association이 `OWNER`·`MEMBER`·`COLLABORATOR`일 때 실행된다. 실행마다 다음 metadata를 남긴다.
 
 - artifact `snapshot-release-metadata-<run-id>-<run-attempt>` 안의 `snapshot-metadata.json`
 - 성공 결과 댓글 끝의 `<!-- seed-snapshot-metadata {...} -->`
@@ -108,7 +108,7 @@ for _ in $(seq 1 30); do
   sleep 2
 done
 
-[ -n "$RUN_ID" ] || { echo "no Continuous Releases run matched comment $COMMENT_ID" >&2; exit 1; }
+[ -n "$RUN_ID" ] || { echo "no Release / Snapshots run matched comment $COMMENT_ID" >&2; exit 1; }
 gh run watch "$RUN_ID" --exit-status || WATCH_EXIT=$?
 ```
 

@@ -1,4 +1,4 @@
-name: Test React
+name: Test / React
 
 on:
   push:

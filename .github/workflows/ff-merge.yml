@@ -1,4 +1,4 @@
-name: Fast-forward merge
+name: Maintenance / Fast-forward Merge
 
 on:
   issue_comment:

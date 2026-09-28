@@ -1,4 +1,4 @@
-name: Renovate Dependency Review
+name: Review / Renovate Dependencies
 
 on:
   pull_request:

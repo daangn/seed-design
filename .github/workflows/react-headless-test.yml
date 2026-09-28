@@ -1,4 +1,4 @@
-name: Test React Headless
+name: Test / React Headless
 
 on:
   push:

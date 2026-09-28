@@ -1,4 +1,4 @@
-name: Sync release branches
+name: Maintenance / Sync Release Branches
 
 on:
   workflow_dispatch:

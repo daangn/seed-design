@@ -1,4 +1,4 @@
-name: Deploy Rootage CDN
+name: Deployment / Rootage CDN
 
 on:
   workflow_dispatch:
