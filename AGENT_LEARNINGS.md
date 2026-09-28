@@ -2,6 +2,34 @@
 
 에이전트가 실수에서 얻은 교훈을 쌓는 외부 메모리다. 읽기·갱신·커밋 규칙과 항목 형식은 루트 `AGENTS.md`의 학습 기록 섹션에 있다.
 
+## 변경 안내는 소비자가 사용하는 공개 컴포넌트와 prop 경로로 쓴다
+
+### Mistake Made
+- Description: nested prop 제거 안내에서 Drawer와 BottomSheet만 언급한 뒤, 누락된 소비자를 확인하는 대신 "Drawer 기반 컴포넌트"라는 내부 구현 용어로 범위를 넓혔다.
+- Impact: 소비자가 ResponsiveDialog와 ResponsiveSidePanel의 bottomSheetRootProps.nested도 정리해야 한다는 사실을 알 수 없었다.
+
+### Patterns to Avoid
+- Pattern: 내부 의존 패키지 이름이나 대표 컴포넌트만으로 영향 범위를 설명하는 것.
+- Risk: 중첩 옵션으로 노출된 prop을 누락하거나, Pick으로 해당 prop을 제외한 컴포넌트까지 영향 대상으로 오해하게 한다.
+
+### Better Approaches
+- Recommendation: 소비 패키지의 공개 타입에서 직접 prop과 중첩 옵션의 노출 여부를 확인하고 실제 컴포넌트명과 prop 경로를 나열한다.
+- Solutions: BottomSheet.Root의 nested, ResponsiveDialog.Root와 ResponsiveSidePanel.Root의 bottomSheetRootProps.nested처럼 적는다. Headless 패키지 직접 사용 안내는 별도 문장으로 구분한다.
+
+## 패키지와 설정 경로는 파일 목록으로 확인한다
+
+### Mistake Made
+- Description: React의 primitives 재수출을 별도 workspace로 가정하고 존재하지 않는 package.json을 읽었다. Drawer tsconfig의 상대 extends 경로도 기준 디렉터리를 잘못 계산했다.
+- Impact: 불필요한 파일 조회가 실패했고 영향 패키지와 검증 설정 확인이 늦어졌다.
+
+### Patterns to Avoid
+- Pattern: export 이름으로 패키지 디렉터리를 추측하거나 상대 경로를 저장소 루트 기준으로 해석하는 것.
+- Risk: 실제 배포 단위와 의존 관계를 잘못 판단하거나 유효한 TypeScript 설정을 놓친다.
+
+### Better Approaches
+- Recommendation: 파일 목록과 manifest에서 경로를 확인하고 상대 경로는 선언한 파일의 디렉터리에서 해석한다.
+- Solutions: `git ls-files '*package.json' '*tsconfig*'`로 파일을 찾고 `git grep -l '"@seed-design/react-drawer"' -- '*/package.json'`으로 직접 소비 패키지를 확인한다.
+
 ## Testing Library bound query의 제네릭 지원을 가정하지 않는다
 
 ### Mistake Made
@@ -15,6 +43,7 @@
 ### Better Approaches
 - Recommendation: 설치된 버전에서 실제 호출 지점의 타입을 확인하고 타입 수정은 직접 컴파일러로 검증한다.
 - Solutions: `bun node_modules/typescript/bin/tsc --project packages/react/tsconfig.json --noEmit`을 실행한다. query의 타입 인자가 지원되지 않으면 반환 타입을 단언하지 말고 matcher의 비교 타입을 조정하거나 런타임 guard로 좁힌다.
+  - 기존 테스트 때문에 전체 타입 검사가 실패하면 기준 브랜치의 원본을 compiler host에 공급해 진단을 비교한다. Drawer의 `useDrawer.test.tsx`에 있는 TS2683처럼 원래 있던 오류와 이번 변경의 오류를 구분하고, 배포된 선언의 공개 타입도 별도로 확인한다.
 
 ## 새 worktree는 설치 상태부터 확인한다
 
