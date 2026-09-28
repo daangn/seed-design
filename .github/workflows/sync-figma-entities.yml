@@ -1,4 +1,4 @@
-name: Maintenance / Sync Figma Entities
+name: Figma Entities
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   sync:
-    name: Sync Figma Entities
+    name: Sync
     runs-on: ubuntu-latest
     permissions:
       contents: write

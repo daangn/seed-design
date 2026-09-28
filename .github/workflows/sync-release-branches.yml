@@ -1,4 +1,4 @@
-name: Maintenance / Sync Release Branches
+name: Release Branches
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   sync:
-    name: Sync minor and major with dev
+    name: Sync
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (

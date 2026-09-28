@@ -4,7 +4,7 @@
 
 ## 1. 실행 identity
 
-`.github/workflows/continuous-releases.yml`(workflow 이름 `Release / Snapshots`)은 PR 댓글이 `/snapshot`으로 시작하고 작성자 association이 `OWNER`·`MEMBER`·`COLLABORATOR`일 때 실행된다. 실행마다 다음 metadata를 남긴다.
+`.github/workflows/continuous-releases.yml`(workflow 이름 `Snapshots`)은 PR 댓글이 `/snapshot`으로 시작하고 작성자 association이 `OWNER`·`MEMBER`·`COLLABORATOR`일 때 실행된다. 실행마다 다음 metadata를 남긴다.
 
 - artifact `snapshot-release-metadata-<run-id>-<run-attempt>` 안의 `snapshot-metadata.json`
 - 성공 결과 댓글 끝의 `<!-- seed-snapshot-metadata {...} -->`
@@ -108,7 +108,7 @@ for _ in $(seq 1 30); do
   sleep 2
 done
 
-[ -n "$RUN_ID" ] || { echo "no Release / Snapshots run matched comment $COMMENT_ID" >&2; exit 1; }
+[ -n "$RUN_ID" ] || { echo "no Snapshots run matched comment $COMMENT_ID" >&2; exit 1; }
 gh run watch "$RUN_ID" --exit-status || WATCH_EXIT=$?
 ```
 
@@ -156,6 +156,6 @@ workflow 동작:
 보고:
 
 - 성공: 같은 run ID·attempt·PR·source/control SHA가 metadata에 있는 `📦 Snapshot Release` 댓글 본문과 tarball URL을 그대로 보여 주고, 설치 힌트를 한 줄 덧붙인다. URL은 추측하지 않고 댓글이 나열한 package URL을 그대로 쓴다: `bun add <댓글의 pkg.pr.new URL>`.
-- 성공인데 일치하는 결과 댓글이 없음 → 다른 댓글로 대신하지 않는다. `gh run view "$RUN_ID" --json jobs`로 `Comment snapshot result` job 결과를 확인해 함께 보고한다.
+- 성공인데 일치하는 결과 댓글이 없음 → 다른 댓글로 대신하지 않는다. `gh run view "$RUN_ID" --json jobs`로 `Comment result` job 결과를 확인해 함께 보고한다.
 - 실패·취소: failed steps와 가능한 원인을 보여 준다. 같은 run identity에 연결된 부분 게시 결과(예: Rootage CDN만 실패한 결과 댓글)가 있을 때만 함께 언급한다.
 - metadata가 없는 댓글, 다른 PR·SHA·attempt의 결과, 최신이라는 이유만으로 고른 댓글은 보고하지 않는다.

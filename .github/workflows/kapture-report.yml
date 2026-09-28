@@ -1,4 +1,4 @@
-name: Review / Kapture Report
+name: Kapture Report
 on:
   workflow_run:
     workflows:
@@ -19,6 +19,7 @@ env:
   YARN_ENABLE_SCRIPTS: "false"
 jobs:
   publish:
+    name: Publish
     if: github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -105,6 +106,7 @@ jobs:
           KAPTURE_REPORT_URL: ${{ steps.dashboard.outputs.url }}
         run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github publish-run --receipt "${{ runner.temp }}/kapture-receipt.json" --report "${{ runner.temp }}/kapture-review/report.json" --report-url "$KAPTURE_REPORT_URL" --comment-language ko
   finalize:
+    name: Finalize
     needs: publish
     if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && contains(fromJSON('["dev","minor","major"]'), github.event.workflow_run.pull_requests[0].base.ref) && github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-24.04

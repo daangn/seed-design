@@ -1,4 +1,4 @@
-name: Review / Claude
+name: Claude
 
 on:
   issue_comment:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   claude-code-action:
+    name: Review
     if: |
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, '/claude-review') &&

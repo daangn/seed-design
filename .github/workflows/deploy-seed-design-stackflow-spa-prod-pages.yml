@@ -17,11 +17,11 @@ on:
 permissions:
   contents: read
 
-name: Deployment / Stackflow SPA (Production)
+name: Stackflow SPA (Production)
 
 jobs:
   deploy:
-    name: deploy-seed-design-stackflow-spa-prod-pages
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:

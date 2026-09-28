@@ -1,4 +1,4 @@
-name: Maintenance / Bump Peer Dependencies
+name: Peer Dependencies
 
 on:
   issue_comment:
@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   bump:
-    name: Align released peer dependency ranges
+    name: Bump
     if: >-
       github.event.issue.pull_request &&
       github.event.comment.body == '/bump-peer-deps' &&

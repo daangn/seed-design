@@ -1,4 +1,4 @@
-name: Maintenance / Rootage CDN Operations
+name: Rootage CDN Operations
 
 on:
   workflow_dispatch:
@@ -44,7 +44,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate operation input without production credentials
+    name: Validate
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     timeout-minutes: 5

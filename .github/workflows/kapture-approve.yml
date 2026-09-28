@@ -1,4 +1,4 @@
-name: Review / Kapture Approval
+name: Kapture Approval
 on:
   issue_comment:
     types:
@@ -15,6 +15,7 @@ env:
   YARN_ENABLE_SCRIPTS: "false"
 jobs:
   approve:
+    name: Approve
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/kapture approve ') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-24.04
     timeout-minutes: 5

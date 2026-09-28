@@ -39,11 +39,11 @@ env:
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
-name: Deployment / Docs (Production)
+name: Docs (Production)
 
 jobs:
   deploy:
-    name: deploy-seed-design-docs-prod-pages
+    name: Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 30
 

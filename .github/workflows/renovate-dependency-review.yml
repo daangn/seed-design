@@ -1,4 +1,4 @@
-name: Review / Renovate Dependencies
+name: Renovate
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   analyze-dependencies:
+    name: Review
     concurrency:
       group: renovate-dependency-review-${{ github.event.pull_request.number || github.event.issue.number }}
       cancel-in-progress: true

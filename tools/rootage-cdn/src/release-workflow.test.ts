@@ -10,7 +10,7 @@ describe("release publish workflow", () => {
       join(repositoryRoot, ".github/workflows/release-publish.yml"),
     ).text();
 
-    expect(workflow).toContain("name: Release / Packages");
+    expect(workflow).toContain("name: Packages");
     expect(workflow).toContain("      - dev");
     expect(workflow).not.toContain("      - main");
     expect(workflow).toContain("if: github.ref == 'refs/heads/dev'");

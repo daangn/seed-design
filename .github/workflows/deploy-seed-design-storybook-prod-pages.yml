@@ -16,11 +16,11 @@ on:
 permissions:
   contents: read
 
-name: Deployment / Storybook (Production)
+name: Storybook (Production)
 
 jobs:
   deploy:
-    name: deploy-seed-design-storybook-prod-pages
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:

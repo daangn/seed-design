@@ -1,7 +1,7 @@
 # .github/workflows/chromatic.yml
 
 # Workflow name
-name: Review / Chromatic
+name: Chromatic
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
@@ -22,6 +22,7 @@ on:
 # List of jobs
 jobs:
   chromatic-deployment:
+    name: Publish
     # Kapture로 시각 회귀 검증을 전환해 비활성화한다. 복구하려면 이 조건을 제거한다.
     if: ${{ false }}
     # Operating System

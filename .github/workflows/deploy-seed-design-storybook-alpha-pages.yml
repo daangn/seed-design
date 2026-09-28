@@ -19,11 +19,11 @@ permissions:
   contents: read
   pull-requests: write
 
-name: Deployment / Storybook (Alpha)
+name: Storybook (Alpha)
 
 jobs:
   deploy:
-    name: deploy-seed-design-storybook-alpha-pages
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:

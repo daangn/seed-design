@@ -1,4 +1,4 @@
-name: Test / Docs
+name: Docs
 
 on:
   push:
@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
 
     steps:

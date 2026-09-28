@@ -1,4 +1,4 @@
-name: Review / API Surface Diff
+name: Public API
 
 on:
   pull_request:
@@ -22,6 +22,7 @@ concurrency:
 
 jobs:
   diff:
+    name: Diff
     runs-on: ubuntu-latest
 
     steps:

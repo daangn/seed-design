@@ -1,4 +1,4 @@
-name: Release / Packages
+name: Packages
 
 on:
   push:
@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   release:
-    name: Release Seed Design Packages
+    name: Release
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     permissions:
@@ -75,7 +75,7 @@ jobs:
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
   prepare-rootage:
-    name: Reconcile the exact published Rootage release
+    name: Resolve Rootage
     needs: release
     if: >-
       always() &&
@@ -124,7 +124,7 @@ jobs:
         run: bun tools/rootage-cdn/src/release-input.ts
 
   publish-rootage:
-    name: Publish immutable Rootage artifacts
+    name: Publish Rootage
     needs: prepare-rootage
     if: >-
       always() &&
@@ -193,7 +193,7 @@ jobs:
           --stable "$ROOTAGE_STABLE"
 
   notify-rootage:
-    name: Notify published Rootage package
+    name: Notify
     needs: release
     if: >-
       needs.release.result == 'success' &&

@@ -1,4 +1,4 @@
-name: Maintenance / Fast-forward Merge
+name: Release Merge
 
 on:
   issue_comment:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   ff-merge:
-    name: Fast-forward minor or major into dev
+    name: Fast-forward
     if: >-
       github.event.issue.pull_request &&
       github.event.comment.body == '/ff-merge' &&

@@ -1,4 +1,4 @@
-name: Release / Snapshots
+name: Snapshots
 
 on:
   issue_comment:
@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   resolve:
-    name: Resolve exact snapshot source
+    name: Resolve source
     if: |
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, '/snapshot') &&
@@ -76,7 +76,7 @@ jobs:
           if-no-files-found: error
 
   release:
-    name: Release Seed Design package snapshots
+    name: Publish packages
     needs: resolve
     runs-on: ubuntu-latest
     permissions:
@@ -162,7 +162,7 @@ jobs:
           retention-days: 1
 
   publish-rootage:
-    name: Publish Rootage snapshot to CDN
+    name: Publish Rootage
     needs: [resolve, release]
     if: needs.release.outputs.rootage-changed == 'true'
     runs-on: ubuntu-latest
@@ -222,7 +222,7 @@ jobs:
           --source-sha "$ROOTAGE_SOURCE_SHA"
 
   notify:
-    name: Comment snapshot result
+    name: Comment result
     needs: [resolve, release, publish-rootage]
     if: always() && needs.release.result == 'success'
     runs-on: ubuntu-latest
@@ -279,7 +279,7 @@ jobs:
             });
 
   success-reaction:
-    name: Mark snapshot success
+    name: Mark success
     needs: [release, publish-rootage, notify]
     if: >-
       always() &&
@@ -305,7 +305,7 @@ jobs:
             }
 
   failure-reaction:
-    name: Mark snapshot failure
+    name: Mark failure
     needs: [resolve, release, publish-rootage, notify]
     if: always() && contains(needs.*.result, 'failure')
     runs-on: ubuntu-latest

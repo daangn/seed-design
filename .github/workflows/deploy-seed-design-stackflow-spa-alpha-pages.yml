@@ -19,11 +19,11 @@ permissions:
   contents: read
   pull-requests: write
 
-name: Deployment / Stackflow SPA (Alpha)
+name: Stackflow SPA (Alpha)
 
 jobs:
   deploy:
-    name: deploy-seed-design-stackflow-spa-alpha-pages
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:

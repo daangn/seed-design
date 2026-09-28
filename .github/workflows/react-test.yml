@@ -1,4 +1,4 @@
-name: Test / React
+name: React
 
 on:
   push:
@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
 
     steps:

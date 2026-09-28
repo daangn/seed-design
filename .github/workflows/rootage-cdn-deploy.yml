@@ -1,4 +1,4 @@
-name: Deployment / Rootage CDN
+name: Rootage CDN
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy ${{ inputs.target }} Worker
+    name: Deploy (${{ inputs.target }})
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     timeout-minutes: 30

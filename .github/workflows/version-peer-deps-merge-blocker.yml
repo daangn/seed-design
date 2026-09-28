@@ -1,4 +1,4 @@
-name: Review / Release Peer Dependencies
+name: Release Peer Dependencies
 
 on:
   pull_request_target:
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   check:
-    name: Check Version Packages peer dependencies
+    name: Check
     if: >-
       github.event.pull_request.head.ref == 'changeset-release/dev' &&
       github.event.pull_request.head.repo.full_name == github.repository
