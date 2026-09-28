@@ -33,8 +33,12 @@
 
 Kapture 지원 브랜치와 빌드 명령은 `.github/workflows/kapture-capture.yml`에서 관리한다. 캐시 보관 기간은 `KAPTURE_CACHE_RETENTION_DAYS`, CLI 버전은 각 workflow의 `KAPTURE_CLI_VERSION`이며 설치된 adapter와 같은 버전인지 계약 테스트로 확인한다. Capture, Report, Approve는 실행 이벤트와 권한 경계가 달라 분리한다.
 
+Capture는 `opened`, `synchronize`, `reopened`에서만 실행한다. 제목·본문 수정의 `edited`는 새 Capture run을 만들지 않으므로 진행 중인 캡처나 최신 실행 소유권을 바꾸지 않는다. base 브랜치를 바꾼 경우 PR을 닫았다가 다시 열어 새 base/head 비교를 시작한다. Report는 이 Capture workflow의 `in_progress`·`completed` 이벤트만 처리한다.
+
 `workflow-tests` job이 `scripts/kapture-workflows.test.ts`를 실행한다. CLI·adapter 버전 일치, base의 정확한 checkout, cache miss 시 빌드 복귀와 현재 실행 artifact 게시를 검사한다.
 
 Kapture 0.11.0의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
 
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
+
+Kapture CLI와 adapter는 `0.11.1`로 함께 고정한다. unstable repeat/self-diff PNG는 trusted report에 게시되지만 불안정한 스냅샷의 시각 승인은 계속 차단된다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
