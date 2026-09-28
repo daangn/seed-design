@@ -1,6 +1,6 @@
 ---
-"@seed-design/react": minor
-"@seed-design/react-drawer": minor
+"@seed-design/react": patch
+"@seed-design/react-drawer": patch
 ---
 
 `@seed-design/react`의 다음 prop을 deprecated로 표시하고, 3.0.0에서 제거할 예정입니다.
