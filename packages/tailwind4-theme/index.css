@@ -321,69 +321,80 @@
   --timing-function-enter-expressive: var(--seed-timing-function-enter-expressive);
   --timing-function-exit-expressive: var(--seed-timing-function-exit-expressive);
   --timing-function-pressed-scale: var(--seed-timing-function-pressed-scale);
-  --gradient-stops-fade-mask: #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%;
-  --gradient-stops-glow-magic: #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%;
-  --gradient-stops-glow-magic-pressed: #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%;
-  --gradient-stops-highlight-magic: #ff6600 20.00%, #d25aca 100.00%;
-  --gradient-stops-highlight-magic-pressed: #e14f00 20.00%, #ae58bf 100.00%;
-  --gradient-stops-shimmer-magic: #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%;
-  --gradient-stops-shimmer-neutral: #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%;
-  --gradient-fade-mask-to-t: linear-gradient(to top, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-tr: linear-gradient(to top right, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-r: linear-gradient(to right, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-br: linear-gradient(to bottom right, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-b: linear-gradient(to bottom, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-bl: linear-gradient(to bottom left, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-l: linear-gradient(to left, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-fade-mask-to-tl: linear-gradient(to top left, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
-  --gradient-glow-magic-to-t: linear-gradient(to top, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-tr: linear-gradient(to top right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-r: linear-gradient(to right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-br: linear-gradient(to bottom right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-b: linear-gradient(to bottom, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-bl: linear-gradient(to bottom left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-l: linear-gradient(to left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-tl: linear-gradient(to top left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-pressed-to-t: linear-gradient(to top, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-tr: linear-gradient(to top right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-r: linear-gradient(to right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-br: linear-gradient(to bottom right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-b: linear-gradient(to bottom, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-bl: linear-gradient(to bottom left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-l: linear-gradient(to left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-tl: linear-gradient(to top left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-highlight-magic-to-t: linear-gradient(to top, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-tr: linear-gradient(to top right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-r: linear-gradient(to right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-br: linear-gradient(to bottom right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-b: linear-gradient(to bottom, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-bl: linear-gradient(to bottom left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-l: linear-gradient(to left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-tl: linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-pressed-to-t: linear-gradient(to top, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-tr: linear-gradient(to top right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-r: linear-gradient(to right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-br: linear-gradient(to bottom right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-b: linear-gradient(to bottom, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-bl: linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-l: linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-tl: linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-shimmer-magic-to-t: linear-gradient(to top, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-tr: linear-gradient(to top right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-r: linear-gradient(to right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-br: linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-b: linear-gradient(to bottom, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-bl: linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-l: linear-gradient(to left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-tl: linear-gradient(to top left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-neutral-to-t: linear-gradient(to top, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-tr: linear-gradient(to top right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-r: linear-gradient(to right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-br: linear-gradient(to bottom right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-b: linear-gradient(to bottom, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-bl: linear-gradient(to bottom left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-l: linear-gradient(to left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-tl: linear-gradient(to top left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
+  --gradient-stops-fade-mask: var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
+  --gradient-stops-glow-magic: var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
+  --gradient-stops-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
+  --gradient-stops-highlight-magic: var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%);
+  --gradient-stops-highlight-magic-pressed: var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%);
+  --gradient-stops-shimmer-magic: var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
+  --gradient-stops-shimmer-neutral: var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
+  --gradient-fade-mask-to-t: linear-gradient(to top, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-tr: linear-gradient(to top right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-r: linear-gradient(to right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-br: linear-gradient(to bottom right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-b: linear-gradient(to bottom, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-bl: linear-gradient(to bottom left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-l: linear-gradient(to left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-tl: linear-gradient(to top left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-glow-magic-to-t: linear-gradient(to top, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-r: linear-gradient(to right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-l: linear-gradient(to left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-pressed-to-t: linear-gradient(to top, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-tr: linear-gradient(to top right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-r: linear-gradient(to right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-br: linear-gradient(to bottom right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-b: linear-gradient(to bottom, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-bl: linear-gradient(to bottom left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-l: linear-gradient(to left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-tl: linear-gradient(to top left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-highlight-magic-to-t: linear-gradient(to top, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-r: linear-gradient(to right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-l: linear-gradient(to left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-pressed-to-t: linear-gradient(to top, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-tr: linear-gradient(to top right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-r: linear-gradient(to right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-br: linear-gradient(to bottom right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-b: linear-gradient(to bottom, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-bl: linear-gradient(to bottom left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-l: linear-gradient(to left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-tl: linear-gradient(to top left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-shimmer-magic-to-t: linear-gradient(to top, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-r: linear-gradient(to right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-l: linear-gradient(to left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-neutral-to-t: linear-gradient(to top, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-tr: linear-gradient(to top right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-r: linear-gradient(to right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-br: linear-gradient(to bottom right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-b: linear-gradient(to bottom, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-bl: linear-gradient(to bottom left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-l: linear-gradient(to left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-tl: linear-gradient(to top left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+}
+
+@theme inline {
+  --gradient-direction-to-t: to top;
+  --gradient-direction-to-tr: to top right;
+  --gradient-direction-to-r: to right;
+  --gradient-direction-to-br: to bottom right;
+  --gradient-direction-to-b: to bottom;
+  --gradient-direction-to-bl: to bottom left;
+  --gradient-direction-to-l: to left;
+  --gradient-direction-to-tl: to top left;
 }
 
 @utility screen-title {
@@ -1021,30 +1032,58 @@
   box-shadow: --value(--shadow-*);
 }
 
+@utility bg-fade-mask-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+}
+
 @utility bg-gradient-fade-mask-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-fade-mask));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+}
+
+@utility bg-glow-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
 }
 
 @utility bg-gradient-glow-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+}
+
+@utility bg-glow-magic-pressed-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
 }
 
 @utility bg-gradient-glow-magic-pressed-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic-pressed));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+}
+
+@utility bg-highlight-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
 }
 
 @utility bg-gradient-highlight-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-highlight-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+}
+
+@utility bg-highlight-magic-pressed-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
 }
 
 @utility bg-gradient-highlight-magic-pressed-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-highlight-magic-pressed));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+}
+
+@utility bg-shimmer-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
 }
 
 @utility bg-gradient-shimmer-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+}
+
+@utility bg-shimmer-neutral-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
 }
 
 @utility bg-gradient-shimmer-neutral-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-neutral));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
 }
