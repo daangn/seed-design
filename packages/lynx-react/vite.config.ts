@@ -29,6 +29,7 @@ export default defineConfig({
         /^@lynx-js\/.+/,
         /^@seed-design\/lynx-css(\/.*)?$/,
         /^@seed-design\/lynx-react-accordion$/,
+        /^@seed-design\/lynx-react-action-button$/,
         "clsx",
       ],
       output: {

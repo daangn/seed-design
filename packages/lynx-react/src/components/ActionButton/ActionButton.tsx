@@ -1,12 +1,12 @@
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
+import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
 import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
 import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { isValidElement, useMemo } from "@lynx-js/react";
 
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxElementProps,
@@ -276,7 +276,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  * ```
  */
 export interface ActionButtonProps
-  extends Omit<ActionButtonVariantProps, "pressed">,
+  extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
+    Pick<UseActionButtonProps, "disabled" | "loading">,
     Pick<StyleProps, "flexGrow">,
     // Keep the scale target's Android View even if shared props later expose flatten.
     Omit<LynxElementProps, "flatten">,
@@ -295,22 +296,32 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     icon,
     prefixIcon,
     suffixIcon,
+    disabled,
+    loading,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits = "button",
+    "accessibility-traits": accessibilityTraits,
     ...variantAndRest
   } = props;
-  const { disabled = false, loading = false } = variantAndRest;
-  const isInteractive = !disabled && !loading;
+  const api = useActionButton({
+    disabled,
+    loading,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
+  });
+  // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const isIconOnly = layout === "iconOnly";
   const size = variantAndRest.size;
 
   if (
     process.env.NODE_ENV !== "production" &&
     isIconOnly &&
-    accessibilityElement &&
+    rootProps["accessibility-element"] &&
     !accessibilityLabel
   ) {
     console.warn(
@@ -318,14 +329,8 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     );
   }
 
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-    usePressTap({
-      disabled: !isInteractive,
-      onTap: bindtap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: !isInteractive,
+    disabled: !api.interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -338,18 +343,18 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
           { ref },
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
-          pressTapHandlers,
+          rootProps,
           variantAndRest,
         )}
         layout={layout}
-        pressed={pressed}
+        disabled={api.disabled}
+        loading={api.loading}
+        pressed={api.pressed}
         style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
-        accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
-        accessibility-traits={accessibilityTraits}
         flatten={false}
       >
-        {loading ? (
+        {api.loading ? (
           <>
             <ActionButtonLoadingIndicator size={size} />
             <ActionButtonLoadingContent
