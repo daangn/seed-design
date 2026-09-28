@@ -1,6 +1,6 @@
 ---
-"@seed-design/react": patch
-"@seed-design/react-drawer": patch
+"@seed-design/react": major
+"@seed-design/react-drawer": major
 ---
 
 (BREAKING CHANGE: 아래 prop을 사용하는 코드에서 해당 prop을 삭제해야 합니다.) `@seed-design/react`의 다음 prop을 제거합니다.
