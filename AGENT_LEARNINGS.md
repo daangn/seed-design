@@ -125,3 +125,30 @@
 ### Better Approaches
 - Recommendation: 이벤트 순서와 가시성에 의존하지 않는 키보드·프로그래밍 방식 포커스(Tab, Escape, `focus()`)는 happy-dom으로 판정해도 된다. 포인터로 바깥을 누르는 시나리오와 열림 직후의 Tab 순서는 실제 브라우저에서 CDP 입력으로 확인한다.
 - Solutions: stackflow-spa에 임시 activity를 만들고 `document`의 `focusin`을 시각과 함께 화면에 기록한다. chrome-devtools `click`·`press_key`(CDP 입력)로 조작한 뒤 `evaluate_script`로 `document.activeElement`와 기록을 읽는다. 속성이 바뀌는 순간의 DOM 상태가 필요하면 `navigate_page`의 `initScript`로 `Element.prototype.setAttribute`·`removeAttribute`를 감싸서 동기로 기록한다. content는 `aria-controls`가 아니라 class나 `data-*` 선택자로 찾는다. 자동 회귀 테스트가 필요하면 `examples/stackflow-spa/e2e/`의 Playwright로 작성한다.
+## Storybook 시각 검증은 portless 절대 경로와 첫 로드 대기로 시작한다
+
+### Mistake Made
+- Description: 이름 있는 bash service로 `portless run ...`을 실행했는데, 그 shell의 PATH에 npm global bin이 없어 `portless: command not found`(exit 127)로 실패했다. 이어서 Storybook iframe을 열자마자 `waitForSelector`를 기본 2초로 걸어 story가 렌더되기 전에 실패로 판정했다.
+- Impact: 서버 실행과 첫 상호작용을 각각 다시 시도해야 했다.
+
+### Patterns to Avoid
+- Pattern: service shell이 대화형 shell과 같은 PATH를 가진다고 가정하는 것. Vite 의존성 재최적화가 있는 첫 로드에 짧은 selector 대기를 거는 것.
+- Risk: 환경 문제를 서버나 컴포넌트 실패로 오판한다.
+
+### Better Approaches
+- Recommendation: service에는 portless 절대 경로와 PATH env를 명시하고, 첫 story 로드는 넉넉히 기다린다.
+- Solutions: `which portless`로 경로(예: `/Users/ette/.npm-global/bin/portless`)를 확인한 뒤 `cwd: docs`, `env.PATH`를 지정해 `<절대경로>/portless run --name ette --app-port 6106 bunx storybook dev -p 6106 --no-open`을 실행한다. story id는 `http://localhost:6106/index.json`에서 찾고, `iframe.html?id=<id>`를 연 뒤 `waitForSelector(..., { timeout: 30000 })`를 쓴다.
+
+## 내용 너비로 크기가 정해지는 popover 안에서는 flex-basis가 너비를 만들지 않는다
+
+### Mistake Made
+- Description: Date Picker Week의 연·월 Wheel을 absolute popover(shrink-to-fit)에 넣으면서, 컬럼 너비가 기존 `flex: 0 0 120px`·`0 0 96px`로 유지된다고 가정했다. 컬럼의 `width: max-content`가 intrinsic 너비를 정해 popover가 216px이 아니라 168px로 좁아졌다.
+- Impact: 단위 테스트는 통과했고, 브라우저에서 너비를 측정한 뒤에야 발견해 recipe를 다시 수정했다.
+
+### Patterns to Avoid
+- Pattern: 부모 너비가 고정된 레이아웃에서 쓰던 flex-basis를 floating·absolute 컨테이너에서도 그대로 믿는 것.
+- Risk: 컨테이너가 내용 기준으로 줄어들어 디자인 너비와 정렬이 깨진다. jsdom·happy-dom 테스트로는 드러나지 않는다.
+
+### Better Approaches
+- Recommendation: 내용 기준으로 크기가 정해지는 컨테이너에 넣는 flex item에는 intrinsic 크기에 반영되는 `minWidth`(또는 `width`)를 함께 준다. 다른 recipe가 같은 속성을 가지면 CSS 순서 충돌이 없는 속성을 고른다.
+- Solutions: `packages/qvism-preset/src/recipes/date-picker.ts`의 `yearColumn`·`monthColumn`에 `minWidth: "120px"`·`"96px"`를 두었다. 검증은 브라우저에서 `el.getBoundingClientRect().width`로 한다.
