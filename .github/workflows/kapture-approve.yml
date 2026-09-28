@@ -21,7 +21,7 @@ jobs:
     permissions:
       actions: read
       issues: write
-      pull-requests: read
+      pull-requests: write
       statuses: write
     steps:
       - name: Check supported PR base
