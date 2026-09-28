@@ -20,7 +20,9 @@ description: Deprecated 항목의 현황과 제거 계획을 관리합니다.
 
 | 항목                                                          | 제거 버전 | 대체안                                            | 비고                                                     |
 | ------------------------------------------------------------- | --------- | ------------------------------------------------- | -------------------------------------------------------- |
-| Drawer 기반 컴포넌트의 nested prop                            | 3.0.0     | prop 삭제                                         | 해당 prop을 노출하는 컴포넌트 전체에 적용. 동작에 영향을 주지 않던 dead prop |
+| BottomSheet.Root nested prop                                  | 3.0.0     | prop 삭제                                         | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
+| ResponsiveDialog.Root bottomSheetRootProps.nested              | 3.0.0     | nested 삭제                                       | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
+| ResponsiveSidePanel.Root bottomSheetRootProps.nested           | 3.0.0     | nested 삭제                                       | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
 | $gradient.fade-layer-floating                                 | 2.0.0     | -                                                 | 대체안 없이 제거                                         |
 | $gradient.fade-layer-default                                  | 2.0.0     | -                                                 | 대체안 없이 제거                                         |
 | ChipTabs variant=brandSolid                                   | 2.0.0     | neutralSolid, neutralOutline                      | 대체안 사용 시 디자인 변경됨                             |
