@@ -1,5 +1,6 @@
 import preview from "../.storybook/preview";
-import { Box, TimePicker, type TimePickerProps } from "@seed-design/react";
+import { Box } from "@seed-design/react";
+import { TimePicker, type TimePickerProps } from "seed-design/ui/time-picker";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { withVisualTestParameters } from "./utils/parameters";

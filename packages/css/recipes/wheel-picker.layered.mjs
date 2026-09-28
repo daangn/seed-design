@@ -23,16 +23,27 @@ const wheelPickerSlotNames = [
     "seed-wheel-picker__item"
   ],
   [
+    "itemLabel",
+    "seed-wheel-picker__itemLabel"
+  ],
+  [
     "selectionIndicator",
     "seed-wheel-picker__selectionIndicator"
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "size": "medium"
+};
 
 const compoundVariants = [];
 
-export const wheelPickerVariantMap = {};
+export const wheelPickerVariantMap = {
+  "size": [
+    "small",
+    "medium"
+  ]
+};
 
 export const wheelPickerVariantKeys = Object.keys(wheelPickerVariantMap);
 

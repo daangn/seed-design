@@ -1,16 +1,14 @@
 "use client";
 
+import { Box, Text, VStack } from "@seed-design/react";
 import {
-  Box,
-  Text,
-  TwoMonthDatePicker,
-  VStack,
   excludeDates,
   rangeDayCountAtLeast,
   rangeDayCountAtMost,
   type DatePickerDate,
   type DatePickerRangeValue,
-} from "@seed-design/react";
+} from "@seed-design/react-date-picker";
+import { TwoMonthDatePicker } from "seed-design/ui/date-picker";
 import * as React from "react";
 
 const bookedDateKeys = new Set(["2026-07-18", "2026-07-19", "2026-07-25"]);

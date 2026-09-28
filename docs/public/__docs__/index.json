@@ -167,7 +167,14 @@
               "id": "date-picker",
               "title": "Date Picker",
               "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/date-picker"
+              "docUrl": "/components/date-picker",
+              "snippetKey": "react/ui:date-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "date-picker.tsx"
+                }
+              ]
             },
             {
               "id": "deprecated",
@@ -574,7 +581,14 @@
               "id": "time-picker",
               "title": "Time Picker",
               "description": "휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/time-picker"
+              "docUrl": "/components/time-picker",
+              "snippetKey": "react/ui:time-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "time-picker.tsx"
+                }
+              ]
             },
             {
               "id": "top-navigation",
@@ -1037,7 +1051,14 @@
               "id": "date-picker",
               "title": "Date Picker",
               "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
-              "docUrl": "/react/components/date-picker"
+              "docUrl": "/react/components/date-picker",
+              "snippetKey": "react/ui:date-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "date-picker.tsx"
+                }
+              ]
             },
             {
               "id": "dialog",
@@ -1547,7 +1568,14 @@
               "id": "time-picker",
               "title": "Time Picker",
               "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
-              "docUrl": "/react/components/time-picker"
+              "docUrl": "/react/components/time-picker",
+              "snippetKey": "react/ui:time-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "time-picker.tsx"
+                }
+              ]
             },
             {
               "id": "toggle-button",
@@ -2070,7 +2098,7 @@
             {
               "id": "feature-flags",
               "title": "Feature Flags",
-              "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+              "description": "SEED에 중요한 Lynx 플래그와 엔진·빌드 도구 버전별 유지 및 생략 조건을 안내합니다.",
               "docUrl": "/lynx/getting-started/feature-flags"
             },
             {
@@ -2326,6 +2354,12 @@
               ]
             },
             {
+              "id": "styling",
+              "title": "Styling",
+              "description": "Lynx에서 스타일링 라이브러리를 선택하고 정적 CSS로 레이아웃을 구성하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling"
+            },
+            {
               "id": "swipeable-menu-sheet",
               "title": "Swipeable Menu Sheet",
               "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
@@ -2448,6 +2482,12 @@
               "title": "VStack",
               "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
               "docUrl": "/lynx/foundation/layout/v-stack"
+            },
+            {
+              "id": "vanilla-extract",
+              "title": "Vanilla Extract",
+              "description": "Lynx에서 Vanilla Extract로 정적 CSS를 생성하고 SEED 토큰을 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/vanilla-extract"
             }
           ]
         }
