@@ -154,7 +154,7 @@
 - Solutions:
   - 선례 찾기: `gh pr list --state all --search '<선례 컴포넌트> headless' --json number,title,baseRefName,state` → `git branch -a --contains <sha>` → `git show origin/<branch>:<경로>`. 2026-09-28 기준 Lynx 1.0 분리는 `refactor-lynx-components`(dev 기반)에 있다.
   - 학습 커밋: `git worktree add -b docs/<ticket>-agent-learnings /tmp/<ticket>/learnings origin/dev` → 그 안에서 편집·커밋 → `gh pr create --base dev`. 선례: #2269.
-  - dev가 아닌 checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다. 스크립트는 `git archive origin/dev skills/seed-change | tar -x -C /tmp/<ticket>/skills-dev` 뒤 저장소 루트에서 실행한다. `change-plan.ts`의 `--base-ref`는 `origin/dev|minor|major`만 받는다.
+  - dev가 아닌 checkout에 없는 skill reference는 `git show origin/dev:skills/<skill>/references/<file>.md`로 읽는다. 스크립트는 `mkdir -p /tmp/<ticket>/skills-dev && git archive origin/dev skills/seed-change | tar -x -C /tmp/<ticket>/skills-dev` 뒤 저장소 루트에서 실행한다. `change-plan.ts`의 `--base-ref`는 `origin/dev|minor|major`만 받는다.
   - 기준을 옮긴 뒤 `bun generate:all`이 `docs/public/__docs__/index.json`처럼 이번 변경과 무관한 생성물을 바꾸면 기준 브랜치의 기존 차이일 수 있다. diff 항목이 자신의 문서 변경과 관련 없으면 되돌리고 PR에 섞지 않는다.
   - PR base를 바꿀 때는 `gh pr edit <n> --base <branch>`를 먼저 하고 force push한다. #2293은 base가 `minor`인 상태에서 push해 `dev|minor|major` 대상 Kapture Capture가 실행됐고, 직후 base를 바꿔 `Live pull request does not match the exact Kapture capture context`로 실패한 기록이 head SHA에 남았다. 새 base에서는 이 workflow가 다시 돌지 않는다.
 
