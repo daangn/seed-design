@@ -206,8 +206,14 @@ export interface StyleProps {
     | "safeArea"
     | (string & {});
   pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
-  paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
-  pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingRight?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
+  pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
   paddingBottom?:
     | Dimension
     | `spacingX.${SpacingX}`
@@ -216,8 +222,14 @@ export interface StyleProps {
     | "safeArea"
     | (string & {});
   pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
-  paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
-  pl?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingLeft?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
+  pl?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
   display?: "flex" | "none" | (string & {});
   position?: "relative" | "absolute" | "fixed" | (string & {});
   overflowX?: "visible" | "hidden" | (string & {});
@@ -308,7 +320,8 @@ export function useStyleProps<T extends UseStyleProps>(
     style,
     ...restProps
   } = props;
-  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
+  const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
+    useSafeArea();
 
   const backgroundValue = handleColor(background ?? bg);
   const paddingValue = handleDimension(padding ?? p);
@@ -316,10 +329,12 @@ export function useStyleProps<T extends UseStyleProps>(
   const paddingYValue = handleDimension(paddingY ?? py) ?? paddingValue;
   const paddingTopValue =
     handlePaddingWithSafeArea(paddingTop ?? pt, safeAreaInsetTop) ?? paddingYValue;
-  const paddingRightValue = handleDimension(paddingRight ?? pr) ?? paddingXValue;
+  const paddingRightValue =
+    handlePaddingWithSafeArea(paddingRight ?? pr, safeAreaInsetRight) ?? paddingXValue;
   const paddingBottomValue =
     handlePaddingWithSafeArea(paddingBottom ?? pb, safeAreaInsetBottom) ?? paddingYValue;
-  const paddingLeftValue = handleDimension(paddingLeft ?? pl) ?? paddingXValue;
+  const paddingLeftValue =
+    handlePaddingWithSafeArea(paddingLeft ?? pl, safeAreaInsetLeft) ?? paddingXValue;
   const hasBorderStyle =
     borderColor != null ||
     borderWidth != null ||

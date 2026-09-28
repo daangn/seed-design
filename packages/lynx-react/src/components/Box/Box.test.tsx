@@ -9,7 +9,9 @@ interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
       safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
       safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
     };
   };
   lynxTestingEnv?: {
@@ -80,6 +82,27 @@ describe("Box", () => {
     expectStyle((box as HTMLElement).style, {
       "padding-top": "47px",
       "padding-bottom": "34px",
+    });
+  });
+
+  it("resolves left and right safe area padding from global props", () => {
+    setGlobalProps({
+      safeAreaInsetRight: 62,
+      safeAreaInsetLeft: 59,
+    });
+
+    render(
+      <Box className="box-test" pl="safeArea" pr="safeArea">
+        <Text>Box content</Text>
+      </Box>,
+    );
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expect(box).toBeInTheDocument();
+    expectStyle((box as HTMLElement).style, {
+      "padding-left": "59px",
+      "padding-right": "62px",
     });
   });
 });
