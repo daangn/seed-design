@@ -11,6 +11,62 @@ SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기�
   가이드를 따른 뒤 이 문서로 돌아와 주세요.
 </Callout>
 
+## AI로 마이그레이션하기
+
+AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이 가이드를 기준으로 프로젝트를 점검하고 코드 수정이 필요한 항목을 적용합니다. 코드 블록 오른쪽 위 버튼으로 복사할 수 있습니다. 화면이 달라지는 디자인 변경 항목은 AI가 직접 결정하지 않고 확인이 필요한 목록으로 정리하도록 요청합니다.
+
+```text title="마이그레이션 프롬프트"
+이 프로젝트의 SEED React를 2.x에서 3으로 업그레이드해줘.
+기준 문서: https://seed-design.io/llms/react/updates/upgrade/v3.txt
+문서를 먼저 끝까지 읽고, 문서와 이 지시가 다르면 문서를 따라줘.
+
+1. 현재 상태 확인
+   - package.json에서 @seed-design/* 패키지와 버전을 정리해줘.
+   - seed-design.json의 path 아래 설치된 snippet 목록을 정리해줘.
+   - 작업 전에 커밋되지 않은 변경이 있으면 알려주고 멈춰줘.
+
+2. 패키지 업그레이드
+   - 문서의 "패키지 업그레이드" 표에서 이 프로젝트가 쓰는 패키지만
+     최소 버전 이상으로 올려줘. 쓰지 않는 패키지는 새로 설치하지 마.
+   - 프로젝트의 패키지 매니저를 그대로 사용해줘.
+
+3. 코드 수정 ("코드 수정이 필요한 항목")
+   각 항목의 사용처를 검색해 문서의 변경 후 코드로 바꿔줘.
+   - @seed-design/css/vars/component 에서 typography 외 import
+   - SidePanelBody, ResponsiveSidePanelBody의 height/minHeight/maxHeight
+   - 제거된 컴포넌트: ActionChip, ControlChip, ActionSheet,
+     ExtendedActionSheet, Fab, ExtendedFab, InlineBanner, LinkContent,
+     Inline, Columns, Column, Stack (문서의 대체 컴포넌트로 교체)
+   - 제거된 snippet: ui:action-sheet, ui:extended-action-sheet,
+     ui:control-chip, ui:inline-banner, ui:error-state
+   - @seed-design/react의 Badge, DatePicker, TimePicker와 관련 타입·helper
+     (문서대로 ui:badge, ui:date-picker, ui:time-picker snippet 설치 후 import 교체)
+   - wheel-picker-public recipe·클래스·CSS 변수
+   - BottomSheet.Root의 nested, bottomSheetRootProps.nested,
+     @seed-design/react-drawer의 nested
+   - @seed-design/react/primitive 또는 @seed-design/react-popover의
+     Popover.Positioner 안 내용 (Popover.Content로 감싸기)
+   - 하드코딩한 CSS 클래스(.seed-action-chip 등)와 CSS 변수도 문자열로 검색해줘.
+   snippet을 다시 설치할 때는 커스터마이즈를 잃지 않도록
+   `npx @seed-design/cli@latest add --on-diff backup ui:<id>`를 사용해줘.
+
+4. 디자인 변경과 동작 변화는 수정하지 말고 목록만 만들어줘
+   - $color.bg.neutral-solid (--seed-color-bg-neutral-solid,
+     Tailwind bg-bg-neutral-solid 등)를 직접 쓰는 곳
+   - 긴 라벨이 들어가는 Badge
+   - deprecated 토큰 neutral-inverted 사용처 (대체 토큰 제안 포함)
+   - HelpBubble의 포커스·닫힘에 의존하는 코드
+   각 항목에 파일 위치와 확인할 내용을 적어줘.
+
+5. 검증
+   - 타입 검사와 빌드를 실행하고 실패를 해결해줘.
+   - `npx @seed-design/cli@latest compat`으로 snippet 호환성을 확인해줘.
+
+6. 결과 보고
+   - 바꾼 파일과 항목, 실행한 검증 결과, 4번의 확인 필요 목록,
+     해결하지 못한 문제를 정리해줘.
+```
+
 ---
 
 <Steps>
