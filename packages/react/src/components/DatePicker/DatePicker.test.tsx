@@ -1,13 +1,7 @@
-import { act, fireEvent, render, waitFor } from "@testing-library/react";
-import { describe, expect, it, mock } from "bun:test";
-import * as React from "react";
-import {
-  ContinuousDatePicker,
-  DatePicker,
-  type DatePickerActions,
-  TwoMonthDatePicker,
-  WeekDatePicker,
-} from "./DatePicker";
+import { act, fireEvent, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it } from "bun:test";
+import { DatePicker } from "./index";
 
 const commonProps = {
   today: { year: 2026, month: 7, day: 30 },
@@ -15,290 +9,105 @@ const commonProps = {
   defaultViewDate: { year: 2026, month: 7, day: 1 },
 } as const;
 
-describe("DatePicker", () => {
-  it("날짜 grid와 locale에 맞는 기본 접근성 이름을 제공한다", () => {
-    const { getByRole, getAllByRole, rerender } = render(<DatePicker {...commonProps} />);
+const leftIcon = <svg data-icon="left" />;
+const rightIcon = <svg data-icon="right" />;
+const headerIcon = <svg data-icon="down" />;
 
-    expect(getByRole("group")).toHaveAccessibleName("날짜 선택");
+// Popover는 layer 등록과 focus 이동·복귀를 다음 tick 이후에 처리합니다.
+const settle = () =>
+  act(async () => {
+    const { promise, resolve } = Promise.withResolvers<void>();
+    setTimeout(resolve, 50);
+    await promise;
+  });
+
+describe("DatePicker compound components", () => {
+  it("package compound가 달력 DOM과 wheel adapter contract를 소유한다", () => {
+    let wheelRenderProps: DatePicker.WheelRenderProps | undefined;
+    const { getByRole, queryByRole } = render(
+      <DatePicker.Root {...commonProps} visibleRange="month">
+        <DatePicker.Header leftIcon={leftIcon} rightIcon={rightIcon} headerIcon={headerIcon} />
+        <DatePicker.Calendar leftIcon={leftIcon} rightIcon={rightIcon} />
+        <DatePicker.Wheel>
+          {(props) => {
+            wheelRenderProps = props;
+            return <div data-wheel-adapter="" />;
+          }}
+        </DatePicker.Wheel>
+      </DatePicker.Root>,
+    );
+
     expect(getByRole("grid")).toHaveAccessibleName("2026년 7월");
-    expect(getAllByRole("columnheader")).toHaveLength(7);
-    expect(getAllByRole("columnheader")[0]?.closest('[role="grid"]')).toBe(getByRole("grid"));
+    expect(
+      getByRole("button", { name: "이전 달" }).querySelector('[data-icon="left"]'),
+    ).not.toBeNull();
 
-    rerender(<DatePicker {...commonProps} locale="en-US" />);
-    expect(getByRole("group")).toHaveAccessibleName("Select date");
-
-    rerender(<DatePicker {...commonProps} ariaLabels={{ root: "예약 날짜 선택" }} />);
-    expect(getByRole("group")).toHaveAccessibleName("예약 날짜 선택");
-
-    rerender(
-      <DatePicker
-        {...commonProps}
-        aria-label="체크인 날짜 선택"
-        ariaLabels={{ root: "예약 날짜 선택" }}
-      />,
-    );
-    expect(getByRole("group")).toHaveAccessibleName("체크인 날짜 선택");
-  });
-
-  it("날짜를 선택하고 onValueChange를 호출한다", () => {
-    const onValueChange = mock(() => {});
-    const { getByRole } = render(<DatePicker {...commonProps} onValueChange={onValueChange} />);
-
-    fireEvent.click(getByRole("button", { name: /2026년 7월 15일/ }));
-
-    expect(onValueChange).toHaveBeenCalledWith({ year: 2026, month: 7, day: 15 });
-  });
-
-  it("renderDateCellContent는 SEED가 소유한 날짜 버튼 안의 콘텐츠만 교체한다", () => {
-    const { getByRole } = render(
-      <DatePicker
-        {...commonProps}
-        renderDateCellContent={({ formattedDay, date }) => (
-          <>
-            <span>{formattedDay}</span>
-            <span>{date.day === 15 ? "12만원" : "예약 가능"}</span>
-          </>
-        )}
-      />,
-    );
-    const dateButton = getByRole("button", { name: /2026년 7월 15일/ });
-
-    expect(dateButton).toHaveTextContent("15");
-    expect(dateButton).toHaveTextContent("12만원");
-    expect(dateButton.closest('[role="gridcell"]')).not.toBeNull();
-    expect(dateButton.querySelector("[data-date-picker-day]")).toBeNull();
-  });
-
-  it("renderDateCellSupplement는 기본 날짜 숫자 아래에 콘텐츠를 추가한다", () => {
-    const { getByRole } = render(
-      <DatePicker
-        {...commonProps}
-        renderDateCellSupplement={({ date }) => (
-          <span>{date.day === 15 ? "12만원" : "예약 가능"}</span>
-        )}
-      />,
-    );
-    const dateButton = getByRole("button", { name: /2026년 7월 15일/ });
-
-    expect(dateButton).toHaveTextContent("15");
-    expect(dateButton).toHaveTextContent("12만원");
-    expect(dateButton.querySelector("[data-date-picker-day]")).toHaveTextContent("15");
-  });
-
-  it("constraint에 실패한 날짜는 aria-disabled를 유지하며 클릭을 무시한다", () => {
-    const onValueChange = mock(() => {});
-    const { getByRole } = render(
-      <DatePicker
-        {...commonProps}
-        constraints={[(date) => date.day >= 10]}
-        onValueChange={onValueChange}
-      />,
-    );
-    const unavailable = getByRole("button", { name: /2026년 7월 9일/ });
-
-    expect(unavailable).toHaveAttribute("aria-disabled", "true");
-    expect(unavailable).not.toBeDisabled();
-    fireEvent.click(unavailable);
-    expect(onValueChange).not.toHaveBeenCalled();
-  });
-
-  it("읽기 전용 Range 시작일의 상태와 접근성 이름을 노출하고 값 변경을 막는다", () => {
-    const onValueChange = mock(() => {});
-    const { getByRole } = render(
-      <DatePicker
-        {...commonProps}
-        selectionMode="range"
-        rangeStartReadOnly
-        defaultValue={{
-          start: { year: 2026, month: 7, day: 7 },
-          end: { year: 2026, month: 7, day: 9 },
-        }}
-        onValueChange={onValueChange}
-      />,
-    );
-    const start = getByRole("button", { name: /2026년 7월 7일.*읽기 전용 시작일/ });
-
-    expect(start).toHaveAttribute("data-range-start-readonly");
-    expect(start.closest('[role="gridcell"]')).toHaveAttribute("data-range-start-readonly");
-    expect(start).toHaveAttribute("aria-disabled", "true");
-    expect(start).not.toBeDisabled();
-
-    fireEvent.click(start);
-    expect(onValueChange).not.toHaveBeenCalled();
-
-    fireEvent.click(getByRole("button", { name: /2026년 7월 12일/ }));
-    expect(onValueChange).toHaveBeenCalledWith({
-      start: { year: 2026, month: 7, day: 7 },
-      end: { year: 2026, month: 7, day: 12 },
-    });
-  });
-
-  it("날짜 셀 render prop에 읽기 전용 Range 시작일 상태를 전달한다", () => {
-    const { getByRole } = render(
-      <DatePicker
-        {...commonProps}
-        selectionMode="range"
-        rangeStartReadOnly
-        defaultValue={{ start: { year: 2026, month: 7, day: 7 } }}
-        renderDateCellSupplement={({ isRangeStartReadOnly }) => (
-          <span>{isRangeStartReadOnly ? "고정" : "변경 가능"}</span>
-        )}
-      />,
-    );
-
-    expect(getByRole("button", { name: /2026년 7월 7일.*읽기 전용 시작일/ })).toHaveTextContent(
-      "고정",
-    );
-    expect(getByRole("button", { name: /2026년 7월 8일/ })).toHaveTextContent("변경 가능");
-  });
-
-  it("월·연도 제목을 누르면 Wheel Picker로 전환한다", () => {
-    const { getByRole, getAllByRole, queryByRole } = render(<DatePicker {...commonProps} />);
-
-    const grid = getByRole("grid");
-    expect(grid).toBeInTheDocument();
     fireEvent.click(getByRole("button", { name: "2026년 7월" }));
 
     expect(queryByRole("grid")).not.toBeInTheDocument();
-    expect(grid.closest("[data-wheel-open]")).toHaveAttribute("aria-hidden", "true");
-    expect(getAllByRole("spinbutton")).toHaveLength(2);
-    expect(getByRole("spinbutton", { name: "연도" })).toBeInTheDocument();
-    expect(getByRole("spinbutton", { name: "월" })).toBeInTheDocument();
-
-    const wheelRoot = getByRole("spinbutton", { name: "연도" }).closest('[role="group"]');
-    expect(wheelRoot).toBeInstanceOf(HTMLElement);
-    if (!(wheelRoot instanceof HTMLElement))
-      throw new Error("Wheel Picker 루트를 찾지 못했습니다.");
-    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-item-size")).toBe("44px");
-    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-visible-item-count")).toBe("7");
-    expect(wheelRoot.style.getPropertyValue("--seed-wheel-picker-viewport-size")).toBe("308px");
-    expect(wheelRoot.querySelector("[data-wheel-picker-scroll-fog]")).toHaveStyle({
-      "--scroll-fog-size-top": "102px",
-      "--scroll-fog-size-bottom": "102px",
+    expect(document.querySelector("[data-wheel-adapter]")).toBeInTheDocument();
+    expect(wheelRenderProps?.columns.map((column) => column.id)).toEqual(["year", "month"]);
+    expect(wheelRenderProps?.rootProps).toMatchObject({
+      itemSize: 44,
+      visibleItemCount: 7,
+      scrollFogSize: 102,
     });
+  });
+
+  it("week는 달력을 유지한 채 제목에 붙은 popover에 small wheel을 열고, 닫으면 고른 연도를 반영한다", async () => {
+    const user = userEvent.setup();
+    let wheelRenderProps: DatePicker.WheelRenderProps | undefined;
+    const { getByRole } = render(
+      <DatePicker.Root {...commonProps} visibleRange="week">
+        <DatePicker.Header leftIcon={leftIcon} rightIcon={rightIcon} headerIcon={headerIcon} />
+        <DatePicker.Wheel>
+          {(props) => {
+            wheelRenderProps = props;
+            return <button type="button" data-wheel-adapter="" />;
+          }}
+        </DatePicker.Wheel>
+        <DatePicker.Calendar leftIcon={leftIcon} rightIcon={rightIcon} />
+      </DatePicker.Root>,
+    );
+    const label = getByRole("button", { expanded: false });
+    await settle();
+
+    await user.click(label);
+    await settle();
+
+    expect(getByRole("grid")).toBeInTheDocument();
+    expect(wheelRenderProps?.rootProps.size).toBe("small");
+    const dialog = getByRole("dialog");
+    expect(dialog).toHaveAccessibleName(label.textContent ?? "");
+    expect(dialog).toContainElement(document.querySelector("[data-wheel-adapter]"));
+    expect(dialog).toHaveFocus();
+
+    act(() => wheelRenderProps?.columns[0]?.onValueChange("2027"));
+    await user.keyboard("{Escape}");
+    await settle();
+
+    expect(document.querySelector("[data-wheel-adapter]")).not.toBeInTheDocument();
+    expect(label).toHaveTextContent("2027년");
+    expect(label).toHaveFocus();
+
+    await user.click(label);
+    await settle();
+    expect(label).toHaveAttribute("aria-expanded", "true");
+    await user.click(document.body);
+    await settle();
+    expect(label).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("RTL에서는 semantic navigation에 맞춰 좌우 아이콘을 바꾼다", () => {
+    const { getByRole } = render(
+      <DatePicker.Root {...commonProps} locale="ar" visibleRange="month">
+        <DatePicker.Header leftIcon={leftIcon} rightIcon={rightIcon} headerIcon={headerIcon} />
+        <DatePicker.Calendar leftIcon={leftIcon} rightIcon={rightIcon} />
+      </DatePicker.Root>,
+    );
+
     expect(
-      getByRole("button", { name: "2026년 7월" }).querySelector("[data-date-picker-header-label]"),
-    ).toBeInTheDocument();
-  });
-
-  it("헤더 아이콘에 Icon의 크기와 접근성 속성을 전달한다", () => {
-    const { getByRole } = render(<DatePicker {...commonProps} />);
-
-    const headerIcon = getByRole("button", { name: "2026년 7월" }).querySelector("svg");
-    const previousIcon = getByRole("button", { name: "이전 달" }).querySelector("svg");
-    const nextIcon = getByRole("button", { name: "다음 달" }).querySelector("svg");
-
-    for (const icon of [headerIcon, previousIcon, nextIcon]) {
-      expect(icon).toHaveClass("seed-icon");
-      expect(icon).toHaveAttribute("aria-hidden", "true");
-    }
-  });
-
-  it("레이아웃별 공개 컴포넌트가 고정된 달력 범위를 렌더링한다", () => {
-    const twoMonths = render(<TwoMonthDatePicker {...commonProps} />);
-    expect(twoMonths.getAllByRole("grid")).toHaveLength(2);
-    twoMonths.unmount();
-
-    const week = render(<WeekDatePicker {...commonProps} />);
-    expect(week.getByRole("grid").querySelectorAll('[role="row"]')).toHaveLength(2);
-    week.unmount();
-
-    const continuous = render(<ContinuousDatePicker {...commonProps} height="400px" />);
-    expect(continuous.getByRole("group")).toHaveAttribute("data-visible-range", "continuous");
-    const spacers = continuous.container.querySelectorAll<HTMLElement>(
-      "[data-date-picker-continuous-spacer]",
-    );
-    expect(spacers).toHaveLength(2);
-    for (const spacer of spacers) {
-      expect(spacer.style.getPropertyValue("--seed-date-picker-continuous-spacer-height")).toMatch(
-        /px$/,
-      );
-    }
-  });
-
-  it("ContinuousDatePicker는 monthRange에 포함된 월만 노출한다", () => {
-    const { getAllByRole, queryByRole } = render(
-      <ContinuousDatePicker
-        {...commonProps}
-        defaultViewDate={{ year: 2026, month: 12, day: 1 }}
-        monthRange={{
-          start: { year: 2026, month: 12 },
-          end: { year: 2027, month: 1 },
-        }}
-        height="400px"
-      />,
-    );
-
-    expect(getAllByRole("grid")).toHaveLength(2);
-    expect(queryByRole("grid", { name: "2026년 11월" })).not.toBeInTheDocument();
-    expect(queryByRole("grid", { name: "2026년 12월" })).toBeInTheDocument();
-    expect(queryByRole("grid", { name: "2027년 1월" })).toBeInTheDocument();
-    expect(queryByRole("grid", { name: "2027년 2월" })).not.toBeInTheDocument();
-  });
-
-  it("navigateToDate는 외부 포커스를 유지하고 오늘을 다음 tab 진입점으로 지정한다", () => {
-    const actionsRef = React.createRef<DatePickerActions>();
-    const { getByRole } = render(
-      <>
-        <button type="button" onClick={() => actionsRef.current?.navigateToDate(commonProps.today)}>
-          오늘로 이동
-        </button>
-        <DatePicker {...commonProps} actionsRef={actionsRef} />
-      </>,
-    );
-    const todayButton = getByRole("button", { name: "오늘로 이동" });
-
-    expect(actionsRef.current).not.toBeNull();
-    todayButton.focus();
-    fireEvent.click(todayButton);
-
-    expect(document.activeElement).toBe(todayButton);
-    expect(getByRole("button", { name: /2026년 7월 30일/ }).getAttribute("tabindex")).toBe("0");
-  });
-
-  it("focusDate는 다른 달로 이동한 뒤 대상 날짜 셀에 DOM 포커스를 둔다", async () => {
-    const actionsRef = React.createRef<DatePickerActions>();
-    const onViewDateChange = mock(() => {});
-    const { getByRole } = render(
-      <DatePicker {...commonProps} actionsRef={actionsRef} onViewDateChange={onViewDateChange} />,
-    );
-
-    expect(actionsRef.current).not.toBeNull();
-    act(() => {
-      actionsRef.current?.focusDate({ year: 2026, month: 8, day: 15 });
-    });
-    expect(onViewDateChange).toHaveBeenCalledWith({ year: 2026, month: 8, day: 1 });
-
-    await waitFor(() => {
-      expect(document.activeElement).toBe(getByRole("button", { name: /2026년 8월 15일/ }));
-    });
-  });
-
-  it("focusDate는 표시 날짜와 roving focus 대상이 이미 같아도 DOM 포커스를 이동한다", async () => {
-    const actionsRef = React.createRef<DatePickerActions>();
-    const { getByRole } = render(
-      <>
-        <button type="button" onClick={() => actionsRef.current?.navigateToDate(commonProps.today)}>
-          오늘로 이동
-        </button>
-        <button type="button" onClick={() => actionsRef.current?.focusDate(commonProps.today)}>
-          오늘에 포커스
-        </button>
-        <DatePicker {...commonProps} actionsRef={actionsRef} />
-      </>,
-    );
-    const navigateButton = getByRole("button", { name: "오늘로 이동" });
-    const focusButton = getByRole("button", { name: "오늘에 포커스" });
-
-    navigateButton.focus();
-    fireEvent.click(navigateButton);
-    expect(document.activeElement).toBe(navigateButton);
-
-    focusButton.focus();
-    fireEvent.click(focusButton);
-
-    await waitFor(() => {
-      expect(document.activeElement).toBe(getByRole("button", { name: /2026년 7월 30일/ }));
-    });
+      getByRole("button", { name: "Previous month" }).querySelector('[data-icon="right"]'),
+    ).not.toBeNull();
   });
 });

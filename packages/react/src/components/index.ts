@@ -72,7 +72,6 @@ export * from "./Tabs";
 export * from "./TagGroup";
 export * from "./Text";
 export * from "./TextField";
-export * from "./TimePicker";
 export * from "./ToggleButton";
 export * from "./VisuallyHidden";
 export * from "./WheelPicker";

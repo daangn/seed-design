@@ -98,16 +98,18 @@ data:
         properties:
           height:
             type: dimension
+      wheelPopover:
+        properties:
+          width:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          shadow:
+            type: shadow
       wheelItem:
         properties:
-          paddingX:
-            type: dimension
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-          fontWeight:
-            type: number
           color:
             type: color
   definitions:
@@ -160,11 +162,12 @@ data:
         wheelContainer:
           # 44px × 7개 항목(308px)을 중앙 정렬하고 위아래 14px 여백을 둡니다.
           height: 336px
+        wheelPopover:
+          width: 240px
+          cornerRadius: $radius.r3
+          color: $color.bg.layer-floating
+          shadow: $shadow.s3
         wheelItem:
-          paddingX: $dimension.x4
-          fontSize: $font-size.t10-static
-          lineHeight: $line-height.t10-static
-          fontWeight: $font-weight.medium
           color: $color.fg.disabled
       pressed:
         dateVisual:

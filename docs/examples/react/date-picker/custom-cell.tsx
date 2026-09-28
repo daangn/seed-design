@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, DatePicker, Text } from "@seed-design/react";
+import { Box, Text } from "@seed-design/react";
+import { DatePicker } from "seed-design/ui/date-picker";
 
 const prices = new Map([
   [10, "12만원"],

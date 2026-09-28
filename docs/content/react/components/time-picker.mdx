@@ -18,13 +18,24 @@ featured: true
 ## Installation
 
 ```package-install
-@seed-design/react @seed-design/css
+npx @seed-design/cli@latest add ui:time-picker
 ```
+
+<ManualInstallation name="time-picker" />
+
+Snippet은 Time Picker 컴포넌트와 컴포넌트 전용 props만 제공합니다. `TimePickerValue`, `MinuteStep`처럼 UI 구현과 독립적인 타입은 `@seed-design/react-time-picker`에서 가져오세요.
+
+```tsx
+import type { TimePickerValue } from "@seed-design/react-time-picker";
+import { TimePicker } from "seed-design/ui/time-picker";
+```
+
+Wheel Picker는 `ui:time-picker`의 Registry 의존성으로 함께 설치됩니다.
 
 ## Props
 
 <react-type-table
-  path="../packages/react/src/components/TimePicker/TimePicker.tsx"
+  path="./registry/react/ui/time-picker.tsx"
   name="TimePickerProps"
 />
 
@@ -35,7 +46,7 @@ featured: true
 `TimePicker`는 휠 형태의 시간 선택 UI만 제공합니다. Trigger, Bottom Sheet, 확인·취소 버튼과 폼 직렬화는 사용하는 화면에서 구성합니다.
 
 ```tsx
-import { TimePicker } from "@seed-design/react";
+import { TimePicker } from "seed-design/ui/time-picker";
 
 <TimePicker defaultValue={{ hour: 10, minute: 30 }} />
 ```

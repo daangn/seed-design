@@ -387,6 +387,30 @@
     {
       "snippets": [
         {
+          "path": "date-picker.tsx",
+          "dependencies": {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "date-picker",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "wheel-picker"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "dialog.tsx",
           "dependencies": {
             "@seed-design/react": "^2.1.0",
@@ -1095,6 +1119,32 @@
     {
       "snippets": [
         {
+          "path": "time-picker.tsx",
+          "dependencies": {
+            "@seed-design/css": "^3.0.0",
+            "@seed-design/react-time-picker": "^1.0.0",
+            "clsx": "^2.1.1"
+          }
+        }
+      ],
+      "id": "time-picker",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react-time-picker",
+        "clsx"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "wheel-picker"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "toggle-button.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0",
@@ -1120,8 +1170,8 @@
         {
           "path": "wheel-picker.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.4.0",
-            "@seed-design/css": "^2.6.0"
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0"
           }
         }
       ],

@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  Box,
-  DatePicker,
-  Text,
-  VStack,
-  type DatePickerDate,
-  type DatePickerRangeValue,
-} from "@seed-design/react";
+import { Box, Text, VStack } from "@seed-design/react";
+import type { DatePickerDate, DatePickerRangeValue } from "@seed-design/react-date-picker";
+import { DatePicker } from "seed-design/ui/date-picker";
 import * as React from "react";
 
 const today = { year: 2026, month: 7, day: 30 };

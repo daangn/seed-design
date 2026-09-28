@@ -1,13 +1,12 @@
 "use client";
 
+import { Box, VStack } from "@seed-design/react";
 import {
-  Box,
   ContinuousDatePicker,
   DatePicker,
   TwoMonthDatePicker,
-  VStack,
   WeekDatePicker,
-} from "@seed-design/react";
+} from "seed-design/ui/date-picker";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import * as React from "react";
 
