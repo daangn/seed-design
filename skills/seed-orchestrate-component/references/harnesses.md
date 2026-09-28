@@ -74,6 +74,7 @@ OMP에는 standalone lowercase `orchestrate` magic keyword가 있다. 사용자 
 
 ## Claude Code
 
+- 루트 [`CLAUDE.md`](../../../CLAUDE.md)는 `AGENTS.md`를 import하는 호환 진입점이다. 하위 경로의 규칙과 `.agents/learnings/AGENTS.md`는 루트의 시작 절차에 따라 명시적으로 읽고, 관련 교훈은 [위임 절차](collaboration.md#학습-기록-인계)로 전달한다. `.agents/` 내부 문서가 자동 주입된다고 가정하지 않는다.
 - 일반 subagent와 Agent Teams를 구분한다. 현재 도구가 이름 있는 subagent와 `SendMessage`를 지원하면 Teams 없이도 관련 담당에게 메시지를 보낼 수 있다.
 - Agent Teams가 이미 켜져 있고 현재 실행 모드에서 지원되면 teammate 간 메시징을 쓴다. Teams를 쓰려고 실험 설정을 임의로 켜지 않는다 → 사용자에게 묻거나 일반 subagent·부모 중계로 진행한다.
 - 이름을 지정한 호출이 일반 subagent인지 teammate인지 실제 실행 결과로 확인한다. 등록된 역할 이름과 생성된 담당 ID를 혼동하지 않는다.
@@ -81,4 +82,4 @@ OMP에는 standalone lowercase `orchestrate` magic keyword가 있다. 사용자 
 - 수신자가 유효한지 확인한다. 재개 뒤 이전 teammate가 없으면 조율자가 보존한 범위·계약·증거로 필요한 담당만 다시 배정한다. 과거 이름만으로 메시지 전달이나 재개가 성공했다고 보고하지 않는다.
 - 자동 작업 상태나 계획 승인 알림을 사용자 결과의 수용·검증 증거로 쓰지 않는다. 전체 완료 판정은 [협업 절차](collaboration.md#6-변경과-완료-판정)를 따른다.
 
-공식 근거: [Subagents](https://code.claude.com/docs/en/sub-agents), [Agent Teams](https://code.claude.com/docs/en/agent-teams). Teams의 interactive 실행 조건과 재개 제한은 쓸 때 현재 문서·도구에서 확인한다. 지원되지 않는 모드에서는 일반 subagent 또는 부모 중계를 쓴다.
+공식 근거: [프로젝트 지침과 import](https://code.claude.com/docs/en/memory#share-one-file-with-other-coding-tools), [Subagents](https://code.claude.com/docs/en/sub-agents), [Agent Teams](https://code.claude.com/docs/en/agent-teams). Teams의 interactive 실행 조건과 재개 제한은 쓸 때 현재 문서·도구에서 확인한다. 지원되지 않는 모드에서는 일반 subagent 또는 부모 중계를 쓴다.
