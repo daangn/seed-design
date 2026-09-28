@@ -63,6 +63,13 @@ function assertCliRuntimes(steps: Step[]) {
 }
 
 describe("Kapture consumer workflows", () => {
+  test("metadata edits cannot cancel capture or start a report without artifacts", () => {
+    expect(workflows.capture.on.pull_request.types).toEqual(["opened", "synchronize", "reopened"]);
+    expect(workflows.capture.jobs.context.if).toBe(
+      "github.event.pull_request.head.repo.full_name == github.repository",
+    );
+    expect(workflows.capture.concurrency["cancel-in-progress"]).toBe(true);
+  });
   test("prepares Bun and an explicit Node runtime before every CLI call", () => {
     let checked = 0;
     for (const workflow of Object.values(workflows)) {
@@ -283,9 +290,6 @@ describe("Kapture consumer workflows", () => {
       expect(workflow.on.schedule).toBeUndefined();
       expect(workflow.on.pull_request_target).toBeUndefined();
     }
-    expect(new Set(workflows.capture.on.pull_request.types)).toEqual(
-      new Set(["opened", "synchronize", "reopened", "edited"]),
-    );
   });
 
   test("checks final Pages output before deployment without checkout", () => {

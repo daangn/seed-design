@@ -9,7 +9,6 @@ on:
       - opened
       - synchronize
       - reopened
-      - edited
     paths:
       - docs/registry/react/**
       - docs/stories/**
@@ -29,7 +28,7 @@ permissions:
   contents: read
   pull-requests: read
 env:
-  KAPTURE_CLI_VERSION: "0.11.0"
+  KAPTURE_CLI_VERSION: "0.11.1"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
   KAPTURE_CACHE_RETENTION_DAYS: "7"
@@ -56,7 +55,7 @@ jobs:
       - run: bun install --frozen-lockfile --ignore-scripts
       - run: bun test scripts/kapture-workflows.test.ts
   context:
-    if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.action != 'edited' || github.event.changes.base)
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
