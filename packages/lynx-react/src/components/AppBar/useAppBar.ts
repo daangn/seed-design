@@ -16,7 +16,7 @@ type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type AppBarStyleObject = Record<string, string | number>;
 
 // Mirrors the recipe's `dimension.x4` as a literal: Lynx drops an inline `calc()` that contains `var()`.
-const ROOT_PADDING_X = "16px";
+const ROOT_PADDING_X = 16;
 
 function getDefaultAppBarTheme(): AppBarTheme {
   const globalSystemInfo = (globalThis as typeof globalThis & { SystemInfo?: LynxSystemInfo })
@@ -37,16 +37,17 @@ export function getLayoutWidth(event: Parameters<LayoutChangeHandler>[0]): numbe
   return Math.max(0, nextWidth);
 }
 
+// The left/right areas sit inside the root padding, so the title clears that padding plus the wider area.
 function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string {
-  return `${Math.max(leftWidth, rightWidth)}px`;
+  return `${ROOT_PADDING_X + Math.max(leftWidth, rightWidth)}px`;
 }
 
 function getRootLayoutStyle(safeArea: UseSafeAreaReturn): AppBarStyleObject {
   return {
     height: `calc(${topNavigationVars.base.enabled.root.height} + ${safeArea.safeAreaInsetTop})`,
     paddingTop: safeArea.safeAreaInsetTop,
-    paddingLeft: `calc(${ROOT_PADDING_X} + ${safeArea.safeAreaInsetLeft})`,
-    paddingRight: `calc(${ROOT_PADDING_X} + ${safeArea.safeAreaInsetRight})`,
+    paddingLeft: `calc(${ROOT_PADDING_X}px + ${safeArea.safeAreaInsetLeft})`,
+    paddingRight: `calc(${ROOT_PADDING_X}px + ${safeArea.safeAreaInsetRight})`,
   };
 }
 

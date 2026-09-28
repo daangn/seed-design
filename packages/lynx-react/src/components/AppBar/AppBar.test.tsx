@@ -285,8 +285,8 @@ describe("AppBar", () => {
 
     await waitFor(() => {
       expect(main).toHaveStyle({
-        paddingLeft: "calc(59px + 72px)",
-        paddingRight: "calc(0px + 72px)",
+        paddingLeft: "calc(59px + 88px)",
+        paddingRight: "calc(0px + 88px)",
       });
     });
   });
