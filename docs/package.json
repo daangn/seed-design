@@ -129,6 +129,7 @@
     "@lynx-js/types": "4.1.0",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react-accordion": "workspace:*",
+    "@seed-design/lynx-react-action-button": "workspace:*",
     "@seed-design/react-wheel-picker": "workspace:*",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@storybook/nextjs-vite": "10.5.6",
