@@ -4,11 +4,7 @@ import { timePicker } from "@seed-design/css/recipes/time-picker";
 import { useTimePicker, type UseTimePickerProps } from "@seed-design/react-time-picker";
 import clsx from "clsx";
 import * as React from "react";
-import {
-  InternalWheelPickerColumn,
-  InternalWheelPickerRoot,
-  type InternalWheelPickerRootProps,
-} from "../private/WheelPicker";
+import { WheelPicker, type WheelPickerColumn, type WheelPickerProps } from "./wheel-picker";
 
 const ITEM_SIZE = 44;
 const VISIBLE_ITEM_COUNT = 5;
@@ -53,16 +49,13 @@ const columnClassNames = {
 export interface TimePickerProps
   extends UseTimePickerProps,
     Omit<
-      InternalWheelPickerRootProps,
+      WheelPickerProps,
       | keyof UseTimePickerProps
-      | "asChild"
-      | "children"
-      | "columnsClassName"
-      | "fogSize"
+      | "columns"
       | "itemSize"
       | "readOnly"
-      | "scrollFogClassName"
-      | "selectionIndicatorClassName"
+      | "scrollFogSize"
+      | "size"
       | "visibleItemCount"
     > {
   /**
@@ -123,41 +116,35 @@ export const TimePicker = React.forwardRef<HTMLDivElement, TimePickerProps>(
       minute: minuteAriaLabel ?? defaultAriaLabels.minute,
     };
 
+    const columns: readonly WheelPickerColumn[] = api.columnOrder.map((type) => {
+      const column = api.columns[type];
+
+      return {
+        id: type,
+        "aria-label": ariaLabels[type],
+        className: columnClassNames[type],
+        options: column.options,
+        value: column.value,
+        onValueChange: column.onValueChange,
+        loop: column.loop,
+        valueChangeBehavior: type === "period" ? "smooth" : "auto",
+        renderLabel: (option) => <div className={classNames.item}>{option.label}</div>,
+      };
+    });
+
     return (
-      <InternalWheelPickerRoot
+      <WheelPicker
         ref={ref}
+        columns={columns}
         itemSize={ITEM_SIZE}
         visibleItemCount={VISIBLE_ITEM_COUNT}
         disabled={disabled}
         aria-label={ariaLabelledby ? ariaLabel : (ariaLabel ?? defaultAriaLabels.root)}
         aria-labelledby={ariaLabelledby}
         className={clsx(classNames.root, className)}
-        columnsClassName={classNames.columns}
-        scrollFogClassName={classNames.scrollFog}
-        selectionIndicatorClassName={classNames.selectionIndicator}
         {...props}
-      >
-        {api.columnOrder.map((type) => {
-          const column = api.columns[type];
-
-          return (
-            <InternalWheelPickerColumn
-              key={type}
-              aria-label={ariaLabels[type]}
-              className={columnClassNames[type]}
-              itemClassName={classNames.item}
-              options={column.options}
-              value={column.value}
-              onValueChange={column.onValueChange}
-              loop={column.loop}
-              valueChangeBehavior={type === "period" ? "smooth" : "auto"}
-            />
-          );
-        })}
-      </InternalWheelPickerRoot>
+      />
     );
   },
 );
 TimePicker.displayName = "TimePicker";
-
-export type { MinuteStep, TimePickerValue } from "@seed-design/react-time-picker";

@@ -1,4 +1,5 @@
-import { Box, TimePicker } from "@seed-design/react";
+import { Box } from "@seed-design/react";
+import { TimePicker } from "seed-design/ui/time-picker";
 
 export default function TimePickerLocalization() {
   return (
