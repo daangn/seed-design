@@ -28,6 +28,7 @@ import {
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
 import { MannerTempPage } from "./pages/MannerTempPage.jsx";
+import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
@@ -76,6 +77,7 @@ export type Page =
   | "layout-stress-style"
   | "layout-stress-seed-primitives"
   | "safe-area-debug"
+  | "margin-bleed-test"
   | "css-selector-test"
   | "icon-color-poc"
   | "use-controllable-state"
@@ -195,6 +197,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "layout-stress-style" && <LayoutStressStylePage />}
       {page === "layout-stress-seed-primitives" && <LayoutStressSeedPrimitivesPage />}
       {page === "safe-area-debug" && <SafeAreaDebugPage />}
+      {page === "margin-bleed-test" && <MarginBleedTestPage />}
       {page === "css-selector-test" && <CSSSelectorTestPage />}
       {page === "icon-color-poc" && <IconColorPOCPage />}
       {page === "use-controllable-state" && <UseControllableStatePage />}
