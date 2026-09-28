@@ -241,16 +241,131 @@ export interface StyleProps {
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 }
 
-interface UseStyleProps extends StyleProps {
-  style?: CSSProperties;
+type MarginValue =
+  | Dimension
+  | `spacingX.${SpacingX}`
+  | `spacingY.${SpacingY}`
+  | 0
+  | "auto"
+  | (string & {});
+
+type BleedValue = Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+interface MarginStyleProps {
+  margin?: MarginValue;
+  /**
+   * Shorthand for `margin`.
+   */
+  m?: MarginValue;
+  marginX?: MarginValue;
+  /**
+   * Shorthand for `marginX`.
+   */
+  mx?: MarginValue;
+  marginY?: MarginValue;
+  /**
+   * Shorthand for `marginY`.
+   */
+  my?: MarginValue;
+  marginTop?: MarginValue;
+  /**
+   * Shorthand for `marginTop`.
+   */
+  mt?: MarginValue;
+  marginRight?: MarginValue;
+  /**
+   * Shorthand for `marginRight`.
+   */
+  mr?: MarginValue;
+  marginBottom?: MarginValue;
+  /**
+   * Shorthand for `marginBottom`.
+   */
+  mb?: MarginValue;
+  marginLeft?: MarginValue;
+  /**
+   * Shorthand for `marginLeft`.
+   */
+  ml?: MarginValue;
 }
 
-export function useStyleProps<T extends UseStyleProps>(
+interface BleedStyleProps {
+  /**
+   * Negative margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleed?: BleedValue;
+  /**
+   * Negative horizontal margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedX?: BleedValue;
+  /**
+   * Negative vertical margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedY?: BleedValue;
+  /**
+   * Negative top margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedTop?: BleedValue;
+  /**
+   * Negative right margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedRight?: BleedValue;
+  /**
+   * Negative bottom margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedBottom?: BleedValue;
+  /**
+   * Negative left margin to extend the element outside its parent.
+   *
+   * Cannot be combined with any `margin*` prop.
+   */
+  bleedLeft?: BleedValue;
+}
+
+/**
+ * Margin and bleed props both resolve to `margin-*` values, so they are mutually exclusive at
+ * the type level.
+ */
+export type MarginBleedStyleProps =
+  | (BleedStyleProps & { [K in keyof MarginStyleProps]?: never })
+  | (MarginStyleProps & { [K in keyof BleedStyleProps]?: never });
+
+type UseStyleProps = StyleProps &
+  MarginStyleProps &
+  BleedStyleProps & {
+    className?: string;
+    style?: CSSProperties;
+  };
+
+type BoxStyleValue = string | number | undefined;
+
+/**
+ * `--seed-box-<name>` 변수와 `seed-box-<name>` class 쌍으로 style prop을 전달합니다. 실제 CSS
+ * 속성은 `@seed-design/lynx-css`의 전역 `.seed-box.seed-box-<name>` 규칙이 적용합니다.
+ */
+export function resolveBoxStyleProps<T extends UseStyleProps>(
   props: T,
-): {
-  style: CSSProperties;
-  restProps: Omit<T, keyof UseStyleProps>;
-} {
+  options: {
+    safeAreaInsetTop: string;
+    safeAreaInsetBottom: string;
+    /**
+     * `gap`을 적용할 축입니다. 생략하면 두 축에 모두 적용합니다.
+     */
+    gapAxis?: "row" | "column";
+  },
+) {
   const {
     background,
     bg,
@@ -286,6 +401,27 @@ export function useStyleProps<T extends UseStyleProps>(
     pr,
     pb,
     pl,
+    margin,
+    m,
+    marginX,
+    mx,
+    marginY,
+    my,
+    marginTop,
+    mt,
+    marginRight,
+    mr,
+    marginBottom,
+    mb,
+    marginLeft,
+    ml,
+    bleed,
+    bleedX,
+    bleedY,
+    bleedTop,
+    bleedRight,
+    bleedBottom,
+    bleedLeft,
     bottom,
     left,
     right,
@@ -308,76 +444,91 @@ export function useStyleProps<T extends UseStyleProps>(
     style,
     ...restProps
   } = props;
-  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
+  const { safeAreaInsetTop, safeAreaInsetBottom, gapAxis } = options;
 
-  const backgroundValue = handleColor(background ?? bg);
-  const paddingValue = handleDimension(padding ?? p);
-  const paddingXValue = handleDimension(paddingX ?? px) ?? paddingValue;
-  const paddingYValue = handleDimension(paddingY ?? py) ?? paddingValue;
-  const paddingTopValue =
-    handlePaddingWithSafeArea(paddingTop ?? pt, safeAreaInsetTop) ?? paddingYValue;
-  const paddingRightValue = handleDimension(paddingRight ?? pr) ?? paddingXValue;
-  const paddingBottomValue =
-    handlePaddingWithSafeArea(paddingBottom ?? pb, safeAreaInsetBottom) ?? paddingYValue;
-  const paddingLeftValue = handleDimension(paddingLeft ?? pl) ?? paddingXValue;
-  const hasBorderStyle =
-    borderColor != null ||
-    borderWidth != null ||
-    borderTopWidth != null ||
-    borderRightWidth != null ||
-    borderBottomWidth != null ||
-    borderLeftWidth != null;
+  const entries: [name: string, value: BoxStyleValue][] = [
+    ["background", handleColor(background ?? bg)],
+    ["color", handleColor(color)],
+    ["border-color", handleColor(borderColor)],
+    ["border-width", handleBorderWidth(borderWidth)],
+    ["border-top-width", handleBorderWidth(borderTopWidth)],
+    ["border-right-width", handleBorderWidth(borderRightWidth)],
+    ["border-bottom-width", handleBorderWidth(borderBottomWidth)],
+    ["border-left-width", handleBorderWidth(borderLeftWidth)],
+    ["border-radius", handleRadius(borderRadius)],
+    ["border-top-left-radius", handleRadius(borderTopLeftRadius)],
+    ["border-top-right-radius", handleRadius(borderTopRightRadius)],
+    ["border-bottom-right-radius", handleRadius(borderBottomRightRadius)],
+    ["border-bottom-left-radius", handleRadius(borderBottomLeftRadius)],
+    ["width", handleDimension(width)],
+    ["min-width", handleDimension(minWidth)],
+    ["max-width", handleDimension(maxWidth)],
+    ["height", handleDimension(height)],
+    ["min-height", handleDimension(minHeight)],
+    ["max-height", handleDimension(maxHeight)],
+    ["top", handleDimension(top)],
+    ["right", handleDimension(right)],
+    ["bottom", handleDimension(bottom)],
+    ["left", handleDimension(left)],
+    ["padding", handleDimension(padding ?? p)],
+    ["padding-x", handleDimension(paddingX ?? px)],
+    ["padding-y", handleDimension(paddingY ?? py)],
+    ["padding-top", handlePaddingWithSafeArea(paddingTop ?? pt, safeAreaInsetTop)],
+    ["padding-right", handleDimension(paddingRight ?? pr)],
+    ["padding-bottom", handlePaddingWithSafeArea(paddingBottom ?? pb, safeAreaInsetBottom)],
+    ["padding-left", handleDimension(paddingLeft ?? pl)],
+    ["bleed", handleDimension(bleed)],
+    ["bleed-x", handleDimension(bleedX)],
+    ["bleed-y", handleDimension(bleedY)],
+    ["bleed-top", handleDimension(bleedTop)],
+    ["bleed-right", handleDimension(bleedRight)],
+    ["bleed-bottom", handleDimension(bleedBottom)],
+    ["bleed-left", handleDimension(bleedLeft)],
+    ["margin", handleDimension(margin ?? m)],
+    ["margin-x", handleDimension(marginX ?? mx)],
+    ["margin-y", handleDimension(marginY ?? my)],
+    ["margin-top", handleDimension(marginTop ?? mt)],
+    ["margin-right", handleDimension(marginRight ?? mr)],
+    ["margin-bottom", handleDimension(marginBottom ?? mb)],
+    ["margin-left", handleDimension(marginLeft ?? ml)],
+    ["display", handleDisplay(display)],
+    ["position", position],
+    ["overflow-x", overflowX],
+    ["overflow-y", overflowY],
+    ["z-index", zIndex],
+    ["flex-grow", resolveFlexValue(flexGrow)],
+    ["flex-shrink", resolveFlexValue(flexShrink)],
+    ["flex-direction", handleFlexDirection(flexDirection)],
+    ["flex-wrap", flexWrap === true ? "wrap" : flexWrap === false ? "nowrap" : flexWrap],
+    ["justify-content", handleJustifyContent(justifyContent)],
+    ["justify-self", justifySelf],
+    ["align-items", handleAlignItems(alignItems)],
+    ["align-content", handleAlignItems(alignContent)],
+    ["align-self", handleAlignItems(alignSelf)],
+    ["gap", handleDimension(gap)],
+  ];
+
+  const boxClassNames: string[] = [];
+  const boxStyle: Record<string, string> = {};
+
+  for (const [name, value] of entries) {
+    if (value == null) continue;
+
+    boxClassNames.push(name === "gap" && gapAxis ? `seed-box-${gapAxis}-gap` : `seed-box-${name}`);
+    boxStyle[`--seed-box-${name}`] = String(value);
+  }
 
   return {
-    style: {
-      background: backgroundValue,
-      color: handleColor(color),
-      borderStyle: hasBorderStyle ? "solid" : undefined,
-      borderColor: handleColor(borderColor),
-      borderWidth: handleBorderWidth(borderWidth),
-      borderTopWidth: handleBorderWidth(borderTopWidth),
-      borderRightWidth: handleBorderWidth(borderRightWidth),
-      borderBottomWidth: handleBorderWidth(borderBottomWidth),
-      borderLeftWidth: handleBorderWidth(borderLeftWidth),
-      borderRadius: handleRadius(borderRadius),
-      borderTopLeftRadius: handleRadius(borderTopLeftRadius),
-      borderTopRightRadius: handleRadius(borderTopRightRadius),
-      borderBottomRightRadius: handleRadius(borderBottomRightRadius),
-      borderBottomLeftRadius: handleRadius(borderBottomLeftRadius),
-      width: handleDimension(width),
-      minWidth: handleDimension(minWidth),
-      maxWidth: handleDimension(maxWidth),
-      height: handleDimension(height),
-      minHeight: handleDimension(minHeight),
-      maxHeight: handleDimension(maxHeight),
-      paddingTop: paddingTopValue,
-      paddingRight: paddingRightValue,
-      paddingBottom: paddingBottomValue,
-      paddingLeft: paddingLeftValue,
-      top: handleDimension(top),
-      left: handleDimension(left),
-      right: handleDimension(right),
-      bottom: handleDimension(bottom),
-      gap: handleDimension(gap),
-      display: handleDisplay(display),
-      position,
-      overflowX,
-      overflowY,
-      zIndex,
-      flexGrow: resolveFlexValue(flexGrow),
-      flexShrink: resolveFlexValue(flexShrink),
-      flexDirection: handleFlexDirection(flexDirection),
-      flexWrap: flexWrap === true ? "wrap" : flexWrap === false ? "nowrap" : flexWrap,
-      justifyContent: handleJustifyContent(justifyContent),
-      justifySelf,
-      alignItems: handleAlignItems(alignItems),
-      alignContent: handleAlignItems(alignContent),
-      alignSelf: handleAlignItems(alignSelf),
-      ...style,
-    } as CSSProperties,
+    className: boxClassNames.length > 0 ? `seed-box ${boxClassNames.join(" ")}` : undefined,
+    style: { ...boxStyle, ...style } as CSSProperties,
     restProps,
   };
 }
+
+export const useStyleProps = <T extends UseStyleProps>(
+  props: T,
+  options?: Pick<Parameters<typeof resolveBoxStyleProps>[1], "gapAxis">,
+) => resolveBoxStyleProps(props, { ...useSafeArea(), ...options });
 
 export type TextStyle =
   | "screenTitle"

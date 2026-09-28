@@ -91,14 +91,14 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
   const parentVariantProps = useProps();
   const [localVariantProps, otherProps] = tagGroupItem.splitVariantProps(props);
   const classes = tagGroupItem({ ...parentVariantProps, ...localVariantProps });
-  const { style, restProps } = useStyleProps(otherProps);
+  const { className: styleClassName, style, restProps } = useStyleProps(otherProps);
   const { children, className, ...nativeProps } = restProps;
 
   return (
     <ClassNamesProvider value={classes}>
       <view
         {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-        className={clsx(classes.root, className)}
+        className={clsx(classes.root, styleClassName, className)}
         style={style}
       >
         {children}

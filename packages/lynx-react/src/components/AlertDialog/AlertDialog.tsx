@@ -255,7 +255,7 @@ export interface AlertDialogHeaderProps extends StyleProps, LynxStyledElementPro
 
 export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHeaderProps> =
   forwardRef<unknown, AlertDialogHeaderProps>((props, ref) => {
-    const { style, restProps } = useStyleProps(props);
+    const { className: styleClassName, style, restProps } = useStyleProps(props);
     const { children, className, ...nativeProps } = restProps;
     const classNames = useClassNames();
 
@@ -263,7 +263,7 @@ export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHead
       <view
         {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
         {...nativeProps}
-        className={clsx(classNames.header, className)}
+        className={clsx(classNames.header, styleClassName, className)}
         style={style as never}
       >
         {children}
@@ -281,7 +281,7 @@ export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitle
   unknown,
   AlertDialogTitleProps
 >((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const {
     children,
     className,
@@ -294,7 +294,7 @@ export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitle
     <text
       {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
       {...nativeProps}
-      className={clsx(classNames.title, className)}
+      className={clsx(classNames.title, styleClassName, className)}
       style={style as never}
       accessibility-heading={accessibilityHeading}
     >
@@ -311,7 +311,7 @@ export interface AlertDialogDescriptionProps
 
 export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialogDescriptionProps> =
   forwardRef<unknown, AlertDialogDescriptionProps>((props, ref) => {
-    const { style, restProps } = useStyleProps(props);
+    const { className: styleClassName, style, restProps } = useStyleProps(props);
     const { children, className, ...nativeProps } = restProps;
     const classNames = useClassNames();
 
@@ -319,7 +319,7 @@ export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialo
       <text
         {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
         {...nativeProps}
-        className={clsx(classNames.description, className)}
+        className={clsx(classNames.description, styleClassName, className)}
         style={style as never}
       >
         {children}
@@ -332,7 +332,7 @@ export interface AlertDialogFooterProps extends StyleProps, LynxStyledElementPro
 
 export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFooterProps> =
   forwardRef<unknown, AlertDialogFooterProps>((props, ref) => {
-    const { style, restProps } = useStyleProps(props);
+    const { className: styleClassName, style, restProps } = useStyleProps(props);
     const { children, className, ...nativeProps } = restProps;
     const classNames = useClassNames();
 
@@ -340,7 +340,7 @@ export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFoot
       <view
         {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
         {...nativeProps}
-        className={clsx(classNames.footer, className)}
+        className={clsx(classNames.footer, styleClassName, className)}
         style={style as never}
       >
         {children}

@@ -62,7 +62,30 @@ describe("Box", () => {
     vi.unstubAllGlobals();
   });
 
-  it("resolves top and bottom safe area padding from global props", () => {
+  it("adds the seed-box class of each style prop before the user className", () => {
+    render(<Box className="box-test" bg="bg.brandWeak" p="x4" borderRadius="r2" flexGrow />);
+
+    const box = getRenderedRoot().querySelector(".box-test") as HTMLElement;
+
+    expect([...box.classList]).toEqual([
+      "seed-box",
+      "seed-box-background",
+      "seed-box-border-radius",
+      "seed-box-padding",
+      "seed-box-flex-grow",
+      "box-test",
+    ]);
+  });
+
+  it("adds no seed-box class without style props", () => {
+    render(<Box className="box-test" />);
+
+    const box = getRenderedRoot().querySelector(".box-test") as HTMLElement;
+
+    expect([...box.classList]).toEqual(["box-test"]);
+  });
+
+  it("adds safe area padding classes", () => {
     setGlobalProps({
       safeAreaInsetTop: 47,
       safeAreaInsetBottom: 34,
@@ -74,12 +97,23 @@ describe("Box", () => {
       </Box>,
     );
 
-    const box = getRenderedRoot().querySelector(".box-test");
+    expect(getRenderedRoot().querySelector(".box-test")).toHaveClass(
+      "seed-box-padding-top",
+      "seed-box-padding-bottom",
+    );
+  });
 
-    expect(box).toBeInTheDocument();
-    expectStyle((box as HTMLElement).style, {
-      "padding-top": "47px",
-      "padding-bottom": "34px",
-    });
+  it("keeps the style prop inline", () => {
+    render(<Box className="box-test" mt="x4" style={{ marginTop: "3px" }} />);
+
+    const box = getRenderedRoot().querySelector(".box-test") as HTMLElement;
+
+    expect(box).toHaveClass("seed-box-margin-top");
+    expectStyle(box.style, { "margin-top": "3px" });
+  });
+
+  it("rejects margin and bleed props together", () => {
+    // @ts-expect-error margin and bleed props both resolve to margin-*.
+    render(<Box m="x1" bleedX="8px" />);
   });
 });

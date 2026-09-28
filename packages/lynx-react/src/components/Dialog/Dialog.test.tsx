@@ -129,7 +129,7 @@ describe("Dialog", () => {
     expect(body?.classList.contains("custom-body")).toBe(true);
     expect(body?.hasAttribute("scroll-y")).toBe(true);
     expect(body?.style.maxHeight).toBe("120px");
-    expect(body?.style.paddingLeft).toBe("16px");
+    expect(body?.classList.contains("seed-box-padding-left")).toBe(true);
   });
 
   it("forwards headless mount options and removes only reserved lifecycle handlers", () => {

@@ -29,12 +29,13 @@ describe("Divider", () => {
     expect(divider).toHaveClass("custom-divider");
     expect(divider).toHaveAttribute("accessibility-element", "true");
     expect(divider).toHaveAttribute("accessibility-role-description", "separator");
-    expectStyle(divider.style, {
-      width: "100%",
-      "border-color": "var(--seed-color-stroke-neutral-muted)",
-      "border-bottom-width": "1px",
-      "border-right-width": "0px",
-    });
+    expect(divider).toHaveClass(
+      "seed-box-border-color",
+      "seed-box-border-width",
+      "seed-box-border-bottom-width",
+      "seed-box-border-right-width",
+    );
+    expectStyle(divider.style, { width: "100%" });
   });
 
   it("supports vertical orientation, inset spacing, color, and thickness", () => {
@@ -53,9 +54,6 @@ describe("Divider", () => {
     expect(divider).toHaveAttribute("accessibility-element", "false");
     expectStyle(divider.style, {
       height: "calc(100% - 32px)",
-      "border-color": "var(--seed-color-palette-blue-500)",
-      "border-bottom-width": "0px",
-      "border-right-width": "2px",
       "margin-top": "16px",
       "margin-bottom": "16px",
     });

@@ -57,7 +57,8 @@ describe("Skeleton", () => {
     const root = getSkeletonRoot();
     const shimmer = root.querySelector<HTMLElement>(".seed-skeleton__shimmer");
 
-    expect(root).toHaveStyle({ width: "48px", height: "16px", opacity: "0.5" });
+    expect(root).toHaveClass("seed-box-width", "seed-box-height");
+    expect(root).toHaveStyle({ opacity: "0.5" });
     expect(root).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(shimmer).toHaveAttribute("accessibility-elements-hidden", "true");
   });

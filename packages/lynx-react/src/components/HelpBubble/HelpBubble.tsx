@@ -550,7 +550,7 @@ export interface HelpBubbleContentProps
     LynxStyledElementProps {}
 
 export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProps>((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const { children, className, ...nativeProps } = restProps;
   const context = useHelpBubbleContext("HelpBubbleContent");
   const measurementVersionRef = React.useRef(0);
@@ -818,7 +818,7 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
     <view className={motionClassName} bindtransitionend={handleTransitionEnd}>
       <view
         ref={handleRef as LynxViewRef}
-        className={clsx(useClassNames().content, className)}
+        className={clsx(useClassNames().content, styleClassName, className)}
         style={{
           ...style,
           ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
