@@ -65,11 +65,9 @@
 
 학습 기록은 [`.agents/learnings/`](.agents/learnings/AGENTS.md)에서 관리한다. 에이전트가 작성·관리하고 사람이 검토할 수 있는 저장소 내부 기록이며, 읽기·기록·정리·커밋 절차는 해당 경로의 `AGENTS.md`를 따른다.
 
-기존 [`AGENT_LEARNINGS.md`](AGENT_LEARNINGS.md)는 새 위치를 안내하는 진입 문서로 유지한다. 새 교훈은 그 파일에 추가하지 않고 학습 항목으로 기록한다.
-
 ## 문서
 
-- `AGENTS.md`: 에이전트 규칙·명령·경계. `.agents/learnings/`: 에이전트가 쌓는 교훈. `AGENT_LEARNINGS.md`: 학습 기록의 이전 경로 안내. `ARCHITECTURE.md`: 패키지 경계·생성 파이프라인·변경 유형별 시작 경로. `TECH.md`: 저장소 공통 기술 규칙. `README.md`·`CONTRIBUTING.md`: 사람용.
+- `AGENTS.md`: 에이전트 규칙·명령·경계. `.agents/learnings/`: 에이전트가 쌓는 교훈. `ARCHITECTURE.md`: 패키지 경계·생성 파이프라인·변경 유형별 시작 경로. `TECH.md`: 저장소 공통 기술 규칙. `README.md`·`CONTRIBUTING.md`: 사람용.
 - 새 규칙은 가장 좁은 적용 경로의 `AGENTS.md`에 두고 상위 문서에 반복하지 않는다.
 - 하위 `AGENTS.md`는 `# <경로>` 제목과 1–2문장 개요로 시작하고, 내용이 있는 섹션만 둔다. 검증 명령이 있으면 `## 검증`을 맨 앞에 두고, 그 밖에는 `## 규칙`·`## 작업 절차`를 쓴다. 코드·설정으로 알 수 있는 내용과 일반론은 쓰지 않는다.
 - 에이전트 문서는 표 대신 짧은 목록, 한다체로 쓴다. 금지 규칙에는 대신 할 행동을 함께 쓴다.
