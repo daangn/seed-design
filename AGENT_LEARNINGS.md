@@ -14,7 +14,7 @@
 
 ### Better Approaches
 - Recommendation: 소비 패키지의 공개 타입에서 직접 prop과 중첩 옵션의 노출 여부를 확인하고 실제 컴포넌트명과 prop 경로를 나열한다.
-- Solutions: BottomSheet.Root의 nested, ResponsiveDialog.Root와 ResponsiveSidePanel.Root의 bottomSheetRootProps.nested처럼 적는다. Headless 패키지 직접 사용 안내는 별도 문장으로 구분한다.
+- Solutions: BottomSheet.Root의 nested, ResponsiveDialog.Root와 ResponsiveSidePanel.Root의 bottomSheetRootProps.nested처럼 적는다. 패키지마다 사용하는 API가 다르면 changeset을 분리하고 각 패키지의 공개 API만 설명한다. 각 CHANGELOG에서는 패키지명이나 "해당 패키지" 같은 문맥 전환이 필요 없어야 한다.
 
 ## 패키지와 설정 경로는 파일 목록으로 확인한다
 
