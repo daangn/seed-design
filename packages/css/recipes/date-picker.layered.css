@@ -84,6 +84,10 @@
     display: inline-flex;
   }
 
+  .seed-date-picker__headerChevron[data-expanded] {
+    transform: rotate(180deg);
+  }
+
   .seed-date-picker__navigation {
     flex-shrink: 0;
     align-items: center;
@@ -425,12 +429,13 @@
   }
 
   .seed-date-picker__wheelView {
+    --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);
+    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
     --seed-wheel-picker-selection-indicator-corner-radius: var(--seed-radius-r2);
     width: 100%;
   }
 
-  .seed-date-picker__wheelSelectionIndicator {
-    border-radius: var(--seed-radius-r2);
+  .seed-date-picker__wheelView [data-wheel-picker-indicator] {
     background-color: var(--seed-color-bg-neutral-weak);
   }
 
@@ -445,8 +450,6 @@
   }
 
   .seed-date-picker__wheelItem {
-    --seed-wheel-picker-item-color: var(--seed-color-fg-disabled);
-    --seed-wheel-picker-selected-item-color: var(--seed-color-fg-neutral);
     padding-inline: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t10-static);
     line-height: var(--seed-line-height-t10-static);

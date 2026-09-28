@@ -1,13 +1,12 @@
 import preview from "../.storybook/preview";
+import { Box, Text } from "@seed-design/react";
 import {
-  Box,
   ContinuousDatePicker,
   DatePicker,
-  Text,
   TwoMonthDatePicker,
   WeekDatePicker,
   type DatePickerProps,
-} from "@seed-design/react";
+} from "seed-design/ui/date-picker";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { withChromaticParameters } from "./utils/parameters";

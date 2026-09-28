@@ -40,9 +40,6 @@ const datePicker = defineSlotRecipe({
     "continuousSpacer",
     "wheelContainer",
     "wheelView",
-    "wheelColumns",
-    "wheelSelectionIndicator",
-    "wheelScrollFog",
     "yearColumn",
     "monthColumn",
     "wheelItem",
@@ -107,6 +104,9 @@ const datePicker = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       ...onlyIcon({ size: vars.base.enabled.headerLabel.iconSize }),
+      "&[data-expanded]": {
+        transform: "rotate(180deg)",
+      },
     },
     navigation: {
       display: "flex",
@@ -387,15 +387,14 @@ const datePicker = defineSlotRecipe({
     },
     wheelView: {
       width: "100%",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.wheelItem.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
         vars.base.enabled.wheelSelectionIndicator.cornerRadius,
+      "& [data-wheel-picker-indicator]": {
+        backgroundColor: vars.base.enabled.wheelSelectionIndicator.color,
+      },
     },
-    wheelColumns: {},
-    wheelSelectionIndicator: {
-      borderRadius: vars.base.enabled.wheelSelectionIndicator.cornerRadius,
-      backgroundColor: vars.base.enabled.wheelSelectionIndicator.color,
-    },
-    wheelScrollFog: {},
     yearColumn: {
       flex: "0 0 120px",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-end",
@@ -405,8 +404,6 @@ const datePicker = defineSlotRecipe({
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-start",
     },
     wheelItem: {
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.wheelItem.color,
       paddingInline: vars.base.enabled.wheelItem.paddingX,
       fontSize: vars.base.enabled.wheelItem.fontSize,
       lineHeight: vars.base.enabled.wheelItem.lineHeight,

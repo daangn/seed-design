@@ -1,6 +1,8 @@
 "use client";
 
-import { Box, Text, TimePicker, VStack, type TimePickerValue } from "@seed-design/react";
+import { Box, Text, VStack } from "@seed-design/react";
+import type { TimePickerValue } from "@seed-design/react-time-picker";
+import { TimePicker } from "seed-design/ui/time-picker";
 import * as React from "react";
 
 export default function TimePickerDateValue() {

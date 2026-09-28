@@ -103,18 +103,6 @@ const datePickerSlotNames = [
     "seed-date-picker__wheelView"
   ],
   [
-    "wheelColumns",
-    "seed-date-picker__wheelColumns"
-  ],
-  [
-    "wheelSelectionIndicator",
-    "seed-date-picker__wheelSelectionIndicator"
-  ],
-  [
-    "wheelScrollFog",
-    "seed-date-picker__wheelScrollFog"
-  ],
-  [
     "yearColumn",
     "seed-date-picker__yearColumn"
   ],
