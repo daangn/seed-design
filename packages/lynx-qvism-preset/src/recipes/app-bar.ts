@@ -76,7 +76,7 @@ export const appBarMain = defineSlotRecipe({
           alignItems: "flex-start",
           justifyContent: "center",
           width: "100%",
-          height: vars.themeAndroid.enabled.root.height,
+          height: vars.base.enabled.root.height,
         },
       },
     },
@@ -182,16 +182,16 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingLeft: PINNED_ROOT_PADDING_X,
           paddingRight: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
-          height: vars.themeIos.enabled.root.height,
+          height: vars.base.enabled.root.height,
         },
         right: {
-          height: vars.themeIos.enabled.root.height,
+          height: vars.base.enabled.root.height,
         },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
@@ -204,17 +204,17 @@ export const appBar = defineSlotRecipe({
       },
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingLeft: PINNED_ROOT_PADDING_X,
           paddingRight: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
         left: {
-          height: vars.themeAndroid.enabled.root.height,
+          height: vars.base.enabled.root.height,
           paddingRight: PINNED_LEFT_PADDING_RIGHT,
         },
         right: {
-          height: vars.themeAndroid.enabled.root.height,
+          height: vars.base.enabled.root.height,
         },
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
