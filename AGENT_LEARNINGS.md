@@ -23,6 +23,7 @@
 - Impact: 불필요한 파일 조회가 실패했고 영향 패키지와 검증 설정 확인이 늦어졌다.
 - Description: Storybook 경로를 `examples/storybook/package.json`으로 추측했다. 하위 `AGENTS.md` 검색은 후속 읽기와 `&&`로 연결해 빈 결과(exit 1)가 필요한 읽기까지 중단시켰다.
 - Impact: CI 설정과 설치 상태 확인을 다시 해야 했다.
+- Description: PR 템플릿 검색에서도 같은 `&&` 연결을 반복해, 템플릿이 없는 정상적인 결과가 뒤의 CLI 확인을 건너뛰게 했다.
 
 ### Patterns to Avoid
 - Pattern: export 이름으로 패키지 디렉터리를 추측하거나 상대 경로를 저장소 루트 기준으로 해석하는 것.
@@ -33,6 +34,7 @@
 - Recommendation: 파일 목록과 manifest에서 경로를 확인하고 상대 경로는 선언한 파일의 디렉터리에서 해석한다.
 - Solutions: `git ls-files '*package.json' '*tsconfig*'`로 파일을 찾고 `git grep -l '"@seed-design/react-drawer"' -- '*/package.json'`으로 직접 소비 패키지를 확인한다.
 - Solutions: `rg --files --hidden -g AGENTS.md .github` 같은 검색과 대상 파일 읽기는 별도 명령으로 실행한다. 빈 결과와 exit 2 이상의 실제 검색 오류를 구분한다.
+- Solutions: PR 템플릿처럼 없는 경우가 정상인 검색 뒤에는 `&&`로 독립 명령을 잇지 않는다. 검색과 CLI 확인을 각각 호출한다.
 
 ## 기준 브랜치 갱신 전에 학습 파일의 동시 변경을 확인한다
 
