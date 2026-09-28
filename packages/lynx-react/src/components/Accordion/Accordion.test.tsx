@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as React from "@lynx-js/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { Accordion } from "./index";
 
@@ -47,45 +47,83 @@ function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) 
 }
 
 describe("Accordion", () => {
-  it("renders the SEED pressed overlay hidden from accessibility", () => {
+  it("opens and closes an item in uncontrolled mode", () => {
     render(<TestAccordion />);
 
     const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
     const pressedOverlay = trigger?.querySelector<HTMLElement>(".seed-accordion__pressedOverlay");
+    expect(trigger).not.toBeNull();
     expect(pressedOverlay).not.toBeNull();
     expect(pressedOverlay).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
+
+    fireEvent.tap(trigger as HTMLElement);
+    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
+
+    fireEvent.tap(trigger as HTMLElement);
+    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
   });
 
-  it("wires a styled trigger tap to accessibility and measured content height", () => {
-    render(<TestAccordion />);
+  it("transitions content between zero and its measured height", () => {
+    render(<TestAccordion defaultValues={["first"]} />);
 
     const root = getRenderedRoot();
     const trigger = root.querySelector<HTMLElement>(".first-trigger");
     const content = root.querySelector<HTMLElement>(".first-content");
     const contentInner = content?.querySelector<HTMLElement>(".seed-accordion__contentInner");
 
-    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
+    expect(content).not.toBeNull();
+    expect(contentInner).not.toBeNull();
     expect(content).toHaveStyle({ height: "0px" });
+
     act(() => {
       fireEvent.layoutchange(contentInner as HTMLElement, { height: 84 });
     });
-    fireEvent.tap(trigger as HTMLElement);
-    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
+
     expect(content).toHaveStyle({ height: "84px" });
+
     fireEvent.tap(trigger as HTMLElement);
-    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
     expect(content).toHaveStyle({ height: "0px" });
   });
 
-  it("renders a divider only between items", () => {
-    render(<TestAccordion />);
+  it("keeps one item open by default and supports multiple mode", () => {
+    render(<TestAccordion multiple defaultValues={["first"]} />);
 
-    const items = getRenderedRoot().querySelectorAll(".seed-accordion__item");
-    expect(items).toHaveLength(2);
-    expect(items[0].querySelector(".seed-accordion__divider")).toHaveAttribute(
+    const root = getRenderedRoot();
+    const first = root.querySelector<HTMLElement>(".first-trigger");
+    const second = root.querySelector<HTMLElement>(".second-trigger");
+
+    expect(first).toHaveAttribute("accessibility-value", "펼쳐짐");
+    expect(second).toHaveAttribute("accessibility-value", "접힘");
+
+    fireEvent.tap(second as HTMLElement);
+    expect(first).toHaveAttribute("accessibility-value", "펼쳐짐");
+    expect(second).toHaveAttribute("accessibility-value", "펼쳐짐");
+  });
+
+  it("reports controlled value changes without mutating the rendered state", () => {
+    const onValuesChange = vi.fn();
+    render(<TestAccordion values={[]} onValuesChange={onValuesChange} />);
+
+    const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
+    fireEvent.tap(trigger as HTMLElement);
+
+    expect(onValuesChange).toHaveBeenCalledWith(["first"]);
+    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
+  });
+
+  it("ignores tap when the root is disabled", () => {
+    const onValuesChange = vi.fn();
+    render(<TestAccordion disabled onValuesChange={onValuesChange} />);
+
+    const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
+    fireEvent.tap(trigger as HTMLElement);
+
+    expect(onValuesChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("accessibility-traits", "disabled");
+    expect(getRenderedRoot().querySelector(".first-content")).toHaveAttribute(
       "accessibility-elements-hidden",
       "true",
     );
-    expect(items[1].querySelector(".seed-accordion__divider")).toBeNull();
   });
 });
