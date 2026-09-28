@@ -124,7 +124,9 @@ export const appBar = defineSlotRecipe({
   base: {
     root: {
       position: "relative",
-      zIndex: "var(--z-index-app-bar)",
+      // Lynx는 z-index가 있는 자식을 가장 가까운 stacking context로 올린다. root가 stacking context가
+      // 아니면 z-index를 가진 좌우 슬롯과 배경이 scroll-view 밖으로 올라가 스크롤을 따라가지 않는다.
+      zIndex: 0,
       width: "100%",
       display: "flex",
       flexDirection: "row",
