@@ -1,12 +1,5 @@
 ---
-"@seed-design/react": patch
 "@seed-design/react-drawer": patch
 ---
 
-`@seed-design/react`의 다음 prop을 deprecated로 표시하고, 3.0.0에서 제거할 예정입니다.
-
-- `BottomSheet.Root`의 `nested`
-- `ResponsiveDialog.Root`의 `bottomSheetRootProps.nested`
-- `ResponsiveSidePanel.Root`의 `bottomSheetRootProps.nested`
-
-모두 동작에 영향을 주지 않는 dead prop이므로 대체 prop 없이 삭제할 수 있습니다. `@seed-design/react-drawer`를 직접 사용하는 경우의 `nested` prop도 deprecated로 표시하고, 해당 패키지의 3.0.0에서 제거할 예정입니다.
+`Drawer.Root`의 `nested` prop과 `useDrawer`의 `nested` 옵션을 deprecated로 표시하고, 3.0.0에서 제거할 예정입니다. 동작에 영향을 주지 않으므로 대체 prop이나 옵션 없이 삭제할 수 있습니다.
