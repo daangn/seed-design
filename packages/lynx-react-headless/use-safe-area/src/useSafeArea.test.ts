@@ -1,7 +1,7 @@
 import { renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
-import { useSafeArea } from "./useSafeArea";
+import { useSafeArea } from "./useSafeArea.js";
 
 interface TestLynxGlobal {
   lynx?: {
