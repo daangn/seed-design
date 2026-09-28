@@ -1,0 +1,25 @@
+---
+id: docs-build-prerequisites
+description: 새 worktree에서 docs 검증·빌드를 준비하거나 TS2307·workspace 모듈 누락을 조사할 때 읽는다.
+scope: ["docs/**"]
+status: active
+related: ["workspace-installation"]
+---
+
+# 새 worktree의 docs 검증은 선행 lib 빌드가 필요하다
+
+## 교훈과 다음 행동
+
+- docs 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
+- `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
+
+## 발생 근거와 적용 조건
+
+- 상황: 새 worktree에서 `bun docs:test`와 `bun docs:build`를 바로 실행했다.
+- 영향: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow` 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
+- 피할 패턴: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 docs 변경의 실패로 판정하는 것.
+- 위험: 잘못된 실패 판정을 내리거나, 검증을 건너뛰고 미검증으로 남긴다.
+
+## 변경 이력
+
+- 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
