@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import type { ShikiTransformer } from "shiki";
+import type { Processor } from "unified";
 
 const CHANGELOG_FILENAME = "CHANGELOG.md";
 
@@ -54,7 +55,18 @@ const removeBackground: ShikiTransformer = {
   },
 };
 
+/**
+ * changeset 본문의 `<Dialog>`, `Array<string>` 같은 표기는 HTML이 아니라 글자다. HTML로 파싱되면
+ * `remark-rehype`가 버리고, `<dialog>`처럼 block 태그 이름이면 뒤따르는 줄까지 함께 사라진다.
+ */
+function remarkDisableHtml(this: Processor) {
+  const data = this.data();
+  data.micromarkExtensions ??= [];
+  data.micromarkExtensions.push({ disable: { null: ["htmlFlow", "htmlText"] } });
+}
+
 const processor = remark()
+  .use(remarkDisableHtml)
   .use(remarkGfm)
   .use(remarkRehype)
   .use(rehypeCode, {

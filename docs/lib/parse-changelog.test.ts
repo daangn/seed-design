@@ -187,4 +187,28 @@ describe("parseChangelogSources", () => {
       "@seed-design/css",
     ]);
   });
+
+  it("꺾쇠 괄호 표기를 HTML이 아닌 글자로 렌더링한다", async () => {
+    const entries = await parseChangelogSources([
+      {
+        packageName: "@seed-design/react",
+        raw: `# @seed-design/react
+
+## 1.2.6
+
+### Patch Changes
+
+- 77cdc0e: <Dialog> 안에서 **Array<string>** 타입을 받습니다. <img src=x onerror=alert(1)>
+`,
+      },
+    ]);
+
+    const [block] = entries[0].contentBlocks;
+    if (block?.type !== "markdown") throw new Error("markdown block이 아닙니다");
+
+    expect(block.html).toContain("&#x3C;Dialog> 안에서");
+    expect(block.html).toContain("<strong>Array&#x3C;string></strong>");
+    expect(block.html).toContain("/commit/77cdc0e");
+    expect(block.html).not.toContain("<img");
+  });
 });
