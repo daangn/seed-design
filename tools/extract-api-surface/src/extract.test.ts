@@ -208,6 +208,7 @@ export declare const named: Named;
 export const vars = {
   themeIos: { enabled: { root: { height: "44px" } } },
   base: {
+    /** Enabled state. */
     enabled: {
       /** Minimum gap. */
       "min-gap": "8px",
@@ -219,6 +220,12 @@ export const vars = {
 } as const;
 
 export declare const optional: { slot?: { size: number }; label?: string };
+
+export declare const tuples: {
+  fixed: [{ id: string }, number];
+  rest: [{ id: string }, ...number[]];
+  trailing: [{ id: string }, number?];
+};
 `,
     });
 
@@ -232,7 +239,14 @@ type Named
 const optional
   label?: string | undefined
   slot?.size: number
+const tuples
+  fixed[0].id: string
+  fixed[1]: number
+  rest: [{ id: string; }, ...number[]]
+  trailing: [{ id: string; }, (number | undefined)?]
 const vars
+  base.enabled: {…}
+    // Enabled state.
   base.enabled["min-gap"]: "8px"
     // Minimum gap.
   base.enabled.root.paddingX: "6px"

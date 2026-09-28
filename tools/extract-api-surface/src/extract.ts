@@ -442,14 +442,20 @@ function createDescriber(program: ts.Program) {
     checker.isTupleType(type) ? checker.getTypeArguments(type as ts.TypeReference) : undefined;
 
   /**
-   * An anonymous object, or a tuple holding one. Named types stay printed by name, and a tuple
-   * of plain values stays on one line.
+   * An anonymous object, or a tuple holding one. Named types stay printed by name. A tuple stays on
+   * one line when it holds only plain values, or when an optional or rest element would lose its
+   * marker behind a fixed `[index]` path.
    */
   function isLiteralObject(type: ts.Type): boolean {
     if (type.aliasSymbol) return false;
 
     const elements = tupleElements(type);
-    if (elements) return elements.some(isLiteralObject);
+    if (elements)
+      return (
+        (type as ts.TupleTypeReference).target.elementFlags.every(
+          (flag) => flag === ts.ElementFlags.Required,
+        ) && elements.some(isLiteralObject)
+      );
 
     const symbolFlags = type.symbol?.flags ?? ts.SymbolFlags.None;
 
@@ -488,13 +494,15 @@ function createDescriber(program: ts.Program) {
         : `${prefix}[${JSON.stringify(property.name)}]`;
       const value = checker.getTypeOfSymbolAtLocation(property, location);
       const present = optional ? checker.getNonNullableType(value) : value;
-
-      if (isLiteralObject(present))
-        return describeLeaves(present, location, `${path}${optional ? "?" : ""}`);
-
       const doc = docOf(property);
 
-      return [{ name: path, optional, type: printType(value, location), ...(doc && { doc }) }];
+      if (!isLiteralObject(present))
+        return [{ name: path, optional, type: printType(value, location), ...(doc && { doc }) }];
+
+      return [
+        ...(doc ? [{ name: path, optional, type: "{…}", doc }] : []),
+        ...describeLeaves(present, location, `${path}${optional ? "?" : ""}`),
+      ];
     });
   }
 

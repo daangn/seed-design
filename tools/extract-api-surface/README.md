@@ -22,7 +22,7 @@ bun extract-api-surface $(bun .github/scripts/list-public-packages.ts)  # CI처�
 - `package.json`의 `exports` 각 subpath. `types`가 `lib/`·`dist/`를 가리키면 대응하는 `src/` 파일을 읽는다. wildcard는 실제 파일로 펼친다.
 - import는 그 파일이 속한 패키지의 tsconfig `paths`(예: `packages/figma`의 `@/*`)로 해석하고, tsconfig가 포함하는 ambient 선언(`declare module "*.webp"` 등)도 함께 읽는다.
 - `types`가 없는 export(CSS·JSON 등)는 대상 파일 목록만, `bin`은 명령 이름만 기록한다.
-- 이름 없는 객체 타입의 const(토큰 vars, rootage spec 등)는 leaf 값마다 `base.enabled.root.height: "56px"`처럼 경로 한 줄로 펼친다. 값 하나가 바뀌면 그 줄만 diff에 나온다. 튜플은 객체를 담았을 때만 `[0]`처럼 index로 펼치므로, 중간에 원소를 끼우면 뒤따르는 index의 줄도 함께 바뀐다.
+- 이름 없는 객체 타입의 const(토큰 vars, rootage spec 등)는 leaf 값마다 `base.enabled.root.height: "56px"`처럼 경로 한 줄로 펼친다. 값 하나가 바뀌면 그 줄만 diff에 나온다. 설명이 달린 중간 key는 `base.enabled: {…}` 줄에 설명을 남긴다. 튜플은 객체를 담았고 선택적·rest 원소가 없을 때만 `[0]`처럼 index로 펼치므로, 중간에 원소를 끼우면 뒤따르는 index의 줄도 함께 바뀐다.
 - 컴포넌트는 props를, 타입은 멤버를 `extends`·`Omit`·intersection까지 펼쳐 기록한다. 다른 workspace 패키지에서 온 멤버에는 `[패키지]`를 붙인다.
 - 저장소 밖 패키지(`@types/react` 등)에서 온 멤버는 `...@types/react (280)`처럼 패키지별 개수로 줄인다. `Omit`으로 속성을 빼거나 기반 요소가 바뀌면 개수가 달라진다.
 - JSDoc 설명과 `@default`·`@deprecated`는 멤버 아래에 `// ` 줄로 따로 기록해, 타입 변경과 문서 변경이 서로 다른 diff 줄로 나오게 한다.
