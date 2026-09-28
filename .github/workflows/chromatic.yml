@@ -22,6 +22,8 @@ on:
 # List of jobs
 jobs:
   chromatic-deployment:
+    # Kapture로 시각 회귀 검증을 전환해 비활성화한다. 복구하려면 이 조건을 제거한다.
+    if: ${{ false }}
     # Operating System
     runs-on: ubuntu-latest
     # Job steps
