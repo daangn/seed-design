@@ -61,6 +61,8 @@
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
     "@seed-design/lynx-react-accordion": "0.0.0",
     "@seed-design/lynx-react-action-button": "0.0.0",
-    "@seed-design/lynx-react-use-press-tap": "0.1.0"
+    "@seed-design/lynx-react-app-bar": "0.0.0",
+    "@seed-design/lynx-react-use-press-tap": "0.1.0",
+    "@seed-design/lynx-react-use-safe-area": "0.0.0"
   }
 }
