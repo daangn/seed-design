@@ -2,6 +2,20 @@
 
 에이전트가 실수에서 얻은 교훈을 쌓는 외부 메모리다. 읽기·갱신·커밋 규칙과 항목 형식은 루트 `AGENTS.md`의 학습 기록 섹션에 있다.
 
+## 변경 안내는 소비자가 사용하는 공개 컴포넌트와 prop 경로로 쓴다
+
+### Mistake Made
+- Description: nested prop 제거 안내에서 Drawer와 BottomSheet만 언급한 뒤, 누락된 소비자를 확인하는 대신 "Drawer 기반 컴포넌트"라는 내부 구현 용어로 범위를 넓혔다.
+- Impact: 소비자가 ResponsiveDialog와 ResponsiveSidePanel의 bottomSheetRootProps.nested도 정리해야 한다는 사실을 알 수 없었다.
+
+### Patterns to Avoid
+- Pattern: 내부 의존 패키지 이름이나 대표 컴포넌트만으로 영향 범위를 설명하는 것.
+- Risk: 중첩 옵션으로 노출된 prop을 누락하거나, Pick으로 해당 prop을 제외한 컴포넌트까지 영향 대상으로 오해하게 한다.
+
+### Better Approaches
+- Recommendation: 소비 패키지의 공개 타입에서 직접 prop과 중첩 옵션의 노출 여부를 확인하고 실제 컴포넌트명과 prop 경로를 나열한다.
+- Solutions: BottomSheet.Root의 nested, ResponsiveDialog.Root와 ResponsiveSidePanel.Root의 bottomSheetRootProps.nested처럼 적는다. Headless 패키지 직접 사용 안내는 별도 문장으로 구분한다.
+
 ## 패키지와 설정 경로는 파일 목록으로 확인한다
 
 ### Mistake Made
