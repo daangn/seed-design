@@ -21,14 +21,32 @@
 ### Mistake Made
 - Description: React의 primitives 재수출을 별도 workspace로 가정하고 존재하지 않는 package.json을 읽었다. Drawer tsconfig의 상대 extends 경로도 기준 디렉터리를 잘못 계산했다.
 - Impact: 불필요한 파일 조회가 실패했고 영향 패키지와 검증 설정 확인이 늦어졌다.
+- Description: Storybook 경로를 `examples/storybook/package.json`으로 추측했다. 하위 `AGENTS.md` 검색은 후속 읽기와 `&&`로 연결해 빈 결과(exit 1)가 필요한 읽기까지 중단시켰다.
+- Impact: CI 설정과 설치 상태 확인을 다시 해야 했다.
 
 ### Patterns to Avoid
 - Pattern: export 이름으로 패키지 디렉터리를 추측하거나 상대 경로를 저장소 루트 기준으로 해석하는 것.
+- Pattern: 검색 결과 없음(exit 1)을 독립적인 후속 작업의 실패 조건으로 삼는 것.
 - Risk: 실제 배포 단위와 의존 관계를 잘못 판단하거나 유효한 TypeScript 설정을 놓친다.
 
 ### Better Approaches
 - Recommendation: 파일 목록과 manifest에서 경로를 확인하고 상대 경로는 선언한 파일의 디렉터리에서 해석한다.
 - Solutions: `git ls-files '*package.json' '*tsconfig*'`로 파일을 찾고 `git grep -l '"@seed-design/react-drawer"' -- '*/package.json'`으로 직접 소비 패키지를 확인한다.
+- Solutions: `rg --files --hidden -g AGENTS.md .github` 같은 검색과 대상 파일 읽기는 별도 명령으로 실행한다. 빈 결과와 exit 2 이상의 실제 검색 오류를 구분한다.
+
+## 기준 브랜치 갱신 전에 학습 파일의 동시 변경을 확인한다
+
+### Mistake Made
+- Description: 최신 dev를 반영하기 전에 학습 항목을 파일 맨 앞에 추가했고, dev도 같은 위치에 항목을 추가한 상태에서 rebase했다.
+- Impact: 학습 기록 커밋에 충돌이 생겨 기준 브랜치 갱신이 중단됐다.
+
+### Patterns to Avoid
+- Pattern: 공유 학습 파일의 동시 편집 여부를 확인하지 않고 파일 맨 앞에 독립 항목을 추가하는 것.
+- Risk: 단순한 기준 브랜치 갱신에도 충돌이 생기거나 한쪽 교훈이 누락된다.
+
+### Better Approaches
+- Recommendation: 기준 브랜치를 갱신할 때 학습 파일의 변경도 먼저 비교하고, 충돌 시 양쪽 교훈을 보존하되 유사 항목은 합친다.
+- Solutions: `git diff HEAD...origin/dev -- AGENT_LEARNINGS.md`로 동시 변경을 확인한다. 충돌은 내용을 병합하고 `git add AGENT_LEARNINGS.md && GIT_EDITOR=true git rebase --continue`로 이어간다.
 
 ## Testing Library bound query의 제네릭 지원을 가정하지 않는다
 
