@@ -50,6 +50,20 @@
 - Recommendation: 기준 브랜치를 갱신할 때 학습 파일의 변경도 먼저 비교하고, 충돌 시 양쪽 교훈을 보존하되 유사 항목은 합친다.
 - Solutions: `git diff HEAD...origin/dev -- AGENT_LEARNINGS.md`로 동시 변경을 확인한다. 충돌은 내용을 병합하고 `git add AGENT_LEARNINGS.md && GIT_EDITOR=true git rebase --continue`로 이어간다.
 
+## Git 푸시 계정과 GitHub CLI의 활성 계정을 구분한다
+
+### Mistake Made
+- Description: SSH로 브랜치 푸시에 성공한 뒤 GitHub CLI도 같은 계정을 사용한다고 가정했다. CLI의 활성 계정은 Enterprise Managed User여서 `daangn/seed-design` PR 생성이 접근 제한으로 거절됐다.
+- Impact: 브랜치는 원격에 올라갔지만 PR 생성은 실패해 계정을 확인하고 다시 시도해야 했다.
+
+### Patterns to Avoid
+- Pattern: Git 전송 성공을 GitHub CLI 계정의 저장소 접근 권한 증거로 사용하는 것.
+- Risk: SSH와 CLI가 서로 다른 계정을 사용하면 조회나 PR 생성에서 권한 오류가 난다.
+
+### Better Approaches
+- Recommendation: GitHub CLI로 제출하기 전에 활성 계정과 저장소 접근을 확인한다.
+- Solutions: `gh auth status --hostname github.com`으로 계정을 확인한다. 등록된 계정 중 저장소에 접근 가능한 계정을 `gh auth switch --hostname github.com --user <계정>`으로 선택하고, 제출 뒤 기존 활성 계정으로 복구한다. 토큰을 직접 읽거나 출력하지 않는다.
+
 ## Testing Library bound query의 제네릭 지원을 가정하지 않는다
 
 ### Mistake Made
