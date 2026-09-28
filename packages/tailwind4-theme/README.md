@@ -52,7 +52,7 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 <div className="bg-palette-gray-100">회색 배경</div>
 
 // 테두리 색상
-<div className="border border-stroke-brand">브랜드 테두리</div>
+<div className="border border-stroke-brand-solid">브랜드 테두리</div>
 <div className="border border-palette-red-500">팔레트 테두리</div>
 ```
 
@@ -84,30 +84,39 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 ```jsx
 <div className="radius-r2">표준 둥근 모서리</div>
 <div className="radius-r4">큰 둥근 모서리</div>
-<button className="radius-r8">매우 둥근 버튼</button>
+<button className="radius-full">매우 둥근 버튼</button>
 ```
 
 ### 그라데이션 유틸리티
+
+파운데이션의 `fade-mask`, `glow-magic`, `glow-magic-pressed`, `highlight-magic`, `highlight-magic-pressed`, `shimmer-magic`, `shimmer-neutral`을 지원합니다.
+
 ```jsx
-// 방향성 그라데이션 배경
+// 8방향: t, tr, r, br, b, bl, l, tl. 두 이름 모두 지원합니다.
 <div className="bg-shimmer-neutral-to-r">우측으로 그라데이션</div>
-<div className="bg-shimmer-magic-to-b">아래로 그라데이션</div>
-<div className="bg-shimmer-neutral-to-tr">우측 상단으로 그라데이션</div>
+<div className="bg-gradient-shimmer-neutral-to-r">같은 우측 그라데이션</div>
+<div className="bg-gradient-fade-mask-to-b">아래로 fade 배경</div>
 
-// 임의 각도 그라데이션 (새로 추가)
-<div className="bg-gradient-shimmer-neutral-45deg">45도 각도 그라데이션</div>
-<div className="bg-gradient-glow-magic-120deg">120도 각도 그라데이션</div>
-<div className="bg-gradient-highlight-magic-270deg">270도 각도 그라데이션</div>
+// 각도는 대괄호 문법을 사용합니다.
+<div className="bg-gradient-glow-magic-[120deg]">120도 그라데이션</div>
 
+// 소수, 음수, 다른 angle 단위도 사용할 수 있습니다.
+<div className="bg-gradient-shimmer-neutral-[45.5deg]">45.5도</div>
+<div className="bg-gradient-highlight-magic-[-45deg]">-45도</div>
+<div className="bg-gradient-glow-magic-[0.25turn]">0.25회전</div>
 ```
+
+`bg-gradient-{token}-45deg`처럼 대괄호 없는 각도 표기는 지원하지 않습니다. `bg-gradient-{token}-[45deg]`를 사용하세요.
+
+그라데이션은 토큰 CSS의 `--seed-gradient-*`를 참조하므로 light/dark 모드에 맞는 색상 stop을 사용합니다. `fade-mask`는 두 모드에서 같은 16개 alpha stop을 사용합니다. 위 클래스는 모두 `background-image`이며, `fade-mask` 클래스가 요소에 마스크를 적용하는 것은 아닙니다.
 
 ## 지원하는 토큰
 
 이 패키지는 모든 SEED 디자인 토큰을 Tailwind CSS 4.0의 테마 변수로 제공합니다:
 
 - 색상 (fg-*, bg-*, stroke-*, palette-*)
-- 그라데이션 (bg-gradient-{gradient-stops-name}-to-t, bg-gradient-{gradient-stops-name}-to-r, bg-gradient-{gradient-stops-name}-to-b, bg-gradient-{gradient-stops-name}-to-l, bg-gradient-{gradient-stops-name}-to-tr, bg-gradient-{gradient-stops-name}-to-br, bg-gradient-{gradient-stops-name}-to-bl, bg-gradient-{gradient-stops-name}-to-tl)
-- 그라데이션 임의 각도 (bg-gradient-{gradient-stops-name}-45deg, bg-gradient-{gradient-stops-name}-120deg, bg-gradient-{gradient-stops-name}-270deg 등)
+- 그라데이션 방향 (`bg-{token}-to-{direction}`, `bg-gradient-{token}-to-{direction}`)
+- 그라데이션 임의 각도 (`bg-gradient-{token}-[<angle>]`)
 - 크기 (dimension-x*)
 - 여백 (p-x*, m-x*, gap-x*)
 - 반경 (radius-r*)
