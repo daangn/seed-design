@@ -76,7 +76,7 @@ export function handlePaddingWithSafeArea(
   return handleDimension(padding);
 }
 
-export function handleBleed(bleed: BleedValue | undefined, safeAreaInset: string) {
+function handleBleed(bleed: BleedValue | undefined, safeAreaInset: string) {
   if (bleed == null) return undefined;
 
   return `calc(${bleed === "safeArea" ? safeAreaInset : bleed === 0 ? "0px" : bleed} * -1)`;
