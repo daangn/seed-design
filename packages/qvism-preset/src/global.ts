@@ -7,15 +7,21 @@ export const globalCss = defineGlobalCss({
   ":root": {
     "--seed-safe-area-top": "0px",
     "--seed-safe-area-bottom": "0px",
+    "--seed-safe-area-left": "0px",
+    "--seed-safe-area-right": "0px",
 
     "@supports (left: constant(safe-area-inset-left))": {
       "--seed-safe-area-top": "constant(safe-area-inset-top)",
       "--seed-safe-area-bottom": "constant(safe-area-inset-bottom)",
+      "--seed-safe-area-left": "constant(safe-area-inset-left)",
+      "--seed-safe-area-right": "constant(safe-area-inset-right)",
     },
 
     "@supports (left: env(safe-area-inset-left))": {
       "--seed-safe-area-top": "env(safe-area-inset-top)",
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+      "--seed-safe-area-left": "env(safe-area-inset-left)",
+      "--seed-safe-area-right": "env(safe-area-inset-right)",
     },
 
     // users can opt in with `font-family: var(--seed-font-family)`.
