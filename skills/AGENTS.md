@@ -14,6 +14,7 @@
 - 새 Skill 디렉터리는 `seed-*` 접두사의 kebab-case로 만들고 `SKILL.md`를 둔다. 기존 `chromatic-diff`는 예외다.
 - 부가 자료는 해당 Skill의 `references/`, `scripts/`, `assets/`에 두고 상대 경로는 Skill 디렉터리 기준으로 쓴다. `agents/openai.yaml`은 OpenAI 에이전트용 표시 metadata다.
 - 여러 Skill이 공유하는 규칙은 각 Skill에 복사하지 말고 이 파일이나 공통 reference 한 곳에 둔다.
+- 실수·우회책에서 얻은 경험은 [학습 기록 관리 규칙](../.agents/learnings/AGENTS.md)에 따라 정리한다. 항상 지킬 규칙으로 확인되면 가장 직접적인 Skill reference로 승격하고 원래 교훈에 이동 경로를 남긴다. 저장소의 학습 경로나 본문을 외부 배포용 `seed-design` Skill에 추가하지 않는다 → 저장소 내부 진입 규칙에서 연결한다.
 - 말투는 루트 `AGENTS.md`「문서」대로 한다체다. 예외: `seed-design`은 `docs/content/ai-integration/skill/`에 그대로 노출되고 외부 프로젝트에 배포되는 공개 Skill이라 합니다체를 유지하고, `chromatic-diff`는 영어 원문을 유지한다.
 
 ### `SKILL.md`

@@ -1,6 +1,6 @@
 ---
 name: docs-auditor
-description: 에이전트 문서(AGENTS.md, ARCHITECTURE.md, TECH.md, Skill reference) 형식·중복·사실 오류 검사 에이전트. 읽기 전용으로 위반과 수정 방향만 보고한다.
+description: 에이전트 문서와 학습 항목의 형식·중복·사실 오류 검사 에이전트. 읽기 전용으로 위반과 수정 방향만 보고한다.
 tools: Read, Glob, Grep
 ---
 
@@ -11,7 +11,7 @@ tools: Read, Glob, Grep
 ## 절차
 
 1. 루트 `AGENTS.md`「문서」를 읽는다. 문서 역할과 하위 `AGENTS.md` 형식의 기준은 거기에만 있다. 아래 항목과 어긋나면 그 절을 따른다.
-2. 대상 문서와, 루트부터 대상 경로까지의 상위 `AGENTS.md`, 루트 `ARCHITECTURE.md`·`TECH.md`, 대상이 가리키는 `skills/*/references/*.md`를 읽는다.
+2. 대상 문서와, 루트부터 대상 경로까지의 상위 `AGENTS.md`를 읽고, 관련된 `ARCHITECTURE.md`·`TECH.md`·Skill reference를 확인한다. 학습 항목은 먼저 [관리 규칙](../../.agents/learnings/AGENTS.md)과 메타데이터를 읽고 아래「학습 항목」기준으로 검사한다.
 3. 아래「검사 항목」을 파일마다 적용한다.
 4. 문서가 언급한 경로·명령·제목을 저장소와 대조한다.
 5. 「출력 형식」으로 보고한다.
@@ -24,7 +24,7 @@ tools: Read, Glob, Grep
 - 내용이 있는 섹션만 둔다. `## 검증`이 있으면 맨 앞이고, 그 밖에는 `## 규칙`·`## 작업 절차`를 쓴다. 폐지된 `## 디렉토리 개요`·`## 파일 작성 컨벤션`·`## 코드 작성 컨벤션` 템플릿이 남아 있으면 위반이다.
 - 표가 없다 → 매핑은 `- 경로 → 명령` 목록으로 바꾸도록 권한다. 한다체다(합니다체 문장은 위반).
 - 금지 문장마다 대신 할 행동이 함께 있다. 예: "생성물을 직접 수정하지 않는다 → 원천을 고치고 생성 명령을 실행한다".
-- `AGENTS.md`에 YAML frontmatter(`description`, `alwaysApply`)가 없다. `SKILL.md`, `.claude/agents/*.md`, command 파일의 frontmatter는 유지 대상이다.
+- `AGENTS.md`에 YAML frontmatter(`description`, `alwaysApply`)가 없다. `SKILL.md`, `.claude/agents/*.md`, command 파일과 학습 항목의 frontmatter는 유지 대상이다.
 - 이모지, 경고 박스, 도입·요약·맺음 문장이 없다.
 
 ### 중복·내용
@@ -40,6 +40,14 @@ tools: Read, Glob, Grep
 - `bun <script>`가 루트 `package.json`의 `scripts`에, `bun --filter <패키지> <script>`가 해당 패키지 `package.json`에 있는지 확인한다.
 - 다른 문서의 제목을 가리키는 참조(예: `TECH.md`「테스트 작성」, `#anchor`)의 제목이 대상 문서에 실제로 있는지 확인한다.
 - 문서끼리 명령이나 규칙이 다르면 실제 코드·script를 읽어 어느 쪽이 맞는지 판정한다.
+
+### 학습 항목
+
+- `.agents/learnings/entries/*.md`에는 [관리 규칙](../../.agents/learnings/AGENTS.md)의 형식·상태·관계 기준을 적용한다. 일반 지침 문서의 중복·내용 기준으로 사건 근거·버전 조건·변경 이력을 지우도록 권하지 않는다.
+- Glob·Grep의 검색 경로에 `.agents/learnings/entries/`를 명시한다. 우선 frontmatter 범위만 Read하고, 감사 대상과 중복·관계 확인에 필요한 본문만 읽는다. 비활성 상태도 감사 대상일 수 있지만 현재 적용할 규칙으로 취급하지 않는다.
+- 고유 ID·필수 필드·적용 경로와 대체·승격 대상을 확인한다. 끊어진 관계·대체 순환·사라진 scope는 보고하되, 다른 항목과 연결되지 않았다는 이유만으로 고아나 삭제 대상으로 판정하지 않는다.
+- 의미상 중복·충돌은 원인·대응·환경 조건을 비교해 보고한다. 과거 증거 속 삭제된 경로·실패 명령과 현재 적용할 안내를 구분하고, 이관 날짜를 재검증 근거로 인정하지 않는다.
+- 수정·병합·상태 변경·커밋은 실행하지 않는다. 필요한 조치는 파일·줄·근거와 함께 반환한다.
 
 ## 출력 형식
 
