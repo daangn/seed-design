@@ -53,7 +53,7 @@ export const VariantTable = (props: Props) => {
   return (
     <div>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead data-chromatic="ignore">
+        <thead data-chromatic="ignore" data-kapture="ignore">
           <tr style={{ fontSize: "14px" }}>
             {keys.map((key) => (
               <th key={key}>{key}</th>
@@ -88,7 +88,12 @@ export const VariantTable = (props: Props) => {
             return (
               <tr key={combinationKey}>
                 {keys.map((key) => (
-                  <td data-chromatic="ignore" key={key} style={{ width: "10%" }}>
+                  <td
+                    data-chromatic="ignore"
+                    data-kapture="ignore"
+                    key={key}
+                    style={{ width: "10%" }}
+                  >
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <span
                         style={{
@@ -120,6 +125,7 @@ export const VariantTable = (props: Props) => {
       </table>
       <div
         data-chromatic="ignore"
+        data-kapture="ignore"
         style={{
           marginTop: "16px",
           fontSize: "16px",

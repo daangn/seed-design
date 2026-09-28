@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { List, ListButtonItem, ListDivider } from "seed-design/ui/list";
 
 import { SeedThemeDecorator } from "./components/decorator";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import {
   IconChevronRightLine,
   IconILowercaseSerifCircleLine,
@@ -112,13 +112,13 @@ const CommonTemplate = meta.story({
 export const LightTheme = CommonTemplate.extend({});
 
 export const DarkTheme = CommonTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

@@ -3,7 +3,7 @@ import { AttachmentInput, Icon } from "@seed-design/react";
 import type { FileEntry } from "@seed-design/react/primitive";
 import { IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
@@ -60,13 +60,13 @@ const Template = meta.story({});
 export const LightTheme = Template.extend({});
 
 export const DarkTheme = Template.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = Template.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = Template.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

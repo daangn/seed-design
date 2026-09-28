@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import {
   IconDiamondLine,
   IconPlusLine,
@@ -11,7 +11,7 @@ import { useCallback, useRef, useState } from "react";
 import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot } from "seed-design/ui/menu";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 const MenuPreview = ({ size }: MenuVariantProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -85,18 +85,18 @@ const CommonStoryTemplate = meta.story({
 
 export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
 });
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
