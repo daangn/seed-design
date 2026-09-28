@@ -5,8 +5,8 @@ import { parseArgs } from "node:util";
 const COMMENT_BUDGET = 60_000;
 
 /**
- * GitHub drops a step summary over 1 MiB. Budgets count characters, and one character of Korean
- * doc text takes three bytes.
+ * GitHub drops a step summary over 1 MiB. `length` counts UTF-16 code units, and none takes more
+ * than three UTF-8 bytes, so 340,000 × 3 stays under 1,048,576 with room for the omission note.
  */
 const SUMMARY_BUDGET = 340_000;
 
@@ -48,16 +48,16 @@ export function parsePackageDiffs(output: string, { base, head }: { base: string
 }
 
 /**
- * Without `detailsUrl`, omitted packages point to the workflow log, which is where the step
- * summary's own overflow goes too.
+ * Omitted packages point to `details` when it holds them, and to the workflow log otherwise, which
+ * always carries the full diff.
  */
 export function buildComment(
   diffs: PackageDiff[],
   {
     baseLabel,
     budget = COMMENT_BUDGET,
-    detailsUrl,
-  }: { baseLabel: string; budget?: number; detailsUrl?: string },
+    details,
+  }: { baseLabel: string; budget?: number; details?: { url: string; packages: string[] } },
 ) {
   if (diffs.length === 0) return;
 
@@ -96,15 +96,21 @@ export function buildComment(
     length += section.length;
   }
 
-  return [
+  const list = (names: string[]) => names.map((name) => `\`${name}\``).join(", ");
+  const inDetails = omitted.filter((name) => details?.packages.includes(name));
+  const inLog = omitted.filter((name) => !inDetails.includes(name));
+
+  const body = [
     header,
     ...sections,
-    ...(omitted.length > 0
-      ? [
-          `길이 제한으로 다음 패키지의 diff는 생략했어요. ${detailsUrl ? `[workflow 요약](${detailsUrl})` : "workflow 로그"}에서 확인해 주세요: ${omitted.map((name) => `\`${name}\``).join(", ")}`,
-        ]
+    ...(omitted.length > 0 ? ["길이 제한으로 일부 패키지의 diff는 생략했어요.", ""] : []),
+    ...(details && inDetails.length > 0
+      ? [`- [workflow 요약](${details.url})에서 확인해 주세요: ${list(inDetails)}`]
       : []),
+    ...(inLog.length > 0 ? [`- workflow 로그에서 확인해 주세요: ${list(inLog)}`] : []),
   ].join("\n");
+
+  return { body, omitted };
 }
 
 function main() {
@@ -147,10 +153,23 @@ function main() {
   process.stderr.write(output);
 
   const summaryFile = values["summary-file"];
-  if (summaryFile)
-    appendFileSync(summaryFile, buildComment(diffs, { baseLabel, budget: SUMMARY_BUDGET }) ?? "");
+  const detailsUrl = values["details-url"];
+  const summary = summaryFile && buildComment(diffs, { baseLabel, budget: SUMMARY_BUDGET });
+  if (summaryFile && summary) appendFileSync(summaryFile, summary.body);
 
-  process.stdout.write(buildComment(diffs, { baseLabel, detailsUrl: values["details-url"] }) ?? "");
+  const comment = buildComment(diffs, {
+    baseLabel,
+    ...(detailsUrl &&
+      summary && {
+        details: {
+          url: detailsUrl,
+          packages: diffs
+            .map((diff) => diff.name)
+            .filter((name) => !summary.omitted.includes(name)),
+        },
+      }),
+  });
+  process.stdout.write(comment?.body ?? "");
 }
 
 if (import.meta.main) main();

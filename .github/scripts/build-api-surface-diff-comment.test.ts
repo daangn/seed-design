@@ -79,7 +79,9 @@ describe("PR 코멘트", () => {
 
     expect(
       buildComment([{ name: "@seed-design/react", patch, added: 1, removed: 1 }], meta),
-    ).toBe(`## API surface changes
+    ).toEqual({
+      omitted: [],
+      body: `## API surface changes
 
 \`origin/dev (012345678)\` 대비 공개 API 표면이 바뀐 패키지예요.
 
@@ -96,30 +98,45 @@ describe("PR 코멘트", () => {
 \`\`\`
 
 </details>
-`);
+`,
+    });
   });
 
   test("길이 제한을 넘는 패키지의 diff는 생략하고 이름을 남긴다", () => {
-    const body = buildComment(
+    const comment = buildComment(
       [
         { name: "@seed-design/a", patch: "+".repeat(40_000), added: 1, removed: 0 },
         { name: "@seed-design/b", patch: "+".repeat(40_000), added: 1, removed: 0 },
       ],
       meta,
     );
+    const body = comment?.body;
 
+    expect(comment?.omitted).toEqual(["@seed-design/b"]);
     expect(body?.includes("<summary><code>@seed-design/a</code></summary>")).toBe(true);
     expect(body?.includes("<summary><code>@seed-design/b</code></summary>")).toBe(false);
     expect(body?.endsWith("확인해 주세요: `@seed-design/b`")).toBe(true);
   });
 
-  test("지정한 예산으로 생략을 판단하고 생략한 패키지를 details URL로 안내한다", () => {
+  test("생략한 패키지 중 details가 담은 것만 details URL로, 나머지는 로그로 안내한다", () => {
     const body = buildComment(
-      [{ name: "@seed-design/a", patch: "+".repeat(200), added: 1, removed: 0 }],
-      { ...meta, budget: 100, detailsUrl: "https://example.com/runs/1" },
-    );
+      [
+        { name: "@seed-design/a", patch: "+".repeat(200), added: 1, removed: 0 },
+        { name: "@seed-design/b", patch: "+".repeat(200), added: 1, removed: 0 },
+      ],
+      {
+        ...meta,
+        budget: 100,
+        details: { url: "https://example.com/runs/1", packages: ["@seed-design/a"] },
+      },
+    )?.body;
 
     expect(body?.includes("<summary><code>@seed-design/a</code></summary>")).toBe(false);
-    expect(body?.includes("](https://example.com/runs/1)")).toBe(true);
+    expect(
+      body?.includes(
+        "[workflow 요약](https://example.com/runs/1)에서 확인해 주세요: `@seed-design/a`",
+      ),
+    ).toBe(true);
+    expect(body?.endsWith("workflow 로그에서 확인해 주세요: `@seed-design/b`")).toBe(true);
   });
 });
