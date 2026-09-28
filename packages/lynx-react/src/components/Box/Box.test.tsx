@@ -9,7 +9,9 @@ interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
       safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
       safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
     };
   };
   lynxTestingEnv?: {
@@ -81,5 +83,107 @@ describe("Box", () => {
       "padding-top": "47px",
       "padding-bottom": "34px",
     });
+  });
+
+  it("resolves left and right safe area padding from global props", () => {
+    setGlobalProps({
+      safeAreaInsetRight: 62,
+      safeAreaInsetLeft: 59,
+    });
+
+    render(
+      <Box className="box-test" pl="safeArea" pr="safeArea">
+        <Text>Box content</Text>
+      </Box>,
+    );
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expect(box).toBeInTheDocument();
+    expectStyle((box as HTMLElement).style, {
+      "padding-left": "59px",
+      "padding-right": "62px",
+    });
+  });
+
+  it("resolves margin with side over axis over all", () => {
+    render(<Box className="box-test" m="x1" mx="x2" ml="x3" />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expectStyle((box as HTMLElement).style, {
+      "margin-top": "var(--seed-dimension-x1)",
+      "margin-right": "var(--seed-dimension-x2)",
+      "margin-bottom": "var(--seed-dimension-x1)",
+      "margin-left": "var(--seed-dimension-x3)",
+    });
+  });
+
+  it("keeps auto margin", () => {
+    render(<Box className="box-test" ml="auto" />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expectStyle((box as HTMLElement).style, { "margin-left": "auto" });
+  });
+
+  it("negates bleed values with side over axis over all", () => {
+    render(<Box className="box-test" bleed="4px" bleedX="8px" bleedLeft="12px" />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    // happy-dom folds the constant `calc(4px * -1)` that Box emits.
+    expectStyle((box as HTMLElement).style, {
+      "margin-top": "calc(-4px)",
+      "margin-right": "calc(-8px)",
+      "margin-bottom": "calc(-4px)",
+      "margin-left": "calc(-12px)",
+    });
+  });
+
+  it("negates safe area bleed from global props", () => {
+    setGlobalProps({
+      safeAreaInsetRight: 62,
+      safeAreaInsetLeft: 59,
+    });
+
+    render(<Box className="box-test" bleedX="safeArea" />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expectStyle((box as HTMLElement).style, {
+      "margin-left": "calc(-59px)",
+      "margin-right": "calc(-62px)",
+    });
+  });
+
+  it("negates the env() fallback when the host omits safe area bleed insets", () => {
+    render(<Box className="box-test" bleedX="safeArea" />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    // happy-dom normalizes the `calc(env(...) * -1)` that Box emits.
+    expectStyle((box as HTMLElement).style, {
+      "margin-left": "calc(env(safe-area-inset-left) *-1)",
+      "margin-right": "calc(env(safe-area-inset-right) *-1)",
+    });
+  });
+
+  it("rejects dimension tokens as bleed values", () => {
+    // @ts-expect-error Lynx drops an inline calc() that contains a token's var().
+    render(<Box bleedX="x4" />);
+  });
+
+  it("lets style override margin props", () => {
+    render(<Box className="box-test" mt="x4" style={{ marginTop: "3px" }} />);
+
+    const box = getRenderedRoot().querySelector(".box-test");
+
+    expectStyle((box as HTMLElement).style, { "margin-top": "3px" });
+  });
+
+  it("rejects margin and bleed props together", () => {
+    // @ts-expect-error margin and bleed props both resolve to margin-*.
+    render(<Box m="x1" bleedX="8px" />);
   });
 });
