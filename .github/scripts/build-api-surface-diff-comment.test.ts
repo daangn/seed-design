@@ -112,4 +112,14 @@ describe("PR 코멘트", () => {
     expect(body?.includes("<summary><code>@seed-design/b</code></summary>")).toBe(false);
     expect(body?.endsWith("확인해 주세요: `@seed-design/b`")).toBe(true);
   });
+
+  test("지정한 예산으로 생략을 판단하고 생략한 패키지를 details URL로 안내한다", () => {
+    const body = buildComment(
+      [{ name: "@seed-design/a", patch: "+".repeat(200), added: 1, removed: 0 }],
+      { ...meta, budget: 100, detailsUrl: "https://example.com/runs/1" },
+    );
+
+    expect(body?.includes("<summary><code>@seed-design/a</code></summary>")).toBe(false);
+    expect(body?.includes("](https://example.com/runs/1)")).toBe(true);
+  });
 });
