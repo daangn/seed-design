@@ -1099,8 +1099,9 @@ export function useDatePicker(props: UseDatePickerProps) {
   const closeWheel = React.useCallback(() => {
     if (!isWheelOpen) return;
     setIsWheelOpen(false);
-    setViewDate(wheelViewDate);
+    // 연·월이 그대로면 현재 주를 유지합니다. Wheel 값은 항상 1일이라 그대로 반영하면 Week가 1일이 속한 주로 이동합니다.
     if (compareYearMonths(wheelViewDate, displayMonthDate) === 0) return;
+    setViewDate(wheelViewDate);
 
     // 이전·다음 이동처럼 새 월의 첫날을 roving focus 대상으로 삼습니다. Week popover에서 Tab으로
     // 달력에 들어온 뒤 닫히면 포커스된 이전 주의 셀이 사라지므로 새 셀로 DOM 포커스를 옮깁니다.

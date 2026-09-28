@@ -398,6 +398,24 @@ describe("useDatePicker", () => {
     expect(result.current.wheel.monthValue).toBe("1");
   });
 
+  it("Week에서 연도를 바꿨다가 원래 연·월로 되돌려 닫으면 표시 주를 유지한다", () => {
+    const onViewDateChange = mock(() => {});
+    const { result } = renderDatePicker({
+      visibleRange: "week",
+      defaultViewDate: { year: 2026, month: 7, day: 15 },
+      onViewDateChange,
+    });
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 12 });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    act(() => result.current.wheel.onYearValueChange("2027"));
+    act(() => result.current.wheel.onYearValueChange("2026"));
+    act(() => result.current.closeWheel());
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 12 });
+    expect(onViewDateChange).not.toHaveBeenCalled();
+  });
+
   it("Week의 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 기준 월로 사용한다", () => {
     const { result } = renderDatePicker({
       visibleRange: "week",
