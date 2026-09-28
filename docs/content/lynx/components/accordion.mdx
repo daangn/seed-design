@@ -206,6 +206,25 @@ controlled 모드에서는 현재 열려 있는 항목이 `values` 배열로 전
   ```
 </LynxComponentExample>
 
+## Headless
+
+`@seed-design/lynx-react-accordion`은 Recipe 없이 열림 상태와 controlled 값, 비활성화, Trigger의 탭 이벤트·접근성·ref, Content의 높이 측정과 숨김 처리를 제공합니다.
+`@seed-design/lynx-react`의 Accordion은 여기에 SEED Recipe, 구분선, chevron, 펼침 모션을 더합니다.
+Registry `ui:accordion`은 제목·설명·prefix와 기본 아이콘을 조립합니다.
+
+```package-install
+@seed-design/lynx-react-accordion
+```
+
+<LynxComponentExample name="lynx/accordion/headless">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/accordion/headless.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## Web Version Differences
 
 <Callout type="warning">

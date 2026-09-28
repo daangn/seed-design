@@ -25,7 +25,12 @@ export default defineConfig({
       formats: ["es"],
     },
     rolldownOptions: {
-      external: [/^@lynx-js\/.+/, /^@seed-design\/lynx-css(\/.*)?$/, "clsx"],
+      external: [
+        /^@lynx-js\/.+/,
+        /^@seed-design\/lynx-css(\/.*)?$/,
+        /^@seed-design\/lynx-react-accordion$/,
+        "clsx",
+      ],
       output: {
         format: "es",
         preserveModules: true,
