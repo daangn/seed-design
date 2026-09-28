@@ -1,4 +1,10 @@
 export {
+  ChipToggle as Toggle,
+  ChipRadioRoot as RadioRoot,
+  ChipRadioItem as RadioItem,
+  type ChipToggleProps as ToggleProps,
+  type ChipRadioRootProps as RadioRootProps,
+  type ChipRadioItemProps as RadioItemProps,
   ChipRoot as Root,
   ChipLabel as Label,
   ChipPrefixIcon as PrefixIcon,

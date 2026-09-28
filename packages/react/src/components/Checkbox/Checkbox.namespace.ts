@@ -11,4 +11,5 @@ export {
   type CheckboxIndicatorProps as IndicatorProps,
   type CheckboxLabelProps as LabelProps,
   type CheckboxRootProps as RootProps,
+  type CheckboxRootPrimitiveProps as RootPrimitiveProps,
 } from "./Checkbox";

@@ -8,16 +8,16 @@ import {
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
-import { Checkbox } from "@seed-design/react/primitive";
+import { Checkbox } from "@seed-design/react";
 
-function CustomCheckbox(props: CheckmarkVariantProps & Checkbox.RootProps) {
+function CustomCheckbox(props: CheckmarkVariantProps & Checkbox.RootPrimitiveProps) {
   const [checkmarkVariantProps, otherProps] = checkmark.splitVariantProps(props);
 
   return (
-    <Checkbox.Root {...otherProps}>
+    <Checkbox.Root.Primitive {...otherProps}>
       <Checkmark {...checkmarkVariantProps} />
       <Checkbox.HiddenInput />
-    </Checkbox.Root>
+    </Checkbox.Root.Primitive>
   );
 }
 

@@ -327,7 +327,6 @@
       ],
       "id": "chip",
       "dependencies": [
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },

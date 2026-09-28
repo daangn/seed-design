@@ -9,12 +9,10 @@ import {
   Icon,
   PrefixIcon,
   VisuallyHidden,
-} from "@seed-design/react";
-import {
-  type DisplayItemEntry,
-  type UseAttachmentDisplayReturn,
+  type AttachmentDisplayItemEntry,
   useAttachmentDisplayContext,
-} from "@seed-design/react/primitive";
+  type AttachmentDisplayContextValue,
+} from "@seed-design/react";
 import * as React from "react";
 
 import { ProgressCircle } from "./progress-circle";
@@ -106,15 +104,15 @@ AttachmentDisplayField.displayName = "AttachmentDisplayField";
 
 export type AttachmentDisplayProps = {
   onTriggerClick: (
-    helpers: Pick<UseAttachmentDisplayReturn, "addEntries" | "updateEntryStatus">,
+    helpers: Pick<AttachmentDisplayContextValue, "addEntries" | "updateEntryStatus">,
   ) => void;
 } & (
   | { children: SeedAttachmentDisplay.ContextProps["children"]; onRetry?: never }
   | {
       children?: undefined;
       onRetry?: (
-        entry: DisplayItemEntry,
-        helpers: Pick<UseAttachmentDisplayReturn, "updateEntryStatus">,
+        entry: AttachmentDisplayItemEntry,
+        helpers: Pick<AttachmentDisplayContextValue, "updateEntryStatus">,
       ) => void;
     }
 );

@@ -32,7 +32,12 @@ export interface RadioGroupRootProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const RadioGroupRoot = withGroupContext<HTMLDivElement, RadioGroupRootProps>(Primitive.div);
+export interface RadioGroupRootPrimitiveProps extends RadioGroupPrimitive.RootProps {}
+
+export const RadioGroupRoot = Object.assign(
+  withGroupContext<HTMLDivElement, RadioGroupRootProps>(Primitive.div),
+  { Primitive: RadioGroupPrimitive.Root },
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +45,8 @@ export interface RadioGroupItemProps
   extends RadioVariantProps,
     RadiomarkVariantProps,
     RadioGroupPrimitive.ItemProps {}
+
+export interface RadioGroupItemPrimitiveProps extends RadioGroupPrimitive.ItemProps {}
 
 export const RadioGroupItem = Object.assign(
   forwardRef<HTMLLabelElement, RadioGroupItemProps>(({ className, ...props }, ref) => {
