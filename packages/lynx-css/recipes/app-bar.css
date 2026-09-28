@@ -1,6 +1,6 @@
 .seed-app-bar__root {
     position: relative;
-    z-index: var(--z-index-app-bar);
+    z-index: 0;
     width: 100%;
     display: flex;
     flex-direction: row;
