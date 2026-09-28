@@ -30,7 +30,11 @@ export function App() {
 }
 ```
 
-`Box`는 Lynx 네이티브 `<view>`를 렌더링합니다. `bg`, `p`, `borderRadius` 같은 스타일 prop은 SEED 토큰을 직접 object style 값으로 변환해 적용합니다.
+`Box`는 Lynx 네이티브 `<view>`를 렌더링합니다. `bg`, `p`, `borderRadius` 같은 스타일 prop은 `--seed-box-*` CSS 변수와 `seed-box-*` class로 전달되고, `@seed-design/lynx-css`의 전역 규칙이 최종 값을 계산합니다. 설정한 prop의 class만 붙으므로 설정하지 않은 속성은 `className`으로 준 스타일을 그대로 따릅니다.
+
+<Callout type="info" title="필요한 설정">
+스타일 prop은 inline CSS 변수로 전달되므로 [Feature Flags](/lynx/getting-started/feature-flags)의 `enableCSSInlineVariables: true`가 필요합니다. Lynx Engine 4.1에서 동작을 확인했습니다.
+</Callout>
 
 ## Props
 
@@ -46,10 +50,22 @@ export function App() {
 | 테두리 | `borderWidth`, `borderTopWidth`, `borderRightWidth`, `borderBottomWidth`, `borderLeftWidth`, `borderRadius`와 corner radius props |
 | 크기 | `width`, `minWidth`, `maxWidth`, `height`, `minHeight`, `maxHeight` |
 | 패딩 | `p`, `px`, `py`, `pt`, `pr`, `pb`, `pl`과 longhand padding props |
+| 마진 | `m`, `mx`, `my`, `mt`, `mr`, `mb`, `ml`과 longhand margin props. `auto`를 쓸 수 있습니다. |
+| Bleed | `bleed`, `bleedX`, `bleedY`, `bleedTop`, `bleedRight`, `bleedBottom`, `bleedLeft`. 값만큼 음수 margin을 적용하며 dimension 토큰을 쓸 수 있습니다. |
 | Flex | `display`, `flexDirection`, `flexWrap`, `flexGrow`, `flexShrink`, `alignItems`, `justifyContent`, `gap` |
 | 배치 | `position`, `top`, `right`, `bottom`, `left`, `zIndex`, `overflowX`, `overflowY` |
 
-명시적인 `style` prop은 마지막에 merge되므로, 필요한 경우 계산된 스타일을 덮어쓸 수 있습니다.
+`margin*`과 `bleed*`는 둘 다 margin을 정하므로 함께 쓸 수 없습니다. `p` → `px` → `pl`처럼 범위가 좁은 prop이 넓은 prop보다 우선합니다.
+
+```tsx
+<Box px="spacingX.globalGutter">
+  <Box bleedX="spacingX.globalGutter" bg="bg.neutralWeak">
+    <Text>부모의 좌우 padding을 덮는 영역</Text>
+  </Box>
+</Box>
+```
+
+명시적인 `style` prop은 inline style로 적용되므로, 필요한 경우 스타일 prop 값을 덮어쓸 수 있습니다.
 
 ```tsx
 <Box p="x3" style={{ paddingLeft: "24px" }}>
@@ -63,7 +79,7 @@ export function App() {
 Lynx `Box`는 React `Box`와 다음과 같은 차이가 있습니다.
 
 - `as`, `asChild`를 지원하지 않습니다. Lynx 컴파일러 제약 때문에 네이티브 `<view>`를 컴포넌트 파일 안에서 직접 렌더링합니다.
-- `bgGradient`, `boxShadow`, `bleedX`, `bleedY`, `unstable_transform`처럼 아직 Lynx에서 검증하지 않은 StyleProps는 열지 않습니다.
-- margin 계열 shorthand는 제공하지 않습니다. 레이아웃 간격은 `VStack` / `HStack`의 `gap` 또는 명시적인 `style`을 사용합니다.
+- `bgGradient`, `boxShadow`, `unstable_transform`처럼 아직 Lynx에서 검증하지 않은 StyleProps는 열지 않습니다.
+- `bleed*`에 `"asPadding"` 값을 쓸 수 없습니다. 덮을 padding 값을 직접 지정합니다.
 - 이벤트는 웹의 `onClick` 대신 Lynx의 `bindtap` 계열 prop을 사용합니다.
 </Callout>
