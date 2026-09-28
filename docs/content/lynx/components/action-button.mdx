@@ -145,6 +145,24 @@ Lynx에서는 기본 Ghost 스타일을 지원합니다. 웹의 `color`, `fontWe
   ```
 </LynxComponentExample>
 
+## Headless
+
+`@seed-design/lynx-react-action-button`은 Recipe 없이 `bindtap`·`main-thread:bindtap` 연결, `disabled`·`loading` 중 tap 차단, 눌림 상태, 접근성 기본값과 ref를 제공합니다.
+`@seed-design/lynx-react`의 ActionButton은 여기에 SEED Recipe, 아이콘 slot, loading spinner, Scale Feedback을 더합니다.
+
+```package-install
+@seed-design/lynx-react-action-button
+```
+
+<LynxComponentExample name="lynx/action-button/headless">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/action-button/headless.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
