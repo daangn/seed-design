@@ -1,6 +1,6 @@
 ---
 id: workspace-installation
-description: 새 worktree 또는 pull·rebase 뒤 테스트·빌드·API 추출을 준비하거나 workspace 의존성·bin 누락을 조사할 때 읽는다.
+description: 새 checkout·pull·rebase·의존성 변경 뒤 테스트·빌드·API 추출을 준비하거나, vitest 실행 파일·workspace 모듈·새 의존성을 찾지 못할 때 읽는다. lockfile에 맞춘 설치와 bin 준비, 병렬 작업의 설치 담당, 과거 prepare 실패의 적용 조건을 다룬다. 실행 검증이 없는 문서 편집에는 적용하지 않는다.
 scope: ["**"]
 status: active
 ---
@@ -10,7 +10,7 @@ status: active
 ## 교훈과 다음 행동
 
 - 작업을 배정하기 전에 조율자가 설치 상태를 한 번 확인하고 고친다. 새 workspace 패키지나 의존성을 추가한 뒤에도 조율자만 `bun install`을 실행한다.
-- 첫 검증 전에 `bun install --frozen-lockfile --ignore-scripts`를 한 번 실행한다(변경이 없으면 1초 안에 끝난다). `ls node_modules/.bin | wc -l`이 0이면 조율자가 `bun install`을 실행한다. `9c4356857`(`fix(extract-api-surface): declare skills-npm where prepare runs it`) 이전 기준에서 `prepare`가 `skills-npm: command not found`로 멈추면 `bun install --ignore-scripts && bun install`로 우회한다. 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
+- 첫 검증 전에 `bun install --frozen-lockfile --ignore-scripts`를 한 번 실행한다. `ls node_modules/.bin | wc -l`이 0이면 조율자가 `bun install`을 실행한다. `9c4356857`(`fix(extract-api-surface): declare skills-npm where prepare runs it`) 이전 기준에서 `prepare`가 `skills-npm: command not found`로 멈추면 `bun install --ignore-scripts && bun install`로 우회한다. 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
 
 ## 발생 근거와 적용 조건
 
@@ -24,3 +24,4 @@ status: active
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: description의 증상·적용 범위를 보강하고 개인 실행 환경에 따른 소요 시간 보장을 제거했다. 실행 재검증은 하지 않았다.

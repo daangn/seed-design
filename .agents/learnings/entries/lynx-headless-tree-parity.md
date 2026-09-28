@@ -1,6 +1,6 @@
 ---
 id: lynx-headless-tree-parity
-description: Lynx 컴포넌트를 headless로 분리하거나 Provider·이벤트·disabled 동작·native tree 및 성능 회귀를 검증할 때 읽는다.
+description: Lynx styled 컴포넌트를 headless hook으로 분리하면서 Provider·context·native 이벤트 전달을 바꿀 때 읽는다. 공개 API·화면이 같아도 생길 수 있는 할당 증가·이중 이벤트 바인딩·disabled 누락을 찾기 위한 element tree 전후 비교와 기기 성능 검증을 다룬다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["isolated-regression-baselines"]
@@ -30,3 +30,4 @@ related: ["isolated-regression-baselines"]
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.

@@ -1,6 +1,6 @@
 ---
 id: resolve-paths-from-manifests
-description: 패키지·workspace·export나 tsconfig의 상대 경로를 확인할 때 읽는다.
+description: SEED의 export·primitives 이름으로 workspace 경로를 추측하거나, tsconfig extends의 상대 경로와 직접 소비 패키지를 추적할 때 읽는다. 재수출과 독립 패키지를 구분하고 manifest 위치를 기준으로 경로·의존 관계를 확인하는 방법을 다룬다.
 scope: ["**"]
 status: active
 ---
@@ -22,3 +22,4 @@ status: active
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.

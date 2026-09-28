@@ -1,6 +1,6 @@
 ---
 id: public-api-change-notes
-description: 공개 API 제거·사용 중단의 changeset과 CHANGELOG 안내에서 컴포넌트·중첩 prop 영향 범위를 정할 때 읽는다.
+description: 공개 API를 제거·사용 중단할 때 changeset·CHANGELOG의 소비자별 수정 대상을 정하거나, wrapper 컴포넌트의 중첩 prop까지 영향이 있는지 확인할 때 읽는다. 내부 구현 이름 대신 공개 타입에 노출된 컴포넌트·prop 경로로 범위를 설명하고 패키지별 안내를 나누는 기준을 다룬다.
 scope: [".changeset/**", "packages/**", "docs/**"]
 status: active
 ---
@@ -22,3 +22,4 @@ status: active
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.

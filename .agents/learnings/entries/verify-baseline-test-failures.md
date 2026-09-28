@@ -1,6 +1,6 @@
 ---
 id: verify-baseline-test-failures
-description: 전체 테스트·타입 검증 실패를 현재 변경의 회귀와 기준 브랜치의 기존 실패로 구분할 때 읽는다.
+description: 설치·빌드 조건을 맞춘 뒤에도 전체 테스트·타입 검사가 실패하고, 실패한 파일의 diff가 없어 기존 문제인지 현재 변경의 간접 영향인지 판단할 때 읽는다. 같은 기준 commit·검증 명령에서 재현한 증거와 전체 실행 중 누락된 개별 검증을 구분해 보고하는 기준을 다룬다.
 scope: ["**"]
 status: active
 related: ["workspace-installation"]
@@ -23,3 +23,4 @@ related: ["workspace-installation"]
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.

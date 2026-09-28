@@ -1,6 +1,6 @@
 ---
 id: bound-query-types
-description: React Testing Library bound query의 타입 인자·matcher 오류나 런타임 테스트와 TypeScript 검사 차이를 조사할 때 읽는다.
+description: React 테스트에서 render()가 반환한 bound query의 타입 인자·matcher를 고치거나, 런타임 테스트는 통과하지만 TS2558 등 타입 오류가 남을 때 읽는다. 설치된 Testing Library의 query 선언 확인, 타입 좁히기와 별도 TypeScript 검증 기준을 다룬다.
 scope: ["packages/react/**"]
 status: active
 related: ["verify-baseline-test-failures"]
@@ -24,3 +24,4 @@ related: ["verify-baseline-test-failures"]
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.

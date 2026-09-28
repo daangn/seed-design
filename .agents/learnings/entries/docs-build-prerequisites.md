@@ -1,6 +1,6 @@
 ---
 id: docs-build-prerequisites
-description: 새 worktree에서 docs 검증·빌드를 준비하거나 TS2307·workspace 모듈 누락을 조사할 때 읽는다.
+description: workspace lib가 준비되지 않은 checkout에서 docs 테스트·빌드를 시작하거나, @seed-design 패키지를 찾지 못하는 TS2307·module-resolution 오류를 조사할 때 읽는다. 의존성 설치만으로 해결되지 않는 선행 lib 빌드와 docs:test·docs:build별 준비 순서를 다룬다.
 scope: ["docs/**"]
 status: active
 related: ["workspace-installation"]
@@ -23,3 +23,4 @@ related: ["workspace-installation"]
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
+- 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.
