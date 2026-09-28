@@ -2589,7 +2589,7 @@
             {
               "id": "use-safe-area",
               "title": "useSafeArea",
-              "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+              "description": "Lynx 앱에서 top/right/bottom/left safe area inset 값을 가져오는 훅입니다.",
               "docUrl": "/lynx/hooks/use-safe-area"
             },
             {
