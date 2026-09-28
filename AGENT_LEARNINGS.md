@@ -152,3 +152,17 @@
 ### Better Approaches
 - Recommendation: 내용 기준으로 크기가 정해지는 컨테이너에 넣는 flex item에는 intrinsic 크기에 반영되는 `minWidth`(또는 `width`)를 함께 준다. 다른 recipe가 같은 속성을 가지면 CSS 순서 충돌이 없는 속성을 고른다.
 - Solutions: `packages/qvism-preset/src/recipes/date-picker.ts`의 `yearColumn`·`monthColumn`에 `minWidth: "120px"`·`"96px"`를 두었다. 검증은 브라우저에서 `el.getBoundingClientRect().width`로 한다.
+
+## Popover는 context props를 펼치지 말고 공개 부품으로 조합한다
+
+### Mistake Made
+- Description: Date Picker Week의 연·월 Wheel popover를 만들 때 `usePopoverContext().positionerProps`를 직접 `div`에 펼치고 `role`·`id`만 뺐다. `origin/major`로 리베이스하자 `@seed-design/react-popover`가 floating-ui `useDismiss`를 없애고 Escape·바깥 누르기를 `PopoverPositioner` 안의 DismissibleLayer로, focus 이동·복귀를 `PopoverContent`의 FloatingFocusManager로 옮겨서 Escape로 닫히지 않게 됐다.
+- Impact: 리베이스 뒤 `bun react:test`의 week 테스트가 30초 timeout으로 실패했고, 구현과 테스트를 다시 고쳐야 했다.
+
+### Patterns to Avoid
+- Pattern: headless 부품의 context에서 prop bag만 꺼내 직접 렌더하는 것. 동작이 부품 컴포넌트에 있는지 hook에 있는지 확인하지 않는 것.
+- Risk: 기반 패키지가 동작의 위치를 hook에서 부품으로 옮기면 소비처가 조용히 동작을 잃는다. 타입 검사는 통과한다.
+
+### Better Approaches
+- Recommendation: `PopoverPrimitive.Positioner`·`PopoverPrimitive.Content`처럼 공개 부품으로 조합하고, 필요한 속성은 props로 덮어쓴다. 제출 전 기준 브랜치가 바뀌었으면 사용하는 headless 패키지의 diff부터 읽는다.
+- Solutions: `git diff <oldBase> HEAD --stat -- packages/react-headless/<pkg>/src`로 변경을 확인한다. popover 테스트는 layer 등록과 focus 복귀가 비동기이므로 `userEvent`와 `act(async () => 50ms 대기)` 뒤에 판정한다(`packages/react-headless/popover/src/usePopover.test.tsx`의 `waitForFocus`).
