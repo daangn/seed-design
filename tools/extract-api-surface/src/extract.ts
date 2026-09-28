@@ -427,7 +427,75 @@ function createDescriber(program: ts.Program) {
       };
     }
 
+    if (isLiteralObject(type))
+      return {
+        name,
+        kind: "const",
+        ...(doc && { doc }),
+        members: describeLeaves(type, declaration),
+      };
+
     return { name, kind: "const", signatures: [printType(type, declaration)], ...(doc && { doc }) };
+  }
+
+  const tupleElements = (type: ts.Type) =>
+    checker.isTupleType(type) ? checker.getTypeArguments(type as ts.TypeReference) : undefined;
+
+  /**
+   * An anonymous object, or a tuple holding one. Named types stay printed by name, and a tuple
+   * of plain values stays on one line.
+   */
+  function isLiteralObject(type: ts.Type): boolean {
+    if (type.aliasSymbol) return false;
+
+    const elements = tupleElements(type);
+    if (elements) return elements.some(isLiteralObject);
+
+    const symbolFlags = type.symbol?.flags ?? ts.SymbolFlags.None;
+
+    return (
+      (type.flags & ts.TypeFlags.Object) !== 0 &&
+      (symbolFlags & (ts.SymbolFlags.TypeLiteral | ts.SymbolFlags.ObjectLiteral)) !== 0 &&
+      type.getCallSignatures().length === 0 &&
+      type.getConstructSignatures().length === 0 &&
+      checker.getIndexInfosOfType(type).length === 0 &&
+      checker.getPropertiesOfType(type).length > 0
+    );
+  }
+
+  /**
+   * Token tables and specs are literal objects thousands of characters wide; one line per leaf
+   * keeps a single changed value from rewriting the whole export in a diff.
+   */
+  function describeLeaves(type: ts.Type, at: ts.Node, prefix = ""): Member[] {
+    const elements = tupleElements(type);
+    if (elements) {
+      return elements.flatMap((element, index) => {
+        const path = `${prefix}[${index}]`;
+
+        return isLiteralObject(element)
+          ? describeLeaves(element, at, path)
+          : [{ name: path, optional: false, type: printType(element, at) }];
+      });
+    }
+
+    return sortByName(checker.getPropertiesOfType(type)).flatMap((property) => {
+      const [declaration] = property.getDeclarations() ?? [];
+      const location = declaration ?? at;
+      const optional = (property.flags & ts.SymbolFlags.Optional) !== 0;
+      const path = /^[A-Za-z_$][\w$]*$/.test(property.name)
+        ? `${prefix}${prefix && "."}${property.name}`
+        : `${prefix}[${JSON.stringify(property.name)}]`;
+      const value = checker.getTypeOfSymbolAtLocation(property, location);
+      const present = optional ? checker.getNonNullableType(value) : value;
+
+      if (isLiteralObject(present))
+        return describeLeaves(present, location, `${path}${optional ? "?" : ""}`);
+
+      const doc = docOf(property);
+
+      return [{ name: path, optional, type: printType(value, location), ...(doc && { doc }) }];
+    });
   }
 
   function describeFile(file: string, pkg: WorkspacePackage) {

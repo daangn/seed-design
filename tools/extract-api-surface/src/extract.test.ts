@@ -194,6 +194,57 @@ type Pair = [string, number]
     );
   });
 
+  test("이름 없는 객체 타입의 const는 leaf 값마다 경로 한 줄로 펼친다", () => {
+    const root = createFixture();
+    writeFiles(root, {
+      "packages/tokens/package.json": JSON.stringify({
+        name: "@fixture/tokens",
+        exports: { ".": { types: "./lib/index.d.ts" } },
+      }),
+      "packages/tokens/src/index.ts": `export interface Named { id: string }
+
+export declare const named: Named;
+
+export const vars = {
+  themeIos: { enabled: { root: { height: "44px" } } },
+  base: {
+    enabled: {
+      /** Minimum gap. */
+      "min-gap": "8px",
+      root: { paddingX: "6px" },
+    },
+  },
+  definitions: [{ states: ["enabled"], variants: {} }, "raw"],
+  modes: ["light", "dark"],
+} as const;
+
+export declare const optional: { slot?: { size: number }; label?: string };
+`,
+    });
+
+    expect(renderSurface(extractSurface(root, ["@fixture/tokens"]))).toBe(
+      `# @fixture/tokens
+
+## .
+const named: Named
+type Named
+  id: string
+const optional
+  label?: string | undefined
+  slot?.size: number
+const vars
+  base.enabled["min-gap"]: "8px"
+    // Minimum gap.
+  base.enabled.root.paddingX: "6px"
+  definitions[0].states: readonly ["enabled"]
+  definitions[0].variants: {}
+  definitions[1]: "raw"
+  modes: readonly ["light", "dark"]
+  themeIos.enabled.root.height: "44px"
+`,
+    );
+  });
+
   test("workspace에 없는 이름을 지정하면 추출을 멈춘다", () => {
     const root = createFixture();
 
