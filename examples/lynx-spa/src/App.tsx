@@ -9,6 +9,7 @@ import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
+import { BoxStylePropsTestPage } from "./pages/BoxStylePropsTestPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
@@ -76,6 +77,7 @@ export type Page =
   | "layout-stress-style"
   | "layout-stress-seed-primitives"
   | "safe-area-debug"
+  | "box-style-props-test"
   | "css-selector-test"
   | "icon-color-poc"
   | "use-controllable-state"
@@ -195,6 +197,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "layout-stress-style" && <LayoutStressStylePage />}
       {page === "layout-stress-seed-primitives" && <LayoutStressSeedPrimitivesPage />}
       {page === "safe-area-debug" && <SafeAreaDebugPage />}
+      {page === "box-style-props-test" && <BoxStylePropsTestPage />}
       {page === "css-selector-test" && <CSSSelectorTestPage />}
       {page === "icon-color-poc" && <IconColorPOCPage />}
       {page === "use-controllable-state" && <UseControllableStatePage />}

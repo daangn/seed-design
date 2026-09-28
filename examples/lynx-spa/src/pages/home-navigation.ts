@@ -66,6 +66,7 @@ export const TOOL_SECTIONS: readonly LegacySection[] = [
       { page: "layout-stress-style", title: "Layout Stress: Inline Style" },
       { page: "layout-stress-seed-primitives", title: "Layout Stress: SEED Primitives" },
       { page: "safe-area-debug", title: "Safe Area Debug" },
+      { page: "box-style-props-test", title: "Box Style Props Test" },
       { page: "nested-vars-test", title: "Nested Vars Test (Lynx 3.6+)" },
       { page: "css-selector-test", title: "CSS Selector Test" },
       { page: "icon-color-poc", title: "Icon Color POC" },
