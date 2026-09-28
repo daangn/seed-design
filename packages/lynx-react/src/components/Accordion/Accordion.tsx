@@ -2,18 +2,28 @@ import * as React from "@lynx-js/react";
 import type { ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
+import {
+  AccordionContext,
+  AccordionItemContext,
+  useAccordion,
+  useAccordionContent,
+  useAccordionContext,
+  useAccordionItem,
+  useAccordionItemContext,
+  useAccordionTrigger,
+  type UseAccordionProps,
+  type UseAccordionReturn,
+  type UseAccordionItemProps,
+  type UseAccordionItemReturn,
+  type UseAccordionTriggerProps,
+} from "@seed-design/lynx-react-accordion";
 import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
-
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
-  LynxPressableProps,
   LynxStyledElementProps,
   LynxTextRef,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { toArray } from "../../utils/children";
@@ -33,59 +43,38 @@ import { mergeProps } from "../../utils/merge-props";
 
 type PublicAccordionVariantProps = Omit<AccordionVariantProps, "open" | "pressed" | "disabled">;
 
-interface AccordionContextValue {
-  values: string[];
-  disabled: boolean;
+interface StyledAccordionContextValue extends UseAccordionReturn {
   variantProps: PublicAccordionVariantProps;
-  toggle: (value: string) => void;
 }
 
-const AccordionContext = React.createContext<AccordionContextValue | null>(null);
-
-function useAccordionContext(consumer: string): AccordionContextValue {
-  const context = React.useContext(AccordionContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <AccordionRoot/>.`);
-  }
-  return context;
-}
-
-interface AccordionItemContextValue {
-  value: string;
-  open: boolean;
-  disabled: boolean;
+interface StyledAccordionItemContextValue extends UseAccordionItemReturn {
   variantProps: PublicAccordionVariantProps;
-  toggle: () => void;
 }
 
-const AccordionItemContext = React.createContext<AccordionItemContextValue | null>(null);
 const AccordionItemPositionContext = React.createContext({ isLast: false });
 
-function useAccordionItemContext(consumer: string): AccordionItemContextValue {
-  const context = React.useContext(AccordionItemContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <AccordionItem/>.`);
+function useStyledAccordionItemContext(consumer: string): StyledAccordionItemContextValue {
+  const context = useAccordionItemContext(consumer);
+  if (!("variantProps" in context)) {
+    throw new Error(`<${consumer}/> must be rendered inside a styled <AccordionItem/>.`);
   }
-  return context;
+  return context as StyledAccordionItemContextValue;
 }
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(accordion);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionRootProps extends PublicAccordionVariantProps, LynxStyledElementProps {
-  values?: string[];
-  defaultValues?: string[];
-  onValuesChange?: (values: string[]) => void;
-  disabled?: boolean;
-  multiple?: boolean;
-}
+export interface AccordionRootProps
+  extends UseAccordionProps,
+    PublicAccordionVariantProps,
+    LynxStyledElementProps {}
 
 export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((props, ref) => {
   const {
     children,
     className,
-    values: valuesProp,
+    values,
     defaultValues = [],
     onValuesChange,
     disabled = false,
@@ -93,34 +82,10 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
     ...restProps
   } = props;
   const [variantProps, nativeProps] = accordion.splitVariantProps(restProps);
-  const [rawValues, setValues] = useControllableState({
-    value: valuesProp,
-    defaultValue: defaultValues,
-    onChange: onValuesChange,
-  });
-  const values = multiple ? rawValues : rawValues.slice(0, 1);
-
-  const toggle = React.useCallback(
-    (itemValue: string) => {
-      if (disabled) return;
-
-      if (!multiple) {
-        setValues(values[0] === itemValue ? [] : [itemValue]);
-        return;
-      }
-
-      setValues(
-        values.includes(itemValue)
-          ? values.filter((value) => value !== itemValue)
-          : [...values, itemValue],
-      );
-    },
-    [disabled, multiple, setValues, values],
-  );
-
-  const contextValue = React.useMemo<AccordionContextValue>(
-    () => ({ values, disabled, variantProps, toggle }),
-    [disabled, toggle, values, variantProps],
+  const api = useAccordion({ values, defaultValues, onValuesChange, disabled, multiple });
+  const contextValue = React.useMemo<StyledAccordionContextValue>(
+    () => ({ ...api, variantProps }),
+    [api, variantProps],
   );
   const classes = accordion({ ...variantProps, disabled });
   const items = toArray(children);
@@ -147,28 +112,28 @@ AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionItemProps extends LynxStyledElementProps {
-  value: string;
-  disabled?: boolean;
-}
+export interface AccordionItemProps extends UseAccordionItemProps, LynxStyledElementProps {}
 
 export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((props, ref) => {
-  const { children, className, value, disabled: itemDisabled = false, ...nativeProps } = props;
-  const accordionContext = useAccordionContext("AccordionItem");
+  const { children, className, value, disabled: itemDisabled, ...nativeProps } = props;
+  const api = useAccordionItem({ value, disabled: itemDisabled });
+  const rootContext = useAccordionContext("AccordionItem");
+  if (!("variantProps" in rootContext)) {
+    throw new Error("<AccordionItem/> must be rendered inside a styled <AccordionRoot/>.");
+  }
+  const variantProps = rootContext.variantProps as PublicAccordionVariantProps;
+  const contextValue = React.useMemo<StyledAccordionItemContextValue>(
+    () => ({ ...api, variantProps }),
+    [api, variantProps],
+  );
   const { isLast } = React.useContext(AccordionItemPositionContext);
-  const disabled = accordionContext.disabled || itemDisabled;
-  const open = accordionContext.values.includes(value);
-  const toggle = React.useCallback(() => accordionContext.toggle(value), [accordionContext, value]);
+  const { open, disabled } = api;
   const classes = accordion({
-    ...accordionContext.variantProps,
+    ...variantProps,
     open,
     disabled,
     pressed: false,
   });
-  const contextValue = React.useMemo<AccordionItemContextValue>(
-    () => ({ value, open, disabled, variantProps: accordionContext.variantProps, toggle }),
-    [accordionContext.variantProps, disabled, open, toggle, value],
-  );
 
   return (
     <AccordionItemContext.Provider value={contextValue}>
@@ -218,7 +183,7 @@ AccordionHeader.displayName = "AccordionHeader";
 export interface AccordionTriggerProps
   extends LynxStyledElementProps,
     LynxAccessibilityProps,
-    Pick<LynxPressableProps, "bindtap"> {
+    Pick<UseAccordionTriggerProps, "bindtap"> {
   expandedAccessibilityValue?: string;
   collapsedAccessibilityValue?: string;
 }
@@ -236,28 +201,37 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     "accessibility-value": accessibilityValue,
     ...nativeProps
   } = props;
-  const context = useAccordionItemContext("AccordionTrigger");
-  const handleTap = React.useCallback(
-    (event: Parameters<NonNullable<LynxPressableProps["bindtap"]>>[0]) => {
-      context.toggle();
-      bindtap?.(event);
-    },
-    [bindtap, context],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
-    disabled: context.disabled,
-    onTap: handleTap,
+  const { open, disabled, pressed, triggerProps } = useAccordionTrigger({
+    bindtap,
+    expandedAccessibilityValue,
+    collapsedAccessibilityValue,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
   });
+  const {
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    "accessibility-element": triggerAccessibilityElement,
+    "accessibility-role-description": triggerAccessibilityRoleDescription,
+    "accessibility-traits": triggerAccessibilityTraits,
+    "accessibility-value": triggerAccessibilityValue,
+    ...pressHandlers
+  } = triggerProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: context.disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
+    disabled,
+    // The headless hook exposes native event types; its press handlers also accept zero arguments.
+    onTouchStart: bindtouchstart as () => void,
+    onTouchEnd: bindtouchend as () => void,
+    onTouchCancel: bindtouchcancel as () => void,
   });
+  const { variantProps } = useStyledAccordionItemContext("AccordionTrigger");
   const classes = accordion({
-    ...context.variantProps,
-    open: context.open,
-    disabled: context.disabled,
+    ...variantProps,
+    open,
+    disabled,
     pressed,
   });
 
@@ -271,13 +245,10 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
           nativeProps,
         )}
         className={clsx(classes.trigger, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (context.disabled ? "disabled" : "button")}
-        accessibility-value={
-          accessibilityValue ??
-          (context.open ? expandedAccessibilityValue : collapsedAccessibilityValue)
-        }
+        accessibility-element={triggerAccessibilityElement}
+        accessibility-role-description={triggerAccessibilityRoleDescription}
+        accessibility-traits={triggerAccessibilityTraits}
+        accessibility-value={triggerAccessibilityValue}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
         <view className={classes.triggerContent} {...scaleFeedbackTargetProps}>
@@ -293,40 +264,27 @@ AccordionTrigger.displayName = "AccordionTrigger";
 
 export interface AccordionContentProps extends LynxStyledElementProps, LynxAccessibilityProps {}
 
-type ContentLayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
-
-function getContentLayoutHeight(event: Parameters<ContentLayoutChangeHandler>[0]): number | null {
-  const eventWithHeight = event as Parameters<ContentLayoutChangeHandler>[0] & { height?: number };
-  const height = event.detail?.height ?? event.params?.height ?? eventWithHeight.height;
-
-  if (typeof height !== "number" || !Number.isFinite(height)) return null;
-  return Math.max(0, height);
-}
-
 export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>((props, ref) => {
   const {
     children,
     className,
     style,
-    "accessibility-elements-hidden": accessibilityElementsHidden = false,
+    "accessibility-elements-hidden": accessibilityElementsHidden,
     ...nativeProps
   } = props;
-  const context = useAccordionItemContext("AccordionContent");
+  const { contentProps, contentInnerProps } = useAccordionContent({
+    style,
+    "accessibility-elements-hidden": accessibilityElementsHidden,
+  });
   const classes = useClassNames();
-  const [contentHeight, setContentHeight] = React.useState(0);
-  const handleContentLayoutChange = React.useCallback<ContentLayoutChangeHandler>((event) => {
-    const height = getContentLayoutHeight(event);
-    if (height !== null) setContentHeight((current) => (current === height ? current : height));
-  }, []);
 
   return (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.content, className)}
-      style={{ ...style, height: context.open ? `${contentHeight}px` : "0px" }}
-      accessibility-elements-hidden={!context.open || accessibilityElementsHidden}
+      {...contentProps}
     >
-      <view className={classes.contentInner} bindlayoutchange={handleContentLayoutChange}>
+      <view className={classes.contentInner} {...contentInnerProps}>
         {children}
       </view>
     </view>
@@ -421,7 +379,7 @@ export interface AccordionSuffixIconProps extends LynxStyledElementProps {
 export const AccordionSuffixIcon = React.forwardRef<unknown, AccordionSuffixIconProps>(
   (props, ref) => {
     const { icon, children, className, style, ...nativeProps } = props;
-    const context = useAccordionItemContext("AccordionSuffixIcon");
+    const { open, disabled } = useAccordionItemContext("AccordionSuffixIcon");
     const classes = useClassNames();
     const mergedClassName = clsx(classes.suffixIcon, className);
 
@@ -438,7 +396,7 @@ export const AccordionSuffixIcon = React.forwardRef<unknown, AccordionSuffixIcon
             icon={icon}
             className={mergedClassName}
             style={style}
-            deps={[context.open, context.disabled]}
+            deps={[open, disabled]}
           />
         </view>
       );
