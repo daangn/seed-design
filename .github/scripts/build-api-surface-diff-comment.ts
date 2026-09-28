@@ -1,7 +1,14 @@
+import { appendFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 
 /** GitHub rejects comment bodies over 65,536 characters; the rest is headroom for the workflow's marker. */
 const COMMENT_BUDGET = 60_000;
+
+/**
+ * GitHub drops a step summary over 1 MiB. `length` counts UTF-16 code units, and none takes more
+ * than three UTF-8 bytes, so 340,000 × 3 stays under 1,048,576 with room for the omission note.
+ */
+const SUMMARY_BUDGET = 340_000;
 
 export interface PackageDiff {
   name: string;
@@ -40,7 +47,18 @@ export function parsePackageDiffs(output: string, { base, head }: { base: string
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function buildComment(diffs: PackageDiff[], { baseLabel }: { baseLabel: string }) {
+/**
+ * Omitted packages point to `details` when it holds them, and to the workflow log otherwise, which
+ * always carries the full diff.
+ */
+export function buildComment(
+  diffs: PackageDiff[],
+  {
+    baseLabel,
+    budget = COMMENT_BUDGET,
+    details,
+  }: { baseLabel: string; budget?: number; details?: { url: string; packages: string[] } },
+) {
   if (diffs.length === 0) return;
 
   const header = [
@@ -69,7 +87,7 @@ export function buildComment(diffs: PackageDiff[], { baseLabel }: { baseLabel: s
       "",
     ].join("\n");
 
-    if (length + section.length > COMMENT_BUDGET) {
+    if (length + section.length > budget) {
       omitted.push(diff.name);
       continue;
     }
@@ -78,26 +96,36 @@ export function buildComment(diffs: PackageDiff[], { baseLabel }: { baseLabel: s
     length += section.length;
   }
 
-  return [
+  const list = (names: string[]) => names.map((name) => `\`${name}\``).join(", ");
+  const inDetails = omitted.filter((name) => details?.packages.includes(name));
+  const inLog = omitted.filter((name) => !inDetails.includes(name));
+
+  const body = [
     header,
     ...sections,
-    ...(omitted.length > 0
-      ? [
-          `코멘트 길이 제한으로 다음 패키지의 diff는 생략했어요. workflow 로그에서 확인해 주세요: ${omitted.map((name) => `\`${name}\``).join(", ")}`,
-        ]
+    ...(omitted.length > 0 ? ["길이 제한으로 일부 패키지의 diff는 생략했어요.", ""] : []),
+    ...(details && inDetails.length > 0
+      ? [`- [workflow 요약](${details.url})에서 확인해 주세요: ${list(inDetails)}`]
       : []),
+    ...(inLog.length > 0 ? [`- workflow 로그에서 확인해 주세요: ${list(inLog)}`] : []),
   ].join("\n");
+
+  return { body, omitted };
 }
 
 function main() {
   const { values, positionals } = parseArgs({
     allowPositionals: true,
-    options: { "base-label": { type: "string" } },
+    options: {
+      "base-label": { type: "string" },
+      "details-url": { type: "string" },
+      "summary-file": { type: "string" },
+    },
   });
   const [base, head] = positionals;
   if (!base || !head)
     throw new Error(
-      "Usage: bun .github/scripts/build-api-surface-diff-comment.ts <base-dir> <head-dir> [--base-label <label>]",
+      "Usage: bun .github/scripts/build-api-surface-diff-comment.ts <base-dir> <head-dir> [--base-label <label>] [--details-url <url>] [--summary-file <path>]",
     );
 
   // Prefixes are pinned so a user's diff.noprefix or diff.mnemonicPrefix can't change the paths parsed above.
@@ -118,14 +146,30 @@ function main() {
   if (git.exitCode > 1) throw new Error(git.stderr.toString());
 
   const output = git.stdout.toString();
-  // stdout is the comment body; the full diff goes to the workflow log, which the comment points to
-  // for packages it had to omit.
+  const diffs = parsePackageDiffs(output, { base, head });
+  const baseLabel = values["base-label"] ?? base;
+  // stdout is the comment body. The full diff also goes to the workflow log, and to the step
+  // summary when one is given, for packages the comment had to omit.
   process.stderr.write(output);
-  process.stdout.write(
-    buildComment(parsePackageDiffs(output, { base, head }), {
-      baseLabel: values["base-label"] ?? base,
-    }) ?? "",
-  );
+
+  const summaryFile = values["summary-file"];
+  const detailsUrl = values["details-url"];
+  const summary = summaryFile && buildComment(diffs, { baseLabel, budget: SUMMARY_BUDGET });
+  if (summaryFile && summary) appendFileSync(summaryFile, summary.body);
+
+  const comment = buildComment(diffs, {
+    baseLabel,
+    ...(detailsUrl &&
+      summary && {
+        details: {
+          url: detailsUrl,
+          packages: diffs
+            .map((diff) => diff.name)
+            .filter((name) => !summary.omitted.includes(name)),
+        },
+      }),
+  });
+  process.stdout.write(comment?.body ?? "");
 }
 
 if (import.meta.main) main();

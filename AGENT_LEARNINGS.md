@@ -45,19 +45,21 @@
 - Solutions: `bun node_modules/typescript/bin/tsc --project packages/react/tsconfig.json --noEmit`을 실행한다. query의 타입 인자가 지원되지 않으면 반환 타입을 단언하지 말고 matcher의 비교 타입을 조정하거나 런타임 guard로 좁힌다.
   - 기존 테스트 때문에 전체 타입 검사가 실패하면 기준 브랜치의 원본을 compiler host에 공급해 진단을 비교한다. Drawer의 `useDrawer.test.tsx`에 있는 TS2683처럼 원래 있던 오류와 이번 변경의 오류를 구분하고, 배포된 선언의 공개 타입도 별도로 확인한다.
 
-## 새 worktree는 설치 상태부터 확인한다
+## 검증·추출 전에 설치 상태부터 맞춘다
 
 ### Mistake Made
 - Description: 새 worktree에서 `bun install`이 끝나지 않은 상태(루트 `node_modules/.bin` 없음)를 확인하지 않고 테스트·빌드를 여러 작업자에게 배정했다. 루트 `bun install`도 `tools/extract-api-surface`의 `prepare`(`skills-npm`)가 bin 링크 전에 실행돼 exit 127로 중단됐다.
 - Impact: `vitest: command not found`, `ERR_MODULE_NOT_FOUND vitest`, toggle·image 빌드의 TS7006이 코드 문제처럼 보였고, 작업자가 원인 조사와 재실행에 시간을 썼다.
+- Description: 기존 checkout에서도 `dev`를 받은 뒤 설치를 갱신하지 않고 `extract-api-surface`를 실행했다. 새로 추가된 의존성(`@radix-ui/react-focus-scope`)이 `node_modules`에 없었다.
+- Impact: 추출이 `unresolved import(s)`로 멈췄다. `bun install --frozen-lockfile --ignore-scripts` 후 재실행해 해결했다.
 
 ### Patterns to Avoid
-- Pattern: 설치 여부를 확인하지 않고 검증 명령부터 실행하거나 배정하는 것. 설치 실패를 패키지 코드 오류로 해석하는 것.
+- Pattern: 설치 여부를 확인하지 않고 검증·추출 명령부터 실행하거나 배정하는 것. pull·rebase 뒤 lockfile이 바뀌었는데 설치를 건너뛰는 것. 설치 실패를 패키지 코드 오류로 해석하는 것.
 - Risk: 환경 문제를 코드 결함으로 오판하고, 병렬 작업자가 같은 실패를 각자 조사한다.
 
 ### Better Approaches
 - Recommendation: 작업을 배정하기 전에 조율자가 설치 상태를 한 번 확인하고 고친다. 새 workspace 패키지나 의존성을 추가한 뒤에도 조율자만 `bun install`을 실행한다.
-- Solutions: `ls node_modules/.bin | wc -l`이 0이면 조율자가 `bun install`을 실행한다. `9c4356857`(`fix(extract-api-surface): declare skills-npm where prepare runs it`) 이전 기준에서 `prepare`가 `skills-npm: command not found`로 멈추면 `bun install --ignore-scripts && bun install`로 우회한다. 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
+- Solutions: 첫 검증 전에 `bun install --frozen-lockfile --ignore-scripts`를 한 번 실행한다(변경이 없으면 1초 안에 끝난다). `ls node_modules/.bin | wc -l`이 0이면 조율자가 `bun install`을 실행한다. `9c4356857`(`fix(extract-api-surface): declare skills-npm where prepare runs it`) 이전 기준에서 `prepare`가 `skills-npm: command not found`로 멈추면 `bun install --ignore-scripts && bun install`로 우회한다. 확인: `cd packages/lynx-react && bun run test -- src/components/Accordion/Accordion.test.tsx`.
 
 ## 기준 결과는 작업 트리와 분리해 고정한다
 
@@ -121,3 +123,17 @@
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
+
+## 전체 검증 실패는 기준 브랜치에서 재현되는지부터 가른다
+
+### Mistake Made
+- Description: `bun test:all`이 `tools/rootage-cdn/src/release-workflow.test.ts` 1건으로 실패했다. `#2255`가 workflow 입력을 `publish-script`로 바꾸면서 테스트의 `publish: bun release` 기대값이 낡은 상태였다. 처음에는 두 파일의 `git diff`가 비어 있다는 것만으로 기존 실패라고 판정했다.
+- Impact: `test:unit`에서 멈춰 뒤따르는 Lynx 검증이 실행되지 않았다. diff 비교는 다른 변경 파일이나 설치 상태를 거친 간접 영향을 배제하지 못해 리뷰에서 지적받았고, `origin/dev` worktree에서 다시 재현해 확정했다.
+
+### Patterns to Avoid
+- Pattern: 전체 검증의 실패를 곧바로 현재 변경의 회귀로 보거나, 반대로 확인 없이 무관하다고 보고하는 것.
+- Risk: 기준 브랜치의 기존 실패를 고치느라 범위를 넓히거나, 실제 회귀를 놓친다.
+
+### Better Approaches
+- Recommendation: diff 비교로 후보만 좁히고, 기준 브랜치에서 같은 실패가 재현될 때만 기존 실패로 보고한다. 재현되지 않으면 현재 변경의 간접 영향으로 보고 조사한다. 어느 경우든 변경 경로의 검증 명령은 따로 실행해 결과를 보고한다.
+- Solutions: `git diff --stat origin/dev -- <테스트 파일> <대상 파일>`이 비어 있으면 후보다 → `git worktree add --detach <scratch 경로> origin/dev` → 그 안에서 `bun install --frozen-lockfile --ignore-scripts`와 같은 `bun test <테스트 파일>`을 실행한다 → 같은 단언으로 실패할 때만 기존 실패로 적고, 끝나면 `git worktree remove`한다.

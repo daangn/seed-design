@@ -72,11 +72,17 @@ jobs:
           bun tools/extract-api-surface/src/cli.ts --out-dir api-surface/head $(bun .github/scripts/list-public-packages.ts .)
           bun tools/extract-api-surface/src/cli.ts --root .base --out-dir api-surface/base $(bun .github/scripts/list-public-packages.ts .base)
 
-      # The full diff goes to this step's log; stdout is only the comment body.
+      # The full diff goes to this step's log and the run summary; stdout is only the comment body.
       - name: Build diff comment
         env:
           BASE_LABEL: origin/${{ github.base_ref }} (${{ steps.base.outputs.short-sha }})
-        run: bun .github/scripts/build-api-surface-diff-comment.ts api-surface/base api-surface/head --base-label "$BASE_LABEL" > api-surface-diff-comment.md
+          DETAILS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          bun .github/scripts/build-api-surface-diff-comment.ts api-surface/base api-surface/head \
+            --base-label "$BASE_LABEL" \
+            --details-url "$DETAILS_URL" \
+            --summary-file "$GITHUB_STEP_SUMMARY" \
+            > api-surface-diff-comment.md
 
       # This job has no write token; api-surface-diff-comment.yml posts the comment from a trusted context.
       - name: Upload diff comment
