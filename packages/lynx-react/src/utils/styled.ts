@@ -76,6 +76,12 @@ export function handlePaddingWithSafeArea(
   return handleDimension(padding);
 }
 
+export function handleBleed(bleed: BleedValue | undefined, safeAreaInset: string) {
+  if (bleed == null) return undefined;
+
+  return `calc(${bleed === "safeArea" ? safeAreaInset : bleed === 0 ? "0px" : bleed} * -1)`;
+}
+
 export function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
@@ -253,9 +259,60 @@ export interface StyleProps {
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 }
 
-interface UseStyleProps extends StyleProps {
-  style?: CSSProperties;
+type MarginValue =
+  | Dimension
+  | `spacingX.${SpacingX}`
+  | `spacingY.${SpacingY}`
+  | 0
+  | "auto"
+  | (string & {});
+
+/**
+ * Dimension tokens are left out: every token resolves to `var()`, and Lynx drops an inline
+ * `calc()` that contains `var()`, so a negated token would silently apply no margin.
+ */
+type BleedValue = 0 | `${number}px` | "safeArea";
+
+interface MarginStyleProps {
+  margin?: MarginValue;
+  m?: MarginValue;
+  marginX?: MarginValue;
+  mx?: MarginValue;
+  marginY?: MarginValue;
+  my?: MarginValue;
+  marginTop?: MarginValue;
+  mt?: MarginValue;
+  marginRight?: MarginValue;
+  mr?: MarginValue;
+  marginBottom?: MarginValue;
+  mb?: MarginValue;
+  marginLeft?: MarginValue;
+  ml?: MarginValue;
 }
+
+interface BleedStyleProps {
+  bleed?: BleedValue;
+  bleedX?: BleedValue;
+  bleedY?: BleedValue;
+  bleedTop?: BleedValue;
+  bleedRight?: BleedValue;
+  bleedBottom?: BleedValue;
+  bleedLeft?: BleedValue;
+}
+
+/**
+ * Margin and bleed props both resolve to `margin-*` values, so they are mutually exclusive at
+ * the type level.
+ */
+export type MarginBleedStyleProps =
+  | (BleedStyleProps & { [K in keyof MarginStyleProps]?: never })
+  | (MarginStyleProps & { [K in keyof BleedStyleProps]?: never });
+
+type UseStyleProps = StyleProps &
+  MarginStyleProps &
+  BleedStyleProps & {
+    style?: CSSProperties;
+  };
 
 export function useStyleProps<T extends UseStyleProps>(
   props: T,
@@ -298,6 +355,27 @@ export function useStyleProps<T extends UseStyleProps>(
     pr,
     pb,
     pl,
+    margin,
+    m,
+    marginX,
+    mx,
+    marginY,
+    my,
+    marginTop,
+    mt,
+    marginRight,
+    mr,
+    marginBottom,
+    mb,
+    marginLeft,
+    ml,
+    bleed,
+    bleedX,
+    bleedY,
+    bleedTop,
+    bleedRight,
+    bleedBottom,
+    bleedLeft,
     bottom,
     left,
     right,
@@ -335,6 +413,27 @@ export function useStyleProps<T extends UseStyleProps>(
     handlePaddingWithSafeArea(paddingBottom ?? pb, safeAreaInsetBottom) ?? paddingYValue;
   const paddingLeftValue =
     handlePaddingWithSafeArea(paddingLeft ?? pl, safeAreaInsetLeft) ?? paddingXValue;
+
+  const marginValue = handleDimension(margin ?? m);
+  const marginXValue = handleDimension(marginX ?? mx) ?? marginValue;
+  const marginYValue = handleDimension(marginY ?? my) ?? marginValue;
+  const marginTopValue =
+    handleDimension(marginTop ?? mt) ??
+    marginYValue ??
+    handleBleed(bleedTop ?? bleedY ?? bleed, safeAreaInsetTop);
+  const marginRightValue =
+    handleDimension(marginRight ?? mr) ??
+    marginXValue ??
+    handleBleed(bleedRight ?? bleedX ?? bleed, safeAreaInsetRight);
+  const marginBottomValue =
+    handleDimension(marginBottom ?? mb) ??
+    marginYValue ??
+    handleBleed(bleedBottom ?? bleedY ?? bleed, safeAreaInsetBottom);
+  const marginLeftValue =
+    handleDimension(marginLeft ?? ml) ??
+    marginXValue ??
+    handleBleed(bleedLeft ?? bleedX ?? bleed, safeAreaInsetLeft);
+
   const hasBorderStyle =
     borderColor != null ||
     borderWidth != null ||
@@ -369,6 +468,10 @@ export function useStyleProps<T extends UseStyleProps>(
       paddingRight: paddingRightValue,
       paddingBottom: paddingBottomValue,
       paddingLeft: paddingLeftValue,
+      marginTop: marginTopValue,
+      marginRight: marginRightValue,
+      marginBottom: marginBottomValue,
+      marginLeft: marginLeftValue,
       top: handleDimension(top),
       left: handleDimension(left),
       right: handleDimension(right),

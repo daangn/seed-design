@@ -64,4 +64,11 @@ describe("Stack", () => {
 
     expect(getRenderedRoot()).toHaveStyle({ rowGap: "24px" });
   });
+
+  it("applies bleed as a negative margin", () => {
+    render(<HStack bleedX="16px" />);
+
+    expect(getRenderedRoot().style.getPropertyValue("margin-left")).toBe("calc(-16px)");
+    expect(getRenderedRoot().style.getPropertyValue("margin-right")).toBe("calc(-16px)");
+  });
 });

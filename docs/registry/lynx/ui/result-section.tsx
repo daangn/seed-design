@@ -8,7 +8,9 @@ import {
   type VStackProps,
 } from "@seed-design/lynx-react";
 
-export interface ResultSectionProps extends Omit<VStackProps, "children"> {
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+export type ResultSectionProps = DistributiveOmit<VStackProps, "children"> & {
   /**
    * @default "large"
    */
@@ -20,7 +22,7 @@ export interface ResultSectionProps extends Omit<VStackProps, "children"> {
 
   primaryActionProps?: ActionButtonProps;
   secondaryActionProps?: ActionButtonProps;
-}
+};
 
 const textStyles = {
   title: {

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
 import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
 
 type StackStyleProps =
@@ -29,17 +29,18 @@ interface StackBaseProps extends StyleProps, LynxStyledElementProps, LynxPressab
  * 패키지 컴포넌트 내부에서는 `Box`를 합성하지 않고 native tag와 recipe className을
  * 사용해 primitive 컴포넌트 비용이 누적되지 않도록 합니다.
  */
-export interface StackProps extends Omit<StackBaseProps, StackStyleProps> {
-  align?: StackBaseProps["alignItems"];
-  justify?: StackBaseProps["justifyContent"];
-  wrap?: StackBaseProps["flexWrap"];
-  grow?: StackBaseProps["flexGrow"];
-  shrink?: StackBaseProps["flexShrink"];
-}
+export type StackProps = Omit<StackBaseProps, StackStyleProps> &
+  MarginBleedStyleProps & {
+    align?: StackBaseProps["alignItems"];
+    justify?: StackBaseProps["justifyContent"];
+    wrap?: StackBaseProps["flexWrap"];
+    grow?: StackBaseProps["flexGrow"];
+    shrink?: StackBaseProps["flexShrink"];
+  };
 
-export interface VStackProps extends StackProps {}
+export type VStackProps = StackProps;
 
-export interface HStackProps extends StackProps {}
+export type HStackProps = StackProps;
 
 function getStackProps(props: StackProps) {
   const { align, justify, wrap, grow, shrink, ...restProps } = props;
