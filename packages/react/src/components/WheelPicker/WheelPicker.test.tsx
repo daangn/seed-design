@@ -1,6 +1,5 @@
 import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, it, mock, spyOn } from "bun:test";
-import type * as React from "react";
 import { BottomSheet } from "../BottomSheet";
 import { WheelPicker } from "./index";
 
@@ -32,39 +31,38 @@ describe("WheelPicker", () => {
     );
 
     expect(getByRole("group")).toHaveStyle({
-      "--seed-wheel-picker-public-item-size": "44px",
-      "--seed-wheel-picker-public-visible-item-count": "5",
-      "--seed-wheel-picker-public-viewport-size": "220px",
-      "--seed-wheel-picker-public-center-offset": "88px",
-      "--seed-wheel-picker-public-scroll-fog-max-height": "132px",
+      "--seed-wheel-picker-item-size": "44px",
+      "--seed-wheel-picker-visible-item-count": "5",
+      "--seed-wheel-picker-viewport-size": "220px",
+      "--seed-wheel-picker-center-offset": "88px",
+      "--seed-wheel-picker-scroll-fog-max-height": "132px",
     });
     expect(getByRole("group")).toHaveClass(
-      "seed-wheel-picker-public__root",
-      "seed-wheel-picker-public__root--size_medium",
+      "seed-wheel-picker__root",
+      "seed-wheel-picker__root--size_medium",
     );
-    expect(getByRole("group")).not.toHaveClass("seed-wheel-picker__root");
     expect(container.querySelector("[data-wheel-picker-scroll-fog]")).toHaveClass(
-      "seed-wheel-picker-public__scrollFog",
+      "seed-wheel-picker__scrollFog",
     );
     expect(container.querySelector("[data-wheel-picker-columns]")).toHaveClass(
-      "seed-wheel-picker-public__columns",
+      "seed-wheel-picker__columns",
     );
-    expect(getByRole("spinbutton")).toHaveClass("seed-wheel-picker-public__column");
+    expect(getByRole("spinbutton")).toHaveClass("seed-wheel-picker__column");
     expect(container.querySelector('[data-wheel-picker-value="a"]')).toHaveClass(
-      "seed-wheel-picker-public__item",
+      "seed-wheel-picker__item",
     );
     expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
-      "seed-wheel-picker-public__itemLabel",
+      "seed-wheel-picker__itemLabel",
     );
     expect(container.querySelector("[data-wheel-picker-indicator]")).toHaveClass(
-      "seed-wheel-picker-public__selectionIndicator",
+      "seed-wheel-picker__selectionIndicator",
     );
     const scrollFog = container.querySelector<HTMLElement>("[data-wheel-picker-scroll-fog]");
     expect(scrollFog?.style.getPropertyValue("--scroll-fog-size-top")).toBe(
-      "var(--seed-wheel-picker-public-scroll-fog-size)",
+      "var(--seed-wheel-picker-scroll-fog-size)",
     );
     expect(scrollFog?.style.getPropertyValue("--scroll-fog-size-bottom")).toBe(
-      "var(--seed-wheel-picker-public-scroll-fog-size)",
+      "var(--seed-wheel-picker-scroll-fog-size)",
     );
   });
 
@@ -76,15 +74,15 @@ describe("WheelPicker", () => {
     );
 
     expect(getByRole("group")).toHaveStyle({
-      "--seed-wheel-picker-public-item-size": "36px",
-      "--seed-wheel-picker-public-visible-item-count": "5",
-      "--seed-wheel-picker-public-viewport-size": "180px",
-      "--seed-wheel-picker-public-center-offset": "72px",
-      "--seed-wheel-picker-public-scroll-fog-max-height": "108px",
+      "--seed-wheel-picker-item-size": "36px",
+      "--seed-wheel-picker-visible-item-count": "5",
+      "--seed-wheel-picker-viewport-size": "180px",
+      "--seed-wheel-picker-center-offset": "72px",
+      "--seed-wheel-picker-scroll-fog-max-height": "108px",
     });
-    expect(getByRole("group")).toHaveClass("seed-wheel-picker-public__root--size_small");
+    expect(getByRole("group")).toHaveClass("seed-wheel-picker__root--size_small");
     expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
-      "seed-wheel-picker-public__itemLabel--size_small",
+      "seed-wheel-picker__itemLabel--size_small",
     );
   });
 
@@ -101,14 +99,14 @@ describe("WheelPicker", () => {
     );
 
     expect(getByRole("group")).toHaveStyle({
-      "--seed-wheel-picker-public-item-size": "56px",
-      "--seed-wheel-picker-public-visible-item-count": "7",
-      "--seed-wheel-picker-public-viewport-size": "392px",
-      "--seed-wheel-picker-public-center-offset": "168px",
-      "--seed-wheel-picker-public-scroll-fog-max-height": "168px",
+      "--seed-wheel-picker-item-size": "56px",
+      "--seed-wheel-picker-visible-item-count": "7",
+      "--seed-wheel-picker-viewport-size": "392px",
+      "--seed-wheel-picker-center-offset": "168px",
+      "--seed-wheel-picker-scroll-fog-max-height": "168px",
     });
     expect(container.querySelector("[data-wheel-picker-item-label]")).toHaveClass(
-      "seed-wheel-picker-public__itemLabel--size_small",
+      "seed-wheel-picker__itemLabel--size_small",
     );
   });
 
@@ -120,8 +118,8 @@ describe("WheelPicker", () => {
     );
 
     expect(getByRole("group")).toHaveStyle({
-      "--seed-wheel-picker-public-viewport-size": "396px",
-      "--seed-wheel-picker-public-scroll-fog-max-height": "132px",
+      "--seed-wheel-picker-viewport-size": "396px",
+      "--seed-wheel-picker-scroll-fog-max-height": "132px",
     });
   });
 
@@ -148,7 +146,7 @@ describe("WheelPicker", () => {
     );
 
     expect(getByText("A")).toHaveAttribute("data-custom-label");
-    expect(getByText("A").parentElement).toHaveClass("seed-wheel-picker-public__item");
+    expect(getByText("A").parentElement).toHaveClass("seed-wheel-picker__item");
     expect(container.querySelector("[data-wheel-picker-item-label]")).not.toBeInTheDocument();
   });
 
@@ -165,7 +163,7 @@ describe("WheelPicker", () => {
       </WheelPicker.Root>,
     );
 
-    expect(getByText("A")).toHaveClass("seed-wheel-picker-public__itemLabel");
+    expect(getByText("A")).toHaveClass("seed-wheel-picker__itemLabel");
     expect(getByText("A")).toHaveAttribute("data-wheel-picker-item-label");
     expect(getByText("A")).toHaveAttribute("data-reused-label");
   });
@@ -208,18 +206,29 @@ describe("WheelPicker", () => {
     );
   });
 
-  it("지원하지 않는 readOnly 값이 런타임에 전달되어도 읽기 전용으로 동작하지 않는다", () => {
-    const RootWithLegacyReadOnly = WheelPicker.Root as React.ComponentType<
-      WheelPicker.RootProps & { readOnly?: boolean }
-    >;
-    const { getByRole } = render(
-      <RootWithLegacyReadOnly aria-label="휠 피커" readOnly>
-        <WheelPicker.Column aria-label="문자" options={options} defaultValue="a" />
-      </RootWithLegacyReadOnly>,
+  it("readOnly는 포커스를 유지하면서 스크롤·클릭·키보드 값 변경을 막는다", () => {
+    const onValueChange = mock(() => {});
+    const { container, getByRole } = render(
+      <WheelPicker.Root aria-label="휠 피커" readOnly>
+        <WheelPicker.Column
+          aria-label="문자"
+          options={options}
+          defaultValue="a"
+          onValueChange={onValueChange}
+        />
+      </WheelPicker.Root>,
     );
+    const column = getByRole("spinbutton");
 
-    expect(getByRole("group")).not.toHaveAttribute("data-readonly");
-    expect(getByRole("spinbutton")).not.toHaveAttribute("aria-readonly");
+    expect(getByRole("group")).toHaveAttribute("data-readonly");
+    expect(column).toHaveAttribute("aria-readonly", "true");
+    expect(column).toHaveAttribute("tabindex", "0");
+
+    fireEvent.keyDown(column, { key: "ArrowDown" });
+    fireEvent.click(container.querySelector('[data-wheel-picker-value="b"]')!);
+
+    expect(column).toHaveAttribute("aria-valuetext", "A");
+    expect(onValueChange).not.toHaveBeenCalled();
   });
 
   it("BottomSheet 안에서 컬럼을 스크롤할 때 시트 드래그를 시작하지 않는다", () => {

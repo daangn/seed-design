@@ -1,4 +1,5 @@
-import { Box, DatePicker } from "@seed-design/react";
+import { Box } from "@seed-design/react";
+import { DatePicker } from "seed-design/ui/date-picker";
 
 export default function DatePickerPreview() {
   return (

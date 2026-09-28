@@ -369,11 +369,36 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "date-picker",
+      snippets: [
+        {
+          path: "date-picker.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "time-picker",
+      snippets: [
+        {
+          path: "time-picker.tsx",
+          dependencies: {
+            "@seed-design/css": "^3.0.0",
+            "@seed-design/react-time-picker": "^1.0.0",
+            clsx: "^2.1.1",
+          },
+        },
+      ],
+    },
+    {
       id: "wheel-picker",
       snippets: [
         {
           path: "wheel-picker.tsx",
-          dependencies: { "@seed-design/react": "^2.4.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },

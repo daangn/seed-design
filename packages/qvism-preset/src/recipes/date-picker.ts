@@ -6,7 +6,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
-import { disabled, engaged, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { disabled, engaged, focus, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
 import { WHEEL_PICKER_CUSTOM_PROPERTIES } from "./wheel-picker";
 
@@ -39,13 +39,11 @@ const datePicker = defineSlotRecipe({
     "continuousContent",
     "continuousSpacer",
     "wheelContainer",
+    "wheelPositioner",
+    "wheelPopover",
     "wheelView",
-    "wheelColumns",
-    "wheelSelectionIndicator",
-    "wheelScrollFog",
     "yearColumn",
     "monthColumn",
-    "wheelItem",
     "liveRegion",
   ],
   base: {
@@ -107,6 +105,9 @@ const datePicker = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       ...onlyIcon({ size: vars.base.enabled.headerLabel.iconSize }),
+      "&[data-expanded]": {
+        transform: "rotate(180deg)",
+      },
     },
     navigation: {
       display: "flex",
@@ -385,32 +386,42 @@ const datePicker = defineSlotRecipe({
       overflow: "hidden",
       backgroundColor: vars.base.enabled.root.color,
     },
+    wheelPositioner: {
+      // Week의 요일 행(zIndex 2)과 날짜 그리드 위에 겹칩니다.
+      zIndex: 3,
+      outline: "none",
+    },
+    wheelPopover: {
+      width: vars.base.enabled.wheelPopover.width,
+      overflow: "hidden",
+      borderRadius: vars.base.enabled.wheelPopover.cornerRadius,
+      backgroundColor: vars.base.enabled.wheelPopover.color,
+      boxShadow: vars.base.enabled.wheelPopover.shadow,
+      // 열 때 focus를 받는 컨테이너입니다. 키보드 focus 표시는 안쪽 Wheel Picker 컬럼이 맡습니다.
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+    },
     wheelView: {
       width: "100%",
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.wheelItem.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
         vars.base.enabled.wheelSelectionIndicator.cornerRadius,
+      "& [data-wheel-picker-indicator]": {
+        backgroundColor: vars.base.enabled.wheelSelectionIndicator.color,
+      },
     },
-    wheelColumns: {},
-    wheelSelectionIndicator: {
-      borderRadius: vars.base.enabled.wheelSelectionIndicator.cornerRadius,
-      backgroundColor: vars.base.enabled.wheelSelectionIndicator.color,
-    },
-    wheelScrollFog: {},
+    // minWidth는 Week popover처럼 내용 너비로 크기가 정해지는 컨테이너에서도 컬럼 너비를 유지합니다.
     yearColumn: {
       flex: "0 0 120px",
+      minWidth: "120px",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-end",
     },
     monthColumn: {
       flex: "0 0 96px",
+      minWidth: "96px",
       [WHEEL_PICKER_CUSTOM_PROPERTIES.itemJustifyContent]: "flex-start",
-    },
-    wheelItem: {
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.wheelItem.color,
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.wheelItem.color,
-      paddingInline: vars.base.enabled.wheelItem.paddingX,
-      fontSize: vars.base.enabled.wheelItem.fontSize,
-      lineHeight: vars.base.enabled.wheelItem.lineHeight,
-      fontWeight: vars.base.enabled.wheelItem.fontWeight,
     },
     liveRegion: {
       position: "absolute",
@@ -445,6 +456,12 @@ const datePicker = defineSlotRecipe({
       week: {
         weekday: {
           height: "24px",
+        },
+        wheelView: {
+          // popover 안에서는 선택 표시가 좌우 여백 없이 popover 너비를 채웁니다.
+          "& [data-wheel-picker-indicator]": {
+            insetInline: 0,
+          },
         },
       },
     },
