@@ -1,6 +1,5 @@
 ---
 "@seed-design/lynx-react": minor
-"@seed-design/lynx-css": minor
 ---
 
 Lynx에서 좌우 safe area inset을 반영합니다.
