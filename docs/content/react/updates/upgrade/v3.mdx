@@ -357,7 +357,7 @@ npx @seed-design/cli@latest add ui:popover
 
 <Badge tone="critical">직접 판단 필요</Badge>
 
-Help Bubble을 닫으면 포커스가 trigger로 돌아오고, `closeOnInteractOutside={false}`가 아니라면 포커스가 바깥으로 이동할 때도 닫힙니다. Bottom Sheet·Dialog 안에서 Escape나 바깥 누르기로 두 요소가 함께 닫히는 문제를 고쳤으므로 관련 우회 코드와 포커스 이동에 의존하는 동작을 확인해주세요. `HelpBubble.Title`·`HelpBubble.Description`은 이제 Help Bubble의 접근성 이름·설명으로 연결됩니다.
+Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스가 trigger로 돌아옵니다. `closeOnInteractOutside={false}`가 아니라면 포커스가 Help Bubble 바깥으로 이동할 때도 닫히며, 이때는 포커스를 옮긴 요소에 그대로 둡니다. Bottom Sheet·Dialog 안에서 Escape나 바깥 누르기로 두 요소가 함께 닫히는 문제를 고쳤으므로 관련 우회 코드와 포커스 이동에 의존하는 동작을 확인해주세요. `HelpBubble.Title`·`HelpBubble.Description`은 이제 Help Bubble의 접근성 이름·설명으로 연결됩니다.
 
 열 때 Help Bubble 안으로 포커스를 옮겨야 하는 화면에서만 `autoFocus`를 지정합니다. 기본값은 `false`입니다.
 
