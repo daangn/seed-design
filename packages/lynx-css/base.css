@@ -1,3 +1,275 @@
+.seed-box.seed-box-background {
+  background: var(--seed-box-background);
+}
+
+.seed-box.seed-box-color {
+  color: var(--seed-box-color);
+}
+
+.seed-box.seed-box-border-color {
+  border-style: solid;
+  border-color: var(--seed-box-border-color);
+}
+
+.seed-box.seed-box-border-width {
+  border-style: solid;
+  border-top-width: var(--seed-box-border-width);
+  border-right-width: var(--seed-box-border-width);
+  border-bottom-width: var(--seed-box-border-width);
+  border-left-width: var(--seed-box-border-width);
+}
+
+.seed-box.seed-box-border-top-width {
+  border-style: solid;
+  border-top-width: var(--seed-box-border-top-width);
+}
+
+.seed-box.seed-box-border-right-width {
+  border-style: solid;
+  border-right-width: var(--seed-box-border-right-width);
+}
+
+.seed-box.seed-box-border-bottom-width {
+  border-style: solid;
+  border-bottom-width: var(--seed-box-border-bottom-width);
+}
+
+.seed-box.seed-box-border-left-width {
+  border-style: solid;
+  border-left-width: var(--seed-box-border-left-width);
+}
+
+.seed-box.seed-box-border-radius {
+  border-top-left-radius: var(--seed-box-border-radius);
+  border-top-right-radius: var(--seed-box-border-radius);
+  border-bottom-right-radius: var(--seed-box-border-radius);
+  border-bottom-left-radius: var(--seed-box-border-radius);
+}
+
+.seed-box.seed-box-border-top-left-radius {
+  border-top-left-radius: var(--seed-box-border-top-left-radius);
+}
+
+.seed-box.seed-box-border-top-right-radius {
+  border-top-right-radius: var(--seed-box-border-top-right-radius);
+}
+
+.seed-box.seed-box-border-bottom-right-radius {
+  border-bottom-right-radius: var(--seed-box-border-bottom-right-radius);
+}
+
+.seed-box.seed-box-border-bottom-left-radius {
+  border-bottom-left-radius: var(--seed-box-border-bottom-left-radius);
+}
+
+.seed-box.seed-box-width {
+  width: var(--seed-box-width);
+}
+
+.seed-box.seed-box-min-width {
+  min-width: var(--seed-box-min-width);
+}
+
+.seed-box.seed-box-max-width {
+  max-width: var(--seed-box-max-width);
+}
+
+.seed-box.seed-box-height {
+  height: var(--seed-box-height);
+}
+
+.seed-box.seed-box-min-height {
+  min-height: var(--seed-box-min-height);
+}
+
+.seed-box.seed-box-max-height {
+  max-height: var(--seed-box-max-height);
+}
+
+.seed-box.seed-box-top {
+  top: var(--seed-box-top);
+}
+
+.seed-box.seed-box-right {
+  right: var(--seed-box-right);
+}
+
+.seed-box.seed-box-bottom {
+  bottom: var(--seed-box-bottom);
+}
+
+.seed-box.seed-box-left {
+  left: var(--seed-box-left);
+}
+
+.seed-box.seed-box-padding {
+  padding-top: var(--seed-box-padding);
+  padding-right: var(--seed-box-padding);
+  padding-bottom: var(--seed-box-padding);
+  padding-left: var(--seed-box-padding);
+}
+
+.seed-box.seed-box-padding-x {
+  padding-left: var(--seed-box-padding-x);
+  padding-right: var(--seed-box-padding-x);
+}
+
+.seed-box.seed-box-padding-y {
+  padding-top: var(--seed-box-padding-y);
+  padding-bottom: var(--seed-box-padding-y);
+}
+
+.seed-box.seed-box-padding-top {
+  padding-top: var(--seed-box-padding-top);
+}
+
+.seed-box.seed-box-padding-right {
+  padding-right: var(--seed-box-padding-right);
+}
+
+.seed-box.seed-box-padding-bottom {
+  padding-bottom: var(--seed-box-padding-bottom);
+}
+
+.seed-box.seed-box-padding-left {
+  padding-left: var(--seed-box-padding-left);
+}
+
+.seed-box.seed-box-bleed {
+  margin-top: calc(var(--seed-box-bleed) * -1);
+  margin-right: calc(var(--seed-box-bleed) * -1);
+  margin-bottom: calc(var(--seed-box-bleed) * -1);
+  margin-left: calc(var(--seed-box-bleed) * -1);
+}
+
+.seed-box.seed-box-bleed-x {
+  margin-left: calc(var(--seed-box-bleed-x) * -1);
+  margin-right: calc(var(--seed-box-bleed-x) * -1);
+}
+
+.seed-box.seed-box-bleed-y {
+  margin-top: calc(var(--seed-box-bleed-y) * -1);
+  margin-bottom: calc(var(--seed-box-bleed-y) * -1);
+}
+
+.seed-box.seed-box-bleed-top {
+  margin-top: calc(var(--seed-box-bleed-top) * -1);
+}
+
+.seed-box.seed-box-bleed-right {
+  margin-right: calc(var(--seed-box-bleed-right) * -1);
+}
+
+.seed-box.seed-box-bleed-bottom {
+  margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
+}
+
+.seed-box.seed-box-bleed-left {
+  margin-left: calc(var(--seed-box-bleed-left) * -1);
+}
+
+.seed-box.seed-box-margin {
+  margin-top: var(--seed-box-margin);
+  margin-right: var(--seed-box-margin);
+  margin-bottom: var(--seed-box-margin);
+  margin-left: var(--seed-box-margin);
+}
+
+.seed-box.seed-box-margin-x {
+  margin-left: var(--seed-box-margin-x);
+  margin-right: var(--seed-box-margin-x);
+}
+
+.seed-box.seed-box-margin-y {
+  margin-top: var(--seed-box-margin-y);
+  margin-bottom: var(--seed-box-margin-y);
+}
+
+.seed-box.seed-box-margin-top {
+  margin-top: var(--seed-box-margin-top);
+}
+
+.seed-box.seed-box-margin-right {
+  margin-right: var(--seed-box-margin-right);
+}
+
+.seed-box.seed-box-margin-bottom {
+  margin-bottom: var(--seed-box-margin-bottom);
+}
+
+.seed-box.seed-box-margin-left {
+  margin-left: var(--seed-box-margin-left);
+}
+
+.seed-box.seed-box-display {
+  display: var(--seed-box-display);
+}
+
+.seed-box.seed-box-position {
+  position: var(--seed-box-position);
+}
+
+.seed-box.seed-box-overflow-x {
+  overflow-x: var(--seed-box-overflow-x);
+}
+
+.seed-box.seed-box-overflow-y {
+  overflow-y: var(--seed-box-overflow-y);
+}
+
+.seed-box.seed-box-z-index {
+  z-index: var(--seed-box-z-index);
+}
+
+.seed-box.seed-box-flex-grow {
+  flex-grow: var(--seed-box-flex-grow);
+}
+
+.seed-box.seed-box-flex-shrink {
+  flex-shrink: var(--seed-box-flex-shrink);
+}
+
+.seed-box.seed-box-flex-direction {
+  flex-direction: var(--seed-box-flex-direction);
+}
+
+.seed-box.seed-box-flex-wrap {
+  flex-wrap: var(--seed-box-flex-wrap);
+}
+
+.seed-box.seed-box-justify-content {
+  justify-content: var(--seed-box-justify-content);
+}
+
+.seed-box.seed-box-justify-self {
+  justify-self: var(--seed-box-justify-self);
+}
+
+.seed-box.seed-box-align-items {
+  align-items: var(--seed-box-align-items);
+}
+
+.seed-box.seed-box-align-content {
+  align-content: var(--seed-box-align-content);
+}
+
+.seed-box.seed-box-align-self {
+  align-self: var(--seed-box-align-self);
+}
+
+.seed-box.seed-box-gap {
+  row-gap: var(--seed-box-gap);
+  column-gap: var(--seed-box-gap);
+}
+
+.seed-box.seed-box-row-gap {
+  row-gap: var(--seed-box-gap);
+}
+
+.seed-box.seed-box-column-gap {
+  column-gap: var(--seed-box-gap);
+}
+
 text {
   background-color: var(--seed-color-bg-transparent);
 }
