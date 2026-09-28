@@ -1376,8 +1376,8 @@ text {
 
 .seed-app-bar__root--theme_cupertino {
   height: calc(56px + var(--seed-safe-area-top));
-  padding-left: calc(var(--seed-dimension-x4) + var(--seed-safe-area-left));
-  padding-right: calc(var(--seed-dimension-x4) + var(--seed-safe-area-right));
+  padding-left: var(--seed-dimension-x4);
+  padding-right: var(--seed-dimension-x4);
   padding-top: var(--seed-safe-area-top);
 }
 
@@ -1397,8 +1397,8 @@ text {
 
 .seed-app-bar__root--theme_android {
   height: calc(56px + var(--seed-safe-area-top));
-  padding-left: calc(var(--seed-dimension-x4) + var(--seed-safe-area-left));
-  padding-right: calc(var(--seed-dimension-x4) + var(--seed-safe-area-right));
+  padding-left: var(--seed-dimension-x4);
+  padding-right: var(--seed-dimension-x4);
   padding-top: var(--seed-safe-area-top);
 }
 
@@ -1471,8 +1471,8 @@ text {
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
   top: var(--seed-safe-area-top);
-  padding-left: calc(var(--seed-safe-area-left) + var(--centered-title-padding-x, 0px));
-  padding-right: calc(var(--seed-safe-area-right) + var(--centered-title-padding-x, 0px));
+  padding-left: var(--centered-title-padding-x, 0);
+  padding-right: var(--centered-title-padding-x, 0);
   justify-content: center;
   align-items: center;
   position: absolute;

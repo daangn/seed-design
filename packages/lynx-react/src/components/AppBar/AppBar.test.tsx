@@ -166,8 +166,8 @@ describe("AppBar", () => {
     render(<AppBar.Root theme="cupertino" />);
 
     expectStyle(getAppBarRoot().style, {
-      "padding-left": "calc(var(--seed-dimension-x4) + 59px)",
-      "padding-right": "calc(var(--seed-dimension-x4) + 0px)",
+      "padding-left": "calc(75px)",
+      "padding-right": "calc(16px)",
     });
   });
 

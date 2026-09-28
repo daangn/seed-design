@@ -129,8 +129,6 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           style={
             {
               "--seed-safe-area-top": contextValue.safeArea.safeAreaInsetTop,
-              "--seed-safe-area-left": contextValue.safeArea.safeAreaInsetLeft,
-              "--seed-safe-area-right": contextValue.safeArea.safeAreaInsetRight,
               "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
               ...rootLayoutStyle,
               ...style,

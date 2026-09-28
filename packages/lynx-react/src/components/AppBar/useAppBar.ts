@@ -1,6 +1,5 @@
 import type { AppBarVariantProps } from "@seed-design/lynx-css/recipes/app-bar";
 import type { AppBarMainVariantProps } from "@seed-design/lynx-css/recipes/app-bar-main";
-import { vars } from "@seed-design/lynx-css/vars";
 import { topNavigation as topNavigationVars } from "@seed-design/lynx-css/vars/component";
 import * as React from "@lynx-js/react";
 
@@ -15,6 +14,9 @@ declare const SystemInfo: LynxSystemInfo | undefined;
 type AppBarTheme = NonNullable<AppBarVariantProps["theme"]>;
 type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type AppBarStyleObject = Record<string, string | number>;
+
+// Mirrors the recipe's `dimension.x4` as a literal: Lynx drops an inline `calc()` that contains `var()`.
+const ROOT_PADDING_X = "16px";
 
 function getDefaultAppBarTheme(): AppBarTheme {
   const globalSystemInfo = (globalThis as typeof globalThis & { SystemInfo?: LynxSystemInfo })
@@ -43,8 +45,8 @@ function getRootLayoutStyle(safeArea: UseSafeAreaReturn): AppBarStyleObject {
   return {
     height: `calc(${topNavigationVars.base.enabled.root.height} + ${safeArea.safeAreaInsetTop})`,
     paddingTop: safeArea.safeAreaInsetTop,
-    paddingLeft: `calc(${vars.$dimension.x4} + ${safeArea.safeAreaInsetLeft})`,
-    paddingRight: `calc(${vars.$dimension.x4} + ${safeArea.safeAreaInsetRight})`,
+    paddingLeft: `calc(${ROOT_PADDING_X} + ${safeArea.safeAreaInsetLeft})`,
+    paddingRight: `calc(${ROOT_PADDING_X} + ${safeArea.safeAreaInsetRight})`,
   };
 }
 
