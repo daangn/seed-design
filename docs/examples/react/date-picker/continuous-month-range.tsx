@@ -1,6 +1,8 @@
 "use client";
 
-import { Box, ContinuousDatePicker, dateOnOrAfter, dateOnOrBefore } from "@seed-design/react";
+import { Box } from "@seed-design/react";
+import { dateOnOrAfter, dateOnOrBefore } from "@seed-design/react-date-picker";
+import { ContinuousDatePicker } from "seed-design/ui/date-picker";
 
 const today = { year: 2026, month: 12, day: 15 };
 const thirtyDaysLater = { year: 2027, month: 1, day: 14 };

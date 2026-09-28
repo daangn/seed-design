@@ -1,6 +1,7 @@
+/// <reference path="../../../../node_modules/@testing-library/jest-dom/types/bun.d.ts" />
 import { act, fireEvent, render } from "@testing-library/react";
 import { afterAll, beforeAll, describe, expect, it, jest, mock } from "bun:test";
-import { TimePicker } from "./TimePicker";
+import { TimePicker } from "./time-picker";
 
 describe("TimePicker", () => {
   const originalScrollTo = HTMLElement.prototype.scrollTo;
@@ -25,7 +26,7 @@ describe("TimePicker", () => {
       dispatchEvent: () => false,
     }));
     window.requestAnimationFrame = (callback) => {
-      callback(0);
+      callback?.(0);
       return 1;
     };
     window.cancelAnimationFrame = () => {};

@@ -18,36 +18,47 @@ featured: true
 ## Installation
 
 ```package-install
-@seed-design/react @seed-design/css
+npx @seed-design/cli@latest add ui:date-picker
 ```
+
+<ManualInstallation name="date-picker" />
+
+Snippet은 Date Picker 컴포넌트와 컴포넌트 전용 props만 제공합니다. 날짜 값 타입, 제약 조건 helper처럼 UI 구현과 독립적인 API는 `@seed-design/react-date-picker`에서 가져오세요.
+
+```tsx
+import { dateOnOrAfter, type DatePickerDate } from "@seed-design/react-date-picker";
+import { DatePicker } from "seed-design/ui/date-picker";
+```
+
+Wheel Picker는 `ui:date-picker`의 Registry 의존성으로 함께 설치됩니다.
 
 ## Props
 
 ### DatePicker
 
 <react-type-table
-  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  path="./registry/react/ui/date-picker.tsx"
   name="DatePickerProps"
 />
 
 ### TwoMonthDatePicker
 
 <react-type-table
-  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  path="./registry/react/ui/date-picker.tsx"
   name="TwoMonthDatePickerProps"
 />
 
 ### WeekDatePicker
 
 <react-type-table
-  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  path="./registry/react/ui/date-picker.tsx"
   name="WeekDatePickerProps"
 />
 
 ### ContinuousDatePicker
 
 <react-type-table
-  path="../packages/react/src/components/DatePicker/DatePicker.tsx"
+  path="./registry/react/ui/date-picker.tsx"
   name="ContinuousDatePickerProps"
 />
 
@@ -109,7 +120,7 @@ Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않�
 
 ### 날짜 선택 제약 조건
 
-`constraints`는 후보 날짜를 선택할 수 있는지 판단하는 함수 배열입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. 직접 함수를 작성하거나 다음 helper를 조합할 수 있습니다.
+`constraints`는 후보 날짜를 선택할 수 있는지 판단하는 함수 배열입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. 직접 함수를 작성하거나 `@seed-design/react-date-picker`의 다음 helper를 조합할 수 있습니다.
 
 - `dateOnOrAfter`, `dateOnOrBefore`: 선택 가능한 날짜의 양끝을 포함해 제한합니다.
 - `excludeDates`: 예약 완료일, 휴무일처럼 선택할 수 없는 날짜를 제외합니다. Range에서는 기본적으로 시작일부터 후보 종료일까지의 전체 구간을 검사합니다.
@@ -197,6 +208,8 @@ Date Picker는 시간과 시간대를 해석하지 않는 달력 날짜인 `Date
 ### 월·연도 이동
 
 제목을 누르면 Time Picker와 같은 Wheel Picker로 전환합니다. 연도 휠은 반복하지 않고 `yearRange` 안에서 이동하며, 월 휠은 반복합니다. `yearRange`의 기본값은 `today`를 기준으로 앞뒤 100년입니다.
+
+Month는 달력 그리드 자리에 Wheel Picker를 표시합니다. Week는 대체할 그리드가 한 주뿐이므로 달력을 그대로 두고, 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다. 제목을 다시 누르거나, popover 바깥을 누르거나, `Escape`를 누르거나, focus가 popover 밖으로 나가면 고른 월로 이동하며 닫힙니다. popover를 열면 focus가 popover로 이동하고, 닫으면 제목으로 돌아옵니다. Week가 두 달에 걸치면 제목은 다음 달을 표시합니다.
 
 Month 계열의 표시 기준 날짜는 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
 

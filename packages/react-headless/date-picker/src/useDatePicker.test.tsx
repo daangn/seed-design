@@ -353,6 +353,78 @@ describe("useDatePicker", () => {
     expect(onViewDateChange).toHaveBeenCalledWith({ year: 2026, month: 8, day: 1 });
   });
 
+  it("Week에서 closeWheel은 고른 월을 반영하고 닫힌 상태에서는 표시 날짜를 바꾸지 않는다", () => {
+    const onViewDateChange = mock(() => {});
+    const { result } = renderDatePicker({ visibleRange: "week", onViewDateChange });
+    const initialViewDate = result.current.viewDate;
+
+    act(() => result.current.closeWheel());
+    expect(result.current.viewDate).toEqual(initialViewDate);
+    expect(onViewDateChange).not.toHaveBeenCalled();
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    act(() => result.current.wheel.onMonthValueChange("9"));
+    act(() => result.current.closeWheel());
+
+    expect(result.current.isWheelOpen).toBe(false);
+    expect(result.current.months[0]?.weeks[0]?.cells.some((cell) => cell?.date.month === 9)).toBe(
+      true,
+    );
+    expect(onViewDateChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("Week가 두 달에 걸치면 다음 달을 제목과 Wheel Picker의 기준 월로 사용한다", () => {
+    const onViewDateChange = mock(() => {});
+    const { result } = renderDatePicker({ visibleRange: "week", onViewDateChange });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    expect(result.current.wheel.monthValue).toBe("7");
+    act(() => result.current.closeWheel());
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 6, day: 28 });
+    expect(onViewDateChange).not.toHaveBeenCalled();
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    act(() => result.current.wheel.onYearValueChange("2025"));
+    act(() => result.current.wheel.onMonthValueChange("1"));
+    act(() => result.current.closeWheel());
+
+    expect(result.current.viewDate).toEqual({ year: 2024, month: 12, day: 29 });
+    expect(result.current.headerLabel).toBe("2025년 1월");
+    expect(result.current.months[0]?.label).toBe("2025년 1월");
+    expect(result.current.focusedDate).toEqual({ year: 2025, month: 1, day: 1 });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    expect(result.current.wheel.yearValue).toBe("2025");
+    expect(result.current.wheel.monthValue).toBe("1");
+  });
+
+  it("Week에서 연도를 바꿨다가 원래 연·월로 되돌려 닫으면 표시 주를 유지한다", () => {
+    const onViewDateChange = mock(() => {});
+    const { result } = renderDatePicker({
+      visibleRange: "week",
+      defaultViewDate: { year: 2026, month: 7, day: 15 },
+      onViewDateChange,
+    });
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 12 });
+
+    act(() => result.current.monthYearButtonProps.onClick());
+    act(() => result.current.wheel.onYearValueChange("2027"));
+    act(() => result.current.wheel.onYearValueChange("2026"));
+    act(() => result.current.closeWheel());
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 12 });
+    expect(onViewDateChange).not.toHaveBeenCalled();
+  });
+
+  it("Week의 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 기준 월로 사용한다", () => {
+    const { result } = renderDatePicker({
+      visibleRange: "week",
+      defaultViewDate: { year: 2027, month: 12, day: 31 },
+    });
+
+    expect(result.current.headerLabel).toBe("2027년 12월");
+  });
+
   it("yearRange 밖으로 이어지는 Week와 Two Months의 날짜는 선택할 수 없다", () => {
     const week = renderDatePicker({
       visibleRange: "week",

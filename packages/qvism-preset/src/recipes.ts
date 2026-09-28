@@ -75,7 +75,6 @@ import textInput from "./recipes/text-input";
 import timePicker from "./recipes/time-picker";
 import toggleButton from "./recipes/toggle-button";
 import wheelPicker from "./recipes/wheel-picker";
-import wheelPickerPublic from "./recipes/wheel-picker-public";
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 
@@ -167,5 +166,4 @@ export const recipes = {
   timePicker,
   toggleButton,
   wheelPicker,
-  wheelPickerPublic,
 };
