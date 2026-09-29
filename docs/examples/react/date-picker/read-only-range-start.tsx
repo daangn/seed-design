@@ -1,7 +1,6 @@
 "use client";
 
-import { Box, Text, VStack } from "@seed-design/react";
-import { dateOnOrAfter, type DatePickerRangeValue } from "@seed-design/react-date-picker";
+import { Box, Text, VStack, dateOnOrAfter, type DatePickerRangeValue } from "@seed-design/react";
 import { DatePicker } from "seed-design/ui/date-picker";
 import * as React from "react";
 

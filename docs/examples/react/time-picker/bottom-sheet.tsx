@@ -1,7 +1,6 @@
 "use client";
 
-import { Portal } from "@seed-design/react";
-import type { TimePickerValue } from "@seed-design/react-time-picker";
+import { Portal, type TimePickerValue } from "@seed-design/react";
 import { TimePicker } from "seed-design/ui/time-picker";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
