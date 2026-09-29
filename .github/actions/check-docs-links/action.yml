@@ -47,6 +47,7 @@ runs:
           --extensions html
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
+          --index-files index.html,.
           --include-fragments=anchor-only
           --exclude-path '/react/((v[0-9]+|[0-9]+[.][0-9]+)/)?updates/changelog(/index)?\.html$'
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
@@ -120,6 +121,7 @@ runs:
           --extensions md
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
+          --index-files index.html,.
           --include-fragments=anchor-only
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           --
