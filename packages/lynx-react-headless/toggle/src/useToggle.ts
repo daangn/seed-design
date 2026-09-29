@@ -1,4 +1,5 @@
 import { useRef } from "@lynx-js/react";
+import type { IntrinsicElements } from "@lynx-js/types";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
@@ -9,7 +10,12 @@ export interface UseToggleStateProps {
   onPressedChange?: (pressed: boolean) => void;
 }
 
-export interface UseToggleProps extends UseToggleStateProps {
+type MainThreadTouchProps = Pick<
+  IntrinsicElements["view"],
+  "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
+>;
+
+export interface UseToggleProps extends UseToggleStateProps, MainThreadTouchProps {
   disabled?: boolean;
 }
 
@@ -26,7 +32,15 @@ export type UseToggleReturn = ReturnType<typeof useToggle>;
  * 소비 측(`lynx-react`)이 `pressed`/`active`를 recipe variant로 전달한다.
  */
 export function useToggle(props: UseToggleProps) {
-  const { pressed, defaultPressed = false, onPressedChange, disabled = false } = props;
+  const {
+    pressed,
+    defaultPressed = false,
+    onPressedChange,
+    disabled = false,
+    "main-thread:bindtouchstart": mainThreadOnTouchStart,
+    "main-thread:bindtouchend": mainThreadOnTouchEnd,
+    "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
+  } = props;
 
   const [isPressed, setPressed] = useControllableState({
     value: pressed,
@@ -45,7 +59,13 @@ export function useToggle(props: UseToggleProps) {
     setPressed(nextPressed);
   });
 
-  const pressTap = usePressTap({ disabled, onTap: toggle });
+  const { pressed: active, ...pressHandlers } = usePressTap({
+    disabled,
+    onTap: toggle,
+    mainThreadOnTouchStart,
+    mainThreadOnTouchEnd,
+    mainThreadOnTouchCancel,
+  });
 
   return {
     /** 토글 on/off 상태 (예: 좋아요 채움) */
@@ -54,13 +74,11 @@ export function useToggle(props: UseToggleProps) {
     toggle,
     disabled,
     /** 손가락으로 누르고 있는 동안 true (눌림 시각 피드백용) */
-    active: pressTap.pressed,
-    /** Toggle root 요소(`<view>`)에 펼친다. disabled가 아니면 tap 시 toggle. */
-    rootProps: {
-      bindtap: pressTap.bindtap,
-      bindtouchstart: pressTap.bindtouchstart,
-      bindtouchend: pressTap.bindtouchend,
-      bindtouchcancel: pressTap.bindtouchcancel,
-    },
+    active,
+    /**
+     * Toggle root 요소(`<view>`)에 펼친다. disabled가 아니면 tap 시 toggle.
+     * 소비자의 `main-thread:bindtouch*`는 누름 상태와 합성된 handler로 포함된다.
+     */
+    rootProps: pressHandlers,
   };
 }
