@@ -3,10 +3,6 @@
 import { Chip as SeedChip, Checkbox, RadioGroup } from "@seed-design/react";
 import * as React from "react";
 
-// Create a base props interface that doesn't include DOM attributes to avoid conflicts
-export interface ChipBaseProps
-  extends Omit<SeedChip.RootProps, keyof React.ButtonHTMLAttributes<HTMLButtonElement>> {}
-
 export interface ToggleChipProps extends SeedChip.ToggleProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -26,7 +22,7 @@ export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
 );
 ToggleChip.displayName = "Chip.Toggle";
 
-export interface ButtonChipProps extends ChipBaseProps, SeedChip.RootProps {}
+export interface ButtonChipProps extends SeedChip.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/chip
