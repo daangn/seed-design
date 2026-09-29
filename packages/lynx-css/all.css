@@ -1,3 +1,7 @@
+:root {
+  font-size: 16px;
+}
+
 text {
   background-color: var(--seed-color-bg-transparent);
 }

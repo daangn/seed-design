@@ -144,6 +144,18 @@ SEED 외의 유틸리티 변경은 [Tailwind v4 업그레이드 가이드](https
 개발 서버와 프로덕션 번들에서 색상·타이포그래피·간격·상태 변경·루트 테마 전환을 확인하세요.
 새 클래스를 추가했을 때 서버 재시작 없이 스타일이 반영되는지도 확인합니다.
 
+## rem 기준 크기
+
+`@seed-design/lynx-css/base.css`는 `:root`의 `font-size`를 16px로 설정합니다.
+Lynx의 기본값인 14px 대신 웹의 일반적인 기본값을 사용하므로, Tailwind의 `p-4`는 16px,
+`w-12`는 48px, `text-sm`은 14px로 계산됩니다. 직접 작성한 rem 값에도 같은 기준이 적용됩니다.
+별도의 Tailwind 설정이나 rem을 px로 변환하는 플러그인은 필요하지 않습니다.
+
+rem의 기준인 root의 `font-size`와 사용자 글자 배율인 `fontScale`은 별개입니다.
+[Installation](/lynx/getting-started/installation)의 `fontScaleEffectiveOnlyOnSp: true` 설정에서는
+사용자 글자 배율이 `sp`에만 적용됩니다. 사용자 글자 배율을 반영할 텍스트에는
+`t5-regular` 같은 SEED Dynamic 타이포그래피를 사용하세요.
+
 ## Color
 
 SEED 색상 토큰은 Tailwind의 `bg-`, `text-`, `border-` 접두사로 사용합니다.
