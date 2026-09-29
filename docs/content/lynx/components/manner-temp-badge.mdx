@@ -20,20 +20,30 @@ compatibility:
 ## 설치
 
 ```package-install
-@seed-design/lynx-react @seed-design/lynx-css
+npx @seed-design/cli@latest add ui:manner-temp-badge
 ```
 
-<Callout>
-Lynx `MannerTempBadge`는 별도 `ui:manner-temp-badge` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
-</Callout>
+<LynxManualInstallation name="manner-temp-badge" />
 
 ## 속성
 
-<react-type-table path="../packages/lynx-react/src/components/MannerTempBadge/MannerTempBadge.tsx" name="MannerTempBadgeProps" />
+<react-type-table path="./registry/lynx/ui/manner-temp-badge.tsx" name="MannerTempBadgeProps" />
 
 ## 사용법
 
-`level`에 매너온도 구간을 지정하고 자식으로 표시할 온도를 전달합니다.
+`temperature`에 매너온도를 전달하면 온도 구간에 맞는 `level`을 계산하고 `36.5°C`처럼 표시합니다. `level`을 직접 전달하면 계산 결과 대신 그 값을 사용합니다.
+
+```tsx
+import { MannerTempBadge } from "@/components/ui/manner-temp-badge";
+
+export function App() {
+  return <MannerTempBadge temperature={36.5} />;
+}
+```
+
+### 패키지 직접 사용
+
+표시 문구를 바꾸려면 `@seed-design/lynx-react`의 `MannerTempBadge`에 `level`과 자식을 직접 전달합니다. 자식은 label `<text>` 안에 렌더링되므로 문자열이나 숫자를 전달하세요.
 
 ```tsx
 import { MannerTempBadge } from "@seed-design/lynx-react";
@@ -48,9 +58,6 @@ export function App() {
 <Callout type="warning">
 
 - **렌더링 요소.** HTML `<span>` 대신 native `<view>`와 `<text>`를 렌더링합니다.
-- **자식 요소.** 자식은 label `<text>` 안에 렌더링되므로 문자열이나 숫자를 전달하세요. 웹처럼 임의의 요소를 넣는 용도로 쓰지 않습니다.
-- **공개 경로.** React 문서의 `ui:manner-temp-badge` snippet과 달리 Lynx에서는 패키지 API를 직접 사용합니다.
-- **온도 변환.** Lynx 패키지는 `temperature`를 `level`로 바꾸지 않습니다. 제품의 매너온도 기준에 따라 `level`을 계산해 전달하세요.
 - **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
 
 </Callout>
