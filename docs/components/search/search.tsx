@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
@@ -168,7 +170,11 @@ export default function DefaultSearchDialog({
 }: DefaultSearchDialogProps): ReactNode {
   const [tag, setTag] = useState<string | undefined>(defaultTag);
   const { search, setSearch, query } = useDocsSearch({
-    client: staticClient({ initDB: initSearchDatabase, from: api, tag }),
+    client: staticClient({
+      initDB: initSearchDatabase,
+      from: archivePaths.endpoint(api ?? "/api/search"),
+      tag,
+    }),
   });
 
   // Keep the tag in sync when navigating between sections re-mounts with a new defaultTag.
@@ -180,11 +186,11 @@ export default function DefaultSearchDialog({
   // and under that section's own filter.
   const { matches: components, pending: componentsPending } = useComponentSearch({
     search,
-    enabled: tag === undefined || tag === TAGS.components.value,
+    enabled: !archivePaths.prefix && (tag === undefined || tag === TAGS.components.value),
   });
   const { matches: tokens, pending: tokensPending } = useTokenSearch({
     search,
-    enabled: tag === undefined || tag === TAGS.foundations.value,
+    enabled: !archivePaths.prefix && (tag === undefined || tag === TAGS.foundations.value),
   });
 
   const results = useMemo(() => {

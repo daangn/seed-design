@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import type { Metadata } from "next";
 import { baseUrl } from "@/app/metadata";
 import {
@@ -165,12 +166,12 @@ export function buildSeoMetadata({
       locale: SITE_LOCALE,
       ...(url !== undefined ? { url } : {}),
       ...shared,
-      images: [image],
+      images: [{ ...image, url: archivePaths.asset(image.url) }],
     },
     twitter: {
       card: "summary_large_image",
       ...shared,
-      images: [image.url],
+      images: [archivePaths.asset(image.url)],
     },
   };
 }

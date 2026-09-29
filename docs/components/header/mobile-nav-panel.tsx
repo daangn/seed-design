@@ -1,12 +1,15 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { ReactVersionSwitcher } from "@/components/react-version-switcher";
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   type SidebarFolderItem,
   type SidebarGroup,
@@ -220,8 +223,8 @@ function MainMenuView({ pathname, onClose }: { pathname: string; onClose: () => 
     <>
       <SeedSidePanel.Header className={clsx(PANEL_HEADER_CLASS, "justify-between")}>
         <SeedSidePanel.Title className="min-w-0 flex-1">
-          <Link
-            href="/"
+          <SiteLink
+            href={archivePaths.link("/")}
             aria-label="SEED 홈으로 이동"
             className={PANEL_LOGO_BUTTON_CLASS}
             onClick={onClose}
@@ -229,7 +232,7 @@ function MainMenuView({ pathname, onClose }: { pathname: string; onClose: () => 
             <span className="sr-only">SEED</span>
             <SeedMark className="h-10 w-auto shrink-0" />
             <SeedWordmark className="ml-2 h-10 w-auto" />
-          </Link>
+          </SiteLink>
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
@@ -266,6 +269,10 @@ function SectionView({
   onBack: () => void;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const versionContainer = useRef<HTMLDivElement>(null);
+  const isReact = pathname === "/react" || pathname.startsWith("/react/");
+
   return (
     <>
       <SeedSidePanel.Header className={clsx(PANEL_HEADER_CLASS, "justify-between")}>
@@ -282,6 +289,11 @@ function SectionView({
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
+      {isReact && (
+        <div ref={versionContainer} className="relative z-10 px-5 pb-2">
+          <ReactVersionSwitcher positionerContainer={versionContainer} />
+        </div>
+      )}
       <ScrollFog
         hideScrollBar
         placement={["top", "bottom"]}

@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
 import { ReactVersionSwitcher } from "@/components/react-version-switcher";
@@ -15,7 +16,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         SearchDialog: DefaultSearchDialog,
         options: {
           defaultTag: TAGS.react.value,
-          tags: Object.values(TAGS),
+          tags: archivePaths.prefix ? [TAGS.react] : Object.values(TAGS),
         },
       }}
     >

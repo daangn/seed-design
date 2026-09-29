@@ -1,3 +1,5 @@
+import { REACT_ARCHIVE_VERSION } from "./docs-archive";
+import { remarkArchiveLinks } from "@/app/_llms/archive-markdown";
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
@@ -56,6 +58,7 @@ const removeBackground: ShikiTransformer = {
 
 const processor = remark()
   .use(remarkGfm)
+  .use(remarkArchiveLinks, REACT_ARCHIVE_VERSION)
   .use(remarkRehype)
   .use(rehypeCode, {
     lazy: true,
