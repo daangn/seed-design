@@ -34,7 +34,10 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   await ensureRulesReady();
   const renderer = await page.data.load();
   const { exports } = await renderer.render();
-  const processed = archiveMarkdown(normalizeLLMBody(exports.processed), REACT_ARCHIVE_VERSION);
+  const processed = archiveMarkdown(
+    normalizeLLMBody(exports.processed),
+    section === "react" ? REACT_ARCHIVE_VERSION : "",
+  );
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
   const lynxCompatibility = getLynxCompatibilityBlock(
