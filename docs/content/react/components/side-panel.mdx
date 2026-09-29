@@ -227,3 +227,7 @@ Trigger를 다시 눌러 닫아야 하는 경우에는 `open` prop으로 상태�
 | `Escape` | `dismissible=true`일 때 Side Panel을 닫습니다. |
 | `Tab` | `modal=true`일 때 Side Panel 내부 요소들 사이로 포커스를 순환합니다. |
 | `Shift + Tab` | `modal=true`일 때 역방향으로 포커스를 순환합니다. |
+
+### 자동 포커스 제어
+
+`SidePanelRoot`의 `autoFocus` 기본값은 `true`입니다. 여러 패널의 외형을 한 표에 표시할 때는 `modal={false}`와 `autoFocus={false}`를 함께 사용해 포커스 이동과 스크롤 잠금을 끌 수 있습니다. 실제 모달의 초기 포커스를 직접 관리하는 경우에만 이 옵션을 사용하세요. Responsive Side Panel에는 `sidePanelRootProps`와 `bottomSheetRootProps`로 각각 전달합니다.

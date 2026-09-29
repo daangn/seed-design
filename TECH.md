@@ -42,3 +42,9 @@ Kapture 0.11.0의 `github restore-build`가 캐시 탐색·출처·archive diges
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
 Kapture CLI와 adapter는 `0.11.1`로 함께 고정한다. unstable repeat/self-diff PNG는 trusted report에 게시되지만 불안정한 스냅샷의 시각 승인은 계속 차단된다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
+
+## 모달 Story 시각 검증
+
+BottomSheet·Dialog·ResponsiveDialog·ResponsiveSidePanel의 VariantTable은 외형 비교 전용이다. `ModalVisualPreview` 안에서 위치와 motion 스타일을 제한하며, 각 root의 `modal`·`autoFocus`를 끈다. 테마·폰트 배율은 `SeedThemeBoundary`가 자식을 마운트하기 전에 적용한다. 실제 모달의 초기 포커스·Tab·스크롤 잠금·Escape·포커스 복귀는 각 `ModalInteraction` Story의 play에서 검증한다. 해당 Story에는 표 전용 CSS를 적용하지 않고 viewport 영역을 캡처한다.
+
+불안정 예외 승인 기능은 Kapture의 새 CLI 릴리스에 포함될 예정이다. 공개 버전이 확인되기 전에는 현재 고정 버전을 미리 올리지 않는다. 새 버전 배포 후 capture/report/approve CLI와 Storybook adapter를 같은 exact 버전으로 갱신하고, 기본 브랜치의 댓글 승인 workflow까지 반영한 뒤 새 리포트로 확인한다.

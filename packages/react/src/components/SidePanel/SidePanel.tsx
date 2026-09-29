@@ -25,6 +25,7 @@ export interface SidePanelRootProps
       | "defaultOpen"
       | "onOpenChange"
       | "modal"
+      | "autoFocus"
       | "dismissible"
       | "closeOnEscape"
       | "closeOnInteractOutside"

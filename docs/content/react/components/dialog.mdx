@@ -45,6 +45,14 @@ npx @seed-design/cli@latest add ui:responsive-dialog
 
 ## Props
 
+### 자동 포커스 제어
+
+`DialogRoot`는 기본적으로 열릴 때 내부로 포커스를 이동합니다. `autoFocus={false}`로 이 최초 이동을 끌 수 있습니다. 실제 모달에서는 키보드 사용자가 내용에 접근할 수 있도록 별도의 초기 포커스를 제공하세요.
+
+여러 열린 Dialog를 한 표에 표시하는 외형 비교에서는 `modal={false}`와 `autoFocus={false}`를 함께 사용합니다. 이 경우 포커스 가두기와 배경 스크롤 잠금도 적용되지 않습니다. 실제 모달의 포커스와 스크롤 동작은 한 개만 여는 별도 Story에서 검증합니다.
+
+Responsive Dialog에서는 `dialogRootProps`와 `bottomSheetRootProps`로 각각 전달합니다.
+
 ### `DialogRoot`
 
 <react-type-table
