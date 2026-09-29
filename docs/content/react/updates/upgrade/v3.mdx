@@ -468,7 +468,7 @@ import { Badge, type BadgeProps } from "seed-design/ui/badge"; // [!code ++]
 
 #### Date Picker·Time Picker를 Registry snippet으로 전환
 
-**수정 대상:** `@seed-design/react`의 Date Picker·Time Picker 컴포넌트와 관련 타입·함수, `ui:wheel-picker` snippet 또는 `wheel-picker-public` 스타일을 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
+**수정 대상:** `@seed-design/react`의 Date Picker·Time Picker 컴포넌트와 관련 타입·함수, `ui:wheel-picker` snippet 또는 Date Picker·Time Picker·Wheel Picker의 내부 스타일을 직접 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -477,6 +477,14 @@ import { Badge, type BadgeProps } from "seed-design/ui/badge"; // [!code ++]
 ```package-install
 npx @seed-design/cli@latest add ui:date-picker ui:time-picker
 ```
+
+`DatePickerDate`, `dateOnOrAfter` 등 아래 예제의 타입·함수를 자신의 코드에서 직접 가져온다면 `@seed-design/react-date-picker`도 프로젝트 의존성에 추가하세요. snippet은 이 패키지를 직접 사용하지 않아 다운로드할 때 프로젝트 의존성으로 자동 등록되지 않습니다. 설치를 생략하면 프로젝트의 의존성 설정에 따라 새 import를 찾지 못할 수 있습니다.
+
+```package-install
+@seed-design/react-date-picker@latest
+```
+
+snippet 컴포넌트만 사용하는 경우에는 위 패키지를 별도로 설치할 필요가 없습니다. `@seed-design/react-time-picker`는 `ui:time-picker`를 다운로드할 때 함께 설치됩니다. Time Picker snippet 없이 `MinuteStep`·`TimePickerValue`만 직접 가져오는 경우에는 `@seed-design/react-time-picker`도 직접 의존성에 추가하세요.
 
 ```tsx
 import { DatePicker, TimePicker, type DatePickerDate, type TimePickerValue, dateOnOrAfter } from "@seed-design/react"; // [!code --]
@@ -498,7 +506,7 @@ import type { TimePickerValue } from "@seed-design/react-time-picker"; // [!code
 npx @seed-design/cli@latest add ui:wheel-picker
 ```
 
-**Wheel Picker 스타일을 직접 사용하는 경우**
+**Date Picker·Time Picker·Wheel Picker 스타일을 직접 사용하는 경우**
 
 <Badge tone="critical">직접 검색 필요</Badge>
 
@@ -519,6 +527,31 @@ import { wheelPicker } from "@seed-design/css/recipes/wheel-picker"; // [!code +
   padding-block: var(--seed-wheel-picker-center-offset); /* [!code ++] */
 } /* [!code ++] */
 ```
+
+Date Picker와 Time Picker도 공통 Wheel Picker를 사용하도록 바뀌면서 아래 recipe 슬롯과 CSS 클래스가 제거됐습니다. 이 컴포넌트의 내부 스타일을 직접 수정했다면 사용처를 검색해 바꿔주세요. 문자열로 작성한 CSS 선택자는 타입 검사에서 발견되지 않고, snippet을 다시 다운로드해도 애플리케이션의 CSS는 그대로 남습니다.
+
+| 제거된 recipe 슬롯 | 제거된 CSS 선택자 | 새 CSS 선택자 |
+| --- | --- | --- |
+| `datePicker().wheelColumns` | `.seed-date-picker__wheelColumns` | `.seed-date-picker__root .seed-wheel-picker__columns` |
+| `datePicker().wheelItem` | `.seed-date-picker__wheelItem` | `.seed-date-picker__root .seed-wheel-picker__itemLabel` (텍스트·여백), `.seed-date-picker__root .seed-wheel-picker__item` (항목 전체) |
+| `datePicker().wheelScrollFog` | `.seed-date-picker__wheelScrollFog` | `.seed-date-picker__root .seed-wheel-picker__scrollFog` |
+| `datePicker().wheelSelectionIndicator` | `.seed-date-picker__wheelSelectionIndicator` | `.seed-date-picker__root .seed-wheel-picker__selectionIndicator` |
+| `timePicker().columns` | `.seed-time-picker__columns` | `.seed-time-picker__root .seed-wheel-picker__columns` |
+| `timePicker().scrollFog` | `.seed-time-picker__scrollFog` | `.seed-time-picker__root .seed-wheel-picker__scrollFog` |
+| `timePicker().selectionIndicator` | `.seed-time-picker__selectionIndicator` | `.seed-time-picker__root .seed-wheel-picker__selectionIndicator` |
+
+새 선택자는 다른 Wheel Picker까지 바뀌지 않도록 표처럼 Date Picker 또는 Time Picker 내부로 범위를 제한하세요. 기존 `wheelItem`에 적용한 폰트·텍스트 여백은 `itemLabel`로, 항목 전체에 적용한 스타일은 `item`으로 나누어 옮기세요. recipe 반환값을 직접 사용했다면 제거된 슬롯 대신 `wheelPicker()`의 해당 슬롯을 사용합니다.
+
+**WeekDatePicker의 연·월 선택 동작**
+
+snippet으로 옮긴 뒤에도 prop 이름은 같지만, 한 주를 표시하는 `WeekDatePicker`의 연·월 선택 UI와 동작은 달라집니다.
+
+- 제목을 누르면 달력을 가리던 Wheel Picker 대신 제목 아래 작은 Popover가 열리고, 달력은 계속 보입니다. 일반 `DatePicker`는 기존처럼 달력 영역을 Wheel Picker로 바꿉니다.
+- 제목을 다시 누를 때뿐 아니라 `Escape`, 바깥 누르기, 바깥으로 포커스 이동으로 닫을 때도 고른 연·월을 반영합니다. 연·월을 바꾸지 않고 닫으면 현재 주를 유지합니다.
+- Popover를 열면 내부로 포커스를 옮깁니다. 내부에 포커스가 있는 상태에서 닫으면 제목으로 돌아옵니다. 바깥 요소로 옮긴 포커스는 제목으로 돌리지 않습니다.
+- 한 주가 두 달에 걸치면 제목과 Wheel Picker는 다음 달을 기준으로 합니다. 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 사용합니다.
+
+기본 사용 코드에 추가로 바꿀 prop은 없습니다. 월 경계의 제목, 연·월 선택 후 표시되는 주, 열고 닫을 때의 포커스 이동에 의존하는 화면과 테스트를 확인하세요. 자세한 사용법은 [Date Picker의 월·연도 이동](/react/components/date-picker#월연도-이동)을 참고해주세요.
 
 </Step>
 
