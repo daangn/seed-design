@@ -347,6 +347,33 @@ import { Popover } from "@seed-design/react/primitive";
 npx @seed-design/cli@latest add ui:popover
 ```
 
+#### 8. Headless Avatar 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/react/primitive`에서 Headless Avatar API를 제거하고, `@seed-design/react-avatar`의 소스와 배포를 정리했습니다. `@seed-design/react`에서 가져오는 스타일이 적용된 `Avatar`는 그대로 사용할 수 있습니다.
+
+Headless Avatar를 사용했다면 `@seed-design/react-image`를 프로젝트 의존성에 추가하고 import를 바꿉니다.
+
+```package-install
+@seed-design/react-image
+```
+
+```ts
+import { Avatar, useAvatarContext } from "@seed-design/react/primitive"; // [!code --]
+import { Image, useImageContext } from "@seed-design/react-image"; // [!code ++]
+```
+
+| 기존 | 대체 |
+| --- | --- |
+| `AvatarRoot` / `AvatarImage` / `AvatarFallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+| `Avatar.Root` / `Avatar.Image` / `Avatar.Fallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+| `AvatarRootProps` / `AvatarImageProps` / `AvatarFallbackProps` | `Image.RootProps` / `Image.ContentProps` / `Image.FallbackProps` |
+| `useAvatarContext` / `UseAvatarContext` | `useImageContext` / `UseImageContext` |
+| Context의 `getImageProps({ src })` | `getContentProps({ src, srcSet })` |
+
+`@seed-design/react-avatar`를 직접 사용하던 프로젝트도 같은 대체 API로 옮길 수 있습니다.
+
 ### 동작이 바뀌는 항목
 
 코드 수정 없이 동작이 달라지는 항목입니다. 기존 동작에 의존하는 화면이 있는지 확인해주세요.

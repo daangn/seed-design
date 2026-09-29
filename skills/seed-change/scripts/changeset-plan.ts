@@ -132,7 +132,6 @@ async function expandWorkspacePattern(root: string, pattern: string): Promise<st
 async function readWorkspacePackage(
   root: string,
   directory: string,
-  archived: boolean,
 ): Promise<WorkspacePackage | undefined> {
   const manifestPath = join(directory, "package.json");
   let source: string;
@@ -144,7 +143,7 @@ async function readWorkspacePackage(
     throw new Error(`${manifestPath}을 읽지 못했습니다: ${detail}`);
   }
   const manifest = parsePackageManifest(manifestPath, source);
-  return workspacePackageFromManifest(repositoryPath(root, directory), archived, manifest);
+  return workspacePackageFromManifest(repositoryPath(root, directory), false, manifest);
 }
 
 function parsePackageManifest(path: string, source: string): PackageManifest {
@@ -190,17 +189,16 @@ function workspacePatterns(manifest: RootManifest): string[] {
 async function packagesInDirectories(
   root: string,
   directories: string[],
-  archived: boolean,
 ): Promise<WorkspacePackage[]> {
   const packages = await Promise.all(
-    directories.map((directory) => readWorkspacePackage(root, directory, archived)),
+    directories.map((directory) => readWorkspacePackage(root, directory)),
   );
   return packages.filter((workspacePackage): workspacePackage is WorkspacePackage =>
     Boolean(workspacePackage),
   );
 }
 
-/** 루트 workspace와 archive 패키지를 읽고 디렉터리별로 중복을 제거합니다. */
+/** 루트 workspace 패키지를 읽고 디렉터리별로 중복을 제거합니다. */
 async function readWorkspacePackages(root: string): Promise<WorkspacePackage[]> {
   const rootManifest = await readJson<RootManifest>(join(root, "package.json"));
   const workspaceDirectories = (
@@ -208,16 +206,9 @@ async function readWorkspacePackages(root: string): Promise<WorkspacePackage[]> 
       workspacePatterns(rootManifest).map((pattern) => expandWorkspacePattern(root, pattern)),
     )
   ).flat();
-  const archiveDirectories = await expandWorkspacePattern(root, "packages/archive/*");
-  const [workspacePackages, archivePackages] = await Promise.all([
-    packagesInDirectories(root, workspaceDirectories, false),
-    packagesInDirectories(root, archiveDirectories, true),
-  ]);
+  const workspacePackages = await packagesInDirectories(root, workspaceDirectories);
   const byDirectory = new Map(
-    [...workspacePackages, ...archivePackages].map((workspacePackage) => [
-      workspacePackage.directory,
-      workspacePackage,
-    ]),
+    workspacePackages.map((workspacePackage) => [workspacePackage.directory, workspacePackage]),
   );
   return [...byDirectory.values()].sort((left, right) => left.name.localeCompare(right.name));
 }
