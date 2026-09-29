@@ -42,6 +42,7 @@ export function useAccordionTrigger({
   const context = useAccordionItemContext("AccordionTrigger");
   const handleTap = React.useCallback<NonNullable<ViewProps["bindtap"]>>(
     (event) => {
+      "background only";
       context.toggle();
       bindtap?.(event);
     },
