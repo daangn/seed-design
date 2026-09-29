@@ -2,18 +2,22 @@ import {
   DialogBackdrop as DialogBackdropPrimitive,
   DialogClose as DialogClosePrimitive,
   DialogContent as DialogContentPrimitive,
-  DialogRoot as DialogRootPrimitive,
   DialogTrigger as DialogTriggerPrimitive,
-  DialogView as DialogViewPrimitive,
   type DialogBackdropProps as DialogPrimitiveBackdropProps,
   type DialogCloseProps as DialogPrimitiveCloseProps,
   type DialogContentProps as DialogPrimitiveContentProps,
-  type DialogRootProps as DialogPrimitiveRootProps,
   type DialogTriggerProps as DialogPrimitiveTriggerProps,
-  type DialogViewProps as DialogPrimitiveViewProps,
 } from "@lynx-js/lynx-ui-dialog";
 import {
+  DialogPositioner as HeadlessDialogPositioner,
+  DialogRoot as HeadlessDialogRoot,
+  useDialogContext,
+  type DialogPositionerProps as HeadlessDialogPositionerProps,
+  type DialogRootProps as HeadlessDialogRootProps,
+} from "@seed-design/lynx-react-dialog";
+import {
   forwardRef,
+  useMemo,
   type ForwardRefExoticComponent,
   type PropsWithoutRef,
   type ReactElement,
@@ -50,8 +54,7 @@ type NativeLifecycleHandlers = {
   bindtap?: unknown;
 };
 
-const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
-  createSlotRecipeContext(alertDialog);
+const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(alertDialog);
 
 function omitHeadlessLifecycleHandlers<Props extends object>(
   props: Props | undefined,
@@ -72,7 +75,7 @@ function omitHeadlessLifecycleHandlers<Props extends object>(
 }
 
 function useAlertDialogTransition(transition: boolean | undefined) {
-  const skipAnimation = useProps()?.skipAnimation === true;
+  const { skipAnimation } = useDialogContext();
 
   return skipAnimation ? false : (transition ?? true);
 }
@@ -83,14 +86,7 @@ function useAlertDialogTransition(transition: boolean | undefined) {
 
 export interface AlertDialogRootProps
   extends AlertDialogVariantProps,
-    Omit<DialogPrimitiveRootProps, "show" | "defaultShow" | "onShowChange"> {
-  /** Whether the alert dialog is open (controlled mode). */
-  open?: boolean;
-  /** Whether the alert dialog is open by default (uncontrolled mode). */
-  defaultOpen?: boolean;
-  /** Called when the alert dialog's open state changes. */
-  onOpenChange?: (open: boolean) => void;
-}
+    Omit<HeadlessDialogRootProps, keyof AlertDialogVariantProps> {}
 
 /**
  * @platform Lynx — wraps `@lynx-js/lynx-ui-dialog` as an alert dialog.
@@ -99,21 +95,16 @@ export interface AlertDialogRootProps
  */
 export const AlertDialogRoot = forwardRef<never, AlertDialogRootProps>((props, _ref) => {
   const [variantProps, restProps] = alertDialog.splitVariantProps(props);
-  const { children, open, defaultOpen, onOpenChange, ...nativeProps } = restProps;
-  const classNames = alertDialog(variantProps);
+  const { children, ...rootProps } = restProps;
+  const { skipAnimation } = variantProps;
+  // variantProps is a new object on every render, so memoize on the variant value.
+  const classNames = useMemo(() => alertDialog({ skipAnimation }), [skipAnimation]);
 
   return (
     <ClassNamesProvider value={classNames}>
-      <PropsProvider value={variantProps}>
-        <DialogRootPrimitive
-          {...nativeProps}
-          show={open}
-          defaultShow={defaultOpen}
-          onShowChange={onOpenChange}
-        >
-          {children}
-        </DialogRootPrimitive>
-      </PropsProvider>
+      <HeadlessDialogRoot {...rootProps} skipAnimation={skipAnimation === true}>
+        {children}
+      </HeadlessDialogRoot>
     </ClassNamesProvider>
   );
 }) as AlertDialogComponent<AlertDialogRootProps>;
@@ -142,26 +133,22 @@ AlertDialogTrigger.displayName = "AlertDialogTrigger";
 // Positioner
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogPositionerProps extends DialogPrimitiveViewProps {}
+export interface AlertDialogPositionerProps extends HeadlessDialogPositionerProps {}
 
 /** @platform Lynx — maps to `DialogView`; refs are unsupported. */
 export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
   (props, _ref) => {
-    const { children, className, container, style, transition, ...nativeProps } = props;
+    const { children, className, transition, ...positionerProps } = props;
     const classNames = useClassNames();
-    const resolvedTransition = useAlertDialogTransition(transition);
-    const positionerStyle = container ? { width: "100%", height: "100%", ...style } : style;
 
     return (
-      <DialogViewPrimitive
-        {...nativeProps}
-        container={container}
+      <HeadlessDialogPositioner
+        {...positionerProps}
         className={clsx(classNames.positioner, className)}
-        style={positionerStyle}
-        transition={resolvedTransition}
+        transition={useAlertDialogTransition(transition)}
       >
         {children}
-      </DialogViewPrimitive>
+      </HeadlessDialogPositioner>
     );
   },
 ) as AlertDialogComponent<AlertDialogPositionerProps>;

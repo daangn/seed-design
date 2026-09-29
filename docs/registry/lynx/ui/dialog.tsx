@@ -30,10 +30,15 @@ export interface DialogActionProps
   extends Omit<SeedDialog.ActionProps, "children">,
     ActionButtonProps {}
 
+/**
+ * `ActionButton`을 닫기 동작과 함께 렌더링합니다. `disabled`·`loading`이면 닫지 않습니다.
+ */
 export const DialogAction = React.forwardRef<unknown, DialogActionProps>(
   ({ children, transition, ...actionButtonProps }, ref) => {
+    const { disabled, loading } = actionButtonProps;
+
     return (
-      <SeedDialog.Action transition={transition}>
+      <SeedDialog.Action transition={transition} disabled={disabled === true || loading === true}>
         <ActionButton ref={ref} {...actionButtonProps}>
           {children}
         </ActionButton>
