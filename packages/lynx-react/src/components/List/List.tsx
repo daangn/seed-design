@@ -18,7 +18,11 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { CheckboxRoot, type CheckboxRootProps, useCheckboxContext } from "../Checkbox/Checkbox";
+import {
+  CheckboxRoot,
+  type CheckboxRootProps,
+  useStyledCheckboxContext,
+} from "../Checkbox/Checkbox";
 import { IconSlotProvider } from "../Icon/Icon";
 import {
   RadioGroupItem,
@@ -215,7 +219,7 @@ interface ListCheckboxItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListCheckboxItemSurface(props: ListCheckboxItemSurfaceProps) {
-  const context = useCheckboxContext("ListCheckboxItem");
+  const context = useStyledCheckboxContext("ListCheckboxItem");
 
   return (
     <ListItemSurface

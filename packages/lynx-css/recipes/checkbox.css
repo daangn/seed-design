@@ -41,6 +41,12 @@
 .seed-checkbox__root--disabled_false:active .seed-checkmark__root {
     background-color: var(--seed-checkmark-pressed-color)
 }
-.seed-checkbox__root--disabled_false:active .seed-checkmark__background {
+.seed-checkbox__root--disabled_false:active .seed-checkmark__background--checked_false.seed-checkmark__background--indeterminate_false {
+    opacity: 1
+}
+.seed-checkbox__root--disabled_false:active .seed-checkmark__selectedBackground--checked_true {
+    opacity: 1
+}
+.seed-checkbox__root--disabled_false:active .seed-checkmark__selectedBackground--indeterminate_true {
     opacity: 1
 }

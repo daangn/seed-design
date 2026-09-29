@@ -14,6 +14,15 @@
     opacity: 0;
     transition: opacity var(--seed-duration-color-transition) var(--seed-timing-function-easing)
 }
+.seed-checkmark__selectedBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity var(--seed-duration-color-transition) var(--seed-timing-function-easing)
+}
 .seed-checkmark__icon {
     position: absolute
 }
@@ -38,12 +47,18 @@
 .seed-checkmark__background--size_medium {
     border-radius: var(--seed-radius-r1)
 }
+.seed-checkmark__selectedBackground--size_medium {
+    border-radius: var(--seed-radius-r1)
+}
 .seed-checkmark__root--size_large {
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
     border-radius: var(--seed-radius-r1)
 }
 .seed-checkmark__background--size_large {
+    border-radius: var(--seed-radius-r1)
+}
+.seed-checkmark__selectedBackground--size_large {
     border-radius: var(--seed-radius-r1)
 }
 .seed-checkmark__icon--variant_square-size_medium {
@@ -114,16 +129,10 @@
 .seed-checkmark__icon--variant_square-indeterminate_true-disabled_true {
     color: var(--seed-color-fg-disabled)
 }
-.seed-checkmark__background--variant_ghost-tone_brand-checked_true {
+.seed-checkmark__selectedBackground--variant_ghost-tone_brand {
     background-color: var(--seed-color-palette-carrot-200)
 }
-.seed-checkmark__background--variant_ghost-tone_neutral-checked_true {
-    background-color: var(--seed-color-palette-gray-200)
-}
-.seed-checkmark__background--variant_ghost-tone_brand-indeterminate_true {
-    background-color: var(--seed-color-palette-carrot-200)
-}
-.seed-checkmark__background--variant_ghost-tone_neutral-indeterminate_true {
+.seed-checkmark__selectedBackground--variant_ghost-tone_neutral {
     background-color: var(--seed-color-palette-gray-200)
 }
 .seed-checkmark__icon--variant_ghost-tone_brand-checked_true-disabled_false {
@@ -146,22 +155,4 @@
 }
 .seed-checkmark__icon--variant_ghost-indeterminate_true-disabled_true {
     color: var(--seed-color-fg-disabled)
-}
-.seed-checkmark__background--variant_ghost-pressed_true-disabled_false {
-    opacity: 1
-}
-.seed-checkmark__root--variant_square-pressed_true-checked_false-indeterminate_false-disabled_false {
-    background-color: var(--seed-color-bg-transparent-pressed)
-}
-.seed-checkmark__root--variant_square-tone_brand-pressed_true-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-brand-solid-pressed)
-}
-.seed-checkmark__root--variant_square-tone_neutral-pressed_true-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-solid-pressed)
-}
-.seed-checkmark__root--variant_square-tone_brand-pressed_true-indeterminate_true-disabled_false {
-    background-color: var(--seed-color-bg-brand-solid-pressed)
-}
-.seed-checkmark__root--variant_square-tone_neutral-pressed_true-indeterminate_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }
