@@ -132,6 +132,7 @@
     "@seed-design/lynx-react-action-button": "workspace:*",
     "@seed-design/lynx-react-app-bar": "workspace:*",
     "@seed-design/lynx-react-bottom-sheet": "workspace:*",
+    "@seed-design/lynx-react-callout": "workspace:*",
     "@seed-design/react-wheel-picker": "workspace:*",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@storybook/nextjs-vite": "10.5.6",
