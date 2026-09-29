@@ -198,7 +198,7 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       ...restProps
     } = props;
     const classNames = useClassNames();
-    const { skipAnimation } = useBottomSheetContext("BottomSheetContent");
+    const { skipAnimation } = useBottomSheetContext();
     const { safeAreaInsetBottom } = useSafeArea();
 
     return (

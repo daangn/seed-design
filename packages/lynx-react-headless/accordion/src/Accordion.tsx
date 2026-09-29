@@ -2,7 +2,8 @@ import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useAccordion, type UseAccordionProps } from "./useAccordion.js";
 import { useAccordionContent } from "./useAccordionContent.js";
-import { AccordionContext, AccordionItemContext } from "./useAccordionContext.js";
+import { AccordionProvider } from "./useAccordionContext.js";
+import { AccordionItemProvider } from "./useAccordionItemContext.js";
 import { useAccordionItem, type UseAccordionItemProps } from "./useAccordionItem.js";
 import { useAccordionTrigger, type UseAccordionTriggerProps } from "./useAccordionTrigger.js";
 
@@ -16,11 +17,11 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
   const api = useAccordion({ values, defaultValues, onValuesChange, disabled, multiple });
 
   return (
-    <AccordionContext.Provider value={api}>
+    <AccordionProvider value={api}>
       <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
         {children}
       </view>
-    </AccordionContext.Provider>
+    </AccordionProvider>
   );
 });
 AccordionRoot.displayName = "AccordionRoot";
@@ -32,11 +33,11 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
   const api = useAccordionItem({ value, disabled });
 
   return (
-    <AccordionItemContext.Provider value={api}>
+    <AccordionItemProvider value={api}>
       <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
         {children}
       </view>
-    </AccordionItemContext.Provider>
+    </AccordionItemProvider>
   );
 });
 AccordionItem.displayName = "AccordionItem";
@@ -67,6 +68,9 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     bindtouchend,
     bindtouchcancel,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     expandedAccessibilityValue,
     collapsedAccessibilityValue,
     "accessibility-element": accessibilityElement,
@@ -77,6 +81,9 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
   } = props;
   const { disabled, triggerProps } = useAccordionTrigger({
     bindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     expandedAccessibilityValue,
     collapsedAccessibilityValue,
     "accessibility-element": accessibilityElement,
@@ -125,16 +132,7 @@ export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>
   });
 
   return (
-    <view
-      {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      {...nativeProps}
-      {...contentProps}
-      style={
-        typeof contentProps.style === "string"
-          ? `${contentProps.style};overflow:hidden`
-          : { ...contentProps.style, overflow: "hidden" }
-      }
-    >
+    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...contentProps}>
       <view {...contentInnerProps} style={{ flexShrink: 0 }}>
         {children}
       </view>
