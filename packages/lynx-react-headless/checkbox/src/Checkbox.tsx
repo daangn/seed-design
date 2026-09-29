@@ -57,8 +57,9 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     ...accessibilityProps
   } = api.rootProps;
 
-  // A Main Thread handler replaces the Background handler of the same native event.
-  // Run the consumer handler there and forward only the press state update.
+  // Native Lynx runs both the Background and Main Thread handlers of one event, but the testing
+  // environment keeps one handler per event key. Run the consumer handler here and forward only
+  // the press state update so both environments keep the same pressed state.
   const handleMainThreadTouchStart = mainThreadBindtouchstart
     ? (event: MainThreadTouchEvent) => {
         "main thread";
