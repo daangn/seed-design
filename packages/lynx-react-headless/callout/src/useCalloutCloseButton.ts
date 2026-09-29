@@ -40,7 +40,7 @@ export function useCalloutCloseButton(
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits = "button",
   } = props;
-  const { dismiss } = useCalloutContext("CalloutCloseButton");
+  const { dismiss } = useCalloutContext();
   const handleTap = useMemoizedFn<TapHandler>((event) => {
     "background only";
     bindtap?.(event);

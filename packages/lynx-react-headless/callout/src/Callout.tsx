@@ -1,12 +1,10 @@
 import * as React from "@lynx-js/react";
-import { runOnBackground } from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useCallout, type UseCalloutProps } from "./useCallout.js";
-import { CalloutContext } from "./useCalloutContext.js";
+import { CalloutProvider } from "./useCalloutContext.js";
 import { useCalloutCloseButton, type UseCalloutCloseButtonProps } from "./useCalloutCloseButton.js";
 
 type ViewProps = IntrinsicElements["view"];
-type MainThreadTouchEvent = Parameters<NonNullable<ViewProps["main-thread:bindtouchstart"]>>[0];
 
 export interface CalloutRootProps extends UseCalloutProps, Omit<ViewProps, keyof UseCalloutProps> {}
 
@@ -22,14 +20,14 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     "accessibility-element": accessibilityElement,
     "accessibility-traits": accessibilityTraits,
     bindtouchstart,
     bindtouchend,
     bindtouchcancel,
-    "main-thread:bindtouchstart": mainThreadBindtouchstart,
-    "main-thread:bindtouchend": mainThreadBindtouchend,
-    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     ...nativeProps
   } = props;
   const api = useCallout({
@@ -38,6 +36,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     "accessibility-element": accessibilityElement,
     "accessibility-traits": accessibilityTraits,
   });
@@ -50,63 +51,26 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     bindtouchcancel: pressCancel,
     ...rootProps
   } = api.rootProps;
-  const touchProps: Pick<
-    ViewProps,
-    | "bindtouchstart"
-    | "bindtouchend"
-    | "bindtouchcancel"
-    | "main-thread:bindtouchstart"
-    | "main-thread:bindtouchend"
-    | "main-thread:bindtouchcancel"
-  > = {
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    "main-thread:bindtouchstart": mainThreadBindtouchstart,
-    "main-thread:bindtouchend": mainThreadBindtouchend,
-    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-  };
-
-  if (pressStart && pressEnd && pressCancel) {
-    touchProps.bindtouchstart = (event) => {
-      bindtouchstart?.(event);
-      pressStart(event);
-    };
-    touchProps.bindtouchend = (event) => {
-      bindtouchend?.(event);
-      pressEnd(event);
-    };
-    touchProps.bindtouchcancel = (event) => {
-      bindtouchcancel?.(event);
-      pressCancel(event);
-    };
-    // A Main Thread handler replaces the Background handler of the same native event.
-    // Run the consumer handler there and forward only the press state update.
-    if (mainThreadBindtouchstart) {
-      touchProps["main-thread:bindtouchstart"] = (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchstart(event);
-        runOnBackground(pressStart)();
-      };
-    }
-    if (mainThreadBindtouchend) {
-      touchProps["main-thread:bindtouchend"] = (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchend(event);
-        runOnBackground(pressEnd)();
-      };
-    }
-    if (mainThreadBindtouchcancel) {
-      touchProps["main-thread:bindtouchcancel"] = (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchcancel(event);
-        runOnBackground(pressCancel)();
-      };
-    }
-  }
+  const touchProps: Pick<ViewProps, "bindtouchstart" | "bindtouchend" | "bindtouchcancel"> =
+    pressStart && pressEnd && pressCancel
+      ? {
+          bindtouchstart: (event) => {
+            bindtouchstart?.(event);
+            pressStart(event);
+          },
+          bindtouchend: (event) => {
+            bindtouchend?.(event);
+            pressEnd(event);
+          },
+          bindtouchcancel: (event) => {
+            bindtouchcancel?.(event);
+            pressCancel(event);
+          },
+        }
+      : { bindtouchstart, bindtouchend, bindtouchcancel };
 
   return (
-    <CalloutContext.Provider value={api}>
+    <CalloutProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...nativeProps}
@@ -115,7 +79,7 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
       >
         {children}
       </view>
-    </CalloutContext.Provider>
+    </CalloutProvider>
   );
 });
 CalloutRoot.displayName = "CalloutRoot";

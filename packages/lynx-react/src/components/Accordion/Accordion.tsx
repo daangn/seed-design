@@ -3,8 +3,8 @@ import type { ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
 import {
-  AccordionContext,
-  AccordionItemContext,
+  AccordionItemProvider,
+  AccordionProvider,
   useAccordion,
   useAccordionContent,
   useAccordionContext,
@@ -54,7 +54,7 @@ interface StyledAccordionItemContextValue extends UseAccordionItemReturn {
 const AccordionItemPositionContext = React.createContext({ isLast: false });
 
 function useStyledAccordionItemContext(consumer: string): StyledAccordionItemContextValue {
-  const context = useAccordionItemContext(consumer);
+  const context = useAccordionItemContext();
   if (!("variantProps" in context)) {
     throw new Error(`<${consumer}/> must be rendered inside a styled <AccordionItem/>.`);
   }
@@ -91,7 +91,7 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
   const items = toArray(children);
 
   return (
-    <AccordionContext.Provider value={contextValue}>
+    <AccordionProvider value={contextValue}>
       <view
         {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.root, className)}
@@ -105,7 +105,7 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
           </AccordionItemPositionContext.Provider>
         ))}
       </view>
-    </AccordionContext.Provider>
+    </AccordionProvider>
   );
 });
 AccordionRoot.displayName = "AccordionRoot";
@@ -117,7 +117,7 @@ export interface AccordionItemProps extends UseAccordionItemProps, LynxStyledEle
 export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((props, ref) => {
   const { children, className, value, disabled: itemDisabled, ...nativeProps } = props;
   const api = useAccordionItem({ value, disabled: itemDisabled });
-  const rootContext = useAccordionContext("AccordionItem");
+  const rootContext = useAccordionContext();
   if (!("variantProps" in rootContext)) {
     throw new Error("<AccordionItem/> must be rendered inside a styled <AccordionRoot/>.");
   }
@@ -136,7 +136,7 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
   });
 
   return (
-    <AccordionItemContext.Provider value={contextValue}>
+    <AccordionItemProvider value={contextValue}>
       <ClassNamesProvider value={classes}>
         <view
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
@@ -148,7 +148,7 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
           ) : null}
         </view>
       </ClassNamesProvider>
-    </AccordionItemContext.Provider>
+    </AccordionItemProvider>
   );
 });
 AccordionItem.displayName = "AccordionItem";
@@ -379,7 +379,7 @@ export interface AccordionSuffixIconProps extends LynxStyledElementProps {
 export const AccordionSuffixIcon = React.forwardRef<unknown, AccordionSuffixIconProps>(
   (props, ref) => {
     const { icon, children, className, style, ...nativeProps } = props;
-    const { open, disabled } = useAccordionItemContext("AccordionSuffixIcon");
+    const { open, disabled } = useAccordionItemContext();
     const classes = useClassNames();
     const mergedClassName = clsx(classes.suffixIcon, className);
 

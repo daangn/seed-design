@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { useAccordionItemContext } from "./useAccordionContext.js";
+import { useAccordionItemContext } from "./useAccordionItemContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type LayoutChangeHandler = NonNullable<ViewProps["bindlayoutchange"]>;
@@ -30,7 +30,7 @@ export function useAccordionContent({
   style,
   "accessibility-elements-hidden": accessibilityElementsHidden = false,
 }: UseAccordionContentProps = {}): UseAccordionContentReturn {
-  const context = useAccordionItemContext("AccordionContent");
+  const context = useAccordionItemContext();
   const [contentHeight, setContentHeight] = React.useState(0);
   const handleContentLayoutChange = React.useCallback<LayoutChangeHandler>((event) => {
     "background only";
@@ -38,13 +38,15 @@ export function useAccordionContent({
     if (height !== null) setContentHeight((current) => (current === height ? current : height));
   }, []);
 
+  const height = context.open ? `${contentHeight}px` : "0px";
+
   return {
     open: context.open,
     contentProps: {
       style:
         typeof style === "string"
-          ? `${style};height:${context.open ? `${contentHeight}px` : "0px"}`
-          : { ...style, height: context.open ? `${contentHeight}px` : "0px" },
+          ? `${style};height:${height};overflow:hidden`
+          : { ...style, height, overflow: "hidden" },
       "accessibility-elements-hidden": !context.open || accessibilityElementsHidden,
     },
     contentInnerProps: { bindlayoutchange: handleContentLayoutChange },

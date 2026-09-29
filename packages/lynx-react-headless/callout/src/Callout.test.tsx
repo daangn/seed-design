@@ -186,8 +186,6 @@ describe("Callout.CloseButton", () => {
 
   it("requires a CalloutRoot", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => render(<Callout.CloseButton accessibility-label="닫기" />)).toThrow(
-      "<CalloutCloseButton/> must be rendered inside <CalloutRoot/>.",
-    );
+    expect(() => render(<Callout.CloseButton accessibility-label="닫기" />)).toThrow();
   });
 });

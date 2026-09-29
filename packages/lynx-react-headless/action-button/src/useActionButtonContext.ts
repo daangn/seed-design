@@ -1,16 +1,25 @@
-import { createContext, useContext, type Context } from "@lynx-js/react";
+import { createContext, useContext, type Provider } from "@lynx-js/react";
 import type { UseActionButtonReturn } from "./useActionButton.js";
 
-export const ActionButtonContext: Context<UseActionButtonReturn | null> =
-  createContext<UseActionButtonReturn | null>(null);
+export interface UseActionButtonContext extends UseActionButtonReturn {}
+
+const ActionButtonContext = createContext<UseActionButtonContext | null>(null);
+
+export const ActionButtonProvider: Provider<UseActionButtonContext | null> =
+  ActionButtonContext.Provider;
 
 /**
- * `ActionButtonRoot`가 내려준 `useActionButton` 결과를 하위 요소에서 읽습니다.
+ * ActionButtonRoot가 내려준 `useActionButton` 결과를 하위 요소에서 읽습니다.
+ * `strict: false`이면 Provider 밖에서 `null`을 반환합니다.
  */
-export function useActionButtonContext(consumer = "useActionButtonContext"): UseActionButtonReturn {
+export function useActionButtonContext<T extends boolean | undefined = true>({
+  strict = true,
+}: {
+  strict?: T;
+} = {}): T extends false ? UseActionButtonContext | null : UseActionButtonContext {
   const context = useContext(ActionButtonContext);
-  if (!context) {
-    throw new Error(`${consumer} must be rendered inside <ActionButtonRoot/>.`);
+  if (!context && strict) {
+    throw new Error("useActionButtonContext must be used within an ActionButtonRoot");
   }
-  return context;
+  return context as UseActionButtonContext;
 }

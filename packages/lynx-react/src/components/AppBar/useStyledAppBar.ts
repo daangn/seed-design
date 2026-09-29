@@ -82,7 +82,7 @@ export function useStyledAppBar(variantProps: AppBarVariantProps) {
 }
 
 export function useStyledAppBarContext(consumer: string): StyledAppBarContextValue {
-  const context = useAppBarContext(consumer);
+  const context = useAppBarContext();
   if (!("sharedVariantProps" in context)) {
     throw new Error(`<${consumer}/> must be rendered inside a styled <AppBarRoot/>.`);
   }

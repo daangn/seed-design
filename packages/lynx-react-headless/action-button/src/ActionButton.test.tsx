@@ -46,7 +46,7 @@ describe("ActionButton.Root", () => {
   it.each([
     ["disabled", { disabled: true }],
     ["loading", { loading: true }],
-  ])("blocks tap, Main Thread tap and pressed while %s", async (_, state) => {
+  ])("blocks tap, Main Thread tap and pressed and reports disabled while %s", async (_, state) => {
     const tap = vi.fn();
     const mainThreadTap = vi.fn();
     function Example(props: { disabled?: boolean; loading?: boolean }) {
@@ -74,6 +74,7 @@ describe("ActionButton.Root", () => {
     view.rerender(<Example {...state} />);
     await waitSchedule();
     expect(button()).toHaveTextContent("pressed=false");
+    expect(button()).toHaveAttribute("accessibility-traits", "disabled");
     fireEvent.tap(button(), {});
     fireEvent.touchstart(button(), {});
     await waitSchedule();

@@ -17,9 +17,9 @@ export function useAccordionItem({
   value,
   disabled: itemDisabled = false,
 }: UseAccordionItemProps): UseAccordionItemReturn {
-  const accordion = useAccordionContext("AccordionItem");
+  const accordion = useAccordionContext();
   const disabled = accordion.disabled || itemDisabled;
-  const open = accordion.values.includes(value);
+  const open = accordion.isOpen(value);
   const toggle = React.useCallback(() => {
     "background only";
     if (!disabled) accordion.toggle(value);

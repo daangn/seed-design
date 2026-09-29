@@ -2,7 +2,7 @@ import { useState } from "@lynx-js/react";
 import { ActionButton, useActionButtonContext } from "@seed-design/lynx-react-action-button";
 
 function Surface() {
-  const { pressed, loading } = useActionButtonContext("Surface");
+  const { pressed, loading } = useActionButtonContext();
 
   return (
     <view

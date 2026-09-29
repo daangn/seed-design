@@ -251,7 +251,7 @@ import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
 @seed-design/lynx-react-app-bar
 ```
 
-`AppBar.Root`는 높이, padding, 배치를 적용하지 않습니다. `AppBar.Root` 아래의 컴포넌트에서 `useAppBarContext()`로 `safeAreaInsetTop`과 `centeredTitlePaddingX`를 읽어 직접 배치합니다.
+`AppBar.Root`는 높이, padding, 배치를 적용하지 않습니다. 파트 구성은 React와 같이 `Root`·`Left`·`Main`·`Right`입니다. `AppBar.Root` 아래의 컴포넌트에서 `useAppBarContext()`로 `safeAreaInsetTop`과 `centeredTitlePaddingX`를 읽어 `AppBar.Main` 등에 직접 배치합니다.
 
 <LynxComponentExample name="lynx/app-bar/headless">
   ```json doc-gen:file

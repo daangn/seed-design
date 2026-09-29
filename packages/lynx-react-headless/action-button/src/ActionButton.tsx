@@ -1,11 +1,9 @@
 import * as React from "@lynx-js/react";
-import { runOnBackground } from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useActionButton, type UseActionButtonProps } from "./useActionButton.js";
-import { ActionButtonContext } from "./useActionButtonContext.js";
+import { ActionButtonProvider } from "./useActionButtonContext.js";
 
 type ViewProps = IntrinsicElements["view"];
-type MainThreadTouchEvent = Parameters<NonNullable<ViewProps["main-thread:bindtouchstart"]>>[0];
 
 export interface ActionButtonRootProps
   extends UseActionButtonProps,
@@ -37,6 +35,9 @@ export const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>
     loading,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     "accessibility-element": accessibilityElement,
     "accessibility-traits": accessibilityTraits,
   });
@@ -47,45 +48,12 @@ export const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>
     bindtouchcancel: pressCancel,
   } = rootProps;
 
-  // A Main Thread handler replaces the Background handler of the same native event.
-  // Run the consumer handler there and forward only the press state update.
-  const handleMainThreadTouchStart = mainThreadBindtouchstart
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchstart(event);
-        runOnBackground(pressStart)();
-      }
-    : undefined;
-  const handleMainThreadTouchEnd = mainThreadBindtouchend
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchend(event);
-        runOnBackground(pressEnd)();
-      }
-    : undefined;
-  const handleMainThreadTouchCancel = mainThreadBindtouchcancel
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchcancel(event);
-        runOnBackground(pressCancel)();
-      }
-    : undefined;
-
   return (
-    <ActionButtonContext.Provider value={api}>
+    <ActionButtonProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...nativeProps}
         {...rootProps}
-        {...(handleMainThreadTouchStart
-          ? { "main-thread:bindtouchstart": handleMainThreadTouchStart }
-          : {})}
-        {...(handleMainThreadTouchEnd
-          ? { "main-thread:bindtouchend": handleMainThreadTouchEnd }
-          : {})}
-        {...(handleMainThreadTouchCancel
-          ? { "main-thread:bindtouchcancel": handleMainThreadTouchCancel }
-          : {})}
         flatten={false}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
@@ -102,7 +70,7 @@ export const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>
       >
         {children}
       </view>
-    </ActionButtonContext.Provider>
+    </ActionButtonProvider>
   );
 });
 ActionButtonRoot.displayName = "ActionButtonRoot";

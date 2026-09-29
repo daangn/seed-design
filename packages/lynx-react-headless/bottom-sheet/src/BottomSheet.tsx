@@ -8,7 +8,7 @@ import {
   type SheetTransition,
 } from "@lynx-js/lynx-ui-sheet";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { BottomSheetContext, useBottomSheetContext } from "./useBottomSheetContext.js";
+import { BottomSheetProvider, useBottomSheetContext } from "./useBottomSheetContext.js";
 import { useBottomSheetTrigger } from "./useBottomSheetTrigger.js";
 
 // The engine already owns mount gating, backdrop dismissal and drag handling.
@@ -83,7 +83,7 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
     const context = React.useMemo(() => ({ rootRef, skipAnimation }), [skipAnimation]);
 
     return (
-      <BottomSheetContext.Provider value={context}>
+      <BottomSheetProvider value={context}>
         <SheetRoot
           {...sheetProps}
           ref={ref}
@@ -93,7 +93,7 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
         >
           {children}
         </SheetRoot>
-      </BottomSheetContext.Provider>
+      </BottomSheetProvider>
     );
   },
 );
@@ -125,7 +125,7 @@ export interface BottomSheetContentProps extends SheetContentProps {}
  */
 export function BottomSheetContent(props: BottomSheetContentProps): React.ReactElement {
   const { snapAnimation, enterAnimation, exitAnimation, ...contentProps } = props;
-  const { skipAnimation } = useBottomSheetContext("BottomSheetContent");
+  const { skipAnimation } = useBottomSheetContext();
   const fallback = skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
 
   return (

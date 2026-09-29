@@ -1,6 +1,6 @@
 import { callout, type CalloutVariantProps } from "@seed-design/lynx-css/recipes/callout";
 import {
-  CalloutContext,
+  CalloutProvider,
   useCallout,
   useCalloutCloseButton,
   type UseCalloutProps,
@@ -86,7 +86,7 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
   if (!api.open) return null;
 
   return (
-    <CalloutContext.Provider value={api}>
+    <CalloutProvider value={api}>
       <ClassNamesProvider value={classNames}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
@@ -105,7 +105,7 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
           </view>
         </IconSlotProvider>
       </ClassNamesProvider>
-    </CalloutContext.Provider>
+    </CalloutProvider>
   );
 });
 CalloutRoot.displayName = "CalloutRoot";
