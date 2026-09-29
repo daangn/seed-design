@@ -12,7 +12,7 @@ related: ["isolated-regression-baselines"]
 
 - hook이 memo된 객체를 반환하게 한다. styled 층은 기존 context 값을 `{ ...api, variantProps }`로 확장해 Provider 수를 유지한다. hook prop 중 기존에 native로 바인딩하지 않던 key는 분해해서 원래 경로로만 넘긴다. `main-thread:*` 핸들러의 disabled gate는 `packages/lynx-react-headless/toggle/src/Toggle.tsx`처럼 명시한다.
 - 같은 요소의 같은 이벤트 이름에 대해 native는 Background handler 하나와 Main Thread handler 하나를 따로 보관한다. `bindtouchstart`와 `main-thread:bindtouchstart`는 둘 다 실행된다. 반면 `@lynx-js/react/testing-library`는 `bindEvent:touchstart` key 하나에 둘을 덮어쓰므로 dual-thread 테스트에서만 한쪽이 사라진다. 테스트 실패만으로 native 결함을 보고하지 말고 기기에서 확인한다.
-  - headless Root가 소비자 `main-thread:bindtouch*`를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성(예: `packages/lynx-react-headless/action-button/src/ActionButton.tsx`)은 테스트 환경에서 눌림 상태를 유지하고 native에서도 무해하므로 유지한다.
+  - headless Root가 소비자 `main-thread:bindtouch*`를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성은 테스트 환경에서 눌림 상태를 유지하고 native에서도 무해하므로 유지한다. 컴포넌트마다 `runOnBackground(press)()` 합성을 복사하지 않는다 → 소비자 handler를 `usePressTap`의 `mainThreadOnTouchStart`·`mainThreadOnTouchEnd`·`mainThreadOnTouchCancel`에 넘기고, 훅이 반환한 `main-thread:bindtouch*`를 view에 펼친다. 공개 훅(`useAccordionTrigger` 등)도 이 세 prop을 받아 `usePressTap`에 전달한다. 예: `packages/lynx-react-headless/accordion/src/useAccordionTrigger.ts`, `toggle/src/useToggle.ts`.
   - phase는 별도 칸을 만들지 않는다. `main-thread:capture-bindtouchstart`와 `main-thread:bindtouchstart`는 같은 Main Thread 칸을 두고 경쟁해 하나만 실행된다. Scale Feedback 같은 내부 Main Thread handler를 capture로 옮겨 소비자 handler와 분리하려 하지 않는다 → 같은 key로 두고 `mergeProps`로 합성한다.
   - 값이 없을 수 있는 Main Thread handler를 `main-thread:bindtap={handlers["main-thread:bindtap"]}`처럼 항상 적지 않는다 → testing-library에서는 `undefined`가 같은 key의 `bindtap`을 지워 탭이 전달되지 않는다. handler가 있을 때만 key를 넣는다(`{...(handler ? { "main-thread:bindtap": handler } : {})}`).
 - 다음 순서로 검증한다.
@@ -37,6 +37,7 @@ related: ["isolated-regression-baselines"]
 - 피할 패턴: hook 결과를 소비처마다 `useMemo(() => api, [fields])`로 감싸는 것. 스타일 전용 값을 옮기려고 새 Provider를 추가하는 것. hook이 준 prop 객체 전체를 native view에 펼치는 것.
 - 위험: 렌더마다 할당과 context 무효화가 늘고, 기존 native tree에 없던 이벤트 key가 추가된다. 테스트와 화면은 통과해도 성능이 회귀한다.
 - 상황(DES-2612): ActionButton headless Root에 소비자 `main-thread:bindtouchstart`를 넘기자 합성 전 dual-thread 테스트에서 눌림 상태가 `false`로 남았다. 테스트 환경이 `bindEvent:touchstart` key 하나에 Background·Main Thread 핸들러를 덮어쓴 결과다. 당시 native도 같다고 보았으나 DES-2618에서 아래처럼 정정했다.
+- 상황(2026-09-29 리뷰): ActionButton·Callout Root는 같은 합성을 각자 복사했고, Accordion `useAccordionTrigger`와 Toggle Root에는 합성이 없었다. hook만 쓰는 소비자는 핸들러를 넘길 경로가 없었다. 합성 전 dual-thread 임시 테스트에서 Accordion `pressed`, Toggle `active`가 `false`로 남는 것을 확인했고, `usePressTap`으로 옮긴 뒤 네 패키지의 dual-thread 테스트와 `bun test:lynx-react`가 통과했다.
 - 영향(DES-2612): 합성을 추가하기 전 dual-thread 테스트가 실패했고, 추가 뒤 통과했다. 232개 장면의 styled element tree는 분리 전후 byte 단위로 같았다.
 - 상황(DES-2615): Callout parity 테스트에서 dismiss한 uncontrolled Root 다음 장면을 `cleanup()` 없이 같은 컴포넌트로 다시 그리자 Root가 닫힌 채 남아 `missing .seed-callout__closeButton`으로 실패했다. 장면마다 `cleanup()`을 넣은 뒤 51개 장면(트리와 콜백 순서 로그)이 분리 전후 byte 단위로 같았다.
 - 상황(DES-2618): FloatingActionButton parity 테스트가 `from ".."`로 공개 namespace를 가져오다 위 `preact` 오류로 로드되지 않았다. `./FloatingActionButton.namespace`로 바꾼 뒤 38개 장면을 수집했다. label 측정 뒤 `--fab-label-width`는 jsdom에서 항상 빈 값이었고, PlayLynx 기기 DOM의 root `style`에서는 label 폭과 같은 `101px`·`73.5px`로 확인했다.
@@ -53,5 +54,6 @@ related: ["isolated-regression-baselines"]
 - 2026-09-29: DES-2615 Callout 분리에서 확인한 장면 간 `cleanup()` 필요성을 추가했다.
 - 2026-09-29: DES-2618 FloatingActionButton 작업에서 parity 테스트의 import 경로와 jsdom의 CSS 변수 누락을 추가했다.
 - 2026-09-29: DES-2618에서 Background·Main Thread handler 공존 규칙을 기기와 engine 원천으로 정정하고, capture phase 분리 시도가 실패한 근거를 추가했다.
+- 2026-09-29: 합성 위치를 `usePressTap` 옵션으로 옮긴 결과와 Accordion·Toggle 재현 근거를 반영했다.
 - 2026-10-01: DES-2639에서 이벤트 key 직렬화 위치와 장면별 Main Thread 오류 처리 방법을 추가했다.
 - 2026-10-01: DES-2622에서 값이 없는 Main Thread prop이 테스트에서 Background handler를 지우는 사례를 추가했다.
