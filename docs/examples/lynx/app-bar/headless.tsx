@@ -1,10 +1,10 @@
 import { AppBar, useAppBarContext } from "@seed-design/lynx-react-app-bar";
 
 function CenteredTitle({ children }: { children: string }) {
-  const { centeredTitlePaddingX } = useAppBarContext("CenteredTitle");
+  const { centeredTitlePaddingX } = useAppBarContext();
 
   return (
-    <view
+    <AppBar.Main
       style={{
         display: "flex",
         position: "absolute",
@@ -19,7 +19,7 @@ function CenteredTitle({ children }: { children: string }) {
       }}
     >
       <text style={{ fontSize: "17px", fontWeight: "bold", color: "#1a1c20" }}>{children}</text>
-    </view>
+    </AppBar.Main>
   );
 }
 

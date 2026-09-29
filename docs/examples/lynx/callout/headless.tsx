@@ -2,7 +2,7 @@ import { useState } from "@lynx-js/react";
 import { Callout, useCalloutContext } from "@seed-design/lynx-react-callout";
 
 function Message({ children }: { children: string }) {
-  const { pressed } = useCalloutContext("Message");
+  const { pressed } = useCalloutContext();
 
   return (
     <text

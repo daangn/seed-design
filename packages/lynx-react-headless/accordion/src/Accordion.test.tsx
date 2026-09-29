@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render } from "@lynx-js/react/testing-library";
+import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import * as React from "@lynx-js/react";
+import { runOnBackground } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 import { Accordion, useAccordionTrigger } from "./index.js";
 
@@ -209,5 +210,46 @@ describe("Accordion headless components", () => {
       height: "0px",
       overflow: "hidden",
     });
+  });
+
+  it("keeps pressed state when a hook consumer passes Main Thread touch handlers", async () => {
+    const reports = { start: vi.fn(), end: vi.fn() };
+    function MainThreadProbe() {
+      function handleTouchStart() {
+        "main thread";
+        runOnBackground(reports.start)();
+      }
+      function handleTouchEnd() {
+        "main thread";
+        runOnBackground(reports.end)();
+      }
+      const { pressed, triggerProps } = useAccordionTrigger({
+        "main-thread:bindtouchstart": handleTouchStart,
+        "main-thread:bindtouchend": handleTouchEnd,
+      });
+      return (
+        <view className="main-thread-probe" {...triggerProps}>
+          <text>{`pressed=${pressed}`}</text>
+        </view>
+      );
+    }
+    render(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <MainThreadProbe />
+        </Accordion.Item>
+      </Accordion.Root>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+
+    fireEvent.touchstart(node(".main-thread-probe"), {});
+    await waitSchedule();
+    expect(node(".main-thread-probe")).toHaveTextContent("pressed=true");
+    fireEvent.touchend(node(".main-thread-probe"), {});
+    await waitSchedule();
+    expect(node(".main-thread-probe")).toHaveTextContent("pressed=false");
+    expect(reports.start).toHaveBeenCalledTimes(1);
+    expect(reports.end).toHaveBeenCalledTimes(1);
   });
 });
