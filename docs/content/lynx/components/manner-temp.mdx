@@ -20,26 +20,30 @@ compatibility:
 ## 설치
 
 ```package-install
-@seed-design/lynx-react @seed-design/lynx-css
+npx @seed-design/cli@latest add ui:manner-temp
 ```
 
-<Callout>
-Lynx `MannerTemp`는 별도 `ui:manner-temp` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
-</Callout>
+<LynxManualInstallation name="manner-temp" />
 
 ## 속성
 
-### `MannerTemp`
-
-<react-type-table path="../packages/lynx-react/src/components/MannerTemp/MannerTemp.tsx" name="MannerTempProps" />
-
-### `MannerTempEmote`
-
-<react-type-table path="../packages/lynx-react/src/components/MannerTemp/MannerTemp.tsx" name="MannerTempEmoteProps" />
+<react-type-table path="./registry/lynx/ui/manner-temp.tsx" name="MannerTempProps" />
 
 ## 사용법
 
-`level`에 매너온도 구간을 지정합니다. `MannerTempEmote`를 자식으로 넣으면 같은 `level`의 표정 이미지를 표시합니다.
+`temperature`에 매너온도를 전달하면 온도 구간에 맞는 `level`을 계산하고, `36.5°C` 표기와 같은 `level`의 표정 이미지를 표시합니다. `level`을 직접 전달하면 계산 결과 대신 그 값을 사용합니다.
+
+```tsx
+import { MannerTemp } from "@/components/ui/manner-temp";
+
+export function App() {
+  return <MannerTemp temperature={36.5} />;
+}
+```
+
+### 패키지 직접 사용
+
+표시 문구나 구성을 바꾸려면 `@seed-design/lynx-react`의 `MannerTemp`와 `MannerTempEmote`를 직접 조합합니다. `MannerTempEmote`는 부모의 `level`을 따르고, `level`을 직접 전달하면 그 값을 사용합니다.
 
 ```tsx
 import { MannerTemp, MannerTempEmote } from "@seed-design/lynx-react";
@@ -59,8 +63,6 @@ export function App() {
 <Callout type="warning">
 
 - **렌더링 요소.** HTML `<span>`과 `<img>` 대신 native `<view>`, `<text>`, `<image>`를 렌더링합니다.
-- **공개 경로.** React 문서의 `ui:manner-temp` snippet과 달리 Lynx에서는 패키지 API를 직접 사용합니다.
-- **온도 변환.** Lynx 패키지는 `temperature`를 `level`로 바꾸지 않습니다. 제품의 매너온도 기준에 따라 `level`을 계산해 전달하세요.
 - **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
 
 </Callout>

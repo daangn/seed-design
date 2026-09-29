@@ -348,6 +348,52 @@
     {
       "snippets": [
         {
+          "path": "manner-temp.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-badge.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp-badge",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "menu.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
