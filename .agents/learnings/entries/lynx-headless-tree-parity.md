@@ -14,6 +14,7 @@ related: ["isolated-regression-baselines"]
 - headless Root가 Background `bindtouch*`로 눌림 상태를 관리하면 소비자의 `main-thread:bindtouch*`가 같은 native 이벤트를 대체해 눌림 상태가 켜지지 않는다. 소비자 Main Thread 핸들러를 실행한 뒤 `runOnBackground(press)()`로 넘기도록 합성한다. 예: #2293(`refactor-lynx-components` 대상)의 `packages/lynx-react-headless/action-button/src/ActionButton.tsx`.
 - 다음 순서로 검증한다.
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
+  - 한 테스트에서 여러 장면을 `render()`로 이어 그릴 때는 매번 testing-library의 `cleanup()`을 먼저 호출한다. 같은 컴포넌트 타입을 같은 위치에 다시 그리면 이전 장면의 state(예: 닫힌 uncontrolled `open`)가 이어진다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
   - 소비자 Main Thread touch 핸들러를 넘기는 경로는 `render(..., { enableMainThread: true, enableBackgroundThread: true })` 테스트로 합성 전 실패를 먼저 확인한다.
@@ -30,9 +31,11 @@ related: ["isolated-regression-baselines"]
 - 위험: 렌더마다 할당과 context 무효화가 늘고, 기존 native tree에 없던 이벤트 key가 추가된다. 테스트와 화면은 통과해도 성능이 회귀한다.
 - 상황(DES-2612): ActionButton headless Root에 소비자 `main-thread:bindtouchstart`를 넘기자 합성 전에는 눌림 상태가 `false`로 남았다. 테스트 환경도 `bindEvent:touchstart` key 하나에 Background·Main Thread 핸들러를 덮어쓴다. `origin/refactor-lynx-components`의 Accordion headless Trigger(#2270)에도 같은 합성이 없다.
 - 영향(DES-2612): 합성을 추가하기 전 dual-thread 테스트가 실패했고, 추가 뒤 통과했다. 232개 장면의 styled element tree는 분리 전후 byte 단위로 같았다.
+- 상황(DES-2615): Callout parity 테스트에서 dismiss한 uncontrolled Root 다음 장면을 `cleanup()` 없이 같은 컴포넌트로 다시 그리자 Root가 닫힌 채 남아 `missing .seed-callout__closeButton`으로 실패했다. 장면마다 `cleanup()`을 넣은 뒤 51개 장면(트리와 콜백 순서 로그)이 분리 전후 byte 단위로 같았다.
 
 ## 변경 이력
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
 - 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.
 - 2026-09-28: DES-2612 ActionButton 분리에서 확인한 소비자 Main Thread touch 핸들러 합성과 dual-thread 테스트 절차를 추가했다.
+- 2026-09-29: DES-2615 Callout 분리에서 확인한 장면 간 `cleanup()` 필요성을 추가했다.
