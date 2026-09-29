@@ -21,47 +21,42 @@ function getRenderedRoot() {
 }
 
 describe("Stack", () => {
-  it("maps a VStack gap token to row-gap", () => {
+  it("renders VStack as a column flex container", () => {
+    render(<VStack />);
+
+    expect(getRenderedRoot()).toHaveClass("seed-box-display", "seed-box-flex-direction");
+  });
+
+  it("applies a VStack gap to the row axis only", () => {
     render(<VStack gap="x3" />);
 
-    expect(getRenderedRoot()).toHaveStyle({
-      rowGap: "var(--seed-dimension-x3)",
-    });
-    expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
-    expect(getRenderedRoot().style.getPropertyValue("column-gap")).toBe("");
+    expect(getRenderedRoot()).toHaveClass("seed-box-row-gap");
+    expect(getRenderedRoot()).not.toHaveClass("seed-box-gap");
+    expect(getRenderedRoot()).not.toHaveClass("seed-box-column-gap");
   });
 
-  it("maps an HStack gap token to column-gap", () => {
+  it("applies an HStack gap to the column axis only", () => {
     render(<HStack gap="x4" />);
 
-    expect(getRenderedRoot()).toHaveStyle({
-      columnGap: "var(--seed-dimension-x4)",
-    });
-    expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
-    expect(getRenderedRoot().style.getPropertyValue("row-gap")).toBe("");
+    expect(getRenderedRoot()).toHaveClass("seed-box-column-gap");
+    expect(getRenderedRoot()).not.toHaveClass("seed-box-gap");
+    expect(getRenderedRoot()).not.toHaveClass("seed-box-row-gap");
   });
 
-  it("keeps a numeric zero gap value", () => {
-    render(<VStack gap={0} />);
+  it("maps stack aliases to flex style props", () => {
+    render(<HStack align="center" justify="spaceBetween" wrap grow />);
 
-    expect(getRenderedRoot()).toHaveStyle({ rowGap: "0px" });
+    expect(getRenderedRoot()).toHaveClass(
+      "seed-box-align-items",
+      "seed-box-justify-content",
+      "seed-box-flex-wrap",
+      "seed-box-flex-grow",
+    );
   });
 
-  it("keeps an arbitrary string gap value", () => {
-    render(<HStack gap="1.5rem" />);
+  it("adds the bleed class", () => {
+    render(<HStack bleedX="x4" />);
 
-    expect(getRenderedRoot()).toHaveStyle({ columnGap: "1.5rem" });
-  });
-
-  it("keeps style gap precedence over the gap prop", () => {
-    render(<VStack gap="x3" style={{ gap: "20px" }} />);
-
-    expect(getRenderedRoot()).toHaveStyle({ rowGap: "20px" });
-  });
-
-  it("keeps an axis longhand in style above the gap prop", () => {
-    render(<VStack gap="x3" style={{ rowGap: "24px" }} />);
-
-    expect(getRenderedRoot()).toHaveStyle({ rowGap: "24px" });
+    expect(getRenderedRoot()).toHaveClass("seed-box-bleed-x");
   });
 });

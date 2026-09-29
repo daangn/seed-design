@@ -238,7 +238,7 @@ export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> =
   unknown,
   DialogHeaderProps
 >((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
@@ -246,7 +246,7 @@ export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> =
     <view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
       {...nativeProps}
-      className={clsx(classNames.header, className)}
+      className={clsx(classNames.header, styleClassName, className)}
       style={style as never}
     >
       {children}
@@ -261,7 +261,7 @@ export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = for
   unknown,
   DialogBodyProps
 >((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
@@ -270,7 +270,7 @@ export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = for
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
       {...nativeProps}
       scroll-y
-      className={clsx(classNames.body, className)}
+      className={clsx(classNames.body, styleClassName, className)}
       style={style}
     >
       {children}
@@ -285,7 +285,7 @@ export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = f
   unknown,
   DialogTitleProps
 >((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
@@ -293,7 +293,7 @@ export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = f
     <text
       {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
       {...nativeProps}
-      className={clsx(classNames.title, className)}
+      className={clsx(classNames.title, styleClassName, className)}
       style={style as never}
     >
       {children}
@@ -306,7 +306,7 @@ export interface DialogDescriptionProps extends StyleProps, LynxStyledElementPro
 
 export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescriptionProps> =
   forwardRef<unknown, DialogDescriptionProps>((props, ref) => {
-    const { style, restProps } = useStyleProps(props);
+    const { className: styleClassName, style, restProps } = useStyleProps(props);
     const { children, className, ...nativeProps } = restProps;
     const classNames = useClassNames();
 
@@ -314,7 +314,7 @@ export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescripti
       <text
         {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
         {...nativeProps}
-        className={clsx(classNames.description, className)}
+        className={clsx(classNames.description, styleClassName, className)}
         style={style as never}
       >
         {children}
@@ -329,7 +329,7 @@ export const DialogFooter: LynxForwardRefComponent<unknown, DialogFooterProps> =
   unknown,
   DialogFooterProps
 >((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { className: styleClassName, style, restProps } = useStyleProps(props);
   const { children, className, ...nativeProps } = restProps;
   const classNames = useClassNames();
 
@@ -337,7 +337,7 @@ export const DialogFooter: LynxForwardRefComponent<unknown, DialogFooterProps> =
     <view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
       {...nativeProps}
-      className={clsx(classNames.footer, className)}
+      className={clsx(classNames.footer, styleClassName, className)}
       style={style as never}
     >
       {children}

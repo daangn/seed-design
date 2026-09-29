@@ -20,7 +20,7 @@ export interface SkeletonProps
 
 export const Skeleton = React.forwardRef<unknown, SkeletonProps>((props, ref) => {
   const [variantProps, otherProps] = skeleton.splitVariantProps(props);
-  const { style, restProps } = useStyleProps(otherProps);
+  const { className: styleClassName, style, restProps } = useStyleProps(otherProps);
   const {
     children: _children,
     className,
@@ -33,7 +33,7 @@ export const Skeleton = React.forwardRef<unknown, SkeletonProps>((props, ref) =>
   return (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      className={clsx(classes.root, className)}
+      className={clsx(classes.root, styleClassName, className)}
       style={style}
       accessibility-elements-hidden={true}
     >
