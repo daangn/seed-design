@@ -43,4 +43,4 @@ Kapture 0.11.0의 `github restore-build`가 캐시 탐색·출처·archive diges
 
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
-Kapture CLI와 adapter는 `0.11.1`로 함께 고정한다. unstable repeat/self-diff PNG는 trusted report에 게시되지만 불안정한 스냅샷의 시각 승인은 계속 차단된다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
+Kapture CLI와 adapter는 `0.12.0`으로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable <사유>`로 전체 리포트를 예외 승인할 수 있다. 사유는 한 줄 1–1000자로 필수이며 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다. 댓글 승인 workflow는 기본 브랜치 dev의 설정으로 실행되므로 dev 적용이 먼저 필요하다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
