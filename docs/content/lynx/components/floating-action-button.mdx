@@ -92,7 +92,7 @@ Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`�
 <Callout type="warning">
 
 - **이벤트**: `onClick` 대신 native `bindtap`을 사용합니다. React state를 바꾸는 handler가 wrapper를 거쳐 전달되면 handler 첫 줄에 `"background only"`를 둡니다.
-- **접근성**: `aria-label` 대신 `accessibility-label`을 사용합니다. Registry wrapper는 필수 `label`을 기본 접근성 이름으로 사용하므로 collapsed 상태에서도 이름을 보존합니다.
+- **접근성**: `aria-label` 대신 `accessibility-label`을 사용합니다. Registry wrapper는 필수 `label`을 기본 접근성 이름으로 사용하므로 collapsed 상태에서도 이름을 보존합니다. `accessibility-traits`를 지정하지 않으면 활성 상태에서 `"button"`, `disabled`이면 `"disabled"`로 알립니다.
 - **렌더링**: HTML `<button>` / SVG 대신 native `<view>` / `<text>`와 Lynx icon tint를 렌더링합니다. `asChild`와 DOM button prop은 지원하지 않습니다.
 - **부동 배치**: React의 `<Float>` API는 제공하지 않습니다. 앱의 native absolute layout으로 `right`와 `bottom` 위치를 지정하세요.
 
