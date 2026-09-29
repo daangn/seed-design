@@ -51,7 +51,14 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
+      {/* Full-page capture resizes the viewport; this static preview has no keyboard inputs. */}
+      <BottomSheetRoot
+        open
+        modal={false}
+        autoFocus={false}
+        repositionInputs={false}
+        headerAlign={headerAlign}
+      >
         <BottomSheetContent
           title={title}
           description={description}
