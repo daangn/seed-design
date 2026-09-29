@@ -48,6 +48,7 @@ export function App() {
 <Callout type="warning">
 
 - **렌더링 요소.** HTML `<span>` 대신 native `<view>`와 `<text>`를 렌더링합니다.
+- **자식 요소.** 자식은 label `<text>` 안에 렌더링되므로 문자열이나 숫자를 전달하세요. 웹처럼 임의의 요소를 넣는 용도로 쓰지 않습니다.
 - **공개 경로.** React 문서의 `ui:manner-temp-badge` snippet과 달리 Lynx에서는 패키지 API를 직접 사용합니다.
 - **온도 변환.** Lynx 패키지는 `temperature`를 `level`로 바꾸지 않습니다. 제품의 매너온도 기준에 따라 `level`을 계산해 전달하세요.
 - **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
