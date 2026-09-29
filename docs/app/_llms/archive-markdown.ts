@@ -6,9 +6,15 @@ import { visit } from "unist-util-visit";
 import { createArchivePaths } from "@/lib/docs-archive";
 
 // 링크·이미지 노드와 MDX 속성만 바꾸고, 설치 명령·코드·표현식은 유지합니다.
-export function archiveMarkdown(markdown: string, version: string): string {
+export function archiveMarkdown(
+  markdown: string,
+  version: string,
+  format: "markdown" | "mdx" = "markdown",
+): string {
   if (!version) return markdown;
-  const processor = remark().use(remarkGfm).use(remarkMdx).use(remarkArchiveLinks, version);
+  const processor = remark().use(remarkGfm);
+  if (format === "mdx") processor.use(remarkMdx);
+  processor.use(remarkArchiveLinks, version);
   return processor.processSync(markdown).toString();
 }
 

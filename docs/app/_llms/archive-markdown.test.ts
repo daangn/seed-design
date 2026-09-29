@@ -20,7 +20,7 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
     '`<Card href="/react/components/action-button" />`',
   ].join("\n\n");
 
-  expect(archiveMarkdown(input, "2.0")).toBe(
+  expect(archiveMarkdown(input, "2.0", "mdx")).toBe(
     [
       '<Card href="/react/2.0/components/action-button">Open</Card>',
       '<a href="https://seed-design.io/foundations">Foundation</a>',
@@ -28,5 +28,11 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
       "<Dynamic href={destination} />",
       '`<Card href="/react/components/action-button" />`',
     ].join("\n\n") + "\n",
+  );
+});
+
+it("keeps ordinary changelog Markdown syntax outside the MDX parser", () => {
+  expect(archiveMarkdown("- Change {from: old, to: new}.\n", "2.0")).toBe(
+    "* Change {from: old, to: new}.\n",
   );
 });
