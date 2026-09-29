@@ -21,6 +21,7 @@
     "@seed-design/lynx-react-accordion": "workspace:*",
     "@seed-design/lynx-react-action-button": "workspace:*",
     "@seed-design/lynx-react-app-bar": "workspace:*",
+    "@seed-design/lynx-react-bottom-sheet": "workspace:*",
     "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/lynx-react-toggle": "workspace:*",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
