@@ -1,4 +1,6 @@
 import type { LLMPage, Section } from "./types";
+import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+import { archiveMarkdown } from "./archive-markdown";
 import { getGitHubSourceUrl } from "./config";
 import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
 import type { LynxCompatibility } from "@/lib/lynx-compatibility";
@@ -32,7 +34,7 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   await ensureRulesReady();
   const renderer = await page.data.load();
   const { exports } = await renderer.render();
-  const processed = normalizeLLMBody(exports.processed);
+  const processed = archiveMarkdown(normalizeLLMBody(exports.processed), REACT_ARCHIVE_VERSION);
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
   const lynxCompatibility = getLynxCompatibilityBlock(

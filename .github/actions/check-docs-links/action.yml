@@ -5,6 +5,10 @@ inputs:
   out-dir:
     description: "Absolute path to the exported docs site (Next static export output)"
     required: true
+  canonical-prefix:
+    description: "Optional archive path prefix, including its trailing slash (for example react/v2/)"
+    required: false
+    default: ""
   llms-exclude:
     description: >-
       Newline-separated glob patterns, relative to out-dir, naming llms text outputs to leave
@@ -44,8 +48,8 @@ runs:
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
           --include-fragments=anchor-only
-          --exclude-path '/react/updates/changelog\.html$'
-          --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
+          --exclude-path '/react/(v[0-9]+/)?updates/changelog(/index)?\.html$'
+          --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           --
           ${{ inputs.out-dir }}
 
@@ -88,7 +92,7 @@ runs:
           mkdir -p "$MIRROR_DIR/$(dirname "$rel")"
           cp "$file" "$MIRROR_DIR/${rel%.txt}.md"
           count=$((count + 1))
-        done < <(find . \( \( -path './llms/*' -a -name '*.txt' \) -o -name 'llms.txt' -o -name 'llms-full.txt' \) )
+        done < <(find . \( \( -path '*/llms/*' -a -name '*.txt' \) -o -name 'llms.txt' -o -name 'llms-full.txt' \) )
 
         # 라우트가 사라지거나 파일 이름 규칙이 바뀌면 사본이 비고, 그러면 링크를 하나도
         # 보지 않은 채로 통과한다. 아래 lychee 단계의 failIfEmpty가 걸러주긴 하지만
@@ -117,6 +121,6 @@ runs:
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
           --include-fragments=anchor-only
-          --remap 'https://seed-design.io/(.*) file://${{ inputs.out-dir }}/$1'
+          --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           --
           ${{ runner.temp }}/docs-llms-markdown

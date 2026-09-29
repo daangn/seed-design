@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -44,67 +45,67 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Get Started",
         description: "SEED 시작하기",
-        url: "/get-started",
+        url: archivePaths.link("/get-started"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/logo.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "Foundations",
         description: "색상·타이포그래피·간격 등 파운데이션",
-        url: "/foundations",
+        url: archivePaths.link("/foundations"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/logo.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "Components",
         description: "컴포넌트 디자인 스펙",
-        url: "/components",
+        url: archivePaths.link("/components"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/logo.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "Patterns",
         description: "디자인 패턴과 가이드라인",
-        url: "/patterns",
+        url: archivePaths.link("/patterns"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/logo.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "React",
         description: "React 라이브러리",
-        url: "/react",
+        url: archivePaths.link("/react"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/react.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/react.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "Lynx",
         description: "Lynx 프레임워크",
-        url: "/lynx",
+        url: archivePaths.link("/lynx"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/lynx.svg" alt="" className="size-full" />
+            <img src={archivePaths.asset("/lynx.svg")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "AI & Tools",
         description: "AI 도구 연동 가이드",
-        url: "/ai-integration",
+        url: archivePaths.link("/ai-integration"),
         icon: (
           <SidebarTabIconContainer>
             <IconSparkle2 />
@@ -114,7 +115,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Updates",
         description: "업데이트 소식과 릴리즈 노트",
-        url: "/updates",
+        url: archivePaths.link("/updates"),
         icon: (
           <SidebarTabIconContainer>
             <IconTree />

@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
@@ -47,7 +48,10 @@ export async function GET() {
           const slugsWithExt = page.slugs.map((s, i) =>
             i === page.slugs.length - 1 ? `${s}.txt` : s,
           );
-          const llmsUrl = new URL(`/llms/react/${slugsWithExt.join("/")}`, baseUrl);
+          const llmsUrl = new URL(
+            archivePaths.endpoint(`/llms/react/${slugsWithExt.join("/")}`),
+            baseUrl,
+          );
           const displayTitle = getDisplayTitle(page, categoryPages);
           const deprecatedLabel = page.data.frontmatter.deprecated ? " (Deprecated)" : "";
           return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
@@ -69,7 +73,7 @@ React 컴포넌트 라이브러리 문서입니다.
 
 ## Quick Access
 
-- [전체 문서 (llms-full.txt)](${new URL("/react/llms-full.txt", baseUrl)}): 모든 React 문서를 하나의 파일로
+- [전체 문서 (llms-full.txt)](${new URL(archivePaths.link("/react/llms-full.txt"), baseUrl)}): 모든 React 문서를 하나의 파일로
 
 ## Categories
 
