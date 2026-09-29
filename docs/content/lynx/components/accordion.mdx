@@ -216,7 +216,7 @@ Registry `ui:accordion`은 제목·설명·prefix와 기본 아이콘을 조립�
 @seed-design/lynx-react-accordion
 ```
 
-`Accordion.Trigger` 대신 `useAccordionTrigger`로 직접 조립할 때는 `main-thread:bindtouchstart`·`main-thread:bindtouchend`·`main-thread:bindtouchcancel`을 view가 아니라 훅에 넘깁니다. Main Thread handler는 같은 native 이벤트의 Background handler를 대체하므로, 훅이 소비자 handler를 실행한 뒤 눌림 상태를 갱신하는 handler를 `triggerProps`에 담아 줍니다.
+`Accordion.Trigger` 대신 `useAccordionTrigger`로 직접 조립할 때는 `main-thread:bindtouchstart`·`main-thread:bindtouchend`·`main-thread:bindtouchcancel`을 view가 아니라 훅에 넘깁니다. 훅이 소비자 handler를 실행한 뒤 눌림 상태를 갱신하는 handler를 `triggerProps`에 담아 줍니다.
 
 <LynxComponentExample name="lynx/accordion/headless">
   ```json doc-gen:file
