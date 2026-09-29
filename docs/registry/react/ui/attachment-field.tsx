@@ -13,7 +13,6 @@ import {
   type FileEntry,
   type UseFileUploadReturn,
 } from "@seed-design/react/primitive";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCameraFill,
   IconPaperclipFill,
@@ -38,7 +37,7 @@ export interface AttachmentFieldProps extends Omit<SeedAttachmentInput.RootProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedField.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 
