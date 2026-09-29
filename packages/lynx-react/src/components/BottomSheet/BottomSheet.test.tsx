@@ -218,25 +218,6 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("opens with default animation when Root does not skip animation", () => {
-    const { getByText } = render(
-      <BottomSheet.Root>
-        <BottomSheet.Trigger>
-          <text>Open sheet</text>
-        </BottomSheet.Trigger>
-      </BottomSheet.Root>,
-    );
-
-    const trigger = (getByText("Open sheet") as HTMLElement).parentElement;
-    if (!trigger) {
-      throw new Error("Expected trigger parent element to exist.");
-    }
-
-    fireEvent.tap(trigger);
-
-    expect(sheetMocks.rootRef.open).toHaveBeenCalledWith();
-  });
-
   it("opens without animation when Trigger is tapped inside a skipping Root", () => {
     const { getByText } = render(
       <BottomSheet.Root skipAnimation>

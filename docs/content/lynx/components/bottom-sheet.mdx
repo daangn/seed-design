@@ -217,6 +217,30 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
   ```
 </LynxComponentExample>
 
+## Headless
+
+`@seed-design/lynx-react-bottom-sheet`는 Recipe 없이 Bottom Sheet의 기능만 제공합니다. 드래그, snap, presence, backdrop 탭 닫기는 `@lynx-js/lynx-ui-sheet`가 처리하고, 이 패키지는 다음을 연결합니다.
+
+- `open`, `defaultOpen`, `onOpenChange`와 lynx-ui-sheet의 `show`, `defaultShow`, `onShowChange`
+- Root ref의 `open`, `close`, `snapTo`, `expand`, `collapse`와 Trigger tap
+- `skipAnimation`: Trigger가 애니메이션 없이 열고, Content에 직접 지정하지 않은 enter·exit·snap 전환을 즉시 끝냅니다.
+
+`Positioner`, `Backdrop`, `Handle`은 lynx-ui-sheet의 `SheetView`, `SheetBackdrop`, `SheetHandle`입니다.
+
+`@seed-design/lynx-react`의 BottomSheet는 여기에 SEED spring 기본값, 하단 safe area padding, 넓은 화면의 가운데 배치, Recipe와 Header·Body·Footer·Title·Description slot을 더합니다. Registry `ui:bottom-sheet`는 Positioner, Backdrop, Handle, Header를 기본으로 조립합니다. SEED 디자인을 사용하는 화면에서는 Registry를 사용하세요.
+
+```package-install
+@seed-design/lynx-react-bottom-sheet
+```
+
+Headless 부품에는 위치와 외형이 없습니다. `Positioner`에 화면을 덮는 위치를, `Content`의 `style`에 배경과 모서리를, `innerStyle`에 콘텐츠 여백을 지정합니다. 하단 safe area도 직접 더합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/headless" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/headless.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
 | 항목 | 웹 | Lynx |

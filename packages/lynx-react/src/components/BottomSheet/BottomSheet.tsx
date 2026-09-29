@@ -4,29 +4,26 @@ import {
 } from "@seed-design/lynx-css/recipes/bottom-sheet";
 import { bottomSheetHandle } from "@seed-design/lynx-css/recipes/bottom-sheet-handle";
 import {
-  SheetBackdrop,
-  SheetContent,
-  SheetHandle,
-  SheetRoot,
-  SheetView,
-  type SheetBackdropProps,
-  type SheetContentProps,
-  type SheetHandleProps,
-  type SheetRootProps,
-  type SheetRootRef,
-  type SheetTransition,
-  type SheetViewProps,
-} from "@lynx-js/lynx-ui-sheet";
+  BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
+  BottomSheetContent as HeadlessBottomSheetContent,
+  BottomSheetHandle as HeadlessBottomSheetHandle,
+  BottomSheetPositioner as HeadlessBottomSheetPositioner,
+  BottomSheetRoot as HeadlessBottomSheetRoot,
+  useBottomSheetContext,
+  useBottomSheetTrigger,
+  type BottomSheetBackdropProps as HeadlessBottomSheetBackdropProps,
+  type BottomSheetContentProps as HeadlessBottomSheetContentProps,
+  type BottomSheetHandleProps as HeadlessBottomSheetHandleProps,
+  type BottomSheetPositionerProps as HeadlessBottomSheetPositionerProps,
+  type BottomSheetRootProps as HeadlessBottomSheetRootProps,
+  type BottomSheetRootRef as HeadlessBottomSheetRootRef,
+} from "@seed-design/lynx-react-bottom-sheet";
 import {
-  createContext,
   forwardRef,
-  useContext,
   useMemo,
-  useRef,
   type ForwardRefExoticComponent,
   type PropsWithoutRef,
   type ReactElement,
-  type RefObject,
   type RefAttributes,
 } from "@lynx-js/react";
 import clsx from "clsx";
@@ -45,14 +42,9 @@ type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
+type SheetTransition = NonNullable<HeadlessBottomSheetContentProps["snapAnimation"]>;
 
 const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
-
-const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
-const SKIP_ANIMATION_TRANSITION: SheetTransition = {
-  type: "tween",
-  duration: 0,
-};
 
 ////////////////////////////////////////////////////////////////////////////////////
 // SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
@@ -87,106 +79,46 @@ const SEED_EXIT_ANIMATION: SheetTransition = {
   damping: 40,
 };
 
-/**
- * Trigger와 Content가 Root의 imperative API와 동작 옵션을 공유하는 내부 컨텍스트.
- */
-interface BottomSheetContextValue {
-  rootRef: RefObject<SheetRootRef | null>;
-  options: {
-    skipAnimation: boolean;
-  };
-}
-
-const BottomSheetContext = createContext<BottomSheetContextValue | null>(null);
-
-function useBottomSheetContext(): BottomSheetContextValue {
-  const ctx = useContext(BottomSheetContext);
-  if (!ctx) {
-    throw new Error("BottomSheet compound components must be used within BottomSheetRoot");
-  }
-  return ctx;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 // Root
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type BottomSheetRootRef = SheetRootRef;
+export type BottomSheetRootRef = HeadlessBottomSheetRootRef;
 
 export interface BottomSheetRootProps
   extends BottomSheetVariantProps,
-    Omit<SheetRootProps, "show" | "defaultShow" | "onShowChange"> {
-  /**
-   * Whether the sheet is open (controlled mode).
-   * Internally mapped to `show` of `@lynx-js/lynx-ui-sheet`.
-   */
-  open?: boolean;
-  /**
-   * Whether the sheet is open by default (uncontrolled mode).
-   * Internally mapped to `defaultShow`.
-   * @defaultValue false
-   */
-  defaultOpen?: boolean;
-  /**
-   * Called when the sheet's open state is about to change.
-   * Internally mapped to `onShowChange`.
-   */
-  onOpenChange?: (open: boolean) => void;
-}
+    Omit<HeadlessBottomSheetRootProps, keyof BottomSheetVariantProps> {}
 
 /**
- * @platform Lynx — wraps `@lynx-js/lynx-ui-sheet`
+ * @platform Lynx — `@seed-design/lynx-react-bottom-sheet` 위에 SEED recipe를 조립한다.
  *
  * 웹 대비 미지원 기능:
- * - `lazyMount`, `unmountOnExit`: lynx-ui-sheet의 `forceMount`로 대체
- * - `BottomSheetPositioner`: lynx-ui-sheet의 `SheetView`가 자동 처리하므로 별도 슬롯 없음
+ * - `lazyMount`, `unmountOnExit`: `BottomSheetPositioner`의 `forceMount`로 대체
  * - `BottomSheetCloseButton`: Tier B (Lynx SVG 지원 후 추가 예정)
  * - `BottomSheetTrigger`의 `asChild`: 미지원 (기본 `<view>`만)
  */
-export const BottomSheetRoot: LynxForwardRefComponent<SheetRootRef, BottomSheetRootProps> =
-  forwardRef<SheetRootRef, BottomSheetRootProps>((props, forwardedRef) => {
+export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, BottomSheetRootProps> =
+  forwardRef<BottomSheetRootRef, BottomSheetRootProps>((props, ref) => {
     const [variantProps, restProps] = bottomSheet.splitVariantProps(props);
-    const { open, defaultOpen, onOpenChange, snapPoints, children, ...nativeProps } = restProps;
+    const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
-
-    const internalRef = useRef<SheetRootRef | null>(null);
-
-    // `SheetRoot`에 직접 ref를 넘겨 Trigger 컨텍스트와 외부 ref에 같은 인스턴스를 동기화한다.
-    // `useImperativeHandle([])`은 마운트 시점 값(null)을 고정시키는 함정이 있어 사용하지 않는다.
-    const mergedRef = useMemo(
-      () => mergeProps({ ref: internalRef }, { ref: forwardedRef }).ref,
-      [forwardedRef],
-    );
 
     const classNames = useMemo(
       () => bottomSheet(variantProps),
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
       [headerAlign, skipAnimation],
     );
-    const shouldSkipAnimation = skipAnimation === true;
-    const context = useMemo(
-      () => ({
-        rootRef: internalRef,
-        options: {
-          skipAnimation: shouldSkipAnimation,
-        },
-      }),
-      [shouldSkipAnimation],
-    );
 
     return (
-      <BottomSheetContext.Provider value={context}>
-        <ClassNamesProvider value={classNames}>
-          <SheetRoot
-            {...mergeProps({ ref: mergedRef, onShowChange: onOpenChange }, nativeProps)}
-            show={open}
-            defaultShow={defaultOpen}
-            snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
-          >
-            {children}
-          </SheetRoot>
-        </ClassNamesProvider>
-      </BottomSheetContext.Provider>
+      <ClassNamesProvider value={classNames}>
+        <HeadlessBottomSheetRoot
+          {...(ref ? { ref } : {})}
+          {...rootProps}
+          skipAnimation={skipAnimation === true}
+        >
+          {children}
+        </HeadlessBottomSheetRoot>
+      </ClassNamesProvider>
     );
   });
 BottomSheetRoot.displayName = "BottomSheetRoot";
@@ -201,29 +133,13 @@ export interface BottomSheetTriggerProps
 
 export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTriggerProps> =
   forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
-    const { children, className, style, bindtap: userBindtap } = props;
-    const { rootRef, options } = useBottomSheetContext();
-
-    // `bindtap`을 직접 prop으로 쓰면 React DOM `<view>` 타입(SVG)이 적용되어 TS가 거부한다.
-    // Lynx JSX 런타임은 이 prop을 올바르게 처리하므로 spread로 우회한다 (ActionButton과 동일 패턴).
-    const handlers: Pick<LynxPressableProps, "bindtap"> = {
-      bindtap: (event, instance) => {
-        if (options.skipAnimation) {
-          rootRef.current?.open({ animate: false });
-        } else {
-          rootRef.current?.open();
-        }
-
-        userBindtap?.(event, instance);
-      },
-    };
+    const { children, className, style, bindtap } = props;
+    const { triggerProps } = useBottomSheetTrigger({ bindtap });
 
     return (
       <view
-        {...mergeProps(
-          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
-          handlers,
-        )}
+        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...triggerProps}
         className={className}
         style={style as never}
       >
@@ -234,10 +150,10 @@ export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTri
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Positioner — SheetView를 래핑해 mount gating 담당 (웹 BottomSheetPositioner에 대응)
+// Positioner — mount gating은 lynx-ui-sheet의 SheetView가 담당 (웹 BottomSheetPositioner에 대응)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetPositionerProps extends SheetViewProps {}
+export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositionerProps {}
 
 /**
  * Backdrop/Content는 반드시 `BottomSheetPositioner` 안에 배치해야 한다.
@@ -250,7 +166,7 @@ export interface BottomSheetPositionerProps extends SheetViewProps {}
  * 뷰포트 커버 레이아웃을 보장한다.
  */
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  withContext<unknown, BottomSheetPositionerProps>(SheetView, "positioner");
+  withContext<unknown, BottomSheetPositionerProps>(HeadlessBottomSheetPositioner, "positioner");
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -262,13 +178,13 @@ BottomSheetPositioner.displayName = "BottomSheetPositioner";
 // BackgroundSnapshot 정적 분석을 우회해 런타임 에러가 발생한다 — 하단 slot 참고.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetBackdropProps extends SheetBackdropProps {}
+export interface BottomSheetBackdropProps extends HeadlessBottomSheetBackdropProps {}
 
 export const BottomSheetBackdrop: LynxForwardRefComponent<unknown, BottomSheetBackdropProps> =
-  withContext<unknown, BottomSheetBackdropProps>(SheetBackdrop, "backdrop");
+  withContext<unknown, BottomSheetBackdropProps>(HeadlessBottomSheetBackdrop, "backdrop");
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
-export interface BottomSheetContentProps extends SheetContentProps {}
+export interface BottomSheetContentProps extends HeadlessBottomSheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
   forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
@@ -282,13 +198,11 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       ...restProps
     } = props;
     const classNames = useClassNames();
-    const { options } = useBottomSheetContext();
+    const { skipAnimation } = useBottomSheetContext("BottomSheetContent");
     const { safeAreaInsetBottom } = useSafeArea();
 
-    const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
-
     return (
-      <SheetContent
+      <HeadlessBottomSheetContent
         {...mergeProps(ref ? { ref } : {}, restProps)}
         className={clsx(classNames.content, className)}
         // `SheetContent` pins its outer view with an inline `left: 0`, which a recipe class
@@ -303,9 +217,10 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,
         }}
-        snapAnimation={snapAnimation ?? defaultAnimation ?? SEED_SNAP_ANIMATION}
-        enterAnimation={enterAnimation ?? defaultAnimation ?? SEED_ENTER_ANIMATION}
-        exitAnimation={exitAnimation ?? defaultAnimation ?? SEED_EXIT_ANIMATION}
+        // With `skipAnimation`, leave SEED springs out so headless Content ends transitions immediately.
+        snapAnimation={snapAnimation ?? (skipAnimation ? undefined : SEED_SNAP_ANIMATION)}
+        enterAnimation={enterAnimation ?? (skipAnimation ? undefined : SEED_ENTER_ANIMATION)}
+        exitAnimation={exitAnimation ?? (skipAnimation ? undefined : SEED_EXIT_ANIMATION)}
       />
     );
   });
@@ -315,7 +230,7 @@ BottomSheetContent.displayName = "BottomSheetContent";
 // Handle — 자체 bottomSheetHandle recipe 사용 (Root context 비의존)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetHandleProps extends SheetHandleProps {}
+export interface BottomSheetHandleProps extends HeadlessBottomSheetHandleProps {}
 
 /**
  * @remarks
@@ -328,11 +243,11 @@ export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const classNames = bottomSheetHandle();
 
   return (
-    <SheetHandle className={classNames.touchArea} {...rest}>
+    <HeadlessBottomSheetHandle className={classNames.touchArea} {...rest}>
       <view className={clsx(classNames.root, className)} style={style as never}>
         {children}
       </view>
-    </SheetHandle>
+    </HeadlessBottomSheetHandle>
   );
 }
 BottomSheetHandle.displayName = "BottomSheetHandle";
