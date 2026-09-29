@@ -12,5 +12,13 @@ export const registryLib: Registry = {
         },
       ],
     },
+    {
+      id: "manner-temp-level",
+      snippets: [
+        {
+          path: "manner-temp-level.ts",
+        },
+      ],
+    },
   ],
 };
