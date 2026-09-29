@@ -1,17 +1,19 @@
 import { callout, type CalloutVariantProps } from "@seed-design/lynx-css/recipes/callout";
+import {
+  CalloutContext,
+  useCallout,
+  useCalloutCloseButton,
+  type UseCalloutProps,
+} from "@seed-design/lynx-react-callout";
 import * as React from "@lynx-js/react";
-import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import clsx from "clsx";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
   LynxStyledElementProps,
   LynxTextRef,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -19,24 +21,6 @@ import { IconSlotProvider } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);
-
-type TapHandler = NonNullable<LynxViewProps["bindtap"]>;
-
-interface CalloutContextValue {
-  dismiss: () => void;
-}
-
-const CalloutContext = React.createContext<CalloutContextValue | null>(null);
-
-function useCalloutContext(consumer: string) {
-  const context = React.useContext(CalloutContext);
-
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <CalloutRoot/>.`);
-  }
-
-  return context;
-}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,13 +33,10 @@ function useCalloutContext(consumer: string) {
  */
 export interface CalloutRootProps
   extends Omit<CalloutVariantProps, "pressed" | "interactive">,
+    Pick<UseCalloutProps, "defaultOpen" | "open" | "onDismiss">,
     LynxStyledElementProps,
     LynxPressableProps,
-    LynxAccessibilityProps {
-  defaultOpen?: boolean;
-  open?: boolean;
-  onDismiss?: () => void;
-}
+    LynxAccessibilityProps {}
 
 export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, ref) => {
   const [variantProps, otherProps] = callout.splitVariantProps(props);
@@ -63,8 +44,8 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     children,
     className,
     style,
-    defaultOpen = true,
-    open: openProp,
+    defaultOpen,
+    open,
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
@@ -72,31 +53,25 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const [open, setOpen] = useControllableState({
-    value: openProp,
-    defaultValue: defaultOpen,
+  const api = useCallout({
+    defaultOpen,
+    open,
+    onDismiss,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
   });
-  const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-    usePressTap({
-      disabled: !isInteractive,
-      onTap: bindtap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
+  const { interactive, pressed } = api;
+  // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: !isInteractive,
+    disabled: !interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const classNames = callout({ ...variantProps, pressed, interactive: isInteractive });
-  const dismiss = useMemoizedFn(() => {
-    if (!open) return;
-
-    setOpen(false);
-    onDismiss?.();
-  });
-  const contextValue = React.useMemo(() => ({ dismiss }), [dismiss]);
+  const classNames = callout({ ...variantProps, pressed, interactive });
   const iconSlotContextValue = React.useMemo(
     () => ({
       classNames: {
@@ -108,25 +83,23 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     [classNames.prefixIcon, classNames.suffixIcon, pressed, variantProps.tone],
   );
 
-  if (!open) return null;
+  if (!api.open) return null;
 
   return (
-    <CalloutContext.Provider value={contextValue}>
+    <CalloutContext.Provider value={api}>
       <ClassNamesProvider value={classNames}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
             {...mergeProps(
               ref ? { ref: ref as LynxViewRef } : {},
-              isInteractive ? pressTapHandlers : {},
-              isInteractive ? scaleFeedbackTargetProps : {},
-              isInteractive ? scaleFeedbackTriggerProps : {},
+              rootProps,
+              interactive ? scaleFeedbackTargetProps : {},
+              interactive ? scaleFeedbackTriggerProps : {},
               nativeProps,
             )}
-            accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
-            accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
             className={clsx(classNames.root, className)}
             style={style}
-            {...(isInteractive ? { flatten: false } : {})}
+            {...(interactive ? { flatten: false } : {})}
           >
             {children}
           </view>
@@ -248,35 +221,29 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
       className,
       style,
       bindtap,
-      "accessibility-element": accessibilityElement = true,
+      "accessibility-element": accessibilityElement,
       "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits = "button",
+      "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
     const classNames = useClassNames();
-    const { dismiss } = useCalloutContext("CalloutCloseButton");
-    const handleTap = useMemoizedFn<TapHandler>((event) => {
-      bindtap?.(event);
-      dismiss();
+    const { closeButtonProps } = useCalloutCloseButton({
+      bindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-label": accessibilityLabel,
+      "accessibility-traits": accessibilityTraits,
     });
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
-
-    if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
-      console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
-    }
 
     return (
       <view
         {...mergeProps(
-          { bindtap: handleTap },
+          closeButtonProps,
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
           nativeProps,
         )}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel}
-        accessibility-traits={accessibilityTraits}
         className={clsx(classNames.closeButton, className)}
         style={style}
         flatten={false}
