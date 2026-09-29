@@ -11,6 +11,48 @@ SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기�
   가이드를 따른 뒤 이 문서로 돌아와 주세요.
 </Callout>
 
+## AI로 마이그레이션하기
+
+AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이 가이드를 읽고 프로젝트를 점검한 뒤 코드 수정이 필요한 항목을 적용합니다. 코드 블록 오른쪽 위 버튼으로 복사할 수 있습니다. 화면이 달라지는 디자인 변경 항목은 AI가 직접 결정하지 않고 확인이 필요한 목록으로 정리하도록 요청합니다.
+
+```text title="마이그레이션 프롬프트"
+이 프로젝트의 SEED React를 2.x에서 3으로 업그레이드해줘.
+기준 문서: https://seed-design.io/llms/react/updates/upgrade/v3.txt
+세부 변경 사항은 이 문서에서 확인하고, 문서와 이 지시가 다르면 문서를 따라줘.
+
+1. 현재 상태 확인
+   - package.json에서 @seed-design/* 패키지와 버전을 정리해줘.
+   - seed-design.json의 path 아래 설치된 snippet 목록을 정리해줘.
+   - 작업 전에 커밋되지 않은 변경이 있으면 알려주고 멈춰줘.
+
+2. 패키지 업그레이드
+   - 문서의 "패키지 업그레이드" 표에서 이 프로젝트가 쓰는 패키지만
+     최소 버전 이상으로 올려줘. 쓰지 않는 패키지는 새로 설치하지 마.
+   - 프로젝트의 패키지 매니저를 그대로 사용해줘.
+
+3. 코드 수정
+   - 문서의 "코드 수정이 필요한 항목"을 하나씩 확인하고, 사용처를 검색해
+     문서의 변경 후 코드로 바꿔줘.
+   - import뿐 아니라 하드코딩한 CSS 클래스와 CSS 변수도 문자열로 검색해줘.
+   - snippet을 다시 설치할 때는
+     `npx @seed-design/cli@latest add --on-diff backup ui:<id>`를 사용해줘.
+     이 옵션은 기존 파일을 legacy-* 파일로 옮기고 새 snippet을 쓰므로
+     백업만으로는 커스터마이즈가 유지되지 않아. 백업 파일과 새 파일을 비교해
+     필요한 사용자 정의 스타일·동작을 새 snippet에 다시 적용해줘.
+
+4. 디자인 변경과 동작 변화는 수정하지 말고 목록만 만들어줘
+   - 문서의 "디자인 변경사항이 있는 항목"과 "동작이 바뀌는 항목"에
+     해당하는 사용처를 찾아 파일 위치와 확인할 내용을 적어줘.
+
+5. 검증
+   - 타입 검사와 빌드를 실행하고 실패를 해결해줘.
+   - `npx @seed-design/cli@latest compat`으로 snippet 호환성을 확인해줘.
+
+6. 결과 보고
+   - 바꾼 파일과 항목, snippet에 다시 적용한 사용자 정의와 적용하지 않은 것,
+     실행한 검증 결과, 4번의 확인 필요 목록, 해결하지 못한 문제를 정리해줘.
+```
+
 ---
 
 <Steps>
@@ -21,10 +63,20 @@ SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기�
 
 프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드합니다.
 
-| 패키지               | 최소 버전 |
-| -------------------- | --------- |
-| `@seed-design/css`   | `3.0.0`   |
-| `@seed-design/react` | `3.0.0`   |
+| 패키지                          | 최소 버전 | 비고                                                        |
+| ------------------------------- | --------- | ----------------------------------------------------------- |
+| `@seed-design/css`              | `3.0.0`   |                                                             |
+| `@seed-design/react`            | `3.0.0`   |                                                             |
+| `@seed-design/stackflow`        | `2.0.5`   | 변경사항 없이 `@seed-design/css` peer를 `^3.0.0`으로 올렸습니다. |
+| `@seed-design/tailwind3-plugin` | `3.0.1`   | npm에서 게시 취소된 `3.0.0`을 다시 쓸 수 없어 `3.0.1`로 배포합니다. |
+| `@seed-design/tailwind4-theme`  | `3.0.1`   | npm에서 게시 취소된 `3.0.0`을 다시 쓸 수 없어 `3.0.1`로 배포합니다. |
+| `@seed-design/vite-plugin`      | `2.1.1`   | 변경사항 없이 `@seed-design/css` peer를 `^3.0.0`으로 올렸습니다. |
+| `@seed-design/webpack-plugin`   | `2.1.1`   | 변경사항 없이 `@seed-design/css` peer를 `^3.0.0`으로 올렸습니다. |
+| `@seed-design/rsbuild-plugin`   | `2.1.1`   | 변경사항 없이 `@seed-design/css` peer를 `^3.0.0`으로 올렸습니다. |
+| `@seed-design/react-popover`    | `3.0.0`   | Headless 패키지를 직접 사용하는 경우에만 해당합니다.         |
+| `@seed-design/react-drawer`     | `3.0.0`   | Headless 패키지를 직접 사용하는 경우에만 해당합니다.         |
+
+현재 프로젝트에서 사용하는 패키지만 업그레이드하면 됩니다. 사용하지 않는 패키지를 새로 설치할 필요는 없습니다.
 
 ```package-install
 @seed-design/react@latest @seed-design/css@latest
@@ -35,6 +87,53 @@ SEED React 3으로 업그레이드하는 방법을 안내합니다. 신규 기�
 <Step>
 
 ## 코드 변경
+
+### 디자인 변경사항이 있는 항목
+
+화면에 보이는 결과가 달라질 수 있어 디자인 결정이 필요할 수 있는 항목입니다.
+
+#### 1. `$color.bg.neutral-solid` 색상 변경
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+`$color.bg.neutral-solid`가 라이트 모드에서 `gray-1000`에서 `gray-900`으로, 다크 모드에서 `gray-300`에서 `gray-1000`으로 바뀌었습니다. 이 토큰을 직접 사용한 화면은 배경과 전경색의 대비를 두 모드에서 확인하고, Solid 배경 위 전경색에는 용도에 맞는 `$color.fg.on-*-solid`를 사용해주세요. 기존 SEED 컴포넌트가 `neutral-inverted`에서 `neutral-solid`로 바꾼 참조는 값이 같아 화면이 그대로이며, ActionButton의 neutral solid 로딩 인디케이터 색만 다크 모드에서 달라집니다.
+
+```tsx
+const className = "bg-bg-neutral-solid text-palette-static-white"; // [!code --]
+const className = "bg-bg-neutral-solid text-fg-on-neutral-solid"; // [!code ++]
+```
+
+<Callout type="warn">
+  `--seed-color-bg-neutral-solid` 같은 CSS 변수나 `bg-bg-neutral-solid` 같은 Tailwind 클래스를 하드코딩해 사용했다면 값이 바뀌어도 에러로 잡히지 않습니다. 사용처를 검색해 직접 확인해주세요.
+</Callout>
+
+#### 2. Badge의 기본 최대 너비 제거
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+Badge에 기본으로 적용되던 최대 너비가 제거되었습니다. 2.x의 Rootage 값은 `medium` 7.5rem, `large` 6.75rem이었으며, 이제 긴 라벨이 화면에 더 길게 표시될 수 있습니다. 기존처럼 한 줄 말줄임이 필요한 화면에서는 너비를 직접 지정해주세요.
+
+```tsx
+<Badge>길이가 긴 상태 라벨</Badge> // [!code --]
+<Badge style={{ maxWidth: "120px" }}>길이가 긴 상태 라벨</Badge> // [!code ++]
+```
+
+#### 참고: deprecated 색상 토큰
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+기존 토큰을 직접 사용했다면 아래처럼 교체해주세요. `$color.bg.neutral-inverted`와 `$color.fg.neutral-inverted`는 `@seed-design/css@4.0.0`에서 제거될 예정입니다. `$color.bg.neutral-inverted-pressed`는 제거 예정이 아니지만 같은 값을 가진 `$color.bg.neutral-solid-pressed`로 함께 교체할 수 있습니다. Solid 배경 위 전경색은 해당 배경에 맞는 `$color.fg.on-*-solid`를 사용하는 것을 권장합니다.
+
+| 기존 토큰 | 대체 토큰 | CSS 변수 변경 |
+| --------- | --------- | ------------- |
+| `$color.bg.neutral-inverted` | `$color.bg.neutral-solid` | `--seed-color-bg-neutral-inverted` → `--seed-color-bg-neutral-solid` |
+| `$color.bg.neutral-inverted-pressed` | `$color.bg.neutral-solid-pressed` | `--seed-color-bg-neutral-inverted-pressed` → `--seed-color-bg-neutral-solid-pressed` |
+| `$color.fg.neutral-inverted` | `$color.fg.on-neutral-solid` | `--seed-color-fg-neutral-inverted` → `--seed-color-fg-on-neutral-solid` |
+
+```tsx
+const classes = "bg-bg-neutral-inverted active:bg-bg-neutral-inverted-pressed text-fg-neutral-inverted"; // [!code --]
+const classes = "bg-bg-neutral-solid active:bg-bg-neutral-solid-pressed text-fg-on-neutral-solid"; // [!code ++]
+```
 
 ### 코드 수정이 필요한 항목
 
@@ -78,13 +177,190 @@ function Body({ children }: { children: React.ReactNode }) {
   const { shouldUseBottomSheet } = useResponsiveSidePanelContext(); // [!code ++]
 
   return (
-    <ResponsiveSidePanelBody minHeight="x40"> // [!code --]
-    <ResponsiveSidePanelBody> // [!code ++]
-      {children} // [!code --]
-      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box> // [!code ++]
+    {/* [!code --] */}
+    <ResponsiveSidePanelBody minHeight="x40">
+    {/* [!code ++] */}
+    <ResponsiveSidePanelBody>
+      {/* [!code --] */}
+      {children}
+      {/* [!code ++] */}
+      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box>
     </ResponsiveSidePanelBody>
   );
 }
+```
+
+#### 3. deprecated 컴포넌트와 snippet 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/react`에서 아래 컴포넌트와 해당 타입·namespace export를 제거했습니다. 기존 import를 대체 컴포넌트로 바꾸고, 사용하던 prop과 배치를 새 컴포넌트의 API에 맞게 조정해주세요. ActionChip과 ControlChip은 [Chip migration 예시](/react/components/chip#migrating-from-actionchipcontrolchip)도 참고할 수 있습니다.
+
+| 제거된 export | 대체 컴포넌트 |
+| ------------ | ------------- |
+| `ActionChip`, `ActionChipProps` | [Chip.Button](/react/components/chip) `variant="solid"` |
+| `ControlChip`, `ControlChipBaseProps`, `ControlChipProps` | [Chip.Toggle 또는 Chip.Button](/react/components/chip) |
+| `ActionSheet` namespace와 `ActionSheetBackdrop`, `ActionSheetPositioner`, `ActionSheetContent`, `ActionSheetHeader`, `ActionSheetRoot`, `ActionSheetTitle`, `ActionSheetDescription`, `ActionSheetTrigger`, `ActionSheetList`, `ActionSheetItem`, `ActionSheetCloseButton`; 각 이름의 `Props` 타입 | [SwipeableMenuSheet](/react/components/swipeable-menu-sheet) |
+| `ExtendedActionSheet` namespace와 `ExtendedActionSheetBackdrop`, `ExtendedActionSheetPositioner`, `ExtendedActionSheetContent`, `ExtendedActionSheetFooter`, `ExtendedActionSheetHeader`, `ExtendedActionSheetRoot`, `ExtendedActionSheetTitle`, `ExtendedActionSheetTrigger`, `ExtendedActionSheetList`, `ExtendedActionSheetGroup`, `ExtendedActionSheetItem`, `ExtendedActionSheetCloseButton`; 각 이름의 `Props` 타입 | [SwipeableMenuSheet](/react/components/swipeable-menu-sheet) |
+| `Fab`, `FabProps`, `ExtendedFab`, `ExtendedFabProps` | [ContextualFloatingButton](/react/components/contextual-floating-button) |
+| `InlineBanner` namespace와 `InlineBannerCloseButton`, `InlineBannerContent`, `InlineBannerDescription`, `InlineBannerLink`, `InlineBannerRoot`, `InlineBannerTitle`; 각 이름의 `Props` 타입 | [PageBanner](/react/components/page-banner) |
+| `LinkContent`, `LinkContentProps` | [ActionButton](/react/components/action-button) `variant="ghost"` |
+| `Inline`, `InlineProps`, `Columns`, `Column`, `ColumnsProps`, `ColumnProps` | [HStack](/react/components/layout/h-stack) |
+| `Stack`, `StackProps` | [VStack](/react/components/layout/v-stack) (`HStack`·`VStack`는 유지) |
+
+```tsx
+import { ActionChip } from "@seed-design/react"; // [!code --]
+import { Chip } from "@seed-design/react"; // [!code ++]
+
+<ActionChip size="medium">Label</ActionChip> // [!code --]
+<Chip.Button size="medium" variant="solid"><Chip.Label>Label</Chip.Label></Chip.Button> // [!code ++]
+```
+
+삭제된 CSS recipe를 직접 import하거나 `.seed-action-chip`, `.seed-control-chip`, `.seed-action-sheet__*`, `.seed-action-sheet-item`, `.seed-extended-action-sheet__*`, `.seed-extended-action-sheet-item`, `.seed-fab`, `.seed-extended-fab`, `.seed-inline-banner__*`, `.seed-link-content` 선택자를 직접 썼다면 대체 컴포넌트의 스타일로 바꿔주세요. 특히 CSS 클래스를 하드코딩한 사용처는 컴파일 에러로 발견되지 않습니다.
+
+기존에 설치한 `ui:action-sheet`, `ui:extended-action-sheet`, `ui:control-chip`, `ui:inline-banner` snippet은 제거된 React export를 import하므로 그대로 두면 빌드가 깨집니다. 각각 `ui:swipeable-menu-sheet`, `ui:swipeable-menu-sheet`, `ui:chip`, `ui:page-banner`로 교체해주세요. `ui:error-state` snippet은 제거된 export를 import하지 않아 이 변경만으로 빌드가 깨지지 않지만 신규 설치 목록에서는 빠졌습니다. 새로 구성한다면 `ui:result-section`을 사용해주세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:swipeable-menu-sheet
+npx @seed-design/cli@latest add ui:chip
+npx @seed-design/cli@latest add ui:page-banner
+npx @seed-design/cli@latest add ui:result-section
+```
+
+#### 4. Badge를 Registry snippet으로 전환
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/react`의 `Badge`는 JSX 컴포넌트가 아닌 `Badge.Root` 등의 namespace로 바뀌고 `BadgeProps` export도 없어졌습니다. `ui:badge`를 설치한 뒤 import를 바꿔주세요. 기존 `tone`, `variant`, `size`와 라벨을 전달하는 `children`은 snippet에서도 그대로 사용합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:badge
+```
+
+```tsx
+import { Badge, type BadgeProps } from "@seed-design/react"; // [!code --]
+import { Badge, type BadgeProps } from "seed-design/ui/badge"; // [!code ++]
+
+<Badge tone="positive" variant="weak" size="medium">완료</Badge>
+```
+
+`ImageFrameBadge`는 별도 export로 유지되므로 import를 바꿀 필요가 없습니다. 새 `prefix`와 `actionProps` 사용법은 [Badge](/react/components/badge) 문서를 참고해주세요.
+
+#### 5. Date Picker·Time Picker를 Registry snippet으로 전환
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`ui:date-picker`, `ui:time-picker`를 설치하고 컴포넌트 import를 바꿔주세요. 두 snippet이 사용하는 `ui:wheel-picker`도 함께 설치됩니다. 기존 Date Picker의 네 레이아웃과 날짜 선택·셀 렌더링·크기 관련 prop, Time Picker의 `value`, `defaultValue`, `onValueChange`, `minuteStep`, `locale`, `disabled`, `periodAriaLabel`, `hourAriaLabel`, `minuteAriaLabel`은 이름을 바꾸지 않고 사용합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:date-picker ui:time-picker
+```
+
+```tsx
+import { DatePicker, TimePicker, type DatePickerDate, type TimePickerValue, dateOnOrAfter } from "@seed-design/react"; // [!code --]
+import { DatePicker } from "seed-design/ui/date-picker"; // [!code ++]
+import { TimePicker } from "seed-design/ui/time-picker"; // [!code ++]
+import { dateOnOrAfter, type DatePickerDate } from "@seed-design/react-date-picker"; // [!code ++]
+import type { TimePickerValue } from "@seed-design/react-time-picker"; // [!code ++]
+```
+
+기존 `DatePicker` 컴포넌트 대신 `@seed-design/react`는 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel` namespace를 제공합니다. 완성된 UI에는 snippet을 사용해주세요. 함께 사용하던 export의 새 위치는 다음과 같습니다.
+
+- `DatePickerProps`, `TwoMonthDatePickerProps`, `WeekDatePickerProps`, `ContinuousDatePickerProps`, `TimePickerProps` 및 해당 컴포넌트(`DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`, `TimePicker`): 각각 `seed-design/ui/date-picker`, `seed-design/ui/time-picker`
+- `DatePickerAriaLabels`, `DatePickerConstraint`, `DatePickerConstraintContext`, `DatePickerDate`, `DatePickerMonthRange`, `DatePickerMultipleProps`, `DatePickerRangeProps`, `DatePickerRangeValue`, `DatePickerSelectionMode`, `DatePickerSingleProps`, `DatePickerValue`, `DatePickerYearMonth` 및 `compareDates`, `dateKey`, `dateOnOrAfter`, `dateOnOrBefore`, `excludeDates`, `isSameDate`, `maxSelectionCount`, `rangeDayCountAtLeast`, `rangeDayCountAtMost`: `@seed-design/react-date-picker`
+- `MinuteStep`, `TimePickerValue`: `@seed-design/react-time-picker`
+
+`DatePickerActions`와 `DatePickerCellContentRenderProps`는 `@seed-design/react`에서 계속 가져올 수 있습니다. 이미 설치한 `ui:wheel-picker`도 새 snippet의 `@seed-design/react`·`@seed-design/css` 의존성이 `^3.0.0`으로 바뀌었으므로 다시 설치해주세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:wheel-picker
+```
+
+**Wheel Picker 스타일을 직접 사용하는 경우**
+
+<Badge tone="critical">직접 검색 필요</Badge>
+
+<Callout type="warn">
+  `@seed-design/css/recipes/wheel-picker-public` import, `seed-wheel-picker-public*` 클래스, `--seed-wheel-picker-public-*` 사용자 정의 속성은 타입 검사만으로 모두 발견할 수 없습니다. 스타일시트와 애플리케이션 코드에서 직접 검색해 `wheel-picker` 이름으로 바꿔주세요.
+</Callout>
+
+```ts
+import { wheelPickerPublic } from "@seed-design/css/recipes/wheel-picker-public"; // [!code --]
+import { wheelPicker } from "@seed-design/css/recipes/wheel-picker"; // [!code ++]
+```
+
+```css
+.seed-wheel-picker-public__column { /* [!code --] */
+  padding-block: var(--seed-wheel-picker-public-center-offset); /* [!code --] */
+} /* [!code --] */
+.seed-wheel-picker__column { /* [!code ++] */
+  padding-block: var(--seed-wheel-picker-center-offset); /* [!code ++] */
+} /* [!code ++] */
+```
+
+#### 6. Bottom Sheet와 Drawer의 `nested` 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`BottomSheet.Root`(`BottomSheetRoot`), `ResponsiveDialog.Root`와 `ResponsiveSidePanel.Root`의 `bottomSheetRootProps.nested`를 제거해주세요. `@seed-design/react-drawer`를 직접 사용한다면 `Drawer.Root`의 `nested` prop과 `useDrawer`의 `nested` 옵션도 지웁니다. 모두 동작에 영향이 없던 값이라 대체 옵션은 필요하지 않습니다.
+
+```tsx
+<BottomSheet.Root nested>{children}</BottomSheet.Root> // [!code --]
+<BottomSheet.Root>{children}</BottomSheet.Root> // [!code ++]
+<ResponsiveDialog.Root bottomSheetRootProps={{ nested: true }}>{children}</ResponsiveDialog.Root> // [!code --]
+<ResponsiveDialog.Root>{children}</ResponsiveDialog.Root> // [!code ++]
+<ResponsiveSidePanel.Root bottomSheetRootProps={{ nested: true }}>{children}</ResponsiveSidePanel.Root> // [!code --]
+<ResponsiveSidePanel.Root>{children}</ResponsiveSidePanel.Root> // [!code ++]
+```
+
+#### 7. Popover primitive의 `Content` 추가
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+`@seed-design/react/primitive`의 `Popover`나 `@seed-design/react-popover`를 직접 사용한다면 `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸주세요. `role="dialog"`와 관련 aria 속성이 Positioner에서 Content로 옮겨졌으므로 직접 지정한 레이블도 Content에 전달해주세요. 일반적인 팝오버 화면에는 새 [Popover](/react/components/popover) 컴포넌트 또는 `ui:popover` snippet을 사용할 수 있습니다.
+
+```tsx
+import { Popover } from "@seed-design/react/primitive";
+
+<Popover.Root>
+  <Popover.Trigger>열기</Popover.Trigger>
+  {/* [!code --] */}
+  <Popover.Positioner aria-label="추가 정보">
+    {/* [!code --] */}
+    <p>내용</p>
+  {/* [!code --] */}
+  </Popover.Positioner>
+  {/* [!code ++] */}
+  <Popover.Positioner>
+    {/* [!code ++] */}
+    <Popover.Content aria-label="추가 정보">
+      {/* [!code ++] */}
+      <p>내용</p>
+    {/* [!code ++] */}
+    </Popover.Content>
+  {/* [!code ++] */}
+  </Popover.Positioner>
+</Popover.Root>
+```
+
+```package-install
+npx @seed-design/cli@latest add ui:popover
+```
+
+### 동작이 바뀌는 항목
+
+코드 수정 없이 동작이 달라지는 항목입니다. 기존 동작에 의존하는 화면이 있는지 확인해주세요.
+
+#### 1. Help Bubble의 포커스와 닫힘 동작 확인
+
+<Badge tone="critical">직접 판단 필요</Badge>
+
+Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스가 trigger로 돌아옵니다. `closeOnInteractOutside={false}`가 아니라면 포커스가 Help Bubble 바깥으로 이동할 때도 닫히며, 이때는 포커스를 옮긴 요소에 그대로 둡니다. Bottom Sheet·Dialog 안에서 Escape나 바깥 누르기로 두 요소가 함께 닫히는 문제를 고쳤으므로 관련 우회 코드와 포커스 이동에 의존하는 동작을 확인해주세요. `HelpBubble.Title`·`HelpBubble.Description`은 이제 Help Bubble의 접근성 이름·설명으로 연결됩니다.
+
+열 때 Help Bubble 안으로 포커스를 옮겨야 하는 화면에서만 `autoFocus`를 지정합니다. 기본값은 `false`입니다.
+
+```tsx
+<HelpBubble.Root autoFocus>{children}</HelpBubble.Root>
 ```
 
 </Step>
