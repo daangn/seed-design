@@ -6,6 +6,7 @@ function CenteredTitle({ children }: { children: string }) {
   return (
     <view
       style={{
+        display: "flex",
         position: "absolute",
         top: "0px",
         bottom: "0px",
@@ -26,7 +27,13 @@ function TextButton({ label }: { label: string }) {
   return (
     <AppBar.IconButton
       accessibility-label={label}
-      style={{ height: "44px", padding: "0px 8px", justifyContent: "center" }}
+      style={{
+        display: "flex",
+        height: "44px",
+        padding: "0px 8px",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
       <text style={{ fontSize: "15px", color: "#1a1c20" }}>{label}</text>
     </AppBar.IconButton>
@@ -38,6 +45,7 @@ export default function Example() {
     <view style={{ padding: "16px" }}>
       <AppBar.Root
         style={{
+          display: "flex",
           position: "relative",
           height: "56px",
           flexDirection: "row",
@@ -47,10 +55,10 @@ export default function Example() {
         }}
       >
         <CenteredTitle>관심 목록</CenteredTitle>
-        <AppBar.Left style={{ flexDirection: "row" }}>
+        <AppBar.Left style={{ display: "flex", flexDirection: "row" }}>
           <TextButton label="뒤로" />
         </AppBar.Left>
-        <AppBar.Right style={{ flexDirection: "row", marginLeft: "auto" }}>
+        <AppBar.Right style={{ display: "flex", flexDirection: "row", marginLeft: "auto" }}>
           <TextButton label="공유" />
           <TextButton label="편집" />
         </AppBar.Right>
