@@ -177,7 +177,7 @@
         {
           "path": "side-navigation-02.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
+            "@seed-design/react": "^3.0.0",
             "@seed-design/css": "^2.0.0"
           }
         }
