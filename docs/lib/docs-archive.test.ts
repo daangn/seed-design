@@ -13,21 +13,24 @@ describe("documentation archive paths", () => {
     expect(paths.routeSlug(["components", "button"])).toEqual(["components", "button"]);
   });
 
-  it("isolates archive pages, endpoints and assets without nesting react twice", () => {
-    const paths = createArchivePaths("v2");
+  it.each([
+    "v2",
+    "v3",
+  ])("isolates %s pages, endpoints and assets without nesting react twice", (version) => {
+    const paths = createArchivePaths(version);
     expect([
       paths.link("/react"),
       paths.link("/react/components/button?x=1#usage"),
       paths.asset("/logo.webp"),
       paths.endpoint("/__registry__/react/ui/button.json"),
     ]).toEqual([
-      "/react/v2",
-      "/react/v2/components/button?x=1#usage",
-      "/react/v2/_assets/logo.webp",
-      "/react/v2/__registry__/react/ui/button.json",
+      `/react/${version}`,
+      `/react/${version}/components/button?x=1#usage`,
+      `/react/${version}/_assets/logo.webp`,
+      `/react/${version}/__registry__/react/ui/button.json`,
     ]);
-    expect(paths.routeSlug(["components", "button"])).toEqual(["v2", "components", "button"]);
-    expect(paths.contentSlug(["v2", "components", "button"])).toEqual(["components", "button"]);
+    expect(paths.routeSlug(["components", "button"])).toEqual([version, "components", "button"]);
+    expect(paths.contentSlug([version, "components", "button"])).toEqual(["components", "button"]);
   });
 
   it("keeps shared content and the other platform on the latest site", () => {

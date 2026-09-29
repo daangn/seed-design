@@ -1,15 +1,72 @@
 import { describe, expect, it } from "bun:test";
-import { archiveOrigin, handleArchiveRequest } from "./worker";
+import { archiveOrigin } from "./config";
+import { handleArchiveRequest } from "./worker";
 
 const origin = "https://verified-branch.example.pages.dev";
+const archives = [
+  {
+    platform: "react",
+    version: "v2",
+    origin,
+    sourceSha: "a".repeat(40),
+    probe: { document: "components/action-button", registryItem: "ui/action-button" },
+  },
+];
 const request = (path: string, init?: RequestInit) =>
   new Request(`https://seed-design.io${path}`, init);
 const stub = (handler: (request: Request) => Response | Promise<Response>) =>
   ((input: Request) => Promise.resolve(handler(input))) as typeof fetch;
 
 describe("archive routing", () => {
+  it("serves React v2, React v3 and Lynx v1 independently in the same Worker", async () => {
+    const definitions = [
+      archives[0],
+      { ...archives[0], version: "v3", origin: "https://react-v3.example.pages.dev" },
+      {
+        ...archives[0],
+        platform: "lynx",
+        version: "v1",
+        origin: "https://lynx-v1.example.pages.dev",
+      },
+    ];
+    await Promise.all(
+      definitions.map(async (archive) => {
+        const prefix = `/${archive.platform}/${archive.version}`;
+        const response = await handleArchiveRequest(
+          request(`${prefix}/components/button/?q=1`),
+          definitions,
+          stub((forwarded) => {
+            expect(forwarded.url).toBe(`${archive.origin}${prefix}/components/button/?q=1`);
+            return new Response(prefix);
+          }),
+        );
+        expect(await response.text()).toBe(prefix);
+        expect(response.headers.get("x-seed-docs-version")).toBe(prefix.slice(1));
+        const redirect = await handleArchiveRequest(request(prefix), definitions);
+        expect(redirect.headers.get("location")).toBe(`https://seed-design.io${prefix}/`);
+      }),
+    );
+  });
+
+  it("does not let v2 shadow a registered v20 or a broken archive affect another", async () => {
+    const definitions = [
+      { ...archives[0], origin: "" },
+      { ...archives[0], version: "v20", origin: "https://react-v20.example.pages.dev" },
+    ];
+    expect((await handleArchiveRequest(request("/react/v2/"), definitions)).status).toBe(503);
+    const response = await handleArchiveRequest(
+      request("/react/v20/"),
+      definitions,
+      stub((forwarded) => {
+        expect(forwarded.url).toBe("https://react-v20.example.pages.dev/react/v20/");
+        return new Response("v20");
+      }),
+    );
+    expect(await response.text()).toBe("v20");
+  });
+
   it("canonicalizes the root without losing query parameters", async () => {
-    const response = await handleArchiveRequest(request("/react/v2?q=1"), origin);
+    const response = await handleArchiveRequest(request("/react/v2?q=1"), archives);
     expect(response.status).toBe(308);
     expect(response.headers.get("location")).toBe("https://seed-design.io/react/v2/?q=1");
   });
@@ -24,7 +81,7 @@ describe("archive routing", () => {
     const input = request(path);
     await handleArchiveRequest(
       input,
-      origin,
+      archives,
       stub((forwarded) => {
         expect(forwarded).toBe(input);
         return new Response("latest");
@@ -37,7 +94,7 @@ describe("archive routing", () => {
       request("/react/v2/_assets/a.js?v=1", {
         headers: { Range: "bytes=0-2", Cookie: "secret=1", Authorization: "secret" },
       }),
-      origin,
+      archives,
       stub((forwarded) => {
         expect(forwarded.url).toBe(`${origin}/react/v2/_assets/a.js?v=1`);
         expect(forwarded.headers.get("range")).toBe("bytes=0-2");
@@ -68,7 +125,7 @@ describe("archive routing", () => {
   ])("preserves HTTP %s instead of returning a success fallback", async (status) => {
     const response = await handleArchiveRequest(
       request("/react/v2/missing", { method: "HEAD" }),
-      origin,
+      archives,
       stub((forwarded) => {
         expect(forwarded.method).toBe("HEAD");
         return new Response(null, { status });
@@ -80,7 +137,7 @@ describe("archive routing", () => {
   it("rewrites Pages redirects to the public archive", async () => {
     const response = await handleArchiveRequest(
       request("/react/v2/button"),
-      origin,
+      archives,
       stub(
         () =>
           new Response(null, {
@@ -95,7 +152,7 @@ describe("archive routing", () => {
   it("rejects upstream redirects escaping to an unscoped Pages root", async () => {
     const response = await handleArchiveRequest(
       request("/react/v2/button"),
-      origin,
+      archives,
       stub(() => new Response(null, { status: 302, headers: { location: "/react" } })),
     );
     expect(response.status).toBe(502);
@@ -104,16 +161,18 @@ describe("archive routing", () => {
   it("keeps Worker previews noindex", async () => {
     const response = await handleArchiveRequest(
       new Request("https://preview.example.workers.dev/react/v2/"),
-      origin,
+      archives,
       stub(() => new Response("preview")),
     );
     expect(response.headers.get("x-robots-tag")).toBe("noindex");
   });
 
   it("fails closed when origin is missing or the method is unsafe", async () => {
-    expect((await handleArchiveRequest(request("/react/v2/"), "")).status).toBe(503);
     expect(
-      (await handleArchiveRequest(request("/react/v2/", { method: "POST" }), origin)).status,
+      (await handleArchiveRequest(request("/react/v2/"), [{ ...archives[0], origin: "" }])).status,
+    ).toBe(503);
+    expect(
+      (await handleArchiveRequest(request("/react/v2/", { method: "POST" }), archives)).status,
     ).toBe(405);
   });
 

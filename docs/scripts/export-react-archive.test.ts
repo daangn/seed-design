@@ -93,3 +93,23 @@ it("keeps the previous artifact if a latest build was supplied by mistake", asyn
     "previous valid build",
   );
 });
+
+it("reuses the exporter for a later React major without including v2 pages", async () => {
+  const { dir, write } = await fixture();
+  await write("out/react/v3/index.html", "v3 page");
+  const output = await exportReactArchive({
+    docsDirectory: dir,
+    version: "v3",
+    sourceSha: "b".repeat(40),
+  });
+  const read = (name: string) => readFile(path.join(output, name), "utf8");
+  expect(await read("react/v3/index.html")).toBe("v3 page");
+  expect(JSON.parse(await read("react/v3/archive.json"))).toMatchObject({
+    platform: "react",
+    version: "v3",
+    prefix: "/react/v3",
+  });
+  expect(await read("react/v3/sitemap.xml")).toContain("https://seed-design.io/react/v3/");
+  expect(await read("_redirects")).toContain("/react/v3/react/* /react/v3/:splat 302");
+  expect(await Bun.file(path.join(output, "react/v2/index.html")).exists()).toBe(false);
+});

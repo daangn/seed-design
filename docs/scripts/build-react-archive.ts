@@ -5,7 +5,9 @@ import { createArchivePaths } from "../lib/docs-archive";
 import { exportReactArchive } from "./export-react-archive";
 
 const docsDirectory = fileURLToPath(new URL("..", import.meta.url));
-const version = process.argv[2] ?? "v2";
+const version = process.argv[2];
+if (!version)
+  throw new Error("Specify the archive major explicitly, for example build:archive:react v2");
 createArchivePaths(version);
 const reactPackage = JSON.parse(
   await readFile(path.join(docsDirectory, "../packages/react/package.json"), "utf8"),

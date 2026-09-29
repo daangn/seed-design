@@ -1,41 +1,27 @@
-const PREFIX = "/react/v2";
-
-export function archiveOrigin(value: string): URL {
-  const url = new URL(value);
-  if (
-    url.protocol !== "https:" ||
-    !url.hostname.endsWith(".pages.dev") ||
-    url.port ||
-    url.username ||
-    url.password ||
-    url.pathname !== "/" ||
-    url.search ||
-    url.hash
-  ) {
-    throw new Error("REACT_V2_ORIGIN must be a verified HTTPS Pages branch alias origin");
-  }
-  return url;
-}
+import archives from "./archives.json";
+import { type ArchiveDefinition, archiveOrigin, archivePrefix, isArchivePath } from "./config";
 
 export async function handleArchiveRequest(
   request: Request,
-  origin: string,
+  definitions: readonly ArchiveDefinition[],
   fetcher: typeof fetch = fetch,
 ): Promise<Response> {
   const url = new URL(request.url);
-  // The route's trailing wildcard also matches v20; leave those requests on the original Pages site.
-  if (url.pathname !== PREFIX && !url.pathname.startsWith(`${PREFIX}/`)) return fetcher(request);
+  // Cloudflare route wildcards also match v20 or v2-other. Match complete path segments here.
+  const archive = definitions.find((entry) => isArchivePath(url.pathname, archivePrefix(entry)));
+  if (!archive) return fetcher(request);
+  const prefix = archivePrefix(archive);
   if (request.method !== "GET" && request.method !== "HEAD") {
     return new Response("Method not allowed", { status: 405, headers: { Allow: "GET, HEAD" } });
   }
-  if (url.pathname === PREFIX) {
+  if (url.pathname === prefix) {
     url.pathname += "/";
     return Response.redirect(url, 308);
   }
 
   let upstream: URL;
   try {
-    upstream = new URL(url.pathname + url.search, archiveOrigin(origin));
+    upstream = new URL(url.pathname + url.search, archiveOrigin(archive.origin));
   } catch {
     return new Response("Archive origin is not configured", { status: 503 });
   }
@@ -60,7 +46,7 @@ export async function handleArchiveRequest(
     if (location) {
       const redirect = new URL(location, upstream);
       if (redirect.origin === upstream.origin) {
-        if (redirect.pathname !== PREFIX && !redirect.pathname.startsWith(`${PREFIX}/`)) {
+        if (!isArchivePath(redirect.pathname, prefix)) {
           await response.body?.cancel();
           return new Response("Invalid archive redirect", { status: 502 });
         }
@@ -73,7 +59,7 @@ export async function handleArchiveRequest(
     if (url.hostname === "seed-design.io") outputHeaders.delete("x-robots-tag");
     else outputHeaders.set("x-robots-tag", "noindex");
     outputHeaders.delete("set-cookie");
-    outputHeaders.set("x-seed-docs-version", "react/v2");
+    outputHeaders.set("x-seed-docs-version", `${archive.platform}/${archive.version}`);
     return new Response(response.body, {
       status: response.status,
       statusText: response.statusText,
@@ -86,7 +72,7 @@ export async function handleArchiveRequest(
 }
 
 export default {
-  fetch(request: Request, env: Env) {
-    return handleArchiveRequest(request, env.REACT_V2_ORIGIN);
+  fetch(request: Request) {
+    return handleArchiveRequest(request, archives);
   },
 };

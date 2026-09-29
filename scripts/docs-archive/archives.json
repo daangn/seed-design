@@ -1,0 +1,12 @@
+[
+  {
+    "platform": "react",
+    "version": "v2",
+    "origin": "",
+    "sourceSha": "",
+    "probe": {
+      "document": "components/action-button",
+      "registryItem": "ui/action-button"
+    }
+  }
+]

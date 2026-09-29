@@ -1,10 +1,19 @@
 import { afterEach, describe, expect, it, mock, spyOn } from "bun:test";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { ReactVersionSwitcher } from "./react-version-switcher";
+import { getReactVersions, ReactVersionSwitcher } from "./react-version-switcher";
 
 afterEach(() => mock.restore());
 
 describe("ReactVersionSwitcher", () => {
+  it("includes a future archive itself without exposing it in the latest menu", () => {
+    expect(getReactVersions("v3")[1]).toEqual({
+      label: "v3",
+      url: "https://seed-design.io/react/v3",
+    });
+    expect(getReactVersions("").some((version) => version.label === "v3")).toBe(false);
+    expect(getReactVersions("v2").filter((version) => version.label === "v2")).toHaveLength(1);
+  });
+
   it("shows the ordered versions and marks only latest as current", async () => {
     const open = spyOn(window, "open").mockImplementation(() => null);
     render(<ReactVersionSwitcher />);

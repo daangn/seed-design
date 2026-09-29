@@ -14,13 +14,29 @@ import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-mono
 import { type ComponentProps, useState } from "react";
 import clsx from "clsx";
 
-const VERSIONS = [
+const PUBLISHED_VERSIONS = [
   { label: "latest", url: "https://seed-design.io/react" },
   { label: "v2", url: "https://seed-design.io/react/v2" },
   { label: "v1.2", url: "https://v1-2.seed-design.io/react" },
   { label: "v1.1", url: "https://v1-1.seed-design.io/react" },
   { label: "v1.0", url: "https://v1-0.seed-design.io/react" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
+
+export function getReactVersions(
+  archiveVersion: string,
+): ReadonlyArray<{ label: string; url: string }> {
+  if (!archiveVersion || PUBLISHED_VERSIONS.some((version) => version.label === archiveVersion)) {
+    return PUBLISHED_VERSIONS;
+  }
+  // A future archive must identify itself even before it is added to the latest site's menu.
+  return [
+    PUBLISHED_VERSIONS[0],
+    { label: archiveVersion, url: `https://seed-design.io/react/${archiveVersion}` },
+    ...PUBLISHED_VERSIONS.slice(1),
+  ];
+}
+
+const VERSIONS = getReactVersions(REACT_ARCHIVE_VERSION);
 
 // The release branch embeds its archive version; regular Pages previews remain latest.
 const CURRENT_VERSION = REACT_ARCHIVE_VERSION || "latest";
