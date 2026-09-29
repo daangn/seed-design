@@ -37,6 +37,7 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const processed = archiveMarkdown(
     normalizeLLMBody(exports.processed),
     section === "react" ? REACT_ARCHIVE_VERSION : "",
+    "mdx",
   );
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
