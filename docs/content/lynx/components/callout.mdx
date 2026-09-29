@@ -260,6 +260,8 @@ export function App() {
 
 Lynx에서는 탭할 수 있는 `Root`를 누르는 동안 `pressed` Recipe variant를 적용합니다. `Callout.Link`는 기본적으로 `accessibility-traits="link"`를 사용합니다. 탭할 수 있는 `Root`와 `CloseButton`에는 `button` 역할을 적용합니다.
 
+`Callout.Root`는 `bindtap` 또는 `main-thread:bindtap`이 있을 때만 탭할 수 있는 Root가 됩니다. Registry `ActionableCallout`은 React의 `<button>`처럼 `bindtap`을 전달하지 않아도 눌림 상태, Scale Feedback, `button` 역할을 적용합니다.
+
 ## Lynx 미지원 기능
 
 - `asChild`: Lynx에는 DOM Slot 기반 다형 렌더링이 없습니다.

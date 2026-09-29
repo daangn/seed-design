@@ -1,4 +1,4 @@
-import { useMemo } from "@lynx-js/react";
+import { useEffect, useMemo } from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useCalloutContext } from "./useCalloutContext.js";
@@ -47,9 +47,11 @@ export function useCalloutCloseButton(
     dismiss();
   });
 
-  if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
-    console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
-  }
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
+      console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
+    }
+  }, [accessibilityElement, accessibilityLabel]);
 
   return useMemo(
     () => ({
