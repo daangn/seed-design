@@ -31,8 +31,8 @@ AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이
    - 프로젝트의 패키지 매니저를 그대로 사용해줘.
 
 3. 코드 수정
-   - 문서의 "코드 수정이 필요한 항목"을 하나씩 확인하고, 사용처를 검색해
-     문서의 변경 후 코드로 바꿔줘.
+   - 문서의 "Snippet 업데이트"와 "코드 수정이 필요한 항목"을 확인하고,
+     각 "수정 대상"에 해당하는 사용처를 문서의 변경 후 코드로 바꿔줘.
    - import뿐 아니라 하드코딩한 CSS 클래스와 CSS 변수도 문자열로 검색해줘.
    - snippet을 다시 설치할 때는
      `npx @seed-design/cli@latest add --on-diff backup ui:<id>`를 사용해줘.
@@ -61,7 +61,7 @@ AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이
 
 ## 패키지 업그레이드
 
-프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드합니다.
+프로젝트에서 사용하는 `@seed-design/*` 패키지를 아래 버전 이상으로 업그레이드하세요.
 
 | 패키지                          | 최소 버전 | 비고                                                        |
 | ------------------------------- | --------- | ----------------------------------------------------------- |
@@ -81,6 +81,28 @@ AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이
 ```package-install
 @seed-design/react@latest @seed-design/css@latest
 ```
+
+</Step>
+
+<Step>
+
+## Snippet 업데이트
+
+**수정 대상:** 아래 명령에 나열된 snippet을 사용하는 프로젝트입니다. 해당 snippet을 사용하지 않는다면 이 단계를 건너뛰세요.
+
+이번 버전에서는 `@seed-design/react/primitive` import 경로를 제거하고, Chip·List 등의 API를 변경했습니다. 기존 snippet에도 이 경로와 API를 사용하는 코드가 있습니다. snippet은 프로젝트에 복사된 파일이므로 패키지만 업그레이드해도 자동으로 바뀌지 않습니다.
+
+아래 명령에서 프로젝트에 설치하지 않은 항목은 빼고 실행하세요. 최신 snippet에는 새 import 경로와 API가 반영되어 있습니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-display-field ui:attachment-display-field-reorderable ui:attachment-field ui:attachment-field-reorderable ui:chip ui:list ui:pagination ui:side-navigation ui:table-pagination block:side-navigation-02 --on-diff backup
+```
+
+`--on-diff backup`은 기존 파일과 내용이 다르면 같은 폴더에 `legacy-파일명-타임스탬프.tsx` 형태로 백업한 뒤 새 파일을 받습니다. 프로젝트에 맞게 수정했던 내용은 백업 파일과 비교해 새 파일에 다시 적용하세요. 백업 파일에는 이전 import가 남으므로, 변경을 옮긴 후 정리하세요.
+
+기존 파일을 백업 없이 덮어쓰려면 `--on-diff overwrite`를 사용하세요. `--on-diff`를 생략하면 파일마다 차이를 확인하고 백업·덮어쓰기·건너뛰기를 선택할 수 있습니다.
+
+**Chip의 `ChipBaseProps`를 import했다면 사용처도 수정하세요.** 이 타입은 snippet 내부에서 공통 스타일 props를 선택 상태 props와 합치기 위해 사용했습니다. 이제 각 컴포넌트의 타입에 필요한 props가 모두 포함되어 별도 공통 타입을 제거했습니다. 자신의 코드에서 `ChipBaseProps`를 가져오던 경우에는 같은 snippet의 `ButtonChipProps`, `ToggleChipProps`, `RadioChipItemProps` 중 사용하는 컴포넌트에 맞는 타입으로 바꾸세요.
 
 </Step>
 
@@ -137,7 +159,15 @@ const classes = "bg-bg-neutral-solid active:bg-bg-neutral-solid-pressed text-fg-
 
 ### 코드 수정이 필요한 항목
 
-#### 1. `@seed-design/css/vars/component`에서 `typography` 외 경로 제거
+각 단계의 **수정 대상**에 해당하는 코드만 변경하세요.
+
+<Steps>
+
+<Step>
+
+#### 컴포넌트 vars import 교체
+
+**수정 대상:** `@seed-design/css/vars/component` 또는 그 하위 경로에서 vars를 import하는 코드입니다. `@seed-design/css/vars/component/typography`만 사용한다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -145,16 +175,16 @@ const classes = "bg-bg-neutral-solid active:bg-bg-neutral-solid-pressed text-fg-
 
 **index에서 `typography`를 가져오는 경우**
 
-`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정합니다.
+`@seed-design/css/vars/component` index를 제거했습니다. `@seed-design/css/vars/component/typography`에서 `vars`를 가져오도록 수정하세요.
 
 ```ts
 import { typography } from "@seed-design/css/vars/component"; // [!code --]
 import { vars as typography } from "@seed-design/css/vars/component/typography"; // [!code ++]
 ```
 
-**다른 컴포넌트의 vars를 가져오는 경우**
+**컴포넌트의 vars를 import하는 경우**
 
-같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꿉니다. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)의 경우 필요한 값을 직접 지정합니다.
+같은 값을 [디자인 토큰](/foundations/color)(`@seed-design/css/vars`)에서 찾아 바꾸세요. 토큰을 참조하지 않는 값(`maxWidth: "7.5rem"` 등)은 필요한 값을 직접 지정하세요.
 
 ```ts
 import { badge } from "@seed-design/css/vars/component"; // [!code --]
@@ -164,13 +194,19 @@ const minHeight = badge.sizeMedium.enabled.root.minHeight; // [!code --]
 const minHeight = vars.$dimension.x5; // [!code ++]
 ```
 
-#### 2. Side Panel 본문의 높이 prop 제거
+</Step>
+
+<Step>
+
+#### Side Panel 본문의 높이 prop 제거
+
+**수정 대상:** `SidePanelBody` 또는 `ResponsiveSidePanelBody`에 `height`, `minHeight`, `maxHeight`를 전달하는 코드입니다. 이 props를 사용하지 않는다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
-`SidePanelBody`와 `ResponsiveSidePanelBody`에서 `height`, `minHeight`, `maxHeight`를 제거했습니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠습니다.
+Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채웁니다. 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠기 때문에 제거했습니다.
 
-`SidePanelBody`에서는 prop을 지웁니다. `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정합니다.
+`SidePanelBody`에서는 해당 prop을 지우세요. `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정하세요.
 
 ```tsx
 function Body({ children }: { children: React.ReactNode }) {
@@ -190,30 +226,171 @@ function Body({ children }: { children: React.ReactNode }) {
 }
 ```
 
-#### 3. `@seed-design/react/primitive` Entrypoint 제거
+</Step>
 
-<Badge tone="positive">에러로 발견 가능</Badge>
+<Step>
 
-`@seed-design/react/primitive` entrypoint를 제거했습니다. 기존 snippet을 사용 중이라면 최신 snippet으로 업데이트합니다. 직접 조립하는 코드는 `@seed-design/react`에서 제공하는 styled 컴포넌트와 context hook을 사용합니다.
+#### Headless 컴포넌트·타입 import 교체
 
-예를 들어 `useSideNavigationContext`는 import 경로만 바꾸면 됩니다. 기존 반환값은 그대로 유지됩니다.
+**수정 대상:** snippet 밖에서 직접 작성한 코드가 `@seed-design/react/primitive` 또는 독립 headless 패키지를 import하는 경우입니다. 이 import가 다운로드한 snippet 내부에만 있다면, snippet을 업데이트한 뒤 이 단계를 건너뛰세요.
 
-```tsx
-import { useSideNavigationContext } from "@seed-design/react/primitive"; // [!code --]
-import { useSideNavigationContext } from "@seed-design/react"; // [!code ++]
+`@seed-design/react/primitive`는 SEED 내부에서 사용하는 headless 컴포넌트를 제공하던 경로입니다. `@seed-design/react`의 SemVer 보장 범위에 포함되지 않아, 내부 구현 변경의 영향을 직접 받을 수 있었습니다. 3.0에서는 이 경로를 제거하고, 사용자에게 필요한 API를 `@seed-design/react`에서 SemVer 보장 범위 내에서 제공합니다. **`@seed-design/react/primitive` import는 반드시 수정하세요.**
+
+독립 headless 패키지를 사용하던 경우에도, `@seed-design/react`에서 기존 동작을 제공하는 API가 있다면 그 경로로 옮기는 것을 권장합니다. headless 컴포넌트와 SEED 스타일 컴포넌트가 상태를 공유하려면 같은 React context를 사용해야 하기 때문입니다. 서로 다른 버전의 headless 패키지를 사용하면 Checkbox의 Control이 Root의 체크 상태를 읽지 못할 수 있습니다. 둘 다 `@seed-design/react`에서 가져오면 같은 내부 구현을 사용하므로 이런 문제를 피할 수 있습니다.
+
+<Callout type="info">
+  HTML 요소 wrapper를 제공하는 `@seed-design/react-primitive` 패키지는 이
+  마이그레이션의 대상이 아닙니다. 제거된 `@seed-design/react/primitive`와는 다른
+  경로이며, 기존 import를 유지하세요.
+</Callout>
+
+아래는 기존 문서 예시의 import 교체와, headless Popover·Avatar를 직접 사용한 코드에서 필요한 변경입니다.
+
+##### Attachment Field·Attachment Display Field의 타입을 import한 경우
+
+파일 목록이나 업로드 상태를 관리하는 코드에서 다음 타입을 사용했다면 표에 따라 바꾸세요. 타입이 나타내는 데이터 구조는 그대로입니다.
+
+| 기존 `@seed-design/react/primitive` export | 변경할 `@seed-design/react` export   |
+| ------------------------------------------ | ------------------------------------ |
+| `DisplayItemEntry`                         | `AttachmentDisplayItemEntry`         |
+| `DisplayItemStatusDetails`                 | `AttachmentDisplayItemStatusDetails` |
+| `FileEntry`                                | `AttachmentInputFileEntry`           |
+| `FileStatusDetails`                        | `AttachmentInputFileStatusDetails`   |
+
+```ts
+import type { FileEntry } from "@seed-design/react/primitive"; // [!code --]
+import type { AttachmentInputFileEntry } from "@seed-design/react"; // [!code ++]
+
+const files: FileEntry[] = []; // [!code --]
+const files: AttachmentInputFileEntry[] = []; // [!code ++]
 ```
 
-Checkmark·Radiomark·Switchmark를 자유롭게 배치할 때는 다음 API로 상태와 동작을 연결합니다. mark와 함께 사용하는 Root·Item·HiddenInput도 같은 `@seed-design/react`에서 가져옵니다.
+##### 컴포넌트를 import한 경우
 
-| 구성 | 동작을 제공하는 API |
+headless Root·Item을 직접 사용했다면 import를 `@seed-design/react`로 바꾸고, 사용하는 컴포넌트와 Props 타입을 아래 표에 따라 교체하세요.
+
+아래의 `.Primitive`와 `List.RadioRoot`는 기존 headless 컴포넌트의 선택·키보드·폼 동작을 제공하면서 SEED 레이아웃 스타일을 추가하지 않습니다. `.Primitive` 없이 `Checkbox.Root`나 `Switch.Root`로 바꾸면 SEED 스타일이 추가되어 직접 작성한 레이아웃이 달라질 수 있습니다.
+
+| 기존 `@seed-design/react/primitive` 컴포넌트      | 변경할 `@seed-design/react` 컴포넌트                                                                                            | Props 타입 변경                                               |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `Checkbox.Root`                                   | `Checkbox.Root.Primitive`                                                                                                       | `Checkbox.RootProps` → `Checkbox.RootPrimitiveProps`          |
+| `RadioGroup.Item`                                 | `RadioGroup.Item.Primitive`                                                                                                     | `RadioGroup.ItemProps` → `RadioGroup.ItemPrimitiveProps`      |
+| `RadioGroup.Root` (`RadioGroup.Item`과 함께 사용) | `RadioGroupField.Root.Primitive`. `@seed-design/react`의 `RadioGroup.Root`는 선택 상태를 관리하지 않는 레이아웃 컴포넌트입니다. | `RadioGroup.RootProps` → `RadioGroupField.RootPrimitiveProps` |
+| `RadioGroup.Root` (`ListRadioItem`을 감싸는 용도) | `List.RadioRoot`                                                                                                                | `RadioGroup.RootProps` → `List.RadioRootProps`                |
+| `Switch.Root`                                     | `Switch.Root.Primitive`                                                                                                         | `Switch.RootProps` → `Switch.RootPrimitiveProps`              |
+
+`ListRadioItem`을 감싼 Root는 사용처의 코드이므로 snippet을 다시 다운로드한 뒤에도 직접 교체하세요.
+
+`Checkbox.HiddenInput`, `RadioGroup.ItemHiddenInput`, `Switch.HiddenInput`은 이름을 유지하고 `@seed-design/react`에서 가져오세요.
+
+```tsx
+import { Checkbox } from "@seed-design/react/primitive"; // [!code --]
+import { Checkbox } from "@seed-design/react"; // [!code ++]
+import { Checkmark } from "seed-design/ui/checkbox";
+
+function CustomCheckbox({ children, ...props }: Checkbox.RootProps) { // [!code --]
+function CustomCheckbox({ children, ...props }: Checkbox.RootPrimitiveProps) { // [!code ++]
+  return (
+    <Checkbox.Root {...props}> // [!code --]
+    <Checkbox.Root.Primitive {...props}> // [!code ++]
+      {children}
+      <Checkmark />
+      <Checkbox.HiddenInput />
+    </Checkbox.Root> // [!code --]
+    </Checkbox.Root.Primitive> // [!code ++]
+  );
+}
+```
+
+Chip·List와 headless 컴포넌트를 `asChild`로 중첩한 코드도 위 import·`.Primitive` 교체 후 구조를 유지할 수 있습니다. `Chip.Root`를 사용했다면 아래 [이름 변경](#chiproot-이름-변경)도 적용하세요.
+
+선택적으로 구조를 간소화하려면 [Chip.Toggle·Chip.RadioItem](/react/components/chip)과 [List.CheckItem·List.RadioItem·List.SwitchItem](/react/components/list)을 참고하세요.
+
+##### Headless Popover를 사용한 경우
+
+**수정 대상:** `@seed-design/react/primitive` 또는 `@seed-design/react-popover`에서 Popover를 가져와 직접 작성한 코드입니다. HelpBubble과 해당 snippet은 내부에서 새 headless Content를 사용하도록 반영되어 있으므로, 기존 사용 코드를 수정할 필요가 없습니다.
+
+기존 headless Popover에 접근성 속성과 포커스 관리를 담당하는 `Popover.Content`가 추가됐습니다. 다음 두 작업을 적용하세요.
+
+1. `@seed-design/react/primitive`에서 가져오던 Popover는 `@seed-design/react-popover`로 import를 바꾸세요. 이미 독립 패키지를 사용했다면 import를 유지하고, 패키지를 `3.0.0` 이상으로 업그레이드하세요.
+2. `Popover.Positioner` 또는 `Popover.PositionerPortal` 안의 내용을 `Popover.Content`로 감싸세요. `role="dialog"`와 관련 aria 속성이 Content로 이동했으므로, 직접 지정한 `aria-label`·`aria-labelledby`·`aria-describedby`도 Content에 전달하세요.
+
+```package-install
+@seed-design/react-popover@latest
+```
+
+```tsx
+import { Popover } from "@seed-design/react/primitive"; // [!code --]
+import { Popover } from "@seed-design/react-popover"; // [!code ++]
+
+<Popover.Root>
+  <Popover.Trigger>열기</Popover.Trigger>
+  <Popover.Positioner aria-label="추가 정보"> // [!code --]
+  <Popover.Positioner> // [!code ++]
+    <Popover.Content aria-label="추가 정보"> // [!code ++]
+      <p>내용</p>
+    </Popover.Content> // [!code ++]
+  </Popover.Positioner>
+</Popover.Root>;
+```
+
+이번 headless Popover 업데이트에는 다음 동작 변경도 포함됩니다.
+
+- 열릴 때 Content로 포커스를 옮깁니다. 기존처럼 포커스를 유지하려면 Root에 `autoFocus={false}`를 지정하세요.
+- 내부에 포커스가 있는 상태에서 닫히면 trigger로 포커스를 돌려줍니다. 내부에서 바깥 요소로 포커스를 옮기면 `closeOnInteractOutside={false}`인 경우를 제외하고 닫히며, 포커스는 그 바깥 요소에 유지됩니다.
+- Dialog·Bottom Sheet 안에서 Popover를 여는 경우 Escape나 외부 영역 인터랙션을 통해 두 요소가 동시에 닫히던 문제를 수정했습니다. 이를 피하기 위해 직접 추가했던 이벤트 처리가 있다면 확인하세요.
+
+`@seed-design/react`의 styled `Popover`와 `ui:popover` snippet은 이번 버전에 새로 추가된 [Popover](/react/components/popover) 컴포넌트입니다. 신규 컴포넌트이므로 기존 headless Popover의 교체 대상이 아닙니다.
+
+##### Headless Avatar를 사용한 경우
+
+**수정 대상:** `@seed-design/react/primitive` 또는 `@seed-design/react-avatar`에서 Avatar를 가져와 직접 작성한 코드입니다. `@seed-design/react`에서 가져오는 스타일이 적용된 `Avatar`는 그대로 사용할 수 있습니다.
+
+`@seed-design/react-avatar`의 소스와 배포를 정리했습니다. 같은 이미지 로딩·fallback 기능을 제공하는 `@seed-design/react-image`를 프로젝트 의존성에 추가하고 import를 바꾸세요.
+
+```package-install
+@seed-design/react-image
+```
+
+```ts
+import { Avatar, useAvatarContext } from "@seed-design/react/primitive"; // [!code --]
+import { Image, useImageContext } from "@seed-design/react-image"; // [!code ++]
+```
+
+| 기존 | 대체 |
 | --- | --- |
-| Checkbox | `Checkbox.Root.Primitive` |
-| RadioGroup | `RadioGroup.Root.Primitive`, `RadioGroup.Item.Primitive` |
-| Switch | `Switch.Root.Primitive` |
+| `AvatarRoot` / `AvatarImage` / `AvatarFallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+| `Avatar.Root` / `Avatar.Image` / `Avatar.Fallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+| `AvatarRootProps` / `AvatarImageProps` / `AvatarFallbackProps` | `Image.RootProps` / `Image.ContentProps` / `Image.FallbackProps` |
+| `useAvatarContext` / `UseAvatarContext` | `useImageContext` / `UseImageContext` |
+| Context의 `getImageProps({ src })` | `getContentProps({ src, srcSet })` |
 
-기존 `Checkbox.Root.Primitive`와 `RadioGroup.Item.Primitive`는 유지됩니다. 위 선별 공개 API의 props와 동작은 `@seed-design/react`의 SemVer 보장 범위에 포함됩니다.
+`@seed-design/react-avatar`를 직접 사용하던 프로젝트도 같은 대체 API로 옮기세요.
 
-#### 3. deprecated 컴포넌트와 snippet 제거
+</Step>
+
+<Step>
+
+#### Chip.Root 이름 변경
+
+**수정 대상:** `@seed-design/react`의 `Chip.Root`·`ChipRoot` 또는 해당 Props 타입을 사용하는 코드입니다. `seed-design/ui/chip`의 snippet 컴포넌트만 사용한다면 이 단계를 건너뛰세요.
+
+버튼과 선택 가능한 Chip을 구분하기 위해 기존 `Chip.Root`를 `Chip.Button`으로 변경했습니다. 버튼의 동작과 스타일은 그대로입니다.
+
+| 기존 `@seed-design/react` export | 변경할 export      |
+| -------------------------------- | ------------------ |
+| `Chip.Root`                      | `Chip.Button`      |
+| `Chip.RootProps`                 | `Chip.ButtonProps` |
+| `ChipRoot`                       | `ChipButton`       |
+| `ChipRootProps`                  | `ChipButtonProps`  |
+
+</Step>
+
+<Step>
+
+#### deprecated 컴포넌트와 snippet 제거
+
+**수정 대상:** 아래 표의 export나 삭제된 CSS recipe·클래스·snippet을 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -250,7 +427,13 @@ npx @seed-design/cli@latest add ui:page-banner
 npx @seed-design/cli@latest add ui:result-section
 ```
 
-#### 4. Badge를 Registry snippet으로 전환
+</Step>
+
+<Step>
+
+#### Badge를 Registry snippet으로 전환
+
+**수정 대상:** `@seed-design/react`에서 `Badge` JSX 컴포넌트 또는 `BadgeProps`를 가져오는 코드입니다. `ImageFrameBadge`만 사용한다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -269,7 +452,13 @@ import { Badge, type BadgeProps } from "seed-design/ui/badge"; // [!code ++]
 
 `ImageFrameBadge`는 별도 export로 유지되므로 import를 바꿀 필요가 없습니다. 새 `prefix`와 `actionProps` 사용법은 [Badge](/react/components/badge) 문서를 참고해주세요.
 
-#### 5. Date Picker·Time Picker를 Registry snippet으로 전환
+</Step>
+
+<Step>
+
+#### Date Picker·Time Picker를 Registry snippet으로 전환
+
+**수정 대상:** `@seed-design/react`의 Date Picker·Time Picker 컴포넌트와 관련 타입·함수, `ui:wheel-picker` snippet 또는 `wheel-picker-public` 스타일을 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -321,7 +510,13 @@ import { wheelPicker } from "@seed-design/css/recipes/wheel-picker"; // [!code +
 } /* [!code ++] */
 ```
 
-#### 6. Bottom Sheet와 Drawer의 `nested` 제거
+</Step>
+
+<Step>
+
+#### Bottom Sheet와 Drawer의 `nested` 제거
+
+**수정 대상:** Bottom Sheet·Responsive Dialog·Responsive Side Panel·Drawer에 `nested`를 전달하는 코드입니다. `nested`를 사용하지 않는다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
@@ -336,82 +531,19 @@ import { wheelPicker } from "@seed-design/css/recipes/wheel-picker"; // [!code +
 <ResponsiveSidePanel.Root>{children}</ResponsiveSidePanel.Root> // [!code ++]
 ```
 
-#### 7. Popover primitive의 `Content` 추가
+</Step>
 
-<Badge tone="critical">직접 판단 필요</Badge>
-
-`@seed-design/react/primitive`의 `Popover`나 `@seed-design/react-popover`를 직접 사용한다면 `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸주세요. `role="dialog"`와 관련 aria 속성이 Positioner에서 Content로 옮겨졌으므로 직접 지정한 레이블도 Content에 전달해주세요. 일반적인 팝오버 화면에는 새 [Popover](/react/components/popover) 컴포넌트 또는 `ui:popover` snippet을 사용할 수 있습니다.
-
-```tsx
-import { Popover } from "@seed-design/react/primitive";
-
-<Popover.Root>
-  <Popover.Trigger>열기</Popover.Trigger>
-  {/* [!code --] */}
-  <Popover.Positioner aria-label="추가 정보">
-    {/* [!code --] */}
-    <p>내용</p>
-  {/* [!code --] */}
-  </Popover.Positioner>
-  {/* [!code ++] */}
-  <Popover.Positioner>
-    {/* [!code ++] */}
-    <Popover.Content aria-label="추가 정보">
-      {/* [!code ++] */}
-      <p>내용</p>
-    {/* [!code ++] */}
-    </Popover.Content>
-  {/* [!code ++] */}
-  </Popover.Positioner>
-</Popover.Root>
-```
-
-```package-install
-npx @seed-design/cli@latest add ui:popover
-```
-
-#### 8. Headless Avatar 제거
-
-<Badge tone="positive">에러로 발견 가능</Badge>
-
-`@seed-design/react/primitive`에서 Headless Avatar API를 제거하고, `@seed-design/react-avatar`의 소스와 배포를 정리했습니다. `@seed-design/react`에서 가져오는 스타일이 적용된 `Avatar`는 그대로 사용할 수 있습니다.
-
-Headless Avatar를 사용했다면 `@seed-design/react-image`를 프로젝트 의존성에 추가하고 import를 바꿉니다.
-
-```package-install
-@seed-design/react-image
-```
-
-```ts
-import { Avatar, useAvatarContext } from "@seed-design/react/primitive"; // [!code --]
-import { Image, useImageContext } from "@seed-design/react-image"; // [!code ++]
-```
-
-| 기존 | 대체 |
-| --- | --- |
-| `AvatarRoot` / `AvatarImage` / `AvatarFallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
-| `Avatar.Root` / `Avatar.Image` / `Avatar.Fallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
-| `AvatarRootProps` / `AvatarImageProps` / `AvatarFallbackProps` | `Image.RootProps` / `Image.ContentProps` / `Image.FallbackProps` |
-| `useAvatarContext` / `UseAvatarContext` | `useImageContext` / `UseImageContext` |
-| Context의 `getImageProps({ src })` | `getContentProps({ src, srcSet })` |
-
-`@seed-design/react-avatar`를 직접 사용하던 프로젝트도 같은 대체 API로 옮길 수 있습니다.
+</Steps>
 
 ### 동작이 바뀌는 항목
 
-코드 수정 없이 동작이 달라지는 항목입니다. 기존 동작에 의존하는 화면이 있는지 확인해주세요.
+기존 사용 코드를 수정할 필요는 없지만, 내부 동작 개선을 확인할 수 있는 항목입니다.
 
-#### 1. Help Bubble의 포커스와 닫힘 동작 확인
+#### Help Bubble의 포커스와 닫힘 동작
 
-<Badge tone="critical">직접 판단 필요</Badge>
+HelpBubble은 새 headless Content를 내부에서 사용하므로 별도의 마이그레이션이 필요하지 않습니다. 열 때 포커스를 옮기지 않는 기본 동작(`autoFocus={false}`)도 유지됩니다.
 
 Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스가 trigger로 돌아옵니다. `closeOnInteractOutside={false}`가 아니라면 포커스가 Help Bubble 바깥으로 이동할 때도 닫히며, 이때는 포커스를 옮긴 요소에 그대로 둡니다. Bottom Sheet·Dialog 안에서 Escape나 바깥 누르기로 두 요소가 함께 닫히는 문제를 고쳤으므로 관련 우회 코드와 포커스 이동에 의존하는 동작을 확인해주세요. `HelpBubble.Title`·`HelpBubble.Description`은 이제 Help Bubble의 접근성 이름·설명으로 연결됩니다.
-
-열 때 Help Bubble 안으로 포커스를 옮겨야 하는 화면에서만 `autoFocus`를 지정합니다. 기본값은 `false`입니다.
-
-```tsx
-<HelpBubble.Root autoFocus>{children}</HelpBubble.Root>
-```
 
 </Step>
 
