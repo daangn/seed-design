@@ -133,7 +133,7 @@ Scale과 함께 바뀌는 pressed 색상은 Lynx CSS의 `:active`에서 시작�
 
 Action Button, Chip, Callout처럼 trigger와 color target이 같은 컴포넌트는 Self selector를 사용합니다. Accordion, Checkbox, Radio처럼 target이 내부 slot인 컴포넌트는 enabled trigger의 `:active` selector가 해당 content class를 대상으로 합니다. disabled 또는 loading variant에는 active selector class가 생성되지 않습니다.
 
-Background Thread의 `pressed` variant는 상태 기반 렌더링과 기존 fallback을 위해 유지합니다. 즉각적인 시각 반응은 `:active`, tap 처리와 React state는 `usePressTap()`이 담당합니다.
+Background Thread의 `pressed` variant는 상태 기반 렌더링과 기존 fallback을 위해 유지합니다. 즉각적인 시각 반응은 `:active`, tap 처리와 React state는 `usePressTap()`이 담당합니다. Checkbox는 `pressed` variant 없이 `:active`만으로 눌림 색을 표현합니다. ghost variant는 선택 전·후 눌림 색을 고정한 두 overlay 중 현재 상태에 맞는 것만 켜므로, 놓는 순간 선택 상태가 바뀌어도 사라지는 색이 바뀌지 않습니다.
 
 ## 애니메이션과 Rootage 값
 
