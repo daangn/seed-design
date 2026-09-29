@@ -59,7 +59,7 @@ export const registryBlock: Registry = {
       snippets: [
         {
           path: "side-navigation-02.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },

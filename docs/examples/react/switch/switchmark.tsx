@@ -1,15 +1,14 @@
-import { HStack, Text, VStack } from "@seed-design/react";
-import { Switch } from "@seed-design/react/primitive";
+import { HStack, Text, VStack, Switch } from "@seed-design/react";
 import { Switchmark } from "seed-design/ui/switch";
 
-function CustomSwitch({ children, ...props }: Switch.RootProps) {
+function CustomSwitch({ children, ...props }: Switch.RootPrimitiveProps) {
   return (
     <VStack asChild gap="x2" align="center">
-      <Switch.Root {...props}>
+      <Switch.Root.Primitive {...props}>
         <Switchmark />
         <Switch.HiddenInput />
         {children}
-      </Switch.Root>
+      </Switch.Root.Primitive>
     </VStack>
   );
 }

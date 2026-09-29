@@ -4,7 +4,11 @@ import {
   IconChevronUpSmallFill,
   IconSquareSplitedVerticalLeftLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
+import {
+  Icon,
+  SideNavigation as SeedSideNavigation,
+  useSideNavigationContext,
+} from "@seed-design/react";
 import {
   NavigationMenuContent,
   NavigationMenuGroup,
@@ -15,7 +19,6 @@ import {
   NavigationMenuTrigger,
 } from "./navigation-menu";
 import { HelpBubbleTooltipTriggerPortal } from "./help-bubble-tooltip";
-import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
 ////////////////////////////////////////////////////////////////////////////////////

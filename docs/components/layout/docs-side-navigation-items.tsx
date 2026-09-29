@@ -2,8 +2,7 @@
 
 import { IconChevronUpSmallFill } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import { SideNavigation as SeedSideNavigation } from "@seed-design/react";
-import { useSideNavigationContext } from "@seed-design/react/primitive";
+import { SideNavigation as SeedSideNavigation, useSideNavigationContext } from "@seed-design/react";
 import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
 import Link from "next/link";

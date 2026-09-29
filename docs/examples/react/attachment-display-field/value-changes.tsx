@@ -1,12 +1,11 @@
 "use client";
 
-import { Text, VStack } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import { Text, VStack, type AttachmentDisplayItemEntry } from "@seed-design/react";
 import { useRef, useState } from "react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [
     {
@@ -18,7 +17,7 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
 }
 
 export default function AttachmentDisplayValueChanges() {
-  const [entries, setEntries] = useState<DisplayItemEntry[]>([]);
+  const [entries, setEntries] = useState<AttachmentDisplayItemEntry[]>([]);
   const entriesRef = useRef(entries);
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -30,7 +29,7 @@ export default function AttachmentDisplayValueChanges() {
 
   // addEntries로 추가하든 제거 버튼으로 지우든 변경은 항상 onEntriesChange로 흐르므로,
   // 추가/삭제 감지를 여기 한 곳에서 처리합니다.
-  const handleEntriesChange = (next: DisplayItemEntry[]) => {
+  const handleEntriesChange = (next: AttachmentDisplayItemEntry[]) => {
     const prev = entriesRef.current;
     const added = next.filter((n) => !prev.some((p) => p.id === n.id));
     const removed = prev.filter((p) => !next.some((n) => n.id === p.id));

@@ -9,16 +9,16 @@ import {
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
-import { Switch } from "@seed-design/react/primitive";
+import { Switch } from "@seed-design/react";
 
-function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootProps) {
+function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootPrimitiveProps) {
   const [switchmarkVariantProps, otherProps] = switchmark.splitVariantProps(props);
 
   return (
-    <Switch.Root {...otherProps}>
+    <Switch.Root.Primitive {...otherProps}>
       <Switchmark {...switchmarkVariantProps} />
       <Switch.HiddenInput />
-    </Switch.Root>
+    </Switch.Root.Primitive>
   );
 }
 
