@@ -42,13 +42,19 @@ export interface ActionableCalloutProps
   description: React.ReactNode;
 }
 
+// Lynx `Callout.Root`는 tap handler가 있어야 눌림 상태·Scale Feedback·button 접근성을 연결합니다.
+// React의 `<button>`처럼 handler 없이도 탭할 수 있는 Callout로 표시합니다.
+const handleEmptyTap: NonNullable<SeedCallout.RootProps["bindtap"]> = () => {};
+
 /**
+ * 전체 영역을 탭할 수 있는 Callout입니다. `bindtap`이 없어도 눌림 상태와 Scale Feedback을 표시합니다.
+ *
  * @see https://seed-design.io/lynx/components/callout
  */
 export const ActionableCallout = React.forwardRef<unknown, ActionableCalloutProps>(
-  ({ prefixIcon, title, description, ...otherProps }, ref) => {
+  ({ prefixIcon, title, description, bindtap = handleEmptyTap, ...otherProps }, ref) => {
     return (
-      <SeedCallout.Root ref={ref} {...otherProps}>
+      <SeedCallout.Root ref={ref} bindtap={bindtap} {...otherProps}>
         {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}
         <SeedCallout.Content>
           {title ? <SeedCallout.Title>{title}</SeedCallout.Title> : null}
