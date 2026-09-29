@@ -50,9 +50,9 @@ const DialogPreview = ({
     `}</style>
     <DialogRoot open size={size}>
       <DialogContent title={title} description={description} showCloseButton={showCloseButton}>
-        {/* Body의 기본 스크롤 캡은 뷰포트 높이 기준이라 스냅샷이 캔버스 높이에 좌우된다.
-            maxHeight를 고정하고 본문 길이로만 overflow 여부를 만들어 결정적으로 찍히게 한다. */}
-        <DialogBody maxHeight="120px">
+        {/* 정적 표에서는 Body가 여유 공간을 채우지 않게 한다.
+            전체 페이지 캡처에서도 본문 길이와 maxHeight만으로 높이·overflow를 결정한다. */}
+        <DialogBody maxHeight="120px" style={{ flex: "none" }}>
           <VStack gap="x4" align="stretch">
             {BODY_LINES.slice(0, overflow ? BODY_LINES.length : 1).map((line) => (
               <Text key={line} textStyle="articleBody">
