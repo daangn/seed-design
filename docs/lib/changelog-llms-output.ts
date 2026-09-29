@@ -1,7 +1,8 @@
 import type { ChangelogLlmData, ChangelogLlmPackageData } from "./changelog-llms";
+import { archivePaths } from "./docs-archive";
 import { toSlug, toVersionSlug } from "./changelog-llms";
 
-const CHANGELOG_SOURCE_URL = "https://github.com/daangn/seed-design/tree/dev/packages";
+const CHANGELOG_SOURCE_URL = `https://github.com/daangn/seed-design/tree/${process.env.SEED_DOCS_SOURCE_REF ?? "dev"}/packages`;
 
 export interface ChangelogLlmOutputFile {
   path: string;
@@ -45,7 +46,7 @@ export function buildAllPackagesChangelog(data: ChangelogLlmData, baseUrl: URL):
   const body = sorted
     .map(({ packageName, renderedBlocks }) => `## ${packageName}\n\n${renderedBlocks.join("\n\n")}`)
     .join("\n\n---\n\n");
-  const pageUrl = new URL("/react/updates/changelog", baseUrl).toString();
+  const pageUrl = new URL(archivePaths.link("/react/updates/changelog"), baseUrl).toString();
 
   return `# Changelog\nURL: ${pageUrl}\nSource: ${CHANGELOG_SOURCE_URL}\n\n최신 업데이트와 변경사항을 기록합니다.\n\n${body}`;
 }
@@ -58,7 +59,9 @@ export function buildPackageChangelog(
   const versionList = packageData.versions
     .map((version) => {
       const url = new URL(
-        `/llms/react/updates/changelog/${slug}/${toVersionSlug(version)}.txt`,
+        archivePaths.endpoint(
+          `/llms/react/updates/changelog/${slug}/${toVersionSlug(version)}.txt`,
+        ),
         baseUrl,
       );
       return `- [${version}](${url}) — changes since this version`;
