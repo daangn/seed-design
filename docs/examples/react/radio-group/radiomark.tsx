@@ -1,4 +1,4 @@
-import { HStack, Text, VStack, RadioGroup } from "@seed-design/react";
+import { HStack, Text, VStack, RadioGroup, RadioGroupField } from "@seed-design/react";
 import { Radiomark } from "seed-design/ui/radio-group";
 
 function CustomRadioGroupItem({ children, ...props }: RadioGroup.ItemPrimitiveProps) {
@@ -16,7 +16,7 @@ function CustomRadioGroupItem({ children, ...props }: RadioGroup.ItemPrimitivePr
 export default function RadioGroupRadiomark() {
   return (
     <VStack p="x6">
-      <RadioGroup.Root.Primitive defaultValue="medium" aria-label="Weight selection">
+      <RadioGroupField.Root.Primitive defaultValue="medium" aria-label="Weight selection">
         <HStack gap="x6">
           <CustomRadioGroupItem value="regular">
             <Text textStyle="t7Regular">regular</Text>
@@ -28,7 +28,7 @@ export default function RadioGroupRadiomark() {
             <Text textStyle="t7Bold">bold</Text>
           </CustomRadioGroupItem>
         </HStack>
-      </RadioGroup.Root.Primitive>
+      </RadioGroupField.Root.Primitive>
     </VStack>
   );
 }

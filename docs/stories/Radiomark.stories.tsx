@@ -8,7 +8,7 @@ import {
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
-import { RadioGroup } from "@seed-design/react";
+import { RadioGroup, RadioGroupField } from "@seed-design/react";
 
 function CustomRadioGroup(
   props: RadiomarkVariantProps & {
@@ -20,12 +20,12 @@ function CustomRadioGroup(
     radiomark.splitVariantProps(props);
 
   return (
-    <RadioGroup.Root.Primitive disabled={disabled} value="foo" aria-label="Radiomark">
+    <RadioGroupField.Root.Primitive disabled={disabled} value="foo" aria-label="Radiomark">
       <RadioGroup.Item.Primitive value={selected ? "foo" : "bar"}>
         <Radiomark {...radiomarkVariantProps} />
         <RadioGroup.ItemHiddenInput />
       </RadioGroup.Item.Primitive>
-    </RadioGroup.Root.Primitive>
+    </RadioGroupField.Root.Primitive>
   );
 }
 

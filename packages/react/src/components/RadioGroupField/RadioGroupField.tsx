@@ -23,9 +23,11 @@ export interface RadioGroupFieldRootProps
   extends FieldVariantProps,
     RadioGroupPrimitive.RootProps {}
 
-export const RadioGroupFieldRoot = withProvider<HTMLDivElement, RadioGroupFieldRootProps>(
-  RadioGroupPrimitive.Root,
-  "root",
+export interface RadioGroupFieldRootPrimitiveProps extends RadioGroupPrimitive.RootProps {}
+
+export const RadioGroupFieldRoot = Object.assign(
+  withProvider<HTMLDivElement, RadioGroupFieldRootProps>(RadioGroupPrimitive.Root, "root"),
+  { Primitive: RadioGroupPrimitive.Root },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
