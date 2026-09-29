@@ -13,6 +13,8 @@ related: ["workspace-installation"]
 - diff 비교로 후보만 좁히고, 기준 브랜치에서 같은 실패가 재현될 때만 기존 실패로 보고한다. 재현되지 않으면 현재 변경의 간접 영향으로 보고 조사한다. 어느 경우든 변경 경로의 검증 명령은 따로 실행해 결과를 보고한다.
 - `git diff --stat origin/dev -- <테스트 파일> <대상 파일>`이 비어 있으면 후보다 → `git worktree add --detach <scratch 경로> origin/dev` → 그 안에서 `bun install --frozen-lockfile --ignore-scripts`와 같은 `bun test <테스트 파일>`을 실행한다 → 같은 단언으로 실패할 때만 기존 실패로 적고, 끝나면 `git worktree remove`한다.
 
+- workflow 문자열 검사처럼 입력이 제한된 테스트는 고정한 기준 SHA에서 테스트·YAML·manifest를 `git archive` 등으로 별도 디렉터리에 추출해 같은 단언을 실행할 수 있다. 전체 unit 단계 실패로 건너뛴 Lynx 검증은 별도로 실행한다.
+
 ## 발생 근거와 적용 조건
 
 - 상황: `bun test:all`이 `tools/rootage-cdn/src/release-workflow.test.ts` 1건으로 실패했다. `#2255`가 workflow 입력을 `publish-script`로 바꾸면서 테스트의 `publish: bun release` 기대값이 낡은 상태였다. 처음에는 두 파일의 `git diff`가 비어 있다는 것만으로 기존 실패라고 판정했다.
@@ -24,3 +26,4 @@ related: ["workspace-installation"]
 
 - 2026-09-28: `AGENT_LEARNINGS.md`의 같은 제목 항목을 이관했다(원문 commit `cecc3eac1f0a64930788f1606571246614a631e7`). 기존 근거를 보존했으며 이관 과정에서 재검증하지 않았다.
 - 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.
+- 2026-09-29: #1894 원문 commit `58040dfd3`의 고정 SHA 입력 추출·누락 검증 분리 절차를 병합했다. 개인 실행 권한에 의존하는 내용은 공통 기록에서 제외했다.
