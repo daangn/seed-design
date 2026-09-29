@@ -50,9 +50,9 @@ const DialogPreview = ({
     `}</style>
     <DialogRoot open size={size}>
       <DialogContent title={title} description={description} showCloseButton={showCloseButton}>
-        {/* 정적 표에서는 Body가 여유 공간을 채우지 않게 한다.
-            전체 페이지 캡처에서도 본문 길이와 maxHeight만으로 높이·overflow를 결정한다. */}
-        <DialogBody maxHeight="120px" style={{ flex: "none" }}>
+        {/* overflow 예제에만 높이 상한을 둔다. 짧은 본문은 자연 높이로 배치해
+            정적 표에서 상한까지 늘어나는 flex 레이아웃을 만들지 않는다. */}
+        <DialogBody maxHeight={overflow ? "120px" : undefined} style={{ flex: "none" }}>
           <VStack gap="x4" align="stretch">
             {BODY_LINES.slice(0, overflow ? BODY_LINES.length : 1).map((line) => (
               <Text key={line} textStyle="articleBody">
