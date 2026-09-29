@@ -5,8 +5,11 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { withIconRequired } from "../Icon/Icon";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useCheckboxContext } from "@seed-design/react-checkbox";
-import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
+import {
+  RadioGroup as RadioGroupPrimitive,
+  useRadioGroupItemContext,
+} from "@seed-design/react-radio-group";
 
 const { withProvider, withContext } = createSlotRecipeContext(chip);
 const withStateProps = createWithStateProps([
@@ -16,16 +19,40 @@ const withStateProps = createWithStateProps([
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ChipRootProps
+export interface ChipButtonProps
   extends PrimitiveProps,
     ChipVariantProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const ChipRoot = withIconRequired(
-  withScaleFeedback(withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root")),
-  (props: ChipRootProps) => props.layout === "iconOnly",
+export const ChipButton = withIconRequired(
+  withScaleFeedback(withProvider<HTMLButtonElement, ChipButtonProps>(Primitive.button, "root")),
+  (props: ChipButtonProps) => props.layout === "iconOnly",
 );
-ChipRoot.displayName = "Chip.Root";
+ChipButton.displayName = "Chip.Button";
+
+export interface ChipToggleProps extends ChipVariantProps, CheckboxPrimitive.RootProps {}
+
+export const ChipToggle = withIconRequired(
+  withScaleFeedback(
+    withProvider<HTMLLabelElement, ChipToggleProps>(CheckboxPrimitive.Root, "root"),
+  ),
+  (props: ChipToggleProps) => props.layout === "iconOnly",
+);
+ChipToggle.displayName = "Chip.Toggle";
+
+export interface ChipRadioRootProps extends RadioGroupPrimitive.RootProps {}
+
+export const ChipRadioRoot = RadioGroupPrimitive.Root;
+
+export interface ChipRadioItemProps extends ChipVariantProps, RadioGroupPrimitive.ItemProps {}
+
+export const ChipRadioItem = withIconRequired(
+  withScaleFeedback(
+    withProvider<HTMLLabelElement, ChipRadioItemProps>(RadioGroupPrimitive.Item, "root"),
+  ),
+  (props: ChipRadioItemProps) => props.layout === "iconOnly",
+);
+ChipRadioItem.displayName = "Chip.RadioItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

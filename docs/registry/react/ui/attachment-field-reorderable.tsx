@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { AttachmentInput as SeedAttachmentInput, PrefixIcon } from "@seed-design/react";
 import {
-  useFileUploadContext,
-  type FileEntry,
-  type UseFileUploadReturn,
-} from "@seed-design/react/primitive";
+  AttachmentInput as SeedAttachmentInput,
+  PrefixIcon,
+  type AttachmentInputFileEntry,
+  useAttachmentInputContext,
+  type AttachmentInputContextValue,
+} from "@seed-design/react";
 import {
   IconCameraFill,
   IconPaperclipFill,
@@ -52,8 +53,8 @@ export type AttachmentInputReorderableProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
@@ -61,7 +62,7 @@ export const AttachmentInputReorderable = React.forwardRef<
   HTMLDivElement,
   AttachmentInputReorderableProps
 >(({ children, onRetry }, ref) => {
-  const { reorderFileEntry } = useFileUploadContext();
+  const { reorderFileEntry } = useAttachmentInputContext();
 
   return (
     <DragDropProvider
@@ -109,8 +110,8 @@ export type AttachmentDropzoneReorderableProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
@@ -118,7 +119,7 @@ export const AttachmentDropzoneReorderable: React.FC<AttachmentDropzoneReorderab
   children,
   onRetry,
 }) => {
-  const { triggerProps, reorderFileEntry } = useFileUploadContext();
+  const { triggerProps, reorderFileEntry } = useAttachmentInputContext();
 
   return (
     <>
@@ -171,7 +172,7 @@ export const SortableAttachmentInputItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentInputItemProps
 >(({ fileEntry, index, ...props }, _ref) => {
-  const { readOnly } = useFileUploadContext();
+  const { readOnly } = useAttachmentInputContext();
 
   const { ref: sortableRef } = useSortable({
     id: fileEntry.id,

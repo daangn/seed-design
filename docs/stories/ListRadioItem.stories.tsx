@@ -1,8 +1,7 @@
 import preview from "../.storybook/preview";
 import { Fragment } from "react";
 
-import { Icon } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { Icon, List as SeedList } from "@seed-design/react";
 
 import { List, ListRadioItem, ListDivider } from "seed-design/ui/list";
 import { Radiomark } from "seed-design/ui/radio-group";
@@ -72,7 +71,7 @@ const CommonTemplate = meta.story({
             <div key={state.key}>
               <ListHeader>{state.key}</ListHeader>
               <List asChild>
-                <RadioGroup.Root
+                <SeedList.RadioRoot
                   defaultValue={`${position.key}-title-${state.key}-${position.position === "prefix" ? "suffix" : "prefix"}-none`}
                   aria-label={`ListRadioItem ${position.key} ${state.key}`}
                 >
@@ -126,7 +125,7 @@ const CommonTemplate = meta.story({
                       );
                     });
                   })}
-                </RadioGroup.Root>
+                </SeedList.RadioRoot>
               </List>
             </div>
           ))}

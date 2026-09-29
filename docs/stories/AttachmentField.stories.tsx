@@ -3,7 +3,7 @@ import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
-import type { FileEntry } from "@seed-design/react/primitive";
+import type { AttachmentInputFileEntry } from "@seed-design/react";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
@@ -41,7 +41,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "pending",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 uploading": {
       defaultAcceptedFileEntries: [
@@ -50,7 +50,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "uploading",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 success": {
       defaultAcceptedFileEntries: [
@@ -59,7 +59,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "success",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 error": {
       defaultAcceptedFileEntries: [
@@ -68,7 +68,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "error",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "3": {
       defaultAcceptedFileEntries: [
@@ -79,7 +79,7 @@ const conditionMap = {
         },
         { id: "mock-2", file: createMockImageFile("profile-picture-2024.png"), status: "success" },
         { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
   },
   disabled: {

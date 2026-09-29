@@ -1,8 +1,7 @@
-import { VStack } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import { VStack, type AttachmentDisplayItemEntry } from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
-const sampleEntries: DisplayItemEntry[] = [
+const sampleEntries: AttachmentDisplayItemEntry[] = [
   {
     id: "1",
     thumbnailUrl: "https://picsum.photos/seed/disabled1/200/200",
