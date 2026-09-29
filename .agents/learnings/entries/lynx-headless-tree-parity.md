@@ -1,6 +1,6 @@
 ---
 id: lynx-headless-tree-parity
-description: Lynx styled 컴포넌트를 headless hook으로 분리하면서 Provider·context·native 이벤트 전달을 바꾸거나, 스타일 없는 headless Root에 눌림 상태를 연결할 때 읽는다. 공개 API·화면이 같아도 생길 수 있는 할당 증가·이중 이벤트 바인딩·disabled 누락과, 소비자의 main-thread:bindtouch* 때문에 눌림 상태가 꺼지는 문제를 찾기 위한 element tree 전후 비교·dual-thread 테스트·기기 성능 검증을 다룬다.
+description: Lynx styled 컴포넌트를 headless hook으로 분리하면서 Provider·context·native 이벤트 전달을 바꾸거나, 스타일 없는 headless Root에 눌림 상태를 연결할 때 읽는다. 공개 API·화면이 같아도 생길 수 있는 할당 증가·이중 이벤트 바인딩·disabled 누락과, 소비자의 main-thread:bindtouch* 때문에 눌림 상태가 꺼지는 문제를 찾기 위한 element tree 전후 비교·dual-thread 테스트·기기 성능 검증을 다룬다. parity 테스트가 `preact`의 `process` export 오류로 로드되지 않거나 inline CSS 변수가 빈 값으로 직렬화될 때도 읽는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["isolated-regression-baselines"]
@@ -14,6 +14,8 @@ related: ["isolated-regression-baselines"]
 - headless Root가 Background `bindtouch*`로 눌림 상태를 관리하면 소비자의 `main-thread:bindtouch*`가 같은 native 이벤트를 대체해 눌림 상태가 켜지지 않는다. 소비자 Main Thread 핸들러를 실행한 뒤 `runOnBackground(press)()`로 넘기도록 합성한다. 예: #2293(`refactor-lynx-components` 대상)의 `packages/lynx-react-headless/action-button/src/ActionButton.tsx`.
 - 다음 순서로 검증한다.
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
+  - parity 테스트는 대상 컴포넌트 파일이나 `<Component>.namespace.ts`를 import한다. `src/components/index.ts`(`..`)를 import하면 lynx-ui-sheet까지 불러와 `The requested module 'preact' does not provide an export named 'process'`로 suite가 로드되지 않는다.
+  - 테스트 환경의 jsdom은 inline style의 CSS custom property(예: `--fab-label-width`)를 버린다. `style.cssText`·`getPropertyValue`가 모두 빈 값이므로 parity로 CSS 변수 회귀를 판정하지 않는다 → 기기에서 `agent-lynx cdp --method DOM.getDocument`의 `style` attribute로 값을 확인한다.
   - 한 테스트에서 여러 장면을 `render()`로 이어 그릴 때는 매번 testing-library의 `cleanup()`을 먼저 호출한다. 같은 컴포넌트 타입을 같은 위치에 다시 그리면 이전 장면의 state(예: 닫힌 uncontrolled `open`)가 이어진다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
   - 기기 성능은 변경 전과 변경 후 bundle을 번갈아(B,A,B,A…) 5회 이상 Perfetto로 측정하고, 중앙값 차이를 변경 전 실행 간 편차와 비교한다.
@@ -32,6 +34,7 @@ related: ["isolated-regression-baselines"]
 - 상황(DES-2612): ActionButton headless Root에 소비자 `main-thread:bindtouchstart`를 넘기자 합성 전에는 눌림 상태가 `false`로 남았다. 테스트 환경도 `bindEvent:touchstart` key 하나에 Background·Main Thread 핸들러를 덮어쓴다. `origin/refactor-lynx-components`의 Accordion headless Trigger(#2270)에도 같은 합성이 없다.
 - 영향(DES-2612): 합성을 추가하기 전 dual-thread 테스트가 실패했고, 추가 뒤 통과했다. 232개 장면의 styled element tree는 분리 전후 byte 단위로 같았다.
 - 상황(DES-2615): Callout parity 테스트에서 dismiss한 uncontrolled Root 다음 장면을 `cleanup()` 없이 같은 컴포넌트로 다시 그리자 Root가 닫힌 채 남아 `missing .seed-callout__closeButton`으로 실패했다. 장면마다 `cleanup()`을 넣은 뒤 51개 장면(트리와 콜백 순서 로그)이 분리 전후 byte 단위로 같았다.
+- 상황(DES-2618): FloatingActionButton parity 테스트가 `from ".."`로 공개 namespace를 가져오다 위 `preact` 오류로 로드되지 않았다. `./FloatingActionButton.namespace`로 바꾼 뒤 38개 장면을 수집했다. label 측정 뒤 `--fab-label-width`는 jsdom에서 항상 빈 값이었고, PlayLynx 기기 DOM의 root `style`에서는 label 폭과 같은 `101px`·`73.5px`로 확인했다.
 
 ## 변경 이력
 
@@ -39,3 +42,4 @@ related: ["isolated-regression-baselines"]
 - 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.
 - 2026-09-28: DES-2612 ActionButton 분리에서 확인한 소비자 Main Thread touch 핸들러 합성과 dual-thread 테스트 절차를 추가했다.
 - 2026-09-29: DES-2615 Callout 분리에서 확인한 장면 간 `cleanup()` 필요성을 추가했다.
+- 2026-09-29: DES-2618 FloatingActionButton 작업에서 parity 테스트의 import 경로와 jsdom의 CSS 변수 누락을 추가했다.
