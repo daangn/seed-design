@@ -1,14 +1,17 @@
 import preview from "../.storybook/preview";
 
-import { Box, HStack, Text } from "@seed-design/react";
+import { HStack, Text } from "@seed-design/react";
 import {
   ResponsiveDialogAction,
   ResponsiveDialogBody,
   ResponsiveDialogContent,
   ResponsiveDialogFooter,
   ResponsiveDialogRoot,
+  ResponsiveDialogTrigger,
 } from "seed-design/ui/responsive-dialog";
 import { SeedThemeDecorator } from "./components/decorator";
+import { verifyModalInteraction } from "./components/modal-interaction";
+import { ModalVisualPreview } from "./components/modal-visual-preview";
 import { VariantTable } from "./components/variant-table";
 import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
@@ -21,32 +24,12 @@ const ResponsiveDialogPreview = ({
   showHandle?: boolean;
   showFooter?: boolean;
 }) => (
-  <Box width="400px" p="x4">
-    <style>{`
-      .seed-content-dialog__positioner,
-      .seed-bottom-sheet__positioner {
-        position: relative !important;
-        inset: unset !important;
-      }
-      .seed-content-dialog__backdrop,
-      .seed-bottom-sheet__backdrop {
-        display: none !important;
-      }
-      .seed-content-dialog__content,
-      .seed-bottom-sheet__content {
-        animation: none !important;
-      }
-      /* size별 너비는 Dialog story가 덮는다. 여기서는 뷰포트마다 폭이 흔들리지 않게
-         고정해, 스냅샷 간 차이가 Dialog/BottomSheet 전환에서만 나오도록 한다. */
-      .seed-content-dialog__content {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-      .seed-bottom-sheet__content::after {
-        height: unset !important;
-      }
-    `}</style>
-    <ResponsiveDialogRoot open>
+  <ModalVisualPreview width="400px" constrainDialogWidth>
+    <ResponsiveDialogRoot
+      open
+      dialogRootProps={{ modal: false, autoFocus: false }}
+      bottomSheetRootProps={{ modal: false, autoFocus: false }}
+    >
       <ResponsiveDialogContent
         title="Responsive Dialog"
         description="md 이상에서는 Dialog, sm 이하에서는 Bottom Sheet로 렌더링됩니다."
@@ -66,7 +49,7 @@ const ResponsiveDialogPreview = ({
         )}
       </ResponsiveDialogContent>
     </ResponsiveDialogRoot>
-  </Box>
+  </ModalVisualPreview>
 );
 
 const meta = preview.meta({
@@ -101,4 +84,30 @@ export const LightTheme = meta.story({
   parameters: {
     ...VISUAL_VIEWPORT_PARAMETERS,
   },
+});
+
+export const ModalInteraction = meta.story({
+  render: () => (
+    <div style={{ minHeight: "150vh" }}>
+      <ResponsiveDialogRoot>
+        <ResponsiveDialogTrigger asChild>
+          <button type="button">Open modal</button>
+        </ResponsiveDialogTrigger>
+        <ResponsiveDialogContent
+          title="Modal interaction"
+          description="Focus, scroll lock, Escape and focus restoration"
+          showCloseButton
+        >
+          <ResponsiveDialogBody>
+            <button type="button">Inside modal</button>
+          </ResponsiveDialogBody>
+        </ResponsiveDialogContent>
+      </ResponsiveDialogRoot>
+    </div>
+  ),
+  parameters: {
+    ...VISUAL_VIEWPORT_PARAMETERS,
+    kapture: { ...VISUAL_VIEWPORT_PARAMETERS.kapture, captureArea: "viewport" },
+  },
+  play: verifyModalInteraction,
 });

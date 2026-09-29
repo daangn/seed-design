@@ -1,14 +1,17 @@
 import preview from "../.storybook/preview";
 
-import { Box, HStack, Text } from "@seed-design/react";
+import { HStack, Text } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   ResponsiveSidePanelBody,
   ResponsiveSidePanelContent,
   ResponsiveSidePanelFooter,
   ResponsiveSidePanelRoot,
+  ResponsiveSidePanelTrigger,
 } from "seed-design/ui/responsive-side-panel";
 import { SeedThemeDecorator } from "./components/decorator";
+import { verifyModalInteraction } from "./components/modal-interaction";
+import { ModalVisualPreview } from "./components/modal-visual-preview";
 import { VariantTable } from "./components/variant-table";
 import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
@@ -21,42 +24,12 @@ const ResponsiveSidePanelPreview = ({
   showHandle?: boolean;
   showFooter?: boolean;
 }) => (
-  <Box width="400px" p="x4">
-    <style>{`
-      .seed-side-panel__positioner,
-      .seed-bottom-sheet__positioner {
-        position: relative !important;
-        inset: unset !important;
-      }
-      .seed-bottom-sheet__positioner {
-        display: block !important;
-      }
-      .seed-side-panel__backdrop,
-      .seed-bottom-sheet__backdrop {
-        display: none !important;
-      }
-      .seed-side-panel__content {
-        position: relative !important;
-        inset: unset !important;
-        animation: none !important;
-        height: auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-      .seed-side-panel__content::after {
-        display: none !important;
-      }
-      .seed-bottom-sheet__content {
-        animation: none !important;
-        width: 100% !important;
-        height: auto !important;
-        flex: none !important;
-      }
-      .seed-bottom-sheet__content::after {
-        height: unset !important;
-      }
-    `}</style>
-    <ResponsiveSidePanelRoot open>
+  <ModalVisualPreview width="400px">
+    <ResponsiveSidePanelRoot
+      open
+      sidePanelRootProps={{ modal: false, autoFocus: false }}
+      bottomSheetRootProps={{ modal: false, autoFocus: false }}
+    >
       <ResponsiveSidePanelContent
         title="Responsive Side Panel"
         description="md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 렌더링됩니다."
@@ -76,7 +49,7 @@ const ResponsiveSidePanelPreview = ({
         )}
       </ResponsiveSidePanelContent>
     </ResponsiveSidePanelRoot>
-  </Box>
+  </ModalVisualPreview>
 );
 
 const meta = preview.meta({
@@ -111,4 +84,30 @@ export const LightTheme = meta.story({
   parameters: {
     ...VISUAL_VIEWPORT_PARAMETERS,
   },
+});
+
+export const ModalInteraction = meta.story({
+  render: () => (
+    <div style={{ minHeight: "150vh" }}>
+      <ResponsiveSidePanelRoot>
+        <ResponsiveSidePanelTrigger asChild>
+          <button type="button">Open modal</button>
+        </ResponsiveSidePanelTrigger>
+        <ResponsiveSidePanelContent
+          title="Modal interaction"
+          description="Focus, scroll lock, Escape and focus restoration"
+          showCloseButton
+        >
+          <ResponsiveSidePanelBody>
+            <button type="button">Inside modal</button>
+          </ResponsiveSidePanelBody>
+        </ResponsiveSidePanelContent>
+      </ResponsiveSidePanelRoot>
+    </div>
+  ),
+  parameters: {
+    ...VISUAL_VIEWPORT_PARAMETERS,
+    kapture: { ...VISUAL_VIEWPORT_PARAMETERS.kapture, captureArea: "viewport" },
+  },
+  play: verifyModalInteraction,
 });

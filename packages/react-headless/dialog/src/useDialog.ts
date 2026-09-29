@@ -47,6 +47,12 @@ export interface UseDialogProps extends UseDialogStateProps {
   role?: "dialog" | "alertdialog";
 
   /**
+   * Whether to move focus into the dialog when it mounts.
+   * @default true
+   */
+  autoFocus?: boolean;
+
+  /**
    * Whether the dialog should behave as a modal overlay.
    * When true, focus is trapped, background content is hidden from assistive technology,
    * and `aria-modal` is set.
@@ -116,6 +122,7 @@ export function useDialog(props: UseDialogProps = {}) {
     () => ({
       open,
       modal,
+      autoFocus: props.autoFocus ?? true,
       setOpen: onOpenChange,
       closeOnInteractOutside: props.closeOnInteractOutside ?? true,
       closeOnEscape: props.closeOnEscape ?? true,
@@ -179,6 +186,7 @@ export function useDialog(props: UseDialogProps = {}) {
       titleRef,
       descriptionRef,
       props.role,
+      props.autoFocus,
       props.closeOnInteractOutside,
       props.closeOnEscape,
       props.lazyMount,

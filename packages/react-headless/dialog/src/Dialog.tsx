@@ -103,6 +103,10 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
           trapped={api.open && api.modal}
           // Move initial focus to the dialog container, not the first tabbable element.
           onMountAutoFocus={(e) => {
+            if (!api.autoFocus) {
+              e.preventDefault();
+              return;
+            }
             if (!contentNode) return;
             e.preventDefault();
             contentNode.focus();

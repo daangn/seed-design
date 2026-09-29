@@ -4,7 +4,7 @@ import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
 } from "@seed-design/css/recipes/bottom-sheet";
-import { Box, Text } from "@seed-design/react";
+import { Text } from "@seed-design/react";
 import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -12,8 +12,11 @@ import {
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
+  BottomSheetTrigger,
 } from "seed-design/ui/bottom-sheet";
 import { SeedThemeDecorator } from "./components/decorator";
+import { verifyModalInteraction } from "./components/modal-interaction";
+import { ModalVisualPreview } from "./components/modal-visual-preview";
 import { VariantTable } from "./components/variant-table";
 
 const BottomSheetPreview = ({
@@ -31,26 +34,7 @@ const BottomSheetPreview = ({
   showFooter?: boolean;
 }) => {
   return (
-    <Box width="400px" p="x4">
-      <style>{`
-        .seed-bottom-sheet__positioner {
-          position: relative !important;
-          inset: unset !important;
-          display: block !important;
-        }
-        .seed-bottom-sheet__backdrop {
-          display: none !important;
-        }
-        .seed-bottom-sheet__content {
-          animation: none !important;
-          width: 100% !important;
-          height: auto !important;
-          flex: none !important;
-        }
-        .seed-bottom-sheet__content::after {
-          height: unset !important;
-        }
-      `}</style>
+    <ModalVisualPreview width="400px">
       <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
         <BottomSheetContent
           title={title}
@@ -68,7 +52,7 @@ const BottomSheetPreview = ({
           )}
         </BottomSheetContent>
       </BottomSheetRoot>
-    </Box>
+    </ModalVisualPreview>
   );
 };
 
@@ -129,4 +113,27 @@ export const FontScalingExtraSmall = CommonStoryTemplate.extend({
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
   parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const ModalInteraction = meta.story({
+  render: () => (
+    <div style={{ minHeight: "150vh" }}>
+      <BottomSheetRoot>
+        <BottomSheetTrigger asChild>
+          <button type="button">Open modal</button>
+        </BottomSheetTrigger>
+        <BottomSheetContent
+          title="Modal interaction"
+          description="Focus, scroll lock, Escape and focus restoration"
+          showCloseButton
+        >
+          <BottomSheetBody>
+            <button type="button">Inside modal</button>
+          </BottomSheetBody>
+        </BottomSheetContent>
+      </BottomSheetRoot>
+    </div>
+  ),
+  parameters: { kapture: { captureArea: "viewport" } },
+  play: verifyModalInteraction,
 });

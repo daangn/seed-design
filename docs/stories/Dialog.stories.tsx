@@ -4,7 +4,7 @@ import {
   contentDialogVariantMap,
   type ContentDialogVariantProps,
 } from "@seed-design/css/recipes/content-dialog";
-import { Box, HStack, Text, VStack } from "@seed-design/react";
+import { HStack, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 import {
   DialogAction,
@@ -12,8 +12,11 @@ import {
   DialogContent,
   DialogFooter,
   DialogRoot,
+  DialogTrigger,
 } from "seed-design/ui/dialog";
 import { SeedThemeDecorator } from "./components/decorator";
+import { verifyModalInteraction } from "./components/modal-interaction";
+import { ModalVisualPreview } from "./components/modal-visual-preview";
 import { VariantTable } from "./components/variant-table";
 
 const BODY_LINES = Array.from(
@@ -35,20 +38,8 @@ const DialogPreview = ({
   overflow?: boolean;
   showFooter?: boolean;
 }) => (
-  <Box p="x4">
-    <style>{`
-      .seed-content-dialog__positioner {
-        position: relative !important;
-        inset: unset !important;
-      }
-      .seed-content-dialog__backdrop {
-        display: none !important;
-      }
-      .seed-content-dialog__content {
-        animation: none !important;
-      }
-    `}</style>
-    <DialogRoot open size={size}>
+  <ModalVisualPreview>
+    <DialogRoot open size={size} modal={false} autoFocus={false}>
       <DialogContent title={title} description={description} showCloseButton={showCloseButton}>
         {/* Body의 기본 스크롤 캡은 뷰포트 높이 기준이라 스냅샷이 캔버스 높이에 좌우된다.
             maxHeight를 고정하고 본문 길이로만 overflow 여부를 만들어 결정적으로 찍히게 한다. */}
@@ -71,7 +62,7 @@ const DialogPreview = ({
         )}
       </DialogContent>
     </DialogRoot>
-  </Box>
+  </ModalVisualPreview>
 );
 
 const meta = preview.meta({
@@ -124,4 +115,27 @@ export const FontScalingExtraSmall = CommonStoryTemplate.extend({
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
   parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const ModalInteraction = meta.story({
+  render: () => (
+    <div style={{ minHeight: "150vh" }}>
+      <DialogRoot>
+        <DialogTrigger asChild>
+          <button type="button">Open modal</button>
+        </DialogTrigger>
+        <DialogContent
+          title="Modal interaction"
+          description="Focus, scroll lock, Escape and focus restoration"
+          showCloseButton
+        >
+          <DialogBody>
+            <button type="button">Inside modal</button>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
+    </div>
+  ),
+  parameters: { kapture: { captureArea: "viewport" } },
+  play: verifyModalInteraction,
 });

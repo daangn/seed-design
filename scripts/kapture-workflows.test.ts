@@ -250,6 +250,34 @@ describe("Kapture consumer workflows", () => {
     }
   });
 
+  test("grants PR comment writes only to trusted publish and approval jobs", () => {
+    expect(workflows.report.jobs.publish.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      issues: "write",
+      "pull-requests": "write",
+      statuses: "write",
+    });
+    expect(workflows.approve.jobs.approve.permissions).toEqual({
+      actions: "read",
+      issues: "write",
+      "pull-requests": "write",
+      statuses: "write",
+    });
+    expect(workflows.report.jobs.finalize.permissions).toEqual({
+      actions: "read",
+      contents: "read",
+      "pull-requests": "read",
+      statuses: "write",
+    });
+    for (const permissions of [
+      workflows.capture.permissions,
+      ...Object.values(workflows.capture.jobs).map((job) => job.permissions ?? {}),
+    ]) {
+      expect(Object.values(permissions).every((level) => level === "read")).toBe(true);
+    }
+  });
+
   test("pins every CLI invocation to the installed adapter version", () => {
     expect(adapterVersion).toMatch(/^\d+\.\d+\.\d+$/);
     for (const name of names) {
