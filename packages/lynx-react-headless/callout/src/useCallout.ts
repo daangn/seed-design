@@ -6,8 +6,12 @@ import { usePressTap, type UsePressTapReturn } from "@seed-design/lynx-react-use
 
 type ViewProps = IntrinsicElements["view"];
 type CalloutAccessibilityProps = Pick<ViewProps, "accessibility-element" | "accessibility-traits">;
+type MainThreadTouchProps = Pick<
+  ViewProps,
+  "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
+>;
 
-export interface UseCalloutProps extends CalloutAccessibilityProps {
+export interface UseCalloutProps extends CalloutAccessibilityProps, MainThreadTouchProps {
   /**
    * 처음 렌더링할 때 Callout을 표시할지 여부입니다. `open`이 없을 때만 사용합니다.
    * @default true
@@ -43,8 +47,11 @@ export interface UseCalloutReturn {
   /**
    * Root native view에 펼칩니다. `interactive`일 때만 tap·touch handler와
    * `accessibility-element={true}`, `accessibility-traits="button"` 기본값을 포함합니다.
+   * 소비자의 `main-thread:bindtouch*`는 `interactive`일 때 눌림 상태와 합성된 handler로,
+   * 아니면 그대로 포함됩니다.
    */
   rootProps: CalloutAccessibilityProps &
+    MainThreadTouchProps &
     Partial<
       Pick<
         UsePressTapReturn,
@@ -65,6 +72,9 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadOnTouchStart,
+    "main-thread:bindtouchend": mainThreadOnTouchEnd,
+    "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
     "accessibility-element": accessibilityElement,
     "accessibility-traits": accessibilityTraits,
   } = props;
@@ -77,10 +87,16 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
     bindtouchend,
     bindtouchcancel,
     "main-thread:bindtap": handleMainThreadTap,
+    "main-thread:bindtouchstart": handleMainThreadTouchStart,
+    "main-thread:bindtouchend": handleMainThreadTouchEnd,
+    "main-thread:bindtouchcancel": handleMainThreadTouchCancel,
   } = usePressTap({
     disabled: !interactive,
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
+    mainThreadOnTouchStart,
+    mainThreadOnTouchEnd,
+    mainThreadOnTouchCancel,
   });
   const dismiss = useMemoizedFn(() => {
     "background only";
@@ -103,10 +119,26 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
             bindtouchend,
             bindtouchcancel,
             ...(handleMainThreadTap ? { "main-thread:bindtap": handleMainThreadTap } : {}),
+            ...(handleMainThreadTouchStart
+              ? { "main-thread:bindtouchstart": handleMainThreadTouchStart }
+              : {}),
+            ...(handleMainThreadTouchEnd
+              ? { "main-thread:bindtouchend": handleMainThreadTouchEnd }
+              : {}),
+            ...(handleMainThreadTouchCancel
+              ? { "main-thread:bindtouchcancel": handleMainThreadTouchCancel }
+              : {}),
             "accessibility-element": accessibilityElement ?? true,
             "accessibility-traits": accessibilityTraits ?? "button",
           }
         : {
+            ...(mainThreadOnTouchStart
+              ? { "main-thread:bindtouchstart": mainThreadOnTouchStart }
+              : {}),
+            ...(mainThreadOnTouchEnd ? { "main-thread:bindtouchend": mainThreadOnTouchEnd } : {}),
+            ...(mainThreadOnTouchCancel
+              ? { "main-thread:bindtouchcancel": mainThreadOnTouchCancel }
+              : {}),
             "accessibility-element": accessibilityElement,
             "accessibility-traits": accessibilityTraits,
           },
@@ -121,6 +153,12 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
       bindtouchend,
       bindtouchcancel,
       handleMainThreadTap,
+      handleMainThreadTouchStart,
+      handleMainThreadTouchEnd,
+      handleMainThreadTouchCancel,
+      mainThreadOnTouchStart,
+      mainThreadOnTouchEnd,
+      mainThreadOnTouchCancel,
       accessibilityElement,
       accessibilityTraits,
     ],

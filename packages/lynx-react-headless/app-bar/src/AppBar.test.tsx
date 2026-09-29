@@ -27,7 +27,7 @@ function node(selector: string): HTMLElement {
 }
 
 function Probe() {
-  const { safeAreaInsetTop, centeredTitlePaddingX } = useAppBarContext("Probe");
+  const { safeAreaInsetTop, centeredTitlePaddingX } = useAppBarContext();
   return <text className="probe">{`top=${safeAreaInsetTop} x=${centeredTitlePaddingX}`}</text>;
 }
 
@@ -100,8 +100,6 @@ describe("AppBar headless", () => {
   it("rejects side slots outside Root", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
 
-    expect(() => render(<AppBar.Left />)).toThrow(
-      "<AppBarLeft/> must be rendered inside <AppBarRoot/>.",
-    );
+    expect(() => render(<AppBar.Left />)).toThrow();
   });
 });

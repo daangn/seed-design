@@ -28,9 +28,7 @@ export interface UseAppBarSideReturn {
 }
 
 export function useAppBarSide({ side, bindlayoutchange }: UseAppBarSideProps): UseAppBarSideReturn {
-  const { setLeftWidth, setRightWidth } = useAppBarContext(
-    side === "left" ? "AppBarLeft" : "AppBarRight",
-  );
+  const { setLeftWidth, setRightWidth } = useAppBarContext();
   const setWidth = side === "left" ? setLeftWidth : setRightWidth;
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (event) => {

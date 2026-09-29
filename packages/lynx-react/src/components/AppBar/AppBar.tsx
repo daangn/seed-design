@@ -4,7 +4,11 @@ import {
   type AppBarMainVariantProps,
 } from "@seed-design/lynx-css/recipes/app-bar-main";
 import * as React from "@lynx-js/react";
-import { AppBarContext, useAppBarIconButton, useAppBarSide } from "@seed-design/lynx-react-app-bar";
+import {
+  AppBarProvider,
+  useAppBarIconButton,
+  useAppBarSide,
+} from "@seed-design/lynx-react-app-bar";
 import clsx from "clsx";
 
 import type {
@@ -120,7 +124,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
   const classNames = appBar(resolvedVariantProps);
 
   return (
-    <AppBarContext.Provider value={contextValue}>
+    <AppBarProvider value={contextValue}>
       <AppBarClassNamesProvider value={classNames}>
         <view
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
@@ -138,7 +142,7 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
           {children}
         </view>
       </AppBarClassNamesProvider>
-    </AppBarContext.Provider>
+    </AppBarProvider>
   );
 });
 AppBarRoot.displayName = "AppBarRoot";

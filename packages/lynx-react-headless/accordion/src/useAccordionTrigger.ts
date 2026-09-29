@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
-import { useAccordionItemContext } from "./useAccordionContext.js";
+import { useAccordionItemContext } from "./useAccordionItemContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type TriggerAccessibilityProps = Pick<
@@ -11,8 +11,12 @@ type TriggerAccessibilityProps = Pick<
   | "accessibility-traits"
   | "accessibility-value"
 >;
+type MainThreadTouchProps = Pick<
+  ViewProps,
+  "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
+>;
 
-export interface UseAccordionTriggerProps extends TriggerAccessibilityProps {
+export interface UseAccordionTriggerProps extends TriggerAccessibilityProps, MainThreadTouchProps {
   bindtap?: ViewProps["bindtap"];
   expandedAccessibilityValue?: string;
   collapsedAccessibilityValue?: string;
@@ -22,16 +26,24 @@ export interface UseAccordionTriggerReturn {
   open: boolean;
   disabled: boolean;
   pressed: boolean;
-  triggerProps: TriggerAccessibilityProps & {
-    bindtap: NonNullable<ViewProps["bindtap"]>;
-    bindtouchstart: NonNullable<ViewProps["bindtouchstart"]>;
-    bindtouchend: NonNullable<ViewProps["bindtouchend"]>;
-    bindtouchcancel: NonNullable<ViewProps["bindtouchcancel"]>;
-  };
+  /**
+   * Trigger native view에 펼칩니다. 소비자의 `main-thread:bindtouch*`는 view가 아니라 이 훅에 넘겨야
+   * 눌림 상태와 합성된 handler로 포함됩니다.
+   */
+  triggerProps: TriggerAccessibilityProps &
+    MainThreadTouchProps & {
+      bindtap: NonNullable<ViewProps["bindtap"]>;
+      bindtouchstart: NonNullable<ViewProps["bindtouchstart"]>;
+      bindtouchend: NonNullable<ViewProps["bindtouchend"]>;
+      bindtouchcancel: NonNullable<ViewProps["bindtouchcancel"]>;
+    };
 }
 
 export function useAccordionTrigger({
   bindtap,
+  "main-thread:bindtouchstart": mainThreadOnTouchStart,
+  "main-thread:bindtouchend": mainThreadOnTouchEnd,
+  "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
   expandedAccessibilityValue = "펼쳐짐",
   collapsedAccessibilityValue = "접힘",
   "accessibility-element": accessibilityElement = true,
@@ -39,7 +51,7 @@ export function useAccordionTrigger({
   "accessibility-traits": accessibilityTraits,
   "accessibility-value": accessibilityValue,
 }: UseAccordionTriggerProps = {}): UseAccordionTriggerReturn {
-  const context = useAccordionItemContext("AccordionTrigger");
+  const context = useAccordionItemContext();
   const handleTap = React.useCallback<NonNullable<ViewProps["bindtap"]>>(
     (event) => {
       "background only";
@@ -51,12 +63,13 @@ export function useAccordionTrigger({
   const {
     pressed,
     bindtap: pressTap,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
+    ...touchHandlers
   } = usePressTap({
     disabled: context.disabled,
     onTap: handleTap,
+    mainThreadOnTouchStart,
+    mainThreadOnTouchEnd,
+    mainThreadOnTouchCancel,
   });
 
   return {
@@ -65,9 +78,7 @@ export function useAccordionTrigger({
     pressed,
     triggerProps: {
       bindtap: pressTap,
-      bindtouchstart,
-      bindtouchend,
-      bindtouchcancel,
+      ...touchHandlers,
       "accessibility-element": accessibilityElement,
       "accessibility-role-description": accessibilityRoleDescription,
       "accessibility-traits": accessibilityTraits ?? (context.disabled ? "disabled" : "button"),

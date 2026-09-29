@@ -1,16 +1,24 @@
-import { createContext, useContext, type Context } from "@lynx-js/react";
+import { createContext, useContext, type Provider } from "@lynx-js/react";
 import type { UseCalloutReturn } from "./useCallout.js";
 
-export const CalloutContext: Context<UseCalloutReturn | null> =
-  createContext<UseCalloutReturn | null>(null);
+export interface UseCalloutContext extends UseCalloutReturn {}
+
+const CalloutContext = createContext<UseCalloutContext | null>(null);
+
+export const CalloutProvider: Provider<UseCalloutContext | null> = CalloutContext.Provider;
 
 /**
- * `CalloutRoot`가 내려준 `useCallout` 결과를 하위 요소에서 읽습니다.
+ * CalloutRoot가 내려준 `useCallout` 결과를 하위 요소에서 읽습니다.
+ * `strict: false`이면 Provider 밖에서 `null`을 반환합니다.
  */
-export function useCalloutContext(consumer = "useCalloutContext"): UseCalloutReturn {
+export function useCalloutContext<T extends boolean | undefined = true>({
+  strict = true,
+}: {
+  strict?: T;
+} = {}): T extends false ? UseCalloutContext | null : UseCalloutContext {
   const context = useContext(CalloutContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <CalloutRoot/>.`);
+  if (!context && strict) {
+    throw new Error("useCalloutContext must be used within a CalloutRoot");
   }
-  return context;
+  return context as UseCalloutContext;
 }

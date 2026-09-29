@@ -1,7 +1,7 @@
 import { Accordion, useAccordionItemContext } from "@seed-design/lynx-react-accordion";
 
 function OpenIndicator() {
-  const { open } = useAccordionItemContext("OpenIndicator");
+  const { open } = useAccordionItemContext();
   return <text style={{ color: "#555555" }}>{open ? "접기" : "펼치기"}</text>;
 }
 

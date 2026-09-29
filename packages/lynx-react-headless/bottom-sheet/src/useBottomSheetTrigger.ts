@@ -25,7 +25,7 @@ export function useBottomSheetTrigger(
   props: UseBottomSheetTriggerProps = {},
 ): UseBottomSheetTriggerReturn {
   const { bindtap } = props;
-  const { rootRef, skipAnimation } = useBottomSheetContext("BottomSheetTrigger");
+  const { rootRef, skipAnimation } = useBottomSheetContext();
   const handleTap = useMemoizedFn<TapHandler>((event, instance) => {
     "background only";
     if (skipAnimation) {
