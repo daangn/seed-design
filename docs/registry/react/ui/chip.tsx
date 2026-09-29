@@ -22,12 +22,12 @@ export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
 );
 ToggleChip.displayName = "Chip.Toggle";
 
-export interface ButtonChipProps extends SeedChip.RootProps {}
+export interface ButtonChipProps extends SeedChip.ButtonProps {}
 
 /**
  * @see https://seed-design.io/react/components/chip
  */
-export const ButtonChip = SeedChip.Root;
+export const ButtonChip = SeedChip.Button;
 
 export interface RadioChipRootProps extends SeedChip.RadioRootProps {}
 

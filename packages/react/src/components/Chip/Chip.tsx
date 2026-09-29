@@ -19,16 +19,16 @@ const withStateProps = createWithStateProps([
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ChipRootProps
+export interface ChipButtonProps
   extends PrimitiveProps,
     ChipVariantProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const ChipRoot = withIconRequired(
-  withScaleFeedback(withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root")),
-  (props: ChipRootProps) => props.layout === "iconOnly",
+export const ChipButton = withIconRequired(
+  withScaleFeedback(withProvider<HTMLButtonElement, ChipButtonProps>(Primitive.button, "root")),
+  (props: ChipButtonProps) => props.layout === "iconOnly",
 );
-ChipRoot.displayName = "Chip.Root";
+ChipButton.displayName = "Chip.Button";
 
 export interface ChipToggleProps extends ChipVariantProps, CheckboxPrimitive.RootProps {}
 
