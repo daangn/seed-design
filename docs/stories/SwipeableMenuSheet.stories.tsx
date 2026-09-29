@@ -34,6 +34,9 @@ const SwipeableMenuSheetPreview = ({
         }
         .seed-menu-sheet__content {
           animation: none !important;
+          /* 입력창이 없는 정적 표에서는 캡처 중 키보드 위치 보정값을 적용하지 않는다. */
+          height: auto !important;
+          bottom: 0 !important;
         }
       `}</style>
       <SwipeableMenuSheetRoot open>
