@@ -1,0 +1,24 @@
+{
+  "id": "manner-temp",
+  "dependencies": [
+    "@seed-design/lynx-react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "lib",
+      "itemIds": [
+        "manner-temp-level"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "manner-temp.tsx",
+      "content": "/**\n * @file ui:manner-temp\n * @requires @seed-design/lynx-react@>=0.6.0 <1.0.0\n * @requires @seed-design/lynx-css@>=0.10.0 <1.0.0\n **/\n\nimport * as React from \"@lynx-js/react\";\nimport {\n  MannerTemp as SeedMannerTemp,\n  MannerTempEmote,\n  type MannerTempProps as SeedMannerTempProps,\n} from \"@seed-design/lynx-react\";\nimport { mannerTempToLevel } from \"../lib/manner-temp-level\";\n\nexport interface MannerTempProps extends Omit<SeedMannerTempProps, \"children\"> {\n  /**\n   * The manner temperature of the MannerTemp component.\n   * Level will be calculated based on this value.\n   * If level is provided, this will be ignored.\n   */\n  temperature: number;\n}\n\n/**\n * @see https://seed-design.io/lynx/components/manner-temp\n */\nexport const MannerTemp = React.forwardRef<unknown, MannerTempProps>(\n  ({ temperature, level, ...otherProps }, ref) => {\n    return (\n      <SeedMannerTemp ref={ref} level={level ?? mannerTempToLevel(temperature)} {...otherProps}>\n        {`${temperature}°C`}\n        <MannerTempEmote />\n      </SeedMannerTemp>\n    );\n  },\n);\nMannerTemp.displayName = \"MannerTemp\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+        "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+      }
+    }
+  ]
+}

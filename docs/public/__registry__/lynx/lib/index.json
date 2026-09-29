@@ -9,6 +9,14 @@
         }
       ],
       "id": "attachment-sortable"
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-level.ts"
+        }
+      ],
+      "id": "manner-temp-level"
     }
   ]
 }
