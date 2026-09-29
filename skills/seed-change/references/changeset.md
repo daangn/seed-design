@@ -18,7 +18,7 @@ bun skills/seed-change/scripts/changeset-plan.ts --base-ref origin/dev
 
 - `candidates`: 기준 브랜치 이후 변경된 공개 workspace 패키지. rename은 이전·새 경로를 모두 포함하고, 삭제된 패키지는 기준 브랜치의 `package.json`으로 복원한다.
 - `candidates[].coveredBy`: 그 후보를 이미 다루는 기존 `.changeset/*.md` 경로. 충분한 파일이 있으면 중복 changeset을 만들지 않는다. 전체 목록은 `existingChangesets`에 있다.
-- `excluded`: `reasons`가 `private`나 `archive`(`packages/archive/*`)라서 후보에서 빠진 패키지.
+- `excluded`: `reasons`가 `private`이거나, 과거 기준 브랜치에서 복원한 `packages/archive/*` 패키지라서 `archive`로 후보에서 빠진 패키지. 현재 패키지는 루트 workspaces에서만 조회한다.
 - `reverseDependencies`: 후보를 `dependencies`·`optionalDependencies`·`peerDependencies`로 의존하는 공개 workspace 패키지. 공개 영향이 전파되는지 판단할 때 쓴다.
 - `versionChangesReviewCandidates`: `reverseDependencies` 중 `peerDependencies` 관계만 모은 목록. 현재 작업에서는 이 목록의 `package.json`을 고치지 않는다.
 
