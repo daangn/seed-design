@@ -5,11 +5,12 @@
 | 할 일 | 운영자가 하는 일 | CI가 처리하는 일 |
 | --- | --- | --- |
 | React v2 문서 수정 | `react/2.0` 브랜치에 변경 반영 | v2 빌드 → Pages 배포 → 문서·검색·registry 검증 |
+| 특정 브랜치 문서 수동 배포 | `deploy-seed-design-docs-alpha-pages`에서 해당 브랜치 선택 | 선택한 브랜치만 빌드·Pages 배포 |
 | 새 React 메이저 보관 | 보관 브랜치 준비, `archives.json` 등록 | 설정에서 빌드 버전·경로 선택, Pages 검증 |
 | 공개 경로 추가·원본 변경 | 운영 브랜치의 `archives.json` 변경 리뷰·반영 | 모든 원본 검증 → 공통 Worker와 전체 route 갱신 |
 | Worker 코드 변경 | 운영 브랜치에 변경 반영 | 테스트·타입 검사 → 원본 검증 → 배포 |
-| 검증만 다시 실행 | Actions에서 `verify` 선택 | 외부 설정 변경 없이 전체 원본 검사 |
-| 배포 재시도 | Actions에서 `deploy` 선택 | 전체 원본을 다시 검증한 뒤 배포 |
+| Worker 원본 검증만 다시 실행 | `Deploy Docs Archive Worker`에서 `major`·`verify` 선택 | 외부 설정 변경 없이 전체 원본 검사 |
+| Worker 배포 재시도 | `Deploy Docs Archive Worker`에서 `major`·`deploy` 선택 | 전체 원본을 다시 검증한 뒤 공통 Worker 배포 |
 
 Worker 운영 브랜치는 현재 **`major`**입니다. 콘텐츠 브랜치에서는 Worker를 배포하지 않습니다. 자동 배포는 저장소 변수 `DOCS_ARCHIVE_DEPLOY_ENABLED=true`로 최초 활성화하기 전까지 꺼져 있습니다. 이 PR을 `major`에 머지하는 것만으로 Worker가 생성되지는 않습니다.
 
@@ -115,10 +116,12 @@ Pages에 표시되는 Git 연결 해제·자동 배포 일시 중지 안내만 �
 | 종류 | 이름 | 용도 |
 | --- | --- | --- |
 | Secret, 기존 값 확인 | `CF_ACCOUNT_ID` | 위 Pages와 `seed-design.io` zone을 소유한 Cloudflare 계정 |
-| Secret, 추가 | `DOCS_ARCHIVE_CF_API_TOKEN` | 공통 Worker와 route 배포용 토큰 |
+| Secret, 기존 값 재사용 | `CF_API_TOKEN` | 기존 Pages 업로드와 공통 Worker·route 배포용 토큰 |
 | Variable, 최초에는 비워둠 | `DOCS_ARCHIVE_DEPLOY_ENABLED` | `true`일 때만 Worker 배포 허용 |
 
-토큰은 해당 계정의 **Workers Scripts: Edit**, `seed-design.io` zone의 **Workers Routes: Edit**, **Zone: Read**를 대상으로 준비합니다. 기존 Pages 업로드용 `CF_API_TOKEN`에 Worker 권한이 있다고 가정하지 않습니다. 이 Worker에는 R2·DNS 수정·Pages 쓰기 권한이 필요하지 않습니다. 토큰 생성·등록은 권한을 가진 운영자가 수행합니다.
+기존 Docs·Storybook·Stackflow Pages CI와 동일한 `CF_ACCOUNT_ID`·`CF_API_TOKEN`을 재사용합니다. 새 secret이나 전용 토큰은 필수가 아닙니다. 최초 Worker 공개 전에 운영자가 기존 토큰의 대상 계정과 `seed-design.io` zone, **Workers Scripts: Edit**, **Workers Routes: Edit**, **Zone: Read** 권한을 확인합니다. Pages 배포 성공만으로 Worker 권한까지 확인된 것은 아닙니다. 권한을 보완할 때는 기존 Pages 배포 권한과 리소스 범위를 유지합니다. 이 Worker를 위해 R2·DNS 수정 권한을 추가할 필요는 없습니다.
+
+`verify`는 Pages 원본과 GitHub 소스 SHA를 검사하며 Cloudflare 쓰기 토큰을 받지 않습니다. 따라서 `verify` 성공이 Cloudflare 토큰 권한 검증을 뜻하지는 않습니다. 토큰 값은 코드·로그·README에 출력하지 않습니다.
 
 GitHub 기본 브랜치는 현재 `dev`입니다. **Run workflow 버튼을 사용하려면 새 `deploy-docs-archive-worker.yml` 파일이 `dev`에도 있어야 합니다.** 최초에는 이 workflow 파일만 별도 backport해 등록할 수 있습니다. 실행할 때는 브랜치를 `major`로 선택합니다. `dev`에 파일만 추가해도 Worker는 배포되지 않습니다. 실제 코드와 원본 목록은 선택한 `major`에서 읽습니다.
 
@@ -151,6 +154,16 @@ GitHub 기본 브랜치는 현재 `dev`입니다. **Run workflow 버튼을 사�
 ## 평소 문서 수정
 
 `react/2.0` 브랜치에서 수정하고 push하면 해당 Pages alias가 갱신되고 `/react/2.0`에도 반영됩니다. **Worker 재배포나 SHA 수동 갱신은 필요 없습니다.** 다른 보관본은 빌드하지 않습니다.
+
+### 버튼으로 특정 브랜치 문서만 배포
+
+1. GitHub **Actions → deploy-seed-design-docs-alpha-pages → Run workflow**를 엽니다.
+2. **Use workflow from**에서 `react/2.0` 등 배포할 문서 브랜치를 선택하고 실행합니다.
+3. 선택한 브랜치의 코드와 workflow로 빌드해 해당 Pages alias만 갱신합니다. 이미 Worker에 연결한 보관본이면 공개 `/react/2.0`에도 반영됩니다.
+
+해당 브랜치에는 Pages workflow와 필요한 보관 빌드 코드·등록 항목이 먼저 있어야 합니다. 보관 항목이 없는 일반 feature 브랜치는 기존 일반 프리뷰로 배포됩니다. 새 브랜치를 선택하는 것만으로 공개 버전 경로가 자동 등록되지는 않습니다.
+
+**Deploy Docs Archive Worker** 버튼은 `major`의 전체 경로 설정과 공통 Worker를 배포합니다. 특정 브랜치의 문서를 빌드하는 버튼이 아니며 `react/2.0` 등 보관 브랜치에서 실행하면 job이 생략됩니다. 기본 브랜치에 Worker workflow를 등록하는 #2325는 기존 문서 수동 배포 기능과 별개입니다.
 
 Pages CI는 업로드 후 immutable deployment와 alias 모두를 검사합니다. 이 검사는 이미 공개된 alias 갱신을 되돌리는 단계는 아닙니다. 검증 실패가 나면 브랜치 수정 또는 아래 복구 절차가 필요합니다.
 

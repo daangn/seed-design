@@ -25,7 +25,7 @@ it("does not give PRs or archive branches a production deployment trigger", () =
 it("keeps Cloudflare write credentials out of tests and verify-only operations", () => {
   const steps = workflow.jobs.archive.steps as Array<{ name?: string; if?: string; run?: string }>;
   const privilegedSteps = steps.filter((step) =>
-    JSON.stringify(step).includes("secrets.DOCS_ARCHIVE_CF_API_TOKEN"),
+    JSON.stringify(step).includes("secrets.CF_API_TOKEN"),
   );
   expect(privilegedSteps).toHaveLength(1);
   expect(privilegedSteps[0].if).toBe("github.event_name == 'push' || inputs.operation == 'deploy'");

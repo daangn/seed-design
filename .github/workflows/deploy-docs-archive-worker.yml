@@ -63,9 +63,9 @@ jobs:
         if: github.event_name == 'push' || inputs.operation == 'deploy'
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.DOCS_ARCHIVE_CF_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           WRANGLER_LOG_PATH: /tmp/wrangler-docs-archive.log
         run: |
-          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing DOCS_ARCHIVE_CF_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CF_API_TOKEN"; exit 1; }
           bun scripts/docs-archive/deploy.ts
