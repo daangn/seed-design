@@ -17,11 +17,6 @@
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
     },
-    "./primitive": {
-      "types": "./lib/primitive.d.ts",
-      "import": "./lib/primitive.js",
-      "require": "./lib/primitive.cjs"
-    },
     "./package.json": "./package.json"
   },
   "main": "./lib/index.cjs",
@@ -58,6 +53,7 @@
     "@seed-design/react-menu": "^2.0.3",
     "@seed-design/react-middle-truncate": "^1.0.1",
     "@seed-design/react-navigation-menu": "^2.0.2",
+    "@seed-design/react-pagination": "^1.0.0",
     "@seed-design/react-popover": "^2.0.1",
     "@seed-design/react-portal": "^2.0.1",
     "@seed-design/react-primitive": "^2.0.1",

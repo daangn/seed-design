@@ -7,12 +7,10 @@ import {
   Icon,
   PrefixIcon,
   VisuallyHidden,
+  type AttachmentInputFileEntry,
+  useAttachmentInputContext,
+  type AttachmentInputContextValue,
 } from "@seed-design/react";
-import {
-  useFileUploadContext,
-  type FileEntry,
-  type UseFileUploadReturn,
-} from "@seed-design/react/primitive";
 import {
   IconCameraFill,
   IconPaperclipFill,
@@ -140,8 +138,8 @@ export type AttachmentInputProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
@@ -183,13 +181,13 @@ export type AttachmentDropzoneProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
 export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children, onRetry }) => {
-  const { triggerProps } = useFileUploadContext();
+  const { triggerProps } = useAttachmentInputContext();
 
   return (
     <>
@@ -233,7 +231,7 @@ export interface AttachmentInputItemProps
  */
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
   ({ onRetry, ...props }, ref) => {
-    const { acceptType } = useFileUploadContext();
+    const { acceptType } = useAttachmentInputContext();
 
     return (
       <SeedAttachmentInput.Item ref={ref} {...props}>

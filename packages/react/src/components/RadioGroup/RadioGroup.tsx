@@ -41,6 +41,8 @@ export interface RadioGroupItemProps
     RadiomarkVariantProps,
     RadioGroupPrimitive.ItemProps {}
 
+export interface RadioGroupItemPrimitiveProps extends RadioGroupPrimitive.ItemProps {}
+
 export const RadioGroupItem = Object.assign(
   forwardRef<HTMLLabelElement, RadioGroupItemProps>(({ className, ...props }, ref) => {
     const [{ radio: radioVariantProps, radiomark: radiomarkVariantProps }, otherProps] =

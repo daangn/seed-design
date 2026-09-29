@@ -4,7 +4,7 @@ import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField } from "seed-design/ui/attachment-field";
 import { AttachmentDropzoneReorderable } from "seed-design/ui/attachment-field-reorderable";
-import type { FileEntry } from "@seed-design/react/primitive";
+import type { AttachmentInputFileEntry } from "@seed-design/react";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
 function createMockImageFile(name: string): File {
@@ -43,7 +43,7 @@ const conditionMap = {
         },
         { id: "mock-2", file: createMockImageFile("profile-picture.png"), status: "success" },
         { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "5": {
       defaultAcceptedFileEntries: [
@@ -52,7 +52,7 @@ const conditionMap = {
         { id: "mock-3", file: createMockImageFile("photo-3.png"), status: "pending" },
         { id: "mock-4", file: createMockImageFile("photo-4.png"), status: "uploading" },
         { id: "mock-5", file: createMockImageFile("photo-5.png"), status: "error" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
   },
   disabled: {

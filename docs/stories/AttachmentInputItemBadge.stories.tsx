@@ -1,6 +1,5 @@
 import preview from "../.storybook/preview";
-import { AttachmentInput, Icon } from "@seed-design/react";
-import type { FileEntry } from "@seed-design/react/primitive";
+import { AttachmentInput, Icon, type AttachmentInputFileEntry } from "@seed-design/react";
 import { IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 
 import { withVisualTestParameters } from "@/stories/utils/parameters";
@@ -19,7 +18,7 @@ const BADGE_LABEL_BY_ID: Record<string, string> = {
   "mock-long": "대표사진으로 설정됨",
 };
 
-const mockFileEntries: FileEntry[] = [
+const mockFileEntries: AttachmentInputFileEntry[] = [
   { id: "mock-short", file: createMockImageFile("cover.png"), status: "success" },
   { id: "mock-long", file: createMockImageFile("cover-long-label.png"), status: "success" },
 ];

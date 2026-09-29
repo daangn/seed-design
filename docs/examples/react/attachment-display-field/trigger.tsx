@@ -1,7 +1,7 @@
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import type { AttachmentDisplayItemEntry } from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
-const defaultEntries: DisplayItemEntry[] = [
+const defaultEntries: AttachmentDisplayItemEntry[] = [
   {
     id: "1",
     thumbnailUrl: "https://picsum.photos/seed/trigger1/200/200",
@@ -10,7 +10,7 @@ const defaultEntries: DisplayItemEntry[] = [
 ];
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [
     {
