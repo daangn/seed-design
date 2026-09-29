@@ -32,6 +32,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-action-button$/,
         /^@seed-design\/lynx-react-app-bar$/,
         /^@seed-design\/lynx-react-bottom-sheet$/,
+        /^@seed-design\/lynx-react-callout$/,
         /^@seed-design\/lynx-react-use-safe-area$/,
         "clsx",
       ],
