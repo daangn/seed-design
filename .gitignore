@@ -3,6 +3,12 @@
 *.tsbuildinfo
 .ultra.cache.json
 
+# Documentation archive build and local runtime artifacts
+docs/out-archive
+docs/out-archive.tmp-*
+scripts/docs-archive/.wrangler
+/.wrangler/
+
 .nyc_output/
 
 .pnp.*
@@ -17,10 +23,6 @@ docs/.source
 docs/out
 docs/plans
 docs/superpowers
-docs/out-archive
-docs/out-archive.tmp-*
-scripts/docs-archive/.wrangler
-/.wrangler/
 examples/stackflow-spa/test-results
 examples/stackflow-spa/playwright-report
 docs/public/__lynx__
