@@ -13,6 +13,7 @@ export interface UseAccordionReturn {
   values: string[];
   disabled: boolean;
   multiple: boolean;
+  isOpen: (value: string) => boolean;
   toggle: (value: string) => void;
 }
 
@@ -29,6 +30,7 @@ export function useAccordion({
     onChange: onValuesChange,
   });
   const values = multiple ? rawValues : rawValues.slice(0, 1);
+  const isOpen = React.useCallback((value: string) => values.includes(value), [values]);
   const toggle = React.useCallback(
     (value: string) => {
       "background only";
@@ -45,7 +47,7 @@ export function useAccordion({
   );
 
   return React.useMemo(
-    () => ({ values, disabled, multiple, toggle }),
-    [values, disabled, multiple, toggle],
+    () => ({ values, disabled, multiple, isOpen, toggle }),
+    [values, disabled, multiple, isOpen, toggle],
   );
 }

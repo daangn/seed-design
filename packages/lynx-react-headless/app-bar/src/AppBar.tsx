@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useAppBar } from "./useAppBar.js";
-import { AppBarContext } from "./useAppBarContext.js";
+import { AppBarProvider } from "./useAppBarContext.js";
 import { useAppBarIconButton, type UseAppBarIconButtonProps } from "./useAppBarIconButton.js";
 import { useAppBarSide } from "./useAppBarSide.js";
 
@@ -15,11 +15,11 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
   const api = useAppBar();
 
   return (
-    <AppBarContext.Provider value={api}>
+    <AppBarProvider value={api}>
       <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
         {children}
       </view>
-    </AppBarContext.Provider>
+    </AppBarProvider>
   );
 });
 AppBarRoot.displayName = "AppBarRoot";
@@ -37,6 +37,20 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
   );
 });
 AppBarLeft.displayName = "AppBarLeft";
+
+export interface AppBarMainProps extends ViewProps {}
+
+/** 제목 영역의 native view다. 가운데 정렬 padding과 safe area 배치는 소비자가 `useAppBarContext()` 값으로 정한다. */
+export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref) => {
+  const { children, ...nativeProps } = props;
+
+  return (
+    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
+      {children}
+    </view>
+  );
+});
+AppBarMain.displayName = "AppBarMain";
 
 export interface AppBarRightProps extends ViewProps {}
 
