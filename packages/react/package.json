@@ -58,6 +58,7 @@
     "@seed-design/react-menu": "^2.0.2",
     "@seed-design/react-middle-truncate": "^1.0.1",
     "@seed-design/react-navigation-menu": "^2.0.1",
+    "@seed-design/react-pagination": "^1.0.0",
     "@seed-design/react-popover": "^2.0.1",
     "@seed-design/react-portal": "^2.0.1",
     "@seed-design/react-primitive": "^2.0.1",
