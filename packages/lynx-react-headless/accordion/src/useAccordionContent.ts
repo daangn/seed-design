@@ -33,6 +33,7 @@ export function useAccordionContent({
   const context = useAccordionItemContext("AccordionContent");
   const [contentHeight, setContentHeight] = React.useState(0);
   const handleContentLayoutChange = React.useCallback<LayoutChangeHandler>((event) => {
+    "background only";
     const height = getContentLayoutHeight(event);
     if (height !== null) setContentHeight((current) => (current === height ? current : height));
   }, []);

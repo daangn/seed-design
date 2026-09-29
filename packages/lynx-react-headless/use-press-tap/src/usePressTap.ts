@@ -39,15 +39,18 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
   }, [disabled]);
 
   const press = useMemoizedFn(() => {
+    "background only";
     if (disabled) return;
     setPressed(true);
   });
 
   const reset = useMemoizedFn(() => {
+    "background only";
     setPressed(false);
   });
 
   const handleTap = useMemoizedFn((...args: Parameters<TouchHandler>) => {
+    "background only";
     if (disabled) return;
     setPressed(false);
     onTap?.(...args);

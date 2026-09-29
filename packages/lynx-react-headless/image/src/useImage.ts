@@ -43,6 +43,7 @@ export function useImage(props: UseImageProps): UseImageReturn {
   });
   const loadingStatus = state.request === request ? state.status : src ? "loading" : "error";
   const notifyStatus = useMemoizedFn((status: ImageLoadingStatus) => {
+    "background only";
     onLoadingStatusChange?.(status);
   });
 
@@ -52,6 +53,7 @@ export function useImage(props: UseImageProps): UseImageReturn {
 
   const updateStatus = useCallback(
     (status: ImageLoadingStatus) => {
+      "background only";
       if (!request.src || activeRequest.current !== request) return;
       setState((previous) =>
         previous.request === request && previous.status === status ? previous : { request, status },

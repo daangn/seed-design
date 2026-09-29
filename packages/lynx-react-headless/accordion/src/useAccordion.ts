@@ -31,6 +31,7 @@ export function useAccordion({
   const values = multiple ? rawValues : rawValues.slice(0, 1);
   const toggle = React.useCallback(
     (value: string) => {
+      "background only";
       if (disabled) return;
       if (!multiple) {
         setValues(values[0] === value ? [] : [value]);

@@ -34,6 +34,7 @@ export function useAppBarSide({ side, bindlayoutchange }: UseAppBarSideProps): U
   const setWidth = side === "left" ? setLeftWidth : setRightWidth;
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
     (event) => {
+      "background only";
       bindlayoutchange?.(event);
       const width = getLayoutWidth(event);
       if (width != null) setWidth(width);

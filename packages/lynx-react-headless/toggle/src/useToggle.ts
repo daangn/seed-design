@@ -39,6 +39,7 @@ export function useToggle(props: UseToggleProps) {
   const pendingPressed = useRef(isPressed);
   pendingPressed.current = isPressed;
   const toggle = useMemoizedFn(() => {
+    "background only";
     const nextPressed = !(pressed === undefined ? pendingPressed.current : isPressed);
     pendingPressed.current = nextPressed;
     setPressed(nextPressed);
