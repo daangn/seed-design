@@ -11,7 +11,7 @@ verified_at: "2026-09-29"
 
 ## 교훈과 다음 행동
 
-- CDP 탭이 필요한 검증은 PlayLynx에서 한다. LynxExplorer에는 Card를 닫을 공식 경로가 없어 한 번 열면 잠금을 풀 수 없다.
+- CDP 탭이 필요한 검증은 PlayLynx에서 한다. LynxExplorer에는 Card를 닫을 공식 경로가 없다. 이미 실행 중이던 앱에서 연 Card는 잠금을 풀 수 없고, 직접 실행한 앱만 아래처럼 종료로 정리한다.
 - LynxExplorer에서 확인해야 하면 임시 예제가 `useEffect`에서 `globalThis.__probe = { open, hide, set, logs }`처럼 상태 setter와 로그 조회를 노출하게 한다. `agent-lynx evaluate`로 호출하고 결과는 `__probe.logs()`로 읽는다. 탭 동작 자체(탭 전달, 바깥 탭)는 이 방법으로 확인할 수 없으므로 `환경 차단`으로 남긴다.
 - `evaluate` 식은 CLI가 감싸서 실행하므로 `;`로 문장을 이으면 `SyntaxError: expecting ')'`가 난다 → `(__probe.open(), "ok")`처럼 쉼표 식을 쓴다.
 - 시뮬레이터는 호스트의 `127.0.0.1`에 접근하므로 LAN URL 없이 검증할 수 있다. `examples/lynx-spa/lynx.config.ts`는 `ASSET_PREFIX`가 없으면 `PORTLESS_URL`(HTTPS `.test`)을 asset prefix로 쓰므로 lazy 예제가 로드되지 않을 수 있다 → dev 서버를 고정 port로 띄우고 `ASSET_PREFIX=http://127.0.0.1:<port>/`를 함께 준다.
