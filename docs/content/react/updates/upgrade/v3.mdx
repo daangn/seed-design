@@ -190,6 +190,29 @@ function Body({ children }: { children: React.ReactNode }) {
 }
 ```
 
+#### 3. `@seed-design/react/primitive` Entrypoint 제거
+
+<Badge tone="positive">에러로 발견 가능</Badge>
+
+`@seed-design/react/primitive` entrypoint를 제거했습니다. 기존 snippet을 사용 중이라면 최신 snippet으로 업데이트합니다. 직접 조립하는 코드는 `@seed-design/react`에서 제공하는 styled 컴포넌트와 context hook을 사용합니다.
+
+예를 들어 `useSideNavigationContext`는 import 경로만 바꾸면 됩니다. 기존 반환값은 그대로 유지됩니다.
+
+```tsx
+import { useSideNavigationContext } from "@seed-design/react/primitive"; // [!code --]
+import { useSideNavigationContext } from "@seed-design/react"; // [!code ++]
+```
+
+Checkmark·Radiomark·Switchmark를 자유롭게 배치할 때는 다음 API로 상태와 동작을 연결합니다. mark와 함께 사용하는 Root·Item·HiddenInput도 같은 `@seed-design/react`에서 가져옵니다.
+
+| 구성 | 동작을 제공하는 API |
+| --- | --- |
+| Checkbox | `Checkbox.Root.Primitive` |
+| RadioGroup | `RadioGroup.Root.Primitive`, `RadioGroup.Item.Primitive` |
+| Switch | `Switch.Root.Primitive` |
+
+기존 `Checkbox.Root.Primitive`와 `RadioGroup.Item.Primitive`는 유지됩니다. 위 선별 공개 API의 props와 동작은 `@seed-design/react`의 SemVer 보장 범위에 포함됩니다.
+
 #### 3. deprecated 컴포넌트와 snippet 제거
 
 <Badge tone="positive">에러로 발견 가능</Badge>
