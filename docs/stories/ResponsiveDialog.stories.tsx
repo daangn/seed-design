@@ -46,7 +46,8 @@ const ResponsiveDialogPreview = ({
         height: unset !important;
       }
     `}</style>
-    <ResponsiveDialogRoot open>
+    {/* Full-page capture resizes the viewport; this static preview has no keyboard inputs. */}
+    <ResponsiveDialogRoot open bottomSheetRootProps={{ repositionInputs: false }}>
       <ResponsiveDialogContent
         title="Responsive Dialog"
         description="md 이상에서는 Dialog, sm 이하에서는 Bottom Sheet로 렌더링됩니다."
