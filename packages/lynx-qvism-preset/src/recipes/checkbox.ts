@@ -64,11 +64,20 @@ const checkboxRecipe = defineSlotRecipe({
         label: { color: vars.base.disabled.label.color },
       },
       false: {
+        // 눌림 색은 Main Thread의 :active로 즉시 시작한다. ghost overlay는 현재 선택 상태와
+        // 맞는 것만 켜고, 놓은 뒤 선택 상태가 바뀌어도 사라지는 overlay의 색은 유지된다.
         root: {
           "&:active .seed-checkmark__root": {
             backgroundColor: "var(--seed-checkmark-pressed-color)",
           },
-          "&:active .seed-checkmark__background": {
+          "&:active .seed-checkmark__background--checked_false.seed-checkmark__background--indeterminate_false":
+            {
+              opacity: 1,
+            },
+          "&:active .seed-checkmark__selectedBackground--checked_true": {
+            opacity: 1,
+          },
+          "&:active .seed-checkmark__selectedBackground--indeterminate_true": {
             opacity: 1,
           },
         },
