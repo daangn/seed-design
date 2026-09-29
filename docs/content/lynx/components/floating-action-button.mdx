@@ -59,6 +59,8 @@ export function NewPostButton() {
 
 `extended={false}`이면 label은 화면에서 숨겨지고 56×56px 아이콘 버튼으로 표시됩니다. 이때도 `label`은 Root의 접근성 이름으로 남습니다. 다른 설명이 필요하면 `accessibility-label`을 직접 지정하세요.
 
+Root는 `accessibility-traits`를 따로 지정하지 않으면 활성 상태에서 `"button"`, `disabled`이면 `"disabled"`로 보조 기술에 알립니다. `disabled`이면 `bindtap`·`main-thread:bindtap`, 눌림 상태와 Scale Feedback이 동작하지 않습니다.
+
 ## Examples
 
 ### Extended
@@ -86,6 +88,15 @@ Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`�
   }
   ```
 </LynxComponentExample>
+
+## Headless
+
+Floating Action Button에는 전용 Headless 패키지가 없습니다. SEED 스타일 없이 tap·`disabled` 차단·눌림 상태·접근성 기본값·ref만 필요하면 [Action Button Headless](/lynx/components/action-button#headless)의 `@seed-design/lynx-react-action-button`을 사용하세요.
+`@seed-design/lynx-react`의 Floating Action Button은 이 기능층에 SEED Recipe, 아이콘·label slot, label 폭 측정과 확장·축소 transition, Scale Feedback을 더합니다.
+
+```package-install
+@seed-design/lynx-react-action-button
+```
 
 ## 웹 버전과의 차이
 
