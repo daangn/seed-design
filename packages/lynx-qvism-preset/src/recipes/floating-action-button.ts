@@ -7,6 +7,10 @@ import { defineSlotRecipe } from "../utils/define";
  *
  * Pressed is modeled as a background-thread boolean variant rather than a
  * pseudo selector. Scale Feedback owns the root transform on the Main Thread.
+ *
+ * The label stays mounted while collapsed. The root clips it and it fades out
+ * on one line, so the icon is left-aligned with padding that centers it at the
+ * collapsed size.
  */
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -17,10 +21,12 @@ const floatingActionButton = defineSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       flexShrink: 0,
       maxWidth: "100%",
       overflow: "hidden",
+      // Lynx does not animate `gap`; keep it constant so the label does not jump toward the icon.
+      gap: vars.extendedTrue.enabled.root.gap,
       backgroundColor: vars.base.enabled.root.color,
       borderRadius: vars.base.enabled.root.cornerRadius,
       boxShadow: vars.base.enabled.root.shadow,
@@ -30,7 +36,6 @@ const floatingActionButton = defineSlotRecipe({
         `height ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding-left ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
         `padding-right ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
-        `gap ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
       ].join(", "),
     },
     icon: {
@@ -44,10 +49,12 @@ const floatingActionButton = defineSlotRecipe({
     label: {
       width: "max-content",
       flexShrink: 0,
+      whiteSpace: "nowrap",
       color: vars.extendedTrue.enabled.label.color,
       fontSize: vars.extendedTrue.enabled.label.fontSize,
       lineHeight: vars.extendedTrue.enabled.label.lineHeight,
       fontWeight: vars.extendedTrue.enabled.label.fontWeight,
+      transition: `opacity ${vars.base.enabled.root.layoutDuration} ${vars.base.enabled.root.layoutTimingFunction}`,
     },
   },
   variants: {
@@ -58,7 +65,6 @@ const floatingActionButton = defineSlotRecipe({
           height: vars.extendedTrue.enabled.root.minHeight,
           paddingLeft: vars.extendedTrue.enabled.root.paddingX,
           paddingRight: vars.extendedTrue.enabled.root.paddingX,
-          gap: vars.extendedTrue.enabled.root.gap,
         },
         icon: {
           width: vars.extendedTrue.enabled.icon.size,
@@ -69,13 +75,15 @@ const floatingActionButton = defineSlotRecipe({
         root: {
           width: vars.extendedFalse.enabled.root.size,
           height: vars.extendedFalse.enabled.root.size,
-          paddingLeft: 0,
+          paddingLeft: `calc((${vars.extendedFalse.enabled.root.size} - ${vars.extendedFalse.enabled.icon.size}) / 2)`,
           paddingRight: 0,
-          gap: 0,
         },
         icon: {
           width: vars.extendedFalse.enabled.icon.size,
           height: vars.extendedFalse.enabled.icon.size,
+        },
+        label: {
+          opacity: 0,
         },
       },
     },
@@ -96,6 +104,7 @@ const floatingActionButton = defineSlotRecipe({
       false: {
         root: { transitionDuration: "0s" },
         icon: { transitionDuration: "0s" },
+        label: { transitionDuration: "0s" },
       },
     },
   },

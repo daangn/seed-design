@@ -13,8 +13,10 @@ export interface UsePressTapOptions {
   onTap?: TouchHandler;
   mainThreadOnTap?: MainThreadBindtap;
   /**
-   * 소비자의 `main-thread:bindtouchstart`입니다. 같은 native 이벤트의 Background handler를 대체하므로
-   * 이 handler를 실행한 뒤 눌림 상태 갱신을 Background로 넘기는 합성 handler를 반환합니다.
+   * 소비자의 `main-thread:bindtouchstart`입니다. 이 handler를 실행한 뒤 눌림 상태 갱신을 Background로
+   * 넘기는 합성 handler를 반환합니다. native는 같은 이벤트의 Background·Main Thread handler를 모두
+   * 실행하지만 `@lynx-js/react/testing-library`는 한 key에 덮어쓰므로, 합성 handler로 두 환경의
+   * 눌림 상태를 맞춥니다.
    */
   mainThreadOnTouchStart?: MainThreadTouchHandler;
   /** 소비자의 `main-thread:bindtouchend`입니다. 합성 방식은 `mainThreadOnTouchStart`와 같습니다. */
