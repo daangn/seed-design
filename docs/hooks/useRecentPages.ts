@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import { useEffect, useState } from "react";
 import { sectionLabel } from "@/lib/docs-sections";
 
@@ -10,8 +12,8 @@ export interface RecentPage {
   ts: number;
 }
 
-const STORAGE_KEY = "seed-docs-recent";
-const CHANGE_EVENT = "seed-docs-recent-change";
+const STORAGE_KEY = `seed-docs-recent${archivePaths.prefix ? `:${archivePaths.prefix}` : ""}`;
+const CHANGE_EVENT = `${STORAGE_KEY}-change`;
 const MAX_ITEMS = 6;
 
 const INTERNAL_ORIGIN = "https://seed-docs.local";

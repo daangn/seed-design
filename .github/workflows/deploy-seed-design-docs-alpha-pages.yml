@@ -6,6 +6,7 @@ on:
       - "!dev" # V3 deployment; remove this when V3 is stable
     paths:
       - "docs/**"
+      - "scripts/docs-archive/**"
       - "packages/css/**"
       - "packages/react-headless/**"
       - "packages/react/**"
@@ -73,13 +74,17 @@ jobs:
           build-packages: true
           build-rootage: true
 
+      - name: Select docs build from archive registry
+        id: target
+        run: bun scripts/docs-archive/build-target.ts
+
       - name: Restore Next.js cache
         id: restore-nextjs-cache
         uses: ./.github/actions/nextjs-cache
         with:
           # A branch publishes one immutable baseline per compatibility namespace.
           # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
-          cache-generation: baseline
+          cache-generation: ${{ steps.target.outputs.cache-generation }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
           legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
@@ -96,10 +101,15 @@ jobs:
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
           NODE_OPTIONS: --max-old-space-size=6144
+          DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
         run: |
           build_started_at="$(date +%s)"
           set +e
-          bun run build
+          if [ -n "$DOCS_ARCHIVE_VERSION" ]; then
+            bun run build:archive:react "$DOCS_ARCHIVE_VERSION"
+          else
+            bun run build
+          fi
           status=$?
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
           echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
@@ -166,7 +176,14 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
-          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+          command: pages deploy ./${{ steps.target.outputs.output-dir }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      - name: Verify archive deployment and branch alias
+        if: steps.target.outputs.archive-version != ''
+        env:
+          PAGES_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PAGES_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+        run: bun scripts/docs-archive/verify-preview.ts
 
       # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
       # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
@@ -176,7 +193,12 @@ jobs:
         continue-on-error: true
         uses: ./.github/actions/check-docs-links
         with:
-          out-dir: ${{ github.workspace }}/docs/out
+          out-dir: ${{ github.workspace }}/${{ steps.target.outputs.output-dir }}
+          canonical-prefix: ${{ steps.target.outputs.prefix }}
+          llms-exclude: |
+            ${{ steps.target.outputs.prefix || 'react/' }}llms-full.txt
+            ${{ steps.target.outputs.prefix }}llms/react/updates/changelog.txt
+            ${{ steps.target.outputs.prefix }}llms/react/updates/changelog/*
 
       - name: Find related PR
         id: pr
@@ -208,6 +230,7 @@ jobs:
           LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PREVIEW_PATH: ${{ steps.target.outputs.preview-path }}
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -215,6 +238,7 @@ jobs:
             const marker = '<!-- seed-design-preview:docs-alpha -->';
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
+            const previewUrl = (url) => url ? url.replace(/\/$/, '') + process.env.PREVIEW_PATH : '(not available)';
 
             const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
             const linksBroken = process.env.LINKS_OUTCOME === 'failure';
@@ -223,8 +247,8 @@ jobs:
               marker,
               '## Alpha Preview (Docs)',
               '',
-              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
-              `- Preview URL: ${deploymentUrl || '(not available)'}`,
+              `- Branch Preview URL: ${previewUrl(aliasUrl)}`,
+              `- Preview URL: ${previewUrl(deploymentUrl)}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
               // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
               // 줄이 없다는 것 자체가 통과를 뜻한다.

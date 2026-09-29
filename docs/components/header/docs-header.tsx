@@ -1,10 +1,12 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import { IconHorizline3VerticalLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
 import { useState } from "react";
@@ -69,13 +71,13 @@ export function DocsHeader({ className, ...props }: ComponentProps<"header">) {
           Gutters are symmetric, so the header is viewport-centered — left-1/2 + -50vw margin
           re-centers the 100vw bar on the viewport (the SEED preset has no translate utilities). */}
       <div className="relative left-[50%] ml-[-50vw] flex h-16 w-screen items-center justify-between bg-fd-background px-4 min-[968px]:hidden">
-        <Link
-          href="/"
+        <SiteLink
+          href={archivePaths.link("/")}
           aria-label="SEED Design System 홈"
           className="text-palette-gray-1000 dark:text-palette-static-white"
         >
           <SeedMark className="h-10 w-auto" />
-        </Link>
+        </SiteLink>
         <div className="flex items-center gap-2.5 text-fg-neutral">
           <ThemeToggle size="size-10" />
           <SearchButton size="size-10" />

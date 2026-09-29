@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
 import Link from "fumadocs-core/link";
@@ -97,7 +98,7 @@ export function DocsCard({
     return (
       <Link
         {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
-        href={href}
+        href={archivePaths.link(href)}
         external={isExternal}
         data-card
         className={clsx(CARD, className)}
