@@ -8,6 +8,7 @@ export {
   type SwitchHiddenInputProps,
   type SwitchLabelProps,
   type SwitchRootProps,
+  type SwitchRootPrimitiveProps,
   type SwitchThumbProps,
 } from "./Switch";
 

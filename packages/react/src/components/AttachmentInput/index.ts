@@ -54,3 +54,13 @@ export {
 } from "./AttachmentInputTrigger";
 
 export * as AttachmentInput from "./AttachmentInput.namespace";
+
+export {
+  useFileUploadContext as useAttachmentInputContext,
+  type UseFileUploadContext as AttachmentInputContextValue,
+} from "@seed-design/react-file-upload";
+
+export type {
+  FileEntry as AttachmentInputFileEntry,
+  FileStatusDetails as AttachmentInputFileStatusDetails,
+} from "@seed-design/react-file-upload";

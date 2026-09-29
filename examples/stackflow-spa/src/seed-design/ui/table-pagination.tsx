@@ -1,6 +1,11 @@
 import { IconChevronLeftLine, IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, type HStackProps, Text } from "@seed-design/react";
-import { useTablePagination, type UseTablePaginationProps } from "@seed-design/react-pagination";
+import {
+  HStack,
+  type HStackProps,
+  Text,
+  useTablePagination,
+  type UseTablePaginationProps,
+} from "@seed-design/react";
 import * as React from "react";
 import { PaginationButton } from "../lib/pagination-button";
 import { SelectContent, SelectGroup, SelectItem, SelectRoot, SelectTrigger } from "./select";
@@ -27,7 +32,7 @@ export type {
   TablePaginationChangeReason,
   TablePaginationValue,
   UseTablePaginationProps,
-} from "@seed-design/react-pagination";
+} from "@seed-design/react";
 
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 

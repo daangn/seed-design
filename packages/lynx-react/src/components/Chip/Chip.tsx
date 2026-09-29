@@ -148,7 +148,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
 });
 ChipButton.displayName = "ChipButton";
 
-/** React `Chip.Root`에 대응하는 기본 action chip입니다. */
+/** React `Chip.Button`에 대응하는 기본 action chip입니다. */
 export interface ChipRootProps extends ChipButtonProps {}
 
 export const ChipRoot = React.forwardRef<unknown, ChipRootProps>((props, ref) => (
