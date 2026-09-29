@@ -195,10 +195,14 @@ function Body({ children }: { children: React.ReactNode }) {
   const { shouldUseBottomSheet } = useResponsiveSidePanelContext(); // [!code ++]
 
   return (
-    <ResponsiveSidePanelBody minHeight="x40"> // [!code --]
-    <ResponsiveSidePanelBody> // [!code ++]
-      {children} // [!code --]
-      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box> // [!code ++]
+    {/* [!code --] */}
+    <ResponsiveSidePanelBody minHeight="x40">
+    {/* [!code ++] */}
+    <ResponsiveSidePanelBody>
+      {/* [!code --] */}
+      {children}
+      {/* [!code ++] */}
+      <Box {...(shouldUseBottomSheet && { minHeight: "x40" })}>{children}</Box>
     </ResponsiveSidePanelBody>
   );
 }
@@ -338,14 +342,22 @@ import { Popover } from "@seed-design/react/primitive";
 
 <Popover.Root>
   <Popover.Trigger>열기</Popover.Trigger>
-  <Popover.Positioner aria-label="추가 정보"> // [!code --]
-    <p>내용</p> // [!code --]
-  </Popover.Positioner> // [!code --]
-  <Popover.Positioner> // [!code ++]
-    <Popover.Content aria-label="추가 정보"> // [!code ++]
-      <p>내용</p> // [!code ++]
-    </Popover.Content> // [!code ++]
-  </Popover.Positioner> // [!code ++]
+  {/* [!code --] */}
+  <Popover.Positioner aria-label="추가 정보">
+    {/* [!code --] */}
+    <p>내용</p>
+  {/* [!code --] */}
+  </Popover.Positioner>
+  {/* [!code ++] */}
+  <Popover.Positioner>
+    {/* [!code ++] */}
+    <Popover.Content aria-label="추가 정보">
+      {/* [!code ++] */}
+      <p>내용</p>
+    {/* [!code ++] */}
+    </Popover.Content>
+  {/* [!code ++] */}
+  </Popover.Positioner>
 </Popover.Root>
 ```
 
