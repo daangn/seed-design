@@ -31,6 +31,7 @@ related: ["workspace-installation", "verify-baseline-test-failures"]
 - DES-2613(AppBar)에서 자체 커밋 없이 dev 기반이던 브랜치를 `git rebase --autostash origin/minor`로 옮기자, minor에 없는 dev 커밋 28개가 feature 커밋처럼 다시 쌓였다. 브랜치를 기준에 다시 맞춰 되돌렸다.
 - DES-2613을 `refactor-lynx-components`로 옮길 때, 이 기준에 들어 있던 dev #2283(AppBar 높이 56px 통합)이 수정한 `packages/lynx-react/src/components/AppBar/useAppBar.ts`와 충돌했다. 이 작업에서는 그 파일을 `useStyledAppBar.ts`로 바꾸고 원래 파일은 지웠다. #2283의 높이 변경을 새 파일로 옮기고, `origin/refactor-lynx-components`에서 다시 수집한 parity와 byte 단위로 같은지 확인했다.
 - DES-2618(FloatingActionButton)은 작업 중 dev에 추가된 `lynx-headless-no-docs`(#2317, "Headless는 별도로 문서화하지 않는다")를 기준 checkout에서 보지 못해 FAB 문서에 `## Headless` 절을 넣은 채 PR(#2320)을 올렸다. 학습 PR을 dev 위로 rebase하다 발견해 절을 지우는 커밋을 추가했다.
+- DES-2620(Dialog)도 dev 기반 checkout에서 학습 기록을 조회한 뒤 `refactor-lynx-components`로 옮겨 `lynx-headless-no-docs`를 보지 못했다. Dialog 문서에 `## Headless` 절과 `headless.tsx` 예제를 넣었다가, 학습 브랜치를 dev 위로 rebase하며 발견해 커밋 전에 지웠다.
 - 피할 패턴: 현재 checkout의 파일 목록이나 한 번 확인한 결과만으로 선례 위치와 기준 브랜치를 고정하는 것. 학습 기록 커밋을 기능 PR에 섞는 것.
 - 위험: 형제 티켓마다 다른 기준에서 작업하고, 선례가 옮겨지면 PR이 충돌한다.
 
@@ -39,3 +40,4 @@ related: ["workspace-installation", "verify-baseline-test-failures"]
 - 2026-09-28: DES-2612 작업의 `AGENT_LEARNINGS.md` 항목을 이관하면서 base 이동·학습 PR 분리·force push 순서 교훈을 합쳤다. 개인 환경 정보는 제외했다.
 - 2026-09-28: DES-2613의 기준 이동 사례를 근거로 `--onto` 이동과 rename 충돌 이식 절차를 보강했다.
 - 2026-09-29: DES-2618에서 dev에만 있는 최신 학습 항목을 놓친 사례로 조회 절차를 추가했다.
+- 2026-09-29: DES-2620에서 같은 누락이 반복된 근거를 추가했다.
