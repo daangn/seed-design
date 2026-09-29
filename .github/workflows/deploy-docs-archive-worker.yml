@@ -1,0 +1,71 @@
+name: Deploy Docs Archive Worker
+
+on:
+  push:
+    branches: [major]
+    paths:
+      - "scripts/docs-archive/**"
+      - "!scripts/docs-archive/README.md"
+      - ".github/workflows/deploy-docs-archive-worker.yml"
+      - ".bun-version"
+      - "bun.lock"
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "verify: check origins only; deploy: verify and publish the shared Worker"
+        required: true
+        type: choice
+        default: verify
+        options: [verify, deploy]
+
+permissions:
+  contents: read
+
+# A single Worker owns the entire route list. Never deploy versions concurrently.
+concurrency:
+  group: docs-archive-worker-production
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    if: >-
+      github.repository == 'daangn/seed-design' &&
+      github.ref == 'refs/heads/major' &&
+      (github.event_name == 'workflow_dispatch' || vars.DOCS_ARCHIVE_DEPLOY_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile
+      - name: Test and typecheck archive automation
+        run: |
+          bun test scripts/docs-archive
+          bun tsc --ignoreConfig --noEmit --skipLibCheck --types bun --lib es2022,dom --moduleResolution bundler --module esnext --target es2022 scripts/docs-archive/worker-configuration.d.ts scripts/docs-archive/worker.ts scripts/docs-archive/deploy.ts scripts/docs-archive/build-target.ts scripts/docs-archive/verify-preview.ts
+      - name: Verify all registered origins (no Cloudflare write credentials)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bun scripts/docs-archive/deploy.ts --verify-only
+      - name: Require explicit activation and current operational branch
+        if: github.event_name == 'push' || inputs.operation == 'deploy'
+        env:
+          DOCS_ARCHIVE_DEPLOY_ENABLED: ${{ vars.DOCS_ARCHIVE_DEPLOY_ENABLED }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$DOCS_ARCHIVE_DEPLOY_ENABLED" = "true" || { echo "Activate DOCS_ARCHIVE_DEPLOY_ENABLED after the initial origin and permission review."; exit 1; }
+          current_sha="$(gh api repos/daangn/seed-design/git/ref/heads/major --jq .object.sha)"
+          test "$current_sha" = "$GITHUB_SHA" || { echo "This run is stale. Run the workflow on the current major commit."; exit 1; }
+      - name: Verify again and deploy the complete Worker route list
+        if: github.event_name == 'push' || inputs.operation == 'deploy'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          WRANGLER_LOG_PATH: /tmp/wrangler-docs-archive.log
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CF_API_TOKEN"; exit 1; }
+          bun scripts/docs-archive/deploy.ts
