@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import { ALL } from "@/components/changelog-viewer/constants";
 import { LLMOptions } from "@/components/page-actions";
 import { Suspense } from "react";
@@ -14,8 +16,9 @@ function toSlug(packageName: string): string {
 function getChangelogLlmsUrl(pkg: string, version: string, fallbackUrl: string): string {
   if (!pkg || pkg === ALL) return fallbackUrl;
   const slug = toSlug(pkg);
-  if (version === ALL) return `/llms/react/updates/changelog/${slug}/llms.txt`;
-  return `/llms/react/updates/changelog/${slug}/${version}.txt`;
+  if (version === ALL)
+    return archivePaths.endpoint(`/llms/react/updates/changelog/${slug}/llms.txt`);
+  return archivePaths.endpoint(`/llms/react/updates/changelog/${slug}/${version}.txt`);
 }
 
 function ChangelogLLMOptionsInner({ fallbackUrl }: { fallbackUrl: string }) {

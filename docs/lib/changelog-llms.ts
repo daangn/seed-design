@@ -1,3 +1,5 @@
+import { REACT_ARCHIVE_VERSION } from "./docs-archive";
+import { archiveMarkdown } from "@/app/_llms/archive-markdown";
 import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
 import {
@@ -62,7 +64,7 @@ export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise
     const renderedBlocks = versions.map((version) => {
       const group = versionGroups.get(version);
       if (!group) return `## ${version}\n\n(no entries)`;
-      return renderVersionMarkdown(version, group, lookup);
+      return archiveMarkdown(renderVersionMarkdown(version, group, lookup), REACT_ARCHIVE_VERSION);
     });
 
     packages.set(source.packageName, {

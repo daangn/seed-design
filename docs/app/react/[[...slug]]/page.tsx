@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getReactSource } from "@/app/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
@@ -17,7 +18,8 @@ import { notFound } from "next/navigation";
 export const dynamic = "force-static";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
@@ -49,7 +51,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       coverImage={
         cover
           ? {
-              src: cover.thumbnail,
+              src: archivePaths.asset(cover.thumbnail),
               alt: `${displayTitle} cover image`,
               width: cover.og.width,
               height: cover.og.height,
@@ -73,13 +75,17 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
 export async function generateStaticParams() {
   const reactSource = await getReactSource();
-  return reactSource.generateParams();
+  return reactSource.generateParams().map((params) => ({
+    ...params,
+    slug: archivePaths.routeSlug(params.slug),
+  }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();

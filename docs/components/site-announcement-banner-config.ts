@@ -1,3 +1,5 @@
+import { archivePaths } from "@/lib/docs-archive";
+
 export interface SiteAnnouncementBannerConfig {
   /** Change the id when a new announcement should be shown to previously dismissed visitors. */
   id: string;
@@ -13,7 +15,7 @@ export const SITE_ANNOUNCEMENT_BANNER = {
   id: "design-engineer-article-2026-08",
   enabled: true,
   message: "우리는 왜 디자인 엔지니어를 찾게 됐을까",
-  href: "/updates/why-we-hired-a-design-engineer",
+  href: archivePaths.link("/updates/why-we-hired-a-design-engineer"),
   startDate: "2026-08-25",
   endDate: "2026-09-30",
 } satisfies SiteAnnouncementBannerConfig;

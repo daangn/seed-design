@@ -1,5 +1,7 @@
 "use client";
 
+import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+
 import {
   DocsMenuContent,
   DocsMenuGroup,
@@ -9,20 +11,39 @@ import {
   DocsMenuTriggerButton,
 } from "@/components/docs-menu";
 import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import { useState } from "react";
+import { type ComponentProps, useState } from "react";
 import clsx from "clsx";
 
-const VERSIONS = [
-  { label: "v2.0 (latest)", url: "https://seed-design.io/react" },
-  { label: "v1.2", url: "https://v1-2.seed-design.io/react" },
-  { label: "v1.1", url: "https://v1-1.seed-design.io/react" },
-  { label: "v1.0", url: "https://v1-0.seed-design.io/react" },
+const PUBLISHED_VERSIONS = [
+  { label: "latest", url: "https://seed-design.io/react" },
+  { label: "2.0", url: "https://seed-design.io/react/2.0" },
+  { label: "1.2", url: "https://v1-2.seed-design.io/react" },
+  { label: "1.1", url: "https://v1-1.seed-design.io/react" },
+  { label: "1.0", url: "https://v1-0.seed-design.io/react" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
-// NOTE: update CURRENT_VERSION when releasing a new version & keep in release branch
-const CURRENT_VERSION: (typeof VERSIONS)[number]["label"] = "v2.0 (latest)";
+export function getReactVersions(
+  archiveVersion: string,
+): ReadonlyArray<{ label: string; url: string }> {
+  if (!archiveVersion || PUBLISHED_VERSIONS.some((version) => version.label === archiveVersion)) {
+    return PUBLISHED_VERSIONS;
+  }
+  // A future archive must identify itself even before it is added to the latest site's menu.
+  return [
+    PUBLISHED_VERSIONS[0],
+    { label: archiveVersion, url: `https://seed-design.io/react/${archiveVersion}` },
+    ...PUBLISHED_VERSIONS.slice(1),
+  ];
+}
 
-export function ReactVersionSwitcher() {
+const VERSIONS = getReactVersions(REACT_ARCHIVE_VERSION);
+
+// The release branch embeds its archive version; regular Pages previews remain latest.
+const CURRENT_VERSION = REACT_ARCHIVE_VERSION || "latest";
+
+export function ReactVersionSwitcher({
+  positionerContainer,
+}: Pick<ComponentProps<typeof DocsMenuContent>, "positionerContainer">) {
   const [open, setOpen] = useState(false);
 
   const current = VERSIONS.find((v) => v.label === CURRENT_VERSION) ?? VERSIONS[0];
@@ -37,7 +58,7 @@ export function ReactVersionSwitcher() {
           />
         </DocsMenuTriggerButton>
       </DocsMenuTrigger>
-      <DocsMenuContent>
+      <DocsMenuContent positionerContainer={positionerContainer}>
         <DocsMenuGroup>
           {VERSIONS.map((version) => (
             <DocsMenuItem

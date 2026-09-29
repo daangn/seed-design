@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 export function compareSemver(a: string, b: string): number {
   const normalize = (v: string) =>
     v
@@ -15,7 +16,9 @@ export function compareSemver(a: string, b: string): number {
 }
 
 export function getChangelogHref(packageName: string, version: string): string {
-  return `/react/updates/changelog?package=${encodeURIComponent(packageName)}&version=${encodeURIComponent(version)}`;
+  return archivePaths.link(
+    `/react/updates/changelog?package=${encodeURIComponent(packageName)}&version=${encodeURIComponent(version)}`,
+  );
 }
 
 export function getGroupAnchorId(packageName: string, version: string): string {
