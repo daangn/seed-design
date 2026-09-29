@@ -109,7 +109,7 @@ Lynx에는 `Float` 컴포넌트가 없으므로 기준 frame의 `position="relat
 
 - **이벤트 핸들링**: `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`와 `<text>` 요소를 렌더링합니다. HTML form props와 `asChild`는 지원하지 않습니다.
-- **접근성**: `aria-label` 대신 native `accessibility-label`을 사용합니다.
+- **접근성**: `aria-label` 대신 native `accessibility-label`을 사용합니다. `accessibility-traits`를 지정하지 않으면 `"button"`으로, `disabled`·`loading` 중에는 `"disabled"`로 알립니다.
 - **아이콘**: 웹 SVG 대신 native icon asset을 `PrefixIcon` 또는 `Icon` child slot으로 전달합니다. recipe 색상은 native icon tint로 동기화됩니다.
 - **Loading**: 두 플랫폼 모두 spinner를 absolute로 얹고 content를 숨겨 버튼 폭을 유지합니다. Lynx는 loading 중 tap을 차단하지만, React는 loading만으로 `onClick`을 차단하지 않습니다.
 - **Scale Feedback**: root의 `transform`은 Scale Feedback hook이 소유합니다. 위치를 transform으로 조정해야 할 때는 버튼 root가 아닌 외부 wrapper에 적용하세요.
