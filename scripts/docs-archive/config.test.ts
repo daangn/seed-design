@@ -3,8 +3,8 @@ import { archivePrefix, archiveRoutes, validateArchive } from "./config";
 
 const archive = {
   platform: "react",
-  version: "v2",
-  origin: "https://react-v2.example.pages.dev",
+  version: "2.0",
+  origin: "https://react-2.0.example.pages.dev",
   sourceSha: "a".repeat(40),
   probe: { document: "components/button", registryItem: "ui/button" },
 };
@@ -13,10 +13,10 @@ it("keeps all existing routes when adding another version or platform", () => {
   expect(
     archiveRoutes([
       archive,
-      { ...archive, version: "v3" },
-      { ...archive, platform: "lynx", version: "v1" },
+      { ...archive, version: "3.0" },
+      { ...archive, platform: "lynx", version: "1.0" },
     ]),
-  ).toEqual(["seed-design.io/react/v2*", "seed-design.io/react/v3*", "seed-design.io/lynx/v1*"]);
+  ).toEqual(["seed-design.io/react/2.0*", "seed-design.io/react/3.0*", "seed-design.io/lynx/1.0*"]);
 });
 
 it("rejects empty or duplicate registrations", () => {
@@ -30,11 +30,26 @@ it.each([
   "latest",
   "v0",
   "v01",
-  "v2.1",
-  "v2/*",
-  "v2/../v3",
-])("rejects non-major version %s", (version) => {
+  "2.0.1",
+  "2.0/*",
+  "2.0/../3.0",
+  "v2",
+  "v2.0",
+  "02.0",
+  "2.00",
+])("rejects malformed channel %s", (version) => {
   expect(() => archivePrefix({ ...archive, version })).toThrow();
+});
+
+it("can register retained React minor versions alongside a major channel", () => {
+  expect(
+    archiveRoutes(["1.0", "1.1", "1.2", "2.0"].map((version) => ({ ...archive, version }))),
+  ).toEqual([
+    "seed-design.io/react/1.0*",
+    "seed-design.io/react/1.1*",
+    "seed-design.io/react/1.2*",
+    "seed-design.io/react/2.0*",
+  ]);
 });
 
 it("rejects invalid platforms and incomplete or unsafe deployment inputs", () => {
@@ -45,4 +60,12 @@ it("rejects invalid platforms and incomplete or unsafe deployment inputs", () =>
     validateArchive({ ...archive, probe: { ...archive.probe, document: "../../react" } }),
   ).toThrow();
   expect(() => validateArchive(archive)).not.toThrow();
+});
+
+it("accepts a source branch so operators do not maintain current SHAs by hand", () => {
+  const { sourceSha: _, ...definition } = archive;
+  expect(() => validateArchive({ ...definition, sourceBranch: "2.0" })).not.toThrow();
+  for (const sourceBranch of ["../main", "a//b", "main\n", "a.lock", "-main"]) {
+    expect(() => validateArchive({ ...definition, sourceBranch })).toThrow();
+  }
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { createArchivePaths } from "./docs-archive";
+import { assertReactArchiveSource, createArchivePaths } from "./docs-archive";
 
 describe("documentation archive paths", () => {
   it("leaves the latest Pages build unchanged", () => {
@@ -14,8 +14,11 @@ describe("documentation archive paths", () => {
   });
 
   it.each([
-    "v2",
-    "v3",
+    "1.0",
+    "1.1",
+    "1.2",
+    "2.0",
+    "3.0",
   ])("isolates %s pages, endpoints and assets without nesting react twice", (version) => {
     const paths = createArchivePaths(version);
     expect([
@@ -34,7 +37,7 @@ describe("documentation archive paths", () => {
   });
 
   it("keeps shared content and the other platform on the latest site", () => {
-    const paths = createArchivePaths("v2");
+    const paths = createArchivePaths("2.0");
     expect([paths.link("/"), paths.link("/lynx"), paths.link("/updates/article")]).toEqual([
       "https://seed-design.io/",
       "https://seed-design.io/lynx",
@@ -43,27 +46,51 @@ describe("documentation archive paths", () => {
   });
 
   it("does not rewrite scoped, external or fragment links", () => {
-    const paths = createArchivePaths("v2");
+    const paths = createArchivePaths("2.0");
     const links = [
-      "/react/v2/components/button",
-      "/react/v2?query=1",
-      "/react/v2#top",
+      "/react/2.0/components/button",
+      "/react/2.0?query=1",
+      "/react/2.0#top",
       "https://seed-design.io/react",
       "//example.com/a",
       "#usage",
     ];
     expect(links.map(paths.link)).toEqual(links);
-    expect(paths.asset("/react/v2/_assets/logo.webp")).toBe("/react/v2/_assets/logo.webp");
+    expect(paths.asset("/react/2.0/_assets/logo.webp")).toBe("/react/2.0/_assets/logo.webp");
   });
 
   it.each([
     "v0",
-    "v1.2",
-    "v2.1",
+    "1.0.2",
+    "2.0.1",
     "latest",
-    "v2/../../../",
+    "2.0/../../../",
     "2",
+    "v2",
+    "v2.0",
+    "02.0",
+    "2.00",
   ])("rejects unsupported archive version %s", (version) => {
     expect(() => createArchivePaths(version)).toThrow();
+  });
+
+  it.each([
+    ["1.0", "1.0.9"],
+    ["1.1", "1.1.4"],
+    ["1.2", "1.2.3"],
+    ["2.0", "2.5.0"],
+    ["3.0", "3.4.1"],
+  ])("accepts archive channel %s from React %s", (channel, version) => {
+    expect(() => assertReactArchiveSource(channel, version)).not.toThrow();
+  });
+
+  it.each([
+    ["1.0", "1.1.0"],
+    ["1.1", "1.2.0"],
+    ["2.0", "3.0.0"],
+    ["2.1", "2.1.0"],
+    ["", "2.5.0"],
+  ])("rejects archive channel %s from React %s", (channel, version) => {
+    expect(() => assertReactArchiveSource(channel, version)).toThrow();
   });
 });

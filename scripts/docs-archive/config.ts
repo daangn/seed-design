@@ -2,13 +2,18 @@ export interface ArchiveDefinition {
   platform: string;
   version: string;
   origin: string;
-  sourceSha: string;
+  // Use a branch for normal operation, or a fixed SHA when pinning a rollback deployment.
+  sourceBranch?: string;
+  sourceSha?: string;
   probe: { document: string; registryItem: string };
 }
 
 export function archivePrefix(archive: Pick<ArchiveDefinition, "platform" | "version">) {
-  if (!/^[a-z][a-z0-9-]*$/.test(archive.platform) || !/^v[1-9]\d*$/.test(archive.version)) {
-    throw new Error("Archive paths must use a platform and major version, such as lynx/v1");
+  if (
+    !/^[a-z][a-z0-9-]*$/.test(archive.platform) ||
+    !/^[1-9]\d*\.(?:0|[1-9]\d*)$/.test(archive.version)
+  ) {
+    throw new Error("Archive paths must use a platform and numeric channel, such as lynx/1.0");
   }
   return `/${archive.platform}/${archive.version}`;
 }
@@ -47,12 +52,30 @@ export function validateArchive(archive: ArchiveDefinition) {
   if (!archive.origin)
     throw new Error(`${prefix}: fill in the verified Pages origin in archives.json`);
   archiveOrigin(archive.origin);
-  if (!/^[a-f0-9]{40}$/.test(archive.sourceSha)) {
-    throw new Error(`${prefix}: supply the reviewed sourceSha (40 characters)`);
+  if (!archive.sourceBranch && !archive.sourceSha) {
+    throw new Error(`${prefix}: supply sourceBranch, or sourceSha for a pinned deployment`);
+  }
+  if (archive.sourceSha && !/^[a-f0-9]{40}$/.test(archive.sourceSha)) {
+    throw new Error(`${prefix}: sourceSha must contain 40 lowercase hex characters`);
+  }
+  if (archive.sourceBranch) {
+    validateSourceBranch(archive.sourceBranch);
   }
   for (const value of [archive.probe.document, archive.probe.registryItem]) {
     if (!/^[a-z0-9-]+(?:\/[a-z0-9-]+)+$/.test(value)) {
       throw new Error(`${prefix}: probes must be relative document and registry paths`);
     }
+  }
+}
+
+export function validateSourceBranch(branch: string) {
+  if (
+    !/^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(branch) ||
+    branch.includes("..") ||
+    branch
+      .split("/")
+      .some((part) => !part || part.startsWith(".") || part.endsWith(".") || part.endsWith(".lock"))
+  ) {
+    throw new Error("sourceBranch must be a valid, explicit release branch name");
   }
 }

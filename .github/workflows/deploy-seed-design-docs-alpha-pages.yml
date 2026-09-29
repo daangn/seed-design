@@ -6,6 +6,7 @@ on:
       - "!dev" # V3 deployment; remove this when V3 is stable
     paths:
       - "docs/**"
+      - "scripts/docs-archive/**"
       - "packages/css/**"
       - "packages/react-headless/**"
       - "packages/react/**"
@@ -44,7 +45,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  DOCS_OUTPUT_DIR: ${{ github.ref_name == '2.0' && 'docs/out-archive' || 'docs/out' }}
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
@@ -74,13 +74,17 @@ jobs:
           build-packages: true
           build-rootage: true
 
+      - name: Select docs build from archive registry
+        id: target
+        run: bun scripts/docs-archive/build-target.ts
+
       - name: Restore Next.js cache
         id: restore-nextjs-cache
         uses: ./.github/actions/nextjs-cache
         with:
           # A branch publishes one immutable baseline per compatibility namespace.
           # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
-          cache-generation: ${{ github.ref_name == '2.0' && 'react-v2-archive' || 'baseline' }}
+          cache-generation: ${{ steps.target.outputs.cache-generation }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
           legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
@@ -97,11 +101,12 @@ jobs:
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
           NODE_OPTIONS: --max-old-space-size=6144
+          DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
         run: |
           build_started_at="$(date +%s)"
           set +e
-          if [ "$GITHUB_REF_NAME" = "2.0" ]; then
-            bun run build:archive:react v2
+          if [ -n "$DOCS_ARCHIVE_VERSION" ]; then
+            bun run build:archive:react "$DOCS_ARCHIVE_VERSION"
           else
             bun run build
           fi
@@ -171,7 +176,14 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
-          command: pages deploy ./${{ env.DOCS_OUTPUT_DIR }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+          command: pages deploy ./${{ steps.target.outputs.output-dir }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      - name: Verify archive deployment and branch alias
+        if: steps.target.outputs.archive-version != ''
+        env:
+          PAGES_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PAGES_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+        run: bun scripts/docs-archive/verify-preview.ts
 
       # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
       # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
@@ -181,12 +193,12 @@ jobs:
         continue-on-error: true
         uses: ./.github/actions/check-docs-links
         with:
-          out-dir: ${{ github.workspace }}/${{ env.DOCS_OUTPUT_DIR }}
-          canonical-prefix: ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}
+          out-dir: ${{ github.workspace }}/${{ steps.target.outputs.output-dir }}
+          canonical-prefix: ${{ steps.target.outputs.prefix }}
           llms-exclude: |
-            ${{ github.ref_name == '2.0' && 'react/v2/llms-full.txt' || 'react/llms-full.txt' }}
-            ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}llms/react/updates/changelog.txt
-            ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}llms/react/updates/changelog/*
+            ${{ steps.target.outputs.prefix || 'react/' }}llms-full.txt
+            ${{ steps.target.outputs.prefix }}llms/react/updates/changelog.txt
+            ${{ steps.target.outputs.prefix }}llms/react/updates/changelog/*
 
       - name: Find related PR
         id: pr
@@ -218,7 +230,7 @@ jobs:
           LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
-          PREVIEW_PATH: ${{ github.ref_name == '2.0' && '/react/v2/' || '' }}
+          PREVIEW_PATH: ${{ steps.target.outputs.preview-path }}
         with:
           script: |
             const { owner, repo } = context.repo;

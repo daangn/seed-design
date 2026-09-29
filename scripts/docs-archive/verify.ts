@@ -9,6 +9,9 @@ import {
 export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof fetch = fetch) {
   validateArchive(archive);
   const prefix = archivePrefix(archive);
+  if (!archive.sourceSha || archive.sourceBranch) {
+    throw new Error(`${prefix}: resolve the source branch before verifying its deployment`);
+  }
   const origin = archiveOrigin(archive.origin);
   async function get(suffix: string, expectedStatus = 200): Promise<Response> {
     let url = new URL(`${prefix}${suffix}`, origin);

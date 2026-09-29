@@ -12,8 +12,8 @@ const layeredRecipeAliases = Object.fromEntries(
 
 /** @type {import('next').NextConfig} */
 const archiveVersion = process.env.NEXT_PUBLIC_REACT_ARCHIVE_VERSION;
-if (archiveVersion && !/^v(?:[2-9]|[1-9]\d+)$/.test(archiveVersion)) {
-  throw new Error("React archives must use a major version such as v2");
+if (archiveVersion && !/^[1-9]\d*\.(?:0|[1-9]\d*)$/.test(archiveVersion)) {
+  throw new Error("React archives must use a numeric channel such as 2.0");
 }
 const config = {
   ...(archiveVersion ? { assetPrefix: `/react/${archiveVersion}/_assets`, trailingSlash: true } : {}),

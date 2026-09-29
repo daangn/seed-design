@@ -2,8 +2,8 @@
 export const REACT_ARCHIVE_VERSION = process.env.NEXT_PUBLIC_REACT_ARCHIVE_VERSION ?? "";
 
 export function createArchivePaths(version: string) {
-  if (version && !/^v(?:[2-9]|[1-9]\d+)$/.test(version)) {
-    throw new Error(`Invalid React archive version: ${version}. Use a major such as v2.`);
+  if (version && !/^[1-9]\d*\.(?:0|[1-9]\d*)$/.test(version)) {
+    throw new Error(`Invalid React archive version: ${version}. Use a channel such as 2.0.`);
   }
   const prefix = version ? `/react/${version}` : "";
   const isLocal = (path: string) => path.startsWith("/") && !path.startsWith("//");
@@ -41,3 +41,17 @@ export function createArchivePaths(version: string) {
 }
 
 export const archivePaths = createArchivePaths(REACT_ARCHIVE_VERSION);
+
+export function assertReactArchiveSource(version: string, packageVersion: string) {
+  createArchivePaths(version);
+  const [major, minor] = version.split(".");
+  const [sourceMajor, sourceMinor] = packageVersion.split(".");
+  // React 1.x의 기존 마이너 채널만 보존하고, 2.0부터는 메이저 전체를 보관한다.
+  if (
+    !version ||
+    major !== sourceMajor ||
+    (major === "1" ? minor !== sourceMinor : minor !== "0")
+  ) {
+    throw new Error(`Archive ${version} cannot be built from React ${packageVersion}`);
+  }
+}

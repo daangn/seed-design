@@ -6,12 +6,12 @@ afterEach(() => mock.restore());
 
 describe("ReactVersionSwitcher", () => {
   it("includes a future archive itself without exposing it in the latest menu", () => {
-    expect(getReactVersions("v3")[1]).toEqual({
-      label: "v3",
-      url: "https://seed-design.io/react/v3",
+    expect(getReactVersions("3.0")[1]).toEqual({
+      label: "3.0",
+      url: "https://seed-design.io/react/3.0",
     });
-    expect(getReactVersions("").some((version) => version.label === "v3")).toBe(false);
-    expect(getReactVersions("v2").filter((version) => version.label === "v2")).toHaveLength(1);
+    expect(getReactVersions("").some((version) => version.label === "3.0")).toBe(false);
+    expect(getReactVersions("2.0").filter((version) => version.label === "2.0")).toHaveLength(1);
   });
 
   it("shows the ordered versions and marks only latest as current", async () => {
@@ -19,7 +19,7 @@ describe("ReactVersionSwitcher", () => {
     render(<ReactVersionSwitcher />);
     fireEvent.click(screen.getByRole("button", { name: "latest" }));
     const items = await screen.findAllByRole("menuitem");
-    expect(items.map((item) => item.textContent)).toEqual(["latest", "v2", "v1.2", "v1.1", "v1.0"]);
+    expect(items.map((item) => item.textContent)).toEqual(["latest", "2.0", "1.2", "1.1", "1.0"]);
     expect(items.filter((item) => item.getAttribute("aria-current") === "true")).toEqual([
       items[0],
     ]);
@@ -28,8 +28,8 @@ describe("ReactVersionSwitcher", () => {
   });
 
   it.each([
-    ["v2", "https://seed-design.io/react/v2"],
-    ["v1.2", "https://v1-2.seed-design.io/react"],
+    ["2.0", "https://seed-design.io/react/2.0"],
+    ["1.2", "https://v1-2.seed-design.io/react"],
   ])("opens %s in a separate tab", async (label, url) => {
     const open = spyOn(window, "open").mockImplementation(() => null);
     render(<ReactVersionSwitcher />);

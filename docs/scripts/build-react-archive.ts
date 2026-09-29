@@ -1,22 +1,18 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createArchivePaths } from "../lib/docs-archive";
+import { assertReactArchiveSource, createArchivePaths } from "../lib/docs-archive";
 import { exportReactArchive } from "./export-react-archive";
 
 const docsDirectory = fileURLToPath(new URL("..", import.meta.url));
 const version = process.argv[2];
 if (!version)
-  throw new Error("Specify the archive major explicitly, for example build:archive:react v2");
+  throw new Error("Specify the archive channel explicitly, for example build:archive:react 2.0");
 createArchivePaths(version);
 const reactPackage = JSON.parse(
   await readFile(path.join(docsDirectory, "../packages/react/package.json"), "utf8"),
 );
-if (`v${reactPackage.version.split(".")[0]}` !== version) {
-  throw new Error(
-    `Build ${version} from its own release branch, not React ${reactPackage.version}`,
-  );
-}
+assertReactArchiveSource(version, reactPackage.version);
 const revision = Bun.spawnSync(["git", "rev-parse", "HEAD"], { cwd: docsDirectory });
 if (revision.exitCode !== 0) throw new Error("Cannot identify archive source commit");
 const sourceSha = revision.stdout.toString().trim();

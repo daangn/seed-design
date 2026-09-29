@@ -7,7 +7,7 @@ export async function handleArchiveRequest(
   fetcher: typeof fetch = fetch,
 ): Promise<Response> {
   const url = new URL(request.url);
-  // Cloudflare route wildcards also match v20 or v2-other. Match complete path segments here.
+  // Cloudflare의 2.0* route가 2.01 등도 매칭하므로 경로 경계를 직접 구분한다.
   const archive = definitions.find((entry) => isArchivePath(url.pathname, archivePrefix(entry)));
   if (!archive) return fetcher(request);
   const prefix = archivePrefix(archive);
