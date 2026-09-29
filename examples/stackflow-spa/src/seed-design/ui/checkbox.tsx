@@ -7,7 +7,6 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import * as React from "react";
 import {
   checkboxGroup,
@@ -19,7 +18,7 @@ export interface CheckboxGroupProps extends SeedFieldset.RootProps, CheckboxGrou
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedFieldset.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 

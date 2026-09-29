@@ -7,9 +7,6 @@ import {
   VisuallyHidden,
   PrefixIcon,
 } from "@seed-design/react";
-import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
-import type { SliderMarkerVariantProps } from "@seed-design/css/recipes/slider-marker";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
@@ -17,7 +14,7 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedField.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 
@@ -29,7 +26,7 @@ export interface SliderProps extends SeedSlider.RootProps {
    * @default []
    */
   markers?: (
-    | { value: number; label?: React.ReactNode; align?: SliderMarkerVariantProps["align"] }
+    | { value: number; label?: React.ReactNode; align?: SeedSlider.MarkerProps["align"] }
     | number
   )[];
   /**
@@ -39,7 +36,7 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default "thin"
    */
-  tickWeight?: SliderTickVariantProps["weight"];
+  tickWeight?: SeedSlider.TickProps["weight"];
 
   /**
    * @default false

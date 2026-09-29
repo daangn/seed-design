@@ -125,7 +125,6 @@
       "id": "attachment-display-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -163,7 +162,6 @@
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -189,7 +187,6 @@
       "id": "attachment-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -234,7 +231,6 @@
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -481,7 +477,6 @@
       "id": "field-button",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -937,7 +932,6 @@
       "id": "select",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -1020,7 +1014,6 @@
       "id": "slider",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -1145,7 +1138,6 @@
       "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },

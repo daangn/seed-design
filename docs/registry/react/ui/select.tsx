@@ -6,7 +6,6 @@ import {
   Select as SeedSelect,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCheckmarkFatFill,
   IconChevronDownSmallLine,
@@ -19,7 +18,7 @@ export interface SelectRootProps extends SeedSelect.RootProps {
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedField.LabelProps["weight"];
 
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;

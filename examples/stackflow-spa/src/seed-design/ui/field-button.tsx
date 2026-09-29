@@ -5,7 +5,6 @@ import {
   Icon,
   PrefixIcon,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconExclamationmarkCircleFill,
   IconXmarkCircleFill,
@@ -16,7 +15,7 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefi
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedFieldButton.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 

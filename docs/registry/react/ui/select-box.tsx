@@ -18,7 +18,6 @@ import {
 } from "@seed-design/css/recipes/select-box-group";
 import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 
 export interface RadioSelectBoxRootProps
   extends SeedRadioGroupField.RootProps,
@@ -27,7 +26,7 @@ export interface RadioSelectBoxRootProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -172,7 +171,7 @@ export interface CheckSelectBoxGroupProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedFieldset.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 

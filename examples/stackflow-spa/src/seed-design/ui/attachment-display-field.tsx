@@ -4,7 +4,6 @@ import {
   IconExclamationmarkCircleFill,
   IconXmarkFill,
 } from "@karrotmarket/react-monochrome-icon";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   AttachmentDisplay as SeedAttachmentDisplay,
   Icon,
@@ -31,7 +30,7 @@ export interface AttachmentDisplayFieldProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedAttachmentDisplay.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 

@@ -7,7 +7,6 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
 import * as React from "react";
 
@@ -16,7 +15,7 @@ export interface RadioGroupProps extends SeedRadioGroupField.RootProps, RadioGro
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
