@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { localMd, type SatteriLocalMarkdown } from "@fumadocs/satteri/local-md";
 import { watchWithDevServer } from "@fumadocs/satteri/local-md/dev/ws";
@@ -316,7 +317,10 @@ const patternsLoader = createSourceLoader(
   patternsDocs.dynamicSource<SatteriExports>(),
   "/patterns",
 );
-const reactLoader = createSourceLoader(reactDocs.dynamicSource<SatteriExports>(), "/react");
+const reactLoader = createSourceLoader(
+  reactDocs.dynamicSource<SatteriExports>(),
+  archivePaths.reactBase,
+);
 const breezeLoader = createSourceLoader(breezeDocs.dynamicSource<SatteriExports>(), "/breeze");
 const lynxLoader = createSourceLoader(lynxDocs.dynamicSource<SatteriExports>(), "/lynx");
 const aiIntegrationLoader = createSourceLoader(

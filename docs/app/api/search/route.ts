@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import {
   getAiIntegrationSource,
   getBreezeSource,
@@ -113,6 +114,12 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
 
 export const { staticGET: GET } = createSearchAPI("advanced", {
   indexes: async () => {
+    if (archivePaths.prefix) {
+      return [
+        ...(await indexSource(await getReactSource(), TAGS.react.value)),
+        ...(await getChangelogIndexes()),
+      ];
+    }
     const [
       docsSource,
       getStartedSource,

@@ -1,5 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { SeedSymbol } from "./seed-symbol";
 import { FOOTER_BRAND, FOOTER_COLUMNS, type FooterLink } from "./lib/footer-content";
 
@@ -66,8 +66,8 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
   }
 
   return (
-    <Link href={link.href} className={className}>
+    <SiteLink href={link.href} className={className}>
       {link.label}
-    </Link>
+    </SiteLink>
   );
 }
