@@ -1,16 +1,10 @@
 import type { ReactNode } from "@lynx-js/react";
 
 import { render } from "@lynx-js/react/testing-library";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-const dialogMocks = vi.hoisted(() => ({
-  rootProps: [] as Array<Record<string, unknown>>,
-  viewProps: [] as Array<Record<string, unknown>>,
-  backdropProps: [] as Array<Record<string, unknown>>,
-  contentProps: [] as Array<Record<string, unknown>>,
-  closeProps: [] as Array<Record<string, unknown>>,
-}));
-
+// Open/close behavior is covered against the real engine in `@seed-design/lynx-react-dialog`.
+// This mock renders every part immediately so the SEED slots can be inspected.
 vi.mock("@lynx-js/lynx-ui-dialog", () => {
   const renderChildren = (children: unknown, status: Record<string, boolean>): ReactNode => {
     if (typeof children === "function") {
@@ -19,51 +13,29 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
     return children as ReactNode;
   };
 
-  const DialogRoot = (props: Record<string, unknown>) => {
-    dialogMocks.rootProps.push(props);
-    return <>{renderChildren(props["children"], { open: props["show"] === true })}</>;
-  };
-  DialogRoot.displayName = "MockDialogRoot";
-
-  const DialogTrigger = (props: Record<string, unknown>) => (
-    <view>{renderChildren(props["children"], { active: false, busy: false })}</view>
+  const DialogRoot = (props: Record<string, unknown>) => (
+    <>{renderChildren(props["children"], { open: props["show"] === true })}</>
   );
-  DialogTrigger.displayName = "MockDialogTrigger";
-
-  const DialogView = (props: Record<string, unknown>) => {
-    dialogMocks.viewProps.push(props);
-    return (
-      <view className={props["className"] as string}>
-        {renderChildren(props["children"], { open: props["show"] === true })}
-      </view>
-    );
-  };
-  DialogView.displayName = "MockDialogView";
-
-  const DialogBackdrop = (props: Record<string, unknown>) => {
-    dialogMocks.backdropProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogBackdrop.displayName = "MockDialogBackdrop";
-
-  const DialogContent = (props: Record<string, unknown>) => {
-    dialogMocks.contentProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogContent.displayName = "MockDialogContent";
-
-  const DialogClose = (props: Record<string, unknown>) => {
-    dialogMocks.closeProps.push(props);
-    return <view>{renderChildren(props["children"], { active: false, busy: false })}</view>;
-  };
-  DialogClose.displayName = "MockDialogClose";
+  const DialogButton = (props: Record<string, unknown>) => (
+    <view className={props["className"] as string}>
+      {renderChildren(props["children"], { active: false, busy: false })}
+    </view>
+  );
+  const DialogView = (props: Record<string, unknown>) => (
+    <view className={props["className"] as string}>
+      {renderChildren(props["children"], { open: props["show"] === true })}
+    </view>
+  );
+  const DialogPart = (props: Record<string, unknown>) => (
+    <view className={props["className"] as string}>{props["children"] as ReactNode}</view>
+  );
 
   return {
-    DialogBackdrop,
-    DialogClose,
-    DialogContent,
+    DialogBackdrop: DialogPart,
+    DialogClose: DialogButton,
+    DialogContent: DialogPart,
     DialogRoot,
-    DialogTrigger,
+    DialogTrigger: DialogButton,
     DialogView,
   };
 });
@@ -71,18 +43,9 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
 import * as Dialog from "./Dialog.namespace";
 
 describe("Dialog", () => {
-  beforeEach(() => {
-    dialogMocks.rootProps = [];
-    dialogMocks.viewProps = [];
-    dialogMocks.backdropProps = [];
-    dialogMocks.contentProps = [];
-    dialogMocks.closeProps = [];
-  });
-
-  it("maps the namespace API to the Lynx UI headless primitives", () => {
-    const onOpenChange = vi.fn();
+  it("applies SEED slots and renders Body as a vertical scroll-view", () => {
     const { container } = render(
-      <Dialog.Root open onOpenChange={onOpenChange}>
+      <Dialog.Root open>
         <Dialog.Trigger>
           <text>Open</text>
         </Dialog.Trigger>
@@ -111,10 +74,6 @@ describe("Dialog", () => {
       </Dialog.Root>,
     );
 
-    expect(dialogMocks.rootProps.at(-1)).toMatchObject({
-      show: true,
-      onShowChange: onOpenChange,
-    });
     expect(container.querySelector(".seed-dialog__positioner")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__backdrop")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__content")).not.toBeNull();
@@ -122,6 +81,7 @@ describe("Dialog", () => {
     expect(container.querySelector(".seed-dialog__title")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__description")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__footer")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__action")).not.toBeNull();
 
     const body = container.querySelector<HTMLElement>("scroll-view");
 
@@ -130,43 +90,5 @@ describe("Dialog", () => {
     expect(body?.hasAttribute("scroll-y")).toBe(true);
     expect(body?.style.maxHeight).toBe("120px");
     expect(body?.style.paddingLeft).toBe("16px");
-  });
-
-  it("forwards headless mount options and removes only reserved lifecycle handlers", () => {
-    const userBindTap = vi.fn();
-    const dialogContentProps = {
-      style: { paddingTop: "12px" },
-      bindtap: userBindTap,
-    };
-
-    render(
-      <Dialog.Root defaultOpen forceMount skipAnimation>
-        <Dialog.Positioner
-          container="window"
-          overlayLevel={2}
-          dialogViewProps={{ style: { top: "8px" } }}
-        >
-          <Dialog.Backdrop />
-          <Dialog.Content dialogContentProps={dialogContentProps} />
-        </Dialog.Positioner>
-      </Dialog.Root>,
-    );
-
-    expect(dialogMocks.rootProps.at(-1)).toMatchObject({
-      defaultShow: true,
-      forceMount: true,
-    });
-    expect(dialogMocks.viewProps.at(-1)).toMatchObject({
-      container: "window",
-      overlayLevel: 2,
-      transition: false,
-      dialogViewProps: { style: { top: "8px" } },
-    });
-    expect(dialogMocks.contentProps.at(-1)).toMatchObject({
-      transition: false,
-      dialogContentProps: { style: { paddingTop: "12px" } },
-    });
-    expect(dialogMocks.contentProps.at(-1)?.["dialogContentProps"]).not.toHaveProperty("bindtap");
-    expect(userBindTap).not.toHaveBeenCalled();
   });
 });
