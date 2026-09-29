@@ -1,6 +1,6 @@
 import preview from "../.storybook/preview";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import type { AttachmentDisplayItemEntry } from "@seed-design/react";
 import { AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { AttachmentDisplayReorderable } from "seed-design/ui/attachment-display-field-reorderable";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
@@ -41,7 +41,7 @@ const conditionMap = {
         { id: "mock-1", thumbnailUrl: sampleThumbnailUrl("a"), status: "success" },
         { id: "mock-2", thumbnailUrl: sampleThumbnailUrl("b"), status: "success" },
         { id: "mock-3", thumbnailUrl: sampleThumbnailUrl("c"), status: "success" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
     "5": {
       defaultEntries: [
@@ -55,7 +55,7 @@ const conditionMap = {
           progress: 50,
         },
         { id: "mock-5", thumbnailUrl: sampleThumbnailUrl("e"), status: "error" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
   },
   disabled: {

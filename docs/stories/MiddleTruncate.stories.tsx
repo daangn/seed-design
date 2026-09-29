@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react/primitive";
+import { MiddleTruncate, type MiddleTruncateProps } from "@seed-design/react-middle-truncate";
 import { SeedThemeDecorator } from "./components/decorator";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { VariantTable } from "./components/variant-table";

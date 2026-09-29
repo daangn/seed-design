@@ -1,15 +1,9 @@
 "use client";
 
-import { Chip as SeedChip } from "@seed-design/react";
-import { Checkbox, RadioGroup } from "@seed-design/react/primitive";
-import { chip } from "@seed-design/css/recipes/chip";
+import { Chip as SeedChip, Checkbox, RadioGroup } from "@seed-design/react";
 import * as React from "react";
 
-// Create a base props interface that doesn't include DOM attributes to avoid conflicts
-export interface ChipBaseProps
-  extends Omit<SeedChip.RootProps, keyof React.ButtonHTMLAttributes<HTMLButtonElement>> {}
-
-export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
+export interface ToggleChipProps extends SeedChip.ToggleProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -19,36 +13,30 @@ export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
  * @see https://seed-design.io/react/components/chip
  */
 export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
-  ({ children, inputProps, rootRef, ...props }, ref) => {
-    const [variantProps, otherProps] = chip.splitVariantProps(props);
-
-    return (
-      <SeedChip.Root asChild {...variantProps}>
-        <Checkbox.Root ref={rootRef} {...otherProps}>
-          {children}
-          <Checkbox.HiddenInput ref={ref} {...inputProps} />
-        </Checkbox.Root>
-      </SeedChip.Root>
-    );
-  },
+  ({ children, inputProps, rootRef, ...props }, ref) => (
+    <SeedChip.Toggle ref={rootRef} {...props}>
+      {children}
+      <Checkbox.HiddenInput ref={ref} {...inputProps} />
+    </SeedChip.Toggle>
+  ),
 );
 ToggleChip.displayName = "Chip.Toggle";
 
-export interface ButtonChipProps extends ChipBaseProps, SeedChip.RootProps {}
+export interface ButtonChipProps extends SeedChip.ButtonProps {}
 
 /**
  * @see https://seed-design.io/react/components/chip
  */
-export const ButtonChip = SeedChip.Root;
+export const ButtonChip = SeedChip.Button;
 
-export interface RadioChipRootProps extends RadioGroup.RootProps {}
+export interface RadioChipRootProps extends SeedChip.RadioRootProps {}
 
 /**
  * @see https://seed-design.io/react/components/chip
  */
-export const RadioChipRoot = RadioGroup.Root;
+export const RadioChipRoot = SeedChip.RadioRoot;
 
-export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps {
+export interface RadioChipItemProps extends SeedChip.RadioItemProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -58,18 +46,12 @@ export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps 
  * @see https://seed-design.io/react/components/chip
  */
 export const RadioChipItem = React.forwardRef<HTMLInputElement, RadioChipItemProps>(
-  ({ children, inputProps, rootRef, ...props }, ref) => {
-    const [variantProps, otherProps] = chip.splitVariantProps(props);
-
-    return (
-      <SeedChip.Root asChild {...variantProps}>
-        <RadioGroup.Item ref={rootRef} {...otherProps}>
-          {children}
-          <RadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
-        </RadioGroup.Item>
-      </SeedChip.Root>
-    );
-  },
+  ({ children, inputProps, rootRef, ...props }, ref) => (
+    <SeedChip.RadioItem ref={rootRef} {...props}>
+      {children}
+      <RadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
+    </SeedChip.RadioItem>
+  ),
 );
 RadioChipItem.displayName = "Chip.RadioItem";
 
