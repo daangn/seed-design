@@ -1,7 +1,10 @@
 import { useMemo } from "@lynx-js/react";
-import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
+import {
+  useDismissible,
+  type UseDismissibleProps,
+  type UseDismissibleReturn,
+} from "@seed-design/lynx-react-use-dismissible";
 import { usePressTap, type UsePressTapReturn } from "@seed-design/lynx-react-use-press-tap";
 
 type ViewProps = IntrinsicElements["view"];
@@ -11,23 +14,10 @@ type MainThreadTouchProps = Pick<
   "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
 >;
 
-export interface UseCalloutProps extends CalloutAccessibilityProps, MainThreadTouchProps {
-  /**
-   * 처음 렌더링할 때 Callout을 표시할지 여부입니다. `open`이 없을 때만 사용합니다.
-   * @default true
-   */
-  defaultOpen?: boolean;
-
-  /**
-   * Callout 표시 여부입니다. 지정하면 `dismiss`가 값을 바꾸지 않고 `onDismiss`만 호출합니다.
-   */
-  open?: boolean;
-
-  /**
-   * 열린 Callout에서 `dismiss`를 호출하면 한 번 실행됩니다. 닫힌 상태에서는 호출하지 않습니다.
-   */
-  onDismiss?: () => void;
-
+export interface UseCalloutProps
+  extends UseDismissibleProps,
+    CalloutAccessibilityProps,
+    MainThreadTouchProps {
   /**
    * 지정하면 Root가 탭할 수 있는 상태가 되어 눌림 상태와 `button` 접근성 기본값을 연결합니다.
    */
@@ -36,14 +26,11 @@ export interface UseCalloutProps extends CalloutAccessibilityProps, MainThreadTo
   "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
 }
 
-export interface UseCalloutReturn {
-  open: boolean;
+export interface UseCalloutReturn extends UseDismissibleReturn {
   /** `bindtap` 또는 `main-thread:bindtap`이 있을 때 `true`입니다. */
   interactive: boolean;
   /** 누르고 있는 동안 `true`입니다. `interactive`가 아니면 항상 `false`입니다. */
   pressed: boolean;
-  /** 열린 Callout을 닫고 `onDismiss`를 호출합니다. 이미 닫혔으면 아무것도 하지 않습니다. */
-  dismiss: () => void;
   /**
    * Root native view에 펼칩니다. `interactive`일 때만 tap·touch handler와
    * `accessibility-element={true}`, `accessibility-traits="button"` 기본값을 포함합니다.
@@ -67,7 +54,7 @@ export interface UseCalloutReturn {
  */
 export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
   const {
-    defaultOpen = true,
+    defaultOpen,
     open: openProp,
     onDismiss,
     bindtap,
@@ -78,7 +65,7 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
     "accessibility-element": accessibilityElement,
     "accessibility-traits": accessibilityTraits,
   } = props;
-  const [open, setOpen] = useControllableState({ value: openProp, defaultValue: defaultOpen });
+  const { open, dismiss } = useDismissible({ defaultOpen, open: openProp, onDismiss });
   const interactive = bindtap != null || mainThreadBindtap != null;
   const {
     pressed,
@@ -97,13 +84,6 @@ export function useCallout(props: UseCalloutProps = {}): UseCalloutReturn {
     mainThreadOnTouchStart,
     mainThreadOnTouchEnd,
     mainThreadOnTouchCancel,
-  });
-  const dismiss = useMemoizedFn(() => {
-    "background only";
-    if (!open) return;
-
-    setOpen(false);
-    onDismiss?.();
   });
 
   return useMemo<UseCalloutReturn>(

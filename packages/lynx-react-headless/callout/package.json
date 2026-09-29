@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+    "@seed-design/lynx-react-use-dismissible": "0.0.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0"
   },
   "peerDependencies": {

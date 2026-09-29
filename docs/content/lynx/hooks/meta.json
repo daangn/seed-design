@@ -2,6 +2,7 @@
   "title": "Hooks",
   "pages": [
     "use-controllable-state",
+    "use-dismissible",
     "use-icon-color",
     "use-press-tap",
     "use-safe-area",

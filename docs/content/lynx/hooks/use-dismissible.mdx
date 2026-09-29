@@ -1,0 +1,98 @@
+---
+title: useDismissible
+description: 닫을 수 있는 요소의 표시 상태와 dismiss를 관리하는 훅입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react-use-dismissible@0.1.0" />
+
+## Installation
+
+```package-install
+bun add @seed-design/lynx-react-use-dismissible
+```
+
+## Import
+
+```ts
+import { useDismissible } from "@seed-design/lynx-react-use-dismissible";
+```
+
+`useDismissible`은 스타일 없이 사용할 수 있는 독립 패키지입니다. `@seed-design/lynx-react`를 설치하지 않아도 사용할 수 있습니다.
+
+`@seed-design/lynx-react-callout`이 이 훅으로 Callout의 표시 상태를 관리합니다. 훅은 표시 상태만 다루며, 닫기 버튼의 tap 처리와 접근성 속성은 각 컴포넌트가 정합니다.
+
+## Usage
+
+### Uncontrolled (기본)
+
+```tsx
+import { useDismissible } from "@seed-design/lynx-react-use-dismissible";
+
+function Notice() {
+  const { open, dismiss } = useDismissible({
+    onDismiss: () => console.log("dismissed"),
+  });
+
+  if (!open) return null;
+
+  return (
+    <view>
+      <text>공지 내용</text>
+      <view bindtap={dismiss} accessibility-element accessibility-traits="button" accessibility-label="닫기">
+        <text>닫기</text>
+      </view>
+    </view>
+  );
+}
+```
+
+`dismiss`는 열린 상태를 닫고 `onDismiss`를 한 번 호출합니다. 이미 닫힌 상태에서 다시 호출하면 아무것도 하지 않습니다.
+
+### Controlled
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { useDismissible } from "@seed-design/lynx-react-use-dismissible";
+
+function ControlledNotice() {
+  const [open, setOpen] = useState(true);
+  const dismissible = useDismissible({ open, onDismiss: () => setOpen(false) });
+
+  if (!dismissible.open) return null;
+
+  return (
+    <view bindtap={dismissible.dismiss}>
+      <text>탭하면 닫힙니다</text>
+    </view>
+  );
+}
+```
+
+Controlled 모드에서 `dismiss`는 값을 바꾸지 않고 `onDismiss`만 호출합니다. 실제로 닫으려면 부모가 `open`을 `false`로 바꿔야 합니다. `open`이 `false`이면 `dismiss`는 `onDismiss`를 호출하지 않습니다.
+
+## API
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultOpen` | `boolean` | `true` | 처음 렌더링할 때 표시할지 여부입니다. `open`이 없을 때만 사용합니다. |
+| `open` | `boolean` | - | 표시 여부입니다. 제공하면 controlled 모드로 동작합니다. |
+| `onDismiss` | `() => void` | - | 열린 상태에서 `dismiss`를 호출하면 실행됩니다. |
+
+### Return
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `open` | `boolean` | 현재 표시 여부입니다. |
+| `dismiss` | `() => void` | 열린 상태를 닫고 `onDismiss`를 호출합니다. 참조가 바뀌지 않습니다. |
+
+## 웹 버전과의 차이
+
+| 항목 | Lynx (`useDismissible`) | Web (`@seed-design/react` 내부) |
+|------|-------------------------|---------------------------------|
+| 공개 여부 | 독립 패키지로 공개 | 패키지 내부 private 훅 |
+| 반환값 | `open`, `dismiss` | `open`, `dismiss`, `rootProps`, `dismissButtonProps` |
+| 닫기 버튼 연결 | 각 컴포넌트가 `dismiss`를 tap handler에 연결 | `dismissButtonProps`의 `onClick` |
+
+React에서는 Callout, PageBanner, InlineBanner가 `@seed-design/react` 한 패키지 안에 있어 private 훅으로 공유합니다. Lynx에서는 컴포넌트마다 Headless 패키지가 분리되어 있어, 같은 dismiss 상태를 여러 패키지가 공유할 수 있도록 독립 패키지로 제공합니다.
