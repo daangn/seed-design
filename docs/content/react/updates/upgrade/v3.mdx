@@ -363,9 +363,19 @@ import { Image, useImageContext } from "@seed-design/react-image"; // [!code ++]
 | `Avatar.Root` / `Avatar.Image` / `Avatar.Fallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
 | `AvatarRootProps` / `AvatarImageProps` / `AvatarFallbackProps` | `Image.RootProps` / `Image.ContentProps` / `Image.FallbackProps` |
 | `useAvatarContext` / `UseAvatarContext` | `useImageContext` / `UseImageContext` |
-| Context의 `getImageProps({ src })` | `getContentProps({ src, srcSet })` |
+| Context의 `getImageProps`로 직접 작성한 `<img>` | `Image.Content` 사용 권장; 직접 구현을 유지한다면 아래 추가 작업 필요 |
 
 `@seed-design/react-avatar`를 직접 사용하던 프로젝트도 같은 대체 API로 옮기세요.
+
+**Context로 이미지 요소를 직접 작성했다면 로딩 처리도 확인하세요.** 기존 `getImageProps`는 `src` 변경 감지와 이미지의 load/error 처리를 함께 수행했습니다. 새 `getContentProps`는 이미지 속성만 반환하므로, 함수 이름만 바꾸면 로딩 상태와 fallback이 갱신되지 않을 수 있습니다. 이 처리를 포함하는 `Image.Content`를 사용하는 것을 권장합니다.
+
+직접 `<img>`를 만드는 코드를 유지한다면 `useImageContext()`에서 가져온 API를 다음과 같이 연결하세요.
+
+- 이미지의 ref에 `refs.image`를 연결합니다. 별도 ref도 사용한다면 두 ref를 합쳐 연결합니다.
+- `src` 또는 `srcSet`이 바뀔 때 effect에서 `setSrc(src, srcSet)`를 호출하고, `getContentProps({ src, srcSet })`의 반환값을 이미지에 전달합니다.
+- `onLoad`에서 `handleLoad()`, `onError`에서 `handleError()`를 호출합니다. 사용처의 기존 이벤트 처리도 함께 유지합니다.
+
+`Image.Content`는 `src`나 `srcSet`이 있는 로딩 중 이미지에 `hidden`을 적용하지 않습니다. 로딩 중 숨김에 의존한 스타일이 있다면 `data-loading-state="loading"`을 기준으로 확인하세요.
 
 </Step>
 
