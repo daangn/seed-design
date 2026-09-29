@@ -44,6 +44,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  DOCS_OUTPUT_DIR: ${{ github.ref_name == '2.0' && 'docs/out-archive' || 'docs/out' }}
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
@@ -79,7 +80,7 @@ jobs:
         with:
           # A branch publishes one immutable baseline per compatibility namespace.
           # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
-          cache-generation: baseline
+          cache-generation: ${{ github.ref_name == '2.0' && 'react-v2-archive' || 'baseline' }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
           legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
@@ -99,7 +100,11 @@ jobs:
         run: |
           build_started_at="$(date +%s)"
           set +e
-          bun run build
+          if [ "$GITHUB_REF_NAME" = "2.0" ]; then
+            bun run build:archive:react v2
+          else
+            bun run build
+          fi
           status=$?
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
           echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
@@ -166,7 +171,7 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
-          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+          command: pages deploy ./${{ env.DOCS_OUTPUT_DIR }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
 
       # 프리뷰 배포 뒤에 둔다. 링크가 깨졌다고 리뷰어가 볼 프리뷰까지 막히면 손해가
       # 더 크다. 결과는 아래 PR 코멘트에 실리고 job은 마지막에 실패한다. 실제 배포
@@ -176,7 +181,12 @@ jobs:
         continue-on-error: true
         uses: ./.github/actions/check-docs-links
         with:
-          out-dir: ${{ github.workspace }}/docs/out
+          out-dir: ${{ github.workspace }}/${{ env.DOCS_OUTPUT_DIR }}
+          canonical-prefix: ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}
+          llms-exclude: |
+            ${{ github.ref_name == '2.0' && 'react/v2/llms-full.txt' || 'react/llms-full.txt' }}
+            ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}llms/react/updates/changelog.txt
+            ${{ github.ref_name == '2.0' && 'react/v2/' || '' }}llms/react/updates/changelog/*
 
       - name: Find related PR
         id: pr
@@ -208,6 +218,7 @@ jobs:
           LINKS_OUTCOME: ${{ steps.links.outcome }}
           PREVIEW_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
           PREVIEW_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PREVIEW_PATH: ${{ github.ref_name == '2.0' && '/react/v2/' || '' }}
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -215,6 +226,7 @@ jobs:
             const marker = '<!-- seed-design-preview:docs-alpha -->';
             const aliasUrl = (process.env.PREVIEW_ALIAS_URL || '').trim();
             const deploymentUrl = (process.env.PREVIEW_DEPLOYMENT_URL || '').trim();
+            const previewUrl = (url) => url ? url.replace(/\/$/, '') + process.env.PREVIEW_PATH : '(not available)';
 
             const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
             const linksBroken = process.env.LINKS_OUTCOME === 'failure';
@@ -223,8 +235,8 @@ jobs:
               marker,
               '## Alpha Preview (Docs)',
               '',
-              `- Branch Preview URL: ${aliasUrl || '(not available)'}`,
-              `- Preview URL: ${deploymentUrl || '(not available)'}`,
+              `- Branch Preview URL: ${previewUrl(aliasUrl)}`,
+              `- Preview URL: ${previewUrl(deploymentUrl)}`,
               `- Commit: \`${context.sha.slice(0, 7)}\``,
               // 통과했을 때는 줄을 넣지 않는다. 이 코멘트를 쓰는 job이 검사도 하므로
               // 줄이 없다는 것 자체가 통과를 뜻한다.

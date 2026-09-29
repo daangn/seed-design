@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "seed-design-docs-archive",
+  "main": "worker.ts",
+  "compatibility_date": "2026-09-29",
+  "workers_dev": false,
+  "preview_urls": true,
+  "routes": [{ "pattern": "seed-design.io/react/v2*", "zone_name": "seed-design.io" }],
+  "vars": {
+    // deploy.ts verifies and supplies the actual Pages branch alias with --var.
+    "REACT_V2_ORIGIN": ""
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.01,
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  }
+}

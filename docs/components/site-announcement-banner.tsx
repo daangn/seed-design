@@ -1,7 +1,7 @@
 "use client";
 
 import { IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { useEffect, useState } from "react";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import {
@@ -53,14 +53,14 @@ export function SiteAnnouncementBanner({
       aria-label="사이트 새 소식"
     >
       <div className="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20] pb-[env(safe-area-inset-bottom)]">
-        <Link
+        <SiteLink
           href={config.href}
           onClick={handleDismiss}
           className="flex min-w-0 flex-1 items-center gap-1 px-5 py-3 text-sm font-semibold text-[#d6fead] transition-colors duration-color-transition hover:bg-[#202329] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-stroke-focus-ring motion-reduce:transition-none md:text-base"
         >
           <span className="line-clamp-2">{config.message}</span>
           <IconSeedArrow className="size-4 flex-none" />
-        </Link>
+        </SiteLink>
         <button
           type="button"
           aria-label="새 소식 배너 닫기"

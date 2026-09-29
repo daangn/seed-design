@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { AvailableSince } from "@/components/available-since";
 import { ColorGrid } from "@/components/color-grid";
 import { Badge } from "@/components/mdx-badge";
@@ -50,10 +51,13 @@ import { ProgressBoardTable } from "./progress-board-table";
 import { DocsCard, DocsCards } from "./mdx-card";
 import { TableRoot } from "./table";
 
+const MdxLink = defaultMdxComponents.a!;
+
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
   code: InlineCode,
+  a: ({ href, ...props }) => <MdxLink {...props} href={href ? archivePaths.link(href) : href} />,
 
   // All fenced code blocks (```) render as the SEED "Codeblock" (Shiki colors preserved).
   // Inside a tabbed code card (`CodeBlockTabs`), SeedCodeBlockAuto renders the code bare.
@@ -78,6 +82,7 @@ export const mdxComponents: MDXComponents = {
       )}
       // biome-ignore lint/suspicious/noExplicitAny: fumadocs recommends this: https://www.fumadocs.dev/docs/ui/components/image-zoom#usage
       {...(rest as any)}
+      src={typeof rest.src === "string" ? archivePaths.asset(rest.src) : rest.src}
     />
   ),
 
@@ -146,7 +151,9 @@ export const mdxComponents: MDXComponents = {
   DontImage,
   Image,
 
-  ImageZoom,
+  ImageZoom: ({ src, ...props }) => (
+    <ImageZoom {...props} src={typeof src === "string" ? archivePaths.asset(src) : src} />
+  ),
 
   FigmaImage: () => null,
 };

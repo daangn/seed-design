@@ -1,5 +1,7 @@
 "use client";
 
+import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+
 import {
   DocsMenuContent,
   DocsMenuGroup,
@@ -13,16 +15,15 @@ import { type ComponentProps, useState } from "react";
 import clsx from "clsx";
 
 const VERSIONS = [
-  { label: "v3.0 (latest)", url: "https://seed-design.io/react" },
-  { label: "v2.0", url: "https://v2.seed-design.io/react" },
+  { label: "latest", url: "https://seed-design.io/react" },
+  { label: "v2", url: "https://seed-design.io/react/v2" },
   { label: "v1.2", url: "https://v1-2.seed-design.io/react" },
   { label: "v1.1", url: "https://v1-1.seed-design.io/react" },
   { label: "v1.0", url: "https://v1-0.seed-design.io/react" },
-  { label: "v0 (legacy)", url: "https://v0.seed-design.io" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
-// NOTE: update CURRENT_VERSION when releasing a new version & keep in release branch
-const CURRENT_VERSION: (typeof VERSIONS)[number]["label"] = "v3.0 (latest)";
+// The release branch embeds its archive version; regular Pages previews remain latest.
+const CURRENT_VERSION = REACT_ARCHIVE_VERSION || "latest";
 
 export function ReactVersionSwitcher({
   positionerContainer,
