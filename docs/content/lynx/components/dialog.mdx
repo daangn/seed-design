@@ -61,7 +61,7 @@ export function App() {
 
 Registry의 `DialogContent`는 `Positioner`, `Backdrop`, `Header`를 내부에서 조립합니다. `DialogTrigger`는 Content 밖에 두어야 탭으로 Dialog를 열 수 있습니다. `DialogContent`의 `showCloseButton`은 기본값이 `true`이며, 헤더에 닫기 `ActionButton`을 렌더링합니다. 닫기 버튼이 필요하지 않으면 `showCloseButton={false}`로 설정하세요.
 
-`DialogBody`는 native `<scroll-view scroll-y>`로 렌더링되며 Content의 최대 높이 안에서 세로로 스크롤합니다. `DialogAction`은 `ActionButton` props를 받아 닫기 동작과 함께 렌더링합니다.
+`DialogBody`는 native `<scroll-view scroll-y>`로 렌더링되며 Content의 최대 높이 안에서 세로로 스크롤합니다. `DialogAction`은 `ActionButton` props를 받아 닫기 동작과 함께 렌더링합니다. `disabled` 또는 `loading`이면 탭해도 Dialog를 닫지 않습니다.
 
 ## Props
 
@@ -183,7 +183,9 @@ React 예제처럼 `closeButton`, `escapeKeyDown`, `interactOutside`별로 확�
 
 ### Portalled
 
-`DialogContent`의 `container`를 지정하면 native overlay 레이어에 렌더링됩니다. `overlayLevel`로 overlay 레이어의 표시 순서를 지정할 수 있습니다.
+Registry `DialogContent`의 `container`와 `overlayLevel`은 Positioner로 전달됩니다. `container`가 없으면 Dialog는 Lynx view 안의 `position: fixed` view로 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 native overlay 레이어에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay 레이어의 표시 순서를 정합니다. overlay 모드에서도 Positioner가 레이어 전체를 채우도록 너비와 높이를 `100%`로 맞춥니다.
+
+Primitive를 직접 조립할 때는 `Dialog.Positioner`의 `dialogViewProps`로 레이어 host에 native 속성을 넘깁니다. lynx-ui `OverlayView`의 `overlayViewProps`에 해당하며, overlay 모드에서는 `<overlay>`, 그 밖에는 레이어 `<view>`에 전달됩니다.
 
 <LynxComponentExample name="lynx/dialog/portalled" height={520}>
   ```json doc-gen:file
@@ -206,7 +208,7 @@ React의 `ResponsiveDialog`와 같은 자동 전환 컴포넌트는 Lynx에서 �
 | 본문 slot | `DialogBody` 제공 | `DialogBody` 제공. native `<scroll-view scroll-y>`와 `seed-dialog__body` selector를 사용하며 기본 가로 패딩은 recipe body token(`x6`)에서 제공 |
 | 닫기 버튼 | `showCloseButton` 지원 | Registry의 `DialogContent`에서 기본 지원. `showCloseButton={false}`로 숨김 |
 | 닫힘 원인 | `onOpenChange`의 `details.reason` 제공 | boolean `open` 값만 제공 |
-| Portal / overlay | `Portal` 컴포넌트 | `DialogContent`의 `container`, `overlayLevel` |
+| Portal / overlay | `Portal` 컴포넌트 | Positioner의 `container`, `overlayLevel`. Registry는 `DialogContent`에서 받아 전달. native 속성은 `dialogViewProps`(lynx-ui `OverlayView`의 `overlayViewProps`) |
 | Responsive Dialog | `ResponsiveDialog` 제공 | 미제공. Dialog와 BottomSheet를 앱에서 직접 조합 |
 | 마운트 제어 | `lazyMount`, `unmountOnExit` | `forceMount` 지원 |
 | imperative ref API | 없음 | 지원하지 않음 |
