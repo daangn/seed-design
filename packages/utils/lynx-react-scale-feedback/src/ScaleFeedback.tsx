@@ -1,7 +1,6 @@
 import * as React from "@lynx-js/react";
-import { useScaleFeedback, type UseScaleFeedbackOptions } from "../../hooks/useScaleFeedback";
-import type { LynxViewRef } from "../../types";
-import { mergeProps } from "../../utils/merge-props";
+import type { NodesRef } from "@lynx-js/types";
+import { useScaleFeedback, type UseScaleFeedbackOptions } from "./useScaleFeedback.js";
 
 export interface ScaleFeedbackProps extends UseScaleFeedbackOptions {
   /** Content rendered inside the native element that receives Self Scale Feedback. */
@@ -17,11 +16,9 @@ export const ScaleFeedback = React.forwardRef<unknown, ScaleFeedbackProps>(
 
     return (
       <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          scaleFeedbackTriggerProps,
-          scaleFeedbackTargetProps,
-        )}
+        {...(ref ? { ref: ref as React.Ref<NodesRef> } : {})}
+        {...scaleFeedbackTriggerProps}
+        {...scaleFeedbackTargetProps}
       >
         {children}
       </view>
