@@ -1,6 +1,6 @@
 ---
 id: docs-build-prerequisites
-description: workspace lib가 준비되지 않은 checkout에서 docs·headless 검증이나 stackflow-spa 실행을 시작하거나, @seed-design 패키지를 찾지 못하는 TS2307·module-resolution 오류를 조사할 때 읽는다. 의존성 설치만으로 해결되지 않는 선행 lib 빌드와 검증·실행별 준비 순서를 다룬다.
+description: workspace lib가 준비되지 않은 checkout에서 docs·headless 검증이나 stackflow-spa 실행을 시작하거나, @seed-design 패키지의 TS2307·module-resolution 오류와 선행 빌드 뒤에도 남는 타입 오류를 조사할 때 읽는다. 검증·실행별 선행 lib 빌드 순서와 누락된 lib를 읽은 TypeScript 증분 캐시의 재확인 조건을 다룬다.
 scope: ["docs/**", "packages/react-headless/**", "examples/stackflow-spa/**"]
 status: active
 related: ["workspace-installation"]
@@ -12,6 +12,9 @@ related: ["workspace-installation"]
 
 - docs 검증 전에 필요한 lib를 빌드하고, 판정은 선행 빌드 후 재실행 결과로만 내린다.
 - `bun docs:test` 전 `bun utils:build && bun headless:build && bun --filter @seed-design/react build && bun --filter @seed-design/rsbuild-plugin-lynx-icon build`. `bun docs:build` 전 `bun ecosystem:build && bun packages:build`.
+- 새 checkout에서 Lynx lib가 없으면 `bun lynx-headless:build && bun --filter @seed-design/docs prepare:lynx-workspace`도 실행한다. `prepare:lynx-workspace`만으로는 아직 빌드하지 않은 headless 패키지가 준비되지 않을 수 있다.
+- `typecheck:web`는 `@seed-design/rootage-core`와 `@seed-design/stackflow`의 lib도 읽는다. 없으면 두 패키지를 빌드한다.
+- 누락된 lib를 빌드한 뒤에도 타입 오류가 남으면, 같은 소스·의존성을 사용하는 깨끗한 기준 checkout과 비교한다. 기준은 통과하고 기존 checkout만 실패하면 무시된 빌드 산출물 `docs/tsconfig.tsbuildinfo`를 지우고 `typecheck:web`를 다시 실행해 증분 캐시 영향을 확인한다. 타입 오류를 코드에 우회 적용하지 않는다.
 
 - headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`를 실행한다. `examples/stackflow-spa` dev 서버·e2e 전에는 `bun --filter @seed-design/vite-plugin build && bun --filter @seed-design/stackflow build`도 필요하다. 두 패키지는 `ecosystem:build`·`headless:build`에 포함되지 않는다.
 
@@ -21,6 +24,7 @@ related: ["workspace-installation"]
 - 영향: `@seed-design/react`, `@seed-design/rootage-core`, `@seed-design/stackflow` 모듈을 찾지 못해 실패했다. 변경과 무관한 실패였지만 재실행이 필요했다.
 - 피할 패턴: 누락된 workspace `lib` 때문에 난 TS2307·module-resolution 실패를 docs 변경의 실패로 판정하는 것.
 - 재확인(DES-2654, 2026-09-30): 새 worktree에서 앞의 세 빌드만 하면 `docs:test`의 bun test 345개는 통과했지만 `typecheck:lynx-tooling`이 `docs/lynx.config.ts`의 `@seed-design/rsbuild-plugin-lynx-icon`을 찾지 못해 TS2307로 실패했다. 이 패키지를 빌드한 뒤 재실행하자 모두 통과했다.
+- 재확인(2026-09-30, registry 호환 범위 변경): 새 checkout의 docs 단위 테스트 345개는 통과했으나 Lynx·웹 타입 검사가 누락된 lib로 실패했다. headless → Lynx, rootage-core, stackflow 빌드 뒤 Lynx 타입 검사는 통과했다. 웹 검사에는 Typography 마이그레이션 문서의 TS7031·TS7006 네 건이 남았지만, 같은 기준 commit과 동일 패키지 빌드 산출물을 쓰는 새 checkout에서는 통과했다. 작업 checkout의 `docs/tsconfig.tsbuildinfo`만 제거한 뒤 웹 검사도 통과했다.
 - 위험: 잘못된 실패 판정을 내리거나, 검증을 건너뛰고 미검증으로 남긴다.
 
 - headless 검증에서도 `react-primitive`·`react-dismissible-layer`의 lib가 없으면 모듈을 찾지 못했다. stackflow-spa는 `Failed to resolve entry for package "@seed-design/vite-plugin"`으로 시작하지 못했고 stackflow lib가 없으면 AppScreen 타입 오류가 발생했다.
@@ -31,3 +35,4 @@ related: ["workspace-installation"]
 - 2026-09-28: frontmatter만으로 읽기 대상을 고를 수 있도록 대상·적용 조건·본문에서 다루는 판단을 보강했다. 실행 재검증은 하지 않았다.
 - 2026-09-29: major rebase에서 원문 commit `629a64d99`의 headless·stackflow 선행 빌드 근거를 병합했다. 이관 자체는 실행 재검증을 뜻하지 않는다.
 - 2026-09-30: `docs:test` 준비에 `@seed-design/rsbuild-plugin-lynx-icon` 빌드를 추가했다(DES-2654 재실행으로 확인).
+- 2026-09-30: 새 checkout의 Lynx·웹 선행 빌드와 누락된 lib를 읽은 증분 캐시의 비교·재검증 절차를 보강했다.
