@@ -43,7 +43,7 @@ export function App() {
 
 ### 패키지 직접 사용
 
-표시 문구나 구성을 바꾸려면 `@seed-design/lynx-react`의 `MannerTemp`와 `MannerTempEmote`를 직접 조합합니다. `MannerTempEmote`는 부모의 `level`을 따르고, `level`을 직접 전달하면 그 값을 사용합니다.
+표시 문구나 구성을 바꾸려면 `@seed-design/lynx-react`의 `MannerTemp`와 `MannerTempEmote`를 직접 조합합니다. 패키지 컴포넌트는 온도를 `level`로 변환하지 않으므로 계산한 `level`을 직접 전달합니다. `MannerTempEmote`는 부모의 `level`을 따르고, `level`을 직접 전달하면 그 값을 사용합니다.
 
 ```tsx
 import { MannerTemp, MannerTempEmote } from "@seed-design/lynx-react";
@@ -64,5 +64,7 @@ export function App() {
 
 - **렌더링 요소.** HTML `<span>`과 `<img>` 대신 native `<view>`, `<text>`, `<image>`를 렌더링합니다.
 - **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
+- **label과 emote 배치.** 웹은 children을 전달한 순서대로 렌더링하고 emote를 `SuffixIcon`으로 감쌉니다. Lynx는 `MannerTempEmote`가 아닌 children을 label `<text>` 하나에 모으고, `MannerTempEmote`는 전달 순서와 관계없이 label 뒤에 둡니다. Fragment 안의 `MannerTempEmote`도 같은 규칙을 따르지만, 다른 컴포넌트로 감싼 emote는 label로 취급되어 `<text>` 안에 들어갑니다.
+- **emote 이미지.** 웹은 `srcSet`으로 2x·3x·4x 이미지를 고르고, Lynx는 96px 이미지 하나를 사용합니다. `MannerTempEmote`에 전달한 children은 렌더링하지 않습니다.
 
 </Callout>
