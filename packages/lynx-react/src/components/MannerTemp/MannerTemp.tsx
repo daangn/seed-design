@@ -51,6 +51,14 @@ function isMannerTempEmote(node: React.ReactNode) {
   return isValidElement(node) && node.type === MannerTempEmote;
 }
 
+function flattenMannerTempChildren(children: React.ReactNode): React.ReactNode[] {
+  return toArray(children).flatMap((child) =>
+    isValidElement<{ children?: React.ReactNode }>(child) && child.type === React.Fragment
+      ? flattenMannerTempChildren(child.props.children)
+      : [child],
+  );
+}
+
 /**
  * @platform Lynx
  *
@@ -63,7 +71,7 @@ export const MannerTemp = React.forwardRef<unknown, MannerTempProps>((props, ref
   const [variantProps, otherProps] = mannerTemp.splitVariantProps(props);
   const classes = mannerTemp(variantProps);
   const { children, className, ...nativeProps } = otherProps;
-  const childArray = toArray(children);
+  const childArray = flattenMannerTempChildren(children);
   const emoteChildren = childArray.filter(isMannerTempEmote);
   const labelChildren = childArray.filter((child) => !isMannerTempEmote(child));
   const level = variantProps.level ?? "l1";
