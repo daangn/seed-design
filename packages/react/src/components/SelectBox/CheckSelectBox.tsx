@@ -1,4 +1,5 @@
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
+import { Slottable } from "@radix-ui/react-slot";
 import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
 import {
   selectBoxCheckmark,
@@ -16,6 +17,7 @@ import {
   useCollapsibleContext,
 } from "@seed-design/react-collapsible";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { ContentScale, useScaleFeedback } from "@seed-design/react-scale-feedback";
 import clsx from "clsx";
 import {
   createContext,
@@ -27,7 +29,6 @@ import {
 } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withContentScale } from "../../utils/withContentScale";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { PropsProvider, ClassNamesProvider, withContext, useProps, useClassNames } =
@@ -115,34 +116,48 @@ export interface CheckSelectBoxRootProps
   footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
-export const CheckSelectBoxRoot = withContentScale(
-  forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
-    ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
-      const [variantProps, otherProps] = selectBox.splitVariantProps(props);
-      const classNames = selectBox({
-        ...useProps(),
-        ...variantProps,
-      });
+/**
+ * Assembled by hand instead of through `withContentScale`, because the footer provider has to
+ * sit inside the element to read the checkbox context, and `Slot` only recognises a `Slottable`
+ * among its direct children. Wrapping the HOC's `Slottable` in the provider would hide it, and
+ * `Slot` would then fall back to slotting onto the provider, which drops the class and the ref.
+ * Owning both here keeps the provider inside the content scale box, below the `Slottable`.
+ */
+export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRootProps>(
+  ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
+    const [variantProps, otherProps] = selectBox.splitVariantProps(props);
+    const classNames = selectBox({
+      ...useProps(),
+      ...variantProps,
+    });
 
-      return (
-        <ClassNamesProvider value={classNames}>
-          <CheckboxPrimitive.Root
-            ref={ref}
-            className={clsx(classNames.root, className)}
-            {...otherProps}
-          >
-            {footerVisibility === "always" ? (
-              children
-            ) : (
-              <FooterVisibilityProvider footerVisibility={footerVisibility}>
-                {children}
-              </FooterVisibilityProvider>
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+    const composedRef = useComposedRefs(scaleFeedbackRef, ref);
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <CheckboxPrimitive.Root
+          ref={composedRef}
+          className={clsx(scaleFeedbackClassName, classNames.root, className)}
+          {...otherProps}
+        >
+          <Slottable child={children}>
+            {(content) => (
+              <ContentScale>
+                {footerVisibility === "always" ? (
+                  content
+                ) : (
+                  <FooterVisibilityProvider footerVisibility={footerVisibility}>
+                    {content}
+                  </FooterVisibilityProvider>
+                )}
+              </ContentScale>
             )}
-          </CheckboxPrimitive.Root>
-        </ClassNamesProvider>
-      );
-    },
-  ),
+          </Slottable>
+        </CheckboxPrimitive.Root>
+      </ClassNamesProvider>
+    );
+  },
 );
 
 export interface CheckSelectBoxTriggerProps
