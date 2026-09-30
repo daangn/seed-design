@@ -48,6 +48,8 @@ import * as timingFunction from "../vars/timing-function";
 const WIDTH_DIVISOR = 4;
 const MIN_BASIS = 24;
 const SCALE_DEPTH = 2;
+// packages/utils/lynx-react-scale-feedback/src/calculate-scale-feedback.ts에 Lynx용으로 위 세 값이 있다.
+// 둘을 대조하는 검사가 없으므로 함께 고친다.
 
 // Duplicated from packages/css/scale-feedback/index.mjs
 // since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
