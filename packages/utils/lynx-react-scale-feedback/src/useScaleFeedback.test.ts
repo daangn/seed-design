@@ -2,7 +2,7 @@ import { runOnMainThread } from "@lynx-js/react";
 import { renderHook, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, expectTypeOf, it } from "vitest";
 
-import { calculateScaleFeedback, isReducedMotion } from "../utils/calculate-scale-feedback";
+import { calculateScaleFeedback, isReducedMotion } from "./calculate-scale-feedback";
 import { useScaleFeedback, type UseScaleFeedbackOptions } from "./useScaleFeedback";
 
 describe("useScaleFeedback", () => {
