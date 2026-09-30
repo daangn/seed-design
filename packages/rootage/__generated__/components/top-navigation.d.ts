@@ -152,13 +152,6 @@ declare const artifact: {
             ];
             "slots": {
               "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 56;
-                    "unit": "px";
-                  };
-                };
                 "paddingX": {
                   "type": "dimension";
                   "value": "$dimension.x1_5";
@@ -179,6 +172,13 @@ declare const artifact: {
             ];
             "slots": {
               "root": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 44;
+                    "unit": "px";
+                  };
+                };
                 "titleMinGap": {
                   "type": "dimension";
                   "value": "$dimension.x2";
@@ -198,6 +198,15 @@ declare const artifact: {
               "enabled",
             ];
             "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 56;
+                    "unit": "px";
+                  };
+                };
+              };
               "main": {
                 "paddingLeft": {
                   "type": "dimension";

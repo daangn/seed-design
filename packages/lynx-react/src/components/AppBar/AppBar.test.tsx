@@ -153,7 +153,7 @@ describe("AppBar", () => {
     render(<AppBar.Root theme="cupertino" />);
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(103px)",
+      height: "calc(91px)",
       "padding-top": "47px",
     });
   });
@@ -169,7 +169,7 @@ describe("AppBar", () => {
     );
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(103px)",
+      height: "calc(91px)",
       "padding-top": "47px",
     });
   });
