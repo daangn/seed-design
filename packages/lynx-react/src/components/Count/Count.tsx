@@ -10,6 +10,13 @@ interface CountComponent {
   [countMarker]?: true;
 }
 
+/**
+ * @platform Lynx
+ *
+ * 웹 대비 미지원 기능:
+ * - HTML span 속성 및 ARIA 속성
+ * - `asChild`
+ */
 export interface CountProps extends LynxStyledElementProps {}
 
 export const Count = React.forwardRef<unknown, CountProps>((props, ref) => {
