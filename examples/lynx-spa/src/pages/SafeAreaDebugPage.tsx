@@ -1,4 +1,4 @@
-import { Text, useSafeArea, VStack } from "@seed-design/lynx-react";
+import { Box, Text, useSafeArea, VStack } from "@seed-design/lynx-react";
 
 interface LynxGlobalProps {
   safeAreaInsetTop?: number | null;
@@ -95,6 +95,13 @@ export function SafeAreaDebugPage() {
           paddingTop={safeAreaInsetTop}
           paddingBottom={safeAreaInsetBottom}
         />
+        <view className="bg-bg-neutral-weak rounded-r3 overflow-hidden">
+          <Box bg="bg.brandWeak" pt="safeArea" pb="safeArea">
+            <view className="p-x3 bg-bg-layer-default rounded-r2_5">
+              <text className="t4-bold text-fg-brand">{'Box pt="safeArea" pb="safeArea"'}</text>
+            </view>
+          </Box>
+        </view>
       </VStack>
     </VStack>
   );
