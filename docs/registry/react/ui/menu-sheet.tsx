@@ -93,7 +93,7 @@ export const MenuSheetGroup = SeedMenuSheet.Group;
 /**
  * @deprecated Use swipeable-menu-sheet instead.
  */
-export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "children" | "asChild"> {
+export interface MenuSheetItemProps extends Omit<SeedMenuSheet.ItemProps, "children"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;
