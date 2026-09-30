@@ -21,7 +21,7 @@ export interface PopoverAnchorProps extends SeedPopover.AnchorProps {}
 
 export const PopoverAnchor = SeedPopover.Anchor;
 
-export interface PopoverContentProps extends Omit<SeedPopover.ContentProps, "title"> {
+export interface PopoverContentProps extends Omit<SeedPopover.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;
