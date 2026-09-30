@@ -17,7 +17,7 @@ vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   return { ...actual, getRectByRef: geometry.getRectByRef };
 });
 
-vi.mock("../private/Positioning", () => ({
+vi.mock("@seed-design/lynx-react-floating", () => ({
   computePosition: geometry.computePosition,
 }));
 
