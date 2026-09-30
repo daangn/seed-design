@@ -24,7 +24,17 @@ function getTypographyStyle(textStyle: TextStyle | undefined) {
   return value.enabled.root;
 }
 
-export interface TextProps extends TextStyleProps, LynxStyledElementProps {}
+export interface TextProps extends TextStyleProps, LynxStyledElementProps {
+  /**
+   * The maximum number of lines to display. If the text overflows, it will be truncated with an ellipsis.
+   */
+  maxLines?: number;
+
+  /**
+   * The decoration line of the text.
+   */
+  textDecorationLine?: "none" | "underline" | "line-through";
+}
 
 export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
   const {
@@ -34,6 +44,8 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
     lineHeight,
     fontWeight,
     align,
+    maxLines,
+    textDecorationLine,
     children,
     className,
     style,
@@ -41,9 +53,12 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
   } = props;
   const typographyStyle = getTypographyStyle(textStyle);
 
+  const truncated = maxLines !== undefined;
+
   return (
     <text
       {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      text-maxline={truncated ? String(maxLines) : undefined}
       className={clsx(className)}
       style={
         {
@@ -52,6 +67,8 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
           lineHeight: handleLineHeight(lineHeight ?? fontSize) ?? typographyStyle.lineHeight,
           fontWeight: handleFontWeight(fontWeight) ?? typographyStyle.fontWeight,
           textAlign: align,
+          textDecoration: textDecorationLine,
+          ...(truncated ? { overflow: "hidden", textOverflow: "ellipsis" } : {}),
           ...style,
         } as CSSProperties
       }

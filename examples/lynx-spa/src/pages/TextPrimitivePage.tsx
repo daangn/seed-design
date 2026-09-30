@@ -1,5 +1,5 @@
 import { useState } from "@lynx-js/react";
-import { Box, Text, VStack } from "@seed-design/lynx-react";
+import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
 
 const TEXT_STYLES = [
   "screenTitle",
@@ -17,6 +17,9 @@ const STATIC_TEXT_STYLES = [
   "t7StaticBold",
   "t9StaticBold",
 ] as const;
+
+const LONG_TEXT =
+  "당근에서 거래할 때는 판매자의 매너온도와 거래 후기를 먼저 확인하고, 가능하면 사람이 많은 공공장소에서 직접 만나 물건 상태를 확인한 뒤 거래하세요.";
 
 function SectionTitle({ children }: { children: string }) {
   return (
@@ -91,6 +94,43 @@ export function TextPrimitivePage() {
               </Text>
             </Box>
           ))}
+        </VStack>
+      </Box>
+
+      <SectionTitle>Text decoration lines</SectionTitle>
+      <VStack gap="x2">
+        {(["none", "underline", "line-through"] as const).map((textDecorationLine) => (
+          <Text
+            key={textDecorationLine}
+            textStyle="t5Regular"
+            color="fg.neutral"
+            textDecorationLine={textDecorationLine}
+          >
+            {`textDecorationLine ${textDecorationLine}`}
+          </Text>
+        ))}
+      </VStack>
+
+      <SectionTitle>Max lines</SectionTitle>
+      <Box bg="bg.neutralWeak" borderRadius="r3" p="x3">
+        <VStack gap="x2">
+          {([1, 2] as const).map((maxLines) => (
+            <Box key={maxLines} bg="bg.layerDefault" borderRadius="r2" p="x2">
+              <Text textStyle="t4Regular" color="fg.neutral" maxLines={maxLines}>
+                {`maxLines ${maxLines}: ${LONG_TEXT}`}
+              </Text>
+            </Box>
+          ))}
+          <Box bg="bg.layerDefault" borderRadius="r2" p="x2">
+            <HStack gap="x2" align="center">
+              <Text textStyle="t4Regular" color="fg.neutral" maxLines={1} className="flex-1">
+                {`row maxLines 1: ${LONG_TEXT}`}
+              </Text>
+              <Text textStyle="t4Bold" color="fg.brand" className="shrink-0">
+                더보기
+              </Text>
+            </HStack>
+          </Box>
         </VStack>
       </Box>
 
