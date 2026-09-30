@@ -34,7 +34,7 @@ type PaginationBehaviorProps = Omit<UsePaginationProps, "visibleItemCount">;
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
 export type PaginationProps = PaginationBehaviorProps &
-  DistributiveOmit<HStackProps, keyof UsePaginationProps | "children" | "as" | "role">;
+  DistributiveOmit<HStackProps, keyof UsePaginationProps | "children" | "asChild" | "as" | "role">;
 
 function PaginationNavigationPlaceholder() {
   return <HStack width="40px" height="40px" aria-hidden="true" />;
