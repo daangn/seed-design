@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const sheetMocks = vi.hoisted(() => ({
   contentProps: [] as Array<Record<string, unknown>>,
+  viewProps: [] as Array<Record<string, unknown>>,
   calls: [] as string[],
   rootRef: {
     open: vi.fn(),
@@ -32,7 +33,10 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
   return {
     SheetRoot,
     SheetContent,
-    SheetView: passthrough,
+    SheetView: (props: { children?: React.ReactNode }) => {
+      sheetMocks.viewProps.push(props);
+      return <>{props.children}</>;
+    },
     SheetBackdrop: passthrough,
     SheetHandle: passthrough,
   };
@@ -49,6 +53,7 @@ function tapTrigger(label: HTMLElement) {
 describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
+    sheetMocks.viewProps = [];
     sheetMocks.calls = [];
     sheetMocks.rootRef.open.mockReset();
     sheetMocks.rootRef.open.mockImplementation(() => sheetMocks.calls.push("open"));
@@ -160,5 +165,21 @@ describe("BottomSheet", () => {
       enterAnimation: { type: "tween", duration: 0 },
       exitAnimation: { type: "tween", duration: 0 },
     });
+  });
+
+  it("fills the native overlay only in container mode", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Positioner container="window" style={{ width: "80%" }} />
+        <BottomSheet.Positioner style={{ top: "0px" }} />
+      </BottomSheet.Root>,
+    );
+
+    const [overlayLayer, viewLayer] = sheetMocks.viewProps;
+    expect(overlayLayer).toMatchObject({
+      container: "window",
+      style: { width: "80%", height: "100%" },
+    });
+    expect(viewLayer?.style).toEqual({ top: "0px" });
   });
 });

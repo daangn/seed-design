@@ -38,6 +38,10 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProp
 
   description?: ReactNode;
 
+  container?: SeedBottomSheet.PositionerProps["container"];
+
+  overlayLevel?: SeedBottomSheet.PositionerProps["overlayLevel"];
+
   /**
    * @default false
    */
@@ -53,12 +57,20 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProp
  * - `accessibility-label` 기반 VisuallyHidden 제목 fallback (VisuallyHidden 미구현)
  */
 export const BottomSheetContent = (props: BottomSheetContentProps) => {
-  const { children, title, description, showHandle = false, ...otherProps } = props;
+  const {
+    children,
+    title,
+    description,
+    container,
+    overlayLevel,
+    showHandle = false,
+    ...otherProps
+  } = props;
 
   const shouldRenderHeader = title || description;
 
   return (
-    <SeedBottomSheet.Positioner>
+    <SeedBottomSheet.Positioner container={container} overlayLevel={overlayLevel}>
       <SeedBottomSheet.Backdrop />
       <SeedBottomSheet.Content {...otherProps}>
         {showHandle && <SeedBottomSheet.Handle />}
