@@ -2,10 +2,12 @@ import * as React from "@lynx-js/react";
 import {
   SheetContent,
   SheetRoot,
+  SheetView,
   type SheetContentProps,
   type SheetRootProps,
   type SheetRootRef,
   type SheetTransition,
+  type SheetViewProps,
 } from "@lynx-js/lynx-ui-sheet";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { BottomSheetProvider, useBottomSheetContext } from "./useBottomSheetContext.js";
@@ -16,10 +18,8 @@ import { useBottomSheetTrigger } from "./useBottomSheetTrigger.js";
 export {
   SheetBackdrop as BottomSheetBackdrop,
   SheetHandle as BottomSheetHandle,
-  SheetView as BottomSheetPositioner,
   type SheetBackdropProps as BottomSheetBackdropProps,
   type SheetHandleProps as BottomSheetHandleProps,
-  type SheetViewProps as BottomSheetPositionerProps,
 } from "@lynx-js/lynx-ui-sheet";
 
 type ViewProps = IntrinsicElements["view"];
@@ -117,6 +117,20 @@ export const BottomSheetTrigger = React.forwardRef<unknown, BottomSheetTriggerPr
   },
 );
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
+
+export interface BottomSheetPositionerProps extends SheetViewProps {}
+
+/**
+ * lynx-ui `SheetView`입니다. `container`를 지정하면 `SheetView`가 레이어를 `position: relative`로
+ * 바꾸므로, overlay 레이어를 채우도록 너비와 높이를 `100%`로 맞춥니다.
+ */
+export function BottomSheetPositioner(props: BottomSheetPositionerProps): React.ReactElement {
+  const { container, style, ...viewProps } = props;
+  const positionerStyle = container ? { width: "100%", height: "100%", ...style } : style;
+
+  return <SheetView {...viewProps} container={container} style={positionerStyle} />;
+}
+BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
 
