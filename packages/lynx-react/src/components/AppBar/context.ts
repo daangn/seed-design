@@ -1,6 +1,8 @@
 import { type AppBarMainVariantProps } from "@seed-design/lynx-css/recipes/app-bar-main";
 import * as React from "@lynx-js/react";
 
+import type { UseSafeAreaReturn } from "../../hooks/useSafeArea";
+
 export type SharedAppBarVariantProps = Pick<
   AppBarMainVariantProps,
   "theme" | "tone" | "transitionStyle"
@@ -8,7 +10,7 @@ export type SharedAppBarVariantProps = Pick<
 
 export interface AppBarContextValue {
   centeredTitlePaddingX: string;
-  safeAreaInsetTop: string;
+  safeArea: UseSafeAreaReturn;
   sharedVariantProps: SharedAppBarVariantProps;
   setLeftWidth: (width: number) => void;
   setRightWidth: (width: number) => void;

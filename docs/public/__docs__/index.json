@@ -1520,6 +1520,12 @@
               ]
             },
             {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "기기의 safe area inset을 화면에 반영하고, 배경과 스크롤 영역을 화면 끝까지 채우는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/safe-area"
+            },
+            {
               "id": "scale-feedback",
               "title": "Scale Feedback",
               "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
