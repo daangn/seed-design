@@ -2,6 +2,7 @@
 
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
+import { DismissibleLayer } from "@seed-design/react-dismissible-layer";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
@@ -47,6 +48,48 @@ export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>
 });
 PopoverTrigger.displayName = "PopoverTrigger";
 
+/**
+ * Joins SEED's shared layer stack while the popover is open, so Escape and outside presses
+ * reach only the top-most layer, and an ancestor layer closing (Dialog, Drawer) cascades down
+ * to this one. It wraps the positioner because that is the floating element and the one part
+ * every consumer renders; HelpBubble supplies its own content element inside it.
+ *
+ * `pressBehavior="drag"` matches Menu and Select: a mouse press outside dismisses on
+ * pointerdown, while touch waits for a drag or a completed tap so a finger landing mid-scroll
+ * does not read as a dismiss.
+ */
+function PopoverDismissibleLayer({ children }: { children: React.ReactNode }) {
+  const { open, setOpen, closeOnInteractOutside, floatingContext } = usePopoverContext();
+
+  return (
+    <DismissibleLayer
+      enabled={open}
+      pressBehavior="drag"
+      onEscapeKeyDown={() => setOpen(false)}
+      onPressOutside={() => {
+        if (!closeOnInteractOutside) return;
+
+        setOpen(false);
+      }}
+      onFocusOutside={() => {
+        // Focus leaving the popover is not a dismissal — nothing to do here.
+      }}
+      onCascadeDismiss={() => setOpen(false)}
+      exclude={(target) => {
+        // The reference (trigger or anchor) lives outside the layer's DOM, and the trigger's
+        // `useClick` already toggles the popover shut. Treating it as outside would close the
+        // popover on pointerdown and let the same press reopen it on click.
+        const reference = floatingContext.refs.reference.current;
+        if (!(reference instanceof HTMLElement)) return false;
+
+        return reference.contains(target);
+      }}
+    >
+      {children}
+    </DismissibleLayer>
+  );
+}
+
 export interface PopoverPositionerProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -55,10 +98,12 @@ export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerPro
   (props, ref) => {
     const api = usePopoverContext();
     return (
-      <Primitive.div
-        ref={composeRefs(api.refs.positioner, ref)}
-        {...mergeProps(api.positionerProps, props)}
-      />
+      <PopoverDismissibleLayer>
+        <Primitive.div
+          ref={composeRefs(api.refs.positioner, ref)}
+          {...mergeProps(api.positionerProps, props)}
+        />
+      </PopoverDismissibleLayer>
     );
   },
 );
@@ -74,10 +119,12 @@ export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositio
 
     return (
       <FloatingPortal id={id} root={root} preserveTabOrder={preserveTabOrder}>
-        <Primitive.div
-          ref={composeRefs(api.refs.positioner, ref)}
-          {...mergeProps(api.positionerProps, otherProps)}
-        />
+        <PopoverDismissibleLayer>
+          <Primitive.div
+            ref={composeRefs(api.refs.positioner, ref)}
+            {...mergeProps(api.positionerProps, otherProps)}
+          />
+        </PopoverDismissibleLayer>
       </FloatingPortal>
     );
   },
