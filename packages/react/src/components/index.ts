@@ -1,5 +1,6 @@
 export * from "./Accordion";
 export * from "./ActionButton";
+export * from "./AlertDialog";
 export * from "./Article";
 export * from "./AspectRatio";
 export * from "./Avatar";
@@ -12,7 +13,6 @@ export * from "./Checkbox";
 export * from "./Chip";
 export * from "./ChipTabs";
 export * from "./ConsistentWidth";
-export * from "./ContentDialog";
 export * from "./ContentPlaceholder";
 export * from "./ContextualFloatingButton";
 export * from "./Count";

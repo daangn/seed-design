@@ -1,8 +1,8 @@
 declare interface DialogVariant {
   /**
-  * @default false
+  * @default "medium"
   */
-  skipAnimation: boolean;
+  size: "medium" | "large";
 }
 
 declare type DialogVariantMap = {
@@ -11,7 +11,7 @@ declare type DialogVariantMap = {
 
 export declare type DialogVariantProps = Partial<DialogVariant>;
 
-export declare type DialogSlotName = "positioner" | "backdrop" | "content" | "header" | "footer" | "action" | "title" | "description";
+export declare type DialogSlotName = "positioner" | "backdrop" | "content" | "header" | "body" | "footer" | "title" | "description" | "closeButton";
 
 export declare const dialogVariantMap: DialogVariantMap;
 
