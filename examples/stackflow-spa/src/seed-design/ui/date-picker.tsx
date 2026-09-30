@@ -11,7 +11,7 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K>
 
 type DatePickerSharedProps = DistributiveOmit<
   SeedDatePicker.RootProps,
-  "children" | "monthRange" | "visibleRange"
+  "children" | "asChild" | "monthRange" | "visibleRange"
 >;
 
 type ContinuousSizeConstraint =
