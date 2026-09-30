@@ -100,9 +100,9 @@ export function LayoutPrimitivesPage() {
               </Text>
               <CodeLabel>className="pl-x7"</CodeLabel>
             </VStack>
-            <Box bg="bg.layerDefault" borderRadius="full" px="x3" py="x1" className="pl-x7">
+            <Box bg="bg.layerDefault" borderRadius="full" pr="x3" py="x1" className="pl-x7">
               <Text textStyle="t2Bold" color="fg.neutral">
-                override
+                merged
               </Text>
             </Box>
           </HStack>

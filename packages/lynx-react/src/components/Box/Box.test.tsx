@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom";
-import { render } from "@lynx-js/react/testing-library";
+import { createRef } from "@lynx-js/react";
+import { fireEvent, render } from "@lynx-js/react/testing-library";
+import type { NodesRef } from "@lynx-js/types";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Text } from "../Text";
@@ -185,5 +187,45 @@ describe("Box", () => {
   it("rejects margin and bleed props together", () => {
     // @ts-expect-error margin and bleed props both resolve to margin-*.
     render(<Box m="x1" bleedX="8px" />);
+  });
+
+  it("keeps token styles, user overrides, native props, ref, and taps on the root view", () => {
+    const ref = createRef<NodesRef>();
+    const onTap = vi.fn();
+
+    render(
+      <Box
+        ref={ref}
+        id="box-root"
+        className="box-test"
+        accessibility-element
+        accessibility-label="요약 카드"
+        bindtap={onTap}
+        p="x3"
+        borderRadius="r3"
+        style={{ paddingLeft: "24px" }}
+      >
+        <Text>Box content</Text>
+      </Box>,
+    );
+
+    const box = getRenderedRoot().querySelector("#box-root") as HTMLElement;
+
+    expect(box.tagName.toLowerCase()).toBe("view");
+    expect(box).toHaveClass("box-test");
+    expect(box).toHaveAttribute("accessibility-label", "요약 카드");
+    expectStyle(box.style, {
+      "padding-top": "var(--seed-dimension-x3)",
+      "padding-right": "var(--seed-dimension-x3)",
+      "padding-left": "24px",
+      "border-radius": "var(--seed-radius-r3)",
+    });
+    expect(box).toHaveTextContent("Box content");
+    expect(ref.current).not.toBeNull();
+    expect(Array.from(box.attributes).some(({ name }) => name.startsWith("react-ref-"))).toBe(true);
+
+    fireEvent.tap(box);
+
+    expect(onTap).toHaveBeenCalledTimes(1);
   });
 });

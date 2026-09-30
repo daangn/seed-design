@@ -1,7 +1,13 @@
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type {
+  LynxAccessibilityProps,
+  LynxStyledElementProps,
+  LynxTouchProps,
+  LynxViewProps,
+  LynxViewRef,
+} from "../../types";
 import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -18,10 +24,9 @@ import { mergeProps } from "../../utils/merge-props";
 export type BoxProps = StyleProps &
   MarginBleedStyleProps &
   LynxStyledElementProps &
-  LynxPressableProps & {
-    bindtouchstart?: () => void;
-    bindtouchend?: () => void;
-    bindtouchcancel?: () => void;
+  LynxTouchProps &
+  LynxAccessibilityProps & {
+    id?: LynxViewProps["id"];
   };
 
 export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {

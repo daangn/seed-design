@@ -48,7 +48,7 @@ export function App() {
 | 패딩 | `p`, `px`, `py`, `pt`, `pr`, `pb`, `pl`과 longhand padding props |
 | 마진 | `m`, `mx`, `my`, `mt`, `mr`, `mb`, `ml`과 longhand margin props |
 | Bleed | `bleed`, `bleedX`, `bleedY`, `bleedTop`, `bleedRight`, `bleedBottom`, `bleedLeft` |
-| Flex | `display`, `flexDirection`, `flexWrap`, `flexGrow`, `flexShrink`, `alignItems`, `justifyContent`, `gap` |
+| Flex | `display`, `flexDirection`, `flexWrap`, `flexGrow`, `flexShrink`, `alignItems`, `alignContent`, `alignSelf`, `justifyContent`, `justifySelf`, `gap` |
 | 배치 | `position`, `top`, `right`, `bottom`, `left`, `zIndex`, `overflowX`, `overflowY` |
 
 명시적인 `style` prop은 마지막에 merge되므로, 필요한 경우 계산된 스타일을 덮어쓸 수 있습니다.
@@ -58,6 +58,10 @@ export function App() {
   <Text>paddingLeft만 직접 override</Text>
 </Box>
 ```
+
+style prop은 inline style로 적용되므로 같은 속성을 지정한 `className` utility보다 우선합니다. `className`으로 지정할 속성은 style prop으로 함께 지정하지 마세요. 예를 들어 `px="x3" className="pl-x7"`의 왼쪽 패딩은 `x3`입니다.
+
+`pt`, `pr`, `pb`, `pl`에 `"safeArea"`를 지정하면 host가 넘긴 `safeAreaInsetTop`, `safeAreaInsetRight`, `safeAreaInsetBottom`, `safeAreaInsetLeft` global props를 padding으로 적용합니다. 값이 없거나 음수이면 `env(safe-area-inset-*)`을 사용합니다. top과 bottom은 값이 0이어도 `env()`를 사용합니다.
 
 ## Margin과 Bleed
 
@@ -79,6 +83,10 @@ margin 계열과 bleed 계열은 모두 `margin-*`으로 변환되므로 함께 
 type MyBoxProps = BoxProps & { label: string };
 ```
 
+## Native Props
+
+`Box`는 style prop 외에 `className`, `id`, 접근성 prop(`accessibility-label` 등), `bindtap`, `main-thread:bindtap`, `bindtouchstart`, `bindtouchend`, `bindtouchcancel`, `ref`를 루트 `<view>`에 전달합니다. 그 밖의 native `<view>` 속성은 공개 타입으로 지원하지 않으므로 native `<view>`를 직접 사용하세요.
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
@@ -87,5 +95,6 @@ Lynx `Box`는 React `Box`와 다음과 같은 차이가 있습니다.
 - `as`, `asChild`를 지원하지 않습니다. Lynx 컴파일러 제약 때문에 네이티브 `<view>`를 컴포넌트 파일 안에서 직접 렌더링합니다.
 - `bgGradient`, `boxShadow`, `unstable_transform`처럼 아직 Lynx에서 검증하지 않은 StyleProps는 열지 않습니다.
 - bleed prop은 SEED 토큰(`"x4"`, `"spacingX.globalGutter"` 등)과 `"asPadding"`을 받지 않습니다. 토큰은 CSS 변수로 변환되는데, Lynx는 inline style의 `calc()` 안에 있는 CSS 변수를 적용하지 않기 때문입니다. 토큰과 같은 값의 px 길이를 지정하세요.
-- 이벤트는 웹의 `onClick` 대신 Lynx의 `bindtap` 계열 prop을 사용합니다.
+- 반응형 값(`{ base, md }`), `hideFrom`, `_active`, `gridColumn`, `gridRow`를 지원하지 않습니다. 스타일은 CSS 변수가 아니라 object style로 바로 적용됩니다.
+- 이벤트는 웹의 `onClick` 대신 Lynx의 `bindtap` 계열 prop을 사용합니다. 접근성은 `aria-*` 대신 `accessibility-*` prop을 사용합니다.
 </Callout>
