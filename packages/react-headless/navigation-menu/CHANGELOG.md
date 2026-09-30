@@ -1,5 +1,13 @@
 # @seed-design/react-navigation-menu
 
+## 2.0.2
+
+### Patch Changes
+
+- 2c79160: `AppScreen`, Dialog처럼 포커스를 가두는 레이어 안에서 Menu, Select, Navigation Menu를 연 채 Tab 키로 트리거 밖으로 이동하면, 포커스가 이동할 요소 대신 레이어 컨테이너로 가던 문제를 수정합니다.
+- fa78a55: `AppScreen`, Dialog처럼 포커스를 가두는 레이어 안에서 Navigation Menu를 키보드로 열면, 포커스가 flyout 항목으로 들어가지 못하고 트리거로 되돌아가던 문제를 수정합니다.
+- f1c5545: Menu, NavigationMenu, Select 사용 시, placement가 `left`/`right` 계열일 때 transform origin이 trigger와 맞닿은 모서리를 가리키도록 변경합니다. 이전에는 가로축이 `center`로 남고, `start`/`end` 정렬이 세로축 대신 가로축에 반영됐습니다.
+
 ## 2.0.1
 
 ### Patch Changes

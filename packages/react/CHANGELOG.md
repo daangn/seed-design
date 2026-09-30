@@ -1,5 +1,28 @@
 # @seed-design/react
 
+## 2.5.1
+
+### Patch Changes
+
+- 2c79160: `AppScreen`, Dialog처럼 포커스를 가두는 레이어 안에서 Menu, Select, Navigation Menu를 연 채 Tab 키로 트리거 밖으로 이동하면, 포커스가 이동할 요소 대신 레이어 컨테이너로 가던 문제를 수정합니다.
+- fa78a55: `AppScreen`, Dialog처럼 포커스를 가두는 레이어 안에서 Navigation Menu를 키보드로 열면, 포커스가 flyout 항목으로 들어가지 못하고 트리거로 되돌아가던 문제를 수정합니다.
+- 74ca93d: 다음 prop을 deprecated로 표시합니다.
+  
+  - `BottomSheet.Root`의 `nested`
+  - `ResponsiveDialog.Root`의 `bottomSheetRootProps.nested`
+  - `ResponsiveSidePanel.Root`의 `bottomSheetRootProps.nested`
+  
+  모두 동작에 영향을 주지 않으므로 대체 prop 없이 삭제할 수 있으며, 다음 메이저 버전에서 제거할 예정입니다.
+- f1c5545: Menu, NavigationMenu, Select 사용 시, placement가 `left`/`right` 계열일 때 transform origin이 trigger와 맞닿은 모서리를 가리키도록 변경합니다. 이전에는 가로축이 `center`로 남고, `start`/`end` 정렬이 세로축 대신 가로축에 반영됐습니다.
+- Updated dependencies [2c79160]
+- Updated dependencies [fa78a55]
+- Updated dependencies [6eacd9b]
+- Updated dependencies [f1c5545]
+  - @seed-design/react-menu@2.0.3
+  - @seed-design/react-navigation-menu@2.0.2
+  - @seed-design/react-select@1.0.2
+  - @seed-design/react-drawer@2.0.7
+
 ## 2.5.0
 
 ### Minor Changes

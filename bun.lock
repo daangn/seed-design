@@ -60,7 +60,7 @@
         "@seed-design/css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.5.0",
+        "@seed-design/react": "2.5.1",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
@@ -311,7 +311,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@seed-design/css": "2.8.3",
-        "@seed-design/react": "2.5.0",
+        "@seed-design/react": "2.5.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -340,7 +340,7 @@
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "2.8.3",
-        "@seed-design/react": "2.5.0",
+        "@seed-design/react": "2.5.1",
         "@seed-design/react-pagination": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.0.4",
@@ -493,7 +493,7 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "0.12.0",
+      "version": "0.12.1",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
@@ -529,7 +529,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.9.0",
-        "@seed-design/lynx-css": "0.12.0",
+        "@seed-design/lynx-css": "0.12.1",
         "@seed-design/lynx-vitest-config": "0.0.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
@@ -541,7 +541,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.9.0",
-        "@seed-design/lynx-css": "0.0.0 || >=0.12.0 <1.0.0",
+        "@seed-design/lynx-css": "0.12.1",
       },
     },
     "packages/lynx-react-headless/image": {
@@ -675,7 +675,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -689,15 +689,15 @@
         "@seed-design/react-collapsible": "^1.0.1",
         "@seed-design/react-date-picker": "^1.2.0",
         "@seed-design/react-dialog": "^2.0.3",
-        "@seed-design/react-drawer": "^2.0.6",
+        "@seed-design/react-drawer": "^2.0.7",
         "@seed-design/react-field": "^2.0.1",
         "@seed-design/react-field-button": "^2.0.1",
         "@seed-design/react-fieldset": "^1.0.1",
         "@seed-design/react-file-upload": "^1.0.1",
         "@seed-design/react-image": "^1.1.0",
-        "@seed-design/react-menu": "^2.0.2",
+        "@seed-design/react-menu": "^2.0.3",
         "@seed-design/react-middle-truncate": "^1.0.1",
-        "@seed-design/react-navigation-menu": "^2.0.1",
+        "@seed-design/react-navigation-menu": "^2.0.2",
         "@seed-design/react-popover": "^2.0.1",
         "@seed-design/react-portal": "^2.0.1",
         "@seed-design/react-primitive": "^2.0.1",
@@ -707,7 +707,7 @@
         "@seed-design/react-radio-group": "^2.0.1",
         "@seed-design/react-scale-feedback": "^1.0.0",
         "@seed-design/react-segmented-control": "^2.0.2",
-        "@seed-design/react-select": "^1.0.1",
+        "@seed-design/react-select": "^1.0.2",
         "@seed-design/react-side-navigation": "^1.0.1",
         "@seed-design/react-slider": "^2.0.1",
         "@seed-design/react-snackbar": "^2.0.1",
@@ -901,7 +901,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "2.0.6",
+      "version": "2.0.7",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.4",
@@ -1040,7 +1040,7 @@
     },
     "packages/react-headless/menu": {
       "name": "@seed-design/react-menu",
-      "version": "2.0.2",
+      "version": "2.0.3",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -1082,7 +1082,7 @@
     },
     "packages/react-headless/navigation-menu": {
       "name": "@seed-design/react-navigation-menu",
-      "version": "2.0.1",
+      "version": "2.0.2",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -1312,7 +1312,7 @@
     },
     "packages/react-headless/select": {
       "name": "@seed-design/react-select",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -1796,7 +1796,7 @@
         "@seed-design/css": "2.8.3",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "2.5.0",
+        "@seed-design/react": "2.5.1",
         "@seed-design/vite-plugin": "2.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -2207,9 +2207,9 @@
 
     "@chromatic-com/storybook": ["@chromatic-com/storybook@4.1.3", "", { "dependencies": { "@neoconfetti/react": "^1.0.0", "chromatic": "^13.3.3", "filesize": "^10.0.12", "jsonfile": "^6.1.0", "strip-ansi": "^7.1.0" }, "peerDependencies": { "storybook": "^0.0.0-0 || ^9.0.0 || ^9.1.0-0 || ^9.2.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" } }, "sha512-hc0HO9GAV9pxqDE6fTVOV5KeLpTiCfV8Jrpk5ogKLiIgeq2C+NPjpt74YnrZTjiK8E19fYcMP+2WY9ZtX7zHmw=="],
 
-    "@clack/core": ["@clack/core@1.0.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-Orf9Ltr5NeiEuVJS8Rk2XTw3IxNC2Bic3ash7GgYeA8LJ/zmSNpSQ/m5UAhe03lA6KFgklzZ5KTHs4OAMA/SAQ=="],
+    "@clack/core": ["@clack/core@1.5.1", "", { "dependencies": { "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-iHTrHA8MtVuLl2TfZySmcKv1qO2PoyC9Z7pfSDozEuV5vtY3/wcOPKJXlqJ5Oq2Cx5DDGQGAMVx6HZfRRoVEbQ=="],
 
-    "@clack/prompts": ["@clack/prompts@1.0.0", "", { "dependencies": { "@clack/core": "1.0.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-rWPXg9UaCFqErJVQ+MecOaWsozjaxol4yjnmYcGNipAWzdaWa2x+VJmKfGq7L0APwBohQOYdHC+9RO4qRXej+A=="],
+    "@clack/prompts": ["@clack/prompts@1.8.1", "", { "dependencies": { "@clack/core": "1.5.1", "fast-string-width": "^3.0.2", "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.4.0", "", { "dependencies": { "mime": "^3.0.0" } }, "sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA=="],
 
@@ -6543,8 +6543,6 @@
 
     "@base-ui/utils/@babel/runtime": ["@babel/runtime@7.29.7", "", {}, "sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw=="],
 
-    "@changesets/cli/@clack/prompts": ["@clack/prompts@1.8.1", "", { "dependencies": { "@clack/core": "1.5.1", "fast-string-width": "^3.0.2", "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ=="],
-
     "@changesets/config/picomatch": ["picomatch@4.0.7", "", {}, "sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA=="],
 
     "@changesets/git/picomatch": ["picomatch@4.0.5", "", {}, "sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A=="],
@@ -7325,8 +7323,6 @@
 
     "simple-swizzle/is-arrayish": ["is-arrayish@0.3.4", "", {}, "sha512-m6UrgzFVUYawGBh1dUsWR5M2Clqic9RVXC/9f8ceNlv2IcO9j9J/z8UoCLPqtsPBFNzEpfR3xftohbfqDx8EQA=="],
 
-    "skills-npm/@clack/prompts": ["@clack/prompts@1.8.1", "", { "dependencies": { "@clack/core": "1.5.1", "fast-string-width": "^3.0.2", "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ=="],
-
     "skills-npm/tinyglobby": ["tinyglobby@0.2.17", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.4" } }, "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g=="],
 
     "slate-dom/is-plain-object": ["is-plain-object@5.0.0", "", {}, "sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q=="],
@@ -7418,8 +7414,6 @@
     "yargs/string-width": ["string-width@7.2.0", "", { "dependencies": { "emoji-regex": "^10.3.0", "get-east-asian-width": "^1.0.0", "strip-ansi": "^7.1.0" } }, "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="],
 
     "zip-stream/readable-stream": ["readable-stream@4.7.0", "", { "dependencies": { "abort-controller": "^3.0.0", "buffer": "^6.0.3", "events": "^3.3.0", "process": "^0.11.10", "string_decoder": "^1.3.0" } }, "sha512-oIGGmcpTLwPga8Bn6/Z75SVaH1z5dUut2ibSyAMVhmUggWpmDn2dapB0n7f8nwaSiRtepAsfJyfXIO5DCVAODg=="],
-
-    "@changesets/cli/@clack/prompts/@clack/core": ["@clack/core@1.5.1", "", { "dependencies": { "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-iHTrHA8MtVuLl2TfZySmcKv1qO2PoyC9Z7pfSDozEuV5vtY3/wcOPKJXlqJ5Oq2Cx5DDGQGAMVx6HZfRRoVEbQ=="],
 
     "@create-figma-plugin/build/chokidar/readdirp": ["readdirp@4.1.2", "", {}, "sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg=="],
 
@@ -8014,8 +8008,6 @@
     "sanity/yargs/cliui": ["cliui@8.0.1", "", { "dependencies": { "string-width": "^4.2.0", "strip-ansi": "^6.0.1", "wrap-ansi": "^7.0.0" } }, "sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ=="],
 
     "sanity/yargs/yargs-parser": ["yargs-parser@21.1.1", "", {}, "sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw=="],
-
-    "skills-npm/@clack/prompts/@clack/core": ["@clack/core@1.5.1", "", { "dependencies": { "fast-wrap-ansi": "^0.2.0", "sisteransi": "^1.0.5" } }, "sha512-iHTrHA8MtVuLl2TfZySmcKv1qO2PoyC9Z7pfSDozEuV5vtY3/wcOPKJXlqJ5Oq2Cx5DDGQGAMVx6HZfRRoVEbQ=="],
 
     "storybook/oxc-parser/@oxc-parser/binding-android-arm-eabi": ["@oxc-parser/binding-android-arm-eabi@0.127.0", "", { "os": "android", "cpu": "arm" }, "sha512-0LC7ye4hvqbIKxAzThzvswgHLFu2AURKzYLeSVvLdu2TBOYWQDmHnTqPLeA597BcUCxiLqLsS4CJ5uoI5WYWCQ=="],
 
