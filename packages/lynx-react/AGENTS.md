@@ -41,7 +41,7 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
 - raw `<overlay>`를 쓰지 않는다 → `@lynx-js/lynx-ui-overlay`의 `OverlayView`를 감싸지 않고 직접 쓴다. `container`가 없으면 `<view>`, 있으면 native `<overlay>`로 렌더링한다. Dialog·Sheet 계열이 쓰는 lynx-ui `DialogView`·`SheetView`도 같은 `OverlayView`다.
 - 레이어 host 파트는 `Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps">`를 공개 Props로 둔다. Dialog 계열의 `dialogViewProps`, Sheet 계열의 `nativeProps`는 native pass-through 이름으로 유지한다. Registry의 단일 조립 컴포넌트는 `container`·`overlayLevel`만 받아 전달한다.
 - `OverlayView`는 배치 스타일을 정하지 않는다. `className`·`style`은 view 모드에서 레이어 `<view>`, overlay 모드에서 `<overlay>` 안의 `<view>`에 붙는다 → view 모드는 `position: fixed`, overlay 모드는 `relative`로 컴포넌트가 바꾼다(`DialogView`·`SheetView`와 같다). view 모드 레이어는 Lynx view 안에만 그려지고, `container="window"` 레이어는 Lynx view 밖 host의 native 내비게이션 바까지 덮는다.
-- 비모달 레이어(HelpBubble의 `closeOnInteractOutside={false}`)는 view 모드에서 전체 화면 크기를 주지 않는다 → 전체 화면 레이어는 아래 요소의 탭을 가로챈다.
+- 비모달 레이어(HelpBubble)는 view 모드에서 전체 화면 크기를 주지 않는다 → 전체 화면 레이어는 아래 요소의 탭을 가로챈다. 바깥 탭 닫기도 탭 영역을 깔지 않고 레이어 요소의 `global-bindtap`으로 판정한다 → 탭한 요소도 같은 탭을 받는다. 이벤트 `detail.x`·`detail.y`는 page 기준이므로 root rect를 더해 `relativeTo: "screen"` rect와 비교한다(iOS PlayLynx에서 agent-lynx tap으로 view·overlay 모드 모두 확인. overlay 안의 레이어 요소도 page의 탭을 받는다).
 - overlay 모드의 레이어 `<view>`는 `event-through`가 기본 `true`라 backdrop이 탭을 받지 못하고 아래 화면으로 넘긴다. 이 값은 자식에게 상속된다.
   - 바깥 탭을 막고 backdrop에서 받는 레이어(Menu·Select) → `overlayViewProps`에 `"event-through": false`를 넣는다.
   - 바깥 탭을 아래 화면에 넘기는 비모달 레이어 → 기본값을 두고, 탭을 받아야 하는 콘텐츠 요소에 `event-through={false}`를 준다. 빠뜨리면 콘텐츠 탭도 아래로 넘어간다.
