@@ -2,8 +2,7 @@ import { useState } from "react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Text, VStack } from "@seed-design/react";
-import type { TimePickerValue } from "@seed-design/react-time-picker";
+import { Text, VStack, type TimePickerValue } from "@seed-design/react";
 import { TimePicker } from "seed-design/ui/time-picker";
 import {
   AppBar,

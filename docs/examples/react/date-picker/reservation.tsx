@@ -1,13 +1,15 @@
 "use client";
 
-import { Box, Text, VStack } from "@seed-design/react";
 import {
+  Box,
+  Text,
+  VStack,
   excludeDates,
   rangeDayCountAtLeast,
   rangeDayCountAtMost,
   type DatePickerDate,
   type DatePickerRangeValue,
-} from "@seed-design/react-date-picker";
+} from "@seed-design/react";
 import { TwoMonthDatePicker } from "seed-design/ui/date-picker";
 import * as React from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { timePicker } from "@seed-design/css/recipes/time-picker";
-import { useTimePicker, type UseTimePickerProps } from "@seed-design/react-time-picker";
+import { useTimePicker, type UseTimePickerProps } from "@seed-design/react";
 import clsx from "clsx";
 import * as React from "react";
 import { WheelPicker, type WheelPickerColumn, type WheelPickerProps } from "./wheel-picker";

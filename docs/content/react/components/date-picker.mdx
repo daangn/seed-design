@@ -23,10 +23,10 @@ npx @seed-design/cli@latest add ui:date-picker
 
 <ManualInstallation name="date-picker" />
 
-Snippet은 Date Picker 컴포넌트와 컴포넌트 전용 props만 제공합니다. 날짜 값 타입, 제약 조건 helper처럼 UI 구현과 독립적인 API는 `@seed-design/react-date-picker`에서 가져오세요.
+Snippet은 Date Picker 컴포넌트와 컴포넌트 전용 props만 제공합니다. 날짜 값 타입, 제약 조건 helper처럼 UI 구현과 독립적인 API는 `@seed-design/react`에서 가져오세요.
 
 ```tsx
-import { dateOnOrAfter, type DatePickerDate } from "@seed-design/react-date-picker";
+import { dateOnOrAfter, type DatePickerDate } from "@seed-design/react";
 import { DatePicker } from "seed-design/ui/date-picker";
 ```
 
@@ -120,7 +120,7 @@ Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않�
 
 ### 날짜 선택 제약 조건
 
-`constraints`는 후보 날짜를 선택할 수 있는지 판단하는 함수 배열입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. 직접 함수를 작성하거나 `@seed-design/react-date-picker`의 다음 helper를 조합할 수 있습니다.
+`constraints`는 후보 날짜를 선택할 수 있는지 판단하는 함수 배열입니다. 모든 함수가 `true`를 반환해야 선택할 수 있습니다. 직접 함수를 작성하거나 `@seed-design/react`의 다음 helper를 조합할 수 있습니다.
 
 - `dateOnOrAfter`, `dateOnOrBefore`: 선택 가능한 날짜의 양끝을 포함해 제한합니다.
 - `excludeDates`: 예약 완료일, 휴무일처럼 선택할 수 없는 날짜를 제외합니다. Range에서는 기본적으로 시작일부터 후보 종료일까지의 전체 구간을 검사합니다.
