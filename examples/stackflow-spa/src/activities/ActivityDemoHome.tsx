@@ -6,7 +6,8 @@ import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconArticleFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex, HStack, VStack, Icon, Box, Text, Badge, Portal } from "@seed-design/react";
+import { Flex, HStack, VStack, Icon, Box, Text, Portal } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Chip } from "seed-design/ui/chip";
 import {
@@ -322,9 +323,9 @@ export function ArticleListItem(article: ArticleProps) {
         </VStack>
         <HStack align="center" gap="x2">
           {isPopular && (
-            <Badge.Root variant="outline" tone="brand">
-              <Badge.Label>인기</Badge.Label>
-            </Badge.Root>
+            <Badge variant="outline" tone="brand">
+              인기
+            </Badge>
           )}
           <TagGroupRoot size="t4" tone="neutralSubtle">
             <TagGroupItem label={categoryName} />
