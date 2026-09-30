@@ -13,7 +13,7 @@ export interface HelpBubbleTooltipTriggerProps
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubbleTooltip.ContentProps;
+  contentProps?: Omit<SeedHelpBubbleTooltip.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 }
@@ -55,7 +55,7 @@ export interface HelpBubbleTooltipTriggerPortalProps
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubbleTooltip.ContentProps;
+  contentProps?: Omit<SeedHelpBubbleTooltip.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 
