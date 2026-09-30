@@ -1,29 +1,29 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import { ContentDialog, Icon } from "@seed-design/react";
+import { Dialog, Icon } from "@seed-design/react";
 import { forwardRef } from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type * as React from "react";
 
-export interface DialogRootProps extends ContentDialog.RootProps {
+export interface DialogRootProps extends Dialog.RootProps {
   /**
    * @default false
    */
-  closeOnInteractOutside?: ContentDialog.RootProps["closeOnInteractOutside"];
+  closeOnInteractOutside?: Dialog.RootProps["closeOnInteractOutside"];
 }
 
 /**
  * @see https://seed-design.io/react/components/dialog
  */
 export const DialogRoot = (props: DialogRootProps) => {
-  return <ContentDialog.Root closeOnInteractOutside={false} {...props} />;
+  return <Dialog.Root closeOnInteractOutside={false} {...props} />;
 };
 DialogRoot.displayName = "DialogRoot";
 
-export interface DialogTriggerProps extends ContentDialog.TriggerProps {}
+export interface DialogTriggerProps extends Dialog.TriggerProps {}
 
-export const DialogTrigger = ContentDialog.Trigger;
+export const DialogTrigger = Dialog.Trigger;
 
-export interface DialogContentProps extends Omit<ContentDialog.ContentProps, "title"> {
+export interface DialogContentProps extends Omit<Dialog.ContentProps, "title"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;
@@ -52,46 +52,44 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
     const shouldRenderHeader = title || description || showCloseButton;
 
     return (
-      <ContentDialog.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
-        <ContentDialog.Backdrop />
-        <ContentDialog.Content ref={ref} {...otherProps}>
+      <Dialog.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
+        <Dialog.Backdrop />
+        <Dialog.Content ref={ref} {...otherProps}>
           {shouldRenderHeader && (
-            <ContentDialog.Header>
-              {title && <ContentDialog.Title>{title}</ContentDialog.Title>}
-              {description && <ContentDialog.Description>{description}</ContentDialog.Description>}
+            <Dialog.Header>
+              {title && <Dialog.Title>{title}</Dialog.Title>}
+              {description && <Dialog.Description>{description}</Dialog.Description>}
               {showCloseButton && (
-                <ContentDialog.CloseButton aria-label="닫기">
+                <Dialog.CloseButton aria-label="닫기">
                   <Icon svg={<IconXmarkLine />} />
-                </ContentDialog.CloseButton>
+                </Dialog.CloseButton>
               )}
-            </ContentDialog.Header>
+            </Dialog.Header>
           )}
           {children}
-        </ContentDialog.Content>
-      </ContentDialog.Positioner>
+        </Dialog.Content>
+      </Dialog.Positioner>
     );
   },
 );
 
 DialogContent.displayName = "DialogContent";
 
-export interface DialogBodyProps extends ContentDialog.BodyProps {}
+export interface DialogBodyProps extends Dialog.BodyProps {}
 
-export const DialogBody = ContentDialog.Body;
+export const DialogBody = Dialog.Body;
 
-export interface DialogFooterProps extends ContentDialog.FooterProps {}
+export interface DialogFooterProps extends Dialog.FooterProps {}
 
-export const DialogFooter = ContentDialog.Footer;
+export const DialogFooter = Dialog.Footer;
 
-export interface DialogActionProps
-  extends Omit<ContentDialog.ActionProps, "color">,
-    ActionButtonProps {}
+export interface DialogActionProps extends Omit<Dialog.ActionProps, "color">, ActionButtonProps {}
 
 export const DialogAction = forwardRef<HTMLButtonElement, DialogActionProps>((props, ref) => {
   return (
-    <ContentDialog.Action asChild>
+    <Dialog.Action asChild>
       <ActionButton {...props} ref={ref} />
-    </ContentDialog.Action>
+    </Dialog.Action>
   );
 });
 
