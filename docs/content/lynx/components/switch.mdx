@@ -136,7 +136,7 @@ Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
 ## Scale Feedback
 
-Lynx `Switch`는 현재 눌렀을 때 `Switchmark`가 줄어드는 피드백을 제공하지 않습니다. CSS 지원 문제가 아니라 현재 Rootage 명세와 Lynx Recipe에 pressed scale 상태가 없기 때문입니다. 이 피드백이 필요하면 앱에서 `Switchmark`를 감싸는 요소의 눌림 상태와 scale transform을 직접 연결하세요.
+Lynx `Switch`는 누르는 동안 `Switch.Control`의 `Switchmark`를 줄입니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 `Switchmark` 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-switchmark-feedback-scale` CSS 변수는 제공하지 않습니다.
 
 ## Lynx 미지원 기능
 
