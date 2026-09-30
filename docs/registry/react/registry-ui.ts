@@ -387,8 +387,8 @@ export const registryUI: Registry = {
         {
           path: "time-picker.tsx",
           dependencies: {
+            "@seed-design/react": "^3.0.0",
             "@seed-design/css": "^3.0.0",
-            "@seed-design/react-time-picker": "^1.0.0",
             clsx: "^2.1.1",
           },
         },
