@@ -20,7 +20,7 @@ import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
 
 export interface RadioSelectBoxRootProps
-  extends SeedRadioGroupField.RootProps,
+  extends Omit<SeedRadioGroupField.RootProps, "asChild">,
     SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
@@ -166,7 +166,7 @@ export const RadioSelectBoxRadiomark = React.forwardRef<
 RadioSelectBoxRadiomark.displayName = "RadioSelectBoxRadiomark";
 
 export interface CheckSelectBoxGroupProps
-  extends SeedFieldset.RootProps,
+  extends Omit<SeedFieldset.RootProps, "asChild">,
     SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
@@ -295,7 +295,8 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
 );
 CheckSelectBox.displayName = "CheckSelectBox";
 
-export interface CheckSelectBoxCheckmarkProps extends SeedCheckSelectBox.CheckmarkControlProps {}
+export interface CheckSelectBoxCheckmarkProps
+  extends Omit<SeedCheckSelectBox.CheckmarkControlProps, "children" | "asChild"> {}
 
 export const CheckSelectBoxCheckmark = React.forwardRef<
   HTMLDivElement,

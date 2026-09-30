@@ -9,7 +9,9 @@ import * as React from "react";
 /**
  * @deprecated Use Chip.Toggle or Chip.Button instead.
  */
-export interface ToggleControlChipProps extends SeedControlChipBaseProps, Checkbox.RootProps {
+export interface ToggleControlChipProps
+  extends Omit<SeedControlChipBaseProps, "asChild">,
+    Omit<Checkbox.RootProps, "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -67,7 +69,9 @@ export const RadioControlChipRoot = RadioGroup.Root;
 /**
  * @deprecated Use Chip.Toggle or Chip.Button instead.
  */
-export interface RadioControlChipItemProps extends SeedControlChipBaseProps, RadioGroup.ItemProps {
+export interface RadioControlChipItemProps
+  extends Omit<SeedControlChipBaseProps, "asChild">,
+    Omit<RadioGroup.ItemProps, "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
