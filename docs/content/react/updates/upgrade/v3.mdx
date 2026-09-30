@@ -458,37 +458,31 @@ import { Badge, type BadgeProps } from "seed-design/ui/badge"; // [!code ++]
 
 #### Date Picker·Time Picker를 Registry snippet으로 전환
 
-**수정 대상:** `@seed-design/react`의 Date Picker·Time Picker 컴포넌트와 관련 타입·함수, `ui:wheel-picker` snippet 또는 `wheel-picker-public` 스타일을 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
+**수정 대상:** `@seed-design/react`의 Date Picker·Time Picker 컴포넌트와 컴포넌트 전용 props 타입을 사용하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
 
 <Badge tone="positive">에러로 발견 가능</Badge>
 
-`ui:date-picker`, `ui:time-picker`를 설치하고 컴포넌트 import를 바꿔주세요. 두 snippet이 사용하는 `ui:wheel-picker`도 함께 설치됩니다. 기존 Date Picker의 네 레이아웃과 날짜 선택·셀 렌더링·크기 관련 prop, Time Picker의 `value`, `defaultValue`, `onValueChange`, `minuteStep`, `locale`, `disabled`, `periodAriaLabel`, `hourAriaLabel`, `minuteAriaLabel`은 이름을 바꾸지 않고 사용합니다.
+`ui:date-picker`, `ui:time-picker`를 설치하고 컴포넌트 import를 바꿔주세요. 두 snippet이 사용하는 `ui:wheel-picker`도 함께 설치됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:date-picker ui:time-picker
 ```
 
 ```tsx
-import { DatePicker, TimePicker, type DatePickerDate, type TimePickerValue, dateOnOrAfter } from "@seed-design/react"; // [!code --]
+import { DatePicker, TimePicker } from "@seed-design/react"; // [!code --]
 import { DatePicker } from "seed-design/ui/date-picker"; // [!code ++]
 import { TimePicker } from "seed-design/ui/time-picker"; // [!code ++]
-import { dateOnOrAfter, type DatePickerDate } from "@seed-design/react-date-picker"; // [!code ++]
-import type { TimePickerValue } from "@seed-design/react-time-picker"; // [!code ++]
 ```
 
-기존 `DatePicker` 컴포넌트 대신 `@seed-design/react`는 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel` namespace를 제공합니다. 완성된 UI에는 snippet을 사용해주세요. 함께 사용하던 export의 새 위치는 다음과 같습니다.
+기존 `DatePicker` 컴포넌트 대신 `@seed-design/react`는 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel` namespace를 제공합니다. 완성된 UI에는 snippet을 사용해주세요. `DatePickerProps`, `TwoMonthDatePickerProps`, `WeekDatePickerProps`, `ContinuousDatePickerProps`, `TimePickerProps` 및 해당 컴포넌트(`DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`, `TimePicker`)는 각각 `seed-design/ui/date-picker`, `seed-design/ui/time-picker`에서 가져오세요.
 
-- `DatePickerProps`, `TwoMonthDatePickerProps`, `WeekDatePickerProps`, `ContinuousDatePickerProps`, `TimePickerProps` 및 해당 컴포넌트(`DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`, `TimePicker`): 각각 `seed-design/ui/date-picker`, `seed-design/ui/time-picker`
-- `DatePickerAriaLabels`, `DatePickerConstraint`, `DatePickerConstraintContext`, `DatePickerDate`, `DatePickerMonthRange`, `DatePickerMultipleProps`, `DatePickerRangeProps`, `DatePickerRangeValue`, `DatePickerSelectionMode`, `DatePickerSingleProps`, `DatePickerValue`, `DatePickerYearMonth` 및 `compareDates`, `dateKey`, `dateOnOrAfter`, `dateOnOrBefore`, `excludeDates`, `isSameDate`, `maxSelectionCount`, `rangeDayCountAtLeast`, `rangeDayCountAtMost`: `@seed-design/react-date-picker`
-- `MinuteStep`, `TimePickerValue`: `@seed-design/react-time-picker`
+</Step>
 
-`DatePickerActions`와 `DatePickerCellContentRenderProps`는 `@seed-design/react`에서 계속 가져올 수 있습니다. 이미 설치한 `ui:wheel-picker`도 새 snippet의 `@seed-design/react`·`@seed-design/css` 의존성이 `^3.0.0`으로 바뀌었으므로 다시 설치해주세요.
+<Step>
 
-```package-install
-npx @seed-design/cli@latest add ui:wheel-picker
-```
+#### Wheel Picker 스타일 참조 변경
 
-**Wheel Picker 스타일을 직접 사용하는 경우**
+**수정 대상:** `wheel-picker-public` CSS recipe·클래스·사용자 정의 속성을 직접 참조하는 코드입니다. 해당 항목이 없다면 이 단계를 건너뛰세요.
 
 <Badge tone="critical">직접 검색 필요</Badge>
 
