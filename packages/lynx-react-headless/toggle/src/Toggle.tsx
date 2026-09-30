@@ -28,37 +28,25 @@ export const ToggleRoot = React.forwardRef<unknown, ToggleRootProps>((props, ref
     defaultPressed,
     onPressedChange,
     disabled,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     "main-thread:bindtouchstart": mainThreadBindtouchstart,
     "main-thread:bindtouchend": mainThreadBindtouchend,
     "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
   });
   const {
-    bindtap: pressTap,
     bindtouchstart: pressStart,
     bindtouchend: pressEnd,
     bindtouchcancel: pressCancel,
-    ...mainThreadTouchProps
+    ...rootProps
   } = api.rootProps;
 
   return (
     <ToggleProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        accessibility-element
-        accessibility-traits={disabled ? "disabled" : "button"}
-        accessibility-role-description="toggle button"
-        accessibility-value={api.pressed ? "pressed" : "not pressed"}
+        {...rootProps}
         {...nativeProps}
-        {...mainThreadTouchProps}
-        bindtap={
-          disabled
-            ? undefined
-            : (event) => {
-                bindtap?.(event);
-                pressTap(event);
-              }
-        }
-        main-thread:bindtap={disabled ? undefined : mainThreadBindtap}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           pressStart(event);

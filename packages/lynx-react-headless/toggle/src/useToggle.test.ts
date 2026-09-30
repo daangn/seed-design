@@ -54,12 +54,38 @@ describe("useToggle", () => {
 
     it("does not toggle on bindtap when disabled", () => {
       const onPressedChange = vi.fn();
+      const bindtap = vi.fn();
+      function mainThreadTap() {
+        "main thread";
+      }
       const { result } = renderHook(() =>
-        useToggle({ disabled: true, defaultPressed: false, onPressedChange }),
+        useToggle({
+          disabled: true,
+          defaultPressed: false,
+          onPressedChange,
+          bindtap,
+          "main-thread:bindtap": mainThreadTap,
+        }),
       );
       act(() => result.current.rootProps.bindtap(fakeEvent));
       expect(result.current.pressed).toBe(false);
       expect(onPressedChange).not.toHaveBeenCalled();
+      expect(bindtap).not.toHaveBeenCalled();
+      expect(result.current.rootProps["main-thread:bindtap"]).toBeUndefined();
+      expect(result.current.rootProps["accessibility-traits"]).toBe("disabled");
+    });
+
+    it("runs the consumer bindtap before the pressed change", () => {
+      const calls: string[] = [];
+      const { result } = renderHook(() =>
+        useToggle({
+          bindtap: () => calls.push("bindtap"),
+          onPressedChange: (pressed) => calls.push(`pressed:${pressed}`),
+        }),
+      );
+      act(() => result.current.rootProps.bindtap(fakeEvent));
+      expect(calls).toEqual(["bindtap", "pressed:true"]);
+      expect(result.current.rootProps["accessibility-value"]).toBe("pressed");
     });
 
     it("tracks active (pressed-down) state via touch", () => {
