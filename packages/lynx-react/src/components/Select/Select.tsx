@@ -11,6 +11,12 @@ import {
 } from "@seed-design/lynx-css/recipes/select-trigger";
 import { selectItem, type SelectItemVariantProps } from "@seed-design/lynx-css/recipes/select-item";
 import { select as selectVars } from "@seed-design/lynx-css/vars/component";
+import {
+  computePosition,
+  type Placement as SelectPlacement,
+  type Position as SelectPosition,
+  type Rect as SelectRect,
+} from "@seed-design/lynx-react-floating";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
@@ -26,12 +32,6 @@ import type {
 import { toArray } from "../../utils/children";
 import { useFieldContext } from "../Field/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
-import {
-  computePosition,
-  type Placement as SelectPlacement,
-  type Position as SelectPosition,
-  type Rect as SelectRect,
-} from "../private/Positioning";
 
 const EMPTY_VALUE: string[] = [];
 // `$dimension.x2` is the Rootage Select spacing token. Generated component vars retain

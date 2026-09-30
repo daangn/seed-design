@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { computePosition, type PositioningOptions, type Rect } from "./Positioning";
+import { computePosition, type PositioningOptions, type Rect } from "./computePosition.js";
 
 const boundary: Rect = {
   left: 0,

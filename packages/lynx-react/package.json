@@ -53,7 +53,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@floating-ui/core": "^1.8.0",
     "@lynx-js/lynx-ui-common": "^3.130.0",
     "@lynx-js/lynx-ui-dialog": "^3.133.1",
     "clsx": "^2.1.1",
@@ -66,6 +65,8 @@
     "@seed-design/lynx-react-callout": "0.0.0",
     "@seed-design/lynx-react-checkbox": "0.0.0",
     "@seed-design/lynx-react-dialog": "0.0.0",
+    "@seed-design/lynx-react-floating": "0.0.0",
+    "@seed-design/lynx-react-popover": "0.0.0",
     "@seed-design/lynx-react-scale-feedback": "0.0.0",
     "@seed-design/lynx-react-toggle": "0.1.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0",

@@ -6,6 +6,12 @@ import clsx from "clsx";
 import { menu, type MenuVariantProps } from "@seed-design/lynx-css/recipes/menu";
 import { menuItem, type MenuItemVariantProps } from "@seed-design/lynx-css/recipes/menu-item";
 import { menu as menuVars } from "@seed-design/lynx-css/vars/component";
+import {
+  computePosition,
+  type Placement as MenuPlacement,
+  type Position as MenuPosition,
+  type Rect as MenuRect,
+} from "@seed-design/lynx-react-floating";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
@@ -21,12 +27,6 @@ import type {
 } from "../../types";
 import { toArray } from "../../utils/children";
 import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
-import {
-  computePosition,
-  type Placement as MenuPlacement,
-  type Position as MenuPosition,
-  type Rect as MenuRect,
-} from "../private/Positioning";
 
 type MenuClassNames = {
   positioner: string;
