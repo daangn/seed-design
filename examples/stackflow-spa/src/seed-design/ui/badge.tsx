@@ -1,5 +1,3 @@
-"use client";
-
 import { IconILowercaseSerifCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Badge as SeedBadge, Icon } from "@seed-design/react";
 import * as React from "react";
