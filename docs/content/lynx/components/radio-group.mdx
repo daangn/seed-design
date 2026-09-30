@@ -195,7 +195,7 @@ Registry의 `Radiomark`와 `@seed-design/lynx-react`의 컴파운드 API를 함�
 
 ## Scale Feedback
 
-Lynx `RadioGroupItem`은 누르는 동안 `Radiomark`의 배경색을 바꿉니다. React처럼 크기를 줄이지 않으므로 `--seed-radiomark-feedback-scale` CSS 변수도 사용하지 않습니다.
+Lynx `RadioGroupItem`은 누르는 동안 `RadioGroup.ItemControl`의 `Radiomark`를 줄입니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 `Radiomark` 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-radiomark-feedback-scale` CSS 변수는 제공하지 않습니다.
 
 ## 웹 버전과의 차이
 

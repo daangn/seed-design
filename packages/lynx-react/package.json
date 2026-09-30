@@ -66,6 +66,7 @@
     "@seed-design/lynx-react-callout": "0.0.0",
     "@seed-design/lynx-react-checkbox": "0.0.0",
     "@seed-design/lynx-react-dialog": "0.0.0",
+    "@seed-design/lynx-react-scale-feedback": "0.0.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0",
     "@seed-design/lynx-react-use-safe-area": "0.0.0"
   }
