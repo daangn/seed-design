@@ -33,7 +33,6 @@ export const registryUI: Registry = {
           dependencies: {
             "@karrotmarket/react-monochrome-icon": "^1.17.0",
             "@seed-design/react": "^3.0.0",
-            "@seed-design/css": "^3.0.0",
           },
         },
       ],
@@ -189,7 +188,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "chip.tsx",
-          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -298,7 +297,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "popover.tsx",
-          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^3.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
