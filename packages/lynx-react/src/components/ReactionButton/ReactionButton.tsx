@@ -1,11 +1,10 @@
 import { reactionButton } from "@seed-design/lynx-css/recipes/reaction-button";
 import type { ReactionButtonVariantProps } from "@seed-design/lynx-css/recipes/reaction-button";
+import { useToggle } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { cloneElement, useMemo } from "@lynx-js/react";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import type {
@@ -35,7 +34,16 @@ export interface ReactionButtonProps
   pressed?: boolean;
   defaultPressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
+  /**
+   * 버튼의 비활성화 여부입니다. `true`이면 tap, `onPressedChange`, 눌림 상태가 막힙니다.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * 버튼에 등록된 비동기 작업이 진행 중임을 나타냅니다. `disabled`와 같이 tap, `onPressedChange`,
+   * 눌림 상태를 막습니다.
+   * @default false
+   */
   loading?: boolean;
 }
 
@@ -45,34 +53,27 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     children,
     className,
     style,
-    defaultPressed = false,
+    defaultPressed,
     onPressedChange,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
   const { size, pressed: pressedProp, disabled = false, loading = false } = variantProps;
-  const [selected, setSelected] = useControllableState({
-    value: pressedProp,
-    defaultValue: defaultPressed,
-    onChange: onPressedChange,
-  });
-  const handleTap = React.useCallback(
-    (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
-      setSelected(!selected);
-      bindtap?.(...args);
-    },
-    [bindtap, selected, setSelected],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const api = useToggle({
+    pressed: pressedProp,
+    defaultPressed,
+    onPressedChange,
     disabled: disabled || loading,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
   });
+  const selected = api.pressed;
+  const pressed = api.active;
+  // Press state follows the Scale Feedback Main Thread touch handlers.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: disabled || loading,
+    disabled: api.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -111,16 +112,12 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
-          pressHandlers,
+          rootProps,
           nativeProps,
         )}
         flatten={false}
         className={clsx(classNames.root, className)}
         style={style}
-        accessibility-element={accessibilityElement}
-        accessibility-traits={
-          disabled ? "disabled" : selected ? "selected" : (accessibilityTraits ?? "button")
-        }
       >
         <view className={classNames.content}>
           {prefixIconChildren}
