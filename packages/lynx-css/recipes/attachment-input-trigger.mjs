@@ -29,7 +29,12 @@ const defaultVariant = {
   "disabled": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "disabled": false,
+    "pressed": true
+  }
+];
 
 export const attachmentInputTriggerVariantMap = {
   "pressed": [

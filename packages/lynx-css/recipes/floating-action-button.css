@@ -50,8 +50,11 @@
 .seed-floating-action-button__root--pressed_true {
     background-color: var(--seed-color-bg-brand-solid-pressed)
 }
+.seed-floating-action-button__root--disabled_false:active {
+    background-color: var(--seed-color-bg-brand-solid-pressed)
+}
 .seed-floating-action-button__root--transitionEnabled_false {
-    transition-duration: 0s
+    transition-duration: var(--seed-duration-color-transition), 0s, 0s, 0s, 0s, 0s
 }
 .seed-floating-action-button__icon--transitionEnabled_false {
     transition-duration: 0s

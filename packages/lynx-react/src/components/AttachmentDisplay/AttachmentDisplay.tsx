@@ -22,6 +22,7 @@ import type {
 } from "../../types";
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { toArray } from "../../utils/children";
@@ -500,18 +501,25 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       ...nativeProps
     } = restProps;
     const context = useAttachmentDisplayContext();
-    const press = usePressTap({
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } =
+      usePressTap({
+        disabled: context.triggerDisabled,
+        onTap: () =>
+          context.onTriggerTap?.({
+            addEntries: context.addEntries,
+            updateEntryStatus: context.updateEntryStatus,
+          }),
+        mainThreadOnTap: mainThreadBindtap,
+      });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       disabled: context.triggerDisabled,
-      onTap: () =>
-        context.onTriggerTap?.({
-          addEntries: context.addEntries,
-          updateEntryStatus: context.updateEntryStatus,
-        }),
-      mainThreadOnTap: mainThreadBindtap,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
     });
     const classes = attachmentInputTrigger({
       ...variantProps,
-      pressed: press.pressed,
+      pressed,
       disabled: context.triggerDisabled,
     });
     return (
@@ -519,7 +527,9 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
         <view
           {...mergeProps(
             ref ? { ref } : {},
-            press,
+            pressHandlers,
+            scaleFeedbackTriggerProps,
+            scaleFeedbackTargetProps,
             { bindtap: context.triggerDisabled ? undefined : bindtap },
             nativeProps,
             context.stateProps,
@@ -596,7 +606,7 @@ export const AttachmentDisplayTriggerItemCount = React.forwardRef<
 AttachmentDisplayTriggerItemCount.displayName = "AttachmentDisplayTriggerItemCount";
 
 export interface AttachmentDisplayItemProps
-  extends Omit<AttachmentInputItemVariantProps, "type">,
+  extends Omit<AttachmentInputItemVariantProps, "type" | "removePressed">,
     LynxStyledElementProps {
   entry: AttachmentDisplayEntry;
 }
@@ -742,6 +752,23 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   } = props;
   const classes = useItemClassNames();
   const context = useAttachmentDisplayContext();
+  const {
+    pressed: _pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressHandlers
+  } = usePressTap({
+    disabled: context.disabled || context.readOnly,
+    onTap: bindtap,
+    mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: context.disabled || context.readOnly,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
   const actionChildren = toArray(children).map((child, index) =>
     typeof child === "string" || typeof child === "number" ? (
       <text key={index} className={classes.actionLabel}>
@@ -759,10 +786,13 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
       }}
     >
       <view
-        {...mergeProps(ref ? { ref } : {}, nativeProps, {
-          bindtap,
-          "main-thread:bindtap": mainThreadBindtap,
-        })}
+        {...mergeProps(
+          ref ? { ref } : {},
+          pressHandlers,
+          scaleFeedbackTriggerProps,
+          nativeProps,
+          scaleFeedbackTargetProps,
+        )}
         className={clsx(classes.actionButton, className)}
       >
         {actionChildren}
@@ -818,11 +848,24 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
   const item = useAttachmentDisplayItemContext();
   const context = useAttachmentDisplayContext();
   const classes = useItemClassNames();
-  const press = usePressTap({
-    disabled: context.readOnly,
+  const nonInteractive = context.disabled || context.readOnly;
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+    disabled: context.disabled || context.readOnly,
     onTap: () => context.removeEntry(item.id),
     mainThreadOnTap: mainThreadBindtap,
   });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: nonInteractive,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
+  const feedbackClasses = attachmentInputItem({
+    disabled: context.disabled,
+    readOnly: context.readOnly,
+    removePressed: pressed,
+  });
+
   return (
     <IconSlotProvider
       value={{
@@ -833,17 +876,19 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
       <view
         {...mergeProps(
           ref ? { ref } : {},
-          press,
-          { bindtap: context.readOnly ? undefined : bindtap },
+          pressHandlers,
+          scaleFeedbackTriggerProps,
+          scaleFeedbackTargetProps,
+          { bindtap: nonInteractive ? undefined : bindtap },
           nativeProps,
           context.stateProps,
         )}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (context.readOnly ? "disabled" : "button")}
+        accessibility-traits={accessibilityTraits ?? (nonInteractive ? "disabled" : "button")}
         flatten={false}
-        className={clsx(classes.removeButton, className)}
+        className={clsx(classes.removeButton, feedbackClasses.removeButton, className)}
       >
         {children}
       </view>

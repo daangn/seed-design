@@ -5,8 +5,8 @@ import { defineSlotRecipe } from "../utils/define";
 /**
  * Lynx FloatingActionButton recipe.
  *
- * Pressed is modeled as a background-thread boolean variant rather than a
- * pseudo selector. Scale Feedback owns the root transform on the Main Thread.
+ * Enabled :active feedback starts on the Main Thread with a pressed fallback.
+ * Scale Feedback owns the root transform on the Main Thread.
  */
 const floatingActionButton = defineSlotRecipe({
   name: "floating-action-button",
@@ -89,12 +89,14 @@ const floatingActionButton = defineSlotRecipe({
     },
     disabled: {
       true: {},
-      false: {},
+      false: {
+        root: { "&:active": { backgroundColor: vars.base.pressed.root.color } },
+      },
     },
     transitionEnabled: {
       true: {},
       false: {
-        root: { transitionDuration: "0s" },
+        root: { transitionDuration: `${vars.base.enabled.root.colorDuration}, 0s, 0s, 0s, 0s, 0s` },
         icon: { transitionDuration: "0s" },
       },
     },

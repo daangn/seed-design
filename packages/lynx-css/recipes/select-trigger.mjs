@@ -7,6 +7,10 @@ const selectTriggerSlotNames = [
     "seed-select-trigger__root"
   ],
   [
+    "scaleContent",
+    "seed-select-trigger__scaleContent"
+  ],
+  [
     "pressedOverlay",
     "seed-select-trigger__pressedOverlay"
   ],
@@ -38,6 +42,10 @@ const defaultVariant = {
 };
 
 const compoundVariants = [
+  {
+    "disabled": false,
+    "readOnly": false
+  },
   {
     "pressed": true,
     "disabled": false,

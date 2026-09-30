@@ -6,6 +6,7 @@ import clsx from "clsx";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -969,6 +970,7 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
       onTap: handleTap,
       mainThreadOnTap: mainThreadBindtap,
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
     const closeButtonClassNames = helpBubble({
       open: context.open,
       positioned: context.positioned,
@@ -982,7 +984,13 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, pressHandlers, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          pressHandlers,
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          nativeProps,
+        )}
         accessibility-element={accessibilityElement}
         accessibility-label={accessibilityLabel}
         accessibility-traits={accessibilityTraits}

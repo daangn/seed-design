@@ -14,6 +14,8 @@ import { select as selectVars } from "@seed-design/lynx-css/vars/component";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -542,11 +544,20 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
   const {
     pressed,
     bindtap: proxyBindtap,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
     ...pressHandlers
   } = usePressTap({
     disabled: nonInteractive,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: nonInteractive,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const mainThreadProxyBindtap = pressHandlers["main-thread:bindtap"];
   React.useEffect(() => {
@@ -584,19 +595,20 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
       accessibility-role-description="button"
       accessibility-value={context.open ? "expanded" : "collapsed"}
       accessibility-traits={nonInteractive ? "disabled" : (accessibilityTraits ?? "button")}
-      {...nativeProps}
-      {...pressHandlers}
+      {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
       bindtap={proxyBindtap}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-      {children ?? (
-        <>
-          <SelectPrefixIcon fallback={prefixIcon} />
-          <SelectValue />
-          <SelectPlaceholder>{placeholder}</SelectPlaceholder>
-          <SelectSuffixIcon icon={suffixIcon} />
-        </>
-      )}
+      <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+        {children ?? (
+          <>
+            <SelectPrefixIcon fallback={prefixIcon} />
+            <SelectValue />
+            <SelectPlaceholder>{placeholder}</SelectPlaceholder>
+            <SelectSuffixIcon icon={suffixIcon} />
+          </>
+        )}
+      </view>
     </view>
   );
 });
@@ -1305,10 +1317,16 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
     },
     [bindtap, context, value],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const handleRef = React.useCallback(
     (nextNode: NodesRef | null) => {
@@ -1363,11 +1381,12 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         accessibility-role-description="option"
         accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
         accessibility-traits={disabled ? "disabled" : accessibilityTraits}
-        {...nativeProps}
-        {...pressHandlers}
+        {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-        {children}
+        <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+          {children}
+        </view>
       </view>
     </SelectItemContext.Provider>
   );

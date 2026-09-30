@@ -6,6 +6,10 @@ declare interface AttachmentInputItemVariant {
 /**
   * @default false
   */
+  removePressed: boolean;
+/**
+  * @default false
+  */
   pressed: boolean;
 /**
   * @default false

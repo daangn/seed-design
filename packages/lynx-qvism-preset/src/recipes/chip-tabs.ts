@@ -161,6 +161,38 @@ const chipTabs = defineSlotRecipe({
   compoundVariants: [
     {
       variant: "neutralSolid",
+      selected: false,
+      disabled: false,
+      css: {
+        trigger: { "&:active": { backgroundColor: chipVars.variantSolid.pressed.root.color } },
+      },
+    },
+    {
+      variant: "neutralSolid",
+      selected: true,
+      disabled: false,
+      css: {
+        trigger: { "&:active": { backgroundColor: chipVars.variantSolid.selectedPressed.root.color } },
+      },
+    },
+    {
+      variant: "neutralOutline",
+      selected: false,
+      disabled: false,
+      css: {
+        trigger: { "&:active": { backgroundColor: chipVars.variantOutlineStrong.pressed.root.color } },
+      },
+    },
+    {
+      variant: "neutralOutline",
+      selected: true,
+      disabled: false,
+      css: {
+        trigger: { "&:active": { backgroundColor: chipVars.variantOutlineStrong.selectedPressed.root.color } },
+      },
+    },
+    {
+      variant: "neutralSolid",
       selected: true,
       css: {
         trigger: {

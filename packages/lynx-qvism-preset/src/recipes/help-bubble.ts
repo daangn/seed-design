@@ -1,7 +1,4 @@
 import { helpBubble as vars } from "../vars/component";
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 import { defineSlotRecipe } from "../utils/define";
 
 const helpBubble = defineSlotRecipe({
@@ -102,8 +99,6 @@ const helpBubble = defineSlotRecipe({
       marginBottom: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
       borderRadius: vars.base.enabled.root.cornerRadius,
       color: vars.base.enabled.closeButton.color,
-      transform: "scale(1)",
-      transition: `transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
     },
   },
   variants: {
@@ -124,7 +119,7 @@ const helpBubble = defineSlotRecipe({
       left: { arrow: { transform: "rotate(270deg)" } },
     },
     pressed: {
-      true: { closeButton: { transform: `scale(${scale.s97})` } },
+      true: {},
       false: {},
     },
   },

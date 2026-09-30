@@ -10,15 +10,21 @@
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-weak)
 }
+.seed-select-trigger__scaleContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    min-width: 0
+}
 .seed-select-trigger__pressedOverlay {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    opacity: 0;
-    background-color: var(--seed-color-bg-transparent-pressed);
-    transition-property: opacity;
+    background-color: var(--seed-color-bg-transparent);
+    transition-property: background-color;
     transition-duration: var(--seed-duration-color-transition);
     transition-timing-function: var(--seed-timing-function-easing);
     pointer-events: none
@@ -57,9 +63,11 @@
     transition-timing-function: var(--seed-timing-function-easing);
     pointer-events: none
 }
+.seed-select-trigger__scaleContent--size_large {
+    gap: var(--seed-dimension-x2_5)
+}
 .seed-select-trigger__root--size_large {
     height: var(--seed-dimension-x13);
-    gap: var(--seed-dimension-x2_5);
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-r3)
@@ -83,9 +91,11 @@
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5)
 }
+.seed-select-trigger__scaleContent--size_medium {
+    gap: var(--seed-dimension-x2)
+}
 .seed-select-trigger__root--size_medium {
     height: var(--seed-dimension-x10);
-    gap: var(--seed-dimension-x2);
     padding-left: var(--seed-dimension-x3_5);
     padding-right: var(--seed-dimension-x3_5);
     border-radius: var(--seed-radius-r2)
@@ -142,6 +152,9 @@
     transition-duration: var(--seed-duration-d3);
     transition-timing-function: var(--seed-timing-function-easing)
 }
+.seed-select-trigger__root--disabled_false-readOnly_false:active .seed-select-trigger__pressedOverlay {
+    background-color: var(--seed-color-bg-transparent-pressed)
+}
 .seed-select-trigger__pressedOverlay--pressed_true-disabled_false-readOnly_false {
-    opacity: 1
+    background-color: var(--seed-color-bg-transparent-pressed)
 }

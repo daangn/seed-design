@@ -70,6 +70,7 @@ const attachmentInputItemSlotNames = [
 
 const defaultVariant = {
   "type": "general",
+  "removePressed": false,
   "pressed": false,
   "readOnly": false,
   "dragging": false,
@@ -77,6 +78,15 @@ const defaultVariant = {
 };
 
 const compoundVariants = [
+  {
+    "disabled": false,
+    "readOnly": false
+  },
+  {
+    "disabled": false,
+    "readOnly": false,
+    "removePressed": true
+  },
   {
     "type": "image",
     "readOnly": true
@@ -91,6 +101,10 @@ export const attachmentInputItemVariantMap = {
   "type": [
     "general",
     "image"
+  ],
+  "removePressed": [
+    true,
+    false
   ],
   "pressed": [
     true,
