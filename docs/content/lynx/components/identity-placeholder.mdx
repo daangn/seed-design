@@ -92,7 +92,9 @@ export function ProfileFallback() {
 | 이미지 소스 | 컴포넌트의 SVG path | package에 포함한 person/business 640×640 WebP |
 | 크기 맞춤 | SVG의 기본 `preserveAspectRatio="xMidYMid meet"` | `mode="aspectFit"`로 도형 전체를 중앙에 맞춤 |
 | 색상 | Recipe의 gray-500 배경과 `static-white-alpha-800` glyph | 같은 gray-500 배경. glyph은 React Recipe의 `static-white-alpha-800` 값인 `#ffffffde`를 WebP에 고정해 보존합니다. |
-| 접근성 | `aria-label` | `imageProps`의 native `accessibility-label` |
-| SVG / `asChild` prop | SVG prop과 DOM Slot 조합 가능 | 지원하지 않음. Root에는 native `<view>` prop, Image에는 native `<image>` prop을 사용합니다. |
+| 접근성 | Image의 기본 `role="img"`, `aria-label` | Image의 기본 `accessibility-traits="image"`, `accessibility-label`. `imageProps`로 덮어씁니다. |
+| Root prop | variant, HTML div 속성, ARIA 속성, `asChild` | variant, `className`, `style`, `children`만 지원 |
+| Image prop | SVG 속성 전체 | native `<image>` 속성. `src`, `mode`, `children`은 컴포넌트가 정하므로 지원하지 않음 |
+| Registry | Root prop만 받고 Image에는 prop을 전달하지 않음 | Root prop과 Image에 전달할 `imageProps`를 받음 |
 
 Lynx native image는 SVG를 렌더링하지 않으므로 두 도형을 내부 WebP로 제공합니다. 이미지는 package asset import로 bundle에 포함되며 외부 URL 요청을 하지 않습니다. glyph 색상은 원본 React Recipe의 고정 alpha를 raster에 보존한 값이므로 `tint-color` 또는 동적 tint hook을 추가하지 않습니다.
