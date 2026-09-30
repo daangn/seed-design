@@ -55,10 +55,13 @@ const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((pro
 MockIcon.displayName = "MockIcon";
 
 describe("ReactionButton", () => {
-  it("composes slots and toggles uncontrolled selected state", () => {
-    const onPressedChange = vi.fn();
+  it("composes slots and toggles uncontrolled selected state after the user bindtap", () => {
+    const calls: string[] = [];
     render(
-      <ReactionButton onPressedChange={onPressedChange}>
+      <ReactionButton
+        bindtap={() => calls.push("bindtap")}
+        onPressedChange={(pressed) => calls.push(`pressed:${pressed}`)}
+      >
         <PrefixIcon icon={<MockIcon />} />
         좋아요
         <Count>12</Count>
@@ -74,12 +77,44 @@ describe("ReactionButton", () => {
     );
     expect(queries.getByText("좋아요")).toHaveClass("seed-reaction-button__label");
     expect(queries.getByText("12")).toHaveClass("seed-count", "seed-reaction-button__count");
+    expect(root).toHaveAttribute("accessibility-role-description", "toggle button");
+    expect(root).toHaveAttribute("accessibility-value", "not pressed");
 
     fireEvent.tap(root);
 
-    expect(onPressedChange).toHaveBeenCalledWith(true);
+    expect(calls).toEqual(["bindtap", "pressed:true"]);
     expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_true");
-    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-traits", "selected");
+    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-traits", "button");
+    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-value", "pressed");
+
+    fireEvent.tap(getReactionButtonRoot());
+
+    expect(calls).toEqual(["bindtap", "pressed:true", "bindtap", "pressed:false"]);
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_false");
+  });
+
+  it("waits for the parent to update controlled pressed", () => {
+    const calls: string[] = [];
+    const bindtap = () => calls.push("bindtap");
+    const onPressedChange = (pressed: boolean) => calls.push(`pressed:${pressed}`);
+    const { rerender } = render(
+      <ReactionButton pressed={false} bindtap={bindtap} onPressedChange={onPressedChange}>
+        좋아요
+      </ReactionButton>,
+    );
+
+    fireEvent.tap(getReactionButtonRoot());
+
+    expect(calls).toEqual(["bindtap", "pressed:true"]);
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_false");
+
+    rerender(
+      <ReactionButton pressed bindtap={bindtap} onPressedChange={onPressedChange}>
+        좋아요
+      </ReactionButton>,
+    );
+
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_true");
   });
 
   it("does not toggle when disabled", () => {
@@ -122,6 +157,8 @@ describe("ReactionButton", () => {
 
     expect(onPressedChange).not.toHaveBeenCalled();
     expect(onTap).not.toHaveBeenCalled();
+    expect(root).toHaveClass("seed-reaction-button__root--selected_false");
+    expect(root).toHaveAttribute("accessibility-traits", "disabled");
   });
 
   it("renders the label alone when no Count is given", () => {
