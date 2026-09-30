@@ -6,7 +6,7 @@ import * as React from "react";
 import { ProgressCircle } from "./progress-circle";
 
 export interface QuantityPickerProps
-  extends Omit<SeedQuantityPicker.RootProps, "children" | "removeAriaLabel"> {
+  extends Omit<SeedQuantityPicker.RootProps, "children" | "asChild" | "removeAriaLabel"> {
   /**
    * Remove 버튼의 접근성 이름입니다.
    * @default "상품 삭제"

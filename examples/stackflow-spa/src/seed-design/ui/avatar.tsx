@@ -1,7 +1,7 @@
 import { Avatar as SeedAvatar } from "@seed-design/react";
 import * as React from "react";
 
-export interface AvatarProps extends SeedAvatar.RootProps {
+export interface AvatarProps extends Omit<SeedAvatar.RootProps, "asChild"> {
   src?: string;
 
   alt?: string;

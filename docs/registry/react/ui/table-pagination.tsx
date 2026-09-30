@@ -34,7 +34,10 @@ export type {
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
 export type TablePaginationProps = UseTablePaginationProps &
-  DistributiveOmit<HStackProps, keyof UseTablePaginationProps | "children" | "as" | "role">;
+  DistributiveOmit<
+    HStackProps,
+    keyof UseTablePaginationProps | "children" | "asChild" | "as" | "role"
+  >;
 
 /**
  * @see https://seed-design.io/react/components/table-pagination

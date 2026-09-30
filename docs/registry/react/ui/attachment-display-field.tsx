@@ -158,7 +158,7 @@ export const AttachmentDisplay = React.forwardRef<HTMLDivElement, AttachmentDisp
 AttachmentDisplay.displayName = "AttachmentDisplay";
 
 export interface AttachmentDisplayItemProps
-  extends Omit<SeedAttachmentDisplay.ItemProps, "children"> {
+  extends Omit<SeedAttachmentDisplay.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
 }
 

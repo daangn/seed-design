@@ -10,7 +10,7 @@ import {
   IconXmarkCircleFill,
 } from "@karrotmarket/react-monochrome-icon";
 
-export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix"> {
+export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix" | "asChild"> {
   label?: React.ReactNode;
   /**
    * @default "medium"

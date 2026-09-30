@@ -25,7 +25,7 @@ export interface DialogTriggerProps extends ContentDialog.TriggerProps {}
 
 export const DialogTrigger = ContentDialog.Trigger;
 
-export interface DialogContentProps extends Omit<ContentDialog.ContentProps, "title"> {
+export interface DialogContentProps extends Omit<ContentDialog.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

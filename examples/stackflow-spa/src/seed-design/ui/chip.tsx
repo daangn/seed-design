@@ -5,9 +5,12 @@ import * as React from "react";
 
 // Create a base props interface that doesn't include DOM attributes to avoid conflicts
 export interface ChipBaseProps
-  extends Omit<SeedChip.RootProps, keyof React.ButtonHTMLAttributes<HTMLButtonElement>> {}
+  extends Omit<
+    SeedChip.RootProps,
+    keyof React.ButtonHTMLAttributes<HTMLButtonElement> | "asChild"
+  > {}
 
-export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
+export interface ToggleChipProps extends ChipBaseProps, Omit<Checkbox.RootProps, "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -46,7 +49,7 @@ export interface RadioChipRootProps extends RadioGroup.RootProps {}
  */
 export const RadioChipRoot = RadioGroup.Root;
 
-export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps {
+export interface RadioChipItemProps extends ChipBaseProps, Omit<RadioGroup.ItemProps, "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
