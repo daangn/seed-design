@@ -203,7 +203,7 @@ SideNavigationGroup.displayName = "SideNavigationGroup";
 export interface SideNavigationProviderProps extends SeedSideNavigation.ProviderProps {}
 export const SideNavigationProvider = SeedSideNavigation.Provider;
 
-export interface SideNavigationRootProps extends SeedSideNavigation.RootProps {}
+export interface SideNavigationRootProps extends Omit<SeedSideNavigation.RootProps, "asChild"> {}
 export const SideNavigationRoot = React.forwardRef<HTMLElement, SideNavigationRootProps>(
   ({ children, ...props }, ref) => (
     <SeedSideNavigation.Root ref={ref} {...props}>

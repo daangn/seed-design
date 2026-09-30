@@ -7,7 +7,7 @@ import {
 } from "@seed-design/react";
 import * as React from "react";
 
-export interface SliderProps extends SeedSlider.RootProps {
+export interface SliderProps extends Omit<SeedSlider.RootProps, "children" | "asChild"> {
   label?: React.ReactNode;
   /**
    * @default "medium"

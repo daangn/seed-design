@@ -17,7 +17,8 @@ export interface BottomSheetTriggerProps extends SeedBottomSheet.TriggerProps {}
 
 export const BottomSheetTrigger = SeedBottomSheet.Trigger;
 
-export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentProps, "title"> {
+export interface BottomSheetContentProps
+  extends Omit<SeedBottomSheet.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

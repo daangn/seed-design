@@ -13,7 +13,8 @@ export interface NavigationMenuTriggerProps extends SeedNavigationMenu.TriggerPr
 
 export const NavigationMenuTrigger = SeedNavigationMenu.Trigger;
 
-export interface NavigationMenuContentProps extends SeedNavigationMenu.ContentProps {
+export interface NavigationMenuContentProps
+  extends Omit<SeedNavigationMenu.ContentProps, "asChild"> {
   positionerContainer?: SeedNavigationMenu.PositionerProps["container"];
 }
 

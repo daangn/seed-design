@@ -18,7 +18,7 @@ export interface SwipeableMenuSheetTriggerProps extends SeedSwipeableMenuSheet.T
 export const SwipeableMenuSheetTrigger = SeedSwipeableMenuSheet.Trigger;
 
 export interface SwipeableMenuSheetContentProps
-  extends Omit<SeedSwipeableMenuSheet.ContentProps, "title"> {
+  extends Omit<SeedSwipeableMenuSheet.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

@@ -24,7 +24,7 @@ export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
  */
 export const MenuTrigger = SeedMenu.Trigger;
 
-export interface MenuContentProps extends SeedMenu.ContentProps {
+export interface MenuContentProps extends Omit<SeedMenu.ContentProps, "asChild"> {
   positionerContainer?: SeedMenu.PositionerProps["container"];
 }
 

@@ -130,7 +130,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
 );
 SelectTrigger.displayName = "SelectTrigger";
 
-export interface SelectContentProps extends SeedSelect.ContentProps {
+export interface SelectContentProps extends Omit<SeedSelect.ContentProps, "asChild"> {
   positionerContainer?: SeedSelect.PositionerProps["container"];
 }
 
@@ -150,7 +150,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
 );
 SelectContent.displayName = "SelectContent";
 
-export interface SelectGroupProps extends SeedSelect.GroupProps {
+export interface SelectGroupProps extends Omit<SeedSelect.GroupProps, "asChild"> {
   label?: React.ReactNode;
 }
 
