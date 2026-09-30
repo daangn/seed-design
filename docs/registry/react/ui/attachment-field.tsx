@@ -223,7 +223,8 @@ export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children
 };
 AttachmentDropzone.displayName = "AttachmentDropzone";
 
-export interface AttachmentInputItemProps extends Omit<SeedAttachmentInput.ItemProps, "children"> {
+export interface AttachmentInputItemProps
+  extends Omit<SeedAttachmentInput.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
 }
 

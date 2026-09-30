@@ -118,7 +118,8 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
 );
 RadioSelectBoxRoot.displayName = "RadioSelectBoxRoot";
 
-export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemProps, "children"> {
+export interface RadioSelectBoxItemProps
+  extends Omit<SeedRadioSelectBox.ItemProps, "children" | "asChild"> {
   label: React.ReactNode;
   description?: React.ReactNode;
 
@@ -254,7 +255,8 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
   },
 );
 
-export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, "children"> {
+export interface CheckSelectBoxProps
+  extends Omit<SeedCheckSelectBox.RootProps, "children" | "asChild"> {
   label: React.ReactNode;
   description?: React.ReactNode;
 

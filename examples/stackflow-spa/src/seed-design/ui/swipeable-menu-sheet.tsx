@@ -83,7 +83,7 @@ export interface SwipeableMenuSheetGroupProps extends SeedSwipeableMenuSheet.Gro
 export const SwipeableMenuSheetGroup = SeedSwipeableMenuSheet.Group;
 
 export interface SwipeableMenuSheetItemProps
-  extends Omit<SeedSwipeableMenuSheet.ItemProps, "children"> {
+  extends Omit<SeedSwipeableMenuSheet.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;

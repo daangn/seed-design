@@ -100,7 +100,7 @@ export const SelectRoot = ({
   );
 };
 
-export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "children"> {
+export interface SelectTriggerProps extends Omit<SeedSelect.TriggerProps, "children" | "asChild"> {
   placeholder?: React.ReactNode;
 
   prefixIcon?: React.ReactNode;
@@ -167,7 +167,7 @@ export const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
 );
 SelectGroup.displayName = "SelectGroup";
 
-export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children"> {
+export interface SelectItemProps extends Omit<SeedSelect.ItemProps, "children" | "asChild"> {
   description?: React.ReactNode;
 }
 

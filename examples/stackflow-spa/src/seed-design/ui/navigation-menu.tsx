@@ -38,7 +38,8 @@ export interface NavigationMenuGroupLabelProps extends SeedNavigationMenu.GroupL
 
 export const NavigationMenuGroupLabel = SeedNavigationMenu.GroupLabel;
 
-export interface NavigationMenuItemProps extends Omit<SeedNavigationMenu.ItemProps, "children"> {
+export interface NavigationMenuItemProps
+  extends Omit<SeedNavigationMenu.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;
