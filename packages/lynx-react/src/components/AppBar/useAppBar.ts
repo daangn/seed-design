@@ -1,5 +1,6 @@
 import type { AppBarVariantProps } from "@seed-design/lynx-css/recipes/app-bar";
 import type { AppBarMainVariantProps } from "@seed-design/lynx-css/recipes/app-bar-main";
+import { topNavigation as topNavigationVars } from "@seed-design/lynx-css/vars/component";
 import * as React from "@lynx-js/react";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
@@ -13,11 +14,6 @@ declare const SystemInfo: LynxSystemInfo | undefined;
 type AppBarTheme = NonNullable<AppBarVariantProps["theme"]>;
 type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 type AppBarStyleObject = Record<string, string | number>;
-
-const APP_BAR_HEIGHT_BY_THEME: Record<AppBarTheme, string> = {
-  cupertino: "44px",
-  android: "56px",
-};
 
 function getDefaultAppBarTheme(): AppBarTheme {
   const globalSystemInfo = (globalThis as typeof globalThis & { SystemInfo?: LynxSystemInfo })
@@ -42,9 +38,9 @@ function getCenteredTitlePadding(leftWidth: number, rightWidth: number): string 
   return `${Math.max(leftWidth, rightWidth)}px`;
 }
 
-function getRootLayoutStyle(theme: AppBarTheme, safeAreaInsetTop: string): AppBarStyleObject {
+function getRootLayoutStyle(safeAreaInsetTop: string): AppBarStyleObject {
   return {
-    height: `calc(${APP_BAR_HEIGHT_BY_THEME[theme]} + ${safeAreaInsetTop})`,
+    height: `calc(${topNavigationVars.base.enabled.root.height} + ${safeAreaInsetTop})`,
     paddingTop: safeAreaInsetTop,
   };
 }
@@ -72,7 +68,7 @@ export function useAppBar(variantProps: AppBarVariantProps) {
     theme: resolvedTheme,
   };
   const centeredTitlePaddingX = getCenteredTitlePadding(leftWidth, rightWidth);
-  const rootLayoutStyle = getRootLayoutStyle(resolvedTheme, safeAreaInsetTop);
+  const rootLayoutStyle = getRootLayoutStyle(safeAreaInsetTop);
   const sharedVariantProps = React.useMemo<SharedAppBarVariantProps>(
     () => ({
       theme: resolvedVariantProps.theme,
