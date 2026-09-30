@@ -6,7 +6,7 @@
         {
           "path": "footer-01.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -21,7 +21,7 @@
         {
           "path": "footer-02.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -53,7 +53,7 @@
         {
           "path": "footer-03.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -85,7 +85,7 @@
         {
           "path": "footer-04.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -116,7 +116,7 @@
         {
           "path": "layout-01.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -131,7 +131,7 @@
         {
           "path": "layout-02.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -146,7 +146,7 @@
         {
           "path": "side-navigation-01.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],

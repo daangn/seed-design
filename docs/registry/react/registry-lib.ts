@@ -17,7 +17,10 @@ export const registryLib: Registry = {
       snippets: [
         {
           path: "pagination-button.tsx",
-          dependencies: { "@seed-design/react": "^2.3.0", "@seed-design/css": "^2.6.0" },
+          dependencies: {
+            "@seed-design/react": "^2.3.0 || ^3.0.0",
+            "@seed-design/css": "^2.6.0 || ^3.0.0",
+          },
         },
       ],
     },
@@ -26,7 +29,7 @@ export const registryLib: Registry = {
       snippets: [
         {
           path: "pagination-page-item.tsx",
-          dependencies: { "@seed-design/css": "^2.6.0" },
+          dependencies: { "@seed-design/css": "^2.6.0 || ^3.0.0" },
         },
       ],
     },
