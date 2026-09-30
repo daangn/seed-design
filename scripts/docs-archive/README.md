@@ -2,6 +2,16 @@
 
 기존 **Pages 브랜치 배포 + 공통 라우팅 Worker 하나**를 사용합니다. R2나 버전별 Worker는 추가하지 않습니다. 운영자는 매번 터미널에서 검증·배포 명령을 입력하지 않아도 됩니다.
 
+## React 2.x 원본 준비 상태
+
+`react/2.0`은 안정 React 2.5.0 소스에서 분기한 문서 보관 브랜치입니다. [첫 Pages 배포](https://github.com/daangn/seed-design/actions/runs/36674386578)는 2026-09-30에 성공했고, 고정 배포 주소와 브랜치 alias 모두 문서·검색·자산·registry·LLM·404 및 소스 SHA 검증을 통과했습니다. HTML·LLM 링크 검사 오류는 0건입니다.
+
+- 운영 목록에 등록한 원본: `https://react-2-0.seed-design.pages.dev`
+- 문서 미리보기: `https://react-2-0.seed-design.pages.dev/react/2.0/`
+- 검증한 소스 SHA: `60e4e98e31cfe02bb9001e1d2fe44f6e77cbf41e`
+
+이 주소는 Pages 원본입니다. 공식 `/react/2.0` 연결은 아래 최초 Worker 공개 절차를 완료한 뒤 확인합니다. 앞으로 원본 SHA는 `sourceBranch`에서 읽으므로 문서 수정마다 운영 목록을 바꿀 필요는 없습니다.
+
 | 할 일 | 운영자가 하는 일 | CI가 처리하는 일 |
 | --- | --- | --- |
 | React v2 문서 수정 | `react/2.0` 브랜치에 변경 반영 | v2 빌드 → Pages 배포 → 문서·검색·registry 검증 |
@@ -50,9 +60,10 @@ Worker 운영 브랜치는 현재 **`major`**입니다. 콘텐츠 브랜치에�
 
 ### 출시 전에 끝낼 작업
 
-- [ ] [dev 선반영 PR #2325](https://github.com/daangn/seed-design/pull/2325)로 Actions 등록용 workflow 파일 **하나만** 머지합니다. `major → dev` 병합·fast-forward는 하지 않습니다. 이 PR 자체는 npm 릴리스·Pages 배포·Worker 배포를 트리거하지 않습니다.
-- [ ] #2260을 `major`에 반영하고, 현재 안정 React 2.x 소스에서 `react/2.0`을 준비합니다. 보관 인프라만 선별 backport합니다.
-- [ ] GitHub 토큰·계정 설정을 준비하고, Pages 원본 검증을 통과시켜 실제 alias를 운영 목록에 등록합니다.
+- [x] [dev 선반영 PR #2325](https://github.com/daangn/seed-design/pull/2325)로 Actions 등록용 workflow 파일 **하나만** 머지했습니다. `major → dev` 병합·fast-forward는 하지 않습니다.
+- [x] #2260을 `major`에 반영하고, 안정 React 2.x 소스에서 `react/2.0`을 준비했습니다. 보관 인프라만 선별 backport했습니다.
+- [x] Pages 원본 검증을 통과시켜 실제 alias를 운영 목록에 등록했습니다.
+- [ ] 기존 `CF_API_TOKEN`의 Worker·route 배포 권한과 대상 계정·zone을 확인합니다.
 - [ ] 승인된 공개 작업으로 공통 Worker와 `/react/2.0*` route를 배포합니다. 문서·검색·자산·CLI·404와 문서 수정 push → 자동 갱신을 실제 공개 주소에서 확인합니다.
 - [ ] V0 도메인 이전·TLS·기존 v2 주소 redirect를 확인합니다.
 - [ ] 출시 직전까지 안정 브랜치에 추가된 마지막 React 2.x 변경을 `react/2.0`에 선별 반영하고 최종 SHA·배포·CLI를 확인합니다. 브랜치 간 동기화는 CI가 자동으로 해주지 않습니다.

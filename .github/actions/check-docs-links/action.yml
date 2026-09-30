@@ -6,7 +6,7 @@ inputs:
     description: "Absolute path to the exported docs site (Next static export output)"
     required: true
   canonical-prefix:
-    description: "Optional archive path prefix, including its trailing slash (for example react/v2/)"
+    description: "Optional archive path prefix, including its trailing slash (for example react/2.0/)"
     required: false
     default: ""
   llms-exclude:
@@ -47,8 +47,9 @@ runs:
           --extensions html
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
+          --index-files index.html,.
           --include-fragments=anchor-only
-          --exclude-path '/react/(v[0-9]+/)?updates/changelog(/index)?\.html$'
+          --exclude-path '/react/((v[0-9]+|[0-9]+[.][0-9]+)/)?updates/changelog(/index)?\.html$'
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           --
           ${{ inputs.out-dir }}
@@ -120,6 +121,7 @@ runs:
           --extensions md
           --root-dir ${{ inputs.out-dir }}
           --fallback-extensions html
+          --index-files index.html,.
           --include-fragments=anchor-only
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           --
