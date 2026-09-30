@@ -14,6 +14,10 @@ interface HelpBubbleProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   contentProps?: SeedHelpBubble.ContentProps;
 
   zIndexOffset?: number;
+
+  container?: SeedHelpBubble.PositionerProps["container"];
+
+  overlayLevel?: SeedHelpBubble.PositionerProps["overlayLevel"];
 }
 
 export interface HelpBubbleTriggerProps extends HelpBubbleProps {}
@@ -32,6 +36,8 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
       description,
       contentProps,
       zIndexOffset,
+      container,
+      overlayLevel,
       children,
       ...rootProps
     },
@@ -48,6 +54,8 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
           showCloseButton={showCloseButton}
           contentProps={contentProps}
           zIndexOffset={zIndexOffset}
+          container={container}
+          overlayLevel={overlayLevel}
         />
       </SeedHelpBubble.Root>
     );
@@ -70,6 +78,8 @@ export const HelpBubbleAnchor = React.forwardRef<unknown, HelpBubbleAnchorProps>
       description,
       contentProps,
       zIndexOffset,
+      container,
+      overlayLevel,
       children,
       ...rootProps
     },
@@ -86,6 +96,8 @@ export const HelpBubbleAnchor = React.forwardRef<unknown, HelpBubbleAnchorProps>
           showCloseButton={showCloseButton}
           contentProps={contentProps}
           zIndexOffset={zIndexOffset}
+          container={container}
+          overlayLevel={overlayLevel}
         />
       </SeedHelpBubble.Root>
     );
@@ -99,6 +111,8 @@ interface HelpBubbleContentProps {
   showCloseButton: boolean;
   contentProps?: SeedHelpBubble.ContentProps;
   zIndexOffset?: number;
+  container?: SeedHelpBubble.PositionerProps["container"];
+  overlayLevel?: SeedHelpBubble.PositionerProps["overlayLevel"];
 }
 
 function HelpBubbleContent({
@@ -107,9 +121,15 @@ function HelpBubbleContent({
   showCloseButton,
   contentProps,
   zIndexOffset,
+  container,
+  overlayLevel,
 }: HelpBubbleContentProps) {
   return (
-    <SeedHelpBubble.Positioner zIndexOffset={zIndexOffset}>
+    <SeedHelpBubble.Positioner
+      zIndexOffset={zIndexOffset}
+      container={container}
+      overlayLevel={overlayLevel}
+    >
       <SeedHelpBubble.Content {...contentProps}>
         <SeedHelpBubble.Arrow>
           <SeedHelpBubble.ArrowTip />
