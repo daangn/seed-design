@@ -184,7 +184,7 @@ export const appBar = defineSlotRecipe({
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
@@ -211,7 +211,7 @@ export const appBar = defineSlotRecipe({
       // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
-          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
           paddingInline: PINNED_ROOT_PADDING_X,
           paddingTop: "var(--seed-safe-area-top)",
         },
