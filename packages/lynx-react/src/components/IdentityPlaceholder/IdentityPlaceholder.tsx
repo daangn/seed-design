@@ -25,7 +25,9 @@ const identitySources = {
 /**
  * @platform Lynx
  *
- * Web의 SVG/asChild API 대신 native `<view>` props를 받습니다.
+ * 웹 대비 미지원 기능:
+ * - HTML div 속성 및 ARIA 속성
+ * - `asChild`
  */
 export interface IdentityPlaceholderRootProps
   extends IdentityPlaceholderVariantProps,
@@ -74,19 +76,13 @@ export const IdentityPlaceholderImage = React.forwardRef<unknown, IdentityPlaceh
     const classNames = useClassNames();
     const parentProps = useProps();
 
-    if (parentProps === null) {
-      throw new Error(
-        "<IdentityPlaceholderImage/> must be rendered inside <IdentityPlaceholderRoot/>.",
-      );
-    }
-
     const {
       className,
       "accessibility-label": accessibilityLabel,
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
-    const identity = parentProps.identity ?? "person";
+    const identity = parentProps?.identity ?? "person";
 
     return (
       <image
