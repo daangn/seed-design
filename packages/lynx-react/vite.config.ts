@@ -35,6 +35,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-callout$/,
         /^@seed-design\/lynx-react-checkbox$/,
         /^@seed-design\/lynx-react-dialog$/,
+        /^@seed-design\/lynx-react-scale-feedback$/,
         /^@seed-design\/lynx-react-use-safe-area$/,
         "clsx",
       ],

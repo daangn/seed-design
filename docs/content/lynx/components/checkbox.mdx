@@ -196,7 +196,7 @@ Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 - **오류 안내 렌더링**: React는 오류가 표시될 때 `description`을 접근성 트리에 남기지만, Lynx에는 DOM의 visually hidden 처리 방식이 없어 화면과 접근성 트리에서 `description`을 제외하고 `errorMessage`만 렌더링합니다.
 - **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap과 `disabled`는 `Checkbox.Root`가 소유하며, Control·Indicator·Label은 별도의 press나 `disabled`를 받지 않습니다.
 - **Pressed 상태**: 웹의 `data-active` 대신 `Checkbox.Root`의 `:active` selector가 Main Thread에서 눌림 색을 적용합니다.
-- **Scale Feedback**: Lynx는 눌림 상태를 색상으로 표현하며 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
+- **Scale Feedback**: 누르는 동안 `Checkbox.Control`이 줄어듭니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 Control 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
 - **접근성 속성**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다. `Checkbox.Root`는 `accessibility-element`, `accessibility-role-description`, `accessibility-value`로 역할과 선택 상태를 전달합니다. React는 `input.indeterminate`로 mixed 상태를 노출하고, Lynx는 `accessibility-value="mixed"`로 노출합니다.
 - **Compound 구조**: `Checkbox.Root` → `Checkbox.Control` → `Checkbox.Indicator` + `Checkbox.Label` 구성과 Context로 상태와 variant를 공유하는 흐름은 동일합니다.
 - **ref forwarding**: `Checkbox`, `Checkmark`, `CheckboxGroup`은 Root view로 ref를 전달합니다. 웹 snippet처럼 hidden input ref를 제공하지 않습니다. `Checkbox.Indicator`는 React와 달리 ref를 받지 않습니다.
