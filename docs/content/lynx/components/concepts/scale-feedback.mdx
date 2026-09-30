@@ -9,7 +9,7 @@ compatibility:
 
 SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
 
-Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 하나의 시각 영역에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나누거나 정확한 native element를 target으로 삼아야 할 때는 훅을 사용하세요.
+Lynx 구현은 `@seed-design/lynx-react`의 `ScaleFeedback`과 `useScaleFeedback`을 사용합니다. 하나의 시각 영역에 Self Scale을 적용할 때는 유틸 컴포넌트, trigger와 target을 나누거나 정확한 native element를 target으로 삼아야 할 때는 훅을 사용하세요. `@seed-design/lynx-react`에 의존하지 않는 패키지에서는 같은 API를 `@seed-design/lynx-react-scale-feedback`에서 가져올 수 있습니다.
 
 ## Scale 계산 방식
 
@@ -41,6 +41,8 @@ function Pressable() {
 ```
 
 wrapper는 실제 animation target으로 유지되도록 `flatten={false}`를 사용합니다. Lynx의 flatten은 별도 render object가 필요 없는 element를 부모와 합쳐 렌더링 비용을 줄이는 최적화이므로, ref와 animation target으로 사용할 element에서는 비활성화해야 합니다.
+
+wrapper가 측정과 축소의 대상입니다. 부모 레이아웃이 wrapper를 child보다 크게 늘리면 늘어난 크기로 배율을 계산하고 wrapper 중심을 기준으로 축소합니다. wrapper 크기가 보이는 영역과 다르다면 `useScaleFeedback`으로 보이는 요소에 target props를 직접 전달하세요.
 
 child의 ref와 이벤트 props는 변경하지 않습니다. child의 touch 이벤트가 wrapper까지 전파되면 child handler와 Scale Feedback이 함께 실행됩니다. child에서 이벤트 전파를 중단하거나 wrapper가 레이아웃에 영향을 주면 `useScaleFeedback`으로 정확한 trigger와 target에 props를 직접 전달하세요.
 
@@ -125,7 +127,7 @@ Scale Feedback은 하나의 touch 이벤트를 다음처럼 나눠 처리합니�
 
 Main Thread 핸들러가 scale을 즉시 시작한 뒤 필요한 callback만 `runOnBackground()`로 전달합니다. Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 직접 사용하지 않습니다.
 
-`usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onTouchStart`, `onTouchEnd`, `onTouchCancel`로 전달합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
+`usePressTap`과 직접 조합할 때는 `bindtouchstart`, `bindtouchend`, `bindtouchcancel`을 `onTouchStart`, `onTouchEnd`, `onTouchCancel`로 전달합니다. SEED 컴포넌트도 이 방식으로 연결합니다. 동일 touch 이벤트에 Main/Background 핸들러를 따로 등록하지 않습니다.
 
 ### pressed 색상 피드백
 
@@ -144,7 +146,7 @@ Scale은 CSS `transition` 문자열을 inline style에 쓰지 않고 `Element.an
 | Duration | `$duration.pressed-scale` | `150ms` |
 | Easing | `$timing-function.pressed-scale` | `cubic-bezier(0, 0, 0.15, 1)` |
 
-빌드 시 `@seed-design/lynx-css/scale-feedback` 런타임 모듈을 생성하고, 훅은 이 값을 Main Thread에서 사용합니다. 값을 훅에 복사하지 않으므로 Rootage가 바뀌면 생성 결과를 통해 React와 Lynx가 함께 갱신됩니다.
+빌드 시 `@seed-design/lynx-css/scale-feedback` 런타임 모듈을 생성하고, 훅은 이 값을 Main Thread에서 사용합니다. duration과 easing을 훅에 복사하지 않으므로 Rootage가 바뀌면 생성 결과를 통해 React와 Lynx가 함께 갱신됩니다.
 
 touchend나 touchcancel이 이전 애니메이션 도중 발생하면 computed transform을 읽고 기존 `Animation`을 취소한 뒤 현재 지점에서 `scale(1)`로 돌아갑니다.
 
@@ -167,17 +169,25 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 - 이미 축소되는 상위 요소 안의 target에는 중복 Scale Feedback을 적용하지 않습니다.
 - target이 기존 `transform`을 사용한다면 전용 content layer를 두세요. 훅이 target의 `transform`을 소유하므로 translate·rotate가 있는 같은 node에 직접 연결하면 기존 transform을 덮어씁니다.
 
+## React와의 차이
+
+- **적용 방식**: React는 `ScaleFeedback`이 요소 크기만 측정하고, 배율은 사용처의 CSS가 `:active`와 `--seed-feedback-scale`로 적용합니다. Lynx는 훅이 touch 처리와 `Element.animate()` 실행까지 담당합니다.
+- **Content Scale**: React의 SEED 컴포넌트는 아직 Content Scale을 적용하지 않습니다. Lynx는 Rootage 명세에 따라 Accordion, List, Select Box, Segmented Control, Menu Item 등에서 콘텐츠만 축소하므로 같은 컴포넌트라도 두 플랫폼의 눌림 표현이 다릅니다.
+- **측정 기준**: React는 `ScaleFeedback`을 적용한 요소의 크기로 계산한 배율을 하위 요소가 상속합니다. Lynx는 target, 즉 실제로 축소하는 요소의 크기로 계산합니다. Content Scale에서는 콘텐츠 layer의 크기가 기준입니다.
+- **중첩 축소 끄기**: React는 `--seed-checkmark-feedback-scale` 같은 CSS 변수로 안쪽 요소의 축소를 끕니다. Lynx는 List, Select Box처럼 SEED 컴포넌트가 콘텐츠를 축소할 때만 안쪽 Checkbox·Radio·Switch의 축소를 자동으로 막습니다. 직접 만든 Scale Feedback 안에 이 컴포넌트를 넣으면 축소가 겹치며, 이를 끄는 공개 API는 없습니다.
+- **프로젝트 전체에서 끄기**: React는 CSS 변수를 덮어써서 끕니다. Lynx는 `GlobalProps.motion`의 `"reduced"`로만 끌 수 있습니다.
+
 ## API
 
 ### ScaleFeedback
 
-<react-type-table path="../packages/lynx-react/src/components/ScaleFeedback/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
 
 ### useScaleFeedback
 
-<react-type-table path="../packages/lynx-react/src/hooks/useScaleFeedback.ts" name="UseScaleFeedbackOptions" />
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/useScaleFeedback.ts" name="UseScaleFeedbackOptions" />
 
-<react-type-table path="../packages/lynx-react/src/hooks/useScaleFeedback.ts" name="UseScaleFeedbackReturn" />
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/useScaleFeedback.ts" name="UseScaleFeedbackReturn" />
 
 ## 참고 자료
 

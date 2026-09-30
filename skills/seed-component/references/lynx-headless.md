@@ -42,7 +42,7 @@
 
 조건:
 
-- 소비자 MT touch 핸들러를 실행한 뒤 내부 press/reset만 인자 없이 `runOnBackground`로 넘기는 구조 → native event는 MT에서 소비된다. MT에서 BG로 인자 없이 넘기는 현재 예는 `packages/lynx-react/src/hooks/useScaleFeedback.ts`다.
+- 소비자 MT touch 핸들러를 실행한 뒤 내부 press/reset만 인자 없이 `runOnBackground`로 넘기는 구조 → native event는 MT에서 소비된다. MT에서 BG로 인자 없이 넘기는 현재 예는 `packages/utils/lynx-react-scale-feedback/src/useScaleFeedback.ts`다.
 - MT 핸들러가 없는 경로 → 추가 MT wrapper를 만들지 않는다.
 - tap → 위 touch 순서를 적용하지 않고 1단계에서 정한 상태 변경·소비자 콜백 순서를 보존한다.
 
