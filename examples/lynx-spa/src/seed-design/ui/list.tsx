@@ -181,12 +181,19 @@ export const ListSwitchItem = React.forwardRef<unknown, ListSwitchItemProps>(
 );
 ListSwitchItem.displayName = "ListSwitchItem";
 
-export interface ListDividerProps extends SeedDividerProps {}
+export interface ListDividerProps extends SeedDividerProps {
+  /**
+   * @default false
+   */
+  "accessibility-element"?: SeedDividerProps["accessibility-element"];
+}
 
 /**
  * @see https://seed-design.io/lynx/components/list
  */
-export const ListDivider = React.forwardRef<unknown, ListDividerProps>((props, ref) => {
-  return <SeedDivider ref={ref} {...props} accessibility-element={false} />;
-});
+export const ListDivider = React.forwardRef<unknown, ListDividerProps>(
+  ({ "accessibility-element": accessibilityElement = false, ...props }, ref) => {
+    return <SeedDivider ref={ref} accessibility-element={accessibilityElement} {...props} />;
+  },
+);
 ListDivider.displayName = "ListDivider";
