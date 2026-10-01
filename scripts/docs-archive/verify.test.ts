@@ -4,8 +4,8 @@ import { verifyArchive } from "./verify";
 
 const archive: ArchiveDefinition = {
   platform: "lynx",
-  version: "1.0",
-  origin: "https://lynx-1.0.example.pages.dev",
+  version: "v1",
+  origin: "https://lynx-v1.example.pages.dev",
   sourceSha: "a".repeat(40),
   probe: { document: "components/button", registryItem: "ui/button" },
 };
@@ -41,9 +41,9 @@ function fixture(target: ArchiveDefinition, overrides: Record<string, () => Resp
 }
 
 it.each([
-  ["react", "2.0"],
-  ["react", "3.0"],
-  ["lynx", "1.0"],
+  ["react", "v2"],
+  ["react", "v3"],
+  ["lynx", "v1"],
 ])("verifies %s/%s with its own document and registry paths", async (platform, version) => {
   const target = { ...archive, platform, version };
   const { fetcher, visited } = fixture(target);
@@ -57,17 +57,17 @@ it.each([
   { sourceDirty: true },
   { sourceSha: "b".repeat(40) },
   { platform: "react" },
-  { version: "2.0" },
+  { version: "v2" },
 ])("rejects a mismatched or dirty archive manifest %j", async (override) => {
   const { fetcher } = fixture(archive, {
     "/archive.json": () =>
-      Response.json({ ...archive, prefix: "/lynx/1.0", sourceDirty: false, ...override }),
+      Response.json({ ...archive, prefix: "/lynx/v1", sourceDirty: false, ...override }),
   });
   await expect(verifyArchive(archive, fetcher)).rejects.toThrow("manifest");
 });
 
 it("refuses to follow redirects into another archive or host", async () => {
-  for (const location of ["/react/2.0/", "https://other.pages.dev/lynx/1.0/"]) {
+  for (const location of ["/react/v2/", "https://other.pages.dev/lynx/v1/"]) {
     const { fetcher, visited } = fixture(archive, {
       "/archive.json": () => new Response(null, { status: 302, headers: { location } }),
     });
@@ -79,7 +79,7 @@ it("refuses to follow redirects into another archive or host", async () => {
 it("bounds redirect loops", async () => {
   const { fetcher } = fixture(archive, {
     "/archive.json": () =>
-      new Response(null, { status: 302, headers: { location: "/lynx/1.0/archive.json" } }),
+      new Response(null, { status: 302, headers: { location: "/lynx/v1/archive.json" } }),
   });
   await expect(verifyArchive(archive, fetcher)).rejects.toThrow("too many");
 });
@@ -93,7 +93,7 @@ it("rejects another platform's docs index", async () => {
 
 it("does not accept a Pages-reported SHA without resolving the reviewed source", async () => {
   const { sourceSha: _, ...definition } = archive;
-  await expect(verifyArchive({ ...definition, sourceBranch: "lynx/1.0" })).rejects.toThrow(
+  await expect(verifyArchive({ ...definition, sourceBranch: "lynx/v1" })).rejects.toThrow(
     "resolve",
   );
 });

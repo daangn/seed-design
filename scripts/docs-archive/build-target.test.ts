@@ -3,8 +3,8 @@ import { docsBuildTarget } from "./build-target";
 
 const archive = {
   platform: "react",
-  version: "2.0",
-  sourceBranch: "react/2.0",
+  version: "v2",
+  sourceBranch: "react/v2",
   origin: "",
   probe: { document: "components/button", registryItem: "ui/button" },
 };
@@ -20,8 +20,8 @@ it("preserves ordinary Pages previews and latest builds", () => {
 });
 
 it.each([
-  ["react/2.0", "2.0"],
-  ["react/3.0", "3.0"],
+  ["react/v2", "v2"],
+  ["react/v3", "v3"],
 ])("selects %s builds from registration without workflow edits", (sourceBranch, version) => {
   expect(docsBuildTarget(sourceBranch, [{ ...archive, sourceBranch, version }])).toEqual({
     "output-dir": "docs/out-archive",
@@ -33,16 +33,16 @@ it.each([
 });
 
 it("rejects multiple archives from one branch and unimplemented Lynx builds", () => {
-  expect(() => docsBuildTarget("react/2.0", [archive, { ...archive, version: "3.0" }])).toThrow(
+  expect(() => docsBuildTarget("react/v2", [archive, { ...archive, version: "v3" }])).toThrow(
     "Multiple",
   );
   expect(() =>
-    docsBuildTarget("react/2.0", [{ ...archive, platform: "lynx", version: "1.0" }]),
+    docsBuildTarget("react/v2", [{ ...archive, platform: "lynx", version: "v1" }]),
   ).toThrow("exporter");
 });
 
 it("keeps the content build selected while public traffic is pinned for rollback", () => {
   expect(
-    docsBuildTarget("react/2.0", [{ ...archive, sourceSha: "b".repeat(40) }])["archive-version"],
-  ).toBe("2.0");
+    docsBuildTarget("react/v2", [{ ...archive, sourceSha: "b".repeat(40) }])["archive-version"],
+  ).toBe("v2");
 });

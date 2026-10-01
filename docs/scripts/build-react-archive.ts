@@ -7,7 +7,7 @@ import { exportReactArchive } from "./export-react-archive";
 const docsDirectory = fileURLToPath(new URL("..", import.meta.url));
 const version = process.argv[2];
 if (!version)
-  throw new Error("Specify the archive channel explicitly, for example build:archive:react 2.0");
+  throw new Error("Specify the archive channel explicitly, for example build:archive:react v2");
 createArchivePaths(version);
 const reactPackage = JSON.parse(
   await readFile(path.join(docsDirectory, "../packages/react/package.json"), "utf8"),
