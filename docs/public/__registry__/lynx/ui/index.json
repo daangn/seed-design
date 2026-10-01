@@ -401,6 +401,21 @@
     {
       "snippets": [
         {
+          "path": "menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.9.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "menu-sheet",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "page-banner.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
@@ -536,21 +551,6 @@
         }
       ],
       "id": "slider",
-      "dependencies": [
-        "@seed-design/lynx-react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "swipeable-menu-sheet.tsx",
-          "dependencies": {
-            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
-          }
-        }
-      ],
-      "id": "swipeable-menu-sheet",
       "dependencies": [
         "@seed-design/lynx-react"
       ]

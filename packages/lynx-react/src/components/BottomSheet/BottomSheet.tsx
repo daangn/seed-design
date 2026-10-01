@@ -61,19 +61,19 @@ const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeConte
 // - 웹 d4 + exit               ≈ stiffness 400, damping 40 (close, critically damped)
 ////////////////////////////////////////////////////////////////////////////////////
 
-const SEED_SNAP_ANIMATION: SheetTransition = {
+export const SEED_SNAP_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 400,
   damping: 35,
 };
 
-const SEED_ENTER_ANIMATION: SheetTransition = {
+export const SEED_ENTER_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 350,
   damping: 32,
 };
 
-const SEED_EXIT_ANIMATION: SheetTransition = {
+export const SEED_EXIT_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 400,
   damping: 40,
