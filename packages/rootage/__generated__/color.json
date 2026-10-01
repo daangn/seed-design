@@ -1250,7 +1250,7 @@
             "value": "$color.palette.gray-100"
           }
         },
-        "description": "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다."
+        "description": "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다."
       },
       "$color.fg.neutral-muted": {
         "values": {
@@ -1689,7 +1689,7 @@
             "value": "$color.palette.gray-1000"
           }
         },
-        "description": "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다."
+        "description": "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다."
       },
       "$color.bg.neutral-inverted-pressed": {
         "values": {
@@ -1702,7 +1702,7 @@
             "value": "$color.palette.gray-800"
           }
         },
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)"
+        "description": "@deprecated `$color.bg.neutral-solid-pressed`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)"
       },
       "$color.bg.neutral-solid": {
         "values": {
