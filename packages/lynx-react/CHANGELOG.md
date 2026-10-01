@@ -1,5 +1,31 @@
 # @seed-design/lynx-react
 
+## 0.9.0
+
+### Minor Changes
+
+- ba7cfa8: `AppBar`가 좌우 safe area inset을 반영합니다.
+  
+  - `AppBar`의 내용이 좌우 inset만큼 안쪽으로 들어가서, 좌우 inset이 있는 화면에서도 디스플레이 컷아웃에 가려지지 않습니다. cupertino 테마의 가운데 타이틀은 safe area 안에서 가운데에 옵니다.
+  - cupertino 테마에서 가운데 타이틀이 길면 좌우 버튼과 겹치던 문제를 고칩니다.
+- 934e3ef: `useSafeArea`와 `Box`가 좌우 safe area inset을 지원합니다.
+  
+  - `useSafeArea`가 호스트 앱의 `lynx.__globalProps`에서 좌우 inset을 읽어 `safeAreaInsetLeft`, `safeAreaInsetRight`로 반환합니다. 호스트가 값을 주지 않으면 `env(safe-area-inset-*)`로 fallback합니다.
+  - 내용을 좌우 inset만큼 안쪽으로 넣어야 하는 영역은 `Box`의 `pl`, `pr`에 `"safeArea"`를 지정합니다.
+- 934e3ef: `Box`, `VStack`, `HStack`에 margin과 bleed style prop을 추가합니다.
+  
+  - `m`, `mx`, `my`, `mt`, `mr`, `mb`, `ml`과 longhand margin prop으로 margin을 지정합니다. SEED 토큰, 길이, `"auto"`를 받습니다.
+  - `bleed`, `bleedX`, `bleedY`, `bleedTop`, `bleedRight`, `bleedBottom`, `bleedLeft`로 요소를 부모의 padding 영역까지 넓힙니다. px 길이, `0`, `"safeArea"`를 받으며, `"safeArea"`는 같은 방향의 safe area inset만큼 넓힙니다. Lynx는 inline style의 `calc()` 안에 있는 CSS 변수를 적용하지 않으므로, bleed는 SEED 토큰을 받지 않습니다.
+  - margin 계열과 bleed 계열은 함께 지정할 수 없습니다. 이 제약 때문에 `BoxProps`, `StackProps`, `VStackProps`, `HStackProps`가 union 타입으로 바뀌었습니다. 이 타입을 `interface ... extends`로 확장하던 코드는 `type MyBoxProps = BoxProps & { ... }`처럼 `type`으로 바꿔야 합니다.
+  - 이 변경으로 기존 `ui:result-section` snippet은 타입 검사를 통과하지 못합니다. snippet을 다시 내려받아 주세요.
+    - `npx @seed-design/cli@latest add ui:result-section`
+- cb4c4a1: Top Navigation 높이를 iOS·Android 모두 56px로 통일합니다. `theme=cupertino` App Bar와 App Screen의 높이가 44px에서 56px로 바뀝니다.
+
+### Patch Changes
+
+- Updated dependencies [cb4c4a1]
+  - @seed-design/lynx-css@0.13.0
+
 ## 0.8.0
 
 ### Minor Changes

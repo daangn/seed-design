@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -83,7 +83,7 @@
     "unicode-segmenter": "^0.17.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "^2.8.0",
+    "@seed-design/css": "^2.9.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
