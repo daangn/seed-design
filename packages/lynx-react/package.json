@@ -69,6 +69,7 @@
     "@seed-design/lynx-react-popover": "0.0.0",
     "@seed-design/lynx-react-quantity-picker": "0.0.0",
     "@seed-design/lynx-react-scale-feedback": "0.0.0",
+    "@seed-design/lynx-react-segmented-control": "0.0.0",
     "@seed-design/lynx-react-switch": "0.0.0",
     "@seed-design/lynx-react-toggle": "0.1.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0",
