@@ -26,6 +26,7 @@
     "@seed-design/lynx-react-checkbox": "workspace:*",
     "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/lynx-react-sortable": "workspace:*",
+    "@seed-design/lynx-react-switch": "workspace:*",
     "@seed-design/lynx-react-toggle": "workspace:*",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0",

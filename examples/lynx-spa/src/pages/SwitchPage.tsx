@@ -64,8 +64,12 @@ function SwitchExamples() {
     <CatalogExamples title="Switch" gap="12px">
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
       <view className="flex flex-row gap-x4 items-center">
-        <Switchmark />
-        <Switchmark defaultChecked />
+        <SwitchRoot accessibility-label="Off">
+          <Switchmark />
+        </SwitchRoot>
+        <SwitchRoot accessibility-label="On" defaultChecked>
+          <Switchmark />
+        </SwitchRoot>
       </view>
 
       <CatalogSectionTitle>With Label</CatalogSectionTitle>
@@ -85,9 +89,15 @@ function SwitchExamples() {
 
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view className="flex flex-row gap-x4 items-center">
-        <Switchmark size="16" defaultChecked />
-        <Switchmark size="24" defaultChecked />
-        <Switchmark size="32" defaultChecked />
+        <SwitchRoot accessibility-label="16" defaultChecked>
+          <Switchmark size="16" />
+        </SwitchRoot>
+        <SwitchRoot accessibility-label="24" defaultChecked>
+          <Switchmark size="24" />
+        </SwitchRoot>
+        <SwitchRoot accessibility-label="32" defaultChecked>
+          <Switchmark size="32" />
+        </SwitchRoot>
       </view>
 
       <CatalogSectionTitle>Tones</CatalogSectionTitle>
