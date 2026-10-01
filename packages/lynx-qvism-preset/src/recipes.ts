@@ -1,3 +1,5 @@
+import avatar from "./recipes/avatar";
+import avatarStack from "./recipes/avatar-stack";
 import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
 import alertDialog from "./recipes/alert-dialog";
@@ -115,4 +117,6 @@ export const recipes = {
   tagGroupItem: lynxTagGroupItem,
   tabs,
   textInput,
+  avatar,
+  avatarStack,
 };

@@ -1,3 +1,4 @@
+export * from "./Avatar";
 export * from "./Accordion";
 export * from "./ActionButton";
 export * from "./AppBar";
