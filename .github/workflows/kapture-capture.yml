@@ -28,7 +28,7 @@ permissions:
   contents: read
   pull-requests: read
 env:
-  KAPTURE_CLI_VERSION: "0.13.0"
+  KAPTURE_CLI_VERSION: "0.14.0"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
   KAPTURE_CACHE_RETENTION_DAYS: "7"
@@ -79,7 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           KAPTURE_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
-          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --allow-adapter-upgrade --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
+          bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github context --base-branch "$KAPTURE_BASE_BRANCH" --allow-initial-adoption --adapter-package-json docs/package.json --output "${{ runner.temp }}/kapture-context/context.json" --changed-files-output "${{ runner.temp }}/kapture-context/changed-files.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         id: artifact
         if: steps.context.outputs.integration-mode == 'compare'

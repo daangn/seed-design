@@ -228,7 +228,7 @@ describe("Kapture consumer workflows", () => {
     }
   });
 
-  test("opts capture and trusted handlers into adapter upgrades and skips comparison work", () => {
+  test("keeps compatible adapter upgrades in normal comparison without skip opt-in", () => {
     const handlers = [
       workflows.capture.jobs.context.steps.find((step) => step.id === "context"),
       workflows.report.jobs.publish.steps.find((step) => step.id === "review"),
@@ -238,9 +238,7 @@ describe("Kapture consumer workflows", () => {
     ];
     for (const handler of handlers) {
       const args = commandText(handler).split(" ");
-      expect(args.filter((arg) => arg === "--allow-adapter-upgrade")).toEqual([
-        "--allow-adapter-upgrade",
-      ]);
+      expect(args.filter((arg) => arg === "--allow-adapter-upgrade")).toEqual([]);
       expect(args[args.indexOf("--adapter-package-json") + 1]).toBe("docs/package.json");
     }
     for (const name of ["build-base", "capture"]) {
