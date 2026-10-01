@@ -38,6 +38,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-floating$/,
         /^@seed-design\/lynx-react-popover$/,
         /^@seed-design\/lynx-react-scale-feedback$/,
+        /^@seed-design\/lynx-react-switch$/,
         /^@seed-design\/lynx-react-use-safe-area$/,
         "clsx",
       ],

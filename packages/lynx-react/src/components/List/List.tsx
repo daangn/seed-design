@@ -29,7 +29,7 @@ import {
   type RadioGroupItemProps,
   useRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
-import { SwitchRoot, type SwitchRootProps, useSwitchContext } from "../Switch/Switch";
+import { SwitchRoot, type SwitchRootProps, useStyledSwitchContext } from "../Switch/Switch";
 
 type PublicListItemVariantProps = Omit<
   ListItemVariantProps,
@@ -344,7 +344,7 @@ interface ListSwitchItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListSwitchItemSurface(props: ListSwitchItemSurfaceProps) {
-  const context = useSwitchContext("ListSwitchItem");
+  const context = useStyledSwitchContext("ListSwitchItem");
 
   return (
     <ListItemSurface
