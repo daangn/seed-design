@@ -23,7 +23,7 @@ declare type ScrollFogVariantMap = {
 
 export declare type ScrollFogVariantProps = Partial<ScrollFogVariant>;
 
-export declare type ScrollFogSlotName = "root" | "topMask" | "bottomMask" | "leftMask" | "rightMask" | "verticalScroll" | "horizontalScroll";
+export declare type ScrollFogSlotName = "root" | "topMask" | "bottomMask" | "leftMask" | "rightMask";
 
 export declare const scrollFogVariantMap: ScrollFogVariantMap;
 
