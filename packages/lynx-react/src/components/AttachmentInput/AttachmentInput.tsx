@@ -12,6 +12,7 @@ import {
   attachmentInputTrigger,
   type AttachmentInputTriggerVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-trigger";
+import { useFieldContext } from "@seed-design/lynx-react-field";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
@@ -25,7 +26,6 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { mergeProps } from "../../utils/merge-props";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
-import { useFieldContext } from "../Field/context";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
 
 export interface NativeFile {

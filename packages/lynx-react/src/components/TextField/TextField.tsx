@@ -2,13 +2,13 @@ import * as React from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import { textInput as textInputVars } from "@seed-design/lynx-css/vars/component";
+import { useFieldContext } from "@seed-design/lynx-react-field";
 import clsx from "clsx";
 
 import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
-import { useFieldContext } from "../Field/context";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED, TextFieldContext } from "./context";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -259,6 +259,7 @@ function useNativeTextControl({
   const isComposingRef = React.useRef(false);
   const canApplyInsertionMaxLengthRef = React.useRef(true);
   const reconciliationRevisionRef = React.useRef(0);
+  const focusedRef = React.useRef(false);
   const [canApplyInsertionMaxLength, setCanApplyInsertionMaxLength] = React.useState(true);
   const wasInsertionMaxLengthManaged = useWasDefined(textFieldContext.nativeInsertionMaxLength);
 
@@ -370,6 +371,15 @@ function useNativeTextControl({
     [keyboardAvoidance],
   );
 
+  const setFocused = textFieldContext.setFocused;
+  React.useEffect(
+    () => () => {
+      // A removed control is not guaranteed to receive blur; release the focus it reported.
+      if (focusedRef.current) setFocused(false);
+    },
+    [setFocused],
+  );
+
   const handleInput = React.useCallback(
     (event: NativeInputEvent | NativeTextareaEvent) => {
       "background only";
@@ -417,6 +427,7 @@ function useNativeTextControl({
     (event: Parameters<NonNullable<NativeInputProps["bindfocus"]>>[0]) => {
       "background only";
 
+      focusedRef.current = true;
       textFieldContext.setFocused(true);
       keyboardAvoidance?.focus({
         owner: ownerRef.current,
@@ -446,6 +457,7 @@ function useNativeTextControl({
       if (typeof nativeValue === "string") {
         lastNativeValueRef.current = nativeValue;
       }
+      focusedRef.current = false;
       textFieldContext.setFocused(false);
       keyboardAvoidance?.blur(ownerRef.current);
       bindblur?.(event);
