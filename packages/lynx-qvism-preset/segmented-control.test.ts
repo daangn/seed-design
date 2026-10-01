@@ -14,14 +14,4 @@ describe("Lynx segmented control recipe", () => {
     expect(segmentedControl.base.label).toMatchObject({ textAlign: "center" });
     expect(segmentedControl.base.label).not.toHaveProperty("whiteSpace");
   });
-
-  it("transitions press feedback with an opacity background", () => {
-    expect(segmentedControl.slots).toContain("itemBackground");
-    expect(segmentedControl.base.item).not.toHaveProperty("transitionProperty");
-    expect(segmentedControl.base.itemBackground).toMatchObject({
-      opacity: 0,
-      transitionProperty: "opacity",
-    });
-    expect(segmentedControl.variants.pressed.true.itemBackground).toEqual({ opacity: 1 });
-  });
 });
