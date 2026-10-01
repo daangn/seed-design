@@ -1,5 +1,171 @@
 # @seed-design/react
 
+## 3.0.0
+
+### Major Changes
+
+- 44dd4ed: (BREAKING CHANGE: `Chip.Root`, `Chip.RootProps`, `ChipRoot`, `ChipRootProps`를 각각 `Chip.Button`, `Chip.ButtonProps`, `ChipButton`, `ChipButtonProps`로 바꿔야 합니다. `ui:chip` snippet도 다시 설치해야 합니다.) 버튼 Chip과 선택할 수 있는 Chip을 구분하도록 Chip API를 정리합니다.
+  
+  - `Chip.Root`의 이름을 `Chip.Button`으로 바꿉니다. 동작과 스타일은 그대로입니다.
+  - 선택 상태를 토글하는 `Chip.Toggle`과, 여러 Chip 중 하나를 선택하는 `Chip.RadioRoot`·`Chip.RadioItem`과 각 Props 타입을 추가합니다. 2.x에서 `Chip.Root`에 `asChild`로 headless Checkbox나 Radio Group을 중첩하던 코드를 이 컴포넌트로 바꿀 수 있습니다.
+  - `ui:chip` snippet에서 `ChipBaseProps` 타입을 제거합니다. 이 타입을 가져왔다면 `ButtonChipProps`, `ToggleChipProps`, `RadioChipItemProps` 중 사용하는 컴포넌트에 맞는 타입으로 바꾸세요.
+- 8b61071: (BREAKING CHANGE: `@seed-design/react`에서 가져온 `<Badge>`와 `BadgeProps`를 `ui:badge` snippet의 `Badge`와 `BadgeProps`로 교체해야 합니다. `npx @seed-design/cli@latest add ui:badge`로 snippet을 설치한 뒤 import를 바꾸세요.) Badge에 아이콘을 표시하는 Prefix와 정보 아이콘 버튼을 표시하는 Action을 추가하고, 완성된 Badge를 snippet으로 제공합니다.
+  
+  - `Badge`는 JSX 컴포넌트가 아니라 `Badge.Root`, `Badge.Prefix`, `Badge.Label`, `Badge.Action`으로 구성된 namespace로 바뀌며, `BadgeProps` export를 제거합니다. `ImageFrameBadge`는 바뀌지 않습니다.
+  - snippet의 `Badge`에는 라벨을 `children`으로 전달하며, 기존 `tone`, `variant`, `size`를 그대로 사용할 수 있습니다. snippet의 `Badge`는 `asChild`를 지원하지 않으므로, `asChild`가 필요하다면 `Badge.Root`와 `Badge.Label`을 직접 조합하세요.
+  - `prefix`에 `<IconHeartFill />` 같은 아이콘 요소를 바로 전달할 수 있습니다.
+  - `actionProps`를 전달하면 고정된 정보 아이콘 버튼을 표시합니다. `aria-label`은 필수이며, `actionProps.render`로 이 버튼을 Help Bubble trigger 등에 연결할 수 있습니다. `prefix`와 함께 사용할 수 있습니다.
+  - Badge에 기본으로 적용되던 최대 너비를 제거합니다. 한 줄 말줄임이 필요하다면 최대 너비를 직접 지정하세요.
+- dcefde3: (BREAKING CHANGE: Date Picker와 Time Picker를 snippet으로 설치하고 import 경로를 바꿔야 합니다.) Date Picker와 Time Picker를 애플리케이션에서 수정할 수 있는 snippet으로 전환합니다.
+  
+  ```sh
+  npx @seed-design/cli@latest add ui:date-picker ui:time-picker
+  ```
+  
+  ```diff
+  -import { DatePicker, TimePicker } from "@seed-design/react";
+  +import { DatePicker } from "seed-design/ui/date-picker";
+  +import { TimePicker } from "seed-design/ui/time-picker";
+  ```
+  
+  - snippet은 `@seed-design/react`의 Date Picker 구성 요소를 조합해 완성된 UI를 제공하며, 컴포넌트와 컴포넌트 전용 props만 노출합니다.
+  - `@seed-design/react`의 `DatePicker`는 완성된 컴포넌트가 아니라 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel`로 구성된 namespace로 바뀝니다. 일반적인 사용에서는 이 구성 요소 대신 snippet을 사용하세요.
+  - Time Picker snippet이 사용하는 `useTimePicker`와 관련 타입을 `@seed-design/react`에서 제공합니다.
+  - 날짜·시간 값 타입(`DatePickerDate`, `TimePickerValue`, `MinuteStep` 등)과 제약 조건 helper(`dateOnOrAfter` 등)는 계속 `@seed-design/react`에서 가져오세요.
+  - Date Picker와 Time Picker snippet을 설치하면 의존 snippet인 `ui:wheel-picker`도 함께 설치됩니다.
+  - Week Date Picker에서 제목을 누르면, 달력 자리 대신 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다.
+  - `WheelPicker.Root`에 포커스는 유지하면서 값 변경을 막는 `readOnly`와, Scroll Fog 크기를 지정하는 `scrollFogSize`를 추가합니다.
+- fa3eb46: (BREAKING CHANGE: 프로젝트에 있는 `ui:alert-dialog`와 `ui:dialog` snippet을 다시 설치해야 합니다. `@seed-design/react`의 `Dialog`·`ContentDialog`나 `@seed-design/css`의 `recipes/dialog`·`recipes/content-dialog` 모듈, 클래스 이름, CSS 변수를 직접 사용한다면 새 이름으로 옮겨야 하며, 대부분 에러로 발견되지 않습니다.) `@seed-design/react`와 `@seed-design/css`에서 Alert Dialog와 Dialog의 이름을 snippet 이름에 맞춥니다.
+  
+  2.x에서는 `Dialog`라는 이름이 `@seed-design/react`와 snippet에서 서로 다른 컴포넌트를 가리켰습니다. `@seed-design/react`에서는 `Dialog`가 Alert Dialog를, `ContentDialog`가 Dialog를 가리켰고, snippet은 Alert Dialog를 `ui:alert-dialog`(`AlertDialogRoot` 등)로, Dialog를 `ui:dialog`(`DialogRoot` 등)로 제공했습니다.
+  
+  - `@seed-design/react`의 `Dialog`를 `AlertDialog`로, `ContentDialog`를 `Dialog`로 변경합니다. `DialogRoot`, `DialogRootProps` 같은 개별 export도 같은 규칙으로 바뀝니다.
+  - `@seed-design/css/recipes/dialog`를 `@seed-design/css/recipes/alert-dialog`로, `@seed-design/css/recipes/content-dialog`를 `@seed-design/css/recipes/dialog`로 변경합니다. `dialog`, `dialogVariantMap` 같은 모듈 export와 CSS 파일(`recipes/dialog.css` 등)도 같은 규칙으로 바뀝니다.
+  - 클래스 이름 `.seed-dialog__*`를 `.seed-alert-dialog__*`로, `.seed-content-dialog__*`를 `.seed-dialog__*`로 변경합니다.
+  - CSS 변수 `--content-dialog-default-width`, `--content-dialog-default-max-width`, `--content-dialog-size-width`를 각각 `--dialog-default-width`, `--dialog-default-max-width`, `--dialog-size-width`로 변경합니다. 두 컴포넌트가 함께 사용하는 `--dialog-z-index`는 바뀌지 않습니다.
+  - `AlertDialog.Root`의 기본값을 `role="alertdialog"`, `closeOnInteractOutside={false}`로 변경합니다. 2.x의 `Dialog.Root`는 두 값을 넘기지 않으면 `role="dialog"`로 렌더링되고 바깥을 누르면 닫혔습니다. `ui:alert-dialog` snippet의 `AlertDialogRoot`는 2.x에서도 두 값을 직접 넘기고 있었으므로, snippet으로 사용하는 Alert Dialog의 동작은 바뀌지 않습니다.
+  - snippet이 export하는 이름(`AlertDialogRoot`, `DialogRoot` 등)은 바뀌지 않습니다.
+  
+  `@seed-design/react`의 `Dialog`, `@seed-design/css/recipes/dialog`, `.seed-dialog__*`는 3.0.0에도 같은 이름으로 남아 Alert Dialog가 아닌 Dialog를 가리킵니다. 타입 검사와 빌드가 통과해도 마이그레이션이 끝난 것이 아닙니다. 새 `Dialog`는 2.x `Dialog`의 하위 컴포넌트를 모두 제공하므로, 옮기지 않은 Alert Dialog 코드는 대부분 에러 없이 Dialog로 렌더링됩니다. `role`, `skipAnimation`처럼 Dialog에 없는 API를 쓰는 곳에서 나는 타입 에러는 해당 코드를 `AlertDialog`로 옮기라는 뜻이므로, prop을 지워서 해결하지 마세요. 옮길 때 다음을 지키세요. 사용처를 찾는 방법과 작업 후 확인 목록은 [SEED React 3 업그레이드 가이드](https://seed-design.io/react/updates/upgrade/v3)에 있습니다.
+  
+  - snippet을 import하는 코드는 수정하지 마세요. `@seed-design/react`의 이름 변경을 `DialogRoot` 같은 snippet의 이름에 적용하면 Dialog가 Alert Dialog로 바뀝니다.
+  - `ui:alert-dialog` snippet이 있다면 반드시 다시 설치하세요. 2.x snippet은 `@seed-design/react`의 `Dialog`를 import하므로, 다시 설치하지 않으면 `role` 타입 에러가 나고 타입 검사 없이 빌드하면 snippet의 Alert Dialog가 Dialog로 렌더링됩니다. 이 에러를 `role`을 지워서 해결하지 마세요. `npx @seed-design/cli@latest add --on-diff backup ui:alert-dialog ui:dialog`로 다시 설치할 수 있습니다.
+  - `@seed-design/react`, `@seed-design/css/recipes/*` 모듈, 클래스 이름을 직접 사용한다면, 바꾸기 전에 사용처마다 2.x 이름으로 Alert Dialog인지 Dialog인지 분류하세요. 일괄 치환한다면 Alert Dialog(`Dialog` → `AlertDialog`)를 모두 옮긴 뒤 Dialog(`ContentDialog` → `Dialog`)를 옮기세요. 순서를 바꾸면 `ContentDialog`에서 옮긴 `Dialog`까지 다시 `AlertDialog`로 바뀝니다.
+  - 이름 변경은 2.x 코드에 한 번만 적용하세요. 일부를 이미 옮긴 코드에서는 남아 있는 `Dialog`가 어느 쪽인지 이름만으로 구분할 수 없습니다.
+  - `@seed-design/react`의 `Dialog.Root`에 `role`이나 `closeOnInteractOutside`를 넘기지 않았다면, `AlertDialog.Root`로 옮긴 뒤 `role`이 `"alertdialog"`가 되고 바깥을 눌러도 닫히지 않습니다. 2.x의 동작을 유지해야 한다면 두 값을 명시하세요.
+- 7985f08: (BREAKING CHANGE: `SidePanelBody`(`SidePanel.Body`)와 `ResponsiveSidePanelBody`(`ResponsiveSidePanel.Body`)에 전달하던 `height`, `minHeight`, `maxHeight`를 제거해야 합니다.) Side Panel 본문에서 높이 관련 prop을 제거합니다.
+  
+  - Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채우므로, 세 prop은 효과가 없거나 푸터를 패널 밖으로 밀어내거나 패널 중간에 띄웠습니다.
+  - `ResponsiveSidePanelBody`에 전달한 높이는 Bottom Sheet로 렌더링될 때만 효과가 있었습니다. 같은 동작이 필요하면 `useResponsiveSidePanelContext()`의 `shouldUseBottomSheet`가 `true`일 때만 본문 안의 `Box`에 높이를 지정하세요.
+- 44dd4ed: (BREAKING CHANGE: `@seed-design/react/primitive` import를 `@seed-design/react` 또는 독립 headless 패키지로 옮겨야 합니다. 이 경로를 import하는 `ui:attachment-display-field`, `ui:attachment-display-field-reorderable`, `ui:attachment-field`, `ui:attachment-field-reorderable`, `ui:chip`, `ui:list`, `ui:side-navigation` snippet과 `block:side-navigation-02`도 다시 설치해야 합니다.) `@seed-design/react/primitive` 경로를 제거하고, 사용자에게 필요한 API를 `@seed-design/react`에서 제공합니다.
+  
+  `@seed-design/react/primitive`는 SEED 컴포넌트가 내부에서 사용하는 headless 패키지를 그대로 다시 export하던 경로입니다.
+  
+  - `@seed-design/react`에 다음 API를 추가합니다.
+    - `Switch.Root.Primitive`, `RadioGroupField.Root.Primitive`: SEED 레이아웃 스타일 없이 선택·키보드·폼 동작을 제공합니다. 기존 `Checkbox.Root.Primitive`, `RadioGroup.Item.Primitive`와 함께 쓸 수 있도록 `Checkbox.RootPrimitiveProps`, `RadioGroup.ItemPrimitiveProps`, `Switch.RootPrimitiveProps`, `RadioGroupField.RootPrimitiveProps` 타입도 추가합니다.
+    - `List.CheckItem`, `List.RadioItem`, `List.SwitchItem`, `List.RadioRoot`와 각 Props 타입
+    - `useAttachmentDisplayContext`, `useAttachmentInputContext`, `useSideNavigationContext`와 `AttachmentDisplayContextValue`, `AttachmentInputContextValue`, `SideNavigationContextValue` 타입
+    - `AttachmentDisplayItemEntry`, `AttachmentDisplayItemStatusDetails`, `AttachmentInputFileEntry`, `AttachmentInputFileStatusDetails` 타입
+    - `usePagination`, `useTablePagination`과 `PaginationChangeDetails`, `PaginationChangeReason`, `PaginationVisibleItemCount`, `TablePaginationChangeDetails`, `TablePaginationChangeReason`, `TablePaginationValue`, `UsePaginationProps`, `UseTablePaginationProps` 타입
+  
+  **마이그레이션**
+  
+  | 기존 `@seed-design/react/primitive` export | 변경할 `@seed-design/react` export |
+  | --- | --- |
+  | `Checkbox.Root` / `Checkbox.RootProps` | `Checkbox.Root.Primitive` / `Checkbox.RootPrimitiveProps` |
+  | `RadioGroup.Item` / `RadioGroup.ItemProps` | `RadioGroup.Item.Primitive` / `RadioGroup.ItemPrimitiveProps` |
+  | `RadioGroup.Root` / `RadioGroup.RootProps` | `RadioGroupField.Root.Primitive` / `RadioGroupField.RootPrimitiveProps`. `ListRadioItem`을 감싸는 용도였다면 `List.RadioRoot` / `List.RadioRootProps` |
+  | `Switch.Root` / `Switch.RootProps` | `Switch.Root.Primitive` / `Switch.RootPrimitiveProps` |
+  | `Checkbox.HiddenInput`, `RadioGroup.ItemHiddenInput`, `Switch.HiddenInput` | 같은 이름 |
+  | `DisplayItemEntry`, `DisplayItemStatusDetails` | `AttachmentDisplayItemEntry`, `AttachmentDisplayItemStatusDetails` |
+  | `FileEntry`, `FileStatusDetails` | `AttachmentInputFileEntry`, `AttachmentInputFileStatusDetails` |
+  | `useFileUploadContext` / `UseFileUploadContext`, `UseFileUploadReturn` | `useAttachmentInputContext` / `AttachmentInputContextValue` |
+  | `useAttachmentDisplayContext` / `UseAttachmentDisplayContext`, `UseAttachmentDisplayReturn` | `useAttachmentDisplayContext` / `AttachmentDisplayContextValue` |
+  | `useSideNavigationContext` / `UseSideNavigationContext` | `useSideNavigationContext` / `SideNavigationContextValue` |
+  | `useSnackbarContext`, `UseSnackbarContext`, `CreateSnackbarOptions`, `pullToRefreshPreventPull`, `tabsCarouselPreventDrag` | 같은 이름 |
+  
+  표에 없는 export는 이름을 유지한 채 원래 headless 패키지(`@seed-design/react-dialog`, `@seed-design/react-popover`, `@seed-design/react-tabs` 등)를 의존성에 추가하고 import 경로를 바꾸세요. `@seed-design/react`의 `Dialog`, `Tabs`, `Slider`처럼 이름이 같은 export는 SEED 스타일이 적용된 다른 컴포넌트이므로, import 경로만 `@seed-design/react`로 바꾸지 마세요. Avatar는 `@seed-design/react-image`로 옮기세요. 자세한 내용은 [SEED React 3 업그레이드 가이드](https://seed-design.io/react/updates/upgrade/v3)를 참고하세요.
+- 9fead6a: (BREAKING CHANGE: 아래 prop을 사용 중이라면 삭제해야 합니다.) 동작에 영향을 주지 않던 다음 prop을 제거합니다.
+  
+  - `BottomSheet.Root`의 `nested`
+  - `ResponsiveDialog.Root`의 `bottomSheetRootProps.nested`
+  - `ResponsiveSidePanel.Root`의 `bottomSheetRootProps.nested`
+  
+  대체 prop은 필요하지 않습니다.
+- 474fa4a: (BREAKING CHANGE: 아래 컴포넌트의 root 요소에서 직계 자식을 가리키는 선택자나 자식 노드를 직접 참조하는 코드가 있다면 `.seed-content-scale` 박스를 거치도록 수정해야 합니다.) 누르는 동안 배경은 그대로 두고 콘텐츠만 줄어드는 Content Scale을 적용합니다.
+  
+  - `Accordion.Trigger`, `Menu.Item`, `NavigationMenu.Item`, `SwipeableMenuSheet.Item`, `MenuSheet.Item`, `PageBanner.Root`, `SegmentedControl.Item`, `CheckSelectBox.Root`, `RadioSelectBox.Item`, `Select.Trigger`, `Select.Item`의 root 요소 안에 콘텐츠를 감싸는 `<span class="seed-content-scale">`이 추가됩니다.
+  - `asChild`로 넘긴 자식 컴포넌트는 박스로 감싸진 children을 받습니다. children을 렌더하지 않는 자식 컴포넌트에서는 콘텐츠가 줄어들지 않습니다.
+  - `PageBanner.Root`는 root가 `button`일 때만 콘텐츠가 줄어듭니다.
+  - 커스텀 컴포넌트에 Content Scale을 적용할 수 있도록 `ContentScale` 컴포넌트를 `@seed-design/react`에서 제공합니다.
+- 3e9e05d: (BREAKING CHANGE: `@seed-design/react/primitive`에서 가져오던 `Avatar`·`useAvatarContext` 등 headless Avatar API를 `@seed-design/react-image`의 `Image`·`useImageContext`로 교체해야 합니다.) `@seed-design/react`가 더 이상 deprecated된 `@seed-design/react-avatar`에 의존하지 않으며, `@seed-design/react-avatar`의 배포를 중단합니다.
+  
+  `@seed-design/react/primitive`에서 `Avatar` namespace, `AvatarRoot`, `AvatarImage`, `AvatarFallback`, `useAvatarContext`와 관련 Props·Context 타입을 제거합니다. `@seed-design/react`의 스타일이 적용된 `Avatar`는 이미 `@seed-design/react-image`를 사용하므로 그대로 동작합니다.
+  
+  **마이그레이션**
+  
+  ```diff
+  - import { Avatar, useAvatarContext } from "@seed-design/react/primitive";
+  + import { Image, useImageContext } from "@seed-design/react-image";
+  ```
+  
+  | 기존 | 대체 |
+  | --- | --- |
+  | `AvatarRoot` / `AvatarImage` / `AvatarFallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+  | `Avatar.Root` / `Avatar.Image` / `Avatar.Fallback` | `Image.Root` / `Image.Content` / `Image.Fallback` |
+  | `AvatarRootProps` / `AvatarImageProps` / `AvatarFallbackProps` | `Image.RootProps` / `Image.ContentProps` / `Image.FallbackProps` |
+  | `useAvatarContext` / `UseAvatarContext` | `useImageContext` / `UseImageContext` |
+  | Context의 `getImageProps({ src, onLoad, onError })` | `getContentProps({ src, srcSet })`와 `setSrc(src, srcSet)`, `handleLoad()`, `handleError()` |
+  
+  `getImageProps`는 이미지 주소 등록과 load·error 처리를 함께 맡았지만, `getContentProps`는 `img` 요소의 props만 반환합니다. Context로 `img`를 직접 렌더한다면 `src`·`srcSet`이 바뀔 때 `setSrc(src, srcSet)`를 호출하고, `img`의 `onLoad`·`onError`에서 `handleLoad()`·`handleError()`를 호출하세요. `Image.Content`를 사용하면 이 처리가 자동으로 적용됩니다.
+  
+  직접 import하는 프로젝트에는 `@seed-design/react-image`를 의존성으로 추가하세요. `@seed-design/react-avatar`를 직접 사용하던 프로젝트도 같은 대체 API로 옮기세요.
+- 15b9ec5: (BREAKING CHANGE: 제거된 컴포넌트와 snippet을 대체 컴포넌트로 교체해야 합니다.) deprecated 컴포넌트를 제거합니다. 대체 컴포넌트는 [Deprecations](https://seed-design.io/docs/migration/deprecations) 문서의 제거 완료 히스토리를 참고하세요.
+  
+  - `ActionChip`, `ControlChip`, `ActionSheet`, `ExtendedActionSheet`, `Fab`, `ExtendedFab`, `InlineBanner`, `LinkContent`, `Inline`, `Columns`, `Column`, `Stack`과 각 컴포넌트의 하위 컴포넌트·Props 타입을 제거합니다.
+  - 제거된 컴포넌트를 사용하던 `ui:action-sheet`, `ui:extended-action-sheet`, `ui:control-chip`, `ui:inline-banner` snippet도 제거되었습니다. 각각 `ui:swipeable-menu-sheet`, `ui:swipeable-menu-sheet`, `ui:chip`, `ui:page-banner`로 교체하세요.
+
+### Minor Changes
+
+- 78f0bc1: Help Bubble의 포커스 관리와 닫힘 동작을 개선합니다.
+  
+  - 열릴 때 포커스를 Help Bubble 안으로 옮기지 않는 기본 동작은 그대로입니다. `autoFocus`를 지정하면 열릴 때 Help Bubble 안으로 포커스를 옮기며, `role="dialog"` 요소의 접근성 권장 사항에 맞는 방식입니다.
+  - Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스를 trigger로 되돌립니다.
+  - `closeOnInteractOutside={false}`인 경우를 제외하고, Help Bubble 안의 요소에서 Help Bubble 밖의 요소로 포커스를 옮기면 Help Bubble이 닫힙니다.
+  - Bottom Sheet, Dialog 등 다른 레이어 안에서 연 Help Bubble을 Escape 키나 바깥 영역을 눌러 닫을 때, 바깥 레이어까지 함께 닫히던 문제를 수정합니다.
+  - `HelpBubble.Title`과 `HelpBubble.Description`을 Help Bubble의 접근성 이름과 설명으로 연결합니다. `role="dialog"`와 접근성 속성은 Positioner가 아닌 Content 요소(`.seed-help-bubble__content`)에 붙습니다.
+  - `@seed-design/react/primitive`에서 `Popover`를 가져와 직접 사용했다면, `@seed-design/react-popover`에서 가져오도록 import를 바꾸고 `@seed-design/react-popover` 변경사항에 따라 `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸세요.
+- 78f0bc1: Popover 컴포넌트를 추가합니다. `npx @seed-design/cli@latest add ui:popover`로 설치할 수 있습니다.
+
+### Patch Changes
+
+- 474fa4a: `CheckSelectBox.Root`와 `RadioSelectBox.Item`에 `asChild`로 요소를 전달해도 그 요소가 컴포넌트의 root로 렌더링되지 않고, 컴포넌트의 스타일과 `ref`가 전달되지 않던 문제를 수정합니다. `footerVisibility="always"`를 지정한 경우에만 정상 동작했습니다.
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [d3edadf]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [5e34f78]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [fa3eb46]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [8c70df1]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [4af22a0]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [ebdc295]
+- Updated dependencies [dcefde3]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [474fa4a]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [19ecbd6]
+  - @seed-design/css@3.0.0
+  - @seed-design/react-popover@3.0.0
+  - @seed-design/react-drawer@3.0.0
+  - @seed-design/react-date-picker@1.3.0
+  - @seed-design/react-scale-feedback@2.0.0
+  - @seed-design/react-primitive@2.0.2
+
 ## 2.6.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -42,9 +42,9 @@
     "@seed-design/react-attachment-display": "^1.0.1",
     "@seed-design/react-checkbox": "^2.0.1",
     "@seed-design/react-collapsible": "^1.0.1",
-    "@seed-design/react-date-picker": "^1.2.0",
+    "@seed-design/react-date-picker": "^1.3.0",
     "@seed-design/react-dialog": "^2.0.3",
-    "@seed-design/react-drawer": "^2.0.7",
+    "@seed-design/react-drawer": "^3.0.0",
     "@seed-design/react-field": "^2.0.1",
     "@seed-design/react-field-button": "^2.0.1",
     "@seed-design/react-fieldset": "^1.0.1",
@@ -54,14 +54,14 @@
     "@seed-design/react-middle-truncate": "^1.0.1",
     "@seed-design/react-navigation-menu": "^2.0.2",
     "@seed-design/react-pagination": "^1.0.0",
-    "@seed-design/react-popover": "^2.0.1",
+    "@seed-design/react-popover": "^3.0.0",
     "@seed-design/react-portal": "^2.0.1",
-    "@seed-design/react-primitive": "^2.0.1",
+    "@seed-design/react-primitive": "^2.0.2",
     "@seed-design/react-progress": "^2.0.1",
     "@seed-design/react-pull-to-refresh": "^2.1.0",
     "@seed-design/react-quantity-picker": "^1.0.0",
     "@seed-design/react-radio-group": "^2.0.1",
-    "@seed-design/react-scale-feedback": "^1.0.0",
+    "@seed-design/react-scale-feedback": "^2.0.0",
     "@seed-design/react-segmented-control": "^2.0.2",
     "@seed-design/react-select": "^1.0.2",
     "@seed-design/react-side-navigation": "^1.0.1",
@@ -78,7 +78,7 @@
     "unicode-segmenter": "^0.17.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "^2.9.0",
+    "@seed-design/css": "^3.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },

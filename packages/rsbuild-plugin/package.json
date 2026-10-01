@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/rsbuild-plugin",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -38,11 +38,11 @@
   "dependencies": {},
   "devDependencies": {
     "@rsbuild/core": "^2.0.0",
-    "@seed-design/css": "^2.0.0"
+    "@seed-design/css": "^3.0.0"
   },
   "peerDependencies": {
     "@rsbuild/core": "^1.1.0 || ^2.0.0",
-    "@seed-design/css": "^2.0.0"
+    "@seed-design/css": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
