@@ -45,3 +45,7 @@
 /lynx/getting-started/theming /lynx/getting-started/styling/theming 301
 /llms/lynx/foundation/layout/styling /llms/lynx/getting-started/styling/tailwind-css-3 301
 /llms/lynx/getting-started/theming /llms/lynx/getting-started/styling/theming 301
+
+# Lynx Input Button → Field Button: React와 같은 컴포넌트 이름으로 변경
+/lynx/components/input-button /lynx/components/field-button 301
+/llms/lynx/components/input-button /llms/lynx/components/field-button 301
