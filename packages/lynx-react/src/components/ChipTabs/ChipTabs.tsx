@@ -1,15 +1,18 @@
 import * as React from "@lynx-js/react";
+import { TabsProvider, useTabs } from "@seed-design/lynx-react-tabs";
+import clsx from "clsx";
+import type { LynxViewRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/lynx-css/recipes/chip-tabs";
 
-import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { TabsStyleProvider } from "../Tabs/Tabs.context";
 
 import {
   TabsCarousel,
   TabsCarouselCamera,
   TabsContent,
   TabsList,
-  TabsRootPrimitive,
   TabsTrigger,
   type TabsCarouselCameraProps,
   type TabsCarouselProps,
@@ -25,7 +28,6 @@ type ChipTabsRecipeState = Pick<
 >;
 
 const CHIP_TABS_TRIGGER_GAP = 8;
-const { ClassNamesProvider: ChipTabsClassNamesProvider } = createSlotRecipeContext(chipTabs);
 
 type ChipTabsPublicVariantProps = Omit<
   ChipTabsVariantProps,
@@ -59,18 +61,27 @@ export const ChipTabsRoot = React.forwardRef<unknown, ChipTabsRootProps>((props,
       }),
     [variantProps],
   );
-  const recipe = React.useMemo(
-    () => ({
-      getClassNames,
-      triggerGap: CHIP_TABS_TRIGGER_GAP,
-    }),
-    [getClassNames],
+  const { children, className, style, value, defaultValue, onValueChange, ...nativeProps } =
+    rootProps;
+  const api = useTabs({ value, defaultValue, onValueChange, triggerGap: CHIP_TABS_TRIGGER_GAP });
+  const classNames = getClassNames();
+  const styleContext = React.useMemo(
+    () => ({ classNames, getClassNames, inlineNotification: true }),
+    [classNames, getClassNames],
   );
 
   return (
-    <ChipTabsClassNamesProvider value={getClassNames()}>
-      <TabsRootPrimitive {...rootProps} ref={ref} recipe={recipe} inlineNotification />
-    </ChipTabsClassNamesProvider>
+    <TabsProvider value={api}>
+      <TabsStyleProvider value={styleContext}>
+        <view
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          className={clsx(classNames.root, className)}
+          style={style}
+        >
+          {children}
+        </view>
+      </TabsStyleProvider>
+    </TabsProvider>
   );
 });
 ChipTabsRoot.displayName = "ChipTabsRoot";
