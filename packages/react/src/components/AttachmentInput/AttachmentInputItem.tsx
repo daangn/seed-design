@@ -171,6 +171,8 @@ export const AttachmentInputItemBadge = React.forwardRef<
   const classNames = useClassNames();
 
   return (
+    // FIXME: `asChild` slots onto the label span below, not this element, so the caller's element
+    // lands inside the badge without its class or ref. Route `children` through `Slottable`.
     <Primitive.div ref={ref} className={clsx(classNames.badge, className)} {...props}>
       <Primitive.span className={classNames.badgeLabel}>{children}</Primitive.span>
     </Primitive.div>

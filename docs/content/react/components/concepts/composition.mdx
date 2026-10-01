@@ -40,7 +40,7 @@ description: 컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과
 </Button>
 ```
 
-`asChild`를 사용하여 컴포넌트를 조합할 때는 두 가지 원칙을 따라야 합니다.
+`asChild`를 사용하여 컴포넌트를 조합할 때는 세 가지 원칙을 따라야 합니다.
 
 #### 1. 컴포넌트는 props를 전개해야 합니다
 
@@ -71,3 +71,32 @@ const MyButton = React.forwardRef((props, forwardedRef) => (
 ```
 
 모든 경우에 필수는 아니지만, 항상 `React.forwardRef`를 사용하는 것이 가장 안전합니다.
+
+#### 3. 컴포넌트는 받은 children을 렌더해야 합니다
+
+`asChild`는 바깥 요소를 교체하고, 그 안에 쓴 children은 SEED가 주입하는 내부 구조로 감쌉니다. 예를 들어 [Content Scale](/react/components/concepts/scale-feedback#content-scale-적용하기)을 사용하는 컴포넌트는 children을 `ContentScale` 박스로 감싸서 자식 컴포넌트에 전달합니다.
+
+```jsx
+<Menu.Item asChild>
+  <a href="/settings">설정</a>
+</Menu.Item>
+
+// 렌더 결과
+<a href="/settings" class="seed-menu-item__root …">
+  <span class="seed-content-scale">설정</span>
+</a>
+```
+
+내부 구조가 children으로 전달되므로, 자식 컴포넌트는 받은 children을 그대로 렌더해야 합니다. children 없이 props로 내용을 직접 그리는 컴포넌트를 넘기면 화면은 그려지지만 내부 구조가 빠집니다. 이 경우 children을 렌더하도록 바꾸거나, 컴포넌트 안에 `ContentScale`을 직접 두세요.
+
+```jsx
+// 잘못된 방법: 받은 children을 버리고 props로 내용을 그립니다
+const MyRow = React.forwardRef(({ title, children, ...props }, ref) => (
+  <a {...props} ref={ref}>
+    {title}
+  </a>
+));
+
+// 올바른 방법
+const MyRow = React.forwardRef((props, ref) => <a {...props} ref={ref} />);
+```

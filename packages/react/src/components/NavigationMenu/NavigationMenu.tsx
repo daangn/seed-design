@@ -12,6 +12,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withContentScale } from "../../utils/withContentScale";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(menu);
 const {
@@ -118,23 +119,25 @@ export interface NavigationMenuItemProps
   extends MenuItemVariantProps,
     NavigationMenuPrimitive.ItemProps {}
 
-export const NavigationMenuItem = React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
-    const [variantProps, otherProps] = menuItem.splitVariantProps(props);
-    const parentProps = useItemProps();
+export const NavigationMenuItem = withContentScale(
+  React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
+    ({ className: propClassName, ...props }, ref) => {
+      const [variantProps, otherProps] = menuItem.splitVariantProps(props);
+      const parentProps = useItemProps();
 
-    const classNames = menuItem({ ...parentProps, ...variantProps });
+      const classNames = menuItem({ ...parentProps, ...variantProps });
 
-    return (
-      <ItemClassNamesProvider value={classNames}>
-        <NavigationMenuPrimitive.Item
-          ref={ref}
-          className={clsx(classNames.root, propClassName)}
-          {...otherProps}
-        />
-      </ItemClassNamesProvider>
-    );
-  },
+      return (
+        <ItemClassNamesProvider value={classNames}>
+          <NavigationMenuPrimitive.Item
+            ref={ref}
+            className={clsx(classNames.root, propClassName)}
+            {...otherProps}
+          />
+        </ItemClassNamesProvider>
+      );
+    },
+  ),
 );
 NavigationMenuItem.displayName = "NavigationMenuItem";
 

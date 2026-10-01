@@ -118,6 +118,8 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
 
     return (
       <ClassNamesProvider value={classNames}>
+        {/* TODO: `asChild` cannot work here — `withDividers` turns `children` into several
+            elements, which `Slot` refuses. Route them through `Slottable`, or drop `asChild`. */}
         <QuantityPickerPrimitive.Root
           ref={ref}
           className={clsx(classNames.root, className)}

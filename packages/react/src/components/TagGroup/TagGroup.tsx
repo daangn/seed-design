@@ -29,6 +29,8 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
 
     return (
       <PropsProvider value={tagGroupItemVariantProps}>
+        {/* TODO: `asChild` cannot work here — inserting separators turns `children` into several
+            elements, which `Slot` refuses. Route them through `Slottable`, or drop `asChild`. */}
         <Primitive.span ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
           {Children.toArray(children)
             // putting something other than TagGroupItem in TagGroupRoot is not a good idea,
