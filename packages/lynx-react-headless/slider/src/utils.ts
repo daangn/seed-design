@@ -7,6 +7,10 @@ export function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+export function clampRatio(value: number): number {
+  return clamp(value, 0, 1);
+}
+
 export function percentageForValue(value: number, min: number, max: number): number {
   if (max === min) return 0;
   return clamp(((value - min) / (max - min)) * 100, 0, 100);
@@ -119,6 +123,14 @@ export function getThumbInBoundsOffset(width: number, percent: number, direction
   const halfWidth = width / 2;
   const scaledOffset = (clamp(percent, 0, 100) / 50) * halfWidth;
   return (halfWidth - scaledOffset * direction) * direction;
+}
+
+/**
+ * thumb 크기에 곱하면 `getThumbInBoundsOffset(thumbWidth, percent, 1)`과 같은 보정값이 되는 비율입니다.
+ * thumb 크기를 측정하지 않고 CSS에서 `thumb 크기 * 비율`로 계산하므로 첫 렌더부터 위치가 확정됩니다.
+ */
+export function thumbOffsetRatio(percent: number): number {
+  return Math.round((0.5 - clamp(percent, 0, 100) / 100) * 10_000) / 10_000;
 }
 
 export function getStickyLabelOffset(
