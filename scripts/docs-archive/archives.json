@@ -1,9 +1,9 @@
 [
   {
     "platform": "react",
-    "version": "2.0",
-    "origin": "",
-    "sourceBranch": "react/2.0",
+    "version": "v2",
+    "origin": "https://react-v2.seed-design.pages.dev",
+    "sourceBranch": "react/v2",
     "probe": {
       "document": "components/action-button",
       "registryItem": "ui/action-button"
