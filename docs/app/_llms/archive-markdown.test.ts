@@ -4,10 +4,10 @@ import { archiveMarkdown } from "./archive-markdown";
 it("scopes Markdown links and images while preserving installation code", () => {
   const input =
     "[Button](/react/components/button)\n\n![Example](/example.png)\n\n```sh\nbunx seed-design add button --baseUrl https://seed-design.io\n```\n";
-  const output = archiveMarkdown(input, "2.0");
-  expect(output).toContain("](/react/2.0/components/button)");
-  expect(output).toContain("](/react/2.0/_assets/example.png)");
-  expect(output).toContain("bunx seed-design add button --baseUrl https://seed-design.io");
+  const output = archiveMarkdown(input, "v2");
+  expect(output).toBe(
+    "[Button](/react/v2/components/button)\n\n![Example](/react/v2/_assets/example.png)\n\n```sh\nbunx seed-design add button --baseUrl https://seed-design.io\n```\n",
+  );
   expect(archiveMarkdown(input, "")).toBe(input);
 });
 
@@ -20,11 +20,11 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
     '`<Card href="/react/components/action-button" />`',
   ].join("\n\n");
 
-  expect(archiveMarkdown(input, "2.0", "mdx")).toBe(
+  expect(archiveMarkdown(input, "v2", "mdx")).toBe(
     [
-      '<Card href="/react/2.0/components/action-button">Open</Card>',
+      '<Card href="/react/v2/components/action-button">Open</Card>',
       '<a href="https://seed-design.io/foundations">Foundation</a>',
-      '<img src="/react/2.0/_assets/badge.svg" />',
+      '<img src="/react/v2/_assets/badge.svg" />',
       "<Dynamic href={destination} />",
       '`<Card href="/react/components/action-button" />`',
     ].join("\n\n") + "\n",
@@ -32,7 +32,7 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
 });
 
 it("keeps ordinary changelog Markdown syntax outside the MDX parser", () => {
-  expect(archiveMarkdown("- Change {from: old, to: new}.\n", "2.0")).toBe(
+  expect(archiveMarkdown("- Change {from: old, to: new}.\n", "v2")).toBe(
     "* Change {from: old, to: new}.\n",
   );
 });
