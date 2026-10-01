@@ -2,7 +2,7 @@
   {
     "platform": "react",
     "version": "2.0",
-    "origin": "",
+    "origin": "https://react-2-0.seed-design.pages.dev",
     "sourceBranch": "react/2.0",
     "probe": {
       "document": "components/action-button",
