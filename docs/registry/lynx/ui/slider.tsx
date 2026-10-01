@@ -139,14 +139,14 @@ export const Slider = React.forwardRef<SliderRootRef, SliderProps>(
             {Array.from({ length: thumbCount }, (_, index) => (
               <React.Fragment key={index}>
                 {!hideValueIndicator ? (
-                  <SeedSlider.ValueIndicatorRoot index={index}>
+                  <SeedSlider.ValueIndicatorRoot thumbIndex={index}>
                     <SeedSlider.ValueIndicatorArrow>
                       <SeedSlider.ValueIndicatorArrowTip />
                     </SeedSlider.ValueIndicatorArrow>
-                    <SeedSlider.ValueIndicatorLabel index={index} />
+                    <SeedSlider.ValueIndicatorLabel thumbIndex={index} />
                   </SeedSlider.ValueIndicatorRoot>
                 ) : null}
-                <SeedSlider.Thumb index={index} />
+                <SeedSlider.Thumb thumbIndex={index} />
               </React.Fragment>
             ))}
           </SeedSlider.Control>
