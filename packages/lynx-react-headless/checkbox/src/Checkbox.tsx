@@ -2,7 +2,7 @@ import * as React from "@lynx-js/react";
 import { runOnBackground } from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useCheckbox, type UseCheckboxProps } from "./useCheckbox.js";
-import { CheckboxContext, useCheckboxContext } from "./useCheckboxContext.js";
+import { CheckboxProvider, useCheckboxContext } from "./useCheckboxContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type MainThreadTouchEvent = Parameters<NonNullable<ViewProps["main-thread:bindtouchstart"]>>[0];
@@ -83,7 +83,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     : undefined;
 
   return (
-    <CheckboxContext.Provider value={api}>
+    <CheckboxProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...nativeProps}
@@ -121,7 +121,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       >
         {children}
       </view>
-    </CheckboxContext.Provider>
+    </CheckboxProvider>
   );
 });
 CheckboxRoot.displayName = "CheckboxRoot";
@@ -133,7 +133,7 @@ export interface CheckboxControlProps extends ViewProps {}
  */
 export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const { children, ...nativeProps } = props;
-  useCheckboxContext("CheckboxControl");
+  useCheckboxContext();
 
   return (
     <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
