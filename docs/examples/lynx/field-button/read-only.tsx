@@ -6,29 +6,25 @@ import { FieldButton, FieldButtonPlaceholder } from "@/components/ui/field-butto
 export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
-  function handleTap() {
-    "background only";
-  }
-
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content" gap="spacingY.componentDefault">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content" gap="spacingY.componentDefault">
           <FieldButton
             label="라벨"
             description="설명을 써주세요"
-            disabled
+            readOnly
             showClearButton
-            buttonProps={{ bindtap: handleTap, "accessibility-label": "값 선택" }}
+            buttonProps={{ "accessibility-label": "현재 값: 플레이스홀더" }}
           >
             <FieldButtonPlaceholder>플레이스홀더</FieldButtonPlaceholder>
           </FieldButton>
           <FieldButton
             label="라벨"
-            disabled
+            readOnly
             invalid
             errorMessage="오류가 발생한 이유를 써주세요"
-            buttonProps={{ bindtap: handleTap, "accessibility-label": "값 선택" }}
+            buttonProps={{ "accessibility-label": "현재 값: 플레이스홀더" }}
           >
             <FieldButtonPlaceholder>플레이스홀더</FieldButtonPlaceholder>
           </FieldButton>
