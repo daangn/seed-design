@@ -1,12 +1,14 @@
 import * as React from "@lynx-js/react";
 import { runOnBackground, runOnMainThread, useCallback, useMainThreadRef } from "@lynx-js/react";
+import type { IntrinsicElements } from "@lynx-js/types";
 
-type ViewProps = React.JSX.IntrinsicElements["view"];
+type ViewProps = IntrinsicElements["view"];
 type TouchDragEvent = Parameters<NonNullable<ViewProps["main-thread:bindtouchmove"]>>[0];
 type MouseDragEvent = Parameters<NonNullable<ViewProps["main-thread:bindmousemove"]>>[0];
 type DragPointEvent = TouchDragEvent | MouseDragEvent;
-type ScrollViewProps = React.JSX.IntrinsicElements["scroll-view"];
+type ScrollViewProps = IntrinsicElements["scroll-view"];
 type ScrollEvent = Pick<Parameters<NonNullable<ScrollViewProps["bindscroll"]>>[0], "detail">;
+type AccessibilityActionEvent = Parameters<NonNullable<ViewProps["bindaccessibilityaction"]>>[0];
 
 type Rect = { left: number; top: number; width: number; height: number };
 type DragLayout = { itemId: string; generation: number; rect: Rect; offsetX: number };
@@ -32,23 +34,60 @@ type DragState = {
   dragging: boolean;
 };
 
-export interface HorizontalReorderListProps<T> {
-  items: readonly T[];
-  getItemKey: (item: T, index: number) => string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  id?: string;
-  scrollableBoundaryId: string;
-  scrollEdgeOffset?: number;
-  onReorder: (fromIndex: number, toIndex: number) => void;
-  onDragStateChange?: (dragging: boolean) => void;
-  children: (props: {
-    onScroll: (event: ScrollEvent) => void;
-    dragging: boolean;
-  }) => React.ReactNode;
+export interface SortableRootRenderProps {
+  /**
+   * `scrollableBoundaryId` 요소의 `main-thread:bindscroll`에 연결합니다.
+   * drag 중 scroll 변화를 위치 보정에 반영합니다.
+   */
+  onScroll: (event: ScrollEvent) => void;
+  /**
+   * 항목을 drag하는 동안 `true`입니다. drag 중에는 scroll 요소의 `enable-scroll`을 끕니다.
+   */
+  dragging: boolean;
 }
 
-interface ReorderContextValue {
+export interface SortableRootProps<T> {
+  items: readonly T[];
+  /**
+   * 항목마다 고유하고 순서가 바뀌어도 유지되는 key를 반환합니다. `Sortable.Item`의 `itemId`와 같아야 합니다.
+   */
+  getItemKey: (item: T, index: number) => string;
+  /**
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * @default false
+   */
+  readOnly?: boolean;
+  /**
+   * Root `<view>`의 id이며 항목 id의 접두사입니다. 생략하면 인스턴스마다 생성합니다.
+   */
+  id?: string;
+  /**
+   * 항목을 감싸는 가로 `<scroll-view>`의 id입니다. drag 중 scroll 잠금과 가장자리 자동 scroll에 사용합니다.
+   */
+  scrollableBoundaryId: string;
+  /**
+   * scroll 요소 가장자리에서 자동 scroll을 시작하는 거리(px)입니다.
+   * @default 24
+   */
+  scrollEdgeOffset?: number;
+  /**
+   * `true`이면 다른 항목이 자리를 비킬 때 transition을 쓰지 않습니다.
+   * @default false
+   */
+  reducedMotion?: boolean;
+  /**
+   * 항목을 다른 위치에 놓았을 때 원래 index와 새 index로 호출합니다.
+   * 취소, 같은 위치, drag 중 `items` 변경에서는 호출하지 않습니다. 목록 순서는 호출자가 바꿉니다.
+   */
+  onReorder: (fromIndex: number, toIndex: number) => void;
+  onDragStateChange?: (dragging: boolean) => void;
+  children: (props: SortableRootRenderProps) => React.ReactNode;
+}
+
+interface SortableContextValue {
   itemIds: readonly string[];
   rootId: string;
   boundaryId: string;
@@ -62,10 +101,11 @@ interface ReorderContextValue {
   onDragMove: (event: DragPointEvent) => void;
   onDragEnd: () => void;
   onDragCancel: () => void;
+  moveItem: (fromIndex: number, toIndex: number) => void;
 }
-let nextHorizontalReorderListId = 0;
+let nextSortableRootId = 0;
 
-const ReorderContext = React.createContext<ReorderContextValue | null>(null);
+const SortableContext = React.createContext<SortableContextValue | null>(null);
 
 function encodeIdPart(value: string) {
   "main thread";
@@ -182,21 +222,78 @@ function getScrollAfter(result: ScrollByResult | null, previous: number) {
   return typeof consumed === "number" ? previous + consumed : null;
 }
 
-export function HorizontalReorderItem({
+type SortableItemNativeProps = Pick<
+  ViewProps,
+  | "accessibility-element"
+  | "accessibility-label"
+  | "accessibility-value"
+  | "accessibility-role-description"
+  | "accessibility-traits"
+  | "accessibility-actions"
+  | "bindaccessibilityaction"
+>;
+
+export interface SortableItemProps extends SortableItemNativeProps {
+  /**
+   * Root `getItemKey`가 이 항목에 반환하는 key입니다.
+   */
+  itemId: string;
+  /**
+   * 현재 목록에서의 index입니다.
+   */
+  index: number;
+  /**
+   * 스크린 리더의 사용자 지정 동작으로 한 칸 앞·뒤 이동을 제공할 때 쓸 동작 이름입니다.
+   * 생략하거나 Root가 `disabled`·`readOnly`이면 이동 동작을 노출하지 않습니다.
+   * 첫 항목에는 `previous`, 마지막 항목에는 `next`를 노출하지 않습니다.
+   * 동작은 포커스를 받는 요소에만 노출되므로 `accessibility-element`와 `accessibility-label`을 함께 전달하세요.
+   */
+  moveActionLabels?: { previous: string; next: string };
+  children: (dragging: boolean) => React.ReactNode;
+}
+
+/**
+ * 스타일 없이 long-press drag와 스크린 리더 이동 동작을 연결하는 항목 `<view>`입니다.
+ * `Sortable.Root` 안에서 렌더링합니다.
+ */
+export function SortableItem({
   itemId,
   index,
+  moveActionLabels,
   children,
-}: {
-  itemId: string;
-  index: number;
-  children: (dragging: boolean) => React.ReactNode;
-}) {
-  const context = React.useContext(ReorderContext);
-  if (!context)
-    throw new Error("HorizontalReorderItem must be rendered inside HorizontalReorderList");
+  "accessibility-element": accessibilityElement,
+  "accessibility-label": accessibilityLabel,
+  "accessibility-value": accessibilityValue,
+  "accessibility-role-description": accessibilityRoleDescription,
+  "accessibility-traits": accessibilityTraits,
+  "accessibility-actions": accessibilityActions,
+  bindaccessibilityaction,
+}: SortableItemProps) {
+  const context = React.useContext(SortableContext);
+  if (!context) throw new Error("Sortable.Item must be rendered inside Sortable.Root");
   const dragging = context.draggingItemId === itemId;
   const layout = dragging && context.dragLayout?.itemId === itemId ? context.dragLayout : null;
   const itemDomId = getBackgroundItemDomId(context.rootId, itemId);
+  const previousAction =
+    moveActionLabels && !context.disabled && index > 0 ? moveActionLabels.previous : undefined;
+  const nextAction =
+    moveActionLabels && !context.disabled && index < context.itemIds.length - 1
+      ? moveActionLabels.next
+      : undefined;
+  const hasMoveAction = previousAction !== undefined || nextAction !== undefined;
+  const actions = hasMoveAction
+    ? [
+        ...(previousAction === undefined ? [] : [previousAction]),
+        ...(nextAction === undefined ? [] : [nextAction]),
+        ...(accessibilityActions ?? []),
+      ]
+    : accessibilityActions;
+  const onAccessibilityAction = (event: AccessibilityActionEvent) => {
+    const name = event.detail.name;
+    if (name === previousAction) context.moveItem(index, index - 1);
+    else if (name === nextAction) context.moveItem(index, index + 1);
+    else bindaccessibilityaction?.(event);
+  };
   React.useEffect(() => {
     if (layout) runOnMainThread(context.onDragReady)(itemId, layout.generation);
   }, [context.onDragReady, itemId, layout]);
@@ -240,6 +337,13 @@ export function HorizontalReorderItem({
       <view
         key="item"
         id={itemDomId}
+        accessibility-element={accessibilityElement}
+        accessibility-label={accessibilityLabel}
+        accessibility-value={accessibilityValue}
+        accessibility-role-description={accessibilityRoleDescription}
+        accessibility-traits={accessibilityTraits}
+        accessibility-actions={actions}
+        bindaccessibilityaction={hasMoveAction ? onAccessibilityAction : bindaccessibilityaction}
         ios-enable-simultaneous-touch={true}
         main-thread:bindlongpress={context.disabled ? undefined : onDragStart}
         main-thread:bindmouselongpress={context.disabled ? undefined : onDragStart}
@@ -274,7 +378,11 @@ export function HorizontalReorderItem({
   );
 }
 
-export function HorizontalReorderList<T>({
+/**
+ * 스타일 없이 가로 목록의 long-press 정렬 상태를 소유하는 `<view>`입니다.
+ * `children`에 전달되는 `onScroll`과 `dragging`을 `scrollableBoundaryId`의 `<scroll-view>`에 연결하세요.
+ */
+export function SortableRoot<T>({
   items,
   getItemKey,
   disabled = false,
@@ -282,15 +390,16 @@ export function HorizontalReorderList<T>({
   id,
   scrollableBoundaryId,
   scrollEdgeOffset = 24,
+  reducedMotion = false,
   onReorder,
   onDragStateChange,
   children,
-}: HorizontalReorderListProps<T>) {
+}: SortableRootProps<T>) {
   const [instanceId] = React.useState(() => {
-    nextHorizontalReorderListId += 1;
-    return nextHorizontalReorderListId;
+    nextSortableRootId += 1;
+    return nextSortableRootId;
   });
-  const rootId = id ?? `attachment-reorder-${instanceId}`;
+  const rootId = id ?? `sortable-${instanceId}`;
   const itemIds = React.useMemo(
     () => items.map((item, index) => getItemKey(item, index)),
     [getItemKey, items],
@@ -320,8 +429,6 @@ export function HorizontalReorderList<T>({
   const [dragLayout, setDragLayout] = React.useState<DragLayout | null>(null);
   const dragGeneration = React.useRef(0);
   const sortingDisabled = disabled || readOnly;
-  const globalProps = React.useGlobalProps() as { motion?: unknown } | undefined;
-  const reducedMotion = globalProps?.motion === "reduced";
   const onDragStateChangeJS = useCallback(
     (dragging: boolean, itemId: string, generation: number) => {
       "background only";
@@ -689,8 +796,17 @@ export function HorizontalReorderList<T>({
     },
     [],
   );
+  const moveItem = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      if (sortingDisabled || draggingItemId !== null) return;
+      if (fromIndex === toIndex || fromIndex < 0 || fromIndex >= itemIds.length) return;
+      if (toIndex < 0 || toIndex >= itemIds.length) return;
+      onReorder(fromIndex, toIndex);
+    },
+    [draggingItemId, itemIds.length, onReorder, sortingDisabled],
+  );
 
-  const contextValue = React.useMemo<ReorderContextValue>(
+  const contextValue = React.useMemo<SortableContextValue>(
     () => ({
       itemIds,
       rootId,
@@ -705,6 +821,7 @@ export function HorizontalReorderList<T>({
       onDragMove,
       onDragEnd,
       onDragCancel,
+      moveItem,
     }),
     [
       boundaryId,
@@ -713,6 +830,7 @@ export function HorizontalReorderList<T>({
       onDragReady,
       itemIds,
       onDragCancel,
+      moveItem,
       onDragEnd,
       onDragMove,
       onDragStart,
@@ -724,7 +842,7 @@ export function HorizontalReorderList<T>({
   );
 
   return (
-    <ReorderContext.Provider value={contextValue}>
+    <SortableContext.Provider value={contextValue}>
       <view
         id={rootId}
         main-thread:global-bindtouchmove={sortingDisabled ? undefined : onDragMove}
@@ -737,6 +855,6 @@ export function HorizontalReorderList<T>({
       >
         {children({ onScroll, dragging: draggingItemId !== null })}
       </view>
-    </ReorderContext.Provider>
+    </SortableContext.Provider>
   );
 }
