@@ -1,0 +1,12 @@
+export * from "./useTabs.js";
+export * from "./useTabsContext.js";
+export * from "./useTabsList.js";
+export * from "./useTabsTrigger.js";
+export * from "./useTabsTriggerContext.js";
+export * from "./useTabsIndicator.js";
+export * from "./useTabsContent.js";
+export * from "./useTabsCarousel.js";
+export * from "./useTabsCarouselContext.js";
+export * from "./useTabsCarouselCamera.js";
+export * from "./Tabs.jsx";
+export * as Tabs from "./Tabs.namespace.js";
