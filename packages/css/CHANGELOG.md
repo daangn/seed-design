@@ -1,5 +1,90 @@
 # @seed-design/css
 
+## 3.0.0
+
+### Major Changes
+
+- 19ecbd6: (BREAKING CHANGE: Badge의 기본 최대 너비로 긴 라벨을 말줄임하고 있었다면 최대 너비를 직접 지정해야 합니다.) Badge 스타일에 Prefix와 Action을 추가하고 기본 최대 너비를 제거합니다.
+  
+  - Badge 스타일에 `prefix`, `action` slot(`.seed-badge__prefix`, `.seed-badge__action`)을 추가합니다.
+  - Badge에 기본으로 적용되던 최대 너비(`size="medium"` 7.5rem, `size="large"` 6.75rem)를 제거합니다.
+- 19ecbd6: (BREAKING CHANGE: `wheel-picker-public` 스타일 참조를 `wheel-picker`로 바꾸고, 제거된 Date Picker·Time Picker 휠 클래스를 참조했다면 `.seed-wheel-picker__*` 클래스 기준으로 다시 지정해야 합니다.) Wheel Picker 스타일을 하나로 통합합니다.
+  
+  - `@seed-design/css/recipes/wheel-picker-public`을 사용했다면 `@seed-design/css/recipes/wheel-picker`로 바꾸고, `seed-wheel-picker-public` 클래스와 `--seed-wheel-picker-public-*` CSS 변수에서 `public`을 제거하세요.
+  - Date Picker와 Time Picker 안의 휠은 Wheel Picker 스타일을 그대로 사용합니다. 이에 따라 `@seed-design/css/recipes/date-picker`의 `wheelColumns`, `wheelSelectionIndicator`, `wheelScrollFog`, `wheelItem` slot과 `@seed-design/css/recipes/time-picker`의 `scrollFog`, `columns`, `selectionIndicator` slot을 제거합니다. 해당 클래스(`.seed-date-picker__wheelItem`, `.seed-time-picker__selectionIndicator` 등)로 스타일을 덮어썼다면 `.seed-wheel-picker__*` 클래스를 기준으로 다시 지정하세요.
+  - `.seed-wheel-picker__*` 클래스와 `--seed-wheel-picker-*` CSS 변수는 2.x에서 Date Picker·Time Picker 안의 휠에만 적용되었지만, 이제 모든 Wheel Picker에 적용됩니다.
+  - Week Date Picker의 연·월 Wheel Picker를 표시하는 `wheelPositioner`, `wheelPopover` slot을 `@seed-design/css/recipes/date-picker`에 추가합니다.
+- fa3eb46: (BREAKING CHANGE: 프로젝트에 있는 `ui:alert-dialog`와 `ui:dialog` snippet을 다시 설치해야 합니다. `@seed-design/react`의 `Dialog`·`ContentDialog`나 `@seed-design/css`의 `recipes/dialog`·`recipes/content-dialog` 모듈, 클래스 이름, CSS 변수를 직접 사용한다면 새 이름으로 옮겨야 하며, 대부분 에러로 발견되지 않습니다.) `@seed-design/react`와 `@seed-design/css`에서 Alert Dialog와 Dialog의 이름을 snippet 이름에 맞춥니다.
+  
+  2.x에서는 `Dialog`라는 이름이 `@seed-design/react`와 snippet에서 서로 다른 컴포넌트를 가리켰습니다. `@seed-design/react`에서는 `Dialog`가 Alert Dialog를, `ContentDialog`가 Dialog를 가리켰고, snippet은 Alert Dialog를 `ui:alert-dialog`(`AlertDialogRoot` 등)로, Dialog를 `ui:dialog`(`DialogRoot` 등)로 제공했습니다.
+  
+  - `@seed-design/react`의 `Dialog`를 `AlertDialog`로, `ContentDialog`를 `Dialog`로 변경합니다. `DialogRoot`, `DialogRootProps` 같은 개별 export도 같은 규칙으로 바뀝니다.
+  - `@seed-design/css/recipes/dialog`를 `@seed-design/css/recipes/alert-dialog`로, `@seed-design/css/recipes/content-dialog`를 `@seed-design/css/recipes/dialog`로 변경합니다. `dialog`, `dialogVariantMap` 같은 모듈 export와 CSS 파일(`recipes/dialog.css` 등)도 같은 규칙으로 바뀝니다.
+  - 클래스 이름 `.seed-dialog__*`를 `.seed-alert-dialog__*`로, `.seed-content-dialog__*`를 `.seed-dialog__*`로 변경합니다.
+  - CSS 변수 `--content-dialog-default-width`, `--content-dialog-default-max-width`, `--content-dialog-size-width`를 각각 `--dialog-default-width`, `--dialog-default-max-width`, `--dialog-size-width`로 변경합니다. 두 컴포넌트가 함께 사용하는 `--dialog-z-index`는 바뀌지 않습니다.
+  - `AlertDialog.Root`의 기본값을 `role="alertdialog"`, `closeOnInteractOutside={false}`로 변경합니다. 2.x의 `Dialog.Root`는 두 값을 넘기지 않으면 `role="dialog"`로 렌더링되고 바깥을 누르면 닫혔습니다. `ui:alert-dialog` snippet의 `AlertDialogRoot`는 2.x에서도 두 값을 직접 넘기고 있었으므로, snippet으로 사용하는 Alert Dialog의 동작은 바뀌지 않습니다.
+  - snippet이 export하는 이름(`AlertDialogRoot`, `DialogRoot` 등)은 바뀌지 않습니다.
+  
+  `@seed-design/react`의 `Dialog`, `@seed-design/css/recipes/dialog`, `.seed-dialog__*`는 3.0.0에도 같은 이름으로 남아 Alert Dialog가 아닌 Dialog를 가리킵니다. 타입 검사와 빌드가 통과해도 마이그레이션이 끝난 것이 아닙니다. 새 `Dialog`는 2.x `Dialog`의 하위 컴포넌트를 모두 제공하므로, 옮기지 않은 Alert Dialog 코드는 대부분 에러 없이 Dialog로 렌더링됩니다. `role`, `skipAnimation`처럼 Dialog에 없는 API를 쓰는 곳에서 나는 타입 에러는 해당 코드를 `AlertDialog`로 옮기라는 뜻이므로, prop을 지워서 해결하지 마세요. 옮길 때 다음을 지키세요. 사용처를 찾는 방법과 작업 후 확인 목록은 [SEED React 3 업그레이드 가이드](https://seed-design.io/react/updates/upgrade/v3)에 있습니다.
+  
+  - snippet을 import하는 코드는 수정하지 마세요. `@seed-design/react`의 이름 변경을 `DialogRoot` 같은 snippet의 이름에 적용하면 Dialog가 Alert Dialog로 바뀝니다.
+  - `ui:alert-dialog` snippet이 있다면 반드시 다시 설치하세요. 2.x snippet은 `@seed-design/react`의 `Dialog`를 import하므로, 다시 설치하지 않으면 `role` 타입 에러가 나고 타입 검사 없이 빌드하면 snippet의 Alert Dialog가 Dialog로 렌더링됩니다. 이 에러를 `role`을 지워서 해결하지 마세요. `npx @seed-design/cli@latest add --on-diff backup ui:alert-dialog ui:dialog`로 다시 설치할 수 있습니다.
+  - `@seed-design/react`, `@seed-design/css/recipes/*` 모듈, 클래스 이름을 직접 사용한다면, 바꾸기 전에 사용처마다 2.x 이름으로 Alert Dialog인지 Dialog인지 분류하세요. 일괄 치환한다면 Alert Dialog(`Dialog` → `AlertDialog`)를 모두 옮긴 뒤 Dialog(`ContentDialog` → `Dialog`)를 옮기세요. 순서를 바꾸면 `ContentDialog`에서 옮긴 `Dialog`까지 다시 `AlertDialog`로 바뀝니다.
+  - 이름 변경은 2.x 코드에 한 번만 적용하세요. 일부를 이미 옮긴 코드에서는 남아 있는 `Dialog`가 어느 쪽인지 이름만으로 구분할 수 없습니다.
+  - `@seed-design/react`의 `Dialog.Root`에 `role`이나 `closeOnInteractOutside`를 넘기지 않았다면, `AlertDialog.Root`로 옮긴 뒤 `role`이 `"alertdialog"`가 되고 바깥을 눌러도 닫히지 않습니다. 2.x의 동작을 유지해야 한다면 두 값을 명시하세요.
+- 19ecbd6: (BREAKING CHANGE: Side Panel 본문의 높이를 `--seed-box-height`, `--seed-box-min-height`, `--seed-box-max-height` 계열 CSS 변수로 지정하고 있었다면 제거해야 합니다.) Side Panel 본문 스타일에서 높이 관련 CSS 변수를 제거합니다. Side Panel 본문은 항상 헤더와 푸터를 제외한 남은 높이를 채웁니다.
+- 8c70df1: (BREAKING CHANGE: `typography`를 제외한 `@seed-design/css/vars/component` import를 디자인 토큰(`@seed-design/css/vars`)으로 바꿔야 합니다.) `@seed-design/css/vars/component`에서 `typography`만 제공합니다.
+  
+  - `typography`를 제외한 `@seed-design/css/vars/component/*` 경로를 제거합니다. 이 경로들은 2.x에서도 SemVer 보장 대상이 아니었습니다.
+  - `@seed-design/css/vars/component` index를 제거합니다. index에서 `typography`를 가져왔다면 `@seed-design/css/vars/component/typography`에서 `vars`를 import하세요.
+  
+    ```ts
+    // 변경 전
+    import { typography } from "@seed-design/css/vars/component";
+  
+    // 변경 후
+    import { vars as typography } from "@seed-design/css/vars/component/typography";
+    ```
+- 66c3bd9: (BREAKING CHANGE: `$color.bg.layer-fill`을 같은 값의 `$color.bg.neutral-muted`로 교체해야 합니다.) deprecated 상태였던 `$color.bg.layer-fill`을 제거하고 같은 값의 `$color.bg.neutral-muted`를 추가합니다.
+  
+  - `$color.bg.neutral-muted`는 라이트 모드에서 `gray-100`, 다크 모드에서 `gray-200`으로, 기존 `$color.bg.layer-fill`과 값이 같습니다.
+  - `--seed-color-bg-layer-fill`을 `--seed-color-bg-neutral-muted`로, `vars.$color.bg.layerFill`을 `vars.$color.bg.neutralMuted`로 교체하세요.
+  - CSS 변수를 직접 쓴 코드나 `bg="bg.layerFill"` 같은 style prop 값은 에러 없이 배경색만 사라지므로 문자열로 검색해 확인하세요.
+- ebdc295: (BREAKING CHANGE: `$color.bg.neutral-solid`를 직접 사용하는 화면에서 라이트·다크 모드의 배경색과 전경색 대비를 확인해야 합니다.) Neutral Solid 배경 색상과 이를 사용하는 컴포넌트 스타일을 변경합니다.
+  
+  - `$color.bg.neutral-solid`를 라이트 모드에서는 `gray-1000`에서 `gray-900`으로, 다크 모드에서는 `gray-300`에서 `gray-1000`으로 변경합니다.
+  - 눌린 상태에 사용할 `$color.bg.neutral-solid-pressed`를 추가합니다.
+  - Neutral Solid 스타일을 사용하는 컴포넌트가 `$color.bg.neutral-solid`와 `$color.bg.neutral-solid-pressed`를 참조하도록 변경합니다.
+- 19ecbd6: (BREAKING CHANGE: 제거된 스타일 모듈과 클래스를 직접 참조했다면 대체 컴포넌트의 스타일로 교체해야 합니다.) deprecated 컴포넌트만 사용하던 스타일을 제거합니다. 대체 컴포넌트는 [Deprecations](https://seed-design.io/docs/migration/deprecations) 문서의 제거 완료 히스토리를 참고하세요.
+  
+  - `@seed-design/css/recipes/*`에서 `action-chip`, `action-sheet`, `action-sheet-item`, `control-chip`, `extended-action-sheet`, `extended-action-sheet-item`, `extended-fab`, `fab`, `inline-banner`, `link-content` 모듈과 CSS 파일을 제거합니다.
+  - `.seed-action-chip`, `.seed-control-chip`, `.seed-action-sheet__*`, `.seed-action-sheet-item`, `.seed-extended-action-sheet__*`, `.seed-extended-action-sheet-item`, `.seed-fab`, `.seed-extended-fab`, `.seed-inline-banner__*`, `.seed-link-content` 클래스를 제거합니다.
+
+### Minor Changes
+
+- d3edadf: Solid 배경 위에 쓰는 전경색 토큰을 추가하고, SEED 컴포넌트가 이 토큰을 사용하도록 변경합니다.
+  
+  - `$color.fg.on-brand-solid`, `$color.fg.on-critical-solid`, `$color.fg.on-informative-solid`, `$color.fg.on-neutral-solid`, `$color.fg.on-positive-solid`, `$color.fg.on-warning-solid`를 추가합니다.
+  - Solid 배경을 사용하는 컴포넌트가 팔레트 색상이나 `$color.fg.neutral-inverted` 대신 새 전경색 토큰을 참조하도록 변경합니다. 기존과 값이 같아 화면은 그대로이며, Action Button `variant="neutralSolid"`의 로딩 인디케이터 색만 다크 모드에서 달라집니다.
+  - `$color.fg.neutral-inverted`는 기존 사용처의 하위 호환성을 위해 deprecated 상태로 유지하며, 각 패키지의 다음 major 버전에서 제거할 예정입니다.
+- 5e34f78: SEED 컴포넌트가 `$color.bg.neutral-inverted` 대신 같은 값의 `$color.bg.neutral-solid`를 사용하도록 변경하고, `$color.bg.neutral-inverted`와 `$color.bg.neutral-inverted-pressed`를 deprecated로 표시합니다.
+  
+  - `@seed-design/react`의 Date Picker를 포함한 기존 사용처는 같은 색상 값을 가진 `$color.bg.neutral-solid`를 사용합니다.
+  - 기존 사용처의 하위 호환성을 위해 `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`와 이에 대응하는 CSS 변수를 유지하며, 각 패키지의 다음 major 버전에서 제거할 예정입니다.
+- 78f0bc1: Popover 컴포넌트를 추가합니다. `npx @seed-design/cli@latest add ui:popover`로 설치할 수 있습니다.
+- 19ecbd6: 누르는 동안 배경은 그대로 두고 콘텐츠만 줄어드는 Content Scale 스타일을 추가합니다.
+  
+  - `.seed-content-scale` 클래스와 `--seed-content-scale` CSS 변수를 추가합니다.
+  - Accordion Trigger, Menu Item 등 Content Scale을 적용한 컴포넌트의 스타일이 눌린 상태에서 `--seed-content-scale`을 지정하도록 변경합니다.
+- 66c3bd9: 표면과 같은 색상의 `$color.bg.neutral-subtle` 토큰을 추가합니다.
+  
+  - 라이트 모드에서 `gray-00`, 다크 모드에서 `gray-100`을 사용하며, 회색 표면 위에서 주변과 구분되는 영역에 사용합니다.
+  - Tailwind에서는 `bg-neutral-subtle` 색상으로 사용할 수 있습니다(예: `bg-bg-neutral-subtle`).
+
+### Patch Changes
+
+- 19ecbd6: Help Bubble 콘텐츠로 포커스가 이동할 때 표시되던 기본 포커스 outline을 제거합니다.
+
 ## 2.9.0
 
 ### Minor Changes

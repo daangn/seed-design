@@ -1,5 +1,49 @@
 # @seed-design/tailwind3-plugin
 
+## 3.0.1
+
+### Major Changes
+
+- 19ecbd6: (BREAKING CHANGE: `@seed-design/css` 3.0.0과 함께 사용하면 `bg-neutral-solid`의 색상이 바뀌므로, 이 색상을 직접 사용하는 화면에서 라이트·다크 모드의 배경색과 전경색 대비를 확인해야 합니다.) Solid 배경에 쓰는 색상을 추가합니다.
+  
+  - Solid 배경 위 전경색 `fg-on-brand-solid`, `fg-on-critical-solid`, `fg-on-informative-solid`, `fg-on-neutral-solid`, `fg-on-positive-solid`, `fg-on-warning-solid`를 추가합니다(예: `text-fg-on-neutral-solid`).
+  - 눌린 상태의 Neutral Solid 배경색 `bg-neutral-solid-pressed`를 추가합니다(예: `bg-bg-neutral-solid-pressed`).
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다. 새 색상을 사용하려면 해당 패키지를 함께 업그레이드하세요.
+  - `bg-neutral-solid`는 `@seed-design/css` 3.0.0의 `$color.bg.neutral-solid` 값 변경에 따라 라이트 모드에서 `gray-900`, 다크 모드에서 `gray-1000`으로 표시됩니다.
+  - `bg-neutral-inverted`, `bg-neutral-inverted-pressed`, `fg-neutral-inverted`는 그대로 제공합니다. 세 색상 모두 `@seed-design/css`에서 deprecated된 토큰이므로 같은 값의 `bg-neutral-solid`, `bg-neutral-solid-pressed`, `fg-on-neutral-solid`로 교체하세요.
+- 66c3bd9: (BREAKING CHANGE: `bg-layer-fill` 색상을 같은 값의 `bg-neutral-muted`로 교체해야 합니다.) deprecated 상태였던 `bg-layer-fill` 색상을 제거하고 `bg-neutral-muted`를 추가합니다.
+  
+  - `bg-bg-layer-fill` 같은 클래스를 `bg-bg-neutral-muted`로 교체하세요. 제거된 클래스는 빌드 에러 없이 스타일만 적용되지 않습니다.
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다.
+
+### Minor Changes
+
+- 66c3bd9: 표면과 같은 색상의 `$color.bg.neutral-subtle` 토큰을 추가합니다.
+  
+  - 라이트 모드에서 `gray-00`, 다크 모드에서 `gray-100`을 사용하며, 회색 표면 위에서 주변과 구분되는 영역에 사용합니다.
+  - Tailwind에서는 `bg-neutral-subtle` 색상으로 사용할 수 있습니다(예: `bg-bg-neutral-subtle`).
+
+### Patch Changes
+
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [d3edadf]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [5e34f78]
+- Updated dependencies [fa3eb46]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [8c70df1]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [ebdc295]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+  - @seed-design/css@3.0.0
+  - @seed-design/lynx-css@0.14.0
+
 ## 2.5.0
 
 ### Minor Changes

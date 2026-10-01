@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-drawer",
-  "version": "2.0.7",
+  "version": "3.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -37,7 +37,7 @@
     "@seed-design/react-dismissible-layer": "^1.0.2",
     "@seed-design/react-presence": "^1.0.1",
     "@seed-design/react-prevent-scroll": "^1.0.1",
-    "@seed-design/react-primitive": "^2.0.1",
+    "@seed-design/react-primitive": "^2.0.2",
     "@seed-design/react-use-controllable-state": "^2.0.1",
     "aria-hidden": "^1.2.6"
   },

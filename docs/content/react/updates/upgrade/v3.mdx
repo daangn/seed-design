@@ -87,14 +87,15 @@ AI 코딩 도구(예: Claude Code)에 아래 프롬프트를 붙여넣으면 이
 | ------------------------------- | --------- | -------------------------------------------------------------------------------------- |
 | `@seed-design/css`              | `3.0.0`   |                                                                                        |
 | `@seed-design/react`            | `3.0.0`   |                                                                                        |
-| `@seed-design/stackflow`        | `2.0.6`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위를 `^3.0.0`으로 바꿨습니다.      |
+| `@seed-design/stackflow`        | `2.0.6`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위에 `^3.0.0`을 추가했습니다.         |
 | `@seed-design/tailwind3-plugin` | `3.0.1`   | npm에서 게시 취소된 `3.0.0`을 다시 쓸 수 없어 `3.0.1`로 배포합니다.                    |
 | `@seed-design/tailwind4-theme`  | `3.0.1`   | npm에서 게시 취소된 `3.0.0`을 다시 쓸 수 없어 `3.0.1`로 배포합니다.                    |
-| `@seed-design/vite-plugin`      | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위를 `^3.0.0`으로 바꿨습니다.      |
-| `@seed-design/webpack-plugin`   | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위를 `^3.0.0`으로 바꿨습니다.      |
-| `@seed-design/rsbuild-plugin`   | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위를 `^3.0.0`으로 바꿨습니다.      |
+| `@seed-design/vite-plugin`      | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위에 `^3.0.0`을 추가했습니다.         |
+| `@seed-design/webpack-plugin`   | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위에 `^3.0.0`을 추가했습니다.         |
+| `@seed-design/rsbuild-plugin`   | `2.1.1`   | 기능 변경 없이 `@seed-design/css` peer dependency 범위에 `^3.0.0`을 추가했습니다.         |
 | `@seed-design/react-popover`    | `3.0.0`   | headless 패키지(스타일 없이 상태와 동작만 제공하는 패키지)를 직접 설치해 사용하는 경우에만 해당합니다. |
 | `@seed-design/react-drawer`     | `3.0.0`   | headless 패키지를 직접 설치해 사용하는 경우에만 해당합니다.                            |
+| `@seed-design/react-scale-feedback` | `2.0.0` | 직접 설치해 사용하는 경우에만 해당합니다. `@seed-design/css` peer dependency 범위를 `^3.0.0`으로 바꿨습니다. |
 
 - 현재 프로젝트에서 사용하는 패키지만 업그레이드하세요. 사용하지 않는 패키지를 새로 설치할 필요는 없습니다.
 - 위 표에서 프로젝트가 사용하는 패키지는 아래 명령에 함께 적어 한 번에 업그레이드하세요(예: `@seed-design/stackflow@latest @seed-design/vite-plugin@latest`). 표의 최소 버전보다 낮은 버전이 남아 있으면 `@seed-design/css` 3과 peer dependency 범위가 맞지 않아 설치가 실패할 수 있습니다.
