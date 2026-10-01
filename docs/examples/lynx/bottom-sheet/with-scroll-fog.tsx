@@ -24,14 +24,12 @@ export default function Example() {
             <BottomSheetBody className="bottom-sheet-preview__scroll-fog-body">
               <ScrollFog placement={["top", "bottom"]} style={{ width: "100%", height: "100%" }}>
                 <scroll-view
+                  className="bottom-sheet-preview__scroll-fog-content"
                   scroll-orientation="vertical"
                   scroll-bar-enable={false}
                   style={{ width: "100%", height: "100%" }}
                 >
-                  <VStack
-                    className="bottom-sheet-preview__blocks bottom-sheet-preview__scroll-fog-content"
-                    gap="x4"
-                  >
+                  <VStack className="bottom-sheet-preview__blocks" gap="x4">
                     <view className="bottom-sheet-preview__block" />
                     <view className="bottom-sheet-preview__block" />
                     <view className="bottom-sheet-preview__block" />

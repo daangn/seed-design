@@ -25,8 +25,11 @@ export default function Example() {
         style={{ overflow: "hidden" }}
       >
         <ScrollFog style={{ width: "100%", height: "100%" }} placement={["top", "bottom"]}>
-          <scroll-view scroll-orientation="vertical" style={{ width: "100%", height: "100%" }}>
-            <VStack pt="20px" px="16px" pb="80px" gap="8px">
+          <scroll-view
+            scroll-orientation="vertical"
+            style={{ width: "100%", height: "100%", padding: "20px 16px 80px" }}
+          >
+            <VStack gap="8px">
               {ITEMS.map((item) => (
                 <Box
                   key={item}

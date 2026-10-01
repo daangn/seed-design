@@ -191,7 +191,7 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 
 `BottomSheetBody`는 스크롤 방식을 정하지 않는 native `<view>`입니다. 스크롤 힌트가 필요하면 Body 안에 [Scroll Fog](/lynx/components/scroll-fog)와 세로 `<scroll-view>`를 직접 배치하세요. fog 방향과 크기는 `ScrollFog`의 `placement`·`size`로, 스크롤바와 스크롤 동작은 `<scroll-view>` prop으로 제어합니다.
 
-ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, 콘텐츠에 권장 padding인 상단 `20px`, 하단 `80px`을 유지해야 합니다.
+ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, `<scroll-view>`에 권장 padding인 상단 `20px`, 하단 `80px`을 지정해야 합니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/with-scroll-fog" height={520}>
   ```json doc-gen:file

@@ -25,8 +25,11 @@ export default function Example() {
         style={{ overflow: "hidden" }}
       >
         <ScrollFog style={{ width: "100%", height: "100%" }} placement={["left", "right"]}>
-          <scroll-view scroll-orientation="horizontal" style={{ width: "100%", height: "100%" }}>
-            <HStack height="full" px="20px" align="center" gap="12px">
+          <scroll-view
+            scroll-orientation="horizontal"
+            style={{ width: "100%", height: "100%", padding: "0 20px" }}
+          >
+            <HStack height="full" align="center" gap="12px">
               {ITEMS.map((item) => (
                 <Box
                   key={item}

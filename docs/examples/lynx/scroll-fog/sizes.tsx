@@ -29,8 +29,11 @@ export default function Example() {
           sizes={{ top: 20, bottom: 80 }}
           placement={["top", "bottom"]}
         >
-          <scroll-view scroll-orientation="vertical" style={{ width: "100%", height: "100%" }}>
-            <VStack pt="20px" px="16px" pb="80px" gap="12px">
+          <scroll-view
+            scroll-orientation="vertical"
+            style={{ width: "100%", height: "100%", padding: "20px 16px 80px" }}
+          >
+            <VStack gap="12px">
               <Text color="fg.neutralMuted" fontSize="14px">
                 top: 20px, bottom: 80px
               </Text>
