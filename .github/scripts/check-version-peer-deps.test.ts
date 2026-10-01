@@ -58,7 +58,7 @@ function createFixture(overrides?: {
     baseLynxCssManifest: createManifest("@seed-design/lynx-css", "0.8.0"),
     baseLynxReactManifest: createManifest("@seed-design/lynx-react", "0.4.0", {
       name: "@seed-design/lynx-css",
-      range: "0.0.0 || >=0.8.0 <1.0.0",
+      range: "^0.8.0",
     }),
     sourceCssManifest: createManifest("@seed-design/css", values.cssVersion),
     sourceReactManifest: createManifest("@seed-design/react", values.reactVersion, {
@@ -68,7 +68,7 @@ function createFixture(overrides?: {
     sourceLynxCssManifest: createManifest("@seed-design/lynx-css", "0.8.0"),
     sourceLynxReactManifest: createManifest("@seed-design/lynx-react", "0.4.0", {
       name: "@seed-design/lynx-css",
-      range: "0.0.0 || >=0.8.0 <1.0.0",
+      range: "^0.8.0",
     }),
   };
 }
@@ -84,10 +84,10 @@ function createLynxFixture(overrides?: {
   const values = {
     baseLynxCssVersion: "0.8.1",
     baseLynxReactVersion: "0.4.1",
-    basePeerRange: "0.0.0 || >=0.8.0 <1.0.0",
+    basePeerRange: "^0.8.0",
     lynxCssVersion: "0.9.0",
     lynxReactVersion: "0.5.0",
-    peerRange: "0.0.0 || >=0.9.0 <1.0.0",
+    peerRange: "^0.9.0",
     ...overrides,
   };
 
@@ -170,7 +170,7 @@ describe("Version Packages peer dependency 검사", () => {
 
   test("Lynx 버전이 함께 올랐지만 peer 범위가 그대로면 실패한다", () => {
     expect(() =>
-      validateVersionPeerDependencies(createLynxFixture({ peerRange: "0.0.0 || >=0.8.0 <1.0.0" })),
+      validateVersionPeerDependencies(createLynxFixture({ peerRange: "^0.8.0" })),
     ).toThrow("peerDependency가 변경되지 않았습니다");
   });
 
@@ -179,9 +179,9 @@ describe("Version Packages peer dependency 검사", () => {
       validateVersionPeerDependencies(
         createLynxFixture({
           baseLynxCssVersion: "0.9.0",
-          basePeerRange: "0.0.0 || >=0.9.0 <1.0.0",
+          basePeerRange: "^0.9.0",
           lynxCssVersion: "0.9.1",
-          peerRange: "0.0.0 || >=0.9.0 <1.0.0",
+          peerRange: "^0.9.0",
         }),
       ),
     ).toMatchObject({ lynxReact: { checked: true } });
@@ -193,13 +193,31 @@ describe("Version Packages peer dependency 검사", () => {
         createLynxFixture({
           baseLynxCssVersion: "0.11.1",
           baseLynxReactVersion: "0.7.1",
-          basePeerRange: "0.0.0 || >=0.11.1 <1.0.0",
+          basePeerRange: "^0.11.1",
           lynxCssVersion: "0.11.2",
           lynxReactVersion: "0.7.2",
-          peerRange: "0.0.0 || >=0.11.1 <1.0.0",
+          peerRange: "^0.11.1",
         }),
       ),
     ).toMatchObject({ lynxReact: { checked: true } });
+  });
+
+  test("base가 이전 형식이어도 새 마이너의 caret 범위를 요구한다", () => {
+    const fixture = createLynxFixture({
+      baseLynxCssVersion: "0.12.1",
+      baseLynxReactVersion: "0.8.0",
+      basePeerRange: "0.12.1",
+      lynxCssVersion: "0.13.0",
+      lynxReactVersion: "0.9.0",
+    });
+
+    expect(
+      validateVersionPeerDependencies({
+        ...fixture,
+        sourceLynxReactManifest: fixture.sourceLynxReactManifest.replace("^0.9.0", "^0.13.0"),
+      }),
+    ).toMatchObject({ lynxReact: { checked: true } });
+    expect(() => validateVersionPeerDependencies(fixture)).toThrow("새 버전과 다릅니다");
   });
 
   test("Version Packages PR에서 신뢰된 검사 코드로 정확한 head를 검사한다", async () => {

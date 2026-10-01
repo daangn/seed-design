@@ -84,6 +84,7 @@ Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따�
 - 하한 조정은 Version Changes PR(`changeset-release/dev` head, 제목 `release: version packages`)에서 한다. 새 기능을 실제로 소비하는 패키지만 대상으로 하고, 상한은 바꾸지 않는다.
 - `@seed-design/react`의 `@seed-design/css` peer와 `@seed-design/lynx-react`의 `@seed-design/lynx-css` peer는 그 PR에 OWNER·MEMBER·COLLABORATOR가 `/bump-peer-deps` 댓글을 남기면 `.github/workflows/bump-peer-deps.yml`이 맞춘다. `.github/workflows/version-peer-deps-merge-blocker.yml`이 두 범위를 검사한다.
 - 그 밖의 peer 범위는 Version Changes PR에서 수동으로 올린다.
+- 0.x 패키지에 대한 peer는 `^0.{minor}.{patch}`로 쓴다. 0.x의 minor는 호환을 깨도 되므로 `<1.0.0` 같은 넓은 상한을 쓰지 않는다. 여러 minor와 호환되면 `^0.11.0 || ^0.12.0`처럼 minor마다 이어 붙인다.
 
 ## 특수 범위
 
