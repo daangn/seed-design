@@ -24,6 +24,7 @@ export const neutralSolid = "var(--seed-color-bg-neutral-solid)";
 export const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pressed)";
 export const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-muted)";
 export const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
+export const neutralSubtle = "var(--seed-color-bg-neutral-subtle)";
 export const neutralWeak = "var(--seed-color-bg-neutral-weak)";
 export const neutralWeakAlpha = "var(--seed-color-bg-neutral-weak-alpha)";
 export const neutralWeakAlphaPressed = "var(--seed-color-bg-neutral-weak-alpha-pressed)";

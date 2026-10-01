@@ -141,6 +141,7 @@
   --color-bg-neutral-solid-pressed: var(--seed-color-bg-neutral-solid-pressed);
   --color-bg-neutral-solid-muted: var(--seed-color-bg-neutral-solid-muted);
   --color-bg-neutral-solid-muted-pressed: var(--seed-color-bg-neutral-solid-muted-pressed);
+  --color-bg-neutral-subtle: var(--seed-color-bg-neutral-subtle);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
   --color-bg-neutral-weak-alpha: var(--seed-color-bg-neutral-weak-alpha);
   --color-bg-neutral-weak-alpha-pressed: var(--seed-color-bg-neutral-weak-alpha-pressed);

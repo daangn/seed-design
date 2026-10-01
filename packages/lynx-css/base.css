@@ -299,6 +299,7 @@ text {
   --seed-color-bg-neutral-solid-pressed: #555d6d;
   --seed-color-bg-neutral-solid-muted: #555d6d;
   --seed-color-bg-neutral-solid-muted-pressed: #2a3038;
+  --seed-color-bg-neutral-subtle: #fff;
   --seed-color-bg-neutral-weak: #f3f4f5;
   --seed-color-bg-neutral-weak-alpha: #0000000c;
   --seed-color-bg-neutral-weak-alpha-pressed: #00000010;
@@ -518,6 +519,7 @@ text {
   --seed-color-bg-neutral-solid-pressed: #dcdee3;
   --seed-color-bg-neutral-solid-muted: #393d46;
   --seed-color-bg-neutral-solid-muted-pressed: #5b606a;
+  --seed-color-bg-neutral-subtle: #16171b;
   --seed-color-bg-neutral-weak: #2b2e35;
   --seed-color-bg-neutral-weak-alpha: #ffffff20;
   --seed-color-bg-neutral-weak-alpha-pressed: #ffffff2e;

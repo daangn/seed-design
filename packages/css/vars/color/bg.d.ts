@@ -48,6 +48,8 @@ export declare const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pr
 export declare const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-muted)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed) */
 export declare const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
+/** 표면과 같은 색상입니다. 회색 표면 위에서 주변과 구분되는 영역에 사용됩니다. (subtle) */
+export declare const neutralSubtle = "var(--seed-color-bg-neutral-subtle)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak) */
 export declare const neutralWeak = "var(--seed-color-bg-neutral-weak)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다. */

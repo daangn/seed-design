@@ -1730,6 +1730,19 @@ declare const artifact: {
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)";
       };
+      "$color.bg.neutral-subtle": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-00";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-100";
+          };
+        };
+        "description": "표면과 같은 색상입니다. 회색 표면 위에서 주변과 구분되는 영역에 사용됩니다. (subtle)";
+      };
       "$color.bg.neutral-weak": {
         "values": {
           "theme-light": {
