@@ -1,0 +1,75 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-tabs만 소비하는 화면의 스타일 */
+
+.tabs-headless-list {
+  width: 100%;
+}
+
+.tabs-headless-list-content {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #dcdee3;
+}
+
+.tabs-headless-trigger {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.tabs-headless-label {
+  font-size: 15px;
+  color: #868b94;
+}
+
+.tabs-headless-label-selected {
+  color: #1a1c20;
+  font-weight: 700;
+}
+
+.tabs-headless-label-disabled {
+  color: #d1d3d8;
+}
+
+.tabs-headless-indicator {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: 2px;
+  background-color: #1a1c20;
+  transform: translateX(calc(var(--tabs-indicator-x, 0px) + 16px));
+  width: var(--tabs-indicator-width, 0px);
+}
+
+.tabs-headless-indicator-animated {
+  transition:
+    transform 0.2s,
+    width 0.2s;
+}
+
+.tabs-headless-content {
+  display: flex;
+  height: 160px;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f5;
+}
+
+/* overflow가 없으면 display: none인 view가 flatten되어 자식 text가 그려진다. */
+.tabs-headless-content-hidden {
+  display: none;
+  overflow: hidden;
+}
+
+.tabs-headless-carousel {
+  height: 160px;
+}
+
+.tabs-headless-camera {
+  width: 100%;
+  height: 100%;
+}
