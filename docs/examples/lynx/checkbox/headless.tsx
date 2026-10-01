@@ -2,7 +2,7 @@ import { useState } from "@lynx-js/react";
 import { Checkbox, useCheckboxContext } from "@seed-design/lynx-react-checkbox";
 
 function Box() {
-  const { checked, indeterminate, pressed } = useCheckboxContext("Box");
+  const { checked, indeterminate, pressed } = useCheckboxContext();
   const selected = checked || indeterminate;
 
   return (
