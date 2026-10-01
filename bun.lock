@@ -67,7 +67,7 @@
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "2.0.6",
-        "@seed-design/tailwind4-theme": "3.0.0",
+        "@seed-design/tailwind4-theme": "3.0.1",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -1615,7 +1615,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -1631,7 +1631,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
