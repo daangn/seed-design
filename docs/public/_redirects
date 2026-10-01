@@ -69,3 +69,7 @@
 /react/components/inline-banner /react/components/page-banner 301
 /react/components/link-content /react/components/action-button 301
 /react/components/stack /react/components/layout/v-stack 301
+
+# Lynx Input Button → Field Button: React와 같은 컴포넌트 이름으로 변경
+/lynx/components/input-button /lynx/components/field-button 301
+/llms/lynx/components/input-button /llms/lynx/components/field-button 301

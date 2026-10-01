@@ -5,10 +5,10 @@ description: 입력 필드 형태의 버튼으로, 선택창이나 피커를 열
 
 <AvailableSince packages="@seed-design/lynx-react@0.7.0, @seed-design/lynx-css@0.11.0" />
 
-<LynxComponentExample name="lynx/input-button/preview">
+<LynxComponentExample name="lynx/field-button/preview">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/preview.tsx",
+    "file": "examples/lynx/field-button/preview.tsx",
     "codeblock": true
   }
   ```
@@ -49,10 +49,10 @@ npx @seed-design/cli@latest add ui:field-button
   - `FieldButtonValue` 또는 `FieldButtonPlaceholder`로 구성
   - 두 요소는 스타일만 다르며 접근성 트리에서는 숨겨집니다. 현재 값과 버튼을 눌렀을 때 일어날 동작을 `buttonProps["accessibility-label"]`로 설명하세요.
 
-<LynxComponentExample name="lynx/input-button/basic-usage">
+<LynxComponentExample name="lynx/field-button/basic-usage">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/basic-usage.tsx",
+    "file": "examples/lynx/field-button/basic-usage.tsx",
     "codeblock": true
   }
   ```
@@ -60,14 +60,14 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### Clear Button
 
-`showClearButton`을 `true`로 설정하면 Clear Button이 표시됩니다. `clearButtonProps.bindtap`에서 소비처가 관리하는 선택 값을 지우세요.
+`showClearButton`을 `true`로 설정하면 Clear Button이 표시됩니다. 선택 값은 소비처가 `values`로 소유하고, Clear Button을 누르면 `clearButtonProps.bindtap` 다음에 `onValuesChange([])`가 호출됩니다. `onValuesChange`에서 소비처 state를 비우세요. Field Button은 값을 직접 바꾸지 않습니다.
 
 `FieldButton`이 `disabled` 또는 `readOnly` 상태이면 Clear Button은 표시되지 않습니다.
 
-<LynxComponentExample name="lynx/input-button/clear-button">
+<LynxComponentExample name="lynx/field-button/clear-button">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/clear-button.tsx",
+    "file": "examples/lynx/field-button/clear-button.tsx",
     "codeblock": true
   }
   ```
@@ -79,10 +79,10 @@ npx @seed-design/cli@latest add ui:field-button
 
 현재 값과 버튼 동작은 `buttonProps["accessibility-label"]`로 함께 제공하세요.
 
-<LynxComponentExample name="lynx/input-button/value-placeholder">
+<LynxComponentExample name="lynx/field-button/value-placeholder">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/value-placeholder.tsx",
+    "file": "examples/lynx/field-button/value-placeholder.tsx",
     "codeblock": true
   }
   ```
@@ -113,12 +113,12 @@ npx @seed-design/cli@latest add ui:field-button
 
 #### Controlled State
 
-Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관리하고 `buttonProps.bindtap`에서 피커를 연 뒤 값을 갱신합니다. Clear Button은 `clearButtonProps.bindtap`에서 같은 state를 비웁니다.
+Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관리해 `values`로 전달하고, `buttonProps.bindtap`에서 피커를 연 뒤 값을 갱신합니다. Clear Button이 요청하는 빈 배열은 `onValuesChange`에서 같은 state에 반영합니다.
 
-<LynxComponentExample name="lynx/input-button/basic-usage">
+<LynxComponentExample name="lynx/field-button/basic-usage">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/basic-usage.tsx",
+    "file": "examples/lynx/field-button/basic-usage.tsx",
     "codeblock": true
   }
   ```
@@ -128,10 +128,10 @@ Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관
 
 `buttonProps.bindtap`에서 Bottom Sheet나 피커를 열고, 선택 결과를 `FieldButtonValue`로 렌더링하세요. Field Button은 어떤 선택 UI를 열지 정하지 않습니다.
 
-<LynxComponentExample name="lynx/input-button/bottom-sheet" height={520}>
+<LynxComponentExample name="lynx/field-button/bottom-sheet" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/bottom-sheet.tsx",
+    "file": "examples/lynx/field-button/bottom-sheet.tsx",
     "codeblock": true
   }
   ```
@@ -141,10 +141,10 @@ Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관
 
 #### Enabled
 
-<LynxComponentExample name="lynx/input-button/enabled">
+<LynxComponentExample name="lynx/field-button/enabled">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/enabled.tsx",
+    "file": "examples/lynx/field-button/enabled.tsx",
     "codeblock": true
   }
   ```
@@ -154,10 +154,10 @@ Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관
 
 `disabled` 상태에서는 버튼 tap handler가 실행되지 않고 Clear Button도 렌더링되지 않습니다.
 
-<LynxComponentExample name="lynx/input-button/disabled">
+<LynxComponentExample name="lynx/field-button/disabled">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/disabled.tsx",
+    "file": "examples/lynx/field-button/disabled.tsx",
     "codeblock": true
   }
   ```
@@ -167,10 +167,10 @@ Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관
 
 `readOnly` 상태에서는 현재 값을 표시하지만 버튼 tap handler가 실행되지 않고 Clear Button도 렌더링되지 않습니다.
 
-<LynxComponentExample name="lynx/input-button/read-only">
+<LynxComponentExample name="lynx/field-button/read-only">
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/read-only.tsx",
+    "file": "examples/lynx/field-button/read-only.tsx",
     "codeblock": true
   }
   ```
@@ -182,10 +182,10 @@ Lynx는 HTML Form을 지원하지 않습니다. 선택 값은 React state로 관
 
 Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가 없어 `responsive`는 지원하지 않습니다.
 
-<LynxComponentExample name="lynx/input-button/size" height={520}>
+<LynxComponentExample name="lynx/field-button/size" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/size.tsx",
+    "file": "examples/lynx/field-button/size.tsx",
     "codeblock": true
   }
   ```
@@ -197,10 +197,10 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Prefix
 
-<LynxComponentExample name="lynx/input-button/prefix" height={520}>
+<LynxComponentExample name="lynx/field-button/prefix" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/prefix.tsx",
+    "file": "examples/lynx/field-button/prefix.tsx",
     "codeblock": true
   }
   ```
@@ -208,10 +208,10 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Suffix
 
-<LynxComponentExample name="lynx/input-button/suffix" height={520}>
+<LynxComponentExample name="lynx/field-button/suffix" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/suffix.tsx",
+    "file": "examples/lynx/field-button/suffix.tsx",
     "codeblock": true
   }
   ```
@@ -219,10 +219,10 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Both Affixes
 
-<LynxComponentExample name="lynx/input-button/both-affixes" height={520}>
+<LynxComponentExample name="lynx/field-button/both-affixes" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/both-affixes.tsx",
+    "file": "examples/lynx/field-button/both-affixes.tsx",
     "codeblock": true
   }
   ```
@@ -232,10 +232,10 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 `indicator` 또는 `showRequiredIndicator`를 사용할 수 있습니다. 필수 항목에는 `required`도 함께 지정합니다.
 
-<LynxComponentExample name="lynx/input-button/indicator" height={520}>
+<LynxComponentExample name="lynx/field-button/indicator" height={520}>
   ```json doc-gen:file
   {
-    "file": "examples/lynx/input-button/indicator.tsx",
+    "file": "examples/lynx/field-button/indicator.tsx",
     "codeblock": true
   }
   ```
@@ -248,10 +248,10 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 - HTML `<button>` 대신 Lynx `<view>`에 tap handler와 `accessibility-*` 속성을 적용합니다.
 - `onClick` 대신 `buttonProps.bindtap`을 사용합니다. main thread handler가 필요하면 `buttonProps["main-thread:bindtap"]`을 사용할 수 있습니다.
 - `aria-label` 대신 `buttonProps["accessibility-label"]`을 사용합니다.
-- 선택 값은 `values`와 `onValuesChange` 대신 소비처의 React state로 관리합니다.
+- 선택 값은 React와 같이 `values`와 `onValuesChange`로 전달합니다. Root는 값을 소유하지 않습니다.
 - `size="responsive"`는 지원하지 않습니다. `large` 또는 `medium`을 지정합니다.
 
 ## Unsupported Lynx Features
 
-- HTML form submit과 hidden input, browser validation, React Hook Form 연동은 지원하지 않습니다.
+- HTML form submit과 hidden input(`HiddenInput`·`name`), browser validation, React Hook Form 연동은 지원하지 않습니다. Lynx에는 native form 제출 모델이 없습니다.
 - DOM id 기반 `aria-describedby` 연결과 `aria-haspopup`은 지원하지 않습니다.
