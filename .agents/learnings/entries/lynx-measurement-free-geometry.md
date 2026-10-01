@@ -3,7 +3,7 @@ id: lynx-measurement-free-geometry
 description: Lynx Headless·styled 컴포넌트가 thumb·indicator처럼 비동기로 측정한 크기(px)를 inline CSS 변수로 넘겨 위치를 보정하고, 첫 렌더 뒤 측정이 끝나며 요소가 몇 px 움직이거나 미끄러질 때 읽는다. transition을 늦게 켜는 gate로는 점프가 남는 이유, 크기 token과 비율 변수를 CSS에서 곱해 첫 프레임부터 위치를 확정하는 방법, Lynx의 CSS 변수·calc 지원 범위, PlayLynx 창 녹화로 판정하는 절차를 다룬다. 측정값 자체가 사용자 입력이나 내용 크기에 따라 달라 token으로 대체할 수 없는 경우에는 적용하지 않는다.
 scope: ["packages/lynx-qvism-preset/**", "packages/lynx-css/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
-related: ["lynx-initial-transition-gate", "lynx-device-cdp-geometry"]
+related: ["lynx-initial-transition-gate", "lynx-device-cdp-geometry", "lynx-mask-layer-calc-vars"]
 verified_at: "2026-10-01"
 ---
 
@@ -16,6 +16,7 @@ verified_at: "2026-10-01"
 - Lynx CSS 변수 지원 범위(iOS PlayLynx SDK 1.4.0에서 확인):
   - 사용처의 `calc()` 안에서 `var() * var()`, `var() * 숫자`, `%`와 `px` 혼합은 동작한다. inline style로 넘긴 변수와 조상 class의 변수를 함께 써도 된다.
   - 사용자 정의 속성 값 안의 `var()`(예: `--y: calc(var(--sz) * 0.2)`)는 inline·class 모두 해석되지 않아 그 속성을 쓰는 선언 전체가 무효가 된다. 중첩 변수 대신 사용처에서 곱한다.
+  - 이 범위는 `left`에서 확인했다. `mask-size`에서는 `calc()` 안 변수 두 개가 층을 지웠다(`lynx-mask-layer-calc-vars`) → 다른 속성에 쓰기 전에 기기에서 다시 확인한다.
   - `var(--a, var(--b))`처럼 fallback 안에 다시 `var()`를 둔 선언도 무효였다(`color`가 `rgba(0,0,11,0)`로 계산됨). token을 직접 쓰거나 변수를 항상 정의한다.
 - 첫 프레임 판정은 단위 테스트나 agent-lynx 폴링으로는 할 수 없다. macOS에서 PlayLynx 창이 보이면 창 ID를 찾아 `screencapture -x -V <초> -l<windowID> out.mov`로 녹화하는 동안 소유 session에 `Page.reload`를 보낸다. 프레임별 대상 픽셀 열 범위를 비교해 첫 표시 프레임과 마지막 프레임의 위치가 같은지 본다. `-R` 좌표 녹화는 다중 모니터에서 다른 화면을 찍을 수 있다.
 
@@ -30,3 +31,4 @@ verified_at: "2026-10-01"
 
 - 2026-10-01: DES-2629 Slider 첫 렌더 thumb 이동 수정에서 기록했다.
 - 2026-10-01: 같은 작업의 marker 색상 조사에서 중첩 fallback `var()`가 무효인 근거를 추가했다.
+- 2026-10-01: dev의 `lynx-mask-layer-calc-vars`와 적용 속성 차이를 연결했다.
