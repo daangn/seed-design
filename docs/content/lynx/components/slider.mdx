@@ -87,13 +87,13 @@ export function PriceSlider() {
             <SliderTick value={50} />
             <SliderTick value={100} />
           </SliderTrack>
-          <SliderValueIndicatorRoot index={0}>
+          <SliderValueIndicatorRoot thumbIndex={0}>
             <SliderValueIndicatorArrow>
               <SliderValueIndicatorArrowTip />
             </SliderValueIndicatorArrow>
-            <SliderValueIndicatorLabel index={0} />
+            <SliderValueIndicatorLabel thumbIndex={0} />
           </SliderValueIndicatorRoot>
-          <SliderThumb index={0} />
+          <SliderThumb thumbIndex={0} />
         </SliderControl>
         <SliderMarkers>
           <SliderMarker value={0}>0원</SliderMarker>
@@ -106,7 +106,7 @@ export function PriceSlider() {
 }
 ```
 
-`SliderThumb`의 `index`는 `values` 배열에서 thumb의 위치를 가리킵니다. package primitive를 직접 조합할 때도 값 변경과 제출·검증은 앱 상태와 요청 흐름에서 처리합니다.
+`SliderThumb`, `SliderValueIndicatorRoot`, `SliderValueIndicatorLabel`의 `thumbIndex`는 `values` 배열에서 thumb의 위치를 가리킵니다. touch 좌표는 `SliderRoot`의 가로 범위를 기준으로 값으로 바꾸므로, Root에 좌우 padding을 주거나 track 폭을 Root와 다르게 조합하지 마세요. package primitive를 직접 조합할 때도 값 변경과 제출·검증은 앱 상태와 요청 흐름에서 처리합니다.
 
 ## Examples
 

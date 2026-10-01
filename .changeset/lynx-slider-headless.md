@@ -1,0 +1,7 @@
+---
+"@seed-design/lynx-react-slider": minor
+"@seed-design/lynx-react": minor
+"@seed-design/lynx-css": patch
+---
+
+(BREAKING CHANGE: Lynx `Slider.Thumb`·`Slider.ValueIndicatorRoot`·`Slider.ValueIndicatorLabel`의 thumb 지정 prop을 React와 같은 필수 `thumbIndex`로 바꿉니다. `index={n}`은 `thumbIndex={n}`으로 옮기고, 생략해 첫 thumb을 쓰던 곳에는 `thumbIndex={0}`을 지정하세요. Registry `slider` snippet도 `thumbIndex`를 사용하도록 바뀌었으므로 snippet을 다시 설치하세요.) Lynx Slider를 SEED 스타일 없이 조합할 수 있는 `@seed-design/lynx-react-slider`를 추가합니다. React `@seed-design/react-slider`와 같은 `Root`·`Thumb`·`Range`·`Tick`·`Marker`·`ValueIndicatorRoot`·`ValueIndicatorLabel` 파트와 `useSlider`, `SliderProvider`·`useSliderContext({ strict })`를 제공하며, 값 정규화(`step`·`allowedValues`·`minStepsBetweenThumbs`), controlled/uncontrolled `values`, frame 단위로 병합한 drag와 release 시 한 번의 `onValuesCommit`, touch cancel, disabled/readOnly 차단, thumb 접근성 값과 `--slider-*` 위치 변수를 담당합니다. touch 좌표는 React처럼 Root의 가로 범위를 기준으로 값으로 바꾸고, Root 크기가 바뀌면 Root와 첫 thumb을 다시 측정합니다. `@seed-design/lynx-react` Slider는 이 패키지 위에 Recipe와 `Control`·`Track`·`Markers`·`ValueIndicatorArrow`·`ValueIndicatorArrowTip`을 조립합니다. thumb·tick·marker의 가장자리 보정은 측정한 thumb 폭 대신 `--slider-*-offset-ratio`(thumb 크기에 곱할 비율)로 제공하고 Recipe가 thumb 크기 token과 곱해, 첫 렌더 뒤 thumb 측정이 끝나며 thumb이 움직이던 문제를 없앱니다. Value Indicator label은 `white-space: nowrap`을 제거하고 표시 영역 높이를 내용에 맞춰 `\n`으로 나눈 여러 줄 label을 잘리지 않게 표시합니다. 문자열·숫자 `Slider.Marker` label이 화면에 표시되지 않던 문제를 고쳐, Recipe 위치·타이포그래피를 가진 `<text>`로 렌더링하고 marker 색상을 token으로 직접 지정합니다.
