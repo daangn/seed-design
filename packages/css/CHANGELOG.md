@@ -1,5 +1,16 @@
 # @seed-design/css
 
+## 2.9.0
+
+### Minor Changes
+
+- f43cedd: `Box`의 `pl`, `pr`과 `bleed` 계열 속성(`bleed`, `bleedX`, `bleedY`, `bleedTop`, `bleedRight`, `bleedBottom`, `bleedLeft`)에 `"safeArea"` 값을 지정할 수 있습니다.
+- ba7cfa8: `AppScreen`이 좌우 safe area inset을 반영합니다.
+  
+  - `AppBar`와 `AppScreenContent`의 내용이 좌우 inset만큼 안쪽으로 들어가서, 가로 모드처럼 좌우 inset이 있는 화면에서도 디스플레이 컷아웃에 가려지지 않습니다.
+  - 화면 끝까지 채워야 하는 이미지나 가로 스크롤 영역은 `Box`의 `bleedX`에 `"safeArea"`를 지정합니다.
+- cb4c4a1: Top Navigation 높이를 iOS·Android 모두 56px로 통일합니다. `theme=cupertino` App Bar와 App Screen의 높이가 44px에서 56px로 바뀝니다.
+
 ## 2.8.3
 
 ### Patch Changes
