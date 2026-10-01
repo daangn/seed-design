@@ -111,7 +111,7 @@ npx @seed-design/cli@latest add ui:switch
 
 #### Using `Switchmark`
 
-`Switchmark`는 레이블을 제외한 스위치 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+`Switchmark`는 레이블을 제외한 스위치 모양으로, 커스텀 레이아웃을 위해 사용할 수 있습니다. React와 같이 `Switch.Control`과 `Switch.Thumb`만 렌더링하므로 `Switch.Root` 안에 넣고, Root에 선택 상태와 `accessibility-label`을 전달합니다.
 
 <LynxComponentExample name="lynx/switch/switchmark">
   ```json doc-gen:file
@@ -122,15 +122,33 @@ npx @seed-design/cli@latest add ui:switch
   ```
 </LynxComponentExample>
 
+## Headless
+
+`@seed-design/lynx-react-switch`는 Recipe 없이 `checked`·`defaultChecked`·`onCheckedChange`, `disabled`, 눌림 상태, 접근성 기본값과 `Root`·`Control`·`Thumb` ref를 제공합니다. press와 `disabled`는 `Switch.Root`만 소유하며, `disabled`이면 `onCheckedChange`와 Root의 `bindtap`·`main-thread:bindtap`이 실행되지 않습니다. `Switch.Control`과 `Switch.Thumb`는 상태를 표시하는 무스타일 view이고 Root 안이면 어디서든 렌더링할 수 있습니다. 하위 요소는 `useSwitchContext()`로 `checked`·`disabled`·`pressed`를 읽습니다.
+`@seed-design/lynx-react`의 Switch는 여기에 SEED Recipe, Scale Feedback과 Label을 더합니다.
+
+```package-install
+@seed-design/lynx-react-switch
+```
+
+<LynxComponentExample name="lynx/switch/headless">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/headless.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
-- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
+- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap과 `disabled`는 `Switch.Root`가 소유하며, Control·Thumb·Label은 별도의 press나 `disabled`를 받지 않습니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
 - **Compound 구조**: `Switch.Root` → `Switch.Control` → `Switch.Thumb` / `Switch.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
-- **접근성**: `Switch.Root`는 기본적으로 접근성 요소로 노출합니다. 역할 설명은 `switch`, 값은 선택 상태에 따라 `checked` 또는 `not checked`입니다. 비활성 상태에는 `disabled` trait을 전달합니다. Registry `Switch`는 문자열 `label`을 접근성 이름으로 사용합니다. `Switchmark`나 복합 레이블에는 `accessibility-label`을 직접 지정하세요.
+- **접근성**: `Switch.Root`는 기본적으로 접근성 요소로 노출합니다. 역할 설명은 `switch`, 값은 선택 상태에 따라 `checked` 또는 `not checked`입니다. 비활성 상태에는 `disabled` trait을 전달합니다. Registry `Switch`는 문자열 `label`을 접근성 이름으로 사용합니다. `Switchmark`를 감싼 `Switch.Root`나 복합 레이블에는 `accessibility-label`을 직접 지정하세요.
 - **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
 </Callout>
 

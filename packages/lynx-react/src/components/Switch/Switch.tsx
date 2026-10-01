@@ -5,10 +5,17 @@ import { switchStyle } from "@seed-design/lynx-css/recipes/switch";
 import type { SwitchVariantProps } from "@seed-design/lynx-css/recipes/switch";
 import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
 import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switchmark";
+import {
+  SwitchControl as HeadlessSwitchControl,
+  SwitchProvider,
+  SwitchThumb as HeadlessSwitchThumb,
+  useSwitch,
+  useSwitchContext,
+  type UseSwitchContext,
+  type UseSwitchProps,
+} from "@seed-design/lynx-react-switch";
 
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import type {
   LynxAccessibilityProps,
   LynxStyledElementProps,
@@ -22,6 +29,9 @@ import { ScaleFeedbackContentContext } from "../../contexts";
 /**
  * @platform Lynx
  *
+ * `@seed-design/lynx-react-switch`의 상태·press·접근성 위에 SEED recipe, Scale Feedback과
+ * Label 표현을 조립한다.
+ *
  * 웹 대비 미지원 기능:
  * - HiddenInput / name / value / required / invalid: Lynx에 native form 제출 모델이 없음
  * - focus / focusVisible: Lynx에 키보드 포커스 개념이 없음
@@ -32,24 +42,22 @@ import { ScaleFeedbackContentContext } from "../../contexts";
  *   switchmark recipe 와 Switch 컴포넌트에 boolean variant 로 노출.
  */
 
-interface SwitchContextValue {
-  checked: boolean;
-  disabled: boolean;
-  pressed: boolean;
+interface StyledSwitchContextValue extends UseSwitchContext {
   switchVariantProps: SwitchVariantProps;
   switchmarkVariantProps: SwitchmarkVariantProps;
-  toggle: () => void;
   scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
-const SwitchContext = React.createContext<SwitchContextValue | null>(null);
+function isStyledSwitchContext(context: UseSwitchContext): context is StyledSwitchContextValue {
+  return "switchmarkVariantProps" in context;
+}
 
-export function useSwitchContext(consumer: string): SwitchContextValue {
-  const ctx = React.useContext(SwitchContext);
-  if (!ctx) {
-    throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
+export function useStyledSwitchContext(consumer: string): StyledSwitchContextValue {
+  const context = useSwitchContext();
+  if (!isStyledSwitchContext(context)) {
+    throw new Error(`<${consumer}/> must be rendered inside a styled <SwitchRoot/>.`);
   }
-  return ctx;
+  return context;
 }
 
 interface SwitchmarkControlContextValue {
@@ -70,48 +78,28 @@ function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContext
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchRootProps
-  extends SwitchVariantProps,
-    Omit<SwitchmarkVariantProps, "size">,
+  extends Omit<SwitchVariantProps, "disabled">,
+    Omit<SwitchmarkVariantProps, "size" | "checked" | "disabled">,
+    Pick<UseSwitchProps, "checked" | "defaultChecked" | "disabled" | "onCheckedChange">,
     LynxStyledElementProps,
-    LynxAccessibilityProps {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  disabled?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
-}
+    LynxAccessibilityProps {}
 
 export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref) => {
   const {
     children,
     className,
-    checked: checkedProp,
-    defaultChecked = false,
+    checked,
+    defaultChecked,
     disabled = false,
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restNativeProps] =
+  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
-  const {
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "switch",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = restNativeProps;
 
-  const [checked, setChecked] = useControllableState({
-    value: checkedProp,
-    defaultValue: defaultChecked,
-    onChange: onCheckedChange,
-  });
-
-  const toggle = React.useCallback(() => setChecked(!checked), [checked, setChecked]);
-
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
-    disabled,
-    onTap: toggle,
-  });
+  const api = useSwitch({ checked, defaultChecked, onCheckedChange, disabled });
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: bindtouchstart,
@@ -121,45 +109,25 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
 
-  const contextValue = React.useMemo<SwitchContextValue>(
-    () => ({
-      checked,
-      disabled,
-      pressed,
-      switchVariantProps,
-      switchmarkVariantProps,
-      toggle,
-      scaleFeedbackTargetProps,
-    }),
-    [
-      checked,
-      disabled,
-      pressed,
-      switchVariantProps,
-      switchmarkVariantProps,
-      toggle,
-      scaleFeedbackTargetProps,
-    ],
+  const contextValue = React.useMemo<StyledSwitchContextValue>(
+    () => ({ ...api, switchVariantProps, switchmarkVariantProps, scaleFeedbackTargetProps }),
+    [api, switchVariantProps, switchmarkVariantProps, scaleFeedbackTargetProps],
   );
 
   return (
-    <SwitchContext.Provider value={contextValue}>
+    <SwitchProvider value={contextValue}>
       <view
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
-          pressHandlers,
+          rootProps,
           nativeProps,
         )}
         className={clsx(rootClassName, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-        accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
       >
         {children}
       </view>
-    </SwitchContext.Provider>
+    </SwitchProvider>
   );
 });
 SwitchRoot.displayName = "SwitchRoot";
@@ -174,7 +142,7 @@ export interface SwitchControlProps
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const context = useSwitchContext("SwitchControl");
+  const context = useStyledSwitchContext("SwitchControl");
   const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const switchmarkVariantProps: SwitchmarkVariantProps = {
     ...context.switchmarkVariantProps,
@@ -188,7 +156,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
     <SwitchmarkControlContext.Provider
       value={{ thumbClassName: classes.thumb, switchmarkVariantProps }}
     >
-      <view
+      <HeadlessSwitchControl
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
           !hasScaledContent ? context.scaleFeedbackTargetProps : {},
@@ -198,7 +166,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
         flatten={false}
       >
         {children}
-      </view>
+      </HeadlessSwitchControl>
     </SwitchmarkControlContext.Provider>
   );
 });
@@ -213,7 +181,7 @@ export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, r
   const { thumbClassName } = useSwitchmarkControlContext("SwitchThumb");
 
   return (
-    <view
+    <HeadlessSwitchThumb
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(thumbClassName, className)}
     />
@@ -227,7 +195,7 @@ export interface SwitchLabelProps extends LynxStyledElementProps {}
 
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSwitchContext("SwitchLabel");
+  const context = useStyledSwitchContext("SwitchLabel");
   const labelClassName = switchStyle({
     ...context.switchVariantProps,
     disabled: context.disabled,
