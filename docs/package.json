@@ -63,6 +63,7 @@
     "@seed-design/css": "workspace:*",
     "@seed-design/dom-utils": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
+    "@seed-design/lynx-react-loop-scroll": "workspace:*",
     "@seed-design/lynx-react-sortable": "workspace:*",
     "@seed-design/migration-index": "2.0.1",
     "@seed-design/react": "3.0.0",
