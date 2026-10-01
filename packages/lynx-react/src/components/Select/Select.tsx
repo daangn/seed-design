@@ -17,6 +17,7 @@ import {
   type Position as SelectPosition,
   type Rect as SelectRect,
 } from "@seed-design/lynx-react-floating";
+import { useFieldContext } from "@seed-design/lynx-react-field";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
@@ -30,7 +31,6 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { toArray } from "../../utils/children";
-import { useFieldContext } from "../Field/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
 const EMPTY_VALUE: string[] = [];
