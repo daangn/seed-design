@@ -21,24 +21,25 @@ function getRenderedRoot() {
 }
 
 describe("Stack", () => {
-  it("maps a VStack gap token to row-gap", () => {
+  it("applies a VStack gap token to both axes without the gap shorthand", () => {
     render(<VStack gap="x3" />);
 
     expect(getRenderedRoot()).toHaveStyle({
       rowGap: "var(--seed-dimension-x3)",
+      columnGap: "var(--seed-dimension-x3)",
     });
     expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
-    expect(getRenderedRoot().style.getPropertyValue("column-gap")).toBe("");
   });
 
-  it("maps an HStack gap token to column-gap", () => {
-    render(<HStack gap="x4" />);
+  it("applies an HStack gap token to both axes so wrapped lines are spaced", () => {
+    render(<HStack gap="x4" wrap />);
 
     expect(getRenderedRoot()).toHaveStyle({
+      flexWrap: "wrap",
+      rowGap: "var(--seed-dimension-x4)",
       columnGap: "var(--seed-dimension-x4)",
     });
     expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
-    expect(getRenderedRoot().style.getPropertyValue("row-gap")).toBe("");
   });
 
   it("keeps a numeric zero gap value", () => {
@@ -56,13 +57,16 @@ describe("Stack", () => {
   it("keeps style gap precedence over the gap prop", () => {
     render(<VStack gap="x3" style={{ gap: "20px" }} />);
 
-    expect(getRenderedRoot()).toHaveStyle({ rowGap: "20px" });
+    expect(getRenderedRoot()).toHaveStyle({ rowGap: "20px", columnGap: "20px" });
   });
 
-  it("keeps an axis longhand in style above the gap prop", () => {
-    render(<VStack gap="x3" style={{ rowGap: "24px" }} />);
+  it("keeps an axis longhand in style above the gap prop for that axis only", () => {
+    render(<HStack gap="x3" style={{ rowGap: "24px" }} />);
 
-    expect(getRenderedRoot()).toHaveStyle({ rowGap: "24px" });
+    expect(getRenderedRoot()).toHaveStyle({
+      rowGap: "24px",
+      columnGap: "var(--seed-dimension-x3)",
+    });
   });
 
   it("applies bleed as a negative margin", () => {
