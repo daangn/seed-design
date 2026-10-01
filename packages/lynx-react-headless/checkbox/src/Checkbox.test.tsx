@@ -213,7 +213,7 @@ describe("Checkbox.Root", () => {
   it("requires Control to be rendered inside Root", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() => render(<Checkbox.Control />)).toThrow(
-      "CheckboxControl must be rendered inside <CheckboxRoot/>.",
+      "useCheckboxContext must be used within a CheckboxRoot",
     );
   });
 });
