@@ -1,13 +1,10 @@
 ---
-"@seed-design/css": major
+"@seed-design/css": minor
 "@seed-design/lynx-css": minor
-"@seed-design/rootage-artifacts": major
-"@seed-design/tailwind3-plugin": major
-"@seed-design/tailwind4-theme": major
+"@seed-design/rootage-artifacts": minor
 ---
 
-`$color.bg.neutral-inverted` 사용처를 `$color.bg.neutral-solid`로 변경하고, 기존 토큰은 deprecated 상태로 유지합니다.
+SEED 컴포넌트가 `$color.bg.neutral-inverted` 대신 같은 값의 `$color.bg.neutral-solid`를 사용하도록 변경하고, `$color.bg.neutral-inverted`를 deprecated로 표시합니다.
 
-- Date Picker를 포함한 기존 사용처는 동일한 색상 값을 가진 `$color.bg.neutral-solid`을 사용합니다.
-- 서버 토큰 마이그레이션의 하위 호환성을 위해 `$color.bg.neutral-inverted`와 이에 대응하는 CSS 변수 및 Tailwind 토큰을 유지합니다.
-- deprecated 토큰은 `@seed-design/css@4.0.0`에서 제거될 예정입니다.
+- Date Picker를 포함한 기존 사용처는 같은 색상 값을 가진 `$color.bg.neutral-solid`를 사용합니다.
+- 기존 사용처의 하위 호환성을 위해 `$color.bg.neutral-inverted`와 이에 대응하는 CSS 변수를 유지하며, `@seed-design/css` 4.0.0을 포함한 다음 major 버전에서 제거할 예정입니다.

@@ -1,13 +1,12 @@
 ---
 "@seed-design/react": minor
-"@seed-design/css": patch
 ---
 
-`HelpBubble`의 포커스 관리와 닫힘 동작을 개선합니다.
+Help Bubble의 포커스 관리와 닫힘 동작을 개선합니다.
 
-- 열릴 때 포커스를 HelpBubble 안으로 옮기지 않는 기존 동작은 유지되나, `autoFocus`로 해당 동작에 옵트인할 수 있습니다. (role="dialog" 권장사항)
-- 닫힐 때 포커스를 trigger로 되돌립니다.
-- `closeOnInteractOutside={false}`인 경우를 제외하고, HelpBubble 내부 요소에서 HelpBubble 밖 요소로 포커스를 이동하면 HelpBubble이 닫힙니다.
-- DismissibleLayer 스택에 참여하도록 업데이트하여, BottomSheet, Dialog 등 DismissibleLayer 스택에 참여하는 요소 안에서 HelpBubble을 연 경우 Escape 키와 외부 영역 상호작용 시 두 요소가 동시에 닫히는 문제를 수정합니다.
-- `HelpBubble.Title`, `HelpBubble.Description`이 Content의 accessible name과 description이 되도록 수정합니다.
-- `@seed-design/react/primitive`의 `Popover`를 직접 사용하는 경우, `@seed-design/react-popover` 변경사항을 참고하여 `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸도록 변경하세요.
+- 열릴 때 포커스를 Help Bubble 안으로 옮기지 않는 기본 동작은 그대로입니다. `autoFocus`를 지정하면 열릴 때 Help Bubble 안으로 포커스를 옮기며, `role="dialog"` 요소의 접근성 권장 사항에 맞는 방식입니다.
+- Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스를 trigger로 되돌립니다.
+- `closeOnInteractOutside={false}`인 경우를 제외하고, Help Bubble 안의 요소에서 Help Bubble 밖의 요소로 포커스를 옮기면 Help Bubble이 닫힙니다.
+- Bottom Sheet, Dialog 등 다른 레이어 안에서 연 Help Bubble을 Escape 키나 바깥 영역을 눌러 닫을 때, 바깥 레이어까지 함께 닫히던 문제를 수정합니다.
+- `HelpBubble.Title`과 `HelpBubble.Description`을 Help Bubble의 접근성 이름과 설명으로 연결합니다. `role="dialog"`와 접근성 속성은 Positioner가 아닌 Content 요소(`.seed-help-bubble__content`)에 붙습니다.
+- `@seed-design/react/primitive`에서 `Popover`를 가져와 직접 사용했다면, `@seed-design/react-popover`에서 가져오도록 import를 바꾸고 `@seed-design/react-popover` 변경사항에 따라 `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸세요.

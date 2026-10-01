@@ -1,9 +1,8 @@
 ---
 "@seed-design/react": major
-"@seed-design/css": major
 ---
 
-(BREAKING CHANGE: Date Picker와 Time Picker를 CLI 스니펫으로 설치하고 import 경로를 변경하세요.) Date Picker와 Time Picker를 애플리케이션에서 수정할 수 있는 Snippet Registry 형식으로 전환합니다.
+(BREAKING CHANGE: Date Picker와 Time Picker를 snippet으로 설치하고 import 경로를 바꿔야 합니다.) Date Picker와 Time Picker를 애플리케이션에서 수정할 수 있는 snippet으로 전환합니다.
 
 ```sh
 npx @seed-design/cli@latest add ui:date-picker ui:time-picker
@@ -15,8 +14,10 @@ npx @seed-design/cli@latest add ui:date-picker ui:time-picker
 +import { TimePicker } from "seed-design/ui/time-picker";
 ```
 
-Snippet은 `@seed-design/react`의 저수준 Date Picker compound components를 조합해 완성된 UI를 제공하며, 컴포넌트와 컴포넌트 전용 props만 노출합니다. 기존의 닫힌 `DatePicker` component export는 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel` compound namespace로 바뀝니다. 일반적인 사용에서는 이 저수준 API 대신 Registry snippet을 사용하세요.
-
-Time Picker snippet이 사용하는 `useTimePicker`와 관련 타입을 `@seed-design/react`에서 제공합니다. Date Picker와 Time Picker를 설치하면 Registry 의존성인 `ui:wheel-picker`도 함께 설치됩니다.
-
-Wheel Picker의 공개·내부 스타일을 하나로 통합합니다. `@seed-design/css/recipes/wheel-picker-public`을 사용했다면 `@seed-design/css/recipes/wheel-picker`로 바꾸고, `seed-wheel-picker-public` 클래스와 `--seed-wheel-picker-public-*` 사용자 정의 속성에서 `public` 수식어를 제거하세요.
+- snippet은 `@seed-design/react`의 Date Picker 구성 요소를 조합해 완성된 UI를 제공하며, 컴포넌트와 컴포넌트 전용 props만 노출합니다.
+- `@seed-design/react`의 `DatePicker`는 완성된 컴포넌트가 아니라 `DatePicker.Root`, `DatePicker.Header`, `DatePicker.Calendar`, `DatePicker.Wheel`로 구성된 namespace로 바뀝니다. 일반적인 사용에서는 이 구성 요소 대신 snippet을 사용하세요.
+- Time Picker snippet이 사용하는 `useTimePicker`와 관련 타입을 `@seed-design/react`에서 제공합니다.
+- 날짜·시간 값 타입(`DatePickerDate`, `TimePickerValue`, `MinuteStep` 등)과 제약 조건 helper(`dateOnOrAfter` 등)는 계속 `@seed-design/react`에서 가져오세요.
+- Date Picker와 Time Picker snippet을 설치하면 의존 snippet인 `ui:wheel-picker`도 함께 설치됩니다.
+- Week Date Picker에서 제목을 누르면, 달력 자리 대신 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다.
+- `WheelPicker.Root`에 포커스는 유지하면서 값 변경을 막는 `readOnly`와, Scroll Fog 크기를 지정하는 `scrollFogSize`를 추가합니다.
