@@ -8,7 +8,7 @@ import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
 import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkmark";
 import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
 import {
-  CheckboxContext,
+  CheckboxProvider,
   CheckboxControl as HeadlessCheckboxControl,
   useCheckbox,
   useCheckboxContext,
@@ -54,13 +54,13 @@ interface StyledCheckboxContextValue extends UseCheckboxReturn {
 }
 
 function isStyledCheckboxContext(
-  context: UseCheckboxReturn,
+  context: UseCheckboxReturn | null,
 ): context is StyledCheckboxContextValue {
-  return "checkmarkVariantProps" in context;
+  return context !== null && "checkmarkVariantProps" in context;
 }
 
 export function useStyledCheckboxContext(consumer: string): StyledCheckboxContextValue {
-  const context = useCheckboxContext(consumer);
+  const context = useCheckboxContext({ strict: false });
   if (!isStyledCheckboxContext(context)) {
     throw new Error(`<${consumer}/> must be rendered inside a styled <CheckboxRoot/>.`);
   }
@@ -143,7 +143,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   );
 
   return (
-    <CheckboxContext.Provider value={contextValue}>
+    <CheckboxProvider value={contextValue}>
       <view
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
@@ -155,7 +155,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
       >
         {children}
       </view>
-    </CheckboxContext.Provider>
+    </CheckboxProvider>
   );
 });
 CheckboxRoot.displayName = "CheckboxRoot";
