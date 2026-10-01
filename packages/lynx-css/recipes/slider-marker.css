@@ -3,8 +3,8 @@
     top: 0;
     bottom: 0;
     width: max-content;
-    left: calc(var(--slider-marker-left, 0%) + var(--slider-marker-offset, 0px));
-    color: var(--slider-marker-color, var(--seed-color-fg-neutral-muted));
+    left: calc(var(--slider-marker-left, 0%) + var(--seed-dimension-x5) * var(--slider-marker-offset-ratio, 0));
+    color: var(--seed-color-fg-neutral-muted);
     font-weight: var(--seed-font-weight-regular);
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3)

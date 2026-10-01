@@ -6069,7 +6069,7 @@ text {
 
 .seed-slider__thumb {
   top: 50%;
-  left: calc(var(--slider-thumb-left, 0%) + var(--slider-thumb-offset, 0px));
+  left: calc(var(--slider-thumb-left, 0%) + var(--seed-dimension-x5) * var(--slider-thumb-offset-ratio, 0));
   width: var(--seed-dimension-x5);
   height: var(--seed-dimension-x5);
   background-color: var(--seed-color-bg-neutral-solid);
@@ -6089,6 +6089,7 @@ text {
   left: calc(var(--slider-value-indicator-left, 0%) + var(--slider-value-indicator-offset, 0px));
   opacity: 0;
   width: max-content;
+  height: max-content;
   transform: translate(-50%, calc(-100% - var(--seed-dimension-x5) / 2 - var(--seed-dimension-x3) + 8px)) scale(1);
   transition: opacity var(--seed-duration-d4) var(--seed-timing-function-easing), transform var(--seed-duration-d4) var(--seed-timing-function-easing);
   align-items: flex-start;
@@ -6139,7 +6140,6 @@ text {
   font-size: var(--seed-font-size-t3);
   line-height: var(--seed-line-height-t3);
   font-weight: var(--seed-font-weight-medium);
-  white-space: nowrap;
   text-align: center;
   flex-shrink: 0;
 }
@@ -6150,10 +6150,6 @@ text {
 
 .seed-slider__range--disabled_true, .seed-slider__thumb--disabled_true {
   background-color: var(--seed-color-fg-disabled);
-}
-
-.seed-slider__markers--disabled_true {
-  --slider-marker-color: var(--seed-color-fg-disabled);
 }
 
 .seed-slider__range--dragging_true, .seed-slider__thumb--dragging_true, .seed-slider__valueIndicatorArrow--dragging_true {
@@ -6183,8 +6179,8 @@ text {
   width: max-content;
   top: 0;
   bottom: 0;
-  left: calc(var(--slider-marker-left, 0%) + var(--slider-marker-offset, 0px));
-  color: var(--slider-marker-color, var(--seed-color-fg-neutral-muted));
+  left: calc(var(--slider-marker-left, 0%) + var(--seed-dimension-x5) * var(--slider-marker-offset-ratio, 0));
+  color: var(--seed-color-fg-neutral-muted);
   font-weight: var(--seed-font-weight-regular);
   font-size: var(--seed-font-size-t3);
   line-height: var(--seed-line-height-t3);
@@ -6223,7 +6219,7 @@ text {
 .seed-slider-tick {
   height: 100%;
   top: 50%;
-  left: calc(var(--slider-tick-left, 0%) + var(--slider-tick-offset, 0px));
+  left: calc(var(--slider-tick-left, 0%) + var(--seed-dimension-x5) * var(--slider-tick-offset-ratio, 0));
   background-color: var(--seed-color-fg-on-neutral-solid);
   position: absolute;
   transform: translate(-50%, -50%);
