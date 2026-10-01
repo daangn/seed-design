@@ -74,7 +74,7 @@ const MyButton = React.forwardRef((props, forwardedRef) => (
 
 #### 3. 컴포넌트는 받은 children을 렌더해야 합니다
 
-`asChild`는 바깥 요소를 교체하고, 그 안에 쓴 children은 SEED가 주입하는 내부 구조로 감쌉니다. 예를 들어 [Content Scale](/react/components/concepts/scale-feedback#content-scale-적용하기)을 사용하는 컴포넌트는 children을 `ContentScale` 박스로 감싸서 자식 컴포넌트에 전달합니다.
+`asChild`는 컴포넌트의 바깥 요소만 교체합니다. 일부 컴포넌트는 그 안에 쓴 children을 SEED가 주입하는 내부 구조로 감싸서 자식 컴포넌트에 전달합니다. 예를 들어 [Content Scale](/react/components/concepts/scale-feedback#content-scale-적용하기)을 사용하는 컴포넌트는 children을 `ContentScale` 박스로 감싸서 자식 컴포넌트에 전달합니다.
 
 ```jsx
 <Menu.Item asChild>
