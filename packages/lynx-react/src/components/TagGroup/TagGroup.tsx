@@ -25,7 +25,6 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
  * - `truncate` prop: Lynx flex 모델에서는 item 단위 wrap만 가능해 웹 수준의
  *   "한 줄 유지 + label ellipsis" 조합을 재현할 수 없음
  * - `asChild` prop: Lynx Slot 미지원
- * - 아이콘 slot: Lynx 3.7 SVG 지원 후 검토 (Tier B)
  */
 export interface TagGroupRootProps
   extends TagGroupVariantProps,
@@ -45,7 +44,8 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
   const classes = tagGroup(tagGroupVariantProps);
   const normalizedSeparator = typeof separator === "string" ? separator.trim() : separator;
 
-  const visibleChildren = toArray(children);
+  // React TagGroup과 같이 조건부 렌더링의 `""`·`0` 같은 falsy child는 항목으로 보지 않는다.
+  const visibleChildren = toArray(children).filter(Boolean);
 
   return (
     <PropsProvider value={tagGroupItemVariantProps}>
@@ -63,7 +63,9 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
               key={(child as React.ReactElement).key ?? index}
               className={classes.separatorWrapper}
             >
-              <text className={classes.separator}>{normalizedSeparator}</text>
+              <text accessibility-elements-hidden={true} className={classes.separator}>
+                {normalizedSeparator}
+              </text>
               {child}
             </view>
           );
