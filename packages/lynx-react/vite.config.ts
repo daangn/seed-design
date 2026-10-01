@@ -38,6 +38,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-field$/,
         /^@seed-design\/lynx-react-field-button$/,
         /^@seed-design\/lynx-react-floating$/,
+        /^@seed-design\/lynx-react-menu$/,
         /^@seed-design\/lynx-react-popover$/,
         /^@seed-design\/lynx-react-quantity-picker$/,
         /^@seed-design\/lynx-react-scale-feedback$/,
