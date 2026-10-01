@@ -1,4 +1,5 @@
 import { skeleton, type SkeletonVariantProps } from "@seed-design/lynx-css/recipes/skeleton";
+import { vars, type LineHeight } from "@seed-design/lynx-css/vars";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
@@ -16,11 +17,24 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
 export interface SkeletonProps
   extends SkeletonVariantProps,
     Omit<LynxStyledElementProps, "children">,
-    Pick<StyleProps, "width" | "height"> {}
+    Pick<StyleProps, "width"> {
+  /**
+   * `lineHeight.t4`처럼 line-height 토큰을 지정하면 같은 텍스트 줄 높이로 렌더링합니다.
+   */
+  height?: StyleProps["height"] | `lineHeight.${LineHeight}`;
+}
+
+function handleHeight(height: string | undefined) {
+  if (!height?.startsWith("lineHeight.")) return height;
+
+  const value = vars.$lineHeight[height.slice("lineHeight.".length) as LineHeight];
+
+  return typeof value === "string" ? value : height;
+}
 
 export const Skeleton = React.forwardRef<unknown, SkeletonProps>((props, ref) => {
-  const [variantProps, otherProps] = skeleton.splitVariantProps(props);
-  const { style, restProps } = useStyleProps(otherProps);
+  const [variantProps, { height, ...otherProps }] = skeleton.splitVariantProps(props);
+  const { style, restProps } = useStyleProps({ ...otherProps, height: handleHeight(height) });
   const {
     children: _children,
     className,
