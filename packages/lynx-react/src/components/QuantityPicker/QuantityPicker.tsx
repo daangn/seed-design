@@ -3,11 +3,19 @@ import {
   type QuantityPickerSlotName,
   type QuantityPickerVariantProps,
 } from "@seed-design/lynx-css/recipes/quantity-picker";
+import {
+  QuantityPickerProvider,
+  QuantityPickerValueDisplay as HeadlessQuantityPickerValueDisplay,
+  useQuantityPicker,
+  useQuantityPickerContext,
+  useQuantityPickerDecrementButton,
+  useQuantityPickerIncrementButton,
+  type UseQuantityPickerContext,
+  type UseQuantityPickerProps,
+} from "@seed-design/lynx-react-quantity-picker";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
@@ -19,53 +27,17 @@ import type {
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon } from "../Icon/Icon";
 
-export type QuantityPickerLoading =
-  | boolean
-  | {
-      decrement?: boolean;
-      increment?: boolean;
-    };
+export type {
+  QuantityPickerGetValueText,
+  QuantityPickerLoading,
+} from "@seed-design/lynx-react-quantity-picker";
 
-export type QuantityPickerGetValueText = (
-  valueText: string,
-  value: number | string,
-) => React.ReactNode;
-
-const defaultGetValueText: QuantityPickerGetValueText = (valueText) => valueText;
-
-type QuantityPickerRootBaseProps = Omit<LynxStyledElementProps, "children"> &
+export type QuantityPickerRootProps = Omit<LynxStyledElementProps, "children"> &
   LynxAccessibilityProps & {
     children?: React.ReactNode;
-    min: number;
-    max: number;
-    step?: number;
-    value?: number;
-    defaultValue?: number;
-    onValueChange?: (value: number) => void;
-    disabled?: boolean;
-    invalid?: boolean;
-    readOnly?: boolean;
-    loading?: QuantityPickerLoading;
-    onRemove?: () => void;
-    getValueText?: QuantityPickerGetValueText;
-    dir?: "ltr" | "rtl";
     layout?: QuantityPickerVariantProps["layout"];
     size?: QuantityPickerVariantProps["size"];
-  };
-
-type QuantityPickerRemovableProps = {
-  removable: true;
-  removeAccessibilityLabel: string;
-  onRemove: () => void;
-};
-
-type QuantityPickerNonRemovableProps = {
-  removable?: false;
-  removeAccessibilityLabel?: string;
-};
-
-export type QuantityPickerRootProps = QuantityPickerRootBaseProps &
-  (QuantityPickerRemovableProps | QuantityPickerNonRemovableProps);
+  } & UseQuantityPickerProps;
 
 export interface QuantityPickerDecrementButtonProps
   extends LynxStyledElementProps,
@@ -88,88 +60,24 @@ export interface QuantityPickerIncrementButtonProps
   loadingIndicator?: React.ReactNode;
 }
 
-type QuantityPickerClassNames = Record<QuantityPickerSlotName, string>;
-
-interface QuantityPickerContextValue {
+interface StyledQuantityPickerContextValue extends UseQuantityPickerContext {
   layout: QuantityPickerVariantProps["layout"];
   size: QuantityPickerVariantProps["size"];
-  invalid: boolean;
-  disabled: boolean;
-  readOnly: boolean;
-  loading: boolean;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  dir: "ltr" | "rtl";
-  removable: boolean;
-  isAtMin: boolean;
-  isAtMax: boolean;
-  isRemoveButton: boolean;
-  removeAccessibilityLabel?: string;
-  getValueText: QuantityPickerGetValueText;
-  decrementLoading: boolean;
-  incrementLoading: boolean;
-  decrementBlocked: boolean;
-  incrementBlocked: boolean;
-  decrement: () => void;
-  increment: () => void;
-  onRemove?: () => void;
-  classes: QuantityPickerClassNames;
+  classes: Record<QuantityPickerSlotName, string>;
 }
 
-const QuantityPickerContext = React.createContext<QuantityPickerContextValue | null>(null);
+function isStyledQuantityPickerContext(
+  context: UseQuantityPickerContext,
+): context is StyledQuantityPickerContextValue {
+  return "classes" in context;
+}
 
-function useQuantityPickerContext(consumer: string): QuantityPickerContextValue {
-  const context = React.useContext(QuantityPickerContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <QuantityPickerRoot/>.`);
+function useStyledQuantityPickerContext(consumer: string): StyledQuantityPickerContextValue {
+  const context = useQuantityPickerContext();
+  if (!isStyledQuantityPickerContext(context)) {
+    throw new Error(`<${consumer}/> must be rendered inside a styled <QuantityPickerRoot/>.`);
   }
   return context;
-}
-
-function assertSafeInteger(value: number | undefined, name: string): asserts value is number {
-  if (!Number.isSafeInteger(value)) {
-    throw new Error(`QuantityPicker: ${name} must be a safe integer.`);
-  }
-}
-
-function validateProps({
-  defaultValue,
-  max,
-  min,
-  step,
-  value,
-}: Pick<QuantityPickerRootProps, "defaultValue" | "max" | "min" | "step" | "value">) {
-  assertSafeInteger(min, "min");
-  assertSafeInteger(max, "max");
-  assertSafeInteger(step, "step");
-
-  if (min > max) {
-    throw new Error("QuantityPicker: min must be less than or equal to max.");
-  }
-  if (step <= 0) {
-    throw new Error("QuantityPicker: step must be greater than 0.");
-  }
-
-  for (const [name, candidate] of [
-    ["value", value],
-    ["defaultValue", defaultValue],
-  ] as const) {
-    if (candidate === undefined) continue;
-    assertSafeInteger(candidate, name);
-    if (candidate < min || candidate > max) {
-      throw new Error(`QuantityPicker: ${name} must be between min and max.`);
-    }
-  }
-}
-
-function getLoadingState(loading: QuantityPickerLoading | undefined) {
-  if (loading === true) return { decrement: true, increment: true };
-  return {
-    decrement: typeof loading === "object" ? (loading?.decrement ?? false) : false,
-    increment: typeof loading === "object" ? (loading?.increment ?? false) : false,
-  };
 }
 
 function getValueDisplayPlaceholder(min: number, max: number) {
@@ -177,15 +85,9 @@ function getValueDisplayPlaceholder(min: number, max: number) {
   return String(boundary).replace(/\d/g, "0");
 }
 
-function getAccessibleText(valueText: React.ReactNode, value: number) {
-  return typeof valueText === "string" || typeof valueText === "number"
-    ? String(valueText)
-    : String(value);
-}
-
 function recipeProps(
-  context: Pick<QuantityPickerContextValue, "layout" | "size" | "invalid" | "disabled"> &
-    Partial<Pick<QuantityPickerContextValue, "loading">>,
+  context: Pick<StyledQuantityPickerContextValue, "layout" | "size" | "invalid" | "disabled">,
+  loading: boolean,
   pressed = false,
 ) {
   return {
@@ -194,7 +96,7 @@ function recipeProps(
     invalid: context.invalid,
     disabled: context.disabled,
     pressed,
-    loading: context.loading ?? false,
+    loading,
   } as QuantityPickerVariantProps;
 }
 
@@ -279,152 +181,58 @@ function renderActionContent(
   return <InternalIcon icon={icon} className={className} accessibility-elements-hidden={true} />;
 }
 
+/**
+ * @platform Lynx
+ *
+ * `@seed-design/lynx-react-quantity-picker`의 수량 상태·Remove·loading 차단·접근성 위에
+ * SEED recipe, divider, 아이콘·loading 표시와 Scale Feedback을 조립한다.
+ */
 export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootProps>(
   (props, ref) => {
-    const { loading, ...propsWithoutLoading } = props;
+    const api = useQuantityPicker(props);
+    const { loading: _loading, ...propsWithoutLoading } = props;
     const [variantProps, otherProps] = quantityPicker.splitVariantProps(propsWithoutLoading);
-    const {
-      disabled = false,
-      invalid = false,
-      layout: layoutProp = "hug",
-      size: sizeProp = "medium",
-    } = variantProps;
+    const { layout = "hug", size = "medium" } = variantProps;
     const {
       children,
       className,
-      min,
-      max,
-      step: stepProp = 1,
-      value: valueProp,
-      defaultValue,
-      onValueChange,
-      readOnly = false,
-      onRemove,
-      getValueText = defaultGetValueText,
-      dir = "ltr",
-      removable = false,
-      removeAccessibilityLabel,
-      "accessibility-element": accessibilityElement = true,
-      "accessibility-role-description": accessibilityRoleDescription = "quantity picker",
-      "accessibility-traits": accessibilityTraits,
-      "accessibility-value": accessibilityValue,
+      min: _min,
+      max: _max,
+      step: _step,
+      value: _value,
+      defaultValue: _defaultValue,
+      onValueChange: _onValueChange,
+      readOnly: _readOnly,
+      onRemove: _onRemove,
+      getValueText: _getValueText,
+      dir: _dir,
+      removable: _removable,
+      removeAccessibilityLabel: _removeAccessibilityLabel,
       ...nativeProps
     } = otherProps;
 
-    validateProps({ min, max, step: stepProp, value: valueProp, defaultValue });
-    const initialValue = defaultValue ?? min;
-    assertSafeInteger(initialValue, "defaultValue");
-    if (initialValue < min || initialValue > max) {
-      throw new Error("QuantityPicker: defaultValue must be between min and max.");
-    }
-
-    const [value, setValue] = useControllableState({
-      value: valueProp,
-      defaultValue: initialValue,
-      onChange: onValueChange,
-    });
-    const loadingState = getLoadingState(loading);
-    const isAtMin = value === min;
-    const isAtMax = value === max;
-    const isRemoveButton = removable && isAtMin;
-    const decrementDisabled = disabled || (!isRemoveButton && isAtMin);
-    const incrementDisabled = disabled || isAtMax;
-    const decrementBlocked = decrementDisabled || readOnly || loadingState.decrement;
-    const incrementBlocked = incrementDisabled || readOnly || loadingState.increment;
-
-    const decrement = React.useCallback(() => {
-      "background only";
-      if (isRemoveButton) {
-        if (!decrementBlocked) onRemove?.();
-        return;
-      }
-      if (!decrementBlocked) setValue(Math.max(value - stepProp, min));
-    }, [decrementBlocked, isRemoveButton, min, onRemove, setValue, stepProp, value]);
-    const increment = React.useCallback(() => {
-      "background only";
-      if (!incrementBlocked) setValue(Math.min(value + stepProp, max));
-    }, [incrementBlocked, max, setValue, stepProp, value]);
-
     const classes = quantityPicker(
-      recipeProps({
-        layout: layoutProp,
-        size: sizeProp,
-        invalid,
-        disabled,
-        loading: loadingState.decrement || loadingState.increment,
-      }),
+      recipeProps(
+        { layout, size, invalid: api.invalid, disabled: api.disabled },
+        api.decrementLoading || api.incrementLoading,
+      ),
     );
-    const displayValue = getValueText(String(value), value);
-    const contextValue = React.useMemo<QuantityPickerContextValue>(
-      () => ({
-        layout: layoutProp,
-        size: sizeProp,
-        invalid,
-        disabled,
-        readOnly,
-        loading: loadingState.decrement || loadingState.increment,
-        value,
-        min,
-        max,
-        step: stepProp,
-        dir,
-        removable,
-        isAtMin,
-        isAtMax,
-        isRemoveButton,
-        removeAccessibilityLabel,
-        getValueText,
-        decrementLoading: loadingState.decrement,
-        incrementLoading: loadingState.increment,
-        decrementBlocked,
-        incrementBlocked,
-        decrement,
-        increment,
-        onRemove,
-        classes,
-      }),
-      [
-        classes,
-        decrement,
-        decrementBlocked,
-        disabled,
-        dir,
-        getValueText,
-        increment,
-        incrementBlocked,
-        invalid,
-        isAtMax,
-        isAtMin,
-        isRemoveButton,
-        loadingState.decrement,
-        loadingState.increment,
-        max,
-        min,
-        onRemove,
-        readOnly,
-        removeAccessibilityLabel,
-        removable,
-        layoutProp,
-        sizeProp,
-        value,
-      ],
+    const contextValue = React.useMemo<StyledQuantityPickerContextValue>(
+      () => ({ ...api, layout, size, classes }),
+      [api, layout, size, classes],
     );
 
     const orderedChildren = flattenQuantityPickerChildren(children);
-    if (dir === "rtl") orderedChildren.reverse();
+    if (api.dir === "rtl") orderedChildren.reverse();
     return (
-      <QuantityPickerContext.Provider value={contextValue}>
+      <QuantityPickerProvider value={contextValue}>
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
           className={clsx(classes.root, className)}
-          accessibility-element={accessibilityElement}
-          accessibility-role-description={accessibilityRoleDescription}
-          accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-          accessibility-value={accessibilityValue ?? getAccessibleText(displayValue, value)}
         >
           {withDividers(orderedChildren, classes.divider)}
         </view>
-      </QuantityPickerContext.Provider>
+      </QuantityPickerProvider>
     );
   },
 );
@@ -434,7 +242,7 @@ export const QuantityPickerDecrementButton = React.forwardRef<
   unknown,
   QuantityPickerDecrementButtonProps
 >((props, ref) => {
-  const context = useQuantityPickerContext("QuantityPickerDecrementButton");
+  const context = useStyledQuantityPickerContext("QuantityPickerDecrementButton");
   const {
     children,
     className,
@@ -444,59 +252,50 @@ export const QuantityPickerDecrementButton = React.forwardRef<
     removeIcon,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
+    "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = props;
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
-    disabled: context.decrementBlocked,
-    onTap: (...args) => {
-      context.decrement();
-      bindtap?.(...args);
-    },
-    mainThreadOnTap: mainThreadBindtap,
-  });
+  const { interactive, loading, pressed, isRemoveButton, buttonProps } =
+    useQuantityPickerDecrementButton({
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-label": accessibilityLabel,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+    });
+  // Press state follows the Scale Feedback Main Thread touch handlers.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...actionProps } = buttonProps;
   const classes = quantityPicker(
-    recipeProps(
-      { ...context, loading: context.decrementLoading, disabled: context.decrementBlocked },
-      pressed && !context.decrementBlocked,
-    ),
+    recipeProps({ ...context, disabled: !interactive }, loading, pressed),
   );
   const scaleFeedback = useScaleFeedback({
-    disabled: context.decrementBlocked,
+    disabled: !interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const iconContent = context.isRemoveButton ? (removeIcon ?? icon) : icon;
   return (
     <view
       {...mergeProps(
         ref ? { ref: ref as LynxViewRef } : {},
         scaleFeedback.scaleFeedbackTargetProps,
         scaleFeedback.scaleFeedbackTriggerProps,
-        pressHandlers,
+        actionProps,
         nativeProps,
       )}
       className={clsx(classes.decrementButton, className)}
       style={style}
-      accessibility-element={accessibilityElement}
-      accessibility-label={
-        context.isRemoveButton ? context.removeAccessibilityLabel : accessibilityLabel
-      }
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={
-        accessibilityTraits ?? (context.decrementBlocked ? "disabled" : "button")
-      }
     >
       {renderActionContent(
-        iconContent,
+        isRemoveButton ? (removeIcon ?? icon) : icon,
         loadingIndicator,
         children,
         classes.decrementIcon,
-        context.decrementLoading,
+        loading,
       )}
     </view>
   );
@@ -507,30 +306,22 @@ export const QuantityPickerValueDisplay = React.forwardRef<
   unknown,
   QuantityPickerValueDisplayProps
 >((props, ref) => {
-  const context = useQuantityPickerContext("QuantityPickerValueDisplay");
-  const {
-    className,
-    style,
-    "accessibility-elements-hidden": accessibilityElementsHidden = true,
-    ...nativeProps
-  } = props;
-  const valueText = context.getValueText(String(context.value), context.value);
+  const context = useStyledQuantityPickerContext("QuantityPickerValueDisplay");
+  const { className, ...nativeProps } = props;
+  const classes = quantityPicker(
+    recipeProps(context, context.decrementLoading || context.incrementLoading),
+  );
   const placeholderText = getValueDisplayPlaceholder(context.min, context.max);
   return (
-    <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      className={clsx(quantityPicker(recipeProps(context)).valueDisplay, className)}
-      style={style}
-      accessibility-elements-hidden={accessibilityElementsHidden}
+    <HeadlessQuantityPickerValueDisplay
+      {...mergeProps(ref ? { ref } : {}, nativeProps)}
+      className={clsx(classes.valueDisplay, className)}
     >
-      <text
-        accessibility-elements-hidden={true}
-        className={quantityPicker(recipeProps(context)).valueDisplayPlaceholder}
-      >
+      <text accessibility-elements-hidden={true} className={classes.valueDisplayPlaceholder}>
         {context.getValueText(placeholderText, placeholderText)}
       </text>
-      <text className={quantityPicker(recipeProps(context)).valueDisplayText}>{valueText}</text>
-    </view>
+      <text className={classes.valueDisplayText}>{context.valueText}</text>
+    </HeadlessQuantityPickerValueDisplay>
   );
 });
 QuantityPickerValueDisplay.displayName = "QuantityPickerValueDisplay";
@@ -539,7 +330,7 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   unknown,
   QuantityPickerIncrementButtonProps
 >((props, ref) => {
-  const context = useQuantityPickerContext("QuantityPickerIncrementButton");
+  const context = useStyledQuantityPickerContext("QuantityPickerIncrementButton");
   const {
     children,
     className,
@@ -548,28 +339,27 @@ export const QuantityPickerIncrementButton = React.forwardRef<
     loadingIndicator,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
+    "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = props;
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
-    disabled: context.incrementBlocked,
-    onTap: (...args) => {
-      context.increment();
-      bindtap?.(...args);
-    },
-    mainThreadOnTap: mainThreadBindtap,
+  const { interactive, loading, pressed, buttonProps } = useQuantityPickerIncrementButton({
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
   });
+  // Press state follows the Scale Feedback Main Thread touch handlers.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...actionProps } = buttonProps;
   const classes = quantityPicker(
-    recipeProps(
-      { ...context, loading: context.incrementLoading, disabled: context.incrementBlocked },
-      pressed && !context.incrementBlocked,
-    ),
+    recipeProps({ ...context, disabled: !interactive }, loading, pressed),
   );
   const scaleFeedback = useScaleFeedback({
-    disabled: context.incrementBlocked,
+    disabled: !interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -580,25 +370,13 @@ export const QuantityPickerIncrementButton = React.forwardRef<
         ref ? { ref: ref as LynxViewRef } : {},
         scaleFeedback.scaleFeedbackTargetProps,
         scaleFeedback.scaleFeedbackTriggerProps,
-        pressHandlers,
+        actionProps,
         nativeProps,
       )}
       className={clsx(classes.incrementButton, className)}
       style={style}
-      accessibility-element={accessibilityElement}
-      accessibility-label={accessibilityLabel}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={
-        accessibilityTraits ?? (context.incrementBlocked ? "disabled" : "button")
-      }
     >
-      {renderActionContent(
-        icon,
-        loadingIndicator,
-        children,
-        classes.incrementIcon,
-        context.incrementLoading,
-      )}
+      {renderActionContent(icon, loadingIndicator, children, classes.incrementIcon, loading)}
     </view>
   );
 });
