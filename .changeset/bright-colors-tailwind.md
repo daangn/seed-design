@@ -9,4 +9,4 @@
 - 눌린 상태의 Neutral Solid 배경색 `bg-neutral-solid-pressed`를 추가합니다(예: `bg-bg-neutral-solid-pressed`).
 - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다. 새 색상을 사용하려면 해당 패키지를 함께 업그레이드하세요.
 - `bg-neutral-solid`는 `@seed-design/css` 3.0.0의 `$color.bg.neutral-solid` 값 변경에 따라 라이트 모드에서 `gray-900`, 다크 모드에서 `gray-1000`으로 표시됩니다.
-- `bg-neutral-inverted`, `bg-neutral-inverted-pressed`, `fg-neutral-inverted`는 그대로 제공합니다. `bg-neutral-inverted`와 `fg-neutral-inverted`는 `@seed-design/css`에서 deprecated된 토큰이므로 같은 값의 `bg-neutral-solid`, `fg-on-neutral-solid`로 교체하세요.
+- `bg-neutral-inverted`, `bg-neutral-inverted-pressed`, `fg-neutral-inverted`는 그대로 제공합니다. 세 색상 모두 `@seed-design/css`에서 deprecated된 토큰이므로 같은 값의 `bg-neutral-solid`, `bg-neutral-solid-pressed`, `fg-on-neutral-solid`로 교체하세요.
