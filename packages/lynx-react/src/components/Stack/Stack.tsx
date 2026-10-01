@@ -61,7 +61,7 @@ function useStackStyleProps(props: StackProps, flexDirection: "column" | "row") 
     flexDirection,
     ...getStackProps(props),
   });
-  // Lynx의 gap 단축 속성 파서는 var(...)를 0px로 확정하므로 축별 longhand를 사용합니다.
+  // Lynx의 gap 단축 속성 파서는 var(...)를 0px로 확정하므로 두 축의 longhand로 나눠 적용합니다.
   const { gap, ...style } = stackStyleProps.style;
 
   if (gap == null) {
@@ -71,7 +71,8 @@ function useStackStyleProps(props: StackProps, flexDirection: "column" | "row") 
   return {
     ...stackStyleProps,
     style: {
-      [flexDirection === "column" ? "rowGap" : "columnGap"]: gap,
+      rowGap: gap,
+      columnGap: gap,
       ...style,
     },
   };
