@@ -1,8 +1,11 @@
 import "@testing-library/jest-dom";
+import { createRef } from "@lynx-js/react";
 import { render } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import type { NodesRef } from "@lynx-js/types";
+import { vars } from "@seed-design/lynx-css/vars";
+import { describe, expect, expectTypeOf, it } from "vitest";
 
-import { Skeleton } from "./Skeleton";
+import { Skeleton, type SkeletonProps } from "./Skeleton";
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -60,5 +63,35 @@ describe("Skeleton", () => {
     expect(root).toHaveStyle({ width: "48px", height: "16px", opacity: "0.5" });
     expect(root).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(shimmer).toHaveAttribute("accessibility-elements-hidden", "true");
+  });
+
+  it.each(["t4", "t4Static"] as const)("resolves height lineHeight.%s", (token) => {
+    render(<Skeleton height={`lineHeight.${token}`} />);
+
+    expect(getSkeletonRoot()).toHaveStyle({ height: vars.$lineHeight[token] });
+  });
+
+  it.each([
+    ["x4", vars.$dimension.x4],
+    ["24px", "24px"],
+  ])("preserves existing height %s", (height, expected) => {
+    render(<Skeleton height={height} />);
+
+    expect(getSkeletonRoot()).toHaveStyle({ height: expected });
+  });
+
+  it("lets user style override width and height props and forwards ref to the root", () => {
+    const ref = createRef<NodesRef>();
+
+    render(<Skeleton ref={ref} width="x8" height="lineHeight.t4" style={{ height: "32px" }} />);
+
+    expect(getSkeletonRoot()).toHaveStyle({ width: vars.$dimension.x8, height: "32px" });
+    expect(ref.current).not.toBeNull();
+  });
+
+  it("exposes only static presentation props", () => {
+    expectTypeOf<keyof SkeletonProps>().toEqualTypeOf<
+      "className" | "style" | "width" | "height" | "radius" | "tone"
+    >();
   });
 });
