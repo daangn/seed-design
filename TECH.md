@@ -39,8 +39,10 @@ Capture는 `opened`, `synchronize`, `reopened`에서만 실행한다. 제목·�
 
 `workflow-tests` job이 `scripts/kapture-workflows.test.ts`를 실행한다. CLI·adapter 버전 일치, base의 정확한 checkout, cache miss 시 빌드 복귀와 현재 실행 artifact 게시, job별 권한 경계를 검사한다.
 
-Kapture 0.11.0의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
+Kapture의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
 
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
-Kapture CLI와 adapter는 `0.12.1`으로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다. 댓글 승인 workflow는 기본 브랜치 dev의 설정으로 실행되므로 dev 적용이 먼저 필요하다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
+Kapture CLI와 adapter는 `0.13.0`으로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다.
+
+Capture context와 Report의 prepare/finalize에 `--allow-adapter-upgrade`를 지정한다. 같은 저장소 PR에서 정확한 stable adapter 버전이 상승하면 빌드·캡처·배포를 생략하며, 실행 성공 시 `Comparison skipped: adapter upgrade`로 표시한다. Capture CLI와 head adapter 버전은 같아야 하며, 잘못된 선언·다운그레이드·실행 오류는 성공으로 처리하지 않는다. 비교 생략은 시각 승인과 다르며, 같은 버전의 base/head에서는 정상 비교한다. Report·승인은 기본 브랜치 `dev`의 workflow로 실행된다.

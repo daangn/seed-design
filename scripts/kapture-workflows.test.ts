@@ -228,6 +228,39 @@ describe("Kapture consumer workflows", () => {
     }
   });
 
+  test("opts capture and trusted handlers into adapter upgrades and skips comparison work", () => {
+    const handlers = [
+      workflows.capture.jobs.context.steps.find((step) => step.id === "context"),
+      workflows.report.jobs.publish.steps.find((step) => step.id === "review"),
+      workflows.report.jobs.finalize.steps.find((step) =>
+        commandText(step).includes("github finalize-run"),
+      ),
+    ];
+    for (const handler of handlers) {
+      const args = commandText(handler).split(" ");
+      expect(args.filter((arg) => arg === "--allow-adapter-upgrade")).toEqual([
+        "--allow-adapter-upgrade",
+      ]);
+      expect(args[args.indexOf("--adapter-package-json") + 1]).toBe("docs/package.json");
+    }
+    for (const name of ["build-base", "capture"]) {
+      expect(workflows.capture.jobs[name].if).toBe(
+        "needs.context.outputs.integration-mode == 'compare'",
+      );
+    }
+    expect(workflows.capture.jobs["build-head"].if).toBe(
+      "needs.context.outputs.integration-mode == 'compare' || needs.context.outputs.integration-mode == 'initial-adoption'",
+    );
+    expect(workflows.capture.jobs["setup-capture"].if).toBe(
+      "needs.context.outputs.integration-mode == 'initial-adoption'",
+    );
+    for (const id of ["upload-limits", "deploy", "dashboard"]) {
+      expect(workflows.report.jobs.publish.steps.find((step) => step.id === id)?.if).toBe(
+        "steps.review.outputs.ready == 'true'",
+      );
+    }
+  });
+
   test("delegates production report trust and approval to the released CLI", () => {
     expect(workflows.report.on.workflow_run.workflows).toContain(workflows.capture.name);
     expect(new Set(workflows.report.on.workflow_run.types)).toEqual(
