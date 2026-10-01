@@ -24,6 +24,19 @@ describe("readRawOptionValue", () => {
   it("플래그가 없으면 undefined를 반환한다", () => {
     expect(readRawOptionValue(["node", "cli", "add"], "--seed-react-version")).toBeUndefined();
   });
+
+  it.each(["add", "add-all"])("%s의 두 옵션 형식에서 v2 아카이브를 선택한다", (command) => {
+    for (const args of [["--seed-react-version", "2"], ["--seed-react-version=2"]]) {
+      const seedReactVersion = readRawOptionValue(
+        ["node", "cli", command, ...args],
+        "--seed-react-version",
+      );
+      expect(resolveSeedVersion({ seedReactVersion })).toEqual({
+        framework: "react",
+        baseUrl: "https://seed-design.io/react/v2",
+      });
+    }
+  });
 });
 
 describe("resolveSeedVersion", () => {
@@ -31,6 +44,10 @@ describe("resolveSeedVersion", () => {
     expect(resolveSeedVersion({ seedReactVersion: "1.0" })).toEqual({
       framework: "react",
       baseUrl: "https://v1-0.seed-design.io",
+    });
+    expect(resolveSeedVersion({ seedReactVersion: "1.1" })).toEqual({
+      framework: "react",
+      baseUrl: "https://v1-1.seed-design.io",
     });
     expect(resolveSeedVersion({ seedReactVersion: "1.2" })).toEqual({
       framework: "react",
