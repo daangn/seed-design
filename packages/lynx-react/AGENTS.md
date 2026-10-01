@@ -15,7 +15,7 @@
 
 어기면 타입 검사는 통과하고 기기에서만 깨진다.
 
-- intrinsic tag(`<view>`, `<text>`, `<image>`) → 컴포넌트 파일 안에서 리터럴 JSX로 렌더링한다. 변수 tag, `React.createElement("view", ...)`, 공통 유틸의 native tag factory, `withProvider`·`withContext`에 intrinsic string 전달을 쓰지 않는다. `React.createElement` 형태로 컴파일되어 Lynx 컴파일러의 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 오류를 낸다(`src/utils/create-slot-recipe-context.tsx`의 `assertNotIntrinsicComponent`가 막는다). slot factory가 필요하면 `components/SwipeableMenuSheet/SwipeableMenuSheet.tsx`의 `createViewSlot`처럼 파일 안에서 리터럴 JSX를 반환한다.
+- intrinsic tag(`<view>`, `<text>`, `<image>`) → 컴포넌트 파일 안에서 리터럴 JSX로 렌더링한다. 변수 tag, `React.createElement("view", ...)`, 공통 유틸의 native tag factory, `withProvider`·`withContext`에 intrinsic string 전달을 쓰지 않는다. `React.createElement` 형태로 컴파일되어 Lynx 컴파일러의 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 오류를 낸다(`src/utils/create-slot-recipe-context.tsx`의 `assertNotIntrinsicComponent`가 막는다). slot factory가 필요하면 `components/MenuSheet/MenuSheet.tsx`의 `createViewSlot`처럼 파일 안에서 리터럴 JSX를 반환한다.
 - `children` → `{...nativeProps}`에 섞지 않는다. `const { children, ...nativeProps } = restProps`로 분리해 JSX children으로 넘긴다.
 - ref → `forwardRef`에서 null ref를 Lynx primitive에 넘기지 않는다. `{...(ref ? { ref } : {})}`로 있을 때만 전달한다.
 - CSS `inherit` → Lynx가 지원하지 않는다. 필요한 값은 요소에 직접 적용한다.
