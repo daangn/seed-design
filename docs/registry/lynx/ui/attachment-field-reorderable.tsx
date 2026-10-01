@@ -1,5 +1,9 @@
 import * as React from "@lynx-js/react";
-import { AttachmentInput as SeedAttachmentInput } from "@seed-design/lynx-react";
+import {
+  AttachmentInput as SeedAttachmentInput,
+  useAttachmentInputContext,
+} from "@seed-design/lynx-react";
+import { Sortable } from "@seed-design/lynx-react-sortable";
 import IconCameraFill from "@karrotmarket/lynx-monochrome-icon/IconCameraFill";
 import IconPaperclipFill from "@karrotmarket/lynx-monochrome-icon/IconPaperclipFill";
 import {
@@ -7,7 +11,15 @@ import {
   type AttachmentInputItemProps,
   type AttachmentInputProps,
 } from "./attachment-field";
-import { HorizontalReorderItem, HorizontalReorderList } from "../lib/attachment-sortable";
+
+const LABEL_REMOVE_FILE = "파일 제거";
+const LABEL_RETRY = "재시도";
+const MOVE_ACTION_LABELS = { previous: "앞으로 이동", next: "뒤로 이동" };
+const STATUS_LABELS: Partial<Record<AttachmentInputItemProps["fileEntry"]["status"], string>> = {
+  uploading: "업로드 중",
+  error: "업로드 실패",
+};
+
 type AttachmentInputContext = React.ComponentProps<typeof SeedAttachmentInput.Context>;
 let nextAttachmentReorderId = 0;
 export type AttachmentInputReorderableProps = {
@@ -34,6 +46,7 @@ export const AttachmentInputReorderable = React.forwardRef<
   const [generatedId] = React.useState(() => `instance-${nextAttachmentReorderId++}`);
   const boundaryId = id ? `${id}-container` : `attachment-input-reorder-container-${generatedId}`;
   const reorderId = id ? `${id}-list` : `attachment-input-reorder-list-${generatedId}`;
+  const globalProps = React.useGlobalProps() as { motion?: unknown } | undefined;
 
   return (
     <SeedAttachmentInput.Context>
@@ -41,7 +54,7 @@ export const AttachmentInputReorderable = React.forwardRef<
         const { acceptedFileEntries, reorderFileEntry, disabled, readOnly, updateFileEntryStatus } =
           context;
         return (
-          <HorizontalReorderList
+          <Sortable.Root
             items={acceptedFileEntries}
             getItemKey={(entry) => entry.id}
             disabled={disabled}
@@ -49,6 +62,7 @@ export const AttachmentInputReorderable = React.forwardRef<
             id={reorderId}
             scrollableBoundaryId={boundaryId}
             scrollEdgeOffset={scrollEdgeOffset}
+            reducedMotion={globalProps?.motion === "reduced"}
             onReorder={reorderFileEntry}
             onDragStateChange={onDragStateChange}
           >
@@ -87,7 +101,7 @@ export const AttachmentInputReorderable = React.forwardRef<
                 </SeedAttachmentInput.ItemGroup>
               </SeedAttachmentInput.Container>
             )}
-          </HorizontalReorderList>
+          </Sortable.Root>
         );
       }}
     </SeedAttachmentInput.Context>
@@ -100,18 +114,50 @@ export type SortableAttachmentInputItemProps = AttachmentInputItemProps & {
   children?: (dragging: boolean) => React.ReactNode;
 };
 
+/**
+ * The whole item is one accessibility element. Screen readers move it with the
+ * "앞으로 이동"·"뒤로 이동" actions and reach remove·retry as actions, because iOS
+ * does not focus buttons inside an accessibility element.
+ */
 export const SortableAttachmentInputItem = React.forwardRef<
   React.ComponentRef<typeof AttachmentInputItem>,
   SortableAttachmentInputItemProps
->(({ index, fileEntry, children, ...props }, ref) => (
-  <HorizontalReorderItem itemId={fileEntry.id} index={index}>
-    {(dragging) =>
-      children ? (
-        children(dragging)
-      ) : (
-        <AttachmentInputItem ref={ref} fileEntry={fileEntry} dragging={dragging} {...props} />
-      )
-    }
-  </HorizontalReorderItem>
-));
+>(({ index, fileEntry, onRetry, children, ...props }, ref) => {
+  const { readOnly, removeFileEntry } = useAttachmentInputContext();
+  const actions = [
+    ...(readOnly ? [] : [LABEL_REMOVE_FILE]),
+    ...(onRetry && fileEntry.status === "error" ? [LABEL_RETRY] : []),
+  ];
+  return (
+    <Sortable.Item
+      itemId={fileEntry.id}
+      index={index}
+      accessibility-element={true}
+      accessibility-label={fileEntry.file.name}
+      accessibility-value={[`${index + 1}번째`, STATUS_LABELS[fileEntry.status]]
+        .filter(Boolean)
+        .join(", ")}
+      moveActionLabels={MOVE_ACTION_LABELS}
+      accessibility-actions={actions.length > 0 ? actions : undefined}
+      bindaccessibilityaction={(event) => {
+        if (event.detail.name === LABEL_REMOVE_FILE) removeFileEntry(fileEntry.id);
+        else if (event.detail.name === LABEL_RETRY) onRetry?.();
+      }}
+    >
+      {(dragging) =>
+        children ? (
+          children(dragging)
+        ) : (
+          <AttachmentInputItem
+            ref={ref}
+            fileEntry={fileEntry}
+            dragging={dragging}
+            onRetry={onRetry}
+            {...props}
+          />
+        )
+      }
+    </Sortable.Item>
+  );
+});
 SortableAttachmentInputItem.displayName = "SortableAttachmentInputItem";

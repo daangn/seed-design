@@ -5,14 +5,6 @@ export const registryLib: Registry = {
   hideFromCLICatalog: true,
   items: [
     {
-      id: "attachment-sortable",
-      snippets: [
-        {
-          path: "attachment-sortable.tsx",
-        },
-      ],
-    },
-    {
       id: "manner-temp-level",
       snippets: [
         {
