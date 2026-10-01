@@ -5,6 +5,7 @@ export {
   BottomSheetBackdrop as Backdrop,
   BottomSheetContent as Content,
   BottomSheetHandle as Handle,
+  BottomSheetCloseButton as CloseButton,
 } from "./BottomSheet.jsx";
 export type {
   BottomSheetRootProps as RootProps,
@@ -14,4 +15,5 @@ export type {
   BottomSheetBackdropProps as BackdropProps,
   BottomSheetContentProps as ContentProps,
   BottomSheetHandleProps as HandleProps,
+  BottomSheetCloseButtonProps as CloseButtonProps,
 } from "./BottomSheet.jsx";
