@@ -1,6 +1,6 @@
 "use client";
 
-import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
+import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 import { Badge } from "seed-design/ui/badge";
 
 export default function BadgeWithAction() {
@@ -9,9 +9,7 @@ export default function BadgeWithAction() {
       actionProps={{
         "aria-label": "도움말",
         render: (trigger) => (
-          <HelpBubbleTooltipTrigger title="판매 완료된 상품이에요">
-            {trigger}
-          </HelpBubbleTooltipTrigger>
+          <HelpBubbleTrigger title="판매 완료된 상품이에요">{trigger}</HelpBubbleTrigger>
         ),
       }}
     >
