@@ -675,6 +675,26 @@ describe("TextField", () => {
     );
   });
 
+  it("clears Field focus when a focused input unmounts without blur", () => {
+    const inputRef = createRef<NodesRef>();
+    const renderField = (multiline: boolean) => (
+      <Field.Root>
+        <TextField.Root>
+          {multiline ? <TextField.Textarea /> : <TextField.Input ref={inputRef} />}
+        </TextField.Root>
+      </Field.Root>
+    );
+    const { rerender } = render(renderField(false));
+
+    fireEvent.focus(inputRef.current as unknown as Element);
+    expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_true");
+
+    // Removal is not guaranteed to deliver a native blur event.
+    rerender(renderField(true));
+
+    expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_false");
+  });
+
   it("renders readonly input and textarea values as non-editable text", () => {
     const inputRef = createRef<NodesRef>();
     const textareaRef = createRef<NodesRef>();
