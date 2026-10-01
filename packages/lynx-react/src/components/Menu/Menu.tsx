@@ -1,22 +1,28 @@
 import * as React from "@lynx-js/react";
-import { getRectByRef } from "@lynx-js/lynx-ui-common";
-import type { BaseEvent, NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
 
 import { menu, type MenuVariantProps } from "@seed-design/lynx-css/recipes/menu";
 import { menuItem, type MenuItemVariantProps } from "@seed-design/lynx-css/recipes/menu-item";
-import { menu as menuVars } from "@seed-design/lynx-css/vars/component";
+import type { Placement as MenuPlacement } from "@seed-design/lynx-react-floating";
 import {
-  computePosition,
-  type Placement as MenuPlacement,
-  type Position as MenuPosition,
-  type Rect as MenuRect,
-} from "@seed-design/lynx-react-floating";
+  MenuAnchor as MenuAnchorPrimitive,
+  MenuContent as MenuContentPrimitive,
+  MenuGroup as MenuGroupPrimitive,
+  MenuGroupLabel as MenuGroupLabelPrimitive,
+  MenuPositioner as MenuPositionerPrimitive,
+  MenuProvider,
+  MenuTrigger as MenuTriggerPrimitive,
+  useMenu,
+  useMenuContext,
+  useMenuItem,
+  type MenuOpenChangeDetails,
+  type MenuOpenChangeReason,
+  type MenuPositionerProps as MenuPositionerPrimitiveProps,
+  type UseMenuProps,
+} from "@seed-design/lynx-react-menu";
 
-import { useControllableState } from "../../hooks/useControllableState";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
-import { usePressTap } from "../../hooks/usePressTap";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -30,7 +36,6 @@ import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
 
 type MenuClassNames = {
   positioner: string;
-  backdrop: string;
   content: string;
   scrollArea: string;
   scrollContent: string;
@@ -52,50 +57,19 @@ type MenuPublicVariantProps = Omit<MenuVariantProps, "open" | "positioned" | "si
   size?: "small" | "medium" | "responsive";
 };
 type MenuItemPublicVariantProps = Omit<MenuItemVariantProps, "size" | "disabled" | "pressed">;
-type NativeTapHandler = NonNullable<LynxViewProps["bindtap"]>;
 type NativeTransitionHandler = NonNullable<LynxViewProps["bindtransitionend"]>;
-type NativeLayoutHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
-type MenuTriggerHandlers = Pick<LynxViewProps, "bindtap" | "main-thread:bindtap">;
 
-const menuMaxHeight = Number.parseFloat(menuVars.base.enabled.root.maxHeight);
-const menuMinimumHeight = 200;
-
-export type MenuOpenChangeReason = "trigger" | "interactOutside" | "itemClick" | "dismiss";
-
-export interface MenuOpenChangeDetails {
-  reason: MenuOpenChangeReason;
-  event: BaseEvent;
-}
-
-interface MenuContextValue {
-  open: boolean;
-  mounted: boolean;
-  openEpoch: number;
-  disabled: boolean;
-  size: "small" | "medium";
-  placement: MenuPlacement;
-  gutter: number;
-  overflowPadding: number;
-  matchReferenceWidth: boolean;
-  isOpenRef: React.MutableRefObject<boolean>;
-  openEpochRef: React.MutableRefObject<number>;
-  anchorRef: React.MutableRefObject<NodesRef | null>;
-  triggerRef: React.MutableRefObject<NodesRef | null>;
-  triggerHandlers: MenuTriggerHandlers;
-  setTriggerHandlers: (handlers: MenuTriggerHandlers) => void;
+interface MenuStyleContextValue {
   classes: MenuClassNames;
-  positioned: boolean;
-  setPositioned: (positioned: boolean) => void;
-  requestOpen: (open: boolean, details: MenuOpenChangeDetails) => void;
-  finishClose: (immediate?: boolean) => void;
+  size: "small" | "medium";
 }
 
-const MenuContext = React.createContext<MenuContextValue | null>(null);
+const MenuStyleContext = React.createContext<MenuStyleContextValue | null>(null);
 const MenuItemClassNamesContext = React.createContext<MenuItemClassNames | null>(null);
 const MenuGroupPositionContext = React.createContext({ isFirst: true });
 
-function useMenuContext(consumer: string): MenuContextValue {
-  const context = React.useContext(MenuContext);
+function useMenuStyle(consumer: string): MenuStyleContextValue {
+  const context = React.useContext(MenuStyleContext);
   if (!context) throw new Error(`<${consumer}/> must be rendered inside <MenuRoot/>.`);
   return context;
 }
@@ -106,51 +80,19 @@ function useMenuItemClassNames(consumer: string): MenuItemClassNames {
   return context;
 }
 
-function mergeNodeRef(forwardedRef: React.ForwardedRef<unknown>, node: NodesRef | null) {
-  if (typeof forwardedRef === "function") {
-    forwardedRef(node);
-  } else if (forwardedRef) {
-    forwardedRef.current = node;
-  }
-}
-
-function getScreenRect(): MenuRect | null {
+function getScreenWidth(): number | null {
   const systemInfo = typeof SystemInfo === "undefined" ? undefined : SystemInfo;
   const pixelWidth = systemInfo?.pixelWidth;
-  const pixelHeight = systemInfo?.pixelHeight;
   const pixelRatio = systemInfo?.pixelRatio;
   if (
     typeof pixelWidth !== "number" ||
-    typeof pixelHeight !== "number" ||
     typeof pixelRatio !== "number" ||
     pixelWidth <= 0 ||
-    pixelHeight <= 0 ||
     pixelRatio <= 0
   ) {
     return null;
   }
-
-  const width = pixelWidth / pixelRatio;
-  const height = pixelHeight / pixelRatio;
-  return { left: 0, top: 0, right: width, bottom: height, width, height };
-}
-
-function getRootRect() {
-  "background only";
-  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
-}
-
-function toPixel(value: number) {
-  return `${value}px`;
-}
-
-function getLayoutSize(
-  event: Parameters<NativeLayoutHandler>[0],
-): { width: number; height: number } | null {
-  const width = event.detail?.width ?? event.params?.width;
-  const height = event.detail?.height ?? event.params?.height;
-  if (!Number.isFinite(width) || !Number.isFinite(height)) return null;
-  return { width: Math.max(0, width), height: Math.max(0, height) };
+  return pixelWidth / pixelRatio;
 }
 
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
@@ -163,25 +105,22 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuRootProps extends MenuPublicVariantProps, LynxStyledElementProps {
-  open?: boolean;
-  defaultOpen?: boolean;
+export interface MenuRootProps
+  extends MenuPublicVariantProps,
+    LynxStyledElementProps,
+    Omit<UseMenuProps, "onOpenChange"> {
   onOpenChange?: (open: boolean, details: MenuOpenChangeDetails) => void;
-  disabled?: boolean;
-  placement?: MenuPlacement;
-  gutter?: number;
-  overflowPadding?: number;
-  matchReferenceWidth?: boolean;
 }
 
 /**
  * @platform Lynx
  *
+ * `@seed-design/lynx-react-menu`에 menu recipe를 적용합니다. Root는 자식을 native `view`로 감쌉니다.
  * Lynx menu supports native tap and accessibility semantics. It does not expose
  * web DOM focus, keyboard navigation, typeahead, `asChild`, or nested submenus.
  */
 export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) => {
-  const { size: sizeProp = "medium", open: openProp, ...restProps } = props;
+  const { size: sizeProp = "medium", open, ...restProps } = props;
   const [variantProps, otherProps] = menu.splitVariantProps({
     ...restProps,
     size: sizeProp === "responsive" ? undefined : sizeProp,
@@ -189,115 +128,53 @@ export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) =>
   const {
     children,
     className,
-    defaultOpen = false,
+    defaultOpen,
     onOpenChange,
-    disabled = false,
-    placement = "bottom",
-    gutter = 8,
-    overflowPadding = 8,
-    matchReferenceWidth = false,
+    disabled,
+    placement,
+    gutter,
+    overflowPadding,
+    matchReferenceWidth,
     ...nativeProps
   } = otherProps;
-  const [open, setOpen] = useControllableState({ value: openProp, defaultValue: defaultOpen });
-  const [mounted, setMounted] = React.useState(open);
-  const [positionedEpoch, setPositionedEpoch] = React.useState<number | null>(null);
-  const isOpenRef = React.useRef(open);
-  const openEpochRef = React.useRef(0);
-  if (open && !isOpenRef.current) openEpochRef.current++;
-  isOpenRef.current = open;
-  const openEpoch = openEpochRef.current;
-  const positioned = positionedEpoch === openEpoch;
-  const setPositioned = React.useCallback(
-    (nextPositioned: boolean) => setPositionedEpoch(nextPositioned ? openEpochRef.current : null),
-    [],
-  );
-  const [triggerHandlers, setTriggerHandlers] = React.useState<MenuTriggerHandlers>({});
-  const anchorRef = React.useRef<NodesRef | null>(null);
-  const triggerRef = React.useRef<NodesRef | null>(null);
-
-  React.useEffect(() => {
-    "background only";
-    if (open) {
-      setMounted(true);
-      return;
-    }
-    if (!positioned) setMounted(false);
-  }, [open, positioned]);
-
-  const requestOpen = React.useCallback(
-    (nextOpen: boolean, details: MenuOpenChangeDetails) => {
-      "background only";
-      if (disabled && nextOpen) return;
-      if (nextOpen === open) return;
-      setOpen(nextOpen);
-      onOpenChange?.(nextOpen, details);
-    },
-    [disabled, onOpenChange, open, setOpen],
-  );
-
-  const finishClose = React.useCallback((immediate = false) => {
-    "background only";
-    if (immediate || !isOpenRef.current) {
-      setMounted(false);
-      setPositionedEpoch(null);
-    }
-  }, []);
-
-  const screenRect = getScreenRect();
+  const api = useMenu({
+    open,
+    defaultOpen,
+    onOpenChange,
+    disabled,
+    placement,
+    gutter,
+    overflowPadding,
+    matchReferenceWidth,
+  });
+  const screenWidth = getScreenWidth();
   const resolvedSize =
-    sizeProp === "responsive" && screenRect?.width != null && screenRect.width >= 1280
+    sizeProp === "responsive" && screenWidth != null && screenWidth >= 1280
       ? "small"
       : (variantProps.size ?? "medium");
-  const classes = menu({ size: resolvedSize, open, positioned });
-  const contextValue = React.useMemo<MenuContextValue>(
-    () => ({
-      open,
-      mounted,
-      openEpoch,
-      disabled,
-      size: resolvedSize,
-      placement,
-      gutter,
-      overflowPadding,
-      matchReferenceWidth,
-      isOpenRef,
-      openEpochRef,
-      anchorRef,
-      triggerRef,
-      triggerHandlers,
-      setTriggerHandlers,
-      classes,
-      positioned,
-      setPositioned,
-      requestOpen,
-      finishClose,
-    }),
+  const classes = menu({ size: resolvedSize, open: api.open, positioned: api.positioned });
+  const styleValue = React.useMemo<MenuStyleContextValue>(
+    () => ({ classes, size: resolvedSize }),
     [
-      classes,
-      disabled,
-      finishClose,
-      gutter,
-      matchReferenceWidth,
-      mounted,
-      openEpoch,
-      setPositioned,
-      openEpochRef,
-      triggerHandlers,
+      classes.positioner,
+      classes.content,
+      classes.scrollArea,
+      classes.scrollContent,
+      classes.group,
+      classes.groupLabel,
+      classes.separator,
       resolvedSize,
-      open,
-      overflowPadding,
-      placement,
-      positioned,
-      requestOpen,
     ],
   );
 
   return (
-    <MenuContext.Provider value={contextValue}>
-      <view {...(ref ? { ref: ref as LynxViewRef } : {})} className={className} {...nativeProps}>
-        {children}
-      </view>
-    </MenuContext.Provider>
+    <MenuProvider value={api}>
+      <MenuStyleContext.Provider value={styleValue}>
+        <view {...(ref ? { ref: ref as LynxViewRef } : {})} className={className} {...nativeProps}>
+          {children}
+        </view>
+      </MenuStyleContext.Provider>
+    </MenuProvider>
   );
 });
 MenuRoot.displayName = "MenuRoot";
@@ -306,24 +183,9 @@ MenuRoot.displayName = "MenuRoot";
 
 export interface MenuAnchorProps extends LynxStyledElementProps {}
 
-export const MenuAnchor = React.forwardRef<unknown, MenuAnchorProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const context = useMenuContext("MenuAnchor");
-  const handleRef = React.useCallback(
-    (node: NodesRef | null) => {
-      context.anchorRef.current = node;
-      mergeNodeRef(ref, node);
-    },
-    [context.anchorRef, ref],
-  );
-
-  return (
-    <view ref={handleRef as LynxViewRef} className={className} {...nativeProps}>
-      {children}
-    </view>
-  );
-});
-MenuAnchor.displayName = "MenuAnchor";
+export const MenuAnchor: React.ForwardRefExoticComponent<
+  MenuAnchorProps & React.RefAttributes<unknown>
+> = MenuAnchorPrimitive;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -334,363 +196,75 @@ export interface MenuTriggerProps
   disabled?: boolean;
 }
 
-export const MenuTrigger = React.forwardRef<unknown, MenuTriggerProps>((props, ref) => {
-  const {
-    children,
-    className,
-    bindtap,
-    "main-thread:bindtap": mainThreadBindtap,
-    disabled: disabledProp = false,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits,
-    ...nativeProps
-  } = props;
-  const context = useMenuContext("MenuTrigger");
-  const disabled = context.disabled || disabledProp;
-  const handleTap = React.useCallback<NativeTapHandler>(
-    (event, instance) => {
-      "background only";
-      context.requestOpen(!context.open, { reason: "trigger", event });
-      bindtap?.(event, instance);
-    },
-    [bindtap, context],
-  );
-  const { bindtap: proxyBindtap, ...pressHandlers } = usePressTap({
-    disabled,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
-  });
-  const mainThreadProxyBindtap = pressHandlers["main-thread:bindtap"];
-  React.useEffect(() => {
-    "background only";
-    context.setTriggerHandlers({
-      bindtap: proxyBindtap,
-      "main-thread:bindtap": mainThreadProxyBindtap,
-    });
-    return () => context.setTriggerHandlers({});
-  }, [context.setTriggerHandlers, mainThreadProxyBindtap, proxyBindtap]);
-  const handleRef = React.useCallback(
-    (node: NodesRef | null) => {
-      context.triggerRef.current = node;
-      mergeNodeRef(ref, node);
-    },
-    [context.triggerRef, ref],
-  );
+export const MenuTrigger: React.ForwardRefExoticComponent<
+  MenuTriggerProps & React.RefAttributes<unknown>
+> = MenuTriggerPrimitive;
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface MenuPositionerProps
+  extends LynxStyledElementProps,
+    Pick<MenuPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
+
+/**
+ * 화면 전체를 덮는 메뉴 레이어입니다. `container`가 없으면 Lynx view 안의 고정 native `view`로,
+ * `container`를 지정하면 Lynx view 밖까지 덮는 native overlay로 렌더링합니다. `container`가 없을 때
+ * 같은 화면의 형제 요소와의 순서는 recipe의 z-index `99`가 정합니다.
+ */
+export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((props, ref) => {
+  const { className, ...positionerProps } = props;
+  const { classes } = useMenuStyle("MenuPositioner");
 
   return (
-    <view
-      ref={handleRef as LynxViewRef}
-      className={className}
-      accessibility-element={accessibilityElement}
-      accessibility-label={accessibilityLabel}
-      accessibility-role-description="button"
-      accessibility-value={context.open ? "expanded" : "collapsed"}
-      accessibility-traits={disabled ? "disabled" : (accessibilityTraits ?? "button")}
-      {...nativeProps}
-      {...pressHandlers}
-      bindtap={proxyBindtap}
-    >
-      {children}
-    </view>
+    <MenuPositionerPrimitive
+      {...(ref ? { ref } : {})}
+      {...positionerProps}
+      className={clsx(classes.positioner, className)}
+    />
   );
 });
-MenuTrigger.displayName = "MenuTrigger";
+MenuPositioner.displayName = "MenuPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuContentProps extends LynxStyledElementProps {}
 
+/**
+ * 위치를 계산해 표시하는 메뉴 표면입니다. `MenuPositioner` 안에 두고, 항목은 `MenuScrollArea` 안에 둡니다.
+ */
 export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
-  const context = useMenuContext("MenuContent");
-  const measurementVersionRef = React.useRef(0);
-  const intrinsicWidthRef = React.useRef<number | null>(null);
-  const [overlayNode, setOverlayNode] = React.useState<NodesRef | null>(null);
-  const measurementConfigRef = React.useRef(0);
-  const [intrinsicSize, setIntrinsicSize] = React.useState<{
-    width: number;
-    height: number;
-    epoch: number;
-    config: number;
-  } | null>(null);
-  const [position, setPosition] = React.useState<MenuPosition | null>(null);
-  const [widthConstraint, setWidthConstraint] = React.useState<number | null>(null);
-  const [overlayRect, setOverlayRect] = React.useState<MenuRect | null>(null);
-  const [triggerRect, setTriggerRect] = React.useState<MenuRect | null>(null);
-
-  const measurePosition = React.useCallback(async () => {
-    "background only";
-    const referenceNode = context.anchorRef.current ?? context.triggerRef.current;
-    const triggerNode = context.triggerRef.current;
-    const openEpoch = context.openEpoch;
-    if (
-      !context.open ||
-      !referenceNode ||
-      !overlayNode ||
-      !intrinsicSize ||
-      intrinsicSize.epoch !== openEpoch ||
-      intrinsicSize.config !== measurementConfigRef.current
-    ) {
-      return;
-    }
-    const version = ++measurementVersionRef.current;
-    try {
-      const [reference, boundary, overlay, trigger] = await Promise.all([
-        getRectByRef({ current: referenceNode }, true),
-        getRootRect(),
-        getRectByRef({ current: overlayNode }, true),
-        triggerNode ? getRectByRef({ current: triggerNode }, true) : Promise.resolve(null),
-      ]);
-      if (
-        version !== measurementVersionRef.current ||
-        !context.isOpenRef.current ||
-        openEpoch !== context.openEpochRef.current
-      ) {
-        return;
-      }
-      const intrinsicWidth = context.matchReferenceWidth
-        ? reference.width
-        : (intrinsicWidthRef.current ?? intrinsicSize.width);
-      const width = widthConstraint ?? intrinsicWidth;
-      const nextPosition = await computePosition({
-        reference,
-        boundary,
-        width,
-        height: Math.min(intrinsicSize.height, menuMaxHeight),
-        placement: context.placement,
-        gutter: context.gutter,
-        overflowPadding: context.overflowPadding,
-        flip: { fallbackStrategy: "bestFit" },
-        shift: { crossAxis: true },
-        size: { order: "beforeFlip", minimumHeight: menuMinimumHeight },
-      });
-      if (
-        version !== measurementVersionRef.current ||
-        !context.isOpenRef.current ||
-        openEpoch !== context.openEpochRef.current
-      ) {
-        return;
-      }
-      if (nextPosition.availableWidth < width) {
-        // 너비를 제한한 뒤 bindlayoutchange에서 줄바꿈된 높이를 다시 측정합니다.
-        const constrainedWidth = nextPosition.availableWidth;
-        if (widthConstraint !== constrainedWidth) {
-          setWidthConstraint(constrainedWidth);
-          setIntrinsicSize(null);
-          setPosition(null);
-          setOverlayRect(null);
-          setTriggerRect(null);
-          context.setPositioned(false);
-        }
-        return;
-      }
-      setPosition((previous) => {
-        if (
-          previous?.left === nextPosition.left &&
-          previous.top === nextPosition.top &&
-          previous.width === nextPosition.width &&
-          previous.height === nextPosition.height &&
-          previous.placement === nextPosition.placement
-        ) {
-          return previous;
-        }
-        return nextPosition;
-      });
-      setOverlayRect(overlay);
-      setTriggerRect(trigger);
-      context.setPositioned(true);
-    } catch {
-      // A ref can disappear while the native query is in flight. Keep this close hidden.
-    }
-  }, [context, intrinsicSize, overlayNode, widthConstraint]);
-
-  React.useEffect(() => {
-    "background only";
-    measurementVersionRef.current++;
-    setWidthConstraint(null);
-    setPosition(null);
-    setOverlayRect(null);
-    setTriggerRect(null);
-    setIntrinsicSize((current) => (current ? { ...current, epoch: context.openEpoch } : current));
-  }, [context.openEpoch]);
-
-  React.useEffect(() => {
-    "background only";
-    measurementVersionRef.current++;
-    intrinsicWidthRef.current = null;
-    measurementConfigRef.current++;
-    setWidthConstraint(null);
-    setIntrinsicSize((current) =>
-      current ? { ...current, config: measurementConfigRef.current } : current,
-    );
-    setPosition(null);
-    setOverlayRect(null);
-    setTriggerRect(null);
-    context.setPositioned(false);
-  }, [className, context.setPositioned, context.size, style]);
-
-  React.useEffect(() => {
-    "background only";
-    if (context.open) void measurePosition();
-  }, [context.open, measurePosition]);
-
-  const handleShowOverlay = React.useCallback(() => {
-    "background only";
-    void measurePosition();
-  }, [measurePosition]);
-
-  const handleRef = React.useCallback(
-    (node: NodesRef | null) => {
-      measurementVersionRef.current++;
-      mergeNodeRef(ref, node);
-    },
-    [ref],
-  );
-  const handlePositionerRef = React.useCallback((node: NodesRef | null) => {
-    setOverlayNode(node);
-  }, []);
-  const handleIntrinsicLayoutChange = React.useCallback<NativeLayoutHandler>(
-    (event) => {
-      "background only";
-      const nextSize = getLayoutSize(event);
-      if (!nextSize || !context.open) return;
-      if (intrinsicWidthRef.current === null) intrinsicWidthRef.current = nextSize.width;
-      setIntrinsicSize((current) => {
-        const nextWidth = intrinsicWidthRef.current ?? nextSize.width;
-        if (
-          current?.width === nextWidth &&
-          current.height === nextSize.height &&
-          current.epoch === context.openEpoch &&
-          current.config === measurementConfigRef.current
-        ) {
-          return current;
-        }
-        return {
-          width: nextWidth,
-          height: nextSize.height,
-          epoch: context.openEpoch,
-          config: measurementConfigRef.current,
-        };
-      });
-    },
-    [context.open, context.openEpoch],
-  );
+  const { className, ...contentProps } = props;
+  const { classes } = useMenuStyle("MenuContent");
+  const { open, finishClose } = useMenuContext();
   const handleTransitionEnd = React.useCallback<NativeTransitionHandler>(
     (event) => {
       "background only";
-      if (!context.open && hasExitTransition(event)) context.finishClose();
+      if (!open && hasExitTransition(event)) finishClose();
     },
-    [context],
+    [finishClose, open],
   );
-  const handleBackdropTap = React.useCallback<NativeTapHandler>(
-    (event) => {
-      "background only";
-      context.requestOpen(false, { reason: "interactOutside", event });
-    },
-    [context],
-  );
-  const handleNativeDismiss = React.useCallback(
-    (event: BaseEvent) => {
-      "background only";
-      context.requestOpen(false, { reason: "dismiss", event });
-      context.finishClose(true);
-    },
-    [context],
-  );
-  const handleRequestClose = React.useCallback(
-    (event: BaseEvent) => {
-      "background only";
-      context.requestOpen(false, { reason: "dismiss", event });
-    },
-    [context],
-  );
-
-  if (!context.mounted) return null;
-
-  const geometryStyle =
-    position && overlayRect
-      ? {
-          left: toPixel(position.left - overlayRect.left),
-          top: toPixel(position.top - overlayRect.top),
-          width: toPixel(position.width),
-          transformOrigin: position.transformOrigin,
-        }
-      : undefined;
-  const scrollStyle = position ? { height: toPixel(position.height) } : undefined;
-  const triggerProxyStyle =
-    triggerRect && overlayRect
-      ? {
-          left: toPixel(triggerRect.left - overlayRect.left),
-          top: toPixel(triggerRect.top - overlayRect.top),
-          width: toPixel(triggerRect.width),
-          height: toPixel(triggerRect.height),
-        }
-      : undefined;
-  const childNodes = toArray(children);
 
   return (
-    <overlay
-      visible
-      style={{ position: "fixed" }}
-      binddismissoverlay={handleNativeDismiss}
-      bindshowoverlay={handleShowOverlay}
-      bindrequestclose={handleRequestClose}
-    >
-      <view ref={handlePositionerRef as LynxViewRef} className={context.classes.positioner}>
-        <view className={context.classes.backdrop} bindtap={handleBackdropTap} />
-        {triggerProxyStyle && (
-          <view
-            style={{ position: "absolute", ...triggerProxyStyle }}
-            bindtap={context.triggerHandlers.bindtap}
-            main-thread:bindtap={context.triggerHandlers["main-thread:bindtap"]}
-          />
-        )}
-        <view
-          ref={handleRef as LynxViewRef}
-          className={clsx(context.classes.content, className)}
-          style={{
-            ...geometryStyle,
-            ...style,
-            ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
-          }}
-          bindtransitionend={handleTransitionEnd}
-          {...nativeProps}
-        >
-          <scroll-view
-            className={context.classes.scrollArea}
-            scroll-orientation="vertical"
-            style={scrollStyle}
-          >
-            <view
-              className={context.classes.scrollContent}
-              bindlayoutchange={handleIntrinsicLayoutChange}
-            >
-              {childNodes.map((child, index) => (
-                <MenuGroupPositionContext.Provider
-                  key={React.isValidElement(child) ? (child.key ?? index) : index}
-                  value={{ isFirst: index === 0 }}
-                >
-                  {child}
-                </MenuGroupPositionContext.Provider>
-              ))}
-            </view>
-          </scroll-view>
-        </view>
-      </view>
-    </overlay>
+    <MenuContentPrimitive
+      {...(ref ? { ref } : {})}
+      {...contentProps}
+      className={clsx(classes.content, className)}
+      bindtransitionend={handleTransitionEnd}
+    />
   );
 });
 MenuContent.displayName = "MenuContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-/** The scroll viewport is supplied by `MenuContent`; this slot styles custom scroll content only. */
+/** `MenuContent` 안에서 긴 목록을 세로로 스크롤하는 viewport입니다. 그룹 사이에 구분선을 넣습니다. */
 export interface MenuScrollAreaProps extends LynxStyledElementProps {}
 
 export const MenuScrollArea = React.forwardRef<unknown, MenuScrollAreaProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const classes = useMenuContext("MenuScrollArea").classes;
+  const { classes } = useMenuStyle("MenuScrollArea");
+  const childNodes = toArray(children);
+
   return (
     <scroll-view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
@@ -698,7 +272,16 @@ export const MenuScrollArea = React.forwardRef<unknown, MenuScrollAreaProps>((pr
       scroll-orientation="vertical"
       {...nativeProps}
     >
-      <view className={classes.scrollContent}>{children}</view>
+      <view className={classes.scrollContent}>
+        {childNodes.map((child, index) => (
+          <MenuGroupPositionContext.Provider
+            key={React.isValidElement(child) ? (child.key ?? index) : index}
+            value={{ isFirst: index === 0 }}
+          >
+            {child}
+          </MenuGroupPositionContext.Provider>
+        ))}
+      </view>
     </scroll-view>
   );
 });
@@ -710,11 +293,11 @@ export interface MenuGroupProps extends LynxStyledElementProps {}
 
 export const MenuGroup = React.forwardRef<unknown, MenuGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const classes = useMenuContext("MenuGroup").classes;
+  const { classes } = useMenuStyle("MenuGroup");
   const position = React.useContext(MenuGroupPositionContext);
   return (
-    <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
+    <MenuGroupPrimitive
+      {...(ref ? { ref } : {})}
       className={clsx(classes.group, className)}
       {...nativeProps}
     >
@@ -722,7 +305,7 @@ export const MenuGroup = React.forwardRef<unknown, MenuGroupProps>((props, ref) 
         <view className={classes.separator} accessibility-elements-hidden={true} />
       ) : null}
       {children}
-    </view>
+    </MenuGroupPrimitive>
   );
 });
 MenuGroup.displayName = "MenuGroup";
@@ -732,22 +315,14 @@ MenuGroup.displayName = "MenuGroup";
 export interface MenuGroupLabelProps extends LynxStyledElementProps, LynxAccessibilityProps {}
 
 export const MenuGroupLabel = React.forwardRef<unknown, MenuGroupLabelProps>((props, ref) => {
-  const {
-    children,
-    className,
-    "accessibility-heading": accessibilityHeading = true,
-    ...nativeProps
-  } = props;
-  const classes = useMenuContext("MenuGroupLabel").classes;
+  const { className, ...labelProps } = props;
+  const { classes } = useMenuStyle("MenuGroupLabel");
   return (
-    <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
+    <MenuGroupLabelPrimitive
+      {...(ref ? { ref } : {})}
       className={clsx(classes.groupLabel, className)}
-      accessibility-heading={accessibilityHeading}
-      {...nativeProps}
-    >
-      {children}
-    </text>
+      {...labelProps}
+    />
   );
 });
 MenuGroupLabel.displayName = "MenuGroupLabel";
@@ -764,44 +339,40 @@ export interface MenuItemProps
 
 export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) => {
   const [variantProps, otherProps] = menuItem.splitVariantProps(props);
-  const { disabled: disabledProp = false, tone = "neutral" } = variantProps;
+  const { disabled, tone = "neutral" } = variantProps;
   const {
     children,
     className,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const context = useMenuContext("MenuItem");
-  const disabled = context.disabled || disabledProp;
-  const handleTap = React.useCallback<NativeTapHandler>(
-    (event, instance) => {
-      "background only";
-      bindtap?.(event, instance);
-      context.requestOpen(false, { reason: "itemClick", event });
-    },
-    [bindtap, context],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { size } = useMenuStyle("MenuItem");
+  const api = useMenuItem({
     disabled,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits,
   });
+  // 눌림 상태는 Scale Feedback의 touch handler를 따라갑니다.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
+    disabled: api.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
   const classes = menuItem({
     ...variantProps,
-    size: context.size,
+    size,
     tone,
-    disabled,
-    pressed,
+    disabled: api.disabled,
+    pressed: api.pressed,
   });
   const iconSlots = React.useMemo(
     () => ({
@@ -817,11 +388,7 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, className)}
-          accessibility-element={accessibilityElement}
-          accessibility-label={accessibilityLabel}
-          accessibility-role-description="button"
-          accessibility-traits={disabled ? "disabled" : (accessibilityTraits ?? "button")}
-          {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
+          {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -890,4 +457,4 @@ export const MenuItemDescription = React.forwardRef<unknown, MenuItemDescription
 MenuItemDescription.displayName = "MenuItemDescription";
 
 export { PrefixIcon as MenuPrefixIcon, SuffixIcon as MenuSuffixIcon };
-export type { MenuPlacement };
+export type { MenuOpenChangeDetails, MenuOpenChangeReason, MenuPlacement };

@@ -24,15 +24,34 @@ export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
  */
 export const MenuTrigger = SeedMenu.Trigger;
 
-export interface MenuContentProps extends SeedMenu.ContentProps {}
+export interface MenuContentProps extends SeedMenu.ContentProps {
+  /**
+   * 지정하면 Lynx view 밖까지 덮는 native overlay에 렌더링합니다. 생략하면 Lynx view 안의 고정 native
+   * `view`로 렌더링합니다.
+   */
+  container?: SeedMenu.PositionerProps["container"];
+
+  overlayLevel?: SeedMenu.PositionerProps["overlayLevel"];
+}
 
 /**
- * Overlay, 위치 계산, 표시 수명과 긴 메뉴의 스크롤 영역을 함께 구성합니다.
- * 자식에 별도 Positioner나 ScrollArea를 추가하지 마세요.
+ * 메뉴 레이어(Positioner), 위치를 계산하는 표면(Content)과 긴 목록의 스크롤 영역(ScrollArea)을
+ * 조립합니다. 자식에 별도 Positioner나 ScrollArea를 추가하지 마세요.
  *
  * @see https://seed-design.io/lynx/components/menu
  */
-export const MenuContent = SeedMenu.Content;
+export const MenuContent = React.forwardRef<unknown, MenuContentProps>(
+  ({ children, container, overlayLevel, ...otherProps }, ref) => {
+    return (
+      <SeedMenu.Positioner container={container} overlayLevel={overlayLevel}>
+        <SeedMenu.Content ref={ref} {...otherProps}>
+          <SeedMenu.ScrollArea>{children}</SeedMenu.ScrollArea>
+        </SeedMenu.Content>
+      </SeedMenu.Positioner>
+    );
+  },
+);
+MenuContent.displayName = "MenuContent";
 
 export interface MenuGroupProps extends SeedMenu.GroupProps {}
 
