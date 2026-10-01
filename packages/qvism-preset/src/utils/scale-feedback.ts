@@ -116,19 +116,36 @@ export const scaleFeedbackGlobalStyles = {
 
   [`.${CONTENT_SCALE_CLASS_NAME}`]: {
     // The box is the measured element's only in-flow child, which leaves the
-    // element's own flex container values with nothing to lay out. Inheriting
-    // them hands the layout — values a consumer sets on the element included —
-    // to the box.
+    // element's own flex or grid container values with nothing to lay out.
+    // Inheriting them hands the layout — values a consumer sets on the element
+    // included — to the box.
     display: "inherit",
     flexDirection: "inherit",
     flexWrap: "inherit",
     alignItems: "inherit",
+    alignContent: "inherit",
     justifyContent: "inherit",
+    justifyItems: "inherit",
     gap: "inherit",
+    gridTemplateColumns: "inherit",
+    gridTemplateRows: "inherit",
+    gridTemplateAreas: "inherit",
+    gridAutoFlow: "inherit",
+    gridAutoColumns: "inherit",
+    gridAutoRows: "inherit",
 
     flex: "1 1 auto",
     alignSelf: "stretch",
     minWidth: 0,
+    minHeight: 0,
+
+    // In a grid element the box is itself a grid item: without spanning every
+    // track it sits in the first one, and the inherited tracks re-divide that
+    // track's width instead of the element's. `justifySelf` keeps the element's
+    // `justify-items` from shrinking the box to its content.
+    gridColumn: "1 / -1",
+    gridRow: "1 / -1",
+    justifySelf: "stretch",
 
     // Unset outside a measured element, which resolves `scale` to `none`.
     scale: "var(--seed-content-scale)",

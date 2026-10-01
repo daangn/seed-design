@@ -325,7 +325,7 @@ function MyRow({ className, children, ...props }) {
 
 </Tabs>
 
-`ContentScale`은 요소의 유일한 자식으로 두세요. 요소의 `display`, `flex-direction`, `flex-wrap`, `align-items`, `justify-content`, `gap`을 이어받아 콘텐츠를 배치하므로, 레이아웃과 패딩은 지금처럼 요소에 작성하면 됩니다. 축소 트랜지션도 `ContentScale`에 포함되어 있습니다.
+`ContentScale`은 요소의 유일한 자식으로 두세요. 요소의 `display`와 flex·grid 레이아웃 값(`flex-direction`, `align-items`, `gap`, `grid-template-columns` 등)을 이어받아 콘텐츠를 배치하므로, 레이아웃과 패딩은 지금처럼 요소에 작성하면 됩니다. 축소 트랜지션도 `ContentScale`에 포함되어 있습니다.
 
 `ContentScale`은 기본으로 `span`을 렌더합니다. 콘텐츠를 배치하는 요소가 이미 있다면 `asChild`로 그 요소를 대신 사용할 수 있습니다.
 

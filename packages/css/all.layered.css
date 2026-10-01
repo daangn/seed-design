@@ -412,13 +412,23 @@
     flex-direction: inherit;
     flex-wrap: inherit;
     align-items: inherit;
+    align-content: inherit;
     justify-content: inherit;
+    justify-items: inherit;
     gap: inherit;
+    grid-template-columns: inherit;
+    grid-template-rows: inherit;
+    grid-template-areas: inherit;
+    grid-auto-flow: inherit;
+    grid-auto-columns: inherit;
+    grid-auto-rows: inherit;
     min-width: 0;
+    min-height: 0;
     scale: var(--seed-content-scale);
     transition: var(--seed-feedback-scale-transition);
     flex: auto;
-    align-self: stretch;
+    grid-area: 1 / 1 / -1 / -1;
+    place-self: stretch stretch;
   }
 
   :root, [data-seed-color-mode="system"] {

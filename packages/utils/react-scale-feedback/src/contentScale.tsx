@@ -36,7 +36,7 @@ export interface ContentScaleProps extends React.HTMLAttributes<HTMLSpanElement>
  *     </button>
  *   </ScaleFeedback>
  *
- * The box inherits the element's flex layout, so the element keeps its padding and
+ * The box inherits the element's flex or grid layout, so the element keeps its padding and
  * its `display`, `gap` and alignment go on laying out the content. Anywhere a
  * measured element doesn't publish the ratio, the box stays at its resting scale.
  */
