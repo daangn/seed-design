@@ -173,7 +173,7 @@ GlobalProps 객체 자체가 없을 때도 기본 동작을 사용합니다. `mo
 
 - **적용 방식**: React는 `ScaleFeedback`이 요소 크기만 측정하고, 배율은 사용처의 CSS가 `:active`와 `--seed-feedback-scale`로 적용합니다. Lynx는 훅이 touch 처리와 `Element.animate()` 실행까지 담당합니다.
 - **Content Scale**: React의 SEED 컴포넌트는 아직 Content Scale을 적용하지 않습니다. Lynx는 Rootage 명세에 따라 Accordion, List, Select Box, Segmented Control, Menu Item 등에서 콘텐츠만 축소하므로 같은 컴포넌트라도 두 플랫폼의 눌림 표현이 다릅니다.
-- **측정 기준**: React는 `ScaleFeedback`을 적용한 요소의 크기로 계산한 배율을 하위 요소가 상속합니다. Lynx는 target, 즉 실제로 축소하는 요소의 크기로 계산합니다. Content Scale에서는 콘텐츠 layer의 크기가 기준입니다.
+- **측정 기준**: 두 플랫폼 모두 측정한 요소의 크기로 배율을 계산하고, SEED 컴포넌트는 측정한 요소를 그대로 축소합니다. React는 계산한 배율을 CSS 변수로 공개하므로 직접 만든 컴포넌트에서 하위 요소에 적용할 수도 있지만, Lynx는 항상 target, 즉 실제로 축소하는 요소의 크기로 계산합니다. 따라서 Content Scale에서는 콘텐츠 layer의 크기가 기준입니다. 또 React의 `ScaleFeedback`은 wrapper 없이 child를 측정하지만, Lynx의 `ScaleFeedback`은 자신이 렌더한 wrapper `view`를 측정합니다.
 - **중첩 축소 끄기**: React는 `--seed-checkmark-feedback-scale` 같은 CSS 변수로 안쪽 요소의 축소를 끕니다. Lynx는 List, Select Box처럼 SEED 컴포넌트가 콘텐츠를 축소할 때만 안쪽 Checkbox·Radio·Switch의 축소를 자동으로 막습니다. 직접 만든 Scale Feedback 안에 이 컴포넌트를 넣으면 축소가 겹치며, 이를 끄는 공개 API는 없습니다.
 - **프로젝트 전체에서 끄기**: React는 CSS 변수를 덮어써서 끕니다. Lynx는 `GlobalProps.motion`의 `"reduced"`로만 끌 수 있습니다.
 
