@@ -32,6 +32,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "radio-group", title: "RadioGroup" },
       { page: "switch", title: "Switch" },
       { page: "tabs", title: "Tabs" },
+      { page: "tabs-headless", title: "Tabs (Headless)" },
       { page: "tag-group", title: "TagGroup" },
       { page: "text-field", title: "TextField" },
     ],

@@ -36,6 +36,7 @@ import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { TabsPage } from "./pages/TabsPage.jsx";
+import { TabsHeadlessPage } from "./pages/TabsHeadlessPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
@@ -63,6 +64,7 @@ export type Page =
   | "radio-group"
   | "switch"
   | "tabs"
+  | "tabs-headless"
   | "tag-group"
   | "text-field"
   | "nested-vars-test"
@@ -106,6 +108,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "radio-group": true,
   switch: true,
   tabs: true,
+  "tabs-headless": true,
   "tag-group": true,
   "text-field": true,
   "foundation-monochrome-icon": true,
@@ -180,6 +183,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "radio-group" && <RadioGroupPage />}
       {page === "switch" && <SwitchPage />}
       {page === "tabs" && <TabsPage />}
+      {page === "tabs-headless" && <TabsHeadlessPage />}
       {page === "tag-group" && <TagGroupPage />}
       {page === "text-field" && <TextFieldPage />}
       <Suspense>

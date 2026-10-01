@@ -1,0 +1,16 @@
+export {
+  TabsRoot as Root,
+  type TabsRootProps as RootProps,
+  TabsList as List,
+  type TabsListProps as ListProps,
+  TabsTrigger as Trigger,
+  type TabsTriggerProps as TriggerProps,
+  TabsIndicator as Indicator,
+  type TabsIndicatorProps as IndicatorProps,
+  TabsContent as Content,
+  type TabsContentProps as ContentProps,
+  TabsCarousel as Carousel,
+  type TabsCarouselProps as CarouselProps,
+  TabsCarouselCamera as CarouselCamera,
+  type TabsCarouselCameraProps as CarouselCameraProps,
+} from "./Tabs.jsx";

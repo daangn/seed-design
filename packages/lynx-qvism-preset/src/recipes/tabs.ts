@@ -49,7 +49,8 @@ const tabs = defineSlotRecipe({
     indicator: {
       position: "absolute",
       left: "0px",
-      bottom: "0px",
+      // React처럼 list 하단 stroke와 겹친다. stroke는 list의 border라 content 기준 bottom을 그 두께만큼 내린다.
+      bottom: `calc(0px - ${vars.base.enabled.root.strokeBottomWidth})`,
       height: vars.base.enabled.indicator.height,
       width: "var(--tabs-indicator-width, 0px)",
       backgroundColor: vars.base.enabled.indicator.color,

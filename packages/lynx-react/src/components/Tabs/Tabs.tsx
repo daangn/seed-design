@@ -1,191 +1,33 @@
 import { tabs, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
-import { runOnMainThread } from "@lynx-js/react";
 import * as React from "@lynx-js/react";
-import type {
-  IntrinsicElements,
-  MainThread,
-  NodesRef,
-  ViewPagerChangeEvent,
-  ViewPagerOffsetChangeEvent,
-  ViewPagerWillChangeEvent,
-} from "@lynx-js/types";
+import type { IntrinsicElements } from "@lynx-js/types";
+import {
+  Tabs as HeadlessTabs,
+  TabsProvider,
+  useTabs,
+  useTabsContext,
+  useTabsTrigger,
+  useTabsIndicator,
+  useTabsContent,
+} from "@seed-design/lynx-react-tabs";
 import clsx from "clsx";
-
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
   LynxStyledElementProps,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
-import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Box } from "../Box";
 import { HStack } from "../Stack";
-import {
-  areTabsTransitionsEnabled,
-  getTabsLayoutWidth,
-  getTabsOrderedItems,
-  getTabsScrollOffset,
-  getTabsTriggerRects,
-  type TabsLayoutRect,
-} from "./Tabs.utils";
-
-type NativeViewProps = IntrinsicElements["view"];
-type NativeViewPagerProps = IntrinsicElements["viewpager"];
-type TouchEndHandler = NonNullable<NativeViewPagerProps["bindtouchend"]>;
-type TouchCancelHandler = NonNullable<NativeViewPagerProps["bindtouchcancel"]>;
-type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
+import { TabsStyleProvider, useTabsStyleContext } from "./Tabs.context";
 type NativeScrollViewProps = IntrinsicElements["scroll-view"];
-type ScrollViewLayoutChangeHandler = NonNullable<NativeScrollViewProps["bindlayoutchange"]>;
-type ScrollViewHandler = NonNullable<NativeScrollViewProps["bindscroll"]>;
-type ContentSizeChangedHandler = NonNullable<NativeScrollViewProps["bindcontentsizechanged"]>;
-
-type ComputedStyleElement = MainThread.Element & {
-  getComputedStyleProperty?: (name: string) => string;
-};
-
-interface TabsContentInsets {
-  start: number;
-  end: number;
-}
-
-interface TabsScrollMetrics {
-  currentOffset: number;
-  viewportWidth: number | null;
-  contentWidth: number | null;
-  insets: TabsContentInsets | null;
-}
-
-function getTabsContentInsets(
-  contentRef: React.RefObject<ComputedStyleElement | null>,
-): TabsContentInsets | null {
-  "main thread";
-
-  const content = contentRef.current;
-  if (!content || typeof content.getComputedStyleProperty !== "function") return null;
-  // Read used values so Rootage tokens and consumer style overrides share the
-  // same scroll-content origin as the trigger rectangles; do not invent a fallback.
-
-  const start = Number.parseFloat(content.getComputedStyleProperty("padding-left"));
-  const end = Number.parseFloat(content.getComputedStyleProperty("padding-right"));
-  if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || end < 0) return null;
-  return { start, end };
-}
-type TriggerRect = TabsLayoutRect;
-type TriggerItem = { value: string; disabled: boolean };
-type TabsSharedClassNames = {
-  root: string;
-  list: string;
-  listContent: string;
-  carousel: string;
-  carouselCamera: string;
-  content: string;
-  trigger: string;
-  triggerLabel: string;
-};
-type TabsRecipeState = {
-  selected?: boolean;
-  pressed?: boolean;
-  disabled?: boolean;
-  inCarousel?: boolean;
-  transitionEnabled?: boolean;
-};
-type TabsRecipeAdapter = {
-  getClassNames: (state?: TabsRecipeState) => TabsSharedClassNames;
-  getIndicatorClassName?: (state?: TabsRecipeState) => string;
-  triggerGap: number;
-};
+type NativeViewPagerProps = IntrinsicElements["viewpager"];
 type TabsPublicVariantProps = Omit<
   TabsVariantProps,
   "selected" | "disabled" | "inCarousel" | "transitionEnabled"
 >;
-
-const { ClassNamesProvider } = createSlotRecipeContext(tabs);
-
-function invokeSelectTab(pager: NodesRef | null, index: number, smooth: boolean) {
-  "background only";
-  if (!pager || index < 0) return;
-  try {
-    pager.invoke({ method: "selectTab", params: { index, smooth } }).exec();
-  } catch {
-    // ReactLynx Testing Library의 NodesRef는 UI method를 구현하지 않는다.
-  }
-}
-
-function invokeScrollToOffset(list: NodesRef | null, offset: number) {
-  "background only";
-  if (!list || offset < 0) return;
-  try {
-    list.invoke({ method: "scrollTo", params: { offset, smooth: true } }).exec();
-  } catch {
-    // ReactLynx Testing Library의 NodesRef는 UI method를 구현하지 않는다.
-  }
-}
-
-interface TabsContextValue {
-  value: string | undefined;
-  visualValue: string | undefined;
-  classNames: TabsSharedClassNames;
-  getClassNames: (state?: TabsRecipeState) => TabsSharedClassNames;
-  getIndicatorClassName?: (state?: TabsRecipeState) => string;
-  inlineNotification: boolean;
-  items: TriggerItem[];
-  pagerValues: string[];
-  indicatorIndex: number;
-  selectedPagerIndex: number;
-  indicatorRef: React.RefObject<MainThread.Element>;
-  triggerRects: Record<string, TriggerRect>;
-  transitionsEnabled: boolean;
-  registerTrigger: (value: string, disabled: boolean) => () => void;
-  registerContent: (value: string) => () => void;
-  updateTriggerDisabled: (value: string, disabled: boolean) => void;
-  syncTriggerOrder: (values: string[]) => void;
-  updateTriggerWidth: (value: string, width: number) => void;
-  setPagerRef: (ref: NodesRef | null) => void;
-  selectValue: (value: string) => void;
-  handlePagerWillChange: (index: number) => void;
-  handlePagerChange: (index: number) => void;
-}
-
-const TabsContext = React.createContext<TabsContextValue | null>(null);
-
-function useTabsContext(consumer: string) {
-  const context = React.useContext(TabsContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <TabsRoot/>.`);
-  }
-  return context;
-}
-
-interface TabsCarouselContextValue {
-  swipeable: boolean;
-  iosBackGestureEdgeWidth: number;
-  onSettle?: () => void;
-  onSwipeStart?: () => void;
-  onSwipeEnd?: () => void;
-}
-
-const TabsCarouselContext = React.createContext<TabsCarouselContextValue | null>(null);
-const TabsCarouselCameraContext = React.createContext<boolean | null>(null);
-
-function useTabsCarouselCameraContext() {
-  return React.useContext(TabsCarouselCameraContext) ?? false;
-}
-
-function useTabsCarouselContext(consumer: string) {
-  const context = React.useContext(TabsCarouselContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <TabsCarousel/>.`);
-  }
-  return context;
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * @platform Lynx
  *
@@ -200,221 +42,10 @@ export interface TabsRootProps extends TabsPublicVariantProps, LynxStyledElement
   onValueChange?: (value: string) => void;
 }
 
-interface TabsRootPrimitiveProps extends Omit<TabsRootProps, keyof TabsPublicVariantProps> {
-  recipe: TabsRecipeAdapter;
-  inlineNotification?: boolean;
-}
-
-export const TabsRootPrimitive = React.forwardRef<unknown, TabsRootPrimitiveProps>((props, ref) => {
-  const {
-    recipe,
-    inlineNotification = false,
-    children,
-    className,
-    style,
-    value: valueProp,
-    defaultValue,
-    onValueChange,
-    ...nativeProps
-  } = props;
-  const [value, setValueInternal] = useControllableState<string | undefined>({
-    value: valueProp,
-    defaultValue,
-    onChange(nextValue) {
-      "background only";
-      if (nextValue !== undefined) onValueChange?.(nextValue);
-    },
-  });
-  const [items, setItems] = React.useState<TriggerItem[]>([]);
-  const [contentValues, setContentValues] = React.useState<string[]>([]);
-  const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
-  const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
-  const pagerRef = React.useRef<NodesRef | null>(null);
-  const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
-
-  const pagerValues = React.useMemo(
-    () =>
-      contentValues.filter(
-        (contentValue) => !items.find((item) => item.value === contentValue)?.disabled,
-      ),
-    [contentValues, items],
-  );
-  const triggerRects = React.useMemo(
-    () =>
-      getTabsTriggerRects(
-        items.map((item) => item.value),
-        triggerWidths,
-        recipe.triggerGap,
-      ),
-    [items, recipe.triggerGap, triggerWidths],
-  );
-  const transitionsEnabled = areTabsTransitionsEnabled(
-    items.map((item) => item.value),
-    triggerRects,
-  );
-  const getClassNames = recipe.getClassNames;
-  const classNames = getClassNames({ transitionEnabled: transitionsEnabled });
-  const visualValue = indicatorValue ?? value;
-  const indicatorIndex = items.findIndex((item) => item.value === visualValue);
-  const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
-  const setPagerNode = React.useCallback(
-    (node: NodesRef | null) => {
-      pagerRef.current = node;
-      if (node && selectedPagerIndex >= 0) invokeSelectTab(node, selectedPagerIndex, false);
-    },
-    [selectedPagerIndex],
-  );
-
-  const registerTrigger = React.useCallback((triggerValue: string, disabled: boolean) => {
-    setItems((current) => {
-      if (current.some((item) => item.value === triggerValue)) return current;
-      return [...current, { value: triggerValue, disabled }];
-    });
-
-    return () => {
-      "background only";
-      setItems((current) => current.filter((item) => item.value !== triggerValue));
-      setTriggerWidths((current) => {
-        const next = { ...current };
-        delete next[triggerValue];
-        return next;
-      });
-    };
-  }, []);
-
-  const registerContent = React.useCallback((contentValue: string) => {
-    setContentValues((current) =>
-      current.includes(contentValue) ? current : [...current, contentValue],
-    );
-
-    return () => {
-      "background only";
-      setContentValues((current) => current.filter((value) => value !== contentValue));
-    };
-  }, []);
-
-  const updateTriggerDisabled = React.useCallback((triggerValue: string, disabled: boolean) => {
-    setItems((current) =>
-      current.map((item) =>
-        item.value === triggerValue && item.disabled !== disabled ? { ...item, disabled } : item,
-      ),
-    );
-  }, []);
-
-  const syncTriggerOrder = React.useCallback((triggerValues: string[]) => {
-    setItems((current) => {
-      const ordered = getTabsOrderedItems(current, triggerValues);
-      return ordered.every((item, index) => item === current[index]) ? current : ordered;
-    });
-  }, []);
-
-  const updateTriggerWidth = React.useCallback((triggerValue: string, width: number) => {
-    setTriggerWidths((current) =>
-      current[triggerValue] === width ? current : { ...current, [triggerValue]: width },
-    );
-  }, []);
-
-  const selectValue = React.useCallback(
-    (nextValue: string) => {
-      setIndicatorValue(undefined);
-      setValueInternal(nextValue);
-    },
-    [setValueInternal],
-  );
-
-  const handlePagerWillChange = React.useCallback(
-    (targetIndex: number) => {
-      setIndicatorValue(pagerValues[targetIndex]);
-    },
-    [pagerValues],
-  );
-
-  const handlePagerChange = React.useCallback(
-    (targetIndex: number) => {
-      const nextValue = pagerValues[targetIndex];
-      if (nextValue === undefined) return;
-      setIndicatorValue(undefined);
-      setValueInternal(nextValue);
-    },
-    [pagerValues, setValueInternal],
-  );
-
-  React.useEffect(() => {
-    "background only";
-    if (selectedPagerIndex >= 0) {
-      invokeSelectTab(pagerRef.current, selectedPagerIndex, false);
-    }
-  }, [selectedPagerIndex]);
-
-  const contextValue = React.useMemo<TabsContextValue>(
-    () => ({
-      value,
-      visualValue,
-      classNames,
-      getClassNames,
-      getIndicatorClassName: recipe.getIndicatorClassName,
-      inlineNotification,
-      items,
-      pagerValues,
-      indicatorIndex,
-      selectedPagerIndex,
-      indicatorRef,
-      transitionsEnabled,
-      triggerRects,
-      registerTrigger,
-      registerContent,
-      updateTriggerDisabled,
-      syncTriggerOrder,
-      updateTriggerWidth,
-      setPagerRef: setPagerNode,
-      selectValue,
-      handlePagerWillChange,
-      handlePagerChange,
-    }),
-    [
-      value,
-      visualValue,
-      classNames,
-      getClassNames,
-      recipe.getIndicatorClassName,
-      inlineNotification,
-      items,
-      pagerValues,
-      indicatorIndex,
-      selectedPagerIndex,
-      indicatorRef,
-      triggerRects,
-      transitionsEnabled,
-      registerTrigger,
-      registerContent,
-      updateTriggerDisabled,
-      syncTriggerOrder,
-      updateTriggerWidth,
-      setPagerNode,
-      selectValue,
-      handlePagerWillChange,
-      handlePagerChange,
-    ],
-  );
-
-  return (
-    <TabsContext.Provider value={contextValue}>
-      <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-        className={clsx(classNames.root, className)}
-        style={style}
-      >
-        {children}
-      </view>
-    </TabsContext.Provider>
-  );
-});
-TabsRootPrimitive.displayName = "TabsRootPrimitive";
-
 export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) => {
   const [variantProps, rootProps] = tabs.splitVariantProps(props);
   const getClassNames = React.useCallback(
-    (state: TabsRecipeState = {}) =>
+    (state: Parameters<ReturnType<typeof useTabsStyleContext>["getClassNames"]>[0] = {}) =>
       tabs({
         ...variantProps,
         selected: state.selected,
@@ -424,45 +55,34 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
       }),
     [variantProps],
   );
-  const recipe = React.useMemo<TabsRecipeAdapter>(
+  const { children, className, style, value, defaultValue, onValueChange, ...nativeProps } =
+    rootProps;
+  const api = useTabs({ value, defaultValue, onValueChange });
+  const classNames = getClassNames({ transitionEnabled: api.transitionsEnabled });
+  const styleContext = React.useMemo(
     () => ({
+      classNames,
       getClassNames,
-      getIndicatorClassName: (state) => getClassNames(state).indicator,
-      triggerGap: 0,
+      getIndicatorClassName: (state: Parameters<typeof getClassNames>[0]) =>
+        getClassNames(state).indicator,
     }),
-    [getClassNames],
+    [classNames, getClassNames],
   );
-
   return (
-    <ClassNamesProvider value={getClassNames()}>
-      <TabsRootPrimitive {...rootProps} ref={ref} recipe={recipe} />
-    </ClassNamesProvider>
+    <TabsProvider value={api}>
+      <TabsStyleProvider value={styleContext}>
+        <view
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          className={clsx(classNames.root, className)}
+          style={style}
+        >
+          {children}
+        </view>
+      </TabsStyleProvider>
+    </TabsProvider>
   );
 });
 TabsRoot.displayName = "TabsRoot";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-function getTabsTriggerValues(children: React.ReactNode): string[] {
-  const values: string[] = [];
-
-  function visit(node: React.ReactNode) {
-    if (Array.isArray(node)) {
-      node.forEach(visit);
-      return;
-    }
-    if (!React.isValidElement<TabsTriggerProps>(node)) return;
-    if (node.type === TabsTrigger) {
-      values.push(node.props.value);
-      return;
-    }
-    if (node.type === React.Fragment) visit(node.props.children);
-  }
-
-  visit(children);
-  return values;
-}
-
 export interface TabsListProps
   extends LynxStyledElementProps,
     Omit<
@@ -481,172 +101,20 @@ export interface TabsListProps
 }
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
-  const { children, className, style, scrollAlign = "start", ...nativeProps } = props;
-  const { classNames, items, syncTriggerOrder, triggerRects, value } = useTabsContext("TabsList");
-  const scrollRef = React.useRef<NodesRef | null>(null);
-  const contentRef = React.useMainThreadRef<ComputedStyleElement | null>(null);
-  const metricsRef = React.useRef<TabsScrollMetrics>({
-    currentOffset: 0,
-    viewportWidth: null,
-    contentWidth: null,
-    insets: null,
-  });
-  const contentInsetRequestRef = React.useRef(0);
-  const selectedValueRef = React.useRef(value);
-  const [geometryRevision, setGeometryRevision] = React.useState(0);
-  const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
-
-  selectedValueRef.current = value;
-
-  React.useEffect(() => {
-    "background only";
-    syncTriggerOrder(triggerOrder);
-  }, [items, syncTriggerOrder, triggerOrder]);
-
-  const requestContentInsets = React.useCallback(() => {
-    "background only";
-    const request = ++contentInsetRequestRef.current;
-    metricsRef.current.insets = null;
-
-    void runOnMainThread<TabsContentInsets | null, typeof getTabsContentInsets>(
-      getTabsContentInsets,
-    )(contentRef).then(
-      (insets) => {
-        "background only";
-        if (request !== contentInsetRequestRef.current || !insets) return;
-
-        metricsRef.current.insets = insets;
-        setGeometryRevision((revision) => revision + 1);
-      },
-      () => {
-        // Missing native measurement intentionally leaves alignment pending.
-      },
-    );
-  }, [contentRef]);
-
-  const handleListLayoutChange = React.useCallback<ScrollViewLayoutChangeHandler>((event) => {
-    "background only";
-    const width = getTabsLayoutWidth(event);
-    if (width !== null && width > 0 && metricsRef.current.viewportWidth !== width) {
-      metricsRef.current.viewportWidth = width;
-      setGeometryRevision((revision) => revision + 1);
-    }
-  }, []);
-
-  const handleContentLayoutChange = React.useCallback<LayoutChangeHandler>(
-    (event) => {
-      "background only";
-      const width = getTabsLayoutWidth(event);
-      if (width !== null && width > 0 && metricsRef.current.contentWidth !== width) {
-        // Layout width is the ListContent border box until scrollWidth reports
-        // the scroll-view content width; the latter replaces this value below.
-        metricsRef.current.contentWidth = width;
-        setGeometryRevision((revision) => revision + 1);
-      }
-      requestContentInsets();
-    },
-    [requestContentInsets],
-  );
-
-  const updateScrollMetrics = React.useCallback(
-    (scrollLeft: number, scrollWidth: number) => {
-      "background only";
-      if (Number.isFinite(scrollLeft)) metricsRef.current.currentOffset = Math.max(0, scrollLeft);
-      if (
-        Number.isFinite(scrollWidth) &&
-        scrollWidth > 0 &&
-        metricsRef.current.contentWidth !== scrollWidth
-      ) {
-        metricsRef.current.contentWidth = scrollWidth;
-        requestContentInsets();
-        setGeometryRevision((revision) => revision + 1);
-      }
-    },
-    [requestContentInsets],
-  );
-
-  const handleScroll = React.useCallback<ScrollViewHandler>(
-    (event) => {
-      "background only";
-      updateScrollMetrics(event.detail.scrollLeft, event.detail.scrollWidth);
-    },
-    [updateScrollMetrics],
-  );
-
-  const handleContentSizeChanged = React.useCallback<ContentSizeChangedHandler>(
-    (event) => {
-      "background only";
-      updateScrollMetrics(event.detail.scrollLeft, event.detail.scrollWidth);
-    },
-    [updateScrollMetrics],
-  );
-
-  React.useEffect(() => {
-    "background only";
-    const selectedRect = value === undefined ? undefined : triggerRects[value];
-    const { currentOffset, viewportWidth, contentWidth, insets } = metricsRef.current;
-    if (
-      !scrollRef.current ||
-      value === undefined ||
-      !selectedRect ||
-      viewportWidth === null ||
-      contentWidth === null ||
-      insets === null
-    ) {
-      return;
-    }
-
-    const targetOffset = getTabsScrollOffset({
-      scrollAlign,
-      currentOffset,
-      viewportWidth,
-      contentWidth,
-      contentInsetStart: insets.start,
-      contentInsetEnd: insets.end,
-      triggerRect: selectedRect,
-    });
-    if (selectedValueRef.current !== value || targetOffset === currentOffset) return;
-
-    invokeScrollToOffset(scrollRef.current, targetOffset);
-  }, [geometryRevision, items, scrollAlign, triggerRects, value]);
-
-  const mergedRef = React.useMemo(
-    () => mergeProps({ ref: scrollRef }, { ref: ref as LynxViewRef }).ref,
-    [ref],
-  );
-
+  const { children, className, ...nativeProps } = props;
+  const { classNames } = useTabsStyleContext();
   return (
-    <scroll-view
-      {...mergeProps(
-        {
-          ref: mergedRef,
-          bindlayoutchange: handleListLayoutChange,
-          bindscroll: handleScroll,
-          bindcontentsizechanged: handleContentSizeChanged,
-        },
-        nativeProps,
-      )}
-      scroll-orientation="horizontal"
-      scroll-bar-enable={false}
-      accessibility-element={false}
-      accessibility-traits="tabbar"
+    <HeadlessTabs.List
+      {...nativeProps}
+      {...(ref ? { ref } : {})}
       className={clsx(classNames.list, className)}
-      style={style}
+      listContentProps={{ className: classNames.listContent }}
     >
-      <view
-        className={classNames.listContent}
-        main-thread:ref={contentRef}
-        bindlayoutchange={handleContentLayoutChange}
-      >
-        {children}
-      </view>
-    </scroll-view>
+      {children}
+    </HeadlessTabs.List>
   );
 });
 TabsList.displayName = "TabsList";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 // Keep the scale target's Android View even if shared props later expose flatten.
 export interface TabsTriggerProps
   extends Omit<LynxStyledElementProps, "children" | "flatten">,
@@ -670,63 +138,33 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     "accessibility-label": accessibilityLabel,
     ...nativeProps
   } = props;
-  const context = useTabsContext("TabsTrigger");
-  const selected = context.value === triggerValue;
-  const visuallySelected = context.visualValue === triggerValue;
 
-  React.useEffect(() => {
-    "background only";
-    return context.registerTrigger(triggerValue, disabled);
-  }, [context.registerTrigger, triggerValue]);
-
-  React.useEffect(() => {
-    "background only";
-    context.updateTriggerDisabled(triggerValue, disabled);
-  }, [context.updateTriggerDisabled, triggerValue, disabled]);
-
-  const handleTap = React.useCallback<NonNullable<NativeViewProps["bindtap"]>>(
-    (...args) => {
-      "background only";
-      bindtap?.(...args);
-      context.selectValue(triggerValue);
-    },
-    [bindtap, context.selectValue, triggerValue],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const context = useTabsStyleContext();
+  const { transitionsEnabled } = useTabsContext();
+  const api = useTabsTrigger({
+    value: triggerValue,
     disabled,
-    onTap: handleTap,
+    bindtap,
+    children,
+    "accessibility-label": accessibilityLabel,
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
+    onTouchStart: api.bindtouchstart,
+    onTouchEnd: api.bindtouchend,
+    onTouchCancel: api.bindtouchcancel,
   });
-
-  const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
-    (...args) => {
-      "background only";
-      const width = getTabsLayoutWidth(args[0]);
-      if (width !== null) context.updateTriggerWidth(triggerValue, width);
-    },
-    [context.updateTriggerWidth, triggerValue],
-  );
-
   const triggerClasses = context.getClassNames({
-    selected: visuallySelected,
-    disabled,
-    pressed,
-    transitionEnabled: context.transitionsEnabled,
+    selected: api.isVisuallySelected,
+    disabled: api.isDisabled,
+    pressed: api.isPressed,
+    transitionEnabled: transitionsEnabled,
   });
-  const label =
-    typeof children === "string" || typeof children === "number" ? String(children) : undefined;
-
   return (
     <view
       {...mergeProps(
-        { bindlayoutchange: handleLayoutChange },
+        api.triggerProps,
         ref ? { ref: ref as LynxViewRef } : {},
-        pressHandlers,
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         nativeProps,
@@ -734,9 +172,9 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       flatten={false}
       accessibility-element={true}
       accessibility-role-description="tab"
-      accessibility-label={accessibilityLabel ?? label}
-      accessibility-value={selected ? "selected" : "not selected"}
-      accessibility-traits={disabled ? "disabled" : selected ? "selected" : "button"}
+      accessibility-label={api.triggerProps["accessibility-label"]}
+      accessibility-value={api.triggerProps["accessibility-value"]}
+      accessibility-traits={api.triggerProps["accessibility-traits"]}
       className={clsx(triggerClasses.trigger, className)}
       style={style}
     >
@@ -759,101 +197,58 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   );
 });
 TabsTrigger.displayName = "TabsTrigger";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TabsIndicatorProps extends LynxStyledElementProps {}
 
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
-  const { className, style, ...nativeProps } = props;
-  const {
-    indicatorRef,
-    items,
-    indicatorIndex,
-    triggerRects,
-    getIndicatorClassName,
-    transitionsEnabled,
-  } = useTabsContext("TabsIndicator");
-  if (!getIndicatorClassName) {
-    throw new Error("<TabsIndicator/> is only supported inside <TabsRoot/>.");
-  }
-  const indicatorClassName = getIndicatorClassName({ transitionEnabled: transitionsEnabled });
-  const position = indicatorIndex;
-  const lowerIndex = Math.max(0, Math.floor(position));
-  const upperIndex = Math.min(items.length - 1, Math.ceil(position));
-  const progress = Math.max(0, Math.min(1, position - lowerIndex));
-  const lowerRect = triggerRects[items[lowerIndex]?.value ?? ""];
-  const upperRect = triggerRects[items[upperIndex]?.value ?? ""] ?? lowerRect;
-  const x = lowerRect
-    ? lowerRect.left + ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress
-    : 0;
-  const width = lowerRect
-    ? lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress
-    : 0;
-
+  const { children, className, style, ...nativeProps } = props;
+  const { getIndicatorClassName } = useTabsStyleContext();
+  const api = useTabsIndicator();
+  if (!getIndicatorClassName) throw new Error("TabsIndicator is only supported inside TabsRoot");
   return (
     <view
-      {...mergeProps(
-        { "main-thread:ref": indicatorRef },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
+      {...mergeProps(api.indicatorProps, ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       accessibility-elements-hidden={true}
-      className={clsx(indicatorClassName, className)}
-      style={
-        {
-          "--tabs-indicator-x": `${x}px`,
-          "--tabs-indicator-width": `${width}px`,
-          ...style,
-        } as LynxViewProps["style"]
-      }
-    />
+      className={clsx(
+        getIndicatorClassName({ transitionEnabled: api.transitionsEnabled }),
+        className,
+      )}
+      style={{ ...api.indicatorProps.style, ...style }}
+    >
+      {children}
+    </view>
   );
 });
 TabsIndicator.displayName = "TabsIndicator";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TabsContentProps extends LynxStyledElementProps {
   value: string;
 }
 
 export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, ref) => {
   const { children, className, style, value: contentValue, ...nativeProps } = props;
-  const tabsContext = useTabsContext("TabsContent");
-  const inCarousel = useTabsCarouselCameraContext();
-  const selected = tabsContext.value === contentValue;
-  const disabled = tabsContext.items.find((item) => item.value === contentValue)?.disabled ?? false;
-  const contentClasses = tabsContext.getClassNames({ selected, inCarousel });
 
-  React.useEffect(() => {
-    "background only";
-    if (inCarousel) return tabsContext.registerContent(contentValue);
-  }, [inCarousel, tabsContext.registerContent, contentValue]);
-
+  const context = useTabsStyleContext();
+  const api = useTabsContent({ value: contentValue });
+  const contentClasses = context.getClassNames({
+    selected: api.isSelected,
+    inCarousel: api.inCarousel,
+  });
   const content = (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      accessibility-elements-hidden={!selected}
-      accessibility-role-description="tabpanel"
-      accessibility-value={selected ? "selected" : "not selected"}
+      {...api.contentProps}
       className={clsx(contentClasses.content, className)}
       style={style}
     >
       {children}
     </view>
   );
-
-  if (inCarousel) {
-    if (disabled) return null;
+  if (api.inCarousel) {
+    if (api.isDisabled) return null;
     return <viewpager-item>{content}</viewpager-item>;
   }
   return content;
 });
 TabsContent.displayName = "TabsContent";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * @platform Lynx
  *
@@ -872,39 +267,19 @@ export interface TabsCarouselProps extends LynxStyledElementProps {
 }
 
 export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    swipeable = false,
-    iosBackGestureEdgeWidth = 32,
-    onSettle,
-    onSwipeStart,
-    onSwipeEnd,
-    ...nativeProps
-  } = props;
-  const { classNames } = useTabsContext("TabsCarousel");
-  const contextValue = React.useMemo<TabsCarouselContextValue>(
-    () => ({ swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd }),
-    [swipeable, iosBackGestureEdgeWidth, onSettle, onSwipeStart, onSwipeEnd],
-  );
-
+  const { children, className, ...nativeProps } = props;
+  const { classNames } = useTabsStyleContext();
   return (
-    <TabsCarouselContext.Provider value={contextValue}>
-      <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-        className={clsx(classNames.carousel, className)}
-        style={style}
-      >
-        {children}
-      </view>
-    </TabsCarouselContext.Provider>
+    <HeadlessTabs.Carousel
+      {...nativeProps}
+      {...(ref ? { ref } : {})}
+      className={clsx(classNames.carousel, className)}
+    >
+      {children}
+    </HeadlessTabs.Carousel>
   );
 });
 TabsCarousel.displayName = "TabsCarousel";
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TabsCarouselCameraProps extends LynxStyledElementProps {
   bindchange?: NativeViewPagerProps["bindchange"];
   bindwillchange?: NativeViewPagerProps["bindwillchange"];
@@ -913,129 +288,16 @@ export interface TabsCarouselCameraProps extends LynxStyledElementProps {
 
 export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraProps>(
   (props, ref) => {
-    const {
-      children,
-      className,
-      style,
-      bindchange,
-      bindwillchange,
-      bindoffsetchange,
-      ...nativeProps
-    } = props;
-    const tabsContext = useTabsContext("TabsCarouselCamera");
-    const { classNames } = tabsContext;
-    const carouselContext = useTabsCarouselContext("TabsCarouselCamera");
-    const swipingRef = React.useRef(false);
-    const { indicatorRef, pagerValues, triggerRects } = tabsContext;
-    const indicatorRects = pagerValues.map((value) => triggerRects[value] ?? null);
-
-    const mergedRef = React.useMemo(
-      () => mergeProps({ ref: tabsContext.setPagerRef }, { ref: ref as LynxViewRef }).ref,
-      [ref, tabsContext.setPagerRef],
-    );
-
-    const finishSwipe = React.useCallback(() => {
-      "background only";
-      if (!swipingRef.current) return;
-      swipingRef.current = false;
-      carouselContext.onSwipeEnd?.();
-    }, [carouselContext.onSwipeEnd]);
-
-    const handleTouchEnd = React.useCallback<TouchEndHandler>(() => {
-      "background only";
-      finishSwipe();
-    }, [finishSwipe]);
-
-    const handleTouchCancel = React.useCallback<TouchCancelHandler>(() => {
-      "background only";
-      finishSwipe();
-    }, [finishSwipe]);
-
-    const handleWillChange = React.useCallback(
-      (event: ViewPagerWillChangeEvent) => {
-        "background only";
-        bindwillchange?.(event);
-        if (event.detail.isDragged) {
-          tabsContext.handlePagerWillChange(event.detail.index);
-          if (carouselContext.swipeable && !swipingRef.current) {
-            swipingRef.current = true;
-            carouselContext.onSwipeStart?.();
-          }
-        }
-      },
-      [
-        bindwillchange,
-        carouselContext.onSwipeStart,
-        carouselContext.swipeable,
-        tabsContext.handlePagerWillChange,
-      ],
-    );
-
-    const handleChange = React.useCallback(
-      (event: ViewPagerChangeEvent) => {
-        "background only";
-        bindchange?.(event);
-        tabsContext.handlePagerChange(event.detail.index);
-        carouselContext.onSettle?.();
-      },
-      [bindchange, carouselContext.onSettle, tabsContext.handlePagerChange],
-    );
-
-    const handleOffsetChange = React.useCallback(
-      (event: ViewPagerOffsetChangeEvent) => {
-        "background only";
-        bindoffsetchange?.(event);
-      },
-      [bindoffsetchange],
-    );
-
-    function handleIndicatorOffsetChange(event: ViewPagerOffsetChangeEvent) {
-      "main thread";
-
-      const position = Number(event.detail.offset);
-      if (!Number.isFinite(position)) return;
-
-      const lowerIndex = Math.max(0, Math.floor(position));
-      const upperIndex = Math.min(indicatorRects.length - 1, Math.ceil(position));
-      const progress = Math.max(0, Math.min(1, position - lowerIndex));
-      const lowerRect = indicatorRects[lowerIndex];
-      const upperRect = indicatorRects[upperIndex] ?? lowerRect;
-      if (!lowerRect) return;
-
-      const x = lowerRect.left + ((upperRect?.left ?? lowerRect.left) - lowerRect.left) * progress;
-      const width =
-        lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress;
-
-      indicatorRef.current?.setStyleProperties({
-        "--tabs-indicator-x": `${x}px`,
-        "--tabs-indicator-width": `${width}px`,
-      });
-    }
-
+    const { children, className, ...nativeProps } = props;
+    const { classNames } = useTabsStyleContext();
     return (
-      <viewpager
-        {...mergeProps(
-          {
-            ref: mergedRef,
-            bindtouchend: handleTouchEnd,
-            bindtouchcancel: handleTouchCancel,
-            bindwillchange: handleWillChange,
-            bindchange: handleChange,
-            bindoffsetchange: handleOffsetChange,
-            "main-thread:bindoffsetchange": handleIndicatorOffsetChange,
-          },
-          nativeProps,
-        )}
-        initial-select-index={Math.max(0, tabsContext.selectedPagerIndex)}
-        enable-scroll={carouselContext.swipeable}
-        ios-gesture-offset={carouselContext.iosBackGestureEdgeWidth}
+      <HeadlessTabs.CarouselCamera
+        {...nativeProps}
+        {...(ref ? { ref } : {})}
         className={clsx(classNames.carouselCamera, className)}
-        style={style}
       >
-        <TabsCarouselCameraContext.Provider value={true}>
-          {children}
-        </TabsCarouselCameraContext.Provider>
-      </viewpager>
+        {children}
+      </HeadlessTabs.CarouselCamera>
     );
   },
 );
