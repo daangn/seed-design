@@ -15,7 +15,9 @@ type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
 
-type ScrollFogPlacement = "top" | "bottom" | "left" | "right";
+type ScrollFogVerticalPlacement = "top" | "bottom";
+type ScrollFogHorizontalPlacement = "left" | "right";
+type ScrollFogPlacement = ScrollFogVerticalPlacement | ScrollFogHorizontalPlacement;
 
 type SizesConfig = {
   top?: number;
@@ -55,17 +57,19 @@ function createRootStyle(
 /**
  * @platform Lynx
  *
- * A two-axis scroll area with independently configurable edge masks.
+ * Edge masks for a single-axis scroll container. ScrollFog does not scroll;
+ * place a `scroll-view` (or a component that owns one) inside it.
  */
 export interface ScrollFogProps extends Omit<NativeViewProps, "children" | "className" | "style"> {
   children?: ReactNode;
   className?: NativeViewProps["className"];
   style?: NativeViewProps["style"];
   /**
-   * Fog 효과를 표시할 방향입니다.
+   * Fog 효과를 표시할 방향입니다. Lynx `scroll-view`는 한 축으로만 스크롤하므로
+   * 세로(`top`·`bottom`) 또는 가로(`left`·`right`) 중 한 축의 방향만 지정할 수 있습니다.
    * @defaultValue ["top", "bottom"]
    */
-  placement?: ScrollFogPlacement[];
+  placement?: ScrollFogVerticalPlacement[] | ScrollFogHorizontalPlacement[];
   /**
    * Fog 효과의 크기입니다. 숫자는 px 단위로 처리합니다.
    * @defaultValue 20
@@ -73,11 +77,6 @@ export interface ScrollFogProps extends Omit<NativeViewProps, "children" | "clas
   size?: number | string;
   /** 방향별 Fog 효과의 크기입니다. 숫자는 px 단위로 처리합니다. */
   sizes?: SizesConfig;
-  /**
-   * Native scroll indicator를 숨깁니다.
-   * @defaultValue false
-   */
-  hideScrollBar?: boolean;
 }
 
 export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = React.forwardRef<
@@ -91,61 +90,44 @@ export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = Reac
     placement = ["top", "bottom"],
     size = DEFAULT_SIZE,
     sizes,
-    hideScrollBar = false,
     ...rootProps
   } = props;
+  const edges: readonly ScrollFogPlacement[] = placement;
   const normalizedSize = normalizeSize(size);
   const topSize = sizes?.top ? normalizeSize(sizes.top) : normalizedSize;
   const bottomSize = sizes?.bottom ? normalizeSize(sizes.bottom) : normalizedSize;
   const leftSize = sizes?.left ? normalizeSize(sizes.left) : normalizedSize;
   const rightSize = sizes?.right ? normalizeSize(sizes.right) : normalizedSize;
-  const scrollBarEnabled = !hideScrollBar;
   const classNames = scrollFog({
-    top: placement.includes("top"),
-    bottom: placement.includes("bottom"),
-    left: placement.includes("left"),
-    right: placement.includes("right"),
+    top: edges.includes("top"),
+    bottom: edges.includes("bottom"),
+    left: edges.includes("left"),
+    right: edges.includes("right"),
   });
-  let content: ReactNode = (
-    <scroll-view
-      enable-nested-scroll
-      scroll-bar-enable={scrollBarEnabled}
-      scroll-orientation="vertical"
-      className={classNames.verticalScroll}
-    >
-      <scroll-view
-        enable-nested-scroll
-        scroll-bar-enable={scrollBarEnabled}
-        scroll-orientation="horizontal"
-        className={classNames.horizontalScroll}
-      >
-        {children}
-      </scroll-view>
-    </scroll-view>
-  );
+  let content: ReactNode = children;
 
-  if (placement.includes("right")) {
+  if (edges.includes("right")) {
     content = (
       <view flatten={false} className={classNames.rightMask}>
         {content}
       </view>
     );
   }
-  if (placement.includes("left")) {
+  if (edges.includes("left")) {
     content = (
       <view flatten={false} className={classNames.leftMask}>
         {content}
       </view>
     );
   }
-  if (placement.includes("bottom")) {
+  if (edges.includes("bottom")) {
     content = (
       <view flatten={false} className={classNames.bottomMask}>
         {content}
       </view>
     );
   }
-  if (placement.includes("top")) {
+  if (edges.includes("top")) {
     content = (
       <view flatten={false} className={classNames.topMask}>
         {content}
