@@ -24,6 +24,7 @@ import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
   ProgressCircleRoot,
+  ProgressCircleTrack,
   type ProgressCircleRootProps,
 } from "../ProgressCircle";
 import {
@@ -236,6 +237,7 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
   return (
     <view className={classNames.loadingIndicator}>
       <ProgressCircleRoot size={progressCircleSize} tone="inherit">
+        <ProgressCircleTrack />
         <ProgressCircleRange />
       </ProgressCircleRoot>
     </view>
