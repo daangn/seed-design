@@ -1557,7 +1557,7 @@
       },
       "peerDependencies": {
         "@rsbuild/core": "^1.1.0 || ^2.0.0",
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^2.0.0 || ^3.0.0",
       },
     },
     "packages/rsbuild-plugin-lynx-icon": {
@@ -1602,7 +1602,7 @@
         "vite-plugin-dts": "^5.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^2.9.0 || ^3.0.0",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
@@ -1687,7 +1687,7 @@
         "vite": "^8.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^2.0.0 || ^3.0.0",
         "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
       },
     },
@@ -1702,7 +1702,7 @@
       },
       "peerDependencies": {
         "@rspack/core": "^2.0.0",
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^2.0.0 || ^3.0.0",
         "html-webpack-plugin": "^5.0.0",
         "webpack": "^5.0.0",
       },

@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "@rspack/core": "^2.0.0",
-    "@seed-design/css": "^3.0.0",
+    "@seed-design/css": "^2.0.0 || ^3.0.0",
     "html-webpack-plugin": "^5.0.0",
     "webpack": "^5.0.0"
   },
