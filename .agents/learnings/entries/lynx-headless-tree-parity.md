@@ -14,6 +14,7 @@ related: ["isolated-regression-baselines"]
 - 같은 요소의 같은 이벤트 이름에 대해 native는 Background handler 하나와 Main Thread handler 하나를 따로 보관한다. `bindtouchstart`와 `main-thread:bindtouchstart`는 둘 다 실행된다. 반면 `@lynx-js/react/testing-library`는 `bindEvent:touchstart` key 하나에 둘을 덮어쓰므로 dual-thread 테스트에서만 한쪽이 사라진다. 테스트 실패만으로 native 결함을 보고하지 말고 기기에서 확인한다.
   - headless Root가 소비자 `main-thread:bindtouch*`를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성(예: `packages/lynx-react-headless/action-button/src/ActionButton.tsx`)은 테스트 환경에서 눌림 상태를 유지하고 native에서도 무해하므로 유지한다.
   - phase는 별도 칸을 만들지 않는다. `main-thread:capture-bindtouchstart`와 `main-thread:bindtouchstart`는 같은 Main Thread 칸을 두고 경쟁해 하나만 실행된다. Scale Feedback 같은 내부 Main Thread handler를 capture로 옮겨 소비자 handler와 분리하려 하지 않는다 → 같은 key로 두고 `mergeProps`로 합성한다.
+  - 값이 없을 수 있는 Main Thread handler를 `main-thread:bindtap={handlers["main-thread:bindtap"]}`처럼 항상 적지 않는다 → testing-library에서는 `undefined`가 같은 key의 `bindtap`을 지워 탭이 전달되지 않는다. handler가 있을 때만 key를 넣는다(`{...(handler ? { "main-thread:bindtap": handler } : {})}`).
 - 다음 순서로 검증한다.
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - parity 테스트는 대상 컴포넌트 파일이나 `<Component>.namespace.ts`를 import한다. `src/components/index.ts`(`..`)를 import하면 lynx-ui-sheet까지 불러와 `The requested module 'preact' does not provide an export named 'process'`로 suite가 로드되지 않는다.
@@ -42,6 +43,7 @@ related: ["isolated-regression-baselines"]
 - 상황(DES-2618): 리뷰에서 styled FAB의 소비자 Background `bindtouchstart`가 dual-thread 테스트에서 0회 호출되는 것을 native 결함으로 보고, Scale Feedback trigger를 `main-thread:capture-bindtouch*`로 옮겼다.
 - 영향(DES-2618): iOS PlayLynx(SDK 1.4.0)에서 원래 코드는 이미 소비자 Background `bindtouchstart`·`bindtouchend`와 눌림 상태가 모두 동작했다. capture 변경본에서는 소비자 `main-thread:bindtouchstart`만 실행되고 눌림 상태가 켜지지 않았다. 변경을 되돌렸다. Lynx engine(`core/renderer/dom/attribute_holder.h`, `f364ace`)은 Background handler를 `static_events`, Main Thread handler를 `lepus_events_`에 이벤트 이름 key로 `insert_or_assign`해 phase와 관계없이 이름당 하나씩 보관한다.
 - 상황(DES-2639): QuantityPicker parity 테스트에서 removable이 아닌 Decrement를 `min`까지 누르는 장면이 위 `runOnMainThread` 오류로 전체 테스트를 실패시켰다. 장면별 `try/catch`로 오류를 로그에 남기고 `eventMap` key를 포함해 26개 장면을 수집했다. 분리 전후 JSON이 `cmp`로 byte 단위로 같았다.
+- 상황(DES-2622): Menu Positioner의 Trigger 위치 탭 영역에 `bindtap={handlers.bindtap}`과 `main-thread:bindtap={handlers["main-thread:bindtap"]}`(소비자 Main Thread handler가 없어 `undefined`)을 함께 주자, Headless 테스트에서 탭해도 `onOpenChange`가 호출되지 않았다. handler가 있을 때만 key를 넣자 통과했다. 같은 구조는 iOS PlayLynx 실기기에서 탭이 전달됐다.
 
 ## 변경 이력
 
@@ -52,3 +54,4 @@ related: ["isolated-regression-baselines"]
 - 2026-09-29: DES-2618 FloatingActionButton 작업에서 parity 테스트의 import 경로와 jsdom의 CSS 변수 누락을 추가했다.
 - 2026-09-29: DES-2618에서 Background·Main Thread handler 공존 규칙을 기기와 engine 원천으로 정정하고, capture phase 분리 시도가 실패한 근거를 추가했다.
 - 2026-10-01: DES-2639에서 이벤트 key 직렬화 위치와 장면별 Main Thread 오류 처리 방법을 추가했다.
+- 2026-10-01: DES-2622에서 값이 없는 Main Thread prop이 테스트에서 Background handler를 지우는 사례를 추가했다.
