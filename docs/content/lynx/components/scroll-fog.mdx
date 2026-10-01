@@ -14,7 +14,7 @@ description: 스크롤 가능한 영역에서 사용자에게 추가 콘텐츠�
   ```
 </LynxComponentExample>
 
-Scroll Fog는 완전한 Scroll Area보다 간단한 스크롤 힌트를 위한 컴포넌트입니다. 스크롤 영역 위에 Rootage의 `gradient.fade-mask`를 사용하는 별도의 비인터랙티브 mask layer를 표시합니다.
+Scroll Fog는 완전한 Scroll Area보다 간단한 스크롤 힌트를 위한 컴포넌트입니다. 지정한 edge에 Rootage의 `gradient.fade-mask`로 mask를 적용하며, 스크롤 자체는 하지 않습니다. 스크롤이 필요한 콘텐츠는 `<scroll-view>`나 스크롤을 소유한 컴포넌트로 감싸 `ScrollFog` 안에 둡니다.
 
 ## Installation
 
@@ -26,7 +26,7 @@ Lynx의 `ScrollFog`는 Registry snippet이나 Recipe 없이 `@seed-design/lynx-r
 
 ## Usage
 
-`ScrollFog`는 React 버전과 동일하게 임의 방향의 `placement`, 공통 `size`, 방향별 `sizes`, `hideScrollBar`를 지원합니다. `placement`에 `top`, `bottom`, `left`, `right`를 원하는 조합으로 지정할 수 있습니다. Fog 레이어는 터치 입력을 가로채지 않으므로 콘텐츠를 스크롤하거나 조작할 수 있습니다.
+`ScrollFog` 안에 스크롤 방향과 같은 축의 `<scroll-view>`를 직접 배치하세요. `placement`는 세로(`top`·`bottom`) 또는 가로(`left`·`right`) 중 한 축의 방향만 받습니다. 공통 `size`와 방향별 `sizes`로 fog 크기를 조절합니다. Fog mask는 콘텐츠를 감싸는 view에 적용되므로 터치 입력을 가로채지 않습니다.
 
 ```tsx
 import { ScrollFog } from "@seed-design/lynx-react";
@@ -34,10 +34,12 @@ import { ScrollFog } from "@seed-design/lynx-react";
 export function App() {
   return (
     <view style={{ height: "300px" }}>
-      <ScrollFog placement={["top", "bottom"]}>
-        <view style={{ padding: "20px 0 80px" }}>
-          <text>스크롤할 콘텐츠</text>
-        </view>
+      <ScrollFog placement={["top", "bottom"]} style={{ width: "100%", height: "100%" }}>
+        <scroll-view scroll-orientation="vertical" style={{ width: "100%", height: "100%" }}>
+          <view style={{ padding: "20px 0 80px" }}>
+            <text>스크롤할 콘텐츠</text>
+          </view>
+        </scroll-view>
       </ScrollFog>
     </view>
   );
@@ -63,18 +65,22 @@ ScrollFog는 항상 fog 효과를 표시하므로, 지정된 방향에 충분한
 ```tsx
 // 상하 스크롤 - 상하 padding 필요
 <ScrollFog placement={["top", "bottom"]}>
-  <view style={{ padding: "20px 0 80px" }}>...</view>
+  <scroll-view scroll-orientation="vertical">
+    <view style={{ padding: "20px 0 80px" }}>...</view>
+  </scroll-view>
 </ScrollFog>
 
 // 좌우 스크롤 - 좌우 padding 필요
 <ScrollFog placement={["left", "right"]}>
-  <view style={{ padding: "0 20px" }}>...</view>
+  <scroll-view scroll-orientation="horizontal">
+    <view style={{ padding: "0 20px" }}>...</view>
+  </scroll-view>
 </ScrollFog>
 ```
 
 ### Horizontal Scroll
 
-가로 스크롤이 필요한 경우 `placement={["left", "right"]}`를 사용하여 좌우 fog 효과를 적용할 수 있습니다. 콘텐츠가 잘리지 않도록 좌우 20px padding을 제공하세요.
+가로 스크롤이 필요한 경우 `scroll-orientation="horizontal"`인 `<scroll-view>`를 `placement={["left", "right"]}`인 `ScrollFog`로 감쌉니다. 콘텐츠가 잘리지 않도록 좌우 20px padding을 제공하세요.
 
 <LynxComponentExample name="lynx/scroll-fog/horizontal" height={220}>
   ```json doc-gen:file
@@ -87,7 +93,7 @@ ScrollFog는 항상 fog 효과를 표시하므로, 지정된 방향에 충분한
 
 ### Size
 
-`size`를 사용해 모든 방향의 fog 크기를 한 번에 조절할 수 있습니다. `sizes`를 사용하면 각 방향의 크기를 다르게 지정할 수 있습니다.
+`size`를 사용해 지정한 방향의 fog 크기를 한 번에 조절할 수 있습니다. `sizes`를 사용하면 각 방향의 크기를 다르게 지정할 수 있습니다.
 
 <LynxComponentExample name="lynx/scroll-fog/size" height={320}>
   ```json doc-gen:file
@@ -107,28 +113,8 @@ ScrollFog는 항상 fog 효과를 표시하므로, 지정된 방향에 충분한
   ```
 </LynxComponentExample>
 
-### All Directions
+## 웹 버전과의 차이
 
-2D 스크롤이 필요한 경우 `placement={["top", "bottom", "left", "right"]}`를 사용하여 모든 방향에 fog 효과를 적용할 수 있습니다.
-
-<LynxComponentExample name="lynx/scroll-fog/all-directions" height={320}>
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/scroll-fog/all-directions.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
-### Hide Scrollbar
-
-`hideScrollBar`를 사용하면 fog 효과는 유지하면서 스크롤바를 숨길 수 있습니다.
-
-<LynxComponentExample name="lynx/scroll-fog/hide-scrollbar" height={320}>
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/scroll-fog/hide-scrollbar.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
+- **스크롤 축**: 웹은 하나의 `overflow: auto` 요소가 두 축으로 스크롤하므로 네 방향을 함께 지정할 수 있습니다. Lynx `<scroll-view>`는 `scroll-orientation`으로 세로 또는 가로 한 축만 스크롤하므로, `placement`도 한 축의 방향만 받습니다. React의 All Directions 예제에 대응하는 예제는 없습니다.
+- **스크롤 host**: React `ScrollFog`는 자신이 스크롤 영역입니다. Lynx `ScrollFog`는 mask만 적용하고 스크롤하지 않으므로, `<scroll-view>`나 `ChipTabsList`처럼 스크롤을 소유한 요소를 자식으로 둡니다. ref와 native props는 스크롤하지 않는 root `view`에 전달되므로, 스크롤 위치 제어와 `bindscroll` 같은 이벤트는 자식 `<scroll-view>`에서 사용하세요.
+- **스크롤바 숨김**: `hideScrollBar`를 제공하지 않습니다. 자식 `<scroll-view>`에 `scroll-bar-enable={false}`를 지정하세요.

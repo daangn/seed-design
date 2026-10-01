@@ -1,12 +1,8 @@
 import "./styles";
 
-import { Box, ScrollFog, Text, useSeedClassName } from "@seed-design/lynx-react";
+import { Box, ScrollFog, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
 
-const ITEMS = Array.from({ length: 100 }, (_, index) => index + 1);
-const ROWS = Array.from({ length: 10 }, (_, rowIndex) => ({
-  id: rowIndex + 1,
-  items: ITEMS.slice(rowIndex * 10, rowIndex * 10 + 10),
-}));
+const ITEMS = Array.from({ length: 20 }, (_, index) => index + 1);
 
 export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
@@ -21,8 +17,8 @@ export default function Example() {
       bg="bg.layerDefault"
     >
       <Box
-        width="400px"
-        height="300px"
+        width="300px"
+        height="240px"
         borderWidth={1}
         borderColor="stroke.neutralWeak"
         borderRadius="8px"
@@ -30,29 +26,19 @@ export default function Example() {
       >
         <ScrollFog
           style={{ width: "100%", height: "100%" }}
-          sizes={{
-            top: 100,
-            bottom: 10,
-            left: 50,
-            right: 50,
-          }}
-          placement={["top", "bottom", "left", "right"]}
+          sizes={{ top: 20, bottom: 80 }}
+          placement={["top", "bottom"]}
         >
-          <Box
-            width="1140px"
-            height="1140px"
-            p="16px"
-            display="flex"
-            flexDirection="column"
-            gap="12px"
-          >
-            {ROWS.map((row) => (
-              <Box key={row.id} display="flex" flexDirection="row" gap="12px">
-                {row.items.map((item) => (
+          <scroll-view scroll-orientation="vertical" style={{ width: "100%", height: "100%" }}>
+            <VStack pt="20px" px="16px" pb="80px" gap="12px">
+              <Text color="fg.neutralMuted" fontSize="14px">
+                top: 20px, bottom: 80px
+              </Text>
+              <VStack gap="8px">
+                {ITEMS.map((item) => (
                   <Box
                     key={item}
-                    width="100px"
-                    height="100px"
+                    height="40px"
                     flexShrink={false}
                     display="flex"
                     alignItems="center"
@@ -61,13 +47,13 @@ export default function Example() {
                     bg="bg.neutralWeak"
                   >
                     <Text color="fg.neutral" fontSize="14px">
-                      {item}
+                      콘텐츠 {item}
                     </Text>
                   </Box>
                 ))}
-              </Box>
-            ))}
-          </Box>
+              </VStack>
+            </VStack>
+          </scroll-view>
         </ScrollFog>
       </Box>
     </Box>
