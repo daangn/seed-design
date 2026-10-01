@@ -5,14 +5,6 @@
     {
       "snippets": [
         {
-          "path": "attachment-sortable.tsx"
-        }
-      ],
-      "id": "attachment-sortable"
-    },
-    {
-      "snippets": [
-        {
           "path": "manner-temp-level.ts"
         }
       ],

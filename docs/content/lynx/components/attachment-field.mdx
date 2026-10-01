@@ -28,7 +28,7 @@ npx @seed-design/cli@latest add ui:attachment-field
 
 ### Reorderable
 
-네이티브 가로 long-press gesture로 첨부 항목 순서를 변경하려면 별도 snippet을 설치합니다. 기본 snippet에는 reorder gesture가 포함되지 않습니다.
+네이티브 가로 long-press gesture로 첨부 항목 순서를 변경하려면 별도 snippet을 설치합니다. 기본 snippet에는 reorder gesture가 포함되지 않습니다. 프로젝트에 [`@seed-design/lynx-react-sortable`](#headless-정렬) 의존성이 추가됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:attachment-field-reorderable
@@ -172,9 +172,11 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
 
 ## Reordering Files
 
-`ui:attachment-field-reorderable`의 `AttachmentInputReorderable`은 브라우저 `dnd-kit` 대신 네이티브 가로 long-press gesture를 사용합니다. gesture가 끝나면 `reorderFileEntry(fromIndex, toIndex)`가 호출되고 목록 순서가 변경됩니다. `disabled`와 `readOnly`에서는 drag가 차단됩니다.
+`ui:attachment-field-reorderable`의 `AttachmentInputReorderable`은 브라우저 `dnd-kit` 대신 [`@seed-design/lynx-react-sortable`](#headless-정렬)의 네이티브 가로 long-press gesture를 사용합니다. gesture가 끝나면 `reorderFileEntry(fromIndex, toIndex)`가 호출되고 목록 순서가 변경됩니다. `disabled`와 `readOnly`에서는 drag가 차단됩니다.
 
 기본 아이템은 snippet이 `SortableAttachmentInputItem`으로 구성합니다. 직접 구성할 때는 context를 그대로 받아 exported `SortableAttachmentInputItem`에 반드시 `index`를 전달하세요. callback 결과를 `Children.toArray`로 다시 매핑하거나 clone하지 않습니다.
+
+`SortableAttachmentInputItem`은 항목 전체를 하나의 접근성 요소로 만듭니다. 스크린 리더는 파일 이름과 순서·업로드 상태를 읽고, 사용자 지정 동작으로 "앞으로 이동"·"뒤로 이동"(`reorderFileEntry`), "파일 제거", 오류 상태에서 `onRetry`가 있으면 "재시도"를 제공합니다. iOS는 접근성 요소 안의 버튼에 포커스하지 않으므로 항목 안의 제거·재시도 버튼은 이 동작으로 대신 실행됩니다. `readOnly`에서는 이동과 제거 동작이 빠지고, `disabled`에서는 이동 동작만 빠집니다.
 
 ```tsx
 import {
@@ -201,6 +203,35 @@ import {
   { "file": "examples/lynx/attachment-field/reorderable.tsx", "codeblock": true }
   ```
 </LynxComponentExample>
+
+### Headless 정렬
+
+`@seed-design/lynx-react-sortable`은 Recipe와 Attachment 상태 없이 가로 목록의 long-press 정렬만 제공합니다. `ui:attachment-field-reorderable`과 `ui:attachment-display-field-reorderable`이 이 패키지를 사용합니다.
+
+- `Sortable.Root`는 `items`와 `getItemKey`로 항목 순서를 읽고, 항목을 다른 위치에 놓으면 `onReorder(fromIndex, toIndex)`를 호출합니다. 목록 순서는 호출자가 바꿉니다. 취소, 같은 위치, drag 중 `items` 변경, `disabled`·`readOnly`에서는 호출하지 않습니다.
+- `children`으로 받은 `onScroll`과 `dragging`을 `scrollableBoundaryId`의 가로 `<scroll-view>`에 연결하세요. drag 중 scroll을 잠그고, 가장자리에서 자동으로 scroll합니다.
+- `Sortable.Item`은 `moveActionLabels`를 받으면 스크린 리더 사용자 지정 동작으로 한 칸 앞·뒤 이동을 제공하고 같은 `onReorder`를 호출합니다. 동작은 포커스를 받는 요소에만 노출되므로 `accessibility-element`와 `accessibility-label`을 함께 전달하세요.
+- 모션 줄이기는 `reducedMotion`으로 전달합니다. 이 패키지는 `GlobalProps.motion`을 직접 읽지 않으며, Registry snippet은 `"reduced"`일 때 `reducedMotion`을 켭니다.
+
+```package-install
+@seed-design/lynx-react-sortable
+```
+
+<LynxComponentExample name="lynx/attachment-field/headless-sortable" height={240}>
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/headless-sortable.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+#### `Sortable.Root`
+
+<react-type-table path="../packages/lynx-react-headless/sortable/src/Sortable.tsx" name="SortableRootProps" />
+
+#### `Sortable.Item`
+
+아래 속성 외에 `accessibility-*` 속성과 `bindaccessibilityaction`을 받습니다. 직접 전달한 `accessibility-actions`는 이동 동작 뒤에 붙고, 이동 동작이 아닌 동작만 `bindaccessibilityaction`으로 전달됩니다.
+
+<react-type-table path="../packages/lynx-react-headless/sortable/src/Sortable.tsx" name="SortableItemProps" />
 
 ## Examples
 
