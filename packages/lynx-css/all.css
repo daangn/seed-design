@@ -6716,7 +6716,7 @@ text {
   transition-duration: var(--seed-duration-d4);
   transition-timing-function: var(--seed-timing-function-easing);
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
 }
 
