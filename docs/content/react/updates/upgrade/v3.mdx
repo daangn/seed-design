@@ -938,6 +938,30 @@ import { wheelPicker } from "@seed-design/css/recipes/wheel-picker"; // [!code +
 } /* [!code ++] */
 ```
 
+##### `$color.bg.layer-fill` 제거
+
+**수정 대상:** `$color.bg.layer-fill`과 대응하는 CSS 변수·Tailwind 클래스·`vars` 참조·style prop 값을 직접 사용하는 코드입니다. 해당 코드가 없다면 이 항목을 건너뛰세요.
+
+<Badge tone="critical">직접 검색 필요</Badge>
+
+SEED React 1.2부터 deprecated 상태였던 `$color.bg.layer-fill`을 제거했습니다. 이 토큰은 2.0.0에서 제거했다가 대체 토큰이 없어 2.1.0에서 deprecated 상태로 다시 추가했으며, 이번에 같은 값(라이트 모드 `gray-100`, 다크 모드 `gray-200`)의 `$color.bg.neutral-muted`를 추가하면서 제거했습니다. `$color.bg.neutral-muted`로 교체하세요. 교체 전후 값이 같아 화면은 바뀌지 않습니다.
+
+| 기존 | 교체 후 |
+| ---- | ------- |
+| `--seed-color-bg-layer-fill` | `--seed-color-bg-neutral-muted` |
+| `bg-bg-layer-fill` (Tailwind) | `bg-bg-neutral-muted` |
+| `vars.$color.bg.layerFill` | `vars.$color.bg.neutralMuted` |
+| `bg="bg.layerFill"` (style prop) | `bg="bg.neutralMuted"` |
+
+```tsx
+<Box bg="bg.layerFill" /> // [!code --]
+<Box bg="bg.neutralMuted" /> // [!code ++]
+```
+
+<Callout type="warn">
+  `vars.$color.bg.layerFill`은 타입 에러로 발견되지만, CSS 변수·Tailwind 클래스와 `bg`·`background` 같은 style prop 값은 임의 문자열을 허용하므로 에러 없이 배경색만 사라집니다. `layer-fill`과 `layerFill`을 문자열로 검색해 확인하세요.
+</Callout>
+
 ##### deprecated 색상 토큰 교체
 
 **수정 대상:** `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`, `$color.fg.neutral-inverted`와 대응하는 CSS 변수·Tailwind 클래스를 직접 사용하는 코드입니다. 해당 코드가 없다면 이 항목을 건너뛰세요.

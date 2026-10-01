@@ -40,7 +40,7 @@ Lynx 안내 경로는 `docs/content/lynx/**`, `docs/examples/lynx/**`, `examples
 Rootage YAML은 대상에 따라 두 형식을 쓴다.
 
 - 컴포넌트 전체: `metadata.deprecated`에 대체 안내 문자열을 넣는다. 예: `packages/rootage/components/action-chip.yaml`의 `deprecated: Use Chip.Button with variant="solid" instead.`
-- 토큰·variant 값: `description`에 `@deprecated`를 쓴다. 예: `packages/rootage/color.yaml`의 `$color.bg.layer-fill`. variant 값의 `description`은 생성된 타입의 JSDoc으로 나간다.
+- 토큰·variant 값: `description`에 `@deprecated`를 쓴다. 예: `packages/rootage/color.yaml`의 `$color.bg.neutral-inverted`. variant 값의 `description`은 생성된 타입의 JSDoc으로 나간다.
 
 ```yaml
 description: |
