@@ -3,19 +3,19 @@ import { resolveArchiveSource } from "./source";
 
 const archive = {
   platform: "react",
-  version: "2.0",
-  sourceBranch: "react/2.0",
+  version: "v2",
+  sourceBranch: "react/v2",
   origin: "https://release.example.pages.dev",
   probe: { document: "components/button", registryItem: "ui/button" },
 };
 
 it("resolves the exact reviewed branch, keeping credentials on GitHub only", async () => {
   const fetcher = (async (url: string, init: RequestInit) => {
-    expect(url).toBe("https://api.github.com/repos/daangn/seed-design/git/ref/heads/react%2F2.0");
+    expect(url).toBe("https://api.github.com/repos/daangn/seed-design/git/ref/heads/react%2Fv2");
     expect(init.redirect).toBe("error");
     expect(new Headers(init.headers).get("Authorization")).toBe("Bearer test-token");
     return Response.json({
-      ref: "refs/heads/react/2.0",
+      ref: "refs/heads/react/v2",
       object: { type: "commit", sha: "a".repeat(40) },
     });
   }) as typeof fetch;
@@ -39,9 +39,8 @@ it("supports a pinned rollback without resolving a newer branch head", async () 
 it.each([
   () => new Response(null, { status: 404 }),
   () => Response.json({ ref: "refs/heads/wrong", object: { type: "commit", sha: "a".repeat(40) } }),
-  () =>
-    Response.json({ ref: "refs/heads/react/2.0", object: { type: "tag", sha: "a".repeat(40) } }),
-  () => Response.json({ ref: "refs/heads/react/2.0", object: { type: "commit", sha: "invalid" } }),
+  () => Response.json({ ref: "refs/heads/react/v2", object: { type: "tag", sha: "a".repeat(40) } }),
+  () => Response.json({ ref: "refs/heads/react/v2", object: { type: "commit", sha: "invalid" } }),
 ])("rejects missing or mismatched GitHub branch data", async (response) => {
   await expect(
     resolveArchiveSource(archive, undefined, (async (_input: URL | RequestInfo) =>

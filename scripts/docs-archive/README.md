@@ -10,9 +10,9 @@ seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 
 
 ## 브랜치와 버전 이름
 
-보관 브랜치와 공개 경로는 `react/2.0`, `lynx/1.0`처럼 플랫폼과 버전을 조합합니다. `v` 접두사와 패치 버전은 사용하지 않습니다.
+보관 브랜치와 공개 경로는 `react/v2`, `lynx/v1`처럼 플랫폼과 `v` 접두사를 붙인 메이저 버전을 조합합니다. 패치 버전은 사용하지 않습니다.
 
-앞으로는 메이저별로 보관합니다. `2.0`은 React 2.x의 문서 채널이므로 2.5.0의 문서 수정도 같은 브랜치에 반영합니다. 기존 React 1.0·1.1·1.2 보관본은 유지합니다.
+앞으로는 메이저별로 보관합니다. `v2`는 React 2.x 전체의 문서 채널이므로 2.5.0의 문서 수정도 같은 브랜치에 반영합니다. React·CSS 등 개별 패키지의 마이너·패치 버전과 문서 채널은 별개입니다. 기존 React 1.0·1.1·1.2 보관본의 주소는 유지하며, 메뉴에는 `v1.0`·`v1.1`·`v1.2`로 표시합니다. 향후 이관할 때도 이 세 보관본은 `react/v1.0`처럼 마이너 채널을 사용할 수 있습니다.
 
 문서 수정 PR은 해당 보관 브랜치를 대상으로 만듭니다. 최신 개발 브랜치 전체를 보관 브랜치에 계속 병합하지 않습니다.
 
@@ -26,13 +26,13 @@ seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 
 
 ## 새 버전 추가
 
-최종 소스에서 `react/3.0` 같은 보관 브랜치를 만들고 필요한 보관 인프라를 반영합니다. **보관 브랜치**의 `archives.json`에 다음 형태의 항목을 추가합니다. 첫 Pages 배포 전에는 `origin`을 비워둘 수 있습니다.
+최종 소스에서 `react/v3` 같은 보관 브랜치를 만들고 필요한 보관 인프라를 반영합니다. **보관 브랜치**의 `archives.json`에 다음 형태의 항목을 추가합니다. 첫 Pages 배포 전에는 `origin`을 비워둘 수 있습니다.
 
 ```json
 {
   "platform": "react",
-  "version": "3.0",
-  "sourceBranch": "react/3.0",
+  "version": "v3",
+  "sourceBranch": "react/v3",
   "origin": "",
   "probe": {
     "document": "components/action-button",
@@ -79,13 +79,13 @@ Worker 회귀는 코드를 revert해 재배포하거나 Cloudflare에서 이전 
 CLI는 Pages preview와 공개 경로의 registry를 `--baseUrl`로 사용할 수 있습니다. 끝에 `/`를 붙이지 않습니다.
 
 ```sh
-bunx @seed-design/cli add ui:action-button --baseUrl https://seed-design.io/react/2.0
+bunx @seed-design/cli add ui:action-button --baseUrl https://seed-design.io/react/v2
 ```
 
 로컬 빌드·검증 명령:
 
 ```sh
-bun --filter @seed-design/docs build:archive:react 2.0
+bun --filter @seed-design/docs build:archive:react v2
 bun test docs/lib/docs-archive.test.ts docs/scripts/export-react-archive.test.ts scripts/docs-archive
 bun scripts/docs-archive/deploy.ts --verify-only
 bun scripts/docs-archive/deploy.ts --dry-run

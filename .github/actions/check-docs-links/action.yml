@@ -6,7 +6,7 @@ inputs:
     description: "Absolute path to the exported docs site (Next static export output)"
     required: true
   canonical-prefix:
-    description: "Optional archive path prefix, including its trailing slash (for example react/2.0/)"
+    description: "Optional archive path prefix, including its trailing slash (for example react/v2/)"
     required: false
     default: ""
   llms-exclude:

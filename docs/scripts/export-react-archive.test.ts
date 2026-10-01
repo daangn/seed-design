@@ -17,8 +17,8 @@ async function fixture() {
     await writeFile(path.join(dir, name), content);
   };
   for (const [name, content] of Object.entries({
-    "out/react/2.0/index.html": "archive page",
-    "out/react/2.0/components/button/index.html": "archive button",
+    "out/react/v2/index.html": "archive page",
+    "out/react/v2/components/button/index.html": "archive button",
     "out/_next/static/chunk.js": "archive chunk",
     "out/blocks/footer-01/index.html": "block example",
     "public/logo.svg": "logo",
@@ -49,67 +49,84 @@ it("exports a self-contained React archive with old CLI URL compatibility", asyn
   const { dir } = await fixture();
   const output = await exportReactArchive({
     docsDirectory: dir,
-    version: "2.0",
+    version: "v2",
     sourceSha: "a".repeat(40),
     sourceDirty: true,
   });
   const read = (name: string) => readFile(path.join(output, name), "utf8");
-  expect(await read("react/2.0/index.html")).toBe("archive page");
-  expect(await read("react/2.0/_assets/_next/static/chunk.js")).toBe("archive chunk");
-  expect(await read("react/2.0/_examples/blocks/footer-01/index.html")).toBe("block example");
-  expect(await read("react/2.0/sitemap.xml")).toContain(
-    "<loc>https://seed-design.io/react/2.0/components/button/</loc>",
+  expect(await read("react/v2/index.html")).toBe("archive page");
+  expect(await read("react/v2/_assets/_next/static/chunk.js")).toBe("archive chunk");
+  expect(await read("react/v2/_examples/blocks/footer-01/index.html")).toBe("block example");
+  expect(await read("react/v2/sitemap.xml")).toBe(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://seed-design.io/react/v2/</loc></url><url><loc>https://seed-design.io/react/v2/components/button/</loc></url></urlset>\n',
   );
-  expect(await read("react/2.0/sitemap.xml")).not.toContain("_examples");
-  expect(await read("react/2.0/__registry__/react/ui/button.json")).toContain("ui/button");
-  expect(await read("react/2.0/api/search")).toContain("search");
-  expect(JSON.parse(await read("react/2.0/__docs__/index.json"))).toEqual({
+  expect(await read("react/v2/__registry__/react/ui/button.json")).toBe('{"id":"ui/button"}');
+  expect(await read("react/v2/api/search")).toBe('{"react":"search"}');
+  expect(JSON.parse(await read("react/v2/__docs__/index.json"))).toEqual({
     categories: [{ id: "react", sections: [{ items: [{ docUrl: "/react/components/button" }] }] }],
   });
   expect(await read("_redirects")).toBe(
-    "/react/2.0/old /react/2.0/new 301\n/react/2.0/react/* /react/2.0/:splat 302\n",
+    "/react/v2/old /react/v2/new 301\n/react/v2/react/* /react/v2/:splat 302\n",
   );
-  expect(JSON.parse(await read("react/2.0/_assets/site.webmanifest")).icons[0].src).toBe(
-    "/react/2.0/_assets/logo.svg",
+  expect(JSON.parse(await read("react/v2/_assets/site.webmanifest"))).toEqual({
+    icons: [{ src: "/react/v2/_assets/logo.svg" }],
+    start_url: "/react/v2/",
+    scope: "/react/v2/",
+  });
+  expect(JSON.parse(await read("react/v2/archive.json"))).toEqual({
+    platform: "react",
+    version: "v2",
+    prefix: "/react/v2",
+    sourceSha: "a".repeat(40),
+    sourceDirty: true,
+  });
+  expect(await read("_headers")).toBe(
+    "/react/v2/_assets/_next/static/*\n  Cache-Control: public, max-age=31536000, immutable\n/react/v2/__registry__/*\n  Access-Control-Allow-Origin: *\n",
   );
-  expect(JSON.parse(await read("react/2.0/archive.json")).sourceDirty).toBe(true);
-  expect(await Bun.file(path.join(output, "react/2.0/_assets/react/2.0/index.html")).exists()).toBe(
+  expect(await Bun.file(path.join(output, "react/2.0/index.html")).exists()).toBe(false);
+  expect(await Bun.file(path.join(output, "react/v2/_assets/react/v2/index.html")).exists()).toBe(
     false,
   );
   expect(await read("404.html")).toBe("not found");
   expect(
-    Bun.file(path.join(output, "react/2.0/__registry__/lynx/ui/button.json")).exists(),
+    Bun.file(path.join(output, "react/v2/__registry__/lynx/ui/button.json")).exists(),
   ).resolves.toBe(false);
 });
 
 it("keeps the previous artifact if a latest build was supplied by mistake", async () => {
   const { dir, write } = await fixture();
-  await write("out-archive/react/2.0/index.html", "previous valid build");
-  await rm(path.join(dir, "out/react/2.0"), { recursive: true });
+  await write("out-archive/react/v2/index.html", "previous valid build");
+  await rm(path.join(dir, "out/react/v2"), { recursive: true });
   await expect(
-    exportReactArchive({ docsDirectory: dir, version: "2.0", sourceSha: "a".repeat(40) }),
+    exportReactArchive({ docsDirectory: dir, version: "v2", sourceSha: "a".repeat(40) }),
   ).rejects.toThrow();
-  expect(await readFile(path.join(dir, "out-archive/react/2.0/index.html"), "utf8")).toBe(
+  expect(await readFile(path.join(dir, "out-archive/react/v2/index.html"), "utf8")).toBe(
     "previous valid build",
   );
 });
 
-it("reuses the exporter for a later React major without including 2.0 pages", async () => {
+it("reuses the exporter for a later React major without including v2 pages", async () => {
   const { dir, write } = await fixture();
-  await write("out/react/3.0/index.html", "3.0 page");
+  await write("out/react/v3/index.html", "v3 page");
   const output = await exportReactArchive({
     docsDirectory: dir,
-    version: "3.0",
+    version: "v3",
     sourceSha: "b".repeat(40),
   });
   const read = (name: string) => readFile(path.join(output, name), "utf8");
-  expect(await read("react/3.0/index.html")).toBe("3.0 page");
-  expect(JSON.parse(await read("react/3.0/archive.json"))).toMatchObject({
+  expect(await read("react/v3/index.html")).toBe("v3 page");
+  expect(JSON.parse(await read("react/v3/archive.json"))).toEqual({
     platform: "react",
-    version: "3.0",
-    prefix: "/react/3.0",
+    version: "v3",
+    prefix: "/react/v3",
+    sourceSha: "b".repeat(40),
+    sourceDirty: false,
   });
-  expect(await read("react/3.0/sitemap.xml")).toContain("https://seed-design.io/react/3.0/");
-  expect(await read("_redirects")).toContain("/react/3.0/react/* /react/3.0/:splat 302");
-  expect(await Bun.file(path.join(output, "react/2.0/index.html")).exists()).toBe(false);
+  expect(await read("react/v3/sitemap.xml")).toBe(
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://seed-design.io/react/v3/</loc></url></urlset>\n',
+  );
+  expect(await read("_redirects")).toBe(
+    "/react/v3/old /react/v3/new 301\n/react/v3/react/* /react/v3/:splat 302\n",
+  );
+  expect(await Bun.file(path.join(output, "react/v2/index.html")).exists()).toBe(false);
 });
