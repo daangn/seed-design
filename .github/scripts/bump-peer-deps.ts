@@ -12,7 +12,12 @@ const LOCKFILE_PATH = "bun.lock";
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 const STABLE_VERSION_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const CARET_STABLE_RANGE_PATTERN = /^\^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
-const LYNX_RANGE_PATTERN = /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.(0|[1-9]\d*) <1\.0\.0$/;
+const LYNX_PREVIOUS_RANGE_PATTERNS = [
+  /^\^0\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/,
+  // Earlier formats, still found in manifests written before the caret range.
+  /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.(0|[1-9]\d*) <1\.0\.0$/,
+  /^0\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/,
+];
 
 type JsonRecord = Record<string, unknown>;
 
@@ -73,7 +78,9 @@ export function createLynxCssPeerRange(version: string, previousRange: string): 
     throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${version}`);
   }
 
-  const previousRangeMatch = LYNX_RANGE_PATTERN.exec(previousRange);
+  const previousRangeMatch = LYNX_PREVIOUS_RANGE_PATTERNS.map((pattern) =>
+    pattern.exec(previousRange),
+  ).find((match) => match !== null);
   if (!previousRangeMatch) {
     throw new Error(
       `${LYNX_CSS_PACKAGE} peerDependency 범위가 올바르지 않습니다: ${previousRange}`,
@@ -81,9 +88,10 @@ export function createLynxCssPeerRange(version: string, previousRange: string): 
   }
 
   const previousMinor = Number(previousRangeMatch[1]);
-  if (previousMinor === minor) return previousRange;
+  const previousPatch = Number(previousRangeMatch[2]);
 
-  return `0.0.0 || >=0.${minor}.0 <1.0.0`;
+  // A 0.x minor may break compatibility, so the range never reaches past the released minor.
+  return `^0.${minor}.${previousMinor === minor ? previousPatch : 0}`;
 }
 
 function findWorkspaceBlock(lockfile: string, workspacePath: string): [number, number] {
