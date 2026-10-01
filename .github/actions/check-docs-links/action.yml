@@ -35,6 +35,11 @@ runs:
     # 실행해서, 큰따옴표 안의 `$1`은 eval 단계에서 빈 문자열로 사라진다.
     #
     # changelog 페이지는 `llms-exclude`가 changelog llms 산출물을 빼는 것과 같은 이유로 뺀다.
+    #
+    # 메인 빌드에서는 `react/v2` 같은 아카이브 채널 링크를 뺀다. 아카이브는 별도 worker가
+    # 서빙해서 이 산출물에 없는데, `--remap`이 산출물 경로로 바꿔 버리기 때문이다. lychee는
+    # remap을 먼저 적용한 뒤 `--exclude`를 비교하므로 바뀐 `file://` URL로 매칭한다.
+    # 아카이브 빌드에서는 자기 채널 링크만 remap되고 나머지는 `--offline`이 건너뛴다.
     - name: Check links in the exported HTML
       uses: lycheeverse/lychee-action@v2
       with:
@@ -51,6 +56,7 @@ runs:
           --include-fragments=anchor-only
           --exclude-path '/react/((v[0-9]+|[0-9]+[.][0-9]+)/)?updates/changelog(/index)?\.html$'
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
+          ${{ inputs.canonical-prefix == '' && format('--exclude ''^file://{0}/[a-z][a-z0-9-]*/v[0-9]+([.][0-9]+)?(/|$)''', inputs.out-dir) || '' }}
           --
           ${{ inputs.out-dir }}
 
@@ -124,5 +130,6 @@ runs:
           --index-files index.html,.
           --include-fragments=anchor-only
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
+          ${{ inputs.canonical-prefix == '' && format('--exclude ''^file://{0}/[a-z][a-z0-9-]*/v[0-9]+([.][0-9]+)?(/|$)''', inputs.out-dir) || '' }}
           --
           ${{ runner.temp }}/docs-llms-markdown
