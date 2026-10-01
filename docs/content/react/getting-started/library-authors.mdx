@@ -73,6 +73,7 @@ SEED는 [**2.0을 분기점**으로 버저닝 정책](/react/updates/upgrade#버
 | **2.0 이상** | `^2.0.0` (caret) | 2.0부터 strict semver — minor·patch는 하위 호환이라 caret이 안전해요 |
 | **1.x** | `~1.2.0` (tilde) | 1.x는 minor에 breaking이 있을 수 있어 minor를 가로지르면 안 돼요 |
 | **1.x와 2.0 모두** | `~1.2.0 \|\| ^2.0.0` | transition 기간 — 아래 **SEED 2.0으로 확장하기** 참고 |
+| **2.x와 3.0 모두** | `^2.0.0 \|\| ^3.0.0` | 2.0부터 strict semver라 각 major를 caret으로 나열해요. 3.0의 breaking change가 라이브러리에서 쓰는 부분과 무관한지 [SEED React 3 업그레이드 가이드](/react/updates/upgrade/v3)에서 확인하세요 |
 
 <Callout>
 
