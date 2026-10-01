@@ -5621,6 +5621,23 @@ text {
 
 .seed-segmented-control__itemBackground {
   border-radius: var(--seed-radius-full);
+  background-color: var(--seed-color-bg-neutral-weak-pressed);
+  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--seed-duration-color-transition);
+  transition-timing-function: var(--seed-timing-function-easing);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.seed-segmented-control__itemSelectedBackground {
+  border-radius: var(--seed-radius-full);
+  background-color: var(--seed-color-palette-gray-100);
+  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
   opacity: 0;
   transition-property: opacity;
   transition-duration: var(--seed-duration-color-transition);
@@ -5643,30 +5660,24 @@ text {
   transition-timing-function: var(--seed-timing-function-easing);
 }
 
-.seed-segmented-control__itemBackground--selected_true {
-  background-color: var(--seed-color-palette-gray-100);
-  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
-}
-
 .seed-segmented-control__label--selected_true {
   color: var(--seed-color-fg-neutral);
-}
-
-.seed-segmented-control__itemBackground--selected_false {
-  background-color: var(--seed-color-bg-neutral-weak-pressed);
-  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
 }
 
 .seed-segmented-control__label--disabled_true {
   color: var(--seed-color-fg-disabled);
 }
 
-.seed-segmented-control__item--disabled_false:active .seed-segmented-control__itemBackground, .seed-segmented-control__itemBackground--pressed_true {
+.seed-segmented-control__item--disabled_false:active .seed-segmented-control__itemBackground--selected_false, .seed-segmented-control__item--disabled_false:active .seed-segmented-control__itemSelectedBackground--selected_true {
   opacity: 1;
 }
 
-.seed-segmented-control__indicator--hasSelection_false, .seed-segmented-control__itemBackground--disabled_true-pressed_true {
+.seed-segmented-control__indicator--hasSelection_false {
   opacity: 0;
+}
+
+.seed-segmented-control__indicator--transitionEnabled_false {
+  transition-duration: 0s;
 }
 
 .seed-segmented-control__item--selected_true-disabled_true {
