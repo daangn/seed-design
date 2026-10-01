@@ -2,7 +2,7 @@
     position: absolute;
     top: 50%;
     height: 100%;
-    left: calc(var(--slider-tick-left, 0%) + var(--slider-tick-offset, 0px));
+    left: calc(var(--slider-tick-left, 0%) + var(--seed-dimension-x5) * var(--slider-tick-offset-ratio, 0));
     background-color: var(--seed-color-fg-neutral-inverted);
     transform: translate(-50%, -50%)
 }
