@@ -1,9 +1,9 @@
 ---
 id: lynx-drag-gesture-cdp
-description: BottomSheet·SwipeableMenuSheet처럼 drag로 닫히거나 snap이 바뀌는 Lynx 컴포넌트를 PlayLynx 기기에서 agent-lynx로 검증할 때 읽는다. drag·swipe 명령이 없는 agent-lynx 0.14.2에서 CDP touch 입력으로 press·move·release를 보내는 방법과, 짧은 drag가 dismiss threshold를 넘어 닫힘으로 끝나는 판정 함정을 다룬다. tap·scroll만 필요한 검증이나 단위 테스트에는 적용하지 않는다.
+description: BottomSheet·MenuSheet(구 SwipeableMenuSheet)처럼 drag로 닫히거나 snap이 바뀌는 Lynx 컴포넌트를 PlayLynx 기기에서 agent-lynx로 검증할 때 읽는다. drag·swipe 명령이 없는 agent-lynx 0.14.2에서 CDP touch 입력으로 press·move·release를 보내는 방법과, 짧은 drag가 dismiss threshold를 넘어 닫힘으로 끝나는 판정 함정을 다룬다. tap·scroll만 필요한 검증이나 단위 테스트에는 적용하지 않는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**", "docs/examples/lynx/**", "examples/lynx-spa/**"]
 status: active
-related: ["lynx-loading-tap-device-check", "iphone-lan-asset-prefix"]
+related: ["lynx-loading-tap-device-check", "iphone-lan-asset-prefix", "lynx-ui-sheet-show-change-sources"]
 verified_at: "2026-09-28"
 ---
 
@@ -34,3 +34,4 @@ T mousePressed 627; for y in 600 540 460 380 330; do T mouseMoved "$y"; done; T 
 ## 변경 이력
 
 - 2026-09-28: DES-2614 BottomSheet 기기 검증에서 처음 기록했다.
+- 2026-10-01: Lynx `SwipeableMenuSheet`가 `MenuSheet`로 이름이 바뀌어 description을 고쳤다(DES-2634). 같은 입력으로 iOS 26.5 시뮬레이터 PlayLynx의 `lynx/menu-sheet/open-change-reason`과 `lynx/bottom-sheet/controlled`를 drag로 닫았다.
