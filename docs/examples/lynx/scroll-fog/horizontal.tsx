@@ -25,25 +25,30 @@ export default function Example() {
         style={{ overflow: "hidden" }}
       >
         <ScrollFog style={{ width: "100%", height: "100%" }} placement={["left", "right"]}>
-          <HStack width="2000px" height="full" px="20px" align="center" gap="12px">
-            {ITEMS.map((item) => (
-              <Box
-                key={item}
-                width="120px"
-                height="80px"
-                flexShrink={false}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="4px"
-                bg="bg.neutralWeak"
-              >
-                <Text color="fg.neutral" fontSize="14px">
-                  항목 {item}
-                </Text>
-              </Box>
-            ))}
-          </HStack>
+          <scroll-view
+            scroll-orientation="horizontal"
+            style={{ width: "100%", height: "100%", padding: "0 20px" }}
+          >
+            <HStack height="full" align="center" gap="12px">
+              {ITEMS.map((item) => (
+                <Box
+                  key={item}
+                  width="120px"
+                  height="80px"
+                  flexShrink={false}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius="4px"
+                  bg="bg.neutralWeak"
+                >
+                  <Text color="fg.neutral" fontSize="14px">
+                    항목 {item}
+                  </Text>
+                </Box>
+              ))}
+            </HStack>
+          </scroll-view>
         </ScrollFog>
       </Box>
     </Box>
