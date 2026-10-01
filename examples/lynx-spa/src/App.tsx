@@ -29,6 +29,7 @@ import {
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
 import { MannerTempPage } from "./pages/MannerTempPage.jsx";
 import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
+import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
@@ -59,6 +60,7 @@ export type Page =
   | "callout"
   | "checkbox"
   | "manner-temp"
+  | "menu-headless"
   | "page-banner"
   | "progress-circle"
   | "radio-group"
@@ -103,6 +105,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   callout: true,
   checkbox: true,
   "manner-temp": true,
+  "menu-headless": true,
   "page-banner": true,
   "progress-circle": true,
   "radio-group": true,
@@ -178,6 +181,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
       {page === "manner-temp" && <MannerTempPage />}
+      {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
       {page === "radio-group" && <RadioGroupPage />}
