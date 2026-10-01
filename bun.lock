@@ -546,6 +546,7 @@
         "@seed-design/lynx-react-popover": "0.0.0",
         "@seed-design/lynx-react-quantity-picker": "0.0.0",
         "@seed-design/lynx-react-scale-feedback": "0.0.0",
+        "@seed-design/lynx-react-segmented-control": "0.0.0",
         "@seed-design/lynx-react-switch": "0.0.0",
         "@seed-design/lynx-react-toggle": "0.1.0",
         "@seed-design/lynx-react-use-controllable-state": "0.1.0",
@@ -765,6 +766,26 @@
     },
     "packages/lynx-react-headless/quantity-picker": {
       "name": "@seed-design/lynx-react-quantity-picker",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/lynx-react-use-controllable-state": "0.1.0",
+        "@seed-design/lynx-react-use-press-tap": "0.1.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.117.0",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
+      },
+    },
+    "packages/lynx-react-headless/segmented-control": {
+      "name": "@seed-design/lynx-react-segmented-control",
       "version": "0.0.0",
       "dependencies": {
         "@seed-design/lynx-react-use-controllable-state": "0.1.0",
@@ -3696,6 +3717,8 @@
     "@seed-design/lynx-react-quantity-picker": ["@seed-design/lynx-react-quantity-picker@workspace:packages/lynx-react-headless/quantity-picker"],
 
     "@seed-design/lynx-react-scale-feedback": ["@seed-design/lynx-react-scale-feedback@workspace:packages/utils/lynx-react-scale-feedback"],
+
+    "@seed-design/lynx-react-segmented-control": ["@seed-design/lynx-react-segmented-control@workspace:packages/lynx-react-headless/segmented-control"],
 
     "@seed-design/lynx-react-sortable": ["@seed-design/lynx-react-sortable@workspace:packages/lynx-react-headless/sortable"],
 
@@ -7241,6 +7264,10 @@
 
     "@seed-design/lynx-react-scale-feedback/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
 
+    "@seed-design/lynx-react-segmented-control/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
+
+    "@seed-design/lynx-react-segmented-control/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
+
     "@seed-design/lynx-react-sortable/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
 
     "@seed-design/lynx-react-sortable/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
@@ -8006,6 +8033,8 @@
     "@seed-design/lynx-react-quantity-picker/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-scale-feedback/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
+
+    "@seed-design/lynx-react-segmented-control/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-sortable/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
