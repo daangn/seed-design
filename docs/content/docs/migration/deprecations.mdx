@@ -20,10 +20,31 @@ description: Deprecated 항목의 현황과 제거 계획을 관리합니다.
 
 | 항목                                                          | 제거 버전 | 대체안                                            | 비고                                                     |
 | ------------------------------------------------------------- | --------- | ------------------------------------------------- | -------------------------------------------------------- |
+| `@seed-design/react/primitive` 경로 | 3.0.0 | `@seed-design/react`의 컴포넌트·context hook·`.Primitive` 컴포넌트, 또는 독립 headless 패키지(`@seed-design/react-dialog`, `@seed-design/react-popover`, `@seed-design/react-image` 등) | [SEED React 3 업그레이드 가이드](/react/updates/upgrade/v3#headless-컴포넌트타입-import-교체) 참고 |
 | `@seed-design/react/primitive`의 Headless Avatar API | 3.0.0 | `@seed-design/react-image` | `@seed-design/react-avatar` 소스 제거 및 배포 중단. 스타일이 적용된 `Avatar`는 유지 |
-| BottomSheet.Root nested prop                                  | 3.0.0     | prop 삭제                                         | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
-| ResponsiveDialog.Root bottomSheetRootProps.nested              | 3.0.0     | nested 삭제                                       | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
-| ResponsiveSidePanel.Root bottomSheetRootProps.nested           | 3.0.0     | nested 삭제                                       | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
+| `Chip.Root`, `ChipRoot` (Props 타입 포함) | 3.0.0 | `Chip.Button`, `ChipButton` | 이름 변경. 동작과 스타일은 그대로 |
+| `ActionChip` | 3.0.0 | `Chip.Button` `variant="solid"` | - |
+| `ControlChip` | 3.0.0 | `Chip.Toggle`, `Chip.Button` | - |
+| `ActionSheet` | 3.0.0 | `SwipeableMenuSheet` | - |
+| `ExtendedActionSheet` | 3.0.0 | `SwipeableMenuSheet` | - |
+| `Fab` | 3.0.0 | `ContextualFloatingButton` | - |
+| `ExtendedFab` | 3.0.0 | `ContextualFloatingButton` | - |
+| `InlineBanner` | 3.0.0 | `PageBanner` | - |
+| `LinkContent` | 3.0.0 | `ActionButton` `variant="ghost"` | - |
+| `Inline` | 3.0.0 | `HStack` | - |
+| `Columns`, `Column` | 3.0.0 | `HStack` | - |
+| `Stack` | 3.0.0 | `VStack` | - |
+| `ui:action-sheet`, `ui:extended-action-sheet` snippet | 3.0.0 | `ui:swipeable-menu-sheet` | - |
+| `ui:control-chip` snippet | 3.0.0 | `ui:chip` | - |
+| `ui:inline-banner` snippet | 3.0.0 | `ui:page-banner` | - |
+| `ui:error-state` snippet | 3.0.0 | `ui:result-section` | - |
+| `@seed-design/css/recipes/*`의 `action-chip`, `action-sheet`, `action-sheet-item`, `control-chip`, `extended-action-sheet`, `extended-action-sheet-item`, `extended-fab`, `fab`, `inline-banner`, `link-content` | 3.0.0 | 대체 컴포넌트의 스타일 | 위 React 컴포넌트가 쓰던 스타일. 관련 클래스도 함께 제거 |
+| `@seed-design/rootage-artifacts`의 `control-chip`, `inline-banner` 컴포넌트 스펙 | 3.0.0 | `chip`, `page-banner` | - |
+| `SidePanelBody`의 `height`, `minHeight`, `maxHeight` prop | 3.0.0 | - | 효과가 없거나 footer 위치를 깨뜨리던 prop. `ResponsiveSidePanelBody`에서도 제거 |
+| `BottomSheet.Root`의 `nested` prop | 3.0.0 | prop 삭제 | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요 |
+| `ResponsiveDialog.Root`의 `bottomSheetRootProps.nested` | 3.0.0 | `nested` 삭제 | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요 |
+| `ResponsiveSidePanel.Root`의 `bottomSheetRootProps.nested` | 3.0.0 | `nested` 삭제 | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요 |
+| `@seed-design/react-drawer`의 `Drawer.Root` `nested` prop, `useDrawer` `nested` 옵션 | 3.0.0 | 삭제 | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요 |
 | $gradient.fade-layer-floating                                 | 2.0.0     | -                                                 | 대체안 없이 제거                                         |
 | $gradient.fade-layer-default                                  | 2.0.0     | -                                                 | 대체안 없이 제거                                         |
 | ChipTabs variant=brandSolid                                   | 2.0.0     | neutralSolid, neutralOutline                      | 대체안 사용 시 디자인 변경됨                             |
@@ -40,24 +61,3 @@ description: Deprecated 항목의 현황과 제거 계획을 관리합니다.
 | Snackbar shouldCloseOnAction prop                             | 2.0.0     | 제거 (자동 닫힘이 표준 동작)                      | 액션 닫기 동작을 디자인 시스템 스펙으로 통일             |
 | BottomSheetBackdrop (DrawerBackdrop) forceMount 옵션          | 2.0.0     | Root의 lazyMount / unmountOnExit                  | -                                                        |
 | BottomSheetContent (DrawerContent) 이벤트·forceMount 옵션     | 2.0.0     | Root의 onOpenChange 두 번째 인자 details          | onPointerDownOutside, onOpenAutoFocus, onCloseAutoFocus, onEscapeKeyDown, onInteractOutside, onFocusOutside, forceMount |
-| ActionChip                                                    | 3.0.0     | Chip.Button variant="solid"                       | -                                                        |
-| ControlChip                                                   | 3.0.0     | Chip.Toggle, Chip.Button                          | -                                                        |
-| ActionSheet                                                   | 3.0.0     | SwipeableMenuSheet                                | -                                                        |
-| ExtendedActionSheet                                           | 3.0.0     | SwipeableMenuSheet                                | -                                                        |
-| Fab                                                           | 3.0.0     | ContextualFloatingButton                          | -                                                        |
-| ExtendedFab                                                   | 3.0.0     | ContextualFloatingButton                          | -                                                        |
-| InlineBanner                                                  | 3.0.0     | PageBanner                                        | -                                                        |
-| LinkContent                                                   | 3.0.0     | ActionButton variant="ghost"                      | -                                                        |
-| Inline                                                        | 3.0.0     | HStack                                            | -                                                        |
-| Columns, Column                                               | 3.0.0     | HStack                                            | -                                                        |
-| Stack                                                         | 3.0.0     | VStack                                            | -                                                        |
-| ui:action-sheet, ui:extended-action-sheet snippet             | 3.0.0     | ui:swipeable-menu-sheet                           | -                                                        |
-| ui:control-chip snippet                                       | 3.0.0     | ui:chip                                           | -                                                        |
-| ui:inline-banner snippet                                      | 3.0.0     | ui:page-banner                                    | -                                                        |
-| ui:error-state snippet                                        | 3.0.0     | ui:result-section                                 | -                                                        |
-| `@seed-design/css/recipes/*`의 `action-chip`, `action-sheet`, `action-sheet-item`, `control-chip`, `extended-action-sheet`, `extended-action-sheet-item`, `extended-fab`, `fab`, `inline-banner`, `link-content` | 3.0.0     | 대체 컴포넌트의 스타일                            | 위 React 컴포넌트가 쓰던 스타일. 관련 클래스도 함께 제거 |
-| `@seed-design/rootage-artifacts`의 `control-chip`, `inline-banner` 컴포넌트 스펙 | 3.0.0     | chip, page-banner                                 | -                                                        |
-| SidePanelBody height, minHeight, maxHeight prop               | 3.0.0     | -                                                 | 효과가 없거나 footer 위치를 깨뜨리던 prop. ResponsiveSidePanelBody에서도 제거 |
-| `@seed-design/react/primitive` 경로                          | 3.0.0     | `@seed-design/react`의 컴포넌트·context hook·`.Primitive` 컴포넌트, 또는 독립 headless 패키지(`@seed-design/react-dialog`, `@seed-design/react-popover`, `@seed-design/react-image` 등) | [SEED React 3 업그레이드 가이드](/react/updates/upgrade/v3#headless-컴포넌트타입-import-교체) 참고 |
-| Chip.Root, ChipRoot (Props 타입 포함)                         | 3.0.0     | Chip.Button, ChipButton                           | 이름 변경. 동작과 스타일은 그대로                        |
-| Drawer.Root nested prop, useDrawer nested 옵션 (`@seed-design/react-drawer`) | 3.0.0     | 삭제                                              | 동작에 영향을 주지 않던 dead prop. 대체 prop 불필요        |
