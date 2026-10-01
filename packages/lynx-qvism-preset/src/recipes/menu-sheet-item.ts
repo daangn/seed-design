@@ -5,7 +5,9 @@ import { defineSlotRecipe } from "../utils/define";
  * Lynx MenuSheet item recipe.
  *
  * Group clipping supplies corner geometry and an explicit divider slot replaces
- * web-only sibling selectors. Native :active starts press feedback immediately.
+ * web-only sibling selectors. The divider overlays the bottom edge inside the item
+ * like the web inset box-shadow, so the translucent stroke blends with the item
+ * background instead of the group's. Native :active starts press feedback immediately.
  */
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -16,6 +18,7 @@ const menuSheetItem = defineSlotRecipe({
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
+      position: "relative",
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
       paddingTop: vars.base.enabled.root.paddingY,
@@ -60,7 +63,10 @@ const menuSheetItem = defineSlotRecipe({
       height: vars.base.enabled.prefixIcon.size,
     },
     divider: {
-      width: "100%",
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+      left: 0,
       height: menuSheetVars.base.enabled.divider.strokeBottomWidth,
       backgroundColor: menuSheetVars.base.enabled.divider.strokeColor,
     },

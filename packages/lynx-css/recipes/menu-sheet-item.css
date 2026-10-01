@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
     width: 100%;
     min-height: 52px;
     padding-top: var(--seed-dimension-x3_5);
@@ -48,7 +49,10 @@
     height: 22px;
 }
 .seed-menu-sheet-item__divider {
-    width: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 1px;
     background-color: var(--seed-color-stroke-neutral-muted);
 }
