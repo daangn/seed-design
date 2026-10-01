@@ -115,7 +115,7 @@ Trigger 외의 방식으로 Popover를 열고 닫을 수 있습니다. 이 경�
 
 `cascadeDismiss`는 `details.dismissedParent`를, 나머지는 `details.event`를 제공합니다. `focusOut`의 이벤트는 `FocusEvent`입니다.
 
-Popover는 열릴 때 콘텐츠로 포커스를 옮기지만 가두지 않습니다. Tab으로 밖으로 이동하면 닫히며, 이동한 곳의 포커스를 유지합니다.
+Popover는 열릴 때 콘텐츠로 포커스를 옮기지만 가두지 않습니다. `closeOnInteractOutside={false}`가 아니라면 Tab 등으로 포커스가 밖으로 이동할 때 닫히며, 이동한 곳의 포커스를 유지합니다.
 
 ### Placement
 

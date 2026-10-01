@@ -209,7 +209,7 @@ Date Picker는 시간과 시간대를 해석하지 않는 달력 날짜인 `Date
 
 제목을 누르면 Time Picker와 같은 Wheel Picker로 전환합니다. 연도 휠은 반복하지 않고 `yearRange` 안에서 이동하며, 월 휠은 반복합니다. `yearRange`의 기본값은 `today`를 기준으로 앞뒤 100년입니다.
 
-Month는 달력 그리드 자리에 Wheel Picker를 표시합니다. Week는 대체할 그리드가 한 주뿐이므로 달력을 그대로 두고, 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다. 제목을 다시 누르거나, popover 바깥을 누르거나, `Escape`를 누르거나, focus가 popover 밖으로 나가면 고른 월로 이동하며 닫힙니다. popover를 열면 focus가 popover로 이동하고, 닫으면 제목으로 돌아옵니다. Week가 두 달에 걸치면 제목은 다음 달을 표시합니다.
+Month는 달력 그리드 자리에 Wheel Picker를 표시합니다. Week는 대체할 그리드가 한 주뿐이므로 달력을 그대로 두고, 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다. 제목을 다시 누르거나, popover 바깥을 누르거나, `Escape`를 누르거나, 포커스가 popover 밖으로 나가면 고른 월로 이동하며 닫힙니다. popover를 열면 포커스가 popover로 이동하고, 닫으면 제목으로 돌아옵니다. Week가 두 달에 걸치면 제목과 Wheel Picker는 다음 달을 표시하고, 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 표시합니다.
 
 Month 계열의 표시 기준 날짜는 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
 

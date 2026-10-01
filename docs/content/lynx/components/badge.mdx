@@ -52,7 +52,7 @@ export function App() {
   ```
 </LynxComponentExample>
 
-정보 아이콘에는 안내의 양과 사용자가 해야 할 일에 맞는 UI를 연결하세요. 간단한 동작은 `action`에 `accessibility-label`과 `bindtap`을 전달해 연결할 수 있습니다.
+정보 아이콘에는 안내의 양과 사용자가 해야 할 일에 맞는 UI를 연결하세요. 간단한 동작은 `actionProps`에 `accessibility-label`과 `bindtap`을 전달해 연결할 수 있습니다.
 
 <LynxComponentExample name="lynx/badge/action">
   ```json doc-gen:file
@@ -160,5 +160,5 @@ export function App() {
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx Badge는 React Badge와 같은 `size`, `variant`, `tone` 표면을 사용하지만, 네이티브 `<view>` root와 `<text>` label을 렌더링합니다. HTML span attribute나 `asChild`는 제공하지 않습니다.
+Lynx Badge는 React Badge와 같은 `size`, `variant`, `tone` 표면을 사용하지만, 네이티브 `<view>` root와 `<text>` label을 렌더링합니다. HTML span attribute는 제공하지 않으며, `@seed-design/lynx-react`의 `Badge.Root`도 `asChild`를 지원하지 않습니다.
 </Callout>
