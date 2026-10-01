@@ -1250,7 +1250,7 @@ declare const artifact: {
             "value": "$color.palette.gray-100";
           };
         };
-        "description": "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다.";
+        "description": "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다.";
       };
       "$color.fg.neutral-muted": {
         "values": {
@@ -1627,19 +1627,6 @@ declare const artifact: {
         };
         "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed)";
       };
-      "$color.bg.layer-fill": {
-        "values": {
-          "theme-light": {
-            "type": "color";
-            "value": "$color.palette.gray-100";
-          };
-          "theme-dark": {
-            "type": "color";
-            "value": "$color.palette.gray-200";
-          };
-        };
-        "description": "@deprecated @seed-design/css@3.0.0에서 새 이름 토큰으로 대체·제거될 예정입니다.";
-      };
       "$color.bg.layer-floating": {
         "values": {
           "theme-light": {
@@ -1689,7 +1676,7 @@ declare const artifact: {
             "value": "$color.palette.gray-1000";
           };
         };
-        "description": "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0(다다음 메이저)에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다.";
+        "description": "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다.";
       };
       "$color.bg.neutral-inverted-pressed": {
         "values": {
@@ -1702,7 +1689,20 @@ declare const artifact: {
             "value": "$color.palette.gray-800";
           };
         };
-        "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)";
+        "description": "@deprecated `$color.bg.neutral-solid-pressed`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)";
+      };
+      "$color.bg.neutral-muted": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-100";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-200";
+          };
+        };
+        "description": "`$color.bg.layer-default` 위에서 영역이나 섹션을 구분하는 표면 색상입니다. (muted)";
       };
       "$color.bg.neutral-solid": {
         "values": {
@@ -1729,6 +1729,19 @@ declare const artifact: {
           };
         };
         "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)";
+      };
+      "$color.bg.neutral-subtle": {
+        "values": {
+          "theme-light": {
+            "type": "color";
+            "value": "$color.palette.gray-00";
+          };
+          "theme-dark": {
+            "type": "color";
+            "value": "$color.palette.gray-100";
+          };
+        };
+        "description": "표면과 같은 색상입니다. 회색 표면 위에서 주변과 구분되는 영역에 사용됩니다. (subtle)";
       };
       "$color.bg.neutral-weak": {
         "values": {

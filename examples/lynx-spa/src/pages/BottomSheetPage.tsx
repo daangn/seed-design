@@ -117,7 +117,7 @@ function BottomSheetExamples() {
         </BottomSheetTrigger>
         <view className="flex flex-col gap-x2">
           {BACKGROUND_LIST_ITEMS.map((item) => (
-            <view key={item} className="p-x3 rounded-r3 bg-bg-layer-fill">
+            <view key={item} className="p-x3 rounded-r3 bg-bg-neutral-muted">
               <text className="t3-regular text-fg-neutral">{item}</text>
             </view>
           ))}
@@ -129,7 +129,7 @@ function BottomSheetExamples() {
         >
           <BottomSheetBody className="gap-x2">
             {SHEET_LIST_ITEMS.map((item) => (
-              <view key={item} className="p-x3 rounded-r3 bg-bg-layer-fill">
+              <view key={item} className="p-x3 rounded-r3 bg-bg-neutral-muted">
                 <text className="t3-bold text-fg-neutral">{item}</text>
                 <text className="t2-regular text-fg-neutral-muted">
                   BottomSheetBody 내부의 스크롤 항목입니다.
