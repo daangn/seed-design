@@ -170,7 +170,7 @@ export function VariantPlayground<
       </view>
 
       {/* Controls: fixed to the bottom with its own scroll area. */}
-      <view className="shrink-0 max-h-[45%] border-t border-stroke-neutral-muted bg-bg-layer-fill">
+      <view className="shrink-0 max-h-[45%] border-t border-stroke-neutral-muted bg-bg-neutral-muted">
         <scroll-view scroll-y className="max-h-full">
           <view className="flex flex-col gap-x2_5 py-x3 px-x4">
             {variants.map((variant) =>

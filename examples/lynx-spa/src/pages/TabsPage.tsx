@@ -4,7 +4,7 @@ import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-exam
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
 
 const contentClassName =
-  "h-[240px] flex items-center justify-center bg-bg-layer-fill text-fg-neutral";
+  "h-[240px] flex items-center justify-center bg-bg-neutral-muted text-fg-neutral";
 
 export function TabsPage() {
   const [value, setValue] = useState("one");
