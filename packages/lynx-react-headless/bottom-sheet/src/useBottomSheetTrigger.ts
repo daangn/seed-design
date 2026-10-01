@@ -18,21 +18,17 @@ export interface UseBottomSheetTriggerReturn {
 /**
  * @platform Lynx
  *
- * tap으로 BottomSheet를 여는 Trigger props를 제공합니다. Root의 `skipAnimation`이면
- * 애니메이션 없이 엽니다.
+ * tap으로 BottomSheet를 여는 Trigger props를 제공합니다. `onOpenChange`에는 `"trigger"` reason을
+ * 전달하고, Root의 `skipAnimation`이면 애니메이션 없이 엽니다.
  */
 export function useBottomSheetTrigger(
   props: UseBottomSheetTriggerProps = {},
 ): UseBottomSheetTriggerReturn {
   const { bindtap } = props;
-  const { rootRef, skipAnimation } = useBottomSheetContext();
+  const { setOpen } = useBottomSheetContext();
   const handleTap = useMemoizedFn<TapHandler>((event, instance) => {
     "background only";
-    if (skipAnimation) {
-      rootRef.current?.open({ animate: false });
-    } else {
-      rootRef.current?.open();
-    }
+    setOpen(true, { reason: "trigger" });
     bindtap?.(event, instance);
   });
 

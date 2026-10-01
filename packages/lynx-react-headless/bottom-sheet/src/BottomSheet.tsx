@@ -1,8 +1,11 @@
 import * as React from "@lynx-js/react";
+import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import {
+  SheetBackdrop,
   SheetContent,
   SheetRoot,
   SheetView,
+  type SheetBackdropProps,
   type SheetContentProps,
   type SheetRootProps,
   type SheetRootRef,
@@ -10,15 +13,19 @@ import {
   type SheetViewProps,
 } from "@lynx-js/lynx-ui-sheet";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { BottomSheetProvider, useBottomSheetContext } from "./useBottomSheetContext.js";
+import { useBottomSheetCloseButton } from "./useBottomSheetCloseButton.js";
+import {
+  BottomSheetProvider,
+  useBottomSheetContext,
+  type BottomSheetOpenChangeDetails,
+  type BottomSheetOpenChangeReason,
+  type UseBottomSheetContext,
+} from "./useBottomSheetContext.js";
 import { useBottomSheetTrigger } from "./useBottomSheetTrigger.js";
 
-// The engine already owns mount gating, backdrop dismissal and drag handling.
-// These parts are its components, unchanged.
+// The engine already owns mount gating and drag handling. Handle is its component, unchanged.
 export {
-  SheetBackdrop as BottomSheetBackdrop,
   SheetHandle as BottomSheetHandle,
-  type SheetBackdropProps as BottomSheetBackdropProps,
   type SheetHandleProps as BottomSheetHandleProps,
 } from "@lynx-js/lynx-ui-sheet";
 
@@ -42,10 +49,10 @@ export interface BottomSheetRootProps
    */
   defaultOpen?: boolean;
   /**
-   * Called when the sheet's open state is about to change.
-   * Internally mapped to `onShowChange`.
+   * Called once when Trigger, CloseButton, Backdrop or a drag changes the open state, with the
+   * `reason` of the change. Changes made through the Root ref or the `open` prop are not reported.
    */
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details: BottomSheetOpenChangeDetails) => void;
   /**
    * Opens from Trigger without animation and ends enter, exit and snap transitions
    * immediately unless Content receives its own transition.
@@ -57,8 +64,9 @@ export interface BottomSheetRootProps
 /**
  * @platform Lynx
  *
- * `@lynx-js/lynx-ui-sheet`의 `SheetRoot`에 open 상태 이름과 `skipAnimation`을 연결합니다.
- * ref는 `SheetRoot`의 `open`·`close`·`snapTo`·`expand`·`collapse`를 그대로 노출합니다.
+ * `@lynx-js/lynx-ui-sheet`의 `SheetRoot`에 open 상태 이름, 열림 변경 reason, `skipAnimation`을 연결합니다.
+ * ref는 `open`·`close`·`snapTo`·`expand`·`collapse`를 제공하며, ref로 바꾼 열림 상태는 `onOpenChange`로
+ * 알리지 않습니다.
  */
 export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootProps>(
   (props, forwardedRef) => {
@@ -70,26 +78,67 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
       children,
       ...sheetProps
     } = props;
-    const rootRef = React.useRef<SheetRootRef | null>(null);
-    const ref = React.useMemo<React.Ref<SheetRootRef>>(() => {
-      if (!forwardedRef) return rootRef;
-      return (value: SheetRootRef | null) => {
+    const engineRef = React.useRef<SheetRootRef | null>(null);
+    // 엔진은 ref 호출과 사용자 동작을 모두 같은 `onShowChange`로 알린다. Trigger·CloseButton·Backdrop은
+    // 엔진을 호출하는 동안만 reason을 남기고, ref 호출은 요청한 열림 값을 남겨 그 변경을 알리지 않는다.
+    // 둘 다 없으면 엔진 스스로 바꾼 상태라 drag다.
+    const pendingReasonRef = React.useRef<BottomSheetOpenChangeReason | null>(null);
+    const imperativeOpenRef = React.useRef<boolean | null>(null);
+    const [handle] = React.useState<SheetRootRef>(() => {
+      const request = (nextOpen: boolean, action: (engine: SheetRootRef) => void) => {
         "background only";
-        rootRef.current = value;
-        if (typeof forwardedRef === "function") forwardedRef(value);
-        else forwardedRef.current = value;
+        imperativeOpenRef.current = nextOpen;
+        if (engineRef.current) action(engineRef.current);
       };
-    }, [forwardedRef]);
-    const context = React.useMemo(() => ({ rootRef, skipAnimation }), [skipAnimation]);
+      return {
+        open: (options) => request(true, (engine) => engine.open(options)),
+        close: (options) => request(false, (engine) => engine.close(options)),
+        snapTo: (index, options) => request(true, (engine) => engine.snapTo(index, options)),
+        expand: (options) => request(true, (engine) => engine.expand(options)),
+        collapse: (options) => request(true, (engine) => engine.collapse(options)),
+      };
+    });
+    const rootRef = React.useRef(handle);
+    React.useImperativeHandle(forwardedRef, () => handle, [handle]);
+
+    const handleShowChange = useMemoizedFn((nextOpen: boolean) => {
+      "background only";
+      const reason = pendingReasonRef.current;
+      if (reason === null && imperativeOpenRef.current === nextOpen) return;
+      imperativeOpenRef.current = null;
+      onOpenChange?.(nextOpen, { reason: reason ?? "drag" });
+    });
+    const setOpen = useMemoizedFn<UseBottomSheetContext["setOpen"]>((nextOpen, details) => {
+      "background only";
+      imperativeOpenRef.current = null;
+      if (open !== undefined) {
+        if (nextOpen !== open) onOpenChange?.(nextOpen, details);
+        return;
+      }
+      const engine = engineRef.current;
+      if (!engine) return;
+      const options = skipAnimation ? { animate: false } : undefined;
+      pendingReasonRef.current = details.reason;
+      try {
+        if (nextOpen) engine.open(options);
+        else engine.close(options);
+      } finally {
+        pendingReasonRef.current = null;
+      }
+    });
+    const context = React.useMemo<UseBottomSheetContext>(
+      () => ({ rootRef, skipAnimation, setOpen }),
+      [rootRef, skipAnimation, setOpen],
+    );
 
     return (
       <BottomSheetProvider value={context}>
         <SheetRoot
           {...sheetProps}
-          ref={ref}
+          ref={engineRef}
           show={open}
           defaultShow={defaultOpen}
-          onShowChange={onOpenChange}
+          onShowChange={handleShowChange}
         >
           {children}
         </SheetRoot>
@@ -102,7 +151,7 @@ BottomSheetRoot.displayName = "BottomSheetRoot";
 export interface BottomSheetTriggerProps extends Omit<ViewProps, "main-thread:bindtap"> {}
 
 /**
- * tap하면 Root ref로 시트를 여는 native `<view>`입니다. Positioner 밖에 둡니다.
+ * tap하면 시트를 여는 native `<view>`입니다. `onOpenChange`에 `"trigger"` reason을 전달합니다. Positioner 밖에 둡니다.
  */
 export const BottomSheetTrigger = React.forwardRef<unknown, BottomSheetTriggerProps>(
   (props, ref) => {
@@ -118,6 +167,29 @@ export const BottomSheetTrigger = React.forwardRef<unknown, BottomSheetTriggerPr
 );
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
 
+export interface BottomSheetCloseButtonProps extends Omit<ViewProps, "main-thread:bindtap"> {}
+
+/**
+ * tap하면 시트를 닫는 native `<view>`입니다. `onOpenChange`에 `"closeButton"` reason을 전달합니다.
+ */
+export const BottomSheetCloseButton = React.forwardRef<unknown, BottomSheetCloseButtonProps>(
+  (props, ref) => {
+    const { children, bindtap, ...nativeProps } = props;
+    const { closeButtonProps } = useBottomSheetCloseButton({ bindtap });
+
+    return (
+      <view
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
+        {...nativeProps}
+        {...closeButtonProps}
+      >
+        {children}
+      </view>
+    );
+  },
+);
+BottomSheetCloseButton.displayName = "BottomSheetCloseButton";
+
 export interface BottomSheetPositionerProps extends SheetViewProps {}
 
 /**
@@ -131,6 +203,25 @@ export function BottomSheetPositioner(props: BottomSheetPositionerProps): React.
   return <SheetView {...viewProps} container={container} style={positionerStyle} />;
 }
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
+
+export interface BottomSheetBackdropProps extends SheetBackdropProps {}
+
+/**
+ * lynx-ui `SheetBackdrop`입니다. `clickToClose`(기본 `true`)이면 tap으로 시트를 닫고 `onOpenChange`에
+ * `"interactOutside"` reason을 전달합니다. `onClick`은 닫기 여부와 관계없이 그 뒤에 호출합니다.
+ */
+export function BottomSheetBackdrop(props: BottomSheetBackdropProps): React.ReactElement {
+  const { clickToClose = true, onClick, ...backdropProps } = props;
+  const { setOpen } = useBottomSheetContext();
+  const handleClick = useMemoizedFn(() => {
+    "background only";
+    if (clickToClose) setOpen(false, { reason: "interactOutside" });
+    onClick?.();
+  });
+
+  return <SheetBackdrop {...backdropProps} clickToClose={false} onClick={handleClick} />;
+}
+BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends SheetContentProps {}
 
