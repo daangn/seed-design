@@ -26,7 +26,7 @@ description: 외부 소스에서 제공된 미디어를 표시하고 호스트 �
 
 ### Reorderable
 
-항목 순서를 변경해야 하면 native 가로 long-press gesture를 포함한 별도 snippet을 설치하세요.
+항목 순서를 변경해야 하면 native 가로 long-press gesture를 포함한 별도 snippet을 설치하세요. 프로젝트에 [`@seed-design/lynx-react-sortable`](/lynx/components/attachment-field#headless-정렬) 의존성이 추가됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
@@ -125,9 +125,11 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ## Reordering Entries
 
-React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `AttachmentDisplayReorderable`은 별도 snippet에서 native 가로 long-press gesture를 사용하며, gesture가 끝나면 `reorderEntry(fromIndex, toIndex)`를 호출하여 목록 순서를 바꿉니다. `disabled`와 `readOnly`에서는 정렬 gesture가 차단됩니다.
+React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `AttachmentDisplayReorderable`은 별도 snippet에서 [`@seed-design/lynx-react-sortable`](/lynx/components/attachment-field#headless-정렬)의 native 가로 long-press gesture를 사용하며, gesture가 끝나면 `reorderEntry(fromIndex, toIndex)`를 호출하여 목록 순서를 바꿉니다. `disabled`와 `readOnly`에서는 정렬 gesture가 차단됩니다.
 
 별도 snippet의 `SortableAttachmentDisplayItem`은 `index`를 필수로 받습니다. 기본 항목 map도 명시적인 `SortableAttachmentDisplayItem`을 사용하며, custom children callback을 사용할 때도 각 항목을 해당 컴포넌트로 직접 구성하세요. callback 결과를 `Children.toArray`로 다시 해석하거나 index로 clone하지 않습니다.
+
+`SortableAttachmentDisplayItem`은 항목 전체를 하나의 접근성 요소로 만듭니다. 스크린 리더는 항목 이름(`name`이 없으면 "이미지")과 순서·업로드 상태를 읽고, 사용자 지정 동작으로 "앞으로 이동"·"뒤로 이동"(`reorderEntry`), "파일 제거", 오류 상태에서 `onRetry`가 있으면 "재시도"를 제공합니다. iOS는 접근성 요소 안의 버튼에 포커스하지 않으므로 항목 안의 제거·재시도 버튼은 이 동작으로 대신 실행됩니다. `readOnly`에서는 이동과 제거 동작이 빠지고, `disabled`에서는 이동 동작만 빠집니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/reorderable">
   ```json doc-gen:file
