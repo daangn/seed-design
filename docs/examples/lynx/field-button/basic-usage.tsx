@@ -17,17 +17,19 @@ export default function Example() {
     setSelectedCity("서울");
   }
 
-  function clearCity() {
+  function changeCities([nextCity = ""]: string[]) {
     "background only";
-    setSelectedCity("");
+    setSelectedCity(nextCity);
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content">
           <FieldButton
             label="도시"
+            values={selectedCity ? [selectedCity] : []}
+            onValuesChange={changeCities}
             showClearButton={selectedCity !== ""}
             buttonProps={{
               bindtap: selectCity,
@@ -35,7 +37,6 @@ export default function Example() {
                 ? `도시 변경. 현재: ${selectedCity}`
                 : "도시 선택",
             }}
-            clearButtonProps={{ bindtap: clearCity }}
           >
             {selectedCity ? (
               <FieldButtonValue>{selectedCity}</FieldButtonValue>

@@ -15,25 +15,24 @@ export default function Example() {
     "background only";
     setValue("판교동");
   }, []);
-  const clearValue = useCallback(() => {
+  const changeValues = useCallback(([nextValue]: string[]) => {
     "background only";
-    setValue(null);
+    setValue(nextValue ?? null);
   }, []);
 
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content">
           <FieldButton
             label="동네"
             description="거래할 동네를 선택해 주세요."
+            values={value == null ? [] : [value]}
+            onValuesChange={changeValues}
             showClearButton={value != null}
             buttonProps={{
               "accessibility-label": value ? `동네 변경. 현재: ${value}` : "동네 선택",
               bindtap: selectValue,
-            }}
-            clearButtonProps={{
-              bindtap: clearValue,
             }}
           >
             {value == null ? (
