@@ -23,7 +23,7 @@ export default function Example() {
     <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
         <HStack width="full" gap="x8" align="flex-start">
-          <VStack style={{ flex: 1 }} gap="spacingY.componentDefault">
+          <VStack style={{ flexGrow: 1, flexShrink: 1 }} gap="spacingY.componentDefault">
             <RadioGroup
               label="선호하는 연락 방법"
               indicator="필수"
@@ -32,19 +32,17 @@ export default function Example() {
               onValueChange={setContact}
               invalid={firstErrorMessage != null}
               errorMessage={firstErrorMessage}
-              tone="neutral"
-              size="large"
             >
-              <RadioGroupItem value="email" label="이메일" />
-              <RadioGroupItem value="phone" label="전화" />
-              <RadioGroupItem value="sms" label="문자" />
+              <RadioGroupItem value="email" label="이메일" tone="neutral" size="large" />
+              <RadioGroupItem value="phone" label="전화" tone="neutral" size="large" />
+              <RadioGroupItem value="sms" label="문자" tone="neutral" size="large" />
             </RadioGroup>
             <ActionButton variant="neutralSolid" bindtap={handleFirstSubmit}>
               제출
             </ActionButton>
           </VStack>
 
-          <VStack style={{ flex: 1 }} gap="spacingY.componentDefault">
+          <VStack style={{ flexGrow: 1, flexShrink: 1 }} gap="spacingY.componentDefault">
             <RadioGroup
               label="필수 선택"
               labelWeight="bold"
@@ -54,12 +52,10 @@ export default function Example() {
               onValueChange={setOption}
               invalid={secondErrorMessage != null}
               errorMessage={secondErrorMessage}
-              tone="neutral"
-              size="large"
             >
-              <RadioGroupItem value="option1" label="옵션 1" />
-              <RadioGroupItem value="option2" label="옵션 2" disabled />
-              <RadioGroupItem value="option3" label="옵션 3" />
+              <RadioGroupItem value="option1" label="옵션 1" tone="neutral" size="large" />
+              <RadioGroupItem value="option2" label="옵션 2" tone="neutral" size="large" disabled />
+              <RadioGroupItem value="option3" label="옵션 3" tone="neutral" size="large" />
             </RadioGroup>
             <ActionButton variant="neutralSolid" bindtap={handleSecondSubmit}>
               제출
