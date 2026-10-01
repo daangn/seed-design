@@ -9,7 +9,7 @@ import {
 } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
-import { InputButton } from "./index";
+import { FieldButton } from "./index";
 import type { LynxIconElementProps } from "../../types";
 import type { MainThread } from "@lynx-js/types";
 
@@ -28,15 +28,15 @@ function getRenderedRoot() {
   return root;
 }
 
-describe("InputButton", () => {
+describe("FieldButton", () => {
   it("renders slots with size and invalid state classes", () => {
     render(
-      <InputButton.Root size="medium" invalid className="custom-input-button">
-        <InputButton.Button accessibility-label="지역 선택" />
-        <InputButton.PrefixText>지역</InputButton.PrefixText>
-        <InputButton.Value>판교동</InputButton.Value>
-        <InputButton.SuffixText>선택됨</InputButton.SuffixText>
-      </InputButton.Root>,
+      <FieldButton.Root size="medium" invalid className="custom-input-button">
+        <FieldButton.Button accessibility-label="지역 선택" />
+        <FieldButton.PrefixText>지역</FieldButton.PrefixText>
+        <FieldButton.Value>판교동</FieldButton.Value>
+        <FieldButton.SuffixText>선택됨</FieldButton.SuffixText>
+      </FieldButton.Root>,
     );
 
     const root = getRenderedRoot();
@@ -59,10 +59,10 @@ describe("InputButton", () => {
   it("tracks pressed state and blocks taps when disabled", () => {
     const onTap = vi.fn();
     const { rerender } = render(
-      <InputButton.Root>
-        <InputButton.Button accessibility-label="지역 선택" bindtap={onTap} />
-        <InputButton.Placeholder>지역을 선택하세요</InputButton.Placeholder>
-      </InputButton.Root>,
+      <FieldButton.Root>
+        <FieldButton.Button accessibility-label="지역 선택" bindtap={onTap} />
+        <FieldButton.Placeholder>지역을 선택하세요</FieldButton.Placeholder>
+      </FieldButton.Root>,
     );
 
     let button = getRenderedRoot().querySelector(".seed-input-button__button") as HTMLElement;
@@ -74,10 +74,10 @@ describe("InputButton", () => {
     expect(onTap).toHaveBeenCalledTimes(1);
 
     rerender(
-      <InputButton.Root disabled>
-        <InputButton.Button accessibility-label="지역 선택" bindtap={onTap} />
-        <InputButton.Placeholder>지역을 선택하세요</InputButton.Placeholder>
-      </InputButton.Root>,
+      <FieldButton.Root disabled>
+        <FieldButton.Button accessibility-label="지역 선택" bindtap={onTap} />
+        <FieldButton.Placeholder>지역을 선택하세요</FieldButton.Placeholder>
+      </FieldButton.Root>,
     );
 
     button = getRenderedRoot().querySelector(".seed-input-button__button") as HTMLElement;
@@ -92,14 +92,14 @@ describe("InputButton", () => {
 
   it("groups fragment content while leaving the button and strokes outside the scale target", () => {
     render(
-      <InputButton.Root>
+      <FieldButton.Root>
         <React.Fragment key="fragment-slots">
-          <InputButton.Button accessibility-label="Select" />
-          <InputButton.PrefixText>Prefix</InputButton.PrefixText>
-          <InputButton.Value>Value</InputButton.Value>
-          <InputButton.SuffixText>Suffix</InputButton.SuffixText>
+          <FieldButton.Button accessibility-label="Select" />
+          <FieldButton.PrefixText>Prefix</FieldButton.PrefixText>
+          <FieldButton.Value>Value</FieldButton.Value>
+          <FieldButton.SuffixText>Suffix</FieldButton.SuffixText>
         </React.Fragment>
-      </InputButton.Root>,
+      </FieldButton.Root>,
     );
 
     const root = getRenderedRoot();
@@ -117,12 +117,12 @@ describe("InputButton", () => {
   });
 
   it("preserves custom wrapped Button composition without moving or dropping children", () => {
-    const CustomButton = () => <InputButton.Button accessibility-label="Custom" />;
+    const CustomButton = () => <FieldButton.Button accessibility-label="Custom" />;
     render(
-      <InputButton.Root>
+      <FieldButton.Root>
         <CustomButton />
-        <InputButton.Value>Value</InputButton.Value>
-      </InputButton.Root>,
+        <FieldButton.Value>Value</FieldButton.Value>
+      </FieldButton.Root>,
     );
 
     const root = getRenderedRoot();
@@ -136,36 +136,39 @@ describe("InputButton", () => {
   it("keeps the clear action independent and hides it in readonly mode", () => {
     const onOpen = vi.fn();
     const onClear = vi.fn();
+    const onValuesChange = vi.fn();
     const { rerender } = render(
-      <InputButton.Root>
-        <InputButton.Button accessibility-label="Select" bindtap={onOpen} />
-        <InputButton.Value>Value</InputButton.Value>
-        <InputButton.ClearButton
+      <FieldButton.Root values={["Value"]} onValuesChange={onValuesChange}>
+        <FieldButton.Button accessibility-label="Select" bindtap={onOpen} />
+        <FieldButton.Value>Value</FieldButton.Value>
+        <FieldButton.ClearButton
           icon={<MockIcon />}
           accessibility-label="Clear"
           bindtap={onClear}
         />
-      </InputButton.Root>,
+      </FieldButton.Root>,
     );
     const root = getRenderedRoot();
     const clear = root.querySelector(".seed-input-button__clearButton") as HTMLElement;
     expect(clear).toHaveAttribute("flatten", "false");
+    expect(clear).toHaveAttribute("accessibility-traits", "button");
     fireEvent.tap(clear);
     expect(onClear).toHaveBeenCalledTimes(1);
+    expect(onValuesChange).toHaveBeenCalledExactlyOnceWith([]);
     expect(onOpen).not.toHaveBeenCalled();
     expect(root.querySelector(".seed-input-button__button")).not.toHaveClass(
       "seed-input-button__button--pressed_true",
     );
 
     rerender(
-      <InputButton.Root readOnly>
-        <InputButton.Button accessibility-label="Select" bindtap={onOpen} />
-        <InputButton.ClearButton
+      <FieldButton.Root readOnly>
+        <FieldButton.Button accessibility-label="Select" bindtap={onOpen} />
+        <FieldButton.ClearButton
           icon={<MockIcon />}
           accessibility-label="Clear"
           bindtap={onClear}
         />
-      </InputButton.Root>,
+      </FieldButton.Root>,
     );
     expect(getRenderedRoot().querySelector(".seed-input-button__clearButton")).toBeNull();
   });
@@ -177,13 +180,13 @@ describe("InputButton", () => {
         runOnBackground(report)();
       }
       return (
-        <InputButton.Root>
-          <InputButton.Button
+        <FieldButton.Root>
+          <FieldButton.Button
             accessibility-label="Select"
             main-thread:bindtouchstart={handleTouch}
           />
-          <InputButton.Value>Value</InputButton.Value>
-        </InputButton.Root>
+          <FieldButton.Value>Value</FieldButton.Value>
+        </FieldButton.Root>
       );
     }
     const report = vi.fn();
@@ -203,7 +206,7 @@ describe("InputButton", () => {
     expect(button.className).not.toContain("pressed_true");
   });
 
-  it("throws when a slot is rendered outside InputButton.Root", () => {
-    expect(() => render(<InputButton.Value>값</InputButton.Value>)).toThrow(/InputButton\.Value/);
+  it("throws when a slot is rendered outside FieldButton.Root", () => {
+    expect(() => render(<FieldButton.Value>값</FieldButton.Value>)).toThrow();
   });
 });

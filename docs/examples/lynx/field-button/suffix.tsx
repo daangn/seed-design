@@ -9,9 +9,9 @@ export default function Example() {
   const seedClassName = useSeedClassName({ colorMode: "system" });
 
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content" gap="spacingY.componentDefault">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content" gap="spacingY.componentDefault">
           <FieldButton
             label="키"
             description="측정한 키를 선택해주세요."

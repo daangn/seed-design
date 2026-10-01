@@ -17,23 +17,24 @@ export default function Example() {
     setValue("정자동");
   }
 
-  function clearValue() {
+  function changeValues([nextValue = ""]: string[]) {
     "background only";
-    setValue("");
+    setValue(nextValue);
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content">
           <FieldButton
             label="동네"
+            values={value ? [value] : []}
+            onValuesChange={changeValues}
             showClearButton={value !== ""}
             buttonProps={{
               bindtap: selectValue,
               "accessibility-label": `동네 선택.${value ? ` 현재 동네는 ${value}입니다.` : ""}`,
             }}
-            clearButtonProps={{ bindtap: clearValue }}
           >
             {value ? (
               <FieldButtonValue>{value}</FieldButtonValue>

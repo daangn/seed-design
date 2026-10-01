@@ -18,9 +18,9 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-input-button-root`}>
-      <VStack className="input-button-preview">
-        <VStack className="input-button-preview__content" gap="spacingY.componentDefault">
+    <view className={`${seedClassName} docs-lynx-field-button-root`}>
+      <VStack className="field-button-preview">
+        <VStack className="field-button-preview__content" gap="spacingY.componentDefault">
           <FieldButton buttonProps={{ "accessibility-label": "현재 값: FieldButtonValue" }}>
             <FieldButtonValue>FieldButtonValue</FieldButtonValue>
           </FieldButton>
