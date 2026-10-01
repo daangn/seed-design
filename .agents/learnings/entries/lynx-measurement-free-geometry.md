@@ -16,6 +16,7 @@ verified_at: "2026-10-01"
 - Lynx CSS 변수 지원 범위(iOS PlayLynx SDK 1.4.0에서 확인):
   - 사용처의 `calc()` 안에서 `var() * var()`, `var() * 숫자`, `%`와 `px` 혼합은 동작한다. inline style로 넘긴 변수와 조상 class의 변수를 함께 써도 된다.
   - 사용자 정의 속성 값 안의 `var()`(예: `--y: calc(var(--sz) * 0.2)`)는 inline·class 모두 해석되지 않아 그 속성을 쓰는 선언 전체가 무효가 된다. 중첩 변수 대신 사용처에서 곱한다.
+  - `var(--a, var(--b))`처럼 fallback 안에 다시 `var()`를 둔 선언도 무효였다(`color`가 `rgba(0,0,11,0)`로 계산됨). token을 직접 쓰거나 변수를 항상 정의한다.
 - 첫 프레임 판정은 단위 테스트나 agent-lynx 폴링으로는 할 수 없다. macOS에서 PlayLynx 창이 보이면 창 ID를 찾아 `screencapture -x -V <초> -l<windowID> out.mov`로 녹화하는 동안 소유 session에 `Page.reload`를 보낸다. 프레임별 대상 픽셀 열 범위를 비교해 첫 표시 프레임과 마지막 프레임의 위치가 같은지 본다. `-R` 좌표 녹화는 다중 모니터에서 다른 화면을 찍을 수 있다.
 
 ## 발생 근거와 적용 조건
@@ -28,3 +29,4 @@ verified_at: "2026-10-01"
 ## 변경 이력
 
 - 2026-10-01: DES-2629 Slider 첫 렌더 thumb 이동 수정에서 기록했다.
+- 2026-10-01: 같은 작업의 marker 색상 조사에서 중첩 fallback `var()`가 무효인 근거를 추가했다.
