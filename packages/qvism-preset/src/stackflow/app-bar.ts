@@ -76,11 +76,15 @@ export const appBarMain = defineSlotRecipe({
           // far the further-reaching left/right area extends from the bar's content edge, as
           // `useAppBar` measures it. With no area the variable is unset, and the fallback cancels the
           // padding so the title clears nothing.
+          // `@seed-design/stackflow` <= 2.0.4 sets `--centered-title-padding-x` instead: the padding
+          // itself, measured from the bar's padding edge. The fallback resolves to
+          // `max(var(--centered-title-padding-x, 0px), <safe-area inset>)`, so those versions keep
+          // the title clear of the left/right areas.
           // NOTE: the spec's `root.titleMinGap` (the minimum gap between the title and the left/right
           // areas) is not applied yet; consuming it means adding
           // `${vars.themeIos.enabled.root.titleMinGap}` to `--app-bar-area-extent`.
-          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
-          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(-1 * ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-left) - ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-right) - ${PINNED_ROOT_PADDING_X}))), 0px))`,
           pointerEvents: "none",
         },
       },
