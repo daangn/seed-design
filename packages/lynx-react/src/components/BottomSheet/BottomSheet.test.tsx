@@ -103,8 +103,10 @@ describe("BottomSheet", () => {
     const { container } = render(
       <BottomSheet.Root>
         <BottomSheet.Body ref={bodyRef} className="custom-body" style={{ height: "200px" }}>
-          <ScrollFog hideScrollBar placement={["top", "bottom"]}>
-            <text>Scrollable content</text>
+          <ScrollFog placement={["top", "bottom"]}>
+            <scroll-view scroll-orientation="vertical" scroll-bar-enable={false}>
+              <text>Scrollable content</text>
+            </scroll-view>
           </ScrollFog>
         </BottomSheet.Body>
       </BottomSheet.Root>,
@@ -116,13 +118,9 @@ describe("BottomSheet", () => {
     expect(body?.tagName.toLowerCase()).toBe("view");
     expect(body).toHaveStyle({ height: "200px" });
     expect(bodyRef.current).not.toBeNull();
-    expect(scrollViews).toHaveLength(2);
+    expect(scrollViews).toHaveLength(1);
     expect(scrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
-    expect(scrollViews?.item(1)).toHaveAttribute("scroll-orientation", "horizontal");
-    for (const scrollView of scrollViews ?? []) {
-      expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
-      expect(scrollView).not.toHaveAttribute("fading-edge-length");
-    }
+    expect(scrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
   });
 
   it("renders Handle with a target-size touch area around the visual handle", () => {
