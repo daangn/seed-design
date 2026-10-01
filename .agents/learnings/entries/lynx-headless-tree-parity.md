@@ -17,6 +17,8 @@ related: ["isolated-regression-baselines"]
 - 다음 순서로 검증한다.
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
   - parity 테스트는 대상 컴포넌트 파일이나 `<Component>.namespace.ts`를 import한다. `src/components/index.ts`(`..`)를 import하면 lynx-ui-sheet까지 불러와 `The requested module 'preact' does not provide an export named 'process'`로 suite가 로드되지 않는다.
+  - 이벤트 핸들러 key는 DOM attribute에 나타나지 않는다 → `@lynx-js/react/testing-library`가 element에 붙이는 `eventMap` 속성의 key를 정렬해 직렬화한다(`"eventMap" in element`로 좁혀 읽는다).
+  - tap으로 action이 경계에 닿아 Scale Feedback의 `disabled`가 바뀌면 Background만 켠 render에서 `runOnMainThread can only be used on the background thread`가 날 수 있다. 장면별 조작을 `try/catch`로 감싸 오류 문구를 콜백 로그에 남기고 다음 장면을 이어 수집한다. 전후 로그에 같은 오류가 남는지까지 비교한다.
   - 테스트 환경의 jsdom은 inline style의 CSS custom property(예: `--fab-label-width`)를 버린다. `style.cssText`·`getPropertyValue`가 모두 빈 값이므로 parity로 CSS 변수 회귀를 판정하지 않는다 → 기기에서 `agent-lynx cdp --method DOM.getDocument`의 `style` attribute로 값을 확인한다.
   - 한 테스트에서 여러 장면을 `render()`로 이어 그릴 때는 매번 testing-library의 `cleanup()`을 먼저 호출한다. 같은 컴포넌트 타입을 같은 위치에 다시 그리면 이전 장면의 state(예: 닫힌 uncontrolled `open`)가 이어진다.
   - 변경 후 같은 테스트를 다시 실행해 `cmp`로 byte 동일성을 확인한다. 임시 파일은 typecheck를 깨뜨릴 수 있으므로 `bun test:lynx-react` 최종 실행 전에 삭제한다.
@@ -39,6 +41,7 @@ related: ["isolated-regression-baselines"]
 - 상황(DES-2618): FloatingActionButton parity 테스트가 `from ".."`로 공개 namespace를 가져오다 위 `preact` 오류로 로드되지 않았다. `./FloatingActionButton.namespace`로 바꾼 뒤 38개 장면을 수집했다. label 측정 뒤 `--fab-label-width`는 jsdom에서 항상 빈 값이었고, PlayLynx 기기 DOM의 root `style`에서는 label 폭과 같은 `101px`·`73.5px`로 확인했다.
 - 상황(DES-2618): 리뷰에서 styled FAB의 소비자 Background `bindtouchstart`가 dual-thread 테스트에서 0회 호출되는 것을 native 결함으로 보고, Scale Feedback trigger를 `main-thread:capture-bindtouch*`로 옮겼다.
 - 영향(DES-2618): iOS PlayLynx(SDK 1.4.0)에서 원래 코드는 이미 소비자 Background `bindtouchstart`·`bindtouchend`와 눌림 상태가 모두 동작했다. capture 변경본에서는 소비자 `main-thread:bindtouchstart`만 실행되고 눌림 상태가 켜지지 않았다. 변경을 되돌렸다. Lynx engine(`core/renderer/dom/attribute_holder.h`, `f364ace`)은 Background handler를 `static_events`, Main Thread handler를 `lepus_events_`에 이벤트 이름 key로 `insert_or_assign`해 phase와 관계없이 이름당 하나씩 보관한다.
+- 상황(DES-2639): QuantityPicker parity 테스트에서 removable이 아닌 Decrement를 `min`까지 누르는 장면이 위 `runOnMainThread` 오류로 전체 테스트를 실패시켰다. 장면별 `try/catch`로 오류를 로그에 남기고 `eventMap` key를 포함해 26개 장면을 수집했다. 분리 전후 JSON이 `cmp`로 byte 단위로 같았다.
 
 ## 변경 이력
 
@@ -48,3 +51,4 @@ related: ["isolated-regression-baselines"]
 - 2026-09-29: DES-2615 Callout 분리에서 확인한 장면 간 `cleanup()` 필요성을 추가했다.
 - 2026-09-29: DES-2618 FloatingActionButton 작업에서 parity 테스트의 import 경로와 jsdom의 CSS 변수 누락을 추가했다.
 - 2026-09-29: DES-2618에서 Background·Main Thread handler 공존 규칙을 기기와 engine 원천으로 정정하고, capture phase 분리 시도가 실패한 근거를 추가했다.
+- 2026-10-01: DES-2639에서 이벤트 key 직렬화 위치와 장면별 Main Thread 오류 처리 방법을 추가했다.
