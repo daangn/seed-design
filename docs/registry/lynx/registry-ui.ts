@@ -89,8 +89,8 @@ const listPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
-const swipeableMenuSheetPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+const menuSheetPackageRanges = {
+  "@seed-design/lynx-react": ">=0.9.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
@@ -288,6 +288,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "menu-sheet",
+      snippets: [
+        {
+          path: "menu-sheet.tsx",
+          dependencies: menuSheetPackageRanges,
+        },
+      ],
+    },
+    {
       id: "help-bubble",
       snippets: [
         {
@@ -389,15 +398,6 @@ export const registryUI: Registry = {
         {
           path: "switch.tsx",
           dependencies: lynxSeedPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "swipeable-menu-sheet",
-      snippets: [
-        {
-          path: "swipeable-menu-sheet.tsx",
-          dependencies: swipeableMenuSheetPackageRanges,
         },
       ],
     },

@@ -4090,6 +4090,7 @@ text {
   justify-content: flex-start;
   align-items: center;
   display: flex;
+  position: relative;
 }
 
 .seed-menu-sheet-item__root:active {
@@ -4136,8 +4137,11 @@ text {
 
 .seed-menu-sheet-item__divider {
   background-color: var(--seed-color-stroke-neutral-muted);
-  width: 100%;
   height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .seed-menu-sheet-item__prefixIcon--tone_neutral, .seed-menu-sheet-item__label--tone_neutral {
