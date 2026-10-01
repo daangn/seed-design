@@ -42,6 +42,10 @@
     }
   }
 
+  .seed-select-trigger__root:not([data-disabled]):not([data-readonly]):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
+  }
+
   .seed-select-trigger__root[data-readonly]:not([data-disabled]) {
     cursor: default;
     background-color: var(--seed-color-bg-disabled);

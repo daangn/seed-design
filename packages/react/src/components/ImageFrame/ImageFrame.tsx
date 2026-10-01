@@ -70,6 +70,8 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const classNames = imageFrameRecipe(variantProps);
 
     return (
+      // TODO: `asChild` arrives from `AspectRatioProps` but slots onto `Image.Root` below, so it
+      // never swaps this component's own element. Support it via `Slottable`, or omit it from the props.
       <AspectRatio
         ref={ref}
         ratio={ratio}
@@ -124,6 +126,8 @@ export interface ImageFrameBadgeProps extends BadgeRootProps {}
 export const ImageFrameBadge = React.forwardRef<HTMLSpanElement, ImageFrameBadgeProps>(
   ({ children, ...props }, ref) => {
     return (
+      // FIXME: `asChild` slots onto `BadgeLabel` below, not `BadgeRoot`, so the caller's element
+      // lands inside the badge without its class or ref. Route `children` through `Slottable`.
       <BadgeRoot ref={ref} {...props}>
         <BadgeLabel>{children}</BadgeLabel>
       </BadgeRoot>
