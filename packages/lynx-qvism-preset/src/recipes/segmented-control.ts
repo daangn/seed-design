@@ -5,9 +5,22 @@ import {
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
+/**
+ * 선택 전·후 눌림 색을 `itemBackground`·`itemSelectedBackground` 두 overlay에 고정하고
+ * item의 `:active`에서 현재 선택 상태에 맞는 overlay의 opacity만 전환한다. 놓는 순간 선택이
+ * 바뀌어도 사라지는 overlay의 색은 바뀌지 않는다.
+ */
 const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
-  slots: ["root", "indicator", "item", "itemContent", "itemBackground", "label"],
+  slots: [
+    "root",
+    "indicator",
+    "item",
+    "itemContent",
+    "itemBackground",
+    "itemSelectedBackground",
+    "label",
+  ],
   base: {
     root: {
       display: "grid",
@@ -69,6 +82,22 @@ const segmentedControl = defineSlotRecipe({
       bottom: 0,
       left: 0,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
+      backgroundColor: itemVars.base.pressed.root.color,
+      boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
+      opacity: 0,
+      transitionProperty: "opacity",
+      transitionDuration: itemVars.base.enabled.root.colorDuration,
+      transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+    },
+    itemSelectedBackground: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      borderRadius: itemVars.base.enabled.root.cornerRadius,
+      backgroundColor: indicatorVars.base.pressed.root.color,
+      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       opacity: 0,
       transitionProperty: "opacity",
       transitionDuration: itemVars.base.enabled.root.colorDuration,
@@ -88,20 +117,11 @@ const segmentedControl = defineSlotRecipe({
   variants: {
     selected: {
       true: {
-        itemBackground: {
-          backgroundColor: indicatorVars.base.pressed.root.color,
-          boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
-        },
         label: {
           color: itemVars.base.selected.label.color,
         },
       },
-      false: {
-        itemBackground: {
-          backgroundColor: itemVars.base.pressed.root.color,
-          boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
-        },
-      },
+      false: {},
     },
     disabled: {
       true: {
@@ -111,19 +131,14 @@ const segmentedControl = defineSlotRecipe({
       },
       false: {
         item: {
-          "&:active .seed-segmented-control__itemBackground": {
+          "&:active .seed-segmented-control__itemBackground--selected_false": {
+            opacity: 1,
+          },
+          "&:active .seed-segmented-control__itemSelectedBackground--selected_true": {
             opacity: 1,
           },
         },
       },
-    },
-    pressed: {
-      true: {
-        itemBackground: {
-          opacity: 1,
-        },
-      },
-      false: {},
     },
     hasSelection: {
       true: {},
@@ -133,17 +148,16 @@ const segmentedControl = defineSlotRecipe({
         },
       },
     },
-  },
-  compoundVariants: [
-    {
-      disabled: true,
-      pressed: true,
-      css: {
-        itemBackground: {
-          opacity: 0,
+    transitionEnabled: {
+      true: {},
+      false: {
+        indicator: {
+          transitionDuration: "0s",
         },
       },
     },
+  },
+  compoundVariants: [
     {
       selected: true,
       disabled: true,
@@ -158,8 +172,8 @@ const segmentedControl = defineSlotRecipe({
   defaultVariants: {
     selected: false,
     disabled: false,
-    pressed: false,
     hasSelection: true,
+    transitionEnabled: true,
   },
 });
 
