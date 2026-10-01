@@ -29,29 +29,34 @@ export default function Example() {
           size={40}
           placement={["top", "bottom"]}
         >
-          <VStack pt="40px" px="16px" pb="80px" gap="12px">
-            <Text color="fg.neutralMuted" fontSize="14px">
-              fog size: 40px
-            </Text>
-            <VStack gap="8px">
-              {ITEMS.map((item) => (
-                <Box
-                  key={item}
-                  height="40px"
-                  flexShrink={false}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  borderRadius="4px"
-                  bg="bg.neutralWeak"
-                >
-                  <Text color="fg.neutral" fontSize="14px">
-                    콘텐츠 {item}
-                  </Text>
-                </Box>
-              ))}
+          <scroll-view
+            scroll-orientation="vertical"
+            style={{ width: "100%", height: "100%", padding: "40px 16px 80px" }}
+          >
+            <VStack gap="12px">
+              <Text color="fg.neutralMuted" fontSize="14px">
+                fog size: 40px
+              </Text>
+              <VStack gap="8px">
+                {ITEMS.map((item) => (
+                  <Box
+                    key={item}
+                    height="40px"
+                    flexShrink={false}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="4px"
+                    bg="bg.neutralWeak"
+                  >
+                    <Text color="fg.neutral" fontSize="14px">
+                      콘텐츠 {item}
+                    </Text>
+                  </Box>
+                ))}
+              </VStack>
             </VStack>
-          </VStack>
+          </scroll-view>
         </ScrollFog>
       </Box>
     </Box>
