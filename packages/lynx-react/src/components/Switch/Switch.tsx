@@ -142,10 +142,13 @@ export interface SwitchControlProps
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const context = useStyledSwitchContext("SwitchControl");
+  // Headless Root(예: List.SwitchItem) 아래에서도 상태를 표시한다. styled Root의 variant
+  // 기본값과 scale target은 있을 때만 쓴다.
+  const context = useSwitchContext();
+  const styledContext = isStyledSwitchContext(context) ? context : null;
   const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const switchmarkVariantProps: SwitchmarkVariantProps = {
-    ...context.switchmarkVariantProps,
+    ...styledContext?.switchmarkVariantProps,
     ...variantProps,
     checked: context.checked,
     disabled: context.disabled,
@@ -159,7 +162,7 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
       <HeadlessSwitchControl
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
-          !hasScaledContent ? context.scaleFeedbackTargetProps : {},
+          !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
           nativeProps,
         )}
         className={clsx(classes.root, className)}

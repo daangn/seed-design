@@ -187,17 +187,20 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
   (props, ref) => {
     const [variantProps, restProps] = radiomark.splitVariantProps(props);
     const { children, className, ...nativeProps } = restProps;
-    const itemContext = useStyledRadioGroupItemContext("RadioGroupItemControl");
+    // Headless Item(예: List.RadioItem) 아래에서도 상태를 표시한다. styled Item의 variant
+    // 기본값과 scale target은 있을 때만 쓴다.
+    const itemContext = useRadioGroupItemContext();
+    const styledContext = isStyledRadioGroupItemContext(itemContext) ? itemContext : null;
     const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
     const radiomarkVariantProps: RadiomarkVariantProps = {
-      ...itemContext.radiomarkVariantProps,
+      ...styledContext?.radiomarkVariantProps,
       ...variantProps,
       checked: itemContext.checked,
       disabled: itemContext.disabled,
       pressed: itemContext.pressed,
     };
     const classes = radiomark(radiomarkVariantProps);
-    const controlClassName = radio(itemContext.radioVariantProps).control;
+    const controlClassName = radio({ ...styledContext?.radioVariantProps }).control;
 
     return (
       <RadiomarkControlContext.Provider
@@ -206,7 +209,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
         <HeadlessRadioGroupItemControl
           {...mergeProps(
             ref ? { ref: ref as LynxViewRef } : {},
-            !hasScaledContent ? itemContext.scaleFeedbackTargetProps : {},
+            !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
             nativeProps,
           )}
           className={clsx(classes.root, controlClassName, className)}
@@ -232,7 +235,7 @@ export interface RadioGroupItemIndicatorProps
 
 export function RadioGroupItemIndicator(props: RadioGroupItemIndicatorProps) {
   const { unchecked, checked: checkedIcon, className, style } = props;
-  const itemContext = useStyledRadioGroupItemContext("RadioGroupItemIndicator");
+  const itemContext = useRadioGroupItemContext();
   const { iconClassName, radiomarkVariantProps } =
     useRadiomarkControlContext("RadioGroupItemIndicator");
 
