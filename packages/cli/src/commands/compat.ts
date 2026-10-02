@@ -9,10 +9,8 @@ import { BASE_URL } from "../constants";
 import { analytics } from "../utils/analytics";
 import { highlight } from "../utils/color";
 import {
-  analyzeRegistryItemCompatibility,
+  checkRegistryItemCompatibility,
   findInstalledSnippetItemKeys,
-  getCompatPackageNames,
-  getProjectSeedPackageVersionSpecs,
   logCompatibilityReport,
 } from "../utils/compatibility";
 import { CliError, handleCliError, isCliCancelError, isVerboseMode } from "../utils/error";
@@ -227,19 +225,21 @@ export const compatCommand = (cli: CAC) => {
           process.exit(0);
         }
 
-        const projectPackageVersions = getProjectSeedPackageVersionSpecs(options.cwd, framework);
-        const compatibilityReport = analyzeRegistryItemCompatibility({
+        const compatibilityReport = checkRegistryItemCompatibility({
           publicRegistries,
           itemKeys: resolvedTargetItemKeys,
-          projectPackageVersions,
-          framework,
+          cwd: options.cwd,
         });
 
         p.log.info(`검사 대상: ${highlight(compatibilityReport.checkedItemKeys.join(", "))}`);
 
         if (!compatibilityReport.issues.length) {
-          const compatPkgNames = getCompatPackageNames(framework);
-          p.outro(`모든 스니펫이 현재 ${compatPkgNames.join(", ")}와 호환돼요.`);
+          const { checkedPackageNames } = compatibilityReport;
+          p.outro(
+            checkedPackageNames.length
+              ? `모든 스니펫이 현재 ${checkedPackageNames.join(", ")}와 호환돼요.`
+              : "모든 스니펫이 호환돼요.",
+          );
 
           try {
             await analytics.trackCommandOutcome(options.cwd, {
@@ -264,10 +264,13 @@ export const compatCommand = (cli: CAC) => {
         logCompatibilityReport({
           report: compatibilityReport,
           title: "현재 프로젝트 버전과 호환되지 않는 스니펫을 찾았어요.",
-          framework,
         });
-        const compatPkgList = getCompatPackageNames(framework);
-        p.log.info(`필요한 버전으로 ${compatPkgList.join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`);
+        const issuePackageNames = new Set(
+          compatibilityReport.issues.map((issue) => issue.packageName),
+        );
+        p.log.info(
+          `필요한 버전으로 ${Array.from(issuePackageNames).join(" 또는 ")}를 맞춘 뒤 다시 실행해보세요.`,
+        );
         p.outro("호환성 이슈가 있어요.");
 
         try {
