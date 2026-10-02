@@ -1,7 +1,8 @@
 export {
-  ProgressCircleRange as Range,
   ProgressCircleRoot as Root,
   ProgressCircleTrack as Track,
+  ProgressCircleRange as Range,
   type ProgressCircleRootProps as RootProps,
   type ProgressCircleTrackProps as TrackProps,
-} from "./ProgressCircle";
+  type ProgressCircleRangeProps as RangeProps,
+} from "./ProgressCircle.jsx";

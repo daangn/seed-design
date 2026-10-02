@@ -33,6 +33,7 @@ import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
+import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
@@ -63,6 +64,7 @@ export type Page =
   | "menu-headless"
   | "page-banner"
   | "progress-circle"
+  | "progress-circle-headless"
   | "radio-group"
   | "switch"
   | "tabs"
@@ -108,6 +110,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "menu-headless": true,
   "page-banner": true,
   "progress-circle": true,
+  "progress-circle-headless": true,
   "radio-group": true,
   switch: true,
   tabs: true,
@@ -184,6 +187,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
+      {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
       {page === "switch" && <SwitchPage />}
       {page === "tabs" && <TabsPage />}

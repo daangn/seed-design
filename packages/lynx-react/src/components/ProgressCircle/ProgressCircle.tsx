@@ -1,36 +1,44 @@
 import type * as React from "@lynx-js/react";
-import {
-  createContext,
-  forwardRef,
-  runOnMainThread,
-  useContext,
-  useEffect,
-  useMemo,
-  useMainThreadRef,
-} from "@lynx-js/react";
+import { forwardRef, runOnMainThread, useEffect, useMemo, useMainThreadRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
+import type {
+  ProgressCircleSlotName,
+  ProgressCircleVariantProps,
+} from "@seed-design/lynx-css/recipes/progress-circle";
+import {
+  ProgressCircleProvider,
+  ProgressCircleTrack as HeadlessProgressCircleTrack,
+  useProgress,
+  useProgressCircleContext,
+  type UseProgressCircleContext,
+  type UseProgressProps,
+} from "@seed-design/lynx-react-progress";
 import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ProgressCircleContextValue {
+type Classes = Record<ProgressCircleSlotName, string>;
+
+interface StyledProgressCircleContextValue extends UseProgressCircleContext {
   numSize: number;
-  isDeterminate: boolean;
-  progress: number;
-  classes: ReturnType<typeof progressCircle>;
+  classes: Classes;
 }
 
-const ProgressCircleContext = createContext<ProgressCircleContextValue | null>(null);
+function isStyledProgressCircleContext(
+  context: UseProgressCircleContext,
+): context is StyledProgressCircleContextValue {
+  return "classes" in context;
+}
 
-function useProgressCircleContext() {
-  const ctx = useContext(ProgressCircleContext);
-  if (!ctx) {
-    throw new Error("ProgressCircle compound components must be used within ProgressCircle.Root");
+function useStyledProgressCircleContext(consumer: string): StyledProgressCircleContextValue {
+  const context = useProgressCircleContext();
+  if (!isStyledProgressCircleContext(context)) {
+    throw new Error(`<${consumer}/> must be rendered inside a styled <ProgressCircleRoot/>.`);
   }
-  return ctx;
+  return context;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -153,18 +161,17 @@ const TRANSITION_DURATION = 300;
 
 export interface ProgressCircleRootProps
   extends ProgressCircleVariantProps,
+    UseProgressProps,
     LynxStyledElementProps,
-    LynxAccessibilityProps {
-  minValue?: number;
-  maxValue?: number;
-  value?: number;
-}
+    LynxAccessibilityProps {}
 
 export type RootProps = ProgressCircleRootProps;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * `@seed-design/lynx-react-progress`의 진행률·접근성 위에 SEED recipe와 Lynx 전용 원형 표현을 조립한다.
+ *
  * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
  *
  * **Known Issues:**
@@ -176,67 +183,63 @@ export type RootProps = ProgressCircleRootProps;
  */
 export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
   const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
-  const {
-    children,
-    className,
-    style,
-    minValue,
-    maxValue,
-    value,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "progressbar",
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = otherProps;
+  const { children, className, style, minValue, maxValue, value, ...nativeProps } = otherProps;
   const size = variantProps.size ?? "40";
   const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
 
-  const isDeterminate = minValue !== undefined && maxValue !== undefined && value !== undefined;
-
-  const range = (maxValue ?? 1) - (minValue ?? 0);
-  const progress = isDeterminate ? (range === 0 ? 0 : ((value ?? 0) - (minValue ?? 0)) / range) : 0;
-  const defaultAccessibilityValue = isDeterminate
-    ? `minimum ${minValue}, maximum ${maxValue}, current ${value}`
-    : "indeterminate";
-
-  const classes = progressCircle({ tone, size });
-
-  const ctx = useMemo(
-    () => ({ numSize, isDeterminate, progress, classes }),
-    [numSize, isDeterminate, progress, classes],
+  const api = useProgress({ value, minValue, maxValue });
+  const classes = useMemo(() => progressCircle({ tone, size }), [tone, size]);
+  const contextValue = useMemo<StyledProgressCircleContextValue>(
+    () => ({ ...api, numSize, classes }),
+    [api, numSize, classes],
   );
 
   return (
-    <ProgressCircleContext.Provider value={ctx}>
+    <ProgressCircleProvider value={contextValue}>
       <view
-        {...nativeProps}
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
         className={clsx(classes.root, className)}
         style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-value={accessibilityValue ?? defaultAccessibilityValue}
       >
         {children}
       </view>
-    </ProgressCircleContext.Provider>
+    </ProgressCircleProvider>
+  );
+});
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface ProgressCircleTrackProps
+  extends Pick<LynxStyledElementProps, "className" | "style"> {}
+
+/**
+ * 진행률과 관계없이 전체 링을 tone의 트랙 색으로 그린다. Range보다 먼저 렌더링한다.
+ */
+export const ProgressCircleTrack = forwardRef<unknown, ProgressCircleTrackProps>((props, ref) => {
+  const { className, ...nativeProps } = props;
+  const { classes } = useStyledProgressCircleContext("ProgressCircleTrack");
+
+  return (
+    <HeadlessProgressCircleTrack
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      className={clsx(classes.track, className)}
+    />
   );
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const ProgressCircleRange = () => {
-  const { numSize, isDeterminate, progress, classes } = useProgressCircleContext();
+  const { numSize, indeterminate, percent, classes } =
+    useStyledProgressCircleContext("ProgressCircleRange");
 
-  if (!isDeterminate) {
+  if (indeterminate) {
     return <IndeterminateRange numSize={numSize} classes={classes} />;
   }
 
-  return <DeterminateRange numSize={numSize} progress={progress} classes={classes} />;
+  return <DeterminateRange numSize={numSize} progress={percent / 100} classes={classes} />;
 };
-
-type Classes = ReturnType<typeof progressCircle>;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -477,4 +480,5 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
 }
 
 ProgressCircleRoot.displayName = "ProgressCircleRoot";
+ProgressCircleTrack.displayName = "ProgressCircleTrack";
 ProgressCircleRange.displayName = "ProgressCircleRange";
