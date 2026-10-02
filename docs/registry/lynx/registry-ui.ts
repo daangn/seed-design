@@ -58,6 +58,10 @@ const sliderPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
 };
+const wheelPickerPackageRanges = {
+  "@seed-design/lynx-react": ">=0.11.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.15.0 <1.0.0",
+};
 const menuPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
@@ -438,6 +442,15 @@ export const registryUI: Registry = {
         {
           path: "text-field.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: wheelPickerPackageRanges,
         },
       ],
     },

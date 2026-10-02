@@ -554,6 +554,7 @@
         "@seed-design/lynx-react-field": "0.0.0",
         "@seed-design/lynx-react-field-button": "0.0.0",
         "@seed-design/lynx-react-floating": "0.0.0",
+        "@seed-design/lynx-react-loop-scroll": "0.0.0",
         "@seed-design/lynx-react-menu": "0.0.0",
         "@seed-design/lynx-react-popover": "0.0.0",
         "@seed-design/lynx-react-progress": "0.0.0",
