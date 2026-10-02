@@ -91,6 +91,23 @@ function flick(distance: number, duration: number) {
   touch("touchend", 100, 400 - distance);
 }
 
+/** `physicalIndex` 항목에서 손가락을 누릅니다. 항목의 touchstart가 Root보다 먼저 실행됩니다. */
+function pressItem(physicalIndex: number, y = 300) {
+  const item = mover().children[physicalIndex] as HTMLElement;
+  const payload = { eventType: "bindEvent", eventName: "touchstart", detail: { x: 100, y } };
+  const event = createEvent("bindEvent:touchstart", item, payload);
+  Object.assign(event, payload);
+  fireEvent(item, event);
+  touch("touchstart", 100, y);
+}
+
+function selectedLabels() {
+  return Array.from(
+    get(".track").querySelectorAll(".seed-loop-scroll__item--selected"),
+    (node) => node.textContent,
+  );
+}
+
 function Wheel(props: Partial<LoopScrollRootProps>) {
   return (
     <LoopScroll.Root
@@ -317,5 +334,89 @@ describe("LoopScroll", () => {
     await runFrames();
     expect(centeredPosition()).toBe(0);
     expect(onActiveIndexChange).not.toHaveBeenCalled();
+  });
+
+  it("끌지 않고 항목을 눌렀다 놓으면 그 항목으로 이동해 선택하고, 복제 항목은 보이는 방향으로 이동한다", async () => {
+    const onIndexChange = vi.fn();
+    const onActiveIndexChange = vi.fn();
+    await renderWheel({ onIndexChange, onActiveIndexChange });
+    expect(selectedLabels()).toEqual(["0", "0"]);
+
+    // 가운데(0) 아래 두 번째 항목입니다.
+    pressItem(LOOP_CLONE_COUNT + 2);
+    advance(16);
+    touch("touchmove", 100, 304);
+    touch("touchend", 100, 304);
+    await runFrames();
+
+    expect(centeredPosition()).toBe(2);
+    expect(onActiveIndexChange.mock.calls).toEqual([[1], [2]]);
+    expect(onIndexChange.mock.calls).toEqual([[2, { stepDelta: 2 }]]);
+    expect(selectedLabels()).toEqual(["2", "2"]);
+
+    // 가운데(2) 위 세 번째 항목은 앞쪽 복제(9)입니다. 한 바퀴 돌지 않고 위로 세 칸 이동합니다.
+    pressItem(LOOP_CLONE_COUNT + 2 - 3);
+    touch("touchend", 100, 300);
+    await runFrames();
+
+    expect(centeredPosition()).toBe(9);
+    expect(onIndexChange.mock.calls.at(-1)).toEqual([9, { stepDelta: -3 }]);
+    expect(selectedLabels()).toEqual(["9", "9"]);
+  });
+
+  it("움직이는 중에 누르거나 누른 채 끌면 누른 항목을 선택하지 않는다", async () => {
+    const onIndexChange = vi.fn();
+    await renderWheel({ onIndexChange });
+
+    flick(100, 30);
+    await runFrames(2);
+    const stopped = centeredPosition();
+    pressItem(LOOP_CLONE_COUNT + 9);
+    touch("touchend", 100, 300);
+    await runFrames();
+    const nearest = Math.round(stopped) % 10;
+    expect(centeredPosition()).toBe(nearest);
+
+    pressItem(LOOP_CLONE_COUNT + nearest + 2);
+    advance(16);
+    touch("touchmove", 100, 340);
+    advance(200);
+    touch("touchend", 100, 340);
+    await runFrames();
+    expect(centeredPosition()).toBe((nearest + 9) % 10);
+    expect(onIndexChange).toHaveBeenLastCalledWith((nearest + 9) % 10, { stepDelta: -1 });
+  });
+
+  it("Highlight는 가운데 한 칸을 잘라 보여주고, 안쪽 Track은 바깥 Track과 같은 위치로 움직인다", async () => {
+    render(
+      <LoopScroll.Root className="root" itemCount={10} itemSize={ITEM_SIZE} visibleItemCount={5}>
+        <LoopScroll.Track className="track">
+          {(item) => <text>{String(item.index)}</text>}
+        </LoopScroll.Track>
+        <LoopScroll.Highlight className="highlight">
+          <LoopScroll.Track className="highlight-track">
+            {(item) => <text>{String(item.index)}</text>}
+          </LoopScroll.Track>
+        </LoopScroll.Highlight>
+      </LoopScroll.Root>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    const highlightMover = () => get(".highlight-track").firstElementChild as HTMLElement;
+
+    expect(get(".highlight")).toHaveStyle({ top: "80px", height: "40px", overflow: "hidden" });
+    expect(get(".highlight")).toHaveAttribute("accessibility-elements-hidden");
+
+    touch("touchstart", 100, 300);
+    advance(16);
+    touch("touchmove", 100, 250);
+    expect(centeredPosition()).toBeCloseTo(50 / ITEM_SIZE);
+    expect(highlightMover().style.transform).toBe(mover().style.transform);
+
+    advance(200);
+    touch("touchend", 100, 250);
+    await runFrames();
+    expect(centeredPosition()).toBe(1);
+    expect(highlightMover().style.transform).toBe(mover().style.transform);
   });
 });

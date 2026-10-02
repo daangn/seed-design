@@ -22,6 +22,8 @@ const MAX_FLING_TIME_CONSTANT_MS = 650;
 const MIN_FLING_VELOCITY = 0.05;
 const SETTLE_DISTANCE = 0.5;
 const RUBBER_BAND_COEFFICIENT = 0.55;
+const SELECTED_ITEM_CLASS_NAME = "seed-loop-scroll__item seed-loop-scroll__item--selected";
+const ITEM_CLASS_NAME = "seed-loop-scroll__item";
 
 export interface LoopScrollItem {
   /** `0`부터 `itemCount - 1`까지의 항목 index입니다. 복제 항목도 원본과 같은 값을 가집니다. */
@@ -85,6 +87,11 @@ export interface LoopScrollTrackProps extends Omit<ViewProps, "children"> {
   children: (item: LoopScrollItem) => React.ReactNode;
 }
 
+export interface LoopScrollHighlightProps extends Omit<ViewProps, "children"> {
+  /** 창 안에 그릴 `LoopScroll.Track`입니다. 창 밖의 Track과 같은 위치로 함께 움직입니다. */
+  children?: React.ReactNode;
+}
+
 type Phase = "idle" | "pending" | "dragging" | "ignored";
 
 interface EngineState {
@@ -103,6 +110,10 @@ interface EngineState {
   activeVirtual: number;
   /** 사용자 조작 중이라 미룬 `index` 변경이 있으면 `true`입니다. */
   deferred: boolean;
+  /** 항목의 touchstart가 기록한 `physicalIndex`입니다. Root의 touchstart가 읽고 비웁니다. */
+  pressedPhysicalIndex: number;
+  /** 움직임이 없을 때 누른 항목의 `physicalIndex`입니다. 끌지 않고 놓으면 이 항목을 선택합니다. 없으면 `-1`입니다. */
+  tapPhysicalIndex: number;
 }
 
 interface EngineConfig {
@@ -118,19 +129,29 @@ interface EngineConfig {
 
 interface LoopScrollContextValue {
   items: readonly LoopScrollItem[];
+  /** `items`와 같은 순서로, 누른 항목을 Main Thread에 기록하는 touchstart handler입니다. */
+  itemTouchStartHandlers: readonly ((event: TouchEvent) => void)[];
+  selectedIndex: number;
   moverRef: React.RefObject<MainThread.Element>;
+  /** `LoopScroll.Highlight` 안 Track의 mover입니다. */
+  highlightMoverRef: React.RefObject<MainThread.Element>;
   itemStyle: { height: string };
+  /** 가운데 항목 칸의 위쪽 끝(px)입니다. */
+  highlightTop: string;
   /** 확정된 위치의 transform입니다. Track은 mount할 때 한 번만 읽습니다. */
   getSettledTransform: () => string;
 }
 
 const LoopScrollContext = React.createContext<LoopScrollContextValue | null>(null);
 
-function useLoopScrollContext() {
+function useLoopScrollContext(part: string) {
   const context = React.useContext(LoopScrollContext);
-  if (!context) throw new Error("LoopScroll.Track must be used within a LoopScroll.Root");
+  if (!context) throw new Error(`LoopScroll.${part} must be used within a LoopScroll.Root`);
   return context;
 }
+
+/** `LoopScroll.Highlight` 안이면 `true`입니다. Track이 움직일 mover를 고릅니다. */
+const LoopScrollHighlightContext = React.createContext(false);
 
 function toPx(value: number) {
   return `${Math.round(value * 100) / 100 + 0}px`;
@@ -195,6 +216,7 @@ function releaseVelocity(samples: number[], now: number) {
 
 /**
  * 항목을 세로로 끌고 놓아 한 칸 단위로 정착시키는 viewport `<view>`입니다. `loop`이면 끝없이 반복합니다.
+ * 끌지 않고 항목을 눌렀다 놓으면 그 항목을 가운데로 옮겨 선택합니다. 움직이는 중에 누르면 멈추기만 합니다.
  * 위치 계산·관성·정착은 Main Thread에서 처리하고, Background에는 정착한 항목과 지나간 항목만 알립니다.
  * touch 이벤트는 `disabled`여도 `main-thread:catchtouch*`로 받아 Lynx 부모(예: BottomSheet 드래그)로 전파하지 않습니다.
  * `LoopScroll.Track`을 자식으로 렌더링합니다.
@@ -288,8 +310,11 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     settledVirtual: settledPosition,
     activeVirtual: settledPosition,
     deferred: false,
+    pressedPhysicalIndex: -1,
+    tapPhysicalIndex: -1,
   });
   const moverRef = useMainThreadRef<MainThread.Element>(null);
+  const highlightMoverRef = useMainThreadRef<MainThread.Element>(null);
 
   const reportSettledJS = React.useCallback(
     (settledIndex: number, stepDelta: number, userDriven: boolean) => {
@@ -322,10 +347,9 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       // The mover's top edge sits at the viewport center. Shift it so the item at `offset` is centered.
       const position = config.loop ? wrap(offset, config.count * config.itemSize) : offset;
       const translate = -((config.cloneCount + 0.5) * config.itemSize + position);
-      moverRef.current?.setStyleProperty(
-        "transform",
-        `translateY(${Math.round(translate * 100) / 100 + 0}px)`,
-      );
+      const transform = `translateY(${Math.round(translate * 100) / 100 + 0}px)`;
+      moverRef.current?.setStyleProperty("transform", transform);
+      highlightMoverRef.current?.setStyleProperty("transform", transform);
       if (!state.userDriven) return;
       const active = nearestVirtualIndex(offset, config);
       if (active === state.activeVirtual) return;
@@ -337,7 +361,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       state.activeVirtual = active;
       if (config.notifyActive) runOnBackground(reportActiveJS)(passed);
     },
-    [config, moverRef, reportActiveJS, stateRef],
+    [config, highlightMoverRef, moverRef, reportActiveJS, stateRef],
   );
 
   const stopMotion = React.useCallback(() => {
@@ -422,12 +446,32 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     [animateTo, config, stateRef],
   );
 
+  /** 누른 항목을 가운데로 옮깁니다. 복제 항목이면 원본까지 돌아가지 않고 보이는 방향으로 이동합니다. */
+  const selectPhysicalIndex = React.useCallback(
+    (physicalIndex: number) => {
+      "main thread";
+      const current = nearestVirtualIndex(stateRef.current.offset, config);
+      const target = config.loop
+        ? current + physicalIndex - config.cloneCount - wrap(current, config.count)
+        : clampNumber(physicalIndex, 0, config.maxIndex);
+      animateTo(target * config.itemSize, SNAP_TIME_CONSTANT_MS, true);
+    },
+    [animateTo, config, stateRef],
+  );
+
   const handleTouchStart = React.useCallback(
     (event: TouchEvent) => {
       "main thread";
-      if (!config.interactive || (event.touches?.length ?? 1) > 1) return;
-      stopMotion();
       const state = stateRef.current;
+      // An item's touchstart runs first while the event bubbles. Consume it so a later touch outside
+      // the items cannot reuse it.
+      const pressedPhysicalIndex = state.pressedPhysicalIndex;
+      state.pressedPhysicalIndex = -1;
+      state.tapPhysicalIndex = -1;
+      if (!config.interactive || (event.touches?.length ?? 1) > 1) return;
+      // A touch that stops a running motion only stops it.
+      if (state.target === null) state.tapPhysicalIndex = pressedPhysicalIndex;
+      stopMotion();
       state.phase = "pending";
       state.userDriven = true;
       state.startX = event.detail.x;
@@ -472,9 +516,15 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const phase = state.phase;
       if (phase === "idle") return;
       state.phase = "idle";
+      const tapPhysicalIndex = state.tapPhysicalIndex;
+      state.tapPhysicalIndex = -1;
+      if (phase === "pending" && !cancelled && tapPhysicalIndex >= 0) {
+        selectPhysicalIndex(tapPhysicalIndex);
+        return;
+      }
       release(phase === "dragging" && !cancelled ? releaseVelocity(state.samples, Date.now()) : 0);
     },
-    [release, stateRef],
+    [release, selectPhysicalIndex, stateRef],
   );
 
   const handleTouchEnd = React.useCallback(() => {
@@ -582,10 +632,37 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     [cloneCount, count, loopEnabled],
   );
 
+  const itemTouchStartHandlers = React.useMemo(
+    () =>
+      items.map(({ physicalIndex }) => () => {
+        "main thread";
+        stateRef.current.pressedPhysicalIndex = physicalIndex;
+      }),
+    [items, stateRef],
+  );
+
   const getSettledTransform = React.useCallback(() => settledTransformRef.current, []);
   const contextValue = React.useMemo<LoopScrollContextValue>(
-    () => ({ items, moverRef, itemStyle: { height: toPx(itemSize) }, getSettledTransform }),
-    [getSettledTransform, itemSize, items, moverRef],
+    () => ({
+      items,
+      itemTouchStartHandlers,
+      selectedIndex: index,
+      moverRef,
+      highlightMoverRef,
+      itemStyle: { height: toPx(itemSize) },
+      highlightTop: toPx((viewportSize - itemSize) / 2),
+      getSettledTransform,
+    }),
+    [
+      getSettledTransform,
+      highlightMoverRef,
+      index,
+      itemSize,
+      itemTouchStartHandlers,
+      items,
+      moverRef,
+      viewportSize,
+    ],
   );
 
   const height = toPx(viewportSize);
@@ -616,11 +693,15 @@ LoopScrollRoot.displayName = "LoopScrollRoot";
 
 /**
  * 가운데를 기준으로 항목을 배치하는 `<view>`입니다. `loop`이면 앞뒤에 복제 항목을 더해 렌더링합니다.
+ * Root 바로 아래와 `LoopScroll.Highlight` 안에 각각 하나씩 둘 수 있으며, 두 Track은 같은 위치로 움직입니다.
+ * 항목을 감싼 `<view>`에는 `seed-loop-scroll__item` class를, 선택한 `index`의 항목(복제 포함)에는
+ * `seed-loop-scroll__item--selected` class를 더합니다. 선택 class는 사용자 조작이 정착하거나 `index`가 바뀔 때 옮겨집니다.
  * 항목을 감싼 안쪽 `<view>`의 `transform`은 첫 화면에만 inline style로 그리고, 이후에는 Main Thread만 갱신합니다.
  */
 export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((props, ref) => {
   const { children, style, ...nativeProps } = props;
-  const context = useLoopScrollContext();
+  const context = useLoopScrollContext("Track");
+  const inHighlight = React.useContext(LoopScrollHighlightContext);
   // Frozen for the lifetime of the mover so background renders never overwrite the main-thread position.
   const [moverStyle] = React.useState(() => ({ transform: context.getSettledTransform() }));
   const trackStyle = React.useMemo(
@@ -633,12 +714,20 @@ export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((
 
   return (
     <view {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})} style={trackStyle}>
-      <view main-thread:ref={context.moverRef} implicit-animation={false} style={moverStyle}>
+      <view
+        main-thread:ref={inHighlight ? context.highlightMoverRef : context.moverRef}
+        implicit-animation={false}
+        style={moverStyle}
+      >
         {context.items.map((item) => (
           <view
             key={item.physicalIndex}
+            className={
+              item.index === context.selectedIndex ? SELECTED_ITEM_CLASS_NAME : ITEM_CLASS_NAME
+            }
             style={context.itemStyle}
             accessibility-elements-hidden={item.isClone ? true : undefined}
+            main-thread:bindtouchstart={context.itemTouchStartHandlers[item.physicalIndex]}
           >
             {children(item)}
           </view>
@@ -648,3 +737,46 @@ export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((
   );
 });
 LoopScrollTrack.displayName = "LoopScrollTrack";
+
+/**
+ * 가운데 항목 한 칸(`itemSize`) 높이로 안쪽 `LoopScroll.Track`을 잘라 보여주는 `<view>`입니다.
+ * 창 안과 밖의 Track에 다른 스타일을 주면 칸 경계를 지나는 항목도 창 안쪽 부분만 다르게 보입니다.
+ * 창 밖 Track보다 뒤에 렌더링해 위에 겹치게 합니다. 같은 내용을 한 번 더 그리므로 스크린 리더에서는 숨깁니다.
+ * 창 안 항목을 눌러도 같은 항목을 선택합니다.
+ */
+export const LoopScrollHighlight = React.forwardRef<unknown, LoopScrollHighlightProps>(
+  (props, ref) => {
+    const { children, style, ...nativeProps } = props;
+    const { highlightTop, itemStyle } = useLoopScrollContext("Highlight");
+    const height = itemStyle.height;
+    const highlightStyle = React.useMemo(
+      () =>
+        typeof style === "string"
+          ? `${style};position:absolute;top:${highlightTop};left:0px;right:0px;height:${height};overflow:hidden`
+          : {
+              ...style,
+              position: "absolute" as const,
+              top: highlightTop,
+              left: "0px",
+              right: "0px",
+              height,
+              overflow: "hidden" as const,
+            },
+      [height, highlightTop, style],
+    );
+
+    return (
+      <view
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
+        accessibility-elements-hidden
+        style={highlightStyle}
+      >
+        <LoopScrollHighlightContext.Provider value={true}>
+          {children}
+        </LoopScrollHighlightContext.Provider>
+      </view>
+    );
+  },
+);
+LoopScrollHighlight.displayName = "LoopScrollHighlight";
