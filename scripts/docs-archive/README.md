@@ -2,6 +2,8 @@
 
 버전별 문서는 Pages 브랜치 배포로 제공하고, 공통 Worker 하나가 공개 경로를 해당 Pages 원본으로 연결합니다. 버전별 설정은 [archives.json](./archives.json)에서 관리합니다.
 
+운영 `dev`의 `archives.json`은 공개 경로와 Pages 원본의 등록 목록입니다. 각 보관 브랜치의 같은 파일은 자기 버전의 빌드 선택에 사용하며, 빈 `origin`을 운영 목록에 복사하지 않습니다. 빌드 산출물의 `archive.json`은 버전·경로·소스 SHA를 기록하는 자동 생성 manifest이고 수동 등록 파일이 아닙니다.
+
 ```text
 seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 Pages 원본
 ```
@@ -43,7 +45,7 @@ seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 
 
 `probe`는 배포 검증에 사용할 대표 문서와 registry 항목의 상대 경로입니다. 해당 버전에 실제로 존재하는 항목을 지정합니다.
 
-Pages CI 성공 후 **Summary → Verified archive preview**에서 실제 alias를 얻습니다. 이 주소를 `origin`에 넣은 완성된 항목을 **Worker 운영 브랜치 `major`**의 `archives.json`에 추가합니다. Worker CI가 전체 원본을 검증하고 공개 route를 연결합니다. 공개 확인 후 `docs/components/react-version-switcher.tsx`의 `PUBLISHED_VERSIONS`에 메뉴 항목을 추가합니다.
+Pages CI 성공 후 **Summary → Verified archive preview**에서 실제 alias를 얻습니다. 이 주소를 `origin`에 넣은 완성된 항목을 **Worker 운영 브랜치 `dev`**의 `archives.json`에 추가합니다. Worker CI가 전체 원본을 검증하고 공개 route를 연결합니다. 공개 확인 후 `docs/components/react-version-switcher.tsx`의 `PUBLISHED_VERSIONS`에 메뉴 항목을 추가합니다.
 
 React 메이저 추가에는 Worker 코드나 workflow의 버전 분기를 수정할 필요가 없습니다. 이전 보관 브랜치에 최신 전체 목록을 계속 반영할 필요도 없습니다. 공개 목록은 운영 브랜치가 기준이며, 항목을 삭제하면 Worker 배포 시 해당 route도 제거됩니다.
 
@@ -53,14 +55,14 @@ React 메이저 추가에는 Worker 코드나 workflow의 버전 분기를 수�
 
 기존 Pages CI의 저장소 secrets `CF_ACCOUNT_ID`·`CF_API_TOKEN`을 사용합니다. 토큰에는 Pages 배포 권한 외에 대상 계정·zone의 **Workers Scripts: Edit**, **Workers Routes: Edit**, **Zone: Read** 권한이 필요합니다.
 
-[Deploy Docs Archive Worker](https://github.com/daangn/seed-design/actions/workflows/deploy-docs-archive-worker.yml)는 운영 브랜치 **`major`**에서 실행합니다.
+[Deploy Docs Archive Worker](https://github.com/daangn/seed-design/actions/workflows/deploy-docs-archive-worker.yml)는 운영 브랜치 **`dev`**에서 실행합니다.
 
 - `verify`: 전체 Pages 원본과 소스 SHA를 검사합니다. Cloudflare 쓰기 권한은 사용하지 않습니다.
 - `deploy`: 원본 검증 후 공통 Worker와 등록 목록 전체의 route를 배포합니다. 특정 브랜치의 문서를 빌드하는 작업은 아닙니다.
 
 저장소 변수 `DOCS_ARCHIVE_DEPLOY_ENABLED=true`일 때만 배포할 수 있습니다. 활성화 후 운영 브랜치에 Worker 코드·등록 목록·관련 workflow 변경이 반영되면 자동 배포합니다. README 변경은 Worker 자동 배포 대상에서 제외됩니다. Worker는 CI가 생성하므로 대시보드에서 미리 만들 필요가 없습니다.
 
-**Run workflow** 버튼을 등록하려면 기본 브랜치에도 Worker workflow 파일이 있어야 합니다. 실제 실행 브랜치는 `major`를 선택합니다. 운영 브랜치를 바꿀 때는 workflow의 push 대상·ref 제한·최신 SHA 검사 대상을 함께 변경합니다.
+**Run workflow** 버튼을 등록하려면 기본 브랜치에도 Worker workflow 파일이 있어야 합니다. 실제 실행 브랜치는 `dev`를 선택합니다. 운영 브랜치를 바꿀 때는 workflow의 push 대상·ref 제한·최신 SHA 검사 대상을 함께 변경합니다.
 
 ## 검증과 복구
 
