@@ -175,6 +175,23 @@ describe("Select", () => {
     expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
   });
 
+  it("scales trigger and item content without their pressed backgrounds", () => {
+    render(<TestSelect />);
+    const root = getRenderedRoot();
+
+    for (const [rootClass, slot] of [
+      [".select-trigger", "seed-select-trigger"],
+      [".seed-select-item__root", "seed-select-item"],
+    ] as const) {
+      const surface = root.querySelector<HTMLElement>(rootClass)!;
+      const target = surface.querySelector(`.${slot}__scaleContent`);
+      expect(target).toHaveAttribute("flatten", "false");
+      expect(target?.parentElement).toBe(surface);
+      expect(target).toHaveTextContent(/\S/);
+      expect(target).not.toContainElement(surface.querySelector(`.${slot}__pressedOverlay`));
+    }
+  });
+
   it("positions content after a public ref patch resolves deferred geometry", async () => {
     installRootSelectorQuery();
     const pendingGeometry = deferred<GeometryRect>();
