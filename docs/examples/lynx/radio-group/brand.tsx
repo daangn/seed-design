@@ -10,10 +10,10 @@ export default function Example() {
   return (
     <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
-        <RadioGroup accessibility-label="과일 선택" defaultValue="apple" size="large" tone="brand">
-          <RadioGroupItem value="apple" label="사과" />
-          <RadioGroupItem value="banana" label="바나나" />
-          <RadioGroupItem value="orange" label="오렌지" />
+        <RadioGroup accessibility-label="과일 선택" defaultValue="apple">
+          <RadioGroupItem value="apple" label="사과" tone="brand" size="large" />
+          <RadioGroupItem value="banana" label="바나나" tone="brand" size="large" />
+          <RadioGroupItem value="orange" label="오렌지" tone="brand" size="large" />
         </RadioGroup>
       </VStack>
     </view>

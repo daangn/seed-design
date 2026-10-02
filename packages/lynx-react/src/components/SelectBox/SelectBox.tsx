@@ -27,7 +27,7 @@ import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/
 import {
   RadioGroupItem,
   type RadioGroupItemProps,
-  useRadioGroupItemContext,
+  useStyledRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -267,7 +267,7 @@ interface RadioSelectBoxSurfaceProps extends SelectBoxSurfaceProps {
 }
 
 function RadioSelectBoxSurface(props: RadioSelectBoxSurfaceProps) {
-  const item = useRadioGroupItemContext("RadioSelectBoxItem");
+  const item = useStyledRadioGroupItemContext("RadioSelectBoxItem");
   const contextValue = React.useMemo<SelectBoxRuntimeContextValue>(
     () => ({
       selected: item.checked,

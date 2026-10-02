@@ -2,6 +2,8 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-group";
+
 import { Checkbox } from "../Checkbox";
 import { Switch } from "../Switch";
 import { RadioGroup } from "../RadioGroup";
@@ -143,7 +145,7 @@ describe("List", () => {
 
   it("uses radio-group selection state", () => {
     render(
-      <RadioGroup.Root defaultValue="first">
+      <HeadlessRadioGroup.Root defaultValue="first">
         <List.RadioItem value="first" className="first-radio">
           <List.Content>
             <List.Title>첫 번째</List.Title>
@@ -154,7 +156,7 @@ describe("List", () => {
             <List.Title>두 번째</List.Title>
           </List.Content>
         </List.RadioItem>
-      </RadioGroup.Root>,
+      </HeadlessRadioGroup.Root>,
     );
 
     const first = getListItem("first-radio");
@@ -185,13 +187,13 @@ describe("List", () => {
             </Switch.Control>
           </List.Suffix>
         </List.SwitchItem>
-        <RadioGroup.Root>
+        <HeadlessRadioGroup.Root>
           <List.RadioItem value="a" className="radio-row">
             <List.Prefix>
               <RadioGroup.ItemControl />
             </List.Prefix>
           </List.RadioItem>
-        </RadioGroup.Root>
+        </HeadlessRadioGroup.Root>
       </List.Root>,
     );
     expect(getListItem("static-row").querySelector(".seed-list-item__layout")).not.toHaveAttribute(
