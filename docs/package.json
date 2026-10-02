@@ -138,7 +138,6 @@
     "@seed-design/lynx-react-callout": "workspace:*",
     "@seed-design/lynx-react-checkbox": "workspace:*",
     "@seed-design/lynx-react-radio-group": "workspace:*",
-    "@seed-design/lynx-react-switch": "workspace:*",
     "@seed-design/react-middle-truncate": "^1.0.1",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@storybook/nextjs-vite": "10.5.6",

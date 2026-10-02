@@ -27,7 +27,7 @@ export const Switch = React.forwardRef<unknown, SwitchProps>(
 );
 Switch.displayName = "Switch";
 
-export interface SwitchmarkProps extends SeedSwitch.ControlProps {}
+export interface SwitchmarkProps extends Omit<SeedSwitch.ControlProps, "children"> {}
 
 /**
  * `Switch.Root` 안에서 레이블 없이 스위치 모양만 렌더링합니다.
