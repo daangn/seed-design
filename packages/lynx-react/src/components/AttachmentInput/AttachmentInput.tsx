@@ -13,6 +13,25 @@ import {
   type AttachmentInputTriggerVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-trigger";
 import { useFieldContext } from "@seed-design/lynx-react-field";
+import {
+  FileUploadContext,
+  FileUploadItemBackdrop,
+  FileUploadItemImage,
+  FileUploadItemName,
+  FileUploadItemProvider,
+  FileUploadItemRemoveButton,
+  FileUploadItemSize,
+  FileUploadRoot,
+  useFileUpload,
+  useFileUploadContext,
+  useFileUploadItem,
+  useFileUploadTrigger,
+  type FileEntry,
+  type FileUploadContextProps,
+  type UseFileUploadContext,
+  type UseFileUploadProps,
+  type UseFileUploadStateProps,
+} from "@seed-design/lynx-react-file-upload";
 import type {
   LynxAccessibilityProps,
   LynxIconElementProps,
@@ -20,124 +39,56 @@ import type {
   LynxStyledElementProps,
   LynxTextProps,
 } from "../../types";
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
 
-export interface NativeFile {
-  uri: string;
-  name: string;
-  type: string;
-  size: number;
-  previewUrl?: string;
-}
+export {
+  useFileUploadContext as useAttachmentInputContext,
+  useFileUploadItemContext as useAttachmentInputItemContext,
+  type FileEntry as AttachmentFileEntry,
+  type FileError as AttachmentFileError,
+  type FileRejection as AttachmentFileRejection,
+  type FileStatusDetails as AttachmentFileStatusDetails,
+  type NativeFile,
+} from "@seed-design/lynx-react-file-upload";
 
-export type AttachmentFileError =
-  | "FILE_TOO_LARGE"
-  | "FILE_TOO_SMALL"
-  | "TOO_MANY_FILES"
-  | "INVALID_TYPE"
-  | (string & {});
+export type AttachmentInputStateProps = UseFileUploadStateProps;
+export type AttachmentInputProps = UseFileUploadProps;
+export type AttachmentInputContextValue = UseFileUploadContext;
 
-export interface AttachmentFileRejection {
-  file: NativeFile;
-  errors: AttachmentFileError[];
-}
-
-export type AttachmentFileStatusDetails =
-  | { status: "pending" }
-  | { status: "uploading"; progress?: number }
-  | { status: "success" }
-  | { status: "error" };
-
-export type AttachmentFileEntry = {
-  id: string;
-  file: NativeFile;
-} & AttachmentFileStatusDetails;
-
-export interface AttachmentInputStateProps {
-  acceptedFileEntries?: AttachmentFileEntry[];
-  defaultAcceptedFileEntries?: AttachmentFileEntry[];
-  onAcceptedFileEntriesChange?: (entries: AttachmentFileEntry[]) => void;
-  onFileReject?: (rejections: AttachmentFileRejection[]) => void;
-  onFileAccept?: (
-    entries: AttachmentFileEntry[],
-    helpers: { updateFileEntryStatus: (id: string, details: AttachmentFileStatusDetails) => void },
-  ) => void;
-}
-
-export interface AttachmentInputProps extends AttachmentInputStateProps {
-  accept?: string | string[];
-  disabled?: boolean;
-  required?: boolean;
-  invalid?: boolean;
-  readOnly?: boolean;
-  maxFiles?: number;
-  maxFileSize?: number;
-  minFileSize?: number;
-  validate?: (file: NativeFile) => AttachmentFileError[] | null;
-  onSelectFiles?: () => NativeFile[] | Promise<NativeFile[]>;
-  onSelectError?: (error: unknown) => void;
-}
-
-export type AttachmentInputItemContextValue = AttachmentFileEntry & {
-  removeButtonProps: LynxPressableProps;
-  imageProps?: { src: string; alt?: string };
-};
-
-interface AttachmentInputStateDataProps {
-  "data-disabled": boolean;
-  "data-readonly": boolean;
-  "data-invalid": boolean;
-  "data-required": boolean;
-}
-
-export interface AttachmentInputContextValue extends AttachmentInputProps {
-  acceptedFileEntries: AttachmentFileEntry[];
-  currentFileEntryCount: number;
-  acceptType?: "image";
-  multiple: boolean;
-  maxFiles: number;
-  disabled: boolean;
-  required: boolean;
-  invalid: boolean;
-  readOnly: boolean;
-  triggerDisabled: boolean;
-  stateProps: AttachmentInputStateDataProps;
-  openFilePicker: () => void;
-  setFileEntries: (files: NativeFile[]) => void;
-  updateFileEntryStatus: (id: string, details: AttachmentFileStatusDetails) => void;
-  removeFileEntry: (id: string) => void;
-  clearFileEntries: () => void;
-  reorderFileEntry: (fromIndex: number, toIndex: number) => void;
-}
-
+const NATIVE_VIEW_PROP_KEYS = [
+  "id",
+  "flatten",
+  "style",
+  "accessibility-label",
+  "accessibility-traits",
+  "accessibility-element",
+  "accessibility-value",
+  "accessibility-role-description",
+  "accessibility-elements-hidden",
+  "accessibility-heading",
+  "accessibility-actions",
+  "accessibility-exclusive-focus",
+  "ios-platform-accessibility-id",
+] as const;
 interface NativeViewProps extends LynxAccessibilityProps {
   id?: string;
   flatten?: boolean;
 }
-function pickNativeViewProps(
-  props: LynxStyledElementProps & NativeViewProps,
-): LynxStyledElementProps & NativeViewProps {
-  return {
-    id: props.id,
-    flatten: props.flatten,
-    style: props.style,
-    "accessibility-label": props["accessibility-label"],
-    "accessibility-traits": props["accessibility-traits"],
-    "accessibility-element": props["accessibility-element"],
-    "accessibility-value": props["accessibility-value"],
-    "accessibility-role-description": props["accessibility-role-description"],
-    "accessibility-elements-hidden": props["accessibility-elements-hidden"],
-    "accessibility-heading": props["accessibility-heading"],
-    "accessibility-actions": props["accessibility-actions"],
-    "accessibility-exclusive-focus": props["accessibility-exclusive-focus"],
-    "ios-platform-accessibility-id": props["ios-platform-accessibility-id"],
-  };
+type PickedNativeViewProps = Pick<
+  LynxStyledElementProps & NativeViewProps,
+  (typeof NATIVE_VIEW_PROP_KEYS)[number]
+>;
+function pickNativeViewProps(props: LynxStyledElementProps & NativeViewProps) {
+  const picked: Partial<Record<keyof PickedNativeViewProps, unknown>> = {};
+  for (const key of NATIVE_VIEW_PROP_KEYS) {
+    if (props[key] !== undefined) picked[key] = props[key];
+  }
+  // 모든 key가 optional이고 같은 key의 props 값만 복사하므로 형태가 보존된다.
+  return picked as PickedNativeViewProps;
 }
 type NativeTextElementProps = Omit<LynxTextProps, "children" | "className" | "style">;
 type NativeImageProps = Omit<
@@ -153,314 +104,25 @@ const rootRecipe = createSlotRecipeContext(attachmentInput);
 const triggerRecipe = createSlotRecipeContext(attachmentInputTrigger);
 const itemRecipe = createSlotRecipeContext(attachmentInputItem);
 
-const AttachmentInputContextObject = React.createContext<AttachmentInputContextValue | null>(null);
-const AttachmentInputItemContextObject =
-  React.createContext<AttachmentInputItemContextValue | null>(null);
-
-export function useAttachmentInputContext(): AttachmentInputContextValue {
-  const context = React.useContext(AttachmentInputContextObject);
-  if (!context) {
-    throw new Error("AttachmentInput components must be used within AttachmentInput.Root");
-  }
-  return context;
-}
-
-export function useAttachmentInputItemContext(): AttachmentInputItemContextValue {
-  const context = React.useContext(AttachmentInputItemContextObject);
-  if (!context) {
-    throw new Error("AttachmentInput item components must be used within AttachmentInput.Item");
-  }
-  return context;
-}
-
-function isAcceptedType(file: NativeFile, accept?: string | string[]): boolean {
-  if (!accept) return true;
-
-  const patterns = (Array.isArray(accept) ? accept : accept.split(","))
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-  const fileName = file.name.toLowerCase();
-  const fileType = file.type.toLowerCase();
-
-  return patterns.some((pattern) => {
-    if (pattern.startsWith(".")) return fileName.endsWith(pattern);
-    if (pattern.endsWith("/*")) return fileType.startsWith(pattern.slice(0, -1));
-    if (pattern.includes("*")) {
-      const [type] = pattern.split("/");
-      return fileType.startsWith(`${type}/`);
-    }
-    return fileType === pattern;
-  });
-}
-
-function isImageAcceptPattern(pattern: string): boolean {
-  if (pattern.startsWith("image/")) return true;
-  return [".avif", ".bmp", ".gif", ".heic", ".heif", ".jpeg", ".jpg", ".png", ".webp"].some(
-    (extension) => pattern === extension,
-  );
-}
-
-function getAcceptType(accept?: string | string[]): "image" | undefined {
-  if (!accept) return undefined;
-  const patterns = (Array.isArray(accept) ? accept : accept.split(","))
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-  return patterns.length > 0 && patterns.every(isImageAcceptPattern) ? "image" : undefined;
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 B";
-  const units = ["B", "KB", "MB", "GB", "TB"];
-  const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  return `${Number.parseFloat((bytes / 1024 ** index).toFixed(1))} ${units[index]}`;
-}
-
-export function useAttachmentInput(props: AttachmentInputProps = {}): AttachmentInputContextValue {
-  const {
-    acceptedFileEntries: value,
-    defaultAcceptedFileEntries = [],
-    onAcceptedFileEntriesChange,
-    onFileAccept,
-    onFileReject,
-    accept,
-    disabled: disabledProp,
-    required: requiredProp,
-    invalid: invalidProp,
-    readOnly: readOnlyProp,
-    maxFiles: maxFilesProp = 1,
-    maxFileSize = Number.POSITIVE_INFINITY,
-    minFileSize = 0,
-    validate,
-    onSelectFiles,
-    onSelectError,
-  } = props;
+/** 명시한 상태 props를 먼저 쓰고, 생략한 값만 감싼 Field 상태를 사용합니다. */
+function useFieldStateFallback(
+  props: Pick<AttachmentInputProps, "disabled" | "required" | "invalid" | "readOnly">,
+) {
   const fieldContext = useFieldContext({ strict: false });
-  const disabled = disabledProp ?? fieldContext?.disabled ?? false;
-  const required = requiredProp ?? fieldContext?.required ?? false;
-  const invalid = invalidProp ?? fieldContext?.invalid ?? false;
-  const readOnly = readOnlyProp ?? fieldContext?.readOnly ?? false;
-  const maxFiles = Math.max(1, maxFilesProp);
-  const [acceptedFileEntries, setAcceptedFileEntries] = useControllableState<AttachmentFileEntry[]>(
-    {
-      value,
-      defaultValue: defaultAcceptedFileEntries,
-      onChange: onAcceptedFileEntriesChange,
-    },
-  );
-  const entries = acceptedFileEntries ?? [];
-  const entriesRef = React.useRef(entries);
-  entriesRef.current = entries;
-  const optionsRef = React.useRef({
-    disabled,
-    readOnly,
-    accept,
-    maxFiles,
-    maxFileSize,
-    minFileSize,
-    validate,
-    onSelectFiles,
-    onSelectError,
-    onFileAccept,
-    onFileReject,
-  });
-  optionsRef.current = {
-    disabled,
-    readOnly,
-    accept,
-    maxFiles,
-    maxFileSize,
-    minFileSize,
-    validate,
-    onSelectFiles,
-    onSelectError,
-    onFileAccept,
-    onFileReject,
-  };
-  const idCounterRef = React.useRef(0);
-  const pickerRequestRef = React.useRef(0);
-  const mountedRef = React.useRef(true);
-  React.useEffect(() => {
-    return () => {
-      mountedRef.current = false;
-      pickerRequestRef.current += 1;
-    };
-  }, []);
-
-  const multiple = maxFiles > 1;
-  const maxFilesReached = entries.length >= maxFiles;
-  const triggerDisabled = disabled || readOnly || maxFilesReached;
-  const acceptType = getAcceptType(accept);
-
-  const updateFileEntryStatus = React.useCallback(
-    (id: string, details: AttachmentFileStatusDetails) => {
-      const next = entriesRef.current.map((entry) =>
-        entry.id === id ? { ...entry, ...details } : entry,
-      );
-      entriesRef.current = next;
-      setAcceptedFileEntries(next);
-    },
-    [setAcceptedFileEntries],
-  );
-
-  const validateFiles = React.useCallback((files: NativeFile[]) => {
-    const {
-      accept: currentAccept,
-      maxFileSize: currentMaxFileSize,
-      minFileSize: currentMinFileSize,
-      maxFiles: currentMaxFiles,
-      validate: currentValidate,
-    } = optionsRef.current;
-    const accepted: NativeFile[] = [];
-    const rejected: AttachmentFileRejection[] = [];
-    let addedCount = 0;
-
-    for (const file of files) {
-      const errors: AttachmentFileError[] = [];
-      if (entriesRef.current.length + addedCount >= currentMaxFiles) errors.push("TOO_MANY_FILES");
-      if (!isAcceptedType(file, currentAccept)) errors.push("INVALID_TYPE");
-      if (file.size > currentMaxFileSize) errors.push("FILE_TOO_LARGE");
-      if (file.size < currentMinFileSize) errors.push("FILE_TOO_SMALL");
-      const customErrors = currentValidate?.(file);
-      if (customErrors) errors.push(...customErrors);
-
-      if (errors.length > 0) {
-        rejected.push({ file, errors });
-      } else {
-        accepted.push(file);
-        addedCount += 1;
-      }
-    }
-    return { accepted, rejected };
-  }, []);
-
-  const setFileEntries = React.useCallback(
-    (files: NativeFile[]) => {
-      const currentOptions = optionsRef.current;
-      if (currentOptions.disabled || currentOptions.readOnly) return;
-
-      const { accepted, rejected } = validateFiles(files);
-      const acceptedEntries: AttachmentFileEntry[] = accepted.map((file) => ({
-        id: `attachment-${Date.now()}-${++idCounterRef.current}`,
-        file,
-        status: "pending",
-      }));
-
-      if (acceptedEntries.length > 0) {
-        const acceptedForCallback =
-          currentOptions.maxFiles > 1 ? acceptedEntries : [acceptedEntries[0]];
-        const nextEntries =
-          currentOptions.maxFiles > 1
-            ? [...entriesRef.current, ...acceptedEntries]
-            : acceptedForCallback;
-        entriesRef.current = nextEntries;
-        setAcceptedFileEntries(nextEntries);
-        currentOptions.onFileAccept?.(acceptedForCallback, { updateFileEntryStatus });
-      }
-      if (rejected.length > 0) currentOptions.onFileReject?.(rejected);
-    },
-    [setAcceptedFileEntries, updateFileEntryStatus, validateFiles],
-  );
-
-  const openFilePicker = React.useCallback(() => {
-    const currentOptions = optionsRef.current;
-    if (
-      currentOptions.disabled ||
-      currentOptions.readOnly ||
-      entriesRef.current.length >= currentOptions.maxFiles
-    ) {
-      return;
-    }
-    const picker = currentOptions.onSelectFiles;
-    if (!picker) return;
-
-    const requestId = ++pickerRequestRef.current;
-    let result: NativeFile[] | Promise<NativeFile[]>;
-    try {
-      result = picker();
-    } catch (error) {
-      currentOptions.onSelectError?.(error);
-      return;
-    }
-
-    Promise.resolve(result)
-      .then((files) => {
-        if (!mountedRef.current || requestId !== pickerRequestRef.current) return;
-        if (!Array.isArray(files) || files.length === 0) return;
-        if (optionsRef.current.disabled || optionsRef.current.readOnly) return;
-        setFileEntries(files);
-      })
-      .catch((error) => {
-        if (mountedRef.current && requestId === pickerRequestRef.current) {
-          optionsRef.current.onSelectError?.(error);
-        }
-      });
-  }, [setFileEntries]);
-
-  const removeFileEntry = React.useCallback(
-    (id: string) => {
-      if (optionsRef.current.readOnly) return;
-      const next = entriesRef.current.filter((entry) => entry.id !== id);
-      entriesRef.current = next;
-      setAcceptedFileEntries(next);
-    },
-    [setAcceptedFileEntries],
-  );
-
-  const clearFileEntries = React.useCallback(() => {
-    if (optionsRef.current.readOnly) return;
-    entriesRef.current = [];
-    setAcceptedFileEntries([]);
-  }, [setAcceptedFileEntries]);
-
-  const reorderFileEntry = React.useCallback(
-    (fromIndex: number, toIndex: number) => {
-      if (optionsRef.current.disabled || optionsRef.current.readOnly) return;
-      const currentEntries = entriesRef.current;
-      if (
-        fromIndex < 0 ||
-        toIndex < 0 ||
-        fromIndex >= currentEntries.length ||
-        toIndex >= currentEntries.length ||
-        fromIndex === toIndex
-      ) {
-        return;
-      }
-      const next = [...currentEntries];
-      const [entry] = next.splice(fromIndex, 1);
-      next.splice(toIndex, 0, entry);
-      entriesRef.current = next;
-      setAcceptedFileEntries(next);
-    },
-    [setAcceptedFileEntries],
-  );
-
-  const stateProps = {
-    "data-disabled": triggerDisabled,
-    "data-readonly": readOnly,
-    "data-invalid": invalid,
-    "data-required": required,
-  };
-
   return {
-    ...props,
-    acceptedFileEntries: entries,
-    currentFileEntryCount: entries.length,
-    acceptType,
-    multiple,
-    maxFiles,
-    disabled,
-    required,
-    invalid,
-    readOnly,
-    triggerDisabled,
-    stateProps,
-    openFilePicker,
-    setFileEntries,
-    updateFileEntryStatus,
-    removeFileEntry,
-    clearFileEntries,
-    reorderFileEntry,
+    disabled: props.disabled ?? fieldContext?.disabled ?? false,
+    required: props.required ?? fieldContext?.required ?? false,
+    invalid: props.invalid ?? fieldContext?.invalid ?? false,
+    readOnly: props.readOnly ?? fieldContext?.readOnly ?? false,
   };
+}
+
+/**
+ * `@seed-design/lynx-react-file-upload`의 `useFileUpload`에 Field 상태 fallback을 더합니다.
+ * 명시한 `disabled`·`required`·`invalid`·`readOnly`가 Field 값보다 우선합니다.
+ */
+export function useAttachmentInput(props: AttachmentInputProps = {}): AttachmentInputContextValue {
+  return useFileUpload({ ...props, ...useFieldStateFallback(props) });
 }
 
 export interface AttachmentInputRootProps
@@ -469,6 +131,10 @@ export interface AttachmentInputRootProps
     LynxStyledElementProps,
     Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
 
+/**
+ * `@seed-design/lynx-react-file-upload`의 `FileUploadRoot`에 SEED recipe를 조립합니다.
+ * 명시한 `disabled`·`required`·`invalid`·`readOnly`가 감싼 Field 상태보다 우선합니다.
+ */
 export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRootProps>(
   (props, forwardedRef) => {
     const [variantProps, otherProps] = attachmentInput.splitVariantProps(props);
@@ -481,10 +147,6 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
       onFileReject,
       onFileAccept,
       accept,
-      disabled,
-      required,
-      invalid,
-      readOnly,
       maxFiles,
       maxFileSize,
       minFileSize,
@@ -492,41 +154,32 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
       onSelectFiles,
       onSelectError,
     } = otherProps;
-    const api = useAttachmentInput({
-      acceptedFileEntries,
-      defaultAcceptedFileEntries,
-      onAcceptedFileEntriesChange,
-      onFileReject,
-      onFileAccept,
-      accept,
-      disabled,
-      required,
-      invalid,
-      readOnly,
-      maxFiles,
-      maxFileSize,
-      minFileSize,
-      validate,
-      onSelectFiles,
-      onSelectError,
-    });
+    const fieldState = useFieldStateFallback(otherProps);
     const classes = attachmentInput(variantProps);
 
     return (
-      <AttachmentInputContextObject.Provider value={api}>
-        <rootRecipe.ClassNamesProvider value={classes}>
-          <view
-            {...mergeProps(
-              forwardedRef ? { ref: forwardedRef } : {},
-              api.stateProps,
-              pickNativeViewProps(props),
-            )}
-            className={clsx(classes.root, className)}
-          >
-            {children}
-          </view>
-        </rootRecipe.ClassNamesProvider>
-      </AttachmentInputContextObject.Provider>
+      <rootRecipe.ClassNamesProvider value={classes}>
+        <FileUploadRoot
+          ref={forwardedRef}
+          acceptedFileEntries={acceptedFileEntries}
+          defaultAcceptedFileEntries={defaultAcceptedFileEntries}
+          onAcceptedFileEntriesChange={onAcceptedFileEntriesChange}
+          onFileReject={onFileReject}
+          onFileAccept={onFileAccept}
+          accept={accept}
+          maxFiles={maxFiles}
+          maxFileSize={maxFileSize}
+          minFileSize={minFileSize}
+          validate={validate}
+          onSelectFiles={onSelectFiles}
+          onSelectError={onSelectError}
+          {...fieldState}
+          {...pickNativeViewProps(props)}
+          className={clsx(classes.root, className)}
+        >
+          {children}
+        </FileUploadRoot>
+      </rootRecipe.ClassNamesProvider>
     );
   },
 );
@@ -579,6 +232,9 @@ export interface AttachmentInputTriggerProps
     LynxPressableProps,
     LynxAccessibilityProps {}
 
+/**
+ * `useFileUploadTrigger`의 파일 선택·눌림 상태·접근성 위에 SEED recipe를 조립합니다.
+ */
 export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInputTriggerProps>(
   (props, forwardedRef) => {
     const [variantProps, restProps] = attachmentInputTrigger.splitVariantProps(props);
@@ -587,33 +243,30 @@ export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInput
       className,
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      "accessibility-element": accessibilityElement = true,
+      "accessibility-element": accessibilityElement,
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = restProps;
-    const context = useAttachmentInputContext();
-    const press = usePressTap({
-      disabled: context.triggerDisabled,
-      onTap: (event) => {
-        context.openFilePicker();
-        bindtap?.(event);
-      },
-      mainThreadOnTap: mainThreadBindtap,
+    const trigger = useFileUploadTrigger({
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-traits": accessibilityTraits,
     });
     const classes = attachmentInputTrigger({
       ...variantProps,
-      pressed: press.pressed,
-      disabled: context.triggerDisabled,
+      pressed: trigger.pressed,
+      disabled: trigger.disabled,
     });
 
     return (
       <triggerRecipe.ClassNamesProvider value={classes}>
         <view
-          {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, press, nativeProps)}
-          accessibility-element={accessibilityElement}
-          accessibility-traits={
-            accessibilityTraits ?? (context.triggerDisabled ? "disabled" : "button")
-          }
+          {...mergeProps(
+            forwardedRef ? { ref: forwardedRef } : {},
+            trigger.triggerProps,
+            nativeProps,
+          )}
           className={clsx(classes.root, className)}
         >
           {children}
@@ -633,7 +286,7 @@ export const AttachmentInputTriggerIcon = React.forwardRef<
   NodesRef,
   AttachmentInputTriggerIconProps
 >(({ image, general, children, className, ...nativeProps }, forwardedRef) => {
-  const context = useAttachmentInputContext();
+  const context = useFileUploadContext();
   const classes = attachmentInputTrigger({ pressed: false, disabled: context.triggerDisabled });
   const icon = context.acceptType === "image" ? (image ?? children) : (general ?? children);
   if (!React.isValidElement<LynxIconElementProps>(icon)) return null;
@@ -658,7 +311,7 @@ export const AttachmentInputTriggerItemCount = React.forwardRef<
   NodesRef,
   AttachmentInputTriggerItemCountProps
 >(({ children, className, ...nativeProps }, forwardedRef) => {
-  const context = useAttachmentInputContext();
+  const context = useFileUploadContext();
   const classes = attachmentInputTrigger({ pressed: false, disabled: context.triggerDisabled });
   return (
     <triggerRecipe.ClassNamesProvider value={classes}>
@@ -679,12 +332,16 @@ export interface AttachmentInputItemProps
   extends AttachmentInputItemVariantProps,
     LynxStyledElementProps,
     Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {
-  fileEntry: AttachmentFileEntry;
+  fileEntry: FileEntry;
 }
 
+/**
+ * `useFileUploadItem`으로 item 상태를 내려 주고 SEED recipe를 조립합니다.
+ * `type`을 주지 않으면 Root의 `acceptType`을 따르며 `"image"`일 때만 미리보기를 만듭니다.
+ */
 export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputItemProps>(
   ({ fileEntry, children, className, ...props }, forwardedRef) => {
-    const root = useAttachmentInputContext();
+    const root = useFileUploadContext();
     const [variantProps] = attachmentInputItem.splitVariantProps(props);
     const type = variantProps.type ?? root.acceptType ?? "general";
     const classes = attachmentInputItem({
@@ -695,22 +352,10 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
       pressed: false,
       dragging: variantProps.dragging ?? false,
     });
-    const imageSource = fileEntry.file.previewUrl ?? fileEntry.file.uri;
-    const itemContext: AttachmentInputItemContextValue = {
-      ...fileEntry,
-      imageProps:
-        type === "image" && imageSource
-          ? { src: imageSource, alt: fileEntry.file.name }
-          : undefined,
-      removeButtonProps: {
-        bindtap: () => {
-          if (!root.readOnly) root.removeFileEntry(fileEntry.id);
-        },
-      },
-    };
+    const item = useFileUploadItem(fileEntry, { imagePreview: type === "image" });
 
     return (
-      <AttachmentInputItemContextObject.Provider value={itemContext}>
+      <FileUploadItemProvider value={item}>
         <itemRecipe.ClassNamesProvider value={classes}>
           <view
             {...mergeProps(
@@ -723,7 +368,7 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
             {children}
           </view>
         </itemRecipe.ClassNamesProvider>
-      </AttachmentInputItemContextObject.Provider>
+      </FileUploadItemProvider>
     );
   },
 );
@@ -734,17 +379,15 @@ export interface AttachmentInputItemNameProps
     Omit<NativeTextElementProps, "bindtap" | "main-thread:bindtap"> {}
 
 export const AttachmentInputItemName = React.forwardRef<NodesRef, AttachmentInputItemNameProps>(
-  ({ children, className, ...nativeProps }, forwardedRef) => {
-    const item = useAttachmentInputItemContext();
+  ({ className, ...nativeProps }, forwardedRef) => {
     const classes = itemRecipe.useClassNames();
     return (
-      <text
-        {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
+      <FileUploadItemName
+        ref={forwardedRef}
+        {...nativeProps}
         text-maxline="1"
         className={clsx(classes.name, className)}
-      >
-        {children ?? item.file.name}
-      </text>
+      />
     );
   },
 );
@@ -757,20 +400,22 @@ export interface AttachmentInputItemSizeProps
 }
 
 export const AttachmentInputItemSize = React.forwardRef<NodesRef, AttachmentInputItemSizeProps>(
-  ({ children, className, formatBytes = formatFileSize, ...nativeProps }, forwardedRef) => {
-    const item = useAttachmentInputItemContext();
+  ({ className, ...nativeProps }, forwardedRef) => {
     const classes = itemRecipe.useClassNames();
     return (
-      <text
-        {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
+      <FileUploadItemSize
+        ref={forwardedRef}
+        {...nativeProps}
         className={clsx(classes.size, className)}
-      >
-        {children ?? formatBytes(item.file.size)}
-      </text>
+      />
     );
   },
 );
 AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
+
+export interface AttachmentInputItemSurfaceProps
+  extends LynxStyledElementProps,
+    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
 
 export const AttachmentInputItemSurface = React.forwardRef<
   NodesRef,
@@ -786,23 +431,17 @@ export const AttachmentInputItemSurface = React.forwardRef<
     </view>
   );
 });
-export interface AttachmentInputItemSurfaceProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
 AttachmentInputItemSurface.displayName = "AttachmentInputItemSurface";
 
 export interface AttachmentInputItemImageProps extends LynxStyledElementProps, NativeImageProps {}
 
 export const AttachmentInputItemImage = React.forwardRef<NodesRef, AttachmentInputItemImageProps>(
-  ({ className, "accessibility-label": accessibilityLabel, ...nativeProps }, forwardedRef) => {
-    const item = useAttachmentInputItemContext();
+  ({ className, ...nativeProps }, forwardedRef) => {
     const classes = itemRecipe.useClassNames();
-    if (!item.imageProps) return null;
     return (
-      <image
-        {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
-        src={item.imageProps.src}
-        accessibility-label={accessibilityLabel ?? item.imageProps.alt}
+      <FileUploadItemImage
+        ref={forwardedRef}
+        {...nativeProps}
         className={clsx(classes.image, className)}
       />
     );
@@ -904,24 +543,21 @@ AttachmentInputItemActionButton.displayName = "AttachmentInputItemActionButton";
 export interface AttachmentInputItemBackdropProps
   extends Omit<LynxStyledElementProps, "children">,
     Omit<NativeViewProps, "children" | "bindtap" | "main-thread:bindtap"> {
-  status: AttachmentFileEntry["status"];
-  children?: React.ReactNode | ((entry: AttachmentFileEntry) => React.ReactNode);
+  status: FileEntry["status"];
+  children?: React.ReactNode | ((entry: FileEntry) => React.ReactNode);
 }
 
 export const AttachmentInputItemBackdrop = React.forwardRef<
   NodesRef,
   AttachmentInputItemBackdropProps
->(({ status, children, className, ...nativeProps }, forwardedRef) => {
-  const entry = useAttachmentInputItemContext();
+>(({ className, ...props }, forwardedRef) => {
   const classes = itemRecipe.useClassNames();
-  if (entry.status !== status) return null;
   return (
-    <view
-      {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
+    <FileUploadItemBackdrop
+      ref={forwardedRef}
+      {...props}
       className={clsx(classes.backdrop, className)}
-    >
-      {typeof children === "function" ? children(entry) : children}
-    </view>
+    />
   );
 });
 AttachmentInputItemBackdrop.displayName = "AttachmentInputItemBackdrop";
@@ -932,52 +568,32 @@ export interface AttachmentInputItemRemoveButtonProps
     LynxPressableProps,
     LynxAccessibilityProps {}
 
+/**
+ * `FileUploadItemRemoveButton`의 삭제·`readOnly` 차단·접근성 위에 SEED recipe와 아이콘 slot을 조립합니다.
+ */
 export const AttachmentInputItemRemoveButton = React.forwardRef<
   NodesRef,
   AttachmentInputItemRemoveButtonProps
->((props, forwardedRef) => {
-  const {
-    children,
-    className,
-    bindtap,
-    "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits,
-    ...nativeProps
-  } = props;
-  const item = useAttachmentInputItemContext();
-  const context = useAttachmentInputContext();
-  const press = usePressTap({
-    disabled: context.readOnly,
-    onTap: (event) => {
-      context.removeFileEntry(item.id);
-      bindtap?.(event);
-    },
-    mainThreadOnTap: mainThreadBindtap,
-  });
+>(({ children, className, ...props }, forwardedRef) => {
   const classes = itemRecipe.useClassNames();
 
   return (
-    <view
-      {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, press, nativeProps)}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits ?? (context.readOnly ? "disabled" : "button")}
+    <FileUploadItemRemoveButton
+      ref={forwardedRef}
+      {...props}
       className={clsx(classes.removeButton, className)}
     >
       <IconSlotProvider value={{ classNames: { icon: classes.removeIcon } }}>
         {children}
       </IconSlotProvider>
-    </view>
+    </FileUploadItemRemoveButton>
   );
 });
 AttachmentInputItemRemoveButton.displayName = "AttachmentInputItemRemoveButton";
 
-export interface AttachmentInputContextProps {
-  children: (context: AttachmentInputContextValue) => React.ReactNode;
-}
+export type AttachmentInputContextProps = FileUploadContextProps;
 
-export const AttachmentInputContext = ({ children }: AttachmentInputContextProps) =>
-  children(useAttachmentInputContext());
+export const AttachmentInputContext = FileUploadContext;
 
 export const AttachmentInput = {
   Root: AttachmentInputRoot,
