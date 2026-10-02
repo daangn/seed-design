@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { docs, reactDocs, breezeDocs } from "@/.source";
 import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
@@ -88,7 +89,7 @@ const baseSource = loader({
 });
 
 const baseReactSource = loader({
-  baseUrl: "/react",
+  baseUrl: archivePaths.reactBase,
   source: reactDocs.toFumadocsSource(),
   icon: iconHandler,
 });

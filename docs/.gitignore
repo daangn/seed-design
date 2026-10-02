@@ -31,3 +31,9 @@ next-env.d.ts
 storybook-static
 
 dist
+# Temporary compatibility index for the React archive exporter.
+.archive/
+
+# Staged archive output is generated locally or by Pages CI.
+out-archive/
+out-archive.tmp-*/

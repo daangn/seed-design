@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 import { getSourceUrl } from "@/app/react/_llms/url";
 import { reactSource } from "@/app/source";
@@ -9,7 +10,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
 
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
@@ -40,7 +42,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     return slug;
   });
 
-  const markdownUrl = `/react/${llmsSlugs.join("/")}`;
+  const markdownUrl = archivePaths.link(`/react/${llmsSlugs.join("/")}`);
 
   return (
     <DocsPage
@@ -68,11 +70,14 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
-  return reactSource.generateParams();
+  return reactSource
+    .generateParams()
+    .map((params) => ({ slug: archivePaths.routeSlug(params.slug) }));
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -87,6 +92,9 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
       : page.data.title;
 
   return {
+    alternates: {
+      canonical: `https://seed-design.io${archivePaths.reactBase}${page.slugs.length ? "/" + page.slugs.join("/") : ""}`,
+    },
     title: displayTitle,
     description: page.data.description,
   } satisfies Metadata;
