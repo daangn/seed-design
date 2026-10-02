@@ -17,6 +17,8 @@ packages/css/recipes/**                     linguist-generated
 packages/css/*.css                          linguist-generated
 packages/lynx-css/vars/**                   linguist-generated
 packages/lynx-css/recipes/**                linguist-generated
+# 수동 Recipe: packages/lynx-css/AGENTS.md「수동 Recipe: progress-circle」
+packages/lynx-css/recipes/progress-circle.* -linguist-generated
 packages/lynx-css/*.css                     linguist-generated
 packages/qvism-preset/src/vars/**           linguist-generated
 packages/qvism-preset/src/token.css         linguist-generated

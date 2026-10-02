@@ -11,6 +11,7 @@ export interface ProgressCircleProps extends SeedProgressCircleProps {}
 export function ProgressCircle(props: ProgressCircleProps) {
   return (
     <SeedProgressCircle.Root {...props}>
+      <SeedProgressCircle.Track />
       <SeedProgressCircle.Range />
     </SeedProgressCircle.Root>
   );

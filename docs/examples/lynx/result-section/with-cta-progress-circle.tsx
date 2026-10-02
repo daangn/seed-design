@@ -46,6 +46,7 @@ export default function Example() {
                 <Box pb="x4">
                   {loading ? (
                     <ProgressCircle.Root>
+                      <ProgressCircle.Track />
                       <ProgressCircle.Range />
                     </ProgressCircle.Root>
                   ) : (

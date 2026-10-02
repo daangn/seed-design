@@ -4,6 +4,7 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const progressCircleSlotNames = [
   ["root", "seed-progress-circle__root"],
+  ["track", "seed-progress-circle__track"],
   ["range", "seed-progress-circle__range"],
   ["cap", "seed-progress-circle__cap"],
 ];

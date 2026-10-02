@@ -16,7 +16,7 @@ import type {
 import { toArray } from "../../utils/children";
 import { isCountElement, type CountProps } from "../Count/Count";
 import { getIconSlotName, IconSlotProvider } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
+import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
 
 /**
  * @platform Lynx
@@ -133,6 +133,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
         {loading ? (
           <view className={classNames.loadingIndicator}>
             <ProgressCircleRoot size="14" tone="inherit">
+              <ProgressCircleTrack />
               <ProgressCircleRange />
             </ProgressCircleRoot>
           </view>

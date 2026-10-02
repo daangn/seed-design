@@ -1,0 +1,32 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-progress만 소비하는 화면의 스타일 */
+
+.progress-headless-root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-headless-track {
+  display: flex;
+  flex-direction: row;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #dcdee3;
+}
+
+.progress-headless-range {
+  height: 8px;
+  background-color: #2f6fed;
+}
+
+.progress-headless-status {
+  font-size: 13px;
+  color: #555d6d;
+}
+
+.progress-headless-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #eef0f3;
+}
