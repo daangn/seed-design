@@ -1,5 +1,9 @@
 import * as React from "@lynx-js/react";
-import { badge, type BadgeVariantProps } from "@seed-design/lynx-css/recipes/badge";
+import {
+  badge,
+  type BadgeSlotName,
+  type BadgeVariantProps,
+} from "@seed-design/lynx-css/recipes/badge";
 import clsx from "clsx";
 
 import { mergeProps } from "../../utils/merge-props";
@@ -12,16 +16,15 @@ import type {
   LynxTouchProps,
   LynxViewRef,
 } from "../../types";
-import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
-const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(badge);
+type BadgeClassNames = Record<BadgeSlotName, string>;
 
-function useBadgeClassNames(consumer: "BadgePrefix" | "BadgeAction") {
-  try {
-    return useClassNames();
-  } catch {
-    throw new Error(`<${consumer}/> must be rendered inside <BadgeRoot/>.`);
-  }
+const BadgeClassNamesContext = React.createContext<BadgeClassNames | null>(null);
+
+function useBadgeClassNames(consumer: string): BadgeClassNames {
+  const context = React.useContext(BadgeClassNamesContext);
+  if (!context) throw new Error(`<${consumer}/> must be rendered inside <BadgeRoot/>.`);
+  return context;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -34,14 +37,14 @@ export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) 
   const { children, className, ...nativeProps } = otherProps;
 
   return (
-    <ClassNamesProvider value={classes}>
+    <BadgeClassNamesContext.Provider value={classes}>
       <view
         {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes.root, className)}
       >
         {children}
       </view>
-    </ClassNamesProvider>
+    </BadgeClassNamesContext.Provider>
   );
 });
 BadgeRoot.displayName = "BadgeRoot";
@@ -70,7 +73,7 @@ BadgePrefix.displayName = "BadgePrefix";
 export interface BadgeLabelProps extends LynxStyledElementProps {}
 
 export const BadgeLabel = React.forwardRef<unknown, BadgeLabelProps>((props, ref) => {
-  const classes = useClassNames();
+  const classes = useBadgeClassNames("BadgeLabel");
   const { children, className, ...nativeProps } = props;
 
   return (
