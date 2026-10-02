@@ -41,7 +41,7 @@ runs:
     # remap을 먼저 적용한 뒤 `--exclude`를 비교하므로 바뀐 `file://` URL로 매칭한다.
     # 아카이브 빌드에서는 자기 채널 링크만 remap되고 나머지는 `--offline`이 건너뛴다.
     - name: Check links in the exported HTML
-      uses: lycheeverse/lychee-action@v2
+      uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
       with:
         lycheeVersion: v0.24.2
         fail: true
@@ -116,7 +116,7 @@ runs:
     # 실제 heading을 담고 있어야만 성립한다. heading을 잃은 채로 켜면 페이지에 멀쩡히 있는
     # 앵커가 전부 깨진 걸로 잡힌다.
     - name: Check links in the llms text outputs
-      uses: lycheeverse/lychee-action@v2
+      uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
       with:
         lycheeVersion: v0.24.2
         fail: true
