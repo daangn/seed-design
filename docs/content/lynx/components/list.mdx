@@ -168,18 +168,18 @@ Lynx에는 HTML anchor에 해당하는 기본 요소가 없습니다. 링크 이
 
 ### Accessibility
 
-`ListButtonItem`은 기본적으로 button 역할과 문자열 `title` 기반의 접근성 이름을 제공합니다. 선택 항목은 현재 선택 여부를 `accessibility-value`로 전달합니다. `ListRadioItem`은 반드시 `RadioGroup.Root` 안에서 사용하고 그룹의 접근성 이름도 지정하세요.
+`ListButtonItem`은 기본적으로 button 역할과 문자열 `title` 기반의 접근성 이름을 제공합니다. 선택 항목은 현재 선택 여부를 `accessibility-value`로 전달합니다. `ListRadioItem`을 안내 정보 없이 조합할 때는 `@seed-design/lynx-react-radio-group`의 `RadioGroup.Root` 안에서 사용하고 그룹의 접근성 이름도 지정하세요. Styled `RadioGroup.Root`는 선택 상태를 제공하지 않습니다.
 
 ```tsx
 import { List, ListRadioItem } from "@/components/ui/list";
-import { RadioGroup } from "@/components/ui/radio-group";
+import { RadioGroup } from "@seed-design/lynx-react-radio-group";
 
-<RadioGroup defaultValue="짜장" accessibility-label="점심 메뉴">
+<RadioGroup.Root defaultValue="짜장" accessibility-label="점심 메뉴">
   <List>
     <ListRadioItem value="짜장" title="짜장" />
     <ListRadioItem value="짬뽕" title="짬뽕" />
   </List>
-</RadioGroup>
+</RadioGroup.Root>
 ```
 
 ### Disabled

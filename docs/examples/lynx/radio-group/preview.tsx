@@ -15,12 +15,10 @@ export default function Example() {
           label="좋아하는 과일"
           description="좋아하는 과일을 선택해 주세요."
           indicator="선택"
-          tone="neutral"
-          size="large"
         >
-          <RadioGroupItem value="apple" label="Apple" />
-          <RadioGroupItem value="banana" label="Banana" />
-          <RadioGroupItem value="orange" label="Orange" />
+          <RadioGroupItem value="apple" label="Apple" tone="neutral" size="large" />
+          <RadioGroupItem value="banana" label="Banana" tone="neutral" size="large" />
+          <RadioGroupItem value="orange" label="Orange" tone="neutral" size="large" />
         </RadioGroup>
       </VStack>
     </view>

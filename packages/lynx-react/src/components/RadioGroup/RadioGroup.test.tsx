@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { RadioGroupField } from "../RadioGroupField";
 import { RadioGroup } from "./index";
 
 function getItems(container: HTMLElement) {
@@ -12,14 +13,16 @@ describe("RadioGroup", () => {
   it("exposes group and item accessibility defaults while preserving selection", () => {
     const onValueChange = vi.fn();
     const { container } = render(
-      <RadioGroup.Root
+      <RadioGroupField.Root
         accessibility-label="과일"
         defaultValue="apple"
         onValueChange={onValueChange}
       >
-        <RadioGroup.Item value="apple" accessibility-label="사과" />
-        <RadioGroup.Item value="banana" accessibility-label="바나나" />
-      </RadioGroup.Root>,
+        <RadioGroup.Root>
+          <RadioGroup.Item value="apple" accessibility-label="사과" />
+          <RadioGroup.Item value="banana" accessibility-label="바나나" />
+        </RadioGroup.Root>
+      </RadioGroupField.Root>,
     );
     const root = container.firstElementChild;
     const [apple, banana] = getItems(container);
@@ -43,9 +46,11 @@ describe("RadioGroup", () => {
   it("exposes disabled state and allows accessibility overrides", () => {
     const onValueChange = vi.fn();
     const { container, rerender } = render(
-      <RadioGroup.Root disabled onValueChange={onValueChange}>
-        <RadioGroup.Item value="apple" />
-      </RadioGroup.Root>,
+      <RadioGroupField.Root disabled onValueChange={onValueChange}>
+        <RadioGroup.Root>
+          <RadioGroup.Item value="apple" />
+        </RadioGroup.Root>
+      </RadioGroupField.Root>,
     );
     const root = container.firstElementChild;
     const [disabledItem] = getItems(container);
@@ -58,20 +63,22 @@ describe("RadioGroup", () => {
     expect(onValueChange).not.toHaveBeenCalled();
 
     rerender(
-      <RadioGroup.Root
+      <RadioGroupField.Root
         disabled
         accessibility-element={false}
         accessibility-role-description="custom group"
         accessibility-traits="button"
       >
-        <RadioGroup.Item
-          value="apple"
-          accessibility-element={false}
-          accessibility-role-description="custom radio"
-          accessibility-traits="button"
-          accessibility-value="custom selection"
-        />
-      </RadioGroup.Root>,
+        <RadioGroup.Root>
+          <RadioGroup.Item
+            value="apple"
+            accessibility-element={false}
+            accessibility-role-description="custom radio"
+            accessibility-traits="button"
+            accessibility-value="custom selection"
+          />
+        </RadioGroup.Root>
+      </RadioGroupField.Root>,
     );
     const overriddenRoot = container.firstElementChild;
     const [overriddenItem] = getItems(container);

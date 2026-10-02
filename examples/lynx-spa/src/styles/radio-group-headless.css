@@ -1,0 +1,95 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-radio-group만 소비하는 화면의 스타일 */
+
+.radio-headless-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-headless-root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-headless-group-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1c20;
+}
+
+.radio-headless-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0px;
+}
+
+.radio-headless-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #b0b3ba;
+}
+
+.radio-headless-control-checked {
+  border-color: #ff6f0f;
+}
+
+.radio-headless-control-pressed {
+  background-color: #f3f4f5;
+}
+
+.radio-headless-control-disabled {
+  border-color: #dcdee3;
+}
+
+.radio-headless-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #ff6f0f;
+}
+
+.radio-headless-label {
+  font-size: 15px;
+  color: #1a1c20;
+}
+
+.radio-headless-label-disabled {
+  font-size: 15px;
+  color: #d1d3d8;
+}
+
+.radio-headless-description {
+  font-size: 13px;
+  color: #868b94;
+}
+
+.radio-headless-error {
+  font-size: 13px;
+  color: #fa342c;
+}
+
+.radio-headless-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.radio-headless-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #f3f4f5;
+}
+
+.radio-headless-button-text {
+  font-size: 13px;
+  color: #1a1c20;
+}
