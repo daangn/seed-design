@@ -27,7 +27,7 @@ import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "..
  * - `asChild`
  */
 export interface ReactionButtonProps
-  extends Omit<ReactionButtonVariantProps, "selected" | "pressed" | "disabled" | "loading">,
+  extends Omit<ReactionButtonVariantProps, "selected" | "disabled" | "loading">,
     Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {
@@ -53,15 +53,16 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     children,
     className,
     style,
+    pressed,
     defaultPressed,
     onPressedChange,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     ...nativeProps
   } = otherProps;
-  const { size, pressed: pressedProp, disabled = false, loading = false } = variantProps;
+  const { size, disabled = false, loading = false } = variantProps;
   const api = useToggle({
-    pressed: pressedProp,
+    pressed,
     defaultPressed,
     onPressedChange,
     disabled: disabled || loading,
@@ -69,8 +70,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     "main-thread:bindtap": mainThreadBindtap,
   });
   const selected = api.pressed;
-  const pressed = api.active;
-  // Press state follows the Scale Feedback Main Thread touch handlers.
+  // Press color comes from the recipe's `:active` selector; touch handlers only drive Scale Feedback.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: api.disabled,
@@ -78,13 +78,13 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const classNames = reactionButton({ ...variantProps, selected, pressed, disabled, loading });
+  const classNames = reactionButton({ ...variantProps, selected, disabled, loading });
   const iconSlotContextValue = useMemo(
     () => ({
       classNames: { prefixIcon: classNames.prefixIcon },
-      deps: [size ?? "small", selected, pressed, disabled, loading],
+      deps: [size ?? "small", selected, disabled, loading],
     }),
-    [classNames.prefixIcon, size, selected, pressed, disabled, loading],
+    [classNames.prefixIcon, size, selected, disabled, loading],
   );
 
   const prefixIconChildren: React.ReactNode[] = [];

@@ -101,9 +101,6 @@
 .seed-reaction-button__prefixIcon--selected_true {
     color: var(--seed-color-fg-brand)
 }
-.seed-reaction-button__root--pressed_true {
-    background: var(--seed-color-bg-transparent-pressed)
-}
 .seed-reaction-button__root--disabled_true {
     background: var(--seed-color-bg-disabled);
     box-shadow: inset 0 0 0 0px var(--seed-color-stroke-neutral-muted)
@@ -122,9 +119,6 @@
 }
 .seed-reaction-button__content--loading_true {
     opacity: 0
-}
-.seed-reaction-button__root--selected_true-pressed_true-disabled_false-loading_false {
-    background: var(--seed-color-bg-transparent-pressed)
 }
 .seed-reaction-button__root--selected_false-disabled_false-loading_false:active {
     background: var(--seed-color-bg-transparent-pressed)
