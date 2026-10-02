@@ -11,7 +11,7 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
 ## 교훈과 다음 행동
 
 - 테스트 환경의 Main Thread `requestAnimationFrame`은 `setTimeout`이라 callback에 timestamp를 넘기지 않는다 → 엔진은 rAF 인자 대신 `Date.now()`로 경과 시간을 잰다. 테스트는 `vi.useFakeTimers({ toFake: ["Date"] })`와 `vi.setSystemTime()`으로 시간을 정한다.
-- Main Thread의 rAF를 queue로 바꾸고 frame마다 thread를 전환해 실행한 뒤, Background 처리는 `waitSchedule()`로 흘려보낸다.
+- Main Thread의 rAF를 queue로 바꾸고 frame마다 thread를 전환해 실행한 뒤, Background 처리는 `waitSchedule()`로 흘려보낸다. frame의 결과가 `runOnBackground`로 state를 바꾸고 그 effect가 다시 `runOnMainThread`를 예약하면 작업이 한 번 더 이어지므로 `waitSchedule()`을 두 번 부른다.
 
   ```ts
   const frames = new Map<number, () => void>();
@@ -26,7 +26,8 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
     callback();
     lynxTestingEnv.switchToBackgroundThread();
   }
-  await waitSchedule();
+  await waitSchedule(); // frame이 runOnBackground로 넘긴 state 갱신과 effect
+  await waitSchedule(); // 그 effect가 runOnMainThread로 예약한 작업
   ```
 
 - frame callback을 `act()`로 감싸지 않는다. Main Thread로 전환한 채 `act`가 Background state 갱신과 effect를 즉시 flush하면, effect 안의 `runOnMainThread(...)`가 `runOnMainThread can only be used on the background thread`로 실패한다. native에서는 effect가 항상 Background에서 돌아 생기지 않는 실패다.
@@ -34,10 +35,11 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
 
 ## 발생 근거와 적용 조건
 
-- 상황: `@seed-design/lynx-react-loop-scroll`에서 사용자 정착 뒤 `index` 동기화 effect가 `runOnMainThread`를 부르도록 바꾸자, frame callback을 `act(() => callback())`로 돌리던 dual-thread 테스트 4개가 위 오류로 실패했다. `act`를 빼고 frame 뒤 `waitSchedule()`로 넘기자 10개 테스트가 모두 통과했다(`@lynx-js/react` 0.117.0).
+- 상황: `@seed-design/lynx-react-loop-scroll`에서 사용자 정착 뒤 `index` 동기화 effect가 `runOnMainThread`를 부르도록 바꾸자, frame callback을 `act(() => callback())`로 돌리던 dual-thread 테스트 4개가 위 오류로 실패했다. `act`를 빼고 frame 뒤 `waitSchedule()`로 넘기자 10개 테스트가 모두 통과했다(`@lynx-js/react` 0.117.0). 정착은 `runOnBackground(reportSettledJS)` → state 갱신 → `useEffect`의 `runOnMainThread(scrollToIndex)`로 이어지며, 테스트의 `runFrames()`는 이 연쇄를 위해 `waitSchedule()`을 두 번 부른다.
 - 근거: 0.117.0 `testing-library/dist/env/vitest.js`는 main thread·background 양쪽 global에 `requestAnimationFrame = setTimeout`을 넣고, `__AddEvent` listener에서 worklet이면 `runWorklet(eventHandler.value, [Object.assign({}, evt)])`를 호출한다. `worklet-runtime/lib/eventPropagation.js`는 source가 native event일 때만 `stopPropagation`을 붙인다.
 - `packages/lynx-react/src/components/Icon/Icon.test.tsx`는 frame callback을 `act`로 감싸지만, 그 callback이 Background effect의 `runOnMainThread`를 부르지 않아 문제가 드러나지 않는다.
 
 ## 변경 이력
 
 - 2026-10-01: loop-scroll headless 패키지 테스트 작성 중 기록했다.
+- 2026-10-02: 예제의 `waitSchedule()` 호출을 실제 테스트와 같은 두 번으로 맞췄다(PR #2390 리뷰).
