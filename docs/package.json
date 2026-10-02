@@ -17,7 +17,8 @@
     "generate:compat": "bun scripts/generate-compat-manifest.ts",
     "rootage:generate": "rootage json public/rootage",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:archive:react": "bun scripts/build-react-archive.ts"
   },
   "dependencies": {
     "@karrotmarket/icon-data": "^1.34.0",

@@ -7,6 +7,7 @@ import {
   extractSeedPeers,
   filterStableVersions,
   summarizeDeclarationEras,
+  type VersionCompat,
 } from "./generate-compat-manifest.js";
 
 describe("filterStableVersions", () => {
@@ -95,7 +96,7 @@ describe("collectSnippets", () => {
 
 describe("summarizeDeclarationEras", () => {
   test("선언 모양이 같은 연속 구간을 묶는다 — 핀 시대, 공백 시대, 범위 시대", () => {
-    const versions = [
+    const versions: VersionCompat[] = [
       { version: "1.0.0", publishedAt: "", peers: { "@seed-design/css": "1.0.0" } },
       { version: "1.0.1", publishedAt: "", peers: { "@seed-design/css": "1.0.1" } },
       { version: "1.1.0", publishedAt: "", peers: {} },
@@ -113,7 +114,7 @@ describe("summarizeDeclarationEras", () => {
   });
 
   test("같은 peers면 키 삽입 순서가 달라도 한 구간으로 묶인다", () => {
-    const versions = [
+    const versions: VersionCompat[] = [
       {
         version: "1.0.0",
         publishedAt: "",

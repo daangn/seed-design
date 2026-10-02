@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import Image from "next/image";
 import Link from "next/link";
 import { RootProvider } from "fumadocs-ui/provider/next";
@@ -6,7 +7,7 @@ export default function NotFound() {
   return (
     <RootProvider>
       <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-fd-background text-fd-foreground px-4">
-        <Image src="/favicon.svg" alt="" width={36} height={32} aria-hidden />
+        <Image src={archivePaths.asset("/favicon.svg")} alt="" width={36} height={32} aria-hidden />
 
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="text-sm font-medium text-fd-muted-foreground">404</p>
@@ -17,7 +18,7 @@ export default function NotFound() {
         </div>
 
         <Link
-          href="/docs"
+          href={archivePaths.link("/docs")}
           className="rounded-md bg-fd-primary px-4 py-2 text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-80"
         >
           홈으로 돌아가기

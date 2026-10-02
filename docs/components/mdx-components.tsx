@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { ColorGrid } from "@/components/color-grid";
 import { BlockPreview } from "@/components/block-preview";
 import { ComponentExample } from "@/components/component-example";
@@ -36,8 +37,11 @@ import { TypographyMigrationIndex } from "./migration/typography-migration-index
 import { PlatformStatusTable } from "./platform-status-table";
 import { ProgressBoardTable } from "./progress-board-table";
 
+const MdxLink = defaultMdxComponents.a!;
+
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
+  a: ({ href, ...props }) => <MdxLink {...props} href={href ? archivePaths.link(href) : href} />,
 
   img: ({ className, ...rest }) => (
     <ImageZoom
@@ -47,6 +51,7 @@ export const mdxComponents: MDXComponents = {
       )}
       // biome-ignore lint/suspicious/noExplicitAny: fumadocs recommends this: https://www.fumadocs.dev/docs/ui/components/image-zoom#usage
       {...(rest as any)}
+      src={typeof rest.src === "string" ? archivePaths.asset(rest.src) : rest.src}
     />
   ),
 

@@ -1,8 +1,9 @@
+import { archivePaths, REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
 import type { Section, SectionConfig } from "./types";
 
 const GITHUB_OWNER = "daangn";
 const GITHUB_REPO = "seed-design";
-const GITHUB_BRANCH = "dev";
+const GITHUB_BRANCH = REACT_ARCHIVE_VERSION ? `react/${REACT_ARCHIVE_VERSION}` : "dev";
 
 export const sectionConfigs: Record<Section, SectionConfig> = {
   react: {
@@ -55,9 +56,9 @@ export function getGitHubSourceUrl(section: Section, pagePath: string): string {
  */
 export function getLLMMarkdownUrl(section: Section, slugs: string[]): string {
   const config = sectionConfigs[section];
-  if (slugs.length === 0) return `${config.baseUrl}/llms.txt`;
+  if (slugs.length === 0) return archivePaths.link(`${config.baseUrl}/llms.txt`);
   const slugsWithExt = slugs.map((s, i) => (i === slugs.length - 1 ? `${s}.txt` : s));
-  return `/llms/${section}/${slugsWithExt.join("/")}`;
+  return archivePaths.endpoint(`/llms/${section}/${slugsWithExt.join("/")}`);
 }
 
 export function shouldIncludeInFullText(section: Section, pagePath: string): boolean {
