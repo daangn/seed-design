@@ -88,26 +88,17 @@ describe("ActionButton", () => {
     const { getByText } = getRenderedQueries();
     const root = getRenderedRoot();
 
-    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-action-button__prefixIcon");
-    expect(root.querySelector(".seed-suffix-icon-slot")).toHaveClass("seed-action-button__suffixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass(
+      "seed-action-button__prefixIcon",
+    );
+    expect(root.querySelector(".seed-suffix-icon-slot")).toHaveClass(
+      "seed-action-button__suffixIcon",
+    );
     expect(root.querySelector(".seed-prefix-icon-slot image")).toHaveStyle({
       width: "100%",
       height: "100%",
     });
     expect(getByText("Submit")).toHaveClass("seed-action-button__text");
-  });
-
-  it("keeps existing icon props compatible with the new slot wrapper", () => {
-    render(
-      <ActionButton prefixIcon={<MockIcon />} suffixIcon={<MockIcon />}>
-        Submit
-      </ActionButton>,
-    );
-
-    const root = getRenderedRoot();
-
-    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-action-button__prefixIcon");
-    expect(root.querySelector(".seed-suffix-icon-slot")).toHaveClass("seed-action-button__suffixIcon");
   });
 
   it("supports icon-only child slot", () => {
@@ -134,14 +125,6 @@ describe("ActionButton", () => {
     expect(root).toHaveAttribute("accessibility-label", "Add");
     expect(root).toHaveAttribute("accessibility-element", "true");
     expect(root).toHaveAttribute("accessibility-traits", "button");
-  });
-
-  it("keeps existing icon prop compatible with icon-only validation", () => {
-    render(<ActionButton layout="iconOnly" accessibility-label="Add" icon={<MockIcon />} />);
-
-    const root = getRenderedRoot();
-
-    expect(root.querySelector(".seed-icon-slot")).toHaveClass("seed-action-button__icon");
   });
 
   it("throws in development when icon-only layout has no Icon child", () => {

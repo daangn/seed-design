@@ -7,7 +7,7 @@ import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
-import { Icon, IconSlotProvider, InternalIcon, PrefixIcon, SuffixIcon } from "./Icon";
+import { Icon, IconRequired, IconSlotProvider, InternalIcon, PrefixIcon, SuffixIcon } from "./Icon";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -169,6 +169,46 @@ describe("icon recipe ownership", () => {
     expect(wrapper.classList.contains("user-icon")).toBe(true);
     expect(wrapper.classList.contains(baseClass)).toBe(false);
     expect(wrapper.getAttribute("style")).toContain("28px");
+  });
+});
+
+describe("icon accessibility", () => {
+  it.each([
+    ["Icon", Icon],
+    ["PrefixIcon", PrefixIcon],
+    ["SuffixIcon", SuffixIcon],
+  ] as const)("hides the %s wrapper from assistive technology", (_name, Component) => {
+    const { container } = render(<Component icon={<TestIcon />} />);
+
+    expect(container.querySelector("view")?.getAttribute("accessibility-elements-hidden")).toBe(
+      "true",
+    );
+  });
+});
+
+describe("IconRequired", () => {
+  it("rejects an icon-only consumer nested in another icon-only consumer", () => {
+    expect(() => {
+      render(
+        <IconRequired enabled>
+          <Icon icon={<TestIcon />} />
+          <IconRequired enabled>
+            <Icon icon={<TestIcon />} />
+          </IconRequired>
+        </IconRequired>,
+      );
+    }).toThrow();
+  });
+
+  it("does not guard icon count when disabled", () => {
+    const { container } = render(
+      <IconRequired enabled={false}>
+        <Icon icon={<TestIcon />} />
+        <Icon icon={<TestIcon />} />
+      </IconRequired>,
+    );
+
+    expect(container.querySelectorAll("image")).toHaveLength(2);
   });
 });
 
