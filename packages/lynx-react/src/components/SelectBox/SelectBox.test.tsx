@@ -2,6 +2,8 @@ import "@testing-library/jest-dom";
 import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-group";
+
 import { RadioGroup } from "../RadioGroup";
 import { CheckSelectBox, RadioSelectBox } from "./index";
 
@@ -157,7 +159,7 @@ describe("SelectBox", () => {
   it("selects one radio item and ignores a disabled item", () => {
     const onValueChange = vi.fn();
     render(
-      <RadioGroup.Root defaultValue="first" onValueChange={onValueChange}>
+      <HeadlessRadioGroup.Root defaultValue="first" onValueChange={onValueChange}>
         <RadioSelectBox.Group>
           <RadioSelectBox.Item value="first" accessibility-label="첫 번째">
             <RadioSelectBox.Trigger>
@@ -178,7 +180,7 @@ describe("SelectBox", () => {
             </RadioSelectBox.Trigger>
           </RadioSelectBox.Item>
         </RadioSelectBox.Group>
-      </RadioGroup.Root>,
+      </HeadlessRadioGroup.Root>,
     );
 
     const root = getRenderedRoot();
