@@ -52,7 +52,10 @@ export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
   const isHorizontal = orientation === "horizontal";
 
   return (
+    // ReactLynx는 렌더 사이에 빠진 inline style key를 native view에서 지우지 않는다.
+    // 방향·inset이 바뀌면 이전 geometry key가 남지 않도록 view를 다시 만든다.
     <Box
+      key={`${orientation}-${inset}`}
       {...mergeProps({ ref }, nativeProps)}
       borderColor={color}
       borderWidth={0}
