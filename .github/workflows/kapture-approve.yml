@@ -4,17 +4,17 @@ on:
     types:
       - created
 permissions: {}
-concurrency:
-  group: kapture-review-${{ github.repository }}
-  cancel-in-progress: false
-  queue: max
 env:
-  KAPTURE_CLI_VERSION: "0.14.0"
+  KAPTURE_CLI_VERSION: "0.15.0"
   npm_config_registry: https://registry.npmjs.org/
   npm_config_ignore_scripts: "true"
   YARN_ENABLE_SCRIPTS: "false"
 jobs:
   approve:
+    concurrency:
+      group: kapture-review-${{ github.repository }}-pr-${{ github.event.issue.number }}
+      cancel-in-progress: false
+      queue: max
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/kapture approve ') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-24.04
     timeout-minutes: 5
@@ -36,8 +36,7 @@ jobs:
         if: steps.policy.outputs.supported == 'true'
         with:
           node-version: "24"
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
       - env:
           GITHUB_TOKEN: ${{ github.token }}
         if: steps.policy.outputs.supported == 'true'
-        run: bunx "@kaptures/cli@$KAPTURE_CLI_VERSION" github approve --comment-language ko
+        run: npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github approve --comment-language ko
