@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { breezeSource, reactSource, docsSource, lynxSource, blogSource } from "@/app/source";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
@@ -114,6 +115,7 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
         getChangelogIndexes(),
       ]);
 
+    if (archivePaths.prefix) return reactPages;
     return [
       ...docsPages,
       ...reactPages,

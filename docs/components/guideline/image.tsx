@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import clsx from "clsx";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 
@@ -11,7 +12,7 @@ export function Image({ src, alt, className }: ImageProps) {
   return (
     <figure className={clsx("flex flex-col gap-1.5 not-prose mt-1 mb-4", className)}>
       <ImageZoom
-        src={src}
+        src={src ? archivePaths.asset(src) : src}
         alt={alt}
         width={773}
         height={396}

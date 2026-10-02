@@ -7,10 +7,11 @@ import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { cva } from "class-variance-authority";
 
 const VERSIONS = [
-  { label: "v2 (latest)", url: "https://seed-design.io/react" },
-  { label: "v1.2", url: "https://1-2.seed-design.pages.dev/react" },
-  { label: "v1.1", url: "https://1-1.seed-design.pages.dev/react" },
-  { label: "v1.0", url: "https://1-0.seed-design.pages.dev/react" },
+  { label: "latest", url: "https://seed-design.io/react" },
+  { label: "v2", url: "https://seed-design.io/react/v2" },
+  { label: "v1.2", url: "https://seed-design.io/react/v1.2" },
+  { label: "v1.1", url: "https://seed-design.io/react/v1.1" },
+  { label: "v1.0", url: "https://seed-design.io/react/v1.0" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
 // NOTE: update CURRENT_VERSION when releasing a new version & keep in release branch

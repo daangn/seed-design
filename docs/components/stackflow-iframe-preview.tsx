@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths, REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+
 import type { Activity } from "@stackflow/core";
 import { Box, Flex, HStack, Text, VStack } from "@seed-design/react";
 import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
@@ -203,6 +205,12 @@ function Navigation({ url }: { url: string | null }) {
 }
 
 function getStackflowSpaUrl(path: string): string {
+  if (archivePaths.prefix) {
+    const origin = process.env.NEXT_PUBLIC_ARCHIVE_STACKFLOW_URL;
+    if (!origin)
+      throw new Error("Build the matching archive Stackflow preview before the docs archive");
+    return new URL(path, origin).toString();
+  }
   const baseURL = (() => {
     if (process.env.NODE_ENV === "development") {
       // TODO: this can be better
@@ -229,7 +237,7 @@ function getStackflowSpaUrl(path: string): string {
 }
 
 function getActivityGitHubUrl(activityName: string) {
-  return `https://github.com/daangn/seed-design/blob/dev/examples/stackflow-spa/src/activities/${activityName}.tsx`;
+  return `https://github.com/daangn/seed-design/blob/${REACT_ARCHIVE_VERSION ? `react/${REACT_ARCHIVE_VERSION}` : "dev"}/examples/stackflow-spa/src/activities/${activityName}.tsx`;
 }
 
 function formatUrl(urlString: string) {

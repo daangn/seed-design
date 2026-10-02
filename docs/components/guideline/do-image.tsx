@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconCheckmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import clsx from "clsx";
@@ -14,7 +15,7 @@ export function DoImage({ src, alt, body, className }: DoImageProps) {
   return (
     <figure className={clsx("flex flex-col gap-1.5 not-prose my-4", className)}>
       <ImageZoom
-        src={src}
+        src={src ? archivePaths.asset(src) : src}
         alt={alt}
         width={773}
         height={396}

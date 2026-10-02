@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import "./layer-order.css";
 import "@seed-design/css/base.layered.min.css";
 import "simple-reveal/index.css";
@@ -26,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       <head>
         <meta name="color-scheme" content="light dark" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href={archivePaths.asset("/favicon.svg")} />
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
       <body>

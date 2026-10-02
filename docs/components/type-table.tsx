@@ -1,4 +1,5 @@
 "use client";
+import { archivePaths } from "@/lib/docs-archive";
 
 /**
  * this is generated using fumadocs cli
@@ -114,7 +115,7 @@ function Item({
   );
 
   const typeLabel = typeDescriptionLink ? (
-    <Link href={typeDescriptionLink} className="underline @max-xl:hidden">
+    <Link href={archivePaths.link(typeDescriptionLink)} className="underline @max-xl:hidden">
       {type}
     </Link>
   ) : (
