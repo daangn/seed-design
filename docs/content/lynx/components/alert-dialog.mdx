@@ -25,7 +25,7 @@ npx @seed-design/cli add ui:alert-dialog
 
 <LynxManualInstallation name="alert-dialog" />
 
-`@seed-design/lynx-react`는 `AlertDialog` namespace API를 제공합니다. 저수준 package API에서는 `AlertDialog.Root`, `AlertDialog.Trigger`, `AlertDialog.Positioner`, `AlertDialog.Backdrop`, `AlertDialog.Content`와 slot 컴포넌트를 조합할 수 있습니다. Registry는 자주 사용하는 조합을 flat export로 제공하므로 `AlertDialogRoot`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogFooter`, `AlertDialogAction`을 `@/components/ui/alert-dialog`에서 가져옵니다. Registry의 `AlertDialogContent`는 `Positioner`와 `Backdrop(clickToClose={false})`를 내부에서 조립합니다.
+`@seed-design/lynx-react`는 `AlertDialog` namespace API를 제공합니다. 저수준 package API에서는 `AlertDialog.Root`, `AlertDialog.Trigger`, `AlertDialog.Positioner`, `AlertDialog.Backdrop`, `AlertDialog.Content`와 slot 컴포넌트를 조합할 수 있습니다. `AlertDialog.Backdrop`은 기본적으로 탭해도 닫히지 않고(`clickToClose` 기본값 `false`), `AlertDialog.Content`는 `accessibility-role-description="alertdialog"`, `AlertDialog.Title`은 `accessibility-heading`을 기본으로 적용합니다. Registry는 자주 사용하는 조합을 flat export로 제공하므로 `AlertDialogRoot`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogFooter`, `AlertDialogAction`을 `@/components/ui/alert-dialog`에서 가져옵니다. Registry의 `AlertDialogContent`는 `Positioner`와 `Backdrop`을 내부에서 조립합니다.
 
 ## Usage
 
@@ -63,7 +63,7 @@ export function App() {
 }
 ```
 
-`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
+`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. `disabled` 또는 `loading`이면 탭해도 닫지 않습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
 
 ## Props
 
@@ -200,7 +200,7 @@ Lynx의 `AlertDialogAction`에는 React 이벤트의 `preventDefault()` 방식�
 ## 웹 버전과의 차이
 
 - **상태 callback**: Lynx UI Dialog의 `onShowChange`는 boolean만 전달합니다. 따라서 React의 `onOpenChange` 두 번째 인자인 `details.reason`과 `open-change-reason` 예제는 지원하지 않습니다. 원인이 필요하면 앱이 소유한 Trigger나 action의 이벤트 핸들러에서 원인을 별도 상태로 기록하고, `onOpenChange(open: boolean)`으로 열린 상태를 반영하세요.
-- **닫힘 동작**: Registry의 Backdrop은 `clickToClose={false}`로 조립됩니다. 웹의 외부 영역 클릭·ESC 키 기반 닫힘 원인을 Lynx에서 구분하거나 권장할 수 없습니다. 필요한 닫기 흐름은 앱이 소유한 버튼과 controlled 상태로 구성하세요.
+- **닫힘 동작**: `AlertDialog.Backdrop`은 기본적으로 탭해도 닫히지 않습니다. 웹의 외부 영역 클릭·ESC 키 기반 닫힘 원인을 Lynx에서 구분하거나 권장할 수 없습니다. 필요한 닫기 흐름은 앱이 소유한 버튼과 controlled 상태로 구성하세요.
 - **Trigger 합성**: Lynx는 React의 `asChild`를 제공하지 않으며 Trigger가 자식을 감싸는 native `view`를 렌더링합니다.
 - **ref와 focus**: DOM ref forwarding이나 웹의 자동 focus 관리 API를 제공하지 않습니다. Lynx native 접근성 속성과 host의 접근성 흐름을 사용하세요.
 - **Portal / overlay**: React Portal 대신 `AlertDialogContent`의 `container`, `overlayLevel`로 native overlay 위치와 순서를 지정합니다.
