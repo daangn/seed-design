@@ -2521,6 +2521,19 @@
               "title": "Vanilla Extract",
               "description": "Lynx에서 Vanilla Extract로 정적 CSS를 생성하고 SEED 토큰을 사용하는 방법을 안내합니다.",
               "docUrl": "/lynx/getting-started/styling/vanilla-extract"
+            },
+            {
+              "id": "wheel-picker",
+              "title": "Wheel Picker",
+              "description": "항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/wheel-picker",
+              "snippetKey": "lynx/ui:wheel-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "wheel-picker.tsx"
+                }
+              ]
             }
           ]
         }
