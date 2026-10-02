@@ -17,9 +17,9 @@ import clsx from "clsx";
 const PUBLISHED_VERSIONS = [
   { label: "latest", url: "https://seed-design.io/react" },
   { label: "v2", url: "https://seed-design.io/react/v2" },
-  { label: "v1.2", url: "https://v1-2.seed-design.io/react" },
-  { label: "v1.1", url: "https://v1-1.seed-design.io/react" },
-  { label: "v1.0", url: "https://v1-0.seed-design.io/react" },
+  { label: "v1.2", url: "https://seed-design.io/react/v1.2" },
+  { label: "v1.1", url: "https://seed-design.io/react/v1.1" },
+  { label: "v1.0", url: "https://seed-design.io/react/v1.0" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
 export function getReactVersions(
