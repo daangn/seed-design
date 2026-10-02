@@ -117,12 +117,6 @@ const reactionButton = defineSlotRecipe({
       },
       false: {},
     },
-    pressed: {
-      true: {
-        root: { background: vars.base.pressed.root.color },
-      },
-      false: {},
-    },
     disabled: {
       true: {
         root: {
@@ -146,15 +140,6 @@ const reactionButton = defineSlotRecipe({
     },
   },
   compoundVariants: [
-    {
-      selected: true,
-      pressed: true,
-      disabled: false,
-      loading: false,
-      css: {
-        root: { background: vars.base.selectedPressed.root.color },
-      },
-    },
     {
       selected: false,
       disabled: false,
@@ -187,7 +172,6 @@ const reactionButton = defineSlotRecipe({
   defaultVariants: {
     size: "small",
     selected: false,
-    pressed: false,
     disabled: false,
     loading: false,
   },
