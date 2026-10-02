@@ -9,7 +9,7 @@ bun test docs scripts/docs-archive/tests
 bun --filter @seed-design/docs build:archive:react v1.0
 ```
 
-Pages workflow는 `react/v1.0` 채널을 명시하여 PR 준비 브랜치에서도 같은 보관 빌드를 선택하고 보관 산출물을 배포한다. 고정 배포 주소와 alias의 manifest·소스 SHA·문서·자산·검색·registry·LLM·404 검증을 통과한 뒤 Summary의 실제 alias만 운영 `dev`의 `archives.json`에 등록한다. 여기의 빈 `origin`은 최초 Pages 빌드용이며 운영 Worker 등록용이 아니다.
+Pages workflow의 `DOCS_ARCHIVE_SOURCE_BRANCH=react/v1.0`로 자기 보관 채널을 선택한다. 브랜치에는 `archives.json`이나 별도 설정 JSON을 두지 않는다. 빌드·배포 검증은 채널과 checkout SHA, Pages가 반환한 고정 주소·alias만 사용한다. 공통 Worker 배포와 전체 원본 등록 목록은 `dev`에서만 관리한다. 보관 PR 병합 후 CI가 검증한 실제 보관 브랜치 alias를 운영 `dev`의 `archives.json`에 등록한다.
 
 문서 인덱스의 `docUrl`·registry 계약을 유지한다. 인덱스는 해당 브랜치의 React 소스에서 `.archive/index.json`으로 생성하고 export할 때 React 항목만 복사한다.
 
