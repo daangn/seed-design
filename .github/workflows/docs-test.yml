@@ -9,7 +9,6 @@ on:
       - "packages/lynx-react/**"
       - "packages/lynx-css/**"
       - ".github/workflows/docs-test.yml"
-      - ".github/workflows/deploy-docs-archive-worker.yml"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
 
 env:
@@ -33,7 +32,7 @@ jobs:
       - name: Run tests
         run: bun docs:test
 
-      - name: Validate archive Worker
+      - name: Validate archive Pages build and verification
         run: |
-          bun tsc --ignoreConfig --noEmit --skipLibCheck --types bun --lib es2022,dom --moduleResolution bundler --module esnext --target es2022 scripts/docs-archive/worker.ts scripts/docs-archive/worker.test.ts scripts/docs-archive/worker-configuration.d.ts scripts/docs-archive/deploy.ts scripts/docs-archive/build-target.ts scripts/docs-archive/verify-preview.ts
-          bun wrangler deploy --dry-run --config scripts/docs-archive/wrangler.jsonc
+          bun test scripts/docs-archive
+          bun tsc --ignoreConfig --noEmit --skipLibCheck --types bun --lib es2022,dom --moduleResolution bundler --module esnext --target es2022 scripts/docs-archive/build-target.ts scripts/docs-archive/verify-preview.ts
