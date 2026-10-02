@@ -7,6 +7,14 @@ export function archiveCliCommands(code: string, version: string): string {
   return code
     .split("\n")
     .map((line) => {
+      line = line
+        .replace(/(- docs:\s*)https:\/\/seed-design\.io\/react(?=\/|$)/g, `$1${baseUrl}`)
+        .replace(/(- llms\.txt:\s*)https:\/\/seed-design\.io\/llms(?=\/|$)/g, `$1${baseUrl}/llms`)
+        .replace(
+          /(- snippet:\s*)https:\/\/raw\.githubusercontent\.com\/daangn\/seed-design\/refs\/heads\/dev\/docs\/registry\/react\//g,
+          `$1https://raw.githubusercontent.com/daangn/seed-design/refs/heads/react/${version}/docs/registry/react/`,
+        );
+
       if (
         !/(?:npx|pnpm dlx|yarn dlx|bunx|bun x)\s+@seed-design\/cli(?:@\S+)?\s+(?:add-all|add|compat|docs)\b/.test(
           line,
