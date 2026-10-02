@@ -26,6 +26,7 @@
     "@seed-design/lynx-react-checkbox": "workspace:*",
     "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/lynx-react-menu": "workspace:*",
+    "@seed-design/lynx-react-progress": "workspace:*",
     "@seed-design/lynx-react-sortable": "workspace:*",
     "@seed-design/lynx-react-switch": "workspace:*",
     "@seed-design/lynx-react-tabs": "workspace:*",

@@ -19,7 +19,7 @@ import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
+import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(contextualFloatingButton);
 
@@ -137,6 +137,7 @@ function ContextualFloatingButtonLoadingIndicator() {
   return (
     <view className={classNames.loadingIndicator}>
       <ProgressCircleRoot size="16" tone="inherit">
+        <ProgressCircleTrack />
         <ProgressCircleRange />
       </ProgressCircleRoot>
     </view>

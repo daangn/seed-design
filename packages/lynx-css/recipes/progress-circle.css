@@ -36,21 +36,29 @@
   clip-path: path("M7 0 A7 7 0 1 1 7 14 A7 7 0 1 1 7 0 Z M7 2 A5 5 0 1 0 7 12 A5 5 0 1 0 7 2 Z");
 }
 
+.seed-progress-circle__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .seed-progress-circle__cap {
   position: absolute;
   border-radius: 50%;
   z-index: 1;
 }
 
-.seed-progress-circle__root--tone_neutral {
+.seed-progress-circle__track--tone_neutral {
   background-color: var(--seed-color-palette-gray-200);
 }
 
-.seed-progress-circle__root--tone_brand {
+.seed-progress-circle__track--tone_brand {
   background-color: var(--seed-color-palette-carrot-200);
 }
 
-.seed-progress-circle__root--tone_staticWhite {
+.seed-progress-circle__track--tone_staticWhite {
   background-color: var(--seed-color-palette-static-white-alpha-300);
 }
 
@@ -70,7 +78,7 @@
 }
 
 /* inherit: inherits --track-color / --range-color from parent (e.g. action-button) */
-.seed-progress-circle__root--tone_inherit {
+.seed-progress-circle__track--tone_inherit {
   background-color: var(--track-color);
 }
 

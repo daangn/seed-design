@@ -60,7 +60,7 @@ export type QuantityPickerProps = DistributiveOmit<
   removeIcon?: React.ReactNode;
   /**
    * loading 상태일 때 버튼에 표시할 요소입니다.
-   * @default <ProgressCircle.Root><ProgressCircle.Range /></ProgressCircle.Root>
+   * @default <ProgressCircle.Root><ProgressCircle.Track /><ProgressCircle.Range /></ProgressCircle.Root>
    */
   loadingIndicator?: React.ReactNode;
 };
@@ -86,6 +86,7 @@ export const QuantityPicker = React.forwardRef<unknown, QuantityPickerProps>(
     const resolvedLoadingIndicator =
       loadingIndicator === undefined ? (
         <SeedProgressCircle.Root {...resolveProgressCircleProps(size)} tone="inherit">
+          <SeedProgressCircle.Track />
           <SeedProgressCircle.Range />
         </SeedProgressCircle.Root>
       ) : (
