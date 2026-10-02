@@ -1560,13 +1560,11 @@ text {
   color: inherit;
   --seed-icon-size: 100%;
   --seed-icon-color: currentColor;
-  transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   flex-direction: row;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
   display: flex;
-  transform: scale(1);
 }
 
 .seed-badge__root--size_medium {
@@ -1777,10 +1775,6 @@ text {
 
 .seed-badge__label--tone_critical-variant_outline {
   color: var(--seed-color-fg-critical);
-}
-
-.seed-badge__action--size_medium-pressed_true, .seed-badge__action--size_large-pressed_true {
-  transform: scale(var(--seed-scale-s95));
 }
 
 .seed-bottom-sheet__positioner {
