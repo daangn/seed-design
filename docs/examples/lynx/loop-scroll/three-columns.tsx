@@ -1,5 +1,5 @@
 import { useState } from "@lynx-js/react";
-import { LoopScroll } from "@seed-design/lynx-react-loop-scroll";
+import { LoopScroll, type LoopScrollItem } from "@seed-design/lynx-react-loop-scroll";
 
 const ITEM_SIZE = 44;
 const VISIBLE_ITEM_COUNT = 5;
@@ -21,6 +21,21 @@ interface ColumnProps {
 }
 
 function Column({ id, labels, index, loop, onIndexChange }: ColumnProps) {
+  function renderLabel(color: string) {
+    return (item: LoopScrollItem) => (
+      <view
+        style={{
+          display: "flex",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <text style={{ color, fontSize: "17px" }}>{labels[item.index]}</text>
+      </view>
+    );
+  }
+
   return (
     <LoopScroll.Root
       id={id}
@@ -32,20 +47,10 @@ function Column({ id, labels, index, loop, onIndexChange }: ColumnProps) {
       onIndexChange={onIndexChange}
       style={{ flexGrow: 1, flexBasis: "0px" }}
     >
-      <LoopScroll.Track>
-        {(item) => (
-          <view
-            style={{
-              display: "flex",
-              height: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <text style={{ color: "#1a1c20", fontSize: "17px" }}>{labels[item.index]}</text>
-          </view>
-        )}
-      </LoopScroll.Track>
+      <LoopScroll.Track>{renderLabel("#b0b3ba")}</LoopScroll.Track>
+      <LoopScroll.Highlight>
+        <LoopScroll.Track>{renderLabel("#1a1c20")}</LoopScroll.Track>
+      </LoopScroll.Highlight>
     </LoopScroll.Root>
   );
 }

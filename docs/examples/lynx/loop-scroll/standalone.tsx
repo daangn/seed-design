@@ -78,10 +78,26 @@ export default function StandaloneLoopScrollExample() {
                 justifyContent: "center",
               }}
             >
-              <text style={{ color: "#1a1c20", fontSize: "18px" }}>{MONTHS[item.index]}</text>
+              <text style={{ color: "#b0b3ba", fontSize: "18px" }}>{MONTHS[item.index]}</text>
             </view>
           )}
         </LoopScroll.Track>
+        <LoopScroll.Highlight>
+          <LoopScroll.Track>
+            {(item) => (
+              <view
+                style={{
+                  display: "flex",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <text style={{ color: "#1a1c20", fontSize: "18px" }}>{MONTHS[item.index]}</text>
+              </view>
+            )}
+          </LoopScroll.Track>
+        </LoopScroll.Highlight>
       </LoopScroll.Root>
       <view
         accessibility-element
