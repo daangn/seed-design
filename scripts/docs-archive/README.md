@@ -2,6 +2,8 @@
 
 버전별 문서는 Pages 브랜치 배포로 제공하고, 공통 Worker 하나가 공개 경로를 해당 Pages 원본으로 연결합니다. 버전별 설정은 [archives.json](./archives.json)에서 관리합니다.
 
+운영 `dev`의 `archives.json`은 공개 경로와 Pages 원본의 등록 목록입니다. 각 보관 브랜치의 같은 파일은 자기 버전의 빌드 선택에 사용하며, 빈 `origin`을 운영 목록에 복사하지 않습니다. 빌드 산출물의 `archive.json`은 버전·경로·소스 SHA를 기록하는 자동 생성 manifest이고 수동 등록 파일이 아닙니다.
+
 ```text
 seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 Pages 원본
 ```
