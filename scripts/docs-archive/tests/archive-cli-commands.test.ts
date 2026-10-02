@@ -45,3 +45,19 @@ it("updates a legacy registry URL while retaining its explicitly chosen version"
     ),
   ).toBe("npx @seed-design/cli@latest add --baseUrl https://seed-design.io/react/v1.0");
 });
+
+it("keeps CLI result examples in the same archived source", () => {
+  const input = [
+    "│ - docs: https://seed-design.io/react/components/action-button",
+    "│ - llms.txt: https://seed-design.io/llms/react/components/action-button.txt",
+    "│ - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/react/ui/action-button.tsx",
+  ].join("\n");
+  expect(archiveCliCommands(input, "v1.2")).toBe(
+    [
+      "│ - docs: https://seed-design.io/react/v1.2/components/action-button",
+      "│ - llms.txt: https://seed-design.io/react/v1.2/llms/react/components/action-button.txt",
+      "│ - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/react/v1.2/docs/registry/react/ui/action-button.tsx",
+    ].join("\n"),
+  );
+  expect(archiveCliCommands(input, "")).toBe(input);
+});
