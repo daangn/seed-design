@@ -1,4 +1,5 @@
 "use client";
+import { archivePaths } from "@/lib/docs-archive";
 
 import { create } from "@orama/orama";
 import { useDocsSearch } from "fumadocs-core/search/client";
@@ -64,7 +65,7 @@ export default function DefaultSearchDialog({
   const { search, setSearch, query } = useDocsSearch({
     type: "static",
     initOrama,
-    from: api,
+    from: archivePaths.endpoint(api ?? "/api/search"),
     tag,
   });
 

@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { breezeSource, reactSource, source } from "@/app/source";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
@@ -45,7 +46,9 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           url: page.url,
         } satisfies AdvancedIndex;
       }),
-    ]),
+    ]).then((indexes) =>
+      archivePaths.prefix ? indexes.filter((index) => index.tag === TAGS.react.value) : indexes,
+    ),
   tokenizer: {
     language: "english",
     tokenize,

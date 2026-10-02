@@ -1,0 +1,18 @@
+# React v1.0 문서 보관
+
+기존 `1.0` 브랜치의 콘텐츠·패키지·의존성을 유지한 보관 브랜치다. 공개 경로는 `/react/v1.0`이며, 최신 개발 브랜치 전체를 병합하지 않는다.
+
+```sh
+bun install --frozen-lockfile
+bun packages:build && bun rootage:build
+bun test docs scripts/docs-archive/tests
+bun --filter @seed-design/docs build:archive:react v1.0
+```
+
+Pages workflow의 `DOCS_ARCHIVE_SOURCE_BRANCH=react/v1.0`로 자기 보관 채널을 선택한다. 브랜치에는 `archives.json`이나 별도 설정 JSON을 두지 않는다. 빌드·배포 검증은 채널과 checkout SHA, Pages가 반환한 고정 주소·alias만 사용한다. 공통 Worker 배포와 전체 원본 등록 목록은 `dev`에서만 관리한다. 보관 PR 병합 후 CI가 검증한 실제 보관 브랜치 alias를 운영 `dev`의 `archives.json`에 등록한다.
+
+문서 인덱스의 `docUrl`·registry 계약을 유지한다. 인덱스는 해당 브랜치의 React 소스에서 `.archive/index.json`으로 생성하고 export할 때 React 항목만 복사한다.
+
+기존 LLM 집계 출력과 함께 `/llms/react/<문서>.txt` 호환 출력을 제공한다.
+
+세 보관본의 Pages 원본을 먼저 준비하고 공개 경로를 확인한 뒤 최신·v2 메뉴와 CLI 전환 PR을 반영한다. 보관본 메뉴는 새 경로를 사용하므로 세 원본이 준비되기 전에 공개 Worker에 등록하지 않는다. 기존 서브도메인의 React 308 리다이렉트는 공통 운영 브랜치의 규칙 생성기를 사용하고, 다른 경로의 서비스는 유지한다.

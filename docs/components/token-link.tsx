@@ -1,4 +1,5 @@
 "use client";
+import { archivePaths } from "@/lib/docs-archive";
 
 import Link from "next/link";
 
@@ -9,7 +10,7 @@ export const TokenLink = (props: { id: string }) => {
       onClick={(e) => {
         e.stopPropagation();
       }}
-      href={`/docs/foundation/design-token/${encodeURIComponent(id)}`}
+      href={archivePaths.link(`/docs/foundation/design-token/${encodeURIComponent(id)}`)}
     >
       {id}
     </Link>

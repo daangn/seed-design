@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { Avatar, AvatarBadge } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
@@ -11,7 +12,7 @@ export default function AvatarBadgeShield() {
     >
       <AvatarBadge asChild>
         <img
-          src="/shield_blue_checkmark.svg"
+          src={archivePaths.asset("/shield_blue_checkmark.svg")}
           alt="뱃지를 설명하는 대체 텍스트를 제공해야 합니다."
         />
       </AvatarBadge>

@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { reactSource, source, breezeSource } from "@/app/source";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
@@ -34,7 +35,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Docs",
         description: "당근 앱을 위한 디자인 언어",
-        url: "/docs",
+        url: archivePaths.link("/docs"),
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
             <File />
@@ -44,7 +45,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "React",
         description: "React 라이브러리",
-        url: "/react",
+        url: archivePaths.link("/react"),
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
             <Atom />
@@ -54,7 +55,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Breeze",
         description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
+        url: archivePaths.link("/breeze"),
         icon: (
           <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
             <Atom />
@@ -64,6 +65,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
     ],
   },
   nav: {
+    url: archivePaths.link("/"),
     title: (
       <div className="flex gap-2 justify-center items-center">
         <svg
