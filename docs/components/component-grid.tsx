@@ -1,3 +1,4 @@
+import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
 import { docsSource } from "@/app/source";
 import { ComponentCard } from "@/components/component-card";
 import {
@@ -6,9 +7,10 @@ import {
 } from "@/components/figma-image/fetch-figma-image-urls";
 import { env } from "@/app/env";
 
-const client = env.figmaPersonalAccessToken
-  ? createFigmaClient(env.figmaPersonalAccessToken)
-  : undefined;
+const client =
+  !REACT_ARCHIVE_VERSION && env.figmaPersonalAccessToken
+    ? createFigmaClient(env.figmaPersonalAccessToken)
+    : undefined;
 
 function requireImageUrl(urls: Map<string, string>, nodeId: string): string {
   const url = urls.get(nodeId);
