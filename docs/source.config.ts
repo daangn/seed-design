@@ -1,3 +1,6 @@
+import { remarkArchiveLinks } from "./app/_llms/archive-markdown";
+import { REACT_ARCHIVE_VERSION } from "./lib/docs-archive";
+import { needsArchiveFigmaImages } from "./lib/archive-source-scope";
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
@@ -72,8 +75,25 @@ export const aiIntegrationDocs = defineDocs({
   },
 });
 
-if (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN) {
+const offline = process.env.SEED_DOCS_OFFLINE === "1";
+if (!offline && (!process.env.FIGMA_FILE_KEY || !process.env.FIGMA_PERSONAL_ACCESS_TOKEN)) {
   throw new Error("FIGMA_FILE_KEY and FIGMA_PERSONAL_ACCESS_TOKEN are required");
+}
+
+function archiveFigmaImages() {
+  if (offline) return;
+  const fileKey = process.env.FIGMA_FILE_KEY;
+  const accessToken = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
+  if (!fileKey || !accessToken) throw new Error("Figma credentials are required for online builds");
+  const transform = remarkFigmaImage({
+    fileKey,
+    accessToken,
+    fetchUrlsOptions: { format: "png", scale: 2 },
+  });
+  return (tree: Parameters<typeof transform>[0], file: Parameters<typeof transform>[1]) => {
+    if (!needsArchiveFigmaImages(REACT_ARCHIVE_VERSION, file.path)) return;
+    return transform(tree, file, () => {});
+  };
 }
 
 export default defineConfig({
@@ -85,6 +105,7 @@ export default defineConfig({
       },
     },
     remarkPlugins: [
+      [remarkArchiveLinks, REACT_ARCHIVE_VERSION],
       [remarkDocGen, { generators: [fileGenerator()] }],
       [
         remarkReactTypeTable,
@@ -95,17 +116,7 @@ export default defineConfig({
           },
         },
       ],
-      [
-        remarkFigmaImage,
-        {
-          fileKey: process.env.FIGMA_FILE_KEY,
-          accessToken: process.env.FIGMA_PERSONAL_ACCESS_TOKEN,
-          fetchUrlsOptions: {
-            format: "png",
-            scale: 2,
-          },
-        },
-      ],
+      archiveFigmaImages,
     ],
     rehypeCodeOptions: {
       lazy: true,

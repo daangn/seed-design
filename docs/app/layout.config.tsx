@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 
 /**
@@ -11,15 +12,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
   sidebar: {
     tabs: [
-      { title: "Docs", url: "/docs" },
-      { title: "React", url: "/react" },
-      { title: "Lynx", url: "/lynx" },
-      { title: "AI Integration", url: "/ai-integration" },
-      { title: "Breeze", url: "/breeze" },
+      { title: "Docs", url: archivePaths.link("/docs") },
+      { title: "React", url: archivePaths.link("/react") },
+      { title: "Lynx", url: archivePaths.link("/lynx") },
+      { title: "AI Integration", url: archivePaths.link("/ai-integration") },
+      { title: "Breeze", url: archivePaths.link("/breeze") },
     ],
   },
   tabMode: "navbar",
   nav: {
+    url: archivePaths.link("/"),
     mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">
