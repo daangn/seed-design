@@ -256,6 +256,9 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
   onActiveIndexChangeRef.current = onActiveIndexChange;
   const settledTransformRef = React.useRef("");
   settledTransformRef.current = `translateY(${toPx(-(cloneCount + 0.5 + settledPosition) * itemSize)})`;
+  // Depend on presence only: `reportActiveJS` reads the latest listener from the ref, so a new
+  // listener identity must not recreate the main-thread handlers mid-drag.
+  const notifyActive = onActiveIndexChange !== undefined;
 
   const config = React.useMemo<EngineConfig>(
     () => ({
@@ -265,19 +268,10 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       loop: loopEnabled,
       maxIndex,
       viewportSize,
-      notifyActive: onActiveIndexChange !== undefined,
+      notifyActive,
       interactive,
     }),
-    [
-      cloneCount,
-      count,
-      interactive,
-      itemSize,
-      loopEnabled,
-      maxIndex,
-      onActiveIndexChange,
-      viewportSize,
-    ],
+    [cloneCount, count, interactive, itemSize, loopEnabled, maxIndex, notifyActive, viewportSize],
   );
 
   const stateRef = useMainThreadRef<EngineState>({
