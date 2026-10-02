@@ -44,9 +44,9 @@ export declare const neutralMuted = "var(--seed-color-bg-neutral-muted)";
 export declare const neutralSolid = "var(--seed-color-bg-neutral-solid)";
 /** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed) */
 export declare const neutralSolidPressed = "var(--seed-color-bg-neutral-solid-pressed)";
-/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted) */
+/** @deprecated 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted) */
 export declare const neutralSolidMuted = "var(--seed-color-bg-neutral-solid-muted)";
-/** 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed) */
+/** @deprecated 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed) */
 export declare const neutralSolidMutedPressed = "var(--seed-color-bg-neutral-solid-muted-pressed)";
 /** 표면과 같은 색상입니다. 회색 표면 위에서 주변과 구분되는 영역에 사용됩니다. (subtle) */
 export declare const neutralSubtle = "var(--seed-color-bg-neutral-subtle)";
