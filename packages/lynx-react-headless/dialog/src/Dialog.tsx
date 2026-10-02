@@ -189,7 +189,8 @@ DialogPositioner.displayName = "DialogPositioner";
 export interface DialogBackdropProps extends Omit<LynxDialogBackdropProps, "dialogBackdropProps"> {
   /**
    * Native view props spread onto the backdrop.
-   * Presence handlers and `bindtap` are reserved for the dialog; use `onClick` to observe backdrop taps.
+   * Presence handlers and `bindtap` are reserved for the dialog. `onClick` is called only when a
+   * backdrop tap closes the dialog, so it does not fire while `clickToClose` is `false`.
    */
   dialogBackdropProps?: Omit<ViewProps, PresenceHandlerKey | "bindtap">;
 }
