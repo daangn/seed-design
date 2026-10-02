@@ -965,13 +965,14 @@ SEED React 1.2부터 deprecated 상태였던 `$color.bg.layer-fill`을 제거했
 
 ##### deprecated 색상 토큰 교체
 
-**수정 대상:** `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`, `$color.fg.neutral-inverted`와 대응하는 CSS 변수·Tailwind 클래스를 직접 사용하는 코드입니다. 해당 코드가 없다면 이 항목을 건너뛰세요.
+**수정 대상:** `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`, `$color.fg.neutral-inverted`, `$color.bg.neutral-solid-muted`, `$color.bg.neutral-solid-muted-pressed`와 대응하는 CSS 변수·Tailwind 클래스를 직접 사용하는 코드입니다. 해당 코드가 없다면 이 항목을 건너뛰세요.
 
 <Badge tone="critical">직접 검색 필요</Badge>
 
-기존 토큰을 직접 사용했다면 아래 표와 같이 교체하세요. 교체 전후 값이 같아 화면은 바뀌지 않습니다. [`$color.bg.neutral-solid` 색상 변경](#1-colorbgneutral-solid-색상-변경)의 확인 목록을 먼저 만든 뒤 교체하세요. 교체한 사용처는 그 목록의 대상이 아닙니다.
+`$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`, `$color.fg.neutral-inverted`를 직접 사용했다면 아래 표와 같이 교체하세요. 교체 전후 값이 같아 화면은 바뀌지 않습니다. [`$color.bg.neutral-solid` 색상 변경](#1-colorbgneutral-solid-색상-변경)의 확인 목록을 먼저 만든 뒤 교체하세요. 교체한 사용처는 그 목록의 대상이 아닙니다.
 
 - `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`, `$color.fg.neutral-inverted`: `@seed-design/css@4.0.0`에서 제거될 예정입니다.
+- `$color.bg.neutral-solid-muted`, `$color.bg.neutral-solid-muted-pressed`: `@seed-design/css@4.0.0`에서 제거될 예정입니다.
 - Solid 배경 위 전경색에는 해당 배경에 맞는 `$color.fg.on-*-solid`를 사용하는 것을 권장합니다.
 
 | 기존 토큰 | 대체 토큰 | CSS 변수 변경 |
