@@ -11,9 +11,9 @@ const workflow = YAML.parse(
 
 it("does not give PRs or archive branches a production deployment trigger", () => {
   expect(Object.keys(workflow.on).sort()).toEqual(["push", "workflow_dispatch"]);
-  expect(workflow.on.push.branches).toEqual(["major"]);
+  expect(workflow.on.push.branches).toEqual(["dev"]);
   expect(workflow.jobs.archive.if).toContain("github.repository == 'daangn/seed-design'");
-  expect(workflow.jobs.archive.if).toContain("github.ref == 'refs/heads/major'");
+  expect(workflow.jobs.archive.if).toContain("github.ref == 'refs/heads/dev'");
   expect(workflow.on.workflow_dispatch.inputs.operation.default).toBe("verify");
   expect(workflow.permissions).toEqual({ contents: "read" });
   expect(workflow.concurrency).toEqual({
@@ -35,6 +35,7 @@ it("keeps Cloudflare write credentials out of tests and verify-only operations",
   if (!guard) throw new Error("Deployment activation guard is missing");
   expect(guard.run).toContain('test "$DOCS_ARCHIVE_DEPLOY_ENABLED" = "true"');
   expect(guard.run).toContain('test "$current_sha" = "$GITHUB_SHA"');
+  expect(guard.run).toContain("git/ref/heads/dev");
   expect(steps.indexOf(guard)).toBeLessThan(steps.indexOf(privilegedSteps[0]));
   expect(privilegedSteps[0].run).toContain("bun scripts/docs-archive/deploy.ts");
   expect(privilegedSteps[0].run).not.toContain("wrangler deploy");
