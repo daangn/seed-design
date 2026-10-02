@@ -35,6 +35,7 @@ import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
+import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { TabsPage } from "./pages/TabsPage.jsx";
@@ -66,6 +67,7 @@ export type Page =
   | "progress-circle"
   | "progress-circle-headless"
   | "radio-group"
+  | "radio-group-headless"
   | "switch"
   | "tabs"
   | "tabs-headless"
@@ -112,6 +114,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "progress-circle": true,
   "progress-circle-headless": true,
   "radio-group": true,
+  "radio-group-headless": true,
   switch: true,
   tabs: true,
   "tabs-headless": true,
@@ -189,6 +192,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "progress-circle" && <ProgressCirclePage />}
       {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
+      {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
       {page === "switch" && <SwitchPage />}
       {page === "tabs" && <TabsPage />}
       {page === "tabs-headless" && <TabsHeadlessPage />}

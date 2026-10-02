@@ -27,7 +27,7 @@ import { IconSlotProvider } from "../Icon/Icon";
 import {
   RadioGroupItem,
   type RadioGroupItemProps,
-  useRadioGroupItemContext,
+  useStyledRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
 import { SwitchRoot, type SwitchRootProps, useStyledSwitchContext } from "../Switch/Switch";
 
@@ -281,7 +281,7 @@ interface ListRadioItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListRadioItemSurface(props: ListRadioItemSurfaceProps) {
-  const context = useRadioGroupItemContext("ListRadioItem");
+  const context = useStyledRadioGroupItemContext("ListRadioItem");
 
   return (
     <ListItemSurface
@@ -303,7 +303,10 @@ function ListRadioItemSurface(props: ListRadioItemSurfaceProps) {
 
 export interface ListRadioItemProps
   extends PublicListItemVariantProps,
-    Omit<RadioGroupItemProps, "children" | "className" | "style" | "disabled">,
+    Omit<
+      RadioGroupItemProps,
+      "children" | "className" | "style" | "disabled" | "weight" | "size" | "tone"
+    >,
     LynxStyledElementProps,
     LynxAccessibilityProps {
   disabled?: boolean;

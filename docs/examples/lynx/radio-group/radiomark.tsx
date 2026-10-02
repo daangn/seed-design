@@ -15,28 +15,38 @@ export default function Example() {
   return (
     <view className={`${seedClassName} docs-lynx-radio-group-root`}>
       <VStack className="radio-group-preview">
-        <RadioGroup
-          accessibility-label="Weight selection"
-          defaultValue="medium"
-          size="large"
-          tone="neutral"
-        >
+        <RadioGroup accessibility-label="Weight selection" defaultValue="medium">
           <HStack gap="x6">
-            <RadioGroupPrimitive.Item accessibility-label="regular" value="regular">
+            <RadioGroupPrimitive.Item
+              accessibility-label="regular"
+              value="regular"
+              size="large"
+              tone="neutral"
+            >
               <VStack gap="x2" align="center">
-                <Radiomark />
+                <Radiomark tone="neutral" size="large" />
                 <RadioGroupPrimitive.ItemLabel>regular</RadioGroupPrimitive.ItemLabel>
               </VStack>
             </RadioGroupPrimitive.Item>
-            <RadioGroupPrimitive.Item accessibility-label="medium" value="medium">
+            <RadioGroupPrimitive.Item
+              accessibility-label="medium"
+              value="medium"
+              size="large"
+              tone="neutral"
+            >
               <VStack gap="x2" align="center">
-                <Radiomark />
+                <Radiomark tone="neutral" size="large" />
                 <RadioGroupPrimitive.ItemLabel>medium</RadioGroupPrimitive.ItemLabel>
               </VStack>
             </RadioGroupPrimitive.Item>
-            <RadioGroupPrimitive.Item accessibility-label="bold" value="bold">
+            <RadioGroupPrimitive.Item
+              accessibility-label="bold"
+              value="bold"
+              size="large"
+              tone="neutral"
+            >
               <VStack gap="x2" align="center">
-                <Radiomark />
+                <Radiomark tone="neutral" size="large" />
                 <RadioGroupPrimitive.ItemLabel>bold</RadioGroupPrimitive.ItemLabel>
               </VStack>
             </RadioGroupPrimitive.Item>
