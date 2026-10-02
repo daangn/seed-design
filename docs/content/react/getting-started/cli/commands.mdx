@@ -136,6 +136,8 @@ npx @seed-design/cli@latest add --seed-react-version 2 ui:action-button
 
 `2`는 React 2.x 아카이브 레지스트리(`https://seed-design.io/react/v2`)를 사용해요. 기존 `1.0`, `1.1`, `1.2` 옵션도 계속 사용할 수 있어요.
 
+1.x 버전은 `/react/v1.0`, `/react/v1.1`, `/react/v1.2`에서, v2는 `/react/v2`에서 registry를 가져와요.
+
 버전 옵션은 base URL과 프레임워크(react)를 함께 결정하므로 `--baseUrl` / `--framework`보다 우선해요.
 
 #### baseUrl 직접 지정
@@ -143,7 +145,7 @@ npx @seed-design/cli@latest add --seed-react-version 2 ui:action-button
 레지스트리 주소를 직접 지정하려면 `--baseUrl`을 사용하세요. 기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
 
 ```package-install
-npx @seed-design/cli@latest add --baseUrl https://v1-2.seed-design.io
+npx @seed-design/cli@latest add --baseUrl https://seed-design.io/react/v1.2
 ```
 
 ### 파일 충돌 처리
@@ -330,3 +332,5 @@ npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
+
+React 보관 문서는 `docs --baseUrl https://seed-design.io/react/v1.2 react action-button`으로 조회할 수 있어요. `compat --baseUrl https://seed-design.io/react/v1.2`도 해당 버전의 registry를 사용해요.
