@@ -1,0 +1,55 @@
+.docs-lynx-wheel-picker-root {
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--seed-color-bg-layer-default);
+}
+
+.wheel-picker-preview {
+  width: 360px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.wheel-picker-preview--compact {
+  width: 320px;
+}
+
+.wheel-picker-preview--states {
+  width: 160px;
+  gap: 8px;
+}
+
+.wheel-picker-preview__picker {
+  width: 100%;
+}
+
+.wheel-picker-preview__status {
+  color: var(--seed-color-fg-neutral);
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}
+
+.wheel-picker-preview__custom-label {
+  font-size: var(--seed-font-size-t5);
+  font-weight: var(--seed-font-weight-medium);
+}
+
+.wheel-picker-preview__color-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.wheel-picker-preview__color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
