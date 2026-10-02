@@ -1,5 +1,6 @@
 import { remarkArchiveLinks } from "./app/_llms/archive-markdown";
 import { REACT_ARCHIVE_VERSION } from "./lib/docs-archive";
+import { needsArchiveFigmaImages } from "./lib/archive-source-scope";
 import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { remarkFigmaImage } from "./components/figma-image/remark-figma-image";
@@ -84,7 +85,15 @@ function archiveFigmaImages() {
   const fileKey = process.env.FIGMA_FILE_KEY;
   const accessToken = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
   if (!fileKey || !accessToken) throw new Error("Figma credentials are required for online builds");
-  return remarkFigmaImage({ fileKey, accessToken, fetchUrlsOptions: { format: "png", scale: 2 } });
+  const transform = remarkFigmaImage({
+    fileKey,
+    accessToken,
+    fetchUrlsOptions: { format: "png", scale: 2 },
+  });
+  return (tree: Parameters<typeof transform>[0], file: Parameters<typeof transform>[1]) => {
+    if (!needsArchiveFigmaImages(REACT_ARCHIVE_VERSION, file.path)) return;
+    return transform(tree, file, () => {});
+  };
 }
 
 export default defineConfig({
