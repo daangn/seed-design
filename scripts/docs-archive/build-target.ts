@@ -1,12 +1,11 @@
 import { appendFile } from "node:fs/promises";
-import archives from "./archives.json";
-import { type ArchiveDefinition, archivePrefix, validateSourceBranch } from "./config";
+import { archivePrefix, validateSourceBranch } from "./config";
 
-export function docsBuildTarget(branch: string, definitions: readonly ArchiveDefinition[]) {
-  const targets = definitions.filter((entry) => entry.sourceBranch === branch);
-  if (targets.length > 1) throw new Error(`Multiple archive builds configured for ${branch}`);
-  const archive = targets[0];
-  if (!archive) {
+export function docsBuildTarget(branch: string) {
+  validateSourceBranch(branch);
+  const channel = /^(react|lynx)\/(v[^/]+)$/.exec(branch);
+  if (!channel) {
+    if (/^(react|lynx)\/v/.test(branch)) throw new Error("Invalid archive build channel");
     return {
       "output-dir": "docs/out",
       "archive-version": "",
@@ -15,19 +14,17 @@ export function docsBuildTarget(branch: string, definitions: readonly ArchiveDef
       "cache-generation": "baseline",
     };
   }
-  validateSourceBranch(branch);
-  const prefix = archivePrefix(archive);
-  if (archive.platform !== "react") {
-    throw new Error(
-      `Implement the ${archive.platform} archive exporter before enabling its Pages build`,
-    );
+  const [, platform, version] = channel;
+  const prefix = archivePrefix({ platform, version });
+  if (platform !== "react") {
+    throw new Error(`Implement the ${platform} archive exporter before enabling its Pages build`);
   }
   return {
     "output-dir": "docs/out-archive",
-    "archive-version": archive.version,
+    "archive-version": version,
     prefix: `${prefix.slice(1)}/`,
     "preview-path": `${prefix}/`,
-    "cache-generation": `${archive.platform}-${archive.version}-archive`,
+    "cache-generation": `${platform}-${version}-archive`,
   };
 }
 
@@ -35,7 +32,7 @@ if (import.meta.main) {
   const branch = process.env.DOCS_ARCHIVE_SOURCE_BRANCH ?? process.env.GITHUB_REF_NAME;
   if (!branch || !process.env.GITHUB_OUTPUT)
     throw new Error("GITHUB_REF_NAME and GITHUB_OUTPUT are required");
-  const target = docsBuildTarget(branch, archives);
+  const target = docsBuildTarget(branch);
   await appendFile(
     process.env.GITHUB_OUTPUT,
     Object.entries(target)
