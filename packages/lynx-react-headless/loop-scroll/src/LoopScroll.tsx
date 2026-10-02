@@ -22,15 +22,17 @@ const MAX_FLING_TIME_CONSTANT_MS = 650;
 const MIN_FLING_VELOCITY = 0.05;
 const SETTLE_DISTANCE = 0.5;
 const RUBBER_BAND_COEFFICIENT = 0.55;
+const WINDOW_OVERSCAN = 8;
+const WINDOW_SHIFT_THRESHOLD = 4;
 const SELECTED_ITEM_CLASS_NAME = "seed-loop-scroll__item seed-loop-scroll__item--selected";
 const ITEM_CLASS_NAME = "seed-loop-scroll__item";
 
 export interface LoopScrollItem {
-  /** `0`부터 `itemCount - 1`까지의 항목 index입니다. 복제 항목도 원본과 같은 값을 가집니다. */
+  /** `0`부터 `itemCount - 1`까지의 항목 index입니다. */
   index: number;
-  /** track 안의 실제 순서입니다. */
-  physicalIndex: number;
-  /** loop 경계를 채우려고 앞뒤에 복제한 항목이면 `true`입니다. 복제 항목은 스크린 리더에서 숨깁니다. */
+  /** 끝없는 track에서의 위치입니다. loop에서는 음수이거나 `itemCount` 이상일 수 있습니다. */
+  virtualIndex: number;
+  /** 같은 index 중 렌더 창 중심에서 가장 가까운 항목만 `false`입니다. 나머지는 스크린 리더에서 숨깁니다. */
   isClone: boolean;
 }
 
@@ -48,7 +50,7 @@ export interface LoopScrollRootProps extends Omit<ViewProps, MainThreadTouchKey 
   /** 스크롤 방향의 항목 크기(px)입니다. 모든 항목이 같은 크기를 가집니다. */
   itemSize: number;
   /**
-   * viewport에 보이는 항목 수입니다. Root 높이(`visibleItemCount × itemSize`)와 loop 복제 수를 정합니다.
+   * viewport에 보이는 항목 수입니다. Root 높이(`visibleItemCount × itemSize`)와 렌더 창 크기를 정합니다.
    */
   visibleItemCount: number;
   /**
@@ -108,18 +110,17 @@ interface EngineState {
   userDriven: boolean;
   settledVirtual: number;
   activeVirtual: number;
-  /** 사용자 조작 중이라 미룬 `index` 변경이 있으면 `true`입니다. */
-  deferred: boolean;
-  /** 항목의 touchstart가 기록한 `physicalIndex`입니다. Root의 touchstart가 읽고 비웁니다. */
-  pressedPhysicalIndex: number;
-  /** 움직임이 없을 때 누른 항목의 `physicalIndex`입니다. 끌지 않고 놓으면 이 항목을 선택합니다. 없으면 `-1`입니다. */
-  tapPhysicalIndex: number;
+  /** 항목 touchstart를 Root에서 한 번 소비합니다. 음수 가상 위치도 유효합니다. */
+  pressedVirtualIndex: number | null;
+  tapVirtualIndex: number | null;
+  windowCenter: number;
+  pendingMotion: { target: number; timeConstant: number; instant: boolean } | null;
 }
 
 interface EngineConfig {
   count: number;
   itemSize: number;
-  cloneCount: number;
+  windowRadius: number;
   loop: boolean;
   maxIndex: number;
   viewportSize: number;
@@ -127,15 +128,33 @@ interface EngineConfig {
   interactive: boolean;
 }
 
+interface RenderWindow {
+  start: number;
+  end: number;
+  center: number;
+  motionToken: number | null;
+}
+
+function windowAround(center: number, config: EngineConfig): RenderWindow {
+  "main thread";
+  return {
+    start: config.loop ? center - config.windowRadius : Math.max(0, center - config.windowRadius),
+    end: config.loop
+      ? center + config.windowRadius
+      : Math.min(config.maxIndex, center + config.windowRadius),
+    center,
+    motionToken: null,
+  };
+}
+
 interface LoopScrollContextValue {
   items: readonly LoopScrollItem[];
-  /** `items`와 같은 순서로, 누른 항목을 Main Thread에 기록하는 touchstart handler입니다. */
-  itemTouchStartHandlers: readonly ((event: TouchEvent) => void)[];
+  stateRef: React.RefObject<EngineState>;
   selectedIndex: number;
   moverRef: React.RefObject<MainThread.Element>;
   /** `LoopScroll.Highlight` 안 Track의 mover입니다. */
   highlightMoverRef: React.RefObject<MainThread.Element>;
-  itemStyle: { height: string };
+  itemSize: number;
   /** 가운데 항목 칸의 위쪽 끝(px)입니다. */
   highlightTop: string;
   /** 확정된 위치의 transform입니다. Track은 mount할 때 한 번만 읽습니다. */
@@ -251,7 +270,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
   const count = Math.max(0, Math.floor(itemCount));
   const maxIndex = Math.max(count - 1, 0);
   const loopEnabled = loop && count > 1;
-  const cloneCount = loopEnabled ? Math.floor(visibleItemCount / 2) + 1 : 0;
+  const windowRadius = Math.ceil(visibleItemCount / 2) + WINDOW_OVERSCAN;
   const viewportSize = visibleItemCount * itemSize;
   const interactive = !disabled && count > 0 && itemSize > 0;
 
@@ -266,8 +285,11 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     : 0;
   // Index the main thread last confirmed. The main thread owns the transform after mount, so the
   // background thread only compares requested indices against this position.
-  const [positionIndex, setPositionIndex] = React.useState(index);
-  const settledPosition = Math.min(positionIndex, maxIndex);
+  const [positionVirtual, setPositionVirtual] = React.useState(index);
+  const settledPosition = loopEnabled
+    ? positionVirtual
+    : Math.min(Math.max(positionVirtual, 0), maxIndex);
+  const settledIndex = loopEnabled ? ((settledPosition % count) + count) % count : settledPosition;
   // Re-runs the index sync effect when the main thread finished an interaction that deferred it.
   const [syncRequest, setSyncRequest] = React.useState(0);
   // `index` the sync effect last saw. A user settle updates it first so the resulting `index`
@@ -277,7 +299,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
   const onActiveIndexChangeRef = React.useRef(onActiveIndexChange);
   onActiveIndexChangeRef.current = onActiveIndexChange;
   const settledTransformRef = React.useRef("");
-  settledTransformRef.current = `translateY(${toPx(-(cloneCount + 0.5 + settledPosition) * itemSize)})`;
+  settledTransformRef.current = `translateY(${toPx(-(0.5 + settledPosition) * itemSize)})`;
   // Depend on presence only: `reportActiveJS` reads the latest listener from the ref, so a new
   // listener identity must not recreate the main-thread handlers mid-drag.
   const notifyActive = onActiveIndexChange !== undefined;
@@ -286,15 +308,21 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     () => ({
       count,
       itemSize,
-      cloneCount,
+      windowRadius,
       loop: loopEnabled,
       maxIndex,
       viewportSize,
       notifyActive,
       interactive,
     }),
-    [cloneCount, count, interactive, itemSize, loopEnabled, maxIndex, notifyActive, viewportSize],
+    [windowRadius, count, interactive, itemSize, loopEnabled, maxIndex, notifyActive, viewportSize],
   );
+  const [renderWindow, setRenderWindow] = React.useState<RenderWindow>(() => ({
+    start: loopEnabled ? index - windowRadius : Math.max(0, index - windowRadius),
+    end: loopEnabled ? index + windowRadius : Math.min(maxIndex, index + windowRadius),
+    center: index,
+    motionToken: null,
+  }));
 
   const stateRef = useMainThreadRef<EngineState>({
     offset: settledPosition * itemSize,
@@ -309,17 +337,25 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     userDriven: false,
     settledVirtual: settledPosition,
     activeVirtual: settledPosition,
-    deferred: false,
-    pressedPhysicalIndex: -1,
-    tapPhysicalIndex: -1,
+    pressedVirtualIndex: null,
+    tapVirtualIndex: null,
+    windowCenter: index,
+    pendingMotion: null,
   });
   const moverRef = useMainThreadRef<MainThread.Element>(null);
   const highlightMoverRef = useMainThreadRef<MainThread.Element>(null);
 
   const reportSettledJS = React.useCallback(
-    (settledIndex: number, stepDelta: number, userDriven: boolean) => {
+    (
+      virtual: number,
+      settledIndex: number,
+      stepDelta: number,
+      userDriven: boolean,
+      nextWindow: RenderWindow,
+    ) => {
       "background only";
-      setPositionIndex(settledIndex);
+      setPositionVirtual(virtual);
+      setRenderWindow(nextWindow);
       if (stepDelta === 0) {
         // The position did not change, so only a deferred `index` change remains to sync.
         setSyncRequest((request) => request + 1);
@@ -339,29 +375,44 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     for (const activeIndex of indices) listener(activeIndex);
   }, []);
 
+  const reportWindowJS = React.useCallback((next: RenderWindow) => {
+    "background only";
+    setRenderWindow(next);
+  }, []);
+
   const applyOffset = React.useCallback(
     (offset: number) => {
       "main thread";
       const state = stateRef.current;
       state.offset = offset;
-      // The mover's top edge sits at the viewport center. Shift it so the item at `offset` is centered.
-      const position = config.loop ? wrap(offset, config.count * config.itemSize) : offset;
-      const translate = -((config.cloneCount + 0.5) * config.itemSize + position);
+      const center = nearestVirtualIndex(offset, config);
+      // 목표가 정해진 이동은 전체 구간을 미리 준비하므로 중간에 창을 줄이지 않습니다.
+      if (
+        state.target === null &&
+        state.pendingMotion === null &&
+        Math.abs(center - state.windowCenter) >= WINDOW_SHIFT_THRESHOLD
+      ) {
+        const next = windowAround(center, config);
+        state.windowCenter = center;
+        runOnBackground(reportWindowJS)(next);
+      }
+      const translate = -(0.5 * config.itemSize + offset);
       const transform = `translateY(${Math.round(translate * 100) / 100 + 0}px)`;
       moverRef.current?.setStyleProperty("transform", transform);
       highlightMoverRef.current?.setStyleProperty("transform", transform);
       if (!state.userDriven) return;
-      const active = nearestVirtualIndex(offset, config);
-      if (active === state.activeVirtual) return;
+      if (center === state.activeVirtual) return;
+      const previousActive = state.activeVirtual;
+      state.activeVirtual = center;
+      if (!config.notifyActive) return;
       const passed: number[] = [];
-      const step = active > state.activeVirtual ? 1 : -1;
-      for (let virtual = state.activeVirtual + step; virtual !== active + step; virtual += step) {
+      const step = center > previousActive ? 1 : -1;
+      for (let virtual = previousActive + step; virtual !== center + step; virtual += step) {
         passed.push(config.loop ? wrap(virtual, config.count) : virtual);
       }
-      state.activeVirtual = active;
-      if (config.notifyActive) runOnBackground(reportActiveJS)(passed);
+      runOnBackground(reportActiveJS)(passed);
     },
-    [config, highlightMoverRef, moverRef, reportActiveJS, stateRef],
+    [config, highlightMoverRef, moverRef, reportActiveJS, reportWindowJS, stateRef],
   );
 
   const stopMotion = React.useCallback(() => {
@@ -369,6 +420,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     const state = stateRef.current;
     state.token += 1;
     state.target = null;
+    state.pendingMotion = null;
     if (state.frame !== 0) {
       cancelAnimationFrame(state.frame);
       state.frame = 0;
@@ -382,34 +434,31 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     const settledIndex = config.loop ? wrap(virtual, config.count) : virtual;
     const stepDelta = virtual - state.settledVirtual;
     const userDriven = state.userDriven;
-    // Keep the virtual coordinate within one cycle; the wrapped transform does not change.
-    state.offset -= (virtual - settledIndex) * config.itemSize;
-    state.settledVirtual = settledIndex;
-    state.activeVirtual = settledIndex;
+    state.settledVirtual = virtual;
+    state.activeVirtual = virtual;
+    const next = windowAround(virtual, config);
+    state.windowCenter = virtual;
     state.target = null;
     state.userDriven = false;
-    const deferred = state.deferred;
-    state.deferred = false;
-    if (stepDelta !== 0 || deferred) {
-      runOnBackground(reportSettledJS)(settledIndex, stepDelta, userDriven);
-    }
+    runOnBackground(reportSettledJS)(virtual, settledIndex, stepDelta, userDriven, next);
   }, [config, reportSettledJS, stateRef]);
 
-  /** `target`까지 남은 거리가 `timeConstant`마다 1/e로 줄어드는 감속 이동입니다. */
-  const animateTo = React.useCallback(
-    (target: number, timeConstant: number, userDriven: boolean) => {
+  /** instant/reset은 창 커밋 뒤, 애니메이션은 창 요청 직후 시작합니다. */
+  const beginPreparedMotion = React.useCallback(
+    (token: number) => {
       "main thread";
-      stopMotion();
       const state = stateRef.current;
-      state.userDriven = userDriven;
+      const motion = state.pendingMotion;
+      if (state.token !== token || motion === null) return;
+      state.pendingMotion = null;
+      const { target, timeConstant, instant } = motion;
       const distance = target - state.offset;
-      if (Math.abs(distance) < SETTLE_DISTANCE) {
+      if (instant || Math.abs(distance) < SETTLE_DISTANCE) {
         applyOffset(target);
         finishMotion();
         return;
       }
       state.target = target;
-      const token = state.token;
       const startedAt = Date.now();
       const step = () => {
         const current = stateRef.current;
@@ -426,7 +475,38 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       };
       state.frame = requestAnimationFrame(step);
     },
-    [applyOffset, finishMotion, stateRef, stopMotion],
+    [applyOffset, finishMotion, stateRef],
+  );
+
+  React.useEffect(() => {
+    if (renderWindow.motionToken !== null) {
+      runOnMainThread(beginPreparedMotion)(renderWindow.motionToken);
+    }
+  }, [beginPreparedMotion, renderWindow]);
+
+  const prepareMotion = React.useCallback(
+    (target: number, timeConstant: number, userDriven: boolean, instant = false) => {
+      "main thread";
+      stopMotion();
+      const state = stateRef.current;
+      state.userDriven = userDriven;
+      state.target = target;
+      state.pendingMotion = { target, timeConstant, instant };
+      const center = nearestVirtualIndex(state.offset, config);
+      const destination = nearestVirtualIndex(target, config);
+      const from = windowAround(center, config);
+      const to = windowAround(destination, config);
+      const next: RenderWindow = {
+        start: instant ? to.start : Math.min(from.start, to.start),
+        end: instant ? to.end : Math.max(from.end, to.end),
+        center: destination,
+        motionToken: instant ? state.token : null,
+      };
+      state.windowCenter = destination;
+      runOnBackground(reportWindowJS)(next);
+      if (!instant) beginPreparedMotion(state.token);
+    },
+    [beginPreparedMotion, config, reportWindowJS, stateRef, stopMotion],
   );
 
   /** 놓을 때 속도로 멈출 위치를 예측하고 가장 가까운 항목에 맞춰 한 번에 감속합니다. */
@@ -441,22 +521,19 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
         distance * velocity > 0 && Math.abs(velocity) > MIN_FLING_VELOCITY
           ? clampNumber(distance / velocity, MIN_FLING_TIME_CONSTANT_MS, MAX_FLING_TIME_CONSTANT_MS)
           : SNAP_TIME_CONSTANT_MS;
-      animateTo(target, timeConstant, true);
+      prepareMotion(target, timeConstant, true);
     },
-    [animateTo, config, stateRef],
+    [prepareMotion, config, stateRef],
   );
 
-  /** 누른 항목을 가운데로 옮깁니다. 복제 항목이면 원본까지 돌아가지 않고 보이는 방향으로 이동합니다. */
-  const selectPhysicalIndex = React.useCallback(
-    (physicalIndex: number) => {
+  /** 누른 가상 위치로 이동하므로 loop 경계에서도 보이는 방향을 유지합니다. */
+  const selectVirtualIndex = React.useCallback(
+    (virtualIndex: number) => {
       "main thread";
-      const current = nearestVirtualIndex(stateRef.current.offset, config);
-      const target = config.loop
-        ? current + physicalIndex - config.cloneCount - wrap(current, config.count)
-        : clampNumber(physicalIndex, 0, config.maxIndex);
-      animateTo(target * config.itemSize, SNAP_TIME_CONSTANT_MS, true);
+      const target = config.loop ? virtualIndex : clampNumber(virtualIndex, 0, config.maxIndex);
+      prepareMotion(target * config.itemSize, SNAP_TIME_CONSTANT_MS, true);
     },
-    [animateTo, config, stateRef],
+    [prepareMotion, config],
   );
 
   const handleTouchStart = React.useCallback(
@@ -465,12 +542,12 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const state = stateRef.current;
       // An item's touchstart runs first while the event bubbles. Consume it so a later touch outside
       // the items cannot reuse it.
-      const pressedPhysicalIndex = state.pressedPhysicalIndex;
-      state.pressedPhysicalIndex = -1;
-      state.tapPhysicalIndex = -1;
+      const pressedVirtualIndex = state.pressedVirtualIndex;
+      state.pressedVirtualIndex = null;
+      state.tapVirtualIndex = null;
       if (!config.interactive || (event.touches?.length ?? 1) > 1) return;
       // A touch that stops a running motion only stops it.
-      if (state.target === null) state.tapPhysicalIndex = pressedPhysicalIndex;
+      if (state.target === null) state.tapVirtualIndex = pressedVirtualIndex;
       stopMotion();
       state.phase = "pending";
       state.userDriven = true;
@@ -516,15 +593,15 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const phase = state.phase;
       if (phase === "idle") return;
       state.phase = "idle";
-      const tapPhysicalIndex = state.tapPhysicalIndex;
-      state.tapPhysicalIndex = -1;
-      if (phase === "pending" && !cancelled && tapPhysicalIndex >= 0) {
-        selectPhysicalIndex(tapPhysicalIndex);
+      const tapVirtualIndex = state.tapVirtualIndex;
+      state.tapVirtualIndex = null;
+      if (phase === "pending" && !cancelled && tapVirtualIndex !== null) {
+        selectVirtualIndex(tapVirtualIndex);
         return;
       }
       release(phase === "dragging" && !cancelled ? releaseVelocity(state.samples, Date.now()) : 0);
     },
-    [release, selectPhysicalIndex, stateRef],
+    [release, selectVirtualIndex, stateRef],
   );
 
   const handleTouchEnd = React.useCallback(() => {
@@ -543,37 +620,26 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const state = stateRef.current;
       if (config.count === 0) return;
       if (state.phase !== "idle" || (state.userDriven && state.target !== null)) {
-        state.deferred = true;
         return;
       }
       const target =
         virtualTargetFor(nextIndex, state.target ?? state.offset, config) * config.itemSize;
       if (state.target === target) return;
-      if (smooth) {
-        animateTo(target, SNAP_TIME_CONSTANT_MS, false);
-        return;
-      }
-      stopMotion();
-      state.userDriven = false;
-      applyOffset(target);
-      finishMotion();
+      prepareMotion(target, SNAP_TIME_CONSTANT_MS, false, !smooth);
     },
-    [animateTo, applyOffset, config, finishMotion, stateRef, stopMotion],
+    [prepareMotion, config, stateRef],
   );
 
   const resetToIndex = React.useCallback(
     (nextIndex: number) => {
       "main thread";
-      stopMotion();
       const state = stateRef.current;
       state.phase = "idle";
-      state.userDriven = false;
       state.settledVirtual = nextIndex;
       state.activeVirtual = nextIndex;
-      state.deferred = false;
-      applyOffset(nextIndex * config.itemSize);
+      prepareMotion(nextIndex * config.itemSize, SNAP_TIME_CONSTANT_MS, false, true);
     },
-    [applyOffset, config, stateRef, stopMotion],
+    [prepareMotion, config, stateRef],
   );
 
   const cancelInteraction = React.useCallback(() => {
@@ -581,21 +647,17 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     const state = stateRef.current;
     if (state.phase === "idle" && !(state.userDriven && state.target !== null)) return;
     state.phase = "idle";
-    animateTo(
-      virtualTargetFor(state.settledVirtual, state.offset, config) * config.itemSize,
-      SNAP_TIME_CONSTANT_MS,
-      false,
-    );
-  }, [animateTo, config, stateRef]);
+    prepareMotion(state.settledVirtual * config.itemSize, SNAP_TIME_CONSTANT_MS, false);
+  }, [prepareMotion, config, stateRef]);
 
   // Runs before the index sync below so a layout change and an `index` change in the same commit reset
   // the main thread first and then move to the requested index.
-  const layoutKey = `${count}:${itemSize}:${cloneCount}`;
+  const layoutKey = `${count}:${itemSize}:${loopEnabled}:${windowRadius}`;
   const previousLayoutKeyRef = React.useRef(layoutKey);
   React.useEffect(() => {
     if (previousLayoutKeyRef.current === layoutKey) return;
     previousLayoutKeyRef.current = layoutKey;
-    setPositionIndex(settledPosition);
+    setPositionVirtual(settledPosition);
     runOnMainThread(resetToIndex)(settledPosition);
   }, [layoutKey, resetToIndex, settledPosition]);
 
@@ -604,9 +666,9 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     // last confirmed position. The main thread ignores requests that are already satisfied.
     const indexChanged = previousIndexRef.current !== index;
     previousIndexRef.current = index;
-    if (!indexChanged && index === settledPosition) return;
+    if (!indexChanged && index === settledIndex) return;
     runOnMainThread(scrollToIndex)(index, indexChangeBehavior === "smooth");
-  }, [index, indexChangeBehavior, scrollToIndex, settledPosition, syncRequest]);
+  }, [index, indexChangeBehavior, scrollToIndex, settledIndex, syncRequest]);
 
   React.useEffect(() => {
     if (disabled) runOnMainThread(cancelInteraction)();
@@ -619,37 +681,31 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     [stopMotion],
   );
 
-  const items = React.useMemo<LoopScrollItem[]>(
-    () =>
-      Array.from({ length: count + cloneCount * 2 }, (_, physicalIndex) => {
-        const offsetIndex = physicalIndex - cloneCount;
-        return {
-          index: loopEnabled ? ((offsetIndex % count) + count) % count : offsetIndex,
-          physicalIndex,
-          isClone: offsetIndex < 0 || offsetIndex >= count,
-        };
-      }),
-    [cloneCount, count, loopEnabled],
-  );
-
-  const itemTouchStartHandlers = React.useMemo(
-    () =>
-      items.map(({ physicalIndex }) => () => {
-        "main thread";
-        stateRef.current.pressedPhysicalIndex = physicalIndex;
-      }),
-    [items, stateRef],
-  );
+  const items = React.useMemo<LoopScrollItem[]>(() => {
+    if (count === 0) return [];
+    const start = loopEnabled ? renderWindow.start : Math.max(0, renderWindow.start);
+    const end = loopEnabled ? renderWindow.end : Math.min(maxIndex, renderWindow.end);
+    return Array.from({ length: Math.max(0, end - start + 1) }, (_, offset) => {
+      const virtualIndex = start + offset;
+      const index = loopEnabled ? ((virtualIndex % count) + count) % count : virtualIndex;
+      const accessibleVirtual = index + Math.round((renderWindow.center - index) / count) * count;
+      return {
+        index,
+        virtualIndex,
+        isClone: loopEnabled && virtualIndex !== accessibleVirtual,
+      };
+    });
+  }, [count, loopEnabled, maxIndex, renderWindow]);
 
   const getSettledTransform = React.useCallback(() => settledTransformRef.current, []);
   const contextValue = React.useMemo<LoopScrollContextValue>(
     () => ({
       items,
-      itemTouchStartHandlers,
+      stateRef,
       selectedIndex: index,
       moverRef,
       highlightMoverRef,
-      itemStyle: { height: toPx(itemSize) },
+      itemSize,
       highlightTop: toPx((viewportSize - itemSize) / 2),
       getSettledTransform,
     }),
@@ -658,7 +714,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       highlightMoverRef,
       index,
       itemSize,
-      itemTouchStartHandlers,
+      stateRef,
       items,
       moverRef,
       viewportSize,
@@ -692,9 +748,9 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
 LoopScrollRoot.displayName = "LoopScrollRoot";
 
 /**
- * 가운데를 기준으로 항목을 배치하는 `<view>`입니다. `loop`이면 앞뒤에 복제 항목을 더해 렌더링합니다.
+ * 가운데를 기준으로 화면 주변 항목만 절대 위치에 배치하는 `<view>`입니다.
  * Root 바로 아래와 `LoopScroll.Highlight` 안에 각각 하나씩 둘 수 있으며, 두 Track은 같은 위치로 움직입니다.
- * 항목을 감싼 `<view>`에는 `seed-loop-scroll__item` class를, 선택한 `index`의 항목(복제 포함)에는
+ * 항목을 감싼 `<view>`에는 `seed-loop-scroll__item` class를, 선택한 `index`의 항목에는
  * `seed-loop-scroll__item--selected` class를 더합니다. 선택 class는 사용자 조작이 정착하거나 `index`가 바뀔 때 옮겨집니다.
  * 항목을 감싼 안쪽 `<view>`의 `transform`은 첫 화면에만 inline style로 그리고, 이후에는 Main Thread만 갱신합니다.
  */
@@ -720,23 +776,52 @@ export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((
         style={moverStyle}
       >
         {context.items.map((item) => (
-          <view
-            key={item.physicalIndex}
-            className={
-              item.index === context.selectedIndex ? SELECTED_ITEM_CLASS_NAME : ITEM_CLASS_NAME
-            }
-            style={context.itemStyle}
-            accessibility-elements-hidden={item.isClone ? true : undefined}
-            main-thread:bindtouchstart={context.itemTouchStartHandlers[item.physicalIndex]}
-          >
+          <LoopScrollTrackItem key={item.virtualIndex} item={item} context={context}>
             {children(item)}
-          </view>
+          </LoopScrollTrackItem>
         ))}
       </view>
     </view>
   );
 });
 LoopScrollTrack.displayName = "LoopScrollTrack";
+
+function LoopScrollTrackItem({
+  item,
+  context,
+  children,
+}: {
+  item: LoopScrollItem;
+  context: LoopScrollContextValue;
+  children: React.ReactNode;
+}) {
+  const { virtualIndex } = item;
+  const { stateRef, itemSize } = context;
+  const handleTouchStart = React.useCallback(() => {
+    "main thread";
+    stateRef.current.pressedVirtualIndex = virtualIndex;
+  }, [stateRef, virtualIndex]);
+  const style = React.useMemo(
+    () => ({
+      position: "absolute" as const,
+      top: toPx(virtualIndex * itemSize),
+      left: "0px",
+      right: "0px",
+      height: toPx(itemSize),
+    }),
+    [itemSize, virtualIndex],
+  );
+  return (
+    <view
+      className={item.index === context.selectedIndex ? SELECTED_ITEM_CLASS_NAME : ITEM_CLASS_NAME}
+      style={style}
+      accessibility-elements-hidden={item.isClone ? true : undefined}
+      main-thread:bindtouchstart={handleTouchStart}
+    >
+      {children}
+    </view>
+  );
+}
 
 /**
  * 가운데 항목 한 칸(`itemSize`) 높이로 안쪽 `LoopScroll.Track`을 잘라 보여주는 `<view>`입니다.
@@ -747,8 +832,8 @@ LoopScrollTrack.displayName = "LoopScrollTrack";
 export const LoopScrollHighlight = React.forwardRef<unknown, LoopScrollHighlightProps>(
   (props, ref) => {
     const { children, style, ...nativeProps } = props;
-    const { highlightTop, itemStyle } = useLoopScrollContext("Highlight");
-    const height = itemStyle.height;
+    const { highlightTop, itemSize } = useLoopScrollContext("Highlight");
+    const height = toPx(itemSize);
     const highlightStyle = React.useMemo(
       () =>
         typeof style === "string"
