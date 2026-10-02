@@ -1,16 +1,12 @@
 import { expect, it } from "bun:test";
 import { docsBuildTarget } from "./build-target";
 
-const archive = {
-  platform: "react",
-  version: "v2",
-  sourceBranch: "react/v2",
-  origin: "",
-  probe: { document: "components/button", registryItem: "ui/button" },
-};
-
-it("preserves ordinary Pages previews and latest builds", () => {
-  expect(docsBuildTarget("feature/docs", [archive])).toEqual({
+it.each([
+  "dev",
+  "feature/docs",
+  "feat/react-v1-2-archive",
+])("preserves ordinary Pages build for %s", (branch) => {
+  expect(docsBuildTarget(branch)).toEqual({
     "output-dir": "docs/out",
     "archive-version": "",
     prefix: "",
@@ -20,10 +16,13 @@ it("preserves ordinary Pages previews and latest builds", () => {
 });
 
 it.each([
-  ["react/v2", "v2"],
-  ["react/v3", "v3"],
-])("selects %s builds from registration without workflow edits", (sourceBranch, version) => {
-  expect(docsBuildTarget(sourceBranch, [{ ...archive, sourceBranch, version }])).toEqual({
+  "v1.0",
+  "v1.1",
+  "v1.2",
+  "v2",
+  "v3",
+])("selects %s from the build channel without an origin registry", (version) => {
+  expect(docsBuildTarget(`react/${version}`)).toEqual({
     "output-dir": "docs/out-archive",
     "archive-version": version,
     prefix: `react/${version}/`,
@@ -32,17 +31,12 @@ it.each([
   });
 });
 
-it("rejects multiple archives from one branch and unimplemented Lynx builds", () => {
-  expect(() => docsBuildTarget("react/v2", [archive, { ...archive, version: "v3" }])).toThrow(
-    "Multiple",
-  );
-  expect(() =>
-    docsBuildTarget("react/v2", [{ ...archive, platform: "lynx", version: "v1" }]),
-  ).toThrow("exporter");
-});
-
-it("keeps the content build selected while public traffic is pinned for rollback", () => {
-  expect(
-    docsBuildTarget("react/v2", [{ ...archive, sourceSha: "b".repeat(40) }])["archive-version"],
-  ).toBe("v2");
+it.each([
+  "react/v2.0",
+  "react/v01",
+  "react/v2/nested",
+  "react/v2/../v3",
+  "lynx/v1",
+])("rejects unsupported archive channel %s", (branch) => {
+  expect(() => docsBuildTarget(branch)).toThrow();
 });

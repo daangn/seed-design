@@ -74,7 +74,7 @@ jobs:
           build-packages: true
           build-rootage: true
 
-      - name: Select docs build from archive registry
+      - name: Select archive build channel
         id: target
         run: bun scripts/docs-archive/build-target.ts
 

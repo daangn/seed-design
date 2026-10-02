@@ -2,7 +2,7 @@
 
 버전별 문서는 Pages 브랜치 배포로 제공하고, 공통 Worker 하나가 공개 경로를 해당 Pages 원본으로 연결합니다. 버전별 설정은 [archives.json](./archives.json)에서 관리합니다.
 
-운영 `dev`의 `archives.json`은 공개 경로와 Pages 원본의 등록 목록입니다. 각 보관 브랜치의 같은 파일은 자기 버전의 빌드 선택에 사용하며, 빈 `origin`을 운영 목록에 복사하지 않습니다. 빌드 산출물의 `archive.json`은 버전·경로·소스 SHA를 기록하는 자동 생성 manifest이고 수동 등록 파일이 아닙니다.
+운영 `dev`의 `archives.json`은 전체 공개 버전의 소스 브랜치·버전·Pages origin·검증 대상을 관리합니다. 공개 문서 URL과 Worker route는 플랫폼·버전에서 계산합니다. 보관 브랜치에는 `archives.json`이나 별도 설정 JSON을 두지 않고 자기 Pages 배포만 담당합니다. 빌드 산출물의 `archive.json`은 버전·경로·소스 SHA를 기록하는 자동 생성 manifest입니다.
 
 ```text
 seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 Pages 원본
@@ -24,18 +24,20 @@ seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 
 
 수동으로 다시 배포하려면 [deploy-seed-design-docs-alpha-pages](https://github.com/daangn/seed-design/actions/workflows/deploy-seed-design-docs-alpha-pages.yml)의 **Run workflow → Use workflow from**에서 해당 보관 브랜치를 선택합니다.
 
-보관본 빌드는 checkout의 `archives.json.sourceBranch`와 브랜치 이름이 일치할 때 선택됩니다. 해당 브랜치에는 Pages workflow와 보관 빌드 코드가 있어야 합니다. 일반 feature 브랜치는 기존 Pages preview로 배포되며, 브랜치 선택만으로 새 공개 경로가 등록되지는 않습니다.
+보관본 빌드는 `react/v2` 같은 채널 이름에서 버전과 경로를 얻습니다. 보관 브랜치의 Pages workflow는 `DOCS_ARCHIVE_SOURCE_BRANCH`로 자기 채널을 명시하여 feature PR에서도 동일한 보관 빌드·검증을 실행합니다. 이 변수가 없는 일반 feature 브랜치는 기존 Pages preview를 빌드합니다. 운영 원본 등록 여부와 rollback 고정 SHA는 빌드 선택에 영향을 주지 않습니다.
 
 ## 새 버전 추가
 
-최종 소스에서 `react/v3` 같은 보관 브랜치를 만들고 필요한 보관 인프라를 반영합니다. **보관 브랜치**의 `archives.json`에 다음 형태의 항목을 추가합니다. 첫 Pages 배포 전에는 `origin`을 비워둘 수 있습니다.
+최종 소스에서 `react/v3` 같은 보관 브랜치를 만들고 필요한 보관 빌드·export·Pages 검증을 반영합니다. Pages workflow에 `DOCS_ARCHIVE_SOURCE_BRANCH=react/v3`를 명시합니다. 브랜치 이름과 명시한 채널에서 빌드를 선택하므로 운영 등록 파일이 필요하지 않습니다.
+
+Pages CI 성공 후 **Summary → Verified archive preview**에서 실제 고정 주소·alias·소스 SHA를 확인합니다. 보관 브랜치의 검증된 alias를 운영 `dev`의 `archives.json`에 추가합니다. 준비 feature alias는 운영 origin으로 등록하지 않습니다.
 
 ```json
 {
   "platform": "react",
   "version": "v3",
   "sourceBranch": "react/v3",
-  "origin": "",
+  "origin": "https://<CI에서 확인한 실제 alias>.pages.dev",
   "probe": {
     "document": "components/action-button",
     "registryItem": "ui/action-button"
@@ -43,13 +45,9 @@ seed-design.io/{platform}/{version}/* → 공통 Worker → 해당 브랜치의 
 }
 ```
 
-`probe`는 배포 검증에 사용할 대표 문서와 registry 항목의 상대 경로입니다. 해당 버전에 실제로 존재하는 항목을 지정합니다.
+`probe`는 운영 원본 검증에 사용할 실제 문서와 registry 항목의 상대 경로입니다. 운영 목록에는 빈 origin을 등록하지 않습니다. Worker CI가 전체 원본을 검증하고 공개 route를 연결한 뒤 버전 메뉴를 전환합니다.
 
-Pages CI 성공 후 **Summary → Verified archive preview**에서 실제 alias를 얻습니다. 이 주소를 `origin`에 넣은 완성된 항목을 **Worker 운영 브랜치 `dev`**의 `archives.json`에 추가합니다. Worker CI가 전체 원본을 검증하고 공개 route를 연결합니다. 공개 확인 후 `docs/components/react-version-switcher.tsx`의 `PUBLISHED_VERSIONS`에 메뉴 항목을 추가합니다.
-
-React 메이저 추가에는 Worker 코드나 workflow의 버전 분기를 수정할 필요가 없습니다. 이전 보관 브랜치에 최신 전체 목록을 계속 반영할 필요도 없습니다. 공개 목록은 운영 브랜치가 기준이며, 항목을 삭제하면 Worker 배포 시 해당 route도 제거됩니다.
-
-공통 Worker는 다른 플랫폼도 라우팅할 수 있지만 **현재 보관 빌드·export는 React만 지원**합니다. Lynx를 추가하려면 먼저 전용 빌드·export, 미리보기 번들, `build-target.ts`의 플랫폼 지원과 Pages workflow의 빌드 명령 선택을 구현해야 합니다. 등록 이후 배포 순서는 React와 같습니다.
+이전 보관 브랜치에 최신 전체 목록을 반영할 필요가 없습니다. 공개 목록은 `dev`가 기준이며 항목을 삭제하면 Worker 배포 시 해당 route도 제거됩니다. 다른 플랫폼도 Worker 라우팅은 지원하지만 현재 보관 빌드·export는 React만 지원하므로 Lynx에는 전용 exporter와 Pages 빌드를 먼저 구현해야 합니다.
 
 ## Worker 설정과 배포
 
