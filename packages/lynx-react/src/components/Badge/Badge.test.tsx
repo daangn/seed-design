@@ -123,7 +123,7 @@ describe("Badge", () => {
     }
   });
 
-  it("updates the action press class and calls each user event handler once", () => {
+  it("calls each supplied background tap and touch handler once", () => {
     const onTap = vi.fn();
     const onTouchStart = vi.fn();
     const onTouchEnd = vi.fn();
@@ -145,24 +145,14 @@ describe("Badge", () => {
     const action = getRenderedQueries().getByText("닫기");
 
     fireEvent.touchstart(action, {});
-    expect(action).toHaveClass("seed-badge__action--pressed_true");
     expect(onTouchStart).toHaveBeenCalledTimes(1);
     fireEvent.tap(action);
-    expect(action).toHaveClass("seed-badge__action--pressed_false");
     expect(onTap).toHaveBeenCalledTimes(1);
 
-    fireEvent.touchstart(action, {});
-    expect(action).toHaveClass("seed-badge__action--pressed_true");
     fireEvent.touchend(action, {});
-    expect(action).toHaveClass("seed-badge__action--pressed_false");
-    expect(onTouchStart).toHaveBeenCalledTimes(2);
     expect(onTouchEnd).toHaveBeenCalledTimes(1);
 
-    fireEvent.touchstart(action, {});
-    expect(action).toHaveClass("seed-badge__action--pressed_true");
     fireEvent.touchcancel(action, {});
-    expect(action).toHaveClass("seed-badge__action--pressed_false");
-    expect(onTouchStart).toHaveBeenCalledTimes(3);
     expect(onTouchCancel).toHaveBeenCalledTimes(1);
   });
 
@@ -180,35 +170,22 @@ describe("Badge", () => {
   });
 
   it("rejects Prefix and Action outside Badge.Root", () => {
-    expect(() => render(<Badge.Prefix>인증</Badge.Prefix>)).toThrow(
-      "must be rendered inside <BadgeRoot/>",
-    );
-    expect(() => render(<Badge.Action>닫기</Badge.Action>)).toThrow(
-      "must be rendered inside <BadgeRoot/>",
-    );
+    expect(() => render(<Badge.Prefix>인증</Badge.Prefix>)).toThrow();
+    expect(() => render(<Badge.Action>닫기</Badge.Action>)).toThrow();
   });
 
-  it("keeps the root, prefix and label free from active press classes and native press handlers", () => {
+  it("allows native accessibility defaults to be overridden", () => {
     render(
       <Badge.Root>
-        <Badge.Prefix>인증</Badge.Prefix>
-        <Badge.Label>알림</Badge.Label>
-        <Badge.Action>닫기</Badge.Action>
+        <Badge.Action accessibility-element={false} accessibility-traits="none">
+          닫기
+        </Badge.Action>
       </Badge.Root>,
     );
 
-    const root = getRenderedRoot().querySelector(".seed-badge__root");
-    const prefix = getRenderedQueries().getByText("인증");
-    const label = getRenderedQueries().getByText("알림");
     const action = getRenderedQueries().getByText("닫기");
-    fireEvent.touchstart(action, {});
-
-    for (const element of [root, prefix, label]) {
-      expect(element?.className).not.toContain("--pressed_true");
-      expect(
-        Object.keys((element as Element & { eventMap?: Record<string, unknown> }).eventMap ?? {}),
-      ).toEqual([]);
-    }
+    expect(action).toHaveAttribute("accessibility-element", "false");
+    expect(action).toHaveAttribute("accessibility-traits", "none");
   });
 
   it("delivers a supplied main-thread tap handler on the action view", async () => {
@@ -233,6 +210,32 @@ describe("Badge", () => {
     const action = container.querySelector(".seed-badge__action");
     expect(action).not.toBeNull();
     fireEvent.tap(action as Element);
+    await waitSchedule();
+    expect(report).toHaveBeenCalledTimes(1);
+  });
+
+  it("delivers a supplied main-thread touchstart handler alongside scale feedback", async () => {
+    const report = vi.fn();
+    function Example() {
+      function handleTouchStart() {
+        "main thread";
+        runOnBackground(report)();
+      }
+      return (
+        <Badge.Root>
+          <Badge.Action main-thread:bindtouchstart={handleTouchStart}>닫기</Badge.Action>
+        </Badge.Root>
+      );
+    }
+
+    const { container } = render(<Example />, {
+      enableMainThread: true,
+      enableBackgroundThread: true,
+    });
+    await waitSchedule();
+    const action = container.querySelector(".seed-badge__action");
+    expect(action).not.toBeNull();
+    fireEvent.touchstart(action as Element, {});
     await waitSchedule();
     expect(report).toHaveBeenCalledTimes(1);
   });

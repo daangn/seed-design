@@ -3,7 +3,7 @@ import { badge, type BadgeVariantProps } from "@seed-design/lynx-css/recipes/bad
 import clsx from "clsx";
 
 import { mergeProps } from "../../utils/merge-props";
-import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -16,48 +16,31 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(badge);
 
-interface BadgeContextValue {
-  variantProps: Omit<BadgeVariantProps, "pressed">;
-}
-
-const BadgeContext = React.createContext<BadgeContextValue | null>(null);
-
-function useBadgeContext(consumer: "BadgePrefix" | "BadgeAction") {
-  const context = React.useContext(BadgeContext);
-
-  if (context === null) {
+function useBadgeClassNames(consumer: "BadgePrefix" | "BadgeAction") {
+  try {
+    return useClassNames();
+  } catch {
     throw new Error(`<${consumer}/> must be rendered inside <BadgeRoot/>.`);
   }
-
-  return context;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BadgeRootProps
-  extends Omit<BadgeVariantProps, "pressed">,
-    LynxStyledElementProps {}
+export interface BadgeRootProps extends BadgeVariantProps, LynxStyledElementProps {}
 
 export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) => {
   const [variantProps, otherProps] = badge.splitVariantProps(props);
   const classes = badge(variantProps);
   const { children, className, ...nativeProps } = otherProps;
-  const { size, variant, tone } = variantProps;
-  const contextValue = React.useMemo<BadgeContextValue>(
-    () => ({ variantProps: { size, variant, tone } }),
-    [size, variant, tone],
-  );
 
   return (
     <ClassNamesProvider value={classes}>
-      <BadgeContext.Provider value={contextValue}>
-        <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-          className={clsx(classes.root, className)}
-        >
-          {children}
-        </view>
-      </BadgeContext.Provider>
+      <view
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classes.root, className)}
+      >
+        {children}
+      </view>
     </ClassNamesProvider>
   );
 });
@@ -68,8 +51,7 @@ BadgeRoot.displayName = "BadgeRoot";
 export interface BadgePrefixProps extends LynxStyledElementProps {}
 
 export const BadgePrefix = React.forwardRef<unknown, BadgePrefixProps>((props, ref) => {
-  useBadgeContext("BadgePrefix");
-  const classes = useClassNames();
+  const classes = useBadgeClassNames("BadgePrefix");
   const { children, className, ...nativeProps } = props;
 
   return (
@@ -111,62 +93,30 @@ export interface BadgeActionProps
     LynxAccessibilityProps {}
 
 export const BadgeAction = React.forwardRef<unknown, BadgeActionProps>((props, ref) => {
-  const context = useBadgeContext("BadgeAction");
+  const classes = useBadgeClassNames("BadgeAction");
   const {
     children,
     className,
-    bindtap,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement = true,
     "accessibility-traits": accessibilityTraits = "button",
     ...nativeProps
   } = props;
-  const pressTap = usePressTap({
-    onTap: bindtap,
-    mainThreadOnTap: mainThreadBindtap,
-  });
-
-  const handleTouchStart = React.useCallback(
-    (...args: Parameters<NonNullable<LynxTouchProps["bindtouchstart"]>>) => {
-      pressTap.bindtouchstart(...args);
-      bindtouchstart?.(...args);
-    },
-    [bindtouchstart, pressTap.bindtouchstart],
-  );
-  const handleTouchEnd = React.useCallback(
-    (...args: Parameters<NonNullable<LynxTouchProps["bindtouchend"]>>) => {
-      pressTap.bindtouchend(...args);
-      bindtouchend?.(...args);
-    },
-    [bindtouchend, pressTap.bindtouchend],
-  );
-  const handleTouchCancel = React.useCallback(
-    (...args: Parameters<NonNullable<LynxTouchProps["bindtouchcancel"]>>) => {
-      pressTap.bindtouchcancel(...args);
-      bindtouchcancel?.(...args);
-    },
-    [bindtouchcancel, pressTap.bindtouchcancel],
-  );
+  const { scaleFeedbackTargetProps, scaleFeedbackTriggerProps } = useScaleFeedback();
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      bindtap={pressTap.bindtap}
-      bindtouchstart={handleTouchStart}
-      bindtouchend={handleTouchEnd}
-      bindtouchcancel={handleTouchCancel}
-      {...(pressTap["main-thread:bindtap"]
-        ? { "main-thread:bindtap": pressTap["main-thread:bindtap"] }
-        : {})}
+      {...mergeProps(
+        ref ? { ref: ref as LynxViewRef } : {},
+        scaleFeedbackTargetProps,
+        scaleFeedbackTriggerProps,
+        nativeProps,
+        mainThreadBindtap ? { "main-thread:bindtap": mainThreadBindtap } : {},
+      )}
       accessibility-element={accessibilityElement}
       accessibility-traits={accessibilityTraits}
-      className={clsx(
-        badge({ ...context.variantProps, pressed: pressTap.pressed }).action,
-        className,
-      )}
+      className={clsx(classes.action, className)}
+      flatten={false}
     >
       {children}
     </view>

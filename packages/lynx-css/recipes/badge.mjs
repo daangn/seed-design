@@ -23,8 +23,7 @@ const badgeSlotNames = [
 const defaultVariant = {
   "size": "medium",
   "variant": "solid",
-  "tone": "neutral",
-  "pressed": false
+  "tone": "neutral"
 };
 
 const compoundVariants = [
@@ -99,14 +98,6 @@ const compoundVariants = [
   {
     "tone": "critical",
     "variant": "outline"
-  },
-  {
-    "size": "medium",
-    "pressed": true
-  },
-  {
-    "size": "large",
-    "pressed": true
   }
 ];
 
@@ -127,10 +118,6 @@ export const badgeVariantMap = {
     "positive",
     "warning",
     "critical"
-  ],
-  "pressed": [
-    true,
-    false
   ]
 };
 
