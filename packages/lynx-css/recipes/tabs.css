@@ -32,7 +32,7 @@
 .seed-tabs__indicator {
     position: absolute;
     left: 0px;
-    bottom: 0px;
+    bottom: calc(0px - 1px);
     height: 2px;
     width: var(--tabs-indicator-width, 0px);
     background-color: var(--seed-color-fg-neutral);

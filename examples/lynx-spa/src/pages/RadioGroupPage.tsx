@@ -41,15 +41,19 @@ type RadioGroupValues = VariantCatalogValues<typeof variants, typeof previewStat
 function renderRadioGroup(values: RadioGroupValues, setValue: SetVariantValue<RadioGroupValues>) {
   return (
     <RadioGroup
-      weight={values.weight}
-      size={values.size}
-      tone={values.tone}
       disabled={Boolean(values.disabled)}
       value={values.value}
       onValueChange={(next) => setValue("value", next)}
     >
       {["option1", "option2", "option3"].map((value) => (
-        <RadioGroupItem key={value} value={value} label={`Option ${value.replace("option", "")}`} />
+        <RadioGroupItem
+          key={value}
+          value={value}
+          label={`Option ${value.replace("option", "")}`}
+          weight={values.weight}
+          size={values.size}
+          tone={values.tone}
+        />
       ))}
     </RadioGroup>
   );

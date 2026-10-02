@@ -1,11 +1,10 @@
 import { reactionButton } from "@seed-design/lynx-css/recipes/reaction-button";
 import type { ReactionButtonVariantProps } from "@seed-design/lynx-css/recipes/reaction-button";
+import { useToggle } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { cloneElement, useMemo } from "@lynx-js/react";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import type {
@@ -17,7 +16,7 @@ import type {
 import { toArray } from "../../utils/children";
 import { isCountElement, type CountProps } from "../Count/Count";
 import { getIconSlotName, IconSlotProvider } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
+import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
 
 /**
  * @platform Lynx
@@ -28,14 +27,23 @@ import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
  * - `asChild`
  */
 export interface ReactionButtonProps
-  extends Omit<ReactionButtonVariantProps, "selected" | "pressed" | "disabled" | "loading">,
+  extends Omit<ReactionButtonVariantProps, "selected" | "disabled" | "loading">,
     Omit<LynxStyledElementProps, "flatten">,
     LynxPressableProps,
     LynxAccessibilityProps {
   pressed?: boolean;
   defaultPressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
+  /**
+   * 버튼의 비활성화 여부입니다. `true`이면 tap, `onPressedChange`, 눌림 상태가 막힙니다.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * 버튼에 등록된 비동기 작업이 진행 중임을 나타냅니다. `disabled`와 같이 tap, `onPressedChange`,
+   * 눌림 상태를 막습니다.
+   * @default false
+   */
   loading?: boolean;
 }
 
@@ -45,45 +53,38 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     children,
     className,
     style,
-    defaultPressed = false,
+    pressed,
+    defaultPressed,
     onPressedChange,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const { size, pressed: pressedProp, disabled = false, loading = false } = variantProps;
-  const [selected, setSelected] = useControllableState({
-    value: pressedProp,
-    defaultValue: defaultPressed,
-    onChange: onPressedChange,
-  });
-  const handleTap = React.useCallback(
-    (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
-      setSelected(!selected);
-      bindtap?.(...args);
-    },
-    [bindtap, selected, setSelected],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { size, disabled = false, loading = false } = variantProps;
+  const api = useToggle({
+    pressed,
+    defaultPressed,
+    onPressedChange,
     disabled: disabled || loading,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
   });
+  const selected = api.pressed;
+  // Press color comes from the recipe's `:active` selector; touch handlers only drive Scale Feedback.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: disabled || loading,
+    disabled: api.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const classNames = reactionButton({ ...variantProps, selected, pressed, disabled, loading });
+  const classNames = reactionButton({ ...variantProps, selected, disabled, loading });
   const iconSlotContextValue = useMemo(
     () => ({
       classNames: { prefixIcon: classNames.prefixIcon },
-      deps: [size ?? "small", selected, pressed, disabled, loading],
+      deps: [size ?? "small", selected, disabled, loading],
     }),
-    [classNames.prefixIcon, size, selected, pressed, disabled, loading],
+    [classNames.prefixIcon, size, selected, disabled, loading],
   );
 
   const prefixIconChildren: React.ReactNode[] = [];
@@ -111,16 +112,12 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
-          pressHandlers,
+          rootProps,
           nativeProps,
         )}
         flatten={false}
         className={clsx(classNames.root, className)}
         style={style}
-        accessibility-element={accessibilityElement}
-        accessibility-traits={
-          disabled ? "disabled" : selected ? "selected" : (accessibilityTraits ?? "button")
-        }
       >
         <view className={classNames.content}>
           {prefixIconChildren}
@@ -136,6 +133,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
         {loading ? (
           <view className={classNames.loadingIndicator}>
             <ProgressCircleRoot size="14" tone="inherit">
+              <ProgressCircleTrack />
               <ProgressCircleRange />
             </ProgressCircleRoot>
           </view>

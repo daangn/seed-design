@@ -8,8 +8,6 @@ import { ScrollFog, type ScrollFogProps } from "./ScrollFog";
 
 type Edge = "top" | "bottom" | "left" | "right";
 
-const EDGES: Edge[] = ["top", "bottom", "left", "right"];
-
 function getRoot(container: HTMLElement): HTMLElement {
   const root = container.firstElementChild;
   if (!root || root.tagName.toLowerCase() !== "view") {
@@ -32,57 +30,65 @@ function getMasks(container: HTMLElement): HTMLElement[] {
   );
 }
 
-function getScrollViews(container: HTMLElement): [HTMLElement, HTMLElement] {
-  const vertical = container.querySelector<HTMLElement>(".seed-scroll-fog__verticalScroll");
-  const horizontal = container.querySelector<HTMLElement>(".seed-scroll-fog__horizontalScroll");
-  if (!vertical || !horizontal) {
-    throw new Error("vertical 및 horizontal scroll-view가 렌더되어야 합니다.");
-  }
-  return [vertical, horizontal];
-}
-
 function expectEdgeVariant(container: HTMLElement, edge: Edge, enabled: boolean): void {
   expect(getMask(container, edge)).toHaveClass(`seed-scroll-fog__${edge}Mask--${edge}_${enabled}`);
 }
 
 describe("ScrollFog", () => {
-  it("exposes view props without native scroll-view or main-thread props", () => {
+  it("exposes view props and accepts edges from one scroll axis only", () => {
     type MainThreadProp = Extract<keyof ScrollFogProps, `main-thread:${string}`>;
-    type ScrollViewOnlyProp = Extract<
-      keyof ScrollFogProps,
-      "bounces" | "bindscroll" | "fading-edge-length" | "scroll-orientation"
-    >;
+    type Placement = NonNullable<ScrollFogProps["placement"]>;
 
     expectTypeOf<MainThreadProp>().toEqualTypeOf<never>();
-    expectTypeOf<ScrollViewOnlyProp>().toEqualTypeOf<never>();
     expectTypeOf<ScrollFogProps>().toHaveProperty("bindtap");
+    expectTypeOf<ScrollFogProps>().not.toHaveProperty("hideScrollBar");
+    expectTypeOf<["top", "bottom"]>().toExtend<Placement>();
+    expectTypeOf<["left", "right"]>().toExtend<Placement>();
+    expectTypeOf<["top", "left"]>().not.toExtend<Placement>();
   });
 
-  it("renders the default mask and scroll slots without internal inline styles", () => {
-    const { container } = render(<ScrollFog />);
+  it("wraps children in the default top and bottom masks without rendering a scroll host", () => {
+    const { container } = render(
+      <ScrollFog>
+        <scroll-view scroll-orientation="vertical">
+          <text>Content</text>
+        </scroll-view>
+      </ScrollFog>,
+    );
     const root = getRoot(container);
-    const [vertical, horizontal] = getScrollViews(container);
+    const bottomMask = getMask(container, "bottom");
 
     expect(root).toHaveClass("seed-scroll-fog__root", "seed-scroll-fog__root--top_true");
     expect(root).toHaveClass("seed-scroll-fog__root--bottom_true");
     expectEdgeVariant(container, "top", true);
     expectEdgeVariant(container, "bottom", true);
     expect(getMasks(container)).toHaveLength(2);
-    expect(vertical).toContainElement(horizontal);
+    expect(root.querySelectorAll("scroll-view")).toHaveLength(1);
+    expect(bottomMask.firstElementChild?.tagName.toLowerCase()).toBe("scroll-view");
 
-    for (const element of root.querySelectorAll("view, scroll-view")) {
+    for (const element of root.querySelectorAll("view")) {
       expect(element).not.toHaveAttribute("style");
     }
   });
 
-  it("renders only the selected masks for an arbitrary placement", () => {
-    const { container } = render(<ScrollFog placement={["bottom", "left"]} />);
+  it("renders only the selected edges of the horizontal axis", () => {
+    const { container } = render(<ScrollFog placement={["left", "right"]} />);
 
-    expectEdgeVariant(container, "bottom", true);
     expectEdgeVariant(container, "left", true);
+    expectEdgeVariant(container, "right", true);
     expect(container.querySelector(".seed-scroll-fog__topMask")).not.toBeInTheDocument();
-    expect(container.querySelector(".seed-scroll-fog__rightMask")).not.toBeInTheDocument();
+    expect(container.querySelector(".seed-scroll-fog__bottomMask")).not.toBeInTheDocument();
     expect(getMasks(container)).toHaveLength(2);
+  });
+
+  it("renders the same masks regardless of placement order", () => {
+    const ordered = render(<ScrollFog placement={["top", "bottom"]} />);
+    const orderedHtml = ordered.container.innerHTML;
+    ordered.unmount();
+
+    const reversed = render(<ScrollFog placement={["bottom", "top"]} />);
+
+    expect(reversed.container.innerHTML).toBe(orderedHtml);
   });
 
   it("sets inherited edge-size variables and keeps the truthy zero fallback", () => {
@@ -136,25 +142,6 @@ describe("ScrollFog", () => {
     expect(rootStyle.width).toBe("80px");
   });
 
-  it("keeps two nested scroll axes and controls both native scrollbars", () => {
-    const visible = render(<ScrollFog />);
-    const [visibleVertical, visibleHorizontal] = getScrollViews(visible.container);
-
-    expect(visibleVertical).toHaveAttribute("scroll-orientation", "vertical");
-    expect(visibleHorizontal).toHaveAttribute("scroll-orientation", "horizontal");
-    expect(visibleVertical).toHaveAttribute("enable-nested-scroll", "true");
-    expect(visibleHorizontal).toHaveAttribute("enable-nested-scroll", "true");
-    expect(visibleVertical).toHaveAttribute("scroll-bar-enable", "true");
-    expect(visibleHorizontal).toHaveAttribute("scroll-bar-enable", "true");
-    expect(visibleVertical).toContainElement(visibleHorizontal);
-    visible.unmount();
-
-    const hidden = render(<ScrollFog hideScrollBar />);
-    for (const scrollView of getScrollViews(hidden.container)) {
-      expect(scrollView).toHaveAttribute("scroll-bar-enable", "false");
-    }
-  });
-
   it("forwards root props, merges class and style, and keeps children and ref on the root", () => {
     const bindtap = vi.fn();
     const rootRef = createRef<NodesRef>();
@@ -177,46 +164,37 @@ describe("ScrollFog", () => {
     expect(root).toHaveClass("seed-scroll-fog__root", "custom-scroll");
     expect(root).toHaveStyle({ height: "100px" });
     expect(root.querySelector("text")?.textContent).toBe("Content");
-    expect(root.querySelector("scroll-view")).not.toHaveAttribute("id");
+    expect(root.querySelector(".seed-scroll-fog__topMask")).not.toHaveAttribute("id");
     expect(rootRef.current).not.toBeNull();
     expect(Array.from(root.attributes).some(({ name }) => name.startsWith("react-ref-"))).toBe(
       true,
     );
-    for (const scrollView of getScrollViews(container)) {
-      expect(
-        Array.from(scrollView.attributes).some(({ name }) => name.startsWith("react-ref-")),
-      ).toBe(false);
+    for (const mask of getMasks(container)) {
+      expect(Array.from(mask.attributes).some(({ name }) => name.startsWith("react-ref-"))).toBe(
+        false,
+      );
     }
 
     fireEvent.tap(root);
     expect(bindtap).toHaveBeenCalledTimes(1);
   });
 
-  it("renders all four masks in canonical order regardless of placement order", () => {
-    const { container } = render(<ScrollFog placement={["right", "left", "bottom", "top"]} />);
-
-    for (const edge of EDGES) {
-      expectEdgeVariant(container, edge, true);
-    }
-    expect(getMasks(container).map(({ classList }) => classList.item(0))).toEqual(
-      EDGES.map((edge) => `seed-scroll-fog__${edge}Mask`),
-    );
-  });
-
   it("renders one mask for a single edge", () => {
-    const { container } = render(<ScrollFog placement={["right"]} />);
+    const { container } = render(<ScrollFog placement={["bottom"]} />);
 
-    expectEdgeVariant(container, "right", true);
+    expectEdgeVariant(container, "bottom", true);
     expect(getMasks(container)).toHaveLength(1);
   });
 
-  it("renders the scroll views without a mask wrapper for an empty placement", () => {
-    const { container } = render(<ScrollFog placement={[]} />);
+  it("renders children directly in the root for an empty placement", () => {
+    const { container } = render(
+      <ScrollFog placement={[]}>
+        <text>Content</text>
+      </ScrollFog>,
+    );
     const root = getRoot(container);
-    const [vertical, horizontal] = getScrollViews(container);
 
     expect(getMasks(container)).toHaveLength(0);
-    expect(root.firstElementChild).toBe(vertical);
-    expect(vertical).toContainElement(horizontal);
+    expect(root.firstElementChild?.tagName.toLowerCase()).toBe("text");
   });
 });

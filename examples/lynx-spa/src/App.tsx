@@ -12,6 +12,7 @@ import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
+import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
 import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
 import { DocsExamplePage } from "./pages/DocsExamplePage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
@@ -29,13 +30,18 @@ import {
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
 import { MannerTempPage } from "./pages/MannerTempPage.jsx";
 import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
+import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
+import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
+import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
+import { SwitchHeadlessPage } from "./pages/SwitchHeadlessPage.jsx";
 import { TabsPage } from "./pages/TabsPage.jsx";
+import { TabsHeadlessPage } from "./pages/TabsHeadlessPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
@@ -57,12 +63,18 @@ export type Page =
   | "bottom-sheet"
   | "callout"
   | "checkbox"
+  | "dialog-headless"
   | "manner-temp"
+  | "menu-headless"
   | "page-banner"
   | "progress-circle"
+  | "progress-circle-headless"
   | "radio-group"
+  | "radio-group-headless"
   | "switch"
+  | "switch-headless"
   | "tabs"
+  | "tabs-headless"
   | "tag-group"
   | "text-field"
   | "nested-vars-test"
@@ -100,12 +112,18 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "bottom-sheet": true,
   callout: true,
   checkbox: true,
+  "dialog-headless": true,
   "manner-temp": true,
+  "menu-headless": true,
   "page-banner": true,
   "progress-circle": true,
+  "progress-circle-headless": true,
   "radio-group": true,
+  "radio-group-headless": true,
   switch: true,
+  "switch-headless": true,
   tabs: true,
+  "tabs-headless": true,
   "tag-group": true,
   "text-field": true,
   "foundation-monochrome-icon": true,
@@ -174,12 +192,18 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "bottom-sheet" && <BottomSheetPage />}
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
+      {page === "dialog-headless" && <DialogHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
+      {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
+      {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
+      {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
       {page === "switch" && <SwitchPage />}
+      {page === "switch-headless" && <SwitchHeadlessPage />}
       {page === "tabs" && <TabsPage />}
+      {page === "tabs-headless" && <TabsHeadlessPage />}
       {page === "tag-group" && <TagGroupPage />}
       {page === "text-field" && <TextFieldPage />}
       <Suspense>

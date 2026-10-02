@@ -208,6 +208,46 @@ export function App() {
   ```
 </LynxComponentExample>
 
+## Headless
+
+`@seed-design/lynx-react-callout`은 Recipe 없이 Callout의 기능만 제공합니다.
+
+- `open`, `defaultOpen`, `onDismiss`와 dismiss. 이미 닫힌 Callout의 dismiss는 `onDismiss`를 호출하지 않습니다.
+- `bindtap` 또는 `main-thread:bindtap`이 있는 Root의 눌림 상태와 `button` 접근성 기본값
+- CloseButton의 tap: 사용자 `bindtap`을 먼저 실행한 뒤 dismiss합니다. tap을 catch하지 않으므로 탭할 수 있는 Root의 `bindtap`도 이어서 실행됩니다.
+
+`Callout.Root`는 닫히면 아무것도 렌더링하지 않습니다. 제목, 설명, 링크는 상태가 없는 표현 요소이므로 이 패키지에 포함하지 않습니다. `<text>`로 직접 구성하고, 눌림 상태가 필요하면 `useCalloutContext()`로 `pressed`를 읽습니다.
+
+`@seed-design/lynx-react`의 Callout은 여기에 tone Recipe, 아이콘 slot, Title·Description·Link, Scale Feedback을 더합니다. Registry `ui:callout`은 일반·Actionable·Dismissible 구성과 닫기 아이콘·레이블을 조립합니다. SEED 디자인을 사용하는 화면에서는 Registry를 사용하세요.
+
+```package-install
+@seed-design/lynx-react-callout
+```
+
+<LynxComponentExample name="lynx/callout/headless" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/headless.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### `Callout.Root`
+
+아래 속성 외에 native `<view>` 속성을 받습니다. `useCallout()`도 같은 속성을 받습니다.
+
+<react-type-table path="../packages/lynx-react-headless/callout/src/useCallout.ts" name="UseCalloutProps" />
+
+### `Callout.CloseButton`
+
+아래 속성 외에 native `<view>` 속성을 받습니다. `useCalloutCloseButton()`도 같은 속성을 받습니다.
+
+<react-type-table
+  path="../packages/lynx-react-headless/callout/src/useCalloutCloseButton.ts"
+  name="UseCalloutCloseButtonProps"
+/>
+
 ## 웹 버전과의 차이
 
 | 영역 | React | Lynx |
@@ -219,6 +259,8 @@ export function App() {
 | 링크 밑줄 | `text-decoration` | Lynx 프리셋 제약으로 테두리 기반 표현 |
 
 Lynx에서는 탭할 수 있는 `Root`를 누르는 동안 `pressed` Recipe variant를 적용합니다. `Callout.Link`는 기본적으로 `accessibility-traits="link"`를 사용합니다. 탭할 수 있는 `Root`와 `CloseButton`에는 `button` 역할을 적용합니다.
+
+`Callout.Root`는 `bindtap` 또는 `main-thread:bindtap`이 있을 때만 탭할 수 있는 Root가 됩니다. Registry `ActionableCallout`은 React의 `<button>`처럼 `bindtap`을 전달하지 않아도 눌림 상태, Scale Feedback, `button` 역할을 적용합니다.
 
 ## Lynx 미지원 기능
 

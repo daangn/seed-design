@@ -18,12 +18,16 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { CheckboxRoot, type CheckboxRootProps, useCheckboxContext } from "../Checkbox/Checkbox";
+import {
+  CheckboxRoot,
+  type CheckboxRootProps,
+  useStyledCheckboxContext,
+} from "../Checkbox/Checkbox";
 import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import {
   RadioGroupItem,
   type RadioGroupItemProps,
-  useRadioGroupItemContext,
+  useStyledRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -170,7 +174,7 @@ interface CheckSelectBoxSurfaceProps extends SelectBoxSurfaceProps {
 }
 
 function CheckSelectBoxSurface(props: CheckSelectBoxSurfaceProps) {
-  const checkbox = useCheckboxContext("CheckSelectBoxRoot");
+  const checkbox = useStyledCheckboxContext("CheckSelectBoxRoot");
   const contextValue = React.useMemo<SelectBoxRuntimeContextValue>(
     () => ({
       selected: checkbox.checked,
@@ -263,7 +267,7 @@ interface RadioSelectBoxSurfaceProps extends SelectBoxSurfaceProps {
 }
 
 function RadioSelectBoxSurface(props: RadioSelectBoxSurfaceProps) {
-  const item = useRadioGroupItemContext("RadioSelectBoxItem");
+  const item = useStyledRadioGroupItemContext("RadioSelectBoxItem");
   const contextValue = React.useMemo<SelectBoxRuntimeContextValue>(
     () => ({
       selected: item.checked,

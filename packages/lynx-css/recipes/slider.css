@@ -32,7 +32,7 @@
 .seed-slider__thumb {
     position: absolute;
     top: 50%;
-    left: calc(var(--slider-thumb-left, 0%) + var(--slider-thumb-offset, 0px));
+    left: calc(var(--slider-thumb-left, 0%) + var(--seed-dimension-x5) * var(--slider-thumb-offset-ratio, 0));
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5);
     background-color: var(--seed-color-bg-neutral-solid);
@@ -51,6 +51,7 @@
     top: 50%;
     left: calc(var(--slider-value-indicator-left, 0%) + var(--slider-value-indicator-offset, 0px));
     width: max-content;
+    height: max-content;
     padding-top: 8px;
     padding-right: 8px;
     padding-bottom: 8px;
@@ -99,7 +100,6 @@
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-medium);
     flex-shrink: 0;
-    white-space: nowrap;
     text-align: center
 }
 .seed-slider__track--disabled_true {
@@ -110,9 +110,6 @@
 }
 .seed-slider__thumb--disabled_true {
     background-color: var(--seed-color-fg-disabled)
-}
-.seed-slider__markers--disabled_true {
-    --slider-marker-color: var(--seed-color-fg-disabled)
 }
 .seed-slider__range--dragging_true {
     transition: none

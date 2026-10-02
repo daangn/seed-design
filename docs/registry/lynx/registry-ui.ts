@@ -30,6 +30,10 @@ const attachmentPackageRanges = {
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
+const attachmentReorderablePackageRanges = {
+  ...attachmentPackageRanges,
+  "@seed-design/lynx-react-sortable": ">=0.1.0 <1.0.0",
+};
 const quantityPickerPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
@@ -53,6 +57,10 @@ const selectBoxPackageRanges = {
 const sliderPackageRanges = {
   "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+};
+const wheelPickerPackageRanges = {
+  "@seed-design/lynx-react": ">=0.11.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.15.0 <1.0.0",
 };
 const menuPackageRanges = {
   "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
@@ -85,9 +93,14 @@ const listPackageRanges = {
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
 };
 
-const swipeableMenuSheetPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
+const menuSheetPackageRanges = {
+  "@seed-design/lynx-react": ">=0.9.0 <1.0.0",
   "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+};
+
+const mannerTempPackageRanges = {
+  "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
 };
 
 // Lynx UI registry. Each item must have a matching snippet file under
@@ -235,7 +248,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-display-field-reorderable.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: attachmentReorderablePackageRanges,
         },
       ],
     },
@@ -244,7 +257,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-field-reorderable.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: attachmentReorderablePackageRanges,
         },
       ],
     },
@@ -265,11 +278,38 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "manner-temp",
+      snippets: [
+        {
+          path: "manner-temp.tsx",
+          dependencies: mannerTempPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "manner-temp-badge",
+      snippets: [
+        {
+          path: "manner-temp-badge.tsx",
+          dependencies: mannerTempPackageRanges,
+        },
+      ],
+    },
+    {
       id: "menu",
       snippets: [
         {
           path: "menu.tsx",
           dependencies: menuPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "menu-sheet",
+      snippets: [
+        {
+          path: "menu-sheet.tsx",
+          dependencies: menuSheetPackageRanges,
         },
       ],
     },
@@ -379,15 +419,6 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "swipeable-menu-sheet",
-      snippets: [
-        {
-          path: "swipeable-menu-sheet.tsx",
-          dependencies: swipeableMenuSheetPackageRanges,
-        },
-      ],
-    },
-    {
       id: "tabs",
       snippets: [
         {
@@ -411,6 +442,15 @@ export const registryUI: Registry = {
         {
           path: "text-field.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: wheelPickerPackageRanges,
         },
       ],
     },

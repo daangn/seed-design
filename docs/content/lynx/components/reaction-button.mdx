@@ -79,7 +79,7 @@ Lynx `ReactionButton`은 별도 `ui:reaction-button` snippet 없이 `@seed-desig
   ```
 </LynxComponentExample>
 
-Loading 중에도 `bindtap`과 `onPressedChange`가 동작합니다. 이벤트를 막아야 한다면 `disabled`를 함께 사용하세요.
+Loading 중에는 `disabled`와 같이 `bindtap`, `main-thread:bindtap`, `onPressedChange`가 실행되지 않고 pressed 상태도 바뀌지 않습니다. 예제처럼 tap으로 loading을 시작하고, 작업이 끝난 뒤 `pressed`를 갱신하세요.
 
 ## 웹 버전과의 차이
 
@@ -88,7 +88,7 @@ Lynx `ReactionButton`은 React `ReactionButton`과 다음과 같은 차이가 �
 
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`와 `<text>` 요소를 렌더링합니다.
-- **접근성 속성**: `aria-*` 대신 Lynx native `accessibility-*` 속성을 사용합니다.
+- **접근성 속성**: `aria-*` 대신 Lynx native `accessibility-*` 속성을 사용합니다. `aria-pressed` 대신 `accessibility-role-description="toggle button"`과 `accessibility-value`(`pressed`/`not pressed`)로 선택 상태를 알립니다.
 - **HTML 기능**: button/form 속성, 키보드 focus, `asChild`를 지원하지 않습니다.
-- **Loading 상태**: spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다. React와 마찬가지로 이벤트는 유지됩니다.
+- **Loading 상태**: spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다. Lynx는 loading 중 tap을 막고 `accessibility-traits`를 `disabled`로 알리지만, 웹은 loading만으로 `onClick`을 막지 않습니다.
 </Callout>

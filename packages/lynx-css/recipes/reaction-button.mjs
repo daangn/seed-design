@@ -31,18 +31,11 @@ const reactionButtonSlotNames = [
 const defaultVariant = {
   "size": "small",
   "selected": false,
-  "pressed": false,
   "disabled": false,
   "loading": false
 };
 
 const compoundVariants = [
-  {
-    "selected": true,
-    "pressed": true,
-    "disabled": false,
-    "loading": false
-  },
   {
     "selected": false,
     "disabled": false,
@@ -65,10 +58,6 @@ export const reactionButtonVariantMap = {
     "small"
   ],
   "selected": [
-    true,
-    false
-  ],
-  "pressed": [
     true,
     false
   ],

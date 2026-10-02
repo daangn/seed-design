@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useToggle, type UseToggleProps } from "./useToggle.js";
-import { ToggleContext } from "./useToggleContext.js";
+import { ToggleProvider } from "./useToggleContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 export interface ToggleRootProps extends UseToggleProps, ViewProps {}
@@ -18,43 +18,51 @@ export const ToggleRoot = React.forwardRef<unknown, ToggleRootProps>((props, ref
     bindtouchend,
     bindtouchcancel,
     "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
     ...nativeProps
   } = props;
-  const api = useToggle({ pressed, defaultPressed, onPressedChange, disabled });
+  const api = useToggle({
+    pressed,
+    defaultPressed,
+    onPressedChange,
+    disabled,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
+  });
+  const {
+    bindtouchstart: pressStart,
+    bindtouchend: pressEnd,
+    bindtouchcancel: pressCancel,
+    ...rootProps
+  } = api.rootProps;
+
   return (
-    <ToggleContext.Provider value={api}>
+    <ToggleProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        accessibility-element
-        accessibility-traits={disabled ? "disabled" : "button"}
-        accessibility-role-description="toggle button"
-        accessibility-value={api.pressed ? "pressed" : "not pressed"}
+        {...rootProps}
         {...nativeProps}
-        bindtap={
-          disabled
-            ? undefined
-            : (event) => {
-                bindtap?.(event);
-                api.rootProps.bindtap(event);
-              }
-        }
-        main-thread:bindtap={disabled ? undefined : mainThreadBindtap}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
-          api.rootProps.bindtouchstart(event);
+          pressStart(event);
         }}
         bindtouchend={(event) => {
           bindtouchend?.(event);
-          api.rootProps.bindtouchend(event);
+          pressEnd(event);
         }}
         bindtouchcancel={(event) => {
           bindtouchcancel?.(event);
-          api.rootProps.bindtouchcancel(event);
+          pressCancel(event);
         }}
       >
         {children}
       </view>
-    </ToggleContext.Provider>
+    </ToggleProvider>
   );
 });
 ToggleRoot.displayName = "ToggleRoot";

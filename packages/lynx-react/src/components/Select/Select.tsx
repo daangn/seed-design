@@ -11,9 +11,17 @@ import {
 } from "@seed-design/lynx-css/recipes/select-trigger";
 import { selectItem, type SelectItemVariantProps } from "@seed-design/lynx-css/recipes/select-item";
 import { select as selectVars } from "@seed-design/lynx-css/vars/component";
+import {
+  computePosition,
+  type Placement as SelectPlacement,
+  type Position as SelectPosition,
+  type Rect as SelectRect,
+} from "@seed-design/lynx-react-floating";
+import { useFieldContext } from "@seed-design/lynx-react-field";
 
 import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
@@ -24,14 +32,8 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { toArray } from "../../utils/children";
-import { useFieldContext } from "../Field/context";
+import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
-import {
-  computePosition,
-  type Placement as SelectPlacement,
-  type Position as SelectPosition,
-  type Rect as SelectRect,
-} from "../private/Positioning";
 
 const EMPTY_VALUE: string[] = [];
 // `$dimension.x2` is the Rootage Select spacing token. Generated component vars retain
@@ -56,6 +58,7 @@ interface SelectClassNames {
 
 interface SelectItemClassNames {
   root: string;
+  scaleContent: string;
   pressedOverlay: string;
   body: string;
   label: string;
@@ -542,11 +545,21 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
   const {
     pressed,
     bindtap: proxyBindtap,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
     ...pressHandlers
   } = usePressTap({
     disabled: nonInteractive,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  // 눌림 상태는 Scale Feedback의 Main Thread touch handler를 따라갑니다.
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: nonInteractive,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const mainThreadProxyBindtap = pressHandlers["main-thread:bindtap"];
   React.useEffect(() => {
@@ -584,19 +597,20 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
       accessibility-role-description="button"
       accessibility-value={context.open ? "expanded" : "collapsed"}
       accessibility-traits={nonInteractive ? "disabled" : (accessibilityTraits ?? "button")}
-      {...nativeProps}
-      {...pressHandlers}
+      {...mergeProps(nativeProps, scaleFeedbackTriggerProps, pressHandlers)}
       bindtap={proxyBindtap}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-      {children ?? (
-        <>
-          <SelectPrefixIcon fallback={prefixIcon} />
-          <SelectValue />
-          <SelectPlaceholder>{placeholder}</SelectPlaceholder>
-          <SelectSuffixIcon icon={suffixIcon} />
-        </>
-      )}
+      <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+        {children ?? (
+          <>
+            <SelectPrefixIcon fallback={prefixIcon} />
+            <SelectValue />
+            <SelectPlaceholder>{placeholder}</SelectPlaceholder>
+            <SelectSuffixIcon icon={suffixIcon} />
+          </>
+        )}
+      </view>
     </view>
   );
 });
@@ -1305,10 +1319,17 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
     },
     [bindtap, context, value],
   );
-  const { pressed, ...pressHandlers } = usePressTap({
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: handleTap,
     mainThreadOnTap: mainThreadBindtap,
+  });
+  // 눌림 상태는 Scale Feedback의 Main Thread touch handler를 따라갑니다.
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
   const handleRef = React.useCallback(
     (nextNode: NodesRef | null) => {
@@ -1363,11 +1384,12 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         accessibility-role-description="option"
         accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
         accessibility-traits={disabled ? "disabled" : accessibilityTraits}
-        {...nativeProps}
-        {...pressHandlers}
+        {...mergeProps(nativeProps, scaleFeedbackTriggerProps, pressHandlers)}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-        {children}
+        <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+          {children}
+        </view>
       </view>
     </SelectItemContext.Provider>
   );

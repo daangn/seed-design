@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ReactionButton } from "./ReactionButton";
 
 describe("ReactionButton feedback integration", () => {
-  it("preserves the user's Main Thread ref and touch handler and clears press on cancel", async () => {
+  it("preserves the user's Main Thread ref and touch handler", async () => {
     function Example({ report }: { report: (attached: boolean) => void }) {
       const userRef = useMainThreadRef(null);
       function handleTouch() {
@@ -27,24 +27,35 @@ describe("ReactionButton feedback integration", () => {
     fireEvent.touchstart(target, {});
     await waitSchedule();
     expect(report.mock.calls).toEqual([[true]]);
-    expect(target.classList.contains("seed-reaction-button__root--pressed_true")).toBe(true);
-    fireEvent.touchcancel(target, {});
-    await waitSchedule();
-    expect(target.classList.contains("seed-reaction-button__root--pressed_true")).toBe(false);
   });
 
-  it.each([
-    "disabled",
-    "loading",
-  ] as const)("does not enter pressed state while %s", async (state) => {
-    const { container } = render(<ReactionButton {...{ [state]: true }}>좋아요</ReactionButton>, {
+  it("runs the Main Thread tap only while interactive", async () => {
+    function Example({ loading, report }: { loading: boolean; report: () => void }) {
+      function handleTap() {
+        "main thread";
+        runOnBackground(report)();
+      }
+      return (
+        <ReactionButton loading={loading} main-thread:bindtap={handleTap}>
+          좋아요
+        </ReactionButton>
+      );
+    }
+    const report = vi.fn();
+    const { container, rerender } = render(<Example loading={false} report={report} />, {
       enableMainThread: true,
       enableBackgroundThread: true,
     });
     await waitSchedule();
     const target = container.querySelector(".seed-reaction-button__root")!;
-    fireEvent.touchstart(target, {});
+    fireEvent.tap(target, {});
     await waitSchedule();
-    expect(target.classList.contains("seed-reaction-button__root--pressed_true")).toBe(false);
+    expect(report).toHaveBeenCalledTimes(1);
+
+    rerender(<Example loading report={report} />);
+    await waitSchedule();
+    fireEvent.tap(target, {});
+    await waitSchedule();
+    expect(report).toHaveBeenCalledTimes(1);
   });
 });

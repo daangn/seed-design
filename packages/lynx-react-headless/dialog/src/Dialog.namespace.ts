@@ -1,0 +1,20 @@
+export {
+  DialogRoot as Root,
+  DialogTrigger as Trigger,
+  DialogPositioner as Positioner,
+  DialogBackdrop as Backdrop,
+  DialogContent as Content,
+  DialogTitle as Title,
+  DialogDescription as Description,
+  DialogCloseButton as CloseButton,
+} from "./Dialog.jsx";
+export type {
+  DialogRootProps as RootProps,
+  DialogTriggerProps as TriggerProps,
+  DialogPositionerProps as PositionerProps,
+  DialogBackdropProps as BackdropProps,
+  DialogContentProps as ContentProps,
+  DialogTitleProps as TitleProps,
+  DialogDescriptionProps as DescriptionProps,
+  DialogCloseButtonProps as CloseButtonProps,
+} from "./Dialog.jsx";

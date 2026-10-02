@@ -16,16 +16,14 @@ export default function Example() {
         <RadioGroup
           accessibility-label="Fruit selection"
           defaultValue="apple"
-          size="large"
-          tone="neutral"
           onValueChange={(value) => {
             setCount((previous) => previous + 1);
             setLastValue(value);
           }}
         >
-          <RadioGroupItem value="apple" label="Apple" />
-          <RadioGroupItem value="banana" label="Banana" />
-          <RadioGroupItem value="orange" label="Orange" />
+          <RadioGroupItem value="apple" label="Apple" tone="neutral" size="large" />
+          <RadioGroupItem value="banana" label="Banana" tone="neutral" size="large" />
+          <RadioGroupItem value="orange" label="Orange" tone="neutral" size="large" />
         </RadioGroup>
         <text className="radio-group-preview__status">
           onValueChange called: {count} times, last value: {lastValue ?? "-"}

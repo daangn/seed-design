@@ -18,14 +18,18 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { CheckboxRoot, type CheckboxRootProps, useCheckboxContext } from "../Checkbox/Checkbox";
+import {
+  CheckboxRoot,
+  type CheckboxRootProps,
+  useStyledCheckboxContext,
+} from "../Checkbox/Checkbox";
 import { IconSlotProvider } from "../Icon/Icon";
 import {
   RadioGroupItem,
   type RadioGroupItemProps,
-  useRadioGroupItemContext,
+  useStyledRadioGroupItemContext,
 } from "../RadioGroup/RadioGroup";
-import { SwitchRoot, type SwitchRootProps, useSwitchContext } from "../Switch/Switch";
+import { SwitchRoot, type SwitchRootProps, useStyledSwitchContext } from "../Switch/Switch";
 
 type PublicListItemVariantProps = Omit<
   ListItemVariantProps,
@@ -215,7 +219,7 @@ interface ListCheckboxItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListCheckboxItemSurface(props: ListCheckboxItemSurfaceProps) {
-  const context = useCheckboxContext("ListCheckboxItem");
+  const context = useStyledCheckboxContext("ListCheckboxItem");
 
   return (
     <ListItemSurface
@@ -277,7 +281,7 @@ interface ListRadioItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListRadioItemSurface(props: ListRadioItemSurfaceProps) {
-  const context = useRadioGroupItemContext("ListRadioItem");
+  const context = useStyledRadioGroupItemContext("ListRadioItem");
 
   return (
     <ListItemSurface
@@ -299,7 +303,10 @@ function ListRadioItemSurface(props: ListRadioItemSurfaceProps) {
 
 export interface ListRadioItemProps
   extends PublicListItemVariantProps,
-    Omit<RadioGroupItemProps, "children" | "className" | "style" | "disabled">,
+    Omit<
+      RadioGroupItemProps,
+      "children" | "className" | "style" | "disabled" | "weight" | "size" | "tone"
+    >,
     LynxStyledElementProps,
     LynxAccessibilityProps {
   disabled?: boolean;
@@ -340,7 +347,7 @@ interface ListSwitchItemSurfaceProps
     LynxAccessibilityProps {}
 
 function ListSwitchItemSurface(props: ListSwitchItemSurfaceProps) {
-  const context = useSwitchContext("ListSwitchItem");
+  const context = useStyledSwitchContext("ListSwitchItem");
 
   return (
     <ListItemSurface

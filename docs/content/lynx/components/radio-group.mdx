@@ -28,7 +28,7 @@ npx @seed-design/cli add ui:radio-group
 
 ## Usage
 
-`RadioGroup`은 선택 상태와 함께 Field의 안내 정보를 표시합니다. `label`, `labelWeight`, `indicator`, `showRequiredIndicator`, `description`, `errorMessage`를 사용할 수 있습니다.
+Registry `RadioGroup`은 `RadioGroupField.Root`와 styled `RadioGroup.Root`를 조합합니다. `RadioGroupField.Root`가 선택 상태와 접근성을 관리하며, `label`, `labelWeight`, `indicator`, `showRequiredIndicator`, `description`, `errorMessage`로 안내 정보를 표시할 수 있습니다.
 
 ```tsx
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -50,6 +50,10 @@ export function ContactMethod() {
 
 `invalid`가 `true`이고 `errorMessage`가 있으면 화면에는 `description` 대신 오류 메시지를 표시합니다.
 
+`weight`, `size`, `tone`은 `RadioGroupItem`에 지정합니다. `Radiomark`에 전달한 `tone`과 `size`는 항목의 값을 덮어씁니다.
+
+이전 버전에서 그룹에 지정하던 `weight`, `size`, `tone`은 각 항목으로 옮기세요. Registry `RadioGroup`은 React와 같이 `required`와 `readOnly`를 받지 않습니다.
+
 ## Props
 
 ### `RadioGroup`
@@ -66,7 +70,7 @@ export function ContactMethod() {
 
 ## 접근성
 
-`RadioGroup`은 기본적으로 접근성 요소이며 `accessibility-role-description="radiogroup"`을 사용합니다. 그룹이 비활성 상태이면 `accessibility-traits="disabled"`도 전달합니다. Registry `RadioGroup`에 문자열 `label`을 전달하면 같은 내용을 `accessibility-label`에도 연결합니다.
+Registry `RadioGroup` 내부에서 선택 상태를 관리하는 `RadioGroupField.Root`는 기본적으로 접근성 요소이며 `accessibility-role-description="radiogroup"`을 사용합니다. 그룹이 비활성 상태이면 `accessibility-traits="disabled"`도 전달합니다. Registry `RadioGroup`에 문자열 `label`을 전달하면 같은 내용을 `accessibility-label`에도 연결합니다.
 
 `RadioGroupItem`은 기본적으로 `accessibility-role-description="radio"`를 사용합니다. 선택 상태는 `accessibility-value`의 `selected` 또는 `not selected`로 전달하며, 비활성 상태는 `accessibility-traits="disabled"`로 전달합니다.
 
@@ -111,7 +115,7 @@ export function ContactMethod() {
 
 ### Weights
 
-React의 항목별 `weight`와 달리 Lynx의 `weight`는 그룹 단위 prop입니다. 아래 예제는 굵기마다 그룹을 나눕니다. 두 그룹은 같은 제어 값을 공유하므로 두 항목 중 하나만 선택됩니다.
+각 `RadioGroupItem`의 `weight`를 지정하면 한 그룹 안에서 서로 다른 굵기를 사용할 수 있습니다.
 
 <LynxComponentExample name="lynx/radio-group/weights">
   ```json doc-gen:file
@@ -124,7 +128,7 @@ React의 항목별 `weight`와 달리 Lynx의 `weight`는 그룹 단위 prop입�
 
 ### Long Label
 
-Lynx의 `size`도 그룹 단위 prop입니다. 아래 예제는 크기마다 그룹을 나눕니다. 두 그룹은 같은 제어 값을 공유하므로 두 항목 중 하나만 선택됩니다.
+각 `RadioGroupItem`의 `size`를 지정하면 한 그룹 안에서 서로 다른 크기를 사용할 수 있습니다.
 
 <LynxComponentExample name="lynx/radio-group/long-label">
   ```json doc-gen:file
@@ -182,7 +186,7 @@ Registry의 `Radiomark`와 `@seed-design/lynx-react`의 컴파운드 API를 함�
 
 ### RadioGroupField Integration
 
-`label`, `description`, `errorMessage` 등의 RadioGroupField 관련 prop을 사용할 수 있습니다.
+Registry `RadioGroup`은 `RadioGroupField.Root`를 사용하므로 `label`, `labelWeight`, `indicator`, `showRequiredIndicator`, `description`, `errorMessage`를 선택 상태와 함께 구성할 수 있습니다. 직접 조합할 때는 같은 안내 정보를 `RadioGroupField`의 Header와 Footer 슬롯에 배치하세요.
 
 <LynxComponentExample name="lynx/radio-group/radio-group-field">
   ```json doc-gen:file
@@ -195,7 +199,7 @@ Registry의 `Radiomark`와 `@seed-design/lynx-react`의 컴파운드 API를 함�
 
 ## Scale Feedback
 
-Lynx `RadioGroupItem`은 누르는 동안 `Radiomark`의 배경색을 바꿉니다. React처럼 크기를 줄이지 않으므로 `--seed-radiomark-feedback-scale` CSS 변수도 사용하지 않습니다.
+Lynx `RadioGroupItem`은 누르는 동안 `RadioGroup.ItemControl`의 `Radiomark`를 줄입니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 `Radiomark` 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-radiomark-feedback-scale` CSS 변수는 제공하지 않습니다.
 
 ## 웹 버전과의 차이
 
@@ -205,9 +209,9 @@ Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니�
 - **오류 안내 렌더링**: React는 오류가 표시될 때 `description`을 접근성 트리에 남기지만, Lynx에는 DOM의 visually hidden 처리 방식이 없어 화면과 접근성 트리에서 `description`을 제외하고 `errorMessage`만 렌더링합니다.
 - **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` 점으로 렌더됩니다. 사용자 지정 아이콘을 전달하려면 `@karrotmarket/lynx-monochrome-icon`을 별도로 설치하고 단색 아이콘 컴포넌트를 사용하세요. `<svg>`를 직접 주입하는 방식은 Lynx에서 지원하지 않습니다.
 - **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 item 내부에서 소유합니다.
-- **Pressed 상태**: 웹의 크기 축소 대신 내부 press state가 `Radiomark`의 배경색을 바꿉니다.
+- **Pressed 상태**: 내부 press state가 `Radiomark`의 배경색을 바꾸며, 크기 축소 동작은 위의 Scale Feedback 절을 참고하세요.
 - **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다. `Radiomark`는 standalone primitive가 아니라 item context 안에서 `ItemControl`과 `ItemIndicator`를 묶는 snippet helper입니다.
+- **Strict containment**: styled `RadioGroup.Root`는 context를 제공하지 않습니다. `RadioGroupItem`과 `RadioGroup.Item`에는 선택 context가 필요하며, Registry `RadioGroup`과 `RadioGroupField.Root`가 이를 제공합니다. `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemLabel`은 해당 항목의 context 안에서 사용하세요. `RadioGroup.ItemIndicator`는 항목 안의 `RadioGroup.ItemControl`에 배치합니다. `Radiomark`는 `ItemControl`과 `ItemIndicator`를 묶는 snippet helper입니다.
 </Callout>
 
 사용자 지정 아이콘 패키지는 Registry 기본 설치에 포함되지 않습니다.

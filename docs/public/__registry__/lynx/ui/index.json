@@ -81,26 +81,22 @@
           "dependencies": {
             "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
             "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+            "@seed-design/lynx-react-sortable": ">=0.1.0 <1.0.0"
           }
         }
       ],
       "id": "attachment-display-field-reorderable",
       "dependencies": [
         "@karrotmarket/lynx-monochrome-icon",
-        "@seed-design/lynx-react"
+        "@seed-design/lynx-react",
+        "@seed-design/lynx-react-sortable"
       ],
       "innerDependencies": [
         {
           "registryId": "ui",
           "itemIds": [
             "attachment-display-field"
-          ]
-        },
-        {
-          "registryId": "lib",
-          "itemIds": [
-            "attachment-sortable"
           ]
         }
       ]
@@ -137,26 +133,22 @@
           "dependencies": {
             "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
             "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+            "@seed-design/lynx-react-sortable": ">=0.1.0 <1.0.0"
           }
         }
       ],
       "id": "attachment-field-reorderable",
       "dependencies": [
         "@karrotmarket/lynx-monochrome-icon",
-        "@seed-design/lynx-react"
+        "@seed-design/lynx-react",
+        "@seed-design/lynx-react-sortable"
       ],
       "innerDependencies": [
         {
           "registryId": "ui",
           "itemIds": [
             "attachment-field"
-          ]
-        },
-        {
-          "registryId": "lib",
-          "itemIds": [
-            "attachment-sortable"
           ]
         }
       ]
@@ -348,6 +340,52 @@
     {
       "snippets": [
         {
+          "path": "manner-temp.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-badge.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.10.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp-badge",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "menu.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
@@ -356,6 +394,21 @@
         }
       ],
       "id": "menu",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.9.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "menu-sheet",
       "dependencies": [
         "@seed-design/lynx-react"
       ]
@@ -505,21 +558,6 @@
     {
       "snippets": [
         {
-          "path": "swipeable-menu-sheet.tsx",
-          "dependencies": {
-            "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.11.0 <1.0.0"
-          }
-        }
-      ],
-      "id": "swipeable-menu-sheet",
-      "dependencies": [
-        "@seed-design/lynx-react"
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "switch.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
@@ -573,6 +611,21 @@
         }
       ],
       "id": "text-field",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "wheel-picker.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.11.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.15.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "wheel-picker",
       "dependencies": [
         "@seed-design/lynx-react"
       ]

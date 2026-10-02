@@ -25,24 +25,29 @@ export default function Example() {
         style={{ overflow: "hidden" }}
       >
         <ScrollFog style={{ width: "100%", height: "100%" }} placement={["top", "bottom"]}>
-          <VStack pt="20px" px="16px" pb="80px" gap="8px">
-            {ITEMS.map((item) => (
-              <Box
-                key={item}
-                height="40px"
-                flexShrink={false}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius="4px"
-                bg="bg.neutralWeak"
-              >
-                <Text color="fg.neutral" fontSize="14px">
-                  콘텐츠 {item}
-                </Text>
-              </Box>
-            ))}
-          </VStack>
+          <scroll-view
+            scroll-orientation="vertical"
+            style={{ width: "100%", height: "100%", padding: "20px 16px 80px" }}
+          >
+            <VStack gap="8px">
+              {ITEMS.map((item) => (
+                <Box
+                  key={item}
+                  height="40px"
+                  flexShrink={false}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius="4px"
+                  bg="bg.neutralWeak"
+                >
+                  <Text color="fg.neutral" fontSize="14px">
+                    콘텐츠 {item}
+                  </Text>
+                </Box>
+              ))}
+            </VStack>
+          </scroll-view>
         </ScrollFog>
       </Box>
     </Box>
