@@ -26,6 +26,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "bottom-sheet", title: "BottomSheet" },
       { page: "callout", title: "Callout" },
       { page: "checkbox", title: "Checkbox" },
+      { page: "dialog-headless", title: "Dialog (Headless)" },
       { page: "manner-temp", title: "Manner Temp" },
       { page: "menu-headless", title: "Menu (Headless)" },
       { page: "page-banner", title: "PageBanner" },
