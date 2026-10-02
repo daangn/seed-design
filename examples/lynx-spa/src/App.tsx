@@ -12,6 +12,7 @@ import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
+import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
 import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
 import { DocsExamplePage } from "./pages/DocsExamplePage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
@@ -61,6 +62,7 @@ export type Page =
   | "bottom-sheet"
   | "callout"
   | "checkbox"
+  | "dialog-headless"
   | "manner-temp"
   | "menu-headless"
   | "page-banner"
@@ -108,6 +110,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "bottom-sheet": true,
   callout: true,
   checkbox: true,
+  "dialog-headless": true,
   "manner-temp": true,
   "menu-headless": true,
   "page-banner": true,
@@ -186,6 +189,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "bottom-sheet" && <BottomSheetPage />}
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
+      {page === "dialog-headless" && <DialogHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}

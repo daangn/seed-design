@@ -118,7 +118,8 @@ export interface DialogBackdropProps extends HeadlessDialogBackdropProps {}
 
 /**
  * @platform Lynx — refs are unsupported. Presence handlers and `bindtap` in
- * `dialogBackdropProps` are reserved for the dialog; use `onClick` to observe taps.
+ * `dialogBackdropProps` are reserved for the dialog. `onClick` is called only when a tap
+ * closes the dialog, so it does not fire while `clickToClose` is `false`.
  */
 export const DialogBackdrop = forwardRef<never, DialogBackdropProps>((props, _ref) => {
   const { className, transition = true, ...backdropProps } = props;
