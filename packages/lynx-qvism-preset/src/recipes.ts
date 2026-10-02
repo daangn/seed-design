@@ -45,6 +45,7 @@ import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 import tabs from "./recipes/tabs";
 import textInput from "./recipes/text-input";
+import wheelPicker from "./recipes/wheel-picker";
 import {
   attachmentInput,
   attachmentInputItem,
@@ -115,4 +116,5 @@ export const recipes = {
   tagGroupItem: lynxTagGroupItem,
   tabs,
   textInput,
+  wheelPicker,
 };

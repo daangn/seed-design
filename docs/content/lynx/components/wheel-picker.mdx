@@ -1,0 +1,115 @@
+---
+title: Wheel Picker
+description: 항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.11.0, @seed-design/lynx-css@0.15.0" />
+
+<LynxComponentExample name="lynx/wheel-picker/preview" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/wheel-picker/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:wheel-picker --framework lynx
+```
+
+<LynxManualInstallation name="wheel-picker" />
+
+## Props
+
+### `WheelPicker`
+
+<react-type-table path="./registry/lynx/ui/wheel-picker.tsx" name="WheelPickerProps" />
+
+### `WheelPickerColumn`
+
+<react-type-table path="./registry/lynx/ui/wheel-picker.tsx" name="WheelPickerColumn" />
+
+## Examples
+
+### Package API
+
+<LynxComponentExample name="lynx/wheel-picker/package-api" height={280}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/wheel-picker/package-api.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`@seed-design/lynx-react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
+
+`size="small"`의 기본 항목 높이는 36px, `size="medium"`은 44px입니다. 기본 `visibleItemCount`는 5이므로 Root 높이는 각각 180px과 220px입니다. `itemSize`와 `visibleItemCount`로 이를 조정할 수 있습니다. 컬럼의 `loop`는 기본 `false`이며 양 끝을 넘겨 끌면 저항을 주다가 놓으면 돌아옵니다.
+
+### Value Change
+
+`onIndexChange`는 사용자가 스크롤하거나 항목을 탭해 중앙 항목이 바뀔 때마다 호출됩니다. 정착 전에도 통과한 각 항목의 인덱스와 값을 순서대로 전달하므로 항목별 햅틱에 사용할 수 있습니다. 최종 선택값은 스크롤이 정착한 뒤 `onValueChange`로 처리하세요. 두 번째 인자인 `{ stepDelta }`는 직전에 정착한 항목에서 이동한 칸 수입니다.
+
+외부 `value` 변경 시 `valueChangeBehavior="smooth"`로 부드럽게 이동할 수 있습니다. 기본값인 `"auto"`와 `"instant"`는 즉시 이동합니다. 외부 값 변경에 따른 이동은 사용자 조작 callback을 호출하지 않습니다. 상태를 변경하는 callback에는 `"background only"` 지시문을 사용하세요.
+
+### React Element Label
+
+<LynxComponentExample name="lynx/wheel-picker/react-element-label" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/wheel-picker/react-element-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+문자열 label은 접근성 값으로 사용됩니다. React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. 접근성 텍스트를 별도로 계산해야 할 때는 `getAriaValueText`를 사용할 수 있습니다. 접근성 값은 `getAriaValueText`, `ariaLabel`, 문자열 label, `value` 순으로 선택합니다. 버튼, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
+
+커스텀 label의 문자열은 `<text>` 안에 넣으세요. `renderLabel` 안의 `<text>`는 항목의 선택·비활성 색을 따릅니다. 이 색을 유지하려면 커스텀 label에 색을 직접 지정하지 마세요. 타이포그래피 상속에는 [Feature Flags](/lynx/getting-started/feature-flags)의 `enableCSSInheritance: true` 설정을 사용합니다. Lynx에서는 CSS `inherit` 값을 지원하지 않습니다.
+
+### Disabled
+
+<LynxComponentExample name="lynx/wheel-picker/states" height={320}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/wheel-picker/states.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`disabled`는 조작과 값 변경을 막고 항목을 비활성 색으로 표시합니다. `readOnly`는 사용자 조작으로 값을 변경하지 못하게 하되 활성 색을 유지합니다. Lynx에는 웹의 포커스 유지 동작이 없습니다.
+
+### Data Contract
+
+- 각 컬럼의 `options`에는 하나 이상의 항목을 제공하세요.
+- option의 `value`는 컬럼 안에서 고유해야 합니다.
+- 제어 중인 `value`는 현재 `options`에 있어야 합니다.
+- 의존 컬럼이 바뀌면 새 `options`와 유효한 `value`를 같은 렌더에서 전달하세요.
+- 사용자가 조작 중이거나 정착을 기다리는 동안 외부 `value`가 바뀌면 스크롤 위치 동기화를 미루고 조작이 끝난 뒤 반영합니다.
+- 로딩, 오류, 빈 상태는 Wheel Picker 바깥에서 처리하세요.
+
+유효하지 않은 값이면 첫 항목을 표시하지만 전달받은 값을 보정하거나 보정 callback을 호출하지 않습니다. 날짜 계산, 컬럼 간 의존성과 확인 UI도 사용하는 쪽에서 구성합니다. 웹의 hidden input과 form 제출 기능은 제공하지 않습니다.
+
+### Accessibility
+
+각 `Column`에 `accessibility-label`을 지정하세요. 웹의 `aria-label`과 `aria-labelledby`는 사용하지 않습니다. 각 컬럼은 `accessibility-element`와 `accessibility-value`로 이름과 현재 선택값을 알리고, `disabled`이면 `accessibility-traits="disabled"`를 사용합니다. 복제 항목과 선택 색을 그리는 Highlight는 접근성 트리에서 숨깁니다.
+
+## 웹 버전과의 차이
+
+React의 `Root`는 `group`이지만 Lynx에는 이에 대응하는 접근성 요소가 없습니다. `Root`를 접근성 요소로 만들면 iOS에서 자식 컬럼을 가릴 수 있으므로 이름과 값은 각 `Column`이 담당합니다.
+
+Wheel Picker는 `@seed-design/lynx-react-loop-scroll`로 드래그, 관성, 정착과 탭 선택을 처리합니다. 위치 계산과 애니메이션은 Main Thread에서 실행하고, 지나간 항목과 정착한 값은 Background callback으로 전달합니다.
+
+활성 컬럼에서 세로로 끌면 바깥 `<scroll-view>` 대신 Wheel Picker가 움직입니다. `disabled` 또는 `readOnly`일 때는 세로 끌기를 바깥 native 스크롤에 넘깁니다. touch 이벤트는 이 상태에서도 Lynx 부모로 전파하지 않으므로 BottomSheet 안에서는 휠을 끌어 Sheet를 드래그하지 않습니다. Sheet 드래그는 휠 바깥 영역에서 시작하세요.
+
+선택 색은 `LoopScroll.Highlight` 안팎에 같은 항목을 그려 가운데 칸의 경계에서 나눕니다. 항목 안의 `<text>`에는 선택·비활성 상태 색을 직접 적용하므로 앱 전역 `text` 색이 있어도 항목 상태를 표시합니다.
+
+## Lynx 미지원 기능
+
+웹의 키보드 `ArrowUp`, `ArrowDown`, `Home`, `End` 조작과 `Tab` 컬럼 이동, 포커스 API는 지원하지 않습니다. 터치 드래그나 보이는 항목 탭으로 선택하세요. `readOnly`는 사용자 값 변경만 막으며 웹처럼 포커스를 유지하는 기능은 없습니다.
+
+스크린 리더는 각 컬럼의 이름과 현재 값을 읽지만, 스와이프로 값을 올리고 내리는 조작(`accessibility-actions` 등)은 제공하지 않습니다.
