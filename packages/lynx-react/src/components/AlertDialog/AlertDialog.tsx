@@ -1,19 +1,16 @@
 import {
-  DialogBackdrop as DialogBackdropPrimitive,
-  DialogClose as DialogClosePrimitive,
-  DialogContent as DialogContentPrimitive,
-  DialogTrigger as DialogTriggerPrimitive,
-  type DialogBackdropProps as DialogPrimitiveBackdropProps,
-  type DialogCloseProps as DialogPrimitiveCloseProps,
-  type DialogContentProps as DialogPrimitiveContentProps,
-  type DialogTriggerProps as DialogPrimitiveTriggerProps,
-} from "@lynx-js/lynx-ui-dialog";
-import {
+  DialogBackdrop as HeadlessDialogBackdrop,
+  DialogCloseButton as HeadlessDialogCloseButton,
+  DialogContent as HeadlessDialogContent,
   DialogPositioner as HeadlessDialogPositioner,
   DialogRoot as HeadlessDialogRoot,
-  useDialogContext,
+  DialogTrigger as HeadlessDialogTrigger,
+  type DialogBackdropProps as HeadlessDialogBackdropProps,
+  type DialogCloseButtonProps as HeadlessDialogCloseButtonProps,
+  type DialogContentProps as HeadlessDialogContentProps,
   type DialogPositionerProps as HeadlessDialogPositionerProps,
   type DialogRootProps as HeadlessDialogRootProps,
+  type DialogTriggerProps as HeadlessDialogTriggerProps,
 } from "@seed-design/lynx-react-dialog";
 import {
   forwardRef,
@@ -45,40 +42,12 @@ type LynxForwardRefComponent<T, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<T>
 >;
 
-type NativeLifecycleHandlers = {
-  bindanimationstart?: unknown;
-  bindanimationend?: unknown;
-  bindanimationcancel?: unknown;
-  bindtransitionstart?: unknown;
-  bindtransitionend?: unknown;
-  bindtap?: unknown;
-};
-
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(alertDialog);
 
-function omitHeadlessLifecycleHandlers<Props extends object>(
-  props: Props | undefined,
-): Props | undefined {
-  if (!props) return props;
-
-  const {
-    bindanimationstart: _bindanimationstart,
-    bindanimationend: _bindanimationend,
-    bindanimationcancel: _bindanimationcancel,
-    bindtransitionstart: _bindtransitionstart,
-    bindtransitionend: _bindtransitionend,
-    bindtap: _bindtap,
-    ...nativeProps
-  } = props as Props & NativeLifecycleHandlers;
-
-  return nativeProps as Props;
-}
-
-function useAlertDialogTransition(transition: boolean | undefined) {
-  const { skipAnimation } = useDialogContext();
-
-  return skipAnimation ? false : (transition ?? true);
-}
+// SEED recipe animates the `ui-entering`/`ui-open`/`ui-closed` classes, so parts opt into
+// lynx-ui transition classes by default. Root `skipAnimation` turns them off in the headless parts.
+// Alert semantics are defaults on top of `@seed-design/lynx-react-dialog` options:
+// Backdrop `clickToClose`, Content native accessibility, and Title heading.
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Root
@@ -89,7 +58,7 @@ export interface AlertDialogRootProps
     Omit<HeadlessDialogRootProps, keyof AlertDialogVariantProps> {}
 
 /**
- * @platform Lynx — wraps `@lynx-js/lynx-ui-dialog` as an alert dialog.
+ * @platform Lynx — `@seed-design/lynx-react-dialog` 위에 alert dialog recipe를 조립한다.
  * Refs, `asChild`, focus management, Escape-key dismissal, and close reasons are
  * not supported by the Lynx primitive.
  */
@@ -114,18 +83,13 @@ AlertDialogRoot.displayName = "AlertDialogRoot";
 // Trigger
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogTriggerProps extends DialogPrimitiveTriggerProps {}
+export interface AlertDialogTriggerProps extends HeadlessDialogTriggerProps {}
 
 /** @platform Lynx — `asChild` and refs are unsupported. */
 export const AlertDialogTrigger = forwardRef<never, AlertDialogTriggerProps>((props, _ref) => {
-  const { children, transition, ...nativeProps } = props;
-  const resolvedTransition = useAlertDialogTransition(transition);
+  const { transition = true, ...triggerProps } = props;
 
-  return (
-    <DialogTriggerPrimitive {...nativeProps} transition={resolvedTransition}>
-      {children}
-    </DialogTriggerPrimitive>
-  );
+  return <HeadlessDialogTrigger {...triggerProps} transition={transition} />;
 }) as AlertDialogComponent<AlertDialogTriggerProps>;
 AlertDialogTrigger.displayName = "AlertDialogTrigger";
 
@@ -138,17 +102,15 @@ export interface AlertDialogPositionerProps extends HeadlessDialogPositionerProp
 /** @platform Lynx — maps to `DialogView`; refs are unsupported. */
 export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
   (props, _ref) => {
-    const { children, className, transition, ...positionerProps } = props;
+    const { className, transition = true, ...positionerProps } = props;
     const classNames = useClassNames();
 
     return (
       <HeadlessDialogPositioner
         {...positionerProps}
         className={clsx(classNames.positioner, className)}
-        transition={useAlertDialogTransition(transition)}
-      >
-        {children}
-      </HeadlessDialogPositioner>
+        transition={transition}
+      />
     );
   },
 ) as AlertDialogComponent<AlertDialogPositionerProps>;
@@ -158,35 +120,30 @@ AlertDialogPositioner.displayName = "AlertDialogPositioner";
 // Backdrop
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogBackdropProps extends DialogPrimitiveBackdropProps {}
+export interface AlertDialogBackdropProps extends HeadlessDialogBackdropProps {
+  /**
+   * Whether tapping the backdrop closes the alert dialog.
+   * @defaultValue false
+   */
+  clickToClose?: HeadlessDialogBackdropProps["clickToClose"];
+}
 
 /**
- * @platform Lynx — refs are unsupported. Native lifecycle handlers in
- * `dialogBackdropProps` are reserved by the headless primitive and are omitted.
- * Alert dialogs do not dismiss when the backdrop is tapped by default.
+ * @platform Lynx — refs are unsupported. Presence handlers and `bindtap` in
+ * `dialogBackdropProps` are reserved for the dialog. `onClick` is called only when a tap
+ * closes the dialog, so it does not fire while `clickToClose` is `false`.
  */
 export const AlertDialogBackdrop = forwardRef<never, AlertDialogBackdropProps>((props, _ref) => {
-  const {
-    children,
-    className,
-    transition,
-    clickToClose = false,
-    dialogBackdropProps,
-    ...nativeProps
-  } = props;
+  const { className, transition = true, clickToClose = false, ...backdropProps } = props;
   const classNames = useClassNames();
-  const resolvedTransition = useAlertDialogTransition(transition);
 
   return (
-    <DialogBackdropPrimitive
-      {...nativeProps}
+    <HeadlessDialogBackdrop
+      {...backdropProps}
       className={clsx(classNames.backdrop, className)}
-      transition={resolvedTransition}
+      transition={transition}
       clickToClose={clickToClose}
-      dialogBackdropProps={omitHeadlessLifecycleHandlers(dialogBackdropProps)}
-    >
-      {children}
-    </DialogBackdropPrimitive>
+    />
   );
 }) as AlertDialogComponent<AlertDialogBackdropProps>;
 AlertDialogBackdrop.displayName = "AlertDialogBackdrop";
@@ -196,40 +153,52 @@ AlertDialogBackdrop.displayName = "AlertDialogBackdrop";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogContentProps
-  extends DialogPrimitiveContentProps,
-    LynxAccessibilityProps {}
+  extends HeadlessDialogContentProps,
+    LynxAccessibilityProps {
+  /**
+   * @defaultValue true
+   */
+  "accessibility-element"?: LynxAccessibilityProps["accessibility-element"];
+  /**
+   * @defaultValue "alertdialog"
+   */
+  "accessibility-role-description"?: LynxAccessibilityProps["accessibility-role-description"];
+}
 
 /**
- * @platform Lynx — refs are unsupported. Native lifecycle handlers in
- * `dialogContentProps` are reserved by the headless primitive and are omitted.
+ * @platform Lynx — refs are unsupported. Accessibility props are applied to the content view
+ * through `dialogContentProps`, which takes precedence. Presence handlers in
+ * `dialogContentProps` are reserved for the dialog; other native props and callbacks are forwarded.
  */
 export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((props, _ref) => {
   const {
     children,
     className,
-    transition,
+    style,
+    delayed,
+    transition = true,
     dialogContentProps,
     "accessibility-element": accessibilityElement = true,
     "accessibility-role-description": accessibilityRoleDescription = "alertdialog",
-    ...nativeProps
+    ...accessibilityProps
   } = props;
   const classNames = useClassNames();
-  const resolvedTransition = useAlertDialogTransition(transition);
-  const resolvedDialogContentProps = {
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    ...omitHeadlessLifecycleHandlers(dialogContentProps),
-  };
 
   return (
-    <DialogContentPrimitive
-      {...nativeProps}
+    <HeadlessDialogContent
       className={clsx(classNames.content, className)}
-      transition={resolvedTransition}
-      dialogContentProps={resolvedDialogContentProps}
+      style={style}
+      delayed={delayed}
+      transition={transition}
+      dialogContentProps={{
+        ...accessibilityProps,
+        "accessibility-element": accessibilityElement,
+        "accessibility-role-description": accessibilityRoleDescription,
+        ...dialogContentProps,
+      }}
     >
       {children}
-    </DialogContentPrimitive>
+    </HeadlessDialogContent>
   );
 }) as AlertDialogComponent<AlertDialogContentProps>;
 AlertDialogContent.displayName = "AlertDialogContent";
@@ -262,7 +231,12 @@ AlertDialogHeader.displayName = "AlertDialogHeader";
 export interface AlertDialogTitleProps
   extends StyleProps,
     LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxAccessibilityProps {
+  /**
+   * @defaultValue true
+   */
+  "accessibility-heading"?: LynxAccessibilityProps["accessibility-heading"];
+}
 
 export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitleProps> = forwardRef<
   unknown,
@@ -340,22 +314,19 @@ AlertDialogFooter.displayName = "AlertDialogFooter";
 // Action
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogActionProps extends DialogPrimitiveCloseProps {}
+export interface AlertDialogActionProps extends HeadlessDialogCloseButtonProps {}
 
 /** @platform Lynx — maps to `DialogClose`; `asChild` and refs are unsupported. */
 export const AlertDialogAction = forwardRef<never, AlertDialogActionProps>((props, _ref) => {
-  const { children, className, transition, ...nativeProps } = props;
+  const { className, transition = true, ...closeProps } = props;
   const classNames = useClassNames();
-  const resolvedTransition = useAlertDialogTransition(transition);
 
   return (
-    <DialogClosePrimitive
-      {...nativeProps}
+    <HeadlessDialogCloseButton
+      {...closeProps}
       className={clsx(classNames.action, className)}
-      transition={resolvedTransition}
-    >
-      {children}
-    </DialogClosePrimitive>
+      transition={transition}
+    />
   );
 }) as AlertDialogComponent<AlertDialogActionProps>;
 AlertDialogAction.displayName = "AlertDialogAction";

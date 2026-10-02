@@ -36,10 +36,18 @@ export interface AlertDialogActionProps
   extends Omit<SeedAlertDialog.ActionProps, "children">,
     ActionButtonProps {}
 
+/**
+ * `ActionButton`을 닫기 동작과 함께 렌더링합니다. `disabled`·`loading`이면 닫지 않습니다.
+ */
 export const AlertDialogAction = React.forwardRef<unknown, AlertDialogActionProps>(
   ({ children, transition, ...actionButtonProps }, ref) => {
+    const { disabled, loading } = actionButtonProps;
+
     return (
-      <SeedAlertDialog.Action transition={transition} disabled={actionButtonProps.disabled}>
+      <SeedAlertDialog.Action
+        transition={transition}
+        disabled={disabled === true || loading === true}
+      >
         <ActionButton ref={ref} {...actionButtonProps}>
           {children}
         </ActionButton>
@@ -64,7 +72,7 @@ export const AlertDialogContent = (props: AlertDialogContentProps) => {
 
   return (
     <SeedAlertDialog.Positioner container={container} overlayLevel={overlayLevel}>
-      <SeedAlertDialog.Backdrop clickToClose={false} />
+      <SeedAlertDialog.Backdrop />
       <SeedAlertDialog.Content {...contentProps}>{children}</SeedAlertDialog.Content>
     </SeedAlertDialog.Positioner>
   );
