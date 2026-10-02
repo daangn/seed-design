@@ -201,7 +201,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   return (
     <view
       {...mergeProps(
-        { "main-thread:ref": sourceRef },
+        { "main-thread:ref": sourceRef, "accessibility-elements-hidden": true },
         ref ? { ref: ref as LynxViewRef } : {},
         nativeProps,
       )}

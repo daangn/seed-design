@@ -173,7 +173,6 @@ Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습
 - **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
 - **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
 - **아이콘 렌더링 방식**: 웹의 SVG `currentColor` 대신 Lynx `<image>`의 `tint-color`를 사용합니다. `Icon` / `PrefixIcon` / `SuffixIcon`이 recipe color를 native tint로 동기화합니다.
-- **호환 아이콘 prop**: 기존 `prefixIcon` / `suffixIcon` / `icon` prop도 계속 지원하지만, 기본 예시는 child slot API를 사용합니다.
 - **Loading 상태**: 두 플랫폼 모두 spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다. Lynx는 loading 중 tap을 막지만, 웹은 loading만으로 `onClick`을 막지 않습니다.
 </Callout>
 
