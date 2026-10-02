@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
@@ -122,7 +123,9 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           url: page.url,
         } satisfies AdvancedIndex;
       }),
-    ]);
+    ]).then((indexes) =>
+      archivePaths.prefix ? indexes.filter((index) => index.tag === TAGS.react.value) : indexes,
+    );
   },
   tokenizer: {
     language: "english",

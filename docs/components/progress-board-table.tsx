@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { client } from "@/sanity-studio/lib/client";
 import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
@@ -152,7 +153,7 @@ export async function ProgressBoardTable() {
               <tr key={component.id} className="border-b border-fd-border hover:bg-fd-muted/50">
                 <td className="px-4 py-3 text-sm font-medium sticky left-0 bg-fd-background">
                   <Link
-                    href={`/docs/components/${component.id}`}
+                    href={archivePaths.link(`/docs/components/${component.id}`)}
                     className="text-fd-primary hover:underline"
                   >
                     {component.name}
