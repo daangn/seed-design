@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { not, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
 
 const imageFrame = defineSlotRecipe({
@@ -7,6 +7,7 @@ const imageFrame = defineSlotRecipe({
   slots: ["root", "content", "fallback"],
   base: {
     root: {
+      isolation: "isolate",
       position: "relative",
       overflow: "hidden",
       borderRadius: "inherit",
@@ -17,11 +18,20 @@ const imageFrame = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
-      [pseudo(not("[data-loading-state='loaded']"))]: {
+      [pseudo("[data-loading-state='error']")]: {
         display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
       },
     },
     fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
       width: "100%",
       height: "100%",
       [pseudo("[data-loading-state='loaded']")]: {
