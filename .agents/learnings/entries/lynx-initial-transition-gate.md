@@ -1,6 +1,6 @@
 ---
 id: lynx-initial-transition-gate
-description: Lynx styled 컴포넌트나 Headless 소비 예제가 Item 등록·측정처럼 첫 렌더 뒤 effect에서 정해지는 값으로 Indicator 등의 위치·opacity를 정하고, 첫 진입 때 그 값이 transition으로 서서히 나타나거나 미끄러질 때 읽는다. `transitionEnabled`·`transitionsEnabled` 같은 값으로 transition을 켜는 시점을 정하는 기준과, 값 변경과 같은 업데이트에서 transition을 켜면 Lynx 기기에서 여전히 애니메이션되는 근거, 시뮬레이터 녹화 프레임으로 판정하는 방법과 함정을 다룬다. 사용자 입력으로 시작하는 전환이나 웹 Recipe에는 적용하지 않는다.
+description: Lynx styled 컴포넌트나 Headless 소비 예제가 Item 등록·측정처럼 첫 렌더 뒤 effect에서 정해지는 값으로 Indicator 등의 위치·opacity를 정하고, 첫 진입 때 그 값이 transition으로 서서히 나타나거나 미끄러질 때 읽는다. `transitionEnabled`·`transitionsEnabled` 같은 값으로 transition을 켜는 시점을 정하는 기준과, 값 변경과 같은 업데이트에서 transition을 켜면 Lynx 기기에서 여전히 애니메이션되는 근거, 시뮬레이터 녹화 프레임으로 판정하는 방법과 함정(`simctl` 가변 frame rate 영상을 `ffmpeg fps`로 뽑아 첫 화면·전환 시점이 앞당겨지는 문제 포함, 성능 측정의 시점 판정에도 적용)을 다룬다. 사용자 입력으로 시작하는 전환이나 웹 Recipe에는 적용하지 않는다.
 scope: ["packages/lynx-qvism-preset/**", "packages/lynx-css/**", "packages/lynx-react/**", "packages/lynx-react-headless/**", "examples/lynx-spa/**"]
 status: active
 related: ["lynx-transition-animatable-properties", "lynx-device-cdp-geometry"]
@@ -24,9 +24,11 @@ verified_at: "2026-10-01"
 - Tabs(DES-2632): `useTabs`가 측정 완료와 같은 업데이트에서 `transitionsEnabled`를 켜던 것을 다음 업데이트 방식으로 바꿨다. 시뮬레이터 녹화에서 styled Tabs(`lynx/tabs/preview`)는 수정 전후 모두 첫 진입 전환이 보이지 않았다(각 3회). 반면 transition을 항상 켠 Headless 소비 CSS는 수정 전 3/3회 Indicator 오른쪽 ROI가 왼쪽보다 7–9 frame 늦게 어두워지며 폭이 자랐다. `transitionsEnabled`로 transition class를 켜고 hook을 수정한 뒤에는 3/3회 두 ROI가 같은 frame에 바뀌었다. 같은 업데이트에서 켜는 방식이 Tabs에서도 애니메이션되는지는 재현하지 못했다.
 - Headless 패키지는 `transitionsEnabled`처럼 transition을 켤 시점을 공개하고, 소비자 예제도 그 값으로 transition class를 켠다. 무조건 transition을 거는 소비자 CSS는 hook의 지연과 무관하게 첫 진입에 애니메이션된다.
 - 녹화 함정: `Page.reload` 진입은 PlayLynx가 화면 전체를 어둡게 했다 밝히므로, 대조 ROI가 같은 폭으로 움직이는 구간은 전환으로 보지 않는다. Card를 연 채 headless lib를 다시 빌드하면 PlayLynx devtool 연결이 끊기고 tap·`Page.reload`·`evaluate`가 응답하지 않았다 → 재빌드 전에 소유 Card를 닫는다.
+- 녹화 함정: `simctl` 영상은 화면이 바뀔 때만 frame을 내는 가변 frame rate다. `ffmpeg -vf fps=…`로 뽑으면 긴 PTS 간격에서 뒤의 화면을 앞 시간으로 복제해, 첫 화면·전환 시점이 실제보다 앞당겨진다. 시점 판정에는 `ffmpeg -i <영상> -fps_mode passthrough -enc_time_base 1/600 <dir>/frame-%06d.jpg`로 원래 frame만 뽑고 각 frame의 PTS를 쓴다. 2026-10-02 Lynx Wheel Picker 성능 측정(PlayLynx 1.3.4, iOS 26.5 시뮬레이터)에서 `fps` 추출 frame이 실제보다 이른 시각에 picker를 보여 첫 화면 측정을 passthrough frame으로 다시 했다.
 
 ## 변경 이력
 
 - 2026-10-01: DES-2640 SegmentedControl 첫 진입 fade 수정에서 기록했다.
 - 2026-10-01: PR 리뷰를 반영해 녹화 판정에 대조 ROI로 압축 잡음을 구분하는 기준과 근거를 추가했다.
 - 2026-10-01: DES-2632 Tabs의 수정 전후 녹화와 Headless 소비자 CSS 조건, 녹화 함정을 추가했다.
+- 2026-10-02: simctl 가변 frame rate 녹화에서 frame 추출 방식 함정을 추가했다.
