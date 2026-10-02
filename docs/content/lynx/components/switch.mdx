@@ -122,24 +122,6 @@ npx @seed-design/cli@latest add ui:switch
   ```
 </LynxComponentExample>
 
-## Headless
-
-`@seed-design/lynx-react-switch`는 Recipe 없이 `checked`·`defaultChecked`·`onCheckedChange`, `disabled`, 눌림 상태, 접근성 기본값과 `Root`·`Control`·`Thumb` ref를 제공합니다. press와 `disabled`는 `Switch.Root`만 소유하며, `disabled`이면 `onCheckedChange`와 Root의 `bindtap`·`main-thread:bindtap`이 실행되지 않습니다. `Switch.Control`과 `Switch.Thumb`는 상태를 표시하는 무스타일 view이고 Root 안이면 어디서든 렌더링할 수 있습니다. 하위 요소는 `useSwitchContext()`로 `checked`·`disabled`·`pressed`를 읽습니다.
-`@seed-design/lynx-react`의 Switch는 여기에 SEED Recipe, Scale Feedback과 Label을 더합니다.
-
-```package-install
-@seed-design/lynx-react-switch
-```
-
-<LynxComponentExample name="lynx/switch/headless">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/switch/headless.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
 ## 웹 버전과의 차이
 
 <Callout type="warning">
