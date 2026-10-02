@@ -1,6 +1,3 @@
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 import { badge as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -43,8 +40,6 @@ const badge = defineSlotRecipe({
       color: "inherit",
       "--seed-icon-size": "100%",
       "--seed-icon-color": "currentColor",
-      transform: "scale(1)",
-      transition: `transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
     },
   },
   variants: {
@@ -120,10 +115,6 @@ const badge = defineSlotRecipe({
       positive: {},
       warning: {},
       critical: {},
-    },
-    pressed: {
-      true: {},
-      false: {},
     },
   },
   compoundVariants: [
@@ -325,26 +316,11 @@ const badge = defineSlotRecipe({
         label: { color: vars.toneCriticalVariantOutline.enabled.label.color },
       },
     },
-    {
-      size: "medium",
-      pressed: true,
-      css: {
-        action: { transform: `scale(${scale.s95})` },
-      },
-    },
-    {
-      size: "large",
-      pressed: true,
-      css: {
-        action: { transform: `scale(${scale.s95})` },
-      },
-    },
   ],
   defaultVariants: {
     size: "medium",
     variant: "solid",
     tone: "neutral",
-    pressed: false,
   },
 });
 
