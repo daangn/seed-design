@@ -28,6 +28,7 @@ import {
   LayoutStressTailwindPage,
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
+import { ListHeadlessPage } from "./pages/ListHeadlessPage.jsx";
 import { MannerTempPage } from "./pages/MannerTempPage.jsx";
 import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
 import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
@@ -64,6 +65,7 @@ export type Page =
   | "callout"
   | "checkbox"
   | "dialog-headless"
+  | "list-headless"
   | "manner-temp"
   | "menu-headless"
   | "page-banner"
@@ -113,6 +115,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   callout: true,
   checkbox: true,
   "dialog-headless": true,
+  "list-headless": true,
   "manner-temp": true,
   "menu-headless": true,
   "page-banner": true,
@@ -193,6 +196,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
       {page === "dialog-headless" && <DialogHeadlessPage />}
+      {page === "list-headless" && <ListHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
