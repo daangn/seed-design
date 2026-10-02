@@ -24,7 +24,7 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
 
 - `main-thread:catch*`를 끄면 부모로 전파될 것이라고 가정하지 않는다. native는 빈 worklet도 handler로 등록하므로 catch 등록이 남는다(추론, 기기 미확인). 부모 전파가 꼭 필요하면 다음 중 하나를 고르고 기기에서 확인한다.
   - catch 대신 `main-thread:bind*`를 쓰고, 막아야 할 이벤트에서만 `event.stopPropagation()`을 호출한다. `@lynx-js/react` 0.114.1부터 있다. host SDK 지원은 확인하지 않았다.
-  - 상태별로 다른 literal JSX로 요소를 다시 mount한다(하위 tree도 다시 만든다).
+  - 상태가 바뀔 때 `key`를 바꿔 요소를 새로 mount하고, 해제 상태의 JSX에는 `main-thread:catch*` 속성을 두지 않는다. 같은 위치에 같은 element type과 `key`가 렌더링되면 기존 element가 유지되어 binding도 남을 수 있다. 새로 mount한 element에 catch binding이 없는지는 원천과 기기에서 확인하지 않았다(추론). 하위 tree도 다시 만들어진다.
 
 ## 발생 근거와 적용 조건
 
@@ -36,3 +36,4 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
 ## 변경 이력
 
 - 2026-10-01: loop-scroll headless 패키지 구현 중 원천과 테스트 재현으로 기록했다.
+- 2026-10-02: 재mount 대안에 `key` 조건과 미확인 범위를 밝혔다(PR #2390 리뷰).
