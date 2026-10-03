@@ -41,7 +41,7 @@ function resolveRestClient(
   }
 
   if (personalAccessToken) {
-    return createFigmaRestClient(personalAccessToken);
+    return createFigmaRestClient({ personalAccessToken });
   }
 
   return context.restClient;
