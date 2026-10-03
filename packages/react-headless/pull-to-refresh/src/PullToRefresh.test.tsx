@@ -153,7 +153,7 @@ describe("PullToRefreshIndicator", () => {
     movePointer(root, 150);
 
     expect(getByTestId("indicator-child")).toHaveTextContent("40");
-    expect(values.at(-1)).toBe(40);
+    expect(values[values.length - 1]).toBe(40);
   });
 
   it("merges caller props onto the indicator element", () => {
@@ -280,6 +280,6 @@ describe("PullToRefresh composition", () => {
 
     await act(async () => settle());
     expect(root).toHaveAttribute("data-ptr-state", "idle");
-    expect(values.at(-1)).toBe(0);
+    expect(values[values.length - 1]).toBe(0);
   });
 });

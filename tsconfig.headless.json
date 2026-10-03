@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.browser.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
