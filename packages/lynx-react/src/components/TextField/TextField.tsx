@@ -915,7 +915,7 @@ export const TextFieldPrefixIcon = React.forwardRef<unknown, TextFieldPrefixIcon
 
     return (
       <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
+        {...mergeProps({ ref, "accessibility-elements-hidden": true }, otherProps)}
         className={clsx(classes.prefixIcon, className)}
       />
     );
@@ -951,7 +951,7 @@ export const TextFieldSuffixIcon = React.forwardRef<unknown, TextFieldSuffixIcon
 
     return (
       <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
+        {...mergeProps({ ref, "accessibility-elements-hidden": true }, otherProps)}
         className={clsx(classes.suffixIcon, className)}
       />
     );

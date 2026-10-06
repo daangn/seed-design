@@ -7,7 +7,6 @@ import {
   AttachmentDisplay as SeedAttachmentDisplay,
   Field as SeedField,
   Icon,
-  PrefixIcon,
   HStack,
 } from "@seed-design/lynx-react";
 import { ProgressCircle } from "./progress-circle";
@@ -113,11 +112,7 @@ export const AttachmentDisplayField = React.forwardRef<FieldRootRef, AttachmentD
             {renderErrorMessage ? (
               <HStack gap="x1_5" align="flex-start" width="100%">
                 <HStack height="var(--seed-line-height-t4)" align="center" shrink={0}>
-                  <PrefixIcon
-                    icon={<IconExclamationmarkCircleFill />}
-                    size="x4"
-                    color="fg.critical"
-                  />
+                  <Icon icon={<IconExclamationmarkCircleFill />} size="x4" color="fg.critical" />
                 </HStack>
                 <SeedField.ErrorMessage style={{ flexShrink: 1 }}>
                   {errorMessage}

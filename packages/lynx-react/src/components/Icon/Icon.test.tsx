@@ -161,7 +161,7 @@ describe("icon recipe ownership", () => {
     expect(container.querySelector(`.${baseClass}`)).not.toBeNull();
     rerender(
       <IconSlotProvider value={{ classNames: { [slot]: "test-recipe-icon" }, deps: [] }}>
-        <Component size={28} color="#2475e8" className="user-icon" icon={<TestIcon />} />
+        <Component style={{ width: "28px" }} className="user-icon" icon={<TestIcon />} />
       </IconSlotProvider>,
     );
     const wrapper = container.querySelector(".test-recipe-icon")!;
@@ -169,6 +169,16 @@ describe("icon recipe ownership", () => {
     expect(wrapper.classList.contains("user-icon")).toBe(true);
     expect(wrapper.classList.contains(baseClass)).toBe(false);
     expect(wrapper.getAttribute("style")).toContain("28px");
+  });
+
+  it("applies Icon size and color below the user style", () => {
+    const { container } = render(
+      <Icon size={28} color="#2475e8" style={{ height: "30px" }} icon={<TestIcon />} />,
+    );
+    const style = container.querySelector("view")!.getAttribute("style");
+    expect(style).toContain("width: 28px");
+    expect(style).toContain("height: 30px");
+    expect(style).toContain("color: rgb(36, 117, 232)");
   });
 });
 
