@@ -25,7 +25,7 @@ npx @seed-design/cli add ui:text-field
 
 ## Props
 
-<react-type-table path="../packages/lynx-react/src/components/KeyboardAvoidingScrollView/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewProps" />
+<react-type-table path="../packages/lynx-react-headless/keyboard-avoiding-scroll-view/src/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewRootProps" />
 
 ## Usage
 
@@ -34,6 +34,8 @@ npx @seed-design/cli add ui:text-field
 Text Field Input과 Text Field Textarea의 레지스트리 스니펫이 제공하는 `TextField` 안에 입력 요소를 배치합니다. 이 `TextField`가 내부에 만드는 Field 경계를 기준으로 입력 영역과 하단을 추적합니다. 입력 요소는 focus와 blur를 자동으로 전달합니다. 자동 높이 조절 `TextField.Textarea`는 layout 변경도 전달하므로 별도 등록 prop은 필요하지 않습니다.
 
 Android에서 이 컴포넌트가 키보드 회피를 전담한다면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정합니다. host window의 별도 pan이나 resize와 회피 동작이 겹치지 않게 합니다.
+
+안쪽 입력 요소에는 Lynx `<input>`·`<textarea>`의 `avoid-keyboard`를 지정하지 않습니다. 이 속성은 LynxView 전체를 키보드 위로 옮기므로 이 컴포넌트의 스크롤 회피와 겹칩니다.
 
 ## Examples
 

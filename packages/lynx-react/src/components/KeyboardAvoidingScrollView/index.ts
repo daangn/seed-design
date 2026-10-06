@@ -1,5 +1,5 @@
 export {
-  KeyboardAvoidingScrollView,
+  KeyboardAvoidingScrollViewRoot as KeyboardAvoidingScrollView,
   type KeyboardAvoidingScrollBehavior,
-  type KeyboardAvoidingScrollViewProps,
-} from "./KeyboardAvoidingScrollView";
+  type KeyboardAvoidingScrollViewRootProps as KeyboardAvoidingScrollViewProps,
+} from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";

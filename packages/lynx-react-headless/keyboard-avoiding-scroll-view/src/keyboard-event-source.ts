@@ -1,6 +1,6 @@
 import type { GlobalEventEmitter } from "@lynx-js/types";
 
-import type { RawKeyboardState } from "./native-driver";
+import type { RawKeyboardState } from "./native-driver.js";
 
 export type KeyboardEventListener = (state: RawKeyboardState) => void;
 

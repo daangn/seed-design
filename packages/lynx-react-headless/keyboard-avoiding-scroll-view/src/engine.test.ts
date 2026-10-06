@@ -5,9 +5,9 @@ import {
   type KeyboardAvoidanceRegistration,
   type KeyboardAvoidingNativeDriver,
   type KeyboardAvoidingScheduler,
-} from "./engine";
-import type { VerticalRect } from "./geometry";
-import type { ScrollMetrics } from "./native-driver";
+} from "./engine.js";
+import type { VerticalRect } from "./geometry.js";
+import type { ScrollMetrics } from "./native-driver.js";
 
 type TestNode = "anchor" | "control" | "field" | "native" | "scroll" | "spacer";
 type ScheduledCallback = Parameters<KeyboardAvoidingScheduler["scheduleFrame"]>[0];
