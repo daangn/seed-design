@@ -5,6 +5,10 @@
     align-items: center;
     inset: 0;
     overscroll-behavior-y: none;
+    padding-top: var(--seed-safe-area-top);
+    padding-right: var(--seed-safe-area-right);
+    padding-bottom: var(--seed-safe-area-bottom);
+    padding-left: var(--seed-safe-area-left);
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
@@ -25,6 +29,8 @@
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;
+    max-height: 100%;
+    overflow-y: auto;
     margin: auto var(--seed-dimension-x8);
     border-radius: var(--seed-radius-r5);
 }

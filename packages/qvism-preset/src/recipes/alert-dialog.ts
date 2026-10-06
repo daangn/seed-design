@@ -23,6 +23,12 @@ const alertDialog = defineSlotRecipe({
       alignItems: "center",
       inset: 0,
       overscrollBehaviorY: "none",
+      // Centers the content within the safe area. The backdrop is `position: fixed`,
+      // so it still covers the whole viewport.
+      paddingTop: "var(--seed-safe-area-top)",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "var(--seed-safe-area-bottom)",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -47,6 +53,10 @@ const alertDialog = defineSlotRecipe({
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
+      // Resolves against the positioner's content box, which excludes the safe area
+      // padding, so content taller than the safe area scrolls instead of reaching the insets.
+      maxHeight: "100%",
+      overflowY: "auto",
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
 

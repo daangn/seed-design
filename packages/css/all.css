@@ -1783,6 +1783,10 @@
 
 .seed-alert-dialog__positioner {
   overscroll-behavior-y: none;
+  padding-top: var(--seed-safe-area-top);
+  padding-right: var(--seed-safe-area-right);
+  padding-bottom: var(--seed-safe-area-bottom);
+  padding-left: var(--seed-safe-area-left);
   --dialog-z-index: 2;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   justify-content: center;
@@ -1805,6 +1809,7 @@
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   background: var(--seed-color-bg-layer-floating);
   max-width: 272px;
+  max-height: 100%;
   margin: auto var(--seed-dimension-x8);
   border-radius: var(--seed-radius-r5);
   outline: none;
@@ -1812,6 +1817,7 @@
   flex: 1;
   display: flex;
   position: relative;
+  overflow-y: auto;
 }
 
 .seed-alert-dialog__content:is(:focus, [data-focus]) {
