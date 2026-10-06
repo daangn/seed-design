@@ -1,17 +1,21 @@
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/lynx-css/recipes/page-banner";
+import {
+  getIndependentActionProps,
+  PageBannerProvider,
+  usePageBanner,
+  usePageBannerButton,
+  usePageBannerCloseButton,
+  type UsePageBannerProps,
+} from "@seed-design/lynx-react-page-banner";
 import * as React from "@lynx-js/react";
-import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import clsx from "clsx";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
   LynxPressableProps,
   LynxStyledElementProps,
   LynxTextRef,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -21,24 +25,6 @@ import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(pageBanner);
-
-type TapHandler = NonNullable<LynxViewProps["bindtap"]>;
-
-interface PageBannerContextValue {
-  dismiss: () => void;
-}
-
-const PageBannerContext = React.createContext<PageBannerContextValue | null>(null);
-
-function usePageBannerContext(consumer: string) {
-  const context = React.useContext(PageBannerContext);
-
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <PageBannerRoot/>.`);
-  }
-
-  return context;
-}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,13 +40,10 @@ function usePageBannerContext(consumer: string) {
  */
 export interface PageBannerRootProps
   extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
+    Pick<UsePageBannerProps, "defaultOpen" | "open" | "onDismiss">,
     LynxStyledElementProps,
     LynxPressableProps,
-    LynxAccessibilityProps {
-  defaultOpen?: boolean;
-  open?: boolean;
-  onDismiss?: () => void;
-}
+    LynxAccessibilityProps {}
 
 export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((props, ref) => {
   if (
@@ -78,8 +61,8 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
     children,
     className,
     style,
-    defaultOpen = true,
-    open: openProp,
+    defaultOpen,
+    open,
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
@@ -87,74 +70,61 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const [open, setOpen] = useControllableState({
-    value: openProp,
-    defaultValue: defaultOpen,
+  const api = usePageBanner({
+    defaultOpen,
+    open,
+    onDismiss,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
   });
-  const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const pressTap = usePressTap({
-    disabled: !isInteractive,
-    onTap: bindtap,
-    mainThreadOnTap: mainThreadBindtap,
-  });
+  const { interactive, pressed, rootProps } = api;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: !isInteractive,
-    onTouchStart: pressTap.bindtouchstart,
-    onTouchEnd: pressTap.bindtouchend,
-    onTouchCancel: pressTap.bindtouchcancel,
+    disabled: !interactive,
+    onTouchStart: rootProps.bindtouchstart,
+    onTouchEnd: rootProps.bindtouchend,
+    onTouchCancel: rootProps.bindtouchcancel,
   });
   const childArray = flattenPageBannerChildren(children);
   const closeButtons = childArray.filter(isPageBannerCloseButton);
   const scaleChildren = childArray.filter((child) => !isPageBannerCloseButton(child));
-  const classNames = pageBanner({
-    ...variantProps,
-    pressed: pressTap.pressed,
-    interactive: isInteractive,
-  });
-  const dismiss = useMemoizedFn(() => {
-    if (!open) return;
-
-    setOpen(false);
-    onDismiss?.();
-  });
-  const contextValue = React.useMemo(() => ({ dismiss }), [dismiss]);
+  const classNames = pageBanner({ ...variantProps, pressed, interactive });
   const iconSlotContextValue = React.useMemo(
     () => ({
       classNames: {
         prefixIcon: classNames.prefixIcon,
         suffixIcon: classNames.suffixIcon,
       },
-      deps: [variantProps.tone ?? "neutral", variantProps.variant ?? "weak", pressTap.pressed],
+      deps: [variantProps.tone ?? "neutral", variantProps.variant ?? "weak", pressed],
     }),
     [
       classNames.prefixIcon,
       classNames.suffixIcon,
-      pressTap.pressed,
+      pressed,
       variantProps.tone,
       variantProps.variant,
     ],
   );
 
-  if (!open) return null;
+  if (!api.open) return null;
 
   return (
-    <PageBannerContext.Provider value={contextValue}>
+    <PageBannerProvider value={api}>
       <ClassNamesProvider value={classNames}>
         <PropsProvider value={variantProps}>
           <IconSlotProvider value={iconSlotContextValue}>
             <view
               {...mergeProps(
                 ref ? { ref: ref as LynxViewRef } : {},
-                isInteractive ? pressTap : {},
-                isInteractive ? scaleFeedbackTriggerProps : {},
+                rootProps,
+                interactive ? scaleFeedbackTriggerProps : {},
                 nativeProps,
               )}
-              accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
-              accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
               className={clsx(classNames.root, className)}
               style={style}
             >
-              {isInteractive ? (
+              {interactive ? (
                 <>
                   <view {...scaleFeedbackTargetProps} className={classNames.scaleContent}>
                     {scaleChildren}
@@ -168,7 +138,7 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
           </IconSlotProvider>
         </PropsProvider>
       </ClassNamesProvider>
-    </PageBannerContext.Provider>
+    </PageBannerProvider>
   );
 });
 PageBannerRoot.displayName = "PageBannerRoot";
@@ -270,25 +240,28 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
     children,
     className,
     style,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits = "button",
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = props;
   const classNames = useClassNames();
+  const { buttonProps } = usePageBannerButton({
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
+  });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
   return (
     <text
-      {...independentActionProps(
+      {...getIndependentActionProps(
         mergeProps(
           ref ? { ref: ref as LynxTextRef } : {},
+          buttonProps,
           scaleFeedbackTriggerProps,
           scaleFeedbackTargetProps,
           nativeProps,
         ),
       )}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits}
       className={clsx(classNames.button, className)}
       style={style}
       flatten={false}
@@ -315,22 +288,21 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
       style,
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      "accessibility-element": accessibilityElement = true,
+      "accessibility-element": accessibilityElement,
       "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits = "button",
+      "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
     const parentVariantProps = useProps() ?? {};
-    const { dismiss } = usePageBannerContext("PageBannerCloseButton");
-    const handleTap = useMemoizedFn<TapHandler>((event) => {
-      bindtap?.(event);
-      dismiss();
+    const { pressed, closeButtonProps } = usePageBannerCloseButton({
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-label": accessibilityLabel,
+      "accessibility-traits": accessibilityTraits,
     });
-    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-      usePressTap({
-        onTap: handleTap,
-        mainThreadOnTap: mainThreadBindtap,
-      });
+    // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+    const { bindtouchstart, bindtouchend, bindtouchcancel, ...closeProps } = closeButtonProps;
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       onTouchStart: bindtouchstart,
       onTouchEnd: bindtouchend,
@@ -348,25 +320,18 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
       [classNames.closeButtonIcon, parentVariantProps.tone, parentVariantProps.variant, pressed],
     );
 
-    if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
-      console.warn("PageBannerCloseButton requires `accessibility-label` for accessibility.");
-    }
-
     return (
       <IconSlotProvider value={iconSlotContextValue}>
         <view
-          {...independentActionProps(
+          {...getIndependentActionProps(
             mergeProps(
               ref ? { ref: ref as LynxViewRef } : {},
-              pressTapHandlers,
+              closeProps,
               scaleFeedbackTriggerProps,
               scaleFeedbackTargetProps,
               nativeProps,
             ),
           )}
-          accessibility-element={accessibilityElement}
-          accessibility-label={accessibilityLabel}
-          accessibility-traits={accessibilityTraits}
           className={clsx(classNames.closeButton, className)}
           style={style}
           flatten={false}
@@ -389,25 +354,4 @@ function flattenPageBannerChildren(children: React.ReactNode): React.ReactNode[]
       ? flattenPageBannerChildren(child.props.children)
       : [child],
   );
-}
-
-// Native catch handlers keep independent actions from starting the banner's feedback or tap.
-function independentActionProps(props: Record<string, unknown>) {
-  const result = { ...props };
-  for (const event of ["tap", "touchstart", "touchend", "touchcancel"]) {
-    const bind = `bind${event}`;
-    const catchKey = `catch${event}`;
-    const mainBind = `main-thread:${bind}`;
-    const mainCatch = `main-thread:${catchKey}`;
-    const caught = mergeProps(
-      { [catchKey]: result[bind] ?? (() => {}) },
-      { [catchKey]: result[catchKey] },
-      { [mainCatch]: result[mainBind] },
-      { [mainCatch]: result[mainCatch] },
-    );
-    delete result[bind];
-    delete result[mainBind];
-    Object.assign(result, caught);
-  }
-  return result;
 }

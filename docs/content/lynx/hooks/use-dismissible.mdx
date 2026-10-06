@@ -94,5 +94,6 @@ Controlled 모드에서 `dismiss`는 값을 바꾸지 않고 `onDismiss`만 호�
 | 공개 여부 | 독립 패키지로 공개 | 패키지 내부 private 훅 |
 | 반환값 | `open`, `dismiss` | `open`, `dismiss`, `rootProps`, `dismissButtonProps` |
 | 닫기 버튼 연결 | 각 컴포넌트가 `dismiss`를 tap handler에 연결 | `dismissButtonProps`의 `onClick` |
+| 닫기 취소 | 미지원. 닫기 버튼은 사용자 handler 뒤 항상 `dismiss`를 호출 | 사용자 `onClick`에서 `preventDefault()`를 호출하면 닫지 않음 |
 
-React에서는 Callout, PageBanner, InlineBanner가 `@seed-design/react` 한 패키지 안에 있어 private 훅으로 공유합니다. Lynx에서는 컴포넌트마다 Headless 패키지가 분리되어 있어, 같은 dismiss 상태를 여러 패키지가 공유할 수 있도록 독립 패키지로 제공합니다.
+React에서는 Callout과 PageBanner가 `@seed-design/react` 한 패키지 안에 있어 private 훅으로 공유합니다. Lynx에서는 컴포넌트마다 Headless 패키지가 분리되어 있어, 같은 dismiss 상태를 여러 패키지가 공유할 수 있도록 독립 패키지로 제공합니다.

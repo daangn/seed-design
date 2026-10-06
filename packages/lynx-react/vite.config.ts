@@ -42,6 +42,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-file-upload$/,
         /^@seed-design\/lynx-react-floating$/,
         /^@seed-design\/lynx-react-menu$/,
+        /^@seed-design\/lynx-react-page-banner$/,
         /^@seed-design\/lynx-react-popover$/,
         /^@seed-design\/lynx-react-progress$/,
         /^@seed-design\/lynx-react-quantity-picker$/,
