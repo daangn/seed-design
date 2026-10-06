@@ -25,7 +25,7 @@
 ## 릴리스
 
 - 사용자에게 보이는 변경(기능, 버그 수정, 스타일)에는 changeset이 필요하다. `.changeset/*.md`를 직접 쓰지 않고 `seed-change` Skill의 changeset 분기로 만든다. 문서 수정·내부 리팩터링만 있으면 필요 없다.
-- `bun version`과 `bun release`는 `.github/workflows/release-publish.yml`이 실행한다. 로컬에서는 changeset 작성까지만 한다.
+- 이 유지보수 브랜치의 버전 준비·수동 배포는 [React v2 배포 가이드](RELEASING.md)를 따른다. `bun packages:build && bun changeset publish --tag react-v2`로 배포하고 기존 `latest`를 유지한다.
 - PR snapshot 게시·확인은 `seed-snapshot-release` Skill을 따른다. snapshot은 Rootage CDN stable 포인터를 바꾸지 않는다.
 - `minor`·`major` → `dev` PR은 merge 버튼으로 합치지 않는다 → 쓰기 권한자가 `/ff-merge` 댓글을 남기면 `.github/workflows/ff-merge.yml`이 커밋·SHA를 유지한 채 `dev`를 fast-forward한다.
 
