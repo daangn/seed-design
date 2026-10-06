@@ -186,12 +186,13 @@ export function useTabs({
     [pagerValues, setValueInternal],
   );
 
+  // 페이지가 추가·제거되면 선택 index가 같아도 native pager가 다른 페이지로 이동할 수 있다.
   React.useEffect(() => {
     "background only";
     if (selectedPagerIndex >= 0) {
       invokeSelectTab(pagerRef.current, selectedPagerIndex, false);
     }
-  }, [selectedPagerIndex]);
+  }, [selectedPagerIndex, pagerValues]);
 
   const contextValue = React.useMemo<UseTabsReturn>(
     () => ({
