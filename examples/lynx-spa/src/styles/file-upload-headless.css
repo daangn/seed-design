@@ -1,0 +1,121 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-file-upload만 소비하는 화면의 스타일 */
+
+.fu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fu-root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fu-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.fu-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #eef0f3;
+}
+
+.fu-list {
+  width: 100%;
+}
+
+.fu-list-content {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.fu-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b3ba;
+}
+
+.fu-trigger-text {
+  font-size: 13px;
+  color: #555d6d;
+}
+
+.fu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  gap: 2px;
+}
+
+.fu-item-surface {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #dcdee3;
+}
+
+.fu-item-image {
+  width: 72px;
+  height: 72px;
+}
+
+.fu-item-backdrop {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fu-item-backdrop-text {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.fu-item-name,
+.fu-item-meta {
+  font-size: 11px;
+  color: #555d6d;
+}
+
+.fu-item-remove {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #1a1c20;
+}
+
+.fu-item-remove-text {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.fu-log {
+  font-size: 12px;
+  color: #555d6d;
+}
