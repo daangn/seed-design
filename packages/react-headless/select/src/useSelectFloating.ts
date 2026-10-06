@@ -8,6 +8,7 @@ import {
   useTransitionStatus,
   type OpenChangeReason,
   type Placement,
+  type Side,
 } from "@floating-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type * as React from "react";
@@ -22,8 +23,14 @@ const MIN_HEIGHT = 200;
 // from the global SEED safe-area tokens.
 const SAFE_AREA_STYLE = {
   "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
   "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
 } as React.CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
 
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
@@ -82,17 +89,17 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
     strategy = "absolute",
   } = props;
 
-  const [safeArea, setSafeArea] = useState({ top: 0, bottom: 0 });
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
 
   // Inset the viewport collision boundary so flip/size/shift keep the listbox clear
-  // of the notch and home indicator, not just the viewport edge. The safe area is
-  // already a visual buffer, so where it exists the listbox sits right at its
-  // boundary; only where there is none does it fall back to overflowPadding.
+  // of the notch, home indicator and side insets, not just the viewport edge. The
+  // safe area is already a visual buffer, so where it exists the listbox sits right
+  // at its boundary; only where there is none does it fall back to overflowPadding.
   const collisionPadding = {
     top: safeArea.top || overflowPadding,
-    right: overflowPadding,
+    right: safeArea.right || overflowPadding,
     bottom: safeArea.bottom || overflowPadding,
-    left: overflowPadding,
+    left: safeArea.left || overflowPadding,
   };
 
   // Every other open/close runs through our own handlers; the one state change
@@ -190,10 +197,16 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
 
     const read = () => {
       const styles = getComputedStyle(floatingElement);
-      setSafeArea({
-        top: Number.parseInt(styles.getPropertyValue("--seed-safe-area-top"), 10) || 0,
-        bottom: Number.parseInt(styles.getPropertyValue("--seed-safe-area-bottom"), 10) || 0,
-      });
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
     };
 
     read();
