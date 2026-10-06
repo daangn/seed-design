@@ -1,4 +1,4 @@
-import { tabs, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
+import { tabs, type TabsSlotName, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import {
@@ -20,14 +20,28 @@ import type {
 } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 import { Box } from "../Box";
-import { HStack } from "../Stack";
-import { TabsStyleProvider, useTabsStyleContext } from "./Tabs.context";
 type NativeScrollViewProps = IntrinsicElements["scroll-view"];
 type NativeViewPagerProps = IntrinsicElements["viewpager"];
-type TabsPublicVariantProps = Omit<
+type TabsRecipeState = Pick<
   TabsVariantProps,
   "selected" | "disabled" | "inCarousel" | "transitionEnabled"
 >;
+type TabsPublicVariantProps = Omit<TabsVariantProps, keyof TabsRecipeState>;
+type TabsClassNames = Record<TabsSlotName, string>;
+
+interface TabsStyleContextValue {
+  classNames: TabsClassNames;
+  getClassNames: (state?: TabsRecipeState) => TabsClassNames;
+}
+
+const TabsStyleContext = React.createContext<TabsStyleContextValue | null>(null);
+
+function useTabsStyleContext() {
+  const context = React.useContext(TabsStyleContext);
+  if (!context) throw new Error("Tabs must be rendered inside a styled TabsRoot");
+  return context;
+}
+
 /**
  * @platform Lynx
  *
@@ -45,7 +59,7 @@ export interface TabsRootProps extends TabsPublicVariantProps, LynxStyledElement
 export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) => {
   const [variantProps, rootProps] = tabs.splitVariantProps(props);
   const getClassNames = React.useCallback(
-    (state: Parameters<ReturnType<typeof useTabsStyleContext>["getClassNames"]>[0] = {}) =>
+    (state: TabsRecipeState = {}) =>
       tabs({
         ...variantProps,
         selected: state.selected,
@@ -60,17 +74,12 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const api = useTabs({ value, defaultValue, onValueChange });
   const classNames = getClassNames({ transitionEnabled: api.transitionsEnabled });
   const styleContext = React.useMemo(
-    () => ({
-      classNames,
-      getClassNames,
-      getIndicatorClassName: (state: Parameters<typeof getClassNames>[0]) =>
-        getClassNames(state).indicator,
-    }),
+    () => ({ classNames, getClassNames }),
     [classNames, getClassNames],
   );
   return (
     <TabsProvider value={api}>
-      <TabsStyleProvider value={styleContext}>
+      <TabsStyleContext.Provider value={styleContext}>
         <view
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
           className={clsx(classNames.root, className)}
@@ -78,7 +87,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         >
           {children}
         </view>
-      </TabsStyleProvider>
+      </TabsStyleContext.Provider>
     </TabsProvider>
   );
 });
@@ -157,7 +166,6 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   const triggerClasses = context.getClassNames({
     selected: api.isVisuallySelected,
     disabled: api.isDisabled,
-    pressed: api.isPressed,
     transitionEnabled: transitionsEnabled,
   });
   return (
@@ -179,17 +187,10 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
       style={style}
     >
       {notification ? (
-        context.inlineNotification ? (
-          <HStack position="relative" gap="x1_5">
-            <text className={triggerClasses.triggerLabel}>{children}</text>
-            <view accessibility-elements-hidden={true}>{notification}</view>
-          </HStack>
-        ) : (
-          <Box position="relative">
-            <text className={triggerClasses.triggerLabel}>{children}</text>
-            {notification}
-          </Box>
-        )
+        <Box position="relative">
+          <text className={triggerClasses.triggerLabel}>{children}</text>
+          {notification}
+        </Box>
       ) : (
         <text className={triggerClasses.triggerLabel}>{children}</text>
       )}
@@ -201,15 +202,14 @@ export interface TabsIndicatorProps extends LynxStyledElementProps {}
 
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
-  const { getIndicatorClassName } = useTabsStyleContext();
+  const { getClassNames } = useTabsStyleContext();
   const api = useTabsIndicator();
-  if (!getIndicatorClassName) throw new Error("TabsIndicator is only supported inside TabsRoot");
   return (
     <view
       {...mergeProps(api.indicatorProps, ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       accessibility-elements-hidden={true}
       className={clsx(
-        getIndicatorClassName({ transitionEnabled: api.transitionsEnabled }),
+        getClassNames({ transitionEnabled: api.transitionsEnabled }).indicator,
         className,
       )}
       style={{ ...api.indicatorProps.style, ...style }}
