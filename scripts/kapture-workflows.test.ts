@@ -16,6 +16,7 @@ const sources = Object.fromEntries(
   ]),
 );
 interface Step {
+  "continue-on-error"?: boolean;
   if?: string | boolean;
   id?: string;
   run?: string;
@@ -360,6 +361,41 @@ describe("Kapture consumer workflows", () => {
     );
   });
 
+  test.each([
+    [0, 0, 1, 0],
+    [2, 0, 3, 2],
+    [3, 1, 3, 2],
+  ])("retries read-only review context at most three times (%s failures)", (failures, status, calls, delays) => {
+    const context = executionSteps(workflows.report.jobs.context).find(
+      (step) => step.id === "context",
+    );
+    assert(context?.run);
+    const result = spawnSync(
+      "bash",
+      [
+        "-e",
+        "-c",
+        `calls=0
+npx() {
+  calls=$((calls + 1))
+  printf 'call\\n'
+  if [ "$calls" -le "$FIXTURE_FAILURES" ]; then return 1; fi
+  printf 'ready=false\\n'
+}
+sleep() { printf 'delay\\n'; }
+${context.run}`,
+      ],
+      { env: { ...process.env, FIXTURE_FAILURES: String(failures) }, encoding: "utf8" },
+    );
+    expect({ status: result.status, stderr: result.stderr }).toEqual({ status, stderr: "" });
+    expect(result.stdout.trim().split("\n")).toEqual([
+      ...Array.from({ length: delays }, () => ["call", "delay"]).flat(),
+      "call",
+      ...(status === 0 ? ["ready=false"] : []),
+    ]);
+    expect(result.stdout.match(/^call$/gm)).toHaveLength(calls);
+  });
+
   test("grants PR comment writes only to trusted publish and approval jobs", () => {
     expect(workflows.publish.jobs.publish.permissions).toEqual({
       actions: "read",
@@ -423,6 +459,22 @@ describe("Kapture consumer workflows", () => {
     expect(cache?.if).toBe(
       "env.KAPTURE_CAPTURE_CACHE == 'true' && steps.capture.outputs.capture-cache-exported == 'true' && steps.capture-cache.outputs.head-cache-name != ''",
     );
+  });
+
+  test("retains optional diagnostics after capture failure without masking the capture result", () => {
+    const steps = executionSteps(workflows.capture.jobs.capture);
+    const capture = steps.find((step) => step.id === "capture");
+    const diagnostics = steps.find(
+      (step) =>
+        step.with?.name === "kapture-execution-${{ needs.context.outputs.artifact-suffix }}",
+    );
+    const report = steps.find((step) => step.id === "report-artifact");
+    assert(capture && diagnostics && report);
+    expect(diagnostics.if).toBe("${{ !cancelled() }}");
+    expect(diagnostics.with["if-no-files-found"]).toBe("warn");
+    expect(capture["continue-on-error"] ?? false).toBe(false);
+    expect(report.if).toBeUndefined();
+    expect(report.with["if-no-files-found"]).toBe("error");
   });
 
   test("all inline shell and github-script blocks parse", () => {

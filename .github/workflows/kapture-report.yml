@@ -34,10 +34,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           KAPTURE_BASE_BRANCHES: '["dev","minor","major"]'
-        run: >-
-          npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github review-context
-          --base-branches "$KAPTURE_BASE_BRANCHES"
-          --capture-workflow-path .github/workflows/kapture-capture.yml
+        run: |
+          for attempt in 1 2 3; do
+            if npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github review-context \
+              --base-branches "$KAPTURE_BASE_BRANCHES" \
+              --capture-workflow-path .github/workflows/kapture-capture.yml; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep 5
+          done
   review:
     needs: context
     if: needs.context.outputs.ready == 'true'

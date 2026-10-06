@@ -316,11 +316,12 @@ jobs:
           fi
           npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" test --github-artifacts --base-dir "${{ runner.temp }}/kapture-storybook/base" --head-dir "${{ runner.temp }}/kapture-storybook/head" --base-revision ${{ needs.context.outputs.base-sha }} --head-revision ${{ needs.context.outputs.head-sha }} --changed-files "${{ runner.temp }}/kapture-context/changed-files.json" --output "${{ runner.temp }}/kapture-result" --install-browser --browser-with-deps --workers 4 --pixel-color-threshold 0.2 --max-changed-pixel-percentage 0.1 --locale ko-KR --timezone Asia/Seoul "${cache_args[@]}"
       - name: Upload capture execution diagnostics
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: kapture-execution-${{ needs.context.outputs.artifact-suffix }}
           path: ${{ runner.temp }}/kapture-result/execution.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 1
       - name: Retain stable head capture for subsequent base comparisons
         if: env.KAPTURE_CAPTURE_CACHE == 'true' && steps.capture.outputs.capture-cache-exported == 'true' && steps.capture-cache.outputs.head-cache-name != ''
