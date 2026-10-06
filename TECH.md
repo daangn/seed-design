@@ -218,8 +218,8 @@ export const Checkbox = { Root, Control, HiddenInput, ... };
 - **Changesets** 사용: `.changeset/` 디렉토리
 - `bun changeset` - 변경사항 기록
 - `bun version` - 버전 업데이트
-- `bun release` - `dev`의 기본 배포 경로
-- 유지보수 브랜치의 배포 태그·버전 준비·검증·재시도는 [브랜치별 배포 가이드](RELEASING.md)를 따른다. 빌드 후 `bun changeset publish --tag <브랜치 태그>`를 실행한다.
+- `bun packages:build && bun changeset publish --tag react-v1.2` - 이 브랜치의 npm 배포
+- 준비·검증 절차는 [React v1.2 배포 가이드](RELEASING.md)를 따른다.
 
 ---
 
