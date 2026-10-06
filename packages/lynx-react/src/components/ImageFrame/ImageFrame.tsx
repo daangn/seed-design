@@ -12,7 +12,7 @@ import type { LynxIconElementProps, LynxViewProps, LynxViewRef } from "../../typ
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { handleDimension, useStyleProps, type StyleProps } from "../../utils/styled";
-import { Badge, type BadgeProps } from "../Badge";
+import { Badge } from "../Badge";
 import { InternalIcon } from "../Icon/Icon";
 import { heartFillSource, heartLineSource } from "./heart-assets";
 
@@ -139,10 +139,14 @@ export const ImageFrameFloater = React.forwardRef<unknown, ImageFrameFloaterProp
 });
 ImageFrameFloater.displayName = "ImageFrameFloater";
 
-export interface ImageFrameBadgeProps extends BadgeProps {}
-export const ImageFrameBadge = React.forwardRef<unknown, ImageFrameBadgeProps>((props, ref) => (
-  <Badge {...(ref ? { ref } : {})} {...props} />
-));
+export interface ImageFrameBadgeProps extends Badge.RootProps {}
+export const ImageFrameBadge = React.forwardRef<unknown, ImageFrameBadgeProps>(
+  ({ children, ...props }, ref) => (
+    <Badge.Root {...(ref ? { ref } : {})} {...props}>
+      <Badge.Label>{children}</Badge.Label>
+    </Badge.Root>
+  ),
+);
 ImageFrameBadge.displayName = "ImageFrameBadge";
 
 /** @platform Lynx `svg` accepts a Lynx icon component; native DOM SVG is unsupported. */
