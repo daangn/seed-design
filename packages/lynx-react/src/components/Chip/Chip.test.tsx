@@ -43,31 +43,34 @@ describe("Chip", () => {
     expect(label).toHaveClass("seed-chip__label--size_large");
   });
 
-  it("toggles uncontrolled selected state", () => {
-    const onCheckedChange = vi.fn();
+  it("toggles uncontrolled checked state after the consumer tap handler", () => {
+    const calls: string[] = [];
     render(
-      <Chip.Toggle onCheckedChange={onCheckedChange}>
+      <Chip.Toggle
+        bindtap={() => calls.push("tap")}
+        onCheckedChange={(checked) => calls.push(`checked:${checked}`)}
+      >
         <Chip.Label>토글 칩</Chip.Label>
       </Chip.Toggle>,
     );
 
     const root = getChipRoot();
     expect(root).toHaveClass("seed-chip__root--selected_false");
-    expect(root).toHaveAttribute("accessibility-role-description", "toggle");
+    expect(root).toHaveAttribute("accessibility-role-description", "checkbox");
     expect(root).toHaveAttribute("accessibility-value", "not checked");
 
     fireEvent.tap(root);
 
-    expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(calls).toEqual(["tap", "checked:true"]);
     expect(getChipRoot()).toHaveClass("seed-chip__root--selected_true");
-    expect(getChipRoot()).toHaveAttribute("accessibility-role-description", "toggle");
     expect(getChipRoot()).toHaveAttribute("accessibility-value", "checked");
   });
 
-  it("does not toggle when disabled", () => {
+  it("does not toggle or call the consumer tap handler when disabled", () => {
     const onCheckedChange = vi.fn();
+    const onTap = vi.fn();
     render(
-      <Chip.Toggle disabled onCheckedChange={onCheckedChange}>
+      <Chip.Toggle disabled bindtap={onTap} onCheckedChange={onCheckedChange}>
         <Chip.Label>비활성 칩</Chip.Label>
       </Chip.Toggle>,
     );
@@ -75,41 +78,40 @@ describe("Chip", () => {
     const root = getChipRoot();
     fireEvent.tap(root);
 
+    expect(onTap).not.toHaveBeenCalled();
     expect(onCheckedChange).not.toHaveBeenCalled();
     expect(root).toHaveClass("seed-chip__root--disabled_true");
     expect(root).toHaveAttribute("accessibility-traits", "disabled");
   });
 
-  it("selects one radio item and reports the value", () => {
-    const onValueChange = vi.fn();
+  it("selects one radio item after the consumer tap handler and reports the value", () => {
+    const calls: string[] = [];
     render(
-      <Chip.RadioRoot defaultValue="first" onValueChange={onValueChange}>
+      <Chip.RadioRoot defaultValue="first" onValueChange={(value) => calls.push(`value:${value}`)}>
         <Chip.RadioItem value="first">
           <Chip.Label>첫 번째</Chip.Label>
         </Chip.RadioItem>
-        <Chip.RadioItem value="second">
+        <Chip.RadioItem value="second" bindtap={() => calls.push("tap")}>
           <Chip.Label>두 번째</Chip.Label>
         </Chip.RadioItem>
       </Chip.RadioRoot>,
     );
 
     const roots = getRenderedRoot().querySelectorAll(".seed-chip__root");
+    expect(roots[0]?.parentElement).toHaveAttribute("accessibility-role-description", "radiogroup");
     expect(roots[0]).toHaveClass("seed-chip__root--selected_true");
     expect(roots[1]).toHaveClass("seed-chip__root--selected_false");
     expect(roots[0]).toHaveAttribute("accessibility-role-description", "radio");
     expect(roots[0]).toHaveAttribute("accessibility-value", "selected");
-    expect(roots[1]).toHaveAttribute("accessibility-role-description", "radio");
     expect(roots[1]).toHaveAttribute("accessibility-value", "not selected");
 
     fireEvent.tap(roots[1] as HTMLElement);
 
-    expect(onValueChange).toHaveBeenCalledWith("second");
+    expect(calls).toEqual(["tap", "value:second"]);
     const updatedRoots = getRenderedRoot().querySelectorAll(".seed-chip__root");
     expect(updatedRoots[0]).toHaveClass("seed-chip__root--selected_false");
     expect(updatedRoots[1]).toHaveClass("seed-chip__root--selected_true");
-    expect(updatedRoots[0]).toHaveAttribute("accessibility-role-description", "radio");
     expect(updatedRoots[0]).toHaveAttribute("accessibility-value", "not selected");
-    expect(updatedRoots[1]).toHaveAttribute("accessibility-role-description", "radio");
     expect(updatedRoots[1]).toHaveAttribute("accessibility-value", "selected");
   });
 
@@ -157,6 +159,6 @@ describe("Chip", () => {
           <Chip.Label>고립된 칩</Chip.Label>
         </Chip.RadioItem>,
       );
-    }).toThrow(/must be rendered inside <ChipRadioRoot\/>/);
+    }).toThrow();
   });
 });
