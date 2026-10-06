@@ -14,7 +14,7 @@
 ## AI 개발 워크플로우
 
 - 구현 전·중에는 [Karpathy Guidelines](skills/seed-karpathy-guidelines/SKILL.md)를 읽고 가정·불확실성·성공 기준을 드러낸다. 요청 범위의 최소 변경과 기존 품질 리뷰 지침을 함께 적용한다.
-- 완료·커밋·PR 생성 전에는 [Verification Before Completion](skills/seed-verification-before-completion/SKILL.md)에 따라 변경 경로에 필요한 검증을 실제 실행하고 종료 코드·실패·미검증 범위를 보고한다.
+- 완료·커밋·PR 생성 전에는 [Verification Before Completion](skills/seed-verification-before-completion/SKILL.md)에 따라 변경 경로에 필요한 검증을 실제 실행하고 종료 코드·실패·미검증 범위를 보고한다. PR 마무리에는 관련 lesson·decision과 최종 변경을 대조하고 최신 head SHA의 반영·검증 근거를 남긴다.
 - 결과 답변에는 [Attention Kind](skills/seed-attention-kind/SKILL.md)를 적용한다. 한국어로 결과를 먼저 말하고 여러 항목은 번호·화살표·굵은 핵심으로 나눈다. 조건·위험을 생략하거나 건강 상태를 추정하지 않는다. 이 표현 형식은 답변에만 적용한다.
 - 계획·제안·리뷰·결과 답변에는 [참고 근거 지침](skills/seed-attention-kind/references/decision-appendix.md)에 따라 실제 적용한 lesson·decision·지침을 짧은 appendix로 연결하고 이번 판단에 미친 영향을 적는다. 제안·확정·직접 검증·새 해석을 구분한다.
 - 설치된 원본·커밋·라이선스는 각 Skill의 `UPSTREAM.md`를 따른다. 개발 지침은 런타임 배포물에 포함하지 않는다.

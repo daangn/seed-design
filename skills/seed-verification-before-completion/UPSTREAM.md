@@ -6,4 +6,4 @@
 - License: MIT
 - Purpose: project development guidance only; excluded from runtime packages.
 - Source README: [UPSTREAM-README.md](UPSTREAM-README.md).
-- Local changes: project-local Korean router and seed-prefixed skill name; copied guidance moved to references/guidelines.md; trailing whitespace normalized in the source README.
+- Local changes: project-local Korean router and seed-prefixed skill name; copied guidance moved to references/guidelines.md; trailing whitespace normalized in the source README; added project-local PR record reconciliation guidance.
