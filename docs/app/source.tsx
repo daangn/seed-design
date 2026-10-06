@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import {
   docs,
@@ -59,7 +60,7 @@ function createSource<TSrc extends StaticSource>(src: TSrc, baseUrl: string) {
 }
 
 export const docsSource = createSource(docs.toFumadocsSource(), "/docs");
-export const reactSource = createSource(reactDocs.toFumadocsSource(), "/react");
+export const reactSource = createSource(reactDocs.toFumadocsSource(), archivePaths.reactBase);
 export const breezeSource = createSource(breezeDocs.toFumadocsSource(), "/breeze");
 export const lynxSource = createSource(lynxDocs.toFumadocsSource(), "/lynx");
 export const aiIntegrationSource = createSource(

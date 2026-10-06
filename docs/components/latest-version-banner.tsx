@@ -1,4 +1,5 @@
 "use client";
+import { archivePaths } from "@/lib/docs-archive";
 
 import { useEffect, useState } from "react";
 import { Banner } from "fumadocs-ui/components/banner";
@@ -9,8 +10,9 @@ export function LatestVersionBanner() {
 
   useEffect(() => {
     setShow(
-      window.location.hostname !== "seed-design.pages.dev" &&
-        window.location.hostname.endsWith("pages.dev"),
+      !!archivePaths.prefix ||
+        (window.location.hostname !== "seed-design.pages.dev" &&
+          window.location.hostname.endsWith("pages.dev")),
     );
   }, []);
 
@@ -20,7 +22,7 @@ export function LatestVersionBanner() {
     <Banner id="latest-version">
       프리뷰 또는 이전 버전의 문서를 보고 있습니다.
       <a
-        href="https://seed-design.io"
+        href="https://seed-design.io/react"
         className="ml-1 font-medium underline flex gap-0.5 items-center"
       >
         seed-design.io 방문 <IconArrowRightFill className="size-3.5" />

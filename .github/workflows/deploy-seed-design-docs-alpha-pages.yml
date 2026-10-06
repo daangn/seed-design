@@ -6,6 +6,7 @@ on:
       - "!dev" # V3 deployment; remove this when V3 is stable
     paths:
       - "docs/**"
+      - "scripts/docs-archive/**"
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
@@ -24,6 +25,7 @@ permissions:
   pull-requests: write
 
 env:
+  DOCS_ARCHIVE_SOURCE_BRANCH: react/v1.2
   FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
   FIGMA_PERSONAL_ACCESS_TOKEN: ${{ secrets.FIGMA_PERSONAL_ACCESS_TOKEN }}
 
@@ -36,6 +38,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+        with:
+          build-packages: true
+          build-rootage: true
+
+      - name: Select archive build
+        id: target
+        run: bun scripts/docs-archive/build-target.ts
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -51,25 +62,43 @@ jobs:
         with:
           path: docs/.next/cache
           # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-nextjs-${{ steps.target.outputs.cache-generation }}-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
+            ${{ runner.os }}-nextjs-${{ steps.target.outputs.cache-generation }}-${{ hashFiles('**/bun.lock') }}-
 
-      - uses: ./.github/actions/setup
+      - name: Test retained documentation and archive contracts
+        if: steps.target.outputs.archive-version != ''
+        run: bun test docs scripts/docs-archive/tests
+
+      - name: Build matching archive Stackflow previews
+        if: steps.target.outputs.archive-version != ''
+        run: bun --filter @seed-design/stackflow-spa build
+
+      - name: Deploy matching archive Stackflow previews
+        if: steps.target.outputs.archive-version != ''
+        id: stackflow
+        uses: cloudflare/wrangler-action@v4
         with:
-          build-packages: true
-          build-rootage: true
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-stackflow-spa --branch=${{ github.ref_name }}
 
       - name: Build Docs
         working-directory: ./docs
         env:
+          NEXT_PUBLIC_ARCHIVE_STACKFLOW_URL: ${{ steps.stackflow.outputs.pages-deployment-alias-url }}
           # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
         run: |
-          bun run build
+          if [ -n "${{ steps.target.outputs.archive-version }}" ]; then
+            bun run build:archive:react "${{ steps.target.outputs.archive-version }}"
+          else
+            bun run build
+          fi
 
       - name: Save Figma image cache
         uses: actions/cache/save@v5
@@ -77,14 +106,21 @@ jobs:
           path: docs/.cache/figma-image
           key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
-      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
+      - name: Deploy docs at Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "4.45.3"
-          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+          command: pages deploy ./${{ steps.target.outputs.output-dir }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      - name: Verify archive deployment and branch alias
+        if: steps.target.outputs.archive-version != ''
+        env:
+          PAGES_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PAGES_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+        run: bun scripts/docs-archive/verify-preview.ts
 
       - name: Find related PR
         id: pr

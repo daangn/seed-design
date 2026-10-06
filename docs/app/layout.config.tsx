@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { IconSparkle2, IconTree } from "@karrotmarket/react-multicolor-icon";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
@@ -34,37 +35,37 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Docs",
         description: "당근 제품을 위한 디자인 언어",
-        url: "/docs",
+        url: archivePaths.link("/docs"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/logo.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/logo.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "React",
         description: "React 라이브러리",
-        url: "/react",
+        url: archivePaths.link("/react"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/react.webp" alt="" className="size-full" />
+            <img src={archivePaths.asset("/react.webp")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "Lynx",
         description: "Lynx 프레임워크",
-        url: "/lynx",
+        url: archivePaths.link("/lynx"),
         icon: (
           <SidebarTabIconContainer>
-            <img src="/lynx.svg" alt="" className="size-full" />
+            <img src={archivePaths.asset("/lynx.svg")} alt="" className="size-full" />
           </SidebarTabIconContainer>
         ),
       },
       {
         title: "AI Integration",
         description: "AI 도구 연동 가이드",
-        url: "/ai-integration",
+        url: archivePaths.link("/ai-integration"),
         icon: (
           <SidebarTabIconContainer>
             <IconSparkle2 />
@@ -74,7 +75,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
       {
         title: "Breeze",
         description: "유용한 UI 유틸리티 컴포넌트",
-        url: "/breeze",
+        url: archivePaths.link("/breeze"),
         icon: (
           <SidebarTabIconContainer>
             <IconTree />
@@ -85,6 +86,7 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   },
   tabMode: "navbar",
   nav: {
+    url: archivePaths.link("/"),
     mode: "top",
     title: (
       <div className="flex gap-2 justify-center items-center">

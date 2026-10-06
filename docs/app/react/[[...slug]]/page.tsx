@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getGitHubSourceUrl, getLLMMarkdownUrl } from "@/app/_llms/config";
 import { reactSource } from "@/app/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
@@ -9,7 +10,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -51,13 +53,16 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 }
 
 export async function generateStaticParams() {
-  return reactSource.generateParams();
+  return reactSource
+    .generateParams()
+    .map((params) => ({ slug: archivePaths.routeSlug(params.slug) }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -71,6 +76,9 @@ export async function generateMetadata(props: {
       : page.data.title;
 
   return {
+    alternates: {
+      canonical: `https://seed-design.io${archivePaths.reactBase}${page.slugs.length ? "/" + page.slugs.join("/") : ""}`,
+    },
     title: displayTitle,
     description: page.data.description,
   } satisfies Metadata;
