@@ -62,6 +62,8 @@ SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md
 
 ## Git 규칙
 
+- 백포트·버전 준비·npm 배포 전에는 [React v1.2 배포 가이드](RELEASING.md)를 읽는다. `--tag react-v1.2`를 명시하고 기존 `latest`를 유지한다.
+
 - **커밋 메시지는 반드시 영어로 작성**한다. Conventional Commits 형식을 따른다: `type(scope): subject`
   - 예: `feat(button): add loading state`, `fix(tooltip): correct z-index`, `docs: update component rules`
 - **PR 제목도 반드시 영어로 작성**한다. 커밋 메시지와 동일한 Conventional Commits 형식을 따른다.
