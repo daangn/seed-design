@@ -52,6 +52,7 @@ import { TabsHeadlessPage } from "./pages/TabsHeadlessPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
+import { TextFieldHeadlessPage } from "./pages/TextFieldHeadlessPage.jsx";
 import { TextFieldPage } from "./pages/TextFieldPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
@@ -91,6 +92,7 @@ export type Page =
   | "tabs-headless"
   | "tag-group"
   | "text-field"
+  | "text-field-headless"
   | "nested-vars-test"
   | "foundation-color"
   | "foundation-monochrome-icon"
@@ -146,6 +148,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "tabs-headless": true,
   "tag-group": true,
   "text-field": true,
+  "text-field-headless": true,
   "foundation-monochrome-icon": true,
   "foundation-multicolor-icon": true,
 };
@@ -235,6 +238,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "tabs-headless" && <TabsHeadlessPage />}
       {page === "tag-group" && <TagGroupPage />}
       {page === "text-field" && <TextFieldPage />}
+      {page === "text-field-headless" && <TextFieldHeadlessPage />}
       <Suspense>
         {page === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
         {page === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
