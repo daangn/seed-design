@@ -1,6 +1,7 @@
 import type { NodesRef, PlatformType } from "@lynx-js/types";
 
-import type { VerticalRect } from "./geometry";
+import type { KeyboardAvoidingNativeDriver } from "./engine.js";
+import type { VerticalRect } from "./geometry.js";
 
 export type KeyboardAvoidingPlatform = Extract<PlatformType, "Android" | "iOS">;
 
@@ -31,15 +32,6 @@ interface SystemInfoLike {
   pixelHeight?: number;
   pixelRatio?: number;
   platform?: string;
-}
-
-export interface KeyboardAvoidingNativeDriver {
-  measure(node: NodesRef): Promise<VerticalRect | null>;
-  resolveKeyboardOcclusion(state: RawKeyboardState): Promise<KeyboardOcclusion | null>;
-  setSpacerHeight(node: NodesRef, height: number): void;
-  waitForLayout(): Promise<void>;
-  getScrollMetrics(node: NodesRef, viewportHeight: number): Promise<ScrollMetrics | null>;
-  scrollTo(node: NodesRef, offset: number, smooth: boolean): void;
 }
 
 function isFiniteNumber(value: unknown): value is number {
@@ -186,7 +178,7 @@ function getScrollMetrics(
   });
 }
 
-export const lynxKeyboardAvoidingNativeDriver: KeyboardAvoidingNativeDriver = {
+export const lynxKeyboardAvoidingNativeDriver: KeyboardAvoidingNativeDriver<NodesRef> = {
   measure: measureNode,
   async resolveKeyboardOcclusion(state) {
     "background only";
