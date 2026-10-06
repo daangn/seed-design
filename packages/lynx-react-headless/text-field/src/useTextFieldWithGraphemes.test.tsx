@@ -1,7 +1,7 @@
 import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
-import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
+import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./useTextFieldInput.js";
 import { useTextFieldWithGraphemes } from "./useTextFieldWithGraphemes";
 
 describe("useTextFieldWithGraphemes", () => {
