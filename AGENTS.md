@@ -10,6 +10,14 @@
 4. 테스트·TypeScript 코드를 쓰거나 의존성·changeset·릴리스를 다루면 [`TECH.md`](TECH.md)를 읽는다.
 5. 요청과 직접 관련된 코드·설정·문서만 연다.
 
+## AI 개발 워크플로우
+
+- 구현 전·중에는 [Karpathy Guidelines](skills/seed-karpathy-guidelines/SKILL.md)를 읽고 가정·불확실성·성공 기준을 드러낸다. 요청 범위의 최소 변경과 기존 품질 리뷰 지침을 함께 적용한다.
+- 완료·커밋·PR 생성 전에는 [Verification Before Completion](skills/seed-verification-before-completion/SKILL.md)에 따라 변경 경로에 필요한 검증을 실제 실행하고 종료 코드·실패·미검증 범위를 보고한다.
+- 결과 답변에는 [Attention Kind](skills/seed-attention-kind/SKILL.md)를 적용한다. 한국어로 결과를 먼저 말하고 여러 항목은 번호·화살표·굵은 핵심으로 나눈다. 조건·위험을 생략하거나 건강 상태를 추정하지 않는다. 이 표현 형식은 답변에만 적용한다.
+- 설치된 원본·커밋·라이선스는 각 Skill의 `UPSTREAM.md`를 따른다. 개발 지침은 런타임 배포물에 포함하지 않는다.
+- 결정·교훈을 검사로 승격하거나 Skill·lesson·hook·CI 연결을 바꾸면 [harness 지도](harness/README.md)를 따른다. `bun scripts/harness-map.ts`로 시각화를 갱신하고 `bun scripts/harness-map.ts --check`로 확인한다.
+
 ## 검증
 
 변경 경로의 명령만 실행한다. 하위 `AGENTS.md`에 검증 명령이 있으면 그것을 따른다. 문서·`AGENTS.md`·Skill처럼 실행 동작이 없는 변경은 내용·링크·형식 검토로 끝낸다.

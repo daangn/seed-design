@@ -1,0 +1,47 @@
+name: Check harness map
+
+on:
+  pull_request:
+    paths:
+      - "**/AGENTS.md"
+      - "skills/**"
+      - "decisions/**"
+      - "harness/**"
+      - ".agents/learnings/**"
+      - ".claude/settings.json"
+      - ".github/workflows/**"
+      - "scripts/harness-map*"
+      - "package.json"
+      - "bun.lock"
+      - ".bun-version"
+  push:
+    branches: [dev]
+    paths:
+      - "**/AGENTS.md"
+      - "skills/**"
+      - "decisions/**"
+      - "harness/**"
+      - ".agents/learnings/**"
+      - ".claude/settings.json"
+      - ".github/workflows/**"
+      - "scripts/harness-map*"
+      - "package.json"
+      - "bun.lock"
+      - ".bun-version"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: bun test scripts/harness-map.test.ts
+      - run: bun biome check scripts/harness-map.ts scripts/harness-map.test.ts
+      - run: bun tsc --ignoreConfig --noEmit --skipLibCheck --strict --types bun --moduleResolution bundler --module esnext --target es2022 scripts/harness-map.ts scripts/harness-map.test.ts
+      - run: bun scripts/harness-map.ts --check
