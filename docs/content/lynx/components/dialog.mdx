@@ -207,6 +207,7 @@ React의 `ResponsiveDialog`와 같은 자동 전환 컴포넌트는 Lynx에서 �
 | Trigger 합성 | `asChild` 지원 | 미지원. Trigger가 자식 요소를 감싸는 view 렌더링 |
 | 본문 slot | `DialogBody` 제공 | `DialogBody` 제공. native `<scroll-view scroll-y>`와 `seed-dialog__body` selector를 사용하며 기본 가로 패딩은 recipe body token(`x6`)에서 제공 |
 | 닫기 버튼 | `showCloseButton` 지원 | Registry의 `DialogContent`에서 기본 지원. `showCloseButton={false}`로 숨김 |
+| 제목 접근성 | `DialogTitle`이 `h2`로 렌더링되고 Content의 `aria-labelledby`로 연결 | `DialogTitle`이 `accessibility-heading`을 기본으로 켬. Content와 제목의 접근성 연결은 미제공 |
 | 닫힘 원인 | `onOpenChange`의 `details.reason` 제공 | boolean `open` 값만 제공 |
 | Portal / overlay | `Portal` 컴포넌트 | Positioner의 `container`, `overlayLevel`. Registry는 `DialogContent`에서 받아 전달. native 속성은 `dialogViewProps`(lynx-ui `OverlayView`의 `overlayViewProps`) |
 | Responsive Dialog | `ResponsiveDialog` 제공 | 미제공. Dialog와 BottomSheet를 앱에서 직접 조합 |

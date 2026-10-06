@@ -2,8 +2,10 @@ import {
   DialogBackdrop as HeadlessDialogBackdrop,
   DialogCloseButton as HeadlessDialogCloseButton,
   DialogContent as HeadlessDialogContent,
+  DialogDescription as HeadlessDialogDescription,
   DialogPositioner as HeadlessDialogPositioner,
   DialogRoot as HeadlessDialogRoot,
+  DialogTitle as HeadlessDialogTitle,
   DialogTrigger as HeadlessDialogTrigger,
   type DialogBackdropProps as HeadlessDialogBackdropProps,
   type DialogCloseButtonProps as HeadlessDialogCloseButtonProps,
@@ -23,7 +25,7 @@ import {
 import { dialog, type DialogVariantProps } from "@seed-design/lynx-css/recipes/dialog";
 import clsx from "clsx";
 
-import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 type DialogComponent<Props> = ((props: Props) => ReactElement) & {
@@ -210,25 +212,31 @@ export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = for
 });
 DialogBody.displayName = "DialogBody";
 
-export interface DialogTitleProps extends StyleProps, LynxStyledElementProps {}
+export interface DialogTitleProps
+  extends StyleProps,
+    LynxStyledElementProps,
+    LynxAccessibilityProps {
+  /**
+   * @defaultValue true
+   */
+  "accessibility-heading"?: LynxAccessibilityProps["accessibility-heading"];
+}
 
 export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = forwardRef<
   unknown,
   DialogTitleProps
 >((props, ref) => {
   const { style, restProps } = useStyleProps(props);
-  const { children, className, ...nativeProps } = restProps;
+  const { className, ...titleProps } = restProps;
   const classNames = useClassNames();
 
   return (
-    <text
-      {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
-      {...nativeProps}
+    <HeadlessDialogTitle
+      ref={ref}
+      {...titleProps}
       className={clsx(classNames.title, className)}
       style={style as never}
-    >
-      {children}
-    </text>
+    />
   );
 });
 DialogTitle.displayName = "DialogTitle";
@@ -238,18 +246,16 @@ export interface DialogDescriptionProps extends StyleProps, LynxStyledElementPro
 export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescriptionProps> =
   forwardRef<unknown, DialogDescriptionProps>((props, ref) => {
     const { style, restProps } = useStyleProps(props);
-    const { children, className, ...nativeProps } = restProps;
+    const { className, ...descriptionProps } = restProps;
     const classNames = useClassNames();
 
     return (
-      <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
-        {...nativeProps}
+      <HeadlessDialogDescription
+        ref={ref}
+        {...descriptionProps}
         className={clsx(classNames.description, className)}
         style={style as never}
-      >
-        {children}
-      </text>
+      />
     );
   });
 DialogDescription.displayName = "DialogDescription";
