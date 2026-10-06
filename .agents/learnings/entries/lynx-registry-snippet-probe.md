@@ -1,6 +1,6 @@
 ---
 id: lynx-registry-snippet-probe
-description: Lynx Registry snippet(`docs/registry/lynx/ui/*.tsx`)의 눌림 상태·Scale Feedback·접근성처럼 렌더 결과를 재현하거나 회귀를 확인할 때 읽는다. snippet을 import하면 `Unexpected token '<'`, 아이콘 모듈 해석 실패, `MainThreadRef: value of a MainThreadRef cannot be accessed in the background thread`가 나는 경우와, 예제가 tap handler 없이 actionable 구성을 써서 interactive가 꺼지는 경우를 다룬다. React snippet이나 공개 패키지 컴포넌트 테스트에는 적용하지 않는다.
+description: "Lynx Registry snippet(`docs/registry/lynx/ui/*.tsx`)의 눌림 상태·Scale Feedback·접근성처럼 렌더 결과를 재현하거나 회귀를 확인할 때 읽는다. snippet을 import하면 `Unexpected token '<'`, 아이콘 모듈 해석 실패, `MainThreadRef: value of a MainThreadRef cannot be accessed in the background thread`가 나는 경우와, 예제가 tap handler 없이 actionable 구성을 써서 interactive가 꺼지는 경우를 다룬다. React snippet이나 공개 패키지 컴포넌트 테스트에는 적용하지 않는다."
 scope: ["docs/registry/lynx/**", "docs/examples/lynx/**", "examples/lynx-spa/src/seed-design/**", "packages/lynx-react/**"]
 status: active
 related: ["lynx-headless-tree-parity"]
@@ -27,3 +27,5 @@ related: ["lynx-headless-tree-parity"]
 ## 변경 이력
 
 - 2026-09-29: DES-2677 ActionableCallout Scale Feedback 누락 조사에서 작성했다.
+
+- 2026-10-06: harness 지도에서 frontmatter를 읽을 수 있도록 description을 문자열로 감쌌다. 교훈 내용과 기존 검증 날짜는 변경하지 않았다.

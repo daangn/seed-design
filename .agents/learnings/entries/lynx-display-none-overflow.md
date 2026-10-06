@@ -1,6 +1,6 @@
 ---
 id: lynx-display-none-overflow
-description: Lynx 예제·Headless consumer·Recipe에서 선택되지 않은 패널처럼 `display: none`으로 숨긴 view의 자식 `<text>`가 iOS PlayLynx 기기에서 부모 왼쪽 위에 겹쳐 그려질 때 읽는다. DOM에서는 class·computed `display: none`이 맞고 box 크기가 0인데 글자가 보이는 경우에 적용하며, 숨김 class에 함께 둘 속성과 A/B 확인 방법을 다룬다. 요소가 아예 렌더링되지 않거나 class가 적용되지 않은 문제에는 적용하지 않는다.
+description: "Lynx 예제·Headless consumer·Recipe에서 선택되지 않은 패널처럼 `display: none`으로 숨긴 view의 자식 `<text>`가 iOS PlayLynx 기기에서 부모 왼쪽 위에 겹쳐 그려질 때 읽는다. DOM에서는 class·computed `display: none`이 맞고 box 크기가 0인데 글자가 보이는 경우에 적용하며, 숨김 class에 함께 둘 속성과 A/B 확인 방법을 다룬다. 요소가 아예 렌더링되지 않거나 class가 적용되지 않은 문제에는 적용하지 않는다."
 scope: ["examples/lynx-spa/**", "docs/examples/lynx/**", "packages/lynx-react/**", "packages/lynx-react-headless/**", "packages/lynx-qvism-preset/**"]
 status: active
 related: ["lynx-example-display-flex", "lynx-device-cdp-geometry"]
@@ -26,3 +26,5 @@ verified_at: "2026-10-01"
 ## 변경 이력
 
 - 2026-10-01: DES-2632 Headless Tabs 예제의 기기 검증에서 A/B로 확인해 기록했다.
+
+- 2026-10-06: harness 지도에서 frontmatter를 읽을 수 있도록 description을 문자열로 감쌌다. 교훈 내용과 기존 검증 날짜는 변경하지 않았다.

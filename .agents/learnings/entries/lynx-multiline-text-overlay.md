@@ -1,6 +1,6 @@
 ---
 id: lynx-multiline-text-overlay
-description: Lynx Recipe·예제에서 `\n`으로 나눈 여러 줄 text가 한 줄만 보이고 잘리거나, 컴포넌트에 넘긴 문자열 label이나 `renderLabel` 같은 render prop·children으로 소비자가 넣은 `<text>`가 보이지 않거나 부모와 다른 색(앱 전역 `text` 색)으로 보이거나, 고정 높이 부모 안 `position: absolute` 말풍선(Value Indicator·tooltip 등)의 label이 첫 줄만 표시되거나, 예제가 `ReferenceError: Intl is not defined`로 "예제를 불러오지 못했습니다."를 띄울 때 읽는다. `white-space: nowrap`, absolute 요소의 남은 높이 제약, 전역 `text` 색이 상속을 덮는 조건과 Recipe 자손 `text` selector, Lynx JS 런타임의 `Intl` 부재를 PlayLynx 기기에서 구분하는 방법과 수정 기준을 다룬다. 단일 줄 text의 말줄임(`text-maxline`)이나 웹 Recipe에는 적용하지 않는다.
+description: "Lynx Recipe·예제에서 `\\n`으로 나눈 여러 줄 text가 한 줄만 보이고 잘리거나, 컴포넌트에 넘긴 문자열 label이나 `renderLabel` 같은 render prop·children으로 소비자가 넣은 `<text>`가 보이지 않거나 부모와 다른 색(앱 전역 `text` 색)으로 보이거나, 고정 높이 부모 안 `position: absolute` 말풍선(Value Indicator·tooltip 등)의 label이 첫 줄만 표시되거나, 예제가 `ReferenceError: Intl is not defined`로 \"예제를 불러오지 못했습니다.\"를 띄울 때 읽는다. `white-space: nowrap`, absolute 요소의 남은 높이 제약, 전역 `text` 색이 상속을 덮는 조건과 Recipe 자손 `text` selector, Lynx JS 런타임의 `Intl` 부재를 PlayLynx 기기에서 구분하는 방법과 수정 기준을 다룬다. 단일 줄 text의 말줄임(`text-maxline`)이나 웹 Recipe에는 적용하지 않는다."
 scope: ["packages/lynx-qvism-preset/**", "packages/lynx-css/**", "packages/lynx-react/**", "docs/examples/lynx/**"]
 status: active
 related: ["lynx-device-cdp-geometry", "lynx-example-display-flex"]
@@ -36,3 +36,5 @@ verified_at: "2026-10-02"
 - 2026-10-01: DES-2629 Slider 예제 렌더링 실패 조사에서 기록했다.
 - 2026-10-01: Slider marker label 미표시·색상 조사 결과를 추가했다.
 - 2026-10-02: Wheel Picker `renderLabel`의 소비자 text 색 덮임과 Recipe 자손 `text` selector 해결을 추가했다.
+
+- 2026-10-06: harness 지도에서 frontmatter를 읽을 수 있도록 description을 문자열로 감쌌다. 교훈 내용과 기존 검증 날짜는 변경하지 않았다.

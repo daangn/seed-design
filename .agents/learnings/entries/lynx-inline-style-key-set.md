@@ -1,6 +1,6 @@
 ---
 id: lynx-inline-style-key-set
-description: Lynx 컴포넌트가 상태에 따라 inline `style` 객체의 key 구성을 바꾸거나(예: 방향별 `top`↔`bottom`, `left`↔`right`, `width`↔`height`), PlayLynx 기기 DOM이나 `@lynx-js/react/testing-library` element tree에서 이전 렌더의 style key가 남아 배치·크기가 어긋날 때 읽는다. 이전 key가 남는 관찰 결과와, 모든 key를 매번 지정하거나 `key`로 remount하는 수정 기준을 다룬다. key 구성이 바뀌지 않는 값 변경에는 적용하지 않는다.
+description: "Lynx 컴포넌트가 상태에 따라 inline `style` 객체의 key 구성을 바꾸거나(예: 방향별 `top`↔`bottom`, `left`↔`right`, `width`↔`height`), PlayLynx 기기 DOM이나 `@lynx-js/react/testing-library` element tree에서 이전 렌더의 style key가 남아 배치·크기가 어긋날 때 읽는다. 이전 key가 남는 관찰 결과와, 모든 key를 매번 지정하거나 `key`로 remount하는 수정 기준을 다룬다. key 구성이 바뀌지 않는 값 변경에는 적용하지 않는다."
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["lynx-device-cdp-geometry", "lynx-headless-tree-parity"]
@@ -30,3 +30,5 @@ verified_at: "2026-09-30"
 
 - 2026-09-30: DES-2652 HelpBubble·Popover Arrow 기기 확인 결과를 기록했다.
 - 2026-10-02: DES-2651 Divider에서 `width`↔`height` 사례, remount 대안과 선택 기준, 테스트 재현 조건을 추가했다.
+
+- 2026-10-06: harness 지도에서 frontmatter를 읽을 수 있도록 description을 문자열로 감쌌다. 교훈 내용과 기존 검증 날짜는 변경하지 않았다.
