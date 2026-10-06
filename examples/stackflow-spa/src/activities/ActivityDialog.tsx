@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Text, VStack } from "@seed-design/react";
+import { HStack, Portal, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
@@ -31,7 +31,7 @@ declare module "@stackflow/config" {
 
 const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
   const { push } = useFlow();
-  const zIndexBase = useActivityZIndexBase();
+  const layerIndex = useActivityZIndexBase({ activityOffset: 1 });
 
   const [overflow, setOverflow] = useState(true);
 
@@ -63,29 +63,31 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
             <DialogTrigger asChild>
               <ActionButton variant="neutralSolid">다이얼로그 열기</ActionButton>
             </DialogTrigger>
-            <DialogContent
-              layerIndex={zIndexBase}
-              title="스크롤 테스트"
-              description="body가 오버플로일 때만 하단 fade와 padding-bottom이 적용됩니다"
-            >
-              <DialogBody>
-                <VStack gap="x4" align="stretch">
-                  {Array.from({ length: paragraphCount }, (_, index) => (
-                    <Text key={index} fontSize="t4" color="fg.neutral">
-                      {index + 1}. 본문이 길어지면 Body 영역만 스크롤됩니다. 오버플로 상태에서만
-                      하단이 서서히 사라지는 마스크와 padding-bottom이 적용되고, 스크롤하면 헤더
-                      아래에 구분선이 나타납니다.
-                    </Text>
-                  ))}
-                </VStack>
-              </DialogBody>
-              <DialogFooter>
-                <HStack gap="x2" justify="flex-end">
-                  <DialogAction variant="neutralWeak">취소</DialogAction>
-                  <DialogAction variant="neutralSolid">확인</DialogAction>
-                </HStack>
-              </DialogFooter>
-            </DialogContent>
+            <Portal>
+              <DialogContent
+                layerIndex={layerIndex}
+                title="스크롤 테스트"
+                description="body가 오버플로일 때만 하단 fade와 padding-bottom이 적용됩니다"
+              >
+                <DialogBody>
+                  <VStack gap="x4" align="stretch">
+                    {Array.from({ length: paragraphCount }, (_, index) => (
+                      <Text key={index} fontSize="t4" color="fg.neutral">
+                        {index + 1}. 본문이 길어지면 Body 영역만 스크롤됩니다. 오버플로 상태에서만
+                        하단이 서서히 사라지는 마스크와 padding-bottom이 적용되고, 스크롤하면 헤더
+                        아래에 구분선이 나타납니다.
+                      </Text>
+                    ))}
+                  </VStack>
+                </DialogBody>
+                <DialogFooter>
+                  <HStack gap="x2" justify="flex-end">
+                    <DialogAction variant="neutralWeak">취소</DialogAction>
+                    <DialogAction variant="neutralSolid">확인</DialogAction>
+                  </HStack>
+                </DialogFooter>
+              </DialogContent>
+            </Portal>
           </DialogRoot>
         </VStack>
       </AppScreenContent>

@@ -2,4 +2,4 @@
 "@seed-design/css": patch
 ---
 
-Dialog가 safe area 안쪽 영역을 기준으로 가운데에 놓이도록 수정합니다. 기본 너비·최대 너비와 최대 높이에서 safe area inset을 빼서, 노치·홈 인디케이터·가로 화면의 측면 inset이 있는 기기에서도 Dialog가 inset 영역에 걸치지 않습니다. Backdrop은 계속 화면 전체를 덮습니다.
+노치·홈 인디케이터·가로 화면의 측면 inset이 있는 기기에서 Dialog가 safe area inset 영역에 걸치지 않도록 수정합니다. 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 기본 너비와 최대 너비에서 좌우 inset을 뺍니다. 세로로는 위아래 inset 중 큰 값만큼 양쪽을 비워 화면 정중앙에 놓이고, 최대 높이는 화면 높이의 80%와 그 값을 위아래에서 뺀 높이 중 작은 쪽입니다. Backdrop은 계속 화면 전체를 덮습니다.

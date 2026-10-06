@@ -1,9 +1,9 @@
 @layer seed-components {
   .seed-dialog__positioner {
     overscroll-behavior-y: none;
-    padding-top: var(--seed-safe-area-top);
+    padding-top: max(var(--seed-safe-area-top), var(--seed-safe-area-bottom));
     padding-right: var(--seed-safe-area-right);
-    padding-bottom: var(--seed-safe-area-bottom);
+    padding-bottom: max(var(--seed-safe-area-top), var(--seed-safe-area-bottom));
     padding-left: var(--seed-safe-area-left);
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
@@ -64,8 +64,8 @@
     --seed-box-max-width: var(--seed-box-max-width-base, initial);
     width: var(--seed-box-width);
     max-width: var(--seed-box-max-width);
-    max-height: calc(.8 * 100vh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom));
-    max-height: calc(.8 * 100dvh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom));
+    max-height: min(.8 * 100vh, 100vh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom)));
+    max-height: min(.8 * 100dvh, 100dvh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom)));
     outline: none;
     flex-direction: column;
     flex: none;

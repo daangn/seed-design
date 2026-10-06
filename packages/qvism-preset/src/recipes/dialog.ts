@@ -11,6 +11,8 @@ import { onlyIcon } from "../utils/icon";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { active, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
+const safeAreaBlock = "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))";
+
 const dialog = defineSlotRecipe({
   name: "dialog",
   slots: [
@@ -32,11 +34,12 @@ const dialog = defineSlotRecipe({
       alignItems: "center",
       inset: 0,
       overscrollBehaviorY: "none",
-      // Centers the content within the safe area. The backdrop is `position: fixed`,
-      // so it still covers the whole viewport.
-      paddingTop: "var(--seed-safe-area-top)",
+      // The larger block inset goes on both sides, so the content stays at the viewport's
+      // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
+      // still covers the whole viewport.
+      paddingTop: safeAreaBlock,
       paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: "var(--seed-safe-area-bottom)",
+      paddingBottom: safeAreaBlock,
       paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
@@ -86,12 +89,14 @@ const dialog = defineSlotRecipe({
       width: "var(--seed-box-width)",
       maxWidth: "var(--seed-box-max-width)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
+      // The fraction is of the full viewport; the second term keeps the content clear of the
+      // positioner's block padding.
       // dvh tracks the mobile browser UI collapse; vh is listed first as the fallback for engines
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom))`,
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom))`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100vh, 100vh - 2 * ${safeAreaBlock})`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100dvh, 100dvh - 2 * ${safeAreaBlock})`,
       ],
       [breakpoints.up("md")]: {
         "--dialog-default-width": "var(--dialog-size-width)",
