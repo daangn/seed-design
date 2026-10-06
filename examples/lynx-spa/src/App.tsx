@@ -41,6 +41,7 @@ import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
 import { SelectHeadlessPage } from "./pages/SelectHeadlessPage.jsx";
+import { SelectBoxHeadlessPage } from "./pages/SelectBoxHeadlessPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
 import { SwitchHeadlessPage } from "./pages/SwitchHeadlessPage.jsx";
 import { TabsPage } from "./pages/TabsPage.jsx";
@@ -77,6 +78,7 @@ export type Page =
   | "radio-group"
   | "radio-group-headless"
   | "select-headless"
+  | "select-box-headless"
   | "switch"
   | "switch-headless"
   | "tabs"
@@ -212,6 +214,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "radio-group" && <RadioGroupPage />}
       {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
       {page === "select-headless" && <SelectHeadlessPage />}
+      {page === "select-box-headless" && <SelectBoxHeadlessPage />}
       {page === "switch" && <SwitchPage />}
       {page === "switch-headless" && <SwitchHeadlessPage />}
       {page === "tabs" && <TabsPage />}
