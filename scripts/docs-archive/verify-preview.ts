@@ -16,7 +16,9 @@ export async function verifyArchivePreview(options: PreviewOptions, fetcher: typ
   if (!version) throw new Error("An archive build channel is required");
   if (!options.deploymentUrl || !options.aliasUrl)
     throw new Error("Pages did not return both deployment and alias URLs");
-  for (const origin of new Set([options.deploymentUrl, options.aliasUrl])) {
+  if (new URL(options.deploymentUrl).origin === new URL(options.aliasUrl).origin)
+    throw new Error("Pages deployment and alias must have different origins");
+  for (const origin of [options.deploymentUrl, options.aliasUrl]) {
     await verifyArchive(
       {
         platform: "react",
