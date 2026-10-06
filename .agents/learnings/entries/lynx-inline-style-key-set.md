@@ -1,28 +1,29 @@
 ---
 id: lynx-inline-style-key-set
-description: Lynx 컴포넌트가 상태에 따라 inline `style` 객체의 key 구성을 바꾸거나(예: 방향별 `top`↔`bottom`, `left`↔`right`), PlayLynx 기기 DOM이나 `@lynx-js/react/testing-library` element tree에서 이전 렌더의 offset key가 남아 배치가 어긋날 때 읽는다. 이전 key가 남는 관찰 결과와, 모든 key를 매번 지정하는 수정 기준을 다룬다. key 구성이 바뀌지 않는 값 변경에는 적용하지 않는다.
+description: Lynx 컴포넌트에서 prop·상태 변경으로 inline `style` 객체의 key가 빠지거나 바뀔 때(예: `gap`·`bg` prop 제거, 방향별 `top`↔`bottom`), `@lynx-js/react/testing-library` element tree나 PlayLynx DevTool `DOM.getDocument`의 `style` attribute에 이전 key가 남아 보이면 읽는다. 테스트 환경·DevTool attribute의 잔존과 실제 native 렌더 결과를 구분하는 근거와 판정 방법, key 구성을 고정할지 정하는 기준을 다룬다. key 구성이 바뀌지 않는 값 변경에는 적용하지 않는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["lynx-device-cdp-geometry", "lynx-headless-tree-parity"]
-verified_at: "2026-09-30"
+verified_at: "2026-10-06"
 ---
 
-# 상태에 따라 바뀌는 inline style은 key 구성을 고정한다
+# inline style key 잔존은 테스트 환경·DevTool attribute에서 생긴다
 
 ## 교훈과 다음 행동
 
-- 상태에 따라 다른 key를 쓰는 inline style은 쓰는 key를 모두 매번 지정한다. 쓰지 않는 offset에는 `auto`를 준다(`left`·`top`·`right`·`bottom`의 기본값이며 Lynx가 지원한다).
-  - 예: `side === "top" ? { left, top: "100%", right: "auto", bottom: "auto" } : …`
-- 새 key를 빼는 것으로 이전 값이 지워진다고 가정하지 않는다. 기기에서는 `agent-lynx cdp --method DOM.getDocument`로 대상 요소의 `style` 속성을 읽어 이전 key가 남았는지 확인한다.
-- 분리 전후 element tree 비교에서 이런 잔여 key가 한쪽에만 있으면 렌더 순서 차이일 수 있다. 위치 값과 잔여 key를 나눠서 판정한다.
+- native에서는 빠진 key의 이전 값이 렌더에 남지 않는다. ReactLynx는 style이 바뀌면 새 객체 전체를 `__SetInlineStyles`로 넘기고, engine의 `FiberSetInlineStyles`는 `RemoveAllInlineStyles()`로 기존 inline style을 지운 뒤 새 값을 적용한다 → key 잔존만을 이유로 모든 key를 기본값으로 채우거나 React `key`로 remount하지 않는다. 기본값을 inline에 채우면 사용자 `className`을 덮는다.
+- `@lynx-js/react/testing-library`(0.117.0 확인)의 `__SetInlineStyles`는 object를 `Object.assign(e.style, styles)`로 병합한다 → 테스트 element tree에서는 빠진 key가 남는다. prop 제거를 rerender로 검증하는 테스트는 이 차이를 알고 작성하고, 잔존을 제품 결함으로 판정하지 않는다.
+- PlayLynx DevTool `DOM.getDocument`의 `style` attribute도 빠진 key를 계속 보일 수 있다. 렌더 결과는 `DOM.getBoxModel` border quad와 screenshot으로 판정한다. `CSS.getComputedStyleForNode`도 `var(...)` 값 속성(`row-gap`·`background-color`)을 실제와 다르게 `0px`·투명으로 보였으므로 판정 근거로 쓰지 않는다.
+- 상태별로 다른 offset key를 쓰는 요소(Arrow 등)는 모든 key를 지정해도 무방하다. 테스트·DevTool 표시를 실제와 맞추는 선택이지 native 결함 수정이 아니다.
 
 ## 발생 근거와 적용 조건
 
-- 상황(DES-2652): 변경 전 HelpBubble Arrow는 방향별로 `{ left, top: "100%" }`, `{ left, bottom: "100%" }`, `{ top, right: "100%" }` 등 다른 key 객체를 썼다. 처음에는 방향을 모르는 상태로 렌더링하고, 위치를 계산한 뒤 방향을 바꾼다.
-- 기기 확인: iOS 26.6 PlayLynx(Lynx SDK 1.4.0)에서 `lynx/help-bubble/placement` 기준 bundle의 Arrow `style`이 `top:100%;left:94px;bottom:100%;`, `top:32px;left:0px;right:100%;`로 남았다. 테스트 환경 element tree에도 같은 잔여 key가 나왔다.
-- 조치 후: 네 offset을 모두 지정하자 같은 장면의 Arrow `style`에 잔여 key가 없었고, 12개 배치의 Positioner 위치는 기준 bundle과 같았다.
-- 적용 조건: DevTool DOM의 `style` 속성과 테스트 element tree로 확인했다. 잔여 key가 화면에 미치는 영향은 요소와 layout마다 다르므로, 화면이 맞아 보인다는 이유로 잔여 key를 무시하지 않는다.
+- 원천(2026-10-06): `@lynx-js/react` 0.117.0 `runtime/lib/snapshot/spread.js`, lynx-stack `swc_plugin_snapshot`의 style 갱신 경로, lynx-family/lynx `core/runtime/lepus/bindings/renderer_functions.cc`의 `FiberSetInlineStyles`(3.2.0–4.1.0 태그와 develop `8688964`에서 같음), testing-library `dist/env/vitest.js`.
+- 기기 확인(DES-2720): iPhone iOS 26.6 PlayLynx(Lynx SDK 1.4.0), agent-lynx 0.14.2, 임시 예제. `VStack`의 `gap="x6"`·`bg="bg.neutralWeak"`(token)와 `gap={24}`·`bg="#ff0000"`(literal)를 tap으로 제거했다. 두 Stack의 둘째 자식 border y는 247→223으로 prop 없는 기준 Stack(223)과 같았고 높이는 80→56이었다. screenshot에서 회색·빨간 배경이 사라졌다. 같은 시점 literal Stack의 DevTool `style` attribute에는 `background-color:#ff0000;column-gap:24px;row-gap:24px`가 남아 있었다. 다시 tap해 prop을 넣자 247로 돌아왔다.
+- 테스트 환경 확인(DES-2720): `render(<VStack gap="x3" />)` 뒤 `rerender(<VStack />)`에서 root `style`에 `row-gap`·`column-gap`이 남았다.
+- 이전 관찰(DES-2652): iOS 26.6 PlayLynx에서 HelpBubble Arrow의 DevTool `style`이 `top:100%;left:94px;bottom:100%;`처럼 이전 offset key를 보였고, 테스트 element tree도 같았다. 이때도 12개 배치의 Positioner 위치는 기준 bundle과 같았다. 네 offset을 모두 지정한 뒤 attribute 잔존이 사라졌다.
 
 ## 변경 이력
 
 - 2026-09-30: DES-2652 HelpBubble·Popover Arrow 기기 확인 결과를 기록했다.
+- 2026-10-06: DES-2720 기기 측정과 engine·testing-library 원천으로 잔존 위치를 테스트 환경·DevTool attribute로 정정했다. "모든 key를 매번 지정"을 필수 수정 기준에서 선택 사항으로 바꿨다.
