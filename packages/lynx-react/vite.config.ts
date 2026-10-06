@@ -44,6 +44,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-quantity-picker$/,
         /^@seed-design\/lynx-react-radio-group$/,
         /^@seed-design\/lynx-react-scale-feedback$/,
+        /^@seed-design\/lynx-react-select$/,
         /^@seed-design\/lynx-react-segmented-control$/,
         /^@seed-design\/lynx-react-slider$/,
         /^@seed-design\/lynx-react-switch$/,
