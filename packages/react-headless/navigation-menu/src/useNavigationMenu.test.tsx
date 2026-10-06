@@ -196,3 +196,30 @@ describe("useNavigationMenu (trapped ancestor)", () => {
     expect(getByText("Outside")).not.toHaveFocus();
   });
 });
+
+describe("useNavigationMenu (safe area)", () => {
+  // Collision padding is read back from these declarations as px, so a positioner that
+  // loses them positions against the bare viewport edge again.
+  it("re-declares every safe-area inset on the positioner", async () => {
+    const { getByTestId } = render(
+      <NavigationMenu.Provider>
+        <NavigationMenu.Root value="products">
+          <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+          <NavigationMenu.Positioner data-testid="positioner">
+            <NavigationMenu.Content>
+              <NavigationMenu.Item>Item A</NavigationMenu.Item>
+            </NavigationMenu.Content>
+          </NavigationMenu.Positioner>
+        </NavigationMenu.Root>
+      </NavigationMenu.Provider>,
+    );
+    await act(async () => {});
+
+    const { style } = getByTestId("positioner");
+    for (const side of ["top", "right", "bottom", "left"]) {
+      expect(style.getPropertyValue(`--seed-safe-area-${side}`)).toBe(
+        `env(safe-area-inset-${side})`,
+      );
+    }
+  });
+});

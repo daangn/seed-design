@@ -16,12 +16,26 @@ import {
   useTransitionStatus,
   type OpenChangeReason,
   type Placement,
+  type Side,
 } from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 const MIN_HEIGHT = 200;
+
+// Re-declared on the positioner so the hook can read back resolved px values,
+// which also keeps this layer self-contained from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as React.CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
 
 /** Default open delay (ms) for the `NavigationMenuProvider` delay group. */
 export const DEFAULT_OPEN_DELAY = 200;
@@ -181,6 +195,20 @@ export function useNavigationMenuRoot(
 
   const placement: Placement = props.placement ?? rootPlacement;
 
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
+  // Inset the viewport collision boundary so flip/size/shift keep the flyout clear of
+  // the notch, home indicator and side insets, not just the viewport edge. The safe
+  // area is already a visual buffer, so where it exists the flyout sits right at its
+  // boundary; only where there is none does it fall back to overflowPadding off the
+  // bare viewport edge.
+  const collisionPadding = {
+    top: safeArea.top || overflowPadding,
+    right: safeArea.right || overflowPadding,
+    bottom: safeArea.bottom || overflowPadding,
+    left: safeArea.left || overflowPadding,
+  };
+
   const focusOutTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => () => clearTimeout(focusOutTimeout.current), [open]);
@@ -229,7 +257,7 @@ export function useNavigationMenuRoot(
     middleware: [
       offset(gutter),
       size({
-        padding: overflowPadding,
+        padding: collisionPadding,
         apply({ availableHeight, elements }) {
           elements.floating.style.setProperty(
             "--seed-menu-available-height",
@@ -237,8 +265,8 @@ export function useNavigationMenuRoot(
           );
         },
       }),
-      flip({ padding: overflowPadding, fallbackStrategy: "initialPlacement" }),
-      shift({ padding: overflowPadding }),
+      flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: collisionPadding }),
     ],
   });
 
@@ -261,6 +289,39 @@ export function useNavigationMenuRoot(
       context.update,
     );
   }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
+
+  // Read the env()-resolved insets off the positioner, which carries the env()
+  // declarations via SAFE_AREA_STYLE. Key on the reactive `elements.floating`, not
+  // `refs.floating`: the ref object's identity never changes, so an effect depending
+  // on it runs only once at mount — before FloatingPortal has committed the positioner
+  // child — reads a null ref, bails, and never re-fires, leaving `safeArea` stuck at
+  // zeros. `elements.floating` updates when the positioner mounts (it stays mounted
+  // even while closed), so the insets are read before the first open and the flyout
+  // clears the safe area on its first frame. Re-read on resize for orientation changes.
+  const floatingElement = context.elements.floating;
+
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
 
   // Hover is gated to mouse pointers (`mouseOnly`) so touch falls back to the
   // click interaction. `safePolygon` keeps the flyout open while the pointer
@@ -330,7 +391,7 @@ export function useNavigationMenuRoot(
 
     positionerProps: elementProps({
       ...stateProps,
-      style: floatingStyles,
+      style: { ...SAFE_AREA_STYLE, ...floatingStyles },
     }),
 
     contentProps: elementProps({
