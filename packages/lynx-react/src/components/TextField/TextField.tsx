@@ -3,11 +3,11 @@ import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import { textInput as textInputVars } from "@seed-design/lynx-css/vars/component";
 import { useFieldContext } from "@seed-design/lynx-react-field";
+import { useKeyboardAvoidingScrollViewContext } from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";
 import clsx from "clsx";
 
 import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED, TextFieldContext } from "./context";
 import { mergeProps } from "../../utils/merge-props";
@@ -246,7 +246,7 @@ function useNativeTextControl({
   }
 
   const fieldContext = useFieldContext({ strict: false });
-  const keyboardAvoidance = useKeyboardAvoidanceActions();
+  const keyboardAvoidance = useKeyboardAvoidingScrollViewContext({ strict: false });
   const disabled = disabledProp ?? textFieldContext.disabled;
   const readOnly = readOnlyProp ?? textFieldContext.readOnly;
   const nativeRef = React.useRef<NodesRef | null>(null);

@@ -5,7 +5,7 @@ import {
   lynxKeyboardAvoidingNativeDriver,
   normalizeScrollMetrics,
   resolveKeyboardOcclusionTop,
-} from "./native-driver";
+} from "./native-driver.js";
 
 interface TestGlobal {
   SystemInfo?: {
