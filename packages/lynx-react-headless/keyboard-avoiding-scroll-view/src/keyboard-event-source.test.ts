@@ -1,7 +1,7 @@
 import type { GlobalEventEmitter } from "@lynx-js/types";
 import { describe, expect, it, vi } from "vitest";
 
-import { createKeyboardEventSource } from "./keyboard-event-source";
+import { createKeyboardEventSource } from "./keyboard-event-source.js";
 
 function createEmitter() {
   let listener: ((...args: unknown[]) => void) | null = null;

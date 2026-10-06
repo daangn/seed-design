@@ -39,15 +39,15 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock("./engine", () => ({
+vi.mock("./engine.js", () => ({
   createKeyboardAvoidingEngine: mocks.createEngine,
 }));
 
-vi.mock("./native-driver", () => ({
+vi.mock("./native-driver.js", () => ({
   lynxKeyboardAvoidingNativeDriver: mocks.nativeDriver,
 }));
 
-vi.mock("./keyboard-event-source", () => ({
+vi.mock("./keyboard-event-source.js", () => ({
   lynxKeyboardEventSource: {
     subscribe: mocks.keyboardSource.subscribe,
   },
@@ -55,20 +55,17 @@ vi.mock("./keyboard-event-source", () => ({
 
 import { useEffect } from "@lynx-js/react";
 
-import { useKeyboardAvoidanceActions, type KeyboardAvoidanceRegistration } from "./context";
 import {
-  KeyboardAvoidingScrollView,
-  type KeyboardAvoidingScrollViewProps,
-} from "./KeyboardAvoidingScrollView";
+  KeyboardAvoidingScrollViewRoot as KeyboardAvoidingScrollView,
+  type KeyboardAvoidingScrollViewRootProps as KeyboardAvoidingScrollViewProps,
+} from "./KeyboardAvoidingScrollView.jsx";
+import type { KeyboardAvoidanceRegistration } from "./useKeyboardAvoidingScrollView.js";
+import { useKeyboardAvoidingScrollViewContext } from "./useKeyboardAvoidingScrollViewContext.js";
 
 function ContextConsumer({ registration }: { registration: KeyboardAvoidanceRegistration }) {
-  const actions = useKeyboardAvoidanceActions();
+  const actions = useKeyboardAvoidingScrollViewContext();
 
   useEffect(() => {
-    if (!actions) {
-      throw new Error("KeyboardAvoidingScrollView context가 필요합니다.");
-    }
-
     actions.focus(registration);
     actions.layoutChanged(registration.owner);
 
@@ -224,7 +221,7 @@ describe("KeyboardAvoidingScrollView", () => {
     expect(mocks.engine.viewportChanged).toHaveBeenCalledTimes(1);
   });
 
-  it("forwards private registration actions through a stable context", () => {
+  it("forwards registration actions through a stable context", () => {
     const registration: KeyboardAvoidanceRegistration = {
       owner: {},
       nativeRef: { current: null },

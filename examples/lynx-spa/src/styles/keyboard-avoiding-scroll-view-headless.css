@@ -1,0 +1,70 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-keyboard-avoiding-scroll-view만 소비하는 화면의 스타일 */
+
+.kav-headless-root {
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  background-color: #ffffff;
+}
+
+.kav-headless-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kav-headless-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #212124;
+}
+
+.kav-headless-description {
+  font-size: 13px;
+  color: #6b6e75;
+}
+
+.kav-headless-spacer {
+  height: 360px;
+  border-radius: 8px;
+  background-color: #f2f3f6;
+}
+
+.kav-headless-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kav-headless-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #212124;
+}
+
+.kav-headless-input {
+  height: 44px;
+  padding: 0px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dcdee3;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #212124;
+}
+
+.kav-headless-textarea {
+  min-height: 88px;
+  padding: 10px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dcdee3;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #212124;
+}
+
+.kav-headless-log {
+  font-size: 12px;
+  color: #212124;
+}

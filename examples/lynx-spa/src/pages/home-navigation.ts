@@ -29,6 +29,10 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "checkbox", title: "Checkbox" },
       { page: "dialog-headless", title: "Dialog (Headless)" },
       { page: "file-upload-headless", title: "FileUpload (Headless)" },
+      {
+        page: "keyboard-avoiding-scroll-view-headless",
+        title: "KeyboardAvoidingScrollView (Headless)",
+      },
       { page: "list-headless", title: "List (Headless)" },
       { page: "manner-temp", title: "Manner Temp" },
       { page: "menu-headless", title: "Menu (Headless)" },
