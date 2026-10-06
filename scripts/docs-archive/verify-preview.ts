@@ -1,29 +1,70 @@
 import { appendFile } from "node:fs/promises";
-import archives from "./archives.json";
-import { archivePrefix } from "./config";
-import { verifyArchive } from "./verify";
+import { setTimeout as delay } from "node:timers/promises";
+import { docsBuildTarget } from "./build-target";
+import { ArchiveSourceMismatchError, verifyArchive } from "./verify";
 
-const archive = archives.find((entry) => entry.sourceBranch === process.env.GITHUB_REF_NAME);
-if (!archive) throw new Error("No archive configured for this branch");
-const { sourceBranch: _, ...definition } = archive;
-const sourceSha = process.env.GITHUB_SHA ?? "";
-// Check the immutable upload first, then the branch alias that the public Worker will serve.
-for (const origin of new Set([process.env.PAGES_DEPLOYMENT_URL, process.env.PAGES_ALIAS_URL])) {
-  if (!origin) throw new Error("Pages did not return both deployment and alias URLs");
-  await verifyArchive({ ...definition, origin, sourceSha });
+interface PreviewOptions {
+  channel: string;
+  sourceBranch: string;
+  sourceSha: string;
+  deploymentUrl?: string;
+  aliasUrl?: string;
 }
-if (process.env.GITHUB_STEP_SUMMARY) {
-  await appendFile(
-    process.env.GITHUB_STEP_SUMMARY,
-    [
-      "## Verified archive preview",
-      "",
-      `- Path: ${archivePrefix(archive)}`,
-      `- Origin for archives.json: ${process.env.PAGES_ALIAS_URL}`,
-      `- Source branch: ${process.env.GITHUB_REF_NAME}`,
-      `- Source SHA: ${sourceSha}`,
-      "- Verification passed for both immutable deployment and branch alias.",
-      "",
-    ].join("\n"),
-  );
+
+export async function verifyArchivePreview(
+  options: PreviewOptions,
+  fetcher: typeof fetch = fetch,
+  wait: (milliseconds: number) => Promise<void> = delay,
+) {
+  const target = docsBuildTarget(options.channel);
+  const version = target["archive-version"];
+  if (!version) throw new Error("An archive build channel is required");
+  if (!options.deploymentUrl || !options.aliasUrl)
+    throw new Error("Pages did not return both deployment and alias URLs");
+  if (new URL(options.deploymentUrl).origin === new URL(options.aliasUrl).origin)
+    throw new Error("Pages deployment and alias must have different origins");
+  for (const origin of [options.deploymentUrl, options.aliasUrl]) {
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await verifyArchive(
+          {
+            platform: "react",
+            version,
+            origin,
+            sourceSha: options.sourceSha,
+            probe: { document: "components/action-button", registryItem: "ui/action-button" },
+          },
+          fetcher,
+        );
+        break;
+      } catch (error) {
+        if (!(error instanceof ArchiveSourceMismatchError) || attempt === 6) throw error;
+        console.warn(`${error.message}; retrying verification in 10s (attempt ${attempt}/6)`);
+        await wait(10_000);
+      }
+    }
+  }
+  return [
+    "## Verified archive preview",
+    "",
+    `- Path: ${target["preview-path"].replace(/\/$/, "")}`,
+    `- Verified Pages alias: ${options.aliasUrl}`,
+    `- Build channel: ${options.channel}`,
+    `- Source branch: ${options.sourceBranch}`,
+    `- Source SHA: ${options.sourceSha}`,
+    "- Verification passed for both immutable deployment and branch alias.",
+    "",
+  ].join("\n");
+}
+
+if (import.meta.main) {
+  const sourceBranch = process.env.GITHUB_REF_NAME ?? "";
+  const summary = await verifyArchivePreview({
+    channel: process.env.DOCS_ARCHIVE_SOURCE_BRANCH ?? sourceBranch,
+    sourceBranch,
+    sourceSha: process.env.GITHUB_SHA ?? "",
+    deploymentUrl: process.env.PAGES_DEPLOYMENT_URL,
+    aliasUrl: process.env.PAGES_ALIAS_URL,
+  });
+  if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, summary);
 }
