@@ -720,6 +720,58 @@ describe("Tabs headless", () => {
     expect(getTrigger(container, "disabled")).toHaveAttribute("accessibility-value", "selected");
   });
 
+  it("keeps the selection when the native pager moves without a drag and returns it to the selected page", () => {
+    const onValueChange = vi.fn();
+    const selectedIndexes: unknown[] = [];
+    function recordSelectTab(node: unknown) {
+      if (!node || typeof node !== "object") return;
+      Reflect.set(node, "invoke", (options: { method: string; params?: { index?: number } }) => {
+        if (options.method === "selectTab") selectedIndexes.push(options.params?.index);
+        return { exec() {} };
+      });
+    }
+    function PagerTabs({ disabled }: { disabled: boolean }) {
+      return (
+        <Tabs.Root value="two" onValueChange={onValueChange}>
+          <Tabs.List>
+            <Tabs.Trigger value="one">one</Tabs.Trigger>
+            <Tabs.Trigger value="two">two</Tabs.Trigger>
+            <Tabs.Trigger value="three" disabled={disabled}>
+              three
+            </Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Carousel swipeable>
+            <Tabs.CarouselCamera ref={recordSelectTab}>
+              <Tabs.Content value="one">
+                <text>One</text>
+              </Tabs.Content>
+              <Tabs.Content value="two">
+                <text>Two</text>
+              </Tabs.Content>
+              <Tabs.Content value="three">
+                <text>Three</text>
+              </Tabs.Content>
+            </Tabs.CarouselCamera>
+          </Tabs.Carousel>
+        </Tabs.Root>
+      );
+    }
+    const { container, rerender } = render(<PagerTabs disabled={false} />);
+    const pager = container.querySelector("viewpager")!;
+    selectedIndexes.length = 0;
+
+    // Removing a page after the selected one resets the native pager without moving the selection.
+    rerender(<PagerTabs disabled />);
+    fireViewPagerEvent(pager, "change", { index: 0, isDragged: false });
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(getTrigger(container, "two")).toHaveAttribute("accessibility-value", "selected");
+    expect(selectedIndexes.at(-1)).toBe(1);
+
+    fireViewPagerEvent(pager, "change", { index: 0, isDragged: true });
+    expect(onValueChange).toHaveBeenCalledWith("one");
+  });
+
   it("exposes tab semantics through Lynx accessibility attributes", () => {
     const { container } = render(<BasicTabs defaultValue="one" />);
     const first = getTrigger(container, "첫 번째");

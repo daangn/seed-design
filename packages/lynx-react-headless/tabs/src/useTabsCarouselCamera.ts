@@ -70,7 +70,8 @@ export function useTabsCarouselCamera({
     (event: ViewPagerChangeEvent) => {
       "background only";
       bindchange?.(event);
-      tabsContext.handlePagerChange(event.detail.index);
+      // 페이지 추가·제거 때 native pager가 보내는 change는 선택 변경이 아니다.
+      if (event.detail.isDragged) tabsContext.handlePagerChange(event.detail.index);
       carouselContext.onSettle?.();
     },
     [bindchange, carouselContext.onSettle, tabsContext.handlePagerChange],
