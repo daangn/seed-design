@@ -132,9 +132,11 @@ export interface IconProps extends LynxStyledElementProps {
   multicolor?: boolean;
 }
 
-export interface PrefixIconProps extends IconProps {}
+/** React와 같이 크기와 색상은 감싼 컴포넌트의 recipe slot이 정합니다. */
+export interface PrefixIconProps extends Omit<IconProps, "size" | "color"> {}
 
-export interface SuffixIconProps extends IconProps {}
+/** React와 같이 크기와 색상은 감싼 컴포넌트의 recipe slot이 정합니다. */
+export interface SuffixIconProps extends Omit<IconProps, "size" | "color"> {}
 
 interface IconSlotBaseProps extends IconProps {
   slot: IconSlotName | null;
@@ -228,7 +230,7 @@ IconSlotBase.displayName = "IconSlotBase";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-function createIconComponent<Props extends IconProps>(
+function createIconComponent<Props extends PrefixIconProps>(
   displayName: string,
   slot: IconSlotName,
   baseClassName: string,
