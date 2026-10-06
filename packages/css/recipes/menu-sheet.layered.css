@@ -1,6 +1,8 @@
 @layer seed-components {
   .seed-menu-sheet__positioner {
     overscroll-behavior-y: none;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     --sheet-z-index: 2;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
@@ -21,13 +23,10 @@
     box-sizing: border-box;
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
-    --menu-sheet-inset-left: max(0px, var(--seed-safe-area-left) - max(0px, (100vw - 480px) / 2));
-    --menu-sheet-inset-right: max(0px, var(--seed-safe-area-right) - max(0px, (100vw - 480px) / 2));
     background: var(--seed-color-bg-layer-floating);
     max-width: 480px;
     max-height: calc(100% - var(--seed-safe-area-top));
-    padding-left: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--menu-sheet-inset-left));
-    padding-right: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--menu-sheet-inset-right));
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--menu-sheet-header-padding-top, var(--seed-dimension-x4));
     padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
     border-top-left-radius: var(--seed-radius-r5);

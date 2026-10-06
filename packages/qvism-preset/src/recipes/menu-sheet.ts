@@ -32,6 +32,10 @@ const menuSheet = defineSlotRecipe({
       alignItems: "flex-end",
       inset: 0,
       overscrollBehaviorY: "none",
+      // Centers the sheet between the side insets and caps its width at the space between them.
+      // The backdrop is `position: fixed`, so it still covers the whole viewport.
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
 
       "--sheet-z-index": "2",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
@@ -54,16 +58,10 @@ const menuSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      // A sheet centered under its max width reaches a side inset only by the part the side gap
-      // doesn't cover.
-      "--menu-sheet-inset-left": `max(0px, var(--seed-safe-area-left) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
-      "--menu-sheet-inset-right": `max(0px, var(--seed-safe-area-right) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
-
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
       maxHeight: "calc(100% - var(--seed-safe-area-top))",
-      paddingLeft: `calc(${vars.base.enabled.content.paddingX} + var(--menu-sheet-inset-left))`,
-      paddingRight: `calc(${vars.base.enabled.content.paddingX} + var(--menu-sheet-inset-right))`,
+      paddingInline: vars.base.enabled.content.paddingX,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
