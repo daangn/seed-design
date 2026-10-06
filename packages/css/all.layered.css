@@ -3091,10 +3091,15 @@
     box-sizing: border-box;
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
+    --bottom-sheet-inset-left: max(0px, var(--seed-safe-area-left) - max(0px, (100vw - 480px) / 2));
+    --bottom-sheet-inset-right: max(0px, var(--seed-safe-area-right) - max(0px, (100vw - 480px) / 2));
     background: var(--seed-color-bg-layer-floating);
+    max-width: 480px;
+    max-height: calc(100% - var(--seed-safe-area-top));
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
-    max-width: 480px;
+    padding-left: var(--bottom-sheet-inset-left);
+    padding-right: var(--bottom-sheet-inset-right);
     padding-bottom: var(--seed-safe-area-bottom);
     touch-action: none;
     will-change: transform;
@@ -3189,6 +3194,7 @@
     align-items: var(--seed-box-align-items);
     flex-direction: column;
     display: flex;
+    overflow-y: auto;
   }
 
   .seed-bottom-sheet__footer {
@@ -3201,7 +3207,7 @@
 
   .seed-bottom-sheet__closeButton {
     top: var(--seed-dimension-x6);
-    right: var(--seed-dimension-x4);
+    right: calc(var(--seed-dimension-x4) + var(--bottom-sheet-inset-right));
     border-radius: var(--seed-radius-full);
     background: var(--seed-color-bg-neutral-weak);
     cursor: pointer;

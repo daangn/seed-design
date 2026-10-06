@@ -63,10 +63,19 @@ const bottomSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
+      // A sheet centered under its max width reaches a side inset only by the part the side gap
+      // doesn't cover. `vw` rather than `%` because the close button reads these too, and its `%`
+      // resolves against the content, not the viewport.
+      "--bottom-sheet-inset-left": `max(0px, var(--seed-safe-area-left) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
+      "--bottom-sheet-inset-right": `max(0px, var(--seed-safe-area-right) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
+
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
+      maxHeight: "calc(100% - var(--seed-safe-area-top))",
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
+      paddingLeft: "var(--bottom-sheet-inset-left)",
+      paddingRight: "var(--bottom-sheet-inset-right)",
       paddingBottom: "var(--seed-safe-area-bottom)",
 
       // Performance and interaction
@@ -132,6 +141,9 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      // Scrolls once the content hits its max height; as a scroll container it may also shrink
+      // below its content height despite `min-height: auto`.
+      overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
       // real values, not `initial` — see https://webkit.org/b/241433
@@ -164,7 +176,7 @@ const bottomSheet = defineSlotRecipe({
       border: "none",
 
       top: vars.base.enabled.closeButton.fromTop,
-      right: vars.base.enabled.closeButton.fromRight,
+      right: `calc(${vars.base.enabled.closeButton.fromRight} + var(--bottom-sheet-inset-right))`,
       borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
       background: closeButtonVars.base.enabled.root.color,
       width: closeButtonVars.base.enabled.root.size,
