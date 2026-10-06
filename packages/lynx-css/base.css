@@ -2,6 +2,14 @@
   font-size: 16px;
 }
 
+.seed-user-color-scheme-dark .seed-content-placeholder__presetLight {
+  display: none;
+}
+
+.seed-user-color-scheme-dark .seed-content-placeholder__presetDark {
+  display: flex;
+}
+
 text {
   background-color: var(--seed-color-bg-transparent);
 }
