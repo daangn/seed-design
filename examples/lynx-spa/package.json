@@ -31,6 +31,7 @@
     "@seed-design/lynx-react-image": "workspace:*",
     "@seed-design/lynx-react-loop-scroll": "workspace:*",
     "@seed-design/lynx-react-menu": "workspace:*",
+    "@seed-design/lynx-react-page-banner": "workspace:*",
     "@seed-design/lynx-react-progress": "workspace:*",
     "@seed-design/lynx-react-radio-group": "workspace:*",
     "@seed-design/lynx-react-select": "workspace:*",

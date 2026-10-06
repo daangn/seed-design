@@ -36,6 +36,7 @@ import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
 import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
+import { PageBannerHeadlessPage } from "./pages/PageBannerHeadlessPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
@@ -75,6 +76,7 @@ export type Page =
   | "manner-temp"
   | "menu-headless"
   | "page-banner"
+  | "page-banner-headless"
   | "progress-circle"
   | "progress-circle-headless"
   | "radio-group"
@@ -129,6 +131,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "manner-temp": true,
   "menu-headless": true,
   "page-banner": true,
+  "page-banner-headless": true,
   "progress-circle": true,
   "progress-circle-headless": true,
   "radio-group": true,
@@ -213,6 +216,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
+      {page === "page-banner-headless" && <PageBannerHeadlessPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
       {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
