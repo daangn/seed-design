@@ -12,6 +12,7 @@ import {
   type FloatingContext,
   type Middleware,
   type OpenChangeReason,
+  type Padding,
   type Placement,
   type Rect,
   type ReferenceType,
@@ -46,7 +47,8 @@ export interface PositioningOptions {
    */
   slide?: boolean;
   /**
-   * The virtual padding around the viewport edges to check for overflow
+   * The virtual padding around the viewport edges to check for overflow. On an edge with a
+   * safe-area inset, the inset is used instead.
    * @default 8
    */
   overflowPadding?: number;
@@ -66,6 +68,21 @@ const defaultPositioningOptions: PositioningOptions = {
   arrowPadding: 4,
 };
 
+// flip/shift/size derive collisions from numeric padding, so the safe-area insets have to
+// reach floating-ui as numbers — a CSS env() value alone can't. Like Menu and Select, the
+// positioner re-declares the insets from env() and the hook reads them back as px, which
+// keeps this layer self-contained from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
+
 function getArrowMiddleware(arrowElement: HTMLElement | null, opts: PositioningOptions) {
   if (!arrowElement) return;
   return arrow({ element: arrowElement, padding: opts.arrowPadding });
@@ -76,26 +93,26 @@ function getOffsetMiddleware(arrowOffset: number, opts: PositioningOptions) {
   return offset(offsetMainAxis);
 }
 
-function getFlipMiddleware(opts: PositioningOptions) {
+function getFlipMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.flip) return;
   return flip({
-    padding: opts.overflowPadding,
+    padding,
     fallbackPlacements: opts.flip === true ? undefined : opts.flip,
   });
 }
 
-function getShiftMiddleware(opts: PositioningOptions) {
+function getShiftMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.slide) return;
   return shift({
     mainAxis: opts.slide,
-    padding: opts.overflowPadding,
+    padding,
     limiter: limitShift(),
   });
 }
 
-function getSizeMiddleware(opts: PositioningOptions) {
+function getSizeMiddleware(padding: Padding) {
   return size({
-    padding: opts.overflowPadding,
+    padding,
     apply({ availableWidth, availableHeight, elements }) {
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
@@ -209,16 +226,34 @@ export function usePositionedFloating<
   const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
   const arrowTipOffset = arrowTipHeight;
 
-  const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating<RT>({
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
+  // The safe area is already a visual buffer, so on an edge that has one the floating
+  // element sits right at its boundary; only where there is none does it fall back to
+  // overflowPadding off the bare viewport edge. Same rule as Menu and Select.
+  const collisionPadding = {
+    top: safeArea.top || options.overflowPadding,
+    right: safeArea.right || options.overflowPadding,
+    bottom: safeArea.bottom || options.overflowPadding,
+    left: safeArea.left || options.overflowPadding,
+  };
+
+  const {
+    refs,
+    context,
+    floatingStyles: positionStyles,
+    middlewareData,
+    isPositioned,
+  } = useFloating<RT>({
     strategy: options.strategy,
     open,
     placement: options.placement,
     onOpenChange: handleFloatingOpenChange,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
-      getFlipMiddleware(options),
-      getShiftMiddleware(options),
-      getSizeMiddleware(options),
+      getFlipMiddleware(options, collisionPadding),
+      getShiftMiddleware(options, collisionPadding),
+      getSizeMiddleware(collisionPadding),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
@@ -232,6 +267,40 @@ export function usePositionedFloating<
 
     return autoUpdate(refs.reference.current, refs.floating.current, context.update);
   }, [open, refs.reference, refs.floating, context]);
+
+  // Read the env()-resolved insets back off the positioner. Keyed on the reactive
+  // `elements.floating`: `refs.floating` never changes identity, so an effect on it would
+  // run once before the positioner commits and never again. Re-read on resize for
+  // orientation changes.
+  const floatingElement = context.elements.floating;
+
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
+
+  const floatingStyles = useMemo(
+    () => ({ ...SAFE_AREA_STYLE, ...positionStyles }),
+    [positionStyles],
+  );
 
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 

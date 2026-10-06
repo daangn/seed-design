@@ -446,6 +446,22 @@ describe("usePopover", () => {
     });
   });
 
+  describe("safe area", () => {
+    // Collision padding is read back from these declarations as px, so a positioner that
+    // loses them positions against the bare viewport edge again.
+    it("re-declares every safe-area inset on the positioner", async () => {
+      const { getByTestId } = render(<BasicPopover />);
+      await waitForPositioning();
+
+      const { style } = getByTestId("positioner");
+      for (const side of ["top", "right", "bottom", "left"]) {
+        expect(style.getPropertyValue(`--seed-safe-area-${side}`)).toBe(
+          `env(safe-area-inset-${side})`,
+        );
+      }
+    });
+  });
+
   // Every close path reports why it happened, so a consumer can tell a deliberate dismissal
   // from one the surrounding UI forced, and reach the event that caused it.
   describe("open change reasons", () => {
