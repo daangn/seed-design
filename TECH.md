@@ -43,6 +43,6 @@ Kapture의 `github restore-build`가 캐시 탐색·출처·archive digest·Stor
 
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
-Kapture CLI와 adapter는 `0.15.1`으로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다.
+Kapture CLI와 adapter는 `0.15.2`로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다.
 
 버전이 다른 base/head adapter도 지원되는 protocol·캡처 계약이면 같은 CLI와 브라우저 환경에서 정상 비교한다. `--allow-adapter-upgrade`는 사용하지 않으며, 호환되지 않는 계약과 캡처 오류는 실패로 처리한다. 캡처 엔진·계약이 다른 캐시는 재사용하지 않는다. Report·승인은 기본 브랜치 `dev`의 workflow로 실행된다.

@@ -118,7 +118,7 @@
       "devDependencies": {
         "@chromatic-com/storybook": "^4.1.3",
         "@figma/rest-api-spec": "^0.36.0",
-        "@kaptures/storybook": "0.15.1",
+        "@kaptures/storybook": "0.15.2",
         "@karrotmarket/lynx-multicolor-icon": "1.27.0",
         "@lynx-js/config-rsbuild-plugin": "0.2.2",
         "@lynx-js/react": "0.123.3",
@@ -2545,7 +2545,7 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@kaptures/storybook": ["@kaptures/storybook@0.15.1", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-K39Ap9T6v+rRp31E965IZea60OyFXyFcA0gOzCioXQG1FVFMFJOkdNgqcBLSYMqO9Mz5+XK43fNQ9plwKQexeg=="],
+    "@kaptures/storybook": ["@kaptures/storybook@0.15.2", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-uIwcNwySSdNOHm3Uf744/qlF835Ew0bUGYI0dHOhgAv0AV/MO0cCZsXODvHnrTd3f0MoFumQkK3Bf2g4bSR1RQ=="],
 
     "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.26.0", "", {}, "sha512-Kf1wPy7lX49WpEw1o383gPJUx95abXRTvELhq+1Gi/HXZSWiNoLXUZoiI8VG6wFwFOgr7PFjFHrSQuuj8JLWWw=="],
 
