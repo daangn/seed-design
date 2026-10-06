@@ -7690,7 +7690,7 @@
 }
 
 .seed-page-banner__closeButton--tone_informative-variant_solid {
-  --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+  --seed-suffix-icon-color: var(--seed-color-fg-on-informative-solid);
 }
 
 .seed-page-banner__root--tone_positive-variant_weak {
@@ -7742,7 +7742,7 @@
 }
 
 .seed-page-banner__closeButton--tone_positive-variant_solid {
-  --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+  --seed-suffix-icon-color: var(--seed-color-fg-on-positive-solid);
 }
 
 .seed-page-banner__root--tone_warning-variant_weak {
@@ -7794,7 +7794,7 @@
 }
 
 .seed-page-banner__closeButton--tone_warning-variant_solid {
-  --seed-suffix-icon-color: var(--seed-color-palette-static-black-alpha-900);
+  --seed-suffix-icon-color: var(--seed-color-fg-on-warning-solid);
 }
 
 .seed-page-banner__root--tone_critical-variant_weak {
@@ -7846,7 +7846,7 @@
 }
 
 .seed-page-banner__closeButton--tone_critical-variant_solid {
-  --seed-suffix-icon-color: var(--seed-color-palette-static-white);
+  --seed-suffix-icon-color: var(--seed-color-fg-on-critical-solid);
 }
 
 .seed-page-banner__root--tone_magic-variant_weak {
