@@ -50,6 +50,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "tabs-headless", title: "Tabs (Headless)" },
       { page: "tag-group", title: "TagGroup" },
       { page: "text-field", title: "TextField" },
+      { page: "text-field-headless", title: "TextField (Headless)" },
     ],
   },
 ];

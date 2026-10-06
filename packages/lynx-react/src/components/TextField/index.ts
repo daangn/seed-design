@@ -18,6 +18,6 @@ export {
 export {
   useTextFieldWithGraphemes,
   type UseTextFieldWithGraphemesParams,
-} from "./useTextFieldWithGraphemes";
+} from "@seed-design/lynx-react-text-field";
 
 export * as TextField from "./TextField.namespace";
