@@ -39,18 +39,9 @@ export function archiveOrigin(value: string): URL {
   return url;
 }
 
-// Validate the entire registry before deploying the shared Worker, never just the newest entry.
-export function archiveRoutes(archives: readonly ArchiveDefinition[]) {
-  if (archives.length === 0) throw new Error("At least one archive must be registered");
-  const prefixes = archives.map(archivePrefix);
-  if (new Set(prefixes).size !== prefixes.length) throw new Error("Duplicate archive path");
-  return prefixes.map((prefix) => `seed-design.io${prefix}*`);
-}
-
 export function validateArchive(archive: ArchiveDefinition) {
   const prefix = archivePrefix(archive);
-  if (!archive.origin)
-    throw new Error(`${prefix}: fill in the verified Pages origin in archives.json`);
+  if (!archive.origin) throw new Error(`${prefix}: supply the verified Pages deployment origin`);
   archiveOrigin(archive.origin);
   if (!archive.sourceBranch && !archive.sourceSha) {
     throw new Error(`${prefix}: supply sourceBranch, or sourceSha for a pinned deployment`);
