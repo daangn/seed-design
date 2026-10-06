@@ -24,6 +24,7 @@ import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { legacyPageTitle, type HomeCategory } from "./pages/home-navigation.js";
 import { IconColorPOCPage } from "./pages/IconColorPOCPage.jsx";
+import { KeyboardAvoidingScrollViewHeadlessPage } from "./pages/KeyboardAvoidingScrollViewHeadlessPage.jsx";
 import {
   LayoutStressSeedPrimitivesPage,
   LayoutStressStylePage,
@@ -72,6 +73,7 @@ export type Page =
   | "checkbox"
   | "dialog-headless"
   | "file-upload-headless"
+  | "keyboard-avoiding-scroll-view-headless"
   | "list-headless"
   | "manner-temp"
   | "menu-headless"
@@ -127,6 +129,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   checkbox: true,
   "dialog-headless": true,
   "file-upload-headless": true,
+  "keyboard-avoiding-scroll-view-headless": true,
   "list-headless": true,
   "manner-temp": true,
   "menu-headless": true,
@@ -212,6 +215,9 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "checkbox" && <CheckboxPage />}
       {page === "dialog-headless" && <DialogHeadlessPage />}
       {page === "file-upload-headless" && <FileUploadHeadlessPage />}
+      {page === "keyboard-avoiding-scroll-view-headless" && (
+        <KeyboardAvoidingScrollViewHeadlessPage />
+      )}
       {page === "list-headless" && <ListHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}

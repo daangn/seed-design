@@ -7,8 +7,8 @@ import {
   selectLargestFittingTarget,
   type AvoidanceTargetKind,
   type VerticalRect,
-} from "./geometry";
-import type { KeyboardOcclusion, RawKeyboardState, ScrollMetrics } from "./native-driver";
+} from "./geometry.js";
+import type { KeyboardOcclusion, RawKeyboardState, ScrollMetrics } from "./native-driver.js";
 
 const BLUR_HANDOFF_DELAY_MS = 30;
 
