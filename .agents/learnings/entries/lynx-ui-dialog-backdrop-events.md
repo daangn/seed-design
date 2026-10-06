@@ -11,7 +11,7 @@ related: ["lynx-ui-presence-test-frames", "playlynx-simulator-overlay-check"]
 ## 교훈과 다음 행동
 
 - lynx-ui `DialogBackdrop`의 `onClick`은 탭이 Dialog를 닫을 때만 호출된다. `clickToClose`가 `false`이거나 presence가 busy면 `onShowChange`·`onClick` 모두 부르지 않는다 → 비닫힘 Backdrop(AlertDialog 기본값)에서 "`onClick`으로 탭을 관찰한다"고 문서화하지 않고, 탭 관찰 예제에 `onClick` 로그를 두지 않는다.
-- 같은 Backdrop은 자기 `<view>`에 `event-through={false}`를 넣는다. `container` 모드에서 레이어 `<view>`가 `event-through: true`여도 Backdrop은 탭을 받는다(기기 DOM 확인). 모달 Dialog에 `dialogViewProps={{ "event-through": false }}`를 추가로 넣을 필요는 없다. 실제 터치 결과는 아래 미확인 범위를 본다.
+- 같은 Backdrop은 자기 `<view>`에 `event-through={false}`를 넣는다. `container` 모드에서 레이어 `<view>`가 `event-through: true`여도 Backdrop은 탭을 받는다(Android 실제 터치로 확인, iOS는 DOM만 확인). 모달 Dialog에 `dialogViewProps={{ "event-through": false }}`를 추가로 넣을 필요는 없다.
 - 기기에서 "Backdrop 탭으로 닫히지 않음"을 판정할 때는 같은 좌표·같은 입력으로 기본 `clickToClose`인 Dialog 예제(`lynx/dialog/preview`)가 닫히는지 먼저 대조한다. 닫히지 않은 결과만으로는 입력 미전달과 구분할 수 없다.
 
 ## 발생 근거와 적용 조건
@@ -19,8 +19,10 @@ related: ["lynx-ui-presence-test-frames", "playlynx-simulator-overlay-check"]
 - 근거: `@lynx-js/lynx-ui-dialog` 3.133.1 `src/Dialog.tsx`의 `DialogBackdrop.handleClick`이 `if (!clickToClose || busy) return` 뒤에 `onShowChange(false)`·`onClick()`을 부른다. 같은 컴포넌트가 `event-through={false}`를 `dialogBackdropProps`보다 먼저 펼친다.
 - 관찰(DES-2621, iPhone iOS 26.6 PlayLynx, Lynx SDK 1.4.0, agent-lynx 0.14.2): Headless 소비 화면의 `clickToClose={false}` Backdrop에 `onClick` 로그를 두고 `Input.emulateTouchFromMouseEvent`로 Backdrop을 눌렀을 때 로그가 남지 않았다. 같은 좌표·입력으로 `lynx/dialog/preview`는 닫혔다.
 - `lynx/alert-dialog/portalled`(`container="window"`)의 DOM에서 `<overlay>` 아래 Positioner는 `event-through="true"`, Backdrop·Content는 `event-through="false"`였다.
-- 미확인: overlay 모드 Backdrop의 실제 터치 결과. 해당 Card가 기기 전면에 있지 않아 overlay 화면을 캡처하지 못했고, CDP 입력은 overlay 레이어에 전달되지 않는다(`playlynx-simulator-overlay-check`).
+- 관찰(DES-2621, Galaxy SM-F971N Lynx Go, `adb shell input tap` 실제 터치): `lynx/alert-dialog/portalled`에서 Backdrop과 그 아래 페이지 뒤로 가기 버튼 위치를 눌러도 Dialog가 열린 채였고 페이지도 이동하지 않았다. 같은 overlay의 Action 탭은 Dialog를 닫았다. view 모드에서는 같은 좌표·입력으로 `lynx/dialog/preview`가 닫히고 `lynx/alert-dialog/preview`는 열린 채였다.
+- 미확인: iOS overlay 모드의 실제 터치 결과. CDP 입력은 overlay 레이어에 전달되지 않는다(`playlynx-simulator-overlay-check`).
 
 ## 변경 이력
 
 - 2026-10-02: DES-2621 AlertDialog Headless 재사용 작업의 소스 확인과 iPhone PlayLynx 관찰로 작성했다.
+- 2026-10-06: DES-2621 Title heading 작업에서 Android 실제 터치로 overlay 모드 Backdrop 탭 결과를 확인하고 미확인 범위를 iOS로 좁혔다.

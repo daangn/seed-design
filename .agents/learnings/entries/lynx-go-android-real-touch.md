@@ -16,6 +16,8 @@ verified_at: "2026-10-06"
 - agent-lynx snapshot 좌표는 dp다. `adb shell wm density`의 값/160을 곱해 픽셀로 바꾼다(420dpi → ×2.625). `adb shell input tap`은 native 터치라 `event-through`·backdrop·겹친 레이어의 탭 전달을 그대로 재현한다.
 - 화면 캡처는 `adb shell screencap -p /sdcard/<name>.png` 뒤 `adb pull`로 받는다. `adb exec-out screencap`을 셸 출력으로 받으면 PNG가 깨질 수 있다.
 - Lynx Go에는 Card를 닫는 명령이 없다. 소유 Card가 앞에 있을 때 `adb shell input keyevent KEYCODE_BACK`을 보내면 `LynxViewShellActivity`가 끝나 Card가 사라진다. 이후 `list-sessions`는 빈 목록 대신 `No response found`를 낼 수 있으므로 `dumpsys activity activities`에 `com.funcs.io.lynx.go` ActivityRecord가 없는지로 제거를 확인한다.
+- `container`를 지정한 overlay 레이어(예: `lynx/alert-dialog/portalled`)가 열려 있으면 `KEYCODE_BACK`은 overlay에 먹혀 Dialog도 Card도 닫히지 않는다 → overlay 안의 닫기 버튼으로 먼저 닫은 뒤 BACK을 보낸다.
+- `adb shell uiautomator dump`는 Lynx 텍스트의 `accessibility-heading` 같은 접근성 속성을 출력하지 않는다(열린 AlertDialog에서 버튼 `content-desc`만 보였다) → heading·역할 설명은 agent-lynx `DOM.getDocument` 속성으로 확인하고, 실제 낭독은 TalkBack에서 따로 판정한다.
 - Lynx Go에서도 agent-lynx `tap`(CDP)으로 SPA 목록 항목과 header 뒤로 가기를 누를 수 있다. 가로 `scroll-view`를 실제 drag로 옮긴 뒤 snapshot 좌표는 갱신되지 않을 수 있으므로 가로 스크롤 결과는 screenshot으로 판정한다.
 
 ## 발생 근거와 적용 조건
@@ -29,8 +31,12 @@ verified_at: "2026-10-06"
   - `open`은 baseline의 `homepage.lynx.bundle` session을 목록에서 대체했다(baseline 2 → 새 session 3만 남음). 새 ID와 요청 URL이 일치하는 것으로 소유를 확정했다.
   - CDP `tap`으로 목록 진입·뒤로 가기가 동작했고, `adb input swipe`로 세로·가로 `scroll-view`가 스크롤됐다. 가로 drag 뒤 snapshot의 항목 x 좌표는 그대로였고 screenshot에서만 이동이 보였다.
   - query 미적용, 뒤로 가기로 Card 종료, ActivityRecord 0개 확인은 이번에도 같았다.
+- DES-2621(Dialog·AlertDialog Title heading, 2026-10-06): 같은 기기·client, agent-lynx 0.14.2. `open`은 다시 baseline `homepage.lynx.bundle` session(8)을 새 session(9)으로 대체했다.
+  - `alert-dialog/portalled`를 연 채 BACK을 세 번 보내도 ActivityRecord가 그대로였고 화면도 열린 Dialog였다. 취소를 누른 뒤 BACK 한 번에 ActivityRecord가 0개가 됐다.
+  - 같은 Dialog를 연 상태의 `uiautomator dump --compressed`에는 취소·확인 버튼 노드만 있었다. 같은 시점 CDP DOM에서는 Title `accessibility-heading="true"`가 보였다.
 
 ## 변경 이력
 
 - 2026-09-29: DES-2679 OverlayView 검증 중 확인한 내용을 기록했다.
 - 2026-10-06: DES-2631에서 서브넷이 다른 기기의 `adb reverse` 연결, CDP tap 동작, 가로 스크롤 뒤 snapshot 좌표 한계를 추가하고 기존 query·Card 정리 관찰을 재확인했다.
+- 2026-10-06: DES-2621에서 overlay 레이어가 BACK을 소비하는 Card 정리 순서와 uiautomator dump의 접근성 속성 한계를 추가했다.
