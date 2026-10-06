@@ -104,6 +104,7 @@ Lynx의 monochrome icon은 내부적으로 `<image>`를 렌더링하고, 실제 
 |-----------|------|-------------|
 | `deps` | `DependencyList` | icon의 CSS `color`에 영향을 주는 의존성 목록입니다. 값이 바뀌면 main thread에서 tint color를 다시 동기화합니다. |
 | `options.sourceRef` | `RefObject<MainThread.Element>` | optional. icon 자체가 아니라 wrapper element의 computed `color`를 source로 사용할 때 전달합니다. |
+| `options.enabled` | `boolean` | optional. 기본값은 `true`입니다. `false`면 `tint-color`를 동기화하지 않아 multicolor icon의 원본 색을 유지합니다. |
 
 ### Return
 
