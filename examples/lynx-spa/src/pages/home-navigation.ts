@@ -22,6 +22,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "accordion", title: "Accordion" },
       { page: "action-button", title: "ActionButton" },
       { page: "app-bar", title: "AppBar" },
+      { page: "attachment-display-headless", title: "AttachmentDisplay (Headless)" },
       { page: "badge", title: "Badge" },
       { page: "bottom-sheet", title: "BottomSheet" },
       { page: "callout", title: "Callout" },
