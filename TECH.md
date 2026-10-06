@@ -31,16 +31,18 @@
 
 ## Kapture workflow ownership
 
-Kapture 지원 브랜치와 빌드 명령은 `.github/workflows/kapture-capture.yml`에서 관리한다. 캐시 보관 기간은 `KAPTURE_CACHE_RETENTION_DAYS`, CLI 버전은 각 workflow의 `KAPTURE_CLI_VERSION`이며 설치된 adapter와 같은 버전인지 계약 테스트로 확인한다. Capture, Report, Approve는 실행 이벤트와 권한 경계가 달라 분리한다.
+Kapture 지원 브랜치와 빌드 명령은 `.github/workflows/kapture-capture.yml`에서 관리한다. 캐시 보관 기간은 `KAPTURE_CACHE_RETENTION_DAYS`, CLI 버전은 각 workflow의 `KAPTURE_CLI_VERSION`이며 설치된 adapter와 같은 버전인지 계약 테스트로 확인한다. Capture, Report, Publish, Approve는 실행 이벤트와 권한 경계가 달라 분리한다. CLI 전용 job은 Node.js 24와 npx를 사용하고, 저장소 설치·빌드와 계약 테스트에는 Bun을 사용한다.
 
-Report의 `publish`와 Approve job은 PR 타임라인 댓글을 생성·갱신하므로 `pull-requests: write`와 `issues: write`를 부여한다. Capture의 모든 job은 read 권한만 사용하고, Report의 `finalize`는 PR 읽기와 status 쓰기만 허용한다. 댓글 API의 403은 Capture 성공·리포트 배포 성공과 별개로 게시 실패를 만든다.
+Publish의 `publish`와 Approve job은 PR 타임라인 댓글을 생성·갱신하므로 `pull-requests: write`와 `issues: write`를 부여한다. Capture의 모든 job은 read 권한만 사용하고, Publish의 `finalize`는 PR 읽기와 status 쓰기만 허용한다. 댓글 API의 403은 Capture 성공·리포트 배포 성공과 별개로 게시 실패를 만든다.
 
-Capture는 `opened`, `synchronize`, `reopened`에서만 실행한다. 제목·본문 수정의 `edited`는 새 Capture run을 만들지 않으므로 진행 중인 캡처나 최신 실행 소유권을 바꾸지 않는다. base 브랜치를 바꾼 경우 PR을 닫았다가 다시 열어 새 base/head 비교를 시작한다. Report는 이 Capture workflow의 `in_progress`·`completed` 이벤트만 처리한다.
+Capture는 `opened`, `synchronize`, `reopened`에서만 실행한다. 제목·본문 수정의 `edited`는 새 Capture run을 만들지 않으므로 진행 중인 캡처나 최신 실행 소유권을 바꾸지 않는다. base 브랜치를 바꾼 경우 PR을 닫았다가 다시 열어 새 base/head 비교를 시작한다. Report는 이 Capture workflow의 `in_progress`·`completed` 이벤트만 처리한다. read-only `review-context`가 live PR·base를 검증한 뒤 PR별 큐에 들어간다. 조회 오류는 5초 간격으로 최대 3회 시도하고, 계속 실패하면 Report 실행을 실패시킨다. `ready=false`인 오래된 실행·지원하지 않는 PR은 재시도나 게시 없이 종료한다. 조회 실패가 지속되어 상태 마무리가 실행되지 않았다면 실패한 Report를 재실행한다. 큐를 소유한 caller가 Publish reusable workflow의 게시와 finalize 전체를 기다리며, 승인도 같은 PR 큐를 사용한다. 게시·finalize는 `--expected-pr-number`로 큐 대상을 다시 검증한다. Cloudflare secret 두 개만 reusable workflow에 전달한다.
 
-`workflow-tests` job이 `scripts/kapture-workflows.test.ts`를 실행한다. CLI·adapter 버전 일치, base의 정확한 checkout, cache miss 시 빌드 복귀와 현재 실행 artifact 게시, job별 권한 경계를 검사한다.
+`workflow-tests` job이 `scripts/kapture-workflows.test.ts`를 실행한다. CLI·adapter 버전 일치, base의 정확한 checkout, cache miss 시 빌드 복귀와 현재 실행 artifact 게시, job별 권한·PR 큐·reusable workflow 경계를 검사한다. Capture 실행 시간·캐시 판정은 job summary와 별도 `kapture-execution-*` artifact에 보관한다. 취소되지 않은 실패 실행에서도 생성된 진단 파일을 업로드하며, 파일이 없으면 경고만 남기고 원래 캡처 실패를 유지한다. 시각 리포트·승인 digest에는 실행 진단을 섞지 않으며, stable head cache가 실제 export된 경우에만 게시한다. artifact 다운로드는 Node 24의 download-artifact v8로 digest 불일치를 실패 처리한다.
 
-Kapture 0.11.0의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
+Kapture의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
 
 복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
-Kapture CLI와 adapter는 `0.11.1`로 함께 고정한다. unstable repeat/self-diff PNG는 trusted report에 게시되지만 불안정한 스냅샷의 시각 승인은 계속 차단된다. 버전 업그레이드 PR은 base에 이전 adapter가 남아 있으므로 정확한 base/head/CLI 버전 계약에 따라 비교가 거부될 수 있다. 이를 승인으로 우회하지 않으며, 새 버전 설치·Storybook 빌드·workflow 계약을 검증하고 머지 후 새 PR에서 전체 게시 흐름을 확인한다.
+Kapture CLI와 adapter는 `0.15.2`로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다.
+
+버전이 다른 base/head adapter도 지원되는 protocol·캡처 계약이면 같은 CLI와 브라우저 환경에서 정상 비교한다. `--allow-adapter-upgrade`는 사용하지 않으며, 호환되지 않는 계약과 캡처 오류는 실패로 처리한다. 캡처 엔진·계약이 다른 캐시는 재사용하지 않는다. Report·승인은 기본 브랜치 `dev`의 workflow로 실행된다.
