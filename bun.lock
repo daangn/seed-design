@@ -301,6 +301,7 @@
         "@seed-design/lynx-react-checkbox": "workspace:*",
         "@seed-design/lynx-react-collapsible": "workspace:*",
         "@seed-design/lynx-react-dialog": "workspace:*",
+        "@seed-design/lynx-react-field": "workspace:*",
         "@seed-design/lynx-react-file-upload": "workspace:*",
         "@seed-design/lynx-react-image": "workspace:*",
         "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "workspace:*",
@@ -313,6 +314,7 @@
         "@seed-design/lynx-react-sortable": "workspace:*",
         "@seed-design/lynx-react-switch": "workspace:*",
         "@seed-design/lynx-react-tabs": "workspace:*",
+        "@seed-design/lynx-react-text-field": "workspace:*",
         "@seed-design/lynx-react-toggle": "workspace:*",
         "@seed-design/lynx-react-use-controllable-state": "0.1.0",
         "@seed-design/lynx-react-use-press-tap": "0.1.0",
@@ -576,12 +578,12 @@
         "@seed-design/lynx-react-slider": "0.0.0",
         "@seed-design/lynx-react-switch": "0.0.0",
         "@seed-design/lynx-react-tabs": "0.0.0",
+        "@seed-design/lynx-react-text-field": "0.0.0",
         "@seed-design/lynx-react-toggle": "0.1.0",
         "@seed-design/lynx-react-use-controllable-state": "0.1.0",
         "@seed-design/lynx-react-use-press-tap": "0.1.0",
         "@seed-design/lynx-react-use-safe-area": "0.0.0",
         "clsx": "^2.1.1",
-        "unicode-segmenter": "^0.14.4",
       },
       "devDependencies": {
         "@lynx-js/lynx-ui-dialog": "^3.133.1",
@@ -1129,6 +1131,27 @@
       "dependencies": {
         "@seed-design/lynx-react-use-controllable-state": "0.1.0",
         "@seed-design/lynx-react-use-press-tap": "0.1.0",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.117.0",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "@testing-library/jest-dom": "^6.9.1",
+        "jsdom": "^29.0.2",
+        "vitest": "^3.2.4",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/types": ">=3.7.0",
+      },
+    },
+    "packages/lynx-react-headless/text-field": {
+      "name": "@seed-design/lynx-react-text-field",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/lynx-react-field": "0.0.0",
+        "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "0.0.0",
+        "unicode-segmenter": "^0.14.4",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
@@ -4036,6 +4059,8 @@
     "@seed-design/lynx-react-switch": ["@seed-design/lynx-react-switch@workspace:packages/lynx-react-headless/switch"],
 
     "@seed-design/lynx-react-tabs": ["@seed-design/lynx-react-tabs@workspace:packages/lynx-react-headless/tabs"],
+
+    "@seed-design/lynx-react-text-field": ["@seed-design/lynx-react-text-field@workspace:packages/lynx-react-headless/text-field"],
 
     "@seed-design/lynx-react-toggle": ["@seed-design/lynx-react-toggle@workspace:packages/lynx-react-headless/toggle"],
 
@@ -7641,6 +7666,10 @@
 
     "@seed-design/lynx-react-tabs/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
 
+    "@seed-design/lynx-react-text-field/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
+
+    "@seed-design/lynx-react-text-field/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
+
     "@seed-design/lynx-react-toggle/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
 
     "@seed-design/lynx-react-toggle/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
@@ -8428,6 +8457,8 @@
     "@seed-design/lynx-react-switch/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-tabs/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
+
+    "@seed-design/lynx-react-text-field/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-toggle/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
