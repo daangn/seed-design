@@ -1,7 +1,5 @@
 import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
-import { getRectByRef } from "@lynx-js/lynx-ui-common";
-import type { BaseEvent, NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
 
 import { select, type SelectVariantProps } from "@seed-design/lynx-css/recipes/select";
@@ -11,16 +9,26 @@ import {
 } from "@seed-design/lynx-css/recipes/select-trigger";
 import { selectItem, type SelectItemVariantProps } from "@seed-design/lynx-css/recipes/select-item";
 import { select as selectVars } from "@seed-design/lynx-css/vars/component";
-import {
-  computePosition,
-  type Placement as SelectPlacement,
-  type Position as SelectPosition,
-  type Rect as SelectRect,
-} from "@seed-design/lynx-react-floating";
 import { useFieldContext } from "@seed-design/lynx-react-field";
+import {
+  SelectContent as SelectContentPrimitive,
+  SelectGroup as SelectGroupPrimitive,
+  SelectGroupLabel as SelectGroupLabelPrimitive,
+  SelectItemProvider,
+  SelectPlaceholder as SelectPlaceholderPrimitive,
+  SelectPositioner as SelectPositionerPrimitive,
+  SelectProvider,
+  SelectScrollArea as SelectScrollAreaPrimitive,
+  SelectValue as SelectValuePrimitive,
+  useSelect,
+  useSelectContext,
+  useSelectItem,
+  useSelectItemContext,
+  useSelectTrigger,
+  type SelectPositionerProps as SelectPositionerPrimitiveProps,
+  type UseSelectProps,
+} from "@seed-design/lynx-react-select";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxAccessibilityProps,
@@ -35,19 +43,17 @@ import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
-const EMPTY_VALUE: string[] = [];
-// `$dimension.x2` is the Rootage Select spacing token. Generated component vars retain
-// it as CSS `var()` for styling, but floating-point collision math needs its numeric 8px value.
-const selectGutter = 8;
-const selectOverflowPadding = 8;
+export type {
+  SelectOpenChangeDetails,
+  SelectOpenChangeReason,
+  SelectSelectedItem,
+} from "@seed-design/lynx-react-select";
+
+// 목록 최대 높이 token(px)을 위치 계산에 숫자로 넘깁니다.
 const selectMaxHeight = Number.parseFloat(selectVars.base.enabled.root.maxHeight);
-// This protects placement near the screen edge; it does not impose a minimum list viewport.
-const selectMinimumAvailableHeight = 200;
-let nextSelectScrollAreaId = 0;
 
 interface SelectClassNames {
   positioner: string;
-  backdrop: string;
   content: string;
   scrollArea: string;
   scrollContent: string;
@@ -66,10 +72,7 @@ interface SelectItemClassNames {
   prefixIcon: string;
   indicator: string;
 }
-type NativeTapHandler = NonNullable<LynxViewProps["bindtap"]>;
 type NativeTransitionHandler = NonNullable<LynxViewProps["bindtransitionend"]>;
-type NativeLayoutHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
-type SelectTriggerHandlers = Pick<LynxViewProps, "bindtap" | "main-thread:bindtap">;
 
 type SelectPublicVariantProps = Omit<SelectVariantProps, "size" | "open" | "positioned"> & {
   size?: "large" | "medium" | "responsive";
@@ -83,136 +86,40 @@ type SelectItemPublicVariantProps = Omit<
   "size" | "selected" | "pressed" | "disabled"
 >;
 
-export type SelectOpenChangeReason = "trigger" | "interactOutside" | "itemSelect" | "dismiss";
-
-export interface SelectOpenChangeDetails {
-  reason: SelectOpenChangeReason;
-  event: BaseEvent;
-}
-
-export interface SelectSelectedItem {
-  value: string;
-  label: React.ReactNode;
-  textValue: string;
-  prefixIcon?: React.ReactNode;
-  resolved: boolean;
-}
-
-interface SelectOptionEntry {
-  label: React.ReactNode;
-  textValue: string;
-  prefixIcon?: React.ReactNode;
-  node: NodesRef | null;
-}
-
-interface RegisteredSelectItem extends SelectSelectedItem {
-  node: NodesRef | null;
-}
-
-interface SelectContextValue {
-  value: string[];
-  selectedItems: SelectSelectedItem[];
-  selectedItem: RegisteredSelectItem | undefined;
-  displayValue: React.ReactNode;
-  showPlaceholder: boolean;
-  multiple: boolean;
-  open: boolean;
-  mounted: boolean;
-  openEpoch: number;
-  disabled: boolean;
-  readOnly: boolean;
-  invalid: boolean;
-  required: boolean;
-  size: "large" | "medium";
-  placement: SelectPlacement;
-  gutter: number;
-  overflowPadding: number;
-  isOpenRef: React.MutableRefObject<boolean>;
-  openEpochRef: React.MutableRefObject<number>;
-  triggerRef: React.MutableRefObject<NodesRef | null>;
-  triggerHandlers: SelectTriggerHandlers;
-  setTriggerHandlers: (handlers: SelectTriggerHandlers) => void;
+interface SelectStyleContextValue {
   classes: SelectClassNames;
-  positioned: boolean;
-  setPositioned: (positioned: boolean) => void;
-  requestOpen: (open: boolean, details: SelectOpenChangeDetails) => void;
-  finishClose: (immediate?: boolean) => void;
-  selectValue: (value: string, event: BaseEvent) => void;
-  registerOption: (value: string, entry: SelectOptionEntry) => void;
-  unregisterOption: (value: string) => void;
+  size: "large" | "medium";
 }
 
-interface SelectItemContextValue {
-  label: React.ReactNode;
-  prefixIcon?: React.ReactNode;
-  selected: boolean;
-  disabled: boolean;
-  pressed: boolean;
-  classes: SelectItemClassNames;
-}
-
-const SelectContext = React.createContext<SelectContextValue | null>(null);
-const SelectItemContext = React.createContext<SelectItemContextValue | null>(null);
+const SelectStyleContext = React.createContext<SelectStyleContextValue | null>(null);
+const SelectItemClassNamesContext = React.createContext<SelectItemClassNames | null>(null);
 const SelectGroupPositionContext = React.createContext({ isFirst: true });
 
-function useSelectContext(consumer: string): SelectContextValue {
-  const context = React.useContext(SelectContext);
+function useSelectStyle(consumer: string): SelectStyleContextValue {
+  const context = React.useContext(SelectStyleContext);
   if (!context) throw new Error(`<${consumer}/> must be rendered inside <SelectRoot/>.`);
   return context;
 }
 
-function useSelectItemContext(consumer: string): SelectItemContextValue {
-  const context = React.useContext(SelectItemContext);
+function useSelectItemClassNames(consumer: string): SelectItemClassNames {
+  const context = React.useContext(SelectItemClassNamesContext);
   if (!context) throw new Error(`<${consumer}/> must be rendered inside <SelectItem/>.`);
   return context;
 }
 
-function mergeNodeRef(forwardedRef: React.ForwardedRef<unknown>, node: NodesRef | null) {
-  if (typeof forwardedRef === "function") {
-    forwardedRef(node);
-  } else if (forwardedRef) {
-    forwardedRef.current = node;
-  }
-}
-
-function getScreenRect(): SelectRect | null {
+function getScreenWidth(): number | null {
   const systemInfo = typeof SystemInfo === "undefined" ? undefined : SystemInfo;
   const pixelWidth = systemInfo?.pixelWidth;
-  const pixelHeight = systemInfo?.pixelHeight;
   const pixelRatio = systemInfo?.pixelRatio;
   if (
     typeof pixelWidth !== "number" ||
-    typeof pixelHeight !== "number" ||
     typeof pixelRatio !== "number" ||
     pixelWidth <= 0 ||
-    pixelHeight <= 0 ||
     pixelRatio <= 0
   ) {
     return null;
   }
-
-  const width = pixelWidth / pixelRatio;
-  const height = pixelHeight / pixelRatio;
-  return { left: 0, top: 0, right: width, bottom: height, width, height };
-}
-
-function getRootRect() {
-  "background only";
-  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
-}
-
-function toPixel(value: number) {
-  return `${value}px`;
-}
-
-function areStylesEqual(left: object | undefined, right: object | undefined) {
-  if (left === right) return true;
-  if (!left || !right) return false;
-  const leftEntries = Object.entries(left);
-  if (leftEntries.length !== Object.keys(right).length) return false;
-  return leftEntries.every(([key, value]) =>
-    Object.is(value, (right as Record<string, unknown>)[key]),
-  );
+  return pixelWidth / pixelRatio;
 }
 
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
@@ -221,10 +128,6 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
     event.params.animation_type === "transition-opacity" ||
     event.params.animation_name === "opacity"
   );
-}
-
-function isSameValue(a: string[], b: string[]) {
-  return a.length === b.length && a.every((entry, index) => entry === b[index]);
 }
 
 function renderTextContent(
@@ -248,10 +151,20 @@ function renderTextContent(
   );
 }
 
+/** Trigger 안의 파트가 함께 쓰는 trigger recipe class입니다. 눌림 상태는 Trigger root에만 적용합니다. */
+function useTriggerClassNames() {
+  const { size } = useSelectStyle("SelectTrigger");
+  const { open, disabled, readOnly, invalid } = useSelectContext();
+  return selectTrigger({ size, open, disabled, readOnly, invalid });
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @platform Lynx
+ *
+ * `@seed-design/lynx-react-select`에 select recipe를 적용합니다. Root는 자식을 native `view`로 감쌉니다.
+ * `disabled`·`readOnly`·`invalid`·`required`를 생략하면 감싼 Field의 값을 쓰고, Field 밖이면 `false`입니다.
  *
  * Web-only DOM APIs are intentionally omitted: `asChild`, hidden native select/name/form
  * submission, DOM focus/typeahead/keyboard navigation, and ARIA ids all rely on a browser DOM.
@@ -261,247 +174,82 @@ export interface SelectRootProps
   extends SelectPublicVariantProps,
     SelectTriggerPublicVariantProps,
     SelectItemPublicVariantProps,
-    LynxStyledElementProps {
-  value?: string[];
-  defaultValue?: string[];
-  onValueChange?: (value: string[]) => void;
-  multiple?: boolean;
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean, details: SelectOpenChangeDetails) => void;
-  disabled?: boolean;
-  readOnly?: boolean;
-  invalid?: boolean;
-  required?: boolean;
-  placement?: SelectPlacement;
-  gutter?: number;
-  overflowPadding?: number;
-  formatValue?: (items: SelectSelectedItem[]) => React.ReactNode;
-}
+    LynxStyledElementProps,
+    UseSelectProps {}
 
 export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref) => {
-  const screenRect = getScreenRect();
+  const { size: sizeProp = "large", open, ...restProps } = props;
   const [variantProps, otherProps] = select.splitVariantProps({
-    ...props,
-    size:
-      props.size === "responsive"
-        ? screenRect?.width != null && screenRect.width >= 1280
-          ? "medium"
-          : "large"
-        : props.size,
+    ...restProps,
+    size: sizeProp === "responsive" ? undefined : sizeProp,
   });
-  const { size = "large", open: openProp } = variantProps;
   const {
     children,
     className,
-    value: valueProp,
-    defaultValue = EMPTY_VALUE,
+    value,
+    defaultValue,
     onValueChange,
-    multiple = false,
-    defaultOpen = false,
+    multiple,
+    defaultOpen,
     onOpenChange,
-    disabled: disabledProp,
-    readOnly: readOnlyProp,
-    invalid: invalidProp,
-    required: requiredProp,
-    placement = "bottom",
-    gutter = selectGutter,
-    overflowPadding = selectOverflowPadding,
+    disabled,
+    readOnly,
+    invalid,
+    required,
+    placement,
+    gutter,
+    overflowPadding,
     formatValue,
     ...nativeProps
   } = otherProps;
   const fieldContext = useFieldContext({ strict: false });
-  const disabled = disabledProp ?? fieldContext?.disabled ?? false;
-  const readOnly = readOnlyProp ?? fieldContext?.readOnly ?? false;
-  const invalid = invalidProp ?? fieldContext?.invalid ?? false;
-  const required = requiredProp ?? fieldContext?.required ?? false;
-  const [value, setValueState] = useControllableState({
-    value: valueProp,
+  const api = useSelect({
+    value,
     defaultValue,
-    onChange: onValueChange,
+    onValueChange,
+    multiple,
+    open,
+    defaultOpen,
+    onOpenChange,
+    disabled: disabled ?? fieldContext?.disabled ?? false,
+    readOnly: readOnly ?? fieldContext?.readOnly ?? false,
+    invalid: invalid ?? fieldContext?.invalid ?? false,
+    required: required ?? fieldContext?.required ?? false,
+    placement,
+    gutter,
+    overflowPadding,
+    formatValue,
   });
-  const [open, setOpenState] = useControllableState({
-    value: openProp,
-    defaultValue: defaultOpen,
-  });
-  const [optionRegistry, setOptionRegistry] = React.useState<
-    ReadonlyMap<string, SelectOptionEntry>
-  >(() => new Map());
-  const [mounted, setMounted] = React.useState(open);
-  const [positionedEpoch, setPositionedEpoch] = React.useState<number | null>(null);
-  const isOpenRef = React.useRef(open);
-  const openEpochRef = React.useRef(0);
-  if (open && !isOpenRef.current) openEpochRef.current++;
-  isOpenRef.current = open;
-  const openEpoch = openEpochRef.current;
-  const positioned = positionedEpoch === openEpoch;
-  const [triggerHandlers, setTriggerHandlers] = React.useState<SelectTriggerHandlers>({});
-  const triggerRef = React.useRef<NodesRef | null>(null);
-  const classes = select({ ...variantProps, open, positioned });
-
-  const selectedItems = React.useMemo(
-    () =>
-      value.map((optionValue): SelectSelectedItem => {
-        const entry = optionRegistry.get(optionValue);
-        return entry
-          ? { ...entry, value: optionValue, resolved: true }
-          : { value: optionValue, label: null, textValue: "", resolved: false };
-      }),
-    [optionRegistry, value],
-  );
-  const selectedOption = value.length === 1 ? optionRegistry.get(value[0] ?? "") : undefined;
-  const selectedItem = selectedOption
-    ? { ...selectedOption, value: value[0] ?? "", resolved: true }
-    : undefined;
-  const showPlaceholder =
-    value.length === 0 ||
-    (optionRegistry.size > 0 && selectedItems.every((item) => !item.resolved));
-  const displayValue = showPlaceholder
-    ? undefined
-    : formatValue
-      ? formatValue(selectedItems)
-      : selectedItems
-          .filter((item) => item.resolved)
-          .map((item) => item.textValue)
-          .join(", ");
-
-  React.useEffect(() => {
-    "background only";
-    if (open) {
-      setMounted(true);
-      return;
-    }
-    if (!positioned) setMounted(false);
-  }, [open, positioned]);
-
-  const setPositioned = React.useCallback(
-    (nextPositioned: boolean) => setPositionedEpoch(nextPositioned ? openEpochRef.current : null),
-    [],
-  );
-  const requestOpen = React.useCallback(
-    (nextOpen: boolean, details: SelectOpenChangeDetails) => {
-      "background only";
-      if (nextOpen && (disabled || readOnly)) return;
-      if (nextOpen === open) return;
-      setOpenState(nextOpen);
-      onOpenChange?.(nextOpen, details);
-    },
-    [disabled, onOpenChange, open, readOnly, setOpenState],
-  );
-  const finishClose = React.useCallback((immediate = false) => {
-    "background only";
-    if (immediate || !isOpenRef.current) {
-      setMounted(false);
-      setPositionedEpoch(null);
-    }
-  }, []);
-  const selectValue = React.useCallback(
-    (nextValue: string, event: BaseEvent) => {
-      "background only";
-      if (disabled || readOnly) return;
-      const next = multiple
-        ? value.includes(nextValue)
-          ? value.filter((entry) => entry !== nextValue)
-          : [...value, nextValue]
-        : [nextValue];
-      if (!isSameValue(value, next)) setValueState(next);
-      if (!multiple) requestOpen(false, { reason: "itemSelect", event });
-    },
-    [disabled, multiple, readOnly, requestOpen, setValueState, value],
-  );
-  const registerOption = React.useCallback((optionValue: string, entry: SelectOptionEntry) => {
-    setOptionRegistry((current) => {
-      const previous = current.get(optionValue);
-      if (
-        previous &&
-        previous.label === entry.label &&
-        previous.textValue === entry.textValue &&
-        previous.prefixIcon === entry.prefixIcon &&
-        previous.node === entry.node
-      ) {
-        return current;
-      }
-      return new Map(current).set(optionValue, entry);
-    });
-  }, []);
-  const unregisterOption = React.useCallback((optionValue: string) => {
-    setOptionRegistry((current) => {
-      if (!current.has(optionValue)) return current;
-      const next = new Map(current);
-      next.delete(optionValue);
-      return next;
-    });
-  }, []);
-
-  const contextValue = React.useMemo<SelectContextValue>(
-    () => ({
-      value,
-      selectedItems,
-      selectedItem,
-      displayValue,
-      showPlaceholder,
-      multiple,
-      open,
-      mounted,
-      openEpoch,
-      disabled,
-      readOnly,
-      invalid,
-      required,
-      size,
-      placement,
-      gutter,
-      overflowPadding,
-      isOpenRef,
-      openEpochRef,
-      triggerRef,
-      triggerHandlers,
-      setTriggerHandlers,
-      classes,
-      positioned,
-      setPositioned,
-      requestOpen,
-      finishClose,
-      selectValue,
-      registerOption,
-      unregisterOption,
-    }),
+  const screenWidth = getScreenWidth();
+  const size =
+    sizeProp === "responsive"
+      ? screenWidth != null && screenWidth >= 1280
+        ? "medium"
+        : "large"
+      : (variantProps.size ?? "large");
+  const classes = select({ size, open: api.open, positioned: api.positioned });
+  const styleValue = React.useMemo<SelectStyleContextValue>(
+    () => ({ classes, size }),
     [
-      classes,
-      disabled,
-      displayValue,
-      finishClose,
-      gutter,
-      invalid,
-      mounted,
-      multiple,
-      open,
-      openEpoch,
-      overflowPadding,
-      placement,
-      positioned,
-      readOnly,
-      registerOption,
-      requestOpen,
-      required,
-      selectValue,
-      selectedItem,
-      selectedItems,
-      setPositioned,
-      showPlaceholder,
+      classes.positioner,
+      classes.content,
+      classes.scrollArea,
+      classes.scrollContent,
+      classes.group,
+      classes.groupLabel,
+      classes.separator,
       size,
-      triggerHandlers,
-      unregisterOption,
-      value,
     ],
   );
 
   return (
-    <SelectContext.Provider value={contextValue}>
-      <view {...(ref ? { ref: ref as LynxViewRef } : {})} className={className} {...nativeProps}>
-        {children}
-      </view>
-    </SelectContext.Provider>
+    <SelectProvider value={api}>
+      <SelectStyleContext.Provider value={styleValue}>
+        <view {...(ref ? { ref: ref as LynxViewRef } : {})} className={className} {...nativeProps}>
+          {children}
+        </view>
+      </SelectStyleContext.Provider>
+    </SelectProvider>
   );
 });
 SelectRoot.displayName = "SelectRoot";
@@ -527,78 +275,43 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
     suffixIcon,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = props;
-  const context = useSelectContext("SelectTrigger");
-  const nonInteractive = context.disabled || context.readOnly;
-  const handleTap = React.useCallback<NativeTapHandler>(
-    (event, instance) => {
-      "background only";
-      context.requestOpen(!context.open, { reason: "trigger", event });
-      bindtap?.(event, instance);
-    },
-    [bindtap, context.open, context.requestOpen],
-  );
-  const {
-    pressed,
-    bindtap: proxyBindtap,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    ...pressHandlers
-  } = usePressTap({
-    disabled: nonInteractive,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+  const { size } = useSelectStyle("SelectTrigger");
+  const { open, disabled, readOnly, invalid } = useSelectContext();
+  const trigger = useSelectTrigger({
+    ref,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits,
   });
   // 눌림 상태는 Scale Feedback의 Main Thread touch handler를 따라갑니다.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = trigger.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: nonInteractive,
+    disabled: trigger.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const mainThreadProxyBindtap = pressHandlers["main-thread:bindtap"];
-  React.useEffect(() => {
-    "background only";
-    context.setTriggerHandlers({
-      bindtap: proxyBindtap,
-      "main-thread:bindtap": mainThreadProxyBindtap,
-    });
-    return () => {
-      context.setTriggerHandlers({});
-    };
-  }, [context.setTriggerHandlers, mainThreadProxyBindtap, proxyBindtap]);
-  const handleRef = React.useCallback(
-    (node: NodesRef | null) => {
-      context.triggerRef.current = node;
-      mergeNodeRef(ref, node);
-    },
-    [context.triggerRef, ref],
-  );
   const classes = selectTrigger({
-    size: context.size,
-    open: context.open,
-    pressed,
-    disabled: context.disabled,
-    readOnly: context.readOnly,
-    invalid: context.invalid,
+    size,
+    open,
+    pressed: trigger.pressed,
+    disabled,
+    readOnly,
+    invalid,
   });
 
   return (
     <view
-      ref={handleRef as LynxViewRef}
+      ref={trigger.rootRef as LynxViewRef}
       className={clsx(classes.root, className)}
-      accessibility-element={accessibilityElement}
-      accessibility-label={accessibilityLabel}
-      accessibility-role-description="button"
-      accessibility-value={context.open ? "expanded" : "collapsed"}
-      accessibility-traits={nonInteractive ? "disabled" : (accessibilityTraits ?? "button")}
-      {...mergeProps(nativeProps, scaleFeedbackTriggerProps, pressHandlers)}
-      bindtap={proxyBindtap}
+      {...mergeProps(nativeProps, scaleFeedbackTriggerProps, rootProps)}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
       <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -621,23 +334,14 @@ SelectTrigger.displayName = "SelectTrigger";
 export interface SelectValueProps extends LynxStyledElementProps {}
 
 export const SelectValue = React.forwardRef<unknown, SelectValueProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectValue");
-  if (context.showPlaceholder) return null;
-  return renderTextContent(
-    clsx(
-      selectTrigger({
-        size: context.size,
-        open: context.open,
-        disabled: context.disabled,
-        readOnly: context.readOnly,
-        invalid: context.invalid,
-      }).value,
-      className,
-    ),
-    children ?? context.displayValue,
-    ref,
-    nativeProps,
+  const { className, ...valueProps } = props;
+  const classes = useTriggerClassNames();
+  return (
+    <SelectValuePrimitive
+      {...(ref ? { ref } : {})}
+      {...valueProps}
+      className={clsx(classes.value, className)}
+    />
   );
 });
 SelectValue.displayName = "SelectValue";
@@ -645,50 +349,36 @@ SelectValue.displayName = "SelectValue";
 export interface SelectPlaceholderProps extends LynxStyledElementProps {}
 
 export const SelectPlaceholder = React.forwardRef<unknown, SelectPlaceholderProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectPlaceholder");
-  if (!context.showPlaceholder) return null;
-  return renderTextContent(
-    clsx(
-      selectTrigger({
-        size: context.size,
-        open: context.open,
-        disabled: context.disabled,
-        readOnly: context.readOnly,
-        invalid: context.invalid,
-      }).placeholder,
-      className,
-    ),
-    children,
-    ref,
-    nativeProps,
+  const { className, ...placeholderProps } = props;
+  const classes = useTriggerClassNames();
+  return (
+    <SelectPlaceholderPrimitive
+      {...(ref ? { ref } : {})}
+      {...placeholderProps}
+      className={clsx(classes.placeholder, className)}
+    />
   );
 });
 SelectPlaceholder.displayName = "SelectPlaceholder";
 
 export interface SelectPrefixIconProps extends Omit<InternalIconProps, "icon" | "deps"> {
+  /** 단일 선택 항목에 `prefixIcon`이 없을 때 표시합니다. */
   fallback?: React.ReactNode;
 }
 
 export const SelectPrefixIcon = React.forwardRef<unknown, SelectPrefixIconProps>((props, ref) => {
   const { fallback, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectPrefixIcon");
-  const icon = context.selectedItem?.prefixIcon ?? fallback;
+  const { selectedItem, value } = useSelectContext();
+  const classes = useTriggerClassNames();
+  const icon = selectedItem?.icon ?? fallback;
   if (!isValidElement<LynxIconElementProps>(icon)) return null;
-  const classes = selectTrigger({
-    size: context.size,
-    open: context.open,
-    disabled: context.disabled,
-    readOnly: context.readOnly,
-    invalid: context.invalid,
-  });
   return (
     <InternalIcon
       ref={ref}
       icon={icon}
       className={clsx(classes.prefixIcon, className)}
       accessibility-elements-hidden={true}
-      deps={[context.selectedItem?.prefixIcon, context.value]}
+      deps={[selectedItem?.icon, value]}
       {...nativeProps}
     />
   );
@@ -701,14 +391,8 @@ export interface SelectSuffixIconProps extends Omit<InternalIconProps, "icon" | 
 
 export const SelectSuffixIcon = React.forwardRef<unknown, SelectSuffixIconProps>((props, ref) => {
   const { icon, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectSuffixIcon");
-  const classes = selectTrigger({
-    size: context.size,
-    open: context.open,
-    disabled: context.disabled,
-    readOnly: context.readOnly,
-    invalid: context.invalid,
-  });
+  const { open } = useSelectContext();
+  const classes = useTriggerClassNames();
   if (!isValidElement<LynxIconElementProps>(icon)) {
     return (
       <text
@@ -727,7 +411,7 @@ export const SelectSuffixIcon = React.forwardRef<unknown, SelectSuffixIconProps>
       icon={icon}
       className={clsx(classes.suffixIcon, className)}
       accessibility-elements-hidden={true}
-      deps={[context.open]}
+      deps={[open]}
       {...nativeProps}
     />
   );
@@ -736,488 +420,86 @@ SelectSuffixIcon.displayName = "SelectSuffixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface SelectPositionerProps
+  extends LynxStyledElementProps,
+    Pick<SelectPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
+
+/**
+ * 화면 전체를 덮는 목록 레이어입니다. `container`가 없으면 Lynx view 안의 고정 native `view`로,
+ * `container`를 지정하면 Lynx view 밖까지 덮는 native overlay로 렌더링합니다. `container`가 없을 때
+ * 같은 화면의 형제 요소와의 순서는 recipe의 z-index `99`가 정합니다. 닫힌 동안에도 mount해 둡니다.
+ */
+export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>((props, ref) => {
+  const { className, ...positionerProps } = props;
+  const { classes } = useSelectStyle("SelectPositioner");
+
+  return (
+    <SelectPositionerPrimitive
+      {...(ref ? { ref } : {})}
+      {...positionerProps}
+      className={clsx(classes.positioner, className)}
+    />
+  );
+});
+SelectPositioner.displayName = "SelectPositioner";
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface SelectContentProps extends LynxStyledElementProps {}
 
+/**
+ * 위치를 계산해 표시하는 목록 표면입니다. `SelectPositioner` 안에 두고, 항목은 `SelectScrollArea` 안에 둡니다.
+ */
 export const SelectContent = React.forwardRef<unknown, SelectContentProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
-  const context = useSelectContext("SelectContent");
-  const measurementVersionRef = React.useRef(0);
-  const intrinsicMeasurementVersionRef = React.useRef(0);
-  const scrollRequestVersionRef = React.useRef(0);
-  const scrolledEpochRef = React.useRef<number | null>(null);
-  // Snapshot refs can be recreated on each patch. Their current native node belongs in a ref;
-  // the one-time attachment state merely starts effects that require an attached node.
-  const overlayNodeRef = React.useRef<NodesRef | null>(null);
-  const scrollNodeRef = React.useRef<NodesRef | null>(null);
-  const scrollContentNodeRef = React.useRef<NodesRef | null>(null);
-  const overlayAttachedRef = React.useRef(false);
-  const scrollAttachedRef = React.useRef(false);
-  const scrollContentAttachedRef = React.useRef(false);
-  const [overlayAttached, setOverlayAttached] = React.useState(false);
-  const [scrollAttached, setScrollAttached] = React.useState(false);
-  const [scrollContentAttached, setScrollContentAttached] = React.useState(false);
-  const [scrollAreaId, setScrollAreaId] = React.useState<string | undefined>(undefined);
-  React.useEffect(() => {
-    "background only";
-    // Generate once on the background thread, then share the id through state.
-    setScrollAreaId(`seed-select-scroll-area-${nextSelectScrollAreaId++}`);
-  }, []);
-  const measurementConfigRef = React.useRef(0);
-  const configuredClassNameRef = React.useRef(className);
-  const configuredSizeRef = React.useRef(context.size);
-  const configuredStyleRef = React.useRef(style);
-  const [intrinsicSize, setIntrinsicSize] = React.useState<{
-    width: number;
-    height: number;
-    epoch: number;
-    config: number;
-  } | null>(null);
-  const [position, setPosition] = React.useState<SelectPosition | null>(null);
-  const [widthConstraint, setWidthConstraint] = React.useState<number | null>(null);
-  const [overlayRect, setOverlayRect] = React.useState<SelectRect | null>(null);
-  const [triggerRect, setTriggerRect] = React.useState<SelectRect | null>(null);
-  const selectedNode = context.selectedItem?.node;
-
-  const measurePosition = React.useCallback(async () => {
-    "background only";
-    const referenceNode = context.triggerRef.current;
-    const openEpoch = context.openEpoch;
-    const overlayNode = overlayNodeRef.current;
-    if (
-      !context.open ||
-      !referenceNode ||
-      !overlayNode ||
-      !intrinsicSize ||
-      intrinsicSize.epoch !== openEpoch ||
-      intrinsicSize.config !== measurementConfigRef.current
-    ) {
-      return;
-    }
-    const version = ++measurementVersionRef.current;
-    try {
-      const [reference, boundary, overlay] = await Promise.all([
-        getRectByRef({ current: referenceNode }, true),
-        getRootRect(),
-        getRectByRef({ current: overlayNode }, true),
-      ]);
-      if (
-        version !== measurementVersionRef.current ||
-        !context.isOpenRef.current ||
-        openEpoch !== context.openEpochRef.current
-      ) {
-        return;
-      }
-      const width = widthConstraint ?? reference.width;
-      const nextPosition = await computePosition({
-        reference,
-        boundary,
-        width,
-        height: Math.min(intrinsicSize.height, selectMaxHeight),
-        placement: context.placement,
-        gutter: context.gutter,
-        overflowPadding: context.overflowPadding,
-        flip: { fallbackStrategy: "bestFit" },
-        shift: { crossAxis: true },
-        size: { order: "beforeFlip", minimumHeight: selectMinimumAvailableHeight },
-      });
-      if (
-        version !== measurementVersionRef.current ||
-        !context.isOpenRef.current ||
-        openEpoch !== context.openEpochRef.current
-      ) {
-        return;
-      }
-      if (nextPosition.availableWidth < width) {
-        const constrainedWidth = nextPosition.availableWidth;
-        if (widthConstraint !== constrainedWidth) {
-          measurementVersionRef.current++;
-          measurementConfigRef.current++;
-          intrinsicMeasurementVersionRef.current++;
-          scrollRequestVersionRef.current++;
-          setWidthConstraint(constrainedWidth);
-          setIntrinsicSize(null);
-          setPosition(null);
-          setOverlayRect(null);
-          setTriggerRect(null);
-          context.setPositioned(false);
-        }
-        return;
-      }
-      setPosition((previous) => {
-        if (
-          previous?.left === nextPosition.left &&
-          previous.top === nextPosition.top &&
-          previous.width === nextPosition.width &&
-          previous.height === nextPosition.height &&
-          previous.placement === nextPosition.placement
-        ) {
-          return previous;
-        }
-        return nextPosition;
-      });
-      setOverlayRect(overlay);
-      setTriggerRect(reference);
-      context.setPositioned(true);
-    } catch {
-      // Native nodes can disappear while a selector query is in flight; keep the popup hidden.
-    }
-  }, [
-    context.gutter,
-    context.isOpenRef,
-    context.open,
-    context.openEpoch,
-    context.openEpochRef,
-    context.overflowPadding,
-    context.placement,
-    context.setPositioned,
-    context.triggerRef,
-    intrinsicSize,
-    overlayAttached,
-    widthConstraint,
-  ]);
-
-  const measureIntrinsicSize = React.useCallback(async () => {
-    "background only";
-    const scrollNode = scrollNodeRef.current;
-    const scrollContentNode = scrollContentNodeRef.current;
-    const openEpoch = context.openEpochRef.current;
-    const config = measurementConfigRef.current;
-    if (!context.isOpenRef.current || !scrollAreaId || !scrollNode || !scrollContentNode) {
-      return;
-    }
-    const version = ++intrinsicMeasurementVersionRef.current;
-    try {
-      const rect = await getRectByRef({ current: scrollContentNode }, false, scrollAreaId);
-      if (
-        version !== intrinsicMeasurementVersionRef.current ||
-        !context.isOpenRef.current ||
-        openEpoch !== context.openEpochRef.current ||
-        config !== measurementConfigRef.current
-      ) {
-        return;
-      }
-      setIntrinsicSize((current) => {
-        if (
-          current?.width === rect.width &&
-          current.height === rect.height &&
-          current.epoch === openEpoch &&
-          current.config === config
-        ) {
-          return current;
-        }
-        return { width: rect.width, height: rect.height, epoch: openEpoch, config };
-      });
-    } catch {
-      // The hidden overlay may release either node before the native query resolves.
-    }
-  }, [context.isOpenRef, context.openEpochRef, scrollAreaId]);
-
-  React.useEffect(() => {
-    "background only";
-    measurementVersionRef.current++;
-    intrinsicMeasurementVersionRef.current++;
-    scrollRequestVersionRef.current++;
-    setWidthConstraint(null);
-    setPosition(null);
-    setOverlayRect(null);
-    setTriggerRect(null);
-    setIntrinsicSize((current) => (current ? { ...current, epoch: context.openEpoch } : current));
-    scrolledEpochRef.current = null;
-    if (scrollNodeRef.current && scrollContentNodeRef.current) void measureIntrinsicSize();
-  }, [context.openEpoch, measureIntrinsicSize]);
-  React.useEffect(() => {
-    "background only";
-    if (context.open) return;
-    measurementVersionRef.current++;
-    intrinsicMeasurementVersionRef.current++;
-    scrollRequestVersionRef.current++;
-  }, [context.open]);
-  React.useEffect(() => {
-    "background only";
-    return () => {
-      measurementVersionRef.current++;
-      intrinsicMeasurementVersionRef.current++;
-      scrollRequestVersionRef.current++;
-    };
-  }, []);
-
-  React.useEffect(() => {
-    "background only";
-    if (
-      configuredClassNameRef.current === className &&
-      configuredSizeRef.current === context.size &&
-      areStylesEqual(configuredStyleRef.current, style)
-    ) {
-      return;
-    }
-    measurementVersionRef.current++;
-    intrinsicMeasurementVersionRef.current++;
-    scrollRequestVersionRef.current++;
-    measurementConfigRef.current++;
-    configuredClassNameRef.current = className;
-    configuredSizeRef.current = context.size;
-    configuredStyleRef.current = style;
-    setWidthConstraint(null);
-    setIntrinsicSize(null);
-    setPosition(null);
-    setOverlayRect(null);
-    setTriggerRect(null);
-    context.setPositioned(false);
-    if (scrollNodeRef.current && scrollContentNodeRef.current) void measureIntrinsicSize();
-  }, [className, context.setPositioned, context.size, measureIntrinsicSize, style]);
-
-  React.useEffect(() => {
-    "background only";
-    if (scrollAttached && scrollContentAttached) void measureIntrinsicSize();
-  }, [measureIntrinsicSize, scrollAttached, scrollContentAttached]);
-
-  React.useEffect(() => {
-    "background only";
-    if (context.open) void measurePosition();
-  }, [context.open, measurePosition]);
-
-  React.useEffect(() => {
-    "background only";
-    if (context.open && widthConstraint != null) void measureIntrinsicSize();
-  }, [context.open, measureIntrinsicSize, widthConstraint]);
-  React.useEffect(() => {
-    "background only";
-    const requestVersion = ++scrollRequestVersionRef.current;
-    const openEpoch = context.openEpoch;
-    const selected = context.selectedItem;
-    const scrollNode = scrollNodeRef.current;
-    if (
-      !context.open ||
-      !context.positioned ||
-      !position ||
-      !intrinsicSize ||
-      intrinsicSize.epoch !== openEpoch ||
-      intrinsicSize.config !== measurementConfigRef.current ||
-      !selected?.node ||
-      !scrollNode ||
-      !scrollAreaId ||
-      scrolledEpochRef.current === openEpoch
-    ) {
-      return;
-    }
-    if (intrinsicSize.height <= position.height) {
-      scrolledEpochRef.current = openEpoch;
-      return;
-    }
-    const entry = selected.node;
-    void getRectByRef({ current: entry }, false, scrollAreaId)
-      .then((item) => {
-        if (
-          requestVersion !== scrollRequestVersionRef.current ||
-          !context.isOpenRef.current ||
-          openEpoch !== context.openEpochRef.current ||
-          scrolledEpochRef.current === openEpoch
-        ) {
-          return;
-        }
-        const offset =
-          item.top < 0
-            ? item.top
-            : item.bottom > position.height
-              ? item.bottom - position.height
-              : 0;
-        if (offset === 0) {
-          scrolledEpochRef.current = openEpoch;
-          return;
-        }
-        try {
-          scrollNode.invoke({ method: "scrollBy", params: { offset } }).exec();
-          scrolledEpochRef.current = openEpoch;
-        } catch {
-          // Test refs do not implement native UI methods.
-        }
-      })
-      .catch(() => {
-        // The entry can be replaced before its native bounds are available.
-      });
-  }, [
-    context.isOpenRef,
-    context.open,
-    context.openEpoch,
-    context.openEpochRef,
-    context.positioned,
-    context.selectedItem,
-    intrinsicSize,
-    position,
-    scrollAreaId,
-    scrollAttached,
-    selectedNode,
-  ]);
-
-  const handleShowOverlay = React.useCallback(() => {
-    "background only";
-    void measureIntrinsicSize();
-    void measurePosition();
-  }, [measureIntrinsicSize, measurePosition]);
-  const handleRef = React.useCallback(
-    (node: NodesRef | null) => {
-      mergeNodeRef(ref, node);
-    },
-    [ref],
-  );
-  const handlePositionerRef = React.useCallback((node: NodesRef | null) => {
-    overlayNodeRef.current = node;
-    if (node && !overlayAttachedRef.current) {
-      overlayAttachedRef.current = true;
-      setOverlayAttached(true);
-    }
-  }, []);
-  const handleScrollRef = React.useCallback((node: NodesRef | null) => {
-    "background only";
-    scrollNodeRef.current = node;
-    if (node && !scrollAttachedRef.current) {
-      scrollAttachedRef.current = true;
-      setScrollAttached(true);
-    }
-  }, []);
-  const handleScrollContentRef = React.useCallback((node: NodesRef | null) => {
-    "background only";
-    scrollContentNodeRef.current = node;
-    if (node && !scrollContentAttachedRef.current) {
-      scrollContentAttachedRef.current = true;
-      setScrollContentAttached(true);
-    }
-  }, []);
-  const handleIntrinsicLayoutChange = React.useCallback<NativeLayoutHandler>(() => {
-    "background only";
-    void measureIntrinsicSize();
-  }, [measureIntrinsicSize]);
+  const { className, ...contentProps } = props;
+  const { classes } = useSelectStyle("SelectContent");
+  const { open, finishClose } = useSelectContext();
   const handleTransitionEnd = React.useCallback<NativeTransitionHandler>(
     (event) => {
       "background only";
-      if (!context.open && hasExitTransition(event)) context.finishClose();
+      if (!open && hasExitTransition(event)) finishClose();
     },
-    [context],
+    [finishClose, open],
   );
-  const handleBackdropTap = React.useCallback<NativeTapHandler>(
-    (event) => {
-      "background only";
-      context.requestOpen(false, { reason: "interactOutside", event });
-    },
-    [context],
-  );
-  const handleNativeDismiss = React.useCallback(
-    (event: BaseEvent) => {
-      "background only";
-      context.requestOpen(false, { reason: "dismiss", event });
-      context.finishClose(true);
-    },
-    [context],
-  );
-  const handleRequestClose = React.useCallback(
-    (event: BaseEvent) => {
-      "background only";
-      context.requestOpen(false, { reason: "dismiss", event });
-    },
-    [context],
-  );
-
-  const geometryStyle =
-    position && overlayRect
-      ? {
-          left: toPixel(position.left - overlayRect.left),
-          top: toPixel(position.top - overlayRect.top),
-          width: toPixel(position.width),
-          transformOrigin: position.transformOrigin,
-        }
-      : undefined;
-  const scrollStyle = position ? { height: toPixel(position.height) } : undefined;
-  const triggerProxyStyle =
-    triggerRect && overlayRect
-      ? {
-          left: toPixel(triggerRect.left - overlayRect.left),
-          top: toPixel(triggerRect.top - overlayRect.top),
-          width: toPixel(triggerRect.width),
-          height: toPixel(triggerRect.height),
-        }
-      : undefined;
-  const groups = toArray(children);
 
   return (
-    // Keep options mounted while closed so defaultValue can resolve label/icon metadata before open.
-    <overlay
-      visible={context.mounted}
-      style={{ position: "fixed" }}
-      binddismissoverlay={handleNativeDismiss}
-      bindshowoverlay={handleShowOverlay}
-      bindrequestclose={handleRequestClose}
-    >
-      <view ref={handlePositionerRef as LynxViewRef} className={context.classes.positioner}>
-        <view className={context.classes.backdrop} bindtap={handleBackdropTap} />
-        {triggerProxyStyle && (
-          <view
-            style={{ position: "absolute", ...triggerProxyStyle }}
-            bindtap={context.triggerHandlers.bindtap}
-            main-thread:bindtap={context.triggerHandlers["main-thread:bindtap"]}
-          />
-        )}
-        <view
-          ref={handleRef as LynxViewRef}
-          className={clsx(context.classes.content, className)}
-          style={{
-            ...geometryStyle,
-            ...style,
-            ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
-          }}
-          bindtransitionend={handleTransitionEnd}
-          {...nativeProps}
-        >
-          <scroll-view
-            ref={handleScrollRef as LynxViewRef}
-            id={scrollAreaId}
-            className={context.classes.scrollArea}
-            scroll-orientation="vertical"
-            enable-scroll={Boolean(
-              position &&
-                intrinsicSize &&
-                intrinsicSize.epoch === context.openEpoch &&
-                intrinsicSize.config === measurementConfigRef.current &&
-                intrinsicSize.height > position.height,
-            )}
-            style={scrollStyle}
-          >
-            <view
-              ref={handleScrollContentRef as LynxViewRef}
-              className={context.classes.scrollContent}
-              bindlayoutchange={handleIntrinsicLayoutChange}
-            >
-              {groups.map((group, index) => (
-                <SelectGroupPositionContext.Provider
-                  key={React.isValidElement(group) ? (group.key ?? index) : index}
-                  value={{ isFirst: index === 0 }}
-                >
-                  {group}
-                </SelectGroupPositionContext.Provider>
-              ))}
-            </view>
-          </scroll-view>
-        </view>
-      </view>
-    </overlay>
+    <SelectContentPrimitive
+      {...(ref ? { ref } : {})}
+      {...contentProps}
+      maxHeight={selectMaxHeight}
+      className={clsx(classes.content, className)}
+      bindtransitionend={handleTransitionEnd}
+    />
   );
 });
 SelectContent.displayName = "SelectContent";
 
-/** The viewport is normally owned by SelectContent; use this only for custom content composition. */
+////////////////////////////////////////////////////////////////////////////////////
+
+/** `SelectContent` 안에서 목록을 세로로 스크롤하는 viewport입니다. 그룹 사이에 구분선을 넣습니다. */
 export interface SelectScrollAreaProps extends LynxStyledElementProps {}
 
 export const SelectScrollArea = React.forwardRef<unknown, SelectScrollAreaProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectScrollArea");
+  const { classes } = useSelectStyle("SelectScrollArea");
+  const groups = toArray(children);
+
   return (
-    <scroll-view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      className={clsx(context.classes.scrollArea, className)}
-      scroll-orientation="vertical"
+    <SelectScrollAreaPrimitive
+      {...(ref ? { ref } : {})}
       {...nativeProps}
+      className={clsx(classes.scrollArea, className)}
+      contentClassName={classes.scrollContent}
     >
-      <view className={context.classes.scrollContent}>{children}</view>
-    </scroll-view>
+      {groups.map((group, index) => (
+        <SelectGroupPositionContext.Provider
+          key={React.isValidElement(group) ? (group.key ?? index) : index}
+          value={{ isFirst: index === 0 }}
+        >
+          {group}
+        </SelectGroupPositionContext.Provider>
+      ))}
+    </SelectScrollAreaPrimitive>
   );
 });
 SelectScrollArea.displayName = "SelectScrollArea";
@@ -1228,19 +510,19 @@ export interface SelectGroupProps extends LynxStyledElementProps {}
 
 export const SelectGroup = React.forwardRef<unknown, SelectGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSelectContext("SelectGroup");
+  const { classes } = useSelectStyle("SelectGroup");
   const position = React.useContext(SelectGroupPositionContext);
   return (
-    <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      className={clsx(context.classes.group, className)}
+    <SelectGroupPrimitive
+      {...(ref ? { ref } : {})}
+      className={clsx(classes.group, className)}
       {...nativeProps}
     >
       {!position.isFirst ? (
-        <view className={context.classes.separator} accessibility-elements-hidden={true} />
+        <view className={classes.separator} accessibility-elements-hidden={true} />
       ) : null}
       {children}
-    </view>
+    </SelectGroupPrimitive>
   );
 });
 SelectGroup.displayName = "SelectGroup";
@@ -1248,22 +530,14 @@ SelectGroup.displayName = "SelectGroup";
 export interface SelectGroupLabelProps extends LynxStyledElementProps, LynxAccessibilityProps {}
 
 export const SelectGroupLabel = React.forwardRef<unknown, SelectGroupLabelProps>((props, ref) => {
-  const {
-    children,
-    className,
-    "accessibility-heading": accessibilityHeading = true,
-    ...nativeProps
-  } = props;
-  const context = useSelectContext("SelectGroupLabel");
+  const { className, ...labelProps } = props;
+  const { classes } = useSelectStyle("SelectGroupLabel");
   return (
-    <text
-      {...(ref ? { ref: ref as LynxTextRef } : {})}
-      className={clsx(context.classes.groupLabel, className)}
-      accessibility-heading={accessibilityHeading}
-      {...nativeProps}
-    >
-      {children}
-    </text>
+    <SelectGroupLabelPrimitive
+      {...(ref ? { ref } : {})}
+      className={clsx(classes.groupLabel, className)}
+      {...labelProps}
+    />
   );
 });
 SelectGroupLabel.displayName = "SelectGroupLabel";
@@ -1278,6 +552,7 @@ export interface SelectItemProps
   value: string;
   label?: React.ReactNode;
   textValue?: string;
+  /** 항목 앞 아이콘입니다. 단일 선택이면 Trigger의 `SelectPrefixIcon`에도 표시합니다. */
   prefixIcon?: React.ReactNode;
   disabled?: boolean;
   readOnly?: boolean;
@@ -1285,113 +560,70 @@ export interface SelectItemProps
 
 export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref) => {
   const [variantProps, otherProps] = selectItem.splitVariantProps(props);
-  const { disabled: disabledProp = false } = variantProps;
+  const { disabled } = variantProps;
   const {
     value,
     label,
     textValue,
     prefixIcon,
-    readOnly = false,
+    readOnly,
     children,
     className,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
     ...nativeProps
   } = otherProps;
-  const context = useSelectContext("SelectItem");
-  // A fresh snapshot ref is not a semantic option change. Register after its first attachment
-  // without turning every native ref patch into a component state update.
-  const nodeRef = React.useRef<NodesRef | null>(null);
-  const nodeAttachedRef = React.useRef(false);
-  const [nodeAttached, setNodeAttached] = React.useState(false);
-  const disabled = context.disabled || context.readOnly || disabledProp || readOnly;
-  const selected = context.value.includes(value);
-  const resolvedTextValue = textValue ?? (typeof label === "string" ? label : value);
-  const handleTap = React.useCallback<NativeTapHandler>(
-    (event, instance) => {
-      "background only";
-      context.selectValue(value, event);
-      bindtap?.(event, instance);
-    },
-    [bindtap, context, value],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const { size } = useSelectStyle("SelectItem");
+  const api = useSelectItem({
+    ref,
+    value,
+    label,
+    textValue,
+    icon: prefixIcon,
     disabled,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    readOnly,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
   });
   // 눌림 상태는 Scale Feedback의 Main Thread touch handler를 따라갑니다.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
+    disabled: api.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const handleRef = React.useCallback(
-    (nextNode: NodesRef | null) => {
-      nodeRef.current = nextNode;
-      if (nextNode && !nodeAttachedRef.current) {
-        nodeAttachedRef.current = true;
-        setNodeAttached(true);
-      }
-      mergeNodeRef(ref, nextNode);
-    },
-    [ref],
-  );
-  React.useEffect(() => {
-    "background only";
-    context.registerOption(value, {
-      label,
-      textValue: resolvedTextValue,
-      prefixIcon,
-      node: nodeRef.current,
-    });
-    return () => {
-      context.unregisterOption(value);
-    };
-  }, [
-    context.registerOption,
-    context.unregisterOption,
-    label,
-    nodeAttached,
-    prefixIcon,
-    resolvedTextValue,
-    value,
-  ]);
   const classes = selectItem({
     ...variantProps,
-    size: context.size,
-    disabled,
-    selected,
-    pressed,
+    size,
+    disabled: api.disabled,
+    selected: api.selected,
+    pressed: api.pressed,
   });
-  const itemContextValue = React.useMemo<SelectItemContextValue>(
-    () => ({ label, prefixIcon, selected, disabled, pressed, classes }),
-    [classes, disabled, label, prefixIcon, pressed, selected],
-  );
 
   return (
-    <SelectItemContext.Provider value={itemContextValue}>
-      <view
-        ref={handleRef as LynxViewRef}
-        className={clsx(classes.root, className)}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel ?? resolvedTextValue}
-        accessibility-role-description="option"
-        accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
-        accessibility-traits={disabled ? "disabled" : accessibilityTraits}
-        {...mergeProps(nativeProps, scaleFeedbackTriggerProps, pressHandlers)}
-      >
-        <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
-        <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
-          {children}
+    <SelectItemProvider value={api}>
+      <SelectItemClassNamesContext.Provider value={classes}>
+        <view
+          ref={api.rootRef as LynxViewRef}
+          className={clsx(classes.root, className)}
+          {...mergeProps(nativeProps, scaleFeedbackTriggerProps, rootProps)}
+        >
+          <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
+          <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
+            {children}
+          </view>
         </view>
-      </view>
-    </SelectItemContext.Provider>
+      </SelectItemClassNamesContext.Provider>
+    </SelectItemProvider>
   );
 });
 SelectItem.displayName = "SelectItem";
@@ -1403,16 +635,17 @@ export interface SelectItemPrefixIconProps extends Omit<InternalIconProps, "icon
 export const SelectItemPrefixIcon = React.forwardRef<unknown, SelectItemPrefixIconProps>(
   (props, ref) => {
     const { icon: iconOverride, className, ...nativeProps } = props;
-    const context = useSelectItemContext("SelectItemPrefixIcon");
-    const icon = iconOverride ?? context.prefixIcon;
+    const item = useSelectItemContext();
+    const classes = useSelectItemClassNames("SelectItemPrefixIcon");
+    const icon = iconOverride ?? item.icon;
     if (!isValidElement<LynxIconElementProps>(icon)) return null;
     return (
       <InternalIcon
         ref={ref}
         icon={icon}
-        className={clsx(context.classes.prefixIcon, className)}
+        className={clsx(classes.prefixIcon, className)}
         accessibility-elements-hidden={true}
-        deps={[context.selected, context.disabled, context.pressed, icon]}
+        deps={[item.selected, item.disabled, item.pressed, icon]}
         {...nativeProps}
       />
     );
@@ -1424,11 +657,11 @@ export interface SelectItemBodyProps extends LynxStyledElementProps {}
 
 export const SelectItemBody = React.forwardRef<unknown, SelectItemBodyProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSelectItemContext("SelectItemBody");
+  const classes = useSelectItemClassNames("SelectItemBody");
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
-      className={clsx(context.classes.body, className)}
+      className={clsx(classes.body, className)}
       {...nativeProps}
     >
       {children}
@@ -1441,13 +674,9 @@ export interface SelectItemLabelProps extends LynxStyledElementProps {}
 
 export const SelectItemLabel = React.forwardRef<unknown, SelectItemLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSelectItemContext("SelectItemLabel");
-  return renderTextContent(
-    clsx(context.classes.label, className),
-    children ?? context.label,
-    ref,
-    nativeProps,
-  );
+  const { label } = useSelectItemContext();
+  const classes = useSelectItemClassNames("SelectItemLabel");
+  return renderTextContent(clsx(classes.label, className), children ?? label, ref, nativeProps);
 });
 SelectItemLabel.displayName = "SelectItemLabel";
 
@@ -1456,13 +685,8 @@ export interface SelectItemDescriptionProps extends LynxStyledElementProps {}
 export const SelectItemDescription = React.forwardRef<unknown, SelectItemDescriptionProps>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
-    const context = useSelectItemContext("SelectItemDescription");
-    return renderTextContent(
-      clsx(context.classes.description, className),
-      children,
-      ref,
-      nativeProps,
-    );
+    const classes = useSelectItemClassNames("SelectItemDescription");
+    return renderTextContent(clsx(classes.description, className), children, ref, nativeProps);
   },
 );
 SelectItemDescription.displayName = "SelectItemDescription";
@@ -1475,14 +699,15 @@ export interface SelectItemIndicatorProps extends Omit<InternalIconProps, "icon"
 export const SelectItemIndicator = React.forwardRef<unknown, SelectItemIndicatorProps>(
   (props, ref) => {
     const { selected: selectedIcon, unselected, className, ...nativeProps } = props;
-    const context = useSelectItemContext("SelectItemIndicator");
-    const icon = context.selected ? selectedIcon : unselected;
+    const item = useSelectItemContext();
+    const classes = useSelectItemClassNames("SelectItemIndicator");
+    const icon = item.selected ? selectedIcon : unselected;
     if (!isValidElement<LynxIconElementProps>(icon)) {
-      if (!context.selected) return null;
+      if (!item.selected) return null;
       return (
         <text
           {...(ref ? { ref: ref as LynxTextRef } : {})}
-          className={clsx(context.classes.indicator, className)}
+          className={clsx(classes.indicator, className)}
           accessibility-elements-hidden={true}
           {...nativeProps}
         >
@@ -1494,9 +719,9 @@ export const SelectItemIndicator = React.forwardRef<unknown, SelectItemIndicator
       <InternalIcon
         ref={ref}
         icon={icon}
-        className={clsx(context.classes.indicator, className)}
+        className={clsx(classes.indicator, className)}
         accessibility-elements-hidden={true}
-        deps={[context.selected, context.disabled, context.pressed, icon]}
+        deps={[item.selected, item.disabled, item.pressed, icon]}
         {...nativeProps}
       />
     );
