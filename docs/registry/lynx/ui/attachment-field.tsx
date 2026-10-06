@@ -8,7 +8,6 @@ import {
   AttachmentInput as SeedAttachmentInput,
   Field as SeedField,
   Icon,
-  PrefixIcon,
   HStack,
   useAttachmentInputContext,
 } from "@seed-design/lynx-react";
@@ -103,11 +102,7 @@ export const AttachmentField = React.forwardRef<FieldRootRef, AttachmentFieldPro
             {renderErrorMessage ? (
               <HStack gap="x1_5" align="flex-start" width="100%">
                 <HStack height="var(--seed-line-height-t4)" align="center" shrink={0}>
-                  <PrefixIcon
-                    icon={<IconExclamationmarkCircleFill />}
-                    size="x4"
-                    color="fg.critical"
-                  />
+                  <Icon icon={<IconExclamationmarkCircleFill />} size="x4" color="fg.critical" />
                 </HStack>
                 <SeedField.ErrorMessage style={{ flexShrink: 1 }}>
                   {errorMessage}
