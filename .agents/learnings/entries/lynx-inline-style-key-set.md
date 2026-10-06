@@ -20,10 +20,11 @@ verified_at: "2026-10-06"
 
 - 원천(2026-10-06): `@lynx-js/react` 0.117.0 `runtime/lib/snapshot/spread.js`, lynx-stack `swc_plugin_snapshot`의 style 갱신 경로, lynx-family/lynx `core/runtime/lepus/bindings/renderer_functions.cc`의 `FiberSetInlineStyles`(3.2.0–4.1.0 태그와 develop `8688964`에서 같음), testing-library `dist/env/vitest.js`.
 - 기기 확인(DES-2720): iPhone iOS 26.6 PlayLynx(Lynx SDK 1.4.0), agent-lynx 0.14.2, 임시 예제. `VStack`의 `gap="x6"`·`bg="bg.neutralWeak"`(token)와 `gap={24}`·`bg="#ff0000"`(literal)를 tap으로 제거했다. 두 Stack의 둘째 자식 border y는 247→223으로 prop 없는 기준 Stack(223)과 같았고 높이는 80→56이었다. screenshot에서 회색·빨간 배경이 사라졌다. 같은 시점 literal Stack의 DevTool `style` attribute에는 `background-color:#ff0000;column-gap:24px;row-gap:24px`가 남아 있었다. 다시 tap해 prop을 넣자 247로 돌아왔다.
+- 기기 확인(DES-2720, Android): Galaxy SM-F971N Lynx Go, 같은 임시 예제. 둘째 자식 border y가 270.9→246.9로 기준 Stack(246.9)과 같았고 높이는 80→56이었다. screenshot에서 배경이 사라졌고, 다시 넣자 270.9로 돌아왔다. DevTool `style` attribute에는 literal Stack의 `background-color`·`row-gap`·`column-gap`이 남았고, token Stack에는 이전 inline CSS 변수(`--seed-dimension-x6` 등)가 덧붙어 보였다.
 - 테스트 환경 확인(DES-2720): `render(<VStack gap="x3" />)` 뒤 `rerender(<VStack />)`에서 root `style`에 `row-gap`·`column-gap`이 남았다.
 - 이전 관찰(DES-2652): iOS 26.6 PlayLynx에서 HelpBubble Arrow의 DevTool `style`이 `top:100%;left:94px;bottom:100%;`처럼 이전 offset key를 보였고, 테스트 element tree도 같았다. 이때도 12개 배치의 Positioner 위치는 기준 bundle과 같았다. 네 offset을 모두 지정한 뒤 attribute 잔존이 사라졌다.
 
 ## 변경 이력
 
 - 2026-09-30: DES-2652 HelpBubble·Popover Arrow 기기 확인 결과를 기록했다.
-- 2026-10-06: DES-2720 기기 측정과 engine·testing-library 원천으로 잔존 위치를 테스트 환경·DevTool attribute로 정정했다. "모든 key를 매번 지정"을 필수 수정 기준에서 선택 사항으로 바꿨다.
+- 2026-10-06: DES-2720 기기 측정과 engine·testing-library 원천으로 잔존 위치를 테스트 환경·DevTool attribute로 정정했다. "모든 key를 매번 지정"을 필수 수정 기준에서 선택 사항으로 바꿨다. 같은 날 Android Lynx Go 측정 결과를 추가했다.
