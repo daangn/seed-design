@@ -9,6 +9,7 @@
 3. 여러 패키지에 걸친 변경이거나 어디서 시작할지 모르면 [`ARCHITECTURE.md`](ARCHITECTURE.md)를 읽는다.
 4. 테스트·TypeScript 코드를 쓰거나 의존성·changeset·릴리스를 다루면 [`TECH.md`](TECH.md)를 읽는다.
 5. 요청과 직접 관련된 코드·설정·문서만 연다.
+6. 백포트·버전 준비·npm 배포 전에는 [React v2 배포 가이드](RELEASING.md)를 읽는다. `--tag react-v2`를 명시하고 기존 `latest`를 유지한다.
 
 ## 검증
 
