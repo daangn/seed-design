@@ -295,7 +295,11 @@ export const AttachmentInputTriggerIcon = React.forwardRef<
     <triggerRecipe.ClassNamesProvider value={classes}>
       <InternalIcon
         icon={icon}
-        {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          forwardedRef ? { ref: forwardedRef } : {},
+          nativeProps,
+        )}
         className={clsx(classes.icon, className)}
       />
     </triggerRecipe.ClassNamesProvider>
