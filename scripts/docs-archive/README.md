@@ -20,3 +20,5 @@ Pages workflow의 `DOCS_ARCHIVE_SOURCE_BRANCH=react/v1.1`로 자기 보관 채�
 세 보관본의 Pages 원본을 먼저 준비하고 공개 경로를 확인한 뒤 최신·v2 메뉴와 CLI 전환 PR을 반영한다. 보관본 메뉴는 새 경로를 사용하므로 세 원본이 준비되기 전에 공개 Worker에 등록하지 않는다. 기존 서브도메인의 React 308 리다이렉트는 공통 운영 브랜치의 규칙 생성기를 사용하고, 다른 경로의 서비스는 유지한다.
 
 Next static export는 빈 dynamic params를 허용하지 않으므로 기존 컬렉션도 컴파일하지만 React만 export한다. 보관 산출물에 포함되지 않는 디자인 가이드의 Figma 노드와 표지 이미지는 조회하지 않으며, React 이미지의 정상 처리와 기존 일반 빌드 동작을 유지한다.
+
+Pages 배포 직후 source SHA가 아직 일치하지 않으면 각 origin에서 10초 간격으로 최대 6회 검증한다. 버전·경로 불일치, dirty 산출물, HTTP·문서·자산 오류는 즉시 실패하며, SHA도 재시도 한도까지 일치하지 않으면 실패한다. 오류에는 확인한 origin과 기대·관측 SHA를 기록한다. 이 대기는 Pages preview 검증에만 적용하며, 운영 Worker의 원본 검증은 즉시 실패하는 기존 동작을 유지한다.

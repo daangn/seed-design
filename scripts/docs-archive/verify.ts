@@ -6,6 +6,19 @@ import {
   validateArchive,
 } from "./config";
 
+export class ArchiveSourceMismatchError extends Error {
+  constructor(
+    readonly origin: string,
+    readonly expectedSha: string,
+    readonly actualSha: unknown,
+  ) {
+    super(
+      `${origin}: archive manifest source SHA mismatch (expected ${expectedSha}, received ${String(actualSha)})`,
+    );
+    this.name = "ArchiveSourceMismatchError";
+  }
+}
+
 export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof fetch = fetch) {
   validateArchive(archive);
   const prefix = archivePrefix(archive);
@@ -42,11 +55,14 @@ export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof 
     manifest.platform !== archive.platform ||
     manifest.version !== archive.version ||
     manifest.prefix !== prefix ||
-    manifest.sourceSha !== archive.sourceSha ||
     manifest.sourceDirty !== false
   ) {
-    throw new Error(`${prefix}: manifest does not match the reviewed, clean source commit`);
+    throw new Error(
+      `${prefix}: ${origin.origin}: manifest does not match the clean archive (received ${JSON.stringify(manifest)})`,
+    );
   }
+  if (manifest.sourceSha !== archive.sourceSha)
+    throw new ArchiveSourceMismatchError(origin.origin, archive.sourceSha, manifest.sourceSha);
   const html = await (await get("/")).text();
   const canonical = `https://seed-design.io${prefix}`;
   if (!html.includes(`href="${canonical}"`) && !html.includes(`href="${canonical}/"`)) {
