@@ -7,6 +7,7 @@ import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "@/components/u
 import { AccordionPage } from "./pages/AccordionPage.jsx";
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
+import { AttachmentDisplayHeadlessPage } from "./pages/AttachmentDisplayHeadlessPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
@@ -63,6 +64,7 @@ export type Page =
   | "accordion"
   | "action-button"
   | "app-bar"
+  | "attachment-display-headless"
   | "badge"
   | "bottom-sheet"
   | "callout"
@@ -116,6 +118,7 @@ type Route =
 const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   accordion: true,
   "action-button": true,
+  "attachment-display-headless": true,
   badge: true,
   "bottom-sheet": true,
   callout: true,
@@ -199,6 +202,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
     <>
       {page === "accordion" && <AccordionPage />}
       {page === "action-button" && <ActionButtonPage />}
+      {page === "attachment-display-headless" && <AttachmentDisplayHeadlessPage />}
       {page === "badge" && <BadgePage />}
       {page === "bottom-sheet" && <BottomSheetPage />}
       {page === "callout" && <CalloutPage />}
