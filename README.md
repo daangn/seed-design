@@ -59,12 +59,6 @@ SEED는 당근 제품을 위한 통합된 디자인 언어입니다. 하나의 �
 
 - [@seed-design/docs](./docs)
 
-## 개발 지침과 harness
-
-[Harness 지도](harness/README.md)에서 현재 지침·스킬·lesson·hook·CI 연결과
-결정·교훈을 실제 검사로 옮기는 절차를 확인할 수 있습니다.
-시각화는 `bun scripts/harness-map.ts`로 갱신합니다.
-
 ## License
 
 [Apache-2.0](./LICENSE)

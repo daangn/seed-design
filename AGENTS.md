@@ -16,7 +16,6 @@
 - 완료·커밋·PR 생성 전에는 [Verification Before Completion](skills/seed-verification-before-completion/SKILL.md)에 따라 변경 경로에 필요한 검증을 실제 실행하고 종료 코드·실패·미검증 범위를 보고한다.
 - 결과 답변에는 [Attention Kind](skills/seed-attention-kind/SKILL.md)를 적용한다. 한국어로 결과를 먼저 말하고 여러 항목은 번호·화살표·굵은 핵심으로 나눈다. 조건·위험을 생략하거나 건강 상태를 추정하지 않는다. 이 표현 형식은 답변에만 적용한다.
 - 설치된 원본·커밋·라이선스는 각 Skill의 `UPSTREAM.md`를 따른다. 개발 지침은 런타임 배포물에 포함하지 않는다.
-- 결정·교훈을 검사로 승격하거나 Skill·lesson·hook·CI 연결을 바꾸면 [harness 지도](harness/README.md)를 따른다. `bun scripts/harness-map.ts`로 시각화를 갱신하고 `bun scripts/harness-map.ts --check`로 확인한다.
 
 ## 검증
 
