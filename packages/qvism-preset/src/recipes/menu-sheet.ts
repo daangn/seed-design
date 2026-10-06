@@ -54,9 +54,16 @@ const menuSheet = defineSlotRecipe({
       wordBreak: "break-all",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
+      // A sheet centered under its max width reaches a side inset only by the part the side gap
+      // doesn't cover.
+      "--menu-sheet-inset-left": `max(0px, var(--seed-safe-area-left) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
+      "--menu-sheet-inset-right": `max(0px, var(--seed-safe-area-right) - max(0px, (100vw - ${vars.base.enabled.content.maxWidth}) / 2))`,
+
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
-      paddingInline: vars.base.enabled.content.paddingX,
+      maxHeight: "calc(100% - var(--seed-safe-area-top))",
+      paddingLeft: `calc(${vars.base.enabled.content.paddingX} + var(--menu-sheet-inset-left))`,
+      paddingRight: `calc(${vars.base.enabled.content.paddingX} + var(--menu-sheet-inset-right))`,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,
       // but currently React menu sheet doesn't have a handle in the header
@@ -122,6 +129,9 @@ const menuSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
+      // Scrolls once the content hits its max height; as a scroll container it may also shrink
+      // below its content height despite `min-height: auto`.
+      overflowY: "auto",
 
       gap: vars.base.enabled.list.gap,
     },
@@ -130,6 +140,9 @@ const menuSheet = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       overflow: "hidden",
+      // `overflow: hidden` drops its automatic minimum height, so a scrolling list would
+      // squash the groups instead of overflowing.
+      flexShrink: 0,
 
       borderRadius: vars.base.enabled.group.cornerRadius,
     },
