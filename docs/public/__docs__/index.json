@@ -2172,6 +2172,12 @@
               ]
             },
             {
+              "id": "image-frame",
+              "title": "Image Frame",
+              "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+              "docUrl": "/lynx/components/image-frame"
+            },
+            {
               "id": "installation",
               "title": "Installation",
               "description": "Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.",

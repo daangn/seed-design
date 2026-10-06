@@ -1,7 +1,7 @@
 import { cleanup, render } from "@lynx-js/react/testing-library";
 import { useImageContext } from "@seed-design/lynx-react-image";
 import { afterEach, expect, it } from "vitest";
-import { ImageFrame } from "../lib/components/ImageFrame/ImageFrame.jsx";
+import { ImageFrame, ImageFrameBadge } from "../lib/components/ImageFrame/ImageFrame.jsx";
 
 afterEach(cleanup);
 
@@ -16,7 +16,9 @@ it("shares the published image context with public headless consumers", () => {
     render(
       <ImageFrame src="photo.png" alt="Photo">
         <Status />
+        <ImageFrameBadge tone="brand" variant="solid">NEW</ImageFrameBadge>
       </ImageFrame>,
     ),
   ).not.toThrow();
+  expect(elementTree.root?.querySelector(".seed-badge__label")?.textContent).toBe("NEW");
 });
