@@ -15,6 +15,7 @@ import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
 import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
 import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
 import { DocsExamplePage } from "./pages/DocsExamplePage.jsx";
+import { FileUploadHeadlessPage } from "./pages/FileUploadHeadlessPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
 import { FoundationMonochromeIconPage } from "./pages/FoundationMonochromeIconPage.jsx";
 import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPage.jsx";
@@ -66,6 +67,7 @@ export type Page =
   | "callout"
   | "checkbox"
   | "dialog-headless"
+  | "file-upload-headless"
   | "list-headless"
   | "manner-temp"
   | "menu-headless"
@@ -117,6 +119,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   callout: true,
   checkbox: true,
   "dialog-headless": true,
+  "file-upload-headless": true,
   "list-headless": true,
   "manner-temp": true,
   "menu-headless": true,
@@ -199,6 +202,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
       {page === "dialog-headless" && <DialogHeadlessPage />}
+      {page === "file-upload-headless" && <FileUploadHeadlessPage />}
       {page === "list-headless" && <ListHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
       {page === "menu-headless" && <MenuHeadlessPage />}
