@@ -1,4 +1,5 @@
 import * as React from "@lynx-js/react";
+import { useCollapsible, type UseCollapsibleReturn } from "@seed-design/lynx-react-collapsible";
 import { useAccordionContext } from "./useAccordionContext.js";
 
 export interface UseAccordionItemProps {
@@ -6,11 +7,12 @@ export interface UseAccordionItemProps {
   disabled?: boolean;
 }
 
-export interface UseAccordionItemReturn {
+/**
+ * Item의 Collapsible 상태입니다. `CollapsibleProvider`에 그대로 넘길 수 있어
+ * `useCollapsibleTrigger`·`useCollapsibleContent`가 Accordion 값과 연결됩니다.
+ */
+export interface UseAccordionItemReturn extends UseCollapsibleReturn {
   value: string;
-  open: boolean;
-  disabled: boolean;
-  toggle: () => void;
 }
 
 export function useAccordionItem({
@@ -18,12 +20,15 @@ export function useAccordionItem({
   disabled: itemDisabled = false,
 }: UseAccordionItemProps): UseAccordionItemReturn {
   const accordion = useAccordionContext();
-  const disabled = accordion.disabled || itemDisabled;
-  const open = accordion.isOpen(value);
-  const toggle = React.useCallback(() => {
+  const handleOpenChange = React.useCallback(() => {
     "background only";
-    if (!disabled) accordion.toggle(value);
-  }, [accordion, disabled, value]);
+    accordion.toggle(value);
+  }, [accordion, value]);
+  const collapsible = useCollapsible({
+    open: accordion.isOpen(value),
+    onOpenChange: handleOpenChange,
+    disabled: accordion.disabled || itemDisabled,
+  });
 
-  return React.useMemo(() => ({ value, open, disabled, toggle }), [value, open, disabled, toggle]);
+  return React.useMemo(() => ({ ...collapsible, value }), [collapsible, value]);
 }

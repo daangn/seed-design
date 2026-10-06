@@ -7,32 +7,42 @@ import {
   type SelectBoxCheckmarkVariantProps,
 } from "@seed-design/lynx-css/recipes/select-box-checkmark";
 import { selectBoxGroup } from "@seed-design/lynx-css/recipes/select-box-group";
-import type { ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
+import {
+  CheckboxProvider,
+  useCheckbox,
+  type UseCheckboxProps,
+} from "@seed-design/lynx-react-checkbox";
+import {
+  CollapsibleProvider,
+  useCollapsible,
+  useCollapsibleContext,
+  type UseCollapsibleReturn,
+} from "@seed-design/lynx-react-collapsible";
+import {
+  RadioGroupItemProvider,
+  useRadioGroupItem,
+  type UseRadioGroupItemProps,
+} from "@seed-design/lynx-react-radio-group";
+import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { ScaleFeedbackContentContext } from "../../contexts";
 
 import type {
   LynxAccessibilityProps,
   LynxStyledElementProps,
   LynxTextRef,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import {
-  CheckboxRoot,
-  type CheckboxRootProps,
-  useStyledCheckboxContext,
-} from "../Checkbox/Checkbox";
 import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
-import {
-  RadioGroupItem,
-  type RadioGroupItemProps,
-  useStyledRadioGroupItemContext,
-} from "../RadioGroup/RadioGroup";
 import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
+ *
+ * 선택 상태·press·접근성은 `@seed-design/lynx-react-checkbox`와
+ * `@seed-design/lynx-react-radio-group`, footer 접힘·높이 측정은
+ * `@seed-design/lynx-react-collapsible`이 담당한다. 이 파일은 선택 surface와 content/footer 배치,
+ * SEED recipe·Scale Feedback을 조립한다.
  *
  * 웹 대비 미지원 기능:
  * - HiddenInput / name / required / invalid: Lynx에 native form 제출 모델이 없음
@@ -45,77 +55,107 @@ type PublicSelectBoxVariantProps = Omit<
   SelectBoxVariantProps,
   "selected" | "pressed" | "disabled" | "footerOpen"
 >;
+type SelectBoxAccessibilityStateProps = Pick<
+  LynxAccessibilityProps,
+  | "accessibility-element"
+  | "accessibility-role-description"
+  | "accessibility-traits"
+  | "accessibility-value"
+>;
 
-interface SelectBoxRuntimeContextValue {
+interface SelectBoxStateContextValue {
   selected: boolean;
   pressed: boolean;
   disabled: boolean;
-  footerVisibility: FooterVisibility;
-  variantProps: PublicSelectBoxVariantProps;
-  accessibilityRole: "checkbox" | "radio";
-  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
 }
 
-const SelectBoxRuntimeContext = React.createContext<SelectBoxRuntimeContextValue | null>(null);
+const SelectBoxStateContext = React.createContext<SelectBoxStateContextValue | null>(null);
 const SelectBoxLayoutContext = React.createContext<PublicSelectBoxVariantProps>({});
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(selectBox);
 
-function useSelectBoxRuntimeContext(consumer: string): SelectBoxRuntimeContextValue {
-  const context = React.useContext(SelectBoxRuntimeContext);
+function useSelectBoxStateContext(consumer: string): SelectBoxStateContextValue {
+  const context = React.useContext(SelectBoxStateContext);
   if (!context) {
     throw new Error(`<${consumer}/> must be rendered inside a SelectBox root or item.`);
   }
   return context;
 }
 
-interface SelectBoxSurfaceProps extends LynxStyledElementProps {
-  accessibilityProps: LynxAccessibilityProps;
+function useResolvedVariantProps(
+  variantProps: PublicSelectBoxVariantProps,
+): PublicSelectBoxVariantProps {
+  const inheritedVariantProps = React.useContext(SelectBoxLayoutContext);
+  return { ...variantProps, layout: variantProps.layout ?? inheritedVariantProps.layout };
 }
 
-function SelectBoxSurface({
-  children,
-  className,
-  style,
-  accessibilityProps,
-}: SelectBoxSurfaceProps) {
-  const context = useSelectBoxRuntimeContext("SelectBoxSurface");
-  const footerOpen =
-    context.footerVisibility === "always" ||
-    (context.footerVisibility === "when-selected" ? context.selected : !context.selected);
-  const classes = selectBox({
-    ...context.variantProps,
-    selected: context.selected,
-    pressed: context.pressed,
-    disabled: context.disabled,
-    footerOpen,
+/** `always`가 아니면 선택 상태에 따라 여닫는 footer Collapsible을 반환합니다. */
+function useFooterCollapsible(
+  selected: boolean,
+  footerVisibility: FooterVisibility,
+): UseCollapsibleReturn | null {
+  const collapsible = useCollapsible({
+    open: footerVisibility === "when-not-selected" ? !selected : selected,
   });
+  return footerVisibility === "always" ? null : collapsible;
+}
+
+interface SelectBoxSurfaceOptions extends LynxStyledElementProps {
+  ref: React.ForwardedRef<unknown>;
+  variantProps: PublicSelectBoxVariantProps;
+  state: SelectBoxStateContextValue;
+  /** tap·Scale Feedback trigger handler. 선택 영역 전체를 덮는 interaction root에 붙습니다. */
+  interactionProps: object;
+  /** headless 접근성 기본값과 사용자 접근성 props. 선택 surface에 붙습니다. */
+  accessibilityProps: LynxAccessibilityProps;
+  scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
+  footerCollapsible: UseCollapsibleReturn | null;
+}
+
+function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
+  const { ref, children, className, style, variantProps, state, footerCollapsible } = options;
+  const classes = selectBox({
+    ...variantProps,
+    ...state,
+    footerOpen: footerCollapsible ? footerCollapsible.open : true,
+  });
+  const content = (
+    <ScaleFeedbackContentContext.Provider value={true}>
+      {children}
+    </ScaleFeedbackContentContext.Provider>
+  );
 
   return (
-    <ClassNamesProvider value={classes}>
-      <IconSlotProvider
-        value={{
-          classNames: { prefixIcon: classes.prefixIcon },
-          deps: [context.selected, context.pressed, context.disabled],
-        }}
-      >
-        <view
-          className={clsx(classes.root, className)}
-          style={style}
-          accessibility-element={true}
-          accessibility-role-description={context.accessibilityRole}
-          accessibility-value={context.selected ? "selected" : "not selected"}
-          accessibility-traits={context.disabled ? "disabled" : undefined}
-          {...accessibilityProps}
+    <SelectBoxStateContext.Provider value={state}>
+      <ClassNamesProvider value={classes}>
+        <IconSlotProvider
+          value={{
+            classNames: { prefixIcon: classes.prefixIcon },
+            deps: [state.selected, state.pressed, state.disabled],
+          }}
         >
-          <view className={classes.scaleContent} {...context.scaleFeedbackTargetProps}>
-            <ScaleFeedbackContentContext.Provider value={true}>
-              {children}
-            </ScaleFeedbackContentContext.Provider>
+          <view
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, options.interactionProps)}
+            className={selectBox(variantProps).interactionRoot}
+            accessibility-element={false}
+          >
+            <view
+              className={clsx(classes.root, className)}
+              style={style}
+              {...options.accessibilityProps}
+            >
+              <view className={classes.scaleContent} {...options.scaleFeedbackTargetProps}>
+                {footerCollapsible ? (
+                  <CollapsibleProvider value={footerCollapsible}>{content}</CollapsibleProvider>
+                ) : (
+                  content
+                )}
+              </view>
+              <view className={classes.selectedStroke} accessibility-elements-hidden={true} />
+            </view>
           </view>
-          <view className={classes.selectedStroke} accessibility-elements-hidden={true} />
-        </view>
-      </IconSlotProvider>
-    </ClassNamesProvider>
+        </IconSlotProvider>
+      </ClassNamesProvider>
+    </SelectBoxStateContext.Provider>
   );
 }
 
@@ -161,47 +201,16 @@ export interface CheckSelectBoxRootProps
     LynxStyledElementProps,
     LynxAccessibilityProps,
     Pick<
-      CheckboxRootProps,
+      UseCheckboxProps,
       "checked" | "defaultChecked" | "indeterminate" | "disabled" | "onCheckedChange"
     > {
   /** @default "when-selected" */
   footerVisibility?: FooterVisibility;
 }
 
-interface CheckSelectBoxSurfaceProps extends SelectBoxSurfaceProps {
-  footerVisibility: FooterVisibility;
-  variantProps: PublicSelectBoxVariantProps;
-}
-
-function CheckSelectBoxSurface(props: CheckSelectBoxSurfaceProps) {
-  const checkbox = useStyledCheckboxContext("CheckSelectBoxRoot");
-  const contextValue = React.useMemo<SelectBoxRuntimeContextValue>(
-    () => ({
-      selected: checkbox.checked,
-      pressed: checkbox.pressed,
-      disabled: checkbox.disabled,
-      footerVisibility: props.footerVisibility,
-      variantProps: props.variantProps,
-      accessibilityRole: "checkbox",
-      scaleFeedbackTargetProps: checkbox.scaleFeedbackTargetProps,
-    }),
-    [
-      checkbox.checked,
-      checkbox.disabled,
-      checkbox.pressed,
-      checkbox.scaleFeedbackTargetProps,
-      props.footerVisibility,
-      props.variantProps,
-    ],
-  );
-
-  return (
-    <SelectBoxRuntimeContext.Provider value={contextValue}>
-      <SelectBoxSurface {...props} />
-    </SelectBoxRuntimeContext.Provider>
-  );
-}
-
+/**
+ * Checkbox 선택 상태를 가진 Select Box입니다. 하위 요소는 `useCheckboxContext`로 선택 상태를 읽습니다.
+ */
 export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootProps>(
   (props, ref) => {
     const {
@@ -214,37 +223,55 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
       disabled,
       onCheckedChange,
       footerVisibility = "when-selected",
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+      "accessibility-value": accessibilityValue,
       ...restProps
     } = props;
-    const inheritedVariantProps = React.useContext(SelectBoxLayoutContext);
     const [variantProps, accessibilityProps] = selectBox.splitVariantProps(restProps);
-    const resolvedVariantProps = {
-      ...variantProps,
-      layout: variantProps.layout ?? inheritedVariantProps.layout,
-    };
-    const interactionRootClassName = selectBox(resolvedVariantProps).interactionRoot;
+    const api = useCheckbox({
+      checked,
+      defaultChecked,
+      indeterminate,
+      disabled,
+      onCheckedChange,
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+      "accessibility-value": accessibilityValue,
+    });
+    // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+    const { bindtap, bindtouchstart, bindtouchend, bindtouchcancel, ...stateAccessibilityProps } =
+      api.rootProps;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: api.disabled,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
+    const state = React.useMemo(
+      () => ({ selected: api.checked, pressed: api.pressed, disabled: api.disabled }),
+      [api.checked, api.pressed, api.disabled],
+    );
+    const resolvedVariantProps = useResolvedVariantProps(variantProps);
+    const footerCollapsible = useFooterCollapsible(api.checked, footerVisibility);
 
     return (
-      <CheckboxRoot
-        ref={ref}
-        className={interactionRootClassName}
-        checked={checked}
-        defaultChecked={defaultChecked}
-        indeterminate={indeterminate}
-        disabled={disabled}
-        onCheckedChange={onCheckedChange}
-        accessibility-element={false}
-      >
-        <CheckSelectBoxSurface
-          className={className}
-          style={style}
-          footerVisibility={footerVisibility}
-          variantProps={resolvedVariantProps}
-          accessibilityProps={accessibilityProps}
-        >
-          {children}
-        </CheckSelectBoxSurface>
-      </CheckboxRoot>
+      <CheckboxProvider value={api}>
+        {renderSelectBoxSurface({
+          ref,
+          children,
+          className,
+          style,
+          variantProps: resolvedVariantProps,
+          state,
+          interactionProps: mergeProps(scaleFeedbackTriggerProps, { bindtap }),
+          accessibilityProps: { ...stateAccessibilityProps, ...accessibilityProps },
+          scaleFeedbackTargetProps,
+          footerCollapsible,
+        })}
+      </CheckboxProvider>
     );
   },
 );
@@ -256,45 +283,15 @@ export interface RadioSelectBoxItemProps
   extends PublicSelectBoxVariantProps,
     LynxStyledElementProps,
     LynxAccessibilityProps,
-    Pick<RadioGroupItemProps, "value" | "disabled"> {
+    Pick<UseRadioGroupItemProps, "value" | "disabled"> {
   /** @default "when-selected" */
   footerVisibility?: FooterVisibility;
 }
 
-interface RadioSelectBoxSurfaceProps extends SelectBoxSurfaceProps {
-  footerVisibility: FooterVisibility;
-  variantProps: PublicSelectBoxVariantProps;
-}
-
-function RadioSelectBoxSurface(props: RadioSelectBoxSurfaceProps) {
-  const item = useStyledRadioGroupItemContext("RadioSelectBoxItem");
-  const contextValue = React.useMemo<SelectBoxRuntimeContextValue>(
-    () => ({
-      selected: item.checked,
-      pressed: item.pressed,
-      disabled: item.disabled,
-      footerVisibility: props.footerVisibility,
-      variantProps: props.variantProps,
-      accessibilityRole: "radio",
-      scaleFeedbackTargetProps: item.scaleFeedbackTargetProps,
-    }),
-    [
-      item.checked,
-      item.disabled,
-      item.pressed,
-      item.scaleFeedbackTargetProps,
-      props.footerVisibility,
-      props.variantProps,
-    ],
-  );
-
-  return (
-    <SelectBoxRuntimeContext.Provider value={contextValue}>
-      <SelectBoxSurface {...props} />
-    </SelectBoxRuntimeContext.Provider>
-  );
-}
-
+/**
+ * RadioGroup Item 선택 상태를 가진 Select Box입니다. 선택 값은 `RadioGroupField.Root`나
+ * headless `RadioGroup.Root`가 소유하고, 하위 요소는 `useRadioGroupItemContext`로 선택 상태를 읽습니다.
+ */
 export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemProps>(
   (props, ref) => {
     const {
@@ -304,34 +301,65 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       value,
       disabled,
       footerVisibility = "when-selected",
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+      "accessibility-value": accessibilityValue,
       ...restProps
     } = props;
-    const inheritedVariantProps = React.useContext(SelectBoxLayoutContext);
     const [variantProps, accessibilityProps] = selectBox.splitVariantProps(restProps);
-    const resolvedVariantProps = {
-      ...variantProps,
-      layout: variantProps.layout ?? inheritedVariantProps.layout,
+    const api = useRadioGroupItem({
+      value,
+      disabled,
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+      "accessibility-value": accessibilityValue,
+    });
+    const {
+      "accessibility-element": itemAccessibilityElement,
+      "accessibility-role-description": itemAccessibilityRoleDescription,
+      "accessibility-traits": itemAccessibilityTraits,
+      "accessibility-value": itemAccessibilityValue,
+      bindtouchstart,
+      bindtouchend,
+      bindtouchcancel,
+      ...tapProps
+    } = api.itemProps;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: api.disabled,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
+    const state = React.useMemo(
+      () => ({ selected: api.checked, pressed: api.pressed, disabled: api.disabled }),
+      [api.checked, api.pressed, api.disabled],
+    );
+    const resolvedVariantProps = useResolvedVariantProps(variantProps);
+    const footerCollapsible = useFooterCollapsible(api.checked, footerVisibility);
+    const stateAccessibilityProps: SelectBoxAccessibilityStateProps = {
+      "accessibility-element": itemAccessibilityElement,
+      "accessibility-role-description": itemAccessibilityRoleDescription,
+      "accessibility-traits": itemAccessibilityTraits,
+      "accessibility-value": itemAccessibilityValue,
     };
-    const interactionRootClassName = selectBox(resolvedVariantProps).interactionRoot;
 
     return (
-      <RadioGroupItem
-        ref={ref}
-        className={interactionRootClassName}
-        value={value}
-        disabled={disabled}
-        accessibility-element={false}
-      >
-        <RadioSelectBoxSurface
-          className={className}
-          style={style}
-          footerVisibility={footerVisibility}
-          variantProps={resolvedVariantProps}
-          accessibilityProps={accessibilityProps}
-        >
-          {children}
-        </RadioSelectBoxSurface>
-      </RadioGroupItem>
+      <RadioGroupItemProvider value={api}>
+        {renderSelectBoxSurface({
+          ref,
+          children,
+          className,
+          style,
+          variantProps: resolvedVariantProps,
+          state,
+          interactionProps: mergeProps(scaleFeedbackTriggerProps, tapProps),
+          accessibilityProps: { ...stateAccessibilityProps, ...accessibilityProps },
+          scaleFeedbackTargetProps,
+          footerCollapsible,
+        })}
+      </RadioGroupItemProvider>
     );
   },
 );
@@ -425,15 +453,6 @@ export const RadioSelectBoxDescription = createTextSlot("RadioSelectBoxDescripti
 
 export interface SelectBoxFooterProps extends LynxStyledElementProps, LynxAccessibilityProps {}
 
-type FooterLayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
-
-function getFooterLayoutHeight(event: Parameters<FooterLayoutChangeHandler>[0]): number | null {
-  const eventWithHeight = event as Parameters<FooterLayoutChangeHandler>[0] & { height?: number };
-  const height = event.detail?.height ?? event.params?.height ?? eventWithHeight.height;
-  if (typeof height !== "number" || !Number.isFinite(height)) return null;
-  return Math.max(0, height);
-}
-
 const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, ref) => {
   const {
     children,
@@ -442,33 +461,21 @@ const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, 
     "accessibility-elements-hidden": accessibilityElementsHidden = false,
     ...nativeProps
   } = props;
-  const context = useSelectBoxRuntimeContext("SelectBoxFooter");
   const classes = useClassNames();
-  const [contentHeight, setContentHeight] = React.useState(0);
-  const open =
-    context.footerVisibility === "always" ||
-    (context.footerVisibility === "when-selected" ? context.selected : !context.selected);
-  const handleLayoutChange = React.useCallback<FooterLayoutChangeHandler>((event) => {
-    const height = getFooterLayoutHeight(event);
-    if (height !== null) setContentHeight((current) => (current === height ? current : height));
-  }, []);
+  // `footerVisibility="always"`이면 Collapsible이 없다. recipe의 기본 높이가 0이므로 auto로 연다.
+  const collapsible = useCollapsibleContext({ strict: false });
 
   return (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.footer, className)}
-      style={{
-        ...style,
-        height:
-          context.footerVisibility === "always" || (open && contentHeight === 0)
-            ? "auto"
-            : open
-              ? `${contentHeight}px`
-              : "0px",
-      }}
-      accessibility-elements-hidden={!open || accessibilityElementsHidden}
+      style={{ ...style, ...(collapsible ? collapsible.contentProps.style : { height: "auto" }) }}
+      accessibility-elements-hidden={
+        (collapsible?.contentProps["accessibility-elements-hidden"] ?? false) ||
+        accessibilityElementsHidden
+      }
     >
-      <view className={classes.footerInner} bindlayoutchange={handleLayoutChange}>
+      <view className={classes.footerInner} {...collapsible?.contentInnerProps}>
         {children}
       </view>
     </view>
@@ -497,7 +504,7 @@ export const CheckSelectBoxCheckmarkControl = React.forwardRef<
   CheckSelectBoxCheckmarkControlProps
 >((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSelectBoxRuntimeContext("CheckSelectBoxCheckmarkControl");
+  const context = useSelectBoxStateContext("CheckSelectBoxCheckmarkControl");
   const variantProps = {
     selected: context.selected,
     pressed: context.pressed,

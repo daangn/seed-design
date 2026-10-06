@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
+import { useState } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-group";
@@ -125,7 +126,7 @@ describe("SelectBox", () => {
     const footer = root.querySelector<HTMLElement>(".check-footer");
     const footerInner = footer?.querySelector<HTMLElement>(".seed-select-box__footerInner");
 
-    expect(surface).toHaveAttribute("accessibility-value", "not selected");
+    expect(surface).toHaveAttribute("accessibility-value", "not checked");
     expect(footer).toHaveStyle({ height: "0px" });
     expect(footer).toHaveAttribute("accessibility-elements-hidden", "true");
 
@@ -135,8 +136,48 @@ describe("SelectBox", () => {
     fireEvent.tap(interactionRoot as HTMLElement);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(surface).toHaveAttribute("accessibility-value", "selected");
+    expect(surface).toHaveAttribute("accessibility-value", "checked");
     expect(footer).toHaveStyle({ height: "48px" });
+    expect(footer).toHaveAttribute("accessibility-elements-hidden", "false");
+  });
+
+  it("keeps an indeterminate check item mixed until the parent resolves it", () => {
+    const onCheckedChange = vi.fn();
+    function Parent() {
+      const [state, setState] = useState({ checked: false, indeterminate: true });
+      return (
+        <CheckSelectBox.Root
+          accessibility-label="전체"
+          checked={state.checked}
+          indeterminate={state.indeterminate}
+          onCheckedChange={(checked) => {
+            onCheckedChange(checked);
+            setState({ checked, indeterminate: false });
+          }}
+        >
+          <CheckSelectBox.Trigger>
+            <CheckSelectBox.Label>전체</CheckSelectBox.Label>
+          </CheckSelectBox.Trigger>
+          <CheckSelectBox.Footer className="check-footer">
+            <text>하위 항목</text>
+          </CheckSelectBox.Footer>
+        </CheckSelectBox.Root>
+      );
+    }
+    render(<Parent />);
+
+    const root = getRenderedRoot();
+    const interactionRoot = root.querySelector<HTMLElement>(".seed-select-box__interactionRoot");
+    const surface = root.querySelector<HTMLElement>(".seed-select-box__root");
+    const footer = root.querySelector<HTMLElement>(".check-footer");
+
+    expect(surface).toHaveAttribute("accessibility-value", "mixed");
+    expect(footer).toHaveAttribute("accessibility-elements-hidden", "true");
+
+    fireEvent.tap(interactionRoot as HTMLElement);
+
+    expect(onCheckedChange).toHaveBeenCalledExactlyOnceWith(true);
+    expect(surface).toHaveAttribute("accessibility-value", "checked");
     expect(footer).toHaveAttribute("accessibility-elements-hidden", "false");
   });
 

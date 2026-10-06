@@ -6,17 +6,20 @@ import {
   AccordionItemProvider,
   AccordionProvider,
   useAccordion,
-  useAccordionContent,
   useAccordionContext,
   useAccordionItem,
   useAccordionItemContext,
-  useAccordionTrigger,
   type UseAccordionProps,
   type UseAccordionReturn,
   type UseAccordionItemProps,
   type UseAccordionItemReturn,
-  type UseAccordionTriggerProps,
 } from "@seed-design/lynx-react-accordion";
+import {
+  CollapsibleProvider,
+  useCollapsibleContent,
+  useCollapsibleTrigger,
+  type UseCollapsibleTriggerProps,
+} from "@seed-design/lynx-react-collapsible";
 import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
@@ -137,17 +140,19 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
 
   return (
     <AccordionItemProvider value={contextValue}>
-      <ClassNamesProvider value={classes}>
-        <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-          className={clsx(classes.item, className)}
-        >
-          {children}
-          {!isLast ? (
-            <view className={classes.divider} accessibility-elements-hidden={true} />
-          ) : null}
-        </view>
-      </ClassNamesProvider>
+      <CollapsibleProvider value={contextValue}>
+        <ClassNamesProvider value={classes}>
+          <view
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+            className={clsx(classes.item, className)}
+          >
+            {children}
+            {!isLast ? (
+              <view className={classes.divider} accessibility-elements-hidden={true} />
+            ) : null}
+          </view>
+        </ClassNamesProvider>
+      </CollapsibleProvider>
     </AccordionItemProvider>
   );
 });
@@ -183,7 +188,7 @@ AccordionHeader.displayName = "AccordionHeader";
 export interface AccordionTriggerProps
   extends LynxStyledElementProps,
     LynxAccessibilityProps,
-    Pick<UseAccordionTriggerProps, "bindtap"> {
+    Pick<UseCollapsibleTriggerProps, "bindtap"> {
   expandedAccessibilityValue?: string;
   collapsedAccessibilityValue?: string;
 }
@@ -201,7 +206,7 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     "accessibility-value": accessibilityValue,
     ...nativeProps
   } = props;
-  const { open, disabled, pressed, triggerProps } = useAccordionTrigger({
+  const { open, disabled, pressed, triggerProps } = useCollapsibleTrigger({
     bindtap,
     expandedAccessibilityValue,
     collapsedAccessibilityValue,
@@ -272,7 +277,7 @@ export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>
     "accessibility-elements-hidden": accessibilityElementsHidden,
     ...nativeProps
   } = props;
-  const { contentProps, contentInnerProps } = useAccordionContent({
+  const { contentProps, contentInnerProps } = useCollapsibleContent({
     style,
     "accessibility-elements-hidden": accessibilityElementsHidden,
   });

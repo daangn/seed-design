@@ -1,11 +1,16 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
+import {
+  CollapsibleContent,
+  CollapsibleProvider,
+  CollapsibleTrigger,
+  type CollapsibleContentProps,
+  type CollapsibleTriggerProps,
+} from "@seed-design/lynx-react-collapsible";
 import { useAccordion, type UseAccordionProps } from "./useAccordion.js";
-import { useAccordionContent } from "./useAccordionContent.js";
 import { AccordionProvider } from "./useAccordionContext.js";
 import { AccordionItemProvider } from "./useAccordionItemContext.js";
 import { useAccordionItem, type UseAccordionItemProps } from "./useAccordionItem.js";
-import { useAccordionTrigger, type UseAccordionTriggerProps } from "./useAccordionTrigger.js";
 
 type ViewProps = IntrinsicElements["view"];
 
@@ -28,15 +33,20 @@ AccordionRoot.displayName = "AccordionRoot";
 
 export interface AccordionItemProps extends UseAccordionItemProps, ViewProps {}
 
+/**
+ * Item의 Collapsible 상태를 `AccordionItemProvider`와 `CollapsibleProvider`로 함께 제공합니다.
+ */
 export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((props, ref) => {
   const { children, value, disabled, ...nativeProps } = props;
   const api = useAccordionItem({ value, disabled });
 
   return (
     <AccordionItemProvider value={api}>
-      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
-        {children}
-      </view>
+      <CollapsibleProvider value={api}>
+        <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
+          {children}
+        </view>
+      </CollapsibleProvider>
     </AccordionItemProvider>
   );
 });
@@ -58,85 +68,12 @@ export const AccordionHeader = React.forwardRef<unknown, AccordionHeaderProps>((
 });
 AccordionHeader.displayName = "AccordionHeader";
 
-export interface AccordionTriggerProps extends ViewProps, UseAccordionTriggerProps {}
+export interface AccordionTriggerProps extends CollapsibleTriggerProps {}
 
-export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>((props, ref) => {
-  const {
-    children,
-    bindtap,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    "main-thread:bindtap": mainThreadBindtap,
-    "main-thread:bindtouchstart": mainThreadBindtouchstart,
-    "main-thread:bindtouchend": mainThreadBindtouchend,
-    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-    expandedAccessibilityValue,
-    collapsedAccessibilityValue,
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = props;
-  const { disabled, triggerProps } = useAccordionTrigger({
-    bindtap,
-    "main-thread:bindtouchstart": mainThreadBindtouchstart,
-    "main-thread:bindtouchend": mainThreadBindtouchend,
-    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-    expandedAccessibilityValue,
-    collapsedAccessibilityValue,
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-  });
+/** Item의 열림 상태를 전환하는 `CollapsibleTrigger`입니다. */
+export const AccordionTrigger = CollapsibleTrigger;
 
-  return (
-    <view
-      {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      {...nativeProps}
-      {...triggerProps}
-      main-thread:bindtap={disabled ? undefined : mainThreadBindtap}
-      bindtouchstart={(event) => {
-        bindtouchstart?.(event);
-        triggerProps.bindtouchstart(event);
-      }}
-      bindtouchend={(event) => {
-        bindtouchend?.(event);
-        triggerProps.bindtouchend(event);
-      }}
-      bindtouchcancel={(event) => {
-        bindtouchcancel?.(event);
-        triggerProps.bindtouchcancel(event);
-      }}
-    >
-      {children}
-    </view>
-  );
-});
-AccordionTrigger.displayName = "AccordionTrigger";
+export interface AccordionContentProps extends CollapsibleContentProps {}
 
-export interface AccordionContentProps extends ViewProps {}
-
-export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>((props, ref) => {
-  const {
-    children,
-    style,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-    ...nativeProps
-  } = props;
-  const { contentProps, contentInnerProps } = useAccordionContent({
-    style,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-  });
-
-  return (
-    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...contentProps}>
-      <view {...contentInnerProps} style={{ flexShrink: 0 }}>
-        {children}
-      </view>
-    </view>
-  );
-});
-AccordionContent.displayName = "AccordionContent";
+/** Item이 닫히면 접히는 `CollapsibleContent`입니다. */
+export const AccordionContent = CollapsibleContent;
