@@ -55,7 +55,7 @@ export declare const vars: {
   "tonePositiveVariantSolid": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       }
     }
   },
@@ -75,7 +75,7 @@ export declare const vars: {
   "toneInformativeVariantSolid": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       }
     }
   },
@@ -95,7 +95,7 @@ export declare const vars: {
   "toneWarningVariantSolid": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       }
     }
   },
@@ -115,7 +115,7 @@ export declare const vars: {
   "toneCriticalVariantSolid": {
     "enabled": {
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       }
     }
   },

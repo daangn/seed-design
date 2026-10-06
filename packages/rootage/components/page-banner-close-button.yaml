@@ -71,7 +71,7 @@ data:
     tone=positive, variant=solid:
       enabled:
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
     tone=informative, variant=weak:
       enabled:
         icon:
@@ -79,7 +79,7 @@ data:
     tone=informative, variant=solid:
       enabled:
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
     tone=warning, variant=weak:
       enabled:
         icon:
@@ -87,7 +87,7 @@ data:
     tone=warning, variant=solid:
       enabled:
         icon:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
     tone=critical, variant=weak:
       enabled:
         icon:
@@ -95,7 +95,7 @@ data:
     tone=critical, variant=solid:
       enabled:
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
     tone=magic, variant=weak:
       enabled:
         icon:
