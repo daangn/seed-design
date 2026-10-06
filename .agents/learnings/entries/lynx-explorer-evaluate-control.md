@@ -1,6 +1,6 @@
 ---
 id: lynx-explorer-evaluate-control
-description: "iOS 시뮬레이터의 LynxExplorer(`com.lynx.LynxExplorer`)에서 agent-lynx로 Lynx 예제를 검증하다가 `tap`·`Input.emulateTouchFromMouseEvent`가 성공 응답을 내도 handler가 실행되지 않거나, `evaluate`가 `SyntaxError: expecting ')'`로 실패하거나, Card를 닫을 수 없을 때 읽는다. 탭 없이 임시 예제 상태를 바꾸는 evaluate 제어, 식 작성법, host 선택과 Card 정리 제약을 다룬다. PlayLynx처럼 CDP 탭이 동작하는 host에는 적용하지 않는다."
+description: iOS 시뮬레이터의 LynxExplorer(`com.lynx.LynxExplorer`)에서 agent-lynx로 Lynx 예제를 검증하다가 `tap`·`Input.emulateTouchFromMouseEvent`가 성공 응답을 내도 handler가 실행되지 않거나, `evaluate`가 `SyntaxError: expecting ')'`로 실패하거나, Card를 닫을 수 없을 때 읽는다. 탭 없이 임시 예제 상태를 바꾸는 evaluate 제어, 식 작성법, host 선택과 Card 정리 제약을 다룬다. PlayLynx처럼 CDP 탭이 동작하는 host에는 적용하지 않는다.
 scope: ["docs/examples/lynx/**", "examples/lynx-spa/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["lynx-device-cdp-geometry", "lynx-loading-tap-device-check"]
@@ -33,5 +33,3 @@ verified_at: "2026-09-29"
 
 - 2026-09-29: DES-2679 OverlayView 검증 중 확인한 내용을 기록했다.
 - 2026-09-29: DES-2620에서 localhost 번들 제공, native overlay 캡처, 직접 실행한 앱의 정리, client ID 변동 확인을 추가했다.
-
-- 2026-10-06: harness 지도에서 frontmatter를 읽을 수 있도록 description을 문자열로 감쌌다. 교훈 내용과 기존 검증 날짜는 변경하지 않았다.
