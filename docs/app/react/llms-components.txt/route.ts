@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { baseUrl } from "@/app/metadata";
 import { reactSource } from "@/app/source";
 import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
@@ -31,7 +32,7 @@ export async function GET() {
         })
         .join("/");
 
-      const txtUrl = new URL(`/react/llms-components/${path}`, baseUrl);
+      const txtUrl = new URL(archivePaths.link(`/react/llms-components/${path}`), baseUrl);
 
       return `- [${data.title}](${txtUrl})`;
     })

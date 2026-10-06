@@ -6,6 +6,7 @@ on:
       - "!dev" # V3 deployment; remove this when V3 is stable
     paths:
       - "docs/**"
+      - "scripts/docs-archive/**"
       - "packages/css/**"
       - "packages/react/**"
       - "packages/stackflow/**"
@@ -13,9 +14,14 @@ on:
   workflow_dispatch:
 
 env:
+  DOCS_ARCHIVE_SOURCE_BRANCH: react/v1.0
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: Deploy seed-design-v3 docs (Alpha)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -33,16 +39,20 @@ jobs:
         with:
           bun-version: "1.3.13"
 
+      - name: Select archive build
+        id: target
+        run: bun scripts/docs-archive/build-target.ts
+
       - name: Restore cache
         uses: actions/cache@v4
         with:
           path: |
             docs/.next/cache
           # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-nextjs-${{ steps.target.outputs.cache-generation }}-${{ hashFiles('**/bun.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
+            ${{ runner.os }}-nextjs-${{ steps.target.outputs.cache-generation }}-${{ hashFiles('**/bun.lock') }}-
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -50,13 +60,31 @@ jobs:
       - name: Build Packages
         run: bun packages:build && bun rootage:build
 
+      - name: Test retained documentation and archive contracts
+        if: steps.target.outputs.archive-version != ''
+        run: bun test docs scripts/docs-archive/tests
+
       - name: Build Docs
         working-directory: ./docs
         run: |
-          bun run build
+          if [ -n "${{ steps.target.outputs.archive-version }}" ]; then
+            bun run build:archive:react "${{ steps.target.outputs.archive-version }}"
+          else
+            bun run build
+          fi
 
-      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
-        run: |
-          CLOUDFLARE_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} \
-          CLOUDFLARE_API_TOKEN=${{ secrets.CF_API_TOKEN }} \
-          bun wrangler pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+      - name: Deploy docs at Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: "4.45.3"
+          command: pages deploy ./${{ steps.target.outputs.output-dir }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
+
+      - name: Verify archive deployment and branch alias
+        if: steps.target.outputs.archive-version != ''
+        env:
+          PAGES_DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          PAGES_ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+        run: bun scripts/docs-archive/verify-preview.ts

@@ -1,3 +1,5 @@
+import { ReactVersionSwitcher } from "@/components/react-version-switcher";
+import { archivePaths } from "@/lib/docs-archive";
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
@@ -12,11 +14,16 @@ export default function Layout({ children }: { children: ReactNode }) {
         SearchDialog: DefaultSearchDialog,
         options: {
           defaultTag: TAGS.react.value,
-          tags: Object.values(TAGS),
+          tags: archivePaths.prefix ? [TAGS.react] : Object.values(TAGS),
         },
       }}
     >
-      <DocsLayout {...reactOptions}>{children}</DocsLayout>
+      <DocsLayout
+        {...reactOptions}
+        sidebar={{ ...reactOptions.sidebar, banner: <ReactVersionSwitcher /> }}
+      >
+        {children}
+      </DocsLayout>
     </RootProvider>
   );
 }
