@@ -3,7 +3,8 @@ import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-lib
 import * as React from "@lynx-js/react";
 import { runOnBackground } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
-import { Accordion, useAccordionTrigger } from "./index.js";
+import { useCollapsibleTrigger } from "@seed-design/lynx-react-collapsible";
+import { Accordion } from "./index.js";
 
 function root() {
   const node = elementTree.root;
@@ -56,7 +57,7 @@ function touch(selector: string, name: string) {
 }
 
 function PressedProbe() {
-  const { pressed, triggerProps } = useAccordionTrigger();
+  const { pressed, triggerProps } = useCollapsibleTrigger();
   return <view className="pressed-probe" {...triggerProps} data-pressed={String(pressed)} />;
 }
 
@@ -186,7 +187,7 @@ describe("Accordion headless components", () => {
     render(<TestAccordion defaultValues={["first"]} />);
     const inner = node(".first-content").firstElementChild as HTMLElement;
     expect(inner).toHaveStyle({ flexShrink: "0" });
-    expect(node(".first-content")).toHaveStyle({ height: "0px", overflow: "hidden" });
+    expect(node(".first-content")).toHaveStyle({ height: "auto", overflow: "hidden" });
     act(() => fireEvent.layoutchange(inner, { height: 84 }));
     expect(node(".first-content")).toHaveStyle({ height: "84px" });
     tap(".first-trigger");
@@ -223,7 +224,7 @@ describe("Accordion headless components", () => {
         "main thread";
         runOnBackground(reports.end)();
       }
-      const { pressed, triggerProps } = useAccordionTrigger({
+      const { pressed, triggerProps } = useCollapsibleTrigger({
         "main-thread:bindtouchstart": handleTouchStart,
         "main-thread:bindtouchend": handleTouchEnd,
       });
