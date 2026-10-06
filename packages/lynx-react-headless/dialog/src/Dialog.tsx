@@ -239,14 +239,26 @@ DialogContent.displayName = "DialogContent";
 // Title / Description
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogTitleProps extends TextProps {}
+export interface DialogTitleProps extends TextProps {
+  /**
+   * @defaultValue true
+   */
+  "accessibility-heading"?: TextProps["accessibility-heading"];
+}
 
-/** 제목 native `<text>`입니다. Lynx는 Content와 제목의 접근성 연결을 제공하지 않습니다. */
+/**
+ * 제목 native `<text>`입니다. 스크린 리더가 제목으로 읽도록 `accessibility-heading`을 기본으로 켭니다.
+ * Lynx는 Content와 제목의 접근성 연결을 제공하지 않습니다.
+ */
 export const DialogTitle = React.forwardRef<unknown, DialogTitleProps>((props, ref) => {
-  const { children, ...nativeProps } = props;
+  const { children, "accessibility-heading": accessibilityHeading = true, ...nativeProps } = props;
 
   return (
-    <text {...(ref ? { ref: ref as TextProps["ref"] } : {})} {...nativeProps}>
+    <text
+      {...(ref ? { ref: ref as TextProps["ref"] } : {})}
+      {...nativeProps}
+      accessibility-heading={accessibilityHeading}
+    >
       {children}
     </text>
   );

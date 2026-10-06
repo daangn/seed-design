@@ -153,6 +153,29 @@ describe("Dialog", () => {
     expect(dialog.query(".content")?.classList.contains("ui-closed")).toBe(true);
   });
 
+  it("marks Title as an accessibility heading unless overridden", () => {
+    const { container } = render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.Title className="default-title">Title</Dialog.Title>
+            <Dialog.Title className="plain-title" accessibility-heading={false}>
+              Not a heading
+            </Dialog.Title>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>,
+    );
+    flushPresence();
+
+    expect(container.querySelector(".default-title")?.getAttribute("accessibility-heading")).toBe(
+      "true",
+    );
+    expect(container.querySelector(".plain-title")?.getAttribute("accessibility-heading")).toBe(
+      "false",
+    );
+  });
+
   it("drops transition classes with skipAnimation", () => {
     const animated = renderDialog({ defaultOpen: true }, { transition: true });
     expect(animated.query(".content")?.classList.contains("ui-entering")).toBe(false);
