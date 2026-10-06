@@ -156,6 +156,21 @@
     {
       "snippets": [
         {
+          "path": "avatar.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=1.0.0 <2.0.0",
+            "@seed-design/lynx-css": ">=1.0.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "avatar",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "badge.tsx",
           "dependencies": {
             "@seed-design/lynx-react": "^1.0.0",

@@ -132,7 +132,7 @@ export const registryUI: Registry = {
     },
     {
       id: "avatar",
-      snippets: [{ path: "avatar.tsx", dependencies: identityPlaceholderPackageRanges }],
+      snippets: [{ path: "avatar.tsx", dependencies: lynxSeedPackageRanges }],
     },
     {
       id: "identity-placeholder",
