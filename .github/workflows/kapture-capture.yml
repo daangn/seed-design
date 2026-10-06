@@ -28,7 +28,7 @@ permissions:
   contents: read
   pull-requests: read
 env:
-  KAPTURE_CLI_VERSION: "0.15.0"
+  KAPTURE_CLI_VERSION: "0.15.1"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
   KAPTURE_CACHE_RETENTION_DAYS: "7"
