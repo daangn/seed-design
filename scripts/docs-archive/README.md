@@ -104,3 +104,5 @@ bun scripts/docs-archive/deploy.ts --dry-run
 일상 배포는 Actions를 사용합니다. 로컬 실배포도 `deploy.ts`를 거쳐야 전체 원본 검사와 route 생성이 적용됩니다.
 
 1.x 보관본은 버전 메뉴에 세 새 경로를 포함하므로 세 Pages 원본을 모두 준비한 뒤 운영 Worker에 등록한다. `dev`·v2 메뉴와 CLI 주소 전환 PR은 세 공개 경로의 검증 후 반영한다. 최초 준비 PR은 원본 `1.x`가 아니라 새 `react/v1.x`를 대상으로 하며, 준비 브랜치의 CI는 `DOCS_ARCHIVE_SOURCE_BRANCH`로 보관 채널을 명시한다. 준비 브랜치의 alias를 운영 origin으로 쓰지 않고, 보관 브랜치 병합 후 CI에서 검증된 alias와 SHA를 등록한다.
+
+Pages 배포 직후 source SHA가 아직 일치하지 않으면 각 origin에서 10초 간격으로 최대 6회 검증한다. 버전·경로 불일치, dirty 산출물, HTTP·문서·자산 오류는 즉시 실패하며, SHA도 재시도 한도까지 일치하지 않으면 실패한다. 오류에는 확인한 origin과 기대·관측 SHA를 기록한다. 이 대기는 Pages preview 검증에만 적용하며, 운영 Worker의 원본 검증은 즉시 실패하는 기존 동작을 유지한다.
