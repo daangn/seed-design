@@ -6,4 +6,4 @@
 - License: MIT declaration; root LICENSE absent
 - Purpose: project development guidance only; excluded from runtime packages.
 - Source README: [UPSTREAM-README.md](UPSTREAM-README.md).
-- Local changes: project-local Korean router and seed-prefixed skill name; copied guidance moved to references/guidelines.md.
+- Local changes: project-local Korean router and seed-prefixed skill name; copied guidance moved to references/guidelines.md; router links project decision lookup and recording rules.

@@ -5,10 +5,11 @@
 ## 시작
 
 1. [학습 기록 관리 규칙](.agents/learnings/AGENTS.md)을 읽고, 작업 경로·키워드로 메타데이터를 조회한 뒤 관련 활성 교훈만 읽어 계획에 반영한다.
-2. 루트부터 대상 경로까지의 `AGENTS.md`를 모두 읽는다. 하위 문서가 더 좁은 규칙과 검증 명령을 둔다.
-3. 여러 패키지에 걸친 변경이거나 어디서 시작할지 모르면 [`ARCHITECTURE.md`](ARCHITECTURE.md)를 읽는다.
-4. 테스트·TypeScript 코드를 쓰거나 의존성·changeset·릴리스를 다루면 [`TECH.md`](TECH.md)를 읽는다.
-5. 요청과 직접 관련된 코드·설정·문서만 연다.
+2. [결정 기록 관리 규칙](.agents/decisions/AGENTS.md)에 따라 관련 확정 결정과 적용 조건을 조회하고, 계획의 선택이 일치하는지 확인한다.
+3. 루트부터 대상 경로까지의 `AGENTS.md`를 모두 읽는다. 하위 문서가 더 좁은 규칙과 검증 명령을 둔다.
+4. 여러 패키지에 걸친 변경이거나 어디서 시작할지 모르면 [`ARCHITECTURE.md`](ARCHITECTURE.md)를 읽는다.
+5. 테스트·TypeScript 코드를 쓰거나 의존성·changeset·릴리스를 다루면 [`TECH.md`](TECH.md)를 읽는다.
+6. 요청과 직접 관련된 코드·설정·문서만 연다.
 
 ## AI 개발 워크플로우
 
@@ -72,9 +73,13 @@
 
 학습 기록은 [`.agents/learnings/`](.agents/learnings/AGENTS.md)에서 관리한다. 에이전트가 작성·관리하고 사람이 검토할 수 있는 저장소 내부 기록이며, 읽기·기록·정리·커밋 절차는 해당 경로의 `AGENTS.md`를 따른다.
 
+## 결정 기록
+
+중요한 방향·계약·공유 절차의 선택은 [`.agents/decisions/`](.agents/decisions/AGENTS.md)에 이유·대안·적용 조건·사람의 확정 근거를 남긴다. 제안과 확정을 구분하고, 경험에서 얻은 교훈은 기존 learnings에 둔다.
+
 ## 문서
 
-- `AGENTS.md`: 에이전트 규칙·명령·경계. `.agents/learnings/`: 에이전트가 쌓는 교훈. `ARCHITECTURE.md`: 패키지 경계·생성 파이프라인·변경 유형별 시작 경로. `TECH.md`: 저장소 공통 기술 규칙. `README.md`·`CONTRIBUTING.md`: 사람용.
+- `AGENTS.md`: 에이전트 규칙·명령·경계. `.agents/learnings/`: 에이전트가 쌓는 교훈. `.agents/decisions/`: 방향 선택의 이유·조건·확정 근거. `ARCHITECTURE.md`: 패키지 경계·생성 파이프라인·변경 유형별 시작 경로. `TECH.md`: 저장소 공통 기술 규칙. `README.md`·`CONTRIBUTING.md`: 사람용.
 - 새 규칙은 가장 좁은 적용 경로의 `AGENTS.md`에 두고 상위 문서에 반복하지 않는다.
 - 하위 `AGENTS.md`는 `# <경로>` 제목과 1–2문장 개요로 시작하고, 내용이 있는 섹션만 둔다. 검증 명령이 있으면 `## 검증`을 맨 앞에 두고, 그 밖에는 `## 규칙`·`## 작업 절차`를 쓴다. 코드·설정으로 알 수 있는 내용과 일반론은 쓰지 않는다.
 - 에이전트 문서는 표 대신 짧은 목록, 한다체로 쓴다. 금지 규칙에는 대신 할 행동을 함께 쓴다.
