@@ -1,6 +1,7 @@
 import { appendFile } from "node:fs/promises";
+import { setTimeout as delay } from "node:timers/promises";
 import { docsBuildTarget } from "./build-target";
-import { verifyArchive } from "./verify";
+import { ArchiveSourceMismatchError, verifyArchive } from "./verify";
 
 interface PreviewOptions {
   channel: string;
@@ -10,7 +11,11 @@ interface PreviewOptions {
   aliasUrl?: string;
 }
 
-export async function verifyArchivePreview(options: PreviewOptions, fetcher: typeof fetch = fetch) {
+export async function verifyArchivePreview(
+  options: PreviewOptions,
+  fetcher: typeof fetch = fetch,
+  wait: (milliseconds: number) => Promise<void> = delay,
+) {
   const target = docsBuildTarget(options.channel);
   const version = target["archive-version"];
   if (!version) throw new Error("An archive build channel is required");
@@ -19,16 +24,25 @@ export async function verifyArchivePreview(options: PreviewOptions, fetcher: typ
   if (new URL(options.deploymentUrl).origin === new URL(options.aliasUrl).origin)
     throw new Error("Pages deployment and alias must have different origins");
   for (const origin of [options.deploymentUrl, options.aliasUrl]) {
-    await verifyArchive(
-      {
-        platform: "react",
-        version,
-        origin,
-        sourceSha: options.sourceSha,
-        probe: { document: "components/action-button", registryItem: "ui/action-button" },
-      },
-      fetcher,
-    );
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await verifyArchive(
+          {
+            platform: "react",
+            version,
+            origin,
+            sourceSha: options.sourceSha,
+            probe: { document: "components/action-button", registryItem: "ui/action-button" },
+          },
+          fetcher,
+        );
+        break;
+      } catch (error) {
+        if (!(error instanceof ArchiveSourceMismatchError) || attempt === 6) throw error;
+        console.warn(`${error.message}; retrying verification in 10s (attempt ${attempt}/6)`);
+        await wait(10_000);
+      }
+    }
   }
   return [
     "## Verified archive preview",

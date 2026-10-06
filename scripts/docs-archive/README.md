@@ -18,3 +18,5 @@ bunx @seed-design/cli add ui:action-button --baseUrl https://seed-design.io/reac
 ```
 
 이 메뉴·CLI 전환 PR은 세 1.x 공개 경로 검증 후 병합한다.
+
+Pages 배포 직후 source SHA가 아직 일치하지 않으면 각 origin에서 10초 간격으로 최대 6회 검증한다. 버전·경로 불일치, dirty 산출물, HTTP·문서·자산 오류는 즉시 실패하며, SHA도 재시도 한도까지 일치하지 않으면 실패한다. 오류에는 확인한 origin과 기대·관측 SHA를 기록한다. 이 대기는 Pages preview 검증에만 적용하며, 운영 Worker의 원본 검증은 즉시 실패하는 기존 동작을 유지한다.
