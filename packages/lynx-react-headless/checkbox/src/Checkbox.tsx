@@ -1,11 +1,9 @@
 import * as React from "@lynx-js/react";
-import { runOnBackground } from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useCheckbox, type UseCheckboxProps } from "./useCheckbox.js";
 import { CheckboxProvider, useCheckboxContext } from "./useCheckboxContext.js";
 
 type ViewProps = IntrinsicElements["view"];
-type MainThreadTouchEvent = Parameters<NonNullable<ViewProps["main-thread:bindtouchstart"]>>[0];
 
 export interface CheckboxRootProps
   extends UseCheckboxProps,
@@ -48,64 +46,27 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
   });
   const {
-    bindtap: toggle,
+    bindtap: handleTap,
     bindtouchstart: pressStart,
     bindtouchend: pressEnd,
     bindtouchcancel: pressCancel,
-    ...accessibilityProps
+    ...rootProps
   } = api.rootProps;
-
-  // Native Lynx runs both the Background and Main Thread handlers of one event, but the testing
-  // environment keeps one handler per event key. Run the consumer handler here and forward only
-  // the press state update so both environments keep the same pressed state.
-  const handleMainThreadTouchStart = mainThreadBindtouchstart
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchstart(event);
-        runOnBackground(pressStart)();
-      }
-    : undefined;
-  const handleMainThreadTouchEnd = mainThreadBindtouchend
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchend(event);
-        runOnBackground(pressEnd)();
-      }
-    : undefined;
-  const handleMainThreadTouchCancel = mainThreadBindtouchcancel
-    ? (event: MainThreadTouchEvent) => {
-        "main thread";
-        mainThreadBindtouchcancel(event);
-        runOnBackground(pressCancel)();
-      }
-    : undefined;
 
   return (
     <CheckboxProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...nativeProps}
-        {...accessibilityProps}
-        {...(!disabled && mainThreadBindtap ? { "main-thread:bindtap": mainThreadBindtap } : {})}
-        {...(handleMainThreadTouchStart
-          ? { "main-thread:bindtouchstart": handleMainThreadTouchStart }
-          : {})}
-        {...(handleMainThreadTouchEnd
-          ? { "main-thread:bindtouchend": handleMainThreadTouchEnd }
-          : {})}
-        {...(handleMainThreadTouchCancel
-          ? { "main-thread:bindtouchcancel": handleMainThreadTouchCancel }
-          : {})}
-        bindtap={
-          disabled
-            ? undefined
-            : (event) => {
-                bindtap?.(event);
-                toggle(event);
-              }
-        }
+        {...rootProps}
+        bindtap={disabled ? undefined : handleTap}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           pressStart(event);
