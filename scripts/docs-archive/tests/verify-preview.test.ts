@@ -62,6 +62,15 @@ it("verifies the checked-out SHA at both Pages URLs without a registry file", as
   );
 });
 
+it.each([options.deploymentUrl, `${options.deploymentUrl}/`, "https://FIXED.EXAMPLE.pages.dev"])(
+  "rejects deployment and alias URLs sharing an origin before fetching",
+  async (aliasUrl) => {
+    const { fetcher, origins } = fixture();
+    await expect(verifyArchivePreview({ ...options, aliasUrl }, fetcher)).rejects.toThrow();
+    expect(origins).toEqual([]);
+  },
+);
+
 it("rejects an alias still serving a different source commit", async () => {
   const { fetcher } = fixture(options.aliasUrl);
   await expect(verifyArchivePreview(options, fetcher)).rejects.toThrow();
