@@ -3,13 +3,13 @@ import { CliError } from "./error";
 /**
  * 아카이브된 SEED React 버전별 레지스트리 주소.
  *
- * 보존(아카이브)된 버전만 서브도메인 또는 버전 경로로 배포되어 있어,
+ * 보존(아카이브)된 버전만 버전 경로로 배포되어 있어,
  * 동적으로 URL을 만들지 않고 알려진 버전만 하드코딩한다. 새 버전을 아카이브하면 여기 추가한다.
  */
 const SEED_REACT_VERSION_BASE_URLS: Record<string, string> = {
-  "1.0": "https://v1-0.seed-design.io",
-  "1.1": "https://v1-1.seed-design.io",
-  "1.2": "https://v1-2.seed-design.io",
+  "1.0": "https://seed-design.io/react/v1.0",
+  "1.1": "https://seed-design.io/react/v1.1",
+  "1.2": "https://seed-design.io/react/v1.2",
   "2": "https://seed-design.io/react/v2",
 };
 

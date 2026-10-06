@@ -26,6 +26,8 @@ export function createArchivePaths(version: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}${path}` : path;
     },
     link(path: string) {
+      const legacy = path.match(/^https:\/\/v1-([012])\.seed-design\.io\/react(?=[/?#]|$)(.*)$/);
+      if (legacy) return `https://seed-design.io/react/v1.${legacy[1]}${legacy[2]}`;
       if (!prefix || !isLocal(path) || isScoped(path)) return path;
       if (/^\/react(?:[/?#]|$)/.test(path)) return `${prefix}${path.slice(6)}`;
       if (/^\/(?:llms|__registry__|__docs__|api)(?:[/.?]|$)/.test(path)) {

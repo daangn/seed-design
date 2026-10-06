@@ -15,11 +15,11 @@ import { type ComponentProps, useState } from "react";
 import clsx from "clsx";
 
 const PUBLISHED_VERSIONS = [
-  { label: "latest", url: "https://seed-design.io/react" },
+  { label: "latest (v3)", url: "https://seed-design.io/react" },
   { label: "v2", url: "https://seed-design.io/react/v2" },
-  { label: "v1.2", url: "https://v1-2.seed-design.io/react" },
-  { label: "v1.1", url: "https://v1-1.seed-design.io/react" },
-  { label: "v1.0", url: "https://v1-0.seed-design.io/react" },
+  { label: "v1.2", url: "https://seed-design.io/react/v1.2" },
+  { label: "v1.1", url: "https://seed-design.io/react/v1.1" },
+  { label: "v1.0", url: "https://seed-design.io/react/v1.0" },
 ] as const satisfies ReadonlyArray<{ label: string; url: string }>;
 
 export function getReactVersions(
@@ -39,7 +39,7 @@ export function getReactVersions(
 const VERSIONS = getReactVersions(REACT_ARCHIVE_VERSION);
 
 // The release branch embeds its archive version; regular Pages previews remain latest.
-const CURRENT_VERSION = REACT_ARCHIVE_VERSION || "latest";
+const CURRENT_VERSION = REACT_ARCHIVE_VERSION || PUBLISHED_VERSIONS[0].label;
 
 export function ReactVersionSwitcher({
   positionerContainer,

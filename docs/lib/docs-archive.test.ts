@@ -102,3 +102,13 @@ describe("documentation archive paths", () => {
     expect(() => assertReactArchiveSource(channel, version)).toThrow();
   });
 });
+
+it("moves only legacy React links and preserves deep links, queries and fragments", () => {
+  const paths = createArchivePaths("v1.2");
+  expect(
+    paths.link("https://v1-0.seed-design.io/react/components/action-button?tab=api#usage"),
+  ).toBe("https://seed-design.io/react/v1.0/components/action-button?tab=api#usage");
+  expect(paths.link("https://v1-1.seed-design.io/lynx/components/action-button")).toBe(
+    "https://v1-1.seed-design.io/lynx/components/action-button",
+  );
+});
