@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { not, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { avatar as vars } from "../vars/component";
 import type { Properties } from "csstype";
 
@@ -39,6 +39,7 @@ const avatar = defineSlotRecipe({
   slots: ["root", "image", "fallback", "badge"],
   base: {
     root: {
+      isolation: "isolate",
       boxSizing: "border-box",
       position: "relative",
       display: "inline-flex",
@@ -73,11 +74,20 @@ const avatar = defineSlotRecipe({
 
       ...mask,
 
-      [pseudo(not("[data-loading-state='loaded']"))]: {
+      [pseudo("[data-loading-state='error']")]: {
         display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
       },
     },
     fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
