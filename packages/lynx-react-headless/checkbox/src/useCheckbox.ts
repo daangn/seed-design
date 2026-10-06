@@ -4,6 +4,7 @@ import { useControllableState } from "@seed-design/lynx-react-use-controllable-s
 import { usePressTap, type UsePressTapReturn } from "@seed-design/lynx-react-use-press-tap";
 
 type ViewProps = IntrinsicElements["view"];
+type TapEvent = Parameters<NonNullable<ViewProps["bindtap"]>>[0];
 type CheckboxAccessibilityProps = Pick<
   ViewProps,
   | "accessibility-element"
@@ -31,12 +32,25 @@ export interface UseCheckboxStateProps {
   indeterminate?: boolean;
 }
 
-export interface UseCheckboxProps extends UseCheckboxStateProps, CheckboxAccessibilityProps {
+export interface UseCheckboxProps
+  extends UseCheckboxStateProps,
+    CheckboxAccessibilityProps,
+    Pick<
+      ViewProps,
+      "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
+    > {
   /**
-   * `true`이면 press와 `onCheckedChange`가 막히고 `accessibility-traits` 기본값이 `"disabled"`가 됩니다.
+   * `true`이면 press, 사용자 tap handler, `onCheckedChange`가 막히고
+   * `accessibility-traits` 기본값이 `"disabled"`가 됩니다.
    * @default false
    */
   disabled?: boolean;
+
+  /** 사용자 tap handler입니다. disabled가 아니면 선택 변경 전에 실행됩니다. */
+  bindtap?: ViewProps["bindtap"];
+
+  /** disabled가 아닐 때만 `rootProps`에 포함됩니다. */
+  "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
 }
 
 export interface UseCheckboxReturn {
@@ -51,12 +65,7 @@ export interface UseCheckboxReturn {
    * Root native view에 펼칩니다. 접근성 기본값은 사용자가 전달한 값보다 우선하지 않습니다.
    * `accessibility-value` 기본값은 indeterminate이면 `"mixed"`, 아니면 `"checked"`·`"not checked"`입니다.
    */
-  rootProps: CheckboxAccessibilityProps & {
-    bindtap: UsePressTapReturn["bindtap"];
-    bindtouchstart: UsePressTapReturn["bindtouchstart"];
-    bindtouchend: UsePressTapReturn["bindtouchend"];
-    bindtouchcancel: UsePressTapReturn["bindtouchcancel"];
-  };
+  rootProps: CheckboxAccessibilityProps & Omit<UsePressTapReturn, "pressed">;
 }
 
 /**
@@ -76,6 +85,11 @@ export function useCheckbox(props: UseCheckboxProps = {}): UseCheckboxReturn {
     "accessibility-role-description": accessibilityRoleDescription = "checkbox",
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    bindtap: onTap,
+    "main-thread:bindtap": mainThreadOnTap,
+    "main-thread:bindtouchstart": mainThreadOnTouchStart,
+    "main-thread:bindtouchend": mainThreadOnTouchEnd,
+    "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
   } = props;
 
   const [checked, setChecked] = useControllableState({
@@ -84,13 +98,28 @@ export function useCheckbox(props: UseCheckboxProps = {}): UseCheckboxReturn {
     onChange: onCheckedChange,
   });
 
-  const { pressed, bindtap, bindtouchstart, bindtouchend, bindtouchcancel } = usePressTap({
+  const { pressed, ...pressHandlers } = usePressTap({
     disabled,
-    onTap: () => {
+    onTap: (event: TapEvent) => {
       "background only";
+      onTap?.(event);
       setChecked(!checked);
     },
+    mainThreadOnTap,
+    mainThreadOnTouchStart,
+    mainThreadOnTouchEnd,
+    mainThreadOnTouchCancel,
   });
+  const {
+    bindtap,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    "main-thread:bindtap": mainThreadBindtap,
+    "main-thread:bindtouchstart": mainThreadBindtouchstart,
+    "main-thread:bindtouchend": mainThreadBindtouchend,
+    "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
+  } = pressHandlers;
 
   const resolvedAccessibilityTraits = accessibilityTraits ?? (disabled ? "disabled" : undefined);
   const resolvedAccessibilityValue =
@@ -108,6 +137,14 @@ export function useCheckbox(props: UseCheckboxProps = {}): UseCheckboxReturn {
         bindtouchstart,
         bindtouchend,
         bindtouchcancel,
+        ...(mainThreadBindtap ? { "main-thread:bindtap": mainThreadBindtap } : {}),
+        ...(mainThreadBindtouchstart
+          ? { "main-thread:bindtouchstart": mainThreadBindtouchstart }
+          : {}),
+        ...(mainThreadBindtouchend ? { "main-thread:bindtouchend": mainThreadBindtouchend } : {}),
+        ...(mainThreadBindtouchcancel
+          ? { "main-thread:bindtouchcancel": mainThreadBindtouchcancel }
+          : {}),
         "accessibility-element": accessibilityElement,
         "accessibility-role-description": accessibilityRoleDescription,
         "accessibility-traits": resolvedAccessibilityTraits,
@@ -124,6 +161,10 @@ export function useCheckbox(props: UseCheckboxProps = {}): UseCheckboxReturn {
       bindtouchstart,
       bindtouchend,
       bindtouchcancel,
+      mainThreadBindtap,
+      mainThreadBindtouchstart,
+      mainThreadBindtouchend,
+      mainThreadBindtouchcancel,
       accessibilityElement,
       accessibilityRoleDescription,
       resolvedAccessibilityTraits,
