@@ -1,4 +1,5 @@
 "use client";
+import { archivePaths } from "@/lib/docs-archive";
 
 import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
 import Link from "next/link";
@@ -10,7 +11,7 @@ export const TokenLink = ({ id, description }: { id: string; description?: strin
         target="_blank"
         onClick={(e) => e.stopPropagation()}
         className="inline"
-        href={`/docs/foundation/design-token/${encodeURIComponent(id)}`}
+        href={archivePaths.link(`/docs/foundation/design-token/${encodeURIComponent(id)}`)}
       >
         <span>{id}</span>
         <IconArrowUpRightFill size={10} className="flex-none text-current/60 ml-1 mb-0.5 inline" />

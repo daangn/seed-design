@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getGitHubSourceUrl } from "@/app/_llms/config";
 import { getReactSource } from "@/app/sources/react-source";
 import { mdxComponents } from "@/components/mdx-components";
@@ -8,7 +9,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
@@ -28,7 +30,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   );
 
   const slugsWithExt = page.slugs.map((s, i) => (i === page.slugs.length - 1 ? `${s}.txt` : s));
-  const markdownUrl = `/llms/react/${slugsWithExt.join("/")}`;
+  const markdownUrl = archivePaths.endpoint(`/llms/react/${slugsWithExt.join("/")}`);
 
   return (
     <DocsPage
@@ -55,11 +57,14 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
 export async function generateStaticParams() {
   const reactSource = await getReactSource();
-  return reactSource.generateParams();
+  return reactSource
+    .generateParams()
+    .map((params) => ({ slug: archivePaths.routeSlug(params.slug) }));
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
+  const params = { slug: archivePaths.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
@@ -73,6 +78,9 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
       : page.data.title;
 
   return {
+    alternates: {
+      canonical: `https://seed-design.io${archivePaths.reactBase}${page.slugs.length ? "/" + page.slugs.join("/") : ""}`,
+    },
     title: displayTitle,
     description: page.data.description,
   } satisfies Metadata;

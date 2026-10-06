@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import type { Root } from "fumadocs-core/page-tree";
 
 let cachedSource: Awaited<ReturnType<typeof createLoader>> | null = null;
@@ -9,7 +10,7 @@ async function createLoader() {
   const { iconHandler } = await import("./shared");
 
   return loader({
-    baseUrl: "/react",
+    baseUrl: archivePaths.reactBase,
     source: reactDocs.toFumadocsSource(),
     icon: iconHandler,
   });

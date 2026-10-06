@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { ColorGrid } from "@/components/color-grid";
 import { ComponentExample } from "@/components/component-example";
 import { ComponentGrid } from "@/components/component-grid";
@@ -37,8 +38,11 @@ import { typeTableGenerator } from "./type-table/generator";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
+const MdxLink = defaultMdxComponents.a!;
+
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
+  a: ({ href, ...props }) => <MdxLink {...props} href={href ? archivePaths.link(href) : href} />,
 
   img: ({ className, ...rest }) => (
     <ImageZoom

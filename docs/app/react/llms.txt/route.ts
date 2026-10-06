@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { getReactSource } from "@/app/sources/react-source";
@@ -36,7 +37,10 @@ export async function GET() {
           const slugsWithExt = page.slugs.map((s, i) =>
             i === page.slugs.length - 1 ? `${s}.txt` : s,
           );
-          const llmsUrl = new URL(`/llms/react/${slugsWithExt.join("/")}`, baseUrl);
+          const llmsUrl = new URL(
+            archivePaths.link(`/llms/react/${slugsWithExt.join("/")}`),
+            baseUrl,
+          );
           return `  - [${page.data.title}](${llmsUrl})`;
         })
         .sort()
@@ -55,7 +59,7 @@ React 컴포넌트 라이브러리 문서입니다.
 
 ## Quick Access
 
-- [전체 문서 (llms-full.txt)](${new URL("/react/llms-full.txt", baseUrl)}): 모든 React 문서를 하나의 파일로
+- [전체 문서 (llms-full.txt)](${new URL(archivePaths.link("/react/llms-full.txt"), baseUrl)}): 모든 React 문서를 하나의 파일로
 
 ## Categories
 
@@ -66,7 +70,7 @@ ${categoryList}
 개별 페이지는 /llms/react/{path}.txt 형태로 접근할 수 있습니다.
 
 예시:
-- ${new URL("/llms/react/components/button.txt", baseUrl)}
-- ${new URL("/llms/react/getting-started/installation.txt", baseUrl)}
+- ${new URL(archivePaths.link("/llms/react/components/button.txt"), baseUrl)}
+- ${new URL(archivePaths.link("/llms/react/getting-started/installation.txt"), baseUrl)}
 `);
 }

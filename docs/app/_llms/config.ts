@@ -1,8 +1,9 @@
+import { archivePaths, REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
 import type { Section, SectionConfig } from "./types";
 
 const GITHUB_OWNER = "daangn";
 const GITHUB_REPO = "seed-design";
-const GITHUB_BRANCH = "dev";
+const GITHUB_BRANCH = REACT_ARCHIVE_VERSION ? `react/${REACT_ARCHIVE_VERSION}` : "dev";
 
 export const sectionConfigs: Record<Section, SectionConfig> = {
   react: {
