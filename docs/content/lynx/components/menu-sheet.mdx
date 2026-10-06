@@ -213,7 +213,8 @@ Lynx `MenuSheet`는 React 버전과 다음 차이가 있습니다.
 - **Native interaction**: HTML 요소와 `onClick` 대신 native `<view>`/`<text>`와 `bindtap`을 사용합니다.
 - **Accessibility**: DOM ARIA 속성 대신 `accessibility-label`, `accessibility-role-description` 등 Lynx native 접근성 속성을 사용합니다.
 - **Close fallback**: `showCloseButton={false}`는 숨겨진 닫기 버튼을 만들지 않습니다.
-- **Close reason**: 키보드 ESC에 해당하는 `escapeKeyDown` reason은 제공하지 않습니다.
+- **Close reason**: 키보드 ESC와 상위 레이어 연쇄 닫힘이 없어 `escapeKeyDown`·`cascadeDismiss` reason은 제공하지 않습니다.
+- **Root options**: `closeOnInteractOutside`, `closeOnEscape`, `lazyMount`, `unmountOnExit`을 제공하지 않습니다. 배경 탭 닫기는 `MenuSheet.Backdrop`의 `clickToClose`, 마운트는 `MenuSheet.Positioner`의 `forceMount`로 제어합니다.
 - **Imperative ref**: Root ref로 `open`, `close`, `snapTo`, `expand`, `collapse`를 호출할 수 있으며, 이 변경은 `onOpenChange`로 알리지 않습니다.
 - **Portal / overlay**: React Registry의 `layerIndex` 대신 `MenuSheetContent`의 `container`, `overlayLevel`을 사용합니다. native 속성은 `MenuSheet.Positioner`의 `nativeProps`로 전달합니다.
 </Callout>
