@@ -111,63 +111,122 @@ describe("List", () => {
     );
   });
 
-  it("uses the existing checkbox and switch state", () => {
-    const onCheckedChange = vi.fn();
-
+  it("exposes each control row as one accessibility element with the control contract", () => {
     render(
       <List.Root>
-        <List.CheckboxItem className="checkbox-item" onCheckedChange={onCheckedChange}>
-          <List.Content>
-            <List.Title>체크</List.Title>
-          </List.Content>
+        <List.CheckboxItem className="checkbox-item" indeterminate accessibility-label="체크">
+          <List.Title>체크</List.Title>
+          <List.Suffix>
+            <Checkbox.Control />
+          </List.Suffix>
         </List.CheckboxItem>
-        <List.SwitchItem className="switch-item">
-          <List.Content>
-            <List.Title>스위치</List.Title>
-          </List.Content>
+        <List.SwitchItem className="switch-item" accessibility-label="스위치">
+          <List.Title>스위치</List.Title>
+          <List.Suffix>
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </List.Suffix>
         </List.SwitchItem>
+        <HeadlessRadioGroup.Root defaultValue="first">
+          <List.RadioItem value="first" className="first-radio" accessibility-label="첫 번째">
+            <List.Title>첫 번째</List.Title>
+          </List.RadioItem>
+          <List.RadioItem value="second" className="second-radio" accessibility-label="두 번째">
+            <List.Title>두 번째</List.Title>
+            <List.Suffix>
+              <RadioGroup.ItemControl>
+                <RadioGroup.ItemIndicator />
+              </RadioGroup.ItemControl>
+            </List.Suffix>
+          </List.RadioItem>
+        </HeadlessRadioGroup.Root>
       </List.Root>,
     );
 
     const checkbox = getListItem("checkbox-item");
-    const checkboxRoot = checkbox.parentElement as HTMLElement;
-    expect(checkbox).toHaveAttribute("accessibility-value", "선택 안 됨");
-    fireEvent.tap(checkboxRoot);
-    expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(checkbox).toHaveAttribute("accessibility-value", "선택됨");
-
     const switchItem = getListItem("switch-item");
-    const switchRoot = switchItem.parentElement as HTMLElement;
-    expect(switchItem).toHaveAttribute("accessibility-value", "꺼짐");
-    fireEvent.tap(switchRoot);
-    expect(switchItem).toHaveAttribute("accessibility-value", "켜짐");
-  });
-
-  it("uses radio-group selection state", () => {
-    render(
-      <HeadlessRadioGroup.Root defaultValue="first">
-        <List.RadioItem value="first" className="first-radio">
-          <List.Content>
-            <List.Title>첫 번째</List.Title>
-          </List.Content>
-        </List.RadioItem>
-        <List.RadioItem value="second" className="second-radio">
-          <List.Content>
-            <List.Title>두 번째</List.Title>
-          </List.Content>
-        </List.RadioItem>
-      </HeadlessRadioGroup.Root>,
-    );
-
     const first = getListItem("first-radio");
     const second = getListItem("second-radio");
-    expect(first).toHaveAttribute("accessibility-value", "선택됨");
-    expect(second).toHaveAttribute("accessibility-value", "선택 안 됨");
 
-    fireEvent.tap(second.parentElement as HTMLElement);
-    expect(first).toHaveAttribute("accessibility-value", "선택 안 됨");
-    expect(second).toHaveAttribute("accessibility-value", "선택됨");
+    for (const [row, label, role] of [
+      [checkbox, "체크", "checkbox"],
+      [switchItem, "스위치", "switch"],
+      [second, "두 번째", "radio"],
+    ] as const) {
+      expect(row).toHaveAttribute("accessibility-element", "true");
+      expect(row).toHaveAttribute("accessibility-label", label);
+      expect(row).toHaveAttribute("accessibility-role-description", role);
+      expect(row.querySelectorAll('[accessibility-element="true"]')).toHaveLength(0);
+    }
+
+    expect(checkbox).toHaveAttribute("accessibility-value", "mixed");
+    expect(checkbox.querySelector(".seed-checkmark__root")).toHaveClass(
+      "seed-checkmark__root--indeterminate_true",
+    );
+
+    expect(switchItem).toHaveAttribute("accessibility-value", "not checked");
+    fireEvent.tap(switchItem);
+    expect(switchItem).toHaveAttribute("accessibility-value", "checked");
+    expect(switchItem.querySelector(".seed-switchmark__root")).toHaveClass(
+      "seed-switchmark__root--checked_true",
+    );
+
+    expect(first).toHaveAttribute("accessibility-value", "selected");
+    expect(second).toHaveAttribute("accessibility-value", "not selected");
+    fireEvent.tap(second);
+    expect(first).toHaveAttribute("accessibility-value", "not selected");
+    expect(second).toHaveAttribute("accessibility-value", "selected");
+    expect(second.querySelector(".seed-radiomark__root")).toHaveClass(
+      "seed-radiomark__root--checked_true",
+    );
   });
+
+  it("keeps controlled checkbox values with the parent and blocks disabled rows", () => {
+    const onCheckedChange = vi.fn();
+    const onSwitchChange = vi.fn();
+    const onValueChange = vi.fn();
+
+    render(
+      <List.Root>
+        <List.CheckboxItem
+          className="checkbox-item"
+          checked={false}
+          onCheckedChange={onCheckedChange}
+        >
+          <List.Title>체크</List.Title>
+        </List.CheckboxItem>
+        <List.SwitchItem className="switch-item" disabled onCheckedChange={onSwitchChange}>
+          <List.Title>스위치</List.Title>
+        </List.SwitchItem>
+        <HeadlessRadioGroup.Root disabled defaultValue="first" onValueChange={onValueChange}>
+          <List.RadioItem value="second" className="second-radio">
+            <List.Title>두 번째</List.Title>
+          </List.RadioItem>
+        </HeadlessRadioGroup.Root>
+      </List.Root>,
+    );
+
+    const checkbox = getListItem("checkbox-item");
+    fireEvent.tap(checkbox);
+    expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(checkbox).toHaveAttribute("accessibility-value", "not checked");
+
+    const switchItem = getListItem("switch-item");
+    fireEvent.tap(switchItem);
+    expect(onSwitchChange).not.toHaveBeenCalled();
+    expect(switchItem).toHaveAttribute("accessibility-traits", "disabled");
+
+    const second = getListItem("second-radio");
+    fireEvent.tap(second);
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(second).toHaveAttribute("accessibility-value", "not selected");
+    expect(second).toHaveAttribute("accessibility-traits", "disabled");
+    expect(second.querySelector(".seed-list-item__title")).toHaveClass(
+      "seed-list-item__title--disabled_true",
+    );
+  });
+
   it("scales only interactive row content and suppresses nested control targets", () => {
     render(
       <List.Root>

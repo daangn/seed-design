@@ -4,6 +4,17 @@ import clsx from "clsx";
 import { list } from "@seed-design/lynx-css/recipes/list";
 import { listHeader, type ListHeaderVariantProps } from "@seed-design/lynx-css/recipes/list-header";
 import { listItem, type ListItemVariantProps } from "@seed-design/lynx-css/recipes/list-item";
+import {
+  CheckboxProvider,
+  useCheckbox,
+  type UseCheckboxProps,
+} from "@seed-design/lynx-react-checkbox";
+import {
+  RadioGroupItemProvider,
+  useRadioGroupItem,
+  type UseRadioGroupItemProps,
+} from "@seed-design/lynx-react-radio-group";
+import { SwitchProvider, useSwitch, type UseSwitchProps } from "@seed-design/lynx-react-switch";
 
 import { ScaleFeedbackContentContext } from "../../contexts";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
@@ -18,18 +29,7 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import {
-  CheckboxRoot,
-  type CheckboxRootProps,
-  useStyledCheckboxContext,
-} from "../Checkbox/Checkbox";
 import { IconSlotProvider } from "../Icon/Icon";
-import {
-  RadioGroupItem,
-  type RadioGroupItemProps,
-  useStyledRadioGroupItemContext,
-} from "../RadioGroup/RadioGroup";
-import { SwitchRoot, type SwitchRootProps, useStyledSwitchContext } from "../Switch/Switch";
 
 type PublicListItemVariantProps = Omit<
   ListItemVariantProps,
@@ -37,40 +37,6 @@ type PublicListItemVariantProps = Omit<
 >;
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(listItem);
-
-function splitAccessibilityProps<T extends LynxAccessibilityProps>(props: T) {
-  const {
-    "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-element": accessibilityElement,
-    "accessibility-value": accessibilityValue,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-    "accessibility-heading": accessibilityHeading,
-    "accessibility-actions": accessibilityActions,
-    "accessibility-exclusive-focus": accessibilityExclusiveFocus,
-    "ios-platform-accessibility-id": iosPlatformAccessibilityId,
-    ...restProps
-  } = props;
-
-  return [
-    {
-      "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits,
-      "accessibility-element": accessibilityElement,
-      "accessibility-value": accessibilityValue,
-      "accessibility-role-description": accessibilityRoleDescription,
-      "accessibility-elements-hidden": accessibilityElementsHidden,
-      "accessibility-heading": accessibilityHeading,
-      ...(accessibilityActions === undefined
-        ? {}
-        : { "accessibility-actions": accessibilityActions }),
-      "accessibility-exclusive-focus": accessibilityExclusiveFocus,
-      "ios-platform-accessibility-id": iosPlatformAccessibilityId,
-    },
-    restProps,
-  ] as const;
-}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -213,183 +179,150 @@ ListButtonItem.displayName = "ListButtonItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ListCheckboxItemSurfaceProps
-  extends PublicListItemVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
-
-function ListCheckboxItemSurface(props: ListCheckboxItemSurfaceProps) {
-  const context = useStyledCheckboxContext("ListCheckboxItem");
-
-  return (
-    <ListItemSurface
-      {...props}
-      disabled={context.disabled}
-      pressed={context.pressed}
-      scaleFeedbackTargetProps={context.scaleFeedbackTargetProps}
-      accessibility-element={props["accessibility-element"] ?? true}
-      accessibility-role-description={props["accessibility-role-description"] ?? "checkbox"}
-      accessibility-value={
-        props["accessibility-value"] ?? (context.checked ? "선택됨" : "선택 안 됨")
-      }
-      accessibility-traits={
-        props["accessibility-traits"] ?? (context.disabled ? "disabled" : "button")
-      }
-    />
-  );
-}
+// Checkbox·Radio·Switch 행은 각 control의 Headless hook 결과를 행 root 하나에 연결하고 Provider로
+// 내려준다. 행 자체가 control이므로 접근성 요소도 하나이며 값은 control 계약을 따른다.
+// suffix의 Checkbox.Control 등은 이 Provider에서 상태를 읽는다.
 
 export interface ListCheckboxItemProps
   extends PublicListItemVariantProps,
-    Omit<CheckboxRootProps, "children" | "className" | "style" | "disabled">,
+    Pick<
+      UseCheckboxProps,
+      "checked" | "defaultChecked" | "onCheckedChange" | "indeterminate" | "disabled"
+    >,
     LynxStyledElementProps,
-    LynxAccessibilityProps {
-  disabled?: boolean;
-}
+    LynxAccessibilityProps {}
 
 export const ListCheckboxItem = React.forwardRef<unknown, ListCheckboxItemProps>((props, ref) => {
-  const { children, className, style, disabled = false, ...restProps } = props;
-  const [variantProps, remainingProps] = listItem.splitVariantProps(restProps);
-  const [accessibilityProps, checkboxProps] = splitAccessibilityProps(remainingProps);
-  const interactionRootClassName = listItem().interactionRoot;
+  const {
+    checked,
+    defaultChecked,
+    onCheckedChange,
+    indeterminate,
+    disabled = false,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+    ...restProps
+  } = props;
+  const api = useCheckbox({
+    checked,
+    defaultChecked,
+    onCheckedChange,
+    indeterminate,
+    disabled,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+  });
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   return (
-    <CheckboxRoot
-      ref={ref}
-      {...checkboxProps}
-      disabled={disabled}
-      className={interactionRootClassName}
-    >
-      <ListCheckboxItemSurface
-        {...variantProps}
-        className={className}
-        style={style}
-        {...accessibilityProps}
-      >
-        {children}
-      </ListCheckboxItemSurface>
-    </CheckboxRoot>
+    <CheckboxProvider value={api}>
+      <ListItemSurface
+        ref={ref}
+        disabled={disabled}
+        pressed={api.pressed}
+        scaleFeedbackTargetProps={scaleFeedbackTargetProps}
+        {...mergeProps(scaleFeedbackTriggerProps, rootProps, restProps)}
+      />
+    </CheckboxProvider>
   );
 });
 ListCheckboxItem.displayName = "ListCheckboxItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ListRadioItemSurfaceProps
-  extends PublicListItemVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
-
-function ListRadioItemSurface(props: ListRadioItemSurfaceProps) {
-  const context = useStyledRadioGroupItemContext("ListRadioItem");
-
-  return (
-    <ListItemSurface
-      {...props}
-      disabled={context.disabled}
-      pressed={context.pressed}
-      scaleFeedbackTargetProps={context.scaleFeedbackTargetProps}
-      accessibility-element={props["accessibility-element"] ?? true}
-      accessibility-role-description={props["accessibility-role-description"] ?? "radio"}
-      accessibility-value={
-        props["accessibility-value"] ?? (context.checked ? "선택됨" : "선택 안 됨")
-      }
-      accessibility-traits={
-        props["accessibility-traits"] ?? (context.disabled ? "disabled" : "button")
-      }
-    />
-  );
-}
-
 export interface ListRadioItemProps
   extends PublicListItemVariantProps,
-    Omit<
-      RadioGroupItemProps,
-      "children" | "className" | "style" | "disabled" | "weight" | "size" | "tone"
-    >,
+    Pick<UseRadioGroupItemProps, "value" | "disabled">,
     LynxStyledElementProps,
-    LynxAccessibilityProps {
-  disabled?: boolean;
-}
+    LynxAccessibilityProps,
+    LynxPressableProps {}
 
 export const ListRadioItem = React.forwardRef<unknown, ListRadioItemProps>((props, ref) => {
-  const { children, className, style, disabled = false, value, ...restProps } = props;
-  const [variantProps, remainingProps] = listItem.splitVariantProps(restProps);
-  const [accessibilityProps, radioProps] = splitAccessibilityProps(remainingProps);
-  const interactionRootClassName = listItem().interactionRoot;
+  const {
+    value,
+    disabled,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+    ...restProps
+  } = props;
+  const api = useRadioGroupItem({
+    value,
+    disabled,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
+  });
+  // Press state follows the Scale Feedback touch handlers, as in RadioGroupItem.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: api.disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   return (
-    <RadioGroupItem
-      ref={ref}
-      {...radioProps}
-      value={value}
-      disabled={disabled}
-      className={interactionRootClassName}
-    >
-      <ListRadioItemSurface
-        {...variantProps}
-        className={className}
-        style={style}
-        {...accessibilityProps}
-      >
-        {children}
-      </ListRadioItemSurface>
-    </RadioGroupItem>
+    <RadioGroupItemProvider value={api}>
+      <ListItemSurface
+        ref={ref}
+        disabled={api.disabled}
+        pressed={api.pressed}
+        scaleFeedbackTargetProps={scaleFeedbackTargetProps}
+        {...mergeProps(scaleFeedbackTriggerProps, restProps, itemProps)}
+      />
+    </RadioGroupItemProvider>
   );
 });
 ListRadioItem.displayName = "ListRadioItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ListSwitchItemSurfaceProps
+export interface ListSwitchItemProps
   extends PublicListItemVariantProps,
+    Pick<UseSwitchProps, "checked" | "defaultChecked" | "onCheckedChange" | "disabled">,
     LynxStyledElementProps,
     LynxAccessibilityProps {}
 
-function ListSwitchItemSurface(props: ListSwitchItemSurfaceProps) {
-  const context = useStyledSwitchContext("ListSwitchItem");
-
-  return (
-    <ListItemSurface
-      {...props}
-      disabled={context.disabled}
-      pressed={context.pressed}
-      scaleFeedbackTargetProps={context.scaleFeedbackTargetProps}
-      accessibility-element={props["accessibility-element"] ?? true}
-      accessibility-role-description={props["accessibility-role-description"] ?? "switch"}
-      accessibility-value={props["accessibility-value"] ?? (context.checked ? "켜짐" : "꺼짐")}
-      accessibility-traits={
-        props["accessibility-traits"] ?? (context.disabled ? "disabled" : "button")
-      }
-    />
-  );
-}
-
-export interface ListSwitchItemProps
-  extends PublicListItemVariantProps,
-    Omit<SwitchRootProps, "children" | "className" | "style" | "disabled">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
-  disabled?: boolean;
-}
-
 export const ListSwitchItem = React.forwardRef<unknown, ListSwitchItemProps>((props, ref) => {
-  const { children, className, style, disabled = false, ...restProps } = props;
-  const [variantProps, remainingProps] = listItem.splitVariantProps(restProps);
-  const [accessibilityProps, switchProps] = splitAccessibilityProps(remainingProps);
-  const interactionRootClassName = listItem().interactionRoot;
+  const { checked, defaultChecked, onCheckedChange, disabled = false, ...restProps } = props;
+  const api = useSwitch({ checked, defaultChecked, onCheckedChange, disabled });
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   return (
-    <SwitchRoot ref={ref} {...switchProps} disabled={disabled} className={interactionRootClassName}>
-      <ListSwitchItemSurface
-        {...variantProps}
-        className={className}
-        style={style}
-        {...accessibilityProps}
-      >
-        {children}
-      </ListSwitchItemSurface>
-    </SwitchRoot>
+    <SwitchProvider value={api}>
+      <ListItemSurface
+        ref={ref}
+        disabled={disabled}
+        pressed={api.pressed}
+        scaleFeedbackTargetProps={scaleFeedbackTargetProps}
+        {...mergeProps(scaleFeedbackTriggerProps, rootProps, restProps)}
+      />
+    </SwitchProvider>
   );
 });
 ListSwitchItem.displayName = "ListSwitchItem";

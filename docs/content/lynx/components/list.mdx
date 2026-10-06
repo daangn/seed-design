@@ -168,7 +168,7 @@ Lynx에는 HTML anchor에 해당하는 기본 요소가 없습니다. 링크 이
 
 ### Accessibility
 
-`ListButtonItem`은 기본적으로 button 역할과 문자열 `title` 기반의 접근성 이름을 제공합니다. 선택 항목은 현재 선택 여부를 `accessibility-value`로 전달합니다. `ListRadioItem`을 안내 정보 없이 조합할 때는 `@seed-design/lynx-react-radio-group`의 `RadioGroup.Root` 안에서 사용하고 그룹의 접근성 이름도 지정하세요. Styled `RadioGroup.Root`는 선택 상태를 제공하지 않습니다.
+`ListButtonItem`은 기본적으로 button 역할과 문자열 `title` 기반의 접근성 이름을 제공합니다. 선택 항목은 항목 전체가 하나의 접근성 요소이며, 역할과 값은 각 컨트롤과 같습니다. `ListCheckItem`은 `checkbox` 역할과 `checked`·`not checked`·`mixed`(indeterminate), `ListSwitchItem`은 `switch` 역할과 `checked`·`not checked`, `ListRadioItem`은 `radio` 역할과 `selected`·`not selected`를 `accessibility-value`로 전달합니다. `ListRadioItem`을 안내 정보 없이 조합할 때는 `@seed-design/lynx-react-radio-group`의 `RadioGroup.Root` 안에서 사용하고 그룹의 접근성 이름도 지정하세요. Styled `RadioGroup.Root`는 선택 상태를 제공하지 않습니다.
 
 ```tsx
 import { List, ListRadioItem } from "@/components/ui/list";
@@ -323,7 +323,7 @@ import { ListCheckItem } from "@/components/ui/list";
 | 접근성 | HTML 시맨틱과 ARIA | `accessibility-*` |
 | 링크 항목 | `ListLinkItem` | `ListButtonItem`에서 앱 라우터 호출 |
 | 다형 렌더링 | `as`, `asChild` | 미지원 |
-| 선택 컨트롤 | hidden input | Lynx 상태와 접근성 값 공유 |
+| 선택 컨트롤 | hidden input | 항목 root가 컨트롤의 상태와 접근성 값을 소유 |
 
 ## Lynx 미지원 기능
 

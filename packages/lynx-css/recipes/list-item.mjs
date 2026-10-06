@@ -3,10 +3,6 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const listItemSlotNames = [
   [
-    "interactionRoot",
-    "seed-list-item__interactionRoot"
-  ],
-  [
     "root",
     "seed-list-item__root"
   ],
