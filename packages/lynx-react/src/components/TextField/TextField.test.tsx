@@ -2,10 +2,10 @@ import "@testing-library/jest-dom";
 import { createRef, useState } from "@lynx-js/react";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
+import { KeyboardAvoidingScrollViewProvider } from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Field } from "../Field";
-import { KeyboardAvoidanceActionsContext } from "../KeyboardAvoidingScrollView/context";
 import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED } from "./context";
 import { TextField } from "./index";
 
@@ -639,13 +639,13 @@ describe("TextField", () => {
     };
 
     render(
-      <KeyboardAvoidanceActionsContext.Provider value={actions}>
+      <KeyboardAvoidingScrollViewProvider value={actions}>
         <Field.Root>
           <TextField.Root>
             <TextField.Input ref={inputRef} />
           </TextField.Root>
         </Field.Root>
-      </KeyboardAvoidanceActionsContext.Provider>,
+      </KeyboardAvoidingScrollViewProvider>,
     );
 
     if (!inputRef.current) throw new Error("Expected native input ref to exist.");
@@ -766,7 +766,7 @@ describe("TextField", () => {
       unregister: vi.fn(),
     };
     render(
-      <KeyboardAvoidanceActionsContext.Provider value={actions}>
+      <KeyboardAvoidingScrollViewProvider value={actions}>
         <TextField.Root defaultValue={"첫 줄\n둘째 줄\n"}>
           <TextField.Textarea
             ref={textareaRef}
@@ -775,7 +775,7 @@ describe("TextField", () => {
             bindlayoutchange={bindlayoutchange}
           />
         </TextField.Root>
-      </KeyboardAvoidanceActionsContext.Provider>,
+      </KeyboardAvoidingScrollViewProvider>,
     );
 
     const root = getRenderedRoot();
@@ -876,11 +876,11 @@ describe("TextField", () => {
       unregister: vi.fn(),
     };
     render(
-      <KeyboardAvoidanceActionsContext.Provider value={actions}>
+      <KeyboardAvoidingScrollViewProvider value={actions}>
         <TextField.Root defaultValue={"첫 줄\n"}>
           <TextField.Textarea ref={textareaRef} bindlayoutchange={bindlayoutchange} />
         </TextField.Root>
-      </KeyboardAvoidanceActionsContext.Provider>,
+      </KeyboardAvoidingScrollViewProvider>,
     );
 
     const root = getRenderedRoot();
