@@ -8,7 +8,7 @@ import {
   hasMeaningfulGeometryChange,
   selectLargestFittingTarget,
   type VerticalRect,
-} from "./geometry";
+} from "./geometry.js";
 
 function rect(top: number, height: number): VerticalRect {
   return { top, bottom: top + height };
