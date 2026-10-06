@@ -204,7 +204,6 @@ export const select = defineSlotRecipe({
   name: "select",
   slots: [
     "positioner",
-    "backdrop",
     "content",
     "scrollArea",
     "scrollContent",
@@ -213,20 +212,10 @@ export const select = defineSlotRecipe({
     "separator",
   ],
   base: {
+    // Headless SelectPositioner가 모드별 배치(position·inset·크기)와 닫힌 동안의 숨김을 inline으로 정합니다.
+    // `container`가 없을 때 같은 화면의 형제 요소 위에 그리도록 z-index만 둡니다.
     positioner: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 0,
-    },
-    backdrop: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      zIndex: 99,
     },
     content: {
       position: "absolute",

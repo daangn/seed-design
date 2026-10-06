@@ -1,0 +1,81 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-select만 소비하는 화면의 스타일 */
+
+.select-headless-trigger {
+  display: flex;
+  align-self: stretch;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d1d3d8;
+  background-color: #ffffff;
+}
+
+.select-headless-trigger-label {
+  font-size: 15px;
+  color: #1a1c20;
+}
+
+.select-headless-trigger-placeholder {
+  font-size: 15px;
+  color: #868b94;
+}
+
+.select-headless-underlying {
+  display: flex;
+  align-self: flex-start;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #eeeff1;
+}
+
+.select-headless-positioner {
+  z-index: 99;
+}
+
+.select-headless-content {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.select-headless-list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.select-headless-group-label {
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #868b94;
+}
+
+.select-headless-item-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+.select-headless-pressed {
+  background-color: #eeeff1;
+}
+
+.select-headless-label {
+  font-size: 15px;
+  color: #1a1c20;
+}
+
+.select-headless-label-disabled {
+  color: #d1d3d8;
+}
+
+.select-headless-check {
+  font-size: 15px;
+  color: #ff6f0f;
+}

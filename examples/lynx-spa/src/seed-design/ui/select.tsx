@@ -171,15 +171,34 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>(
 );
 SelectTrigger.displayName = "SelectTrigger";
 
-export interface SelectContentProps extends SeedSelect.ContentProps {}
+export interface SelectContentProps extends SeedSelect.ContentProps {
+  /**
+   * 지정하면 Lynx view 밖까지 덮는 native overlay에 렌더링합니다. 생략하면 Lynx view 안의 고정 native
+   * `view`로 렌더링합니다.
+   */
+  container?: SeedSelect.PositionerProps["container"];
+
+  overlayLevel?: SeedSelect.PositionerProps["overlayLevel"];
+}
 
 /**
- * Native overlay, 위치 계산, 표시 수명과 긴 목록의 scroll viewport를 함께 구성합니다.
- * 자식에 별도 Positioner나 ScrollArea를 추가하지 마세요.
+ * 목록 레이어(Positioner), 위치를 계산하는 표면(Content)과 긴 목록의 스크롤 영역(ScrollArea)을
+ * 조립합니다. 자식에 별도 Positioner나 ScrollArea를 추가하지 마세요.
  *
  * @see https://seed-design.io/lynx/components/select
  */
-export const SelectContent = SeedSelect.Content;
+export const SelectContent = React.forwardRef<unknown, SelectContentProps>(
+  ({ children, container, overlayLevel, ...otherProps }, ref) => {
+    return (
+      <SeedSelect.Positioner container={container} overlayLevel={overlayLevel}>
+        <SeedSelect.Content ref={ref} {...otherProps}>
+          <SeedSelect.ScrollArea>{children}</SeedSelect.ScrollArea>
+        </SeedSelect.Content>
+      </SeedSelect.Positioner>
+    );
+  },
+);
+SelectContent.displayName = "SelectContent";
 
 export interface SelectGroupProps extends SeedSelect.GroupProps {
   label?: React.ReactNode;

@@ -1,6 +1,6 @@
 ---
 title: Select
-description: 트리거를 눌러 native overlay의 목록에서 값을 선택하는 컴포넌트입니다.
+description: 트리거를 눌러 목록에서 값을 선택하는 컴포넌트입니다.
 compatibility:
   lynx:
     engine: "3.9"
@@ -26,7 +26,7 @@ npx @seed-design/cli@latest add ui:select
 
 ## Usage
 
-`SelectContent`는 native overlay, 위치 계산, 표시 수명과 긴 목록의 scroll viewport를 함께 소유합니다.
+`SelectContent`는 목록 레이어, 위치 계산, 표시 수명과 긴 목록의 scroll viewport를 함께 구성합니다. 레이어는 기본으로 Lynx view 안에 그리고, `container`를 지정하면 native overlay에 그립니다.
 
 ```tsx
 import {
@@ -61,7 +61,7 @@ export function App() {
 - `SelectGroup`은 관련 항목을 묶습니다. 여러 그룹 사이에는 구분선이 표시되고 `label`은 그룹 제목을 만듭니다.
 - `SelectItem`은 label, 선택적 description, prefix icon과 기본 checkmark indicator를 조합합니다. `selectedIndicator`로 checkmark를 교체할 수 있습니다.
 
-낮은 수준의 조합이 필요하면 `Select` namespace의 `Root`, `Trigger`, `Value`, `Placeholder`, `PrefixIcon`, `SuffixIcon`, `Content`, `ScrollArea`, `Group`, `GroupLabel`, `Item`, `ItemPrefixIcon`, `ItemBody`, `ItemLabel`, `ItemDescription`, `ItemIndicator`를 사용하세요. 같은 API는 `SelectRoot`, `SelectTrigger`처럼 `Select` 접두어가 붙은 flat export로도 제공합니다.
+낮은 수준의 조합이 필요하면 `Select` namespace의 `Root`, `Trigger`, `Value`, `Placeholder`, `PrefixIcon`, `SuffixIcon`, `Positioner`, `Content`, `ScrollArea`, `Group`, `GroupLabel`, `Item`, `ItemPrefixIcon`, `ItemBody`, `ItemLabel`, `ItemDescription`, `ItemIndicator`를 사용하세요. 목록은 `Positioner > Content > ScrollArea` 순서로 조립합니다. 같은 API는 `SelectRoot`, `SelectTrigger`처럼 `Select` 접두어가 붙은 flat export로도 제공합니다.
 
 ## Props
 
@@ -199,9 +199,25 @@ export function App() {
   ```
 </LynxComponentExample>
 
+### Container
+
+`container`를 지정하지 않으면 Select 레이어는 Lynx view 안의 `position: fixed` view로 렌더링되고, z-index `99`로 같은 화면의 형제 요소 위에 그려집니다. `container="window"`처럼 native container 이름을 지정하면 native overlay에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay의 표시 순서를 정합니다.
+
+두 방식 모두 레이어 바깥을 탭하면 아래 화면에 탭을 전달하지 않고 `"interactOutside"` reason으로 닫힙니다. 닫힌 동안에도 레이어를 숨긴 채 유지하므로 열기 전에도 `defaultValue`의 label과 아이콘을 trigger에 표시합니다.
+
+<LynxComponentExample name="lynx/select/container" height={400}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/select/container.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ### `onOpenChange` Details
 
-`onOpenChange`의 두 번째 인자는 상태를 바꾼 이유를 제공합니다. 열림 이유는 `trigger`이고, 닫힘 이유는 `trigger`, `itemSelect`, `interactOutside`, `dismiss`입니다.
+`onOpenChange`의 두 번째 인자는 상태를 바꾼 이유와 native event를 제공합니다.
+
+- 열림: `"trigger"`
+- 닫힘: `"trigger"`, `"itemSelect"`, `"interactOutside"`
+- `container`를 지정한 native overlay가 닫힘을 요청한 경우(Android 뒤로 가기): `"dismiss"`. `container`가 없으면 전달하지 않으며, Android 뒤로 가기는 Select가 아니라 host 화면을 닫습니다.
 
 <LynxComponentExample name="lynx/select/open-change-reason" height={400}>
   ```json doc-gen:file
@@ -211,7 +227,7 @@ export function App() {
 
 ### Custom Value Format
 
-`formatValue`로 trigger에 표시할 선택 값을 바꿉니다. callback은 `value`, `label`, `textValue`, `prefixIcon`을 담은 선택 item 배열을 받습니다.
+`formatValue`로 trigger에 표시할 선택 값을 바꿉니다. callback은 `value`, `label`, `textValue`, `icon`, `resolved`를 담은 선택 item 배열을 받습니다. `icon`은 `SelectItem`의 `prefixIcon`이고, 목록에 없는 값은 `resolved: false`로 전달합니다.
 
 <LynxComponentExample name="lynx/select/format-value" height={400}>
   ```json doc-gen:file
@@ -240,13 +256,13 @@ Lynx에는 HTML `<form>`과 native `<select>` 제출 모델이 없습니다. 선
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx Select는 native <code>overlay</code> 위에 렌더링됩니다. HTML DOM의 focus와 form 모델 대신 native tap, overlay dismissal, <code>accessibility-*</code> 속성과 앱 상태를 사용합니다.
+Lynx Select는 Lynx view 안의 native <code>view</code> 레이어에 렌더링하고, <code>container</code>를 지정하면 native <code>overlay</code>에 렌더링합니다. HTML DOM의 focus와 form 모델 대신 native tap, overlay dismissal, <code>accessibility-*</code> 속성과 앱 상태를 사용합니다.
 </Callout>
 
 | 항목 | React | Lynx |
 | --- | --- | --- |
 | Trigger 조합 | `asChild`와 DOM button 조합 | native `SelectTrigger`를 사용 |
-| 위치와 긴 목록 | DOM positioner와 scroll area | `SelectContent`가 native overlay, 위치 계산, scroll viewport를 함께 소유 |
+| 위치와 긴 목록 | DOM positioner와 scroll area | `SelectContent`가 레이어(`Positioner`), 위치 계산, scroll viewport를 함께 조립. 레이어는 기본 native `view`, `container` 지정 시 native overlay |
 | 열림 이유 | keyboard/focus를 포함한 DOM 상호작용 | `trigger`, `itemSelect`, `interactOutside`, `dismiss` |
 | 키보드 | focus, typeahead, Escape로 닫기 | 현재 Lynx Select에서 지원하지 않음 |
 | 접근성 | DOM ARIA id 연결 | `SelectRoot` 또는 `SelectTrigger`의 `accessibility-label`과 item의 native 접근성 속성 사용 |
