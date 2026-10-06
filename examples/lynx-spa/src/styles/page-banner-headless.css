@@ -1,0 +1,91 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-page-banner만 소비하는 화면의 스타일 */
+
+.page-banner-headless-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page-banner-headless-root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #eef3ff;
+}
+
+.page-banner-headless-body,
+.page-banner-headless-body-pressed {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0px;
+  gap: 2px;
+}
+
+.page-banner-headless-body-pressed {
+  opacity: 0.5;
+}
+
+.page-banner-headless-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1c20;
+}
+
+.page-banner-headless-description {
+  font-size: 13px;
+  color: #555d6d;
+}
+
+.page-banner-headless-action {
+  display: flex;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: #2a65f8;
+}
+
+.page-banner-headless-action-text {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.page-banner-headless-close,
+.page-banner-headless-close-pressed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+}
+
+.page-banner-headless-close-pressed {
+  background-color: #c9d6f5;
+}
+
+.page-banner-headless-close-text {
+  font-size: 14px;
+  color: #1a1c20;
+}
+
+.page-banner-headless-log {
+  font-size: 13px;
+  color: #1a1c20;
+}
+
+.page-banner-headless-reset {
+  display: flex;
+  align-self: flex-start;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #212124;
+}
+
+.page-banner-headless-reset-text {
+  font-size: 13px;
+  color: #ffffff;
+}
