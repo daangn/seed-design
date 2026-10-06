@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
-import { useAccordionItemContext } from "./useAccordionItemContext.js";
+import { useCollapsibleContext } from "./useCollapsibleContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type TriggerAccessibilityProps = Pick<
@@ -16,13 +16,17 @@ type MainThreadTouchProps = Pick<
   "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"
 >;
 
-export interface UseAccordionTriggerProps extends TriggerAccessibilityProps, MainThreadTouchProps {
+export interface UseCollapsibleTriggerProps
+  extends TriggerAccessibilityProps,
+    MainThreadTouchProps {
   bindtap?: ViewProps["bindtap"];
+  /** @default "펼쳐짐" */
   expandedAccessibilityValue?: string;
+  /** @default "접힘" */
   collapsedAccessibilityValue?: string;
 }
 
-export interface UseAccordionTriggerReturn {
+export interface UseCollapsibleTriggerReturn {
   open: boolean;
   disabled: boolean;
   pressed: boolean;
@@ -39,7 +43,11 @@ export interface UseAccordionTriggerReturn {
     };
 }
 
-export function useAccordionTrigger({
+/**
+ * 가까운 Collapsible의 열림 상태를 tap으로 전환하고 press·접근성 값을 제공하는 훅입니다.
+ * 소비자 `bindtap`은 전환 뒤에 호출합니다.
+ */
+export function useCollapsibleTrigger({
   bindtap,
   "main-thread:bindtouchstart": mainThreadOnTouchStart,
   "main-thread:bindtouchend": mainThreadOnTouchEnd,
@@ -50,8 +58,8 @@ export function useAccordionTrigger({
   "accessibility-role-description": accessibilityRoleDescription = "button",
   "accessibility-traits": accessibilityTraits,
   "accessibility-value": accessibilityValue,
-}: UseAccordionTriggerProps = {}): UseAccordionTriggerReturn {
-  const context = useAccordionItemContext();
+}: UseCollapsibleTriggerProps = {}): UseCollapsibleTriggerReturn {
+  const context = useCollapsibleContext();
   const handleTap = React.useCallback<NonNullable<ViewProps["bindtap"]>>(
     (event) => {
       "background only";
