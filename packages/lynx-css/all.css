@@ -4995,11 +4995,6 @@ text {
   color: var(--seed-color-fg-neutral);
 }
 
-.seed-list-item__interactionRoot {
-  width: 100%;
-  display: flex;
-}
-
 .seed-list-item__root {
   width: 100%;
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
