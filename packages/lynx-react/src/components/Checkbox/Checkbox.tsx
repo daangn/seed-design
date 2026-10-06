@@ -169,10 +169,13 @@ export interface CheckboxControlProps
 export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
   const { children, className, ...nativeProps } = restProps;
-  const context = useStyledCheckboxContext("CheckboxControl");
+  // Headless Root(예: List.CheckboxItem) 아래에서도 상태를 표시한다. styled Root의 variant
+  // 기본값과 scale target은 있을 때만 쓴다.
+  const context = useCheckboxContext();
+  const styledContext = isStyledCheckboxContext(context) ? context : null;
   const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
   const checkmarkVariantProps: CheckmarkVariantProps = {
-    ...context.checkmarkVariantProps,
+    ...styledContext?.checkmarkVariantProps,
     ...variantProps,
     checked: context.checked,
     disabled: context.disabled,
@@ -180,7 +183,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
   };
   const classes = checkmark(checkmarkVariantProps);
   const checkboxControlClassName = checkbox({
-    ...context.checkboxVariantProps,
+    ...styledContext?.checkboxVariantProps,
     disabled: context.disabled,
   }).control;
   // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
@@ -195,7 +198,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       <HeadlessCheckboxControl
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
-          !hasScaledContent ? context.scaleFeedbackTargetProps : {},
+          !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
           nativeProps,
         )}
         className={clsx(checkboxControlClassName, classes.root, className)}
@@ -233,7 +236,7 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
     className,
     style,
   } = props;
-  const context = useStyledCheckboxContext("CheckboxIndicator");
+  const context = useCheckboxContext();
   const { iconClassName, checkmarkVariantProps } = useCheckmarkControlContext("CheckboxIndicator");
 
   if (process.env.NODE_ENV !== "production" && context.indeterminate && !indeterminateIcon) {
