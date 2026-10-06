@@ -11,6 +11,8 @@ import { active, engaged, focus, focusVisible, not, open, pseudo } from "../util
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
+const panelWidth = "min(var(--seed-box-width), var(--seed-box-max-width))";
+
 const sidePanel = defineSlotRecipe({
   name: "side-panel",
   slots: [
@@ -99,15 +101,20 @@ const sidePanel = defineSlotRecipe({
         outline: "none",
       },
 
-      // Per-direction: anchored edge, landscape-notch safe-area, and background-bleed side.
+      // Per-direction: anchored edge, its safe-area inset, and background-bleed side.
+      // The far edge reaches the opposite inset only by the part the gap beside the panel
+      // doesn't cover (e.g. a consumer `maxWidth` lifting the 80% cap). Padding `%` and the
+      // width chain both resolve against the positioner.
       [pseudo("[data-drawer-direction='left']")]: {
         left: 0,
-        paddingLeft: "env(safe-area-inset-left, 0)",
+        paddingLeft: "var(--seed-safe-area-left)",
+        paddingRight: `max(0px, var(--seed-safe-area-right) - (100% - ${panelWidth}))`,
         "&::after": { right: "100%" },
       },
       [pseudo("[data-drawer-direction='right']")]: {
         right: 0,
-        paddingRight: "env(safe-area-inset-right, 0)",
+        paddingRight: "var(--seed-safe-area-right)",
+        paddingLeft: `max(0px, var(--seed-safe-area-left) - (100% - ${panelWidth}))`,
         "&::after": { left: "100%" },
       },
 
