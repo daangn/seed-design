@@ -2,8 +2,10 @@ import {
   DialogBackdrop as HeadlessDialogBackdrop,
   DialogCloseButton as HeadlessDialogCloseButton,
   DialogContent as HeadlessDialogContent,
+  DialogDescription as HeadlessDialogDescription,
   DialogPositioner as HeadlessDialogPositioner,
   DialogRoot as HeadlessDialogRoot,
+  DialogTitle as HeadlessDialogTitle,
   DialogTrigger as HeadlessDialogTrigger,
   type DialogBackdropProps as HeadlessDialogBackdropProps,
   type DialogCloseButtonProps as HeadlessDialogCloseButtonProps,
@@ -26,12 +28,7 @@ import {
 } from "@seed-design/lynx-css/recipes/alert-dialog";
 import clsx from "clsx";
 
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -47,7 +44,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(alertDialo
 // SEED recipe animates the `ui-entering`/`ui-open`/`ui-closed` classes, so parts opt into
 // lynx-ui transition classes by default. Root `skipAnimation` turns them off in the headless parts.
 // Alert semantics are defaults on top of `@seed-design/lynx-react-dialog` options:
-// Backdrop `clickToClose`, Content native accessibility, and Title heading.
+// Backdrop `clickToClose` and Content native accessibility. Title heading comes from the headless part.
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Root
@@ -243,24 +240,16 @@ export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitle
   AlertDialogTitleProps
 >((props, ref) => {
   const { style, restProps } = useStyleProps(props);
-  const {
-    children,
-    className,
-    "accessibility-heading": accessibilityHeading = true,
-    ...nativeProps
-  } = restProps;
+  const { className, ...titleProps } = restProps;
   const classNames = useClassNames();
 
   return (
-    <text
-      {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
-      {...nativeProps}
+    <HeadlessDialogTitle
+      ref={ref}
+      {...titleProps}
       className={clsx(classNames.title, className)}
       style={style as never}
-      accessibility-heading={accessibilityHeading}
-    >
-      {children}
-    </text>
+    />
   );
 });
 AlertDialogTitle.displayName = "AlertDialogTitle";
@@ -273,18 +262,16 @@ export interface AlertDialogDescriptionProps
 export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialogDescriptionProps> =
   forwardRef<unknown, AlertDialogDescriptionProps>((props, ref) => {
     const { style, restProps } = useStyleProps(props);
-    const { children, className, ...nativeProps } = restProps;
+    const { className, ...descriptionProps } = restProps;
     const classNames = useClassNames();
 
     return (
-      <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
-        {...nativeProps}
+      <HeadlessDialogDescription
+        ref={ref}
+        {...descriptionProps}
         className={clsx(classNames.description, className)}
         style={style as never}
-      >
-        {children}
-      </text>
+      />
     );
   });
 AlertDialogDescription.displayName = "AlertDialogDescription";
