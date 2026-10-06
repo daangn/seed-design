@@ -32,6 +32,12 @@ const dialog = defineSlotRecipe({
       alignItems: "center",
       inset: 0,
       overscrollBehaviorY: "none",
+      // Centers the content within the safe area. The backdrop is `position: fixed`,
+      // so it still covers the whole viewport.
+      paddingTop: "var(--seed-safe-area-top)",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "var(--seed-safe-area-bottom)",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -73,7 +79,7 @@ const dialog = defineSlotRecipe({
       // and the same pattern in side-panel. Mobile-first: viewport fraction below md,
       // size-capped token width at md+ (the cap is the only value that differs by size —
       // see variants). A consumer `width`/`maxWidth` StyleProp still wins via the chain.
-      "--dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right))`,
       "--dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       "--seed-box-width--responsive": "var(--dialog-default-width)",
       "--seed-box-max-width--responsive": "var(--dialog-default-max-width)",
@@ -84,12 +90,12 @@ const dialog = defineSlotRecipe({
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh)`,
+        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom))`,
+        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh - var(--seed-safe-area-top) - var(--seed-safe-area-bottom))`,
       ],
       [breakpoints.up("md")]: {
         "--dialog-default-width": "var(--dialog-size-width)",
-        "--dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+        "--dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX} - var(--seed-safe-area-left) - var(--seed-safe-area-right))`,
       },
 
       [pseudo(open)]: enterAnimation({
