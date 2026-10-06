@@ -29,9 +29,9 @@ describe("ReactVersionSwitcher", () => {
 
   it.each([
     ["v2", "https://seed-design.io/react/v2"],
-    ["v1.2", "https://v1-2.seed-design.io/react"],
-    ["v1.1", "https://v1-1.seed-design.io/react"],
-    ["v1.0", "https://v1-0.seed-design.io/react"],
+    ["v1.2", "https://seed-design.io/react/v1.2"],
+    ["v1.1", "https://seed-design.io/react/v1.1"],
+    ["v1.0", "https://seed-design.io/react/v1.0"],
   ])("opens %s in a separate tab", async (label, url) => {
     const open = spyOn(window, "open").mockImplementation(() => null);
     render(<ReactVersionSwitcher />);
