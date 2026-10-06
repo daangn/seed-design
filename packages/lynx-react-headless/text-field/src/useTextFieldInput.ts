@@ -326,6 +326,45 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
     }
   }, [readOnly, syncNativeValue, textFieldContext.value]);
 
+  // `default-value`는 Lynx 4.0(3.9.1)부터 지원한다. 이전 엔진은 초기 값을 표시하지 않으므로
+  // mount 뒤 native 값을 읽어 초기 값과 다를 때만 `setValue`로 맞춘다. 지원하는 엔진에서는 읽기만 한다.
+  useEffect(() => {
+    if (readOnly) return;
+
+    const node = nativeRef.current;
+    const expectedValue = lastNativeValueRef.current;
+    if (!node || !expectedValue || typeof node.invoke !== "function") return;
+
+    const restoreMissingValue = (nativeValue: string) => {
+      "background only";
+
+      // 그 사이 입력·동기화로 native 값이 바뀌었으면 그 결과를 유지한다.
+      if (nativeRef.current !== node || lastNativeValueRef.current !== expectedValue) return;
+      if (nativeValue === expectedValue) return;
+
+      lastNativeValueRef.current = nativeValue;
+      syncNativeValue(node, committedValueRef.current);
+    };
+
+    try {
+      node
+        .invoke({
+          method: "getValue",
+          success(result: { value?: unknown } | undefined) {
+            "background only";
+            restoreMissingValue(typeof result?.value === "string" ? result.value : "");
+          },
+          fail() {
+            "background only";
+            restoreMissingValue("");
+          },
+        })
+        .exec();
+    } catch {
+      // Native node가 아직 commit되지 않았으면 다음 value commit의 동기화에 맡긴다.
+    }
+  }, [readOnly, syncNativeValue]);
+
   useEffect(
     () => () => {
       keyboardAvoidance?.unregister(ownerRef.current);

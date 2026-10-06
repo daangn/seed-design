@@ -197,20 +197,81 @@ describe("TextField", () => {
     expect(textarea).toHaveAttribute("android-set-soft-input-mode", "resize");
   });
 
-  it("initializes a non-empty value without invoking a native UI method", () => {
-    const invoke = vi.fn(() => ({ exec: vi.fn() }));
-    const setRef = (node: NodesRef | null) => {
-      if (node) node.invoke = invoke as unknown as NodesRef["invoke"];
-    };
+  describe("initial value on engines with and without default-value", () => {
+    interface InvokeCall {
+      method: string;
+      params?: { value?: string };
+      success?: (result: { value?: string }) => void;
+      fail?: () => void;
+    }
 
-    render(
-      <TextField.Root className="test-text-field" defaultValue="초기값">
-        <TextField.Input ref={setRef} />
-      </TextField.Root>,
-    );
+    function renderWithInvoke() {
+      const calls: InvokeCall[] = [];
+      let nativeNode: NodesRef | null = null;
+      const setRef = (node: NodesRef | null) => {
+        if (!node) return;
+        nativeNode = node;
+        node.invoke = ((call: InvokeCall) => {
+          calls.push(call);
+          return { exec: () => {} };
+        }) as unknown as NodesRef["invoke"];
+      };
 
-    expect(getRenderedRoot().querySelector("input")).toHaveAttribute("default-value", "초기값");
-    expect(invoke).not.toHaveBeenCalled();
+      render(
+        <TextField.Root className="test-text-field" defaultValue="초기값">
+          <TextField.Input ref={setRef} />
+        </TextField.Root>,
+      );
+
+      const getValueCall = calls.find((call) => call.method === "getValue");
+      if (!getValueCall || !nativeNode) throw new Error("Expected getValue on the native input.");
+      return {
+        nativeNode: nativeNode as NodesRef,
+        getValueCall,
+        setValueCalls: () => calls.filter((call) => call.method === "setValue"),
+      };
+    }
+
+    it("passes a non-empty initial value as default-value and keeps it when the engine applied it", () => {
+      const { setValueCalls, getValueCall } = renderWithInvoke();
+
+      expect(getRenderedRoot().querySelector("input")).toHaveAttribute("default-value", "초기값");
+      getValueCall.success?.({ value: "초기값" });
+
+      expect(setValueCalls()).toHaveLength(0);
+    });
+
+    it("writes the initial value with setValue when the engine ignored default-value", () => {
+      const { setValueCalls, getValueCall } = renderWithInvoke();
+
+      getValueCall.success?.({ value: "" });
+
+      expect(setValueCalls().map((call) => call.params?.value)).toEqual(["초기값"]);
+    });
+
+    it("writes the initial value when getValue is not supported", () => {
+      const { setValueCalls, getValueCall } = renderWithInvoke();
+
+      getValueCall.fail?.();
+
+      expect(setValueCalls().map((call) => call.params?.value)).toEqual(["초기값"]);
+    });
+
+    it("ignores a stale getValue result after the user has typed", () => {
+      const { nativeNode, setValueCalls, getValueCall } = renderWithInvoke();
+      const input = getRenderedRoot().querySelector("input");
+      if (!input) throw new Error("Expected native input to exist.");
+
+      fireNativeEvent(nativeNode, input, "input", {
+        value: "새 값",
+        selectionStart: 3,
+        selectionEnd: 3,
+        isComposing: false,
+      });
+      getValueCall.success?.({ value: "" });
+
+      expect(setValueCalls()).toHaveLength(0);
+    });
   });
 
   it("does not reapply an accepted controlled native input value", async () => {
