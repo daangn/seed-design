@@ -185,6 +185,12 @@ Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.Prefix
   ```
 </LynxComponentExample>
 
+## 이전 버전에서 옮기기
+
+- `Chip.Root`·`ChipRoot`(Props 타입 포함)를 제거했습니다. React와 같이 `Chip.Button`·`ChipButton`을 사용하세요. 동작과 스타일은 같습니다.
+- `Chip.Toggle`의 기본 `accessibility-role-description`이 `"toggle"`에서 `"checkbox"`로 바뀌었습니다. 이전 값이 필요하면 `accessibility-role-description`을 직접 전달하세요.
+- `Chip.RadioRoot`가 `radiogroup` 역할의 접근성 요소가 되었습니다. `disabled`이면 `accessibility-traits` 기본값은 `"disabled"`입니다.
+- `Chip.Toggle`과 `Chip.RadioItem`의 `bindtap`이 선택 상태를 바꾸기 전에 호출됩니다. tap handler에서 바뀐 선택 값을 읽던 코드는 `onCheckedChange`나 `Chip.RadioRoot`의 `onValueChange`로 옮기세요.
 
 ## 웹 버전과의 차이
 
@@ -195,7 +201,7 @@ Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/varia
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`, `onChange` 대신 `onCheckedChange` 또는 `onValueChange`를 사용합니다.
 - **상태 스타일**: 웹 pseudo selector 대신 touch 상태와 선택 상태를 Lynx recipe의 `pressed`, `selected` variant로 연결합니다.
 - **아이콘 렌더링**: SVG `currentColor` 대신 Lynx monochrome icon과 `<image tint-color>` 기반 Icon wrapper를 사용합니다.
-- **접근성 역할과 상태**: `Chip.Button`, `Chip.Toggle`, `Chip.RadioItem`은 각각 `button`, `toggle`, `radio` 역할을 `accessibility-role-description`으로 전달합니다. Toggle의 checked 상태와 RadioItem의 selected 상태는 `accessibility-value`로 전달하고, disabled 상태는 `accessibility-traits`로 전달합니다. 필요하면 각 속성을 직접 덮어쓸 수 있습니다.
+- **접근성 역할과 상태**: `Chip.Button`, `Chip.Toggle`, `Chip.RadioItem`은 각각 `button`, `checkbox`, `radio` 역할을, `Chip.RadioRoot`는 `radiogroup` 역할을 `accessibility-role-description`으로 전달합니다. Toggle의 checked 상태와 RadioItem의 selected 상태는 `accessibility-value`로 전달하고, disabled 상태는 `accessibility-traits`로 전달합니다. 필요하면 각 속성을 직접 덮어쓸 수 있습니다.
 - **공개 표면**: React의 registry wrapper 역할을 Lynx package API가 직접 제공하므로 별도 snippet을 설치하지 않습니다.
 </Callout>
 
@@ -208,6 +214,8 @@ Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/varia
 | HiddenInput / `inputProps` | Lynx에 HTML input과 form 제출 모델이 없습니다. |
 | `name` / `required` / native form value | HTML form 속성을 연결할 대상이 없습니다. |
 | raw DOM `onChange` | `onCheckedChange` 또는 `onValueChange`로 대체합니다. |
+| `Chip.Toggle`의 `indeterminate` | chip recipe에 일부 선택 외형이 없습니다. |
+| `Chip.RadioRoot`의 `invalid` | chip recipe에 오류 외형이 없습니다. |
 | 키보드 focus / `focusVisible` | Lynx에는 웹과 같은 키보드 focus 모델이 없습니다. |
 | `asChild` | Lynx는 웹 Slot 기반 다형 렌더링을 지원하지 않습니다. |
 | Avatar 패키지 | `Chip.PrefixAvatar` 슬롯에 앱이 소유한 avatar view나 컴포넌트를 넣어 사용합니다. |
