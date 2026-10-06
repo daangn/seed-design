@@ -5,9 +5,9 @@
     align-items: center;
     inset: 0;
     overscroll-behavior-y: none;
-    padding-top: var(--seed-safe-area-top);
+    padding-top: max(var(--seed-safe-area-top), var(--seed-safe-area-bottom));
     padding-right: var(--seed-safe-area-right);
-    padding-bottom: var(--seed-safe-area-bottom);
+    padding-bottom: max(var(--seed-safe-area-top), var(--seed-safe-area-bottom));
     padding-left: var(--seed-safe-area-left);
     --dialog-z-index: 2;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));

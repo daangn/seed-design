@@ -3,6 +3,8 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo, focus } from "../utils/pseudo";
 
+const safeAreaBlock = "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))";
+
 const alertDialog = defineSlotRecipe({
   name: "alert-dialog",
   slots: [
@@ -23,11 +25,12 @@ const alertDialog = defineSlotRecipe({
       alignItems: "center",
       inset: 0,
       overscrollBehaviorY: "none",
-      // Centers the content within the safe area. The backdrop is `position: fixed`,
-      // so it still covers the whole viewport.
-      paddingTop: "var(--seed-safe-area-top)",
+      // The larger block inset goes on both sides, so the content stays at the viewport's
+      // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
+      // still covers the whole viewport.
+      paddingTop: safeAreaBlock,
       paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: "var(--seed-safe-area-bottom)",
+      paddingBottom: safeAreaBlock,
       paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
@@ -53,8 +56,8 @@ const alertDialog = defineSlotRecipe({
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
-      // Resolves against the positioner's content box, which excludes the safe area
-      // padding, so content taller than the safe area scrolls instead of reaching the insets.
+      // Resolves against the positioner's content box, which excludes its safe area padding,
+      // so content taller than that box scrolls instead of reaching the insets.
       maxHeight: "100%",
       overflowY: "auto",
       margin: `auto ${vars.base.enabled.content.marginX}`,
