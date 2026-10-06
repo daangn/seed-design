@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/lynx-react-accordion",
+  "name": "@seed-design/lynx-react-collapsible",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/lynx-react-headless/accordion"
+    "directory": "packages/lynx-react-headless/collapsible"
   },
   "sideEffects": false,
   "type": "module",
@@ -15,7 +15,12 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["lib", "src", "LICENSE", "NOTICE"],
+  "files": [
+    "lib",
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc -p tsconfig.json",
@@ -24,7 +29,6 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/lynx-react-collapsible": "0.0.0",
     "@seed-design/lynx-react-use-controllable-state": "0.1.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0"
   },
@@ -40,6 +44,8 @@
     "jsdom": "^29.0.2",
     "vitest": "^3.2.4"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0"
 }

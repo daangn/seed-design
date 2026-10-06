@@ -147,5 +147,5 @@ Lynx `Select Box`는 React 버전과 다음 차이가 있습니다.
 - **Field 구성**: 라디오 그룹은 `RadioGroupField`로 label, description, error message를 연결할 수 있습니다. 체크박스 그룹은 React Registry의 Fieldset 연동을 제공하지 않습니다.
 - **form 제출 없음**: Hidden input과 `inputProps`, `name`, `required`를 제공하지 않습니다. 라디오 그룹의 오류 상태는 `RadioSelectBoxRoot`의 `invalid`와 `errorMessage`로 지정하세요.
 - **키보드 포커스 없음**: 브라우저의 키보드 focus 대신 네이티브 tap과 접근성 탐색을 사용합니다.
-- **접근성**: HTML ARIA 대신 Lynx의 접근성 역할과 선택 값을 사용합니다.
+- **접근성**: HTML ARIA 대신 Lynx의 접근성 역할과 선택 값을 사용합니다. `CheckSelectBox`는 Checkbox와 같이 `accessibility-value`를 `"checked"`·`"not checked"`, indeterminate이면 `"mixed"`로 지정하고, `RadioSelectBox`는 `"selected"`·`"not selected"`로 지정합니다.
 </Callout>
