@@ -34,9 +34,13 @@
     align-items: center;
     justify-content: center;
     border-width: 0;
-    background: #00000000;
     padding: 0;
-    border-radius: var(--seed-radius-r1);
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-app-bar__iconButton:active {
+    background-color: var(--seed-color-bg-transparent-pressed);
 }
 .seed-app-bar__iconButton.seed-app-bar__icon-button-edge-leading {
     margin-left: calc(-1 * (44px - 24px) / 2);
