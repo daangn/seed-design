@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** region은 좌우와 하단 안전 영역 경계 안쪽에 배치되므로, paddingX와 하단 쪽 paddingY는 안전 영역 경계부터 잽니다. */
       "region": {
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x2)",

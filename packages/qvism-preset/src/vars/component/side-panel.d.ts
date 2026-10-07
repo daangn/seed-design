@@ -10,10 +10,10 @@ export declare const vars: {
         "exitTimingFunction": "var(--seed-timing-function-exit)",
         "exitOpacity": "0"
       },
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
+      /** 하단 inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
-        /** viewport 또는 parent width에 대한 mobile content width 비율입니다. */
+        /** 좌우 inset을 뺀 viewport width 또는 parent width에 대한 mobile content width 비율입니다. content의 최대 너비도 같은 기준 너비에 이 비율을 곱해 정합니다. */
         "widthFraction": "0.8",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
@@ -24,7 +24,7 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x1_5)",
         "minHeight": "70px",
         "paddingX": "var(--seed-dimension-x6)",
-        /** 이 값은 상단 safe-area inset과 합산하여 적용합니다. */
+        /** 이 값은 상단 inset과 합산하여 적용합니다. */
         "paddingTop": "var(--seed-dimension-x6)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x4)",
@@ -40,7 +40,7 @@ export declare const vars: {
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x6)",
-        /** 이 값은 상단 safe-area inset과 합산하여 적용합니다. */
+        /** 이 값은 상단 inset과 합산하여 적용합니다. */
         "paddingTop": "var(--seed-dimension-x4)",
         /** body의 하단 padding이며, 동시에 하단 scroll fog 그라데이션의 높이로도 사용됩니다. */
         "paddingBottom": "var(--seed-dimension-x6)"
@@ -72,24 +72,27 @@ export declare const vars: {
   },
   "sizeSmall": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
+      /** 하단 inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** content 영역의 너비입니다. 패널은 붙는 쪽의 inset만큼 더 넓어지고, 늘어난 영역까지 배경으로 채워 화면 끝에 닿습니다. 소비자가 지정한 너비도 같은 방식으로 적용합니다. */
         "width": "480px"
       }
     }
   },
   "sizeMedium": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
+      /** 하단 inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** content 영역의 너비입니다. 패널은 붙는 쪽의 inset만큼 더 넓어지고, 늘어난 영역까지 배경으로 채워 화면 끝에 닿습니다. 소비자가 지정한 너비도 같은 방식으로 적용합니다. */
         "width": "720px"
       }
     }
   },
   "sizeLarge": {
     "enabled": {
-      /** 하단 safe-area inset을 content의 하단 패딩으로 적용합니다. */
+      /** 하단 inset을 content의 하단 패딩으로 적용합니다. */
       "content": {
+        /** content 영역의 너비입니다. 패널은 붙는 쪽의 inset만큼 더 넓어지고, 늘어난 영역까지 배경으로 채워 화면 끝에 닿습니다. 소비자가 지정한 너비도 같은 방식으로 적용합니다. */
         "width": "960px"
       }
     }

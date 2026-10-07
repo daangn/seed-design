@@ -17,8 +17,9 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x2)",
         /** 트리거와 목록 사이의 간격을 정의합니다. */
         "gutter": "var(--seed-dimension-x2)",
-        /** 목록과 뷰포트 경계 사이의 최소 간격을 정의합니다. */
+        /** 목록과 안전 영역 경계 사이의 최소 간격을 정의합니다. 목록은 화면 끝에서 inset + overflowPadding만큼 안쪽에 배치되며, 가용 높이도 같은 기준으로 계산합니다. */
         "overflowPadding": "var(--seed-dimension-x2)",
+        /** 가용 높이(overflowPadding 참고)가 이보다 작으면 가용 높이로 축소됩니다. */
         "maxHeight": "480px"
       },
       "groupLabel": {
