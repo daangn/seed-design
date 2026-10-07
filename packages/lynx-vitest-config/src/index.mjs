@@ -53,7 +53,12 @@ export async function createLynxVitestConfig() {
         ],
       },
       ssr: {
-        noExternal: ["@lynx-js/react", "preact", "@lynx-js/internal-preact"],
+        noExternal: [
+          "@lynx-js/react",
+          "@lynx-js/gesture-runtime",
+          "preact",
+          "@lynx-js/internal-preact",
+        ],
       },
     }),
   );

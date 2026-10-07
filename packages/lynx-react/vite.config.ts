@@ -46,6 +46,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-page-banner$/,
         /^@seed-design\/lynx-react-popover$/,
         /^@seed-design\/lynx-react-progress$/,
+        /^@seed-design\/lynx-react-pull-to-refresh$/,
         /^@seed-design\/lynx-react-quantity-picker$/,
         /^@seed-design\/lynx-react-radio-group$/,
         /^@seed-design\/lynx-react-scale-feedback$/,

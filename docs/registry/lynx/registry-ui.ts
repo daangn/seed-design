@@ -103,6 +103,11 @@ const mannerTempPackageRanges = {
   "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
 };
 
+const pullToRefreshPackageRanges = {
+  "@seed-design/lynx-react": ">=0.11.0 <1.0.0",
+  "@seed-design/lynx-css": ">=0.15.0 <1.0.0",
+};
+
 // Lynx UI registry. Each item must have a matching snippet file under
 // `./ui/<id>.tsx` and a corresponding component implementation in
 // `@seed-design/lynx-react`. See `docs/registry/react/registry-ui.ts`
@@ -358,6 +363,15 @@ export const registryUI: Registry = {
         {
           path: "radio-group.tsx",
           dependencies: fieldPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "pull-to-refresh",
+      snippets: [
+        {
+          path: "pull-to-refresh.tsx",
+          dependencies: pullToRefreshPackageRanges,
         },
       ],
     },
