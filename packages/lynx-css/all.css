@@ -1841,11 +1841,9 @@ text {
 }
 
 .seed-bottom-sheet__body {
-  min-height: 0;
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   flex-direction: column;
-  flex: 1;
   display: flex;
 }
 
@@ -6414,20 +6412,17 @@ text {
   width: var(--seed-dimension-x5);
   height: var(--seed-dimension-x5);
   flex-shrink: 0;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .seed-select-box-checkmark__icon {
   width: 15px;
   height: 15px;
   color: var(--seed-color-fg-placeholder);
-  margin: auto;
+  flex-shrink: 0;
   display: flex;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .seed-select-box-checkmark__icon--selected_true {
