@@ -158,6 +158,7 @@ export interface ImageFrameIconProps extends Omit<LynxViewProps, "children" | "s
 export const ImageFrameIcon = React.forwardRef<unknown, ImageFrameIconProps>(
   ({ svg, children: _children, className, ...props }, ref) => (
     <InternalIcon
+      accessibility-elements-hidden
       {...(ref ? { ref } : {})}
       {...props}
       icon={svg}
