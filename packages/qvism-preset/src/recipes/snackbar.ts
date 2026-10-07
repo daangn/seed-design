@@ -18,9 +18,9 @@ export const snackbarRegion = defineRecipe({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    left: "calc(env(safe-area-inset-left, 0px))",
-    right: "calc(env(safe-area-inset-right, 0px))",
-    bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
+    left: "var(--seed-safe-area-left)",
+    right: "var(--seed-safe-area-right)",
+    bottom: "calc(var(--seed-safe-area-bottom) + var(--snackbar-region-offset, 0px))",
 
     paddingLeft: vars.base.enabled.region.paddingX,
     paddingRight: vars.base.enabled.region.paddingX,
