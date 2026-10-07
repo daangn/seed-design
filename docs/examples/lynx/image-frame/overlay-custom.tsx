@@ -13,7 +13,7 @@ export default function ImageFrameOverlayCustomExample() {
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
         alt="Landscape with custom overlay"
-        style={{ width: 200 }}
+        style={{ width: "200px" }}
         fallback={
           <view className="image-frame-fallback">
             <text className="image-frame-fallback-label">이미지</text>
@@ -25,9 +25,9 @@ export default function ImageFrameOverlayCustomExample() {
             style={{
               padding: "4px 8px",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
-              borderRadius: 4,
+              borderRadius: "4px",
               color: "white",
-              fontSize: 12,
+              fontSize: "12px",
             }}
           >
             <text className="image-frame-custom-label">Custom Element</text>

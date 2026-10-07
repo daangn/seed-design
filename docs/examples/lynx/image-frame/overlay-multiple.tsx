@@ -21,7 +21,7 @@ export default function ImageFrameOverlayMultipleExample() {
         stroke
         src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
         alt="Landscape with multiple overlays"
-        style={{ width: 200 }}
+        style={{ width: "200px" }}
         fallback={
           <view className="image-frame-fallback">
             <text className="image-frame-fallback-label">이미지</text>

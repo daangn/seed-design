@@ -1,4 +1,6 @@
 .image-frame-example {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
   padding: 24px;
   align-items: center;
@@ -6,6 +8,7 @@
   background-color: var(--seed-color-bg-layer-default);
 }
 .image-frame-fallback {
+  display: flex;
   width: 100%;
   height: 100%;
   align-items: center;

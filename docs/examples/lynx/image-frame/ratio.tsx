@@ -15,7 +15,7 @@ export default function ImageFrameRatio() {
             stroke
             src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
             alt="1:1"
-            style={{ width: 120 }}
+            style={{ width: "120px" }}
             fallback={
               <view className="image-frame-fallback">
                 <text className="image-frame-fallback-label">이미지</text>
@@ -33,7 +33,7 @@ export default function ImageFrameRatio() {
             stroke
             src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
             alt="4:3"
-            style={{ width: 160 }}
+            style={{ width: "160px" }}
             fallback={
               <view className="image-frame-fallback">
                 <text className="image-frame-fallback-label">이미지</text>
@@ -51,7 +51,7 @@ export default function ImageFrameRatio() {
             stroke
             src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
             alt="16:9"
-            style={{ width: 200 }}
+            style={{ width: "200px" }}
             fallback={
               <view className="image-frame-fallback">
                 <text className="image-frame-fallback-label">이미지</text>

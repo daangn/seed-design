@@ -14,7 +14,7 @@ export default function ImageFrameFallbackExample() {
           stroke
           src="https://invalid-url"
           alt="Fallback with buySell type"
-          style={{ width: 120 }}
+          style={{ width: "120px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
@@ -27,7 +27,7 @@ export default function ImageFrameFallbackExample() {
           stroke
           src="https://invalid-url"
           alt="Fallback with food type"
-          style={{ width: 120 }}
+          style={{ width: "120px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
@@ -40,7 +40,7 @@ export default function ImageFrameFallbackExample() {
           stroke
           src="https://invalid-url"
           alt="Fallback with jobs type"
-          style={{ width: 120 }}
+          style={{ width: "120px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
