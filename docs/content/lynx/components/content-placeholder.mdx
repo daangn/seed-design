@@ -27,6 +27,10 @@ import { ContentPlaceholder } from "@/components/ui/content-placeholder";
 <ContentPlaceholder type="car" width="160px" height="160px" />
 ```
 
+## Props
+
+<react-type-table path="./registry/lynx/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
+
 ## Examples
 
 ### Type Preset
@@ -51,7 +55,7 @@ React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `defa
 
 ### Customizing Asset
 
-하나의 아이콘이나 이미지를 `children`으로 전달하면 프리셋을 대체합니다. 컴포넌트는 크기와 정렬만 처리하며 색을 변경하지 않습니다. 모노크롬 아이콘에는 첫 렌더부터 최종 색이 적용되도록 `tint-color`를 지정하세요. CSS `color`를 자동 변환하거나 표시 후 색을 동기화하지 않습니다.
+React처럼 하나의 아이콘이나 이미지를 `children`으로 전달하면 프리셋을 대체합니다. 컴포넌트는 크기와 정렬만 처리하며 색을 변경하지 않습니다. 모노크롬 아이콘에는 첫 렌더부터 최종 색이 적용되도록 `tint-color`를 지정하세요. CSS `color`를 자동 변환하거나 표시 후 색을 동기화하지 않습니다.
 
 <LynxComponentExample name="lynx/content-placeholder/svg" height={240}>
   ```json doc-gen:file
@@ -61,9 +65,17 @@ React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `defa
 
 커스텀 아이콘 컴포넌트는 전달받은 `style`과 `tint-color`를 실제 `<image>`에 연결해야 합니다. 직접 넣는 `<image>`에는 `mode="aspectFit"`과 `style={{ width: "100%", height: "100%" }}`를 지정하세요. 프리셋 색을 바꾸려면 원하는 색의 커스텀 에셋을 사용합니다.
 
-## Props
+```tsx
+<ContentPlaceholder width="160px" height="160px">
+  <image
+    src={customAssetSrc}
+    mode="aspectFit"
+    style={{ width: "100%", height: "100%" }}
+  />
+</ContentPlaceholder>
+```
 
-<react-type-table path="./registry/lynx/ui/content-placeholder.tsx" name="ContentPlaceholderProps" />
+`tint-color`는 ContentPlaceholder의 prop이 아니라 자식 아이콘에 전달하는 native 속성입니다. 아이콘 예제와 이미지 예제 모두 `children`으로 구성합니다.
 
 ## 웹 버전과의 차이
 
