@@ -34,6 +34,7 @@ import { ImageFrame } from "@seed-design/lynx-react";
 ```tsx
 <ImageFrame
   ratio={4 / 3}
+  width="200px"
   borderRadius="r2"
   stroke
   src="..."
@@ -79,7 +80,20 @@ ImageFrame은 Lynx Engine 3.9 이상을 지원합니다. 3.6에서는 비율 기
 
 ### Border Radius
 
-`borderRadius` prop으로 모서리 라운드 스타일을 적용할 수 있습니다. 기본값은 `"r2"`입니다.
+React와 같이 `borderRadius`에 토큰(`"r1"`, `"r2"` 등), `0`, CSS 길이(`"24px"`)를 전달합니다. 기본값은 `"r2"`입니다. 개별 모서리는 `borderTopLeftRadius`처럼 해당 모서리 prop으로 지정합니다. `stroke`도 같은 모서리를 따릅니다.
+
+```tsx
+<ImageFrame
+  src={imageUrl}
+  alt="상품 이미지"
+  width="160px"
+  ratio={1}
+  borderRadius="r1"
+  borderTopLeftRadius="r4"
+  borderBottomRightRadius="24px"
+  stroke
+/>
+```
 
 <LynxComponentExample name="lynx/image-frame/border-radius">
   ```json doc-gen:file
@@ -118,7 +132,7 @@ ImageFrame은 Lynx Engine 3.9 이상을 지원합니다. 3.6에서는 비율 기
 
 ### Overlay
 
-`ImageFrameFloater`를 사용하여 이미지 위에 오버레이 요소를 배치할 수 있습니다. `ImageFrameBadge`, `ImageFrameIcon`, `ImageFrameIndicator`, `ImageFrameReactionButton` 등 다양한 오버레이 컴포넌트를 제공합니다.
+`ImageFrameFloater`를 자식으로 넣고 `placement`로 위치를 지정합니다. 세로 `top`·`middle`·`bottom`과 가로 `start`·`center`·`end`를 조합한 9개 값을 제공합니다. 예를 들어 `"bottom-end"`는 오른쪽 아래입니다. `ImageFrameBadge`, `ImageFrameIcon`, `ImageFrameIndicator`, `ImageFrameReactionButton` 등 다양한 오버레이 컴포넌트를 제공합니다.
 
 <LynxComponentExample name="lynx/image-frame/overlay">
   ```json doc-gen:file
@@ -157,7 +171,19 @@ ImageFrame은 Lynx Engine 3.9 이상을 지원합니다. 3.6에서는 비율 기
 
 #### Offset
 
-`offsetX`, `offsetY` prop으로 오버레이의 여백을 조절할 수 있습니다. 가장자리의 기본 여백은 `6px`이고 중앙 축의 기본 오프셋은 `0`입니다. 중앙 축에도 기본 `6px`를 적용하는 React와 달리 가운데에 정렬하도록 정한 기본값이며, 명시한 오프셋은 중앙 축에도 적용됩니다.
+`ImageFrameFloater`의 `offsetX`, `offsetY`로 가로·세로 inset을 각각 지정합니다. React와 같은 prop 이름이며 `0`, SEED 간격 토큰(`"x3"`), CSS 길이(`"12px"`)를 받습니다. 가장자리의 기본 여백은 `6px`이고 중앙 축의 기본 오프셋은 `0`입니다. 중앙 축에도 기본 `6px`를 적용하는 React와 달리 가운데에 정렬하도록 정한 기본값이며, 명시한 오프셋은 중앙 축에도 적용됩니다.
+
+다음 예제는 React 문서처럼 기본값, `0`, `"12px"`를 비교합니다. `0`은 가장자리에 붙이고 `"12px"`는 가장자리에서 12px 안쪽에 배치합니다.
+
+```tsx
+import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@seed-design/lynx-react";
+
+<ImageFrame src={imageUrl} alt="상품 이미지" width="150px" ratio={1}>
+  <ImageFrameFloater placement="bottom-end" offsetX="12px" offsetY="12px">
+    <ImageFrameIndicator>+9</ImageFrameIndicator>
+  </ImageFrameFloater>
+</ImageFrame>
+```
 
 <LynxComponentExample name="lynx/image-frame/overlay-inset">
   ```json doc-gen:file

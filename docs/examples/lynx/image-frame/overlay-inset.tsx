@@ -7,14 +7,14 @@ export default function ImageFrameOverlayInsetExample() {
 
   return (
     <view className={`${seedClassName} image-frame-example`}>
-      <view style={{ display: "flex", flexDirection: "row", columnGap: 12 }}>
+      <view style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "12px" }}>
         <ImageFrame
           ratio={1}
           borderRadius="r2"
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with default offset"
-          style={{ width: 150 }}
+          style={{ width: "150px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
@@ -32,7 +32,7 @@ export default function ImageFrameOverlayInsetExample() {
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with 0 offset"
-          style={{ width: 150 }}
+          style={{ width: "150px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
@@ -50,7 +50,7 @@ export default function ImageFrameOverlayInsetExample() {
           stroke
           src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
           alt="Landscape with 12 offset"
-          style={{ width: 150 }}
+          style={{ width: "150px" }}
           fallback={
             <view className="image-frame-fallback">
               <text className="image-frame-fallback-label">이미지</text>
