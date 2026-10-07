@@ -30,19 +30,29 @@ export default function StandaloneLoopScrollExample() {
     <view
       style={{
         display: "flex",
-        height: "100%",
+        width: "100%",
+        flex: 1,
+        minHeight: 0,
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
       }}
     >
-      <text style={{ marginBottom: "6px", color: "#1a1c20", fontSize: "16px", fontWeight: "700" }}>
+      <text
+        style={{
+          marginBottom: "6px",
+          color: "var(--seed-color-fg-neutral)",
+          fontSize: "16px",
+          fontWeight: "700",
+        }}
+      >
         끝을 여러 번 넘겨서 끌어보세요
       </text>
       <text
         id="loop-scroll-status"
-        style={{ marginBottom: "16px", color: "#555d6d", fontSize: "13px" }}
+        style={{
+          marginBottom: "16px",
+          color: "var(--seed-color-fg-neutral-muted)",
+          fontSize: "13px",
+        }}
       >
         {`index=${index} active=${activeIndex} stepDelta=${stepDelta} changes=${changeCount}`}
       </text>
@@ -55,7 +65,11 @@ export default function StandaloneLoopScrollExample() {
         indexChangeBehavior="smooth"
         onIndexChange={handleIndexChange}
         onActiveIndexChange={handleActiveIndexChange}
-        style={{ width: "220px", borderRadius: "12px", backgroundColor: "#f2f3f6" }}
+        style={{
+          width: "220px",
+          borderRadius: "12px",
+          backgroundColor: "var(--seed-color-bg-neutral-weak)",
+        }}
       >
         <view
           style={{
@@ -65,7 +79,7 @@ export default function StandaloneLoopScrollExample() {
             left: "8px",
             height: "44px",
             borderRadius: "8px",
-            backgroundColor: "#dcdee3",
+            backgroundColor: "var(--seed-color-bg-neutral-muted)",
           }}
         />
         <LoopScroll.Track>
@@ -78,7 +92,9 @@ export default function StandaloneLoopScrollExample() {
                 justifyContent: "center",
               }}
             >
-              <text style={{ color: "#b0b3ba", fontSize: "18px" }}>{MONTHS[item.index]}</text>
+              <text style={{ color: "var(--seed-color-fg-placeholder)", fontSize: "18px" }}>
+                {MONTHS[item.index]}
+              </text>
             </view>
           )}
         </LoopScroll.Track>
@@ -93,7 +109,9 @@ export default function StandaloneLoopScrollExample() {
                   justifyContent: "center",
                 }}
               >
-                <text style={{ color: "#1a1c20", fontSize: "18px" }}>{MONTHS[item.index]}</text>
+                <text style={{ color: "var(--seed-color-fg-neutral)", fontSize: "18px" }}>
+                  {MONTHS[item.index]}
+                </text>
               </view>
             )}
           </LoopScroll.Track>
@@ -108,10 +126,18 @@ export default function StandaloneLoopScrollExample() {
           marginTop: "16px",
           padding: "10px 16px",
           borderRadius: "8px",
-          backgroundColor: "#212124",
+          backgroundColor: "var(--seed-color-bg-neutral-solid)",
         }}
       >
-        <text style={{ color: "#ffffff", fontSize: "14px", fontWeight: "700" }}>index + 5</text>
+        <text
+          style={{
+            color: "var(--seed-color-fg-on-neutral-solid)",
+            fontSize: "14px",
+            fontWeight: "700",
+          }}
+        >
+          index + 5
+        </text>
       </view>
     </view>
   );

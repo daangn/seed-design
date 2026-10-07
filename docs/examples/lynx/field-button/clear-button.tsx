@@ -1,7 +1,7 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 import {
   FieldButton,
   FieldButtonPlaceholder,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/field-button";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("판교동");
 
   function selectValue() {
@@ -23,27 +22,23 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-field-button-root`}>
-      <VStack className="field-button-preview">
-        <VStack className="field-button-preview__content">
-          <FieldButton
-            label="동네"
-            values={value ? [value] : []}
-            onValuesChange={changeValues}
-            showClearButton={value !== ""}
-            buttonProps={{
-              bindtap: selectValue,
-              "accessibility-label": `동네 선택.${value ? ` 현재 동네는 ${value}입니다.` : ""}`,
-            }}
-          >
-            {value ? (
-              <FieldButtonValue>{value}</FieldButtonValue>
-            ) : (
-              <FieldButtonPlaceholder>동네를 선택해주세요</FieldButtonPlaceholder>
-            )}
-          </FieldButton>
-        </VStack>
-      </VStack>
-    </view>
+    <VStack className="field-button-preview__content">
+      <FieldButton
+        label="동네"
+        values={value ? [value] : []}
+        onValuesChange={changeValues}
+        showClearButton={value !== ""}
+        buttonProps={{
+          bindtap: selectValue,
+          "accessibility-label": `동네 선택.${value ? ` 현재 동네는 ${value}입니다.` : ""}`,
+        }}
+      >
+        {value ? (
+          <FieldButtonValue>{value}</FieldButtonValue>
+        ) : (
+          <FieldButtonPlaceholder>동네를 선택해주세요</FieldButtonPlaceholder>
+        )}
+      </FieldButton>
+    </VStack>
   );
 }

@@ -6,8 +6,11 @@ export default function Example() {
   return (
     <Box
       position="relative"
-      width="300px"
-      height="500px"
+      display="flex"
+      flexDirection="column"
+      width="full"
+      flexGrow
+      minHeight="0"
       borderWidth={1}
       borderColor="stroke.neutralMuted"
     >

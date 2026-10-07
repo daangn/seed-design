@@ -45,11 +45,11 @@ function Column({ id, labels, index, loop, onIndexChange }: ColumnProps) {
       loop={loop}
       index={index}
       onIndexChange={onIndexChange}
-      style={{ flexGrow: 1, flexBasis: "0px" }}
+      style={{ display: "flex", flexGrow: 1, flexBasis: "0px" }}
     >
-      <LoopScroll.Track>{renderLabel("#b0b3ba")}</LoopScroll.Track>
+      <LoopScroll.Track>{renderLabel("var(--seed-color-fg-placeholder)")}</LoopScroll.Track>
       <LoopScroll.Highlight>
-        <LoopScroll.Track>{renderLabel("#1a1c20")}</LoopScroll.Track>
+        <LoopScroll.Track>{renderLabel("var(--seed-color-fg-neutral)")}</LoopScroll.Track>
       </LoopScroll.Highlight>
     </LoopScroll.Root>
   );
@@ -83,29 +83,40 @@ export default function LoopScrollThreeColumnsExample() {
     <view
       style={{
         display: "flex",
-        height: "100%",
+        width: "100%",
+        flex: 1,
+        minHeight: 0,
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
       }}
     >
-      <text style={{ marginBottom: "6px", color: "#1a1c20", fontSize: "16px", fontWeight: "700" }}>
+      <text
+        style={{
+          marginBottom: "6px",
+          color: "var(--seed-color-fg-neutral)",
+          fontSize: "16px",
+          fontWeight: "700",
+        }}
+      >
         달을 바꾸면 날짜 수가 함께 바뀝니다
       </text>
       <text
         id="loop-scroll-three-columns-status"
-        style={{ marginBottom: "16px", color: "#555d6d", fontSize: "13px" }}
+        style={{
+          marginBottom: "16px",
+          color: "var(--seed-color-fg-neutral-muted)",
+          fontSize: "13px",
+        }}
       >
         {`${YEARS[year]} ${MONTHS[month]} ${dayLabels[day]} (days=${dayLabels.length})`}
       </text>
       <view
         style={{
           display: "flex",
-          width: "300px",
+          width: "100%",
+          maxWidth: "300px",
           flexDirection: "row",
           borderRadius: "12px",
-          backgroundColor: "#f2f3f6",
+          backgroundColor: "var(--seed-color-bg-neutral-weak)",
         }}
       >
         <view
@@ -116,7 +127,7 @@ export default function LoopScrollThreeColumnsExample() {
             left: "8px",
             height: `${ITEM_SIZE}px`,
             borderRadius: "8px",
-            backgroundColor: "#dcdee3",
+            backgroundColor: "var(--seed-color-bg-neutral-muted)",
           }}
         />
         <Column

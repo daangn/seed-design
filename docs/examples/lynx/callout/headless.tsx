@@ -7,10 +7,11 @@ function Message({ children }: { children: string }) {
   return (
     <text
       style={{
+        display: "flex",
         flexGrow: 1,
         flexShrink: 1,
         fontSize: "14px",
-        color: pressed ? "#8b8b8b" : "#1a1c20",
+        color: pressed ? "var(--seed-color-fg-neutral-subtle)" : "var(--seed-color-fg-neutral)",
       }}
     >
       {children}
@@ -24,7 +25,7 @@ const rootStyle = {
   alignItems: "center",
   padding: "12px 16px",
   borderRadius: "10px",
-  backgroundColor: "#f2f3f6",
+  backgroundColor: "var(--seed-color-bg-neutral-weak)",
 } as const;
 
 export default function Example() {
@@ -47,7 +48,7 @@ export default function Example() {
   }
 
   return (
-    <view style={{ display: "flex", flexDirection: "column", gap: "12px", padding: "16px" }}>
+    <view style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
       <Callout.Root style={rootStyle}>
         <Message>텍스트만 전달하는 안내예요.</Message>
       </Callout.Root>
@@ -59,7 +60,9 @@ export default function Example() {
       <Callout.Root style={rootStyle} open={open} onDismiss={handleDismiss}>
         <Message>설정이 저장되었어요.</Message>
         <Callout.CloseButton accessibility-label="닫기" style={{ padding: "4px 8px" }}>
-          <text style={{ fontSize: "14px", color: "#555d6d" }}>닫기</text>
+          <text style={{ fontSize: "14px", color: "var(--seed-color-fg-neutral-muted)" }}>
+            닫기
+          </text>
         </Callout.CloseButton>
       </Callout.Root>
 
@@ -71,7 +74,7 @@ export default function Example() {
           accessibility-label="다시 표시"
           style={{ padding: "8px" }}
         >
-          <text style={{ fontSize: "14px", color: "#0e74ff" }}>다시 표시</text>
+          <text style={{ fontSize: "14px", color: "var(--seed-color-fg-brand)" }}>다시 표시</text>
         </view>
       )}
     </view>

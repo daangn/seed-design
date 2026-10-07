@@ -1,6 +1,5 @@
 import "./styles";
 
-import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -9,11 +8,10 @@ import {
 import { PARAGRAPH, useRefreshObservation } from "./use-refresh-observation";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const { refreshCount, lastEvent, callbacks } = useRefreshObservation();
 
   return (
-    <view className={`${seedClassName} docs-lynx-ptr-root`}>
+    <view className="ptr-preview">
       <text className="ptr-preview__title">Pull To Refresh</text>
       <text className="ptr-preview__hint">
         최상단에서 아래로 당겨보세요. 짧게 당기면 취소되고, 충분히 당긴 뒤 놓으면 1초 동안

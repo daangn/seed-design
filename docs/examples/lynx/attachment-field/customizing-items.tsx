@@ -1,13 +1,6 @@
-import "@seed-design/lynx-css/base.css";
-
 import IconArrowClockwiseCircularFill from "@karrotmarket/lynx-monochrome-icon/IconArrowClockwiseCircularFill";
 import IconXmarkFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkFill";
-import {
-  AttachmentInput as SeedAttachmentInput,
-  Icon,
-  VStack,
-  useSeedClassName,
-} from "@seed-design/lynx-react";
+import { AttachmentInput as SeedAttachmentInput, Icon, VStack } from "@seed-design/lynx-react";
 import { ProgressCircle } from "@/components/ui/progress-circle";
 import type {
   AttachmentFileEntry,
@@ -64,46 +57,40 @@ function CustomImageItem({
 }
 
 export default function AttachmentFieldCustomizingItems() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentField
-          accept="image/*"
-          maxFiles={10}
-          label="이미지 업로드"
-          description="첫 번째 이미지가 대표사진으로 설정됩니다"
-          onSelectFiles={() => [PICKED_FILE]}
-          onFileAccept={(entries, { updateFileEntryStatus }) => {
-            for (const entry of entries) {
-              updateFileEntryStatus(entry.id, { status: "uploading", progress: 0 });
-              setTimeout(() => updateFileEntryStatus(entry.id, { status: "success" }), 500);
-            }
-          }}
-        >
-          <AttachmentInput>
-            {({ acceptedFileEntries, updateFileEntryStatus }) =>
-              acceptedFileEntries.map((fileEntry, index) => (
-                <CustomImageItem
-                  key={fileEntry.id}
-                  fileEntry={fileEntry}
-                  isCover={index === 0}
-                  onRetry={() => {
-                    updateFileEntryStatus(fileEntry.id, {
-                      status: "uploading",
-                      progress: 0,
-                    } satisfies AttachmentFileStatusDetails);
-                    setTimeout(
-                      () => updateFileEntryStatus(fileEntry.id, { status: "success" }),
-                      500,
-                    );
-                  }}
-                />
-              ))
-            }
-          </AttachmentInput>
-        </AttachmentField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentField
+        accept="image/*"
+        maxFiles={10}
+        label="이미지 업로드"
+        description="첫 번째 이미지가 대표사진으로 설정됩니다"
+        onSelectFiles={() => [PICKED_FILE]}
+        onFileAccept={(entries, { updateFileEntryStatus }) => {
+          for (const entry of entries) {
+            updateFileEntryStatus(entry.id, { status: "uploading", progress: 0 });
+            setTimeout(() => updateFileEntryStatus(entry.id, { status: "success" }), 500);
+          }
+        }}
+      >
+        <AttachmentInput>
+          {({ acceptedFileEntries, updateFileEntryStatus }) =>
+            acceptedFileEntries.map((fileEntry, index) => (
+              <CustomImageItem
+                key={fileEntry.id}
+                fileEntry={fileEntry}
+                isCover={index === 0}
+                onRetry={() => {
+                  updateFileEntryStatus(fileEntry.id, {
+                    status: "uploading",
+                    progress: 0,
+                  } satisfies AttachmentFileStatusDetails);
+                  setTimeout(() => updateFileEntryStatus(fileEntry.id, { status: "success" }), 500);
+                }}
+              />
+            ))
+          }
+        </AttachmentInput>
+      </AttachmentField>
+    </VStack>
   );
 }

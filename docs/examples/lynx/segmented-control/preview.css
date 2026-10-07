@@ -1,26 +1,20 @@
-.docs-lynx-segmented-control-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .segmented-control-example {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
   align-items: center;
-  justify-content: center;
   gap: 16px;
 }
 
-.segmented-control-example__control {
-  align-self: center;
-}
-
 .segmented-control-example__fixed-wide {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .segmented-control-example__fixed-narrow {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .segmented-control-example__status {

@@ -22,14 +22,16 @@ export default function LoopScrollInBottomSheetExample() {
     <view
       style={{
         display: "flex",
-        height: "100%",
+        width: "100%",
+        flex: 1,
+        minHeight: 0,
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
       }}
     >
-      <text id="loop-scroll-sheet-status" style={{ color: "#555d6d", fontSize: "14px" }}>
+      <text
+        id="loop-scroll-sheet-status"
+        style={{ color: "var(--seed-color-fg-neutral-muted)", fontSize: "14px" }}
+      >
         {`open=${open} index=${index}`}
       </text>
       <BottomSheet.Root open={open} onOpenChange={handleOpenChange}>
@@ -41,18 +43,20 @@ export default function LoopScrollInBottomSheetExample() {
             marginTop: "12px",
             padding: "12px 20px",
             borderRadius: "8px",
-            backgroundColor: "#212124",
+            backgroundColor: "var(--seed-color-bg-neutral-solid)",
           }}
         >
-          <text style={{ color: "#ffffff", fontWeight: "700" }}>시트 열기</text>
+          <text style={{ color: "var(--seed-color-fg-on-neutral-solid)", fontWeight: "700" }}>
+            시트 열기
+          </text>
         </BottomSheet.Trigger>
         <BottomSheet.Positioner style={{ top: "0px", right: "0px", bottom: "0px", left: "0px" }}>
-          <BottomSheet.Backdrop style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} />
+          <BottomSheet.Backdrop style={{ backgroundColor: "var(--seed-color-bg-overlay)" }} />
           <BottomSheet.Content
             style={{
               borderTopLeftRadius: "16px",
               borderTopRightRadius: "16px",
-              backgroundColor: "#ffffff",
+              backgroundColor: "var(--seed-color-bg-layer-floating)",
             }}
             innerStyle={{ padding: "0px 20px 40px" }}
           >
@@ -69,17 +73,27 @@ export default function LoopScrollInBottomSheetExample() {
                   width: "36px",
                   height: "4px",
                   borderRadius: "2px",
-                  backgroundColor: "#d1d3d8",
+                  backgroundColor: "var(--seed-color-stroke-neutral-weak)",
                 }}
               />
             </BottomSheet.Handle>
             <text
               id="loop-scroll-sheet-title"
-              style={{ color: "#1a1c20", fontSize: "18px", fontWeight: "700" }}
+              style={{
+                color: "var(--seed-color-fg-neutral)",
+                fontSize: "18px",
+                fontWeight: "700",
+              }}
             >
               시간 선택
             </text>
-            <text style={{ marginTop: "4px", color: "#555d6d", fontSize: "13px" }}>
+            <text
+              style={{
+                marginTop: "4px",
+                color: "var(--seed-color-fg-neutral-muted)",
+                fontSize: "13px",
+              }}
+            >
               휠을 끌어도 시트는 움직이지 않아야 합니다.
             </text>
             <LoopScroll.Root
@@ -92,7 +106,7 @@ export default function LoopScrollInBottomSheetExample() {
               style={{
                 marginTop: "16px",
                 borderRadius: "12px",
-                backgroundColor: "#f2f3f6",
+                backgroundColor: "var(--seed-color-bg-neutral-weak)",
               }}
             >
               <view
@@ -103,7 +117,7 @@ export default function LoopScrollInBottomSheetExample() {
                   left: "8px",
                   height: "44px",
                   borderRadius: "8px",
-                  backgroundColor: "#dcdee3",
+                  backgroundColor: "var(--seed-color-bg-neutral-muted)",
                 }}
               />
               <LoopScroll.Track>
@@ -116,7 +130,9 @@ export default function LoopScrollInBottomSheetExample() {
                       justifyContent: "center",
                     }}
                   >
-                    <text style={{ color: "#1a1c20", fontSize: "18px" }}>{HOURS[item.index]}</text>
+                    <text style={{ color: "var(--seed-color-fg-neutral)", fontSize: "18px" }}>
+                      {HOURS[item.index]}
+                    </text>
                   </view>
                 )}
               </LoopScroll.Track>
