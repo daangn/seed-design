@@ -22,6 +22,8 @@ const TYPE_TABLE_CACHE_DEPENDENCY_DIRECTORIES = [
   resolve(DOCS_DIRECTORY, "../packages/react/src"),
   resolve(DOCS_DIRECTORY, "../packages/react-headless"),
   resolve(DOCS_DIRECTORY, "../packages/lynx-react/src"),
+  resolve(DOCS_DIRECTORY, "../packages/lynx-react-headless"),
+  resolve(DOCS_DIRECTORY, "../packages/utils"),
   resolve(DOCS_DIRECTORY, "../packages/stackflow/src"),
 ];
 const TYPE_DEPENDENCY_FILE = /\.(?:[cm]?[jt]sx?|json)$/;

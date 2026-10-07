@@ -42,11 +42,10 @@ interface ActionButtonContentProps extends LynxElementProps {
   isIconOnly: boolean;
 }
 
-interface ActionButtonAccessibilityProps {
-  "accessibility-label"?: LynxViewProps["accessibility-label"];
-  "accessibility-element"?: LynxViewProps["accessibility-element"];
-  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
-}
+type ActionButtonAccessibilityProps = Pick<
+  LynxViewProps,
+  "accessibility-label" | "accessibility-element" | "accessibility-traits"
+>;
 
 interface ActionButtonRootOwnProps
   extends LynxStyledElementProps,

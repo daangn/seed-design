@@ -191,3 +191,75 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
     expect(output[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
   });
 });
+
+describe("filtered type table generator props", () => {
+  it("선언 없이 외부 mapped type에서 온 Lynx native 이벤트를 제외한다", async () => {
+    const directory = await createTemporaryDirectory();
+    const sourcePath = join(directory, "props.ts");
+    await writeFile(
+      sourcePath,
+      `import type { IntrinsicElements } from "@lynx-js/types";
+
+export interface Props extends Omit<IntrinsicElements["view"], "className"> {
+  value: string;
+}
+`,
+    );
+
+    const output = await createFilteredTypeTableGenerator(
+      join(directory, "cache"),
+    ).generateDocumentation({ path: sourcePath }, "Props");
+
+    expect(output[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
+  });
+
+  it("Lynx 공통 요소 속성과 통째로 상속한 레이아웃 prop은 빼고 Pick한 prop과 Box 문서의 prop은 남긴다", async () => {
+    const directory = await createTemporaryDirectory();
+    const lynxSourceDirectory = join(directory, "packages/lynx-react/src");
+    const styleKeys = Array.from({ length: 12 }, (_, index) => `style${index}`);
+    await mkdir(join(lynxSourceDirectory, "utils"), { recursive: true });
+    await mkdir(join(lynxSourceDirectory, "components/Box"), { recursive: true });
+    await writeFile(
+      join(lynxSourceDirectory, "types.ts"),
+      "export interface LynxStyledElementProps { className?: string; style?: object }\n",
+    );
+    await writeFile(
+      join(lynxSourceDirectory, "utils/styled.ts"),
+      `export interface StyleProps {\n${styleKeys.map((key) => `  ${key}?: string;\n`).join("")}}\n`,
+    );
+    const sourcePath = join(lynxSourceDirectory, "props.ts");
+    await writeFile(
+      sourcePath,
+      `import type { LynxStyledElementProps } from "./types";
+import type { StyleProps } from "./utils/styled";
+
+export interface WholesaleProps extends StyleProps, LynxStyledElementProps {
+  value: string;
+}
+
+export interface PickedProps extends Pick<StyleProps, "style0">, LynxStyledElementProps {
+  value: string;
+}
+`,
+    );
+    const boxPath = join(lynxSourceDirectory, "components/Box/Box.tsx");
+    await writeFile(
+      boxPath,
+      `import type { StyleProps } from "../../utils/styled";
+
+export interface BoxProps extends StyleProps {}
+`,
+    );
+    const generator = createFilteredTypeTableGenerator(join(directory, "cache"));
+
+    const [wholesale, picked, box] = await Promise.all([
+      generator.generateDocumentation({ path: sourcePath }, "WholesaleProps"),
+      generator.generateDocumentation({ path: sourcePath }, "PickedProps"),
+      generator.generateDocumentation({ path: boxPath }, "BoxProps"),
+    ]);
+
+    expect(wholesale[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
+    expect(picked[0]?.entries.map((entry) => entry.name).sort()).toEqual(["style0", "value"]);
+    expect(box[0]?.entries.map((entry) => entry.name)).toEqual(styleKeys);
+  });
+});
