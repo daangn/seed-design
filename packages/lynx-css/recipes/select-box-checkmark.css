@@ -1,19 +1,16 @@
 .seed-select-box-checkmark__root {
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5)
 }
 .seed-select-box-checkmark__icon {
     display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    flex-shrink: 0;
     width: 15px;
     height: 15px;
-    margin: auto;
     color: var(--seed-color-fg-placeholder)
 }
 .seed-select-box-checkmark__icon--selected_true {

@@ -41,6 +41,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
@@ -580,11 +581,20 @@ export const AttachmentInputItemRemoveButton = React.forwardRef<
   AttachmentInputItemRemoveButtonProps
 >(({ children, className, ...props }, forwardedRef) => {
   const classes = itemRecipe.useClassNames();
+  const { readOnly } = useFileUploadContext();
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: readOnly,
+  });
 
   return (
     <FileUploadItemRemoveButton
-      ref={forwardedRef}
-      {...props}
+      {...mergeProps(
+        forwardedRef ? { ref: forwardedRef } : {},
+        scaleFeedbackTargetProps,
+        scaleFeedbackTriggerProps,
+        props,
+      )}
+      flatten={false}
       className={clsx(classes.removeButton, className)}
     >
       <IconSlotProvider value={{ classNames: { icon: classes.removeIcon } }}>
