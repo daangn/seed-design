@@ -1018,14 +1018,14 @@ text {
 }
 
 .seed-app-bar__root--theme_cupertino {
-  height: calc(44px + var(--seed-safe-area-top));
+  height: calc(56px + var(--seed-safe-area-top));
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
   padding-top: var(--seed-safe-area-top);
 }
 
 .seed-app-bar__left--theme_cupertino, .seed-app-bar__right--theme_cupertino {
-  height: 44px;
+  height: 56px;
 }
 
 .seed-app-bar__iconButton--theme_cupertino {

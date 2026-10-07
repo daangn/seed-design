@@ -1,6 +1,8 @@
 @layer seed-components {
   .seed-menu-sheet__positioner {
     overscroll-behavior-y: none;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     --sheet-z-index: 2;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     justify-content: center;
@@ -22,6 +24,7 @@
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
+    max-height: min(.9 * 100%, 100% - var(--seed-safe-area-top));
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x4);
@@ -65,11 +68,13 @@
     gap: var(--seed-dimension-x2_5);
     flex-direction: column;
     display: flex;
+    overflow-y: auto;
   }
 
   .seed-menu-sheet__group {
     border-radius: var(--seed-radius-r4);
     flex-direction: column;
+    flex-shrink: 0;
     align-items: stretch;
     display: flex;
     overflow: hidden;

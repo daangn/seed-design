@@ -26,6 +26,13 @@ const dialog = defineSlotRecipe({
       bottom: 0,
       left: 0,
       overscrollBehaviorY: "none",
+      // The larger block inset goes on both sides, so the content stays at the viewport's
+      // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
+      // still covers the whole viewport.
+      paddingTop: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -53,6 +60,10 @@ const dialog = defineSlotRecipe({
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
+      // Resolves against the positioner's content box, which excludes its safe area padding,
+      // so content taller than that box scrolls instead of reaching the insets.
+      maxHeight: "100%",
+      overflowY: "auto",
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
     },

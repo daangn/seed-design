@@ -64,8 +64,17 @@ export const appBarMain = defineSlotRecipe({
           bottom: 0,
           left: 0,
           right: 0,
-          paddingLeft: "var(--centered-title-padding-x, 0)",
-          paddingRight: "var(--centered-title-padding-x, 0)",
+          // The title keeps the same distance past each side's safe-area inset, so it stays centered
+          // in the safe area. That distance is the bar's padding plus `--app-bar-area-extent`: how
+          // far the further-reaching left/right area extends from the bar's content edge, as
+          // `useAppBar` measures it. With no area the variable is unset, and the fallback cancels the
+          // padding so the title clears nothing.
+          // `@seed-design/stackflow` <= 1.1.25 sets `--centered-title-padding-x` instead: the padding
+          // itself, measured from the bar's padding edge. The fallback resolves to
+          // `max(var(--centered-title-padding-x, 0px), <safe-area inset>)`, so those versions keep
+          // the title clear of the left/right areas.
+          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${vars.themeIos.enabled.root.paddingX} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-left) - ${vars.themeIos.enabled.root.paddingX}))), 0px))`,
+          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${vars.themeIos.enabled.root.paddingX} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-right) - ${vars.themeIos.enabled.root.paddingX}))), 0px))`,
           pointerEvents: "none",
         },
       },
@@ -179,8 +188,8 @@ export const appBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeIos.enabled.root.paddingX,
-          paddingRight: vars.themeIos.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.themeIos.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.themeIos.enabled.root.paddingX} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -207,8 +216,8 @@ export const appBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: vars.themeAndroid.enabled.root.paddingX,
-          paddingRight: vars.themeAndroid.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.themeAndroid.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.themeAndroid.enabled.root.paddingX} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {

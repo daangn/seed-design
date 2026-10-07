@@ -18,8 +18,14 @@ export function useAppBar(_props: UseAppBarProps) {
 
   const leftOffset = useElementOffset(left);
   const rightOffset = useElementOffset(right);
+  const extents = [leftOffset?.fromLeft, rightOffset?.fromRight].filter(
+    (extent) => extent !== undefined,
+  );
+  // `initial` leaves the variable unset, which the recipe reads as having no area to clear.
+  const areaExtent = extents.length > 0 ? `${Math.max(...extents)}px` : "initial";
+  // Read by `@seed-design/css` <= 1.2.19 in place of `--app-bar-area-extent`.
   const centeredTitlePaddingX = root
-    ? `${Math.max(leftOffset?.fromLeft ?? 0, rightOffset?.fromRight ?? 0)}px`
+    ? `${Math.max(leftOffset?.fromParentLeft ?? 0, rightOffset?.fromParentRight ?? 0)}px`
     : "initial";
 
   return useMemo(
@@ -34,10 +40,11 @@ export function useAppBar(_props: UseAppBarProps) {
         "data-part": appBarAnatomy.root,
         ...stateProps,
         style: {
+          "--app-bar-area-extent": areaExtent,
           "--centered-title-padding-x": centeredTitlePaddingX,
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, centeredTitlePaddingX],
+    [stateProps, areaExtent, centeredTitlePaddingX],
   );
 }

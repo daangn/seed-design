@@ -33,6 +33,10 @@ const bottomSheet = defineSlotRecipe({
       bottom: 0,
       left: 0,
       overscrollBehaviorY: "none",
+      // Centers the sheet between the side insets and caps its width at the space between them.
+      // The backdrop is `position: fixed`, so it still covers the whole viewport.
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
 
       "--sheet-z-index": "2",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
@@ -69,6 +73,9 @@ const bottomSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      // Unlike dialog's, the fraction is of the whole screen, as the snap points are: the top
+      // inset only lowers the cap where it outgrows the gap the fraction leaves above the sheet.
+      maxHeight: `min(${vars.base.enabled.content.maxHeightFraction} * 100%, 100% - var(--seed-safe-area-top))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
       paddingBottom: "var(--seed-safe-area-bottom)",
@@ -134,6 +141,9 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      // Scrolls once the content hits its max height; as a scroll container it may also shrink
+      // below its content height despite `min-height: auto`.
+      overflowY: "auto",
 
       "--seed-box-padding-x": vars.base.enabled.body.paddingX,
       "--seed-box-height": "initial",
