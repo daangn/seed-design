@@ -5,6 +5,8 @@
     align-items: flex-end;
     inset: 0;
     overscroll-behavior-y: none;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     --sheet-z-index: 2;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
 }
@@ -25,6 +27,7 @@
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 480px;
+    max-height: min(0.9 * 100%, 100% - var(--seed-safe-area-top));
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--menu-sheet-header-padding-top, var(--seed-dimension-x4));
     padding-bottom: calc(var(--seed-dimension-x4) + var(--seed-safe-area-bottom));
@@ -74,6 +77,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    overflow-y: auto;
     gap: var(--seed-dimension-x2_5);
 }
 .seed-menu-sheet__group {
@@ -81,6 +85,7 @@
     flex-direction: column;
     align-items: stretch;
     overflow: hidden;
+    flex-shrink: 0;
     border-radius: var(--seed-radius-r4);
 }
 .seed-menu-sheet__footer {

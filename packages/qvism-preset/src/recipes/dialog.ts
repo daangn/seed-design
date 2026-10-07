@@ -32,6 +32,13 @@ const dialog = defineSlotRecipe({
       alignItems: "center",
       inset: 0,
       overscrollBehaviorY: "none",
+      // The larger block inset goes on both sides, so the content stays at the viewport's
+      // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
+      // still covers the whole viewport.
+      paddingTop: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -73,23 +80,29 @@ const dialog = defineSlotRecipe({
       // and the same pattern in side-panel. Mobile-first: viewport fraction below md,
       // size-capped token width at md+ (the cap is the only value that differs by size —
       // see variants). A consumer `width`/`maxWidth` StyleProp still wins via the chain.
-      "--dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--dialog-default-width": `calc(${vars.base.enabled.content.widthFraction} * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
       "--dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       "--seed-box-width--responsive": "var(--dialog-default-width)",
       "--seed-box-max-width--responsive": "var(--dialog-default-max-width)",
-      width: "var(--seed-box-width)",
-      maxWidth: "var(--seed-box-max-width)",
+      // `100%` is the positioner's content box, so a consumer `width`/`maxWidth` can't push the
+      // content into the side insets either. A keyword value makes its min() invalid, and that
+      // property falls back to its initial value.
+      width: "min(var(--seed-box-width), 100%)",
+      maxWidth: "min(var(--seed-box-max-width), 100%)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
+      // The content is centered on the viewport vertically, so the fraction is of the viewport's
+      // height. `100%` resolves against the positioner's content box, which keeps the content
+      // clear of the block insets where they outgrow the gap the fraction leaves.
       // dvh tracks the mobile browser UI collapse; vh is listed first as the fallback for engines
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
-        `calc(${vars.base.enabled.content.maxHeightFraction} * 100dvh)`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100vh, 100%)`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100dvh, 100%)`,
       ],
       [breakpoints.up("md")]: {
         "--dialog-default-width": "var(--dialog-size-width)",
-        "--dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX})`,
+        "--dialog-default-max-width": `calc(100vw - 2 * ${vars.base.enabled.content.marginX} - var(--seed-safe-area-left) - var(--seed-safe-area-right))`,
       },
 
       [pseudo(open)]: enterAnimation({

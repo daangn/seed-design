@@ -5,15 +5,15 @@ export declare const vars: {
         "color": "var(--seed-color-bg-layer-floating)",
         "cornerRadius": "var(--seed-radius-r5)",
         "shadow": "var(--seed-shadow-s3)",
-        /** viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다. */
+        /** 가용 너비(overflowPadding 참고)가 이보다 작으면 가용 너비로 축소됩니다. */
         "minWidth": "320px",
-        /** viewport가 이보다 작으면 overflowPadding을 뺀 가용 너비로 축소됩니다. */
+        /** 가용 너비(overflowPadding 참고)가 이보다 작으면 가용 너비로 축소됩니다. */
         "maxWidth": "480px",
-        /** viewport가 이보다 작으면 overflowPadding과 safe-area를 뺀 가용 높이로 축소됩니다. */
+        /** 가용 높이(overflowPadding 참고)가 이보다 작으면 가용 높이로 축소됩니다. */
         "maxHeight": "600px",
         /** 트리거와 popover 사이의 간격을 정의합니다. */
         "gutter": "var(--seed-dimension-x2)",
-        /** popover와 뷰포트 경계 사이의 최소 간격을 정의합니다. 위아래에 safe-area가 있으면 그 안쪽으로 배치됩니다. */
+        /** popover와 안전 영역 경계 사이의 최소 간격을 정의합니다. popover는 화면 끝에서 inset + overflowPadding만큼 안쪽에 배치되며, 가용 너비와 높이도 같은 기준으로 계산합니다. */
         "overflowPadding": "var(--seed-dimension-x4)",
         "enterDuration": "var(--seed-duration-d3)",
         "enterTimingFunction": "var(--seed-timing-function-enter)",
