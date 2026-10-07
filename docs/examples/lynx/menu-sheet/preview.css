@@ -1,15 +1,3 @@
-.docs-lynx-menu-sheet-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
-.menu-sheet-preview {
-  height: 100%;
-  padding: 24px;
-  align-items: center;
-  justify-content: center;
-}
-
 .menu-sheet-preview__status {
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;

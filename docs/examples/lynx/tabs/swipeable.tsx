@@ -1,33 +1,26 @@
 import "./styles";
 
-import { useSeedClassName } from "@seed-design/lynx-react";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-tabs-root`}>
-      <view className="tabs-preview">
-        <TabsRoot defaultValue="2">
-          <TabsList>
-            <TabsTrigger value="1">라벨1</TabsTrigger>
-            <TabsTrigger value="2">라벨2</TabsTrigger>
-            <TabsTrigger value="3">라벨3</TabsTrigger>
-          </TabsList>
-          <TabsCarousel swipeable className="tabs-preview__carousel">
-            <TabsContent className="tabs-preview__content" value="1">
-              <text className="tabs-preview__content-text">Content 1</text>
-            </TabsContent>
-            <TabsContent className="tabs-preview__content" value="2">
-              <text className="tabs-preview__content-text">Content 2</text>
-            </TabsContent>
-            <TabsContent className="tabs-preview__content" value="3">
-              <text className="tabs-preview__content-text">Content 3</text>
-            </TabsContent>
-          </TabsCarousel>
-        </TabsRoot>
-      </view>
-    </view>
+    <TabsRoot defaultValue="2" style={{ width: "100%" }}>
+      <TabsList>
+        <TabsTrigger value="1">라벨1</TabsTrigger>
+        <TabsTrigger value="2">라벨2</TabsTrigger>
+        <TabsTrigger value="3">라벨3</TabsTrigger>
+      </TabsList>
+      <TabsCarousel swipeable className="tabs-preview__carousel">
+        <TabsContent className="tabs-preview__content" value="1">
+          <text className="tabs-preview__content-text">Content 1</text>
+        </TabsContent>
+        <TabsContent className="tabs-preview__content" value="2">
+          <text className="tabs-preview__content-text">Content 2</text>
+        </TabsContent>
+        <TabsContent className="tabs-preview__content" value="3">
+          <text className="tabs-preview__content-text">Content 3</text>
+        </TabsContent>
+      </TabsCarousel>
+    </TabsRoot>
   );
 }

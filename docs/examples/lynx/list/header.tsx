@@ -5,7 +5,7 @@ import IconLockLine from "@karrotmarket/lynx-monochrome-icon/IconLockLine";
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
 import IconQuestionmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconQuestionmarkCircleFill";
 
-import { ActionButton, PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListDivider } from "@/components/ui/list";
 import { ListHeader } from "@/components/ui/list-header";
@@ -30,31 +30,27 @@ function AccountList() {
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-list-root`}>
-      <view className="list-preview__sections">
-        <view className="list-preview__section">
-          <ListHeader variant="mediumWeak">variant=&quot;mediumWeak&quot;</ListHeader>
-          <AccountList />
+    <view className="list-preview__sections">
+      <view className="list-preview__section">
+        <ListHeader variant="mediumWeak">variant=&quot;mediumWeak&quot;</ListHeader>
+        <AccountList />
+      </view>
+      <ListDivider />
+      <view className="list-preview__section">
+        <ListHeader variant="boldSolid">variant=&quot;boldSolid&quot;</ListHeader>
+        <AccountList />
+      </view>
+      <ListDivider />
+      <view className="list-preview__section">
+        <view className="list-preview__row list-preview__header-row">
+          <ListHeader>List Header with Action Button</ListHeader>
+          <ActionButton variant="ghost" size="small">
+            <PrefixIcon icon={<IconQuestionmarkCircleFill />} />
+            도움말
+          </ActionButton>
         </view>
-        <ListDivider />
-        <view className="list-preview__section">
-          <ListHeader variant="boldSolid">variant=&quot;boldSolid&quot;</ListHeader>
-          <AccountList />
-        </view>
-        <ListDivider />
-        <view className="list-preview__section">
-          <view className="list-preview__row list-preview__header-row">
-            <ListHeader>List Header with Action Button</ListHeader>
-            <ActionButton variant="ghost" size="small">
-              <PrefixIcon icon={<IconQuestionmarkCircleFill />} />
-              도움말
-            </ActionButton>
-          </view>
-          <AccountList />
-        </view>
+        <AccountList />
       </view>
     </view>
   );

@@ -1,11 +1,10 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { useSeedClassName } from "@seed-design/lynx-react";
+
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "@/components/ui/chip-tabs";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [value, setValue] = useState("1");
 
   function handleValueChange(nextValue: string) {
@@ -14,7 +13,7 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-chip-tabs-root`}>
+    <view className="chip-tabs-preview">
       <ChipTabsRoot
         variant="neutralOutline"
         defaultValue="1"

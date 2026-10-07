@@ -1,6 +1,4 @@
-import "./styles";
-
-import { Box, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Box } from "@seed-design/lynx-react";
 import {
   SelectContent,
   SelectGroup,
@@ -10,23 +8,18 @@ import {
 } from "@/components/ui/select";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={`${seedClassName} docs-lynx-select-root`}>
-      <VStack className="select-preview">
-        <Box width="240px">
-          <SelectRoot placement="top" defaultValue={["apple"]}>
-            <SelectTrigger accessibility-label="과일" placeholder="과일 선택" />
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="apple" label="사과" />
-                <SelectItem value="banana" label="바나나" />
-                <SelectItem value="cherry" label="체리" />
-              </SelectGroup>
-            </SelectContent>
-          </SelectRoot>
-        </Box>
-      </VStack>
-    </view>
+    <Box width="full">
+      <SelectRoot placement="top" defaultValue={["apple"]}>
+        <SelectTrigger accessibility-label="과일" placeholder="과일 선택" />
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="apple" label="사과" />
+            <SelectItem value="banana" label="바나나" />
+            <SelectItem value="cherry" label="체리" />
+          </SelectGroup>
+        </SelectContent>
+      </SelectRoot>
+    </Box>
   );
 }

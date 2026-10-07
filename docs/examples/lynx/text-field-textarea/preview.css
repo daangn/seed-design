@@ -1,10 +1,3 @@
-.docs-lynx-text-field-textarea-root {
-  box-sizing: border-box;
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .pure-textarea {
   width: 100%;
   min-height: 96px;

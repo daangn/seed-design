@@ -1,14 +1,8 @@
-.docs-lynx-checkbox-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .checkbox-preview {
-  height: 100%;
-  padding: 20px;
+  display: flex;
+  width: 100%;
+  max-width: 360px;
   align-items: center;
-  justify-content: center;
 }
 
 .checkbox-preview__status {

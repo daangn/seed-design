@@ -1,10 +1,9 @@
-.docs-lynx-keyboard-avoiding-scroll-view-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .keyboard-avoiding-scroll-view-preview {
-  height: 100%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .keyboard-avoiding-scroll-view-preview__content {
@@ -32,7 +31,8 @@
 }
 
 .keyboard-avoiding-scroll-view-preview__spacer {
-  height: 52vh;
+  height: 320px;
+  display: flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;

@@ -9,10 +9,16 @@ function Surface() {
       style={{
         padding: "12px 20px",
         borderRadius: "8px",
-        backgroundColor: loading ? "#8b8b8b" : pressed ? "#3a3a3c" : "#212124",
+        backgroundColor: loading
+          ? "var(--seed-color-bg-neutral-solid-muted)"
+          : pressed
+            ? "var(--seed-color-bg-neutral-solid-pressed)"
+            : "var(--seed-color-bg-neutral-solid)",
       }}
     >
-      <text style={{ color: "#ffffff", fontWeight: "700" }}>{loading ? "저장 중" : "저장"}</text>
+      <text style={{ color: "var(--seed-color-fg-on-neutral-solid)", fontWeight: "700" }}>
+        {loading ? "저장 중" : "저장"}
+      </text>
     </view>
   );
 }
@@ -27,14 +33,12 @@ export default function Example() {
   }
 
   return (
-    <view style={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
-      <ActionButton.Root
-        loading={loading}
-        bindtap={handleTap}
-        accessibility-label={loading ? "저장 중" : "저장"}
-      >
-        <Surface />
-      </ActionButton.Root>
-    </view>
+    <ActionButton.Root
+      loading={loading}
+      bindtap={handleTap}
+      accessibility-label={loading ? "저장 중" : "저장"}
+    >
+      <Surface />
+    </ActionButton.Root>
   );
 }

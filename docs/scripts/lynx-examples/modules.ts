@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { getExampleLayout } from "../../playground/lynx/layout.js";
 import { DOCS_DIRECTORY, EXAMPLES_DIRECTORY } from "./constants.js";
 import type { LynxExampleEntry } from "./discovery.js";
 
@@ -21,7 +22,7 @@ export function createStandaloneModules(entries: LynxExampleEntry[]): Standalone
       `import { renderLynxExample } from ${JSON.stringify(STANDALONE_MODULE)};`,
       `import Example from ${JSON.stringify(entry.sourcePath)};`,
       "",
-      "renderLynxExample(Example);",
+      `renderLynxExample(Example, ${JSON.stringify(getExampleLayout(entry.id))});`,
       "",
     ].join("\n");
   }

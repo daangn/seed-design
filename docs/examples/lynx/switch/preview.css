@@ -1,13 +1,7 @@
-.docs-lynx-switch-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .switch-preview {
-  height: 100%;
+  display: flex;
+  max-width: 360px;
   align-items: center;
-  justify-content: center;
 }
 
 .switch-preview__status {

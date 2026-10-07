@@ -1,7 +1,5 @@
-import "./styles";
-
 import { useState } from "@lynx-js/react";
-import { Box, HStack, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
 import { HelpBubbleAnchor } from "@/components/ui/help-bubble";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
 
@@ -20,6 +18,7 @@ function Avatar() {
     <Box
       width="64px"
       height="64px"
+      style={{ display: "flex" }}
       alignItems="center"
       justifyContent="center"
       overflowX="hidden"
@@ -42,7 +41,6 @@ function Avatar() {
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [zIndexOffset, setZIndexOffset] = useState(5);
 
   function handleOffsetChange(nextOffset: string) {
@@ -51,53 +49,52 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-help-bubble-root`}>
-      <VStack width="full" height="480px" p="x5" gap="x8" align="center" justify="center">
-        <HStack gap="x2">
-          {Array.from({ length: 5 }, (_, index) => (
-            <Box
-              key={index}
-              width="64px"
-              height="64px"
-              borderRadius="r2"
-              alignItems="center"
-              justifyContent="center"
-              bg="bg.neutralWeak"
-              borderColor="stroke.neutralWeak"
-              borderWidth={1}
-              zIndex={index + 100}
-            >
-              <Text>{index + 100}</Text>
-            </Box>
-          ))}
-        </HStack>
-        <HelpBubbleAnchor
-          defaultOpen
-          title={`default: 99, current: ${99 + zIndexOffset}`}
-          description="Et ullamco laborum voluptate ipsum labore ea nostrud sunt ipsum."
-          zIndexOffset={zIndexOffset}
-          closeOnInteractOutside={false}
-        >
-          <Avatar />
-        </HelpBubbleAnchor>
-        <VStack gap="x1" align="center">
-          <SegmentedControl
-            value={String(zIndexOffset)}
-            onValueChange={handleOffsetChange}
-            accessibility-label="zIndexOffset"
+    <VStack width="full" gap="x8" align="center">
+      <HStack width="full" gap="x2" style={{ display: "flex", flexWrap: "wrap" }}>
+        {Array.from({ length: 5 }, (_, index) => (
+          <Box
+            key={index}
+            width="64px"
+            height="64px"
+            borderRadius="r2"
+            style={{ display: "flex" }}
+            alignItems="center"
+            justifyContent="center"
+            bg="bg.neutralWeak"
+            borderColor="stroke.neutralWeak"
+            borderWidth={1}
+            zIndex={index + 100}
           >
-            {OFFSET_OPTIONS.map((option) => (
-              <SegmentedControlItem key={option} value={option}>
-                {option}
-              </SegmentedControlItem>
-            ))}
-          </SegmentedControl>
-          <HStack width="full" justify="spaceBetween">
-            <Text>0</Text>
-            <Text>5</Text>
-          </HStack>
-        </VStack>
+            <Text>{index + 100}</Text>
+          </Box>
+        ))}
+      </HStack>
+      <HelpBubbleAnchor
+        defaultOpen
+        title={`default: 99, current: ${99 + zIndexOffset}`}
+        description="Et ullamco laborum voluptate ipsum labore ea nostrud sunt ipsum."
+        zIndexOffset={zIndexOffset}
+        closeOnInteractOutside={false}
+      >
+        <Avatar />
+      </HelpBubbleAnchor>
+      <VStack gap="x1" align="center">
+        <SegmentedControl
+          value={String(zIndexOffset)}
+          onValueChange={handleOffsetChange}
+          accessibility-label="zIndexOffset"
+        >
+          {OFFSET_OPTIONS.map((option) => (
+            <SegmentedControlItem key={option} value={option}>
+              {option}
+            </SegmentedControlItem>
+          ))}
+        </SegmentedControl>
+        <HStack width="full" justify="spaceBetween">
+          <Text>0</Text>
+          <Text>5</Text>
+        </HStack>
       </VStack>
-    </view>
+    </VStack>
   );
 }

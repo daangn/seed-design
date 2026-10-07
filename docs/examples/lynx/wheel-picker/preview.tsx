@@ -1,7 +1,7 @@
 import "./styles";
 
 import * as React from "@lynx-js/react";
-import { useSeedClassName } from "@seed-design/lynx-react";
+
 import { WheelPicker } from "@/components/ui/wheel-picker";
 
 const buildingOptions = Array.from({ length: 10 }, (_, index) => {
@@ -17,7 +17,6 @@ const unitOptions = Array.from({ length: 15 }, (_, floorIndex) =>
 ).flat();
 
 export default function WheelPickerPreview() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [{ building, unit }, setAddress] = React.useState({
     building: "103",
     unit: "1202",
@@ -47,15 +46,13 @@ export default function WheelPickerPreview() {
   ];
 
   return (
-    <view className={`${seedClassName} docs-lynx-wheel-picker-root`}>
-      <view className="wheel-picker-preview">
-        <view className="wheel-picker-preview__picker">
-          <WheelPicker columns={columns} />
-        </view>
-        <text id="wheel-picker-preview-status" className="wheel-picker-preview__status">
-          {building}동 {unit}호
-        </text>
+    <view className="wheel-picker-preview">
+      <view className="wheel-picker-preview__picker">
+        <WheelPicker columns={columns} />
       </view>
+      <text id="wheel-picker-preview-status" className="wheel-picker-preview__status">
+        {building}동 {unit}호
+      </text>
     </view>
   );
 }

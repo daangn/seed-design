@@ -1,9 +1,7 @@
-import "./styles";
-
 import IconPencilLine from "@karrotmarket/lynx-monochrome-icon/IconPencilLine";
 import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
 
-import { ActionButton, HStack, useSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton, HStack } from "@seed-design/lynx-react";
 import {
   MenuContent,
   MenuGroup,
@@ -32,15 +30,11 @@ function SizeMenu({ size, label }: { size: MenuRootProps["size"]; label: string 
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-menu-root`}>
-      <HStack width="full" height="full" gap="x4" align="center" justify="center">
-        <SizeMenu size="medium" label="Medium" />
-        <SizeMenu size="small" label="Small" />
-        <SizeMenu size="responsive" label="Responsive" />
-      </HStack>
-    </view>
+    <HStack gap="x4" align="center">
+      <SizeMenu size="medium" label="Medium" />
+      <SizeMenu size="small" label="Small" />
+      <SizeMenu size="responsive" label="Responsive" />
+    </HStack>
   );
 }

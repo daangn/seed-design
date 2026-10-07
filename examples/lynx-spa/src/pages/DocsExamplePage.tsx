@@ -12,7 +12,7 @@ interface DocsExamplePageProps {
 
 export function DocsExamplePage({ example, onBack }: DocsExamplePageProps) {
   const LazyExample = useMemo(() => lazy(example.load), [example.id, example.load]);
-  const layout = getExampleLayout(example.component);
+  const layout = getExampleLayout(example.id);
   const sourcePath = `docs/examples/lynx/${example.component}/${example.scenario}.tsx`;
   const content = (
     <LynxExampleBoundary exampleId={example.id} load={example.load} onBack={onBack}>
@@ -42,7 +42,9 @@ export function DocsExamplePage({ example, onBack }: DocsExamplePageProps) {
         <view className="flex flex-col flex-1 min-h-0">{content}</view>
       ) : (
         <scroll-view scroll-orientation="vertical" className="flex-1 min-h-0">
-          <view className="min-h-full">{content}</view>
+          <view className="flex flex-col items-center justify-center min-h-full p-x4">
+            {content}
+          </view>
         </scroll-view>
       )}
     </view>
