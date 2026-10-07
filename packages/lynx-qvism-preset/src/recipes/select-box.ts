@@ -259,22 +259,20 @@ export const selectBoxCheckmark = defineSlotRecipe({
   name: "select-box-checkmark",
   slots: ["root", "icon"],
   base: {
+    // Lynx native는 absolute + inset 0 + margin auto로 가운데 정렬하지 않으므로 flex로 가운데에 둔다.
     root: {
-      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       flexShrink: 0,
       width: checkmarkVars.base.enabled.root.size,
       height: checkmarkVars.base.enabled.root.size,
     },
     icon: {
       display: "flex",
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      flexShrink: 0,
       width: checkmarkVars.base.enabled.icon.size,
       height: checkmarkVars.base.enabled.icon.size,
-      margin: "auto",
       color: checkmarkVars.base.enabled.icon.color,
     },
   },

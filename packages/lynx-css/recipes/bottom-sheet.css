@@ -58,8 +58,6 @@
 .seed-bottom-sheet__body {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter)
 }

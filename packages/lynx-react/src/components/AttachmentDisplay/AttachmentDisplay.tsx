@@ -39,6 +39,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
@@ -581,6 +582,10 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
   } = props;
   const context = useAttachmentDisplayContext();
   const classes = useItemClassNames();
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: context.readOnly,
+  });
+
   return (
     <IconSlotProvider
       value={{
@@ -589,9 +594,13 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
       }}
     >
       <HeadlessAttachmentDisplayItemRemoveButton
-        ref={ref}
-        {...removeProps}
-        {...context.stateProps}
+        {...mergeProps(
+          ref ? { ref } : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          removeProps,
+          context.stateProps,
+        )}
         accessibility-role-description={accessibilityRoleDescription}
         flatten={false}
         className={clsx(classes.removeButton, className)}

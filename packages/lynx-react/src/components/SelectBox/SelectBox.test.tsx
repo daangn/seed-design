@@ -234,6 +234,7 @@ describe("SelectBox", () => {
 
     expect(radioContent).toHaveAttribute("flatten", "false");
     expect(radioMark).not.toHaveAttribute("flatten", "false");
+    expect(radioMark).not.toHaveClass("seed-radio__control");
 
     expect(surfaces[0]).toHaveAttribute("accessibility-value", "selected");
     expect(surfaces[1]).toHaveAttribute("accessibility-value", "not selected");
