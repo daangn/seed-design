@@ -69,7 +69,9 @@ const bottomSheet = defineSlotRecipe({
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
-      maxHeight: "calc(100% - var(--seed-safe-area-top))",
+      // Unlike dialog's, the fraction is of the whole screen, as the snap points are: the top
+      // inset only lowers the cap where it outgrows the gap the fraction leaves above the sheet.
+      maxHeight: `min(${vars.base.enabled.content.maxHeightFraction} * 100%, 100% - var(--seed-safe-area-top))`,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
       paddingBottom: "var(--seed-safe-area-bottom)",

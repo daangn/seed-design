@@ -35,7 +35,7 @@
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 480px;
-    max-height: calc(100% - var(--seed-safe-area-top));
+    max-height: min(0.9 * 100%, 100% - var(--seed-safe-area-top));
     border-top-left-radius: var(--seed-radius-r6);
     border-top-right-radius: var(--seed-radius-r6);
     padding-bottom: var(--seed-safe-area-bottom);

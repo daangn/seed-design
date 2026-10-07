@@ -42,6 +42,10 @@
             "maxWidth": {
               "type": "dimension"
             },
+            "maxHeightFraction": {
+              "type": "number",
+              "description": "viewport height 또는 parent height에 대한 최대 비율입니다."
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -194,6 +198,10 @@
                     "value": 480,
                     "unit": "px"
                   }
+                },
+                "maxHeightFraction": {
+                  "type": "number",
+                  "value": 0.9
                 },
                 "paddingX": {
                   "type": "dimension",

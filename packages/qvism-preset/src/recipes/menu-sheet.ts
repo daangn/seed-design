@@ -60,7 +60,9 @@ const menuSheet = defineSlotRecipe({
 
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
-      maxHeight: "calc(100% - var(--seed-safe-area-top))",
+      // Unlike dialog's, the fraction is of the whole screen: the top inset only lowers the cap
+      // where it outgrows the gap the fraction leaves above the sheet.
+      maxHeight: `min(${vars.base.enabled.content.maxHeightFraction} * 100%, 100% - var(--seed-safe-area-top))`,
       paddingInline: vars.base.enabled.content.paddingX,
 
       // rootage menu sheet assumes the header has a handle and content needs proper spacing to show the handle,

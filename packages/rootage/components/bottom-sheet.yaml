@@ -28,6 +28,9 @@ data:
             type: color
           maxWidth:
             type: dimension
+          maxHeightFraction:
+            type: number
+            description: viewport height 또는 parent height에 대한 최대 비율입니다.
           topCornerRadius:
             type: dimension
           enterDuration:
@@ -104,6 +107,7 @@ data:
         content:
           color: $color.bg.layer-floating
           maxWidth: 480px
+          maxHeightFraction: 0.9
           topCornerRadius: $radius.r6
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive

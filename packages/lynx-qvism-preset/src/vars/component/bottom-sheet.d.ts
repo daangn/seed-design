@@ -13,6 +13,8 @@ export declare const vars: {
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         "maxWidth": "480px",
+        /** viewport height 또는 parent height에 대한 최대 비율입니다. */
+        "maxHeightFraction": "0.9",
         "topCornerRadius": "var(--seed-radius-r6)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
