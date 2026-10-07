@@ -73,3 +73,7 @@
 # Lynx Input Button → Field Button: React와 같은 컴포넌트 이름으로 변경
 /lynx/components/input-button /lynx/components/field-button 301
 /llms/lynx/components/input-button /llms/lynx/components/field-button 301
+
+# Lynx Swipeable Menu Sheet → Menu Sheet: 컴포넌트 이름 변경
+/lynx/components/swipeable-menu-sheet /lynx/components/menu-sheet 301
+/llms/lynx/components/swipeable-menu-sheet /llms/lynx/components/menu-sheet 301
