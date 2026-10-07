@@ -3,7 +3,18 @@
 .kav-headless-root {
   flex: 1;
   min-height: 0;
+  background-color: #ffffff;
+}
+
+.kav-headless-scroll {
   padding: 16px;
+}
+
+.kav-headless-footer {
+  padding: 12px 16px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #dcdee3;
   background-color: #ffffff;
 }
 
