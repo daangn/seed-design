@@ -1920,6 +1920,7 @@ text {
   margin: 0;
   padding: 0;
   display: flex;
+  overflow: visible;
 }
 
 .seed-attachment-input-item__root {
