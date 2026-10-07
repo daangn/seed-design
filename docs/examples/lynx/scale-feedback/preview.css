@@ -1,12 +1,7 @@
-.docs-lynx-scale-feedback-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .scale-feedback-example {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
 }
 

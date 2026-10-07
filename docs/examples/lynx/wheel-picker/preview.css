@@ -1,15 +1,6 @@
-.docs-lynx-wheel-picker-root {
-  width: 100%;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .wheel-picker-preview {
-  width: 360px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,11 +8,12 @@
 }
 
 .wheel-picker-preview--compact {
-  width: 320px;
+  max-width: 320px;
 }
 
 .wheel-picker-preview--states {
-  width: 160px;
+  display: flex;
+  max-width: 160px;
   gap: 8px;
 }
 

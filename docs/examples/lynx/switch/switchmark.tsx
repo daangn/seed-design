@@ -1,6 +1,6 @@
 import "./styles";
 
-import { HStack, Switch, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { HStack, Switch, Text, VStack } from "@seed-design/lynx-react";
 import { Switchmark } from "@/components/ui/switch";
 
 interface CustomSwitchProps extends Switch.RootProps {
@@ -20,14 +20,11 @@ function CustomSwitch({ label, textStyle, ...props }: CustomSwitchProps) {
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={`${seedClassName} docs-lynx-switch-root`}>
-      <HStack className="switch-preview" gap="x6">
-        <CustomSwitch label="regular" textStyle="t7Regular" />
-        <CustomSwitch label="medium" textStyle="t7Medium" defaultChecked />
-        <CustomSwitch label="bold" textStyle="t7Bold" />
-      </HStack>
-    </view>
+    <HStack className="switch-preview" gap="x6">
+      <CustomSwitch label="regular" textStyle="t7Regular" />
+      <CustomSwitch label="medium" textStyle="t7Medium" defaultChecked />
+      <CustomSwitch label="bold" textStyle="t7Bold" />
+    </HStack>
   );
 }

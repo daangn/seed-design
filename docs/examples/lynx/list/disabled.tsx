@@ -4,63 +4,59 @@ import IconChevronRightLine from "@karrotmarket/lynx-monochrome-icon/IconChevron
 import IconPersonCircleLine from "@karrotmarket/lynx-monochrome-icon/IconPersonCircleLine";
 import IconSlashCircleLine from "@karrotmarket/lynx-monochrome-icon/IconSlashCircleLine";
 
-import { PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
+import { PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "@/components/ui/list";
 import { RadioGroup } from "@/components/ui/radio-group";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-list-root`}>
-      <view className="list-preview__sections">
+    <view className="list-preview__sections">
+      <List>
+        <ListButtonItem
+          prefix={<PrefixIcon icon={<IconPersonCircleLine />} />}
+          title="활성화된 ListButtonItem"
+          detail="Cupidatat et pariatur amet."
+          suffix={<SuffixIcon icon={<IconChevronRightLine />} />}
+        />
+        <ListCheckItem
+          prefix={<PrefixIcon icon={<IconPersonCircleLine />} />}
+          title="활성화된 ListCheckItem"
+        />
+      </List>
+      <RadioGroup defaultValue="enabled" accessibility-label="활성화 옵션">
         <List>
-          <ListButtonItem
+          <ListRadioItem
             prefix={<PrefixIcon icon={<IconPersonCircleLine />} />}
-            title="활성화된 ListButtonItem"
-            detail="Cupidatat et pariatur amet."
-            suffix={<SuffixIcon icon={<IconChevronRightLine />} />}
-          />
-          <ListCheckItem
-            prefix={<PrefixIcon icon={<IconPersonCircleLine />} />}
-            title="활성화된 ListCheckItem"
+            title="활성화된 ListRadioItem"
+            value="enabled"
           />
         </List>
-        <RadioGroup defaultValue="enabled" accessibility-label="활성화 옵션">
-          <List>
-            <ListRadioItem
-              prefix={<PrefixIcon icon={<IconPersonCircleLine />} />}
-              title="활성화된 ListRadioItem"
-              value="enabled"
-            />
-          </List>
-        </RadioGroup>
+      </RadioGroup>
+      <List>
+        <ListButtonItem
+          disabled
+          prefix={<PrefixIcon icon={<IconSlashCircleLine />} />}
+          title="비활성화된 ListButtonItem"
+          detail="Cupidatat et pariatur amet."
+          suffix={<SuffixIcon icon={<IconChevronRightLine />} />}
+        />
+        <ListCheckItem
+          disabled
+          prefix={<PrefixIcon icon={<IconSlashCircleLine />} />}
+          title="비활성화된 ListCheckItem"
+        />
+      </List>
+      <RadioGroup defaultValue="disabled" accessibility-label="비활성화 옵션">
         <List>
-          <ListButtonItem
+          <ListRadioItem
             disabled
             prefix={<PrefixIcon icon={<IconSlashCircleLine />} />}
-            title="비활성화된 ListButtonItem"
-            detail="Cupidatat et pariatur amet."
-            suffix={<SuffixIcon icon={<IconChevronRightLine />} />}
-          />
-          <ListCheckItem
-            disabled
-            prefix={<PrefixIcon icon={<IconSlashCircleLine />} />}
-            title="비활성화된 ListCheckItem"
+            title="비활성화된 ListRadioItem"
+            value="disabled"
           />
         </List>
-        <RadioGroup defaultValue="disabled" accessibility-label="비활성화 옵션">
-          <List>
-            <ListRadioItem
-              disabled
-              prefix={<PrefixIcon icon={<IconSlashCircleLine />} />}
-              title="비활성화된 ListRadioItem"
-              value="disabled"
-            />
-          </List>
-        </RadioGroup>
-      </view>
+      </RadioGroup>
     </view>
   );
 }

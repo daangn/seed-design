@@ -1,21 +1,19 @@
-.docs-lynx-tag-group-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .tag-group-preview {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
   align-items: center;
-  justify-content: center;
 }
 
 .tag-group-preview__group {
   max-width: 280px;
-  justify-content: center;
 }
 
 .tag-group-preview__wrapping-container {
-  width: 350px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
   padding: 12px;
   border-radius: 8px;
   background-color: var(--seed-color-bg-neutral-weak);
