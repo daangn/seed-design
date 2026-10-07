@@ -196,6 +196,17 @@ export default defineConfig({
 `engineVersion`은 앱의 최소 대상 버전이에요. 기존 앱이 더 높은 버전을 요구한다면 그 값을 유지하세요.
 `enableTextRefactor`는 이 대상 버전에서 기본 활성화되며, `enableCSSStrictMode: false`를 SEED의 필수 설정으로 추가할 필요는 없어요.
 
+`PullToRefresh`를 사용하는 앱은 기존 `pluginReactLynx` 설정에 `enableNewGesture: true`를 추가하세요. PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`로 Content 스크롤과 당김 제스처를 중재해요.
+
+```ts
+pluginReactLynx({
+  engineVersion: "3.6",
+  enableNewGesture: true,
+});
+```
+
+이 플래그는 PullToRefresh를 쓰는 앱에 필요한 조건부 설정이에요. 도입 기록과 버전별 설정 조건은 [Feature Flags의 이벤트와 제스처](/lynx/getting-started/feature-flags#이벤트와-제스처)를 확인하세요.
+
 <Callout>
   엔진·빌드 도구 버전별로 유지하거나 생략할 설정과 선택 옵션은 [Feature
   Flags](/lynx/getting-started/feature-flags)에서 확인하세요.
