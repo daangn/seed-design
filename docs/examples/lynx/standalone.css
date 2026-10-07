@@ -22,3 +22,17 @@ text {
   align-items: center;
   justify-content: center;
 }
+
+/* 예제 ID를 받지 못한 host(예: query를 전달하지 않는 Lynx Go)에서 같은 bundle의 예제를 고른다. */
+.docs-lynx-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.docs-lynx-picker__item {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: var(--seed-color-bg-neutral-weak);
+}

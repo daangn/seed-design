@@ -7,6 +7,7 @@ import {
   STAGING_DIRECTORY,
 } from "./constants.js";
 import type { LynxExampleEntry } from "./discovery.js";
+import { getLynxExampleBundleKey } from "./modules.js";
 
 export interface LynxExampleManifest {
   schemaVersion: 1;
@@ -38,9 +39,17 @@ export async function createManifestFromBundles(
 ): Promise<LynxExampleManifest> {
   const files = await readdir(directory, { recursive: true });
   const examples: LynxExampleManifest["examples"] = {};
+  const bundles = new Map<string, { web: string; lynx: string }>();
 
   for (const entry of entries) {
-    const escapedKey = escapeRegExp(entry.entryKey);
+    const bundleKey = getLynxExampleBundleKey(entry);
+    const verified = bundles.get(bundleKey);
+    if (verified) {
+      examples[entry.id] = verified;
+      continue;
+    }
+
+    const escapedKey = escapeRegExp(bundleKey);
     const matches = {
       web: files.filter((file) =>
         new RegExp(`^${escapedKey}(?:\\.[a-f0-9]{8})?\\.web\\.bundle$`).test(file),
@@ -61,10 +70,12 @@ export async function createManifestFromBundles(
       if (platform === "web") await assertWebBundleUsesWebUnits(bundlePath, entry.id);
     }
 
-    examples[entry.id] = {
+    const bundle = {
       web: `/__lynx__/${matches.web[0]}`,
       lynx: `/__lynx__/${matches.lynx[0]}`,
     };
+    bundles.set(bundleKey, bundle);
+    examples[entry.id] = bundle;
   }
 
   return { schemaVersion: LYNX_MANIFEST_SCHEMA_VERSION, examples };
@@ -77,8 +88,8 @@ export function createDevelopmentManifest(entries: LynxExampleEntry[]): LynxExam
       entries.map((entry) => [
         entry.id,
         {
-          web: `/__lynx__/${entry.entryKey}.web.bundle`,
-          lynx: `/__lynx__/${entry.entryKey}.lynx.bundle`,
+          web: `/__lynx__/${getLynxExampleBundleKey(entry)}.web.bundle`,
+          lynx: `/__lynx__/${getLynxExampleBundleKey(entry)}.lynx.bundle`,
         },
       ]),
     ),
@@ -100,6 +111,7 @@ export async function publishManifestAndBundles(
   for (const example of Object.values(manifest.examples)) {
     for (const url of [example.web, example.lynx]) {
       const filename = url.replace("/__lynx__/", "");
+      if (referencedFiles.has(filename)) continue;
       referencedFiles.add(filename);
       const target = resolve(publicDirectory, filename);
       await mkdir(resolve(target, ".."), { recursive: true });

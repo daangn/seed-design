@@ -1,6 +1,6 @@
 # docs/examples/lynx
 
-Lynx 컴포넌트 문서가 실행하는 ReactLynx 예제다. `docs/scripts/lynx-examples`가 각 TSX를 브라우저 미리보기 bundle과 native Lynx bundle로 함께 빌드한다.
+Lynx 컴포넌트 문서가 실행하는 ReactLynx 예제다. `docs/scripts/lynx-examples`가 컴포넌트 디렉터리마다 브라우저 미리보기 bundle과 native Lynx bundle을 하나씩 빌드한다. 같은 bundle 안에서 Web은 `globalProps.example`, native는 bundle URL의 `example` query(예: `?example=lynx%2Fbadge%2Fpreview`)로 렌더할 예제 ID를 고른다.
 
 ## 검증
 
@@ -13,7 +13,7 @@ Lynx 컴포넌트 문서가 실행하는 ReactLynx 예제다. `docs/scripts/lynx
 ### 파일
 
 - 경로는 `<component>/<scenario>.tsx` 두 단계이고 두 이름 모두 kebab-case다. 어기면 discovery가 빌드를 실패시킨다.
-- 컴포넌트 디렉터리의 `.tsx`는 모두 entry가 된다 → 같은 컴포넌트가 공유하는 스타일·코드는 `styles.ts`, `preview.css`처럼 `.tsx`가 아닌 파일에 둔다.
+- 컴포넌트 디렉터리의 `.tsx`는 모두 그 컴포넌트 bundle의 예제가 된다 → 같은 컴포넌트가 공유하는 스타일·코드는 `styles.ts`, `preview.css`처럼 `.tsx`가 아닌 파일에 둔다. 같은 bundle의 예제는 CSS를 함께 쓰므로 예제마다 다른 규칙을 같은 class 이름에 두지 않는다.
 - symlink와 컴포넌트 디렉터리 밖의 파일을 쓰지 않는다 → 필요한 코드는 해당 컴포넌트 디렉터리에 둔다.
 
 ### 레이아웃

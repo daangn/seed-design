@@ -30,8 +30,8 @@ export function LynxComponentQRCode({
   const result = resolved?.key === resolutionKey ? resolved : undefined;
   const urls = useMemo(() => {
     if (!origin || !result?.bundlePath) return undefined;
-    return createLynxExampleUrls(result.bundlePath, origin);
-  }, [result?.bundlePath, origin]);
+    return createLynxExampleUrls(result.bundlePath, origin, name);
+  }, [result?.bundlePath, origin, name]);
   const [copied, copy] = useCopyButton(() => {
     if (urls) void navigator.clipboard.writeText(urls.native);
   });

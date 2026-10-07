@@ -18,32 +18,49 @@ const entries: LynxExampleEntry[] = [
 ];
 
 describe("createStandaloneModules", () => {
-  it("정렬된 virtual entry가 원본 default export만 실행한다", () => {
-    const virtualActionButton = resolve(
-      DOCS_DIRECTORY,
-      ".next/lynx-entries/action-button/disabled.tsx",
-    );
-    const virtualBadge = resolve(DOCS_DIRECTORY, ".next/lynx-entries/badge/preview.tsx");
+  it("컴포넌트마다 virtual entry 하나가 예제 ID별 원본 default export와 배치를 등록한다", () => {
+    const virtualBadge = resolve(DOCS_DIRECTORY, ".next/lynx-entries/badge.tsx");
+    const virtualHelpBubble = resolve(DOCS_DIRECTORY, ".next/lynx-entries/help-bubble.tsx");
     const standalone = JSON.stringify(resolve(EXAMPLES_DIRECTORY, "standalone.tsx"));
 
-    expect(createStandaloneModules(entries)).toEqual({
+    expect(
+      createStandaloneModules([
+        {
+          id: "lynx/help-bubble/preview",
+          entryKey: "help-bubble/preview",
+          sourcePath: "/fixtures/help-bubble/preview.tsx",
+        },
+        entries[0]!,
+        {
+          id: "lynx/help-bubble/placement",
+          entryKey: "help-bubble/placement",
+          sourcePath: "/fixtures/help-bubble/placement.tsx",
+        },
+      ]),
+    ).toEqual({
       entries: {
-        "action-button/disabled": virtualActionButton,
-        "badge/preview": virtualBadge,
+        badge: virtualBadge,
+        "help-bubble": virtualHelpBubble,
       },
       modules: {
-        [virtualActionButton]: [
-          `import { renderLynxExample } from ${standalone};`,
-          'import Example from "/fixtures/action-button/disabled.tsx";',
+        [virtualBadge]: [
+          `import { renderLynxExamples } from ${standalone};`,
+          'import Example0 from "/fixtures/quo\\"te.tsx";',
           "",
-          'renderLynxExample(Example, "center");',
+          "renderLynxExamples({",
+          '  "lynx/badge/preview": { Example: Example0, layout: "center" },',
+          "});",
           "",
         ].join("\n"),
-        [virtualBadge]: [
-          `import { renderLynxExample } from ${standalone};`,
-          'import Example from "/fixtures/quo\\"te.tsx";',
+        [virtualHelpBubble]: [
+          `import { renderLynxExamples } from ${standalone};`,
+          'import Example0 from "/fixtures/help-bubble/placement.tsx";',
+          'import Example1 from "/fixtures/help-bubble/preview.tsx";',
           "",
-          'renderLynxExample(Example, "center");',
+          "renderLynxExamples({",
+          '  "lynx/help-bubble/placement": { Example: Example0, layout: "fill" },',
+          '  "lynx/help-bubble/preview": { Example: Example1, layout: "center" },',
+          "});",
           "",
         ].join("\n"),
       },
