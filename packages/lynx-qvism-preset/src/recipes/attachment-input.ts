@@ -48,6 +48,8 @@ const attachmentInput = defineSlotRecipe({
       flexShrink: 0,
       padding: 0,
       margin: 0,
+      // Lynx views clip by default; let the last item's remove button extend past the group.
+      overflow: "visible",
     },
   },
   variants: {},
