@@ -7,6 +7,7 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x3)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x1)",
+        /** 가용 너비(overflowPadding 참고)가 이보다 작으면 가용 너비로 축소됩니다. */
         "maxWidth": "280px",
         "enterScale": "0.9",
         "enterOpacity": "0",
@@ -16,7 +17,7 @@ export declare const vars: {
         "exitOpacity": "0",
         "exitDuration": "var(--seed-duration-d4)",
         "exitTimingFunction": "var(--seed-timing-function-easing)",
-        /** 말풍선과 뷰포트 경계 사이의 최소 간격을 정의합니다. */
+        /** 말풍선과 안전 영역 경계 사이의 최소 간격을 정의합니다. 말풍선은 화면 끝에서 inset + overflowPadding만큼 안쪽에 배치되며, 가용 너비도 같은 기준으로 계산합니다. */
         "overflowPadding": "var(--seed-dimension-x4)"
       },
       "arrow": {
