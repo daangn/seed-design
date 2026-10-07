@@ -49,6 +49,9 @@ describe("FloatingActionButton", () => {
 
   it("blocks tap and pressed state while disabled and announces the disabled trait", () => {
     const handleTap = vi.fn();
+    const mainThreadWarn = vi
+      .spyOn(lynxTestingEnv.mainThread.globalThis["console"], "warn")
+      .mockImplementation(() => {});
     const { container, rerender } = render(
       <FloatingActionButtonRoot bindtap={handleTap}>
         <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
@@ -75,6 +78,8 @@ describe("FloatingActionButton", () => {
     fireEvent.touchend(root);
     fireEvent.tap(root);
     expect(handleTap).toHaveBeenCalledTimes(1);
+    expect(mainThreadWarn).not.toHaveBeenCalled();
+    mainThreadWarn.mockRestore();
   });
 
   it("enables the width transition only after the initially extended label is measured", () => {
