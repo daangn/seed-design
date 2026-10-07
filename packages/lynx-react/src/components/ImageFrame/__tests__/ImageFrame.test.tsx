@@ -1,10 +1,14 @@
 import "@testing-library/jest-dom";
+import * as React from "@lynx-js/react";
+import type { MainThread } from "@lynx-js/types";
+import type { LynxIconElementProps } from "../../../types";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 import {
   ImageFrame,
   ImageFrameFloater,
   ImageFrameIndicator,
+  ImageFrameIcon,
   ImageFrameReactionButton,
 } from "../ImageFrame";
 import { heartFillSource, heartLineSource } from "../heart-assets";
@@ -13,6 +17,11 @@ vi.mock("@lynx-js/react", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@lynx-js/react")>();
   return { ...actual, runOnMainThread: () => () => undefined };
 });
+
+const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
+  <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />
+));
+TestIcon.displayName = "TestIcon";
 
 function query(selector: string) {
   const root = elementTree.root;
@@ -34,6 +43,27 @@ function nativeEvent(element: HTMLElement, name: string) {
 }
 
 describe("ImageFrame", () => {
+  it("hides decorative icons by default and accepts explicit accessibility semantics", () => {
+    const { rerender } = render(<ImageFrameIcon svg={<TestIcon />} />);
+    expect(query(".seed-image-frame-icon")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "true",
+    );
+
+    rerender(
+      <ImageFrameIcon
+        svg={<TestIcon />}
+        accessibility-elements-hidden={false}
+        accessibility-element
+        accessibility-label="동영상"
+      />,
+    );
+    const icon = query(".seed-image-frame-icon");
+    expect(icon).toHaveAttribute("accessibility-elements-hidden", "false");
+    expect(icon).toHaveAttribute("accessibility-element", "true");
+    expect(icon).toHaveAttribute("accessibility-label", "동영상");
+  });
+
   it("centers the default floater without adding edge inset, preserving explicit offsets", () => {
     const { rerender } = render(
       <ImageFrameFloater placement="middle-center">
@@ -214,23 +244,29 @@ describe("ImageFrameReactionButton", () => {
     expect(query("image")).toHaveAttribute("src", heartFillSource);
   });
 
-  it("blocks selection and user tap callbacks while disabled", () => {
+  it("preserves selection while disabled and restores background taps when enabled", () => {
     const onChange = vi.fn();
     const onTap = vi.fn();
-    render(
-      <ImageFrameReactionButton
-        disabled
-        defaultPressed
-        onPressedChange={onChange}
-        bindtap={onTap}
-      />,
-    );
+    const props = { onPressedChange: onChange, bindtap: onTap };
+    const { rerender } = render(<ImageFrameReactionButton {...props} />);
     const button = query(".seed-image-frame-reaction-button__root");
     fireEvent.tap(button);
-    expect(onChange).not.toHaveBeenCalled();
-    expect(onTap).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenLastCalledWith(true);
+    expect(onTap).toHaveBeenCalledTimes(1);
+
+    rerender(<ImageFrameReactionButton {...props} disabled />);
+    fireEvent.tap(button);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onTap).toHaveBeenCalledTimes(1);
     expect(button).toHaveAttribute("accessibility-traits", "disabled");
     expect(button).toHaveAttribute("accessibility-value", "pressed");
     expect(button).toHaveAttribute("hit-slop", "8px");
+
+    rerender(<ImageFrameReactionButton {...props} />);
+    fireEvent.tap(button);
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenLastCalledWith(false);
+    expect(onTap).toHaveBeenCalledTimes(2);
+    expect(button).toHaveAttribute("accessibility-value", "not pressed");
   });
 });
