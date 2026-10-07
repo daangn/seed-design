@@ -23,7 +23,8 @@ export const KeyboardAvoidingScrollViewProvider: Provider<UseKeyboardAvoidingScr
   KeyboardAvoidingScrollViewContext.Provider;
 
 /**
- * 가장 가까운 `KeyboardAvoidingScrollViewRoot`의 등록 동작을 읽습니다.
+ * 가장 가까운 `KeyboardAvoidingScrollViewRoot`나 `KeyboardAvoidingScrollViewFooter`의 등록 동작을 읽습니다.
+ * Footer 안에서 등록한 입력은 Footer와 함께 키보드 위로 이동하므로 Content를 스크롤하지 않습니다.
  * `strict: false`이면 Provider 밖에서 `null`을 반환하므로 스크롤 영역 없이도 쓰이는 입력에 사용합니다.
  */
 export function useKeyboardAvoidingScrollViewContext<T extends boolean | undefined = true>({

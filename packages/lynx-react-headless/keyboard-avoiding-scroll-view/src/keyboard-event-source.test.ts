@@ -119,4 +119,29 @@ describe("createKeyboardEventSource", () => {
     expect(listener).toHaveBeenNthCalledWith(3, { visible: false, height: 0 });
     expect(listener).toHaveBeenNthCalledWith(4, { visible: false, height: 0 });
   });
+
+  it("counts the initial-state wait from the first native subscription only", () => {
+    vi.useFakeTimers();
+    try {
+      const { emitter } = createEmitter();
+      const source = createKeyboardEventSource(
+        () => emitter,
+        () => 100,
+      );
+
+      expect(source.getInitialStateDelay()).toBe(0);
+
+      source.subscribe(vi.fn());
+      expect(source.getInitialStateDelay()).toBe(100);
+
+      vi.advanceTimersByTime(60);
+      source.subscribe(vi.fn());
+      expect(source.getInitialStateDelay()).toBe(40);
+
+      vi.advanceTimersByTime(40);
+      expect(source.getInitialStateDelay()).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

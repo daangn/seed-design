@@ -9,7 +9,7 @@ import {
 import type { VerticalRect } from "./geometry.js";
 import type { ScrollMetrics } from "./native-driver.js";
 
-type TestNode = "anchor" | "control" | "field" | "native" | "scroll" | "spacer";
+type TestNode = "anchor" | "control" | "field" | "native" | "root" | "scroll" | "spacer";
 type ScheduledCallback = Parameters<KeyboardAvoidingScheduler["scheduleFrame"]>[0];
 
 interface ScheduledTask {
@@ -86,6 +86,7 @@ function createRegistration(
 
 function createHarness() {
   const rects: Record<TestNode, VerticalRect | null> = {
+    root: { top: 0, bottom: 800 },
     scroll: { top: 0, bottom: 800 },
     spacer: null,
     field: { top: 400, bottom: 520 },
@@ -95,6 +96,9 @@ function createHarness() {
   };
   let metrics: ScrollMetrics = { offsetY: 100, maxOffsetY: 1_000 };
   let keyboardOcclusionTop = 500;
+  let hasFooter = false;
+  const setFooterOffset = vi.fn();
+  const onEvaluated = vi.fn();
   const manualScheduler = createManualScheduler();
   const driver = {
     measure: vi.fn(async (node: TestNode) => rects[node]),
@@ -109,8 +113,12 @@ function createHarness() {
   const engine = createKeyboardAvoidingEngine<TestNode>({
     driver,
     scheduler: manualScheduler.scheduler,
+    getRootNode: () => "root",
     getScrollNode: () => "scroll",
     getSpacerNode: () => "spacer",
+    hasFooter: () => hasFooter,
+    setFooterOffset,
+    onEvaluated,
     getKeyboardGap: () => 24,
     getToolbarHeight: () => 0,
     getSmooth: () => true,
@@ -121,11 +129,16 @@ function createHarness() {
     engine,
     rects,
     scheduler: manualScheduler,
+    setFooterOffset,
+    onEvaluated,
     setMetrics(next: ScrollMetrics) {
       metrics = next;
     },
     setKeyboardOcclusionTop(next: number) {
       keyboardOcclusionTop = next;
+    },
+    setHasFooter(next: boolean) {
+      hasFooter = next;
     },
   };
 }
@@ -446,6 +459,87 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushFrame();
 
     expect(harness.driver.getScrollMetrics).not.toHaveBeenCalled();
+    expect(harness.driver.scrollTo).not.toHaveBeenCalled();
+  });
+
+  it("lifts the Footer by the Root height the keyboard covers and keeps the target above it", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.rects.scroll = { top: 0, bottom: 720 };
+
+    await openKeyboard(harness);
+
+    // 키보드 상단(500)이 Root 하단(800)을 300만큼 가리므로 Footer(720–800)는 420–500으로 올라간다.
+    expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
+    // Content는 올라간 Footer 상단(420)에서 keyboardGap을 뺀 396까지만 보인다.
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.scrollTo).toHaveBeenCalledWith("scroll", 224, true);
+  });
+
+  it("reports a finished evaluation only after the Footer offset is applied", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.engine.keyboardChanged({ visible: true, height: 300 });
+
+    expect(harness.onEvaluated).not.toHaveBeenCalled();
+
+    await harness.scheduler.flushFrame();
+
+    expect(harness.onEvaluated).toHaveBeenCalledTimes(1);
+    expect(harness.setFooterOffset.mock.invocationCallOrder[0]).toBeLessThan(
+      harness.onEvaluated.mock.invocationCallOrder[0] ?? 0,
+    );
+  });
+
+  it("returns the Footer to its layout position when the keyboard closes", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.rects.scroll = { top: 0, bottom: 720 };
+    await openKeyboard(harness);
+    harness.setFooterOffset.mockClear();
+
+    harness.engine.keyboardChanged({ visible: false, height: 0 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.setFooterOffset).toHaveBeenCalledWith(0);
+    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 0);
+  });
+
+  it("lifts the Footer and keeps Content reachable for a keyboard that no registered input opened", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.rects.scroll = { top: 0, bottom: 720 };
+
+    harness.engine.keyboardChanged({ visible: true, height: 300 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
+    // 올라간 Footer가 Content 끝을 가리지 않도록 spacer를 두지만, 스크롤할 입력은 없다.
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.scrollTo).not.toHaveBeenCalled();
+  });
+
+  it("does not measure Content for an unregistered keyboard without a Footer", async () => {
+    const harness = createHarness();
+
+    harness.engine.keyboardChanged({ visible: true, height: 300 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.driver.measure).not.toHaveBeenCalled();
+    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalled();
+  });
+
+  it("keeps Content scroll position for an input inside the Footer", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.rects.scroll = { top: 0, bottom: 720 };
+
+    await openKeyboard(harness, createRegistration({}, { placement: "footer" }));
+
+    expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
+    // 가려진 Content 끝까지 사용자가 스크롤할 수 있도록 spacer는 둔다.
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.measure).not.toHaveBeenCalledWith("field");
     expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
 });

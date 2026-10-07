@@ -44,3 +44,13 @@
   height: 48px;
   flex-shrink: 0;
 }
+
+.keyboard-avoiding-scroll-view-preview__bottom-bar {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--seed-color-stroke-neutral-muted);
+  background-color: var(--seed-color-bg-layer-default);
+}

@@ -16,6 +16,11 @@ export interface RefLike<Node> {
   current: Node | null;
 }
 
+/**
+ * `"footer"`는 Footer 안의 입력이다. Footer가 키보드 위로 올라가므로 Content를 스크롤하지 않는다.
+ */
+export type KeyboardAvoidancePlacement = "content" | "footer";
+
 export interface KeyboardAvoidanceRegistration<Node> {
   owner: object;
   nativeRef: RefLike<Node>;
@@ -23,6 +28,8 @@ export interface KeyboardAvoidanceRegistration<Node> {
   fieldRef?: RefLike<Node>;
   anchorRef?: RefLike<Node>;
   enabled?: boolean;
+  /** @default "content" */
+  placement?: KeyboardAvoidancePlacement;
 }
 
 export interface KeyboardAvoidingNativeDriver<Node> {
@@ -45,8 +52,15 @@ export interface KeyboardAvoidingScheduler {
 export interface KeyboardAvoidingEngineOptions<Node> {
   driver: KeyboardAvoidingNativeDriver<Node>;
   scheduler: KeyboardAvoidingScheduler;
+  /** 변형되지 않는 Root 노드다. Footer가 있으면 이 노드가 키보드에 가려진 높이로 Footer 위치를 정한다. */
+  getRootNode(): Node | null;
   getScrollNode(): Node | null;
   getSpacerNode(): Node | null;
+  hasFooter(): boolean;
+  /** Footer를 위로 옮길 거리(px)다. 키보드가 닫히면 0이다. */
+  setFooterOffset(offset: number): void;
+  /** 예약된 평가를 한 번 마칠 때마다 호출한다. Footer의 첫 위치가 정해졌는지 판단하는 데 쓴다. */
+  onEvaluated?(): void;
   getKeyboardGap(): number;
   getToolbarHeight(): number;
   getSmooth(): boolean;
@@ -102,6 +116,7 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
   #revision = 0;
   #session = 0;
   #appliedSpacerHeight = 0;
+  #appliedFooterOffset = 0;
   #needsCloseClamp = false;
   #cancelFrame: CancelScheduledCallback | null = null;
   #cancelBlur: CancelScheduledCallback | null = null;
@@ -241,6 +256,7 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
       };
 
       await this.#evaluate(transaction);
+      if (!this.#disposed) this.#options.onEvaluated?.();
     });
   }
 
@@ -256,15 +272,62 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
 
   async #evaluate(transaction: Transaction<Node>): Promise<void> {
     try {
-      if (!transaction.keyboard.visible || transaction.registration === null) {
+      if (!transaction.keyboard.visible) {
+        this.#applyFooterOffset(0);
         await this.#close(transaction);
         return;
       }
 
-      await this.#open(transaction, transaction.registration);
+      const registration = transaction.registration;
+      const scrollNode = this.#options.getScrollNode();
+      const spacerNode = this.#options.getSpacerNode();
+      const rootNode = this.#options.hasFooter() ? this.#options.getRootNode() : null;
+      const hasContent = scrollNode !== null && spacerNode !== null;
+
+      if (rootNode === null) this.#applyFooterOffset(0);
+      if (rootNode === null && (registration === null || !hasContent)) {
+        await this.#close(transaction);
+        return;
+      }
+
+      const [occlusion, root, viewport] = await Promise.all([
+        this.#options.driver.resolveKeyboardOcclusion(transaction.keyboard),
+        rootNode === null ? null : this.#options.driver.measure(rootNode),
+        hasContent ? this.#options.driver.measure(scrollNode) : null,
+      ]);
+      if (!this.#isCurrent(transaction) || occlusion === null) return;
+
+      // Root는 변형되지 않으므로 Root 아래쪽이 키보드에 가려진 높이만큼 Footer를 올린다.
+      // 측정에 실패하면 현재 위치를 유지하고 다음 invalidation에서 다시 계산한다.
+      if (root !== null) {
+        this.#applyFooterOffset(Math.max(0, root.bottom - occlusion.topInScreenPx));
+      }
+
+      // 등록된 입력이 없어도 Footer를 올렸으면 Content 끝이 Footer에 가리지 않도록 spacer를 둔다.
+      if (!hasContent || (registration === null && this.#appliedFooterOffset === 0)) {
+        await this.#close(transaction);
+        return;
+      }
+      if (viewport === null) return;
+
+      await this.#open(
+        transaction,
+        registration,
+        scrollNode,
+        spacerNode,
+        viewport,
+        occlusion.topInScreenPx,
+      );
     } catch {
       // Native 측정 실패는 현재 transaction만 중단하고 다음 invalidation에서 재시도한다.
     }
+  }
+
+  #applyFooterOffset(offset: number): void {
+    if (!hasMeaningfulGeometryChange(this.#appliedFooterOffset, offset)) return;
+
+    this.#options.setFooterOffset(offset);
+    this.#appliedFooterOffset = offset;
   }
 
   async #close(transaction: Transaction<Node>): Promise<void> {
@@ -303,21 +366,18 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
 
   async #open(
     transaction: Transaction<Node>,
-    registration: KeyboardAvoidanceRegistration<Node>,
+    registration: KeyboardAvoidanceRegistration<Node> | null,
+    scrollNode: Node,
+    spacerNode: Node,
+    viewport: VerticalRect,
+    keyboardOcclusionTop: number,
   ): Promise<void> {
-    const scrollNode = this.#options.getScrollNode();
-    const spacerNode = this.#options.getSpacerNode();
-    if (scrollNode === null || spacerNode === null) return;
-
-    const [viewport, occlusion] = await Promise.all([
-      this.#options.driver.measure(scrollNode),
-      this.#options.driver.resolveKeyboardOcclusion(transaction.keyboard),
-    ]);
-    if (!this.#isCurrent(transaction) || viewport === null || occlusion === null) return;
-
+    // Footer는 Content 바로 아래에서 올라간 거리만큼 Content 아래쪽을 가린다.
+    const footerOffset = this.#appliedFooterOffset;
     const safeArea = calculateSafeArea({
       viewport,
-      keyboardOcclusionTop: occlusion.topInScreenPx,
+      keyboardOcclusionTop:
+        footerOffset > 0 ? viewport.bottom - footerOffset : keyboardOcclusionTop,
       toolbarHeight: this.#options.getToolbarHeight(),
       keyboardGap: this.#options.getKeyboardGap(),
     });
@@ -327,6 +387,10 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
       this.#options.driver.setSpacerHeight(spacerNode, safeArea.spacerHeight);
       this.#appliedSpacerHeight = safeArea.spacerHeight;
     }
+
+    // 등록된 입력이 없거나 Footer 안의 입력이면 Content를 스크롤하지 않는다.
+    // spacer는 유지해 가려진 Content 끝까지 사용자가 스크롤할 수 있게 한다.
+    if (registration === null || registration.placement === "footer") return;
 
     await this.#options.driver.waitForLayout();
     if (!this.#isCurrent(transaction)) return;
