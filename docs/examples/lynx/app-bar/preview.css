@@ -1,19 +1,9 @@
-.docs-lynx-app-bar-root {
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .app-bar-preview {
-  width: calc(100% - 48px);
+  --seed-safe-area-top: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   max-width: 375px;
-  aspect-ratio: 1 / 1;
-  margin-top: 32px;
-  margin-bottom: 32px;
-  margin-left: auto;
-  margin-right: auto;
   overflow: hidden;
   border-width: 1px;
   border-style: solid;
@@ -25,42 +15,27 @@
 .app-bar-preview__platforms {
   display: flex;
   width: 100%;
-  height: 100%;
   flex-direction: row;
   flex-wrap: wrap;
-  align-content: center;
   align-items: flex-start;
   justify-content: center;
   gap: 24px;
-  padding: 32px 24px;
 }
 
 .app-bar-preview__platform {
-  flex-grow: 1;
-  width: calc(50% - 12px);
-  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   max-width: 375px;
   gap: 12px;
 }
 
-.app-bar-preview--platform {
-  width: 100%;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .app-bar-preview__content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
-}
-
-.app-bar-preview__group {
-  gap: 16px;
-  padding: 24px 0;
 }
 
 .app-bar-preview__label {
@@ -74,11 +49,17 @@
 }
 
 .app-bar-preview__controls {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
 .app-bar-preview--transparent {
-  background: linear-gradient(135deg, #18364b, #43665b);
+  background: linear-gradient(
+    135deg,
+    var(--seed-color-bg-informative-solid),
+    var(--seed-color-bg-positive-solid)
+  );
 }
 
 .app-bar-preview__overlay-text {

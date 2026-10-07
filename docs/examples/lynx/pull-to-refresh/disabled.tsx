@@ -1,7 +1,7 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { useSeedClassName } from "@seed-design/lynx-react";
+
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -11,7 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import { useRefreshObservation } from "./use-refresh-observation";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [disabled, setDisabled] = useState(false);
   const { refreshCount, lastEvent, callbacks } = useRefreshObservation();
 
@@ -21,7 +20,7 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-ptr-root`}>
+    <view className="ptr-preview">
       <text className="ptr-preview__title">Disabled</text>
       <text className="ptr-preview__status">
         {`disabled: ${JSON.stringify(disabled)} · refresh 횟수: ${refreshCount} · 마지막 이벤트: ${lastEvent}`}
@@ -31,7 +30,7 @@ export default function Example() {
         <PullToRefreshContent>
           <view className="ptr-preview__body">
             <view className="ptr-preview__disabled-row">
-              <text>Disabled</text>
+              <text className="ptr-preview__label">Disabled</text>
               <Switch
                 checked={disabled}
                 onCheckedChange={onCheckedChange}

@@ -1,11 +1,8 @@
-import "./styles";
-
 import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
 import { useState } from "@lynx-js/react";
-import { PrefixIcon, ReactionButton, useSeedClassName } from "@seed-design/lynx-react";
+import { PrefixIcon, ReactionButton } from "@seed-design/lynx-react";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [{ pressed, loading }, setState] = useState({
     pressed: false,
     loading: false,
@@ -20,13 +17,9 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-reaction-button-root`}>
-      <view className="reaction-button-preview">
-        <ReactionButton loading={loading} pressed={pressed} onPressedChange={handleToggle}>
-          <PrefixIcon icon={<IconBellFill />} />
-          시간이 걸리는 토글
-        </ReactionButton>
-      </view>
-    </view>
+    <ReactionButton loading={loading} pressed={pressed} onPressedChange={handleToggle}>
+      <PrefixIcon icon={<IconBellFill />} />
+      시간이 걸리는 토글
+    </ReactionButton>
   );
 }

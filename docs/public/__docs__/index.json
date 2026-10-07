@@ -1956,7 +1956,7 @@
             },
             {
               "id": "app-bar",
-              "title": "AppBar",
+              "title": "App Bar",
               "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
               "docUrl": "/lynx/components/app-bar",
               "snippetKey": "lynx/ui:app-bar",
@@ -2179,7 +2179,7 @@
             },
             {
               "id": "keyboard-avoiding-scroll-view",
-              "title": "KeyboardAvoidingScrollView",
+              "title": "Keyboard Avoiding Scroll View",
               "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
             },

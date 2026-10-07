@@ -16,18 +16,26 @@ function Box() {
         borderRadius: "6px",
         borderWidth: "2px",
         borderStyle: "solid",
-        borderColor: selected ? "#212124" : "#b0b3ba",
+        borderColor: selected
+          ? "var(--seed-color-bg-neutral-solid)"
+          : "var(--seed-color-stroke-neutral-weak)",
         backgroundColor: selected
           ? pressed
-            ? "#3a3a3c"
-            : "#212124"
+            ? "var(--seed-color-bg-neutral-solid-pressed)"
+            : "var(--seed-color-bg-neutral-solid)"
           : pressed
-            ? "#eeeff1"
+            ? "var(--seed-color-bg-neutral-weak-pressed)"
             : "transparent",
       }}
     >
       {selected ? (
-        <text style={{ color: "#ffffff", fontSize: "14px", fontWeight: "700" }}>
+        <text
+          style={{
+            color: "var(--seed-color-fg-on-neutral-solid)",
+            fontSize: "14px",
+            fontWeight: "700",
+          }}
+        >
           {indeterminate ? "−" : "✓"}
         </text>
       ) : null}
@@ -52,7 +60,15 @@ function Item({ label, checked, indeterminate, onCheckedChange }: ItemProps) {
       style={{ display: "flex", flexDirection: "row", alignItems: "center", padding: "8px 0" }}
     >
       <Box />
-      <text style={{ marginLeft: "8px", fontSize: "16px", color: "#212124" }}>{label}</text>
+      <text
+        style={{
+          marginLeft: "8px",
+          fontSize: "16px",
+          color: "var(--seed-color-fg-neutral)",
+        }}
+      >
+        {label}
+      </text>
     </Checkbox.Root>
   );
 }
@@ -82,9 +98,9 @@ export default function Example() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100%",
-        justifyContent: "center",
-        padding: "0 24px",
+        width: "100%",
+        maxWidth: "360px",
+        gap: "8px",
       }}
     >
       <Item
@@ -93,7 +109,7 @@ export default function Example() {
         indeterminate={someChecked && !allChecked}
         onCheckedChange={handleAllChange}
       />
-      <view style={{ paddingLeft: "30px" }}>
+      <view style={{ display: "flex", flexDirection: "column", gap: "8px", paddingLeft: "30px" }}>
         <Item
           label="이용약관 동의"
           checked={agreements.terms}

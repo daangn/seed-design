@@ -7,10 +7,9 @@ import {
   BottomSheetRoot,
 } from "@/components/ui/bottom-sheet";
 import { useState } from "@lynx-js/react";
-import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { ActionButton, VStack } from "@seed-design/lynx-react";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
 
   function scheduleOpen() {
@@ -21,22 +20,20 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-bottom-sheet-root`}>
-      <VStack className="bottom-sheet-preview">
-        <ActionButton variant="neutralSolid" bindtap={scheduleOpen}>
-          1초 후 열기
-        </ActionButton>
-        <BottomSheetRoot open={open} onOpenChange={setOpen}>
-          <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-            <BottomSheetBody className="bottom-sheet-preview__body">
-              <text className="bottom-sheet-preview__body-text">Content</text>
-            </BottomSheetBody>
-            <BottomSheetFooter>
-              <ActionButton variant="neutralSolid">확인</ActionButton>
-            </BottomSheetFooter>
-          </BottomSheetContent>
-        </BottomSheetRoot>
-      </VStack>
-    </view>
+    <VStack gap="x3" style={{ width: "100%" }}>
+      <ActionButton variant="neutralSolid" bindtap={scheduleOpen}>
+        1초 후 열기
+      </ActionButton>
+      <BottomSheetRoot open={open} onOpenChange={setOpen}>
+        <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
+          <BottomSheetBody className="bottom-sheet-preview__body">
+            <text className="bottom-sheet-preview__body-text">Content</text>
+          </BottomSheetBody>
+          <BottomSheetFooter>
+            <ActionButton variant="neutralSolid">확인</ActionButton>
+          </BottomSheetFooter>
+        </BottomSheetContent>
+      </BottomSheetRoot>
+    </VStack>
   );
 }

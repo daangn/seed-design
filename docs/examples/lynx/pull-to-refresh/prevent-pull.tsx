@@ -1,6 +1,6 @@
 import "./styles";
 
-import { usePullToRefreshPreventPull, useSeedClassName } from "@seed-design/lynx-react";
+import { usePullToRefreshPreventPull } from "@seed-design/lynx-react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -34,11 +34,10 @@ function PullableRegion() {
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const { refreshCount, lastEvent, callbacks } = useRefreshObservation();
 
   return (
-    <view className={`${seedClassName} docs-lynx-ptr-root`}>
+    <view className="ptr-preview">
       <text className="ptr-preview__title">Prevent Pull</text>
       <text className="ptr-preview__status">
         {`refresh 횟수: ${refreshCount} · 마지막 이벤트: ${lastEvent}`}

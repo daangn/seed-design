@@ -1,8 +1,6 @@
-import "@seed-design/lynx-css/base.css";
-
 import type { AttachmentFileEntry, NativeFile } from "@seed-design/lynx-react";
 import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-field";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 
 const DEFAULT_FILES: AttachmentFileEntry[] = [
   {
@@ -29,20 +27,17 @@ const DEFAULT_FILES: AttachmentFileEntry[] = [
 ];
 
 export default function AttachmentFieldReadOnly() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentField
-          readOnly
-          maxFiles={5}
-          defaultAcceptedFileEntries={DEFAULT_FILES}
-          label="첨부 파일"
-          description="읽기 전용 상태"
-        >
-          <AttachmentInput />
-        </AttachmentField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentField
+        readOnly
+        maxFiles={5}
+        defaultAcceptedFileEntries={DEFAULT_FILES}
+        label="첨부 파일"
+        description="읽기 전용 상태"
+      >
+        <AttachmentInput />
+      </AttachmentField>
+    </VStack>
   );
 }

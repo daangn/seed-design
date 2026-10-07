@@ -1,7 +1,7 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 import {
   FieldButton,
   FieldButtonPlaceholder,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/field-button";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [selectedCity, setSelectedCity] = useState("");
 
   function selectCity() {
@@ -23,29 +22,23 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-field-button-root`}>
-      <VStack className="field-button-preview">
-        <VStack className="field-button-preview__content">
-          <FieldButton
-            label="도시"
-            values={selectedCity ? [selectedCity] : []}
-            onValuesChange={changeCities}
-            showClearButton={selectedCity !== ""}
-            buttonProps={{
-              bindtap: selectCity,
-              "accessibility-label": selectedCity
-                ? `도시 변경. 현재: ${selectedCity}`
-                : "도시 선택",
-            }}
-          >
-            {selectedCity ? (
-              <FieldButtonValue>{selectedCity}</FieldButtonValue>
-            ) : (
-              <FieldButtonPlaceholder>도시를 선택해주세요</FieldButtonPlaceholder>
-            )}
-          </FieldButton>
-        </VStack>
-      </VStack>
-    </view>
+    <VStack className="field-button-preview__content">
+      <FieldButton
+        label="도시"
+        values={selectedCity ? [selectedCity] : []}
+        onValuesChange={changeCities}
+        showClearButton={selectedCity !== ""}
+        buttonProps={{
+          bindtap: selectCity,
+          "accessibility-label": selectedCity ? `도시 변경. 현재: ${selectedCity}` : "도시 선택",
+        }}
+      >
+        {selectedCity ? (
+          <FieldButtonValue>{selectedCity}</FieldButtonValue>
+        ) : (
+          <FieldButtonPlaceholder>도시를 선택해주세요</FieldButtonPlaceholder>
+        )}
+      </FieldButton>
+    </VStack>
   );
 }

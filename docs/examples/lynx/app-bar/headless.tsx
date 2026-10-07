@@ -1,3 +1,5 @@
+import "./styles";
+
 import { AppBar, useAppBarContext } from "@seed-design/lynx-react-app-bar";
 
 function CenteredTitle({ children }: { children: string }) {
@@ -18,7 +20,15 @@ function CenteredTitle({ children }: { children: string }) {
         justifyContent: "center",
       }}
     >
-      <text style={{ fontSize: "17px", fontWeight: "bold", color: "#1a1c20" }}>{children}</text>
+      <text
+        style={{
+          fontSize: "17px",
+          fontWeight: "bold",
+          color: "var(--seed-color-fg-neutral)",
+        }}
+      >
+        {children}
+      </text>
     </AppBar.Main>
   );
 }
@@ -35,34 +45,34 @@ function TextButton({ label }: { label: string }) {
         justifyContent: "center",
       }}
     >
-      <text style={{ fontSize: "15px", color: "#1a1c20" }}>{label}</text>
+      <text style={{ fontSize: "15px", color: "var(--seed-color-fg-neutral)" }}>{label}</text>
     </AppBar.IconButton>
   );
 }
 
 export default function Example() {
   return (
-    <view style={{ padding: "16px" }}>
-      <AppBar.Root
-        style={{
-          display: "flex",
-          position: "relative",
-          height: "56px",
-          flexDirection: "row",
-          alignItems: "center",
-          padding: "0px 8px",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <CenteredTitle>관심 목록</CenteredTitle>
-        <AppBar.Left style={{ display: "flex", flexDirection: "row" }}>
-          <TextButton label="뒤로" />
-        </AppBar.Left>
-        <AppBar.Right style={{ display: "flex", flexDirection: "row", marginLeft: "auto" }}>
-          <TextButton label="공유" />
-          <TextButton label="편집" />
-        </AppBar.Right>
-      </AppBar.Root>
-    </view>
+    <AppBar.Root
+      style={{
+        display: "flex",
+        width: "100%",
+        maxWidth: "375px",
+        position: "relative",
+        height: "56px",
+        flexDirection: "row",
+        alignItems: "center",
+        padding: "0px 8px",
+        backgroundColor: "var(--seed-color-bg-layer-default)",
+      }}
+    >
+      <CenteredTitle>관심 목록</CenteredTitle>
+      <AppBar.Left style={{ display: "flex", flexDirection: "row" }}>
+        <TextButton label="뒤로" />
+      </AppBar.Left>
+      <AppBar.Right style={{ display: "flex", flexDirection: "row", marginLeft: "auto" }}>
+        <TextButton label="공유" />
+        <TextButton label="편집" />
+      </AppBar.Right>
+    </AppBar.Root>
   );
 }
