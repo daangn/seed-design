@@ -1,6 +1,6 @@
 ---
 id: lynx-go-android-real-touch
-description: Android 기기의 Lynx Go(`com.funcs.io.lynx.go`)로 `examples/lynx-spa` 예제를 검증하거나, Lynx Go Card가 `Error occurred while fetching app bundle resource`로 bundle을 받지 못하거나, overlay의 `event-through`·backdrop 탭·뒤로 가기처럼 CDP 에뮬레이션이 아닌 실제 터치가 필요한 결과를 확인할 때 읽는다. 기기와 개발 호스트의 Wi-Fi 서브넷이 달라 LAN URL에 닿지 않을 때의 `adb reverse` 연결과 `ASSET_PREFIX`, `example` query가 적용되지 않을 때의 진입 방법, snapshot dp 좌표를 `adb input` 픽셀로 바꾸는 방법, Card 정리 경로를 다룬다. iOS host나 CDP 탭으로 충분한 검증에는 적용하지 않는다.
+description: Android 기기의 Lynx Go(`com.funcs.io.lynx.go`)로 `examples/lynx-spa` 예제를 검증하거나, Lynx Go Card가 `Error occurred while fetching app bundle resource`로 bundle을 받지 못하거나, overlay의 `event-through`·backdrop 탭·뒤로 가기·TextField native 입력과 키보드처럼 CDP 에뮬레이션이 아닌 실제 터치·타이핑이 필요한 결과를 확인할 때 읽는다. agent-lynx `tap`·`fill`이 입력을 `Ref @eN is disabled`로 거부하거나 snapshot이 모두 `{hidden}`일 때도 해당한다. 기기와 개발 호스트의 Wi-Fi 서브넷이 달라 LAN URL에 닿지 않을 때의 `adb reverse` 연결과 `ASSET_PREFIX`, `example` query가 적용되지 않을 때의 진입 방법, snapshot dp 좌표를 `adb input` 픽셀로 바꾸는 방법, Card 정리 경로를 다룬다. iOS host나 CDP 탭으로 충분한 검증에는 적용하지 않는다.
 scope: ["docs/examples/lynx/**", "examples/lynx-spa/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["lynx-explorer-evaluate-control", "lynx-device-cdp-geometry"]
@@ -19,6 +19,10 @@ verified_at: "2026-10-06"
 - `container`를 지정한 overlay 레이어(예: `lynx/alert-dialog/portalled`)가 열려 있으면 `KEYCODE_BACK`은 overlay에 먹혀 Dialog도 Card도 닫히지 않는다 → overlay 안의 닫기 버튼으로 먼저 닫은 뒤 BACK을 보낸다.
 - `adb shell uiautomator dump`는 Lynx 텍스트의 `accessibility-heading` 같은 접근성 속성을 출력하지 않는다(열린 AlertDialog에서 버튼 `content-desc`만 보였다) → heading·역할 설명은 agent-lynx `DOM.getDocument` 속성으로 확인하고, 실제 낭독은 TalkBack에서 따로 판정한다.
 - Lynx Go에서도 agent-lynx `tap`(CDP)으로 SPA 목록 항목과 header 뒤로 가기를 누를 수 있다. 가로 `scroll-view`를 실제 drag로 옮긴 뒤 snapshot 좌표는 갱신되지 않을 수 있으므로 가로 스크롤 결과는 screenshot으로 판정한다.
+- TextField처럼 native `<input>`·`<textarea>`를 검증할 때 agent-lynx 0.14.2 `tap`·`fill`은 `Ref @eN is disabled`로 거부한다. DOM에 `disabled="false"` 속성이 있으면 snapshot이 `{disabled}`로 표시한다 → `adb shell input tap`으로 focus하고 `adb shell input text <문자열>`·`input keyevent KEYCODE_ENTER`로 입력한 뒤 snapshot의 입력 값과 화면으로 판정한다. 키보드 표시는 `adb shell dumpsys input_method | grep mInputShown`으로 확인한다.
+- 키보드가 열린 상태의 BACK은 키보드만 닫고 native focus는 남는다(blur 없음). Card를 정리할 때는 키보드가 닫혔는지 확인하고 BACK을 한 번 더 보낸다.
+- 화면이 꺼져 있으면(`dumpsys power`의 `mWakefulness=Dozing`) snapshot 항목이 모두 `{hidden}`이고 CDP tap도 화면에 반영되지 않는다 → `input keyevent KEYCODE_WAKEUP` 뒤 잠금 상태(`dumpsys window`의 `isKeyguardShowing`)를 확인한다.
+- 접힌 상태의 SM-F971N은 display가 둘이라 `screencap -p`가 검은 내부 화면을 찍을 수 있다 → `dumpsys SurfaceFlinger --display-id`로 ID를 보고 `screencap -d <커버 display ID> -p`로 찍는다. 커버 화면 하단 navigation bar 위치를 `input tap`하면 홈으로 나가므로, 아래쪽 입력은 `input swipe`로 올린 뒤 탭한다.
 
 ## 발생 근거와 적용 조건
 
@@ -34,9 +38,13 @@ verified_at: "2026-10-06"
 - DES-2621(Dialog·AlertDialog Title heading, 2026-10-06): 같은 기기·client, agent-lynx 0.14.2. `open`은 다시 baseline `homepage.lynx.bundle` session(8)을 새 session(9)으로 대체했다.
   - `alert-dialog/portalled`를 연 채 BACK을 세 번 보내도 ActivityRecord가 그대로였고 화면도 열린 Dialog였다. 취소를 누른 뒤 BACK 한 번에 ActivityRecord가 0개가 됐다.
   - 같은 Dialog를 연 상태의 `uiautomator dump --compressed`에는 취소·확인 버튼 노드만 있었다. 같은 시점 CDP DOM에서는 Title `accessibility-heading="true"`가 보였다.
+- DES-2645(TextField Headless 분리, 2026-10-06): 같은 기기·client, agent-lynx 0.14.2, 이번에는 LAN URL(`nc` 성공)로 열었다. 모든 TextField 입력이 snapshot에서 `{editable,disabled}`였고 DOM 속성은 `disabled="false"`였다. `tap`·`fill`은 거부됐고 `adb input tap`·`input text`로 controlled 대문자 변환, grapheme 상한, focus 이동 시 KeyboardAvoidingScrollView 회피, textarea 줄 추가 뒤 재계산을 확인했다.
+  - 같은 거부를 iPhone PlayLynx 실기기(`localhost:8901`)에서는 CDP `Input.emulateTouchFromMouseEvent`와 `evaluate`의 `focus` UI method 호출로 우회하지 못했다. native 입력 검증은 Android에서 했다.
+  - 처음 연 Card에서 화면이 꺼져 snapshot이 모두 `{hidden}`이었고, 하단 입력 탭이 navigation bar의 홈으로 들어가 앱이 백그라운드로 갔다. `monkey -p com.funcs.io.lynx.go -c android.intent.category.LAUNCHER 1`로 같은 Card(`LynxViewShellActivity`)로 돌아왔다.
 
 ## 변경 이력
 
 - 2026-09-29: DES-2679 OverlayView 검증 중 확인한 내용을 기록했다.
 - 2026-10-06: DES-2631에서 서브넷이 다른 기기의 `adb reverse` 연결, CDP tap 동작, 가로 스크롤 뒤 snapshot 좌표 한계를 추가하고 기존 query·Card 정리 관찰을 재확인했다.
 - 2026-10-06: DES-2621에서 overlay 레이어가 BACK을 소비하는 Card 정리 순서와 uiautomator dump의 접근성 속성 한계를 추가했다.
+- 2026-10-06: DES-2645에서 native 입력의 `disabled` 오판 우회, 키보드와 BACK, 꺼진 화면·접힌 기기의 캡처·탭 함정을 추가했다.
