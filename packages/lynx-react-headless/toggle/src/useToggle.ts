@@ -26,7 +26,7 @@ export interface UseToggleProps extends UseToggleStateProps, MainThreadTouchProp
   disabled?: boolean;
   /** 사용자 tap handler입니다. disabled가 아니면 pressed 전이보다 먼저 실행됩니다. */
   bindtap?: ViewProps["bindtap"];
-  /** disabled가 아닐 때만 `rootProps`에 포함됩니다. */
+  /** 사용자 Main Thread tap handler입니다. disabled인 동안에는 연결된 채로 호출되지 않습니다. */
   "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
 }
 
