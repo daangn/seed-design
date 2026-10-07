@@ -127,9 +127,9 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
       <FloatingActionButtonRootView
         {...mergeProps(
           ref ? { ref } : {},
-          api.interactive ? scaleFeedbackTargetProps : {},
-          api.interactive ? scaleFeedbackTriggerProps : {},
-          api.interactive ? tapHandlers : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          tapHandlers,
           otherProps,
         )}
         disabled={api.disabled}
