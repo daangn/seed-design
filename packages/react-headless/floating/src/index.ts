@@ -48,7 +48,7 @@ export interface PositioningOptions {
   slide?: boolean;
   /**
    * The virtual padding around the viewport edges to check for overflow. On an edge with a
-   * safe-area inset, the inset is used instead.
+   * safe-area inset, it is added to the inset.
    * @default 8
    */
   overflowPadding?: number;
@@ -228,14 +228,14 @@ export function usePositionedFloating<
 
   const [safeArea, setSafeArea] = useState(ZERO_INSETS);
 
-  // The safe area is already a visual buffer, so on an edge that has one the floating
-  // element sits right at its boundary; only where there is none does it fall back to
-  // overflowPadding off the bare viewport edge. Same rule as Menu and Select.
+  // overflowPadding is measured from the safe area's boundary, so it keeps the same gap from
+  // what's visible whether or not an edge has an inset.
+  const overflowPadding = options.overflowPadding ?? 0;
   const collisionPadding = {
-    top: safeArea.top || options.overflowPadding,
-    right: safeArea.right || options.overflowPadding,
-    bottom: safeArea.bottom || options.overflowPadding,
-    left: safeArea.left || options.overflowPadding,
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
   };
 
   const {

@@ -51,7 +51,7 @@ const popover = defineSlotRecipe({
       // (minWidth and height are not exposed — the content grows with the body, capped below).
       // minWidth/maxWidth/maxHeight fall back to the design value, but shrink to the space
       // floating-ui's size() middleware leaves once the viewport is smaller: minus the safe-area
-      // inset on each edge, or overflowPadding on an edge without one. minWidth has to shrink
+      // inset plus overflowPadding on each edge. minWidth has to shrink
       // too: CSS lets min-width win over max-width.
       "--seed-box-width--responsive": "auto", // real value, not `initial` — see https://webkit.org/b/241433
       "--seed-box-max-width--responsive": `min(${vars.base.enabled.content.maxWidth}, var(--seed-popover-available-width, ${vars.base.enabled.content.maxWidth}))`,
