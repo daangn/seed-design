@@ -27,5 +27,6 @@
     gap: var(--seed-dimension-x2);
     flex-shrink: 0;
     padding: 0;
-    margin: 0
+    margin: 0;
+    overflow: visible
 }
