@@ -109,39 +109,47 @@ export function KeyboardAvoidingScrollViewHeadlessPage() {
   }, []);
 
   return (
-    <KeyboardAvoidingScrollView.Root
-      className="kav-headless-root"
-      keyboardGap={16}
-      bindscrollend={handleScrollEnd}
-    >
-      <view className="kav-headless-content">
-        <text className="kav-headless-title">KeyboardAvoidingScrollView (Headless)</text>
-        <text className="kav-headless-description">
-          SEED Recipe 없이 native input이 Context로 등록합니다. 아래 입력을 차례로 탭해 키보드와
-          입력 사이에 16px이 남는지, 다른 입력으로 focus를 옮겨도 위치를 이어받는지 확인합니다.
-        </text>
-        <text className="kav-headless-log">{`log: ${log.join(" → ") || "-"}`}</text>
-        <text className="kav-headless-log">{`scrollend: ${scrollCount}`}</text>
-        <view className="kav-headless-spacer" />
+    <KeyboardAvoidingScrollView.Root className="kav-headless-root" keyboardGap={16}>
+      <KeyboardAvoidingScrollView.Content
+        className="kav-headless-scroll"
+        bindscrollend={handleScrollEnd}
+      >
+        <view className="kav-headless-content">
+          <text className="kav-headless-title">KeyboardAvoidingScrollView (Headless)</text>
+          <text className="kav-headless-description">
+            SEED Recipe 없이 native input이 Context로 등록합니다. 아래 입력을 차례로 탭해 Footer와
+            입력 사이에 16px이 남는지, 다른 입력으로 focus를 옮겨도 위치를 이어받는지 확인합니다.
+          </text>
+          <text className="kav-headless-log">{`log: ${log.join(" → ") || "-"}`}</text>
+          <text className="kav-headless-log">{`scrollend: ${scrollCount}`}</text>
+          <view className="kav-headless-spacer" />
+          <NativeField
+            label="이름"
+            description="focus하면 Field 전체가 Footer 위에 오도록 스크롤합니다."
+            onEvent={push}
+          />
+          <NativeField
+            label="닉네임 (readonly)"
+            description="readonly 입력은 enabled: false로 등록해 스크롤하지 않습니다."
+            readOnly
+            onEvent={push}
+          />
+          <view className="kav-headless-spacer" />
+          <NativeField
+            label="소개"
+            description="여러 줄을 입력해 높이가 바뀌면 layoutChanged로 다시 계산합니다."
+            multiline
+            onEvent={push}
+          />
+        </view>
+      </KeyboardAvoidingScrollView.Content>
+      <KeyboardAvoidingScrollView.Footer className="kav-headless-footer">
         <NativeField
-          label="이름"
-          description="focus하면 Field 전체가 키보드 위에 오도록 스크롤합니다."
+          label="메모 (Footer)"
+          description="Footer 안 입력은 Footer와 함께 키보드 위로 올라가고 Content를 스크롤하지 않습니다."
           onEvent={push}
         />
-        <NativeField
-          label="닉네임 (readonly)"
-          description="readonly 입력은 enabled: false로 등록해 스크롤하지 않습니다."
-          readOnly
-          onEvent={push}
-        />
-        <view className="kav-headless-spacer" />
-        <NativeField
-          label="소개"
-          description="여러 줄을 입력해 높이가 바뀌면 layoutChanged로 다시 계산합니다."
-          multiline
-          onEvent={push}
-        />
-      </view>
+      </KeyboardAvoidingScrollView.Footer>
     </KeyboardAvoidingScrollView.Root>
   );
 }
