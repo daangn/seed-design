@@ -1,5 +1,11 @@
 # @seed-design/mcp
 
+## 1.3.22
+
+### Patch Changes
+
+- @seed-design/figma@1.3.22
+
 ## 1.3.21
 
 ### Patch Changes
