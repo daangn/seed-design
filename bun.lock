@@ -202,7 +202,7 @@
         "rootage": "./bin/index.mjs",
       },
       "dependencies": {
-        "@seed-design/rootage-artifacts": "1.2.9",
+        "@seed-design/rootage-artifacts": "1.2.12",
         "@seed-design/rootage-core": "0.0.0",
         "fs-extra": "^11.3.0",
         "yaml": "^2.7.1",
@@ -238,8 +238,8 @@
         "@karrotmarket/lynx-multicolor-icon": "1.13.0",
         "@lynx-js/lynx-ui-sheet": "^3.130.1",
         "@lynx-js/react": "^0.117.0",
-        "@seed-design/lynx-css": "0.0.0",
-        "@seed-design/lynx-react": "0.0.0",
+        "@seed-design/lynx-css": "0.2.1",
+        "@seed-design/lynx-react": "0.2.0",
         "@seed-design/tailwind3-plugin": "workspace:*",
         "clsx": "^2.1.1",
         "lynx-console": "^0.3.0",
@@ -263,8 +263,8 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "1.2.11",
-        "@seed-design/react": "1.2.10",
+        "@seed-design/css": "1.2.19",
+        "@seed-design/react": "1.2.17",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -289,9 +289,9 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "1.2.15",
-        "@seed-design/react": "1.2.13",
-        "@seed-design/stackflow": "1.1.24",
+        "@seed-design/css": "1.2.19",
+        "@seed-design/react": "1.2.17",
+        "@seed-design/stackflow": "1.1.25",
         "@seed-design/stylesheet": "1.1.1",
         "@stackflow/compat-await-push": "^1.1.13",
         "@stackflow/config": "^1.2.1",
@@ -426,7 +426,7 @@
       "name": "@seed-design/figma",
       "version": "1.3.21",
       "dependencies": {
-        "@seed-design/css": "1.2.11",
+        "@seed-design/css": "1.2.19",
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
       },
@@ -434,7 +434,7 @@
         "@figma/plugin-typings": "^1.123.0",
         "@figma/rest-api-spec": "^0.36.0",
         "@karrotmarket/icon-data": "^1.34.0",
-        "@seed-design/figma-extractor": "^1.1.1",
+        "@seed-design/figma-extractor": "^1.1.2",
         "typescript": "^6.0.0",
       },
     },
@@ -488,7 +488,7 @@
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.25.3",
-        "@seed-design/figma": "1.3.14",
+        "@seed-design/figma": "1.3.21",
         "cac": "^7.0.0",
         "figma-api": "^2.1.2-beta",
         "uuid": "^14.0.0",
@@ -1201,7 +1201,7 @@
       "name": "@seed-design/figma-codegen",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/figma": "1.3.12",
+        "@seed-design/figma": "1.3.21",
       },
       "devDependencies": {
         "@create-figma-plugin/build": "^4.0.1",
@@ -1242,10 +1242,10 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "1.2.11",
-        "@seed-design/figma": "1.3.13",
+        "@seed-design/css": "1.2.19",
+        "@seed-design/figma": "1.3.21",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.2.10",
+        "@seed-design/react": "1.2.17",
         "@seed-design/vite-plugin": "1.1.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -5918,7 +5918,7 @@
 
     "write-file-atomic": ["write-file-atomic@5.0.1", "", { "dependencies": { "imurmurhash": "^0.1.4", "signal-exit": "^4.0.1" } }, "sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw=="],
 
-    "ws": ["ws@8.18.3", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg=="],
+    "ws": ["ws@8.20.1", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w=="],
 
     "wsl-utils": ["wsl-utils@0.1.0", "", { "dependencies": { "is-wsl": "^3.1.0" } }, "sha512-h3Fbisa2nKGPxCpm89Hk33lBLsnaGBvctQopaBSOW/uIs6FTe1ATyAnKFJrzVs9vpGdsTe73WF3V4lIsk4Gacw=="],
 
@@ -6642,8 +6642,6 @@
 
     "engine.io/accepts": ["accepts@1.3.8", "", { "dependencies": { "mime-types": "~2.1.34", "negotiator": "0.6.3" } }, "sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw=="],
 
-    "engine.io/ws": ["ws@8.20.1", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w=="],
-
     "enhanced-resolve/tapable": ["tapable@2.3.3", "", {}, "sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A=="],
 
     "enquirer/strip-ansi": ["strip-ansi@6.0.1", "", { "dependencies": { "ansi-regex": "^5.0.1" } }, "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A=="],
@@ -7011,8 +7009,6 @@
     "socket.io/accepts": ["accepts@1.3.8", "", { "dependencies": { "mime-types": "~2.1.34", "negotiator": "0.6.3" } }, "sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw=="],
 
     "socket.io/debug": ["debug@4.3.7", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ=="],
-
-    "socket.io-adapter/ws": ["ws@8.20.1", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w=="],
 
     "stacktrace-gps/source-map": ["source-map@0.5.6", "", {}, "sha512-MjZkVp0NHr5+TPihLcadqnlVoGIoWo4IBHptutGh9wI3ttUYvCG26HkSuDi+K6lsZ25syXJXcctwgyVCt//xqA=="],
 
