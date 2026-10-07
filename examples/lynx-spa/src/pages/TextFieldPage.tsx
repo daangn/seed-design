@@ -223,307 +223,315 @@ function LayoutComparisonExample() {
 
 export function TextFieldPage() {
   return (
-    <KeyboardAvoidingScrollView className="flex flex-col flex-1 px-x4 pb-x10">
-      <view className="flex flex-col gap-x6">
-        <text className="t8-bold text-fg-neutral">TextField</text>
+    <KeyboardAvoidingScrollView.Root className="flex-1">
+      <KeyboardAvoidingScrollView.Content className="flex flex-col px-x4 pb-x10">
+        <view className="flex flex-col gap-x6">
+          <text className="t8-bold text-fg-neutral">TextField</text>
 
-        <text className="t5-bold text-fg-neutral">Field</text>
+          <text className="t5-bold text-fg-neutral">Field</text>
 
-        <TextField
-          label="제목"
-          required
-          showRequiredIndicator
-          name="title"
-          description="한 줄 native input 예시입니다."
-        >
-          <TextFieldInput accessibility-label="제목" placeholder="제목을 입력해 주세요" />
-        </TextField>
+          <TextField
+            label="제목"
+            required
+            showRequiredIndicator
+            name="title"
+            description="한 줄 native input 예시입니다."
+          >
+            <TextFieldInput accessibility-label="제목" placeholder="제목을 입력해 주세요" />
+          </TextField>
 
-        <TextField
-          label="선택 필드"
-          labelWeight="bold"
-          indicator="선택"
-          description="굵은 라벨과 선택 indicator 예시입니다."
-        >
-          <TextFieldInput accessibility-label="선택 필드" placeholder="선택 사항을 입력해 주세요" />
-        </TextField>
+          <TextField
+            label="선택 필드"
+            labelWeight="bold"
+            indicator="선택"
+            description="굵은 라벨과 선택 indicator 예시입니다."
+          >
+            <TextFieldInput
+              accessibility-label="선택 필드"
+              placeholder="선택 사항을 입력해 주세요"
+            />
+          </TextField>
 
-        <TextField
-          label="오류 상태"
-          defaultValue="유효하지 않은 값"
-          invalid
-          errorMessage="오류가 발생한 이유를 써주세요."
-          maxGraphemeCount={20}
-        >
-          <TextFieldInput accessibility-label="오류 상태 입력" />
-        </TextField>
+          <TextField
+            label="오류 상태"
+            defaultValue="유효하지 않은 값"
+            invalid
+            errorMessage="오류가 발생한 이유를 써주세요."
+            maxGraphemeCount={20}
+          >
+            <TextFieldInput accessibility-label="오류 상태 입력" />
+          </TextField>
 
-        <TextField
-          label="읽기 전용"
-          defaultValue="읽기만 가능한 값"
-          readOnly
-          description="포커스와 값 변경이 제한되는지 확인합니다."
-        >
-          <TextFieldInput accessibility-label="읽기 전용 입력" />
-        </TextField>
+          <TextField
+            label="읽기 전용"
+            defaultValue="읽기만 가능한 값"
+            readOnly
+            description="포커스와 값 변경이 제한되는지 확인합니다."
+          >
+            <TextFieldInput accessibility-label="읽기 전용 입력" />
+          </TextField>
 
-        <TextField label="비활성화" defaultValue="수정할 수 없는 값" disabled>
-          <TextFieldInput accessibility-label="비활성화된 입력" />
-        </TextField>
+          <TextField label="비활성화" defaultValue="수정할 수 없는 값" disabled>
+            <TextFieldInput accessibility-label="비활성화된 입력" />
+          </TextField>
 
-        <text className="t5-bold text-fg-neutral">Text Input</text>
+          <text className="t5-bold text-fg-neutral">Text Input</text>
 
-        <TextField
-          label="URL"
-          prefix="https://"
-          suffix=".com"
-          description="prefix와 suffix text 예시입니다."
-        >
-          <TextFieldInput accessibility-label="URL" placeholder="example" />
-        </TextField>
+          <TextField
+            label="URL"
+            prefix="https://"
+            suffix=".com"
+            description="prefix와 suffix text 예시입니다."
+          >
+            <TextFieldInput accessibility-label="URL" placeholder="example" />
+          </TextField>
 
-        <TextField
-          label="아이콘 조합"
-          prefixIcon={<IconPlusFill />}
-          suffixIcon={<IconChevronDownFill />}
-          description="prefixIcon과 suffixIcon 예시입니다."
-        >
-          <TextFieldInput accessibility-label="아이콘 조합 입력" placeholder="값을 입력해 주세요" />
-        </TextField>
+          <TextField
+            label="아이콘 조합"
+            prefixIcon={<IconPlusFill />}
+            suffixIcon={<IconChevronDownFill />}
+            description="prefixIcon과 suffixIcon 예시입니다."
+          >
+            <TextFieldInput
+              accessibility-label="아이콘 조합 입력"
+              placeholder="값을 입력해 주세요"
+            />
+          </TextField>
 
-        <text className="t4-bold text-fg-neutral">Size × Variant</text>
+          <text className="t4-bold text-fg-neutral">Size × Variant</text>
 
-        <TextField label="Outline Large" size="large" description="52px 높이">
-          <TextFieldInput
-            id="text-field-outline-large"
-            accessibility-label="Outline Large 입력"
-            placeholder="outline / large"
-          />
-        </TextField>
+          <TextField label="Outline Large" size="large" description="52px 높이">
+            <TextFieldInput
+              id="text-field-outline-large"
+              accessibility-label="Outline Large 입력"
+              placeholder="outline / large"
+            />
+          </TextField>
 
-        <TextField label="Outline Medium" size="medium" description="40px 높이">
-          <TextFieldInput
-            id="text-field-outline-medium"
-            accessibility-label="Outline Medium 입력"
-            placeholder="outline / medium"
-          />
-        </TextField>
+          <TextField label="Outline Medium" size="medium" description="40px 높이">
+            <TextFieldInput
+              id="text-field-outline-medium"
+              accessibility-label="Outline Medium 입력"
+              placeholder="outline / medium"
+            />
+          </TextField>
 
-        <TextField variant="underline" size="large" description="underline / large">
-          <TextFieldInput
-            id="text-field-underline-large"
-            accessibility-label="Underline Large 입력"
-            placeholder="underline / large"
-          />
-        </TextField>
+          <TextField variant="underline" size="large" description="underline / large">
+            <TextFieldInput
+              id="text-field-underline-large"
+              accessibility-label="Underline Large 입력"
+              placeholder="underline / large"
+            />
+          </TextField>
 
-        <TextField variant="underline" size="medium" description="underline / medium">
-          <TextFieldInput
-            id="text-field-underline-medium"
-            accessibility-label="Underline Medium 입력"
-            placeholder="underline / medium"
-          />
-        </TextField>
+          <TextField variant="underline" size="medium" description="underline / medium">
+            <TextFieldInput
+              id="text-field-underline-medium"
+              accessibility-label="Underline Medium 입력"
+              placeholder="underline / medium"
+            />
+          </TextField>
 
-        <text className="t4-bold text-fg-neutral">Outline Affix</text>
+          <text className="t4-bold text-fg-neutral">Outline Affix</text>
 
-        <TextField label="Prefix Text" prefix="https://">
-          <TextFieldInput
-            accessibility-label="Outline Prefix Text 입력"
-            placeholder="example.com"
-          />
-        </TextField>
+          <TextField label="Prefix Text" prefix="https://">
+            <TextFieldInput
+              accessibility-label="Outline Prefix Text 입력"
+              placeholder="example.com"
+            />
+          </TextField>
 
-        <TextField label="Prefix Icon" prefixIcon={<IconMagnifyingglassLine />}>
-          <TextFieldInput accessibility-label="Outline Prefix Icon 입력" placeholder="검색" />
-        </TextField>
+          <TextField label="Prefix Icon" prefixIcon={<IconMagnifyingglassLine />}>
+            <TextFieldInput accessibility-label="Outline Prefix Icon 입력" placeholder="검색" />
+          </TextField>
 
-        <TextField label="Suffix Text" suffix="cm">
-          <TextFieldInput accessibility-label="Outline Suffix Text 입력" placeholder="200" />
-        </TextField>
+          <TextField label="Suffix Text" suffix="cm">
+            <TextFieldInput accessibility-label="Outline Suffix Text 입력" placeholder="200" />
+          </TextField>
 
-        <TextField label="Suffix Icon" suffixIcon={<IconWonLine />}>
-          <TextFieldInput accessibility-label="Outline Suffix Icon 입력" placeholder="50,000" />
-        </TextField>
+          <TextField label="Suffix Icon" suffixIcon={<IconWonLine />}>
+            <TextFieldInput accessibility-label="Outline Suffix Icon 입력" placeholder="50,000" />
+          </TextField>
 
-        <TextField label="Both Text" prefix="만" suffix="세">
-          <TextFieldInput accessibility-label="Outline Both Text 입력" placeholder="나이" />
-        </TextField>
+          <TextField label="Both Text" prefix="만" suffix="세">
+            <TextFieldInput accessibility-label="Outline Both Text 입력" placeholder="나이" />
+          </TextField>
 
-        <TextField
-          label="Both Icons"
-          prefixIcon={<IconPlusCircleFill />}
-          suffixIcon={<IconWonLine />}
-        >
-          <TextFieldInput accessibility-label="Outline Both Icons 입력" placeholder="금액" />
-        </TextField>
+          <TextField
+            label="Both Icons"
+            prefixIcon={<IconPlusCircleFill />}
+            suffixIcon={<IconWonLine />}
+          >
+            <TextFieldInput accessibility-label="Outline Both Icons 입력" placeholder="금액" />
+          </TextField>
 
-        <text className="t4-bold text-fg-neutral">Underline Affix</text>
+          <text className="t4-bold text-fg-neutral">Underline Affix</text>
 
-        <TextField variant="underline" description="prefix text" prefix="https://">
-          <TextFieldInput
-            id="text-field-underline-prefix-text"
-            accessibility-label="Underline Prefix Text 입력"
-            placeholder="example.com"
-          />
-        </TextField>
+          <TextField variant="underline" description="prefix text" prefix="https://">
+            <TextFieldInput
+              id="text-field-underline-prefix-text"
+              accessibility-label="Underline Prefix Text 입력"
+              placeholder="example.com"
+            />
+          </TextField>
 
-        <TextField
-          variant="underline"
-          description="prefix icon"
-          prefixIcon={<IconMagnifyingglassLine />}
-        >
-          <TextFieldInput
-            id="text-field-underline-prefix-icon"
-            accessibility-label="Underline Prefix Icon 입력"
-            placeholder="검색"
-          />
-        </TextField>
+          <TextField
+            variant="underline"
+            description="prefix icon"
+            prefixIcon={<IconMagnifyingglassLine />}
+          >
+            <TextFieldInput
+              id="text-field-underline-prefix-icon"
+              accessibility-label="Underline Prefix Icon 입력"
+              placeholder="검색"
+            />
+          </TextField>
 
-        <TextField variant="underline" description="suffix text" suffix="cm">
-          <TextFieldInput
-            id="text-field-underline-suffix-text"
-            accessibility-label="Underline Suffix Text 입력"
-            placeholder="200"
-          />
-        </TextField>
+          <TextField variant="underline" description="suffix text" suffix="cm">
+            <TextFieldInput
+              id="text-field-underline-suffix-text"
+              accessibility-label="Underline Suffix Text 입력"
+              placeholder="200"
+            />
+          </TextField>
 
-        <TextField
-          variant="underline"
-          description="suffix icon — 오른쪽 클리핑 확인"
-          suffixIcon={<IconWonLine />}
-        >
-          <TextFieldInput
-            id="text-field-underline-suffix-icon"
-            accessibility-label="Underline Suffix Icon 입력"
-            placeholder="50,000"
-          />
-        </TextField>
+          <TextField
+            variant="underline"
+            description="suffix icon — 오른쪽 클리핑 확인"
+            suffixIcon={<IconWonLine />}
+          >
+            <TextFieldInput
+              id="text-field-underline-suffix-icon"
+              accessibility-label="Underline Suffix Icon 입력"
+              placeholder="50,000"
+            />
+          </TextField>
 
-        <TextField variant="underline" description="prefix/suffix text" prefix="만" suffix="세">
-          <TextFieldInput
-            id="text-field-underline-both-text"
-            accessibility-label="Underline Both Text 입력"
-            placeholder="나이"
-          />
-        </TextField>
+          <TextField variant="underline" description="prefix/suffix text" prefix="만" suffix="세">
+            <TextFieldInput
+              id="text-field-underline-both-text"
+              accessibility-label="Underline Both Text 입력"
+              placeholder="나이"
+            />
+          </TextField>
 
-        <TextField
-          variant="underline"
-          description="prefix/suffix icon — 양쪽 클리핑 확인"
-          prefixIcon={<IconPlusCircleFill />}
-          suffixIcon={<IconWonLine />}
-        >
-          <TextFieldInput
-            id="text-field-underline-both-icons"
-            accessibility-label="Underline Both Icons 입력"
-            placeholder="금액"
-          />
-        </TextField>
+          <TextField
+            variant="underline"
+            description="prefix/suffix icon — 양쪽 클리핑 확인"
+            prefixIcon={<IconPlusCircleFill />}
+            suffixIcon={<IconWonLine />}
+          >
+            <TextFieldInput
+              id="text-field-underline-both-icons"
+              accessibility-label="Underline Both Icons 입력"
+              placeholder="금액"
+            />
+          </TextField>
 
-        <TextField
-          variant="underline"
-          size="medium"
-          description="medium prefix/suffix icon — 양쪽 클리핑 확인"
-          prefixIcon={<IconPlusCircleFill />}
-          suffixIcon={<IconChevronDownFill />}
-        >
-          <TextFieldInput
-            id="text-field-underline-medium-both-icons"
-            accessibility-label="Underline Medium Both Icons 입력"
-            placeholder="옵션 선택"
-          />
-        </TextField>
+          <TextField
+            variant="underline"
+            size="medium"
+            description="medium prefix/suffix icon — 양쪽 클리핑 확인"
+            prefixIcon={<IconPlusCircleFill />}
+            suffixIcon={<IconChevronDownFill />}
+          >
+            <TextFieldInput
+              id="text-field-underline-medium-both-icons"
+              accessibility-label="Underline Medium Both Icons 입력"
+              placeholder="옵션 선택"
+            />
+          </TextField>
 
-        <TextField
-          size="medium"
-          label="Outline Medium Both Icons"
-          prefixIcon={<IconPlusCircleFill />}
-          suffixIcon={<IconChevronDownFill />}
-        >
-          <TextFieldInput
-            id="text-field-outline-medium-both-icons"
-            accessibility-label="Outline Medium Both Icons 입력"
-            placeholder="옵션 선택"
-          />
-        </TextField>
+          <TextField
+            size="medium"
+            label="Outline Medium Both Icons"
+            prefixIcon={<IconPlusCircleFill />}
+            suffixIcon={<IconChevronDownFill />}
+          >
+            <TextFieldInput
+              id="text-field-outline-medium-both-icons"
+              accessibility-label="Outline Medium Both Icons 입력"
+              placeholder="옵션 선택"
+            />
+          </TextField>
 
-        <text className="t5-bold text-fg-neutral">Textarea</text>
+          <text className="t5-bold text-fg-neutral">Textarea</text>
 
-        <IntroductionTextareaExample />
+          <IntroductionTextareaExample />
 
-        <TextField
-          label="오류 상태"
-          invalid
-          errorMessage="소개를 다시 확인해 주세요."
-          maxGraphemeCount={40}
-        >
-          <TextFieldTextarea
-            accessibility-label="오류 상태 여러 줄 입력"
-            placeholder="여러 줄 값을 입력해 주세요"
-          />
-        </TextField>
+          <TextField
+            label="오류 상태"
+            invalid
+            errorMessage="소개를 다시 확인해 주세요."
+            maxGraphemeCount={40}
+          >
+            <TextFieldTextarea
+              accessibility-label="오류 상태 여러 줄 입력"
+              placeholder="여러 줄 값을 입력해 주세요"
+            />
+          </TextField>
 
-        <TextField
-          label="읽기 전용"
-          defaultValue="읽기만 가능한 여러 줄 값입니다."
-          readOnly
-          description="textarea의 readOnly 상태 예시입니다."
-        >
-          <TextFieldTextarea accessibility-label="읽기 전용 여러 줄 입력" />
-        </TextField>
+          <TextField
+            label="읽기 전용"
+            defaultValue="읽기만 가능한 여러 줄 값입니다."
+            readOnly
+            description="textarea의 readOnly 상태 예시입니다."
+          >
+            <TextFieldTextarea accessibility-label="읽기 전용 여러 줄 입력" />
+          </TextField>
 
-        <TextField
-          variant="underline"
-          size="medium"
-          defaultValue="비활성화된 여러 줄 값입니다."
-          disabled
-          description="underline / medium / disabled 조합입니다."
-        >
-          <TextFieldTextarea accessibility-label="비활성화된 여러 줄 입력" />
-        </TextField>
+          <TextField
+            variant="underline"
+            size="medium"
+            defaultValue="비활성화된 여러 줄 값입니다."
+            disabled
+            description="underline / medium / disabled 조합입니다."
+          >
+            <TextFieldTextarea accessibility-label="비활성화된 여러 줄 입력" />
+          </TextField>
 
-        <text className="t4-bold text-fg-neutral">Textarea Size × Variant</text>
+          <text className="t4-bold text-fg-neutral">Textarea Size × Variant</text>
 
-        <TextField label="Outline Large Textarea" size="large">
-          <TextFieldTextarea
-            accessibility-label="Outline Large Textarea"
-            placeholder="outline / large"
-          />
-        </TextField>
+          <TextField label="Outline Large Textarea" size="large">
+            <TextFieldTextarea
+              accessibility-label="Outline Large Textarea"
+              placeholder="outline / large"
+            />
+          </TextField>
 
-        <TextField label="Outline Medium Textarea" size="medium">
-          <TextFieldTextarea
-            accessibility-label="Outline Medium Textarea"
-            placeholder="outline / medium"
-          />
-        </TextField>
+          <TextField label="Outline Medium Textarea" size="medium">
+            <TextFieldTextarea
+              accessibility-label="Outline Medium Textarea"
+              placeholder="outline / medium"
+            />
+          </TextField>
 
-        <TextField variant="underline" size="large" description="underline / large textarea">
-          <TextFieldTextarea
-            accessibility-label="Underline Large Textarea"
-            placeholder="underline / large"
-          />
-        </TextField>
+          <TextField variant="underline" size="large" description="underline / large textarea">
+            <TextFieldTextarea
+              accessibility-label="Underline Large Textarea"
+              placeholder="underline / large"
+            />
+          </TextField>
 
-        <TextField variant="underline" size="medium" description="underline / medium textarea">
-          <TextFieldTextarea
-            accessibility-label="Underline Medium Textarea"
-            placeholder="underline / medium"
-          />
-        </TextField>
+          <TextField variant="underline" size="medium" description="underline / medium textarea">
+            <TextFieldTextarea
+              accessibility-label="Underline Medium Textarea"
+              placeholder="underline / medium"
+            />
+          </TextField>
 
-        <TextField label="고정 높이" description="autoresize=false와 명시적 높이 예시입니다.">
-          <TextFieldTextarea
-            accessibility-label="고정 높이 여러 줄 입력"
-            placeholder="높이가 자동으로 늘어나지 않습니다."
-            autoresize={false}
-            style={{ height: "160px" }}
-          />
-        </TextField>
+          <TextField label="고정 높이" description="autoresize=false와 명시적 높이 예시입니다.">
+            <TextFieldTextarea
+              accessibility-label="고정 높이 여러 줄 입력"
+              placeholder="높이가 자동으로 늘어나지 않습니다."
+              autoresize={false}
+              style={{ height: "160px" }}
+            />
+          </TextField>
 
-        <LayoutComparisonExample />
-      </view>
-    </KeyboardAvoidingScrollView>
+          <LayoutComparisonExample />
+        </view>
+      </KeyboardAvoidingScrollView.Content>
+    </KeyboardAvoidingScrollView.Root>
   );
 }

@@ -206,7 +206,7 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 #### Keyboard Avoidance
 
-`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다.
+`KeyboardAvoidingScrollView.Content` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다. `KeyboardAvoidingScrollView.Footer` 안에 배치하면 Footer와 함께 키보드 위로 올라가므로 스크롤하지 않습니다.
 
 ```tsx
 import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
@@ -214,11 +214,13 @@ import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
 export function KeyboardAwareFields() {
   return (
-    <KeyboardAvoidingScrollView>
-      <TextField label="제목">
-        <TextFieldInput accessibility-label="제목" />
-      </TextField>
-    </KeyboardAvoidingScrollView>
+    <KeyboardAvoidingScrollView.Root className="screen-body">
+      <KeyboardAvoidingScrollView.Content>
+        <TextField label="제목">
+          <TextFieldInput accessibility-label="제목" />
+        </TextField>
+      </KeyboardAvoidingScrollView.Content>
+    </KeyboardAvoidingScrollView.Root>
   );
 }
 ```

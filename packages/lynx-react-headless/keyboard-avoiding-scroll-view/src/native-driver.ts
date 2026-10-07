@@ -102,6 +102,13 @@ export function resolveKeyboardOcclusionTop(
   return isFiniteNumber(screenHeight) && screenHeight > 0 ? screenHeight - state.height : null;
 }
 
+export function getKeyboardAvoidingPlatform(): KeyboardAvoidingPlatform | null {
+  const info: unknown = Reflect.get(globalThis, "SystemInfo");
+  if (typeof info !== "object" || info === null || !("platform" in info)) return null;
+
+  return info.platform === "Android" || info.platform === "iOS" ? info.platform : null;
+}
+
 function getSystemInfo(): {
   platform: KeyboardAvoidingPlatform;
   screenHeight: number;
