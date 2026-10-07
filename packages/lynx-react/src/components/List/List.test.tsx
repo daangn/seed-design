@@ -164,6 +164,9 @@ describe("List", () => {
     expect(checkbox.querySelector(".seed-checkmark__root")).toHaveClass(
       "seed-checkmark__root--indeterminate_true",
     );
+    expect(checkbox.querySelector(".seed-checkmark__root")).not.toHaveClass(
+      "seed-checkbox__control",
+    );
 
     expect(switchItem).toHaveAttribute("accessibility-value", "not checked");
     fireEvent.tap(switchItem);
@@ -180,6 +183,7 @@ describe("List", () => {
     expect(second.querySelector(".seed-radiomark__root")).toHaveClass(
       "seed-radiomark__root--checked_true",
     );
+    expect(second.querySelector(".seed-radiomark__root")).not.toHaveClass("seed-radio__control");
   });
 
   it("keeps controlled checkbox values with the parent and blocks disabled rows", () => {

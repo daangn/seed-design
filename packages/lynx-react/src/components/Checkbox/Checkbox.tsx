@@ -182,10 +182,12 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
     indeterminate: context.indeterminate,
   };
   const classes = checkmark(checkmarkVariantProps);
-  const checkboxControlClassName = checkbox({
-    ...styledContext?.checkboxVariantProps,
-    disabled: context.disabled,
-  }).control;
+  const checkboxControlClassName = styledContext
+    ? checkbox({
+        ...styledContext.checkboxVariantProps,
+        disabled: context.disabled,
+      }).control
+    : undefined;
   // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
   // 중간 RGB가 검게 탁해진다. ghost는 선택 전·후 눌림 색을 고정한 두 overlay의
   // opacity만 전환한다(`:active` selector는 checkbox recipe에 있다).
