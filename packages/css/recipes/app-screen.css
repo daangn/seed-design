@@ -23,6 +23,8 @@
     height: 100%;
     left: 0;
     right: 0;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
@@ -101,6 +103,8 @@
     right: 0;
     top: 0;
     margin-bottom: calc(-1 * (66px + 400px + var(--seed-safe-area-top)));
+    margin-left: calc(-1 * var(--seed-safe-area-left));
+    margin-right: calc(-1 * var(--seed-safe-area-right));
     height: calc(66px + 400px + var(--seed-safe-area-top));
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.35) 400px, rgba(0, 0, 0, 0.00) 100%);
     pointer-events: none;
