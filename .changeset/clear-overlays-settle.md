@@ -10,7 +10,7 @@
 
 노치·홈 인디케이터·가로 화면의 측면 inset이 있는 기기에서 오버레이 컴포넌트가 safe area inset 영역에 걸치지 않도록 수정합니다. Backdrop과 시트·패널의 배경은 계속 화면 끝까지 채웁니다.
 
-- Dialog: 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 기본 너비(90%)와 최대 너비도 그 영역을 기준으로 계산합니다. 세로로는 위아래 inset 중 큰 값만큼 양쪽을 비워 화면 정중앙에 놓이고, 최대 높이는 화면 높이의 80%와 그 사이 높이 중 작은 쪽입니다.
+- Dialog: 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 기본 너비(90%)와 최대 너비도 그 영역을 기준으로 계산합니다. `width`·`maxWidth`로 지정한 값도 그 영역보다 넓어지지 않습니다. 세로로는 위아래 inset 중 큰 값만큼 양쪽을 비워 화면 정중앙에 놓이고, 최대 높이는 화면 높이의 80%와 그 사이 높이 중 작은 쪽입니다.
 - AlertDialog: 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 좌우 여백(32px)이 inset 안쪽에서부터 적용됩니다. 세로로는 위아래 inset 중 큰 값만큼 양쪽을 비워 화면 정중앙에 놓이고, 내용이 그 사이 높이보다 길면 AlertDialog 높이가 거기서 멈추고 내용은 AlertDialog 안에서 스크롤됩니다.
 - BottomSheet: 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 너비는 최대 너비와 그 영역의 너비 중 작은 쪽입니다. 내용이 길면 BottomSheet 높이가 화면 높이의 90%(새 토큰 `content.maxHeightFraction`)로 제한되고, 화면 위쪽 safe area가 그보다 크면 safe area 아래로 제한됩니다. 넘친 내용은 `BottomSheetBody`가 스크롤합니다.
 - MenuSheet·SwipeableMenuSheet: 가로로는 좌우 inset을 뺀 영역의 가운데에 놓이고, 너비는 최대 너비와 그 영역의 너비 중 작은 쪽입니다. 항목이 많으면 시트 높이가 화면 높이의 90%(새 토큰 `content.maxHeightFraction`)로 제한되고, 화면 위쪽 safe area가 그보다 크면 safe area 아래로 제한됩니다. 넘친 항목은 `MenuSheetList`(`SwipeableMenuSheetList`)가 스크롤합니다.

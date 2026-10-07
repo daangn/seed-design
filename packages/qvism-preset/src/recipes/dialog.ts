@@ -84,8 +84,11 @@ const dialog = defineSlotRecipe({
       "--dialog-default-max-width": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       "--seed-box-width--responsive": "var(--dialog-default-width)",
       "--seed-box-max-width--responsive": "var(--dialog-default-max-width)",
-      width: "var(--seed-box-width)",
-      maxWidth: "var(--seed-box-max-width)",
+      // `100%` is the positioner's content box, so a consumer `width`/`maxWidth` can't push the
+      // content into the side insets either. A keyword value makes its min() invalid, and that
+      // property falls back to its initial value.
+      width: "min(var(--seed-box-width), 100%)",
+      maxWidth: "min(var(--seed-box-max-width), 100%)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
       // The content is centered on the viewport vertically, so the fraction is of the viewport's
       // height. `100%` resolves against the positioner's content box, which keeps the content
