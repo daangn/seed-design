@@ -11,8 +11,6 @@ import { active, engaged, focus, focusVisible, not, open, pseudo } from "../util
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { sidePanelCloseButton as closeButtonVars, sidePanel as vars } from "../vars/component";
 
-const panelWidth = "min(var(--seed-box-width), var(--seed-box-max-width))";
-
 const sidePanel = defineSlotRecipe({
   name: "side-panel",
   slots: [
@@ -108,13 +106,13 @@ const sidePanel = defineSlotRecipe({
       [pseudo("[data-drawer-direction='left']")]: {
         left: 0,
         paddingLeft: "var(--seed-safe-area-left)",
-        paddingRight: `max(0px, var(--seed-safe-area-right) - (100% - ${panelWidth}))`,
+        paddingRight: `max(0px, var(--seed-safe-area-right) - (100% - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { right: "100%" },
       },
       [pseudo("[data-drawer-direction='right']")]: {
         right: 0,
         paddingRight: "var(--seed-safe-area-right)",
-        paddingLeft: `max(0px, var(--seed-safe-area-left) - (100% - ${panelWidth}))`,
+        paddingLeft: `max(0px, var(--seed-safe-area-left) - (100% - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { left: "100%" },
       },
 

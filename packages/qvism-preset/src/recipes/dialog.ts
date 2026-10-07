@@ -11,8 +11,6 @@ import { onlyIcon } from "../utils/icon";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { active, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 
-const safeAreaBlock = "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))";
-
 const dialog = defineSlotRecipe({
   name: "dialog",
   slots: [
@@ -37,9 +35,9 @@ const dialog = defineSlotRecipe({
       // The larger block inset goes on both sides, so the content stays at the viewport's
       // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
       // still covers the whole viewport.
-      paddingTop: safeAreaBlock,
+      paddingTop: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
       paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: safeAreaBlock,
+      paddingBottom: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
       paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
@@ -95,8 +93,8 @@ const dialog = defineSlotRecipe({
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `min(${vars.base.enabled.content.maxHeightFraction} * 100vh, 100vh - 2 * ${safeAreaBlock})`,
-        `min(${vars.base.enabled.content.maxHeightFraction} * 100dvh, 100dvh - 2 * ${safeAreaBlock})`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100vh, 100vh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom)))`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100dvh, 100dvh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom)))`,
       ],
       [breakpoints.up("md")]: {
         "--dialog-default-width": "var(--dialog-size-width)",

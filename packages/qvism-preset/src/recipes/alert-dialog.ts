@@ -3,8 +3,6 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo, focus } from "../utils/pseudo";
 
-const safeAreaBlock = "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))";
-
 const alertDialog = defineSlotRecipe({
   name: "alert-dialog",
   slots: [
@@ -28,9 +26,9 @@ const alertDialog = defineSlotRecipe({
       // The larger block inset goes on both sides, so the content stays at the viewport's
       // vertical center while clearing both insets. The backdrop is `position: fixed`, so it
       // still covers the whole viewport.
-      paddingTop: safeAreaBlock,
+      paddingTop: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
       paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: safeAreaBlock,
+      paddingBottom: "max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))",
       paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
