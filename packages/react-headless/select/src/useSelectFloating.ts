@@ -59,7 +59,8 @@ export interface UseSelectPositioningProps {
   gutter?: number;
 
   /**
-   * Virtual padding around viewport edges for collision detection.
+   * Virtual padding around viewport edges for collision detection. On an edge with a
+   * safe-area inset, it is added to the inset.
    * @default 8
    */
   overflowPadding?: number;
@@ -92,14 +93,14 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
   const [safeArea, setSafeArea] = useState(ZERO_INSETS);
 
   // Inset the viewport collision boundary so flip/size/shift keep the listbox clear
-  // of the notch, home indicator and side insets, not just the viewport edge. The
-  // safe area is already a visual buffer, so where it exists the listbox sits right
-  // at its boundary; only where there is none does it fall back to overflowPadding.
+  // of the notch, home indicator and side insets, not just the viewport edge.
+  // overflowPadding is measured from the safe area's boundary, so it keeps the same gap
+  // from what's visible whether or not an edge has an inset.
   const collisionPadding = {
-    top: safeArea.top || overflowPadding,
-    right: safeArea.right || overflowPadding,
-    bottom: safeArea.bottom || overflowPadding,
-    left: safeArea.left || overflowPadding,
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
   };
 
   // Every other open/close runs through our own handlers; the one state change
