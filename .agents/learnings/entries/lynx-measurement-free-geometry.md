@@ -18,6 +18,7 @@ verified_at: "2026-10-01"
   - 사용자 정의 속성 값 안의 `var()`(예: `--y: calc(var(--sz) * 0.2)`)는 inline·class 모두 해석되지 않아 그 속성을 쓰는 선언 전체가 무효가 된다. 중첩 변수 대신 사용처에서 곱한다.
   - 이 범위는 `left`에서 확인했다. `mask-size`에서는 `calc()` 안 변수 두 개가 층을 지웠다(`lynx-mask-layer-calc-vars`) → 다른 속성에 쓰기 전에 기기에서 다시 확인한다.
   - `var(--a, var(--b))`처럼 fallback 안에 다시 `var()`를 둔 선언도 무효였다(`color`가 `rgba(0,0,11,0)`로 계산됨). token을 직접 쓰거나 변수를 항상 정의한다.
+  - 같은 무효는 `height`에도 나타난다. 사용자 정의 속성에 `calc(var(--a) + var(--b) * 2)`를 담고 다른 요소에서 `height: var(--ptr-size, 88px)`로 쓰면 fallback도 쓰이지 않고 높이가 내용 높이로 줄었다. 고정 높이 대신 token padding(`paddingTop`·`paddingBottom`)으로 자연 높이를 만들거나, 사용처에서 바로 계산한다.
 - 첫 프레임 판정은 단위 테스트나 agent-lynx 폴링으로는 할 수 없다. macOS에서 PlayLynx 창이 보이면 창 ID를 찾아 `screencapture -x -V <초> -l<windowID> out.mov`로 녹화하는 동안 소유 session에 `Page.reload`를 보낸다. 프레임별 대상 픽셀 열 범위를 비교해 첫 표시 프레임과 마지막 프레임의 위치가 같은지 본다. `-R` 좌표 녹화는 다중 모니터에서 다른 화면을 찍을 수 있다.
 
 ## 발생 근거와 적용 조건
@@ -26,9 +27,11 @@ verified_at: "2026-10-01"
 - 임시 예제로 변수 지원을 확인했다. 기대 중심 x=110에 대해 `calc(30% + 4px)`, inline `--x: 4px` 사용, `calc(30% + var(--sz) * 0.2)`, `calc(30% + var(--sz) * var(--k))`는 110, `--y: calc(var(--sz) * 0.2)`를 inline·class에 둔 두 경우는 left가 무효가 되어 16(트랙 왼쪽 끝)이었다.
 - Headless가 `--slider-*-offset-ratio`를 넘기고 Recipe가 `var(--seed-dimension-x5) * var(--slider-thumb-offset-ratio, 0)`로 계산하도록 바꾼 뒤, PlayLynx 창 녹화에서 markers·range 예제의 thumb 위치가 첫 표시 프레임(2.80s·2.50s)부터 녹화 끝까지 같았다.
 - Android와 다른 SDK 버전은 확인하지 않았다.
+- DES-2708 PullToRefresh(iOS 26.5 시뮬레이터 PlayLynx, 엔진 4.1): Recipe root의 `--ptr-size: calc(var(--seed-dimension-x6) + var(--seed-dimension-x8) * 2)`를 headless Indicator가 인라인 `height: var(--ptr-size, 88px)`로 쓰자, Indicator가 spinner 높이(24px)로 줄었고 MT가 측정한 크기도 24였다(transform −24px). 사용자는 spinner 위아래 여백이 없다고 보고했다. 인라인 높이를 지우고 Recipe에 `paddingTop`·`paddingBottom: $dimension.x8`을 두자 CDP border box가 Indicator 88px, spinner 24px, 위아래 각 32px가 됐다.
 
 ## 변경 이력
 
 - 2026-10-01: DES-2629 Slider 첫 렌더 thumb 이동 수정에서 기록했다.
 - 2026-10-01: 같은 작업의 marker 색상 조사에서 중첩 fallback `var()`가 무효인 근거를 추가했다.
 - 2026-10-01: dev의 `lynx-mask-layer-calc-vars`와 적용 속성 차이를 연결했다.
+- 2026-10-06: DES-2708 PullToRefresh에서 사용자 정의 속성 안 `var()`가 `height`도 무효로 만든 근거와 padding 대안을 추가했다.
