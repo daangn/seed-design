@@ -187,3 +187,4 @@ overlay 레이어는 말풍선이 아닌 곳의 탭을 아래 화면으로 넘�
 - Lynx의 Trigger와 Anchor는 자식을 native `view`로 감쌉니다. DOM `asChild`, HTML ARIA 속성, 키보드 포커스·ESC 닫힘, portal은 제공하지 않습니다. 필요한 접근성은 Lynx의 `accessibility-*` prop과 host의 native 접근성 흐름으로 확인하세요.
 - `closeOnInteractOutside`는 웹과 같이 바깥 탭을 가로채지 않습니다. 탭 좌표로 바깥을 판정하므로 스크롤처럼 탭이 아닌 상호작용으로는 닫히지 않습니다.
 - `container`가 없으면 Positioner는 portal이나 fullscreen overlay가 아닌 고정 native `view`입니다. `zIndexOffset`으로 같은 화면의 형제 요소와의 z-index 순서를 조정합니다. `container`를 지정하면 DOM portal이 아니라 native overlay 레이어에 렌더링합니다.
+- [Help Bubble Tooltip](/react/components/help-bubble-tooltip)은 hover·키보드 포커스로 여는 웹 전용 컴포넌트라 Lynx에서는 제공하지 않습니다. 탭으로 여는 Help Bubble을 사용하세요.
