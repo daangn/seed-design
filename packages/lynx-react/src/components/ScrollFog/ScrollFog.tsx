@@ -9,6 +9,7 @@ import type {
 } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
+import type { LynxElementProps } from "../../types";
 
 type NativeViewProps = Omit<IntrinsicElements["view"], `main-thread:${string}`>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -60,10 +61,9 @@ function createRootStyle(
  * Edge masks for a single-axis scroll container. ScrollFog does not scroll;
  * place a `scroll-view` (or a component that owns one) inside it.
  */
-export interface ScrollFogProps extends Omit<NativeViewProps, "children" | "className" | "style"> {
-  children?: ReactNode;
-  className?: NativeViewProps["className"];
-  style?: NativeViewProps["style"];
+export interface ScrollFogProps
+  extends Omit<NativeViewProps, "children">,
+    Pick<LynxElementProps, "children"> {
   /**
    * Fog 효과를 표시할 방향입니다. Lynx `scroll-view`는 한 축으로만 스크롤하므로
    * 세로(`top`·`bottom`) 또는 가로(`left`·`right`) 중 한 축의 방향만 지정할 수 있습니다.

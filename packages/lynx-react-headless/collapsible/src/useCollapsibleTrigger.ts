@@ -18,8 +18,8 @@ type MainThreadTouchProps = Pick<
 
 export interface UseCollapsibleTriggerProps
   extends TriggerAccessibilityProps,
-    MainThreadTouchProps {
-  bindtap?: ViewProps["bindtap"];
+    MainThreadTouchProps,
+    Pick<ViewProps, "bindtap"> {
   /** @default "펼쳐짐" */
   expandedAccessibilityValue?: string;
   /** @default "접힘" */

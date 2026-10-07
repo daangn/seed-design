@@ -17,13 +17,12 @@ type MainThreadTouchProps = Pick<
 export interface UseCalloutProps
   extends UseDismissibleProps,
     CalloutAccessibilityProps,
-    MainThreadTouchProps {
+    MainThreadTouchProps,
+    Pick<ViewProps, "main-thread:bindtap"> {
   /**
    * 지정하면 Root가 탭할 수 있는 상태가 되어 눌림 상태와 `button` 접근성 기본값을 연결합니다.
    */
   bindtap?: ViewProps["bindtap"];
-
-  "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
 }
 
 export interface UseCalloutReturn extends UseDismissibleReturn {
