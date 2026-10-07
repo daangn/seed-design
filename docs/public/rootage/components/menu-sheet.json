@@ -50,8 +50,7 @@
               "type": "dimension"
             },
             "paddingY": {
-              "type": "dimension",
-              "description": "이 값은 하단 inset과 합산하여 적용합니다."
+              "type": "dimension"
             },
             "topCornerRadius": {
               "type": "dimension"

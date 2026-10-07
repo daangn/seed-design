@@ -10,7 +10,7 @@ export declare const vars: {
         "exitTimingFunction": "var(--seed-timing-function-exit)",
         "exitOpacity": "0"
       },
-      /** content는 가로 기준으로 안전 영역의 가운데에 놓이고, 하단 inset을 content의 하단 패딩으로 적용합니다. */
+      /** content는 가로 기준으로 안전 영역의 가운데에 놓입니다. */
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         "maxWidth": "640px",
