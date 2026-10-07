@@ -38,10 +38,8 @@ type AccessibilityPropKey =
 
 export interface KeyboardAvoidingScrollViewRootProps
   extends Omit<UseKeyboardAvoidingScrollViewProps, "ref">,
-    Pick<ViewProps, AccessibilityPropKey> {
+    Pick<ViewProps, AccessibilityPropKey | "className" | "id"> {
   children?: ReactNode;
-  className?: ViewProps["className"];
-  id?: ViewProps["id"];
 }
 
 /**
@@ -81,24 +79,27 @@ KeyboardAvoidingScrollViewRoot.displayName = "KeyboardAvoidingScrollViewRoot";
 
 export interface KeyboardAvoidingScrollViewContentProps
   extends Omit<UseKeyboardAvoidingScrollViewContentProps, "ref">,
-    Pick<ScrollViewProps, AccessibilityPropKey> {
+    Pick<
+      ScrollViewProps,
+      | AccessibilityPropKey
+      | "className"
+      | "id"
+      | "hidden"
+      | "focusable"
+      | "bounces"
+      | "enable-scroll"
+      | "scroll-bar-enable"
+      | "upper-threshold"
+      | "lower-threshold"
+      | "initial-scroll-offset"
+      | "initial-scroll-to-index"
+      | "bindscrolltoupper"
+      | "bindscrolltolower"
+      | "bindcontentsizechanged"
+      | "bindtap"
+      | "main-thread:bindtap"
+    > {
   children?: ReactNode;
-  className?: ScrollViewProps["className"];
-  id?: ScrollViewProps["id"];
-  hidden?: ScrollViewProps["hidden"];
-  focusable?: ScrollViewProps["focusable"];
-  bounces?: ScrollViewProps["bounces"];
-  "enable-scroll"?: ScrollViewProps["enable-scroll"];
-  "scroll-bar-enable"?: ScrollViewProps["scroll-bar-enable"];
-  "upper-threshold"?: ScrollViewProps["upper-threshold"];
-  "lower-threshold"?: ScrollViewProps["lower-threshold"];
-  "initial-scroll-offset"?: ScrollViewProps["initial-scroll-offset"];
-  "initial-scroll-to-index"?: ScrollViewProps["initial-scroll-to-index"];
-  bindscrolltoupper?: ScrollViewProps["bindscrolltoupper"];
-  bindscrolltolower?: ScrollViewProps["bindscrolltolower"];
-  bindcontentsizechanged?: ScrollViewProps["bindcontentsizechanged"];
-  bindtap?: ScrollViewProps["bindtap"];
-  "main-thread:bindtap"?: ScrollViewProps["main-thread:bindtap"];
 }
 
 /**
@@ -145,10 +146,8 @@ KeyboardAvoidingScrollViewContent.displayName = "KeyboardAvoidingScrollViewConte
 
 export interface KeyboardAvoidingScrollViewFooterProps
   extends Omit<UseKeyboardAvoidingScrollViewFooterProps, "ref">,
-    Pick<ViewProps, AccessibilityPropKey> {
+    Pick<ViewProps, AccessibilityPropKey | "className" | "id"> {
   children?: ReactNode;
-  className?: ViewProps["className"];
-  id?: ViewProps["id"];
 }
 
 /**
