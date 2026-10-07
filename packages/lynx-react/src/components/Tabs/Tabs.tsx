@@ -127,12 +127,12 @@ TabsList.displayName = "TabsList";
 // Keep the scale target's Android View even if shared props later expose flatten.
 export interface TabsTriggerProps
   extends Omit<LynxStyledElementProps, "children" | "flatten">,
-    Pick<LynxPressableProps, "bindtap"> {
+    Pick<LynxPressableProps, "bindtap">,
+    Pick<LynxAccessibilityProps, "accessibility-label"> {
   children: string | number;
   value: string;
   disabled?: boolean;
   notification?: React.ReactNode;
-  "accessibility-label"?: LynxAccessibilityProps["accessibility-label"];
 }
 
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {

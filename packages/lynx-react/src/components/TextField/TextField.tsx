@@ -120,15 +120,17 @@ type NativeTextareaProps = IntrinsicElements["textarea"];
 
 interface NativeTextControlProps
   extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps {
-  id?: NativeInputProps["id"];
-  name?: NativeInputProps["name"];
-  hidden?: NativeInputProps["hidden"];
-  flatten?: NativeInputProps["flatten"];
-  focusable?: NativeInputProps["focusable"];
-  bindlayoutchange?: NativeInputProps["bindlayoutchange"];
-  "main-thread:bindlayoutchange"?: NativeInputProps["main-thread:bindlayoutchange"];
-}
+    LynxAccessibilityProps,
+    Pick<
+      NativeInputProps,
+      | "id"
+      | "name"
+      | "hidden"
+      | "flatten"
+      | "focusable"
+      | "bindlayoutchange"
+      | "main-thread:bindlayoutchange"
+    > {}
 
 function getReadOnlyTextStyle({
   style,
@@ -160,34 +162,38 @@ function getReadOnlyTextStyle({
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldInputProps extends NativeTextControlProps {
-  placeholder?: NativeInputProps["placeholder"];
-  "confirm-type"?: NativeInputProps["confirm-type"];
-  maxlength?: NativeInputProps["maxlength"];
-  readonly?: NativeInputProps["readonly"];
-  disabled?: NativeInputProps["disabled"];
+export interface TextFieldInputProps
+  extends NativeTextControlProps,
+    Pick<
+      NativeInputProps,
+      | "placeholder"
+      | "confirm-type"
+      | "maxlength"
+      | "readonly"
+      | "disabled"
+      | "input-filter"
+      | "type"
+      | "ios-auto-correct"
+      | "ios-spell-check"
+      | "android-fullscreen-mode"
+      | "bindfocus"
+      | "bindblur"
+      | "bindconfirm"
+      | "bindinput"
+      | "bindselection"
+    > {
   /**
    * 포커스할 때 시스템 키보드를 표시한다.
    * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
    * @defaultValue true
    */
   "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
-  "input-filter"?: NativeInputProps["input-filter"];
-  type?: NativeInputProps["type"];
-  "ios-auto-correct"?: NativeInputProps["ios-auto-correct"];
-  "ios-spell-check"?: NativeInputProps["ios-spell-check"];
-  "android-fullscreen-mode"?: NativeInputProps["android-fullscreen-mode"];
   /**
    * Android host window의 soft input mode를 지정한다.
    * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
    * @defaultValue "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
-  bindfocus?: NativeInputProps["bindfocus"];
-  bindblur?: NativeInputProps["bindblur"];
-  bindconfirm?: NativeInputProps["bindconfirm"];
-  bindinput?: NativeInputProps["bindinput"];
-  bindselection?: NativeInputProps["bindselection"];
 }
 
 export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((props, ref) => {
@@ -229,32 +235,41 @@ TextFieldInput.displayName = "TextFieldInput";
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 textarea 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldTextareaProps extends NativeTextControlProps {
+export interface TextFieldTextareaProps
+  extends NativeTextControlProps,
+    Pick<
+      NativeTextareaProps,
+      | "placeholder"
+      | "confirm-type"
+      | "maxlength"
+      | "maxlines"
+      | "bounces"
+      | "readonly"
+      | "disabled"
+      | "input-filter"
+      | "enable-scroll-bar"
+      | "type"
+      | "ios-auto-correct"
+      | "ios-spell-check"
+      | "bindfocus"
+      | "bindblur"
+      | "bindconfirm"
+      | "bindinput"
+      | "bindselection"
+    > {
   /** 내용에 맞춰 높이를 자동으로 조절한다. @defaultValue true */
   autoresize?: boolean;
-  placeholder?: NativeTextareaProps["placeholder"];
-  "confirm-type"?: NativeTextareaProps["confirm-type"];
-  maxlength?: NativeTextareaProps["maxlength"];
-  maxlines?: NativeTextareaProps["maxlines"];
-  bounces?: NativeTextareaProps["bounces"];
   /**
    * native 줄 간격을 지정한다. 생략하면 Android에서 SEED 기본 typography를 맞추기 위해
    * `3.2px`를 적용하고 iOS에는 전달하지 않는다. Android 기본 보정은 `0`으로 해제할 수 있다.
    */
   "line-spacing"?: NativeTextareaProps["line-spacing"];
-  readonly?: NativeTextareaProps["readonly"];
-  disabled?: NativeTextareaProps["disabled"];
   /**
    * 포커스할 때 시스템 키보드를 표시한다.
    * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
    * @defaultValue true
    */
   "show-soft-input-on-focus"?: NativeTextareaProps["show-soft-input-on-focus"];
-  "input-filter"?: NativeTextareaProps["input-filter"];
-  "enable-scroll-bar"?: NativeTextareaProps["enable-scroll-bar"];
-  type?: NativeTextareaProps["type"];
-  "ios-auto-correct"?: NativeTextareaProps["ios-auto-correct"];
-  "ios-spell-check"?: NativeTextareaProps["ios-spell-check"];
   /** Android의 fullscreen extract input을 활성화한다. @defaultValue false */
   "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
   /**
@@ -263,11 +278,6 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
    * @defaultValue "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
-  bindfocus?: NativeTextareaProps["bindfocus"];
-  bindblur?: NativeTextareaProps["bindblur"];
-  bindconfirm?: NativeTextareaProps["bindconfirm"];
-  bindinput?: NativeTextareaProps["bindinput"];
-  bindselection?: NativeTextareaProps["bindselection"];
 }
 
 export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaProps>(

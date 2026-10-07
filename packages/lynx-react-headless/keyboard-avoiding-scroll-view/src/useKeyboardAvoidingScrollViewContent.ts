@@ -12,20 +12,18 @@ type TouchStartHandler = NonNullable<ScrollViewProps["bindtouchstart"]>;
 type TouchEndHandler = NonNullable<ScrollViewProps["bindtouchend"]>;
 type TouchCancelHandler = NonNullable<ScrollViewProps["bindtouchcancel"]>;
 
-export interface UseKeyboardAvoidingScrollViewContentProps {
+export interface UseKeyboardAvoidingScrollViewContentProps
+  extends Pick<ScrollViewProps, "bindscroll" | "bindtouchend" | "bindtouchcancel"> {
   /** `<scroll-view>`와 함께 연결할 ref입니다. */
   ref?: Ref<NodesRef>;
   /** `<scroll-view>`의 style입니다. Root의 남은 높이를 채우는 flex 값은 덮어쓸 수 없습니다. */
   style?: CSSProperties;
   /** 회피 위치 재계산을 예약한 뒤 호출됩니다. */
   bindlayoutchange?: ScrollViewProps["bindlayoutchange"];
-  bindscroll?: ScrollViewProps["bindscroll"];
   /** 사용자 스크롤 중 멈춘 자동 회피를 재개한 뒤 호출됩니다. */
   bindscrollend?: ScrollViewProps["bindscrollend"];
   /** 자동 회피를 멈춘 뒤 호출됩니다. */
   bindtouchstart?: ScrollViewProps["bindtouchstart"];
-  bindtouchend?: ScrollViewProps["bindtouchend"];
-  bindtouchcancel?: ScrollViewProps["bindtouchcancel"];
 }
 
 export interface UseKeyboardAvoidingScrollViewContentReturn {

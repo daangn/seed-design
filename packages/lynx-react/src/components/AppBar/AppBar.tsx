@@ -149,9 +149,9 @@ AppBarRoot.displayName = "AppBarRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarLeftProps extends LynxStyledElementProps {
-  bindlayoutchange?: LynxViewProps["bindlayoutchange"];
-}
+export interface AppBarLeftProps
+  extends LynxStyledElementProps,
+    Pick<LynxViewProps, "bindlayoutchange"> {}
 
 export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
@@ -169,9 +169,9 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
 });
 AppBarLeft.displayName = "AppBarLeft";
 
-export interface AppBarRightProps extends LynxStyledElementProps {
-  bindlayoutchange?: LynxViewProps["bindlayoutchange"];
-}
+export interface AppBarRightProps
+  extends LynxStyledElementProps,
+    Pick<LynxViewProps, "bindlayoutchange"> {}
 
 export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
@@ -261,11 +261,9 @@ AppBarSubtitle.displayName = "AppBarSubtitle";
 
 export interface AppBarIconButtonProps
   extends Omit<LynxElementProps, "flatten">,
-    LynxPressableProps {
+    LynxPressableProps,
+    Pick<LynxViewProps, "accessibility-label" | "accessibility-element" | "accessibility-traits"> {
   icon?: React.ReactElement<LynxIconElementProps>;
-  "accessibility-label"?: LynxViewProps["accessibility-label"];
-  "accessibility-element"?: LynxViewProps["accessibility-element"];
-  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
   /**
    * 슬롯의 첫·마지막 자식이 아이콘 버튼이면 해당 방향을, 유일한 자식이면 양쪽을 자동 보정한다.
    * 명시하면 `AppBarLeft` / `AppBarRight`에서 감지한 자동 보정 방향을 덮어쓴다.

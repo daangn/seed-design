@@ -75,10 +75,9 @@ const NATIVE_VIEW_PROP_KEYS = [
   "accessibility-exclusive-focus",
   "ios-platform-accessibility-id",
 ] as const;
-interface NativeViewProps extends LynxAccessibilityProps {
-  id?: string;
-  flatten?: boolean;
-}
+interface NativeViewProps
+  extends LynxAccessibilityProps,
+    Pick<IntrinsicElements["view"], "id" | "flatten"> {}
 type PickedNativeViewProps = Pick<
   LynxStyledElementProps & NativeViewProps,
   (typeof NATIVE_VIEW_PROP_KEYS)[number]
