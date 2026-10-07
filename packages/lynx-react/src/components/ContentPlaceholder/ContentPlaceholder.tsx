@@ -5,7 +5,12 @@ import {
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type {
+  LynxAccessibilityProps,
+  LynxIconElementProps,
+  LynxStyledElementProps,
+  LynxViewRef,
+} from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
@@ -21,7 +26,8 @@ const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
 export interface ContentPlaceholderRootProps
   extends ContentPlaceholderVariantProps,
     StyleProps,
-    LynxStyledElementProps {}
+    LynxStyledElementProps,
+    LynxAccessibilityProps {}
 
 export const ContentPlaceholderRoot = React.forwardRef<unknown, ContentPlaceholderRootProps>(
   (props, ref) => {
@@ -50,7 +56,9 @@ export const ContentPlaceholderRoot = React.forwardRef<unknown, ContentPlacehold
 ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
 /** Custom assets own their color. Pass an initial tint-color to monochrome icons. */
-export interface ContentPlaceholderAssetProps extends LynxStyledElementProps {}
+export interface ContentPlaceholderAssetProps
+  extends LynxStyledElementProps,
+    LynxAccessibilityProps {}
 
 export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlaceholderAssetProps>(
   (props, ref) => {
@@ -85,13 +93,13 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
               src={preset.light}
               mode="aspectFit"
               className={classNames.presetLight}
-              accessibility-hidden
+              accessibility-elements-hidden
             />
             <image
               src={preset.dark}
               mode="aspectFit"
               className={classNames.presetDark}
-              accessibility-hidden
+              accessibility-elements-hidden
             />
           </>
         )}

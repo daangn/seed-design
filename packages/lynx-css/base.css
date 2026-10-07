@@ -2,12 +2,14 @@
   font-size: 16px;
 }
 
-.seed-user-color-scheme-dark .seed-content-placeholder__presetLight {
-  display: none;
+:root, :root.seed-user-color-scheme-light, :root.seed-color-mode-light-only, .seed-color-mode-light-only {
+  --seed-content-placeholder-preset-light-display: flex;
+  --seed-content-placeholder-preset-dark-display: none;
 }
 
-.seed-user-color-scheme-dark .seed-content-placeholder__presetDark {
-  display: flex;
+:root.seed-user-color-scheme-dark, :root.seed-color-mode-dark-only, .seed-color-mode-dark-only {
+  --seed-content-placeholder-preset-light-display: none;
+  --seed-content-placeholder-preset-dark-display: flex;
 }
 
 text {

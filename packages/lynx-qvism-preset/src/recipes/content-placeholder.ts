@@ -25,8 +25,16 @@ const contentPlaceholder = defineSlotRecipe({
       maxWidth: vars.base.enabled.asset.maxWidth,
       aspectRatio: "1 / 1",
     },
-    presetLight: { width: "100%", height: "100%", display: "flex" },
-    presetDark: { width: "100%", height: "100%", display: "none" },
+    presetLight: {
+      width: "100%",
+      height: "100%",
+      display: "var(--seed-content-placeholder-preset-light-display, flex)",
+    },
+    presetDark: {
+      width: "100%",
+      height: "100%",
+      display: "var(--seed-content-placeholder-preset-dark-display, none)",
+    },
   },
   variants: {
     type: {
