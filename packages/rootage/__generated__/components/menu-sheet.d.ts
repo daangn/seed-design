@@ -44,7 +44,7 @@ declare const artifact: {
             };
             "maxHeightFraction": {
               "type": "number";
-              "description": "viewport height 또는 parent height에 대한 최대 비율입니다.";
+              "description": "inset을 빼지 않은 viewport height 또는 parent height에 대한 최대 비율입니다. 최대 높이는 min(maxHeightFraction × 높이, 상단 inset을 뺀 높이)이므로, content는 상단 안전 영역 경계까지만 커집니다.";
             };
             "paddingX": {
               "type": "dimension";
@@ -54,6 +54,7 @@ declare const artifact: {
             };
             "paddingBottom": {
               "type": "dimension";
+              "description": "이 값은 하단 inset과 합산하여 적용합니다.";
             };
             "topCornerRadius": {
               "type": "dimension";
@@ -71,6 +72,7 @@ declare const artifact: {
               "type": "cubicBezier";
             };
           };
+          "description": "content는 가로 기준으로 안전 영역의 가운데에 놓입니다.";
         };
         "header": {
           "properties": {
