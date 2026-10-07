@@ -200,7 +200,9 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
       pressed: itemContext.pressed,
     };
     const classes = radiomark(radiomarkVariantProps);
-    const controlClassName = radio({ ...styledContext?.radioVariantProps }).control;
+    const controlClassName = styledContext
+      ? radio({ ...styledContext.radioVariantProps }).control
+      : undefined;
 
     return (
       <RadiomarkControlContext.Provider

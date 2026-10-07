@@ -93,8 +93,6 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
-      flex: 1,
-      minHeight: "0",
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,

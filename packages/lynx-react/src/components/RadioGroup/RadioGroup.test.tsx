@@ -19,7 +19,11 @@ describe("RadioGroup", () => {
         onValueChange={onValueChange}
       >
         <RadioGroup.Root>
-          <RadioGroup.Item value="apple" accessibility-label="사과" />
+          <RadioGroup.Item value="apple" accessibility-label="사과">
+            <RadioGroup.ItemControl>
+              <RadioGroup.ItemIndicator />
+            </RadioGroup.ItemControl>
+          </RadioGroup.Item>
           <RadioGroup.Item value="banana" accessibility-label="바나나" />
         </RadioGroup.Root>
       </RadioGroupField.Root>,
@@ -35,6 +39,7 @@ describe("RadioGroup", () => {
     expect(apple).toHaveAttribute("accessibility-label", "사과");
     expect(apple).toHaveAttribute("accessibility-value", "selected");
     expect(banana).toHaveAttribute("accessibility-value", "not selected");
+    expect(apple.querySelector(".seed-radiomark__root")).toHaveClass("seed-radio__control");
 
     fireEvent.tap(banana);
 
