@@ -17,7 +17,7 @@ export default function Example() {
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="제목">
-        <BottomSheetBody className="bottom-sheet-preview__body">
+        <BottomSheetBody>
           <text className="bottom-sheet-preview__body-text">Content</text>
         </BottomSheetBody>
         <BottomSheetFooter>
