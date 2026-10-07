@@ -2,7 +2,7 @@ export declare const vars: {
   "themeIos": {
     "enabled": {
       "root": {
-        "height": "44px",
+        "height": "56px",
         "paddingX": "var(--seed-dimension-x4)"
       }
     }
