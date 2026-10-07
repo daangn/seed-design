@@ -10,35 +10,35 @@ afterEach(async () => {
 });
 
 describe("createManifestFromBundles", () => {
-  it("entry별 web·lynx bundle을 검증한다", async () => {
+  it("같은 컴포넌트의 예제가 검증한 web·lynx bundle 하나를 공유한다", async () => {
     const root = await mkdtemp(resolve(tmpdir(), "seed-lynx-manifest-"));
     temporaryDirectories.push(root);
-    await mkdir(resolve(root, "badge"));
-    await writeFile(resolve(root, "badge/preview.12345678.web.bundle"), "web");
-    await writeFile(resolve(root, "badge/preview.87654321.lynx.bundle"), "lynx");
+    await writeFile(resolve(root, "badge.12345678.web.bundle"), "web");
+    await writeFile(resolve(root, "badge.87654321.lynx.bundle"), "lynx");
     const sourcePath = resolve(root, "source.tsx");
+    const bundle = {
+      web: "/__lynx__/badge.12345678.web.bundle",
+      lynx: "/__lynx__/badge.87654321.lynx.bundle",
+    };
     expect(
       await createManifestFromBundles(
-        [{ id: "lynx/badge/preview", entryKey: "badge/preview", sourcePath }],
+        [
+          { id: "lynx/badge/preview", entryKey: "badge/preview", sourcePath },
+          { id: "lynx/badge/size", entryKey: "badge/size", sourcePath },
+        ],
         root,
       ),
     ).toEqual({
       schemaVersion: 1,
-      examples: {
-        "lynx/badge/preview": {
-          web: "/__lynx__/badge/preview.12345678.web.bundle",
-          lynx: "/__lynx__/badge/preview.87654321.lynx.bundle",
-        },
-      },
+      examples: { "lynx/badge/preview": bundle, "lynx/badge/size": bundle },
     });
   });
 
   it("web bundle의 Lynx 전용 sp 단위를 거부한다", async () => {
     const root = await mkdtemp(resolve(tmpdir(), "seed-lynx-manifest-"));
     temporaryDirectories.push(root);
-    await mkdir(resolve(root, "badge"));
-    await writeFile(resolve(root, "badge/preview.12345678.web.bundle"), "font-size: 11sp");
-    await writeFile(resolve(root, "badge/preview.87654321.lynx.bundle"), "font-size: 11sp");
+    await writeFile(resolve(root, "badge.12345678.web.bundle"), "font-size: 11sp");
+    await writeFile(resolve(root, "badge.87654321.lynx.bundle"), "font-size: 11sp");
 
     await expect(
       createManifestFromBundles(

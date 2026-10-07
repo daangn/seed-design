@@ -1,6 +1,6 @@
 # docs/scripts/lynx-examples
 
-`docs/examples/lynx`의 ReactLynx entry를 찾아 Rspeedy로 빌드하고 `docs/public/__lynx__`에 게시한다. 브라우저 미리보기와 native Lynx bundle을 manifest 하나로 관리한다.
+`docs/examples/lynx`의 ReactLynx 예제를 컴포넌트마다 bundle 하나로 묶어 Rspeedy로 빌드하고 `docs/public/__lynx__`에 게시한다. 브라우저 미리보기와 native Lynx bundle을 manifest 하나로 관리하며, 같은 컴포넌트의 예제 ID는 같은 bundle 경로를 가리킨다.
 
 ## 검증
 
