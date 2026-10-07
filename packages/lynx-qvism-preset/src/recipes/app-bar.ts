@@ -160,9 +160,14 @@ export const appBar = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       borderWidth: 0,
-      background: "#00000000",
       padding: 0,
-      borderRadius: "var(--seed-radius-r1)",
+      borderRadius: iconButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: iconButtonVars.base.enabled.root.color,
+      transition: `background-color ${iconButtonVars.base.enabled.root.colorDuration} ${iconButtonVars.base.enabled.root.colorTimingFunction}`,
+      // Scale Feedback owns the root transform on the main thread; the recipe only adds the pressed color.
+      "&:active": {
+        backgroundColor: iconButtonVars.base.pressed.root.color,
+      },
       // Keep per-button edge compensation in the recipe so caller styles remain intact.
       "&.seed-app-bar__icon-button-edge-leading": {
         marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
