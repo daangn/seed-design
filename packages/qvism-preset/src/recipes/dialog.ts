@@ -87,14 +87,15 @@ const dialog = defineSlotRecipe({
       width: "var(--seed-box-width)",
       maxWidth: "var(--seed-box-max-width)",
       // Cap the height so a tall body scrolls within the dialog instead of overflowing the viewport.
-      // The fraction is of the height left between the positioner's block padding, as the width
-      // fraction is of the width left between the side insets.
+      // The content is centered on the viewport vertically, so the fraction is of the viewport's
+      // height. `100%` resolves against the positioner's content box, which keeps the content
+      // clear of the block insets where they outgrow the gap the fraction leaves.
       // dvh tracks the mobile browser UI collapse; vh is listed first as the fallback for engines
       // without dynamic-viewport-unit support. The array emits both declarations, so the cascade
       // keeps dvh where parsed and falls back to vh where it isn't.
       maxHeight: [
-        `calc(${vars.base.enabled.content.maxHeightFraction} * (100vh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))))`,
-        `calc(${vars.base.enabled.content.maxHeightFraction} * (100dvh - 2 * max(var(--seed-safe-area-top), var(--seed-safe-area-bottom))))`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100vh, 100%)`,
+        `min(${vars.base.enabled.content.maxHeightFraction} * 100dvh, 100%)`,
       ],
       [breakpoints.up("md")]: {
         "--dialog-default-width": "var(--dialog-size-width)",
