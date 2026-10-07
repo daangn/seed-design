@@ -74,11 +74,6 @@ const sidePanel = defineSlotRecipe({
 
       // Full height, anchored top/bottom; the left/right edge is set per direction.
       insetBlock: 0,
-      // The box widths, a consumer's included, size the content; the panel grows by the
-      // anchored edge's inset and covers it with padding.
-      "--side-panel-anchored-inset": "0px",
-      width: "calc(var(--seed-box-width) + var(--side-panel-anchored-inset))",
-      maxWidth: "calc(var(--seed-box-max-width) + var(--side-panel-anchored-inset))",
 
       // Respect device safe-area on bottom edge (e.g. iOS home indicator);
       // applied on content so it holds even when the footer is not rendered.
@@ -103,19 +98,22 @@ const sidePanel = defineSlotRecipe({
       },
 
       // Per-direction: anchored edge, its safe-area inset, and background-bleed side.
-      // The far edge reaches the opposite inset only by the part the gap beside the panel
+      // The box widths, a consumer's included, size the content; the panel grows by the
+      // anchored edge's inset and covers it with padding. The far edge reaches the opposite inset only by the part the gap beside the panel
       // doesn't cover (e.g. a consumer `maxWidth` lifting the 80% cap). Padding `%` and the
       // width chain both resolve against the positioner.
       [pseudo("[data-drawer-direction='left']")]: {
-        "--side-panel-anchored-inset": "var(--seed-safe-area-left)",
         left: 0,
+        width: "calc(var(--seed-box-width) + var(--seed-safe-area-left))",
+        maxWidth: "calc(var(--seed-box-max-width) + var(--seed-safe-area-left))",
         paddingLeft: "var(--seed-safe-area-left)",
         paddingRight: `max(0px, var(--seed-safe-area-right) - (100% - var(--seed-safe-area-left) - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { right: "100%" },
       },
       [pseudo("[data-drawer-direction='right']")]: {
-        "--side-panel-anchored-inset": "var(--seed-safe-area-right)",
         right: 0,
+        width: "calc(var(--seed-box-width) + var(--seed-safe-area-right))",
+        maxWidth: "calc(var(--seed-box-max-width) + var(--seed-safe-area-right))",
         paddingRight: "var(--seed-safe-area-right)",
         paddingLeft: `max(0px, var(--seed-safe-area-left) - (100% - var(--seed-safe-area-right) - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { left: "100%" },
