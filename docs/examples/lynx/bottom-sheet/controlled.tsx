@@ -26,7 +26,7 @@ export default function Example() {
       </ActionButton>
       <BottomSheetRoot open={open} onOpenChange={setOpen}>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-          <BottomSheetBody className="bottom-sheet-preview__body">
+          <BottomSheetBody>
             <text className="bottom-sheet-preview__body-text">Content</text>
           </BottomSheetBody>
           <BottomSheetFooter>

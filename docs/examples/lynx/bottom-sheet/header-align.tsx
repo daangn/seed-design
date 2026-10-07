@@ -18,7 +18,7 @@ export default function Example() {
           <ActionButton variant="neutralSolid">Left (기본값)</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-          <BottomSheetBody className="bottom-sheet-preview__body">
+          <BottomSheetBody>
             <text className="bottom-sheet-preview__body-text">Content</text>
           </BottomSheetBody>
           <BottomSheetFooter>
@@ -32,7 +32,7 @@ export default function Example() {
           <ActionButton variant="neutralSolid">Center</ActionButton>
         </BottomSheetTrigger>
         <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-          <BottomSheetBody className="bottom-sheet-preview__body">
+          <BottomSheetBody>
             <text className="bottom-sheet-preview__body-text">Content</text>
           </BottomSheetBody>
           <BottomSheetFooter>
