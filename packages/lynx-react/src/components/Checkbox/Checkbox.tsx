@@ -18,13 +18,7 @@ import {
 
 import { ScaleFeedbackContentContext } from "../../contexts";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxIconElementProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
@@ -91,13 +85,14 @@ export interface CheckboxRootProps
       UseCheckboxProps,
       "checked" | "defaultChecked" | "indeterminate" | "disabled" | "onCheckedChange"
     >,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxHostProps<"view"> {}
 
 export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props, ref) => {
   const {
     children,
     className,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     checked,
     defaultChecked,
     indeterminate,
@@ -105,15 +100,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, restNativeProps] =
+  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { checkbox, checkmark });
-  const {
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    ...nativeProps
-  } = restNativeProps;
 
   const api = useCheckbox({
     checked,
@@ -121,10 +109,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onCheckedChange,
     indeterminate,
     disabled,
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
@@ -164,7 +150,7 @@ CheckboxRoot.displayName = "CheckboxRoot";
 
 export interface CheckboxControlProps
   extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size">,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const [variantProps, restProps] = checkmark.splitVariantProps(props);
@@ -218,8 +204,7 @@ CheckboxControl.displayName = "CheckboxControl";
  * 선택 상태에 맞는 아이콘을 렌더링한다. indeterminate 아이콘이 checked 아이콘보다 우선한다.
  * React `Checkbox.Indicator`와 달리 ref를 받지 않는다.
  */
-export interface CheckboxIndicatorProps
-  extends Pick<LynxStyledElementProps, "className" | "style"> {
+export interface CheckboxIndicatorProps extends Omit<LynxHostProps<"view">, "children"> {
   /** Icon rendered when neither checked nor indeterminate. Optional. */
   unchecked?: ReactElement<LynxIconElementProps>;
   /** Icon rendered when `checked=true` and `indeterminate=false`. */
@@ -234,7 +219,7 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
     checked: checkedIcon,
     indeterminate: indeterminateIcon,
     className,
-    style,
+    ...nativeProps
   } = props;
   const context = useCheckboxContext();
   const { iconClassName, checkmarkVariantProps } = useCheckmarkControlContext("CheckboxIndicator");
@@ -254,9 +239,9 @@ export function CheckboxIndicator(props: CheckboxIndicatorProps) {
 
   return (
     <InternalIcon
+      {...nativeProps}
       icon={icon}
       className={clsx(iconClassName, className)}
-      style={style}
       deps={[
         context.checked,
         context.indeterminate,
@@ -272,7 +257,7 @@ CheckboxIndicator.displayName = "CheckboxIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxLabelProps extends LynxStyledElementProps {}
+export interface CheckboxLabelProps extends LynxHostProps<"text"> {}
 
 export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -295,7 +280,7 @@ CheckboxLabel.displayName = "CheckboxLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxGroupProps extends LynxStyledElementProps {}
+export interface CheckboxGroupProps extends LynxHostProps<"view"> {}
 
 export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;

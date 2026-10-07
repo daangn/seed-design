@@ -29,8 +29,8 @@ import { usePressTap } from "../../hooks/usePressTap";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
   LynxAccessibilityProps,
+  LynxHostProps,
   LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextRef,
   LynxViewRef,
 } from "../../types";
@@ -118,49 +118,24 @@ export const MenuSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, MenuShee
   });
 MenuSheetRoot.displayName = "MenuSheetRoot";
 
-export interface MenuSheetTriggerProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps,
-    Pick<LynxPressableProps, "bindtap"> {}
+export interface MenuSheetTriggerProps extends LynxHostProps<"view"> {}
 
 export const MenuSheetTrigger: LynxForwardRefComponent<unknown, MenuSheetTriggerProps> = forwardRef<
   unknown,
   MenuSheetTriggerProps
 >((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    bindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-label": accessibilityLabel,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-    "accessibility-heading": accessibilityHeading,
-    "accessibility-actions": accessibilityActions,
-    "accessibility-exclusive-focus": accessibilityExclusiveFocus,
-    "ios-platform-accessibility-id": iosPlatformAccessibilityId,
-  } = props;
-  const { triggerProps } = useBottomSheetTrigger({ bindtap });
+  const { children, className, ...nativeProps } = props;
+  const { triggerProps } = useBottomSheetTrigger();
 
   return (
     <view
-      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-      {...triggerProps}
+      {...mergeProps(
+        { "accessibility-element": true, "accessibility-role-description": "button" },
+        triggerProps,
+        nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+      )}
       className={className}
-      style={style as never}
-      accessibility-element={accessibilityElement}
-      accessibility-label={accessibilityLabel}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={accessibilityTraits}
-      accessibility-value={accessibilityValue}
-      accessibility-elements-hidden={accessibilityElementsHidden}
-      accessibility-heading={accessibilityHeading}
-      accessibility-actions={accessibilityActions}
-      accessibility-exclusive-focus={accessibilityExclusiveFocus}
-      ios-platform-accessibility-id={iosPlatformAccessibilityId}
     >
       {children}
     </view>
@@ -261,20 +236,19 @@ export function MenuSheetHandle(props: MenuSheetHandleProps) {
 }
 MenuSheetHandle.displayName = "MenuSheetHandle";
 
-export interface MenuSheetSlotProps extends LynxStyledElementProps {}
+export interface MenuSheetSlotProps extends LynxHostProps<"view"> {}
 
 function createViewSlot(
   slotName: keyof MenuSheetClassNames,
 ): LynxForwardRefComponent<unknown, MenuSheetSlotProps> {
   return forwardRef<unknown, MenuSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+    const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </view>
@@ -284,16 +258,15 @@ function createViewSlot(
 
 function createTextSlot(
   slotName: keyof MenuSheetClassNames,
-): LynxForwardRefComponent<unknown, MenuSheetSlotProps> {
-  return forwardRef<unknown, MenuSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+): LynxForwardRefComponent<unknown, LynxHostProps<"text">> {
+  return forwardRef<unknown, LynxHostProps<"text">>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </text>
@@ -305,11 +278,11 @@ export interface MenuSheetHeaderProps extends MenuSheetSlotProps {}
 export const MenuSheetHeader = createViewSlot("header");
 MenuSheetHeader.displayName = "MenuSheetHeader";
 
-export interface MenuSheetTitleProps extends MenuSheetSlotProps {}
+export interface MenuSheetTitleProps extends LynxHostProps<"text"> {}
 export const MenuSheetTitle = createTextSlot("title");
 MenuSheetTitle.displayName = "MenuSheetTitle";
 
-export interface MenuSheetDescriptionProps extends MenuSheetSlotProps {}
+export interface MenuSheetDescriptionProps extends LynxHostProps<"text"> {}
 export const MenuSheetDescription = createTextSlot("description");
 MenuSheetDescription.displayName = "MenuSheetDescription";
 
@@ -327,7 +300,7 @@ export const MenuSheetGroup: LynxForwardRefComponent<unknown, MenuSheetGroupProp
   unknown,
   MenuSheetGroupProps
 >((props, ref) => {
-  const { children, className, style, labelAlign } = props;
+  const { children, className, labelAlign, ...nativeProps } = props;
   const classNames = useClassNames();
   const contentLabelAlign = React.useContext(ContentLabelAlignContext);
   const resolvedLabelAlign = labelAlign ?? contentLabelAlign;
@@ -336,9 +309,8 @@ export const MenuSheetGroup: LynxForwardRefComponent<unknown, MenuSheetGroupProp
   return (
     <GroupLabelAlignContext.Provider value={resolvedLabelAlign}>
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classNames.group, className)}
-        style={style as never}
       >
         {items.map((item, index) => (
           <MenuSheetItemPositionContext.Provider
@@ -359,8 +331,7 @@ export const MenuSheetFooter = createViewSlot("footer");
 MenuSheetFooter.displayName = "MenuSheetFooter";
 
 export interface MenuSheetCloseButtonProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps,
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
     LynxPressableProps {}
 
 export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetCloseButtonProps> =
@@ -368,19 +339,8 @@ export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetClo
     const {
       children,
       className,
-      style,
       bindtap,
       "main-thread:bindtap": userMainThreadBindtap,
-      "accessibility-element": accessibilityElement = true,
-      "accessibility-label": accessibilityLabel = "Close",
-      "accessibility-role-description": accessibilityRoleDescription = "button",
-      "accessibility-traits": accessibilityTraits,
-      "accessibility-value": accessibilityValue,
-      "accessibility-elements-hidden": accessibilityElementsHidden,
-      "accessibility-heading": accessibilityHeading,
-      "accessibility-actions": accessibilityActions,
-      "accessibility-exclusive-focus": accessibilityExclusiveFocus,
-      "ios-platform-accessibility-id": iosPlatformAccessibilityId,
       ...nativeProps
     } = props;
     const { skipAnimation } = useBottomSheetContext();
@@ -399,25 +359,19 @@ export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetClo
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
         {...mergeProps(
+          {
+            "accessibility-element": true,
+            "accessibility-label": "Close",
+            "accessibility-role-description": "button",
+          },
           scaleFeedbackTriggerProps,
           scaleFeedbackTargetProps,
           pressHandlers,
           nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
         )}
         className={clsx(classNames.closeButton, className)}
-        style={style as never}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits}
-        accessibility-value={accessibilityValue}
-        accessibility-elements-hidden={accessibilityElementsHidden}
-        accessibility-heading={accessibilityHeading}
-        accessibility-actions={accessibilityActions}
-        accessibility-exclusive-focus={accessibilityExclusiveFocus}
-        ios-platform-accessibility-id={iosPlatformAccessibilityId}
       >
         <text className={classNames.closeButtonLabel}>{children}</text>
       </view>
@@ -428,8 +382,7 @@ MenuSheetCloseButton.displayName = "MenuSheetCloseButton";
 export type MenuSheetItemTone = NonNullable<MenuSheetItemVariantProps["tone"]>;
 
 export interface MenuSheetItemProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps,
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
     LynxPressableProps {
   tone?: MenuSheetItemTone;
   labelAlign?: MenuSheetLabelAlign;
@@ -460,21 +413,10 @@ export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps>
   const {
     children,
     className,
-    style,
     tone = "neutral",
     labelAlign,
     bindtap: userBindtap,
     "main-thread:bindtap": userMainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
-    "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-    "accessibility-heading": accessibilityHeading,
-    "accessibility-actions": accessibilityActions,
-    "accessibility-exclusive-focus": accessibilityExclusiveFocus,
-    "ios-platform-accessibility-id": iosPlatformAccessibilityId,
     ...nativeProps
   } = props;
   const groupLabelAlign = React.useContext(GroupLabelAlignContext);
@@ -505,20 +447,14 @@ export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps>
         }}
       >
         <view
-          {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-          {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, nativeProps)}
+          {...mergeProps(
+            { "accessibility-element": true, "accessibility-role-description": "button" },
+            scaleFeedbackTriggerProps,
+            pressHandlers,
+            nativeProps,
+            ref ? { ref: ref as LynxViewRef } : {},
+          )}
           className={clsx(classNames.root, className)}
-          style={style as never}
-          accessibility-element={accessibilityElement}
-          accessibility-label={accessibilityLabel}
-          accessibility-role-description={accessibilityRoleDescription}
-          accessibility-traits={accessibilityTraits}
-          accessibility-value={accessibilityValue}
-          accessibility-elements-hidden={accessibilityElementsHidden}
-          accessibility-heading={accessibilityHeading}
-          accessibility-actions={accessibilityActions}
-          accessibility-exclusive-focus={accessibilityExclusiveFocus}
-          ios-platform-accessibility-id={iosPlatformAccessibilityId}
         >
           <view className={classNames.scaleContent} {...scaleFeedbackTargetProps}>
             {children}
@@ -533,18 +469,17 @@ export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps>
 });
 MenuSheetItem.displayName = "MenuSheetItem";
 
-export interface MenuSheetItemContentProps extends LynxStyledElementProps {}
+export interface MenuSheetItemContentProps extends LynxHostProps<"view"> {}
 
 export const MenuSheetItemContent: LynxForwardRefComponent<unknown, MenuSheetItemContentProps> =
   forwardRef<unknown, MenuSheetItemContentProps>((props, ref) => {
-    const { children, className, style } = props;
+    const { children, className, ...nativeProps } = props;
     const { classNames } = useMenuSheetItemContext();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
         className={clsx(classNames.content, className)}
-        style={style as never}
       >
         {children}
       </view>
@@ -552,18 +487,17 @@ export const MenuSheetItemContent: LynxForwardRefComponent<unknown, MenuSheetIte
   });
 MenuSheetItemContent.displayName = "MenuSheetItemContent";
 
-export interface MenuSheetItemLabelProps extends LynxStyledElementProps {}
+export interface MenuSheetItemLabelProps extends LynxHostProps<"text"> {}
 
 export const MenuSheetItemLabel: LynxForwardRefComponent<unknown, MenuSheetItemLabelProps> =
   forwardRef<unknown, MenuSheetItemLabelProps>((props, ref) => {
-    const { children, className, style } = props;
+    const { children, className, ...nativeProps } = props;
     const { classNames } = useMenuSheetItemContext();
 
     return (
       <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
         className={clsx(classNames.label, className)}
-        style={style as never}
       >
         {children}
       </text>
@@ -571,20 +505,19 @@ export const MenuSheetItemLabel: LynxForwardRefComponent<unknown, MenuSheetItemL
   });
 MenuSheetItemLabel.displayName = "MenuSheetItemLabel";
 
-export interface MenuSheetItemDescriptionProps extends LynxStyledElementProps {}
+export interface MenuSheetItemDescriptionProps extends LynxHostProps<"text"> {}
 
 export const MenuSheetItemDescription: LynxForwardRefComponent<
   unknown,
   MenuSheetItemDescriptionProps
 > = forwardRef<unknown, MenuSheetItemDescriptionProps>((props, ref) => {
-  const { children, className, style } = props;
+  const { children, className, ...nativeProps } = props;
   const { classNames } = useMenuSheetItemContext();
 
   return (
     <text
-      {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
+      {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
       className={clsx(classNames.description, className)}
-      style={style as never}
     >
       {children}
     </text>

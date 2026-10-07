@@ -20,6 +20,7 @@ export interface UseCollapsibleTriggerProps
   extends TriggerAccessibilityProps,
     MainThreadTouchProps {
   bindtap?: ViewProps["bindtap"];
+  "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
   /** @default "펼쳐짐" */
   expandedAccessibilityValue?: string;
   /** @default "접힘" */
@@ -36,6 +37,7 @@ export interface UseCollapsibleTriggerReturn {
    */
   triggerProps: TriggerAccessibilityProps &
     MainThreadTouchProps & {
+      "main-thread:bindtap"?: ViewProps["main-thread:bindtap"];
       bindtap: NonNullable<ViewProps["bindtap"]>;
       bindtouchstart: NonNullable<ViewProps["bindtouchstart"]>;
       bindtouchend: NonNullable<ViewProps["bindtouchend"]>;
@@ -49,6 +51,7 @@ export interface UseCollapsibleTriggerReturn {
  */
 export function useCollapsibleTrigger({
   bindtap,
+  "main-thread:bindtap": mainThreadOnTap,
   "main-thread:bindtouchstart": mainThreadOnTouchStart,
   "main-thread:bindtouchend": mainThreadOnTouchEnd,
   "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
@@ -76,6 +79,7 @@ export function useCollapsibleTrigger({
     disabled: context.disabled,
     onTap: handleTap,
     mainThreadOnTouchStart,
+    mainThreadOnTap,
     mainThreadOnTouchEnd,
     mainThreadOnTouchCancel,
   });

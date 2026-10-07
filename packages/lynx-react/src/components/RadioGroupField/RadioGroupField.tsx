@@ -10,12 +10,7 @@ import {
 } from "@seed-design/lynx-react-radio-group";
 import clsx from "clsx";
 
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -38,8 +33,7 @@ const { ClassNamesProvider: FieldLabelClassNamesProvider, useClassNames: useFiel
  */
 export interface RadioGroupFieldRootProps
   extends UseRadioGroupProps,
-    LynxStyledElementProps,
-    Omit<LynxAccessibilityProps, keyof UseRadioGroupProps> {}
+    Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
 
 export const RadioGroupFieldRoot = React.forwardRef<unknown, RadioGroupFieldRootProps>(
   (props, ref) => {
@@ -48,7 +42,7 @@ export const RadioGroupFieldRoot = React.forwardRef<unknown, RadioGroupFieldRoot
 
     return (
       <HeadlessRadioGroupRoot
-        ref={ref}
+        {...(ref ? { ref } : {})}
         invalid={invalid}
         {...otherProps}
         className={clsx(classes.root, className)}
@@ -62,7 +56,7 @@ RadioGroupFieldRoot.displayName = "RadioGroupFieldRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface RadioGroupFieldHeaderProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldHeaderProps extends LynxHostProps<"view"> {}
 
 export const RadioGroupFieldHeader = React.forwardRef<unknown, RadioGroupFieldHeaderProps>(
   (props, ref) => {
@@ -81,7 +75,9 @@ export const RadioGroupFieldHeader = React.forwardRef<unknown, RadioGroupFieldHe
 );
 RadioGroupFieldHeader.displayName = "RadioGroupFieldHeader";
 
-export interface RadioGroupFieldLabelProps extends FieldLabelVariantProps, LynxStyledElementProps {}
+export interface RadioGroupFieldLabelProps
+  extends FieldLabelVariantProps,
+    Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
 
 export const RadioGroupFieldLabel = React.forwardRef<unknown, RadioGroupFieldLabelProps>(
   (props, ref) => {
@@ -92,7 +88,7 @@ export const RadioGroupFieldLabel = React.forwardRef<unknown, RadioGroupFieldLab
     return (
       <FieldLabelClassNamesProvider value={classes}>
         <HeadlessRadioGroupLabel
-          ref={ref}
+          {...(ref ? { ref } : {})}
           {...nativeProps}
           className={clsx(classes.root, className)}
         >
@@ -104,7 +100,7 @@ export const RadioGroupFieldLabel = React.forwardRef<unknown, RadioGroupFieldLab
 );
 RadioGroupFieldLabel.displayName = "RadioGroupFieldLabel";
 
-export interface RadioGroupFieldIndicatorTextProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldIndicatorTextProps extends LynxHostProps<"text"> {}
 
 export const RadioGroupFieldIndicatorText = React.forwardRef<
   unknown,
@@ -125,7 +121,7 @@ export const RadioGroupFieldIndicatorText = React.forwardRef<
 });
 RadioGroupFieldIndicatorText.displayName = "RadioGroupFieldIndicatorText";
 
-export interface RadioGroupFieldRequiredIndicatorProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldRequiredIndicatorProps extends LynxHostProps<"text"> {}
 
 export const RadioGroupFieldRequiredIndicator = React.forwardRef<
   unknown,
@@ -136,8 +132,11 @@ export const RadioGroupFieldRequiredIndicator = React.forwardRef<
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-      accessibility-elements-hidden={true}
+      {...mergeProps(
+        { "accessibility-elements-hidden": true },
+        nativeProps,
+        ref ? { ref: ref as LynxTextRef } : {},
+      )}
       className={clsx(classes.indicatorIcon, className)}
     >
       {"\u200a"}
@@ -149,7 +148,7 @@ RadioGroupFieldRequiredIndicator.displayName = "RadioGroupFieldRequiredIndicator
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface RadioGroupFieldFooterProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldFooterProps extends LynxHostProps<"view"> {}
 
 export const RadioGroupFieldFooter = React.forwardRef<unknown, RadioGroupFieldFooterProps>(
   (props, ref) => {
@@ -168,7 +167,7 @@ export const RadioGroupFieldFooter = React.forwardRef<unknown, RadioGroupFieldFo
 );
 RadioGroupFieldFooter.displayName = "RadioGroupFieldFooter";
 
-export interface RadioGroupFieldDescriptionProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldDescriptionProps extends LynxHostProps<"text"> {}
 
 export const RadioGroupFieldDescription = React.forwardRef<
   unknown,
@@ -179,7 +178,7 @@ export const RadioGroupFieldDescription = React.forwardRef<
 
   return (
     <HeadlessRadioGroupDescription
-      ref={ref}
+      {...(ref ? { ref } : {})}
       {...nativeProps}
       className={clsx(classes.description, className)}
     >
@@ -189,7 +188,7 @@ export const RadioGroupFieldDescription = React.forwardRef<
 });
 RadioGroupFieldDescription.displayName = "RadioGroupFieldDescription";
 
-export interface RadioGroupFieldErrorMessageProps extends LynxStyledElementProps {}
+export interface RadioGroupFieldErrorMessageProps extends LynxHostProps<"text"> {}
 
 export const RadioGroupFieldErrorMessage = React.forwardRef<
   unknown,
@@ -200,7 +199,7 @@ export const RadioGroupFieldErrorMessage = React.forwardRef<
 
   return (
     <HeadlessRadioGroupErrorMessage
-      ref={ref}
+      {...(ref ? { ref } : {})}
       {...nativeProps}
       className={clsx(classes.errorMessage, className)}
     >

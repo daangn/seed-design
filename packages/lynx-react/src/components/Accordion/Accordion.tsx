@@ -22,13 +22,7 @@ import {
 } from "@seed-design/lynx-react-collapsible";
 import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxIconElementProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon } from "../Icon/Icon";
@@ -71,7 +65,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(accordion)
 export interface AccordionRootProps
   extends UseAccordionProps,
     PublicAccordionVariantProps,
-    LynxStyledElementProps {}
+    Omit<LynxHostProps<"view">, keyof UseAccordionProps | keyof PublicAccordionVariantProps> {}
 
 export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((props, ref) => {
   const {
@@ -115,7 +109,9 @@ AccordionRoot.displayName = "AccordionRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionItemProps extends UseAccordionItemProps, LynxStyledElementProps {}
+export interface AccordionItemProps
+  extends UseAccordionItemProps,
+    Omit<LynxHostProps<"view">, keyof UseAccordionItemProps> {}
 
 export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((props, ref) => {
   const { children, className, value, disabled: itemDisabled, ...nativeProps } = props;
@@ -160,22 +156,20 @@ AccordionItem.displayName = "AccordionItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionHeaderProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface AccordionHeaderProps extends LynxHostProps<"view"> {}
 
 export const AccordionHeader = React.forwardRef<unknown, AccordionHeaderProps>((props, ref) => {
-  const {
-    children,
-    className,
-    "accessibility-heading": accessibilityHeading = true,
-    ...nativeProps
-  } = props;
+  const { children, className, ...nativeProps } = props;
   const classes = useClassNames();
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        { "accessibility-heading": true },
+        nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+      )}
       className={clsx(classes.header, className)}
-      accessibility-heading={accessibilityHeading}
     >
       {children}
     </view>
@@ -186,8 +180,7 @@ AccordionHeader.displayName = "AccordionHeader";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionTriggerProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps,
+  extends Omit<LynxHostProps<"view">, "bindtap">,
     Pick<UseCollapsibleTriggerProps, "bindtap"> {
   expandedAccessibilityValue?: string;
   collapsedAccessibilityValue?: string;
@@ -200,31 +193,18 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     bindtap,
     expandedAccessibilityValue = "펼쳐짐",
     collapsedAccessibilityValue = "접힘",
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
     ...nativeProps
   } = props;
   const { open, disabled, pressed, triggerProps } = useCollapsibleTrigger({
     bindtap,
     expandedAccessibilityValue,
     collapsedAccessibilityValue,
-    "accessibility-element": accessibilityElement,
-    "accessibility-role-description": accessibilityRoleDescription,
-    "accessibility-traits": accessibilityTraits,
-    "accessibility-value": accessibilityValue,
+    "accessibility-element": nativeProps["accessibility-element"],
+    "accessibility-role-description": nativeProps["accessibility-role-description"],
+    "accessibility-traits": nativeProps["accessibility-traits"],
+    "accessibility-value": nativeProps["accessibility-value"],
   });
-  const {
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
-    "accessibility-element": triggerAccessibilityElement,
-    "accessibility-role-description": triggerAccessibilityRoleDescription,
-    "accessibility-traits": triggerAccessibilityTraits,
-    "accessibility-value": triggerAccessibilityValue,
-    ...pressHandlers
-  } = triggerProps;
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = triggerProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     // The headless hook exposes native event types; its press handlers also accept zero arguments.
@@ -244,16 +224,12 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     <ClassNamesProvider value={classes}>
       <view
         {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
           pressHandlers,
           scaleFeedbackTriggerProps,
           nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
         )}
         className={clsx(classes.trigger, className)}
-        accessibility-element={triggerAccessibilityElement}
-        accessibility-role-description={triggerAccessibilityRoleDescription}
-        accessibility-traits={triggerAccessibilityTraits}
-        accessibility-value={triggerAccessibilityValue}
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
         <view className={classes.triggerContent} {...scaleFeedbackTargetProps}>
@@ -267,27 +243,17 @@ AccordionTrigger.displayName = "AccordionTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionContentProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface AccordionContentProps extends LynxHostProps<"view"> {}
 
 export const AccordionContent = React.forwardRef<unknown, AccordionContentProps>((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-    ...nativeProps
-  } = props;
-  const { contentProps, contentInnerProps } = useCollapsibleContent({
-    style,
-    "accessibility-elements-hidden": accessibilityElementsHidden,
-  });
+  const { children, className, ...nativeProps } = props;
+  const { contentProps, contentInnerProps } = useCollapsibleContent();
   const classes = useClassNames();
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(contentProps, nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classes.content, className)}
-      {...contentProps}
     >
       <view className={classes.contentInner} {...contentInnerProps}>
         {children}
@@ -299,7 +265,7 @@ AccordionContent.displayName = "AccordionContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionBodyProps extends LynxStyledElementProps {}
+export interface AccordionBodyProps extends LynxHostProps<"view"> {}
 
 export const AccordionBody = React.forwardRef<unknown, AccordionBodyProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -318,7 +284,7 @@ AccordionBody.displayName = "AccordionBody";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionTitleProps extends LynxStyledElementProps {}
+export interface AccordionTitleProps extends LynxHostProps<"text"> {}
 
 export const AccordionTitle = React.forwardRef<unknown, AccordionTitleProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -337,7 +303,7 @@ AccordionTitle.displayName = "AccordionTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionDescriptionProps extends LynxStyledElementProps {}
+export interface AccordionDescriptionProps extends LynxHostProps<"text"> {}
 
 export const AccordionDescription = React.forwardRef<unknown, AccordionDescriptionProps>(
   (props, ref) => {
@@ -358,7 +324,7 @@ AccordionDescription.displayName = "AccordionDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionPrefixProps extends LynxStyledElementProps {}
+export interface AccordionPrefixProps extends LynxHostProps<"view"> {}
 
 export const AccordionPrefix = React.forwardRef<unknown, AccordionPrefixProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -377,7 +343,7 @@ AccordionPrefix.displayName = "AccordionPrefix";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AccordionSuffixIconProps extends LynxStyledElementProps {
+export interface AccordionSuffixIconProps extends LynxHostProps<"view"> {
   icon?: ReactElement<LynxIconElementProps>;
 }
 

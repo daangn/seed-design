@@ -14,7 +14,9 @@ import { useAccordionItem, type UseAccordionItemProps } from "./useAccordionItem
 
 type ViewProps = IntrinsicElements["view"];
 
-export interface AccordionRootProps extends UseAccordionProps, ViewProps {}
+export interface AccordionRootProps
+  extends UseAccordionProps,
+    Omit<ViewProps, keyof UseAccordionProps> {}
 
 export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((props, ref) => {
   const { children, values, defaultValues, onValuesChange, disabled, multiple, ...nativeProps } =
@@ -31,7 +33,9 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
 });
 AccordionRoot.displayName = "AccordionRoot";
 
-export interface AccordionItemProps extends UseAccordionItemProps, ViewProps {}
+export interface AccordionItemProps
+  extends UseAccordionItemProps,
+    Omit<ViewProps, keyof UseAccordionItemProps> {}
 
 /**
  * Item의 Collapsible 상태를 `AccordionItemProvider`와 `CollapsibleProvider`로 함께 제공합니다.
@@ -58,9 +62,9 @@ export const AccordionHeader = React.forwardRef<unknown, AccordionHeaderProps>((
   const { children, "accessibility-heading": accessibilityHeading = true, ...nativeProps } = props;
   return (
     <view
-      {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      {...nativeProps}
       accessibility-heading={accessibilityHeading}
+      {...nativeProps}
+      {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
     >
       {children}
     </view>

@@ -9,12 +9,10 @@ import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-re
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
-  LynxAccessibilityProps,
+  LynxHostProps,
   LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextProps,
   LynxTextRef,
-  LynxTouchProps,
   LynxViewRef,
   LynxViewProps,
 } from "../../types";
@@ -34,11 +32,7 @@ const LabelWidthContext = React.createContext<((width: number) => void) | null>(
 
 interface FloatingActionButtonRootViewProps
   extends FloatingActionButtonVariantProps,
-    LynxStyledElementProps,
-    LynxTouchProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    LynxHostProps<"view"> {}
 
 const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionButtonRootViewProps>(
   (props, ref) => {
@@ -55,14 +49,13 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
       <ClassNamesProvider value={classNames}>
         <LabelWidthContext.Provider value={setLabelWidth}>
           <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+            {...mergeProps(
+              { style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxViewProps["style"] },
+              ref ? { ref: ref as LynxViewRef } : {},
+              nativeProps,
+              { style },
+            )}
             className={clsx(classNames.root, className)}
-            style={
-              {
-                "--fab-label-width": `${labelWidth ?? 0}px`,
-                ...style,
-              } as LynxViewProps["style"]
-            }
           >
             {children}
           </view>
@@ -85,9 +78,8 @@ FloatingActionButtonRootView.displayName = "FloatingActionButtonRootView";
 export interface FloatingActionButtonRootProps
   extends FloatingActionButtonPublicVariantProps,
     Pick<UseActionButtonProps, "disabled">,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingActionButtonRootProps>(
   (props, ref) => {
@@ -126,18 +118,20 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
     return (
       <FloatingActionButtonRootView
         {...mergeProps(
+          {
+            flatten: false,
+            "accessibility-element": accessibilityElement,
+            "accessibility-role-description": accessibilityRoleDescription,
+            "accessibility-traits": accessibilityTraits,
+          },
           ref ? { ref } : {},
-          api.interactive ? scaleFeedbackTargetProps : {},
-          api.interactive ? scaleFeedbackTriggerProps : {},
-          api.interactive ? tapHandlers : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          tapHandlers,
           otherProps,
         )}
         disabled={api.disabled}
         pressed={api.pressed}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits}
-        flatten={false}
       />
     );
   },
@@ -158,11 +152,10 @@ export const FloatingActionButtonIcon = React.forwardRef<unknown, FloatingAction
 
     return (
       <StyledIcon
-        {...mergeProps(ref ? { ref } : {}, iconProps)}
+        {...mergeProps({ "accessibility-elements-hidden": true }, ref ? { ref } : {}, iconProps)}
         className={className}
         deps={[classNames.icon]}
         disableDefaultResize={true}
-        accessibility-elements-hidden={true}
       />
     );
   },
@@ -171,7 +164,7 @@ FloatingActionButtonIcon.displayName = "FloatingActionButtonIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FloatingActionButtonLabelProps extends LynxStyledElementProps {}
+export interface FloatingActionButtonLabelProps extends LynxHostProps<"text"> {}
 
 export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActionButtonLabelProps>(
   (props, ref) => {
@@ -196,11 +189,10 @@ export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActio
       <text
         {...mergeProps(
           ref ? { ref: ref as LynxTextRef } : {},
-          { bindlayoutchange: handleLayoutChange },
+          { bindlayoutchange: handleLayoutChange, "accessibility-elements-hidden": true },
           nativeProps,
         )}
         className={clsx(classNames.label, className)}
-        accessibility-elements-hidden={true}
       >
         {children}
       </text>

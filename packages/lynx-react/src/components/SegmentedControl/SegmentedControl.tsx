@@ -10,12 +10,7 @@ import {
 } from "@seed-design/lynx-react-segmented-control";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { HStack } from "../Stack";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -32,8 +27,7 @@ import { mergeProps } from "../../utils/merge-props";
  */
 export interface SegmentedControlRootProps
   extends Pick<UseSegmentedControlProps, "value" | "defaultValue" | "disabled" | "onValueChange">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxHostProps<"view"> {}
 
 export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRootProps>(
   (props, ref) => {
@@ -63,9 +57,9 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
       <SegmentedControlProvider value={api}>
         <view
           {...mergeProps(
-            ref ? { ref: ref as LynxViewRef } : {},
-            nativeProps,
             api.rootProps,
+            nativeProps,
+            ref ? { ref: ref as LynxViewRef } : {},
             style ? { style } : {},
           )}
           className={clsx(rootClassName, className)}
@@ -78,10 +72,7 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
 );
 SegmentedControlRoot.displayName = "SegmentedControlRoot";
 
-export interface SegmentedControlItemProps
-  extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps,
-    LynxPressableProps {
+export interface SegmentedControlItemProps extends Omit<LynxHostProps<"view">, "children"> {
   children: string | number;
   notification?: React.ReactNode;
   value: string;
@@ -126,10 +117,11 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
     return (
       <view
         {...mergeProps(
+          { flatten: false },
+          itemProps,
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
           nativeProps,
-          itemProps,
         )}
         accessibility-label={accessibilityLabel ?? label}
         className={clsx(classes.item, className)}
@@ -153,11 +145,11 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
 );
 SegmentedControlItem.displayName = "SegmentedControlItem";
 
-export interface SegmentedControlIndicatorProps extends LynxStyledElementProps {}
+export interface SegmentedControlIndicatorProps extends LynxHostProps<"view"> {}
 
 export const SegmentedControlIndicator = React.forwardRef<unknown, SegmentedControlIndicatorProps>(
   (props, ref) => {
-    const { className, style, ...nativeProps } = props;
+    const { children, className, style, ...nativeProps } = props;
     const { segmentCount, segmentIndex } = useSegmentedControlContext();
     const registered = segmentCount > 0;
     // Items register after the first render. Lynx animates a property change that lands in the
@@ -174,11 +166,16 @@ export const SegmentedControlIndicator = React.forwardRef<unknown, SegmentedCont
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-        accessibility-elements-hidden={true}
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
         className={clsx(indicatorClassName, className)}
         style={style}
-      />
+      >
+        {children}
+      </view>
     );
   },
 );

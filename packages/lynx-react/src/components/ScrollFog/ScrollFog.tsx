@@ -7,10 +7,11 @@ import type {
   ReactNode,
   RefAttributes,
 } from "@lynx-js/react";
-import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
 
-type NativeViewProps = Omit<IntrinsicElements["view"], `main-thread:${string}`>;
+import type { LynxHostProps } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
@@ -33,9 +34,9 @@ function normalizeSize(size: number | string): string {
 }
 
 function createRootStyle(
-  style: NativeViewProps["style"],
+  style: LynxHostProps<"view">["style"],
   sizes: Record<ScrollFogPlacement, string>,
-): NativeViewProps["style"] {
+): LynxHostProps<"view">["style"] {
   const variables = {
     "--scroll-fog-size-top": sizes.top,
     "--scroll-fog-size-bottom": sizes.bottom,
@@ -43,15 +44,7 @@ function createRootStyle(
     "--scroll-fog-size-right": sizes.right,
   };
 
-  if (typeof style === "string") {
-    const variableStyle = Object.entries(variables)
-      .map(([property, value]) => `${property}: ${value}`)
-      .join("; ");
-
-    return `${style}; ${variableStyle}`;
-  }
-
-  return { ...style, ...variables } as NativeViewProps["style"];
+  return { ...variables, ...style } as LynxHostProps<"view">["style"];
 }
 
 /**
@@ -60,10 +53,7 @@ function createRootStyle(
  * Edge masks for a single-axis scroll container. ScrollFog does not scroll;
  * place a `scroll-view` (or a component that owns one) inside it.
  */
-export interface ScrollFogProps extends Omit<NativeViewProps, "children" | "className" | "style"> {
-  children?: ReactNode;
-  className?: NativeViewProps["className"];
-  style?: NativeViewProps["style"];
+export interface ScrollFogProps extends LynxHostProps<"view"> {
   /**
    * Fog 효과를 표시할 방향입니다. Lynx `scroll-view`는 한 축으로만 스크롤하므로
    * 세로(`top`·`bottom`) 또는 가로(`left`·`right`) 중 한 축의 방향만 지정할 수 있습니다.
@@ -137,15 +127,19 @@ export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = Reac
 
   return (
     <view
-      {...(forwardedRef ? ({ ref: forwardedRef } as Record<string, unknown>) : {})}
-      {...rootProps}
+      {...mergeProps(
+        {
+          style: createRootStyle(style, {
+            top: topSize,
+            bottom: bottomSize,
+            left: leftSize,
+            right: rightSize,
+          }),
+        },
+        rootProps,
+        forwardedRef ? { ref: forwardedRef } : {},
+      )}
       className={clsx(classNames.root, className)}
-      style={createRootStyle(style, {
-        top: topSize,
-        bottom: bottomSize,
-        left: leftSize,
-        right: rightSize,
-      })}
     >
       {content}
     </view>

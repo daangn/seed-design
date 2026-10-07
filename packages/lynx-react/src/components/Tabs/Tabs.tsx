@@ -1,6 +1,5 @@
 import { tabs, type TabsSlotName, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
 import * as React from "@lynx-js/react";
-import type { IntrinsicElements } from "@lynx-js/types";
 import {
   Tabs as HeadlessTabs,
   TabsProvider,
@@ -12,16 +11,9 @@ import {
 } from "@seed-design/lynx-react-tabs";
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 import { Box } from "../Box";
-type NativeScrollViewProps = IntrinsicElements["scroll-view"];
-type NativeViewPagerProps = IntrinsicElements["viewpager"];
 type TabsRecipeState = Pick<
   TabsVariantProps,
   "selected" | "disabled" | "inCarousel" | "transitionEnabled"
@@ -50,7 +42,7 @@ function useTabsStyleContext() {
  * - `lazyMount`, `unmountOnExit`: native viewpager가 모든 page slot을 유지해야 함
  * - 키보드 포커스와 roving tabindex
  */
-export interface TabsRootProps extends TabsPublicVariantProps, LynxStyledElementProps {
+export interface TabsRootProps extends TabsPublicVariantProps, LynxHostProps<"view"> {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -92,19 +84,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   );
 });
 TabsRoot.displayName = "TabsRoot";
-export interface TabsListProps
-  extends LynxStyledElementProps,
-    Omit<
-      NativeScrollViewProps,
-      | "children"
-      | "className"
-      | "style"
-      | "scroll-orientation"
-      | "scroll-bar-enable"
-      | "bindlayoutchange"
-      | "bindscroll"
-      | "bindcontentsizechanged"
-    > {
+export interface TabsListProps extends LynxHostProps<"scroll-view"> {
   /** 선택한 tab을 목록 안에서 정렬할 방식입니다. @defaultValue "start" */
   scrollAlign?: "nearest" | "start" | "center" | "end";
 }
@@ -124,15 +104,11 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
   );
 });
 TabsList.displayName = "TabsList";
-// Keep the scale target's Android View even if shared props later expose flatten.
-export interface TabsTriggerProps
-  extends Omit<LynxStyledElementProps, "children" | "flatten">,
-    Pick<LynxPressableProps, "bindtap"> {
+export interface TabsTriggerProps extends Omit<LynxHostProps<"view">, "children"> {
   children: string | number;
   value: string;
   disabled?: boolean;
   notification?: React.ReactNode;
-  "accessibility-label"?: LynxAccessibilityProps["accessibility-label"];
 }
 
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {
@@ -144,6 +120,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     value: triggerValue,
     disabled = false,
     bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     "accessibility-label": accessibilityLabel,
     ...nativeProps
   } = props;
@@ -154,6 +131,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     value: triggerValue,
     disabled,
     bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     children,
     "accessibility-label": accessibilityLabel,
   });
@@ -171,18 +149,13 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   return (
     <view
       {...mergeProps(
+        { flatten: false },
         api.triggerProps,
         ref ? { ref: ref as LynxViewRef } : {},
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         nativeProps,
       )}
-      flatten={false}
-      accessibility-element={true}
-      accessibility-role-description="tab"
-      accessibility-label={api.triggerProps["accessibility-label"]}
-      accessibility-value={api.triggerProps["accessibility-value"]}
-      accessibility-traits={api.triggerProps["accessibility-traits"]}
       className={clsx(triggerClasses.trigger, className)}
       style={style}
     >
@@ -198,7 +171,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   );
 });
 TabsTrigger.displayName = "TabsTrigger";
-export interface TabsIndicatorProps extends LynxStyledElementProps {}
+export interface TabsIndicatorProps extends LynxHostProps<"view"> {}
 
 export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
@@ -206,8 +179,12 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   const api = useTabsIndicator();
   return (
     <view
-      {...mergeProps(api.indicatorProps, ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      accessibility-elements-hidden={true}
+      {...mergeProps(
+        { "accessibility-elements-hidden": true },
+        api.indicatorProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={clsx(
         getClassNames({ transitionEnabled: api.transitionsEnabled }).indicator,
         className,
@@ -219,7 +196,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   );
 });
 TabsIndicator.displayName = "TabsIndicator";
-export interface TabsContentProps extends LynxStyledElementProps {
+export interface TabsContentProps extends LynxHostProps<"view"> {
   value: string;
 }
 
@@ -234,8 +211,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
   });
   const content = (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      {...api.contentProps}
+      {...mergeProps(api.contentProps, nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(contentClasses.content, className)}
       style={style}
     >
@@ -255,7 +231,7 @@ TabsContent.displayName = "TabsContent";
  * native viewpager를 사용하므로 웹의 `loop`, `autoHeight`, `dragThreshold`,
  * `carouselPreventDrag`는 지원하지 않습니다.
  */
-export interface TabsCarouselProps extends LynxStyledElementProps {
+export interface TabsCarouselProps extends LynxHostProps<"view"> {
   swipeable?: boolean;
   /** iOS 뒤로가기 제스처를 우선하는 화면 왼쪽 가장자리 너비입니다. */
   iosBackGestureEdgeWidth?: number;
@@ -280,11 +256,7 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
   );
 });
 TabsCarousel.displayName = "TabsCarousel";
-export interface TabsCarouselCameraProps extends LynxStyledElementProps {
-  bindchange?: NativeViewPagerProps["bindchange"];
-  bindwillchange?: NativeViewPagerProps["bindwillchange"];
-  bindoffsetchange?: NativeViewPagerProps["bindoffsetchange"];
-}
+export interface TabsCarouselCameraProps extends LynxHostProps<"viewpager"> {}
 
 export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraProps>(
   (props, ref) => {

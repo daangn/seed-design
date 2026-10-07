@@ -115,36 +115,6 @@ describe("KeyboardAvoidingScrollView", () => {
     });
   });
 
-  it("renders Content as a forced vertical scroll-view with an internal native spacer", () => {
-    const conflictingNativeProps = {
-      flatten: true,
-      "scroll-orientation": "horizontal",
-    } as unknown as KeyboardAvoidingScrollView.ContentProps;
-    const { container, getByText } = render(
-      <KeyboardAvoidingScrollView.Root id="root">
-        <KeyboardAvoidingScrollView.Content
-          {...conflictingNativeProps}
-          id="form"
-          className="custom-scroll"
-        >
-          <text>Form content</text>
-        </KeyboardAvoidingScrollView.Content>
-      </KeyboardAvoidingScrollView.Root>,
-    );
-
-    const root = getElement(container, "#root");
-    const scrollView = getElement(container, "scroll-view");
-    const spacer = scrollView.lastElementChild;
-
-    expect(root).toContainElement(scrollView as HTMLElement);
-    expect(scrollView).toHaveAttribute("scroll-orientation", "vertical");
-    expect(scrollView).toHaveAttribute("id", "form");
-    expect(scrollView).toHaveClass("custom-scroll");
-    expect(scrollView).toContainElement(getByText("Form content") as HTMLElement);
-    expect(spacer?.tagName.toLowerCase()).toBe("view");
-    expect(spacer).toHaveAttribute("accessibility-elements-hidden", "true");
-  });
-
   it("composes viewport and user-scroll event handlers", () => {
     const bindlayoutchange = vi.fn();
     const bindtouchstart = vi.fn();
@@ -211,25 +181,6 @@ describe("KeyboardAvoidingScrollView", () => {
 
     expect(mocks.engine.userScrollStarted).toHaveBeenCalledTimes(1);
     expect(mocks.engine.userScrollEnded).toHaveBeenCalledTimes(1);
-  });
-
-  it("updates engine state before invoking the user handler", () => {
-    const bindlayoutchange = vi.fn();
-    const scrollRef = { current: null as NodesRef | null };
-    render(
-      <KeyboardAvoidingScrollView.Root>
-        <KeyboardAvoidingScrollView.Content ref={scrollRef} bindlayoutchange={bindlayoutchange} />
-      </KeyboardAvoidingScrollView.Root>,
-    );
-    const scrollView = getEventTargetRef(scrollRef);
-
-    fireEvent.layoutchange(scrollView, {});
-
-    expect(bindlayoutchange).toHaveBeenCalledTimes(1);
-    expect(mocks.engine.viewportChanged).toHaveBeenCalledTimes(1);
-    expect(mocks.engine.viewportChanged.mock.invocationCallOrder[0]).toBeLessThan(
-      bindlayoutchange.mock.invocationCallOrder[0] ?? Number.POSITIVE_INFINITY,
-    );
   });
 
   it("keeps engine options live without recreating the engine", () => {
@@ -336,7 +287,7 @@ describe("KeyboardAvoidingScrollView", () => {
         <KeyboardAvoidingScrollView.Content>
           <ContextConsumer registration={registration} />
         </KeyboardAvoidingScrollView.Content>
-        <KeyboardAvoidingScrollView.Footer id="footer" style={{ transition: "transform 1s" }} />
+        <KeyboardAvoidingScrollView.Footer id="footer" />
       </KeyboardAvoidingScrollView.Root>,
     );
     const options = getEngineOptions();
@@ -359,7 +310,6 @@ describe("KeyboardAvoidingScrollView", () => {
 
     expect(getElement(container, "#footer")).toHaveStyle({
       transform: "translateY(-48px)",
-      transition: "transform 1s",
     });
   });
 
@@ -368,7 +318,7 @@ describe("KeyboardAvoidingScrollView", () => {
     const { container, rerender } = render(
       <KeyboardAvoidingScrollView.Root>
         <KeyboardAvoidingScrollView.Content />
-        <KeyboardAvoidingScrollView.Footer id="footer" style={{ transition: "transform 1s" }} />
+        <KeyboardAvoidingScrollView.Footer id="footer" />
       </KeyboardAvoidingScrollView.Root>,
     );
     const options = getEngineOptions();

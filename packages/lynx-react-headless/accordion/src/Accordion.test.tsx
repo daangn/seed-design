@@ -196,7 +196,7 @@ describe("Accordion headless components", () => {
     tap(".first-trigger");
     expect(node(".first-content")).toHaveStyle({ height: "84px" });
   });
-  it("preserves a native string style while enforcing collapsed clipping", () => {
+  it("preserves user string style overrides on collapsed content", () => {
     render(
       <Accordion.Root>
         <Accordion.Item value="first">
@@ -209,7 +209,7 @@ describe("Accordion headless components", () => {
     expect(node(".first-content")).toHaveStyle({
       opacity: "0.5",
       height: "0px",
-      overflow: "hidden",
+      overflow: "visible",
     });
   });
 

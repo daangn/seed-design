@@ -11,7 +11,7 @@ import {
   type TextStyle,
   type TextStyleProps,
 } from "../../utils/styled";
-import type { LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxHostProps, LynxTextRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
@@ -24,7 +24,9 @@ function getTypographyStyle(textStyle: TextStyle | undefined) {
   return value.enabled.root;
 }
 
-export interface TextProps extends TextStyleProps, LynxStyledElementProps {
+export interface TextProps
+  extends TextStyleProps,
+    Omit<LynxHostProps<"text">, keyof TextStyleProps> {
   /**
    * The maximum number of lines to display. If the text overflows, it will be truncated with an ellipsis.
    */
@@ -57,8 +59,11 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-      text-maxline={truncated ? String(maxLines) : undefined}
+      {...mergeProps(
+        { "text-maxline": truncated ? String(maxLines) : undefined },
+        ref ? { ref: ref as LynxTextRef } : {},
+        nativeProps,
+      )}
       className={clsx(className)}
       style={
         {

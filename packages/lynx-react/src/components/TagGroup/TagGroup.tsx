@@ -6,7 +6,7 @@ import {
   type TagGroupItemVariantProps,
 } from "@seed-design/lynx-css/recipes/tag-group-item";
 
-import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
@@ -29,7 +29,7 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
 export interface TagGroupRootProps
   extends TagGroupVariantProps,
     TagGroupItemVariantProps,
-    LynxStyledElementProps {
+    LynxHostProps<"view"> {
   /**
    * children 사이에 삽입되는 구분자. 기본값 `"·"`.
    * 문자열을 전달하면 앞뒤 공백을 제거합니다.
@@ -87,7 +87,7 @@ TagGroupRoot.displayName = "TagGroupRoot";
 export interface TagGroupItemProps
   extends TagGroupItemVariantProps,
     Pick<StyleProps, "flexShrink">,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
   const parentVariantProps = useProps();
@@ -112,7 +112,7 @@ TagGroupItem.displayName = "TagGroupItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TagGroupItemLabelProps extends LynxStyledElementProps {}
+export interface TagGroupItemLabelProps extends LynxHostProps<"text"> {}
 
 export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProps>((props, ref) => {
   const classes = useClassNames();

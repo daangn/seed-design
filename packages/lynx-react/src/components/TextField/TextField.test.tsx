@@ -111,6 +111,36 @@ describe("TextField", () => {
     expect(getByText("원")).toHaveClass("seed-text-input__suffixText");
   });
 
+  it("forwards native input props and lets the user override a computed value", () => {
+    const bindfocus = vi.fn();
+    const inputRef = createRef<NodesRef>();
+    render(
+      <TextField.Root>
+        <TextField.Input
+          ref={inputRef}
+          id="account-input"
+          accessibility-label="계정"
+          data-foo="native"
+          bindfocus={bindfocus}
+          show-soft-input-on-focus={false}
+        />
+      </TextField.Root>,
+    );
+
+    const input = getTextFieldRoot().querySelector("input");
+    if (!input) throw new Error("Expected native input to exist.");
+
+    expect(input).toHaveAttribute("id", "account-input");
+    expect(input).toHaveAttribute("accessibility-label", "계정");
+    expect(input).toHaveAttribute("data-foo", "native");
+    expect(input).toHaveAttribute("show-soft-input-on-focus", "false");
+
+    if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+    fireEvent.focus(inputRef.current as unknown as Element);
+    expect(bindfocus).toHaveBeenCalledTimes(1);
+    expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_true");
+  });
+
   it("applies explicit visual and state variants", () => {
     render(
       <TextField.Root variant="underline" size="medium" invalid disabled>

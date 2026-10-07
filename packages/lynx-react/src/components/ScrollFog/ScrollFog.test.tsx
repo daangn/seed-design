@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
-import { createRef } from "@lynx-js/react";
+import { createRef, useMainThreadRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import type { NodesRef } from "@lynx-js/types";
-import { describe, expect, expectTypeOf, it, vi } from "vitest";
+import type { MainThread, NodesRef } from "@lynx-js/types";
+import { describe, expect, it, vi } from "vitest";
 
 import { ScrollFog, type ScrollFogProps } from "./ScrollFog";
 
@@ -35,18 +35,6 @@ function expectEdgeVariant(container: HTMLElement, edge: Edge, enabled: boolean)
 }
 
 describe("ScrollFog", () => {
-  it("exposes view props and accepts edges from one scroll axis only", () => {
-    type MainThreadProp = Extract<keyof ScrollFogProps, `main-thread:${string}`>;
-    type Placement = NonNullable<ScrollFogProps["placement"]>;
-
-    expectTypeOf<MainThreadProp>().toEqualTypeOf<never>();
-    expectTypeOf<ScrollFogProps>().toHaveProperty("bindtap");
-    expectTypeOf<ScrollFogProps>().not.toHaveProperty("hideScrollBar");
-    expectTypeOf<["top", "bottom"]>().toExtend<Placement>();
-    expectTypeOf<["left", "right"]>().toExtend<Placement>();
-    expectTypeOf<["top", "left"]>().not.toExtend<Placement>();
-  });
-
   it("wraps children in the default top and bottom masks without rendering a scroll host", () => {
     const { container } = render(
       <ScrollFog>
@@ -104,7 +92,7 @@ describe("ScrollFog", () => {
     expect(rootStyle["--scroll-fog-size-right"]).toBe("1.5rem");
   });
 
-  it("keeps computed sizes ahead of conflicting object styles", () => {
+  it("lets caller styles override computed fog sizes", () => {
     const { container } = render(
       <ScrollFog
         size="24px"
@@ -121,42 +109,31 @@ describe("ScrollFog", () => {
     const rootStyle = getRoot(container).style as CSSStyleDeclaration &
       Record<`--${string}`, string>;
 
-    expect(rootStyle["--scroll-fog-size-top"]).toBe("12px");
-    expect(rootStyle["--scroll-fog-size-bottom"]).toBe("24px");
+    expect(rootStyle["--scroll-fog-size-top"]).toBe("99px");
+    expect(rootStyle["--scroll-fog-size-bottom"]).toBe("88px");
     expect(rootStyle.height).toBe("100px");
-  });
-
-  it("keeps computed sizes ahead of conflicting string styles", () => {
-    const { container } = render(
-      <ScrollFog
-        size="2rem"
-        sizes={{ right: 32 }}
-        style="--scroll-fog-size-left: 77px; --scroll-fog-size-right: 66px; width: 80px"
-      />,
-    );
-    const rootStyle = getRoot(container).style as CSSStyleDeclaration &
-      Record<`--${string}`, string>;
-
-    expect(rootStyle.getPropertyValue("--scroll-fog-size-left")).toBe("2rem");
-    expect(rootStyle.getPropertyValue("--scroll-fog-size-right")).toBe("32px");
-    expect(rootStyle.width).toBe("80px");
   });
 
   it("forwards root props, merges class and style, and keeps children and ref on the root", () => {
     const bindtap = vi.fn();
     const rootRef = createRef<NodesRef>();
-    const { container } = render(
-      <ScrollFog
-        ref={rootRef}
-        id="scroll-fog"
-        accessibility-label="Scrollable content"
-        className="custom-scroll"
-        style={{ height: "100px" }}
-        bindtap={bindtap}
-      >
-        <text>Content</text>
-      </ScrollFog>,
-    );
+    function Content() {
+      const mainThreadRef = useMainThreadRef<MainThread.Element | null>(null);
+      return (
+        <ScrollFog
+          ref={rootRef}
+          id="scroll-fog"
+          accessibility-label="Scrollable content"
+          className="custom-scroll"
+          style={{ height: "100px" }}
+          bindtap={bindtap}
+          main-thread:ref={mainThreadRef}
+        >
+          <text>Content</text>
+        </ScrollFog>
+      );
+    }
+    const { container } = render(<Content />);
 
     const root = getRoot(container);
     expect(root).toHaveAttribute("id", "scroll-fog");

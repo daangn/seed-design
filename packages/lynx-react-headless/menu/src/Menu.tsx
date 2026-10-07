@@ -21,6 +21,7 @@ type TextProps = IntrinsicElements["text"];
 /** 위치 style을 합치는 파트는 객체 style만 받습니다. */
 type StyledViewProps = Omit<ViewProps, "style"> & { style?: CSSProperties };
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
+type TouchHandler = NonNullable<ViewProps["bindtouchstart"]>;
 type LayoutHandler = NonNullable<ViewProps["bindlayoutchange"]>;
 type OverlayEventProps = Pick<
   OverlayProps,
@@ -47,6 +48,15 @@ function toPixel(value: number) {
 function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) {
   if (typeof ref === "function") ref(node);
   else if (ref) ref.current = node;
+}
+
+function withPressTouch(handler: ViewProps["bindtouchstart"], press: TouchHandler): TouchHandler {
+  if (!handler) return press;
+  return (...args) => {
+    "background only";
+    handler(...args);
+    press(...args);
+  };
 }
 
 function getRootRect() {
@@ -137,6 +147,9 @@ export const MenuTrigger = React.forwardRef<unknown, MenuTriggerProps>((props, r
     bindtap,
     disabled: disabledProp = false,
     "main-thread:bindtap": mainThreadOnTap,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
     "main-thread:bindtouchstart": mainThreadOnTouchStart,
     "main-thread:bindtouchend": mainThreadOnTouchEnd,
     "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
@@ -198,10 +211,13 @@ export const MenuTrigger = React.forwardRef<unknown, MenuTriggerProps>((props, r
       accessibility-label={accessibilityLabel}
       accessibility-role-description="button"
       accessibility-value={open ? "expanded" : "collapsed"}
-      accessibility-traits={disabled ? "disabled" : (accessibilityTraits ?? "button")}
+      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : "button")}
       {...nativeProps}
       {...pressHandlers}
       bindtap={proxyBindtap}
+      bindtouchstart={withPressTouch(bindtouchstart, pressHandlers.bindtouchstart)}
+      bindtouchend={withPressTouch(bindtouchend, pressHandlers.bindtouchend)}
+      bindtouchcancel={withPressTouch(bindtouchcancel, pressHandlers.bindtouchcancel)}
     >
       {children}
     </view>
@@ -214,11 +230,8 @@ MenuTrigger.displayName = "MenuTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuPositionerProps
-  extends Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {
-  children?: React.ReactNode;
-  className?: string;
-  style?: CSSProperties;
-}
+  extends StyledViewProps,
+    Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
  * 열려 있거나 닫힘 전환 중일 때 화면 전체를 덮는 레이어입니다. lynx-ui `OverlayView`를 사용합니다.
@@ -233,7 +246,9 @@ export interface MenuPositionerProps
  * backdrop을 탭하면 `"interactOutside"`, Trigger 위치를 탭하면 `"trigger"` reason으로 닫습니다.
  */
 export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((props, ref) => {
-  const { children, className, style, container, overlayLevel, overlayViewProps } = props;
+  const { children, className, style, container, overlayLevel, overlayViewProps, ...nativeProps } =
+    props;
+  const overlayEvents = overlayViewProps as OverlayEventProps | undefined;
   const { mounted, setOpen, finishClose, layerRef, layerRect, triggerRect, triggerHandlers } =
     useMenuContext();
   // iOS는 overlayLevel을 지정해 mount하면 표시 전에 binddismissoverlay를 한 번 보냅니다. 표시된 뒤의
@@ -253,25 +268,31 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
     },
     [setOpen],
   );
-  const handleShowOverlay = React.useCallback(() => {
-    "background only";
-    shownRef.current = true;
-  }, []);
+  const handleShowOverlay = React.useCallback(
+    (event: BaseEvent) => {
+      "background only";
+      overlayEvents?.bindshowoverlay?.(event);
+      shownRef.current = true;
+    },
+    [overlayEvents?.bindshowoverlay],
+  );
   const handleDismissOverlay = React.useCallback(
     (event: BaseEvent) => {
       "background only";
+      overlayEvents?.binddismissoverlay?.(event);
       if (!shownRef.current) return;
       setOpen(false, { reason: "dismiss", event });
       finishClose(true);
     },
-    [finishClose, setOpen],
+    [finishClose, setOpen, overlayEvents?.binddismissoverlay],
   );
   const handleRequestClose = React.useCallback(
     (event: BaseEvent) => {
       "background only";
+      overlayEvents?.bindrequestclose?.(event);
       setOpen(false, { reason: "dismiss", event });
     },
-    [setOpen],
+    [setOpen, overlayEvents?.bindrequestclose],
   );
 
   if (!mounted) return null;
@@ -311,7 +332,7 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
         ...style,
       }}
     >
-      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE}>
+      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
         <view style={BACKDROP_STYLE} bindtap={handleBackdropTap} />
         {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
         {children}
@@ -540,8 +561,8 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
         visibility: placed ? "visible" : "hidden",
         transformOrigin: placed ? position.transformOrigin : "center",
         ...(placed ? { width: toPixel(position.width) } : {}),
-        ...style,
         ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
+        ...style,
       }}
       bindlayoutchange={handleLayoutChange}
       {...nativeProps}
@@ -634,20 +655,11 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
     <MenuItemProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...api.rootProps}
-        bindtouchstart={(event) => {
-          bindtouchstart?.(event);
-          pressStart(event);
-        }}
-        bindtouchend={(event) => {
-          bindtouchend?.(event);
-          pressEnd(event);
-        }}
-        bindtouchcancel={(event) => {
-          bindtouchcancel?.(event);
-          pressCancel(event);
-        }}
+        {...nativeProps}
+        bindtouchstart={withPressTouch(bindtouchstart, pressStart)}
+        bindtouchend={withPressTouch(bindtouchend, pressEnd)}
+        bindtouchcancel={withPressTouch(bindtouchcancel, pressCancel)}
       >
         {children}
       </view>

@@ -123,6 +123,20 @@ describe("Badge", () => {
     }
   });
 
+  it("forwards native text props to Label", () => {
+    render(
+      <Badge.Root>
+        <Badge.Label id="badge-label" text-maxline="2">
+          추천
+        </Badge.Label>
+      </Badge.Root>,
+    );
+
+    const label = getRenderedQueries().getByText("추천");
+    expect(label).toHaveAttribute("id", "badge-label");
+    expect(label).toHaveAttribute("text-maxline", "2");
+  });
+
   it("calls each supplied background tap and touch handler once", () => {
     const onTap = vi.fn();
     const onTouchStart = vi.fn();

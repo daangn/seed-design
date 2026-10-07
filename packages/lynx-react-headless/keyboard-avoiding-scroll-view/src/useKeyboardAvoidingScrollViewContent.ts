@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, type Ref } from "@lynx-js/react";
-import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
+import { mergeStyle } from "./mergeStyle.js";
 import { useComposedNodeRef } from "./useComposedNodeRef.js";
 import { useKeyboardAvoidingScrollViewRootContext } from "./useKeyboardAvoidingScrollView.js";
 
@@ -15,21 +16,21 @@ type TouchCancelHandler = NonNullable<ScrollViewProps["bindtouchcancel"]>;
 export interface UseKeyboardAvoidingScrollViewContentProps {
   /** `<scroll-view>`와 함께 연결할 ref입니다. */
   ref?: Ref<NodesRef>;
-  /** `<scroll-view>`의 style입니다. Root의 남은 높이를 채우는 flex 값은 덮어쓸 수 없습니다. */
-  style?: CSSProperties;
-  /** 회피 위치 재계산을 예약한 뒤 호출됩니다. */
+  /** `<scroll-view>`의 style입니다. Root의 남은 높이를 채우는 기본 flex 값보다 사용자 값이 우선합니다. */
+  style?: ScrollViewProps["style"];
+  /** 사용자 handler를 호출하고 회피 위치 재계산을 예약합니다. */
   bindlayoutchange?: ScrollViewProps["bindlayoutchange"];
   bindscroll?: ScrollViewProps["bindscroll"];
-  /** 사용자 스크롤 중 멈춘 자동 회피를 재개한 뒤 호출됩니다. */
+  /** 사용자 handler를 호출하고 사용자 스크롤 중 멈춘 자동 회피를 재개합니다. */
   bindscrollend?: ScrollViewProps["bindscrollend"];
-  /** 자동 회피를 멈춘 뒤 호출됩니다. */
+  /** 사용자 handler를 호출하고 자동 회피를 멈춥니다. */
   bindtouchstart?: ScrollViewProps["bindtouchstart"];
   bindtouchend?: ScrollViewProps["bindtouchend"];
   bindtouchcancel?: ScrollViewProps["bindtouchcancel"];
 }
 
 export interface UseKeyboardAvoidingScrollViewContentReturn {
-  /** 세로 `<scroll-view>`에 마지막으로 펼칩니다. `scroll-orientation`은 `"vertical"`로 고정됩니다. */
+  /** `<scroll-view>`의 기본 props입니다. 기본 방향은 세로이며 사용자 native props로 변경할 수 있습니다. */
   scrollViewProps: Required<
     Pick<
       ScrollViewProps,
@@ -42,7 +43,7 @@ export interface UseKeyboardAvoidingScrollViewContentReturn {
     >
   > & {
     ref: Ref<NodesRef>;
-    style: CSSProperties;
+    style: NonNullable<ScrollViewProps["style"]>;
     "scroll-orientation": "vertical";
     flatten: false;
   };
@@ -82,8 +83,8 @@ export function useKeyboardAvoidingScrollViewContent(
     (...args) => {
       "background only";
 
-      engine.viewportChanged();
       userBindLayoutChange?.(...args);
+      engine.viewportChanged();
     },
     [engine, userBindLayoutChange],
   );
@@ -92,10 +93,10 @@ export function useKeyboardAvoidingScrollViewContent(
     (...args) => {
       "background only";
 
+      userBindTouchStart?.(...args);
       touchActiveRef.current = true;
       didScrollDuringTouchRef.current = false;
       engine.userScrollStarted();
-      userBindTouchStart?.(...args);
     },
     [engine, userBindTouchStart],
   );
@@ -103,11 +104,11 @@ export function useKeyboardAvoidingScrollViewContent(
   const handleScroll = useCallback<ScrollHandler>(
     (...args) => {
       "background only";
+      userBindScroll?.(...args);
 
       if (touchActiveRef.current) {
         didScrollDuringTouchRef.current = true;
       }
-      userBindScroll?.(...args);
     },
     [userBindScroll],
   );
@@ -116,11 +117,11 @@ export function useKeyboardAvoidingScrollViewContent(
     (...args) => {
       "background only";
 
+      userBindTouchEnd?.(...args);
       touchActiveRef.current = false;
       if (!didScrollDuringTouchRef.current) {
         engine.userScrollEnded();
       }
-      userBindTouchEnd?.(...args);
     },
     [engine, userBindTouchEnd],
   );
@@ -129,10 +130,10 @@ export function useKeyboardAvoidingScrollViewContent(
     (...args) => {
       "background only";
 
+      userBindTouchCancel?.(...args);
       touchActiveRef.current = false;
       didScrollDuringTouchRef.current = false;
       engine.userScrollEnded();
-      userBindTouchCancel?.(...args);
     },
     [engine, userBindTouchCancel],
   );
@@ -141,16 +142,16 @@ export function useKeyboardAvoidingScrollViewContent(
     (...args) => {
       "background only";
 
+      userBindScrollEnd?.(...args);
       touchActiveRef.current = false;
       didScrollDuringTouchRef.current = false;
       engine.userScrollEnded();
-      userBindScrollEnd?.(...args);
     },
     [engine, userBindScrollEnd],
   );
 
-  const scrollViewStyle = useMemo<CSSProperties>(
-    () => ({ ...style, flexGrow: 1, flexShrink: 1, flexBasis: "0px", minHeight: "0px" }),
+  const scrollViewStyle = useMemo(
+    () => mergeStyle({ flexGrow: 1, flexShrink: 1, flexBasis: "0px", minHeight: "0px" }, style),
     [style],
   );
 

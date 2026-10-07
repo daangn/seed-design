@@ -16,12 +16,7 @@ import {
 } from "@seed-design/lynx-react-switch";
 
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import { ScaleFeedbackContentContext } from "../../contexts";
@@ -81,13 +76,14 @@ export interface SwitchRootProps
   extends Omit<SwitchVariantProps, "disabled">,
     Omit<SwitchmarkVariantProps, "size" | "checked" | "disabled">,
     Pick<UseSwitchProps, "checked" | "defaultChecked" | "disabled" | "onCheckedChange">,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxHostProps<"view"> {}
 
 export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref) => {
   const {
     children,
     className,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     checked,
     defaultChecked,
     disabled = false,
@@ -97,7 +93,14 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
 
-  const api = useSwitch({ checked, defaultChecked, onCheckedChange, disabled });
+  const api = useSwitch({
+    checked,
+    defaultChecked,
+    onCheckedChange,
+    disabled,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+  });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
@@ -136,8 +139,7 @@ SwitchRoot.displayName = "SwitchRoot";
 
 export interface SwitchControlProps
   extends Pick<SwitchmarkVariantProps, "tone" | "size">,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxStyledElementProps, "flatten"> {}
+    LynxHostProps<"view"> {}
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);
@@ -161,12 +163,12 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
     >
       <HeadlessSwitchControl
         {...mergeProps(
+          { flatten: false },
           ref ? { ref: ref as LynxViewRef } : {},
           !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
           nativeProps,
         )}
         className={clsx(classes.root, className)}
-        flatten={false}
       >
         {children}
       </HeadlessSwitchControl>
@@ -177,7 +179,7 @@ SwitchControl.displayName = "SwitchControl";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchThumbProps extends Pick<LynxStyledElementProps, "className" | "style"> {}
+export interface SwitchThumbProps extends LynxHostProps<"view"> {}
 
 export const SwitchThumb = React.forwardRef<unknown, SwitchThumbProps>((props, ref) => {
   const { className, ...nativeProps } = props;
@@ -194,7 +196,7 @@ SwitchThumb.displayName = "SwitchThumb";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchLabelProps extends LynxStyledElementProps {}
+export interface SwitchLabelProps extends LynxHostProps<"text"> {}
 
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;

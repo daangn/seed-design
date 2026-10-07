@@ -24,6 +24,19 @@ export interface LynxStyledElementProps extends LynxElementProps {
   style?: LynxStyle;
 }
 
+/**
+ * @platform Lynx
+ *
+ * public 파트가 렌더링하는 native host(`view`·`text`·`image`·`scroll-view`·`input`·`textarea` 등)의 props.
+ * 파트는 이 타입을 확장하고 rest 전체를 host에 전달한다. 같은 key는 컴포넌트가 고정·계산한 값보다
+ * 사용자 값이 이긴다. `ref`는 `forwardRef`로 받고, `style`은 key 단위 병합을 위해 object만 받는다.
+ */
+export type LynxHostProps<Tag extends keyof IntrinsicElements> = Omit<
+  IntrinsicElements[Tag],
+  "children" | "className" | "style" | "ref" | "key"
+> &
+  LynxStyledElementProps;
+
 export interface LynxPressableProps {
   bindtap?: LynxViewProps["bindtap"];
   "main-thread:bindtap"?: LynxViewProps["main-thread:bindtap"];

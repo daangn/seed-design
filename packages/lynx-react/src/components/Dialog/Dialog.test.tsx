@@ -91,4 +91,24 @@ describe("Dialog", () => {
     expect(body?.style.maxHeight).toBe("120px");
     expect(body?.style.paddingLeft).toBe("16px");
   });
+
+  it("lets native Body props override scrolling defaults and computed style", () => {
+    const { container } = render(
+      <Dialog.Root>
+        <Dialog.Body
+          id="dialog-body"
+          scroll-y={false}
+          maxHeight="96px"
+          style={{ maxHeight: "120px" }}
+        >
+          <text>Body content</text>
+        </Dialog.Body>
+      </Dialog.Root>,
+    );
+    const body = container.querySelector<HTMLElement>("#dialog-body");
+
+    expect(body?.getAttribute("scroll-y")).toBe("false");
+    expect(body?.style.maxHeight).toBe("120px");
+    expect(body?.textContent).toBe("Body content");
+  });
 });

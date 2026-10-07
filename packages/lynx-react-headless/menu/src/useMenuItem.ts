@@ -75,7 +75,7 @@ export function useMenuItem(props: UseMenuItemProps = {}): UseMenuItemReturn {
     mainThreadOnTouchEnd,
     mainThreadOnTouchCancel,
   });
-  const traits = disabled ? "disabled" : (accessibilityTraits ?? "button");
+  const traits = accessibilityTraits ?? (disabled ? "disabled" : "button");
   const {
     bindtap: pressBindtap,
     bindtouchstart,

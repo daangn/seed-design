@@ -15,14 +15,7 @@ import {
 } from "@seed-design/lynx-react-popover";
 import clsx from "clsx";
 
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
@@ -53,7 +46,7 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
 
 export interface HelpBubbleRootProps
   extends HelpBubblePublicVariantProps,
-    LynxStyledElementProps,
+    LynxHostProps<"view">,
     UsePopoverProps {
   /** @default "top" */
   placement?: UsePopoverProps["placement"];
@@ -125,9 +118,7 @@ HelpBubbleRoot.displayName = "HelpBubbleRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleAnchorProps
-  extends LynxStyledElementProps,
-    Pick<LynxViewProps, "bindlayoutchange"> {}
+export interface HelpBubbleAnchorProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleAnchor: React.ForwardRefExoticComponent<
   HelpBubbleAnchorProps & React.RefAttributes<unknown>
@@ -135,11 +126,7 @@ export const HelpBubbleAnchor: React.ForwardRefExoticComponent<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleTriggerProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps,
-    Pick<LynxViewProps, "bindlayoutchange"> {}
+export interface HelpBubbleTriggerProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleTrigger: React.ForwardRefExoticComponent<
   HelpBubbleTriggerProps & React.RefAttributes<unknown>
@@ -148,7 +135,7 @@ export const HelpBubbleTrigger: React.ForwardRefExoticComponent<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubblePositionerProps
-  extends LynxStyledElementProps,
+  extends LynxHostProps<"view">,
     Pick<PopoverPositionerProps, "container" | "overlayLevel" | "overlayViewProps"> {
   /**
    * Positioner의 기본 z-index `99`에 더합니다. `container`가 없을 때 같은 화면의 형제 요소와의 순서를
@@ -179,7 +166,7 @@ HelpBubblePositioner.displayName = "HelpBubblePositioner";
 
 export interface HelpBubbleContentProps
   extends Pick<StyleProps, "maxWidth">,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProps>((props, ref) => {
   const { style, restProps } = useStyleProps(props);
@@ -211,7 +198,7 @@ HelpBubbleContent.displayName = "HelpBubbleContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleArrowProps extends LynxStyledElementProps {}
+export interface HelpBubbleArrowProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleArrow = React.forwardRef<unknown, HelpBubbleArrowProps>((props, ref) => {
   const { className, ...arrowProps } = props;
@@ -228,17 +215,20 @@ export const HelpBubbleArrow = React.forwardRef<unknown, HelpBubbleArrowProps>((
 });
 HelpBubbleArrow.displayName = "HelpBubbleArrow";
 
-export interface HelpBubbleArrowTipProps extends LynxStyledElementProps {}
+export interface HelpBubbleArrowTipProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleArrowTip = React.forwardRef<unknown, HelpBubbleArrowTipProps>(
   (props, ref) => {
     const { children, className, style, ...nativeProps } = props;
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
         className={clsx(useClassNames().arrowTip, className)}
         style={style}
-        accessibility-elements-hidden={true}
       >
         {children}
       </view>
@@ -249,7 +239,7 @@ HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleBodyProps extends LynxStyledElementProps {}
+export interface HelpBubbleBodyProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleBody = React.forwardRef<unknown, HelpBubbleBodyProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
@@ -265,7 +255,7 @@ export const HelpBubbleBody = React.forwardRef<unknown, HelpBubbleBodyProps>((pr
 });
 HelpBubbleBody.displayName = "HelpBubbleBody";
 
-export interface HelpBubbleTitleProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface HelpBubbleTitleProps extends LynxHostProps<"text"> {}
 
 export const HelpBubbleTitle = React.forwardRef<unknown, HelpBubbleTitleProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
@@ -281,9 +271,7 @@ export const HelpBubbleTitle = React.forwardRef<unknown, HelpBubbleTitleProps>((
 });
 HelpBubbleTitle.displayName = "HelpBubbleTitle";
 
-export interface HelpBubbleDescriptionProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps {}
+export interface HelpBubbleDescriptionProps extends LynxHostProps<"text"> {}
 
 export const HelpBubbleDescription = React.forwardRef<unknown, HelpBubbleDescriptionProps>(
   (props, ref) => {
@@ -303,10 +291,7 @@ HelpBubbleDescription.displayName = "HelpBubbleDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleCloseButtonProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+export interface HelpBubbleCloseButtonProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseButtonProps>(
   (props, ref) => {
@@ -333,10 +318,14 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, closeButtonProps, nativeProps)}
+        {...mergeProps(
+          { flatten: false },
+          closeButtonProps,
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
         className={clsx(closeButtonClassNames.closeButton, className)}
         style={style}
-        flatten={false}
       >
         {children}
       </view>

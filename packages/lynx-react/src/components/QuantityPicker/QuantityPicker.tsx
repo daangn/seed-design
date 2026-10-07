@@ -17,13 +17,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxIconElementProps,
-  LynxStyledElementProps,
-  LynxTouchProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxIconElementProps, LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon } from "../Icon/Icon";
 
@@ -32,30 +26,20 @@ export type {
   QuantityPickerLoading,
 } from "@seed-design/lynx-react-quantity-picker";
 
-export type QuantityPickerRootProps = Omit<LynxStyledElementProps, "children"> &
-  LynxAccessibilityProps & {
-    children?: React.ReactNode;
-    layout?: QuantityPickerVariantProps["layout"];
-    size?: QuantityPickerVariantProps["size"];
-  } & UseQuantityPickerProps;
+export type QuantityPickerRootProps = Omit<LynxHostProps<"view">, keyof UseQuantityPickerProps> & {
+  layout?: QuantityPickerVariantProps["layout"];
+  size?: QuantityPickerVariantProps["size"];
+} & UseQuantityPickerProps;
 
-export interface QuantityPickerDecrementButtonProps
-  extends LynxStyledElementProps,
-    LynxTouchProps,
-    LynxAccessibilityProps {
+export interface QuantityPickerDecrementButtonProps extends LynxHostProps<"view"> {
   icon?: React.ReactNode;
   loadingIndicator?: React.ReactNode;
   removeIcon?: React.ReactNode;
 }
 
-export interface QuantityPickerValueDisplayProps
-  extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps {}
+export interface QuantityPickerValueDisplayProps extends Omit<LynxHostProps<"view">, "children"> {}
 
-export interface QuantityPickerIncrementButtonProps
-  extends LynxStyledElementProps,
-    LynxTouchProps,
-    LynxAccessibilityProps {
+export interface QuantityPickerIncrementButtonProps extends LynxHostProps<"view"> {
   icon?: React.ReactNode;
   loadingIndicator?: React.ReactNode;
 }
@@ -246,7 +230,6 @@ export const QuantityPickerDecrementButton = React.forwardRef<
   const {
     children,
     className,
-    style,
     icon,
     loadingIndicator,
     removeIcon,
@@ -288,7 +271,6 @@ export const QuantityPickerDecrementButton = React.forwardRef<
         nativeProps,
       )}
       className={clsx(classes.decrementButton, className)}
-      style={style}
     >
       {renderActionContent(
         isRemoveButton ? (removeIcon ?? icon) : icon,
@@ -334,7 +316,6 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   const {
     children,
     className,
-    style,
     icon,
     loadingIndicator,
     bindtap,
@@ -374,7 +355,6 @@ export const QuantityPickerIncrementButton = React.forwardRef<
         nativeProps,
       )}
       className={clsx(classes.incrementButton, className)}
-      style={style}
     >
       {renderActionContent(icon, loadingIndicator, children, classes.incrementIcon, loading)}
     </view>

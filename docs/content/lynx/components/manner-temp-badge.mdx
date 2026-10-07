@@ -58,6 +58,7 @@ export function App() {
 <Callout type="warning">
 
 - **렌더링 요소.** HTML `<span>` 대신 native `<view>`와 `<text>`를 렌더링합니다.
-- **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
+- **다형 렌더링.** 웹의 `asChild`는 제공하지 않습니다.
+- **native 속성.** HTML 속성 대신 root `<view>`의 native 속성(`id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트, `data-*` 등)을 받아 그대로 전달합니다. 컴포넌트가 정한 값과 같은 속성을 넘기면 넘긴 값이 이깁니다.
 
 </Callout>

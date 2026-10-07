@@ -10,6 +10,18 @@ type ScrollViewProps = IntrinsicElements["scroll-view"];
 type ScrollEvent = Pick<Parameters<NonNullable<ScrollViewProps["bindscroll"]>>[0], "detail">;
 type AccessibilityActionEvent = Parameters<NonNullable<ViewProps["bindaccessibilityaction"]>>[0];
 
+function composeMainThreadHandlers<Args extends unknown[]>(
+  userHandler: ((...args: Args) => void) | null | undefined,
+  internalHandler: (...args: Args) => void,
+) {
+  if (!userHandler) return internalHandler;
+  return (...args: Args) => {
+    "main thread";
+    userHandler(...args);
+    internalHandler(...args);
+  };
+}
+
 type Rect = { left: number; top: number; width: number; height: number };
 type DragLayout = { itemId: string; generation: number; rect: Rect; offsetX: number };
 type RectMeasurement = Partial<Rect>;
@@ -46,7 +58,7 @@ export interface SortableRootRenderProps {
   dragging: boolean;
 }
 
-export interface SortableRootProps<T> {
+export interface SortableRootProps<T> extends Omit<ViewProps, "children"> {
   items: readonly T[];
   /**
    * 항목마다 고유하고 순서가 바뀌어도 유지되는 key를 반환합니다. `Sortable.Item`의 `itemId`와 같아야 합니다.
@@ -222,18 +234,7 @@ function getScrollAfter(result: ScrollByResult | null, previous: number) {
   return typeof consumed === "number" ? previous + consumed : null;
 }
 
-type SortableItemNativeProps = Pick<
-  ViewProps,
-  | "accessibility-element"
-  | "accessibility-label"
-  | "accessibility-value"
-  | "accessibility-role-description"
-  | "accessibility-traits"
-  | "accessibility-actions"
-  | "bindaccessibilityaction"
->;
-
-export interface SortableItemProps extends SortableItemNativeProps {
+export interface SortableItemProps extends Omit<ViewProps, "children"> {
   /**
    * Root `getItemKey`가 이 항목에 반환하는 key입니다.
    */
@@ -261,13 +262,17 @@ export function SortableItem({
   index,
   moveActionLabels,
   children,
-  "accessibility-element": accessibilityElement,
-  "accessibility-label": accessibilityLabel,
-  "accessibility-value": accessibilityValue,
-  "accessibility-role-description": accessibilityRoleDescription,
-  "accessibility-traits": accessibilityTraits,
-  "accessibility-actions": accessibilityActions,
+  ref,
+  style,
   bindaccessibilityaction,
+  "main-thread:bindlongpress": bindLongPress,
+  "main-thread:bindmouselongpress": bindMouseLongPress,
+  "main-thread:bindtouchmove": bindTouchMove,
+  "main-thread:bindtouchend": bindTouchEnd,
+  "main-thread:bindtouchcancel": bindTouchCancel,
+  "main-thread:bindmousemove": bindMouseMove,
+  "main-thread:bindmouseup": bindMouseUp,
+  ...nativeProps
 }: SortableItemProps) {
   const context = React.useContext(SortableContext);
   if (!context) throw new Error("Sortable.Item must be rendered inside Sortable.Root");
@@ -285,14 +290,13 @@ export function SortableItem({
     ? [
         ...(previousAction === undefined ? [] : [previousAction]),
         ...(nextAction === undefined ? [] : [nextAction]),
-        ...(accessibilityActions ?? []),
       ]
-    : accessibilityActions;
+    : undefined;
   const onAccessibilityAction = (event: AccessibilityActionEvent) => {
+    bindaccessibilityaction?.(event);
     const name = event.detail.name;
     if (name === previousAction) context.moveItem(index, index - 1);
     else if (name === nextAction) context.moveItem(index, index + 1);
-    else bindaccessibilityaction?.(event);
   };
   React.useEffect(() => {
     if (layout) runOnMainThread(context.onDragReady)(itemId, layout.generation);
@@ -300,6 +304,7 @@ export function SortableItem({
   const onDragStart = useCallback(
     (event: DragPointEvent) => {
       "main thread";
+      if (context.disabled) return;
       context.onDragStart(itemId, index, event);
     },
     [context, index, itemId],
@@ -307,16 +312,19 @@ export function SortableItem({
   const onDragMove = useCallback(
     (event: DragPointEvent) => {
       "main thread";
+      if (context.disabled) return;
       context.onDragMove(event);
     },
     [context],
   );
   const onDragEnd = useCallback(() => {
     "main thread";
+    if (context.disabled) return;
     context.onDragEnd();
   }, [context]);
   const onDragCancel = useCallback(() => {
     "main thread";
+    if (context.disabled) return;
     context.onDragCancel();
   }, [context]);
   return (
@@ -337,40 +345,42 @@ export function SortableItem({
       <view
         key="item"
         id={itemDomId}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel}
-        accessibility-value={accessibilityValue}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits}
         accessibility-actions={actions}
-        bindaccessibilityaction={hasMoveAction ? onAccessibilityAction : bindaccessibilityaction}
         ios-enable-simultaneous-touch={true}
-        main-thread:bindlongpress={context.disabled ? undefined : onDragStart}
-        main-thread:bindmouselongpress={context.disabled ? undefined : onDragStart}
-        main-thread:bindtouchmove={context.disabled ? undefined : onDragMove}
-        main-thread:bindtouchend={context.disabled ? undefined : onDragEnd}
-        main-thread:bindtouchcancel={context.disabled ? undefined : onDragCancel}
-        main-thread:bindmousemove={context.disabled ? undefined : onDragMove}
-        main-thread:bindmouseup={context.disabled ? undefined : onDragEnd}
-        style={{
-          flexShrink: 0,
-          order: index,
-          overflow: "visible",
-          // Keep the same item instance; a fixed view does not inherit scroll offsets.
-          position: layout ? "fixed" : "relative",
-          left: layout ? 0 : undefined,
-          top: layout ? 0 : undefined,
-          width: layout ? `${layout.rect.width}px` : "auto",
-          height: layout ? `${layout.rect.height}px` : "auto",
-          transition:
-            context.draggingItemId !== null && !dragging && !context.reducedMotion
-              ? "transform 250ms cubic-bezier(0.25, 1, 0.5, 1)"
-              : "none",
-          transform: layout
-            ? `translate(${layout.rect.left + layout.offsetX}px, ${layout.rect.top}px)`
-            : "translate(0px, 0px)",
-          zIndex: layout ? 10000 : 0,
-        }}
+        {...nativeProps}
+        {...(ref ? { ref } : {})}
+        bindaccessibilityaction={onAccessibilityAction}
+        main-thread:bindlongpress={composeMainThreadHandlers(bindLongPress, onDragStart)}
+        main-thread:bindmouselongpress={composeMainThreadHandlers(bindMouseLongPress, onDragStart)}
+        main-thread:bindtouchmove={composeMainThreadHandlers(bindTouchMove, onDragMove)}
+        main-thread:bindtouchend={composeMainThreadHandlers(bindTouchEnd, onDragEnd)}
+        main-thread:bindtouchcancel={composeMainThreadHandlers(bindTouchCancel, onDragCancel)}
+        main-thread:bindmousemove={composeMainThreadHandlers(bindMouseMove, onDragMove)}
+        main-thread:bindmouseup={composeMainThreadHandlers(bindMouseUp, onDragEnd)}
+        style={
+          typeof style === "string"
+            ? style
+            : {
+                flexShrink: 0,
+                order: index,
+                overflow: "visible",
+                // Keep the same item instance; a fixed view does not inherit scroll offsets.
+                position: layout ? "fixed" : "relative",
+                left: layout ? 0 : undefined,
+                top: layout ? 0 : undefined,
+                width: layout ? `${layout.rect.width}px` : "auto",
+                height: layout ? `${layout.rect.height}px` : "auto",
+                transition:
+                  context.draggingItemId !== null && !dragging && !context.reducedMotion
+                    ? "transform 250ms cubic-bezier(0.25, 1, 0.5, 1)"
+                    : "none",
+                transform: layout
+                  ? `translate(${layout.rect.left + layout.offsetX}px, ${layout.rect.top}px)`
+                  : "translate(0px, 0px)",
+                zIndex: layout ? 10000 : 0,
+                ...style,
+              }
+        }
       >
         {children(dragging)}
       </view>
@@ -394,6 +404,15 @@ export function SortableRoot<T>({
   onReorder,
   onDragStateChange,
   children,
+  ref,
+  style,
+  "main-thread:global-bindtouchmove": globalBindTouchMove,
+  "main-thread:global-bindtouchend": globalBindTouchEnd,
+  "main-thread:global-bindtouchcancel": globalBindTouchCancel,
+  "main-thread:global-bindmousemove": globalBindMouseMove,
+  "main-thread:global-bindmouseup": globalBindMouseUp,
+  "main-thread:bindmouseleave": bindMouseLeave,
+  ...nativeProps
 }: SortableRootProps<T>) {
   const [instanceId] = React.useState(() => {
     nextSortableRootId += 1;
@@ -750,7 +769,8 @@ export function SortableRoot<T>({
     (event: DragPointEvent) => {
       "main thread";
       const current = state.current;
-      if (!current.dragging || event.timestamp === current.lastMoveTimestamp) return;
+      if (sortingDisabled || !current.dragging || event.timestamp === current.lastMoveTimestamp)
+        return;
       current.lastMoveTimestamp = event.timestamp;
       current.pointerX = getPageX(event);
       autoScrollFrame.current = runAutoScrollFrame;
@@ -758,7 +778,7 @@ export function SortableRoot<T>({
       applyDragPosition(current.pointerX);
       if (!wasAutoScrolling && autoScrollActive.current) setTimeout(runAutoScrollFrame, 8);
     },
-    [applyDragPosition, autoScrollFrame, runAutoScrollFrame, state],
+    [applyDragPosition, autoScrollFrame, runAutoScrollFrame, sortingDisabled, state],
   );
   const onDragReady = useCallback(
     (itemId: string, generation: number) => {
@@ -781,12 +801,14 @@ export function SortableRoot<T>({
   );
   const onDragEnd = useCallback(() => {
     "main thread";
+    if (sortingDisabled) return;
     finishDrag(false);
-  }, [finishDrag]);
+  }, [finishDrag, sortingDisabled]);
   const onDragCancel = useCallback(() => {
     "main thread";
+    if (sortingDisabled) return;
     finishDrag(true);
-  }, [finishDrag]);
+  }, [finishDrag, sortingDisabled]);
   React.useEffect(() => {
     if (sortingDisabled) runOnMainThread(finishDrag)(true);
   }, [finishDrag, sortingDisabled]);
@@ -845,13 +867,33 @@ export function SortableRoot<T>({
     <SortableContext.Provider value={contextValue}>
       <view
         id={rootId}
-        main-thread:global-bindtouchmove={sortingDisabled ? undefined : onDragMove}
-        main-thread:global-bindtouchend={sortingDisabled ? undefined : onDragEnd}
-        main-thread:global-bindtouchcancel={sortingDisabled ? undefined : onDragCancel}
-        main-thread:global-bindmousemove={sortingDisabled ? undefined : onDragMove}
-        main-thread:global-bindmouseup={sortingDisabled ? undefined : onDragEnd}
-        main-thread:bindmouseleave={sortingDisabled ? undefined : onDragCancel}
-        style={{ display: "flex", flexDirection: "row", flexShrink: 0 }}
+        {...nativeProps}
+        {...(ref ? { ref } : {})}
+        main-thread:global-bindtouchmove={composeMainThreadHandlers(
+          globalBindTouchMove,
+          onDragMove,
+        )}
+        main-thread:global-bindtouchend={composeMainThreadHandlers(globalBindTouchEnd, onDragEnd)}
+        main-thread:global-bindtouchcancel={composeMainThreadHandlers(
+          globalBindTouchCancel,
+          onDragCancel,
+        )}
+        main-thread:global-bindmousemove={composeMainThreadHandlers(
+          globalBindMouseMove,
+          onDragMove,
+        )}
+        main-thread:global-bindmouseup={composeMainThreadHandlers(globalBindMouseUp, onDragEnd)}
+        main-thread:bindmouseleave={composeMainThreadHandlers(bindMouseLeave, onDragCancel)}
+        style={
+          typeof style === "string"
+            ? style
+            : {
+                display: "flex",
+                flexDirection: "row",
+                flexShrink: 0,
+                ...style,
+              }
+        }
       >
         {children({ onScroll, dragging: draggingItemId !== null })}
       </view>

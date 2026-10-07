@@ -1,6 +1,7 @@
 import { useEffect, useMemo, type Ref } from "@lynx-js/react";
-import type { CSSProperties, NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
+import { mergeStyle } from "./mergeStyle.js";
 import { useKeyboardAvoidingScrollViewRootContext } from "./useKeyboardAvoidingScrollView.js";
 import type { UseKeyboardAvoidingScrollViewContext } from "./useKeyboardAvoidingScrollViewContext.js";
 
@@ -16,21 +17,20 @@ export interface UseKeyboardAvoidingScrollViewFooterProps {
   /** Footer `<view>`에 연결할 ref입니다. */
   ref?: Ref<NodesRef>;
   /**
-   * Footer `<view>`의 style입니다. 키보드를 따라 이동하는 `transform`과 `flexShrink`는 덮어쓸 수 없습니다.
-   * 기본 `transition`은 키보드 애니메이션에 맞춘 `transform` 전환이며, `style.transition`으로 바꿉니다.
+   * Footer `<view>`의 style입니다. 사용자 값은 이동·숨김·flex·transition 기본값보다 우선합니다.
+   * 기본 `transition`은 키보드 애니메이션에 맞춘 `transform` 전환이며 첫 배치 때는 전환을 끕니다.
    * inline style이므로 `className`의 `transition`은 기본값보다 우선하지 않습니다.
-   * Footer가 처음 자리를 잡을 때는 어떤 `transition`도 적용하지 않습니다.
    */
-  style?: CSSProperties;
+  style?: IntrinsicElements["view"]["style"];
 }
 
 export interface UseKeyboardAvoidingScrollViewFooterReturn {
   /** Footer 안의 입력이 등록할 때 쓰는 Provider 값입니다. 이 입력은 Content를 스크롤하지 않습니다. */
   context: UseKeyboardAvoidingScrollViewContext;
-  /** Footer `<view>`에 마지막으로 펼칩니다. */
+  /** Footer `<view>`의 기본 props입니다. 사용자 native props는 기본값보다 우선합니다. */
   footerProps: {
     ref?: Ref<NodesRef>;
-    style: CSSProperties;
+    style: NonNullable<IntrinsicElements["view"]["style"]>;
     flatten: false;
   };
 }
@@ -47,17 +47,19 @@ export function useKeyboardAvoidingScrollViewFooter(
 
   useEffect(() => registerFooter(), [registerFooter]);
 
-  // transform key를 항상 두어 0과 이동 위치 사이를 같은 translateY 값으로 보간한다.
-  const footerStyle = useMemo<CSSProperties>(
-    () => ({
-      transition: FOOTER_TRANSITION,
-      ...style,
-      ...(footerTransitionEnabled ? {} : { transition: INSTANT_TRANSITION }),
-      // 첫 화면은 키보드 상태와 Root 위치를 재기 전에 그려지므로, 자리 잡기 전에는 보이지 않게 둔다.
-      ...(footerPlaced ? {} : { opacity: 0 }),
-      flexShrink: 0,
-      transform: `translateY(${-footerOffset}px)`,
-    }),
+  // 기본 transform은 0과 이동 위치 사이를 같은 translateY 값으로 보간한다.
+  const footerStyle = useMemo(
+    () =>
+      mergeStyle(
+        {
+          transition: footerTransitionEnabled ? FOOTER_TRANSITION : INSTANT_TRANSITION,
+          // 첫 화면은 키보드 상태와 Root 위치를 재기 전에 그려지므로, 자리 잡기 전에는 보이지 않게 둔다.
+          ...(footerPlaced ? {} : { opacity: 0 }),
+          flexShrink: 0,
+          transform: `translateY(${-footerOffset}px)`,
+        },
+        style,
+      ),
     [style, footerOffset, footerPlaced, footerTransitionEnabled],
   );
 

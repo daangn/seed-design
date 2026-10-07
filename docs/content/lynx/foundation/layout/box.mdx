@@ -85,7 +85,7 @@ type MyBoxProps = BoxProps & { label: string };
 
 ## Native Props
 
-`Box`는 style prop 외에 `className`, `id`, 접근성 prop(`accessibility-label` 등), `bindtap`, `main-thread:bindtap`, `bindtouchstart`, `bindtouchend`, `bindtouchcancel`, `ref`를 루트 `<view>`에 전달합니다. 그 밖의 native `<view>` 속성은 공개 타입으로 지원하지 않으므로 native `<view>`를 직접 사용하세요.
+`Box`는 style prop 외에 루트 `<view>`의 native 속성(`className`, `id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트, `data-*` 등)과 `ref`를 받아 그대로 전달합니다. style prop과 같은 이름의 native 속성은 style prop으로 해석합니다.
 
 ## 웹 버전과의 차이
 

@@ -100,7 +100,7 @@ describe("QuantityPicker", () => {
       />,
     );
 
-    expect(decrement()).toHaveAttribute("accessibility-label", "상품 삭제");
+    expect(decrement()).toHaveAttribute("accessibility-label", "줄이기");
     expect(decrement()).toHaveAttribute("accessibility-traits", "button");
     fireEvent.tap(decrement());
     expect(onRemove).toHaveBeenCalledTimes(1);

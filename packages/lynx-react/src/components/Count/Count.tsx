@@ -2,7 +2,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
 
-import type { LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxHostProps, LynxTextRef } from "../../types";
 
 const countMarker = Symbol.for("@seed-design/lynx-react/count");
 
@@ -17,7 +17,7 @@ interface CountComponent {
  * - HTML span 속성 및 ARIA 속성
  * - `asChild`
  */
-export interface CountProps extends LynxStyledElementProps {}
+export interface CountProps extends LynxHostProps<"text"> {}
 
 export const Count = React.forwardRef<unknown, CountProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;

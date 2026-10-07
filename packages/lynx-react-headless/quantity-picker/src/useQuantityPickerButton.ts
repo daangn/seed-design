@@ -56,7 +56,7 @@ export interface UseQuantityPickerButtonReturn {
 }
 
 export interface UseQuantityPickerDecrementButtonReturn extends UseQuantityPickerButtonReturn {
-  /** Remove 동작으로 전환되었으면 `true`입니다. 이때 `accessibility-label`은 Root의 `removeAccessibilityLabel`입니다. */
+  /** Remove 동작으로 전환되었으면 `true`입니다. 사용자 label이 없으면 Root의 `removeAccessibilityLabel`을 씁니다. */
   isRemoveButton: boolean;
 }
 
@@ -175,9 +175,9 @@ export function useQuantityPickerDecrementButton(
     action: context.decrement,
     disabled: context.decrementDisabled,
     loading: context.decrementLoading,
-    accessibilityLabel: context.isRemoveButton
-      ? context.removeAccessibilityLabel
-      : props["accessibility-label"],
+    accessibilityLabel:
+      props["accessibility-label"] ??
+      (context.isRemoveButton ? context.removeAccessibilityLabel : undefined),
     isRemoveButton: context.isRemoveButton,
   });
 }

@@ -10,11 +10,9 @@ import { useMemo } from "@lynx-js/react";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxElementProps,
+  LynxHostProps,
   LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextRef,
-  LynxTouchProps,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -42,20 +40,9 @@ interface ActionButtonContentProps extends LynxElementProps {
   isIconOnly: boolean;
 }
 
-interface ActionButtonAccessibilityProps {
-  "accessibility-label"?: LynxViewProps["accessibility-label"];
-  "accessibility-element"?: LynxViewProps["accessibility-element"];
-  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
-}
+interface ActionButtonRootOwnProps extends LynxHostProps<"view"> {}
 
-interface ActionButtonRootOwnProps
-  extends LynxStyledElementProps,
-    LynxTouchProps,
-    ActionButtonAccessibilityProps {}
-
-interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {
-  flatten?: false;
-}
+interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
 
 function resolveProgressCircleSize(
   actionButtonSize: ActionButtonVariantProps["size"],
@@ -137,7 +124,7 @@ ActionButtonRoot.displayName = "ActionButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ActionButtonTextSlotProps extends LynxElementProps {}
+interface ActionButtonTextSlotProps extends LynxHostProps<"text"> {}
 
 const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
   const { children, className: userClassName, ...rest } = props;
@@ -258,10 +245,8 @@ export interface ActionButtonProps
   extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
     Pick<UseActionButtonProps, "disabled" | "loading">,
     Pick<StyleProps, "flexGrow">,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxElementProps, "flatten">,
-    LynxPressableProps,
-    ActionButtonAccessibilityProps {}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
   const {
@@ -312,19 +297,21 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     <IconRequired enabled={isIconOnly}>
       <ActionButtonRoot
         {...mergeProps(
-          { ref },
+          {
+            flatten: false,
+            style: flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined,
+          },
+          ref ? { ref } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
           rootProps,
           variantAndRest,
+          { "accessibility-label": accessibilityLabel },
         )}
         layout={layout}
         disabled={api.disabled}
         loading={api.loading}
         pressed={api.pressed}
-        style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
-        accessibility-label={accessibilityLabel}
-        flatten={false}
       >
         {api.loading ? (
           <>

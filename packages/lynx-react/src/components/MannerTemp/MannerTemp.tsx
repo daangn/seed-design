@@ -4,7 +4,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
 
-import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -25,21 +25,26 @@ const emoteSources = {
 
 const MannerTempLevelContext = React.createContext<MannerTempLevel | null>(null);
 
-export interface MannerTempEmoteProps extends LynxStyledElementProps {
+export interface MannerTempEmoteProps extends Omit<LynxHostProps<"image">, "children"> {
   level?: MannerTempLevel;
 }
 
 export const MannerTempEmote = React.forwardRef<unknown, MannerTempEmoteProps>((props, ref) => {
   const contextLevel = React.useContext(MannerTempLevelContext);
-  const { level = contextLevel ?? "l1", children: _children, className, ...nativeProps } = props;
+  const { level = contextLevel ?? "l1", className, ...nativeProps } = props;
   const classes = mannerTemp({ level });
 
   return (
     <image
-      {...mergeProps(ref ? { ref: ref as React.Ref<NodesRef> } : {}, nativeProps)}
-      src={emoteSources[level]}
-      mode="aspectFit"
-      accessibility-elements-hidden={true}
+      {...mergeProps(
+        {
+          src: emoteSources[level],
+          mode: "aspectFit",
+          "accessibility-elements-hidden": true,
+        } as const,
+        ref ? { ref: ref as React.Ref<NodesRef> } : {},
+        nativeProps,
+      )}
       className={clsx(classes.emote, className)}
     />
   );
@@ -65,7 +70,7 @@ function flattenMannerTempChildren(children: React.ReactNode): React.ReactNode[]
  * React와 같은 `level` variant와 `MannerTempEmote` 조합을 제공합니다.
  * HTML `<span>` 대신 native `<view>` / `<text>` / `<image>`를 렌더링합니다.
  */
-export interface MannerTempProps extends MannerTempVariantProps, LynxStyledElementProps {}
+export interface MannerTempProps extends MannerTempVariantProps, LynxHostProps<"view"> {}
 
 export const MannerTemp = React.forwardRef<unknown, MannerTempProps>((props, ref) => {
   const [variantProps, otherProps] = mannerTemp.splitVariantProps(props);

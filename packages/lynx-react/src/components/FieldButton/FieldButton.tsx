@@ -18,13 +18,7 @@ import clsx from "clsx";
 import { useScaleFeedback, type ScaleFeedbackTriggerProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import { toArray } from "../../utils/children";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxPressableProps, LynxTextRef, LynxViewRef } from "../../types";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
 interface StyledFieldButtonContextValue extends UseFieldButtonContext {
@@ -63,7 +57,7 @@ function useStyledFieldButtonContext(consumer: string): StyledFieldButtonContext
 export interface FieldButtonRootProps
   extends Omit<InputButtonVariantProps, "pressed">,
     Pick<UseFieldButtonProps, "values" | "onValuesChange">,
-    LynxStyledElementProps {}
+    Omit<LynxHostProps<"view">, keyof InputButtonVariantProps | keyof UseFieldButtonProps> {}
 
 export const FieldButtonRoot = React.forwardRef<NodesRef, FieldButtonRootProps>(
   (props, forwardedRef) => {
@@ -116,9 +110,8 @@ FieldButtonRoot.displayName = "FieldButtonRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonButtonProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
+    LynxPressableProps {}
 
 export const FieldButtonButton = React.forwardRef<unknown, FieldButtonButtonProps>((props, ref) => {
   const context = useStyledFieldButtonContext("FieldButton.Button");
@@ -178,7 +171,7 @@ function flattenFieldButtonChildren(children: React.ReactNode): React.ReactNode[
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonValueProps extends LynxStyledElementProps {}
+export interface FieldButtonValueProps extends LynxHostProps<"text"> {}
 
 export const FieldButtonValue = React.forwardRef<unknown, FieldButtonValueProps>((props, ref) => {
   const context = useStyledFieldButtonContext("FieldButton.Value");
@@ -198,7 +191,7 @@ export const FieldButtonValue = React.forwardRef<unknown, FieldButtonValueProps>
 });
 FieldButtonValue.displayName = "FieldButtonValue";
 
-export interface FieldButtonPlaceholderProps extends LynxStyledElementProps {}
+export interface FieldButtonPlaceholderProps extends LynxHostProps<"text"> {}
 
 export const FieldButtonPlaceholder = React.forwardRef<unknown, FieldButtonPlaceholderProps>(
   (props, ref) => {
@@ -222,7 +215,7 @@ FieldButtonPlaceholder.displayName = "FieldButtonPlaceholder";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonPrefixTextProps extends LynxStyledElementProps {}
+export interface FieldButtonPrefixTextProps extends LynxHostProps<"text"> {}
 
 export const FieldButtonPrefixText = React.forwardRef<unknown, FieldButtonPrefixTextProps>(
   (props, ref) => {
@@ -264,7 +257,7 @@ export const FieldButtonPrefixIcon = React.forwardRef<unknown, FieldButtonPrefix
 );
 FieldButtonPrefixIcon.displayName = "FieldButtonPrefixIcon";
 
-export interface FieldButtonSuffixTextProps extends LynxStyledElementProps {}
+export interface FieldButtonSuffixTextProps extends LynxHostProps<"text"> {}
 
 export const FieldButtonSuffixText = React.forwardRef<unknown, FieldButtonSuffixTextProps>(
   (props, ref) => {
@@ -308,10 +301,7 @@ FieldButtonSuffixIcon.displayName = "FieldButtonSuffixIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonClearButtonProps
-  extends InternalIconProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+export interface FieldButtonClearButtonProps extends InternalIconProps, LynxPressableProps {}
 
 export const FieldButtonClearButton = React.forwardRef<unknown, FieldButtonClearButtonProps>(
   (props, ref) => {
@@ -348,11 +338,11 @@ export const FieldButtonClearButton = React.forwardRef<unknown, FieldButtonClear
         className={clsx(classes.clearButton, className)}
         accessibility-label={accessibilityLabel}
         {...mergeProps(
+          { flatten: false },
           clearButtonProps,
           scaleFeedbackTriggerProps,
           scaleFeedbackTargetProps,
           otherProps,
-          { flatten: false },
         )}
       />
     );

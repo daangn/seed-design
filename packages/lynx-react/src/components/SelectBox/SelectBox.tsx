@@ -26,12 +26,7 @@ import {
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { ScaleFeedbackContentContext } from "../../contexts";
 
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
@@ -56,7 +51,7 @@ type PublicSelectBoxVariantProps = Omit<
   "selected" | "pressed" | "disabled" | "footerOpen"
 >;
 type SelectBoxAccessibilityStateProps = Pick<
-  LynxAccessibilityProps,
+  LynxHostProps<"view">,
   | "accessibility-element"
   | "accessibility-role-description"
   | "accessibility-traits"
@@ -99,20 +94,32 @@ function useFooterCollapsible(
   return footerVisibility === "always" ? null : collapsible;
 }
 
-interface SelectBoxSurfaceOptions extends LynxStyledElementProps {
+interface SelectBoxSurfaceOptions extends LynxHostProps<"view"> {
   ref: React.ForwardedRef<unknown>;
   variantProps: PublicSelectBoxVariantProps;
   state: SelectBoxStateContextValue;
   /** tap·Scale Feedback trigger handler. 선택 영역 전체를 덮는 interaction root에 붙습니다. */
   interactionProps: object;
   /** headless 접근성 기본값과 사용자 접근성 props. 선택 surface에 붙습니다. */
-  accessibilityProps: LynxAccessibilityProps;
+  accessibilityProps: SelectBoxAccessibilityStateProps;
   scaleFeedbackTargetProps: ScaleFeedbackTargetProps;
   footerCollapsible: UseCollapsibleReturn | null;
 }
 
 function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
-  const { ref, children, className, style, variantProps, state, footerCollapsible } = options;
+  const {
+    ref,
+    children,
+    className,
+    style,
+    variantProps,
+    state,
+    footerCollapsible,
+    accessibilityProps,
+    interactionProps,
+    scaleFeedbackTargetProps,
+    ...nativeProps
+  } = options;
   const classes = selectBox({
     ...variantProps,
     ...state,
@@ -134,16 +141,20 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
           }}
         >
           <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, options.interactionProps)}
+            {...interactionProps}
             className={selectBox(variantProps).interactionRoot}
             accessibility-element={false}
           >
             <view
+              {...mergeProps(
+                accessibilityProps,
+                nativeProps,
+                ref ? { ref: ref as LynxViewRef } : {},
+              )}
               className={clsx(classes.root, className)}
               style={style}
-              {...options.accessibilityProps}
             >
-              <view className={classes.scaleContent} {...options.scaleFeedbackTargetProps}>
+              <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
                 {footerCollapsible ? (
                   <CollapsibleProvider value={footerCollapsible}>{content}</CollapsibleProvider>
                 ) : (
@@ -161,7 +172,7 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectBoxGroupProps extends LynxStyledElementProps {
+export interface SelectBoxGroupProps extends LynxHostProps<"view"> {
   /**
    * 열 개수입니다. 2 이상이면 자식 Select Box의 기본 layout이 vertical이 됩니다.
    * @default 1
@@ -179,7 +190,7 @@ const SelectBoxGroup = React.forwardRef<unknown, SelectBoxGroupProps>((props, re
       <view
         {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
         className={clsx(classes, className)}
-        style={{ ...style, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+        style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, ...style }}
       >
         {children}
       </view>
@@ -198,8 +209,7 @@ export const RadioSelectBoxGroup = SelectBoxGroup;
 
 export interface CheckSelectBoxRootProps
   extends PublicSelectBoxVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps,
+    LynxHostProps<"view">,
     Pick<
       UseCheckboxProps,
       "checked" | "defaultChecked" | "indeterminate" | "disabled" | "onCheckedChange"
@@ -222,6 +232,8 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
       indeterminate,
       disabled,
       onCheckedChange,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
       footerVisibility = "when-selected",
       "accessibility-element": accessibilityElement,
       "accessibility-role-description": accessibilityRoleDescription,
@@ -229,21 +241,28 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
       "accessibility-value": accessibilityValue,
       ...restProps
     } = props;
-    const [variantProps, accessibilityProps] = selectBox.splitVariantProps(restProps);
+    const [variantProps, nativeProps] = selectBox.splitVariantProps(restProps);
     const api = useCheckbox({
       checked,
       defaultChecked,
       indeterminate,
       disabled,
       onCheckedChange,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
       "accessibility-element": accessibilityElement,
       "accessibility-role-description": accessibilityRoleDescription,
       "accessibility-traits": accessibilityTraits,
       "accessibility-value": accessibilityValue,
     });
     // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
-    const { bindtap, bindtouchstart, bindtouchend, bindtouchcancel, ...stateAccessibilityProps } =
-      api.rootProps;
+    const {
+      bindtap: handleTap,
+      bindtouchstart,
+      bindtouchend,
+      bindtouchcancel,
+      ...stateAccessibilityProps
+    } = api.rootProps;
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       disabled: api.disabled,
       onTouchStart: bindtouchstart,
@@ -266,8 +285,9 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
           style,
           variantProps: resolvedVariantProps,
           state,
-          interactionProps: mergeProps(scaleFeedbackTriggerProps, { bindtap }),
-          accessibilityProps: { ...stateAccessibilityProps, ...accessibilityProps },
+          interactionProps: mergeProps(scaleFeedbackTriggerProps, { bindtap: handleTap }),
+          accessibilityProps: stateAccessibilityProps,
+          ...nativeProps,
           scaleFeedbackTargetProps,
           footerCollapsible,
         })}
@@ -281,8 +301,7 @@ CheckSelectBoxRoot.displayName = "CheckSelectBoxRoot";
 
 export interface RadioSelectBoxItemProps
   extends PublicSelectBoxVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps,
+    LynxHostProps<"view">,
     Pick<UseRadioGroupItemProps, "value" | "disabled"> {
   /** @default "when-selected" */
   footerVisibility?: FooterVisibility;
@@ -300,6 +319,8 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       style,
       value,
       disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
       footerVisibility = "when-selected",
       "accessibility-element": accessibilityElement,
       "accessibility-role-description": accessibilityRoleDescription,
@@ -307,10 +328,12 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       "accessibility-value": accessibilityValue,
       ...restProps
     } = props;
-    const [variantProps, accessibilityProps] = selectBox.splitVariantProps(restProps);
+    const [variantProps, nativeProps] = selectBox.splitVariantProps(restProps);
     const api = useRadioGroupItem({
       value,
       disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
       "accessibility-element": accessibilityElement,
       "accessibility-role-description": accessibilityRoleDescription,
       "accessibility-traits": accessibilityTraits,
@@ -355,7 +378,8 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
           variantProps: resolvedVariantProps,
           state,
           interactionProps: mergeProps(scaleFeedbackTriggerProps, tapProps),
-          accessibilityProps: { ...stateAccessibilityProps, ...accessibilityProps },
+          accessibilityProps: stateAccessibilityProps,
+          ...nativeProps,
           scaleFeedbackTargetProps,
           footerCollapsible,
         })}
@@ -368,7 +392,7 @@ RadioSelectBoxItem.displayName = "RadioSelectBoxItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 function createViewSlot(displayName: string, slot: keyof ReturnType<typeof selectBox>) {
-  const Component = React.forwardRef<unknown, LynxStyledElementProps>((props, ref) => {
+  const Component = React.forwardRef<unknown, LynxHostProps<"view">>((props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useClassNames();
 
@@ -386,7 +410,7 @@ function createViewSlot(displayName: string, slot: keyof ReturnType<typeof selec
 }
 
 function createTextSlot(displayName: string, slot: keyof ReturnType<typeof selectBox>) {
-  const Component = React.forwardRef<unknown, LynxStyledElementProps>((props, ref) => {
+  const Component = React.forwardRef<unknown, LynxHostProps<"text">>((props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useClassNames();
 
@@ -404,7 +428,7 @@ function createTextSlot(displayName: string, slot: keyof ReturnType<typeof selec
 }
 
 function createLabelSlot(displayName: string) {
-  const Component = React.forwardRef<unknown, LynxStyledElementProps>((props, ref) => {
+  const Component = React.forwardRef<unknown, LynxHostProps<"view">>((props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useClassNames();
     const labelChildren =
@@ -427,38 +451,38 @@ function createLabelSlot(displayName: string) {
   return Component;
 }
 
-export interface CheckSelectBoxTriggerProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxTriggerProps extends LynxHostProps<"view"> {}
 export const CheckSelectBoxTrigger = createViewSlot("CheckSelectBoxTrigger", "trigger");
-export interface CheckSelectBoxContentProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxContentProps extends LynxHostProps<"view"> {}
 export const CheckSelectBoxContent = createViewSlot("CheckSelectBoxContent", "content");
-export interface CheckSelectBoxBodyProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxBodyProps extends LynxHostProps<"view"> {}
 export const CheckSelectBoxBody = createViewSlot("CheckSelectBoxBody", "body");
-export interface CheckSelectBoxLabelProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxLabelProps extends LynxHostProps<"view"> {}
 export const CheckSelectBoxLabel = createLabelSlot("CheckSelectBoxLabel");
-export interface CheckSelectBoxDescriptionProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxDescriptionProps extends LynxHostProps<"text"> {}
 export const CheckSelectBoxDescription = createTextSlot("CheckSelectBoxDescription", "description");
 
-export interface RadioSelectBoxTriggerProps extends LynxStyledElementProps {}
+export interface RadioSelectBoxTriggerProps extends LynxHostProps<"view"> {}
 export const RadioSelectBoxTrigger = createViewSlot("RadioSelectBoxTrigger", "trigger");
-export interface RadioSelectBoxContentProps extends LynxStyledElementProps {}
+export interface RadioSelectBoxContentProps extends LynxHostProps<"view"> {}
 export const RadioSelectBoxContent = createViewSlot("RadioSelectBoxContent", "content");
-export interface RadioSelectBoxBodyProps extends LynxStyledElementProps {}
+export interface RadioSelectBoxBodyProps extends LynxHostProps<"view"> {}
 export const RadioSelectBoxBody = createViewSlot("RadioSelectBoxBody", "body");
-export interface RadioSelectBoxLabelProps extends LynxStyledElementProps {}
+export interface RadioSelectBoxLabelProps extends LynxHostProps<"view"> {}
 export const RadioSelectBoxLabel = createLabelSlot("RadioSelectBoxLabel");
-export interface RadioSelectBoxDescriptionProps extends LynxStyledElementProps {}
+export interface RadioSelectBoxDescriptionProps extends LynxHostProps<"text"> {}
 export const RadioSelectBoxDescription = createTextSlot("RadioSelectBoxDescription", "description");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectBoxFooterProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface SelectBoxFooterProps extends LynxHostProps<"view"> {}
 
 const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, ref) => {
   const {
     children,
     className,
     style,
-    "accessibility-elements-hidden": accessibilityElementsHidden = false,
+    "accessibility-elements-hidden": accessibilityElementsHidden,
     ...nativeProps
   } = props;
   const classes = useClassNames();
@@ -467,13 +491,17 @@ const SelectBoxFooter = React.forwardRef<unknown, SelectBoxFooterProps>((props, 
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        {
+          style: collapsible ? collapsible.contentProps.style : { height: "auto" },
+          "accessibility-elements-hidden":
+            collapsible?.contentProps["accessibility-elements-hidden"] ?? false,
+        },
+        { style, "accessibility-elements-hidden": accessibilityElementsHidden },
+        nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+      )}
       className={clsx(classes.footer, className)}
-      style={{ ...style, ...(collapsible ? collapsible.contentProps.style : { height: "auto" }) }}
-      accessibility-elements-hidden={
-        (collapsible?.contentProps["accessibility-elements-hidden"] ?? false) ||
-        accessibilityElementsHidden
-      }
     >
       <view className={classes.footerInner} {...collapsible?.contentInnerProps}>
         {children}
@@ -497,7 +525,7 @@ interface SelectBoxCheckmarkContextValue {
 
 const SelectBoxCheckmarkContext = React.createContext<SelectBoxCheckmarkContextValue | null>(null);
 
-export interface CheckSelectBoxCheckmarkControlProps extends LynxStyledElementProps {}
+export interface CheckSelectBoxCheckmarkControlProps extends LynxHostProps<"view"> {}
 
 export const CheckSelectBoxCheckmarkControl = React.forwardRef<
   unknown,
@@ -515,9 +543,12 @@ export const CheckSelectBoxCheckmarkControl = React.forwardRef<
   return (
     <SelectBoxCheckmarkContext.Provider value={{ iconClassName: classes.icon, variantProps }}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
         className={clsx(classes.root, className)}
-        accessibility-elements-hidden={true}
       >
         {children}
       </view>
@@ -542,7 +573,7 @@ export const CheckSelectBoxCheckmarkIcon = React.forwardRef<
 
   return (
     <InternalIcon
-      {...mergeProps({ ref }, otherProps)}
+      {...mergeProps(ref ? { ref } : {}, otherProps)}
       className={clsx(context.iconClassName, className)}
       deps={[
         context.variantProps.selected,

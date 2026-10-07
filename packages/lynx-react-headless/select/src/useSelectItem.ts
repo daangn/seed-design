@@ -154,7 +154,7 @@ export function useSelectItem(props: UseSelectItemProps): UseSelectItemReturn {
   }, [registerItem, unregisterItem, label, nodeAttached, icon, textValue, value]);
   const resolvedLabel = accessibilityLabel ?? textValue;
   const resolvedValue = accessibilityValue ?? (selected ? "selected" : "not selected");
-  const traits = disabled ? "disabled" : accessibilityTraits;
+  const traits = accessibilityTraits ?? (disabled ? "disabled" : undefined);
   const rootProps = useMemo<SelectItemRootProps>(
     () => ({
       "accessibility-element": accessibilityElement,

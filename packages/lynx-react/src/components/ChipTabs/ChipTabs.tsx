@@ -17,7 +17,7 @@ import clsx from "clsx";
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/lynx-css/recipes/chip-tabs";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { HStack } from "../Stack";
@@ -48,7 +48,7 @@ function useChipTabsVariantProps(consumer: string): ChipTabsVariantProps {
  * - 키보드 포커스와 roving tabindex
  */
 export interface ChipTabsRootProps
-  extends LynxStyledElementProps,
+  extends LynxHostProps<"view">,
     ChipTabsPublicVariantProps,
     Pick<UseTabsProps, "value" | "defaultValue" | "onValueChange"> {}
 
@@ -81,8 +81,8 @@ ChipTabsRoot.displayName = "ChipTabsRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipTabsListProps
-  extends LynxStyledElementProps,
-    Omit<HeadlessTabsListProps, keyof LynxStyledElementProps | "listContentProps" | "scrollAlign"> {
+  extends LynxHostProps<"scroll-view">,
+    Pick<HeadlessTabsListProps, "scrollAlign"> {
   /** 선택한 chip을 목록 안에서 정렬할 방식입니다. @defaultValue "nearest" */
   scrollAlign?: HeadlessTabsListProps["scrollAlign"];
 }
@@ -110,11 +110,10 @@ ChipTabsList.displayName = "ChipTabsList";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-// Keep the scale target's Android View even if shared props later expose flatten.
 /** Native text label and optional inline notification slot을 갖는 chip trigger입니다. */
 export interface ChipTabsTriggerProps
-  extends Omit<LynxStyledElementProps, "children" | "flatten">,
-    Pick<UseTabsTriggerProps, "value" | "disabled" | "bindtap" | "accessibility-label"> {
+  extends Omit<LynxHostProps<"view">, "children">,
+    Pick<UseTabsTriggerProps, "value" | "disabled"> {
   children: string | number;
   notification?: React.ReactNode;
 }
@@ -128,6 +127,7 @@ export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((
     value: triggerValue,
     disabled = false,
     bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     "accessibility-label": accessibilityLabel,
     ...nativeProps
   } = props;
@@ -137,6 +137,7 @@ export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((
     value: triggerValue,
     disabled,
     bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
     children,
     "accessibility-label": accessibilityLabel,
   });
@@ -157,18 +158,13 @@ export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((
   return (
     <view
       {...mergeProps(
+        { flatten: false },
         api.triggerProps,
         ref ? { ref: ref as LynxViewRef } : {},
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         nativeProps,
       )}
-      flatten={false}
-      accessibility-element={true}
-      accessibility-role-description="tab"
-      accessibility-label={api.triggerProps["accessibility-label"]}
-      accessibility-value={api.triggerProps["accessibility-value"]}
-      accessibility-traits={api.triggerProps["accessibility-traits"]}
       className={clsx(classNames.trigger, className)}
       style={style}
     >
@@ -187,7 +183,7 @@ ChipTabsTrigger.displayName = "ChipTabsTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ChipTabsContentProps extends LynxStyledElementProps, UseTabsContentProps {}
+export interface ChipTabsContentProps extends LynxHostProps<"view">, UseTabsContentProps {}
 
 export const ChipTabsContent = React.forwardRef<unknown, ChipTabsContentProps>((props, ref) => {
   const { children, className, style, value: contentValue, ...nativeProps } = props;
@@ -201,8 +197,7 @@ export const ChipTabsContent = React.forwardRef<unknown, ChipTabsContentProps>((
   });
   const content = (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      {...api.contentProps}
+      {...mergeProps(api.contentProps, nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
       className={clsx(classNames.content, className)}
       style={style}
     >
@@ -225,7 +220,7 @@ ChipTabsContent.displayName = "ChipTabsContent";
  * native viewpager를 사용하므로 웹의 `loop`, `autoHeight`, `dragThreshold`,
  * `carouselPreventDrag`는 지원하지 않습니다.
  */
-export interface ChipTabsCarouselProps extends LynxStyledElementProps, UseTabsCarouselProps {}
+export interface ChipTabsCarouselProps extends LynxHostProps<"view">, UseTabsCarouselProps {}
 
 export const ChipTabsCarousel = React.forwardRef<unknown, ChipTabsCarouselProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -246,7 +241,7 @@ ChipTabsCarousel.displayName = "ChipTabsCarousel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipTabsCarouselCameraProps
-  extends LynxStyledElementProps,
+  extends LynxHostProps<"viewpager">,
     UseTabsCarouselCameraProps {}
 
 export const ChipTabsCarouselCamera = React.forwardRef<unknown, ChipTabsCarouselCameraProps>(

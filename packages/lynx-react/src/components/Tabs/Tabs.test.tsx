@@ -79,6 +79,68 @@ describe("Tabs", () => {
     expect(listContent).not.toBeNull();
     expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
   });
+  it("lets user scroll props win while keeping the internal scroll state updated", async () => {
+    measurement.enabled = true;
+    const bindscroll = vi.fn();
+    const offsets: number[] = [];
+    const globals: unknown = lynxTestingEnv.backgroundThread.globalThis;
+    if (!globals || typeof globals !== "object" || !("lynx" in globals)) {
+      throw new Error("Expected background runtime.");
+    }
+    const runtime = {
+      lynx: globals.lynx as {
+        createSelectorQuery: () => {
+          select: (selector: string) => {
+            invoke: (options: uiMethodOptions) => { exec: () => void };
+          };
+        };
+      },
+    };
+    const createSelectorQuery = runtime.lynx.createSelectorQuery;
+    vi.spyOn(runtime.lynx, "createSelectorQuery").mockImplementation(() => {
+      const query = createSelectorQuery();
+      const select = query.select.bind(query);
+      query.select = (selector) => {
+        const node = select(selector);
+        node.invoke = (options) => ({
+          exec() {
+            if (options.method === "scrollTo") offsets.push(Number(options.params?.["offset"]));
+          },
+        });
+        return node;
+      };
+      return query;
+    });
+    function Subject({ value }: { value: string }) {
+      return (
+        <Tabs.Root value={value}>
+          <Tabs.List bindscroll={bindscroll} scroll-bar-enable>
+            <Tabs.Trigger value="one">one</Tabs.Trigger>
+            <Tabs.Trigger value="two">two</Tabs.Trigger>
+          </Tabs.List>
+        </Tabs.Root>
+      );
+    }
+    const { container, rerender } = render(<Subject value="one" />);
+    const list = container.querySelector("scroll-view")!;
+    const content = list.firstElementChild!;
+    expect(list).toHaveAttribute("scroll-bar-enable");
+    await act(async () => {
+      fireNativeEvent(list, "layoutchange", { width: 100 });
+      fireNativeEvent(content, "layoutchange", { width: 200 });
+      for (const trigger of container.querySelectorAll('[accessibility-role-description="tab"]')) {
+        fireNativeEvent(trigger, "layoutchange", { width: 100 });
+      }
+      fireNativeEvent(list, "scroll", { scrollLeft: 40, scrollWidth: 200 });
+      await Promise.resolve();
+    });
+    expect(bindscroll).toHaveBeenCalledOnce();
+    await act(async () => {
+      rerender(<Subject value="two" />);
+      await Promise.resolve();
+    });
+    expect(offsets).toContain(100);
+  });
 
   it("keeps visible ChipTabs chips still by default and forwards native scrolling options", async () => {
     measurement.enabled = true;

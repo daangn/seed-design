@@ -11,13 +11,7 @@ import {
 
 import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import {
   IconRequired,
@@ -35,11 +29,7 @@ type ChipPublicVariantProps = Omit<ChipVariantProps, "selected" | "pressed">;
 
 interface ChipRootViewProps
   extends ChipVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    Omit<LynxHostProps<"view">, keyof ChipVariantProps> {}
 
 const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) => {
   const [variantProps, otherProps] = chip.splitVariantProps(props);
@@ -103,10 +93,7 @@ ChipRootView.displayName = "ChipRootView";
  */
 export interface ChipButtonProps
   extends ChipPublicVariantProps,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"view">, keyof ChipPublicVariantProps> {
   disabled?: boolean;
 }
 
@@ -115,9 +102,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
-    "accessibility-traits": accessibilityTraits,
+    children,
     ...restProps
   } = props;
   const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
@@ -135,20 +120,24 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        {
+          disabled,
+          selected: false,
+          pressed,
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-role-description": "button",
+          "accessibility-traits": disabled ? ("disabled" as const) : undefined,
+        },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         pressHandlers,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={disabled}
-      selected={false}
-      pressed={pressed}
-      accessibility-element={accessibilityElement}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipButton.displayName = "ChipButton";
@@ -181,6 +170,7 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    children,
     ...restProps
   } = props;
   const api = useCheckbox({
@@ -207,17 +197,16 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        { disabled, selected: api.checked, pressed: api.pressed, flatten: false },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         rootProps,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={disabled}
-      selected={api.checked}
-      pressed={api.pressed}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipToggle.displayName = "ChipToggle";
@@ -236,14 +225,13 @@ ChipToggle.displayName = "ChipToggle";
  */
 export interface ChipRadioRootProps
   extends Omit<UseRadioGroupProps, "invalid">,
-    LynxStyledElementProps,
-    Omit<LynxAccessibilityProps, keyof UseRadioGroupProps> {}
+    Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
 
 export const ChipRadioRoot = React.forwardRef<unknown, ChipRadioRootProps>((props, ref) => {
   const { children, ...otherProps } = props;
 
   return (
-    <HeadlessRadioGroupRoot ref={ref} {...otherProps}>
+    <HeadlessRadioGroupRoot {...(ref ? { ref } : {})} {...otherProps}>
       {children}
     </HeadlessRadioGroupRoot>
   );
@@ -274,6 +262,7 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    children,
     ...restProps
   } = props;
   const api = useRadioGroupItem({
@@ -298,24 +287,23 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        { disabled: api.disabled, selected: api.checked, pressed: api.pressed, flatten: false },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         itemProps,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={api.disabled}
-      selected={api.checked}
-      pressed={api.pressed}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipRadioItem.displayName = "ChipRadioItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ChipLabelProps extends LynxStyledElementProps {}
+export interface ChipLabelProps extends LynxHostProps<"text"> {}
 
 export const ChipLabel = React.forwardRef<unknown, ChipLabelProps>((props, ref) => {
   const classes = useClassNames();
@@ -335,11 +323,11 @@ ChipLabel.displayName = "ChipLabel";
 export interface ChipPrefixIconProps extends PrefixIconProps {}
 
 export const ChipPrefixIcon = React.forwardRef<unknown, ChipPrefixIconProps>((props, ref) => (
-  <PrefixIcon {...mergeProps({ ref }, props)} />
+  <PrefixIcon {...mergeProps(props, ref ? { ref } : {})} />
 ));
 ChipPrefixIcon.displayName = "ChipPrefixIcon";
 
-export interface ChipPrefixAvatarProps extends LynxStyledElementProps {}
+export interface ChipPrefixAvatarProps extends LynxHostProps<"view"> {}
 
 export const ChipPrefixAvatar = React.forwardRef<unknown, ChipPrefixAvatarProps>((props, ref) => {
   const classes = useClassNames();
@@ -359,6 +347,6 @@ ChipPrefixAvatar.displayName = "ChipPrefixAvatar";
 export interface ChipSuffixIconProps extends SuffixIconProps {}
 
 export const ChipSuffixIcon = React.forwardRef<unknown, ChipSuffixIconProps>((props, ref) => (
-  <SuffixIcon {...mergeProps({ ref }, props)} />
+  <SuffixIcon {...mergeProps(props, ref ? { ref } : {})} />
 ));
 ChipSuffixIcon.displayName = "ChipSuffixIcon";

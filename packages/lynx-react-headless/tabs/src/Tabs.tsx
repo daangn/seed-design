@@ -33,15 +33,7 @@ TabsRoot.displayName = "TabsRoot";
 
 export interface TabsListProps
   extends UseTabsListProps,
-    Omit<
-      ScrollViewProps,
-      | keyof UseTabsListProps
-      | "scroll-orientation"
-      | "scroll-bar-enable"
-      | "bindlayoutchange"
-      | "bindscroll"
-      | "bindcontentsizechanged"
-    > {
+    Omit<ScrollViewProps, keyof UseTabsListProps> {
   listContentProps?: ViewProps;
 }
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
@@ -59,10 +51,6 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
   return (
     <scroll-view
       {...mergeNativeProps<ScrollViewProps>({ ...api.listProps, ref: mergedRef }, nativeProps)}
-      scroll-orientation="horizontal"
-      scroll-bar-enable={false}
-      accessibility-element={false}
-      accessibility-traits="tabbar"
     >
       <view {...mergeNativeProps<ViewProps>(api.listContentProps, contentNativeProps)}>
         {contentChildren ?? children}
@@ -103,6 +91,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     <TabsTriggerProvider value={api}>
       <view
         {...mergeNativeProps<ViewProps>(
+          { flatten: false },
           {
             ...api.triggerProps,
             bindtouchstart: api.bindtouchstart,
@@ -112,11 +101,6 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
           ref ? { ref: ref as ViewProps["ref"] } : {},
           nativeProps,
         )}
-        accessibility-element={true}
-        accessibility-role-description="tab"
-        accessibility-label={api.triggerProps["accessibility-label"]}
-        accessibility-value={api.triggerProps["accessibility-value"]}
-        accessibility-traits={api.triggerProps["accessibility-traits"]}
       >
         {children}
       </view>
@@ -136,11 +120,11 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   return (
     <view
       {...mergeNativeProps<ViewProps>(
+        { "accessibility-elements-hidden": true },
         api.indicatorProps,
         ref ? { ref: ref as ViewProps["ref"] } : {},
         nativeProps,
       )}
-      accessibility-elements-hidden={true}
       style={indicatorStyle}
     >
       {children}
@@ -156,7 +140,13 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
   const { children, value, ...nativeProps } = props;
   const api = useTabsContent({ value });
   const content = (
-    <view {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...api.contentProps}>
+    <view
+      {...mergeNativeProps<ViewProps>(
+        api.contentProps,
+        nativeProps,
+        ref ? { ref: ref as ViewProps["ref"] } : {},
+      )}
+    >
       {children}
     </view>
   );
@@ -216,9 +206,6 @@ export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraPr
     return (
       <viewpager
         {...mergeNativeProps<ViewPagerProps>({ ...api.cameraProps, ref: mergedRef }, nativeProps)}
-        initial-select-index={api.cameraProps["initial-select-index"]}
-        enable-scroll={api.cameraProps["enable-scroll"]}
-        ios-gesture-offset={api.cameraProps["ios-gesture-offset"]}
       >
         <TabsCarouselCameraProvider value={true}>{children}</TabsCarouselCameraProvider>
       </viewpager>

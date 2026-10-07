@@ -109,13 +109,23 @@ describe("IdentityPlaceholder", () => {
     expect(() => render(<IdentityPlaceholderImage />)).toThrow();
   });
 
-  it("exposes only styled props on Root and keeps src, mode and children owned by Image", () => {
-    expectTypeOf<keyof IdentityPlaceholderRootProps>().toEqualTypeOf<
-      "identity" | "children" | "className" | "style"
-    >();
-    expectTypeOf<IdentityPlaceholderImageProps>().not.toHaveProperty("src");
-    expectTypeOf<IdentityPlaceholderImageProps>().not.toHaveProperty("mode");
+  it("exposes native hosts on Root and Image while Image keeps children unsupported", () => {
+    expectTypeOf<IdentityPlaceholderRootProps>().toHaveProperty("bindtap");
+    expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("src");
+    expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("mode");
     expectTypeOf<IdentityPlaceholderImageProps>().not.toHaveProperty("children");
     expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("accessibility-label");
+  });
+
+  it("lets native image props override identity defaults", () => {
+    render(
+      <IdentityPlaceholderRoot identity="business">
+        <IdentityPlaceholderImage src="custom.webp" mode="aspectFill" />
+      </IdentityPlaceholderRoot>,
+    );
+
+    const { image } = getPlaceholder();
+    expect(image).toHaveAttribute("src", "custom.webp");
+    expect(image).toHaveAttribute("mode", "aspectFill");
   });
 });

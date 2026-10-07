@@ -3,6 +3,7 @@ export {
   ProgressCircleRoot,
   ProgressCircleTrack,
   type ProgressCircleRootProps,
+  type ProgressCircleRangeProps,
   type ProgressCircleRootProps as ProgressCircleProps,
   type ProgressCircleTrackProps,
   type RootProps,

@@ -31,10 +31,8 @@ import {
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
+  LynxHostProps,
   LynxIconElementProps,
-  LynxStyledElementProps,
   LynxTextRef,
   LynxViewProps,
   LynxViewRef,
@@ -134,7 +132,7 @@ function renderTextContent(
   className: string,
   value: React.ReactNode,
   ref: React.ForwardedRef<unknown>,
-  nativeProps: Omit<LynxStyledElementProps, "children" | "className">,
+  nativeProps: Omit<LynxHostProps<"view">, "children" | "className">,
 ) {
   if (typeof value === "string" || typeof value === "number") {
     return (
@@ -174,7 +172,7 @@ export interface SelectRootProps
   extends SelectPublicVariantProps,
     SelectTriggerPublicVariantProps,
     SelectItemPublicVariantProps,
-    LynxStyledElementProps,
+    LynxHostProps<"view">,
     UseSelectProps {}
 
 export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref) => {
@@ -256,11 +254,7 @@ SelectRoot.displayName = "SelectRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectTriggerProps
-  extends SelectTriggerPublicVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+export interface SelectTriggerProps extends SelectTriggerPublicVariantProps, LynxHostProps<"view"> {
   placeholder?: React.ReactNode;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
@@ -311,7 +305,7 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
     <view
       ref={trigger.rootRef as LynxViewRef}
       className={clsx(classes.root, className)}
-      {...mergeProps(nativeProps, scaleFeedbackTriggerProps, rootProps)}
+      {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
       <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -331,7 +325,7 @@ SelectTrigger.displayName = "SelectTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectValueProps extends LynxStyledElementProps {}
+export interface SelectValueProps extends LynxHostProps<"view"> {}
 
 export const SelectValue = React.forwardRef<unknown, SelectValueProps>((props, ref) => {
   const { className, ...valueProps } = props;
@@ -346,7 +340,7 @@ export const SelectValue = React.forwardRef<unknown, SelectValueProps>((props, r
 });
 SelectValue.displayName = "SelectValue";
 
-export interface SelectPlaceholderProps extends LynxStyledElementProps {}
+export interface SelectPlaceholderProps extends LynxHostProps<"view"> {}
 
 export const SelectPlaceholder = React.forwardRef<unknown, SelectPlaceholderProps>((props, ref) => {
   const { className, ...placeholderProps } = props;
@@ -421,7 +415,7 @@ SelectSuffixIcon.displayName = "SelectSuffixIcon";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectPositionerProps
-  extends LynxStyledElementProps,
+  extends LynxHostProps<"view">,
     Pick<SelectPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
@@ -445,7 +439,7 @@ SelectPositioner.displayName = "SelectPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectContentProps extends LynxStyledElementProps {}
+export interface SelectContentProps extends LynxHostProps<"view"> {}
 
 /**
  * 위치를 계산해 표시하는 목록 표면입니다. `SelectPositioner` 안에 두고, 항목은 `SelectScrollArea` 안에 둡니다.
@@ -464,11 +458,9 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
 
   return (
     <SelectContentPrimitive
-      {...(ref ? { ref } : {})}
-      {...contentProps}
+      {...mergeProps({ bindtransitionend: handleTransitionEnd }, contentProps, ref ? { ref } : {})}
       maxHeight={selectMaxHeight}
       className={clsx(classes.content, className)}
-      bindtransitionend={handleTransitionEnd}
     />
   );
 });
@@ -477,7 +469,7 @@ SelectContent.displayName = "SelectContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 /** `SelectContent` 안에서 목록을 세로로 스크롤하는 viewport입니다. 그룹 사이에 구분선을 넣습니다. */
-export interface SelectScrollAreaProps extends LynxStyledElementProps {}
+export interface SelectScrollAreaProps extends LynxHostProps<"scroll-view"> {}
 
 export const SelectScrollArea = React.forwardRef<unknown, SelectScrollAreaProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -506,7 +498,7 @@ SelectScrollArea.displayName = "SelectScrollArea";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectGroupProps extends LynxStyledElementProps {}
+export interface SelectGroupProps extends LynxHostProps<"view"> {}
 
 export const SelectGroup = React.forwardRef<unknown, SelectGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -527,7 +519,7 @@ export const SelectGroup = React.forwardRef<unknown, SelectGroupProps>((props, r
 });
 SelectGroup.displayName = "SelectGroup";
 
-export interface SelectGroupLabelProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface SelectGroupLabelProps extends LynxHostProps<"text"> {}
 
 export const SelectGroupLabel = React.forwardRef<unknown, SelectGroupLabelProps>((props, ref) => {
   const { className, ...labelProps } = props;
@@ -544,11 +536,7 @@ SelectGroupLabel.displayName = "SelectGroupLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SelectItemProps
-  extends SelectItemPublicVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+export interface SelectItemProps extends SelectItemPublicVariantProps, LynxHostProps<"view"> {
   value: string;
   label?: React.ReactNode;
   textValue?: string;
@@ -615,7 +603,7 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         <view
           ref={api.rootRef as LynxViewRef}
           className={clsx(classes.root, className)}
-          {...mergeProps(nativeProps, scaleFeedbackTriggerProps, rootProps)}
+          {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -653,7 +641,7 @@ export const SelectItemPrefixIcon = React.forwardRef<unknown, SelectItemPrefixIc
 );
 SelectItemPrefixIcon.displayName = "SelectItemPrefixIcon";
 
-export interface SelectItemBodyProps extends LynxStyledElementProps {}
+export interface SelectItemBodyProps extends LynxHostProps<"view"> {}
 
 export const SelectItemBody = React.forwardRef<unknown, SelectItemBodyProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -670,7 +658,7 @@ export const SelectItemBody = React.forwardRef<unknown, SelectItemBodyProps>((pr
 });
 SelectItemBody.displayName = "SelectItemBody";
 
-export interface SelectItemLabelProps extends LynxStyledElementProps {}
+export interface SelectItemLabelProps extends LynxHostProps<"view"> {}
 
 export const SelectItemLabel = React.forwardRef<unknown, SelectItemLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -680,7 +668,7 @@ export const SelectItemLabel = React.forwardRef<unknown, SelectItemLabelProps>((
 });
 SelectItemLabel.displayName = "SelectItemLabel";
 
-export interface SelectItemDescriptionProps extends LynxStyledElementProps {}
+export interface SelectItemDescriptionProps extends LynxHostProps<"view"> {}
 
 export const SelectItemDescription = React.forwardRef<unknown, SelectItemDescriptionProps>(
   (props, ref) => {
