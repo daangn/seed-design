@@ -119,7 +119,7 @@
                 "minHeight": {
                   "type": "dimension",
                   "value": {
-                    "value": 44,
+                    "value": 56,
                     "unit": "px"
                   }
                 },
