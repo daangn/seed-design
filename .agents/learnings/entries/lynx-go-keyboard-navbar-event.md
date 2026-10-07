@@ -12,6 +12,7 @@ verified_at: "2026-10-06"
 ## 교훈과 다음 행동
 
 - Lynx Go는 LynxView를 3버튼 내비게이션 바 아래까지 그린다. 키보드를 열기 전과 닫은 뒤의 `keyboardstatuschanged`는 `"off"` 대신 `["on", 48]`처럼 바가 가린 높이로 온다. KeyboardAvoidingScrollView Footer는 이 높이만큼 올라가 바 바로 위에 붙는다 → Footer가 떠 보여도 결함으로 판정하지 않는다.
+- 이 이벤트는 화면 진입 뒤 컴포넌트의 첫 측정보다 늦게 올 수 있다. "첫 평가가 끝난 다음 업데이트에서 transition을 켠다"는 gate만으로는 진입 때 Footer가 48dp 미끄러져 올라온다 → 사용자 입력(focus) 전의 이동은 첫 위치로 보고 transition 없이 놓는다.
 - 판정: 내비게이션 바 상단은 `adb shell dumpsys window`의 `type=navigationBars frame=[…]` top이다. Footer bottom(`boundingClientRect`, `relativeTo: "screen"`, `androidEnableTransformProps: true`)에 dp 배율을 곱한 값이 이 top과 같으면 정상이다. 키보드가 열렸을 때는 page root bottom − 이벤트 height가 키보드 상단이다.
 - 이벤트 기록은 `agent-lynx evaluate`로 `lynx.getJSModule("GlobalEventEmitter").addListener("keyboardstatuschanged", (status, height) => …)`를 걸어 전역 배열에 모은다. 컴포넌트가 먼저 구독하면 화면 진입 때 온 이벤트는 기록되지 않는다 → 진입 상태는 Footer 좌표와 `adb logcat`의 `showSoftInput` 유무로 판단한다.
 - 키보드는 Lynx view 밖에 그려지므로 화면 증거는 `adb shell screencap`이나 `adb shell screenrecord`로 받는다. focus는 `adb shell input tap`(실제 터치)으로 열고, 키보드가 열린 동안의 `KEYCODE_BACK`으로 닫는다. 키보드가 닫힌 상태의 `KEYCODE_BACK`은 Card를 닫는다(`lynx-go-android-real-touch`).
@@ -29,3 +30,4 @@ verified_at: "2026-10-06"
 
 - 2026-10-06: KeyboardAvoidingScrollView Footer 기기 검증에서 기록했다.
 - 2026-10-06: 재검증에서 48dp가 내비게이션 바가 가린 높이이고 Footer가 바 바로 위에 붙는 것을 확인했다. 결함 판정 기준을 바 상단 비교로 고쳤다.
+- 2026-10-07: 사용자가 녹화한 Lynx Go 진입 화면에서 첫 평가 gate 뒤에도 Footer가 약 0.33s 동안 48dp 올라오는 것을 확인했다. focus 전 이동을 transition 없이 놓는 기준을 추가했다.
