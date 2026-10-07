@@ -447,6 +447,29 @@
     {
       "snippets": [
         {
+          "path": "pull-to-refresh.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": ">=0.11.0 <1.0.0",
+            "@seed-design/lynx-css": ">=0.15.0 <1.0.0"
+          }
+        }
+      ],
+      "id": "pull-to-refresh",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "quantity-picker.tsx",
           "dependencies": {
             "@seed-design/lynx-react": ">=0.8.0 <1.0.0",

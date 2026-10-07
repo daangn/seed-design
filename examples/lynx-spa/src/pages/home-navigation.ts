@@ -40,6 +40,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
       { page: "page-banner-headless", title: "PageBanner (Headless)" },
       { page: "progress-circle", title: "ProgressCircle" },
       { page: "progress-circle-headless", title: "ProgressCircle (Headless)" },
+      { page: "pull-to-refresh-headless", title: "PullToRefresh (Headless)" },
       { page: "radio-group", title: "RadioGroup" },
       { page: "radio-group-headless", title: "RadioGroup (Headless)" },
       { page: "select-headless", title: "Select (Headless)" },
