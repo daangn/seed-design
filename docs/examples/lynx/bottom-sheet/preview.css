@@ -3,12 +3,6 @@
   font-size: 14px;
 }
 
-.bottom-sheet-preview__body {
-  display: flex;
-  min-height: 160px;
-  justify-content: center;
-}
-
 .bottom-sheet-preview__body-text {
   color: var(--seed-color-fg-neutral);
   font-size: 16px;
