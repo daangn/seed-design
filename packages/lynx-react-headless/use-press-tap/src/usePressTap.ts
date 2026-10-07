@@ -1,4 +1,4 @@
-import { runOnBackground, useEffect, useState } from "@lynx-js/react";
+import { runOnBackground, useEffect, useMemo, useState } from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import type { BaseTouchEvent, EventHandler, IntrinsicElements, Target } from "@lynx-js/types";
 
@@ -43,7 +43,9 @@ export interface UsePressTapReturn {
  * - Tracks `pressed` state via touch events.
  * - When `disabled` is true, the element cannot become active and no tap fires.
  * - If the element becomes disabled during a press, the active state is cleared.
- * - `main-thread:bindtap` is conditionally included (only when enabled and provided).
+ * - `main-thread:bindtap` is included only when `mainThreadOnTap` is provided. It stays bound while
+ *   disabled and skips the consumer handler, because ReactLynx re-registers a removed Main Thread
+ *   handler as an empty worklet instead of unbinding it.
  * - `main-thread:bindtouch*` is included only when the matching consumer handler is provided.
  *   It runs the consumer handler first, then forwards the press state update to Background.
  */
@@ -80,13 +82,25 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
     onTap?.(...args);
   });
 
+  const mainThreadTap = useMemo<MainThreadBindtap>(
+    () =>
+      mainThreadOnTap
+        ? (event) => {
+            "main thread";
+            if (disabled) return;
+            mainThreadOnTap(event);
+          }
+        : undefined,
+    [disabled, mainThreadOnTap],
+  );
+
   const result: UsePressTapReturn = {
     pressed: !disabled && pressed,
     bindtap: handleTap,
     bindtouchstart: press,
     bindtouchend: reset,
     bindtouchcancel: reset,
-    ...(!disabled && mainThreadOnTap ? { "main-thread:bindtap": mainThreadOnTap } : {}),
+    ...(mainThreadTap ? { "main-thread:bindtap": mainThreadTap } : {}),
   };
 
   if (mainThreadOnTouchStart) {
