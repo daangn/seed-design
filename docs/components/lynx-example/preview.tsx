@@ -4,6 +4,7 @@ import { useTheme } from "@/hooks/useTheme";
 import type { LynxViewElement } from "@lynx-js/web-core/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  configureLynxView,
   getLynxErrorMessage,
   getLynxPreviewSizing,
   initializeLynxView,
@@ -14,7 +15,15 @@ import {
 const INITIALIZE_MARGIN = "200px";
 const LOAD_TIMEOUT_MS = 15_000;
 
-export function LynxComponentPreview({ url, height }: { url: string; height?: number }) {
+export function LynxComponentPreview({
+  url,
+  example,
+  height,
+}: {
+  url: string;
+  example: string;
+  height?: number;
+}) {
   const { userColorScheme } = useTheme();
   const sizing = getLynxPreviewSizing(height);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,8 +62,8 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
     void retryKey;
     themeRef.current = userColorScheme;
     const element = elementRef.current;
-    if (element) element.globalProps = { theme: userColorScheme };
-  }, [userColorScheme, retryKey]);
+    if (element) configureLynxView(element, { theme: userColorScheme, example });
+  }, [userColorScheme, example, retryKey]);
 
   useEffect(() => {
     void retryKey;
@@ -94,6 +103,7 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
         if (cancelled) return;
         initializeLynxView(element, {
           theme: themeRef.current,
+          example,
           styleRules,
           transformVH: !sizing.autoHeight,
           url,
@@ -127,7 +137,7 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
       if (timer) clearTimeout(timer);
       element?.removeEventListener("error", handleError);
     };
-  }, [retryKey, sizing.autoHeight, url, visible]);
+  }, [retryKey, sizing.autoHeight, url, example, visible]);
 
   return (
     <div

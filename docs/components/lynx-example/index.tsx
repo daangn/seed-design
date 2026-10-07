@@ -23,7 +23,7 @@ export async function LynxComponentExample({ name, height, children }: LynxCompo
     <ErrorBoundary>
       <Tabs card className="!overflow-hidden" items={["미리보기", "QR 코드", "코드"]}>
         <Tab value="미리보기">
-          <LynxComponentPreview url={entry.web} height={height} />
+          <LynxComponentPreview url={entry.web} example={name} height={height} />
         </Tab>
         <Tab value="QR 코드">
           <LynxComponentQRCode name={name} bundlePath={entry.lynx} />

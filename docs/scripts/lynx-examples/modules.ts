@@ -11,18 +11,35 @@ export interface StandaloneModules {
   modules: Record<string, string>;
 }
 
+/** 같은 컴포넌트의 예제는 bundle 하나를 공유한다. bundle 이름(entry key)은 컴포넌트 디렉터리 이름이다. */
+export function getLynxExampleBundleKey(entry: Pick<LynxExampleEntry, "entryKey">): string {
+  return entry.entryKey.slice(0, entry.entryKey.indexOf("/"));
+}
+
 export function createStandaloneModules(entries: LynxExampleEntry[]): StandaloneModules {
+  const groups = new Map<string, LynxExampleEntry[]>();
+  for (const entry of [...entries].sort((a, b) => a.id.localeCompare(b.id))) {
+    const bundleKey = getLynxExampleBundleKey(entry);
+    groups.set(bundleKey, [...(groups.get(bundleKey) ?? []), entry]);
+  }
+
   const standaloneEntries: Record<string, string> = {};
   const modules: Record<string, string> = {};
-
-  for (const entry of [...entries].sort((a, b) => a.id.localeCompare(b.id))) {
-    const virtualPath = resolve(VIRTUAL_ENTRIES_DIRECTORY, `${entry.entryKey}.tsx`);
-    standaloneEntries[entry.entryKey] = virtualPath;
+  for (const [bundleKey, group] of groups) {
+    const virtualPath = resolve(VIRTUAL_ENTRIES_DIRECTORY, `${bundleKey}.tsx`);
+    standaloneEntries[bundleKey] = virtualPath;
     modules[virtualPath] = [
-      `import { renderLynxExample } from ${JSON.stringify(STANDALONE_MODULE)};`,
-      `import Example from ${JSON.stringify(entry.sourcePath)};`,
+      `import { renderLynxExamples } from ${JSON.stringify(STANDALONE_MODULE)};`,
+      ...group.map(
+        (entry, index) => `import Example${index} from ${JSON.stringify(entry.sourcePath)};`,
+      ),
       "",
-      `renderLynxExample(Example, ${JSON.stringify(getExampleLayout(entry.id))});`,
+      "renderLynxExamples({",
+      ...group.map(
+        (entry, index) =>
+          `  ${JSON.stringify(entry.id)}: { Example: Example${index}, layout: ${JSON.stringify(getExampleLayout(entry.id))} },`,
+      ),
+      "});",
       "",
     ].join("\n");
   }
