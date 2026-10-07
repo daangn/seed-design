@@ -205,7 +205,7 @@ Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing
 
 #### Keyboard Avoidance
 
-`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldTextarea`가 focus될 때 자동으로 등록됩니다. autoresize로 레이아웃이 바뀌면 활성 입력 위치를 다시 계산합니다.
+`KeyboardAvoidingScrollView.Content` 안에 배치하면 `TextFieldTextarea`가 focus될 때 자동으로 등록됩니다. autoresize로 레이아웃이 바뀌면 활성 입력 위치를 다시 계산합니다.
 
 ```tsx
 import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
@@ -213,11 +213,13 @@ import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
 export function KeyboardAwareFields() {
   return (
-    <KeyboardAvoidingScrollView>
-      <TextField label="내용">
-        <TextFieldTextarea accessibility-label="내용" />
-      </TextField>
-    </KeyboardAvoidingScrollView>
+    <KeyboardAvoidingScrollView.Root className="screen-body">
+      <KeyboardAvoidingScrollView.Content>
+        <TextField label="내용">
+          <TextFieldTextarea accessibility-label="내용" />
+        </TextField>
+      </KeyboardAvoidingScrollView.Content>
+    </KeyboardAvoidingScrollView.Root>
   );
 }
 ```
