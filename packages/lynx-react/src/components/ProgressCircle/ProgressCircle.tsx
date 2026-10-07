@@ -1,5 +1,12 @@
 import type * as React from "@lynx-js/react";
-import { forwardRef, runOnMainThread, useEffect, useMemo, useMainThreadRef } from "@lynx-js/react";
+import {
+  forwardRef,
+  runOnMainThread,
+  useEffect,
+  useMemo,
+  useMainThreadRef,
+  type MainThreadRef,
+} from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
@@ -23,6 +30,7 @@ import { mergeProps } from "../../utils/merge-props";
 type Classes = Record<ProgressCircleSlotName, string>;
 
 interface StyledProgressCircleContextValue extends UseProgressCircleContext {
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
   numSize: number;
   classes: Classes;
 }
@@ -159,11 +167,23 @@ const TRANSITION_DURATION = 300;
 
 // --- Components ---
 
+interface MainThreadProgress {
+  value: number;
+  onChange?: (value: number) => void;
+}
+
 export interface ProgressCircleRootProps
   extends ProgressCircleVariantProps,
     UseProgressProps,
     LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxAccessibilityProps {
+  /**
+   * @platform Lynx
+   * MT에서 value와 같은 척도로 원호를 즉시 갱신하는 단일 구독 채널입니다.
+   * determinate일 때 BG value보다 우선하며 indeterminate·unmount 때 구독을 해제합니다.
+   */
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
+}
 
 export type RootProps = ProgressCircleRootProps;
 
@@ -183,7 +203,16 @@ export type RootProps = ProgressCircleRootProps;
  */
 export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
   const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
-  const { children, className, style, minValue, maxValue, value, ...nativeProps } = otherProps;
+  const {
+    children,
+    className,
+    style,
+    minValue,
+    maxValue,
+    value,
+    mainThreadProgress,
+    ...nativeProps
+  } = otherProps;
   const size = variantProps.size ?? "40";
   const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
@@ -191,8 +220,8 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
   const api = useProgress({ value, minValue, maxValue });
   const classes = useMemo(() => progressCircle({ tone, size }), [tone, size]);
   const contextValue = useMemo<StyledProgressCircleContextValue>(
-    () => ({ ...api, numSize, classes }),
-    [api, numSize, classes],
+    () => ({ ...api, numSize, classes, mainThreadProgress }),
+    [api, numSize, classes, mainThreadProgress],
   );
 
   return (
@@ -231,14 +260,23 @@ export const ProgressCircleTrack = forwardRef<unknown, ProgressCircleTrackProps>
 ////////////////////////////////////////////////////////////////////////////////////
 
 export const ProgressCircleRange = () => {
-  const { numSize, indeterminate, percent, classes } =
+  const { numSize, indeterminate, percent, classes, minValue, maxValue, mainThreadProgress } =
     useStyledProgressCircleContext("ProgressCircleRange");
 
   if (indeterminate) {
     return <IndeterminateRange numSize={numSize} classes={classes} />;
   }
 
-  return <DeterminateRange numSize={numSize} progress={percent / 100} classes={classes} />;
+  return (
+    <DeterminateRange
+      numSize={numSize}
+      progress={percent / 100}
+      classes={classes}
+      minValue={minValue}
+      maxValue={maxValue}
+      mainThreadProgress={mainThreadProgress}
+    />
+  );
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -247,10 +285,16 @@ function DeterminateRange({
   numSize,
   progress,
   classes,
+  minValue,
+  maxValue,
+  mainThreadProgress,
 }: {
   numSize: number;
   progress: number;
   classes: Classes;
+  minValue: number;
+  maxValue: number;
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
 }) {
   const rangeRef = useMainThreadRef<MainThread.Element>(null);
   const startCapRef = useMainThreadRef<MainThread.Element>(null);
@@ -264,70 +308,79 @@ function DeterminateRange({
   const initialClipPath = bgPieClipPath(numSize, initialAngle);
   const initialEndRad = (initialAngle * Math.PI) / 180;
 
+  function cancelAnimation() {
+    "main thread";
+    if (cancelRef.current) cancelAnimationFrame(cancelRef.current);
+    cancelRef.current = 0;
+  }
+
+  function applyProgress(p: number) {
+    "main thread";
+    const angleDeg = p * 360;
+    rangeRef.current?.setStyleProperty("clip-path", pieClipPath(numSize, angleDeg) ?? "none");
+    const rad = (angleDeg * Math.PI) / 180;
+    endCapRef.current?.setStyleProperties({
+      left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
+      top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
+    });
+  }
+
+  function updateFromMainThread(value: number) {
+    "main thread";
+    cancelAnimation();
+    const normalized =
+      maxValue === minValue
+        ? 0
+        : Math.max(0, Math.min(1, (value - minValue) / (maxValue - minValue)));
+    prevProgressRef.current = normalized;
+    applyProgress(normalized);
+  }
+
   function startAnimation(newProgress: number) {
     "main thread";
-
-    if (cancelRef.current) {
-      cancelAnimationFrame(cancelRef.current);
-      cancelRef.current = 0;
-    }
-
+    cancelAnimation();
     const from = prevProgressRef.current ?? 0;
     prevProgressRef.current = newProgress;
     if (from === newProgress) return;
-
-    const rangeEl = rangeRef.current;
-    const endCapEl = endCapRef.current;
-    let startTs = 0;
-
-    function applyProgress(p: number): void {
-      const angleDeg = p * 360;
-      const cp = pieClipPath(numSize, angleDeg);
-      if (cp) {
-        rangeEl?.setStyleProperty("clip-path", cp);
-      } else {
-        rangeEl?.setStyleProperty("clip-path", "none");
-      }
-
-      const rad = (angleDeg * Math.PI) / 180;
-      endCapEl?.setStyleProperties({
-        left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
-        top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
-      });
-    }
-
-    function step(ts: number): void {
-      if (!startTs) startTs = Number(ts);
-      const elapsed = ts - startTs;
+    const startTs = Date.now();
+    function step() {
+      const elapsed = Date.now() - startTs;
       if (elapsed >= TRANSITION_DURATION) {
         applyProgress(newProgress);
         cancelRef.current = 0;
         return;
       }
-      const t = elapsed / TRANSITION_DURATION;
-      const eased = cubicBezier(t, 0, 0, 0.15, 1);
-      applyProgress(from + (newProgress - from) * eased);
+      applyProgress(
+        from + (newProgress - from) * cubicBezier(elapsed / TRANSITION_DURATION, 0, 0, 0.15, 1),
+      );
       cancelRef.current = requestAnimationFrame(step);
     }
-
     applyProgress(from);
     cancelRef.current = requestAnimationFrame(step);
   }
 
-  function cancelAnimation() {
+  function subscribe() {
     "main thread";
-    if (cancelRef.current) {
-      cancelAnimationFrame(cancelRef.current);
-      cancelRef.current = 0;
+    if (!mainThreadProgress) return;
+    mainThreadProgress.current.onChange = updateFromMainThread;
+    updateFromMainThread(mainThreadProgress.current.value);
+  }
+
+  function unsubscribe() {
+    "main thread";
+    if (mainThreadProgress) {
+      mainThreadProgress.current.onChange = undefined;
     }
+    cancelAnimation();
   }
 
   useEffect(() => {
-    runOnMainThread(startAnimation)(progress);
+    if (mainThreadProgress) runOnMainThread(subscribe)();
+    else runOnMainThread(startAnimation)(progress);
     return () => {
-      runOnMainThread(cancelAnimation)();
+      runOnMainThread(unsubscribe)();
     };
-  }, [progress, numSize]);
+  }, [progress, numSize, minValue, maxValue, mainThreadProgress]);
 
   return (
     <>
@@ -383,12 +436,10 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
     const containerEl = containerRef.current;
     const rangeEl = rangeRef.current;
     const headCapEl = headCapRef.current;
-    let startTs = 0;
+    const startTs = Date.now();
 
-    function tick(ts: number): void {
-      if (!startTs) startTs = Number(ts);
-
-      const elapsed = ts - startTs;
+    function tick(): void {
+      const elapsed = Date.now() - startTs;
       const t =
         ((elapsed + INDETERMINATE_DURATION * INDETERMINATE_INITIAL_PHASE) %
           INDETERMINATE_DURATION) /

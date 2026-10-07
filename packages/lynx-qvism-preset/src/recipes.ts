@@ -25,6 +25,7 @@ import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import pageBanner from "./recipes/page-banner";
 import quantityPicker from "./recipes/quantity-picker";
+import pullToRefresh from "./recipes/pull-to-refresh";
 import inputButton from "./recipes/input-button";
 import list from "./recipes/list";
 import listHeader from "./recipes/list-header";
@@ -87,6 +88,7 @@ export const recipes = {
   menuSheet,
   menuSheetItem,
   quantityPicker,
+  pullToRefresh,
   pageBanner,
   inputButton,
   list,

@@ -1,0 +1,14 @@
+.seed-pull-to-refresh__root {
+    height: 100%
+}
+.seed-pull-to-refresh__indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--seed-dimension-x8);
+    padding-bottom: var(--seed-dimension-x8)
+}
+.seed-pull-to-refresh__content {
+    height: 100%;
+    width: 100%
+}

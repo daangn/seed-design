@@ -1,0 +1,101 @@
+---
+title: Pull To Refresh
+description: 사용자가 화면을 아래로 당겨 콘텐츠를 새로고침하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.11.0, @seed-design/lynx-css@0.15.0" />
+
+<LynxComponentExample name="lynx/pull-to-refresh/preview" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:pull-to-refresh
+```
+
+<LynxManualInstallation name="pull-to-refresh" />
+
+### 요구 사항
+
+SEED의 최소 지원 Lynx Engine은 `3.6`입니다. PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 앱의 기존 React 플러그인 설정에 `enableNewGesture: true`를 추가하세요.
+
+```ts title="lynx.config.ts"
+pluginReactLynx({
+  engineVersion: "3.6",
+  enableNewGesture: true,
+});
+```
+
+`enableNewGesture`의 Since `2.16`은 엔진 설정의 도입 기록입니다. SEED의 최소 지원 엔진을 뜻하지 않습니다. 설정 위치와 생략 조건은 [Feature Flags](/lynx/getting-started/feature-flags#이벤트와-제스처)에서 확인하세요.
+
+## Props
+
+### `PullToRefreshRoot`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshRootProps" />
+
+`onPtrRefresh`에 새로고침 작업을 반환하는 비동기 함수를 전달하세요. `threshold`의 기본값은 `88`, `displacementMultiplier`의 기본값은 `0.75`입니다. 당긴 변위가 threshold를 넘은 상태에서 놓으면 새로고침을 시작합니다. Promise가 완료되거나 실패하면 콘텐츠가 원래 위치로 돌아옵니다.
+
+### `PullToRefreshIndicator`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshIndicatorProps" />
+
+Registry Indicator는 `size="24"`, `tone="neutral"`인 ProgressCircle을 포함합니다. package Indicator를 직접 조합할 때는 render props 전체를 ProgressCircle에 전달하세요. `mainThreadProgress`가 당기는 동안 원호를 Main Thread에서 갱신하고, 새로고침 중에는 `value`가 `undefined`가 되어 indeterminate로 전환합니다.
+
+스타일이 적용된 Indicator는 위아래에 각각 `32px` 여백을 둡니다. Registry의 `24px` ProgressCircle과 합쳐 기본 높이는 `88px`이며, 새로고침 기준인 `threshold`와는 별개의 치수입니다. CSS 없이 Indicator를 조합하면 자식과 `style`이 실제 높이를 정합니다. Indicator는 레이아웃에서 측정한 높이를 사용해 당김 위치를 계산합니다.
+
+### `PullToRefreshContent`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshContentProps" />
+
+Content는 세로 `<scroll-view>`입니다. Root에 높이를 지정하고 스크롤할 콘텐츠를 Content 안에 넣으세요. 다른 스크롤 컨테이너를 Content 대신 연결하지 않습니다.
+
+PullToRefresh를 다른 세로 스크롤 컨테이너 안에 두면 바깥 컨테이너가 당김과 경합해 함께 움직일 수 있으므로, 화면의 세로 스크롤은 Content 하나로 구성하세요.
+
+Content 자체의 경계 변위는 PullToRefresh가 처리합니다. 네이티브 bounce가 당김에 더해져 콘텐츠가 두 번 움직이지 않도록 `bounces`를 `false`로 고정하며, 이 속성은 공개하지 않습니다. iOS에서는 Content 아래쪽 경계의 bounce도 꺼집니다.
+
+## Examples
+
+### PTR in Tabs
+
+가로로 넘길 수 있는 Tabs Carousel의 Tab 1에만 PullToRefresh를 배치합니다. Tab 2에서는 새로고침하지 않습니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/tabs" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/tabs.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`disabled` 속성으로 PTR을 비활성화할 수 있습니다. 당기는 도중 비활성화하면 당김이 취소됩니다. 이미 시작한 새로고침은 반환한 Promise가 끝날 때까지 유지됩니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/disabled" height={700}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Prevent Pull
+
+Root 안에 렌더링되는 자식 컴포넌트에서 `usePullToRefreshPreventPull()`을 호출하세요. 반환한 props를 보호할 `<view>`에 전달하면 그 영역과 자식에서 시작한 당김으로 새로고침하지 않습니다. 보호 요소에 별도의 `main-thread:bindtouchstart`를 지정하면 hook의 핸들러와 충돌하므로 함께 지정하지 마세요.
+
+<LynxComponentExample name="lynx/pull-to-refresh/prevent-pull" height={700}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/prevent-pull.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 웹은 Root가 스크롤 영역이고 `asChild`로 화면 셸과 합칠 수 있습니다. Lynx는 Root가 배치와 clipping을 맡고 Content가 세로 `<scroll-view>`입니다. `asChild`는 제공하지 않습니다.
+- Lynx는 Content 내부의 중첩 스크롤 영역을 탐지하지 않습니다. Main Thread element에는 웹의 부모 탐색과 computed style API가 없으므로 Content 하나를 스크롤 기준으로 사용합니다.
+- 웹의 `PullToRefresh.preventPull`은 DOM attribute 객체입니다. Lynx는 named export인 `usePullToRefreshPreventPull()`을 Root 내부에서 호출하고 반환한 Main Thread 터치 핸들러를 native view에 연결합니다. namespace에는 `preventPull`이 없습니다.
+- 콜백은 Background Thread에서 비동기로 실행되며 순서를 유지합니다. 화면 이동과 원호는 Main Thread가 갱신하므로 콜백에서 당김 애니메이션을 구현하지 마세요.
+- 웹은 한 번의 drag 안에서 스크롤이 최상단에 닿은 뒤 계속 아래로 끌면 당김이 시작됩니다. Lynx는 drag의 첫 이동에서 당김 여부를 정하므로, 스크롤하다가 최상단에 닿았다면 손을 뗀 뒤 다시 당겨야 새로고침 당김이 시작됩니다.
+- Lynx는 Indicator의 실제 높이와 `threshold` 중 큰 값까지 선형으로 움직이고, 그 이후에는 당김에 저항이 적용됩니다. 새로고침 준비 상태와 콜백의 변위도 저항이 적용된 값을 기준으로 합니다.
+- Lynx는 당김 중에도 소비자의 `enable-scroll` 설정을 바꾸지 않습니다. 제스처가 당김을 소유한 동안 네이티브 스크롤이 위쪽 경계를 벗어나면 즉시 0으로 되돌리고, 손가락을 위로 되돌려 변위가 0이 되어도 같은 drag 안에서는 스크롤로 전환하지 않습니다.

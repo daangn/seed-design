@@ -40,6 +40,7 @@ import { PageBannerPage } from "./pages/PageBannerPage.jsx";
 import { PageBannerHeadlessPage } from "./pages/PageBannerHeadlessPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
 import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
+import { PullToRefreshHeadlessPage } from "./pages/PullToRefreshHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
 import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
@@ -82,6 +83,7 @@ export type Page =
   | "page-banner-headless"
   | "progress-circle"
   | "progress-circle-headless"
+  | "pull-to-refresh-headless"
   | "radio-group"
   | "radio-group-headless"
   | "select-headless"
@@ -139,6 +141,7 @@ const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   "page-banner-headless": true,
   "progress-circle": true,
   "progress-circle-headless": true,
+  "pull-to-refresh-headless": true,
   "radio-group": true,
   "radio-group-headless": true,
   "select-headless": true,
@@ -228,6 +231,7 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
       {page === "page-banner-headless" && <PageBannerHeadlessPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
       {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
+      {page === "pull-to-refresh-headless" && <PullToRefreshHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
       {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
       {page === "select-headless" && <SelectHeadlessPage />}

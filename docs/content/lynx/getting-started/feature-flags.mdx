@@ -12,7 +12,7 @@ SEED의 최소 지원 Lynx Engine은 **3.6**입니다. 이 문서는 엔진 버�
 
 다음은 SEED의 CSS 상속, 인라인 변수, Dynamic/Static 타이포그래피, fixed 요소를 사용하는 앱의 기본 구성입니다.
 Selector와 Invalidation은 `pluginReactLynx`의 기본값을 사용합니다.
-여러 손가락의 터치 정보를 사용하는 화면에서는 `enableMultiTouch: true`를 추가하고, 테마·모션 설정의 런타임 갱신은 아래 `globalPropsMode` 설명도 확인하세요.
+여러 손가락의 터치 정보를 사용하는 화면에서는 `enableMultiTouch: true`를 추가하세요. [Pull To Refresh](/lynx/components/pull-to-refresh)를 쓰는 앱은 `pluginReactLynx`에 `enableNewGesture: true`도 추가해야 합니다. 테마·모션 설정의 런타임 갱신은 아래 `globalPropsMode` 설명을 확인하세요.
 
 ```ts title="lynx.config.ts"
 import { defineConfig } from "@lynx-js/rspeedy";
@@ -160,13 +160,24 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 
 | 플래그 | 역할·플랫폼·도입 기록 | 기본값과 설정 조건 | 현재 설정 위치 |
 | --- | --- | --- | --- |
-| `enableNewGesture` | Gesture Handler 경로. Android·iOS·HarmonyOS, Since `2.16` | 엔진·React 기본 `false`. Gesture Handler API를 쓰는 화면에서 `true`; 일반 `bindtap`만으로 필수는 아님. 확인한 3.6–4.1에 일괄 생략 경계 없음 | React 권장. Config에도 공개됨 |
+| `enableNewGesture` | Gesture Handler 경로. Android·iOS·HarmonyOS, Since `2.16` | 엔진·React 기본 `false`. SEED PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 `true` 필요. 일반 `bindtap`만 쓰는 앱에는 필수가 아님. 확인한 3.6–4.1에 일괄 생략 경계 없음 | React 권장. Config에도 공개됨 |
 | `enableEventHandleRefactor` | 이벤트 리스너 재바인딩·dispatch 경로. Android·iOS·HarmonyOS, Since `3.5` | 정의상 `false`, 미지정 시 settings 사용. 해당 경로가 필요하면 `true` 유지. 일반 React 이벤트 핸들러의 동적 변경이 전부 불가능하다는 뜻은 아님 | Config `0.2.1`부터 다시 공개(type-config `4.1.2`에 추가, 해당 플러그인은 `4.1.3` 사용) |
 | `enablePlatformGesture` | 네이티브와 Lynx의 제스처 조정 계층. Android·iOS, Since `3.6` | 기본 `false`. 네이티브 제스처와의 경합을 조정할 때 검토. 엔진 4.1에도 사용처가 있으므로 기능 제거로 분류하지 않음 | Config `0.2.0`부터 공개 설정 제외 |
 | `enableTransformedTouchPosition` | transform을 반영한 터치 좌표. Android·HarmonyOS | 기본 `false`. 변형된 요소의 좌표를 사용하는 기능에서 검토. 공식 Since는 `3.6`이나 3.6.0 tag에는 설정 정의가 없고 3.7.0에는 존재하므로 **3.6 도입 경계 미확인** | 현재 Config에 공개됨 |
 | `enableMultiTouchParamsCompatible` | 멀티터치 payload를 단일 터치 형식과 호환. Android·iOS·HarmonyOS, Since `3.2` | 정의상 `false`, 미지정 시 호스트의 multi-touch 환경 설정 사용. 예전 payload에 의존하면 구형 설정을 무조건 삭제하지 말고 이벤트 소비 코드를 확인. `enableMultiTouch` 자체와 별개 | Config `0.2.0`부터 공개 설정 제외 |
 
 [공식 Config 설명][config-doc] · [3.6 정의와 fallback][decoder-36] · [4.1 정의][engine-41] · [Config changelog][config-changelog]
+
+SEED PullToRefresh를 사용하는 앱은 다음 옵션을 기존 React 플러그인 설정에 합치세요. `@lynx-js/gesture-runtime`이 Content의 네이티브 스크롤과 당김 제스처를 중재할 때 Gesture Handler 경로를 사용합니다. Since `2.16`은 엔진 설정의 도입 기록이며, SEED의 최소 지원 엔진 `3.6`을 낮춘다는 뜻은 아닙니다.
+
+```ts
+pluginReactLynx({
+  engineVersion: "3.6",
+  enableNewGesture: true,
+});
+```
+
+PullToRefresh를 사용하지 않는 앱에는 이 플래그가 필요하지 않을 수 있으므로 위의 최소 권장 설정에는 넣지 않았습니다.
 
 `enableMultiTouch`는 현재 Config에도 공개되어 있습니다. `enableMultiTouchParamsCompatible`가 사라졌다는 이유로 멀티터치 자체가 지원 종료되었다고 해석하지 마세요. 최신 공개 API에서 빠진 옵션을 계속 제어해야 하는 앱은 호스트의 설정 경로와 기존 동작을 확인해야 하며, 단순히 React 플러그인으로 옮기면 안 됩니다.
 

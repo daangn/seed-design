@@ -1,7 +1,9 @@
 export type LynxExampleLayout = "scroll" | "fill";
 
 export function getExampleLayout(component: string): LynxExampleLayout {
-  return component === "keyboard-avoiding-scroll-view" || component === "loop-scroll"
+  return component === "keyboard-avoiding-scroll-view" ||
+    component === "loop-scroll" ||
+    component === "pull-to-refresh"
     ? "fill"
     : "scroll";
 }
