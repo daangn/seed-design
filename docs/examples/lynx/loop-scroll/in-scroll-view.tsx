@@ -26,13 +26,23 @@ export default function LoopScrollInScrollViewExample() {
         "background only";
         setScrollTop(Math.round(event.detail.scrollTop));
       }}
-      style={{ height: "100%" }}
+      style={{ width: "100%", flex: 1, minHeight: 0 }}
     >
-      <view style={{ padding: "24px" }}>
-        <text id="loop-scroll-outer-status" style={{ color: "#555d6d", fontSize: "13px" }}>
+      <view style={{ display: "flex", flexDirection: "column" }}>
+        <text
+          id="loop-scroll-outer-status"
+          style={{ color: "var(--seed-color-fg-neutral-muted)", fontSize: "13px" }}
+        >
           {`scrollTop=${scrollTop} index=${index} disabled=${disabled}`}
         </text>
-        <text style={{ marginTop: "6px", color: "#1a1c20", fontSize: "15px", fontWeight: "700" }}>
+        <text
+          style={{
+            marginTop: "6px",
+            color: "var(--seed-color-fg-neutral)",
+            fontSize: "15px",
+            fontWeight: "700",
+          }}
+        >
           켜진 휠은 바깥 스크롤을 멈춰야 합니다
         </text>
         <view
@@ -45,10 +55,16 @@ export default function LoopScrollInScrollViewExample() {
             marginTop: "12px",
             padding: "8px 12px",
             borderRadius: "8px",
-            backgroundColor: "#212124",
+            backgroundColor: "var(--seed-color-bg-neutral-solid)",
           }}
         >
-          <text style={{ color: "#ffffff", fontSize: "14px", fontWeight: "700" }}>
+          <text
+            style={{
+              color: "var(--seed-color-fg-on-neutral-solid)",
+              fontSize: "14px",
+              fontWeight: "700",
+            }}
+          >
             {disabled ? "휠 켜기" : "휠 끄기"}
           </text>
         </view>
@@ -60,10 +76,10 @@ export default function LoopScrollInScrollViewExample() {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "12px",
-            backgroundColor: "#eef0f3",
+            backgroundColor: "var(--seed-color-bg-neutral-muted)",
           }}
         >
-          <text style={{ color: "#555d6d" }}>바깥 스크롤 영역</text>
+          <text style={{ color: "var(--seed-color-fg-neutral-muted)" }}>바깥 스크롤 영역</text>
         </view>
         <LoopScroll.Root
           id="loop-scroll-nested-wheel"
@@ -73,7 +89,11 @@ export default function LoopScrollInScrollViewExample() {
           index={index}
           disabled={disabled}
           onIndexChange={handleIndexChange}
-          style={{ marginTop: "16px", borderRadius: "12px", backgroundColor: "#f2f3f6" }}
+          style={{
+            marginTop: "16px",
+            borderRadius: "12px",
+            backgroundColor: "var(--seed-color-bg-neutral-weak)",
+          }}
         >
           <view
             style={{
@@ -83,7 +103,7 @@ export default function LoopScrollInScrollViewExample() {
               left: "8px",
               height: "44px",
               borderRadius: "8px",
-              backgroundColor: "#dcdee3",
+              backgroundColor: "var(--seed-color-bg-neutral-muted)",
             }}
           />
           <LoopScroll.Track>
@@ -96,7 +116,9 @@ export default function LoopScrollInScrollViewExample() {
                   justifyContent: "center",
                 }}
               >
-                <text style={{ color: "#1a1c20", fontSize: "18px" }}>{MINUTES[item.index]}</text>
+                <text style={{ color: "var(--seed-color-fg-neutral)", fontSize: "18px" }}>
+                  {MINUTES[item.index]}
+                </text>
               </view>
             )}
           </LoopScroll.Track>
@@ -109,10 +131,10 @@ export default function LoopScrollInScrollViewExample() {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "12px",
-            backgroundColor: "#eef0f3",
+            backgroundColor: "var(--seed-color-bg-neutral-muted)",
           }}
         >
-          <text style={{ color: "#555d6d" }}>아래 영역</text>
+          <text style={{ color: "var(--seed-color-fg-neutral-muted)" }}>아래 영역</text>
         </view>
       </view>
     </scroll-view>

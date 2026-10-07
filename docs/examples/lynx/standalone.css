@@ -2,3 +2,23 @@
   height: 100%;
   background-color: var(--seed-color-bg-layer-default);
 }
+
+/* examples/lynx-spa의 global.css와 같은 기본 글자색. 색을 지정하지 않은 text가 다크 모드에서도 읽히게 한다. */
+text {
+  color: var(--seed-color-fg-neutral);
+}
+
+/* 문서 미리보기 auto 높이에서는 height: 100%가 auto가 되어 min-height가 기준 높이를 정한다. */
+.docs-lynx-stage {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.docs-lynx-stage--center {
+  min-height: 320px;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}

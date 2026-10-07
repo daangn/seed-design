@@ -1,14 +1,6 @@
-.docs-lynx-progress-circle-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
-.progress-circle-preview {
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
 .progress-circle-preview--dark {
+  display: flex;
+  padding: 16px;
+  border-radius: 8px;
   background-color: var(--seed-color-palette-static-black);
 }

@@ -1,5 +1,6 @@
 import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import { loadLynxExample, type LynxExampleName } from "@/lib/lynx-examples/manifest";
+import { getExampleLayout } from "@/playground/lynx/layout";
 import type { ReactNode } from "react";
 import ErrorBoundary from "../error-boundary";
 import { LynxComponentPreview } from "./preview";
@@ -13,6 +14,9 @@ export interface LynxComponentExampleProps {
 
 export async function LynxComponentExample({ name, height, children }: LynxComponentExampleProps) {
   if (!children) throw new Error(`${name}의 LynxComponentExample에는 코드 children이 필요합니다.`);
+  if (height === undefined && getExampleLayout(name) === "fill") {
+    throw new Error(`${name}은 fill 레이아웃이라 LynxComponentExample에 height가 필요합니다.`);
+  }
   const entry = await loadLynxExample(name);
 
   return (

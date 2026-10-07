@@ -22,7 +22,7 @@ function Column({ id, labels, index, onIndexChange }: ColumnProps) {
       visibleItemCount={VISIBLE_ITEM_COUNT}
       index={index}
       onIndexChange={onIndexChange}
-      style={{ flexGrow: 1, flexBasis: "0px" }}
+      style={{ display: "flex", flexGrow: 1, flexBasis: "0px" }}
     >
       <LoopScroll.Track>
         {(item) => (
@@ -34,7 +34,9 @@ function Column({ id, labels, index, onIndexChange }: ColumnProps) {
               justifyContent: "center",
             }}
           >
-            <text style={{ color: "#1a1c20", fontSize: "18px" }}>{labels[item.index]}</text>
+            <text style={{ color: "var(--seed-color-fg-neutral)", fontSize: "18px" }}>
+              {labels[item.index]}
+            </text>
           </view>
         )}
       </LoopScroll.Track>
@@ -60,19 +62,29 @@ export default function LoopScrollTwoColumnsExample() {
     <view
       style={{
         display: "flex",
-        height: "100%",
+        width: "100%",
+        flex: 1,
+        minHeight: 0,
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
       }}
     >
-      <text style={{ marginBottom: "6px", color: "#1a1c20", fontSize: "16px", fontWeight: "700" }}>
+      <text
+        style={{
+          marginBottom: "6px",
+          color: "var(--seed-color-fg-neutral)",
+          fontSize: "16px",
+          fontWeight: "700",
+        }}
+      >
         시와 분을 따로 끌어보세요
       </text>
       <text
         id="loop-scroll-two-columns-status"
-        style={{ marginBottom: "16px", color: "#555d6d", fontSize: "13px" }}
+        style={{
+          marginBottom: "16px",
+          color: "var(--seed-color-fg-neutral-muted)",
+          fontSize: "13px",
+        }}
       >
         {`hour=${hour} minute=${minute}`}
       </text>
@@ -82,7 +94,7 @@ export default function LoopScrollTwoColumnsExample() {
           width: "240px",
           flexDirection: "row",
           borderRadius: "12px",
-          backgroundColor: "#f2f3f6",
+          backgroundColor: "var(--seed-color-bg-neutral-weak)",
         }}
       >
         <view
@@ -93,7 +105,7 @@ export default function LoopScrollTwoColumnsExample() {
             left: "8px",
             height: `${ITEM_SIZE}px`,
             borderRadius: "8px",
-            backgroundColor: "#dcdee3",
+            backgroundColor: "var(--seed-color-bg-neutral-muted)",
           }}
         />
         <Column

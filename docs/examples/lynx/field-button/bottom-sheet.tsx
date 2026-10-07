@@ -1,7 +1,7 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { ActionButton, BottomSheet, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { ActionButton, BottomSheet, VStack } from "@seed-design/lynx-react";
 import {
   FieldButton,
   FieldButtonPlaceholder,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/field-button";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -30,27 +29,23 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} docs-lynx-field-button-root`}>
-      <VStack className="field-button-preview">
-        <VStack className="field-button-preview__content">
-          <FieldButton
-            label="동네"
-            values={value ? [value] : []}
-            onValuesChange={changeValues}
-            showClearButton={value !== ""}
-            buttonProps={{
-              bindtap: openPicker,
-              "accessibility-label": value ? `동네 변경. 현재: ${value}` : "동네 선택",
-            }}
-          >
-            {value ? (
-              <FieldButtonValue>{value}</FieldButtonValue>
-            ) : (
-              <FieldButtonPlaceholder>동네를 선택해주세요</FieldButtonPlaceholder>
-            )}
-          </FieldButton>
-        </VStack>
-      </VStack>
+    <VStack className="field-button-preview__content">
+      <FieldButton
+        label="동네"
+        values={value ? [value] : []}
+        onValuesChange={changeValues}
+        showClearButton={value !== ""}
+        buttonProps={{
+          bindtap: openPicker,
+          "accessibility-label": value ? `동네 변경. 현재: ${value}` : "동네 선택",
+        }}
+      >
+        {value ? (
+          <FieldButtonValue>{value}</FieldButtonValue>
+        ) : (
+          <FieldButtonPlaceholder>동네를 선택해주세요</FieldButtonPlaceholder>
+        )}
+      </FieldButton>
       <BottomSheet.Root open={open} onOpenChange={setOpen}>
         <BottomSheet.Positioner>
           <BottomSheet.Backdrop />
@@ -67,6 +62,6 @@ export default function Example() {
           </BottomSheet.Content>
         </BottomSheet.Positioner>
       </BottomSheet.Root>
-    </view>
+    </VStack>
   );
 }

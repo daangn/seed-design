@@ -1,6 +1,5 @@
 import "./styles";
 
-import { useSeedClassName } from "@seed-design/lynx-react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -10,16 +9,20 @@ import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/co
 import { PARAGRAPH, useRefreshObservation } from "./use-refresh-observation";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const { refreshCount, lastEvent, callbacks } = useRefreshObservation();
 
   return (
-    <view className={`${seedClassName} docs-lynx-ptr-root`}>
+    <view className="ptr-preview">
       <text className="ptr-preview__title">Pull To Refresh</text>
       <text className="ptr-preview__status">
         {`Tab 1 refresh 횟수: ${refreshCount} · 마지막 이벤트: ${lastEvent}`}
       </text>
-      <TabsRoot defaultValue="1" contentLayout="fill" className="ptr-preview__tabs">
+      <TabsRoot
+        defaultValue="1"
+        contentLayout="fill"
+        className="ptr-preview__tabs"
+        style={{ width: "100%" }}
+      >
         <TabsList>
           <TabsTrigger value="1">Tab 1</TabsTrigger>
           <TabsTrigger value="2">Tab 2</TabsTrigger>
