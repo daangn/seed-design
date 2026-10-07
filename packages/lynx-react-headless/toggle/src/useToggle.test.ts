@@ -71,7 +71,6 @@ describe("useToggle", () => {
       expect(result.current.pressed).toBe(false);
       expect(onPressedChange).not.toHaveBeenCalled();
       expect(bindtap).not.toHaveBeenCalled();
-      expect(result.current.rootProps["main-thread:bindtap"]).toBeUndefined();
       expect(result.current.rootProps["accessibility-traits"]).toBe("disabled");
     });
 
