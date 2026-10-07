@@ -23,6 +23,40 @@ function getRoot() {
 }
 
 describe("ContentPlaceholder", () => {
+  it("forwards accessibility semantics without hiding custom content", () => {
+    render(
+      <ContentPlaceholderRoot accessibility-element accessibility-label="등록된 사진 없음">
+        <ContentPlaceholderAsset
+          accessibility-elements-hidden={false}
+          accessibility-label="직접 지정한 이미지"
+        >
+          <image src="custom.png" accessibility-element accessibility-label="사용자 이미지" />
+        </ContentPlaceholderAsset>
+      </ContentPlaceholderRoot>,
+    );
+    expect(getRoot().querySelector(".seed-content-placeholder__root")).toHaveAttribute(
+      "accessibility-element",
+      "true",
+    );
+    expect(getRoot().querySelector(".seed-content-placeholder__root")).toHaveAttribute(
+      "accessibility-label",
+      "등록된 사진 없음",
+    );
+    expect(getRoot().querySelector(".seed-content-placeholder__asset")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "false",
+    );
+    expect(getRoot().querySelector(".seed-content-placeholder__asset")).toHaveAttribute(
+      "accessibility-label",
+      "직접 지정한 이미지",
+    );
+    expect(getRoot().querySelector("image")).toHaveAttribute(
+      "accessibility-label",
+      "사용자 이미지",
+    );
+    expect(getRoot().querySelector("image")).not.toHaveAttribute("accessibility-elements-hidden");
+  });
+
   it("preserves a custom image's source, tint, sizing, and load handler", () => {
     const onLoad = vi.fn();
     render(
@@ -81,7 +115,10 @@ describe("ContentPlaceholder", () => {
     expect(images).toHaveLength(2);
     expect(images[0]).toHaveAttribute("src", contentPlaceholderPresets[type].light);
     expect(images[1]).toHaveAttribute("src", contentPlaceholderPresets[type].dark);
-    for (const image of images) expect(image.getAttribute("tint-color")).toBeNull();
+    for (const image of images) {
+      expect(image.getAttribute("tint-color")).toBeNull();
+      expect(image).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
   });
 
   it("uses default preset and updates the selected type", async () => {

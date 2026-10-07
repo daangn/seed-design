@@ -20,10 +20,10 @@
 .seed-content-placeholder__presetLight {
     width: 100%;
     height: 100%;
-    display: flex
+    display: var(--seed-content-placeholder-preset-light-display, flex)
 }
 .seed-content-placeholder__presetDark {
     width: 100%;
     height: 100%;
-    display: none
+    display: var(--seed-content-placeholder-preset-dark-display, none)
 }
