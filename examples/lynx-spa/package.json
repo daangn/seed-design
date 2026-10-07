@@ -35,6 +35,7 @@
     "@seed-design/lynx-react-menu": "workspace:*",
     "@seed-design/lynx-react-page-banner": "workspace:*",
     "@seed-design/lynx-react-progress": "workspace:*",
+    "@seed-design/lynx-react-pull-to-refresh": "workspace:*",
     "@seed-design/lynx-react-radio-group": "workspace:*",
     "@seed-design/lynx-react-select": "workspace:*",
     "@seed-design/lynx-react-sortable": "workspace:*",

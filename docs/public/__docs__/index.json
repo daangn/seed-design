@@ -2279,6 +2279,19 @@
               ]
             },
             {
+              "id": "pull-to-refresh",
+              "title": "Pull To Refresh",
+              "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/pull-to-refresh",
+              "snippetKey": "lynx/ui:pull-to-refresh",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "pull-to-refresh.tsx"
+                }
+              ]
+            },
+            {
               "id": "quantity-picker",
               "title": "Quantity Picker",
               "description": "정수 단위의 수량을 늘리거나 줄일 때 사용하는 컴포넌트입니다.",

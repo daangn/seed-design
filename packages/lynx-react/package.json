@@ -76,6 +76,7 @@
     "@seed-design/lynx-react-page-banner": "0.0.0",
     "@seed-design/lynx-react-popover": "0.0.0",
     "@seed-design/lynx-react-progress": "0.0.0",
+    "@seed-design/lynx-react-pull-to-refresh": "0.0.0",
     "@seed-design/lynx-react-quantity-picker": "0.0.0",
     "@seed-design/lynx-react-radio-group": "0.0.0",
     "@seed-design/lynx-react-scale-feedback": "0.0.0",
