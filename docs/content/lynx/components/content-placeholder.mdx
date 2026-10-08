@@ -1,11 +1,14 @@
 ---
-title: ContentPlaceholder
+title: Content Placeholder
 description: 이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 채우는 플레이스홀더 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@1.0.0, @seed-design/lynx-css@1.0.0" />
 
-<LynxComponentExample name="lynx/content-placeholder/preview" height={360}>
+<LynxComponentExample name="lynx/content-placeholder/preview">
   ```json doc-gen:file
   { "file": "examples/lynx/content-placeholder/preview.tsx", "codeblock": true }
   ```
@@ -14,7 +17,7 @@ description: 이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 �
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:content-placeholder
+npx @seed-design/cli@latest add ui:content-placeholder
 ```
 
 <LynxManualInstallation name="content-placeholder" />
@@ -37,7 +40,7 @@ import { ContentPlaceholder } from "@/components/ui/content-placeholder";
 
 React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `default`를 표시합니다. 프리셋은 React SVG와 SEED 토큰에서 생성한 WebP이며, SEED 테마 클래스에 따라 미리 착색된 light/dark 에셋을 표시합니다.
 
-<LynxComponentExample name="lynx/content-placeholder/type" height={540}>
+<LynxComponentExample name="lynx/content-placeholder/type">
   ```json doc-gen:file
   { "file": "examples/lynx/content-placeholder/type.tsx", "codeblock": true }
   ```
@@ -47,7 +50,7 @@ React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `defa
 
 `width`와 `height`로 영역의 크기를 지정합니다. 에셋은 영역 높이의 절반으로 표시되며 최대 너비는 160px입니다.
 
-<LynxComponentExample name="lynx/content-placeholder/sizes" height={400}>
+<LynxComponentExample name="lynx/content-placeholder/sizes">
   ```json doc-gen:file
   { "file": "examples/lynx/content-placeholder/sizes.tsx", "codeblock": true }
   ```
@@ -57,7 +60,7 @@ React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `defa
 
 React처럼 하나의 아이콘이나 이미지를 `children`으로 전달하면 프리셋을 대체합니다. 컴포넌트는 크기와 정렬만 처리하며 색을 변경하지 않습니다. 모노크롬 아이콘에는 첫 렌더부터 최종 색이 적용되도록 `tint-color`를 지정하세요. CSS `color`를 자동 변환하거나 표시 후 색을 동기화하지 않습니다.
 
-<LynxComponentExample name="lynx/content-placeholder/svg" height={240}>
+<LynxComponentExample name="lynx/content-placeholder/svg">
   ```json doc-gen:file
   { "file": "examples/lynx/content-placeholder/svg.tsx", "codeblock": true }
   ```

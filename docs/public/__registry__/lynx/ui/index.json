@@ -237,8 +237,8 @@
         {
           "path": "content-placeholder.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=1.0.0 <2.0.0",
-            "@seed-design/lynx-css": ">=1.0.0 <2.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],

@@ -10,16 +10,6 @@ const lynxSeedIconPackageRanges = {
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
-const contentPlaceholderPackageRanges = {
-  "@seed-design/lynx-react": ">=1.0.0 <2.0.0",
-  "@seed-design/lynx-css": ">=1.0.0 <2.0.0",
-};
-
-const identityPlaceholderPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-};
-
 const attachmentReorderablePackageRanges = {
   ...lynxSeedIconPackageRanges,
   "@seed-design/lynx-react-sortable": "^1.0.0",
@@ -239,7 +229,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "content-placeholder.tsx",
-          dependencies: contentPlaceholderPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
