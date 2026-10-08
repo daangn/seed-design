@@ -2,7 +2,7 @@ export declare const vars: {
   "themeCupertino": {
     "enabled": {
       "root": {
-        "minHeight": "44px",
+        "minHeight": "56px",
         "paddingX": "var(--seed-dimension-x4)"
       },
       "icon": {
