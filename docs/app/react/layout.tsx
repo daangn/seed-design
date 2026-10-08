@@ -1,7 +1,7 @@
 import { archivePaths } from "@/lib/docs-archive";
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
-import { ReactVersionSwitcher } from "@/components/react-version-switcher";
+import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
@@ -22,7 +22,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
     >
       <DocsLayout
         {...baseOptions}
-        sidebar={{ ...baseOptions.sidebar, banner: <ReactVersionSwitcher /> }}
+        sidebar={{ ...baseOptions.sidebar, banner: <DocsVersionSwitcher platform="react" /> }}
         tree={reactSource.pageTree}
       >
         {children}
