@@ -1,48 +1,48 @@
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import { loadChangelogSources } from "@/lib/parse-changelog";
+import { loadChangelogSources, type ChangelogSource } from "@/lib/parse-changelog";
+import {
+  CHANGELOG_PLATFORMS,
+  getChangelogPlatform,
+  type ChangelogPlatform,
+} from "@/lib/changelog-platform";
 import type { Rule } from "./types";
 
-type ChangelogSource = { packageName: string; raw: string };
+export function createChangelogPageRule(
+  loadSources: () => Promise<ChangelogSource[]> = () => loadChangelogSources(process.cwd()),
+): Rule<MdxJsxFlowElement> {
+  const cache: Partial<Record<ChangelogPlatform, string>> = {};
+  let initPromise: Promise<void> | undefined;
 
-let changelogCache: string | null = null;
-let initPromise: Promise<void> | null = null;
-let initFailed = false;
-
-async function fetchAndCacheChangelog(): Promise<void> {
-  try {
-    initFailed = false;
-    const sources = await loadChangelogSources(process.cwd());
-    const sorted = sources.sort((a: ChangelogSource, b: ChangelogSource) =>
-      a.packageName.localeCompare(b.packageName),
-    );
-
-    changelogCache = sorted
-      .map(({ packageName, raw }: ChangelogSource) => {
-        const normalized = raw.replace(/^# .+\n/, "").trimStart();
-        return `## ${packageName}\n\n${normalized}`;
-      })
-      .join("\n\n---\n\n");
-  } catch {
-    initFailed = true;
-    changelogCache = null;
-  }
+  return {
+    name: "ChangelogPage",
+    init: () => {
+      initPromise ??= loadSources()
+        .then((sources) => {
+          const sorted = [...sources].sort((a, b) => a.packageName.localeCompare(b.packageName));
+          for (const platform of CHANGELOG_PLATFORMS) {
+            cache[platform] = sorted
+              .filter(({ packageName }) => getChangelogPlatform(packageName) === platform)
+              .map(({ packageName, raw }) => {
+                const normalized = raw.replace(/^# .+\n/, "").trimStart();
+                return `## ${packageName}\n\n${normalized}`;
+              })
+              .join("\n\n---\n\n");
+          }
+        })
+        .catch(() => {});
+      return initPromise;
+    },
+    match: (node): node is MdxJsxFlowElement =>
+      node.type === "mdxJsxFlowElement" && node.name === "ChangelogPage",
+    transform: (node, context) => {
+      const platform = context.getStringAttribute(node, "platform");
+      if (platform !== "react" && platform !== "lynx") return [node];
+      const changelog = cache[platform];
+      if (changelog === undefined) return [node];
+      if (changelog === "") return [];
+      return [{ type: "html", value: changelog }];
+    },
+  };
 }
 
-async function init(): Promise<void> {
-  if (!initPromise) {
-    initPromise = fetchAndCacheChangelog();
-  }
-  await initPromise;
-}
-
-export const changelogPageRule: Rule<MdxJsxFlowElement> = {
-  name: "ChangelogPage",
-  init,
-  match: (node): node is MdxJsxFlowElement =>
-    node.type === "mdxJsxFlowElement" && node.name === "ChangelogPage",
-  transform: (node) => {
-    if (initFailed || changelogCache === null) return [node];
-    if (changelogCache === "") return [];
-    return [{ type: "html", value: changelogCache }];
-  },
-};
+export const changelogPageRule = createChangelogPageRule();
