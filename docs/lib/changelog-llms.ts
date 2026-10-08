@@ -1,4 +1,4 @@
-import { REACT_ARCHIVE_VERSION } from "./docs-archive";
+import { archivePaths } from "./docs-archive";
 import { archiveMarkdown } from "@/app/_llms/archive-markdown";
 import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
@@ -64,7 +64,11 @@ export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise
     const renderedBlocks = versions.map((version) => {
       const group = versionGroups.get(version);
       if (!group) return `## ${version}\n\n(no entries)`;
-      return archiveMarkdown(renderVersionMarkdown(version, group, lookup), REACT_ARCHIVE_VERSION);
+      // Package changelogs are React docs; other archives never export them.
+      return archiveMarkdown(
+        renderVersionMarkdown(version, group, lookup),
+        archivePaths.platform === "react" ? archivePaths.channel : "",
+      );
     });
 
     packages.set(source.packageName, {

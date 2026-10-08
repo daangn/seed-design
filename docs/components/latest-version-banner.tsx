@@ -27,7 +27,11 @@ export function LatestVersionBanner() {
     <Banner id="latest-version">
       프리뷰 또는 이전 버전의 문서를 보고 있습니다.
       <a
-        href={archivePaths.prefix ? "https://seed-design.io/react" : "https://seed-design.io"}
+        href={
+          archivePaths.prefix
+            ? `https://seed-design.io/${archivePaths.platform}`
+            : "https://seed-design.io"
+        }
         className="ml-1 font-medium underline flex gap-0.5 items-center"
       >
         seed-design.io 방문 <IconSeedArrow className="size-3.5" />

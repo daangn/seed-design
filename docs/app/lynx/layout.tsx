@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { TAGS } from "@/app/api/search/constants";
 import DefaultSearchDialog from "@/components/search/search";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
@@ -14,7 +15,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         SearchDialog: DefaultSearchDialog,
         options: {
           defaultTag: TAGS.lynx.value,
-          tags: Object.values(TAGS),
+          tags: archivePaths.prefix ? [TAGS.lynx] : Object.values(TAGS),
         },
       }}
     >

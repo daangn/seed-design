@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getEffectiveLynxCompatibility, type LynxCompatibility } from "@/lib/lynx-compatibility";
 import { Badge } from "./mdx-badge";
 
@@ -11,8 +12,8 @@ function LynxIcon() {
       aria-hidden="true"
       className="size-x4 shrink-0 bg-current"
       style={{
-        WebkitMaskImage: "url('/lynx.svg')",
-        maskImage: "url('/lynx.svg')",
+        WebkitMaskImage: `url('${archivePaths.asset("/lynx.svg")}')`,
+        maskImage: `url('${archivePaths.asset("/lynx.svg")}')`,
         WebkitMaskPosition: "center",
         maskPosition: "center",
         WebkitMaskRepeat: "no-repeat",

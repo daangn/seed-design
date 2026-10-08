@@ -319,10 +319,13 @@ const patternsLoader = createSourceLoader(
 );
 const reactLoader = createSourceLoader(
   reactDocs.dynamicSource<SatteriExports>(),
-  archivePaths.reactBase,
+  archivePaths.routes("react").base,
 );
 const breezeLoader = createSourceLoader(breezeDocs.dynamicSource<SatteriExports>(), "/breeze");
-const lynxLoader = createSourceLoader(lynxDocs.dynamicSource<SatteriExports>(), "/lynx");
+const lynxLoader = createSourceLoader(
+  lynxDocs.dynamicSource<SatteriExports>(),
+  archivePaths.routes("lynx").base,
+);
 const aiIntegrationLoader = createSourceLoader(
   aiIntegrationDocs.dynamicSource<SatteriExports>(),
   "/ai-integration",

@@ -17,9 +17,11 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-static";
 
+const routes = archivePaths.routes("react");
+
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const { slug } = await props.params;
-  const params = { slug: archivePaths.contentSlug(slug) };
+  const params = { slug: routes.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
@@ -77,7 +79,7 @@ export async function generateStaticParams() {
   const reactSource = await getReactSource();
   return reactSource.generateParams().map((params) => ({
     ...params,
-    slug: archivePaths.routeSlug(params.slug),
+    slug: routes.routeSlug(params.slug),
   }));
 }
 
@@ -85,7 +87,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await props.params;
-  const params = { slug: archivePaths.contentSlug(slug) };
+  const params = { slug: routes.contentSlug(slug) };
   const reactSource = await getReactSource();
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();

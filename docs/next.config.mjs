@@ -11,14 +11,14 @@ const layeredRecipeAliases = Object.fromEntries(
 );
 
 /** @type {import('next').NextConfig} */
-const archiveVersion = process.env.NEXT_PUBLIC_REACT_ARCHIVE_VERSION;
-if (archiveVersion && !/^v(?:[1-9]\d*|1\.(?:0|[1-9]\d*))$/.test(archiveVersion)) {
-  throw new Error("React archives must use a major channel such as v2, or retained v1.0 channels");
+const archiveChannel = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL;
+if (archiveChannel && !/^(?:react|lynx)\/v(?:0|[1-9]\d*|1\.(?:0|[1-9]\d*))$/.test(archiveChannel)) {
+  throw new Error(
+    "Archives must use a major channel such as react/v2 or lynx/v0, or retained react/v1.0 channels",
+  );
 }
 const config = {
-  ...(archiveVersion
-    ? { assetPrefix: `/react/${archiveVersion}/_assets`, trailingSlash: true }
-    : {}),
+  ...(archiveChannel ? { assetPrefix: `/${archiveChannel}/_assets`, trailingSlash: true } : {}),
   allowedDevOrigins: ["**.test"],
   output: "export",
   reactStrictMode: true,

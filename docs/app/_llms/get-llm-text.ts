@@ -1,5 +1,5 @@
 import type { LLMPage, Section } from "./types";
-import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+import { archivePaths } from "@/lib/docs-archive";
 import { archiveMarkdown } from "./archive-markdown";
 import { getGitHubSourceUrl } from "./config";
 import { getLynxCompatibilityMarkdown } from "@/lib/lynx-compatibility";
@@ -36,7 +36,7 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const { exports } = await renderer.render();
   const processed = archiveMarkdown(
     normalizeLLMBody(exports.processed),
-    section === "react" ? REACT_ARCHIVE_VERSION : "",
+    section === archivePaths.platform ? archivePaths.channel : "",
     "mdx",
   );
   const sourceUrl = getGitHubSourceUrl(section, page.path);

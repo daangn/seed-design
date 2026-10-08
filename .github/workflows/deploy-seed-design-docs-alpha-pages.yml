@@ -101,12 +101,13 @@ jobs:
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
           NODE_OPTIONS: --max-old-space-size=6144
+          DOCS_ARCHIVE_PLATFORM: ${{ steps.target.outputs.archive-platform }}
           DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
         run: |
           build_started_at="$(date +%s)"
           set +e
           if [ -n "$DOCS_ARCHIVE_VERSION" ]; then
-            bun run build:archive:react "$DOCS_ARCHIVE_VERSION"
+            bun run "build:archive:$DOCS_ARCHIVE_PLATFORM" "$DOCS_ARCHIVE_VERSION"
           else
             bun run build
           fi

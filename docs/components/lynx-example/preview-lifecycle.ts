@@ -1,3 +1,5 @@
+import { archivePaths } from "../../lib/docs-archive";
+
 export interface QueryableShadowRoot {
   querySelector(selectors: string): unknown;
 }
@@ -37,7 +39,7 @@ export function configureLynxView(element: ThemeConfigurableLynxView, theme: str
   element.globalProps = { theme };
 }
 
-export const LYNX_WEB_CORE_STYLES_URL = "/__lynx__/web-core.css";
+export const LYNX_WEB_CORE_STYLES_URL = archivePaths.asset("/__lynx__/web-core.css");
 
 export async function loadLynxWebCoreStyleRules(
   href = LYNX_WEB_CORE_STYLES_URL,

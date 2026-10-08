@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import { loadLynxExample, type LynxExampleName } from "@/lib/lynx-examples/manifest";
 import type { ReactNode } from "react";
@@ -19,10 +20,10 @@ export async function LynxComponentExample({ name, height, children }: LynxCompo
     <ErrorBoundary>
       <Tabs card className="!overflow-hidden" items={["미리보기", "QR 코드", "코드"]}>
         <Tab value="미리보기">
-          <LynxComponentPreview url={entry.web} height={height} />
+          <LynxComponentPreview url={archivePaths.asset(entry.web)} height={height} />
         </Tab>
         <Tab value="QR 코드">
-          <LynxComponentQRCode name={name} bundlePath={entry.lynx} />
+          <LynxComponentQRCode name={name} bundlePath={archivePaths.asset(entry.lynx)} />
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>

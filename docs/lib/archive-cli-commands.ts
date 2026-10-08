@@ -1,18 +1,28 @@
-import { createArchivePaths } from "./docs-archive";
+import { parseArchiveChannel } from "./docs-archive";
 
 // Only CLI commands that read a registry need an archive source. Preserve explicit custom sources.
-export function archiveCliCommands(code: string, version: string): string {
-  if (!version) return code;
-  const baseUrl = `https://seed-design.io${createArchivePaths(version).prefix}`;
+export function archiveCliCommands(code: string, channel: string): string {
+  if (!channel) return code;
+  const { platform } = parseArchiveChannel(channel);
+  const baseUrl = `https://seed-design.io/${channel}`;
   return code
     .split("\n")
     .map((line) => {
       line = line
-        .replace(/(- docs:\s*)https:\/\/seed-design\.io\/react(?=\/|$)/g, `$1${baseUrl}`)
-        .replace(/(- llms\.txt:\s*)https:\/\/seed-design\.io\/llms(?=\/|$)/g, `$1${baseUrl}/llms`)
         .replace(
-          /(- snippet:\s*)https:\/\/raw\.githubusercontent\.com\/daangn\/seed-design\/refs\/heads\/dev\/docs\/registry\/react\//g,
-          `$1https://raw.githubusercontent.com/daangn/seed-design/refs/heads/react/${version}/docs/registry/react/`,
+          new RegExp(`(- docs:\\s*)https://seed-design\\.io/${platform}(?=/|$)`, "g"),
+          `$1${baseUrl}`,
+        )
+        .replace(
+          new RegExp(`(- llms\\.txt:\\s*)https://seed-design\\.io/llms/${platform}(?=/|$)`, "g"),
+          `$1${baseUrl}/llms/${platform}`,
+        )
+        .replace(
+          new RegExp(
+            `(- snippet:\\s*)https://raw\\.githubusercontent\\.com/daangn/seed-design/refs/heads/dev/docs/registry/${platform}/`,
+            "g",
+          ),
+          `$1https://raw.githubusercontent.com/daangn/seed-design/refs/heads/${channel}/docs/registry/${platform}/`,
         );
 
       if (
