@@ -5,7 +5,7 @@ export interface AvatarProps extends SeedAvatar.RootProps {
   src?: string;
   alt?: string;
   fallback?: React.ReactNode;
-  /** Native image events, accessibility and decoding props. */
+  /** Native image events and accessibility attributes. */
   imageProps?: Omit<SeedAvatar.ImageProps, "src" | "alt">;
 }
 

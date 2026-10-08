@@ -1,11 +1,14 @@
 ---
 title: Avatar
 description: 사용자의 프로필 이미지를 표시하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@1.0.0, @seed-design/lynx-css@1.0.0" />
 
-<LynxComponentExample name="lynx/avatar/preview" height={240}>
+<LynxComponentExample name="lynx/avatar/preview">
   ```json doc-gen:file
   { "file": "examples/lynx/avatar/preview.tsx", "codeblock": true }
   ```
@@ -61,7 +64,7 @@ import { Avatar } from "@seed-design/lynx-react";
 
 ### `AvatarBadge`
 
-<react-type-table path="./registry/lynx/ui/avatar.tsx" name="AvatarBadgeProps" />
+고유 prop이 없습니다. native `view` 속성과 `children`, `className`, `style`을 받습니다.
 
 ### `AvatarStack`
 
@@ -71,7 +74,7 @@ import { Avatar } from "@seed-design/lynx-react";
 
 ### Size
 
-<LynxComponentExample name="lynx/avatar/size" height={340}>
+<LynxComponentExample name="lynx/avatar/size">
   ```json doc-gen:file
   { "file": "examples/lynx/avatar/size.tsx", "codeblock": true }
   ```
@@ -116,7 +119,7 @@ React와 같은 도형 정의와 크기별 위치에서 생성한 `clip-path`로
 
 PNG 마스크 로딩이나 SVG 마스크 합성에 의존하지 않습니다. 경로는 공식 크기별로 생성되므로 `size` prop으로 크기를 선택하세요.
 
-<LynxComponentExample name="lynx/avatar/badge" height={240}>
+<LynxComponentExample name="lynx/avatar/badge">
   ```json doc-gen:file
   { "file": "examples/lynx/avatar/badge.tsx", "codeblock": true }
   ```
@@ -136,7 +139,7 @@ import { Avatar, AvatarStack } from "@/components/ui/avatar";
 </AvatarStack>
 ```
 
-<LynxComponentExample name="lynx/avatar/stack" height={240}>
+<LynxComponentExample name="lynx/avatar/stack">
   ```json doc-gen:file
   { "file": "examples/lynx/avatar/stack.tsx", "codeblock": true }
   ```
@@ -148,20 +151,18 @@ import { Avatar, AvatarStack } from "@/components/ui/avatar";
 
 현재 Lynx 구현은 로딩 성공 시 fallback을 언마운트합니다. 숨긴 상태로 유지하는 React와 달리 다시 표시할 때 자식의 내부 상태가 초기화되므로, 유지할 상태는 부모에서 관리하세요.
 
-<LynxComponentExample name="lynx/avatar/fallback" height={240}>
+<LynxComponentExample name="lynx/avatar/fallback">
   ```json doc-gen:file
   { "file": "examples/lynx/avatar/fallback.tsx", "codeblock": true }
   ```
 </LynxComponentExample>
 
-## Web Version Differences
+## 웹 버전과의 차이
 
 - React와 같은 `Root`, `Image`, `Fallback`, `Badge`, `Stack` 구조 및 20~108 크기를 제공합니다. `size="20"`에서는 React처럼 배지를 숨깁니다.
 - DOM `<img>` 대신 native `<image mode="aspectFill">`을 사용합니다. `alt`는 `accessibility-label`로 전달하고, 같은 native 속성을 직접 지정하면 직접 지정한 값이 우선합니다.
 - `onLoad`/`onError` 대신 `imageProps.bindload`/`imageProps.binderror`를 사용합니다. 사용자 핸들러와 내부 로딩 처리는 함께 실행됩니다.
 - Stack의 구조·음수 간격은 React와 같으며 웹의 `:first-child` 대신 각 항목에 겹침 클래스를 적용합니다. 현재 구현에는 React의 `clip-path` 보정이 없으므로, 배지 등 영역 밖 콘텐츠를 함께 사용할 때 겹침 결과를 확인하세요.
-
-## Unsupported Lynx Features
 
 - `asChild`, `srcSet`, DOM 이벤트/속성은 지원하지 않습니다. native props와 literal `<view>`, `<image>` 구조를 사용하세요.
 - React의 SVG mask 합성 대신 native `<view>`에 생성된 `clip-path`를 적용합니다. 사용자 API와 커스텀 배지의 동작은 같습니다.

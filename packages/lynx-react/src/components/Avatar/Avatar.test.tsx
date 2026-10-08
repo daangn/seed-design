@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { Avatar } from "../index";
+import { Avatar } from "./index";
 
 function root() {
   if (!elementTree.root) throw new Error("Missing native root");
@@ -194,9 +194,13 @@ describe("Avatar", () => {
     function MaskedProfile({ mask }: { mask: "circle" | "flower" | "shield" | "none" }) {
       return (
         <Avatar.Root size="64" badgeMask={mask} onLoadingStatusChange={onStatus}>
-          <Avatar.Fallback><text>fallback</text></Avatar.Fallback>
+          <Avatar.Fallback>
+            <text>fallback</text>
+          </Avatar.Fallback>
           <Avatar.Image src="a.png" />
-          <Avatar.Badge><text>badge</text></Avatar.Badge>
+          <Avatar.Badge>
+            <text>badge</text>
+          </Avatar.Badge>
         </Avatar.Root>
       );
     }
