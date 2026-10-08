@@ -13,7 +13,10 @@ export function archiveCliCommands(code: string, channel: string): string {
           new RegExp(`(- docs:\\s*)https://seed-design\\.io/${platform}(?=/|$)`, "g"),
           `$1${baseUrl}`,
         )
-        .replace(/(- llms\.txt:\s*)https:\/\/seed-design\.io\/llms(?=\/|$)/g, `$1${baseUrl}/llms`)
+        .replace(
+          new RegExp(`(- llms\\.txt:\\s*)https://seed-design\\.io/llms/${platform}(?=/|$)`, "g"),
+          `$1${baseUrl}/llms/${platform}`,
+        )
         .replace(
           new RegExp(
             `(- snippet:\\s*)https://raw\\.githubusercontent\\.com/daangn/seed-design/refs/heads/dev/docs/registry/${platform}/`,

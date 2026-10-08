@@ -74,6 +74,7 @@ it("keeps Lynx CLI commands and result examples in the Lynx archive", () => {
     "│ - llms.txt: https://seed-design.io/llms/lynx/components/app-bar.txt",
     "│ - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/app-bar.tsx",
     "│ - docs: https://seed-design.io/react/components/action-button",
+    "│ - llms.txt: https://seed-design.io/llms/react/components/action-button.txt",
   ].join("\n");
   expect(archiveCliCommands(input, "lynx/v0")).toBe(
     [
@@ -81,6 +82,7 @@ it("keeps Lynx CLI commands and result examples in the Lynx archive", () => {
       "│ - llms.txt: https://seed-design.io/lynx/v0/llms/lynx/components/app-bar.txt",
       "│ - snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/lynx/v0/docs/registry/lynx/ui/app-bar.tsx",
       "│ - docs: https://seed-design.io/react/components/action-button",
+      "│ - llms.txt: https://seed-design.io/llms/react/components/action-button.txt",
     ].join("\n"),
   );
 });
