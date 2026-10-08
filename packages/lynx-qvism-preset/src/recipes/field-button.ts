@@ -1,8 +1,8 @@
 import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
-const inputButton = defineSlotRecipe({
-  name: "input-button",
+const fieldButton = defineSlotRecipe({
+  name: "field-button",
   slots: [
     "root",
     "button",
@@ -250,4 +250,4 @@ const inputButton = defineSlotRecipe({
   },
 });
 
-export default inputButton;
+export default fieldButton;
