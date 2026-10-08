@@ -25,7 +25,7 @@ done
 
 ## 발생 근거와 적용 조건
 
-- DES-2637에서 iOS PlayLynx(SDK 1.4.0)로 `docs/examples/lynx/field-button/clear-button`(당시 경로 `input-button/clear-button`) 예제를 검증했다. FieldButton Root는 Button과 Content Scale용 content view를 형제로 두고, `seed-input-button__content`에 `pointer-events: none`을 준다(`packages/lynx-css/recipes/input-button.css`).
+- DES-2637에서 iOS PlayLynx(SDK 1.4.0)로 `docs/examples/lynx/field-button/clear-button`(당시 경로 `input-button/clear-button`) 예제를 검증했다. FieldButton Root는 Button과 Content Scale용 content view를 형제로 두고, `seed-field-button__content`(당시 `seed-input-button__content`)에 `pointer-events: none`을 준다(`packages/lynx-css/recipes/field-button.css`).
 - `agent-lynx tap @e8`(Button)은 `Ref @e8 is covered: (195,437) hit node 32, expected 21`로 거부됐다. 같은 좌표 근처에 `Input.emulateTouchFromMouseEvent`를 보내자 Button `bindtap`이 실행돼 값이 바뀌었고, 누르는 동안 `pressed_true`, 놓은 뒤 `pressed_false`였다.
 - 피할 패턴: 거부된 tap을 "tap이 막혔다"로 판정하는 것.
 
@@ -33,3 +33,4 @@ done
 
 - 2026-10-01: DES-2637 기기 검증에서 처음 기록했다.
 - 2026-10-01: Lynx `InputButton`이 `FieldButton`으로 이름이 바뀌어 컴포넌트명과 예제 경로를 갱신했다.
+- 2026-10-08: DES-2731에서 Lynx Recipe·class 이름이 `field-button`으로 바뀌어 class와 Recipe 경로를 갱신했다. 기기 재검증은 하지 않았다.

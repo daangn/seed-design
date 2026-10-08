@@ -1,9 +1,9 @@
 import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
-  inputButton,
-  type InputButtonVariantProps,
-} from "@seed-design/lynx-css/recipes/input-button";
+  fieldButton,
+  type FieldButtonVariantProps,
+} from "@seed-design/lynx-css/recipes/field-button";
 import {
   FieldButtonProvider,
   useFieldButton,
@@ -28,7 +28,7 @@ import type {
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
 interface StyledFieldButtonContextValue extends UseFieldButtonContext {
-  variantProps: InputButtonVariantProps;
+  variantProps: FieldButtonVariantProps;
   scaleFeedbackTriggerProps: ScaleFeedbackTriggerProps;
 }
 
@@ -61,13 +61,13 @@ function useStyledFieldButtonContext(consumer: string): StyledFieldButtonContext
  *   커스텀 컴포넌트로 감싼 Button은 기존 구조를 보존하며 Content Scale을 생략합니다.
  */
 export interface FieldButtonRootProps
-  extends Omit<InputButtonVariantProps, "pressed">,
+  extends Omit<FieldButtonVariantProps, "pressed">,
     Pick<UseFieldButtonProps, "values" | "onValuesChange">,
     LynxStyledElementProps {}
 
 export const FieldButtonRoot = React.forwardRef<NodesRef, FieldButtonRootProps>(
   (props, forwardedRef) => {
-    const [variantProps, otherProps] = inputButton.splitVariantProps(props);
+    const [variantProps, otherProps] = fieldButton.splitVariantProps(props);
     const { children, className, values, onValuesChange, ...nativeProps } = otherProps;
     const api = useFieldButton({
       values,
@@ -76,7 +76,7 @@ export const FieldButtonRoot = React.forwardRef<NodesRef, FieldButtonRootProps>(
       invalid: variantProps.invalid,
       readOnly: variantProps.readOnly,
     });
-    const classes = inputButton(variantProps);
+    const classes = fieldButton(variantProps);
     // Button이 이 Main Thread touch handler를 눌림 상태 갱신과 합성해 Background로 넘긴다.
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       disabled: !api.interactive,
@@ -148,7 +148,7 @@ export const FieldButtonButton = React.forwardRef<unknown, FieldButtonButtonProp
     "accessibility-traits": accessibilityTraits,
     ...context.scaleFeedbackTriggerProps,
   });
-  const classes = inputButton({ ...context.variantProps, pressed });
+  const classes = fieldButton({ ...context.variantProps, pressed });
 
   return (
     <view
@@ -182,7 +182,7 @@ export interface FieldButtonValueProps extends LynxStyledElementProps {}
 
 export const FieldButtonValue = React.forwardRef<unknown, FieldButtonValueProps>((props, ref) => {
   const context = useStyledFieldButtonContext("FieldButton.Value");
-  const classes = inputButton(context.variantProps);
+  const classes = fieldButton(context.variantProps);
   const { children, className, ...nativeProps } = props;
 
   return (
@@ -203,7 +203,7 @@ export interface FieldButtonPlaceholderProps extends LynxStyledElementProps {}
 export const FieldButtonPlaceholder = React.forwardRef<unknown, FieldButtonPlaceholderProps>(
   (props, ref) => {
     const context = useStyledFieldButtonContext("FieldButton.Placeholder");
-    const classes = inputButton(context.variantProps);
+    const classes = fieldButton(context.variantProps);
     const { children, className, ...nativeProps } = props;
 
     return (
@@ -227,7 +227,7 @@ export interface FieldButtonPrefixTextProps extends LynxStyledElementProps {}
 export const FieldButtonPrefixText = React.forwardRef<unknown, FieldButtonPrefixTextProps>(
   (props, ref) => {
     const context = useStyledFieldButtonContext("FieldButton.PrefixText");
-    const classes = inputButton(context.variantProps);
+    const classes = fieldButton(context.variantProps);
     const { children, className, ...nativeProps } = props;
 
     return (
@@ -249,7 +249,7 @@ export interface FieldButtonPrefixIconProps extends InternalIconProps {}
 export const FieldButtonPrefixIcon = React.forwardRef<unknown, FieldButtonPrefixIconProps>(
   (props, ref) => {
     const context = useStyledFieldButtonContext("FieldButton.PrefixIcon");
-    const classes = inputButton(context.variantProps);
+    const classes = fieldButton(context.variantProps);
     const { className, ...otherProps } = props;
 
     return (
@@ -269,7 +269,7 @@ export interface FieldButtonSuffixTextProps extends LynxStyledElementProps {}
 export const FieldButtonSuffixText = React.forwardRef<unknown, FieldButtonSuffixTextProps>(
   (props, ref) => {
     const context = useStyledFieldButtonContext("FieldButton.SuffixText");
-    const classes = inputButton(context.variantProps);
+    const classes = fieldButton(context.variantProps);
     const { children, className, ...nativeProps } = props;
 
     return (
@@ -291,7 +291,7 @@ export interface FieldButtonSuffixIconProps extends InternalIconProps {}
 export const FieldButtonSuffixIcon = React.forwardRef<unknown, FieldButtonSuffixIconProps>(
   (props, ref) => {
     const context = useStyledFieldButtonContext("FieldButton.SuffixIcon");
-    const classes = inputButton(context.variantProps);
+    const classes = fieldButton(context.variantProps);
     const { className, ...otherProps } = props;
 
     return (
@@ -334,7 +334,7 @@ export const FieldButtonClearButton = React.forwardRef<unknown, FieldButtonClear
       "accessibility-element": accessibilityElement,
       "accessibility-traits": accessibilityTraits,
     });
-    const classes = inputButton({ ...context.variantProps, pressed });
+    const classes = fieldButton({ ...context.variantProps, pressed });
 
     if (!rendered) return null;
 
