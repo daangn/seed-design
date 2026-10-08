@@ -89,9 +89,11 @@ export async function exportArchive({
     await copy(path.join(input, "404.html"), path.join(staging, "404.html"));
 
     // Backport the release branch's redirects, never the newer major's replacements.
+    const redirectLinePattern =
+      platform === "react" ? /^\/(?:llms\/)?react(?:\/|\s)/ : /^\/(?:llms\/)?lynx(?:\/|\s)/;
     const redirects = (await readFile(path.join(docsDirectory, "public/_redirects"), "utf8"))
       .split("\n")
-      .filter((line) => new RegExp(`^/(?:llms/)?${platform}(?:/|\\s)`).test(line))
+      .filter((line) => redirectLinePattern.test(line))
       .map((line) => {
         const [from, to, status] = line.trim().split(/\s+/);
         return `${paths.link(from)} ${paths.link(to)} ${status}`;
