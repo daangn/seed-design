@@ -32,9 +32,7 @@
     justify-content: center;
     color: inherit;
     --seed-icon-size: 100%;
-    --seed-icon-color: currentColor;
-    transform: scale(1);
-    transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+    --seed-icon-color: currentColor
 }
 .seed-badge__root--size_medium {
     min-height: var(--seed-dimension-x5);
@@ -212,10 +210,4 @@
 }
 .seed-badge__label--tone_critical-variant_outline {
     color: var(--seed-color-fg-critical)
-}
-.seed-badge__action--size_medium-pressed_true {
-    transform: scale(var(--seed-scale-s95))
-}
-.seed-badge__action--size_large-pressed_true {
-    transform: scale(var(--seed-scale-s95))
 }

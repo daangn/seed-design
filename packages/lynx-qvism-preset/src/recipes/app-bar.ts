@@ -124,7 +124,9 @@ export const appBar = defineSlotRecipe({
   base: {
     root: {
       position: "relative",
-      zIndex: "var(--z-index-app-bar)",
+      // Lynx는 z-index가 있는 자식을 가장 가까운 stacking context로 올린다. root가 stacking context가
+      // 아니면 z-index를 가진 좌우 슬롯과 배경이 scroll-view 밖으로 올라가 스크롤을 따라가지 않는다.
+      zIndex: 0,
       width: "100%",
       display: "flex",
       flexDirection: "row",
@@ -158,9 +160,14 @@ export const appBar = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       borderWidth: 0,
-      background: "#00000000",
       padding: 0,
-      borderRadius: "var(--seed-radius-r1)",
+      borderRadius: iconButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: iconButtonVars.base.enabled.root.color,
+      transition: `background-color ${iconButtonVars.base.enabled.root.colorDuration} ${iconButtonVars.base.enabled.root.colorTimingFunction}`,
+      // Scale Feedback owns the root transform on the main thread; the recipe only adds the pressed color.
+      "&:active": {
+        backgroundColor: iconButtonVars.base.pressed.root.color,
+      },
       // Keep per-button edge compensation in the recipe so caller styles remain intact.
       "&.seed-app-bar__icon-button-edge-leading": {
         marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,

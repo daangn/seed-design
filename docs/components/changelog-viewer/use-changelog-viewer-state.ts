@@ -1,6 +1,11 @@
 "use client";
 
-import { PINNED_PACKAGES, ALL } from "@/components/changelog-viewer/constants";
+import {
+  PINNED_PACKAGES,
+  LYNX_PINNED_PACKAGES,
+  ALL,
+} from "@/components/changelog-viewer/constants";
+import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { useQueryState } from "nuqs";
 import { useEffect, useMemo, useState } from "react";
 
@@ -10,14 +15,14 @@ function toQueryValue(value: string): string | null {
   return value === ALL ? null : value;
 }
 
-export function useChangelogViewerState(rawPackages: string[]) {
-  const packages = useMemo(
-    () => [
-      ...PINNED_PACKAGES.filter((pkg) => rawPackages.includes(pkg)),
-      ...rawPackages.filter((pkg) => !PINNED_PACKAGES.includes(pkg)).sort(),
-    ],
-    [rawPackages],
-  );
+export function useChangelogViewerState(rawPackages: string[], platform: ChangelogPlatform) {
+  const packages = useMemo(() => {
+    const pinned = platform === "lynx" ? LYNX_PINNED_PACKAGES : PINNED_PACKAGES;
+    return [
+      ...pinned.filter((pkg) => rawPackages.includes(pkg)),
+      ...rawPackages.filter((pkg) => !pinned.includes(pkg)).sort(),
+    ];
+  }, [rawPackages, platform]);
 
   const [activeTab, setActiveTab] = useQueryState("package", {
     defaultValue: "",

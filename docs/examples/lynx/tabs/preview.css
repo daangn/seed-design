@@ -1,11 +1,8 @@
-.docs-lynx-tabs-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .tabs-preview {
-  height: 100%;
-  padding: 24px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .tabs-preview__carousel {
@@ -13,6 +10,7 @@
 }
 
 .tabs-preview__content {
+  /* TabsContent recipe가 display(flex·none)를 정한다. */
   height: 300px;
   align-items: center;
   justify-content: center;
@@ -25,7 +23,9 @@
 }
 
 .tabs-preview__scroll {
-  height: 100%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .tabs-preview__sticky-content {
@@ -42,6 +42,7 @@
 }
 
 .tabs-preview__dynamic-footer {
+  display: flex;
   height: 100px;
   align-items: center;
   justify-content: center;
@@ -54,12 +55,15 @@
 }
 
 .tabs-preview__scroll-top-content {
+  display: flex;
+  flex-direction: column;
   height: 1000px;
   align-items: center;
   background-color: var(--seed-color-bg-layer-default);
 }
 
 .tabs-preview__scroll-top-item {
+  display: flex;
   height: 100px;
   align-items: center;
   justify-content: center;

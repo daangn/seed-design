@@ -177,6 +177,10 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 
 웹은 `white-space: pre`로 문자열 구분자의 앞뒤 공백을 보존합니다. Lynx는 `white-space: pre`를 지원하지 않고 브라우저 프리뷰와 네이티브 Lynx의 기본 공백 계측도 서로 다릅니다. 두 실행 환경에서 같은 간격을 만들기 위해 Lynx `TagGroup`은 문자열 구분자의 앞뒤 공백을 제거하고 컴포넌트 스타일의 간격을 적용합니다. 문자열이 아닌 `ReactNode` 구분자는 변경하지 않습니다.
 
+### 접근성
+
+구분자는 장식 요소입니다. 웹은 `aria-hidden`, Lynx는 `accessibility-elements-hidden`으로 스크린 리더에서 제외합니다. `TagGroupRoot`·`TagGroupItem`·`TagGroupItemLabel`은 기본 accessibility role이나 traits를 지정하지 않고, 전달한 `accessibility-*` props를 그대로 native 요소에 전달합니다.
+
 ### 미지원 prop
 
 | prop | 웹 동작 | Lynx 미지원 사유 |
@@ -188,4 +192,4 @@ Lynx TagGroup은 Lynx view 엔진(Yoga 기반 flex)의 제약으로 React 웹 �
 ### 이벤트·ref
 
 - 이벤트: Lynx는 `onClick` 대신 `bindtap` / `main-thread:bindtap`을 사용합니다. `TagGroup`은 정적 표시 컴포넌트이므로 선택 값이나 비활성화 상태를 관리하는 인터랙션 prop은 노출하지 않습니다.
-- ref: Root와 Item의 ref는 `<view>`로 전달됩니다. 내부에서는 `LynxViewRef`를 사용하며, 이 타입은 `React.Ref<NodesRef>`의 별칭입니다.
+- ref: Root와 Item의 ref는 `<view>`, ItemLabel의 ref는 `<text>`로 전달됩니다. 내부에서는 `LynxViewRef`·`LynxTextRef`를 사용하며, 두 타입은 `React.Ref<NodesRef>`의 별칭입니다.

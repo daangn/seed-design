@@ -7,13 +7,16 @@ import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "@/components/u
 import { AccordionPage } from "./pages/AccordionPage.jsx";
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
+import { AttachmentDisplayHeadlessPage } from "./pages/AttachmentDisplayHeadlessPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
 import { CalloutPage } from "./pages/CalloutPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
+import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
 import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
 import { DocsExamplePage } from "./pages/DocsExamplePage.jsx";
+import { FileUploadHeadlessPage } from "./pages/FileUploadHeadlessPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
 import { FoundationMonochromeIconPage } from "./pages/FoundationMonochromeIconPage.jsx";
 import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPage.jsx";
@@ -21,24 +24,36 @@ import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { legacyPageTitle, type HomeCategory } from "./pages/home-navigation.js";
 import { IconColorPOCPage } from "./pages/IconColorPOCPage.jsx";
+import { KeyboardAvoidingScrollViewHeadlessPage } from "./pages/KeyboardAvoidingScrollViewHeadlessPage.jsx";
 import {
   LayoutStressSeedPrimitivesPage,
   LayoutStressStylePage,
   LayoutStressTailwindPage,
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
+import { ListHeadlessPage } from "./pages/ListHeadlessPage.jsx";
 import { MannerTempPage } from "./pages/MannerTempPage.jsx";
 import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
+import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
 import { PageBannerPage } from "./pages/PageBannerPage.jsx";
+import { PageBannerHeadlessPage } from "./pages/PageBannerHeadlessPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
+import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
+import { PullToRefreshHeadlessPage } from "./pages/PullToRefreshHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
+import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
+import { SelectHeadlessPage } from "./pages/SelectHeadlessPage.jsx";
+import { SelectBoxHeadlessPage } from "./pages/SelectBoxHeadlessPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
+import { SwitchHeadlessPage } from "./pages/SwitchHeadlessPage.jsx";
 import { TabsPage } from "./pages/TabsPage.jsx";
+import { TabsHeadlessPage } from "./pages/TabsHeadlessPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
+import { TextFieldHeadlessPage } from "./pages/TextFieldHeadlessPage.jsx";
 import { TextFieldPage } from "./pages/TextFieldPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
@@ -53,18 +68,33 @@ export type Page =
   | "accordion"
   | "action-button"
   | "app-bar"
+  | "attachment-display-headless"
   | "badge"
   | "bottom-sheet"
   | "callout"
   | "checkbox"
+  | "dialog-headless"
+  | "file-upload-headless"
+  | "keyboard-avoiding-scroll-view-headless"
+  | "list-headless"
   | "manner-temp"
+  | "menu-headless"
   | "page-banner"
+  | "page-banner-headless"
   | "progress-circle"
+  | "progress-circle-headless"
+  | "pull-to-refresh-headless"
   | "radio-group"
+  | "radio-group-headless"
+  | "select-headless"
+  | "select-box-headless"
   | "switch"
+  | "switch-headless"
   | "tabs"
+  | "tabs-headless"
   | "tag-group"
   | "text-field"
+  | "text-field-headless"
   | "nested-vars-test"
   | "foundation-color"
   | "foundation-monochrome-icon"
@@ -96,18 +126,32 @@ type Route =
 const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
   accordion: true,
   "action-button": true,
+  "attachment-display-headless": true,
   badge: true,
   "bottom-sheet": true,
   callout: true,
   checkbox: true,
+  "dialog-headless": true,
+  "file-upload-headless": true,
+  "keyboard-avoiding-scroll-view-headless": true,
+  "list-headless": true,
   "manner-temp": true,
+  "menu-headless": true,
   "page-banner": true,
+  "page-banner-headless": true,
   "progress-circle": true,
+  "progress-circle-headless": true,
+  "pull-to-refresh-headless": true,
   "radio-group": true,
+  "radio-group-headless": true,
+  "select-headless": true,
   switch: true,
+  "switch-headless": true,
   tabs: true,
+  "tabs-headless": true,
   "tag-group": true,
   "text-field": true,
+  "text-field-headless": true,
   "foundation-monochrome-icon": true,
   "foundation-multicolor-icon": true,
 };
@@ -170,18 +214,35 @@ function LegacyPageContent({ page }: { page: LegacyPage }) {
     <>
       {page === "accordion" && <AccordionPage />}
       {page === "action-button" && <ActionButtonPage />}
+      {page === "attachment-display-headless" && <AttachmentDisplayHeadlessPage />}
       {page === "badge" && <BadgePage />}
       {page === "bottom-sheet" && <BottomSheetPage />}
       {page === "callout" && <CalloutPage />}
       {page === "checkbox" && <CheckboxPage />}
+      {page === "dialog-headless" && <DialogHeadlessPage />}
+      {page === "file-upload-headless" && <FileUploadHeadlessPage />}
+      {page === "keyboard-avoiding-scroll-view-headless" && (
+        <KeyboardAvoidingScrollViewHeadlessPage />
+      )}
+      {page === "list-headless" && <ListHeadlessPage />}
       {page === "manner-temp" && <MannerTempPage />}
+      {page === "menu-headless" && <MenuHeadlessPage />}
       {page === "page-banner" && <PageBannerPage />}
+      {page === "page-banner-headless" && <PageBannerHeadlessPage />}
       {page === "progress-circle" && <ProgressCirclePage />}
+      {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
+      {page === "pull-to-refresh-headless" && <PullToRefreshHeadlessPage />}
       {page === "radio-group" && <RadioGroupPage />}
+      {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
+      {page === "select-headless" && <SelectHeadlessPage />}
+      {page === "select-box-headless" && <SelectBoxHeadlessPage />}
       {page === "switch" && <SwitchPage />}
+      {page === "switch-headless" && <SwitchHeadlessPage />}
       {page === "tabs" && <TabsPage />}
+      {page === "tabs-headless" && <TabsHeadlessPage />}
       {page === "tag-group" && <TagGroupPage />}
       {page === "text-field" && <TextFieldPage />}
+      {page === "text-field-headless" && <TextFieldHeadlessPage />}
       <Suspense>
         {page === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
         {page === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}

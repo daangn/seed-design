@@ -8,7 +8,7 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton, HStack } from "@seed-design/lynx-react";
 
 function DialogExample({ variant }: { variant: "maxHeight" | "minHeight" | "fullBleed" }) {
   const isMaxHeight = variant === "maxHeight";
@@ -70,17 +70,11 @@ function DialogExample({ variant }: { variant: "maxHeight" | "minHeight" | "full
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-dialog-root`}>
-      <view className="dialog-example-stage">
-        <view className="dialog-example-column">
-          <DialogExample variant="maxHeight" />
-          <DialogExample variant="minHeight" />
-          <DialogExample variant="fullBleed" />
-        </view>
-      </view>
-    </view>
+    <HStack gap="x2" wrap="wrap" justify="center">
+      <DialogExample variant="maxHeight" />
+      <DialogExample variant="minHeight" />
+      <DialogExample variant="fullBleed" />
+    </HStack>
   );
 }

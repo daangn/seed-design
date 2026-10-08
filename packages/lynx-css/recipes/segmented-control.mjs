@@ -23,6 +23,10 @@ const segmentedControlSlotNames = [
     "seed-segmented-control__itemBackground"
   ],
   [
+    "itemSelectedBackground",
+    "seed-segmented-control__itemSelectedBackground"
+  ],
+  [
     "label",
     "seed-segmented-control__label"
   ]
@@ -31,15 +35,11 @@ const segmentedControlSlotNames = [
 const defaultVariant = {
   "selected": false,
   "disabled": false,
-  "pressed": false,
-  "hasSelection": true
+  "hasSelection": true,
+  "transitionEnabled": true
 };
 
 const compoundVariants = [
-  {
-    "disabled": true,
-    "pressed": true
-  },
   {
     "selected": true,
     "disabled": true
@@ -55,11 +55,11 @@ export const segmentedControlVariantMap = {
     true,
     false
   ],
-  "pressed": [
+  "hasSelection": [
     true,
     false
   ],
-  "hasSelection": [
+  "transitionEnabled": [
     true,
     false
   ]

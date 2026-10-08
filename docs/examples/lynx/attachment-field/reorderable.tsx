@@ -1,13 +1,6 @@
-import "@seed-design/lynx-css/base.css";
-
 import IconXmarkFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkFill";
 import type { AttachmentFileEntry, NativeFile } from "@seed-design/lynx-react";
-import {
-  AttachmentInput as SeedAttachmentInput,
-  Icon,
-  VStack,
-  useSeedClassName,
-} from "@seed-design/lynx-react";
+import { AttachmentInput as SeedAttachmentInput, Icon, VStack } from "@seed-design/lynx-react";
 import { ProgressCircle } from "@/components/ui/progress-circle";
 import { AttachmentField } from "@/components/ui/attachment-field";
 import {
@@ -74,31 +67,28 @@ function SortableImageItem({
 }
 
 export default function AttachmentFieldReorderable() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={seedClassName}>
-      <VStack p="x6" width="100%">
-        <AttachmentField
-          accept="image/*"
-          maxFiles={5}
-          label="이미지 업로드"
-          description="길게 눌러 드래그하여 순서를 변경할 수 있습니다"
-          defaultAcceptedFileEntries={DEFAULT_FILES}
-        >
-          <AttachmentInputReorderable>
-            {({ acceptedFileEntries }) =>
-              acceptedFileEntries.map((fileEntry, index) => (
-                <SortableImageItem
-                  key={fileEntry.id}
-                  fileEntry={fileEntry}
-                  index={index}
-                  isCover={index === 0}
-                />
-              ))
-            }
-          </AttachmentInputReorderable>
-        </AttachmentField>
-      </VStack>
-    </view>
+    <VStack width="100%">
+      <AttachmentField
+        accept="image/*"
+        maxFiles={5}
+        label="이미지 업로드"
+        description="길게 눌러 드래그하여 순서를 변경할 수 있습니다"
+        defaultAcceptedFileEntries={DEFAULT_FILES}
+      >
+        <AttachmentInputReorderable>
+          {({ acceptedFileEntries }) =>
+            acceptedFileEntries.map((fileEntry, index) => (
+              <SortableImageItem
+                key={fileEntry.id}
+                fileEntry={fileEntry}
+                index={index}
+                isCover={index === 0}
+              />
+            ))
+          }
+        </AttachmentInputReorderable>
+      </AttachmentField>
+    </VStack>
   );
 }

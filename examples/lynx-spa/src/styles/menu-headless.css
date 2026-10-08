@@ -1,0 +1,71 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-menu만 소비하는 화면의 스타일 */
+
+.menu-headless-trigger {
+  display: flex;
+  align-self: flex-start;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #1a1c20;
+}
+
+.menu-headless-trigger-label {
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.menu-headless-underlying {
+  display: flex;
+  align-self: flex-start;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #eeeff1;
+}
+
+.menu-headless-positioner {
+  z-index: 99;
+}
+
+.menu-headless-content {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.menu-headless-scroll {
+  width: 100%;
+}
+
+.menu-headless-list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.menu-headless-group-label {
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #868b94;
+}
+
+.menu-headless-item-body {
+  display: flex;
+  padding: 10px 16px;
+}
+
+.menu-headless-pressed {
+  background-color: #eeeff1;
+}
+
+.menu-headless-label {
+  font-size: 15px;
+  color: #1a1c20;
+}
+
+.menu-headless-label-disabled {
+  color: #d1d3d8;
+}

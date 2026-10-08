@@ -5,16 +5,14 @@ import {
   floatingActionButton,
   type FloatingActionButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/floating-action-button";
+import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
 
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
-  LynxAccessibilityProps,
+  LynxHostProps,
   LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextProps,
   LynxTextRef,
-  LynxTouchProps,
   LynxViewRef,
   LynxViewProps,
 } from "../../types";
@@ -22,7 +20,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
-const { ClassNamesProvider, PropsProvider, useClassNames, useProps, withContext } =
+const { ClassNamesProvider, useClassNames, withContext } =
   createSlotRecipeContext(floatingActionButton);
 
 type FloatingActionButtonPublicVariantProps = Omit<
@@ -34,11 +32,7 @@ const LabelWidthContext = React.createContext<((width: number) => void) | null>(
 
 interface FloatingActionButtonRootViewProps
   extends FloatingActionButtonVariantProps,
-    LynxStyledElementProps,
-    LynxTouchProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    LynxHostProps<"view"> {}
 
 const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionButtonRootViewProps>(
   (props, ref) => {
@@ -53,22 +47,19 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
 
     return (
       <ClassNamesProvider value={classNames}>
-        <PropsProvider value={variantProps}>
-          <LabelWidthContext.Provider value={setLabelWidth}>
-            <view
-              {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-              className={clsx(classNames.root, className)}
-              style={
-                {
-                  "--fab-label-width": `${labelWidth ?? 0}px`,
-                  ...style,
-                } as LynxViewProps["style"]
-              }
-            >
-              {children}
-            </view>
-          </LabelWidthContext.Provider>
-        </PropsProvider>
+        <LabelWidthContext.Provider value={setLabelWidth}>
+          <view
+            {...mergeProps(
+              { style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxViewProps["style"] },
+              ref ? { ref: ref as LynxViewRef } : {},
+              nativeProps,
+              { style },
+            )}
+            className={clsx(classNames.root, className)}
+          >
+            {children}
+          </view>
+        </LabelWidthContext.Provider>
       </ClassNamesProvider>
     );
   },
@@ -82,34 +73,43 @@ FloatingActionButtonRootView.displayName = "FloatingActionButtonRootView";
  *
  * Web DOM button props, `asChild`, `aria-*`, and `onClick` are not supported.
  * Use native `bindtap` / `main-thread:bindtap` and `accessibility-*` props instead.
+ * Tap, pressed state, and accessibility defaults come from `@seed-design/lynx-react-action-button`.
  */
 export interface FloatingActionButtonRootProps
   extends FloatingActionButtonPublicVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
-  disabled?: boolean;
-}
+    Pick<UseActionButtonProps, "disabled">,
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingActionButtonRootProps>(
   (props, ref) => {
     const {
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      disabled = false,
-      "accessibility-element": accessibilityElement = true,
+      disabled,
+      "accessibility-element": accessibilityElementProp,
       "accessibility-role-description": accessibilityRoleDescription = "button",
-      "accessibility-traits": accessibilityTraits,
+      "accessibility-traits": accessibilityTraitsProp,
       ...otherProps
     } = props;
-    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-      usePressTap({
-        disabled,
-        onTap: bindtap,
-        mainThreadOnTap: mainThreadBindtap,
-      });
-    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    const api = useActionButton({
       disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElementProp,
+      "accessibility-traits": accessibilityTraitsProp,
+    });
+    // Press state follows the Scale Feedback Main Thread touch handlers.
+    const {
+      bindtouchstart,
+      bindtouchend,
+      bindtouchcancel,
+      "accessibility-element": accessibilityElement,
+      "accessibility-traits": accessibilityTraits,
+      ...tapHandlers
+    } = api.rootProps;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: !api.interactive,
       onTouchStart: bindtouchstart,
       onTouchEnd: bindtouchend,
       onTouchCancel: bindtouchcancel,
@@ -118,18 +118,20 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
     return (
       <FloatingActionButtonRootView
         {...mergeProps(
+          {
+            flatten: false,
+            "accessibility-element": accessibilityElement,
+            "accessibility-role-description": accessibilityRoleDescription,
+            "accessibility-traits": accessibilityTraits,
+          },
           ref ? { ref } : {},
-          disabled ? {} : scaleFeedbackTargetProps,
-          disabled ? {} : scaleFeedbackTriggerProps,
-          disabled ? {} : pressTapHandlers,
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          tapHandlers,
           otherProps,
         )}
-        disabled={disabled}
-        pressed={pressed}
-        accessibility-element={accessibilityElement}
-        accessibility-role-description={accessibilityRoleDescription}
-        accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-        flatten={false}
+        disabled={api.disabled}
+        pressed={api.pressed}
       />
     );
   },
@@ -150,11 +152,10 @@ export const FloatingActionButtonIcon = React.forwardRef<unknown, FloatingAction
 
     return (
       <StyledIcon
-        {...mergeProps(ref ? { ref } : {}, iconProps)}
+        {...mergeProps({ "accessibility-elements-hidden": true }, ref ? { ref } : {}, iconProps)}
         className={className}
         deps={[classNames.icon]}
         disableDefaultResize={true}
-        accessibility-elements-hidden={true}
       />
     );
   },
@@ -163,13 +164,12 @@ FloatingActionButtonIcon.displayName = "FloatingActionButtonIcon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FloatingActionButtonLabelProps extends LynxStyledElementProps {}
+export interface FloatingActionButtonLabelProps extends LynxHostProps<"text"> {}
 
 export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActionButtonLabelProps>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
-    const variantProps = useProps();
     const setLabelWidth = React.useContext(LabelWidthContext);
 
     if (!setLabelWidth) {
@@ -185,19 +185,14 @@ export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActio
       [setLabelWidth],
     );
 
-    if (variantProps?.extended === false) {
-      return null;
-    }
-
     return (
       <text
         {...mergeProps(
           ref ? { ref: ref as LynxTextRef } : {},
-          { bindlayoutchange: handleLayoutChange },
+          { bindlayoutchange: handleLayoutChange, "accessibility-elements-hidden": true },
           nativeProps,
         )}
         className={clsx(classNames.label, className)}
-        accessibility-elements-hidden={true}
       >
         {children}
       </text>

@@ -1,20 +1,18 @@
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
+import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
 import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
 import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
-import { isValidElement, useMemo } from "@lynx-js/react";
+import { useMemo } from "@lynx-js/react";
 
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxElementProps,
+  LynxHostProps,
   LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextRef,
-  LynxTouchProps,
-  LynxViewProps,
   LynxViewRef,
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -24,19 +22,10 @@ import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
   ProgressCircleRoot,
+  ProgressCircleTrack,
   type ProgressCircleRootProps,
 } from "../ProgressCircle";
-import {
-  Icon,
-  IconRequired,
-  IconSlotProvider,
-  PrefixIcon,
-  SuffixIcon,
-  getIconSlotName,
-  type IconProps,
-  type PrefixIconProps,
-  type SuffixIconProps,
-} from "../Icon/Icon";
+import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
 
 // Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
@@ -49,25 +38,11 @@ const { ClassNamesProvider, useClassNames, PropsProvider } = createSlotRecipeCon
 
 interface ActionButtonContentProps extends LynxElementProps {
   isIconOnly: boolean;
-  icon?: IconProps["icon"];
-  prefixIcon?: PrefixIconProps["icon"];
-  suffixIcon?: SuffixIconProps["icon"];
 }
 
-interface ActionButtonAccessibilityProps {
-  "accessibility-label"?: LynxViewProps["accessibility-label"];
-  "accessibility-element"?: LynxViewProps["accessibility-element"];
-  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
-}
+interface ActionButtonRootOwnProps extends LynxHostProps<"view"> {}
 
-interface ActionButtonRootOwnProps
-  extends LynxStyledElementProps,
-    LynxTouchProps,
-    ActionButtonAccessibilityProps {}
-
-interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {
-  flatten?: false;
-}
+interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
 
 function resolveProgressCircleSize(
   actionButtonSize: ActionButtonVariantProps["size"],
@@ -149,7 +124,7 @@ ActionButtonRoot.displayName = "ActionButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ActionButtonTextSlotProps extends LynxElementProps {}
+interface ActionButtonTextSlotProps extends LynxHostProps<"text"> {}
 
 const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
   const { children, className: userClassName, ...rest } = props;
@@ -167,13 +142,7 @@ ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-function ActionButtonContent({
-  children,
-  isIconOnly,
-  icon,
-  prefixIcon,
-  suffixIcon,
-}: ActionButtonContentProps) {
+function ActionButtonContent({ children, isIconOnly }: ActionButtonContentProps) {
   const childArray = toArray(children);
   const prefixIconChildren: React.ReactNode[] = [];
   const suffixIconChildren: React.ReactNode[] = [];
@@ -200,17 +169,14 @@ function ActionButtonContent({
   }
 
   if (isIconOnly) {
-    if (icon != null && isValidElement(icon)) return <Icon icon={icon} />;
     return iconChildren.length > 0 ? <>{iconChildren}</> : null;
   }
 
   return (
     <>
-      {prefixIcon != null && isValidElement(prefixIcon) ? <PrefixIcon icon={prefixIcon} /> : null}
       {prefixIconChildren}
       {textChildren.length > 0 ? <ActionButtonTextSlot>{textChildren}</ActionButtonTextSlot> : null}
       {suffixIconChildren}
-      {suffixIcon != null && isValidElement(suffixIcon) ? <SuffixIcon icon={suffixIcon} /> : null}
     </>
   );
 }
@@ -236,6 +202,7 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
   return (
     <view className={classNames.loadingIndicator}>
       <ProgressCircleRoot size={progressCircleSize} tone="inherit">
+        <ProgressCircleTrack />
         <ProgressCircleRange />
       </ProgressCircleRoot>
     </view>
@@ -250,7 +217,6 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  * 웹 대비 차이:
  * - 아이콘 렌더링: 웹의 SVG `currentColor` 대신 Lynx `<image>` 의 `tint-color` 를
  *   `Icon` / `PrefixIcon` / `SuffixIcon` wrapper 가 동기화한다.
- * - 호환 API: 기존 `prefixIcon` / `suffixIcon` / `icon` prop 도 유지한다.
  * - 미지원 prop: `color`, `fontWeight`, `bleedX`, `bleedY` (CSS variable 동적 주입 제한)
  *
  * ```tsx
@@ -276,41 +242,43 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  * ```
  */
 export interface ActionButtonProps
-  extends Omit<ActionButtonVariantProps, "pressed">,
+  extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
+    Pick<UseActionButtonProps, "disabled" | "loading">,
     Pick<StyleProps, "flexGrow">,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxElementProps, "flatten">,
-    LynxPressableProps,
-    ActionButtonAccessibilityProps {
-  icon?: IconProps["icon"];
-  prefixIcon?: PrefixIconProps["icon"];
-  suffixIcon?: SuffixIconProps["icon"];
-}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
   const {
     children,
     flexGrow,
     layout,
-    icon,
-    prefixIcon,
-    suffixIcon,
+    disabled,
+    loading,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits = "button",
+    "accessibility-traits": accessibilityTraits,
     ...variantAndRest
   } = props;
-  const { disabled = false, loading = false } = variantAndRest;
-  const isInteractive = !disabled && !loading;
+  const api = useActionButton({
+    disabled,
+    loading,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-traits": accessibilityTraits,
+  });
+  // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const isIconOnly = layout === "iconOnly";
   const size = variantAndRest.size;
 
   if (
     process.env.NODE_ENV !== "production" &&
     isIconOnly &&
-    accessibilityElement &&
+    rootProps["accessibility-element"] &&
     !accessibilityLabel
   ) {
     console.warn(
@@ -318,14 +286,8 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     );
   }
 
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-    usePressTap({
-      disabled: !isInteractive,
-      onTap: bindtap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: !isInteractive,
+    disabled: !api.interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -335,41 +297,31 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     <IconRequired enabled={isIconOnly}>
       <ActionButtonRoot
         {...mergeProps(
-          { ref },
+          {
+            flatten: false,
+            style: flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined,
+          },
+          ref ? { ref } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
-          pressTapHandlers,
+          rootProps,
           variantAndRest,
+          { "accessibility-label": accessibilityLabel },
         )}
         layout={layout}
-        pressed={pressed}
-        style={flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel}
-        accessibility-traits={accessibilityTraits}
-        flatten={false}
+        disabled={api.disabled}
+        loading={api.loading}
+        pressed={api.pressed}
       >
-        {loading ? (
+        {api.loading ? (
           <>
             <ActionButtonLoadingIndicator size={size} />
-            <ActionButtonLoadingContent
-              isIconOnly={isIconOnly}
-              icon={icon}
-              prefixIcon={prefixIcon}
-              suffixIcon={suffixIcon}
-            >
+            <ActionButtonLoadingContent isIconOnly={isIconOnly}>
               {children}
             </ActionButtonLoadingContent>
           </>
         ) : (
-          <ActionButtonContent
-            isIconOnly={isIconOnly}
-            icon={icon}
-            prefixIcon={prefixIcon}
-            suffixIcon={suffixIcon}
-          >
-            {children}
-          </ActionButtonContent>
+          <ActionButtonContent isIconOnly={isIconOnly}>{children}</ActionButtonContent>
         )}
       </ActionButtonRoot>
     </IconRequired>

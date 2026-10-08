@@ -7,16 +7,19 @@ import { compareSemver } from "@/components/changelog-viewer/utils";
 import { useChangelogViewerState } from "@/components/changelog-viewer/use-changelog-viewer-state";
 import { resolveAndGroupEntries } from "@/lib/changelog-data";
 import type { ChangelogEntry } from "@/lib/parse-changelog";
+import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 
 export function ChangelogViewer({
   entries,
   packages: rawPackages,
+  platform,
 }: {
   entries: ChangelogEntry[];
   packages: string[];
+  platform: ChangelogPlatform;
 }) {
-  const state = useChangelogViewerState(rawPackages);
+  const state = useChangelogViewerState(rawPackages, platform);
   const data = resolveAndGroupEntries({
     entries,
     packages: state.packages,

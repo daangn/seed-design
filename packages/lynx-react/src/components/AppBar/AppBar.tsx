@@ -4,13 +4,16 @@ import {
   type AppBarMainVariantProps,
 } from "@seed-design/lynx-css/recipes/app-bar-main";
 import * as React from "@lynx-js/react";
+import {
+  AppBarProvider,
+  useAppBarIconButton,
+  useAppBarSide,
+} from "@seed-design/lynx-react-app-bar";
 import clsx from "clsx";
 
 import type {
-  LynxElementProps,
+  LynxHostProps,
   LynxIconElementProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
   LynxTextRef,
   LynxViewProps,
   LynxViewRef,
@@ -18,14 +21,12 @@ import type {
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
 import { IconSlotProvider } from "../Icon/Icon";
-import { AppBarProvider, useAppBarContext } from "./context";
-import { getLayoutWidth, getMainLayoutStyle, useAppBar } from "./useAppBar";
+import { getMainLayoutStyle, useStyledAppBar, useStyledAppBarContext } from "./useStyledAppBar";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
-type LayoutChangeHandler = NonNullable<LynxViewProps["bindlayoutchange"]>;
 
 const { ClassNamesProvider: AppBarClassNamesProvider, useClassNames: useAppBarRecipeClassNames } =
   createSlotRecipeContext(appBar);
@@ -112,28 +113,30 @@ function provideEdgeToChildren(children: React.ReactNode): React.ReactNode {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarRootProps extends AppBarVariantProps, LynxStyledElementProps {}
+export interface AppBarRootProps extends AppBarVariantProps, LynxHostProps<"view"> {}
 
 export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref) => {
   const [variantProps, otherProps] = appBar.splitVariantProps(props);
-  const { children, className, style, ...nativeProps } = otherProps;
-  const { contextValue, resolvedVariantProps, rootLayoutStyle } = useAppBar(variantProps);
+  const { children, className, ...nativeProps } = otherProps;
+  const { contextValue, resolvedVariantProps, rootLayoutStyle } = useStyledAppBar(variantProps);
   const classNames = appBar(resolvedVariantProps);
 
   return (
     <AppBarProvider value={contextValue}>
       <AppBarClassNamesProvider value={classNames}>
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-          className={clsx(classNames.root, className)}
-          style={
+          {...mergeProps(
             {
-              "--seed-safe-area-top": contextValue.safeArea.safeAreaInsetTop,
-              "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
-              ...rootLayoutStyle,
-              ...style,
-            } as LynxViewProps["style"]
-          }
+              style: {
+                "--seed-safe-area-top": contextValue.safeAreaInsetTop,
+                "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
+                ...rootLayoutStyle,
+              } as LynxViewProps["style"],
+            },
+            nativeProps,
+            ref ? { ref: ref as LynxViewRef } : {},
+          )}
+          className={clsx(classNames.root, className)}
         >
           <view accessibility-elements-hidden className={classNames.background} />
           {children}
@@ -146,33 +149,16 @@ AppBarRoot.displayName = "AppBarRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarLeftProps extends LynxStyledElementProps {
-  bindlayoutchange?: LynxViewProps["bindlayoutchange"];
-}
+export interface AppBarLeftProps extends LynxHostProps<"view"> {}
 
 export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
-  const { setLeftWidth } = useAppBarContext("AppBarLeft");
+  const { sideProps } = useAppBarSide({ side: "left", bindlayoutchange });
   const classNames = useAppBarClassNames("AppBarLeft");
-
-  const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
-    (...args) => {
-      bindlayoutchange?.(...args);
-      const width = getLayoutWidth(args[0]);
-      if (width != null) {
-        setLeftWidth(width);
-      }
-    },
-    [bindlayoutchange, setLeftWidth],
-  );
 
   return (
     <view
-      {...mergeProps(
-        { bindlayoutchange: handleLayoutChange },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
+      {...mergeProps(sideProps, ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.left, className)}
     >
       {provideEdgeToChildren(children)}
@@ -181,33 +167,16 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
 });
 AppBarLeft.displayName = "AppBarLeft";
 
-export interface AppBarRightProps extends LynxStyledElementProps {
-  bindlayoutchange?: LynxViewProps["bindlayoutchange"];
-}
+export interface AppBarRightProps extends LynxHostProps<"view"> {}
 
 export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, ref) => {
   const { children, className, bindlayoutchange, ...nativeProps } = props;
-  const { setRightWidth } = useAppBarContext("AppBarRight");
+  const { sideProps } = useAppBarSide({ side: "right", bindlayoutchange });
   const classNames = useAppBarClassNames("AppBarRight");
-
-  const handleLayoutChange = React.useCallback<LayoutChangeHandler>(
-    (...args) => {
-      bindlayoutchange?.(...args);
-      const width = getLayoutWidth(args[0]);
-      if (width != null) {
-        setRightWidth(width);
-      }
-    },
-    [bindlayoutchange, setRightWidth],
-  );
 
   return (
     <view
-      {...mergeProps(
-        { bindlayoutchange: handleLayoutChange },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
+      {...mergeProps(sideProps, ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.right, className)}
     >
       {provideEdgeToChildren(children)}
@@ -218,29 +187,28 @@ AppBarRight.displayName = "AppBarRight";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarMainProps extends AppBarMainVariantProps, LynxStyledElementProps {}
+export interface AppBarMainProps extends AppBarMainVariantProps, LynxHostProps<"view"> {}
 
 export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref) => {
-  const { centeredTitlePaddingX, safeArea, sharedVariantProps } = useAppBarContext("AppBarMain");
+  const context = useStyledAppBarContext("AppBarMain");
+  const { sharedVariantProps } = context;
   const [variantProps, otherProps] = appBarMain.splitVariantProps({
     ...sharedVariantProps,
     ...props,
   });
   const resolvedTheme = variantProps.theme ?? "cupertino";
   const classNames = appBarMain(variantProps);
-  const { children, className, style, ...nativeProps } = otherProps;
+  const { children, className, ...nativeProps } = otherProps;
 
   return (
     <AppBarMainClassNamesProvider value={classNames}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          { style: getMainLayoutStyle(resolvedTheme, context) },
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
         className={clsx(classNames.root, className)}
-        style={
-          {
-            ...getMainLayoutStyle(resolvedTheme, safeArea, centeredTitlePaddingX),
-            ...style,
-          } as LynxViewProps["style"]
-        }
       >
         {children}
       </view>
@@ -249,7 +217,7 @@ export const AppBarMain = React.forwardRef<unknown, AppBarMainProps>((props, ref
 });
 AppBarMain.displayName = "AppBarMain";
 
-export interface AppBarTitleProps extends LynxElementProps {}
+export interface AppBarTitleProps extends LynxHostProps<"text"> {}
 
 export const AppBarTitle = React.forwardRef<unknown, AppBarTitleProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -266,7 +234,7 @@ export const AppBarTitle = React.forwardRef<unknown, AppBarTitleProps>((props, r
 });
 AppBarTitle.displayName = "AppBarTitle";
 
-export interface AppBarSubtitleProps extends LynxElementProps {}
+export interface AppBarSubtitleProps extends LynxHostProps<"text"> {}
 
 export const AppBarSubtitle = React.forwardRef<unknown, AppBarSubtitleProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -285,13 +253,8 @@ AppBarSubtitle.displayName = "AppBarSubtitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AppBarIconButtonProps
-  extends Omit<LynxElementProps, "flatten">,
-    LynxPressableProps {
+export interface AppBarIconButtonProps extends LynxHostProps<"view"> {
   icon?: React.ReactElement<LynxIconElementProps>;
-  "accessibility-label"?: LynxViewProps["accessibility-label"];
-  "accessibility-element"?: LynxViewProps["accessibility-element"];
-  "accessibility-traits"?: LynxViewProps["accessibility-traits"];
   /**
    * 슬롯의 첫·마지막 자식이 아이콘 버튼이면 해당 방향을, 유일한 자식이면 양쪽을 자동 보정한다.
    * 명시하면 `AppBarLeft` / `AppBarRight`에서 감지한 자동 보정 방향을 덮어쓴다.
@@ -305,32 +268,30 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
     className,
     icon,
     edge,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement,
     "accessibility-label": accessibilityLabel,
-    "accessibility-traits": accessibilityTraits = "button",
+    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = props;
   const classNames = useAppBarClassNames("AppBarIconButton");
+  const { iconButtonProps } = useAppBarIconButton({
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits,
+  });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
   const automaticEdge = React.useContext(AppBarEdgeContext);
   const resolvedEdge = edge ?? automaticEdge;
 
-  if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
-    console.warn("AppBarIconButton requires `accessibility-label` for accessibility.");
-  }
-
   return (
     <view
       {...mergeProps(
-        ref ? { ref: ref as LynxViewRef } : {},
+        iconButtonProps,
         scaleFeedbackTriggerProps,
         scaleFeedbackTargetProps,
         nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
       )}
-      flatten={false}
-      accessibility-element={accessibilityElement}
-      accessibility-label={accessibilityLabel}
-      accessibility-traits={accessibilityTraits}
       className={clsx(
         classNames.iconButton,
         (resolvedEdge === "leading" || resolvedEdge === "both") &&
@@ -348,7 +309,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
 });
 AppBarIconButton.displayName = "AppBarIconButton";
 
-export interface AppBarSlotProps extends LynxStyledElementProps {
+export interface AppBarSlotProps extends LynxHostProps<"view"> {
   /**
    * @internal 커스텀 슬롯에서는 bleed 보정을 적용하지 않는다. 전달된 값은 native 속성에서 제외한다.
    */

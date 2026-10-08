@@ -23,15 +23,7 @@ function buildGradient(edge: Edge): string {
 
 const scrollFog = defineSlotRecipe({
   name: "scroll-fog",
-  slots: [
-    "root",
-    "topMask",
-    "bottomMask",
-    "leftMask",
-    "rightMask",
-    "verticalScroll",
-    "horizontalScroll",
-  ],
+  slots: ["root", "topMask", "bottomMask", "leftMask", "rightMask"],
   base: {
     root: {},
     topMask: {
@@ -41,7 +33,6 @@ const scrollFog = defineSlotRecipe({
       maskPosition: "top left",
       maskRepeat: "no-repeat",
       maskSize: "100% 100%",
-      pointerEvents: "none",
     },
     bottomMask: {
       width: "100%",
@@ -50,7 +41,6 @@ const scrollFog = defineSlotRecipe({
       maskPosition: "top left",
       maskRepeat: "no-repeat",
       maskSize: "100% 100%",
-      pointerEvents: "none",
     },
     leftMask: {
       width: "100%",
@@ -59,7 +49,6 @@ const scrollFog = defineSlotRecipe({
       maskPosition: "top left",
       maskRepeat: "no-repeat",
       maskSize: "100% 100%",
-      pointerEvents: "none",
     },
     rightMask: {
       width: "100%",
@@ -68,16 +57,6 @@ const scrollFog = defineSlotRecipe({
       maskPosition: "top left",
       maskRepeat: "no-repeat",
       maskSize: "100% 100%",
-      pointerEvents: "none",
-    },
-    verticalScroll: {
-      width: "100%",
-      height: "100%",
-      pointerEvents: "auto",
-    },
-    horizontalScroll: {
-      width: "100%",
-      pointerEvents: "auto",
     },
   },
   variants: {

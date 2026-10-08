@@ -69,3 +69,15 @@
 /react/components/inline-banner /react/components/page-banner 301
 /react/components/link-content /react/components/action-button 301
 /react/components/stack /react/components/layout/v-stack 301
+
+# Lynx Input Button → Field Button: React와 같은 컴포넌트 이름으로 변경
+/lynx/components/input-button /lynx/components/field-button 301
+/llms/lynx/components/input-button /llms/lynx/components/field-button 301
+
+# Lynx Swipeable Menu Sheet → Menu Sheet: 컴포넌트 이름 변경
+/lynx/components/swipeable-menu-sheet /lynx/components/menu-sheet 301
+/llms/lynx/components/swipeable-menu-sheet /llms/lynx/components/menu-sheet 301
+
+# 플랫폼 분리 전에 React 경로로 발행한 Lynx changelog LLM 문서
+/llms/react/updates/changelog/lynx-* /llms/lynx/updates/changelog/lynx-:splat 301
+/llms/react/updates/changelog/rsbuild-plugin-lynx-icon/* /llms/lynx/updates/changelog/rsbuild-plugin-lynx-icon/:splat 301

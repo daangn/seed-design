@@ -111,7 +111,7 @@ npx @seed-design/cli@latest add ui:switch
 
 #### Using `Switchmark`
 
-`Switchmark`는 레이블을 제외한 스위치 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+`Switchmark`는 레이블을 제외한 스위치 모양으로, 커스텀 레이아웃을 위해 사용할 수 있습니다. React와 같이 `Switch.Control`과 `Switch.Thumb`만 렌더링하므로 `Switch.Root` 안에 넣고, Root에 선택 상태와 `accessibility-label`을 전달합니다.
 
 <LynxComponentExample name="lynx/switch/switchmark">
   ```json doc-gen:file
@@ -127,16 +127,16 @@ npx @seed-design/cli@latest add ui:switch
 <Callout type="warning">
 Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
-- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
+- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap과 `disabled`는 `Switch.Root`가 소유하며, Control·Thumb·Label은 별도의 press나 `disabled`를 받지 않습니다.
 - **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
 - **Compound 구조**: `Switch.Root` → `Switch.Control` → `Switch.Thumb` / `Switch.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
-- **접근성**: `Switch.Root`는 기본적으로 접근성 요소로 노출합니다. 역할 설명은 `switch`, 값은 선택 상태에 따라 `checked` 또는 `not checked`입니다. 비활성 상태에는 `disabled` trait을 전달합니다. Registry `Switch`는 문자열 `label`을 접근성 이름으로 사용합니다. `Switchmark`나 복합 레이블에는 `accessibility-label`을 직접 지정하세요.
+- **접근성**: `Switch.Root`는 기본적으로 접근성 요소로 노출합니다. 역할 설명은 `switch`, 값은 선택 상태에 따라 `checked` 또는 `not checked`입니다. 비활성 상태에는 `disabled` trait을 전달합니다. Registry `Switch`는 문자열 `label`을 접근성 이름으로 사용합니다. `Switchmark`를 감싼 `Switch.Root`나 복합 레이블에는 `accessibility-label`을 직접 지정하세요.
 - **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
 </Callout>
 
 ## Scale Feedback
 
-Lynx `Switch`는 현재 눌렀을 때 `Switchmark`가 줄어드는 피드백을 제공하지 않습니다. CSS 지원 문제가 아니라 현재 Rootage 명세와 Lynx Recipe에 pressed scale 상태가 없기 때문입니다. 이 피드백이 필요하면 앱에서 `Switchmark`를 감싸는 요소의 눌림 상태와 scale transform을 직접 연결하세요.
+Lynx `Switch`는 누르는 동안 `Switch.Control`의 `Switchmark`를 줄입니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 `Switchmark` 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-switchmark-feedback-scale` CSS 변수는 제공하지 않습니다.
 
 ## Lynx 미지원 기능
 

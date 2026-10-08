@@ -4,25 +4,84 @@ import {
   CheckSelectBox as SeedCheckSelectBox,
   PrefixIcon,
   RadioGroup as SeedRadioGroup,
+  RadioGroupField as SeedRadioGroupField,
   RadioSelectBox as SeedRadioSelectBox,
 } from "@seed-design/lynx-react";
 import type { LynxIconElementProps } from "@seed-design/lynx-react";
 
-export interface RadioSelectBoxRootProps
-  extends Omit<SeedRadioGroup.RootProps, "children" | "className" | "style">,
-    SeedRadioSelectBox.GroupProps {}
+export interface RadioSelectBoxRootProps extends SeedRadioGroupField.RootProps {
+  label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
+  indicator?: React.ReactNode;
+  showRequiredIndicator?: boolean;
+
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+
+  /**
+   * Number of columns in the grid layout.
+   * @default 1
+   */
+  columns?: SeedRadioSelectBox.GroupProps["columns"];
+}
 
 /**
  * @see https://seed-design.io/lynx/components/select-box
  */
 export const RadioSelectBoxRoot = React.forwardRef<unknown, RadioSelectBoxRootProps>(
-  ({ children, columns = 1, className, style, ...rootProps }, ref) => {
+  (
+    {
+      label,
+      labelWeight,
+      indicator,
+      showRequiredIndicator,
+      description,
+      errorMessage,
+      columns = 1,
+      children,
+      "accessibility-label": accessibilityLabel,
+      ...props
+    },
+    ref,
+  ) => {
+    const renderHeader = label != null || indicator != null;
+    const renderErrorMessage = props.invalid && errorMessage != null;
+    const renderDescription = description != null && !renderErrorMessage;
+    const renderFooter = renderDescription || renderErrorMessage;
+    const defaultAccessibilityLabel = typeof label === "string" ? label : undefined;
+
     return (
-      <SeedRadioGroup.Root ref={ref} {...rootProps}>
-        <SeedRadioSelectBox.Group columns={columns} className={className} style={style}>
-          {children}
-        </SeedRadioSelectBox.Group>
-      </SeedRadioGroup.Root>
+      <SeedRadioGroupField.Root
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
+        {...props}
+      >
+        {renderHeader ? (
+          <SeedRadioGroupField.Header>
+            <SeedRadioGroupField.Label weight={labelWeight}>
+              {label}
+              {showRequiredIndicator ? <SeedRadioGroupField.RequiredIndicator /> : null}
+              {indicator != null ? (
+                <SeedRadioGroupField.IndicatorText>{indicator}</SeedRadioGroupField.IndicatorText>
+              ) : null}
+            </SeedRadioGroupField.Label>
+          </SeedRadioGroupField.Header>
+        ) : null}
+        <SeedRadioSelectBox.Group columns={columns}>{children}</SeedRadioSelectBox.Group>
+        {renderFooter ? (
+          <SeedRadioGroupField.Footer>
+            {renderDescription ? (
+              <SeedRadioGroupField.Description>{description}</SeedRadioGroupField.Description>
+            ) : null}
+            {renderErrorMessage ? (
+              <SeedRadioGroupField.ErrorMessage>{errorMessage}</SeedRadioGroupField.ErrorMessage>
+            ) : null}
+          </SeedRadioGroupField.Footer>
+        ) : null}
+      </SeedRadioGroupField.Root>
     );
   },
 );

@@ -1,8 +1,6 @@
-import "@seed-design/lynx-css/base.css";
-
 import type { AttachmentFileEntry, NativeFile } from "@seed-design/lynx-react";
 import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-field";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 
 const DEFAULT_FILES: AttachmentFileEntry[] = [
   {
@@ -27,19 +25,16 @@ const PICKED_FILES: NativeFile[] = [
 ];
 
 export default function AttachmentFieldTrigger() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentField
-          maxFiles={3}
-          label="파일 업로드"
-          defaultAcceptedFileEntries={DEFAULT_FILES}
-          onSelectFiles={() => PICKED_FILES}
-        >
-          <AttachmentInput />
-        </AttachmentField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentField
+        maxFiles={3}
+        label="파일 업로드"
+        defaultAcceptedFileEntries={DEFAULT_FILES}
+        onSelectFiles={() => PICKED_FILES}
+      >
+        <AttachmentInput />
+      </AttachmentField>
+    </VStack>
   );
 }

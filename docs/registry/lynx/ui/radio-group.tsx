@@ -1,16 +1,15 @@
 import * as React from "@lynx-js/react";
-import { Field as SeedField, RadioGroup as SeedRadioGroup } from "@seed-design/lynx-react";
+import {
+  RadioGroup as SeedRadioGroup,
+  RadioGroupField as SeedRadioGroupField,
+} from "@seed-design/lynx-react";
 
-type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
-
-export interface RadioGroupProps
-  extends SeedRadioGroup.RootProps,
-    Pick<SeedField.RootProps, "required" | "invalid" | "readOnly"> {
+export interface RadioGroupProps extends SeedRadioGroupField.RootProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
    */
-  labelWeight?: SeedField.LabelProps["weight"];
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -21,7 +20,7 @@ export interface RadioGroupProps
 /**
  * @see https://seed-design.io/lynx/components/radio-group
  */
-export const RadioGroup = React.forwardRef<FieldRootRef, RadioGroupProps>(
+export const RadioGroup = React.forwardRef<unknown, RadioGroupProps>(
   (
     {
       label,
@@ -32,69 +31,45 @@ export const RadioGroup = React.forwardRef<FieldRootRef, RadioGroupProps>(
       errorMessage,
       children,
       "accessibility-label": accessibilityLabel,
-      value,
-      defaultValue,
-      onValueChange,
-      disabled,
-      required,
-      invalid,
-      readOnly,
-      weight,
-      size,
-      tone,
-      ...fieldProps
+      ...props
     },
     ref,
   ) => {
     const renderHeader = label != null || indicator != null;
-    const renderErrorMessage = invalid && errorMessage != null;
+    const renderErrorMessage = props.invalid && errorMessage != null;
     const renderDescription = description != null && !renderErrorMessage;
     const renderFooter = renderDescription || renderErrorMessage;
     const defaultAccessibilityLabel = typeof label === "string" ? label : undefined;
 
     return (
-      <SeedField.Root
+      <SeedRadioGroupField.Root
         ref={ref}
-        required={required}
-        disabled={disabled}
-        invalid={invalid}
-        readOnly={readOnly}
-        {...fieldProps}
+        accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
+        {...props}
       >
         {renderHeader ? (
-          <SeedField.Header>
-            <SeedField.Label weight={labelWeight}>
+          <SeedRadioGroupField.Header>
+            <SeedRadioGroupField.Label weight={labelWeight}>
               {label}
-              {showRequiredIndicator ? <SeedField.RequiredIndicator /> : null}
+              {showRequiredIndicator ? <SeedRadioGroupField.RequiredIndicator /> : null}
               {indicator != null ? (
-                <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>
+                <SeedRadioGroupField.IndicatorText>{indicator}</SeedRadioGroupField.IndicatorText>
               ) : null}
-            </SeedField.Label>
-          </SeedField.Header>
+            </SeedRadioGroupField.Label>
+          </SeedRadioGroupField.Header>
         ) : null}
-        <SeedRadioGroup.Root
-          accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
-          value={value}
-          defaultValue={defaultValue}
-          onValueChange={onValueChange}
-          disabled={disabled}
-          weight={weight}
-          size={size}
-          tone={tone}
-        >
-          {children}
-        </SeedRadioGroup.Root>
+        <SeedRadioGroup.Root>{children}</SeedRadioGroup.Root>
         {renderFooter ? (
-          <SeedField.Footer>
+          <SeedRadioGroupField.Footer>
             {renderDescription ? (
-              <SeedField.Description>{description}</SeedField.Description>
+              <SeedRadioGroupField.Description>{description}</SeedRadioGroupField.Description>
             ) : null}
             {renderErrorMessage ? (
-              <SeedField.ErrorMessage>{errorMessage}</SeedField.ErrorMessage>
+              <SeedRadioGroupField.ErrorMessage>{errorMessage}</SeedRadioGroupField.ErrorMessage>
             ) : null}
-          </SeedField.Footer>
+          </SeedRadioGroupField.Footer>
         ) : null}
-      </SeedField.Root>
+      </SeedRadioGroupField.Root>
     );
   },
 );

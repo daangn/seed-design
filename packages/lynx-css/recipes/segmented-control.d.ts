@@ -8,13 +8,13 @@ declare interface SegmentedControlVariant {
   */
   disabled: boolean;
 /**
-  * @default false
-  */
-  pressed: boolean;
-/**
   * @default true
   */
   hasSelection: boolean;
+/**
+  * @default true
+  */
+  transitionEnabled: boolean;
 }
 
 declare type SegmentedControlVariantMap = {
@@ -23,7 +23,7 @@ declare type SegmentedControlVariantMap = {
 
 export declare type SegmentedControlVariantProps = Partial<SegmentedControlVariant>;
 
-export declare type SegmentedControlSlotName = "root" | "indicator" | "item" | "itemContent" | "itemBackground" | "label";
+export declare type SegmentedControlSlotName = "root" | "indicator" | "item" | "itemContent" | "itemBackground" | "itemSelectedBackground" | "label";
 
 export declare const segmentedControlVariantMap: SegmentedControlVariantMap;
 

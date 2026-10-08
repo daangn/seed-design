@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
+import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
+import { runOnBackground } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 import { Toggle, useToggleContext } from "./index";
 function Label() {
@@ -56,5 +57,38 @@ describe("Toggle.Root", () => {
     expect(tap).toHaveBeenCalledTimes(1);
     expect(root()).toHaveTextContent("true/false");
     expect(root()).toHaveAttribute("accessibility-traits", "disabled");
+  });
+  it("keeps the active state when the consumer installs Main Thread touch handlers", async () => {
+    const reports = { start: vi.fn(), end: vi.fn() };
+    function Example() {
+      function handleTouchStart() {
+        "main thread";
+        runOnBackground(reports.start)();
+      }
+      function handleTouchEnd() {
+        "main thread";
+        runOnBackground(reports.end)();
+      }
+      return (
+        <Toggle.Root
+          className="toggle"
+          main-thread:bindtouchstart={handleTouchStart}
+          main-thread:bindtouchend={handleTouchEnd}
+        >
+          <Label />
+        </Toggle.Root>
+      );
+    }
+    render(<Example />, { enableMainThread: true, enableBackgroundThread: true });
+    await waitSchedule();
+
+    fireEvent.touchstart(root(), {});
+    await waitSchedule();
+    expect(root()).toHaveTextContent("false/true");
+    fireEvent.touchend(root(), {});
+    await waitSchedule();
+    expect(root()).toHaveTextContent("false/false");
+    expect(reports.start).toHaveBeenCalledTimes(1);
+    expect(reports.end).toHaveBeenCalledTimes(1);
   });
 });

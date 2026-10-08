@@ -23,7 +23,7 @@ declare type ListItemVariantMap = {
 
 export declare type ListItemVariantProps = Partial<ListItemVariant>;
 
-export declare type ListItemSlotName = "interactionRoot" | "root" | "highlightedOverlay" | "pressedOverlay" | "layout" | "content" | "title" | "detail" | "prefix" | "suffix" | "prefixIcon" | "suffixIcon";
+export declare type ListItemSlotName = "root" | "highlightedOverlay" | "pressedOverlay" | "layout" | "content" | "title" | "detail" | "prefix" | "suffix" | "prefixIcon" | "suffixIcon";
 
 export declare const listItemVariantMap: ListItemVariantMap;
 

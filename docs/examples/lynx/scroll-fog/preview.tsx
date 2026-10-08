@@ -1,31 +1,24 @@
-import "./styles";
-
-import { Box, ScrollFog, Text, VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { Box, ScrollFog, Text, VStack } from "@seed-design/lynx-react";
 
 const ITEMS = Array.from({ length: 20 }, (_, index) => index + 1);
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
     <Box
-      className={seedClassName}
-      height="full"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      bg="bg.layerDefault"
+      width="full"
+      maxWidth="300px"
+      height="240px"
+      borderWidth={1}
+      borderColor="stroke.neutralWeak"
+      borderRadius="8px"
+      style={{ overflow: "hidden" }}
     >
-      <Box
-        width="300px"
-        height="240px"
-        borderWidth={1}
-        borderColor="stroke.neutralWeak"
-        borderRadius="8px"
-        style={{ overflow: "hidden" }}
-      >
-        <ScrollFog style={{ width: "100%", height: "100%" }} placement={["top", "bottom"]}>
-          <VStack pt="20px" px="16px" pb="80px" gap="8px">
+      <ScrollFog style={{ width: "100%", height: "100%" }} placement={["top", "bottom"]}>
+        <scroll-view
+          scroll-orientation="vertical"
+          style={{ width: "100%", height: "100%", padding: "20px 16px 80px" }}
+        >
+          <VStack gap="8px">
             {ITEMS.map((item) => (
               <Box
                 key={item}
@@ -43,8 +36,8 @@ export default function Example() {
               </Box>
             ))}
           </VStack>
-        </ScrollFog>
-      </Box>
+        </scroll-view>
+      </ScrollFog>
     </Box>
   );
 }

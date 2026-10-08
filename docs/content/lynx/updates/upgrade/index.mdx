@@ -1,0 +1,107 @@
+---
+title: Overview
+description: SEED Lynx 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.
+featured: true
+---
+
+SEED Lynx 패키지(`@seed-design/lynx-react`, `@seed-design/lynx-css` 등)를 업그레이드할 때 확인할 호환성과 작업 순서를 안내합니다.
+
+<Cards>
+  <Card title="SEED Lynx 1" href="/lynx/updates/upgrade/v1">
+    SEED Lynx 0.x에서 1로 업그레이드할 때 필요한 패키지, snippet, 코드 변경사항입니다.
+  </Card>
+</Cards>
+
+## 버저닝 정책
+
+| 구간 | 정책 |
+| --- | --- |
+| **1.0 이상** | strict SemVer를 따릅니다. 하위 호환되지 않는 변경은 **major에서만** 발생하고, minor와 patch는 하위 호환을 보장합니다. |
+| **0.x** | 안정화 과정에서 기능 추가와 breaking change를 minor로, 호환되는 버그 수정을 patch로 배포했습니다. |
+
+<Callout>
+SEED Lynx 1.0.0부터 같은 major 안에서는 minor와 patch를 자유롭게 올릴 수 있습니다. 0.x에서 버전을 올릴 때는 각 릴리스의 변경사항을 확인하세요.
+</Callout>
+
+여기서 하위 호환은 코드와 화면에 모두 적용됩니다. 디자인 판단에 따른 스타일 변경도 major에서만 일어납니다. 잘못된 값을 바로잡는 조정은 patch에 포함될 수 있습니다.
+
+## 호환성: lynx-react ↔ lynx-css
+
+`@seed-design/lynx-react`는 `@seed-design/lynx-css`의 클래스와 스타일을 사용합니다. 호환되지 않는 버전을 섞으면 스타일이 깨질 수 있습니다.
+
+- **1.0 이상:** `lynx-react`의 `peerDependencies`가 호환되는 `lynx-css` 범위를 선언합니다. 1.0에서는 `^1.0.0`입니다.
+- **0.x:** 설치한 `lynx-react`의 `peerDependencies`에서 요구하는 정확한 `lynx-css` 범위를 확인합니다. 0.x의 minor에는 breaking change가 포함될 수 있으므로, 범위를 임의로 넓히지 마세요.
+
+설치한 패키지의 선언은 다음 명령으로 확인할 수 있습니다.
+
+```bash
+cat node_modules/@seed-design/lynx-react/package.json | grep -A5 peerDependencies
+```
+
+### Snippet 호환성 확인하기
+
+Lynx 프로젝트의 `seed-design.json`에 `"framework": "lynx"`가 설정되어 있으면 `compat`이 설치된 Lynx snippet과 `lynx-react`, `lynx-css` 버전을 검사합니다.
+
+```bash
+npx @seed-design/cli@latest compat
+```
+
+호환 문제가 있으면 종료 코드 `1`로 끝나므로 CI에서도 사용할 수 있습니다. 이 명령은 로컬 snippet 파일이 최신인지 확인하지 않습니다.
+
+## 버전 올리기
+
+<Steps>
+
+<Step>
+### 현재 호환 상태 확인
+
+```bash
+npx @seed-design/cli@latest compat
+```
+
+0.x를 사용 중이라면 설치된 `lynx-react`의 `peerDependencies`도 확인하세요.
+</Step>
+
+<Step>
+### 변경사항 확인
+
+현재 버전 이후의 변경사항을 확인합니다.
+
+```bash
+npx @seed-design/cli@latest docs lynx/updates/changelog/lynx-react/{현재버전} --raw
+```
+
+특정 목표 버전까지만 올린다면 그보다 높은 버전의 변경사항은 건너뛰세요.
+</Step>
+
+<Step>
+### lynx-react와 lynx-css 함께 올리기
+
+두 패키지를 호환되는 범위로 한 번에 올립니다.
+
+```package-install
+@seed-design/lynx-react@{목표버전} @seed-design/lynx-css@{호환버전}
+```
+
+1.0으로 올릴 때는 둘 다 `^1.0.0`으로 맞추세요. 직접 설치한 `@seed-design/lynx-react-*` 패키지도 같은 major로 올립니다.
+</Step>
+
+<Step>
+### Snippet 업데이트
+
+목표 버전의 업그레이드 가이드가 재설치를 요구하는 snippet만 다시 받습니다.
+
+```bash
+npx @seed-design/cli@latest add ui:{component} --on-diff backup
+```
+
+백업과 새 파일을 비교해 프로젝트의 사용자 정의만 새 파일에 옮깁니다.
+</Step>
+
+<Step>
+### 검증
+
+타입 검사와 빌드를 실행하고 화면과 동작을 확인합니다. 마지막으로 `compat`을 다시 실행합니다.
+</Step>
+
+</Steps>

@@ -2,14 +2,18 @@ import * as React from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
 import { textInput as textInputVars } from "@seed-design/lynx-css/vars/component";
+import {
+  TextFieldProvider,
+  useTextField,
+  useTextFieldInput,
+  type AndroidSetSoftInputMode,
+  type UseTextFieldProps,
+} from "@seed-design/lynx-react-text-field";
 import clsx from "clsx";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxHostProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { useKeyboardAvoidanceActions } from "../KeyboardAvoidingScrollView/context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
-import { useFieldContext } from "../Field/context";
-import { NATIVE_TEXT_MAX_LENGTH_UNLIMITED, TextFieldContext } from "./context";
 import { mergeProps } from "../../utils/merge-props";
 
 type LynxSystemInfo = { platform?: string };
@@ -42,21 +46,14 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput)
 /**
  * @platform Lynx
  *
- * native `<input>`과 `<textarea>`의 값 상태를 소유한다.
+ * `@seed-design/lynx-react-text-field`의 값·Field 상태 위에 SEED recipe와 stroke를 조립한다.
  * Lynx native 입력은 value attribute를 제공하지 않으므로 하위 입력 슬롯이
  * `setValue` UI method로 controlled value를 동기화한다.
  */
 export interface TextFieldRootProps
   extends Omit<TextInputVariantProps, "focused">,
-    LynxStyledElementProps {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string) => void;
-  /** @internal `useTextFieldWithGraphemes`가 전달하는 네이티브 입력 사전 제한 값. */
-  nativeInsertionMaxLength?: number;
-  required?: boolean;
-  name?: string;
-}
+    UseTextFieldProps,
+    Omit<LynxHostProps<"view">, keyof TextInputVariantProps | keyof UseTextFieldProps> {}
 
 export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
   (props, forwardedRef) => {
@@ -64,100 +61,42 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
     const {
       children,
       className,
-      value: controlledValue,
-      defaultValue = "",
+      value,
+      defaultValue,
       onValueChange,
       nativeInsertionMaxLength,
-      required: requiredProp,
+      required,
       name,
       ...nativeProps
     } = otherProps;
-    const fieldContext = useFieldContext({ strict: false });
-    const rootRef = React.useRef<NodesRef | null>(null);
-    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
-    const [localFocused, setLocalFocused] = React.useState(false);
-    const isControlled = controlledValue !== undefined;
-    const value = isControlled ? controlledValue : uncontrolledValue;
-    const disabled = variantProps.disabled ?? fieldContext?.disabled ?? false;
-    const invalid = variantProps.invalid ?? fieldContext?.invalid ?? false;
-    const readOnly = variantProps.readOnly ?? fieldContext?.readOnly ?? false;
-    const required = requiredProp ?? fieldContext?.required ?? false;
-    const focused = fieldContext?.focused ?? localFocused;
-    const variant = variantProps.variant ?? "outline";
-    const size = variantProps.size ?? "large";
-    const valueRef = React.useRef(value);
-    const controlledRef = React.useRef(isControlled);
-    const onValueChangeRef = React.useRef(onValueChange);
-    const fieldContextRef = React.useRef(fieldContext);
-    valueRef.current = value;
-    controlledRef.current = isControlled;
-    onValueChangeRef.current = onValueChange;
-    fieldContextRef.current = fieldContext;
+    const api = useTextField({
+      value,
+      defaultValue,
+      onValueChange,
+      nativeInsertionMaxLength,
+      required,
+      name,
+      disabled: variantProps.disabled,
+      invalid: variantProps.invalid,
+      readOnly: variantProps.readOnly,
+    });
     const classes = textInput({
       ...variantProps,
-      variant,
-      size,
-      disabled,
-      focused: focused && !readOnly,
-      invalid,
-      readOnly,
+      variant: variantProps.variant ?? "outline",
+      size: variantProps.size ?? "large",
+      disabled: api.disabled,
+      focused: api.focused && !api.readOnly,
+      invalid: api.invalid,
+      readOnly: api.readOnly,
     });
-
+    const rootRef = api.rootRef;
     const mergedRef = React.useMemo(
       () => mergeProps({ ref: rootRef }, { ref: forwardedRef }).ref,
-      [forwardedRef],
-    );
-
-    const setFocused = React.useCallback((nextFocused: boolean) => {
-      "background only";
-
-      setLocalFocused(nextFocused);
-      fieldContextRef.current?.setFocused(nextFocused);
-    }, []);
-
-    const setValue = React.useCallback((nextValue: string) => {
-      "background only";
-
-      if (!controlledRef.current) {
-        setUncontrolledValue(nextValue);
-      }
-      if (nextValue !== valueRef.current) {
-        onValueChangeRef.current?.(nextValue);
-      }
-    }, []);
-
-    const contextValue = React.useMemo(
-      () => ({
-        rootRef,
-        value,
-        controlled: isControlled,
-        nativeInsertionMaxLength,
-        disabled,
-        invalid,
-        readOnly,
-        required,
-        name,
-        focused,
-        setValue,
-        setFocused,
-      }),
-      [
-        disabled,
-        focused,
-        invalid,
-        name,
-        nativeInsertionMaxLength,
-        readOnly,
-        required,
-        setFocused,
-        setValue,
-        value,
-        isControlled,
-      ],
+      [rootRef, forwardedRef],
     );
 
     return (
-      <TextFieldContext.Provider value={contextValue}>
+      <TextFieldProvider value={api}>
         <ClassNamesProvider value={classes}>
           <view
             {...mergeProps({ ref: mergedRef }, nativeProps)}
@@ -168,7 +107,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
             {children}
           </view>
         </ClassNamesProvider>
-      </TextFieldContext.Provider>
+      </TextFieldProvider>
     );
   },
 );
@@ -176,356 +115,7 @@ TextFieldRoot.displayName = "TextFieldRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-type NativeInputProps = IntrinsicElements["input"];
 type NativeTextareaProps = IntrinsicElements["textarea"];
-type NativeInputEvent = Parameters<NonNullable<NativeInputProps["bindinput"]>>[0];
-type NativeTextareaEvent = Parameters<NonNullable<NativeTextareaProps["bindinput"]>>[0];
-
-interface NativeSelectionDetail {
-  selectionStart: number;
-  selectionEnd: number;
-}
-
-function resolveNativeMaxLength(
-  explicitMaxLength: number | undefined,
-  insertionMaxLength: number | undefined,
-): number | undefined {
-  if (explicitMaxLength === undefined) return insertionMaxLength;
-  if (insertionMaxLength === undefined) return explicitMaxLength;
-
-  return Math.min(explicitMaxLength, insertionMaxLength);
-}
-
-function useWasDefined(value: unknown): boolean {
-  const isDefined = value !== undefined;
-  const [wasDefined, setWasDefined] = React.useState(isDefined);
-
-  React.useEffect(() => {
-    if (isDefined) setWasDefined(true);
-  }, [isDefined]);
-
-  return wasDefined || isDefined;
-}
-
-function useResolvedNativeMaxLength(
-  explicitMaxLength: number | undefined,
-  insertionMaxLength: number | undefined,
-): number | undefined {
-  const wasManaged = useWasDefined(
-    explicitMaxLength !== undefined || insertionMaxLength !== undefined ? true : undefined,
-  );
-
-  if (!wasManaged) return undefined;
-
-  return resolveNativeMaxLength(
-    explicitMaxLength,
-    insertionMaxLength ?? NATIVE_TEXT_MAX_LENGTH_UNLIMITED,
-  );
-}
-
-interface UseNativeTextControlOptions {
-  forwardedRef: React.Ref<NodesRef>;
-  disabled?: boolean;
-  readOnly?: boolean;
-  bindinput?: (event: NativeInputEvent | NativeTextareaEvent) => void;
-  bindfocus?: NativeInputProps["bindfocus"] | NativeTextareaProps["bindfocus"];
-  bindblur?: NativeInputProps["bindblur"] | NativeTextareaProps["bindblur"];
-}
-
-function useNativeTextControl({
-  forwardedRef,
-  disabled: disabledProp,
-  readOnly: readOnlyProp,
-  bindinput,
-  bindfocus,
-  bindblur,
-}: UseNativeTextControlOptions) {
-  const textFieldContext = React.useContext(TextFieldContext);
-  if (!textFieldContext) {
-    throw new Error("TextField input components must be rendered inside <TextField.Root>.");
-  }
-
-  const fieldContext = useFieldContext({ strict: false });
-  const keyboardAvoidance = useKeyboardAvoidanceActions();
-  const disabled = disabledProp ?? textFieldContext.disabled;
-  const readOnly = readOnlyProp ?? textFieldContext.readOnly;
-  const nativeRef = React.useRef<NodesRef | null>(null);
-  const initialNativeValueRef = React.useRef(textFieldContext.value);
-  const ownerRef = React.useRef<object>({});
-  const lastNativeValueRef = React.useRef<string | null>(initialNativeValueRef.current);
-  const committedValueRef = React.useRef(textFieldContext.value);
-  const controlledRef = React.useRef(textFieldContext.controlled);
-  const readOnlyRef = React.useRef(readOnly);
-  const isComposingRef = React.useRef(false);
-  const canApplyInsertionMaxLengthRef = React.useRef(true);
-  const reconciliationRevisionRef = React.useRef(0);
-  const [canApplyInsertionMaxLength, setCanApplyInsertionMaxLength] = React.useState(true);
-  const wasInsertionMaxLengthManaged = useWasDefined(textFieldContext.nativeInsertionMaxLength);
-
-  committedValueRef.current = textFieldContext.value;
-  controlledRef.current = textFieldContext.controlled;
-  readOnlyRef.current = readOnly;
-
-  const syncNativeValue = React.useCallback((node: NodesRef, value: string) => {
-    "background only";
-
-    if (lastNativeValueRef.current === value || typeof node.invoke !== "function") return;
-
-    lastNativeValueRef.current = value;
-
-    try {
-      node
-        .invoke({
-          method: "setValue",
-          params: { value },
-          fail() {
-            "background only";
-            if (lastNativeValueRef.current === value) {
-              lastNativeValueRef.current = null;
-            }
-          },
-        })
-        .exec();
-    } catch {
-      // Native node가 아직 commit되지 않았거나 UI method를 지원하지 않으면
-      // 다음 value commit에서 다시 동기화한다.
-      lastNativeValueRef.current = null;
-    }
-  }, []);
-
-  const mergedRef = React.useMemo(
-    () => mergeProps({ ref: nativeRef }, { ref: forwardedRef }).ref,
-    [forwardedRef],
-  );
-
-  const updateEditingState = React.useCallback(
-    (selectionStart: number, selectionEnd: number, isComposing = isComposingRef.current) => {
-      "background only";
-
-      isComposingRef.current = isComposing;
-      const nextCanApplyInsertionMaxLength =
-        !isComposing && selectionStart >= 0 && selectionStart === selectionEnd;
-      if (canApplyInsertionMaxLengthRef.current === nextCanApplyInsertionMaxLength) return;
-
-      canApplyInsertionMaxLengthRef.current = nextCanApplyInsertionMaxLength;
-      setCanApplyInsertionMaxLength(nextCanApplyInsertionMaxLength);
-    },
-    [],
-  );
-
-  const reconcileControlledValue = React.useCallback(
-    (nativeValue: string) => {
-      "background only";
-
-      if (!controlledRef.current) return;
-
-      reconciliationRevisionRef.current += 1;
-      const revision = reconciliationRevisionRef.current;
-      const nodeAtInput = nativeRef.current;
-
-      void Promise.resolve()
-        .then(() => {
-          "background only";
-          // onValueChange가 microtask에서 부모 state를 갱신해도 그 commit을 먼저 처리한다.
-        })
-        .then(() => {
-          "background only";
-
-          if (
-            revision !== reconciliationRevisionRef.current ||
-            !controlledRef.current ||
-            readOnlyRef.current ||
-            nativeRef.current !== nodeAtInput
-          ) {
-            return;
-          }
-
-          const committedValue = committedValueRef.current;
-          if (committedValue === nativeValue) return;
-
-          const node = nativeRef.current;
-          if (node) {
-            syncNativeValue(node, committedValue);
-          }
-        });
-    },
-    [syncNativeValue],
-  );
-
-  React.useEffect(() => {
-    if (readOnly) return;
-    if (lastNativeValueRef.current === textFieldContext.value) return;
-
-    const node = nativeRef.current;
-    if (node) {
-      syncNativeValue(node, textFieldContext.value);
-    }
-  }, [readOnly, syncNativeValue, textFieldContext.value]);
-
-  React.useEffect(
-    () => () => {
-      keyboardAvoidance?.unregister(ownerRef.current);
-      reconciliationRevisionRef.current += 1;
-    },
-    [keyboardAvoidance],
-  );
-
-  const handleInput = React.useCallback(
-    (event: NativeInputEvent | NativeTextareaEvent) => {
-      "background only";
-
-      const { value: nextValue, selectionStart, selectionEnd, isComposing } = event.detail;
-      if (disabled || readOnly) {
-        lastNativeValueRef.current = nextValue;
-
-        if (nextValue !== committedValueRef.current) {
-          const node = nativeRef.current;
-          if (node) {
-            syncNativeValue(node, committedValueRef.current);
-          }
-        }
-        return;
-      }
-
-      updateEditingState(selectionStart, selectionEnd, isComposing === true);
-      lastNativeValueRef.current = nextValue;
-      textFieldContext.setValue(nextValue);
-      bindinput?.(event);
-      reconcileControlledValue(nextValue);
-    },
-    [
-      bindinput,
-      disabled,
-      readOnly,
-      reconcileControlledValue,
-      syncNativeValue,
-      textFieldContext.setValue,
-      updateEditingState,
-    ],
-  );
-
-  const handleSelectionChange = React.useCallback(
-    (detail: NativeSelectionDetail) => {
-      "background only";
-
-      updateEditingState(detail.selectionStart, detail.selectionEnd);
-    },
-    [updateEditingState],
-  );
-
-  const handleFocus = React.useCallback(
-    (event: Parameters<NonNullable<NativeInputProps["bindfocus"]>>[0]) => {
-      "background only";
-
-      textFieldContext.setFocused(true);
-      keyboardAvoidance?.focus({
-        owner: ownerRef.current,
-        nativeRef,
-        controlRef: textFieldContext.rootRef,
-        fieldRef: fieldContext?.rootRef,
-        enabled: !disabled && !readOnly,
-      });
-      bindfocus?.(event);
-    },
-    [
-      bindfocus,
-      disabled,
-      fieldContext?.rootRef,
-      keyboardAvoidance,
-      readOnly,
-      textFieldContext.rootRef,
-      textFieldContext.setFocused,
-    ],
-  );
-
-  const handleBlur = React.useCallback(
-    (event: Parameters<NonNullable<NativeInputProps["bindblur"]>>[0]) => {
-      "background only";
-
-      const nativeValue = event.detail?.value;
-      if (typeof nativeValue === "string") {
-        lastNativeValueRef.current = nativeValue;
-      }
-      textFieldContext.setFocused(false);
-      keyboardAvoidance?.blur(ownerRef.current);
-      bindblur?.(event);
-      if (typeof nativeValue === "string") {
-        reconcileControlledValue(nativeValue);
-      }
-    },
-    [bindblur, keyboardAvoidance, reconcileControlledValue, textFieldContext.setFocused],
-  );
-
-  const notifyLayoutChanged = React.useCallback(() => {
-    "background only";
-
-    keyboardAvoidance?.layoutChanged(ownerRef.current);
-  }, [keyboardAvoidance]);
-
-  const focusNativeControl = React.useCallback(() => {
-    "background only";
-
-    const node = nativeRef.current;
-    if (!node || typeof node.invoke !== "function") return;
-
-    try {
-      node.invoke({ method: "focus" }).exec();
-    } catch {
-      // Native node가 아직 commit되지 않았으면 실제 textarea 탭이 focus를 처리한다.
-    }
-  }, []);
-
-  return {
-    context: textFieldContext,
-    disabled,
-    readOnly,
-    defaultValueProps: { "default-value": initialNativeValueRef.current },
-    mergedRef,
-    handleInput,
-    handleFocus,
-    handleBlur,
-    notifyLayoutChanged,
-    focusNativeControl,
-    handleSelectionChange,
-    nativeInsertionMaxLength:
-      wasInsertionMaxLengthManaged &&
-      canApplyInsertionMaxLength &&
-      textFieldContext.nativeInsertionMaxLength !== undefined
-        ? textFieldContext.nativeInsertionMaxLength
-        : wasInsertionMaxLengthManaged
-          ? NATIVE_TEXT_MAX_LENGTH_UNLIMITED
-          : undefined,
-  };
-}
-
-interface NativeTextControlProps
-  extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps {
-  id?: NativeInputProps["id"];
-  name?: NativeInputProps["name"];
-  hidden?: NativeInputProps["hidden"];
-  flatten?: NativeInputProps["flatten"];
-  focusable?: NativeInputProps["focusable"];
-  bindlayoutchange?: NativeInputProps["bindlayoutchange"];
-  "main-thread:bindlayoutchange"?: NativeInputProps["main-thread:bindlayoutchange"];
-}
-
-type AndroidSetSoftInputMode = "unspecified" | "nothing" | "pan" | "resize";
-
-function getAccessibilityProps(props: LynxAccessibilityProps): LynxAccessibilityProps {
-  return {
-    "accessibility-label": props["accessibility-label"],
-    "accessibility-traits": props["accessibility-traits"],
-    "accessibility-element": props["accessibility-element"],
-    "accessibility-value": props["accessibility-value"],
-    "accessibility-role-description": props["accessibility-role-description"],
-    "accessibility-elements-hidden": props["accessibility-elements-hidden"],
-    "accessibility-heading": props["accessibility-heading"],
-    "accessibility-actions": props["accessibility-actions"],
-    "accessibility-exclusive-focus": props["accessibility-exclusive-focus"],
-    "ios-platform-accessibility-id": props["ios-platform-accessibility-id"],
-  };
-}
 
 function getReadOnlyTextStyle({
   style,
@@ -539,7 +129,6 @@ function getReadOnlyTextStyle({
   multiline: boolean;
 }): LynxStyledElementProps["style"] {
   return {
-    ...style,
     ...(multiline ? { whiteSpace: "normal", wordBreak: "break-all" } : { alignSelf: "center" }),
     ...(placeholder
       ? {
@@ -548,6 +137,7 @@ function getReadOnlyTextStyle({
             : textInputVars.base.enabled.placeholder.color,
         }
       : {}),
+    ...style,
   };
 }
 
@@ -557,98 +147,41 @@ function getReadOnlyTextStyle({
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldInputProps extends NativeTextControlProps {
-  placeholder?: NativeInputProps["placeholder"];
-  "confirm-type"?: NativeInputProps["confirm-type"];
-  maxlength?: NativeInputProps["maxlength"];
-  readonly?: NativeInputProps["readonly"];
-  disabled?: NativeInputProps["disabled"];
+export interface TextFieldInputProps extends Omit<LynxHostProps<"input">, "children"> {
   /**
    * 포커스할 때 시스템 키보드를 표시한다.
    * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
    * @defaultValue true
    */
-  "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
-  "input-filter"?: NativeInputProps["input-filter"];
-  type?: NativeInputProps["type"];
-  "ios-auto-correct"?: NativeInputProps["ios-auto-correct"];
-  "ios-spell-check"?: NativeInputProps["ios-spell-check"];
-  "android-fullscreen-mode"?: NativeInputProps["android-fullscreen-mode"];
+  "show-soft-input-on-focus"?: LynxHostProps<"input">["show-soft-input-on-focus"];
   /**
    * Android host window의 soft input mode를 지정한다.
    * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
    * @defaultValue "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
-  bindfocus?: NativeInputProps["bindfocus"];
-  bindblur?: NativeInputProps["bindblur"];
-  bindconfirm?: NativeInputProps["bindconfirm"];
-  bindinput?: NativeInputProps["bindinput"];
-  bindselection?: NativeInputProps["bindselection"];
 }
 
 export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((props, ref) => {
   const classes = useClassNames();
-  const {
-    className,
-    disabled,
-    readonly,
-    name,
-    maxlength,
-    bindinput,
-    bindselection,
-    bindfocus,
-    bindblur,
-    "show-soft-input-on-focus": showSoftInputOnFocus,
-    "android-set-soft-input-mode": androidSetSoftInputMode,
-    ...nativeProps
-  } = props;
-  const control = useNativeTextControl({
-    forwardedRef: ref,
-    disabled,
-    readOnly: readonly,
-    bindinput,
-    bindfocus,
-    bindblur,
-  });
-  const resolvedMaxLength = useResolvedNativeMaxLength(maxlength, control.nativeInsertionMaxLength);
-  const handleSelection = React.useCallback<NonNullable<NativeInputProps["bindselection"]>>(
-    (event) => {
-      "background only";
+  const { className, ...otherProps } = props;
+  const api = useTextFieldInput(otherProps, ref);
 
-      control.handleSelectionChange(event.detail);
-      bindselection?.(event);
-    },
-    [bindselection, control.handleSelectionChange],
-  );
-
-  if (control.readOnly) {
-    const value = control.context.value;
-    const isPlaceholder = value === "";
+  if (api.readOnly) {
+    const isPlaceholder = api.value === "";
     const displayValue = isPlaceholder
       ? props.placeholder
       : props.type === "password"
-        ? Array.from(value, () => "•").join("")
-        : value;
+        ? Array.from(api.value, () => "•").join("")
+        : api.value;
 
     return (
       <text
-        {...mergeProps(
-          {
-            ref: control.mergedRef,
-            bindlayoutchange: props.bindlayoutchange,
-            "main-thread:bindlayoutchange": props["main-thread:bindlayoutchange"],
-          },
-          getAccessibilityProps(props),
-        )}
-        id={props.id}
-        hidden={props.hidden}
-        flatten={props.flatten}
-        focusable={props.focusable}
+        {...api.readOnlyTextProps}
         className={clsx(classes.value, className)}
         style={getReadOnlyTextStyle({
           style: props.style,
-          disabled: control.disabled,
+          disabled: api.disabled,
           placeholder: isPlaceholder,
           multiline: false,
         })}
@@ -658,28 +191,7 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
     );
   }
 
-  return (
-    <input
-      {...mergeProps(
-        {
-          ref: control.mergedRef,
-          bindinput: control.handleInput,
-          bindselection: handleSelection,
-          bindfocus: control.handleFocus,
-          bindblur: control.handleBlur,
-        },
-        control.defaultValueProps,
-        resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength },
-        nativeProps,
-      )}
-      className={clsx(classes.value, className)}
-      disabled={control.disabled}
-      readonly={control.readOnly}
-      show-soft-input-on-focus={showSoftInputOnFocus ?? true}
-      android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
-      name={name ?? control.context.name}
-    />
-  );
+  return <input {...api.inputProps} className={clsx(classes.value, className)} />;
 });
 TextFieldInput.displayName = "TextFieldInput";
 
@@ -689,32 +201,20 @@ TextFieldInput.displayName = "TextFieldInput";
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 textarea 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldTextareaProps extends NativeTextControlProps {
+export interface TextFieldTextareaProps extends Omit<LynxHostProps<"textarea">, "children"> {
   /** 내용에 맞춰 높이를 자동으로 조절한다. @defaultValue true */
   autoresize?: boolean;
-  placeholder?: NativeTextareaProps["placeholder"];
-  "confirm-type"?: NativeTextareaProps["confirm-type"];
-  maxlength?: NativeTextareaProps["maxlength"];
-  maxlines?: NativeTextareaProps["maxlines"];
-  bounces?: NativeTextareaProps["bounces"];
   /**
-   * native 줄 간격을 지정한다. 생략하면 Android에서 SEED 기본 typography를 맞추기 위해
-   * `3.2px`를 적용하고 iOS에는 전달하지 않는다. Android 기본 보정은 `0`으로 해제할 수 있다.
+   * 생략하면 Android에서 SEED typography 보정을 위해 `3.2px`를 적용한다.
+   * Android 기본 보정은 `0`으로 해제할 수 있다.
    */
   "line-spacing"?: NativeTextareaProps["line-spacing"];
-  readonly?: NativeTextareaProps["readonly"];
-  disabled?: NativeTextareaProps["disabled"];
   /**
    * 포커스할 때 시스템 키보드를 표시한다.
    * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
    * @defaultValue true
    */
   "show-soft-input-on-focus"?: NativeTextareaProps["show-soft-input-on-focus"];
-  "input-filter"?: NativeTextareaProps["input-filter"];
-  "enable-scroll-bar"?: NativeTextareaProps["enable-scroll-bar"];
-  type?: NativeTextareaProps["type"];
-  "ios-auto-correct"?: NativeTextareaProps["ios-auto-correct"];
-  "ios-spell-check"?: NativeTextareaProps["ios-spell-check"];
   /** Android의 fullscreen extract input을 활성화한다. @defaultValue false */
   "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
   /**
@@ -723,11 +223,6 @@ export interface TextFieldTextareaProps extends NativeTextControlProps {
    * @defaultValue "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
-  bindfocus?: NativeTextareaProps["bindfocus"];
-  bindblur?: NativeTextareaProps["bindblur"];
-  bindconfirm?: NativeTextareaProps["bindconfirm"];
-  bindinput?: NativeTextareaProps["bindinput"];
-  bindselection?: NativeTextareaProps["bindselection"];
 }
 
 export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaProps>(
@@ -735,35 +230,15 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     const classes = useClassNames();
     const {
       className,
-      disabled,
-      readonly,
-      name,
-      maxlength,
-      bindinput,
-      bindselection,
-      bindfocus,
-      bindblur,
       bindlayoutchange,
-      "show-soft-input-on-focus": showSoftInputOnFocus,
       bounces,
       "line-spacing": lineSpacing,
       "android-fullscreen-mode": androidFullscreenMode,
-      "android-set-soft-input-mode": androidSetSoftInputMode,
       autoresize = true,
-      ...nativeProps
+      ...otherProps
     } = props;
-    const control = useNativeTextControl({
-      forwardedRef: ref,
-      disabled,
-      readOnly: readonly,
-      bindinput,
-      bindfocus,
-      bindblur,
-    });
-    const resolvedMaxLength = useResolvedNativeMaxLength(
-      maxlength,
-      control.nativeInsertionMaxLength,
-    );
+    const api = useTextFieldInput({ ...otherProps, bindlayoutchange }, ref);
+    const { disabled, focus, notifyLayoutChanged } = api;
     const isAndroid = isAndroidRuntime();
     const usesIOSAutoresizeWrapper = autoresize && isIOSRuntime();
     // Android native textarea는 CSS line-height를 무시한다. 실기기에서 관측한
@@ -775,15 +250,6 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         : isAndroid
           ? ANDROID_TEXTAREA_DEFAULT_LINE_SPACING
           : undefined;
-    const handleSelection = React.useCallback<NonNullable<NativeTextareaProps["bindselection"]>>(
-      (event) => {
-        "background only";
-
-        control.handleSelectionChange(event.detail);
-        bindselection?.(event);
-      },
-      [bindselection, control.handleSelectionChange],
-    );
     const handleLayoutChange = React.useCallback<
       NonNullable<NativeTextareaProps["bindlayoutchange"]>
     >(
@@ -791,11 +257,11 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         "background only";
 
         if (autoresize) {
-          control.notifyLayoutChanged();
+          notifyLayoutChanged();
         }
         bindlayoutchange?.(event);
       },
-      [autoresize, bindlayoutchange, control.notifyLayoutChanged],
+      [autoresize, bindlayoutchange, notifyLayoutChanged],
     );
     const handleTextareaRootTap = React.useCallback<
       NonNullable<IntrinsicElements["view"]["bindtap"]>
@@ -803,39 +269,27 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       (event) => {
         "background only";
 
-        if (control.disabled || event.target.uid !== event.currentTarget.uid) return;
-        control.focusNativeControl();
+        if (disabled || event.target.uid !== event.currentTarget.uid) return;
+        focus();
       },
-      [control.disabled, control.focusNativeControl],
+      [disabled, focus],
     );
 
-    if (control.readOnly) {
-      const value = control.context.value;
-      const isPlaceholder = value === "";
+    if (api.readOnly) {
+      const isPlaceholder = api.value === "";
 
       return (
         <text
-          {...mergeProps(
-            {
-              ref: control.mergedRef,
-              bindlayoutchange: props.bindlayoutchange,
-              "main-thread:bindlayoutchange": props["main-thread:bindlayoutchange"],
-            },
-            getAccessibilityProps(props),
-          )}
-          id={props.id}
-          hidden={props.hidden}
-          flatten={props.flatten}
-          focusable={props.focusable}
+          {...api.readOnlyTextProps}
           className={clsx(classes.value, classes.textareaValue, classes.textareaFixed, className)}
           style={getReadOnlyTextStyle({
             style: props.style,
-            disabled: control.disabled,
+            disabled,
             placeholder: isPlaceholder,
             multiline: true,
           })}
         >
-          {isPlaceholder ? props.placeholder : value}
+          {isPlaceholder ? props.placeholder : api.value}
         </text>
       );
     }
@@ -844,19 +298,8 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
     // 디자인 padding을 wrapper로 분리해 이때 padding만큼 높이가 중복되지 않게 한다.
     const textarea = (
       <textarea
-        {...mergeProps(
-          {
-            ref: control.mergedRef,
-            bindinput: control.handleInput,
-            bindselection: handleSelection,
-            bindfocus: control.handleFocus,
-            bindblur: control.handleBlur,
-            bindlayoutchange: usesIOSAutoresizeWrapper ? bindlayoutchange : handleLayoutChange,
-          },
-          control.defaultValueProps,
-          resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength },
-          nativeProps,
-        )}
+        {...api.inputProps}
+        bindlayoutchange={usesIOSAutoresizeWrapper ? bindlayoutchange : handleLayoutChange}
         className={clsx(
           classes.value,
           classes.textareaValue,
@@ -865,14 +308,9 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
           autoresize && !usesIOSAutoresizeWrapper && classes.textareaAndroidAutoresize,
           className,
         )}
-        disabled={control.disabled}
-        readonly={control.readOnly}
-        show-soft-input-on-focus={showSoftInputOnFocus ?? true}
         bounces={bounces ?? (autoresize ? false : undefined)}
         line-spacing={resolvedLineSpacing}
         android-fullscreen-mode={androidFullscreenMode ?? false}
-        android-set-soft-input-mode={androidSetSoftInputMode ?? "unspecified"}
-        name={name ?? control.context.name}
       />
     );
 
@@ -883,7 +321,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
         ignore-focus={true}
         className={clsx(classes.textareaRoot, classes.textareaAutoresizeRoot)}
         bindtap={handleTextareaRootTap}
-        bindlayoutchange={control.notifyLayoutChanged}
+        bindlayoutchange={notifyLayoutChanged}
       >
         {textarea}
       </view>
@@ -903,7 +341,7 @@ export const TextFieldPrefixIcon = React.forwardRef<unknown, TextFieldPrefixIcon
 
     return (
       <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
+        {...mergeProps({ ref, "accessibility-elements-hidden": true }, otherProps)}
         className={clsx(classes.prefixIcon, className)}
       />
     );
@@ -911,7 +349,7 @@ export const TextFieldPrefixIcon = React.forwardRef<unknown, TextFieldPrefixIcon
 );
 TextFieldPrefixIcon.displayName = "TextFieldPrefixIcon";
 
-export interface TextFieldPrefixTextProps extends LynxStyledElementProps {}
+export interface TextFieldPrefixTextProps extends LynxHostProps<"text"> {}
 
 export const TextFieldPrefixText = React.forwardRef<unknown, TextFieldPrefixTextProps>(
   (props, ref) => {
@@ -939,7 +377,7 @@ export const TextFieldSuffixIcon = React.forwardRef<unknown, TextFieldSuffixIcon
 
     return (
       <InternalIcon
-        {...mergeProps({ ref }, otherProps)}
+        {...mergeProps({ ref, "accessibility-elements-hidden": true }, otherProps)}
         className={clsx(classes.suffixIcon, className)}
       />
     );
@@ -947,7 +385,7 @@ export const TextFieldSuffixIcon = React.forwardRef<unknown, TextFieldSuffixIcon
 );
 TextFieldSuffixIcon.displayName = "TextFieldSuffixIcon";
 
-export interface TextFieldSuffixTextProps extends LynxStyledElementProps {}
+export interface TextFieldSuffixTextProps extends LynxHostProps<"text"> {}
 
 export const TextFieldSuffixText = React.forwardRef<unknown, TextFieldSuffixTextProps>(
   (props, ref) => {

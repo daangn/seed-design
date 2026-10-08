@@ -32,9 +32,15 @@ npx @seed-design/cli add ui:progress-circle
   name="ProgressCircleProps"
 />
 
-`ProgressCircle`은 기본적으로 접근성 요소로 노출되며 `accessibility-role-description="progressbar"`를 전달합니다. `minValue`, `maxValue`, `value`를 모두 지정하면 세 값을 `accessibility-value`로 전달하고, `value`를 생략하면 `indeterminate`를 전달합니다.
+`ProgressCircle`은 기본적으로 접근성 요소로 노출되며 `accessibility-role-description="progressbar"`를 전달합니다. `value`를 지정하면 `minValue`, `maxValue`, `value`를 `accessibility-value`로 전달하고, `value`를 생략하면 `indeterminate`를 전달합니다.
 
 스크린 리더가 읽을 문구를 바꾸려면 `accessibility-value`를 직접 지정하세요. 필요한 경우 `accessibility-role-description`과 `accessibility-element`도 같은 방식으로 덮어쓸 수 있습니다.
+
+`mainThreadProgress`는 Lynx 전용 선택 prop입니다. 타입은 `MainThreadRef<{ value: number; onChange?: (value: number) => void }>`이며, `value`와 같은 척도를 사용합니다. PullToRefresh에서는 0–100 진행률을 전달합니다. Indicator의 render props를 `{...props}`로 전달하면 Main Thread가 원호를 바로 갱신합니다. 채널 하나에는 진행률을 구독하는 ProgressCircle 하나만 연결하세요.
+
+이 채널로 당김을 연결할 때는 Background Thread의 `value`를 매 프레임 변경하지 마세요. 두 입력의 애니메이션이 겹칠 수 있습니다.
+
+일반 작업의 진행률은 기존 `value`, `minValue`, `maxValue`로 전달하세요. `mainThreadProgress`를 생략한 진행률 전환과 indeterminate 동작은 그대로 유지됩니다.
 
 ```tsx
 <ProgressCircle
@@ -107,7 +113,7 @@ npx @seed-design/cli add ui:progress-circle
 
 ### Determinate
 
-`minValue`, `maxValue`, `value`를 모두 지정하면 정해진 진행률을 표시합니다.
+`value`를 지정하면 정해진 진행률을 표시합니다. `minValue`와 `maxValue`를 생략하면 0과 100을 씁니다. 범위를 벗어난 값은 빈 링이나 가득 찬 링으로 표시합니다.
 
 <LynxComponentExample name="lynx/progress-circle/determinate">
   ```json doc-gen:file
@@ -138,11 +144,11 @@ Lynx 버전은 플랫폼 제약으로 인해 웹(`@seed-design/react`) 버전과
 | | 웹 (React) | Lynx |
 |---|---|---|
 | **Registry API** | 단일 `ProgressCircle` 컴포넌트 | 단일 `ProgressCircle` 컴포넌트 |
-| **저수준 package API** | `Root`, `Track`, `Range` 조합 | `Root`, `Range` 조합 |
+| **저수준 package API** | `Root`, `Track`, `Range` 조합 | `Root`, `Track`, `Range` 조합 |
 | **렌더링** | SVG `<circle>`과 `stroke-dasharray` | CSS `clip-path` 기반 pie sector |
 | **애니메이션** | CSS `@keyframes`와 `animation` | Main thread `requestAnimationFrame`과 `setStyleProperty` |
 | **Determinate 전환** | CSS `transition` | Main thread `requestAnimationFrame` 기반 easing 애니메이션 |
-| **Track** | `<ProgressCircle.Track />` SVG circle | Root의 CSS `background`와 `clip-path`로 렌더링하며 별도 Track 컴포넌트 없음 |
+| **Track** | `<ProgressCircle.Track />` SVG circle | `<ProgressCircle.Track />`의 CSS `background`를 Root의 `clip-path` 링으로 자름 |
 | **접근성** | `role="progressbar"`와 `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-valuetext` | `accessibility-role-description="progressbar"`와 `accessibility-value` |
 
 <Callout type="warn">

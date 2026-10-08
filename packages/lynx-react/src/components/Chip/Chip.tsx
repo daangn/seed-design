@@ -2,17 +2,16 @@ import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
 import { chip, type ChipVariantProps } from "@seed-design/lynx-css/recipes/chip";
+import { useCheckbox, type UseCheckboxProps } from "@seed-design/lynx-react-checkbox";
+import {
+  RadioGroupRoot as HeadlessRadioGroupRoot,
+  useRadioGroupItem,
+  type UseRadioGroupProps,
+} from "@seed-design/lynx-react-radio-group";
 
-import { useControllableState } from "../../hooks/useControllableState";
 import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import {
   IconRequired,
@@ -30,11 +29,7 @@ type ChipPublicVariantProps = Omit<ChipVariantProps, "selected" | "pressed">;
 
 interface ChipRootViewProps
   extends ChipVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    Omit<LynxHostProps<"view">, keyof ChipVariantProps> {}
 
 const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) => {
   const [variantProps, otherProps] = chip.splitVariantProps(props);
@@ -98,10 +93,7 @@ ChipRootView.displayName = "ChipRootView";
  */
 export interface ChipButtonProps
   extends ChipPublicVariantProps,
-    // Keep the scale target's Android View even if shared props later expose flatten.
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"view">, keyof ChipPublicVariantProps> {
   disabled?: boolean;
 }
 
@@ -110,9 +102,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "button",
-    "accessibility-traits": accessibilityTraits,
+    children,
     ...restProps
   } = props;
   const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
@@ -130,78 +120,73 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        {
+          disabled,
+          selected: false,
+          pressed,
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-role-description": "button",
+          "accessibility-traits": disabled ? ("disabled" as const) : undefined,
+        },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         pressHandlers,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={disabled}
-      selected={false}
-      pressed={pressed}
-      accessibility-element={accessibilityElement}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipButton.displayName = "ChipButton";
-
-/** React `Chip.Button`에 대응하는 기본 action chip입니다. */
-export interface ChipRootProps extends ChipButtonProps {}
-
-export const ChipRoot = React.forwardRef<unknown, ChipRootProps>((props, ref) => (
-  <ChipButton {...mergeProps({ ref }, props)} />
-));
-ChipRoot.displayName = "ChipRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @platform Lynx
  *
+ * `@seed-design/lynx-react-checkbox`의 선택 상태·press·접근성 위에 chip recipe를 조립한다.
+ *
  * 웹 대비 미지원 기능:
  * - HiddenInput / inputProps / name / value: Lynx에 HTML form 제출 모델이 없음
  * - raw DOM `onChange`: `onCheckedChange`로 대체
+ * - `indeterminate`: chip recipe에 일부 선택 외형이 없음
  */
-export interface ChipToggleProps extends ChipButtonProps {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
-}
+export interface ChipToggleProps
+  extends ChipButtonProps,
+    Pick<UseCheckboxProps, "checked" | "defaultChecked" | "onCheckedChange"> {}
 
 export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref) => {
   const {
-    checked: checkedProp,
-    defaultChecked = false,
+    checked,
+    defaultChecked,
     onCheckedChange,
+    disabled = false,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    disabled = false,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "toggle",
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    children,
     ...restProps
   } = props;
-  const [checked, setChecked] = useControllableState({
-    value: checkedProp,
-    defaultValue: defaultChecked,
-    onChange: onCheckedChange,
-  });
-  const handleTap = React.useCallback(
-    (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
-      setChecked(!checked);
-      bindtap?.(...args);
-    },
-    [bindtap, checked, setChecked],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const api = useCheckbox({
+    checked,
+    defaultChecked,
+    onCheckedChange,
     disabled,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
   });
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: bindtouchstart,
@@ -212,89 +197,43 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        { disabled, selected: api.checked, pressed: api.pressed, flatten: false },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
-        pressHandlers,
+        rootProps,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={disabled}
-      selected={checked}
-      pressed={pressed}
-      accessibility-element={accessibilityElement}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-      accessibility-value={accessibilityValue ?? (checked ? "checked" : "not checked")}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipToggle.displayName = "ChipToggle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ChipRadioGroupContextValue {
-  value: string | null;
-  setValue: (value: string) => void;
-  disabled: boolean;
-}
-
-const ChipRadioGroupContext = React.createContext<ChipRadioGroupContextValue | null>(null);
-
-function useChipRadioGroupContext(consumer: string): ChipRadioGroupContextValue {
-  const context = React.useContext(ChipRadioGroupContext);
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <ChipRadioRoot/>.`);
-  }
-  return context;
-}
-
-export interface ChipRadioRootProps extends LynxStyledElementProps {
-  value?: string;
-  defaultValue?: string;
-  disabled?: boolean;
-  onValueChange?: (value: string) => void;
-}
+/**
+ * @platform Lynx
+ *
+ * `@seed-design/lynx-react-radio-group`의 Root입니다. 단일 선택 값과 `radiogroup` 접근성 의미를
+ * 제공하고 스타일은 갖지 않습니다.
+ *
+ * 웹 대비 미지원 기능:
+ * - name / form / required: Lynx에 HTML form 제출 모델이 없음
+ * - `invalid`: chip recipe에 오류 외형이 없음
+ */
+export interface ChipRadioRootProps
+  extends Omit<UseRadioGroupProps, "invalid">,
+    Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
 
 export const ChipRadioRoot = React.forwardRef<unknown, ChipRadioRootProps>((props, ref) => {
-  const {
-    value: valueProp,
-    defaultValue,
-    disabled = false,
-    onValueChange,
-    children,
-    className,
-    ...nativeProps
-  } = props;
-  const handleChange = React.useCallback(
-    (nextValue: string | null) => {
-      if (nextValue !== null) onValueChange?.(nextValue);
-    },
-    [onValueChange],
-  );
-  const [value, setValueInternal] = useControllableState<string | null>({
-    value: valueProp !== undefined ? valueProp : undefined,
-    defaultValue: defaultValue ?? null,
-    onChange: handleChange,
-  });
-  const setValue = React.useCallback(
-    (nextValue: string) => setValueInternal(nextValue),
-    [setValueInternal],
-  );
-  const contextValue = React.useMemo(
-    () => ({ value, setValue, disabled }),
-    [value, setValue, disabled],
-  );
+  const { children, ...otherProps } = props;
 
   return (
-    <ChipRadioGroupContext.Provider value={contextValue}>
-      <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-        className={className}
-      >
-        {children}
-      </view>
-    </ChipRadioGroupContext.Provider>
+    <HeadlessRadioGroupRoot {...(ref ? { ref } : {})} {...otherProps}>
+      {children}
+    </HeadlessRadioGroupRoot>
   );
 });
 ChipRadioRoot.displayName = "ChipRadioRoot";
@@ -302,8 +241,11 @@ ChipRadioRoot.displayName = "ChipRadioRoot";
 /**
  * @platform Lynx
  *
+ * `@seed-design/lynx-react-radio-group`의 Item 선택·press·접근성 위에 chip recipe를 조립한다.
+ * `Chip.RadioRoot` 안에서만 렌더링합니다.
+ *
  * 웹 대비 미지원 기능:
- * - HiddenInput / inputProps / name / required: Lynx에 HTML form 제출 모델이 없음
+ * - HiddenInput / inputProps: Lynx에 HTML form 제출 모델이 없음
  * - raw DOM `onChange`: `Chip.RadioRoot`의 `onValueChange`로 대체
  */
 export interface ChipRadioItemProps extends ChipButtonProps {
@@ -312,33 +254,31 @@ export interface ChipRadioItemProps extends ChipButtonProps {
 
 export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((props, ref) => {
   const {
-    value: itemValue,
-    disabled: itemDisabled = false,
+    value,
+    disabled,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "radio",
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
+    children,
     ...restProps
   } = props;
-  const group = useChipRadioGroupContext("ChipRadioItem");
-  const disabled = group.disabled || itemDisabled;
-  const selected = group.value === itemValue;
-  const handleTap = React.useCallback(
-    (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
-      if (!selected) group.setValue(itemValue);
-      bindtap?.(...args);
-    },
-    [bindtap, group, itemValue, selected],
-  );
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+  const api = useRadioGroupItem({
+    value,
     disabled,
-    onTap: handleTap,
-    mainThreadOnTap: mainThreadBindtap,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-role-description": accessibilityRoleDescription,
+    "accessibility-traits": accessibilityTraits,
+    "accessibility-value": accessibilityValue,
   });
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
+    disabled: api.disabled,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -347,28 +287,23 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   return (
     <ChipRootView
       {...mergeProps(
-        { ref },
+        { disabled: api.disabled, selected: api.checked, pressed: api.pressed, flatten: false },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
-        pressHandlers,
+        itemProps,
         restProps,
+        ref ? { ref } : {},
       )}
-      disabled={disabled}
-      selected={selected}
-      pressed={pressed}
-      accessibility-element={accessibilityElement}
-      accessibility-role-description={accessibilityRoleDescription}
-      accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : undefined)}
-      accessibility-value={accessibilityValue ?? (selected ? "selected" : "not selected")}
-      flatten={false}
-    />
+    >
+      {children}
+    </ChipRootView>
   );
 });
 ChipRadioItem.displayName = "ChipRadioItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ChipLabelProps extends LynxStyledElementProps {}
+export interface ChipLabelProps extends LynxHostProps<"text"> {}
 
 export const ChipLabel = React.forwardRef<unknown, ChipLabelProps>((props, ref) => {
   const classes = useClassNames();
@@ -388,11 +323,11 @@ ChipLabel.displayName = "ChipLabel";
 export interface ChipPrefixIconProps extends PrefixIconProps {}
 
 export const ChipPrefixIcon = React.forwardRef<unknown, ChipPrefixIconProps>((props, ref) => (
-  <PrefixIcon {...mergeProps({ ref }, props)} />
+  <PrefixIcon {...mergeProps(props, ref ? { ref } : {})} />
 ));
 ChipPrefixIcon.displayName = "ChipPrefixIcon";
 
-export interface ChipPrefixAvatarProps extends LynxStyledElementProps {}
+export interface ChipPrefixAvatarProps extends LynxHostProps<"view"> {}
 
 export const ChipPrefixAvatar = React.forwardRef<unknown, ChipPrefixAvatarProps>((props, ref) => {
   const classes = useClassNames();
@@ -412,6 +347,6 @@ ChipPrefixAvatar.displayName = "ChipPrefixAvatar";
 export interface ChipSuffixIconProps extends SuffixIconProps {}
 
 export const ChipSuffixIcon = React.forwardRef<unknown, ChipSuffixIconProps>((props, ref) => (
-  <SuffixIcon {...mergeProps({ ref }, props)} />
+  <SuffixIcon {...mergeProps(props, ref ? { ref } : {})} />
 ));
 ChipSuffixIcon.displayName = "ChipSuffixIcon";

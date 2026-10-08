@@ -40,7 +40,9 @@ ${pageList}
 
 ## Related Sections
 
-- [Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)}): 패키지별/버전별 변경 이력
+- [React Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)}): React 패키지별/버전별 변경 이력
+- [Lynx Changelog](${new URL("/llms/lynx/updates/changelog.txt", baseUrl)}): Lynx 패키지별/버전별 변경 이력
 - [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리
+- [Lynx Library](${new URL("/lynx/llms.txt", baseUrl)}): Lynx 컴포넌트 라이브러리
 `);
 }

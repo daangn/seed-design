@@ -7,10 +7,6 @@ const menuSlotNames = [
     "seed-menu__positioner"
   ],
   [
-    "backdrop",
-    "seed-menu__backdrop"
-  ],
-  [
     "content",
     "seed-menu__content"
   ],

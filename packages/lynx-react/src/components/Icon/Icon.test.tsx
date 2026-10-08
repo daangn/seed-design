@@ -7,7 +7,7 @@ import type { MainThread } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
-import { Icon, IconSlotProvider, InternalIcon, PrefixIcon, SuffixIcon } from "./Icon";
+import { Icon, IconRequired, IconSlotProvider, InternalIcon, PrefixIcon, SuffixIcon } from "./Icon";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -161,7 +161,7 @@ describe("icon recipe ownership", () => {
     expect(container.querySelector(`.${baseClass}`)).not.toBeNull();
     rerender(
       <IconSlotProvider value={{ classNames: { [slot]: "test-recipe-icon" }, deps: [] }}>
-        <Component size={28} color="#2475e8" className="user-icon" icon={<TestIcon />} />
+        <Component style={{ width: "28px" }} className="user-icon" icon={<TestIcon />} />
       </IconSlotProvider>,
     );
     const wrapper = container.querySelector(".test-recipe-icon")!;
@@ -169,6 +169,56 @@ describe("icon recipe ownership", () => {
     expect(wrapper.classList.contains("user-icon")).toBe(true);
     expect(wrapper.classList.contains(baseClass)).toBe(false);
     expect(wrapper.getAttribute("style")).toContain("28px");
+  });
+
+  it("applies Icon size and color below the user style", () => {
+    const { container } = render(
+      <Icon size={28} color="#2475e8" style={{ height: "30px" }} icon={<TestIcon />} />,
+    );
+    const style = container.querySelector("view")!.getAttribute("style");
+    expect(style).toContain("width: 28px");
+    expect(style).toContain("height: 30px");
+    expect(style).toContain("color: rgb(36, 117, 232)");
+  });
+});
+
+describe("icon accessibility", () => {
+  it.each([
+    ["Icon", Icon],
+    ["PrefixIcon", PrefixIcon],
+    ["SuffixIcon", SuffixIcon],
+  ] as const)("hides the %s wrapper from assistive technology", (_name, Component) => {
+    const { container } = render(<Component icon={<TestIcon />} />);
+
+    expect(container.querySelector("view")?.getAttribute("accessibility-elements-hidden")).toBe(
+      "true",
+    );
+  });
+});
+
+describe("IconRequired", () => {
+  it("rejects an icon-only consumer nested in another icon-only consumer", () => {
+    expect(() => {
+      render(
+        <IconRequired enabled>
+          <Icon icon={<TestIcon />} />
+          <IconRequired enabled>
+            <Icon icon={<TestIcon />} />
+          </IconRequired>
+        </IconRequired>,
+      );
+    }).toThrow();
+  });
+
+  it("does not guard icon count when disabled", () => {
+    const { container } = render(
+      <IconRequired enabled={false}>
+        <Icon icon={<TestIcon />} />
+        <Icon icon={<TestIcon />} />
+      </IconRequired>,
+    );
+
+    expect(container.querySelectorAll("image")).toHaveLength(2);
   });
 });
 

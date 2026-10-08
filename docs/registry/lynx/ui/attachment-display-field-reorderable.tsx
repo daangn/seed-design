@@ -1,14 +1,25 @@
 import * as React from "@lynx-js/react";
 import IconCameraFill from "@karrotmarket/lynx-monochrome-icon/IconCameraFill";
-import { AttachmentDisplay as SeedAttachmentDisplay } from "@seed-design/lynx-react";
+import {
+  AttachmentDisplay as SeedAttachmentDisplay,
+  useAttachmentDisplayContext,
+} from "@seed-design/lynx-react";
+import { Sortable } from "@seed-design/lynx-react-sortable";
 import {
   AttachmentDisplayItem,
   type AttachmentDisplayItemProps,
   type AttachmentDisplayProps,
 } from "./attachment-display-field";
-import { HorizontalReorderItem, HorizontalReorderList } from "../lib/attachment-sortable";
 
 const LABEL_SELECT_FILE = "파일 선택";
+const LABEL_REMOVE = "파일 제거";
+const LABEL_RETRY = "재시도";
+const LABEL_ITEM = "이미지";
+const MOVE_ACTION_LABELS = { previous: "앞으로 이동", next: "뒤로 이동" };
+const STATUS_LABELS: Partial<Record<AttachmentDisplayItemProps["entry"]["status"], string>> = {
+  uploading: "업로드 중",
+  error: "업로드 실패",
+};
 let nextReorderInstanceId = 0;
 
 type ReorderableContext = Parameters<NonNullable<AttachmentDisplayProps["children"]>>[0];
@@ -38,11 +49,12 @@ export const AttachmentDisplayReorderable = React.forwardRef<
   const [instanceId] = React.useState(() => nextReorderInstanceId++);
   const boundaryId = id ? `${id}-container` : `attachment-display-reorder-container-${instanceId}`;
   const reorderId = id ? `${id}-list` : `attachment-display-reorder-list-${instanceId}`;
+  const globalProps = React.useGlobalProps() as { motion?: unknown } | undefined;
 
   return (
     <SeedAttachmentDisplay.Context>
       {(context: ReorderableContext) => (
-        <HorizontalReorderList
+        <Sortable.Root
           items={context.entries}
           getItemKey={(entry) => entry.id}
           disabled={context.disabled}
@@ -50,6 +62,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
           id={reorderId}
           scrollableBoundaryId={boundaryId}
           scrollEdgeOffset={scrollEdgeOffset}
+          reducedMotion={globalProps?.motion === "reduced"}
           onReorder={context.reorderEntry}
           onDragStateChange={onDragStateChange}
         >
@@ -92,7 +105,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
               </SeedAttachmentDisplay.ItemGroup>
             </SeedAttachmentDisplay.Container>
           )}
-        </HorizontalReorderList>
+        </Sortable.Root>
       )}
     </SeedAttachmentDisplay.Context>
   );
@@ -103,12 +116,46 @@ export type SortableAttachmentDisplayItemProps = AttachmentDisplayItemProps & {
   index: number;
 };
 
+/**
+ * The whole item is one accessibility element. Screen readers move it with the
+ * "앞으로 이동"·"뒤로 이동" actions and reach remove·retry as actions, because iOS
+ * does not focus buttons inside an accessibility element.
+ */
 export const SortableAttachmentDisplayItem = React.forwardRef<
   React.ComponentRef<typeof AttachmentDisplayItem>,
   SortableAttachmentDisplayItemProps
->(({ index, entry, ...props }, ref) => (
-  <HorizontalReorderItem itemId={entry.id} index={index}>
-    {(dragging) => <AttachmentDisplayItem ref={ref} entry={entry} {...props} dragging={dragging} />}
-  </HorizontalReorderItem>
-));
+>(({ index, entry, onRetry, ...props }, ref) => {
+  const { readOnly, removeEntry } = useAttachmentDisplayContext();
+  const actions = [
+    ...(readOnly ? [] : [LABEL_REMOVE]),
+    ...(onRetry && entry.status === "error" ? [LABEL_RETRY] : []),
+  ];
+  return (
+    <Sortable.Item
+      itemId={entry.id}
+      index={index}
+      accessibility-element={true}
+      accessibility-label={entry.name ?? LABEL_ITEM}
+      accessibility-value={[`${index + 1}번째`, STATUS_LABELS[entry.status]]
+        .filter(Boolean)
+        .join(", ")}
+      moveActionLabels={MOVE_ACTION_LABELS}
+      accessibility-actions={actions.length > 0 ? actions : undefined}
+      bindaccessibilityaction={(event) => {
+        if (event.detail.name === LABEL_REMOVE) removeEntry(entry.id);
+        else if (event.detail.name === LABEL_RETRY) onRetry?.();
+      }}
+    >
+      {(dragging) => (
+        <AttachmentDisplayItem
+          ref={ref}
+          entry={entry}
+          onRetry={onRetry}
+          {...props}
+          dragging={dragging}
+        />
+      )}
+    </Sortable.Item>
+  );
+});
 SortableAttachmentDisplayItem.displayName = "SortableAttachmentDisplayItem";

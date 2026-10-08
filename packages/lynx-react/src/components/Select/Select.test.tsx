@@ -17,7 +17,7 @@ vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   return { ...actual, getRectByRef: geometry.getRectByRef };
 });
 
-vi.mock("../private/Positioning", () => ({
+vi.mock("@seed-design/lynx-react-floating", () => ({
   computePosition: geometry.computePosition,
 }));
 
@@ -74,13 +74,17 @@ function FloatingSelect({
   return (
     <Select.Root defaultOpen>
       <Select.Trigger accessibility-label="열기" />
-      <Select.Content ref={contentRef} style={style} accessibility-label="floating-content">
-        <Select.Group>
-          <Select.Item value="apple" label="사과">
-            <Select.ItemLabel />
-          </Select.Item>
-        </Select.Group>
-      </Select.Content>
+      <Select.Positioner>
+        <Select.Content ref={contentRef} style={style} accessibility-label="floating-content">
+          <Select.ScrollArea>
+            <Select.Group>
+              <Select.Item value="apple" label="사과">
+                <Select.ItemLabel />
+              </Select.Item>
+            </Select.Group>
+          </Select.ScrollArea>
+        </Select.Content>
+      </Select.Positioner>
     </Select.Root>
   );
 }
@@ -107,16 +111,20 @@ function TestSelect() {
   return (
     <Select.Root defaultValue={["apple"]}>
       <Select.Trigger className="select-trigger" accessibility-label="과일" />
-      <Select.Content>
-        <Select.Group>
-          <Select.Item value="apple" label="사과">
-            <Select.ItemLabel />
-          </Select.Item>
-          <Select.Item value="banana" label="바나나">
-            <Select.ItemLabel />
-          </Select.Item>
-        </Select.Group>
-      </Select.Content>
+      <Select.Positioner>
+        <Select.Content>
+          <Select.ScrollArea>
+            <Select.Group>
+              <Select.Item value="apple" label="사과">
+                <Select.ItemLabel />
+              </Select.Item>
+              <Select.Item value="banana" label="바나나">
+                <Select.ItemLabel />
+              </Select.Item>
+            </Select.Group>
+          </Select.ScrollArea>
+        </Select.Content>
+      </Select.Positioner>
     </Select.Root>
   );
 }
@@ -173,6 +181,23 @@ describe("Select", () => {
       </Select.Root>,
     );
     expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
+  });
+
+  it("scales trigger and item content without their pressed backgrounds", () => {
+    render(<TestSelect />);
+    const root = getRenderedRoot();
+
+    for (const [rootClass, slot] of [
+      [".select-trigger", "seed-select-trigger"],
+      [".seed-select-item__root", "seed-select-item"],
+    ] as const) {
+      const surface = root.querySelector<HTMLElement>(rootClass)!;
+      const target = surface.querySelector(`.${slot}__scaleContent`);
+      expect(target).toHaveAttribute("flatten", "false");
+      expect(target?.parentElement).toBe(surface);
+      expect(target).toHaveTextContent(/\S/);
+      expect(target).not.toContainElement(surface.querySelector(`.${slot}__pressedOverlay`));
+    }
   });
 
   it("positions content after a public ref patch resolves deferred geometry", async () => {

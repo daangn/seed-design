@@ -18,6 +18,19 @@ const DOCS_DIRECTORY =
 // Next.js는 `.next/cache` 하위 파일을 빌드 뒤에도 유지하며, 문서 CI도 이 경로를 복원한다.
 const TYPE_TABLE_CACHE_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/cache/fumadocs-typescript");
 
+// Lynx 공통 요소 속성(`className`·`style`·`children`·`bindtap` 등)의 원천이다.
+// React 표에서 DOM 속성을 빼는 것처럼 Lynx 표에서도 뺀다.
+const LYNX_ELEMENT_PROPS_FILE = /\/packages\/lynx-react\/(?:src\/types\.ts|lib\/types\.d\.ts)$/;
+// Lynx 레이아웃 prop(StyleProps·Stack)의 원천이다. `Pick`으로 몇 개만 고른 prop은 보이고,
+// 통째로 상속해 표에 많이 펼쳐지면 모두 뺀다. Box·Stack 자체 문서는 이 prop이 본문이므로 그대로 둔다.
+const LYNX_LAYOUT_PROPS_FILE =
+  /\/packages\/lynx-react\/(?:src\/utils\/styled\.ts|src\/components\/Stack\/Stack\.tsx|lib\/utils\/styled\.d\.ts|lib\/components\/Stack\/Stack\.d\.ts)$/;
+const LYNX_LAYOUT_COMPONENT_FILE =
+  /\/packages\/lynx-react\/(?:src\/components\/(?:Box\/Box|Stack\/Stack)\.tsx|lib\/components\/(?:Box\/Box|Stack\/Stack)\.d\.ts)$/;
+const INHERITED_LAYOUT_PROPS_THRESHOLD = 10;
+const EXCLUDED_TAG = "external";
+const LAYOUT_TAG = "lynx-layout";
+
 export function createCompatibleTypeTableCache(
   directory: string,
   compatibilityHash = typeTableCacheCompatibilityHash,
@@ -83,26 +96,45 @@ export function createFilteredTypeTableGenerator(
       transform(entry, type, symbol) {
         options.transform?.call(this, entry, type, symbol);
         const src = symbol.getDeclarations()?.[0]?.getSourceFile().getFilePath();
-        if (src?.includes("node_modules")) {
-          entry.tags.push({ name: "external", text: src ?? "" });
+        // 선언이 없는 멤버는 `@lynx-js/types`의 template literal mapped type이 만든
+        // `main-thread:*` 이벤트처럼 출처를 알 수 없다. 표에 보일 prop은 직접 선언한다.
+        if (!src || src.includes("node_modules") || LYNX_ELEMENT_PROPS_FILE.test(src)) {
+          entry.tags.push({ name: EXCLUDED_TAG, text: src ?? "" });
+        } else if (
+          LYNX_LAYOUT_PROPS_FILE.test(src) &&
+          !LYNX_LAYOUT_COMPONENT_FILE.test(this.declaration.getSourceFile().getFilePath())
+        ) {
+          entry.tags.push({ name: LAYOUT_TAG, text: src });
         }
       },
     });
 
-    return output.map((item) => ({
-      ...item,
-      entries: item.entries
-        .filter((e) => e.tags.every((t) => t.name !== "external"))
-        .map((e) => ({
-          ...e,
-          // fumadocs-typescript's getSimpleForm resolves type aliases into their
-          // full union members, making simplifiedType longer than type.
-          // Use type (which preserves aliases via UseAliasDefinedOutsideCurrentScope)
-          // for both collapsed and expanded views until upstream is fixed.
-          // See: https://github.com/fuma-nama/fumadocs/packages/typescript/src/lib/get-simple-form.ts
-          simplifiedType: e.type,
-        })),
-    }));
+    return output.map((item) => {
+      const isLayoutEntry = (entry: (typeof item.entries)[number]) =>
+        entry.tags.some((tag) => tag.name === LAYOUT_TAG);
+      const hidesLayoutProps =
+        item.entries.filter(isLayoutEntry).length > INHERITED_LAYOUT_PROPS_THRESHOLD;
+
+      return {
+        ...item,
+        entries: item.entries
+          .filter(
+            (e) =>
+              e.tags.every((t) => t.name !== EXCLUDED_TAG) &&
+              !(hidesLayoutProps && isLayoutEntry(e)),
+          )
+          .map((e) => ({
+            ...e,
+            tags: e.tags.filter((t) => t.name !== LAYOUT_TAG),
+            // fumadocs-typescript's getSimpleForm resolves type aliases into their
+            // full union members, making simplifiedType longer than type.
+            // Use type (which preserves aliases via UseAliasDefinedOutsideCurrentScope)
+            // for both collapsed and expanded views until upstream is fixed.
+            // See: https://github.com/fuma-nama/fumadocs/packages/typescript/src/lib/get-simple-form.ts
+            simplifiedType: e.type,
+          })),
+      };
+    });
   }
 
   return {
@@ -114,7 +146,8 @@ export function createFilteredTypeTableGenerator(
 }
 
 /**
- * Generator that filters out types originating from node_modules.
+ * Generator that filters out props users don't pass on purpose: types from
+ * node_modules, Lynx common element props, and wholesale-inherited Lynx layout props.
  *
  * This is the only reason SEED forked the type-table plugin from fumadocs.
  * By wrapping generateDocumentation, we can use fumadocs' remarkAutoTypeTable

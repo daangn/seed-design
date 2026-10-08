@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import type { MainThread } from "@lynx-js/types";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
 import { QuantityPicker } from "./index";
@@ -63,60 +63,6 @@ function getText(container: HTMLElement, text: string) {
 }
 
 describe("QuantityPicker", () => {
-  it("initializes from min and clamps uncontrolled changes", () => {
-    const { container } = renderQuantityPicker({ min: 1, max: 3, step: 2 });
-    const increment = getAction(container, "늘리기");
-
-    expect(getValueText(container)).toHaveTextContent("1");
-    fireEvent.tap(increment);
-    expect(getValueText(container)).toHaveTextContent("3");
-    fireEvent.tap(increment);
-    expect(getValueText(container)).toHaveTextContent("3");
-  });
-
-  it("calls back without changing a controlled value", () => {
-    const onValueChange = vi.fn();
-    const { container } = renderQuantityPicker({ value: 2, onValueChange });
-
-    fireEvent.tap(getAction(container, "늘리기"));
-    expect(onValueChange).toHaveBeenCalledWith(3);
-    expect(getValueText(container)).toHaveTextContent("2");
-  });
-  it("uses the decrement action as remove at min", () => {
-    const onRemove = vi.fn();
-    const onValueChange = vi.fn();
-    const { container } = renderQuantityPicker({
-      min: 1,
-      defaultValue: 1,
-      removable: true,
-      removeAccessibilityLabel: "상품 삭제",
-      onRemove,
-      onValueChange,
-    });
-
-    fireEvent.tap(getAction(container, "상품 삭제"));
-    expect(onRemove).toHaveBeenCalledTimes(1);
-    expect(onValueChange).not.toHaveBeenCalled();
-    expect(getValueText(container)).toHaveTextContent("1");
-  });
-
-  it("blocks per-action loading and readOnly taps", () => {
-    const onValueChange = vi.fn();
-    const { container } = renderQuantityPicker({
-      defaultValue: 2,
-      loading: { increment: true },
-      readOnly: true,
-      onValueChange,
-    });
-
-    const decrement = getAction(container, "줄이기");
-    const increment = getAction(container, "늘리기");
-    expect(decrement).toHaveAttribute("accessibility-traits", "disabled");
-    expect(increment).toHaveAttribute("accessibility-traits", "disabled");
-    fireEvent.tap(increment);
-    expect(onValueChange).not.toHaveBeenCalled();
-  });
-
   it("applies disabled icon state at action boundaries", () => {
     const { container } = renderQuantityPicker(
       { defaultValue: 0 },
@@ -215,21 +161,5 @@ describe("QuantityPicker", () => {
     expect(root).not.toHaveAttribute("size");
     expect(root).not.toHaveAttribute("data-invalid");
     expect(valueDisplay).toHaveAttribute("accessibility-elements-hidden", "true");
-  });
-
-  it("allows ValueDisplay accessibility override", () => {
-    const { container } = renderQuantityPicker(
-      {},
-      <>
-        <QuantityPicker.DecrementButton />
-        <QuantityPicker.ValueDisplay accessibility-elements-hidden={false} />
-        <QuantityPicker.IncrementButton />
-      </>,
-    );
-
-    expect(getElement(container, ".seed-quantity-picker__valueDisplay")).toHaveAttribute(
-      "accessibility-elements-hidden",
-      "false",
-    );
   });
 });

@@ -1,31 +1,31 @@
 import IconXmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkCircleFill";
 import * as React from "@lynx-js/react";
-import { Field as SeedField, InputButton as SeedInputButton } from "@seed-design/lynx-react";
+import { Field as SeedField, FieldButton as SeedFieldButton } from "@seed-design/lynx-react";
 
-interface FieldButtonClearButtonProps extends Omit<SeedInputButton.ClearButtonProps, "icon"> {}
+interface FieldButtonClearButtonProps extends Omit<SeedFieldButton.ClearButtonProps, "icon"> {}
 
-export interface FieldButtonProps extends Omit<SeedInputButton.RootProps, "children"> {
+export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "children"> {
   children?: React.ReactNode;
   label?: React.ReactNode;
   labelWeight?: SeedField.LabelProps["weight"];
   indicator?: React.ReactNode;
-  prefixIcon?: SeedInputButton.PrefixIconProps["icon"];
+  prefixIcon?: SeedFieldButton.PrefixIconProps["icon"];
   prefix?: React.ReactNode;
-  suffixIcon?: SeedInputButton.SuffixIconProps["icon"];
+  suffixIcon?: SeedFieldButton.SuffixIconProps["icon"];
   suffix?: React.ReactNode;
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   required?: boolean;
   showRequiredIndicator?: boolean;
   showClearButton?: boolean;
-  buttonProps?: SeedInputButton.ButtonProps;
+  buttonProps?: SeedFieldButton.ButtonProps;
   clearButtonProps?: FieldButtonClearButtonProps;
   fieldRef?: React.Ref<React.ComponentRef<typeof SeedField.Root>>;
-  inputButtonRef?: React.Ref<React.ComponentRef<typeof SeedInputButton.Root>>;
+  controlRef?: React.Ref<React.ComponentRef<typeof SeedFieldButton.Root>>;
 }
 
 /**
- * @see https://seed-design.io/lynx/components/input-button
+ * @see https://seed-design.io/lynx/components/field-button
  */
 export const FieldButton = React.forwardRef<unknown, FieldButtonProps>((props, ref) => {
   const {
@@ -45,7 +45,7 @@ export const FieldButton = React.forwardRef<unknown, FieldButtonProps>((props, r
     buttonProps,
     clearButtonProps,
     fieldRef,
-    inputButtonRef,
+    controlRef,
     disabled,
     invalid,
     readOnly,
@@ -80,28 +80,28 @@ export const FieldButton = React.forwardRef<unknown, FieldButtonProps>((props, r
           </SeedField.Label>
         </SeedField.Header>
       ) : null}
-      <SeedInputButton.Root
-        ref={inputButtonRef}
+      <SeedFieldButton.Root
+        ref={controlRef}
         disabled={disabled}
         invalid={invalid}
         readOnly={readOnly}
         {...rootProps}
       >
-        <SeedInputButton.Button ref={ref} {...buttonProps} />
-        {prefixIcon ? <SeedInputButton.PrefixIcon icon={prefixIcon} /> : null}
-        {prefix != null ? <SeedInputButton.PrefixText>{prefix}</SeedInputButton.PrefixText> : null}
+        <SeedFieldButton.Button ref={ref} {...buttonProps} />
+        {prefixIcon ? <SeedFieldButton.PrefixIcon icon={prefixIcon} /> : null}
+        {prefix != null ? <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText> : null}
         {children}
         {renderClearButton ? (
-          <SeedInputButton.ClearButton
+          <SeedFieldButton.ClearButton
             // 소비처에서 서비스 언어에 맞는 레이블로 재정의할 수 있습니다.
             accessibility-label="지우기"
             icon={<IconXmarkCircleFill />}
             {...clearButtonProps}
           />
         ) : null}
-        {suffix != null ? <SeedInputButton.SuffixText>{suffix}</SeedInputButton.SuffixText> : null}
-        {suffixIcon ? <SeedInputButton.SuffixIcon icon={suffixIcon} /> : null}
-      </SeedInputButton.Root>
+        {suffix != null ? <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText> : null}
+        {suffixIcon ? <SeedFieldButton.SuffixIcon icon={suffixIcon} /> : null}
+      </SeedFieldButton.Root>
       {renderFooter ? (
         <SeedField.Footer>
           {renderDescription ? <SeedField.Description>{description}</SeedField.Description> : null}
@@ -115,16 +115,16 @@ export const FieldButton = React.forwardRef<unknown, FieldButtonProps>((props, r
 });
 FieldButton.displayName = "FieldButton";
 
-export interface FieldButtonValueProps extends SeedInputButton.ValueProps {}
+export interface FieldButtonValueProps extends SeedFieldButton.ValueProps {}
 
 /**
- * @see https://seed-design.io/lynx/components/input-button
+ * @see https://seed-design.io/lynx/components/field-button
  */
-export const FieldButtonValue = SeedInputButton.Value;
+export const FieldButtonValue = SeedFieldButton.Value;
 
-export interface FieldButtonPlaceholderProps extends SeedInputButton.PlaceholderProps {}
+export interface FieldButtonPlaceholderProps extends SeedFieldButton.PlaceholderProps {}
 
 /**
- * @see https://seed-design.io/lynx/components/input-button
+ * @see https://seed-design.io/lynx/components/field-button
  */
-export const FieldButtonPlaceholder = SeedInputButton.Placeholder;
+export const FieldButtonPlaceholder = SeedFieldButton.Placeholder;

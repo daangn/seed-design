@@ -25,6 +25,7 @@ export const ImageRoot = React.forwardRef<unknown, ImageRootProps>((props, ref) 
   const { children, onLoadingStatusChange, ...nativeProps } = props;
   const [loadingStatus, setStatus] = React.useState<ImageLoadingStatus>("error");
   const setLoadingStatus = useMemoizedFn((status: ImageLoadingStatus) => {
+    "background only";
     setStatus(status);
     onLoadingStatusChange?.(status);
   });

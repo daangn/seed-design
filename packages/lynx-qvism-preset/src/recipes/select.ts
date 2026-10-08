@@ -7,7 +7,15 @@ import { defineSlotRecipe } from "../utils/define";
 
 export const selectTrigger = defineSlotRecipe({
   name: "select-trigger",
-  slots: ["root", "pressedOverlay", "value", "placeholder", "prefixIcon", "suffixIcon"],
+  slots: [
+    "root",
+    "scaleContent",
+    "pressedOverlay",
+    "value",
+    "placeholder",
+    "prefixIcon",
+    "suffixIcon",
+  ],
   base: {
     root: {
       position: "relative",
@@ -20,6 +28,13 @@ export const selectTrigger = defineSlotRecipe({
       borderStyle: "solid",
       borderWidth: selectTriggerVars.base.enabled.root.strokeWidth,
       borderColor: selectTriggerVars.base.enabled.root.strokeColor,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      minWidth: 0,
     },
     pressedOverlay: {
       position: "absolute",
@@ -74,11 +89,11 @@ export const selectTrigger = defineSlotRecipe({
       large: {
         root: {
           height: selectTriggerVars.sizeLarge.enabled.root.height,
-          gap: selectTriggerVars.sizeLarge.enabled.root.gap,
           paddingLeft: selectTriggerVars.sizeLarge.enabled.root.paddingX,
           paddingRight: selectTriggerVars.sizeLarge.enabled.root.paddingX,
           borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius,
         },
+        scaleContent: { gap: selectTriggerVars.sizeLarge.enabled.root.gap },
         pressedOverlay: { borderRadius: selectTriggerVars.sizeLarge.enabled.root.cornerRadius },
         value: {
           fontSize: selectTriggerVars.sizeLarge.enabled.value.fontSize,
@@ -100,11 +115,11 @@ export const selectTrigger = defineSlotRecipe({
       medium: {
         root: {
           height: selectTriggerVars.sizeMedium.enabled.root.height,
-          gap: selectTriggerVars.sizeMedium.enabled.root.gap,
           paddingLeft: selectTriggerVars.sizeMedium.enabled.root.paddingX,
           paddingRight: selectTriggerVars.sizeMedium.enabled.root.paddingX,
           borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius,
         },
+        scaleContent: { gap: selectTriggerVars.sizeMedium.enabled.root.gap },
         pressedOverlay: { borderRadius: selectTriggerVars.sizeMedium.enabled.root.cornerRadius },
         value: {
           fontSize: selectTriggerVars.sizeMedium.enabled.value.fontSize,
@@ -189,7 +204,6 @@ export const select = defineSlotRecipe({
   name: "select",
   slots: [
     "positioner",
-    "backdrop",
     "content",
     "scrollArea",
     "scrollContent",
@@ -198,20 +212,10 @@ export const select = defineSlotRecipe({
     "separator",
   ],
   base: {
+    // Headless SelectPositioner가 모드별 배치(position·inset·크기)와 닫힌 동안의 숨김을 inline으로 정합니다.
+    // `container`가 없을 때 같은 화면의 형제 요소 위에 그리도록 z-index만 둡니다.
     positioner: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 0,
-    },
-    backdrop: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      zIndex: 99,
     },
     content: {
       position: "absolute",
@@ -321,7 +325,16 @@ export const select = defineSlotRecipe({
 
 export const selectItem = defineSlotRecipe({
   name: "select-item",
-  slots: ["root", "pressedOverlay", "body", "label", "description", "prefixIcon", "indicator"],
+  slots: [
+    "root",
+    "scaleContent",
+    "pressedOverlay",
+    "body",
+    "label",
+    "description",
+    "prefixIcon",
+    "indicator",
+  ],
   base: {
     root: {
       position: "relative",
@@ -329,6 +342,13 @@ export const selectItem = defineSlotRecipe({
       flexDirection: "row",
       alignItems: "center",
       flexShrink: 0,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      minWidth: 0,
     },
     pressedOverlay: {
       position: "absolute",
@@ -376,8 +396,8 @@ export const selectItem = defineSlotRecipe({
           paddingBottom: selectItemVars.sizeLarge.enabled.root.paddingY,
           paddingLeft: selectItemVars.base.enabled.root.paddingX,
           paddingRight: selectItemVars.base.enabled.root.paddingX,
-          gap: selectItemVars.sizeLarge.enabled.root.gap,
         },
+        scaleContent: { gap: selectItemVars.sizeLarge.enabled.root.gap },
         prefixIcon: {
           width: selectItemVars.sizeLarge.enabled.prefixIcon.size,
           height: selectItemVars.sizeLarge.enabled.prefixIcon.size,
@@ -401,8 +421,8 @@ export const selectItem = defineSlotRecipe({
           paddingBottom: selectItemVars.sizeMedium.enabled.root.paddingY,
           paddingLeft: selectItemVars.base.enabled.root.paddingX,
           paddingRight: selectItemVars.base.enabled.root.paddingX,
-          gap: selectItemVars.sizeMedium.enabled.root.gap,
         },
+        scaleContent: { gap: selectItemVars.sizeMedium.enabled.root.gap },
         prefixIcon: {
           width: selectItemVars.sizeMedium.enabled.prefixIcon.size,
           height: selectItemVars.sizeMedium.enabled.prefixIcon.size,

@@ -1,5 +1,5 @@
 ---
-title: AppBar
+title: App Bar
 description: 화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.
 compatibility:
   lynx:
@@ -33,7 +33,7 @@ npx @seed-design/cli add ui:app-bar
 
 ### `AppBarLeft`
 
-<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarLeftProps" />
+고유 prop이 없습니다. `className`, `style`, `children`, `bindlayoutchange`를 받습니다.
 
 ### `AppBarMain`
 
@@ -41,11 +41,11 @@ npx @seed-design/cli add ui:app-bar
 
 ### `AppBarRight`
 
-<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarRightProps" />
+고유 prop이 없습니다. `className`, `style`, `children`, `bindlayoutchange`를 받습니다.
 
 ### `AppBarSlot`
 
-<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarSlotProps" />
+고유 prop이 없습니다. `className`, `style`, `children`을 받습니다.
 
 ### `AppBarIconButton`
 
@@ -231,6 +231,32 @@ import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
   ```json doc-gen:file
   {
     "file": "examples/lynx/app-bar/platform-layouts.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Headless
+
+`@seed-design/lynx-react-app-bar`는 Recipe 없이 AppBar의 기능만 제공합니다.
+
+- 상단 safe area 값
+- 좌우 슬롯의 `layoutchange` 폭 측정과 정규화
+- 넓은 쪽 폭을 기준으로 한 가운데 제목 padding 값
+- 아이콘 버튼의 기본 접근성 속성
+
+`@seed-design/lynx-react`의 AppBar는 여기에 platform 기본 theme, theme별 높이와 제목 배치, tone, 아이콘 가장자리 보정, Recipe를 더합니다. Registry `ui:app-bar`는 title·subtitle 조립과 기본 뒤로·닫기 아이콘과 라벨을 제공합니다. SEED 디자인을 사용하는 화면에서는 Registry를 사용하세요.
+
+```package-install
+@seed-design/lynx-react-app-bar
+```
+
+`AppBar.Root`는 높이, padding, 배치를 적용하지 않습니다. 파트 구성은 React와 같이 `Root`·`Left`·`Main`·`Right`입니다. `AppBar.Root` 아래의 컴포넌트에서 `useAppBarContext()`로 `safeAreaInsetTop`과 `centeredTitlePaddingX`를 읽어 `AppBar.Main` 등에 직접 배치합니다.
+
+<LynxComponentExample name="lynx/app-bar/headless">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/headless.tsx",
     "codeblock": true
   }
   ```
