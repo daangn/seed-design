@@ -66,13 +66,6 @@ export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlacehol
     const parentProps = useProps();
     const { children, className, ...nativeProps } = props;
     const isElement = React.isValidElement<LynxIconElementProps>(children);
-    if (
-      children != null &&
-      children !== false &&
-      (!isElement || children.type === React.Fragment)
-    ) {
-      throw new Error("ContentPlaceholder.Asset expects a single icon or image element.");
-    }
     const preset = contentPlaceholderPresets[parentProps?.type ?? "default"];
     const asset =
       isElement && typeof children.type !== "string"
