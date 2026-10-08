@@ -24,7 +24,7 @@
 - `PageBanner.Body`를 사용해 본문 스타일을 지정합니다.
 ```
 
-마이그레이션 방법이 없으면 제거된 기능과 대체 수단이 없다는 사실을 적는다. `minor`나 `patch`에는 `BREAKING CHANGE` 접두사를 쓰지 않는다. 예외로 Lynx `0.x` 패키지가 breaking change를 `minor`로 배포할 때는 접두사를 붙인다(version-matrix「Lynx `0.x`」, 선례: `packages/lynx-react/CHANGELOG.md` 0.3.0).
+마이그레이션 방법이 없으면 제거된 기능과 대체 수단이 없다는 사실을 적는다. `minor`나 `patch`에는 `BREAKING CHANGE` 접두사를 쓰지 않는다.
 
 ### `minor`
 
@@ -104,7 +104,7 @@ Bottom Sheet에 드래그로 닫는 기능을 추가합니다.
 
 ## 피해야 할 표현
 
-- breaking change를 `minor`로 분류하지 않는다 → `major`로 쓴다. 예외는 version-matrix「Lynx `0.x`」 정책뿐이고, 이때도 `BREAKING CHANGE` 접두사와 마이그레이션 안내를 쓴다.
+- breaking change를 `minor`로 분류하지 않는다 → `major`로 쓴다.
 - "코드를 개선했습니다", "파일을 이동했습니다"처럼 사용자 영향이 드러나지 않는 문장을 쓰지 않는다 → 소비자가 겪는 변화를 쓴다.
 - 커밋 메시지나 PR 설명을 그대로 복사하지 않는다.
 - dependency가 바뀌었다는 이유만으로 소비 패키지의 공개 변화를 추측하지 않는다.
