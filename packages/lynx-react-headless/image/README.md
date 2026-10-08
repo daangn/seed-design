@@ -1,6 +1,6 @@
 # @seed-design/lynx-react-image
 
-Headless component for rendering native images with load/error state and fallbacks in SEED Lynx. This is an internal utility, not intended for public usage.
+Headless component built to implement [SEED Lynx Avatar](https://seed-design.io/lynx/components/avatar) and [SEED Lynx Image Frame](https://seed-design.io/lynx/components/image-frame). This is an internal utility, not intended for public usage.
 
 ## Usage
 
