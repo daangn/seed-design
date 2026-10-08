@@ -50,7 +50,7 @@ data:
     theme=cupertino:
       enabled:
         root:
-          minHeight: 44px
+          minHeight: 56px
           paddingX: $dimension.x4
         icon:
           size: 24px

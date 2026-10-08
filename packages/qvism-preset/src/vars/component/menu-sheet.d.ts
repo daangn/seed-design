@@ -10,9 +10,12 @@ export declare const vars: {
         "exitTimingFunction": "var(--seed-timing-function-exit)",
         "exitOpacity": "0"
       },
+      /** content는 가로 기준으로 안전 영역의 가운데에 놓입니다. */
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         "maxWidth": "480px",
+        /** inset을 빼지 않은 viewport height 또는 parent height에 대한 최대 비율입니다. 최대 높이는 min(maxHeightFraction × 높이, 상단 inset을 뺀 높이)이므로, content는 상단 안전 영역 경계까지만 커집니다. */
+        "maxHeightFraction": "0.9",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingY": "var(--seed-dimension-x4)",
         "topCornerRadius": "var(--seed-radius-r5)",
