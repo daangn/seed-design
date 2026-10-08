@@ -174,7 +174,7 @@ import {
 
 ##### InputButton을 FieldButton으로 변경
 
-**수정 대상:** `InputButton`, `InputButtonRoot`, `inputButtonRef`
+**수정 대상:** `InputButton`, `InputButtonRoot`, `inputButtonRef`, `@seed-design/lynx-css/recipes/input-button`, `inputButton`, `seed-input-button__`
 
 ```tsx
 import { InputButton } from "@seed-design/lynx-react"; // [!code --]
@@ -197,9 +197,19 @@ import { FieldButton } from "@/components/ui/field-button";
 <FieldButton controlRef={rootRef} />
 ```
 
-`inputButton(...)` recipe와 `seed-input-button-*` CSS 이름은 바꾸지 마세요.
+Recipe와 class 이름도 `field-button`으로 바뀌었습니다. `@seed-design/lynx-css/recipes/input-button`을 직접 import하거나 `.seed-input-button__*` selector로 스타일을 덮어썼다면 함께 바꾸세요. `FieldButton` 컴포넌트만 쓴다면 바꿀 것이 없으며, 스타일 값은 그대로입니다.
 
-**변경하지 않으면:** 1.0에는 `InputButton*` export가 없습니다.
+```tsx
+import { inputButton, type InputButtonVariantProps } from "@seed-design/lynx-css/recipes/input-button"; // [!code --]
+import { fieldButton, type FieldButtonVariantProps } from "@seed-design/lynx-css/recipes/field-button"; // [!code ++]
+
+const classes = inputButton({ size: "medium" }); // [!code --]
+const classes = fieldButton({ size: "medium" }); // [!code ++]
+```
+
+`inputButtonVariantMap`은 `fieldButtonVariantMap`으로, `.seed-input-button__root` 같은 selector는 `.seed-field-button__root`로 바꾸세요.
+
+**변경하지 않으면:** 1.0에는 `InputButton*` export와 `@seed-design/lynx-css/recipes/input-button`이 없고, `.seed-input-button__*` selector는 더 이상 어떤 요소에도 적용되지 않습니다.
 
 **작업 후 확인:** ClearButton을 `values`와 `onValuesChange`로 제어한다면, 옛 `bindtap`에서도 같은 상태를 두 번 바꾸지 않는지 확인하세요.
 
