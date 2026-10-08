@@ -23,6 +23,9 @@ inputs:
       react/llms-full.txt
       llms/react/updates/changelog.txt
       llms/react/updates/changelog/*
+      lynx/llms-full.txt
+      llms/lynx/updates/changelog.txt
+      llms/lynx/updates/changelog/*
 
 runs:
   using: composite
@@ -55,6 +58,7 @@ runs:
           --index-files index.html,.
           --include-fragments=anchor-only
           --exclude-path '/react/((v[0-9]+|[0-9]+[.][0-9]+)/)?updates/changelog(/index)?\.html$'
+          --exclude-path '/lynx/updates/changelog(/index)?\.html$'
           --remap 'https://seed-design.io/${{ inputs.canonical-prefix }}(.*) file://${{ inputs.out-dir }}/${{ inputs.canonical-prefix }}$1'
           ${{ inputs.canonical-prefix == '' && format('--exclude ''^file://{0}/[a-z][a-z0-9-]*/v[0-9]+([.][0-9]+)?(/|$)''', inputs.out-dir) || '' }}
           --

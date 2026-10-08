@@ -3,6 +3,7 @@ import path from "node:path";
 import { baseUrl } from "@/app/metadata";
 import { getChangelogLlmData } from "@/lib/changelog-llms";
 import { buildChangelogLlmOutputFiles } from "@/lib/changelog-llms-output";
+import { CHANGELOG_PLATFORMS } from "@/lib/changelog-platform";
 
 const MAX_WRITE_CONCURRENCY = 32;
 
@@ -31,16 +32,23 @@ async function writeOutputFiles(
 async function main() {
   const startedAt = performance.now();
   const outputDir = path.resolve(process.cwd(), "out");
-  const changelogDir = path.join(outputDir, "llms/react/updates/changelog");
-  const allPackagesFile = path.join(outputDir, "llms/react/updates/changelog.txt");
+  await Promise.all(
+    CHANGELOG_PLATFORMS.flatMap((platform) => [
+      rm(path.join(outputDir, `llms/${platform}/updates/changelog`), {
+        recursive: true,
+        force: true,
+      }),
+      rm(path.join(outputDir, `llms/${platform}/updates/changelog.txt`), { force: true }),
+    ]),
+  );
 
-  await Promise.all([
-    rm(changelogDir, { recursive: true, force: true }),
-    rm(allPackagesFile, { force: true }),
-  ]);
-
-  const data = await getChangelogLlmData();
-  const files = buildChangelogLlmOutputFiles(data, baseUrl);
+  const platformFiles = await Promise.all(
+    CHANGELOG_PLATFORMS.map(async (platform) => {
+      const data = await getChangelogLlmData(platform);
+      return buildChangelogLlmOutputFiles(data, baseUrl);
+    }),
+  );
+  const files = platformFiles.flat();
   await writeOutputFiles(outputDir, files);
 
   console.log(
