@@ -1,0 +1,801 @@
+---
+title: SEED Lynx 1
+description: SEED Lynx 1로 업그레이드할 때 필요한 작업을 안내합니다.
+---
+
+SEED Lynx 1로 업그레이드하는 방법을 안내합니다. 전체 변경사항은 [Changelog](/lynx/updates/changelog)에서 확인할 수 있습니다.
+
+<Callout type="info">
+  이 가이드는 SEED Lynx 0.x에서 SEED Lynx 1로 업그레이드하는 경우를 기준으로 작성했습니다.
+</Callout>
+
+## AI로 마이그레이션하기
+
+AI 코딩 도구에 아래 프롬프트를 붙여넣으면 이 가이드를 기준으로 프로젝트를 점검하고 코드를 수정할 수 있습니다.
+
+```text title="마이그레이션 프롬프트"
+이 프로젝트의 SEED Lynx를 0.x에서 1로 업그레이드해줘.
+기준 문서: https://seed-design.io/llms/lynx/updates/upgrade/v1.txt
+세부 변경 사항은 이 문서에서 확인하고, 문서와 이 지시가 다르면 문서를 따라줘.
+
+1. 현재 상태 확인
+   - package.json에서 @seed-design/lynx-* 패키지와 버전을 정리해줘.
+   - seed-design.json의 path 아래 설치된 Lynx snippet 목록을 정리해줘.
+   - 작업 전에 커밋되지 않은 변경이 있으면 알려주고 멈춰줘.
+
+2. 패키지 업그레이드
+   - 문서의 "패키지 업그레이드" 표에서 프로젝트가 쓰는 패키지만 한 번에 올려줘.
+   - 쓰지 않는 headless 패키지는 새로 설치하지 마.
+   - 프로젝트의 패키지 매니저를 그대로 사용해줘.
+
+3. 확인 목록 작성
+   - "디자인 변경사항이 있는 항목"과 "동작이 바뀌는 항목"의 사용처를 찾아
+     파일 위치와 확인할 내용을 적어줘. 이 단계에서는 코드를 수정하지 마.
+
+4. Snippet 업데이트
+   - 설치된 항목만 `npx @seed-design/cli@latest add ui:<id> --on-diff backup`으로 다시 설치해줘.
+   - legacy 백업과 새 파일을 비교해 사용자 정의 스타일과 동작만 새 파일에 다시 적용해줘.
+   - 문서가 1.0 변경이라고 설명한 차이는 백업에서 가져오지 마.
+
+5. 코드 수정
+   - "코드 수정이 필요한 항목"을 Step 순서대로 진행해줘.
+   - 각 항목의 "수정 대상" 검색어를 모두 검색하고, 사용처가 없으면 검색어와 함께 보고해줘.
+   - 같은 Step 안의 독립된 항목은 subagent로 병렬 처리해줘.
+   - 여러 항목이 같은 파일을 수정하면 한 subagent가 그 파일을 맡게 해줘.
+   - import뿐 아니라 CSS 클래스와 CSS 변수 문자열도 검색해줘.
+
+6. 검증
+   - 타입 검사와 빌드를 실행해줘. prop이나 타입 선언을 지워서 문제를 숨기지 마.
+   - 각 항목의 "작업 후 확인"을 수행하고 화면과 상호작용을 점검해줘.
+   - `npx @seed-design/cli@latest compat`을 실행해줘.
+
+7. 결과 보고
+   - 수정한 파일과 항목, 건너뛴 항목, snippet에 다시 적용한 사용자 정의,
+     검증 결과, 디자인·동작 확인 목록, 해결하지 못한 문제를 정리해줘.
+```
+
+---
+
+<Steps>
+
+<Step>
+
+## 패키지 업그레이드
+
+프로젝트에서 사용하는 패키지만 아래 버전 이상으로 업그레이드하세요.
+
+| 패키지 | 최소 버전 | 비고 |
+| --- | --- | --- |
+| `@seed-design/lynx-react` | `1.0.0` | `@seed-design/lynx-css`와 함께 올립니다. |
+| `@seed-design/lynx-css` | `1.0.0` | `lynx-react` 1.x가 요구하는 범위는 `^1.0.0`입니다. |
+| `@seed-design/lynx-react-image` | `1.0.0` | 직접 설치한 경우에만 해당합니다. |
+| `@seed-design/lynx-react-toggle` | `1.0.0` | 직접 설치한 경우에만 해당합니다. |
+| `@seed-design/lynx-react-use-controllable-state` | `1.0.0` | 직접 설치한 경우에만 해당합니다. |
+| `@seed-design/lynx-react-use-press-tap` | `1.0.0` | 직접 설치한 경우에만 해당합니다. |
+| `@seed-design/tailwind3-plugin` | `3.0.2` | Tailwind 3 연동을 쓰는 경우에만 해당합니다. Lynx CSS 1.x를 허용합니다. |
+| `@seed-design/tailwind4-theme` | `3.0.2` | Tailwind 4 연동을 쓰는 경우에만 해당합니다. Lynx CSS 1.x를 허용합니다. |
+
+1.0에서 새로 분리된 headless 패키지는 `@seed-design/lynx-react`가 필요한 항목을 설치합니다. 앱에서 직접 import하지 않는 패키지를 따로 설치하지 마세요. 직접 설치한 `@seed-design/lynx-react-*` 패키지가 있다면 모두 `^1.0.0`으로 올립니다. `@seed-design/rsbuild-plugin-lynx-icon`은 이번 업그레이드 때문에 버전을 바꿀 필요가 없습니다.
+
+```package-install
+@seed-design/lynx-react@^1.0.0 @seed-design/lynx-css@^1.0.0
+```
+
+</Step>
+
+<Step>
+
+## Snippet 업데이트
+
+**수정 대상:** 아래 snippet을 설치한 프로젝트입니다. 패키지를 올려도 프로젝트에 복사된 snippet은 자동으로 바뀌지 않습니다.
+
+아래 명령에서 설치하지 않은 항목은 빼고 실행하세요.
+
+```bash
+npx @seed-design/cli@latest add ui:alert-dialog ui:attachment-display-field ui:attachment-display-field-reorderable ui:attachment-field ui:attachment-field-reorderable ui:bottom-sheet ui:callout ui:dialog ui:field-button ui:help-bubble ui:list ui:menu ui:menu-sheet ui:page-banner ui:progress-circle ui:quantity-picker ui:radio-group ui:select ui:select-box ui:slider ui:switch ui:text-field --on-diff backup
+```
+
+`ui:swipeable-menu-sheet`은 `ui:menu-sheet`으로 바뀌었습니다. 새 snippet을 설치하고 호출부를 옮긴 뒤 옛 파일을 삭제하세요.
+
+| Snippet | 1.0에서 반영된 차이 |
+| --- | --- |
+| `ui:menu-sheet`, `ui:field-button` | `MenuSheet*`, `FieldButton*` 공개 이름과 `controlRef`를 사용합니다. |
+| `ui:radio-group`, `ui:select-box` | `RadioGroupField.Root`가 상태를 소유하고 Item이 `weight`, `size`, `tone`을 소유합니다. RadioSelectBox의 바깥 Field root와 안쪽 grid도 분리됩니다. |
+| `ui:switch` | `Switchmark`가 독립 Root가 아니라 `Switch.Root` 안의 Control과 Thumb이 됩니다. |
+| `ui:menu`, `ui:select` | Positioner, Content, ScrollArea를 조합하고 `container`, `overlayLevel`을 전달합니다. |
+| `ui:slider` | Thumb, ValueIndicatorRoot, ValueIndicatorLabel에 `thumbIndex`를 전달합니다. |
+| `ui:progress-circle`, `ui:quantity-picker` | Range 앞에 Track을 렌더합니다. |
+| `ui:attachment-field`, `ui:attachment-display-field` | error icon에 제거된 PrefixIcon `size`, `color` 대신 `Icon`을 사용합니다. |
+| `ui:attachment-field-reorderable`, `ui:attachment-display-field-reorderable` | 로컬 `attachment-sortable` helper 대신 1.0의 Sortable package를 사용하고 이동, 삭제, 재시도 접근성 action을 제공합니다. |
+
+| Snippet | 1.0에서 반영된 차이 |
+| --- | --- |
+| `ui:alert-dialog`, `ui:dialog` | disabled 또는 loading인 Action이 dialog를 닫지 않습니다. Dialog의 새 native prop 계약도 따릅니다. |
+| `ui:bottom-sheet` | Content가 `container`, `overlayLevel`을 Positioner에 전달합니다. |
+| `ui:help-bubble` | Trigger와 Anchor가 `container`, `overlayLevel`을 Positioner에 전달합니다. |
+| `ui:callout` | handler가 없는 ActionableCallout도 button semantics와 press feedback을 가집니다. |
+| `ui:list` | ListDivider의 명시적인 `accessibility-element` 값을 보존합니다. |
+| `ui:page-banner` | handler가 없는 ActionablePageBanner도 button semantics와 press feedback을 가집니다. |
+| `ui:text-field` | wrapper가 내부에서 소유하는 `nativeInsertionMaxLength`를 공개 prop에서 제외합니다. |
+
+`--on-diff backup`은 기존 파일을 `legacy-<파일명>-<타임스탬프>.tsx`로 옮기고 새 파일을 씁니다. 위 목록의 차이는 1.0 변경이므로 옛 구현을 새 파일에 되돌리지 마세요. 그 밖의 차이는 프로젝트의 사용자 정의이거나 오래된 snippet과 최신 0.x snippet 사이의 차이입니다. 필요한 사용자 정의만 새 파일에 다시 적용한 뒤 legacy 파일을 삭제하세요.
+
+`compat`은 snippet이 요구하는 패키지 버전을 검사하지만 파일 내용이 최신인지는 확인하지 않습니다.
+
+</Step>
+
+<Step>
+
+## 코드 변경
+
+### 디자인 변경사항이 있는 항목
+
+화면 결과를 확인하고, 기존 화면을 유지해야 할 때만 별도 스타일을 적용하세요.
+
+1. `HStack`과 `VStack`의 `gap`이 줄과 열 양쪽에 적용됩니다. 줄바꿈한 `HStack`은 행 간격이, 줄바꿈한 `VStack`은 열 간격이 생깁니다. 기존 결과를 유지하려면 각각 `rowGap: "0px"`, `columnGap: "0px"`을 명시하세요.
+2. [Segmented Control](/lynx/components/segmented-control), [Badge](/lynx/components/badge), [Reaction Button](/lynx/components/reaction-button)의 눌림 효과가 Main Thread 상태와 `:active`를 사용합니다. 직접 recipe의 `pressed`를 조작하던 코드는 아래 코드 변경 절을 따르세요.
+3. [App Bar](/lynx/components/app-bar)의 IconButton에 눌림 배경, 색상 전환, `r2` radius가 적용됩니다. 배경이나 radius를 덮어쓴 화면을 확인하세요.
+4. [Floating Action Button](/lynx/components/floating-action-button)의 접힌 Label은 제거되지 않고 opacity로 전환됩니다. Label은 한 줄로 유지되며 접근성 트리에서는 숨겨집니다.
+5. Sheet Footer와 mark 정렬이 바뀌었습니다. BottomSheet Body는 남는 높이를 채우지 않고 내용 크기로 배치됩니다. List와 SelectBox의 checkbox/radio mark는 중앙에 맞고, MenuSheet divider는 각 Item 안쪽에 놓입니다. Attachment remove button에는 눌림 scale이 적용됩니다.
+
+[Tabs](/lynx/components/tabs)의 Indicator는 하단 stroke와 겹치도록 1px 아래에 배치됩니다. 이를 보정하려고 직접 지정한 `bottom: -1px`이 있다면 제거하고 결과를 확인하세요. Checkbox의 ghost mark는 선택 상태용 배경을 따로 사용하며 indeterminate 기본 접근성 값은 `mixed`입니다.
+
+### 코드 수정이 필요한 항목
+
+<Steps>
+
+<Step>
+
+#### 1. 이름과 최상위 구조 먼저 변경
+
+##### SwipeableMenuSheet를 MenuSheet로 변경
+
+**수정 대상:** `SwipeableMenuSheet`, `SwipeableMenuSheetCloseReason`, `swipeable-menu-sheet`
+
+```tsx
+import {
+  SwipeableMenuSheet, // [!code --]
+  type SwipeableMenuSheetCloseReason, // [!code --]
+  MenuSheet, // [!code ++]
+  type MenuSheetOpenChangeReason, // [!code ++]
+} from "@seed-design/lynx-react";
+
+{/* [!code --] */}
+<SwipeableMenuSheet.Root>{children}</SwipeableMenuSheet.Root>
+{/* [!code ++] */}
+<MenuSheet.Root>{children}</MenuSheet.Root>
+```
+
+모든 prefixed part와 Props 타입도 `MenuSheet*`로 바꾸세요. CSS recipe 이름 `menuSheet`과 `seed-menu-sheet-*`는 그대로입니다.
+
+**변경하지 않으면:** 1.0에는 옛 export가 없습니다.
+
+**작업 후 확인:** 옛 이름과 옛 snippet import가 남지 않았는지 검색하세요.
+
+##### InputButton을 FieldButton으로 변경
+
+**수정 대상:** `InputButton`, `InputButtonRoot`, `inputButtonRef`
+
+```tsx
+import { InputButton } from "@seed-design/lynx-react"; // [!code --]
+import { FieldButton } from "@seed-design/lynx-react"; // [!code ++]
+
+{/* [!code --] */}
+<InputButton.Root>{children}</InputButton.Root>
+{/* [!code ++] */}
+<FieldButton.Root>{children}</FieldButton.Root>
+```
+
+Registry `ui:field-button` wrapper의 ref prop도 바꿉니다.
+
+```tsx
+import { FieldButton } from "@/components/ui/field-button";
+
+{/* [!code --] */}
+<FieldButton inputButtonRef={rootRef} />
+{/* [!code ++] */}
+<FieldButton controlRef={rootRef} />
+```
+
+`inputButton(...)` recipe와 `seed-input-button-*` CSS 이름은 바꾸지 마세요.
+
+**변경하지 않으면:** 1.0에는 `InputButton*` export가 없습니다.
+
+**작업 후 확인:** ClearButton을 `values`와 `onValuesChange`로 제어한다면, 옛 `bindtap`에서도 같은 상태를 두 번 바꾸지 않는지 확인하세요.
+
+##### KeyboardAvoidingScrollView를 Root와 Content로 분리
+
+**수정 대상:** `KeyboardAvoidingScrollViewProps`, `<KeyboardAvoidingScrollView`, 해당 컴포넌트의 ref, scroll prop과 event
+
+```tsx
+import type { KeyboardAvoidingScrollViewProps } from "@seed-design/lynx-react"; // [!code --]
+import type { // [!code ++]
+  KeyboardAvoidingScrollViewRootProps, // [!code ++]
+  KeyboardAvoidingScrollViewContentProps, // [!code ++]
+} from "@seed-design/lynx-react"; // [!code ++]
+
+{/* [!code --] */}
+<KeyboardAvoidingScrollView
+  ref={scrollRef} // [!code --]
+  keyboardGap={24} // [!code --]
+  style={{ height: "100%", padding: "20px" }} // [!code --]
+  scroll-bar-enable={false} // [!code --]
+  bindscroll={handleScroll} // [!code --]
+// [!code --]
+>
+  {/* [!code --] */}
+  {fields}
+{/* [!code --] */}
+</KeyboardAvoidingScrollView>
+{/* [!code ++] */}
+<KeyboardAvoidingScrollView.Root keyboardGap={24} style={{ height: "100%" }}>
+  {/* [!code ++] */}
+  <KeyboardAvoidingScrollView.Content
+    ref={scrollRef} // [!code ++]
+    style={{ padding: "20px" }} // [!code ++]
+    scroll-bar-enable={false} // [!code ++]
+    bindscroll={handleScroll} // [!code ++]
+  // [!code ++]
+  >
+    {/* [!code ++] */}
+    {fields}
+  {/* [!code ++] */}
+  </KeyboardAvoidingScrollView.Content>
+{/* [!code ++] */}
+</KeyboardAvoidingScrollView.Root>
+```
+
+Root에는 `keyboardGap`, `scrollBehavior`, 바깥 높이를 둡니다. Content에는 padding, scroll ref, scroll prop과 event를 둡니다. 키보드 위에 고정할 버튼은 새 `KeyboardAvoidingScrollView.Footer`에 놓을 수 있습니다.
+
+**변경하지 않으면:** 옛 단일 컴포넌트와 `KeyboardAvoidingScrollViewProps` export가 없습니다. scroll ref나 event를 Root에 두면 실제 scroll host를 가리키지 않습니다.
+
+**작업 후 확인:** 입력 focus 시 Content가 스크롤되고 Footer를 쓴 화면에서는 Footer가 키보드 위에 놓이는지 확인하세요.
+
+##### Chip.Root를 Chip.Button으로 변경
+
+**수정 대상:** `Chip.Root`, `ChipRoot`, `Chip.RootProps`, `ChipRootProps`
+
+```tsx
+import { ChipRoot, type ChipRootProps } from "@seed-design/lynx-react"; // [!code --]
+import { ChipButton, type ChipButtonProps } from "@seed-design/lynx-react"; // [!code ++]
+
+{/* [!code --] */}
+<Chip.Root bindtap={handleTap}>라벨</Chip.Root>
+{/* [!code ++] */}
+<Chip.Button bindtap={handleTap}>라벨</Chip.Button>
+```
+
+**변경하지 않으면:** 옛 export와 namespace member가 없습니다.
+
+**작업 후 확인:** 모든 일반 Chip이 `Chip.Button`을 쓰는지 확인하세요.
+
+</Step>
+
+<Step>
+
+#### 2. 상태 소유권과 component anatomy 변경
+
+##### RadioGroup 상태를 RadioGroupField.Root로 이동
+
+**수정 대상:** `RadioGroup.Root`, `RadioGroupRoot`, root의 `value`, `onValueChange`, `disabled`, `weight`, `size`, `tone`, `RadioSelectBoxRoot`
+
+```tsx
+{/* [!code --] */}
+<RadioGroup.Root value={value} onValueChange={setValue} size="large" tone="neutral">
+  {/* [!code --] */}
+  <RadioGroup.Item value="a">A</RadioGroup.Item>
+{/* [!code --] */}
+</RadioGroup.Root>
+{/* [!code ++] */}
+<RadioGroupField.Root value={value} onValueChange={setValue}>
+  {/* [!code ++] */}
+  <RadioGroup.Root>
+    {/* [!code ++] */}
+    <RadioGroup.Item value="a" size="large" tone="neutral">A</RadioGroup.Item>
+  {/* [!code ++] */}
+  </RadioGroup.Root>
+{/* [!code ++] */}
+</RadioGroupField.Root>
+```
+
+표시용 `RadioGroup.Root`는 layout만 담당합니다. Field UI가 필요 없다면 `@seed-design/lynx-react-radio-group`의 headless Root를 상태 owner로 사용할 수 있습니다. List radio row와 RadioSelectBox도 stateful ancestor 아래에 두세요.
+
+**변경하지 않으면:** 표시용 Root가 selection과 disabled 상태를 제공하지 않습니다.
+
+**작업 후 확인:** 선택 변경, disabled, validation message와 Item별 size/tone을 확인하세요.
+
+##### Switchmark를 Switch.Root 안으로 이동
+
+**수정 대상:** registry의 `Switchmark`, `SwitchmarkProps`, Switchmark에 전달한 `checked`, `defaultChecked`, `onCheckedChange`, `disabled`
+
+```tsx
+{/* [!code --] */}
+<Switchmark checked={checked} onCheckedChange={setChecked} />
+{/* [!code ++] */}
+<Switch.Root checked={checked} onCheckedChange={setChecked}>
+  {/* [!code ++] */}
+  <Switchmark />
+{/* [!code ++] */}
+</Switch.Root>
+```
+
+**변경하지 않으면:** 1.0 Switchmark는 Control과 Thumb만 렌더하며 Root의 context가 필요합니다.
+
+**작업 후 확인:** 탭, controlled/uncontrolled 상태, disabled 상태를 확인하세요.
+
+##### BottomSheet와 MenuSheet의 controlled state 갱신
+
+**수정 대상:** `BottomSheet.Root`와 `MenuSheet.Root`의 `onOpenChange`, `.current?.open(`, `.current?.close(`, callback의 reason 처리
+
+```tsx
+{/* [!code --] */}
+<BottomSheet.Root ref={sheetRef} open={open} onOpenChange={setOpen}>
+  {/* [!code --] */}
+  {children}
+{/* [!code --] */}
+</BottomSheet.Root>
+sheetRef.current?.close(); // [!code --]
+
+{/* [!code ++] */}
+<BottomSheet.Root
+  open={open} // [!code ++]
+  onOpenChange={(next, details) => { // [!code ++]
+    setOpen(next); // [!code ++]
+    reportUserReason(details.reason); // [!code ++]
+  }} // [!code ++]
+// [!code ++]
+>
+  {/* [!code ++] */}
+  {children}
+{/* [!code ++] */}
+</BottomSheet.Root>
+setOpen(false); // [!code ++]
+```
+
+Root ref를 호출해도 `onOpenChange`가 실행되지 않습니다. ref-driven analytics와 cleanup도 앱 코드에서 직접 실행하세요. Controlled Trigger, Backdrop, CloseButton은 callback으로 변경을 요청한 뒤 부모가 `open`을 갱신할 때까지 기다립니다.
+
+**변경하지 않으면:** ref 호출에 callback side effect를 의존한 controlled state가 동기화되지 않습니다.
+
+**작업 후 확인:** trigger, close button, outside tap, drag의 reason과 imperative open/close를 각각 확인하세요.
+
+##### ProgressCircle.Track 추가
+
+**수정 대상:** `ProgressCircle.Root`, `ProgressCircle.Range`, `seed-progress-circle__root--tone_`
+
+```tsx
+{/* [!code --] */}
+<ProgressCircle.Root value={25}>
+  {/* [!code --] */}
+  <ProgressCircle.Range />
+{/* [!code --] */}
+</ProgressCircle.Root>
+{/* [!code ++] */}
+<ProgressCircle.Root value={25}>
+  {/* [!code ++] */}
+  <ProgressCircle.Track />
+  {/* [!code ++] */}
+  <ProgressCircle.Range />
+{/* [!code ++] */}
+</ProgressCircle.Root>
+```
+
+숫자 `value`만 있어도 기본 범위 0에서 100의 determinate 상태가 됩니다. 기존에 `value`를 넘기면서 indeterminate 회전을 기대했다면 `value`를 빼세요. Root tone CSS를 직접 선택했다면 Track tone class로 옮깁니다.
+
+**변경하지 않으면:** 배경 track이 보이지 않고, value-only 사용처의 의미가 달라집니다.
+
+**작업 후 확인:** determinate, indeterminate, loading 상태의 track과 range를 확인하세요.
+
+##### Menu와 Select의 layer 구조 변경
+
+**수정 대상:** `Menu.Content`, `Select.Content`, `MenuContent`, `SelectContent`, `seed-menu__backdrop`, `seed-select__backdrop`, `reason === "dismiss"`
+
+```tsx
+{/* [!code --] */}
+<Menu.Content>{items}</Menu.Content>
+{/* [!code ++] */}
+<Menu.Positioner container="window">
+  {/* [!code ++] */}
+  <Menu.Content><Menu.ScrollArea>{items}</Menu.ScrollArea></Menu.Content>
+{/* [!code ++] */}
+</Menu.Positioner>
+
+{/* [!code --] */}
+<Select.Content>{items}</Select.Content>
+{/* [!code ++] */}
+<Select.Positioner container="window">
+  {/* [!code ++] */}
+  <Select.Content><Select.ScrollArea>{items}</Select.ScrollArea></Select.Content>
+{/* [!code ++] */}
+</Select.Positioner>
+```
+
+1.0은 기본적으로 Lynx view 안의 fixed layer를 사용합니다. 기존처럼 host 전체를 덮고 Android Back에서 닫히며 `dismiss` reason을 받아야 하면 실제 native container 이름을 지정하세요. Registry의 `MenuContent`와 `SelectContent`는 재설치 후 이 구조를 내부에서 조합합니다. Select recipe를 직접 조합했다면 Trigger와 Item의 간격은 새 `scaleContent` slot에 적용하세요. 이 slot이 만든 안쪽 view 때문에 직접 자식 selector나 layout 가정도 한 단계 달라집니다.
+
+**변경하지 않으면:** primitive Content만으로는 layer와 scroll viewport를 만들지 않습니다. 옛 backdrop recipe slot도 없습니다.
+
+**작업 후 확인:** outside tap, 스크롤, native container를 쓴 경우 Android Back과 dismiss reason을 확인하세요.
+
+##### ScrollFog 안에 scroll host 배치
+
+**수정 대상:** `ScrollFog`, `hideScrollBar`, `verticalScroll`, `horizontalScroll`, 혼합된 `placement`
+
+```tsx
+{/* [!code --] */}
+<ScrollFog hideScrollBar style={{ height: "100%" }}>
+  {/* [!code --] */}
+  <VStack>{items}</VStack>
+{/* [!code --] */}
+</ScrollFog>
+{/* [!code ++] */}
+<ScrollFog placement={["top", "bottom"]} style={{ height: "100%" }}>
+  {/* [!code ++] */}
+  <scroll-view
+    scroll-orientation="vertical" // [!code ++]
+    scroll-bar-enable={false} // [!code ++]
+    style={{ height: "100%" }} // [!code ++]
+  // [!code ++]
+  >
+    {/* [!code ++] */}
+    <VStack>{items}</VStack>
+  {/* [!code ++] */}
+  </scroll-view>
+{/* [!code ++] */}
+</ScrollFog>
+```
+
+1.0의 ScrollFog는 mask만 제공합니다. 한 축의 placement만 고르세요. ChipTabsList처럼 자식이 이미 스크롤을 소유하면 scroll-view를 추가하지 않습니다.
+
+**변경하지 않으면:** 일반 content는 더 이상 ScrollFog 안에서 스크롤되지 않습니다.
+
+**작업 후 확인:** 실제 scroll host의 ref, event, scrollbar와 fog 방향을 확인하세요.
+
+</Step>
+
+<Step>
+
+#### 3. 제거되거나 이동한 prop과 타입 변경
+
+##### ActionButton 아이콘을 children으로 이동
+
+**수정 대상:** `ActionButton`의 `icon=`, `prefixIcon=`, `suffixIcon=`
+
+```tsx
+{/* [!code --] */}
+<ActionButton layout="iconOnly" icon={<IconPlus />} accessibility-label="추가" />
+{/* [!code ++] */}
+<ActionButton layout="iconOnly" accessibility-label="추가">
+  {/* [!code ++] */}
+  <Icon icon={<IconPlus />} />
+{/* [!code ++] */}
+</ActionButton>
+
+{/* [!code --] */}
+<ActionButton prefixIcon={<IconPlus />}>추가</ActionButton>
+{/* [!code ++] */}
+<ActionButton><PrefixIcon icon={<IconPlus />} />추가</ActionButton>
+```
+
+**변경하지 않으면:** 제거된 prop으로 넘긴 아이콘은 렌더링되지 않습니다.
+
+**작업 후 확인:** icon-only control에 `accessibility-label`이 있는지 확인하세요.
+
+##### PrefixIcon과 SuffixIcon의 size, color 제거
+
+**수정 대상:** `PrefixIcon`, `SuffixIcon`, `Chip.PrefixIcon`, `Chip.SuffixIcon`에 전달한 `size`, `color`
+
+```tsx
+{/* [!code --] */}
+<PrefixIcon icon={<ErrorIcon />} size="x4" color="fg.critical" />
+{/* [!code ++] */}
+<PrefixIcon icon={<ErrorIcon />} />
+```
+
+slot의 recipe 스타일을 따르는 것이 기본입니다. 의도적인 override라면 `style`을 쓰고, 독립 아이콘이면 `Icon`의 `size`와 `color`를 쓰세요.
+
+**변경하지 않으면:** 1.0의 공개 PrefixIcon/SuffixIcon prop 계약에 맞지 않습니다.
+
+**작업 후 확인:** TextField와 AttachmentInput의 장식 아이콘은 기본적으로 접근성 트리에서 숨겨집니다. 의미가 있는 아이콘만 명시적으로 노출하세요.
+
+##### Select formatter와 SelectBox 타입 변경
+
+**수정 대상:** `formatValue` 안의 `prefixIcon`, `SelectBoxGroupProps`, `SelectBoxFooterProps`
+
+```tsx
+formatValue={(items) => ({ label: items[0]?.label, icon: items[0]?.prefixIcon })} // [!code --]
+formatValue={(items) => ({ label: items[0]?.label, icon: items[0]?.icon })} // [!code ++]
+```
+
+SelectItem을 만들 때 쓰는 `prefixIcon` prop은 그대로입니다. 제거된 공통 SelectBox 타입은 실제 variant 타입으로 바꾸세요.
+
+```tsx
+import type { SelectBoxGroupProps } from "@seed-design/lynx-react"; // [!code --]
+import type { CheckSelectBox } from "@seed-design/lynx-react"; // [!code ++]
+type GroupProps = CheckSelectBox.GroupProps; // [!code ++]
+```
+
+**변경하지 않으면:** formatter에서 선택된 icon을 읽지 못하고, 공통 타입 export는 사용할 수 없습니다.
+
+**작업 후 확인:** 선택값의 prefix icon과 Check/Radio SelectBox wrapper 타입을 확인하세요.
+
+##### List 선택 row의 mark 스타일 이동
+
+**수정 대상:** `List.CheckboxItem`의 `pressed`, `size`, `weight`, `variant`, `tone`, `List.SwitchItem`의 `size`, `tone`, `interactionRoot`, `seed-list-item__interactionRoot`
+
+```tsx
+{/* [!code --] */}
+<List.CheckboxItem checked={checked} size="small" tone="neutral">
+  {/* [!code --] */}
+  <List.Suffix><Checkbox.Control /></List.Suffix>
+{/* [!code --] */}
+</List.CheckboxItem>
+{/* [!code ++] */}
+<List.CheckboxItem checked={checked}>
+  {/* [!code ++] */}
+  <List.Suffix><Checkbox.Control size="small" tone="neutral" /></List.Suffix>
+{/* [!code ++] */}
+</List.CheckboxItem>
+```
+
+Checkbox의 `size`, `variant`, `tone`은 `Checkbox.Control`로, Switch의 `size`, `tone`은 `Switch.Control`로 옮깁니다. `pressed`는 interaction이 소유하므로 제거합니다. Checkbox row의 `weight`는 Control prop이 아니므로 옮기지 말고, 글자 굵기를 의도했다면 label Text에 직접 적용하세요. Radio의 모양은 `RadioGroup.ItemControl`에 둡니다. Radio row의 `weight`, `size`, `tone`은 0.x에서도 row prop이 아니었습니다. recipe를 직접 조합했다면 `interactionRoot` wrapper를 제거하고 실제 row root에 handler와 ref를 연결하세요.
+
+**변경하지 않으면:** row에서 mark 모양을 제어하지 못하고 옛 slot class는 생성되지 않습니다.
+
+**작업 후 확인:** row 전체 탭, mark 정렬, disabled와 접근성 값을 확인하세요.
+
+##### AttachmentDisplay picker callback을 Trigger로 이동
+
+**수정 대상:** package primitive `AttachmentDisplay.Root.onTriggerTap`, `useAttachmentDisplay({ onTriggerTap })`
+
+```tsx
+{/* [!code --] */}
+<AttachmentDisplay.Root onTriggerTap={({ addEntries }) => pick().then(addEntries)}>
+  {/* [!code --] */}
+  <AttachmentDisplay.Trigger />
+{/* [!code --] */}
+</AttachmentDisplay.Root>
+{/* [!code ++] */}
+<AttachmentDisplay.Root>
+  {/* [!code ++] */}
+  <AttachmentDisplay.Context>
+    {/* [!code ++] */}
+    {({ addEntries }) => (
+      <AttachmentDisplay.Trigger bindtap={() => pick().then(addEntries)} /> // [!code ++]
+    // [!code ++]
+    )}
+  {/* [!code ++] */}
+  </AttachmentDisplay.Context>
+{/* [!code ++] */}
+</AttachmentDisplay.Root>
+```
+
+Registry `ui:attachment-display-field`의 `AttachmentDisplay.onTriggerTap`은 그대로입니다. import 출처를 구분하세요.
+
+**변경하지 않으면:** primitive Root의 옛 callback은 picker를 열지 않습니다.
+
+**작업 후 확인:** 추가 가능 수량, picker 취소, 업로드 상태 갱신을 확인하세요.
+
+##### AttachmentInput context 반환 타입 변경
+
+**수정 대상:** `useAttachmentInputItemContext`, `removeButtonProps`, `imageProps.alt`, `AttachmentInputContextValue.acceptType`
+
+```tsx
+const { removeButtonProps, imageProps } = useAttachmentInputItemContext();
+<AttachmentInput.ItemRemoveButton {...removeButtonProps} />
+<AttachmentInput.ItemImage {...imageProps} />
+```
+
+`removeButtonProps`는 1.0에서 필수 `bindtap`만 제공하는 객체입니다. 옛 `main-thread:bindtap` 존재 여부에 의존하지 마세요. `imageProps`가 있으면 `alt`는 항상 문자열입니다. `AttachmentInputContextValue.acceptType`은 항상 존재하는 property이며 값은 `"image"` 또는 `undefined`입니다. `in` 연산자로 property 존재 여부를 상태처럼 사용했다면 값 자체를 검사하세요.
+
+**변경하지 않으면:** hook 반환 객체의 옛 optional member 모양을 가정한 분기와 wrapper 타입이 1.0 계약과 맞지 않습니다.
+
+**작업 후 확인:** remove button, image 대체 설명, accept type이 없는 상태를 확인하세요.
+
+##### 삭제된 attachment-sortable helper 교체
+
+**수정 대상:** `attachment-sortable`, `HorizontalReorderList`, `HorizontalReorderItem`
+
+```tsx
+import { HorizontalReorderList, HorizontalReorderItem } from "../lib/attachment-sortable"; // [!code --]
+import { Sortable } from "@seed-design/lynx-react-sortable"; // [!code ++]
+
+const ReorderRoot = HorizontalReorderList; // [!code --]
+const ReorderItem = HorizontalReorderItem; // [!code --]
+const ReorderRoot = Sortable.Root; // [!code ++]
+const ReorderItem = Sortable.Item; // [!code ++]
+```
+
+Root에는 `items`, `getItemKey`, `onReorder`, 앱의 reduced motion 값을 전달합니다. Item에는 이동 action label을 제공합니다. 옛 helper를 직접 쓰지 않았다면 reorderable attachment snippet 재설치만으로 충분합니다.
+
+**변경하지 않으면:** 옛 로컬 helper는 registry에서 더 이상 설치하거나 갱신할 수 없습니다.
+
+**작업 후 확인:** drag reorder, scroll edge 이동, reduced motion, 화면 읽기 도구의 앞·뒤 이동과 remove/retry action을 확인하세요.
+
+##### Field.Label을 Field.Root 안에 배치
+
+**수정 대상:** `Field.Label`, `FieldLabel`이 `Field.Root` 밖에 있는 사용처
+
+```tsx
+{/* [!code --] */}
+<Field.Label>이름</Field.Label>
+{/* [!code ++] */}
+<Field.Root><Field.Label>이름</Field.Label></Field.Root>
+```
+
+**변경하지 않으면:** Label이 필요한 Field context를 찾지 못합니다.
+
+**작업 후 확인:** Label, required, disabled, error message가 같은 Field 상태를 읽는지 확인하세요.
+
+</Step>
+
+<Step>
+
+#### 4. 직접 사용하는 recipe와 저수준 API 변경
+
+##### Slider index와 위치 변수 변경
+
+**수정 대상:** `Slider.Thumb`, `ValueIndicatorRoot`, `ValueIndicatorLabel`의 `index`, 누락된 index, `--slider-*-offset`, `--slider-marker-color`
+
+```tsx
+{/* [!code --] */}
+<Slider.Thumb index={1} />
+{/* [!code --] */}
+<Slider.ValueIndicatorRoot index={1}>
+  {/* [!code --] */}
+  <Slider.ValueIndicatorLabel />
+{/* [!code --] */}
+</Slider.ValueIndicatorRoot>
+{/* [!code ++] */}
+<Slider.Thumb thumbIndex={1} />
+{/* [!code ++] */}
+<Slider.ValueIndicatorRoot thumbIndex={1}>
+  {/* [!code ++] */}
+  <Slider.ValueIndicatorLabel thumbIndex={1} />
+{/* [!code ++] */}
+</Slider.ValueIndicatorRoot>
+```
+
+첫 thumb도 `thumbIndex={0}`을 명시하세요. 픽셀 offset 변수는 `--slider-thumb-offset-ratio`, `--slider-tick-offset-ratio`, `--slider-marker-offset-ratio`로 바꾸고, marker 색은 직접 style로 지정합니다. Track 너비를 Root보다 좁게 만든 layout은 좌표가 Root 기준으로 바뀐 점을 확인하세요.
+
+**변경하지 않으면:** old `index`나 누락된 index로는 해당 thumb 값을 찾지 못해 part가 렌더링되지 않을 수 있습니다.
+
+**작업 후 확인:** 모든 thumb와 value indicator, drag 범위, marker 위치를 확인하세요.
+
+##### Checkbox와 pressed recipe 정리
+
+**수정 대상:** `Checkbox.Root pressed`, `RadioGroup.Root pressed`, `checkmark({ pressed })`, `badge({ pressed })`, `reactionButton({ pressed })`, `segmentedControl({ pressed })`, 각 `VariantMap.pressed`, removed pressed class
+
+```tsx
+const badgeClasses = badge({ size: "medium", pressed }); // [!code --]
+const badgeClasses = badge({ size: "medium" }); // [!code ++]
+
+const reactionClasses = reactionButton({ selected, pressed }); // [!code --]
+const reactionClasses = reactionButton({ selected }); // [!code ++]
+```
+
+`Checkbox.Root`와 `RadioGroup.Root`의 controlled `pressed`는 제거하세요. Checkbox의 custom ghost mark에는 `selectedBackground`를 추가하고 Root의 `:active` 스타일을 사용합니다. 직접 조합한 Segmented Control에는 `itemSelectedBackground` overlay를 추가합니다. Badge의 custom recipe 조합은 필요한 scale feedback을 따로 구현하세요. ReactionButton 컴포넌트의 toggle 상태 prop인 `pressed`는 제거 대상이 아닙니다.
+
+**변경하지 않으면:** 제거된 recipe variant와 class로는 눌림 스타일이 만들어지지 않습니다.
+
+**작업 후 확인:** selected/unselected, press/release, reduced motion 상태를 확인하세요.
+
+##### AppBar z-index override 변경
+
+**수정 대상:** `--z-index-app-bar`, `seed-app-bar__root`
+
+```css
+.custom-app-bar {
+  --z-index-app-bar: 10; /* [!code --] */
+  z-index: 10; /* [!code ++] */
+}
+```
+
+AppBar.Root는 scroll container 안에서 side slot과 배경이 함께 움직이도록 자체 stacking context를 만듭니다. 옛 CSS 변수는 더 이상 root의 stacking order를 바꾸지 않습니다.
+
+**변경하지 않으면:** custom AppBar의 stacking override가 적용되지 않습니다.
+
+**작업 후 확인:** scroll 안의 AppBar 배경, side button, 인접 overlay의 쌓임 순서를 확인하세요.
+
+##### Dialog와 AlertDialog nested native prop 정리
+
+**수정 대상:** `dialogContentProps`, `dialogBackdropProps` 안의 `bindanimationstart`, `bindanimationend`, `bindanimationcancel`, `bindtransitionstart`, `bindtransitionend`, Backdrop의 nested `bindtap`
+
+```tsx
+{/* [!code --] */}
+<Dialog.Content dialogContentProps={{ bindanimationend: onEnd, bindtap: onTap }} />
+{/* [!code ++] */}
+<Dialog.Content dialogContentProps={{ bindtap: onTap }} />
+
+{/* [!code --] */}
+<Dialog.Backdrop dialogBackdropProps={{ bindtap: onBackdropTap }} />
+{/* [!code ++] */}
+<Dialog.Backdrop onClick={onBackdropTap} />
+```
+
+AlertDialog도 같은 reserved callback을 제거합니다. AlertDialog Backdrop의 `onClick`은 `clickToClose`로 실제로 닫히는 탭에서만 호출됩니다. analytics만 유지하려고 dismissal 동작을 바꾸지 마세요. Content의 `bindtap`은 1.0부터 실제 content로 전달되므로, 실행되면 안 되는 handler였다면 제거하세요.
+
+**변경하지 않으면:** reserved callback은 계속 실행되지 않습니다. Content의 기존 `bindtap`은 이전과 달리 실행됩니다.
+
+**작업 후 확인:** backdrop dismissal, content tap, disabled/loading Action이 dialog를 닫지 않는지 확인하세요.
+
+##### Toggle context API 변경
+
+**수정 대상:** `@seed-design/lynx-react-toggle`의 `ToggleContext`, `useToggleContext("...")`
+
+```tsx
+import { ToggleContext, useToggleContext } from "@seed-design/lynx-react-toggle"; // [!code --]
+import { ToggleProvider, useToggleContext } from "@seed-design/lynx-react-toggle"; // [!code ++]
+
+{/* [!code --] */}
+<ToggleContext.Provider value={api}>{children}</ToggleContext.Provider>
+{/* [!code ++] */}
+<ToggleProvider value={api}>{children}</ToggleProvider>
+
+const state = useToggleContext("MyControl"); // [!code --]
+const state = useToggleContext(); // [!code ++]
+```
+
+Provider 밖의 optional 사용은 `useToggleContext({ strict: false })`의 nullable 결과를 처리하세요.
+
+**변경하지 않으면:** `ToggleContext` export가 없습니다. 옛 문자열 인자는 새 strict option 계약이 아닙니다.
+
+**작업 후 확인:** provider 안과 optional provider 밖의 consumer를 모두 확인하세요.
+
+</Step>
+
+</Steps>
+
+### 동작이 바뀌는 항목
+
+사용하는 컴포넌트의 상태 전이, 접근성 값, custom composition을 확인하세요.
+
+1. **Toggle 계열 callback 순서와 접근성.** [Reaction Button](/lynx/components/reaction-button)의 `bindtap`은 `onPressedChange`보다 먼저 실행됩니다. disabled와 loading에서는 두 callback이 모두 실행되지 않습니다. Chip.Toggle과 Chip.RadioItem도 tap이 selection 변경보다 먼저 실행됩니다.
+
+```tsx
+{/* [!code --] */}
+<ReactionButton bindtap={afterToggle} onPressedChange={setPressed}>좋아요</ReactionButton>
+{/* [!code ++] */}
+<ReactionButton
+  onPressedChange={(next) => { // [!code ++]
+    setPressed(next); // [!code ++]
+    afterToggle(next); // [!code ++]
+  }} // [!code ++]
+// [!code ++]
+>
+  {/* [!code ++] */}
+  좋아요
+{/* [!code ++] */}
+</ReactionButton>
+```
+
+선택값이 필요한 Chip.Toggle 작업은 `onCheckedChange(next)`로, Chip.RadioItem 작업은 상위 Chip.RadioRoot의 `onValueChange(next)`로 옮기세요. ReactionButton의 기본 접근성은 toggle button과 `pressed`/`not pressed`, Chip.Toggle의 기본 role은 checkbox입니다.
+
+2. **Sheet open reason과 overlay.** [Bottom Sheet](/lynx/components/bottom-sheet)와 [Menu Sheet](/lynx/components/menu-sheet)의 `onOpenChange`는 `trigger`, `closeButton`, `interactOutside`, `drag` reason을 전달합니다. ref 호출과 controlled `open` prop 변경은 callback을 알리지 않습니다. [Help Bubble](/lynx/components/help-bubble)의 outside tap은 bubble을 닫으면서 아래 element에도 전달됩니다. Arrow 없는 custom bubble은 같은 간격을 유지하려면 `gutter={oldGutter + 8}`을 사용하세요. Menu와 Select는 Positioner의 `container` 선택에 따라 native Back과 `dismiss` 동작이 달라집니다.
+
+3. **접근성 기본값.** Dialog.Title은 heading입니다. CheckSelectBox와 List Checkbox는 `checked`/`not checked`/`mixed`, List Switch는 `checked`/`not checked`, List Radio는 `selected`/`not selected`, Chip.RadioRoot는 `radiogroup`이 기본입니다. List selection row는 하나의 접근성 element가 되며, enabled row의 기본 button trait는 없어집니다. ActionButton은 disabled 또는 loading일 때 `disabled` trait를 사용하고, FloatingActionButton과 ContextualFloatingButton은 enabled 상태에서 button trait를 사용합니다. PrefixIcon, SuffixIcon과 입력 slot icon은 기본적으로 장식용으로 숨겨집니다. 예전 안내 문구가 제품 요구사항인 경우에만 명시적인 접근성 prop으로 유지하세요.
+
+4. **layout과 자식 분류 수정.** Divider는 orientation이나 inset이 바뀌면 view를 remount하고 ref를 다시 연결합니다. TagGroup은 falsy child를 제외하고 separator를 접근성 트리에서 숨깁니다. Fragment 안의 MannerTempEmote도 emote slot으로 분류됩니다. 처음 열린 Accordion content와 SelectBox Footer는 0px에서 올라오는 animation 없이 표시됩니다. Tabs와 ChipTabs carousel은 page나 disabled trigger가 바뀌어도 현재 selection을 유지하며, 실제 swipe만 selection을 바꿉니다. 구형 Lynx Engine에서도 TextField의 초기 `value`와 `defaultValue`를 native input에 동기화합니다.
+
+5. **Registry wrapper 기본 동작.** ActionablePageBanner와 ActionableCallout은 application handler가 없어도 button semantics와 press feedback을 가집니다. 정보 표시용이면 non-actionable wrapper를 사용하세요. Dialog와 AlertDialog의 disabled/loading Action은 닫힘을 요청하지 않고, ListDivider는 명시적인 `accessibility-element` 값을 보존합니다.
+
+MenuSheet의 custom item recipe는 divider를 Item의 다음 sibling이 아니라 Item 내부에 배치합니다.
+
+```tsx
+{/* [!code --] */}
+<view className={classes.root}>{content}</view>
+{/* [!code --] */}
+<view className={classes.divider} />
+{/* [!code ++] */}
+<view className={classes.root}>
+  {/* [!code ++] */}
+  {content}
+  {/* [!code ++] */}
+  <view className={classes.divider} />
+{/* [!code ++] */}
+</view>
+```
+
+BottomSheet와 MenuSheet의 overlay container, HelpBubble의 `container`와 `overlayLevel`처럼 snippet이 새로 전달하는 prop도 재설치한 wrapper에서 확인하세요.
+
+</Step>
+
+</Steps>
