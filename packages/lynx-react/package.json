@@ -29,8 +29,7 @@
     "build": "vite build",
     "lint:publish": "bun publint",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
-    "test:published": "bun run build && vitest run --config vitest.published.config.ts"
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
