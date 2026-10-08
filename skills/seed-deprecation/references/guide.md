@@ -5,8 +5,8 @@ SEED 컴포넌트·옵션·prop·토큰을 deprecated로 선언하고, 문서화
 ## 정책
 
 - 마이너·패치 릴리스에서 deprecated를 선언하고 다음 메이저 릴리스에서 제거한다.
-- 2.0.0부터 deprecated 항목 제거를 포함한 breaking change는 메이저 릴리스에서만 한다. 1.x에서는 마이너 릴리스에서 제거했다.
-- changeset bump는 `seed-change`의 [version-matrix.md](../../seed-change/references/version-matrix.md)를 따른다. deprecation 안내만 추가하면 `minor`, 제거는 `major`(Lynx `0.x`는 그 문서의 예외)다.
+- deprecated 항목 제거를 포함한 breaking change는 메이저 릴리스에서만 한다. React 계열은 2.0.0, Lynx 계열은 1.0.0부터 적용한다. React 1.x에서는 마이너 릴리스에서 제거했다.
+- changeset bump는 `seed-change`의 [version-matrix.md](../../seed-change/references/version-matrix.md)를 따른다. deprecation 안내만 추가하면 `minor`, 제거는 `major`다.
 
 ## 입력
 

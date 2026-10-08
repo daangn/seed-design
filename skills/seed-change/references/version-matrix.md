@@ -11,16 +11,9 @@
 
 새 CSS 산출물 없이 스타일만 바꾸면 버그 수정·미세 조정은 `patch`, 의도된 시각 변경은 `minor`다. React나 Headless의 로직과 공개 API가 그대로면 그 패키지는 bump하지 않는다. React 로직이나 공개 출력까지 바뀌었으면 스타일 전용 변경이 아니므로 해당 항목을 따로 적용한다.
 
-### Lynx `0.x`
-
-- Lynx 공개 패키지(`@seed-design/lynx-react`, `@seed-design/lynx-css`, `@seed-design/lynx-react-*`)는 안정화 전까지 `0.x`를 유지한다.
-- 이 기간에는 기능 추가와 breaking change를 `minor`, 호환되는 버그 수정을 `patch`로 배포한다. 이 문서의 `major`도 `0.x`인 동안에는 `minor`로 적용한다. breaking change의 변경 내용과 마이그레이션 안내는 그대로 쓴다.
-- `1.0.0` 전환은 따로 명시적으로 결정한다.
-
 ### 새 패키지·새 API
 
-- 새 Lynx 공개 패키지는 manifest를 `0.0.0`으로 두고 첫 `minor` changeset으로 `0.1.0`에서 시작한다.
-- 그 밖의 새 공개 패키지는 `1.0.0`에서 시작한다.
+- 새 공개 패키지는 manifest를 `0.0.0`으로 두고 첫 changeset을 `major`로 써서 `1.0.0`에서 시작한다. Lynx 패키지도 같다.
 - 기존 패키지에 하위 호환 컴포넌트나 API를 추가하면 그 패키지를 `minor`로 올린다.
 
 ## 공개 표면 분류
@@ -84,7 +77,6 @@ Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따�
 - 하한 조정은 Version Changes PR(`changeset-release/dev` head, 제목 `release: version packages`)에서 한다. 새 기능을 실제로 소비하는 패키지만 대상으로 하고, 상한은 바꾸지 않는다.
 - `@seed-design/react`의 `@seed-design/css` peer와 `@seed-design/lynx-react`의 `@seed-design/lynx-css` peer는 그 PR에 OWNER·MEMBER·COLLABORATOR가 `/bump-peer-deps` 댓글을 남기면 `.github/workflows/bump-peer-deps.yml`이 맞춘다. `.github/workflows/version-peer-deps-merge-blocker.yml`이 두 범위를 검사한다.
 - 그 밖의 peer 범위는 Version Changes PR에서 수동으로 올린다.
-- 0.x 패키지에 대한 peer는 `^0.{minor}.{patch}`로 쓴다. 0.x의 minor는 호환을 깨도 되므로 `<1.0.0` 같은 넓은 상한을 쓰지 않는다. 여러 minor와 호환되면 `^0.11.0 || ^0.12.0`처럼 minor마다 이어 붙인다.
 
 ## 특수 범위
 
