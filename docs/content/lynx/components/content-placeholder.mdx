@@ -26,8 +26,9 @@ npx @seed-design/cli@latest add ui:content-placeholder
 
 ```tsx
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
+import { car } from "@seed-design/lynx-react/content-placeholder-presets/car";
 
-<ContentPlaceholder type="car" width="160px" height="160px" />
+<ContentPlaceholder preset={car} width="160px" height="160px" />
 ```
 
 ## Props
@@ -38,7 +39,11 @@ import { ContentPlaceholder } from "@/components/ui/content-placeholder";
 
 ### Type Preset
 
-React와 같은 12개 프리셋을 제공합니다. `type`을 생략하면 `default`를 표시합니다. 프리셋은 React SVG와 SEED 토큰에서 생성한 WebP이며, SEED 테마 클래스에 따라 미리 착색된 light/dark 에셋을 표시합니다.
+React와 같은 12개 프리셋을 제공합니다. 사용할 프리셋만 개별 경로에서 import해 `preset`으로 전달합니다. 각 프리셋에는 React SVG와 SEED 토큰에서 생성한 light/dark WebP 한 쌍이 들어 있으며, SEED 테마 클래스에 따라 표시합니다. `tint-color`로 표시 후 재착색하지 않습니다.
+
+기본 모양은 `@seed-design/lynx-react/content-placeholder-presets/default`의 `defaultPreset`, 구매·판매 모양은 `.../buy-sell`의 `buySell`을 사용합니다. 나머지는 `car`, `commerce`, `coupon`, `food`, `group`, `image`, `jobs`, `business`, `post`, `realty` 경로와 같은 이름으로 import합니다.
+
+사용하지 않은 프리셋은 번들에 포함되지 않습니다. `preset`을 생략하면 자동 기본 이미지를 넣지 않으며, `children`으로 전달한 커스텀 에셋만 표시합니다.
 
 <LynxComponentExample name="lynx/content-placeholder/type">
   ```json doc-gen:file
@@ -82,6 +87,6 @@ React처럼 하나의 아이콘이나 이미지를 `children`으로 전달하면
 
 ## 웹 버전과의 차이
 
-- HTML/SVG 대신 native `view`와 `image`를 사용합니다. `Root`·`Asset` 구성과 `type` 프리셋은 React와 같습니다.
+- HTML/SVG 대신 native `view`와 `image`를 사용합니다. `Root`·`Asset` 구성과 프리셋 모양은 React와 같습니다. React의 문자열 `type` 대신 개별 import한 `preset`을 전달해 사용하지 않는 이미지가 번들에 포함되지 않게 합니다.
 - 프리셋은 테마별로 미리 착색되어 표시 후 tint 변경이 없습니다. 앱에 `useSeedClassName`으로 SEED 테마 클래스를 적용하세요.
 - 커스텀 SVG의 `currentColor` 상속 대신 아이콘의 `tint-color`를 직접 지정합니다. `preserveOriginalColor`나 자동 색상 동기화는 제공하지 않습니다.

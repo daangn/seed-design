@@ -36,23 +36,8 @@ const contentPlaceholder = defineSlotRecipe({
       display: "var(--seed-content-placeholder-preset-dark-display, none)",
     },
   },
-  variants: {
-    type: {
-      default: {},
-      buySell: {},
-      car: {},
-      commerce: {},
-      coupon: {},
-      food: {},
-      group: {},
-      image: {},
-      jobs: {},
-      business: {},
-      post: {},
-      realty: {},
-    },
-  },
-  defaultVariants: { type: "default" },
+  variants: {},
+  defaultVariants: {},
 });
 
 export default contentPlaceholder;

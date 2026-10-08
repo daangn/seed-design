@@ -1,3 +1,4 @@
+import { defaultPreset } from "@seed-design/lynx-react/content-placeholder-presets/default";
 import { HStack, VStack, Text } from "@seed-design/lynx-react";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
 
@@ -17,7 +18,7 @@ export default function ContentPlaceholderSizes() {
     <HStack gap="x4" wrap="wrap" align="flex-end">
       {sizes.map(({ label, width, height }) => (
         <VStack key={label} gap="x1" align="center">
-          <ContentPlaceholder width={`${width}px`} height={`${height}px`} />
+          <ContentPlaceholder preset={defaultPreset} width={`${width}px`} height={`${height}px`} />
           <Text textStyle="t1Regular" color="fg.neutralSubtle">
             {label}
           </Text>

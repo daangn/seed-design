@@ -1,6 +1,7 @@
 export {
   ContentPlaceholderRoot,
   ContentPlaceholderAsset,
+  type ContentPlaceholderPreset,
   type ContentPlaceholderRootProps,
   type ContentPlaceholderAssetProps,
 } from "./ContentPlaceholder";

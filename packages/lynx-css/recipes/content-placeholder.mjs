@@ -20,28 +20,11 @@ const contentPlaceholderSlotNames = [
   ]
 ];
 
-const defaultVariant = {
-  "type": "default"
-};
+const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const contentPlaceholderVariantMap = {
-  "type": [
-    "default",
-    "buySell",
-    "car",
-    "commerce",
-    "coupon",
-    "food",
-    "group",
-    "image",
-    "jobs",
-    "business",
-    "post",
-    "realty"
-  ]
-};
+export const contentPlaceholderVariantMap = {};
 
 export const contentPlaceholderVariantKeys = Object.keys(contentPlaceholderVariantMap);
 
