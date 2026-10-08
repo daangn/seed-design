@@ -16,7 +16,12 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
-import { handleDimension, useStyleProps, type StyleProps } from "../../utils/styled";
+import {
+  handleDimension,
+  useStyleProps,
+  type StyleProps,
+  type MarginBleedStyleProps,
+} from "../../utils/styled";
 import { Badge } from "../Badge";
 import { InternalIcon } from "../Icon/Icon";
 import { heartFillSource, heartLineSource } from "./heart-assets";
@@ -26,20 +31,22 @@ import { heartFillSource, heartLineSource } from "./heart-assets";
  * Native image loading uses bindload/binderror; HTML image loading, decoding,
  * crossOrigin, referrerPolicy, sizes, srcSet and polymorphic as/asChild are unsupported.
  */
-export interface ImageFrameProps
-  extends StyleProps,
-    Omit<LynxViewProps, "style">,
-    Pick<LynxStyledElementProps, "style">,
-    Pick<IntrinsicElements["image"], "bindload" | "binderror"> {
-  src: string;
-  alt: string;
-  ratio?: number;
-  stroke?: boolean;
-  fallback?: React.ReactNode;
-  onLoadingStatusChange?: UseImageProps["onLoadingStatusChange"];
-}
+export type ImageFrameProps = StyleProps &
+  MarginBleedStyleProps &
+  Omit<LynxViewProps, "style"> &
+  Pick<LynxStyledElementProps, "style"> &
+  Pick<IntrinsicElements["image"], "bindload" | "binderror"> & {
+    src: string;
+    alt: string;
+    ratio?: number;
+    stroke?: boolean;
+    fallback?: React.ReactNode;
+    onLoadingStatusChange?: UseImageProps["onLoadingStatusChange"];
+  };
 
-export const ImageFrame = React.forwardRef<unknown, ImageFrameProps>((props, ref) => {
+export const ImageFrame: React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<ImageFrameProps> & React.RefAttributes<unknown>
+> = React.forwardRef<unknown, ImageFrameProps>((props, ref) => {
   const [variantProps, otherProps] = imageFrame.splitVariantProps(props);
   const {
     ratio = 4 / 3,
@@ -114,7 +121,7 @@ export interface ImageFrameFloaterProps
   placement: NonNullable<ImageFrameVariantProps["placement"]>;
   offsetX?: 0 | StyleProps["width"];
   offsetY?: 0 | StyleProps["height"];
-  zIndex?: number;
+  zIndex?: StyleProps["zIndex"];
 }
 
 export const ImageFrameFloater = React.forwardRef<unknown, ImageFrameFloaterProps>((props, ref) => {

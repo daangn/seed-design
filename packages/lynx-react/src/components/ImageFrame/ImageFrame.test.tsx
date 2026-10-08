@@ -43,6 +43,21 @@ function nativeEvent(element: HTMLElement, name: string) {
 }
 
 describe("ImageFrame", () => {
+  it("supports the shared Box margin and bleed contract", () => {
+    const { rerender } = render(<ImageFrame src="photo.png" alt="Photo" mx="x2" ml="auto" />);
+    expect(query(".seed-image-frame__root").style.marginRight).toBe("var(--seed-dimension-x2)");
+    expect(query(".seed-image-frame__root").style.marginLeft).toBe("auto");
+    expect(query(".seed-image-frame__root")).not.toHaveAttribute("mx");
+
+    rerender(<ImageFrame src="photo.png" alt="Photo" bleedX="12px" />);
+    expect(query(".seed-image-frame__root").style.marginLeft).toBe("calc(-12px)");
+    expect(query(".seed-image-frame__root").style.marginRight).toBe("calc(-12px)");
+    expect(query(".seed-image-frame__root")).not.toHaveAttribute("bleedX");
+
+    // @ts-expect-error margin and bleed props both resolve to margin-*.
+    const invalid = <ImageFrame src="photo.png" alt="Photo" m="x2" bleed="12px" />;
+    expect(invalid).toBeDefined();
+  });
   it("hides decorative icons by default and accepts explicit accessibility semantics", () => {
     const { rerender } = render(<ImageFrameIcon svg={<TestIcon />} />);
     expect(query(".seed-image-frame-icon")).toHaveAttribute(
