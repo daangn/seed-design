@@ -1,14 +1,21 @@
-import "./styles";
-import { useSeedClassName } from "@seed-design/lynx-react";
+import IconAppleFill from "@karrotmarket/lynx-monochrome-icon/IconAppleFill";
+import IconSparkle2Fill from "@karrotmarket/lynx-monochrome-icon/IconSparkle2Fill";
+import IconDiamondFill from "@karrotmarket/lynx-monochrome-icon/IconDiamondFill";
+import { HStack } from "@seed-design/lynx-react";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-import IconCarrotFill from "@karrotmarket/lynx-monochrome-icon/IconCarrotFill";
-export default function Example() {
-  const theme = useSeedClassName();
+
+export default function ContentPlaceholderSvgExample() {
   return (
-    <view className={`${theme} docs-lynx-content-placeholder-root`}>
-      <ContentPlaceholder width="160px" height="160px">
-        <IconCarrotFill tint-color="#ff6600" />
+    <HStack gap="x3" wrap="wrap">
+      <ContentPlaceholder width="150px" height="150px">
+        <IconAppleFill tint-color="#ff6600" />
       </ContentPlaceholder>
-    </view>
+      <ContentPlaceholder width="100px" height="150px">
+        <IconSparkle2Fill tint-color="#ff6600" />
+      </ContentPlaceholder>
+      <ContentPlaceholder width="200px" height="150px">
+        <IconDiamondFill tint-color="#ff6600" />
+      </ContentPlaceholder>
+    </HStack>
   );
 }

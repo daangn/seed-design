@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import type { MainThread, IntrinsicElements } from "@lynx-js/types";
-import type { LynxIconElementProps } from "../../../types";
+import type { LynxIconElementProps } from "../../types";
 import { act, createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
-import { contentPlaceholderPresets } from "../presets";
-import { ContentPlaceholderAsset, ContentPlaceholderRoot } from "../ContentPlaceholder";
+import { contentPlaceholderPresets } from "./presets";
+import { ContentPlaceholderAsset, ContentPlaceholderRoot } from "./ContentPlaceholder";
 
 const TestIcon = React.forwardRef<
   MainThread.Element,

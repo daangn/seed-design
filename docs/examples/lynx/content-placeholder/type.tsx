@@ -1,30 +1,13 @@
-import "./styles";
-import { useSeedClassName } from "@seed-design/lynx-react";
+import { HStack } from "@seed-design/lynx-react";
+import { contentPlaceholderVariantMap } from "@seed-design/lynx-css/recipes/content-placeholder";
 import { ContentPlaceholder } from "@/components/ui/content-placeholder";
-const types = [
-  "default",
-  "buySell",
-  "car",
-  "commerce",
-  "coupon",
-  "food",
-  "group",
-  "image",
-  "jobs",
-  "business",
-  "post",
-  "realty",
-] as const;
-export default function Example() {
-  const theme = useSeedClassName();
+
+export default function ContentPlaceholderTypeExample() {
   return (
-    <view className={`${theme} docs-lynx-content-placeholder-grid`}>
-      {types.map((type) => (
-        <view key={type}>
-          <ContentPlaceholder type={type} width="96px" height="96px" />
-          <text>{type}</text>
-        </view>
+    <HStack gap="x3" wrap="wrap">
+      {contentPlaceholderVariantMap.type.map((type) => (
+        <ContentPlaceholder key={type} type={type} width="120px" height="120px" />
       ))}
-    </view>
+    </HStack>
   );
 }
