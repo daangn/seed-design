@@ -23,6 +23,8 @@
     height: 100%;
     left: 0;
     right: 0;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
@@ -41,7 +43,7 @@
     right: 0;
 }
 .seed-app-screen__root--theme_cupertino {
-    --app-bar-height: 44px;
+    --app-bar-height: 56px;
 }
 .seed-app-screen__dim--theme_cupertino {
     height: 100%;

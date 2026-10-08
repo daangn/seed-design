@@ -7,6 +7,7 @@ import type * as React from "react";
 import { forwardRef } from "react";
 import { usePopover, type UsePopoverProps } from "./usePopover";
 import { PopoverProvider, usePopoverContext } from "./usePopoverContext";
+import { FloatingPortal, type FloatingPortalProps } from "@floating-ui/react";
 
 export interface PopoverRootProps extends UsePopoverProps {
   children: React.ReactNode;
@@ -62,6 +63,26 @@ export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerPro
   },
 );
 PopoverPositioner.displayName = "PopoverPositioner";
+
+export interface PopoverPositionerPortalProps
+  extends PopoverPositionerProps,
+    Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
+
+export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositionerPortalProps>(
+  ({ id, root, preserveTabOrder, ...otherProps }, ref) => {
+    const api = usePopoverContext();
+
+    return (
+      <FloatingPortal id={id} root={root} preserveTabOrder={preserveTabOrder}>
+        <Primitive.div
+          ref={composeRefs(api.refs.positioner, ref)}
+          {...mergeProps(api.positionerProps, otherProps)}
+        />
+      </FloatingPortal>
+    );
+  },
+);
+PopoverPositionerPortal.displayName = "PopoverPositionerPortal";
 
 export interface PopoverArrowProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 

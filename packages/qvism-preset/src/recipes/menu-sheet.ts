@@ -24,6 +24,10 @@ const menuSheet = defineSlotRecipe({
       alignItems: "flex-end",
       inset: 0,
       overscrollBehaviorY: "none",
+      // Centers the sheet between the side insets and caps its width at the space between them.
+      // The backdrop is `position: fixed`, so it still covers the whole viewport.
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
 
       "--sheet-z-index": "2",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
@@ -55,6 +59,9 @@ const menuSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      // Unlike dialog's, the fraction is of the whole screen: the top inset only lowers the cap
+      // where it outgrows the gap the fraction leaves above the sheet.
+      maxHeight: `min(${vars.base.enabled.content.maxHeightFraction} * 100%, 100% - var(--seed-safe-area-top))`,
       paddingInline: vars.base.enabled.content.paddingX,
       paddingBlock: vars.base.enabled.content.paddingY,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
@@ -89,6 +96,9 @@ const menuSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
+      // Scrolls once the content hits its max height; as a scroll container it may also shrink
+      // below its content height despite `min-height: auto`.
+      overflowY: "auto",
 
       gap: vars.base.enabled.list.gap,
     },
@@ -97,6 +107,9 @@ const menuSheet = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       overflow: "hidden",
+      // `overflow: hidden` drops its automatic minimum height, so a scrolling list would
+      // squash the groups instead of overflowing.
+      flexShrink: 0,
 
       borderRadius: vars.base.enabled.group.cornerRadius,
     },
