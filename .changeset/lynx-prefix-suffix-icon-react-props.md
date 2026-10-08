@@ -1,5 +1,5 @@
 ---
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: Lynx `PrefixIcon`·`SuffixIcon`(`Chip.PrefixIcon`·`Chip.SuffixIcon` 포함)에서 `size`·`color` prop을 제거합니다. React와 같이 크기와 색상은 감싼 컴포넌트의 recipe가 정합니다. 직접 지정해야 하면 `style`을 사용하세요.) `TextField.PrefixIcon`·`TextField.SuffixIcon`·`AttachmentInput.TriggerIcon`이 `accessibility-elements-hidden`으로 보조 기술에서 숨겨집니다.
+(BREAKING CHANGE: `PrefixIcon`·`SuffixIcon`·`Chip.PrefixIcon`·`Chip.SuffixIcon`의 `size`·`color`를 제거해야 합니다. 의도적으로 크기나 색상을 덮어쓰려면 `style`을 사용하고, 독립 아이콘은 `Icon`의 `size`·`color`를 사용해야 합니다. Registry 컴포넌트는 `npx @seed-design/cli@latest add ui:attachment-field`와 `npx @seed-design/cli@latest add ui:attachment-display-field`로 다시 설치해야 합니다.) Prefix·Suffix 아이콘의 크기와 색상은 아이콘을 감싼 컴포넌트의 recipe가 결정합니다.

@@ -2,4 +2,4 @@
 "@seed-design/lynx-react-dialog": minor
 ---
 
-SEED 스타일 없이 Lynx Dialog를 조합하는 `@seed-design/lynx-react-dialog`를 추가합니다. `open`·`defaultOpen`·`onOpenChange`와 `skipAnimation`을 `@lynx-js/lynx-ui-dialog`에 연결하고 Root·Trigger·Positioner·Backdrop·Content·Title·Description·CloseButton을 제공합니다. `Positioner`는 `container`를 지정하면 overlay 레이어를 채우도록 너비와 높이를 `100%`로 맞추고, `dialogViewProps`는 lynx-ui `OverlayView`의 `overlayViewProps`에 해당합니다.
+SEED 스타일 없이 `Dialog`를 조합하는 `@seed-design/lynx-react-dialog`를 제공합니다. `Root`의 제어·비제어 열림 상태와 `onOpenChange`·`skipAnimation`, `Trigger`·`Positioner`·`Backdrop`·`Content`·`Title`·`Description`·`CloseButton`을 사용할 수 있습니다. `Positioner`는 `container`·`overlayLevel`·`dialogViewProps`를 지원합니다.

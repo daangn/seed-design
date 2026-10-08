@@ -1,5 +1,5 @@
 ---
-"@seed-design/lynx-react-bottom-sheet": minor
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: Root ref로 바꾼 열림 상태는 더 이상 `onOpenChange`로 알리지 않습니다. `open`을 제어하면 Trigger·Backdrop·CloseButton은 `onOpenChange`만 호출하고, 시트는 바뀐 `open` 값을 따릅니다.) `onOpenChange`의 두 번째 인자로 `{ reason }`(`"trigger"`·`"closeButton"`·`"interactOutside"`·`"drag"`)을 전달합니다. 시트를 닫는 `CloseButton`과 `useBottomSheetCloseButton`을 추가하고, context에 `setOpen(open, { reason })`을 추가합니다.
+(BREAKING CHANGE: `BottomSheet.Root`와 `MenuSheet.Root` ref의 `open()`·`close()` 호출에 의존하던 callback 작업은 앱 코드에서 직접 실행해야 합니다. 제어 상태에서는 ref 호출 대신 `open` 값을 갱신해야 합니다.) `onOpenChange`가 `trigger`·`closeButton`·`interactOutside`·`drag` 사유를 전달합니다. 사유가 필요한 callback은 두 번째 인자의 `details.reason`을 사용할 수 있으며, 사유를 사용하지 않는 한 인자 callback은 그대로 사용할 수 있습니다. `Root` ref 호출과 `open` prop 변경은 `onOpenChange`를 호출하지 않습니다.

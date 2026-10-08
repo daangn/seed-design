@@ -1,6 +1,5 @@
 ---
-"@seed-design/lynx-css": minor
-"@seed-design/lynx-react": patch
+"@seed-design/lynx-css": major
 ---
 
-(BREAKING CHANGE: `reaction-button` Recipe의 `pressed` variant를 제거합니다. `reactionButton({ pressed })`를 쓰던 코드는 `pressed`를 지워야 합니다.) Lynx ReactionButton의 눌림 색을 Main Thread `:active`로만 적용합니다. 눌림 색을 바꾸려고 Background에서 다시 렌더링하지 않습니다.
+(BREAKING CHANGE: `reactionButton({ pressed })`의 `pressed`와 `reactionButtonVariantMap.pressed` 사용을 제거해야 합니다.) `reaction-button` Recipe가 `:active`로 눌림 색상을 적용합니다. `ReactionButton` 컴포넌트의 선택 상태를 제어하는 `pressed` prop은 그대로 사용합니다.

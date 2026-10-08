@@ -1,5 +1,5 @@
 ---
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: Lynx `SwipeableMenuSheet`의 이름을 `MenuSheet`로 바꿉니다. `SwipeableMenuSheet*` export와 namespace는 `MenuSheet*`·`MenuSheet`로, Registry `ui:swipeable-menu-sheet`는 `ui:menu-sheet`로 옮깁니다. BottomSheet·MenuSheet의 Root ref로 바꾼 열림 상태는 `onOpenChange`로 알리지 않습니다.) BottomSheet `onOpenChange`가 `{ reason }`을 전달합니다. MenuSheet를 연 상태에서 Trigger를 다시 탭한 뒤 drag로 닫으면, 이제 `"trigger"`가 아니라 `"drag"`가 전달됩니다. Registry `MenuSheetContent`는 `container`·`overlayLevel`을 받습니다.
+(BREAKING CHANGE: `SwipeableMenuSheet`를 `MenuSheet`로, `SwipeableMenuSheetCloseReason`을 `MenuSheetOpenChangeReason`으로 바꾸고 모든 `SwipeableMenuSheet*` 타입과 part를 `MenuSheet*`로 바꿔야 합니다. Registry 사용자는 `npx @seed-design/cli@latest add ui:menu-sheet`로 새 snippet을 설치하고 `ui:swipeable-menu-sheet` 호출부와 파일을 제거해야 합니다.) `SwipeableMenuSheet`의 공개 이름을 `MenuSheet`로 변경합니다.

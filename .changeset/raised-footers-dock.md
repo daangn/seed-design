@@ -1,5 +1,7 @@
 ---
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: `<KeyboardAvoidingScrollView>`를 `<KeyboardAvoidingScrollView.Root>`와 그 안의 `<KeyboardAvoidingScrollView.Content>`로 바꿔야 합니다. `keyboardGap`·`scrollBehavior`와 높이 지정은 Root에, 안쪽 여백·scroll-view 속성·`bind*` handler는 Content에 넘기세요. `KeyboardAvoidingScrollViewProps` 타입은 `KeyboardAvoidingScrollViewRootProps`·`KeyboardAvoidingScrollViewContentProps`로 나뉩니다.) 키보드 바로 위에 붙는 하단 영역 `KeyboardAvoidingScrollView.Footer`를 추가합니다. 하단 버튼을 Footer에 두면 키보드가 열릴 때 키보드 위로 올라가고, Content의 focus된 입력은 Footer와 `keyboardGap`만큼 떨어지도록 스크롤합니다.
+(BREAKING CHANGE: `<KeyboardAvoidingScrollView>`를 `<KeyboardAvoidingScrollView.Root>`와 그 안의 `<KeyboardAvoidingScrollView.Content>`로 변경해야 합니다. `KeyboardAvoidingScrollViewProps`는 `KeyboardAvoidingScrollViewRootProps`·`KeyboardAvoidingScrollViewContentProps`로 변경해야 합니다.) 키보드 회피 영역을 바깥 레이아웃과 스크롤 영역으로 나눕니다.
+
+`keyboardGap`·`scrollBehavior`와 바깥 높이는 `Root`에 전달합니다. 안쪽 여백, 스크롤 ref, `<scroll-view>` 속성과 이벤트 핸들러는 `Content`에 전달합니다. 키보드 위에 고정할 하단 버튼은 새 `KeyboardAvoidingScrollView.Footer`에 배치할 수 있습니다.
