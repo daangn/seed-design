@@ -38,5 +38,15 @@
       "document": "components/action-button",
       "registryItem": "ui/action-button"
     }
+  },
+  {
+    "platform": "lynx",
+    "version": "v0",
+    "origin": "https://lynx-v0.seed-design.pages.dev",
+    "sourceBranch": "lynx/v0",
+    "probe": {
+      "document": "components/action-button",
+      "registryItem": "ui/app-bar"
+    }
   }
 ]
