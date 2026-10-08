@@ -14,13 +14,19 @@ export function archiveMarkdown(
 ): string {
   if (!version) return markdown;
   // llms 룰이 설치 탭을 목록 텍스트로 바꾸므로 텍스트의 CLI 명령도 바꿉니다.
-  // 바꾼 텍스트는 이스케이프하지 않아 추가한 URL이 `https\://`로 출력되지 않게 합니다.
+  // 추가한 `--baseUrl` URL만 이스케이프를 풀어 `https\://`로 출력되지 않게 합니다.
+  const baseUrl = `https://seed-design.io${createArchivePaths(version).prefix}`;
+  const escapedBaseUrlOption = `--baseUrl ${baseUrl.replace("://", "\\://")}`;
   const cliTexts = new WeakSet<Text>();
   const processor = remark()
     .data("settings", {
       handlers: {
-        text: (node: Text, _, state, info) =>
-          cliTexts.has(node) ? node.value : state.safe(node.value, info),
+        text: (node: Text, _, state, info) => {
+          const value = state.safe(node.value, info);
+          return cliTexts.has(node)
+            ? value.replaceAll(escapedBaseUrlOption, `--baseUrl ${baseUrl}`)
+            : value;
+        },
       },
     })
     .use(remarkGfm);

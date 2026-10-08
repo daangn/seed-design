@@ -48,7 +48,7 @@ it("archives registry CLI commands flattened from package manager tabs", () => {
   ];
   const input = [
     '<CodeBlockTabs defaultValue="npm">',
-    ...tab("npm", "npx @seed-design/cli@latest add ui:action-button"),
+    ...tab("npm", "npx @seed-design/cli@latest add [...item-ids]"),
     ...tab("pnpm", "pnpm dlx @seed-design/cli add ui:action-button --seed-react-version 2"),
     ...tab("yarn", "yarn add @seed-design/react"),
     "</CodeBlockTabs>",
@@ -56,7 +56,7 @@ it("archives registry CLI commands flattened from package manager tabs", () => {
 
   expect(archiveMarkdown(normalizeLLMBody(input), "v2", "mdx")).toBe(
     [
-      "* npm: npx @seed-design/cli@latest add --baseUrl https://seed-design.io/react/v2 ui:action-button",
+      "* npm: npx @seed-design/cli\\@latest add --baseUrl https://seed-design.io/react/v2 \\[...item-ids]",
       "* pnpm: pnpm dlx @seed-design/cli add ui:action-button --seed-react-version 2",
       "* yarn: yarn add @seed-design/react",
     ].join("\n") + "\n",
