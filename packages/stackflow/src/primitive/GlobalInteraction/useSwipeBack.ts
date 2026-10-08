@@ -25,6 +25,11 @@ export function useSwipeBack(props: UseSwipeBackProps) {
             events.reset();
           }
         },
+        onTransitionEnd: (e) => {
+          if (e.target === e.currentTarget) {
+            events.reset();
+          }
+        },
       } as React.HTMLAttributes<HTMLDivElement>,
       edgeProps: {
         tabIndex: -1,

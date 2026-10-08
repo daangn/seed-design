@@ -1,5 +1,12 @@
 # @seed-design/stackflow
 
+## 1.0.9
+
+### Patch Changes
+
+- bc8bc11: AppScreen 스와이프 중 취소 시 트랜지션이 끝난 뒤에도 `GlobalInteraction`의 `data-swipe-back-state`가 `idle`로 되돌아가지 않고 `canceling`으로 남아 있는 문제를 수정합니다.
+- c7caa72: Stackflow 플러그인이 최신이 아닌 data attribute에 의해 잘못된 트랜지션을 재생하지 않도록 수정합니다.
+
 ## 1.0.5
 
 ### Patch Changes

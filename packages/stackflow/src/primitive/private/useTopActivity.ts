@@ -1,5 +1,5 @@
 import { useStack } from "@stackflow/react";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export function useTopActivity() {
   const stack = useStack();
@@ -17,7 +17,7 @@ export function useTopActivity() {
   const [topEl, setTopEl] = useState<HTMLElement | null>(null);
   const activityType = topEl?.dataset["activityType"];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!topId) return;
 
     const el = document.querySelector<HTMLElement>(`[data-activity-id="${topId}"]`);
