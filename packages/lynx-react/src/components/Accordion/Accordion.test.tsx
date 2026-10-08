@@ -77,6 +77,28 @@ describe("Accordion", () => {
     expect(content).toHaveStyle({ height: "0px" });
   });
 
+  it("keeps open and disabled accessibility state over user native values", () => {
+    render(
+      <Accordion.Root defaultValues={["first"]}>
+        <Accordion.Item value="first" disabled>
+          <Accordion.Trigger
+            className="first-trigger"
+            accessibility-label="첫 번째"
+            accessibility-role-description="섹션"
+            {...{ "accessibility-value": "사용자 값", "accessibility-traits": "button" }}
+          >
+            <Accordion.Title>첫 번째</Accordion.Title>
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+
+    const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
+    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
+    expect(trigger).toHaveAttribute("accessibility-traits", "disabled");
+    expect(trigger).toHaveAttribute("accessibility-role-description", "섹션");
+  });
+
   it("renders a divider only between items", () => {
     render(<TestAccordion />);
 

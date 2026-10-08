@@ -89,9 +89,15 @@ describe("Skeleton", () => {
     expect(ref.current).not.toBeNull();
   });
 
-  it("exposes only static presentation props", () => {
-    expectTypeOf<keyof SkeletonProps>().toEqualTypeOf<
-      "className" | "style" | "width" | "height" | "radius" | "tone"
-    >();
+  it("exposes native view props while keeping children unsupported", () => {
+    expectTypeOf<SkeletonProps>().toHaveProperty("id");
+    expectTypeOf<SkeletonProps>().toHaveProperty("bindtap");
+    expectTypeOf<SkeletonProps>().not.toHaveProperty("children");
+  });
+
+  it("lets native props override decorative accessibility defaults", () => {
+    render(<Skeleton accessibility-elements-hidden={false} />);
+
+    expect(getSkeletonRoot()).toHaveAttribute("accessibility-elements-hidden", "false");
   });
 });

@@ -96,9 +96,7 @@ describe("MannerTemp", () => {
     render(
       <MannerTemp ref={rootRef} level="l10" style={{ marginTop: "4px" }}>
         80°C
-        <MannerTempEmote ref={emoteRef} className="custom-emote" style={{ marginLeft: "2px" }}>
-          <text>ignored</text>
-        </MannerTempEmote>
+        <MannerTempEmote ref={emoteRef} className="custom-emote" style={{ marginLeft: "2px" }} />
       </MannerTemp>,
     );
 
@@ -115,8 +113,24 @@ describe("MannerTemp", () => {
     expect(emote).toHaveStyle({ marginLeft: "2px" });
     expect(emote).toHaveAttribute("src", expect.stringContaining(L10_ASSET));
     expect(emote).toHaveAttribute("mode", "aspectFit");
-    expect(emote?.childNodes).toHaveLength(0);
-    expect(getQueriesForElement(root).queryByText("ignored")).toBeNull();
+  });
+
+  it("lets native image props override emote defaults", () => {
+    render(
+      <MannerTemp>
+        36.5°C
+        <MannerTempEmote
+          src="https://example.com/custom.webp"
+          mode="aspectFill"
+          accessibility-elements-hidden={false}
+        />
+      </MannerTemp>,
+    );
+
+    const emote = getRenderedRoot().querySelector("image");
+    expect(emote).toHaveAttribute("src", "https://example.com/custom.webp");
+    expect(emote).toHaveAttribute("mode", "aspectFill");
+    expect(emote).toHaveAttribute("accessibility-elements-hidden", "false");
   });
 
   it("classifies emotes inside Fragments and keeps label order across mixed children", () => {

@@ -4,8 +4,6 @@ import type { IntrinsicElements, MainThread } from "@lynx-js/types";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
 type ViewProps = IntrinsicElements["view"];
-type MainThreadTouchKey =
-  `main-thread:${"bind" | "catch" | "capture-bind" | "capture-catch" | "global-bind"}touch${"start" | "move" | "end" | "cancel"}`;
 type TouchEvent = Parameters<NonNullable<ViewProps["main-thread:catchtouchstart"]>>[0];
 
 const VERTICAL_SLIDE_EVENT_ANGLES: [number, number][] = [
@@ -44,7 +42,7 @@ export interface LoopScrollIndexChangeDetails {
   stepDelta: number;
 }
 
-export interface LoopScrollRootProps extends Omit<ViewProps, MainThreadTouchKey | "children"> {
+export interface LoopScrollRootProps extends Omit<ViewProps, "children"> {
   /** 항목 개수입니다. */
   itemCount: number;
   /** 스크롤 방향의 항목 크기(px)입니다. 모든 항목이 같은 크기를 가집니다. */
@@ -233,6 +231,18 @@ function releaseVelocity(samples: number[], now: number) {
   return -((samples[last + 1] ?? 0) - (samples[first + 1] ?? 0)) / elapsed;
 }
 
+function chainMainThreadTouch(
+  user: ((event: TouchEvent) => void) | undefined,
+  own: (event: TouchEvent) => void,
+) {
+  if (!user) return own;
+  return (event: TouchEvent) => {
+    "main thread";
+    user(event);
+    own(event);
+  };
+}
+
 /**
  * 항목을 세로로 끌고 놓아 한 칸 단위로 정착시키는 viewport `<view>`입니다. `loop`이면 끝없이 반복합니다.
  * 끌지 않고 항목을 눌렀다 놓으면 그 항목을 가운데로 옮겨 선택합니다. 움직이는 중에 누르면 멈추기만 합니다.
@@ -255,6 +265,10 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     "consume-slide-event": consumeSlideEvent = VERTICAL_SLIDE_EVENT_ANGLES,
     style,
     children,
+    "main-thread:catchtouchstart": userTouchStart,
+    "main-thread:catchtouchmove": userTouchMove,
+    "main-thread:catchtouchend": userTouchEnd,
+    "main-thread:catchtouchcancel": userTouchCancel,
     ...nativeProps
   } = props;
 
@@ -725,20 +739,20 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
   const rootStyle = React.useMemo(
     () =>
       typeof style === "string"
-        ? `${style};height:${height};overflow:hidden`
-        : { ...style, height, overflow: "hidden" },
+        ? `height:${height};overflow:hidden;${style}`
+        : { height, overflow: "hidden", ...style },
     [height, style],
   );
 
   return (
     <view
+      consume-slide-event={interactive ? consumeSlideEvent : undefined}
       {...nativeProps}
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      consume-slide-event={interactive ? consumeSlideEvent : undefined}
-      main-thread:catchtouchstart={handleTouchStart}
-      main-thread:catchtouchmove={handleTouchMove}
-      main-thread:catchtouchend={handleTouchEnd}
-      main-thread:catchtouchcancel={handleTouchCancel}
+      main-thread:catchtouchstart={chainMainThreadTouch(userTouchStart, handleTouchStart)}
+      main-thread:catchtouchmove={chainMainThreadTouch(userTouchMove, handleTouchMove)}
+      main-thread:catchtouchend={chainMainThreadTouch(userTouchEnd, handleTouchEnd)}
+      main-thread:catchtouchcancel={chainMainThreadTouch(userTouchCancel, handleTouchCancel)}
       style={rootStyle}
     >
       <LoopScrollContext.Provider value={contextValue}>{children}</LoopScrollContext.Provider>
@@ -763,8 +777,8 @@ export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((
   const trackStyle = React.useMemo(
     () =>
       typeof style === "string"
-        ? `${style};position:absolute;top:50%;left:0px;right:0px`
-        : { ...style, position: "absolute" as const, top: "50%", left: "0px", right: "0px" },
+        ? `position:absolute;top:50%;left:0px;right:0px;${style}`
+        : { position: "absolute" as const, top: "50%", left: "0px", right: "0px", ...style },
     [style],
   );
 
@@ -837,24 +851,24 @@ export const LoopScrollHighlight = React.forwardRef<unknown, LoopScrollHighlight
     const highlightStyle = React.useMemo(
       () =>
         typeof style === "string"
-          ? `${style};position:absolute;top:${highlightTop};left:0px;right:0px;height:${height};overflow:hidden`
+          ? `position:absolute;top:${highlightTop};left:0px;right:0px;height:${height};overflow:hidden;${style}`
           : {
-              ...style,
               position: "absolute" as const,
               top: highlightTop,
               left: "0px",
               right: "0px",
               height,
               overflow: "hidden" as const,
+              ...style,
             },
       [height, highlightTop, style],
     );
 
     return (
       <view
+        accessibility-elements-hidden
         {...nativeProps}
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        accessibility-elements-hidden
         style={highlightStyle}
       >
         <LoopScrollHighlightContext.Provider value={true}>

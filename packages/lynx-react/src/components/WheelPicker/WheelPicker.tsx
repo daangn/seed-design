@@ -8,13 +8,10 @@ import { wheelPicker as vars } from "@seed-design/lynx-css/vars/component";
 import { LoopScroll, type LoopScrollItem } from "@seed-design/lynx-react-loop-scroll";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 import clsx from "clsx";
-import type { LynxAccessibilityProps, LynxViewProps } from "../../types";
+import type { LynxHostProps } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { ScrollFog, type ScrollFogProps } from "../ScrollFog/ScrollFog";
-
-type MainThreadTouchKey =
-  `main-thread:${"bind" | "catch" | "capture-bind" | "capture-catch" | "global-bind"}touch${"start" | "move" | "end" | "cancel"}`;
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(wheelPicker);
@@ -57,8 +54,7 @@ export interface WheelPickerValueChangeDetails {
  */
 export interface WheelPickerRootProps
   extends Omit<WheelPickerVariantProps, "selected">,
-    Omit<LynxViewProps, "children">,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"view">, "children"> {
   /** WheelPicker.Column 목록입니다. */
   children: React.ReactNode;
   /** 모든 컬럼의 터치 조작을 막고 disabled 색을 적용합니다. */
@@ -103,10 +99,7 @@ export const WheelPickerRoot = React.forwardRef<NodesRef, WheelPickerRootProps>(
     "--seed-wheel-picker-item-size": `${itemSize}px`,
     "--seed-wheel-picker-viewport-size": `${viewportSize}px`,
   };
-  const rootStyle =
-    typeof style === "string"
-      ? `${style};--seed-wheel-picker-item-size:${itemSize}px;--seed-wheel-picker-viewport-size:${viewportSize}px`
-      : { ...style, ...geometry };
+  const rootStyle = { ...geometry, ...style };
 
   React.useEffect(() => {
     if (process.env.NODE_ENV === "production") return;
@@ -148,7 +141,7 @@ export const WheelPickerRoot = React.forwardRef<NodesRef, WheelPickerRootProps>(
 });
 WheelPickerRoot.displayName = "WheelPickerRoot";
 
-export interface WheelPickerItemLabelProps extends LynxViewProps {}
+export interface WheelPickerItemLabelProps extends LynxHostProps<"view"> {}
 
 /** 항목의 기본 여백·타이포그래피를 적용하며 문자열과 숫자는 text로 감쌉니다. */
 export const WheelPickerItemLabel = React.forwardRef<NodesRef, WheelPickerItemLabelProps>(
@@ -182,9 +175,7 @@ WheelPickerItemLabel.displayName = "WheelPickerItemLabel";
  * - keyboard / focus / Tab: DOM 키보드 포커스 모델이 없어 native touch로 탐색합니다.
  * - aria-*: Lynx accessibility-*를 사용하며 현재 값을 accessibility-value로 제공합니다.
  */
-export interface WheelPickerColumnProps
-  extends Omit<LynxViewProps, "children" | MainThreadTouchKey>,
-    LynxAccessibilityProps {
+export interface WheelPickerColumnProps extends Omit<LynxHostProps<"view">, "children"> {
   /** 선택 항목입니다. value는 고유해야 하며 하나 이상의 항목이 필요합니다. */
   options: readonly WheelPickerOption[];
   value?: string;
@@ -316,13 +307,6 @@ export const WheelPickerColumn = React.forwardRef<NodesRef, WheelPickerColumnPro
 
     return (
       <LoopScroll.Root
-        accessibility-element
-        accessibility-role-description="spinbutton"
-        accessibility-value={accessibilityValue}
-        accessibility-traits={context.disabled || options.length === 0 ? "disabled" : undefined}
-        {...nativeProps}
-        {...(ref ? { ref } : {})}
-        className={clsx(classes.column, className)}
         itemCount={options.length}
         itemSize={context.itemSize}
         visibleItemCount={context.visibleItemCount}
@@ -332,6 +316,13 @@ export const WheelPickerColumn = React.forwardRef<NodesRef, WheelPickerColumnPro
         onActiveIndexChange={onIndexChange ? handleActiveIndex : undefined}
         indexChangeBehavior={valueChangeBehavior === "smooth" ? "smooth" : "instant"}
         disabled={inert}
+        accessibility-element
+        accessibility-role-description="spinbutton"
+        accessibility-value={accessibilityValue}
+        accessibility-traits={context.disabled || options.length === 0 ? "disabled" : undefined}
+        {...nativeProps}
+        {...(ref ? { ref } : {})}
+        className={clsx(classes.column, className)}
       >
         {sizingContent}
         <LoopScroll.Track className={classes.track} accessibility-elements-hidden>

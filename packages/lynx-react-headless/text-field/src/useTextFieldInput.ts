@@ -40,7 +40,7 @@ export interface UseTextFieldInputProps {
   readonly?: boolean;
   /** 생략하면 Root의 `name`을 따릅니다. */
   name?: string;
-  /** native UTF-16 `maxlength`입니다. Root의 `nativeInsertionMaxLength`와 함께 주면 더 작은 값을 씁니다. */
+  /** native UTF-16 `maxlength`입니다. 명시하면 Root의 `nativeInsertionMaxLength`보다 우선합니다. */
   maxlength?: number;
   /**
    * 포커스할 때 시스템 키보드를 표시합니다.
@@ -107,26 +107,8 @@ export interface TextFieldManagedInputProps {
 }
 
 /** readOnly `<text>`로 옮겨도 의미가 같은 props만 담습니다. input 전용 이벤트·UI method는 없습니다. */
-export interface TextFieldReadOnlyTextProps {
+export interface TextFieldReadOnlyTextProps extends Omit<IntrinsicElements["text"], "ref"> {
   ref: Ref<NodesRef>;
-  id?: string;
-  className?: string;
-  style?: NativeInputProps["style"];
-  hidden?: boolean;
-  flatten?: boolean;
-  focusable?: boolean;
-  bindlayoutchange?: NativeInputProps["bindlayoutchange"];
-  "main-thread:bindlayoutchange"?: NativeInputProps["main-thread:bindlayoutchange"];
-  "accessibility-label"?: string;
-  "accessibility-traits"?: NativeInputProps["accessibility-traits"];
-  "accessibility-element"?: boolean;
-  "accessibility-value"?: string;
-  "accessibility-role-description"?: string;
-  "accessibility-elements-hidden"?: boolean;
-  "accessibility-heading"?: boolean;
-  "accessibility-actions"?: NativeInputProps["accessibility-actions"];
-  "accessibility-exclusive-focus"?: boolean;
-  "ios-platform-accessibility-id"?: string;
 }
 
 export interface UseTextFieldInputReturn<P extends UseTextFieldInputProps> {
@@ -159,10 +141,7 @@ function resolveNativeMaxLength(
   explicitMaxLength: number | undefined,
   insertionMaxLength: number | undefined,
 ): number | undefined {
-  if (explicitMaxLength === undefined) return insertionMaxLength;
-  if (insertionMaxLength === undefined) return explicitMaxLength;
-
-  return Math.min(explicitMaxLength, insertionMaxLength);
+  return explicitMaxLength ?? insertionMaxLength;
 }
 
 function useMergedRef(
@@ -178,6 +157,43 @@ function useMergedRef(
       else forwardedRef.current = node;
     };
   }, [forwardedRef, internalRef]);
+}
+
+const EDITING_ONLY_PROP: Record<string, true> = {
+  "default-value": true,
+  placeholder: true,
+  "confirm-type": true,
+  maxlength: true,
+  maxlines: true,
+  bounces: true,
+  "line-spacing": true,
+  readonly: true,
+  disabled: true,
+  name: true,
+  "show-soft-input-on-focus": true,
+  "input-filter": true,
+  "enable-scroll-bar": true,
+  type: true,
+  "ios-auto-correct": true,
+  "ios-spell-check": true,
+  "android-fullscreen-mode": true,
+  "android-set-soft-input-mode": true,
+};
+const editingEvent =
+  /^(?:main-thread:)?(?:(?:capture|global)-)?(?:bind|catch)(?:focus|blur|input|selection|confirm)$/;
+
+function getReadOnlyTextProps(props: object, ref: Ref<NodesRef>): TextFieldReadOnlyTextProps {
+  const source = props as Record<string, unknown>;
+  const result: TextFieldReadOnlyTextProps & Record<string, unknown> = { ref };
+
+  for (const key in source) {
+    if (key === "children" || key in EDITING_ONLY_PROP || editingEvent.test(key)) {
+      continue;
+    }
+    result[key] = source[key];
+  }
+
+  return result;
 }
 
 /**
@@ -506,7 +522,6 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
     disabled,
     readOnly,
     inputProps: {
-      ...nativeProps,
       ref: mergedRef,
       "default-value": initialNativeValueRef.current,
       ...(resolvedMaxLength === undefined ? {} : { maxlength: resolvedMaxLength }),
@@ -515,32 +530,13 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
       name: name ?? textFieldContext.name,
       "show-soft-input-on-focus": showSoftInputOnFocus ?? true,
       "android-set-soft-input-mode": androidSetSoftInputMode ?? "unspecified",
+      ...nativeProps,
       bindinput: handleInput,
       bindselection: handleSelection,
       bindfocus: handleFocus,
       bindblur: handleBlur,
     },
-    readOnlyTextProps: {
-      ref: mergedRef,
-      id: props.id,
-      className: props.className,
-      style: props.style,
-      hidden: props.hidden,
-      flatten: props.flatten,
-      focusable: props.focusable,
-      bindlayoutchange: props.bindlayoutchange,
-      "main-thread:bindlayoutchange": props["main-thread:bindlayoutchange"],
-      "accessibility-label": props["accessibility-label"],
-      "accessibility-traits": props["accessibility-traits"],
-      "accessibility-element": props["accessibility-element"],
-      "accessibility-value": props["accessibility-value"],
-      "accessibility-role-description": props["accessibility-role-description"],
-      "accessibility-elements-hidden": props["accessibility-elements-hidden"],
-      "accessibility-heading": props["accessibility-heading"],
-      "accessibility-actions": props["accessibility-actions"],
-      "accessibility-exclusive-focus": props["accessibility-exclusive-focus"],
-      "ios-platform-accessibility-id": props["ios-platform-accessibility-id"],
-    },
+    readOnlyTextProps: readOnly ? getReadOnlyTextProps(nativeProps, mergedRef) : { ref: mergedRef },
     focus,
     notifyLayoutChanged,
   };

@@ -7,7 +7,7 @@ type ViewProps = IntrinsicElements["view"];
 
 export interface ActionButtonRootProps
   extends UseActionButtonProps,
-    Omit<ViewProps, keyof UseActionButtonProps | "flatten"> {}
+    Omit<ViewProps, keyof UseActionButtonProps> {}
 
 /**
  * 스타일 없이 ActionButton의 tap·눌림 상태·접근성을 연결하는 native `<view>`입니다.
@@ -51,10 +51,10 @@ export const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>
   return (
     <ActionButtonProvider value={api}>
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
-        {...rootProps}
         flatten={false}
+        {...rootProps}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           pressStart(event);

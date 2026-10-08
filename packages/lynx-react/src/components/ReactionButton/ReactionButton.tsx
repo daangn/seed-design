@@ -7,12 +7,7 @@ import { cloneElement, useMemo } from "@lynx-js/react";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxPressableProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { isCountElement, type CountProps } from "../Count/Count";
 import { getIconSlotName, IconSlotProvider } from "../Icon/Icon";
@@ -28,9 +23,8 @@ import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "..
  */
 export interface ReactionButtonProps
   extends Omit<ReactionButtonVariantProps, "selected" | "disabled" | "loading">,
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {
   pressed?: boolean;
   defaultPressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
@@ -109,13 +103,13 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     <IconSlotProvider value={iconSlotContextValue}>
       <view
         {...mergeProps(
+          { flatten: false },
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
           rootProps,
           nativeProps,
         )}
-        flatten={false}
         className={clsx(classNames.root, className)}
         style={style}
       >

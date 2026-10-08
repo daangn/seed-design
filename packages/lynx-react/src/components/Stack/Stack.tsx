@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -14,11 +14,7 @@ type StackStyleProps =
   | "flexGrow"
   | "flexShrink";
 
-interface StackBaseProps extends StyleProps, LynxStyledElementProps, LynxPressableProps {
-  bindtouchstart?: () => void;
-  bindtouchend?: () => void;
-  bindtouchcancel?: () => void;
-}
+interface StackBaseProps extends StyleProps, Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 /**
  * @platform Lynx

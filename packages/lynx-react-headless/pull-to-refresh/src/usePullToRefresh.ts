@@ -45,7 +45,9 @@ export interface PullToRefreshIndicatorRenderProps {
 }
 
 type ScrollEvent = Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0];
-type LayoutEvent = Parameters<NonNullable<IntrinsicElements["view"]["bindlayoutchange"]>>[0];
+type LayoutEvent = Parameters<
+  NonNullable<IntrinsicElements["view"]["main-thread:bindlayoutchange"]>
+>[0];
 
 export interface UsePullToRefreshContext {
   state: PullToRefreshState;

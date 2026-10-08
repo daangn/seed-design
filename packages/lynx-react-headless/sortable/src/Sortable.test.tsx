@@ -133,7 +133,7 @@ describe("Sortable.Item accessibility actions", () => {
     expect(onReorder).not.toHaveBeenCalled();
   });
 
-  it("appends caller actions and forwards only those to the caller handler", () => {
+  it("uses caller actions while composing the caller and move handlers", () => {
     const onReorder = vi.fn();
     const onAction = vi.fn();
     render(
@@ -143,12 +143,14 @@ describe("Sortable.Item accessibility actions", () => {
       />,
     );
 
-    expect(actionsOf("b")).toEqual(["앞으로 이동", "뒤로 이동", "파일 제거"]);
+    expect(actionsOf("b")).toEqual(["파일 제거"]);
     fireNamed(itemNode("b"), "accessibilityaction", { detail: { name: "파일 제거" } });
     fireNamed(itemNode("b"), "accessibilityaction", { detail: { name: "앞으로 이동" } });
 
-    expect(onAction).toHaveBeenCalledTimes(1);
-    expect(onAction.mock.calls[0]?.[0].detail.name).toBe("파일 제거");
+    expect(onAction.mock.calls.map(([event]) => event.detail.name)).toEqual([
+      "파일 제거",
+      "앞으로 이동",
+    ]);
     expect(onReorder.mock.calls).toEqual([[1, 0]]);
   });
 });

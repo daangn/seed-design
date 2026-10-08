@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
+import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { MainThread } from "@lynx-js/types";
 import * as React from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
@@ -125,6 +125,21 @@ describe("ActionButton", () => {
     expect(root).toHaveAttribute("accessibility-label", "Add");
     expect(root).toHaveAttribute("accessibility-element", "true");
     expect(root).toHaveAttribute("accessibility-traits", "button");
+  });
+
+  it("honors native overrides while keeping disabled tap callbacks blocked", () => {
+    const onTap = vi.fn();
+    render(
+      <ActionButton disabled flatten={true} accessibility-traits="link" bindtap={onTap}>
+        Submit
+      </ActionButton>,
+    );
+
+    const root = getActionButtonRoot();
+    expect(root).toHaveAttribute("flatten", "true");
+    expect(root).toHaveAttribute("accessibility-traits", "link");
+    fireEvent.tap(root);
+    expect(onTap).not.toHaveBeenCalled();
   });
 
   it("throws in development when icon-only layout has no Icon child", () => {

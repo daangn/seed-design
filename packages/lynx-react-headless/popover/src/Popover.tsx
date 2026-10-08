@@ -13,6 +13,7 @@ type ViewProps = IntrinsicElements["view"];
 /** 위치 style을 합치는 파트는 객체 style만 받습니다. */
 type StyledViewProps = Omit<ViewProps, "style"> & { style?: CSSProperties };
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
+type TouchHandler = NonNullable<ViewProps["bindtouchstart"]>;
 type LayoutHandler = NonNullable<ViewProps["bindlayoutchange"]>;
 
 /** 닫힘 전환이 끝났다는 신호가 없을 때 Positioner를 unmount하기까지 기다리는 시간입니다. */
@@ -25,6 +26,15 @@ function toPixel(value: number) {
 function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) {
   if (typeof ref === "function") ref(node);
   else if (ref) ref.current = node;
+}
+
+function withPressTouch(handler: ViewProps["bindtouchstart"], press: TouchHandler): TouchHandler {
+  if (!handler) return press;
+  return (...args) => {
+    "background only";
+    handler(...args);
+    press(...args);
+  };
 }
 
 function getRootRect() {
@@ -122,6 +132,9 @@ export const PopoverTrigger = React.forwardRef<unknown, PopoverTriggerProps>((pr
     children,
     bindtap,
     bindlayoutchange,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
     "main-thread:bindtap": mainThreadOnTap,
     "main-thread:bindtouchstart": mainThreadOnTouchStart,
     "main-thread:bindtouchend": mainThreadOnTouchEnd,
@@ -174,6 +187,9 @@ export const PopoverTrigger = React.forwardRef<unknown, PopoverTriggerProps>((pr
       {...nativeProps}
       {...pressHandlers}
       bindlayoutchange={handleLayoutChange}
+      bindtouchstart={withPressTouch(bindtouchstart, pressHandlers.bindtouchstart)}
+      bindtouchend={withPressTouch(bindtouchend, pressHandlers.bindtouchend)}
+      bindtouchcancel={withPressTouch(bindtouchcancel, pressHandlers.bindtouchcancel)}
     >
       {children}
     </view>
@@ -202,13 +218,23 @@ export interface PopoverPositionerProps
  * 닫습니다. 탭을 가로채지 않으므로 탭한 요소도 그 탭을 그대로 받습니다.
  */
 export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProps>((props, ref) => {
-  const { children, className, style, container, overlayLevel, overlayViewProps, ...nativeProps } =
-    props;
+  const {
+    children,
+    className,
+    style,
+    container,
+    overlayLevel,
+    overlayViewProps,
+    "global-bindtap": globalBindtap,
+    ...nativeProps
+  } = props;
   const api = usePopoverContext();
   const { setOpen, layerRef, position, referenceRect, rootRect, layerRect } = api;
   const handleGlobalTap = React.useCallback<TapHandler>(
-    (event) => {
+    (event, instance) => {
       "background only";
+      globalBindtap?.(event, instance);
+      if (!api.closeOnInteractOutside || !api.open) return;
       if (!position || !referenceRect || !rootRect) return;
       // 탭 좌표는 page 기준이고, 측정한 rect는 `relativeTo: "screen"` 기준입니다.
       const x = event.detail.x + rootRect.left;
@@ -225,7 +251,15 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
       if (tappedInside) return;
       setOpen(false);
     },
-    [position, referenceRect, rootRect, setOpen],
+    [
+      api.closeOnInteractOutside,
+      api.open,
+      globalBindtap,
+      position,
+      referenceRect,
+      rootRect,
+      setOpen,
+    ],
   );
   const handleLayerRef = React.useCallback(
     (node: NodesRef | null) => {
@@ -237,27 +271,30 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
   if (!api.mounted) return null;
 
   const globalTapProps: Pick<ViewProps, "global-bindtap"> =
-    api.closeOnInteractOutside && api.open ? { "global-bindtap": handleGlobalTap } : {};
+    api.closeOnInteractOutside && api.open
+      ? { "global-bindtap": handleGlobalTap }
+      : globalBindtap
+        ? { "global-bindtap": globalBindtap }
+        : {};
 
   if (!container) {
     return (
-      <OverlayView
-        className={className}
-        style={{
-          position: "fixed",
-          left: toPixel(position?.left ?? 0),
-          top: toPixel(position?.top ?? 0),
-          width: position ? toPixel(position.width) : undefined,
-          ...style,
-        }}
-        overlayViewProps={{
-          ...nativeProps,
-          ...overlayViewProps,
-          ...globalTapProps,
-          ...(ref ? { ref: ref as ViewProps["ref"] } : {}),
-        }}
-      >
-        {children}
+      <OverlayView overlayViewProps={overlayViewProps}>
+        <view
+          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
+          className={className}
+          style={{
+            position: "fixed",
+            left: toPixel(position?.left ?? 0),
+            top: toPixel(position?.top ?? 0),
+            width: position ? toPixel(position.width) : undefined,
+            ...style,
+          }}
+          {...nativeProps}
+          {...globalTapProps}
+        >
+          {children}
+        </view>
       </OverlayView>
     );
   }
@@ -278,7 +315,6 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
       >
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-          {...nativeProps}
           className={className}
           style={{
             position: "absolute",
@@ -288,6 +324,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
             ...style,
           }}
           event-through={false}
+          {...nativeProps}
         >
           {children}
         </view>
@@ -577,8 +614,8 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       ref={handleRef as ViewProps["ref"]}
       className={className}
       style={{
-        ...style,
         ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
+        ...style,
       }}
       bindlayoutchange={handleLayoutChange}
       {...nativeProps}
@@ -668,6 +705,9 @@ export const PopoverCloseButton = React.forwardRef<unknown, PopoverCloseButtonPr
       "accessibility-element": accessibilityElement,
       "accessibility-label": accessibilityLabel,
       "accessibility-traits": accessibilityTraits,
+      bindtouchstart,
+      bindtouchend,
+      bindtouchcancel,
       ...nativeProps
     } = props;
     const { closeButtonProps } = usePopoverCloseButton({
@@ -684,8 +724,11 @@ export const PopoverCloseButton = React.forwardRef<unknown, PopoverCloseButtonPr
     return (
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...closeButtonProps}
+        {...nativeProps}
+        bindtouchstart={withPressTouch(bindtouchstart, closeButtonProps.bindtouchstart)}
+        bindtouchend={withPressTouch(bindtouchend, closeButtonProps.bindtouchend)}
+        bindtouchcancel={withPressTouch(bindtouchcancel, closeButtonProps.bindtouchcancel)}
       >
         {children}
       </view>

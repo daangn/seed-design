@@ -15,17 +15,10 @@ import {
   type SliderMarkerVariantProps,
 } from "@seed-design/lynx-css/recipes/slider-marker";
 
-import type {
-  LynxAccessibilityProps,
-  LynxStyledElementProps,
-  LynxTextProps,
-  LynxViewProps,
-} from "../../types";
+import type { LynxHostProps } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 export type SliderValues = number[];
-type SliderNativeProps = Omit<LynxViewProps, "children" | "className" | "style"> &
-  LynxStyledElementProps;
 
 /**
  * @platform Lynx
@@ -35,51 +28,48 @@ type SliderNativeProps = Omit<LynxViewProps, "children" | "className" | "style">
  * touch 좌표는 Root의 가로 범위를 기준으로 값으로 바꿉니다.
  */
 export interface SliderRootProps
-  extends Omit<SliderNativeProps, keyof UseSliderProps>,
-    LynxAccessibilityProps,
+  extends Omit<LynxHostProps<"view">, keyof UseSliderProps>,
     UseSliderProps {
   children?: React.ReactNode;
 }
 
-export interface SliderControlProps extends SliderNativeProps {
+export interface SliderControlProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
-export interface SliderTrackProps extends SliderNativeProps {
+export interface SliderTrackProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
-export interface SliderRangeProps extends SliderNativeProps {
+export interface SliderRangeProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
-export interface SliderThumbProps extends SliderNativeProps, LynxAccessibilityProps {
+export interface SliderThumbProps extends LynxHostProps<"view"> {
   thumbIndex: number;
   children?: React.ReactNode;
 }
-export interface SliderTickProps extends SliderNativeProps, SliderTickVariantProps {
+export interface SliderTickProps extends LynxHostProps<"view">, SliderTickVariantProps {
   value: number;
   children?: React.ReactNode;
 }
-export interface SliderMarkersProps extends SliderNativeProps {
+export interface SliderMarkersProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
 export interface SliderMarkerProps
-  extends SliderNativeProps,
+  extends LynxHostProps<"view">,
     Omit<SliderMarkerVariantProps, "dir" | "disabled"> {
   value: number;
   children?: React.ReactNode;
 }
-export interface SliderValueIndicatorRootProps extends SliderNativeProps {
+export interface SliderValueIndicatorRootProps extends LynxHostProps<"view"> {
   thumbIndex: number;
   children?: React.ReactNode;
 }
-export interface SliderValueIndicatorArrowProps extends SliderNativeProps {
+export interface SliderValueIndicatorArrowProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
-export interface SliderValueIndicatorArrowTipProps extends SliderNativeProps {
+export interface SliderValueIndicatorArrowTipProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
-export interface SliderValueIndicatorLabelProps
-  extends Omit<LynxTextProps, "children" | "className" | "style">,
-    LynxStyledElementProps {
+export interface SliderValueIndicatorLabelProps extends LynxHostProps<"text"> {
   thumbIndex: number;
   children?: React.ReactNode;
 }
@@ -204,7 +194,7 @@ export const SliderTrack = React.forwardRef<NodesRef, SliderTrackProps>((props, 
 SliderTrack.displayName = "SliderTrack";
 
 export const SliderRange = React.forwardRef<NodesRef, SliderRangeProps>((props, ref) => {
-  const { children: _children, className, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const context = useStyledSliderContext("Slider.Range");
   return (
     <view
@@ -213,7 +203,9 @@ export const SliderRange = React.forwardRef<NodesRef, SliderRangeProps>((props, 
         slider({ disabled: context.disabled, dragging: context.isDragging }).range,
         className,
       )}
-    />
+    >
+      {children}
+    </view>
   );
 });
 SliderRange.displayName = "SliderRange";
@@ -225,6 +217,11 @@ export const SliderThumb = React.forwardRef<NodesRef, SliderThumbProps>((props, 
   return (
     <view
       {...mergeProps(
+        {
+          "accessibility-traits": context.disabled
+            ? ("disabled" as const)
+            : nativeProps["accessibility-traits"],
+        },
         forwardedRef ? { ref: forwardedRef } : {},
         { ref: context.getThumbRef(thumbIndex) },
         context.getThumbProps(thumbIndex),
@@ -238,7 +235,6 @@ export const SliderThumb = React.forwardRef<NodesRef, SliderThumbProps>((props, 
         }).thumb,
         className,
       )}
-      accessibility-traits={context.disabled ? "disabled" : nativeProps["accessibility-traits"]}
     >
       {children}
     </view>
@@ -248,13 +244,15 @@ SliderThumb.displayName = "SliderThumb";
 
 export const SliderTick = React.forwardRef<NodesRef, SliderTickProps>((props, ref) => {
   const [variantProps, restProps] = sliderTick.splitVariantProps(props);
-  const { children: _children, className, value, ...nativeProps } = restProps;
+  const { children, className, value, ...nativeProps } = restProps;
   const context = useStyledSliderContext("Slider.Tick");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, context.getTickProps(value), nativeProps)}
       className={clsx(sliderTick(variantProps), className)}
-    />
+    >
+      {children}
+    </view>
   );
 });
 SliderTick.displayName = "SliderTick";

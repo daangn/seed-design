@@ -123,6 +123,21 @@ describe("BottomSheet", () => {
     expect(scrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
   });
 
+  it("forwards native Header props while preserving its children", () => {
+    const { container, getByText } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Header id="sheet-header" accessibility-label="Sheet heading" data-foo="header">
+          <BottomSheet.Title>Choose an option</BottomSheet.Title>
+        </BottomSheet.Header>
+      </BottomSheet.Root>,
+    );
+    const header = container.querySelector("#sheet-header");
+
+    expect(header).toHaveAttribute("accessibility-label", "Sheet heading");
+    expect(header).toHaveAttribute("data-foo", "header");
+    expect(header).toContainElement(getByText("Choose an option") as HTMLElement);
+  });
+
   it("renders Handle with a target-size touch area around the visual handle", () => {
     const { container } = render(
       <BottomSheet.Root>
@@ -216,10 +231,11 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("opens without animation when Trigger is tapped inside a skipping Root", () => {
+  it("opens without animation and calls the user handler when Trigger is tapped", () => {
+    const onTap = vi.fn();
     const { getByText } = render(
       <BottomSheet.Root skipAnimation>
-        <BottomSheet.Trigger>
+        <BottomSheet.Trigger bindtap={onTap}>
           <text>Open sheet</text>
         </BottomSheet.Trigger>
       </BottomSheet.Root>,
@@ -233,5 +249,6 @@ describe("BottomSheet", () => {
     fireEvent.tap(trigger);
 
     expect(sheetMocks.rootRef.open).toHaveBeenCalledWith({ animate: false });
+    expect(onTap).toHaveBeenCalledOnce();
   });
 });

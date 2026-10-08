@@ -42,7 +42,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
 
   return (
     <RadioGroupProvider value={api}>
-      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...api.rootProps}>
+      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...api.rootProps} {...nativeProps}>
         {children}
       </view>
     </RadioGroupProvider>
@@ -158,8 +158,8 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     <RadioGroupItemProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...itemProps}
+        {...nativeProps}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           pressStart(event);

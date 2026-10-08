@@ -27,6 +27,7 @@ type ScrollViewProps = IntrinsicElements["scroll-view"];
 /** 위치 style을 합치는 파트는 객체 style만 받습니다. */
 type StyledViewProps = Omit<ViewProps, "style"> & { style?: CSSProperties };
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
+type TouchHandler = NonNullable<ViewProps["bindtouchstart"]>;
 type LayoutHandler = NonNullable<ViewProps["bindlayoutchange"]>;
 type OverlayEventProps = Pick<
   OverlayProps,
@@ -57,14 +58,12 @@ function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) 
 }
 
 /** 사용자 touch handler를 먼저 실행한 뒤 눌림 상태를 갱신합니다. 사용자 handler가 없으면 그대로 씁니다. */
-function withPressTouch<E>(
-  handler: ((event: E) => void) | undefined,
-  press: (event: E) => void,
-): (event: E) => void {
+function withPressTouch(handler: ViewProps["bindtouchstart"], press: TouchHandler): TouchHandler {
   if (!handler) return press;
-  return (event) => {
-    handler(event);
-    press(event);
+  return (...args) => {
+    "background only";
+    handler(...args);
+    press(...args);
   };
 }
 
@@ -146,8 +145,8 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
   return (
     <view
       ref={rootRef as ViewProps["ref"]}
-      {...nativeProps}
       {...rootProps}
+      {...nativeProps}
       bindtouchstart={withPressTouch(bindtouchstart, rootProps.bindtouchstart)}
       bindtouchend={withPressTouch(bindtouchend, rootProps.bindtouchend)}
       bindtouchcancel={withPressTouch(bindtouchcancel, rootProps.bindtouchcancel)}
@@ -158,7 +157,7 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
 });
 SelectTrigger.displayName = "SelectTrigger";
 
-export interface SelectValueProps extends Omit<TextProps, "children"> {
+export interface SelectValueProps extends Omit<ViewProps, "children"> {
   children?: React.ReactNode;
 }
 
@@ -186,7 +185,7 @@ export const SelectValue = React.forwardRef<unknown, SelectValueProps>((props, r
 });
 SelectValue.displayName = "SelectValue";
 
-export interface SelectPlaceholderProps extends Omit<TextProps, "children"> {
+export interface SelectPlaceholderProps extends Omit<ViewProps, "children"> {
   children?: React.ReactNode;
 }
 
@@ -218,11 +217,8 @@ SelectPlaceholder.displayName = "SelectPlaceholder";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectPositionerProps
-  extends Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {
-  children?: React.ReactNode;
-  className?: string;
-  style?: CSSProperties;
-}
+  extends StyledViewProps,
+    Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
  * 화면 전체를 덮는 목록 레이어입니다. lynx-ui `OverlayView`를 사용합니다. 레이어 안에 backdrop과 Trigger
@@ -242,7 +238,9 @@ export interface SelectPositionerProps
  * backdrop을 탭하면 `"interactOutside"`, Trigger 위치를 탭하면 `"trigger"` reason으로 닫습니다.
  */
 export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>((props, ref) => {
-  const { children, className, style, container, overlayLevel, overlayViewProps } = props;
+  const { children, className, style, container, overlayLevel, overlayViewProps, ...nativeProps } =
+    props;
+  const overlayEvents = overlayViewProps as OverlayEventProps | undefined;
   const { mounted, setOpen, finishClose, layerRef, layerRect, triggerRect, triggerHandlers } =
     useSelectContext();
   // iOS는 overlayLevel을 지정해 mount하면 표시 전에 binddismissoverlay를 한 번 보냅니다. 표시된 뒤의
@@ -262,26 +260,32 @@ export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>
     },
     [setOpen],
   );
-  const handleShowOverlay = React.useCallback(() => {
-    "background only";
-    shownRef.current = true;
-  }, []);
+  const handleShowOverlay = React.useCallback(
+    (event: BaseEvent) => {
+      "background only";
+      overlayEvents?.bindshowoverlay?.(event);
+      shownRef.current = true;
+    },
+    [overlayEvents?.bindshowoverlay],
+  );
   const handleDismissOverlay = React.useCallback(
     (event: BaseEvent) => {
       "background only";
+      overlayEvents?.binddismissoverlay?.(event);
       // Select가 닫힌 뒤 visible을 false로 바꿀 때도 오지만, 이미 닫혀 있어 setOpen이 무시합니다.
       if (!shownRef.current) return;
       setOpen(false, { reason: "dismiss", event });
       finishClose(true);
     },
-    [finishClose, setOpen],
+    [finishClose, setOpen, overlayEvents?.binddismissoverlay],
   );
   const handleRequestClose = React.useCallback(
     (event: BaseEvent) => {
       "background only";
+      overlayEvents?.bindrequestclose?.(event);
       setOpen(false, { reason: "dismiss", event });
     },
-    [setOpen],
+    [setOpen, overlayEvents?.bindrequestclose],
   );
 
   const triggerProxyStyle: CSSProperties | null =
@@ -299,8 +303,8 @@ export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>
   // visible을 열 때 넘기면 overlayLevel의 지연 표시를 덮어쓰므로 닫혔을 때만 넘깁니다.
   const overlayLayerProps: ViewProps & OverlayEventProps & { visible?: boolean } = {
     "event-through": false,
-    ...overlayViewProps,
     ...(mounted ? {} : { visible: false }),
+    ...overlayViewProps,
     bindshowoverlay: handleShowOverlay,
     binddismissoverlay: handleDismissOverlay,
     bindrequestclose: handleRequestClose,
@@ -318,15 +322,15 @@ export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>
         top: "0px",
         width: "100%",
         height: "100%",
-        ...style,
         // view 모드는 visible이 없어 display로 숨깁니다. iOS에서 숨긴 view의 text가 그려지지 않도록
         // overflow도 함께 바꿉니다. 지운 inline key는 이전 값이 남을 수 있어 항상 지정합니다.
         ...(container
           ? {}
           : { display: mounted ? "flex" : "none", overflow: mounted ? "visible" : "hidden" }),
+        ...style,
       }}
     >
-      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE}>
+      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
         <view style={BACKDROP_STYLE} bindtap={handleBackdropTap} />
         {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
         {children}
@@ -714,8 +718,8 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
         visibility: placed ? "visible" : "hidden",
         transformOrigin: placed ? position.transformOrigin : "center",
         ...(placed ? { width: toPixel(position.width) } : {}),
-        ...style,
         ...(widthConstraint != null ? { width: toPixel(widthConstraint) } : {}),
+        ...style,
       }}
       {...nativeProps}
     >
@@ -755,12 +759,12 @@ export const SelectScrollArea = React.forwardRef<unknown, SelectScrollAreaProps>
 
   return (
     <scroll-view
-      {...nativeProps}
       ref={handleRef as ScrollViewProps["ref"]}
       id={scrollAreaProps.id}
       scroll-orientation={scrollAreaProps["scroll-orientation"]}
       enable-scroll={scrollAreaProps["enable-scroll"]}
-      style={{ ...style, ...scrollAreaProps.style }}
+      {...nativeProps}
+      style={{ ...scrollAreaProps.style, ...style }}
     >
       <view
         ref={contentProps.ref as ViewProps["ref"]}
@@ -866,8 +870,8 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
     <SelectItemProvider value={api}>
       <view
         ref={api.rootRef as ViewProps["ref"]}
-        {...nativeProps}
         {...api.rootProps}
+        {...nativeProps}
         bindtouchstart={withPressTouch(bindtouchstart, api.rootProps.bindtouchstart)}
         bindtouchend={withPressTouch(bindtouchend, api.rootProps.bindtouchend)}
         bindtouchcancel={withPressTouch(bindtouchcancel, api.rootProps.bindtouchcancel)}

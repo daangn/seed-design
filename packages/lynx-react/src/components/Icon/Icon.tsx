@@ -10,7 +10,7 @@ import {
 } from "@lynx-js/react";
 
 import { useIconColor } from "../../hooks/useIconColor";
-import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxViewRef } from "../../types";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -121,7 +121,7 @@ function isMulticolorIcon(node: React.ReactNode): boolean {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface IconProps extends LynxStyledElementProps {
+export interface IconProps extends Omit<LynxHostProps<"view">, "children"> {
   icon: ReactElement<LynxIconElementProps>;
   size?: StyleProps["height"] | number;
   color?: StyleProps["color"];
@@ -174,7 +174,6 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
     size,
     color,
     multicolor = false,
-    children: _children,
     ...nativeProps
   } = props;
   const context = React.useContext(IconSlotContext);
@@ -237,7 +236,11 @@ function createIconComponent<Props extends PrefixIconProps>(
 ) {
   const Component = React.forwardRef<unknown, Props>((props, ref) => {
     return (
-      <IconSlotBase {...mergeProps({ ref }, props)} slot={slot} baseClassName={baseClassName} />
+      <IconSlotBase
+        {...mergeProps(ref ? { ref } : {}, props)}
+        slot={slot}
+        baseClassName={baseClassName}
+      />
     );
   });
 
@@ -261,22 +264,14 @@ export const SuffixIcon = createIconComponent<SuffixIconProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface InternalIconProps extends LynxStyledElementProps {
+export interface InternalIconProps extends Omit<LynxHostProps<"view">, "children"> {
   icon: ReactElement<LynxIconElementProps>;
   deps?: DependencyList;
   disableDefaultResize?: boolean;
 }
 
 export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props, ref) => {
-  const {
-    icon,
-    deps = [],
-    className,
-    style,
-    children: _children,
-    disableDefaultResize = false,
-    ...nativeProps
-  } = props;
+  const { icon, deps = [], className, style, disableDefaultResize = false, ...nativeProps } = props;
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const styleColor = getStyleColor(style);
   const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });

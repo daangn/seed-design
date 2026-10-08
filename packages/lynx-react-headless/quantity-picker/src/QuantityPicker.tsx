@@ -134,8 +134,8 @@ function useQuantityPickerButtonView(
   return (
     <view
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      {...nativeProps}
       {...buttonProps}
+      {...nativeProps}
       bindtouchstart={(event: Parameters<TouchHandler>[0]) => {
         bindtouchstart?.(event);
         pressStart(event);

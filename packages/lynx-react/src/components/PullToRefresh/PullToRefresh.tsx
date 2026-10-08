@@ -9,13 +9,20 @@ import {
   type PullToRefreshContentProps as HeadlessContentProps,
 } from "@seed-design/lynx-react-pull-to-refresh";
 import { pullToRefresh } from "@seed-design/lynx-css/recipes/pull-to-refresh";
+import type { LynxHostProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 
 const { withProvider, withContext } = createSlotRecipeContext(pullToRefresh);
 
-export interface PullToRefreshRootProps extends HeadlessRootProps {}
-export interface PullToRefreshIndicatorProps extends HeadlessIndicatorProps {}
-export interface PullToRefreshContentProps extends HeadlessContentProps {}
+export interface PullToRefreshRootProps
+  extends Omit<HeadlessRootProps, keyof LynxHostProps<"view">>,
+    LynxHostProps<"view"> {}
+export interface PullToRefreshIndicatorProps
+  extends Pick<HeadlessIndicatorProps, "children">,
+    Omit<LynxHostProps<"view">, "children"> {}
+export interface PullToRefreshContentProps
+  extends Omit<HeadlessContentProps, keyof LynxHostProps<"scroll-view">>,
+    LynxHostProps<"scroll-view"> {}
 
 export const PullToRefreshRoot: ForwardRefExoticComponent<
   PropsWithoutRef<PullToRefreshRootProps> & RefAttributes<NodesRef>

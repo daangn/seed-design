@@ -23,14 +23,7 @@ import {
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
 
@@ -107,7 +100,7 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
 
 export interface MenuRootProps
   extends MenuPublicVariantProps,
-    LynxStyledElementProps,
+    LynxHostProps<"view">,
     Omit<UseMenuProps, "onOpenChange"> {
   onOpenChange?: (open: boolean, details: MenuOpenChangeDetails) => void;
 }
@@ -181,7 +174,7 @@ MenuRoot.displayName = "MenuRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuAnchorProps extends LynxStyledElementProps {}
+export interface MenuAnchorProps extends LynxHostProps<"view"> {}
 
 export const MenuAnchor: React.ForwardRefExoticComponent<
   MenuAnchorProps & React.RefAttributes<unknown>
@@ -189,10 +182,7 @@ export const MenuAnchor: React.ForwardRefExoticComponent<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuTriggerProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+export interface MenuTriggerProps extends LynxHostProps<"view"> {
   disabled?: boolean;
 }
 
@@ -203,7 +193,7 @@ export const MenuTrigger: React.ForwardRefExoticComponent<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuPositionerProps
-  extends LynxStyledElementProps,
+  extends LynxHostProps<"view">,
     Pick<MenuPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
@@ -227,7 +217,7 @@ MenuPositioner.displayName = "MenuPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuContentProps extends LynxStyledElementProps {}
+export interface MenuContentProps extends LynxHostProps<"view"> {}
 
 /**
  * 위치를 계산해 표시하는 메뉴 표면입니다. `MenuPositioner` 안에 두고, 항목은 `MenuScrollArea` 안에 둡니다.
@@ -246,10 +236,8 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
 
   return (
     <MenuContentPrimitive
-      {...(ref ? { ref } : {})}
-      {...contentProps}
+      {...mergeProps({ bindtransitionend: handleTransitionEnd }, contentProps, ref ? { ref } : {})}
       className={clsx(classes.content, className)}
-      bindtransitionend={handleTransitionEnd}
     />
   );
 });
@@ -258,7 +246,7 @@ MenuContent.displayName = "MenuContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 /** `MenuContent` 안에서 긴 목록을 세로로 스크롤하는 viewport입니다. 그룹 사이에 구분선을 넣습니다. */
-export interface MenuScrollAreaProps extends LynxStyledElementProps {}
+export interface MenuScrollAreaProps extends LynxHostProps<"scroll-view"> {}
 
 export const MenuScrollArea = React.forwardRef<unknown, MenuScrollAreaProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -289,7 +277,7 @@ MenuScrollArea.displayName = "MenuScrollArea";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupProps extends LynxStyledElementProps {}
+export interface MenuGroupProps extends LynxHostProps<"view"> {}
 
 export const MenuGroup = React.forwardRef<unknown, MenuGroupProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -312,7 +300,7 @@ MenuGroup.displayName = "MenuGroup";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuGroupLabelProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface MenuGroupLabelProps extends LynxHostProps<"text"> {}
 
 export const MenuGroupLabel = React.forwardRef<unknown, MenuGroupLabelProps>((props, ref) => {
   const { className, ...labelProps } = props;
@@ -329,11 +317,7 @@ MenuGroupLabel.displayName = "MenuGroupLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuItemProps
-  extends MenuItemPublicVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
+export interface MenuItemProps extends MenuItemPublicVariantProps, LynxHostProps<"view"> {
   disabled?: boolean;
 }
 
@@ -403,7 +387,7 @@ MenuItem.displayName = "MenuItem";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuItemBodyProps extends LynxStyledElementProps {}
+export interface MenuItemBodyProps extends LynxHostProps<"view"> {}
 
 export const MenuItemBody = React.forwardRef<unknown, MenuItemBodyProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -420,7 +404,7 @@ export const MenuItemBody = React.forwardRef<unknown, MenuItemBodyProps>((props,
 });
 MenuItemBody.displayName = "MenuItemBody";
 
-export interface MenuItemLabelProps extends LynxStyledElementProps {}
+export interface MenuItemLabelProps extends LynxHostProps<"text"> {}
 
 export const MenuItemLabel = React.forwardRef<unknown, MenuItemLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
@@ -437,7 +421,7 @@ export const MenuItemLabel = React.forwardRef<unknown, MenuItemLabelProps>((prop
 });
 MenuItemLabel.displayName = "MenuItemLabel";
 
-export interface MenuItemDescriptionProps extends LynxStyledElementProps {}
+export interface MenuItemDescriptionProps extends LynxHostProps<"text"> {}
 
 export const MenuItemDescription = React.forwardRef<unknown, MenuItemDescriptionProps>(
   (props, ref) => {

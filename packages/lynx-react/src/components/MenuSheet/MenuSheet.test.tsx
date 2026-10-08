@@ -101,6 +101,21 @@ describe("MenuSheet", () => {
     });
   });
 
+  it("forwards native Title props without dropping its text", () => {
+    const { container, getByText } = render(
+      <MenuSheet.Root>
+        <MenuSheet.Title id="menu-title" accessibility-label="Menu heading" data-foo="title">
+          Choose an action
+        </MenuSheet.Title>
+      </MenuSheet.Root>,
+    );
+    const title = container.querySelector("#menu-title");
+
+    expect(title?.getAttribute("accessibility-label")).toBe("Menu heading");
+    expect(title?.getAttribute("data-foo")).toBe("title");
+    expect(getByText("Choose an action")).toBe(title);
+  });
+
   it("exposes the Trigger as an accessible button", () => {
     const { getByText } = render(
       <MenuSheet.Root>

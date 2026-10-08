@@ -22,7 +22,7 @@ import {
   type UseProgressCircleContext,
   type UseProgressProps,
 } from "@seed-design/lynx-react-progress";
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -175,8 +175,7 @@ interface MainThreadProgress {
 export interface ProgressCircleRootProps
   extends ProgressCircleVariantProps,
     UseProgressProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"view">, keyof UseProgressProps> {
   /**
    * @platform Lynx
    * MT에서 value와 같은 척도로 원호를 즉시 갱신하는 단일 구독 채널입니다.
@@ -229,7 +228,7 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
       <view
         {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
         className={clsx(classes.root, className)}
-        style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
+        style={{ width: `${numSize}px`, height: `${numSize}px`, ...style }}
       >
         {children}
       </view>
@@ -239,32 +238,37 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ProgressCircleTrackProps
-  extends Pick<LynxStyledElementProps, "className" | "style"> {}
+export interface ProgressCircleTrackProps extends LynxHostProps<"view"> {}
 
 /**
  * 진행률과 관계없이 전체 링을 tone의 트랙 색으로 그린다. Range보다 먼저 렌더링한다.
  */
 export const ProgressCircleTrack = forwardRef<unknown, ProgressCircleTrackProps>((props, ref) => {
-  const { className, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const { classes } = useStyledProgressCircleContext("ProgressCircleTrack");
 
   return (
     <HeadlessProgressCircleTrack
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classes.track, className)}
-    />
+    >
+      {children}
+    </HeadlessProgressCircleTrack>
   );
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export const ProgressCircleRange = () => {
+export interface ProgressCircleRangeProps extends LynxHostProps<"view"> {}
+
+export const ProgressCircleRange = forwardRef<unknown, ProgressCircleRangeProps>((props, ref) => {
   const { numSize, indeterminate, percent, classes, minValue, maxValue, mainThreadProgress } =
     useStyledProgressCircleContext("ProgressCircleRange");
 
   if (indeterminate) {
-    return <IndeterminateRange numSize={numSize} classes={classes} />;
+    return (
+      <IndeterminateRange numSize={numSize} classes={classes} hostProps={props} hostRef={ref} />
+    );
   }
 
   return (
@@ -275,9 +279,11 @@ export const ProgressCircleRange = () => {
       minValue={minValue}
       maxValue={maxValue}
       mainThreadProgress={mainThreadProgress}
+      hostProps={props}
+      hostRef={ref}
     />
   );
-};
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -288,6 +294,8 @@ function DeterminateRange({
   minValue,
   maxValue,
   mainThreadProgress,
+  hostProps,
+  hostRef,
 }: {
   numSize: number;
   progress: number;
@@ -295,7 +303,10 @@ function DeterminateRange({
   minValue: number;
   maxValue: number;
   mainThreadProgress?: MainThreadRef<MainThreadProgress>;
+  hostProps: ProgressCircleRangeProps;
+  hostRef: React.ForwardedRef<unknown>;
 }) {
+  const { children, className, style, ...nativeProps } = hostProps;
   const rangeRef = useMainThreadRef<MainThread.Element>(null);
   const startCapRef = useMainThreadRef<MainThread.Element>(null);
   const endCapRef = useMainThreadRef<MainThread.Element>(null);
@@ -385,16 +396,25 @@ function DeterminateRange({
   return (
     <>
       <view
-        main-thread:ref={rangeRef}
-        className={classes.range}
-        style={{
-          position: "absolute",
-          width: `${numSize}px`,
-          height: `${numSize}px`,
-          borderRadius: "50%",
-          clipPath: initialClipPath,
-        }}
-      />
+        {...mergeProps(
+          {
+            "main-thread:ref": rangeRef,
+            style: {
+              position: "absolute" as const,
+              width: `${numSize}px`,
+              height: `${numSize}px`,
+              borderRadius: "50%",
+              clipPath: initialClipPath,
+            },
+          },
+          nativeProps,
+          { style },
+          hostRef ? { ref: hostRef as LynxViewRef } : {},
+        )}
+        className={clsx(classes.range, className)}
+      >
+        {children}
+      </view>
       <view
         main-thread:ref={startCapRef}
         className={classes.cap}
@@ -421,7 +441,18 @@ function DeterminateRange({
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Classes }) {
+function IndeterminateRange({
+  numSize,
+  classes,
+  hostProps,
+  hostRef,
+}: {
+  numSize: number;
+  classes: Classes;
+  hostProps: ProgressCircleRangeProps;
+  hostRef: React.ForwardedRef<unknown>;
+}) {
+  const { children, className, style, ...nativeProps } = hostProps;
   const containerRef = useMainThreadRef<MainThread.Element>(null);
   const rangeRef = useMainThreadRef<MainThread.Element>(null);
   const headCapRef = useMainThreadRef<MainThread.Element>(null);
@@ -496,16 +527,25 @@ function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Cl
       }}
     >
       <view
-        main-thread:ref={rangeRef}
-        className={classes.range}
-        style={{
-          position: "absolute",
-          width: `${numSize}px`,
-          height: `${numSize}px`,
-          borderRadius: "50%",
-          clipPath: initialClipPath,
-        }}
-      />
+        {...mergeProps(
+          {
+            "main-thread:ref": rangeRef,
+            style: {
+              position: "absolute" as const,
+              width: `${numSize}px`,
+              height: `${numSize}px`,
+              borderRadius: "50%",
+              clipPath: initialClipPath,
+            },
+          },
+          nativeProps,
+          { style },
+          hostRef ? { ref: hostRef as LynxViewRef } : {},
+        )}
+        className={clsx(classes.range, className)}
+      >
+        {children}
+      </view>
       <view
         main-thread:ref={tailCapRef}
         className={classes.cap}

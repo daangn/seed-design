@@ -1,8 +1,8 @@
 import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
-import { getQueriesForElement, render } from "@lynx-js/react/testing-library";
+import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { MannerTempBadge } from "./MannerTempBadge";
 
@@ -63,5 +63,34 @@ describe("MannerTempBadge", () => {
     expect(Array.from(label.attributes).some(({ name }) => name.startsWith("react-ref-"))).toBe(
       false,
     );
+  });
+
+  it("forwards native view props and invokes the supplied tap handler", () => {
+    const onTap = vi.fn();
+    function handleMainThreadTap() {
+      "main thread";
+    }
+
+    render(
+      <>
+        <MannerTempBadge
+          id="temperature-badge"
+          bindtap={onTap}
+          accessibility-label="매너온도"
+          data-foo="native-value"
+        >
+          36.5°C
+        </MannerTempBadge>
+        <MannerTempBadge main-thread:bindtap={handleMainThreadTap}>40°C</MannerTempBadge>
+      </>,
+    );
+
+    const badgeRoot = getRenderedRoot().querySelector(".seed-manner-temp-badge__root");
+
+    expect(badgeRoot).toHaveAttribute("id", "temperature-badge");
+    expect(badgeRoot).toHaveAttribute("accessibility-label", "매너온도");
+    expect(badgeRoot).toHaveAttribute("data-foo", "native-value");
+    fireEvent.tap(badgeRoot as Element);
+    expect(onTap).toHaveBeenCalledTimes(1);
   });
 });

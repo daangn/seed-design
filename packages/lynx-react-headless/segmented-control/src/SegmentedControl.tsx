@@ -46,9 +46,9 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
     return (
       <SegmentedControlProvider value={api}>
         <view
-          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-          {...nativeProps}
           {...api.rootProps}
+          {...nativeProps}
+          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           style={{ ...api.rootProps.style, ...style }}
         >
           {children}
@@ -108,9 +108,10 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
     return (
       <SegmentedControlItemProvider value={api}>
         <view
-          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-          {...nativeProps}
+          flatten={false}
           {...itemProps}
+          {...nativeProps}
+          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           bindtouchstart={(event) => {
             bindtouchstart?.(event);
             pressStart(event);

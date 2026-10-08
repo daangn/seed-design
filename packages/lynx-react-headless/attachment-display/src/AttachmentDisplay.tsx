@@ -85,8 +85,6 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       "main-thread:bindtouchstart": mainThreadBindtouchstart,
       "main-thread:bindtouchend": mainThreadBindtouchend,
       "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-      "accessibility-element": accessibilityElement,
-      "accessibility-traits": accessibilityTraits,
       bindtouchstart,
       bindtouchend,
       bindtouchcancel,
@@ -98,8 +96,6 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       "main-thread:bindtouchstart": mainThreadBindtouchstart,
       "main-thread:bindtouchend": mainThreadBindtouchend,
       "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-      "accessibility-element": accessibilityElement,
-      "accessibility-traits": accessibilityTraits,
     });
     const {
       bindtouchstart: pressStart,
@@ -110,8 +106,8 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
     return (
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...triggerProps}
+        {...nativeProps}
         bindtouchstart={(event: TouchEvent) => {
           bindtouchstart?.(event);
           pressStart(event);
@@ -132,7 +128,7 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
 );
 AttachmentDisplayTrigger.displayName = "AttachmentDisplayTrigger";
 
-export interface AttachmentDisplayItemImageProps extends Omit<ImageProps, "src" | "children"> {}
+export interface AttachmentDisplayItemImageProps extends ImageProps {}
 
 /**
  * 원격 썸네일을 표시하는 무스타일 native `<image>`입니다. item에 `thumbnailUrl`이 없으면 렌더링하지 않습니다.
@@ -142,7 +138,7 @@ export const AttachmentDisplayItemImage = React.forwardRef<
   NodesRef,
   AttachmentDisplayItemImageProps
 >((props, ref) => {
-  const { "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+  const { children, ...nativeProps } = props;
   const { imageProps } = useAttachmentDisplayItemContext();
   if (!imageProps) return null;
 
@@ -150,9 +146,11 @@ export const AttachmentDisplayItemImage = React.forwardRef<
     <image
       {...(ref ? { ref: ref as ImageProps["ref"] } : {})}
       src={imageProps.src}
-      accessibility-label={accessibilityLabel ?? imageProps.alt}
+      accessibility-label={imageProps.alt}
       {...nativeProps}
-    />
+    >
+      {children}
+    </image>
   );
 });
 AttachmentDisplayItemImage.displayName = "AttachmentDisplayItemImage";
@@ -198,8 +196,6 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
     "main-thread:bindtouchstart": mainThreadOnTouchStart,
     "main-thread:bindtouchend": mainThreadOnTouchEnd,
     "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits,
     bindtouchstart,
     bindtouchend,
     bindtouchcancel,
@@ -228,10 +224,10 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
   return (
     <view
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits ?? (readOnly ? "disabled" : "button")}
-      {...nativeProps}
+      accessibility-element={true}
+      accessibility-traits={readOnly ? "disabled" : "button"}
       {...pressProps}
+      {...nativeProps}
       bindtouchstart={(event: TouchEvent) => {
         bindtouchstart?.(event);
         pressStart(event);

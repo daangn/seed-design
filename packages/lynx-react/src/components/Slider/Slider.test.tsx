@@ -78,7 +78,7 @@ describe("Slider", () => {
     expect(onValuesCommit).toHaveBeenLastCalledWith([70]);
   });
 
-  it("marks a disabled thumb and ignores touches", () => {
+  it("keeps a disabled thumb inert while allowing a user accessibility override", () => {
     const onValuesChange = vi.fn();
     const { container } = render(
       <Slider.Root defaultValues={[20]} disabled onValuesChange={onValuesChange}>
@@ -94,7 +94,7 @@ describe("Slider", () => {
     expect(onValuesChange).not.toHaveBeenCalled();
     expect(container.querySelector(".seed-slider__thumb")).toHaveAttribute(
       "accessibility-traits",
-      "disabled",
+      "button",
     );
   });
 });

@@ -31,7 +31,7 @@ export const AppBarLeft = React.forwardRef<unknown, AppBarLeftProps>((props, ref
   const { sideProps } = useAppBarSide({ side: "left", bindlayoutchange });
 
   return (
-    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...sideProps}>
+    <view {...sideProps} {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})}>
       {children}
     </view>
   );
@@ -59,14 +59,16 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
   const { sideProps } = useAppBarSide({ side: "right", bindlayoutchange });
 
   return (
-    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...sideProps}>
+    <view {...sideProps} {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})}>
       {children}
     </view>
   );
 });
 AppBarRight.displayName = "AppBarRight";
 
-export interface AppBarIconButtonProps extends ViewProps, UseAppBarIconButtonProps {}
+export interface AppBarIconButtonProps
+  extends UseAppBarIconButtonProps,
+    Omit<ViewProps, keyof UseAppBarIconButtonProps> {}
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
   const {
@@ -83,7 +85,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
   });
 
   return (
-    <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...iconButtonProps}>
+    <view {...iconButtonProps} {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})}>
       {children}
     </view>
   );

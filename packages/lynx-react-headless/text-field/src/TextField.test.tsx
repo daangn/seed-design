@@ -710,10 +710,19 @@ describe("TextField", () => {
   it("renders readonly input and textarea values as non-editable text", () => {
     const inputRef = createRef<NodesRef>();
     const textareaRef = createRef<NodesRef>();
+    const bindtap = vi.fn();
+    const bindfocus = vi.fn();
     render(
       <Field.Root disabled readOnly>
         <TextField.Root className="test-text-field" defaultValue="고정값">
-          <TextField.Input ref={inputRef} />
+          <TextField.Input
+            ref={inputRef}
+            id="readonly-input"
+            accessibility-label="읽기 전용 입력"
+            data-foo="native"
+            bindtap={bindtap}
+            bindfocus={bindfocus}
+          />
           <TextField.Textarea ref={textareaRef} />
         </TextField.Root>
       </Field.Root>,
@@ -726,6 +735,14 @@ describe("TextField", () => {
     expect(values).toHaveLength(2);
     expect(values[0]).toHaveTextContent("고정값");
     expect(values[1]).toHaveTextContent("고정값");
+    expect(values[0]).toHaveAttribute("id", "readonly-input");
+    expect(values[0]).toHaveAttribute("accessibility-label", "읽기 전용 입력");
+    expect(values[0]).toHaveAttribute("data-foo", "native");
+    if (!inputRef.current) throw new Error("Expected readonly text ref to exist.");
+    fireEvent.tap(inputRef.current);
+    fireEvent.focus(inputRef.current);
+    expect(bindtap).toHaveBeenCalledTimes(1);
+    expect(bindfocus).not.toHaveBeenCalled();
     expect(inputRef.current).not.toBeNull();
     expect(textareaRef.current).not.toBeNull();
   });
@@ -814,7 +831,7 @@ describe("TextField", () => {
     expect(invoke).not.toHaveBeenCalled();
   });
 
-  it("uses the smaller textarea cap and restores explicit maxlength for a selection", () => {
+  it("preserves explicit textarea maxlength through selection changes", () => {
     const textareaRef = createRef<NodesRef>();
     render(
       <TextField.Root className="test-text-field" nativeInsertionMaxLength={10}>
@@ -825,7 +842,7 @@ describe("TextField", () => {
     const textarea = getRenderedRoot().querySelector("textarea");
     if (!textarea) throw new Error("Expected native textarea to exist.");
 
-    expect(textarea).toHaveAttribute("maxlength", "10");
+    expect(textarea).toHaveAttribute("maxlength", "20");
 
     if (!textareaRef.current) throw new Error("Expected native textarea ref to exist.");
 
@@ -839,7 +856,7 @@ describe("TextField", () => {
       selectionStart: 2,
       selectionEnd: 2,
     });
-    expect(textarea).toHaveAttribute("maxlength", "10");
+    expect(textarea).toHaveAttribute("maxlength", "20");
   });
 
   it("disables the textarea insertion cap while native input is composing", () => {
