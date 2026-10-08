@@ -1,5 +1,12 @@
 # @seed-design/lynx-css
 
+## 0.14.2
+
+### Patch Changes
+
+- 0201acc: (사용자 변경사항 없음) Bottom Sheet와 Menu Sheet의 `maxHeightFraction` 컴포넌트 변수를 생성 산출물에 추가합니다.
+- 594a7e1: Page Banner 닫기 버튼의 solid 톤 아이콘이 팔레트 색상을 직접 참조하던 문제를 수정합니다. 이제 Page Banner 본문과 같은 `$color.fg.on-*-solid` 토큰을 참조하며, 렌더링되는 색상은 바뀌지 않습니다.
+
 ## 0.14.1
 
 ### Patch Changes
