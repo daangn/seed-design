@@ -9,6 +9,8 @@
     "...foundation",
     "...components",
     "---Hooks---",
-    "...hooks"
+    "...hooks",
+    "---Updates---",
+    "...updates"
   ]
 }

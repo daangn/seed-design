@@ -17,6 +17,7 @@ import { findPath, type Root } from "fumadocs-core/page-tree";
 import { koreanTokenizer } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
 import { getEntrySearchText } from "@/lib/changelog-entry";
+import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { getChangelogHref } from "@/components/changelog-viewer/utils";
 import { sectionLabel } from "@/lib/docs-sections";
 import { parseChangelog } from "@/lib/parse-changelog";
@@ -76,8 +77,8 @@ async function indexSource(source: IndexableSource, tag: string): Promise<Advanc
   );
 }
 
-async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
-  const entries = await parseChangelog(process.cwd());
+async function getChangelogIndexes(platform: ChangelogPlatform): Promise<AdvancedIndex[]> {
+  const entries = await parseChangelog(process.cwd(), platform);
 
   const byPackage = new Map<string, Map<string, string[]>>();
   for (const entry of entries) {
@@ -105,7 +106,7 @@ async function getChangelogIndexes(): Promise<AdvancedIndex[]> {
         // No page tree to walk — these are built from the packages' CHANGELOG files rather
         // than from a docs source — so the trail is spelled out instead of derived.
         breadcrumbs: [sectionLabel(versionUrl), "Changelog", label],
-        tag: TAGS.react.value,
+        tag: TAGS[platform].value,
         url: versionUrl,
       };
     });
@@ -117,7 +118,7 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
     if (archivePaths.prefix) {
       return [
         ...(await indexSource(await getReactSource(), TAGS.react.value)),
-        ...(await getChangelogIndexes()),
+        ...(await getChangelogIndexes("react")),
       ];
     }
     const [
@@ -158,9 +159,10 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
       indexSource(lynxSource, TAGS.lynx.value),
       indexSource(aiIntegrationSource, TAGS.aiIntegration.value),
       indexSource(updatesSource, TAGS.updates.value),
-      // Package changelogs live at /react/updates/changelog, so they answer to React like the
-      // rest of that tree. The Updates chip stays the design system's own news at /updates.
-      getChangelogIndexes(),
+      // Keep package changelogs with their platform. The Updates chip remains reserved for
+      // design-system news under /updates.
+      getChangelogIndexes("react"),
+      getChangelogIndexes("lynx"),
     ]);
 
     return groups.flat();

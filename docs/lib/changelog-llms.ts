@@ -2,6 +2,7 @@ import { REACT_ARCHIVE_VERSION } from "./docs-archive";
 import { archiveMarkdown } from "@/app/_llms/archive-markdown";
 import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
+import { getChangelogPlatform, type ChangelogPlatform } from "./changelog-platform";
 import {
   loadChangelogSources,
   parseChangelogSources,
@@ -20,6 +21,7 @@ export interface ChangelogLlmPackageData {
 }
 
 export interface ChangelogLlmData {
+  platform: ChangelogPlatform;
   sources: ChangelogSource[];
   entries: ChangelogEntry[];
   lookup: EntryLookup;
@@ -54,7 +56,13 @@ export async function buildLookupFromSources(sources: ChangelogSource[]): Promis
   return { entries, lookup };
 }
 
-export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise<ChangelogLlmData> {
+export async function buildChangelogLlmData(
+  allSources: ChangelogSource[],
+  platform: ChangelogPlatform,
+): Promise<ChangelogLlmData> {
+  const sources = allSources.filter(
+    (source) => getChangelogPlatform(source.packageName) === platform,
+  );
   const { entries, lookup } = await buildLookupFromSources(sources);
   const packages = new Map<string, ChangelogLlmPackageData>();
 
@@ -64,7 +72,8 @@ export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise
     const renderedBlocks = versions.map((version) => {
       const group = versionGroups.get(version);
       if (!group) return `## ${version}\n\n(no entries)`;
-      return archiveMarkdown(renderVersionMarkdown(version, group, lookup), REACT_ARCHIVE_VERSION);
+      const markdown = renderVersionMarkdown(version, group, lookup);
+      return platform === "react" ? archiveMarkdown(markdown, REACT_ARCHIVE_VERSION) : markdown;
     });
 
     packages.set(source.packageName, {
@@ -75,16 +84,20 @@ export async function buildChangelogLlmData(sources: ChangelogSource[]): Promise
     });
   }
 
-  return { sources, entries, lookup, packages };
+  return { platform, sources, entries, lookup, packages };
 }
 
 export function createChangelogLlmDataLoader(
   loadSources: () => Promise<ChangelogSource[]> = getSources,
-): () => Promise<ChangelogLlmData> {
-  let dataPromise: Promise<ChangelogLlmData> | null = null;
+): (platform: ChangelogPlatform) => Promise<ChangelogLlmData> {
+  const dataPromises: Partial<Record<ChangelogPlatform, Promise<ChangelogLlmData>>> = {};
 
-  return () => {
-    dataPromise ??= loadSources().then(buildChangelogLlmData);
+  return (platform) => {
+    let dataPromise = dataPromises[platform];
+    if (!dataPromise) {
+      dataPromise = loadSources().then((sources) => buildChangelogLlmData(sources, platform));
+      dataPromises[platform] = dataPromise;
+    }
     return dataPromise;
   };
 }

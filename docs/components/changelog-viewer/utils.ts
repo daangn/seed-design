@@ -1,4 +1,5 @@
 import { archivePaths } from "@/lib/docs-archive";
+import { getChangelogPlatform } from "@/lib/changelog-platform";
 export function compareSemver(a: string, b: string): number {
   const normalize = (v: string) =>
     v
@@ -16,8 +17,9 @@ export function compareSemver(a: string, b: string): number {
 }
 
 export function getChangelogHref(packageName: string, version: string): string {
+  const platform = getChangelogPlatform(packageName);
   return archivePaths.link(
-    `/react/updates/changelog?package=${encodeURIComponent(packageName)}&version=${encodeURIComponent(version)}`,
+    `/${platform}/updates/changelog?package=${encodeURIComponent(packageName)}&version=${encodeURIComponent(version)}`,
   );
 }
 

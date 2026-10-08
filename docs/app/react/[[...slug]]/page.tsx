@@ -66,7 +66,9 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       showPageActions={page.slugs.length > 0}
       section="react"
       markdownUrl={markdownUrl}
-      llmOptions={isChangelog ? <ChangelogLLMOptions fallbackUrl={markdownUrl} /> : undefined}
+      llmOptions={
+        isChangelog ? <ChangelogLLMOptions platform="react" fallbackUrl={markdownUrl} /> : undefined
+      }
     >
       {body}
     </DocsPageRenderer>

@@ -1,8 +1,10 @@
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getLynxSource } from "@/app/source";
+import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
+import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
 import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -20,13 +22,17 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
   const cover = page.data.frontmatter.coverImage
     ? resolveCoverImage(page.data.frontmatter.coverImage)
     : null;
-  const displayTitle = page.data.frontmatter.heading ?? page.data.title;
+  const tabbedFolder = findTabbedFolder(lynxSource.pageTree.children, page.url);
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+  const displayTitle = folderLabel ?? page.data.frontmatter.heading ?? page.data.title;
+  const displayDescription = tabbedFolder?.description ?? page.data.description;
+  const isChangelog = page.slugs.join("/") === "updates/changelog";
 
   return (
     <DocsPageRenderer
       jsonLd={buildDocsPageJsonLd(page)}
       title={displayTitle}
-      description={page.data.description}
+      description={displayDescription}
       coverImage={
         cover
           ? {
@@ -38,13 +44,17 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
           : undefined
       }
       layout={page.data.frontmatter.layout}
-      full={page.data.frontmatter.full}
+      full={isChangelog ? true : page.data.frontmatter.full}
       meta={<LynxCompatibilityBadges compatibility={page.data.frontmatter.compatibility?.lynx} />}
-      toc={toc}
+      toc={isChangelog ? [] : toc}
       lastUpdate={lastModified}
+      tableOfContent={isChangelog ? { enabled: false } : { single: false }}
       showPageActions={page.slugs.length > 0}
       section="lynx"
       markdownUrl={markdownUrl}
+      llmOptions={
+        isChangelog ? <ChangelogLLMOptions platform="lynx" fallbackUrl={markdownUrl} /> : undefined
+      }
     >
       {body}
     </DocsPageRenderer>
@@ -64,10 +74,13 @@ export async function generateMetadata(props: {
   const page = lynxSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
+  const tabbedFolder = findTabbedFolder(lynxSource.pageTree.children, page.url);
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading: page.data.frontmatter.heading,
+    heading: folderLabel ?? page.data.frontmatter.heading,
     description: page.data.description,
     coverImage: page.data.frontmatter.coverImage,
   });

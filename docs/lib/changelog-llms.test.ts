@@ -1,10 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { ChangelogSource } from "./parse-changelog";
-import {
-  buildChangelogLlmData,
-  createChangelogLlmDataLoader,
-  renderVersionMarkdown,
-} from "./changelog-llms";
+import { buildChangelogLlmData, createChangelogLlmDataLoader } from "./changelog-llms";
 import { buildChangelogLlmOutputFiles } from "./changelog-llms-output";
 
 const sources: ChangelogSource[] = [
@@ -37,11 +33,23 @@ const sources: ChangelogSource[] = [
 - def5678: CSS 토큰을 추가합니다.
 `,
   },
+  {
+    packageName: "@seed-design/lynx-react",
+    raw: "# @seed-design/lynx-react\n\n## 0.10.0\n\n### Minor Changes\n\n- aaa1111: Lynx 컴포넌트를 추가합니다.\n",
+  },
+  {
+    packageName: "@seed-design/lynx-css",
+    raw: "# @seed-design/lynx-css\n\n## 0.10.0\n\n### Patch Changes\n\n- bbb2222: Lynx 스타일을 추가합니다.\n",
+  },
+  {
+    packageName: "@seed-design/rsbuild-plugin-lynx-icon",
+    raw: "# @seed-design/rsbuild-plugin-lynx-icon\n\n## 0.1.0\n\n### Patch Changes\n\n- ccc3333: Lynx 아이콘 플러그인을 추가합니다.\n",
+  },
 ];
 
 describe("buildChangelogLlmData", () => {
   it("패키지별 버전 순서와 렌더링 결과를 한 번에 만든다", async () => {
-    const data = await buildChangelogLlmData(sources);
+    const data = await buildChangelogLlmData(sources, "react");
     const react = data.packages.get("@seed-design/react");
 
     expect(data.entries).toHaveLength(3);
@@ -52,14 +60,17 @@ describe("buildChangelogLlmData", () => {
     expect(react?.renderedBlocks[1]).toContain("CSS 토큰을 추가합니다.");
   });
 
-  it("기존 버전 렌더링과 같은 결과를 만든다", async () => {
-    const data = await buildChangelogLlmData(sources);
-    const react = data.packages.get("@seed-design/react");
-    const entries = data.entries.filter(
-      (entry) => entry.package.name === "@seed-design/react" && entry.package.version === "1.0.0",
-    );
-
-    expect(react?.renderedBlocks[1]).toBe(renderVersionMarkdown("1.0.0", entries, data.lookup));
+  it("React와 Lynx의 패키지와 항목을 분리한다", async () => {
+    const react = await buildChangelogLlmData(sources, "react");
+    const lynx = await buildChangelogLlmData(sources, "lynx");
+    expect([...react.packages.keys()]).toEqual(["@seed-design/react", "@seed-design/css"]);
+    expect([...lynx.packages.keys()]).toEqual([
+      "@seed-design/lynx-react",
+      "@seed-design/lynx-css",
+      "@seed-design/rsbuild-plugin-lynx-icon",
+    ]);
+    expect(react.entries.every((entry) => !entry.package.name.includes("lynx"))).toBe(true);
+    expect(lynx.entries.map((entry) => entry.package.name)).toEqual([...lynx.packages.keys()]);
   });
 });
 
@@ -71,44 +82,56 @@ describe("createChangelogLlmDataLoader", () => {
       return sources;
     });
 
-    const first = load();
-    const second = load();
-    const [firstData, secondData] = await Promise.all([first, second]);
+    const first = load("react");
+    const second = load("react");
+    const lynx = load("lynx");
+    const [firstData, secondData, lynxData] = await Promise.all([first, second, lynx]);
 
     expect(first).toBe(second);
     expect(firstData).toBe(secondData);
-    expect(loadCount).toBe(1);
+    expect(firstData.packages.has("@seed-design/lynx-react")).toBe(false);
+    expect(lynxData.packages.has("@seed-design/react")).toBe(false);
+    expect(lynxData.packages.has("@seed-design/lynx-react")).toBe(true);
+    expect(loadCount).toBe(2);
   });
 });
 
 describe("buildChangelogLlmOutputFiles", () => {
-  it("Next route와 같은 전체, 패키지별, 버전별 파일을 만든다", async () => {
-    const data = await buildChangelogLlmData(sources);
-    const files = buildChangelogLlmOutputFiles(data, new URL("https://seed-design.io"));
+  it("플랫폼별 경로와 URL을 만들고 해당 버전 이후의 변경을 포함한다", async () => {
+    const react = await buildChangelogLlmData(sources, "react");
+    const lynx = await buildChangelogLlmData(sources, "lynx");
+    const baseUrl = new URL("https://seed-design.io");
+    const files = [
+      ...buildChangelogLlmOutputFiles(react, baseUrl),
+      ...buildChangelogLlmOutputFiles(lynx, baseUrl),
+    ];
     const output = new Map(files.map((file) => [file.path, file.content]));
-
-    expect(files).toHaveLength(6);
-    expect(output.get("llms/react/updates/changelog.txt")).toStartWith(
-      "# Changelog\nURL: https://seed-design.io/react/updates/changelog",
+    expect(output.get("llms/react/updates/changelog.txt")).toContain(
+      "URL: https://seed-design.io/react/updates/changelog",
     );
-    expect(output.get("llms/react/updates/changelog/react/llms.txt")).toBe(
-      `# @seed-design/react Changelog
-
-## Versions
-
-- [2.0.0](https://seed-design.io/llms/react/updates/changelog/react/2.0.0.txt) — changes since this version
-- [1.0.0](https://seed-design.io/llms/react/updates/changelog/react/1.0.0.txt) — changes since this version
-
----
-
-${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
-`,
+    expect(output.get("llms/react/updates/changelog.txt")).not.toContain("@seed-design/lynx-");
+    expect(output.get("llms/react/updates/changelog.txt")).not.toContain(
+      "@seed-design/rsbuild-plugin-lynx-icon",
     );
-    expect(output.get("llms/react/updates/changelog/react/1.0.0.txt")).toBe(
-      `# @seed-design/react — Changes since 1.0.0
-
-${data.packages.get("@seed-design/react")?.renderedBlocks.join("\n\n---\n\n")}
-`,
+    expect(output.get("llms/lynx/updates/changelog.txt")).toContain(
+      "URL: https://seed-design.io/lynx/updates/changelog",
+    );
+    expect(output.get("llms/lynx/updates/changelog.txt")).not.toContain("## @seed-design/react");
+    expect(output.get("llms/lynx/updates/changelog/lynx-react/llms.txt")).toContain(
+      "https://seed-design.io/llms/lynx/updates/changelog/lynx-react/0.10.0.txt",
+    );
+    expect(output.get("llms/lynx/updates/changelog/lynx-react/0.10.0.txt")).toContain(
+      "Lynx 컴포넌트를 추가합니다.",
+    );
+    expect(output.has("llms/react/updates/changelog/lynx-react/llms.txt")).toBe(false);
+    expect(output.get("llms/react/updates/changelog/react/1.0.0.txt")).toContain(
+      "React 2를 출시합니다.",
+    );
+    expect(output.get("llms/react/updates/changelog/react/1.0.0.txt")).toContain(
+      "CSS 토큰을 추가합니다.",
+    );
+    expect(output.get("llms/react/updates/changelog/react/2.0.0.txt")).not.toContain(
+      "CSS 토큰을 추가합니다.",
     );
   });
 });
