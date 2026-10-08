@@ -1,5 +1,6 @@
 import { expect, it } from "bun:test";
 import { archiveMarkdown } from "./archive-markdown";
+import { normalizeLLMBody } from "./normalize-llm-body";
 
 it("scopes Markdown links and images while preserving installation code", () => {
   const input =
@@ -34,5 +35,30 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
 it("keeps ordinary changelog Markdown syntax outside the MDX parser", () => {
   expect(archiveMarkdown("- Change {from: old, to: new}.\n", "v2")).toBe(
     "* Change {from: old, to: new}.\n",
+  );
+});
+
+it("archives registry CLI commands flattened from package manager tabs", () => {
+  const tab = (value: string, command: string) => [
+    `  <CodeBlockTab value="${value}">`,
+    "    ```bash",
+    `    ${command}`,
+    "    ```",
+    "  </CodeBlockTab>",
+  ];
+  const input = [
+    '<CodeBlockTabs defaultValue="npm">',
+    ...tab("npm", "npx @seed-design/cli@latest add [...item-ids]"),
+    ...tab("pnpm", "pnpm dlx @seed-design/cli add ui:action-button --seed-react-version 2"),
+    ...tab("yarn", "yarn add @seed-design/react"),
+    "</CodeBlockTabs>",
+  ].join("\n");
+
+  expect(archiveMarkdown(normalizeLLMBody(input), "v2", "mdx")).toBe(
+    [
+      "* npm: npx @seed-design/cli\\@latest add --baseUrl https://seed-design.io/react/v2 \\[...item-ids]",
+      "* pnpm: pnpm dlx @seed-design/cli add ui:action-button --seed-react-version 2",
+      "* yarn: yarn add @seed-design/react",
+    ].join("\n") + "\n",
   );
 });
