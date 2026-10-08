@@ -225,6 +225,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "content-placeholder",
+      snippets: [
+        {
+          path: "content-placeholder.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
       id: "progress-circle",
       snippets: [
         {

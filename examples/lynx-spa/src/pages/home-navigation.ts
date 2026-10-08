@@ -34,6 +34,7 @@ export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
         title: "KeyboardAvoidingScrollView (Headless)",
       },
       { page: "list-headless", title: "List (Headless)" },
+      { page: "content-placeholder", title: "ContentPlaceholder" },
       { page: "manner-temp", title: "Manner Temp" },
       { page: "menu-headless", title: "Menu (Headless)" },
       { page: "page-banner", title: "PageBanner" },
