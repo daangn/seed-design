@@ -1,54 +1,54 @@
-import './input-button.css';
+import './field-button.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const inputButtonSlotNames = [
+const fieldButtonSlotNames = [
   [
     "root",
-    "seed-input-button__root"
+    "seed-field-button__root"
   ],
   [
     "button",
-    "seed-input-button__button"
+    "seed-field-button__button"
   ],
   [
     "content",
-    "seed-input-button__content"
+    "seed-field-button__content"
   ],
   [
     "baseStroke",
-    "seed-input-button__baseStroke"
+    "seed-field-button__baseStroke"
   ],
   [
     "stroke",
-    "seed-input-button__stroke"
+    "seed-field-button__stroke"
   ],
   [
     "value",
-    "seed-input-button__value"
+    "seed-field-button__value"
   ],
   [
     "placeholder",
-    "seed-input-button__placeholder"
+    "seed-field-button__placeholder"
   ],
   [
     "prefixText",
-    "seed-input-button__prefixText"
+    "seed-field-button__prefixText"
   ],
   [
     "prefixIcon",
-    "seed-input-button__prefixIcon"
+    "seed-field-button__prefixIcon"
   ],
   [
     "suffixText",
-    "seed-input-button__suffixText"
+    "seed-field-button__suffixText"
   ],
   [
     "suffixIcon",
-    "seed-input-button__suffixIcon"
+    "seed-field-button__suffixIcon"
   ],
   [
     "clearButton",
-    "seed-input-button__clearButton"
+    "seed-field-button__clearButton"
   ]
 ];
 
@@ -67,7 +67,7 @@ const compoundVariants = [
   }
 ];
 
-export const inputButtonVariantMap = {
+export const fieldButtonVariantMap = {
   "size": [
     "large",
     "medium"
@@ -90,11 +90,11 @@ export const inputButtonVariantMap = {
   ]
 };
 
-export const inputButtonVariantKeys = Object.keys(inputButtonVariantMap);
+export const fieldButtonVariantKeys = Object.keys(fieldButtonVariantMap);
 
-export function inputButton(props) {
+export function fieldButton(props) {
   return Object.fromEntries(
-    inputButtonSlotNames.map(([slot, className]) => {
+    fieldButtonSlotNames.map(([slot, className]) => {
       return [
         slot,
         createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
@@ -103,6 +103,6 @@ export function inputButton(props) {
   );
 }
 
-Object.assign(inputButton, { splitVariantProps: (props) => splitVariantProps(props, inputButtonVariantMap) });
+Object.assign(fieldButton, { splitVariantProps: (props) => splitVariantProps(props, fieldButtonVariantMap) });
 
-// @recipe(seed): input-button
+// @recipe(seed): field-button
