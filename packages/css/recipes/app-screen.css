@@ -23,6 +23,8 @@
     height: 100%;
     left: 0;
     right: 0;
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right);
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }

@@ -1354,7 +1354,8 @@
 
 .seed-app-bar__root--theme_cupertino {
   height: calc(56px + var(--seed-safe-area-top));
-  padding-inline: var(--seed-dimension-x4);
+  padding-left: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-left));
+  padding-right: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-right));
   padding-top: var(--seed-safe-area-top);
 }
 
@@ -1378,7 +1379,8 @@
 
 .seed-app-bar__root--theme_android {
   height: calc(56px + var(--seed-safe-area-top));
-  padding-inline: var(--seed-dimension-x4);
+  padding-left: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-left));
+  padding-right: calc(var(--seed-dimension-x4)  + var(--seed-safe-area-right));
   padding-top: var(--seed-safe-area-top);
 }
 
@@ -1609,7 +1611,8 @@
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
   top: var(--seed-safe-area-top);
-  padding-inline: var(--centered-title-padding-x, 0);
+  padding-left: calc(var(--seed-safe-area-left)  + max(calc(var(--seed-dimension-x4)  + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px)  - var(--seed-safe-area-left)  - var(--seed-dimension-x4)))), 0px));
+  padding-right: calc(var(--seed-safe-area-right)  + max(calc(var(--seed-dimension-x4)  + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px)  - var(--seed-safe-area-right)  - var(--seed-dimension-x4)))), 0px));
   pointer-events: none;
   justify-content: center;
   align-items: center;
@@ -1762,9 +1765,11 @@
 .seed-app-screen__layer {
   z-index: var(--z-index-layer);
   box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
   width: 100%;
   height: 100%;
+  padding-left: var(--seed-safe-area-left);
+  padding-right: var(--seed-safe-area-right);
+  -webkit-overflow-scrolling: touch;
   position: absolute;
   left: 0;
   right: 0;

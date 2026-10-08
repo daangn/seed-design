@@ -47,6 +47,8 @@ export const appScreen = defineSlotRecipe({
       height: "100%",
       left: 0,
       right: 0,
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
       overflowY: "scroll",
       WebkitOverflowScrolling: "touch",
       "&::-webkit-scrollbar": {
