@@ -1,6 +1,6 @@
 # React v1.0 npm 배포
 
-소스는 `react/v1.0`, npm 태그는 **`react-v1.0`**다. 함께 배포하는 패키지에 같은 태그를 사용하고 기존 `latest`와 `backport`는 유지한다.
+소스는 `react/v1.0`, npm 태그는 **`react-v1.0`**다. 함께 배포하는 패키지에 같은 태그를 사용하고 기존 `latest`는 유지한다.
 
 ## 준비
 
@@ -38,6 +38,6 @@ bun changeset publish --tag react-v1.0
 
 ## 확인
 
-각 패키지의 새 버전·`dist.integrity`와 `react-v1.0` 태그를 npm에서 조회한다. `latest`·`backport`가 배포 전과 같은지도 확인한다.
+각 패키지의 새 버전·`dist.integrity`와 `react-v1.0` 태그를 npm에서 조회한다. `latest`가 배포 전과 같은지도 확인한다.
 
 일부만 성공하면 같은 소스·버전·태그로 미배포 패키지만 재시도한다. 이번 릴리스가 생성한 Git 태그만 확인해 push한다. 태그와 릴리스 커밋이 원격에 없으면 배포한 소스를 찾을 수 없다. stackflow 1.0.9가 그런 경우로, 로컬 커밋 `f2efeee35`에서 배포된 뒤 나중에 `react/v1.0`에 merge했다.
