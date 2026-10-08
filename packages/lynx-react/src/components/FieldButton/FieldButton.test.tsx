@@ -31,7 +31,7 @@ function getRenderedRoot() {
 describe("FieldButton", () => {
   it("renders slots with size and invalid state classes", () => {
     render(
-      <FieldButton.Root size="medium" invalid className="custom-input-button">
+      <FieldButton.Root size="medium" invalid className="custom-field-button">
         <FieldButton.Button accessibility-label="지역 선택" />
         <FieldButton.PrefixText>지역</FieldButton.PrefixText>
         <FieldButton.Value>판교동</FieldButton.Value>
@@ -41,19 +41,19 @@ describe("FieldButton", () => {
 
     const root = getRenderedRoot();
     const queries = getQueriesForElement(root);
-    const inputButtonRoot = root.querySelector(".seed-input-button__root");
-    const button = root.querySelector(".seed-input-button__button");
+    const fieldButtonRoot = root.querySelector(".seed-field-button__root");
+    const button = root.querySelector(".seed-field-button__button");
 
-    expect(inputButtonRoot).toHaveClass("custom-input-button");
-    expect(inputButtonRoot).toHaveClass("seed-input-button__root--size_medium");
+    expect(fieldButtonRoot).toHaveClass("custom-field-button");
+    expect(fieldButtonRoot).toHaveClass("seed-field-button__root--size_medium");
     expect(button).toHaveAttribute("accessibility-label", "지역 선택");
     expect(button).toHaveAttribute("accessibility-traits", "button");
-    expect(root.querySelector(".seed-input-button__stroke")).toHaveClass(
-      "seed-input-button__stroke--invalid_true",
+    expect(root.querySelector(".seed-field-button__stroke")).toHaveClass(
+      "seed-field-button__stroke--invalid_true",
     );
-    expect(queries.getByText("판교동")).toHaveClass("seed-input-button__value");
-    expect(queries.getByText("지역")).toHaveClass("seed-input-button__prefixText");
-    expect(queries.getByText("선택됨")).toHaveClass("seed-input-button__suffixText");
+    expect(queries.getByText("판교동")).toHaveClass("seed-field-button__value");
+    expect(queries.getByText("지역")).toHaveClass("seed-field-button__prefixText");
+    expect(queries.getByText("선택됨")).toHaveClass("seed-field-button__suffixText");
   });
 
   it("tracks pressed state and blocks taps when disabled", () => {
@@ -65,10 +65,10 @@ describe("FieldButton", () => {
       </FieldButton.Root>,
     );
 
-    let button = getRenderedRoot().querySelector(".seed-input-button__button") as HTMLElement;
+    let button = getRenderedRoot().querySelector(".seed-field-button__button") as HTMLElement;
 
     fireEvent.touchstart(button, {});
-    expect(button).toHaveClass("seed-input-button__button--pressed_true");
+    expect(button).toHaveClass("seed-field-button__button--pressed_true");
 
     fireEvent.tap(button);
     expect(onTap).toHaveBeenCalledTimes(1);
@@ -80,13 +80,13 @@ describe("FieldButton", () => {
       </FieldButton.Root>,
     );
 
-    button = getRenderedRoot().querySelector(".seed-input-button__button") as HTMLElement;
+    button = getRenderedRoot().querySelector(".seed-field-button__button") as HTMLElement;
     fireEvent.tap(button);
 
     expect(onTap).toHaveBeenCalledTimes(1);
     expect(button).toHaveAttribute("accessibility-traits", "disabled");
     expect(getQueriesForElement(getRenderedRoot()).getByText("지역을 선택하세요")).toHaveClass(
-      "seed-input-button__placeholder--disabled_true",
+      "seed-field-button__placeholder--disabled_true",
     );
   });
 
@@ -103,12 +103,12 @@ describe("FieldButton", () => {
     );
 
     const root = getRenderedRoot();
-    const content = root.querySelector(".seed-input-button__content");
-    const button = root.querySelector(".seed-input-button__button");
+    const content = root.querySelector(".seed-field-button__content");
+    const button = root.querySelector(".seed-field-button__button");
     expect(content).toHaveAttribute("flatten", "false");
     expect(content?.contains(button)).toBe(false);
-    expect(button?.querySelector(".seed-input-button__baseStroke")).toBeTruthy();
-    expect(button?.querySelector(".seed-input-button__stroke")).toBeTruthy();
+    expect(button?.querySelector(".seed-field-button__baseStroke")).toBeTruthy();
+    expect(button?.querySelector(".seed-field-button__stroke")).toBeTruthy();
     expect(Array.from(content?.children ?? []).map((child) => child.textContent)).toEqual([
       "Prefix",
       "Value",
@@ -126,11 +126,11 @@ describe("FieldButton", () => {
     );
 
     const root = getRenderedRoot();
-    expect(root.querySelector(".seed-input-button__button")).toHaveAttribute(
+    expect(root.querySelector(".seed-field-button__button")).toHaveAttribute(
       "accessibility-label",
       "Custom",
     );
-    expect(root.querySelector(".seed-input-button__content")).toBeNull();
+    expect(root.querySelector(".seed-field-button__content")).toBeNull();
   });
 
   it("keeps the clear action independent and hides it in readonly mode", () => {
@@ -149,15 +149,15 @@ describe("FieldButton", () => {
       </FieldButton.Root>,
     );
     const root = getRenderedRoot();
-    const clear = root.querySelector(".seed-input-button__clearButton") as HTMLElement;
+    const clear = root.querySelector(".seed-field-button__clearButton") as HTMLElement;
     expect(clear).toHaveAttribute("flatten", "false");
     expect(clear).toHaveAttribute("accessibility-traits", "button");
     fireEvent.tap(clear);
     expect(onClear).toHaveBeenCalledTimes(1);
     expect(onValuesChange).toHaveBeenCalledExactlyOnceWith([]);
     expect(onOpen).not.toHaveBeenCalled();
-    expect(root.querySelector(".seed-input-button__button")).not.toHaveClass(
-      "seed-input-button__button--pressed_true",
+    expect(root.querySelector(".seed-field-button__button")).not.toHaveClass(
+      "seed-field-button__button--pressed_true",
     );
 
     rerender(
@@ -170,7 +170,7 @@ describe("FieldButton", () => {
         />
       </FieldButton.Root>,
     );
-    expect(getRenderedRoot().querySelector(".seed-input-button__clearButton")).toBeNull();
+    expect(getRenderedRoot().querySelector(".seed-field-button__clearButton")).toBeNull();
   });
 
   it("bridges Main Thread presses while preserving the consumer Main Thread handler", async () => {
@@ -195,7 +195,7 @@ describe("FieldButton", () => {
       enableBackgroundThread: true,
     });
     await waitSchedule();
-    const button = container.querySelector(".seed-input-button__button");
+    const button = container.querySelector(".seed-field-button__button");
     if (!button) throw new Error("Expected button");
     fireEvent.touchstart(button, {});
     await waitSchedule();
