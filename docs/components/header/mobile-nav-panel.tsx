@@ -4,7 +4,7 @@ import { archivePaths } from "@/lib/docs-archive";
 
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import { ReactVersionSwitcher } from "@/components/react-version-switcher";
+import { type DocsVersionPlatform, DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
 import { SiteLink } from "@/components/site-link";
@@ -271,7 +271,9 @@ function SectionView({
 }) {
   const pathname = usePathname();
   const versionContainer = useRef<HTMLDivElement>(null);
-  const isReact = pathname === "/react" || pathname.startsWith("/react/");
+  const versionPlatform = (
+    ["react", "lynx"] as const satisfies readonly DocsVersionPlatform[]
+  ).find((platform) => pathname === `/${platform}` || pathname.startsWith(`/${platform}/`));
 
   return (
     <>
@@ -289,9 +291,9 @@ function SectionView({
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
-      {isReact && (
+      {versionPlatform && (
         <div ref={versionContainer} className="relative z-10 px-5 pb-2">
-          <ReactVersionSwitcher positionerContainer={versionContainer} />
+          <DocsVersionSwitcher platform={versionPlatform} positionerContainer={versionContainer} />
         </div>
       )}
       <ScrollFog
