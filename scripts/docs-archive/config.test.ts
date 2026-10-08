@@ -1,5 +1,5 @@
 import { expect, it } from "bun:test";
-import { archivePrefix, archiveRoutes, validateArchive } from "./config";
+import { archivePrefix, validateArchive } from "./config";
 
 const archive = {
   platform: "react",
@@ -8,23 +8,6 @@ const archive = {
   sourceSha: "a".repeat(40),
   probe: { document: "components/button", registryItem: "ui/button" },
 };
-
-it("keeps all existing routes when adding another version or platform", () => {
-  expect(
-    archiveRoutes([
-      archive,
-      { ...archive, version: "v3" },
-      { ...archive, platform: "lynx", version: "v1" },
-    ]),
-  ).toEqual(["seed-design.io/react/v2*", "seed-design.io/react/v3*", "seed-design.io/lynx/v1*"]);
-});
-
-it("rejects empty or duplicate registrations", () => {
-  expect(() => archiveRoutes([])).toThrow();
-  expect(() => archiveRoutes([archive, { ...archive, origin: "https://other.pages.dev" }])).toThrow(
-    "Duplicate",
-  );
-});
 
 it.each([
   "latest",
@@ -44,22 +27,11 @@ it.each([
   expect(() => archivePrefix({ ...archive, version })).toThrow();
 });
 
-it("can register retained React minor versions alongside a major channel", () => {
+it("supports retained React minor versions and the Lynx v0 channel", () => {
   expect(
-    archiveRoutes(["v1.0", "v1.1", "v1.2", "v2"].map((version) => ({ ...archive, version }))),
-  ).toEqual([
-    "seed-design.io/react/v1.0*",
-    "seed-design.io/react/v1.1*",
-    "seed-design.io/react/v1.2*",
-    "seed-design.io/react/v2*",
-  ]);
-});
-
-it("registers a Lynx v0 channel next to React archives", () => {
-  expect(archiveRoutes([archive, { ...archive, platform: "lynx", version: "v0" }])).toEqual([
-    "seed-design.io/react/v2*",
-    "seed-design.io/lynx/v0*",
-  ]);
+    ["v1.0", "v1.1", "v1.2", "v2"].map((version) => archivePrefix({ ...archive, version })),
+  ).toEqual(["/react/v1.0", "/react/v1.1", "/react/v1.2", "/react/v2"]);
+  expect(archivePrefix({ ...archive, platform: "lynx", version: "v0" })).toBe("/lynx/v0");
 });
 
 it("rejects invalid platforms and incomplete or unsafe deployment inputs", () => {
