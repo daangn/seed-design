@@ -1,4 +1,4 @@
-import type { Root } from "mdast";
+import type { Root, Text } from "mdast";
 import { archiveCliCommands } from "@/lib/archive-cli-commands";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
@@ -13,9 +13,27 @@ export function archiveMarkdown(
   format: "markdown" | "mdx" = "markdown",
 ): string {
   if (!version) return markdown;
-  const processor = remark().use(remarkGfm);
+  // llms 룰이 설치 탭을 목록 텍스트로 바꾸므로 텍스트의 CLI 명령도 바꿉니다.
+  // 바꾼 텍스트는 이스케이프하지 않아 추가한 URL이 `https\://`로 출력되지 않게 합니다.
+  const cliTexts = new WeakSet<Text>();
+  const processor = remark()
+    .data("settings", {
+      handlers: {
+        text: (node: Text, _, state, info) =>
+          cliTexts.has(node) ? node.value : state.safe(node.value, info),
+      },
+    })
+    .use(remarkGfm);
   if (format === "mdx") processor.use(remarkMdx);
   processor.use(remarkArchiveLinks, version);
+  processor.use(() => (tree: Root) => {
+    visit(tree, "text", (node) => {
+      const value = archiveCliCommands(node.value, version);
+      if (value === node.value) return;
+      node.value = value;
+      cliTexts.add(node);
+    });
+  });
   return processor.processSync(markdown).toString();
 }
 
