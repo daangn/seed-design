@@ -1,5 +1,5 @@
 import * as React from "@lynx-js/react";
-import type { CSSProperties, IntrinsicElements } from "@lynx-js/types";
+import type { IntrinsicElements } from "@lynx-js/types";
 import { imageFrame, type ImageFrameVariantProps } from "@seed-design/lynx-css/recipes/image-frame";
 import { imageFrameIcon } from "@seed-design/lynx-css/recipes/image-frame-icon";
 import { imageFrameIndicator } from "@seed-design/lynx-css/recipes/image-frame-indicator";
@@ -8,7 +8,12 @@ import { Image, useImageContext, type UseImageProps } from "@seed-design/lynx-re
 import { Toggle, useToggleContext, type UseToggleProps } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type { LynxIconElementProps, LynxViewProps, LynxViewRef } from "../../types";
+import type {
+  LynxIconElementProps,
+  LynxStyledElementProps,
+  LynxViewProps,
+  LynxViewRef,
+} from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { handleDimension, useStyleProps, type StyleProps } from "../../utils/styled";
@@ -21,15 +26,16 @@ import { heartFillSource, heartLineSource } from "./heart-assets";
  * Native image loading uses bindload/binderror; HTML image loading, decoding,
  * crossOrigin, referrerPolicy, sizes, srcSet and polymorphic as/asChild are unsupported.
  */
-export interface ImageFrameProps extends StyleProps, Omit<LynxViewProps, "style"> {
-  style?: CSSProperties;
+export interface ImageFrameProps
+  extends StyleProps,
+    Omit<LynxViewProps, "style">,
+    Pick<LynxStyledElementProps, "style">,
+    Pick<IntrinsicElements["image"], "bindload" | "binderror"> {
   src: string;
   alt: string;
   ratio?: number;
   stroke?: boolean;
   fallback?: React.ReactNode;
-  bindload?: IntrinsicElements["image"]["bindload"];
-  binderror?: IntrinsicElements["image"]["binderror"];
   onLoadingStatusChange?: UseImageProps["onLoadingStatusChange"];
 }
 
@@ -102,8 +108,9 @@ function FrameImage(props: Pick<ImageFrameProps, "src" | "alt" | "bindload" | "b
 }
 
 /** @platform Lynx Native view placement; polymorphic `as` is unsupported. */
-export interface ImageFrameFloaterProps extends Omit<LynxViewProps, "style"> {
-  style?: CSSProperties;
+export interface ImageFrameFloaterProps
+  extends Omit<LynxViewProps, "style">,
+    Pick<LynxStyledElementProps, "style"> {
   placement: NonNullable<ImageFrameVariantProps["placement"]>;
   offsetX?: 0 | StyleProps["width"];
   offsetY?: 0 | StyleProps["height"];
@@ -150,8 +157,10 @@ export const ImageFrameBadge = React.forwardRef<unknown, ImageFrameBadgeProps>(
 ImageFrameBadge.displayName = "ImageFrameBadge";
 
 /** @platform Lynx `svg` accepts a Lynx icon component; native DOM SVG is unsupported. */
-export interface ImageFrameIconProps extends Omit<LynxViewProps, "children" | "style"> {
-  style?: CSSProperties;
+export interface ImageFrameIconProps
+  extends Omit<LynxViewProps, "children" | "style">,
+    Pick<LynxStyledElementProps, "style"> {
+  /** @external */
   children?: never;
   svg: React.ReactElement<LynxIconElementProps>;
 }
@@ -190,6 +199,7 @@ ImageFrameIndicator.displayName = "ImageFrameIndicator";
 export interface ImageFrameReactionButtonProps
   extends UseToggleProps,
     Omit<LynxViewProps, "children"> {
+  /** @external */
   children?: never;
 }
 const { ClassNamesProvider: ReactionClassNamesProvider, useClassNames: useReactionClassNames } =

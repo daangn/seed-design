@@ -1,5 +1,5 @@
 declare interface ImageFrameIndicatorVariant {
-
+  
 }
 
 declare type ImageFrameIndicatorVariantMap = {

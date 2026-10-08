@@ -1,5 +1,5 @@
 declare interface ImageFrameReactionButtonVariant {
-
+  
 }
 
 declare type ImageFrameReactionButtonVariantMap = {

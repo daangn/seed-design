@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
-import type { LynxIconElementProps } from "../../../types";
+import type { LynxIconElementProps } from "../../types";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 import {
@@ -10,8 +10,8 @@ import {
   ImageFrameIndicator,
   ImageFrameIcon,
   ImageFrameReactionButton,
-} from "../ImageFrame";
-import { heartFillSource, heartLineSource } from "../heart-assets";
+} from "./ImageFrame";
+import { heartFillSource, heartLineSource } from "./heart-assets";
 
 vi.mock("@lynx-js/react", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@lynx-js/react")>();

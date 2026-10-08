@@ -1,7 +1,7 @@
 import { runOnBackground, useMainThreadRef } from "@lynx-js/react";
 import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ImageFrameReactionButton } from "../ImageFrame";
+import { ImageFrameReactionButton } from "./ImageFrame";
 
 afterEach(() => {
   vi.restoreAllMocks();
