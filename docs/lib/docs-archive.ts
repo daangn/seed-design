@@ -54,8 +54,12 @@ export function createArchivePaths(channel: string) {
       const legacy = path.match(/^https:\/\/v1-([012])\.seed-design\.io\/react(?=[/?#]|$)(.*)$/);
       if (legacy) return `https://seed-design.io/react/v1.${legacy[1]}${legacy[2]}`;
       if (!prefix || !isLocal(path) || isScoped(path)) return path;
-      if (new RegExp(`^/${platform}(?:[/?#]|$)`).test(path)) {
-        return `${prefix}${path.slice(`/${platform}`.length)}`;
+      const platformPrefix = `/${platform}`;
+      if (
+        path === platformPrefix ||
+        ["/", "?", "#"].some((boundary) => path.startsWith(`${platformPrefix}${boundary}`))
+      ) {
+        return `${prefix}${path.slice(platformPrefix.length)}`;
       }
       if (/^\/(?:llms|__registry__|__docs__|api)(?:[/.?]|$)/.test(path)) {
         return `${prefix}${path}`;
