@@ -26,7 +26,7 @@ bun skills/seed-change/scripts/changeset-plan.ts --base-ref origin/dev
 
 ## bump 확정
 
-1. [version-matrix.md](version-matrix.md)를 읽는다. Lynx `0.x` 정책과 새 공개 패키지의 시작 버전도 거기에 있다.
+1. [version-matrix.md](version-matrix.md)를 읽는다. 새 공개 패키지의 시작 버전도 거기에 있다.
 2. 후보마다 공개 export, 타입, prop, Recipe, 토큰, 렌더 결과, 접근성 동작을 직접 확인하고 `major`, `minor`, `patch`, `안함(제외)` 중 하나를 추천한다.
 3. 역의존 패키지는 version-matrix「실제 소비 패키지 판단」에 해당할 때만 동반 bump 후보로 둔다. 이 판단은 changeset 범위를 정할 뿐 dependency range 편집을 허용하지 않는다.
 4. 패키지마다 추천 bump와 근거를 보여 주고, 현재 요청에서 이미 확정하지 않았으면 확정받는다. 스크립트는 변경 의미, bump, 배포 브랜치를 결정하지 않는다.
