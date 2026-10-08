@@ -21,6 +21,7 @@ SEED는 당근의 디자인 시스템입니다.
 | Lynx | [llms.txt](${new URL("/lynx/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/lynx/llms-full.txt", baseUrl)}) | Lynx 프레임워크 |
 | AI Integration | [llms.txt](${new URL("/ai-integration/llms.txt", baseUrl)}) | [llms-full.txt](${new URL("/ai-integration/llms-full.txt", baseUrl)}) | AI 도구 연동 가이드 |
 | Updates | [llms.txt](${new URL("/updates/llms.txt", baseUrl)}) | - | SEED 업데이트 소식과 릴리즈 노트 |
-| Changelog | [llms.txt](${new URL("/llms/react/updates/changelog.txt", baseUrl)}) | - | 패키지별/버전별 변경 이력 |
+| React Changelog | [llms.txt](${new URL("/llms/react/updates/changelog.txt", baseUrl)}) | - | React 패키지별/버전별 변경 이력 |
+| Lynx Changelog | [llms.txt](${new URL("/llms/lynx/updates/changelog.txt", baseUrl)}) | - | Lynx 패키지별/버전별 변경 이력 |
 `);
 }

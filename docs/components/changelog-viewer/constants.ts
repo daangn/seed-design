@@ -11,3 +11,5 @@ export const PINNED_PACKAGES = [
   "@seed-design/webpack-plugin",
   "@seed-design/rsbuild-plugin",
 ];
+
+export const LYNX_PINNED_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"];
