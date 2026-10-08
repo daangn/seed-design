@@ -148,7 +148,7 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
 );
 BottomSheetRoot.displayName = "BottomSheetRoot";
 
-export interface BottomSheetTriggerProps extends Omit<ViewProps, "main-thread:bindtap"> {}
+export interface BottomSheetTriggerProps extends ViewProps {}
 
 /**
  * tap하면 시트를 여는 native `<view>`입니다. `onOpenChange`에 `"trigger"` reason을 전달합니다. Positioner 밖에 둡니다.
@@ -159,7 +159,7 @@ export const BottomSheetTrigger = React.forwardRef<unknown, BottomSheetTriggerPr
     const { triggerProps } = useBottomSheetTrigger({ bindtap });
 
     return (
-      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...triggerProps}>
+      <view {...triggerProps} {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})}>
         {children}
       </view>
     );
@@ -167,7 +167,7 @@ export const BottomSheetTrigger = React.forwardRef<unknown, BottomSheetTriggerPr
 );
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
 
-export interface BottomSheetCloseButtonProps extends Omit<ViewProps, "main-thread:bindtap"> {}
+export interface BottomSheetCloseButtonProps extends ViewProps {}
 
 /**
  * tap하면 시트를 닫는 native `<view>`입니다. `onOpenChange`에 `"closeButton"` reason을 전달합니다.
@@ -179,9 +179,9 @@ export const BottomSheetCloseButton = React.forwardRef<unknown, BottomSheetClose
 
     return (
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...closeButtonProps}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
       >
         {children}
       </view>

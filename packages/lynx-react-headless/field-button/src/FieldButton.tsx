@@ -66,8 +66,8 @@ function renderPressableView(
   return (
     <view
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      {...otherProps}
       {...pressableProps}
+      {...otherProps}
       bindtouchstart={(event) => {
         bindtouchstart?.(event);
         pressStart(event);

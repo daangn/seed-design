@@ -8,14 +8,7 @@ import clsx from "clsx";
 
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxTouchProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 
 type BadgeClassNames = Record<BadgeSlotName, string>;
 
@@ -29,7 +22,7 @@ function useBadgeClassNames(consumer: string): BadgeClassNames {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BadgeRootProps extends BadgeVariantProps, LynxStyledElementProps {}
+export interface BadgeRootProps extends BadgeVariantProps, LynxHostProps<"view"> {}
 
 export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) => {
   const [variantProps, otherProps] = badge.splitVariantProps(props);
@@ -51,7 +44,7 @@ BadgeRoot.displayName = "BadgeRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BadgePrefixProps extends LynxStyledElementProps {}
+export interface BadgePrefixProps extends LynxHostProps<"view"> {}
 
 export const BadgePrefix = React.forwardRef<unknown, BadgePrefixProps>((props, ref) => {
   const classes = useBadgeClassNames("BadgePrefix");
@@ -70,7 +63,7 @@ BadgePrefix.displayName = "BadgePrefix";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BadgeLabelProps extends LynxStyledElementProps {}
+export interface BadgeLabelProps extends LynxHostProps<"text"> {}
 
 export const BadgeLabel = React.forwardRef<unknown, BadgeLabelProps>((props, ref) => {
   const classes = useBadgeClassNames("BadgeLabel");
@@ -89,37 +82,27 @@ BadgeLabel.displayName = "BadgeLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BadgeActionProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxTouchProps,
-    LynxAccessibilityProps {}
+export interface BadgeActionProps extends LynxHostProps<"view"> {}
 
 export const BadgeAction = React.forwardRef<unknown, BadgeActionProps>((props, ref) => {
   const classes = useBadgeClassNames("BadgeAction");
-  const {
-    children,
-    className,
-    "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits = "button",
-    ...nativeProps
-  } = props;
+  const { children, className, ...nativeProps } = props;
   const { scaleFeedbackTargetProps, scaleFeedbackTriggerProps } = useScaleFeedback();
 
   return (
     <view
       {...mergeProps(
+        {
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-traits": "button",
+        } as const,
         ref ? { ref: ref as LynxViewRef } : {},
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         nativeProps,
-        mainThreadBindtap ? { "main-thread:bindtap": mainThreadBindtap } : {},
       )}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits}
       className={clsx(classes.action, className)}
-      flatten={false}
     >
       {children}
     </view>

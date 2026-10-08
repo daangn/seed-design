@@ -98,8 +98,6 @@ export const FileUploadTrigger = React.forwardRef<NodesRef, FileUploadTriggerPro
       "main-thread:bindtouchstart": mainThreadBindtouchstart,
       "main-thread:bindtouchend": mainThreadBindtouchend,
       "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-      "accessibility-element": accessibilityElement,
-      "accessibility-traits": accessibilityTraits,
       bindtouchstart,
       bindtouchend,
       bindtouchcancel,
@@ -111,8 +109,6 @@ export const FileUploadTrigger = React.forwardRef<NodesRef, FileUploadTriggerPro
       "main-thread:bindtouchstart": mainThreadBindtouchstart,
       "main-thread:bindtouchend": mainThreadBindtouchend,
       "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
-      "accessibility-element": accessibilityElement,
-      "accessibility-traits": accessibilityTraits,
     });
     const {
       bindtouchstart: pressStart,
@@ -123,8 +119,8 @@ export const FileUploadTrigger = React.forwardRef<NodesRef, FileUploadTriggerPro
     return (
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...triggerProps}
+        {...nativeProps}
         bindtouchstart={(event: TouchEvent) => {
           bindtouchstart?.(event);
           pressStart(event);
@@ -185,7 +181,7 @@ export const FileUploadItemSize = React.forwardRef<NodesRef, FileUploadItemSizeP
 );
 FileUploadItemSize.displayName = "FileUploadItemSize";
 
-export interface FileUploadItemImageProps extends Omit<ImageProps, "src" | "children"> {}
+export interface FileUploadItemImageProps extends ImageProps {}
 
 /**
  * 이미지 미리보기를 표시하는 무스타일 native `<image>`입니다. item에 `imageProps`가 없으면 렌더링하지 않습니다.
@@ -193,7 +189,7 @@ export interface FileUploadItemImageProps extends Omit<ImageProps, "src" | "chil
  */
 export const FileUploadItemImage = React.forwardRef<NodesRef, FileUploadItemImageProps>(
   (props, ref) => {
-    const { "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+    const { children, ...nativeProps } = props;
     const { imageProps } = useFileUploadItemContext();
     if (!imageProps) return null;
 
@@ -201,9 +197,11 @@ export const FileUploadItemImage = React.forwardRef<NodesRef, FileUploadItemImag
       <image
         {...(ref ? { ref: ref as ImageProps["ref"] } : {})}
         src={imageProps.src}
-        accessibility-label={accessibilityLabel ?? imageProps.alt}
+        accessibility-label={imageProps.alt}
         {...nativeProps}
-      />
+      >
+        {children}
+      </image>
     );
   },
 );
@@ -248,8 +246,6 @@ export const FileUploadItemRemoveButton = React.forwardRef<
     "main-thread:bindtouchstart": mainThreadOnTouchStart,
     "main-thread:bindtouchend": mainThreadOnTouchEnd,
     "main-thread:bindtouchcancel": mainThreadOnTouchCancel,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits,
     bindtouchstart,
     bindtouchend,
     bindtouchcancel,
@@ -278,10 +274,10 @@ export const FileUploadItemRemoveButton = React.forwardRef<
   return (
     <view
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits ?? (readOnly ? "disabled" : "button")}
-      {...nativeProps}
+      accessibility-element={true}
+      accessibility-traits={readOnly ? "disabled" : "button"}
       {...pressProps}
+      {...nativeProps}
       bindtouchstart={(event: TouchEvent) => {
         bindtouchstart?.(event);
         pressStart(event);

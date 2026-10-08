@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
-import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { NodesRef } from "@lynx-js/types";
 import {
   attachmentInput,
   type AttachmentInputVariantProps,
@@ -31,12 +31,7 @@ import {
   type DisplayItemStatusDetails,
   type UseAttachmentDisplayProps,
 } from "@seed-design/lynx-react-attachment-display";
-import type {
-  LynxAccessibilityProps,
-  LynxIconElementProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-} from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
@@ -54,11 +49,6 @@ export type AttachmentDisplayStatusDetails = DisplayItemStatusDetails;
 export type AttachmentDisplayEntry = DisplayItemEntry;
 export type AttachmentDisplayProps = UseAttachmentDisplayProps;
 
-type NativeScrollViewProps = Omit<
-  IntrinsicElements["scroll-view"],
-  "children" | "className" | "style"
->;
-
 const { ClassNamesProvider: RootClassNamesProvider, useClassNames: useRootClassNames } =
   createSlotRecipeContext(attachmentInput);
 const { ClassNamesProvider: TriggerClassNamesProvider, useClassNames: useTriggerClassNames } =
@@ -71,7 +61,7 @@ const { ClassNamesProvider: LabelClassNamesProvider, useClassNames: useLabelClas
 export interface AttachmentDisplayRootProps
   extends AttachmentDisplayProps,
     AttachmentInputVariantProps,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 /**
  * `@seed-design/lynx-react-attachment-display`의 `AttachmentDisplayRoot`에 SEED recipe를 조립합니다.
@@ -99,12 +89,12 @@ AttachmentDisplayRoot.displayName = "AttachmentDisplayRoot";
 
 export interface AttachmentDisplayControlProps
   extends AttachmentInputVariantProps,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const AttachmentDisplayControl = React.forwardRef<NodesRef, AttachmentDisplayControlProps>(
   (props, ref) => {
-    const { children, className, ...nativeProps } = props;
-    const [variantProps] = attachmentInput.splitVariantProps(props);
+    const [variantProps, otherProps] = attachmentInput.splitVariantProps(props);
+    const { children, className, ...nativeProps } = otherProps;
     const classes = attachmentInput(variantProps);
     return (
       <view
@@ -118,9 +108,7 @@ export const AttachmentDisplayControl = React.forwardRef<NodesRef, AttachmentDis
 );
 AttachmentDisplayControl.displayName = "AttachmentDisplayControl";
 
-export interface AttachmentDisplayContainerProps
-  extends LynxStyledElementProps,
-    Omit<NativeScrollViewProps, "scroll-orientation" | "scroll-bar-enable"> {}
+export interface AttachmentDisplayContainerProps extends LynxHostProps<"scroll-view"> {}
 
 export const AttachmentDisplayContainer = React.forwardRef<
   NodesRef,
@@ -130,9 +118,11 @@ export const AttachmentDisplayContainer = React.forwardRef<
   const classes = useRootClassNames();
   return (
     <scroll-view
-      {...mergeProps(ref ? { ref } : {}, nativeProps)}
-      scroll-orientation="horizontal"
-      scroll-bar-enable={false}
+      {...mergeProps(
+        { "scroll-orientation": "horizontal" as const, "scroll-bar-enable": false },
+        nativeProps,
+        ref ? { ref } : {},
+      )}
       className={clsx(classes.container, className)}
     >
       <view className={classes.containerContent}>{children}</view>
@@ -141,7 +131,7 @@ export const AttachmentDisplayContainer = React.forwardRef<
 });
 AttachmentDisplayContainer.displayName = "AttachmentDisplayContainer";
 
-export const AttachmentDisplayItemGroup = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemGroup = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useRootClassNames();
@@ -157,7 +147,7 @@ export const AttachmentDisplayItemGroup = React.forwardRef<NodesRef, LynxStyledE
 );
 AttachmentDisplayItemGroup.displayName = "AttachmentDisplayItemGroup";
 
-export const AttachmentDisplayFooter = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayFooter = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const context = useAttachmentDisplayContext();
@@ -173,17 +163,17 @@ export const AttachmentDisplayFooter = React.forwardRef<NodesRef, LynxStyledElem
 );
 AttachmentDisplayFooter.displayName = "AttachmentDisplayFooter";
 
-export const AttachmentDisplayDescription = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayDescription = React.forwardRef<NodesRef, LynxHostProps<"text">>(
   (props, ref) => <HeadlessAttachmentDisplayDescription ref={ref} {...props} />,
 );
 AttachmentDisplayDescription.displayName = "AttachmentDisplayDescription";
 
-export const AttachmentDisplayErrorMessage = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayErrorMessage = React.forwardRef<NodesRef, LynxHostProps<"text">>(
   (props, ref) => <HeadlessAttachmentDisplayErrorMessage ref={ref} {...props} />,
 );
 AttachmentDisplayErrorMessage.displayName = "AttachmentDisplayErrorMessage";
 
-export interface AttachmentDisplayHeaderProps extends LynxStyledElementProps {}
+export interface AttachmentDisplayHeaderProps extends LynxHostProps<"view"> {}
 export const AttachmentDisplayHeader = React.forwardRef<NodesRef, AttachmentDisplayHeaderProps>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
@@ -202,7 +192,7 @@ AttachmentDisplayHeader.displayName = "AttachmentDisplayHeader";
 
 export interface AttachmentDisplayLabelProps
   extends FieldLabelVariantProps,
-    LynxStyledElementProps {}
+    LynxHostProps<"text"> {}
 export const AttachmentDisplayLabel = React.forwardRef<NodesRef, AttachmentDisplayLabelProps>(
   (props, ref) => {
     const [variantProps, otherProps] = fieldLabel.splitVariantProps(props);
@@ -223,7 +213,7 @@ export const AttachmentDisplayLabel = React.forwardRef<NodesRef, AttachmentDispl
 );
 AttachmentDisplayLabel.displayName = "AttachmentDisplayLabel";
 
-export interface AttachmentDisplayIndicatorTextProps extends LynxStyledElementProps {}
+export interface AttachmentDisplayIndicatorTextProps extends LynxHostProps<"text"> {}
 export const AttachmentDisplayIndicatorText = React.forwardRef<
   NodesRef,
   AttachmentDisplayIndicatorTextProps
@@ -243,7 +233,7 @@ export const AttachmentDisplayIndicatorText = React.forwardRef<
 });
 AttachmentDisplayIndicatorText.displayName = "AttachmentDisplayIndicatorText";
 
-export interface AttachmentDisplayRequiredIndicatorProps extends LynxStyledElementProps {}
+export interface AttachmentDisplayRequiredIndicatorProps extends LynxHostProps<"text"> {}
 export const AttachmentDisplayRequiredIndicator = React.forwardRef<
   NodesRef,
   AttachmentDisplayRequiredIndicatorProps
@@ -253,8 +243,12 @@ export const AttachmentDisplayRequiredIndicator = React.forwardRef<
   const context = useAttachmentDisplayContext();
   return (
     <text
-      {...mergeProps(ref ? { ref } : {}, context.stateProps, nativeProps)}
-      accessibility-elements-hidden={true}
+      {...mergeProps(
+        { "accessibility-elements-hidden": true },
+        context.stateProps,
+        nativeProps,
+        ref ? { ref } : {},
+      )}
       className={clsx(classes.indicatorIcon, className)}
     >
       {"\u200a"}
@@ -266,9 +260,8 @@ AttachmentDisplayRequiredIndicator.displayName = "AttachmentDisplayRequiredIndic
 
 export interface AttachmentDisplayTriggerProps
   extends AttachmentInputTriggerVariantProps,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 /**
  * `useAttachmentDisplayTrigger`의 눌림 상태·`triggerDisabled` 차단·접근성 위에 SEED recipe를 조립합니다.
@@ -303,10 +296,17 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
     return (
       <TriggerClassNamesProvider value={classes}>
         <view
-          {...mergeProps(ref ? { ref } : {}, trigger.triggerProps, nativeProps, context.stateProps)}
-          accessibility-label={accessibilityLabel}
-          accessibility-role-description={accessibilityRoleDescription}
-          flatten={false}
+          {...mergeProps(
+            { flatten: false },
+            context.stateProps,
+            trigger.triggerProps,
+            nativeProps,
+            {
+              "accessibility-label": accessibilityLabel,
+              "accessibility-role-description": accessibilityRoleDescription,
+            },
+            ref ? { ref } : {},
+          )}
           className={clsx(classes.root, className)}
         >
           {children}
@@ -317,7 +317,7 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
 );
 AttachmentDisplayTrigger.displayName = "AttachmentDisplayTrigger";
 
-export interface AttachmentDisplayTriggerIconProps extends LynxStyledElementProps {
+export interface AttachmentDisplayTriggerIconProps extends LynxHostProps<"view"> {
   image?: React.ReactNode;
 }
 export const AttachmentDisplayTriggerIcon = React.forwardRef<
@@ -332,17 +332,15 @@ export const AttachmentDisplayTriggerIcon = React.forwardRef<
   return (
     <InternalIcon
       icon={icon}
-      ref={ref}
-      {...nativeProps}
+      {...mergeProps({ "accessibility-elements-hidden": true }, nativeProps, ref ? { ref } : {})}
       className={clsx(classes.icon, className)}
-      accessibility-elements-hidden={true}
       deps={[context.triggerDisabled]}
     />
   );
 });
 AttachmentDisplayTriggerIcon.displayName = "AttachmentDisplayTriggerIcon";
 
-export interface AttachmentDisplayTriggerItemCountProps extends LynxStyledElementProps {}
+export interface AttachmentDisplayTriggerItemCountProps extends LynxHostProps<"view"> {}
 export const AttachmentDisplayTriggerItemCount = React.forwardRef<
   NodesRef,
   AttachmentDisplayTriggerItemCountProps
@@ -373,7 +371,7 @@ AttachmentDisplayTriggerItemCount.displayName = "AttachmentDisplayTriggerItemCou
 
 export interface AttachmentDisplayItemProps
   extends Omit<AttachmentInputItemVariantProps, "type">,
-    LynxStyledElementProps {
+    LynxHostProps<"view"> {
   entry: AttachmentDisplayEntry;
 }
 export const AttachmentDisplayItem = React.forwardRef<NodesRef, AttachmentDisplayItemProps>(
@@ -409,7 +407,7 @@ export const AttachmentDisplayItem = React.forwardRef<NodesRef, AttachmentDispla
 );
 AttachmentDisplayItem.displayName = "AttachmentDisplayItem";
 
-export const AttachmentDisplayItemSurface = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemSurface = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useItemClassNames();
@@ -425,7 +423,7 @@ export const AttachmentDisplayItemSurface = React.forwardRef<NodesRef, LynxStyle
 );
 AttachmentDisplayItemSurface.displayName = "AttachmentDisplayItemSurface";
 
-export const AttachmentDisplayItemImage = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemImage = React.forwardRef<NodesRef, LynxHostProps<"image">>(
   (props, ref) => {
     const { className, ...nativeProps } = props;
     const classes = useItemClassNames();
@@ -440,7 +438,7 @@ export const AttachmentDisplayItemImage = React.forwardRef<NodesRef, LynxStyledE
 );
 AttachmentDisplayItemImage.displayName = "AttachmentDisplayItemImage";
 
-export const AttachmentDisplayItemThumbnail = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemThumbnail = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useItemClassNames();
@@ -464,7 +462,7 @@ export const AttachmentDisplayItemThumbnail = React.forwardRef<NodesRef, LynxSty
 );
 AttachmentDisplayItemThumbnail.displayName = "AttachmentDisplayItemThumbnail";
 
-export const AttachmentDisplayItemMetadata = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemMetadata = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useItemClassNames();
@@ -480,7 +478,7 @@ export const AttachmentDisplayItemMetadata = React.forwardRef<NodesRef, LynxStyl
 );
 AttachmentDisplayItemMetadata.displayName = "AttachmentDisplayItemMetadata";
 
-export const AttachmentDisplayItemBadge = React.forwardRef<NodesRef, LynxStyledElementProps>(
+export const AttachmentDisplayItemBadge = React.forwardRef<NodesRef, LynxHostProps<"view">>(
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useItemClassNames();
@@ -497,7 +495,7 @@ export const AttachmentDisplayItemBadge = React.forwardRef<NodesRef, LynxStyledE
 AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 
 export interface AttachmentDisplayItemActionButtonProps
-  extends LynxStyledElementProps,
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 export const AttachmentDisplayItemActionButton = React.forwardRef<
   NodesRef,
@@ -543,7 +541,7 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
 AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButton";
 
 export interface AttachmentDisplayItemBackdropProps
-  extends Omit<LynxStyledElementProps, "children"> {
+  extends Omit<LynxHostProps<"view">, "children"> {
   status: AttachmentDisplayEntry["status"];
   children?: React.ReactNode | ((entry: AttachmentDisplayEntry) => React.ReactNode);
 }
@@ -564,9 +562,8 @@ export const AttachmentDisplayItemBackdrop = React.forwardRef<
 AttachmentDisplayItemBackdrop.displayName = "AttachmentDisplayItemBackdrop";
 
 export interface AttachmentDisplayItemRemoveButtonProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 /**
  * `AttachmentDisplayItemRemoveButton`의 삭제·`readOnly` 차단·접근성 위에 SEED recipe와 아이콘 slot을 조립합니다.
  */
@@ -595,14 +592,16 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
     >
       <HeadlessAttachmentDisplayItemRemoveButton
         {...mergeProps(
-          ref ? { ref } : {},
+          {
+            flatten: false,
+            "accessibility-role-description": accessibilityRoleDescription,
+          },
+          context.stateProps,
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
           removeProps,
-          context.stateProps,
+          ref ? { ref } : {},
         )}
-        accessibility-role-description={accessibilityRoleDescription}
-        flatten={false}
         className={clsx(classes.removeButton, className)}
       >
         {children}

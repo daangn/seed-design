@@ -29,12 +29,7 @@ import {
 import clsx from "clsx";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
-import type {
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -127,21 +122,22 @@ BottomSheetRoot.displayName = "BottomSheetRoot";
 // Trigger
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetTriggerProps
-  extends LynxStyledElementProps,
-    Pick<LynxPressableProps, "bindtap"> {}
+export interface BottomSheetTriggerProps extends LynxHostProps<"view"> {}
 
 export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTriggerProps> =
   forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
-    const { children, className, style, bindtap } = props;
-    const { triggerProps } = useBottomSheetTrigger({ bindtap });
+    const { children, className, style, ...nativeProps } = props;
+    const { triggerProps } = useBottomSheetTrigger();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-        {...triggerProps}
+        {...mergeProps(
+          triggerProps,
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={className}
-        style={style as never}
       >
         {children}
       </view>
@@ -262,20 +258,23 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 // (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetSlotProps extends LynxStyledElementProps {}
+export interface BottomSheetSlotProps extends LynxHostProps<"view"> {}
 
 function createViewSlot(
   slotName: keyof BottomSheetClassNames,
 ): LynxForwardRefComponent<unknown, BottomSheetSlotProps> {
   const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+    const { children, className, style, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </view>
@@ -286,16 +285,19 @@ function createViewSlot(
 
 function createTextSlot(
   slotName: keyof BottomSheetClassNames,
-): LynxForwardRefComponent<unknown, BottomSheetSlotProps> {
-  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+): LynxForwardRefComponent<unknown, LynxHostProps<"text">> {
+  const Slot = forwardRef<unknown, LynxHostProps<"text">>((props, ref) => {
+    const { children, className, style, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </text>
@@ -315,10 +317,10 @@ export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
 export const BottomSheetFooter = createViewSlot("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
-export interface BottomSheetTitleProps extends BottomSheetSlotProps {}
+export interface BottomSheetTitleProps extends LynxHostProps<"text"> {}
 export const BottomSheetTitle = createTextSlot("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
-export interface BottomSheetDescriptionProps extends BottomSheetSlotProps {}
+export interface BottomSheetDescriptionProps extends LynxHostProps<"text"> {}
 export const BottomSheetDescription = createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";

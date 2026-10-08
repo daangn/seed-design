@@ -4,7 +4,7 @@ import { useToggle, type UseToggleProps } from "./useToggle.js";
 import { ToggleProvider } from "./useToggleContext.js";
 
 type ViewProps = IntrinsicElements["view"];
-export interface ToggleRootProps extends UseToggleProps, ViewProps {}
+export interface ToggleRootProps extends UseToggleProps, Omit<ViewProps, keyof UseToggleProps> {}
 
 export const ToggleRoot = React.forwardRef<unknown, ToggleRootProps>((props, ref) => {
   const {
@@ -44,9 +44,9 @@ export const ToggleRoot = React.forwardRef<unknown, ToggleRootProps>((props, ref
   return (
     <ToggleProvider value={api}>
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...rootProps}
         {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           pressStart(event);

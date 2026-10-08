@@ -11,7 +11,7 @@ import {
 } from "@seed-design/lynx-react-text-field";
 import clsx from "clsx";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxHostProps, LynxStyledElementProps, LynxTextRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
@@ -53,7 +53,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput)
 export interface TextFieldRootProps
   extends Omit<TextInputVariantProps, "focused">,
     UseTextFieldProps,
-    LynxStyledElementProps {}
+    Omit<LynxHostProps<"view">, keyof TextInputVariantProps | keyof UseTextFieldProps> {}
 
 export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
   (props, forwardedRef) => {
@@ -115,22 +115,7 @@ TextFieldRoot.displayName = "TextFieldRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-type NativeInputProps = IntrinsicElements["input"];
 type NativeTextareaProps = IntrinsicElements["textarea"];
-
-interface NativeTextControlProps
-  extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps,
-    Pick<
-      NativeInputProps,
-      | "id"
-      | "name"
-      | "hidden"
-      | "flatten"
-      | "focusable"
-      | "bindlayoutchange"
-      | "main-thread:bindlayoutchange"
-    > {}
 
 function getReadOnlyTextStyle({
   style,
@@ -144,7 +129,6 @@ function getReadOnlyTextStyle({
   multiline: boolean;
 }): LynxStyledElementProps["style"] {
   return {
-    ...style,
     ...(multiline ? { whiteSpace: "normal", wordBreak: "break-all" } : { alignSelf: "center" }),
     ...(placeholder
       ? {
@@ -153,6 +137,7 @@ function getReadOnlyTextStyle({
             : textInputVars.base.enabled.placeholder.color,
         }
       : {}),
+    ...style,
   };
 }
 
@@ -162,32 +147,13 @@ function getReadOnlyTextStyle({
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldInputProps
-  extends NativeTextControlProps,
-    Pick<
-      NativeInputProps,
-      | "placeholder"
-      | "confirm-type"
-      | "maxlength"
-      | "readonly"
-      | "disabled"
-      | "input-filter"
-      | "type"
-      | "ios-auto-correct"
-      | "ios-spell-check"
-      | "android-fullscreen-mode"
-      | "bindfocus"
-      | "bindblur"
-      | "bindconfirm"
-      | "bindinput"
-      | "bindselection"
-    > {
+export interface TextFieldInputProps extends Omit<LynxHostProps<"input">, "children"> {
   /**
    * 포커스할 때 시스템 키보드를 표시한다.
    * `undefined`가 native attribute로 전달되지 않도록 `true`를 명시적으로 적용한다.
    * @defaultValue true
    */
-  "show-soft-input-on-focus"?: NativeInputProps["show-soft-input-on-focus"];
+  "show-soft-input-on-focus"?: LynxHostProps<"input">["show-soft-input-on-focus"];
   /**
    * Android host window의 soft input mode를 지정한다.
    * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
@@ -235,33 +201,12 @@ TextFieldInput.displayName = "TextFieldInput";
  * `readOnly` 상태에서는 native focus·selection·편집 메뉴를 제거하기 위해 `<text>`로 렌더링한다.
  * 이때 ref는 `<text>`를 가리키며 textarea 전용 UI method와 이벤트는 사용할 수 없다.
  */
-export interface TextFieldTextareaProps
-  extends NativeTextControlProps,
-    Pick<
-      NativeTextareaProps,
-      | "placeholder"
-      | "confirm-type"
-      | "maxlength"
-      | "maxlines"
-      | "bounces"
-      | "readonly"
-      | "disabled"
-      | "input-filter"
-      | "enable-scroll-bar"
-      | "type"
-      | "ios-auto-correct"
-      | "ios-spell-check"
-      | "bindfocus"
-      | "bindblur"
-      | "bindconfirm"
-      | "bindinput"
-      | "bindselection"
-    > {
+export interface TextFieldTextareaProps extends Omit<LynxHostProps<"textarea">, "children"> {
   /** 내용에 맞춰 높이를 자동으로 조절한다. @defaultValue true */
   autoresize?: boolean;
   /**
-   * native 줄 간격을 지정한다. 생략하면 Android에서 SEED 기본 typography를 맞추기 위해
-   * `3.2px`를 적용하고 iOS에는 전달하지 않는다. Android 기본 보정은 `0`으로 해제할 수 있다.
+   * 생략하면 Android에서 SEED typography 보정을 위해 `3.2px`를 적용한다.
+   * Android 기본 보정은 `0`으로 해제할 수 있다.
    */
   "line-spacing"?: NativeTextareaProps["line-spacing"];
   /**
@@ -404,7 +349,7 @@ export const TextFieldPrefixIcon = React.forwardRef<unknown, TextFieldPrefixIcon
 );
 TextFieldPrefixIcon.displayName = "TextFieldPrefixIcon";
 
-export interface TextFieldPrefixTextProps extends LynxStyledElementProps {}
+export interface TextFieldPrefixTextProps extends LynxHostProps<"text"> {}
 
 export const TextFieldPrefixText = React.forwardRef<unknown, TextFieldPrefixTextProps>(
   (props, ref) => {
@@ -440,7 +385,7 @@ export const TextFieldSuffixIcon = React.forwardRef<unknown, TextFieldSuffixIcon
 );
 TextFieldSuffixIcon.displayName = "TextFieldSuffixIcon";
 
-export interface TextFieldSuffixTextProps extends LynxStyledElementProps {}
+export interface TextFieldSuffixTextProps extends LynxHostProps<"text"> {}
 
 export const TextFieldSuffixText = React.forwardRef<unknown, TextFieldSuffixTextProps>(
   (props, ref) => {

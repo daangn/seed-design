@@ -79,9 +79,9 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
   return (
     <PageBannerProvider value={api}>
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...rootProps}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...touchProps}
       >
         {children}
@@ -114,9 +114,9 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
   return (
     <view
       {...getIndependentActionProps({
+        ...buttonProps,
         ...nativeProps,
         ...(ref ? { ref: ref as ViewProps["ref"] } : {}),
-        ...buttonProps,
       })}
     >
       {children}
@@ -164,9 +164,9 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
     return (
       <view
         {...getIndependentActionProps({
+          ...closeButtonProps,
           ...nativeProps,
           ...(ref ? { ref: ref as ViewProps["ref"] } : {}),
-          ...closeButtonProps,
           bindtouchstart: composeTouch(bindtouchstart, closeButtonProps.bindtouchstart),
           bindtouchend: composeTouch(bindtouchend, closeButtonProps.bindtouchend),
           bindtouchcancel: composeTouch(bindtouchcancel, closeButtonProps.bindtouchcancel),

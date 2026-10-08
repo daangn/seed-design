@@ -72,9 +72,9 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
   return (
     <CalloutProvider value={api}>
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...rootProps}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         {...touchProps}
       >
         {children}
@@ -111,9 +111,9 @@ export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonPr
 
     return (
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...closeButtonProps}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
       >
         {children}
       </view>

@@ -160,7 +160,7 @@ export function App() {
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx Badge는 React Badge와 같은 `size`, `variant`, `tone` 표면을 사용하지만, 네이티브 `<view>` root와 `<text>` label을 렌더링합니다. HTML span attribute는 제공하지 않으며, `@seed-design/lynx-react`의 `Badge.Root`도 `asChild`를 지원하지 않습니다.
+Lynx Badge는 React Badge와 같은 `size`, `variant`, `tone` 표면을 사용하지만, 네이티브 `<view>` root와 `<text>` label을 렌더링합니다. HTML span attribute 대신 각 파트가 렌더링하는 native 요소의 속성(`id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트, `data-*` 등)을 받으며, `@seed-design/lynx-react`의 `Badge.Root`는 `asChild`를 지원하지 않습니다.
 
-Action은 `<button>` 대신 `accessibility-traits="button"`을 가진 네이티브 `<view>`로 렌더링합니다.
+Action은 `<button>` 대신 `accessibility-traits="button"`을 가진 네이티브 `<view>`로 렌더링합니다. 컴포넌트가 정한 `accessibility-traits`·`flatten` 같은 값과 같은 속성을 넘기면 넘긴 값이 이기므로, 덮어쓸 때는 버튼으로 읽히는지 직접 확인하세요.
 </Callout>

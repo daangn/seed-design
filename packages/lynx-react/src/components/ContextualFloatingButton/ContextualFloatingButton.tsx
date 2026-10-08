@@ -7,14 +7,7 @@ import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxElementProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTouchProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxElementProps, LynxHostProps, LynxPressableProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
@@ -30,11 +23,7 @@ type ContextualFloatingButtonPublicVariantProps = Omit<
 
 interface ContextualFloatingButtonRootProps
   extends ContextualFloatingButtonVariantProps,
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxTouchProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    LynxHostProps<"view"> {}
 
 const ContextualFloatingButtonRoot = React.forwardRef<unknown, ContextualFloatingButtonRootProps>(
   (innerProps, ref) => {
@@ -157,9 +146,8 @@ function ContextualFloatingButtonLoadingIndicator() {
 export interface ContextualFloatingButtonProps
   extends ContextualFloatingButtonPublicVariantProps,
     Pick<UseActionButtonProps, "disabled" | "loading">,
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloatingButtonProps>(
   (props, ref) => {
@@ -208,7 +196,12 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
       <IconRequired enabled={layout === "iconOnly"}>
         <ContextualFloatingButtonRoot
           {...mergeProps(
-            { ref },
+            {
+              flatten: false,
+              "accessibility-label": accessibilityLabel,
+              "accessibility-role-description": accessibilityRoleDescription,
+            },
+            ref ? { ref } : {},
             scaleFeedbackTargetProps,
             scaleFeedbackTriggerProps,
             rootProps,
@@ -216,9 +209,6 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
           )}
           {...variantProps}
           pressed={api.pressed}
-          accessibility-label={accessibilityLabel}
-          accessibility-role-description={accessibilityRoleDescription}
-          flatten={false}
         >
           {api.loading ? <ContextualFloatingButtonLoadingIndicator /> : null}
           <ContextualFloatingButtonContent isIconOnly={layout === "iconOnly"}>

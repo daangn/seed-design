@@ -9,7 +9,7 @@ import {
   type Provider,
   type Ref,
 } from "@lynx-js/react";
-import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
 import {
   createKeyboardAvoidingEngine,
@@ -19,6 +19,7 @@ import {
 } from "./engine.js";
 import { lynxKeyboardEventSource } from "./keyboard-event-source.js";
 import { lynxKeyboardAvoidingNativeDriver } from "./native-driver.js";
+import { mergeStyle } from "./mergeStyle.js";
 import { useComposedNodeRef, type NodeRefObject } from "./useComposedNodeRef.js";
 import type { UseKeyboardAvoidingScrollViewContext } from "./useKeyboardAvoidingScrollViewContext.js";
 
@@ -51,9 +52,9 @@ export interface KeyboardAvoidanceRegistration {
 export interface UseKeyboardAvoidingScrollViewProps {
   /** Root `<view>`와 함께 연결할 ref입니다. */
   ref?: Ref<NodesRef>;
-  /** Root `<view>`의 style입니다. Content와 Footer를 세로로 배치하는 `display`·`flexDirection`은 덮어쓸 수 없습니다. */
-  style?: CSSProperties;
-  /** Root 위치·크기가 바뀌어 회피 위치 재계산을 예약한 뒤 호출됩니다. */
+  /** Root `<view>`의 style입니다. 기본 `display`·`flexDirection`보다 사용자 값이 우선합니다. */
+  style?: ViewProps["style"];
+  /** 사용자 handler를 호출하고 Root 위치·크기 변화에 따른 회피 위치 재계산을 예약합니다. */
   bindlayoutchange?: ViewProps["bindlayoutchange"];
   /**
    * 키보드와 활성 입력 영역 사이에 확보할 간격(px)입니다. Footer가 있으면 Footer와 활성 입력 영역 사이의 간격입니다.
@@ -88,10 +89,10 @@ export interface UseKeyboardAvoidingScrollViewReturn {
   /** Content 안의 입력이 등록할 때 쓰는 Provider 값입니다. 엔진이 살아 있는 동안 같은 객체입니다. */
   context: UseKeyboardAvoidingScrollViewContext;
   rootContext: KeyboardAvoidingScrollViewRootContextValue;
-  /** Root `<view>`에 마지막으로 펼칩니다. 회피 상태를 먼저 갱신한 뒤 사용자 handler를 호출합니다. */
+  /** Root `<view>`의 기본 props입니다. style은 사용자 값이 우선하며 layout handler와 ref는 합성됩니다. */
   rootProps: {
     ref: Ref<NodesRef>;
-    style: CSSProperties;
+    style: NonNullable<ViewProps["style"]>;
     bindlayoutchange: LayoutChangeHandler;
     flatten: false;
   };
@@ -292,14 +293,14 @@ export function useKeyboardAvoidingScrollView(
     (...args) => {
       "background only";
 
-      engine.viewportChanged();
       userBindLayoutChange?.(...args);
+      engine.viewportChanged();
     },
     [engine, userBindLayoutChange],
   );
 
-  const rootStyle = useMemo<CSSProperties>(
-    () => ({ ...style, display: "flex", flexDirection: "column" }),
+  const rootStyle = useMemo(
+    () => mergeStyle({ display: "flex", flexDirection: "column" }, style),
     [style],
   );
 

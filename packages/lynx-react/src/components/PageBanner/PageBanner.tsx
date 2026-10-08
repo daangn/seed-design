@@ -6,18 +6,13 @@ import {
   usePageBannerButton,
   usePageBannerCloseButton,
   type UsePageBannerProps,
+  type UsePageBannerCloseButtonProps,
 } from "@seed-design/lynx-react-page-banner";
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
 import { toArray } from "../../utils/children";
@@ -40,10 +35,19 @@ const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
  */
 export interface PageBannerRootProps
   extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
-    Pick<UsePageBannerProps, "defaultOpen" | "open" | "onDismiss">,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Pick<
+      UsePageBannerProps,
+      "defaultOpen" | "open" | "onDismiss" | "bindtap" | "main-thread:bindtap"
+    >,
+    Omit<
+      LynxHostProps<"view">,
+      | keyof PageBannerVariantProps
+      | "defaultOpen"
+      | "open"
+      | "onDismiss"
+      | "bindtap"
+      | "main-thread:bindtap"
+    > {}
 
 export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((props, ref) => {
   if (
@@ -60,14 +64,11 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
   const {
     children,
     className,
-    style,
     defaultOpen,
     open,
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
-    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
   const api = usePageBanner({
@@ -76,8 +77,8 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
-    "accessibility-traits": accessibilityTraits,
+    "accessibility-element": nativeProps["accessibility-element"],
+    "accessibility-traits": nativeProps["accessibility-traits"],
   });
   const { interactive, pressed, rootProps } = api;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
@@ -116,13 +117,12 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
           <IconSlotProvider value={iconSlotContextValue}>
             <view
               {...mergeProps(
-                ref ? { ref: ref as LynxViewRef } : {},
                 rootProps,
                 interactive ? scaleFeedbackTriggerProps : {},
                 nativeProps,
+                ref ? { ref: ref as LynxViewRef } : {},
               )}
               className={clsx(classNames.root, className)}
-              style={style}
             >
               {interactive ? (
                 <>
@@ -145,17 +145,16 @@ PageBannerRoot.displayName = "PageBannerRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PageBannerContentProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface PageBannerContentProps extends LynxHostProps<"view"> {}
 
 export const PageBannerContent = React.forwardRef<unknown, PageBannerContentProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <view
       {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(classNames.content, className)}
-      style={style}
     >
       {children}
     </view>
@@ -165,17 +164,16 @@ PageBannerContent.displayName = "PageBannerContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PageBannerBodyProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface PageBannerBodyProps extends LynxHostProps<"text"> {}
 
 export const PageBannerBody = React.forwardRef<unknown, PageBannerBodyProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <text
       {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.body, className)}
-      style={style}
     >
       {children}
     </text>
@@ -185,17 +183,16 @@ PageBannerBody.displayName = "PageBannerBody";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PageBannerTitleProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface PageBannerTitleProps extends LynxHostProps<"text"> {}
 
 export const PageBannerTitle = React.forwardRef<unknown, PageBannerTitleProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <text
       {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.title, className)}
-      style={style}
     >
       {children}
       {"  "}
@@ -206,20 +203,17 @@ PageBannerTitle.displayName = "PageBannerTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PageBannerDescriptionProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps {}
+export interface PageBannerDescriptionProps extends LynxHostProps<"text"> {}
 
 export const PageBannerDescription = React.forwardRef<unknown, PageBannerDescriptionProps>(
   (props, ref) => {
-    const { children, className, style, ...nativeProps } = props;
+    const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <text
         {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         className={clsx(classNames.description, className)}
-        style={style}
       >
         {children}
       </text>
@@ -230,24 +224,14 @@ PageBannerDescription.displayName = "PageBannerDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface PageBannerButtonProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+export interface PageBannerButtonProps extends LynxHostProps<"text"> {}
 
 export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    "accessibility-element": accessibilityElement,
-    "accessibility-traits": accessibilityTraits,
-    ...nativeProps
-  } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
   const { buttonProps } = usePageBannerButton({
-    "accessibility-element": accessibilityElement,
-    "accessibility-traits": accessibilityTraits,
+    "accessibility-element": nativeProps["accessibility-element"],
+    "accessibility-traits": nativeProps["accessibility-traits"],
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
@@ -255,16 +239,15 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
     <text
       {...getIndependentActionProps(
         mergeProps(
-          ref ? { ref: ref as LynxTextRef } : {},
+          { flatten: false },
           buttonProps,
           scaleFeedbackTriggerProps,
           scaleFeedbackTargetProps,
           nativeProps,
+          ref ? { ref: ref as LynxTextRef } : {},
         ),
       )}
       className={clsx(classNames.button, className)}
-      style={style}
-      flatten={false}
     >
       {children}
     </text>
@@ -275,31 +258,25 @@ PageBannerButton.displayName = "PageBannerButton";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PageBannerCloseButtonProps
-  // Keep the scale target's Android View even if shared props later expose flatten.
-  extends Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    Pick<UsePageBannerCloseButtonProps, "bindtap" | "main-thread:bindtap"> {}
 
 export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseButtonProps>(
   (props, ref) => {
     const {
       children,
       className,
-      style,
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      "accessibility-element": accessibilityElement,
-      "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
     const parentVariantProps = useProps() ?? {};
     const { pressed, closeButtonProps } = usePageBannerCloseButton({
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      "accessibility-element": accessibilityElement,
-      "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits,
+      "accessibility-element": nativeProps["accessibility-element"],
+      "accessibility-label": nativeProps["accessibility-label"],
+      "accessibility-traits": nativeProps["accessibility-traits"],
     });
     // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
     const { bindtouchstart, bindtouchend, bindtouchcancel, ...closeProps } = closeButtonProps;
@@ -325,16 +302,15 @@ export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseBu
         <view
           {...getIndependentActionProps(
             mergeProps(
-              ref ? { ref: ref as LynxViewRef } : {},
+              { flatten: false },
               closeProps,
               scaleFeedbackTriggerProps,
               scaleFeedbackTargetProps,
               nativeProps,
+              ref ? { ref: ref as LynxViewRef } : {},
             ),
           )}
           className={clsx(classNames.closeButton, className)}
-          style={style}
-          flatten={false}
         >
           {children}
         </view>

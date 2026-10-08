@@ -36,8 +36,9 @@ describe("Count", () => {
     expect(countRef.current).not.toBeNull();
   });
 
-  it("exposes only styled element props as its public surface", () => {
-    expectTypeOf<keyof CountProps>().toEqualTypeOf<"children" | "className" | "style">();
+  it("exposes native text props", () => {
+    expectTypeOf<CountProps>().toHaveProperty("id");
+    expectTypeOf<CountProps>().toHaveProperty("text-maxline");
   });
 });
 

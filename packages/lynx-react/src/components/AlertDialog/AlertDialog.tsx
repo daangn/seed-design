@@ -28,9 +28,10 @@ import {
 } from "@seed-design/lynx-css/recipes/alert-dialog";
 import clsx from "clsx";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxAccessibilityProps, LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
 
 type AlertDialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
@@ -204,7 +205,9 @@ AlertDialogContent.displayName = "AlertDialogContent";
 // Local slots
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogHeaderProps extends StyleProps, LynxStyledElementProps {}
+export interface AlertDialogHeaderProps
+  extends StyleProps,
+    Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHeaderProps> =
   forwardRef<unknown, AlertDialogHeaderProps>((props, ref) => {
@@ -214,10 +217,12 @@ export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHead
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-        {...nativeProps}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames.header, className)}
-        style={style as never}
       >
         {children}
       </view>
@@ -227,12 +232,11 @@ AlertDialogHeader.displayName = "AlertDialogHeader";
 
 export interface AlertDialogTitleProps
   extends StyleProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {
+    Omit<LynxHostProps<"text">, keyof StyleProps> {
   /**
    * @defaultValue true
    */
-  "accessibility-heading"?: LynxAccessibilityProps["accessibility-heading"];
+  "accessibility-heading"?: LynxHostProps<"text">["accessibility-heading"];
 }
 
 export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitleProps> = forwardRef<
@@ -245,10 +249,8 @@ export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitle
 
   return (
     <HeadlessDialogTitle
-      ref={ref}
-      {...titleProps}
+      {...mergeProps({ style }, titleProps, ref ? { ref } : {})}
       className={clsx(classNames.title, className)}
-      style={style as never}
     />
   );
 });
@@ -256,8 +258,7 @@ AlertDialogTitle.displayName = "AlertDialogTitle";
 
 export interface AlertDialogDescriptionProps
   extends StyleProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    Omit<LynxHostProps<"text">, keyof StyleProps> {}
 
 export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialogDescriptionProps> =
   forwardRef<unknown, AlertDialogDescriptionProps>((props, ref) => {
@@ -267,16 +268,16 @@ export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialo
 
     return (
       <HeadlessDialogDescription
-        ref={ref}
-        {...descriptionProps}
+        {...mergeProps({ style }, descriptionProps, ref ? { ref } : {})}
         className={clsx(classNames.description, className)}
-        style={style as never}
       />
     );
   });
 AlertDialogDescription.displayName = "AlertDialogDescription";
 
-export interface AlertDialogFooterProps extends StyleProps, LynxStyledElementProps {}
+export interface AlertDialogFooterProps
+  extends StyleProps,
+    Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFooterProps> =
   forwardRef<unknown, AlertDialogFooterProps>((props, ref) => {
@@ -286,10 +287,12 @@ export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFoot
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-        {...nativeProps}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames.footer, className)}
-        style={style as never}
       >
         {children}
       </view>
