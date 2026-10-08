@@ -809,3 +809,27 @@ BottomSheet와 MenuSheet의 overlay container, HelpBubble의 `container`와 `ove
 </Step>
 
 </Steps>
+
+## 새로 추가된 컴포넌트
+
+SEED Lynx 1.0에는 프로필 이미지, 빈 콘텐츠 영역, 콘텐츠 이미지를 위한 세 컴포넌트가 추가됩니다. 기존 코드의 필수 마이그레이션 항목은 아니며, 필요한 화면에서 선택해 사용하세요.
+
+아래 컴포넌트는 모두 `@seed-design/lynx-react@1.0.0`과 `@seed-design/lynx-css@1.0.0`부터 제공합니다. **SEED 패키지 버전과 Lynx Engine 버전은 별개**입니다. 앱에 포함된 Engine이 사용할 컴포넌트의 최소 버전을 만족하는지 확인하세요.
+
+| 컴포넌트 | 최소 Lynx Engine | 용도·제공 방식 |
+| --- | --- | --- |
+| Avatar | `3.6` | 프로필 이미지, fallback, 배지와 AvatarStack을 제공합니다. `ui:avatar` snippet을 설치합니다. |
+| Content Placeholder | `3.6` | 이미지가 없거나 로딩 전인 영역에 프리셋 또는 커스텀 에셋을 표시합니다. `ui:content-placeholder` snippet을 설치합니다. |
+| Image Frame | `3.9` | 이미지 비율·모서리·테두리·fallback과 배지·아이콘·좋아요 버튼 오버레이를 제공합니다. `@seed-design/lynx-react`에서 직접 import합니다. |
+
+Avatar와 Content Placeholder는 사용할 snippet만 설치하세요. Image Frame은 별도 snippet 설치가 필요하지 않습니다.
+
+```bash
+npx @seed-design/cli@latest add ui:avatar ui:content-placeholder
+```
+
+- **Avatar:** `badgeMask`로 원·꽃·방패 모양의 투명한 여백을 만들고, `AvatarBadge`의 자식으로 배지 에셋을 넣습니다. 자식의 윤곽을 자동으로 분석하지 않으므로 다른 모양의 커스텀 배지는 `badgeMask="none"`을 사용하세요. 마스크를 위한 플랫폼별 스타일은 컴포넌트가 처리합니다.
+- **Content Placeholder:** React와 같은 12개 프리셋과 light/dark 에셋을 제공합니다. 아이콘이나 이미지를 `children`으로 넣으면 프리셋을 대체합니다. 커스텀 에셋의 색은 유지되며, 모노크롬 아이콘의 색은 자식의 `tint-color`로 지정하세요.
+- **Image Frame:** `ImageFrameFloater`로 오버레이 위치를 지정하고, `ImageFrameReactionButton`의 `pressed`·`onPressedChange`로 좋아요 상태를 제어할 수 있습니다. Engine 3.6에서는 비율 기반 레이아웃과 콘텐츠 표시 문제가 확인되어 지원하지 않습니다.
+
+Avatar와 Image Frame은 headless Image로 로딩 상태를 처리합니다. 앱에서 headless 패키지를 따로 설치할 필요는 없습니다. 두 컴포넌트 모두 이미지 로딩이 성공하면 fallback을 언마운트하므로, 다시 표시할 때 유지할 상태는 부모에서 관리하세요. 자세한 사용법과 React와의 차이는 각 컴포넌트 문서에서 확인할 수 있습니다.
