@@ -1,6 +1,6 @@
 ---
-"@seed-design/lynx-css": patch
+"@seed-design/lynx-css": major
 "@seed-design/lynx-react": patch
 ---
 
-Lynx MenuSheet 항목 사이 구분선을 Figma·웹과 같이 각 항목 안쪽 하단에 겹쳐 그립니다. 반투명 구분선이 Group 배경이 아니라 항목 배경 위에 그려져 대비가 드러나고, 구분선 높이만큼 늘어나던 Group 높이도 웹과 같아집니다.
+(BREAKING CHANGE: `MenuSheet.Item`을 직접 조합한다면 `menuSheetItem().divider` 요소를 `menuSheetItem().root` 요소의 다음 형제에서 마지막 자식으로 옮겨야 합니다.) `MenuSheet` 구분선이 각 Item의 안쪽 하단에 겹쳐 표시되어 Item 배경과 올바른 대비를 유지합니다.

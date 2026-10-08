@@ -1,5 +1,5 @@
 ---
-"@seed-design/lynx-css": patch
+"@seed-design/lynx-css": major
 ---
 
-AppBar가 scroll-view 안에 있을 때 좌우 버튼과 배경이 스크롤을 따라가지 않던 문제를 수정합니다. `tone="layer"` 배경도 표시됩니다.
+(BREAKING CHANGE: `--z-index-app-bar`를 제거하고 `.seed-app-bar__root` 또는 `AppBar.Root`에 `z-index`를 직접 지정해야 합니다.) `AppBar`가 scroll container 안에서 배경과 좌우 버튼을 함께 스크롤하도록 자체 stacking context를 만듭니다.

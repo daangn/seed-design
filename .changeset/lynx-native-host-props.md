@@ -1,37 +1,13 @@
 ---
-"@seed-design/lynx-react": minor
-"@seed-design/lynx-react-accordion": minor
-"@seed-design/lynx-react-action-button": minor
-"@seed-design/lynx-react-app-bar": minor
-"@seed-design/lynx-react-attachment-display": minor
-"@seed-design/lynx-react-bottom-sheet": minor
-"@seed-design/lynx-react-callout": minor
-"@seed-design/lynx-react-checkbox": minor
-"@seed-design/lynx-react-collapsible": minor
-"@seed-design/lynx-react-dialog": minor
-"@seed-design/lynx-react-field-button": minor
-"@seed-design/lynx-react-file-upload": minor
-"@seed-design/lynx-react-keyboard-avoiding-scroll-view": minor
-"@seed-design/lynx-react-loop-scroll": minor
-"@seed-design/lynx-react-menu": minor
-"@seed-design/lynx-react-page-banner": minor
-"@seed-design/lynx-react-popover": minor
-"@seed-design/lynx-react-pull-to-refresh": minor
-"@seed-design/lynx-react-quantity-picker": minor
-"@seed-design/lynx-react-radio-group": minor
-"@seed-design/lynx-react-segmented-control": minor
-"@seed-design/lynx-react-select": minor
-"@seed-design/lynx-react-slider": minor
-"@seed-design/lynx-react-sortable": minor
-"@seed-design/lynx-react-tabs": minor
-"@seed-design/lynx-react-text-field": minor
+"@seed-design/lynx-react": major
 "@seed-design/lynx-react-toggle": minor
 ---
 
-Lynx 컴포넌트의 각 파트가 렌더링하는 native 요소(`<view>`, `<text>`, `<image>`, `<scroll-view>`, `<input>`, `<textarea>` 등)의 속성을 공개 타입으로 받고 그대로 전달합니다.
+(BREAKING CHANGE: `Accordion.Trigger`의 `accessibility-value`를 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 변경하고, `accessibility-traits` 사용을 제거해야 합니다. `accessibility-traits`를 직접 덮어쓰는 대체 API는 제공하지 않습니다.) Lynx 컴포넌트의 각 파트에 native 요소의 속성을 전달할 수 있습니다.
 
-- `id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트와 ref, `data-*` 등을 타입 오류 없이 넘길 수 있습니다. 공유 타입 `LynxHostProps<"view">`를 추가합니다.
-- 컴포넌트가 정한 값(접근성 기본값, `flatten`, `src`·`mode`, `scroll-orientation`, 계산한 style key 등)과 같은 속성을 넘기면 넘긴 값이 이깁니다. `className`은 합치고, `style`은 key 단위로 합치며, 이벤트 handler와 ref는 내부 handler·ref와 함께 실행됩니다.
-- 열림·비활성 상태를 나타내는 접근성 값은 React와 같이 컴포넌트 값을 유지합니다. `Accordion.Trigger`는 `accessibility-value`·`accessibility-traits`를 받지 않으며, 상태 문구는 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 바꿉니다. `QuantityPicker.DecrementButton`은 Remove 상태에서 `accessibility-label` 대신 Root의 `removeAccessibilityLabel`을 사용합니다.
-- 일부 속성만 전달하던 `BottomSheet`의 Trigger·Header·Body·Footer·Title·Description, `MenuSheet` 슬롯, `AttachmentInput` Root도 모든 속성을 전달합니다.
-- 비활성·로딩 중 탭을 막는 컴포넌트의 `bindtap`·`main-thread:bindtap`은 기존처럼 컴포넌트가 처리합니다.
+- `<view>`, `<text>`, `<image>`, `<scroll-view>`, `<input>`, `<textarea>` 등에 `id`, `accessibility-*`, `bind*`, `main-thread:*`, `data-*`와 `ref`를 타입 오류 없이 전달할 수 있습니다.
+- 컴포넌트가 정한 기본 속성보다 사용자 값이 우선합니다. `className`은 합치고, `style`은 key 단위로 합치며, 이벤트 handler와 `ref`는 내부 값과 함께 실행합니다.
+- 직접 덮어쓸 수 없는 상태 접근성 속성은 컴포넌트 상태를 따릅니다. `QuantityPicker.DecrementButton`의 삭제 상태 문구는 기존처럼 `Root`의 `removeAccessibilityLabel`로 지정합니다.
+- `BottomSheet`의 `Trigger`·`Header`·`Body`·`Footer`·`Title`·`Description`, `MenuSheet` 슬롯, `AttachmentInput.Root`에도 native 속성을 전달할 수 있습니다.
+- `Box`의 `bindtouchstart`·`bindtouchend`·`bindtouchcancel` handler에서 터치 이벤트 인자를 받을 수 있습니다.
+- 비활성 또는 로딩 중 탭을 차단하는 컴포넌트의 `bindtap`·`main-thread:bindtap`은 기존처럼 호출하지 않습니다.

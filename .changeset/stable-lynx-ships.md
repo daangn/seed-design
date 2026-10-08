@@ -39,4 +39,4 @@
 "@seed-design/lynx-react-use-safe-area": major
 ---
 
-(BREAKING CHANGE: `@seed-design/lynx-react`, `@seed-design/lynx-css`와 사용하는 `@seed-design/lynx-react-*` 패키지를 함께 `^1.0.0`으로 올려야 합니다. `^0.x` 범위로 설치한 앱은 자동으로 올라가지 않습니다. 이번 릴리스의 breaking change별 마이그레이션은 각 변경 항목을 따르세요.) SEED Lynx 공개 패키지를 모두 `1.0.0`으로 출시합니다. 이후 Lynx 패키지의 breaking change는 major 버전으로 배포합니다.
+(BREAKING CHANGE: `@seed-design/lynx-react`, `@seed-design/lynx-css`, 직접 설치한 모든 `@seed-design/lynx-react-*` 패키지를 함께 `^1.0.0`으로 올리고 [SEED Lynx 1 업그레이드 가이드](https://seed-design.io/lynx/updates/upgrade/v1)에 따라 코드를 수정해야 합니다.) SEED Lynx 패키지를 `1.0.0`으로 출시합니다.
