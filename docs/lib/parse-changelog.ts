@@ -1,4 +1,4 @@
-import { REACT_ARCHIVE_VERSION } from "./docs-archive";
+import { archivePaths } from "./docs-archive";
 import { remarkArchiveLinks } from "@/app/_llms/archive-markdown";
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
@@ -58,7 +58,8 @@ const removeBackground: ShikiTransformer = {
 
 const processor = remark()
   .use(remarkGfm)
-  .use(remarkArchiveLinks, REACT_ARCHIVE_VERSION)
+  // Package changelogs are React docs; other archives never export them.
+  .use(remarkArchiveLinks, archivePaths.platform === "react" ? archivePaths.channel : "")
   .use(remarkRehype)
   .use(rehypeCode, {
     lazy: true,

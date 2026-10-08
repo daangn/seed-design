@@ -47,7 +47,14 @@ Pages CI 성공 후 **Summary → Verified archive preview**에서 실제 고정
 
 `probe`는 운영 원본 검증에 사용할 실제 문서와 registry 항목의 상대 경로입니다. 운영 목록에는 빈 origin을 등록하지 않습니다. Worker CI가 전체 원본을 검증하고 공개 route를 연결한 뒤 버전 메뉴를 전환합니다.
 
-이전 보관 브랜치에 최신 전체 목록을 반영할 필요가 없습니다. 공개 목록은 `dev`가 기준이며 항목을 삭제하면 Worker 배포 시 해당 route도 제거됩니다. 다른 플랫폼도 Worker 라우팅은 지원하지만 현재 보관 빌드·export는 React만 지원하므로 Lynx에는 전용 exporter와 Pages 빌드를 먼저 구현해야 합니다.
+이전 보관 브랜치에 최신 전체 목록을 반영할 필요가 없습니다. 공개 목록은 `dev`가 기준이며 항목을 삭제하면 Worker 배포 시 해당 route도 제거됩니다.
+
+보관 빌드·export는 React와 Lynx를 지원합니다. 두 플랫폼은 같은 경로 helper와 exporter를 쓰며, 빌드할 수 있는 채널은 소스 패키지 버전으로 정합니다.
+
+- React: `packages/react`의 메이저와 같은 `react/vN`. 기존 1.x는 마이너 채널 `react/v1.0`·`react/v1.1`·`react/v1.2`를 유지합니다.
+- Lynx: `packages/lynx-react`의 메이저와 같은 `lynx/vN`. 0.x 문서는 `lynx/v0`으로 보관하며 마이너 채널은 없습니다.
+
+Lynx 보관본은 예제 bundle·manifest·`web-core.css`를 `/lynx/v0/_assets/__lynx__/`에 함께 담으므로 QR 코드와 web preview가 보관본의 bundle을 사용합니다.
 
 ## Worker 설정과 배포
 
@@ -96,7 +103,8 @@ bunx @seed-design/cli add ui:action-button --baseUrl https://seed-design.io/reac
 
 ```sh
 bun --filter @seed-design/docs build:archive:react v2
-bun test docs/lib/docs-archive.test.ts docs/scripts/export-react-archive.test.ts scripts/docs-archive
+bun --filter @seed-design/docs build:archive:lynx v0
+bun test docs/lib/docs-archive.test.ts docs/lib/archive-cli-commands.test.ts docs/scripts/export-archive.test.ts scripts/docs-archive
 bun scripts/docs-archive/deploy.ts --verify-only
 bun scripts/docs-archive/deploy.ts --dry-run
 ```

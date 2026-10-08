@@ -28,7 +28,7 @@ it("rejects empty or duplicate registrations", () => {
 
 it.each([
   "latest",
-  "v0",
+  "v00",
   "v01",
   "v2.0.1",
   "v2/*",
@@ -52,6 +52,13 @@ it("can register retained React minor versions alongside a major channel", () =>
     "seed-design.io/react/v1.1*",
     "seed-design.io/react/v1.2*",
     "seed-design.io/react/v2*",
+  ]);
+});
+
+it("registers a Lynx v0 channel next to React archives", () => {
+  expect(archiveRoutes([archive, { ...archive, platform: "lynx", version: "v0" }])).toEqual([
+    "seed-design.io/react/v2*",
+    "seed-design.io/lynx/v0*",
   ]);
 });
 

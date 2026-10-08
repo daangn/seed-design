@@ -2,7 +2,7 @@ import { afterEach, expect, it } from "bun:test";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { exportReactArchive } from "./export-react-archive";
+import { exportArchive } from "./export-archive";
 
 const directories: string[] = [];
 afterEach(async () => {
@@ -47,9 +47,9 @@ async function fixture() {
 
 it("exports a self-contained React archive with old CLI URL compatibility", async () => {
   const { dir } = await fixture();
-  const output = await exportReactArchive({
+  const output = await exportArchive({
     docsDirectory: dir,
-    version: "v2",
+    channel: "react/v2",
     sourceSha: "a".repeat(40),
     sourceDirty: true,
   });
@@ -98,7 +98,7 @@ it("keeps the previous artifact if a latest build was supplied by mistake", asyn
   await write("out-archive/react/v2/index.html", "previous valid build");
   await rm(path.join(dir, "out/react/v2"), { recursive: true });
   await expect(
-    exportReactArchive({ docsDirectory: dir, version: "v2", sourceSha: "a".repeat(40) }),
+    exportArchive({ docsDirectory: dir, channel: "react/v2", sourceSha: "a".repeat(40) }),
   ).rejects.toThrow();
   expect(await readFile(path.join(dir, "out-archive/react/v2/index.html"), "utf8")).toBe(
     "previous valid build",
@@ -108,9 +108,9 @@ it("keeps the previous artifact if a latest build was supplied by mistake", asyn
 it("reuses the exporter for a later React major without including v2 pages", async () => {
   const { dir, write } = await fixture();
   await write("out/react/v3/index.html", "v3 page");
-  const output = await exportReactArchive({
+  const output = await exportArchive({
     docsDirectory: dir,
-    version: "v3",
+    channel: "react/v3",
     sourceSha: "b".repeat(40),
   });
   const read = (name: string) => readFile(path.join(output, name), "utf8");
@@ -129,4 +129,70 @@ it("reuses the exporter for a later React major without including v2 pages", asy
     "/react/v3/old /react/v3/new 301\n/react/v3/react/* /react/v3/:splat 302\n",
   );
   expect(await Bun.file(path.join(output, "react/v2/index.html")).exists()).toBe(false);
+});
+
+it("exports a self-contained Lynx archive with its example bundles and redirects", async () => {
+  const { dir, write } = await fixture();
+  for (const [name, content] of Object.entries({
+    "out/lynx/v0/index.html": "lynx archive page",
+    "out/lynx/v0/components/action-button/index.html": "lynx action button",
+    "public/__lynx__/manifest.json": '{"schemaVersion":1,"examples":{}}',
+    "public/__lynx__/web-core.css": "lynx-view {}",
+    "public/__lynx__/badge/preview.12345678.lynx.bundle": "native bundle",
+    "out/__registry__/lynx/ui/app-bar.json": '{"id":"ui/app-bar"}',
+    "out/llms/lynx/components/action-button.txt": "lynx LLM",
+    "out/lynx/llms.txt": "lynx index",
+    "out/lynx/llms-full.txt": "lynx full text",
+    "out/__docs__/index.json": JSON.stringify({
+      categories: [
+        { id: "react", sections: [] },
+        { id: "lynx", sections: [{ items: [{ docUrl: "/lynx/components/action-button" }] }] },
+      ],
+    }),
+    "public/_redirects":
+      "/react/old /react/new 301\n/lynx/old /lynx/new 301\n/llms/lynx/old /llms/lynx/new 301\n",
+  }))
+    await write(name, content);
+  const output = await exportArchive({
+    docsDirectory: dir,
+    channel: "lynx/v0",
+    sourceSha: "c".repeat(40),
+  });
+  const read = (name: string) => readFile(path.join(output, name), "utf8");
+  expect(await read("lynx/v0/components/action-button/index.html")).toBe("lynx action button");
+  expect(await read("lynx/v0/_assets/_next/static/chunk.js")).toBe("archive chunk");
+  expect(await read("lynx/v0/_assets/__lynx__/web-core.css")).toBe("lynx-view {}");
+  expect(await read("lynx/v0/_assets/__lynx__/badge/preview.12345678.lynx.bundle")).toBe(
+    "native bundle",
+  );
+  expect(await read("lynx/v0/__registry__/lynx/ui/app-bar.json")).toBe('{"id":"ui/app-bar"}');
+  expect(await read("lynx/v0/llms/lynx/components/action-button.txt")).toBe("lynx LLM");
+  expect(await read("lynx/v0/llms.txt")).toBe("lynx index");
+  expect(await read("lynx/v0/llms-full.txt")).toBe("lynx full text");
+  expect(JSON.parse(await read("lynx/v0/__docs__/index.json"))).toEqual({
+    categories: [
+      { id: "lynx", sections: [{ items: [{ docUrl: "/lynx/components/action-button" }] }] },
+    ],
+  });
+  expect(await read("_redirects")).toBe(
+    "/lynx/v0/old /lynx/v0/new 301\n/lynx/v0/llms/lynx/old /lynx/v0/llms/lynx/new 301\n/lynx/v0/lynx/* /lynx/v0/:splat 302\n",
+  );
+  expect(await read("_headers")).toBe(
+    "/lynx/v0/_assets/_next/static/*\n  Cache-Control: public, max-age=31536000, immutable\n/lynx/v0/__registry__/*\n  Access-Control-Allow-Origin: *\n",
+  );
+  expect(JSON.parse(await read("lynx/v0/archive.json"))).toEqual({
+    platform: "lynx",
+    version: "v0",
+    prefix: "/lynx/v0",
+    sourceSha: "c".repeat(40),
+    sourceDirty: false,
+  });
+  for (const name of [
+    "lynx/v0/_examples",
+    "lynx/v0/__registry__/react",
+    "lynx/v0/llms/react",
+    "react/v2/index.html",
+  ]) {
+    expect(await Bun.file(path.join(output, name)).exists()).toBe(false);
+  }
 });

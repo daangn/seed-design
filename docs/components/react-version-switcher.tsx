@@ -1,6 +1,6 @@
 "use client";
 
-import { REACT_ARCHIVE_VERSION } from "@/lib/docs-archive";
+import { archivePaths } from "@/lib/docs-archive";
 
 import {
   DocsMenuContent,
@@ -36,9 +36,11 @@ export function getReactVersions(
   ];
 }
 
+// The release branch embeds its archive version; regular Pages previews remain latest.
+const REACT_ARCHIVE_VERSION = archivePaths.platform === "react" ? archivePaths.version : "";
+
 const VERSIONS = getReactVersions(REACT_ARCHIVE_VERSION);
 
-// The release branch embeds its archive version; regular Pages previews remain latest.
 const CURRENT_VERSION = REACT_ARCHIVE_VERSION || PUBLISHED_VERSIONS[0].label;
 
 export function ReactVersionSwitcher({

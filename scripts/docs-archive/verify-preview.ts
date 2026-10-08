@@ -11,12 +11,19 @@ interface PreviewOptions {
   aliasUrl?: string;
 }
 
+// Each platform's Pages preview is verified against a document and registry item it ships.
+const PREVIEW_PROBES: Record<string, { document: string; registryItem: string }> = {
+  react: { document: "components/action-button", registryItem: "ui/action-button" },
+  lynx: { document: "components/action-button", registryItem: "ui/app-bar" },
+};
+
 export async function verifyArchivePreview(
   options: PreviewOptions,
   fetcher: typeof fetch = fetch,
   wait: (milliseconds: number) => Promise<void> = delay,
 ) {
   const target = docsBuildTarget(options.channel);
+  const platform = target["archive-platform"];
   const version = target["archive-version"];
   if (!version) throw new Error("An archive build channel is required");
   if (!options.deploymentUrl || !options.aliasUrl)
@@ -28,11 +35,11 @@ export async function verifyArchivePreview(
       try {
         await verifyArchive(
           {
-            platform: "react",
+            platform,
             version,
             origin,
             sourceSha: options.sourceSha,
-            probe: { document: "components/action-button", registryItem: "ui/action-button" },
+            probe: PREVIEW_PROBES[platform],
           },
           fetcher,
         );

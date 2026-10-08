@@ -4,19 +4,23 @@ import Link from "next/link";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { ActionButton } from "seed-design/ui/action-button";
 import { baseOptions } from "./layout.config";
-import { getDocsSource, getReactSource } from "./source";
+import { getDocsSource, getLynxSource, getReactSource } from "./source";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import DefaultSearchDialog from "@/components/search/search";
 import { TAGS } from "@/app/api/search/constants";
 
 export default async function NotFound() {
-  const docsSource = await (archivePaths.prefix ? getReactSource() : getDocsSource());
+  const docsSource = await (archivePaths.platform === "lynx"
+    ? getLynxSource()
+    : archivePaths.platform === "react"
+      ? getReactSource()
+      : getDocsSource());
   return (
     <RootProvider
       search={{
         SearchDialog: DefaultSearchDialog,
         options: {
-          tags: archivePaths.prefix ? [TAGS.react] : Object.values(TAGS),
+          tags: archivePaths.platform ? [TAGS[archivePaths.platform]] : Object.values(TAGS),
         },
       }}
     >

@@ -31,7 +31,8 @@
     "build:lynx-examples": "bun scripts/lynx-examples/build.ts",
     "build:lynx-examples:development": "bun scripts/lynx-examples/build.ts --development",
     "dev:lynx-examples": "bun scripts/lynx-examples/watch.ts",
-    "build:archive:react": "bun scripts/build-react-archive.ts"
+    "build:archive:react": "bun scripts/build-archive.ts react",
+    "build:archive:lynx": "bun scripts/build-archive.ts lynx"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

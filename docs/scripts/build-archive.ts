@@ -1,18 +1,25 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assertReactArchiveSource, createArchivePaths } from "../lib/docs-archive";
-import { exportReactArchive } from "./export-react-archive";
+import {
+  ARCHIVE_SOURCE_PACKAGES,
+  assertArchiveSource,
+  parseArchiveChannel,
+} from "../lib/docs-archive";
+import { exportArchive } from "./export-archive";
 
 const docsDirectory = fileURLToPath(new URL("..", import.meta.url));
-const version = process.argv[2];
-if (!version)
+const [platform, version] = process.argv.slice(2);
+if (!platform || !version)
   throw new Error("Specify the archive channel explicitly, for example build:archive:react v2");
-createArchivePaths(version);
-const reactPackage = JSON.parse(
-  await readFile(path.join(docsDirectory, "../packages/react/package.json"), "utf8"),
+const channel = `${platform}/${version}`;
+const sourcePackage = JSON.parse(
+  await readFile(
+    path.join(docsDirectory, "..", ARCHIVE_SOURCE_PACKAGES[parseArchiveChannel(channel).platform]),
+    "utf8",
+  ),
 );
-assertReactArchiveSource(version, reactPackage.version);
+assertArchiveSource(channel, sourcePackage.version);
 const revision = Bun.spawnSync(["git", "rev-parse", "HEAD"], { cwd: docsDirectory });
 if (revision.exitCode !== 0) throw new Error("Cannot identify archive source commit");
 const sourceSha = revision.stdout.toString().trim();
@@ -25,7 +32,7 @@ const build = Bun.spawn(["bun", "run", "build"], {
   cwd: docsDirectory,
   env: {
     ...process.env,
-    NEXT_PUBLIC_REACT_ARCHIVE_VERSION: version,
+    NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL: channel,
     SEED_DOCS_SOURCE_REF: sourceSha,
   },
   stdin: "inherit",
@@ -34,4 +41,4 @@ const build = Bun.spawn(["bun", "run", "build"], {
 });
 if ((await build.exited) !== 0)
   throw new Error("Archive build failed; existing archive output was not replaced");
-console.log(await exportReactArchive({ docsDirectory, version, sourceSha, sourceDirty }));
+console.log(await exportArchive({ docsDirectory, channel, sourceSha, sourceDirty }));

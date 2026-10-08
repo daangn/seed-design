@@ -11,9 +11,9 @@ export interface ArchiveDefinition {
 export function archivePrefix(archive: Pick<ArchiveDefinition, "platform" | "version">) {
   if (
     !/^[a-z][a-z0-9-]*$/.test(archive.platform) ||
-    !/^v(?:[1-9]\d*|1\.(?:0|[1-9]\d*))$/.test(archive.version)
+    !/^v(?:0|[1-9]\d*|1\.(?:0|[1-9]\d*))$/.test(archive.version)
   ) {
-    throw new Error("Archive paths must use a platform and version channel, such as lynx/v1");
+    throw new Error("Archive paths must use a platform and version channel, such as lynx/v0");
   }
   return `/${archive.platform}/${archive.version}`;
 }

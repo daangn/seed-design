@@ -8,6 +8,7 @@ export function docsBuildTarget(branch: string) {
     if (/^(react|lynx)\/v/.test(branch)) throw new Error("Invalid archive build channel");
     return {
       "output-dir": "docs/out",
+      "archive-platform": "",
       "archive-version": "",
       prefix: "",
       "preview-path": "",
@@ -16,11 +17,9 @@ export function docsBuildTarget(branch: string) {
   }
   const [, platform, version] = channel;
   const prefix = archivePrefix({ platform, version });
-  if (platform !== "react") {
-    throw new Error(`Implement the ${platform} archive exporter before enabling its Pages build`);
-  }
   return {
     "output-dir": "docs/out-archive",
+    "archive-platform": platform,
     "archive-version": version,
     prefix: `${prefix.slice(1)}/`,
     "preview-path": `${prefix}/`,

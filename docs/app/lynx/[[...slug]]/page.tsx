@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
 import { getLynxSource } from "@/app/source";
 import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
@@ -9,10 +10,12 @@ import { notFound } from "next/navigation";
 
 export const dynamic = "force-static";
 
+const routes = archivePaths.routes("lynx");
+
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
+  const { slug } = await props.params;
   const lynxSource = await getLynxSource();
-  const page = lynxSource.getPage(params.slug ?? []);
+  const page = lynxSource.getPage(routes.contentSlug(slug));
   if (!page) notFound();
 
   const { body, toc, lastModified } = await loadMarkdownPage(page);
@@ -30,7 +33,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       coverImage={
         cover
           ? {
-              src: cover.thumbnail,
+              src: archivePaths.asset(cover.thumbnail),
               alt: `${displayTitle} cover image`,
               width: cover.og.width,
               height: cover.og.height,
@@ -53,15 +56,18 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
 
 export async function generateStaticParams() {
   const lynxSource = await getLynxSource();
-  return lynxSource.generateParams();
+  return lynxSource.generateParams().map((params) => ({
+    ...params,
+    slug: routes.routeSlug(params.slug),
+  }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
-  const params = await props.params;
+  const { slug } = await props.params;
   const lynxSource = await getLynxSource();
-  const page = lynxSource.getPage(params.slug ?? []);
+  const page = lynxSource.getPage(routes.contentSlug(slug));
   if (!page) notFound();
 
   return buildDocsPageMetadata({

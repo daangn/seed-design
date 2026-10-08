@@ -5,7 +5,7 @@ import { normalizeLLMBody } from "./normalize-llm-body";
 it("scopes Markdown links and images while preserving installation code", () => {
   const input =
     "[Button](/react/components/button)\n\n![Example](/example.png)\n\n```sh\nbunx seed-design add button --baseUrl https://seed-design.io\n```\n";
-  const output = archiveMarkdown(input, "v2");
+  const output = archiveMarkdown(input, "react/v2");
   expect(output).toBe(
     "[Button](/react/v2/components/button)\n\n![Example](/react/v2/_assets/example.png)\n\n```sh\nbunx seed-design add button --baseUrl https://seed-design.io\n```\n",
   );
@@ -21,7 +21,7 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
     '`<Card href="/react/components/action-button" />`',
   ].join("\n\n");
 
-  expect(archiveMarkdown(input, "v2", "mdx")).toBe(
+  expect(archiveMarkdown(input, "react/v2", "mdx")).toBe(
     [
       '<Card href="/react/v2/components/action-button">Open</Card>',
       '<a href="https://seed-design.io/foundations">Foundation</a>',
@@ -33,7 +33,7 @@ it("scopes MDX href and src attributes while preserving expressions and inline c
 });
 
 it("keeps ordinary changelog Markdown syntax outside the MDX parser", () => {
-  expect(archiveMarkdown("- Change {from: old, to: new}.\n", "v2")).toBe(
+  expect(archiveMarkdown("- Change {from: old, to: new}.\n", "react/v2")).toBe(
     "* Change {from: old, to: new}.\n",
   );
 });
@@ -54,7 +54,7 @@ it("archives registry CLI commands flattened from package manager tabs", () => {
     "</CodeBlockTabs>",
   ].join("\n");
 
-  expect(archiveMarkdown(normalizeLLMBody(input), "v2", "mdx")).toBe(
+  expect(archiveMarkdown(normalizeLLMBody(input), "react/v2", "mdx")).toBe(
     [
       "* npm: npx @seed-design/cli\\@latest add --baseUrl https://seed-design.io/react/v2 \\[...item-ids]",
       "* pnpm: pnpm dlx @seed-design/cli add ui:action-button --seed-react-version 2",
