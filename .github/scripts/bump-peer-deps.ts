@@ -12,12 +12,6 @@ const LOCKFILE_PATH = "bun.lock";
 const SHA_PATTERN = /^[0-9a-f]{40}$/;
 const STABLE_VERSION_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 const CARET_STABLE_RANGE_PATTERN = /^\^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
-const LYNX_PREVIOUS_RANGE_PATTERNS = [
-  /^\^0\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/,
-  // Earlier formats, still found in manifests written before the caret range.
-  /^0\.0\.0 \|\| >=0\.(0|[1-9]\d*)\.(0|[1-9]\d*) <1\.0\.0$/,
-  /^0\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/,
-];
 
 type JsonRecord = Record<string, unknown>;
 
@@ -70,28 +64,6 @@ export function compareStableVersions(left: string, right: string): number {
   }
 
   return 0;
-}
-
-export function createLynxCssPeerRange(version: string, previousRange: string): string {
-  const [major, minor] = parseStableVersion(version);
-  if (major !== 0) {
-    throw new Error(`${LYNX_CSS_PACKAGE} 버전의 major가 0이 아닙니다: ${version}`);
-  }
-
-  const previousRangeMatch = LYNX_PREVIOUS_RANGE_PATTERNS.map((pattern) =>
-    pattern.exec(previousRange),
-  ).find((match) => match !== null);
-  if (!previousRangeMatch) {
-    throw new Error(
-      `${LYNX_CSS_PACKAGE} peerDependency 범위가 올바르지 않습니다: ${previousRange}`,
-    );
-  }
-
-  const previousMinor = Number(previousRangeMatch[1]);
-  const previousPatch = Number(previousRangeMatch[2]);
-
-  // A 0.x minor may break compatibility, so the range never reaches past the released minor.
-  return `^0.${minor}.${previousMinor === minor ? previousPatch : 0}`;
 }
 
 function findWorkspaceBlock(lockfile: string, workspacePath: string): [number, number] {
@@ -160,70 +132,101 @@ function updateLockfilePeerRange(
   return `${lockfile.slice(0, workspaceStart)}${updatedWorkspace}${lockfile.slice(workspaceEnd)}`;
 }
 
-export function synchronizePeerDependencyText(input: {
-  cssManifest: string;
-  reactManifest: string;
-  lockfile: string;
-}): SyncResult {
-  const cssManifest = readManifest(input.cssManifest, CSS_MANIFEST_PATH);
-  const reactManifest = readManifest(input.reactManifest, REACT_MANIFEST_PATH);
-  const cssVersion = cssManifest.version;
+interface PeerDependencyPair {
+  dependencyName: string;
+  dependencyManifestPath: string;
+  dependentManifestPath: string;
+}
 
-  if (typeof cssVersion !== "string") {
-    throw new Error(`${CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
+const REACT_PEER_PAIR: PeerDependencyPair = {
+  dependencyName: CSS_PACKAGE,
+  dependencyManifestPath: CSS_MANIFEST_PATH,
+  dependentManifestPath: REACT_MANIFEST_PATH,
+};
+
+const LYNX_REACT_PEER_PAIR: PeerDependencyPair = {
+  dependencyName: LYNX_CSS_PACKAGE,
+  dependencyManifestPath: LYNX_CSS_MANIFEST_PATH,
+  dependentManifestPath: LYNX_REACT_MANIFEST_PATH,
+};
+
+function synchronizeCaretPeerRange(
+  pair: PeerDependencyPair,
+  input: { dependencyManifest: string; dependentManifest: string; lockfile: string },
+): SyncResult {
+  const dependencyManifest = readManifest(input.dependencyManifest, pair.dependencyManifestPath);
+  const dependentManifest = readManifest(input.dependentManifest, pair.dependentManifestPath);
+  const dependencyVersion = dependencyManifest.version;
+
+  if (typeof dependencyVersion !== "string") {
+    throw new Error(`${pair.dependencyManifestPath}에 문자열 version이 없습니다.`);
   }
 
-  parseStableVersion(cssVersion);
+  parseStableVersion(dependencyVersion);
 
-  if (!isRecord(reactManifest.peerDependencies)) {
-    throw new Error(`${REACT_MANIFEST_PATH}에 peerDependencies가 없습니다.`);
+  if (!isRecord(dependentManifest.peerDependencies)) {
+    throw new Error(`${pair.dependentManifestPath}에 peerDependencies가 없습니다.`);
   }
 
-  const previousRange = reactManifest.peerDependencies[CSS_PACKAGE];
+  const previousRange = dependentManifest.peerDependencies[pair.dependencyName];
   if (typeof previousRange !== "string") {
-    throw new Error(`${REACT_MANIFEST_PATH}에 ${CSS_PACKAGE} peerDependency가 없습니다.`);
+    throw new Error(
+      `${pair.dependentManifestPath}에 ${pair.dependencyName} peerDependency가 없습니다.`,
+    );
   }
   if (!CARET_STABLE_RANGE_PATTERN.test(previousRange)) {
     throw new Error(
-      `${CSS_PACKAGE} peerDependency가 caret 안정 버전 범위가 아닙니다: ${previousRange}`,
+      `${pair.dependencyName} peerDependency가 caret 안정 버전 범위가 아닙니다: ${previousRange}`,
     );
   }
 
-  const desiredRange = `^${cssVersion}`;
+  const desiredRange = `^${dependencyVersion}`;
   const nextLockfile = updateLockfilePeerRange(
     input.lockfile,
-    REACT_MANIFEST_PATH.replace("/package.json", ""),
-    CSS_PACKAGE,
+    pair.dependentManifestPath.replace("/package.json", ""),
+    pair.dependencyName,
     desiredRange,
   );
 
   if (previousRange === desiredRange) {
     return {
       changed: false,
-      cssVersion,
+      cssVersion: dependencyVersion,
       previousRange,
       desiredRange,
-      reactManifest: input.reactManifest,
+      reactManifest: input.dependentManifest,
       lockfile: input.lockfile,
     };
   }
 
-  const nextReactManifest = {
-    ...reactManifest,
+  const nextDependentManifest = {
+    ...dependentManifest,
     peerDependencies: {
-      ...reactManifest.peerDependencies,
-      [CSS_PACKAGE]: desiredRange,
+      ...dependentManifest.peerDependencies,
+      [pair.dependencyName]: desiredRange,
     },
   };
 
   return {
     changed: true,
-    cssVersion,
+    cssVersion: dependencyVersion,
     previousRange,
     desiredRange,
-    reactManifest: `${JSON.stringify(nextReactManifest, null, 2)}\n`,
+    reactManifest: `${JSON.stringify(nextDependentManifest, null, 2)}\n`,
     lockfile: nextLockfile,
   };
+}
+
+export function synchronizePeerDependencyText(input: {
+  cssManifest: string;
+  reactManifest: string;
+  lockfile: string;
+}): SyncResult {
+  return synchronizeCaretPeerRange(REACT_PEER_PAIR, {
+    dependencyManifest: input.cssManifest,
+    dependentManifest: input.reactManifest,
+    lockfile: input.lockfile,
+  });
 }
 
 export function synchronizeLynxPeerDependencyText(input: {
@@ -231,57 +234,11 @@ export function synchronizeLynxPeerDependencyText(input: {
   lynxReactManifest: string;
   lockfile: string;
 }): SyncResult {
-  const lynxCssManifest = readManifest(input.lynxCssManifest, LYNX_CSS_MANIFEST_PATH);
-  const lynxReactManifest = readManifest(input.lynxReactManifest, LYNX_REACT_MANIFEST_PATH);
-  const lynxCssVersion = lynxCssManifest.version;
-
-  if (typeof lynxCssVersion !== "string") {
-    throw new Error(`${LYNX_CSS_MANIFEST_PATH}에 문자열 version이 없습니다.`);
-  }
-
-  if (!isRecord(lynxReactManifest.peerDependencies)) {
-    throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 peerDependencies가 없습니다.`);
-  }
-
-  const previousRange = lynxReactManifest.peerDependencies[LYNX_CSS_PACKAGE];
-  if (typeof previousRange !== "string") {
-    throw new Error(`${LYNX_REACT_MANIFEST_PATH}에 ${LYNX_CSS_PACKAGE} peerDependency가 없습니다.`);
-  }
-  const desiredRange = createLynxCssPeerRange(lynxCssVersion, previousRange);
-  const nextLockfile = updateLockfilePeerRange(
-    input.lockfile,
-    LYNX_REACT_MANIFEST_PATH.replace("/package.json", ""),
-    LYNX_CSS_PACKAGE,
-    desiredRange,
-  );
-
-  if (previousRange === desiredRange) {
-    return {
-      changed: false,
-      cssVersion: lynxCssVersion,
-      previousRange,
-      desiredRange,
-      reactManifest: input.lynxReactManifest,
-      lockfile: input.lockfile,
-    };
-  }
-
-  const nextLynxReactManifest = {
-    ...lynxReactManifest,
-    peerDependencies: {
-      ...lynxReactManifest.peerDependencies,
-      [LYNX_CSS_PACKAGE]: desiredRange,
-    },
-  };
-
-  return {
-    changed: true,
-    cssVersion: lynxCssVersion,
-    previousRange,
-    desiredRange,
-    reactManifest: `${JSON.stringify(nextLynxReactManifest, null, 2)}\n`,
-    lockfile: nextLockfile,
-  };
+  return synchronizeCaretPeerRange(LYNX_REACT_PEER_PAIR, {
+    dependencyManifest: input.lynxCssManifest,
+    dependentManifest: input.lynxReactManifest,
+    lockfile: input.lockfile,
+  });
 }
 
 async function runGit(root: string, args: string[]): Promise<string> {
