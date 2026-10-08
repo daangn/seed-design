@@ -114,7 +114,7 @@ export function useSelectTrigger(props: UseSelectTriggerProps = {}): UseSelectTr
     },
     [triggerRef, ref],
   );
-  const traits = disabled ? "disabled" : (accessibilityTraits ?? "button");
+  const traits = accessibilityTraits ?? (disabled ? "disabled" : "button");
   const rootProps = useMemo<SelectTriggerRootProps>(
     () => ({
       "accessibility-element": accessibilityElement,

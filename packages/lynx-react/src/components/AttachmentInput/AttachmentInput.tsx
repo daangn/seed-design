@@ -1,5 +1,5 @@
 import * as React from "@lynx-js/react";
-import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { NodesRef } from "@lynx-js/types";
 import {
   attachmentInput,
   type AttachmentInputVariantProps,
@@ -32,13 +32,7 @@ import {
   type UseFileUploadProps,
   type UseFileUploadStateProps,
 } from "@seed-design/lynx-react-file-upload";
-import type {
-  LynxAccessibilityProps,
-  LynxIconElementProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextProps,
-} from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
@@ -60,45 +54,6 @@ export type AttachmentInputStateProps = UseFileUploadStateProps;
 export type AttachmentInputProps = UseFileUploadProps;
 export type AttachmentInputContextValue = UseFileUploadContext;
 
-const NATIVE_VIEW_PROP_KEYS = [
-  "id",
-  "flatten",
-  "style",
-  "accessibility-label",
-  "accessibility-traits",
-  "accessibility-element",
-  "accessibility-value",
-  "accessibility-role-description",
-  "accessibility-elements-hidden",
-  "accessibility-heading",
-  "accessibility-actions",
-  "accessibility-exclusive-focus",
-  "ios-platform-accessibility-id",
-] as const;
-interface NativeViewProps
-  extends LynxAccessibilityProps,
-    Pick<IntrinsicElements["view"], "id" | "flatten"> {}
-type PickedNativeViewProps = Pick<
-  LynxStyledElementProps & NativeViewProps,
-  (typeof NATIVE_VIEW_PROP_KEYS)[number]
->;
-function pickNativeViewProps(props: LynxStyledElementProps & NativeViewProps) {
-  const picked: Partial<Record<keyof PickedNativeViewProps, unknown>> = {};
-  for (const key of NATIVE_VIEW_PROP_KEYS) {
-    if (props[key] !== undefined) picked[key] = props[key];
-  }
-  // 모든 key가 optional이고 같은 key의 props 값만 복사하므로 형태가 보존된다.
-  return picked as PickedNativeViewProps;
-}
-type NativeTextElementProps = Omit<LynxTextProps, "children" | "className" | "style">;
-type NativeImageProps = Omit<
-  IntrinsicElements["image"],
-  "children" | "className" | "style" | "src"
->;
-type NativeScrollViewProps = Omit<
-  IntrinsicElements["scroll-view"],
-  "children" | "className" | "style"
->;
 
 const rootRecipe = createSlotRecipeContext(attachmentInput);
 const triggerRecipe = createSlotRecipeContext(attachmentInputTrigger);
@@ -128,8 +83,7 @@ export function useAttachmentInput(props: AttachmentInputProps = {}): Attachment
 export interface AttachmentInputRootProps
   extends AttachmentInputProps,
     AttachmentInputVariantProps,
-    LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+    LynxHostProps<"view"> {}
 
 /**
  * `@seed-design/lynx-react-file-upload`의 `FileUploadRoot`에 SEED recipe를 조립합니다.
@@ -153,6 +107,11 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
       validate,
       onSelectFiles,
       onSelectError,
+      disabled: _disabled,
+      required: _required,
+      invalid: _invalid,
+      readOnly: _readOnly,
+      ...nativeProps
     } = otherProps;
     const fieldState = useFieldStateFallback(otherProps);
     const classes = attachmentInput(variantProps);
@@ -174,7 +133,7 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
           onSelectFiles={onSelectFiles}
           onSelectError={onSelectError}
           {...fieldState}
-          {...pickNativeViewProps(props)}
+          {...nativeProps}
           className={clsx(classes.root, className)}
         >
           {children}
@@ -185,18 +144,18 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
 );
 AttachmentInputRoot.displayName = "AttachmentInputRoot";
 
-export interface AttachmentInputContainerProps
-  extends LynxStyledElementProps,
-    Omit<NativeScrollViewProps, "scroll-orientation" | "scroll-bar-enable"> {}
+export interface AttachmentInputContainerProps extends LynxHostProps<"scroll-view"> {}
 
 export const AttachmentInputContainer = React.forwardRef<NodesRef, AttachmentInputContainerProps>(
   ({ children, className, ...nativeProps }, forwardedRef) => {
     const classes = rootRecipe.useClassNames();
     return (
       <scroll-view
-        {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
-        scroll-orientation="horizontal"
-        scroll-bar-enable={false}
+        {...mergeProps(
+          { "scroll-orientation": "horizontal" as const, "scroll-bar-enable": false },
+          nativeProps,
+          forwardedRef ? { ref: forwardedRef } : {},
+        )}
         className={clsx(classes.container, className)}
       >
         <view className={classes.containerContent}>{children}</view>
@@ -206,9 +165,7 @@ export const AttachmentInputContainer = React.forwardRef<NodesRef, AttachmentInp
 );
 AttachmentInputContainer.displayName = "AttachmentInputContainer";
 
-export interface AttachmentInputItemGroupProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemGroupProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputItemGroup = React.forwardRef<NodesRef, AttachmentInputItemGroupProps>(
   ({ children, className, ...nativeProps }, forwardedRef) => {
@@ -227,10 +184,8 @@ AttachmentInputItemGroup.displayName = "AttachmentInputItemGroup";
 
 export interface AttachmentInputTriggerProps
   extends AttachmentInputTriggerVariantProps,
-    LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 /**
  * `useFileUploadTrigger`의 파일 선택·눌림 상태·접근성 위에 SEED recipe를 조립합니다.
@@ -277,7 +232,7 @@ export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInput
 );
 AttachmentInputTrigger.displayName = "AttachmentInputTrigger";
 
-export interface AttachmentInputTriggerIconProps extends LynxStyledElementProps {
+export interface AttachmentInputTriggerIconProps extends LynxHostProps<"view"> {
   image?: React.ReactNode;
   general?: React.ReactNode;
 }
@@ -307,9 +262,7 @@ export const AttachmentInputTriggerIcon = React.forwardRef<
 });
 AttachmentInputTriggerIcon.displayName = "AttachmentInputTriggerIcon";
 
-export interface AttachmentInputTriggerItemCountProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputTriggerItemCountProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputTriggerItemCount = React.forwardRef<
   NodesRef,
@@ -334,8 +287,7 @@ AttachmentInputTriggerItemCount.displayName = "AttachmentInputTriggerItemCount";
 
 export interface AttachmentInputItemProps
   extends AttachmentInputItemVariantProps,
-    LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {
+    LynxHostProps<"view"> {
   fileEntry: FileEntry;
 }
 
@@ -346,7 +298,7 @@ export interface AttachmentInputItemProps
 export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputItemProps>(
   ({ fileEntry, children, className, ...props }, forwardedRef) => {
     const root = useFileUploadContext();
-    const [variantProps] = attachmentInputItem.splitVariantProps(props);
+    const [variantProps, nativeProps] = attachmentInputItem.splitVariantProps(props);
     const type = variantProps.type ?? root.acceptType ?? "general";
     const classes = attachmentInputItem({
       ...variantProps,
@@ -362,11 +314,7 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
       <FileUploadItemProvider value={item}>
         <itemRecipe.ClassNamesProvider value={classes}>
           <view
-            {...mergeProps(
-              forwardedRef ? { ref: forwardedRef } : {},
-              root.stateProps,
-              pickNativeViewProps(props),
-            )}
+            {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, root.stateProps, nativeProps)}
             className={clsx(classes.root, className)}
           >
             {children}
@@ -378,9 +326,7 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
 );
 AttachmentInputItem.displayName = "AttachmentInputItem";
 
-export interface AttachmentInputItemNameProps
-  extends LynxStyledElementProps,
-    Omit<NativeTextElementProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemNameProps extends LynxHostProps<"text"> {}
 
 export const AttachmentInputItemName = React.forwardRef<NodesRef, AttachmentInputItemNameProps>(
   ({ className, ...nativeProps }, forwardedRef) => {
@@ -388,8 +334,8 @@ export const AttachmentInputItemName = React.forwardRef<NodesRef, AttachmentInpu
     return (
       <FileUploadItemName
         ref={forwardedRef}
-        {...nativeProps}
         text-maxline="1"
+        {...nativeProps}
         className={clsx(classes.name, className)}
       />
     );
@@ -397,9 +343,7 @@ export const AttachmentInputItemName = React.forwardRef<NodesRef, AttachmentInpu
 );
 AttachmentInputItemName.displayName = "AttachmentInputItemName";
 
-export interface AttachmentInputItemSizeProps
-  extends LynxStyledElementProps,
-    Omit<NativeTextElementProps, "bindtap" | "main-thread:bindtap"> {
+export interface AttachmentInputItemSizeProps extends LynxHostProps<"text"> {
   formatBytes?: (bytes: number) => string;
 }
 
@@ -417,9 +361,7 @@ export const AttachmentInputItemSize = React.forwardRef<NodesRef, AttachmentInpu
 );
 AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 
-export interface AttachmentInputItemSurfaceProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemSurfaceProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputItemSurface = React.forwardRef<
   NodesRef,
@@ -437,7 +379,7 @@ export const AttachmentInputItemSurface = React.forwardRef<
 });
 AttachmentInputItemSurface.displayName = "AttachmentInputItemSurface";
 
-export interface AttachmentInputItemImageProps extends LynxStyledElementProps, NativeImageProps {}
+export interface AttachmentInputItemImageProps extends LynxHostProps<"image"> {}
 
 export const AttachmentInputItemImage = React.forwardRef<NodesRef, AttachmentInputItemImageProps>(
   ({ className, ...nativeProps }, forwardedRef) => {
@@ -453,9 +395,7 @@ export const AttachmentInputItemImage = React.forwardRef<NodesRef, AttachmentInp
 );
 AttachmentInputItemImage.displayName = "AttachmentInputItemImage";
 
-export interface AttachmentInputItemThumbnailProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemThumbnailProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputItemThumbnail = React.forwardRef<
   NodesRef,
@@ -475,9 +415,7 @@ export const AttachmentInputItemThumbnail = React.forwardRef<
 });
 AttachmentInputItemThumbnail.displayName = "AttachmentInputItemThumbnail";
 
-export interface AttachmentInputItemMetadataProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemMetadataProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputItemMetadata = React.forwardRef<
   NodesRef,
@@ -495,9 +433,7 @@ export const AttachmentInputItemMetadata = React.forwardRef<
 });
 AttachmentInputItemMetadata.displayName = "AttachmentInputItemMetadata";
 
-export interface AttachmentInputItemBadgeProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap"> {}
+export interface AttachmentInputItemBadgeProps extends LynxHostProps<"view"> {}
 
 export const AttachmentInputItemBadge = React.forwardRef<NodesRef, AttachmentInputItemBadgeProps>(
   ({ children, className, ...nativeProps }, forwardedRef) => {
@@ -515,8 +451,7 @@ export const AttachmentInputItemBadge = React.forwardRef<NodesRef, AttachmentInp
 AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
 
 export interface AttachmentInputItemActionButtonProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap">,
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 
 export const AttachmentInputItemActionButton = React.forwardRef<
@@ -544,9 +479,7 @@ export const AttachmentInputItemActionButton = React.forwardRef<
 });
 AttachmentInputItemActionButton.displayName = "AttachmentInputItemActionButton";
 
-export interface AttachmentInputItemBackdropProps
-  extends Omit<LynxStyledElementProps, "children">,
-    Omit<NativeViewProps, "children" | "bindtap" | "main-thread:bindtap"> {
+export interface AttachmentInputItemBackdropProps extends Omit<LynxHostProps<"view">, "children"> {
   status: FileEntry["status"];
   children?: React.ReactNode | ((entry: FileEntry) => React.ReactNode);
 }
@@ -567,10 +500,8 @@ export const AttachmentInputItemBackdrop = React.forwardRef<
 AttachmentInputItemBackdrop.displayName = "AttachmentInputItemBackdrop";
 
 export interface AttachmentInputItemRemoveButtonProps
-  extends LynxStyledElementProps,
-    Omit<NativeViewProps, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 /**
  * `FileUploadItemRemoveButton`의 삭제·`readOnly` 차단·접근성 위에 SEED recipe와 아이콘 slot을 조립합니다.

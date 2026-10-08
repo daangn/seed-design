@@ -9,7 +9,7 @@ import {
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 const NotificationBadgeContext = React.createContext<NotificationBadgeVariantProps | null>(null);
@@ -23,8 +23,7 @@ const NotificationBadgeContext = React.createContext<NotificationBadgeVariantPro
  */
 export interface NotificationBadgeProps
   extends NotificationBadgeVariantProps,
-    LynxStyledElementProps,
-    LynxAccessibilityProps {}
+    LynxHostProps<"view"> {}
 
 export const NotificationBadge = React.forwardRef<unknown, NotificationBadgeProps>(
   (innerProps, ref) => {
@@ -51,7 +50,7 @@ NotificationBadge.displayName = "NotificationBadge";
 
 export interface NotificationBadgePositionerProps
   extends NotificationBadgePositionerVariantProps,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const NotificationBadgePositioner = React.forwardRef<
   unknown,

@@ -2,11 +2,11 @@ import {
   identityPlaceholder,
   type IdentityPlaceholderVariantProps,
 } from "@seed-design/lynx-css/recipes/identity-placeholder";
-import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
+import type { NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import businessSource from "./identity-placeholder-business.webp";
@@ -31,7 +31,7 @@ const identitySources = {
  */
 export interface IdentityPlaceholderRootProps
   extends IdentityPlaceholderVariantProps,
-    LynxStyledElementProps {}
+    LynxHostProps<"view"> {}
 
 export const IdentityPlaceholderRoot = React.forwardRef<unknown, IdentityPlaceholderRootProps>(
   (props, ref) => {
@@ -59,8 +59,8 @@ IdentityPlaceholderRoot.displayName = "IdentityPlaceholderRoot";
 /**
  * @platform Lynx
  *
- * `src`와 `mode`는 identity variant가 소유합니다. Web SVG props 대신 native image
- * props를 사용하며 SVG rendering과 `asChild`는 지원하지 않습니다.
+ * Web SVG props 대신 native image props를 사용하며 SVG rendering과 `asChild`는
+ * 지원하지 않습니다. identity variant의 기본 `src`와 `mode`는 사용자 props로 덮을 수 있습니다.
  *
  * React SVG의 기본 `xMidYMid meet`처럼 도형 전체를 비율을 유지한 채 영역 안에 맞춥니다.
  *
@@ -68,29 +68,28 @@ IdentityPlaceholderRoot.displayName = "IdentityPlaceholderRoot";
  * rasterize합니다. Native image의 SVG/fill 경로를 피하고, 토큰이 light/dark에서
  * 동일하므로 동적 tint를 사용하지 않습니다.
  */
-export interface IdentityPlaceholderImageProps
-  extends Omit<IntrinsicElements["image"], "src" | "mode" | "children"> {}
+export interface IdentityPlaceholderImageProps extends Omit<LynxHostProps<"image">, "children"> {}
 
 export const IdentityPlaceholderImage = React.forwardRef<unknown, IdentityPlaceholderImageProps>(
   (props, ref) => {
     const classNames = useClassNames();
     const parentProps = useProps();
 
-    const {
-      className,
-      "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits,
-      ...nativeProps
-    } = props;
+    const { className, ...nativeProps } = props;
     const identity = parentProps?.identity ?? "person";
 
     return (
       <image
-        {...mergeProps(ref ? { ref: ref as React.Ref<NodesRef> } : {}, nativeProps)}
-        src={identitySources[identity]}
-        mode="aspectFit"
-        accessibility-label={accessibilityLabel ?? "Identity placeholder"}
-        accessibility-traits={accessibilityTraits ?? "image"}
+        {...mergeProps(
+          {
+            src: identitySources[identity],
+            mode: "aspectFit",
+            "accessibility-label": "Identity placeholder",
+            "accessibility-traits": "image",
+          } as const,
+          ref ? { ref: ref as React.Ref<NodesRef> } : {},
+          nativeProps,
+        )}
         className={clsx(classNames.image, className)}
       />
     );

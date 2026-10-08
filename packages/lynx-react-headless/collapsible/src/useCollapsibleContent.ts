@@ -24,7 +24,7 @@ export interface UseCollapsibleContentReturn {
  */
 export function useCollapsibleContent({
   style,
-  "accessibility-elements-hidden": accessibilityElementsHidden = false,
+  "accessibility-elements-hidden": accessibilityElementsHidden,
 }: UseCollapsibleContentProps = {}): UseCollapsibleContentReturn {
   const { open, contentProps, contentInnerProps } = useCollapsibleContext();
   const { height, overflow } = contentProps.style;
@@ -34,10 +34,10 @@ export function useCollapsibleContent({
     contentProps: {
       style:
         typeof style === "string"
-          ? `${style};height:${height};overflow:${overflow}`
-          : { ...style, height, overflow },
+          ? `height:${height};overflow:${overflow};${style}`
+          : { height, overflow, ...style },
       "accessibility-elements-hidden":
-        contentProps["accessibility-elements-hidden"] || accessibilityElementsHidden,
+        accessibilityElementsHidden ?? contentProps["accessibility-elements-hidden"],
     },
     contentInnerProps,
   };

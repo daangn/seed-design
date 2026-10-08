@@ -64,8 +64,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     <CheckboxProvider value={api}>
       <view
         {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...rootProps}
+        {...nativeProps}
         bindtap={disabled ? undefined : handleTap}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);

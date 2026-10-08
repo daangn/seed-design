@@ -29,7 +29,9 @@ export const CollapsibleRoot = React.forwardRef<unknown, CollapsibleRootProps>((
 });
 CollapsibleRoot.displayName = "CollapsibleRoot";
 
-export interface CollapsibleTriggerProps extends ViewProps, UseCollapsibleTriggerProps {}
+export interface CollapsibleTriggerProps
+  extends UseCollapsibleTriggerProps,
+    Omit<ViewProps, keyof UseCollapsibleTriggerProps> {}
 
 /**
  * tap으로 열림 상태를 전환하는 native `<view>`입니다. press와 펼침 접근성 값을 연결합니다.
@@ -54,8 +56,9 @@ export const CollapsibleTrigger = React.forwardRef<unknown, CollapsibleTriggerPr
       "accessibility-value": accessibilityValue,
       ...nativeProps
     } = props;
-    const { disabled, triggerProps } = useCollapsibleTrigger({
+    const { triggerProps } = useCollapsibleTrigger({
       bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
       "main-thread:bindtouchstart": mainThreadBindtouchstart,
       "main-thread:bindtouchend": mainThreadBindtouchend,
       "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
@@ -69,10 +72,9 @@ export const CollapsibleTrigger = React.forwardRef<unknown, CollapsibleTriggerPr
 
     return (
       <view
-        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-        {...nativeProps}
         {...triggerProps}
-        main-thread:bindtap={disabled ? undefined : mainThreadBindtap}
+        {...nativeProps}
+        {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
         bindtouchstart={(event) => {
           bindtouchstart?.(event);
           triggerProps.bindtouchstart(event);
@@ -113,7 +115,7 @@ export const CollapsibleContent = React.forwardRef<unknown, CollapsibleContentPr
     });
 
     return (
-      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps} {...contentProps}>
+      <view {...contentProps} {...nativeProps} {...(ref ? { ref: ref as ViewProps["ref"] } : {})}>
         <view {...contentInnerProps} style={{ flexShrink: 0 }}>
           {children}
         </view>

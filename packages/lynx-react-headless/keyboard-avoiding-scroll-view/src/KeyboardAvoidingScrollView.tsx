@@ -24,21 +24,10 @@ import {
 
 type ViewProps = IntrinsicElements["view"];
 type ScrollViewProps = IntrinsicElements["scroll-view"];
-type AccessibilityPropKey =
-  | "accessibility-label"
-  | "accessibility-traits"
-  | "accessibility-element"
-  | "accessibility-value"
-  | "accessibility-role-description"
-  | "accessibility-elements-hidden"
-  | "accessibility-heading"
-  | "accessibility-actions"
-  | "accessibility-exclusive-focus"
-  | "ios-platform-accessibility-id";
 
 export interface KeyboardAvoidingScrollViewRootProps
   extends Omit<UseKeyboardAvoidingScrollViewProps, "ref">,
-    Pick<ViewProps, AccessibilityPropKey | "className" | "id"> {
+    Omit<ViewProps, keyof UseKeyboardAvoidingScrollViewProps | "children"> {
   children?: ReactNode;
 }
 
@@ -68,7 +57,7 @@ export const KeyboardAvoidingScrollViewRoot: ForwardRefExoticComponent<
   return (
     <KeyboardAvoidingScrollViewProvider value={context}>
       <KeyboardAvoidingScrollViewRootProvider value={rootContext}>
-        <view {...nativeProps} {...viewProps}>
+        <view {...viewProps} {...nativeProps}>
           {children}
         </view>
       </KeyboardAvoidingScrollViewRootProvider>
@@ -79,26 +68,7 @@ KeyboardAvoidingScrollViewRoot.displayName = "KeyboardAvoidingScrollViewRoot";
 
 export interface KeyboardAvoidingScrollViewContentProps
   extends Omit<UseKeyboardAvoidingScrollViewContentProps, "ref">,
-    Pick<
-      ScrollViewProps,
-      | AccessibilityPropKey
-      | "className"
-      | "id"
-      | "hidden"
-      | "focusable"
-      | "bounces"
-      | "enable-scroll"
-      | "scroll-bar-enable"
-      | "upper-threshold"
-      | "lower-threshold"
-      | "initial-scroll-offset"
-      | "initial-scroll-to-index"
-      | "bindscrolltoupper"
-      | "bindscrolltolower"
-      | "bindcontentsizechanged"
-      | "bindtap"
-      | "main-thread:bindtap"
-    > {
+    Omit<ScrollViewProps, keyof UseKeyboardAvoidingScrollViewContentProps | "children"> {
   children?: ReactNode;
 }
 
@@ -136,7 +106,7 @@ export const KeyboardAvoidingScrollViewContent: ForwardRefExoticComponent<
   const spacerViewProps: Record<string, unknown> = spacerProps;
 
   return (
-    <scroll-view {...nativeProps} {...scrollViewProps}>
+    <scroll-view {...scrollViewProps} {...nativeProps}>
       {children}
       <view {...spacerViewProps} />
     </scroll-view>
@@ -146,7 +116,7 @@ KeyboardAvoidingScrollViewContent.displayName = "KeyboardAvoidingScrollViewConte
 
 export interface KeyboardAvoidingScrollViewFooterProps
   extends Omit<UseKeyboardAvoidingScrollViewFooterProps, "ref">,
-    Pick<ViewProps, AccessibilityPropKey | "className" | "id"> {
+    Omit<ViewProps, keyof UseKeyboardAvoidingScrollViewFooterProps | "children"> {
   children?: ReactNode;
 }
 
@@ -169,7 +139,7 @@ export const KeyboardAvoidingScrollViewFooter: ForwardRefExoticComponent<
 
   return (
     <KeyboardAvoidingScrollViewProvider value={context}>
-      <view {...nativeProps} {...viewProps}>
+      <view {...viewProps} {...nativeProps}>
         {children}
       </view>
     </KeyboardAvoidingScrollViewProvider>

@@ -1,13 +1,11 @@
 import * as React from "@lynx-js/react";
 
-import type { LynxAccessibilityProps, LynxStyledElementProps } from "../../types";
+import type { LynxHostProps } from "../../types";
 import type { StyleProps } from "../../utils/styled";
 import { Box } from "../Box";
 import { mergeProps } from "../../utils/merge-props";
 
-export interface DividerProps
-  extends Omit<LynxStyledElementProps, "children">,
-    LynxAccessibilityProps {
+export interface DividerProps extends Omit<LynxHostProps<"view">, "children" | "color"> {
   /**
    * @default "stroke.neutralMuted"
    */
@@ -44,8 +42,6 @@ export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
     orientation = "horizontal",
     inset = false,
     style,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "separator",
     ...nativeProps
   } = props;
 
@@ -56,13 +52,15 @@ export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
     // 방향·inset이 바뀌면 이전 geometry key가 남지 않도록 view를 다시 만든다.
     <Box
       key={`${orientation}-${inset}`}
-      {...mergeProps({ ref }, nativeProps)}
+      {...mergeProps(
+        { "accessibility-element": true, "accessibility-role-description": "separator" },
+        ref ? { ref } : {},
+        nativeProps,
+      )}
       borderColor={color}
       borderWidth={0}
       borderBottomWidth={isHorizontal ? thickness : 0}
       borderRightWidth={isHorizontal ? 0 : thickness}
-      accessibility-element={accessibilityElement}
-      accessibility-role-description={accessibilityRoleDescription}
       style={{
         width: isHorizontal ? (inset ? "calc(100% - 32px)" : "100%") : undefined,
         height: isHorizontal ? undefined : inset ? "calc(100% - 32px)" : "100%",

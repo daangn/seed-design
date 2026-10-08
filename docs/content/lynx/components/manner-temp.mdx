@@ -63,7 +63,9 @@ export function App() {
 <Callout type="warning">
 
 - **렌더링 요소.** HTML `<span>`과 `<img>` 대신 native `<view>`, `<text>`, `<image>`를 렌더링합니다.
-- **다형 렌더링.** 웹의 `asChild`와 HTML attribute 표면은 제공하지 않습니다.
+- **다형 렌더링.** 웹의 `asChild`는 제공하지 않습니다.
+- **native 속성.** HTML 속성 대신 렌더링하는 native 요소의 속성을 받습니다. `MannerTemp`는 root `<view>`, `MannerTempEmote`는 `<image>`의 `id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트, `data-*` 등을 그대로 전달합니다.
+- **기본값 덮어쓰기.** 컴포넌트가 정한 값과 같은 속성을 넘기면 넘긴 값이 이깁니다. `MannerTempEmote`의 `src`·`mode`·`accessibility-elements-hidden`을 바꾸면 level별 이미지와 스크린 리더 숨김이 사라지므로 의도한 경우에만 덮어쓰세요.
 - **label과 emote 배치.** 웹은 children을 전달한 순서대로 렌더링하고 emote를 `SuffixIcon`으로 감쌉니다. Lynx는 `MannerTempEmote`가 아닌 children을 label `<text>` 하나에 모으고, `MannerTempEmote`는 전달 순서와 관계없이 label 뒤에 둡니다. Fragment 안의 `MannerTempEmote`도 같은 규칙을 따르지만, 다른 컴포넌트로 감싼 emote는 label로 취급되어 `<text>` 안에 들어갑니다.
 - **emote 이미지.** 웹은 `srcSet`으로 2x·3x·4x 이미지를 고르고, Lynx는 96px 이미지 하나를 사용합니다. `MannerTempEmote`에 전달한 children은 렌더링하지 않습니다.
 

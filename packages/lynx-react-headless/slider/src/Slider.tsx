@@ -137,12 +137,12 @@ export const SliderThumb = React.forwardRef<unknown, SliderThumbProps>((props, r
 
   return (
     <view
+      {...{ "accessibility-traits": disabled ? "disabled" : undefined }}
       {...thumbProps}
       {...nativeProps}
       ref={handleRef as ViewProps["ref"]}
       style={{ ...thumbProps.style, ...style }}
       bindtouchstart={chain(bindtouchstart, thumbProps.bindtouchstart)}
-      accessibility-traits={disabled ? "disabled" : nativeProps["accessibility-traits"]}
     >
       {children}
     </view>

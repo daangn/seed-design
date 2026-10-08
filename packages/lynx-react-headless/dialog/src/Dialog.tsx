@@ -255,9 +255,9 @@ export const DialogTitle = React.forwardRef<unknown, DialogTitleProps>((props, r
 
   return (
     <text
-      {...(ref ? { ref: ref as TextProps["ref"] } : {})}
+      {...{ "accessibility-heading": accessibilityHeading }}
       {...nativeProps}
-      accessibility-heading={accessibilityHeading}
+      {...(ref ? { ref: ref as TextProps["ref"] } : {})}
     >
       {children}
     </text>
@@ -272,7 +272,7 @@ export const DialogDescription = React.forwardRef<unknown, DialogDescriptionProp
   const { children, ...nativeProps } = props;
 
   return (
-    <text {...(ref ? { ref: ref as TextProps["ref"] } : {})} {...nativeProps}>
+    <text {...nativeProps} {...(ref ? { ref: ref as TextProps["ref"] } : {})}>
       {children}
     </text>
   );
