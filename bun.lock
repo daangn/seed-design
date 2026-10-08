@@ -2332,7 +2332,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.9.0",
-        "@seed-design/lynx-css": "0.0.0 || >=0.12.0 <1.0.0",
+        "@seed-design/lynx-css": "^0.14.1",
       },
     },
     "packages/utils/react-scale-feedback": {
