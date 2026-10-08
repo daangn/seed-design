@@ -16,6 +16,10 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js"
     },
+    "./content-placeholder-presets/*": {
+      "types": "./lib/content-placeholder-presets/*.d.ts",
+      "import": "./lib/content-placeholder-presets/*.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [

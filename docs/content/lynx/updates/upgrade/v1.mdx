@@ -829,7 +829,7 @@ npx @seed-design/cli@latest add ui:avatar ui:content-placeholder
 ```
 
 - **Avatar:** `badgeMask`로 원·꽃·방패 모양의 투명한 여백을 만들고, `AvatarBadge`의 자식으로 배지 에셋을 넣습니다. 자식의 윤곽을 자동으로 분석하지 않으므로 다른 모양의 커스텀 배지는 `badgeMask="none"`을 사용하세요. 마스크를 위한 플랫폼별 스타일은 컴포넌트가 처리합니다.
-- **Content Placeholder:** React와 같은 12개 프리셋과 light/dark 에셋을 제공합니다. 아이콘이나 이미지를 `children`으로 넣으면 프리셋을 대체합니다. 커스텀 에셋의 색은 유지되며, 모노크롬 아이콘의 색은 자식의 `tint-color`로 지정하세요.
+- **Content Placeholder:** React와 같은 12개 프리셋을 제공합니다. 사용할 프리셋만 `@seed-design/lynx-react/content-placeholder-presets/<name>`에서 import해 `preset`으로 전달하면 해당 light/dark 이미지 쌍만 포함됩니다. 아이콘이나 이미지를 `children`으로 넣으면 프리셋을 대체합니다. 커스텀 에셋의 색은 유지되며, 모노크롬 아이콘의 색은 자식의 `tint-color`로 지정하세요.
 - **Image Frame:** `ImageFrameFloater`로 오버레이 위치를 지정하고, `ImageFrameReactionButton`의 `pressed`·`onPressedChange`로 좋아요 상태를 제어할 수 있습니다. Engine 3.6에서는 비율 기반 레이아웃과 콘텐츠 표시 문제가 확인되어 지원하지 않습니다.
 
 Avatar와 Image Frame은 headless Image로 로딩 상태를 처리합니다. 앱에서 headless 패키지를 따로 설치할 필요는 없습니다. 두 컴포넌트 모두 이미지 로딩이 성공하면 fallback을 언마운트하므로, 다시 표시할 때 유지할 상태는 부모에서 관리하세요. 자세한 사용법과 React와의 차이는 각 컴포넌트 문서에서 확인할 수 있습니다.

@@ -1,3 +1,4 @@
+import { readdirSync } from "node:fs";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
@@ -21,7 +22,12 @@ export default defineConfig({
     minify: false,
     outDir: "lib",
     lib: {
-      entry: "src/index.ts",
+      entry: [
+        "src/index.ts",
+        ...readdirSync(new URL("./src/content-placeholder-presets/", import.meta.url))
+          .filter((name) => name.endsWith(".ts"))
+          .map((name) => `src/content-placeholder-presets/${name}`),
+      ],
       formats: ["es"],
     },
     rolldownOptions: {

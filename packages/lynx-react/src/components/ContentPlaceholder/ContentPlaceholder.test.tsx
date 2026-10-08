@@ -5,8 +5,35 @@ import type { LynxIconElementProps } from "../../types";
 import { act, createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
-import { contentPlaceholderPresets } from "./presets";
+import { defaultPreset } from "../../content-placeholder-presets/default";
+import { buySell } from "../../content-placeholder-presets/buy-sell";
+import { car } from "../../content-placeholder-presets/car";
+import { commerce } from "../../content-placeholder-presets/commerce";
+import { coupon } from "../../content-placeholder-presets/coupon";
+import { food } from "../../content-placeholder-presets/food";
+import { group } from "../../content-placeholder-presets/group";
+import { image } from "../../content-placeholder-presets/image";
+import { jobs } from "../../content-placeholder-presets/jobs";
+import { business } from "../../content-placeholder-presets/business";
+import { post } from "../../content-placeholder-presets/post";
+import { realty } from "../../content-placeholder-presets/realty";
+
 import { ContentPlaceholderAsset, ContentPlaceholderRoot } from "./ContentPlaceholder";
+
+const contentPlaceholderPresets = {
+  default: defaultPreset,
+  buySell,
+  car,
+  commerce,
+  coupon,
+  food,
+  group,
+  image,
+  jobs,
+  business,
+  post,
+  realty,
+};
 
 const TestIcon = React.forwardRef<
   MainThread.Element,
@@ -107,7 +134,7 @@ describe("ContentPlaceholder", () => {
     Object.keys(contentPlaceholderPresets) as Array<keyof typeof contentPlaceholderPresets>,
   )("renders %s with precolored theme assets on the first render", (type) => {
     render(
-      <ContentPlaceholderRoot type={type}>
+      <ContentPlaceholderRoot preset={contentPlaceholderPresets[type]}>
         <ContentPlaceholderAsset />
       </ContentPlaceholderRoot>,
     );
@@ -121,9 +148,9 @@ describe("ContentPlaceholder", () => {
     }
   });
 
-  it("uses default preset and updates the selected type", async () => {
+  it("updates the selected preset without remounting the theme images", async () => {
     const { rerender } = render(
-      <ContentPlaceholderRoot>
+      <ContentPlaceholderRoot preset={defaultPreset}>
         <ContentPlaceholderAsset />
       </ContentPlaceholderRoot>,
     );
@@ -131,8 +158,9 @@ describe("ContentPlaceholder", () => {
       "src",
       contentPlaceholderPresets.default.light,
     );
+    const firstImage = getRoot().querySelector("image");
     rerender(
-      <ContentPlaceholderRoot type="car">
+      <ContentPlaceholderRoot preset={car}>
         <ContentPlaceholderAsset />
       </ContentPlaceholderRoot>,
     );
@@ -141,12 +169,22 @@ describe("ContentPlaceholder", () => {
       "src",
       contentPlaceholderPresets.car.light,
     );
+    expect(getRoot().querySelector("image")).toBe(firstImage);
+  });
+
+  it("renders no preset images when no preset or custom asset is provided", () => {
+    render(
+      <ContentPlaceholderRoot>
+        <ContentPlaceholderAsset />
+      </ContentPlaceholderRoot>,
+    );
+    expect(getRoot().querySelectorAll("image")).toHaveLength(0);
   });
 
   it("keeps the caller's tint on first render, appearance and updates without adding a preset", async () => {
     const appear = vi.fn();
     const Example = ({ tint }: { tint: string }) => (
-      <ContentPlaceholderRoot type="car">
+      <ContentPlaceholderRoot preset={car}>
         <ContentPlaceholderAsset>
           <TestIcon tint-color={tint} binduiappear={appear} />
         </ContentPlaceholderAsset>
