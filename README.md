@@ -62,3 +62,6 @@ SEED는 당근 제품을 위한 통합된 디자인 언어입니다. 하나의 �
 ## License
 
 [Apache-2.0](./LICENSE)
+
+Project-local development skills retain their upstream licenses.
+[Attention Kind](./skills/seed-attention-kind/UPSTREAM.md) is AGPL-3.0; Karpathy Guidelines and Verification Before Completion retain the license information recorded in their `UPSTREAM.md`. These development files are outside the runtime package outputs.
