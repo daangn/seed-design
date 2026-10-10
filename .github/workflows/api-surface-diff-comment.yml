@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Download diff comment
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
         with:
           name: api-surface-diff-comment
           run-id: ${{ github.event.workflow_run.id }}
@@ -25,7 +25,7 @@ jobs:
       # The artifact comes from PR code, so it is only ever posted as comment text. The PR is found
       # from the event, not from the artifact, and only while its head is still the commit that ran.
       - name: Update PR comment
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           HEAD_LABEL: ${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}
