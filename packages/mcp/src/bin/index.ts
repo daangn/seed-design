@@ -77,7 +77,7 @@ function createRestClient(mode: ToolMode): FigmaRestClient | null {
 
   logger.info("Initializing REST API client with PAT from environment");
 
-  return createFigmaRestClient(pat);
+  return createFigmaRestClient({ personalAccessToken: pat });
 }
 
 async function loadMcpConfig(configPath?: string): Promise<McpConfig | null> {
