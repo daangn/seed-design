@@ -7,8 +7,6 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-const listFormat = new Intl.ListFormat("ko", { type: "conjunction" });
-
 export default function Example() {
   return (
     <HStack width="full" gap="x4">
@@ -16,7 +14,7 @@ export default function Example() {
         <SelectRoot
           multiple
           defaultValue={["apple", "banana"]}
-          formatValue={(items) => listFormat.format(items.map((item) => item.textValue))}
+          formatValue={(items) => items.map((item) => item.textValue).join(", ")}
         >
           <SelectTrigger accessibility-label="과일" placeholder="과일 선택" />
           <SelectContent>
