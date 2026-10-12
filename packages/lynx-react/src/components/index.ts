@@ -18,6 +18,7 @@ export * from "./Icon";
 export * from "./Dialog";
 export * from "./AlertDialog";
 export * from "./HelpBubble";
+export * from "./ImageFrame";
 export * from "./IdentityPlaceholder";
 export * from "./KeyboardAvoidingScrollView";
 export * from "./MannerTemp";

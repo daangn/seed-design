@@ -1,4 +1,4 @@
-/// <reference path="./assets.d.ts" />
+/// <reference path="../../assets.d.ts" />
 
 import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";

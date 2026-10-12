@@ -565,6 +565,7 @@
         "@seed-design/lynx-react-field-button": "0.0.0",
         "@seed-design/lynx-react-file-upload": "0.0.0",
         "@seed-design/lynx-react-floating": "0.0.0",
+        "@seed-design/lynx-react-image": "0.1.0",
         "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "0.0.0",
         "@seed-design/lynx-react-loop-scroll": "0.0.0",
         "@seed-design/lynx-react-menu": "0.0.0",
@@ -7668,6 +7669,8 @@
     "@seed-design/lynx-react-scale-feedback/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
 
     "@seed-design/lynx-react-scale-feedback/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
+
+    "@seed-design/lynx-react-scale-feedback/@seed-design/lynx-css": ["@seed-design/lynx-css@0.14.1", "", {}, "sha512-vM534r3pjXtVRwAeNlpQXkdZZhF3oeS02DASream8xzpkh8gA19noiS8SMipW/1oRxWJ249h6QzxwaUB5L9IIw=="],
 
     "@seed-design/lynx-react-segmented-control/@lynx-js/react": ["@lynx-js/react@0.117.0", "", { "dependencies": { "preact": "npm:@lynx-js/internal-preact@10.28.4-ee7bb26" }, "peerDependencies": { "@lynx-js/types": "*", "@types/react": "^18" }, "optionalPeers": ["@lynx-js/types"] }, "sha512-B3MHB+bpdRHswZ1Qs3/Nau4ZopmbLn9Ox4IX7stt5WNuKi2o2LRBedOjDkc1Wow10bEC4wrrG79xNPQXw1o7Rg=="],
 
