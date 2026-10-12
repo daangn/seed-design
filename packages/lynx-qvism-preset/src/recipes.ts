@@ -2,6 +2,8 @@ import accordion from "./recipes/accordion";
 import actionButton from "./recipes/action-button";
 import alertDialog from "./recipes/alert-dialog";
 import { appBar, appBarMain } from "./recipes/app-bar";
+import avatar from "./recipes/avatar";
+import avatarStack from "./recipes/avatar-stack";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
 import bottomSheetHandle from "./recipes/bottom-sheet-handle";
@@ -71,6 +73,8 @@ export const recipes = {
   alertDialog,
   appBar,
   appBarMain,
+  avatar,
+  avatarStack,
   badge,
   bottomSheet,
   attachmentInput,
