@@ -9,6 +9,7 @@ export * from "./Checkbox";
 export * from "./Chip";
 export * from "./ChipTabs";
 export * from "./Count";
+export * from "./ContentPlaceholder";
 export * from "./ContextualFloatingButton";
 export * from "./Divider";
 export * from "./Field";

@@ -4,6 +4,18 @@ export const globalCss = defineGlobalCss({
   ":root": {
     fontSize: "16px",
   },
+  // 토큰과 같은 테마 범위에서 상속해 중첩된 light-only/dark-only도 함께 전환한다.
+  ":root, :root.seed-user-color-scheme-light, :root.seed-color-mode-light-only, .seed-color-mode-light-only":
+    {
+      "--seed-content-placeholder-preset-light-display": "flex",
+      "--seed-content-placeholder-preset-dark-display": "none",
+    },
+  ":root.seed-user-color-scheme-dark, :root.seed-color-mode-dark-only, .seed-color-mode-dark-only":
+    {
+      "--seed-content-placeholder-preset-light-display": "none",
+      "--seed-content-placeholder-preset-dark-display": "flex",
+    },
+
   // Lynx 테마 색상 갱신 워크어라운드.
   // SEED <text>는 `color`를 inline style의 var()로 거는데, Lynx 엔진은 테마가 바뀔 때
   // inline var()를 재계산하지 않는다 — rule(class/type selector) 기반 var()만 style
