@@ -11,6 +11,7 @@ on:
       - "packages/react-headless/**"
       - "packages/react/**"
       - "packages/lynx-react/**"
+      - "packages/lynx-react-headless/**"
       - "packages/lynx-css/**"
       - "packages/stackflow/**"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
