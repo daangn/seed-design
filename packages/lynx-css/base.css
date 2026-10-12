@@ -2,6 +2,16 @@
   font-size: 16px;
 }
 
+:root, :root.seed-user-color-scheme-light, :root.seed-color-mode-light-only, .seed-color-mode-light-only {
+  --seed-content-placeholder-preset-light-display: flex;
+  --seed-content-placeholder-preset-dark-display: none;
+}
+
+:root.seed-user-color-scheme-dark, :root.seed-color-mode-dark-only, .seed-color-mode-dark-only {
+  --seed-content-placeholder-preset-light-display: none;
+  --seed-content-placeholder-preset-dark-display: flex;
+}
+
 text {
   background-color: var(--seed-color-bg-transparent);
 }
