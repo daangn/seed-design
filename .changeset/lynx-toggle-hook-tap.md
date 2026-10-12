@@ -2,4 +2,8 @@
 "@seed-design/lynx-react-toggle": minor
 ---
 
-`useToggle`이 `bindtap`·`main-thread:bindtap`을 받아 `rootProps`로 연결합니다. 사용자 `bindtap`은 pressed 전이보다 먼저 실행되고, `disabled`이면 두 handler 모두 실행되지 않습니다. `rootProps`는 `accessibility-element`·`accessibility-traits`(`disabled`이면 `"disabled"`)·`accessibility-role-description`·`accessibility-value` 기본값도 포함하므로, 뒤에 펼친 props로 덮어쓸 수 있습니다. `Toggle.Root`는 이 `rootProps`를 사용하며 동작은 같습니다.
+`useToggle`에 사용자 tap·touch handler를 지정해 커스텀 동작과 선택 상태 전환을 함께 처리할 수 있습니다.
+
+- `bindtap`·`main-thread:bindtap`·`main-thread:bindtouchstart`·`main-thread:bindtouchend`·`main-thread:bindtouchcancel`을 지원합니다.
+- `bindtap`은 선택 상태 변경 전에 호출하며, `disabled`이면 tap handler와 선택 변경을 막습니다.
+- 이전에는 이벤트 handler만 제공하던 `rootProps`에 toggle button의 접근성 역할과 `"pressed"`·`"not pressed"` 상태를 추가합니다.
