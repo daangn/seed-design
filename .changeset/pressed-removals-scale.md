@@ -3,4 +3,4 @@
 "@seed-design/lynx-css": patch
 ---
 
-`AttachmentInput`과 `AttachmentDisplay`의 삭제 버튼을 눌렀을 때 scale 피드백이 표시되지 않던 문제를 수정합니다.
+`AttachmentInput`과 `AttachmentDisplay`의 삭제 버튼을 눌렀을 때 scale 피드백이 표시되지 않던 문제를 수정해, 누르는 동안 버튼이 축소되도록 합니다.
