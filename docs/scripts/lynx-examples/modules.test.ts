@@ -18,7 +18,7 @@ const entries: LynxExampleEntry[] = [
 ];
 
 describe("createStandaloneModules", () => {
-  it("컴포넌트마다 virtual entry 하나가 예제 ID별 원본 default export와 배치를 등록한다", () => {
+  it("컴포넌트마다 virtual entry 하나가 예제 ID별 원본 default export와 배치·Probelynx ID를 등록한다", () => {
     const virtualBadge = resolve(DOCS_DIRECTORY, ".next/lynx-entries/badge.tsx");
     const virtualHelpBubble = resolve(DOCS_DIRECTORY, ".next/lynx-entries/help-bubble.tsx");
     const standalone = JSON.stringify(resolve(EXAMPLES_DIRECTORY, "standalone.tsx"));
@@ -48,7 +48,7 @@ describe("createStandaloneModules", () => {
           'import Example0 from "/fixtures/quo\\"te.tsx";',
           "",
           "renderLynxExamples({",
-          '  "lynx/badge/preview": { Example: Example0, layout: "center" },',
+          '  "lynx/badge/preview": { Example: Example0, layout: "center", probelynxId: "badge.preview" },',
           "});",
           "",
         ].join("\n"),
@@ -58,8 +58,8 @@ describe("createStandaloneModules", () => {
           'import Example1 from "/fixtures/help-bubble/preview.tsx";',
           "",
           "renderLynxExamples({",
-          '  "lynx/help-bubble/placement": { Example: Example0, layout: "fill" },',
-          '  "lynx/help-bubble/preview": { Example: Example1, layout: "center" },',
+          '  "lynx/help-bubble/placement": { Example: Example0, layout: "fill", probelynxId: "help-bubble.placement" },',
+          '  "lynx/help-bubble/preview": { Example: Example1, layout: "center", probelynxId: "help-bubble.preview" },',
           "});",
           "",
         ].join("\n"),

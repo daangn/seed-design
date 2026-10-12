@@ -2,6 +2,8 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const LYNX_MANIFEST_SCHEMA_VERSION = 1 as const;
+export const LYNX_E2E_MANIFEST_SCHEMA_VERSION = 1 as const;
+export const LYNX_E2E_MANIFEST_FILENAME = "e2e-manifest.json";
 export const LYNX_CACHE_SCHEMA_VERSION = 2 as const;
 export const LYNX_WEB_CORE_STYLES_FILENAME = "web-core.css";
 const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url));
