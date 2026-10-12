@@ -1,6 +1,11 @@
 ---
-"@seed-design/lynx-css": minor
+"@seed-design/lynx-css": major
 "@seed-design/lynx-react": patch
 ---
 
-(BREAKING CHANGE: `segmented-control` Recipe의 `pressed` variant를 제거하고 `itemSelectedBackground` slot을 추가합니다. `segmentedControl({ pressed })`를 쓰던 코드는 `pressed`를 지워야 합니다.) Lynx SegmentedControl의 눌림 색을 Main Thread `:active`로만 적용합니다. 놓는 순간 선택이 바뀌어도 사라지는 눌림 색이 바뀌지 않습니다. 첫 진입 때 Indicator가 서서히 나타나지 않도록 Recipe에 `transitionEnabled` variant를 추가하고, Item 등록 다음 업데이트부터 Indicator transition을 켭니다.
+(BREAKING CHANGE: `segmentedControl({ pressed })`에서 `pressed`를 제거하고, 직접 조합한 `SegmentedControl`에는 `itemSelectedBackground` slot을 추가해야 합니다.)
+
+Lynx `SegmentedControl`의 눌림 배경을 선택 상태별로 분리해, 선택이 바뀌는 순간 사라지는 배경의 색도 바뀌던 문제를 수정합니다.
+
+- 이전에는 하나의 `itemBackground`에서 선택 상태에 따라 눌림 색을 바꿨지만, 이제 미선택용 `itemBackground`와 선택용 `itemSelectedBackground`에 각각 색을 고정합니다.
+- `pressed` Recipe variant를 제거하고, Item의 `:active` 상태에서 선택 여부에 맞는 배경을 표시합니다.

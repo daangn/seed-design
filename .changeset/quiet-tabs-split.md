@@ -1,8 +1,10 @@
 ---
 "@seed-design/lynx-react-tabs": minor
-"@seed-design/lynx-react": patch
 ---
 
-Lynx Tabs를 SEED 스타일 없이 조합할 수 있는 `@seed-design/lynx-react-tabs`를 추가합니다. React `@seed-design/react-tabs`와 같은 `Root`·`List`·`Trigger`·`Content`·`Indicator`·`Carousel`·`CarouselCamera` 파트로 선택 상태와 controlled 값, Trigger·Content 등록 순서, 비활성화, 접근성과 ref, 선택한 Trigger를 목록 안에 보이게 하는 스크롤(`scrollAlign`), Indicator 위치, native viewpager 동기화를 제공합니다. Context는 `TabsProvider`·`useTabsContext({ strict })`, `useTabsTriggerContext`, `useTabsCarouselContext`로 공개합니다. `@seed-design/lynx-react` Tabs·ChipTabs는 사용법과 렌더링 결과를 유지하며 이 패키지 위에 Recipe·Label·notification·Scale Feedback을 조립합니다.
+SEED 스타일 없이 탭 목록과 콘텐츠를 조합할 수 있는 `@seed-design/lynx-react-tabs`를 추가합니다.
 
-`transitionsEnabled`는 모든 Trigger 측정값이 반영된 다음 업데이트부터 `true`가 되어, 첫 진입 때 Indicator가 측정 전 위치에서 미끄러지지 않습니다.
+- `Tabs.Root`·`Tabs.List`·`Tabs.Trigger`·`Tabs.Content`·`Tabs.Indicator`·`Tabs.Carousel`·`Tabs.CarouselCamera`를 제공합니다.
+- `value`·`defaultValue`·`onValueChange`로 선택값을 관리하고, `Tabs.Trigger`의 `disabled`로 해당 탭 선택을 막을 수 있습니다.
+- `Tabs.List`의 `scrollAlign`으로 선택된 탭의 스크롤 정렬을 지정하며, `Indicator` 위치와 carousel 페이지를 선택값에 맞춰 동기화합니다.
+- `useTabs`·`useTabsContext`·`useTabsTriggerContext`·`useTabsCarouselContext` 등 상태 hook을 제공합니다.

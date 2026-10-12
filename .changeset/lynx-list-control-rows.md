@@ -1,6 +1,13 @@
 ---
-"@seed-design/lynx-css": minor
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-css": major
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: `List.CheckboxItem`·`List.RadioItem`·`List.SwitchItem`의 접근성 기본값이 각 컨트롤과 같아집니다. `accessibility-value`는 `선택됨`·`선택 안 됨`·`켜짐`·`꺼짐` 대신 Checkbox `checked`·`not checked`·`mixed`, Switch `checked`·`not checked`, Radio `selected`·`not selected`를 쓰고, 활성 상태의 `accessibility-traits` 기본값 `"button"`을 제거합니다. 행에 Checkbox·Switch·Radio의 `tone`·`variant`·`weight`·`size`를 넘기던 코드는 suffix의 `Checkbox.Control` 등에 지정하세요. `listItem` Recipe의 `interactionRoot` slot을 제거합니다.) List 선택 항목이 styled 컨트롤 Root로 감싸지 않고 행 하나를 접근성 요소로 렌더링합니다. 이전에는 바깥 컨트롤과 안쪽 행이 각각 접근성 요소였고 indeterminate가 행에 반영되지 않았습니다. `Checkbox.Control`·`Checkbox.Indicator`, `Switch.Control`, `RadioGroup.ItemControl`·`RadioGroup.ItemIndicator`가 Headless Root 아래에서도 상태를 표시합니다.
+(BREAKING CHANGE: `List.CheckboxItem`의 `size`·`variant`·`tone`을 `Checkbox.Control`로, `List.SwitchItem`의 `size`·`tone`을 `Switch.Control`로 옮기고 행의 `pressed`를 제거해야 합니다. `List.CheckboxItem`의 `weight`는 제거하고, 글자 굵기가 필요하면 label의 `Text`에 직접 지정해야 합니다. `listItem` Recipe를 직접 조합한다면 `interactionRoot` wrapper를 제거하고 실제 행의 `root`에 handler와 ref를 연결해야 합니다.)
+
+`List` 선택 행에서 선택 상태와 mark 모양을 분리하고, 행 자체를 조작하는 요소로 사용합니다.
+
+- 이전에는 `CheckboxItem`·`SwitchItem`의 prop으로 mark 모양을 지정했습니다. 이제 행은 선택 상태를 관리하고, `Checkbox.Control`·`Switch.Control`이 각각 `size`·`tone`과 Checkbox의 `variant`를 받습니다.
+- `CheckboxItem`이 받던 `weight`를 제거하며, label의 글자 굵기는 `Text`에서 지정합니다.
+- 눌림 상태는 실제 터치에 따라 바뀌므로 행에 `pressed`를 직접 지정하지 않습니다.
+- 선택 행 바깥의 `interactionRoot`를 제거하고, handler와 ref를 행의 `root`에 연결합니다. `seed-list-item__interactionRoot` class는 더 이상 생성되지 않습니다.

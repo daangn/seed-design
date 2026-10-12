@@ -2,4 +2,4 @@
 "@seed-design/lynx-react": minor
 ---
 
-Lynx `ProgressCircle.Root`에 Main Thread에서 진행률을 바로 갱신하는 선택 prop `mainThreadProgress`를 추가합니다.
+`ProgressCircle.Root`에 `mainThreadProgress`를 추가해 제스처에 따라 바뀌는 진행률을 진행 링에 바로 반영할 수 있습니다.

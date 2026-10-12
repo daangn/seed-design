@@ -1,7 +1,10 @@
 ---
-"@seed-design/lynx-react-toggle": minor
+"@seed-design/lynx-react-toggle": major
 ---
 
-Toggle Context를 React의 `@seed-design/react-toggle`과 같은 형태로 제공합니다. `ToggleContext` 대신 `ToggleProvider`를 export하며, `useToggleContext`는 호출자 이름 대신 `{ strict }`를 받습니다. `strict: false`이면 Toggle Root 밖에서 `null`을 반환합니다.
+(BREAKING CHANGE: `ToggleContext.Provider`를 `ToggleProvider`로, `useToggleContext("호출자 이름")`을 `useToggleContext()`로 변경해야 합니다. Provider 밖에서 선택적으로 호출한다면 `useToggleContext({ strict: false })`를 사용하고 반환값이 `null`인 경우를 처리해야 합니다.)
 
-`useToggleContext("Label")`처럼 문자열을 넘기던 호출은 `useToggleContext()`로 바꾸고, `ToggleContext.Provider`는 `ToggleProvider`로 바꿉니다.
+Toggle의 context API를 React와 같은 Provider와 strict 옵션 형태로 변경합니다.
+
+- 직접 사용하던 `ToggleContext` export를 제거하고 `ToggleProvider`를 제공합니다.
+- `useToggleContext`는 호출자 이름 문자열 대신 `{ strict }` 옵션을 받습니다. 기본 호출은 Provider가 필요하며, `strict: false`이면 Provider 밖에서 `null`을 반환합니다.

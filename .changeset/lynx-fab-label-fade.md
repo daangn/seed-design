@@ -3,4 +3,7 @@
 "@seed-design/lynx-react": patch
 ---
 
-Lynx Floating Action Button이 축소될 때 label이 한 줄 크기를 유지한 채 투명해지며 사라지고, 확장될 때 다시 나타납니다. `extended={false}`에서도 label은 접근성 트리에서 숨겨진 채 렌더링되어 버튼 폭 전환 동안 줄바꿈되지 않고 잘려 보입니다.
+Lynx `FloatingActionButton.Label`의 축소·확장 전환에서 Label이 사라지거나 줄바꿈·잘림이 발생하던 문제를 수정합니다.
+
+- 이전에는 `extended={false}`일 때 Label을 제거했습니다. 이제 Label을 유지하고 opacity로 숨기거나 표시합니다.
+- Label은 전환 중에도 한 줄을 유지하며, 기존처럼 접근성 트리에서 숨깁니다.

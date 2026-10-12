@@ -1,5 +1,9 @@
 ---
-"@seed-design/lynx-react": minor
+"@seed-design/lynx-react": major
 ---
 
-(BREAKING CHANGE: Lynx `ActionButton`의 `icon`·`prefixIcon`·`suffixIcon` prop을 제거합니다. `<Icon icon={...} />`·`<PrefixIcon icon={...} />`·`<SuffixIcon icon={...} />`를 children으로 전달하세요.) `Icon`·`PrefixIcon`·`SuffixIcon`이 `accessibility-elements-hidden`으로 보조 기술에서 숨겨집니다. 아이콘의 의미는 감싼 컴포넌트의 `accessibility-label`로 전달하세요.
+(BREAKING CHANGE: Lynx `ActionButton`의 `icon`·`prefixIcon`·`suffixIcon` prop을 각각 children의 `<Icon icon={...} />`·`<PrefixIcon icon={...} />`·`<SuffixIcon icon={...} />`로 바꿔야 합니다.)
+
+`ActionButton`의 아이콘 전달 방식을 React와 같이 children slot으로 통일합니다.
+
+- 이전에는 `icon`·`prefixIcon`·`suffixIcon` prop으로 전달한 아이콘도 렌더링했습니다. 이제 이 prop을 제거하고 children에 배치한 `Icon`·`PrefixIcon`·`SuffixIcon`을 렌더링합니다.

@@ -2,4 +2,4 @@
 "@seed-design/lynx-css": minor
 ---
 
-Lynx AppBar 아이콘 버튼에 Top Navigation 스펙의 눌림 배경색(`$color.bg.transparent-pressed`)과 색 전환을 적용하고, 모서리를 `$radius.r2`로 맞춥니다.
+Lynx `AppBar.IconButton`에 눌림 배경색과 배경색 전환을 추가해 버튼을 누르는 상태를 구분할 수 있도록 합니다. 이전에는 눌러도 배경이 투명했고 모서리 반경은 `r1`이었습니다. 이제 누르는 동안 눌림 배경색을 표시하고 모서리 반경은 `r2`로 적용합니다.
