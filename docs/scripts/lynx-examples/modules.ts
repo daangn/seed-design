@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { getExampleLayout } from "../../playground/lynx/layout.js";
 import { DOCS_DIRECTORY, EXAMPLES_DIRECTORY } from "./constants.js";
 import type { LynxExampleEntry } from "./discovery.js";
+import { getProbelynxExampleId } from "./e2e-manifest.js";
 
 const VIRTUAL_ENTRIES_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/lynx-entries");
 const STANDALONE_MODULE = resolve(EXAMPLES_DIRECTORY, "standalone.tsx");
@@ -37,7 +38,7 @@ export function createStandaloneModules(entries: LynxExampleEntry[]): Standalone
       "renderLynxExamples({",
       ...group.map(
         (entry, index) =>
-          `  ${JSON.stringify(entry.id)}: { Example: Example${index}, layout: ${JSON.stringify(getExampleLayout(entry.id))} },`,
+          `  ${JSON.stringify(entry.id)}: { Example: Example${index}, layout: ${JSON.stringify(getExampleLayout(entry.id))}, probelynxId: ${JSON.stringify(getProbelynxExampleId(entry.id))} },`,
       ),
       "});",
       "",
