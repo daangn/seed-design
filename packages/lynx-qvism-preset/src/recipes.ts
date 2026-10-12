@@ -17,6 +17,10 @@ import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
 import floatingActionButton from "./recipes/floating-action-button";
+import imageFrame from "./recipes/image-frame";
+import imageFrameIcon from "./recipes/image-frame-icon";
+import imageFrameIndicator from "./recipes/image-frame-indicator";
+import imageFrameReactionButton from "./recipes/image-frame-reaction-button";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
@@ -57,6 +61,10 @@ import {
  * Recipes used by the Lynx preset build.
  */
 export const recipes = {
+  imageFrame,
+  imageFrameIcon,
+  imageFrameIndicator,
+  imageFrameReactionButton,
   accordion,
   actionButton,
   alertDialog,

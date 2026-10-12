@@ -88,6 +88,7 @@
     "@seed-design/lynx-react-text-field": "0.0.0",
     "@seed-design/lynx-react-toggle": "0.1.0",
     "@seed-design/lynx-react-use-press-tap": "0.1.0",
-    "@seed-design/lynx-react-use-safe-area": "0.0.0"
+    "@seed-design/lynx-react-use-safe-area": "0.0.0",
+    "@seed-design/lynx-react-image": "0.1.0"
   }
 }
