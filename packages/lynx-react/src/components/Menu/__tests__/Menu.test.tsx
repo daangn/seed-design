@@ -55,6 +55,8 @@ describe("Menu item feedback", () => {
     const root = target.parentElement!;
     expect(target).toHaveClass("seed-menu-item__scaleContent");
     expect(target).toHaveAttribute("flatten", "false");
+    // Android drops flattened accessibility elements from the native tree.
+    expect(root).toHaveAttribute("flatten", "false");
     expect(target).not.toContainElement(root.querySelector(".seed-menu-item__pressedOverlay"));
     fireEvent.tap(root);
     expect(onTap).toHaveBeenCalledTimes(1);

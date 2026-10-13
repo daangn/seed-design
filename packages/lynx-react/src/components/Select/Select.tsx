@@ -305,7 +305,7 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
     <view
       ref={trigger.rootRef as LynxViewRef}
       className={clsx(classes.root, className)}
-      {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
+      {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
       <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -603,7 +603,7 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         <view
           ref={api.rootRef as LynxViewRef}
           className={clsx(classes.root, className)}
-          {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
+          {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>

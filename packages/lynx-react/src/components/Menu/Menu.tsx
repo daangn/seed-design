@@ -405,7 +405,7 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, className)}
-          {...mergeProps(scaleFeedbackTriggerProps, rootProps, nativeProps)}
+          {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>

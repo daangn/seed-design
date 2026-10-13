@@ -472,7 +472,11 @@ export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps>
       >
         <view
           {...mergeProps(
-            { "accessibility-element": true, "accessibility-role-description": "button" },
+            {
+              flatten: false,
+              "accessibility-element": true,
+              "accessibility-role-description": "button",
+            },
             scaleFeedbackTriggerProps,
             pressHandlers,
             nativeProps,
