@@ -3,14 +3,13 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
   type ForwardedRef,
   type ReactNode,
 } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { usePressTap, type UsePressTapReturn } from "@seed-design/lynx-react-use-press-tap";
 
-import { useSelectContext } from "./useSelectContext.js";
+import { useSelectItemsContext } from "./useSelectContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
@@ -99,13 +98,9 @@ export function useSelectItem(props: UseSelectItemProps): UseSelectItemReturn {
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
   } = props;
-  const context = useSelectContext();
+  const context = useSelectItemsContext();
   const { registerItem, unregisterItem, selectValue } = context;
-  // ReactLynx는 같은 요소에도 ref를 새 node 객체로 다시 적용합니다. 의미 있는 변경이 아니므로 처음 붙을 때만
-  // state를 바꿔 등록하고, 이후 node는 ref에만 둡니다.
   const nodeRef = useRef<NodesRef | null>(null);
-  const nodeAttachedRef = useRef(false);
-  const [nodeAttached, setNodeAttached] = useState(false);
   const disabled = context.disabled || context.readOnly || disabledProp || readOnly;
   const selected = context.value.includes(value);
   const textValue = textValueProp ?? (typeof label === "string" ? label : value);
@@ -138,10 +133,6 @@ export function useSelectItem(props: UseSelectItemProps): UseSelectItemReturn {
   const rootRef = useCallback(
     (node: NodesRef | null) => {
       nodeRef.current = node;
-      if (node && !nodeAttachedRef.current) {
-        nodeAttachedRef.current = true;
-        setNodeAttached(true);
-      }
       if (typeof ref === "function") ref(node);
       else if (ref) ref.current = node;
     },
@@ -149,9 +140,9 @@ export function useSelectItem(props: UseSelectItemProps): UseSelectItemReturn {
   );
   useEffect(() => {
     "background only";
-    registerItem(value, { label, textValue, icon, node: nodeRef.current });
+    registerItem(value, { label, textValue, icon, nodeRef });
     return () => unregisterItem(value);
-  }, [registerItem, unregisterItem, label, nodeAttached, icon, textValue, value]);
+  }, [registerItem, unregisterItem, label, icon, textValue, value]);
   const resolvedLabel = accessibilityLabel ?? textValue;
   const resolvedValue = accessibilityValue ?? (selected ? "selected" : "not selected");
   const traits = accessibilityTraits ?? (disabled ? "disabled" : undefined);

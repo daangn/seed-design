@@ -11,7 +11,12 @@ const geometry = vi.hoisted(() => ({ getRectByRef: vi.fn() }));
 
 vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   const actual = await importOriginal<typeof LynxUiCommon>();
-  return { ...actual, getRectByRef: geometry.getRectByRef };
+  return {
+    ...actual,
+    getRectByRef: geometry.getRectByRef,
+    // 기준 요소는 `measureReferenceRect`가 `boundingClientRect`를 직접 호출합니다.
+    invokeByRef: (ref: { current: unknown }) => geometry.getRectByRef(ref, true),
+  };
 });
 
 interface Box {
@@ -25,6 +30,9 @@ const ROOT = { root: true };
 const frames: Array<() => void> = [];
 let referenceBox: Box;
 let layerBox: Box;
+let rootBox: Box;
+/** SafeAreaProbe의 두 0×0 모서리가 놓이는 안전 영역입니다. */
+let safeAreaBox: Box;
 let referenceRect: (box: Box) => Promise<Rect>;
 
 function toRect({ left, top, width, height }: Box): Rect {
@@ -73,6 +81,8 @@ function tapPageAt(listener: Element, x: number, y: number) {
 beforeEach(() => {
   frames.length = 0;
   referenceBox = { left: 100, top: 300, width: 40, height: 40 };
+  rootBox = { left: 0, top: 0, width: 390, height: 844 };
+  safeAreaBox = rootBox;
   layerBox = { left: 0, top: -50, width: 390, height: 900 };
   referenceRect = async (box) => toRect(box);
   const createSelectorQuery = () => ({ selectRoot: () => ROOT });
@@ -88,14 +98,14 @@ beforeEach(() => {
     target["lynx"] = { ...(target["lynx"] as object), createSelectorQuery, requestAnimationFrame };
   }
   geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
-    if (ref.current === ROOT) return toRect({ left: 0, top: 0, width: 390, height: 844 });
+    if (ref.current === ROOT) return toRect(rootBox);
     const element = elementForRef(ref.current);
-    // host safe area 값이 없으므로 SafeAreaProbe의 두 0×0 모서리는 root의 왼쪽 위·오른쪽 아래입니다.
     const style = (element?.getAttribute("style") ?? "").replace(/\s/g, "");
     if (element && style.includes("width:0px;height:0px")) {
+      const { left, top, width, height } = safeAreaBox;
       return element.previousElementSibling
-        ? toRect({ left: 390, top: 844, width: 0, height: 0 })
-        : toRect({ left: 0, top: 0, width: 0, height: 0 });
+        ? toRect({ left: left + width, top: top + height, width: 0, height: 0 })
+        : toRect({ left, top, width: 0, height: 0 });
     }
     if (element?.classList.contains("content")) {
       return toRect({ left: 0, top: 0, width: 120, height: 40 });
@@ -249,6 +259,27 @@ describe("Popover", () => {
     await flush();
 
     expect(positionerStyle()).toContain("top: 344px");
+  });
+
+  it("applies new safe area insets when the root size changes while tracking", async () => {
+    referenceBox = { left: 48, top: 300, width: 40, height: 40 };
+    render(
+      <Popover.Root defaultOpen placement="bottom">
+        <Popover.Anchor>
+          <text>기준</text>
+        </Popover.Anchor>
+        <Bubble withArrow={false} />
+      </Popover.Root>,
+    );
+    await flush();
+    // 너비 120인 콘텐츠가 왼쪽 경계 0 + overflowPadding 8까지 밀립니다.
+    expect(positionerStyle()).toContain("left: 8px");
+
+    // 가로 회전: root 크기와 함께 왼쪽 inset 47이 생깁니다.
+    rootBox = { left: 0, top: 0, width: 844, height: 390 };
+    safeAreaBox = { left: 47, top: 0, width: 750, height: 369 };
+    await flush();
+    expect(positionerStyle()).toContain("left: 55px");
   });
 
   it("closes on a page tap outside the reference and content only when closeOnInteractOutside is enabled", async () => {

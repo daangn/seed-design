@@ -4,7 +4,9 @@ import { OverlayView, type OverlayViewProps } from "@lynx-js/lynx-ui-overlay";
 import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
 import {
   computePosition,
+  type FloatingBoundary,
   measureFloatingBoundary,
+  measureReferenceRect,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
@@ -386,6 +388,8 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     finishClose: finishPopoverClose,
   } = api;
   const measurementVersionRef = React.useRef(0);
+  // 매 frame 추적에서 안전 영역은 root 크기가 바뀔 때만 다시 측정합니다.
+  const boundaryRef = React.useRef<FloatingBoundary | null>(null);
   const intrinsicWidthRef = React.useRef<number | null>(null);
   const measurementConfigRef = React.useRef(0);
   const configuredStyleRef = React.useRef(style);
@@ -461,12 +465,14 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       openEpoch === openEpochRef.current &&
       currentPositionRevision === positionRevisionRef.current;
     try {
-      const [reference, { root, boundary }, layer] = await Promise.all([
-        getRectByRef({ current: referenceNode }, true),
-        measureFloatingBoundary(safeAreaRef.current),
+      const [reference, floatingBoundary, layer] = await Promise.all([
+        measureReferenceRect(referenceNode),
+        measureFloatingBoundary(safeAreaRef.current, boundaryRef.current),
         layerNode ? getRectByRef({ current: layerNode }, true) : null,
       ]);
       if (!isCurrent()) return;
+      boundaryRef.current = floatingBoundary;
+      const { root, boundary } = floatingBoundary;
       const width = widthConstraint ?? intrinsicWidthRef.current ?? intrinsicSize.width;
       const arrow = arrowRef.current;
       const nextPosition = await computePosition({
@@ -523,6 +529,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     "background only";
     measurementVersionRef.current += 1;
     intrinsicWidthRef.current = null;
+    boundaryRef.current = null;
     setWidthConstraint(null);
     setIntrinsicSize(null);
     resetPosition();

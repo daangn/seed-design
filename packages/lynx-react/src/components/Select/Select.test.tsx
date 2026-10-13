@@ -15,7 +15,12 @@ const geometry = vi.hoisted(() => ({
 
 vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   const actual = await importOriginal<typeof LynxUiCommon>();
-  return { ...actual, getRectByRef: geometry.getRectByRef };
+  return {
+    ...actual,
+    getRectByRef: geometry.getRectByRef,
+    // 기준 요소는 `measureReferenceRect`가 `boundingClientRect`를 직접 호출합니다.
+    invokeByRef: (ref: { current: unknown }) => geometry.getRectByRef(ref, true),
+  };
 });
 
 vi.mock("@seed-design/lynx-react-floating", async (importOriginal) => {

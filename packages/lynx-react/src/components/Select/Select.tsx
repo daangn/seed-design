@@ -92,6 +92,8 @@ interface SelectStyleContextValue {
 const SelectStyleContext = React.createContext<SelectStyleContextValue | null>(null);
 const SelectItemClassNamesContext = React.createContext<SelectItemClassNames | null>(null);
 const SelectGroupPositionContext = React.createContext({ isFirst: true });
+// 항목은 size만 읽습니다. 열림·위치 variant class가 바뀔 때 모든 항목이 다시 렌더링되지 않게 분리합니다.
+const SelectItemSizeContext = React.createContext<SelectStyleContextValue["size"] | null>(null);
 
 function useSelectStyle(consumer: string): SelectStyleContextValue {
   const context = React.useContext(SelectStyleContext);
@@ -243,9 +245,15 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
   return (
     <SelectProvider value={api}>
       <SelectStyleContext.Provider value={styleValue}>
-        <view {...(ref ? { ref: ref as LynxViewRef } : {})} className={className} {...nativeProps}>
-          {children}
-        </view>
+        <SelectItemSizeContext.Provider value={size}>
+          <view
+            {...(ref ? { ref: ref as LynxViewRef } : {})}
+            className={className}
+            {...nativeProps}
+          >
+            {children}
+          </view>
+        </SelectItemSizeContext.Provider>
       </SelectStyleContext.Provider>
     </SelectProvider>
   );
@@ -565,7 +573,8 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
     "accessibility-value": accessibilityValue,
     ...nativeProps
   } = otherProps;
-  const { size } = useSelectStyle("SelectItem");
+  const size = React.useContext(SelectItemSizeContext);
+  if (!size) throw new Error("<SelectItem/> must be rendered inside <SelectRoot/>.");
   const api = useSelectItem({
     ref,
     value,
