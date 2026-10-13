@@ -12,6 +12,7 @@
 ### 디렉터리
 
 - 새 Skill 디렉터리는 `seed-*` 접두사의 kebab-case로 만들고 `SKILL.md`를 둔다. 기존 `chromatic-diff`는 예외다.
+- 외부 패키지가 배포하는 Skill은 복사하지 않고 루트 devDependency로 버전을 고정한 뒤 `node_modules`의 패키지 디렉터리를 가리키는 symlink로 둔다. 디렉터리명은 Skill의 `name`과 같게 한다(예: `lynx-devtool` → `@lynx-js/skill-lynx-devtool`, CLI `agent-lynx`와 같은 버전). 버전을 올릴 때는 두 패키지를 함께 올린다.
 - 부가 자료는 해당 Skill의 `references/`, `scripts/`, `assets/`에 두고 상대 경로는 Skill 디렉터리 기준으로 쓴다. `agents/openai.yaml`은 OpenAI 에이전트용 표시 metadata다.
 - 여러 Skill이 공유하는 규칙은 각 Skill에 복사하지 말고 이 파일이나 공통 reference 한 곳에 둔다.
 - 실수·우회책에서 얻은 경험은 [학습 기록 관리 규칙](../.agents/learnings/AGENTS.md)에 따라 정리한다. 항상 지킬 규칙으로 확인되면 가장 직접적인 Skill reference로 승격하고 원래 교훈에 이동 경로를 남긴다. 저장소의 학습 경로나 본문을 외부 배포용 `seed-design` Skill에 추가하지 않는다 → 저장소 내부 진입 규칙에서 연결한다.
