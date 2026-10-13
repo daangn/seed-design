@@ -37,6 +37,7 @@ import {
   getAccessibleText,
   useInsideAccessibilityElement,
 } from "../../utils/accessibility";
+import { useDialogSafeAreaStyle } from "../private/DialogSafeArea";
 
 type AlertDialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
@@ -139,13 +140,15 @@ export interface AlertDialogPositionerProps extends HeadlessDialogPositionerProp
 /** @platform Lynx — maps to `DialogView`; refs are unsupported. */
 export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
   (props, _ref) => {
-    const { className, transition = true, ...positionerProps } = props;
+    const { className, style, transition = true, ...positionerProps } = props;
     const classNames = useClassNames();
+    const safeAreaStyle = useDialogSafeAreaStyle();
 
     return (
       <HeadlessDialogPositioner
         {...positionerProps}
         className={clsx(classNames.positioner, className)}
+        style={{ ...safeAreaStyle, ...style } as AlertDialogPositionerProps["style"]}
         transition={transition}
       />
     );
@@ -220,7 +223,9 @@ export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((pr
       transition={transition}
       dialogContentProps={{ ...accessibilityProps, ...dialogContentProps }}
     >
-      {children}
+      <scroll-view className={classNames.scrollArea} scroll-orientation="vertical">
+        <view className={classNames.scrollContent}>{children}</view>
+      </scroll-view>
     </HeadlessDialogContent>
   );
 }) as AlertDialogComponent<AlertDialogContentProps>;

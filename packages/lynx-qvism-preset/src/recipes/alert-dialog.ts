@@ -7,6 +7,8 @@ const alertDialog = defineSlotRecipe({
     "positioner",
     "backdrop",
     "content",
+    "scrollArea",
+    "scrollContent",
     "header",
     "footer",
     "action",
@@ -23,6 +25,12 @@ const alertDialog = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
+      // `AlertDialogPositioner` sets these from `useSafeArea()`. The block value is the same on
+      // both sides, so the content stays at the viewport's vertical center.
+      paddingTop: "var(--dialog-safe-area-block)",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "var(--dialog-safe-area-block)",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -60,6 +68,10 @@ const alertDialog = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
+      // Keeps the content, margins included, within the positioner's safe area padding. A Lynx
+      // `view` doesn't scroll, so `scrollArea` takes the overflow.
+      maxHeight: "100%",
+      overflow: "hidden",
       marginTop: vars.base.enabled.content.marginY,
       marginRight: vars.base.enabled.content.marginX,
       marginBottom: vars.base.enabled.content.marginY,
@@ -84,6 +96,15 @@ const alertDialog = defineSlotRecipe({
         transitionDuration: vars.base.enabled.content.exitDuration,
         transitionTimingFunction: vars.base.enabled.content.exitTimingFunction,
       },
+    },
+    scrollArea: {
+      width: "100%",
+      flexShrink: 1,
+      minHeight: "0",
+    },
+    scrollContent: {
+      display: "flex",
+      flexDirection: "column",
     },
     header: {
       display: "flex",
