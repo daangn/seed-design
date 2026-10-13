@@ -6,6 +6,7 @@ import {
   useState,
   type MutableRefObject,
   type ReactNode,
+  type RefObject,
 } from "@lynx-js/react";
 import type { BaseEvent, IntrinsicElements, NodesRef } from "@lynx-js/types";
 import type {
@@ -45,12 +46,13 @@ export interface SelectSelectedItem {
   resolved: boolean;
 }
 
-/** 항목이 Root에 등록하는 표시 정보와 native node입니다. */
+/** 항목이 Root에 등록하는 표시 정보와 native node ref입니다. */
 export interface SelectItemEntry {
   label: ReactNode;
   textValue: string;
   icon?: ReactNode;
-  node: NodesRef | null;
+  /** 항목 native node입니다. node가 붙기 전에는 `current`가 `null`입니다. */
+  nodeRef: RefObject<NodesRef | null>;
 }
 
 /** Trigger가 등록하는 tap handler입니다. 열린 동안 Positioner가 Trigger 위치의 탭 영역에 연결합니다. */
@@ -107,8 +109,8 @@ export interface UseSelectReturn {
   selectedItems: SelectSelectedItem[];
   /** 값이 하나이고 등록된 항목이면 그 항목입니다. */
   selectedItem: SelectSelectedItem | undefined;
-  /** `selectedItem`의 native node입니다. 열 때 이 항목이 보이도록 스크롤합니다. */
-  selectedItemNode: NodesRef | null;
+  /** `selectedItem`의 native node ref입니다. 열 때 이 항목이 보이도록 스크롤합니다. */
+  selectedItemNodeRef: RefObject<NodesRef | null> | null;
   /** `showPlaceholder`이면 `undefined`입니다. */
   displayValue: ReactNode;
   /** 값이 없거나, 항목이 등록된 뒤에도 모든 값이 등록되지 않은 값이면 `true`입니다. */
@@ -230,7 +232,7 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
   );
   const selectedEntry = value.length === 1 ? registry.get(value[0] ?? "") : undefined;
   const selectedItem = selectedEntry ? selectedItems[0] : undefined;
-  const selectedItemNode = selectedEntry?.node ?? null;
+  const selectedItemNodeRef = selectedEntry?.nodeRef ?? null;
   const showPlaceholder =
     value.length === 0 || (registry.size > 0 && selectedItems.every((item) => !item.resolved));
   const displayValue = useMemo(() => {
@@ -290,6 +292,9 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
     setTriggerRect(null);
     setPositionedEpoch(null);
   }, []);
+  // 열림 상태가 바뀌어도 항목 context가 그대로이도록 selectValue는 최신 setOpen을 ref로 읽습니다.
+  const setOpenRef = useRef(setOpen);
+  setOpenRef.current = setOpen;
   const selectValue = useCallback(
     (itemValue: string, event: BaseEvent) => {
       "background only";
@@ -300,9 +305,9 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
           : [...value, itemValue]
         : [itemValue];
       if (!isSameValue(value, next)) setValueState(next);
-      if (!multiple) setOpen(false, { reason: "itemSelect", event });
+      if (!multiple) setOpenRef.current(false, { reason: "itemSelect", event });
     },
-    [disabled, multiple, readOnly, setOpen, setValueState, value],
+    [disabled, multiple, readOnly, setValueState, value],
   );
   const registerItem = useCallback((itemValue: string, entry: SelectItemEntry) => {
     setRegistry((current) => {
@@ -312,7 +317,7 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
         previous.label === entry.label &&
         previous.textValue === entry.textValue &&
         previous.icon === entry.icon &&
-        previous.node === entry.node
+        previous.nodeRef === entry.nodeRef
       ) {
         return current;
       }
@@ -333,7 +338,7 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
       value,
       selectedItems,
       selectedItem,
-      selectedItemNode,
+      selectedItemNodeRef,
       displayValue,
       showPlaceholder,
       multiple,
@@ -370,7 +375,7 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
       value,
       selectedItems,
       selectedItem,
-      selectedItemNode,
+      selectedItemNodeRef,
       displayValue,
       showPlaceholder,
       multiple,

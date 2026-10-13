@@ -11,6 +11,7 @@ import type {
 import {
   computePosition,
   measureFloatingBoundary,
+  measureReferenceRect,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 
@@ -388,7 +389,7 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     placement,
     gutter,
     overflowPadding,
-    selectedItemNode,
+    selectedItemNodeRef,
     setPosition,
     resetPosition,
     finishClose,
@@ -444,7 +445,7 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
       openEpoch === openEpochRef.current;
     try {
       const [reference, { boundary }, layer] = await Promise.all([
-        getRectByRef({ current: referenceNode }, true),
+        measureReferenceRect(referenceNode),
         measureFloatingBoundary(safeAreaRef.current),
         getRectByRef({ current: layerNode }, true),
       ]);
@@ -596,6 +597,7 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     const requestVersion = ++scrollRequestVersionRef.current;
     const epoch = openEpoch;
     const scrollNode = scrollNodeRef.current;
+    const selectedItemNode = selectedItemNodeRef?.current;
     if (
       !open ||
       !positioned ||
@@ -654,7 +656,7 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
     positioned,
     scrollAreaId,
     scrollAttached,
-    selectedItemNode,
+    selectedItemNodeRef,
   ]);
   React.useEffect(() => {
     "background only";

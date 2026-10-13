@@ -11,6 +11,7 @@ import type {
 import {
   computePosition,
   measureFloatingBoundary,
+  measureReferenceRect,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
@@ -426,10 +427,10 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       openEpoch === openEpochRef.current;
     try {
       const [reference, { boundary }, layer, trigger] = await Promise.all([
-        getRectByRef({ current: referenceNode }, true),
+        measureReferenceRect(referenceNode),
         measureFloatingBoundary(safeAreaRef.current),
         getRectByRef({ current: layerNode }, true),
-        triggerNode ? getRectByRef({ current: triggerNode }, true) : null,
+        triggerNode ? measureReferenceRect(triggerNode) : null,
       ]);
       if (!isCurrent()) return;
       const intrinsicWidth = matchReferenceWidth

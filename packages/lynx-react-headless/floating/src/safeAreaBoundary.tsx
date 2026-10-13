@@ -66,29 +66,54 @@ export interface FloatingBoundary {
   root: Rect;
   /** root에서 안전 영역을 뺀 위치 계산 경계입니다. probe가 없으면 root와 같습니다. */
   boundary: Rect;
+  /** probe로 측정한 안전 영역입니다. probe가 없으면 `null`입니다. */
+  safeArea: Rect | null;
+}
+
+function toRect(left: number, top: number, right: number, bottom: number): Rect {
+  return { left, top, right, bottom, width: right - left, height: bottom - top };
+}
+
+function getRootRect() {
+  "background only";
+  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
+}
+
+async function measureSafeArea({ start, end }: SafeAreaProbeNodes): Promise<Rect | null> {
+  "background only";
+  if (!start || !end) return null;
+  const [startRect, endRect] = await Promise.all([
+    getRectByRef({ current: start }, true),
+    getRectByRef({ current: end }, true),
+  ]);
+  return toRect(startRect.left, startRect.top, endRect.left, endRect.top);
 }
 
 /**
  * Lynx root와 `SafeAreaProbe`를 `relativeTo: "screen"` 기준으로 측정해 위치 계산 경계를 반환합니다.
  * 레이어가 Lynx view 밖까지 덮을 수 있으므로 root와 안전 영역의 교집합을 경계로 씁니다.
+ *
+ * 매 frame 위치를 추적한다면 직전 결과를 `previous`로 넘깁니다. root 크기가 같으면 안전 영역을 다시 측정하지
+ * 않습니다. 화면 회전처럼 inset이 바뀌는 경우에는 root 크기도 바뀝니다.
  */
-export async function measureFloatingBoundary({
-  start,
-  end,
-}: SafeAreaProbeNodes): Promise<FloatingBoundary> {
+export async function measureFloatingBoundary(
+  probes: SafeAreaProbeNodes,
+  previous?: FloatingBoundary | null,
+): Promise<FloatingBoundary> {
   "background only";
-  const [root, startRect, endRect] = await Promise.all([
-    getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true),
-    start ? getRectByRef({ current: start }, true) : null,
-    end ? getRectByRef({ current: end }, true) : null,
+  const cached = previous?.safeArea ? previous : null;
+  const [root, measured] = await Promise.all([
+    getRootRect(),
+    cached ? null : measureSafeArea(probes),
   ]);
-  if (!startRect || !endRect) return { root, boundary: root };
-  const left = Math.max(root.left, startRect.left);
-  const top = Math.max(root.top, startRect.top);
-  const right = Math.max(left, Math.min(root.right, endRect.left));
-  const bottom = Math.max(top, Math.min(root.bottom, endRect.top));
-  return {
-    root,
-    boundary: { left, top, right, bottom, width: right - left, height: bottom - top },
-  };
+  const safeArea =
+    cached && root.width === cached.root.width && root.height === cached.root.height
+      ? cached.safeArea
+      : (measured ?? (await measureSafeArea(probes)));
+  if (!safeArea) return { root, boundary: root, safeArea: null };
+  const left = Math.max(root.left, safeArea.left);
+  const top = Math.max(root.top, safeArea.top);
+  const right = Math.max(left, Math.min(root.right, safeArea.right));
+  const bottom = Math.max(top, Math.min(root.bottom, safeArea.bottom));
+  return { root, boundary: toRect(left, top, right, bottom), safeArea };
 }
