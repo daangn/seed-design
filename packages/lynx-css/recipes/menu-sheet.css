@@ -45,6 +45,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    flex-shrink: 0;
     gap: var(--seed-dimension-x1);
     padding-bottom: var(--seed-dimension-x4);
 }
@@ -63,6 +64,9 @@
     margin: 0;
 }
 .seed-menu-sheet__list {
+    flex-shrink: 1;
+}
+.seed-menu-sheet__listContent {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -79,6 +83,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    flex-shrink: 0;
     padding-top: var(--seed-dimension-x2_5);
 }
 .seed-menu-sheet__closeButton {

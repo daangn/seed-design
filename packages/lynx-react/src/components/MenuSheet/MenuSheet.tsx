@@ -2,6 +2,7 @@ import { menuSheet } from "@seed-design/lynx-css/recipes/menu-sheet";
 import type { MenuSheetVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet";
 import { menuSheetItem } from "@seed-design/lynx-css/recipes/menu-sheet-item";
 import type { MenuSheetItemVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet-item";
+import { menuSheet as menuSheetVars } from "@seed-design/lynx-css/vars/component";
 import {
   BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
   BottomSheetContent as HeadlessBottomSheetContent,
@@ -63,6 +64,7 @@ interface MenuSheetClassNames {
   title: string;
   description: string;
   list: string;
+  listContent: string;
   group: string;
   footer: string;
   closeButton: string;
@@ -222,7 +224,8 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
   } = props;
   const classNames = useClassNames();
   const { skipAnimation } = useBottomSheetContext();
-  const { safeAreaInsetBottom } = useSafeArea();
+  const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
+    useSafeArea();
 
   return (
     <ContentLabelAlignContext.Provider value={labelAlign}>
@@ -230,14 +233,28 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
         {...(ref ? { ref } : {})}
         {...contentProps}
         className={clsx(classNames.content, className)}
-        // `SheetContent` pins its outer view with an inline `left: 0`. Releasing it lets the
-        // positioner center the sheet within the recipe's `max-width`.
-        style={{ left: "auto", ...style }}
+        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`. Releasing
+        // `left` lets the positioner center the sheet; Lynx ignores the positioner's padding when
+        // centering an absolute child but centers its margin box, so the side insets go on as
+        // margins and come off the width.
+        style={{
+          left: "auto",
+          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          marginLeft: safeAreaInsetLeft,
+          marginRight: safeAreaInsetRight,
+          // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
+          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
+          // and the inner `maxHeight` holds the fraction.
+          paddingBottom: `calc(50vh + ${safeAreaInsetTop})`,
+          ...style,
+        }}
         innerClassName={clsx(classNames.contentInner, innerClassName)}
         innerStyle={{
           display: "flex",
           flexDirection: "column",
           minHeight: "0",
+          flexShrink: 1,
+          maxHeight: `calc(${menuSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
           paddingBottom: `calc(${CONTENT_PADDING_BOTTOM} + ${safeAreaInsetBottom})`,
           ...innerStyle,
         }}
@@ -311,7 +328,30 @@ export const MenuSheetDescription = createTextSlot("description");
 MenuSheetDescription.displayName = "MenuSheetDescription";
 
 export interface MenuSheetListProps extends MenuSheetSlotProps {}
-export const MenuSheetList = createViewSlot("list");
+
+/**
+ * Scrolls once the sheet reaches its max height.
+ */
+export const MenuSheetList: LynxForwardRefComponent<unknown, MenuSheetListProps> = forwardRef<
+  unknown,
+  MenuSheetListProps
+>((props, ref) => {
+  const { children, className, style } = props;
+  const classNames = useClassNames();
+
+  return (
+    <scroll-view
+      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      className={clsx(classNames.list, className)}
+      style={style as never}
+      scroll-orientation="vertical"
+      // The sheet's drag already moves it at the list's edges; a bounce would add to that.
+      bounces={false}
+    >
+      <view className={classNames.listContent}>{children}</view>
+    </scroll-view>
+  );
+});
 MenuSheetList.displayName = "MenuSheetList";
 
 export type MenuSheetLabelAlign = "left" | "center";

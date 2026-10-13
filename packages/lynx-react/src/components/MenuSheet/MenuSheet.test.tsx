@@ -71,7 +71,12 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
 });
 
 vi.mock("../../hooks/useSafeArea", () => ({
-  useSafeArea: () => ({ safeAreaInsetBottom: "34px", safeAreaInsetTop: "0px" }),
+  useSafeArea: () => ({
+    safeAreaInsetTop: "62px",
+    safeAreaInsetRight: "84px",
+    safeAreaInsetBottom: "34px",
+    safeAreaInsetLeft: "0px",
+  }),
 }));
 
 import * as MenuSheet from "./MenuSheet.namespace";
@@ -186,6 +191,58 @@ describe("MenuSheet", () => {
         paddingTop: "8px",
       },
     });
+  });
+
+  it("keeps Content within the safe area insets with a single bottom inset", () => {
+    render(
+      <MenuSheet.Root>
+        <MenuSheet.Content />
+      </MenuSheet.Root>,
+    );
+
+    const contentProps = sheetMocks.contentProps.at(-1);
+
+    expect(contentProps).toMatchObject({
+      style: {
+        width: "calc(100vw - 0px - 84px)",
+        marginLeft: "0px",
+        marginRight: "84px",
+        paddingBottom: "calc(50vh + 62px)",
+      },
+      innerStyle: {
+        flexShrink: 1,
+        maxHeight: "calc(0.9 * 100vh)",
+        paddingBottom: "calc(16px + 34px)",
+      },
+    });
+  });
+
+  it("renders the List as a vertical scroll-view around its laid-out content", () => {
+    const { getByText } = render(
+      <MenuSheet.Root>
+        <MenuSheet.List className="custom-list">
+          <MenuSheet.Group>
+            <MenuSheet.Item>
+              <MenuSheet.ItemLabel>Choice</MenuSheet.ItemLabel>
+            </MenuSheet.Item>
+          </MenuSheet.Group>
+        </MenuSheet.List>
+      </MenuSheet.Root>,
+    );
+
+    const group = (getByText("Choice") as HTMLElement).closest<HTMLElement>(
+      ".seed-menu-sheet__group",
+    );
+    const listContent = group?.parentElement;
+    const list = listContent?.parentElement;
+    if (!listContent || !list) throw new Error("Expected menu sheet list.");
+
+    expect(listContent.classList.contains("seed-menu-sheet__listContent")).toBe(true);
+    expect(list.tagName.toLowerCase()).toBe("scroll-view");
+    expect(list.classList.contains("seed-menu-sheet__list")).toBe(true);
+    expect(list.classList.contains("custom-list")).toBe(true);
+    expect(list.getAttribute("scroll-orientation")).toBe("vertical");
+    expect(list.getAttribute("bounces")).toBe("false");
   });
 
   it("reports trigger, close button and backdrop reasons without dropping user handlers", () => {
