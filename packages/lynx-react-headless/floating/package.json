@@ -24,9 +24,17 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@floating-ui/core": "^1.8.0"
+    "@floating-ui/core": "^1.8.0",
+    "@lynx-js/lynx-ui-common": "^3.130.0",
+    "@seed-design/lynx-react-use-safe-area": "0.0.0"
+  },
+  "peerDependencies": {
+    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {
+    "@lynx-js/react": "^0.117.0",
+    "@lynx-js/types": "^3.7.0",
     "vitest": "^3.2.4"
   },
   "publishConfig": { "access": "public" },

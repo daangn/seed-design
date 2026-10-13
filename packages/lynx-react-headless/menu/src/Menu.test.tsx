@@ -111,6 +111,12 @@ beforeEach(() => {
   geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
     if (ref.current === ROOT) return toRect({ left: 0, top: 0, width: 390, height: 844 });
     const element = elementForRef(ref.current);
+    // host safe area 값이 없으므로 SafeAreaProbe의 두 0×0 모서리는 root의 왼쪽 위·오른쪽 아래입니다.
+    if (element && styleOf(element).includes("width:0px;height:0px")) {
+      return element.previousElementSibling
+        ? toRect({ left: 390, top: 844, width: 0, height: 0 })
+        : toRect({ left: 0, top: 0, width: 0, height: 0 });
+    }
     if (element?.parentElement?.classList.contains("positioner")) return toRect(layerBox);
     return toRect(triggerBox);
   });
