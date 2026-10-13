@@ -23,6 +23,16 @@ function toPixel(value: number) {
   return `${value}px`;
 }
 
+/**
+ * 레이어 좌표를 기기 픽셀에 맞춥니다. Android는 요소 가장자리를 픽셀 단위로 반올림해, 좌표의 소수 부분에 따라
+ * 콘텐츠 높이가 1px씩 달라집니다. 높이로 좌표를 다시 계산하면 그 차이가 매 프레임 측정과 렌더를 반복시킵니다.
+ */
+function snapToDevicePixel(value: number) {
+  const pixelRatio = typeof SystemInfo === "undefined" ? undefined : SystemInfo.pixelRatio;
+  if (typeof pixelRatio !== "number" || pixelRatio <= 0) return value;
+  return Math.round(value * pixelRatio) / pixelRatio;
+}
+
 function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) {
   if (typeof ref === "function") ref(node);
   else if (ref) ref.current = node;
@@ -285,8 +295,8 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
           className={className}
           style={{
             position: "fixed",
-            left: toPixel(position?.left ?? 0),
-            top: toPixel(position?.top ?? 0),
+            left: toPixel(snapToDevicePixel(position?.left ?? 0)),
+            top: toPixel(snapToDevicePixel(position?.top ?? 0)),
             width: position ? toPixel(position.width) : undefined,
             ...style,
           }}
@@ -318,8 +328,8 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
           className={className}
           style={{
             position: "absolute",
-            left: toPixel((position?.left ?? 0) - layerLeft),
-            top: toPixel((position?.top ?? 0) - layerTop),
+            left: toPixel(snapToDevicePixel((position?.left ?? 0) - layerLeft)),
+            top: toPixel(snapToDevicePixel((position?.top ?? 0) - layerTop)),
             width: position ? toPixel(position.width) : undefined,
             ...style,
           }}
