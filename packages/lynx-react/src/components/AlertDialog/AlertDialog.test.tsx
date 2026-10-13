@@ -145,11 +145,11 @@ describe("AlertDialog", () => {
     expect(container.querySelector(".seed-alert-dialog__content")).toBeNull();
   });
 
-  it("applies alert accessibility defaults to the content view and keeps consumer overrides", () => {
+  it("keeps the content view out of the accessibility tree so its parts stay exposed", () => {
     const { container } = render(
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Positioner>
-          <AlertDialog.Content accessibility-label="Delete item">
+          <AlertDialog.Content>
             <AlertDialog.Title>Title</AlertDialog.Title>
           </AlertDialog.Content>
         </AlertDialog.Positioner>
@@ -158,9 +158,8 @@ describe("AlertDialog", () => {
     flushPresence();
 
     const content = container.querySelector(".seed-alert-dialog__content");
-    expect(content?.getAttribute("accessibility-element")).toBe("true");
-    expect(content?.getAttribute("accessibility-role-description")).toBe("alertdialog");
-    expect(content?.getAttribute("accessibility-label")).toBe("Delete item");
+    expect(content?.hasAttribute("accessibility-element")).toBe(false);
+    expect(content?.hasAttribute("accessibility-role-description")).toBe(false);
     expect(
       container.querySelector(".seed-alert-dialog__title")?.getAttribute("accessibility-heading"),
     ).toBe("true");
@@ -169,7 +168,7 @@ describe("AlertDialog", () => {
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Positioner>
           <AlertDialog.Content
-            accessibility-element={false}
+            accessibility-element={true}
             accessibility-role-description="custom dialog"
             dialogContentProps={{ "accessibility-label": "From native props" }}
             accessibility-label="From top-level props"
@@ -182,7 +181,7 @@ describe("AlertDialog", () => {
     flushPresence();
 
     const overriddenContent = overridden.querySelector(".seed-alert-dialog__content");
-    expect(overriddenContent?.getAttribute("accessibility-element")).toBe("false");
+    expect(overriddenContent?.getAttribute("accessibility-element")).toBe("true");
     expect(overriddenContent?.getAttribute("accessibility-role-description")).toBe("custom dialog");
     expect(overriddenContent?.getAttribute("accessibility-label")).toBe("From native props");
     expect(
