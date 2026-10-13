@@ -16,6 +16,7 @@ verified_at: "2026-10-13"
   - `selectRoot()` 측정은 identifier가 빈 같은 key를 쓴다. 그래서 여러 floating 레이어가 매 frame root를 측정하면 개별 노드 호출은 기준 아래라도 합산되어 경고가 난다.
   - 노드마다 따로 측정하는 호출(예: 안전 영역 probe)은 key가 달라 이 경고를 늘리지 않는다.
 - 호출원 찾기: logcat의 `lynx_error.cc` 줄에서 `method_name:`을 읽는다. `CallLepusMethod: <이름>`·`InvokeUIMethod with root … identifier:` 줄을 초 단위로 센다. ReactLynx의 `rLynxChange`는 background render commit마다 main thread로 보내는 호출이다. 그래서 이 key가 많다는 것은 짧은 시간에 commit이 몰렸다는 뜻이다.
+- 긴 목록에서 `rLynxChange`가 몰리면 항목이 다시 렌더링되는 원인부터 찾는다. Select에서는 두 원인이 있었다. 항목이 ref 연결을 state로 등록하던 것(`setNodeAttached`)과, 항목이 열림·위치 상태까지 담긴 context를 읽던 것이다. 등록에는 node 대신 ref 객체를 넘기고, 항목에는 열림 상태가 빠진 별도 context를 주면 열 때 항목이 다시 렌더링되지 않는다.
 
 ## 발생 근거와 적용 조건
 
@@ -27,3 +28,4 @@ verified_at: "2026-10-13"
 ## 변경 이력
 
 - 2026-10-13: C8 후속 조사에서 기록했다.
+- 2026-10-13: Select 수정 후 `select/long-list`의 `rLynxChange`를 다시 셌다. mount는 1118회에서 20회로, 열기는 약 1000회에서 40회로 줄었고 경고가 사라졌다. 열 때 항목 render는 96회에서 0회가 됐다.
