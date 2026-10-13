@@ -2371,6 +2371,7 @@ text {
   padding-top: var(--seed-dimension-x6);
   padding-bottom: var(--seed-dimension-x4);
   flex-direction: column;
+  flex-shrink: 0;
   display: flex;
 }
 
@@ -2405,6 +2406,7 @@ text {
   padding-top: var(--seed-dimension-x3);
   padding-bottom: var(--seed-dimension-x4);
   flex-direction: column;
+  flex-shrink: 0;
   display: flex;
 }
 

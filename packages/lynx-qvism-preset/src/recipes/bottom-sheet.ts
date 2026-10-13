@@ -67,6 +67,9 @@ const bottomSheet = defineSlotRecipe({
     header: {
       display: "flex",
       flexDirection: "column",
+      // Lynx gives flex items no `min-height: auto`, so without this the header and footer shrink
+      // along with the body once the content reaches its max height.
+      flexShrink: 0,
 
       gap: vars.base.enabled.header.gap,
       paddingTop: vars.base.enabled.header.paddingTop,
@@ -101,6 +104,7 @@ const bottomSheet = defineSlotRecipe({
     footer: {
       display: "flex",
       flexDirection: "column",
+      flexShrink: 0,
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,

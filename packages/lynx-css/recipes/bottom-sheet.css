@@ -35,6 +35,7 @@
 .seed-bottom-sheet__header {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     gap: var(--seed-dimension-x2);
     padding-top: var(--seed-dimension-x6);
     padding-bottom: var(--seed-dimension-x4)
@@ -64,6 +65,7 @@
 .seed-bottom-sheet__footer {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     padding-left: var(--seed-dimension-spacing-x-global-gutter);
     padding-right: var(--seed-dimension-spacing-x-global-gutter);
     padding-top: var(--seed-dimension-x3);
