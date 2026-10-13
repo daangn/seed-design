@@ -67,6 +67,8 @@ const dialog = defineSlotRecipe({
       flexShrink: 1,
       minHeight: "0",
       boxSizing: "border-box",
+      // Unlike the web recipe, a consumer `width` with `maxWidth` lifted isn't capped at the space
+      // between the side insets: Lynx has no `min()`, so such a width reaches into them.
       width: `calc(${vars.base.enabled.content.widthFraction} * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
       maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       opacity: vars.base.enabled.content.exitOpacity,
