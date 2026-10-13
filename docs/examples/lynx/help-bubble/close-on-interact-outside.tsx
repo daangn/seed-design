@@ -3,11 +3,11 @@ import { HelpBubbleTrigger } from "@/components/ui/help-bubble";
 
 export default function Example() {
   return (
-    <VStack width="full" gap="x16" align="center">
+    <VStack width="full" gap="x6" align="center" py="80px">
       <HelpBubbleTrigger
         defaultOpen
         title="This closes on interactions outside"
-        placement="right"
+        placement="top"
         closeOnInteractOutside
       >
         <ActionButton variant="neutralSolid">토글</ActionButton>
@@ -15,7 +15,7 @@ export default function Example() {
       <HelpBubbleTrigger
         defaultOpen
         title="This does not close on interactions outside"
-        placement="right"
+        placement="bottom"
         closeOnInteractOutside={false}
       >
         <ActionButton variant="neutralSolid">토글</ActionButton>
