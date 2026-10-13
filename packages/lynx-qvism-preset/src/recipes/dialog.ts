@@ -18,12 +18,22 @@ const dialog = defineSlotRecipe({
     positioner: {
       position: "fixed",
       display: "flex",
+      // Column, so the content shrinks into the padded height on the main axis: Lynx has no
+      // `min()`, and the content's own `maxHeight` can hold only the viewport fraction.
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       top: 0,
       right: 0,
       bottom: 0,
       left: 0,
+      // `DialogPositioner` sets these from `useSafeArea()`. The block value is the same on both
+      // sides, so the content stays at the viewport's vertical center. The backdrop is absolutely
+      // positioned against the padding box, so it still covers the whole viewport.
+      paddingTop: "var(--dialog-safe-area-block)",
+      paddingRight: "var(--seed-safe-area-right)",
+      paddingBottom: "var(--dialog-safe-area-block)",
+      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -54,9 +64,10 @@ const dialog = defineSlotRecipe({
       position: "relative",
       display: "flex",
       flexDirection: "column",
-      flex: "0 0 auto",
+      flexShrink: 1,
+      minHeight: "0",
       boxSizing: "border-box",
-      width: `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      width: `calc(${vars.base.enabled.content.widthFraction} * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
       maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       opacity: vars.base.enabled.content.exitOpacity,
       transform: `scale(${vars.base.enabled.content.enterScale})`,

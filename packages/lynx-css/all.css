@@ -3876,8 +3876,13 @@ text {
 }
 
 .seed-dialog__positioner {
+  padding-top: var(--dialog-safe-area-block);
+  padding-right: var(--seed-safe-area-right);
+  padding-bottom: var(--dialog-safe-area-block);
+  padding-left: var(--seed-safe-area-left);
   --dialog-z-index: 2;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -3914,14 +3919,15 @@ text {
 
 .seed-dialog__content {
   box-sizing: border-box;
+  min-height: 0;
+  width: calc(.9 * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)));
   opacity: 0;
-  width: 90vw;
   max-height: 80vh;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   background-color: var(--seed-color-bg-layer-floating);
   border-radius: var(--seed-radius-r5);
   flex-direction: column;
-  flex: none;
+  flex-shrink: 1;
   transition-property: opacity, transform;
   display: flex;
   position: relative;
