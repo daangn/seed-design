@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { act, fireEvent, render, waitFor } from "@lynx-js/react/testing-library";
 import * as React from "@lynx-js/react";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
+import type * as Floating from "@seed-design/lynx-react-floating";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -17,9 +18,10 @@ vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   return { ...actual, getRectByRef: geometry.getRectByRef };
 });
 
-vi.mock("@seed-design/lynx-react-floating", () => ({
-  computePosition: geometry.computePosition,
-}));
+vi.mock("@seed-design/lynx-react-floating", async (importOriginal) => {
+  const actual = await importOriginal<typeof Floating>();
+  return { ...actual, computePosition: geometry.computePosition };
+});
 
 interface GeometryRect {
   left: number;

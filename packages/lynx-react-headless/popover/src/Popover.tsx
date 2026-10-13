@@ -2,7 +2,11 @@ import * as React from "@lynx-js/react";
 import { getRectByRef } from "@lynx-js/lynx-ui-common";
 import { OverlayView, type OverlayViewProps } from "@lynx-js/lynx-ui-overlay";
 import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
-import { computePosition } from "@seed-design/lynx-react-floating";
+import {
+  computePosition,
+  measureFloatingBoundary,
+  SafeAreaProbe,
+} from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { usePopover, type UsePopoverProps } from "./usePopover.js";
@@ -45,11 +49,6 @@ function withPressTouch(handler: ViewProps["bindtouchstart"], press: TouchHandle
     handler(...args);
     press(...args);
   };
-}
-
-function getRootRect() {
-  "background only";
-  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
 }
 
 function getLayoutSize(event: Parameters<LayoutHandler>[0]) {
@@ -239,7 +238,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
     ...nativeProps
   } = props;
   const api = usePopoverContext();
-  const { setOpen, layerRef, position, referenceRect, rootRect, layerRect } = api;
+  const { setOpen, layerRef, safeAreaRef, position, referenceRect, rootRect, layerRect } = api;
   const handleGlobalTap = React.useCallback<TapHandler>(
     (event, instance) => {
       "background only";
@@ -290,6 +289,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
   if (!container) {
     return (
       <OverlayView overlayViewProps={overlayViewProps}>
+        <SafeAreaProbe nodesRef={safeAreaRef} position="fixed" />
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           className={className}
@@ -323,6 +323,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
         style={{ width: "100%", height: "100%" }}
         {...globalTapProps}
       >
+        <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           className={className}
@@ -353,8 +354,8 @@ export interface PopoverContentProps extends StyledViewProps {}
 /**
  * 크기를 측정해 위치를 계산하는 콘텐츠 native `<view>`입니다. Positioner 안에 둡니다.
  *
- * 열리면 콘텐츠 크기, 기준 요소, root 경계를 비동기로 측정하고 매 frame 위치를 추적합니다. 다시 열리거나
- * `style`이 바뀌면 이전 측정 결과를 버리고 숨긴 뒤 다시 측정합니다. 따라서 `positioned` 같은 상태로
+ * 열리면 콘텐츠 크기, 기준 요소, 안전 영역을 뺀 root 경계를 비동기로 측정하고 매 frame 위치를 추적합니다. 다시
+ * 열리거나 `style`이 바뀌면 이전 측정 결과를 버리고 숨긴 뒤 다시 측정합니다. 따라서 `positioned` 같은 상태로
  * Content의 `style`을 바꾸지 말고, 표시 전환은 Positioner나 바깥 요소에 적용하세요. `className`은
  * 다시 측정하는 기준으로 쓰지 않습니다. 가용 너비보다 넓으면 너비를 제한하고 다시 측정합니다.
  * 닫힌 뒤 `finishClose`가 호출되지 않으면 200ms 뒤 정리합니다.
@@ -373,6 +374,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     anchorRef,
     triggerRef,
     layerRef,
+    safeAreaRef,
     arrowRef,
     placement,
     gutter,
@@ -459,9 +461,9 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       openEpoch === openEpochRef.current &&
       currentPositionRevision === positionRevisionRef.current;
     try {
-      const [reference, boundary, layer] = await Promise.all([
+      const [reference, { root, boundary }, layer] = await Promise.all([
         getRectByRef({ current: referenceNode }, true),
-        getRootRect(),
+        measureFloatingBoundary(safeAreaRef.current),
         layerNode ? getRectByRef({ current: layerNode }, true) : null,
       ]);
       if (!isCurrent()) return;
@@ -490,7 +492,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
         }
         return;
       }
-      setPosition(nextPosition, reference, boundary, layer);
+      setPosition(nextPosition, reference, root, layer);
     } catch {
       // A native ref can disappear while an async selector query is in flight.
       // The current epoch stays unpositioned and therefore hidden.
@@ -511,6 +513,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     placement,
     positionRevisionRef,
     resetPosition,
+    safeAreaRef,
     setPosition,
     triggerRef,
     widthConstraint,

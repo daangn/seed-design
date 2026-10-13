@@ -8,7 +8,11 @@ import type {
   NodesRef,
   OverlayProps,
 } from "@lynx-js/types";
-import { computePosition } from "@seed-design/lynx-react-floating";
+import {
+  computePosition,
+  measureFloatingBoundary,
+  SafeAreaProbe,
+} from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { useMenu, type UseMenuProps } from "./useMenu.js";
@@ -57,11 +61,6 @@ function withPressTouch(handler: ViewProps["bindtouchstart"], press: TouchHandle
     handler(...args);
     press(...args);
   };
-}
-
-function getRootRect() {
-  "background only";
-  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
 }
 
 function getLayoutSize(event: Parameters<LayoutHandler>[0]) {
@@ -249,8 +248,16 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
   const { children, className, style, container, overlayLevel, overlayViewProps, ...nativeProps } =
     props;
   const overlayEvents = overlayViewProps as OverlayEventProps | undefined;
-  const { mounted, setOpen, finishClose, layerRef, layerRect, triggerRect, triggerHandlers } =
-    useMenuContext();
+  const {
+    mounted,
+    setOpen,
+    finishClose,
+    layerRef,
+    safeAreaRef,
+    layerRect,
+    triggerRect,
+    triggerHandlers,
+  } = useMenuContext();
   // iOS는 overlayLevel을 지정해 mount하면 표시 전에 binddismissoverlay를 한 번 보냅니다. 표시된 뒤의
   // 닫힘만 "dismiss"로 처리합니다. OverlayView처럼 mount 때의 overlayLevel을 기준으로 삼습니다.
   const shownRef = React.useRef(overlayLevel === undefined);
@@ -333,7 +340,9 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
       }}
     >
       <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
-        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap} />
+        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
+          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+        </view>
         {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
         {children}
       </view>
@@ -351,11 +360,11 @@ export interface MenuContentProps extends StyledViewProps {}
 /**
  * 크기를 측정해 위치를 계산하는 콘텐츠 native `<view>`입니다. `MenuPositioner` 안에 둡니다.
  *
- * 열리면 자신의 layout 크기와 기준 요소, Lynx root 경계, 레이어를 측정해 위치를 계산합니다. 계산을 마치기
- * 전에는 `visibility: hidden`으로 숨기고, 계산한 높이를 `maxHeight`로 적용합니다. 긴 목록을 스크롤하려면
- * 자식에 `scroll-view`를 두세요. 다시 열리거나 `style`이 바뀌면 이전 측정 결과를 버리고 다시 측정합니다.
- * 가용 너비보다 넓으면 너비를 제한하고 다시 측정합니다. 닫힌 뒤 `finishClose`가 호출되지 않으면 200ms
- * 뒤 정리합니다.
+ * 열리면 자신의 layout 크기와 기준 요소, 안전 영역을 뺀 Lynx root 경계, 레이어를 측정해 위치를 계산합니다.
+ * 계산을 마치기 전에는 `visibility: hidden`으로 숨기고, 계산한 높이를 `maxHeight`로 적용합니다. 긴 목록을
+ * 스크롤하려면 자식에 `scroll-view`를 두세요. 다시 열리거나 `style`이 바뀌면 이전 측정 결과를 버리고 다시
+ * 측정합니다. 가용 너비보다 넓으면 너비를 제한하고 다시 측정합니다. 닫힌 뒤 `finishClose`가 호출되지 않으면
+ * 200ms 뒤 정리합니다.
  */
 export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, ref) => {
   const { children, style, bindlayoutchange, ...nativeProps } = props;
@@ -371,6 +380,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     anchorRef,
     triggerRef,
     layerRef,
+    safeAreaRef,
     placement,
     gutter,
     overflowPadding,
@@ -415,9 +425,9 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       isOpenRef.current &&
       openEpoch === openEpochRef.current;
     try {
-      const [reference, boundary, layer, trigger] = await Promise.all([
+      const [reference, { boundary }, layer, trigger] = await Promise.all([
         getRectByRef({ current: referenceNode }, true),
-        getRootRect(),
+        measureFloatingBoundary(safeAreaRef.current),
         getRectByRef({ current: layerNode }, true),
         triggerNode ? getRectByRef({ current: triggerNode }, true) : null,
       ]);
@@ -467,6 +477,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     overflowPadding,
     placement,
     resetPosition,
+    safeAreaRef,
     setPosition,
     triggerRef,
     widthConstraint,
