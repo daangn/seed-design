@@ -18,8 +18,9 @@ const dialog = defineSlotRecipe({
     positioner: {
       position: "fixed",
       display: "flex",
-      // Column, so the content shrinks into the padded height on the main axis: Lynx has no
-      // `min()`, and the content's own `maxHeight` can hold only the viewport fraction.
+      // Column, so the content shrinks into the height left inside the safe area padding that
+      // `DialogPositioner` sets inline: Lynx has no `min()`, and the content's own `maxHeight` can
+      // hold only the viewport fraction.
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
@@ -27,13 +28,6 @@ const dialog = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
-      // `DialogPositioner` sets these from `useSafeArea()`. The block value is the same on both
-      // sides, so the content stays at the viewport's vertical center. The backdrop is absolutely
-      // positioned against the padding box, so it still covers the whole viewport.
-      paddingTop: "var(--dialog-safe-area-block)",
-      paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: "var(--dialog-safe-area-block)",
-      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
@@ -67,9 +61,10 @@ const dialog = defineSlotRecipe({
       flexShrink: 1,
       minHeight: "0",
       boxSizing: "border-box",
-      // Unlike the web recipe, a consumer `width` with `maxWidth` lifted isn't capped at the space
-      // between the side insets: Lynx has no `min()`, so such a width reaches into them.
-      width: `calc(${vars.base.enabled.content.widthFraction} * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
+      // A fraction of the positioner's content box, which its safe area padding narrows by the side
+      // insets. Unlike the web recipe, a consumer `width` with `maxWidth` lifted isn't capped at
+      // that space: Lynx has no `min()`, so such a width reaches into the insets.
+      width: `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       opacity: vars.base.enabled.content.exitOpacity,
       transform: `scale(${vars.base.enabled.content.enterScale})`,

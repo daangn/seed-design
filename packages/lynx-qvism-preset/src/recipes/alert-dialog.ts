@@ -25,12 +25,6 @@ const alertDialog = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
-      // `AlertDialogPositioner` sets these from `useSafeArea()`. The block value is the same on
-      // both sides, so the content stays at the viewport's vertical center.
-      paddingTop: "var(--dialog-safe-area-block)",
-      paddingRight: "var(--seed-safe-area-right)",
-      paddingBottom: "var(--dialog-safe-area-block)",
-      paddingLeft: "var(--seed-safe-area-left)",
 
       "--dialog-z-index": "2",
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",

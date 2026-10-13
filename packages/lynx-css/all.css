@@ -1367,10 +1367,6 @@ text {
 }
 
 .seed-alert-dialog__positioner {
-  padding-top: var(--dialog-safe-area-block);
-  padding-right: var(--seed-safe-area-right);
-  padding-bottom: var(--dialog-safe-area-block);
-  padding-left: var(--seed-safe-area-left);
   --dialog-z-index: 2;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   justify-content: center;
@@ -3895,10 +3891,6 @@ text {
 }
 
 .seed-dialog__positioner {
-  padding-top: var(--dialog-safe-area-block);
-  padding-right: var(--seed-safe-area-right);
-  padding-bottom: var(--dialog-safe-area-block);
-  padding-left: var(--seed-safe-area-left);
   --dialog-z-index: 2;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   flex-direction: column;
@@ -3938,9 +3930,9 @@ text {
 
 .seed-dialog__content {
   box-sizing: border-box;
-  min-height: 0;
-  width: calc(.9 * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)));
   opacity: 0;
+  width: 90%;
+  min-height: 0;
   max-height: 80vh;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   background-color: var(--seed-color-bg-layer-floating);

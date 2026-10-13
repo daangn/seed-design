@@ -271,9 +271,10 @@ describe("AlertDialog", () => {
     });
 
     expect(renderPositioner()).toEqual({
-      "--seed-safe-area-left": "0px",
-      "--seed-safe-area-right": "84px",
-      "--dialog-safe-area-block": "calc(env(safe-area-inset-top) + 34px)",
+      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
+      paddingRight: "84px",
+      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
+      paddingLeft: "0px",
     });
 
     setGlobalProps({
@@ -284,9 +285,10 @@ describe("AlertDialog", () => {
     });
 
     expect(renderPositioner()).toEqual({
-      "--seed-safe-area-left": "59px",
-      "--seed-safe-area-right": "0px",
-      "--dialog-safe-area-block": "47px",
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
     });
   });
 
@@ -294,20 +296,17 @@ describe("AlertDialog", () => {
     setGlobalProps({ safeAreaInsetTop: 47, safeAreaInsetBottom: 34, safeAreaInsetLeft: 59 });
 
     expect(renderPositioner({ container: "window" })).toEqual({
+      paddingTop: "47px",
+      paddingRight: "env(safe-area-inset-right)",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
       width: "100%",
       height: "100%",
-      "--seed-safe-area-left": "59px",
-      "--seed-safe-area-right": "env(safe-area-inset-right)",
-      "--dialog-safe-area-block": "47px",
     });
-    expect(
-      renderPositioner({
-        style: {
-          "--seed-safe-area-left": "0px",
-          opacity: 0.5,
-        } as AlertDialog.PositionerProps["style"],
-      }),
-    ).toMatchObject({ "--seed-safe-area-left": "0px", opacity: 0.5 });
+    expect(renderPositioner({ style: { paddingLeft: "0px", opacity: 0.5 } })).toMatchObject({
+      paddingLeft: "0px",
+      opacity: 0.5,
+    });
   });
 
   it("wraps the content children in a vertical scroll area", () => {

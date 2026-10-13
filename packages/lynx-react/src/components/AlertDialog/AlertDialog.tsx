@@ -148,7 +148,7 @@ export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProp
       <HeadlessDialogPositioner
         {...positionerProps}
         className={clsx(classNames.positioner, className)}
-        style={{ ...safeAreaStyle, ...style } as AlertDialogPositionerProps["style"]}
+        style={{ ...safeAreaStyle, ...style }}
         transition={transition}
       />
     );

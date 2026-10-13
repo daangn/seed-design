@@ -204,9 +204,10 @@ describe("Dialog", () => {
     });
 
     expect(renderPositioner()).toEqual({
-      "--seed-safe-area-left": "59px",
-      "--seed-safe-area-right": "0px",
-      "--dialog-safe-area-block": "47px",
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
     });
   });
 
@@ -214,20 +215,19 @@ describe("Dialog", () => {
     setGlobalProps({ safeAreaInsetTop: 0, safeAreaInsetBottom: 34 });
 
     expect(renderPositioner()).toEqual({
-      "--seed-safe-area-left": "env(safe-area-inset-left)",
-      "--seed-safe-area-right": "env(safe-area-inset-right)",
-      "--dialog-safe-area-block": "calc(env(safe-area-inset-top) + 34px)",
+      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
+      paddingRight: "env(safe-area-inset-right)",
+      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
+      paddingLeft: "env(safe-area-inset-left)",
     });
   });
 
-  it("lets the positioner style override the safe area variables", () => {
+  it("lets the positioner style override the safe area padding", () => {
     setGlobalProps({ safeAreaInsetLeft: 59 });
 
-    expect(
-      renderPositioner({
-        "--seed-safe-area-left": "0px",
-        opacity: 0.5,
-      } as Dialog.PositionerProps["style"]),
-    ).toMatchObject({ "--seed-safe-area-left": "0px", opacity: 0.5 });
+    expect(renderPositioner({ paddingLeft: "0px", opacity: 0.5 })).toMatchObject({
+      paddingLeft: "0px",
+      opacity: 0.5,
+    });
   });
 });

@@ -19,19 +19,20 @@ function getBlockInset({ safeAreaInsetTop, safeAreaInsetBottom }: UseSafeAreaRet
 }
 
 /**
- * Custom properties the dialog positioner recipes read for their padding and default width.
- * `--dialog-safe-area-block` may hold a `calc()`, which Lynx resolves only when a declaration
- * uses the variable on its own, not inside another `calc()`.
+ * Padding for the dialog positioners. The block padding is the same on both sides, so the content
+ * stays at the viewport's vertical center.
  */
 export function useDialogSafeAreaStyle() {
   const safeArea = useSafeArea();
 
-  return useMemo(
-    () => ({
-      "--seed-safe-area-left": safeArea.safeAreaInsetLeft,
-      "--seed-safe-area-right": safeArea.safeAreaInsetRight,
-      "--dialog-safe-area-block": getBlockInset(safeArea),
-    }),
-    [safeArea],
-  );
+  return useMemo(() => {
+    const blockInset = getBlockInset(safeArea);
+
+    return {
+      paddingTop: blockInset,
+      paddingRight: safeArea.safeAreaInsetRight,
+      paddingBottom: blockInset,
+      paddingLeft: safeArea.safeAreaInsetLeft,
+    };
+  }, [safeArea]);
 }
