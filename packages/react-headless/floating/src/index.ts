@@ -7,6 +7,7 @@ import {
   shift,
   size,
   useFloating,
+  useTransitionStatus,
   type Alignment,
   type ExtendedRefs,
   type FloatingContext,
@@ -260,20 +261,32 @@ export function usePositionedFloating<
     // instead of defining `whileElementsMounted` here, we use an effect below
   });
 
-  // https://floating-ui.com/docs/react#anchoring
-  useEffect(() => {
-    if (!open) return;
-    if (!refs.reference.current || !refs.floating.current) return;
+  const { status } = useTransitionStatus(context);
 
-    return autoUpdate(refs.reference.current, refs.floating.current, context.update);
-  }, [open, refs.reference, refs.floating, context]);
+  // Gate anchoring on the transition rather than on `open`, so autoUpdate outlives the close
+  // and the floating element keeps following the reference while it animates out.
+  const mounted = status !== "unmounted";
 
-  // Read the env()-resolved insets back off the positioner. Keyed on the reactive
-  // `elements.floating`: `refs.floating` never changes identity, so an effect on it would
-  // run once before the positioner commits and never again. Re-read on resize for
-  // orientation changes.
+  // Key the effects below on the reactive `context.elements`, not `refs.*`: the ref objects'
+  // identity never changes, so an effect keyed on them would not re-run as each element attaches.
+  const referenceElement = context.elements.reference;
   const floatingElement = context.elements.floating;
 
+  // `context.update` rather than `context`: floating-ui rebuilds the context object on every
+  // position commit, so depending on it would tear autoUpdate's scroll listeners and observers
+  // down and rebuild them on every scroll frame. `update` keeps its identity across those commits.
+  const { update } = context;
+
+  // https://floating-ui.com/docs/react#anchoring
+  useEffect(() => {
+    if (!mounted) return;
+    if (!referenceElement || !floatingElement) return;
+
+    return autoUpdate(referenceElement, floatingElement, update);
+  }, [mounted, referenceElement, floatingElement, update]);
+
+  // Read the env()-resolved insets back off the positioner. Re-read on resize for orientation
+  // changes.
   useEffect(() => {
     if (!floatingElement) return;
 
