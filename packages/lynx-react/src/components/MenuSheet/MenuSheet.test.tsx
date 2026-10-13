@@ -322,7 +322,8 @@ describe("MenuSheet", () => {
     expect(target.classList.contains("seed-menu-sheet-item__scaleContent")).toBe(true);
     expect(target.getAttribute("flatten")).toBe("false");
     expect(target.parentElement!.classList.contains("seed-menu-sheet-item__root")).toBe(true);
-    expect(target.parentElement!.hasAttribute("flatten")).toBe(false);
+    // Android drops flattened accessibility elements from the native tree.
+    expect(target.parentElement!.getAttribute("flatten")).toBe("false");
     const close = (getByText("Close feedback") as HTMLElement).parentElement!;
     expect(close.classList.contains("seed-menu-sheet__closeButton")).toBe(true);
     expect(close.getAttribute("flatten")).toBe("false");

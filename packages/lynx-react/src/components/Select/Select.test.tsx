@@ -192,6 +192,8 @@ describe("Select", () => {
       [".seed-select-item__root", "seed-select-item"],
     ] as const) {
       const surface = root.querySelector<HTMLElement>(rootClass)!;
+      // Android drops flattened accessibility elements from the native tree.
+      expect(surface).toHaveAttribute("flatten", "false");
       const target = surface.querySelector(`.${slot}__scaleContent`);
       expect(target).toHaveAttribute("flatten", "false");
       expect(target?.parentElement).toBe(surface);
