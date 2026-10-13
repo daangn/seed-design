@@ -211,7 +211,7 @@ Lynx `MenuSheet`는 React 버전과 다음 차이가 있습니다.
 - **Name**: React의 `SwipeableMenuSheet`에 해당합니다. React의 `MenuSheet`(deprecated)와는 다른 컴포넌트입니다.
 - **Trigger wrapper**: Trigger는 native `<view>` wrapper를 렌더링하며 `asChild`처럼 자식을 대체하는 API를 제공하지 않습니다.
 - **Native interaction**: HTML 요소와 `onClick` 대신 native `<view>`/`<text>`와 `bindtap`을 사용합니다.
-- **Accessibility**: DOM ARIA 속성 대신 `accessibility-label`, `accessibility-role-description` 등 Lynx native 접근성 속성을 사용합니다.
+- **Accessibility**: DOM ARIA 속성 대신 Lynx native 접근성 속성을 사용합니다. Trigger는 문자열 children에서 이름을 만들고 직접 전달한 `accessibility-label`이 우선합니다. 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않으며 label text를 중복 노출하지 않습니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요.
 - **Close fallback**: `showCloseButton={false}`는 숨겨진 닫기 버튼을 만들지 않습니다.
 - **Close reason**: 키보드 ESC와 상위 레이어 연쇄 닫힘이 없어 `escapeKeyDown`·`cascadeDismiss` reason은 제공하지 않습니다.
 - **Root options**: `closeOnInteractOutside`, `closeOnEscape`, `lazyMount`, `unmountOnExit`을 제공하지 않습니다. 배경 탭 닫기는 `MenuSheet.Backdrop`의 `clickToClose`, 마운트는 `MenuSheet.Positioner`의 `forceMount`로 제어합니다.

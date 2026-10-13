@@ -96,7 +96,7 @@ npx @seed-design/cli@latest add ui:wheel-picker --framework lynx
 
 ### Accessibility
 
-각 `Column`에 `accessibility-label`을 지정하세요. 웹의 `aria-label`과 `aria-labelledby`는 사용하지 않습니다. 각 컬럼은 `accessibility-element`와 `accessibility-value`로 이름과 현재 선택값을 알리고, `disabled`이면 `accessibility-traits="disabled"`를 사용합니다. 복제 항목과 선택 색을 그리는 Highlight는 접근성 트리에서 숨깁니다.
+각 `Column`에 `accessibility-label`을 지정하세요. 웹의 `aria-label`과 `aria-labelledby`는 사용하지 않습니다. 각 컬럼은 `accessibility-element`와 `accessibility-value`로 이름과 현재 선택값을 알리고, `disabled`이면 `accessibility-traits="disabled"`를 사용합니다. Android에서도 컬럼의 접근성 요소가 유지되도록 `flatten={false}`를 기본으로 설정합니다. 사용자가 지정한 native 접근성 속성과 `flatten`이 기본값보다 우선합니다. 이름 없는 컬럼이 독립된 접근성 요소이면 개발 환경에서 경고합니다. 복제 항목과 선택 색을 그리는 Highlight는 접근성 트리에서 숨깁니다.
 
 ## 웹 버전과의 차이
 

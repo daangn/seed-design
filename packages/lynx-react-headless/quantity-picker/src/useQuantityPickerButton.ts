@@ -11,6 +11,7 @@ type ButtonAccessibilityProps = Pick<
   | "accessibility-label"
   | "accessibility-role-description"
   | "accessibility-traits"
+  | "flatten"
 >;
 type MainThreadTouchProps = Pick<
   ViewProps,
@@ -42,7 +43,10 @@ export interface UseQuantityPickerButtonReturn {
   buttonProps: Required<
     Pick<
       ButtonAccessibilityProps,
-      "accessibility-element" | "accessibility-role-description" | "accessibility-traits"
+      | "accessibility-element"
+      | "accessibility-role-description"
+      | "accessibility-traits"
+      | "flatten"
     >
   > &
     Pick<ButtonAccessibilityProps, "accessibility-label"> &
@@ -85,6 +89,7 @@ function useQuantityPickerButton(
     "accessibility-element": accessibilityElement = true,
     "accessibility-role-description": accessibilityRoleDescription = "button",
     "accessibility-traits": accessibilityTraitsProp,
+    flatten = false,
   } = props;
   const interactive = !disabled && !loading;
   const accessibilityTraits = accessibilityTraitsProp ?? (interactive ? "button" : "disabled");
@@ -137,6 +142,7 @@ function useQuantityPickerButton(
         "accessibility-label": accessibilityLabel,
         "accessibility-role-description": accessibilityRoleDescription,
         "accessibility-traits": accessibilityTraits,
+        flatten,
       },
     }),
     [
@@ -157,6 +163,7 @@ function useQuantityPickerButton(
       accessibilityLabel,
       accessibilityRoleDescription,
       accessibilityTraits,
+      flatten,
     ],
   );
 }

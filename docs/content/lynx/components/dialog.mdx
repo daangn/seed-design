@@ -93,7 +93,7 @@ Registry의 `DialogContent`는 `Positioner`, `Backdrop`, `Header`를 내부에�
 
 ### Trigger
 
-`<DialogTrigger>`를 탭하면 Dialog가 열립니다. Lynx는 React의 `asChild`를 지원하지 않으며, Trigger가 자식 요소를 감싸는 native view를 렌더링합니다.
+`<DialogTrigger>`를 탭하면 Dialog가 열립니다. Lynx는 React의 `asChild`를 지원하지 않으며, Trigger가 자식 요소를 감싸는 native view를 렌더링합니다. Trigger가 버튼 역할과 이름을 노출하고 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않습니다. 이름은 문자열 children에서 만들며 직접 전달한 `accessibility-label`이 우선합니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요.
 
 <LynxComponentExample name="lynx/dialog/trigger" height={520}>
   ```json doc-gen:file

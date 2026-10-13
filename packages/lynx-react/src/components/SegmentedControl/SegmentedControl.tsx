@@ -11,6 +11,12 @@ import {
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { HStack } from "../Stack";
 import { mergeProps } from "../../utils/merge-props";
 
@@ -79,6 +85,18 @@ export interface SegmentedControlItemProps extends Omit<LynxHostProps<"view">, "
   disabled?: boolean;
 }
 
+function SegmentedControlItemLabel({
+  children,
+  className,
+}: Pick<LynxHostProps<"text">, "children" | "className">) {
+  const accessibilityProps = useLabelTextAccessibilityProps();
+  return (
+    <text {...accessibilityProps} className={className}>
+      {children}
+    </text>
+  );
+}
+
 export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlItemProps>(
   (props, ref) => {
     const {
@@ -96,6 +114,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
+    const insideAccessibilityElement = useInsideAccessibilityElement();
     const api = useSegmentedControlItem({
       value,
       disabled,
@@ -111,8 +130,17 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
       disabled: api.disabled,
     });
     const classes = segmentedControl({ selected: api.checked, disabled: api.disabled });
-    const label =
-      typeof children === "string" || typeof children === "number" ? String(children) : undefined;
+    const label = accessibilityLabel ?? getAccessibleText(children);
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      itemProps["accessibility-element"] === true &&
+      !label
+    ) {
+      console.warn(
+        "SegmentedControlItem: `accessibility-label` is required when children have no text.",
+      );
+    }
 
     return (
       <view
@@ -123,22 +151,28 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
           scaleFeedbackTriggerProps,
           nativeProps,
         )}
-        accessibility-label={accessibilityLabel ?? label}
+        accessibility-label={label}
         className={clsx(classes.item, className)}
         style={style}
       >
-        <view accessibility-elements-hidden={true} className={classes.itemBackground} />
-        <view accessibility-elements-hidden={true} className={classes.itemSelectedBackground} />
-        <view className={classes.itemContent} {...scaleFeedbackTargetProps}>
-          {notification ? (
-            <HStack position="relative" align="flex-start">
-              <text className={classes.label}>{children}</text>
-              <view accessibility-elements-hidden={true}>{notification}</view>
-            </HStack>
-          ) : (
-            <text className={classes.label}>{children}</text>
-          )}
-        </view>
+        <AccessibilityElementScope>
+          <view accessibility-elements-hidden={true} className={classes.itemBackground} />
+          <view accessibility-elements-hidden={true} className={classes.itemSelectedBackground} />
+          <view className={classes.itemContent} {...scaleFeedbackTargetProps}>
+            {notification ? (
+              <HStack position="relative" align="flex-start">
+                <SegmentedControlItemLabel className={classes.label}>
+                  {children}
+                </SegmentedControlItemLabel>
+                <view accessibility-elements-hidden={true}>{notification}</view>
+              </HStack>
+            ) : (
+              <SegmentedControlItemLabel className={classes.label}>
+                {children}
+              </SegmentedControlItemLabel>
+            )}
+          </view>
+        </AccessibilityElementScope>
       </view>
     );
   },

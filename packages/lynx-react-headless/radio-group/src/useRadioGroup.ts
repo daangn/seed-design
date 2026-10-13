@@ -42,6 +42,7 @@ export interface UseRadioGroupReturn {
   invalid: boolean;
   /**
    * Root native view에 펼칩니다. 접근성 기본값은 사용자가 전달한 값보다 우선하지 않습니다.
+   * Root는 항목을 가리지 않도록 기본적으로 접근성 요소가 아닙니다.
    * `accessibility-traits` 기본값은 disabled이면 `"disabled"`입니다.
    */
   rootProps: Required<Pick<ViewProps, "accessibility-element" | "accessibility-role-description">> &
@@ -64,7 +65,7 @@ export function useRadioGroup(props: UseRadioGroupProps = {}): UseRadioGroupRetu
     onValueChange,
     disabled = false,
     invalid = false,
-    "accessibility-element": accessibilityElement = true,
+    "accessibility-element": accessibilityElement = false,
     "accessibility-role-description": accessibilityRoleDescription = "radiogroup",
     "accessibility-traits": accessibilityTraits,
   } = props;

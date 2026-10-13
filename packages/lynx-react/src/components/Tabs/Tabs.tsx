@@ -12,6 +12,12 @@ import {
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { mergeProps } from "../../utils/merge-props";
 import { Box } from "../Box";
 type TabsRecipeState = Pick<
@@ -111,6 +117,18 @@ export interface TabsTriggerProps extends Omit<LynxHostProps<"view">, "children"
   notification?: React.ReactNode;
 }
 
+function TabsTriggerLabel({
+  children,
+  className,
+}: Pick<LynxHostProps<"text">, "children" | "className">) {
+  const accessibilityProps = useLabelTextAccessibilityProps();
+  return (
+    <text {...accessibilityProps} className={className}>
+      {children}
+    </text>
+  );
+}
+
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {
   const {
     children,
@@ -126,6 +144,8 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   } = props;
 
   const context = useTabsStyleContext();
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const label = accessibilityLabel ?? getAccessibleText(children);
   const { transitionsEnabled } = useTabsContext();
   const api = useTabsTrigger({
     value: triggerValue,
@@ -133,7 +153,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     children,
-    "accessibility-label": accessibilityLabel,
+    "accessibility-label": label,
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
@@ -146,27 +166,34 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     disabled: api.isDisabled,
     transitionEnabled: transitionsEnabled,
   });
+  const triggerProps = mergeProps(
+    { flatten: false },
+    api.triggerProps,
+    ref ? { ref: ref as LynxViewRef } : {},
+    scaleFeedbackTargetProps,
+    scaleFeedbackTriggerProps,
+    nativeProps,
+  );
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    triggerProps["accessibility-element"] === true &&
+    !label
+  ) {
+    console.warn("TabsTrigger: `accessibility-label` is required when children have no text.");
+  }
   return (
-    <view
-      {...mergeProps(
-        { flatten: false },
-        api.triggerProps,
-        ref ? { ref: ref as LynxViewRef } : {},
-        scaleFeedbackTargetProps,
-        scaleFeedbackTriggerProps,
-        nativeProps,
-      )}
-      className={clsx(triggerClasses.trigger, className)}
-      style={style}
-    >
-      {notification ? (
-        <Box position="relative">
-          <text className={triggerClasses.triggerLabel}>{children}</text>
-          {notification}
-        </Box>
-      ) : (
-        <text className={triggerClasses.triggerLabel}>{children}</text>
-      )}
+    <view {...triggerProps} className={clsx(triggerClasses.trigger, className)} style={style}>
+      <AccessibilityElementScope>
+        {notification ? (
+          <Box position="relative">
+            <TabsTriggerLabel className={triggerClasses.triggerLabel}>{children}</TabsTriggerLabel>
+            {notification}
+          </Box>
+        ) : (
+          <TabsTriggerLabel className={triggerClasses.triggerLabel}>{children}</TabsTriggerLabel>
+        )}
+      </AccessibilityElementScope>
     </view>
   );
 });

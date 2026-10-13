@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { LynxIconElementProps } from "../../types";
 import { Icon, PrefixIcon, SuffixIcon } from "../Icon";
 import { ActionButton } from "./ActionButton";
+import { AccessibilityElementScope } from "../../utils/accessibility";
 
 vi.mock("@lynx-js/react", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@lynx-js/react")>();
@@ -74,6 +75,8 @@ describe("ActionButton", () => {
     expect(root.querySelector(".seed-action-button__content")).toBeInTheDocument();
     expect(root.querySelector(".seed-action-button__loadingIndicator")).toBeInTheDocument();
     expect(root.querySelector(".seed-progress-circle__root")).toBeInTheDocument();
+    expect(getActionButtonRoot()).toHaveAttribute("accessibility-label", "Submit");
+    expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
   });
 
   it("applies action button slot classes to child icon slots", () => {
@@ -125,6 +128,71 @@ describe("ActionButton", () => {
     expect(root).toHaveAttribute("accessibility-label", "Add");
     expect(root).toHaveAttribute("accessibility-element", "true");
     expect(root).toHaveAttribute("accessibility-traits", "button");
+  });
+
+  it("derives its accessible name from text without exposing the label twice", () => {
+    const { getByText } = render(<ActionButton>Open</ActionButton>);
+    const root = getActionButtonRoot();
+
+    expect(root).toHaveAttribute("accessibility-label", "Open");
+    expect(root).toHaveAttribute("flatten", "false");
+    expect(getByText("Open")).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(getByText("Open")).toHaveAttribute("accessibility-element", "false");
+  });
+
+  it("keeps the consumer name instead of deriving a name from children", () => {
+    render(<ActionButton accessibility-label="Submit order">Submit</ActionButton>);
+    expect(getActionButtonRoot()).toHaveAttribute("accessibility-label", "Submit order");
+  });
+
+  it("leaves accessibility ownership to an enclosing element", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { getByText } = render(
+      <AccessibilityElementScope>
+        <ActionButton>Open</ActionButton>
+        <ActionButton layout="iconOnly">
+          <Icon icon={<MockIcon />} />
+        </ActionButton>
+        <ActionButton accessibility-element={true} accessibility-label="Explicit">
+          Named
+        </ActionButton>
+      </AccessibilityElementScope>,
+    );
+
+    const root = (getByText("Open") as HTMLElement).parentElement;
+    expect(root).toHaveAttribute("accessibility-element", "false");
+    expect(root).not.toHaveAttribute("accessibility-label");
+    expect(getByText("Open")).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect((getByText("Named") as HTMLElement).parentElement).toHaveAttribute(
+      "accessibility-element",
+      "true",
+    );
+    expect(
+      warn.mock.calls.filter(([message]) => String(message).startsWith("ActionButton:")),
+    ).toHaveLength(0);
+    warn.mockRestore();
+  });
+
+  it("warns when an accessible text button has no name", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(<ActionButton />);
+    expect(
+      warn.mock.calls.filter(([message]) => String(message).startsWith("ActionButton:")),
+    ).toHaveLength(1);
+    warn.mockRestore();
+  });
+
+  it("keeps the icon-only accessibility warning", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render(
+      <ActionButton layout="iconOnly">
+        <Icon icon={<MockIcon />} />
+      </ActionButton>,
+    );
+    expect(warn).toHaveBeenCalledWith(
+      'ActionButton: `layout="iconOnly"` requires `accessibility-label` for accessibility.',
+    );
+    warn.mockRestore();
   });
 
   it("honors native overrides while keeping disabled tap callbacks blocked", () => {

@@ -137,6 +137,34 @@ describe("WheelPicker", () => {
     expect(root).not.toHaveAttribute("accessibility-element");
     expect(root).not.toHaveAttribute("accessibility-role-description");
     expect(get(".column")).toHaveAttribute("accessibility-element");
+    expect(get(".column")).toHaveAttribute("accessibility-label", "단계");
+    expect(get(".column")).toHaveAttribute("flatten", "false");
+  });
+
+  it("소비자가 지정한 Column 접근성 속성과 flatten을 우선한다", async () => {
+    await renderPicker({
+      flatten: true,
+      "accessibility-label": "사용자 이름",
+      "accessibility-value": "사용자 값",
+      "accessibility-element": false,
+    });
+    const column = get(".column");
+    expect(column).toHaveAttribute("flatten", "true");
+    expect(column).toHaveAttribute("accessibility-label", "사용자 이름");
+    expect(column).toHaveAttribute("accessibility-value", "사용자 값");
+    expect(column).toHaveAttribute("accessibility-element", "false");
+  });
+
+  it("이름 없는 Column이 접근성 요소일 때만 개발 경고를 낸다", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { rerender } = await renderPicker({
+      "accessibility-label": undefined,
+      "accessibility-element": false,
+    });
+    expect(warn).not.toHaveBeenCalled();
+    rerender(<Picker accessibility-label={undefined} />);
+    await waitSchedule();
+    expect(warn).toHaveBeenCalled();
   });
 
   it("소비자가 지정한 Root 접근성 속성은 그대로 전달한다", async () => {

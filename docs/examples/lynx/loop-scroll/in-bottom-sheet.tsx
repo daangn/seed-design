@@ -36,6 +36,7 @@ export default function LoopScrollInBottomSheetExample() {
       </text>
       <BottomSheet.Root open={open} onOpenChange={handleOpenChange}>
         <BottomSheet.Trigger
+          flatten={false}
           accessibility-element
           accessibility-traits="button"
           accessibility-label="시트 열기"

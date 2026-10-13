@@ -19,6 +19,11 @@ import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+} from "../../utils/accessibility";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(helpBubble);
 
@@ -130,7 +135,37 @@ export interface HelpBubbleTriggerProps extends LynxHostProps<"view"> {}
 
 export const HelpBubbleTrigger: React.ForwardRefExoticComponent<
   HelpBubbleTriggerProps & React.RefAttributes<unknown>
-> = PopoverTrigger;
+> = React.forwardRef<unknown, HelpBubbleTriggerProps>((props, ref) => {
+  const { children, "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+  const label = accessibilityLabel ?? getAccessibleText(children);
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? true) &&
+    !label
+  ) {
+    console.warn(
+      "HelpBubbleTrigger: `accessibility-label` is required when children have no text.",
+    );
+  }
+
+  return (
+    <PopoverTrigger
+      flatten={false}
+      {...nativeProps}
+      {...(ref ? { ref } : {})}
+      accessibility-label={label || undefined}
+    >
+      {nativeProps["accessibility-element"] === false ? (
+        children
+      ) : (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      )}
+    </PopoverTrigger>
+  );
+});
+HelpBubbleTrigger.displayName = "HelpBubbleTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

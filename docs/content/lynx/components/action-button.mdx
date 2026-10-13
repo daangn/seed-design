@@ -170,7 +170,7 @@ Lynx `ActionButton`은 React `ActionButton`과 다음과 같은 차이가 있습
 
 - **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
 - **렌더링 요소**: HTML `<button>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
-- **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다.
+- **접근성 라벨링**: `aria-label` 대신 Lynx native `accessibility-label`을 사용합니다. 문자열 children에서 이름을 만들고, 직접 전달한 `accessibility-label`이 우선합니다. loading 중에도 이름을 유지하며 label text는 중복 노출하지 않습니다. 텍스트를 파생할 수 없는 children이나 `iconOnly`에는 이름을 명시하세요. Trigger 안에서는 기본적으로 바깥 Trigger가 접근성 의미를 소유합니다.
 - **ref forwarding**: `React.forwardRef`로 ref를 전달할 수 있습니다.
 - **아이콘 렌더링 방식**: 웹의 SVG `currentColor` 대신 Lynx `<image>`의 `tint-color`를 사용합니다. `Icon` / `PrefixIcon` / `SuffixIcon`이 recipe color를 native tint로 동기화합니다.
 - **Loading 상태**: 두 플랫폼 모두 spinner를 absolute로 얹고 기존 content를 숨겨 원래 버튼 폭을 유지합니다. Lynx는 loading 중 tap을 막지만, 웹은 loading만으로 `onClick`을 막지 않습니다.

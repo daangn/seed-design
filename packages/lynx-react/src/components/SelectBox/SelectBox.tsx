@@ -30,6 +30,12 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 
 /**
  * @platform Lynx
@@ -148,6 +154,7 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
             <view
               {...mergeProps(
                 accessibilityProps,
+                { flatten: false },
                 nativeProps,
                 ref ? { ref: ref as LynxViewRef } : {},
               )}
@@ -155,11 +162,13 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
               style={style}
             >
               <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
-                {footerCollapsible ? (
-                  <CollapsibleProvider value={footerCollapsible}>{content}</CollapsibleProvider>
-                ) : (
-                  content
-                )}
+                <AccessibilityElementScope>
+                  {footerCollapsible ? (
+                    <CollapsibleProvider value={footerCollapsible}>{content}</CollapsibleProvider>
+                  ) : (
+                    content
+                  )}
+                </AccessibilityElementScope>
               </view>
               <view className={classes.selectedStroke} accessibility-elements-hidden={true} />
             </view>
@@ -188,7 +197,11 @@ const SelectBoxGroup = React.forwardRef<unknown, SelectBoxGroupProps>((props, re
   return (
     <SelectBoxLayoutContext.Provider value={{ layout }}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          { "accessibility-element": false },
+          ref ? { ref: ref as LynxViewRef } : {},
+          nativeProps,
+        )}
         className={clsx(classes, className)}
         style={{ gridTemplateColumns: `repeat(${columns}, 1fr)`, ...style }}
       >
@@ -255,6 +268,18 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
       "accessibility-traits": accessibilityTraits,
       "accessibility-value": accessibilityValue,
     });
+    const insideAccessibilityElement = useInsideAccessibilityElement();
+    const accessibilityLabel = nativeProps["accessibility-label"] ?? getAccessibleText(children);
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      api.rootProps["accessibility-element"] &&
+      !accessibilityLabel
+    ) {
+      console.warn(
+        "CheckSelectBoxRoot: `accessibility-label` is required when children have no text.",
+      );
+    }
     // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
     const {
       bindtap: handleTap,
@@ -288,6 +313,7 @@ export const CheckSelectBoxRoot = React.forwardRef<unknown, CheckSelectBoxRootPr
           interactionProps: mergeProps(scaleFeedbackTriggerProps, { bindtap: handleTap }),
           accessibilityProps: stateAccessibilityProps,
           ...nativeProps,
+          "accessibility-label": accessibilityLabel,
           scaleFeedbackTargetProps,
           footerCollapsible,
         })}
@@ -339,7 +365,20 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
       "accessibility-traits": accessibilityTraits,
       "accessibility-value": accessibilityValue,
     });
+    const insideAccessibilityElement = useInsideAccessibilityElement();
+    const accessibilityLabel = nativeProps["accessibility-label"] ?? getAccessibleText(children);
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      api.itemProps["accessibility-element"] &&
+      !accessibilityLabel
+    ) {
+      console.warn(
+        "RadioSelectBoxItem: `accessibility-label` is required when children have no text.",
+      );
+    }
     const {
+      flatten: _flatten,
       "accessibility-element": itemAccessibilityElement,
       "accessibility-role-description": itemAccessibilityRoleDescription,
       "accessibility-traits": itemAccessibilityTraits,
@@ -380,6 +419,7 @@ export const RadioSelectBoxItem = React.forwardRef<unknown, RadioSelectBoxItemPr
           interactionProps: mergeProps(scaleFeedbackTriggerProps, tapProps),
           accessibilityProps: stateAccessibilityProps,
           ...nativeProps,
+          "accessibility-label": accessibilityLabel,
           scaleFeedbackTargetProps,
           footerCollapsible,
         })}
@@ -431,6 +471,7 @@ function createLabelSlot(displayName: string) {
   const Component = React.forwardRef<unknown, LynxHostProps<"view">>((props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useClassNames();
+    const labelAccessibilityProps = useLabelTextAccessibilityProps();
     const labelChildren =
       typeof children === "string" || typeof children === "number" ? (
         <text>{children}</text>
@@ -440,7 +481,11 @@ function createLabelSlot(displayName: string) {
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          labelAccessibilityProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+          nativeProps,
+        )}
         className={clsx(classes.label, className)}
       >
         {labelChildren}

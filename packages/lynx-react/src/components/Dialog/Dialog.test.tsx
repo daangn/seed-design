@@ -41,8 +41,38 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
 });
 
 import * as Dialog from "./Dialog.namespace";
+import { ActionButton } from "../ActionButton";
 
 describe("Dialog", () => {
+  it("owns the trigger label and hides the nested ActionButton from accessibility", () => {
+    const { container, rerender } = render(
+      <Dialog.Root>
+        <Dialog.Trigger className="trigger">
+          <ActionButton>열기</ActionButton>
+        </Dialog.Trigger>
+      </Dialog.Root>,
+    );
+    const trigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+
+    expect(trigger?.getAttribute("accessibility-label")).toBe("열기");
+    expect(trigger?.getAttribute("accessibility-role-description")).toBe("button");
+    expect(trigger?.getAttribute("flatten")).toBe("false");
+    expect(
+      trigger?.querySelector(".seed-action-button__root")?.getAttribute("accessibility-element"),
+    ).toBe("false");
+
+    rerender(
+      <Dialog.Root>
+        <Dialog.Trigger className="trigger" accessibility-label="다이얼로그 열기">
+          {({ busy }) => <ActionButton>{busy ? "Wait" : "Open"}</ActionButton>}
+        </Dialog.Trigger>
+      </Dialog.Root>,
+    );
+    const namedTrigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(namedTrigger?.getAttribute("accessibility-label")).toBe("다이얼로그 열기");
+    expect(namedTrigger?.textContent).toBe("Open");
+  });
+
   it("applies SEED slots and renders Body as a vertical scroll-view", () => {
     const { container } = render(
       <Dialog.Root open>

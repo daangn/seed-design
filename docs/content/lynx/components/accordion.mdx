@@ -234,7 +234,7 @@ Lynx `Accordion`은 React 버전과 다음 차이가 있습니다.
 
 - **Native elements**: HTML heading, button, region 대신 Lynx `<view>`와 `<text>`를 렌더링합니다.
 - **Interaction**: 키보드 탐색 대신 Trigger의 native tap 이벤트로 항목을 열고 닫습니다.
-- **Accessibility**: DOM ARIA 대신 `accessibility-heading`, `accessibility-role-description`, `accessibility-value`를 사용합니다. React의 `aria-expanded`·`aria-disabled`처럼 Trigger의 열림·비활성 상태(`accessibility-value`·`accessibility-traits`)는 컴포넌트가 정하며, 상태 문구는 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 바꿉니다.
+- **Accessibility**: DOM ARIA 대신 `accessibility-heading`, `accessibility-role-description`, `accessibility-value`를 사용합니다. React의 `aria-expanded`·`aria-disabled`처럼 Trigger의 열림·비활성 상태(`accessibility-value`·`accessibility-traits`)는 컴포넌트가 정하며, 상태 문구는 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 바꿉니다. `Accordion.Trigger`는 기본적으로 `flatten={false}`로 네이티브 노드를 유지합니다. 접근성 이름은 `accessibility-label`이 우선하며, 생략하면 Title·Description 등 컴포넌트 children의 문자열과 숫자에서 만듭니다. 접근성 요소인 Trigger 안의 Title·Description은 중복으로 읽히지 않도록 접근성 트리에서 숨깁니다. Content 안의 텍스트나 `accessibility-element={false}`인 Trigger 안의 텍스트는 숨기지 않습니다. 직접 작성한 `<text>` 등의 네이티브 JSX는 런타임 children에 정적 텍스트가 남지 않아 이름을 파생할 수 없습니다. 이런 children이나 텍스트 없는 Trigger, prop으로만 문구를 렌더링하는 컴포넌트는 `accessibility-label`을 직접 지정하세요. 이름 없는 접근성 요소는 개발 환경에서 경고합니다. 접근성 이름·요소 여부·텍스트 숨김 속성과 `flatten`을 직접 지정하면 기본값보다 우선합니다.
 - **Responsive size**: Lynx preset은 viewport media query를 지원하지 않아 `size="responsive"`를 제공하지 않습니다.
 - **Content transition**: React 버전은 CSS custom property로 높이를 전달하고, Lynx 버전은 `layoutchange`로 콘텐츠 높이를 측정해 같은 duration과 easing의 transition을 적용합니다.
 </Callout>

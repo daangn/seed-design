@@ -27,6 +27,12 @@ import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 
 /**
  * @platform Lynx
@@ -198,6 +204,7 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     children,
     className,
     bindtap,
+    "accessibility-label": accessibilityLabel,
     expandedAccessibilityValue = "펼쳐짐",
     collapsedAccessibilityValue = "접힘",
     // 타입에서 제외했지만 하이픈 속성은 JSX 검사를 통과하므로 런타임에서도 버린다.
@@ -206,6 +213,8 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     ...nativeProps
   } = props as AccordionTriggerProps &
     Partial<Pick<LynxHostProps<"view">, AccordionTriggerStateAccessibilityKey>>;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
   const { open, disabled, pressed, triggerProps } = useCollapsibleTrigger({
     bindtap,
     expandedAccessibilityValue,
@@ -214,6 +223,16 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
     "accessibility-role-description": nativeProps["accessibility-role-description"],
   });
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = triggerProps;
+  const accessibilityElement =
+    nativeProps["accessibility-element"] ?? triggerProps["accessibility-element"];
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    accessibilityElement === true &&
+    !resolvedAccessibilityLabel
+  ) {
+    console.warn("AccordionTrigger: `accessibility-label` is required when children have no text.");
+  }
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     // The headless hook exposes native event types; its press handlers also accept zero arguments.
@@ -235,6 +254,7 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
         {...mergeProps(
           pressHandlers,
           scaleFeedbackTriggerProps,
+          { flatten: false, "accessibility-label": resolvedAccessibilityLabel },
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
@@ -242,7 +262,11 @@ export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>
       >
         <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
         <view className={classes.triggerContent} {...scaleFeedbackTargetProps}>
-          {children}
+          {accessibilityElement ? (
+            <AccessibilityElementScope>{children}</AccessibilityElementScope>
+          ) : (
+            children
+          )}
         </view>
       </view>
     </ClassNamesProvider>
@@ -298,10 +322,11 @@ export interface AccordionTitleProps extends LynxHostProps<"text"> {}
 export const AccordionTitle = React.forwardRef<unknown, AccordionTitleProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
   const classes = useClassNames();
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classes.title, className)}
     >
       {children}
@@ -318,10 +343,15 @@ export const AccordionDescription = React.forwardRef<unknown, AccordionDescripti
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const classes = useClassNames();
+    const labelAccessibilityProps = useLabelTextAccessibilityProps();
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...mergeProps(
+          labelAccessibilityProps,
+          ref ? { ref: ref as LynxTextRef } : {},
+          nativeProps,
+        )}
         className={clsx(classes.description, className)}
       >
         {children}

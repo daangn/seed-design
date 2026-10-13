@@ -12,6 +12,12 @@ import {
 import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import {
   IconRequired,
@@ -102,9 +108,16 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
+    "accessibility-element": accessibilityElementProp,
+    "accessibility-label": accessibilityLabelProp,
     children,
     ...restProps
   } = props;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const accessibilityElement = accessibilityElementProp ?? !insideAccessibilityElement;
+  const accessibilityLabel =
+    accessibilityLabelProp ??
+    (insideAccessibilityElement ? undefined : getAccessibleText(children));
   const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
     disabled,
     onTap: bindtap,
@@ -117,6 +130,15 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     onTouchCancel: bindtouchcancel,
   });
 
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    accessibilityElement &&
+    !accessibilityLabel
+  ) {
+    console.warn("ChipButton: `accessibility-label` is required when children have no text.");
+  }
+
   return (
     <ChipRootView
       {...mergeProps(
@@ -125,7 +147,8 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
           selected: false,
           pressed,
           flatten: false,
-          "accessibility-element": true,
+          "accessibility-element": accessibilityElement,
+          "accessibility-label": accessibilityLabel || undefined,
           "accessibility-role-description": "button",
           "accessibility-traits": disabled ? ("disabled" as const) : undefined,
         },
@@ -136,7 +159,11 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
         ref ? { ref } : {},
       )}
     >
-      {children}
+      {accessibilityElement ? (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      ) : (
+        children
+      )}
     </ChipRootView>
   );
 });
@@ -167,12 +194,17 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabelProp,
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
     children,
     ...restProps
   } = props;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const accessibilityLabel =
+    accessibilityLabelProp ??
+    (insideAccessibilityElement ? undefined : getAccessibleText(children));
   const api = useCheckbox({
     checked,
     defaultChecked,
@@ -180,7 +212,7 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     disabled,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
+    "accessibility-element": accessibilityElement ?? !insideAccessibilityElement,
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
@@ -194,10 +226,25 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     onTouchCancel: bindtouchcancel,
   });
 
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    rootProps["accessibility-element"] &&
+    !accessibilityLabel
+  ) {
+    console.warn("ChipToggle: `accessibility-label` is required when children have no text.");
+  }
+
   return (
     <ChipRootView
       {...mergeProps(
-        { disabled, selected: api.checked, pressed: api.pressed, flatten: false },
+        {
+          disabled,
+          selected: api.checked,
+          pressed: api.pressed,
+          flatten: false,
+          "accessibility-label": accessibilityLabel || undefined,
+        },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         rootProps,
@@ -205,7 +252,11 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
         ref ? { ref } : {},
       )}
     >
-      {children}
+      {rootProps["accessibility-element"] ? (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      ) : (
+        children
+      )}
     </ChipRootView>
   );
 });
@@ -231,7 +282,10 @@ export const ChipRadioRoot = React.forwardRef<unknown, ChipRadioRootProps>((prop
   const { children, ...otherProps } = props;
 
   return (
-    <HeadlessRadioGroupRoot {...(ref ? { ref } : {})} {...otherProps}>
+    <HeadlessRadioGroupRoot
+      {...(ref ? { ref } : {})}
+      {...mergeProps({ "accessibility-element": false }, otherProps)}
+    >
       {children}
     </HeadlessRadioGroupRoot>
   );
@@ -259,18 +313,23 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabelProp,
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
     children,
     ...restProps
   } = props;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const accessibilityLabel =
+    accessibilityLabelProp ??
+    (insideAccessibilityElement ? undefined : getAccessibleText(children));
   const api = useRadioGroupItem({
     value,
     disabled,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
+    "accessibility-element": accessibilityElement ?? !insideAccessibilityElement,
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
     "accessibility-value": accessibilityValue,
@@ -284,10 +343,25 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
     onTouchCancel: bindtouchcancel,
   });
 
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    itemProps["accessibility-element"] &&
+    !accessibilityLabel
+  ) {
+    console.warn("ChipRadioItem: `accessibility-label` is required when children have no text.");
+  }
+
   return (
     <ChipRootView
       {...mergeProps(
-        { disabled: api.disabled, selected: api.checked, pressed: api.pressed, flatten: false },
+        {
+          disabled: api.disabled,
+          selected: api.checked,
+          pressed: api.pressed,
+          flatten: false,
+          "accessibility-label": accessibilityLabel || undefined,
+        },
         scaleFeedbackTargetProps,
         scaleFeedbackTriggerProps,
         itemProps,
@@ -295,7 +369,11 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
         ref ? { ref } : {},
       )}
     >
-      {children}
+      {itemProps["accessibility-element"] ? (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      ) : (
+        children
+      )}
     </ChipRootView>
   );
 });
@@ -308,10 +386,11 @@ export interface ChipLabelProps extends LynxHostProps<"text"> {}
 export const ChipLabel = React.forwardRef<unknown, ChipLabelProps>((props, ref) => {
   const classes = useClassNames();
   const { children, className, ...nativeProps } = props;
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, labelAccessibilityProps, nativeProps)}
       className={clsx(classes.label, className)}
     >
       {children}
