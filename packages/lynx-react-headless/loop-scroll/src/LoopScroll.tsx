@@ -773,7 +773,12 @@ export const LoopScrollTrack = React.forwardRef<unknown, LoopScrollTrackProps>((
   const context = useLoopScrollContext("Track");
   const inHighlight = React.useContext(LoopScrollHighlightContext);
   // Frozen for the lifetime of the mover so background renders never overwrite the main-thread position.
-  const [moverStyle] = React.useState(() => ({ transform: context.getSettledTransform() }));
+  // iOS drops every descendant of a transformed zero-height view from the accessibility tree, so the
+  // mover keeps one item of height even though items are absolutely positioned.
+  const [moverStyle] = React.useState(() => ({
+    height: toPx(context.itemSize),
+    transform: context.getSettledTransform(),
+  }));
   const trackStyle = React.useMemo(
     () =>
       typeof style === "string"

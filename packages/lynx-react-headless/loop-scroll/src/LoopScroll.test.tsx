@@ -145,6 +145,8 @@ describe("LoopScroll", () => {
       .filter((node) => !node.hasAttribute("accessibility-elements-hidden"))
       .map((node) => node.textContent);
     expect([...accessible].sort()).toEqual([..."0123456789"]);
+    // iOS는 높이가 0이고 transform이 있는 view의 하위를 접근성 트리에서 모두 뺀다.
+    expect(mover()).toHaveStyle({ height: `${ITEM_SIZE}px` });
     expect(get(".root")).toHaveStyle({ height: "200px", overflow: "hidden" });
     expect(centeredPosition()).toBe(4);
   });
