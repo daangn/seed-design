@@ -191,21 +191,14 @@ AlertDialogBackdrop.displayName = "AlertDialogBackdrop";
 
 export interface AlertDialogContentProps
   extends HeadlessDialogContentProps,
-    LynxAccessibilityProps {
-  /**
-   * @defaultValue true
-   */
-  "accessibility-element"?: LynxAccessibilityProps["accessibility-element"];
-  /**
-   * @defaultValue "alertdialog"
-   */
-  "accessibility-role-description"?: LynxAccessibilityProps["accessibility-role-description"];
-}
+    LynxAccessibilityProps {}
 
 /**
  * @platform Lynx — refs are unsupported. Accessibility props are applied to the content view
  * through `dialogContentProps`, which takes precedence. Presence handlers in
  * `dialogContentProps` are reserved for the dialog; other native props and callbacks are forwarded.
+ * The content view is not made an accessibility element: iOS hides accessibility elements nested
+ * in one, so the title, description, and actions are exposed individually.
  */
 export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((props, _ref) => {
   const {
@@ -215,8 +208,6 @@ export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((pr
     delayed,
     transition = true,
     dialogContentProps,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-role-description": accessibilityRoleDescription = "alertdialog",
     ...accessibilityProps
   } = props;
   const classNames = useClassNames();
@@ -227,12 +218,7 @@ export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((pr
       style={style}
       delayed={delayed}
       transition={transition}
-      dialogContentProps={{
-        ...accessibilityProps,
-        "accessibility-element": accessibilityElement,
-        "accessibility-role-description": accessibilityRoleDescription,
-        ...dialogContentProps,
-      }}
+      dialogContentProps={{ ...accessibilityProps, ...dialogContentProps }}
     >
       {children}
     </HeadlessDialogContent>
