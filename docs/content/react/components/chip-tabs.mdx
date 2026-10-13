@@ -44,6 +44,53 @@ npx @seed-design/cli@latest add ui:chip-tabs
 
 <react-type-table path="./registry/react/ui/chip-tabs.tsx" name="ChipTabsContentProps" />
 
+## Usage
+
+### Content
+
+탭 선택으로만 콘텐츠를 전환할 때는 `ChipTabsContent`를 `ChipTabsRoot` 안에 배치합니다. Trigger와 Content의 `value`를 맞추면 선택된 패널만 표시됩니다. 이 구성은 전환 애니메이션과 좌우 스와이프를 제공하지 않습니다.
+
+```tsx
+import {
+  ChipTabsContent,
+  ChipTabsList,
+  ChipTabsRoot,
+  ChipTabsTrigger,
+} from "seed-design/ui/chip-tabs";
+
+export function App() {
+  return (
+    <ChipTabsRoot defaultValue="1">
+      <ChipTabsList>
+        <ChipTabsTrigger value="1">라벨1</ChipTabsTrigger>
+        <ChipTabsTrigger value="2">라벨2</ChipTabsTrigger>
+        <ChipTabsTrigger value="3">라벨3</ChipTabsTrigger>
+      </ChipTabsList>
+      <ChipTabsContent value="1">첫 번째 콘텐츠</ChipTabsContent>
+      <ChipTabsContent value="2">두 번째 콘텐츠</ChipTabsContent>
+      <ChipTabsContent value="3">세 번째 콘텐츠</ChipTabsContent>
+    </ChipTabsRoot>
+  );
+}
+```
+
+`ChipTabsRoot`는 `value`와 `onValueChange`로 제어하거나 `defaultValue`로 초기 선택 값을 지정합니다. `ChipTabsTrigger`의 `notification`은 label 옆에 작은 `NotificationBadge`를 표시합니다.
+
+### Swipeable
+
+`ChipTabsContent`를 `ChipTabsCarousel` 안에 배치하면 탭을 바꿀 때 콘텐츠가 가로로 전환되고, `swipeable`을 설정하면 콘텐츠를 좌우로 밀어 탭을 바꿀 수 있습니다. Registry의 `ChipTabsCarousel`은 내부에서 Camera를 조립하므로 `ChipTabsCarouselCamera`를 따로 추가할 필요가 없습니다.
+
+아래 예제에서 Trigger를 누르거나 콘텐츠를 좌우로 밀면 선택된 chip과 콘텐츠가 함께 바뀝니다. 스와이프 시작·종료·정착은 `ChipTabsCarousel`의 `onSwipeStart`, `onSwipeEnd`, `onSettle`로 처리할 수 있습니다.
+
+<ComponentExample name="react/chip-tabs/swipeable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip-tabs/swipeable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ## Examples
 
 ### Size=Medium
