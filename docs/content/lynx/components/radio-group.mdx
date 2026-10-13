@@ -70,11 +70,11 @@ export function ContactMethod() {
 
 ## 접근성
 
-Registry `RadioGroup` 내부에서 선택 상태를 관리하는 `RadioGroupField.Root`는 기본적으로 접근성 요소이며 `accessibility-role-description="radiogroup"`을 사용합니다. 그룹이 비활성 상태이면 `accessibility-traits="disabled"`도 전달합니다. Registry `RadioGroup`에 문자열 `label`을 전달하면 같은 내용을 `accessibility-label`에도 연결합니다.
+Registry `RadioGroup` 내부에서 선택 상태를 관리하는 `RadioGroupField.Root`와 항목을 배치하는 `RadioGroup.Root`는 기본적으로 접근성 요소가 아닙니다. 항목이 각각 독립된 요소로 노출되도록 그룹이 하위 항목을 가리지 않습니다. `RadioGroupField.Root`는 `accessibility-role-description="radiogroup"`을 전달하며, 그룹이 비활성 상태이면 `accessibility-traits="disabled"`도 전달합니다. Registry `RadioGroup`에 문자열 `label`을 전달하면 그룹의 `accessibility-label`에도 연결합니다.
 
-`RadioGroupItem`은 기본적으로 `accessibility-role-description="radio"`를 사용합니다. 선택 상태는 `accessibility-value`의 `selected` 또는 `not selected`로 전달하며, 비활성 상태는 `accessibility-traits="disabled"`로 전달합니다.
+`RadioGroupItem`은 기본적으로 접근성 요소이며 `flatten={false}`, `accessibility-role-description="radio"`를 사용합니다. 선택 상태는 `accessibility-value`의 `selected` 또는 `not selected`로 전달하며, 비활성 상태는 `accessibility-traits="disabled"`로 전달합니다.
 
-문자열 `label`을 사용하면 Registry 래퍼가 그 값을 항목의 `accessibility-label`로 연결합니다. `label`에 문자열이 아닌 콘텐츠를 넣거나 컴파운드 API를 직접 조합할 때는 각 항목에 `accessibility-label`을 명시하세요. 필요하면 모든 기본 접근성 prop을 직접 덮어쓸 수 있습니다.
+문자열 `label`을 사용하면 Registry 래퍼가 그 값을 항목의 `accessibility-label`로 연결합니다. Fragment나 SEED 컴포넌트의 children에 문자열을 넣어도 이름을 만듭니다. raw `<text>`의 정적 텍스트는 Lynx 컴파일 후 읽을 수 없으므로, 이를 포함하거나 텍스트가 없는 항목에는 `accessibility-label`을 명시하세요. 항목 안의 `ItemLabel`은 같은 내용을 중복해서 읽지 않도록 접근성 트리에서 숨깁니다. 사용자가 지정한 접근성 prop은 기본값보다 우선합니다.
 
 ## Examples
 

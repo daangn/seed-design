@@ -15,7 +15,7 @@ export type QuantityPickerGetValueText = (valueText: string, value: number | str
 
 const defaultGetValueText: QuantityPickerGetValueText = (valueText) => valueText;
 
-export interface UseQuantityPickerBaseProps {
+export interface UseQuantityPickerBaseProps extends Pick<ViewProps, "accessibility-label"> {
   /** 제어 상태에서 현재 수량을 지정합니다. */
   value?: number;
   /** 비제어 상태에서 초기 수량을 지정합니다. 지정하지 않으면 `min`을 사용합니다. */
@@ -83,13 +83,12 @@ type QuantityPickerNonRemovableProps = {
 export type UseQuantityPickerProps = UseQuantityPickerBaseProps &
   (QuantityPickerRemovableProps | QuantityPickerNonRemovableProps);
 
-export type QuantityPickerRootNativeProps = Required<
-  Pick<
-    ViewProps,
-    "accessibility-element" | "accessibility-role-description" | "accessibility-value"
-  >
+export type QuantityPickerRootNativeProps = Required<Pick<ViewProps, "accessibility-element">>;
+
+export type QuantityPickerValueDisplayNativeProps = Required<
+  Pick<ViewProps, "accessibility-element" | "accessibility-value" | "flatten">
 > &
-  Pick<ViewProps, "accessibility-traits">;
+  Pick<ViewProps, "accessibility-label">;
 
 export interface UseQuantityPickerReturn {
   value: number;
@@ -121,8 +120,10 @@ export interface UseQuantityPickerReturn {
   decrement: () => void;
   /** Decrement가 막혀 있지 않으면 값을 바꾸지 않고 `onRemove`만 호출합니다. */
   remove: () => void;
-  /** Root native view에 펼치는 접근성 기본값입니다. 뒤에 펼친 props가 덮어씁니다. */
+  /** Root native view에 펼칩니다. Root는 접근성 요소가 아니며 이름·현재 수량은 ValueDisplay가 노출합니다. */
   rootProps: QuantityPickerRootNativeProps;
+  /** ValueDisplay native view에 펼치는 이름·현재 수량의 접근성 기본값입니다. 뒤에 펼친 props가 덮어씁니다. */
+  valueDisplayProps: QuantityPickerValueDisplayNativeProps;
 }
 
 function assertSafeInteger(value: number | undefined, name: string): asserts value is number {
@@ -178,7 +179,7 @@ function getAccessibleText(valueText: ReactNode, value: number) {
 /**
  * @platform Lynx
  *
- * QuantityPicker의 수량 범위·제어 상태·Remove·action별 loading 차단과 Root 접근성 기본값을 제공하는 headless 훅입니다.
+ * QuantityPicker의 수량 범위·제어 상태·Remove·action별 loading 차단과 Root·ValueDisplay 접근성 기본값을 제공하는 headless 훅입니다.
  * 웹 `@seed-design/react-quantity-picker`와 달리 form 제출 모델이 없어 hidden input을 만들지 않습니다.
  */
 export function useQuantityPicker(props: UseQuantityPickerProps): UseQuantityPickerReturn {
@@ -198,6 +199,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps): UseQuantityPic
     removable = false,
     step = 1,
     value: valueProp,
+    "accessibility-label": accessibilityLabel,
   } = props;
 
   validateProps({ defaultValue, max, min, step, value: valueProp });
@@ -267,10 +269,13 @@ export function useQuantityPicker(props: UseQuantityPickerProps): UseQuantityPic
       decrement,
       remove,
       rootProps: {
+        "accessibility-element": false,
+      },
+      valueDisplayProps: {
         "accessibility-element": true,
-        "accessibility-role-description": "quantity picker",
-        "accessibility-traits": disabled ? "disabled" : undefined,
+        "accessibility-label": accessibilityLabel,
         "accessibility-value": accessibilityValue,
+        flatten: false,
       },
     }),
     [
@@ -297,6 +302,7 @@ export function useQuantityPicker(props: UseQuantityPickerProps): UseQuantityPic
       decrement,
       remove,
       accessibilityValue,
+      accessibilityLabel,
     ],
   );
 }

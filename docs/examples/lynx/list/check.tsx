@@ -11,6 +11,7 @@ export default function Example() {
   return (
     <List className="list-preview">
       <ListCheckItem
+        accessibility-label="알림 수신 동의"
         title={
           <HStack gap="x1_5" align="center">
             <text>알림 수신 동의</text>

@@ -2,9 +2,10 @@ import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import type { MainThread } from "@lynx-js/types";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { LynxIconElementProps } from "../../types";
+import { AccessibilityElementScope } from "../../utils/accessibility";
 import { QuantityPicker } from "./index";
 
 const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
@@ -47,11 +48,15 @@ function getAction(container: HTMLElement, label: string) {
 }
 
 function getRoot(container: HTMLElement) {
-  return getAction(container, "수량");
+  return getElement(container, ".seed-quantity-picker__root");
 }
 
 function getValueText(container: HTMLElement) {
   return getElement(container, ".seed-quantity-picker__valueDisplayText");
+}
+
+function getValueDisplay(container: HTMLElement) {
+  return getElement(container, ".seed-quantity-picker__valueDisplay");
 }
 
 function getText(container: HTMLElement, text: string) {
@@ -60,6 +65,10 @@ function getText(container: HTMLElement, text: string) {
   );
   if (!element) throw new Error(`Expected text node ${text} to exist.`);
   return element;
+}
+
+function isQuantityPickerWarning([message]: unknown[]) {
+  return typeof message === "string" && message.startsWith("QuantityPicker");
 }
 
 describe("QuantityPicker", () => {
@@ -116,6 +125,7 @@ describe("QuantityPicker", () => {
     });
 
     expect(getValueText(container)).toHaveTextContent("-2개(-2)");
+    expect(getValueDisplay(container)).toHaveAttribute("accessibility-value", "-2개(-2)");
     expect(
       getElement(container, ".seed-quantity-picker__valueDisplayPlaceholder"),
     ).toHaveTextContent("-000개(-000)");
@@ -151,15 +161,168 @@ describe("QuantityPicker", () => {
       defaultValue: 2,
     });
     const root = getRoot(container);
-    const valueDisplay = getElement(container, ".seed-quantity-picker__valueDisplay");
+    const valueDisplay = getValueDisplay(container);
 
-    expect(root).toHaveAttribute("accessibility-element", "true");
-    expect(root).toHaveAttribute("accessibility-role-description", "quantity picker");
-    expect(root).toHaveAttribute("accessibility-traits", "disabled");
-    expect(root).toHaveAttribute("accessibility-value", "2");
+    expect(root).toHaveAttribute("accessibility-element", "false");
+    expect(root).not.toHaveAttribute("accessibility-label");
+    expect(root).not.toHaveAttribute("accessibility-value");
     expect(root).not.toHaveAttribute("layout");
     expect(root).not.toHaveAttribute("size");
     expect(root).not.toHaveAttribute("data-invalid");
+    for (const label of ["줄이기", "늘리기"]) {
+      const button = getAction(container, label);
+      expect(button).toHaveAttribute("accessibility-element", "true");
+      expect(button).toHaveAttribute("accessibility-role-description", "button");
+      expect(button).toHaveAttribute("accessibility-traits", "disabled");
+      expect(button).toHaveAttribute("flatten", "false");
+    }
+    expect(valueDisplay).toHaveAttribute("accessibility-element", "true");
+    expect(valueDisplay).toHaveAttribute("accessibility-label", "수량");
+    expect(valueDisplay).toHaveAttribute("accessibility-value", "2");
+    expect(valueDisplay).toHaveAttribute("flatten", "false");
+    expect(valueDisplay).not.toHaveAttribute("accessibility-elements-hidden");
+    for (const text of [
+      getValueText(container),
+      getElement(container, ".seed-quantity-picker__valueDisplayPlaceholder"),
+    ]) {
+      expect(text).toHaveAttribute("accessibility-element", "false");
+      expect(text).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+  });
+
+  it("updates the independent value accessibility text after quantity changes", () => {
+    const { container } = renderQuantityPicker({
+      defaultValue: 2,
+      getValueText: (text) => `${text}개`,
+    });
+
+    expect(getValueDisplay(container)).toHaveAttribute("accessibility-value", "2개");
+    fireEvent.tap(getAction(container, "늘리기"));
+    expect(getValueDisplay(container)).toHaveAttribute("accessibility-value", "3개");
+    fireEvent.tap(getAction(container, "줄이기"));
+    expect(getValueDisplay(container)).toHaveAttribute("accessibility-value", "2개");
+  });
+
+  it("preserves native overrides on the root and each independent element", () => {
+    const { container } = renderQuantityPicker(
+      {
+        defaultValue: 2,
+        "accessibility-element": true,
+        "accessibility-role-description": "custom picker",
+        "accessibility-traits": "header",
+        "accessibility-value": "root value",
+        flatten: true,
+      },
+      <>
+        <QuantityPicker.DecrementButton
+          accessibility-element={false}
+          accessibility-label="custom decrease"
+          accessibility-role-description="custom action"
+          accessibility-traits="header"
+          flatten={true}
+        />
+        <QuantityPicker.ValueDisplay
+          accessibility-element={false}
+          accessibility-label="custom value"
+          accessibility-value="value override"
+          accessibility-elements-hidden={true}
+          flatten={true}
+        />
+        <QuantityPicker.IncrementButton
+          accessibility-element={false}
+          accessibility-label="custom increase"
+          accessibility-role-description="custom action"
+          accessibility-traits="header"
+          flatten={true}
+        />
+      </>,
+    );
+    const root = getRoot(container);
+    expect(root).toHaveAttribute("accessibility-element", "true");
+    expect(root).toHaveAttribute("accessibility-role-description", "custom picker");
+    expect(root).toHaveAttribute("accessibility-traits", "header");
+    expect(root).toHaveAttribute("accessibility-value", "root value");
+    expect(root).toHaveAttribute("flatten", "true");
+    for (const label of ["custom decrease", "custom increase"]) {
+      const button = getAction(container, label);
+      expect(button).toHaveAttribute("accessibility-element", "false");
+      expect(button).toHaveAttribute("accessibility-role-description", "custom action");
+      expect(button).toHaveAttribute("accessibility-traits", "header");
+      expect(button).toHaveAttribute("flatten", "true");
+    }
+    const valueDisplay = getValueDisplay(container);
+    expect(valueDisplay).toHaveAttribute("accessibility-element", "false");
+    expect(valueDisplay).toHaveAttribute("accessibility-label", "custom value");
+    expect(valueDisplay).toHaveAttribute("accessibility-value", "value override");
     expect(valueDisplay).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(valueDisplay).toHaveAttribute("flatten", "true");
+  });
+
+  it("warns for unnamed independent elements and respects element overrides", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const { rerender } = render(
+        <QuantityPicker.Root min={0} max={5}>
+          <QuantityPicker.DecrementButton />
+          <QuantityPicker.ValueDisplay />
+          <QuantityPicker.IncrementButton />
+        </QuantityPicker.Root>,
+      );
+      expect(warn.mock.calls.filter(isQuantityPickerWarning)).not.toHaveLength(0);
+
+      warn.mockClear();
+      rerender(
+        <QuantityPicker.Root min={0} max={5}>
+          <QuantityPicker.DecrementButton accessibility-element={false} />
+          <QuantityPicker.ValueDisplay accessibility-element={false} />
+          <QuantityPicker.IncrementButton accessibility-element={false} />
+        </QuantityPicker.Root>,
+      );
+      expect(warn.mock.calls.filter(isQuantityPickerWarning)).toHaveLength(0);
+
+      rerender(
+        <QuantityPicker.Root min={0} max={5} accessibility-label="수량">
+          <QuantityPicker.DecrementButton accessibility-label="줄이기" />
+          <QuantityPicker.ValueDisplay />
+          <QuantityPicker.IncrementButton accessibility-label="늘리기" />
+        </QuantityPicker.Root>,
+      );
+      expect(warn.mock.calls.filter(isQuantityPickerWarning)).toHaveLength(0);
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it("does not warn inside an accessibility element scope or for a named remove action", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const { rerender } = render(
+        <AccessibilityElementScope>
+          <QuantityPicker.Root min={0} max={5}>
+            <QuantityPicker.DecrementButton />
+            <QuantityPicker.ValueDisplay />
+            <QuantityPicker.IncrementButton />
+          </QuantityPicker.Root>
+        </AccessibilityElementScope>,
+      );
+      expect(warn.mock.calls.filter(isQuantityPickerWarning)).toHaveLength(0);
+
+      rerender(
+        <QuantityPicker.Root
+          min={0}
+          max={5}
+          removable
+          removeAccessibilityLabel="상품 삭제"
+          onRemove={() => {}}
+        >
+          <QuantityPicker.DecrementButton />
+          <QuantityPicker.ValueDisplay accessibility-label="수량" />
+          <QuantityPicker.IncrementButton accessibility-label="늘리기" />
+        </QuantityPicker.Root>,
+      );
+      expect(warn.mock.calls.filter(isQuantityPickerWarning)).toHaveLength(0);
+    } finally {
+      warn.mockRestore();
+    }
   });
 });

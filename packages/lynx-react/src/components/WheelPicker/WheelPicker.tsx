@@ -9,6 +9,7 @@ import { LoopScroll, type LoopScrollItem } from "@seed-design/lynx-react-loop-sc
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 import clsx from "clsx";
 import type { LynxHostProps } from "../../types";
+import { useInsideAccessibilityElement } from "../../utils/accessibility";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { ScrollFog, type ScrollFogProps } from "../ScrollFog/ScrollFog";
@@ -217,6 +218,7 @@ export const WheelPickerColumn = React.forwardRef<NodesRef, WheelPickerColumnPro
       ...nativeProps
     } = props;
     const context = useWheelPickerContext();
+    const insideAccessibilityElement = useInsideAccessibilityElement();
     const classes = useClassNames();
     const variantProps = useProps();
     const highlightedClasses = React.useMemo(
@@ -305,6 +307,17 @@ export const WheelPickerColumn = React.forwardRef<NodesRef, WheelPickerColumnPro
             ? String(currentOption.label)
             : currentOption.value));
 
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      (nativeProps["accessibility-element"] ?? true) === true &&
+      !nativeProps["accessibility-label"]
+    ) {
+      console.warn(
+        "WheelPickerColumn: `accessibility-label` is required when children have no text.",
+      );
+    }
+
     return (
       <LoopScroll.Root
         itemCount={options.length}
@@ -316,6 +329,7 @@ export const WheelPickerColumn = React.forwardRef<NodesRef, WheelPickerColumnPro
         onActiveIndexChange={onIndexChange ? handleActiveIndex : undefined}
         indexChangeBehavior={valueChangeBehavior === "smooth" ? "smooth" : "instant"}
         disabled={inert}
+        flatten={false}
         accessibility-element
         accessibility-role-description="spinbutton"
         accessibility-value={accessibilityValue}

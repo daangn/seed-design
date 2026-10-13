@@ -22,6 +22,12 @@ import { mergeProps } from "../../utils/merge-props";
 import { usePressTap } from "../../hooks/usePressTap";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { IconSlotProvider } from "../Icon/Icon";
 
 type PublicListItemVariantProps = Omit<
@@ -41,6 +47,7 @@ export const ListRoot = React.forwardRef<unknown, ListRootProps>((props, ref) =>
   return (
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
+      accessibility-element={false}
       {...nativeProps}
       className={clsx(list(), className)}
       style={style}
@@ -57,6 +64,7 @@ interface ListItemSurfaceProps extends PublicListItemVariantProps, LynxHostProps
   disabled?: boolean;
   pressed?: boolean;
   scaleFeedbackTargetProps?: ScaleFeedbackTargetProps;
+  accessibilityComponentName?: string;
 }
 
 const ListItemSurface = React.forwardRef<unknown, ListItemSurfaceProps>((props, ref) => {
@@ -67,6 +75,9 @@ const ListItemSurface = React.forwardRef<unknown, ListItemSurfaceProps>((props, 
     disabled = false,
     pressed = false,
     scaleFeedbackTargetProps,
+    accessibilityComponentName = "ListItem",
+    "accessibility-element": accessibilityElement = false,
+    "accessibility-label": accessibilityLabel,
     ...restProps
   } = props;
   const [variantProps, nativeProps] = listItem.splitVariantProps(restProps);
@@ -76,6 +87,25 @@ const ListItemSurface = React.forwardRef<unknown, ListItemSurfaceProps>((props, 
     pressed,
     interactive: !!scaleFeedbackTargetProps,
   });
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const label =
+    accessibilityLabel ??
+    (accessibilityElement ? getAccessibleText(getListTitle(children) ?? children) : undefined);
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    accessibilityElement &&
+    !label
+  ) {
+    console.warn(
+      `${accessibilityComponentName}: \`accessibility-label\` is required when children have no text.`,
+    );
+  }
+  const content = (
+    <ScaleFeedbackContentContext.Provider value={!!scaleFeedbackTargetProps}>
+      {children}
+    </ScaleFeedbackContentContext.Provider>
+  );
 
   return (
     <ClassNamesProvider value={classes}>
@@ -89,16 +119,26 @@ const ListItemSurface = React.forwardRef<unknown, ListItemSurfaceProps>((props, 
         }}
       >
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          {...mergeProps(
+            {
+              flatten: accessibilityElement ? false : undefined,
+              "accessibility-element": accessibilityElement,
+              "accessibility-label": label,
+            },
+            ref ? { ref: ref as LynxViewRef } : {},
+            nativeProps,
+          )}
           className={clsx(classes.root, className)}
           style={style}
         >
           <view className={classes.highlightedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.layout} {...scaleFeedbackTargetProps}>
-            <ScaleFeedbackContentContext.Provider value={!!scaleFeedbackTargetProps}>
-              {children}
-            </ScaleFeedbackContentContext.Provider>
+            {accessibilityElement ? (
+              <AccessibilityElementScope>{content}</AccessibilityElementScope>
+            ) : (
+              content
+            )}
           </view>
         </view>
       </IconSlotProvider>
@@ -152,6 +192,7 @@ export const ListButtonItem = React.forwardRef<unknown, ListButtonItemProps>((pr
       accessibility-element={accessibilityElement}
       accessibility-role-description={accessibilityRoleDescription}
       accessibility-traits={accessibilityTraits ?? (disabled ? "disabled" : "button")}
+      accessibilityComponentName="ListButtonItem"
       scaleFeedbackTargetProps={scaleFeedbackTargetProps}
       {...mergeProps(scaleFeedbackTriggerProps, pressHandlers, restProps)}
     />
@@ -208,6 +249,7 @@ export const ListCheckboxItem = React.forwardRef<unknown, ListCheckboxItemProps>
         ref={ref}
         disabled={disabled}
         pressed={api.pressed}
+        accessibilityComponentName="ListCheckboxItem"
         scaleFeedbackTargetProps={scaleFeedbackTargetProps}
         {...mergeProps(scaleFeedbackTriggerProps, rootProps, restProps)}
       />
@@ -252,6 +294,7 @@ export const ListRadioItem = React.forwardRef<unknown, ListRadioItemProps>((prop
         ref={ref}
         disabled={api.disabled}
         pressed={api.pressed}
+        accessibilityComponentName="ListRadioItem"
         scaleFeedbackTargetProps={scaleFeedbackTargetProps}
         {...mergeProps(scaleFeedbackTriggerProps, itemProps, restProps)}
       />
@@ -300,6 +343,7 @@ export const ListSwitchItem = React.forwardRef<unknown, ListSwitchItemProps>((pr
         ref={ref}
         disabled={disabled}
         pressed={api.pressed}
+        accessibilityComponentName="ListSwitchItem"
         scaleFeedbackTargetProps={scaleFeedbackTargetProps}
         {...mergeProps(scaleFeedbackTriggerProps, rootProps, restProps)}
       />
@@ -372,11 +416,12 @@ export interface ListTitleProps extends LynxHostProps<"text"> {}
 export const ListTitle = React.forwardRef<unknown, ListTitleProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
   const classes = useClassNames();
+  const accessibilityProps = useLabelTextAccessibilityProps();
 
   return (
     <text
       {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(accessibilityProps, nativeProps)}
       className={clsx(classes.title, className)}
       style={style}
     >
@@ -391,11 +436,12 @@ export interface ListDetailProps extends LynxHostProps<"text"> {}
 export const ListDetail = React.forwardRef<unknown, ListDetailProps>((props, ref) => {
   const { children, className, style, ...nativeProps } = props;
   const classes = useClassNames();
+  const accessibilityProps = useLabelTextAccessibilityProps();
 
   return (
     <text
       {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(accessibilityProps, nativeProps)}
       className={clsx(classes.detail, className)}
       style={style}
     >
@@ -404,6 +450,19 @@ export const ListDetail = React.forwardRef<unknown, ListDetailProps>((props, ref
   );
 });
 ListDetail.displayName = "ListDetail";
+
+function getListTitle(node: React.ReactNode): React.ReactNode {
+  if (Array.isArray(node)) {
+    for (const child of node) {
+      const title = getListTitle(child);
+      if (title !== undefined) return title;
+    }
+    return undefined;
+  }
+  if (!React.isValidElement<{ children?: React.ReactNode }>(node)) return undefined;
+  if (node.type === ListTitle) return node;
+  return getListTitle(node.props.children);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

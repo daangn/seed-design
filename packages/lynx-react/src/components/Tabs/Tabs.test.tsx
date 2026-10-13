@@ -7,6 +7,7 @@ import type { uiMethodOptions } from "@lynx-js/types";
 import * as Tabs from "./Tabs.namespace";
 import * as ChipTabs from "../ChipTabs/ChipTabs.namespace";
 import type * as ScaleFeedback from "../../hooks/useScaleFeedback";
+import { AccessibilityElementScope } from "../../utils/accessibility";
 
 const measurement = vi.hoisted(() => ({ enabled: false }));
 vi.mock("@lynx-js/react", async (importOriginal) => {
@@ -71,6 +72,116 @@ function fireNativeEvent(
 }
 
 describe("Tabs", () => {
+  it.each([
+    ["Tabs", Tabs, "seed-tabs"],
+    ["ChipTabs", ChipTabs, "seed-chip-tabs"],
+  ] as const)("keeps %s trigger defaults inside a scope without warning", (name, Component, prefix) => {
+    const warn = vi.spyOn(console, "warn");
+    const { container } = render(
+      <AccessibilityElementScope>
+        <Component.Root defaultValue="one">
+          <Component.List>
+            <Component.Trigger value="one">{""}</Component.Trigger>
+            <Component.Trigger value="two" accessibility-element>
+              두 번째
+            </Component.Trigger>
+          </Component.List>
+        </Component.Root>
+      </AccessibilityElementScope>,
+    );
+    const triggers = container.querySelectorAll(`.${prefix}__trigger`);
+    expect(triggers[0]).toHaveAttribute("accessibility-element", "true");
+    expect(triggers[1]).toHaveAttribute("accessibility-element", "true");
+    expect(
+      warn.mock.calls.filter(
+        ([message]) => typeof message === "string" && message.startsWith(`${name}Trigger:`),
+      ),
+    ).toHaveLength(0);
+  });
+
+  it.each([
+    ["Tabs", Tabs, "seed-tabs"],
+    ["ChipTabs", ChipTabs, "seed-chip-tabs"],
+  ] as const)("exposes %s trigger names without duplicate label text", (_name, Component, prefix) => {
+    const { container } = render(
+      <Component.Root defaultValue="one">
+        <Component.List>
+          <Component.Trigger value="one" notification={<text>New</text>}>
+            첫 번째
+          </Component.Trigger>
+          <Component.Trigger value="two">{2}</Component.Trigger>
+        </Component.List>
+      </Component.Root>,
+    );
+    const triggers = container.querySelectorAll(`.${prefix}__trigger`);
+    expect(triggers[0]).toHaveAttribute("accessibility-label", "첫 번째");
+    expect(triggers[0]).toHaveAttribute("accessibility-value", "selected");
+    expect(triggers[1]).toHaveAttribute("accessibility-label", "2");
+    for (const trigger of triggers) {
+      expect(trigger).toHaveAttribute("flatten", "false");
+      expect(trigger).toHaveAttribute("accessibility-element", "true");
+      const label = trigger.querySelector(`.${prefix}__triggerLabel`);
+      expect(label).toHaveAttribute("accessibility-element", "false");
+      expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+  });
+
+  it.each([
+    ["Tabs", Tabs, "seed-tabs"],
+    ["ChipTabs", ChipTabs, "seed-chip-tabs"],
+  ] as const)("preserves %s native accessibility overrides", (_name, Component, prefix) => {
+    const { container } = render(
+      <Component.Root defaultValue="one">
+        <Component.List>
+          <Component.Trigger
+            value="one"
+            flatten
+            accessibility-label="다른 이름"
+            accessibility-element={false}
+            accessibility-value="사용자 값"
+          >
+            표시 이름
+          </Component.Trigger>
+        </Component.List>
+      </Component.Root>,
+    );
+    const trigger = container.querySelector(`.${prefix}__trigger`);
+    expect(trigger).toHaveAttribute("flatten", "true");
+    expect(trigger).toHaveAttribute("accessibility-label", "다른 이름");
+    expect(trigger).toHaveAttribute("accessibility-element", "false");
+    expect(trigger).toHaveAttribute("accessibility-value", "사용자 값");
+  });
+
+  it.each([
+    ["Tabs", Tabs],
+    ["ChipTabs", ChipTabs],
+  ] as const)("warns only for unnamed %s accessibility elements", (name, Component) => {
+    const warn = vi.spyOn(console, "warn");
+    function Subject({ accessible }: { accessible: boolean }) {
+      return (
+        <Component.Root defaultValue="one">
+          <Component.List>
+            <Component.Trigger value="one" accessibility-element={accessible}>
+              {""}
+            </Component.Trigger>
+          </Component.List>
+        </Component.Root>
+      );
+    }
+    const { rerender } = render(<Subject accessible={false} />);
+    expect(
+      warn.mock.calls.filter(
+        ([message]) => typeof message === "string" && message.startsWith(`${name}Trigger:`),
+      ),
+    ).toHaveLength(0);
+    rerender(<Subject accessible />);
+    expect(
+      warn.mock.calls.filter(
+        ([message]) => typeof message === "string" && message.startsWith(`${name}Trigger:`),
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
   it("renders triggers inside the list content layout container", () => {
     const { container } = render(<BasicTabs defaultValue="one" />);
     const list = container.querySelector(".seed-tabs__list");

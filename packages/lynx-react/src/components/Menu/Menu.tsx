@@ -26,6 +26,11 @@ import { mergeProps } from "../../utils/merge-props";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+} from "../../utils/accessibility";
 
 type MenuClassNames = {
   positioner: string;
@@ -188,7 +193,35 @@ export interface MenuTriggerProps extends LynxHostProps<"view"> {
 
 export const MenuTrigger: React.ForwardRefExoticComponent<
   MenuTriggerProps & React.RefAttributes<unknown>
-> = MenuTriggerPrimitive;
+> = React.forwardRef<unknown, MenuTriggerProps>((props, ref) => {
+  const { children, "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+  const label = accessibilityLabel ?? getAccessibleText(children);
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? true) &&
+    !label
+  ) {
+    console.warn("MenuTrigger: `accessibility-label` is required when children have no text.");
+  }
+
+  return (
+    <MenuTriggerPrimitive
+      flatten={false}
+      {...nativeProps}
+      {...(ref ? { ref } : {})}
+      accessibility-label={label || undefined}
+    >
+      {nativeProps["accessibility-element"] === false ? (
+        children
+      ) : (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      )}
+    </MenuTriggerPrimitive>
+  );
+});
+MenuTrigger.displayName = "MenuTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
