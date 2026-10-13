@@ -212,6 +212,7 @@ Menu가 열려 있는 동안에는 화면 전체를 덮는 레이어가 바깥 �
 
 <Callout type="warning">
 Lynx Menu는 Lynx view 안의 native `view` 레이어에 렌더링하고, `container`를 지정하면 native `overlay`에 렌더링합니다. HTML DOM, `asChild`, 키보드 포커스, typeahead, ESC 키 닫힘은 지원하지 않습니다. 따라서 `escapeKeyDown`과 `cascadeDismiss` reason도 제공하지 않습니다. 화면과 앱 수준에서 필요한 키보드 접근성은 host의 native 접근성 흐름으로 확인하세요.
+Trigger는 문자열 children에서 접근성 이름을 만들고 직접 전달한 `accessibility-label`이 우선합니다. 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않으며 label text를 중복 노출하지 않습니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요.
 </Callout>
 
 | 항목 | 웹 | Lynx |

@@ -24,7 +24,7 @@ interface ListItemContentProps {
   suffix?: React.ReactNode;
 }
 
-function ListItemContent({ title, detail, prefix, suffix }: ListItemContentProps) {
+function renderListItemContent({ title, detail, prefix, suffix }: ListItemContentProps) {
   return (
     <>
       {prefix != null ? <SeedList.Prefix>{prefix}</SeedList.Prefix> : null}
@@ -37,10 +37,6 @@ function ListItemContent({ title, detail, prefix, suffix }: ListItemContentProps
   );
 }
 
-function inferAccessibilityLabel(title: React.ReactNode) {
-  return typeof title === "string" ? title : undefined;
-}
-
 export interface ListItemProps extends Omit<SeedList.ItemProps, "children">, ListItemContentProps {}
 
 /**
@@ -50,7 +46,7 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>(
   ({ title, detail, prefix, suffix, ...props }, ref) => {
     return (
       <SeedList.Item ref={ref} {...props}>
-        <ListItemContent title={title} detail={detail} prefix={prefix} suffix={suffix} />
+        {renderListItemContent({ title, detail, prefix, suffix })}
       </SeedList.Item>
     );
   },
@@ -65,14 +61,10 @@ export interface ListButtonItemProps
  * @see https://seed-design.io/lynx/components/list
  */
 export const ListButtonItem = React.forwardRef<unknown, ListButtonItemProps>(
-  ({ title, detail, prefix, suffix, "accessibility-label": accessibilityLabel, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, ...props }, ref) => {
     return (
-      <SeedList.ButtonItem
-        ref={ref}
-        accessibility-label={accessibilityLabel ?? inferAccessibilityLabel(title)}
-        {...props}
-      >
-        <ListItemContent title={title} detail={detail} prefix={prefix} suffix={suffix} />
+      <SeedList.ButtonItem ref={ref} {...props}>
+        {renderListItemContent({ title, detail, prefix, suffix })}
       </SeedList.ButtonItem>
     );
   },
@@ -87,7 +79,7 @@ export interface ListCheckItemProps
  * @see https://seed-design.io/lynx/components/list
  */
 export const ListCheckItem = React.forwardRef<unknown, ListCheckItemProps>(
-  ({ title, detail, prefix, suffix, "accessibility-label": accessibilityLabel, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, ...props }, ref) => {
     const defaultSuffix = (
       <SeedCheckbox.Control>
         <SeedCheckbox.Indicator
@@ -98,17 +90,13 @@ export const ListCheckItem = React.forwardRef<unknown, ListCheckItemProps>(
     );
 
     return (
-      <SeedList.CheckboxItem
-        ref={ref}
-        accessibility-label={accessibilityLabel ?? inferAccessibilityLabel(title)}
-        {...props}
-      >
-        <ListItemContent
-          title={title}
-          detail={detail}
-          prefix={prefix}
-          suffix={suffix === undefined ? defaultSuffix : suffix}
-        />
+      <SeedList.CheckboxItem ref={ref} {...props}>
+        {renderListItemContent({
+          title,
+          detail,
+          prefix,
+          suffix: suffix === undefined ? defaultSuffix : suffix,
+        })}
       </SeedList.CheckboxItem>
     );
   },
@@ -123,7 +111,7 @@ export interface ListRadioItemProps
  * @see https://seed-design.io/lynx/components/list
  */
 export const ListRadioItem = React.forwardRef<unknown, ListRadioItemProps>(
-  ({ title, detail, prefix, suffix, "accessibility-label": accessibilityLabel, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, ...props }, ref) => {
     const defaultSuffix = (
       <SeedRadioGroup.ItemControl>
         <SeedRadioGroup.ItemIndicator />
@@ -131,17 +119,13 @@ export const ListRadioItem = React.forwardRef<unknown, ListRadioItemProps>(
     );
 
     return (
-      <SeedList.RadioItem
-        ref={ref}
-        accessibility-label={accessibilityLabel ?? inferAccessibilityLabel(title)}
-        {...props}
-      >
-        <ListItemContent
-          title={title}
-          detail={detail}
-          prefix={prefix}
-          suffix={suffix === undefined ? defaultSuffix : suffix}
-        />
+      <SeedList.RadioItem ref={ref} {...props}>
+        {renderListItemContent({
+          title,
+          detail,
+          prefix,
+          suffix: suffix === undefined ? defaultSuffix : suffix,
+        })}
       </SeedList.RadioItem>
     );
   },
@@ -156,7 +140,7 @@ export interface ListSwitchItemProps
  * @see https://seed-design.io/lynx/components/list
  */
 export const ListSwitchItem = React.forwardRef<unknown, ListSwitchItemProps>(
-  ({ title, detail, prefix, suffix, "accessibility-label": accessibilityLabel, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, ...props }, ref) => {
     const defaultSuffix = (
       <SeedSwitch.Control>
         <SeedSwitch.Thumb />
@@ -164,17 +148,13 @@ export const ListSwitchItem = React.forwardRef<unknown, ListSwitchItemProps>(
     );
 
     return (
-      <SeedList.SwitchItem
-        ref={ref}
-        accessibility-label={accessibilityLabel ?? inferAccessibilityLabel(title)}
-        {...props}
-      >
-        <ListItemContent
-          title={title}
-          detail={detail}
-          prefix={prefix}
-          suffix={suffix === undefined ? defaultSuffix : suffix}
-        />
+      <SeedList.SwitchItem ref={ref} {...props}>
+        {renderListItemContent({
+          title,
+          detail,
+          prefix,
+          suffix: suffix === undefined ? defaultSuffix : suffix,
+        })}
       </SeedList.SwitchItem>
     );
   },

@@ -7,6 +7,7 @@ import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-
 import { Checkbox } from "../Checkbox";
 import { Switch } from "../Switch";
 import { RadioGroup } from "../RadioGroup";
+import { Badge } from "../Badge";
 import { List, ListHeader } from "./index";
 
 function getRenderedRoot() {
@@ -61,6 +62,14 @@ describe("List", () => {
     const item = getListItem("static-item");
 
     expect(getRenderedRoot().querySelector(".list-root")).toHaveClass("seed-list");
+    expect(getRenderedRoot().querySelector(".list-root")).toHaveAttribute(
+      "accessibility-element",
+      "false",
+    );
+    expect(item.querySelector(".seed-list-item__title")).not.toHaveAttribute(
+      "accessibility-elements-hidden",
+      "true",
+    );
     expect(item.querySelector(".seed-list-item__prefix")).toHaveTextContent("앞");
     expect(item.querySelector(".seed-list-item__title")).toHaveTextContent("제목");
     expect(item.querySelector(".seed-list-item__detail")).toHaveTextContent("설명");
@@ -111,16 +120,105 @@ describe("List", () => {
     );
   });
 
+  it("derives a button row name from its title without including its detail", () => {
+    render(
+      <List.ButtonItem className="button-item">
+        <List.Content>
+          <List.Title>
+            <Badge.Root>
+              <Badge.Label>알림</Badge.Label>
+            </Badge.Root>
+            <Badge.Root>
+              <Badge.Label>설정</Badge.Label>
+            </Badge.Root>
+          </List.Title>
+          <List.Detail>알림 수신 방법을 변경합니다</List.Detail>
+        </List.Content>
+      </List.ButtonItem>,
+    );
+
+    const item = getListItem("button-item");
+    expect(item).toHaveAttribute("flatten", "false");
+    expect(item).toHaveAttribute("accessibility-label", "알림 설정");
+    for (const slot of ["title", "detail"]) {
+      expect(item.querySelector(`.seed-list-item__${slot}`)).toHaveAttribute(
+        "accessibility-elements-hidden",
+        "true",
+      );
+    }
+  });
+
+  it("requires an explicit row name when the title contains native JSX", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      render(
+        <List.ButtonItem className="button-item">
+          <List.Title>
+            <text>알림 수신 동의</text>
+          </List.Title>
+        </List.ButtonItem>,
+      );
+      expect(getListItem("button-item")).not.toHaveAttribute("accessibility-label");
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it("lets native accessibility props override row and text defaults", () => {
+    render(
+      <List.ButtonItem className="button-item" flatten accessibility-label="직접 지정">
+        <List.Title accessibility-element accessibility-elements-hidden={false}>
+          제목
+        </List.Title>
+      </List.ButtonItem>,
+    );
+
+    const item = getListItem("button-item");
+    expect(item).toHaveAttribute("flatten", "true");
+    expect(item).toHaveAttribute("accessibility-label", "직접 지정");
+    expect(item.querySelector(".seed-list-item__title")).toHaveAttribute(
+      "accessibility-element",
+      "true",
+    );
+    expect(item.querySelector(".seed-list-item__title")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "false",
+    );
+  });
+
+  it("warns only for an unnamed accessibility row", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const { rerender } = render(
+        <List.ButtonItem className="button-item">
+          <view />
+        </List.ButtonItem>,
+      );
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+      warn.mockClear();
+
+      rerender(
+        <List.ButtonItem className="button-item" accessibility-element={false}>
+          <view />
+        </List.ButtonItem>,
+      );
+      expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
   it("exposes each control row as one accessibility element with the control contract", () => {
     render(
       <List.Root>
-        <List.CheckboxItem className="checkbox-item" indeterminate accessibility-label="체크">
+        <List.CheckboxItem className="checkbox-item" indeterminate>
           <List.Title>체크</List.Title>
           <List.Suffix>
             <Checkbox.Control />
           </List.Suffix>
         </List.CheckboxItem>
-        <List.SwitchItem className="switch-item" accessibility-label="스위치">
+        <List.SwitchItem className="switch-item">
           <List.Title>스위치</List.Title>
           <List.Suffix>
             <Switch.Control>
@@ -129,10 +227,10 @@ describe("List", () => {
           </List.Suffix>
         </List.SwitchItem>
         <HeadlessRadioGroup.Root defaultValue="first">
-          <List.RadioItem value="first" className="first-radio" accessibility-label="첫 번째">
+          <List.RadioItem value="first" className="first-radio">
             <List.Title>첫 번째</List.Title>
           </List.RadioItem>
-          <List.RadioItem value="second" className="second-radio" accessibility-label="두 번째">
+          <List.RadioItem value="second" className="second-radio">
             <List.Title>두 번째</List.Title>
             <List.Suffix>
               <RadioGroup.ItemControl>
@@ -157,6 +255,11 @@ describe("List", () => {
       expect(row).toHaveAttribute("accessibility-element", "true");
       expect(row).toHaveAttribute("accessibility-label", label);
       expect(row).toHaveAttribute("accessibility-role-description", role);
+      expect(row).toHaveAttribute("flatten", "false");
+      expect(row.querySelector(".seed-list-item__title")).toHaveAttribute(
+        "accessibility-elements-hidden",
+        "true",
+      );
       expect(row.querySelectorAll('[accessibility-element="true"]')).toHaveLength(0);
     }
 
@@ -244,6 +347,7 @@ describe("List", () => {
           <List.Title>Check</List.Title>
         </List.CheckboxItem>
         <List.SwitchItem className="switch-row">
+          <List.Title>Switch</List.Title>
           <List.Suffix>
             <Switch.Control>
               <Switch.Thumb />
@@ -252,6 +356,7 @@ describe("List", () => {
         </List.SwitchItem>
         <HeadlessRadioGroup.Root>
           <List.RadioItem value="a" className="radio-row">
+            <List.Title>Radio</List.Title>
             <List.Prefix>
               <RadioGroup.ItemControl />
             </List.Prefix>

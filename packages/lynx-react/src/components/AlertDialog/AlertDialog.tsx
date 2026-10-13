@@ -32,6 +32,11 @@ import type { LynxAccessibilityProps, LynxHostProps, LynxViewRef } from "../../t
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+} from "../../utils/accessibility";
 
 type AlertDialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
@@ -81,13 +86,47 @@ AlertDialogRoot.displayName = "AlertDialogRoot";
 // Trigger
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface AlertDialogTriggerProps extends HeadlessDialogTriggerProps {}
+export interface AlertDialogTriggerProps
+  extends HeadlessDialogTriggerProps,
+    Pick<LynxAccessibilityProps, "accessibility-label"> {}
 
 /** @platform Lynx — `asChild` and refs are unsupported. */
 export const AlertDialogTrigger = forwardRef<never, AlertDialogTriggerProps>((props, _ref) => {
-  const { transition = true, ...triggerProps } = props;
+  const {
+    children,
+    transition = true,
+    "accessibility-label": accessibilityLabel,
+    ...triggerProps
+  } = props;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
 
-  return <HeadlessDialogTrigger {...triggerProps} transition={transition} />;
+  return (
+    <HeadlessDialogTrigger {...triggerProps} transition={transition}>
+      {(status) => {
+        const content = typeof children === "function" ? children(status) : children;
+        const label = accessibilityLabel ?? getAccessibleText(content);
+        if (process.env.NODE_ENV !== "production" && !insideAccessibilityElement && !label) {
+          console.warn(
+            "AlertDialogTrigger: `accessibility-label` is required when children have no text.",
+          );
+        }
+
+        // lynx-ui DialogButton은 native 접근성 props를 전달하지 않아 안쪽 view가 의미를 소유한다.
+        const viewProps = {
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-role-description": "button",
+          "accessibility-traits": triggerProps.disabled ? "disabled" : "button",
+          "accessibility-label": label || undefined,
+        } as const;
+        return (
+          <view {...viewProps}>
+            <AccessibilityElementScope>{content}</AccessibilityElementScope>
+          </view>
+        );
+      }}
+    </HeadlessDialogTrigger>
+  );
 }) as AlertDialogComponent<AlertDialogTriggerProps>;
 AlertDialogTrigger.displayName = "AlertDialogTrigger";
 

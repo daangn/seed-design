@@ -75,6 +75,7 @@ vi.mock("../../hooks/useSafeArea", () => ({
 }));
 
 import * as MenuSheet from "./MenuSheet.namespace";
+import { ActionButton } from "../ActionButton";
 
 describe("MenuSheet", () => {
   beforeEach(() => {
@@ -131,6 +132,34 @@ describe("MenuSheet", () => {
     expect(trigger.getAttribute("accessibility-element")).to.equal("true");
     expect(trigger.hasAttribute("accessibility-role-description")).to.equal(true);
     expect(trigger.getAttribute("accessibility-role-description")).to.equal("button");
+  });
+
+  it("derives the trigger name without exposing its nested ActionButton twice", () => {
+    const { container, rerender } = render(
+      <MenuSheet.Root>
+        <MenuSheet.Trigger id="sheet-trigger">
+          <ActionButton>열기</ActionButton>
+        </MenuSheet.Trigger>
+      </MenuSheet.Root>,
+    );
+    const trigger = container.querySelector("#sheet-trigger");
+    expect(trigger?.getAttribute("accessibility-label")).toBe("열기");
+    expect(trigger?.getAttribute("flatten")).toBe("false");
+    expect(
+      trigger?.querySelector(".seed-action-button__root")?.getAttribute("accessibility-element"),
+    ).toBe("false");
+
+    rerender(
+      <MenuSheet.Root>
+        <MenuSheet.Trigger id="sheet-trigger" accessibility-label="작업 메뉴" flatten={true}>
+          <ActionButton>열기</ActionButton>
+        </MenuSheet.Trigger>
+      </MenuSheet.Root>,
+    );
+    expect(container.querySelector("#sheet-trigger")?.getAttribute("accessibility-label")).toBe(
+      "작업 메뉴",
+    );
+    expect(container.querySelector("#sheet-trigger")?.getAttribute("flatten")).toBe("true");
   });
 
   it("keeps outer and inner Content classes separate while preserving safe-area padding", () => {

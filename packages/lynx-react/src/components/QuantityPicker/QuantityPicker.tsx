@@ -18,6 +18,7 @@ import * as React from "@lynx-js/react";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxIconElementProps, LynxHostProps, LynxViewRef } from "../../types";
+import { useInsideAccessibilityElement } from "../../utils/accessibility";
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon } from "../Icon/Icon";
 
@@ -192,6 +193,8 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
       dir: _dir,
       removable: _removable,
       removeAccessibilityLabel: _removeAccessibilityLabel,
+      // Root 이름은 ValueDisplay가 현재 수량과 함께 노출한다.
+      "accessibility-label": _accessibilityLabel,
       ...nativeProps
     } = otherProps;
 
@@ -227,6 +230,7 @@ export const QuantityPickerDecrementButton = React.forwardRef<
   QuantityPickerDecrementButtonProps
 >((props, ref) => {
   const context = useStyledQuantityPickerContext("QuantityPickerDecrementButton");
+  const insideAccessibilityElement = useInsideAccessibilityElement();
   const {
     children,
     className,
@@ -250,6 +254,16 @@ export const QuantityPickerDecrementButton = React.forwardRef<
       "accessibility-role-description": accessibilityRoleDescription,
       "accessibility-traits": accessibilityTraits,
     });
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    buttonProps["accessibility-element"] === true &&
+    !buttonProps["accessibility-label"]
+  ) {
+    console.warn(
+      "QuantityPickerDecrementButton: `accessibility-label` is required when children have no text.",
+    );
+  }
   // Press state follows the Scale Feedback Main Thread touch handlers.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...actionProps } = buttonProps;
   const classes = quantityPicker(
@@ -289,7 +303,19 @@ export const QuantityPickerValueDisplay = React.forwardRef<
   QuantityPickerValueDisplayProps
 >((props, ref) => {
   const context = useStyledQuantityPickerContext("QuantityPickerValueDisplay");
+  const insideAccessibilityElement = useInsideAccessibilityElement();
   const { className, ...nativeProps } = props;
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? context.valueDisplayProps["accessibility-element"]) ===
+      true &&
+    !(nativeProps["accessibility-label"] ?? context.valueDisplayProps["accessibility-label"])
+  ) {
+    console.warn(
+      "QuantityPickerValueDisplay: `accessibility-label` is required when children have no text.",
+    );
+  }
   const classes = quantityPicker(
     recipeProps(context, context.decrementLoading || context.incrementLoading),
   );
@@ -299,10 +325,20 @@ export const QuantityPickerValueDisplay = React.forwardRef<
       {...mergeProps(ref ? { ref } : {}, nativeProps)}
       className={clsx(classes.valueDisplay, className)}
     >
-      <text accessibility-elements-hidden={true} className={classes.valueDisplayPlaceholder}>
+      <text
+        accessibility-element={false}
+        accessibility-elements-hidden={true}
+        className={classes.valueDisplayPlaceholder}
+      >
         {context.getValueText(placeholderText, placeholderText)}
       </text>
-      <text className={classes.valueDisplayText}>{context.valueText}</text>
+      <text
+        accessibility-element={false}
+        accessibility-elements-hidden={true}
+        className={classes.valueDisplayText}
+      >
+        {context.valueText}
+      </text>
     </HeadlessQuantityPickerValueDisplay>
   );
 });
@@ -313,6 +349,7 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   QuantityPickerIncrementButtonProps
 >((props, ref) => {
   const context = useStyledQuantityPickerContext("QuantityPickerIncrementButton");
+  const insideAccessibilityElement = useInsideAccessibilityElement();
   const {
     children,
     className,
@@ -334,6 +371,16 @@ export const QuantityPickerIncrementButton = React.forwardRef<
     "accessibility-role-description": accessibilityRoleDescription,
     "accessibility-traits": accessibilityTraits,
   });
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    buttonProps["accessibility-element"] === true &&
+    !buttonProps["accessibility-label"]
+  ) {
+    console.warn(
+      "QuantityPickerIncrementButton: `accessibility-label` is required when children have no text.",
+    );
+  }
   // Press state follows the Scale Feedback Main Thread touch handlers.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...actionProps } = buttonProps;
   const classes = quantityPicker(

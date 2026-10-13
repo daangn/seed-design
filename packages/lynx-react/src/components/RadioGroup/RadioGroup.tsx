@@ -22,6 +22,12 @@ import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } fr
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 
 /**
  * @platform Lynx
@@ -91,7 +97,11 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        { "accessibility-element": false },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={clsx(radioGroup().root, className)}
     >
       {children}
@@ -126,6 +136,16 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
   });
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const accessibilityLabel = nativeProps["accessibility-label"] ?? getAccessibleText(children);
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? api.itemProps["accessibility-element"]) &&
+    !accessibilityLabel
+  ) {
+    console.warn("RadioGroupItem: `accessibility-label` is required when children have no text.");
+  }
   // Press state follows the Scale Feedback touch handlers, as before the split.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
@@ -149,11 +169,12 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
           itemProps,
+          { "accessibility-label": accessibilityLabel },
           nativeProps,
         )}
         className={clsx(rootClassName, className)}
       >
-        {children}
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
       </view>
     </RadioGroupItemProvider>
   );
@@ -257,6 +278,7 @@ export const RadioGroupItemLabel = React.forwardRef<unknown, RadioGroupItemLabel
   (props, ref) => {
     const { children, className, ...nativeProps } = props;
     const itemContext = useStyledRadioGroupItemContext("RadioGroupItemLabel");
+    const labelAccessibilityProps = useLabelTextAccessibilityProps();
     const labelClassName = radio({
       ...itemContext.radioVariantProps,
       disabled: itemContext.disabled,
@@ -264,7 +286,11 @@ export const RadioGroupItemLabel = React.forwardRef<unknown, RadioGroupItemLabel
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+        {...mergeProps(
+          labelAccessibilityProps,
+          ref ? { ref: ref as LynxTextRef } : {},
+          nativeProps,
+        )}
         className={clsx(labelClassName, className)}
       >
         {children}

@@ -19,6 +19,12 @@ import {
 import { ScaleFeedbackContentContext } from "../../contexts";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
@@ -92,6 +98,7 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     children,
     className,
     bindtap,
+    "accessibility-label": accessibilityLabel,
     "main-thread:bindtap": mainThreadBindtap,
     checked,
     defaultChecked,
@@ -102,6 +109,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   } = props;
   const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { checkbox, checkmark });
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
 
   const api = useCheckbox({
     checked,
@@ -114,6 +123,16 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const accessibilityElement =
+    nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    accessibilityElement === true &&
+    !resolvedAccessibilityLabel
+  ) {
+    console.warn("CheckboxRoot: `accessibility-label` is required when children have no text.");
+  }
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: bindtouchstart,
@@ -135,11 +154,16 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
           rootProps,
+          { flatten: false, "accessibility-label": resolvedAccessibilityLabel },
           nativeProps,
         )}
         className={clsx(rootClassName, className)}
       >
-        {children}
+        {accessibilityElement ? (
+          <AccessibilityElementScope>{children}</AccessibilityElementScope>
+        ) : (
+          children
+        )}
       </view>
     </CheckboxProvider>
   );
@@ -264,6 +288,7 @@ export interface CheckboxLabelProps extends LynxHostProps<"text"> {}
 export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
   const context = useStyledCheckboxContext("CheckboxLabel");
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
   const labelClassName = checkbox({
     ...context.checkboxVariantProps,
     disabled: context.disabled,
@@ -271,7 +296,7 @@ export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((prop
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(labelClassName, className)}
     >
       {children}
@@ -290,7 +315,11 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
 
   return (
     <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        { "accessibility-element": false },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={clsx(classes.root, className)}
     >
       {children}

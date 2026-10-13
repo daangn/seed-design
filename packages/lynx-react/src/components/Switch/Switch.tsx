@@ -20,6 +20,12 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import { ScaleFeedbackContentContext } from "../../contexts";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 
 /**
  * @platform Lynx
@@ -83,6 +89,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     children,
     className,
     bindtap,
+    "accessibility-label": accessibilityLabel,
     "main-thread:bindtap": mainThreadBindtap,
     checked,
     defaultChecked,
@@ -92,6 +99,8 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   } = props;
   const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
     splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
 
   const api = useSwitch({
     checked,
@@ -103,6 +112,16 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const accessibilityElement =
+    nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    accessibilityElement === true &&
+    !resolvedAccessibilityLabel
+  ) {
+    console.warn("SwitchRoot: `accessibility-label` is required when children have no text.");
+  }
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
     onTouchStart: bindtouchstart,
@@ -124,11 +143,16 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
           rootProps,
+          { "accessibility-label": resolvedAccessibilityLabel },
           nativeProps,
         )}
         className={clsx(rootClassName, className)}
       >
-        {children}
+        {accessibilityElement ? (
+          <AccessibilityElementScope>{children}</AccessibilityElementScope>
+        ) : (
+          children
+        )}
       </view>
     </SwitchProvider>
   );
@@ -201,6 +225,7 @@ export interface SwitchLabelProps extends LynxHostProps<"text"> {}
 export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
   const context = useStyledSwitchContext("SwitchLabel");
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
   const labelClassName = switchStyle({
     ...context.switchVariantProps,
     disabled: context.disabled,
@@ -208,7 +233,7 @@ export const SwitchLabel = React.forwardRef<unknown, SwitchLabelProps>((props, r
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(labelClassName, className)}
     >
       {children}

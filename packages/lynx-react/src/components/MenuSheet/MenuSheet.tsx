@@ -44,6 +44,11 @@ import {
   type BottomSheetHandleProps,
 } from "../BottomSheet/BottomSheet";
 import { IconSlotProvider } from "../Icon/Icon";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+} from "../../utils/accessibility";
 
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
@@ -124,20 +129,39 @@ export const MenuSheetTrigger: LynxForwardRefComponent<unknown, MenuSheetTrigger
   unknown,
   MenuSheetTriggerProps
 >((props, ref) => {
-  const { children, className, ...nativeProps } = props;
+  const { children, className, "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+  const label = accessibilityLabel ?? getAccessibleText(children);
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? true) &&
+    !label
+  ) {
+    console.warn("MenuSheetTrigger: `accessibility-label` is required when children have no text.");
+  }
   const { triggerProps } = useBottomSheetTrigger();
 
   return (
     <view
       {...mergeProps(
-        { "accessibility-element": true, "accessibility-role-description": "button" },
+        {
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-role-description": "button",
+          "accessibility-label": label || undefined,
+        },
         triggerProps,
         nativeProps,
         ref ? { ref: ref as LynxViewRef } : {},
       )}
       className={className}
     >
-      {children}
+      {nativeProps["accessibility-element"] === false ? (
+        children
+      ) : (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      )}
     </view>
   );
 });

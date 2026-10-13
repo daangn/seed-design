@@ -47,7 +47,7 @@ export type QuantityPickerRootProps = UseQuantityPickerProps &
   };
 
 /**
- * 스타일 없이 QuantityPicker의 수량 상태와 Root 접근성을 연결하는 native `<view>`입니다.
+ * 스타일 없이 수량 상태를 공유하는 native `<view>`입니다. Root는 기본적으로 접근성 요소가 아니며 버튼과 ValueDisplay가 독립적으로 노출됩니다.
  * `dir="rtl"`이면 Fragment를 펼친 자식 순서를 뒤집습니다. 하위 요소는 `useQuantityPickerContext`로 상태를 읽습니다.
  */
 export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootProps>(
@@ -69,6 +69,8 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
       dir,
       removable,
       removeAccessibilityLabel,
+      // Root 이름은 ValueDisplay가 현재 수량과 함께 노출한다. Root에도 두면 같은 이름이 두 번 나온다.
+      "accessibility-label": _accessibilityLabel,
       ...nativeProps
     } = props;
     const api = useQuantityPicker(props);
@@ -180,27 +182,27 @@ QuantityPickerIncrementButton.displayName = "QuantityPickerIncrementButton";
 export interface QuantityPickerValueDisplayProps extends ViewProps {}
 
 /**
- * 표시 텍스트(`valueText`)를 렌더링하는 native `<view>`입니다. 값은 Root의 `accessibility-value`로 알리므로
- * 기본으로 접근성 트리에서 숨깁니다. `children`을 주면 기본 `<text>` 대신 렌더링합니다.
+ * 표시 텍스트(`valueText`)와 Root의 접근성 이름·현재 수량을 독립 접근성 요소로 노출하는 native `<view>`입니다.
+ * 기본 `<text>`는 중복 노출을 막기 위해 접근성 트리에서 숨깁니다. `children`을 주면 기본 `<text>` 대신 렌더링합니다.
  */
 export const QuantityPickerValueDisplay = React.forwardRef<
   unknown,
   QuantityPickerValueDisplayProps
 >((props, ref) => {
-  const {
-    children,
-    "accessibility-elements-hidden": accessibilityElementsHidden = true,
-    ...nativeProps
-  } = props;
-  const { valueText } = useQuantityPickerContext();
+  const { children, ...nativeProps } = props;
+  const { valueText, valueDisplayProps } = useQuantityPickerContext();
 
   return (
     <view
       {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
+      {...valueDisplayProps}
       {...nativeProps}
-      accessibility-elements-hidden={accessibilityElementsHidden}
     >
-      {children ?? <text>{valueText}</text>}
+      {children ?? (
+        <text accessibility-element={false} accessibility-elements-hidden={true}>
+          {valueText}
+        </text>
+      )}
     </view>
   );
 });

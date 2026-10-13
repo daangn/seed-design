@@ -39,14 +39,15 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
       container,
       overlayLevel,
       children,
+      "accessibility-label": accessibilityLabel,
       ...rootProps
     },
     ref,
   ) => {
     return (
       <SeedHelpBubble.Root {...rootProps}>
-        <SeedHelpBubble.Trigger ref={ref}>
-          <view>{children}</view>
+        <SeedHelpBubble.Trigger ref={ref} accessibility-label={accessibilityLabel}>
+          {children}
         </SeedHelpBubble.Trigger>
         <HelpBubbleContent
           title={title}

@@ -18,6 +18,7 @@ function element(selector: string) {
 const root = () => element(".root");
 const decrement = () => element(".decrement");
 const increment = () => element(".increment");
+const valueDisplay = () => element(".value");
 
 function Picker(props: UseQuantityPickerProps & { calls?: string[] }) {
   const { calls, ...rootProps } = props;
@@ -39,23 +40,51 @@ function Picker(props: UseQuantityPickerProps & { calls?: string[] }) {
 }
 
 describe("QuantityPicker", () => {
+  it("exposes independent buttons and a named current value instead of the root", () => {
+    render(<Picker min={0} max={5} defaultValue={2} />);
+
+    expect(root()).toHaveAttribute("accessibility-element", "false");
+    expect(root()).not.toHaveAttribute("accessibility-label");
+    expect(root()).not.toHaveAttribute("accessibility-value");
+    expect(decrement()).toHaveAttribute("accessibility-label", "줄이기");
+    expect(increment()).toHaveAttribute("accessibility-label", "늘리기");
+    for (const button of [decrement(), increment()]) {
+      expect(button).toHaveAttribute("accessibility-element", "true");
+      expect(button).toHaveAttribute("accessibility-role-description", "button");
+      expect(button).toHaveAttribute("accessibility-traits", "button");
+      expect(button).toHaveAttribute("flatten", "false");
+    }
+    expect(valueDisplay()).toHaveAttribute("accessibility-element", "true");
+    expect(valueDisplay()).toHaveAttribute("accessibility-label", "수량");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "2");
+    expect(valueDisplay()).toHaveAttribute("flatten", "false");
+    expect(valueDisplay()).not.toHaveAttribute("accessibility-elements-hidden");
+    expect(element(".value text")).toHaveAttribute("accessibility-element", "false");
+    expect(element(".value text")).toHaveAttribute("accessibility-elements-hidden", "true");
+
+    fireEvent.tap(increment());
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "3");
+    fireEvent.tap(decrement());
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "2");
+  });
+
   it("starts from min, moves by step and stops at the bounds", () => {
     const calls: string[] = [];
     render(
       <Picker min={1} max={4} step={2} calls={calls} onValueChange={(v) => calls.push(`${v}`)} />,
     );
 
-    expect(root()).toHaveAttribute("accessibility-value", "1");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "1");
     expect(decrement()).toHaveAttribute("accessibility-traits", "disabled");
 
     fireEvent.tap(increment());
     fireEvent.tap(increment());
-    expect(root()).toHaveAttribute("accessibility-value", "4");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "4");
     expect(increment()).toHaveAttribute("accessibility-traits", "disabled");
 
     fireEvent.tap(increment());
     fireEvent.tap(decrement());
-    expect(root()).toHaveAttribute("accessibility-value", "2");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "2");
     expect(calls).toEqual(["3", "increment-tap", "4", "increment-tap", "2", "decrement-tap"]);
   });
 
@@ -80,10 +109,10 @@ describe("QuantityPicker", () => {
 
     fireEvent.tap(increment());
     expect(onValueChange).toHaveBeenLastCalledWith(2);
-    expect(root()).toHaveAttribute("accessibility-value", "2");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "2");
     fireEvent.tap(increment());
     expect(onValueChange).toHaveBeenLastCalledWith(3);
-    expect(root()).toHaveAttribute("accessibility-value", "4");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "4");
   });
 
   it("turns decrement into remove at min only when removable", () => {
@@ -105,7 +134,7 @@ describe("QuantityPicker", () => {
     fireEvent.tap(decrement());
     expect(onRemove).toHaveBeenCalledTimes(1);
     expect(onValueChange).not.toHaveBeenCalled();
-    expect(root()).toHaveAttribute("accessibility-value", "1");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "1");
 
     view.rerender(<Picker min={1} max={5} onRemove={onRemove} onValueChange={onValueChange} />);
     expect(decrement()).toHaveAttribute("accessibility-label", "줄이기");
@@ -145,7 +174,9 @@ describe("QuantityPicker", () => {
     const view = render(
       <Picker min={0} max={5} defaultValue={2} disabled onValueChange={onValueChange} />,
     );
-    expect(root()).toHaveAttribute("accessibility-traits", "disabled");
+    for (const button of [decrement(), increment()]) {
+      expect(button).toHaveAttribute("accessibility-traits", "disabled");
+    }
     fireEvent.tap(decrement());
     fireEvent.tap(increment());
 
@@ -197,12 +228,13 @@ describe("QuantityPicker", () => {
     const view = render(
       <Picker min={0} max={5} defaultValue={2} getValueText={(text) => `${text}개`} />,
     );
-    expect(element(".value")).toHaveTextContent("2개");
-    expect(element(".value")).toHaveAttribute("accessibility-elements-hidden", "true");
-    expect(root()).toHaveAttribute("accessibility-value", "2개");
+    expect(valueDisplay()).toHaveTextContent("2개");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "2개");
 
-    view.rerender(<Picker min={0} max={5} defaultValue={2} getValueText={() => <text>2</text>} />);
-    expect(root()).toHaveAttribute("accessibility-value", "2");
+    fireEvent.tap(increment());
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "3개");
+    view.rerender(<Picker min={0} max={5} defaultValue={2} getValueText={() => <text>3</text>} />);
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "3");
   });
 
   it("lets consumer accessibility props override the defaults", () => {
@@ -212,21 +244,61 @@ describe("QuantityPicker", () => {
         min={0}
         max={5}
         disabled
+        accessibility-element={true}
+        accessibility-label="수량"
+        accessibility-role-description="custom picker"
+        flatten={true}
         accessibility-value="두 개"
         accessibility-traits="none"
       >
-        <QuantityPicker.IncrementButton className="increment" accessibility-traits="header" />
-        <QuantityPicker.ValueDisplay className="value" accessibility-elements-hidden={false}>
+        <QuantityPicker.DecrementButton
+          className="decrement"
+          accessibility-element={false}
+          accessibility-label="custom decrease"
+          accessibility-role-description="custom action"
+          accessibility-traits="header"
+          flatten={true}
+        />
+        <QuantityPicker.IncrementButton
+          className="increment"
+          accessibility-element={false}
+          accessibility-label="custom increase"
+          accessibility-role-description="custom action"
+          accessibility-traits="header"
+          flatten={true}
+        />
+        <QuantityPicker.ValueDisplay
+          className="value"
+          accessibility-element={false}
+          accessibility-label="custom value"
+          accessibility-value="세 개"
+          accessibility-elements-hidden={true}
+          flatten={true}
+        >
           <text>custom</text>
         </QuantityPicker.ValueDisplay>
       </QuantityPicker.Root>,
     );
 
+    expect(root()).toHaveAttribute("accessibility-element", "true");
+    expect(root()).toHaveAttribute("accessibility-role-description", "custom picker");
+    expect(root()).toHaveAttribute("flatten", "true");
     expect(root()).toHaveAttribute("accessibility-value", "두 개");
     expect(root()).toHaveAttribute("accessibility-traits", "none");
-    expect(increment()).toHaveAttribute("accessibility-traits", "header");
-    expect(element(".value")).toHaveAttribute("accessibility-elements-hidden", "false");
-    expect(element(".value")).toHaveTextContent("custom");
+    expect(decrement()).toHaveAttribute("accessibility-label", "custom decrease");
+    expect(increment()).toHaveAttribute("accessibility-label", "custom increase");
+    for (const button of [decrement(), increment()]) {
+      expect(button).toHaveAttribute("accessibility-element", "false");
+      expect(button).toHaveAttribute("accessibility-role-description", "custom action");
+      expect(button).toHaveAttribute("accessibility-traits", "header");
+      expect(button).toHaveAttribute("flatten", "true");
+    }
+    expect(valueDisplay()).toHaveAttribute("accessibility-element", "false");
+    expect(valueDisplay()).toHaveAttribute("accessibility-label", "custom value");
+    expect(valueDisplay()).toHaveAttribute("accessibility-value", "세 개");
+    expect(valueDisplay()).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(valueDisplay()).toHaveAttribute("flatten", "true");
+    expect(valueDisplay()).toHaveTextContent("custom");
   });
 
   it("gates Main Thread taps by the action state", async () => {

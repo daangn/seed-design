@@ -18,6 +18,12 @@ import { chipTabs, type ChipTabsVariantProps } from "@seed-design/lynx-css/recip
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { HStack } from "../Stack";
@@ -118,6 +124,18 @@ export interface ChipTabsTriggerProps
   notification?: React.ReactNode;
 }
 
+function ChipTabsTriggerLabel({
+  children,
+  className,
+}: Pick<LynxHostProps<"text">, "children" | "className">) {
+  const accessibilityProps = useLabelTextAccessibilityProps();
+  return (
+    <text {...accessibilityProps} className={className}>
+      {children}
+    </text>
+  );
+}
+
 export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((props, ref) => {
   const {
     children,
@@ -133,13 +151,15 @@ export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((
   } = props;
 
   const variantProps = useChipTabsVariantProps("ChipTabsTrigger");
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const accessibilityName = accessibilityLabel ?? getAccessibleText(children);
   const api = useTabsTrigger({
     value: triggerValue,
     disabled,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     children,
-    "accessibility-label": accessibilityLabel,
+    "accessibility-label": accessibilityName,
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
@@ -153,29 +173,38 @@ export const ChipTabsTrigger = React.forwardRef<unknown, ChipTabsTriggerProps>((
     disabled: api.isDisabled,
     pressed: api.isPressed,
   });
-  const label = <text className={classNames.triggerLabel}>{children}</text>;
+  const label = (
+    <ChipTabsTriggerLabel className={classNames.triggerLabel}>{children}</ChipTabsTriggerLabel>
+  );
+  const triggerProps = mergeProps(
+    { flatten: false },
+    api.triggerProps,
+    ref ? { ref: ref as LynxViewRef } : {},
+    scaleFeedbackTargetProps,
+    scaleFeedbackTriggerProps,
+    nativeProps,
+  );
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    triggerProps["accessibility-element"] === true &&
+    !accessibilityName
+  ) {
+    console.warn("ChipTabsTrigger: `accessibility-label` is required when children have no text.");
+  }
 
   return (
-    <view
-      {...mergeProps(
-        { flatten: false },
-        api.triggerProps,
-        ref ? { ref: ref as LynxViewRef } : {},
-        scaleFeedbackTargetProps,
-        scaleFeedbackTriggerProps,
-        nativeProps,
-      )}
-      className={clsx(classNames.trigger, className)}
-      style={style}
-    >
-      {notification ? (
-        <HStack position="relative" gap="x1_5">
-          {label}
-          <view accessibility-elements-hidden={true}>{notification}</view>
-        </HStack>
-      ) : (
-        label
-      )}
+    <view {...triggerProps} className={clsx(classNames.trigger, className)} style={style}>
+      <AccessibilityElementScope>
+        {notification ? (
+          <HStack position="relative" gap="x1_5">
+            {label}
+            <view accessibility-elements-hidden={true}>{notification}</view>
+          </HStack>
+        ) : (
+          label
+        )}
+      </AccessibilityElementScope>
     </view>
   );
 });

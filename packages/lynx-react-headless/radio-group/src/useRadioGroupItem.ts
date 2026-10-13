@@ -40,6 +40,7 @@ export type RadioGroupItemNativeProps = Required<
     "accessibility-element" | "accessibility-role-description" | "accessibility-value"
   >
 > &
+  Required<Pick<ViewProps, "flatten">> &
   Pick<ViewProps, "accessibility-traits"> &
   Omit<UsePressTapReturn, "pressed">;
 
@@ -118,6 +119,7 @@ export function useRadioGroupItem(props: UseRadioGroupItemProps): UseRadioGroupI
       disabled,
       pressed,
       itemProps: {
+        flatten: false,
         bindtap: handleTap,
         bindtouchstart,
         bindtouchend,

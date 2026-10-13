@@ -63,7 +63,7 @@ export function App() {
 }
 ```
 
-`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. `disabled` 또는 `loading`이면 탭해도 닫지 않습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
+`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. Trigger가 버튼 역할과 이름을 노출하고 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않습니다. 이름은 문자열 children에서 만들며 직접 전달한 `accessibility-label`이 우선합니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. `disabled` 또는 `loading`이면 탭해도 닫지 않습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
 
 ## Props
 

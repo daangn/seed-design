@@ -27,6 +27,12 @@ import {
 } from "../ProgressCircle";
 import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
 
 // Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
 // intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
@@ -113,7 +119,11 @@ const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((inner
             {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, rest)}
             className={clsx(classNames.root, userClassName)}
           >
-            {children as React.ReactNode}
+            {rest["accessibility-element"] ? (
+              <AccessibilityElementScope>{children as React.ReactNode}</AccessibilityElementScope>
+            ) : (
+              (children as React.ReactNode)
+            )}
           </view>
         </IconSlotProvider>
       </PropsProvider>
@@ -129,9 +139,10 @@ interface ActionButtonTextSlotProps extends LynxHostProps<"text"> {}
 const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
   const { children, className: userClassName, ...rest } = props;
   const classNames = useClassNames();
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, rest)}
+      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, rest)}
       className={clsx(classNames.text, userClassName)}
     >
       {children}
@@ -262,21 +273,28 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     "accessibility-traits": accessibilityTraits,
     ...variantAndRest
   } = props;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
   const api = useActionButton({
     disabled,
     loading,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
+    "accessibility-element": accessibilityElement ?? !insideAccessibilityElement,
     "accessibility-traits": accessibilityTraits,
   });
   // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const isIconOnly = layout === "iconOnly";
   const size = variantAndRest.size;
+  const label =
+    accessibilityLabel ??
+    (insideAccessibilityElement || isIconOnly
+      ? undefined
+      : getAccessibleText(toArray(children).filter((child) => !getIconSlotName(child))));
 
   if (
     process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
     isIconOnly &&
     rootProps["accessibility-element"] &&
     !accessibilityLabel
@@ -284,6 +302,15 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     console.warn(
       'ActionButton: `layout="iconOnly"` requires `accessibility-label` for accessibility.',
     );
+  }
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    !isIconOnly &&
+    rootProps["accessibility-element"] &&
+    !label
+  ) {
+    console.warn("ActionButton: `accessibility-label` is required when children have no text.");
   }
 
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
@@ -306,7 +333,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
           scaleFeedbackTriggerProps,
           rootProps,
           variantAndRest,
-          { "accessibility-label": accessibilityLabel },
+          { "accessibility-label": label || undefined },
         )}
         layout={layout}
         disabled={api.disabled}

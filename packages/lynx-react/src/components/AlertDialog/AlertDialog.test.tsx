@@ -2,6 +2,7 @@ import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as AlertDialog from "./AlertDialog.namespace";
+import { ActionButton } from "../ActionButton";
 
 // Open/close transitions are covered in `@seed-design/lynx-react-dialog`. These tests cover the
 // alert defaults layered on top of it against the real `@lynx-js/lynx-ui-dialog` engine.
@@ -41,6 +42,34 @@ describe("AlertDialog", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+  });
+
+  it("owns the trigger label while preserving its nested button's visual content", () => {
+    const { container, rerender } = render(
+      <AlertDialog.Root>
+        <AlertDialog.Trigger className="trigger">
+          <ActionButton>열기</ActionButton>
+        </AlertDialog.Trigger>
+      </AlertDialog.Root>,
+    );
+    const trigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(trigger?.getAttribute("accessibility-label")).toBe("열기");
+    expect(trigger?.getAttribute("accessibility-role-description")).toBe("button");
+    expect(trigger?.getAttribute("flatten")).toBe("false");
+    expect(
+      trigger?.querySelector(".seed-action-button__root")?.getAttribute("accessibility-element"),
+    ).toBe("false");
+
+    rerender(
+      <AlertDialog.Root>
+        <AlertDialog.Trigger className="trigger" accessibility-label="확인 창 열기">
+          {({ busy }) => <ActionButton>{busy ? "Wait" : "Open"}</ActionButton>}
+        </AlertDialog.Trigger>
+      </AlertDialog.Root>,
+    );
+    const namedTrigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(namedTrigger?.getAttribute("accessibility-label")).toBe("확인 창 열기");
+    expect(namedTrigger?.textContent).toBe("Open");
   });
 
   it("opens from Trigger, ignores Backdrop taps by default, and closes from Action", () => {
