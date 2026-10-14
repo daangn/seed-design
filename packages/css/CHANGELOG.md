@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 2.9.2
+
+### Patch Changes
+
+- 2.9.1 패키지에서 빠졌던 `all.min.css`, `all.layered.min.css`, `base.min.css`, `base.layered.min.css`를 다시 포함합니다.
+
 ## 2.9.1
 
 ### Patch Changes
