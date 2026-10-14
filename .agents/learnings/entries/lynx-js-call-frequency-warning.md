@@ -1,9 +1,9 @@
 ---
 id: lynx-js-call-frequency-warning
-description: PlayLynx·Lynx DevTool 화면에 "InvokeUIMethod called too frequently" 또는 "CallLepusMethod called too frequently" 알림이 뜰 때, 그 경고가 기능 오류인지 판단하거나 원인 호출을 찾을 때 읽는다. 경고가 호출을 막지 않는 DevTool 전용 계측이라는 점, 메서드·노드별 key와 5초 800회 기준, logcat으로 key와 호출원을 찾는 방법을 다룬다. 좌표 소수 부분 때문에 레이어 크기가 반복해서 바뀌는 문제는 `lynx-floating-subpixel-size-loop`을 읽는다.
+description: PlayLynx·Lynx DevTool 화면에 "InvokeUIMethod called too frequently" 또는 "CallLepusMethod called too frequently" 알림이 뜰 때, 그 경고가 기능 오류인지 판단하거나 원인 호출을 찾을 때 읽는다. 경고가 호출을 막지 않는 DevTool 전용 계측이라는 점, 메서드·노드별 key와 5초 800회 기준, logcat으로 key와 호출원을 찾는 방법을 다룬다. 좌표 소수 부분 때문에 레이어 크기가 반복해서 바뀌는 문제는 `lynx-floating-subpixel-size-loop`을, 매 frame 바뀌는 위치를 context로 내려 commit이 몰리는 문제는 `lynx-per-frame-state-commits`를 읽는다.
 scope: ["packages/lynx-react-headless/**", "packages/lynx-react/**", "examples/lynx-spa/**", "docs/examples/lynx/**"]
 status: active
-related: ["lynx-floating-subpixel-size-loop", "lynx-android-hscroll-transform-rect"]
+related: ["lynx-floating-subpixel-size-loop", "lynx-android-hscroll-transform-rect", "lynx-per-frame-state-commits"]
 verified_at: "2026-10-13"
 ---
 
