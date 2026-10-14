@@ -7,6 +7,10 @@ declare interface BottomSheetVariant {
   * @default false
   */
   skipAnimation: boolean;
+/**
+  * @default false
+  */
+  closeButton: boolean;
 }
 
 declare type BottomSheetVariantMap = {
@@ -15,7 +19,7 @@ declare type BottomSheetVariantMap = {
 
 export declare type BottomSheetVariantProps = Partial<BottomSheetVariant>;
 
-export declare type BottomSheetSlotName = "positioner" | "backdrop" | "content" | "header" | "body" | "footer" | "title" | "description" | "closeButton";
+export declare type BottomSheetSlotName = "positioner" | "backdrop" | "content" | "header" | "body" | "footer" | "title" | "description" | "closeButton" | "closeButtonIcon";
 
 export declare const bottomSheetVariantMap: BottomSheetVariantMap;
 

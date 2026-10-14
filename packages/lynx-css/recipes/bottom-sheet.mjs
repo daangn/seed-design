@@ -37,15 +37,29 @@ const bottomSheetSlotNames = [
   [
     "closeButton",
     "seed-bottom-sheet__closeButton"
+  ],
+  [
+    "closeButtonIcon",
+    "seed-bottom-sheet__closeButtonIcon"
   ]
 ];
 
 const defaultVariant = {
   "headerAlign": "left",
-  "skipAnimation": false
+  "skipAnimation": false,
+  "closeButton": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "headerAlign": "left",
+    "closeButton": true
+  },
+  {
+    "headerAlign": "center",
+    "closeButton": true
+  }
+];
 
 export const bottomSheetVariantMap = {
   "headerAlign": [
@@ -53,6 +67,10 @@ export const bottomSheetVariantMap = {
     "center"
   ],
   "skipAnimation": [
+    true,
+    false
+  ],
+  "closeButton": [
     true,
     false
   ]

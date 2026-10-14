@@ -9,6 +9,7 @@ import {
   BottomSheetHandle as HeadlessBottomSheetHandle,
   BottomSheetPositioner as HeadlessBottomSheetPositioner,
   BottomSheetRoot as HeadlessBottomSheetRoot,
+  useBottomSheetCloseButton,
   useBottomSheetContext,
   useBottomSheetTrigger,
   type BottomSheetBackdropProps as HeadlessBottomSheetBackdropProps,
@@ -19,8 +20,12 @@ import {
   type BottomSheetRootRef as HeadlessBottomSheetRootRef,
 } from "@seed-design/lynx-react-bottom-sheet";
 import {
+  createContext,
   forwardRef,
+  useContext,
+  useLayoutEffect,
   useMemo,
+  useState,
   type ForwardRefExoticComponent,
   type PropsWithoutRef,
   type ReactElement,
@@ -29,9 +34,11 @@ import {
 import clsx from "clsx";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { IconSlotProvider } from "../Icon/Icon";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -40,6 +47,9 @@ type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
 type SheetTransition = NonNullable<HeadlessBottomSheetContentProps["snapAnimation"]>;
 
 const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
+
+/** Root가 제목 여백을 정할 수 있도록 CloseButton이 렌더링 여부를 알린다. */
+const CloseButtonRenderedContext = createContext<((rendered: boolean) => void) | null>(null);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
@@ -81,7 +91,7 @@ export const SEED_EXIT_ANIMATION: SheetTransition = {
 export type BottomSheetRootRef = HeadlessBottomSheetRootRef;
 
 export interface BottomSheetRootProps
-  extends BottomSheetVariantProps,
+  extends Omit<BottomSheetVariantProps, "closeButton">,
     Omit<HeadlessBottomSheetRootProps, keyof BottomSheetVariantProps> {}
 
 /**
@@ -89,7 +99,6 @@ export interface BottomSheetRootProps
  *
  * 웹 대비 미지원 기능:
  * - `lazyMount`, `unmountOnExit`: `BottomSheetPositioner`의 `forceMount`로 대체
- * - `BottomSheetCloseButton`: Tier B (Lynx SVG 지원 후 추가 예정)
  * - `BottomSheetTrigger`의 `asChild`: 미지원 (기본 `<view>`만)
  */
 export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, BottomSheetRootProps> =
@@ -97,22 +106,25 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
     const [variantProps, restProps] = bottomSheet.splitVariantProps(props);
     const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
+    const [closeButtonRendered, setCloseButtonRendered] = useState(false);
 
     const classNames = useMemo(
-      () => bottomSheet(variantProps),
+      () => bottomSheet({ ...variantProps, closeButton: closeButtonRendered }),
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
-      [headerAlign, skipAnimation],
+      [headerAlign, skipAnimation, closeButtonRendered],
     );
 
     return (
       <ClassNamesProvider value={classNames}>
-        <HeadlessBottomSheetRoot
-          {...(ref ? { ref } : {})}
-          {...rootProps}
-          skipAnimation={skipAnimation === true}
-        >
-          {children}
-        </HeadlessBottomSheetRoot>
+        <CloseButtonRenderedContext.Provider value={setCloseButtonRendered}>
+          <HeadlessBottomSheetRoot
+            {...(ref ? { ref } : {})}
+            {...rootProps}
+            skipAnimation={skipAnimation === true}
+          >
+            {children}
+          </HeadlessBottomSheetRoot>
+        </CloseButtonRenderedContext.Provider>
       </ClassNamesProvider>
     );
   });
@@ -324,3 +336,62 @@ BottomSheetTitle.displayName = "BottomSheetTitle";
 export interface BottomSheetDescriptionProps extends LynxHostProps<"text"> {}
 export const BottomSheetDescription = createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";
+
+////////////////////////////////////////////////////////////////////////////////////
+// CloseButton
+////////////////////////////////////////////////////////////////////////////////////
+
+// 보이는 버튼(28px) 주위로 터치 영역을 bottom-sheet-close-button의 targetSize(44px)까지 넓힌다.
+const CLOSE_BUTTON_HIT_SLOP = "8px";
+
+export interface BottomSheetCloseButtonProps extends LynxHostProps<"view"> {}
+
+/**
+ * 탭하면 시트를 닫고 `onOpenChange`에 `"closeButton"` reason을 전달한다.
+ * Content 오른쪽 위에 놓이며, 렌더링되는 동안 Title이 버튼 자리만큼 여백을 둔다.
+ * 아이콘은 `<Icon>`으로 전달하고, 읽어줄 이름은 `accessibility-label`로 지정한다.
+ */
+export const BottomSheetCloseButton: LynxForwardRefComponent<unknown, BottomSheetCloseButtonProps> =
+  forwardRef<unknown, BottomSheetCloseButtonProps>((props, ref) => {
+    const { children, className, style, bindtap, ...nativeProps } = props;
+    const classNames = useClassNames();
+    const setCloseButtonRendered = useContext(CloseButtonRenderedContext);
+    const { closeButtonProps } = useBottomSheetCloseButton({ bindtap });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
+    const iconSlotContextValue = useMemo(
+      () => ({
+        classNames: { icon: classNames.closeButtonIcon },
+        deps: [classNames.closeButtonIcon],
+      }),
+      [classNames.closeButtonIcon],
+    );
+
+    useLayoutEffect(() => {
+      setCloseButtonRendered?.(true);
+      return () => setCloseButtonRendered?.(false);
+    }, [setCloseButtonRendered]);
+
+    return (
+      <IconSlotProvider value={iconSlotContextValue}>
+        <view
+          {...mergeProps(
+            {
+              "accessibility-element": true,
+              "accessibility-traits": "button",
+              "hit-slop": CLOSE_BUTTON_HIT_SLOP,
+              style: style as never,
+            },
+            closeButtonProps,
+            scaleFeedbackTriggerProps,
+            scaleFeedbackTargetProps,
+            nativeProps,
+            ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+          )}
+          className={clsx(classNames.closeButton, className)}
+        >
+          {children}
+        </view>
+      </IconSlotProvider>
+    );
+  });
+BottomSheetCloseButton.displayName = "BottomSheetCloseButton";
