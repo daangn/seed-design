@@ -1,9 +1,9 @@
 ---
 id: lynx-floating-subpixel-size-loop
-description: Lynx floating 레이어(Popover·HelpBubble 등)가 측정한 콘텐츠 크기로 좌표를 계산할 때, Android에서 "CallLepusMethod called too frequently" toast가 뜨거나 페이지 내용이 사라지고 시간이 지나면 입력이 멈추거나, logcat에 `OnPatchFinishForFiber NoPatch!`와 `OnPipelineStart`가 매 프레임 반복될 때 읽는다. 좌표의 소수 부분이 기기 픽셀 반올림으로 콘텐츠 높이를 바꾸는 피드백 루프를 구분하는 계측 방법과 좌표를 기기 픽셀에 맞추는 대응을 다룬다. ref callback에서 setState를 호출해 생기는 렌더 반복에는 `lynx-ref-callback-state-loop`을 읽는다.
+description: Lynx floating 레이어(Popover·HelpBubble 등)가 측정한 콘텐츠 크기로 좌표를 계산할 때, Android에서 "CallLepusMethod called too frequently" toast가 뜨거나 페이지 내용이 사라지고 시간이 지나면 입력이 멈추거나, logcat에 `OnPatchFinishForFiber NoPatch!`와 `OnPipelineStart`가 매 프레임 반복될 때 읽는다. 좌표의 소수 부분이 기기 픽셀 반올림으로 콘텐츠 높이를 바꾸는 피드백 루프를 구분하는 계측 방법과 좌표를 기기 픽셀에 맞추는 대응을 다룬다. ref callback에서 setState를 호출해 생기는 렌더 반복에는 `lynx-ref-callback-state-loop`을, 측정 높이를 바깥 `height` style로 되돌리는 Collapsible·Accordion에는 `lynx-measured-height-pixel-feedback`을 읽는다.
 scope: ["packages/lynx-react-headless/popover/**", "packages/lynx-react-headless/floating/**", "packages/lynx-react/src/components/**"]
 status: active
-related: ["lynx-ref-callback-state-loop", "lynx-device-cdp-geometry"]
+related: ["lynx-ref-callback-state-loop", "lynx-device-cdp-geometry", "lynx-measured-height-pixel-feedback"]
 verified_at: "2026-10-13"
 ---
 
