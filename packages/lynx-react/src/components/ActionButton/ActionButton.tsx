@@ -18,7 +18,7 @@ import type {
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { toArray } from "../../utils/children";
 import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
-import { resolveFlexValue, type StyleProps } from "../../utils/styled";
+import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
   ProgressCircleRoot,
@@ -228,7 +228,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  * 웹 대비 차이:
  * - 아이콘 렌더링: 웹의 SVG `currentColor` 대신 Lynx `<image>` 의 `tint-color` 를
  *   `Icon` / `PrefixIcon` / `SuffixIcon` wrapper 가 동기화한다.
- * - 미지원 prop: `color`, `fontWeight`, `bleedX`, `bleedY` (CSS variable 동적 주입 제한)
+ * - 미지원 prop: `color`, `fontWeight` (CSS variable 동적 주입 제한)
+ * - bleed prop: px 길이, `0`, `"safeArea"` 지원. SEED 토큰과 `"asPadding"` 미지원
  *
  * ```tsx
  * import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
@@ -256,13 +257,14 @@ export interface ActionButtonProps
   extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
     Pick<UseActionButtonProps, "disabled" | "loading">,
     Pick<StyleProps, "flexGrow">,
+    Pick<MarginBleedStyleProps, "bleed" | "bleedX" | "bleedY">,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
+  const { style, restProps } = useStyleProps(props);
   const {
     children,
-    flexGrow,
     layout,
     disabled,
     loading,
@@ -272,7 +274,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
     "accessibility-label": accessibilityLabel,
     "accessibility-traits": accessibilityTraits,
     ...variantAndRest
-  } = props;
+  } = restProps;
   const insideAccessibilityElement = useInsideAccessibilityElement();
   const api = useActionButton({
     disabled,
@@ -326,7 +328,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
         {...mergeProps(
           {
             flatten: false,
-            style: flexGrow != null ? { flexGrow: resolveFlexValue(flexGrow) } : undefined,
+            style,
           },
           ref ? { ref } : {},
           scaleFeedbackTargetProps,
