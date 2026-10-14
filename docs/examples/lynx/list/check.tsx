@@ -1,10 +1,9 @@
 import "./styles";
 
-import IconCheckmarkFatFill from "@karrotmarket/lynx-monochrome-icon/IconCheckmarkFatFill";
-
-import { Checkbox, HStack } from "@seed-design/lynx-react";
+import { HStack } from "@seed-design/lynx-react";
 
 import { Badge } from "@/components/ui/badge";
+import { Checkmark } from "@/components/ui/checkbox";
 import { List, ListCheckItem, ListDivider } from "@/components/ui/list";
 
 export default function Example() {
@@ -25,24 +24,13 @@ export default function Example() {
       <ListCheckItem
         title="마케팅 정보 수신 동의"
         detail="마케팅 정보를 받으시겠습니까?"
-        prefix={
-          <Checkbox.Control tone="neutral" size="large">
-            <Checkbox.Indicator checked={<IconCheckmarkFatFill />} />
-          </Checkbox.Control>
-        }
+        prefix={<Checkmark tone="neutral" size="large" />}
         suffix={null}
         defaultChecked
       />
       <ListDivider />
       <ListCheckItem
-        prefix={
-          <Checkbox.Control tone="neutral" size="large" variant="ghost">
-            <Checkbox.Indicator
-              unchecked={<IconCheckmarkFatFill />}
-              checked={<IconCheckmarkFatFill />}
-            />
-          </Checkbox.Control>
-        }
+        prefix={<Checkmark tone="neutral" size="large" variant="ghost" />}
         suffix={null}
         title="Ghost Variant"
       />

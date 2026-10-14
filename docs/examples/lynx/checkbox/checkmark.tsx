@@ -1,33 +1,39 @@
 import "./styles";
 
-import { HStack, Text } from "@seed-design/lynx-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import type { ReactNode } from "@lynx-js/react";
+import { Checkbox, HStack, Text } from "@seed-design/lynx-react";
+import { Checkmark } from "@/components/ui/checkbox";
 
-interface CustomCheckboxProps {
+interface CustomCheckboxProps extends Checkbox.RootProps {
   label: string;
-  textStyle: "t7Regular" | "t7Medium" | "t7Bold";
-  defaultChecked?: boolean;
+  children: ReactNode;
 }
 
-function CustomCheckbox({ label, textStyle, defaultChecked }: CustomCheckboxProps) {
+function CustomCheckbox({ label, children, ...props }: CustomCheckboxProps) {
   return (
-    <Checkbox
+    <Checkbox.Root
       accessibility-label={label}
-      tone="neutral"
-      defaultChecked={defaultChecked}
       style={{ display: "flex", flexDirection: "column", rowGap: "8px", alignItems: "center" }}
+      {...props}
     >
-      <Text textStyle={textStyle}>{label}</Text>
-    </Checkbox>
+      <Checkmark tone="neutral" />
+      {children}
+    </Checkbox.Root>
   );
 }
 
 export default function Example() {
   return (
     <HStack className="checkbox-preview" gap="x6">
-      <CustomCheckbox label="regular" textStyle="t7Regular" />
-      <CustomCheckbox label="medium" textStyle="t7Medium" defaultChecked />
-      <CustomCheckbox label="bold" textStyle="t7Bold" />
+      <CustomCheckbox label="regular">
+        <Text textStyle="t7Regular">regular</Text>
+      </CustomCheckbox>
+      <CustomCheckbox label="medium" defaultChecked>
+        <Text textStyle="t7Medium">medium</Text>
+      </CustomCheckbox>
+      <CustomCheckbox label="bold">
+        <Text textStyle="t7Bold">bold</Text>
+      </CustomCheckbox>
     </HStack>
   );
 }

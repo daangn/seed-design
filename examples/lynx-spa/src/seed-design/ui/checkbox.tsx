@@ -35,22 +35,22 @@ export const Checkbox = React.forwardRef<unknown, CheckboxProps>(
 );
 Checkbox.displayName = "Checkbox";
 
-export interface CheckmarkProps extends Omit<SeedCheckbox.RootProps, "children"> {}
+export interface CheckmarkProps extends Omit<SeedCheckbox.ControlProps, "children"> {}
 
 /**
+ * 상위 `Checkbox.Root`나 `ListCheckItem`의 상태를 표시하는 체크 마크입니다.
+ *
  * @see https://seed-design.io/lynx/components/checkbox
  */
 export const Checkmark = React.forwardRef<unknown, CheckmarkProps>((props, ref) => {
   return (
-    <SeedCheckbox.Root ref={ref} {...props}>
-      <SeedCheckbox.Control>
-        <SeedCheckbox.Indicator
-          unchecked={props.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
-          checked={<IconCheckmarkFatFill />}
-          indeterminate={<IconMinusFatFill />}
-        />
-      </SeedCheckbox.Control>
-    </SeedCheckbox.Root>
+    <SeedCheckbox.Control ref={ref} {...props}>
+      <SeedCheckbox.Indicator
+        unchecked={props.variant === "ghost" ? <IconCheckmarkFatFill /> : undefined}
+        checked={<IconCheckmarkFatFill />}
+        indeterminate={<IconMinusFatFill />}
+      />
+    </SeedCheckbox.Control>
   );
 });
 Checkmark.displayName = "Checkmark";
