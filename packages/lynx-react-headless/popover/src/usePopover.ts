@@ -60,6 +60,26 @@ export interface PopoverArrowGeometry {
   tipHeight: number;
 }
 
+/** 마지막으로 계산한 위치와 측정 rect입니다. 위치 계산 전에는 모두 `null`입니다. */
+export interface PopoverPositionSnapshot {
+  /** `boundingClientRect`의 `relativeTo: "screen"` 좌표입니다. 아래 rect도 같은 좌표계입니다. */
+  position: Position | null;
+  referenceRect: Rect | null;
+  /** 측정 경계로 쓴 Lynx root의 rect입니다. 탭 좌표(page 기준)를 같은 좌표계로 바꾸는 데 씁니다. */
+  rootRect: Rect | null;
+  /** overlay 모드 레이어의 rect입니다. view 모드에서는 `null`입니다. */
+  layerRect: Rect | null;
+}
+
+/**
+ * 열린 동안 매 frame 바뀔 수 있는 위치를 React 상태 밖에 둡니다. 값이 바뀌어도 `usePopover`를 쓴
+ * 컴포넌트는 다시 렌더링되지 않고, `usePopoverPosition`으로 구독한 요소만 다시 렌더링됩니다.
+ */
+export interface PopoverPositionStore {
+  getSnapshot: () => PopoverPositionSnapshot;
+  subscribe: (listener: () => void) => () => void;
+}
+
 export interface UsePopoverReturn {
   open: boolean;
   /** Positioner를 렌더링하는 동안 `true`입니다. 닫힘 전환이 끝날 때까지 유지합니다. */
@@ -68,13 +88,8 @@ export interface UsePopoverReturn {
   positioned: boolean;
   /** 계산된 배치의 방향입니다. 계산 전에는 `placement`의 방향입니다. */
   side: Side;
-  /** `boundingClientRect`의 `relativeTo: "screen"` 좌표입니다. 아래 rect도 같은 좌표계입니다. */
-  position: Position | null;
-  referenceRect: Rect | null;
-  /** 측정 경계로 쓴 Lynx root의 rect입니다. 탭 좌표(page 기준)를 같은 좌표계로 바꾸는 데 씁니다. */
-  rootRect: Rect | null;
-  /** overlay 모드 레이어의 rect입니다. view 모드에서는 `null`입니다. */
-  layerRect: Rect | null;
+  /** 계산한 위치와 측정 rect입니다. 렌더링에는 `usePopoverPosition`으로 구독해 읽습니다. */
+  positionStore: PopoverPositionStore;
   closeOnInteractOutside: boolean;
   placement: Placement;
   gutter: number;
@@ -140,6 +155,31 @@ function isSamePosition(left: Position | null, right: Position) {
   );
 }
 
+const EMPTY_POSITION: PopoverPositionSnapshot = {
+  position: null,
+  referenceRect: null,
+  rootRect: null,
+  layerRect: null,
+};
+
+function createPositionStore() {
+  let snapshot = EMPTY_POSITION;
+  const listeners = new Set<() => void>();
+  const store: PopoverPositionStore = {
+    getSnapshot: () => snapshot,
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
+  function set(next: PopoverPositionSnapshot) {
+    if (next === snapshot) return;
+    snapshot = next;
+    for (const listener of listeners) listener();
+  }
+  return { store, set };
+}
+
 /**
  * @platform Lynx
  *
@@ -163,11 +203,9 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
     defaultValue: defaultOpen,
   });
   const [mounted, setMounted] = useState(open);
-  const [position, setPositionState] = useState<Position | null>(null);
   const [positionedEpoch, setPositionedEpoch] = useState<number | null>(null);
-  const [referenceRect, setReferenceRect] = useState<Rect | null>(null);
-  const [rootRect, setRootRect] = useState<Rect | null>(null);
-  const [layerRect, setLayerRect] = useState<Rect | null>(null);
+  const [measuredPlacement, setMeasuredPlacement] = useState<Placement | null>(null);
+  const [{ store: positionStore, set: setPositionSnapshot }] = useState(createPositionStore);
   const [positionRevision, setPositionRevision] = useState(0);
   const positionRevisionRef = useRef(0);
   const isOpenRef = useRef(open);
@@ -201,16 +239,17 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
     },
     [onOpenChange, open, setOpenState],
   );
+  const resetPosition = useCallback(() => {
+    setPositionSnapshot(EMPTY_POSITION);
+    setMeasuredPlacement(null);
+    setPositionedEpoch(null);
+  }, [setPositionSnapshot]);
   const finishClose = useCallback(() => {
     "background only";
     if (isOpenRef.current) return;
     setMounted(false);
-    setPositionedEpoch(null);
-    setPositionState(null);
-    setReferenceRect(null);
-    setRootRect(null);
-    setLayerRect(null);
-  }, []);
+    resetPosition();
+  }, [resetPosition]);
   const setPosition = useCallback(
     (
       nextPosition: Position,
@@ -218,34 +257,34 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       nextRootRect: Rect,
       nextLayerRect: Rect | null,
     ) => {
-      setPositionState((previous) =>
-        isSamePosition(previous, nextPosition) ? previous : nextPosition,
+      const previous = positionStore.getSnapshot();
+      const next: PopoverPositionSnapshot = {
+        position: isSamePosition(previous.position, nextPosition)
+          ? previous.position
+          : nextPosition,
+        referenceRect: isSameRect(previous.referenceRect, nextReferenceRect)
+          ? previous.referenceRect
+          : nextReferenceRect,
+        rootRect: isSameRect(previous.rootRect, nextRootRect) ? previous.rootRect : nextRootRect,
+        layerRect:
+          previous.layerRect === nextLayerRect || isSameRect(previous.layerRect, nextLayerRect)
+            ? previous.layerRect
+            : nextLayerRect,
+      };
+      const changed = (Object.keys(next) as (keyof PopoverPositionSnapshot)[]).some(
+        (key) => next[key] !== previous[key],
       );
-      setReferenceRect((previous) =>
-        isSameRect(previous, nextReferenceRect) ? previous : nextReferenceRect,
-      );
-      setRootRect((previous) => (isSameRect(previous, nextRootRect) ? previous : nextRootRect));
-      setLayerRect((previous) =>
-        previous === nextLayerRect || isSameRect(previous, nextLayerRect)
-          ? previous
-          : nextLayerRect,
-      );
+      if (changed) setPositionSnapshot(next);
+      setMeasuredPlacement(nextPosition.placement);
       setPositionedEpoch(openEpochRef.current);
     },
-    [],
+    [positionStore, setPositionSnapshot],
   );
-  const resetPosition = useCallback(() => {
-    setPositionState(null);
-    setReferenceRect(null);
-    setRootRect(null);
-    setLayerRect(null);
-    setPositionedEpoch(null);
-  }, []);
   const requestPositionUpdate = useCallback(() => {
     positionRevisionRef.current += 1;
     setPositionRevision(positionRevisionRef.current);
   }, []);
-  const side = (position?.placement ?? placement).split("-")[0] as Side;
+  const side = (measuredPlacement ?? placement).split("-")[0] as Side;
 
   return useMemo(
     () => ({
@@ -253,10 +292,7 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       mounted,
       positioned,
       side,
-      position,
-      referenceRect,
-      rootRect,
-      layerRect,
+      positionStore,
       closeOnInteractOutside,
       placement,
       gutter,
@@ -284,10 +320,7 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       mounted,
       positioned,
       side,
-      position,
-      referenceRect,
-      rootRect,
-      layerRect,
+      positionStore,
       closeOnInteractOutside,
       placement,
       gutter,

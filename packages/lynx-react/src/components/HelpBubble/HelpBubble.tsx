@@ -98,12 +98,11 @@ export const HelpBubbleRoot = React.forwardRef<unknown, HelpBubbleRootProps>((pr
     flip,
     closeOnInteractOutside,
   });
-  const classes = helpBubble({
-    open: api.open,
-    positioned: api.positioned,
-    side: api.position?.placement.split("-")[0] as HelpBubbleSide | undefined,
-    pressed: false,
-  });
+  const side = api.positioned ? (api.side as HelpBubbleSide) : undefined;
+  const classes = React.useMemo(
+    () => helpBubble({ open: api.open, positioned: api.positioned, side, pressed: false }),
+    [api.open, api.positioned, side],
+  );
 
   return (
     <PopoverProvider value={api}>
