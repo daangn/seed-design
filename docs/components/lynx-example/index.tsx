@@ -22,16 +22,26 @@ export async function LynxComponentExample({ name, height, children }: LynxCompo
 
   return (
     <ErrorBoundary>
-      <Tabs card className="!overflow-hidden" items={["미리보기", "QR 코드", "코드"]}>
+      <Tabs card className="!overflow-hidden" items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          <LynxComponentPreview
-            url={archivePaths.asset(entry.web)}
-            example={name}
-            height={height}
-          />
-        </Tab>
-        <Tab value="QR 코드">
-          <LynxComponentQRCode name={name} bundlePath={archivePaths.asset(entry.lynx)} />
+          {/* 카드 폭 기준으로 배치한다. 좁으면 QR 패널이 미리보기 아래로 내려간다. */}
+          <div className="@container">
+            <div className="flex flex-col @xl:flex-row">
+              <div className="min-w-0 flex-1">
+                <LynxComponentPreview
+                  url={archivePaths.asset(entry.web)}
+                  example={name}
+                  height={height}
+                />
+              </div>
+              <aside
+                aria-label="Lynx Explorer에서 열기"
+                className="flex shrink-0 flex-col items-center justify-center border-0 border-t border-solid border-stroke-neutral-muted @xl:w-[220px] @xl:border-t-0 @xl:border-l"
+              >
+                <LynxComponentQRCode name={name} bundlePath={archivePaths.asset(entry.lynx)} />
+              </aside>
+            </div>
+          </div>
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>

@@ -111,7 +111,7 @@ entry 파일 규칙(default export, `standalone.tsx` bootstrap, `./styles` 첫 i
 
 아이콘 `tint-color`처럼 native에서만 최종 결과가 보이는 경우의 수준:
 
-> 문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 탭에서 Lynx Explorer를 실행해 확인할 수 있어요.
+> 문서 미리보기에서는 아이콘 색상이 적용되지 않아요. 아이콘의 실제 색상은 QR 코드 패널에서 Lynx Explorer를 실행해 확인할 수 있어요.
 
 ## 이미지 자산
 

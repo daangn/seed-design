@@ -76,11 +76,10 @@ export function LynxComponentQRCode({
 
   if (result?.error)
     return (
-      <div
-        className="flex flex-col items-center gap-3 p-x5 text-sm text-fd-muted-foreground"
-        role="status"
-      >
-        <p>예제 번들에 접근할 수 없습니다. 네트워크를 확인하거나 문서를 새로고침해 주세요.</p>
+      <output className="flex flex-col items-center gap-3 p-x5 text-center text-sm break-keep text-fd-muted-foreground">
+        <p className="m-0">
+          예제 번들에 접근할 수 없습니다. 네트워크를 확인하거나 문서를 새로고침해 주세요.
+        </p>
         <ActionButton
           variant="neutralWeak"
           size="small"
@@ -88,36 +87,44 @@ export function LynxComponentQRCode({
         >
           다시 확인
         </ActionButton>
-      </div>
+      </output>
     );
 
   if (!urls)
-    return <div className="p-x5 text-sm text-fd-muted-foreground">URL을 준비하는 중입니다.</div>;
+    return (
+      <div className="p-x5 text-center text-sm text-fd-muted-foreground">
+        URL을 준비하는 중입니다.
+      </div>
+    );
 
   const currentQr = qr?.url === urls.qr ? qr : undefined;
 
   return (
-    <div className="flex flex-col items-center gap-4 p-x8 text-center not-prose">
+    <div className="flex flex-col items-center gap-3 p-x5 text-center break-keep not-prose">
+      <p className="m-0 text-xs text-fd-muted-foreground text-pretty">
+        Lynx Explorer로 스캔해 기기에서 확인하세요.
+      </p>
       {currentQr?.data ? (
         // biome-ignore lint/performance/noImgElement: 브라우저에서 생성한 data URL은 최적화 대상이 아닙니다.
         <img src={currentQr.data} width={120} height={120} alt="Lynx Explorer 실행 QR 코드" />
       ) : currentQr?.error ? (
-        <p className="m-0 text-sm text-fd-muted-foreground">QR 코드를 만들지 못했습니다.</p>
+        <p className="m-0 text-sm text-fd-muted-foreground text-pretty">
+          QR 코드를 만들지 못했습니다.
+        </p>
       ) : (
         <div className="h-[120px] w-[120px] animate-pulse rounded-r2 bg-fd-muted" />
       )}
-
       {result?.updated && (
-        <p className="m-0 text-sm text-fd-muted-foreground" role="status">
+        <output className="m-0 text-xs text-fd-muted-foreground text-pretty">
           예제가 업데이트되어 현재 배포된 버전을 엽니다. 코드와 미리보기도 갱신하려면 문서를
           새로고침해 주세요.
-        </p>
+        </output>
       )}
-      <div className="flex flex-col justify-center items-center gap-2">
-        <ActionButton asChild variant="neutralSolid" size="small">
+      <div className="flex flex-col items-center gap-2">
+        <ActionButton asChild variant="neutralSolid" size="xsmall">
           <a href={urls.explorer}>Open In Lynx Explorer</a>
         </ActionButton>
-        <ActionButton type="button" onClick={copy} variant="neutralWeak" size="small">
+        <ActionButton type="button" onClick={copy} variant="neutralWeak" size="xsmall">
           {copied ? "Copied!" : "Copy To Clipboard"}
         </ActionButton>
       </div>
