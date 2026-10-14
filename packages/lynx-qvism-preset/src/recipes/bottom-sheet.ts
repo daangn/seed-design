@@ -15,6 +15,8 @@ const bottomSheet = defineSlotRecipe({
     "content",
     "header",
     "body",
+    "scrollArea",
+    "scrollContent",
     "footer",
     "title",
     "description",
@@ -105,6 +107,16 @@ const bottomSheet = defineSlotRecipe({
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,
+    },
+    // Lynx drops `gap` on a `scroll-view`, so `scrollContent` lays the children out inside it.
+    scrollArea: {
+      width: "100%",
+      flexShrink: 1,
+      minHeight: "0",
+    },
+    scrollContent: {
+      display: "flex",
+      flexDirection: "column",
     },
     footer: {
       display: "flex",

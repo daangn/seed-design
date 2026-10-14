@@ -2399,6 +2399,17 @@ text {
   display: flex;
 }
 
+.seed-bottom-sheet__scrollArea {
+  flex-shrink: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.seed-bottom-sheet__scrollContent {
+  flex-direction: column;
+  display: flex;
+}
+
 .seed-bottom-sheet__footer {
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);

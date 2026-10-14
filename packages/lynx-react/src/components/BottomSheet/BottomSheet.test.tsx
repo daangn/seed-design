@@ -101,7 +101,7 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("renders Body as a composable view with an explicit ScrollFog child", () => {
+  it("renders Body as a view around a vertical scroll-view that holds its children", () => {
     const bodyRef = createRef<unknown>();
     const { container } = render(
       <BottomSheet.Root>
@@ -116,14 +116,19 @@ describe("BottomSheet", () => {
     );
 
     const body = container.querySelector(".custom-body");
-    const scrollViews = body?.querySelectorAll("scroll-view");
+    const scrollArea = body?.firstElementChild;
+    const fogScrollViews = scrollArea?.querySelectorAll("scroll-view");
 
     expect(body?.tagName.toLowerCase()).toBe("view");
     expect(body).toHaveStyle({ height: "200px" });
     expect(bodyRef.current).not.toBeNull();
-    expect(scrollViews).toHaveLength(1);
-    expect(scrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
-    expect(scrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
+    expect(scrollArea?.tagName.toLowerCase()).toBe("scroll-view");
+    expect(scrollArea).toHaveClass("seed-bottom-sheet__scrollArea");
+    expect(scrollArea).toHaveAttribute("scroll-orientation", "vertical");
+    expect(scrollArea?.firstElementChild).toHaveClass("seed-bottom-sheet__scrollContent");
+    expect(fogScrollViews).toHaveLength(1);
+    expect(fogScrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
+    expect(fogScrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
   });
 
   it("forwards native Header props while preserving its children", () => {

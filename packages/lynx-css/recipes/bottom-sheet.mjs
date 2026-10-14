@@ -23,6 +23,14 @@ const bottomSheetSlotNames = [
     "seed-bottom-sheet__body"
   ],
   [
+    "scrollArea",
+    "seed-bottom-sheet__scrollArea"
+  ],
+  [
+    "scrollContent",
+    "seed-bottom-sheet__scrollContent"
+  ],
+  [
     "footer",
     "seed-bottom-sheet__footer"
   ],

@@ -40,6 +40,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { IconSlotProvider } from "../Icon/Icon";
+import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -350,7 +351,37 @@ export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
-export const BottomSheetBody = createViewSlot("body");
+
+/**
+ * Scrolls once the sheet reaches its max height. `className` and `style` go on the view around the
+ * `scroll-view`.
+ */
+export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
+  unknown,
+  BottomSheetBodyProps
+>((props, ref) => {
+  const { children, className, style } = props;
+  const classNames = useClassNames();
+  const gestureProps = useSheetScrollGestureProps();
+
+  return (
+    <view
+      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      className={clsx(classNames.body, className)}
+      style={style as never}
+    >
+      <scroll-view
+        {...gestureProps}
+        className={classNames.scrollArea}
+        scroll-orientation="vertical"
+        // The sheet's drag already moves it at the body's edges; a bounce would add to that.
+        bounces={false}
+      >
+        <view className={classNames.scrollContent}>{children}</view>
+      </scroll-view>
+    </view>
+  );
+});
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
