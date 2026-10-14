@@ -63,6 +63,28 @@ const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((pro
 MockIcon.displayName = "MockIcon";
 
 describe("ActionButton", () => {
+  it("applies bleed as negative root margins without forwarding bleed props", () => {
+    render(
+      <ActionButton bleedX="8px" bleedY="4px">
+        Submit
+      </ActionButton>,
+    );
+
+    const root = getActionButtonRoot();
+    expect(root.style.marginTop).toBe("calc(-4px)");
+    expect(root.style.marginRight).toBe("calc(-8px)");
+    expect(root.style.marginBottom).toBe("calc(-4px)");
+    expect(root.style.marginLeft).toBe("calc(-8px)");
+    expect(root).not.toHaveAttribute("bleedX");
+    expect(root).not.toHaveAttribute("bleedY");
+  });
+
+  it("rejects dimension tokens as bleed values", () => {
+    // @ts-expect-error Lynx drops an inline calc() that contains a token's var().
+    const invalid = <ActionButton bleedX="x4">Submit</ActionButton>;
+    expect(invalid).toBeDefined();
+  });
+
   it("keeps the original label in the text slot while loading", () => {
     render(<ActionButton loading>Submit</ActionButton>);
 
