@@ -2392,10 +2392,23 @@ text {
 }
 
 .seed-bottom-sheet__closeButton {
+  top: var(--seed-dimension-x6);
+  right: var(--seed-dimension-x4);
+  border-radius: var(--seed-radius-full);
+  background-color: var(--seed-color-bg-neutral-weak);
   justify-content: center;
   align-items: center;
+  width: 28px;
+  height: 28px;
   display: flex;
   position: absolute;
+}
+
+.seed-bottom-sheet__closeButtonIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--seed-color-fg-neutral);
+  flex-shrink: 0;
 }
 
 .seed-bottom-sheet__header--headerAlign_left {
@@ -2415,6 +2428,16 @@ text {
 .seed-bottom-sheet__title--headerAlign_center {
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
+}
+
+.seed-bottom-sheet__title--headerAlign_left-closeButton_true {
+  padding-left: var(--seed-dimension-spacing-x-global-gutter);
+  padding-right: 56px;
+}
+
+.seed-bottom-sheet__title--headerAlign_center-closeButton_true {
+  padding-left: 56px;
+  padding-right: 56px;
 }
 
 .seed-attachment-input__root {

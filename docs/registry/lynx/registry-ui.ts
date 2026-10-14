@@ -54,7 +54,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: lynxSeedPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },

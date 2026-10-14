@@ -123,7 +123,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### `onOpenChange` Details
 
-`onOpenChange`의 두 번째 인자는 `{ reason }`입니다. Trigger로 열면 `"trigger"`, 배경을 탭해 닫으면 `"interactOutside"`, 시트를 끌어 닫으면 `"drag"`입니다. 닫히는 중에 시트를 다시 끌어 올리면 `open`이 `true`인 `"drag"`가 전달됩니다. Root ref의 메서드나 `open` prop으로 바꾼 상태에는 호출되지 않습니다. React 버전의 `escapeKeyDown`처럼 Lynx에 해당 입력이 없는 reason은 제공하지 않습니다.
+`onOpenChange`의 두 번째 인자는 `{ reason }`입니다. Trigger로 열면 `"trigger"`, 닫기 버튼으로 닫으면 `"closeButton"`, 배경을 탭해 닫으면 `"interactOutside"`, 시트를 끌어 닫으면 `"drag"`입니다. 닫히는 중에 시트를 다시 끌어 올리면 `open`이 `true`인 `"drag"`가 전달됩니다. Root ref의 메서드나 `open` prop으로 바꾼 상태에는 호출되지 않습니다. React 버전의 `escapeKeyDown`처럼 Lynx에 해당 입력이 없는 reason은 제공하지 않습니다.
 
 ### Header Align
 
@@ -177,7 +177,17 @@ Lynx는 `fadeFromIndex`를 지원하지 않습니다. snap index에 따른 Backd
 
 ### Show Close Button
 
-Lynx의 `BottomSheetContent`는 `showCloseButton`과 CloseButton을 지원하지 않습니다. 닫기 버튼이 필요하면 controlled 상태를 사용하고 `BottomSheetFooter`의 버튼에서 `open`을 `false`로 바꾸세요.
+`<BottomSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
+기본 값은 `true`입니다.
+
+showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
+이 경우 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/show-close-button" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/show-close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
 
 ### Dismissible
 
@@ -217,7 +227,7 @@ ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, 
 
 ## 웹 버전과의 차이
 
-- `onOpenChange`의 `reason`은 `trigger`, `interactOutside`, `drag`만 제공합니다.
+- `onOpenChange`의 `reason`은 `trigger`, `closeButton`, `interactOutside`, `drag`만 제공합니다.
 - Trigger는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다.
 - Root ref의 `open`, `close`, `snapTo`, `expand`, `collapse`로 시트를 제어할 수 있습니다. ref로 바꾼 상태는 `onOpenChange`로 알리지 않습니다.
 - `container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.
