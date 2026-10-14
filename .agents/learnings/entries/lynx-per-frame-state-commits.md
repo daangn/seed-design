@@ -27,8 +27,13 @@ verified_at: "2026-10-14"
   - 수정 전: 스크롤 중 `rLynxChange` 497회/s, `NoPatch!` 436회/s, 레이어별 측정 10.6회/s. 정지 상태에서도 root 측정 key가 5초에 1773회라 InvokeUIMethod 경고가 떴다. 측정 완료 뒤 레이어 하나의 갱신마다 commit 8–9개가 이어졌고, 다음 RAF까지 60–90ms가 걸렸다.
   - context를 위치·나머지로 나눈 중간 단계: commit 245회/s, 갱신당 3개(Root·Positioner·Arrow)였다.
   - store로 옮긴 뒤: commit 148회/s, `NoPatch!` 9회/s, 레이어별 측정 25.5회/s, 정지 상태 root key 233회/5s. 녹화에서 말풍선이 기준 요소를 따라오는 거리가 줄었다.
-- 남은 한계: 레이어마다 갱신이 따로 commit되므로 12개를 5초 넘게 계속 스크롤하면 `rLynxChange`가 경고 기준(5초 800회)에 닿는다. background thread에서 비동기로 측정하고 commit하는 구조라 빠른 스크롤에서는 몇 frame 늦게 따라온다. 지연을 없애려면 main thread에서 측정과 배치를 함께 하는 구조가 필요하다. DevTool 연결 시 DebugRouter가 style 변경마다 `DOM.attributeModified`를 보내는 부담도 측정에 섞여 있다.
+- 남은 한계: 레이어마다 갱신이 따로 commit되므로 12개를 5초 넘게 계속 스크롤하면 `rLynxChange`가 경고 기준(5초 800회)에 닿는다. background thread에서 비동기로 측정하고 commit하는 구조라 빠른 스크롤에서는 몇 frame 늦게 따라온다. DevTool 연결 시 DebugRouter가 style 변경마다 `DOM.attributeModified`를 보내는 부담도 측정에 섞여 있다.
+- main thread 추적은 같은 기기에서 더 나빴다 → 레이어마다 main thread RAF loop를 두는 방식은 쓰지 않는다. 레이어마다 `MainThread.Element.invoke("boundingClientRect")`로 기준 요소를 매 frame 측정하고 `setStyleProperties`로 `left`·`top`을 옮기는 시제품을 만들어, 같은 스와이프 3왕복의 `dumpsys gfxinfo`를 비교했다.
+  - background store 방식(기준): janky 6–7%, 50th 8ms, 90th 13–14ms.
+  - 측정과 style 적용: janky 90%, 50th 53ms. 측정만: 49%. 측정 없이 빈 RAF loop 12개만: 36%. Android Lynx Go에서는 main thread가 UI thread라, 레이어마다 도는 main thread frame callback 자체가 스크롤 frame을 밀어낸다.
+  - 값이 같으면 `setStyleProperties`를 건너뛰어야 정지 상태의 `NoPatch!`(초당 약 750회)가 사라진다.
 
 ## 변경 이력
 
 - 2026-10-14: HelpBubble 가로 스크롤 추적 지연·빈도 경고 조사에서 기록했다.
+- 2026-10-14: main thread 추적 시제품의 gfxinfo 비교 결과를 추가했다.
