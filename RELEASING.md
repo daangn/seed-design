@@ -22,12 +22,15 @@ bun pm pack --dry-run --ignore-scripts
 
 머지된 소스에서 빌드를 확인하고 `bun pm whoami`로 인증을 확인한다. 전체 public workspace의 미배포 버전이 승인된 릴리스 범위와 같은지 확인한다. Changesets는 마지막 changeset 외의 미배포 패키지도 배포할 수 있다.
 
+`@seed-design/css`의 `*.min.css`는 Git에 없는 생성물이다. `bun qvism:generate`를 건너뛰면 `exports`에 선언된 min 파일 없이 배포된다(2.9.1). `@seed-design/css`를 배포하면 `packages/css`에서 pack 결과에 `*.min.css` 4개가 있는지 확인한다.
+
 ```sh
+bun qvism:generate
 bun packages:build
 bun changeset publish --tag react-v2
 ```
 
-**태그 없는 `bun release`·`bun changeset publish`는 사용하지 않는다.** `latest`가 바뀔 수 있다. 이 브랜치에 머지하는 것만으로 npm 배포가 실행되지는 않는다.
+**태그 없는 `bun release`·`bun changeset publish`는 사용하지 않는다.** `latest`가 바뀔 수 있다. 위 명령은 `bun release`의 순서에 태그만 더한 것이다. 이 브랜치에 머지하는 것만으로 npm 배포가 실행되지는 않는다.
 
 ## 확인
 
