@@ -9,5 +9,6 @@
 - `Dialog`·`AlertDialog`는 위아래 inset도 피합니다. `Dialog`의 최대 높이는 화면 높이의 80%와 위아래 inset 사이 높이 중 작은 쪽입니다.
 - `AlertDialog.Content`는 자식을 세로 `scroll-view` 안에 렌더해서, 내용이 최대 높이를 넘으면 안에서 스크롤합니다. `Content`에 준 `className`·`style`은 이 `scroll-view`를 감싼 바깥 view에 적용됩니다.
 - 내용에 맞춰 높이가 정해지는 `BottomSheet`·`SwipeableMenuSheet`는 화면 높이의 90%를 넘지 않고, 위쪽 inset이 그보다 크면 inset 아래까지로 제한됩니다. 제한에 닿으면 `BottomSheet.Body`가 줄어들지만 스크롤되지는 않으므로, 긴 내용은 `Body` 안에 `scroll-view`를 두어야 합니다.
+- 내용에 맞춰 높이가 정해지는 `BottomSheet`에서 `Body`가 내용 높이만큼 커집니다. 이전에는 `Body`에 최소 높이를 주지 않으면 높이가 0이 되어 내용이 보이지 않았습니다.
 - `SwipeableMenuSheet.List`는 `scroll-view`로 렌더해서, 항목이 넘치면 목록만 스크롤하고 헤더와 닫기 버튼은 줄이지 않습니다. `List`의 `className`·`style`·`ref`는 이 `scroll-view`에 적용되고, 그룹 배치는 새 `listContent` 슬롯이 맡습니다.
 - `Menu`·`Select`·`HelpBubble`은 네 방향의 inset을 피해 위치를 잡고, `overflowPadding`을 화면 끝이 아니라 safe area 경계에서부터 잽니다.
