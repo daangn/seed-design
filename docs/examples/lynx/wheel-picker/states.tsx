@@ -1,6 +1,6 @@
 import "./styles";
 
-import { WheelPicker } from "@seed-design/lynx-react";
+import { WheelPicker } from "@/components/ui/wheel-picker";
 
 const options = ["낮음", "보통", "높음"].map((label) => ({ value: label, label }));
 
@@ -11,9 +11,17 @@ export default function WheelPickerStates() {
         Disabled
       </text>
       <view className="wheel-picker-preview__picker">
-        <WheelPicker.Root disabled>
-          <WheelPicker.Column accessibility-label="중요도" options={options} defaultValue="보통" />
-        </WheelPicker.Root>
+        <WheelPicker
+          disabled
+          columns={[
+            {
+              id: "priority",
+              "accessibility-label": "중요도",
+              options,
+              defaultValue: "보통",
+            },
+          ]}
+        />
       </view>
     </view>
   );

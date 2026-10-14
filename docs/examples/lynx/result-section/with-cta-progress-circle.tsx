@@ -1,6 +1,8 @@
 import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
 import { useEffect, useState } from "@lynx-js/react";
-import { ActionButton, AppBar, Box, Icon, ProgressCircle, VStack } from "@seed-design/lynx-react";
+import { ActionButton, Box, Icon, VStack } from "@seed-design/lynx-react";
+import { AppBar, AppBarMain } from "@/components/ui/app-bar";
+import { ProgressCircle } from "@/components/ui/progress-circle";
 import { ResultSection } from "@/components/ui/result-section";
 
 export default function Example() {
@@ -20,11 +22,9 @@ export default function Example() {
 
   return (
     <VStack width="full" maxWidth="360px" alignSelf="center" grow minHeight="0">
-      <AppBar.Root>
-        <AppBar.Main>
-          <AppBar.Title>환불 요청</AppBar.Title>
-        </AppBar.Main>
-      </AppBar.Root>
+      <AppBar>
+        <AppBarMain title="환불 요청" />
+      </AppBar>
       <VStack grow gap="x4" pb="safeArea">
         <ResultSection
           title={loading ? "환불을 요청하고 있어요" : "다시 시도해주세요"}
@@ -32,10 +32,7 @@ export default function Example() {
           asset={
             <Box pb="x4">
               {loading ? (
-                <ProgressCircle.Root>
-                  <ProgressCircle.Track />
-                  <ProgressCircle.Range />
-                </ProgressCircle.Root>
+                <ProgressCircle />
               ) : (
                 <Icon icon={<IconExclamationmarkCircleFill />} size="x10" color="fg.critical" />
               )}

@@ -1,12 +1,8 @@
-import IconXmarkFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkFill";
 import { useRef, useState } from "@lynx-js/react";
-import { AttachmentDisplay as SeedAttachmentDisplay, Icon, VStack } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 import type { AttachmentDisplayEntry } from "@seed-design/lynx-react";
 import { AttachmentDisplayField } from "@/components/ui/attachment-display-field";
-import {
-  AttachmentDisplayReorderable,
-  SortableAttachmentDisplayItem,
-} from "@/components/ui/attachment-display-field-reorderable";
+import { AttachmentDisplayReorderable } from "@/components/ui/attachment-display-field-reorderable";
 
 const INITIAL_ENTRIES: AttachmentDisplayEntry[] = [
   {
@@ -40,23 +36,7 @@ export default function AttachmentDisplayReorderableExample() {
               { id, thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`, status: "success" },
             ]);
           }}
-        >
-          {({ entries: currentEntries }) =>
-            currentEntries.map((entry, index) => (
-              <SortableAttachmentDisplayItem key={entry.id} entry={entry} index={index}>
-                <SeedAttachmentDisplay.ItemSurface>
-                  <SeedAttachmentDisplay.ItemImage />
-                  {index === 0 ? (
-                    <SeedAttachmentDisplay.ItemBadge>대표사진</SeedAttachmentDisplay.ItemBadge>
-                  ) : null}
-                </SeedAttachmentDisplay.ItemSurface>
-                <SeedAttachmentDisplay.ItemRemoveButton accessibility-label="파일 제거">
-                  <Icon icon={<IconXmarkFill />} />
-                </SeedAttachmentDisplay.ItemRemoveButton>
-              </SortableAttachmentDisplayItem>
-            ))
-          }
-        </AttachmentDisplayReorderable>
+        />
       </AttachmentDisplayField>
     </VStack>
   );

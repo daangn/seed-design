@@ -2,13 +2,14 @@ import "./styles";
 
 import IconArrowClockwiseCircularFill from "@karrotmarket/lynx-monochrome-icon/IconArrowClockwiseCircularFill";
 import { useRef, useState } from "@lynx-js/react";
-import { ActionButton, type BottomSheetRootRef, PrefixIcon } from "@seed-design/lynx-react";
+import { ActionButton, PrefixIcon } from "@seed-design/lynx-react";
 
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
+  type BottomSheetRootRef,
   BottomSheetTrigger,
 } from "@/components/ui/bottom-sheet";
 import { List, ListCheckItem } from "@/components/ui/list";
