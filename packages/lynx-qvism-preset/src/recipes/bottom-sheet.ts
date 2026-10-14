@@ -97,6 +97,11 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      // Not `flex: 1`: Lynx sizes a fitted sheet from its children's flex bases, so a zero basis
+      // collapses the body to nothing.
+      flexGrow: 1,
+      flexShrink: 1,
+      minHeight: "0",
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,
