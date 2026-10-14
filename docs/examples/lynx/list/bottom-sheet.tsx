@@ -26,7 +26,7 @@ export default function Example() {
         <ActionButton variant="neutralSolid">BottomSheet 열기</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="교통수단" description="이동할 교통수단을 선택해주세요.">
-        <BottomSheetBody style={{ flex: "none", height: "280px" }}>
+        <BottomSheetBody style={{ height: "280px" }}>
           <List>
             {TYPES.map((type) => (
               <ListCheckItem

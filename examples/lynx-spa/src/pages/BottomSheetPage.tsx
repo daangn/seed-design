@@ -127,15 +127,17 @@ function BottomSheetExamples() {
           description="Body 영역만 세로로 스크롤됩니다."
           showHandle
         >
-          <BottomSheetBody className="gap-x2">
-            {SHEET_LIST_ITEMS.map((item) => (
-              <view key={item} className="p-x3 rounded-r3 bg-bg-neutral-muted">
-                <text className="t3-bold text-fg-neutral">{item}</text>
-                <text className="t2-regular text-fg-neutral-muted">
-                  BottomSheetBody 내부의 스크롤 항목입니다.
-                </text>
-              </view>
-            ))}
+          <BottomSheetBody>
+            <view className="flex flex-col gap-x2">
+              {SHEET_LIST_ITEMS.map((item) => (
+                <view key={item} className="p-x3 rounded-r3 bg-bg-neutral-muted">
+                  <text className="t3-bold text-fg-neutral">{item}</text>
+                  <text className="t2-regular text-fg-neutral-muted">
+                    BottomSheetBody 내부의 스크롤 항목입니다.
+                  </text>
+                </view>
+              ))}
+            </view>
           </BottomSheetBody>
           <BottomSheetFooter>
             <text className="t3-regular text-fg-neutral">고정 하단 영역</text>
