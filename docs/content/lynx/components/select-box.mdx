@@ -47,9 +47,9 @@ npx @seed-design/cli@latest add ui:select-box
 
 <react-type-table path="./registry/lynx/ui/select-box.tsx" name="RadioSelectBoxRootProps" />
 
-`RadioSelectBoxRoot`는 `RadioGroupField.Root`를 사용해 선택 상태와 접근성을 관리합니다. `label`, `labelWeight`, `indicator`, `showRequiredIndicator`, `description`, `errorMessage`로 안내 정보를 구성하고, `invalid`로 오류 상태를 지정할 수 있습니다. `invalid`가 `true`이고 `errorMessage`가 있으면 `description` 대신 오류 메시지를 표시합니다.
+`RadioSelectBoxRoot`는 `label`, `description`, `errorMessage`, `invalid`를 지원합니다. `invalid`가 `true`이고 `errorMessage`가 있으면 description 대신 오류 메시지를 표시합니다.
 
-`columns`는 내부 항목 그룹의 열 수를 지정합니다. `className`과 `style`은 내부 그룹이 아니라 바깥 `RadioGroupField.Root`에 적용됩니다.
+`columns`는 항목의 열 수를 지정합니다. `className`과 `style`은 그룹 바깥의 Root에 적용됩니다.
 
 #### `RadioSelectBoxItem`
 
@@ -136,12 +136,7 @@ npx @seed-design/cli@latest add ui:select-box
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx `Select Box`는 React 버전과 다음 차이가 있습니다.
-
-- **React Hook Form 미지원**: Lynx에는 native form 제출 모델이 없어 React Hook Form 예제를 제공하지 않습니다.
-- **Field 구성**: 라디오 그룹은 `RadioGroupField`로 label, description, error message를 연결할 수 있습니다. 체크박스 그룹은 React Registry의 Fieldset 연동을 제공하지 않습니다.
-- **form 제출 없음**: Hidden input과 `inputProps`, `name`, `required`를 제공하지 않습니다. 라디오 그룹의 오류 상태는 `RadioSelectBoxRoot`의 `invalid`와 `errorMessage`로 지정하세요.
-- **키보드 포커스 없음**: 브라우저의 키보드 focus 대신 네이티브 tap과 접근성 탐색을 사용합니다.
-- **접근성**: 그룹은 기본적으로 접근성 요소가 아니며 각 항목이 독립된 요소로 노출됩니다. 항목은 `flatten={false}`를 사용하고, 사용자 `accessibility-label`이 없으면 문자열 children이나 SEED 컴포넌트의 children에서 이름을 만듭니다. Registry의 문자열 `label`도 항목 이름으로 연결됩니다. raw `<text>`를 포함하거나 텍스트가 없는 항목에는 `accessibility-label`을 명시하세요. 내부 `Label`은 중복해서 읽지 않도록 접근성 트리에서 숨깁니다. `CheckSelectBox`의 `accessibility-value`는 `"checked"`·`"not checked"`, indeterminate이면 `"mixed"`이고, `RadioSelectBox`는 `"selected"`·`"not selected"`입니다. 사용자 접근성 prop은 기본값보다 우선합니다.
-</Callout>
+- Lynx에는 native form 제출 모델이 없어 React Hook Form, hidden input, `name`, `required`를 제공하지 않습니다. 선택 값과 오류 상태를 앱에서 관리하세요.
+- 라디오 그룹은 label, description, error message를 지원합니다. 체크박스 그룹은 React Registry의 Fieldset 연동을 제공하지 않습니다.
+- 브라우저 키보드 focus 대신 native tap과 접근성 탐색을 사용합니다.
+- 각 항목은 독립된 접근성 요소입니다. raw `<text>`를 포함하거나 텍스트가 없는 항목에는 `accessibility-label`을 지정하세요.

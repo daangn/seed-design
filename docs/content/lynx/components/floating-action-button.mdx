@@ -34,7 +34,7 @@ npx @seed-design/cli@latest add ui:floating-action-button
 
 ## Usage
 
-`FloatingActionButton`은 Lynx package의 `Root`, `Icon`, `Label`을 조합합니다. `label`은 필수이며, 기본으로 Root의 `accessibility-label`에도 사용됩니다. `extended`는 기본값이 `true`입니다.
+`label`은 필수이며 기본 접근성 이름으로도 사용됩니다. `extended`의 기본값은 `true`입니다.
 
 ```tsx
 import IconPlusLine from "@karrotmarket/lynx-monochrome-icon/IconPlusLine";
@@ -89,13 +89,7 @@ Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`�
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-
-- **이벤트**: `onClick` 대신 native `bindtap`을 사용합니다. React state를 바꾸는 handler가 wrapper를 거쳐 전달되면 handler 첫 줄에 `"background only"`를 둡니다.
-- **접근성**: `aria-label` 대신 `accessibility-label`을 사용합니다. Registry wrapper는 필수 `label`을 기본 접근성 이름으로 사용하므로 collapsed 상태에서도 이름을 보존합니다. `accessibility-traits`를 지정하지 않으면 활성 상태에서 `"button"`, `disabled`이면 `"disabled"`로 알립니다.
-- **렌더링**: HTML `<button>` / SVG 대신 native `<view>` / `<text>`와 Lynx icon tint를 렌더링합니다. `asChild`와 DOM button prop은 지원하지 않습니다.
-- **부동 배치**: React의 `<Float>` API는 제공하지 않습니다. 앱의 native absolute layout으로 `right`와 `bottom` 위치를 지정하세요.
-
-</Callout>
-
-`compatibility.lynx.engine`의 3.9는 package가 요구하는 `@lynx-js/types >=3.9.0` 및 Scale Feedback 경로의 최소 Engine 버전입니다. 실제 native host의 실행 버전은 별도로 확인하세요.
+- `onClick` 대신 `bindtap`을 사용합니다. React state를 바꾸는 handler의 첫 줄에는 `"background only"`를 두세요.
+- `aria-label` 대신 `accessibility-label`을 사용합니다. Registry는 필수 `label`을 기본 접근성 이름으로 사용합니다.
+- HTML button prop과 `asChild`는 지원하지 않습니다.
+- React의 `Float`은 제공하지 않습니다. native absolute layout으로 위치를 지정하세요.

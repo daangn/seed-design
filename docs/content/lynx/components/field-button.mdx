@@ -40,14 +40,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### Basic Usage
 
-`FieldButton`은 `TextField`와 유사한 외관을 갖지만, 값을 직접 편집하지 않고 선택창이나 피커를 여는 버튼입니다.
-
-- **`buttonProps`**
-  - **`bindtap`**: 버튼 tap handler
-  - **`accessibility-label`**: 버튼의 접근성 레이블
-- **`children`**
-  - `FieldButtonValue` 또는 `FieldButtonPlaceholder`로 구성
-  - 두 요소는 스타일만 다르며 접근성 트리에서는 숨겨집니다. 현재 값과 버튼을 눌렀을 때 일어날 동작을 `buttonProps["accessibility-label"]`로 설명하세요.
+`FieldButton`은 값을 직접 편집하지 않고 선택창이나 피커를 여는 버튼입니다. `buttonProps.bindtap`에 열기 동작을 전달하고, 선택 여부에 따라 `FieldButtonValue` 또는 `FieldButtonPlaceholder`를 자식으로 사용합니다.
 
 <LynxComponentExample name="lynx/field-button/basic-usage">
   ```json doc-gen:file
@@ -75,9 +68,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### `FieldButtonValue` & `FieldButtonPlaceholder`
 
-`FieldButtonValue`와 `FieldButtonPlaceholder`는 `FieldButton`의 자식으로 넣는 Lynx `<text>` 요소입니다. 두 요소는 스크린 리더가 중복해 읽지 않도록 접근성 트리에서 숨겨집니다.
-
-현재 값과 버튼 동작은 `buttonProps["accessibility-label"]`로 함께 제공하세요.
+`FieldButtonValue`는 선택된 값을, `FieldButtonPlaceholder`는 값이 없을 때의 안내를 표시합니다. 두 요소의 텍스트는 스크린 리더가 중복해 읽지 않도록 접근성 트리에서 숨겨집니다.
 
 <LynxComponentExample name="lynx/field-button/value-placeholder">
   ```json doc-gen:file
@@ -90,7 +81,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 ### Accessibility
 
-**Field Button 내부 버튼에 `accessibility-label`을 제공하세요.** 버튼을 눌렀을 때 어떤 선택 화면이 열리는지 설명하고, 현재 선택된 값이 있으면 그 값도 포함합니다.
+Field Button 내부 버튼의 `accessibility-label`에 열리는 선택 화면과 현재 선택된 값을 함께 설명하세요.
 
 ```tsx
 <FieldButton
@@ -193,8 +184,6 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 ### Customizable Parts
 
-아이콘만으로 의미를 전달하지 마세요. `label`, `description`, `buttonProps["accessibility-label"]`에 선택 대상과 현재 값을 텍스트로 설명합니다.
-
 #### Prefix
 
 <LynxComponentExample name="lynx/field-button/prefix">
@@ -243,13 +232,9 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 ## Web Version Differences
 
-본문은 배경을 유지하고 콘텐츠만 축소하는 Content Scale을, ClearButton은 자체 영역을 축소하는 Root Scale을 적용합니다. Primitive를 직접 조합할 때는 Button을 Root의 직접 자식 또는 Fragment 안에 배치해야 본문 Content Scale이 연결됩니다. Button을 사용자 정의 컴포넌트로 감싸면 본문 Content Scale은 적용되지 않습니다.
-
 - HTML `<button>` 대신 Lynx `<view>`에 tap handler와 `accessibility-*` 속성을 적용합니다.
 - `onClick` 대신 `buttonProps.bindtap`을 사용합니다. main thread handler가 필요하면 `buttonProps["main-thread:bindtap"]`을 사용할 수 있습니다.
 - `aria-label` 대신 `buttonProps["accessibility-label"]`을 사용합니다.
-- 선택 값은 React와 같이 `values`와 `onValuesChange`로 전달합니다. Root는 값을 소유하지 않습니다.
-- `size="responsive"`는 지원하지 않습니다. `large` 또는 `medium`을 지정합니다.
 
 ## Unsupported Lynx Features
 

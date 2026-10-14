@@ -1,6 +1,6 @@
 ---
 title: Divider
-description: 시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.
+description: 콘텐츠 영역을 시각적으로 구분하는 컴포넌트입니다.
 compatibility:
   lynx:
     engine: "1.1"
@@ -23,10 +23,6 @@ compatibility:
 @seed-design/lynx-react @seed-design/lynx-css
 ```
 
-<Callout>
-Lynx `Divider`는 별도 `ui:divider` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
-</Callout>
-
 ## Props
 
 <react-type-table path="../packages/lynx-react/src/components/Divider/Divider.tsx" name="DividerProps" />
@@ -43,9 +39,7 @@ import { Divider } from "@seed-design/lynx-react";
 
 ## Screen Reader Behavior
 
-Divider는 기본적으로 접근성 트리에 포함되며 `accessibility-role-description="separator"`를 전달합니다. 스크린 리더는 해당 요소를 구분선으로 읽습니다.
-
-Divider가 의미를 가지지 않은 장식적 요소라면, `accessibility-element={false}`를 지정해 스크린 리더가 해당 요소를 읽지 않도록 해야 합니다.
+Divider는 기본적으로 접근성 트리에 포함되며 구분선으로 읽힙니다. 장식용이라면 `accessibility-element={false}`를 지정하세요.
 
 ## Examples
 
@@ -77,14 +71,11 @@ Divider가 의미를 가지지 않은 장식적 요소라면, `accessibility-ele
 
 ## Web Version Differences
 
-- HTML `<hr>` 대신 Lynx native `<view>`를 렌더링합니다.
-- 웹과 동일하게 `color`, `thickness`, `orientation`, `inset`을 지원합니다.
-- Lynx 접근성 속성은 Web의 ARIA 속성 대신 `accessibility-*` 형식을 사용합니다.
-- Web은 vertical Divider에 `aria-orientation="vertical"`을 전달하지만, Lynx 접근성 속성에는 방향을 전달할 속성이 없어 방향 의미를 노출하지 않습니다.
-- Web은 horizontal Divider가 block 요소의 기본 너비로 부모를 채우고, vertical Divider는 높이를 지정하지 않아 flex 부모의 교차축 stretch로 높이를 채웁니다. Lynx는 native layout에서 같은 결과를 내도록 horizontal은 `width: 100%`, vertical은 `height: 100%`를 지정하므로 vertical은 부모가 높이를 확정해야 합니다. `inset`이면 양끝 16px 간격을 뺀 `calc(100% - 32px)`를 사용합니다.
-- React 버전과 마찬가지로 package export로 제공하며 Registry snippet은 제공하지 않습니다.
+- native `<view>`를 렌더링하며 Lynx 접근성 속성을 사용합니다.
+- 세로 Divider의 방향은 접근성 트리에 별도로 노출되지 않습니다.
+- 세로 Divider는 부모가 높이를 지정해야 합니다.
 
 ## Unsupported Lynx Features
 
-- Lynx에는 `<hr>`, `<div>`, `<li>`에 대응하는 다형 렌더링이 없으므로 Web Divider의 `as` prop을 제공하지 않습니다.
-- `<hr>`의 암시적 separator semantics가 없습니다. 컴포넌트가 기본으로 전달하는 `accessibility-role-description`과 `accessibility-element`로 접근성 노출 여부를 조정하세요.
+- 웹의 `as` prop을 지원하지 않습니다.
+- 접근성 노출 여부는 `accessibility-element`로 조정합니다.

@@ -78,13 +78,11 @@ export function App() {
 }
 ```
 
-Registry의 `TabsList`는 `Tabs.Indicator`를 자동으로 추가합니다. `TabsCarousel`도 내부에서 `Tabs.CarouselCamera`를 조립하므로 각 `TabsContent`만 자식으로 전달하면 됩니다.
+`TabsCarousel`에는 `TabsContent`를 자식으로 전달합니다. 앱 레이아웃에 맞는 높이를 지정하고, `swipeable`을 설정하면 좌우 스와이프로 탭을 바꿀 수 있습니다.
 
-`TabsCarousel`은 Lynx 네이티브 `<viewpager>`를 사용합니다. Carousel에 앱 레이아웃에 맞는 높이를 지정해야 하며, `swipeable`을 설정하면 좌우 스와이프로 탭을 바꿀 수 있습니다.
+iOS의 화면 왼쪽 가장자리에서 시작하는 뒤로 가기 제스처 범위는 `iosBackGestureEdgeWidth`로 조절할 수 있습니다.
 
-iOS에서는 화면 왼쪽 32px 안에서 시작하는 뒤로가기 제스처를 우선합니다. 앱의 제스처 영역과 맞춰야 한다면 `iosBackGestureEdgeWidth`로 너비를 조정하세요.
-
-`TabsList`의 `scrollAlign`은 선택한 tab을 가로 목록에 맞추는 방식이며 `"nearest"`, `"start"`, `"center"`, `"end"`를 사용할 수 있습니다. 기본값은 `"start"`로 선택한 tab을 목록 시작에 맞춥니다. Chip Tabs의 `ChipTabsList`는 같은 옵션을 지원하지만 기본값이 `"nearest"`입니다.
+`TabsList`의 `scrollAlign`은 선택한 탭을 가로 목록에 맞추는 방식입니다. `"nearest"`, `"start"`, `"center"`, `"end"`를 지원하며 기본값은 `"start"`입니다.
 
 
 ## Examples
@@ -211,31 +209,20 @@ Lynx는 `carouselPreventDrag`를 지원하지 않습니다. Carousel 안에서 �
 
 ## Web Version Differences
 
-| 항목 | React Web | Lynx |
-|---|---|---|
-| 렌더링 요소 | HTML `div`, `button` | 네이티브 `view`, `text`, `scroll-view`, `viewpager` |
-| 탭 선택 이벤트 | `onClick` 기반 | `bindtap` 기반, 공개 상태 이벤트는 `onValueChange` |
-| Carousel | Embla Carousel | 네이티브 `<viewpager>` |
-| 가로 List | CSS overflow | 네이티브 `<scroll-view>` |
-| 제어 방식 | `value`, `defaultValue` | 동일 |
-| 접근성 | ARIA `tablist`, `tab`, `tabpanel` | Lynx `accessibility-*` 속성 |
-| Indicator | DOM 측정과 CSS 변수 | `bindlayoutchange` 측정과 viewpager offset 보간 |
+- 탭 이벤트는 `onClick` 대신 `bindtap`으로 받습니다.
+- Carousel은 네이티브 `<viewpager>`, 가로 탭 목록은 `<scroll-view>`를 사용합니다.
+- 접근성은 ARIA 대신 Lynx의 `accessibility-*` 속성을 사용합니다.
 
 <Callout type="info">
-스와이프 관성, 비활성 탭 건너뛰기, Indicator 이동은 QR 코드 패널에서 Lynx Explorer로 확인하세요. 문서의 브라우저 미리보기와 네이티브 기기의 제스처 결과가 다를 수 있습니다.
+스와이프와 Indicator 이동은 QR 코드 패널에서 Lynx Explorer로 확인하세요. 브라우저 미리보기와 네이티브 기기의 제스처 결과가 다를 수 있습니다.
 </Callout>
 
 ## Unsupported Lynx Features
-
-현재 Lynx 구현은 다음 Web 기능을 지원하지 않습니다.
 
 - 세로 `orientation`
 - 키보드 방향키, Home/End, roving focus
 - RTL 순서와 스와이프 방향 반전
 - `asChild`
 - `lazyMount`, `unmountOnExit`
-- Carousel의 `loop`, `autoHeight`, `dragThreshold`
-- `carouselPreventDrag`
+- Carousel의 `loop`, `autoHeight`, `dragThreshold`, `carouselPreventDrag`
 - 콘텐츠 전환 애니메이션
-
-Lynx의 native viewpager는 page slot을 유지해야 하므로 Carousel 콘텐츠를 lazy unmount하지 않습니다.

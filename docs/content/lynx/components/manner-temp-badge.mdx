@@ -31,7 +31,7 @@ npx @seed-design/cli@latest add ui:manner-temp-badge
 
 ## 사용법
 
-`temperature`에 매너온도를 전달하면 온도 구간에 맞는 `level`을 계산하고 `36.5°C`처럼 표시합니다. `level`을 직접 전달하면 계산 결과 대신 그 값을 사용합니다.
+`temperature`를 전달하면 구간에 맞는 `level`을 계산해 온도를 표시합니다. `level`을 직접 지정하면 계산 결과보다 우선합니다.
 
 ```tsx
 import { MannerTempBadge } from "@/components/ui/manner-temp-badge";
@@ -41,9 +41,9 @@ export function App() {
 }
 ```
 
-### 패키지 직접 사용
+### 직접 구성하기
 
-표시 문구를 바꾸려면 `@seed-design/lynx-react`의 `MannerTempBadge`에 `level`과 자식을 직접 전달합니다. 자식은 label `<text>` 안에 렌더링되므로 문자열이나 숫자를 전달하세요.
+표시 문구를 바꾸려면 `MannerTempBadge`에 `level`과 문자열 또는 숫자 자식을 전달합니다.
 
 ```tsx
 import { MannerTempBadge } from "@seed-design/lynx-react";
@@ -57,8 +57,7 @@ export function App() {
 
 <Callout type="warning">
 
-- **렌더링 요소.** HTML `<span>` 대신 native `<view>`와 `<text>`를 렌더링합니다.
-- **다형 렌더링.** 웹의 `asChild`는 제공하지 않습니다.
-- **native 속성.** HTML 속성 대신 root `<view>`의 native 속성(`id`, `accessibility-*`, `bind*`·`main-thread:*` 이벤트, `data-*` 등)을 받아 그대로 전달합니다. 컴포넌트가 정한 값과 같은 속성을 넘기면 넘긴 값이 이깁니다.
+- HTML 속성 대신 Lynx native 속성을 사용합니다.
+- 웹의 `asChild`는 지원하지 않습니다.
 
 </Callout>

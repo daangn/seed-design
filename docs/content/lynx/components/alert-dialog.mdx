@@ -25,8 +25,6 @@ npx @seed-design/cli add ui:alert-dialog
 
 <LynxManualInstallation name="alert-dialog" />
 
-`@seed-design/lynx-react`는 `AlertDialog` namespace API를 제공합니다. 저수준 package API에서는 `AlertDialog.Root`, `AlertDialog.Trigger`, `AlertDialog.Positioner`, `AlertDialog.Backdrop`, `AlertDialog.Content`와 slot 컴포넌트를 조합할 수 있습니다. `AlertDialog.Backdrop`은 기본적으로 탭해도 닫히지 않고(`clickToClose` 기본값 `false`), `AlertDialog.Title`은 `accessibility-heading`을 기본으로 적용합니다. `AlertDialog.Content`는 접근성 요소가 아니므로 제목·설명·action이 각각 접근성 트리에 노출됩니다. Content를 `accessibility-element`로 지정하면 iOS에서 안쪽 요소가 가려지니 주의하세요. Registry는 자주 사용하는 조합을 flat export로 제공하므로 `AlertDialogRoot`, `AlertDialogTrigger`, `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogFooter`, `AlertDialogAction`을 `@/components/ui/alert-dialog`에서 가져옵니다. Registry의 `AlertDialogContent`는 `Positioner`와 `Backdrop`을 내부에서 조립합니다.
-
 ## Usage
 
 ```tsx
@@ -63,7 +61,9 @@ export function App() {
 }
 ```
 
-`AlertDialogTrigger`는 자식 요소를 감싸는 native `view`를 렌더링합니다. Trigger가 버튼 역할과 이름을 노출하고 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않습니다. 이름은 문자열 children에서 만들며 직접 전달한 `accessibility-label`이 우선합니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요. `AlertDialogAction`은 `ActionButton` props를 받고, 탭하면 Alert Dialog를 닫습니다. `disabled` 또는 `loading`이면 탭해도 닫지 않습니다. Alert Dialog는 사용자의 확인이 필요한 흐름에 사용하므로 기본 Backdrop 탭으로 닫히지 않습니다.
+`AlertDialogTrigger`는 자식을 native `view`로 감쌉니다. 문자열 children에서 접근성 이름을 만들며, `accessibility-label`을 직접 지정하면 그 값을 사용합니다. raw `<text>`처럼 이름을 만들 수 없는 자식에는 이름을 명시하세요.
+
+`AlertDialogAction`은 탭하면 Alert Dialog를 닫지만, `disabled` 또는 `loading` 상태에서는 닫지 않습니다. 사용자의 확인이 필요한 흐름을 위해 Backdrop 탭으로는 닫히지 않습니다.
 
 ## Props
 
@@ -81,7 +81,7 @@ export function App() {
 
 <react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogContentProps" />
 
-`container`와 `overlayLevel`은 내부 Positioner의 overlay 렌더링 위치와 순서를 지정합니다.
+`container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.
 
 ### `AlertDialogHeader`
 
@@ -102,8 +102,6 @@ export function App() {
 ### `AlertDialogAction`
 
 <react-type-table path="./registry/lynx/ui/alert-dialog.tsx" name="AlertDialogActionProps" />
-
-`AlertDialogAction`은 `ActionButton`의 variant, size 등 공개 props를 함께 사용할 수 있습니다.
 
 ## Examples
 
@@ -199,13 +197,9 @@ Lynx의 `AlertDialogAction`에는 React 이벤트의 `preventDefault()` 방식�
 
 ## 웹 버전과의 차이
 
-- **상태 callback**: Lynx UI Dialog의 `onShowChange`는 boolean만 전달합니다. 따라서 React의 `onOpenChange` 두 번째 인자인 `details.reason`과 `open-change-reason` 예제는 지원하지 않습니다. 원인이 필요하면 앱이 소유한 Trigger나 action의 이벤트 핸들러에서 원인을 별도 상태로 기록하고, `onOpenChange(open: boolean)`으로 열린 상태를 반영하세요.
-- **닫힘 동작**: `AlertDialog.Backdrop`은 기본적으로 탭해도 닫히지 않습니다. 웹의 외부 영역 클릭·ESC 키 기반 닫힘 원인을 Lynx에서 구분하거나 권장할 수 없습니다. 필요한 닫기 흐름은 앱이 소유한 버튼과 controlled 상태로 구성하세요.
-- **Trigger 합성**: Lynx는 React의 `asChild`를 제공하지 않으며 Trigger가 자식을 감싸는 native `view`를 렌더링합니다.
-- **ref와 focus**: DOM ref forwarding이나 웹의 자동 focus 관리 API를 제공하지 않습니다. Lynx native 접근성 속성과 host의 접근성 흐름을 사용하세요.
-- **Portal / overlay**: React Portal 대신 `AlertDialogContent`의 `container`, `overlayLevel`로 native overlay 위치와 순서를 지정합니다.
-- **Responsive action layout**: React의 `ResponsivePair`는 제공하지 않습니다. Footer 안의 native `view`에 명시적인 방향·간격 스타일을 지정하세요.
-
-### Stackflow
-
-React의 `stackflow` 예제는 React/Stackflow 전용 내비게이션 통합을 다루므로 Lynx에서는 직접 대응 예제를 제공하지 않습니다. Lynx 앱에서 Alert Dialog와 화면 전환을 함께 사용해야 한다면 앱의 내비게이션 계층에서 Stackflow에 해당하는 내비게이션 상태와 Alert Dialog의 `open` 상태를 연결하세요.
+- `onOpenChange`는 변경된 boolean 값만 전달합니다. 닫힌 원인이 필요하면 Trigger와 action의 이벤트 핸들러에서 별도 상태로 기록하세요.
+- Backdrop 탭과 ESC 키로 닫히지 않습니다. 필요한 닫기 흐름은 버튼과 controlled 상태로 구성하세요.
+- Trigger는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다.
+- DOM ref forwarding과 웹의 자동 focus 관리 API를 제공하지 않습니다.
+- `container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.
+- `ResponsivePair`는 제공하지 않습니다. Footer 안에서 action의 방향과 간격을 직접 지정하세요.

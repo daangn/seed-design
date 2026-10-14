@@ -41,9 +41,7 @@ npx @seed-design/cli@latest add ui:checkbox
 
 ### 접근성 이름
 
-`Checkbox.Root`는 기본적으로 접근성 요소로 노출되며 `flatten={false}`로 네이티브 노드를 유지합니다. `checkbox` 역할과 현재 선택 상태, 비활성 상태도 전달합니다. 선택 상태는 `accessibility-value`로 `checked`, `not checked`, `mixed` 중 하나를 전달하며, `indeterminate`이면 `checked`와 관계없이 `mixed`를 씁니다. `accessibility-value`를 직접 전달하면 이 기본값보다 우선합니다.
-
-접근성 이름은 `accessibility-label`이 우선하며, 생략하면 `Checkbox.Label` 등 컴포넌트 children의 문자열과 숫자에서 만듭니다. 접근성 요소 안의 `Checkbox.Label`은 같은 이름이 중복으로 읽히지 않도록 접근성 트리에서 숨깁니다. Root에 `accessibility-element={false}`를 지정하면 Label을 숨기지 않습니다. 직접 작성한 `<text>` 등의 네이티브 JSX는 런타임 children에 정적 텍스트가 남지 않아 이름을 파생할 수 없습니다. 이런 children이나 텍스트 없는 아이콘, prop으로만 문구를 렌더링하는 컴포넌트는 Root에 `accessibility-label`을 직접 지정하세요. 이름 없는 접근성 요소는 개발 환경에서 경고합니다. `Checkbox.Group`은 이름을 전달해도 기본적으로 접근성 요소가 아닌 컨테이너로 남습니다. 직접 지정한 네이티브 접근성 속성과 `flatten`은 기본값보다 우선합니다.
+`Checkbox`에서 직접 작성한 `<text>`를 쓰거나 `Checkmark`로 직접 구성할 때는 상태를 가진 Root에 `accessibility-label`을 지정하세요. 컴포넌트 children의 문자열과 숫자는 접근성 이름으로 사용되지만, raw `<text>`의 정적 텍스트는 이름을 만들 수 없습니다. `indeterminate` 상태는 `mixed`로 전달됩니다.
 
 ## Examples
 
@@ -143,7 +141,7 @@ npx @seed-design/cli@latest add ui:checkbox
 
 #### Using `Checkmark`
 
-Lynx Registry의 `Checkmark`는 자체 `Checkbox.Root`를 포함합니다. 단독으로 사용할 때는 `accessibility-label`을 전달하세요. 문구까지 같은 탭 영역에 넣으려면 Registry `Checkbox`의 `children`을 사용합니다. 이때 `accessibility-label`도 직접 전달하세요.
+`Checkmark`는 상위 `Checkbox.Root`의 상태를 표시하는 체크 마크입니다. 커스텀 레이아웃이 필요하면 `@seed-design/lynx-react`의 `Checkbox.Root` 안에 `Checkmark`와 문구를 배치하고, Root에 `accessibility-label`을 지정하세요.
 
 <LynxComponentExample name="lynx/checkbox/checkmark">
   ```json doc-gen:file
@@ -167,37 +165,15 @@ Lynx Registry의 `Checkmark`는 자체 `Checkbox.Root`를 포함합니다. 단�
   ```
 </LynxComponentExample>
 
-## Headless
-
-`@seed-design/lynx-react-checkbox`는 Recipe 없이 `checked`·`defaultChecked`·`onCheckedChange`, `indeterminate`, `disabled`, 눌림 상태, 접근성 기본값과 ref를 제공합니다. press와 `disabled`는 `Checkbox.Root`만 소유하며, `Checkbox.Control`은 상태를 표시하는 무스타일 view입니다. 하위 요소는 `useCheckboxContext`로 `checked`·`indeterminate`·`disabled`·`pressed`를 읽습니다. `indeterminate`에서 누르면 `!checked`로 전이하고, indeterminate 해제는 부모가 맡습니다.
-`@seed-design/lynx-react`의 Checkbox는 여기에 SEED Recipe, Scale Feedback, 아이콘과 Label을 더합니다.
-
-```package-install
-@seed-design/lynx-react-checkbox
-```
-
-<LynxComponentExample name="lynx/checkbox/headless">
-  ```json doc-gen:file
-  {
-    "file": "examples/lynx/checkbox/headless.tsx",
-    "codeblock": true
-  }
-  ```
-</LynxComponentExample>
-
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx `Checkbox`는 React `Checkbox`와 다음과 같은 차이가 있습니다.
 
-- **아이콘 주입 방식**: snippet의 `Checkbox`와 `Checkmark`는 `@karrotmarket/lynx-monochrome-icon`의 check / minus icon을 자동으로 주입합니다. compound component를 직접 조합할 때는 `Checkbox.Indicator`에 Lynx monochrome icon을 전달해야 합니다. raw `<svg>` 주입은 Lynx 범위 밖입니다.
-- **오류 안내 렌더링**: React는 오류가 표시될 때 `description`을 접근성 트리에 남기지만, Lynx에는 DOM의 visually hidden 처리 방식이 없어 화면과 접근성 트리에서 `description`을 제외하고 `errorMessage`만 렌더링합니다.
-- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap과 `disabled`는 `Checkbox.Root`가 소유하며, Control·Indicator·Label은 별도의 press나 `disabled`를 받지 않습니다.
-- **Pressed 상태**: 웹의 `data-active` 대신 `Checkbox.Root`의 `:active` selector가 Main Thread에서 눌림 색을 적용합니다.
-- **Scale Feedback**: 누르는 동안 `Checkbox.Control`이 줄어듭니다. List·Select Box처럼 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이중 축소를 막기 위해 Control 축소를 생략합니다. 직접 만든 Scale Feedback 안에서 이 축소를 끄는 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
-- **접근성 속성**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다. `Checkbox.Root`는 `accessibility-element`, `accessibility-role-description`, `accessibility-value`로 역할과 선택 상태를 전달합니다. React는 `input.indeterminate`로 mixed 상태를 노출하고, Lynx는 `accessibility-value="mixed"`로 노출합니다.
-- **Compound 구조**: `Checkbox.Root` → `Checkbox.Control` → `Checkbox.Indicator` + `Checkbox.Label` 구성과 Context로 상태와 variant를 공유하는 흐름은 동일합니다.
-- **ref forwarding**: `Checkbox`, `Checkmark`, `CheckboxGroup`은 Root view로 ref를 전달합니다. 웹 snippet처럼 hidden input ref를 제공하지 않습니다. `Checkbox.Indicator`는 React와 달리 ref를 받지 않습니다.
+- 값 변경은 `onChange`가 아닌 `onCheckedChange`로 받습니다.
+- `invalid` 상태에서는 `description`을 제외하고 `errorMessage`만 화면과 접근성 트리에 표시합니다.
+- Registry가 Lynx용 check와 minus 아이콘을 넣습니다. raw `<svg>` 아이콘은 지원하지 않습니다.
+- 직접 만든 Scale Feedback에서 축소를 끄는 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
+
 </Callout>
 
 ## Lynx 미지원 기능

@@ -51,7 +51,6 @@ npx @seed-design/cli@latest add ui:page-banner
 
 ## Usage
 
-설치한 snippet은 기본 배너와 전체 영역을 탭할 수 있는 배너, 닫을 수 있는 배너를 제공합니다.
 
 ```tsx
 import { PageBanner } from "@/components/ui/page-banner";
@@ -61,24 +60,6 @@ export function App() {
 }
 ```
 
-저수준 조합이 필요하면 `@seed-design/lynx-react`의 compound API를 직접 사용할 수 있습니다.
-
-```tsx
-import { PageBanner } from "@seed-design/lynx-react";
-
-export function App() {
-  return (
-    <PageBanner.Root tone="informative">
-      <PageBanner.Content>
-        <PageBanner.Body>
-          <PageBanner.Title>알림</PageBanner.Title>
-          <PageBanner.Description>새로운 소식을 확인해 보세요.</PageBanner.Description>
-        </PageBanner.Body>
-      </PageBanner.Content>
-    </PageBanner.Root>
-  );
-}
-```
 
 ## Examples
 
@@ -173,24 +154,15 @@ export function App() {
 
 ## Action and Dismiss
 
-전체 배너를 액션으로 사용하려면 `ActionablePageBanner`에 `bindtap`과 `accessibility-label`을 전달하세요. React의 `<button>`처럼 `bindtap`을 전달하지 않아도 눌림 상태, Content Scale, `button` 역할을 적용합니다. 닫기 상태를 직접 관리할 때는 `DismissiblePageBanner`의 `open`과 `onDismiss`를 사용합니다.
+전체 배너를 액션으로 사용하려면 `ActionablePageBanner`에 `bindtap`과 `accessibility-label`을 전달하세요. 닫기 상태를 직접 관리하려면 `DismissiblePageBanner`의 `open`과 `onDismiss`를 사용합니다.
 
 ## Web Version Differences
 
-| 영역 | React Web | Lynx |
-| --- | --- | --- |
-| Native element | `div`, `span`, `button` | `view`, `text` |
-| Event | `onClick` | `bindtap`, `main-thread:bindtap` |
-| Accessibility | HTML semantics, ARIA | `accessibility-*` |
-| Polymorphism | `asChild` 지원 | 미지원 |
-| Interaction feedback | focus ring, scale feedback | pressed 배경색, 본문 Content Scale, Button·CloseButton Root Scale |
-
-Actionable Root는 배경을 유지하고 내부 콘텐츠만 축소하는 Content Scale을 적용합니다. `PageBannerButton`과 CloseButton은 각각 자신의 영역을 축소하는 Root Scale을 적용합니다. 개별 버튼을 누르면 본문 액션이 함께 실행되거나 중복 축소되지 않습니다. `PageBannerButton`, actionable Root, CloseButton은 기본적으로 button trait를 사용합니다.
-
-CloseButton은 Root의 직접 자식 또는 Fragment 안에 배치해야 본문 축소 영역에서 분리됩니다. 사용자 정의 컴포넌트로 감싸면 본문 축소 영역에 포함됩니다.
+- 탭 이벤트는 `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`으로 받습니다.
+- 접근성은 HTML 의미 요소와 ARIA 대신 Lynx의 `accessibility-*` 속성을 사용합니다.
+- CloseButton은 Root의 직접 자식이나 Fragment 안에 두세요. 다른 컴포넌트로 감싸면 배너 본문과 함께 눌림 피드백이 적용됩니다.
 
 ## Unsupported Lynx Features
 
-- `asChild`: Lynx에는 DOM Slot 기반 다형 렌더링이 없습니다. `PageBannerButton`은 Lynx `text` 요소로 렌더링됩니다.
-- 웹 focus ring: Lynx는 웹 키보드 포커스 모델을 사용하지 않습니다.
-- HTML attribute와 ARIA prop: 대응하는 Lynx native prop과 `accessibility-*`를 사용하세요.
+- `asChild`를 지원하지 않습니다.
+- 웹의 focus ring과 HTML 속성은 지원하지 않습니다. 대응하는 Lynx native 속성을 사용하세요.

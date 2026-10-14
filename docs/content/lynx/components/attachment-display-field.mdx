@@ -16,7 +16,7 @@ description: 외부 소스에서 제공된 미디어를 표시하고 호스트 �
 
 ## Installation
 
-기본 항목 표시만 필요하면 다음 패키지와 기본 snippet을 설치하세요.
+기본 항목 표시에는 다음 패키지와 기본 snippet을 설치합니다.
 
 ```package-install
 @seed-design/lynx-react @seed-design/lynx-css
@@ -26,7 +26,7 @@ description: 외부 소스에서 제공된 미디어를 표시하고 호스트 �
 
 ### Reorderable
 
-항목 순서를 변경해야 하면 native 가로 long-press gesture를 포함한 별도 snippet을 설치하세요. 프로젝트에 [`@seed-design/lynx-react-sortable`](/lynx/components/attachment-field#headless-정렬) 의존성이 추가됩니다.
+항목 순서를 변경하려면 네이티브 가로 long-press gesture를 포함한 별도 snippet을 설치합니다. 프로젝트에 `@seed-design/lynx-react-sortable` 의존성이 추가됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
@@ -35,7 +35,7 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 <LynxManualInstallation name="attachment-display-field-reorderable" />
 
 <Callout>
-  Lynx `AttachmentDisplayField`는 미디어 picker나 업로드 API를 직접 호출하지 않습니다. trigger 탭에서 `onTriggerTap`을 실행하고, 호스트 앱의 media picker가 반환한 `AttachmentDisplayEntry[]`를 callback의 `addEntries`에 전달하세요. 문서 예제의 `picsum.photos` URL은 고정 demo fixture이며, 실제 앱의 native module 이름이나 bridge API를 가정하지 않습니다.
+  Lynx `AttachmentDisplayField`는 미디어 picker나 업로드 API를 호출하지 않습니다. 호스트 picker가 반환한 `AttachmentDisplayEntry[]`를 `onTriggerTap` callback의 `addEntries`에 전달해야 합니다. 문서의 `picsum.photos` URL은 demo fixture이며 실제 앱의 native bridge API를 가정하지 않습니다.
 </Callout>
 
 ## Props
@@ -51,7 +51,7 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ## Usage
 
-`AttachmentDisplayField` 안에 `AttachmentDisplay`를 조합합니다. `onTriggerTap`은 호스트 미디어 picker를 호출하고 반환된 entries를 `addEntries`에 전달하는 callback입니다.
+`onTriggerTap`에서 호스트 미디어 picker를 호출하고 반환된 entries를 `addEntries`에 전달합니다.
 
 ```tsx
 <AttachmentDisplayField defaultEntries={[]} maxEntries={10}>
@@ -64,23 +64,13 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 </AttachmentDisplayField>
 ```
 
-`hostMediaPicker`는 앱이 소유한 adapter입니다. 특정 native module 이름을 snippet이나 문서에서 정하지 않으며, 취소한 경우 `[]`를 반환하도록 구현하세요. Display entry는 URL 기반 모델입니다. `id`, `thumbnailUrl`, `status`를 사용하며 `uploading` 상태에서는 선택적으로 `progress`를 전달합니다. `AttachmentDisplay`는 `File`, `Blob`을 다루지 않고 파일 유효성 검증도 수행하지 않습니다.
-
-### Item 직접 구성하기
-
-`AttachmentDisplay`의 children은 context render callback입니다. `entries`의 순서대로 `AttachmentDisplayItem`을 직접 렌더링할 수 있고, `AttachmentDisplayItem`에는 native item root props와 `dragging` variant prop을 전달할 수 있습니다. children을 생략하면 기본 image, uploading progress, retry, remove action 구성이 자동으로 렌더링됩니다.
-
-```tsx
-<AttachmentDisplay onTriggerTap={async ({ addEntries }) => addEntries(await hostMediaPicker())}>
-  {({ entries }) => entries.map((entry) => <AttachmentDisplayItem key={entry.id} entry={entry} />)}
-</AttachmentDisplay>
-```
+`hostMediaPicker`는 앱이 소유한 adapter이며, 취소하면 `[]`를 반환해야 합니다. Display entry는 URL 기반 모델로 `id`, `thumbnailUrl`, `status`를 사용하고 `uploading` 상태에서는 `progress`를 전달할 수 있습니다. `AttachmentDisplay`는 `File`, `Blob`을 다루지 않으며 파일 유효성도 검증하지 않습니다.
 
 ## Adding Entries
 
 ### Trigger
 
-기본 `AttachmentDisplay`는 trigger와 항목 목록을 함께 제공합니다. trigger를 탭하면 `onTriggerTap({ addEntries, updateEntryStatus })`가 호출됩니다. 피커 결과를 `addEntries`에 전달하면 `maxEntries` 상한과 single-mode(`maxEntries={1}`) 치환이 적용됩니다.
+기본 `AttachmentDisplay`의 trigger를 탭하면 `onTriggerTap({ addEntries, updateEntryStatus })`가 호출됩니다. picker 결과를 `addEntries`에 전달하면 `maxEntries` 상한과 single mode(`maxEntries={1}`) 치환이 적용됩니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/trigger">
   ```json doc-gen:file
@@ -93,7 +83,7 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ### Listening to Entry Changes
 
-`entries`와 `onEntriesChange`로 목록을 controlled 방식으로 관리할 수 있습니다. trigger로 추가하거나 삭제 action을 탭한 결과 모두 `onEntriesChange`로 전달됩니다. `value-changes` 예제는 added/removed 값을 누적하여 보여줍니다.
+`entries`와 `onEntriesChange`로 목록을 외부에서 관리할 수 있습니다. 추가와 삭제 결과는 모두 `onEntriesChange`로 전달됩니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/value-changes">
   ```json doc-gen:file
@@ -106,13 +96,13 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ## Managing Item Status
 
-항목의 status는 `pending`, `uploading`, `success`, `error` 중 하나입니다. 호스트 앱의 업로드 작업은 `updateEntryStatus`로 진행률과 최종 상태를 갱신하세요.
+항목의 status는 `pending`, `uploading`, `success`, `error` 중 하나입니다. 호스트 앱은 `updateEntryStatus`로 업로드 진행률과 최종 상태를 갱신합니다.
 
 - `uploading`: `ProgressCircle`이 표시되며 `progress`가 있으면 해당 값(0–100)을 표시합니다.
-- `error`: `onRetry`가 제공된 경우 재시도 action이 표시됩니다. 재시도 callback에서 같은 id를 `uploading`으로 되돌린 뒤 업로드를 다시 시작하세요.
+- `error`: `onRetry`가 있으면 재시도 action이 표시됩니다. 재시도할 때 같은 id를 `uploading`으로 바꾸고 업로드를 다시 시작합니다.
 - `success`: 완료된 thumbnail을 표시합니다.
 
-예제는 `uploading(0 → 25 → 60) → success` 전이와 error 항목의 retry 전이를 모두 보여줍니다. 이 전이는 demo fixture를 위한 동기 callback이며 실제 앱에서는 호스트 업로드 결과로 갱신하세요.
+예제의 상태 전이는 demo fixture입니다. 실제 앱에서는 호스트 업로드 결과로 상태를 갱신합니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/status">
   ```json doc-gen:file
@@ -125,11 +115,9 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ## Reordering Entries
 
-React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `AttachmentDisplayReorderable`은 별도 snippet에서 [`@seed-design/lynx-react-sortable`](/lynx/components/attachment-field#headless-정렬)의 native 가로 long-press gesture를 사용하며, gesture가 끝나면 `reorderEntry(fromIndex, toIndex)`를 호출하여 목록 순서를 바꿉니다. `disabled`와 `readOnly`에서는 정렬 gesture가 차단됩니다.
+`ui:attachment-display-field-reorderable`은 브라우저 `dnd-kit` 대신 네이티브 가로 long-press gesture로 목록 순서를 변경합니다. `disabled`와 `readOnly`에서는 정렬할 수 없습니다.
 
-별도 snippet의 `SortableAttachmentDisplayItem`은 `index`를 필수로 받습니다. 기본 항목 map도 명시적인 `SortableAttachmentDisplayItem`을 사용하며, custom children callback을 사용할 때도 각 항목을 해당 컴포넌트로 직접 구성하세요. callback 결과를 `Children.toArray`로 다시 해석하거나 index로 clone하지 않습니다.
-
-`SortableAttachmentDisplayItem`은 항목 전체를 하나의 접근성 요소로 만듭니다. 스크린 리더는 항목 이름(`name`이 없으면 "이미지")과 순서·업로드 상태를 읽고, 사용자 지정 동작으로 "앞으로 이동"·"뒤로 이동"(`reorderEntry`), "파일 제거", 오류 상태에서 `onRetry`가 있으면 "재시도"를 제공합니다. iOS는 접근성 요소 안의 버튼에 포커스하지 않으므로 항목 안의 제거·재시도 버튼은 이 동작으로 대신 실행됩니다. `readOnly`에서는 이동과 제거 동작이 빠지고, `disabled`에서는 이동 동작만 빠집니다.
+사용자 지정 항목을 렌더링할 때는 `SortableAttachmentDisplayItem`에 현재 `index`를 전달해야 합니다. 스크린 리더는 항목 이름, 순서, 업로드 상태를 읽고 앞·뒤 이동과 파일 제거 동작을 제공합니다. error 상태에 `onRetry`가 있으면 재시도 동작도 제공합니다. iOS에서는 항목 내부 버튼 대신 이 사용자 지정 접근성 동작을 사용합니다. `readOnly`에서는 이동과 제거가, `disabled`에서는 이동만 비활성화됩니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/reorderable">
   ```json doc-gen:file
@@ -183,7 +171,7 @@ React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `Attachmen
 
 ### Custom Inset
 
-실제 horizontal scroll-view를 감싸는 layout에서 `--seed-attachment-input-extend-x` CSS 변수를 사용하면 목록을 global gutter 바깥으로 확장할 수 있습니다. 예제는 400px 회색 외곽과 안쪽 TextField/AttachmentDisplay를 포함합니다.
+`--seed-attachment-input-extend-x` CSS 변수를 사용하면 가로 목록을 global gutter 바깥으로 확장할 수 있습니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/custom-inset">
   ```json doc-gen:file
@@ -196,7 +184,7 @@ React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `Attachmen
 
 ### Field Integration
 
-`label`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`를 Field 슬롯과 함께 사용할 수 있습니다. 예제는 목록이 비었을 때 `invalid`와 error footer를 표시합니다.
+`Field`와 함께 안내 문구와 오류 상태를 표시할 수 있습니다. 예제는 목록이 비었을 때 `invalid`와 error footer를 표시합니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/field">
   ```json doc-gen:file
@@ -209,7 +197,7 @@ React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `Attachmen
 
 ### Customizing Items
 
-기본 item 구성이 아닌 경우 `SeedAttachmentDisplay.Item` compound slots를 사용하여 badge, progress, retry, remove action을 직접 구성할 수 있습니다. 예제의 첫 번째 fixture에는 `대표사진` badge가 있습니다.
+기본 항목 구성을 바꾸는 방법은 다음 예제에서 확인할 수 있습니다. 첫 번째 항목에는 대표 사진 badge가 표시됩니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/customizing-items">
   ```json doc-gen:file
@@ -222,10 +210,10 @@ React의 `dnd-kit` 의존성은 Lynx에서 사용하지 않습니다. `Attachmen
 
 ## State and accessibility
 
-`label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator`는 Field 슬롯으로 렌더링됩니다. 기본 trigger와 remove action에는 접근성 label이 제공되며, custom action을 구성할 때는 의미를 설명하는 `accessibility-label`을 지정하세요.
+기본 trigger와 remove action에는 접근성 label이 제공됩니다. 사용자 지정 action에는 의미를 설명하는 `accessibility-label`을 지정해야 합니다.
 
 ## Lynx 미지원 기능
 
-- 브라우저 drag-and-drop 및 React `dnd-kit`: native long-press reorder snippet으로 대체하세요.
-- HTML `<input type="file">`, `File`, `Blob`, object URL: 호스트 media picker가 URL 기반 `AttachmentDisplayEntry`를 반환하도록 연결하세요.
-- HTML form 제출 및 `react-hook-form`: 앱 state와 submit/controller adapter로 대체하세요.
+- 브라우저 drag-and-drop 및 React `dnd-kit`은 네이티브 long-press reorder snippet으로 대체합니다.
+- HTML `<input type="file">`, `File`, `Blob`, object URL 대신 호스트 media picker가 URL 기반 `AttachmentDisplayEntry`를 반환해야 합니다.
+- HTML form 제출 및 `react-hook-form` 대신 앱 state와 submit adapter를 사용합니다.

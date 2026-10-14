@@ -12,11 +12,10 @@
 .accordion-preview__value-changes {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .accordion-preview__history {
-  width: 280px;
+  width: 100%;
   max-width: 100%;
-  flex-shrink: 0;
 }
