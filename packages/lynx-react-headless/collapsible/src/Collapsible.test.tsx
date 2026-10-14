@@ -39,6 +39,21 @@ describe("Collapsible", () => {
     expect(node(".content")).toHaveAttribute("accessibility-elements-hidden", "true");
   });
 
+  it("keeps the measured height when the content shrinks by one device pixel", () => {
+    // Android rounds layout edges to device pixels, so moving the content can report
+    // a 1px smaller height. Following it re-centers the layout and flips the rounding back.
+    // The ReactLynx testing environment sets `SystemInfo.pixelRatio` to 3.
+    render(<TestCollapsible defaultOpen />);
+    const inner = node(".content").firstElementChild as HTMLElement;
+
+    act(() => fireEvent.layoutchange(inner, { height: 558 / 3 }));
+    act(() => fireEvent.layoutchange(inner, { height: 557 / 3 }));
+    expect(node(".content")).toHaveStyle({ height: `${558 / 3}px` });
+
+    act(() => fireEvent.layoutchange(inner, { height: 556 / 3 }));
+    expect(node(".content")).toHaveStyle({ height: `${556 / 3}px` });
+  });
+
   it("reports controlled changes without opening until the parent applies them", () => {
     const onOpenChange = vi.fn();
     function Parent() {
