@@ -13,7 +13,7 @@ import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { usePopover, type UsePopoverProps } from "./usePopover.js";
 import { usePopoverCloseButton, type UsePopoverCloseButtonProps } from "./usePopoverCloseButton.js";
-import { PopoverProvider, usePopoverContext } from "./usePopoverContext.js";
+import { PopoverProvider, usePopoverContext, usePopoverPosition } from "./usePopoverContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 /** 위치 style을 합치는 파트는 객체 style만 받습니다. */
@@ -240,12 +240,16 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
     ...nativeProps
   } = props;
   const api = usePopoverContext();
-  const { setOpen, layerRef, safeAreaRef, position, referenceRect, rootRect, layerRect } = api;
+  const { setOpen, layerRef, safeAreaRef, positionStore } = api;
+  const position = usePopoverPosition((snapshot) => snapshot.position);
+  const layerRect = usePopoverPosition((snapshot) => snapshot.layerRect);
   const handleGlobalTap = React.useCallback<TapHandler>(
     (event, instance) => {
       "background only";
       globalBindtap?.(event, instance);
       if (!api.closeOnInteractOutside || !api.open) return;
+      // 매 frame 바뀌는 rect를 구독하지 않고 탭한 시점의 값을 읽습니다.
+      const { position, referenceRect, rootRect } = positionStore.getSnapshot();
       if (!position || !referenceRect || !rootRect) return;
       // 탭 좌표는 page 기준이고, 측정한 rect는 `relativeTo: "screen"` 기준입니다.
       const x = event.detail.x + rootRect.left;
@@ -262,15 +266,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
       if (tappedInside) return;
       setOpen(false);
     },
-    [
-      api.closeOnInteractOutside,
-      api.open,
-      globalBindtap,
-      position,
-      referenceRect,
-      rootRect,
-      setOpen,
-    ],
+    [api.closeOnInteractOutside, api.open, globalBindtap, positionStore, setOpen],
   );
   const handleLayerRef = React.useCallback(
     (node: NodesRef | null) => {
@@ -664,7 +660,10 @@ export interface PopoverArrowProps extends StyledViewProps {
  */
 export const PopoverArrow = React.forwardRef<unknown, PopoverArrowProps>((props, ref) => {
   const { children, style, size, tipHeight, ...nativeProps } = props;
-  const { position, side, arrowRef, requestPositionUpdate } = usePopoverContext();
+  const { side, arrowRef, requestPositionUpdate } = usePopoverContext();
+  // 화살표 offset만 구독해, 기준 요소를 따라 레이어만 움직일 때는 다시 렌더링하지 않습니다.
+  const arrowLeft = usePopoverPosition((snapshot) => snapshot.position?.arrow?.left);
+  const arrowTop = usePopoverPosition((snapshot) => snapshot.position?.arrow?.top);
 
   React.useEffect(() => {
     "background only";
@@ -676,9 +675,8 @@ export const PopoverArrow = React.forwardRef<unknown, PopoverArrowProps>((props,
     };
   }, [arrowRef, requestPositionUpdate, size, tipHeight]);
 
-  const arrow = position?.arrow;
-  const crossLeft = toPixel(arrow?.left ?? 0);
-  const crossTop = toPixel(arrow?.top ?? 0);
+  const crossLeft = toPixel(arrowLeft ?? 0);
+  const crossTop = toPixel(arrowTop ?? 0);
   // 방향이 바뀔 때 이전 방향의 offset이 남지 않도록 네 offset을 항상 모두 지정합니다.
   const geometryStyle =
     side === "top"

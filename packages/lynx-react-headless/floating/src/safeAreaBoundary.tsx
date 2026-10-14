@@ -74,9 +74,22 @@ function toRect(left: number, top: number, right: number, bottom: number): Rect 
   return { left, top, right, bottom, width: right - left, height: bottom - top };
 }
 
-function getRootRect() {
+let pendingRootRect: Promise<Rect> | null = null;
+
+/**
+ * 여러 floating 레이어가 같은 frame에 root를 측정하면 진행 중인 측정 하나를 함께 씁니다. root 측정은
+ * selector identifier가 같아, 레이어마다 호출하면 DevTool의 InvokeUIMethod 빈도 경고 기준을 함께 채웁니다.
+ */
+function getRootRect(): Promise<Rect> {
   "background only";
-  return getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
+  if (pendingRootRect) return pendingRootRect;
+  const measurement = getRectByRef({ current: lynx.createSelectorQuery().selectRoot() }, true);
+  const clear = () => {
+    pendingRootRect = null;
+  };
+  measurement.then(clear, clear);
+  pendingRootRect = measurement;
+  return measurement;
 }
 
 async function measureSafeArea({ start, end }: SafeAreaProbeNodes): Promise<Rect | null> {

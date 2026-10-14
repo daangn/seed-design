@@ -5,7 +5,7 @@ import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import type { Rect } from "@seed-design/lynx-react-floating";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { Popover } from "./index.js";
+import { Popover, usePopoverContext } from "./index.js";
 
 const geometry = vi.hoisted(() => ({ getRectByRef: vi.fn() }));
 
@@ -280,6 +280,46 @@ describe("Popover", () => {
     safeAreaBox = { left: 47, top: 0, width: 750, height: 369 };
     await flush();
     expect(positionerStyle()).toContain("left: 55px");
+  });
+
+  it("follows a moving reference without re-rendering other parts and shares the root measurement", async () => {
+    let contextRenders = 0;
+    function ContextConsumer() {
+      usePopoverContext();
+      contextRenders += 1;
+      return null;
+    }
+    referenceBox = { left: 100, top: 300, width: 40, height: 40 };
+    render(
+      <view>
+        {[0, 1].map((index) => (
+          <Popover.Root key={index} defaultOpen placement="bottom">
+            <Popover.Anchor>
+              <text>기준</text>
+            </Popover.Anchor>
+            <ContextConsumer />
+            <Bubble />
+          </Popover.Root>
+        ))}
+      </view>,
+    );
+    await flush();
+    const rendersAfterOpen = contextRenders;
+    geometry.getRectByRef.mockClear();
+
+    // 가로 스크롤처럼 기준 요소만 움직입니다.
+    referenceBox = { ...referenceBox, left: 60 };
+    await flush();
+
+    expect(positionerStyle()).toContain("left: 20px");
+    expect(contextRenders).toBe(rendersAfterOpen);
+    const rootCalls = geometry.getRectByRef.mock.calls.filter(([ref]) => ref.current === ROOT);
+    const referenceCalls = geometry.getRectByRef.mock.calls.filter(
+      ([ref]) => elementForRef(ref.current)?.textContent === "기준",
+    );
+    // 같은 frame에 측정하는 두 Popover가 root 측정 하나를 함께 씁니다.
+    expect(referenceCalls.length).toBeGreaterThanOrEqual(2);
+    expect(rootCalls.length * 2).toBe(referenceCalls.length);
   });
 
   it("closes on a page tap outside the reference and content only when closeOnInteractOutside is enabled", async () => {
