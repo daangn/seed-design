@@ -445,7 +445,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "2.9.1",
+      "version": "2.9.2",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
