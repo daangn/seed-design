@@ -20,9 +20,8 @@ import {
   type BottomSheetRootRef,
 } from "@seed-design/lynx-react-bottom-sheet";
 import * as React from "@lynx-js/react";
-import { forwardRef, isValidElement, useMainThreadRef } from "@lynx-js/react";
+import { forwardRef, isValidElement } from "@lynx-js/react";
 import type { ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from "@lynx-js/react";
-import type { IntrinsicElements, MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
@@ -46,6 +45,7 @@ import {
   type BottomSheetHandleProps,
 } from "../BottomSheet/BottomSheet";
 import { IconSlotProvider } from "../Icon/Icon";
+import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -330,11 +330,6 @@ MenuSheetDescription.displayName = "MenuSheetDescription";
 
 export interface MenuSheetListProps extends MenuSheetSlotProps {}
 
-type ScrollEvent = Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0];
-
-// Below lynx-ui-sheet's 8px drag threshold, so the owner is settled before the sheet can claim a move.
-const LIST_GESTURE_DECISION_DISTANCE = 4;
-
 /**
  * Scrolls once the sheet reaches its max height.
  */
@@ -345,50 +340,7 @@ export const MenuSheetList: LynxForwardRefComponent<unknown, MenuSheetListProps>
   const { children, className, style } = props;
   const classNames = useClassNames();
 
-  const scrollTopRef = useMainThreadRef(0);
-  const gestureRef = useMainThreadRef<{ startY: number; owner: "undecided" | "list" | "sheet" }>({
-    startY: 0,
-    owner: "undecided",
-  });
-
-  function handleScroll(event: ScrollEvent) {
-    "main thread";
-
-    scrollTopRef.current = event.detail.scrollTop;
-  }
-
-  function handleTouchStart(event: MainThread.TouchEvent) {
-    "main thread";
-
-    gestureRef.current = {
-      startY: event.detail.y,
-      owner: scrollTopRef.current > 0 ? "list" : "undecided",
-    };
-  }
-
-  // The sheet drags on every vertical move that bubbles up to it, whatever the list's scroll
-  // position. A gesture the list owns stops here, so the two never move together.
-  function handleTouchMove(event: MainThread.TouchEvent) {
-    "main thread";
-
-    const gesture = gestureRef.current;
-    if (gesture.owner === "undecided") {
-      const deltaY = event.detail.y - gesture.startY;
-      if (Math.abs(deltaY) < LIST_GESTURE_DECISION_DISTANCE) {
-        event.stopPropagation();
-        return;
-      }
-
-      gesture.owner = deltaY > 0 ? "sheet" : "list";
-    }
-    if (gesture.owner === "list") event.stopPropagation();
-  }
-
-  const gestureProps: Record<string, unknown> = {
-    "main-thread:bindscroll": handleScroll,
-    "main-thread:bindtouchstart": handleTouchStart,
-    "main-thread:bindtouchmove": handleTouchMove,
-  };
+  const gestureProps = useSheetScrollGestureProps();
 
   return (
     <scroll-view
