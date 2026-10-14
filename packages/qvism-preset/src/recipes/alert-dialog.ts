@@ -58,6 +58,7 @@ const alertDialog = defineSlotRecipe({
       // so content taller than that box scrolls instead of reaching the insets.
       maxHeight: "100%",
       overflowY: "auto",
+      // NOTE: `content.marginY` is unused here but added to the insets in Lynx; consume it or clarify it in rootage.
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
 
