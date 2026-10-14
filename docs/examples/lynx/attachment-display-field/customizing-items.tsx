@@ -6,6 +6,7 @@ import type { AttachmentDisplayEntry } from "@seed-design/lynx-react";
 import {
   AttachmentDisplay,
   AttachmentDisplayField,
+  AttachmentDisplayItem,
 } from "@/components/ui/attachment-display-field";
 import { ProgressCircle } from "@/components/ui/progress-circle";
 
@@ -55,7 +56,7 @@ export default function AttachmentDisplayCustomizingItems() {
 
 function CustomImageItem({ entry, isCover }: { entry: AttachmentDisplayEntry; isCover: boolean }) {
   return (
-    <SeedAttachmentDisplay.Item entry={entry}>
+    <AttachmentDisplayItem entry={entry}>
       <SeedAttachmentDisplay.ItemSurface>
         <SeedAttachmentDisplay.ItemImage />
         {isCover ? (
@@ -80,6 +81,6 @@ function CustomImageItem({ entry, isCover }: { entry: AttachmentDisplayEntry; is
       <SeedAttachmentDisplay.ItemRemoveButton accessibility-label="파일 제거">
         <Icon icon={<IconXmarkFill />} />
       </SeedAttachmentDisplay.ItemRemoveButton>
-    </SeedAttachmentDisplay.Item>
+    </AttachmentDisplayItem>
   );
 }

@@ -36,5 +36,5 @@ Lynx 컴포넌트 문서가 실행하는 ReactLynx 예제다. `docs/scripts/lynx
 
 - entry는 예제 컴포넌트 하나를 default export한다. 예제 안에서 `root.render()`를 호출하지 않는다 → 독립 실행 bootstrap은 `standalone.tsx`가 맡는다.
 - 예제에서 Probelynx 표식이나 E2E 분기를 만들지 않는다 → `standalone.tsx`가 모든 예제에 같은 계약을 적용한다. 첫 렌더부터 native `<overlay>`를 띄우는 예제(`help-bubble/portalled`)는 표식이 overlay 밖에 남으므로 Probelynx 시나리오에서 제외한다.
-- 새 예제나 대상 컴포넌트 import를 고치는 예제 → Lynx registry 항목이 있으면 `@/components/ui/<name>`(`docs/registry/lynx/ui/`)을 import한다. registry가 없는 package-only 컴포넌트만 `@seed-design/lynx-react` 공개 export를 직접 쓴다. 기존 예제의 일괄 변경은 별도 작업으로 한다.
+- Lynx registry 항목이 있는 컴포넌트는 예제에서 `@/components/ui/<name>`(`docs/registry/lynx/ui/`)의 배포된 snippet으로 구성한다. `@seed-design/lynx-react` namespace(예: `BottomSheet.Root`)나 headless 패키지로 직접 조립하지 않는다. registry가 없는 package-only 컴포넌트만 `@seed-design/lynx-react` 공개 export를 직접 쓴다.
 - 사용자 이벤트는 Lynx 이벤트 prop(`bindtap` 등)으로 받는다. background thread에서 실행할 handler에는 `"background only"` 지시문을 둔다.

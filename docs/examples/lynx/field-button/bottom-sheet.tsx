@@ -1,7 +1,12 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { ActionButton, BottomSheet, VStack } from "@seed-design/lynx-react";
+import { ActionButton, VStack } from "@seed-design/lynx-react";
+import {
+  BottomSheetContent,
+  BottomSheetFooter,
+  BottomSheetRoot,
+} from "@/components/ui/bottom-sheet";
 import {
   FieldButton,
   FieldButtonPlaceholder,
@@ -46,22 +51,15 @@ export default function Example() {
           <FieldButtonPlaceholder>동네를 선택해주세요</FieldButtonPlaceholder>
         )}
       </FieldButton>
-      <BottomSheet.Root open={open} onOpenChange={setOpen}>
-        <BottomSheet.Positioner>
-          <BottomSheet.Backdrop />
-          <BottomSheet.Content>
-            <BottomSheet.Header>
-              <BottomSheet.Title>동네 선택</BottomSheet.Title>
-              <BottomSheet.Description>거래할 동네를 선택해주세요.</BottomSheet.Description>
-            </BottomSheet.Header>
-            <BottomSheet.Footer>
-              <ActionButton variant="neutralSolid" bindtap={selectValue}>
-                판교동 선택
-              </ActionButton>
-            </BottomSheet.Footer>
-          </BottomSheet.Content>
-        </BottomSheet.Positioner>
-      </BottomSheet.Root>
+      <BottomSheetRoot open={open} onOpenChange={setOpen}>
+        <BottomSheetContent title="동네 선택" description="거래할 동네를 선택해주세요.">
+          <BottomSheetFooter>
+            <ActionButton variant="neutralSolid" bindtap={selectValue}>
+              판교동 선택
+            </ActionButton>
+          </BottomSheetFooter>
+        </BottomSheetContent>
+      </BottomSheetRoot>
     </VStack>
   );
 }

@@ -1,17 +1,11 @@
 import "./styles";
 
-import { RadioGroup } from "@seed-design/lynx-react-radio-group";
-
 import { List, ListDivider, ListRadioItem } from "@/components/ui/list";
-import { Radiomark } from "@/components/ui/radio-group";
+import { RadioGroup, Radiomark } from "@/components/ui/radio-group";
 
 export default function Example() {
   return (
-    <RadioGroup.Root
-      className="list-preview"
-      defaultValue="option1"
-      accessibility-label="옵션 선택"
-    >
+    <RadioGroup className="list-preview" defaultValue="option1" accessibility-label="옵션 선택">
       <List>
         <ListRadioItem
           value="option1"
@@ -36,6 +30,6 @@ export default function Example() {
           suffix={null}
         />
       </List>
-    </RadioGroup.Root>
+    </RadioGroup>
   );
 }
