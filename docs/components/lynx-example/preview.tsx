@@ -3,6 +3,7 @@
 import { useTheme } from "@/hooks/useTheme";
 import type { LynxViewElement } from "@lynx-js/web-core/client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { observeLynxImageTint } from "./image-tint";
 import {
   configureLynxView,
   getLynxErrorMessage,
@@ -70,6 +71,7 @@ export function LynxComponentPreview({
     if (!visible) return;
     let cancelled = false;
     let observer: MutationObserver | undefined;
+    let stopImageTint: (() => void) | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let element: LynxViewElement | null = null;
     const styleAbortController = new AbortController();
@@ -110,6 +112,7 @@ export function LynxComponentPreview({
         });
         const shadowRoot = element.shadowRoot;
         if (!shadowRoot) throw new Error("lynx-view shadow root가 준비되지 않았습니다.");
+        stopImageTint = observeLynxImageTint(shadowRoot);
         observer = new MutationObserver(markReady);
         observer.observe(shadowRoot, { childList: true, subtree: true });
         await Promise.resolve();
@@ -134,6 +137,7 @@ export function LynxComponentPreview({
       cancelled = true;
       styleAbortController.abort();
       observer?.disconnect();
+      stopImageTint?.();
       if (timer) clearTimeout(timer);
       element?.removeEventListener("error", handleError);
     };
