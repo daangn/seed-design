@@ -71,7 +71,7 @@ export function App() {
 
 `HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 열고 닫히지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor와 `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 각각 닫기 버튼과 `열림` Switch로 바꿉니다.
 
-<LynxComponentExample name="lynx/help-bubble/anchor" height={320}>
+<LynxComponentExample name="lynx/help-bubble/anchor" height={480}>
   ```json doc-gen:file
   {"file":"examples/lynx/help-bubble/anchor.tsx","codeblock":true}
   ```
@@ -89,7 +89,7 @@ export function App() {
 
 ### Placement
 
-`placement`로 기준 요소의 12개 방향에 말풍선을 배치합니다. 이 예제는 각 배치를 열린 상태로 표시하며, `flip={false}`로 지정한 방향을 유지합니다.
+`placement`로 기준 요소의 12개 방향에 말풍선을 배치합니다. 이 예제는 각 배치를 열린 상태로 표시합니다. 화면 경계에서 지정한 방향의 공간이 부족하면 `flip` 기본값에 따라 말풍선이 반대 방향으로 뒤집힙니다.
 
 <LynxComponentExample name="lynx/help-bubble/placement" height={600}>
   ```json doc-gen:file

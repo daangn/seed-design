@@ -48,12 +48,13 @@ export default function Example() {
   }
 
   return (
-    <VStack width="full" gap="x16" align="center">
+    // 위쪽 말풍선이 들어갈 공간을 위와 두 Anchor 사이에 둡니다.
+    <VStack width="full" gap="160px" pt="144px" align="center">
       <HelpBubbleAnchor
         defaultOpen
         title="Anchor, uncontrolled"
         description="클릭으로 열고 닫는 동작 없이 위치만 지정합니다."
-        placement="right"
+        placement="top"
         showCloseButton
         closeOnInteractOutside={false}
       >
@@ -65,7 +66,7 @@ export default function Example() {
           onOpenChange={handleControlledOpenChange}
           title="Anchor, controlled"
           description="클릭으로 열고 닫는 동작 없이 위치만 지정합니다."
-          placement="right"
+          placement="top"
           showCloseButton
           closeOnInteractOutside={false}
         >

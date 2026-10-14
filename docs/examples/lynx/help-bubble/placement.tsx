@@ -10,13 +10,7 @@ function PlacementAnchor({
 }) {
   return (
     <Box width="200px" alignItems="center" style={{ display: "flex", flexDirection: "column" }}>
-      <HelpBubbleAnchor
-        open
-        flip={false}
-        placement={placement}
-        title={placement}
-        description="est tempor aute"
-      >
+      <HelpBubbleAnchor open placement={placement} title={placement} description="est tempor aute">
         <IconSparkle2 />
       </HelpBubbleAnchor>
     </Box>
@@ -29,7 +23,8 @@ export default function Example() {
       scroll-orientation="horizontal"
       style={{ display: "flex", flexDirection: "column", width: "100%", flex: 1, minHeight: 0 }}
     >
-      <VStack width="full" minWidth="920px" gap="80px" px="80px" py="80px">
+      {/* 위·아래 줄 말풍선이 뒤집히지 않도록 위아래 여백을 두고, 같은 높이 안에서 줄 간격을 줄입니다. */}
+      <VStack width="full" minWidth="920px" gap="60px" px="80px" py="120px">
         <HStack justify="center" gap="80px">
           <PlacementAnchor placement="top-end" />
           <PlacementAnchor placement="top" />
