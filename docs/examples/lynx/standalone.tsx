@@ -14,10 +14,23 @@ export interface LynxStandaloneExample {
 
 type LynxStandaloneExamples = Record<string, LynxStandaloneExample>;
 
-/** 문서 Web 미리보기는 `globalProps.example`로 예제 ID를 넘긴다. 두 thread가 첫 렌더에서 같은 값을 읽는다. */
+/** 문서 Web 미리보기와 Lynx Explorer는 `globalProps.example`로 예제 ID를 넘깁니다. */
 function readGlobalPropsExample(): string | undefined {
   const globalProps = lynx.__globalProps as { example?: unknown } | undefined;
-  return typeof globalProps?.example === "string" ? globalProps.example : undefined;
+  if (typeof globalProps?.example !== "string") return undefined;
+
+  // Explorer 버전에 따라 중첩된 `lynx://open?url=`을 풀고도 query 값이 최대 두 번 인코딩되어 있습니다.
+  let example = globalProps.example;
+  for (let depth = 0; depth < 2; depth += 1) {
+    try {
+      const decoded = decodeURIComponent(example);
+      if (decoded === example) break;
+      example = decoded;
+    } catch {
+      break;
+    }
+  }
+  return example;
 }
 
 /**
