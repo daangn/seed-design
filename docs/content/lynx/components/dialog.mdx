@@ -138,6 +138,16 @@ Trigger 외의 방식으로 Dialog를 열고 닫으려면 `open`과 `onOpenChang
   ```
 </LynxComponentExample>
 
+### Long Content
+
+본문이 최대 높이에 닿으면 `DialogBody`만 스크롤되고 Header와 Footer는 그대로 보입니다. 최대 높이는 화면 높이의 80%와, 위아래 inset 중 큰 값을 양쪽에서 뺀 높이 중 작은 쪽입니다.
+
+<LynxComponentExample name="lynx/dialog/long-content" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/dialog/long-content.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ### Show Close Button
 
 `showCloseButton={false}`로 헤더 닫기 버튼을 숨길 수 있습니다. 이 경우 푸터 등에 닫기 action을 제공하세요.
