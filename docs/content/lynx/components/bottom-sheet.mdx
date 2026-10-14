@@ -24,8 +24,6 @@ npx @seed-design/cli add ui:bottom-sheet
 
 <LynxManualInstallation name="bottom-sheet" />
 
-`@seed-design/lynx-react`의 `BottomSheet`는 [`@lynx-js/lynx-ui-sheet`](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-sheet)를 래핑합니다. 드래그, spring, snap, presence 동작은 lynx-ui-sheet가 담당합니다. SEED는 공개 API와 recipe 슬롯 스타일을 제공합니다.
-
 ## Usage
 
 ```tsx
@@ -56,11 +54,9 @@ export function App() {
 }
 ```
 
-Registry의 `BottomSheetContent`는 Positioner, Backdrop, Header를 내부에서 조립합니다. `BottomSheetTrigger`는 Content 밖에 두어야 탭으로 시트를 열 수 있습니다.
+`BottomSheetTrigger`는 Content 밖에 두세요.
 
-Registry `BottomSheetContent`의 `container`와 `overlayLevel`은 Positioner로 전달됩니다. `container`가 없으면 Bottom Sheet는 Lynx view 안의 `position: fixed` view로 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 `<overlay>` XElement를 사용하는 native overlay 레이어에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay 레이어의 표시 순서를 정합니다. overlay 모드에서도 Positioner가 레이어 전체를 채우도록 너비와 높이를 `100%`로 맞춥니다. `container`가 필요하다면 앱의 Lynx Engine이 `<overlay>`를 지원하는지 확인하세요.
-
-Primitive를 직접 조립할 때는 `BottomSheet.Positioner`의 `nativeProps`로 레이어 host에 native 속성을 넘깁니다. lynx-ui `OverlayView`의 `overlayViewProps`에 해당하며, overlay 모드에서는 `<overlay>`, 그 밖에는 레이어 `<view>`에 전달됩니다.
+`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다.
 
 ### Imperative 제어
 
@@ -167,7 +163,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### Fade From Index
 
-Lynx는 `fadeFromIndex`를 지원하지 않습니다. Registry가 제공하는 기본 Backdrop을 사용하세요. snap index별 dim 변화가 꼭 필요하면 저수준 package API로 Backdrop을 직접 조립하고 `onSnapChange` 상태에 따라 투명도를 제어해야 합니다.
+Lynx는 `fadeFromIndex`를 지원하지 않습니다. snap index에 따른 Backdrop 투명도 변경도 지원하지 않습니다.
 
 ### Show Handle
 
@@ -185,7 +181,7 @@ Lynx의 `BottomSheetContent`는 `showCloseButton`과 CloseButton을 지원하지
 
 ### Dismissible
 
-Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismissible` prop이 없습니다. 드래그는 `BottomSheetRoot`의 `enableDragToClose={false}`로 막을 수 있습니다. 배경 탭까지 막아야 한다면 저수준 package API로 조립하고 `BottomSheet.Backdrop`에 `clickToClose={false}`를 전달하세요. Lynx에는 웹의 ESC 키 닫기 동작이 없습니다. 닫기 동작을 막았다면 Footer 등에 명시적인 닫기 버튼을 제공하세요.
+Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismissible` prop이 없습니다. `enableDragToClose={false}`로 드래그 닫기만 막을 수 있으며, Registry에서는 배경 탭 닫기를 끌 수 없습니다. ESC 키 닫기도 지원하지 않습니다. 닫기 동작을 막았다면 Footer 등에 닫기 버튼을 제공하세요.
 
 ### With Scroll Fog
 
@@ -219,38 +215,10 @@ ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, 
   ```
 </LynxComponentExample>
 
-## Headless
-
-`@seed-design/lynx-react-bottom-sheet`는 Recipe 없이 Bottom Sheet의 기능만 제공합니다. 드래그, snap, presence, backdrop 탭 닫기는 `@lynx-js/lynx-ui-sheet`가 처리하고, 이 패키지는 다음을 연결합니다.
-
-- `open`, `defaultOpen`, `onOpenChange`와 lynx-ui-sheet의 `show`, `defaultShow`, `onShowChange`. `onOpenChange`에는 Trigger·CloseButton·Backdrop·drag의 `reason`을 전달합니다.
-- Root ref의 `open`, `close`, `snapTo`, `expand`, `collapse`와 Trigger·CloseButton tap
-- `skipAnimation`: Trigger가 애니메이션 없이 열고, Content에 직접 지정하지 않은 enter·exit·snap 전환을 즉시 끝냅니다.
-
-`Handle`은 lynx-ui-sheet의 `SheetHandle`이고, `Backdrop`은 `SheetBackdrop`의 탭 닫기에 `"interactOutside"` reason을 더합니다. `Positioner`는 lynx-ui-sheet의 `SheetView`이며, `container`를 지정하면 overlay 레이어를 채우도록 너비와 높이를 `100%`로 맞춥니다.
-
-`@seed-design/lynx-react`의 BottomSheet는 여기에 SEED spring 기본값, 하단 safe area padding, 넓은 화면의 가운데 배치, Recipe와 Header·Body·Footer·Title·Description slot을 더합니다. Registry `ui:bottom-sheet`는 Positioner, Backdrop, Handle, Header를 기본으로 조립합니다. SEED 디자인을 사용하는 화면에서는 Registry를 사용하세요.
-
-```package-install
-@seed-design/lynx-react-bottom-sheet
-```
-
-Headless 부품에는 위치와 외형이 없습니다. `Positioner`에 화면을 덮는 위치를, `Content`의 `style`에 배경과 모서리를, `innerStyle`에 콘텐츠 여백을 지정합니다. 하단 safe area도 직접 더합니다.
-
-<LynxComponentExample name="lynx/bottom-sheet/headless" height={520}>
-  ```json doc-gen:file
-  {"file":"examples/lynx/bottom-sheet/headless.tsx","codeblock":true}
-  ```
-</LynxComponentExample>
-
 ## 웹 버전과의 차이
 
-| 항목 | 웹 | Lynx |
-|---|---|---|
-| 사용자 이벤트 | `onClick` | `bindtap` |
-| 렌더링 요소 | HTML 요소 | 네이티브 `<view>`, `<text>`, `<scroll-view>` |
-| 상태 prop | `open`, `defaultOpen`, `onOpenChange` | 동일. 내부에서 lynx-ui-sheet의 상태 API로 연결. `onOpenChange`의 `reason`은 `trigger`, `interactOutside`, `drag`만 제공 |
-| 마운트 제어 | `lazyMount`, `unmountOnExit` | Registry에서 미지원. 저수준 `BottomSheet.Positioner`의 `forceMount`로 제어 |
-| Trigger 합성 | `asChild` 지원 | 미지원. `<view>` 렌더링 |
-| imperative ref API | 없음 | `open`, `close`, `snapTo`, `expand`, `collapse`. 메서드로 바꾼 상태는 `onOpenChange`로 알리지 않음 |
-| Portal / overlay | Registry `BottomSheetContent`의 `layerIndex`로 레이어 순서 지정 | Positioner의 `container`, `overlayLevel`. Registry는 `BottomSheetContent`에서 받아 전달. native 속성은 `nativeProps`(lynx-ui `OverlayView`의 `overlayViewProps`) |
+- `onOpenChange`의 `reason`은 `trigger`, `interactOutside`, `drag`만 제공합니다.
+- Trigger는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다.
+- Root ref의 `open`, `close`, `snapTo`, `expand`, `collapse`로 시트를 제어할 수 있습니다. ref로 바꾼 상태는 `onOpenChange`로 알리지 않습니다.
+- `container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.
+- Registry에서는 `lazyMount`와 `unmountOnExit`을 지원하지 않습니다.

@@ -24,7 +24,7 @@ npx @seed-design/cli@latest add ui:menu
 
 ## Usage
 
-Menu는 Root, Trigger, Content와 Group으로 구성합니다. `MenuContent`는 화면을 덮는 메뉴 레이어, 위치 계산, 표시 수명, 긴 목록의 세로 스크롤을 함께 처리합니다. 레이어는 기본으로 Lynx view 안에 그리고, `container`를 지정하면 native overlay에 그립니다.
+`MenuContent`는 긴 목록을 스크롤합니다. `container`를 지정하지 않으면 Lynx view 안에, 지정하면 native overlay에 렌더링됩니다.
 
 ```tsx
 import { ActionButton } from "@seed-design/lynx-react";
@@ -59,12 +59,9 @@ export function App() {
 }
 ```
 
-- `MenuRoot`는 열림 상태와 위치를 관리합니다.
-- `MenuTrigger`는 닫힌 Menu를 탭으로 엽니다.
-- `MenuAnchor`는 위치 기준점만 제공합니다. 열림 상태는 `open`과 `onOpenChange`로 제어합니다.
-- `MenuContent`는 메뉴 레이어와 스크롤 가능한 메뉴 목록을 렌더링합니다. `container`·`overlayLevel`은 레이어로 전달됩니다. 자식에 별도 `Positioner`나 `ScrollArea`를 추가하지 않습니다.
-- `MenuGroup`과 `MenuGroupLabel`은 관련된 항목을 묶고 제목을 표시합니다.
-- `MenuItem`은 `label`, 선택적 `description`, `prefixIcon`, `suffixIcon`을 한 항목으로 조립합니다.
+- `MenuAnchor`는 위치만 정하며 Menu를 열지 않습니다. `open`과 `onOpenChange`로 상태를 제어하세요.
+- `MenuContent` 안에 별도의 positioner나 scroll area를 추가하지 마세요.
+- `MenuItem`은 `description`, `prefixIcon`, `suffixIcon`을 지원합니다.
 
 ## Props
 
@@ -210,15 +207,7 @@ Menu가 열려 있는 동안에는 화면 전체를 덮는 레이어가 바깥 �
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx Menu는 Lynx view 안의 native `view` 레이어에 렌더링하고, `container`를 지정하면 native `overlay`에 렌더링합니다. HTML DOM, `asChild`, 키보드 포커스, typeahead, ESC 키 닫힘은 지원하지 않습니다. 따라서 `escapeKeyDown`과 `cascadeDismiss` reason도 제공하지 않습니다. 화면과 앱 수준에서 필요한 키보드 접근성은 host의 native 접근성 흐름으로 확인하세요.
-Trigger는 문자열 children에서 접근성 이름을 만들고 직접 전달한 `accessibility-label`이 우선합니다. 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않으며 label text를 중복 노출하지 않습니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 이름을 명시하세요.
-</Callout>
-
-| 항목 | 웹 | Lynx |
-|---|---|---|
-| Trigger 조합 | `asChild` 지원 | 자식을 감싸는 native Trigger를 사용 |
-| 위치와 목록 | DOM positioner와 scroll area | `MenuContent`가 레이어, 위치, 스크롤을 함께 처리 |
-| 바깥 상호작용 | DOM pointer와 키보드 | 바깥 탭은 `interactOutside`, native dismissal은 `dismiss` |
-| 키보드 | ESC, focus, typeahead 지원 | 미지원 |
-| Anchor가 열린 동안의 제어 | 바깥 제어를 계속 조합 가능 | 화면 전체를 덮는 레이어가 Anchor 밖의 탭을 받음 |
+- Trigger는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다. raw `<text>`처럼 이름을 만들 수 없는 자식에는 `accessibility-label`을 지정하세요.
+- 키보드 focus, typeahead, ESC 키 닫힘은 지원하지 않습니다.
+- 바깥 탭은 `"interactOutside"`, native overlay의 닫기 요청은 `"dismiss"` reason으로 전달합니다.
+- Menu가 열려 있는 동안 화면 전체 레이어가 Anchor 밖의 탭을 받습니다.

@@ -1,7 +1,7 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
+import { Box, Text, VStack } from "@seed-design/lynx-react";
 import {
   Accordion,
   AccordionContent,
@@ -23,52 +23,44 @@ export default function Example() {
   }
 
   return (
-    <HStack className="accordion-preview__value-changes" gap="x6" align="flexStart">
-      <Box
-        display="flex"
-        flexDirection="column"
-        flexGrow
-        style={{ flexBasis: "200px" }}
-        minWidth="0"
+    <VStack className="accordion-preview__value-changes" gap="x6" align="stretch">
+      <Accordion
+        multiple
+        values={values}
+        onValuesChange={handleValuesChange}
+        style={{ width: "100%" }}
       >
-        <Accordion
-          multiple
-          values={values}
-          onValuesChange={handleValuesChange}
-          style={{ width: "100%" }}
-        >
-          <AccordionItem value="shipping">
-            <AccordionTrigger title="배송 옵션" />
-            <AccordionContent>
-              <Box p="x4">
-                <Text textStyle="t4Regular">
-                  빠른 배송, 새벽 배송, 방문 수령 옵션을 비교할 수 있습니다.
-                </Text>
-              </Box>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="payment">
-            <AccordionTrigger title="결제 수단" />
-            <AccordionContent>
-              <Box p="x4">
-                <Text textStyle="t4Regular">
-                  카드, 계좌이체, 간편결제 중에서 원하는 결제 수단을 선택할 수 있습니다.
-                </Text>
-              </Box>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="refund">
-            <AccordionTrigger title="환불 정책" />
-            <AccordionContent>
-              <Box p="x4">
-                <Text textStyle="t4Regular">
-                  주문 취소 가능 시간과 환불 소요 기간을 확인할 수 있습니다.
-                </Text>
-              </Box>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </Box>
+        <AccordionItem value="shipping">
+          <AccordionTrigger title="배송 옵션" />
+          <AccordionContent>
+            <Box p="x4">
+              <Text textStyle="t4Regular">
+                빠른 배송, 새벽 배송, 방문 수령 옵션을 비교할 수 있습니다.
+              </Text>
+            </Box>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="payment">
+          <AccordionTrigger title="결제 수단" />
+          <AccordionContent>
+            <Box p="x4">
+              <Text textStyle="t4Regular">
+                카드, 계좌이체, 간편결제 중에서 원하는 결제 수단을 선택할 수 있습니다.
+              </Text>
+            </Box>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="refund">
+          <AccordionTrigger title="환불 정책" />
+          <AccordionContent>
+            <Box p="x4">
+              <Text textStyle="t4Regular">
+                주문 취소 가능 시간과 환불 소요 기간을 확인할 수 있습니다.
+              </Text>
+            </Box>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       <Box
         className="accordion-preview__history"
@@ -88,6 +80,6 @@ export default function Example() {
           ))}
         </VStack>
       </Box>
-    </HStack>
+    </VStack>
   );
 }

@@ -147,8 +147,6 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 `value`를 사용자 인식 문자(grapheme cluster) 단위로 나눈 결과를 `onValueChange` 콜백의 `graphemes`와 `slicedGraphemes`로 제공합니다.
 
-문자 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
-
 <LynxComponentExample name="lynx/text-field-textarea/grapheme-count-controlled">
   ```json doc-gen:file
   {
@@ -199,9 +197,9 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 #### Autoresizing
 
-`TextFieldTextarea`는 기본적으로 Lynx native textarea의 측정 기능을 사용해 내용에 맞춰 높이가 늘어납니다. iOS에서는 크기 측정용 래퍼가 최소 높이와 세로 여백을 맡고, Android에서는 native textarea가 직접 맡습니다. 실제 영역의 높이가 달라지면 `KeyboardAvoidingScrollView`의 회피 위치를 다시 계산합니다.
+`TextFieldTextarea`는 기본적으로 내용에 맞춰 높이가 늘어납니다. 높이가 바뀌면 `KeyboardAvoidingScrollView`가 활성 입력의 위치를 다시 계산합니다.
 
-Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본 적용합니다. `line-spacing`을 명시하면 모든 플랫폼에서 해당 값이 우선하며, Android의 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다. `fontSize`나 `lineHeight`를 직접 변경한다면 이에 맞는 `line-spacing`도 함께 지정해야 합니다.
+Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본 적용합니다. `fontSize`나 `lineHeight`를 바꾼다면 이에 맞는 `line-spacing`도 지정하세요. 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다.
 
 #### Keyboard Avoidance
 
@@ -226,19 +224,14 @@ export function KeyboardAwareFields() {
 
 ## Web Version Differences
 
-- 편집 가능한 상태에서는 HTML `<textarea>` 대신 Lynx native `<textarea>` element를 렌더링합니다.
-- `readOnly` 상태에서는 native focus·selection·잘라내기 메뉴를 제거하기 위해 `<text>` element로 렌더링합니다. 이 상태의 ref는 `<text>`를 가리키며 textarea 전용 UI method와 이벤트는 사용할 수 없습니다.
-- `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
-- native `bindinput`은 `TextFieldTextarea`에 추가로 전달할 수 있습니다.
-- `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
-- autoresize는 DOM `scrollHeight` 대신 native intrinsic height를 사용합니다. iOS에서는 크기 측정용 래퍼가 세로 여백과 최소 높이를 소유해 첫 입력 시 native content size에 여백이 중복되지 않게 합니다. Android에서는 native textarea가 세로 여백과 최소 높이를 직접 소유합니다.
-- Android에서는 CSS `line-height`가 native textarea에 적용되지 않아 `line-spacing="3.2px"`를 기본 적용합니다. 명시적인 `line-spacing` 값이 이 기본값보다 우선합니다.
-- controlled textarea도 native 입력 이벤트를 그대로 유지하고, 외부에서 값이 달라진 경우에만 `setValue`로 동기화합니다. 입력마다 `readonly`를 토글하지 않아 줄 추가 시 native scroll offset과 높이 측정이 초기화되지 않습니다.
-- 포커스 시 키보드가 나타나도록 `show-soft-input-on-focus`의 기본값은 `true`입니다. `undefined`가 native attribute로 전달되지 않도록 컴포넌트가 이 기본값을 명시적으로 적용합니다. 커스텀 키보드를 사용하는 경우에는 `false`로 재정의할 수 있습니다.
-- Android의 fullscreen extract input은 기본적으로 비활성화합니다. 필요한 경우 `android-fullscreen-mode={true}`를 명시합니다.
-- `android-set-soft-input-mode`의 기본값은 `"unspecified"`입니다. Android에서 `undefined`가 native attribute로 전달되면 오류가 발생할 수 있어 컴포넌트가 이 기본값을 명시적으로 적용합니다.
-- `android-set-soft-input-mode`는 입력 요소가 포함된 host window 전역에 영향을 줍니다. 기본값인 `"unspecified"`도 기존 Activity 설정을 그대로 보존하는 값이 아니라 시스템 판단 모드로 다시 설정합니다. `KeyboardAvoidingScrollView`가 키보드 회피를 전담하는 화면에서는 별도 pan/resize를 막기 위해 `"nothing"`으로 재정의합니다. 같은 window에 있는 입력 요소에는 가능한 한 같은 값을 사용합니다.
-- `size="responsive"`는 CSS viewport breakpoint가 없는 Lynx에서 지원하지 않습니다. `large` 또는 `medium`을 명시합니다.
+- 편집 가능한 상태에서는 HTML `<textarea>` 대신 Lynx native `<textarea>`를 렌더링합니다.
+- `readOnly` 상태에서는 focus, selection, 잘라내기 메뉴가 없는 `<text>`를 렌더링합니다. 이때 ref는 `<text>`를 가리키므로 textarea 전용 UI method와 이벤트를 사용할 수 없습니다.
+- `onChange` 대신 `TextField`의 `onValueChange`를 사용합니다. native `bindinput`은 `TextFieldTextarea`에 직접 전달할 수 있습니다.
+- DOM id로 label을 연결하지 않으므로 입력에 `accessibility-label`을 직접 지정하세요.
+- autoresize는 DOM `scrollHeight`가 아니라 native 측정값을 사용합니다.
+- `show-soft-input-on-focus`의 기본값은 `true`입니다. 커스텀 키보드를 사용한다면 `false`로 지정하세요.
+- Android의 fullscreen extract input은 기본적으로 비활성화됩니다. 필요한 경우 `android-fullscreen-mode={true}`를 지정하세요.
+- `android-set-soft-input-mode`는 기본값이 `"unspecified"`이며 host window 전체에 영향을 줍니다. 같은 window의 입력에는 같은 값을 사용하고, `KeyboardAvoidingScrollView`가 키보드 회피를 맡는 화면에서는 `"nothing"`을 사용하세요.
 
 ## Unsupported Lynx Features
 

@@ -158,7 +158,7 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
 
 ### Prefix Avatar
 
-Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.PrefixAvatar` 안에 앱이 소유한 아바타 컴포넌트나 view를 넣어 사용하세요. 아래 예제의 이니셜 원은 이미지 로딩과 fallback을 포함한 Avatar 구현이 아니라 슬롯 조합 방법만 보여줍니다.
+Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.PrefixAvatar` 안에 앱이 소유한 아바타 컴포넌트나 view를 넣으세요.
 
 <LynxComponentExample name="lynx/chip/prefix-avatar">
   ```json doc-gen:file
@@ -171,10 +171,7 @@ Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.Prefix
 
 ### Listening to Value Changes
 
-- `Chip.Toggle`
-  - `onCheckedChange`를 사용하여 토글 상태 변경을 감지할 수 있습니다.
-- `Chip.RadioRoot` / `Chip.RadioItem`
-  - `Chip.RadioRoot`의 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+`Chip.Toggle`은 `onCheckedChange`, `Chip.RadioRoot`는 `onValueChange`로 선택 값 변경을 알립니다.
 
 <LynxComponentExample name="lynx/chip/value-changes">
   ```json doc-gen:file
@@ -194,28 +191,16 @@ Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.Prefix
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/variant 이름을 사용하지만 다음 차이가 있습니다.
-
-- **렌더링 요소**: HTML `<button>` / `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>`를 렌더링합니다.
-- **이벤트 핸들링**: `onClick` 대신 `bindtap`, `onChange` 대신 `onCheckedChange` 또는 `onValueChange`를 사용합니다.
-- **상태 스타일**: 웹 pseudo selector 대신 touch 상태와 선택 상태를 Lynx recipe의 `pressed`, `selected` variant로 연결합니다.
-- **아이콘 렌더링**: SVG `currentColor` 대신 Lynx monochrome icon과 `<image tint-color>` 기반 Icon wrapper를 사용합니다.
-- **접근성 역할과 상태**: `Chip.Button`, `Chip.Toggle`, `Chip.RadioItem`은 각각 `button`, `checkbox`, `radio` 역할을, `Chip.RadioRoot`는 `radiogroup` 역할을 `accessibility-role-description`으로 전달합니다. Toggle의 checked 상태와 RadioItem의 selected 상태는 `accessibility-value`로 전달하고, disabled 상태는 `accessibility-traits`로 전달합니다. 컨트롤 이름은 문자열 children이나 `Chip.Label`의 텍스트에서 만들며, 직접 전달한 `accessibility-label`이 우선합니다. label text는 중복 노출하지 않고 Trigger 안에서는 바깥 Trigger가 접근성 의미를 소유합니다. 텍스트를 파생할 수 없으면 이름을 명시하세요. 각 속성은 직접 덮어쓸 수 있습니다.
-- **공개 표면**: React의 registry wrapper 역할을 Lynx package API가 직접 제공하므로 별도 snippet을 설치하지 않습니다.
-</Callout>
+- 탭 이벤트는 `onClick` 대신 `bindtap`으로 받습니다. 선택 변경은 `onCheckedChange` 또는 `onValueChange`로 확인합니다.
+- 접근성 역할과 상태는 Lynx의 `accessibility-role-description`, `accessibility-value`, `accessibility-traits`로 전달합니다.
+- 문자열 label을 파악할 수 없는 구성에는 `accessibility-label`을 지정하세요.
+- Lynx `Chip`은 별도 Registry snippet 없이 `@seed-design/lynx-react`에서 제공합니다.
 
 ## Lynx 미지원 기능
 
-현재 Lynx 구현과 런타임 모델 차이로 다음 기능은 지원하지 않습니다.
-
-| 기능 | 설명 |
-|------|------|
-| HiddenInput / `inputProps` | Lynx에 HTML input과 form 제출 모델이 없습니다. |
-| `name` / `required` / native form value | HTML form 속성을 연결할 대상이 없습니다. |
-| raw DOM `onChange` | `onCheckedChange` 또는 `onValueChange`로 대체합니다. |
-| `Chip.Toggle`의 `indeterminate` | chip recipe에 일부 선택 외형이 없습니다. |
-| `Chip.RadioRoot`의 `invalid` | chip recipe에 오류 외형이 없습니다. |
-| 키보드 focus / `focusVisible` | Lynx에는 웹과 같은 키보드 focus 모델이 없습니다. |
-| `asChild` | Lynx는 웹 Slot 기반 다형 렌더링을 지원하지 않습니다. |
-| Avatar 패키지 | `Chip.PrefixAvatar` 슬롯에 앱이 소유한 avatar view나 컴포넌트를 넣어 사용합니다. |
+- HiddenInput과 HTML form 속성
+- `Chip.Toggle`의 `indeterminate`
+- `Chip.RadioRoot`의 `invalid`
+- 키보드 focus와 `focusVisible`
+- `asChild`
+- Avatar 패키지. `Chip.PrefixAvatar`에는 앱이 소유한 avatar를 넣으세요.

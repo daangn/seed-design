@@ -34,7 +34,7 @@ npx @seed-design/cli@latest add ui:wheel-picker --framework lynx
 
 ## Examples
 
-### Package API
+### Customizing Columns
 
 <LynxComponentExample name="lynx/wheel-picker/package-api">
   ```json doc-gen:file
@@ -45,9 +45,9 @@ npx @seed-design/cli@latest add ui:wheel-picker --framework lynx
   ```
 </LynxComponentExample>
 
-`@seed-design/lynx-react`의 compound API는 컬럼을 직접 조합할 때 사용합니다. `Root`와 각 `Column`의 `className`으로 전체 또는 컬럼 단위 스타일을 조정할 수 있습니다. `renderLabel`은 기본 ItemLabel을 반환한 요소로 대체합니다. 기본 여백과 정렬이 필요하면 예시처럼 `WheelPicker.ItemLabel`을 다시 조합할 수 있습니다. 내부 항목과 선택 표시의 slot 스타일 API는 제공하지 않습니다.
+Registry snippet의 `WheelPicker`에 `columns` 배열을 전달해 컬럼을 구성합니다. `WheelPicker`의 `className`과 각 컬럼의 `className`으로 스타일을 조정하고, 컬럼의 `renderLabel`로 항목 label을 바꿀 수 있습니다. 이 예제의 `WheelPickerItemLabel`은 snippet에서 제공하지 않는 label 부품이므로 `@seed-design/lynx-react`에서 가져옵니다.
 
-`size="small"`의 기본 항목 높이는 36px, `size="medium"`은 44px입니다. 기본 `visibleItemCount`는 5이므로 Root 높이는 각각 180px과 220px입니다. `itemSize`와 `visibleItemCount`로 이를 조정할 수 있습니다. 컬럼의 `loop`는 기본 `false`이며 양 끝을 넘겨 끌면 저항을 주다가 놓으면 돌아옵니다.
+`size="small"`의 기본 항목 높이는 36px, `size="medium"`은 44px입니다. 기본 `visibleItemCount`는 5이므로 `WheelPicker` 높이는 각각 180px과 220px입니다. `itemSize`와 `visibleItemCount`로 이를 조정할 수 있습니다. 컬럼의 `loop`는 기본 `false`이며 양 끝을 넘겨 끌면 저항을 주다가 놓으면 돌아옵니다.
 
 ### Value Change
 
@@ -96,17 +96,14 @@ npx @seed-design/cli@latest add ui:wheel-picker --framework lynx
 
 ### Accessibility
 
-각 `Column`에 `accessibility-label`을 지정하세요. 웹의 `aria-label`과 `aria-labelledby`는 사용하지 않습니다. 각 컬럼은 `accessibility-element`와 `accessibility-value`로 이름과 현재 선택값을 알리고, `disabled`이면 `accessibility-traits="disabled"`를 사용합니다. Android에서도 컬럼의 접근성 요소가 유지되도록 `flatten={false}`를 기본으로 설정합니다. 사용자가 지정한 native 접근성 속성과 `flatten`이 기본값보다 우선합니다. 이름 없는 컬럼이 독립된 접근성 요소이면 개발 환경에서 경고합니다. 복제 항목과 선택 색을 그리는 Highlight는 접근성 트리에서 숨깁니다.
+`columns`의 각 항목에 `accessibility-label`을 지정하세요. 컬럼은 이름과 현재 선택값을 알리며, `disabled` 상태도 전달합니다. raw 접근성 속성과 `flatten`을 직접 지정하면 기본값보다 우선합니다.
 
 ## 웹 버전과의 차이
 
-React의 `Root`는 `group`이지만 Lynx에는 이에 대응하는 접근성 요소가 없습니다. `Root`를 접근성 요소로 만들면 iOS에서 자식 컬럼을 가릴 수 있으므로 이름과 값은 각 `Column`이 담당합니다.
-
-Wheel Picker는 `@seed-design/lynx-react-loop-scroll`로 드래그, 관성, 정착과 탭 선택을 처리합니다. 위치 계산과 애니메이션은 Main Thread에서 실행하고, 지나간 항목과 정착한 값은 Background callback으로 전달합니다.
-
-활성 컬럼에서 세로로 끌면 바깥 `<scroll-view>` 대신 Wheel Picker가 움직입니다. `disabled` 또는 `readOnly`일 때는 세로 끌기를 바깥 native 스크롤에 넘깁니다. touch 이벤트는 이 상태에서도 Lynx 부모로 전파하지 않으므로 BottomSheet 안에서는 휠을 끌어 Sheet를 드래그하지 않습니다. Sheet 드래그는 휠 바깥 영역에서 시작하세요.
-
-선택 색은 `LoopScroll.Highlight` 안팎에 같은 항목을 그려 가운데 칸의 경계에서 나눕니다. 항목 안의 `<text>`에는 선택·비활성 상태 색을 직접 적용하므로 앱 전역 `text` 색이 있어도 항목 상태를 표시합니다.
+- `WheelPicker`를 접근성 요소로 만들면 iOS에서 자식 컬럼이 가려질 수 있습니다. 이름과 값은 `columns`의 각 항목에 지정하세요.
+- 위치 계산과 애니메이션은 Main Thread에서 실행하고 값 callback은 Background Thread에서 실행합니다.
+- 활성 컬럼의 세로 drag는 바깥 scroll view 대신 Wheel Picker가 처리합니다. `disabled` 또는 `readOnly`일 때는 바깥 scroll view가 처리합니다.
+- Bottom Sheet 안에서 drag로 시트를 움직이려면 Wheel Picker 바깥에서 시작하세요.
 
 ## Lynx 미지원 기능
 

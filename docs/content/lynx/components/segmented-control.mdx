@@ -60,7 +60,6 @@ export function App() {
 }
 ```
 
-Registry의 `SegmentedControl`은 선택 Indicator를 자동으로 추가합니다.
 
 ## Examples
 
@@ -112,17 +111,11 @@ Registry의 `SegmentedControl`은 선택 Indicator를 자동으로 추가합니�
 
 ## 웹 버전과의 차이
 
-| 항목 | React Web | Lynx |
-|---|---|---|
-| 렌더링 요소 | HTML `label`, `input` | 네이티브 `view`, `text` |
-| 선택 이벤트 | input change | `bindtap`, 공개 상태 이벤트는 `onValueChange` |
-| 접근성 | ARIA `radiogroup`, `radio` | Lynx `accessibility-*` 속성 |
-| Indicator | CSS grid와 custom property | Grid layout과 custom property |
+- 선택 이벤트는 input change 대신 `bindtap`과 `onValueChange`로 받습니다.
+- 접근성은 ARIA 대신 Lynx의 `accessibility-*` 속성을 사용합니다.
 
 ## Lynx 미지원 기능
 
 - HTML form 제출을 위한 `ItemHiddenInput`, `name`, `form`, `inputProps`
 - 키보드 focus와 focus-visible 상호작용
-- `SegmentedControlItem`의 `invalid` 상태
-
-Lynx Registry와 package는 `invalid` 상태를 제공하지 않습니다. 이 차이는 의도된 미지원입니다. 오류 상태가 필요하면 앱에서 `SegmentedControl` 가까이에 오류 문구를 표시하고, `accessibility-label`에도 오류 내용을 포함하세요.
+- `SegmentedControlItem`의 `invalid` 상태. 오류 문구는 컴포넌트 가까이에 표시하고 `accessibility-label`에도 포함하세요.

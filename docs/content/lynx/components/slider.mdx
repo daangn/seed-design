@@ -29,84 +29,13 @@ npx @seed-design/cli@latest add ui:slider --framework lynx
 
 ### `Slider`
 
-Registry의 `Slider`는 Slider primitive를 Field 안내 요소와 함께 조합한 편의 래퍼입니다. 한 개의 thumb을 사용할 때는 `defaultValues` 또는 `values`에 한 값을 넣고, 범위를 선택할 때는 두 값을 넣습니다.
+Registry의 `Slider`는 Field 안내를 포함한 편의 컴포넌트입니다. 한 개의 값을 선택할 때는 `defaultValues` 또는 `values`에 한 값을, 범위를 선택할 때는 두 값을 전달합니다.
 
 <react-type-table path="./registry/lynx/ui/slider.tsx" name="SliderProps" />
 
-Registry 래퍼는 다음 두 종류의 prop을 제공합니다.
+`allowedValues`를 지정하면 해당 값만 선택할 수 있으며 `step`과 `minStepsBetweenThumbs`보다 우선합니다. `values`와 `onValuesChange`를 함께 사용하면 값을 외부 상태로 제어할 수 있고, `onValuesCommit`은 값이 확정될 때 호출됩니다.
 
-- **Slider 상태·동작**: `low-level Root`의 `values`, `defaultValues`, `min`, `max`, `step`, `allowedValues`, `minStepsBetweenThumbs`, `dir`, `disabled`, `readOnly`, `invalid`, `onValuesChange`, `onValuesCommit`, `getAccessibilityLabel`, `getAccessibilityValueText`, `getValueIndicatorLabel`, `valueIndicatorTrigger`를 그대로 전달합니다.
-- **화면과 Field 안내**: `label`, `labelWeight`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`, `markers`, `ticks`, `tickWeight`, `hideRange`, `hideValueIndicator`, `fieldRef`를 제공합니다. `markers`의 각 항목은 숫자이거나 `{ value, label?, align? }` 객체입니다.
-
-`allowedValues`를 지정하면 허용된 값만 선택할 수 있으며 `step`과 `minStepsBetweenThumbs`보다 우선합니다. `values`와 `onValuesChange`를 함께 사용하면 controlled 상태가 되고, `onValuesCommit`은 값이 확정되는 시점에 호출됩니다.
-
-## Usage
-
-Registry의 조합이 아닌 `@seed-design/lynx-react` primitive를 직접 사용할 수도 있습니다. `SliderRoot` 안에서 `SliderControl`과 `SliderTrack`을 조합하고, track 안에 `SliderRange`와 필요한 `SliderTick`을 배치합니다. 각 thumb은 `SliderThumb`로 만들며 Value Indicator는 `SliderValueIndicatorRoot`, `SliderValueIndicatorArrow`와 그 안의 `SliderValueIndicatorArrowTip`, `SliderValueIndicatorLabel`로 구성합니다. 마커가 필요하면 `SliderMarkers` 안에 `SliderMarker`를 둡니다.
-
-```tsx
-import { useState } from "@lynx-js/react";
-import {
-  ActionButton,
-  SliderControl,
-  SliderMarker,
-  SliderMarkers,
-  SliderRange,
-  SliderRoot,
-  SliderThumb,
-  SliderTick,
-  SliderTrack,
-  SliderValueIndicatorArrow,
-  SliderValueIndicatorArrowTip,
-  SliderValueIndicatorLabel,
-  SliderValueIndicatorRoot,
-} from "@seed-design/lynx-react";
-
-export function PriceSlider() {
-  const [values, setValues] = useState([40]);
-
-  const setPreset = () => {
-    setValues([60]);
-  };
-
-  return (
-    <view>
-      <SliderRoot
-        values={values}
-        min={0}
-        max={100}
-        step={10}
-        onValuesChange={setValues}
-        getAccessibilityLabel={() => "가격"}
-        getAccessibilityValueText={(value) => `${value}원`}
-      >
-        <SliderControl>
-          <SliderTrack>
-            <SliderRange />
-            <SliderTick value={0} />
-            <SliderTick value={50} />
-            <SliderTick value={100} />
-          </SliderTrack>
-          <SliderValueIndicatorRoot thumbIndex={0}>
-            <SliderValueIndicatorArrow>
-              <SliderValueIndicatorArrowTip />
-            </SliderValueIndicatorArrow>
-            <SliderValueIndicatorLabel thumbIndex={0} />
-          </SliderValueIndicatorRoot>
-          <SliderThumb thumbIndex={0} />
-        </SliderControl>
-        <SliderMarkers>
-          <SliderMarker value={0}>0원</SliderMarker>
-          <SliderMarker value={100}>100원</SliderMarker>
-        </SliderMarkers>
-      </SliderRoot>
-      <ActionButton bindtap={setPreset}>60원으로 설정</ActionButton>
-    </view>
-  );
-}
-```
-
-`SliderThumb`, `SliderValueIndicatorRoot`, `SliderValueIndicatorLabel`의 `thumbIndex`는 `values` 배열에서 thumb의 위치를 가리킵니다. touch 좌표는 `SliderRoot`의 가로 범위를 기준으로 값으로 바꾸므로, Root에 좌우 padding을 주거나 track 폭을 Root와 다르게 조합하지 마세요. package primitive를 직접 조합할 때도 값 변경과 제출·검증은 앱 상태와 요청 흐름에서 처리합니다.
+touch 좌표는 Slider의 전체 가로 범위를 기준으로 값으로 변환됩니다. Slider에 좌우 padding을 주거나 track 폭을 Slider와 다르게 설정하지 마세요.
 
 ## Examples
 

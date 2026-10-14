@@ -26,7 +26,7 @@ npx @seed-design/cli@latest add ui:select
 
 ## Usage
 
-`SelectContent`는 목록 레이어, 위치 계산, 표시 수명과 긴 목록의 scroll viewport를 함께 구성합니다. 레이어는 기본으로 Lynx view 안에 그리고, `container`를 지정하면 native overlay에 그립니다.
+`SelectContent`는 긴 목록을 스크롤합니다. `container`를 지정하지 않으면 Lynx view 안에, 지정하면 native overlay에 렌더링됩니다.
 
 ```tsx
 import {
@@ -55,13 +55,9 @@ export function App() {
 }
 ```
 
-- `SelectRoot`는 `value`/`defaultValue`와 `open`/`defaultOpen`을 관리합니다. `multiple`일 때는 항목을 탭해도 목록을 유지하고 선택을 toggle합니다.
-- `SelectTrigger`는 선택 값 또는 placeholder를 표시하고 탭으로 목록을 열고 닫습니다. `SelectRoot`의 문자열 `label` 또는 `accessibility-label`은 trigger의 기본 접근성 이름으로 사용됩니다.
-- `SelectContent`는 선택된 항목이 보이도록 목록을 스크롤하고, trigger 너비·화면 여유 공간·safe area에 맞춰 목록을 배치합니다.
-- `SelectGroup`은 관련 항목을 묶습니다. 여러 그룹 사이에는 구분선이 표시되고 `label`은 그룹 제목을 만듭니다.
-- `SelectItem`은 label, 선택적 description, prefix icon과 기본 checkmark indicator를 조합합니다. `selectedIndicator`로 checkmark를 교체할 수 있습니다.
-
-낮은 수준의 조합이 필요하면 `Select` namespace의 `Root`, `Trigger`, `Value`, `Placeholder`, `PrefixIcon`, `SuffixIcon`, `Positioner`, `Content`, `ScrollArea`, `Group`, `GroupLabel`, `Item`, `ItemPrefixIcon`, `ItemBody`, `ItemLabel`, `ItemDescription`, `ItemIndicator`를 사용하세요. 목록은 `Positioner > Content > ScrollArea` 순서로 조립합니다. 같은 API는 `SelectRoot`, `SelectTrigger`처럼 `Select` 접두어가 붙은 flat export로도 제공합니다.
+- `multiple`일 때는 항목을 탭해도 목록을 닫지 않고 선택 상태를 전환합니다.
+- `SelectRoot`의 문자열 `label` 또는 `accessibility-label`은 Trigger의 기본 접근성 이름으로 사용됩니다.
+- 목록을 열면 선택된 항목이 보이도록 스크롤하며, Trigger 주변의 여유 공간과 safe area에 맞춰 높이를 제한합니다.
 
 ## Props
 
@@ -251,29 +247,17 @@ Lynx에는 HTML `<form>`과 native `<select>` 제출 모델이 없습니다. 선
 
 ### React Hook Form
 
-현재 Lynx React 런타임과 이 예제 경로에는 React Hook Form 통합·dependency가 없습니다. `value`/`onValueChange`와 `invalid`/`errorMessage`를 앱 상태 및 native request action에 직접 연결하세요.
+React Hook Form 통합은 제공하지 않습니다. `value`, `onValueChange`, `invalid`, `errorMessage`를 앱 상태에 연결하세요.
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx Select는 Lynx view 안의 native <code>view</code> 레이어에 렌더링하고, <code>container</code>를 지정하면 native <code>overlay</code>에 렌더링합니다. HTML DOM의 focus와 form 모델 대신 native tap, overlay dismissal, <code>accessibility-*</code> 속성과 앱 상태를 사용합니다.
-</Callout>
-
-| 항목 | React | Lynx |
-| --- | --- | --- |
-| Trigger 조합 | `asChild`와 DOM button 조합 | native `SelectTrigger`를 사용 |
-| 위치와 긴 목록 | DOM positioner와 scroll area | `SelectContent`가 레이어(`Positioner`), 위치 계산, scroll viewport를 함께 조립. 레이어는 기본 native `view`, `container` 지정 시 native overlay |
-| 열림 이유 | keyboard/focus를 포함한 DOM 상호작용 | `trigger`, `itemSelect`, `interactOutside`, `dismiss` |
-| 키보드 | focus, typeahead, Escape로 닫기 | 현재 Lynx Select에서 지원하지 않음 |
-| 접근성 | DOM ARIA id 연결 | `SelectRoot` 또는 `SelectTrigger`의 `accessibility-label`과 item의 native 접근성 속성 사용 |
-| 반응형 size | 웹 viewport 기반 | native runtime 폭을 사용 |
+- Trigger는 native 요소이며 `asChild`를 제공하지 않습니다.
+- `onOpenChange`의 reason은 `trigger`, `itemSelect`, `interactOutside`, `dismiss`입니다.
+- 키보드 focus, typeahead, Escape 키 닫기는 지원하지 않습니다.
+- `container`를 지정하면 목록을 native overlay에 렌더링합니다.
 
 ## Lynx 미지원 기능
 
-| 기능 | 웹 대응 | 앱 대안 |
-| --- | --- | --- |
-| hidden native select, `name`, `form` 제출 | `<select>`와 `FormData` | `onValueChange`로 앱 state를 갱신하고 제출 action payload에 그 값을 넣기 |
-| browser validation | `required`의 native form validation | 앱 제출 action에서 state를 검증하고 `invalid`/`errorMessage`를 제어하기 |
-| React Hook Form 예제 | `useController`와 HTML form 통합 | 현재 예제 경로에는 React Hook Form 통합·dependency가 없으므로 `value`/`onValueChange` 및 앱 상태·요청 action으로 연결하기 |
-| DOM focus, typeahead, keyboard navigation | focus/keyboard API | native tap과 host의 접근성 탐색 흐름 사용 |
-| DOM ARIA id | `aria-describedby`, `aria-controls` | 각 trigger와 복합 item에 필요한 `accessibility-*` 속성을 직접 지정 |
+- HTML form 제출과 브라우저 validation은 지원하지 않습니다. `onValueChange`로 앱 상태를 갱신하고 제출 action에서 검증하세요.
+- React Hook Form 통합은 제공하지 않습니다. 값과 오류 상태를 앱 상태에 직접 연결하세요.
+- DOM focus, typeahead, ARIA id 연결은 지원하지 않습니다. native 접근성 속성과 host의 접근성 탐색을 사용하세요.

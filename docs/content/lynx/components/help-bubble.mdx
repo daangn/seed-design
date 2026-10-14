@@ -21,8 +21,6 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ## Usage
 
-설치한 스니펫은 `HelpBubbleTrigger`와 `HelpBubbleAnchor`로 위치 기준점, 말풍선 콘텐츠, 화살표, 선택적인 닫기 버튼을 함께 조립합니다.
-
 ```tsx
 import IconILowercaseSerifCircleFill from "@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleFill";
 import { ActionButton, Icon } from "@seed-design/lynx-react";
@@ -41,12 +39,11 @@ export function App() {
 ```
 
 - `HelpBubbleTrigger`는 자식을 탭하면 말풍선을 열고 닫습니다.
-- `HelpBubbleAnchor`는 위치 기준점만 만듭니다. `defaultOpen`으로 초기 열림 상태를 정하거나, `open`과 `onOpenChange`로 열림 상태를 직접 제어할 수 있습니다.
+- `HelpBubbleAnchor`는 위치만 정합니다. `defaultOpen` 또는 `open`과 `onOpenChange`로 상태를 관리하세요.
 - 기본 배치는 `"top"`입니다. `placement`, `flip`, `gutter`, `overflowPadding`, `arrowPadding`으로 위치를 조정할 수 있습니다.
-- `showCloseButton`을 지정하면 기본 닫기 아이콘을 포함한 닫기 버튼을 추가합니다.
-- `contentProps.maxWidth`의 기본값은 `280px`이고, `"none"`으로 최대 너비 제한을 없앨 수 있습니다. `contentProps.style.width`를 함께 지정했을 때는 `maxWidth`가 더 좁으면 `maxWidth`가 적용됩니다.
-- `zIndexOffset`은 `container`가 없을 때 Positioner의 기본 z-index `99`에 더합니다.
-- `container`와 `overlayLevel`은 Positioner로 전달됩니다. `container`를 지정하면 말풍선을 Lynx view 밖까지 덮는 native overlay 레이어에 렌더링합니다.
+- `showCloseButton`으로 닫기 버튼을 추가할 수 있습니다.
+- `contentProps.maxWidth`의 기본값은 `280px`입니다. `"none"`으로 제한을 없앨 수 있습니다.
+- `zIndexOffset`은 같은 화면 안에서의 표시 순서를 조정합니다. native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 ## Props
 
@@ -162,7 +159,7 @@ React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변
 
 ### `z-index` Offset
 
-`zIndexOffset`으로 Positioner의 기본 z-index `99`에 값을 더합니다. 이 예제는 SegmentedControl로 offset을 바꾸며 말풍선의 현재 z-index를 확인합니다. `container`를 지정하면 native overlay 사이의 순서는 `zIndexOffset`이 아니라 `overlayLevel`과 표시 순서가 정합니다.
+`zIndexOffset`은 같은 Lynx 화면 안에서의 표시 순서를 조정합니다. `container`를 지정한 native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 <LynxComponentExample name="lynx/help-bubble/z-index-offset" height={480}>
   ```json doc-gen:file
@@ -184,7 +181,7 @@ overlay 레이어는 말풍선이 아닌 곳의 탭을 아래 화면으로 넘�
 
 ## 웹 버전과의 차이
 
-- Lynx의 Trigger와 Anchor는 자식을 native `view`로 감쌉니다. package의 `HelpBubble.Trigger`는 문자열 children에서 접근성 이름을 만들고 직접 전달한 `accessibility-label`이 우선합니다. 안쪽 `ActionButton`은 별도 접근성 요소가 되지 않으며 label text를 중복 노출하지 않습니다. raw `<text>` 등에서 텍스트를 파생할 수 없는 경우 Trigger에 이름을 명시하세요. DOM `asChild`, HTML ARIA 속성, 키보드 포커스·ESC 닫힘, portal은 제공하지 않습니다.
-- `closeOnInteractOutside`는 웹과 같이 바깥 탭을 가로채지 않습니다. 탭 좌표로 바깥을 판정하므로 스크롤처럼 탭이 아닌 상호작용으로는 닫히지 않습니다.
-- `container`가 없으면 Positioner는 portal이나 fullscreen overlay가 아닌 고정 native `view`입니다. `zIndexOffset`으로 같은 화면의 형제 요소와의 z-index 순서를 조정합니다. `container`를 지정하면 DOM portal이 아니라 native overlay 레이어에 렌더링합니다.
-- [Help Bubble Tooltip](/react/components/help-bubble-tooltip)은 hover·키보드 포커스로 여는 웹 전용 컴포넌트라 Lynx에서는 제공하지 않습니다. 탭으로 여는 Help Bubble을 사용하세요.
+- Trigger와 Anchor는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다. raw `<text>`처럼 이름을 만들 수 없는 Trigger에는 `accessibility-label`을 지정하세요.
+- `closeOnInteractOutside`는 바깥 탭을 아래 요소로 전달합니다. 스크롤처럼 탭이 아닌 상호작용으로는 닫히지 않습니다.
+- `container`를 지정하면 native overlay에 렌더링됩니다. 지정하지 않으면 `zIndexOffset`으로 같은 화면 안의 표시 순서를 조정합니다.
+- [Help Bubble Tooltip](/react/components/help-bubble-tooltip)은 hover와 키보드 focus를 사용하는 웹 전용 컴포넌트입니다.

@@ -54,17 +54,11 @@ export function Screen() {
 }
 ```
 
-- Root는 Content와 Footer를 세로로 배치합니다. Content가 Footer를 뺀 남은 높이를 채우므로 Root에는 높이를 지정합니다. 높이가 없으면 Content의 높이가 0이 됩니다.
-- Content는 focus된 입력이 키보드와 Footer에 가려지지 않도록 하단 spacer와 스크롤 위치를 조정합니다. `keyboardGap`은 키보드와 활성 입력 영역 사이의 간격이며, Footer가 있으면 Footer와의 간격입니다. `scrollBehavior`는 회피 위치로 이동하는 방식을 정합니다.
-- Footer는 키보드가 Root 아래쪽을 가린 높이만큼 위로 이동해 키보드 바로 위에 붙습니다. 어떤 입력이 키보드를 열었는지와 관계없이 이동하고, 그동안 Content 끝이 Footer에 가리지 않도록 아래 여백을 둡니다. Footer 안의 입력은 Content를 스크롤하지 않습니다. 이동은 키보드 애니메이션에 맞춘 기본 `transition`으로 움직이며, 바꾸려면 Footer의 `style`에 `transition`을 넘깁니다. 기본값은 inline style이라 `className`의 `transition`으로는 바뀌지 않습니다. Footer는 첫 위치가 정해질 때까지 보이지 않습니다. Android host는 내비게이션 바가 가린 높이를 키보드 이벤트로 늦게 보낼 수 있어, 화면에서 처음 키보드 상태를 구독할 때 최대 0.1초 기다립니다. Root 안의 입력이 처음 focus되기 전의 이동은 애니메이션하지 않습니다.
-- Root의 자식은 Content와 Footer만 둡니다. Footer는 Content 바로 아래, Root의 아래쪽 끝에 있어야 Content가 가려지는 높이를 정확히 계산합니다.
-- 하단 safe area 여백은 Root 바깥의 화면 컨테이너에 둡니다. Root의 `padding-bottom`이나 Footer 안쪽 하단 여백은 키보드가 열린 뒤에도 남아, 그 높이만큼 Footer 내용과 키보드 사이가 벌어집니다.
-
-Text Field Input과 Text Field Textarea의 레지스트리 스니펫이 제공하는 `TextField` 안에 입력 요소를 배치합니다. 이 `TextField`가 내부에 만드는 Field 경계를 기준으로 입력 영역과 하단을 추적합니다. 입력 요소는 focus와 blur를 자동으로 전달합니다. 자동 높이 조절 `TextField.Textarea`는 layout 변경도 전달하므로 별도 등록 prop은 필요하지 않습니다.
-
-Android에서 이 컴포넌트가 키보드 회피를 전담한다면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정합니다. host window의 별도 pan이나 resize와 회피 동작이 겹치지 않게 합니다.
-
-안쪽 입력 요소에는 Lynx `<input>`·`<textarea>`의 `avoid-keyboard`를 지정하지 않습니다. 이 속성은 LynxView 전체를 키보드 위로 옮기므로 이 컴포넌트의 스크롤 회피와 겹칩니다.
+- Root에는 높이를 지정하고 자식으로 Content와 Footer만 두세요. Footer는 Content 바로 아래에 배치합니다.
+- Content는 focus된 입력이 키보드나 Footer에 가리지 않도록 스크롤과 하단 여백을 조정합니다. `keyboardGap`과 `scrollBehavior`로 간격과 이동 방식을 정할 수 있습니다.
+- Footer는 키보드 위로 이동합니다. 하단 safe area 여백은 Root 바깥의 화면 컨테이너에 두세요.
+- Text Field Registry의 Input과 Textarea는 focus, blur, 높이 변경을 자동으로 전달합니다.
+- Android에서 이 컴포넌트가 키보드 회피를 맡으면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정하고 `avoid-keyboard`는 사용하지 마세요.
 
 ## Examples
 
@@ -121,12 +115,11 @@ Android에서 이 컴포넌트가 키보드 회피를 전담한다면 입력 요
 
 ## 웹 버전과의 차이
 
-- 브라우저의 `visualViewport`나 CSS viewport unit 대신 Lynx keyboard global event와 native node 측정을 사용합니다.
-- 키보드가 열릴 때 필요한 하단 spacer만 추가하고, 사용자 스크롤 중에는 자동 이동을 잠시 중단합니다.
+- Lynx keyboard event와 native node 위치를 기준으로 세로 스크롤을 조정합니다.
 - 브라우저의 form 제출과 자동 focus 이동은 제공하지 않습니다.
 
 ## Lynx 미지원 기능
 
-- 가로·중첩 scroll view는 지원하지 않습니다.
-- 키보드 toolbar 높이와 큰 textarea의 caret 단위 회피는 아직 반영하지 않습니다.
-- Footer는 키보드 애니메이션을 직접 따르지 않고 비슷한 곡선의 `transition`으로 움직입니다. 키보드가 닫히는 동안 Footer와 키보드 사이가 잠시 벌어질 수 있습니다.
+- 가로 또는 중첩 scroll view
+- 키보드 toolbar 높이와 큰 textarea의 caret 단위 회피
+- 키보드 애니메이션과 정확히 같은 Footer 이동. 닫는 동안 잠시 간격이 생길 수 있습니다.
