@@ -2,7 +2,8 @@
 id: lynx-headless-no-docs
 description: Lynx 1.0(DES-2608 하위) 컴포넌트의 Headless 분리 티켓에서 `docs/content/lynx/components/*.mdx`나 `docs/examples/lynx/**`를 갱신하거나, 선례 문서의 `## Headless` 섹션·`headless.tsx` 예제를 따라 만들지 판단할 때 읽는다. Headless 패키지를 문서에 따로 소개하지 않는 결정과, 대신 styled 컴포넌트 문서에 반영할 범위를 다룬다. styled 컴포넌트의 새 기능이나 일반 문서 작업에는 적용하지 않는다.
 scope: ["docs/content/lynx/**", "docs/examples/lynx/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
-status: active
+status: promoted
+promoted_to: ["docs/AGENTS.md"]
 related: ["lynx-split-base-branch"]
 ---
 
@@ -27,3 +28,4 @@ related: ["lynx-split-base-branch"]
 
 - 2026-09-29: DES-2617 작업에서 유지보수자의 문서화 결정을 기록했다.
 - 2026-10-01: DES-2632에서 Switch #2358과의 충돌과 유지보수자의 재확인을 반영하고, 형제 PR 섹션으로 방침 변경을 판단하던 기준을 바꿨다.
+- 2026-10-14: 유지보수자가 모든 Lynx 컴포넌트 문서의 Headless 안내 제거를 요청해 기존 섹션·예제를 정리했다. 규칙을 `docs/AGENTS.md`「`content/lynx/`」로 옮기고 `promoted`로 바꿨다. 이후 규칙은 그 문서를 원천으로 삼는다.
