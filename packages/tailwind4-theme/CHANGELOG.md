@@ -1,5 +1,52 @@
 # @seed-design/tailwind4-theme
 
+## 3.0.2
+
+### Patch Changes
+
+- d0ebeed: `@seed-design/lynx-css` `1.0.0`과 함께 설치할 때 optional peer dependency 경고가 발생하던 문제를 수정해 `^0.14.0 || ^1.0.0`을 허용합니다.
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [20d639c]
+- Updated dependencies [7dae990]
+- Updated dependencies [4f1c681]
+- Updated dependencies [f417a4f]
+- Updated dependencies [f164f8b]
+- Updated dependencies [7f51d06]
+- Updated dependencies [3b4d190]
+- Updated dependencies [d4a20aa]
+- Updated dependencies [a5af36f]
+- Updated dependencies [bb2513e]
+- Updated dependencies [46ecb70]
+- Updated dependencies [a1881c3]
+- Updated dependencies [e5ebfb1]
+- Updated dependencies [26bf8c3]
+- Updated dependencies [eb01c01]
+- Updated dependencies [39d5917]
+- Updated dependencies [524ad2f]
+- Updated dependencies [e056828]
+- Updated dependencies [e056828]
+- Updated dependencies [524ad2f]
+- Updated dependencies [34e7691]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [b7cad68]
+- Updated dependencies [a684488]
+- Updated dependencies [ee36625]
+- Updated dependencies [5769ae6]
+- Updated dependencies [ac07387]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [83b5ca4]
+- Updated dependencies [f423482]
+- Updated dependencies [7dae990]
+- Updated dependencies [26fa233]
+- Updated dependencies [7147073]
+  - @seed-design/lynx-css@1.0.0
+
 ## 3.0.1
 
 ### Major Changes

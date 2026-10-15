@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react-loop-scroll",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,7 +30,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@seed-design/lynx-react-use-controllable-state": "0.1.0"
+    "@seed-design/lynx-react-use-controllable-state": "1.0.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",
