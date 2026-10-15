@@ -1,25 +1,123 @@
 export const FIGMA_VARIABLES = {
-  "VariableID:54461:116345": {
-    "name": "_legacy/bg/layer-fill",
-    "id": "VariableID:54461:116345",
+  "VariableID:1:159": {
+    "name": "_legacy/bg/neutral-inverted",
+    "id": "VariableID:1:159",
     "remote": false,
-    "key": "f015408caaf8301430455d23312a5b0a3cb9fb43",
+    "key": "b7c93444225f9570044f3b44ba5251c32488a09a",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "[Deprecated] bg/neutral-solid를 사용해요. 기존 디자인의 연결을 유지하기 위한 호환용 토큰이에요.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92912"
+        "id": "VariableID:11608:43633"
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92913"
+        "id": "VariableID:1883:92920"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:576:22878": {
+    "name": "_legacy/bg/neutral-inverted-pressed",
+    "id": "VariableID:576:22878",
+    "remote": false,
+    "key": "11e4f1f6a000874c95ac9fc2cb94f0700a0f9978",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "[Deprecated] bg/neutral-solid-pressed를 사용해요. 기존 디자인의 연결을 유지하기 위한 호환용 토큰이에요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:10181:8465": {
+    "name": "_legacy/bg/neutral-solid-muted",
+    "id": "VariableID:10181:8465",
+    "remote": false,
+    "key": "b741992cff0b76dbbc260ae5977c639a8b101c64",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "[Deprecated] 기존 Control Chip의 선택 상태 배경을 유지하기 위한 토큰이에요. 신규 디자인에는 사용하지 않아요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92915"
       }
     },
     "scopes": [
       "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:10181:35817": {
+    "name": "_legacy/bg/neutral-solid-muted-pressed",
+    "id": "VariableID:10181:35817",
+    "remote": false,
+    "key": "4abd2169e89c8010df7fe95709d11e64dc55080c",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "[Deprecated] 기존 Control Chip의 선택된 Pressed 상태 배경을 유지하기 위한 토큰이에요. 신규 디자인에는 사용하지 않아요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11608:43633"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92916"
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:1:132": {
+    "name": "_legacy/fg/neutral-inverted",
+    "id": "VariableID:1:132",
+    "remote": false,
+    "key": "621e27fddc5262529cd912fcbb012d6f87926531",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "[Deprecated] bg/neutral-solid 계열 배경 위에서는 fg/on-neutral-solid를 사용해요. 컬러 Solid 배경 위에서는 배경에 맞는 fg/on-*-solid를 사용해요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92911"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92912"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -360,7 +458,7 @@ export const FIGMA_VARIABLES = {
     "key": "14d9069bbde1d267abff7d8f5613cc9c754357d9",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-600, carrot600, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -385,7 +483,7 @@ export const FIGMA_VARIABLES = {
     "key": "d619ede215aa2da9881e5ca4ed063db8ba8ecbc4",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-700, carrot700, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid-pressed)\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -410,7 +508,7 @@ export const FIGMA_VARIABLES = {
     "key": "338fcdefc08d087b18d40563139abac2b97a1c54",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -423,7 +521,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -434,7 +533,7 @@ export const FIGMA_VARIABLES = {
     "key": "935393e61d597c538133c898a637372afb703376",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak-pressed)",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -447,7 +546,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -458,7 +558,7 @@ export const FIGMA_VARIABLES = {
     "key": "80f05ce726e60302d757cfc7bc0a6a99f2508694",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-700, red700, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -483,7 +583,7 @@ export const FIGMA_VARIABLES = {
     "key": "400c2939cbbbfe7212ce8ec37fa675355ad6f7e8",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-800, red800, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid-pressed)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -508,7 +608,7 @@ export const FIGMA_VARIABLES = {
     "key": "5c5382152b74e4b6c6f67050765cf5ef748b30a9",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-100, red100, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -533,7 +633,7 @@ export const FIGMA_VARIABLES = {
     "key": "f386e20dc1991339522b5904808ec35a1e1ad64b",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-200, red200, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak-pressed)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -583,7 +683,7 @@ export const FIGMA_VARIABLES = {
     "key": "10c822044e8189089942982668d372c82e1bba0e",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-700, blue700, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -608,7 +708,7 @@ export const FIGMA_VARIABLES = {
     "key": "333a7d880e192cf58adac2e26455740edeae868f",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-800, blue800, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid-pressed)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -621,7 +721,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -632,7 +733,7 @@ export const FIGMA_VARIABLES = {
     "key": "d83ab21c93e69001bbdf612f1f6cfa49e9462542",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-100, blue100, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -657,7 +758,7 @@ export const FIGMA_VARIABLES = {
     "key": "ecb713840adf976cda29c2cf8fb8d41604741b75",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-200, blue200, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak-pressed)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -682,7 +783,7 @@ export const FIGMA_VARIABLES = {
     "key": "8a6ce974b7fecea58d2e90c2ae4541e2b28f5ecf",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-200, gray200, paper",
+    "description": "가장 낮은 0단계의 &#39;대지&#39;입니다. 화면 가장 깊은 곳에 위치하는 전체 배경색입니다.\ngray, paper",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -709,7 +810,7 @@ export const FIGMA_VARIABLES = {
     "key": "7c1848fdbe0b2cfe58bfc2321f010f3e747ebb6e",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-00, gray00, #ffffff, white, background, bg, default, paper",
+    "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다.\ngray, #ffffff, white, background, bg, default, paper",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -736,7 +837,7 @@ export const FIGMA_VARIABLES = {
     "key": "79711ba8dcf5a058fbe67f5a2522e0defe5bc8d5",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-100, gray100, paper",
+    "description": "basement 바로 위에 놓이는 기본 표면입니다. 대부분의 스크린 콘텐츠(List, TextField 등)가 이 레이어 위에서 표현됩니다. (pressed)\ngray, paper",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -789,7 +890,7 @@ export const FIGMA_VARIABLES = {
     "key": "eaf66693190c0be841169b42f31e18ce6e62fa27",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-00, gray00, #ffffff, white, paper",
+    "description": "화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다.\ngray, #ffffff, white, paper",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -816,7 +917,7 @@ export const FIGMA_VARIABLES = {
     "key": "878cdccbca2f3cfc3abb89ea958b2eb6bdaffebe",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-100, gray100, paper",
+    "description": "화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다. (pressed)\ngray, paper",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -910,52 +1011,28 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:1:159": {
-    "name": "bg/neutral-inverted",
-    "id": "VariableID:1:159",
-    "remote": false,
-    "key": "b7c93444225f9570044f3b44ba5251c32488a09a",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "gray-900, gray900, secondary",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:11608:43633"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92920"
-      }
-    },
-    "scopes": [
       "FRAME_FILL",
       "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
-  "VariableID:576:22878": {
-    "name": "bg/neutral-inverted-pressed",
-    "id": "VariableID:576:22878",
+  "VariableID:54461:116345": {
+    "name": "bg/neutral-muted",
+    "id": "VariableID:54461:116345",
     "remote": false,
-    "key": "11e4f1f6a000874c95ac9fc2cb94f0700a0f9978",
+    "key": "f015408caaf8301430455d23312a5b0a3cb9fb43",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-800, gray800, secondary",
+    "description": "기본 표면 위에서 영역이나 섹션을 은은하게 구분하는 배경에 사용해요.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92919"
+        "id": "VariableID:1883:92912"
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92919"
+        "id": "VariableID:1883:92913"
       }
     },
     "scopes": [
@@ -971,55 +1048,7 @@ export const FIGMA_VARIABLES = {
     "key": "c646d4565cc782e5066f55fdeed174fc4fbc392b",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-1000, gray1000, secondary",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92920"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92914"
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:10181:8465": {
-    "name": "bg/neutral-solid-muted",
-    "id": "VariableID:10181:8465",
-    "remote": false,
-    "key": "b741992cff0b76dbbc260ae5977c639a8b101c64",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "gray-800, gray800, secondary",
-    "hiddenFromPublishing": false,
-    "valuesByMode": {
-      "1928:7": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92919"
-      },
-      "1928:8": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92915"
-      }
-    },
-    "scopes": [
-      "ALL_SCOPES"
-    ],
-    "codeSyntax": {}
-  },
-  "VariableID:10181:35817": {
-    "name": "bg/neutral-solid-muted-pressed",
-    "id": "VariableID:10181:35817",
-    "remote": false,
-    "key": "4abd2169e89c8010df7fe95709d11e64dc55080c",
-    "variableCollectionId": "VariableCollectionId:1:3",
-    "resolvedType": "COLOR",
-    "description": "gray-900, gray900, secondary",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)\ngray, secondary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1028,11 +1057,62 @@ export const FIGMA_VARIABLES = {
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92916"
+        "id": "VariableID:1883:92920"
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64470:2": {
+    "name": "bg/neutral-solid-pressed",
+    "id": "VariableID:64470:2",
+    "remote": false,
+    "key": "921d77d337e43d04ec2dee29b124ac5e35ebf945",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64480:2": {
+    "name": "bg/neutral-subtle",
+    "id": "VariableID:64480:2",
+    "remote": false,
+    "key": "254646a508f3db01837515823cac3a00c6b66a63",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "회색 표면 위에서 낮은 강조도의 버튼 등 컨트롤 배경에 사용해요. bg/layer-default와 같은 색이므로 기본 표면 위에서는 사용하지 않아요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92911"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92912"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1043,7 +1123,7 @@ export const FIGMA_VARIABLES = {
     "key": "4f00d062a61de1b7a0f1211d7a55bb6761ec84b6",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-200, gray200, secondary",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)\ngray, secondary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1068,7 +1148,7 @@ export const FIGMA_VARIABLES = {
     "key": "082218bada1fc4e2688ad59f30a980c191caf7b7",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1081,7 +1161,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1092,7 +1173,7 @@ export const FIGMA_VARIABLES = {
     "key": "b67dd2511e5e4f41e0e392925fcccc752c67631f",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-alpha-pressed) `$color.layer.basement` 위에서 컴포넌트의 가시성을 보장하기 위해 사용됩니다.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1105,7 +1186,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1116,7 +1198,7 @@ export const FIGMA_VARIABLES = {
     "key": "772ba3c349490f204dd0bedc5aa0bfd4abfd6135",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-300, gray300, secondary",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak-pressed)\ngray, secondary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1191,7 +1273,7 @@ export const FIGMA_VARIABLES = {
     "key": "e9769087159cba7d757e631f1267ec748c452926",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-700, green700, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1216,7 +1298,7 @@ export const FIGMA_VARIABLES = {
     "key": "38c651ffd6268a3633dbe663aca67dba692619b5",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-800, green800, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid-pressed)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1229,7 +1311,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1240,7 +1323,7 @@ export const FIGMA_VARIABLES = {
     "key": "48ee6bd0bcb83f69b852744d6c49934830f93924",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-100, green100, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1265,7 +1348,7 @@ export const FIGMA_VARIABLES = {
     "key": "77bc21901849aa2d04790e3a67603b72256cd6e6",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-200, green200, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak-pressed)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1278,7 +1361,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1306,7 +1390,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1330,7 +1415,58 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:63387:10": {
+    "name": "bg/transparent-selected",
+    "id": "VariableID:63387:10",
+    "remote": false,
+    "key": "a2f4bd4c478f2b051e1a73ceca0f9345778b7894",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36296"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36306"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:63387:11": {
+    "name": "bg/transparent-selected-pressed",
+    "id": "VariableID:63387:11",
+    "remote": false,
+    "key": "443df10442081d53eb72d67a88160d8117bdf819",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36297"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:30894:36307"
+      }
+    },
+    "scopes": [
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1341,7 +1477,7 @@ export const FIGMA_VARIABLES = {
     "key": "1740f7e1bbbbf4c94f0edf3e07cca2ad9c2fc392",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-300, yellow300",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1366,7 +1502,7 @@ export const FIGMA_VARIABLES = {
     "key": "6a6ee5163def9a42b9906310f0f9d9dcc2ac5364",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid-pressed)",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1379,7 +1515,8 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL"
     ],
     "codeSyntax": {}
   },
@@ -1390,7 +1527,7 @@ export const FIGMA_VARIABLES = {
     "key": "2a610a4f2f4ac02a268e10c1df56b85716b46dfe",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-100, yellow100",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1415,7 +1552,7 @@ export const FIGMA_VARIABLES = {
     "key": "e1e6a121eb7beda05e8c32f222753aec1689af79",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-200, yellow200",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak-pressed)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -1987,7 +2124,7 @@ export const FIGMA_VARIABLES = {
     "key": "b69326ab587d474b2734d1ed61b718fcb46a7378",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-600, carrot600, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다.\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2000,10 +2137,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "FRAME_FILL",
-      "SHAPE_FILL",
-      "TEXT_FILL",
-      "STROKE_COLOR"
+      "ALL_FILLS"
     ],
     "codeSyntax": {
       "WEB": "var(--seed-color-fg-brand)"
@@ -2016,7 +2150,7 @@ export const FIGMA_VARIABLES = {
     "key": "d6a4e0a96166809a2be0eb6dff2c0aa7c8056bd3",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-900, carrot900, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. (contrast)\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2029,7 +2163,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2040,7 +2174,7 @@ export const FIGMA_VARIABLES = {
     "key": "61b23a63166b4829044e9558559061b74fae0690",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-700, red700, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다.\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2053,9 +2187,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL",
-      "STROKE_COLOR"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2066,7 +2198,7 @@ export const FIGMA_VARIABLES = {
     "key": "c3fa6e2a0fe1f6f4569dcac7f0ae2b964db7bcc8",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-900, red900, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (contrast)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2079,8 +2211,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2104,8 +2235,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2116,7 +2246,7 @@ export const FIGMA_VARIABLES = {
     "key": "58ace3e7b4feaa27d0c38fa2a069c0ad1280259d",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-700, blue700, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다.\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2129,10 +2259,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "FRAME_FILL",
-      "SHAPE_FILL",
-      "TEXT_FILL",
-      "STROKE_COLOR"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2143,7 +2270,7 @@ export const FIGMA_VARIABLES = {
     "key": "6cc30b727010decfb3355c05ba03fe41ec18b6db",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-900, blue900, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (contrast)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2156,8 +2283,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2218,7 +2344,7 @@ export const FIGMA_VARIABLES = {
     "key": "24b0a26985f2cc3a519e84a80ae795429a811878",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-1000, gray1000, secondary",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다.\ngray, secondary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2231,20 +2357,138 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL",
-      "STROKE_COLOR"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
-  "VariableID:1:132": {
-    "name": "fg/neutral-inverted",
-    "id": "VariableID:1:132",
+  "VariableID:1:130": {
+    "name": "fg/neutral-muted",
+    "id": "VariableID:1:130",
     "remote": false,
-    "key": "621e27fddc5262529cd912fcbb012d6f87926531",
+    "key": "be0cd1c7ba02b37e3850b32793fb4877a9a4f5f6",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-100, gray100, #ffffff, white, secondary",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)\ngray, secondary",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92919"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:1:131": {
+    "name": "fg/neutral-subtle",
+    "id": "VariableID:1:131",
+    "remote": false,
+    "key": "e8d4d2ea3c9eaa824bbfedf98823a50c3ba995d6",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)\ngray, secondary",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92918"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:92918"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64470:4": {
+    "name": "fg/on-brand-solid",
+    "id": "VariableID:64470:4",
+    "remote": false,
+    "key": "3ab4bc0f8f59097ef9faf2c22c9e062e1eb5c6ed",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "bg/brand-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64470:6": {
+    "name": "fg/on-critical-solid",
+    "id": "VariableID:64470:6",
+    "remote": false,
+    "key": "2f293136e3f28ae9e08a2a22a600af34ecd74c5a",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "bg/critical-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64470:5": {
+    "name": "fg/on-informative-solid",
+    "id": "VariableID:64470:5",
+    "remote": false,
+    "key": "a13db84626419cd2a7a8aede82156b7a604bcc88",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "bg/informative-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      },
+      "1928:8": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:1883:93018"
+      }
+    },
+    "scopes": [
+      "ALL_FILLS"
+    ],
+    "codeSyntax": {}
+  },
+  "VariableID:64470:3": {
+    "name": "fg/on-neutral-solid",
+    "id": "VariableID:64470:3",
+    "remote": false,
+    "key": "d43285fc77c48004ae9d30bdfe42ba412c77c575",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "bg/neutral-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2261,53 +2505,51 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
-  "VariableID:1:130": {
-    "name": "fg/neutral-muted",
-    "id": "VariableID:1:130",
+  "VariableID:64470:7": {
+    "name": "fg/on-positive-solid",
+    "id": "VariableID:64470:7",
     "remote": false,
-    "key": "be0cd1c7ba02b37e3850b32793fb4877a9a4f5f6",
+    "key": "a863e7271666314be8a42e8dbf7fc89b52e65f68",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-800, gray800, secondary",
+    "description": "bg/positive-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92919"
+        "id": "VariableID:1883:93018"
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92919"
+        "id": "VariableID:1883:93018"
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
-  "VariableID:1:131": {
-    "name": "fg/neutral-subtle",
-    "id": "VariableID:1:131",
+  "VariableID:64470:8": {
+    "name": "fg/on-warning-solid",
+    "id": "VariableID:64470:8",
     "remote": false,
-    "key": "e8d4d2ea3c9eaa824bbfedf98823a50c3ba995d6",
+    "key": "b9ab233a3535d4029a989c463f39e41e86f9ee27",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-700, gray700, secondary",
+    "description": "bg/warning-solid와 해당 Pressed 배경 위의 텍스트와 아이콘에 사용해요.",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92918"
+        "id": "VariableID:30894:36303"
       },
       "1928:8": {
         "type": "VARIABLE_ALIAS",
-        "id": "VariableID:1883:92918"
+        "id": "VariableID:30894:36303"
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2331,8 +2573,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2343,7 +2584,7 @@ export const FIGMA_VARIABLES = {
     "key": "86a4f55dfff5df9e212ed58e4a1cb3ac760f0c54",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-700, green700, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다.\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2356,9 +2597,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL",
-      "STROKE_COLOR"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2369,7 +2608,7 @@ export const FIGMA_VARIABLES = {
     "key": "d2e2aa0a7aea42e126deb739901e635ee3cab74b",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-900, green900, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (contrast)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2382,8 +2621,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2394,7 +2632,7 @@ export const FIGMA_VARIABLES = {
     "key": "56be0d7aa408c6757bab2b3c8f18e0049f5f6eeb",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-700, yellow700",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다.\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2407,7 +2645,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -2418,7 +2656,7 @@ export const FIGMA_VARIABLES = {
     "key": "b06656e86ee71c6edffd87075d7e08d74639de3a",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-900, yellow900",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (contrast)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -2431,8 +2669,7 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "SHAPE_FILL",
-      "TEXT_FILL"
+      "ALL_FILLS"
     ],
     "codeSyntax": {}
   },
@@ -6951,7 +7188,7 @@ export const FIGMA_VARIABLES = {
     "key": "0f786a22be192fb945048a57d29204129fe14bf0",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-700, carrot700, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (solid)\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -6964,7 +7201,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -6975,7 +7214,7 @@ export const FIGMA_VARIABLES = {
     "key": "a6feef44dfe6cb5736ded84ed4db23b0c20ddcff",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "carrot-300, carrot300, primary",
+    "description": "브랜드와 관련된 요소들이 즉각적으로 인식될 수 있도록 돕습니다. 화면에서 가장 중요한 액션을 강조하는데 사용할 수 있습니다. (weak)\ncarrot, primary",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7001,7 +7240,7 @@ export const FIGMA_VARIABLES = {
     "key": "8cf83f78a65e88abf05cc4529aab60a8f41d7c4f",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-700, red700, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (solid)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7014,7 +7253,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7025,7 +7266,7 @@ export const FIGMA_VARIABLES = {
     "key": "68f2ffdca2370886cf7636a1b8116310f378598b",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "red-300, red300, danger",
+    "description": "오류, 경고 또는 중요한 문제를 나타내는 데 사용됩니다. (weak)\nred, danger",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7064,7 +7305,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7075,7 +7318,7 @@ export const FIGMA_VARIABLES = {
     "key": "72caf6aaf60aaeef594ba7cd96a7603bf09de600",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-700, blue700, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7088,7 +7331,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7099,7 +7344,7 @@ export const FIGMA_VARIABLES = {
     "key": "1255a392bc12b60ff6eca352f30bd08780d6959d",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "blue-300, blue300, accent",
+    "description": "사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (weak)\nblue, accent",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7112,7 +7357,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7123,7 +7370,7 @@ export const FIGMA_VARIABLES = {
     "key": "dd9c583304f0c37a2f900ec1159d94099fd8259a",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-1000, gray1000",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (contrast)\ngray",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7149,7 +7396,7 @@ export const FIGMA_VARIABLES = {
     "key": "6ce3a74e43faf1483ee0b8c5082dc522cd5348bc",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "black-alpha-300, blackAlpha300, blackalpha300",
+    "description": "의미 단위가 바뀌는 경계를 나누는 선입니다. 섹션과 섹션 사이, 콘텐츠와 액션 영역 사이, 헤더와 본문 경계처럼 한 화면에 한두 번만 등장하는 구분에 사용됩니다. (muted)\nblack-alpha, blackAlpha, blackalpha",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7175,7 +7422,7 @@ export const FIGMA_VARIABLES = {
     "key": "6f2cc554551eed3f01cbb2d2707fd9114f3f5380",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-800, gray800",
+    "description": "일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)\ngray",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7188,7 +7435,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7199,7 +7448,7 @@ export const FIGMA_VARIABLES = {
     "key": "d12a208a99faacc95924aba4cede203dee5fccb7",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "black-alpha-200, blackAlpha200, blackalpha200",
+    "description": "반복되는 동일한 성격의 항목 사이를 나누는 선입니다. 리스트 아이템, 테이블 row, 설정 메뉴 항목처럼 한 화면에 여러 번 등장하는 구분에 사용됩니다. (subtle)\nblack-alpha, blackAlpha, blackalpha",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7225,7 +7474,7 @@ export const FIGMA_VARIABLES = {
     "key": "c178edd12f4905635d219a1598f29b2e64e6ca2b",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "gray-400, gray400",
+    "description": "요소의 외곽을 그려 형태를 만드는 선입니다. 카드, 인풋 필드, 아웃라인 버튼처럼 선 자체가 요소의 경계를 정의할 때 사용됩니다. (weak) gray",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7278,7 +7527,7 @@ export const FIGMA_VARIABLES = {
     "key": "0648829671a2cd26b53abfb1fa9d3127b3000d4c",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-700, green700, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7291,7 +7540,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7302,7 +7553,7 @@ export const FIGMA_VARIABLES = {
     "key": "e0d8237bacbd115246cbd6a7c12adff5cb258822",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "green-300, green300, success",
+    "description": "성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (weak)\ngreen, success",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7315,7 +7566,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7326,7 +7579,7 @@ export const FIGMA_VARIABLES = {
     "key": "504c693ced5bf064f2ab2881b1f57f671418e004",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-300, yellow300",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7339,7 +7592,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   },
@@ -7350,7 +7605,7 @@ export const FIGMA_VARIABLES = {
     "key": "6d7bcda50710f89307fdcb12486eb370205b74ab",
     "variableCollectionId": "VariableCollectionId:1:3",
     "resolvedType": "COLOR",
-    "description": "yellow-300, yellow300",
+    "description": "사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (weak)\nyellow",
     "hiddenFromPublishing": false,
     "valuesByMode": {
       "1928:7": {
@@ -7363,7 +7618,9 @@ export const FIGMA_VARIABLES = {
       }
     },
     "scopes": [
-      "ALL_SCOPES"
+      "FRAME_FILL",
+      "SHAPE_FILL",
+      "STROKE_COLOR"
     ],
     "codeSyntax": {}
   }
