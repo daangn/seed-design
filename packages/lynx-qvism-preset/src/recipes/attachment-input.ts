@@ -152,6 +152,7 @@ const attachmentInputItem = defineSlotRecipe({
       display: "flex",
       width: "100%",
       height: itemVars.base.enabled.root.height,
+      flexShrink: 0,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
       backgroundColor: "transparent",
       transform: "scale(1)",

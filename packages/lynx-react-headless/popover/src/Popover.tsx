@@ -355,7 +355,8 @@ export interface PopoverContentProps extends StyledViewProps {}
  * 열리면 콘텐츠 크기, 기준 요소, 안전 영역을 뺀 root 경계를 비동기로 측정하고 매 frame 위치를 추적합니다. 다시
  * 열리거나 `style`이 바뀌면 이전 측정 결과를 버리고 숨긴 뒤 다시 측정합니다. 따라서 `positioned` 같은 상태로
  * Content의 `style`을 바꾸지 말고, 표시 전환은 Positioner나 바깥 요소에 적용하세요. `className`은
- * 다시 측정하는 기준으로 쓰지 않습니다. 가용 너비보다 넓으면 너비를 제한하고 다시 측정합니다.
+ * 다시 측정하는 기준으로 쓰지 않습니다. 좌우 배치는 기준 요소 쪽으로 밀지 않고 가용 너비를 제한해 다시
+ * 측정합니다. 상하 배치는 화면 가장자리에서 양 축으로 보정합니다.
  * 닫힌 뒤 `finishClose`가 호출되지 않으면 200ms 뒤 정리합니다.
  */
 export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((props, ref) => {
@@ -480,7 +481,10 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
         gutter,
         overflowPadding,
         flip: flip === false ? false : flip === true ? { fallbackStrategy: "bestFit" } : flip,
-        shift: { crossAxis: true, limit: true },
+        shift: {
+          crossAxis: placement.startsWith("top") || placement.startsWith("bottom"),
+          limit: true,
+        },
         arrow: arrow ? { ...arrow, padding: arrowPadding } : undefined,
       });
       if (!isCurrent()) return;

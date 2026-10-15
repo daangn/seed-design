@@ -1,5 +1,4 @@
 import * as React from "@lynx-js/react";
-import type { IntrinsicElements } from "@lynx-js/types";
 import { useTabsContext } from "./useTabsContext.js";
 export interface UseTabsIndicatorProps {}
 export function useTabsIndicator() {
@@ -25,11 +24,8 @@ export function useTabsIndicator() {
         "main-thread:ref": indicatorRef,
         "accessibility-elements-hidden": true,
         style: {
-          "--tabs-indicator-x": `${x}px`,
-          "--tabs-indicator-width": `${width}px`,
-        } as Exclude<IntrinsicElements["view"]["style"], string | undefined> & {
-          "--tabs-indicator-x": string;
-          "--tabs-indicator-width": string;
+          transform: `translateX(${x}px)`,
+          width: `${width}px`,
         },
       },
     }),

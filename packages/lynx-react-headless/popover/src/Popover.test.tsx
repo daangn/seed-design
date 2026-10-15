@@ -261,6 +261,68 @@ describe("Popover", () => {
     expect(positionerStyle()).toContain("top: 344px");
   });
 
+  it.each([
+    "left",
+    "left-start",
+    "left-end",
+    "right",
+    "right-start",
+    "right-end",
+  ] as const)("constrains and remeasures a window bubble without covering its trigger for %s", async (placement) => {
+    rootBox = { left: 0, top: 0, width: 384, height: 832 };
+    safeAreaBox = rootBox;
+    layerBox = rootBox;
+    referenceBox = { left: 152, top: 356, width: 80, height: 40 };
+    const measure = geometry.getRectByRef.getMockImplementation();
+    if (!measure) throw new Error("Expected the geometry mock.");
+    geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
+      const element = elementForRef(ref.current);
+      if (!element?.classList.contains("content")) return measure(ref);
+      const width = Number.parseFloat(
+        element.getAttribute("style")?.match(/width:\s*([\d.]+)px/)?.[1] ?? "200",
+      );
+      return toRect({ left: 0, top: 0, width, height: width < 200 ? 80 : 40 });
+    });
+    render(
+      <Popover.Root defaultOpen placement={placement} gutter={4} overflowPadding={16}>
+        <Popover.Trigger>
+          <text>window</text>
+        </Popover.Trigger>
+        <Bubble positionerProps={{ container: "window" }} />
+      </Popover.Root>,
+    );
+    await flush();
+
+    const width = Number.parseFloat(
+      query(".content")
+        .getAttribute("style")
+        ?.match(/width:\s*([\d.]+)px/)?.[1] ?? "",
+    );
+    const left = Number.parseFloat(positionerStyle().match(/left:\s*([-\d.]+)px/)?.[1] ?? "");
+    expect(width).toBe(124);
+    expect(left).toBeGreaterThanOrEqual(16);
+    expect(left + width).toBeLessThanOrEqual(368);
+    expect(left + width <= referenceBox.left - 12 || left >= referenceBox.left + 92).toBe(true);
+  });
+
+  it.each([
+    ["top", 4, 8],
+    ["bottom", 800, 796],
+  ] as const)("preserves vertical edge shifting for %s", async (placement, top, expectedTop) => {
+    referenceBox = { left: 100, top, width: 40, height: 40 };
+    render(
+      <Popover.Root defaultOpen placement={placement} flip={false}>
+        <Popover.Trigger>
+          <text>열기</text>
+        </Popover.Trigger>
+        <Bubble />
+      </Popover.Root>,
+    );
+    await flush();
+
+    expect(positionerStyle()).toContain(`top: ${expectedTop}px`);
+  });
+
   it("applies new safe area insets when the root size changes while tracking", async () => {
     referenceBox = { left: 48, top: 300, width: 40, height: 40 };
     render(

@@ -29,14 +29,16 @@ export default function Example() {
           description="layout=vertical"
           suffix={<CheckSelectBoxCheckmark />}
         />
-        <CheckSelectBox
-          prefixIcon={<IconIcecreamcone />}
-          defaultChecked
-          layout="horizontal"
-          label="layout=horizontal"
-          description="layout을 horizontal로 오버라이드"
-          suffix={<CheckSelectBoxCheckmark />}
-        />
+        <view style={{ gridColumnStart: "1", gridColumnEnd: "3" }}>
+          <CheckSelectBox
+            prefixIcon={<IconIcecreamcone />}
+            defaultChecked
+            layout="horizontal"
+            label="layout=horizontal"
+            description="layout을 horizontal로 오버라이드"
+            suffix={<CheckSelectBoxCheckmark />}
+          />
+        </view>
         <CheckSelectBox
           prefixIcon={<IconIcecreamcone />}
           label="옵션 4"
@@ -62,14 +64,16 @@ export default function Example() {
           label="옵션 2"
           suffix={<RadioSelectBoxRadiomark />}
         />
-        <RadioSelectBoxItem
-          value="option3"
-          prefixIcon={<IconDiamond />}
-          label="layout=horizontal"
-          description="layout을 horizontal로 오버라이드"
-          layout="horizontal"
-          suffix={<RadioSelectBoxRadiomark />}
-        />
+        <view style={{ gridColumnStart: "1", gridColumnEnd: "4" }}>
+          <RadioSelectBoxItem
+            value="option3"
+            prefixIcon={<IconDiamond />}
+            label="layout=horizontal"
+            description="layout을 horizontal로 오버라이드"
+            layout="horizontal"
+            suffix={<RadioSelectBoxRadiomark />}
+          />
+        </view>
         <RadioSelectBoxItem
           value="option4"
           prefixIcon={<IconDiamond />}

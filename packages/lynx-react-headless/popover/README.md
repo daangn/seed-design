@@ -2,6 +2,8 @@
 
 Headless component built to implement [SEED Lynx Help Bubble](https://seed-design.io/lynx/components/help-bubble). This is an internal utility, not intended for public usage.
 
+For left and right placements, content wider than the space beside its trigger is constrained and remeasured instead of shifting over the trigger. Top and bottom placements retain vertical edge shifting.
+
 ## Usage
 
 ```tsx

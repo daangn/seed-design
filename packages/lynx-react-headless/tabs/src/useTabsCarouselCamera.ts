@@ -103,9 +103,11 @@ export function useTabsCarouselCamera({
       const width =
         lowerRect.width + ((upperRect?.width ?? lowerRect.width) - lowerRect.width) * progress;
 
+      // ReactLynx의 MT style setter는 custom property를 지원하지 않으므로 실제 CSS 속성을 갱신한다.
+      // host에 따라 inline 값의 var()·calc()를 해석하지 않으므로 px 값만 쓰고 inset은 recipe가 맡는다.
       indicatorRef.current?.setStyleProperties({
-        "--tabs-indicator-x": `${x}px`,
-        "--tabs-indicator-width": `${width}px`,
+        transform: `translateX(${x}px)`,
+        width: `${width}px`,
       });
     },
     [indicatorRects, indicatorRef],

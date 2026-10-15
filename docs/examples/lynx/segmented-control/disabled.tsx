@@ -11,14 +11,10 @@ export default function Example() {
       </SegmentedControl>
       <SegmentedControl defaultValue="Marinara" accessibility-label="Pasta">
         <SegmentedControlItem value="Marinara">Marinara</SegmentedControlItem>
-        <SegmentedControlItem value="Alfredo" disabled>
-          Alfredo
-        </SegmentedControlItem>
         <SegmentedControlItem value="Pesto" disabled>
           Pesto
         </SegmentedControlItem>
         <SegmentedControlItem value="Carbonara">Carbonara</SegmentedControlItem>
-        <SegmentedControlItem value="Bolognese">Bolognese</SegmentedControlItem>
       </SegmentedControl>
     </view>
   );

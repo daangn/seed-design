@@ -326,6 +326,34 @@ describe("Tabs headless", () => {
     expect(renders.at(-1)).toEqual({ measured: true, transitionsEnabled: true });
   });
 
+  it.each([
+    {
+      type: "object",
+      style: { transform: "translateX(7px)", width: "12px", opacity: 0.5 },
+    },
+    {
+      type: "string",
+      style: "transform:translateX(7px);width:12px;opacity:0.5",
+    },
+  ])("preserves $type consumer indicator style overrides after measurement", ({ style }) => {
+    const { container, getByTestId } = render(
+      <Tabs.Root defaultValue="two">
+        <Tabs.List>
+          <Tabs.Trigger value="one">one</Tabs.Trigger>
+          <Tabs.Trigger value="two">two</Tabs.Trigger>
+          <Tabs.Indicator data-testid="indicator" style={style} />
+        </Tabs.List>
+      </Tabs.Root>,
+    );
+    fireLayoutChange(getTrigger(container, "one"), 80);
+    fireLayoutChange(getTrigger(container, "two"), 100);
+    expect(getByTestId("indicator")).toHaveStyle({
+      transform: "translateX(7px)",
+      width: "12px",
+      opacity: "0.5",
+    });
+  });
+
   it("changes an uncontrolled value when a trigger is tapped", () => {
     const onValueChange = vi.fn();
     const { container } = render(<BasicTabs defaultValue="one" onValueChange={onValueChange} />);

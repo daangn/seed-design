@@ -23,6 +23,16 @@ text {
   justify-content: center;
 }
 
+.docs-lynx-standalone-scroll {
+  height: 100%;
+}
+
+/* 자체 스크롤이 없는 native 예제는 화면을 채우되 긴 콘텐츠의 높이를 제한하지 않는다. */
+.docs-lynx-stage--scroll {
+  height: auto;
+  min-height: 100%;
+}
+
 /* 예제 ID를 받지 못한 host(예: query를 전달하지 않는 Lynx Go)에서 같은 bundle의 예제를 고른다. */
 .docs-lynx-picker {
   display: flex;

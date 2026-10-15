@@ -46,8 +46,7 @@ const callout = defineSlotRecipe({
       fontSize: vars.base.enabled.link.fontSize,
       lineHeight: vars.base.enabled.link.lineHeight,
       fontWeight: vars.base.enabled.link.fontWeight,
-      borderBottomWidth: "1px",
-      borderBottomStyle: "solid",
+      textDecoration: "underline",
     },
     closeButton: {
       flexGrow: 0,
@@ -88,7 +87,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.toneNeutral.enabled.description.color },
         link: {
           color: vars.toneNeutral.enabled.link.color,
-          borderBottomColor: vars.toneNeutral.enabled.link.color,
         },
         prefixIcon: { color: vars.toneNeutral.enabled.prefixIcon.color },
         suffixIcon: { color: vars.toneNeutral.enabled.suffixIcon.color },
@@ -99,7 +97,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.toneInformative.enabled.description.color },
         link: {
           color: vars.toneInformative.enabled.link.color,
-          borderBottomColor: vars.toneInformative.enabled.link.color,
         },
         prefixIcon: { color: vars.toneInformative.enabled.prefixIcon.color },
         suffixIcon: { color: vars.toneInformative.enabled.suffixIcon.color },
@@ -110,7 +107,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.tonePositive.enabled.description.color },
         link: {
           color: vars.tonePositive.enabled.link.color,
-          borderBottomColor: vars.tonePositive.enabled.link.color,
         },
         prefixIcon: { color: vars.tonePositive.enabled.prefixIcon.color },
         suffixIcon: { color: vars.tonePositive.enabled.suffixIcon.color },
@@ -121,7 +117,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.toneWarning.enabled.description.color },
         link: {
           color: vars.toneWarning.enabled.link.color,
-          borderBottomColor: vars.toneWarning.enabled.link.color,
         },
         prefixIcon: { color: vars.toneWarning.enabled.prefixIcon.color },
         suffixIcon: { color: vars.toneWarning.enabled.suffixIcon.color },
@@ -132,7 +127,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.toneCritical.enabled.description.color },
         link: {
           color: vars.toneCritical.enabled.link.color,
-          borderBottomColor: vars.toneCritical.enabled.link.color,
         },
         prefixIcon: { color: vars.toneCritical.enabled.prefixIcon.color },
         suffixIcon: { color: vars.toneCritical.enabled.suffixIcon.color },
@@ -145,7 +139,6 @@ const callout = defineSlotRecipe({
         description: { color: vars.toneMagic.enabled.description.color },
         link: {
           color: vars.toneMagic.enabled.link.color,
-          borderBottomColor: vars.toneMagic.enabled.link.color,
         },
         prefixIcon: { color: vars.toneMagic.enabled.prefixIcon.color },
         suffixIcon: { color: vars.toneMagic.enabled.suffixIcon.color },

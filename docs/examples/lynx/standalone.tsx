@@ -14,6 +14,18 @@ export interface LynxStandaloneExample {
 
 type LynxStandaloneExamples = Record<string, LynxStandaloneExample>;
 
+declare const SystemInfo: { platform?: string } | undefined;
+
+function isNativeRuntime(): boolean {
+  const globalSystemInfo = (
+    globalThis as typeof globalThis & { SystemInfo?: { platform?: string } }
+  ).SystemInfo;
+  const platform = (
+    globalSystemInfo ?? (typeof SystemInfo === "undefined" ? undefined : SystemInfo)
+  )?.platform;
+  return platform === "Android" || platform === "iOS";
+}
+
 /** 문서 Web 미리보기와 Lynx Explorer는 `globalProps.example`로 예제 ID를 넘깁니다. */
 function readGlobalPropsExample(): string | undefined {
   const globalProps = lynx.__globalProps as { example?: unknown } | undefined;
@@ -100,47 +112,54 @@ function StandaloneRoot({ examples }: { examples: LynxStandaloneExamples }) {
 
   const current = selected ? examples[selected] : undefined;
   const pending = selected === undefined;
+  const scrollable = isNativeRuntime() && current?.layout !== "fill";
+  const stage = (
+    <view
+      className={`docs-lynx-stage docs-lynx-stage--${current?.layout ?? "center"}${scrollable ? " docs-lynx-stage--scroll" : ""}`}
+    >
+      {current ? (
+        e2e ? (
+          <ProbelynxScenario example={current} />
+        ) : (
+          <current.Example />
+        )
+      ) : pending ? null : (
+        <view className="docs-lynx-picker">
+          {Object.keys(examples).map((id) => (
+            <view
+              key={id}
+              className="docs-lynx-picker__item"
+              bindtap={() => {
+                "background only";
+                setSelected(id);
+              }}
+            >
+              <text>{id}</text>
+            </view>
+          ))}
+        </view>
+      )}
+    </view>
+  );
 
   return (
     <page
       className={`${seedClassName} docs-lynx-standalone-root`}
-      // E2E 캡처는 전체 화면이므로 예제가 상태 표시줄·홈 인디케이터와 겹치지 않게 한다.
-      style={
-        e2e
-          ? {
-              boxSizing: "border-box",
-              paddingTop: safeAreaInsetTop,
-              paddingRight: safeAreaInsetRight,
-              paddingBottom: safeAreaInsetBottom,
-              paddingLeft: safeAreaInsetLeft,
-            }
-          : undefined
-      }
+      style={{
+        boxSizing: "border-box",
+        paddingTop: safeAreaInsetTop,
+        paddingRight: safeAreaInsetRight,
+        paddingBottom: safeAreaInsetBottom,
+        paddingLeft: safeAreaInsetLeft,
+      }}
     >
-      <view className={`docs-lynx-stage docs-lynx-stage--${current?.layout ?? "center"}`}>
-        {current ? (
-          e2e ? (
-            <ProbelynxScenario example={current} />
-          ) : (
-            <current.Example />
-          )
-        ) : pending ? null : (
-          <view className="docs-lynx-picker">
-            {Object.keys(examples).map((id) => (
-              <view
-                key={id}
-                className="docs-lynx-picker__item"
-                bindtap={() => {
-                  "background only";
-                  setSelected(id);
-                }}
-              >
-                <text>{id}</text>
-              </view>
-            ))}
-          </view>
-        )}
-      </view>
+      {scrollable ? (
+        <scroll-view scroll-orientation="vertical" className="docs-lynx-standalone-scroll">
+          {stage}
+        </scroll-view>
+      ) : (
+        stage
+      )}
     </page>
   );
 }

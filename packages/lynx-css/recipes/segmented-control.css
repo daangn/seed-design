@@ -9,7 +9,8 @@
     max-width: 100%;
     padding: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-full);
-    background-color: var(--seed-color-bg-neutral-weak-alpha)
+    background-color: var(--seed-color-bg-neutral-weak-alpha);
+    --segment-min-width: 86px
 }
 .seed-segmented-control__indicator {
     position: absolute;
@@ -18,6 +19,7 @@
     left: var(--seed-dimension-x1);
     z-index: 0;
     width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count, 1));
+    min-width: var(--segment-min-width);
     border-radius: var(--seed-radius-full);
     background-color: var(--seed-color-palette-gray-00);
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
@@ -33,7 +35,7 @@
     z-index: 1;
     align-items: center;
     justify-content: center;
-    min-width: 86px;
+    min-width: var(--segment-min-width);
     min-height: 34px;
     height: 100%;
     border-radius: var(--seed-radius-full)

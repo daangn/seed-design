@@ -43,7 +43,6 @@ type ForbiddenLynxStyleKey =
   | "gridColumn"
   | "gridRow"
   | "textTransform"
-  | "textDecoration"
   | "textDecorationColor"
   | "textDecorationLine"
   | "textDecorationStyle"

@@ -244,6 +244,12 @@ export function useSlider(props: UseSliderProps): UseSliderReturn {
   const updateIndicatorWidth = useCallback((index: number, width: number) => {
     setIndicatorWidths((previous) => {
       if (previous[index] === width) return previous;
+      const current = previous[index];
+      const pixelRatio = typeof SystemInfo === "undefined" ? undefined : SystemInfo.pixelRatio;
+      const devicePixel = typeof pixelRatio === "number" && pixelRatio > 0 ? 1 / pixelRatio : 0;
+      // Android는 위치에 따라 폭을 1 기기 픽셀 다르게 측정한다. 이 축소를 따르면 보정 위치와 폭이 반복해서 바뀐다.
+      if (current !== undefined && width < current && current - width <= devicePixel + 1e-3)
+        return previous;
       return { ...previous, [index]: width };
     });
   }, []);

@@ -115,7 +115,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   const api = useTabsIndicator();
   const indicatorStyle =
     typeof style === "string"
-      ? `--tabs-indicator-x:${api.indicatorProps.style["--tabs-indicator-x"]};--tabs-indicator-width:${api.indicatorProps.style["--tabs-indicator-width"]};${style}`
+      ? `transform:${api.indicatorProps.style.transform};width:${api.indicatorProps.style.width};${style}`
       : { ...api.indicatorProps.style, ...style };
   return (
     <view

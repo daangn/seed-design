@@ -21,9 +21,6 @@ const tabs = defineSlotRecipe({
     list: {
       position: "relative",
       backgroundColor: vars.base.enabled.root.color,
-      borderBottomWidth: vars.base.enabled.root.strokeBottomWidth,
-      borderBottomStyle: "solid",
-      borderBottomColor: vars.base.enabled.root.strokeColor,
     },
     listContent: {
       display: "flex",
@@ -33,6 +30,10 @@ const tabs = defineSlotRecipe({
       alignItems: "stretch",
       width: "max-content",
       minWidth: "100%",
+      // 하단 stroke를 list(scroll-view) border 대신 content 안쪽에 그린다. Android scroll-view는
+      // border 영역으로 나간 Indicator를 잘라 두께가 절반만 보였다. padding으로 기존 높이를 유지한다.
+      paddingBottom: vars.base.enabled.root.strokeBottomWidth,
+      boxShadow: `inset 0 -${vars.base.enabled.root.strokeBottomWidth} 0 0 ${vars.base.enabled.root.strokeColor}`,
     },
     carousel: {
       display: "flex",
@@ -49,12 +50,13 @@ const tabs = defineSlotRecipe({
     indicator: {
       position: "absolute",
       left: "0px",
-      // React처럼 list 하단 stroke와 겹친다. stroke는 list의 border라 content 기준 bottom을 그 두께만큼 내린다.
-      bottom: `calc(0px - ${vars.base.enabled.root.strokeBottomWidth})`,
+      // React처럼 하단 stroke와 겹친다. stroke는 listContent 하단 padding 안에 그려진다.
+      bottom: "0px",
       height: vars.base.enabled.indicator.height,
-      width: "var(--tabs-indicator-width, 0px)",
       backgroundColor: vars.base.enabled.indicator.color,
-      transform: "translateX(var(--tabs-indicator-x, 0px))",
+      // inline style은 trigger 측정값(px)만 담는다. 좌우 inset은 padding으로 빼고 배경을 content box에만 칠한다.
+      boxSizing: "border-box",
+      backgroundClip: "content-box",
       transitionProperty: "transform, width",
       transitionDuration: vars.base.enabled.indicator.transformDuration,
       transitionTimingFunction: vars.base.enabled.indicator.transformTimingFunction,
@@ -84,8 +86,8 @@ const tabs = defineSlotRecipe({
           paddingRight: vars.layoutFill.enabled.root.paddingX,
         },
         indicator: {
-          transform: `translateX(calc(var(--tabs-indicator-x, 0px) + ${vars.layoutFill.enabled.indicator.insetX}))`,
-          width: `calc(var(--tabs-indicator-width, 0px) - 2 * ${vars.layoutFill.enabled.indicator.insetX})`,
+          paddingLeft: vars.layoutFill.enabled.indicator.insetX,
+          paddingRight: vars.layoutFill.enabled.indicator.insetX,
         },
         trigger: {
           flex: 1,
@@ -97,8 +99,9 @@ const tabs = defineSlotRecipe({
           paddingRight: vars.layoutHug.enabled.root.paddingX,
         },
         indicator: {
-          transform: `translateX(calc(var(--tabs-indicator-x, 0px) + ${vars.layoutHug.enabled.root.paddingX} + ${vars.layoutHug.enabled.indicator.insetX}))`,
-          width: `calc(var(--tabs-indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
+          left: vars.layoutHug.enabled.root.paddingX,
+          paddingLeft: vars.layoutHug.enabled.indicator.insetX,
+          paddingRight: vars.layoutHug.enabled.indicator.insetX,
         },
       },
     },

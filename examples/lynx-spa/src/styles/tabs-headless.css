@@ -37,12 +37,11 @@
 
 .tabs-headless-indicator {
   position: absolute;
-  left: 0px;
+  /* Headless Indicator는 inline transform·width(px)로 위치를 정한다. 목록 padding만큼 기준점을 옮긴다. */
+  left: 16px;
   bottom: 0px;
   height: 2px;
   background-color: #1a1c20;
-  transform: translateX(calc(var(--tabs-indicator-x, 0px) + 16px));
-  width: var(--tabs-indicator-width, 0px);
 }
 
 .tabs-headless-indicator-animated {

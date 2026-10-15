@@ -14,4 +14,11 @@ describe("Lynx segmented control recipe", () => {
     expect(segmentedControl.base.label).toMatchObject({ textAlign: "center" });
     expect(segmentedControl.base.label).not.toHaveProperty("whiteSpace");
   });
+
+  it("keeps indicator width aligned with the minimum grid track width", () => {
+    expect(segmentedControl.base.indicator).toMatchObject({
+      minWidth: segmentedControl.base.item.minWidth,
+      transform: "translateX(calc(var(--segment-index, 0) * 100%))",
+    });
+  });
 });

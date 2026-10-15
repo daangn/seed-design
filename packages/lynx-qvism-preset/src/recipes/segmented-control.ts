@@ -34,6 +34,8 @@ const segmentedControl = defineSlotRecipe({
       padding: vars.base.enabled.root.padding,
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
+      // Item과 Indicator가 같은 최소 폭을 쓴다. 좁은 항목이 필요하면 Root style에서 이 변수를 바꾼다.
+      "--segment-min-width": itemVars.base.enabled.root.minWidth,
     },
     indicator: {
       position: "absolute",
@@ -42,6 +44,8 @@ const segmentedControl = defineSlotRecipe({
       left: vars.base.enabled.root.padding,
       zIndex: 0,
       width: `calc((100% - ${vars.base.enabled.root.padding} * 2) / var(--segment-count, 1))`,
+      // 좁은 root에서 grid track이 최소 폭을 유지할 때 Indicator도 같은 폭으로 이동한다.
+      minWidth: "var(--segment-min-width)",
       borderRadius: indicatorVars.base.enabled.root.cornerRadius,
       backgroundColor: indicatorVars.base.enabled.root.color,
       boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
@@ -57,7 +61,7 @@ const segmentedControl = defineSlotRecipe({
       zIndex: 1,
       alignItems: "center",
       justifyContent: "center",
-      minWidth: itemVars.base.enabled.root.minWidth,
+      minWidth: "var(--segment-min-width)",
       minHeight: itemVars.base.enabled.root.minHeight,
       height: "100%",
       borderRadius: itemVars.base.enabled.root.cornerRadius,

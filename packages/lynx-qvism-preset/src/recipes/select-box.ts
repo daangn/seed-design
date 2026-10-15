@@ -48,7 +48,6 @@ export const selectBox = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
       minHeight: 0,
       gap: 0,
     },
@@ -58,7 +57,7 @@ export const selectBox = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
+      flexGrow: 1,
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
@@ -70,7 +69,6 @@ export const selectBox = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
       minHeight: 0,
       flexGrow: 1,
     },
@@ -98,6 +96,8 @@ export const selectBox = defineSlotRecipe({
       display: "flex",
       flexDirection: "row",
       minWidth: 0,
+      flexGrow: 1,
+      flexShrink: 1,
     },
     prefixIcon: {
       display: "flex",
@@ -117,6 +117,7 @@ export const selectBox = defineSlotRecipe({
     },
     label: {
       display: "flex",
+      flexShrink: 0,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
@@ -127,6 +128,7 @@ export const selectBox = defineSlotRecipe({
       fontWeight: vars.base.enabled.label.fontWeight,
     },
     description: {
+      flexShrink: 0,
       color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
@@ -162,6 +164,10 @@ export const selectBox = defineSlotRecipe({
         content: {
           alignItems: "center",
           gap: vars.layoutHorizontal.enabled.content.gap,
+        },
+        body: {
+          flexGrow: 1,
+          flexShrink: 1,
         },
       },
       vertical: {

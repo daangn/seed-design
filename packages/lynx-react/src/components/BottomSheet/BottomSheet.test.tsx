@@ -89,6 +89,28 @@ describe("BottomSheet", () => {
     sheetMocks.rootRef.open.mockClear();
   });
 
+  it("uses the device logical height when the host does not provide screenHeight", () => {
+    render(
+      <BottomSheet.Root snapPoints={["45%", "80%"]}>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({
+      screenHeight: SystemInfo.pixelHeight / SystemInfo.pixelRatio,
+    });
+  });
+
+  it("preserves a consumer-provided screenHeight", () => {
+    render(
+      <BottomSheet.Root screenHeight={600} snapPoints={["45%", "80%"]}>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ screenHeight: 600 });
+  });
+
   it("passes handleOnly to the underlying SheetRoot", () => {
     render(
       <BottomSheet.Root handleOnly>

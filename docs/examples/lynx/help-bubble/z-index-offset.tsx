@@ -1,7 +1,18 @@
+import * as React from "@lynx-js/react";
 import { useState } from "@lynx-js/react";
 import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
 import { HelpBubbleAnchor } from "@/components/ui/help-bubble";
 import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
+
+type SegmentedControlStyle = NonNullable<React.ComponentProps<typeof SegmentedControl>["style"]> & {
+  "--segment-min-width": string;
+};
+
+// 6개 항목이 좁은 화면에 들어가도록 Item·Indicator 공통 최소 폭을 없앤다.
+const COMPACT_SEGMENTED_CONTROL_STYLE: SegmentedControlStyle = {
+  width: "100%",
+  "--segment-min-width": "0px",
+};
 
 const AVATAR_SRC = "https://avatars.githubusercontent.com/u/54893898?v=4";
 const OFFSET_OPTIONS = ["0", "1", "2", "3", "4", "5"] as const;
@@ -78,11 +89,12 @@ export default function Example() {
       >
         <Avatar />
       </HelpBubbleAnchor>
-      <VStack gap="x1" align="center">
+      <VStack width="full" gap="x1" align="center">
         <SegmentedControl
           value={String(zIndexOffset)}
           onValueChange={handleOffsetChange}
           accessibility-label="zIndexOffset"
+          style={COMPACT_SEGMENTED_CONTROL_STYLE}
         >
           {OFFSET_OPTIONS.map((option) => (
             <SegmentedControlItem key={option} value={option}>

@@ -40,6 +40,7 @@ function DialogExample({ variant }: { variant: "maxHeight" | "minHeight" | "full
                 ? "dialog-example-min-height-body"
                 : undefined
           }
+          minHeight={isMinHeight ? "240px" : undefined}
           style={isFullBleed ? { paddingLeft: 0, paddingRight: 0 } : undefined}
         >
           {isMaxHeight ? (

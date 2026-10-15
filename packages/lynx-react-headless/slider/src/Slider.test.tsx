@@ -312,6 +312,67 @@ describe("Slider", () => {
     });
   });
 
+  it("settles indicator width after a controlled minimum update despite one-pixel layout feedback", async () => {
+    const onValuesChange = vi.fn();
+    const styles: unknown[] = [];
+    let indicatorWidth = 111 / 3;
+    geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
+      const element = elementForRef(ref.current);
+      if (element?.classList.contains("indicator")) return { left: 0, width: indicatorWidth };
+      return element?.classList.contains("thumb") ? thumbRect : rootRect;
+    });
+    function Probe() {
+      styles.push(useSliderContext().getValueIndicatorProps(0).rootProps.style);
+      return null;
+    }
+    function ControlledSlider({ value }: { value: number }) {
+      return (
+        <Slider.Root className="root" values={[value]} onValuesChange={onValuesChange}>
+          <Slider.Thumb className="thumb" thumbIndex={0} />
+          <Slider.ValueIndicatorRoot className="indicator" thumbIndex={0}>
+            <Slider.ValueIndicatorLabel thumbIndex={0} />
+          </Slider.ValueIndicatorRoot>
+          <Probe />
+        </Slider.Root>
+      );
+    }
+    const view = render(<ControlledSlider value={50} />);
+    await waitSchedule();
+    // 테스트 환경의 pixelRatio는 3이다. 실기기에서 최소값 label 폭이 67px와 68px를 오갔다.
+    indicatorWidth = 67 / 3;
+    view.rerender(<ControlledSlider value={0} />);
+    await waitSchedule();
+    act(() => fireEvent.layoutchange(query(".indicator"), { detail: { width: 68 / 3 } }));
+    await waitSchedule();
+    expect(styles.at(-1)).toMatchObject({
+      "--slider-value-indicator-left": "0%",
+      "--slider-value-indicator-offset": `${34 / 3}px`,
+    });
+    const settledRenderCount = styles.length;
+    for (const width of [67 / 3, 68 / 3, 67 / 3 - 1e-5, 68 / 3]) {
+      act(() => fireEvent.layoutchange(query(".indicator"), { detail: { width } }));
+      await waitSchedule();
+    }
+    expect(styles).toHaveLength(settledRenderCount);
+    expect(onValuesChange).not.toHaveBeenCalled();
+
+    // 1 기기 픽셀보다 큰 축소는 반영한다. thumb보다 좁으면 thumb 중심에 붙으므로 thumb보다 넓은 폭으로 확인한다.
+    act(() => fireEvent.layoutchange(query(".indicator"), { detail: { width: 63 / 3 } }));
+    await waitSchedule();
+    expect(styles.at(-1)).toMatchObject({ "--slider-value-indicator-offset": "10.5px" });
+    act(() => fireEvent.layoutchange(query(".indicator"), { detail: { width: 90 / 3 } }));
+    await waitSchedule();
+    expect(styles.at(-1)).toMatchObject({ "--slider-value-indicator-offset": "15px" });
+
+    view.rerender(<ControlledSlider value={100} />);
+    await waitSchedule();
+    expect(query(".thumb")).toHaveAttribute(
+      "accessibility-value",
+      "minimum 0, maximum 100, current 100",
+    );
+    expect(onValuesChange).not.toHaveBeenCalled();
+  });
+
   it("keeps user handlers, styles and forwarded refs", async () => {
     const onThumbTouchStart = vi.fn();
     const onRootLayout = vi.fn();
