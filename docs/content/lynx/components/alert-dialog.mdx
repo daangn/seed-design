@@ -114,6 +114,16 @@ React의 `ResponsivePair` 대신 Footer 안에 명시적인 세로 action layout
   ```
 </LynxComponentExample>
 
+### Long Content
+
+내용이 최대 높이를 넘으면 `AlertDialogContent` 안에서 스크롤되고, 끝까지 스크롤하면 Footer의 버튼이 보입니다. Content는 위아래 safe area inset과 recipe의 위아래 margin을 뺀 높이를 넘지 않습니다.
+
+<LynxComponentExample name="lynx/alert-dialog/long-content" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/alert-dialog/long-content.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ### Single Action
 
 확인 또는 닫기처럼 하나의 action만 제공하는 Alert Dialog입니다.

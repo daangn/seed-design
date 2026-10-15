@@ -1,6 +1,19 @@
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+const dialogViewStyles = vi.hoisted(() => [] as Array<Record<string, unknown> | undefined>);
+
+vi.mock("@lynx-js/lynx-ui-dialog", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@lynx-js/lynx-ui-dialog")>();
+  const DialogView = (props: Parameters<typeof actual.DialogView>[0]) => {
+    dialogViewStyles.push(props.style as Record<string, unknown> | undefined);
+
+    return <actual.DialogView {...props} />;
+  };
+
+  return { ...actual, DialogView };
+});
+
 import * as AlertDialog from "./AlertDialog.namespace";
 import { ActionButton } from "../ActionButton";
 
@@ -34,6 +47,49 @@ function tap(container: Element, selector: string) {
   fireEvent.tap(element);
 }
 
+interface TestLynxGlobal {
+  lynx?: {
+    __globalProps?: {
+      safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
+      safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
+    };
+  };
+  lynxTestingEnv?: {
+    backgroundThread: { globalThis: TestLynxGlobal };
+    mainThread: { globalThis: TestLynxGlobal };
+  };
+}
+
+function setGlobalProps(
+  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    global.lynx = { ...global.lynx, __globalProps: globalProps };
+  }
+}
+
+function renderPositioner(props?: Omit<AlertDialog.PositionerProps, "children">) {
+  render(
+    <AlertDialog.Root open>
+      <AlertDialog.Positioner {...props}>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Content />
+      </AlertDialog.Positioner>
+    </AlertDialog.Root>,
+  );
+
+  return dialogViewStyles.at(-1);
+}
+
 describe("AlertDialog", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -42,6 +98,7 @@ describe("AlertDialog", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    setGlobalProps({});
   });
 
   it("owns the trigger label while preserving its nested button's visual content", () => {
@@ -203,5 +260,76 @@ describe("AlertDialog", () => {
     tap(container, ".seed-alert-dialog__content");
 
     expect(contentTap).toHaveBeenCalledTimes(1);
+  });
+
+  it("pads the positioner by the side insets and the larger block inset on both sides", () => {
+    setGlobalProps({
+      safeAreaInsetTop: 0,
+      safeAreaInsetRight: 84,
+      safeAreaInsetBottom: 34,
+      safeAreaInsetLeft: 0,
+    });
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
+      paddingRight: "84px",
+      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
+      paddingLeft: "0px",
+    });
+
+    setGlobalProps({
+      safeAreaInsetTop: 47,
+      safeAreaInsetRight: 0,
+      safeAreaInsetBottom: 34,
+      safeAreaInsetLeft: 59,
+    });
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
+    });
+  });
+
+  it("keeps the safe area padding in a container and lets the positioner style override it", () => {
+    setGlobalProps({ safeAreaInsetTop: 47, safeAreaInsetBottom: 34, safeAreaInsetLeft: 59 });
+
+    expect(renderPositioner({ container: "window" })).toEqual({
+      paddingTop: "47px",
+      paddingRight: "env(safe-area-inset-right)",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
+      width: "100%",
+      height: "100%",
+    });
+    expect(renderPositioner({ style: { paddingLeft: "0px", opacity: 0.5 } })).toMatchObject({
+      paddingLeft: "0px",
+      opacity: 0.5,
+    });
+  });
+
+  it("wraps the content children in a vertical scroll area", () => {
+    const { container } = render(
+      <AlertDialog.Root open>
+        <AlertDialog.Positioner>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Title</AlertDialog.Title>
+            </AlertDialog.Header>
+          </AlertDialog.Content>
+        </AlertDialog.Positioner>
+      </AlertDialog.Root>,
+    );
+
+    const scrollArea = container.querySelector(
+      ".seed-alert-dialog__content > scroll-view.seed-alert-dialog__scrollArea",
+    );
+    expect(scrollArea?.getAttribute("scroll-orientation")).toBe("vertical");
+    expect(
+      scrollArea?.querySelector(
+        ":scope > .seed-alert-dialog__scrollContent > .seed-alert-dialog__header",
+      ),
+    ).not.toBeNull();
   });
 });

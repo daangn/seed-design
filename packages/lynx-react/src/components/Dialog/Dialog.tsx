@@ -34,6 +34,7 @@ import {
   getAccessibleText,
   useInsideAccessibilityElement,
 } from "../../utils/accessibility";
+import { useDialogSafeAreaStyle } from "../private/DialogSafeArea";
 type DialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
 };
@@ -139,13 +140,15 @@ export interface DialogPositionerProps extends HeadlessDialogPositionerProps {}
  * @platform Lynx — maps to `DialogView`; refs are unsupported.
  */
 export const DialogPositioner = forwardRef<never, DialogPositionerProps>((props, _ref) => {
-  const { className, transition = true, ...positionerProps } = props;
+  const { className, style, transition = true, ...positionerProps } = props;
   const classNames = useClassNames();
+  const safeAreaStyle = useDialogSafeAreaStyle();
 
   return (
     <HeadlessDialogPositioner
       {...positionerProps}
       className={clsx(classNames.positioner, className)}
+      style={{ ...safeAreaStyle, ...style }}
       transition={transition}
     />
   );

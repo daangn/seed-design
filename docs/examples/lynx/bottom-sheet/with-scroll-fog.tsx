@@ -17,8 +17,8 @@ export default function Example() {
         <ActionButton variant="neutralSolid">Open</ActionButton>
       </BottomSheetTrigger>
       <BottomSheetContent title="제목" description="설명을 작성할 수 있어요">
-        <BottomSheetBody className="bottom-sheet-preview__scroll-fog-body">
-          <ScrollFog placement={["top", "bottom"]} style={{ width: "100%", height: "100%" }}>
+        <BottomSheetBody>
+          <ScrollFog placement={["top", "bottom"]} style={{ width: "100%", height: "300px" }}>
             <scroll-view
               className="bottom-sheet-preview__scroll-fog-content"
               scroll-orientation="vertical"

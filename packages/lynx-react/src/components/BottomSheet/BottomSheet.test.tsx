@@ -6,6 +6,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const sheetMocks = vi.hoisted(() => ({
   contentProps: [] as Array<Record<string, unknown>>,
   rootProps: [] as Array<Record<string, unknown>>,
+  safeArea: {
+    safeAreaInsetTop: "62px",
+    safeAreaInsetRight: "0px",
+    safeAreaInsetBottom: "34px",
+    safeAreaInsetLeft: "59px",
+  },
   rootRef: {
     open: vi.fn(),
   },
@@ -70,10 +76,7 @@ vi.mock("@lynx-js/lynx-ui-sheet", async () => {
 });
 
 vi.mock("../../hooks/useSafeArea", () => ({
-  useSafeArea: () => ({
-    safeAreaInsetTop: "62px",
-    safeAreaInsetBottom: "34px",
-  }),
+  useSafeArea: () => sheetMocks.safeArea,
 }));
 
 import * as BottomSheet from "./BottomSheet.namespace";
@@ -98,7 +101,7 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("renders Body as a composable view with an explicit ScrollFog child", () => {
+  it("renders Body as a view around a vertical scroll-view that holds its children", () => {
     const bodyRef = createRef<unknown>();
     const { container } = render(
       <BottomSheet.Root>
@@ -113,14 +116,19 @@ describe("BottomSheet", () => {
     );
 
     const body = container.querySelector(".custom-body");
-    const scrollViews = body?.querySelectorAll("scroll-view");
+    const scrollArea = body?.firstElementChild;
+    const fogScrollViews = scrollArea?.querySelectorAll("scroll-view");
 
     expect(body?.tagName.toLowerCase()).toBe("view");
     expect(body).toHaveStyle({ height: "200px" });
     expect(bodyRef.current).not.toBeNull();
-    expect(scrollViews).toHaveLength(1);
-    expect(scrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
-    expect(scrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
+    expect(scrollArea?.tagName.toLowerCase()).toBe("scroll-view");
+    expect(scrollArea).toHaveClass("seed-bottom-sheet__scrollArea");
+    expect(scrollArea).toHaveAttribute("scroll-orientation", "vertical");
+    expect(scrollArea?.firstElementChild).toHaveClass("seed-bottom-sheet__scrollContent");
+    expect(fogScrollViews).toHaveLength(1);
+    expect(fogScrollViews?.item(0)).toHaveAttribute("scroll-orientation", "vertical");
+    expect(fogScrollViews?.item(0)).not.toHaveAttribute("fading-edge-length");
   });
 
   it("forwards native Header props while preserving its children", () => {
@@ -193,6 +201,49 @@ describe("BottomSheet", () => {
     expect(sheetMocks.contentProps.at(-1)).toMatchObject({
       style: { left: "12px" },
     });
+  });
+
+  it("centers Content between the side insets", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: {
+        width: "calc(100vw - 59px - 0px)",
+        marginLeft: "59px",
+        marginRight: "0px",
+      },
+    });
+  });
+
+  it("caps a fitted sheet at the height fraction and below the top inset", () => {
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: { paddingBottom: "calc(50vh + 62px)" },
+      innerStyle: { flexShrink: 1, maxHeight: "calc(0.9 * 100vh)" },
+    });
+  });
+
+  it("leaves the height to explicit snap points", () => {
+    render(
+      <BottomSheet.Root snapPoints={["45%", "80%"]}>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    const contentProps = sheetMocks.contentProps.at(-1);
+
+    expect(contentProps?.["style"]).not.toHaveProperty("paddingBottom");
+    expect(contentProps?.["innerStyle"]).not.toHaveProperty("maxHeight");
+    expect(contentProps?.["innerStyle"]).not.toHaveProperty("flexShrink");
   });
 
   it("skips motion-engine animations when Root has skipAnimation", () => {

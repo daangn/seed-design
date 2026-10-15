@@ -15,6 +15,8 @@ const bottomSheet = defineSlotRecipe({
     "content",
     "header",
     "body",
+    "scrollArea",
+    "scrollContent",
     "footer",
     "title",
     "description",
@@ -67,6 +69,9 @@ const bottomSheet = defineSlotRecipe({
     header: {
       display: "flex",
       flexDirection: "column",
+      // Lynx gives flex items no `min-height: auto`, so without this the header and footer shrink
+      // along with the body once the content reaches its max height.
+      flexShrink: 0,
 
       gap: vars.base.enabled.header.gap,
       paddingTop: vars.base.enabled.header.paddingTop,
@@ -94,13 +99,29 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
+      // Shrinks without growing: the body keeps its content height and gives way only when the
+      // sheet reaches its height cap, which is when its scroll area scrolls. Not `flex: 1`, whose
+      // zero basis collapses a fitted sheet's body to nothing.
+      flexShrink: 1,
+      minHeight: "0",
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,
     },
+    // Lynx drops `gap` on a `scroll-view`, so `scrollContent` lays the children out inside it.
+    scrollArea: {
+      width: "100%",
+      flexShrink: 1,
+      minHeight: "0",
+    },
+    scrollContent: {
+      display: "flex",
+      flexDirection: "column",
+    },
     footer: {
       display: "flex",
       flexDirection: "column",
+      flexShrink: 0,
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,

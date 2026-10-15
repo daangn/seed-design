@@ -137,6 +137,7 @@ npx @seed-design/cli@latest add ui:alert-dialog ui:attachment-display-field ui:a
 3. [App Bar](/lynx/components/app-bar)의 IconButton에 눌림 배경, 색상 전환, `r2` radius가 적용됩니다. 배경이나 radius를 덮어쓴 화면을 확인하세요.
 4. [Floating Action Button](/lynx/components/floating-action-button)의 접힌 Label은 제거되지 않고 opacity로 전환됩니다. Label은 한 줄로 유지되며 접근성 트리에서는 숨겨집니다.
 5. Sheet Footer와 mark 정렬이 바뀌었습니다. BottomSheet Body는 남는 높이를 채우지 않고 내용 크기로 배치됩니다. List와 SelectBox의 checkbox/radio mark는 중앙에 맞고, MenuSheet divider는 각 Item 안쪽에 놓입니다. Attachment remove button에는 눌림 scale이 적용됩니다.
+6. [Dialog](/lynx/components/dialog), [Alert Dialog](/lynx/components/alert-dialog), [Bottom Sheet](/lynx/components/bottom-sheet), [Menu Sheet](/lynx/components/menu-sheet)가 노치, 홈 인디케이터, 가로 화면 측면의 safe area inset을 피합니다. 측면 inset이 있는 화면에서는 네 컴포넌트 모두 그 inset을 뺀 영역의 가운데에 놓이므로 시트 폭이 inset만큼 줄어듭니다. Dialog와 AlertDialog는 위아래 inset도 피하고, 내용에 맞춰 높이가 정해지는 BottomSheet와 MenuSheet는 화면 높이의 90%를 넘지 않으며 위쪽 inset 아래에서 멈춥니다. Backdrop은 그대로 화면 전체를 덮습니다.
 
 [Tabs](/lynx/components/tabs)의 Indicator는 하단 stroke와 겹치도록 1px 아래에 배치됩니다. 이를 보정하려고 직접 지정한 `bottom: -1px`이 있다면 제거하고 결과를 확인하세요. Checkbox의 ghost mark는 선택 상태용 배경을 따로 사용하며 indeterminate 기본 접근성 값은 `mixed`입니다.
 
@@ -458,6 +459,31 @@ Root ref를 호출해도 `onOpenChange`가 실행되지 않습니다. ref-driven
 **변경하지 않으면:** 일반 content는 더 이상 ScrollFog 안에서 스크롤되지 않습니다.
 
 **작업 후 확인:** 실제 scroll host의 ref, event, scrollbar와 fog 방향을 확인하세요.
+
+##### Dialog와 Sheet의 스크롤 영역을 컴포넌트가 소유
+
+**수정 대상:** `BottomSheet.Body` 안의 `scroll-view`, `BottomSheet.Body`의 `flex: "none"`, `BottomSheet.Body`와 `AlertDialog.Content`의 `className`·`style`로 바꾼 자식 배치, `MenuSheet.List`와 `seed-menu-sheet__list`의 flex·gap, `BottomSheet.Body` 안 `ScrollFog`의 `height: "100%"`
+
+```tsx
+{/* [!code --] */}
+<BottomSheet.Body style={{ flex: "none" }}>
+  {/* [!code --] */}
+  <scroll-view scroll-y style={{ height: "300px", maxHeight: "300px", flex: "none" }}>
+    {/* [!code --] */}
+    {items}
+  {/* [!code --] */}
+  </scroll-view>
+{/* [!code --] */}
+</BottomSheet.Body>
+{/* [!code ++] */}
+<BottomSheet.Body style={{ maxHeight: "300px" }}>{items}</BottomSheet.Body>
+```
+
+`BottomSheet.Body`, `AlertDialog.Content`, `MenuSheet.List`가 자식을 세로 `scroll-view` 안에 렌더해 내용이 넘치면 그 영역만 스크롤합니다. Body와 AlertDialog.Content의 `className`·`style`은 `scroll-view`를 감싼 바깥 view에, MenuSheet.List의 `className`·`style`·`ref`는 `scroll-view`에 적용됩니다. 자식 배치는 새 `scrollContent`(BottomSheet), `listContent`(MenuSheet) slot이 맡으므로, 자식 사이 간격이나 방향을 바꿨다면 이 slot을 덮어쓰거나 자식을 직접 감싼 view로 옮기세요. AlertDialog는 Footer도 같은 `scroll-view` 안에 있어 내용이 길면 스크롤 끝에서 Action이 보입니다. Body나 List가 스크롤된 상태에서 시작한 drag는 그 영역만 움직이고, 맨 위에서 아래로 끌어야 시트가 움직입니다. Body 안에 `ScrollFog`를 둔다면 `height: "100%"`가 기준으로 삼을 높이가 없으므로 고정 높이를 주세요. 이 `ScrollFog` 안의 스크롤은 시트 drag와 조정되지 않습니다.
+
+**변경하지 않으면:** Body 안에 직접 둔 `scroll-view`가 컴포넌트의 `scroll-view`와 겹쳐 스크롤과 시트 drag가 함께 움직이고, `flex: "none"`이 남은 Body는 높이 상한에서 줄어들지 않습니다. 바깥 view에 준 flex·gap은 자식에 적용되지 않습니다.
+
+**작업 후 확인:** 긴 내용에서 Body와 List만 스크롤되는지, 스크롤한 상태의 drag가 시트를 움직이지 않는지, AlertDialog의 Action까지 스크롤되는지 확인하세요.
 
 </Step>
 

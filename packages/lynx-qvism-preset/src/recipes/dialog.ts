@@ -18,6 +18,10 @@ const dialog = defineSlotRecipe({
     positioner: {
       position: "fixed",
       display: "flex",
+      // Column, so the content shrinks into the height left inside the safe area padding that
+      // `DialogPositioner` sets inline: Lynx has no `min()`, and the content's own `maxHeight` can
+      // hold only the viewport fraction.
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       top: 0,
@@ -54,9 +58,13 @@ const dialog = defineSlotRecipe({
       position: "relative",
       display: "flex",
       flexDirection: "column",
-      flex: "0 0 auto",
+      flexShrink: 1,
+      minHeight: "0",
       boxSizing: "border-box",
-      width: `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      // A fraction of the positioner's content box, which its safe area padding narrows by the side
+      // insets. Unlike the web recipe, a consumer `width` with `maxWidth` lifted isn't capped at
+      // that space: Lynx has no `min()`, so such a width reaches into the insets.
+      width: `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
       maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
       opacity: vars.base.enabled.content.exitOpacity,
       transform: `scale(${vars.base.enabled.content.enterScale})`,

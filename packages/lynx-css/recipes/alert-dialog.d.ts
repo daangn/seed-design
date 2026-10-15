@@ -11,7 +11,7 @@ declare type AlertDialogVariantMap = {
 
 export declare type AlertDialogVariantProps = Partial<AlertDialogVariant>;
 
-export declare type AlertDialogSlotName = "positioner" | "backdrop" | "content" | "header" | "footer" | "action" | "title" | "description";
+export declare type AlertDialogSlotName = "positioner" | "backdrop" | "content" | "scrollArea" | "scrollContent" | "header" | "footer" | "action" | "title" | "description";
 
 export declare const alertDialogVariantMap: AlertDialogVariantMap;
 

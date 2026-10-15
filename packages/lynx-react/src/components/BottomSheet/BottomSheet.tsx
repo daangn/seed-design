@@ -3,6 +3,7 @@ import {
   type BottomSheetVariantProps,
 } from "@seed-design/lynx-css/recipes/bottom-sheet";
 import { bottomSheetHandle } from "@seed-design/lynx-css/recipes/bottom-sheet-handle";
+import { bottomSheet as bottomSheetVars } from "@seed-design/lynx-css/vars/component";
 import {
   BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
   BottomSheetContent as HeadlessBottomSheetContent,
@@ -39,6 +40,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { IconSlotProvider } from "../Icon/Icon";
+import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
@@ -50,6 +52,9 @@ const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeConte
 
 /** Root가 제목 여백을 정할 수 있도록 CloseButton이 렌더링 여부를 알린다. */
 const CloseButtonRenderedContext = createContext<((rendered: boolean) => void) | null>(null);
+
+/** 내용에 맞춰 높이가 정해지는 시트에만 Content가 높이 상한을 둔다. */
+const FitsContentContext = createContext(false);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
@@ -113,17 +118,22 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
       [headerAlign, skipAnimation, closeButtonRendered],
     );
+    const fitsContent = (rootProps.snapPoints ?? ["fit"]).some(
+      (point) => String(point).trim() === "fit",
+    );
 
     return (
       <ClassNamesProvider value={classNames}>
         <CloseButtonRenderedContext.Provider value={setCloseButtonRendered}>
-          <HeadlessBottomSheetRoot
-            {...(ref ? { ref } : {})}
-            {...rootProps}
-            skipAnimation={skipAnimation === true}
-          >
-            {children}
-          </HeadlessBottomSheetRoot>
+          <FitsContentContext.Provider value={fitsContent}>
+            <HeadlessBottomSheetRoot
+              {...(ref ? { ref } : {})}
+              {...rootProps}
+              skipAnimation={skipAnimation === true}
+            >
+              {children}
+            </HeadlessBottomSheetRoot>
+          </FitsContentContext.Provider>
         </CloseButtonRenderedContext.Provider>
       </ClassNamesProvider>
     );
@@ -207,21 +217,40 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
     } = props;
     const classNames = useClassNames();
     const { skipAnimation } = useBottomSheetContext();
-    const { safeAreaInsetBottom } = useSafeArea();
+    const fitsContent = useContext(FitsContentContext);
+    const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
+      useSafeArea();
 
     return (
       <HeadlessBottomSheetContent
         {...mergeProps(ref ? { ref } : {}, restProps)}
         className={clsx(classNames.content, className)}
-        // `SheetContent` pins its outer view with an inline `left: 0`, which a recipe class
-        // cannot outrank. Releasing it lets the positioner's `justify-content: center` place
-        // the sheet, so the recipe's `max-width` leaves centered gutters instead of a right
-        // one. `transform` is off-limits here — the main-thread motion engine owns it.
-        style={{ left: "auto", ...style }}
+        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`, which a
+        // recipe class cannot outrank. Releasing `left` lets the positioner's
+        // `justify-content: center` place the sheet. Lynx ignores the positioner's padding when
+        // centering an absolute child but centers its margin box, so the side insets go on as
+        // margins and come off the width. `transform` is off-limits here — the main-thread motion
+        // engine owns it.
+        style={{
+          left: "auto",
+          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          marginLeft: safeAreaInsetLeft,
+          marginRight: safeAreaInsetRight,
+          // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
+          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
+          // and the inner `maxHeight` holds the fraction. Explicit snap points size the inner view
+          // themselves, so the caps apply only to a fitted sheet.
+          ...(fitsContent && { paddingBottom: `calc(50vh + ${safeAreaInsetTop})` }),
+          ...style,
+        }}
         innerStyle={{
           display: "flex",
           flexDirection: "column",
           minHeight: "0",
+          ...(fitsContent && {
+            flexShrink: 1,
+            maxHeight: `calc(${bottomSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
+          }),
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,
         }}
@@ -322,7 +351,37 @@ export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
-export const BottomSheetBody = createViewSlot("body");
+
+/**
+ * Scrolls once the sheet reaches its max height. `className` and `style` go on the view around the
+ * `scroll-view`.
+ */
+export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
+  unknown,
+  BottomSheetBodyProps
+>((props, ref) => {
+  const { children, className, style } = props;
+  const classNames = useClassNames();
+  const gestureProps = useSheetScrollGestureProps();
+
+  return (
+    <view
+      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      className={clsx(classNames.body, className)}
+      style={style as never}
+    >
+      <scroll-view
+        {...gestureProps}
+        className={classNames.scrollArea}
+        scroll-orientation="vertical"
+        // The sheet's drag already moves it at the body's edges; a bounce would add to that.
+        bounces={false}
+      >
+        <view className={classNames.scrollContent}>{children}</view>
+      </scroll-view>
+    </view>
+  );
+});
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
