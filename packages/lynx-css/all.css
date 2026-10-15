@@ -2394,7 +2394,6 @@ text {
   padding-left: var(--seed-dimension-spacing-x-global-gutter);
   padding-right: var(--seed-dimension-spacing-x-global-gutter);
   flex-direction: column;
-  flex-grow: 1;
   flex-shrink: 1;
   display: flex;
 }

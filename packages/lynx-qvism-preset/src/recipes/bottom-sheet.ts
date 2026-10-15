@@ -99,9 +99,9 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
-      // Not `flex: 1`: Lynx sizes a fitted sheet from its children's flex bases, so a zero basis
-      // collapses the body to nothing.
-      flexGrow: 1,
+      // Shrinks without growing: the body keeps its content height and gives way only when the
+      // sheet reaches its height cap, which is when its scroll area scrolls. Not `flex: 1`, whose
+      // zero basis collapses a fitted sheet's body to nothing.
       flexShrink: 1,
       minHeight: "0",
 
