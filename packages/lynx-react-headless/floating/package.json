@@ -26,7 +26,7 @@
   "dependencies": {
     "@floating-ui/core": "^1.8.0",
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "@seed-design/lynx-react-use-safe-area": "1.0.0"
+    "@seed-design/lynx-react-use-safe-area": "^1.0.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",

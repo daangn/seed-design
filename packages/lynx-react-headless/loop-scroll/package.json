@@ -30,7 +30,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@seed-design/lynx-react-use-controllable-state": "1.0.0"
+    "@seed-design/lynx-react-use-controllable-state": "^1.0.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",
