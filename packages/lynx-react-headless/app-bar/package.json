@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react-app-bar",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -24,7 +24,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/lynx-react-use-safe-area": "0.0.0"
+    "@seed-design/lynx-react-use-safe-area": "^1.0.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",
