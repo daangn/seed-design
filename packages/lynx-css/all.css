@@ -2719,7 +2719,7 @@ text {
   transform: scale(var(--seed-scale-s98));
 }
 
-.seed-attachment-input-item__thumbnail--readOnly_true, .seed-attachment-input-item__thumbnailIcon--readOnly_true, .seed-attachment-input-item__name--readOnly_true, .seed-attachment-input-item__size--readOnly_true {
+.seed-attachment-input-item__thumbnail--readOnly_true, .seed-attachment-input-item__thumbnailIcon--readOnly_true, .seed-attachment-input-item__name--readOnly_true, .seed-attachment-input-item__size--readOnly_true, .seed-attachment-input-item__removeButton--readOnly_true, .seed-attachment-input-item__removeIcon--readOnly_true {
   color: var(--seed-color-fg-disabled);
 }
 

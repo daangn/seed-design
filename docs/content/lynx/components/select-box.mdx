@@ -95,6 +95,8 @@ npx @seed-design/cli@latest add ui:select-box
 
 가로형(`layout="horizontal"`)은 단일 컬럼으로 배치합니다. 여러 열로 구성한 그룹에서 개별 항목을 가로형으로 바꾸려면, 아래 예제처럼 래퍼가 모든 열을 차지하도록 `gridColumnStart`와 `gridColumnEnd`를 지정해 전체 너비를 확보하세요.
 
+래퍼는 `HStack align="stretch"`로 구성해 내부 Select Box가 grid 행 높이를 채우도록 합니다.
+
 <LynxComponentExample name="lynx/select-box/columns">
   ```json doc-gen:file
   {

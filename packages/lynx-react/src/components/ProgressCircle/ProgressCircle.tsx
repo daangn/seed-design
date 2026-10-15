@@ -141,20 +141,6 @@ function pieClipPath(size: number, angleDeg: number): string | undefined {
   return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
 }
 
-function sampleIndeterminate(t: number) {
-  "main thread";
-  const containerEased = cubicBezier(t, 0.35, 0.25, 0.65, 0.75);
-  const headEased = cubicBezier(t, 0.35, 0, 0.65, 1);
-  const tailEased = cubicBezier(t, 0.35, 0, 0.65, 0.6);
-
-  const headLength = headEased <= 0.75 ? (headEased / 0.75) * 360 : 360;
-  const tailOffset = tailEased <= 1 / 3 ? 0 : ((tailEased - 1 / 3) / (2 / 3)) * 360;
-  const arcLength = Math.max(0, headLength - tailOffset);
-  const containerDeg = containerEased * 360 + tailOffset;
-
-  return { containerDeg, arcLength };
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 // --- Animation constants ---
@@ -162,6 +148,25 @@ function sampleIndeterminate(t: number) {
 const INDETERMINATE_DURATION = 1200;
 const INDETERMINATE_INITIAL_PHASE = 1 / 6;
 const TRANSITION_DURATION = 300;
+
+// clip-path는 보간되지 않으므로 고정 반원 두 개와 cap을 회전한다.
+// 10ms 간격의 기존 곡선을 한 번만 샘플링하고 프레임 간 보간은 엔진에 맡긴다.
+const INDETERMINATE_KEYFRAMES = (() => {
+  const container: { transform: string }[] = [];
+  const firstHalf: { transform: string }[] = [];
+  const secondHalf: { transform: string }[] = [];
+  const head: { transform: string }[] = [];
+  const intervals = INDETERMINATE_DURATION / 10;
+  for (let i = 0; i <= intervals; i++) {
+    const phase = INDETERMINATE_INITIAL_PHASE + i / intervals;
+    const state = bgSampleIndeterminate(phase % 1);
+    container.push({ transform: `rotate(${state.containerDeg + Math.floor(phase) * 720}deg)` });
+    firstHalf.push({ transform: `rotate(${Math.min(180, state.arcLength)}deg)` });
+    secondHalf.push({ transform: `rotate(${Math.max(0, state.arcLength - 180)}deg)` });
+    head.push({ transform: `rotate(${state.arcLength}deg)` });
+  }
+  return { container, firstHalf, secondHalf, head };
+})();
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -191,14 +196,9 @@ export type RootProps = ProgressCircleRootProps;
 /**
  * `@seed-design/lynx-react-progress`의 진행률·접근성 위에 SEED recipe와 Lynx 전용 원형 표현을 조립한다.
  *
- * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
- *
- * **Known Issues:**
- * - clip-path가 Lynx에서 animatable이 아니라 JS RAF로 매 프레임 SVG path 생성
- * - Lynx main thread에서 모듈 레벨 Map 미지원으로 인스턴스 간 RAF 공유 불가
- * - 다수 인스턴스 동시 렌더링 시 성능 저하 가능
- *
- * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
+ * Lynx에서 SVG를 사용할 수 없어 고정 clip-path로 링을 그린다.
+ * Indeterminate는 반원·cap의 transform을 엔진에서 보간하고,
+ * determinate는 Main Thread에서 pie sector를 갱신한다.
  */
 export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
   const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
@@ -454,118 +454,91 @@ function IndeterminateRange({
 }) {
   const { children, className, style, ...nativeProps } = hostProps;
   const containerRef = useMainThreadRef<MainThread.Element>(null);
-  const rangeRef = useMainThreadRef<MainThread.Element>(null);
-  const headCapRef = useMainThreadRef<MainThread.Element>(null);
-  const tailCapRef = useMainThreadRef<MainThread.Element>(null);
-  const rafIdRef = useMainThreadRef<number>(0);
-
+  const firstHalfRef = useMainThreadRef<MainThread.Element>(null);
+  const secondHalfRef = useMainThreadRef<MainThread.Element>(null);
+  const headRef = useMainThreadRef<MainThread.Element>(null);
+  const animationsRef = useMainThreadRef<MainThread.Animation[]>([]);
   const { halfSize, ringCenterR, capSize } = computeRingGeometry(numSize);
+  const capStyle = {
+    width: `${capSize}px`,
+    height: `${capSize}px`,
+    left: `${halfSize - capSize / 2}px`,
+    top: `${halfSize - ringCenterR - capSize / 2}px`,
+  };
 
-  function startLoop() {
+  function stopAnimations() {
     "main thread";
-
-    const containerEl = containerRef.current;
-    const rangeEl = rangeRef.current;
-    const headCapEl = headCapRef.current;
-    const startTs = Date.now();
-
-    function tick(): void {
-      const elapsed = Date.now() - startTs;
-      const t =
-        ((elapsed + INDETERMINATE_DURATION * INDETERMINATE_INITIAL_PHASE) %
-          INDETERMINATE_DURATION) /
-        INDETERMINATE_DURATION;
-      const state = sampleIndeterminate(t);
-
-      containerEl?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
-
-      const clipPath = pieClipPath(numSize, state.arcLength);
-      if (clipPath) {
-        rangeEl?.setStyleProperty("clip-path", clipPath);
-      } else {
-        rangeEl?.setStyleProperty("clip-path", "none");
-      }
-
-      const headRad = (state.arcLength * Math.PI) / 180;
-      headCapEl?.setStyleProperties({
-        left: `${halfSize + ringCenterR * Math.sin(headRad) - capSize / 2}px`,
-        top: `${halfSize - ringCenterR * Math.cos(headRad) - capSize / 2}px`,
-      });
-      rafIdRef.current = requestAnimationFrame(tick);
-    }
-
-    rafIdRef.current = requestAnimationFrame(tick);
+    for (const animation of animationsRef.current) animation.cancel();
+    animationsRef.current = [];
   }
 
-  function stopLoop() {
+  function startAnimations() {
     "main thread";
-    if (rafIdRef.current) {
-      cancelAnimationFrame(rafIdRef.current);
-      rafIdRef.current = 0;
+    stopAnimations();
+    const options = {
+      duration: INDETERMINATE_DURATION,
+      iterations: Infinity,
+      easing: "linear",
+    };
+    const targets = [
+      containerRef.current,
+      firstHalfRef.current,
+      secondHalfRef.current,
+      headRef.current,
+    ];
+    const keyframes = [
+      INDETERMINATE_KEYFRAMES.container,
+      INDETERMINATE_KEYFRAMES.firstHalf,
+      INDETERMINATE_KEYFRAMES.secondHalf,
+      INDETERMINATE_KEYFRAMES.head,
+    ];
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      if (target) animationsRef.current.push(target.animate(keyframes[i]!, options));
     }
   }
 
   useEffect(() => {
-    runOnMainThread(startLoop)();
+    runOnMainThread(startAnimations)();
     return () => {
-      runOnMainThread(stopLoop)();
+      runOnMainThread(stopAnimations)();
     };
   }, [numSize]);
-
-  const initialState = bgSampleIndeterminate(INDETERMINATE_INITIAL_PHASE);
-  const initialClipPath = bgPieClipPath(numSize, initialState.arcLength);
-  const initialHeadRad = (initialState.arcLength * Math.PI) / 180;
 
   return (
     <view
       main-thread:ref={containerRef}
-      style={{
-        position: "absolute",
-        width: `${numSize}px`,
-        height: `${numSize}px`,
-        transform: `rotate(${initialState.containerDeg}deg)`,
-      }}
+      className="seed-progress-circle__spinner"
+      style={INDETERMINATE_KEYFRAMES.container[0]}
     >
       <view
-        {...mergeProps(
-          {
-            "main-thread:ref": rangeRef,
-            style: {
-              position: "absolute" as const,
-              width: `${numSize}px`,
-              height: `${numSize}px`,
-              borderRadius: "50%",
-              clipPath: initialClipPath,
-            },
-          },
-          nativeProps,
-          { style },
-          hostRef ? { ref: hostRef as LynxViewRef } : {},
-        )}
-        className={clsx(classes.range, className)}
+        {...mergeProps(nativeProps, { style }, hostRef ? { ref: hostRef as LynxViewRef } : {})}
+        className={clsx(classes.range, "seed-progress-circle__indeterminate-range", className)}
       >
+        <view className="seed-progress-circle__half seed-progress-circle__half--first">
+          <view
+            main-thread:ref={firstHalfRef}
+            className={clsx(classes.range, "seed-progress-circle__semicircle--first")}
+            style={INDETERMINATE_KEYFRAMES.firstHalf[0]}
+          />
+        </view>
+        <view className="seed-progress-circle__half seed-progress-circle__half--second">
+          <view
+            main-thread:ref={secondHalfRef}
+            className={clsx(classes.range, "seed-progress-circle__semicircle--second")}
+            style={INDETERMINATE_KEYFRAMES.secondHalf[0]}
+          />
+        </view>
         {children}
       </view>
+      <view className={classes.cap} style={capStyle} />
       <view
-        main-thread:ref={tailCapRef}
-        className={classes.cap}
-        style={{
-          width: `${capSize}px`,
-          height: `${capSize}px`,
-          left: `${halfSize - capSize / 2}px`,
-          top: `${halfSize - ringCenterR - capSize / 2}px`,
-        }}
-      />
-      <view
-        main-thread:ref={headCapRef}
-        className={classes.cap}
-        style={{
-          width: `${capSize}px`,
-          height: `${capSize}px`,
-          left: `${halfSize + ringCenterR * Math.sin(initialHeadRad) - capSize / 2}px`,
-          top: `${halfSize - ringCenterR * Math.cos(initialHeadRad) - capSize / 2}px`,
-        }}
-      />
+        main-thread:ref={headRef}
+        className="seed-progress-circle__spinner"
+        style={INDETERMINATE_KEYFRAMES.head[0]}
+      >
+        <view className={classes.cap} style={capStyle} />
+      </view>
     </view>
   );
 }

@@ -134,17 +134,45 @@ describe("ProgressCircle MT 진행률", () => {
     fireEvent.tap(get(".update"));
     await flush();
     expect(get(".subscribed").textContent).toBe("false");
-    const initial = get(".seed-progress-circle__range").style.clipPath;
+    const nativeAnimations = [...elementTree.animationMap.values()];
+    expect(nativeAnimations).toHaveLength(4);
+    expect(frames.size).toBe(0);
+    for (const animation of nativeAnimations) {
+      expect(animation.options).toEqual({
+        duration: 1200,
+        iterations: Infinity,
+        easing: "linear",
+      });
+      expect(animation.keyframes).toHaveLength(121);
+      for (const keyframe of animation.keyframes ?? []) {
+        expect(Object.keys(keyframe)).toEqual(["transform"]);
+      }
+    }
+    const initial = get(".seed-progress-circle__semicircle--first").style.transform;
+    const firstAnimation = nativeAnimations[0];
+    expect(firstAnimation?.keyframes?.[0]?.transform).toBe(
+      get(".seed-progress-circle__spinner").style.transform,
+    );
+    expect(firstAnimation?.keyframes?.[120]?.transform).not.toBe(
+      firstAnimation?.keyframes?.[0]?.transform,
+    );
     await frame(100);
-    expect(get(".seed-progress-circle__range").style.clipPath).not.toBe(initial);
+    expect(frames.size).toBe(0);
+    expect(get(".seed-progress-circle__semicircle--first").style.transform).toBe(initial);
     result.rerender(<Scene next={30} />);
     await flush();
     expect(get(".seed-progress-circle__range").style.clipPath).toBe("none");
+    expect(elementTree.animationMap.size).toBe(0);
+    result.rerender(<Scene next={20} loading />);
+    await flush();
+    expect(elementTree.animationMap.size).toBe(4);
     result.rerender(<Scene next={20} mounted={false} />);
     await flush();
     fireEvent.tap(get(".update"));
     await flush();
     expect(get(".subscribed").textContent).toBe("false");
+    expect(elementTree.animationMap.size).toBe(0);
+    expect(frames.size).toBe(0);
   });
 
   it("실제 PullToRefresh의 변위와 원호를 BG flush 전에 같은 MT update로 반영한다", async () => {

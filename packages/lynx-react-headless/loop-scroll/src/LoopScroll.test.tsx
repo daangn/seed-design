@@ -393,6 +393,48 @@ describe("LoopScroll", () => {
   it.each([
     false,
     true,
+  ])("짧은 이동은 정착 전 렌더 창과 항목을 갱신하지 않는다 (loop=%s)", async (loop) => {
+    const onIndexChange = vi.fn();
+    const renderItem = vi.fn(({ index }: { index: number }) => <text>{String(index)}</text>);
+    render(
+      <LoopScroll.Root
+        className="root"
+        itemCount={1000}
+        itemSize={ITEM_SIZE}
+        visibleItemCount={5}
+        defaultIndex={500}
+        loop={loop}
+        onIndexChange={onIndexChange}
+      >
+        <LoopScroll.Track className="track">{renderItem}</LoopScroll.Track>
+      </LoopScroll.Root>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    const initialItems = Array.from(mover().children);
+    renderItem.mockClear();
+
+    touch("touchstart", 100, 300);
+    advance(16);
+    touch("touchmove", 100, 244);
+    advance(200);
+    touch("touchend", 100, 244);
+    await runFrames(1);
+
+    expect(centeredPosition()).toBeGreaterThan(501);
+    expect(renderItem).not.toHaveBeenCalled();
+    expect(Array.from(mover().children)).toEqual(initialItems);
+    expect(onIndexChange).not.toHaveBeenCalled();
+
+    await runFrames();
+    expect(centeredPosition()).toBe(501);
+    expect(selectedLabels()).toEqual(["501"]);
+    expect(onIndexChange.mock.calls).toEqual([[501, { stepDelta: 1 }]]);
+  });
+
+  it.each([
+    false,
+    true,
   ])("1000개 항목도 화면 주변만 렌더하고 긴 fling 뒤 목표를 표시한다 (loop=%s)", async (loop) => {
     const onIndexChange = vi.fn();
     await renderWheel({ itemCount: 1000, defaultIndex: 500, loop, onIndexChange });

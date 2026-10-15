@@ -372,6 +372,8 @@ const attachmentInputItem = defineSlotRecipe({
         thumbnailIcon: { color: itemVars.typeFile.readonly.thumbnailIcon.color },
         name: { color: itemVars.typeFile.readonly.name.color },
         size: { color: itemVars.typeFile.readonly.size.color },
+        removeButton: { color: itemRemoveButtonVars.base.disabled.icon.color },
+        removeIcon: { color: itemRemoveButtonVars.base.disabled.icon.color },
       },
       false: {},
     },

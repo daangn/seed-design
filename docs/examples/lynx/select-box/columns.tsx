@@ -3,7 +3,7 @@ import "./styles";
 import IconDiamond from "@karrotmarket/lynx-multicolor-icon/IconDiamond";
 import IconIcecreamcone from "@karrotmarket/lynx-multicolor-icon/IconIcecreamcone";
 
-import { VStack } from "@seed-design/lynx-react";
+import { HStack, VStack } from "@seed-design/lynx-react";
 import {
   CheckSelectBox,
   CheckSelectBoxCheckmark,
@@ -29,7 +29,7 @@ export default function Example() {
           description="layout=vertical"
           suffix={<CheckSelectBoxCheckmark />}
         />
-        <view style={{ gridColumnStart: "1", gridColumnEnd: "3" }}>
+        <HStack align="stretch" style={{ gridColumnStart: "1", gridColumnEnd: "3" }}>
           <CheckSelectBox
             prefixIcon={<IconIcecreamcone />}
             defaultChecked
@@ -38,7 +38,7 @@ export default function Example() {
             description="layout을 horizontal로 오버라이드"
             suffix={<CheckSelectBoxCheckmark />}
           />
-        </view>
+        </HStack>
         <CheckSelectBox
           prefixIcon={<IconIcecreamcone />}
           label="옵션 4"
@@ -64,7 +64,7 @@ export default function Example() {
           label="옵션 2"
           suffix={<RadioSelectBoxRadiomark />}
         />
-        <view style={{ gridColumnStart: "1", gridColumnEnd: "4" }}>
+        <HStack align="stretch" style={{ gridColumnStart: "1", gridColumnEnd: "4" }}>
           <RadioSelectBoxItem
             value="option3"
             prefixIcon={<IconDiamond />}
@@ -73,7 +73,7 @@ export default function Example() {
             layout="horizontal"
             suffix={<RadioSelectBoxRadiomark />}
           />
-        </view>
+        </HStack>
         <RadioSelectBoxItem
           value="option4"
           prefixIcon={<IconDiamond />}

@@ -221,6 +221,12 @@
 .seed-attachment-input-item__size--readOnly_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-attachment-input-item__removeButton--readOnly_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-attachment-input-item__removeIcon--readOnly_true {
+    color: var(--seed-color-fg-disabled)
+}
 .seed-attachment-input-item__root--dragging_true {
     transform: scale(var(--seed-scale-s98))
 }

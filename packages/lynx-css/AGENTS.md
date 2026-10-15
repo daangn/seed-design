@@ -6,7 +6,7 @@ Lynx용 CSS 변수·Recipe를 배포하는 `@seed-design/lynx-css` 패키지다.
 
 ### 수동 Recipe: progress-circle
 
-- `recipes/progress-circle.{css,mjs,d.ts}`는 qvism이 만들지 않는 수동 Recipe다. Lynx가 SVG `stroke-dasharray`를 지원하지 않아 웹(SVG + CSS 애니메이션)과 달리 clip-path + JS `requestAnimationFrame` 애니메이션으로 구현한다.
+- `recipes/progress-circle.{css,mjs,d.ts}`는 qvism이 만들지 않는 수동 Recipe다. Lynx가 SVG `stroke-dasharray`를 지원하지 않아 고정 clip-path로 링을 그린다. Indeterminate는 반원·cap의 transform을 `Element.animate`로 보간하고, determinate는 Main Thread에서 pie sector를 갱신한다.
 - 스타일을 바꿀 때 → 이 세 파일을 직접 고친다. `packages/lynx-qvism-preset/`에 대응 Recipe를 만들지 않는다. preset의 `src/recipes.ts`에 없으므로 `bun qvism:generate`가 이 파일을 덮어쓰거나 지우지 않는다.
 - `.gitattributes`의 `packages/lynx-css/recipes/**`는 생성물 표시이고, 이 세 파일만 `-linguist-generated` 예외로 뺐다. `git check-attr`는 `unset`을 반환하므로 `.claude/hooks/generated-files-guard.ts`가 편집을 막지 않는다. `biome.json`·`.coderabbit.yaml`의 `packages/lynx-css/recipes/**` 제외는 그대로라 formatter·리뷰 대상이 아니다 → 고친 뒤 다른 slot의 형식에 직접 맞춘다.
 - 파일 첫 줄의 `TODO`는 Lynx가 SVG를 지원하면 qvism Recipe로 옮기고 세 파일을 지운다는 표시다. 그 전까지 유지한다.

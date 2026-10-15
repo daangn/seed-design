@@ -135,4 +135,5 @@ npx @seed-design/cli add ui:progress-circle
 
 - 공개 variant와 진행률 API는 웹과 같습니다.
 - 웹의 ARIA 속성 대신 `accessibility-role-description`과 `accessibility-value`를 사용합니다.
-- Lynx는 진행률 애니메이션을 Main Thread에서 처리합니다. 완료 시점을 알 수 없는 인스턴스를 한 화면에 많이 렌더링하면 성능이 저하될 수 있습니다.
+- 완료 시점을 알 수 없는 상태는 엔진 애니메이션으로 원호와 둥근 끝을 회전합니다. JavaScript에서 매 프레임 스타일을 갱신하지 않습니다.
+- `value`가 바뀌는 진행률 애니메이션과 `mainThreadProgress` 갱신은 Main Thread에서 처리합니다.

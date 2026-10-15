@@ -50,6 +50,32 @@
   z-index: 1;
 }
 
+.seed-progress-circle__spinner,
+.seed-progress-circle__indeterminate-range,
+.seed-progress-circle__half,
+.seed-progress-circle__semicircle--first,
+.seed-progress-circle__semicircle--second {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.seed-progress-circle__range.seed-progress-circle__indeterminate-range {
+  background-color: transparent;
+}
+
+.seed-progress-circle__half--first,
+.seed-progress-circle__semicircle--second {
+  clip-path: inset(0 0 0 50%);
+}
+
+.seed-progress-circle__half--second,
+.seed-progress-circle__semicircle--first {
+  clip-path: inset(0 50% 0 0);
+}
+
 .seed-progress-circle__track--tone_neutral {
   background-color: var(--seed-color-palette-gray-200);
 }

@@ -508,6 +508,15 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       state.pendingMotion = { target, timeConstant, instant };
       const center = nearestVirtualIndex(state.offset, config);
       const destination = nearestVirtualIndex(target, config);
+      // 가까운 목표는 기존 여유 창 안에 있어 정착 전에 항목을 추가할 필요가 없습니다.
+      if (
+        !instant &&
+        Math.abs(center - state.windowCenter) < WINDOW_SHIFT_THRESHOLD &&
+        Math.abs(destination - state.windowCenter) < WINDOW_SHIFT_THRESHOLD
+      ) {
+        beginPreparedMotion(state.token);
+        return;
+      }
       const from = windowAround(center, config);
       const to = windowAround(destination, config);
       const next: RenderWindow = {
