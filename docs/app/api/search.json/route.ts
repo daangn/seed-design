@@ -171,4 +171,7 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
     return groups.flat();
   },
   tokenizer: koreanTokenizer,
+  // fumadocs' queries never sort, and a sort index per string property is megabytes of an
+  // export that Cloudflare Pages refuses past 25 MiB.
+  sort: { enabled: false },
 });
