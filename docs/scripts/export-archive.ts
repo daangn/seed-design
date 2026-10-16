@@ -73,7 +73,7 @@ export async function exportArchive({
       path.join(input, "__registry__", platform),
       path.join(archive, "__registry__", platform),
     );
-    await copy(path.join(input, "api/search"), path.join(archive, "api/search"));
+    await copy(path.join(input, "api/search.json"), path.join(archive, "api/search.json"));
     await copy(path.join(input, "llms", platform), path.join(archive, "llms", platform));
     for (const name of ["llms.txt", "llms-full.txt"]) {
       await copy(path.join(input, platform, name), path.join(archive, name));

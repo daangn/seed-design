@@ -11,7 +11,7 @@ describe("documentation archive paths", () => {
       paths.link("/lynx/components/action-button"),
       paths.asset("/logo.webp"),
       paths.asset("/__lynx__/manifest.json"),
-      paths.endpoint("/api/search"),
+      paths.endpoint("/api/search.json"),
     ]).toEqual([
       "/react",
       "/lynx",
@@ -19,7 +19,7 @@ describe("documentation archive paths", () => {
       "/lynx/components/action-button",
       "/logo.webp",
       "/__lynx__/manifest.json",
-      "/api/search",
+      "/api/search.json",
     ]);
     expect(paths.routes("react").routeSlug(["components", "button"])).toEqual([
       "components",

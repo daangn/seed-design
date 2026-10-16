@@ -26,7 +26,10 @@ export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof 
     throw new Error(`${prefix}: resolve the source branch before verifying its deployment`);
   }
   const origin = archiveOrigin(archive.origin);
-  async function get(suffix: string, expectedStatus = 200): Promise<Response> {
+  async function get(
+    suffix: string,
+    expectedStatus: number | readonly number[] = 200,
+  ): Promise<Response> {
     let url = new URL(`${prefix}${suffix}`, origin);
     for (let redirects = 0; redirects <= 5; redirects++) {
       if (url.origin !== origin.origin || !isArchivePath(url.pathname, prefix)) {
@@ -42,7 +45,7 @@ export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof 
         url = new URL(location, url);
         continue;
       }
-      if (response.status !== expectedStatus) {
+      if (![expectedStatus].flat().includes(response.status)) {
         await response.body?.cancel();
         throw new Error(`${prefix}: verification failed: ${suffix} (${response.status})`);
       }
@@ -74,7 +77,12 @@ export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof 
   if (!script) throw new Error(`${prefix}: JavaScript path is missing`);
   await (await get(script.slice(prefix.length))).body?.cancel();
   await (await get(`/${archive.probe.document}/`)).body?.cancel();
-  await (await get("/api/search")).json();
+  // Archives exported before the index moved to /api/search.json serve it without the extension.
+  const search = await get("/api/search.json", [200, 404]);
+  if (search.status === 404) {
+    await search.body?.cancel();
+    await (await get("/api/search")).json();
+  } else await search.json();
   await (await get(`/__registry__/${archive.platform}/index.json`)).json();
   await (await get(`/__registry__/${archive.platform}/${archive.probe.registryItem}.json`)).json();
   const index = await (await get("/__docs__/index.json")).json();

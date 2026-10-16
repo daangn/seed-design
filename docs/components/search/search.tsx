@@ -172,7 +172,7 @@ export default function DefaultSearchDialog({
   const { search, setSearch, query } = useDocsSearch({
     client: staticClient({
       initDB: initSearchDatabase,
-      from: archivePaths.endpoint(api ?? "/api/search"),
+      from: archivePaths.endpoint(api ?? "/api/search.json"),
       tag,
     }),
   });
