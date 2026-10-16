@@ -108,7 +108,7 @@
     pointer-events: none;
     z-index: 1;
 }
-.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetBottom_none::before {
+.seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_none::before {
     transform: translateY(-400px);
 }
 .seed-app-screen__layer--tone_transparent-gradient_true-layerOffsetTop_safeArea::before {
