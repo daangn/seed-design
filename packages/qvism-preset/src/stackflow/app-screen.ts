@@ -174,7 +174,7 @@ export const appScreen = defineSlotRecipe({
     {
       tone: "transparent",
       gradient: true,
-      layerOffsetBottom: "none",
+      layerOffsetTop: "none",
       css: {
         layer: {
           "&::before": {
