@@ -39,7 +39,7 @@ function fixture(badOrigin?: string, staleResponses = Number.POSITIVE_INFINITY) 
     if (suffix.startsWith("/__archive_missing_")) return new Response("missing", { status: 404 });
     if (
       [
-        "/api/search",
+        "/api/search.json",
         "/__registry__/react/index.json",
         "/__registry__/react/ui/action-button.json",
       ].includes(suffix)

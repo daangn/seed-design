@@ -35,7 +35,7 @@ async function fixture() {
         { id: "lynx", sections: [] },
       ],
     }),
-    "out/api/search": '{"react":"search"}',
+    "out/api/search.json": '{"react":"search"}',
     "out/llms/react/components/button.txt": "archive LLM",
     "out/react/llms.txt": "archive index",
     "out/react/llms-full.txt": "archive full text",
@@ -61,7 +61,7 @@ it("exports a self-contained React archive with old CLI URL compatibility", asyn
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://seed-design.io/react/v2/</loc></url><url><loc>https://seed-design.io/react/v2/components/button/</loc></url></urlset>\n',
   );
   expect(await read("react/v2/__registry__/react/ui/button.json")).toBe('{"id":"ui/button"}');
-  expect(await read("react/v2/api/search")).toBe('{"react":"search"}');
+  expect(await read("react/v2/api/search.json")).toBe('{"react":"search"}');
   expect(JSON.parse(await read("react/v2/__docs__/index.json"))).toEqual({
     categories: [{ id: "react", sections: [{ items: [{ docUrl: "/react/components/button" }] }] }],
   });

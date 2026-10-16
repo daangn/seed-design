@@ -21,7 +21,7 @@ function fixture(target: ArchiveDefinition, overrides: Record<string, () => Resp
       ),
     "/_assets/_next/static/app.js": () => new Response("script"),
     [`/${target.probe.document}/`]: () => new Response("document"),
-    "/api/search": () => Response.json({ search: [] }),
+    "/api/search.json": () => Response.json({ search: [] }),
     [`/__registry__/${target.platform}/index.json`]: () => Response.json({}),
     [`/__registry__/${target.platform}/${target.probe.registryItem}.json`]: () => Response.json({}),
     "/__docs__/index.json": () => Response.json({ categories: [{ id: target.platform }] }),
@@ -51,6 +51,23 @@ it.each([
   expect(visited).toContain(`/__registry__/${platform}/ui/button.json`);
   expect(visited).toContain(`/llms/${platform}/components/button.txt`);
   expect(visited.some((path) => path.startsWith("/__archive_missing_"))).toBe(true);
+  expect(visited).not.toContain("/api/search");
+});
+
+it("reads the extensionless search index an older archive serves", async () => {
+  const { fetcher, visited } = fixture(archive, {
+    "/api/search.json": () => new Response("missing", { status: 404 }),
+    "/api/search": () => Response.json({ search: [] }),
+  });
+  await verifyArchive(archive, fetcher);
+  expect(visited).toContain("/api/search");
+});
+
+it("rejects an archive serving no search index", async () => {
+  const { fetcher } = fixture(archive, {
+    "/api/search.json": () => new Response("missing", { status: 404 }),
+  });
+  await expect(verifyArchive(archive, fetcher)).rejects.toThrow("/api/search (404)");
 });
 
 it.each([
