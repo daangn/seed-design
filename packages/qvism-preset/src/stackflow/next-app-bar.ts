@@ -65,7 +65,7 @@ export const nextAppBarMain = defineSlotRecipe({
           // measured by `useNextAppBar`, so the narrower side stops shrinking first and the
           // title keeps expanding on the other.
           display: "grid",
-          gridTemplateColumns: `minmax(var(--centered-title-left, 0px), 1fr) minmax(0, auto) minmax(var(--centered-title-right, 0px), 1fr)`,
+          gridTemplateColumns: `minmax(calc(var(--centered-title-left, 0px) + ${vars.base.enabled.root.paddingX}), 1fr) minmax(0, auto) minmax(calc(var(--centered-title-right, 0px) + ${vars.base.enabled.root.paddingX}), 1fr)`,
           columnGap: vars.themeIos.enabled.root.titleMinGap,
           alignItems: "center",
           // Title and subtitle stack as two rows, so the block needs centring as well.
@@ -73,7 +73,8 @@ export const nextAppBarMain = defineSlotRecipe({
           textAlign: "center",
           top: "var(--seed-safe-area-top)",
           bottom: 0,
-          insetInline: 0,
+          left: "var(--seed-safe-area-left)",
+          right: "var(--seed-safe-area-right)",
           pointerEvents: "none",
 
           // Track indices are strings: the generator appends `px` to bare numbers, which would
@@ -212,7 +213,8 @@ export const nextAppBar = defineSlotRecipe({
       cupertino: {
         root: {
           height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.base.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -227,7 +229,8 @@ export const nextAppBar = defineSlotRecipe({
       android: {
         root: {
           height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.base.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {

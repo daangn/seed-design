@@ -66,7 +66,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
           __html: "::-webkit-scrollbar{display:none}",
         }}
       />
-      <NextAppScreen>
+      <NextAppScreen contentOffsetBottom="safeArea">
         <NextAppBar>
           <NextAppBarMain title="Demo" />
         </NextAppBar>

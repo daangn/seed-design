@@ -43,7 +43,7 @@ const ActivityCheckbox: StaticActivityComponentType<"ActivityCheckbox"> = () => 
   const { push } = useFlow();
 
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="safeArea">
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

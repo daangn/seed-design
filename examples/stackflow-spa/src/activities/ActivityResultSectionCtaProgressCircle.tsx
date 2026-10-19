@@ -49,7 +49,7 @@ const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
   }, []);
 
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="safeArea">
       <NextAppBar>
         <NextAppBarMain title="환불 요청" />
       </NextAppBar>

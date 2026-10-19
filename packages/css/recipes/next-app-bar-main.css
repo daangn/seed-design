@@ -29,14 +29,15 @@
 .seed-next-app-bar-main__root--theme_cupertino {
     position: absolute;
     display: grid;
-    grid-template-columns: minmax(var(--centered-title-left, 0px), 1fr) minmax(0, auto) minmax(var(--centered-title-right, 0px), 1fr);
+    grid-template-columns: minmax(calc(var(--centered-title-left, 0px) + var(--seed-dimension-x1_5)), 1fr) minmax(0, auto) minmax(calc(var(--centered-title-right, 0px) + var(--seed-dimension-x1_5)), 1fr);
     column-gap: var(--seed-dimension-x2);
     align-items: center;
     align-content: center;
     text-align: center;
     top: var(--seed-safe-area-top);
     bottom: 0;
-    inset-inline: 0;
+    left: var(--seed-safe-area-left);
+    right: var(--seed-safe-area-right);
     pointer-events: none;
 }
 .seed-next-app-bar-main__root--theme_cupertino::before {
