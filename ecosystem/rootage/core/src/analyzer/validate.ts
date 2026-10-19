@@ -1,5 +1,6 @@
 import type { PropertySchemaDeclaration, TokenDeclaration, ValueLit } from "../parser/ast";
 import type { RootageCtx } from "./types";
+import { findDependencyCycle } from "./dependency-cycle";
 
 interface ValidationResult {
   valid: boolean;
@@ -32,7 +33,6 @@ const TOKEN_DECL_KIND_TO_TYPE: Omit<
   GradientTokenDeclaration: "gradient",
 };
 
-// TODO: detect cycle in dependency graph
 export function validate(ctx: RootageCtx): ValidationResult {
   const {
     componentSpecIds,
@@ -99,6 +99,14 @@ export function validate(ctx: RootageCtx): ValidationResult {
         }
       }
     }
+  }
+
+  const cycle = findDependencyCycle(ctx.dependencyGraph);
+  if (cycle) {
+    return {
+      valid: false,
+      message: `Circular token reference ${cycle.path.map((token) => `"${token}"`).join(" -> ")} in mode "${cycle.mode}"`,
+    };
   }
 
   for (const componentSpec of componentSpecs) {
