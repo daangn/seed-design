@@ -42,7 +42,7 @@ const ActivitySwitch: StaticActivityComponentType<"ActivitySwitch"> = () => {
   const { push } = useFlow();
 
   return (
-    <NextAppScreen contentOffsetBottom="safeArea">
+    <NextAppScreen>
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

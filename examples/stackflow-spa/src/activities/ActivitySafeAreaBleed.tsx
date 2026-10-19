@@ -53,7 +53,7 @@ const Section = ({
 );
 
 const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => (
-  <NextAppScreen>
+  <NextAppScreen contentOffsetBottom="none">
     <NextAppBar>
       <NextAppBarLeft>
         <NextAppBarBackButton />

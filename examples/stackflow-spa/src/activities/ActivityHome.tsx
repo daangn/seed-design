@@ -521,7 +521,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   }
 
   return (
-    <NextAppScreen transitionStyle={params.transitionStyle} contentOffsetBottom="safeArea">
+    <NextAppScreen transitionStyle={params.transitionStyle}>
       <NextAppBar bg="bg.layerBasement">
         {activityIndex > 0 && (
           <NextAppBarLeft>

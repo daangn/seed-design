@@ -28,7 +28,7 @@ const defaultVariant = {
   "theme": "cupertino",
   "transitionStyle": "horizontalSlide",
   "contentOffsetTop": "appBar",
-  "contentOffsetBottom": "none",
+  "contentOffsetBottom": "safeArea",
   "tone": "layer",
   "gradient": true
 };

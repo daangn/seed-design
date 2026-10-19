@@ -12,7 +12,7 @@ declare interface NextAppScreenVariant {
   */
   contentOffsetTop: "none" | "safeArea" | "appBar";
 /**
-  * @default "none"
+  * @default "safeArea"
   */
   contentOffsetBottom: "none" | "safeArea";
 /**
