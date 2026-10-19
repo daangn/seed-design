@@ -5,14 +5,14 @@ import { useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 import { ActionButton } from "seed-design/ui/action-button";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   BottomSheetBody,
   BottomSheetContent,
@@ -366,20 +366,20 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Popover</AppBarMain>
-        <AppBarRight>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>Popover</NextAppBarMain>
+        <NextAppBarRight>
           <PopoverRoot placement="bottom-end">
             <PopoverTrigger asChild>
-              <AppBarIconButton aria-label="도움말">
+              <NextAppBarIconButton aria-label="도움말">
                 <IconQuestionmarkCircleLine />
-              </AppBarIconButton>
+              </NextAppBarIconButton>
             </PopoverTrigger>
-            <PopoverContent title="AppBar 트리거">
+            <PopoverContent title="NextAppBar 트리거">
               <PopoverBody>
                 상단 safe-area 바로 아래에서 열립니다. 노치가 있는 기기에서 잘리지 않는지
                 확인하세요.
@@ -391,12 +391,12 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
               </PopoverFooter>
             </PopoverContent>
           </PopoverRoot>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <div style={{ paddingInline: 20, paddingBottom: "40vh" }}>
           <GroupHeading>기본</GroupHeading>
 
@@ -656,8 +656,8 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
             </Row>
           </Section>
         </div>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
