@@ -1,13 +1,4 @@
-import {
-  Box,
-  ContinuousDatePicker,
-  HStack,
-  Portal,
-  Text,
-  TimePicker,
-  VStack,
-  type TimePickerValue,
-} from "@seed-design/react";
+import { Box, HStack, Portal, Text, VStack, type TimePickerValue } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState, type ReactNode } from "react";
@@ -27,6 +18,8 @@ import {
   ChipTabsTrigger,
 } from "seed-design/ui/chip-tabs";
 import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
+import { ContinuousDatePicker } from "seed-design/ui/date-picker";
+import { TimePicker } from "seed-design/ui/time-picker";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "seed-design/ui/menu";
 import {
   NextAppBar,

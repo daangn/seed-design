@@ -79,6 +79,32 @@ async function setupSwipe(options: SwipeSetupOptions = {}) {
 }
 
 describe("swipe back — edge 모드", () => {
+  it("스와이프가 시작되면 입력 포커스를 해제한다", async () => {
+    const { edge, topLayer } = await setupSwipe();
+    const input = document.createElement("input");
+    topLayer.append(input);
+    input.focus();
+    expect(document.activeElement).toBe(input);
+
+    fireEvent.touchStart(edge as HTMLElement, touchInit(10, 300));
+
+    expect(document.activeElement).not.toBe(input);
+  });
+
+  it("full 모드는 수평 제스처를 확정할 때 입력 포커스를 해제한다", async () => {
+    const { topLayer } = await setupSwipe({ swipeBackArea: "full" });
+    const input = document.createElement("input");
+    topLayer.append(input);
+    input.focus();
+
+    fireEvent.touchStart(topLayer, touchInit(100, 300));
+    expect(document.activeElement).toBe(input);
+
+    fireEvent.touchMove(topLayer, touchInit(130, 300));
+
+    expect(document.activeElement).not.toBe(input);
+  });
+
   it("스와이프 중 두 참여 화면 root에만 swiping 상태가 붙고, vars는 소비 element에 직접 써진다", async () => {
     const clock = createClock();
     const onSwipeBackMove = mock((_: { displacement: number; displacementRatio: number }) => {});

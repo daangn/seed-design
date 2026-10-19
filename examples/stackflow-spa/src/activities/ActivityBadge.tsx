@@ -79,7 +79,7 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
   const { push } = useFlow();
 
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="safeArea">
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

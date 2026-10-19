@@ -343,6 +343,11 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
   }
 
   function beginInteraction(context: GestureContext) {
+    const activeElement = context.targets.topRoot.ownerDocument.activeElement;
+    if (activeElement && "blur" in activeElement && typeof activeElement.blur === "function") {
+      activeElement.blur();
+    }
+
     phaseRef.current = "swiping";
     setSwipeState(context.targets, "swiping");
     applyDisplacement(

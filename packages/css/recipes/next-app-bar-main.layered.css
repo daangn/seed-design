@@ -28,17 +28,18 @@
   }
 
   .seed-next-app-bar-main__root--theme_cupertino {
-    grid-template-columns: minmax(var(--centered-title-left, 0px), 1fr) minmax(0, auto) minmax(var(--centered-title-right, 0px), 1fr);
+    grid-template-columns: minmax(calc(var(--centered-title-left, 0px) + var(--seed-dimension-x1_5)), 1fr) minmax(0, auto) minmax(calc(var(--centered-title-right, 0px) + var(--seed-dimension-x1_5)), 1fr);
     column-gap: var(--seed-dimension-x2);
     text-align: center;
     top: var(--seed-safe-area-top);
     bottom: 0;
+    left: var(--seed-safe-area-left);
+    right: var(--seed-safe-area-right);
     pointer-events: none;
     align-content: center;
     align-items: center;
     display: grid;
     position: absolute;
-    inset-inline: 0;
   }
 
   .seed-next-app-bar-main__root--theme_cupertino:before {

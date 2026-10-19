@@ -78,7 +78,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
   };
 
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="safeArea">
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

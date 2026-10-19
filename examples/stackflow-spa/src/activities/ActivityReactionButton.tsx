@@ -31,7 +31,7 @@ const ActivityReactionButton: StaticActivityComponentType<"ActivityReactionButto
   const { push } = useFlow();
 
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="safeArea">
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />
