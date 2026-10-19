@@ -7510,8 +7510,8 @@
 }
 
 .seed-next-app-bar__background--tone_transparent-gradient_true {
-  background: linear-gradient(180deg, [object Object]);
   height: calc(100% + var(--seed-dimension-x5));
+  background: linear-gradient(#00000059 0%, #0000 100%);
 }
 
 .seed-next-app-bar-main__root {
