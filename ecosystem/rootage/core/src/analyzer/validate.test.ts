@@ -184,6 +184,120 @@ describe("validate", () => {
     expect(result.valid).toEqual(false);
   });
 
+  it("should return false if a token references itself", () => {
+    const files: SourceFile[] = [
+      {
+        fileName: "collection",
+        ast: Authoring.fromString(dedent`
+        kind: TokenCollections
+        metadata:
+          id: "1"
+          name: collection
+        data:
+          - name: color
+            modes:
+              - id: light`),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromString(dedent`
+        kind: Tokens
+        metadata:
+          id: "2"
+          name: tokens
+        data:
+          collection: color
+          tokens:
+            "$color.bg.layer-1":
+              values:
+                light: $color.bg.layer-1`),
+      },
+    ];
+
+    const result = validate(buildContext(files));
+
+    expect(result.valid).toEqual(false);
+  });
+
+  it("should return false if two tokens reference each other", () => {
+    const files: SourceFile[] = [
+      {
+        fileName: "collection",
+        ast: Authoring.fromString(dedent`
+        kind: TokenCollections
+        metadata:
+          id: "1"
+          name: collection
+        data:
+          - name: color
+            modes:
+              - id: light`),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromString(dedent`
+        kind: Tokens
+        metadata:
+          id: "2"
+          name: tokens
+        data:
+          collection: color
+          tokens:
+            "$color.bg.layer-1":
+              values:
+                light: $color.bg.layer-2
+            "$color.bg.layer-2":
+              values:
+                light: $color.bg.layer-1`),
+      },
+    ];
+
+    const result = validate(buildContext(files));
+
+    expect(result.valid).toEqual(false);
+  });
+
+  it("should return false if three or more tokens form a reference cycle", () => {
+    const files: SourceFile[] = [
+      {
+        fileName: "collection",
+        ast: Authoring.fromString(dedent`
+        kind: TokenCollections
+        metadata:
+          id: "1"
+          name: collection
+        data:
+          - name: color
+            modes:
+              - id: light`),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromString(dedent`
+        kind: Tokens
+        metadata:
+          id: "2"
+          name: tokens
+        data:
+          collection: color
+          tokens:
+            "$color.bg.layer-1":
+              values:
+                light: $color.bg.layer-2
+            "$color.bg.layer-2":
+              values:
+                light: $color.bg.layer-3
+            "$color.bg.layer-3":
+              values:
+                light: $color.bg.layer-1`),
+      },
+    ];
+
+    const result = validate(buildContext(files));
+
+    expect(result.valid).toEqual(false);
+  });
+
   it("should return false if referenced token is not defined - ComponentSpec", () => {
     const files: SourceFile[] = [
       {
