@@ -93,6 +93,6 @@
     color: var(--seed-icon-color, var(--seed-color-palette-static-white));
 }
 .seed-next-app-bar__background--tone_transparent-gradient_true {
-    background: linear-gradient(180deg, [object Object]);
+    background: linear-gradient(180deg, #00000059 0%, #00000000 100%);
     height: calc(100% + var(--seed-dimension-x5));
 }
