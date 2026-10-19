@@ -190,6 +190,8 @@ export const nextAppScreen = defineSlotRecipe({
       boxSizing: "border-box",
       position: "absolute",
       inset: 0,
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
       overflowY: "scroll",
       WebkitOverflowScrolling: "touch",
       "&::-webkit-scrollbar": {
