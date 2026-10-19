@@ -3,7 +3,7 @@ import { NextAppScreen as SeedNextAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
 
-export interface NextAppScreenProps extends SeedNextAppScreen.RootProps {}
+export interface NextAppScreenProps extends Omit<SeedNextAppScreen.RootProps, "asChild"> {}
 
 export const NextAppScreen = forwardRef<HTMLDivElement, NextAppScreenProps>(
   ({ children, onSwipeBackEnd, swipeBackArea, ...otherProps }, ref) => {
@@ -31,7 +31,7 @@ export const NextAppScreen = forwardRef<HTMLDivElement, NextAppScreenProps>(
 );
 NextAppScreen.displayName = "NextAppScreen";
 
-export interface NextAppScreenContentProps extends SeedNextAppScreen.ContentProps {
+export interface NextAppScreenContentProps extends Omit<SeedNextAppScreen.ContentProps, "asChild"> {
   ptr?: boolean;
 
   onPtrReady?: () => void;

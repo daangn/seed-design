@@ -2,8 +2,13 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { Box, HStack, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 import img from "../assets/peng.jpeg";
 
@@ -48,14 +53,14 @@ const Section = ({
 );
 
 const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => (
-  <AppScreen>
-    <AppBar>
-      <AppBarLeft>
-        <AppBarBackButton />
-      </AppBarLeft>
-      <AppBarMain title="좌우 safe area와 bleed" />
-    </AppBar>
-    <AppScreenContent>
+  <NextAppScreen>
+    <NextAppBar>
+      <NextAppBarLeft>
+        <NextAppBarBackButton />
+      </NextAppBarLeft>
+      <NextAppBarMain title="좌우 safe area와 bleed" />
+    </NextAppBar>
+    <NextAppScreenContent>
       <VStack gap="x8" pt="x4">
         <Section title="이미지" description="bleedX에 safeArea를 주면 좌우 inset까지 채워요.">
           <Box bleedX="safeArea">
@@ -148,8 +153,8 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           </HStack>
         </Box>
       </VStack>
-    </AppScreenContent>
-  </AppScreen>
+    </NextAppScreenContent>
+  </NextAppScreen>
 );
 
 export default ActivitySafeAreaBleed;
