@@ -2,8 +2,13 @@ import { VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -16,14 +21,14 @@ const ActivitySwipeBackKeyboard: StaticActivityComponentType<"ActivitySwipeBackK
   const [focused, setFocused] = useState(false);
 
   return (
-    <AppScreen theme="cupertino" transitionStyle="slideFromRightIOS">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>스와이프백 키보드</AppBarMain>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen theme="cupertino" transitionStyle="horizontalSlide">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain>스와이프백 키보드</NextAppBarMain>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x5" p="x5">
           <p>
             입력 화면을 한 장 더 열고 글을 입력한 뒤, 왼쪽 가장자리에서 천천히 오른쪽으로
@@ -61,8 +66,8 @@ const ActivitySwipeBackKeyboard: StaticActivityComponentType<"ActivitySwipeBackK
             모바일 터치 에뮬레이션으로 포커스 상태를 확인할 수 있습니다.
           </p>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

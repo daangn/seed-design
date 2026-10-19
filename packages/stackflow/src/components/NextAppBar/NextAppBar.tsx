@@ -46,11 +46,12 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarProps>((props
   });
 
   const classNames = nextAppBar(variantProps);
+  const [mainVariantProps] = nextAppBarMain.splitVariantProps(variantProps);
   const { children, ...restProps } = otherProps;
 
   return (
     <ClassNamesProvider value={classNames}>
-      <MainPropsProvider value={variantProps}>
+      <MainPropsProvider value={mainVariantProps}>
         <NextAppBarPrimitive.Root
           ref={ref}
           {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
