@@ -207,6 +207,35 @@ describe("TextField", () => {
         await user.type(input, "test");
         expect(input).toHaveValue("test");
       });
+
+      it("should keep ancestor scroll positions while autoresizing", async () => {
+        const { getByRole, getByTestId, user } = setUp(
+          <div data-testid="scroller">
+            <TextFieldRoot defaultValue="initial">
+              <TextFieldTextarea aria-label="Test textarea" />
+            </TextFieldRoot>
+          </div>,
+        );
+
+        const scroller = getByTestId("scroller");
+        const input = getByRole("textbox");
+
+        // happy-dom에는 레이아웃이 없어, 높이가 `auto`로 줄 때 브라우저가 스크롤을 잘라내는 동작을 흉내 낸다.
+        let height = "";
+        Object.defineProperty(input.style, "height", {
+          configurable: true,
+          get: () => height,
+          set: (value: string) => {
+            height = value;
+            if (value === "auto") scroller.scrollTop = 0;
+          },
+        });
+
+        scroller.scrollTop = 120;
+        await user.type(input, "!");
+
+        expect(scroller.scrollTop).toBe(120);
+      });
     });
 
     describe("Prefix and Suffix components", () => {

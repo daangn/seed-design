@@ -154,6 +154,13 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
         input.style.overflow = "hidden";
       }
 
+      // 높이를 `auto`로 줄이는 순간 스크롤 범위도 줄어 조상(문서 포함)의 scrollTop이 잘리고,
+      // 높이를 되돌려도 복원되지 않는다. 측정 전 위치를 기억했다가 되돌린다.
+      const scrolledAncestors: [Element, number][] = [];
+      for (let node = input.parentElement; node; node = node.parentElement) {
+        if (node.scrollTop > 0) scrolledAncestors.push([node, node.scrollTop]);
+      }
+
       input.style.alignSelf = "start";
       input.style.height = "auto";
 
@@ -162,6 +169,8 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
 
       input.style.overflow = prevOverflow;
       input.style.alignSelf = prevAlignment;
+
+      for (const [node, scrollTop] of scrolledAncestors) node.scrollTop = scrollTop;
     }, [inputRef, otherProps.style?.height, autoresize]);
 
     useLayoutEffect(() => {
