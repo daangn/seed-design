@@ -7,9 +7,7 @@ export const page = style({
   gap: vars.$dimension.x12,
 
   paddingTop: vars.$dimension.x4,
-  // The inset is 0 on desktop, so the last panel would sit flush against the
-  // bottom edge without a base gap of its own.
-  paddingBottom: `calc(var(--seed-safe-area-bottom, 0px) + ${vars.$dimension.x8})`,
+  paddingBottom: vars.$dimension.x8,
 });
 
 export const group = style({

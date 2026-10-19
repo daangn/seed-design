@@ -30,7 +30,7 @@ const ActivityMannerTempLevel: StaticActivityComponentType<"ActivityMannerTempLe
   const { push } = useFlow();
 
   return (
-    <NextAppScreen contentOffsetBottom="safeArea">
+    <NextAppScreen>
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

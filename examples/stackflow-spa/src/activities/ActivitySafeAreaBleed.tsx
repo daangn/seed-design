@@ -109,7 +109,7 @@ function SafeAreaReadout() {
 const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => {
   const [extendSafeAreaX, setExtendSafeAreaX] = useState(true);
   return (
-    <NextAppScreen>
+    <NextAppScreen contentOffsetBottom="none">
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />
