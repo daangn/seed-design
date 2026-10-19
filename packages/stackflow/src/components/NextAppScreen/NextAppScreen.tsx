@@ -31,15 +31,29 @@ export const NextAppScreenPropsProvider = ({
   <NextAppScreenPropsContext.Provider value={value}>{children}</NextAppScreenPropsContext.Provider>
 );
 
+const CLIP_RADIUS_VARS = {
+  topLeft: "--seed-next-app-screen-clip-radius-top-left",
+  topRight: "--seed-next-app-screen-clip-radius-top-right",
+  bottomRight: "--seed-next-app-screen-clip-radius-bottom-right",
+  bottomLeft: "--seed-next-app-screen-clip-radius-bottom-left",
+} as const;
+
+type ClipRadiusLength = string | number;
+
+export type NextAppScreenClipRadius =
+  | ClipRadiusLength
+  | Partial<Record<keyof typeof CLIP_RADIUS_VARS, ClipRadiusLength>>;
+
 export interface NextAppScreenRootProps
   extends NextAppScreenVariantProps,
     NextAppScreenPrimitive.RootProps {
   /**
    * Corner radius of the device display, matched by the clip that runs while a
    * transition or a swipe-back gesture is in flight. A number means px; a
-   * string is any CSS length. Unset, nothing is clipped.
+   * string is any CSS length. An object sets each corner on its own, and a
+   * corner it leaves out is square. Unset, nothing is clipped.
    */
-  clipRadius?: string | number;
+  clipRadius?: NextAppScreenClipRadius;
 }
 
 export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootProps>(
@@ -69,14 +83,22 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       [variantProps],
     );
 
+    // The recipe reads all four vars without a fallback, so any clip has to set
+    // every one of them or the mask drops out entirely.
     const clipStyle = useMemo(
       () =>
         clipRadius === undefined
           ? undefined
-          : ({
-              "--seed-next-app-screen-clip-radius":
-                typeof clipRadius === "number" ? `${clipRadius}px` : clipRadius,
-            } as React.CSSProperties),
+          : (Object.fromEntries(
+              Object.entries(CLIP_RADIUS_VARS).map(([corner, name]) => {
+                const radius =
+                  typeof clipRadius === "object"
+                    ? (clipRadius[corner as keyof typeof CLIP_RADIUS_VARS] ?? 0)
+                    : clipRadius;
+
+                return [name, typeof radius === "number" ? `${radius}px` : radius];
+              }),
+            ) as React.CSSProperties),
       [clipRadius],
     );
 

@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { SQUIRCLE_CORNER_SPAN_RATIO, SQUIRCLE_MASK_IMAGE, SQUIRCLE_SLICE } from "../utils/squircle";
+import { SQUIRCLE_CORNER_MASK_IMAGES, SQUIRCLE_CORNER_SPAN_RATIO } from "../utils/squircle";
 import { vars } from "../vars";
 import { topNavigation as navVars } from "../vars/component";
 
@@ -118,20 +118,45 @@ const SWIPE_SCALE_SLIDE_SCALE = `calc(1 - ${swipeSpanProgress(SCALE_SLIDE_SHRINK
 // since a sliding screen carries its corners off the bezel and into the middle
 // of the display.
 //
-// `-webkit-mask-box-image` is written unguarded because it is the only spelling
-// any engine takes: neither WebKit (back to iOS 15) nor Blink accepts the
-// standard `mask-border` today, and Gecko implements neither, so there is no
-// second spelling to pair it with and nothing for an `@supports` to switch
-// between. Firefox therefore runs these transitions unclipped — it is outside
-// the preset's targets, and `clipRadius` is a native-shell affordance.
+// Each corner is its own layer sized to its own radius, and four solid strips,
+// each spanning half the screen between the two corners on its side, fill the
+// rest. That holds while every corner fits inside half the screen on both axes.
+// A nine-slice `mask-border` can't do this: a corner piece takes its width from
+// the left or right border and its height from the top or bottom one, so four
+// different radii would stretch the squircles out of shape.
 //
-// The radius var is read WITHOUT a fallback, so a stack that sets no
-// `clipRadius` leaves the whole shorthand invalid at computed-value time —
-// mask-border falls back to `none` and no full-screen mask layer is
-// rasterized. Giving it a `0px` fallback would mask every transition on every
-// stack instead.
+// `-webkit-mask` is the one spelling every engine takes: WebKit has no
+// unprefixed `mask` before Safari 15.4, and Gecko aliases the prefixed one.
+//
+// The radius vars are read WITHOUT a fallback, so a stack that sets no
+// `clipRadius` leaves the whole shorthand invalid at computed-value time — the
+// mask falls back to `none` and no full-screen mask layer is rasterized. That
+// only holds for the shorthand: split into longhands, the image list would
+// stay valid on its own. Giving the vars a `0px` fallback would mask every
+// transition on every stack instead.
+const clipSpan = (corner: string) =>
+  `calc(var(--seed-next-app-screen-clip-radius-${corner}) * ${SQUIRCLE_CORNER_SPAN_RATIO})`;
+
+const TOP_LEFT = clipSpan("top-left");
+const TOP_RIGHT = clipSpan("top-right");
+const BOTTOM_RIGHT = clipSpan("bottom-right");
+const BOTTOM_LEFT = clipSpan("bottom-left");
+
+const SOLID = "linear-gradient(white, white)";
+
 const CLIP_STYLES = {
-  WebkitMaskBoxImage: `${SQUIRCLE_MASK_IMAGE} ${SQUIRCLE_SLICE} fill / calc(var(--seed-next-app-screen-clip-radius) * ${SQUIRCLE_CORNER_SPAN_RATIO}) stretch`,
+  WebkitMask: [
+    `${SQUIRCLE_CORNER_MASK_IMAGES.topLeft} 0 0 / ${TOP_LEFT} ${TOP_LEFT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.topRight} 100% 0 / ${TOP_RIGHT} ${TOP_RIGHT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.bottomRight} 100% 100% / ${BOTTOM_RIGHT} ${BOTTOM_RIGHT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.bottomLeft} 0 100% / ${BOTTOM_LEFT} ${BOTTOM_LEFT}`,
+    `${SOLID} ${TOP_LEFT} 0 / calc(100% - ${TOP_LEFT} - ${TOP_RIGHT}) 50%`,
+    `${SOLID} ${BOTTOM_LEFT} 100% / calc(100% - ${BOTTOM_LEFT} - ${BOTTOM_RIGHT}) 50%`,
+    `${SOLID} 0 ${TOP_LEFT} / 50% calc(100% - ${TOP_LEFT} - ${BOTTOM_LEFT})`,
+    `${SOLID} 100% ${TOP_RIGHT} / 50% calc(100% - ${TOP_RIGHT} - ${BOTTOM_RIGHT})`,
+  ]
+    .map((layer) => `${layer} no-repeat`)
+    .join(", "),
 };
 
 export const nextAppScreen = defineSlotRecipe({

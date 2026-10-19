@@ -1,6 +1,10 @@
 import type { StackflowReactPlugin } from "@stackflow/react";
 import { useMemo } from "react";
-import { AppScreenPropsProvider, NextAppScreenPropsProvider } from "./components";
+import {
+  AppScreenPropsProvider,
+  type NextAppScreenClipRadius,
+  NextAppScreenPropsProvider,
+} from "./components";
 import { GlobalInteraction, NextScreenRegistryProvider, type NextSwipeBackArea } from "./primitive";
 
 export interface SeedPluginOptions {
@@ -18,10 +22,11 @@ export interface SeedPluginOptions {
   /**
    * Stack-wide corner radius of the device display, matched by the clip
    * `NextAppScreen` runs while a transition or a swipe-back gesture is in
-   * flight. A number means px; a string is any CSS length. A screen's own
+   * flight. A number means px; a string is any CSS length. An object sets each
+   * corner on its own, and a corner it leaves out is square. A screen's own
    * `clipRadius` still wins, and unset means nothing is clipped.
    */
-  clipRadius?: string | number;
+  clipRadius?: NextAppScreenClipRadius;
 }
 
 export const seedPlugin =

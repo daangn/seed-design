@@ -2,6 +2,11 @@ import { describe, expect, it } from "bun:test";
 import { makeActivity } from "./fixtures";
 import { getPart, getScreen, renderStack, settle } from "./harness";
 
+const getClipRadii = (screen: HTMLElement) =>
+  ["top-left", "top-right", "bottom-right", "bottom-left"].map((corner) =>
+    screen.style.getPropertyValue(`--seed-next-app-screen-clip-radius-${corner}`),
+  );
+
 describe("NextAppScreen anatomy", () => {
   it("screen/screen-dim/screen-layer/screen-content 파츠를 렌더한다", async () => {
     const { container } = renderStack({
@@ -88,28 +93,39 @@ describe("NextAppScreen anatomy", () => {
     expect(screen.style.getPropertyValue("--z-index-base")).toBe("0");
   });
 
-  it("clipRadius를 root의 clip radius var로 내려보낸다 (number는 px)", async () => {
+  it("clipRadius를 root의 모서리별 clip radius var로 내려보낸다 (number는 px)", async () => {
     const { container } = renderStack({
       activities: { A: makeActivity({ testId: "a", clipRadius: 55 }) },
       initialActivity: "A",
     });
     await settle(container);
 
-    expect(
-      getScreen(container, "a").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
-    ).toBe("55px");
+    expect(getClipRadii(getScreen(container, "a"))).toEqual(["55px", "55px", "55px", "55px"]);
   });
 
-  it("clipRadius가 없으면 var를 쓰지 않는다 (recipe fallback인 0px = 클립 없음)", async () => {
+  it("객체 clipRadius는 모서리마다 따로 내려보내고, 빠진 모서리는 0px이다", async () => {
+    const { container } = renderStack({
+      activities: {
+        A: makeActivity({
+          testId: "a",
+          clipRadius: { topLeft: 55, topRight: "2rem", bottomRight: 40 },
+        }),
+      },
+      initialActivity: "A",
+    });
+    await settle(container);
+
+    expect(getClipRadii(getScreen(container, "a"))).toEqual(["55px", "2rem", "40px", "0px"]);
+  });
+
+  it("clipRadius가 없으면 var를 쓰지 않는다 (recipe의 mask 전체가 무효 = 클립 없음)", async () => {
     const { container } = renderStack({
       activities: { A: makeActivity({ testId: "a" }) },
       initialActivity: "A",
     });
     await settle(container);
 
-    expect(
-      getScreen(container, "a").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
-    ).toBe("");
+    expect(getClipRadii(getScreen(container, "a"))).toEqual(["", "", "", ""]);
   });
 
   it("plugin clipRadius가 stack 전역 기본값이 되고, 화면 prop이 이를 이긴다", async () => {
@@ -119,9 +135,7 @@ describe("NextAppScreen anatomy", () => {
       clipRadius: 55,
     });
     await settle(container);
-    expect(
-      getScreen(container, "default").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
-    ).toBe("55px");
+    expect(getClipRadii(getScreen(container, "default"))).toEqual(["55px", "55px", "55px", "55px"]);
 
     const { container: ownContainer } = renderStack({
       activities: { Own: makeActivity({ testId: "own", clipRadius: "2rem" }) },
@@ -129,9 +143,7 @@ describe("NextAppScreen anatomy", () => {
       clipRadius: 55,
     });
     await settle(ownContainer);
-    expect(
-      getScreen(ownContainer, "own").style.getPropertyValue("--seed-next-app-screen-clip-radius"),
-    ).toBe("2rem");
+    expect(getClipRadii(getScreen(ownContainer, "own"))).toEqual(["2rem", "2rem", "2rem", "2rem"]);
   });
 
   it("legacy 앱스크린 anatomy와 완전히 분리되어 있다 (legacy 엔진이 Next 파츠를 관측할 수 없다)", async () => {
