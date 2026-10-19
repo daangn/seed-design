@@ -275,7 +275,7 @@ export const nextAppBar = defineSlotRecipe({
       gradient: true,
       css: {
         background: {
-          background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient})`,
+          background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient.serialized})`,
           height: `calc(100% + ${vars.toneTransparentGradientTrue.enabled.root.bleedBottom})`,
         },
       },
