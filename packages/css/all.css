@@ -7624,6 +7624,14 @@
   }
 }
 
+.seed-page-banner__root--extendSafeAreaX_true {
+  width: calc(100% + var(--seed-safe-area-left) + var(--seed-safe-area-right));
+  margin-left: calc(var(--seed-safe-area-left) * -1);
+  margin-right: calc(var(--seed-safe-area-right) * -1);
+  padding-left: calc(var(--seed-dimension-x4) + var(--seed-safe-area-left));
+  padding-right: calc(var(--seed-dimension-x4) + var(--seed-safe-area-right));
+}
+
 .seed-page-banner__root--tone_neutral-variant_weak {
   background-color: var(--seed-color-bg-neutral-weak);
   --seed-prefix-icon-color: var(--seed-color-fg-neutral);
