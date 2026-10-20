@@ -211,23 +211,25 @@ describe("TextField", () => {
       it("should keep ancestor scroll positions while autoresizing", async () => {
         const { getByRole, getByTestId, user } = setUp(
           <div data-testid="scroller">
-            <TextFieldRoot defaultValue="initial">
+            <TextFieldRoot data-testid="root" defaultValue="initial" style={{ height: "120px" }}>
               <TextFieldTextarea aria-label="Test textarea" />
             </TextFieldRoot>
           </div>,
         );
 
         const scroller = getByTestId("scroller");
+        const root = getByTestId("root");
         const input = getByRole("textbox");
 
-        // happy-dom에는 레이아웃이 없어, 높이가 `auto`로 줄 때 브라우저가 스크롤을 잘라내는 동작을 흉내 낸다.
+        // happy-dom에는 레이아웃이 없어, 부모 높이가 고정되지 않은 채 textarea가 `auto`로 줄면
+        // 브라우저가 스크롤을 잘라내는 동작을 흉내 낸다.
         let height = "";
         Object.defineProperty(input.style, "height", {
           configurable: true,
           get: () => height,
           set: (value: string) => {
             height = value;
-            if (value === "auto") scroller.scrollTop = 0;
+            if (value === "auto" && !root.style.minHeight) scroller.scrollTop = 0;
           },
         });
 
@@ -235,6 +237,7 @@ describe("TextField", () => {
         await user.type(input, "!");
 
         expect(scroller.scrollTop).toBe(120);
+        expect(root.style.minHeight).toBe("");
       });
     });
 
