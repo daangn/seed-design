@@ -1,5 +1,5 @@
 import { createContext, useContext, type Provider, type RefObject } from "@lynx-js/react";
-import type { SheetRootRef } from "@lynx-js/lynx-ui-sheet";
+import type { SheetRootRef } from "./engine";
 
 /**
  * 사용자 동작으로 열림 상태가 바뀐 원인입니다. Trigger는 `"trigger"`, CloseButton은 `"closeButton"`,

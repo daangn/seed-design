@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import type { SheetRootRef } from "@lynx-js/lynx-ui-sheet";
+import type { SheetRootRef } from "./engine";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const sheetMocks = vi.hoisted(() => {
@@ -29,7 +29,7 @@ const sheetMocks = vi.hoisted(() => {
   };
 });
 
-vi.mock("@lynx-js/lynx-ui-sheet", async () => {
+vi.mock("./engine", async () => {
   const { forwardRef, useImperativeHandle, useRef, useState } =
     await vi.importActual<typeof React>("@lynx-js/react");
 

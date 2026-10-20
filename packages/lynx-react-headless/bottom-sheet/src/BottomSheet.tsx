@@ -11,7 +11,7 @@ import {
   type SheetRootRef,
   type SheetTransition,
   type SheetViewProps,
-} from "@lynx-js/lynx-ui-sheet";
+} from "./engine";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useBottomSheetCloseButton } from "./useBottomSheetCloseButton.js";
 import {
@@ -27,7 +27,7 @@ import { useBottomSheetTrigger } from "./useBottomSheetTrigger.js";
 export {
   SheetHandle as BottomSheetHandle,
   type SheetHandleProps as BottomSheetHandleProps,
-} from "@lynx-js/lynx-ui-sheet";
+} from "./engine";
 
 type ViewProps = IntrinsicElements["view"];
 
@@ -39,7 +39,7 @@ export interface BottomSheetRootProps
   extends Omit<SheetRootProps, "show" | "defaultShow" | "onShowChange"> {
   /**
    * Whether the sheet is open (controlled mode).
-   * Internally mapped to `show` of `@lynx-js/lynx-ui-sheet`.
+   * Internally mapped to `show` of the internal sheet engine.
    */
   open?: boolean;
   /**
@@ -64,7 +64,7 @@ export interface BottomSheetRootProps
 /**
  * @platform Lynx
  *
- * `@lynx-js/lynx-ui-sheet`의 `SheetRoot`에 open 상태 이름, 열림 변경 reason, `skipAnimation`을 연결합니다.
+ * 내부 `SheetRoot` 엔진에 open 상태 이름, 열림 변경 reason, `skipAnimation`을 연결합니다.
  * ref는 `open`·`close`·`snapTo`·`expand`·`collapse`를 제공하며, ref로 바꾼 열림 상태는 `onOpenChange`로
  * 알리지 않습니다.
  */

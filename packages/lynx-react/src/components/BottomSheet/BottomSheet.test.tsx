@@ -2,76 +2,66 @@ import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { LynxPressableProps } from "../../types";
 
 const sheetMocks = vi.hoisted(() => ({
   contentProps: [] as Array<Record<string, unknown>>,
   rootProps: [] as Array<Record<string, unknown>>,
+  triggerTap: vi.fn(),
+  closeTap: vi.fn(),
   safeArea: {
     safeAreaInsetTop: "62px",
     safeAreaInsetRight: "0px",
     safeAreaInsetBottom: "34px",
     safeAreaInsetLeft: "59px",
   },
-  rootRef: {
-    open: vi.fn(),
-  },
 }));
 
-vi.mock("@lynx-js/lynx-ui-sheet", async () => {
+vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
   const React = await vi.importActual<typeof import("@lynx-js/react")>("@lynx-js/react");
+  const Context = React.createContext({ skipAnimation: false });
 
-  const SheetRoot = React.forwardRef<
-    unknown,
-    Record<string, unknown> & { children?: React.ReactNode }
-  >((props, ref) => {
+  const BottomSheetRoot = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.rootProps.push(props);
-    React.useImperativeHandle(ref, () => sheetMocks.rootRef);
-    return <>{props["children"]}</>;
-  });
-  SheetRoot.displayName = "MockSheetRoot";
+    return (
+      <Context.Provider value={{ skipAnimation: props["skipAnimation"] === true }}>
+        {props["children"]}
+      </Context.Provider>
+    );
+  };
 
-  const SheetView = React.forwardRef<unknown, { children?: React.ReactNode }>((props) => {
-    return <>{props.children}</>;
-  });
-  SheetView.displayName = "MockSheetView";
-
-  const SheetContent = React.forwardRef<
-    unknown,
-    Record<string, unknown> & { children?: React.ReactNode }
-  >((props) => {
+  const BottomSheetContent = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.contentProps.push(props);
     return <>{props["children"]}</>;
-  });
-  SheetContent.displayName = "MockSheetContent";
+  };
 
-  const SheetHandle = React.forwardRef<
-    unknown,
-    Record<string, unknown> & { children?: React.ReactNode }
-  >((props) => {
-    const children = props["children"] as React.ReactNode;
+  const BottomSheetHandle = (props: Record<string, unknown> & { children?: React.ReactNode }) => (
+    <view className={props["className"] as string}>{props["children"]}</view>
+  );
 
-    return (
-      <view className={props["className"] as string} style={props["style"] as never}>
-        {children}
-      </view>
-    );
-  });
-  SheetHandle.displayName = "MockSheetHandle";
-
-  const passthrough = (displayName: string) => {
-    const Component = React.forwardRef<unknown, { children?: React.ReactNode }>((props) => {
-      return <>{props.children}</>;
-    });
-    Component.displayName = displayName;
-    return Component;
+  const BottomSheetBackdrop = (
+    props: Record<string, unknown> & { children?: React.ReactNode; onClick?: () => void },
+  ) => {
+    const handlers: Pick<LynxPressableProps, "bindtap"> = { bindtap: props.onClick };
+    return <view {...handlers}>{props["children"]}</view>;
   };
 
   return {
-    SheetBackdrop: passthrough("MockSheetBackdrop"),
-    SheetContent,
-    SheetHandle,
-    SheetRoot,
-    SheetView,
+    BottomSheetRoot,
+    BottomSheetContent,
+    BottomSheetHandle,
+    BottomSheetBackdrop,
+    BottomSheetPositioner: (props: { children?: React.ReactNode }) => <>{props.children}</>,
+    useBottomSheetContext: () => React.useContext(Context),
+    useBottomSheetTrigger: () => ({ triggerProps: { bindtap: sheetMocks.triggerTap } }),
+    useBottomSheetCloseButton: (props: Pick<LynxPressableProps, "bindtap"> = {}) => ({
+      closeButtonProps: {
+        bindtap: (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
+          sheetMocks.closeTap(...args);
+          props.bindtap?.(...args);
+        },
+      },
+    }),
   };
 });
 
@@ -86,7 +76,8 @@ describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootProps = [];
-    sheetMocks.rootRef.open.mockClear();
+    sheetMocks.triggerTap.mockClear();
+    sheetMocks.closeTap.mockClear();
   });
 
   it("uses the device logical height when the host does not provide screenHeight", () => {
@@ -111,7 +102,7 @@ describe("BottomSheet", () => {
     expect(sheetMocks.rootProps.at(-1)).toMatchObject({ screenHeight: 600 });
   });
 
-  it("passes handleOnly to the underlying SheetRoot", () => {
+  it("passes handleOnly to headless Root", () => {
     render(
       <BottomSheet.Root handleOnly>
         <BottomSheet.Content />
@@ -268,7 +259,7 @@ describe("BottomSheet", () => {
     expect(contentProps?.["innerStyle"]).not.toHaveProperty("flexShrink");
   });
 
-  it("skips motion-engine animations when Root has skipAnimation", () => {
+  it("passes skipAnimation to headless Root and leaves default transitions to headless Content", () => {
     render(
       <BottomSheet.Root skipAnimation>
         <BottomSheet.Content />
@@ -276,9 +267,9 @@ describe("BottomSheet", () => {
     );
 
     expect(sheetMocks.contentProps.at(-1)).toMatchObject({
-      snapAnimation: { type: "tween", duration: 0 },
-      enterAnimation: { type: "tween", duration: 0 },
-      exitAnimation: { type: "tween", duration: 0 },
+      snapAnimation: undefined,
+      enterAnimation: undefined,
+      exitAnimation: undefined,
     });
   });
 
@@ -304,7 +295,7 @@ describe("BottomSheet", () => {
     });
   });
 
-  it("opens without animation and calls the user handler when Trigger is tapped", () => {
+  it("composes the headless Trigger handler with the user handler", () => {
     const onTap = vi.fn();
     const { getByText } = render(
       <BottomSheet.Root skipAnimation>
@@ -321,11 +312,12 @@ describe("BottomSheet", () => {
 
     fireEvent.tap(trigger);
 
-    expect(sheetMocks.rootRef.open).toHaveBeenCalledWith({ animate: false });
+    expect(sheetMocks.triggerTap).toHaveBeenCalledOnce();
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ skipAnimation: true });
     expect(onTap).toHaveBeenCalledOnce();
   });
 
-  it("closes with the closeButton reason and calls the user handler when CloseButton is tapped", () => {
+  it("composes the headless CloseButton handler with the user handler", () => {
     const onOpenChange = vi.fn();
     const onTap = vi.fn();
     const { container } = render(
@@ -341,7 +333,8 @@ describe("BottomSheet", () => {
 
     fireEvent.tap(closeButton);
 
-    expect(onOpenChange).toHaveBeenCalledWith(false, { reason: "closeButton" });
+    expect(sheetMocks.closeTap).toHaveBeenCalledOnce();
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ onOpenChange });
     expect(onTap).toHaveBeenCalledOnce();
   });
 

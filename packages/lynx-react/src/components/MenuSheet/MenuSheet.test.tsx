@@ -3,71 +3,59 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { LynxPressableProps } from "../../types";
 
-const sheetMocks = vi.hoisted(() => {
-  // lynx-ui-sheet의 imperative handle처럼 열림 값이 바뀌면 같은 호출 안에서 `onShowChange`를 부른다.
-  const engine = { show: false, onShowChange: undefined as ((open: boolean) => void) | undefined };
-  const change = (next: boolean) => {
-    if (next === engine.show) return;
-    engine.show = next;
-    engine.onShowChange?.(next);
-  };
-  return {
-    contentProps: [] as Array<Record<string, unknown>>,
-    rootProps: [] as Array<Record<string, unknown>>,
-    engine,
-    rootRef: {
-      close: vi.fn((_options?: unknown) => change(false)),
-      open: vi.fn((_options?: unknown) => change(true)),
-    },
-  };
-});
+const sheetMocks = vi.hoisted(() => ({
+  contentProps: [] as Array<Record<string, unknown>>,
+  rootProps: [] as Array<Record<string, unknown>>,
+  triggerTap: vi.fn(),
+  closeTap: vi.fn(),
+}));
 
-vi.mock("@lynx-js/lynx-ui-sheet", async () => {
+vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
   const React = await vi.importActual<typeof import("@lynx-js/react")>("@lynx-js/react");
+  const Context = React.createContext({ skipAnimation: false });
 
-  const SheetRoot = React.forwardRef<
-    unknown,
-    Record<string, unknown> & { children?: React.ReactNode }
-  >((props, ref) => {
+  const BottomSheetRoot = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.rootProps.push(props);
-    sheetMocks.engine.onShowChange = props["onShowChange"] as (open: boolean) => void;
-    React.useImperativeHandle(ref, () => sheetMocks.rootRef);
-    return <>{props["children"]}</>;
-  });
-  SheetRoot.displayName = "MockSheetRoot";
+    return (
+      <Context.Provider value={{ skipAnimation: props["skipAnimation"] === true }}>
+        {props["children"]}
+      </Context.Provider>
+    );
+  };
 
-  const SheetView = React.forwardRef<unknown, { children?: React.ReactNode }>((props) => {
-    return <>{props.children}</>;
-  });
-  SheetView.displayName = "MockSheetView";
-
-  const SheetContent = React.forwardRef<
-    unknown,
-    Record<string, unknown> & { children?: React.ReactNode }
-  >((props) => {
+  const BottomSheetContent = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.contentProps.push(props);
     return <>{props["children"]}</>;
-  });
-  SheetContent.displayName = "MockSheetContent";
+  };
 
-  const SheetBackdrop = (
-    props: Record<string, unknown> & {
-      children?: React.ReactNode;
-      onClick?: () => void;
-    },
+  const BottomSheetHandle = (props: Record<string, unknown> & { children?: React.ReactNode }) => (
+    <view className={props["className"] as string}>{props["children"]}</view>
+  );
+
+  const BottomSheetBackdrop = (
+    props: Record<string, unknown> & { children?: React.ReactNode; onClick?: () => void },
   ) => {
-    const handlers: Pick<LynxPressableProps, "bindtap"> = {
-      bindtap: props["onClick"],
-    };
-
+    const handlers: Pick<LynxPressableProps, "bindtap"> = { bindtap: props.onClick };
     return <view {...handlers}>{props["children"]}</view>;
   };
 
-  const SheetHandle = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
-    return <view className={props["className"] as string}>{props["children"]}</view>;
+  return {
+    BottomSheetRoot,
+    BottomSheetContent,
+    BottomSheetHandle,
+    BottomSheetBackdrop,
+    BottomSheetPositioner: (props: { children?: React.ReactNode }) => <>{props.children}</>,
+    useBottomSheetContext: () => React.useContext(Context),
+    useBottomSheetTrigger: () => ({ triggerProps: { bindtap: sheetMocks.triggerTap } }),
+    useBottomSheetCloseButton: (props: Pick<LynxPressableProps, "bindtap"> = {}) => ({
+      closeButtonProps: {
+        bindtap: (...args: Parameters<NonNullable<LynxPressableProps["bindtap"]>>) => {
+          sheetMocks.closeTap(...args);
+          props.bindtap?.(...args);
+        },
+      },
+    }),
   };
-
-  return { SheetBackdrop, SheetContent, SheetHandle, SheetRoot, SheetView };
 });
 
 vi.mock("../../hooks/useSafeArea", () => ({
@@ -86,9 +74,8 @@ describe("MenuSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootProps = [];
-    sheetMocks.engine.show = false;
-    sheetMocks.rootRef.close.mockClear();
-    sheetMocks.rootRef.open.mockClear();
+    sheetMocks.triggerTap.mockClear();
+    sheetMocks.closeTap.mockClear();
   });
 
   it("fixes the engine to a bottom, fit-height sheet", () => {
@@ -245,16 +232,17 @@ describe("MenuSheet", () => {
     expect(list.getAttribute("bounces")).toBe("false");
   });
 
-  it("reports trigger, close button and backdrop reasons without dropping user handlers", () => {
+  it("connects headless controls without dropping user handlers", () => {
     const onOpenChange = vi.fn();
     const onTriggerTap = vi.fn();
     const onCloseTap = vi.fn();
+    const onBackdropClick = vi.fn();
     const { getByText } = render(
       <MenuSheet.Root onOpenChange={onOpenChange}>
         <MenuSheet.Trigger bindtap={onTriggerTap}>
           <text>Open</text>
         </MenuSheet.Trigger>
-        <MenuSheet.Backdrop>
+        <MenuSheet.Backdrop onClick={onBackdropClick}>
           <text>Dismiss</text>
         </MenuSheet.Backdrop>
         <MenuSheet.CloseButton bindtap={onCloseTap}>Close</MenuSheet.CloseButton>
@@ -281,12 +269,10 @@ describe("MenuSheet", () => {
     fireEvent.tap(trigger);
     fireEvent.tap(backdrop);
 
-    expect(onOpenChange.mock.calls).toEqual([
-      [true, { reason: "trigger" }],
-      [false, { reason: "closeButton" }],
-      [true, { reason: "trigger" }],
-      [false, { reason: "interactOutside" }],
-    ]);
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ onOpenChange });
+    expect(sheetMocks.triggerTap).toHaveBeenCalledTimes(2);
+    expect(sheetMocks.closeTap).toHaveBeenCalledOnce();
+    expect(onBackdropClick).toHaveBeenCalledOnce();
     expect(onTriggerTap).toHaveBeenCalledTimes(2);
     expect(onCloseTap).toHaveBeenCalledOnce();
   });
@@ -338,10 +324,10 @@ describe("MenuSheet", () => {
     fireEvent.tap(item);
 
     expect(onItemTap).toHaveBeenCalledOnce();
-    expect(sheetMocks.rootRef.close).not.toHaveBeenCalled();
+    expect(sheetMocks.closeTap).not.toHaveBeenCalled();
   });
 
-  it("maps skipAnimation to both trigger and content motion behavior", () => {
+  it("forwards skipAnimation and leaves default transitions to headless Content", () => {
     const { getByText } = render(
       <MenuSheet.Root skipAnimation>
         <MenuSheet.Trigger>
@@ -355,14 +341,15 @@ describe("MenuSheet", () => {
     if (!trigger) throw new Error("Expected trigger element.");
     fireEvent.tap(trigger);
 
-    expect(sheetMocks.rootRef.open).toHaveBeenCalledWith({ animate: false });
+    expect(sheetMocks.triggerTap).toHaveBeenCalledOnce();
+    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ skipAnimation: true });
     expect(sheetMocks.contentProps.at(-1)).toMatchObject({
       innerStyle: {
         paddingBottom: "calc(16px + 34px)",
       },
-      snapAnimation: { type: "tween", duration: 0 },
-      enterAnimation: { type: "tween", duration: 0 },
-      exitAnimation: { type: "tween", duration: 0 },
+      snapAnimation: undefined,
+      enterAnimation: undefined,
+      exitAnimation: undefined,
     });
   });
 

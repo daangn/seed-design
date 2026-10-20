@@ -25,7 +25,10 @@
   },
   "dependencies": {
     "@lynx-js/lynx-ui-common": "^3.130.0",
-    "@lynx-js/lynx-ui-sheet": "^3.130.1"
+    "@lynx-js/lynx-ui-overlay": "^3.133.1",
+    "@lynx-js/lynx-ui-presence": "^3.133.1",
+    "@lynx-js/motion": "0.0.3",
+    "clsx": "^2.1.1"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.100.0",
@@ -39,6 +42,8 @@
     "jsdom": "^29.0.2",
     "vitest": "^3.2.4"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0"
 }

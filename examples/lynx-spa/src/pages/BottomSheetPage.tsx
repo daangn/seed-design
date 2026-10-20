@@ -1,6 +1,7 @@
-import { useRef, useState } from "@lynx-js/react";
+import { useEffect, useRef, useState } from "@lynx-js/react";
 import { bottomSheetVariantMap } from "@seed-design/lynx-css/recipes/bottom-sheet";
 import { ActionButton } from "@seed-design/lynx-react";
+import * as HeadlessBottomSheet from "@seed-design/lynx-react-bottom-sheet";
 
 import { CatalogExamples, CatalogSectionTitle } from "../components/catalog-examples.jsx";
 import {
@@ -22,6 +23,7 @@ import {
 const SNAP_POINTS_FIT_80: Array<number | string> = ["fit", "80%"];
 const SNAP_POINTS_FIT: Array<number | string> = ["fit"];
 const SNAP_POINTS_80: Array<number | string> = ["80%"];
+const SNAP_POINTS_RESIZE_PARTIAL: Array<number | string> = [300, "fit"];
 
 const BACKGROUND_LIST_ITEMS = Array.from(
   { length: 10 },
@@ -89,6 +91,7 @@ function BottomSheetExamples() {
 
   return (
     <CatalogExamples title="BottomSheet" gap="16px">
+      <BottomSheetResizeExample />
       <CatalogSectionTitle>Uncontrolled (Trigger 기반)</CatalogSectionTitle>
       <BottomSheetRoot snapPoints={SNAP_POINTS_FIT_80}>
         <BottomSheetTrigger className="self-start">
@@ -178,6 +181,106 @@ function BottomSheetExamples() {
         />
       </BottomSheetRoot>
     </CatalogExamples>
+  );
+}
+
+function BottomSheetResizeExample() {
+  const sheetRef = useRef<HeadlessBottomSheet.BottomSheetRootRef>(null);
+  const [open, setOpen] = useState(false);
+  const [height, setHeight] = useState(300);
+  const [partial, setPartial] = useState(false);
+  const [lastReason, setLastReason] = useState("-");
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  function openExample(partialSnap: boolean, resizeDuringEnter: boolean) {
+    "background only";
+    clearTimeout(timer.current);
+    setPartial(partialSnap);
+    setHeight(partialSnap ? 500 : 300);
+    setOpen(true);
+    if (resizeDuringEnter) timer.current = setTimeout(() => setHeight(500), 200);
+  }
+
+  function resizeAndClose() {
+    "background only";
+    clearTimeout(timer.current);
+    setHeight(height === 300 ? 500 : 300);
+    timer.current = setTimeout(() => {
+      sheetRef.current?.snapTo(0);
+      timer.current = setTimeout(() => setOpen(false), 200);
+    }, 200);
+  }
+
+  function resizeAndSnap() {
+    "background only";
+    clearTimeout(timer.current);
+    setHeight(height === 300 ? 500 : 300);
+    timer.current = setTimeout(() => sheetRef.current?.snapTo(0), 200);
+  }
+
+  return (
+    <>
+      <CatalogSectionTitle>Backdrop resize regression</CatalogSectionTitle>
+      <text className="t3-regular text-fg-neutral">
+        {`height: ${height}, open: ${open}, reason: ${lastReason}`}
+      </text>
+      <view className="flex flex-row gap-x2 flex-wrap">
+        <ActionButton bindtap={() => openExample(false, false)}>Fit resize</ActionButton>
+        <ActionButton bindtap={() => openExample(false, true)}>Resize during enter</ActionButton>
+        <ActionButton bindtap={() => openExample(true, false)}>Partial snap resize</ActionButton>
+      </view>
+      <HeadlessBottomSheet.BottomSheetRoot
+        ref={sheetRef}
+        open={open}
+        onOpenChange={(nextOpen, details) => {
+          setOpen(nextOpen);
+          setLastReason(details.reason);
+        }}
+        snapPoints={partial ? SNAP_POINTS_RESIZE_PARTIAL : SNAP_POINTS_FIT}
+      >
+        <HeadlessBottomSheet.BottomSheetPositioner style={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+          <HeadlessBottomSheet.BottomSheetBackdrop
+            className="resize-regression-backdrop"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          />
+          <HeadlessBottomSheet.BottomSheetContent
+            className="resize-regression-content"
+            innerStyle={{ height: `${height}px`, backgroundColor: "white", padding: "20px" }}
+            enterAnimation={{ type: "tween", duration: 1200 }}
+            snapAnimation={{ type: "tween", duration: 1200 }}
+            exitAnimation={{ type: "tween", duration: 600 }}
+          >
+            <HeadlessBottomSheet.BottomSheetHandle>
+              <view style={{ height: "24px", backgroundColor: "#dddddd" }}>
+                <text>Drag handle</text>
+              </view>
+            </HeadlessBottomSheet.BottomSheetHandle>
+            <text style={{ color: "black", fontSize: "16px" }}>
+              {`Content height: ${height}; ${partial ? "300 / fit snap" : "fit snap"}`}
+            </text>
+            <input
+              id="resize-regression-input"
+              placeholder="Focus to grow"
+              style={{ height: "44px", backgroundColor: "#eeeeee", color: "black" }}
+              bindfocus={() => setHeight(500)}
+              bindblur={() => setHeight(300)}
+            />
+            <view className="flex flex-row gap-x2 flex-wrap">
+              <ActionButton bindtap={() => setHeight(height === 300 ? 500 : 300)}>
+                Resize 300 / 500
+              </ActionButton>
+              <ActionButton bindtap={resizeAndSnap}>Resize then snap</ActionButton>
+              <ActionButton bindtap={resizeAndClose}>Resize then close</ActionButton>
+              <HeadlessBottomSheet.BottomSheetCloseButton>
+                <ActionButton>Close</ActionButton>
+              </HeadlessBottomSheet.BottomSheetCloseButton>
+            </view>
+          </HeadlessBottomSheet.BottomSheetContent>
+        </HeadlessBottomSheet.BottomSheetPositioner>
+      </HeadlessBottomSheet.BottomSheetRoot>
+    </>
   );
 }
 
