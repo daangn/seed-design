@@ -202,12 +202,31 @@ const chipTabs = defineSlotRecipe({
       },
       false: {},
     },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        list: {
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+        content: {
+          boxSizing: "border-box",
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     size: "medium",
     variant: "neutralSolid",
     contentLayout: "hug",
     stickyList: false,
+    extendSafeAreaX: false,
   },
 });
 

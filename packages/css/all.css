@@ -4230,6 +4230,22 @@
   top: 0;
 }
 
+.seed-chip-tabs__root--extendSafeAreaX_true {
+  margin-left: calc(var(--seed-safe-area-left) * -1);
+  margin-right: calc(var(--seed-safe-area-right) * -1);
+}
+
+.seed-chip-tabs__list--extendSafeAreaX_true {
+  padding-left: calc(var(--seed-dimension-x4) + var(--seed-safe-area-left));
+  padding-right: calc(var(--seed-dimension-x4) + var(--seed-safe-area-right));
+}
+
+.seed-chip-tabs__content--extendSafeAreaX_true {
+  box-sizing: border-box;
+  padding-left: var(--seed-safe-area-left);
+  padding-right: var(--seed-safe-area-right);
+}
+
 .seed-content-placeholder__root {
   box-sizing: border-box;
   vertical-align: top;
