@@ -34,7 +34,8 @@ const pageBannerSlotNames = [
 
 const defaultVariant = {
   "tone": "neutral",
-  "variant": "weak"
+  "variant": "weak",
+  "extendSafeAreaX": false
 };
 
 const compoundVariants = [
@@ -96,6 +97,10 @@ export const pageBannerVariantMap = {
     "warning",
     "critical",
     "magic"
+  ],
+  "extendSafeAreaX": [
+    true,
+    false
   ]
 };
 
