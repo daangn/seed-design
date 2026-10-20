@@ -5578,6 +5578,21 @@
     display: flex;
   }
 
+  .seed-attachment-input__root--extendSafeAreaX_true {
+    margin-left: calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left)) * -1);
+    margin-right: calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right)) * -1);
+  }
+
+  .seed-attachment-input__dropzone--extendSafeAreaX_true {
+    margin-left: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left));
+    margin-right: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right));
+  }
+
+  .seed-attachment-input__container--extendSafeAreaX_true {
+    padding-left: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right));
+  }
+
   .seed-attachment-input-item__root {
     isolation: isolate;
     justify-content: center;
