@@ -210,6 +210,11 @@
     margin-right: calc(var(--seed-safe-area-right) * -1);
   }
 
+  .seed-tabs__list--extendSafeAreaX_true {
+    scroll-padding-left: var(--seed-safe-area-left);
+    scroll-padding-right: var(--seed-safe-area-right);
+  }
+
   .seed-tabs__content--extendSafeAreaX_true {
     box-sizing: border-box;
     padding-left: var(--seed-safe-area-left);

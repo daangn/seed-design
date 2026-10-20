@@ -211,6 +211,9 @@ const chipTabs = defineSlotRecipe({
         list: {
           paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
           paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          // Keeps a selected or focused chip from stopping under the inset the list extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
         },
         content: {
           boxSizing: "border-box",
