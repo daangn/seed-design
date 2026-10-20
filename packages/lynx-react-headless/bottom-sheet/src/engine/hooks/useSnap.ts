@@ -102,16 +102,14 @@ export function useSnap({
     toProgress: 0,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const screenHeight: number =
     userScreenHeight ??
-    // @ts-expect-error expected
+    // @ts-expect-error TS2339: 호스트가 제공하는 screenHeight가 ReactLynx GlobalProps 타입에는 선언되어 있지 않다.
     lynx.__globalProps?.screenHeight ??
     500;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const screenWidth: number =
     userScreenWidth ??
-    // @ts-expect-error expected
+    // @ts-expect-error TS2339: 호스트가 제공하는 screenWidth가 ReactLynx GlobalProps 타입에는 선언되어 있지 않다.
     lynx.__globalProps?.screenWidth ??
     375;
   const viewportSize = getMainAxisSize(resolvedSide, {
@@ -119,14 +117,13 @@ export function useSnap({
     screenWidth,
   });
 
-  // Track resolved snapPoints (for 'fit' support)
   const resolvedSnapPointMTRef = useMainThreadRef<number[]>([]);
   const resolvedSnapOffsetsMTRef = useMainThreadRef<number[]>([]);
   const hasFitSnapPoint = useMemo(
     () => snapPoints.some((p) => String(p).trim() === "fit"),
     [snapPoints],
   );
-  // Keep snap points order stable: indices should match `snapPoints` order.
+  // snapTo(index)의 의미를 유지하려면 계산된 스냅 지점도 전달받은 순서를 보존해야 한다.
   const { snapPointValues, snapOffsets } = useMemo(() => {
     const values = snapPoints.map((p) => toPxJS(p, viewportSize));
     const offsets = values.map((p) => (p === -1 ? -1 : p));
@@ -203,7 +200,7 @@ export function useSnap({
     "main thread";
     const offsets = getResolvedSnapOffsets();
     const maxSnap = offsets.length > 0 ? Math.max(...offsets) : 0;
-    // Allow snapping up to the max snap point, even if content is shorter
+    // 내용이 짧아도 지정된 최대 스냅 지점까지 이동할 수 있어야 한다.
     return clamp(targetY, Math.max(sheetSizeMTRef.current, maxSnap));
   }
 
@@ -285,9 +282,6 @@ export function useSnap({
     return findNearestSnap(value, offsets, Math.max(sheetSizeMTRef.current, maxSnap));
   }
 
-  /**
-   * Get the target Y position for a snap index
-   */
   function getTargetForSnap(index: number) {
     "main thread";
     const offsets = getResolvedSnapOffsets();
@@ -297,7 +291,6 @@ export function useSnap({
     return getClampedValueMT(offsets[i]);
   }
 
-  // Create controller with animation dependencies
   const controller = useSheetController(
     {
       onEntered,
@@ -322,7 +315,6 @@ export function useSnap({
     },
   );
 
-  // Controller-delegated MT functions
   function expandMT(opts?: SnappingOptions) {
     "main thread";
     const offsets = getResolvedSnapOffsets();
@@ -347,7 +339,6 @@ export function useSnap({
     }
   }
 
-  // Background wrappers
   const snapTo = useMemoizedFn((index: number, opts?: SnappingOptions) => {
     runOnMainThread(controller.snapToMT)(index, opts);
   });
@@ -381,7 +372,7 @@ export function useSnap({
     const layoutSize = getMainAxisLayoutSize(resolvedSide, e);
     sheetSizeMTRef.current = layoutSize;
 
-    // The rename is required, to prevent from xx.map is not a function
+    // upstream의 Main Thread 배열 캡처 우회: 로컬 별칭을 통해 map을 호출한다. 별칭 제거 시 map 호출 오류가 보고되어 유지한다.
     const innerSnapPointValues = snapPointValues;
     const innerSnapOffsets = snapOffsets;
 
@@ -391,7 +382,6 @@ export function useSnap({
       fitSizeMTRef.current = fitSize;
       resolvedSnapPointMTRef.current = innerSnapPointValues.map((v) => (v === -1 ? fitSize : v));
       resolvedSnapOffsetsMTRef.current = innerSnapOffsets.map((o) => (o === -1 ? fitSize : o));
-      // Resolve any pending snap operation
       controller.resolvePendingSnapMT();
     } else if (contentSizeMTRef.current !== maxSnapSize) {
       updateContentSizeMT(maxSnapSize);
@@ -406,13 +396,11 @@ export function useSnap({
     collapse,
     close,
     show,
-    // MT functions from controller
     snapToMT: controller.snapToMT,
     expandMT,
     collapseMT,
     closeMT: controller.closeMT,
     showMT: controller.showMT,
-    // internals for gesture hook
     yRef,
     side,
     enableRTL,
@@ -430,11 +418,9 @@ export function useSnap({
     onSnapChangeMT,
     sheetHeightMTRef: sheetSizeMTRef,
     sheetSizeMTRef,
-    // Getters for resolved snapPoints (after 'fit' is resolved)
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
-    // Controller exports for gesture handling
     presenceStateMTRef: controller.presenceStateMTRef,
     onDragStartMT: controller.onDragStartMT,
     onDragEndSnapMT: controller.onDragEndSnapMT,

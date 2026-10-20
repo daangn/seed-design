@@ -7,7 +7,6 @@ import type { MainThreadRef } from "@lynx-js/react";
 
 import { PresenceState } from "@lynx-js/lynx-ui-presence";
 
-// Define valid state transitions to enforce state machine correctness
 const VALID_TRANSITIONS: Record<PresenceState, PresenceState[]> = {
   [PresenceState.Initial]: [PresenceState.Entering, PresenceState.Left],
   [PresenceState.Left]: [PresenceState.Entering],
@@ -35,12 +34,11 @@ export function useSheetPresence(
 
   const transitionTo = (next: PresenceState) => {
     "main thread";
-    // console.log('Sheet presenceState', presenceStateMTRef.current, next)
     if (presenceStateMTRef.current === next) {
       return;
     }
 
-    // Validate the transition is legal - warn in dev but don't block to avoid breaking user pages
+    // 잘못된 전이는 오류를 기록하되, 기존 페이지 동작을 중단하지 않도록 상태 변경은 계속한다.
     const validNext = VALID_TRANSITIONS[presenceStateMTRef.current];
     if (!validNext?.includes(next)) {
       console.error(
@@ -49,7 +47,6 @@ export function useSheetPresence(
             validNext?.join(", ") ?? "none"
           }]`,
       );
-      // Continue anyway to avoid breaking user pages
     }
 
     presenceStateMTRef.current = next;

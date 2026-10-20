@@ -33,7 +33,6 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
       onOpen,
       onClose,
       onShowChange,
-      // Physics
       snapPoints,
       initialSnap,
       onSnapChange: onSnapChangeProp,
@@ -41,7 +40,6 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
       enableRTL = false,
       screenHeight,
       screenWidth,
-      // Gesture
       rubberBand,
       dragDisabled,
       dismissThreshold,
@@ -59,14 +57,12 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
 
     const [mounted, setMounted] = useState<boolean>(actualShow ? true : false);
 
-    // Wake up the component if show becomes true
     useEffect(() => {
       if (actualShow && !mounted) {
         setMounted(true);
       }
     }, [actualShow, mounted]);
 
-    // Store registered methods from SheetContent
     const sheetMethodsRef = useRef<SheetMethods | null>(null);
     const pendingActionsRef = useRef<Array<() => void>>([]);
 
@@ -88,7 +84,6 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
       }
     }, []);
 
-    // Imperative handle methods
     useImperativeHandle(ref, () => {
       const queueAction = (action: () => void) => {
         if (mounted && sheetMethodsRef.current) {
@@ -130,7 +125,7 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
         show: actualShow,
         forceMount,
         setUncontrolledShow,
-        groupState: PresenceState.Entered, // Obsolete, keeping for type/compat if needed or remove
+        groupState: PresenceState.Entered,
         mounted,
         onUnmount: () => {
           setMounted(false);
@@ -140,7 +135,6 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
         onShowChange: handleShowChange,
         sheetProgress,
         registerMethods,
-        // Physics
         snapPoints,
         initialSnap,
         onSnapChange: onSnapChangeProp,
@@ -149,7 +143,6 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
         resolvedSide,
         screenHeight,
         screenWidth,
-        // Gesture
         rubberBand,
         dragDisabled,
         dismissThreshold,

@@ -40,7 +40,6 @@ export interface SheetContextValue {
   onShowChange?: (show: boolean) => void;
   sheetProgress: MainThreadRef<MotionValue<number>>;
   registerMethods: (methods: SheetMethods | null) => void;
-  // Physics
   snapPoints?: Array<number | string>;
   initialSnap?: number;
   onSnapChange?: (index: number, value: number) => void;
@@ -49,7 +48,6 @@ export interface SheetContextValue {
   resolvedSide: SheetResolvedSide;
   screenHeight?: number;
   screenWidth?: number;
-  // Gesture
   rubberBand?: boolean | number | { coeff?: number; max?: number };
   dragDisabled?: boolean;
   dismissThreshold?: number;
@@ -67,7 +65,7 @@ export interface SheetDragContextValue {
   };
 }
 
-// @ts-expect-error MT initialize is useless
+// @ts-expect-error TS2345: upstream 기본값에는 sheetProgress가 없으며 실제 MotionValue ref는 SheetRoot의 Provider에서 제공한다.
 export const SheetContext: Context<SheetContextValue> = createContext<SheetContextValue>({
   show: false,
   forceMount: false,
@@ -82,9 +80,6 @@ export const SheetContext: Context<SheetContextValue> = createContext<SheetConte
 
 export function useSheetContext() {
   const context = useContext(SheetContext);
-  // Context is optional for some components, but mandatory for Handle
-  // If we want to allow SheetHandle to be used without context (safe fallback), we can return null or empty handlers.
-  // But typically it should be inside a SheetContent.
   if (!context) {
     throw new Error("SheetRoot should be placed at the root of the component tree");
   }
@@ -92,7 +87,7 @@ export function useSheetContext() {
 }
 
 export const SheetDragContext: Context<SheetDragContextValue> =
-  // @ts-expect-error MT initialize is useless
+  // @ts-expect-error TS2345: upstream의 빈 기본값을 유지한다. 필수 dragHandlers는 SheetContent의 Provider에서 제공한다.
   createContext<SheetDragContextValue>({});
 
 export function useSheetDragContext() {

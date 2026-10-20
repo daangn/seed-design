@@ -30,9 +30,7 @@ export function SheetBackdrop(props: SheetBackdropProps): ReactElement {
 
   const handleClick = useMemoizedFn(() => {
     if (clickToClose) {
-      // onShowChange triggers the close animation flow via handleShowChange in SheetRoot
       onShowChange?.(false);
-      // setUncontrolledShow updates state for uncontrolled mode
       setUncontrolledShow(false);
     }
     onClick?.();

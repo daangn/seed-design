@@ -61,7 +61,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
   const isTop = resolvedSide === "top";
   const effectiveRubberBand = rubberBand ?? getDefaultRubberBand(resolvedSide);
 
-  // Track if show state changes are internal (from controller) vs external (from prop/context)
+  // 컨트롤러가 반영한 상태를 외부 변경으로 다시 처리하면 진입·닫기 애니메이션이 중복 실행된다.
   const isInternalChangeRef = useRef(false);
 
   const handleBeforeDismiss = useMemoizedFn(() => {
@@ -77,13 +77,11 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     onOpen?.();
   });
 
-  // Handle resurrection - when user drags during close animation
   const handleResurrected = useMemoizedFn(() => {
     isInternalChangeRef.current = true;
     onShowChange?.(true);
   });
 
-  // Core snap logic (shared between touch and gesture-handler variants)
   const {
     setSheetMTRef,
     snapTo,
@@ -91,7 +89,6 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     collapse,
     close,
     show: showSheet,
-    // internals for touch handling
     yRef,
     viewportSize,
     snapOffsets,
@@ -104,7 +101,6 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     handleSheetLayoutChangeMT,
     setContentMTRef,
     maxSnapSize,
-    // Controller exports
     onDragStartMT,
     onDragEndSnapMT,
     onDragEndCloseMT,
@@ -129,7 +125,6 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     onResurrected: handleResurrected,
   });
 
-  // Touch-based input handling (can be swapped with gesture-handler variant)
   const { handleTouchStartMT, handleTouchMoveMT, handleTouchEndMT } = useSnapTouches({
     side,
     enableRTL,
@@ -150,25 +145,19 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     claimedGestureAngles,
-    // Controller handlers
     onDragStartMT,
     onDragEndSnapMT,
     onDragEndCloseMT,
   });
 
-  // Track previous show state to detect changes
-  // Initialize to false to ensure controlled mode mounts trigger showSheet()
+  // controlled 모드의 첫 show=true에서도 진입을 실행하도록 이전 값을 false로 시작한다.
   const prevShowRef = useRef(false);
 
-  // React to show changes from context (e.g., controlled mode, backdrop click)
-  // Only act on EXTERNAL changes, not internal state updates from controller
   useEffect(() => {
     if (prevShowRef.current !== showFromContext) {
       if (isInternalChangeRef.current) {
-        // Internal change from controller - skip, already handled
         isInternalChangeRef.current = false;
       } else {
-        // External change - trigger show/close
         if (showFromContext) {
           showSheet();
         } else {
@@ -179,7 +168,6 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     }
   }, [showFromContext, showSheet, close]);
 
-  // Register methods with SheetRoot on mount, unregister on unmount
   useEffect(() => {
     registerMethods({
       snapTo,

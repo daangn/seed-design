@@ -56,7 +56,7 @@ export function useDrag({
     };
     gestureLockedMTRef.current = false;
     isMainAxisLockedMTRef.current = false;
-    onStartMT?.(event); // Safe initialization only, no state changes here
+    onStartMT?.(event);
   }
 
   function handleTouchMoveMT(event: MainThread.TouchEvent) {
@@ -75,7 +75,7 @@ export function useDrag({
 
       if (isAngleInRanges(angle, claimedGestureAngles)) {
         gestureLockedMTRef.current = true;
-        onFirstMoveMT?.(event); // NOW safe to change state
+        onFirstMoveMT?.(event);
       } else {
         isMainAxisLockedMTRef.current = true;
         gestureLockedMTRef.current = true;

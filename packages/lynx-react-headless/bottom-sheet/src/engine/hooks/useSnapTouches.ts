@@ -41,7 +41,6 @@ export interface SnapTouchOptions {
   sheetSizeMTRef: MainThreadRef<number>;
   getResolvedSnapOffsets: () => number[];
   getResolvedSnapPointValues: () => number[];
-  // Controller handlers
   onDragStartMT: () => void;
   onDragEndSnapMT: (
     index: number,
@@ -65,7 +64,6 @@ export function useSnapTouches({
   sheetSizeMTRef,
   getResolvedSnapOffsets,
   claimedGestureAngles,
-  // Controller handlers
   onDragStartMT,
   onDragEndSnapMT,
   onDragEndCloseMT,
@@ -82,8 +80,7 @@ export function useSnapTouches({
     const offsets = getResolvedSnapOffsets();
     if (offsets.length === 0) return;
 
-    // Only record start position - don't stop animation or change state yet
-    // Wait for handleFirstMoveMT to confirm this is a sheet drag
+    // 시트 드래그인지 확정되기 전에는 터치 시작만으로 진행 중인 애니메이션을 멈추지 않는다.
     startTouchMainAxisRef.current = getMainAxisTouchCoordinate(resolvedSide, e.detail);
     startOffsetRef.current = yRef.current.get();
   }
@@ -96,7 +93,6 @@ export function useSnapTouches({
 
     isDraggingMTRef.current = true;
 
-    // Delegate to controller - handles resurrection and stopping animations
     onDragStartMT();
   }
 
@@ -111,11 +107,10 @@ export function useSnapTouches({
 
     const validOffsets = offsets.filter((o) => o !== -1);
     const min = validOffsets.length > 0 ? Math.min(...validOffsets) : 0;
-    // Use the actual max snap point, not clamped to sheet height yet
     const maxSnap = validOffsets.length > 0 ? Math.max(...validOffsets) : 0;
     const max = clamp(maxSnap, Math.max(sheetSizeMTRef.current, maxSnap));
 
-    // Use max snap offset (not DOM height) for rubber band calculation
+    // 내용 높이보다 스냅 지점이 클 수 있으므로 러버밴드 범위는 최대 스냅 offset을 기준으로 한다.
     const {
       enabled,
       coeff,
@@ -134,7 +129,6 @@ export function useSnapTouches({
 
   function handleTouchEndMT() {
     "main thread";
-    // Only process if we started a real vertical drag
     if (!isDraggingMTRef.current) return;
     isDraggingMTRef.current = false;
 

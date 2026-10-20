@@ -35,11 +35,6 @@ export interface SheetControllerAnimationDeps {
   beginDragProgressMT: () => void;
 }
 
-/**
- * Centralized controller for Sheet state transitions.
- * All state transitions (enter, entered, leave, left) flow through this controller.
- * This ensures consistent state management and prevents duplicate callbacks.
- */
 export function useSheetController(
   options: SheetControllerOptions,
   deps: SheetControllerAnimationDeps,
@@ -77,7 +72,7 @@ export function useSheetController(
     presenceStateMTRefProp,
   );
 
-  // Pending snap index and options (for 'fit' snap points that resolve after layout)
+  // fit 스냅은 레이아웃 측정 뒤에 결정되므로, 측정 전 요청의 애니메이션 옵션도 함께 보관한다.
   const pendingSnapMTRef = useMainThreadRef<{
     index: number;
     isEntry: boolean;
@@ -86,24 +81,17 @@ export function useSheetController(
   } | null>(null);
   const transitionIdMTRef = useMainThreadRef(0);
 
-  /**
-   * Complete a snap transition - handle state changes after animation
-   */
   function completeSnapTransition(index: number, value: number) {
     "main thread";
     if (presenceStateMTRef.current === PresenceState.Entering) {
       onSnapChangeMT(index, value);
       entered();
     } else if (presenceStateMTRef.current === PresenceState.Entered) {
-      // Already entered, just update snap index
       onSnapChangeMT(index, value);
     }
-    // If Leaving/Left, close animation took over - do nothing
+    // 닫기가 시작된 뒤에는 이전 스냅 완료로 열림 상태나 스냅 콜백을 다시 반영하지 않는다.
   }
 
-  /**
-   * Snap to a specific snap point index
-   */
   function snapToMT(
     index: number,
     opts?: {
@@ -118,8 +106,6 @@ export function useSheetController(
     const target = getTargetForSnap(index);
     const values = getResolvedSnapPointValues();
 
-    // If target is -1, snap point not yet resolved (e.g., 'fit')
-    // Queue for later when layout completes
     if (target === -1) {
       pendingSnapMTRef.current = {
         index,
@@ -130,7 +116,6 @@ export function useSheetController(
       return;
     }
 
-    // If called when Left, transition to Entering first
     if (presenceStateMTRef.current === PresenceState.Left) {
       enter();
     }
@@ -158,12 +143,8 @@ export function useSheetController(
     }
   }
 
-  /**
-   * Show the sheet - animate to initial snap point
-   */
   function showMT(opts?: { animate?: boolean; animationConfig?: SheetTransition }) {
     "main thread";
-    // Guard: skip if already showing or shown
     if (
       presenceStateMTRef.current === PresenceState.Entering ||
       presenceStateMTRef.current === PresenceState.Entered
@@ -179,14 +160,10 @@ export function useSheetController(
     });
   }
 
-  /**
-   * Close the sheet - animate to y=0 and unmount
-   */
   function closeMT(opts?: { animate?: boolean; animationConfig?: SheetTransition }) {
     "main thread";
     // 측정 전에 닫아도 대기 중인 fit 진입이 나중에 시트를 다시 열지 않게 한다.
     pendingSnapMTRef.current = null;
-    // Guard: skip if already closing or closed
     if (
       presenceStateMTRef.current === PresenceState.Leaving ||
       presenceStateMTRef.current === PresenceState.Left
@@ -209,7 +186,6 @@ export function useSheetController(
         target,
         () => {
           "main thread";
-          // Only complete if still in Leaving state (not interrupted)
           if (
             transitionIdMTRef.current === transitionId &&
             presenceStateMTRef.current === PresenceState.Leaving
@@ -222,12 +198,8 @@ export function useSheetController(
     }
   }
 
-  /**
-   * Called when user drags during close animation to resurrect the sheet
-   */
   function resurrectMT() {
     "main thread";
-    // Guard: only resurrect if currently closing
     if (presenceStateMTRef.current !== PresenceState.Leaving) {
       return;
     }
@@ -235,15 +207,11 @@ export function useSheetController(
     yRef.current.stop();
     enter();
 
-    // Notify background to sync React show state
     if (onResurrected) {
       runOnBackground(onResurrected)();
     }
   }
 
-  /**
-   * Called when pending snap point is resolved (e.g., 'fit' after layout)
-   */
   function resolvePendingSnapMT() {
     "main thread";
     const pending = pendingSnapMTRef.current;
@@ -257,41 +225,29 @@ export function useSheetController(
     });
   }
 
-  /**
-   * Called by gesture handler when user starts a vertical drag
-   */
   function onDragStartMT() {
     "main thread";
     ++transitionIdMTRef.current;
     pendingSnapMTRef.current = null;
-    // If currently closing, resurrect
     if (presenceStateMTRef.current === PresenceState.Leaving) {
       resurrectMT();
     } else {
-      // Just stop any running animation
       yRef.current.stop();
     }
     beginDragProgressMT();
   }
 
-  /**
-   * Called by gesture handler when drag ends - snap to nearest point or close
-   */
   function onDragEndSnapMT(index: number, opts?: { animationConfig?: SheetTransition }) {
     "main thread";
     snapToMT(index, opts);
   }
 
-  /**
-   * Called by gesture handler when drag ends in dismiss zone
-   */
   function onDragEndCloseMT(opts?: { animationConfig?: SheetTransition }) {
     "main thread";
     const transitionId = ++transitionIdMTRef.current;
     pendingSnapMTRef.current = null;
     yRef.current.stop();
     beginCloseProgressMT();
-    // Transition to close if not already
     if (
       presenceStateMTRef.current !== PresenceState.Leaving &&
       presenceStateMTRef.current !== PresenceState.Left
@@ -317,16 +273,13 @@ export function useSheetController(
 
   return {
     presenceStateMTRef,
-    // Commands
     showMT,
     closeMT,
     snapToMT,
-    // Gesture handlers
     onDragStartMT,
     onDragEndSnapMT,
     onDragEndCloseMT,
     resurrectMT,
-    // Layout helpers
     resolvePendingSnapMT,
   };
 }
