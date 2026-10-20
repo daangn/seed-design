@@ -38,8 +38,12 @@ const chipTabs = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
       gap: chipVars.base.enabled.label.paddingX,
+      "--seed-chip-tabs-stroke-width": "0px",
+      borderWidth: "var(--seed-chip-tabs-stroke-width)",
+      borderStyle: "solid",
+      borderColor: "transparent",
       borderRadius: chipVars.base.enabled.root.cornerRadius,
-      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, box-shadow ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, border-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}`,
     },
     triggerLabel: {
       display: "flex",
@@ -68,8 +72,8 @@ const chipTabs = defineSlotRecipe({
         trigger: {
           minHeight: chipVars.sizeMedium.enabled.root.height,
           minWidth: chipVars.sizeMediumLayoutWithText.enabled.root.minWidth,
-          paddingLeft: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
-          paddingRight: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingLeft: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX} - var(--seed-chip-tabs-stroke-width))`,
+          paddingRight: `calc(${chipVars.sizeMedium.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX} - var(--seed-chip-tabs-stroke-width))`,
         },
         triggerLabel: {
           fontSize: chipVars.sizeMedium.enabled.label.fontSize,
@@ -80,8 +84,8 @@ const chipTabs = defineSlotRecipe({
         trigger: {
           minHeight: chipVars.sizeLarge.enabled.root.height,
           minWidth: chipVars.sizeLargeLayoutWithText.enabled.root.minWidth,
-          paddingLeft: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
-          paddingRight: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX})`,
+          paddingLeft: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX} - var(--seed-chip-tabs-stroke-width))`,
+          paddingRight: `calc(${chipVars.sizeLarge.enabled.root.paddingX} + ${chipVars.base.enabled.label.paddingX} - var(--seed-chip-tabs-stroke-width))`,
         },
         triggerLabel: {
           fontSize: chipVars.sizeLarge.enabled.label.fontSize,
@@ -101,7 +105,8 @@ const chipTabs = defineSlotRecipe({
       neutralOutline: {
         trigger: {
           backgroundColor: chipVars.variantOutlineStrong.enabled.root.color,
-          boxShadow: `inset 0 0 0 ${chipVars.variantOutlineStrong.enabled.root.strokeWidth} ${chipVars.variantOutlineStrong.enabled.root.strokeColor}`,
+          "--seed-chip-tabs-stroke-width": chipVars.variantOutlineStrong.enabled.root.strokeWidth,
+          borderColor: chipVars.variantOutlineStrong.enabled.root.strokeColor,
         },
         triggerLabel: {
           color: chipVars.variantOutlineStrong.enabled.label.color,
@@ -177,7 +182,7 @@ const chipTabs = defineSlotRecipe({
       css: {
         trigger: {
           backgroundColor: chipVars.variantOutlineStrong.selected.root.color,
-          boxShadow: `inset 0 0 0 ${chipVars.variantOutlineStrong.enabled.root.strokeWidth} transparent`,
+          borderColor: "transparent",
         },
         triggerLabel: {
           color: chipVars.variantOutlineStrong.selected.label.color,

@@ -9,6 +9,10 @@ const badge = defineSlotRecipe({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      "--seed-badge-stroke-width": "0px",
+      borderWidth: "var(--seed-badge-stroke-width)",
+      borderStyle: "solid",
+      borderColor: "transparent",
       minWidth: 0,
       flexShrink: 1,
       overflow: "hidden",
@@ -47,10 +51,10 @@ const badge = defineSlotRecipe({
       medium: {
         root: {
           minHeight: vars.sizeMedium.enabled.root.minHeight,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
-          paddingTop: vars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: vars.sizeMedium.enabled.root.paddingY,
+          paddingLeft: `calc(${vars.sizeMedium.enabled.root.paddingX} - var(--seed-badge-stroke-width))`,
+          paddingRight: `calc(${vars.sizeMedium.enabled.root.paddingX} - var(--seed-badge-stroke-width))`,
+          paddingTop: `calc(${vars.sizeMedium.enabled.root.paddingY} - var(--seed-badge-stroke-width))`,
+          paddingBottom: `calc(${vars.sizeMedium.enabled.root.paddingY} - var(--seed-badge-stroke-width))`,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
           gap: vars.sizeMedium.enabled.root.gap,
         },
@@ -70,10 +74,10 @@ const badge = defineSlotRecipe({
       large: {
         root: {
           minHeight: vars.sizeLarge.enabled.root.minHeight,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
-          paddingTop: vars.sizeLarge.enabled.root.paddingY,
-          paddingBottom: vars.sizeLarge.enabled.root.paddingY,
+          paddingLeft: `calc(${vars.sizeLarge.enabled.root.paddingX} - var(--seed-badge-stroke-width))`,
+          paddingRight: `calc(${vars.sizeLarge.enabled.root.paddingX} - var(--seed-badge-stroke-width))`,
+          paddingTop: `calc(${vars.sizeLarge.enabled.root.paddingY} - var(--seed-badge-stroke-width))`,
+          paddingBottom: `calc(${vars.sizeLarge.enabled.root.paddingY} - var(--seed-badge-stroke-width))`,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
           gap: vars.sizeLarge.enabled.root.gap,
         },
@@ -103,6 +107,7 @@ const badge = defineSlotRecipe({
         },
       },
       outline: {
+        root: { "--seed-badge-stroke-width": vars.variantOutline.enabled.root.strokeWidth },
         label: {
           fontWeight: vars.variantOutline.enabled.label.fontWeight,
         },
@@ -145,7 +150,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneNeutralVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.toneNeutralVariantOutline.enabled.root.strokeColor,
           color: vars.toneNeutralVariantOutline.enabled.label.color,
         },
         label: { color: vars.toneNeutralVariantOutline.enabled.label.color },
@@ -178,7 +183,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneBrandVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.toneBrandVariantOutline.enabled.root.strokeColor,
           color: vars.toneBrandVariantOutline.enabled.label.color,
         },
         label: { color: vars.toneBrandVariantOutline.enabled.label.color },
@@ -211,7 +216,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneInformativeVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.toneInformativeVariantOutline.enabled.root.strokeColor,
           color: vars.toneInformativeVariantOutline.enabled.label.color,
         },
         label: { color: vars.toneInformativeVariantOutline.enabled.label.color },
@@ -244,7 +249,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.tonePositiveVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.tonePositiveVariantOutline.enabled.root.strokeColor,
           color: vars.tonePositiveVariantOutline.enabled.label.color,
         },
         label: { color: vars.tonePositiveVariantOutline.enabled.label.color },
@@ -277,7 +282,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneWarningVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.toneWarningVariantOutline.enabled.root.strokeColor,
           color: vars.toneWarningVariantOutline.enabled.label.color,
         },
         label: { color: vars.toneWarningVariantOutline.enabled.label.color },
@@ -310,7 +315,7 @@ const badge = defineSlotRecipe({
       variant: "outline",
       css: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneCriticalVariantOutline.enabled.root.strokeColor}`,
+          borderColor: vars.toneCriticalVariantOutline.enabled.root.strokeColor,
           color: vars.toneCriticalVariantOutline.enabled.label.color,
         },
         label: { color: vars.toneCriticalVariantOutline.enabled.label.color },

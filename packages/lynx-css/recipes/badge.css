@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    --seed-badge-stroke-width: 0px;
+    border-width: var(--seed-badge-stroke-width);
+    border-style: solid;
+    border-color: transparent;
     min-width: 0;
     flex-shrink: 1;
     overflow: hidden;
@@ -36,10 +40,10 @@
 }
 .seed-badge__root--size_medium {
     min-height: var(--seed-dimension-x5);
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
-    padding-top: var(--seed-dimension-x0_5);
-    padding-bottom: var(--seed-dimension-x0_5);
+    padding-left: calc(var(--seed-dimension-x1_5) - var(--seed-badge-stroke-width));
+    padding-right: calc(var(--seed-dimension-x1_5) - var(--seed-badge-stroke-width));
+    padding-top: calc(var(--seed-dimension-x0_5) - var(--seed-badge-stroke-width));
+    padding-bottom: calc(var(--seed-dimension-x0_5) - var(--seed-badge-stroke-width));
     border-radius: var(--seed-radius-r1);
     gap: var(--seed-dimension-x0_5)
 }
@@ -57,10 +61,10 @@
 }
 .seed-badge__root--size_large {
     min-height: var(--seed-dimension-x6);
-    padding-left: var(--seed-dimension-x2);
-    padding-right: var(--seed-dimension-x2);
-    padding-top: var(--seed-dimension-x1);
-    padding-bottom: var(--seed-dimension-x1);
+    padding-left: calc(var(--seed-dimension-x2) - var(--seed-badge-stroke-width));
+    padding-right: calc(var(--seed-dimension-x2) - var(--seed-badge-stroke-width));
+    padding-top: calc(var(--seed-dimension-x1) - var(--seed-badge-stroke-width));
+    padding-bottom: calc(var(--seed-dimension-x1) - var(--seed-badge-stroke-width));
     border-radius: var(--seed-radius-r1_5);
     gap: var(--seed-dimension-x0_5)
 }
@@ -82,6 +86,9 @@
 .seed-badge__label--variant_solid {
     font-weight: var(--seed-font-weight-bold)
 }
+.seed-badge__root--variant_outline {
+    --seed-badge-stroke-width: 1px
+}
 .seed-badge__label--variant_outline {
     font-weight: var(--seed-font-weight-bold)
 }
@@ -100,7 +107,7 @@
     color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-badge__root--tone_neutral-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral-muted)
 }
 .seed-badge__label--tone_neutral-variant_outline {
@@ -121,7 +128,7 @@
     color: var(--seed-color-fg-on-brand-solid)
 }
 .seed-badge__root--tone_brand-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand-weak);
+    border-color: var(--seed-color-stroke-brand-weak);
     color: var(--seed-color-fg-brand)
 }
 .seed-badge__label--tone_brand-variant_outline {
@@ -142,7 +149,7 @@
     color: var(--seed-color-fg-on-informative-solid)
 }
 .seed-badge__root--tone_informative-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-informative-weak);
+    border-color: var(--seed-color-stroke-informative-weak);
     color: var(--seed-color-fg-informative)
 }
 .seed-badge__label--tone_informative-variant_outline {
@@ -163,7 +170,7 @@
     color: var(--seed-color-fg-on-positive-solid)
 }
 .seed-badge__root--tone_positive-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-positive-weak);
+    border-color: var(--seed-color-stroke-positive-weak);
     color: var(--seed-color-fg-positive)
 }
 .seed-badge__label--tone_positive-variant_outline {
@@ -184,7 +191,7 @@
     color: var(--seed-color-fg-on-warning-solid)
 }
 .seed-badge__root--tone_warning-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-warning-weak);
+    border-color: var(--seed-color-stroke-warning-weak);
     color: var(--seed-color-fg-warning)
 }
 .seed-badge__label--tone_warning-variant_outline {
@@ -205,7 +212,7 @@
     color: var(--seed-color-fg-on-critical-solid)
 }
 .seed-badge__root--tone_critical-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-critical-weak);
+    border-color: var(--seed-color-stroke-critical-weak);
     color: var(--seed-color-fg-critical)
 }
 .seed-badge__label--tone_critical-variant_outline {
