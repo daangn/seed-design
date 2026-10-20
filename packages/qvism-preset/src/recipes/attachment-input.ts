@@ -582,6 +582,9 @@ const attachmentInput = defineSlotRecipe({
             "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left))",
           paddingRight:
             "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))",
+          // Keeps a focused item from stopping under the inset the container extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
         },
       },
       false: {},

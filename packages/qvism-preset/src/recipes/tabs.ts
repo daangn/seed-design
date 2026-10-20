@@ -224,6 +224,11 @@ const tabs = defineSlotRecipe({
           marginLeft: "calc(var(--seed-safe-area-left) * -1)",
           marginRight: "calc(var(--seed-safe-area-right) * -1)",
         },
+        list: {
+          // Keeps a selected or focused tab from stopping under the inset the list extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
+        },
         content: {
           boxSizing: "border-box",
           paddingLeft: "var(--seed-safe-area-left)",
