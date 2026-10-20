@@ -19,9 +19,12 @@ const chip = defineSlotRecipe({
       justifyContent: "center",
       alignItems: "center",
       flexShrink: 0,
-      border: "none",
+      "--seed-chip-stroke-width": "0px",
+      borderWidth: "var(--seed-chip-stroke-width)",
+      borderStyle: "solid",
+      borderColor: "transparent",
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     label: {
       display: "flex",
@@ -67,7 +70,8 @@ const chip = defineSlotRecipe({
       outlineStrong: {
         root: {
           background: vars.variantOutlineStrong.enabled.root.color,
-          boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
+          "--seed-chip-stroke-width": vars.variantOutlineStrong.enabled.root.strokeWidth,
+          borderColor: vars.variantOutlineStrong.enabled.root.strokeColor,
         },
         label: { color: vars.variantOutlineStrong.enabled.label.color },
         prefixIcon: { color: vars.variantOutlineStrong.enabled.prefixIcon.color },
@@ -77,7 +81,8 @@ const chip = defineSlotRecipe({
       outlineWeak: {
         root: {
           background: vars.variantOutlineWeak.enabled.root.color,
-          boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
+          "--seed-chip-stroke-width": vars.variantOutlineWeak.enabled.root.strokeWidth,
+          borderColor: vars.variantOutlineWeak.enabled.root.strokeColor,
         },
         label: { color: vars.variantOutlineWeak.enabled.label.color },
         prefixIcon: { color: vars.variantOutlineWeak.enabled.prefixIcon.color },
@@ -89,8 +94,8 @@ const chip = defineSlotRecipe({
       small: {
         root: {
           height: vars.sizeSmall.enabled.root.height,
-          paddingLeft: vars.sizeSmall.enabled.root.paddingX,
-          paddingRight: vars.sizeSmall.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.sizeSmall.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
+          paddingRight: `calc(${vars.sizeSmall.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
         },
         label: {
           fontSize: vars.sizeSmall.enabled.label.fontSize,
@@ -116,8 +121,8 @@ const chip = defineSlotRecipe({
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.height,
-          paddingLeft: vars.sizeMedium.enabled.root.paddingX,
-          paddingRight: vars.sizeMedium.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.sizeMedium.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
+          paddingRight: `calc(${vars.sizeMedium.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -143,8 +148,8 @@ const chip = defineSlotRecipe({
       large: {
         root: {
           height: vars.sizeLarge.enabled.root.height,
-          paddingLeft: vars.sizeLarge.enabled.root.paddingX,
-          paddingRight: vars.sizeLarge.enabled.root.paddingX,
+          paddingLeft: `calc(${vars.sizeLarge.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
+          paddingRight: `calc(${vars.sizeLarge.enabled.root.paddingX} - var(--seed-chip-stroke-width))`,
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -245,7 +250,7 @@ const chip = defineSlotRecipe({
       css: {
         root: {
           background: vars.variantOutlineWeak.selected.root.color,
-          boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
+          borderColor: vars.variantOutlineWeak.selected.root.strokeColor,
         },
       },
     },
