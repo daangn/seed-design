@@ -31,11 +31,12 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 
 ## 화면 끝까지 채우기
 
-`AppScreenContent`처럼 inset만큼 안쪽으로 들어간 컨테이너 안에서 요소를 화면 끝까지 넓히려면 `Box`의 속성에 `"safeArea"` 값을 지정합니다. 이 값을 받는 속성은 [Box의 Safe Area](/react/components/layout/box#safe-area)를 참고하세요.
+`AppScreenContent`처럼 inset만큼 안쪽으로 들어간 컨테이너 안에서 요소를 화면 끝까지 넓히는 방법은 두 가지입니다.
 
-- 이미지처럼 요소 전체가 화면 끝까지 이어져야 하면 `bleedX="safeArea"`를 지정합니다.
-- 배경은 화면 끝까지 채우고 내용은 safe area 안에 두려면 `bleedX`와 함께 `pl`, `pr`에도 `"safeArea"`를 지정합니다. 화면 여백(`spacingX.globalGutter`)은 안쪽 요소에 지정합니다.
-- 화면 하단에 고정하는 바는 `pb="safeArea"`도 지정해서 하단 inset만큼 내용을 올립니다.
+- 아래 컴포넌트는 `extendSafeAreaX` 속성을 제공합니다. [컴포넌트의 `extendSafeAreaX`](#컴포넌트의-extendsafeareax)를 참고하세요.
+- 그 밖의 요소는 `Box`의 속성에 `"safeArea"` 값을 지정합니다. 이 값을 받는 속성은 [Box의 Safe Area](/react/components/layout/box#safe-area)를 참고하세요.
+
+아래 예제는 두 방법을 모두 보여 줍니다. 상단의 스위치로 컴포넌트의 `extendSafeAreaX`와 Image Frame의 `bleedX="safeArea"`를 켜고 끌 수 있습니다. 좌우 inset이 있는 기기에서 열어야 차이가 보입니다.
 
 <StackflowExample path="/safe-area-bleed">
   ```json doc-gen:file
@@ -46,7 +47,28 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
   ```
 </StackflowExample>
 
-### 가로 스크롤 영역
+### 컴포넌트의 `extendSafeAreaX`
+
+`extendSafeAreaX`를 지정하면 컴포넌트가 좌우 inset만큼 화면 끝까지 넓어지고, 탭·글자·항목처럼 안쪽 요소는 같은 값만큼 다시 들어와 safe area 안에 남습니다. 기본값은 `false`입니다. 컴포넌트는 부모가 inset만큼 안쪽으로 들어가 있는지 알 수 없으므로, `AppScreenContent`처럼 inset을 반영한 컨테이너 바로 안에 둘 때만 지정하세요. 카드나 Bottom Sheet 안에서 지정하면 컨테이너 밖으로 튀어나옵니다.
+
+| 컴포넌트 | 화면 끝까지 넓어지는 부분 | safe area 안에 남는 부분 |
+| --- | --- | --- |
+| [Tabs](/react/components/tabs) | 목록 배경과 하단 선, `TabsCarousel`의 패널 | 탭, 패널 내용 |
+| [Chip Tabs](/react/components/chip-tabs) | 가로 스크롤 영역, `ChipTabsCarousel`의 패널 | 스크롤하기 전의 첫 chip, 끝까지 스크롤한 뒤의 마지막 chip, 패널 내용 |
+| [Page Banner](/react/components/page-banner) | 배경 | 아이콘, 글자, 버튼 |
+| [Attachment Field](/react/components/attachment-field), [Attachment Display Field](/react/components/attachment-display-field) | 항목 가로 스크롤 영역. `--seed-attachment-input-extend-x`를 함께 지정하면 그 값에 inset을 더한 만큼 넓어집니다. | 스크롤하기 전의 첫 항목, 끝까지 스크롤한 뒤의 마지막 항목 |
+
+`TabsCarousel`과 `ChipTabsCarousel`의 패널은 inset만큼 안쪽 여백을 다시 가지므로, 패널 안에서도 `AppScreenContent` 안과 같은 방법으로 요소를 화면 끝까지 넓힐 수 있습니다. 다만 `100vw`나 `position: fixed`처럼 패널의 여백을 따르지 않는 요소는 이 보정을 받지 않습니다.
+
+[Image Frame](/react/components/image-frame)은 `extendSafeAreaX` 대신 `bleedX="safeArea"`를 지정합니다. 이때 `ImageFrameFloater`는 `placement`에 맞춰 safe area 안으로 들어옵니다. `*-start`는 왼쪽 inset만큼, `*-end`는 오른쪽 inset만큼 안쪽에 놓이고, `*-center`는 safe area 기준으로 가운데에 놓입니다. `bleedLeft`, `bleedRight`로 한쪽만 넓히면 그쪽만 반영합니다.
+
+### Box로 넓히기
+
+- 이미지처럼 요소 전체가 화면 끝까지 이어져야 하면 `bleedX="safeArea"`를 지정합니다.
+- 배경은 화면 끝까지 채우고 내용은 safe area 안에 두려면 `bleedX`와 함께 `pl`, `pr`에도 `"safeArea"`를 지정합니다. 화면 여백(`spacingX.globalGutter`)은 안쪽 요소에 지정합니다.
+- 화면 하단에 고정하는 바는 `pb="safeArea"`도 지정해서 하단 inset만큼 내용을 올립니다.
+
+#### 가로 스크롤 영역
 
 가로 스크롤 영역도 `bleedX`와 `pl`, `pr`에 `"safeArea"`를 지정해 화면 끝까지 넓힙니다. 스크롤하기 전에는 첫 항목이 safe area 경계에서 화면 여백만큼 떨어져 시작하고, 끝까지 스크롤하면 마지막 항목 뒤에도 inset과 화면 여백이 남습니다.
 
@@ -55,5 +77,3 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 가로 스크롤 컨테이너는 flex 컨테이너(`display="flex"`)로 두세요. iOS 26.4 미만의 WebKit은 block 컨테이너 안에서 block 레벨 요소가 가로로 넘치면, 컨테이너의 끝쪽 padding을 스크롤 범위에 넣지 않습니다. 이때는 `pr="safeArea"`로 지정한 inset이 스크롤 범위에서 빠져서, 끝까지 스크롤해도 마지막 항목이 오른쪽 inset 영역에 걸립니다.
 
 </Callout>
-
-`ChipTabsList`처럼 스크롤 영역이 화면 여백을 padding으로 직접 가지는 컴포넌트에는, 화면 여백과 inset을 더한 값을 padding으로 지정합니다.
