@@ -46,6 +46,7 @@
     white-space: nowrap;
     font-family: inherit;
     flex-shrink: 0;
+    scroll-margin-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-full);
     font-weight: var(--seed-font-weight-medium);
 }
