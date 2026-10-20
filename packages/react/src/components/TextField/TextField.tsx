@@ -154,6 +154,13 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
         input.style.overflow = "hidden";
       }
 
+      // `auto`로 줄인 채 scrollHeight를 읽으면 줄어든 레이아웃이 확정되어 조상(문서 포함)의
+      // scrollTop이 줄어든 범위로 잘리고, 높이를 되돌려도 복원되지 않는다.
+      // 측정하는 동안 부모 높이를 고정해 바깥 레이아웃이 줄어들지 않게 한다.
+      const parent = input.parentElement;
+      const prevParentMinHeight = parent?.style.minHeight ?? "";
+      if (parent) parent.style.minHeight = getComputedStyle(parent).height;
+
       input.style.alignSelf = "start";
       input.style.height = "auto";
 
@@ -162,6 +169,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
 
       input.style.overflow = prevOverflow;
       input.style.alignSelf = prevAlignment;
+      if (parent) parent.style.minHeight = prevParentMinHeight;
     }, [inputRef, otherProps.style?.height, autoresize]);
 
     useLayoutEffect(() => {
