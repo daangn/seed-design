@@ -45,7 +45,7 @@ function useTabsState(props: UseTabsStateProps) {
   //       to allow users to customize the scroll behavior.
   useEffect(() => {
     if (selectedTriggerEl && listEl) {
-      scrollTabIntoView(selectedTriggerEl, listEl, { scrollPadding: 16 });
+      scrollTabIntoView(selectedTriggerEl, listEl);
     }
   }, [selectedTriggerEl, listEl]);
 

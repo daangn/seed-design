@@ -126,6 +126,8 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           flex: 1,
+          // A tab scrolled into view stops as far from the edge as the list's padding
+          scrollMarginInline: vars.layoutFill.enabled.root.paddingX,
 
           [pseudo(selected, "[data-ssr]:after")]: {
             insetInline: vars.layoutFill.enabled.indicator.insetX,
@@ -142,6 +144,8 @@ const tabs = defineSlotRecipe({
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
         },
         trigger: {
+          scrollMarginInline: vars.layoutHug.enabled.root.paddingX,
+
           [pseudo(selected, "[data-ssr]:after")]: {
             insetInline: 0,
           },

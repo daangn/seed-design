@@ -48,6 +48,7 @@
     cursor: pointer;
     box-sizing: border-box;
     white-space: nowrap;
+    scroll-margin-inline: var(--seed-dimension-x4);
     border-radius: var(--seed-radius-full);
     font-family: inherit;
     font-weight: var(--seed-font-weight-medium);

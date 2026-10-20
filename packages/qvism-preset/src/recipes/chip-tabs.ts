@@ -72,6 +72,9 @@ const chipTabs = defineSlotRecipe({
       // chips shrink past their text + padding, so the label bleeds into the padding.
       flexShrink: 0,
 
+      // A chip scrolled into view stops as far from the edge as the list's padding
+      scrollMarginInline: vars.base.enabled.root.paddingX,
+
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
