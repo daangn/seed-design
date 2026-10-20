@@ -2,7 +2,7 @@ import type { ReactElement } from "@lynx-js/react";
 // Copyright 2026 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-// Modified by SEED Design: adapt style typing to the workspace ReactLynx version.
+// Modified by SEED Design: adapt style typing and finish canceled drags.
 
 import { useEffect, useMemo, useRef } from "@lynx-js/react";
 
@@ -211,6 +211,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
       main-thread:bindtouchstart={handleOnly ? undefined : handleTouchStartMT}
       main-thread:bindtouchmove={handleOnly ? undefined : handleTouchMoveMT}
       main-thread:bindtouchend={handleOnly ? undefined : handleTouchEndMT}
+      main-thread:bindtouchcancel={handleOnly ? undefined : handleTouchEndMT}
       main-thread:bindlayoutchange={handleSheetLayoutChangeMT}
     >
       <SheetDragContext.Provider value={contextValue}>{children}</SheetDragContext.Provider>
@@ -268,6 +269,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
       main-thread:bindtouchstart={handleOnly ? undefined : handleTouchStartMT}
       main-thread:bindtouchmove={handleOnly ? undefined : handleTouchMoveMT}
       main-thread:bindtouchend={handleOnly ? undefined : handleTouchEndMT}
+      main-thread:bindtouchcancel={handleOnly ? undefined : handleTouchEndMT}
     >
       <view
         {...rest}

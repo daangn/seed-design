@@ -1,11 +1,15 @@
 import { runOnMainThread, useEffect, type MainThreadRef } from "@lynx-js/react";
-import { render, waitSchedule } from "@lynx-js/react/testing-library";
+import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { useMotionValueRef, type MotionValue } from "@lynx-js/motion/mini";
 import { PresenceState } from "@lynx-js/lynx-ui-presence";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useSnap, type SnapOptions } from "./useSnap";
+import { SheetRoot } from "../SheetRoot";
+import { SheetContent } from "../SheetContent";
+import { SheetHandle } from "../SheetHandle";
 
 type TestMotion = {
+  finish: (target: number) => void;
   create: (value: number) => MotionValue<number>;
   animate: (value: MotionValue<number>, target: number) => { then: (callback: () => void) => void };
 };
@@ -49,6 +53,13 @@ type Snap = ReturnType<typeof useSnap>;
 // mini animate.stop()은 완료 callback도 동기 호출한다. 취소 중 presence 전이까지 재현한다.
 const pending = new Map<MotionValue<number>, () => void>();
 const motion: TestMotion = {
+  finish(target) {
+    for (const [value, complete] of pending) {
+      pending.delete(value);
+      value.set(target);
+      complete();
+    }
+  },
   create(initial) {
     let value = initial;
     let velocity = 0;
@@ -91,6 +102,7 @@ const motion: TestMotion = {
   animate(value) {
     value.stop();
     return {
+      // biome-ignore lint/suspicious/noThenProperty: mini animate의 thenable 계약을 재현한다.
       then: (callback) => {
         pending.set(value, callback);
       },
@@ -316,5 +328,63 @@ describe("sheet progress across layout changes", () => {
     await sheet.close();
     await sheet.frame(300);
     expect((await sheet.state()).progress).toBeCloseTo(0.5);
+  });
+});
+
+describe("sheet touch cancellation", () => {
+  it.each([
+    { side: "bottom" as const, handleOnly: false },
+    { side: "right" as const, handleOnly: false },
+    { side: "bottom" as const, handleOnly: true },
+  ])("finishes an interrupted entry after touchcancel: $side, handleOnly=$handleOnly", async ({
+    side,
+    handleOnly,
+  }) => {
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
+    const { container } = render(
+      <SheetRoot
+        defaultShow
+        snapPoints={[300]}
+        side={side}
+        handleOnly={handleOnly}
+        screenHeight={800}
+        screenWidth={400}
+        onOpen={onOpen}
+        onClose={onClose}
+      >
+        <SheetContent className="sheet-outer" innerClassName="sheet-content">
+          <SheetHandle className="sheet-handle" />
+        </SheetContent>
+      </SheetRoot>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    expect(pending.size).toBe(1);
+    const position = [...pending.keys()][0];
+    position.set(260);
+    const target = container.querySelector(
+      handleOnly ? ".sheet-handle" : side === "right" ? ".sheet-content" : ".sheet-outer",
+    );
+    if (!target) throw new Error("Expected the drag target to mount");
+    fireEvent.touchstart(target, { detail: { x: 0, y: 0 } });
+    fireEvent.touchmove(target, {
+      detail: { x: side === "right" ? -20 : 0, y: side === "bottom" ? -20 : 0 },
+    });
+    await waitSchedule();
+    expect(position.get()).toBe(280);
+    expect(pending.size).toBe(0);
+    expect(onOpen).not.toHaveBeenCalled();
+
+    fireEvent.touchcancel(target, { detail: { x: 0, y: 0 } });
+    await waitSchedule();
+    expect(pending.size).toBe(1);
+    await runOnMainThread(() => {
+      "main thread";
+      (globalThis as TestGlobals).__sheetTestMotion.finish(300);
+    })();
+    await waitSchedule();
+    expect(onOpen).toHaveBeenCalledOnce();
+    expect(onClose).not.toHaveBeenCalled();
   });
 });

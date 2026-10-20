@@ -20,6 +20,7 @@ SEED 수정:
 - 레이아웃 변경에 따른 자동 위치 보정은 추가하지 않는다. 기존 위치·gesture 동작을 유지한다.
 - 측정 대기 중 `animate: false`를 보존하고, 닫기·드래그·새 전환이 이전 대기 및 완료 콜백을
   무효화하도록 한다.
+- 콘텐츠와 핸들의 `touchcancel`도 드래그 종료로 처리해, 진입 중 취소되더라도 스냅·닫기 전환을 마친다.
 
 upstream을 갱신할 때는 공개 타입, 위 수정, 실제 main-thread 동작을 따로 비교한다.
 엔진 회귀 테스트는 `hooks/useSnap.test.tsx`, SEED API 계약은 `../BottomSheet.test.tsx`에 둔다.

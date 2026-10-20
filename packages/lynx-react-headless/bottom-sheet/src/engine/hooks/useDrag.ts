@@ -26,9 +26,8 @@ function isAngleInRanges(angle: number, ranges: [number, number][]) {
   return ranges.some(([start, end]) => {
     if (start <= end) {
       return angle >= start && angle <= end;
-    } else {
-      return angle >= start || angle <= end;
     }
+    return angle >= start || angle <= end;
   });
 }
 
