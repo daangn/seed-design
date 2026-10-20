@@ -36,10 +36,20 @@ const defaultVariant = {
   "triggerLayout": "fill",
   "contentLayout": "hug",
   "size": "small",
-  "stickyList": false
+  "stickyList": false,
+  "extendSafeAreaX": false
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "triggerLayout": "fill",
+    "extendSafeAreaX": true
+  },
+  {
+    "triggerLayout": "hug",
+    "extendSafeAreaX": true
+  }
+];
 
 export const tabsVariantMap = {
   "triggerLayout": [
@@ -55,6 +65,10 @@ export const tabsVariantMap = {
     "medium"
   ],
   "stickyList": [
+    true,
+    false
+  ],
+  "extendSafeAreaX": [
     true,
     false
   ]

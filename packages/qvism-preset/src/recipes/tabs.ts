@@ -218,12 +218,49 @@ const tabs = defineSlotRecipe({
       },
       false: {},
     },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        content: {
+          boxSizing: "border-box",
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      triggerLayout: "fill",
+      extendSafeAreaX: true,
+      css: {
+        list: {
+          paddingLeft: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+      },
+    },
+    {
+      triggerLayout: "hug",
+      extendSafeAreaX: true,
+      css: {
+        list: {
+          paddingLeft: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     triggerLayout: "fill",
     contentLayout: "hug",
     size: "small",
     stickyList: false,
+    extendSafeAreaX: false,
   },
 });
 
