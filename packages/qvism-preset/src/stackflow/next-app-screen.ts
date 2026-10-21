@@ -57,14 +57,11 @@ const cancelingBehind = `[data-swipe-back-state="canceling"]${isBehindScreen}:no
 const completing = `[data-swipe-back-state="completing"]${isTopScreen}:not(#\\#) > &`;
 const completingBehind = `[data-swipe-back-state="completing"]${isBehindScreen}:not(#\\#) > &`;
 
-const transitioning =
-  '[data-screen-state]:not([data-screen-state="idle"]):not([data-screen-state="idle-behind"]) > &';
-
-// Clipping follows movement, so the swiping screen always qualifies but the one
-// behind only does under horizontalSlide — the other styles leave it parked,
-// and rounding the corners of a screen that isn't going anywhere would show.
+// Only the top screen is clipped. The behind one keeps its corners off-screen
+// or under the top screen, except where the top screen's own rounded corner
+// uncovers them, and rounding them there opens a gap between the two screens.
+const transitioning = `[data-screen-state]:not([data-screen-state="idle"])${isTopScreen} > &`;
 const swipeBackActive = `[data-swipe-back-state]${isTopScreen} > &`;
-const swipeBackActiveBehind = `[data-swipe-back-state]${isBehindScreen} > &`;
 
 // ─── Swipe-driven values ─────────────────────────────────────────────────────
 //
@@ -218,8 +215,6 @@ export const nextAppScreen = defineSlotRecipe({
           [completing]: { opacity: "0" },
         },
         layer: {
-          [swipeBackActiveBehind]: CLIP_STYLES,
-
           // top
           [pushStart]: { transform: "translate3d(100%, 0, 0)" },
           [pop]: { transform: "translate3d(100%, 0, 0)" },
