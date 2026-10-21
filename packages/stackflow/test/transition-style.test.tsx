@@ -13,7 +13,6 @@ describe("transitionStyle 결정", () => {
       await settle(container);
 
       const screen = getScreen(container, "a");
-      expect(screen.dataset["screenTransitionStyle"]).toBe("horizontalSlide");
       expect(getPart(screen, "screen-layer")?.className).toContain(
         "transitionStyle_horizontalSlide",
       );
@@ -28,7 +27,9 @@ describe("transitionStyle 결정", () => {
     });
     await settle(container);
 
-    expect(getScreen(container, "a").dataset["screenTransitionStyle"]).toBe("crossfade");
+    expect(getPart(getScreen(container, "a"), "screen-layer")?.className).toContain(
+      "transitionStyle_crossfade",
+    );
   });
 
   it("behind 화면 스타일은 top 화면의 transitionStyle을 따라간다", async () => {
@@ -45,7 +46,6 @@ describe("transitionStyle 결정", () => {
 
     // A는 자기 스타일(horizontalSlide)이 아니라 top(B)의 crossfade를 따라가야 한다
     const behind = getScreen(container, "a");
-    expect(behind.dataset["screenTransitionStyle"]).toBe("crossfade");
     expect(getPart(behind, "screen-layer")?.className).toContain("transitionStyle_crossfade");
     expect(getPart(behind, "screen-layer")?.className).not.toContain(
       "transitionStyle_horizontalSlide",
@@ -54,7 +54,9 @@ describe("transitionStyle 결정", () => {
     // pop 후에는 다시 자기 스타일로 복귀한다
     await pop();
     await settle(container);
-    expect(getScreen(container, "a").dataset["screenTransitionStyle"]).toBe("horizontalSlide");
+    expect(getPart(getScreen(container, "a"), "screen-layer")?.className).toContain(
+      "transitionStyle_horizontalSlide",
+    );
   });
 
   it("NextAppBar의 tone/gradient variant가 background slot 클래스에 반영된다", async () => {
