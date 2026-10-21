@@ -13,15 +13,7 @@ import type {
   SpacingX,
   SpacingY,
 } from "@seed-design/lynx-css/vars";
-import {
-  colorTokens,
-  dimensionTokens,
-  radiusTokens,
-  fontSizeTokens,
-  fontWeightTokens,
-  lineHeightTokens,
-} from "@seed-design/lynx-css/vars/runtime";
-import { lookupToken } from "./runtime-token";
+import { vars } from "@seed-design/lynx-css/vars";
 
 import { useSafeArea } from "../hooks/useSafeArea";
 
@@ -30,7 +22,8 @@ export function handleColor(color: string | undefined) {
     return undefined;
   }
   const [type, value] = color.split(".");
-  return lookupToken(colorTokens, `${type}.${value}`, "var(--seed-color-") ?? color;
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$color[type]?.[value] ?? color;
 }
 
 export function handleDimension(dimension: number | string | undefined): string | undefined {
@@ -48,11 +41,8 @@ export function handleDimension(dimension: number | string | undefined): string 
 
   const [type, value] = dimension.split(".");
 
-  return (
-    lookupToken(dimensionTokens, dimension, "var(--seed-dimension-") ??
-    lookupToken(dimensionTokens, `${type}.${value}`, "var(--seed-dimension-") ??
-    dimension
-  );
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
 }
 
 export function resolveFlexValue(
@@ -96,7 +86,8 @@ export function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
   }
-  return lookupToken(radiusTokens, String(radius), "var(--seed-radius-") ?? radius;
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$radius[radius] ?? radius;
 }
 
 function handleDisplay(display: string | undefined) {
@@ -162,21 +153,24 @@ export function handleFontWeight(fontWeight: string | undefined) {
   if (!fontWeight) {
     return undefined;
   }
-  return lookupToken(fontWeightTokens, fontWeight, "var(--seed-font-weight-") ?? fontWeight;
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$fontWeight[fontWeight] ?? fontWeight;
 }
 
 export function handleFontSize(size: string | undefined) {
   if (!size) {
     return undefined;
   }
-  return lookupToken(fontSizeTokens, size, "var(--seed-font-size-") ?? size;
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$fontSize[size] ?? size;
 }
 
 export function handleLineHeight(lineHeight: string | undefined) {
   if (!lineHeight) {
     return undefined;
   }
-  return lookupToken(lineHeightTokens, lineHeight, "var(--seed-line-height-") ?? lineHeight;
+  // @ts-expect-error token category is derived from the public string contract.
+  return vars.$lineHeight[lineHeight] ?? lineHeight;
 }
 
 export interface StyleProps {

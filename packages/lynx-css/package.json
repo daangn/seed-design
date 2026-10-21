@@ -55,8 +55,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed && bun run generate:runtime-tokens",
-    "generate:runtime-tokens": "bun scripts/generate-runtime-tokens.ts",
+    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
     "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs",
     "lint:publish": "bun publint"
   },
