@@ -63,11 +63,7 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       mergeContextProps(contextProps, props),
     );
 
-    // Default transitionStyle follows the plugin theme:
-    // cupertino → horizontalSlide, android → verticalSlide.
-    const transitionStyle: NonNullable<NextAppScreenVariantProps["transitionStyle"]> =
-      variantProps.transitionStyle ??
-      (variantProps.theme === "android" ? "verticalSlide" : "horizontalSlide");
+    const transitionStyle = variantProps.transitionStyle ?? "horizontalSlide";
 
     // Behind screens restyle with the TOP screen's transitionStyle so their
     // parked position / behind animation matches the running transition.

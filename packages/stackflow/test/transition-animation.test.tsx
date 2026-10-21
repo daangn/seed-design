@@ -21,7 +21,7 @@ import type { NextAppScreenTransitionStyle } from "../src/primitive/NextAppScree
 import { animationsOn, finishAnimations, runningAnimationsOn } from "./waapi";
 
 const HORIZONTAL_EASING = "cubic-bezier(0.2, 0.1, 0.21, 0.99)";
-const ANDROID_ENTER_EASING = "cubic-bezier(0.23, 0.1, 0.32, 1)";
+const VERTICAL_ENTER_EASING = "cubic-bezier(0.23, 0.1, 0.32, 1)";
 
 const layerOf = (container: HTMLElement, testId: string) =>
   getPart(getScreen(container, testId), "screen-layer") as HTMLElement;
@@ -131,11 +131,10 @@ describe("verticalSlide / crossfade WAAPI", () => {
   it("verticalSlide push는 layer를 300ms 동안 올리고 dim은 자리에서 띄운다", async () => {
     const { container, push } = renderStack({
       activities: {
-        A: makeActivity({ testId: "a" }),
-        B: makeActivity({ testId: "b" }),
+        A: makeActivity({ testId: "a", transitionStyle: "verticalSlide" }),
+        B: makeActivity({ testId: "b", transitionStyle: "verticalSlide" }),
       },
       initialActivity: "A",
-      theme: "android",
     });
     await settle(container);
     await push("B");
@@ -146,7 +145,7 @@ describe("verticalSlide / crossfade WAAPI", () => {
         { opacity: "1", transform: "translate3d(0, 0, 0)" },
       ],
       duration: 300,
-      easing: ANDROID_ENTER_EASING,
+      easing: VERTICAL_ENTER_EASING,
       fill: "none",
     });
     expect(latestAnimation(dimOf(container, "b")).keyframes).toEqual([
@@ -158,11 +157,10 @@ describe("verticalSlide / crossfade WAAPI", () => {
   it("verticalSlide pop은 150ms linear로 나간다", async () => {
     const { container, push, pop } = renderStack({
       activities: {
-        A: makeActivity({ testId: "a" }),
-        B: makeActivity({ testId: "b" }),
+        A: makeActivity({ testId: "a", transitionStyle: "verticalSlide" }),
+        B: makeActivity({ testId: "b", transitionStyle: "verticalSlide" }),
       },
       initialActivity: "A",
-      theme: "android",
     });
     await settle(container);
     await push("B");

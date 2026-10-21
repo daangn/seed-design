@@ -10,9 +10,7 @@ import type { NextAppScreenTransitionStyle } from "./types";
 
 export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
   /**
-   * The transition style of this screen. The styled layer resolves the theme
-   * default (cupertino → horizontalSlide, android → verticalSlide) and passes
-   * the result down.
+   * The transition style of this screen.
    *
    * @default "horizontalSlide"
    */
