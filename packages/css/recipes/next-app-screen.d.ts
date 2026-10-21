@@ -1,9 +1,5 @@
 declare interface NextAppScreenVariant {
   /**
-  * @default "cupertino"
-  */
-  theme: "cupertino" | "android";
-/**
   * @default "horizontalSlide"
   */
   transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade";

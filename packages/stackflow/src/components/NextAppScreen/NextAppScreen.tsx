@@ -2,7 +2,7 @@ import {
   nextAppScreen,
   type NextAppScreenVariantProps,
 } from "@seed-design/css/recipes/next-app-screen";
-import { nextAppBar } from "@seed-design/css/recipes/next-app-bar";
+import type { NextAppBarVariantProps } from "@seed-design/css/recipes/next-app-bar";
 import { mergeProps } from "@seed-design/dom-utils";
 import { createContext, forwardRef, useContext, useMemo } from "react";
 import { NextAppScreen as NextAppScreenPrimitive } from "../../primitive";
@@ -48,6 +48,11 @@ export interface NextAppScreenRootProps
   extends NextAppScreenVariantProps,
     NextAppScreenPrimitive.RootProps {
   /**
+   * The screen has no theme of its own; this only reaches the NextAppBar inside it.
+   */
+  theme?: NextAppBarVariantProps["theme"];
+
+  /**
    * Corner radius of the device display, matched by the clip that runs while a
    * transition or a swipe-back gesture is in flight. A number means px; a
    * string is any CSS length. An object sets each corner on its own, and a
@@ -59,7 +64,7 @@ export interface NextAppScreenRootProps
 export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootProps>(
   (props, ref) => {
     const contextProps = useContext(NextAppScreenPropsContext);
-    const [variantProps, { clipRadius, ...otherProps }] = nextAppScreen.splitVariantProps(
+    const [variantProps, { theme, clipRadius, ...otherProps }] = nextAppScreen.splitVariantProps(
       mergeContextProps(contextProps, props),
     );
 
@@ -75,10 +80,7 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       transitionStyle: effectiveTransitionStyle,
     });
 
-    const [appBarVariantProps] = useMemo(
-      () => nextAppBar.splitVariantProps(variantProps),
-      [variantProps],
-    );
+    const appBarProps = useMemo(() => ({ theme }), [theme]);
 
     // The recipe reads all four vars without a fallback, so any clip has to set
     // every one of them or the mask drops out entirely.
@@ -101,7 +103,7 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
 
     return (
       <ClassNamesProvider value={classNames}>
-        <NextAppBarPropsProvider value={appBarVariantProps}>
+        <NextAppBarPropsProvider value={appBarProps}>
           <NextAppScreenPrimitive.Root
             ref={ref}
             transitionStyle={variantProps.transitionStyle}
