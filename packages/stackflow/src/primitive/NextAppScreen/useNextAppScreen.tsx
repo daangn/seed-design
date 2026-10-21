@@ -87,8 +87,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     [zIndexBase],
   );
 
-  const isActive = activity?.isActive;
-
   return useMemo(
     () => ({
       activity,
@@ -104,9 +102,7 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
       rootProps: elementProps({
         "data-part": nextAppScreenAnatomy.root,
         "data-screen-state": screenState,
-        "data-screen-transition-style": effectiveTransitionStyle,
         "data-screen-is-top": dataAttr(isTop),
-        "data-screen-is-active": dataAttr(isActive),
         "data-screen-ready": dataAttr(ready),
         ...swipeBackRootProps,
         style: zIndexStyle,
@@ -130,7 +126,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     [
       activity,
       isTop,
-      isActive,
       ready,
       screenState,
       effectiveTransitionStyle,

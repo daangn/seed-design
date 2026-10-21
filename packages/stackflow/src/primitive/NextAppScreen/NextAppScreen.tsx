@@ -65,7 +65,6 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
         >
           <Primitive.div
             ref={composeRefs(api.refs.root, ref)}
-            data-stackflow-component-name="NextAppScreen"
             {...mergeProps(api.rootProps, otherProps)}
           />
         </FocusScope>
