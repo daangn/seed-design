@@ -1,7 +1,7 @@
 import { reactionButton as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
-const ROOT_TRANSITION = `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`;
+const ROOT_TRANSITION = `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, border-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`;
 
 const reactionButton = defineSlotRecipe({
   name: "reaction-button",
@@ -15,7 +15,10 @@ const reactionButton = defineSlotRecipe({
       justifyContent: "center",
       flexShrink: 0,
       background: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      borderWidth: "var(--seed-reaction-button-stroke-width)",
+      borderStyle: "solid",
+      "--seed-reaction-button-stroke-width": vars.base.enabled.root.strokeWidth,
+      borderColor: vars.base.enabled.root.strokeColor,
       "--track-color": vars.base.enabled.progressCircle.trackColor,
       "--range-color": vars.base.enabled.progressCircle.rangeColor,
       transition: ROOT_TRANSITION,
@@ -56,10 +59,10 @@ const reactionButton = defineSlotRecipe({
         root: {
           height: vars.sizeXsmall.enabled.root.minHeight,
           borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
-          paddingLeft: vars.sizeXsmall.enabled.root.paddingX,
-          paddingRight: vars.sizeXsmall.enabled.root.paddingX,
-          paddingTop: vars.sizeXsmall.enabled.root.paddingY,
-          paddingBottom: vars.sizeXsmall.enabled.root.paddingY,
+          paddingLeft: `calc(${vars.sizeXsmall.enabled.root.paddingX} - var(--seed-reaction-button-stroke-width))`,
+          paddingRight: `calc(${vars.sizeXsmall.enabled.root.paddingX} - var(--seed-reaction-button-stroke-width))`,
+          paddingTop: `calc(${vars.sizeXsmall.enabled.root.paddingY} - var(--seed-reaction-button-stroke-width))`,
+          paddingBottom: `calc(${vars.sizeXsmall.enabled.root.paddingY} - var(--seed-reaction-button-stroke-width))`,
         },
         content: {
           gap: vars.sizeXsmall.enabled.root.gap,
@@ -81,10 +84,10 @@ const reactionButton = defineSlotRecipe({
         root: {
           height: vars.sizeSmall.enabled.root.minHeight,
           borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
-          paddingLeft: vars.sizeSmall.enabled.root.paddingX,
-          paddingRight: vars.sizeSmall.enabled.root.paddingX,
-          paddingTop: vars.sizeSmall.enabled.root.paddingY,
-          paddingBottom: vars.sizeSmall.enabled.root.paddingY,
+          paddingLeft: `calc(${vars.sizeSmall.enabled.root.paddingX} - var(--seed-reaction-button-stroke-width))`,
+          paddingRight: `calc(${vars.sizeSmall.enabled.root.paddingX} - var(--seed-reaction-button-stroke-width))`,
+          paddingTop: `calc(${vars.sizeSmall.enabled.root.paddingY} - var(--seed-reaction-button-stroke-width))`,
+          paddingBottom: `calc(${vars.sizeSmall.enabled.root.paddingY} - var(--seed-reaction-button-stroke-width))`,
         },
         content: {
           gap: vars.sizeSmall.enabled.root.gap,
@@ -107,7 +110,8 @@ const reactionButton = defineSlotRecipe({
       true: {
         root: {
           background: vars.base.selected.root.color,
-          boxShadow: `inset 0 0 0 ${vars.base.selected.root.strokeWidth} ${vars.base.selected.root.strokeColor}`,
+          "--seed-reaction-button-stroke-width": vars.base.selected.root.strokeWidth,
+          borderColor: vars.base.selected.root.strokeColor,
           "--track-color": vars.base.selected.progressCircle.trackColor,
           "--range-color": vars.base.selected.progressCircle.rangeColor,
         },
@@ -121,7 +125,8 @@ const reactionButton = defineSlotRecipe({
       true: {
         root: {
           background: vars.base.disabled.root.color,
-          boxShadow: `inset 0 0 0 ${vars.base.disabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          "--seed-reaction-button-stroke-width": vars.base.disabled.root.strokeWidth,
+          borderColor: vars.base.enabled.root.strokeColor,
         },
         label: { color: vars.base.disabled.label.color },
         count: { color: vars.base.disabled.count.color },
@@ -162,7 +167,8 @@ const reactionButton = defineSlotRecipe({
       css: {
         root: {
           background: vars.base.selectedLoading.root.color,
-          boxShadow: `inset 0 0 0 ${vars.base.selectedLoading.root.strokeWidth} ${vars.base.selected.root.strokeColor}`,
+          "--seed-reaction-button-stroke-width": vars.base.selectedLoading.root.strokeWidth,
+          borderColor: vars.base.selected.root.strokeColor,
           "--track-color": vars.base.selected.progressCircle.trackColor,
           "--range-color": vars.base.selected.progressCircle.rangeColor,
         },
