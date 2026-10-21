@@ -1,5 +1,3 @@
-"use client";
-
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { Accordion as SeedAccordion } from "@seed-design/react";
 import * as React from "react";

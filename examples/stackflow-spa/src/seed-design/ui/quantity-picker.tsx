@@ -11,14 +11,39 @@ export interface QuantityPickerProps
    */
   removeAriaLabel?: SeedQuantityPicker.RootProps["removeAriaLabel"];
 
+  /**
+   * Decrement 버튼의 접근성 이름입니다.
+   * @default "수량 줄이기"
+   */
   decrementAriaLabel?: string;
+  /**
+   * Increment 버튼의 접근성 이름입니다.
+   * @default "수량 늘리기"
+   */
   incrementAriaLabel?: string;
 
+  /**
+   * Decrement 버튼에 표시할 아이콘입니다.
+   * @default <IconMinusLine />
+   */
   decrementIcon?: React.ReactNode;
+  /**
+   * Increment 버튼에 표시할 아이콘입니다.
+   * @default <IconPlusLine />
+   */
   incrementIcon?: React.ReactNode;
+  /**
+   * Remove 버튼에 표시할 아이콘입니다.
+   * @default <IconTrashcanLine />
+   */
   removeIcon?: React.ReactNode;
+  /**
+   * loading 상태일 때 버튼에 표시할 요소입니다.
+   * @default <ProgressCircle size="inherit" tone="inherit" />
+   */
   loadingIndicator?: React.ReactNode;
 
+  /** 현재 수량을 form으로 제출할 때 hidden input에 전달할 속성입니다. */
   inputProps?: SeedQuantityPicker.HiddenInputProps;
 }
 
