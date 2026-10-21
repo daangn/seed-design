@@ -19,8 +19,8 @@ const ActivityLegacyAppScreenAppBarCustomization: StaticActivityComponentType<
   "ActivityLegacyAppScreenAppBarCustomization"
 > = () => {
   return (
-    <NextAppScreen theme="android">
-      <NextAppBar bg="palette.blue200">
+    <NextAppScreen>
+      <NextAppBar theme="android" bg="palette.blue200">
         <NextAppBarMain title="Preview" subtitle="This is a nice preview." />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">

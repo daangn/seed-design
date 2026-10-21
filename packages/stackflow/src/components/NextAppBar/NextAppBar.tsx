@@ -10,7 +10,7 @@ import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { NextAppBar as NextAppBarPrimitive } from "../../primitive";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createStyleContext, mergeContextProps } from "../../utils/createStyleContext";
 import { useBoxBackgroundProps, type BoxBackgroundProps } from "../../utils/styled";
 
 const { PropsProvider, ClassNamesProvider, useProps, withContext, useClassNames } =
@@ -24,7 +24,7 @@ const {
 export const NextAppBarPropsProvider = PropsProvider;
 
 export interface NextAppBarRootProps
-  extends Omit<NextAppBarVariantProps, "theme">,
+  extends NextAppBarVariantProps,
     NextAppBarPrimitive.RootProps,
     BoxBackgroundProps {}
 
@@ -37,10 +37,9 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
   const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
 
   const contextProps = useProps();
-  const [variantProps, otherProps] = nextAppBar.splitVariantProps({
-    ...contextProps,
-    ...propsWithoutBoxProps,
-  });
+  const [variantProps, otherProps] = nextAppBar.splitVariantProps(
+    mergeContextProps<typeof propsWithoutBoxProps>(contextProps, propsWithoutBoxProps),
+  );
 
   const classNames = nextAppBar(variantProps);
   const [mainVariantProps] = nextAppBarMain.splitVariantProps(variantProps);

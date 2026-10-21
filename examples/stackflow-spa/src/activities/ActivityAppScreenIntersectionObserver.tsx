@@ -54,8 +54,8 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   }, []);
 
   return (
-    <NextAppScreen theme="cupertino" contentOffsetTop="none">
-      <NextAppBar tone={tone}>
+    <NextAppScreen contentOffsetTop="none">
+      <NextAppBar theme="cupertino" tone={tone}>
         <NextAppBarLeft>
           <NextAppBarCloseButton aria-label="Close" />
         </NextAppBarLeft>
