@@ -1,6 +1,7 @@
 /**
  * Shared activity fixtures composing the styled NextAppScreen / NextAppBar.
  */
+import { Icon } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
 import {
   NextAppBarIconButton,
@@ -36,7 +37,7 @@ export function makeActivity(options: MakeActivityOptions): ActivityComponentTyp
             <NextAppBarRoot data-testid={`${testId}-app-bar`} {...appBarProps}>
               <NextAppBarLeft>
                 <NextAppBarIconButton aria-label="back">
-                  <svg role="img" aria-label="icon" />
+                  <Icon svg={<svg role="img" aria-label="icon" />} />
                 </NextAppBarIconButton>
               </NextAppBarLeft>
               <NextAppBarMain data-testid={`${testId}-app-bar-main`}>
