@@ -43,8 +43,7 @@ export const nextAppScreenVariantMap = {
   "transitionStyle": [
     "horizontalSlide",
     "verticalSlide",
-    "crossfade",
-    "experimental_scaleSlide"
+    "crossfade"
   ],
   "contentOffsetTop": [
     "none",

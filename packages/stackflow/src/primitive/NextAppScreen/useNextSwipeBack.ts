@@ -159,7 +159,6 @@ export interface UseNextSwipeBackArgs extends UseNextSwipeBackProps {
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
   dimRef: React.RefObject<HTMLElement | null>;
-  contentRef: React.RefObject<HTMLElement | null>;
   screenState: NextScreenState;
 }
 
@@ -167,7 +166,6 @@ interface SwipeTargets {
   topRoot: HTMLElement;
   topLayer: HTMLElement | null;
   topDim: HTMLElement | null;
-  topContent: HTMLElement | null;
   behindRoot: HTMLElement | null;
   behindLayer: HTMLElement | null;
 }
@@ -206,14 +204,12 @@ function clearSwipeState(targets: SwipeTargets) {
 function clearAllSwipeVars(targets: SwipeTargets) {
   clearSwipeVars(targets.topLayer);
   clearSwipeVars(targets.topDim);
-  clearSwipeVars(targets.topContent);
   clearSwipeVars(targets.behindLayer);
 }
 
 function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: number) {
   writeSwipeVars(targets.topLayer, displacement, ratio);
   writeSwipeVars(targets.topDim, displacement, ratio);
-  writeSwipeVars(targets.topContent, displacement, ratio);
   writeSwipeVars(targets.behindLayer, displacement, ratio);
 }
 
@@ -227,7 +223,6 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     rootRef,
     layerRef,
     dimRef,
-    contentRef,
     screenState,
   } = args;
 
@@ -313,7 +308,6 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
       {
         layer: targets.topLayer,
         dim: targets.topDim,
-        content: targets.topContent,
         behindLayer: targets.behindLayer,
       },
       context.transitionStyle,
@@ -458,7 +452,6 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
         topRoot: rootEl,
         topLayer: layerRef.current,
         topDim: dimRef.current,
-        topContent: contentRef.current,
         behindRoot: behind.rootEl,
         behindLayer: behind.layerEl,
       },
@@ -563,8 +556,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     clearSwipeVars(rootEl);
     clearSwipeVars(layerRef.current);
     clearSwipeVars(dimRef.current);
-    clearSwipeVars(contentRef.current);
-  }, [screenState, rootRef, layerRef, dimRef, contentRef]);
+  }, [screenState, rootRef, layerRef, dimRef]);
 
   // Abort on unmount: never leave attributes on the (still mounted) behind
   // screen or timers running against a torn-down screen. Touches only stable

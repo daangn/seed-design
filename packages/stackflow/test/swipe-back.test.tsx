@@ -315,7 +315,6 @@ describe("swipe back — swipeBackCommitRatio", () => {
     const onSwipeBackEnd = mock((_: { swiped: boolean }) => {});
     try {
       const { edge, top, behind, topLayer } = await setupSwipe({
-        transitionStyle: "experimental_scaleSlide",
         swipeBackCommitRatio: 0.5,
         onSwipeBackEnd,
       });
@@ -335,8 +334,8 @@ describe("swipe back — swipeBackCommitRatio", () => {
       expect(top.dataset["swipeBackState"]).toBe("completing");
       expect(behind.dataset["swipeBackState"]).toBe("completing");
 
-      // 릴리즈가 실제로 출발했다: scaleSlide의 layer는 이동·페이드·축소 세 leg를 받는다
-      expect(runningAnimationsOn(topLayer)).toHaveLength(3);
+      // 릴리즈가 실제로 출발했다
+      expect(runningAnimationsOn(topLayer)).toHaveLength(1);
     } finally {
       clock.restore();
     }
@@ -433,11 +432,7 @@ describe("swipe back — swipeBackCommitRatio", () => {
 });
 
 describe("swipe back — transitionStyle 독립", () => {
-  for (const transitionStyle of [
-    "verticalSlide",
-    "crossfade",
-    "experimental_scaleSlide",
-  ] as const) {
+  for (const transitionStyle of ["verticalSlide", "crossfade"] as const) {
     it(`${transitionStyle}에서도 edge 제스처가 끝까지 동작한다`, async () => {
       const clock = createClock();
       const onSwipeBackStart = mock(() => {});

@@ -6,7 +6,7 @@ declare interface NextAppScreenVariant {
 /**
   * @default "horizontalSlide"
   */
-  transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade" | "experimental_scaleSlide";
+  transitionStyle: "horizontalSlide" | "verticalSlide" | "crossfade";
 /**
   * @default "appBar"
   */
