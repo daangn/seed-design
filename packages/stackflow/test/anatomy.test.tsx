@@ -16,7 +16,6 @@ describe("NextAppScreen anatomy", () => {
     await settle(container);
 
     const screen = getScreen(container, "a");
-    expect(screen.dataset["part"]).toBe("screen");
     expect(getPart(screen, "screen-dim")).not.toBeNull();
     expect(getPart(screen, "screen-layer")).not.toBeNull();
     expect(getPart(screen, "screen-content")).not.toBeNull();

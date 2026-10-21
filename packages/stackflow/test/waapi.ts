@@ -15,7 +15,7 @@
  * property back as the environment left it (in happy-dom: `undefined`) keeps
  * that branch intact everywhere except on our own parts.
  */
-const STUBBED_PARTS = new Set(["screen-layer", "screen-dim"]);
+const STUBBED_PARTS = ["screen-layer", "screen-dim"];
 
 let environmentAnimate = Element.prototype.animate;
 
@@ -58,7 +58,8 @@ Object.defineProperty(Element.prototype, "animate", {
     environmentAnimate = value;
   },
   get(this: Element) {
-    if (!STUBBED_PARTS.has(this.getAttribute("data-part") ?? "")) return environmentAnimate;
+    const testId = this.getAttribute("data-testid") ?? "";
+    if (!STUBBED_PARTS.some((part) => testId.endsWith(`-${part}`))) return environmentAnimate;
 
     const el = this;
     return (keyframes: Keyframe[], options: KeyframeAnimationOptions) => {

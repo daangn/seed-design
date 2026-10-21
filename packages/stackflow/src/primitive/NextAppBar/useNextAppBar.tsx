@@ -1,7 +1,6 @@
 import { elementProps } from "@seed-design/dom-utils";
 import { useMemo, useState } from "react";
 import { useElementOffset } from "../private/useElementOffset";
-import { nextAppBarAnatomy } from "./anatomy";
 
 export type UseNextAppBarReturn = ReturnType<typeof useNextAppBar>;
 
@@ -32,7 +31,6 @@ export function useNextAppBar() {
         right: rightRef,
       },
       rootProps: elementProps({
-        "data-part": nextAppBarAnatomy.root,
         style: {
           "--centered-title-left": centeredTitleLeft,
           "--centered-title-right": centeredTitleRight,

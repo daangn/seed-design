@@ -10,7 +10,6 @@ import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { NextAppBar as NextAppBarPrimitive } from "../../primitive";
-import { nextAppBarAnatomy } from "../../primitive/NextAppBar/anatomy";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { useBoxBackgroundProps, type BoxBackgroundProps } from "../../utils/styled";
 
@@ -54,11 +53,7 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
           ref={ref}
           {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
         >
-          <div
-            aria-hidden
-            data-part={nextAppBarAnatomy.background}
-            className={classNames.background}
-          />
+          <div aria-hidden className={classNames.background} />
           {children}
         </NextAppBarPrimitive.Root>
       </MainPropsProvider>

@@ -79,9 +79,9 @@ export interface NextAppScreenDimProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextAppScreenDim = forwardRef<HTMLDivElement, NextAppScreenDimProps>((props, ref) => {
-  const { dimProps, refs } = useNextAppScreenContext();
+  const { refs } = useNextAppScreenContext();
 
-  return <Primitive.div ref={composeRefs(refs.dim, ref)} {...mergeProps(dimProps, props)} />;
+  return <Primitive.div ref={composeRefs(refs.dim, ref)} {...props} />;
 });
 NextAppScreenDim.displayName = "NextAppScreenDim";
 
@@ -91,15 +91,9 @@ export interface NextAppScreenLayerProps
 
 export const NextAppScreenLayer = forwardRef<HTMLDivElement, NextAppScreenLayerProps>(
   (props, ref) => {
-    const { layerProps, refs } = useNextAppScreenContext();
+    const { refs } = useNextAppScreenContext();
 
-    return (
-      <Primitive.div
-        ref={composeRefs(refs.layer, ref)}
-        tabIndex={-1}
-        {...mergeProps(layerProps, props)}
-      />
-    );
+    return <Primitive.div ref={composeRefs(refs.layer, ref)} tabIndex={-1} {...props} />;
   },
 );
 NextAppScreenLayer.displayName = "NextAppScreenLayer";
@@ -109,11 +103,7 @@ export interface NextAppScreenContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextAppScreenContent = forwardRef<HTMLDivElement, NextAppScreenContentProps>(
-  (props, ref) => {
-    const { contentProps } = useNextAppScreenContext();
-
-    return <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />;
-  },
+  (props, ref) => <Primitive.div ref={ref} {...props} />,
 );
 NextAppScreenContent.displayName = "NextAppScreenContent";
 

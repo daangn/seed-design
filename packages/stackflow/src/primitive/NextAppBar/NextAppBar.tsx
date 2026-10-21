@@ -2,7 +2,6 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
-import { nextAppBarAnatomy } from "./anatomy";
 import { useNextAppBar } from "./useNextAppBar";
 import { NextAppBarProvider, useNextAppBarContext } from "./useNextAppBarContext";
 
@@ -42,6 +41,6 @@ NextAppBarRight.displayName = "NextAppBarRight";
 export interface NextAppBarMainProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextAppBarMain = forwardRef<HTMLDivElement, NextAppBarMainProps>((props, ref) => {
-  return <Primitive.div ref={ref} data-part={nextAppBarAnatomy.main} {...props} />;
+  return <Primitive.div ref={ref} {...props} />;
 });
 NextAppBarMain.displayName = "NextAppBarMain";

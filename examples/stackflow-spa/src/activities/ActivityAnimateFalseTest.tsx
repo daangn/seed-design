@@ -56,7 +56,7 @@ function readTranslateX(el: HTMLElement) {
 }
 
 function probeScreen(root: HTMLElement | undefined) {
-  const layer = root?.querySelector<HTMLElement>('[data-part="screen-layer"]');
+  const layer = root?.querySelector<HTMLElement>(".seed-next-app-screen__layer");
   if (!root || !layer) return null;
 
   return {
@@ -83,7 +83,7 @@ function useScreenProbes() {
 
   useEffect(() => {
     const read = () => {
-      const screens = Array.from(document.querySelectorAll<HTMLElement>('[data-part="screen"]'));
+      const screens = Array.from(document.querySelectorAll<HTMLElement>("[data-screen-state]"));
       const topIndex = screens.findIndex((el) => el.dataset["screenIsTop"] !== undefined);
 
       setProbes({

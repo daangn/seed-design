@@ -1,7 +1,6 @@
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useActivityZIndexBase } from "../../hooks";
-import { nextAppScreenAnatomy } from "./anatomy";
 import { useNextScreenRegistry } from "./registry";
 import { useNextScreenStatus } from "./useNextScreenStatus";
 import { useNextScreenTransition } from "./useNextScreenTransition";
@@ -100,24 +99,13 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
         dim: dimRef,
       },
       rootProps: elementProps({
-        "data-part": nextAppScreenAnatomy.root,
         "data-screen-state": screenState,
         "data-screen-is-top": dataAttr(isTop),
         "data-screen-ready": dataAttr(ready),
         ...swipeBackRootProps,
         style: zIndexStyle,
       }),
-      dimProps: elementProps({
-        "data-part": nextAppScreenAnatomy.dim,
-      }),
-      layerProps: elementProps({
-        "data-part": nextAppScreenAnatomy.layer,
-      }),
-      contentProps: elementProps({
-        "data-part": nextAppScreenAnatomy.content,
-      }),
       edgeProps: elementProps({
-        "data-part": nextAppScreenAnatomy.edge,
         "aria-hidden": true,
         tabIndex: -1,
         ...swipeBackEdgeProps,

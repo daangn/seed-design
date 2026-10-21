@@ -30,28 +30,28 @@ export function makeActivity(options: MakeActivityOptions): ActivityComponentTyp
   return function TestActivity() {
     return (
       <NextAppScreenRoot data-testid={testId} {...screenProps}>
-        <NextAppScreenDim />
-        <NextAppScreenLayer>
+        <NextAppScreenDim data-testid={`${testId}-screen-dim`} />
+        <NextAppScreenLayer data-testid={`${testId}-screen-layer`}>
           {withAppBar ? (
-            <NextAppBarRoot {...appBarProps}>
+            <NextAppBarRoot data-testid={`${testId}-app-bar`} {...appBarProps}>
               <NextAppBarLeft>
                 <NextAppBarIconButton aria-label="back">
                   <svg role="img" aria-label="icon" />
                 </NextAppBarIconButton>
               </NextAppBarLeft>
-              <NextAppBarMain>
+              <NextAppBarMain data-testid={`${testId}-app-bar-main`}>
                 <NextAppBarTitle>{testId}</NextAppBarTitle>
               </NextAppBarMain>
             </NextAppBarRoot>
           ) : null}
-          <NextAppScreenContent>
+          <NextAppScreenContent data-testid={`${testId}-screen-content`}>
             <button type="button" data-testid={`${testId}-button`}>
               button
             </button>
             {children}
           </NextAppScreenContent>
         </NextAppScreenLayer>
-        <NextAppScreenEdge />
+        <NextAppScreenEdge data-testid={`${testId}-screen-edge`} />
       </NextAppScreenRoot>
     );
   };
