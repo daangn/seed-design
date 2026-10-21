@@ -13,7 +13,7 @@ export type {
   NextAppBarLeftProps as LeftProps,
   NextAppBarMainProps as MainProps,
   NextAppBarRightProps as RightProps,
-  NextAppBarProps as RootProps,
+  NextAppBarRootProps as RootProps,
   NextAppBarSubtitleProps as SubtitleProps,
   NextAppBarTitleProps as TitleProps,
 } from "./NextAppBar";

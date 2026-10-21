@@ -13,8 +13,8 @@ export type {
   NextAppBarIconButtonProps,
   NextAppBarLeftProps,
   NextAppBarMainProps,
-  NextAppBarProps,
   NextAppBarRightProps,
+  NextAppBarRootProps,
   NextAppBarSubtitleProps,
   NextAppBarTitleProps,
 } from "./NextAppBar";

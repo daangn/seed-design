@@ -7,7 +7,7 @@ import {
   NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRoot,
-  type NextAppBarProps,
+  type NextAppBarRootProps,
   NextAppBarTitle,
   NextAppScreenContent,
   NextAppScreenDim,
@@ -20,7 +20,7 @@ import {
 export interface MakeActivityOptions extends Omit<NextAppScreenRootProps, "children"> {
   testId: string;
   withAppBar?: boolean;
-  appBarProps?: NextAppBarProps;
+  appBarProps?: NextAppBarRootProps;
   children?: React.ReactNode;
 }
 
