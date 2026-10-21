@@ -91,12 +91,7 @@ export const NextAppBarCloseButton = forwardRef<HTMLButtonElement, NextAppBarIco
     }
 
     return (
-      <NextAppBarIconButton
-        ref={ref}
-        aria-label="닫기"
-        onClick={handleOnClick}
-        {...otherProps}
-      >
+      <NextAppBarIconButton ref={ref} aria-label="닫기" onClick={handleOnClick} {...otherProps}>
         {children}
       </NextAppBarIconButton>
     );
