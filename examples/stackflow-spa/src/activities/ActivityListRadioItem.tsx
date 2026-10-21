@@ -78,7 +78,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
         <NextAppBarMain title="ListRadioItem" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

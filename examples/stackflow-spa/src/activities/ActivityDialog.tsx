@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Portal, Text, VStack } from "@seed-design/react";
+import { HStack, Icon, Portal, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
@@ -46,7 +46,7 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
         <NextAppBarMain>Dialog</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

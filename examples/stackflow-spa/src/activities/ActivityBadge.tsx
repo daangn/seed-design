@@ -22,7 +22,7 @@ import {
 } from "seed-design/ui/bottom-sheet";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconHeartFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Portal, Text, VStack } from "@seed-design/react";
+import { HStack, Icon, Portal, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { badgeVariantMap } from "@seed-design/css/recipes/badge";
 
@@ -87,7 +87,7 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
         <NextAppBarMain>Badge</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

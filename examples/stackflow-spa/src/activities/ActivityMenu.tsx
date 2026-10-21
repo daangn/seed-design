@@ -46,10 +46,11 @@ import {
 } from "seed-design/ui/alert-dialog";
 import {
   BottomSheetFooter,
-  ResponsivePair,
-  Portal,
-  Text,
   HStack,
+  Icon,
+  Portal,
+  ResponsivePair,
+  Text,
   VStack,
 } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
@@ -89,7 +90,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
           <MenuRoot size="medium">
             <MenuTrigger asChild>
               <NextAppBarIconButton aria-label="알림">
-                <IconBellLine />
+                <Icon svg={<IconBellLine />} />
               </NextAppBarIconButton>
             </MenuTrigger>
             <MenuContent>
@@ -105,7 +106,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
           <MenuRoot size="medium" placement="bottom-end">
             <MenuTrigger asChild>
               <NextAppBarIconButton aria-label="더보기">
-                <IconDot3VerticalLine />
+                <Icon svg={<IconDot3VerticalLine />} />
               </NextAppBarIconButton>
             </MenuTrigger>
             <MenuContent>
@@ -125,7 +126,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
           </MenuRoot>
 
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

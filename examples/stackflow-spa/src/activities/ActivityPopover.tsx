@@ -26,7 +26,7 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "seed-design/ui/dialog";
-import { HStack, Portal } from "@seed-design/react";
+import { HStack, Icon, Portal } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   PopoverAction,
@@ -376,7 +376,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
           <PopoverRoot placement="bottom-end">
             <PopoverTrigger asChild>
               <NextAppBarIconButton aria-label="도움말">
-                <IconQuestionmarkCircleLine />
+                <Icon svg={<IconQuestionmarkCircleLine />} />
               </NextAppBarIconButton>
             </PopoverTrigger>
             <PopoverContent title="NextAppBar 트리거">
@@ -392,7 +392,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
             </PopoverContent>
           </PopoverRoot>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

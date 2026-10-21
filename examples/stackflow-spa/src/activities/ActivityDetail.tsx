@@ -1,4 +1,4 @@
-import { Text, VStack } from "@seed-design/react";
+import { Icon, Text, VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -39,7 +39,7 @@ const ActivityDetail: StaticActivityComponentType<"ActivityDetail"> = ({ params 
         <NextAppBarMain title={params.title} />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

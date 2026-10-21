@@ -1,4 +1,5 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon } from "@seed-design/react";
 import { useFlow } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import {
@@ -38,7 +39,7 @@ const ActivityMannerTempLevel: StaticActivityComponentType<"ActivityMannerTempLe
         <NextAppBarMain>MannerTempLevel</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

@@ -16,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "seed-design/ui/accordion";
-import { Box, HStack, Text, VStack } from "@seed-design/react";
+import { Box, HStack, Icon, Text, VStack } from "@seed-design/react";
 import type { ComponentProps } from "react";
 
 declare module "@stackflow/config" {
@@ -109,7 +109,7 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
         <NextAppBarMain>Accordion</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

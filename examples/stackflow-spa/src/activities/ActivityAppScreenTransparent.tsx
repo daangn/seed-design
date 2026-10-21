@@ -1,5 +1,5 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
+import { Flex, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -29,7 +29,7 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
         <NextAppBarMain>Transparent</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
-            <IconBellFill />
+            <Icon svg={<IconBellFill />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

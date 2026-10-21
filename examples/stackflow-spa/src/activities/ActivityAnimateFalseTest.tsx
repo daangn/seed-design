@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
@@ -171,7 +171,7 @@ const ActivityAnimateFalseTest: StaticActivityComponentType<"ActivityAnimateFals
         <NextAppBarMain title="animate: false (Next)" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

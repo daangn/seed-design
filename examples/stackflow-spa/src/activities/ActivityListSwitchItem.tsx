@@ -82,7 +82,7 @@ const ActivityListSwitchItem: StaticActivityComponentType<"ActivityListSwitchIte
         <NextAppBarMain title="ListSwitchItem" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>
