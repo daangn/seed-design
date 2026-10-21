@@ -1,5 +1,4 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { Slot } from "@radix-ui/react-slot";
 import { nextAppBar, type NextAppBarVariantProps } from "@seed-design/css/recipes/next-app-bar";
 import {
   nextAppBarMain,
@@ -110,12 +109,16 @@ export const NextAppBarSubtitle = withMainContext<HTMLSpanElement, NextAppBarSub
   "subtitle",
 );
 
+/**
+ * The button only hands the icon its size and color through `--seed-icon-*`, so wrap the icon
+ * in `<Icon svg={...} />` from `@seed-design/react`; a bare svg renders unstyled.
+ */
 export interface NextAppBarIconButtonProps
   extends PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIconButtonProps>(
-  ({ children, className, ...otherProps }, ref) => {
+  ({ className, ...otherProps }, ref) => {
     const classNames = useClassNames();
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
@@ -125,11 +128,7 @@ export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIcon
         type="button"
         className={clsx(classNames.iconButton, scaleFeedbackClassName, className)}
         {...otherProps}
-      >
-        <Slot className={classNames.icon} data-part={nextAppBarAnatomy.icon}>
-          {children}
-        </Slot>
-      </Primitive.button>
+      />
     );
   },
 );
