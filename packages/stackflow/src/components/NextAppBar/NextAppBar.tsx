@@ -25,7 +25,7 @@ const {
 export const NextAppBarPropsProvider = PropsProvider;
 export const NextAppBarMainPropsProvider = MainPropsProvider;
 
-export interface NextAppBarProps
+export interface NextAppBarRootProps
   extends NextAppBarVariantProps,
     NextAppBarPrimitive.RootProps,
     BoxBackgroundProps {}
@@ -35,7 +35,7 @@ export interface NextAppBarProps
  * with the layer as one piece, so unlike the legacy AppBar it needs no
  * behind-activity restyling or transition choreography of its own.
  */
-export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarProps>((props, ref) => {
+export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((props, ref) => {
   const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
 
   const contextProps = useProps();
