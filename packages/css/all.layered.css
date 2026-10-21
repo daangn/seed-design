@@ -7790,8 +7790,9 @@
   }
 
   .seed-next-app-bar-main__root--theme_android {
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
     width: 100%;
     min-width: 0;
     height: 100%;
