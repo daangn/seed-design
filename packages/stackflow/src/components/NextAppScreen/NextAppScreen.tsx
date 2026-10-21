@@ -63,11 +63,9 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       mergeContextProps(contextProps, props),
     );
 
-    const transitionStyle = variantProps.transitionStyle ?? "horizontalSlide";
-
     // Behind screens restyle with the TOP screen's transitionStyle so their
     // parked position / behind animation matches the running transition.
-    const { effectiveTransitionStyle } = useNextScreenStatus(transitionStyle);
+    const { effectiveTransitionStyle } = useNextScreenStatus(variantProps.transitionStyle);
 
     const classNames = nextAppScreen({
       ...variantProps,
@@ -103,7 +101,7 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
         <NextAppBarPropsProvider value={appBarVariantProps}>
           <NextAppScreenPrimitive.Root
             ref={ref}
-            transitionStyle={transitionStyle}
+            transitionStyle={variantProps.transitionStyle}
             {...mergeProps(
               { className: classNames.root, ...(clipStyle && { style: clipStyle }) },
               otherProps,
