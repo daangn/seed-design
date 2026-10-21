@@ -30,10 +30,10 @@ const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkM
         </NextAppBarLeft>
         <NextAppBarMain title="Partial Dark Mode" />
         <NextAppBarRight>
-          <NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
-          <NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>

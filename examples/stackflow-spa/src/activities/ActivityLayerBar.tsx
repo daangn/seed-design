@@ -33,7 +33,7 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
       <NextAppBar>
         <NextAppBarLeft>
           {Array.from({ length: counts.left }).map((_, index) => (
-            <NextAppBarIconButton key={index}>
+            <NextAppBarIconButton key={index} aria-label="Notification">
               <Icon svg={<IconBellLine />} />
             </NextAppBarIconButton>
           ))}
@@ -44,7 +44,7 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
         />
         <NextAppBarRight>
           {Array.from({ length: counts.right }).map((_, index) => (
-            <NextAppBarIconButton key={index}>
+            <NextAppBarIconButton key={index} aria-label="Notification">
               <Icon svg={<IconBellLine />} />
             </NextAppBarIconButton>
           ))}
