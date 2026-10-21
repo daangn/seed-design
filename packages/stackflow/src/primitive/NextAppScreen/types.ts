@@ -1,3 +1,5 @@
+// FIXME: duplicates the `transitionStyle` variant keys of the `next-app-screen` recipe
+// (packages/qvism-preset/src/stackflow/next-app-screen.ts), so adding a style means editing both.
 export type NextAppScreenTransitionStyle = "horizontalSlide" | "verticalSlide" | "crossfade";
 
 /**
