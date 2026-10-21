@@ -3,9 +3,6 @@ import { useMemo, useState } from "react";
 import { useElementOffset } from "../private/useElementOffset";
 import { nextAppBarAnatomy } from "./anatomy";
 
-// biome-ignore lint/suspicious/noEmptyInterface: intentionally empty for future extension
-export interface UseNextAppBarProps {}
-
 export type UseNextAppBarReturn = ReturnType<typeof useNextAppBar>;
 
 /**
@@ -13,7 +10,7 @@ export type UseNextAppBarReturn = ReturnType<typeof useNextAppBar>;
  * moves with it as one piece, so it carries no per-screen state attributes —
  * only the centered-title measurement for the cupertino layout.
  */
-export function useNextAppBar(_props: UseNextAppBarProps) {
+export function useNextAppBar() {
   const [root, rootRef] = useState<HTMLElement | null>(null);
   const [left, leftRef] = useState<HTMLElement | null>(null);
   const [right, rightRef] = useState<HTMLElement | null>(null);
