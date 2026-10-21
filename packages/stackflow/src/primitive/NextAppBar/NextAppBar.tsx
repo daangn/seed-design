@@ -3,16 +3,13 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { nextAppBarAnatomy } from "./anatomy";
-import { useNextAppBar, type UseNextAppBarProps } from "./useNextAppBar";
+import { useNextAppBar } from "./useNextAppBar";
 import { NextAppBarProvider, useNextAppBarContext } from "./useNextAppBarContext";
 
-export interface NextAppBarRootProps
-  extends PrimitiveProps,
-    UseNextAppBarProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface NextAppBarRootProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((props, ref) => {
-  const api = useNextAppBar({});
+  const api = useNextAppBar();
 
   return (
     <NextAppBarProvider value={api}>
