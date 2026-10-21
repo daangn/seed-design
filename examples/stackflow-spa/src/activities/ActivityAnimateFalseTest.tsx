@@ -149,9 +149,7 @@ function Row({ label, probe }: { label: string; probe: ScreenProbe | null }) {
   );
 }
 
-const ActivityAnimateFalseTest: StaticActivityComponentType<
-  "ActivityAnimateFalseTest"
-> = () => {
+const ActivityAnimateFalseTest: StaticActivityComponentType<"ActivityAnimateFalseTest"> = () => {
   const { push, pop } = useFlow();
   const stack = useStack();
   const probes = useScreenProbes();
@@ -165,9 +163,7 @@ const ActivityAnimateFalseTest: StaticActivityComponentType<
   );
 
   return (
-    // behind park(`-30%`)이 존재하는 스타일은 horizontalSlide 뿐이다. 예제 앱의 theme 은
-    // UA 기반이라 데스크톱에선 android(verticalSlide)로 잡히므로 스타일을 고정한다.
-    <NextAppScreen transitionStyle="horizontalSlide">
+    <NextAppScreen>
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />

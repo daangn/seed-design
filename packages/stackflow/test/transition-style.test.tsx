@@ -3,33 +3,24 @@ import { makeActivity } from "./fixtures";
 import { getPart, getScreen, renderStack, settle } from "./harness";
 
 describe("transitionStyle 결정", () => {
-  it("cupertino 테마 기본값은 horizontalSlide다", async () => {
-    const { container } = renderStack({
-      activities: { A: makeActivity({ testId: "a" }) },
-      initialActivity: "A",
-      theme: "cupertino",
+  for (const theme of ["cupertino", "android"] as const) {
+    it(`${theme} 테마에서도 기본값은 horizontalSlide다`, async () => {
+      const { container } = renderStack({
+        activities: { A: makeActivity({ testId: "a" }) },
+        initialActivity: "A",
+        theme,
+      });
+      await settle(container);
+
+      const screen = getScreen(container, "a");
+      expect(screen.dataset["screenTransitionStyle"]).toBe("horizontalSlide");
+      expect(getPart(screen, "screen-layer")?.className).toContain(
+        "transitionStyle_horizontalSlide",
+      );
     });
-    await settle(container);
+  }
 
-    const screen = getScreen(container, "a");
-    expect(screen.dataset["screenTransitionStyle"]).toBe("horizontalSlide");
-    expect(getPart(screen, "screen-layer")?.className).toContain("transitionStyle_horizontalSlide");
-  });
-
-  it("android 테마 기본값은 verticalSlide다", async () => {
-    const { container } = renderStack({
-      activities: { A: makeActivity({ testId: "a" }) },
-      initialActivity: "A",
-      theme: "android",
-    });
-    await settle(container);
-
-    const screen = getScreen(container, "a");
-    expect(screen.dataset["screenTransitionStyle"]).toBe("verticalSlide");
-    expect(getPart(screen, "screen-layer")?.className).toContain("transitionStyle_verticalSlide");
-  });
-
-  it("화면 단위 prop이 테마 기본값을 override한다", async () => {
+  it("화면 단위 prop이 기본값을 override한다", async () => {
     const { container } = renderStack({
       activities: { A: makeActivity({ testId: "a", transitionStyle: "crossfade" }) },
       initialActivity: "A",
@@ -43,7 +34,7 @@ describe("transitionStyle 결정", () => {
   it("behind 화면 스타일은 top 화면의 transitionStyle을 따라간다", async () => {
     const { container, push, pop } = renderStack({
       activities: {
-        A: makeActivity({ testId: "a" }), // horizontalSlide (cupertino 기본값)
+        A: makeActivity({ testId: "a" }), // horizontalSlide (기본값)
         B: makeActivity({ testId: "b", transitionStyle: "crossfade" }),
       },
       initialActivity: "A",
