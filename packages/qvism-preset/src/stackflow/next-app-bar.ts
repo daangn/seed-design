@@ -4,6 +4,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { onlyIcon } from "../utils/icon";
 import { active, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { vars as tokens } from "../vars/";
@@ -150,7 +151,7 @@ export const nextAppBarMain = defineSlotRecipe({
 
 export const nextAppBar = defineSlotRecipe({
   name: "next-app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "icon"],
+  slots: ["root", "background", "left", "right", "iconButton"],
   base: {
     root: {
       // The bar lives inside the screen layer (the transition unit), so it has
@@ -203,10 +204,6 @@ export const nextAppBar = defineSlotRecipe({
         ...createScaleFeedbackStyles(),
       },
     },
-    icon: {
-      display: "inline-block",
-      flexShrink: 0,
-    },
   },
   variants: {
     theme: {
@@ -220,10 +217,7 @@ export const nextAppBar = defineSlotRecipe({
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
           height: iconButtonVars.base.enabled.root.size,
-        },
-        icon: {
-          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          ...onlyIcon({ size: iconButtonVars.base.enabled.icon.size }),
         },
       },
       android: {
@@ -236,10 +230,7 @@ export const nextAppBar = defineSlotRecipe({
         iconButton: {
           width: iconButtonVars.base.enabled.root.size,
           height: iconButtonVars.base.enabled.root.size,
-        },
-        icon: {
-          width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
-          height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
+          ...onlyIcon({ size: iconButtonVars.base.enabled.icon.size }),
         },
         left: {
           paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
@@ -251,16 +242,16 @@ export const nextAppBar = defineSlotRecipe({
         background: {
           background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
         },
-        icon: {
-          color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.enabled.icon.color})`,
+        iconButton: {
+          ...onlyIcon({ color: iconButtonVars.toneLayer.enabled.icon.color }),
         },
       },
       transparent: {
         root: {
           backgroundColor: vars.toneTransparentGradientFalse.enabled.root.color,
         },
-        icon: {
-          color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,
+        iconButton: {
+          ...onlyIcon({ color: iconButtonVars.toneTransparent.enabled.icon.color }),
         },
       },
     },
