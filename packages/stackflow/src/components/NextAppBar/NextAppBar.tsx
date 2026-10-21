@@ -116,6 +116,12 @@ export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIcon
     const classNames = useClassNames();
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
+    if (!(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
+      console.warn(
+        "NextAppBarIconButton should be provided with 'aria-label' or 'aria-labelledby'.",
+      );
+    }
+
     return (
       <Primitive.button
         ref={composeRefs(scaleFeedbackRef, ref)}
