@@ -20,7 +20,7 @@ export interface UseNextAppScreenProps extends UseNextSwipeBackProps {
 export type UseNextAppScreenReturn = ReturnType<typeof useNextAppScreen>;
 
 export function useNextAppScreen(props: UseNextAppScreenProps) {
-  const { transitionStyle = "horizontalSlide", swipeBackArea = "edge", ...swipeBackProps } = props;
+  const { transitionStyle = "horizontalSlide", swipeBackArea = "full", ...swipeBackProps } = props;
 
   const registry = useNextScreenRegistry();
   const { activity, isTop, screenState, effectiveTransitionStyle } =
