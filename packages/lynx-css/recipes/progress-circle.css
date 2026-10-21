@@ -51,10 +51,7 @@
 }
 
 .seed-progress-circle__spinner,
-.seed-progress-circle__indeterminate-range,
-.seed-progress-circle__half,
-.seed-progress-circle__semicircle--first,
-.seed-progress-circle__semicircle--second {
+.seed-progress-circle__indeterminate-range {
   position: absolute;
   top: 0;
   left: 0;
@@ -66,14 +63,40 @@
   background-color: transparent;
 }
 
-.seed-progress-circle__half--first,
-.seed-progress-circle__semicircle--second {
-  clip-path: inset(0 0 0 50%);
+/* Android는 clip-path를 가진 부모가 transform 애니메이션 중인 자식을 자르지 않는다.
+   반쪽 영역은 폭 50% 박스의 overflow로 자르고, 반원은 그 안에서 링 크기로 둔다. */
+.seed-progress-circle__half {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
 }
 
-.seed-progress-circle__half--second,
+.seed-progress-circle__half--first {
+  left: 50%;
+}
+
+.seed-progress-circle__half--second {
+  left: 0;
+}
+
+.seed-progress-circle__semicircle--first,
+.seed-progress-circle__semicircle--second {
+  position: absolute;
+  top: 0;
+  width: 200%;
+  height: 100%;
+}
+
 .seed-progress-circle__semicircle--first {
+  left: -100%;
   clip-path: inset(0 50% 0 0);
+}
+
+.seed-progress-circle__semicircle--second {
+  left: 0;
+  clip-path: inset(0 0 0 50%);
 }
 
 .seed-progress-circle__track--tone_neutral {
