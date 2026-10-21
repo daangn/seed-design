@@ -49,7 +49,7 @@ const ActivityCheckbox: StaticActivityComponentType<"ActivityCheckbox"> = () => 
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Checkbox</NextAppBarMain>
+        <NextAppBarMain title="Checkbox" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

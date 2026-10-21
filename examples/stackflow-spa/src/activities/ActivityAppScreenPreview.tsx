@@ -24,7 +24,7 @@ const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPr
         <NextAppBarLeft>
           <NextAppBarCloseButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Next Preview</NextAppBarMain>
+        <NextAppBarMain title="Next Preview" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellFill />} />

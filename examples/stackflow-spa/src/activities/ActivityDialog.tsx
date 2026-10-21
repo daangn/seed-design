@@ -43,7 +43,7 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Dialog</NextAppBarMain>
+        <NextAppBarMain title="Dialog" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

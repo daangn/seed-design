@@ -152,7 +152,7 @@ const ActivityAttachmentDisplayField: StaticActivityComponentType<
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>AttachmentDisplayField</NextAppBarMain>
+        <NextAppBarMain title="AttachmentDisplayField" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

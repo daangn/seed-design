@@ -47,7 +47,7 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Pop Test</NextAppBarMain>
+        <NextAppBarMain title="Pop Test" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

@@ -83,7 +83,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Form Components</NextAppBarMain>
+        <NextAppBarMain title="Form Components" />
       </NextAppBar>
       <NextAppScreenContent>
         <VStack height="full">

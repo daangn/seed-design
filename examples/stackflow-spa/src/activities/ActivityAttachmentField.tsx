@@ -104,7 +104,7 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>AttachmentField</NextAppBarMain>
+        <NextAppBarMain title="AttachmentField" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

@@ -48,7 +48,7 @@ const ActivitySwitch: StaticActivityComponentType<"ActivitySwitch"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Switch</NextAppBarMain>
+        <NextAppBarMain title="Switch" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

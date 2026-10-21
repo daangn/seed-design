@@ -39,7 +39,7 @@ const ActivityChipToggle: StaticActivityComponentType<"ActivityChipToggle"> = ()
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Chip.Toggle</NextAppBarMain>
+        <NextAppBarMain title="Chip.Toggle" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

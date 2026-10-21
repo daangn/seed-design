@@ -50,7 +50,7 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Select</NextAppBarMain>
+        <NextAppBarMain title="Select" />
       </NextAppBar>
       <NextAppScreenContent>
         <VStack gap="x6" style={{ padding: 16 }}>

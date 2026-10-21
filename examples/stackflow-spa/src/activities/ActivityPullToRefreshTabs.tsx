@@ -19,7 +19,7 @@ const ActivityPullToRefreshTabs: StaticActivityComponentType<"ActivityPullToRefr
   return (
     <NextAppScreen>
       <NextAppBar>
-        <NextAppBarMain>Pull To Refresh</NextAppBarMain>
+        <NextAppBarMain title="Pull To Refresh" />
       </NextAppBar>
       <NextAppScreenContent>
         <TabsRoot defaultValue="1" contentLayout="fill">

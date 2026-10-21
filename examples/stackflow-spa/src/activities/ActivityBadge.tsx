@@ -84,7 +84,7 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Badge</NextAppBarMain>
+        <NextAppBarMain title="Badge" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />
