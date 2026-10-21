@@ -92,14 +92,14 @@ describe("transitionStyle 결정", () => {
     expect(plainBackground?.className).not.toContain("gradient_true");
   });
 
-  it("theme variant class가 recipe에 반영된다 (cupertino 44px / android 56px 소스)", async () => {
+  it("plugin theme이 화면 안의 NextAppBar recipe에 반영된다", async () => {
     const { container } = renderStack({
-      activities: { A: makeActivity({ testId: "a" }) },
+      activities: { A: makeActivity({ testId: "a", withAppBar: true }) },
       initialActivity: "A",
       theme: "android",
     });
     await settle(container);
 
-    expect(getScreen(container, "a").className).toContain("theme_android");
+    expect(getPart(getScreen(container, "a"), "app-bar")?.className).toContain("theme_android");
   });
 });

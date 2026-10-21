@@ -7581,6 +7581,7 @@
 }
 
 .seed-next-app-screen__root {
+  --app-bar-height: 56px;
   --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
   width: 100%;
   height: 100%;
@@ -7637,10 +7638,6 @@
   height: 100%;
   position: absolute;
   inset-inline: 0;
-}
-
-.seed-next-app-screen__root--theme_cupertino, .seed-next-app-screen__root--theme_android {
-  --app-bar-height: 56px;
 }
 
 .seed-next-app-screen__dim--transitionStyle_horizontalSlide {

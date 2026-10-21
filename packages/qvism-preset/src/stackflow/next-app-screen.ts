@@ -141,6 +141,7 @@ export const nextAppScreen = defineSlotRecipe({
       insetInline: 0,
       overflow: "hidden",
 
+      "--app-bar-height": navVars.base.enabled.root.height,
       "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
 
       // The screen takes ONE slot of the activity's 5-wide z-index band, and
@@ -203,18 +204,6 @@ export const nextAppScreen = defineSlotRecipe({
     },
   },
   variants: {
-    theme: {
-      cupertino: {
-        root: {
-          "--app-bar-height": navVars.base.enabled.root.height,
-        },
-      },
-      android: {
-        root: {
-          "--app-bar-height": navVars.base.enabled.root.height,
-        },
-      },
-    },
     transitionStyle: {
       horizontalSlide: {
         dim: {
@@ -325,7 +314,6 @@ export const nextAppScreen = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    theme: "cupertino",
     transitionStyle: "horizontalSlide",
     contentOffsetTop: "appBar",
     contentOffsetBottom: "safeArea",
