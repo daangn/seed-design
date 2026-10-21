@@ -15,7 +15,7 @@ import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-butt
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ReactionButton, type ReactionButtonProps } from "seed-design/ui/reaction-button";
 import { IconFaceSmileCircleFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Count, PrefixIcon } from "@seed-design/react";
+import { Count, Icon, PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {
   size: "small",
@@ -39,7 +39,7 @@ const ActivityReactionButton: StaticActivityComponentType<"ActivityReactionButto
         <NextAppBarMain>Reaction Button</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

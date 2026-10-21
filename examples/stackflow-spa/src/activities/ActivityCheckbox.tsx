@@ -1,4 +1,5 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon } from "@seed-design/react";
 import { useFlow } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -51,7 +52,7 @@ const ActivityCheckbox: StaticActivityComponentType<"ActivityCheckbox"> = () => 
         <NextAppBarMain>Checkbox</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

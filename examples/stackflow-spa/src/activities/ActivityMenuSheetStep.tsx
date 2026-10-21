@@ -1,4 +1,4 @@
-import { Portal, VStack } from "@seed-design/react";
+import { Icon, Portal, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
@@ -75,7 +75,7 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
         <NextAppBarMain title="Step" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

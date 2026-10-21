@@ -1,5 +1,5 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
+import { Flex, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -17,9 +17,7 @@ declare module "@stackflow/config" {
   }
 }
 
-const ActivityAppScreenPreview: StaticActivityComponentType<
-  "ActivityAppScreenPreview"
-> = () => {
+const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPreview"> = () => {
   return (
     <NextAppScreen theme="cupertino">
       <NextAppBar>
@@ -29,7 +27,7 @@ const ActivityAppScreenPreview: StaticActivityComponentType<
         <NextAppBarMain>Next Preview</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
-            <IconBellFill />
+            <Icon svg={<IconBellFill />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

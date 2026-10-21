@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 import { useFlow, useStack, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import {
@@ -50,7 +50,7 @@ const ActivityPopTest: StaticActivityComponentType<"ActivityPopTest"> = () => {
         <NextAppBarMain>Pop Test</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

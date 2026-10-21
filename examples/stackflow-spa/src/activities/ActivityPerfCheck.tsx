@@ -1,4 +1,4 @@
-import { Box } from "@seed-design/react";
+import { Box, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState } from "react";
@@ -88,7 +88,7 @@ const ActivityPerfCheck: StaticActivityComponentType<"ActivityPerfCheck"> = () =
         <NextAppBarMain>Performance Check</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

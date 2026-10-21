@@ -531,7 +531,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         <NextAppBarMain title="Home" />
         <NextAppBarRight>
           <NextAppBarIconButton>
-            <IconBellLine />
+            <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

@@ -15,7 +15,7 @@ import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 import { IconThumbUpFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ToggleButton, type ToggleButtonProps } from "seed-design/ui/toggle-button";
-import { PrefixIcon } from "@seed-design/react";
+import { Icon, PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {
   variant: "brandSolid",
@@ -40,7 +40,7 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
         <NextAppBarMain>Toggle Button</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

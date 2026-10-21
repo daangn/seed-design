@@ -16,7 +16,7 @@ import {
 
 import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
-import { VStack } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
@@ -45,13 +45,13 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
         <NextAppBarMain>펭귄</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton>
-            <IconBellLine />
+            <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton>
-            <IconBellLine />
+            <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

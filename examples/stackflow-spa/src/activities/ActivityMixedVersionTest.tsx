@@ -1,4 +1,4 @@
-import { Box, VStack } from "@seed-design/react";
+import { Box, Icon, VStack } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
@@ -30,7 +30,7 @@ const ActivityMixedVersionTest: StaticActivityComponentType<"ActivityMixedVersio
         <NextAppBarMain title="Mixed Version Test" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

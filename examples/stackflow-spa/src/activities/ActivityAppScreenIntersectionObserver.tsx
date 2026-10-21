@@ -1,5 +1,5 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
+import { Flex, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -62,7 +62,7 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
         <NextAppBarMain>Next Preview</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
-            <IconBellFill />
+            <Icon svg={<IconBellFill />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

@@ -27,7 +27,7 @@ const ActivityCodegenTest: StaticActivityComponentType<"ActivityCodegenTest"> = 
         <NextAppBarMain title="Codegen Test" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

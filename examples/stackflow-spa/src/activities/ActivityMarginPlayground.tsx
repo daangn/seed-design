@@ -9,7 +9,7 @@ import {
 } from "seed-design/ui/next-app-bar";
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Box } from "@seed-design/react";
+import { Box, Icon } from "@seed-design/react";
 import type * as React from "react";
 
 declare module "@stackflow/config" {
@@ -90,7 +90,7 @@ const ActivityMarginPlayground: StaticActivityComponentType<"ActivityMarginPlayg
         <NextAppBarMain>Margin Playground</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

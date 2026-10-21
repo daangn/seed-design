@@ -1,4 +1,4 @@
-import { Box, HStack, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
+import { Box, HStack, Icon, Portal, PullToRefresh, Tabs, Text, VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -46,7 +46,7 @@ const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"
         <NextAppBarMain title="Swipeable Tabs" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

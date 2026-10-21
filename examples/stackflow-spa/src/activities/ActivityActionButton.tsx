@@ -41,7 +41,7 @@ const ActivityActionButton: StaticActivityComponentType<"ActivityActionButton"> 
         <NextAppBarMain>Action Button</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

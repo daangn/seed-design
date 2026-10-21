@@ -9,7 +9,7 @@ import {
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { QuantityPicker } from "seed-design/ui/quantity-picker";
-import { Field, HStack, PrefixIcon, Text, VStack } from "@seed-design/react";
+import { Field, HStack, Icon, PrefixIcon, Text, VStack } from "@seed-design/react";
 import { IconExclamationmarkCircleFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
@@ -66,7 +66,7 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
         <NextAppBarMain>Quantity Picker</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

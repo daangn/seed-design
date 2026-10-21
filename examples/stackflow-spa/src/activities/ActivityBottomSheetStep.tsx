@@ -1,4 +1,4 @@
-import { HStack, Portal, VStack } from "@seed-design/react";
+import { HStack, Icon, Portal, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
@@ -60,7 +60,7 @@ const ActivityBottomSheetStep: StaticActivityComponentType<"ActivityBottomSheetS
         <NextAppBarMain title="Step" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

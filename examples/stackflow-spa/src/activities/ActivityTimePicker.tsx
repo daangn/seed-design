@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Text, VStack, type TimePickerValue } from "@seed-design/react";
+import { Icon, Text, type TimePickerValue, VStack } from "@seed-design/react";
 import { TimePicker } from "seed-design/ui/time-picker";
 import {
   NextAppBar,
@@ -34,7 +34,7 @@ const ActivityTimePicker: StaticActivityComponentType<"ActivityTimePicker"> = ()
         <NextAppBarMain title="TimePicker" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

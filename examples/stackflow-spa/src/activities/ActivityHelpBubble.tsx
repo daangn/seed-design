@@ -2,7 +2,14 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState, type ReactNode } from "react";
 
-import { Box, HelpBubble as SeedHelpBubble, HStack, Portal, VStack } from "@seed-design/react";
+import {
+  Box,
+  HelpBubble as SeedHelpBubble,
+  HStack,
+  Icon,
+  Portal,
+  VStack,
+} from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   NextAppBar,
@@ -127,7 +134,7 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
         <NextAppBarMain>Help Bubble</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

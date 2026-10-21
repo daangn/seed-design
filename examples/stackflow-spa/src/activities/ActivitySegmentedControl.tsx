@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/next-app-bar";
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
-import { HStack, VStack } from "@seed-design/react";
+import { HStack, Icon, VStack } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 
@@ -32,7 +32,7 @@ const ActivitySegmentedControl: StaticActivityComponentType<"ActivitySegmentedCo
         <NextAppBarMain title="Segmented Control" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

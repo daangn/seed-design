@@ -11,7 +11,7 @@ import {
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import { IconBellLine, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, VStack } from "@seed-design/react";
+import { Box, Icon, VStack } from "@seed-design/react";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -31,13 +31,13 @@ const ActivityPartialDarkMode: StaticActivityComponentType<"ActivityPartialDarkM
         <NextAppBarMain title="Partial Dark Mode" />
         <NextAppBarRight>
           <NextAppBarIconButton>
-            <IconBellLine />
+            <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton>
-            <IconBellLine />
+            <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

@@ -1,4 +1,5 @@
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon } from "@seed-design/react";
 import {
   NextAppBar,
   NextAppBarBackButton,
@@ -38,7 +39,7 @@ const ActivityAvatar: StaticActivityComponentType<"ActivityAvatar"> = () => {
         <NextAppBarMain>Avatar</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

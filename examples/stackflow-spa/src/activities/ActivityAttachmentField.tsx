@@ -21,9 +21,10 @@ import {
 } from "seed-design/ui/attachment-field-reorderable";
 import {
   Divider,
-  VStack,
+  Icon,
   type AttachmentInputFileEntry,
   type AttachmentInputFileStatusDetails,
+  VStack,
 } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { vars } from "@seed-design/css/vars";
@@ -106,7 +107,7 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
         <NextAppBarMain>AttachmentField</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

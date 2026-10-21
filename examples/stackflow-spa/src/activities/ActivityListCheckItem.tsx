@@ -89,7 +89,7 @@ const ActivityListCheckItem: StaticActivityComponentType<"ActivityListCheckItem"
         <NextAppBarMain title="ListCheckItem" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

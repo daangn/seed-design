@@ -3,7 +3,7 @@ import {
   IconLocationpinFill,
   IconMegaphoneFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { Text, VStack } from "@seed-design/react";
+import { Icon, Text, VStack } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
@@ -37,7 +37,7 @@ const ActivityTagGroup: StaticActivityComponentType<"ActivityTagGroup"> = () => 
         <NextAppBarMain>Tag Group</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>
