@@ -57,7 +57,7 @@ const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({ p
   const { push } = useFlow();
   const swipeBackHandlers = useSwipeBackSnackbar();
 
-  const [swipeBackArea, setSwipeBackArea] = useState<(typeof SWIPE_BACK_AREAS)[number]>("edge");
+  const [swipeBackArea, setSwipeBackArea] = useState<(typeof SWIPE_BACK_AREAS)[number]>("full");
 
   return (
     <NextAppScreen
