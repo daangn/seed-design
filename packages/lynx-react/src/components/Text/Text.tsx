@@ -1,4 +1,3 @@
-import { typography } from "@seed-design/lynx-css/vars/component";
 import type { CSSProperties } from "@lynx-js/types";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
@@ -13,15 +12,16 @@ import {
 } from "../../utils/styled";
 import type { LynxHostProps, LynxTextRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { typographyTokens } from "@seed-design/lynx-css/vars/runtime";
+import { expandToken } from "../../utils/runtime-token";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
   return (value.charAt(0).toUpperCase() + value.slice(1)) as Capitalize<T>;
 }
 
-function getTypographyStyle(textStyle: TextStyle | undefined) {
-  const key = `textStyle${capitalize(textStyle ?? "t5Regular")}`;
-  const value = typography[key as keyof typeof typography];
-  return value.enabled.root;
+function getTypographyTokens(textStyle: TextStyle | undefined) {
+  const key = capitalize(textStyle ?? "t5Regular");
+  return typographyTokens[key]!;
 }
 
 export interface TextProps
@@ -53,7 +53,8 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
     style,
     ...nativeProps
   } = props;
-  const typographyStyle = getTypographyStyle(textStyle);
+  const [typographyFontSize, typographyLineHeight, typographyFontWeight] =
+    getTypographyTokens(textStyle);
 
   const truncated = maxLines !== undefined;
 
@@ -68,9 +69,14 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
       style={
         {
           color: handleColor(color),
-          fontSize: handleFontSize(fontSize) ?? typographyStyle.fontSize,
-          lineHeight: handleLineHeight(lineHeight ?? fontSize) ?? typographyStyle.lineHeight,
-          fontWeight: handleFontWeight(fontWeight) ?? typographyStyle.fontWeight,
+          fontSize:
+            handleFontSize(fontSize) ?? expandToken(typographyFontSize, "var(--seed-font-size-"),
+          lineHeight:
+            handleLineHeight(lineHeight ?? fontSize) ??
+            expandToken(typographyLineHeight, "var(--seed-line-height-"),
+          fontWeight:
+            handleFontWeight(fontWeight) ??
+            expandToken(typographyFontWeight, "var(--seed-font-weight-"),
           textAlign: align,
           textDecoration: textDecorationLine,
           ...(truncated ? { overflow: "hidden", textOverflow: "ellipsis" } : {}),

@@ -48,7 +48,8 @@ type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
 >;
 type SheetTransition = NonNullable<HeadlessBottomSheetContentProps["snapAnimation"]>;
 
-const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
+const { ClassNamesProvider, useClassNames, withContext } =
+  /* @__PURE__ */ createSlotRecipeContext(bottomSheet);
 
 /** Root가 제목 여백을 정할 수 있도록 CloseButton이 렌더링 여부를 알린다. */
 const CloseButtonRenderedContext = createContext<((rendered: boolean) => void) | null>(null);
@@ -107,7 +108,7 @@ export interface BottomSheetRootProps
  * - `BottomSheetTrigger`의 `asChild`: 미지원 (기본 `<view>`만)
  */
 export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, BottomSheetRootProps> =
-  forwardRef<BottomSheetRootRef, BottomSheetRootProps>((props, ref) => {
+  /* @__PURE__ */ forwardRef<BottomSheetRootRef, BottomSheetRootProps>((props, ref) => {
     const [variantProps, restProps] = bottomSheet.splitVariantProps(props);
     const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
@@ -160,7 +161,7 @@ BottomSheetRoot.displayName = "BottomSheetRoot";
 export interface BottomSheetTriggerProps extends LynxHostProps<"view"> {}
 
 export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTriggerProps> =
-  forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
+  /* @__PURE__ */ forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
     const { children, className, style, ...nativeProps } = props;
     const { triggerProps } = useBottomSheetTrigger();
 
@@ -197,7 +198,10 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
  * 뷰포트 커버 레이아웃을 보장한다.
  */
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  withContext<unknown, BottomSheetPositionerProps>(HeadlessBottomSheetPositioner, "positioner");
+  /* @__PURE__ */ withContext<unknown, BottomSheetPositionerProps>(
+    HeadlessBottomSheetPositioner,
+    "positioner",
+  );
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -212,13 +216,16 @@ BottomSheetPositioner.displayName = "BottomSheetPositioner";
 export interface BottomSheetBackdropProps extends HeadlessBottomSheetBackdropProps {}
 
 export const BottomSheetBackdrop: LynxForwardRefComponent<unknown, BottomSheetBackdropProps> =
-  withContext<unknown, BottomSheetBackdropProps>(HeadlessBottomSheetBackdrop, "backdrop");
+  /* @__PURE__ */ withContext<unknown, BottomSheetBackdropProps>(
+    HeadlessBottomSheetBackdrop,
+    "backdrop",
+  );
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
 export interface BottomSheetContentProps extends HeadlessBottomSheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
-  forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
+  /* @__PURE__ */ forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
     const {
       className,
       style,
@@ -361,7 +368,7 @@ function createTextSlot(
 }
 
 export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
-export const BottomSheetHeader = createViewSlot("header");
+export const BottomSheetHeader = /* @__PURE__ */ createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
 
@@ -369,44 +376,42 @@ export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
  * Scrolls once the sheet reaches its max height. `className` and `style` go on the view around the
  * `scroll-view`.
  */
-export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
-  unknown,
-  BottomSheetBodyProps
->((props, ref) => {
-  const { children, className, style } = props;
-  const classNames = useClassNames();
-  const gestureProps = useSheetScrollGestureProps();
+export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> =
+  /* @__PURE__ */ forwardRef<unknown, BottomSheetBodyProps>((props, ref) => {
+    const { children, className, style } = props;
+    const classNames = useClassNames();
+    const gestureProps = useSheetScrollGestureProps();
 
-  return (
-    <view
-      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-      className={clsx(classNames.body, className)}
-      style={style as never}
-    >
-      <scroll-view
-        {...gestureProps}
-        className={classNames.scrollArea}
-        scroll-orientation="vertical"
-        // The sheet's drag already moves it at the body's edges; a bounce would add to that.
-        bounces={false}
+    return (
+      <view
+        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        className={clsx(classNames.body, className)}
+        style={style as never}
       >
-        <view className={classNames.scrollContent}>{children}</view>
-      </scroll-view>
-    </view>
-  );
-});
+        <scroll-view
+          {...gestureProps}
+          className={classNames.scrollArea}
+          scroll-orientation="vertical"
+          // The sheet's drag already moves it at the body's edges; a bounce would add to that.
+          bounces={false}
+        >
+          <view className={classNames.scrollContent}>{children}</view>
+        </scroll-view>
+      </view>
+    );
+  });
 BottomSheetBody.displayName = "BottomSheetBody";
 
 export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
-export const BottomSheetFooter = createViewSlot("footer");
+export const BottomSheetFooter = /* @__PURE__ */ createViewSlot("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
 export interface BottomSheetTitleProps extends LynxHostProps<"text"> {}
-export const BottomSheetTitle = createTextSlot("title");
+export const BottomSheetTitle = /* @__PURE__ */ createTextSlot("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
 export interface BottomSheetDescriptionProps extends LynxHostProps<"text"> {}
-export const BottomSheetDescription = createTextSlot("description");
+export const BottomSheetDescription = /* @__PURE__ */ createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -424,7 +429,7 @@ export interface BottomSheetCloseButtonProps extends LynxHostProps<"view"> {}
  * 아이콘은 `<Icon>`으로 전달하고, 읽어줄 이름은 `accessibility-label`로 지정한다.
  */
 export const BottomSheetCloseButton: LynxForwardRefComponent<unknown, BottomSheetCloseButtonProps> =
-  forwardRef<unknown, BottomSheetCloseButtonProps>((props, ref) => {
+  /* @__PURE__ */ forwardRef<unknown, BottomSheetCloseButtonProps>((props, ref) => {
     const { children, className, style, bindtap, ...nativeProps } = props;
     const classNames = useClassNames();
     const setCloseButtonRendered = useContext(CloseButtonRenderedContext);

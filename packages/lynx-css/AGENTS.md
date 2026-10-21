@@ -2,7 +2,16 @@
 
 Lynx용 CSS 변수·Recipe를 배포하는 `@seed-design/lynx-css` 패키지다. 대부분 `packages/rootage/`와 `packages/lynx-qvism-preset/`에서 생성되므로 스타일 변경은 그 원천에서 시작한다(`packages/lynx-qvism-preset/AGENTS.md`).
 
+## 검증
+
+- 런타임 토큰 생성 변경 → `bun test packages/lynx-css/scripts/runtime-tokens.test.ts packages/lynx-css/scripts/runtime-tokens.integration.test.ts`로 생성기와 공개 토큰 값의 일치를 검사한다.
+
 ## 규칙
+
+### 런타임 토큰
+
+- `vars/runtime.{mjs,d.ts}`는 기존 `vars` exports에서 파생하는 경량 조회 데이터다. 직접 고치지 않고 `bun --filter @seed-design/lynx-css generate:runtime-tokens`로 갱신한다. `rootage:generate`는 토큰과 component spec 생성 뒤 이 명령을 실행한다.
+- 소비자가 설치한 CSS 버전의 토큰을 읽어야 하므로 React 패키지에 조회 데이터 사본을 넣지 않는다. 값과 타입은 같은 CSS 패키지의 `vars/runtime`에서 제공한다.
 
 ### 수동 Recipe: progress-circle
 
