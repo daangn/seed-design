@@ -44,10 +44,10 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
         </NextAppBarLeft>
         <NextAppBarMain>펭귄</NextAppBarMain>
         <NextAppBarRight>
-          <NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
-          <NextAppBarIconButton>
+          <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellLine />} />
           </NextAppBarIconButton>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
