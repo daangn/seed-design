@@ -52,7 +52,7 @@ const ActivityRadioGroup: StaticActivityComponentType<"ActivityRadioGroup"> = ()
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>RadioGroup</NextAppBarMain>
+        <NextAppBarMain title="RadioGroup" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

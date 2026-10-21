@@ -27,7 +27,7 @@ const ActivityResultSection: StaticActivityComponentType<"ActivityResultSection"
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Result Section</NextAppBarMain>
+        <NextAppBarMain title="Result Section" />
       </NextAppBar>
       <NextAppScreenContent
         ptr

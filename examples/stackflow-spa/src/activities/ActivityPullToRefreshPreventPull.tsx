@@ -15,7 +15,7 @@ const ActivityPullToRefreshPreventPull: StaticActivityComponentType<
   return (
     <NextAppScreen>
       <NextAppBar>
-        <NextAppBarMain>Pull To Refresh preventPull</NextAppBarMain>
+        <NextAppBarMain title="Pull To Refresh preventPull" />
       </NextAppBar>
       <NextAppScreenContent
         ptr

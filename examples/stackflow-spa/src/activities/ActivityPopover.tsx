@@ -371,7 +371,7 @@ const ActivityPopover: StaticActivityComponentType<"ActivityPopover"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Popover</NextAppBarMain>
+        <NextAppBarMain title="Popover" />
         <NextAppBarRight>
           <PopoverRoot placement="bottom-end">
             <PopoverTrigger asChild>

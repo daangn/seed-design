@@ -63,7 +63,7 @@ const ActivityQuantityPicker: StaticActivityComponentType<"ActivityQuantityPicke
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Quantity Picker</NextAppBarMain>
+        <NextAppBarMain title="Quantity Picker" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

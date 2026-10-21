@@ -505,7 +505,7 @@ const ActivityIacvt: StaticActivityComponentType<"ActivityIacvt"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>IACVT</NextAppBarMain>
+        <NextAppBarMain title="IACVT" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

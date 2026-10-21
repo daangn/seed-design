@@ -27,7 +27,7 @@ const ActivityNotFound: StaticActivityComponentType<"ActivityNotFound"> = () => 
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Error</NextAppBarMain>
+        <NextAppBarMain title="Error" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

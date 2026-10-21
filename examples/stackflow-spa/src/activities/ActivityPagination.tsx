@@ -30,7 +30,7 @@ const ActivityPagination: StaticActivityComponentType<"ActivityPagination"> = ()
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Pagination</NextAppBarMain>
+        <NextAppBarMain title="Pagination" />
       </NextAppBar>
       <NextAppScreenContent>
         <VStack gap="x8" px="x4" py="x6" align="stretch">

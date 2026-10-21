@@ -36,7 +36,7 @@ const ActivityAvatar: StaticActivityComponentType<"ActivityAvatar"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Avatar</NextAppBarMain>
+        <NextAppBarMain title="Avatar" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />
