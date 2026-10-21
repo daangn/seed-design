@@ -2,7 +2,7 @@ import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochro
 import { Icon, VStack } from "@seed-design/react";
 import { NextAppBar as SeedNextAppBar } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
-import * as React from "react";
+import type * as React from "react";
 import { forwardRef } from "react";
 
 export interface NextAppBarProps extends SeedNextAppBar.RootProps {}
@@ -17,43 +17,22 @@ export interface NextAppBarRightProps extends SeedNextAppBar.RightProps {}
 
 export const NextAppBarRight = SeedNextAppBar.Right;
 
-export interface NextAppBarMainProps extends Omit<SeedNextAppBar.MainProps, "asChild"> {
-  /**
-   * The title of the app bar.
-   * If children is provided as ReactElement, this prop will be ignored.
-   */
-  title?: string;
+export interface NextAppBarMainProps
+  extends Omit<SeedNextAppBar.MainProps, "asChild" | "children" | "title"> {
+  title: React.ReactNode;
 
-  /**
-   * The subtitle of the app bar.
-   * If children is provided as ReactElement, this prop will be ignored.
-   */
-  subtitle?: string;
+  subtitle?: React.ReactNode;
 }
 
 export const NextAppBarMain = forwardRef<HTMLDivElement, NextAppBarMainProps>(
-  ({ title, subtitle, children, ...otherProps }, ref) => {
-    if (React.isValidElement(children)) {
-      return (
-        <SeedNextAppBar.Main {...otherProps} ref={ref}>
-          {children}
-        </SeedNextAppBar.Main>
-      );
-    }
-
-    return (
-      <SeedNextAppBar.Main
-        layout={subtitle ? "withSubtitle" : "titleOnly"}
-        {...otherProps}
-        ref={ref}
-      >
-        <VStack overflowX="auto">
-          <SeedNextAppBar.Title>{children ?? title}</SeedNextAppBar.Title>
-          {subtitle ? <SeedNextAppBar.Subtitle>{subtitle}</SeedNextAppBar.Subtitle> : null}
-        </VStack>
-      </SeedNextAppBar.Main>
-    );
-  },
+  ({ title, subtitle, ...otherProps }, ref) => (
+    <SeedNextAppBar.Main layout={subtitle ? "withSubtitle" : "titleOnly"} {...otherProps} ref={ref}>
+      <VStack overflowX="auto">
+        <SeedNextAppBar.Title>{title}</SeedNextAppBar.Title>
+        {subtitle ? <SeedNextAppBar.Subtitle>{subtitle}</SeedNextAppBar.Subtitle> : null}
+      </VStack>
+    </SeedNextAppBar.Main>
+  ),
 );
 NextAppBarMain.displayName = "NextAppBarMain";
 

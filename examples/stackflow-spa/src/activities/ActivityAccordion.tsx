@@ -106,7 +106,7 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Accordion</NextAppBarMain>
+        <NextAppBarMain title="Accordion" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

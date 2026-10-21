@@ -80,7 +80,7 @@ const ActivityIacvtExperiment: StaticActivityComponentType<"ActivityIacvtExperim
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>IACVT initial-fallback 실험</NextAppBarMain>
+        <NextAppBarMain title="IACVT initial-fallback 실험" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

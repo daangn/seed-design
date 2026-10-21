@@ -26,7 +26,7 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Transparent</NextAppBarMain>
+        <NextAppBarMain title="Transparent" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellFill />} />

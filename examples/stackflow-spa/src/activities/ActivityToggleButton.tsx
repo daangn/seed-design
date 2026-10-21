@@ -37,7 +37,7 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Toggle Button</NextAppBarMain>
+        <NextAppBarMain title="Toggle Button" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

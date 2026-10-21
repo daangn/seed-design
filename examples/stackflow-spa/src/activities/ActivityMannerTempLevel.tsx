@@ -36,7 +36,7 @@ const ActivityMannerTempLevel: StaticActivityComponentType<"ActivityMannerTempLe
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>MannerTempLevel</NextAppBarMain>
+        <NextAppBarMain title="MannerTempLevel" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

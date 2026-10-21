@@ -131,7 +131,7 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Help Bubble</NextAppBarMain>
+        <NextAppBarMain title="Help Bubble" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

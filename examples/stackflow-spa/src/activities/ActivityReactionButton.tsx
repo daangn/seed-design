@@ -36,7 +36,7 @@ const ActivityReactionButton: StaticActivityComponentType<"ActivityReactionButto
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Reaction Button</NextAppBarMain>
+        <NextAppBarMain title="Reaction Button" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

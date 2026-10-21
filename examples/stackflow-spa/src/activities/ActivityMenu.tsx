@@ -84,7 +84,7 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Menu</NextAppBarMain>
+        <NextAppBarMain title="Menu" />
         <NextAppBarRight>
           {/* NextAppBarIconButton as MenuTrigger */}
           <MenuRoot size="medium">

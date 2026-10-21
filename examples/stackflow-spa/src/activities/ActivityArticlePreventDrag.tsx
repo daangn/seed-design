@@ -18,7 +18,7 @@ const ActivityArticlePreventDrag: StaticActivityComponentType<
   return (
     <NextAppScreen>
       <NextAppBar>
-        <NextAppBarMain>Tabs</NextAppBarMain>
+        <NextAppBarMain title="Tabs" />
       </NextAppBar>
       <NextAppScreenContent>
         <TabsRoot defaultValue="1" contentLayout="fill">

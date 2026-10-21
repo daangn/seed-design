@@ -85,7 +85,7 @@ const ActivityPerfCheck: StaticActivityComponentType<"ActivityPerfCheck"> = () =
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Performance Check</NextAppBarMain>
+        <NextAppBarMain title="Performance Check" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

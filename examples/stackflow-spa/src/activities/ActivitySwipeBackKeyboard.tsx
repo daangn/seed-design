@@ -26,7 +26,7 @@ const ActivitySwipeBackKeyboard: StaticActivityComponentType<"ActivitySwipeBackK
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>스와이프백 키보드</NextAppBarMain>
+        <NextAppBarMain title="스와이프백 키보드" />
       </NextAppBar>
       <NextAppScreenContent>
         <VStack gap="x5" p="x5">

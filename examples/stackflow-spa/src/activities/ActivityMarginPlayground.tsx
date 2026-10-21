@@ -87,7 +87,7 @@ const ActivityMarginPlayground: StaticActivityComponentType<"ActivityMarginPlayg
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Margin Playground</NextAppBarMain>
+        <NextAppBarMain title="Margin Playground" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

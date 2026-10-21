@@ -34,7 +34,7 @@ const ActivityTagGroup: StaticActivityComponentType<"ActivityTagGroup"> = () => 
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>Tag Group</NextAppBarMain>
+        <NextAppBarMain title="Tag Group" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />

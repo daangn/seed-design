@@ -42,7 +42,7 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain>펭귄</NextAppBarMain>
+        <NextAppBarMain title="펭귄" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellLine />} />
