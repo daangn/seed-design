@@ -1,4 +1,4 @@
-import { Box, ScrollFog } from "@seed-design/react";
+import { Box, Icon, ScrollFog } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Suspense, useEffect, useState } from "react";
@@ -79,7 +79,7 @@ const ActivityChipTabsScrollFog: StaticActivityComponentType<"ActivityChipTabsSc
         <NextAppBarMain title="ChipTabs ScrollFog + LazyMount" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

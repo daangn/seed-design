@@ -1,4 +1,4 @@
-import { Box } from "@seed-design/react";
+import { Box, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ const ActivityTabs: StaticActivityComponentType<"ActivityTabs"> = () => {
         <NextAppBarMain title="Tabs" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

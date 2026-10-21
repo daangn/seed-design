@@ -1,4 +1,4 @@
-import { VStack } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
   NextAppBar,
@@ -30,7 +30,7 @@ const ActivitySidePanelActivity: StaticActivityComponentType<"ActivitySidePanelA
         <NextAppBarMain title="Side Panel Activity" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

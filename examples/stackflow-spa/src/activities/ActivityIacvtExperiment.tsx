@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, useBreakpoint } from "@seed-design/react";
+import { Box, Icon, useBreakpoint } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import type * as React from "react";
 import {
@@ -83,7 +83,7 @@ const ActivityIacvtExperiment: StaticActivityComponentType<"ActivityIacvtExperim
         <NextAppBarMain>IACVT initial-fallback 실험</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

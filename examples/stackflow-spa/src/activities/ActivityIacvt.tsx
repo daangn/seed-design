@@ -4,6 +4,7 @@ import {
   Flex,
   Grid,
   HStack,
+  Icon,
   ResponsivePair,
   Skeleton,
   useBreakpoint,
@@ -507,7 +508,7 @@ const ActivityIacvt: StaticActivityComponentType<"ActivityIacvt"> = () => {
         <NextAppBarMain>IACVT</NextAppBarMain>
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>

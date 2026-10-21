@@ -14,7 +14,7 @@ import {
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
-import { HStack, PrefixIcon, VStack } from "@seed-design/react";
+import { HStack, Icon, PrefixIcon, VStack } from "@seed-design/react";
 import { useState } from "react";
 
 declare module "@stackflow/config" {
@@ -34,7 +34,7 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
         <NextAppBarLeft>
           {Array.from({ length: counts.left }).map((_, index) => (
             <NextAppBarIconButton key={index}>
-              <IconBellLine />
+              <Icon svg={<IconBellLine />} />
             </NextAppBarIconButton>
           ))}
         </NextAppBarLeft>
@@ -45,7 +45,7 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
         <NextAppBarRight>
           {Array.from({ length: counts.right }).map((_, index) => (
             <NextAppBarIconButton key={index}>
-              <IconBellLine />
+              <Icon svg={<IconBellLine />} />
             </NextAppBarIconButton>
           ))}
         </NextAppBarRight>

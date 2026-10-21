@@ -109,7 +109,7 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
         <NextAppBarMain title="Scale Feedback" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="홈" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
+            <Icon svg={<IconHouseLine />} />
           </NextAppBarIconButton>
         </NextAppBarRight>
       </NextAppBar>
