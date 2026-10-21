@@ -91,10 +91,8 @@ export const nextAppBarMain = defineSlotRecipe({
             gridRow: "1",
           },
         },
-        // Pinned to the content track. Auto-placement would put a second child — Title and
-        // Subtitle composed directly, without the registry's wrapper — in the trailing spacer,
-        // overlapping the right-hand buttons. A lone child still auto-places here correctly, so
-        // a wrapper needs no rule of its own.
+        // Pinned to the content track: auto-placement would put Subtitle, the second child, in
+        // the trailing spacer, overlapping the right-hand buttons.
         title: {
           gridColumn: "2",
           minWidth: 0,
@@ -107,8 +105,11 @@ export const nextAppBarMain = defineSlotRecipe({
       android: {
         root: {
           display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
+          flexDirection: "column",
+          justifyContent: "center",
+          // `stretch` caps Title and Subtitle at the root's width; a shrink-to-fit item would
+          // size to its unwrapped text and never reach its ellipsis.
+          alignItems: "stretch",
 
           width: "100%",
           minWidth: 0, // ensures that the text-overflow works correctly
