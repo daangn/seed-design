@@ -290,6 +290,7 @@ describe("swipe back release WAAPI", () => {
         A: makeActivity({ testId: "a" }),
         B: makeActivity({
           testId: "b",
+          swipeBackArea: "edge",
           transitionStyle,
           ...(popOnSwiped && {
             onSwipeBackEnd: ({ swiped }: { swiped: boolean }) => {

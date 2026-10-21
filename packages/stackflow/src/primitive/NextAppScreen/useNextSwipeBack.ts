@@ -72,6 +72,10 @@ function clearSwipeVars(el: HTMLElement | null) {
  * wins over the gesture.
  */
 function findBlockingAncestor(target: EventTarget | null, boundary: HTMLElement | null) {
+  // FIXME: an SVGElement is not an HTMLElement, so a touch that starts on an
+  // icon skips the walk entirely and claims the gesture even inside a
+  // horizontal scroller or a `[data-swipe-back-block]` subtree. Check whether
+  // starting from `Element` is enough.
   let el = target instanceof HTMLElement ? target : null;
 
   while (el) {
@@ -106,7 +110,7 @@ export interface UseNextSwipeBackProps {
    * picked up, the style decides what it looks like. Whichever style the screen
    * runs, the drag scrubs that style's own exit.
    *
-   * @default "edge"
+   * @default "full"
    */
   swipeBackArea?: NextSwipeBackArea;
 
@@ -187,7 +191,7 @@ function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: n
 }
 
 export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
-  const { swipeBackArea = "edge", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
+  const { swipeBackArea = "full", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
 
   const onSwipeStart = useCallbackRef(args.onSwipeBackStart);
   const onSwipeMove = useCallbackRef(args.onSwipeBackMove);

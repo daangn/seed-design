@@ -23,7 +23,7 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({ theme }),
-    seedPlugin({ theme, ...(isIos && { swipeBackArea: "full" as const, clipRadius: 55 }) }),
+    seedPlugin({ theme, ...(isIos && { clipRadius: 55 }) }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
