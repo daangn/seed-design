@@ -65,6 +65,9 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
 
     // Behind screens restyle with the TOP screen's transitionStyle so their
     // parked position / behind animation matches the running transition.
+    // TODO: the primitive root calls useNextScreenStatus again, so every screen subscribes to the
+    // registry twice. Both read the same snapshot and agree only while this layer's default
+    // transitionStyle (the recipe's) matches the primitive's own "horizontalSlide" default.
     const { effectiveTransitionStyle } = useNextScreenStatus(variantProps.transitionStyle);
 
     const classNames = nextAppScreen({
