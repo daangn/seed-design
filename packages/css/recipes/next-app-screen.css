@@ -4,6 +4,7 @@
     height: 100%;
     inset-inline: 0;
     overflow: hidden;
+    --app-bar-height: 56px;
     --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
     z-index: calc(var(--z-index-base) + 3);
 }
@@ -51,12 +52,6 @@
     width: 20px;
     height: 100%;
     inset-inline: 0;
-}
-.seed-next-app-screen__root--theme_cupertino {
-    --app-bar-height: 56px;
-}
-.seed-next-app-screen__root--theme_android {
-    --app-bar-height: 56px;
 }
 .seed-next-app-screen__dim--transitionStyle_horizontalSlide {
     height: 100%;

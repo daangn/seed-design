@@ -25,7 +25,6 @@ const nextAppScreenSlotNames = [
 ];
 
 const defaultVariant = {
-  "theme": "cupertino",
   "transitionStyle": "horizontalSlide",
   "contentOffsetTop": "appBar",
   "contentOffsetBottom": "safeArea"
@@ -34,10 +33,6 @@ const defaultVariant = {
 const compoundVariants = [];
 
 export const nextAppScreenVariantMap = {
-  "theme": [
-    "cupertino",
-    "android"
-  ],
   "transitionStyle": [
     "horizontalSlide",
     "verticalSlide",
