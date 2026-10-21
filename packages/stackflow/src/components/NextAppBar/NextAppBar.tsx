@@ -24,7 +24,7 @@ const {
 export const NextAppBarPropsProvider = PropsProvider;
 
 export interface NextAppBarRootProps
-  extends NextAppBarVariantProps,
+  extends Omit<NextAppBarVariantProps, "theme">,
     NextAppBarPrimitive.RootProps,
     BoxBackgroundProps {}
 
@@ -77,7 +77,7 @@ export const NextAppBarRight = withContext<HTMLDivElement, NextAppBarRightProps>
 );
 
 export interface NextAppBarMainProps
-  extends NextAppBarMainVariantProps,
+  extends Omit<NextAppBarMainVariantProps, "theme" | "tone">,
     NextAppBarPrimitive.MainProps {}
 
 export const NextAppBarMain = withMainProvider<HTMLDivElement, NextAppBarMainProps>(
