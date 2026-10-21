@@ -53,11 +53,6 @@
     scale: var(--seed-feedback-scale);
   }
 
-  .seed-next-app-bar__icon {
-    flex-shrink: 0;
-    display: inline-block;
-  }
-
   .seed-next-app-bar__root--theme_cupertino {
     height: calc(56px + var(--seed-safe-area-top));
     padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
@@ -66,13 +61,9 @@
   }
 
   .seed-next-app-bar__iconButton--theme_cupertino {
+    --seed-icon-size: 24px;
     width: 44px;
     height: 44px;
-  }
-
-  .seed-next-app-bar__icon--theme_cupertino {
-    width: var(--seed-icon-size, 24px);
-    height: var(--seed-icon-size, 24px);
   }
 
   .seed-next-app-bar__root--theme_android {
@@ -83,13 +74,9 @@
   }
 
   .seed-next-app-bar__iconButton--theme_android {
+    --seed-icon-size: 24px;
     width: 44px;
     height: 44px;
-  }
-
-  .seed-next-app-bar__icon--theme_android {
-    width: var(--seed-icon-size, 24px);
-    height: var(--seed-icon-size, 24px);
   }
 
   .seed-next-app-bar__left--theme_android {
@@ -100,16 +87,16 @@
     background: var(--seed-box-background, var(--seed-color-bg-layer-default));
   }
 
-  .seed-next-app-bar__icon--tone_layer {
-    color: var(--seed-icon-color, var(--seed-color-fg-neutral));
+  .seed-next-app-bar__iconButton--tone_layer {
+    --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
   .seed-next-app-bar__root--tone_transparent {
     background-color: #0000;
   }
 
-  .seed-next-app-bar__icon--tone_transparent {
-    color: var(--seed-icon-color, var(--seed-color-palette-static-white));
+  .seed-next-app-bar__iconButton--tone_transparent {
+    --seed-icon-color: var(--seed-color-palette-static-white);
   }
 
   .seed-next-app-bar__background--tone_transparent-gradient_true {

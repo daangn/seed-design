@@ -1,7 +1,7 @@
 "use client";
 
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
-import { VStack } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 import { NextAppBar as SeedNextAppBar } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import * as React from "react";
@@ -64,7 +64,7 @@ export interface NextAppBarIconButtonProps extends SeedNextAppBar.IconButtonProp
 export const NextAppBarIconButton = SeedNextAppBar.IconButton;
 
 export const NextAppBarBackButton = forwardRef<HTMLButtonElement, NextAppBarIconButtonProps>(
-  ({ children = <IconChevronLeftLine />, onClick, ...otherProps }, ref) => {
+  ({ children = <Icon svg={<IconChevronLeftLine />} />, onClick, ...otherProps }, ref) => {
     const activity = useActivity();
     const actions = useActions();
 
@@ -99,7 +99,7 @@ export const NextAppBarBackButton = forwardRef<HTMLButtonElement, NextAppBarIcon
 NextAppBarBackButton.displayName = "NextAppBarBackButton";
 
 export const NextAppBarCloseButton = forwardRef<HTMLButtonElement, NextAppBarIconButtonProps>(
-  ({ children = <IconXmarkLine />, onClick, ...otherProps }, ref) => {
+  ({ children = <Icon svg={<IconXmarkLine />} />, onClick, ...otherProps }, ref) => {
     const activity = useActivity();
 
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
