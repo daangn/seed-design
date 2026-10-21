@@ -323,23 +323,11 @@ export const nextAppScreen = defineSlotRecipe({
         },
       },
     },
-    // tone/gradient are consumed by next-app-bar; declared here so the styled
-    // layer can split and forward them via context.
-    tone: {
-      layer: {},
-      transparent: {},
-    },
-    gradient: {
-      true: {},
-      false: {},
-    },
   },
   defaultVariants: {
     theme: "cupertino",
     transitionStyle: "horizontalSlide",
     contentOffsetTop: "appBar",
     contentOffsetBottom: "safeArea",
-    tone: "layer",
-    gradient: true,
   },
 });

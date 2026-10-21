@@ -7,6 +7,7 @@ import {
   NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRoot,
+  type NextAppBarProps,
   NextAppBarTitle,
   NextAppScreenContent,
   NextAppScreenDim,
@@ -19,11 +20,12 @@ import {
 export interface MakeActivityOptions extends Omit<NextAppScreenRootProps, "children"> {
   testId: string;
   withAppBar?: boolean;
+  appBarProps?: NextAppBarProps;
   children?: React.ReactNode;
 }
 
 export function makeActivity(options: MakeActivityOptions): ActivityComponentType {
-  const { testId, withAppBar, children, ...screenProps } = options;
+  const { testId, withAppBar, appBarProps, children, ...screenProps } = options;
 
   return function TestActivity() {
     return (
@@ -31,7 +33,7 @@ export function makeActivity(options: MakeActivityOptions): ActivityComponentTyp
         <NextAppScreenDim />
         <NextAppScreenLayer>
           {withAppBar ? (
-            <NextAppBarRoot>
+            <NextAppBarRoot {...appBarProps}>
               <NextAppBarLeft>
                 <NextAppBarIconButton aria-label="back">
                   <svg role="img" aria-label="icon" />
