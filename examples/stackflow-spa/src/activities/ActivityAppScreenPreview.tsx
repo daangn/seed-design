@@ -19,8 +19,8 @@ declare module "@stackflow/config" {
 
 const ActivityAppScreenPreview: StaticActivityComponentType<"ActivityAppScreenPreview"> = () => {
   return (
-    <NextAppScreen theme="cupertino">
-      <NextAppBar>
+    <NextAppScreen>
+      <NextAppBar theme="cupertino">
         <NextAppBarLeft>
           <NextAppBarCloseButton />
         </NextAppBarLeft>

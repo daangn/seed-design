@@ -1,4 +1,4 @@
-import type { NextAppScreenProps } from "seed-design/ui/next-app-screen";
+import type { SeedPluginOptions } from "@seed-design/stackflow";
 import { isIos } from "../platform";
 
-export const theme: NonNullable<NextAppScreenProps["theme"]> = isIos ? "cupertino" : "android";
+export const theme: SeedPluginOptions["theme"] = isIos ? "cupertino" : "android";

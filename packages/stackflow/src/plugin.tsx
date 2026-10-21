@@ -5,6 +5,7 @@ import {
   type NextAppScreenClipRadius,
   NextAppScreenPropsProvider,
 } from "./components";
+import { NextAppBarPropsProvider } from "./components/NextAppBar/NextAppBar";
 import { GlobalInteraction, NextScreenRegistryProvider, type NextSwipeBackArea } from "./primitive";
 
 export interface SeedPluginOptions {
@@ -56,18 +57,20 @@ function SeedProviders({
 
   // The legacy AppScreen has neither of the NextAppScreen props, and any prop
   // it doesn't recognize lands on the DOM.
-  const appScreenProps = useMemo(() => ({ theme }), [theme]);
+  const themeProps = useMemo(() => ({ theme }), [theme]);
   const nextAppScreenProps = useMemo(
-    () => ({ theme, swipeBackArea, clipRadius }),
-    [theme, swipeBackArea, clipRadius],
+    () => ({ swipeBackArea, clipRadius }),
+    [swipeBackArea, clipRadius],
   );
 
   return (
-    <AppScreenPropsProvider value={appScreenProps}>
+    <AppScreenPropsProvider value={themeProps}>
       <NextAppScreenPropsProvider value={nextAppScreenProps}>
-        <NextScreenRegistryProvider>
-          <GlobalInteraction>{children}</GlobalInteraction>
-        </NextScreenRegistryProvider>
+        <NextAppBarPropsProvider value={themeProps}>
+          <NextScreenRegistryProvider>
+            <GlobalInteraction>{children}</GlobalInteraction>
+          </NextScreenRegistryProvider>
+        </NextAppBarPropsProvider>
       </NextAppScreenPropsProvider>
     </AppScreenPropsProvider>
   );
