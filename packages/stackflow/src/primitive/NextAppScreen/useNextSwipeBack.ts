@@ -132,6 +132,7 @@ export interface UseNextSwipeBackProps {
 }
 
 export interface UseNextSwipeBackArgs extends UseNextSwipeBackProps {
+  swipeBackArea: NextSwipeBackArea;
   transitionStyle: NextAppScreenTransitionStyle;
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
@@ -191,7 +192,7 @@ function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: n
 }
 
 export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
-  const { swipeBackArea = "edge", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
+  const { swipeBackArea, transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
 
   const onSwipeStart = useCallbackRef(args.onSwipeBackStart);
   const onSwipeMove = useCallbackRef(args.onSwipeBackMove);

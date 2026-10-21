@@ -66,7 +66,9 @@ function deriveScreenState({
  * synchronously, so followers re-render before paint — correctness never
  * depends on a one-render-stale DOM read.
  */
-export function useNextScreenStatus(ownTransitionStyle: NextAppScreenTransitionStyle) {
+export function useNextScreenStatus<T extends NextAppScreenTransitionStyle | undefined>(
+  ownTransitionStyle: T,
+) {
   const activity = useNullableActivity();
   const stack = useStack();
   const registry = useNextScreenRegistry();
@@ -78,6 +80,11 @@ export function useNextScreenStatus(ownTransitionStyle: NextAppScreenTransitionS
   const topRegistration =
     !isTop && topActivity && registry ? registry.get(topActivity.id) : undefined;
 
+  // Annotated so an `ownTransitionStyle` that is never undefined yields an
+  // `effectiveTransitionStyle` that is never undefined either.
+  const effectiveTransitionStyle: T | NextAppScreenTransitionStyle =
+    topRegistration?.transitionStyle ?? ownTransitionStyle;
+
   return {
     activity,
     isTop,
@@ -87,8 +94,6 @@ export function useNextScreenStatus(ownTransitionStyle: NextAppScreenTransitionS
       topActivity,
       topIsNextScreen: topRegistration !== undefined,
     }),
-    effectiveTransitionStyle: isTop
-      ? ownTransitionStyle
-      : (topRegistration?.transitionStyle ?? ownTransitionStyle),
+    effectiveTransitionStyle,
   };
 }
