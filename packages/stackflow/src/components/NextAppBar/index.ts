@@ -2,7 +2,6 @@ export {
   NextAppBarIconButton,
   NextAppBarLeft,
   NextAppBarMain,
-  NextAppBarPropsProvider,
   NextAppBarRight,
   NextAppBarRoot,
   NextAppBarSubtitle,

@@ -23,7 +23,6 @@ const {
 } = createStyleContext(nextAppBarMain);
 
 export const NextAppBarPropsProvider = PropsProvider;
-export const NextAppBarMainPropsProvider = MainPropsProvider;
 
 export interface NextAppBarRootProps
   extends NextAppBarVariantProps,
