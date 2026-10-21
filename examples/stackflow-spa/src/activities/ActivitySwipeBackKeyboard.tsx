@@ -21,8 +21,8 @@ const ActivitySwipeBackKeyboard: StaticActivityComponentType<"ActivitySwipeBackK
   const [focused, setFocused] = useState(false);
 
   return (
-    <NextAppScreen theme="cupertino" transitionStyle="horizontalSlide">
-      <NextAppBar>
+    <NextAppScreen transitionStyle="horizontalSlide">
+      <NextAppBar theme="cupertino">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
