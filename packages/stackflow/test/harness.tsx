@@ -101,7 +101,7 @@ export function createClock() {
 }
 
 export const getScreens = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll<HTMLElement>('[data-part="screen"]'));
+  Array.from(container.querySelectorAll<HTMLElement>("[data-screen-state]"));
 
 export function getScreen(container: HTMLElement, testId: string) {
   const screen = container.querySelector<HTMLElement>(`[data-testid="${testId}"]`);
@@ -110,8 +110,23 @@ export function getScreen(container: HTMLElement, testId: string) {
   return screen;
 }
 
-export const getPart = (screen: HTMLElement, part: string) =>
-  screen.querySelector<HTMLElement>(`[data-part="${part}"]`);
+export function getPart(
+  screen: HTMLElement,
+  part:
+    | "screen-dim"
+    | "screen-layer"
+    | "screen-content"
+    | "screen-edge"
+    | "app-bar"
+    | "app-bar-main"
+    | "app-bar-background",
+) {
+  // NextAppBarRoot renders the background itself, so no test id can reach it.
+  if (part === "app-bar-background")
+    return getPart(screen, "app-bar")?.querySelector<HTMLElement>(":scope > [aria-hidden]") ?? null;
+
+  return screen.querySelector<HTMLElement>(`[data-testid="${screen.dataset["testid"]}-${part}"]`);
+}
 
 /**
  * Poll until `check` stops throwing. testing-library's `waitFor` turned out to
